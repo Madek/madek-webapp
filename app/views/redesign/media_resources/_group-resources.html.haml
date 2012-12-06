@@ -8,10 +8,10 @@
     .bordered.midtone.ui-container.rounded
       .app-body-content
         .ui-toolbar.inverted.ui-container.pax.rounded-top
-          %h2.ui-toolbar-header.col1of2
+          %h2.ui-toolbar-header
             %strong Set enthält
             (3 von 11 für Sie sichtbar)
-          .ui-toolbar-controls.col1of2.by-right
+          .ui-toolbar-controls.by-right
             .button-group.tertiary.small.right.mls
               %a.button.active
                 %i.icon-vis-grid.bright Grid
@@ -19,17 +19,17 @@
                 %i.icon-vis-tiles Tiles
               %a.button
                 %i.icon-vis-list List
-            .dropdown
-              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+            .dropdown.ui-dropdown.stick-right
+              %a.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#"}
                 Sort by Name
                 %i.icon-arrow-down.bright
-              %ul.dropdown-menu{"aria-labelledby" => "dLabel", :role => "menu"}
-                %li.dropdown-menu-item
+              %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+                %li.ui-drop-item
                   %a{:href => "#"} Item 1
-                %li.dropdown-menu-item
+                %li.ui-drop-item
                   %a{:href => "#"} Item 2
                 %li.separator
-                %li.dropdown-menu-item
+                %li.ui-drop-item
                   %a{:href => "#"} Abmelden
 
         .ui-filterbar.separated.mam.pbm.ui-container
@@ -43,7 +43,7 @@
               %a.button{:href => "#"} Medientrage
               %a.button{:href => "#"} Sets
           .col2of6.by-right
-            %a.weak{:href => "#"}<
+            %a.weak.ui-filterbar-select{:href => "#"}<
               Select All
               %i.icon-checkbox>
 

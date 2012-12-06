@@ -25,9 +25,14 @@
 
 // Vendor
 
-@import "vendor/bootstrap-modal";
-@import "vendor/bootstrap-tooltip";
+@import "vendor/bootstrap";
 @import "vendor/jquery.plupload.queue";
+@import "vendor/pickadate";
+
+// Vendor overrides
+
+@import "overrides/jquery.plupload.queue";
+@import "overrides/pickadate";
 
 // Components
 
@@ -35,49 +40,63 @@
 @import "components/ui-alerts";
 @import "components/ui-body-title";
 @import "components/ui-containers";
+@import "components/ui-drop-menus";
+@import "components/ui-form-group";
 @import "components/ui-modals";
 @import "components/ui-preloaders";
 @import "components/ui-resources-head";
+@import "components/ui-search-field";
 @import "components/ui-set-list";
-@import "components/ui-side-filter";
 @import "components/ui-side-navigation";
 @import "components/ui-slider";
 @import "components/ui-stepline";
 @import "components/ui-tabs";
 @import "components/ui-tag-cloud";
+@import "components/ui-thumb";
 @import "components/ui-thumb-actions";
 @import "components/ui-thumb-catalog";
+@import "components/ui-thumb-micro";
+@import "components/ui-tooltip";
+@import "components/ui-maps";
+@import "components/ui-magnifier";
+@import "components/ui-image-zoom";
+@import "components/ui-document-preview";
+@import "components/ui-export-blocks";
 
-@import "components/dropdowns";
+// To be revamped
+
 @import "components/metadata-box";
 @import "components/multi-select";
+@import "combos/upload";
 
 // Combos
 
 @import "combos/ui-clipboard";
 @import "combos/ui-collage";
+@import "combos/ui-confirmation-dialog";
 @import "combos/ui-featured-entries";
+@import "combos/ui-filterbar";
 @import "combos/ui-footer";
 @import "combos/ui-header";
 @import "combos/ui-home-claim";
 @import "combos/ui-media-overview";
+@import "combos/ui-resources-table";
 @import "combos/ui-rights-management";
+@import "combos/ui-search-form";
+@import "combos/ui-set-overview";
+@import "combos/ui-side-filter";
 @import "combos/ui-summary-table";
 @import "combos/ui-toolbar";
 @import "combos/ui-workgroups";
 
 // Separating the following for their complexity
 @import "combos/ui-resources-common";
-@import "combos/ui-resources-tiles";
-@import "combos/ui-resources-list";
+@import "combos/ui-resources-page";
 @import "combos/ui-resources-grid";
-
-@import "combos/upload";
+@import "combos/ui-resources-list";
+@import "combos/ui-resources-miniature";
 
 // Layout
 @import "layout";
 @import "layout-responsive";
 
-// Vendor overrides
-
-@import "overrides/jquery.plupload.queue";

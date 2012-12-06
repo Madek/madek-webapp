@@ -1,4 +1,243 @@
-<% kss_block '4.1' do %>
+<% kss_block '4.1.1' do %>
+<form>
+  <div class="form-head">
+    <div class="ui-alerts">
+      <div class="ui-alert error">There's an error in this form.</div>
+      <div class="ui-alert warning">There's also a warning/highlight.</div>
+    </div>
+  </div> 
+  <div class="form-body">
+    <div class="ui-form-group rowed">
+      <label class="form-label">
+        Checkboxes
+        <small>Comment if needed</small>
+        <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+          More Info
+        </span>
+      </label>
+      <div class="form-item">
+        <label class="col2of6"><input type="checkbox"> Checkbox</label>
+        <label class="col2of6"><input type="checkbox"> Checkbox</label>
+        <label class="col2of6"><input type="checkbox"> Checkbox</label>
+      </div>
+    </div>
+    <div class="ui-form-group rowed">
+      <label class="form-label">
+        Radios
+        <small>Comment if needed</small>
+        <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+          More Info
+        </span>
+      </label>
+      <div class="form-item">
+        <label class="col2of6"><input type="radio"> Radio button</label>
+        <label class="col2of6"><input type="radio"> Radio button</label>
+        <label class="col2of6"><input type="radio"> Radio button</label>
+      </div>
+    </div>
+    <div class="ui-form-group rowed">
+      <label class="form-label">
+        Date
+        <small>Comment if needed</small>
+        <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+          More Info
+        </span>
+      </label>
+      <div class="form-item">
+        <input type="text" class="block ui-datepicker">
+      </div>
+    </div>
+    <div class="ui-form-group rowed">
+      <label class="form-label">
+        Text
+        <small>Comment if needed</small>
+        <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+          More Info
+        </span>
+      </label>
+      <div class="form-item">
+        <input type="text" class="block">
+      </div>
+    </div>
+    <div class="ui-form-group rowed highlight">
+      <label class="form-label">
+        Textarea
+        <small>Comment if needed</small>
+        <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Personen, die zum Werk beigetragen haben, z.B. Bühnenbildner oder die Regieassistenz. Die entsprechende Funktion sollte ebenfalls genannt werden.">
+          More Info
+        </span>
+      </label>
+      <div class="form-item">
+        <textarea class="block"></textarea>
+      </div>
+    </div>
+    <div class="ui-form-group rowed">
+      <label class="form-label">
+        Select
+        <small>Comment if needed</small>
+        <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+          More Info
+        </span>
+      </label>
+      <div class="form-item">
+        <select class="block"><option>Option 1</option><option>Option 2</option></select>
+      </div>
+    </div>
+    <div class="ui-form-group rowed error">
+      <label class="form-label">
+        Text
+        <small>Comment if needed</small>
+        <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+          More Info
+        </span>
+      </label>
+      <div class="form-item">
+        <input type="text" class="block">
+      </div>
+    </div>
+  </div>
+  <div class="form-footer">
+    <div class="ui-actions">
+      <a class="link weak">Secondary Action</a>
+      <button class="primary-button large">Primary Action</button>
+    </div>
+</div>
+</form>
+<% end %>
+
+<% kss_block '4.1.1' do %>
+<form>
+  <div class="form-head">
+    <div class="ui-alerts">
+      <div class="ui-alert success">Success message for this form has been provided.</div>
+    </div>
+  </div>
+  <div class="form-body">
+    <div class="ui-form-group columned">
+      <label class="form-label">
+        Checkboxes
+        <small>Comment if needed</small>
+        <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+          More Info
+        </span>
+      </label>
+      <div class="form-item">
+        <label class="col2of6"><input type="checkbox"> Checkbox</label>
+        <label class="col2of6"><input type="checkbox"> Checkbox</label>
+        <label class="col2of6"><input type="checkbox"> Checkbox</label>
+      </div>
+    </div>
+    <div class="ui-form-group columned">
+      <label class="form-label">
+        Radios
+        <small>Comment if needed</small>
+        <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+          More Info
+        </span>
+      </label>
+      <div class="form-item">
+        <label class="col2of6"><input type="radio"> Radio button</label>
+        <label class="col2of6"><input type="radio"> Radio button</label>
+        <label class="col2of6"><input type="radio"> Radio button</label>
+      </div>
+    </div>
+    <div class="ui-form-group columned">
+      <label class="form-label">
+        Date
+        <small>Comment if needed</small>
+        <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+          More Info
+        </span>
+      </label>
+      <div class="form-item">
+        <input type="text" class="block ui-datepicker">
+      </div>
+    </div>
+    <div class="ui-form-group columned">
+      <label class="form-label">
+        Text
+        <small>Comment if needed</small>
+        <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+          More Info
+        </span>
+      </label>
+      <div class="form-item">
+        <input type="text" class="block">
+      </div>
+    </div>
+    <div class="ui-form-group columned">
+      <label class="form-label">
+        Textarea
+        <small>Comment if needed</small>
+        <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Personen, die zum Werk beigetragen haben, z.B. Bühnenbildner oder die Regieassistenz. Die entsprechende Funktion sollte ebenfalls genannt werden.">
+          More Info
+        </span>
+      </label>
+      <div class="form-item">
+        <textarea class="block"></textarea>
+      </div>
+    </div>
+    <div class="ui-form-group columned">
+      <label class="form-label">
+        Select
+        <small>Comment if needed</small>
+        <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+          More Info
+        </span>
+      </label>
+      <div class="form-item">
+        <select class="block"><option>Option 1</option><option>Option 2</option></select>
+      </div>
+    </div>
+    <div class="ui-form-group columned">
+      <label class="form-label">
+        Text
+        <small>Comment if needed</small>
+        <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+          More Info
+        </span>
+      </label>
+      <div class="form-item">
+        <input type="text" class="block">
+      </div>
+    </div>
+  </div>
+  <div class="form-footer">
+    <div class="ui-actions">
+      <a class="link weak">Secondary Action</a>
+      <button class="primary-button">Primary Action</button>
+    </div>
+  </div>
+</form>
+<% end %>
+
+<% kss_block '4.2', :padding_bottom => "400" do %>
+  <input type="text" class="ui-datepicker">
+<% end %>
+
+<% kss_block '4.3', :skip_default => "true" do %>
+<div class="ui-form-group $modifier-class">
+  <label class="form-label">
+    Form label
+    <small>Comment if needed</small>
+    <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+      More Info
+    </span>
+  </label>
+  <div class="form-item">
+    <input type="text" class="block">
+  </div>
+</div>
+<% end %>
+
+<% kss_block '4.4' do %>
+  <div class="ui-search $modifier-class">
+    <input type="text" class="block ui-search-input">
+    <button class="primary-button ui-search-button">Search</button>
+  </div>
+<% end %>
+
+<% kss_block '4.5' do %>
   <div class="multi-select $modifier-class">
     <ul class="multi-select-holder">
       <li class="multi-select-tag">

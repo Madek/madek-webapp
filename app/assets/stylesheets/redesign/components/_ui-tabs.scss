@@ -7,7 +7,7 @@
  * .by-right  - Aligned right
  * .by-center - Centered
  *
- * Styleguide 6.5
+ * Styleguide 6.4
  */
 
 // Tab style
@@ -34,7 +34,6 @@
 .ui-tabs-item a.active {
   @include box-shadow(none);
   background: $brightest;
-  cursor: default;
 }
 
 // Colour variations
@@ -58,7 +57,6 @@
   background: $body-background;
   border: none;
   color: $grey-darker;
-  cursor: default;
 }
 
 // Size variations

@@ -1,0 +1,213 @@
+/**
+ * ## Default thumbnail style, independent from visualization mode `.ui-thumbnail`
+ *
+ * Styleguide 6.19
+ */
+
+/* Default thumbnail style not relying on the parent .grid class */
+
+.ui-thumbnail {
+  display: inline-block;
+  margin: -15px;
+  padding: 15px;
+  position: relative;
+  .ui-thumbnail-privacy {
+    display: none;
+    @include position-top-left(16px,16px);
+  }
+  .ui-thumbnail-image-wrapper {
+    line-height: 0;
+    position: relative;
+    vertical-align: middle;
+  }
+  .ui-thumbnail-image-holder {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+  }
+  .ui-thumbnail-image {
+    @include position-top-right(50%,50%);
+    @include position-bottom-left(50%,50%);
+    @include min-dimension(auto,100%);
+    @include max-dimension(100%,auto);
+    margin-top: -50%;
+    margin-left: -50%;
+  }
+  .ui-thumbnail-meta {
+    display: none;
+  }
+  .ui-thumbnail-meta-title,
+  .ui-thumbnail-meta-subtitle {
+    height: 35px;
+    overflow: hidden;
+  }
+  .ui-thumbnail-actions {
+    display: none;
+  }
+  .ui-thumbnail-dropdown { 
+    display: none;
+    margin-top: $space-s;
+  }
+}
+
+.ui-thumbnail.media-set,
+.ui-thumbnail.filter-set {
+  background: transparent image-url("redesign/backgrounds/thumb-set-backg.png") 0 0 no-repeat;
+  .ui-thumbnail-image-holder {
+    @include dimension(130px,130px);
+  }
+}
+.ui-thumbnail.media-entry {
+  .ui-thumbnail-image-wrapper {
+    @include dimension(130px,130px);
+  }
+  .ui-thumbnail-image-holder {
+    @include dimension(130px,88px);
+    position: relative;
+    top: 21px;
+  }
+}
+
+.ui-thumbnail.video .ui-thumbnail-image-wrapper {
+  background: $brightest image-url("redesign/backgrounds/thumb-video-backg.png") 0 0px no-repeat;
+}
+
+/* Additional Set hover styles
+----------------------------------------- */
+
+.ui-thumbnail-level-up-items,
+.ui-thumbnail-level-down-items {
+  @include micro-clearfix;
+  border-style: solid;
+  background: $grey-darker;
+  display: none;
+  left: 0;
+  padding: $space-s $space-x;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  z-index: 50;
+}
+.ui-thumbnail-level-up-items {
+  @include border-top-radius($border-radius-m);
+  @include box-shadow(0 -1px 2px $darken);
+  bottom: 100%;
+  border-width: 0 0 1px;
+  padding-bottom: $space-s;
+}
+.ui-thumbnail-level-down-items {
+  @include border-bottom-radius($border-radius-m);
+  @include box-shadow(0 1px 2px $darken);
+  top: 100%;
+  border-width: 1px 0 0;
+  padding-top: $space-s;
+}
+.ui-thumbnail-level-notes {
+  color: $grey-mid-light;
+  font-size: $font-s;
+  padding-bottom: $space-x;
+}
+.ui-thumbnail-level-items {
+  @include micro-clearfix;
+  clear: both;
+  display: block;
+}
+.ui-thumbnail-level-item {
+  @include dimension(60px,60px);
+  @include float-left;
+  display: block;
+  padding: 5px;
+  &.odd {
+
+  }
+  &.even {
+    @include float-right;
+  }
+}
+
+.ui-thumbnail-level-item {
+  padding: 8px;
+}
+.ui-thumbnail-level-item.media_set { 
+  background: transparent image-url("redesign/backgrounds/thumb-set-backg-small-alt.png") -3px -2px no-repeat;
+}
+.ui-level-image-wrapper {
+  @include border-radius($border-radius-m);
+  @include box-shadow(0 1px 3px $darken);
+  @include dimension(50px,50px);
+  border: 1px solid $grey-dark;
+  background: $brightest;
+  display: block;
+  line-height: 0;
+  padding: 4px;
+  position: relative;
+  vertical-align: middle;
+}
+.ui-thumbnail-level-image-holder {
+  @include dimension(50px,50px);
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+}
+.ui-thumbnail-level-image {
+  @include position-top-right(50%,50%);
+  @include position-bottom-left(50%,50%);
+  @include min-dimension(auto,100%);
+  @include max-dimension(100%,auto);
+  margin-top: -50%;
+  margin-left: -50%;
+}
+
+.ui-thumbnail-level-holder {
+  @include dimension(60px,60px);
+}
+
+// Set thumbs' extra elements - arrows
+
+.ui-thumbnail-level-up-items {
+  &:after {
+    bottom: -1px;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+  &:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-bottom-color: #ffffff;
+    border-width: 5px;
+    left: 50%;
+    margin-left: -5px;
+  }
+}
+.ui-thumbnail-level-down-items {
+  &:after {
+    top: -1px;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+  &:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-top-color: #ffffff;
+    border-width: 5px;
+    left: 50%;
+    margin-left: -5px;
+  }
+}
+
+// Set thumbs' extra elements - thumbnails
+
+.ui-thumbnail-level-up-items .thumbnail.odd,
+.ui-thumbnail-level-down-items .thumbnail.odd {
+  margin: $space-s $space-s $space-s 0;
+}
+.ui-thumbnail-level-up-items .thumbnail.even,
+.ui-thumbnail-level-down-items .thumbnail.even {
+  margin: $space-s 0 $space-s $space-s;
+}

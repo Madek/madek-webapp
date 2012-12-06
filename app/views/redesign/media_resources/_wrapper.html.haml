@@ -1,18 +1,22 @@
 :ruby
-  phl = (defined? phl and phl) ? "phl" : ""
-  with_permissions = (defined? with_permissions and with_permissions)
   with_actions = (defined? with_actions and with_actions)
+  as_categories = (defined? as_categories and as_categories)
+  as_sections = (defined? as_sections and as_sections)
+  item_layout ||= "grid"
 
-.ui-container.ptl.pbm{:class => "#{phl}"}
-  .media-resources-wrapper
-    .ui-resources-header.mbm
-      %h2.title-l.ui-resources-title
+.ui-resources-holder
+  - if defined? title
+    .ui-resources-header
+      %h2.title-l.ui-resource-title
         = title
-        %a.strong{:href => link} Alle anziegen
-    %ul.ui-resources-list.tiles{:class => with_actions ? "active" : ""}
-      - media_resources.each do |mr|
-        - if defined? as_categories and as_categories
-          = render :partial => "media_sets/category", :locals => {:category => mr}
-        - else
-          = render :partial => "media_resources/media_resource",
-                   :locals => {:media_resource => mr, :with_permissions => with_permissions, :with_actions => with_actions}
+        - if defined? link
+          %a.strong{:href => link} Alle anzeigen
+  %ul.ui-resources{:class => with_actions ? "active #{item_layout}" : "#{item_layout}"}
+    - media_resources.each do |mr|
+      - if as_categories
+        = render :partial => "media_sets/category", :locals => {:category => mr, :catalog_set => catalog_set}
+      - elsif as_sections
+        = render :partial => "filter_sets/section", :locals => {:section => mr, :category_set => category_set, :catalog_set => catalog_set}
+      - else
+        = render :partial => "media_resources/media_resource",
+                 :locals => {:media_resource => mr, :with_actions => with_actions}

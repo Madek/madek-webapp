@@ -48,7 +48,7 @@
  */
 
 .upload-overview {
-  @include max-dimension(auto,520px);
+  @include max-dimension(auto,400px);
   display: block;
   overflow-y: auto;
   padding: $space-s $space-s 0;

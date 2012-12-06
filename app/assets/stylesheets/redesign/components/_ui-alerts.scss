@@ -6,9 +6,12 @@
  * .error         - Error messages
  * .confirmation  - Confirmation messages
  *
- * Styleguide 6.12
+ * Styleguide 6.7
  */
 
+.ui-alerts { 
+
+}
 .ui-alert {
   background: $grey-lighter;
   padding: $space-x;
@@ -22,6 +25,7 @@
 .ui-alert.warning,
 .ui-alert.error,
 .ui-alert.confirmation {
+  @include box-shadow(inset 0 1px 0 $lighten-less, inset 0 -1px 0 $darken);
   @include single-text-shadow(false, 1px, false, false, $darken);
   color: $brightest;
 }
@@ -37,4 +41,12 @@
 }
 .ui-alert.confirmation {
   background: $blue;
+}
+
+/**
+ * Alerts within modals
+ ----------------------------------------- */
+
+.modal .ui-alerts { 
+  margin: -20px -20px 0 -20px;
 }

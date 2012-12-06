@@ -2,22 +2,13 @@
  * ## Tables
  *
  * .borderless    - Borderless tables
+ * .block         - Full width table
  *
  * Styleguide 2.5
  */
 
-// Table
-
-table {
-
-}
 table.block {
   width: 100%;
-}
-
-thead tr,
-tfoot tr {
-  background: $grey-lighter;
 }
 thead td {
   border-bottom: 1px solid $grey-mid-light;
@@ -34,7 +25,6 @@ caption {
   padding: $space-x 0;
   text-align: left;
 }
-
 td {
   border-bottom: 1px solid $grey-light;
   line-height: $line-height-m;
@@ -42,7 +32,8 @@ td {
   vertical-align: top;
 }
 
-// Borderless Tables
+/* Borderless Tables
+----------------------------------------- */
 
 .borderless {
   td,

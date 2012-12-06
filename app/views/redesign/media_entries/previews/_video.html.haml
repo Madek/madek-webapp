@@ -1,0 +1,16 @@
+:ruby
+  @media_entry.media_file.assign_video_thumbnails_to_preview
+  video_preview = @media_entry.media_file.previews.where(:content_type => 'video/webm', :thumbnail => 'large').last
+  # Since we don't have a video preview, we also don't have any thumbnails, since those are generated while
+  # encoding the video.
+  content = if video_preview.nil?
+    if !@media_entry.media_file.encode_job_finished?
+      render :partial => "media_entries/previews/video/converting"
+    else
+      render :partial => "media_entries/previews/video/image"
+    end
+  else
+    render :partial => "media_entries/previews/video/video", :locals => {video_preview: video_preview}
+  end
+
+= content

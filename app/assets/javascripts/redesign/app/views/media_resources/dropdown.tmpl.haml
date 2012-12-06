@@ -1,0 +1,29 @@
+.ui-thumbnail-dropdown
+  .dropdown.ui-dropdown
+    %a.dropdown-toggle.button.block.ui-drop-toggle{"data-toggle" => "dropdown"} 
+      Aktionen
+    %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+      {{if is_editable}}
+      %li.ui-drop-item
+        %a{:href => "/media_resources/${id}/edit", :title => "Metadaten editieren"} 
+          %i.icon-pen.mid
+          Editieren
+      {{/if}}
+      %li.ui-drop-item
+        %a{:href => "/media_entries/${id}/browse", :title => "Nach vergleichbaren Medieneinträgen erkunden"}
+          %i.icon-eye.mid
+          Erkunden
+      %li.ui-drop-item
+        %a{:title => "Zugriffsberechtigungen lesen/bearbeiten"}
+          %i.icon-lock.mid
+          Zugriffsberechtigungen
+      %li.ui-drop-item
+        %a{:title => "Zu Set hinzufügen/entfernen"}
+          #i.icon-move.mid
+          Zu Set hinzufügen/entfernen
+      {{if is_editable}}
+      %li.ui-drop-item
+        %a{:href => "/media_resources/${id}/edit", :title => "Unwiederbringlich entfernen"} 
+          %i.icon-trash.mid
+          Löschen
+      {{/if}}

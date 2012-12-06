@@ -3,33 +3,26 @@
  *
  */
 
+.ui-resources-holder { 
+  @include micro-clearfix;
+  padding: $space-l $space-l $space-m;
+}
 .ui-resources {
+  @include micro-clearfix;
   display: block;
+  margin-left: -$space-s;
+  margin-right: -$space-s;
 }
-.ui-resources-item {
-  @include float-left;
-  display: inline-block;
-  margin: 0 $space-x $space-s;
+.ui-resources-page,
+.ui-resource {
+  list-style: none;
 }
-
 .ui-thumbnail {
   display: block;
   position: relative;
 }
 .ui-thumbnail-privacy {
-  @include border-radius($border-radius-m 0, $border-radius-s 0);
-  @include dimension(21px,21px);
-  @include hide-text;
-  background-color: $brightest;
-  border-color: $grey-mid;
-  border-style: solid;
-  border-width: 0 1px 1px 0;
-  z-index: 10;
-  .icon-privacy-open,
-  .icon-privacy-private,
-  .icon-privacy-group {
-    @include float-left;
-  }
+  display: none;
 }
 .ui-thumbnail-image-wrapper {
   @include border-radius($border-radius-s);
@@ -53,4 +46,23 @@
 .ui-thumbnail-meta-subtitle {
   color: $grey-mid;
   font-size: $font-xs;
+}
+
+// Active state
+
+.ui-thumbnail-privacy { 
+  @include border-radius($border-radius-m 0, $border-radius-s 0);
+  @include dimension(21px,21px);
+  @include hide-text;
+  background-color: $brightest;
+  border-color: $grey-mid;
+  border-style: solid;
+  border-width: 0 1px 1px 0;
+  display: block;
+  z-index: 10;
+  .icon-privacy-open,
+  .icon-privacy-private,
+  .icon-privacy-group {
+    @include float-left;
+  }
 }

@@ -120,8 +120,7 @@ class MediaSetsController < ApplicationController
     respond_to do |format|
       format.html {
         # TODO this is temporary (similar to media_resources#index), remove it when not needed anymore
-        MediaResourceModules::Filter::DEPRECATED_KEYS.each_pair {|k,v| params[k] ||= params.delete(v) if params[v] }
-        @filter = params.select {|k,v| MediaResourceModules::Filter::KEYS.include?(k.to_sym) }.delete_if {|k,v| v.blank?}.deep_symbolize_keys
+        @filter = MediaResource.get_filter_params params
 
         @parents = @media_set.parent_sets.accessible_by_user(current_user)
       }

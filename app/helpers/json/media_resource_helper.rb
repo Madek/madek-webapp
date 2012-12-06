@@ -42,7 +42,7 @@ module Json
         end
         
         if with[:media_type]
-          h[:media_type] = media_resource.media_type
+          h[:media_type] = media_resource.media_type.downcase
         end
         
         if with[:filename]
@@ -59,6 +59,26 @@ module Json
           h[:is_shared] = (not h[:is_public] and not h[:is_private]) # TODO drop and move to frontend
           h[:is_editable] = current_user.authorized?(:edit, media_resource)
           h[:is_manageable] = current_user.authorized?(:manage, media_resource)
+          h[:is_favorite] = current_user.favorite_ids.include?(media_resource.id)
+        end
+
+        if with[:is_public]
+          h[:is_public] = media_resource.is_public?
+        end
+
+        if with[:is_private]
+          h[:is_private] = media_resource.is_public? ? false : media_resource.is_private?(current_user)
+        end
+
+        if with[:is_editable]
+          h[:is_editable] = current_user.authorized?(:edit, media_resource)
+        end
+
+        if with[:is_manageable]
+          h[:is_manageable] = current_user.authorized?(:manage, media_resource)
+        end
+
+        if with[:is_favorite]
           h[:is_favorite] = current_user.favorite_ids.include?(media_resource.id)
         end
         
@@ -111,7 +131,7 @@ module Json
 
     def hash_for_media_resources_with_pagination(media_resources, pagination, with = nil, type_totals = false)
       page = (pagination.is_a?(Hash) ? pagination[:page] : nil) || 1
-      per_page = [((pagination.is_a?(Hash) ? pagination[:per_page] : nil) || PER_PAGE.first).to_i, PER_PAGE.first].min
+      per_page = [((pagination.is_a?(Hash) ? pagination[:per_page] : nil) || PER_PAGE.first).to_i.abs, PER_PAGE.last].min
       paginated_media_resources = media_resources.paginate(:page => page, :per_page => per_page)
       
       pagination = {
@@ -165,7 +185,7 @@ module Json
              }
       end
 
-      if filter_types.include? :permissions
+      if filter_types.include? :permissions and not current_user.is_guest?
         r << { :filter_type => "permissions",
                :context_name => "permissions",       # FIXME
                :context_label => "Berechtigung",     # FIXME get label from the DB

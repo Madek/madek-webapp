@@ -1,0 +1,15 @@
+- content_for :head do
+  = javascript_include_tag "redesign/video"
+  = stylesheet_link_tag "redesign/video"
+
+%video.video-js.vjs-default-skin{:width => video_preview.width, 
+                                 :height => video_preview.height,
+                                 :poster => image_media_resource_path(@media_entry),
+                                 :controls => true,
+                                 :"data-setup" => ""}
+  -# This src points to a symlink to the actual file, so that Apache serves it. This lets us support
+  -# seeking, partial content (HTTP status code 206) and request ranges without any additional work.
+  %source{:type => video_preview.content_type, :src => "/previews/#{video_preview.filename}"}
+
+:coffeescript
+  _V_.options.flash.swf = #{asset_path("redesign/vendor/video-js-3.2.0/video-js.swf").to_json}

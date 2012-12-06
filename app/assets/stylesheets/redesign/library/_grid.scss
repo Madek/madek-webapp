@@ -152,11 +152,13 @@
  */
 
 .separator {
-  @include float-left;
   border-color: $grey-mid-light $brightest $brightest;
   border-style: solid;
   border-width: 1px 0;
   clear: both;
+  display: block;
+  margin: 0;
+  padding: 0;
   width: 100%;
 }
 .separator.mini {

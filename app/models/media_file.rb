@@ -278,6 +278,7 @@ class MediaFile < ActiveRecord::Base
       tmparr = thumbnail_storage_location
       tmparr += "_#{thumb_size.to_s}"
       outfile = [tmparr, 'jpg'].join('.')
+      value ||= "#{width}x#{height}" if thumb_size == :maximum
       `convert "#{file}"[0] -auto-orient -thumbnail "#{value}" -flatten -unsharp 0x.5 "#{outfile}"`
       if File.exists?(outfile)
         x,y = `identify -format "%wx%h" "#{outfile}"`.split('x')
@@ -328,12 +329,12 @@ class MediaFile < ActiveRecord::Base
       else
         # TODO remove code related to preview as string
         #size = (size == :large ? :medium : :small)
-        output = thumb_placeholder
+        output = thumb_placeholder(size)
         "data:#{content_type};base64,#{Base64.encode64(output)}"
     end
   end
   
-  def thumb_placeholder
+  def thumb_placeholder(size)
     dir = if Thread.current[:redesign] == true
       File.join(Rails.root, "app/assets/images/redesign/thumbnails")
     else
@@ -348,8 +349,21 @@ class MediaFile < ActiveRecord::Base
                     type ? type["extensions"].first : nil
                   end 
     end
-    file_path = @@placeholders.detect {|x| x =~ /#{extension}\.png$/ } if extension
-    file_path ||= File.join(dir, "base_document.png")
+    if size == :small
+      file_path = @@placeholders.detect {|x| x =~ /_small#{extension}\.png$/ }
+      file_path ||= if Thread.current[:redesign] == true
+        File.join(dir, "base_document_small_unknown.png")
+      else
+        File.join(dir, "base_document.png")
+      end
+    else
+      file_path = @@placeholders.detect {|x| x =~ /#{extension}\.png$/ and not x =~ /_small/ }
+      file_path ||= if Thread.current[:redesign] == true
+        File.join(dir, "base_document_unknown.png")
+      else
+        File.join(dir, "base_document.png")
+      end
+    end
     File.read file_path
   end
 

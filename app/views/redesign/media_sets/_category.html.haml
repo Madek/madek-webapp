@@ -1,11 +1,10 @@
-%li.ui-resources-item
+%li.ui-resource
   .ui-thumbnail.media-catalog
-    .ui-thumbnail-privacy
-      %i.icon-privacy-open
-    .ui-thumbnail-image-wrapper
+    = render :partial => "media_resources/privacy", :locals => {:media_resource => category}
+    %a.ui-thumbnail-image-wrapper{:href => explore_sections_path(catalog_set.id, category.id)}
       .ui-thumbnail-image-holder
-        -# TODO remove http://medienarchiv.zhdk.ch
-        %img{:alt => "#{category.title}", :src => "http://medienarchiv.zhdk.ch/media_resources/#{category.id}/image", :class => "ui-thumbnail-image"}
+        %img{:src => "/media_resources/#{category.id}/image", :class => "ui-thumbnail-image"}
     .ui-thumbnail-meta
       %h3.ui-thumbnail-meta-title= category.title
       %p.ui-thumbnail-meta-subtitle= category.description
+      %span.ui-thumbnail-meta-extension= category.child_media_resources.count

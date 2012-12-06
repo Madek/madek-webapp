@@ -22,7 +22,8 @@
 
 @media #{$screen-size-xs-s} {
 
-  // Responsive Footer
+  /* Responsive Footer
+  ----------------------------------------- */
 
   @include sticky-footer(75px, ".app", ".app-footer-push", ".app-footer");
 
@@ -45,7 +46,8 @@
 }
 @media #{$screen-size-m} {
 
-  // Responsive Footer
+  /* Responsive Footer
+  ----------------------------------------- */
 
   @include sticky-footer(75px, ".app", ".app-footer-push", ".app-footer");
 

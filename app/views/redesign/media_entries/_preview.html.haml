@@ -1,0 +1,19 @@
+:ruby
+
+  content = case @media_entry.media_type
+
+    when "Image"
+      render :partial => "media_entries/previews/image"
+
+    when "Audio"
+      render :partial => "media_entries/previews/audio"
+      
+    when "Video"
+      render :partial => "media_entries/previews/video"
+
+    when "Doc"
+      render :partial => "media_entries/previews/document"
+
+  end
+
+= content

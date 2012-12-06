@@ -1,23 +1,22 @@
 <% kss_block '7.1' do %>
   <div class="ui-container inverted ui-toolbar phs pvx">
-    <h2 class="ui-toolbar-header left col1of2"><strong>Set enthält</strong> (3 von 11 für Sie sichtbar)</h2>
-
-    <div class="ui-toolbar-controls col1of2 by-right">
+    <h2 class="ui-toolbar-header"><strong>Set enthält</strong> (3 von 11 für Sie sichtbar)</h2>
+    <div class="ui-toolbar-controls by-right">
       <div class="button-group tertiary small right mls">
-        <a class="button ui-toolbar-vis-button" data-vis-mode="grid"><i class="ui-toolbar-icon-grid">Grid</i></a>
-        <a class="button ui-toolbar-vis-button active" data-vis-mode="tiles"><i class="ui-toolbar-icon-tiles">Tiles</i></a>
+        <a class="button ui-toolbar-vis-button" data-vis-mode="miniature"><i class="ui-toolbar-icon-miniature">Miniature</i></a>
+        <a class="button ui-toolbar-vis-button active" data-vis-mode="grid"><i class="ui-toolbar-icon-grid">Grid</i></a>
         <a class="button ui-toolbar-vis-button" data-vis-mode="list"><i class="ui-toolbar-icon-list">List</i></a>
       </div>
-      <div class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      <div class="dropdown ui-dropdown right">
+        <a class="dropdown-toggle ui-drop-toggle" data-toggle="dropdown" href="#">
           Sort by Name
           <i class="icon-arrow-down bright"></i>
         </a>
-        <ul aria-labelledby="dLabel" class="dropdown-menu" role="menu">
-          <li class="dropdown-menu-item">
+        <ul aria-labelledby="dLabel" class="dropdown-menu ui-drop-menu" role="menu">
+          <li class="ui-drop-item">
             <a href="#">Item 1</a>
           </li>
-          <li class="dropdown-menu-item">
+          <li class="ui-drop-item">
             <a href="#">Item 2</a>
           </li>
           <li class="separator"></li>
@@ -30,1147 +29,2625 @@
 <% end %>
 
 <% kss_block '7.2' do %>
-<div class="ui-container ui-toolbar separated pbm">
-  <div class="left col2of6">
-    <a class="button active" href="#">
-      <i class="icon-sidebar"></i>
-      Filtern
-    </a>
-  </div>
-  <div class="col2of6 by-center">
-    <div class="button-group">
-      <a class="button active" href="#">Alle</a>
-      <a class="button" href="#">Medientrage</a>
-      <a class="button" href="#">Sets</a>
+  <div class="ui-filterbar separated ui-container">
+    <div class="left col2of6">
+      <a class="button" id="ui-side-filter-toggle">
+        <i class="icon-sidebar"></i>
+        Filtern
+      </a>
+    </div>
+    <div class="col2of6 by-center">
+      <div class="button-group" id="ui-resources-type-filter">
+        <a class="active button" href="#">Alle</a>
+        <a class="button" data-type="media_entries" href="#">Medientrage</a>
+        <a class="button" data-type="media_sets" href="#">Sets</a>
+      </div>
+    </div>
+    <div class="col2of6 by-right">
+      <a class="weak ui-filterbar-select" href="#">Select All<i class="icon-checkbox"></i></a>
     </div>
   </div>
-  <div class="col2of6 by-right">
-    <a class="weak" href="#">
-      Select All
-      <i class="icon-checkbox"></i>
-    </a>
-  </div>
-</div>
 <% end %>
 
 <% kss_block '7.3' do %>
-<header class="ui-header ui-container inverted">
-  <div class="ui-header-brand">
-    <%= image_tag "redesign/inserts/image-logo-zhdk.png", :class => "ui-header-logo", :alt => "ZHdK" %>
-    <h1 class="ui-header-brand-name">Zürcher Hochschule der Künste</h1>
-    <h2 class="ui-header-instance-name">Medienarchiv der Künste</h2>
-  </div>
-  <div class="ui-header-menu">
-    <ul class="large primary ui-tabs">
-      <li class="ui-tabs-item active">
-        <a href="#">Mein Archiv</a>
-      </li>
-      <li class="ui-tabs-item">
-        <a href="#">Erkunden</a>
-      </li>
-      <li class="ui-tabs-item">
-        <a href="#">
-          <i class="icon-lens bright"></i>
-          Suchen
-        </a>
-      </li>
-      <li class="ui-tabs-item">
-        <a href="#">
-          <i class="icon-question-mark bright">Help</i>
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div class="ui-header-user">
-    <a class="primary-button" href="#">
-      <i class="icon-man_silhouette bright"></i>
-      Anmelden
-    </a>
-  </div>
-</header>
+  <header class="ui-header ui-container inverted">
+    <div class="ui-header-brand">
+      <%= image_tag "redesign/inserts/image-logo-zhdk.png", :class => "ui-header-logo", :alt => "ZHdK" %>
+      <h1 class="ui-header-brand-name">Zürcher Hochschule der Künste</h1>
+      <h2 class="ui-header-instance-name">Medienarchiv der Künste</h2>
+    </div>
+    <div class="ui-header-menu">
+      <ul class="large primary ui-tabs">
+        <li class="ui-tabs-item active">
+          <a href="#">Mein Archiv</a>
+        </li>
+        <li class="ui-tabs-item">
+          <a href="#">Erkunden</a>
+        </li>
+        <li class="ui-tabs-item">
+          <a href="#">
+            <i class="icon-lens bright"></i>
+            Suchen
+          </a>
+        </li>
+        <li class="ui-tabs-item">
+          <a href="#">
+            <i class="icon-question-mark-alt bright">Help</i>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="ui-header-user">
+      <a class="primary-button" href="#">
+        <i class="icon-man_silhouette bright"></i>
+        Anmelden
+      </a>
+    </div>
+  </header>
 <% end %>
 
 <% kss_block '7.4' do %>
-<footer class="ui-footer ui-container inverted">
-  <ul class="ui-footer-menu">
-    <li>
-      <a href="#">Informationen zum Projekt</a>
-    </li>
-    <li>
-      <a href="#">Impressum</a>
-    </li>
-    <li>
-      <a href="#">Kontakt</a>
-    </li>
-    <li>
-      <a href="#">Blog</a>
-    </li>
-    <li>
-      <a href="#">Hilfe</a>
-    </li>
-    <li>
-      <a href="#">Nutzungsbestimmungen</a>
-    </li>
-    <li>
-      <a href="#">Freie Software</a>
-    </li>
-    <li>
-      <a href="#">Archivierungsrichtlinien ZHdK</a>
-    </li>
-  </ul>
-  <p class="ui-footer-copy">
-    <%= image_tag "redesign/inserts/image-logo-madek.png", :class => "ui-footer-logo", :alt => "MADEK" %>
-    &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste
-  </p>
-</footer>
+  <footer class="ui-footer ui-container inverted">
+    <ul class="ui-footer-menu">
+      <li>
+        <a href="#">Informationen zum Projekt</a>
+      </li>
+      <li>
+        <a href="#">Impressum</a>
+      </li>
+      <li>
+        <a href="#">Kontakt</a>
+      </li>
+      <li>
+        <a href="#">Blog</a>
+      </li>
+      <li>
+        <a href="#">Hilfe</a>
+      </li>
+      <li>
+        <a href="#">Nutzungsbestimmungen</a>
+      </li>
+      <li>
+        <a href="#">Freie Software</a>
+      </li>
+      <li>
+        <a href="#">Archivierungsrichtlinien ZHdK</a>
+      </li>
+    </ul>
+    <p class="ui-footer-copy">
+      <%= image_tag "redesign/inserts/image-logo-madek.png", :class => "ui-footer-logo", :alt => "MADEK" %>
+      &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste
+    </p>
+  </footer>
 <% end %>
 
 <% kss_block '7.5' do %>
-<div class="ui-metadata-box ui-summary-table">
-  <table class="borderless">
+  <div class="ui-metadata-box ui-summary-table">
+    <table class="borderless">
+      <tbody>
+        <tr>
+          <td class="ui-summary-label">Titel</td>
+          <td class="ui-summary-content title-l">Black hot drink</td>
+        </tr>
+        <tr>
+          <td class="ui-summary-label">Beschreibung</td>
+          <td class="ui-summary-content">Die Medieneintr&auml;ge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden k&ouml;nnen. Die Medieneintr&auml;ge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden k&ouml;nnen. Die Medieneintr&auml;ge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden k&ouml;nnen. Die Medieneintr&auml;ge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden k&ouml;nnen.</td>
+        </tr>
+        <tr>
+          <td class="ui-summary-label">Autor/in</td>
+          <td class="ui-summary-content"><a href="#">Federico C.</a></td>
+        </tr>
+        <tr>
+          <td class="ui-summary-label">Eigentumer/in</td>
+          <td class="ui-summary-content"><a href="#">Federico C.</a></td>
+        </tr>
+        <tr>
+          <td class="ui-summary-label">Schlagworte</td>
+          <td class="ui-summary-content">
+            <ul class="ui-tag-cloud small">
+              <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+              <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+
+<% kss_block '7.6', :padding_top => "50" do %>
+  <div class="ui-container inverted-transparent clipboard-wrapper" >
+    <div class="clipboard-toggle inverted-transparent">
+      <a href="#" class="tertiary-button block small"><i class="icon-clipboard bright"></i> Zwischenablage (% Medientr&auml;ge) <i class="icon-arrow-down bright stand-alone"></i></a>
+    </div>
+    <div class="col4of6">
+
+    </div>
+    <div class="col2of6">
+      <div class="clipboard-actions">
+        <a href="#" class="primary-button block">Aktionen <i class="icon-arrow-down bright stand-alone"></i></a>
+        <a href="#" class="tertiary-button small block">Zwischenablage Leeren</a>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% kss_block '7.7.1' do %>
+  <div class="ui-media-overview">
+    <dl class="ui-media-overview-metadata ui-metadata-box">
+      <dt class="media-data-title title-xs-alt">Titel</dt>
+      <dd class="media-data-content title-l">Die Eismalerin</dd>
+      <dt class="media-data-title title-xs-alt">Untertitel</dt>
+      <dd class="media-data-content">Installationsansicht</dd>
+      <dt class="media-data-title title-xs-alt">Autor/in</dt>
+      <dd class="media-data-content">
+        <a href="#">Stemmle, Janka</a>
+      </dd>
+      <dt class="media-data-title title-xs-alt">Datierrung</dt>
+      <dd class="media-data-content">2012</dd>
+      <dt class="media-data-title title-xs-alt">Schlagworte zu Inhalt und Motiv</dt>
+      <dd class="media-data-content">
+        <ul class="ui-tag-cloud small">
+          <li class="ui-tag-cloud-item">
+            <a href="#" class="ui-tag-button">Tag 1</a>
+          </li>
+          <li class="ui-tag-cloud-item">
+            <a href="#" class="ui-tag-button">Tag 2</a>
+          </li>
+        </ul>
+      </dd>
+      <dt class="media-data-title title-xs-alt">Rechte am geistigen Eigentum</dt>
+      <dd class="media-data-content">ZHdK DKM VMK</dd>
+      <dt class="media-data-title title-xs-alt">Privacy</dt>
+      <dd class="media-data-content">
+        This entry is public
+        <i class="icon-privacy-public"></i>
+      </dd>
+      <dt class="media-data-title title-xs-alt">Eigentumer/in im Medienarchiv</dt>
+      <dd class="media-data-content">
+        <a href="#">Rüegger, Romy</a>
+      </dd>
+    </dl>
+    <div class="ui-media-overview-preview">
+      <%= image_tag "redesign/styleguide/media-entry-1.png" %>
+    </div>
+  </div>
+<% end %>
+
+<% kss_block '7.7.2' do %>
+  <div class="ui-set-overview">
+    <div class="ui-set-preview">
+      <div class="ui-thumbnail filter-set">
+        <div class="ui-thumbnail-level-up-items">
+          <span class="ui-thumbnail-level-notes">Keine übergeordneten Sets</span>
+        </div>
+        <div class="ui-thumbnail-privacy">
+          <i class="icon-privacy-group">This media is shared with a group</i>
+        </div>
+        <a class="ui-thumbnail-image-wrapper">
+          <div class="ui-thumbnail-image-holder">
+            <img alt="Media-entry-6" class="ui-thumbnail-image" src="/assets/redesign/styleguide/media-entry-6.jpeg">
+          </div>
+        </a>
+        <div class="ui-thumbnail-meta">
+          <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
+          <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
+        </div>
+        <div class="ui-thumbnail-actions">
+          <ul class="left by-left">
+            <li class="ui-thumbnail-action">
+              <a class="ui-thumbnail-action-checkbox">Select</a>
+            </li>
+            <li class="ui-thumbnail-action">
+              <a class="ui-thumbnail-action-favorite">Favorite</a>
+            </li>
+          </ul>
+          <ul class="right by-right">
+            <li class="ui-thumbnail-action">
+              <a class="ui-thumbnail-action-browse">Browse</a>
+            </li>
+            <li class="ui-thumbnail-action">
+              <a class="ui-thumbnail-action-edit">Edit</a>
+            </li>
+            <li class="ui-thumbnail-action">
+              <a class="ui-thumbnail-action-delete">Delete</a>
+            </li>
+          </ul>
+        </div>
+        <div class="ui-thumbnail-dropdown">
+          <div class="dropdown ui-dropdown">
+            <a class="dropdown-toggle ui-drop-toggle button block" data-toggle="dropdown" href="#">Aktionen</a>
+            <ul aria-labelledby="dLabel" class="dropdown-menu ui-drop-menu" role="menu">
+              <li class="ui-drop-item">
+                <a href="#">Item 1</a>
+              </li>
+              <li class="ui-drop-item">
+                <a href="#">Item 2</a>
+              </li>
+              <li class="separator"></li>
+              <li class="ui-drop-item">
+                <a href="#">Item 3</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="ui-thumbnail-level-down-items">
+          <h3 class="ui-thumbnail-level-notes">Set enthalt</h3>
+          <ul class="ui-thumbnail-level-items">
+            <li class="ui-thumbnail-level-item odd">
+              <a class="ui-level-image-wrapper" href="#" title="Set name">
+                <div class="ui-thumbnail-level-image-holder">
+                  <img alt="Media-entry-6" class="ui-thumbnail-level-image" src="/assets/redesign/styleguide/media-entry-6.jpeg">
+                </div>
+              </a>
+            </li>
+            <li class="ui-thumbnail-level-item even">
+              <a class="ui-level-image-wrapper" href="#" title="Set name">
+                <div class="ui-thumbnail-level-image-holder">
+                  <img alt="Media-entry-6" class="ui-thumbnail-level-image" src="/assets/redesign/styleguide/media-entry-6.jpeg">
+                </div>
+              </a>
+            </li>
+          </ul>
+          <span class="ui-thumbnail-level-notes">5 Inhalte</span>
+        </div>
+      </div>
+    </div>
+    <div class="ui-metadata-box ui-summary-table ui-set-summary">
+      <table class="borderless">
+        <tbody>
+          <tr>
+            <td class="ui-summary-label">Titel</td>
+            <td class="ui-summary-content title-l">Black hot drink</td>
+          </tr>
+          <tr>
+            <td class="ui-summary-label">Beschreibung</td>
+            <td class="ui-summary-content">Die Medieneinträge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden können. Die Medieneinträge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden können. Die Medieneinträge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden können. Die Medieneinträge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden können.</td>
+          </tr>
+          <tr>
+            <td class="ui-summary-label">Autor/in</td>
+            <td class="ui-summary-content">
+              <a href="#">Federico C.</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="ui-summary-label">Eigentumer/in</td>
+            <td class="ui-summary-content">
+              <a href="#">Federico C.</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="ui-summary-label">Schlagworte</td>
+            <td class="ui-summary-content">
+              <ul class="ui-tag-cloud small">
+                <li class="ui-tag-cloud-item">
+                  <a href="#" class="ui-tag-button">Tag 1</a>
+                </li>
+                <li class="ui-tag-cloud-item">
+                  <a href="#" class="ui-tag-button">Tag 2</a>
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>
+
+<% kss_block '7.8.1' do %>
+  <div class="ui-collage">
+    <div class="ui-collage-row">
+      <a class="ui-collage-item">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-collage-item-image" %>
+          <div class="ui-collage-item-meta">
+            <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
+            <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
+          </div>
+        </div>
+      </a>
+      <a class="ui-collage-item">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-1.png", :class => "ui-collage-item-image" %>
+          <div class="ui-collage-item-meta">
+            <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
+            <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
+          </div>
+        </div>
+      </a>
+      <a class="ui-collage-item">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-2.png", :class => "ui-collage-item-image" %>
+          <div class="ui-collage-item-meta">
+            <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
+            <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
+          </div>
+        </div>
+      </a>
+      <a class="ui-collage-item">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-collage-item-image" %>
+          <div class="ui-collage-item-meta">
+            <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
+            <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
+          </div>
+        </div>
+      </a>
+      <a class="ui-collage-item">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-2.png", :class => "ui-collage-item-image" %>
+          <div class="ui-collage-item-meta">
+            <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
+            <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="ui-collage-row">
+      <a class="ui-collage-item">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-5.jpeg", :class => "ui-collage-item-image" %>
+          <div class="ui-collage-item-meta">
+            <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
+            <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
+          </div>
+        </div>
+      </a>
+      <a class="ui-collage-item">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-collage-item-image" %>
+          <div class="ui-collage-item-meta">
+            <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
+            <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
+          </div>
+        </div>
+      </a>
+      <a class="ui-collage-item">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-collage-item-image" %>
+          <div class="ui-collage-item-meta">
+            <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
+            <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
+          </div>
+        </div>
+      </a>
+      <a class="ui-collage-item">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-7.jpeg", :class => "ui-collage-item-image" %>
+          <div class="ui-collage-item-meta">
+            <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
+            <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
+          </div>
+        </div>
+      </a>
+      <a class="ui-collage-item">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-collage-item-image" %>
+          <div class="ui-collage-item-meta">
+            <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
+            <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+<% end %>
+
+<% kss_block '7.8.2' do %>
+  <div class="ui-collage crooked">
+    <div class="ui-collage-row">
+      <div class="ui-collage-item odd">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+      <div class="ui-collage-item even">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-5.jpeg", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+      <div class="ui-collage-item odd">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+      <div class="ui-collage-item even">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+      <div class="ui-collage-item odd">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-7.jpeg", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+    </div>
+    <div class="ui-collage-row">
+      <div class="ui-collage-item odd">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-1.png", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+      <div class="ui-collage-item even">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-2.png", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+      <div class="ui-collage-item odd">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-3.jpeg", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+      <div class="ui-collage-item even">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+      <div class="ui-collage-item odd">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+    </div>
+    <div class="ui-collage-row">
+      <div class="ui-collage-item odd">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+      <div class="ui-collage-item even">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-7.jpeg", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+      <div class="ui-collage-item odd">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+      <div class="ui-collage-item even">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+      <div class="ui-collage-item odd">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-7.jpeg", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+    </div>
+    <div class="ui-collage-row">
+      <div class="ui-collage-item odd">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-1.png", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+      <div class="ui-collage-item even">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-3.jpeg", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+      <div class="ui-collage-item odd">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+      <div class="ui-collage-item even">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-3.jpeg", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+      <div class="ui-collage-item odd">
+        <div class="ui-collage-item-wrapper">
+          <%= image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-collage-item-image" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% kss_block '7.9.1', :padding_top => "150", :padding_bottom => "80" do %>
+  <ul class="ui-resources grid $modifier-class">
+    <li class="ui-resource">
+      <div class="ui-resource-head">
+        <div class="ui-resource-actions">
+          <ul class="ui-resource-actions-list">
+            <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-checkbox">Select</a></li>
+            <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-favorite">Favorite</a></li>
+          </ul>
+        </div>
+        <h3 class="ui-resource-title">Resource Title</h3>
+      </div>
+      <div class="ui-resource-body">
+        <div class="ui-resource-thumbnail">
+          <div class="ui-thumbnail media-set">
+            <div class="ui-thumbnail-level-up-items">
+              <h3 class="ui-thumbnail-level-notes">Set enthalt</h3>
+              <ul class="ui-thumbnail-level-items">
+                <li class="ui-thumbnail-level-item odd">
+                  <a href="#" title="Set name" class="ui-level-image-wrapper">
+                    <div class="ui-thumbnail-level-image-holder">
+                      <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
+                    </div>
+                  </a>
+                </li>
+                <li class="ui-thumbnail-level-item even">
+                  <a href="#" title="Set name" class="ui-level-image-wrapper">
+                    <div class="ui-thumbnail-level-image-holder">
+                      <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+              <span class="ui-thumbnail-level-notes">5 Inhalte</span>
+            </div>
+            <div class="ui-thumbnail-privacy">
+              <i class="icon-privacy-group">This media is shared with a group</i>
+            </div>
+            <a class="ui-thumbnail-image-wrapper">
+              <div class="ui-thumbnail-image-holder">
+                <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-image" %>
+              </div>
+            </a>
+            <div class="ui-thumbnail-meta">
+              <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
+              <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
+            </div>
+            <div class="ui-thumbnail-actions">
+              <ul class="left by-left">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
+              </ul>
+              <ul class="right by-right">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Browse</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Edit</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Delete</a></li>
+              </ul>
+            </div>
+            <div class="ui-thumbnail-dropdown">
+              <div class="dropdown ui-dropdown">
+                <a class="dropdown-toggle ui-drop-toggle button block" data-toggle="dropdown" href="#">Aktionen</a>
+                <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+                  <li class="ui-drop-item"><a href="#">Item 1</a></li>
+                  <li class="ui-drop-item"><a href="#">Item 2</a></li>
+                  <li class="separator"></li>
+                  <li class="ui-drop-item"><a href="#">Item 3</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="ui-thumbnail-level-down-items">
+              <h3 class="ui-thumbnail-level-notes">Set enthalt</h3>
+              <ul class="ui-thumbnail-level-items">
+                <li class="ui-thumbnail-level-item odd">
+                  <a href="#" title="Set name" class="ui-level-image-wrapper">
+                    <div class="ui-thumbnail-level-image-holder">
+                      <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
+                    </div>
+                  </a>
+                </li>
+                <li class="ui-thumbnail-level-item even">
+                  <a href="#" title="Set name" class="ui-level-image-wrapper">
+                    <div class="ui-thumbnail-level-image-holder">
+                      <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+              <span class="ui-thumbnail-level-notes">5 Inhalte</span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-resource-meta">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-resource-description">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-resource-extension">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </li>
+
+    <li class="ui-resource">
+      <div class="ui-resource-head">
+        <div class="ui-resource-actions">
+          <ul class="ui-resource-actions-list">
+            <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-checkbox">Select</a></li>
+            <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-favorite">Favorite</a></li>
+          </ul>
+        </div>
+        <h3 class="ui-resource-title">Resource Title</h3>
+      </div>
+      <div class="ui-resource-body">
+        <div class="ui-resource-thumbnail">
+          <div class="ui-thumbnail media-entry video">
+            <div class="ui-thumbnail-privacy">
+              <i class="icon-privacy-private">This media is private</i>
+            </div>
+            <a class="ui-thumbnail-image-wrapper">
+              <div class="ui-thumbnail-image-holder">
+                <%= image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-thumbnail-image" %>
+              </div>
+            </a>
+            <div class="ui-thumbnail-meta">
+              <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
+              <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
+            </div>
+            <div class="ui-thumbnail-actions">
+              <ul class="left by-left">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
+              </ul>
+              <ul class="right by-right">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Browse</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Edit</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Delete</a></li>
+              </ul>
+            </div>
+            <div class="ui-thumbnail-dropdown">
+              <div class="dropdown ui-dropdown">
+                <a class="dropdown-toggle ui-drop-toggle button block" data-toggle="dropdown" href="#">Aktionen</a>
+                <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+                  <li class="ui-drop-item"><a href="#">Item 1</a></li>
+                  <li class="ui-drop-item"><a href="#">Item 2</a></li>
+                  <li class="separator"></li>
+                  <li class="ui-drop-item"><a href="#">Item 3</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-resource-meta">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-resource-description">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-resource-extension">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div> 
+      </div>
+    </li>
+
+    <li class="ui-resource">
+      <div class="ui-resource-head">
+        <div class="ui-resource-actions">
+          <ul class="ui-resource-actions-list">
+            <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-checkbox">Select</a></li>
+            <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-favorite">Favorite</a></li>
+          </ul>
+        </div>
+        <h3 class="ui-resource-title">Resource Title</h3>
+      </div>
+      <div class="ui-resource-body">
+        <div class="ui-resource-thumbnail">
+          <div class="ui-thumbnail media-entry image">
+            <div class="ui-thumbnail-privacy">
+              <i class="icon-privacy-open">This media is Public</i>
+            </div>
+            <a class="ui-thumbnail-image-wrapper">
+              <div class="ui-thumbnail-image-holder"><%= image_tag "redesign/styleguide/media-entry-5.jpeg", :class => "ui-thumbnail-image" %></div>
+            </a>
+            <div class="ui-thumbnail-meta">
+              <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
+              <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
+            </div>
+            <div class="ui-thumbnail-actions">
+              <ul class="left by-left">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
+              </ul>
+              <ul class="right by-right">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Browse</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Edit</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Delete</a></li>
+              </ul>
+            </div>
+            <div class="ui-thumbnail-dropdown">
+              <div class="dropdown ui-dropdown">
+                <a class="dropdown-toggle ui-drop-toggle button block" data-toggle="dropdown" href="#">Aktionen</a>
+                <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+                  <li class="ui-drop-item"><a href="#">Item 1</a></li>
+                  <li class="ui-drop-item"><a href="#">Item 2</a></li>
+                  <li class="separator"></li>
+                  <li class="ui-drop-item"><a href="#">Item 3</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-resource-meta">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-resource-description">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-resource-extension">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </li>
+  </ul>
+<% end %>
+
+<% kss_block '7.9.2', :padding_top => "50", :padding_bottom => "50" do %>
+  <ul class="ui-resources miniature $modifier-class">
+    <li class="ui-resource">
+      <div class="ui-resource-head">
+        <div class="ui-resource-actions">
+          <ul class="ui-resource-actions-list">
+            <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-checkbox">Select</a></li>
+            <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-favorite">Favorite</a></li>
+          </ul>
+        </div>
+        <h3 class="ui-resource-title">Resource Title</h3>
+      </div>
+      <div class="ui-resource-body">
+        <div class="ui-resource-thumbnail">
+          <div class="ui-thumbnail media-set">
+            <div class="ui-thumbnail-level-up-items">
+              <h3 class="ui-thumbnail-level-notes">Set enthalt</h3>
+              <ul class="ui-thumbnail-level-items">
+                <li class="ui-thumbnail-level-item odd">
+                  <a href="#" title="Set name" class="ui-level-image-wrapper">
+                    <div class="ui-thumbnail-level-image-holder">
+                      <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
+                    </div>
+                  </a>
+                </li>
+                <li class="ui-thumbnail-level-item even">
+                  <a href="#" title="Set name" class="ui-level-image-wrapper">
+                    <div class="ui-thumbnail-level-image-holder">
+                      <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+              <span class="ui-thumbnail-level-notes">5 Inhalte</span>
+            </div>
+            <div class="ui-thumbnail-privacy">
+              <i class="icon-privacy-group">This media is shared with a group</i>
+            </div>
+            <a class="ui-thumbnail-image-wrapper">
+              <div class="ui-thumbnail-image-holder">
+                <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-image" %>
+              </div>
+            </a>
+            <div class="ui-thumbnail-meta">
+              <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
+              <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
+            </div>
+            <div class="ui-thumbnail-actions">
+              <ul class="left by-left">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
+              </ul>
+              <ul class="right by-right">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Browse</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Edit</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Delete</a></li>
+              </ul>
+            </div>
+            <div class="ui-thumbnail-dropdown">
+              <div class="dropdown ui-dropdown">
+                <a class="dropdown-toggle ui-drop-toggle button block" data-toggle="dropdown" href="#">Aktionen</a>
+                <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+                  <li class="ui-drop-item"><a href="#">Item 1</a></li>
+                  <li class="ui-drop-item"><a href="#">Item 2</a></li>
+                  <li class="separator"></li>
+                  <li class="ui-drop-item"><a href="#">Item 3</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="ui-thumbnail-level-down-items">
+              <h3 class="ui-thumbnail-level-notes">Set enthalt</h3>
+              <ul class="ui-thumbnail-level-items">
+                <li class="ui-thumbnail-level-item odd">
+                  <a href="#" title="Set name" class="ui-level-image-wrapper">
+                    <div class="ui-thumbnail-level-image-holder">
+                      <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
+                    </div>
+                  </a>
+                </li>
+                <li class="ui-thumbnail-level-item even">
+                  <a href="#" title="Set name" class="ui-level-image-wrapper">
+                    <div class="ui-thumbnail-level-image-holder">
+                      <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+              <span class="ui-thumbnail-level-notes">5 Inhalte</span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-resource-meta">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-resource-description">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-resource-extension">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </li>
+
+    <li class="ui-resource">
+      <div class="ui-resource-head">
+        <div class="ui-resource-actions">
+          <ul class="ui-resource-actions-list">
+            <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-checkbox">Select</a></li>
+            <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-favorite">Favorite</a></li>
+          </ul>
+        </div>
+        <h3 class="ui-resource-title">Resource Title</h3>
+      </div>
+      <div class="ui-resource-body">
+        <div class="ui-resource-thumbnail">
+          <div class="ui-thumbnail media-entry video">
+            <div class="ui-thumbnail-privacy">
+              <i class="icon-privacy-private">This media is private</i>
+            </div>
+            <a class="ui-thumbnail-image-wrapper">
+              <div class="ui-thumbnail-image-holder">
+                <%= image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-thumbnail-image" %>
+              </div>
+            </a>
+            <div class="ui-thumbnail-meta">
+              <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
+              <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
+            </div>
+            <div class="ui-thumbnail-actions">
+              <ul class="left by-left">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
+              </ul>
+              <ul class="right by-right">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Browse</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Edit</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Delete</a></li>
+              </ul>
+            </div>
+            <div class="ui-thumbnail-dropdown">
+              <div class="dropdown ui-dropdown">
+                <a class="dropdown-toggle ui-drop-toggle button block" data-toggle="dropdown" href="#">Aktionen</a>
+                <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+                  <li class="ui-drop-item"><a href="#">Item 1</a></li>
+                  <li class="ui-drop-item"><a href="#">Item 2</a></li>
+                  <li class="separator"></li>
+                  <li class="ui-drop-item"><a href="#">Item 3</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-resource-meta">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-resource-description">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-resource-extension">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div> 
+      </div>
+    </li>
+
+    <li class="ui-resource">
+      <div class="ui-resource-head">
+        <div class="ui-resource-actions">
+          <ul class="ui-resource-actions-list">
+            <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-checkbox">Select</a></li>
+            <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-favorite">Favorite</a></li>
+          </ul>
+        </div>
+        <h3 class="ui-resource-title">Resource Title</h3>
+      </div>
+      <div class="ui-resource-body">
+        <div class="ui-resource-thumbnail">
+          <div class="ui-thumbnail media-entry image">
+            <div class="ui-thumbnail-privacy">
+              <i class="icon-privacy-open">This media is Public</i>
+            </div>
+            <a class="ui-thumbnail-image-wrapper">
+              <div class="ui-thumbnail-image-holder"><%= image_tag "redesign/styleguide/media-entry-5.jpeg", :class => "ui-thumbnail-image" %></div>
+            </a>
+            <div class="ui-thumbnail-meta">
+              <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
+              <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
+            </div>
+            <div class="ui-thumbnail-actions">
+              <ul class="left by-left">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
+              </ul>
+              <ul class="right by-right">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Browse</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Edit</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Delete</a></li>
+              </ul>
+            </div>
+            <div class="ui-thumbnail-dropdown">
+              <div class="dropdown ui-dropdown">
+                <a class="dropdown-toggle ui-drop-toggle button block" data-toggle="dropdown" href="#">Aktionen</a>
+                <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+                  <li class="ui-drop-item"><a href="#">Item 1</a></li>
+                  <li class="ui-drop-item"><a href="#">Item 2</a></li>
+                  <li class="separator"></li>
+                  <li class="ui-drop-item"><a href="#">Item 3</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-resource-meta">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-resource-description">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-resource-extension">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </li>
+  </ul>
+<% end %>
+
+<% kss_block '7.9.3' do %>
+  <ul class="ui-resources list $modifier-class">
+    <li class="ui-resource">
+      <div class="ui-resource-head">
+        <div class="ui-resource-actions">
+          <ul class="ui-resource-actions-list">
+            <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-checkbox">Select</a></li>
+            <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-favorite">Favorite</a></li>
+          </ul>
+        </div>
+        <h3 class="ui-resource-title">Resource Title</h3>
+      </div>
+      <div class="ui-resource-body">
+        <div class="ui-resource-thumbnail">
+          <div class="ui-thumbnail media-set">
+            <div class="ui-thumbnail-level-up-items">
+              <h3 class="ui-thumbnail-level-notes">Set enthalt</h3>
+              <ul class="ui-thumbnail-level-items">
+                <li class="ui-thumbnail-level-item odd">
+                  <a href="#" title="Set name" class="ui-level-image-wrapper">
+                    <div class="ui-thumbnail-level-image-holder">
+                      <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
+                    </div>
+                  </a>
+                </li>
+                <li class="ui-thumbnail-level-item even">
+                  <a href="#" title="Set name" class="ui-level-image-wrapper">
+                    <div class="ui-thumbnail-level-image-holder">
+                      <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+              <span class="ui-thumbnail-level-notes">5 Inhalte</span>
+            </div>
+            <div class="ui-thumbnail-privacy">
+              <i class="icon-privacy-group">This media is shared with a group</i>
+            </div>
+            <a class="ui-thumbnail-image-wrapper">
+              <div class="ui-thumbnail-image-holder">
+                <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-image" %>
+              </div>
+            </a>
+            <div class="ui-thumbnail-meta">
+              <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
+              <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
+            </div>
+            <div class="ui-thumbnail-actions">
+              <ul class="left by-left">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
+              </ul>
+              <ul class="right by-right">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Browse</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Edit</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Delete</a></li>
+              </ul>
+            </div>
+            <div class="ui-thumbnail-dropdown">
+              <div class="dropdown ui-dropdown">
+                <a class="dropdown-toggle ui-drop-toggle button block" data-toggle="dropdown" href="#">Aktionen</a>
+                <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+                  <li class="ui-drop-item"><a href="#">Item 1</a></li>
+                  <li class="ui-drop-item"><a href="#">Item 2</a></li>
+                  <li class="separator"></li>
+                  <li class="ui-drop-item"><a href="#">Item 3</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="ui-thumbnail-level-down-items">
+              <h3 class="ui-thumbnail-level-notes">Set enthalt</h3>
+              <ul class="ui-thumbnail-level-items">
+                <li class="ui-thumbnail-level-item odd">
+                  <a href="#" title="Set name" class="ui-level-image-wrapper">
+                    <div class="ui-thumbnail-level-image-holder">
+                      <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
+                    </div>
+                  </a>
+                </li>
+                <li class="ui-thumbnail-level-item even">
+                  <a href="#" title="Set name" class="ui-level-image-wrapper">
+                    <div class="ui-thumbnail-level-image-holder">
+                      <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+              <span class="ui-thumbnail-level-notes">5 Inhalte</span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-resource-meta">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-resource-description">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-resource-extension">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </li>
+
+    <li class="ui-resource">
+      <div class="ui-resource-head">
+        <div class="ui-resource-actions">
+          <ul class="ui-resource-actions-list">
+            <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-checkbox">Select</a></li>
+            <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-favorite">Favorite</a></li>
+          </ul>
+        </div>
+        <h3 class="ui-resource-title">Resource Title</h3>
+      </div>
+      <div class="ui-resource-body">
+        <div class="ui-resource-thumbnail">
+          <div class="ui-thumbnail media-entry video">
+            <div class="ui-thumbnail-privacy">
+              <i class="icon-privacy-private">This media is private</i>
+            </div>
+            <a class="ui-thumbnail-image-wrapper">
+              <div class="ui-thumbnail-image-holder">
+                <%= image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-thumbnail-image" %>
+              </div>
+            </a>
+            <div class="ui-thumbnail-meta">
+              <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
+              <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
+            </div>
+            <div class="ui-thumbnail-actions">
+              <ul class="left by-left">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
+              </ul>
+              <ul class="right by-right">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Browse</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Edit</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Delete</a></li>
+              </ul>
+            </div>
+            <div class="ui-thumbnail-dropdown">
+              <div class="dropdown ui-dropdown">
+                <a class="dropdown-toggle ui-drop-toggle button block" data-toggle="dropdown" href="#">Aktionen</a>
+                <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+                  <li class="ui-drop-item"><a href="#">Item 1</a></li>
+                  <li class="ui-drop-item"><a href="#">Item 2</a></li>
+                  <li class="separator"></li>
+                  <li class="ui-drop-item"><a href="#">Item 3</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-resource-meta">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-resource-description">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-resource-extension">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div> 
+      </div>
+    </li>
+
+    <li class="ui-resource">
+      <div class="ui-resource-head">
+        <div class="ui-resource-actions">
+          <ul class="ui-resource-actions-list">
+            <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-checkbox">Select</a></li>
+            <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-favorite">Favorite</a></li>
+          </ul>
+        </div>
+        <h3 class="ui-resource-title">Resource Title</h3>
+      </div>
+      <div class="ui-resource-body">
+        <div class="ui-resource-thumbnail">
+          <div class="ui-thumbnail media-entry image">
+            <div class="ui-thumbnail-privacy">
+              <i class="icon-privacy-open">This media is Public</i>
+            </div>
+            <a class="ui-thumbnail-image-wrapper">
+              <div class="ui-thumbnail-image-holder"><%= image_tag "redesign/styleguide/media-entry-5.jpeg", :class => "ui-thumbnail-image" %></div>
+            </a>
+            <div class="ui-thumbnail-meta">
+              <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
+              <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
+            </div>
+            <div class="ui-thumbnail-actions">
+              <ul class="left by-left">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
+              </ul>
+              <ul class="right by-right">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Browse</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Edit</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Delete</a></li>
+              </ul>
+            </div>
+            <div class="ui-thumbnail-dropdown">
+              <div class="dropdown ui-dropdown">
+                <a class="dropdown-toggle ui-drop-toggle button block" data-toggle="dropdown" href="#">Aktionen</a>
+                <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+                  <li class="ui-drop-item"><a href="#">Item 1</a></li>
+                  <li class="ui-drop-item"><a href="#">Item 2</a></li>
+                  <li class="separator"></li>
+                  <li class="ui-drop-item"><a href="#">Item 3</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-resource-meta">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-resource-description">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-resource-extension">
+          <table class="borderless block">
+            <tbody>
+              <tr>
+                <td class="ui-resource-meta-label">Autor/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Datierung</td>
+                <td class="ui-resource-meta-content">1470/1500</td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Schlagworte</td>
+                <td class="ui-resource-meta-content">
+                  <ul class="ui-tag-cloud small">
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 1</a></li>
+                    <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Eigentumer/in</td>
+                <td class="ui-resource-meta-content"><a href="#">Federico C.</a></td>
+              </tr>
+              <tr>
+                <td class="ui-resource-meta-label">Rechte</td>
+                <td class="ui-resource-meta-content">unbekannt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </li>
+  </ul>
+<% end %>
+
+<% kss_block '7.10' do %>
+  <div class="ui-featured-entries $modifier-class">
+    <ul class="ui-featured-entries-list">
+      <li class="ui-featured-entries-item">
+        <a href="#" class="ui-featured-entry">
+          <%= image_tag "redesign/styleguide/media-entry-1.png" %>
+          <div class="ui-featured-entry-metadata">
+            <h3 class="title-s ui-thumbnail-name">Name that can easily go onto 2 lines</h3>
+            <h4 class="title-xs-alt ui-thumbnail-author">Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well</h4>
+          </div>
+        </a>
+        <ul class="ui-featured-entry-actions">
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-browse" href="/media_resources/191/browse" title="Erkunden">
+              Erkunden
+            </a>
+          </li>
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-edit" href="/media_resources/191/edit" title="Editieren">
+              Editieren
+            </a>
+          </li>
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-delete" href="#" title="Löschen">
+              Löschen
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="ui-featured-entries-item">
+        <a href="#" class="ui-featured-entry">
+          <%= image_tag "redesign/styleguide/media-entry-2.png" %>
+          <div class="ui-featured-entry-metadata">
+            <h3 class="title-s ui-thumbnail-name">Name that can easily go onto 2 lines</h3>
+            <h4 class="title-xs-alt ui-thumbnail-author">Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well</h4>
+          </div>
+        </a>
+        <ul class="ui-featured-entry-actions">
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-browse" href="/media_resources/191/browse" title="Erkunden">
+              Erkunden
+            </a>
+          </li>
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-edit" href="/media_resources/191/edit" title="Editieren">
+              Editieren
+            </a>
+          </li>
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-delete" href="#" title="Löschen">
+              Löschen
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="ui-featured-entries-item">
+        <a href="#" class="ui-featured-entry">
+          <%= image_tag "redesign/styleguide/media-entry-3.jpeg" %>
+          <div class="ui-featured-entry-metadata">
+            <h3 class="title-s ui-thumbnail-name">Name that can easily go onto 2 lines</h3>
+            <h4 class="title-xs-alt ui-thumbnail-author">Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well</h4>
+          </div>
+        </a>
+        <ul class="ui-featured-entry-actions">
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-browse" href="/media_resources/191/browse" title="Erkunden">
+              Erkunden
+            </a>
+          </li>
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-edit" href="/media_resources/191/edit" title="Editieren">
+              Editieren
+            </a>
+          </li>
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-delete" href="#" title="Löschen">
+              Löschen
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="ui-featured-entries-item">
+        <a href="#" class="ui-featured-entry">
+          <%= image_tag "redesign/styleguide/media-entry-4.jpeg" %>
+          <div class="ui-featured-entry-metadata">
+            <h3 class="title-s ui-thumbnail-name">Name that can easily go onto 2 lines</h3>
+            <h4 class="title-xs-alt ui-thumbnail-author">Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well</h4>
+          </div>
+        </a>
+        <ul class="ui-featured-entry-actions">
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-browse" href="/media_resources/191/browse" title="Erkunden">
+              Erkunden
+            </a>
+          </li>
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-edit" href="/media_resources/191/edit" title="Editieren">
+              Editieren
+            </a>
+          </li>
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-delete" href="#" title="Löschen">
+              Löschen
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="ui-featured-entries-item">
+        <a href="#" class="ui-featured-entry">
+          <%= image_tag "redesign/styleguide/media-entry-5.jpeg" %>
+          <div class="ui-featured-entry-metadata">
+            <h3 class="title-s ui-thumbnail-name">Name that can easily go onto 2 lines</h3>
+            <h4 class="title-xs-alt ui-thumbnail-author">Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well</h4>
+          </div>
+        </a>
+        <ul class="ui-featured-entry-actions">
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-browse" href="/media_resources/191/browse" title="Erkunden">
+              Erkunden
+            </a>
+          </li>
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-edit" href="/media_resources/191/edit" title="Editieren">
+              Editieren
+            </a>
+          </li>
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-delete" href="#" title="Löschen">
+              Löschen
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="ui-featured-entries-item">
+        <a href="#" class="ui-featured-entry">
+          <%= image_tag "redesign/styleguide/media-entry-6.jpeg" %>
+          <div class="ui-featured-entry-metadata">
+            <h3 class="title-s ui-thumbnail-name">Name that can easily go onto 2 lines</h3>
+            <h4 class="title-xs-alt ui-thumbnail-author">Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well</h4>
+          </div>
+        </a>
+        <ul class="ui-featured-entry-actions">
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-browse" href="/media_resources/191/browse" title="Erkunden">
+              Erkunden
+            </a>
+          </li>
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-edit" href="/media_resources/191/edit" title="Editieren">
+              Editieren
+            </a>
+          </li>
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-delete" href="#" title="Löschen">
+              Löschen
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="ui-featured-entries-item">
+        <a href="#" class="ui-featured-entry">
+          <%= image_tag "redesign/styleguide/media-entry-7.jpeg" %>
+          <div class="ui-featured-entry-metadata">
+            <h3 class="title-s ui-thumbnail-name">Name that can easily go onto 2 lines</h3>
+            <h4 class="title-xs-alt ui-thumbnail-author">Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well</h4>
+          </div>
+        </a>
+        <ul class="ui-featured-entry-actions">
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-browse" href="/media_resources/191/browse" title="Erkunden">
+              Erkunden
+            </a>
+          </li>
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-edit" href="/media_resources/191/edit" title="Editieren">
+              Editieren
+            </a>
+          </li>
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-delete" href="#" title="Löschen">
+              Löschen
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="ui-featured-entries-item">
+        <a href="#" class="ui-featured-entry">
+          <%= image_tag "redesign/styleguide/media-entry-8.jpeg" %>
+          <div class="ui-featured-entry-metadata">
+            <h3 class="title-s ui-thumbnail-name">Name that can easily go onto 2 lines</h3>
+            <h4 class="title-xs-alt ui-thumbnail-author">Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well</h4>
+          </div>
+        </a>
+        <ul class="ui-featured-entry-actions">
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-browse" href="/media_resources/191/browse" title="Erkunden">
+              Erkunden
+            </a>
+          </li>
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-edit" href="/media_resources/191/edit" title="Editieren">
+              Editieren
+            </a>
+          </li>
+          <li class="ui-featured-entry-action">
+            <a class="ui-featured-action-delete" href="#" title="Löschen">
+              Löschen
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+<% end %>
+
+<% kss_block '7.11' do %>
+  <div class="ui-home-claim ui-container">
+    <div class="col2of3">
+      <div class="pitch-claim">
+        <h1 class="title-xxl">Bilder, Fotos, Videos und Audio-Dateien</h1>
+        <h2 class="title-l">Das Medienarchiv ist ein Werkzeug zum gemeinschaftlichen arbeiten mit Medien und zum Teilen von Inhalten.</h2>
+      </div>
+    </div>
+    <div class="col1of3">
+      <div class="pitch-login">
+        <ul class="ui-tabs ui-container">
+          <li class="ui-tabs-item active left">
+            <a href="#zhdk-user" data-toggle="tab">ZHdK-Login</a>
+          </li>
+          <li class="ui-tabs-item right">
+            <a href="#external-user" data-toggle="tab">Externe Benutzer</a>
+          </li>
+        </ul>
+        <div class="tab-content pitch-login-tab">
+          <div id="zhdk-user" class="tab-pane active">
+            <p>Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est uVivamus hendrerit arcu sed erat molestie vehicula. Sed au.</p>
+          </div>
+          <div id="external-user" class="tab-pane">
+            <form>
+              <div class="form-body">
+                <div class="ui-form-group rowed compact">
+                  <input type="text" placeholder="Benutzername" class="block large">
+                </div>
+                <div class="ui-form-group rowed compact">
+                  <input type="password" placeholder="Passwort" class="block large">
+                </div>
+                <div class="ui-form-group rowed compact">
+                  <button class="primary-button block large">Anmelden</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% kss_block '7.12' do %>
+  <div class="ui-rights-management">
+    <h3 class="title-l mbs">Ich</h3>
+    <div class="ui-rights-body">
+      <table class="ui-rights-group bordered block">
+        <thead>
+          <tr>
+            <td class="ui-rights-user-title">User</td>
+            <td class="ui-rights-owner-title">Eigentümer/in</td>
+            <td class="ui-rights-role-title">Berechtigung</td>
+            <td class="ui-rights-check-title">Betrachten</td>
+            <td class="ui-rights-check-title">Download Original</td>
+            <td class="ui-rights-check-title">Editieren</td>
+            <td class="ui-rights-check-title">Berechtigung verwalten</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="ui-rights-user">Interactive Things</td>
+            <td class="ui-rights-owner"><input type="radio" disabled="disabled" checked="checked"></td>
+            <td class="ui-rights-role">Eigentumer/in</td>
+            <td class="ui-rights-check"><input type="checkbox" checked="checked" disabled="disabled"></td>
+            <td class="ui-rights-check"><input type="checkbox" checked="checked" disabled="disabled"></td>
+            <td class="ui-rights-check"><input type="checkbox" checked="checked" disabled="disabled"></td>
+            <td class="ui-rights-check"><input type="checkbox" checked="checked" disabled="disabled"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="ui-rights-body">
+      <table class="ui-rights-group bordered">
+        <caption>Gruppen <i class="icon-privacy-group"></i></caption>
+        <tbody>
+          <tr>
+            <td class="ui-rights-user">Interactive Things</td>
+            <td class="ui-rights-owner"></td>
+            <td class="ui-rights-role">
+              <select class="ui-rights-role-select">
+                <option>Bevollmachtigte/r</option>
+                <option>Betrachter/in</option>
+                <option>Betrachter/in &amp; Original</option>
+                <option>Gesperrt</option>
+                <option>Redakteur/in</option>
+              </select>
+            </td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+          </tr>
+          <tr>
+            <td class="ui-rights-user">Interactive Things 2</td>
+            <td class="ui-rights-owner"></td>
+            <td class="ui-rights-role">
+              <select class="ui-rights-role-select">
+                <option>Bevollmachtigte/r</option>
+                <option>Betrachter/in</option>
+                <option>Betrachter/in &amp; Original</option>
+                <option>Gesperrt</option>
+                <option>Redakteur/in</option>
+              </select>
+            </td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+          </tr>
+        </tbody>
+      </table>
+      <a href="#" class="button small"><i class="icon-plus"></i> Gruppe hinzufugen</a>
+    </div>
+    <h3 class="title-l mbs">Andere</h3>
+    <div class="ui-rights-body">
+      <table class="ui-rights-group bordered">
+        <caption>Personen <i class="icon-privacy-private-alt"></i></caption>
+        <tbody>
+          <tr>
+            <td class="ui-rights-user"><a href="#" class="button small ui-rights-remove" title="Remove">&#215;</a> Interactive Things</td>
+            <td class="ui-rights-owner"><input type="radio"></td>
+            <td class="ui-rights-role">
+              <select class="ui-rights-role-select">
+                <option>Bevollmachtigte/r</option>
+                <option>Betrachter/in</option>
+                <option>Betrachter/in &amp; Original</option>
+                <option>Gesperrt</option>
+                <option>Redakteur/in</option>
+              </select>
+            </td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+          </tr>
+          <tr>
+            <td class="ui-rights-user"><a href="#" class="button small ui-rights-remove" title="Remove">&#215;</a> Interactive Things 2</td>
+            <td class="ui-rights-owner"><input type="radio"></td>
+            <td class="ui-rights-role">
+              <select class="ui-rights-role-select">
+                <option>Bevollmachtigte/r</option>
+                <option>Betrachter/in</option>
+                <option>Betrachter/in &amp; Original</option>
+                <option>Gesperrt</option>
+                <option>Redakteur/in</option>
+              </select>
+            </td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+          </tr>
+        </tbody>
+      </table>
+      <a href="#" class="button small"><i class="icon-plus"></i> Person hinzufugen</a>
+    </div>
+    <div class="ui-rights-body">
+      <table class="ui-rights-group bordered">
+        <caption>Gruppen <i class="icon-privacy-group-alt"></i></caption>
+        <tbody>
+          <tr>
+            <td class="ui-rights-user">Interactive Things</td>
+            <td class="ui-rights-owner"></td>
+            <td class="ui-rights-role">
+              <select class="ui-rights-role-select">
+                <option>Bevollmachtigte/r</option>
+                <option>Betrachter/in</option>
+                <option>Betrachter/in &amp; Original</option>
+                <option>Gesperrt</option>
+                <option>Redakteur/in</option>
+              </select>
+            </td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+          </tr>
+          <tr>
+            <td class="ui-rights-user">Interactive Things 2</td>
+            <td class="ui-rights-owner"></td>
+            <td class="ui-rights-role">
+              <select class="ui-rights-role-select">
+                <option>Bevollmachtigte/r</option>
+                <option>Betrachter/in</option>
+                <option>Betrachter/in &amp; Original</option>
+                <option>Gesperrt</option>
+                <option>Redakteur/in</option>
+              </select>
+            </td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+          </tr>
+        </tbody>
+      </table>
+      <a href="#" class="button small"><i class="icon-plus"></i> Gruppe hinzufugen</a>
+    </div>
+    <div class="ui-rights-body">
+      <table class="ui-rights-group bordered">
+        <caption>Öffentlichkeit <i class="icon-privacy-open"></i></caption>
+        <tbody>
+          <tr>
+            <td class="ui-rights-user">Öffentlichkeit</td>
+            <td class="ui-rights-owner"></td>
+            <td class="ui-rights-role">
+              <select class="ui-rights-role-select">
+                <option>Bevollmachtigte/r</option>
+                <option>Betrachter/in</option>
+                <option>Betrachter/in &amp; Original</option>
+                <option>Gesperrt</option>
+                <option>Redakteur/in</option>
+              </select>
+            </td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+            <td class="ui-rights-check"><input type="checkbox" ></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>
+
+<% kss_block '7.14' do %>
+  <table class="ui-workgroups bordered block">
+    <thead>
+      <tr>
+        <td class="ui-workgroup-name-title">Arbeitsgrupp</td>
+        <td class="ui-workgroup-items-title">Inhalte</td>
+        <td class="ui-workgroup-actions-title">Aktionen</td>
+      </tr>
+    </thead>
     <tbody>
       <tr>
-        <td class="ui-summary-label">Titel</td>
-        <td class="ui-summary-content title-l">Black hot drink</td>
+        <td class="ui-workgroup-name">Interactive Things</td>
+        <td class="ui-workgroup-items">
+          <a href="#">
+            54243
+          </a>
+        </td>
+        <td class="ui-workgroup-actions">
+          <a class="button small" data-toggle="modal" href="#workgroup-delete" title="Delete">
+            <i class="icon-trash"></i>
+          </a>
+          <a class="button small" data-toggle="modal" href="#workgroup-edit" title="Edit">
+            <i class="icon-pen"></i>
+          </a>
+        </td>
       </tr>
       <tr>
-        <td class="ui-summary-label">Beschreibung</td>
-        <td class="ui-summary-content">Die Medieneintr&auml;ge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden k&ouml;nnen. Die Medieneintr&auml;ge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden k&ouml;nnen. Die Medieneintr&auml;ge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden k&ouml;nnen. Die Medieneintr&auml;ge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden k&ouml;nnen.</td>
+        <td class="ui-workgroup-name">Interactive Things 2</td>
+        <td class="ui-workgroup-items">
+          <a href="#">
+            54243
+          </a>
+        </td>
+        <td class="ui-workgroup-actions">
+          <a class="button small" data-toggle="modal" href="#workgroup-delete" title="Delete">
+            <i class="icon-trash"></i>
+          </a>
+          <a class="button small" data-toggle="modal" href="#workgroup-edit" title="Edit">
+            <i class="icon-pen"></i>
+          </a>
+        </td>
       </tr>
       <tr>
-        <td class="ui-summary-label">Autor/in</td>
-        <td class="ui-summary-content"><a href="#">Federico C.</a></td>
-      </tr>
-      <tr>
-        <td class="ui-summary-label">Eigentumer/in</td>
-        <td class="ui-summary-content"><a href="#">Federico C.</a></td>
-      </tr>
-      <tr>
-        <td class="ui-summary-label">Schlagworte</td>
-        <td class="ui-summary-content">
-          <ul class="ui-tag-cloud small">
-            <li class="tag-button"><a href="#" class="">Tag 1</a></li>
-            <li class="tag-button"><a href="#">Tag 2</a></li>
-          </ul>
+        <td class="ui-workgroup-name">Interactive Things 3</td>
+        <td class="ui-workgroup-items">
+          <a href="#">
+            54243
+          </a>
+        </td>
+        <td class="ui-workgroup-actions">
+          <a class="button small" data-toggle="modal" href="#workgroup-delete" title="Delete">
+            <i class="icon-trash"></i>
+          </a>
+          <a class="button small" data-toggle="modal" href="#workgroup-edit" title="Edit">
+            <i class="icon-pen"></i>
+          </a>
         </td>
       </tr>
     </tbody>
   </table>
-</div>
 <% end %>
 
-<% kss_block '7.6', :padding_top => "50" do %>
-<div class="ui-container inverted-transparent clipboard-wrapper" >
-  <div class="clipboard-toggle inverted-transparent">
-    <a href="#" class="tertiary-button block small"><i class="icon-clipboard bright"></i> Zwischenablage (% Medientr&auml;ge) <i class="icon-arrow-down bright stand-alone"></i></a>
-  </div>
-  <div class="col4of6">
-
-  </div>
-  <div class="col2of6">
-    <div class="clipboard-actions">
-      <a href="#" class="primary-button block">Aktionen <i class="icon-arrow-down bright stand-alone"></i></a>
-      <a href="#" class="tertiary-button small block">Zwischenablage Leeren</a>
+<% kss_block '7.15' do %>
+  <div class="ui-modal narrow">
+    <div class="ui-modal-head">
+      <h3 class="title-l">ui-modal Title</h3>
+      <a class="modal-close ui-modal-close" aria-hidden="true" data-dismiss="modal" title="Close"></a>
+    </div>
+    <div class="ui-modal-body">
+      <p class="phl pvm by-center">Are you sure?</p>
+    </div>
+    <div class="ui-modal-footer">
+      <div class="ui-actions">
+        <a class="link weak">No</a>
+        <a class="primary-button">Yes</a>
+      </div>
     </div>
   </div>
-</div>
 <% end %>
 
-<% kss_block '7.7' do %>
-<div class="ui-media-overview ui-metadata-box">
-  <dl>
-    <dt class="media-data-title title-xs">Titel</dt>
-    <dd class="media-data-content title-l">Die Eismalerin</dd>
-
-    <dt class="media-data-title title-xs">Untertitel</dt>
-    <dd class="media-data-content">Installationsansicht</dd>
-
-    <dt class="media-data-title title-xs">Autor/in</dt>
-    <dd class="media-data-content">
-      <ul class="inline">
-        <li><a href="#">Stemmle, Janka</a></li>
-      </ul>
-    </dd>
-
-    <dt class="media-data-title title-xs">Datierrung</dt>
-    <dd class="media-data-content">2012</dd>
-
-    <dt class="media-data-title title-xs">Schlagworte zu Inhalt und Motiv</dt>
-    <dd class="media-data-content">
-      <ul class="ui-tag-cloud small">
-        <li class="tag-button"><a href="#">Tag 1</a></li>
-        <li class="tag-button"><a href="#">Tag 2</a></li>
-      </ul>
-    </dd>
-
-    <dt class="media-data-title title-xs">Rechte am geistigen Eigentum</dt>
-    <dd class="media-data-content">ZHdK DKM VMK</dd>
-
-    <dt class="media-data-title title-xs">Privacy</dt>
-    <dd class="media-data-content">This entry is public <i class="icon-privacy-open"></i></dd>
-
-    <dt class="media-data-title title-xs">Eigentumer/in im Medienarchiv</dt>
-    <dd class="media-data-content">
-      <ul class="inline">
-        <li><a href="#">Rüegger, Romy</a></li>
-      </ul>
-    </dd>
-  </dl>
-  <div class="ui-media-overview-preview">
-    <%= image_tag "redesign/styleguide/media-entry-1.png" %>
+<% kss_block '7.16' do %>
+  <div class="ui-resources-page">
+    <span class="ui-resources-page-counter">Page <strong>1</strong> of <strong>5</strong></span>
   </div>
-</div>
+  <div class="ui-resources-page">
+    <span class="ui-resources-page-counter">Page <strong>1</strong> of <strong>5</strong></span>
+  </div>
 <% end %>
 
-<% kss_block '7.7.1' do %>
-<div class="ui-collage">
-  <div class="ui-collage-row">
-    <a class="ui-collage-item">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-collage-item-image" %>
-        <div class="ui-collage-item-meta">
-          <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-          <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
-        </div>
-      </div>
-    </a>
-    <a class="ui-collage-item">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-1.png", :class => "ui-collage-item-image" %>
-        <div class="ui-collage-item-meta">
-          <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-          <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
-        </div>
-      </div>
-    </a>
-    <a class="ui-collage-item">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-2.png", :class => "ui-collage-item-image" %>
-        <div class="ui-collage-item-meta">
-          <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-          <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
-        </div>
-      </div>
-    </a>
-    <a class="ui-collage-item">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-collage-item-image" %>
-        <div class="ui-collage-item-meta">
-          <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-          <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
-        </div>
-      </div>
-    </a>
-    <a class="ui-collage-item">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-2.png", :class => "ui-collage-item-image" %>
-        <div class="ui-collage-item-meta">
-          <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-          <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
-        </div>
-      </div>
-    </a>
-  </div>
-  <div class="ui-collage-row">
-    <a class="ui-collage-item">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-5.jpeg", :class => "ui-collage-item-image" %>
-        <div class="ui-collage-item-meta">
-          <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-          <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
-        </div>
-      </div>
-    </a>
-    <a class="ui-collage-item">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-collage-item-image" %>
-        <div class="ui-collage-item-meta">
-          <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-          <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
-        </div>
-      </div>
-    </a>
-    <a class="ui-collage-item">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-collage-item-image" %>
-        <div class="ui-collage-item-meta">
-          <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-          <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
-        </div>
-      </div>
-    </a>
-    <a class="ui-collage-item">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-7.jpeg", :class => "ui-collage-item-image" %>
-        <div class="ui-collage-item-meta">
-          <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-          <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
-        </div>
-      </div>
-    </a>
-    <a class="ui-collage-item">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-collage-item-image" %>
-        <div class="ui-collage-item-meta">
-          <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-          <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
-        </div>
-      </div>
-    </a>
-  </div>
-</div>
-<% end %>
-
-<% kss_block '7.7.2' do %>
-<div class="ui-collage crooked">
-  <div class="ui-collage-row">
-    <div class="ui-collage-item odd">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-    <div class="ui-collage-item even">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-5.jpeg", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-    <div class="ui-collage-item odd">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-    <div class="ui-collage-item even">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-    <div class="ui-collage-item odd">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-7.jpeg", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-  </div>
-  <div class="ui-collage-row">
-    <div class="ui-collage-item odd">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-1.png", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-    <div class="ui-collage-item even">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-2.png", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-    <div class="ui-collage-item odd">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-3.jpeg", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-    <div class="ui-collage-item even">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-    <div class="ui-collage-item odd">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-  </div>
-  <div class="ui-collage-row">
-    <div class="ui-collage-item odd">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-    <div class="ui-collage-item even">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-7.jpeg", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-    <div class="ui-collage-item odd">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-    <div class="ui-collage-item even">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-    <div class="ui-collage-item odd">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-7.jpeg", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-  </div>
-  <div class="ui-collage-row">
-    <div class="ui-collage-item odd">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-1.png", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-    <div class="ui-collage-item even">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-3.jpeg", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-    <div class="ui-collage-item odd">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-    <div class="ui-collage-item even">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-3.jpeg", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-    <div class="ui-collage-item odd">
-      <div class="ui-collage-item-wrapper">
-        <%= image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-collage-item-image" %>
-      </div>
-    </div>
-  </div>
-</div>
-<% end %>
-
-<% kss_block '7.9.1', :padding_top => "150", :padding_bottom => "80" do %>
-<ul class="ui-resources-list tiles $modifier-class">
-
-  <li class="ui-resources-item">
-    <div class="ui-thumbnail media-catalog">
-      <div class="ui-thumbnail-privacy">
-        <i class="icon-privacy-open">This media is Public</i>
-      </div>
-      <a class="ui-thumbnail-image-wrapper">
-        <div class="ui-thumbnail-image-holder">
-          <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-image" %>
-        </div>
-      </a>
-      <div class="ui-thumbnail-meta">
-        <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines so lets try make it so shall we.</h3>
-        <p class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well so how about seeing how it works then?</p>
-        <span class="ui-thumbnail-meta-extension">500</span>
-      </div>
-    </div>
-  </li>
-
-  <li class="ui-resources-item">
-    <div class="ui-thumbnail media-set">
-      <div class="ui-thumbnail-level-up-items">
-        <h3 class="ui-thumbnail-level-notes">Set enthalt</h3>
-        <ul class="ui-thumbnail-level-items">
-          <li class="ui-thumbnail-level-item odd">
-            <a href="#" title="Set name" class="ui-level-image-wrapper">
-              <div class="ui-thumbnail-level-image-holder">
-                <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
-              </div>
-            </a>
-          </li>
-          <li class="ui-thumbnail-level-item even">
-            <a href="#" title="Set name" class="ui-level-image-wrapper">
-              <div class="ui-thumbnail-level-image-holder">
-                <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <span class="ui-thumbnail-level-notes">5 Inhalte</span>
-      </div>
-      <div class="ui-thumbnail-privacy">
-        <i class="icon-privacy-group">This media is shared with a group</i>
-      </div>
-      <a class="ui-thumbnail-image-wrapper">
-        <div class="ui-thumbnail-image-holder">
-          <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-image" %>
-        </div>
-      </a>
-      <div class="ui-thumbnail-meta">
-        <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
-        <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
-      </div>
-      <div class="ui-thumbnail-actions">
-        <ul class="left by-left">
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
-        </ul>
-        <ul class="right by-right">
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Select</a></li>
-        </ul>
-      </div>
-      <div class="ui-thumbnail-level-down-items">
-        <h3 class="ui-thumbnail-level-notes">Set enthalt</h3>
-        <ul class="ui-thumbnail-level-items">
-          <li class="ui-thumbnail-level-item odd">
-            <a href="#" title="Set name" class="ui-level-image-wrapper">
-              <div class="ui-thumbnail-level-image-holder">
-                <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
-              </div>
-            </a>
-          </li>
-          <li class="ui-thumbnail-level-item even">
-            <a href="#" title="Set name" class="ui-level-image-wrapper">
-              <div class="ui-thumbnail-level-image-holder">
-                <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <span class="ui-thumbnail-level-notes">5 Inhalte</span>
-      </div>
-    </div>
-  </li>
-
-  <li class="ui-resources-item">
-    <div class="ui-thumbnail filter-set">
-      <div class="ui-thumbnail-level-up-items">
-        <span class="ui-thumbnail-level-notes">Keine übergeordneten Sets</span>
-      </div>
-      <div class="ui-thumbnail-privacy">
-        <i class="icon-privacy-group">This media is shared with a group</i>
-      </div>
-      <a class="ui-thumbnail-image-wrapper">
-        <div class="ui-thumbnail-image-holder">
-          <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-image" %>
-        </div>
-      </a>
-      <div class="ui-thumbnail-meta">
-        <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
-        <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
-      </div>
-      <div class="ui-thumbnail-actions">
-        <ul class="left by-left">
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
-        </ul>
-        <ul class="right by-right">
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Select</a></li>
-        </ul>
-      </div>
-      <div class="ui-thumbnail-level-down-items">
-        <h3 class="ui-thumbnail-level-notes">Set enthalt</h3>
-        <ul class="ui-thumbnail-level-items">
-          <li class="ui-thumbnail-level-item odd">
-            <a href="#" title="Set name" class="ui-level-image-wrapper">
-              <div class="ui-thumbnail-level-image-holder">
-                <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
-              </div>
-            </a>
-          </li>
-          <li class="ui-thumbnail-level-item even">
-            <a href="#" title="Set name" class="ui-level-image-wrapper">
-              <div class="ui-thumbnail-level-image-holder">
-                <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <span class="ui-thumbnail-level-notes">5 Inhalte</span>
-      </div>
-    </div>
-  </li>
-
-  <li class="ui-resources-item">
-    <div class="ui-thumbnail media-entry video">
-      <div class="ui-thumbnail-privacy">
-        <i class="icon-privacy-private">This media is private</i>
-      </div>
-      <a class="ui-thumbnail-image-wrapper">
-        <div class="ui-thumbnail-image-holder">
-          <%= image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-thumbnail-image" %>
-        </div>
-      </a>
-      <div class="ui-thumbnail-meta">
-        <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
-        <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
-      </div>
-      <div class="ui-thumbnail-actions">
-        <ul class="left by-left">
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
-        </ul>
-        <ul class="right by-right">
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Select</a></li>
-        </ul>
-      </div>
-    </div>
-  </li>
-
-  <li class="ui-resources-item">
-    <div class="ui-thumbnail media-entry image">
-      <div class="ui-thumbnail-privacy">
-        <i class="icon-privacy-open">This media is Public</i>
-      </div>
-      <a class="ui-thumbnail-image-wrapper">
-        <div class="ui-thumbnail-image-holder"><%= image_tag "redesign/styleguide/media-entry-5.jpeg", :class => "ui-thumbnail-image" %></div>
-      </a>
-      <div class="ui-thumbnail-meta">
-        <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
-        <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
-      </div>
-      <div class="ui-thumbnail-actions">
-        <ul class="left by-left">
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
-        </ul>
-        <ul class="right by-right">
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Select</a></li>
-        </ul>
-      </div>
-    </div>
-  </li>
-
-</ul>
-<% end %>
-
-<% kss_block '7.9.2', :padding_top => "50", :padding_bottom => "50" do %>
-<ul class="ui-resources-list grid $modifier-class">
-
-  <li class="ui-resources-item">
-    <div class="ui-thumbnail media-catalog">
-      <div class="ui-thumbnail-privacy">
-        <i class="icon-privacy-open">This media is Public</i>
-      </div>
-      <a class="ui-thumbnail-image-wrapper">
-        <div class="ui-thumbnail-image-holder">
-          <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-image" %>
-        </div>
-      </a>
-      <div class="ui-thumbnail-meta">
-        <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines so lets try make it so shall we.</h3>
-        <p class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well so how about seeing how it works then?</p>
-        <span class="ui-thumbnail-meta-extension">500</span>
-      </div>
-    </div>
-  </li>
-
-  <li class="ui-resources-item">
-    <div class="ui-thumbnail media-set">
-      <div class="ui-thumbnail-level-up-items">
-        <h3 class="ui-thumbnail-level-notes">Set enthalt</h3>
-        <ul class="ui-thumbnail-level-items">
-          <li class="ui-thumbnail-level-item odd">
-            <a href="#" title="Set name" class="ui-level-image-wrapper">
-              <div class="ui-thumbnail-level-image-holder">
-                <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
-              </div>
-            </a>
-          </li>
-          <li class="ui-thumbnail-level-item even">
-            <a href="#" title="Set name" class="ui-level-image-wrapper">
-              <div class="ui-thumbnail-level-image-holder">
-                <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <span class="ui-thumbnail-level-notes">5 Inhalte</span>
-      </div>
-      <div class="ui-thumbnail-privacy">
-        <i class="icon-privacy-group">This media is shared with a group</i>
-      </div>
-      <a class="ui-thumbnail-image-wrapper">
-        <div class="ui-thumbnail-image-holder">
-          <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-image" %>
-        </div>
-      </a>
-      <div class="ui-thumbnail-meta">
-        <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
-        <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
-      </div>
-      <div class="ui-thumbnail-actions">
-        <ul class="left by-left">
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
-        </ul>
-        <ul class="right by-right">
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Select</a></li>
-        </ul>
-      </div>
-      <div class="ui-thumbnail-level-down-items">
-        <h3 class="ui-thumbnail-level-notes">Set enthalt</h3>
-        <ul class="ui-thumbnail-level-items">
-          <li class="ui-thumbnail-level-item odd">
-            <a href="#" title="Set name" class="ui-level-image-wrapper">
-              <div class="ui-thumbnail-level-image-holder">
-                <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
-              </div>
-            </a>
-          </li>
-          <li class="ui-thumbnail-level-item even">
-            <a href="#" title="Set name" class="ui-level-image-wrapper">
-              <div class="ui-thumbnail-level-image-holder">
-                <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <span class="ui-thumbnail-level-notes">5 Inhalte</span>
-      </div>
-    </div>
-  </li>
-
-  <li class="ui-resources-item">
-    <div class="ui-thumbnail filter-set">
-      <div class="ui-thumbnail-level-up-items">
-        <span class="ui-thumbnail-level-notes">Keine übergeordneten Sets</span>
-      </div>
-      <div class="ui-thumbnail-privacy">
-        <i class="icon-privacy-group">This media is shared with a group</i>
-      </div>
-      <a class="ui-thumbnail-image-wrapper">
-        <div class="ui-thumbnail-image-holder">
-          <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-image" %>
-        </div>
-      </a>
-      <div class="ui-thumbnail-meta">
-        <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
-        <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
-      </div>
-      <div class="ui-thumbnail-actions">
-        <ul class="left by-left">
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
-        </ul>
-        <ul class="right by-right">
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Select</a></li>
-        </ul>
-      </div>
-      <div class="ui-thumbnail-level-down-items">
-        <h3 class="ui-thumbnail-level-notes">Set enthalt</h3>
-        <ul class="ui-thumbnail-level-items">
-          <li class="ui-thumbnail-level-item odd">
-            <a href="#" title="Set name" class="ui-level-image-wrapper">
-              <div class="ui-thumbnail-level-image-holder">
-                <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
-              </div>
-            </a>
-          </li>
-          <li class="ui-thumbnail-level-item even">
-            <a href="#" title="Set name" class="ui-level-image-wrapper">
-              <div class="ui-thumbnail-level-image-holder">
-                <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <span class="ui-thumbnail-level-notes">5 Inhalte</span>
-      </div>
-    </div>
-  </li>
-
-  <li class="ui-resources-item">
-    <div class="ui-thumbnail media-entry video">
-      <div class="ui-thumbnail-privacy">
-        <i class="icon-privacy-private">This media is private</i>
-      </div>
-      <a class="ui-thumbnail-image-wrapper">
-        <div class="ui-thumbnail-image-holder">
-          <%= image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-thumbnail-image" %>
-        </div>
-      </a>
-      <div class="ui-thumbnail-meta">
-        <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
-        <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
-      </div>
-      <div class="ui-thumbnail-actions">
-        <ul class="left by-left">
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
-        </ul>
-        <ul class="right by-right">
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Select</a></li>
-        </ul>
-      </div>
-    </div>
-  </li>
-
-  <li class="ui-resources-item">
-    <div class="ui-thumbnail media-entry image">
-      <div class="ui-thumbnail-privacy">
-        <i class="icon-privacy-open">This media is Public</i>
-      </div>
-      <a class="ui-thumbnail-image-wrapper">
-        <div class="ui-thumbnail-image-holder"><%= image_tag "redesign/styleguide/media-entry-5.jpeg", :class => "ui-thumbnail-image" %></div>
-      </a>
-      <div class="ui-thumbnail-meta">
-        <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
-        <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
-      </div>
-      <div class="ui-thumbnail-actions">
-        <ul class="left by-left">
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
-        </ul>
-        <ul class="right by-right">
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Select</a></li>
-          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Select</a></li>
-        </ul>
-      </div>
-    </div>
-  </li>
-
-</ul>
-<% end %>
-
-<% kss_block '7.10' do %>
-<div class="ui-featured-entries">
-  <ul class="ui-featured-entries-list">
-    <li class="ui-featured-entries-item">
-      <a href="#" class="ui-featured-entry">
-        <div class="ui-featured-entry-preview">
-          <span>
-            <%= image_tag "redesign/styleguide/media-entry-6.jpeg" %>
-          </span>
-        </div>
-        <div class="ui-featured-entry-metadata">
-          <h3 class="title-s ui-thumbnail-name">Name that can easily go onto 2 lines</h3>
-          <h4 class="title-xs-alt ui-thumbnail-author">Author that can easily go onto 2 lines as asily go onto 2 lines as well</h4>
-        </div>
-      </a>
-    </li>
-    <li class="ui-featured-entries-item">
-      <a href="#" class="ui-featured-entry">
-        <div class="ui-featured-entry-preview">
-          <span>
-            <%= image_tag "redesign/styleguide/media-entry-7.jpeg" %>
-          </span>
-        </div>
-        <div class="ui-featured-entry-metadata">
-          <h3 class="title-s ui-thumbnail-name">Name that can easily go onto 2 lines</h3>
-          <h4 class="title-xs-alt ui-thumbnail-author">Author that can easily go onto 2 lines as well</h4>
-        </div>
-      </a>
-    </li>
-    <li class="ui-featured-entries-item">
-      <a href="#" class="ui-featured-entry">
-        <div class="ui-featured-entry-preview">
-          <span>
-            <%= image_tag "redesign/styleguide/media-entry-3.jpeg" %>
-          </span>
-        </div>
-        <div class="ui-featured-entry-metadata">
-          <h3 class="title-s ui-thumbnail-name">Name that can easily go onto 2 lines</h3>
-          <h4 class="title-xs-alt ui-thumbnail-author">Author that can easily go onto 2 lines as well</h4>
-        </div>
-      </a>
-    </li>
-    <li class="ui-featured-entries-item">
-      <a href="#" class="ui-featured-entry">
-        <div class="ui-featured-entry-preview">
-          <span>
-            <%= image_tag "redesign/styleguide/media-entry-6.jpeg" %>
-          </span>
-        </div>
-        <div class="ui-featured-entry-metadata">
-          <h3 class="title-s ui-thumbnail-name">Name that can easily go onto 2 lines</h3>
-          <h4 class="title-xs-alt ui-thumbnail-author">Author that can easily go onto 2 lines as well</h4>
-        </div>
-      </a>
-    </li>
-  </ul>
-</div>
-<% end %>
-
-<% kss_block '7.11' do %>
-<div class="ui-home-claim ui-container">
-  <div class="col2of3">
-    <div class="pitch-claim">
-      <h1 class="title-xxl">Bilder, Fotos, Videos und Audio-Dateien</h1>
-      <h2 class="title-l">Das Medienarchiv ist ein Werkzeug zum gemeinschaftlichen arbeiten mit Medien und zum Teilen von Inhalten.</h2>
-    </div>
-  </div>
-  <div class="col1of3">
-    <div class="pitch-login">
-      <ul class="ui-tabs ui-container">
-        <li class="ui-tabs-item active left">
-          <a href="#zhdk-user" data-toggle="tab">ZHdK-Login</a>
-        </li>
-        <li class="ui-tabs-item right">
-          <a href="#external-user" data-toggle="tab">Externe Benutzer</a>
-        </li>
-      </ul>
-      <div class="tab-content pitch-login-tab">
-        <div id="zhdk-user" class="tab-pane active">
-          <p>Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est uVivamus hendrerit arcu sed erat molestie vehicula. Sed au.</p>
-        </div>
-        <div id="external-user" class="tab-pane">
-          <form>
-            <div class="form-body">
-              <div class="form-group rowed">
-                <input type="text" placeholder="Benutzername" class="block large">
-              </div>
-              <div class="form-group rowed">
-                <input type="password" placeholder="Passwort" class="block large">
-              </div>
-              <div class="form-group rowed">
-                <button class="primary-button block large">Anmelden</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<% end %>
-
-<% kss_block '7.12' do %>
-<div class="ui-rights-management">
-  <h3 class="title-l mbs">Ich</h3>
-  <div class="ui-rights-body">
-    <table class="ui-rights-group bordered block">
+<% kss_block '7.17' do %>
+  <div class="ui-resources-table">
+    <table class="block">
       <thead>
-        <tr>
-          <td class="ui-rights-user-title">User</td>
-          <td class="ui-rights-owner-title">Eigentümer/in</td>
-          <td class="ui-rights-role-title">Berechtigung</td>
-          <td class="ui-rights-check-title">Betrachten</td>
-          <td class="ui-rights-check-title">Download Original</td>
-          <td class="ui-rights-check-title">Editieren</td>
-          <td class="ui-rights-check-title">Berechtigung verwalten</td>
+        <tr> 
+          <td>Auswahl</td>
+          <td></td>
+          <td>Title</td>
+          <td>Autor/in</td>
+          <td>Datierung</td>
+          <td>Schlagw...nd Motiv</td>
+          <td>Rechte</td>
+          <td>Eigentü...enarchiv</td>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="ui-rights-user">Interactive Things</td>
-          <td class="ui-rights-owner"><input type="radio" disabled="disabled" checked="checked"></td>
-          <td class="ui-rights-role">Eigentumer/in</td>
-          <td class="ui-rights-check"><input type="checkbox" checked="checked" disabled="disabled"></td>
-          <td class="ui-rights-check"><input type="checkbox" checked="checked" disabled="disabled"></td>
-          <td class="ui-rights-check"><input type="checkbox" checked="checked" disabled="disabled"></td>
-          <td class="ui-rights-check"><input type="checkbox" checked="checked" disabled="disabled"></td>
+          <td><input type="checkbox"></td>
+          <td><%= image_tag "redesign/styleguide/media-entry-1.png", :class => "ui-thumbnail micro", :alt => "ZHdK" %></td>
+          <td>File Title</td>
+          <td>Pinco Pallino</td>
+          <td>20.02.2010</td>
+          <td><ul class="inline"><li>tag 1</li><li>tag 2</li></ul></td>
+          <td>ZHdK</td>
+          <td>Pinco Pallino</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td><%= image_tag "redesign/styleguide/media-entry-2.png", :class => "ui-thumbnail micro", :alt => "ZHdK" %>
+          </td>
+          <td>File Title</td>
+          <td>Pinco Pallino</td>
+          <td>20.02.2010</td>
+          <td><ul class="inline"><li>tag 1</li><li>tag 2</li></ul></td>
+          <td>ZHdK</td>
+          <td>Pinco Pallino</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td><%= image_tag "redesign/styleguide/media-entry-3.jpeg", :class => "ui-thumbnail micro", :alt => "ZHdK" %></td>
+          <td>File Title</td>
+          <td>Pinco Pallino</td>
+          <td>20.02.2010</td>
+          <td><ul class="inline"><li>tag 1</li><li>tag 2</li></ul></td>
+          <td>ZHdK</td>
+          <td>Pinco Pallino</td>
         </tr>
       </tbody>
     </table>
   </div>
-  <div class="ui-rights-body">
-    <table class="ui-rights-group bordered">
-      <caption>Gruppen <i class="icon-privacy-group"></i></caption>
-      <tbody>
-        <tr>
-          <td class="ui-rights-user">Interactive Things</td>
-          <td class="ui-rights-owner"></td>
-          <td class="ui-rights-role">
-            <select>
-              <option>Bevollmachtigte/r</option>
-              <option>Betrachter/in</option>
-              <option>Betrachter/in &amp; Original</option>
-              <option>Gesperrt</option>
-              <option>Redakteur/in</option>
-            </select>
-          </td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-        </tr>
-        <tr>
-          <td class="ui-rights-user">Interactive Things 2</td>
-          <td class="ui-rights-owner"></td>
-          <td class="ui-rights-role">
-            <select>
-              <option>Bevollmachtigte/r</option>
-              <option>Betrachter/in</option>
-              <option>Betrachter/in &amp; Original</option>
-              <option>Gesperrt</option>
-              <option>Redakteur/in</option>
-            </select>
-          </td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-        </tr>
-      </tbody>
-    </table>
-    <a href="#" class="button small"><i class="icon-plus"></i> Gruppe hinzufugen</a>
-  </div>
-  <h3 class="title-l mbs">Andere</h3>
-  <div class="ui-rights-body">
-    <table class="ui-rights-group bordered">
-      <caption>Personen <i class="icon-privacy-private-alt"></i></caption>
-      <tbody>
-        <tr>
-          <td class="ui-rights-user"><a href="#" class="button small ui-rights-remove" title="Remove">&#215;</a> Interactive Things</td>
-          <td class="ui-rights-owner"><input type="radio"></td>
-          <td class="ui-rights-role">
-            <select>
-              <option>Bevollmachtigte/r</option>
-              <option>Betrachter/in</option>
-              <option>Betrachter/in &amp; Original</option>
-              <option>Gesperrt</option>
-              <option>Redakteur/in</option>
-            </select>
-          </td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-        </tr>
-        <tr>
-          <td class="ui-rights-user"><a href="#" class="button small ui-rights-remove" title="Remove">&#215;</a> Interactive Things 2</td>
-          <td class="ui-rights-owner"><input type="radio"></td>
-          <td class="ui-rights-role">
-            <select>
-              <option>Bevollmachtigte/r</option>
-              <option>Betrachter/in</option>
-              <option>Betrachter/in &amp; Original</option>
-              <option>Gesperrt</option>
-              <option>Redakteur/in</option>
-            </select>
-          </td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-        </tr>
-      </tbody>
-    </table>
-    <a href="#" class="button small"><i class="icon-plus"></i> Person hinzufugen</a>
-  </div>
-  <div class="ui-rights-body">
-    <table class="ui-rights-group bordered">
-      <caption>Gruppen <i class="icon-privacy-group-alt"></i></caption>
-      <tbody>
-        <tr>
-          <td class="ui-rights-user">Interactive Things</td>
-          <td class="ui-rights-owner"></td>
-          <td class="ui-rights-role">
-            <select>
-              <option>Bevollmachtigte/r</option>
-              <option>Betrachter/in</option>
-              <option>Betrachter/in &amp; Original</option>
-              <option>Gesperrt</option>
-              <option>Redakteur/in</option>
-            </select>
-          </td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-        </tr>
-        <tr>
-          <td class="ui-rights-user">Interactive Things 2</td>
-          <td class="ui-rights-owner"></td>
-          <td class="ui-rights-role">
-            <select>
-              <option>Bevollmachtigte/r</option>
-              <option>Betrachter/in</option>
-              <option>Betrachter/in &amp; Original</option>
-              <option>Gesperrt</option>
-              <option>Redakteur/in</option>
-            </select>
-          </td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-        </tr>
-      </tbody>
-    </table>
-    <a href="#" class="button small"><i class="icon-plus"></i> Gruppe hinzufugen</a>
-  </div>
-  <div class="ui-rights-body">
-    <table class="ui-rights-group bordered">
-      <caption>Öffentlichkeit <i class="icon-privacy-open"></i></caption>
-      <tbody>
-        <tr>
-          <td class="ui-rights-user">Öffentlichkeit</td>
-          <td class="ui-rights-owner"></td>
-          <td class="ui-rights-role">
-            <select>
-              <option>Bevollmachtigte/r</option>
-              <option>Betrachter/in</option>
-              <option>Betrachter/in &amp; Original</option>
-              <option>Gesperrt</option>
-              <option>Redakteur/in</option>
-            </select>
-          </td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-          <td class="ui-rights-check"><input type="checkbox" ></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
 <% end %>
 
-<% kss_block '7.14' do %>
-<table class="ui-workgroups bordered block">
-  <thead>
-    <tr>
-      <td class="ui-workgroup-name-title">Arbeitsgrupp</td>
-      <td class="ui-workgroup-items-title">Inhalte</td>
-      <td class="ui-workgroup-actions-title">Aktionen</td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="ui-workgroup-name">Interactive Things</td>
-      <td class="ui-workgroup-items">
-        <a href="#">
-          54243
-        </a>
-      </td>
-      <td class="ui-workgroup-actions">
-        <a class="button small" data-toggle="modal" href="#workgroup-delete" title="Delete">
-          <i class="icon-trash"></i>
-        </a>
-        <a class="button small" data-toggle="modal" href="#workgroup-edit" title="Edit">
-          <i class="icon-pen"></i>
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td class="ui-workgroup-name">Interactive Things 2</td>
-      <td class="ui-workgroup-items">
-        <a href="#">
-          54243
-        </a>
-      </td>
-      <td class="ui-workgroup-actions">
-        <a class="button small" data-toggle="modal" href="#workgroup-delete" title="Delete">
-          <i class="icon-trash"></i>
-        </a>
-        <a class="button small" data-toggle="modal" href="#workgroup-edit" title="Edit">
-          <i class="icon-pen"></i>
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td class="ui-workgroup-name">Interactive Things 3</td>
-      <td class="ui-workgroup-items">
-        <a href="#">
-          54243
-        </a>
-      </td>
-      <td class="ui-workgroup-actions">
-        <a class="button small" data-toggle="modal" href="#workgroup-delete" title="Delete">
-          <i class="icon-trash"></i>
-        </a>
-        <a class="button small" data-toggle="modal" href="#workgroup-edit" title="Edit">
-          <i class="icon-pen"></i>
-        </a>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<% kss_block '7.18' do %>
+  <div class="ui-side-filter" id="ui-side-filter">
+      <div class="ui-side-filter-search" id="ui-side-filter-search">
+          <input class="block ui-filter-search-input" type="text" placeholder="Eingrenzen mit Suchwort">
+      </div>
+      <div class="ui-side-filter-list">
+          <ul>
+              <li class="ui-side-filter-lvl1-item ui-side-filter-item has-active" data-filter-type="media_files">
+                  <a class="strong ui-accordion-toggle open">Datei</a>
+                  <ul class="ui-side-filter-lvl2 ui-accordion-body open">
+                      <li class="ui-side-filter-lvl2-item has-active" data-key-name="media_type">
+                          <a class="ui-accordion-toggle weak open">Medientyp</a>
+                          <ul class="ui-side-filter-lvl3 ui-accordion-body open">
+                              <li class="ui-side-filter-lvl3-item active" data-value="document">
+                                  <a class="weak">document <span class="ui-lvl3-item-count">1</span></a>
+                              </li>
+                          </ul>
+                      </li>
+                      <li class="ui-side-filter-lvl2-item" data-key-name="extension">
+                          <a class="ui-accordion-toggle weak open">Dokumenttyp</a>
+                          <ul class="ui-side-filter-lvl3 ui-accordion-body open">
+                              <li class="ui-side-filter-lvl3-item" data-value="pdf">
+                                  <a class="weak">pdf <span class="ui-lvl3-item-count">1</span></a>
+                              </li>
+                          </ul>
+                      </li>
+                  </ul>
+              </li>
+              <li class="ui-side-filter-lvl1-item ui-side-filter-item" data-filter-type="permissions">
+                  <a class="strong ui-accordion-toggle open">Berechtigung</a>
+                  <ul class="ui-side-filter-lvl2 ui-accordion-body open">
+                      <li class="ui-side-filter-lvl2-item" data-key-name="owner">
+                          <a class="ui-accordion-toggle weak open">Eigentümer/in</a>
+                          <ul class="ui-side-filter-lvl3 ui-accordion-body open">
+                              <li class="ui-side-filter-lvl3-item" data-value="1">
+                                  <a class="weak">Admin, Adam <span class="ui-lvl3-item-count">1</span></a>
+                              </li>
+                          </ul>
+                      </li>
+                      <li class="ui-side-filter-lvl2-item" data-key-name="scope">
+                          <a class="ui-accordion-toggle weak open">Zugriff</a>
+                          <ul class="ui-side-filter-lvl3 ui-accordion-body open">
+                              <li class="ui-side-filter-lvl3-item" data-value="mine">
+                                  <a class="weak">Meine Inhalte <span class="ui-lvl3-item-count">1</span></a>
+                              </li>
+                          </ul>
+                      </li>
+                  </ul>
+              </li>
+              <li class="ui-side-filter-lvl1-item ui-side-filter-item" data-filter-type="meta_data">
+                  <a class="strong ui-accordion-toggle open">Werk</a>
+                  <ul class="ui-side-filter-lvl2 ui-accordion-body open">
+                      <li class="ui-side-filter-lvl2-item" data-key-name="keywords">
+                          <a class="ui-accordion-toggle weak">Schlagworte zu Inhalt und Motiv</a>
+                          <ul class="ui-side-filter-lvl3 ui-accordion-body">
+                              <li class="ui-side-filter-lvl3-item" data-value="4601">
+                                  <a class="weak">My tag <span class="ui-lvl3-item-count">1</span></a>
+                              </li>
+                          </ul>
+                      </li>
+                      <li class="ui-side-filter-lvl2-item" data-key-name="type">
+                          <a class="ui-accordion-toggle weak">Gattung</a>
+                          <ul class="ui-side-filter-lvl3 ui-accordion-body">
+                              <li class="ui-side-filter-lvl3-item" data-value="76">
+                                  <a class="weak">Fotografie <span class="ui-lvl3-item-count">1</span></a>
+                              </li>
+                              <li class="ui-side-filter-lvl3-item" data-value="79">
+                                  <a class="weak">Kunst <span class="ui-lvl3-item-count">1</span></a>
+                              </li>
+                              <li class="ui-side-filter-lvl3-item" data-value="83">
+                                  <a class="weak">Musik <span class="ui-lvl3-item-count">1</span></a>
+                              </li>
+                          </ul>
+                      </li>
+                  </ul>
+              </li>
+          </ul>
+      </div>
+  </div>
+<% end %>
+
+<% kss_block '7.19' do %>
+  <div class="ui-search-form">
+    <form>
+      <div class="ui-search large mbm">
+        <input class="block ui-search-input" placeholder="Search term" type="text">
+        <button class="primary-button ui-search-button">Search</button>
+      </div>
+    </form>
+  </div>
 <% end %>

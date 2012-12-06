@@ -1,0 +1,23 @@
+/**
+ * ## Filterbar `.ui-filterbar`
+ *
+ * Styleguide 7.2
+ */
+
+.ui-filterbar { 
+  margin: $space-m $space-m -20px;
+  padding-bottom: $space-m;
+}
+
+.ui-filterbar a:hover {
+  text-decoration: none;
+}
+
+.ui-filterbar-select { 
+  position: relative;
+  top: $space-x;
+  .icon-checkbox { 
+    position: relative;
+    top: 2px;
+  }
+}

@@ -20,7 +20,11 @@ module Json
         
         ## WITH COUNT
         if with[:count]
-          h[:count] = Keyword.where(:meta_term_id => keyword.meta_term_id).count
+          h[:count] = if keyword.respond_to? :count
+            keyword.count
+          else
+            Keyword.where(:meta_term_id => keyword.meta_term_id).count
+          end  
         end
       end
       

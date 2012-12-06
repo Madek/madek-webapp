@@ -100,6 +100,12 @@ class MediaResource < ActiveRecord::Base
     ft.update_attributes(:text => new_text)
   end
 
+########################################################
+
+  def has_location?
+    not (media_file.meta_data["GPS:GPSLatitude"].blank? or media_file.meta_data["GPS:GPSLongitude"].blank?)
+  end
+
 ##########################################################################################################################
 ##########################################################################################################################
    

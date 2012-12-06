@@ -1,0 +1,15 @@
+%h3.title-l.separated.mbl Aktivitaten
+%dl.media-data
+  %dt.media-data-title.title-xs Hochgeladen von
+  %dd.media-data-content= link_to(@media_entry.user, media_resources_path(:search => @media_entry.user.fullname))
+  %dt.media-data-title.title-xs Hochgeladen am
+  %dd.media-data-content= _("%s Uhr") % @media_entry.created_at.to_formatted_s(:date_time)
+
+  - if @edit_sessions.any?
+    %dt.media-data-title.title-xs Letzte Aktualisierung
+    %dd.media-data-content
+      - @edit_sessions.each do |edit_session|
+        %p
+          = edit_session.user
+          = "/"
+          = _("%s Uhr") % edit_session.created_at.to_formatted_s(:date_time)

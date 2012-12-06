@@ -1,0 +1,27 @@
+.ui-export-block
+
+  .col1of2
+    %p Das gezippte Verzeichnis enthält die Datei mit eingeschriebenen, aktuellen Metadaten sowie einem separaten XML Metadatendokument
+
+  .col1of2.by-right
+
+    .dropdown.ui-dropdown.stick-right
+      %a.button.dropdown-toggle.ui-drop-toggle{:"data-toggle" => "dropdown"}
+        Zip mit seperaten Metadaten
+        %i.icon-arrow-down
+
+      %ul.dropdown-menu.ui-drop-menu.absolute{"aria-labelledby" => "dLabel", :role => "menu"}
+        
+        - if @can_download
+          %li.ui-drop-item.by-right
+            %a{:href => "/download?id=#{@media_entry.id}&zip=1"}
+              = number_to_human_size(@original_file.size)
+              = "(#{dimensions_for(@original_file)})" if dimensions_for(@original_file)
+              %strong zip
+
+        - if @x_large_file
+          %li.ui-drop-item.by-right
+            %a{:href => "/download?id=#{@media_entry.id}&zip=1&size=x_large"}
+              = number_to_human_size(@x_large_file.size)
+              = "(#{dimensions_for(@x_large_file)})" if dimensions_for(@x_large_file)
+              %strong zip

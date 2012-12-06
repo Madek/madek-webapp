@@ -1,4 +1,6 @@
-// BODY RULES
+/**
+ * BODY
+ ----------------------------------------- */
 
 html,
 body {
@@ -12,7 +14,9 @@ body {
   position: relative;
 }
 
-// FOOTER
+/**
+ * FOOTER
+ ----------------------------------------- */
 
 @include sticky-footer(50px, ".app", ".app-footer-push", ".app-footer");
 
@@ -20,17 +24,23 @@ body {
   height: 30px;
 }
 
-// CLIPBOARD
+/**
+ * CLIPBOARD
+ ----------------------------------------- */
 
 .app-clipboard {
   -webkit-backface-visibility: hidden; /* webkit flicker work-around */
   @include position-bottom-left(0,0);
   @include position-bottom-right(0,0);
   position: fixed;
+  z-index: 2000;
 }
 
-// HOME PAGE VIEW
+/**
+ * HOME PAGE
+ ----------------------------------------- */
 
+// Positioning claim+login box
 .view-home .ui-home-claim {
   @include dimension(940px,220px);
   @include position-top-right(50%,50%);
@@ -38,56 +48,48 @@ body {
   margin: -130px -490px;
   z-index: 50;
 }
+
+// Adding some extra space above the footer
 .view-home .app-body {
   padding: 0 0 120px 0;
 }
+
+// Limiting home page's container to 980px
 .view-home .app-body-ui-container {
   margin: 0 auto;
   position: relative;
   width: 980px;
+
+  // Positioning tab navigation over the collage
   .ui-header-menu {
     bottom: 100%;
   }
+
+  // Tweaking shadows of the tab-nav buttons
   .ui-header-menu .ui-tabs-item {
     @include box-shadow(0 -2px 2px $darken-more);
   }
-  .ui-resources-wrapper {
-    position: relative;
-    left: 5px;
+
+  // Adjusting display of resources
+  .ui-resources-holder { 
+    margin: 0;
+    padding: $space-l 0;
   }
-  .ui-resources-item {
-    margin: 0 0 0 -2pxx;
-    .ui-thumbnail.media-entry,
-    .ui-thumbnail.media-set {
-      width: 135px;
-    }
-    .ui-thumbnail.media-catalog {
-      margin-left: -14px;
-    }
+  .ui-resources { 
+    margin: 0 -20px;
+    padding: 0;
   }
-}
-
-// MEDIA ENTRY VIEW
-
-.view-media-entry .tab-pane > div:first-child {
-  @include border-top-right-radius($border-radius-m);
-}
-
-// MEDIA SET VIEW
-
-.ui-summary-table {
-  max-width: 1200px;
-}
-
-// MEDIA ENTRY EDIT VIEW
-
-.view-media-entry-edit {
-  .media-entry-edit-preview {
-    margin: -10px $space-l 0 -10px;
+  .ui-resource { 
+    margin-right: -$space-x;
+  }
+  .ui-resource .media-catalog { 
+    margin-right: $space-s; // work-around .ui-resource's negative margin
   }
 }
 
-// Bootstrap
+/**
+ * BOOTSTRAP STUFF (to revise later and see if still needed)
+ ----------------------------------------- */
 
 .fade {
   opacity: 0;

@@ -1,0 +1,199 @@
+/**
+ * ## Side filter `.ui-side-filter`
+ *
+ * Styleguide 7.18
+ */
+
+/* Class naming convention:
+ *
+ * ui-side-filter-lvl1 - top level filter
+ * ui-side-filter-lvl2 - second level filter
+ * ui-side-filter-lvl3 - third level filter
+ *
+ */
+
+.ui-side-filter {
+  @include box-shadow(1px 0 0 $brightest);
+  @include micro-clearfix;
+  border-right: 1px solid $grey-mid-light;
+  margin: 35px 20px 0 -20px;
+  min-width: 200px;
+  padding-right: $space-m;
+  position: relative;
+}
+.ui-side-filter li {
+  clear: both;
+  list-style: none;
+}
+.ui-side-filter a { 
+  @include border-radius($border-radius-m);
+  display: block;
+  line-height: 1.5;
+  margin-left: -5px;
+  margin-right: -5px;
+  padding: $space-x;
+  position: relative;
+}
+
+/**
+ * Search component
+ ----------------------------------------- */
+
+.ui-side-filter-search { 
+  @include box-shadow(0 1px 0 $lighten-more);
+  border-bottom: 1px solid $grey-mid-light;
+  margin-bottom: $space-s;
+  padding-bottom: $space-x;
+}
+
+/**
+ * Box model
+ ----------------------------------------- */
+
+// 1st Level
+
+.ui-side-filter-item { 
+  padding: $space-s 0;
+  &:first-child { 
+    padding-top: 0;
+  }
+}
+
+// 2nd Level
+
+.ui-side-filter-lvl2-item > a {
+  font-size: $font-s;
+  font-weight: 600;
+  padding-left: $space-m;
+}
+
+// 3rd Level
+
+.ui-side-filter-lvl3-item {
+  padding-left: 18px;
+  &:first-child {
+    padding-top: $space-x;
+  }
+  &:last-child {
+    padding-bottom: $space-x;
+  }
+  .ui-lvl3-item-count { 
+    @include border-radius(50px);
+    @include min-dimension(12px,auto);
+    @include position-top-right(2px,0);
+    color: $grey-mid;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+    padding: $space-x;
+    text-align: center;
+  }
+}
+.ui-side-filter-lvl3-item > a { 
+  font-size: $font-xs;
+  font-weight: 600;
+  padding-right: 30px;
+}
+.ui-side-filter-lvl3-item.unknown {
+  color: $grey-mid; 
+  font-style: italic;
+}
+
+.ui-side-filter-item {
+  @include box-shadow(0 1px 0 $lighten-more);
+  border-bottom: 1px solid $grey-mid-light;
+  &:last-child {
+    @include box-shadow(0 0 0 $brightest);
+    border-bottom: none;
+  }
+}
+
+/**
+ * Toggle
+ ----------------------------------------- */
+
+.ui-accordion-body {
+  &>.ui-side-filter-lvl3-item:not(.active),
+  &>.ui-side-filter-lvl2-item:not(.has-active) {
+    display: none;
+  }
+}
+
+.ui-accordion-body.open {
+  &>.ui-side-filter-lvl3-item,
+  &>.ui-side-filter-lvl2-item {
+    display: block;
+  }
+}
+
+/**
+ * Arrow icons
+ ----------------------------------------- */
+
+// Level 1
+
+.ui-side-filter-lvl1-marker {
+  @extend .icon-arrow-down;
+  @extend .green;
+  @include position-top-right(3px, 0)
+}
+.open > .ui-side-filter-lvl1-marker {
+  @extend .icon-arrow-up;
+}
+
+// Level 2
+
+.ui-side-filter-lvl2-marker { 
+  @extend .icon-arrow-right;
+  @extend .mid;
+  @extend .small;
+  @include position-top-left(7px,3px);
+}
+.open > .ui-side-filter-lvl2-marker { 
+  @extend .icon-arrow-down;
+}
+
+/**
+ * Hover and Active states
+ ----------------------------------------- */
+
+.ui-side-filter a {
+  &:hover {
+    background: $lighten-more;
+    text-decoration: none;
+  }
+  &:active {
+    background: $darken-subtle;
+    @include box-shadow(inset 0 1px 2px $darken);
+  }
+}
+.ui-side-filter-lvl3-item.active > a {
+  @include box-shadow(inset 0 1px 2px $darken);
+  background: $darken-subtle;
+  .ui-lvl3-item-count { 
+    color: $grey-mid-dark;
+  }
+}
+
+/**
+ * List of Filter
+ ----------------------------------------- */
+
+.ui-side-filter-list {
+  position: relative;
+}
+
+/**
+ * Blocking Layer
+ ----------------------------------------- */
+
+.ui-side-filter #ui-side-filter-blocking-layer { 
+  background: $darken-less;
+  display: block;
+  height: 100%;
+  left: -($space-m/2);
+  position: absolute;
+  top: 0;
+  width: 110%;
+  @include border-radius($border-radius-m);
+}

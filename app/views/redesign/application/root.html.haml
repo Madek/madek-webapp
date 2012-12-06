@@ -1,35 +1,36 @@
 .app.view-home
 
-  = render "application/header/logged_out"
+  = render "application/header"
 
   .app-body
     
-    = render "application/collage"
+    = render "application/collage_crooked"
 
     .app-body-ui-container
 
       = render "application/navigation"
 
-      - if @catalog_set and not @catalog_set_categories.blank?
+      - if @catalog_set and not @catalog_set_categories.empty?
         = render :partial => "media_resources/wrapper", 
                  :locals => {:media_resources => @catalog_set_categories, 
+                             :catalog_set => @catalog_set,
                              :title => @catalog_set.title, 
-                             :link => "/explore/media_resources",
+                             :link => explore_categories_path(@catalog_set.id),
                              :as_categories => true}
         %hr.separator
       
-      - if @featured_set and not @featured_set_children.blank?
+      - if @featured_set and not @featured_set_children.empty?
         = render :partial => "media_resources/wrapper", 
                  :locals => {:media_resources => @featured_set_children, 
                              :title => @featured_set.title,
-                             :link => "/explore/media_resources"}
+                             :link => media_resource_path(@featured_set)}
         %hr.separator
 
-      - unless @latest_media_entries.blank?
+      - unless @latest_media_entries.empty?
         = render :partial => "media_resources/wrapper", 
                  :locals => {:media_resources => @latest_media_entries, 
                              :title => "Neue Inhalte",
-                             :link => "/explore/media_resources"}
+                             :link => media_resources_path(:type => :media_entries)}
 
   .app-footer-push
 = render "application/footer"

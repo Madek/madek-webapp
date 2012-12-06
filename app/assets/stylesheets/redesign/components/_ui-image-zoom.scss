@@ -1,0 +1,23 @@
+.ui-image-zoom-table {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+
+.ui-image-zoom-content {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.ui-image-zoom-images {
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+
+  img {
+    height: auto;
+    margin: 0 auto;
+    width: 100%;
+  }
+}

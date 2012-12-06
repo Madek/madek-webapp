@@ -1,0 +1,27 @@
+.ui-export-block
+
+  .col1of2
+    %p Originaldatei mit gleichen Metadaten wie beim Hochladen ins Medienarchiv
+
+  .col1of2.by-right
+
+    .dropdown.ui-dropdown.stick-right
+      %a.button.dropdown-toggle.ui-drop-toggle{:"data-toggle" => "dropdown"}
+        Datei mit ursprünglichen Metadaten
+        %i.icon-arrow-down
+
+      %ul.dropdown-menu.ui-drop-menu.absolute{"aria-labelledby" => "dLabel", :role => "menu"}
+        
+        - if @can_download
+          %li.ui-drop-item.by-right
+            %a{:href => "/download?id=#{@media_entry.id}"}
+              = number_to_human_size(@original_file.size)
+              = "(#{dimensions_for(@original_file)})" if dimensions_for(@original_file)
+              %strong= @format_original_file
+
+        - if @x_large_file
+          %li.ui-drop-item.by-right
+            %a{:href => "/download?id=#{@media_entry.id}&size=x_large"}
+              = number_to_human_size(@x_large_file.size)
+              = "(#{dimensions_for(@x_large_file)})" if dimensions_for(@x_large_file)
+              %strong= @format_original_file

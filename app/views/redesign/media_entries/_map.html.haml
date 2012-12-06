@@ -1,0 +1,24 @@
+.bright.ui-container.pal.rounded-bottom
+
+  #ui-map-canvas.ui-map
+
+:coffeescript
+
+  window._initalize_map = ->
+    latlng = new google.maps.LatLng "#{@lat}", "#{@lng}"
+    myOptions =
+      zoom: 14
+      center: latlng
+      mapTypeId: google.maps.MapTypeId.HYBRID
+
+    map = new google.maps.Map(document.getElementById("ui-map-canvas"), myOptions)
+    marker = new google.maps.Marker
+      position: latlng
+      map: map
+      title: "#{@media_entry.to_s}"
+
+  $(document).ready ->
+    script = document.createElement("script")
+    script.type = "text/javascript"
+    script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=_initalize_map"
+    document.body.appendChild script

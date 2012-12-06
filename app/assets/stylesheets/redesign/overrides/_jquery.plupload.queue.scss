@@ -1,13 +1,15 @@
 /**
- * Overriding PLUPLOAD properties
+ *
+ * ## Plupload override
+ *
  */
 
 .media-import-content {
   position: relative;
 }
 
-// Redefining background image paths
-
+/* Redefining background image paths
+----------------------------------------- */
 .plupload_button,
 .plupload_disabled, a.plupload_disabled:hover {
   background-image: none;
@@ -17,17 +19,18 @@ li.plupload_uploading {
 }
 li.plupload_delete a {
   @include dimension(20px,20px);
-  background-image: image-url("redesign/icons/icon-trash-hover.png");
+  background-image: image-url("redesign/icons/icon-trash-dark.png");
 }
 li.plupload_failed a {
   background-image: image-url("redesign/vendor/plupload-1.5.4/error.gif")
 }
 li.plupload_done a {
   @include dimension(20px,20px);
-  background-image: image-url("redesign/icons/icon-ok-dark.png");
+  background-image: image-url("redesign/icons/icon-check_mark-dark.png");
 }
 
-// Generic reset
+/* Generic reset
+----------------------------------------- */
 
 .plupload_header,
 .plupload_filelist_header,
@@ -35,7 +38,8 @@ li.plupload_done a {
 .plupload_filelist_footer .plupload_total_status,
 .plupload_filelist_footer .plupload_file_size,
 .plupload_filelist_footer .plupload_progress,
-.plupload_droptext {
+.plupload_droptext,
+#mei_filelist {
   display: none;
 }
 .plupload_filelist_footer {
@@ -43,15 +47,15 @@ li.plupload_done a {
   border: none;
 }
 
-// Header elements
-
+/* Header elements
+----------------------------------------- */
 .plupload_header,
 .plupload_filelist_header {
   display: none;
 }
 
-// Body elements
-
+/* Body elements
+----------------------------------------- */
 #call2action {
   @include position-top-right(40%,20px);
   @include position-top-left(40%,20px);
@@ -62,8 +66,8 @@ li.plupload_done a {
   text-align: center;
 }
 
-// File list elements
-
+/* File list elements
+----------------------------------------- */
 .plupload_scroll .plupload_filelist {
   overflow-y: auto;
   .plupload_transfer,
@@ -81,10 +85,14 @@ li.plupload_done a {
   }
 }
 .delete_plupload_entry {
-  @extend .icon-remove;
+  @extend .icon-trash;
+}
+.plupload_filelist .plupload_file_name { 
+  width: auto;
 }
 
-// Move buttons up right
+/* Move buttons up right
+----------------------------------------- */
 
 .plupload_buttons {
   @include position-top-right(-70px,-5px);
@@ -93,6 +101,8 @@ li.plupload_done a {
   }
 }
 
+/* Fluff?
+----------------------------------------- */
 .uploader_filelist,
 .plupload_scroll .plupload_filelist {
   background: transparent;
@@ -106,14 +116,9 @@ li.plupload_done a {
 .plupload_wrapper {
   font: inherit;
 }
-.plupload_buttons a,
-.plupload_button {
-  @extend .button;
-}
-.plupload_buttons .plupload_start {
+.plupload_buttons .plupload_add {
   @extend .primary-button;
 }
-// Footer elements
-
-
-
+.plupload_buttons .plupload_start {
+  @extend .button;
+}

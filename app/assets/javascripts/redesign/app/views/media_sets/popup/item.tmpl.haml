@@ -1,0 +1,4 @@
+%li{:class => "ui-thumbnail-level-item ${type} ${media_type} {{if $item.i%2 == 0}}odd{{else}}even{{/if}}"}
+  %a.ui-level-image-wrapper{:href => "/media_resources/${id}"}
+    .ui-thumbnail-level-image-holder
+      %img.ui-thumbnail-level-image{:src => "/media_resources/${id}/image"}

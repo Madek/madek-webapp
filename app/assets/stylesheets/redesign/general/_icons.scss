@@ -6,6 +6,10 @@ $icons: sprite-map("redesign/icons/*.png");
  * .bright  - White variation
  * .mid     - Grey variation
  * .green   - Green variation
+ * .small   - Green variation
+ * .bright.small  - Green variation
+ * .mid.small     - Green variation
+ * .green.small   - Green variation
  *
  * Styleguide 5.1
  */
@@ -21,6 +25,18 @@ $icons: sprite-map("redesign/icons/*.png");
   &.green {
     @include ixt-sprite($icons, icon-arrow_down-green);
   }
+  &.small { 
+    @include ixt-sprite($icons, icon-arrow_down_small-dark);
+  }
+  &.small.bright { 
+    @include ixt-sprite($icons, icon-arrow_down_small-bright);
+  }
+  &.small.mid { 
+    @include ixt-sprite($icons, icon-arrow_down_small-mid);
+  }
+  &.small.green { 
+    @include ixt-sprite($icons, icon-arrow_down_small-green);
+  }
 }
 
 .icon-arrow-up {
@@ -33,6 +49,18 @@ $icons: sprite-map("redesign/icons/*.png");
   }
   &.green {
     @include ixt-sprite($icons, icon-arrow_up-green);
+  }
+  &.small { 
+    @include ixt-sprite($icons, icon-arrow_up_small-dark);
+  }
+  &.small.bright { 
+    @include ixt-sprite($icons, icon-arrow_up_small-bright);
+  }
+  &.small.mid { 
+    @include ixt-sprite($icons, icon-arrow_up_small-mid);
+  }
+  &.small.green { 
+    @include ixt-sprite($icons, icon-arrow_up_small-green);
   }
 }
 
@@ -47,6 +75,18 @@ $icons: sprite-map("redesign/icons/*.png");
   &.green {
     @include ixt-sprite($icons, icon-arrow_left-green);
   }
+  &.small { 
+    @include ixt-sprite($icons, icon-arrow_left_small-dark);
+  }
+  &.small.bright { 
+    @include ixt-sprite($icons, icon-arrow_left_small-bright);
+  }
+  &.small.mid { 
+    @include ixt-sprite($icons, icon-arrow_left_small-mid);
+  }
+  &.small.green { 
+    @include ixt-sprite($icons, icon-arrow_left_small-green);
+  }
 }
 
 .icon-arrow-right {
@@ -59,6 +99,18 @@ $icons: sprite-map("redesign/icons/*.png");
   }
   &.green {
     @include ixt-sprite($icons, icon-arrow_right-green);
+  }
+  &.small { 
+    @include ixt-sprite($icons, icon-arrow_right_small-dark);
+  }
+  &.small.bright { 
+    @include ixt-sprite($icons, icon-arrow_right_small-bright);
+  }
+  &.small.mid { 
+    @include ixt-sprite($icons, icon-arrow_right_small-mid);
+  }
+  &.small.green { 
+    @include ixt-sprite($icons, icon-arrow_right_small-green);
   }
 }
 
@@ -135,15 +187,6 @@ $icons: sprite-map("redesign/icons/*.png");
     @include ixt-sprite($icons, icon-vis_list-mid);
   }
 }
-.icon-vis-tiles {
-  @include ixt-sprite($icons, icon-vis_tiles-dark);
-  &.bright {
-    @include ixt-sprite($icons, icon-vis_tiles-bright);
-  }
-  &.mid {
-    @include ixt-sprite($icons, icon-vis_tiles-mid);
-  }
-}
 .icon-vis-grid {
   @include ixt-sprite($icons, icon-vis_grid-dark);
   &.bright {
@@ -151,6 +194,15 @@ $icons: sprite-map("redesign/icons/*.png");
   }
   &.mid {
     @include ixt-sprite($icons, icon-vis_grid-mid);
+  }
+}
+.icon-vis-miniature {
+  @include ixt-sprite($icons, icon-vis_miniature-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-vis_miniature-bright);
+  }
+  &.mid {
+    @include ixt-sprite($icons, icon-vis_miniature-mid);
   }
 }
 .icon-vis-graph {
@@ -271,6 +323,24 @@ $icons: sprite-map("redesign/icons/*.png");
     @include ixt-sprite($icons, icon-cover_image-mid);
   }
 }
+.icon-media-entry {
+  @include ixt-sprite($icons, icon-media_entry-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-media_entry-bright);
+  }
+  &.mid {
+    @include ixt-sprite($icons, icon-media_entry-mid);
+  }
+}
+.icon-set {
+  @include ixt-sprite($icons, icon-set-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-set-bright);
+  }
+  &.mid {
+    @include ixt-sprite($icons, icon-set-mid);
+  }
+}
 .icon-tag {
   @include ixt-sprite($icons, icon-tag-dark);
   &.bright {
@@ -307,6 +377,15 @@ $icons: sprite-map("redesign/icons/*.png");
     @include ixt-sprite($icons, icon-man_silhouette-mid);
   }
 }
+.icon-admin {
+  @include ixt-sprite($icons, icon-admin-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-admin-bright);
+  }
+  &.mid {
+    @include ixt-sprite($icons, icon-admin-mid);
+  }
+}
 .icon-home {
   @include ixt-sprite($icons, icon-home-dark);
   &.bright {
@@ -325,6 +404,24 @@ $icons: sprite-map("redesign/icons/*.png");
     @include ixt-sprite($icons, icon-lens-mid);
   }
 }
+.icon-highlight {
+  @include ixt-sprite($icons, icon-highlight-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-highlight-bright);
+  }
+  &.mid {
+    @include ixt-sprite($icons, icon-highlight-mid);
+  }
+}
+.icon-star {
+  @include ixt-sprite($icons, icon-star-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-star-bright);
+  }
+  &.mid {
+    @include ixt-sprite($icons, icon-star-mid);
+  }
+}
 .icon-clipboard {
   @include ixt-sprite($icons, icon-clipboard-dark);
   &.bright {
@@ -341,6 +438,24 @@ $icons: sprite-map("redesign/icons/*.png");
   }
   &.mid {
     @include ixt-sprite($icons, icon-question_mark-mid);
+  }
+}
+.icon-power-off {
+  @include ixt-sprite($icons, icon-power_off-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-power_off-bright);
+  }
+  &.mid {
+    @include ixt-sprite($icons, icon-power_off-mid);
+  }
+}
+.icon-question-mark-alt {
+  @include ixt-sprite($icons, icon-question_mark_alt-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-question_mark_alt-bright);
+  }
+  &.mid {
+    @include ixt-sprite($icons, icon-question_mark_alt-mid);
   }
 }
 .icon-close,
@@ -364,12 +479,22 @@ $icons: sprite-map("redesign/icons/*.png");
   }
 }
 
+.icon-magnifier {
+  @include ixt-sprite($icons, icon-magnifier-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-magnifier-bright);
+  }
+  &.mid {
+    @include ixt-sprite($icons, icon-magnifier-mid);
+  }
+}
+
 /**
  * ## Special Icons `.icon-`
  *
  * .hover     - Hover variation
  * .disabled  - Disabled variation
- * .pressed   - Pressed variation
+ * .active    - Pressed variation
  *
  * Styleguide 5.5
  */
@@ -382,11 +507,11 @@ $icons: sprite-map("redesign/icons/*.png");
   &.disabled {
     @include ixt-sprite($icons, icon-checkbox-disabled);
   }
-  &.pressed {
+  &.active {
     @include ixt-sprite($icons, icon-checkbox-pressed);
   }
 }
-.icon-star {
+.icon-fav {
   @include ixt-sprite($icons, icon-star);
   &.hover {
     @include ixt-sprite($icons, icon-star-hover);
@@ -394,7 +519,28 @@ $icons: sprite-map("redesign/icons/*.png");
   &.disabled {
     @include ixt-sprite($icons, icon-star-disabled);
   }
-  &.pressed {
+  &.active {
     @include ixt-sprite($icons, icon-star-pressed);
+  }
+}
+
+/**
+ * ## Header Nav Icons `.icon-`
+ *
+ * .dark  - Midtone variation
+ *
+ * Styleguide 5.6
+ */
+
+.icon-nav-help {
+  @include ixt-sprite($icons, icon-question_mark_alt-bright);
+  &.dark {
+    @include ixt-sprite($icons, icon-question_mark_alt-dark);
+  }
+}
+.icon-nav-search {
+  @include ixt-sprite($icons, icon-lens-bright);
+  &.dark {
+    @include ixt-sprite($icons, icon-lens-dark);
   }
 }

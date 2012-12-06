@@ -1,0 +1,8 @@
+%h3.ui-thumbnail-level-notes Set enthält
+%ul.ui-thumbnail-level-items
+  {{each(i,media_resource) children}}
+  {{tmpl(media_resource,{i:i}) App.renderPath("media_sets/popup/item")}}
+  {{/each}}
+%span.ui-thumbnail-level-notes
+  ${$item.pagination.total}
+  ${Underscore.str.pluralize($item.pagination.total,"Inhalt", "Inhalte")}

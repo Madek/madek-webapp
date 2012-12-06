@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   has_many :media_sets
   has_many :media_entries
   has_many :incomplete_media_entries, :class_name => "MediaEntryIncomplete", :dependent => :destroy
-  has_many :keywords
+  has_many :keywords 
 
   has_and_belongs_to_many :favorites, :class_name => "MediaResource", :join_table => "favorites" do
     def toggle(media_resource)
@@ -23,6 +23,12 @@ class User < ActiveRecord::Base
       else
         self << media_resource
       end
+    end
+    def favor(media_resource)
+      self << media_resource
+    end
+    def disfavor(media_resource)
+      self.delete(media_resource) if exists?(media_resource)
     end
   end
   
@@ -113,6 +119,12 @@ class User < ActiveRecord::Base
         false
       end
     end 
+  end
+
+#############################################################
+
+  def is_guest?
+    !persisted?
   end
 
 #############################################################

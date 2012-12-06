@@ -1,16 +1,18 @@
 /**
  * ## Catalogue Thumbnail `.ui-thumbnail.media-catalog`
  *
- * Styleguide 6.20
+ * Styleguide 6.17
  */
 
 .ui-thumbnail.media-catalog {
   @include dimension(300px,auto);
   background: transparent image-url("redesign/backgrounds/thumb-catalog-backg.png") 3px -4px no-repeat;
   overflow: hidden;
+  margin: 0 5px 0 0;
   padding: 15px;
   position: relative;
   .ui-thumbnail-privacy {
+    display: none;
     @include position-top-left(16px,16px);
   }
   .ui-thumbnail-image-wrapper {
@@ -27,8 +29,8 @@
     position: relative;
   }
   .ui-thumbnail-image {
-    @include position-top-right(0,50%);
-    @include position-bottom-left(25%,50%);
+    @include position-top-right(50%,50%);
+    @include position-bottom-left(auto,50%);
     @include min-dimension(100%,100%);
     @include max-dimension(110%,120%);
     margin-left: -50%;

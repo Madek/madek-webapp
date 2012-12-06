@@ -1,7 +1,7 @@
 /**
  * ## Straight Collage `.ui-collage`
  *
- * Styleguide 7.7.1
+ * Styleguide 7.8.1
  */
 
 .ui-collage {
@@ -43,12 +43,18 @@
   @include min-dimension(100%,100%);
   display: inline-block;
   margin: 0;
+  opacity: $opacity-strong;
+}
+.ui-collage-item:hover { 
+  .ui-collage-item-image { 
+    opacity: 1;
+  }
 }
 .ui-collage-item-meta {
   @include position-bottom-left(0,0);
   @include position-right(0);
   display: none;
-  background: $brightest;
+  background: $lighten-strong;
   overflow: hidden;
   padding: $space-x 0;
   text-indent: $space-s;
@@ -112,7 +118,7 @@
 /**
  * ## Crooked Collage `.ui-collage.crooked`
  *
- * Styleguide 7.7.2
+ * Styleguide 7.8.2
  */
 
 .ui-collage.crooked {
@@ -128,6 +134,9 @@
     width: 20%;
     &.even .ui-collage-item-wrapper {
       position: relative;
+    }
+    .ui-collage-item-image { 
+      opacity: 1;
     }
   }
 }

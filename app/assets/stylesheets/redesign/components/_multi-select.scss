@@ -1,7 +1,7 @@
 /**
  * ## Multi-select form element `.multi-select`
  *
- * Styleguide 4.1
+ * Styleguide 4.5
  */
 
 .multi-select {
@@ -17,7 +17,7 @@
 }
 
 .multi-select-tag {
-  @extend .tag-button;
+  @extend .ui-tag-button;
 }
 
 .multi-select-tag-remove {

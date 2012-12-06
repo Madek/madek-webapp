@@ -143,13 +143,7 @@ module MediaEntriesHelper
   end
   
   def file_format_for(media_file)
-    case media_file.content_type
-      when /image/ then
-        format = media_file.content_type.gsub(/image\//, '')
-      # other media formats ....
-    else
-      media_file.content_type
-    end
+    media_file.content_type.gsub(/^.*?\//, '')
   end
 
   def show_warnings(warnings)
