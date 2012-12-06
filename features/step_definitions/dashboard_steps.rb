@@ -14,7 +14,7 @@ Then /^I see a block of resources showing content assigned to me$/ do
 end
 
 Then /^I can choose to continue to a list of all content assigned to me$/ do
-	all(".media_resources.index.grid")[1].find(".buttons a", :text => "Alle mir anvertrauten Inhalte")
+	wait_until{all(".media_resources.index.grid")[1].all(".buttons a", :text => "Alle mir anvertrauten Inhalte").size > 0}
 end
 
 Then /^I see a block of resources showing content available to the public$/ do
