@@ -76,16 +76,18 @@ module MediaEntriesHelper
         end
       else
         content_tag :video, {:width => video_preview_webm.width, :height => video_preview_webm.height, :autoplay => '', :controls => 'controls'} do
+          html = ""
           # This src points to a symlink to the actual file, so that Apache serves it. This lets us support
           # seeking, partial content (HTTP status code 206) and request ranges without any additional work.
           unless video_preview_apple.nil?
             # Apple uses a nonstandard, patent-emcumbered codec (H.264) that is the only one supported in their browsers
-            tag :source, {:type => video_preview_apple.content_type, :src => "/previews/#{video_preview_apple.filename}"}
+            html += tag :source, {:type => video_preview_apple.content_type, :src => "/previews/#{video_preview_apple.filename}"}
           end
           unless video_preview_webm.nil?
             # Everyone else uses an open codec (WebM)
-            tag :source, {:type => video_preview_webm.content_type, :src => "/previews/#{video_preview_webm.filename}"}
+            html += tag :source, {:type => video_preview_webm.content_type, :src => "/previews/#{video_preview_webm.filename}"}
           end
+          html
         end
       end
 
