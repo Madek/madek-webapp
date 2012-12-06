@@ -246,9 +246,9 @@ class MediaFile < ActiveRecord::Base
             else
              result = false 
             end
-            return result
           end
         end
+        return result
       end
     end
   end
