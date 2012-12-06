@@ -1,5 +1,4 @@
 test: 
-  host: localhost
   adapter: postgresql
   database: madek_next_test
   encoding: utf8
@@ -7,7 +6,6 @@ test:
   password: jenkins
 
 personas: 
-  host: localhost
   adapter: postgresql
   database: madek_next_test_personas
   encoding: utf8
