@@ -145,7 +145,7 @@ end
     if session[:user_id]
       # TODO use find without exception: self.current_user = User.find(session[:user_id])
       self.current_user = user = User.find_by_id(session[:user_id])
-      check_usage_terms_accepted unless is_api_request
+      check_usage_terms_accepted unless request.format.to_sym == :json or (request[:controller] == "media_resources" and request[:action] == "image")
 
     elsif request.format.to_sym == :json or
           (request[:controller] == "media_resources" and request[:action] == "image") or 
