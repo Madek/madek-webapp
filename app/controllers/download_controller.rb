@@ -72,14 +72,7 @@ class DownloadController < ApplicationController
     preview = @media_entry.media_file.get_preview(@size)
     @content_type = preview.content_type
     @filename = [@filename.split('.', 2).first, preview.filename.gsub(@media_entry.media_file.guid, '')].join
-    
-    # Provide a copy of the original file, not updated or nuffin'
-    path = @media_entry.media_file.file_storage_location
-    if @size
-      outfile = File.join(DOWNLOAD_STORAGE_DIR, @filename)
-      `convert "#{path}" -resize "#{THUMBNAILS[@size]}" "#{outfile}"`
-      path = outfile
-    end
+    path = preview.full_path
     fixed_send_file(path,
                    {:filename => @filename,
                     :type          =>  @content_type,
