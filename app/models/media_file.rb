@@ -341,12 +341,14 @@ class MediaFile < ActiveRecord::Base
     end
     @@placeholders ||= Dir.glob(File.join(dir, "*"))
     extension = File.extname(filename).downcase
-    extension = begin
-      types = YAML.load File.read(File.join(Rails.root, "config/mime_icons.yml"))
-      type = types["icons"].detect {|x| x["mime-type"] == content_type}
-      type["extensions"].first
-    end if extension.blank?
-    file_path = @@placeholders.detect {|x| x =~ /#{extension}\.png$/ }
+    if extension.blank?
+      extension = begin
+                    types = YAML.load File.read(File.join(Rails.root, "config/mime_icons.yml"))
+                    type = types["icons"].detect {|x| x["mime-type"] == content_type}
+                    type ? type["extensions"].first : nil
+                  end 
+    end
+    file_path = @@placeholders.detect {|x| x =~ /#{extension}\.png$/ } if extension
     file_path ||= File.join(dir, "base_document.png")
     File.read file_path
   end
