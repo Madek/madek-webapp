@@ -2,35 +2,36 @@ module CurrentPageHelper
  
   def is_my_archive_page?
     current_user and
-    current_page? root_path
+    request.fullpath== "/"
   end
 
   def is_explore_page?
-    current_page? explore_path
+    request.fullpath.match /^\/explore/
   end
 
   def is_explore_categories_path?
-    current_page? explore_categories_path
+    request.fullpath.match /^\/explore\/\d+$/
   end
 
   def is_explore_sections_path? (catalog_id, category_id)
-    current_page? explore_sections_path
+    request.fullpath.match /^\/explore\/#{catalog_id}\/#{category_id}$/
   end
 
   def is_explore_sections_or_categories_path? (catalog_id, category_id)
-    is_explore_categories_path? or is_explore_sections_path?
+    request.fullpath.match /^\/explore\/#{catalog_id}\/#{category_id}/
   end
 
   def is_explore_media_resources_path? (catalog_id, category_id, section)
-    current_page? explore_media_resources_path
+    request.fullpath.match /^\/explore\/#{catalog_id}\/#{category_id}\/#{section}$/
   end
 
   def is_root_page?
-    current_page? root_path
+    request.fullpath== root_path
   end
 
   def is_search_page?
-    current_page? search_path
+    current_user and
+    request.fullpath== "/search"
   end
 
   def is_media_entry_show?
