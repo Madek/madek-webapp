@@ -68,21 +68,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>#!/bin/bash --login
-
-ln -s /var/lib/jenkins/configs/madek-log $WORKSPACE/log
-mkdir -p $WORKSPACE/tmp/capybara
-rm -rf $WORKSPACE/log &amp;&amp; mkdir -p $WORKSPACE/log
-rm -f $WORKSPACE/tmp/*.mysql
-rm -f $WORKSPACE/tmp/*.sql
-mkdir -p $WORKSPACE/tmp/html
-
-rvm use 1.9.3
-rbenv shell 1.9.3-p194
-bundle install --without development
-bundle exec rake madek:test:setup_ci_dbs
-bundle exec rake madek:test:setup
-bundle exec rake madek:test:cucumber:all FILE=$CUCUMBER_FILE RERUN_LIMIT=3</command>
+      <command>TO_BE_REPLACED</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>

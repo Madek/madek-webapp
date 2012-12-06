@@ -21,10 +21,44 @@ module CIFeatureJobs
       opts[symb] || opts[symb.to_s] || ENV[symb.to_s.upcase]
     end
 
+
+    ### Commands #################################################################################
+  
+    def setup_ci_shell_commands 
+      %q{#!/bin/bash --login
+
+ln -s /var/lib/jenkins/configs/madek-log $WORKSPACE/log
+mkdir -p $WORKSPACE/tmp/capybara
+rm -rf $WORKSPACE/log && mkdir -p $WORKSPACE/log
+rm -f $WORKSPACE/tmp/*.mysql
+rm -f $WORKSPACE/tmp/*.sql
+mkdir -p $WORKSPACE/tmp/html
+
+rvm use 1.9.3
+rbenv shell 1.9.3-p194
+bundle install --without development
+bundle exec rake madek:test:setup_ci_dbs
+bundle exec rake madek:test:setup
+}
+
+    end
+
+    def cucumber_ci_shell_commands
+      setup_ci_shell_commands + 'bundle exec rake madek:test:cucumber:all FILE=$CUCUMBER_FILE RERUN_LIMIT=3'
+    end
+
+    def rspec_ci_shell_commands
+      setup_ci_shell_commands + 'bundle exec rake madek:test:rspec'
+    end
+
     ### CREATE NEW JOB TEMPLATE and  AGGREGATOR ##################################################
     
     def job_template_name branch_name = ENV['BRANCH_NAME']
       "#{BASE_NAME}_#{branch_name}___TEMPLATE"
+    end
+
+    def rspec_job_name branch_name = ENV['BRANCH_NAME']
+      "#{BASE_NAME}_#{branch_name}___rspec"
     end
 
     def template_url branch_name = ENV['BRANCH_NAME']
@@ -38,23 +72,58 @@ module CIFeatureJobs
     def creator_job_name branch_name
       "#{BASE_NAME}_#{branch_name}___CREATOR"
     end
-    
-    def create_new_job_template! branch_name, job_template_xml_doc = \
+
+    def prepare_temlate branch_name, xml_doc = \
       REXML::Document.new(File.new Rails.root.join "lib","ci","job_template.xml")
 
-      REXML::XPath.first(job_template_xml_doc,  \
+      REXML::XPath.first(xml_doc,  \
                          "/project/scm/branches/hudson.plugins.git.BranchSpec/name") \
                          .text= branch_name
 
-      REXML::XPath.first(job_template_xml_doc,  \
+      REXML::XPath.first(xml_doc,  \
                          "/project/publishers/hudson.tasks.BuildTrigger/childProjects") \
                          .text= aggregator_job_name(branch_name)
+      xml_doc
+    end
+    
+
+    def create_new_job_template! branch_name
+
+      xml_doc = prepare_temlate branch_name
+
+      REXML::XPath.first(xml_doc,  \
+                         "/project/builders/hudson.tasks.Shell/command") \
+                         .text= cucumber_ci_shell_commands()
 
       # this seems the only way to get it up reliably
-      create_ci_job!(job_template_name(branch_name), job_template_xml_doc.to_s) rescue nil
-      update_ci_job!(job_template_name(branch_name), job_template_xml_doc.to_s) rescue nil
-
+      create_ci_job!(job_template_name(branch_name), xml_doc.to_s) rescue nil
+      update_ci_job!(job_template_name(branch_name), xml_doc.to_s) rescue nil
     end
+
+
+    def create_or_update_respec_job! branch_name = ENV['BRANCH_NAME']
+
+      xml_doc = prepare_temlate branch_name
+
+      REXML::XPath.first(xml_doc,  \
+                         "/project/disabled") \
+                         .text= "false"
+
+      REXML::XPath.first(xml_doc,  \
+                         "/project/builders/hudson.tasks.Shell/command") \
+                         .text= rspec_ci_shell_commands()
+
+      REXML::XPath.first(xml_doc,  \
+                         "/project/buildWrappers/EnvInjectBuildWrapper/info/propertiesContent") \
+                         .text= %Q{RAILS_ENV=test 
+CI_TEST_NAME=#{branch_name}_rspec
+}
+
+      # this seems the only way to get it up reliably
+      create_ci_job!(rspec_job_name(branch_name), xml_doc.to_s) rescue nil
+      update_ci_job!(respc_job_name(branch_name), xml_doc.to_s) rescue nil
+    end
+
 
     def create_new_job_aggreagtor! branch_name, aggregator_xml_doc = \
       REXML::Document.new(File.new Rails.root.join "lib","ci","aggregator.xml")
@@ -91,7 +160,7 @@ module CIFeatureJobs
 
     ### JOBS and JOB HELPERS ##################################################################
 
-    def all_jobs_params  basedir = "features", branch_name = ENV['BRANCH_NAME'] 
+    def all_feature_jobs_params  basedir = "features", branch_name = ENV['BRANCH_NAME'] 
       unless branch_name 
         raise 'env BRANCH_NAME is required'
       else
@@ -182,7 +251,7 @@ module CIFeatureJobs
     end
 
     def create_or_update_all_jobs!  opts = {}
-      all_jobs_params.each do |job_params|
+      all_feature_jobs_params.each do |job_params|
         xml =  template_xml reload = false , opts
         xml_config = job_xml job_params, xml
         begin
@@ -197,9 +266,9 @@ module CIFeatureJobs
       end
     end
 
-    def get_last_build_status_of_all_jobs
+    def get_last_build_status_of_all_feature_jobs
       add_success_status_to_all_jobs(
-        all_jobs_params.map do |job_params|
+        all_feature_jobs_params.map do |job_params|
         job_params.merge({
           ci_last_build: 
           begin
@@ -231,5 +300,18 @@ module CIFeatureJobs
       end
     end
 
+    ### rspec success ? ###############################################################
+
+    # test me
+    def rspec_success?
+      begin
+        (JSON.parse(RestClient.get("http://ci.zhdk.ch/job/#{rspec_job_name}/lastBuild/api/json")).symbolize_keys!)[:result]=="SUCCESS"
+      rescue
+        nil
+      end
     end
+
+    end
+
+
 end

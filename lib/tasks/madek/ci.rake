@@ -6,6 +6,7 @@ namespace :madek do
       CIFeatureJobs.create_new_job_aggreagtor! ENV['BRANCH_NAME']
       CIFeatureJobs.create_new_job_creator! ENV['BRANCH_NAME']
       CIFeatureJobs.create_new_job_template! ENV['BRANCH_NAME']
+      CIFeatureJobs.create_or_update_respec_job! ENV['BRANCH_NAME']
     end
   
     desc "Delete jobs by matcing a regular expression; requires REX, CI_USER and CI_PW env variables" 
@@ -37,10 +38,10 @@ namespace :madek do
       CIFeatureJobs.create_or_update_all_jobs! opts
     end
 
-    desc "Checks if all features habe been built successfully" 
-    task :query_all_features_success do
-      last_job_builds = CIFeatureJobs.get_last_build_status_of_all_jobs
-      if CIFeatureJobs.all_features_success? last_job_builds
+    desc "Checks if rspec all feature have been built successfully" 
+    task :query_all_success do
+      last_job_builds = CIFeatureJobs.get_last_build_status_of_all_feature_jobs
+      if CIFeatureJobs.all_features_success? last_job_builds and CIFeatureJobs.rspec_success? 
         exit 0
       else
         puts last_job_builds.select{|h| not h[:is_success]}.to_yaml
