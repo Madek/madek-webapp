@@ -70,15 +70,13 @@ class VisualizationController < ApplicationController
 
 
   def filtered_resources
-    @filter = params
+    @filter = MediaResource.get_filter_params params
     @title = view_context.media_resources_index_title.join(" ")
-    nil_namespace = 
-    filter = MediaResource.get_filter_params params
     # we store the filter in a digested form to keep it short, there is sofar no usecase to reconstruct the filter itself
     @resource_identifier = 
       UUIDTools::UUID.md5_create(UUIDTools::UUID.parse("00000000-0000-0000-0000-000000000000"), 
-                                 ZHDK::Sort.nested_sort(filter).to_s).to_s
-    @resources = MediaResource.filter(current_user, filter)
+                                 ZHDK::Sort.nested_sort(@filter).to_s).to_s
+    @resources = MediaResource.filter(current_user, @filter)
     set_layout_and_control_variables
     @arcs = MediaResourceArc.connecting @resources
     render 'index'

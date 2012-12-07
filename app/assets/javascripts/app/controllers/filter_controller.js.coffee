@@ -66,16 +66,6 @@ class FilterController
     if uri.getQueryParamValues("search").length
       $("#bar h1 small").html $("#bar h1 small").text().replace(/".*"/, "\"#{@searchInput.val()}\"") if $("#bar .icon.search").length
   
-  updateBar: =>
-    for link in $("#bar a.open_graph")
-      link = $(link)
-      href = link.attr("href")
-      uri = new Uri(href)
-      for param in uri.queryPairs
-        @current_filter[param[0]] = param[1]
-      uri = uri.setQuery($.param(@current_filter))
-      link.attr "href", uri.toString()
-
   delegateFilterPanelEvents: =>
     @el.find(".panel>.icon").bind "click", (e)=>
       if @el.is ":not(.open)" then do @open else do @close
@@ -140,7 +130,6 @@ class FilterController
             terms.closest(".key").addClass "has_selected"
     do @delegateBlockEvents
     do @unblockAfterLoading
-    do @updateBar
       
   filterContent: =>
     do @blockForLoading

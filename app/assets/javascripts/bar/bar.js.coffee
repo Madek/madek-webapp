@@ -15,6 +15,7 @@ class Bar
     @setup_icon type, favorites, search, group, edit_filter_set
     if type == "media_sets" and permission == "mine" and favorites != "true" and search == "" and media_set == ""
       @setup_media_set_scope(top_level) 
+    @delegateEvents()
 
   @setup_type = (type)->
     $("#bar .selection .types ."+type).addClass("active").addClass("current")
@@ -57,5 +58,11 @@ class Bar
     else
       $("#bar .scope_sets .not_top_level").addClass("active")
     $("#bar .scope_sets").prepend $("#bar .scope_sets .active")
+
+  @delegateEvents = ()->
+    $("#bar a.open_graph").mouseenter ->
+      current_filter = $("section.media_resources.index").data("controller").filter_panel.current_filter
+      new_href = "/visualization/filtered_resources?" + $.param(current_filter)
+      $(this).attr('href', new_href)
     
 window.Bar = Bar
