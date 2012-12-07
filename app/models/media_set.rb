@@ -85,7 +85,7 @@ class MediaSet < MediaResource
 ########################################################
 
   def get_media_file(user)
-    if out_arcs.where(cover: true).empty?
+    unless out_arcs.where(cover: true).exists?
       # NOTE this is the fallback in case no cover is set yet.
       # Because the personas sql dump on test, we cannot set automatically in MediaResourceArcs#after_create (as it should)
       # then instead of a callback and a migration, we store on the fly the oldest media_entry child_arc as cover

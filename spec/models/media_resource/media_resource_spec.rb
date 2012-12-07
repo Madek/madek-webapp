@@ -79,13 +79,13 @@ describe MediaResource do
 
       context "function userpermission_disallows" do
 
-        it "should return not nil if there is a userpermission that disallows" do
+        it "should return not false if there is a userpermission that disallows" do
           FactoryGirl.create :userpermission, view: false, user: @user, media_resource: @media_resource
-          @media_resource.userpermissions.disallows(@user, :view).should_not == nil
+          @media_resource.userpermissions.disallows(@user, :view).should_not == false
         end
 
-        it "should return nil if there is no userpermission that disallows" do
-          @media_resource.userpermissions.disallows(@user, :view).should == nil
+        it "should return false if there is no userpermission that disallows" do
+          @media_resource.userpermissions.disallows(@user, :view).should == false
         end
 
 
@@ -93,13 +93,13 @@ describe MediaResource do
 
       context "function userpermission_allows " do
 
-        it "should return not nil if there is a userpermission that allows " do
+        it "should return not false if there is a userpermission that allows " do
           FactoryGirl.create :userpermission, view: true, user: @user, media_resource: @media_resource
-          @media_resource.userpermissions.allows(@user, :view).should_not == nil
+          @media_resource.userpermissions.allows(@user, :view).should_not == false
         end
 
-        it "should return nil if there is no userpermission that allows " do
-          @media_resource.userpermissions.allows(@user, :view).should == nil
+        it "should return false if there is no userpermission that allows " do
+          @media_resource.userpermissions.allows(@user, :view).should == false
         end
 
       end
@@ -111,20 +111,20 @@ describe MediaResource do
           @group.users << @user
         end
 
-        it "should return nil if there is no grouppermission at all" do
-          @media_resource.grouppermissions.allows(@user, :view).should == nil
+        it "should return false if there is no grouppermission at all" do
+          @media_resource.grouppermissions.allows(@user, :view).should == false
         end
 
 
-        it "should return nil if there is a grouppermission that does not allow " do
+        it "should return false if there is a grouppermission that does not allow " do
           FactoryGirl.create :grouppermission, view: false, group: @group, media_resource: @media_resource
-          @media_resource.grouppermissions.allows(@user, :view).should == nil
+          @media_resource.grouppermissions.allows(@user, :view).should == false
         end
 
 
-        it "should return not nil if there is a grouppermission that allows " do
+        it "should return not false if there is a grouppermission that allows " do
           FactoryGirl.create :grouppermission, view: true, group: @group, media_resource: @media_resource
-          @media_resource.grouppermissions.allows(@user, :view).should_not == nil
+          @media_resource.grouppermissions.allows(@user, :view).should_not == false
         end
 
 

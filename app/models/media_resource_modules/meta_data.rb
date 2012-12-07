@@ -110,18 +110,20 @@ module MediaResourceModules
         def meta_data_for_context(context = MetaContext.core, build_if_not_exists = true)
 
           meta_keys = context.meta_keys
+          meta_key_ids = context.meta_key_ids
 
           mds = meta_data.where(:meta_key_id => meta_keys)
 
-          (meta_keys - mds.map(&:meta_key)).select{|x| x.is_dynamic? }.each do |key|
+          #(meta_keys - mds.map(&:meta_key)).select{|x| x.is_dynamic? }.each do |key|
+          meta_keys.select{|x| x.is_dynamic? }.each do |key|
             mds << meta_data.build(:meta_key => key) 
           end
 
-          (context.meta_key_ids - mds.map(&:meta_key_id)).each do |key_id|
+          (meta_key_ids - mds.map(&:meta_key_id)).each do |key_id|
             mds << meta_data.build(:meta_key_id => key_id)
           end if build_if_not_exists
 
-          mds.sort_by {|md| context.meta_key_ids.index(md.meta_key_id) } 
+          mds.sort_by {|md| meta_key_ids.index(md.meta_key_id) } 
         end
 
         def context_warnings(context = MetaContext.core)
