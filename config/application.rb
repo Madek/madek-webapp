@@ -71,6 +71,11 @@ module MAdeK
                                     redesign.js
                                     redesign.css
                                     test.js
+                                    redesign/pdf.js
+                                    redesign/pdf-viewer.js
+                                    redesign/pdf-viewer.css
+                                    redesign/video.js
+                                    redesign/video.css
                                   )
 
     # So that the Content-Length header is sent, so that e.g. video files
