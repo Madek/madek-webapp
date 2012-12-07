@@ -1,0 +1,24 @@
+.ui-export-block
+
+  .col1of2
+    %p Das gezippte Verzeichnis enthält die Datei mit eingeschriebenen, aktuellen Metadaten sowie einem separaten TMS XML Metadatendokument
+
+  .col1of2.by-right
+
+    .dropdown.ui-dropdown.stick-right
+      %a.button.dropdown-toggle.ui-drop-toggle{:"data-toggle" => "dropdown"}
+        TMS XML
+        %i.icon-arrow-down
+
+      %ul.dropdown-menu.ui-drop-menu.absolute{"aria-labelledby" => "dLabel", :role => "menu"}
+        
+        - if @original_file_available and @can_download
+          %li.ui-drop-item.by-right
+            %a{:href => "/download?id=#{@media_entry.id}&type=tms&zip=1&update=1"}
+              = number_to_human_size(@original_file.size)
+              = "(#{dimensions_for(@original_file)})" if dimensions_for(@original_file)
+              %strong zip
+
+        %li.ui-drop-item.by-right
+          %a{:href => "/download?id=#{@media_entry.id}&type=tms"}
+            %strong xml

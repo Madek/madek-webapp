@@ -73,7 +73,7 @@ class VisualizationController < ApplicationController
     @filter = params
     @title = view_context.media_resources_index_title.join(" ")
     nil_namespace = 
-    filter = params.select {|k,v| MediaResourceModules::Filter::KEYS.include?(k.to_sym) }.delete_if {|k,v| v.blank?}.deep_symbolize_keys
+    filter = MediaResource.get_filter_params params
     # we store the filter in a digested form to keep it short, there is sofar no usecase to reconstruct the filter itself
     @resource_identifier = 
       UUIDTools::UUID.md5_create(UUIDTools::UUID.parse("00000000-0000-0000-0000-000000000000"), 

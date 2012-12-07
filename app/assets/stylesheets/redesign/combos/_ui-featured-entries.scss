@@ -1,8 +1,16 @@
 /**
  * ## Featured entries `.ui-featured-entries`
  *
+ * .small     - Small thumbnails variation
+ * .active    - Large active variation showing actions on thumbnails
+ * .small.active  - Small active variation showing actions on thumbnails
+ *
  * Styleguide 7.10
  */
+
+/**
+ * NORMAL variation
+ ----------------------------------------- */
 
 .ui-featured-entries {
   height: 400px;
@@ -25,38 +33,21 @@
 }
 
 .ui-featured-entry {
-  @include box-shadow(0 1px 3px $darken);
-  @include dimension(300px,320px);
-  background: $brightest;
-  display: block;
-  overflow: hidden;
+  @include box-shadow(0 1px 5px $darken-more);
+  @include dimension(auto,320px);
+  display: inline-block;
   position: relative;
   margin: 0 $space-m 0 0;
   &:hover {
     text-decoration: none;
   }
 }
-
-.ui-featured-entry-preview {
-  display: table-cell;
-  span {
-    @include dimension(300px,260px);
-    display: inline-block;
-    overflow: hidden;
-    position: relative;
-    vertical-align: middle;
-    img {
-      @include min-dimension(300px,260px);
-      @include max-dimension(120%,120%);
-      display: inline-block;
-      margin: 0 -50%;
-      position: relative;
-    }
-  }
-}
 .ui-featured-entry-metadata {
+  @include position-bottom-right(0,0);
+  @include position-bottom-left(0,0);
+  background: $brightest;
+  overflow: hidden;
   padding: $space-s;
-  position: relative;
   .ui-thumbnail-name,
   .ui-thumbnail-author {
     height: $space-m;
@@ -70,5 +61,73 @@
     display: block;
     content: " ";
     z-index: 50;
+  }
+}
+.ui-featured-entry img {
+  @include dimension(auto,260px);
+  display: inline-block;
+}
+.ui-featured-entry-actions {
+  display: none;
+}
+
+/**
+ * SMALL variation
+ ----------------------------------------- */
+
+.ui-featured-entries.small { 
+  height: 200px;
+  .ui-featured-entry { 
+    @include dimension(auto,170px);
+    margin-right: $space-x;
+  }
+  .ui-featured-entry img {
+    @include dimension(auto,170px);
+  }
+  .ui-featured-entry-metadata {
+    display: none;
+  }
+}
+
+/**
+ * ACTIVE variation
+ ----------------------------------------- */
+
+ .ui-featured-entries.active {
+  .ui-featured-entries-item:hover { 
+    position: relative;
+    .ui-featured-entry-actions { 
+      @include border-radius($border-radius-m);
+      @include dimension(100px,20px);
+      @include position-bottom-left(70px,50%);
+      @include position-bottom-right(70px,50%);
+      background: $darken-more;
+      display: block;
+      margin-left: -50px;
+      text-align: center;
+    }
+    .ui-featured-entry-action { 
+      display: inline-block;
+      margin: 0 2px;
+    }
+    .ui-featured-action-delete {
+      @extend .icon-trash;
+      @extend .bright; 
+    }
+    .ui-featured-action-browse { 
+      @extend .icon-eye;
+      @extend .bright;
+    }
+    .ui-featured-action-edit { 
+      @extend .icon-pen;
+      @extend .bright;
+    }
+  }
+  &.small { 
+    .ui-featured-entries-item:hover { 
+      .ui-featured-entry-actions { 
+        bottom: 15px;
+      }
+    }
   }
 }

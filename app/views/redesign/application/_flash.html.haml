@@ -3,9 +3,8 @@
   - current_flash = flash[f]
   - f = :confirmation if f == :notice
   - if current_flash
-    %div{:class => "alert #{f}"}
-      %p
-        -if current_flash.is_a? Array
-          = current_flash.join(", ")
-        -else 
-          = current_flash
+    %div{:class => "ui-alert #{f}"}
+      -if current_flash.is_a? Array
+        = current_flash.join(", ")
+      -else 
+        = current_flash

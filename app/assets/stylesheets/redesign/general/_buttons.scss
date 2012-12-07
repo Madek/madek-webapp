@@ -12,7 +12,7 @@
 a {
   text-decoration: none;
   cursor: pointer;
-  color: $green-dark;
+  color: $green;
   &:hover {
     text-decoration: underline;
   }
@@ -48,13 +48,13 @@ a:active {
   @include background-image(linear-gradient($grey-lighter, $grey-light));
   @include border-radius($border-radius-s);
   @include box-shadow($lighten 0 1px 0 inset);
-  @include single-text-shadow(false, 1px, false, false, $lighten);
+  @include single-text-shadow(false, 1px, false, false, $lighten-more);
   background-color: $grey-lighter;
   border: 1px solid $grey-mid-light;
   color: $grey-darker;
   cursor: pointer;
   display: inline-block;
-  font-size: $default-font-size;
+  font-size: $font-m;
   font-weight: 600;
   line-height: $line-height-l;
   min-height: 26px;
@@ -91,6 +91,13 @@ a:active {
   padding-left: $space-x;
   padding-right: $space-x;
 }
+.button.normal {
+  font-size: $font-m;
+  line-height: $line-height-l;
+  min-height: 26px;
+  padding-left: $space-s;
+  padding-right: $space-s;
+}
 .button.large {
   font-size: $font-xl;
   line-height: $line-height-xl;
@@ -108,7 +115,8 @@ a:active {
   }
 }
 
-// Icons within buttons
+/* Icons within buttons
+----------------------------------------- */
 
 .button i {
   margin-left: -1px;
@@ -151,7 +159,8 @@ a:active {
   margin: -10px 0 0; // must be equal to half of icons's size
 }
 
-// Block buttons
+/* Full width buttons
+----------------------------------------- */
 
 .button.block {
   display: block;
@@ -174,18 +183,18 @@ a:active {
 
 .primary-button {
   @extend .button;
-  @include background-image(linear-gradient($green-light, $green-mid));
+  @include background-image(linear-gradient($green-light, $green));
   @include single-text-shadow(false, 1px, 0, false, $darken);
-  background-color: $green-mid;
+  background-color: $green;
   border: 1px solid $green-dark;
   color: darken($brightest, 5%);
 }
 
 // Hover state
 .primary-button:hover {
-  @include background-image(linear-gradient(lighten($green-light, 3%), lighten($green-mid, 3%)));
+  @include background-image(linear-gradient(lighten($green-light, 3%), lighten($green, 3%)));
   @include single-text-shadow(false, 1px, 0, false, $darken);
-  background-color: lighten($green-mid, 3%);
+  background-color: lighten($green, 3%);
   border-color: darken($green-dark, 3%);
   color: $brightest;
 }
@@ -194,11 +203,15 @@ a:active {
 .primary-button:active,
 .primary-button.active {
   @include box-shadow($darken 0 1px 3px inset);
-  @include background-image(linear-gradient(darken($green-light, 10%), darken($green-mid, 10%)));
+  @include background-image(linear-gradient(darken($green-light, 10%), darken($green, 10%)));
   @include single-text-shadow(false, -1px, 0, false, $darken);
   border-color: darken($green-dark, 5%);
   color: darken($brightest, 20%);
   outline: 0;
+}
+
+.primary-button i { 
+  @extend .bright;
 }
 
 /**
@@ -251,27 +264,3 @@ a:active {
  *
  * Styleguide 3.5
 */
-
-/**
- * ## Tag Buttons `.tag-button`
- *
- * :hover   - Hovered tag button
- * :active  - Active tag button
- * .small   - Small tag button
- * .large   - Large tag button
- *
- * Styleguide 3.6
-*/
-
-.tag-button {
-  @extend .button;
-  @include border-radius($font-h);
-
-  // Treat direct-child anchors as special elements,
-  // because they're a common use-case
-  > a {
-    color: inherit;
-    font-weight: inherit;
-    text-decoration: none;
-  }
-}

@@ -648,15 +648,9 @@ class MediaResourcesController < ApplicationController
             with = params[:with] || {},
             sort = params[:sort],
             page = params[:page],
-            per_page = [(params[:per_page] || PER_PAGE.first).to_i, PER_PAGE.first].min)
+            per_page = [(params[:per_page] || PER_PAGE.first).to_i.abs, PER_PAGE.last].min)
 
-    MediaResourceModules::Filter::DEPRECATED_KEYS.each_pair do |k,v| 
-      params[k] ||= params.delete(v) if params[v]
-    end
-
-    @filter = params.select do |k,v| 
-      MediaResourceModules::Filter::KEYS.include?(k.to_sym) 
-    end.delete_if {|k,v| v.blank?}.deep_symbolize_keys
+    @filter = MediaResource.get_filter_params params
     
     respond_to do |format|
       format.html
@@ -686,6 +680,10 @@ class MediaResourcesController < ApplicationController
 
   def show
     redirect_to @media_resource
+  end
+
+  def browse
+
   end
 
   def edit
@@ -741,6 +739,20 @@ class MediaResourcesController < ApplicationController
     end
   end
 
+  def favor
+    current_user.favorites.favor(@media_resource)
+    respond_to do |format|
+      format.json { render :nothing => true, :status => :no_content }
+    end
+  end
+
+  def disfavor
+    current_user.favorites.disfavor(@media_resource)
+    respond_to do |format|
+      format.json { render :nothing => true, :status => :no_content }
+    end
+  end
+
 ###################################################################################
 
   def parents(parent_media_set_ids = params[:parent_media_set_ids])
@@ -784,10 +796,14 @@ class MediaResourcesController < ApplicationController
   # @example_request_description Responding with the image of that MediaResource or an placeholder image if the application cannot provide an image for that media_type.
   #
   def image(size = (params[:size] || :large).to_sym)
+    if size == :maximum and not current_user.authorized? :download, @media_resource
+      size = :x_large
+    end
+
     # TODO dry => Resource#thumb_base64 and Download audio/video
     media_file = @media_resource.get_media_file(current_user)
-    
-    if (not media_file) or ["MediaSet", "FilterSet"].include? @media_resource.type
+
+    if (not media_file) and @media_resource.is_a? MediaSet
       # empty gif pixel
       output = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==\n"
       send_data Base64.decode64(output), :type => "image/gif", :disposition => 'inline'
@@ -797,7 +813,7 @@ class MediaResourcesController < ApplicationController
         output = File.read(file)
         send_data output, :type => preview.content_type, :disposition => 'inline'
       else
-        output = media_file.thumb_placeholder
+        output = media_file.thumb_placeholder(size)
         send_data output, :type => "image/png", :disposition => 'inline'
       end
     end

@@ -40,6 +40,10 @@ class UsersController < ApplicationController
     redirect_to media_resources_path(:user_id => params[:id])
   end
 
+  def keywords
+
+  end
+
 #####################################################
 
   def usage_terms

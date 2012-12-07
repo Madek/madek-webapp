@@ -1,0 +1,42 @@
+.app-clipboard
+  .ui-clipboard.closed
+    %a.block.ui-clipboard-toggle.inverted-transparent#clipboard-toggle
+      %i.icon-clipboard.bright
+      Zwischenablage
+      %span.ui-clipboard-counter.hidden
+        Leer
+    .ui-container.inverted-transparent.ui-clipboard-content
+      .col5of6
+        %ul.ui-resources.miniature.ui-clipboard-resources-list.hidden
+        %p.ui-clipboard-alert.ui-clipboard-empty-alert 
+          %span.text.title-l Keine Inhalte ausgewählt
+        %p.ui-clipboard-alert.ui-clipboard-size-alert.title-l.hidden Mehr als 99 Elemente ausgewählt
+      .col1of6
+        .ui-clipboard-actions
+          .ui-dropup.dropup.stick-right
+            %a.primary-button.block.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
+              Aktionen
+              %i.icon-arrow-up.bright.stand-alone
+            %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+              %li.ui-drop-item
+                %a
+                  %i.icon-move.mid
+                  Zu Set hinzufügen/entfernen
+              %li.ui-drop-item
+                %a
+                  %i.icon-lock.mid
+                  Zugriffsberechtigungen anzeigen
+              %li.ui-drop-item.ui-clipboard-manage-button
+                %a
+                  %i.icon-lock.mid
+                  %span.ui-count
+                  Zugriffsberechtigungen editieren
+              %li.ui-drop-item.ui-clipboard-edit-button
+                %a
+                  %i.icon-pen.mid
+                  %span.ui-count
+                  MetaDaten von Medieneinträgen bearbeiten
+          %a.tertiary-button.small.block.ui-clipboard-clear Zwischenablage Leeren
+
+:coffeescript
+  $ -> new App.ClipboardController

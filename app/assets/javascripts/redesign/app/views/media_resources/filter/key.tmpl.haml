@@ -1,0 +1,8 @@
+{{if terms.length > 0}}
+%li.ui-side-filter-lvl2-item{:"data-key-name" => "${key_name}"}
+  %a.ui-accordion-toggle.weak 
+    %i.ui-side-filter-lvl2-marker
+    ${key_label}
+  %ul.ui-side-filter-lvl3.ui-accordion-body
+    {{tmpl(terms) App.renderPath("media_resources/filter/term")}}
+{{/if}}

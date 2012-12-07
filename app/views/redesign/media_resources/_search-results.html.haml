@@ -1,333 +1,163 @@
 .app-body
 
-  // PAGE TITLE
-
-  .app-body-title
-    .ui-body-title
-      .ui-body-title-label
-        %h1.title-xl
-          Suchergebnisse für
-          = "\"#{params[:search]}\""
+  
+  .row 
+    .col2of3
+      .app-body-title
+        .ui-body-title
+          .ui-body-title-label
+            %h1.title-xl 
+              Suchergebnisse für
+              = "\"#{params[:search]}\""
+    .col1of3
+      .ui-search.large.mts
+        %input.block.ui-search-input{:type => "text", :placeholder => "Search term"}
+        %button.primary-button.ui-search-button Search
 
   .app-body-ui-container
     .bordered.midtone.ui-container.rounded
       .app-body-content
-        .ui-toolbar.inverted.ui-container.pax.rounded-top
-          %h2.ui-toolbar-header.col1of2
-            %strong Set enthält
-            (3 von 11 für Sie sichtbar)
-          .ui-toolbar-controls.col1of2.by-right
-            .button-group.tertiary.small.right.mls
-              %a.button.active
-                %i.icon-vis-grid.bright Grid
-              %a.button
-                %i.icon-vis-tiles Tiles
-              %a.button
-                %i.icon-vis-list List
-            .dropdown
-              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                Sort by Name
+        .ui-container.inverted.ui-toolbar.phs.pvx.rounded-top
+          %h2.ui-toolbar-header
+            %strong Sektion enthält
+            36 Inhalte
+          .ui-toolbar-controls.by-right
+            #ui-resources-layout-switcher.button-group.tertiary.small.right.mls
+              %a.button.ui-toolbar-vis-button{"data-vis-mode" => "miniature", :title => "Miniatur-Ansicht"}
+                %i.ui-toolbar-icon-miniature Miniatur-Ansicht
+              %a.active.button.ui-toolbar-vis-button{"data-vis-mode" => "grid", :title => "Grid-Ansicht"}
+                %i.ui-toolbar-icon-grid Grid-Ansicht
+              %a.button.ui-toolbar-vis-button{"data-vis-mode" => "list", :title => "Listen-Ansicht"}
+                %i.ui-toolbar-icon-list Listen-Ansicht
+            #ui-resources-sorting.dropdown.ui-dropdown.stick-right
+              %a.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
+                %span.ui-text
+                  Sortieren nach Erstellungsdatum
                 %i.icon-arrow-down.bright
-              %ul.dropdown-menu{"aria-labelledby" => "dLabel", :role => "menu"}
-                %li.dropdown-menu-item
-                  %a{:href => "#"} Item 1
-                %li.dropdown-menu-item
-                  %a{:href => "#"} Item 2
-                %li.separator
-                %li.dropdown-menu-item
-                  %a{:href => "#"} Abmelden
+              %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+                %li.active.ui-drop-item.hidden
+                  %a{"data-sort" => "created_at"} Sortieren nach Erstellungsdatum
+                %li.ui-drop-item
+                  %a{"data-sort" => "updated_at"} Sortieren nach Änderungsdatum
+                %li.ui-drop-item
+                  %a{"data-sort" => "title"} Sortieren nach Titel
+                %li.ui-drop-item
+                  %a{"data-sort" => "author"} Filtern und sortieren nach Autor/in
 
-        .ui-filterbar.separated.mam.pbm.ui-container
+        .ui-filterbar.separated.ui-container
           .left.col2of6
-            %a.button.active#ui-side-filter-toggle
+            %a#ui-side-filter-toggle.active.button
               %i.icon-sidebar
               Filtern
+            %a#ui-side-filter-reset.mlx.hidden
+              Alle Filter zurücksetzen
           .col2of6.by-center
-            .button-group
-              %a.button.active{:href => "#"} Alle
-              %a.button{:href => "#"} Medientrage
-              %a.button{:href => "#"} Sets
+            #ui-resources-type-filter.button-group
+              %a.active.button Alle
+              %a.button{"data-type" => "media_entries"} Medientrage
+              %a.button{"data-type" => "media_sets"} Sets
           .col2of6.by-right
-            %a.weak{:href => "#"}<
+            %a.weak.ui-filterbar-select{:href => "#"}
               Select All
-              %i.icon-checkbox>
+              %i.icon-checkbox
 
+      .ui-resources-holder 
         .ui-container.table.auto
-          .ui-container.table-cell#ui-side-filter
 
-            %ul#ui-side-filter.ui-side-filter.ui-accordion.mam
-              %li.ui-side-filter-item
-                %input.block.filter-search-input{:type => "text"}
-                  %button.small.filter-search-button.primary-button Search
-              %li.ui-side-filter-item
-                %a.strong.ui-accordion-toggle.ui-side-filter-lvl1-item
-                  Level 1 Filter
-                  %i.ui-side-filter-icon-arrow
-                .ui-accordion-body
-                  %ul.ui-side-filter-lvl2
-                    %li.ui-side-filter-lvl2-item
-                      %a.weak{:href => "#"} Level 2 Filter
-                    %li.ui-side-filter-lvl2-item
-                      %a.weak{:href => "#"} Level 2 Filter
-                      %ul.ui-side-filter-lvl3
-                        %li.ui-side-filter-lvl3-item
-                          %a.weak{:href => "#"} Level 3 filter
-                        %li.ui-side-filter-lvl3-item
-                          %a.weak{:href => "#"} Level 3 filter
-                          %ul.ui-side-filter-lvl4
-                            %li.ui-side-filter-lvl4-item
-                              %a.weak{:href => "#"} Item 1
-                            %li.ui-side-filter-lvl4-item
-                              %a.weak{:href => "#"} Item 2
-                        %li.ui-side-filter-lvl3-item
-                          %a.weak{:href => "#"} Level 3 filter
-                        %li.ui-side-filter-lvl3-item
-                          %a.weak{:href => "#"} Level 3 filter
-                    %li.ui-side-filter-lvl2-item
-                      %a.weak{:href => "#"} Level 2 Filter
-                    %li.ui-side-filter-lvl2-item
-                      %a.weak{:href => "#"} Level 2 Filter
-              %li.ui-side-filter-item
-                %a.strong.ui-accordion-toggle.ui-side-filter-lvl1-item
-                  Level 1 Filter
-                  %i.ui-side-filter-icon-arrow
-                .ui-accordion-body{:style => "display: block;"}
-                  %ul.ui-side-filter-lvl2
-                    %li.ui-side-filter-lvl2-item
-                      %a.weak{:href => "#"} Level 2 Filter
-                    %li.ui-side-filter-lvl2-item
-                      %a.weak{:href => "#"} Level 2 Filter
-                      %ul.ui-side-filter-lvl3
-                        %li.ui-side-filter-lvl3-item
-                          %a.weak{:href => "#"} Level 3 filter
-                        %li.ui-side-filter-lvl3-item
-                          %a.weak{:href => "#"} Level 3 filter
-                          %ul.ui-side-filter-lvl4
-                            %li.ui-side-filter-lvl4-item
-                              %a.weak{:href => "#"} Item 1
-                            %li.ui-side-filter-lvl4-item
-                              %a.weak{:href => "#"} Item 2
-                        %li.ui-side-filter-lvl3-item
-                          %a.weak{:href => "#"} Level 3 filter
-                        %li.ui-side-filter-lvl3-item
-                          %a.weak{:href => "#"} Level 3 filter
-                    %li.ui-side-filter-lvl2-item
-                      %a.weak{:href => "#"} Level 2 Filter
-                    %li.ui-side-filter-lvl2-item
-                      %a.weak{:href => "#"} Level 2 Filter
-              %li.ui-side-filter-item
-                %a.strong.ui-accordion-toggle.ui-side-filter-lvl1-item
-                  Level 1 Filter
-                  %i.ui-side-filter-icon-arrow
-                .ui-accordion-body{:style => "display: none;"}
-                  %ul.ui-side-filter-lvl2
-                    %li.ui-side-filter-lvl2-item
-                      %a.weak{:href => "#"} Level 2 Filter
-                    %li.ui-side-filter-lvl2-item
-                      %a.weak{:href => "#"} Level 2 Filter
-                      %ul.ui-side-filter-lvl3
-                        %li.ui-side-filter-lvl3-item
-                          %a.weak{:href => "#"} Level 3 filter
-                        %li.ui-side-filter-lvl3-item
-                          %a.weak{:href => "#"} Level 3 filter
-                          %ul.ui-side-filter-lvl4
-                            %li.ui-side-filter-lvl4-item
-                              %a.weak{:href => "#"} Item 1
-                            %li.ui-side-filter-lvl4-item
-                              %a.weak{:href => "#"} Item 2
-                        %li.ui-side-filter-lvl3-item
-                          %a.weak{:href => "#"} Level 3 filter
-                        %li.ui-side-filter-lvl3-item
-                          %a.weak{:href => "#"} Level 3 filter
-                    %li.ui-side-filter-lvl2-item
-                      %a.weak{:href => "#"} Level 2 Filter
-                    %li.ui-side-filter-lvl2-item
-                      %a.weak{:href => "#"} Level 2 Filter
+          #ui-side-filter.ui-side-filter
+            #ui-side-filter-search.ui-side-filter-search
+              %input.block.ui-filter-search-input{:type => "text"}
+                %button.small.ui-side-filter-search-button.primary-button Suchen
+            .ui-side-filter-list
+              %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-filter-type" => "media_files"}
+                %a.strong.ui-accordion-toggle.open
+                  Datei
+                  %i.ui-side-filter-lvl1-marker
+                %ul.ui-side-filter-lvl2.ui-accordion-body.open
+                  %li.ui-side-filter-lvl2-item{"data-key-name" => "media_type"}
+                    %a.ui-accordion-toggle.weak
+                      %i.ui-side-filter-lvl2-marker
+                      Medientyp
+                    %ul.ui-side-filter-lvl3.ui-accordion-body
+                      %li.ui-side-filter-lvl3-item{"data-value" => "image"}
+                        %a.weak
+                          image
+                          %span.ui-lvl3-item-count 35
+                      %li.ui-side-filter-lvl3-item{"data-value" => "document"}
+                        %a.weak
+                          document
+                          %span.ui-lvl3-item-count 1
+                  %li.ui-side-filter-lvl2-item{"data-key-name" => "extension"}
+                    %a.ui-accordion-toggle.weak
+                      %i.ui-side-filter-lvl2-marker
+                      Dokumenttyp
+                    %ul.ui-side-filter-lvl3.ui-accordion-body
+                      %li.ui-side-filter-lvl3-item{"data-value" => "png"}
+                        %a.weak
+                          png
+                          %span.ui-lvl3-item-count 35
+                      %li.ui-side-filter-lvl3-item{"data-value" => "pdf"}
+                        %a.weak
+                          pdf
+                          %span.ui-lvl3-item-count 1
+              %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-filter-type" => "permissions"}
+                %a.strong.ui-accordion-toggle.open
+                  Berechtigung
+                  %i.ui-side-filter-lvl1-marker
+                %ul.ui-side-filter-lvl2.ui-accordion-body.open
+                  %li.ui-side-filter-lvl2-item{"data-key-name" => "owner"}
+                    %a.ui-accordion-toggle.weak
+                      %i.ui-side-filter-lvl2-marker
+                      Eigentümer/in
+                    %ul.ui-side-filter-lvl3.ui-accordion-body
+                      %li.ui-side-filter-lvl3-item{"data-value" => "1"}
+                        %a.weak
+                          Admin, Adam
+                          %span.ui-lvl3-item-count 36
+                  %li.ui-side-filter-lvl2-item{"data-key-name" => "scope"}
+                    %a.ui-accordion-toggle.weak
+                      %i.ui-side-filter-lvl2-marker
+                      Zugriff
+                    %ul.ui-side-filter-lvl3.ui-accordion-body
+                      %li.ui-side-filter-lvl3-item{"data-value" => "mine"}
+                        %a.weak
+                          Meine Inhalte
+                          %span.ui-lvl3-item-count 36
+              %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-filter-type" => "meta_data"}
+                %a.strong.ui-accordion-toggle.open
+                  Werk
+                  %i.ui-side-filter-lvl1-marker
+                %ul.ui-side-filter-lvl2.ui-accordion-body.open
+                  %li.ui-side-filter-lvl2-item{"data-key-name" => "keywords"}
+                    %a.ui-accordion-toggle.weak
+                      %i.ui-side-filter-lvl2-marker
+                      Schlagworte zu Inhalt und Motiv
+                    %ul.ui-side-filter-lvl3.ui-accordion-body
+                      %li.ui-side-filter-lvl3-item{"data-value" => "4601"}
+                        %a.weak
+                          My tag
+                          %span.ui-lvl3-item-count 36
+                  %li.ui-side-filter-lvl2-item{"data-key-name" => "type"}
+                    %a.ui-accordion-toggle.weak
+                      %i.ui-side-filter-lvl2-marker
+                      Gattung
+                    %ul.ui-side-filter-lvl3.ui-accordion-body
+                      %li.ui-side-filter-lvl3-item{"data-value" => "76"}
+                        %a.weak
+                          Fotografie
+                          %span.ui-lvl3-item-count 36
+                      %li.ui-side-filter-lvl3-item{"data-value" => "79"}
+                        %a.weak
+                          Kunst
+                          %span.ui-lvl3-item-count 36
+                      %li.ui-side-filter-lvl3-item{"data-value" => "83"}
+                        %a.weak
+                          Musik
+                          %span.ui-lvl3-item-count 36
 
-          .ui-container.table-cell
-            .ui-container.pam
-              .media-resources-wrapper
-                %ul.media-resources.list{:class => "$modifier-class"}
-                  %li.media-resources-item.odd
-                    .entry-head
-                      %ul.entry-actions
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-checkbox Select
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-star Favorite
-                      %h2.entry-title Karen Kägi: Blick aus der Siedlung
-                    .entry-body
-                      .entry-thumbnail
-                        .ui-thumbnail.media-set
-                          .ui-thumbnail-level-up-items
-                            %h3.title-xs-alt Keine übergeordneten Sets
-                          .thumbnail-privacy
-                            %i.icon-privacy-group This media is shared with a group
-                          .thumbnail-set.thumbnail
-                            %a
-                              .inner-wrapper
-                                %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}
-                          .ui-thumbnail-metadata
-                            %h3.title-s.ui-thumbnail-name.col4of6 Katalog name that can easily go onto 2 lines
-                            %span.ui-thumbnail-additional-data.col2of6.by-right 500 Inhalte
-                          .ui-thumbnail-actions
-                            %ul.left.by-left
-                              %li
-                                %a{:href => "#"}
-                                  %i.icon-checkbox Select
-                              %li
-                                %a{:href => "#"}
-                                  %i.icon-star Favorite
-                            %ul.right.by-right
-                              %li
-                                %a{:href => "#"}
-                                  %i.icon-eye Explore
-                              %li
-                                %a{:href => "#"}
-                                  %i.icon-pen Edit
-                              %li
-                                %a{:href => "#"}
-                                  %i.icon-trash Delete
-                          .ui-thumbnail-level-down-items
-                            %h3.title-s Set enthalt
-                            .thumbnail.thumbnail-set.small.odd
-                              %a
-                                .inner-wrapper
-                                  %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}
-                            .thumbnail.thumbnail-set.small.even
-                              %a
-                                .inner-wrapper
-                                  %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}
-                            %h4.title-xs-alt 5 Inhalte
-                      .entry-metadata
-                        .ui-metadata-box.ui-summary-table
-                          %table.borderless
-                            %tbody
-                              %tr
-                                %td.ui-summary-label Autor/in
-                                %td.ui-summary-content Emch, Oliver
-                              %tr
-                                %td.ui-summary-label Schlagworte zu Inhalt und Motiv
-                                %td.ui-summary-content
-                                  %ul.ui-tag-cloud.small
-                                    %li.tag-button
-                                      %a{:href => "#"} Tag
-                                    %li.tag-button
-                                      %a{:href => "#"} Tag
-                                    %li.tag-button
-                                      %a{:href => "#"} Tag
-                              %tr
-                                %td.ui-summary-label Rechteinhaber
-                                %td.ui-summary-content unbekannt
-                              %tr
-                                %td.ui-summary-label Eigentumer/in
-                                %td.ui-summary-content Federico C.
-                      .entry-description
-                        %p Es sind keine Metadaten zu dem Kontext "Institution" bereit gestellt.
-                      .entry-details
-                        .ui-metadata-box.ui-summary-table
-                          %table.borderless
-                            %tbody
-                              %tr
-                                %td.ui-summary-label Eigentümer/in im Medienarchiv
-                                %td.ui-summary-content Emch, Oliver
-                              %tr
-                                %td.ui-summary-label Hochgeladen am
-                                %td.ui-summary-content 29.07.2010
-                              %tr
-                                %td.ui-summary-label Enthalten in
-                                %td.ui-summary-content 1 Set
-                  %li.media-resources-item.even
-                    .entry-head
-                      %ul.entry-actions
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-checkbox Select
-                        %li
-                          %a{:href => "#"}
-                            %i.icon-star Favorite
-                      %h2.entry-title Karen Kägi: Blick aus der Siedlung
-                    .entry-body
-                      .entry-thumbnail
-                        .ui-thumbnail.media-set
-                          .ui-thumbnail-level-up-items
-                            %h3.title-xs-alt Keine übergeordneten Sets
-                          .thumbnail-privacy
-                            %i.icon-privacy-group This media is shared with a group
-                          .thumbnail-set.thumbnail
-                            %a
-                              .inner-wrapper
-                                %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}
-                          .ui-thumbnail-metadata
-                            %h3.title-s.ui-thumbnail-name.col4of6 Katalog name that can easily go onto 2 lines
-                            %span.ui-thumbnail-additional-data.col2of6.by-right 500 Inhalte
-                          .ui-thumbnail-actions
-                            %ul.left.by-left
-                              %li
-                                %a{:href => "#"}
-                                  %i.icon-checkbox Select
-                              %li
-                                %a{:href => "#"}
-                                  %i.icon-star Favorite
-                            %ul.right.by-right
-                              %li
-                                %a{:href => "#"}
-                                  %i.icon-eye Explore
-                              %li
-                                %a{:href => "#"}
-                                  %i.icon-pen Edit
-                              %li
-                                %a{:href => "#"}
-                                  %i.icon-trash Delete
-                          .ui-thumbnail-level-down-items
-                            %h3.title-s Set enthalt
-                            .thumbnail.thumbnail-set.small.odd
-                              %a
-                                .inner-wrapper
-                                  %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}
-                            .thumbnail.thumbnail-set.small.even
-                              %a
-                                .inner-wrapper
-                                  %img{:alt => "Tmp-thumb-large", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}
-                            %h4.title-xs-alt 5 Inhalte
-                      .entry-metadata
-                        .ui-metadata-box.ui-summary-table
-                          %table.borderless
-                            %tbody
-                              %tr
-                                %td.ui-summary-label Autor/in
-                                %td.ui-summary-content Emch, Oliver
-                              %tr
-                                %td.ui-summary-label Schlagworte zu Inhalt und Motiv
-                                %td.ui-summary-content
-                                  %ul.ui-tag-cloud.small
-                                    %li.tag-button
-                                      %a{:href => "#"} Tag
-                                    %li.tag-button
-                                      %a{:href => "#"} Tag
-                                    %li.tag-button
-                                      %a{:href => "#"} Tag
-                              %tr
-                                %td.ui-summary-label Rechteinhaber
-                                %td.ui-summary-content unbekannt
-                              %tr
-                                %td.ui-summary-label Eigentumer/in
-                                %td.ui-summary-content Federico C.
-                      .entry-description
-                        %p Es sind keine Metadaten zu dem Kontext "Institution" bereit gestellt.
-                      .entry-details
-                        .ui-metadata-box.ui-summary-table
-                          %table.borderless
-                            %tbody
-                              %tr
-                                %td.ui-summary-label Eigentümer/in im Medienarchiv
-                                %td.ui-summary-content Emch, Oliver
-                              %tr
-                                %td.ui-summary-label Hochgeladen am
-                                %td.ui-summary-content 29.07.2010
-                              %tr
-                                %td.ui-summary-label Enthalten in
-                                %td.ui-summary-content 1 Set
+          .ui-container.table-cell.table-substance
+            = render :partial => "media_resources/wrapper", 
+                     :locals => {:media_resources => current_user.media_resources, 
+                                 :type => :media_entries,
+                                 :with_actions => true}
 

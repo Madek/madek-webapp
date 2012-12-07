@@ -1,10 +1,11 @@
 /**
- * ## Thumbnail grid ui-toolbar
+ * ## Thumbnail grid ui-toolbar `.ui-toolbar`
  *
  * Styleguide 7.1
  */
 
 .ui-toolbar {
+  @include min-dimension(auto,20px);
   margin-right: -2px;
   position: relative;
   top: -1px;
@@ -16,36 +17,23 @@
   line-height: $line-height-s;
 }
 
-.ui-toolbar-vis-button {
-  .ui-toolbar-icon-grid,
-  .ui-toolbar-icon-tiles,
-  .ui-toolbar-icon-list {
-    opacity: $opacity-strong;
-  }
-  &:hover {
-    .ui-toolbar-icon-grid,
-    .ui-toolbar-icon-tiles,
-    .ui-toolbar-icon-list {
-      opacity: 1;
-    }
-  }
+.ui-toolbar .ui-dropdown { 
+  float: right;
 }
 
-.ui-toolbar-icon-grid {
-  @extend .icon-vis-grid;
+.ui-toolbar-controls { 
+  @include position-top-right($space-x,$space-x);
+}
+
+.ui-toolbar-icon-miniature {
+  @extend .icon-vis-miniature;
   @extend .bright;
 }
 .ui-toolbar-icon-list {
   @extend .icon-vis-list;
   @extend .bright;
 }
-.ui-toolbar-icon-tiles {
-  @extend .icon-vis-tiles;
+.ui-toolbar-icon-grid {
+  @extend .icon-vis-grid;
   @extend .bright;
 }
-
-/**
- * ## Thumbnail grid inner ui-toolbar
- *
- * Styleguide 7.2
- */

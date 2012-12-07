@@ -14,10 +14,11 @@ module MediaResourceModules
     # returns: the path and filename of the updated copy or nil (if the copy failed)
     def updated_resource_file(blank_all_tags = false, size = nil)
       begin
-        source_filename = if size
-          media_file.get_preview(size).full_path
+        source_filename, content_type = if size
+          p = media_file.get_preview(size)
+          [p.full_path, p.content_type]
         else
-          media_file.file_storage_location
+          [media_file.file_storage_location, media_file.content_type]
         end
         FileUtils.cp( source_filename, DOWNLOAD_STORAGE_DIR )
         # remember we want to handle the following:
@@ -32,11 +33,11 @@ module MediaResourceModules
   
         resout = `#{EXIFTOOL_PATH} #{tags} "#{path}"`
         FileUtils.rm("#{path}_original") if resout.include?("1 image files updated") # Exiftool backs up the original before editing. We don't need the backup.
-        return path.to_s
+        return [path.to_s, content_type]
       rescue 
         # "No such file or directory" ?
         logger.error "copy failed with #{$!}"
-        return nil
+        return [nil, nil]
       end
     end
       

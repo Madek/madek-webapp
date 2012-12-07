@@ -1,0 +1,93 @@
+.ui-document-preview-container {
+  display: block;
+  position: relative;
+}
+
+.ui-document-preview-controls {
+  display: none;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.ui-document-preview-container:hover .ui-document-preview-controls {
+  display: block;
+}
+
+.ui-document-preview-open,
+.ui-document-preview-prev,
+.ui-document-preview-next {
+  background: $darken-more;
+  cursor: pointer;
+  height: 60px;
+  position: absolute;
+  width: 60px;
+
+  &:hover {
+    background: $darken-strong;
+
+    .ui-prev-arrow-open,
+    .ui-prev-arrow-prev,
+    .ui-prev-arrow-next {
+      opacity: 1;
+    }
+  }
+
+  &:active {
+    background: $darken-more;
+
+    .ui-prev-arrow-open,
+    .ui-prev-arrow-prev,
+    .ui-prev-arrow-next {
+      opacity: $opacity-strong;
+    }
+  }
+}
+
+.ui-document-preview-open {
+  height: 30px;
+  right: 0;
+  top: 0;
+  width: 30px;
+}
+
+.ui-document-preview-next {
+  bottom: 0;
+  right: 0;
+}
+
+.ui-document-preview-prev {
+  bottom: 0;
+  left: 0;
+}
+
+.ui-prev-arrow-open,
+.ui-prev-arrow-prev,
+.ui-prev-arrow-next {
+  height: 0; 
+  opacity: $opacity-strong;
+  position: absolute;
+  top: 15px;
+  width: 0; 
+}
+
+.ui-prev-arrow-open, {
+  top: 6px;
+  right: 5px;
+}
+
+.ui-prev-arrow-prev {
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent; 
+  border-right: 14px solid white; 
+  left: 21px;
+}
+
+.ui-prev-arrow-next {
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent; 
+  border-left: 14px solid white; 
+  right: 21px;
+}

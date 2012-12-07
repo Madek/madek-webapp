@@ -1,0 +1,22 @@
+.ui-thumbnail-actions
+  %ul.left.by-left
+    %li.ui-thumbnail-action
+      %a.ui-thumbnail-action-checkbox{:"data-clipboard-toggle" => true, :title => "Zur Zwischenablage hinzufügen"}
+        Zum Clipboard hinzufügen
+    %li.ui-thumbnail-action
+      %a{:"data-favor-toggle" => true,
+         :title => "{{if is_favorite}}Von Favoriten entfernen{{else}}Zu Favoriten hinzufügen{{/if}}", 
+         :class => "ui-thumbnail-action-favorite{{if is_favorite}} active{{/if}}"}
+        Zu Favoriten hinzufügen
+  %ul.right.by-right
+    %li.ui-thumbnail-action
+      %a.ui-thumbnail-action-browse{:title => "Erkunden", :href => "/media_resources/${id}/browse"}
+        Erkunden
+    {{if is_editable}}
+    %li.ui-thumbnail-action
+      %a.ui-thumbnail-action-edit{:title => "Editieren", :href => "/media_resources/${id}/edit"}
+        Editieren
+    %li.ui-thumbnail-action
+      %a.ui-thumbnail-action-delete{:"data-delete-action" => true, :title => "Löschen"}
+        Löschen
+    {{/if}}

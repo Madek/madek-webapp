@@ -1,0 +1,8 @@
+%li{:class => "ui-resources-page{{if not_loaded}} not-loaded{{/if}}", :"data-page" => "${page}"}
+  %span.ui-resources-page-counter ${total} Inhalte, Seite ${page} von ${total_pages}
+  %ul.ui-resources-page-items
+    {{if not_loaded}}
+    {{each(i) App.MediaResourcesController.PAGESIZE_ARRAY}}
+    {{tmpl App.renderPath("media_resources/not_loaded_resource")}}
+    {{/each}}
+    {{/if}}

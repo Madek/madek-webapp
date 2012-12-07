@@ -1,17 +1,18 @@
 /**
- * ## Thumb section header `.ui-resources-head`
+ * ## Resources header `.ui-resources-header`
  *
- * Styleguide 6.9
+ * Styleguide 6.5
  */
 
 // Thumbnail section headers
 
-.ui-resources-intro {
-  padding: $space-m 0 0;
+.ui-resources-header { 
+  @include max-dimension(800px,auto);
+  margin: 0 0 $space-m 0;
 }
 .ui-resources-header a {
   font-size: $font-s;
-  margin-left: $space-m;
+  margin-left: $space-s;
   &:after {
     content: " \2192";
   }

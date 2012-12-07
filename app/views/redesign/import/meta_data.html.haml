@@ -1,6 +1,6 @@
 .app.view-import
 
-  = render "application/header/logged_in"
+  = render "application/header"
 
   .app-body
 
@@ -38,51 +38,34 @@
                   Die bereits vergebenen Werte hervorheben
 
           .ui-container.clearfix.mvl.bordered.midtone.rounded.upload-preview
-
-            %ul.ui-resources.grid
-              %li.ui-resources-item
-                .ui-thumbnail.media-entry
-                  .thumbnail-audio.thumbnail
-                    %img{:alt => "", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}
-              %li.ui-resources-item
-                .ui-thumbnail.media-entry
-                  .thumbnail-video.thumbnail
-                    %img{:alt => "Thumb-video", :src => "/assets/redesign/thumbnails/thumb-video-mov.png"}
-              %li.ui-resources-item
-                .ui-thumbnail.media-entry
-                  .thumbnail-audio.thumbnail
-                    %img{:alt => "Thumb-audio", :src => "/assets/redesign/thumbnails/thumb-audio-mp3.png"}
-              %li.ui-resources-item
-                .ui-thumbnail.media-entry
-                  .thumbnail-doc.thumbnail
-                    %img{:alt => "Thumb-doc", :src => "/assets/redesign/thumbnails/thumb-doc-doc.png"}
-              %li.ui-resources-item
-                .ui-thumbnail.media-entry
-                  .thumbnail-audio.thumbnail
-                    %img{:alt => "", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}
+          
+            = render :partial => "media_resources/wrapper", 
+                     :locals => {:media_resources => current_user.media_resources, 
+                                 :type => :media_entries,
+                                 :with_actions => false}
 
           .ui-container
             %form
 
               .form-body
-                .form-group.columned
+                .ui-form-group.columned
                   %label.form-label
                     Titel
                     %small des Werks oder einer Werkserie
                   .form-item
                     %input.block{ :type => "text" }
-                .form-group.columned
+                .ui-form-group.columned
                   %label.form-label
                     Untertitel
-                    %span.form-tooltip-toggle.tooltip-toggle{"data-original-title" => "Der Untertitel erweitert den Titel des Werks oder der Werkserie mit zusätzlichen Informationen. Nicht zu verwechseln mit der Bildlegende oder dem Untertitel eines Films (siehe dort).", "data-placement" => "left", :rel => "tooltip"}
+                    %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Der Untertitel erweitert den Titel des Werks oder der Werkserie mit zusätzlichen Informationen. Nicht zu verwechseln mit der Bildlegende oder dem Untertitel eines Films (siehe dort).", "data-placement" => "left", :rel => "tooltip"}
                       More Info
                   .form-item
                     %input.block{ :type => "text" }
-                .form-group.columned
+                .ui-form-group.columned
                   %label.form-label
                     Autor/in
                     %small Eingabeform: Nachname, Vorname
-                    %span.form-tooltip-toggle.tooltip-toggle{"data-original-title" => "Urheber/in des Werkes. Wer hat das Werk erschaffen? Handelt es sich um einen historischen Künstler oder eine zeitgenössische Komponistin? Sind Sie selbst Urheber/in? Auch Pseudonyme und Personengruppen (z.B. Künstlergruppe, Atelier, Firma) sind möglich.", "data-placement" => "left", :rel => "tooltip"}
+                    %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Urheber/in des Werkes. Wer hat das Werk erschaffen? Handelt es sich um einen historischen Künstler oder eine zeitgenössische Komponistin? Sind Sie selbst Urheber/in? Auch Pseudonyme und Personengruppen (z.B. Künstlergruppe, Atelier, Firma) sind möglich.", "data-placement" => "left", :rel => "tooltip"}
                       More Info
                   .form-item
                     %input.block{:type => "text"}
@@ -96,38 +79,38 @@
                             %a{"data-toggle" => "tab", :href => "#gruppe1"} Gruppe
                         .tab-content.mbs
                           #person1.tab-pane.active.pam.ui-container.bordered.rounded-right.rounded-bottom
-                            .form-group.rowed
+                            .ui-form-group.rowed.compact
                               %label.form-label Nachname
                               .form-item
                                 %input.block{:type => "text"}
-                            .form-group.rowed
+                            .ui-form-group.rowed.compact
                               %label.form-label Vorname
                               .form-item
                                 %input.block{:type => "text"}
-                            .form-group.rowed
+                            .ui-form-group.rowed.compact
                               %label.form-label Pseudonym
                               .form-item
                                 %input.block{:type => "text"}
-                            .form-group.rowed.pts
+                            .ui-form-group.rowed.compact
                               %button.button.block Personendaten einfügen
                           #gruppe1.tab-pane.pam.ui-container.bordered.rounded-right.rounded-bottom
-                            .form-group.rowed
+                            .ui-form-group.rowed.compact
                               %label.form-label Name
                               .form-item
                                 %input.block{:type => "text"}
-                            .form-group.rowed.pts
+                            .ui-form-group.rowed.compact
                               %button.button.block Gruppendaten einfügen
-                .form-group.columned
+                .ui-form-group.columned
                   %label.form-label
                     Datierung
-                    %span.form-tooltip-toggle.tooltip-toggle{"data-original-title" => "Schlagworte zu Inhalt und Motiv des Werkes. Was ist zu sehen oder zu hören? Welche Themen behandelt das Werk?", "data-placement" => "left", :rel => "tooltip"}
+                    %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Schlagworte zu Inhalt und Motiv des Werkes. Was ist zu sehen oder zu hören? Welche Themen behandelt das Werk?", "data-placement" => "left", :rel => "tooltip"}
                       More Info
                   .form-item
-                .form-group.columned
+                .ui-form-group.columned
                   %label.form-label
                     Schlagworte zu Inhalt und Motiv
                     %small Einzelne Schlagworte, durch Return/Enter getrennt.
-                    %span.form-tooltip-toggle.tooltip-toggle{"data-original-title" => "Datum der Erschaffung des Werkes - nicht das Datum, an dem die Datei oder das Medium der Abbildung / der Wiedergabe entstanden ist.       Eingabe einer Zeitspanne: 1923 - 1929 (Leerzeichen Bindestrich Leerzeichen).", "data-placement" => "left", :rel => "tooltip"}
+                    %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Datum der Erschaffung des Werkes - nicht das Datum, an dem die Datei oder das Medium der Abbildung / der Wiedergabe entstanden ist.       Eingabe einer Zeitspanne: 1923 - 1929 (Leerzeichen Bindestrich Leerzeichen).", "data-placement" => "left", :rel => "tooltip"}
                       More Info
                   .form-item
                     %input.block{:type => "text"}
@@ -144,43 +127,43 @@
                       .tab-content.mbs
                         #tags1.tab-pane.active.pam.ui-container.bordered.rounded-right.rounded-bottom
                           %ul.ui-tag-cloud.small
-                            %li.tag-button
-                              %a
+                            %li
+                              %a.ui-tag-button
                                 Tag 1
-                            %li.tag-button
-                              %a
+                            %li.ui-tag-cloud-item
+                              %a.ui-tag-button
                                 Tag 2
-                            %li.tag-button
-                              %a
+                            %li.ui-tag-cloud-item
+                              %a.ui-tag-button
                                 Tag 3
                         #tags2.tab-pane.pam.ui-container.bordered.rounded-right.rounded-bottom
                           %ul.ui-tag-cloud.small
-                            %li.tag-button
+                            %li.ui-tag-cloud-item
                               %a
                                 Tag 1
-                            %li.tag-button
+                            %li.ui-tag-cloud-item
                               %a
                                 Tag 2
-                            %li.tag-button
+                            %li.ui-tag-cloud-item
                               %a
                                 Tag 3
                         #tags3.tab-pane.pam.ui-container.bordered.rounded-right.rounded-bottom
                           %ul.ui-tag-cloud.small
-                            %li.tag-button
+                            %li.ui-tag-cloud-item
                               %a
                                 Tag 1
-                            %li.tag-button
+                            %li.ui-tag-cloud-item
                               %a
                                 Tag 2
-                            %li.tag-button
+                            %li.ui-tag-cloud-item
                               %a
                                 Tag 3
 
-                .form-group.columned
+                .ui-form-group.columned
                   %label.form-label
                     Rechteinhaber
                     %small Natürliche oder juristische Person (Institution): z.B. Autor/in des Werks oder eine Institution
-                    %span.form-tooltip-toggle.tooltip-toggle{"data-original-title" => "Allgemeine Gattung der Kunst. In welchem künstlerischen Medium artikuliert sich das Werk? Welche künstlerischen Mittel werden zum Ausdruck genutzt?", "data-placement" => "left", :rel => "tooltip"}
+                    %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Allgemeine Gattung der Kunst. In welchem künstlerischen Medium artikuliert sich das Werk? Welche künstlerischen Mittel werden zum Ausdruck genutzt?", "data-placement" => "left", :rel => "tooltip"}
                       More Info
                   .form-item
                     %input.block{:type => "text"}
@@ -188,33 +171,33 @@
                       %i.icon-plus.dark
                       Weitere Angaben
                     .ui-container.pam.bordered.rounded.form-item-extension
-                      .form-group.rowed
+                      .ui-form-group.rowed.compact
                         %label.form-label Rechtsschutz
                         .form-item
                           %select.block
                             %option Unbekannt
                             %option Public Domain
                             %option ...
-                      .form-group.rowed
+                      .ui-form-group.rowed.compact
                         %label.form-label Nutzungsbedingungen
                         .form-item
                           %textarea.block
-                      .form-group.rowed
+                      .ui-form-group.rowed.compact
                         %label.form-label
                           Hinweise zu Rechtsgrundlagen
                           %small Eingabeformat: http://www.beispiel.ch [Datum des letzten Zugriffs]
                         .form-item
                           %textarea.block
-                      .form-group.rowed
+                      .ui-form-group.rowed.compact
                         %label.form-label ISO-Ländercode
                         .form-item
                           %textarea.block
-                .form-group.rowed
-                  .ui-actions
-                    %a.link.weak
-                      Abbrechen
-                    %a.primary-button.large
-                      Weiter&hellip;
+              .form-footer
+                .ui-actions
+                  %a.link.weak
+                    Abbrechen
+                  %a.primary-button.large
+                    Weiter&hellip;
 
   .app-footer-push
 .app-footer

@@ -18,10 +18,20 @@ MAdeK::Application.routes.draw do
 
 #####################################################
 
-  match 'browse' => 'browse#index'
-  match 'browse/:id' => 'browse#categories'
-  match 'browse/:id/:category' => 'browse#sections'
-  match 'browse/:id/:category/:section' => 'browse#media_resources'
+  match 'search', :to => 'search#index', :as => "search"
+
+#####################################################
+
+  match 'explore', :to => 'explore#index', :as => "explore"
+  match 'explore/:id', :to => 'explore#categories', :as => "explore_categories"
+  match 'explore/:id/:category', :to => 'explore#sections', :as => "explore_sections"
+  match 'explore/:id/:category/:section', :to => 'explore#media_resources', :as => "explore_media_resources"
+
+#####################################################
+
+  put 'collections/add', :to => 'collections#add', :as => "collections_add"
+  put 'collections/remove', :to => 'collections#remove', :as => "collections_remove"
+  delete 'collections/:id', :to => 'collections#destroy', :as => "collections_destroy"
 
 ###############################################
 
@@ -35,6 +45,7 @@ MAdeK::Application.routes.draw do
 
   match '/login', :to => "authenticator/zhdk#login"
   match '/logout', :to => "authenticator/zhdk#logout"
+  match '/login_and_return_here', :to => "application#login_and_return_here" 
   match '/db/login', :to => "authenticator/database_authentication#login"
   match '/db/logout', :to => "authenticator/database_authentication#logout"
   match '/authenticator/zhdk/login_successful/:id', :to => "authenticator/zhdk#login_successful"
@@ -88,7 +99,11 @@ MAdeK::Application.routes.draw do
       delete :media_sets
       get :image, :to => "media_resources#image"
       get :map
+      get :document
+      get :more_data
       get :browse
+      get :parents
+      match 'context_group/:name', :to => 'media_entries#context_group', :as => "context_group"
     end
     
     resources :meta_data do
@@ -146,7 +161,10 @@ MAdeK::Application.routes.draw do
       end
       member do
         post :toggle_favorites
+        put :favor
+        put :disfavor
         get :image
+        get :browse
       end
 
       resources :meta_data, only: [:update]
@@ -165,6 +183,7 @@ MAdeK::Application.routes.draw do
     member do
       get :usage_terms
       post :usage_terms
+      get :keywords
     end
     collection do
       get :usage_terms

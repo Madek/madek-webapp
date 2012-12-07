@@ -76,7 +76,7 @@ module MediaEntriesHelper
         end
       else
         content_tag :video, {:width => video_preview_webm.width, :height => video_preview_webm.height, :autoplay => '', :controls => 'controls'} do
-          html = ""
+          html = raw("")
           # This src points to a symlink to the actual file, so that Apache serves it. This lets us support
           # seeking, partial content (HTTP status code 206) and request ranges without any additional work.
           unless video_preview_apple.nil?
@@ -143,13 +143,7 @@ module MediaEntriesHelper
   end
   
   def file_format_for(media_file)
-    case media_file.content_type
-      when /image/ then
-        format = media_file.content_type.gsub(/image\//, '')
-      # other media formats ....
-    else
-      media_file.content_type
-    end
+    media_file.content_type.gsub(/^.*?\//, '')
   end
 
   def show_warnings(warnings)

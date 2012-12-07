@@ -1,7 +1,7 @@
 /**
- * ## Page header `.page-header`
+ * ## Page header `.ui-body-title`
  *
- * Styleguide 6.10
+ * Styleguide 6.6
  */
 
 .ui-body-title {
@@ -32,9 +32,9 @@
 // Page Title Actions
 
 .ui-body-title-actions {
-  @include position-top-right(0,0);
+  @include position-top-right(-$space-x,0);
   background: $body-background;
-  padding: $space-s 0 $space-s $space-s;
+  padding: $space-m 0 $space-m $space-s;
   z-index: 100;
 }
 .ui-body-title-actions:before {

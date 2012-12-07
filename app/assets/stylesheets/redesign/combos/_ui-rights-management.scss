@@ -5,9 +5,7 @@
  */
 
 .ui-rights-management {
-
 }
-
 .ui-rights-body {
   padding-bottom: $space-m;
 }
@@ -20,42 +18,29 @@
   table-layout: fixed;
 }
 
-// Group Items
-
-.ui-rights-user,
-.ui-rights-user-title,
-.ui-rights-role,
-.ui-rights-role-title {
-  width: 20%;
-}
-
 // Group Titles
 
 .ui-rights-user-title,
 .ui-rights-role-title,
 .ui-rights-check-title {
   font-size: $font-xs;
-  white-space: nowrap;
-}
-
-.ui-rights-user-title {
-
-}
-.ui-rights-role-title {
-
 }
 .ui-rights-check-title,
 .ui-rights-check,
 .ui-rights-owner-title,
 .ui-rights-owner {
+  @include dimension(90px,auto);
   text-align: center;
 }
 
-// Group Labels
+// Role column
 
-.ui-rights-user {
+.ui-rights-role-title,
+.ui-rights-role { 
+  width: 100px;
 }
-.ui-rights-role {
+.ui-rights-role-select { 
+  @include dimension(100px,auto);
 }
 
 // Remove button

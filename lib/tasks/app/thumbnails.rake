@@ -27,9 +27,16 @@ namespace :app do
             source_file = File.join(dir, type["icon"])
             base_extension = File.extname(type["icon"])
             target_file = File.join(dir, [File.basename(type["icon"], base_extension), ".", extension, base_extension].join)
-            pointsize = extension.size > 4 ? 60 / extension.size : 11
+            # medium placeholder
+            pointsize = extension.size > 4 ? 115 / extension.size : 30
             offset = extension.size > 4 ? 2 : 0
-            `convert "#{source_file}" -pointsize #{pointsize} -gravity North -font 'lib/fonts/OpenSans-Regular.ttf' -fill '#767676' -annotate +0+#{60+offset} '#{extension}' "#{target_file}"`
+            `convert "#{source_file}" -pointsize #{pointsize} -gravity North -font 'lib/fonts/OpenSans-Regular.ttf' -fill '#767676' -annotate +0+#{90+offset} '#{extension}' "#{target_file}"`
+            # small placeholder
+            source_file = source_file.gsub(/\.png$/, "_small.png")
+            target_file = File.join(dir, [File.basename(type["icon"], base_extension), "_small", ".", extension, base_extension].join)
+            pointsize = extension.size > 4 ? 55 / extension.size : 14
+            offset = extension.size > 4 ? 1 : 0
+            `convert "#{source_file}" -pointsize #{pointsize} -gravity North -font 'lib/fonts/OpenSans-Regular.ttf' -fill '#767676' -annotate +0+#{21+offset} '#{extension}' "#{target_file}"`
           end
         end
       end

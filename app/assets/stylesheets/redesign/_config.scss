@@ -1,11 +1,15 @@
-/* Application configuration
------------------------------------------------ */
+/**
+ *
+ * ## Asset Configuration
+ *
+ */
 
-// Body
-
+/* Body
+----------------------------------------- */
 $body-background:     image-url("redesign/backgrounds/body-background.png");
 
-// Typography
+/* Typography
+----------------------------------------- */
 $default-font-family: 'Open Sans', sans-serif;
 
 // Font sizes
@@ -26,13 +30,15 @@ $line-height-m:       1.55;
 $line-height-s:       1.25;
 $line-height-xs:      1;
 
-// Colors
+/* Color palette
+----------------------------------------- */
 $base-color:          #4C4C4C;
 
 // Grey Shades
 $darkest:             #000;
 $grey-darker:         $base-color;
 $grey-dark:           #666;
+$grey-mid-dark:       #808080;
 $grey-mid:            #9A9A9A;
 $grey-mid-light:      #ccc;
 $grey-light:          #E7E7E7;
@@ -40,44 +46,52 @@ $grey-lighter:        #F3F3F3;
 $brightest:           #fff;
 
 // Green Shades
-$green-dark:          #698F31;
-$green-mid:           #7A9D29;
-$green-light:         #8FB539;
+$green:               #7A9D29;
+$green-dark:          darken($green, 10%);
+$green-light:         lighten($green, 10%);
 
 // Feedback colour rainbow
 $red:                 #B63A52;
 $blue:                #3A91B6;
-$yellow:              #B69D3A;
+$yellow:              #E5B100;
 
-// Transparency values
-$opacity-strong: 0.85;
-$opacity-medium: 0.5;
-$opacity-subtle: 0.25;
-$opacity-light:  0.15;
+/* Transparency values
+----------------------------------------- */
+$opacity-strong:      0.85;
+$opacity-medium:      0.5;
+$opacity-subtle:      0.25;
+$opacity-light:       0.15;
+$opacity-subtle:      0.05;
 
-// Shadows and flaires
+/* Shadows and flairs
+----------------------------------------- */
 $darken-strong:       rgba(0,0,0,$opacity-strong);
 $darken-more:         rgba(0,0,0,$opacity-medium);
 $darken:              rgba(0,0,0,$opacity-subtle);
 $darken-less:         rgba(0,0,0,$opacity-light);
+$darken-subtle:       rgba(0,0,0,$opacity-subtle);
 
 $lighten-strong:      rgba(255,255,255,$opacity-strong);
 $lighten-more:        rgba(255,255,255,$opacity-medium);
 $lighten:             rgba(255,255,255,$opacity-subtle);
 $lighten-less:        rgba(255,255,255,$opacity-light);
+$lighten-subtle:      rgba(255,255,255,$opacity-subtle);
 
-// Border radii
+/* Border radii 
+----------------------------------------- */
 $border-radius-s:     3px;
 $border-radius-m:     5px;
 
-// Spaces
+/* Spaces
+----------------------------------------- */
 $space-x:             5px;
 $space-s:             10px;
 $space-m:             20px;
 $space-l:             40px;
 $space-h:             60px;
 
-// Media query variables
+/* Media query variables
+----------------------------------------- */
 $screen-size-xs-s:    "only screen and (max-width: 1151px)";
 $screen-size-m-l:     "only screen and (min-width: 1152px) and (max-width: 1399px)";
 $screen-size-xl-xxl:  "only screen and (min-width: 1400px)";
@@ -90,9 +104,8 @@ $screen-size-l:       "only screen and (min-width: 1280px) and (max-width: 1399p
 $screen-size-xl:      "only screen and (min-width: 1400px) and (max-width: 1599px)";
 $screen-size-xxl:     "only screen and (min-width: 1600px)";
 
-
-/* Base Imports
------------------------------------------------ */
+/* Base imports
+----------------------------------------- */
 
 // Mixins
 @import "compass";
@@ -109,5 +122,4 @@ $screen-size-xxl:     "only screen and (min-width: 1600px)";
 @import "library/space";
 
 // Load external fonts
-
 @import url("http://fonts.googleapis.com/css?family=Open+Sans:400,600,700");

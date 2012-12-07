@@ -13,6 +13,10 @@ class Keyword < ActiveRecord::Base
   def to_s
     "#{meta_term}"
   end
+
+  def self.with_count
+    select("meta_term_id, COUNT(meta_term_id) AS count").group("keywords.meta_term_id").order("count DESC")
+  end
   
 #######################################
 

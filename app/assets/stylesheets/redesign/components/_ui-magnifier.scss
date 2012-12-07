@@ -1,0 +1,24 @@
+.ui-has-magnifier {
+  display: inline-block;
+  position: relative;
+
+  & > .ui-magnifier {
+    background: $darken-more;
+    cursor: pointer;
+    display: none;
+    padding: $space-s;
+    @include position-top-right(0, 0);
+
+    .icon-magnifier {
+      opacity: $opacity-strong;
+    }
+
+    &:hover .icon-magnifier {
+       opacity: 1;
+    }
+  }
+
+  &:hover > .ui-magnifier {
+    display: block;
+  }
+}

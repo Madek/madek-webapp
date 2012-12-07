@@ -20,3 +20,5 @@
     %p.ui-footer-copy
       = image_tag "redesign/inserts/image-logo-madek.png", :alt => "MADEK", :class => "ui-footer-logo"
       Z&uuml;rcher Hochschule der K&uuml;nste
+
+= render "application/clipboard" unless current_user.is_guest?

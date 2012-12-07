@@ -1,0 +1,28 @@
+/**
+ * ## Search input `.ui-search`
+ *
+ * .large       - Large variation
+ *
+ * Styleguide 4.4
+ */
+
+.ui-search { 
+  position: relative;
+}
+.ui-search-button {
+  @extend .small; 
+  @include position-top-right(5px,5px);
+}
+
+/**
+ * Large variation
+ ----------------------------------------- */
+
+.ui-search.large { 
+  .ui-search-input { 
+    @extend .large;
+  }
+  .ui-search-button { 
+    @extend .normal;
+  }
+}

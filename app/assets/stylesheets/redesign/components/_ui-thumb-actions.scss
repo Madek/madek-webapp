@@ -1,7 +1,7 @@
 /**
  * ## Thumbnail Actions `.ui-thumbnail-actions`
  *
- * Styleguide 6.21
+ * Styleguide 6.12
  */
 
  .ui-thumbnail-actions {
@@ -18,7 +18,7 @@
   @extend .icon-checkbox;
 }
 .ui-thumbnail-action-favorite {
-  @extend .icon-star;
+  @extend .icon-fav;
 }
 .ui-thumbnail-action-browse {
   @extend .icon-eye;

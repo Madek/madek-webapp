@@ -1,6 +1,6 @@
 .app.view-dashboard
 
-  = render "application/header/logged_in"
+  = render "application/header"
 
   .app-body
     .app-body-title
@@ -8,7 +8,7 @@
         .ui-body-title-label
           %h1.title-xl Mein Archiv
         .ui-body-title-actions
-          %a.button
+          %a.button{:"data-create-set" => true}
             %i.icon-new-set
             Set erstellen
           %a.primary-button{:href => import_path}
@@ -22,102 +22,51 @@
 
         .app-body-content.table-cell.table-substance.ui-container
 
-          = render :partial => "media_resources/wrapper",
-                   :locals => {:media_resources => @latest_user_resources,
-                               :title => "Meine Inhalte",
-                               :link => media_resources_path(:user_id => current_user),
-                               :phl => true,
-                               :with_permissions => true,
-                               :with_actions => true}
+          - unless @latest_user_resources.blank?
+            = render :partial => "media_resources/wrapper",
+                     :locals => {:media_resources => @latest_user_resources,
+                                 :title => "Meine Inhalte",
+                                 :link => media_resources_path(:user_id => current_user),
+                                 :with_actions => true}
+            %hr.separator
 
-          %hr.separator
+          - unless @latest_user_imports.blank?
+            = render :partial => "media_resources/wrapper", 
+                     :locals => {:media_resources => @latest_user_imports, 
+                                 :title => "Meine letzen Importe", 
+                                 :link => media_resources_path(:user_id => current_user, :sort => :created_at, :type => :media_entries),
+                                 :with_actions => true}
+            %hr.separator
 
-          = render :partial => "media_resources/wrapper",
-                   :locals => {:media_resources => @latest_user_imports,
-                               :title => "Meine letzen Importe",
-                               :link => media_resources_path(:user_id => current_user, :sort => :created_at, :type => :media_entries),
-                               :phl => true,
-                               :with_permissions => true,
-                               :with_actions => true}
+          - unless @user_favorite_resources.blank?
+            = render :partial => "media_resources/wrapper",
+                     :locals => {:media_resources => @user_favorite_resources,
+                                 :title => "Meine Favoriten",
+                                 :link => media_resources_path(:favorites => true),
+                                 :item_layout => "miniature",
+                                 :with_actions => true}
+            %hr.separator
 
-          %hr.separator
+          - unless @user_keywords.blank?
+            = render :partial => "keywords/wrapper",
+                     :locals => {:keywords => @user_keywords,
+                                 :title => "Meine Schlagworte",
+                                 :link => keywords_user_path(current_user)}
+            %hr.separator
 
-          = render :partial => "media_resources/wrapper",
-                   :locals => {:media_resources => @user_favorite_resources,
-                               :title => "Meine Favoriten",
-                               :link => media_resources_path(:favorites => true),
-                               :phl => true,
-                               :with_permissions => true,
-                               :with_actions => true}
+          - unless @user_entrusted_resources.blank?
+            = render :partial => "media_resources/wrapper",
+                     :locals => {:media_resources => @user_entrusted_resources,
+                                 :title => "Mir anvertaute Inhalte",
+                                 :link => media_resources_path(:permissions => {:scope => {:ids => [:entrusted]}}),
+                                 :item_layout => "miniature",
+                                 :with_actions => true}
+            %hr.separator
 
-          %hr.separator
-
-          = render :partial => "keywords/wrapper",
-                   :locals => {:keywords => @user_keywords,
-                               :title => "Meine Schlagworte",
-                               :count => @user_keywords_count}
-
-          %hr.separator
-
-          = render :partial => "media_resources/wrapper",
-                   :locals => {:media_resources => @user_entrusted_resources,
-                               :title => "Mir anvertaute Inhalte",
-                               :link => media_resources_path(:permissions => {:scope => {:ids => [:entrusted]}}),
-                               :phl => true,
-                               :with_permissions => true,
-                               :with_actions => true}
-
-          %hr.separator
-
-          = render :partial => "groups/wrapper",
-                   :locals => {:groups => @user_groups,
-                               :title => "Meine Arbeitsgruppen"}
+          - unless @user_groups.blank?
+            = render :partial => "groups/wrapper", 
+                     :locals => {:groups => @user_groups, 
+                                 :title => "Meine Arbeitsgruppen"}
 
   .app-footer-push
-.app-footer
-  %footer.ui-footer.ui-container.inverted
-    %ul.ui-footer-menu
-      %li
-        %a{:href => "#"} Informationen zum Projekt
-      %li
-        %a{:href => "#"} Impressum
-      %li
-        %a{:href => "#"} Kontakt
-      %li
-        %a{:href => "#"} Blog
-      %li
-        %a{:href => "#"} Hilfe
-      %li
-        %a{:href => "#"} Nutzungsbestimmungen
-      %li
-        %a{:href => "#"} Freie Software
-      %li
-        %a{:href => "#"} Archivierungsrichtlinien ZHdK
-    %p.ui-footer-copy
-      = image_tag "redesign/inserts/image-logo-madek.png", :alt => "MADEK", :class => "ui-footer-logo"
-      &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste
-
-.app-clipboard
-  .ui-clipboard
-    .ui-clipboard-toggle.inverted-transparent
-      %a.block.small#clipboard-toggle
-        %i.icon-clipboard.bright
-        Zwischenablage (%number% Inhalte)
-    .ui-container.inverted-transparent.ui-clipboard-content
-      .col5of6
-        %ul.media-resources.ui-clipboard-entries.grid.tight.active.mls
-          %li.media-resources-item.ui-clipboard-entries-item
-            %a.ui-thumbnail.media-entry{:href => "#"}
-              .thumbnail-package.small
-                %img{:alt => "Thumb-package-7z-small", :src => "/assets/redesign/thumbnails/thumb-package-7z-small.png"}
-          %li.media-resources-item.ui-clipboard-entries-item
-            %a.ui-thumbnail.media-entry{:href => "#"}
-              .thumbnail-doc.small
-                %img{:alt => "Thumb-doc-ods-small", :src => "/assets/redesign/thumbnails/thumb-doc-ods-small.png"}
-        %p.ui-clipboard-alert.title-l Clipboard empty
-      .col1of6
-        .ui-clipboard-actions
-          %a.primary-button.block{:href => "#"}
-            Aktionen
-            %i.icon-arrow-down.bright.stand-alone
-          %a.tertiary-button.small.block.ui-clipboard-clear{:href => "#"} Zwischenablage Leeren
+= render "application/footer"

@@ -1,0 +1,14 @@
+/**
+ * ## Search Form `.ui-search-form`
+ *
+ * Styleguide 7.19
+ */
+
+.ui-search-form { 
+  @include border-radius($border-radius-m);
+  @include dimension(380px,auto);
+  background: $brightest;
+  border: 1px solid $grey-mid-light;
+  margin: 150px auto;
+  padding: $space-m $space-l 0;
+}

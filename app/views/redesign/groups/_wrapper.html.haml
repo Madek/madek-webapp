@@ -1,9 +1,8 @@
-.ui-container.midtone.rounded-right.ptl.phl.pbl
-  .media-resources-wrapper
-    .ui-resources-header.mbm
-      %h2.title-l.ui-resources-title
-        = title
-        %a.strong{:href => groups_path} Alle anziegen
-    %ul.inline
-      - groups.each do |group|
-        = render :partial => "groups/group", :locals => {group: group}
+.ui-resources-holder
+  .ui-resources-header
+    %h2.title-l.ui-resources-title
+      = title
+      %a.strong{:href => groups_path} Alle anzeigen
+  %ul.inline
+    - groups.each do |group|
+      = render :partial => "groups/group", :locals => {group: group}

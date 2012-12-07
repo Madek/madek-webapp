@@ -1,4 +1,10 @@
-body {
+/**
+ *
+ * ## Typography
+ *
+ */
+
+ body {
   color: $grey-darker;
   font-family: $default-font-family;
   font-size: $default-font-size;
@@ -98,12 +104,14 @@ p {
  * Styleguide 2.3
  */
 
-ul {
-
-}
 ul li {
   list-style-type: disc;
   list-style-position: inside;
+}
+
+ol.inline,
+ui.inline { 
+  margin-bottom: $space-s;
 }
 
 ol.inline li,

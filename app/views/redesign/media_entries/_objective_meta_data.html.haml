@@ -1,0 +1,7 @@
+%h3.title-l.separated.mbl Datei
+%table.borderless
+  %tbody
+    - @objective_meta_data.each do |meta_datum|
+      %tr
+        %td.ui-summary-label= meta_datum.first
+        %td.ui-summary-content= meta_datum.last

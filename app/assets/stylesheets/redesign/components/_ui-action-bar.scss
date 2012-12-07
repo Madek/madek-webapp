@@ -1,0 +1,25 @@
+/**
+ * ## Actions Bar `.ui-actions-bar`
+ *
+ * Styleguide 6.17
+ */
+
+.ui-actions-bar {
+  @include micro-clearfix;
+  margin-top: -$space-x;
+  padding-top: $space-x;
+  text-align: center;
+}
+.ui-actions-bar .button,
+.ui-actions-bar .primary-button,
+.ui-actions-bar .link {
+  margin-right: $space-x;
+  margin-left: $space-x;
+}
+.ui-actions-bar .large {
+  margin-top: -$space-x;
+}
+.ui-actions-bar .link {
+  position: relative;
+  top: 1px;
+}

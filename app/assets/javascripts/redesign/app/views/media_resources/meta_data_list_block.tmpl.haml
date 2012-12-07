@@ -1,0 +1,7 @@
+%table.borderless.block
+  %tbody
+    {{each(i,meta_datum) meta_data}}
+    %tr
+      %td.ui-resource-meta-label ${meta_datum.label}
+      %td.ui-resource-meta-content ${meta_datum.value}
+    {{/each}}

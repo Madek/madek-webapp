@@ -1,15 +1,12 @@
-.ui-collage.crooked.ui-container.overlaid
-  - 4.times do |row|
+.ui-collage
+  - 2.times do |row|
     .ui-collage-row
       - 5.times do |col|
         - i = (((row*5)+col)%@splashscreen_set.child_media_resources.size)
         - mr = @splashscreen_set_children[i]
-        .ui-collage-item{:class => col.odd? ? "even" : "odd"}
+        %a.ui-collage-item{:href => "/media_resources/#{mr.id}"}
           .ui-collage-item-wrapper
-            -if mr
-              - if Rails.env.development? # TODO remove this
-                %img.ui-collage-item-image{:alt => "#{mr.title}", :src => MediaFile.thumb_lorempixum_url(mr.id,:medium)} 
-              - else
-                %img.ui-collage-item-image{:alt => "#{mr.title}", :src => "http://medienarchiv.zhdk.ch/media_resources/#{mr.id}/image"} 
-
-  = render "application/login"
+            %img.ui-collage-item-image{:src => "/media_resources/#{mr.id}/image"} 
+            .ui-collage-item-meta
+              %h3.title-xs= mr.title
+              %h4.title-xs-alt= mr.author

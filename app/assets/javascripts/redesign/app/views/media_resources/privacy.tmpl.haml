@@ -1,0 +1,8 @@
+.ui-thumbnail-privacy
+  {{if is_public}}
+  %i.icon-privacy-open{:title => "Diese Inhalte sind öffentlich zugänglich"} Diese Inhalte sind öffentlich zugänglich
+  {{else is_private}}
+  %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"} Diese Inhalte sind nur für Sie zugänglich
+  {{else is_shared}}
+  %i.icon-privacy-group{:title => "Diese Inhalte werden mit Anderen geteilt"} Diese Inhalte werden mit Anderen geteilt
+  {{/if}}

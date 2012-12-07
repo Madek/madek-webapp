@@ -1,12 +1,11 @@
 /**
  * ## Actions Bar `.ui-actions`
  *
- * Styleguide 6.17
+ * Styleguide 6.15
  */
 
 .ui-actions {
   @include micro-clearfix;
-  margin-top: -$space-x;
   padding-top: $space-x;
   text-align: center;
 }
@@ -22,4 +21,11 @@
 .ui-actions .link {
   position: relative;
   top: 1px;
+}
+
+/*
+ * Actions within a form
+ * ------------------------------------- */
+
+form .ui-actions { 
 }

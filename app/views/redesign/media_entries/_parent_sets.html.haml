@@ -1,0 +1,8 @@
+.tab-pane#parenting-sets
+  .bright.ui-container.pal.rounded-bottom.rounded-right
+    %h2.title-l.separated.mbm Diese Media ist in 2 Sets enthalten.
+
+    = render :partial => "media_resources/wrapper", 
+             :locals => {:media_resources => current_user.media_resources, 
+                         :type => :media_entries,
+                         :with_actions => true}

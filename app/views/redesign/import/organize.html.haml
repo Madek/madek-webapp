@@ -1,6 +1,6 @@
 .app.view-import
 
-  = render "application/header/logged_in"
+  = render "application/header"
 
   .app-body
 
@@ -32,51 +32,19 @@
 
           %h3.title-l
             Fotos, Videos und Audiofiles in Sets verwalten (optional):
-            %span.right
-              %a.button.left{:href => "#add-to-set", "data-toggle" => "modal"}
-                Eintrage zum einem Set hinzufugen
 
           .ui-container.clearfix.mvl.bordered.midtone.rounded.upload-overview
-            %ul.ui-resources.grid
-              %li.ui-resources-item
-                .ui-thumbnail.media-entry
-                  .thumbnail-audio.thumbnail
-                    %img{:alt => "", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}
-                  .ui-resource-metadata
-                    %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
-                    %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
-              %li.ui-resources-item
-                .ui-thumbnail.media-entry
-                  .thumbnail-video.thumbnail
-                    %img{:alt => "Thumb-video", :src => "/assets/redesign/thumbnails/thumb-video-mov.png"}
-                  .ui-resource-metadata
-                    %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
-                    %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
-              %li.ui-resources-item
-                .ui-thumbnail.media-entry
-                  .thumbnail-audio.thumbnail
-                    %img{:alt => "Thumb-audio", :src => "/assets/redesign/thumbnails/thumb-audio-mp3.png"}
-                  .ui-resource-metadata
-                    %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
-                    %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
-              %li.ui-resources-item
-                .ui-thumbnail.media-entry
-                  .thumbnail-doc.thumbnail
-                    %img{:alt => "Thumb-doc", :src => "/assets/redesign/thumbnails/thumb-doc-doc.png"}
-                  .ui-resource-metadata
-                    %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
-                    %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
-              %li.ui-resources-item
-                .ui-thumbnail.media-entry
-                  .thumbnail-audio.thumbnail
-                    %img{:alt => "", :src => "/assets/redesign/styleguide/media-entry-9.jpg"}
-                  .ui-resource-metadata
-                    %h3.title-s.ui-thumbnail-name Name that can easily go onto 2 lines
-                    %h4.title-xs-alt.ui-thumbnail-author Author that can easily go onto 2 lines as well
 
+            = render :partial => "media_resources/wrapper", 
+                     :locals => {:media_resources => current_user.media_resources, 
+                                 :phl => true,
+                                 :type => :media_entries,
+                                 :with_actions => false}
+
+          .ui-actions.mbm
+            %a.button{:href => "#add-to-set", "data-toggle" => "modal"}
+              Eintrage zum einem Set hinzufugen
           .ui-actions
-            %a.link.weak
-              Abbrechen
             %a.primary-button.large
               Import anschliessen
 
@@ -119,96 +87,6 @@
           %label{:title => "Awesomest set"}
             %input#Awesomest_set{:name => "Awesomeset_Set", :type => "checkbox", :value => "1"}
               %span.title Awesomest set
-              %span.owner Interactive Things
-              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li.ui-set-list-item
-          %label{:title => "Awesomest set2"}
-            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
-              %span.title Awesomest set2
-              %span.owner Interactive Things
-              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li.ui-set-list-item
-          %label{:title => "Awesomest set2"}
-            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
-              %span.title Awesomest set2
-              %span.owner Interactive Things
-              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li.ui-set-list-item
-          %label{:title => "Awesomest set2"}
-            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
-              %span.title Awesomest set2
-              %span.owner Interactive Things
-              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li.ui-set-list-item
-          %label{:title => "Awesomest set2"}
-            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
-              %span.title Awesomest set2
-              %span.owner Interactive Things
-              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li.ui-set-list-item
-          %label{:title => "Awesomest set2"}
-            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
-              %span.title Awesomest set2
-              %span.owner Interactive Things
-              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li.ui-set-list-item
-          %label{:title => "Awesomest set2"}
-            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
-              %span.title Awesomest set2
-              %span.owner Interactive Things
-              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li.ui-set-list-item
-          %label{:title => "Awesomest set2"}
-            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
-              %span.title Awesomest set2
-              %span.owner Interactive Things
-              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li.ui-set-list-item
-          %label{:title => "Awesomest set2"}
-            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
-              %span.title Awesomest set2
-              %span.owner Interactive Things
-              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li.ui-set-list-item
-          %label{:title => "Awesomest set2"}
-            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
-              %span.title Awesomest set2
-              %span.owner Interactive Things
-              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li.ui-set-list-item
-          %label{:title => "Awesomest set2"}
-            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
-              %span.title Awesomest set2
-              %span.owner Interactive Things
-              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li.ui-set-list-item
-          %label{:title => "Awesomest set2"}
-            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
-              %span.title Awesomest set2
-              %span.owner Interactive Things
-              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li.ui-set-list-item
-          %label{:title => "Awesomest set2"}
-            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
-              %span.title Awesomest set2
-              %span.owner Interactive Things
-              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li.ui-set-list-item
-          %label{:title => "Awesomest set2"}
-            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
-              %span.title Awesomest set2
-              %span.owner Interactive Things
-              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li.ui-set-list-item
-          %label{:title => "Awesomest set2"}
-            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
-              %span.title Awesomest set2
-              %span.owner Interactive Things
-              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
-        %li.ui-set-list-item
-          %label{:title => "Awesomest set2"}
-            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
-              %span.title Awesomest set2
               %span.owner Interactive Things
               %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
         %li.ui-set-list-item

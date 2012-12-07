@@ -22,9 +22,14 @@ class DownloadController < ApplicationController
           elsif params[:type] == "xml"
             send_xml
           elsif !params[:update].blank?
-            send_updated_file
+            # An updated file - updated with the current set of madek meta-data  
+            path, content_type = @media_entry.updated_resource_file(false, @size) # false means we don't want to blank all the tags
+            send_file_with_correct_extension(path, @filename, content_type)
+
           elsif !params[:naked].blank?
-            send_naked_file
+            # A bare file - as little meta-data as can be allowed without breaking the file.  
+            path, content_type = @media_entry.updated_resource_file(true, @size) # true means we do want to blank all the tags
+            send_file_with_correct_extension(path, @filename, content_type)
             
           # Video files get a WebM preview file
           elsif !params[:video_thumbnail].blank?
@@ -67,49 +72,13 @@ class DownloadController < ApplicationController
     preview = @media_entry.media_file.get_preview(@size)
     @content_type = preview.content_type
     @filename = [@filename.split('.', 2).first, preview.filename.gsub(@media_entry.media_file.guid, '')].join
-    
-    # Provide a copy of the original file, not updated or nuffin'
-    path = @media_entry.media_file.file_storage_location
-    if @size
-      outfile = File.join(DOWNLOAD_STORAGE_DIR, @filename)
-      `convert "#{path}" -resize "#{THUMBNAILS[@size]}" "#{outfile}"`
-      path = outfile
-    end
+    path = preview.full_path
     fixed_send_file(path,
                    {:filename => @filename,
                     :type          =>  @content_type,
                     :disposition  =>  'attachment'})
   end
-  
-  
-  # An updated file - updated with the current set of madek meta-data  
-  def send_updated_file
-    # path = @media_entry.media_file.update_file_metadata(@media_entry.to_metadata_tags)
-    path = @media_entry.updated_resource_file(false, @size) # false means we don't want to blank all the tags
-    if path
-      fixed_send_file(path,
-                      {:filename => @filename,
-                       :type          =>  @content_type,
-                       :disposition  =>  'attachment'})            
-    else
-      render :status => 500
-    end
-  end
-
-  
-  # A bare file - as little meta-data as can be allowed without breaking the file.  
-  def send_naked_file
-    path = @media_entry.updated_resource_file(true, @size) # true means we do want to blank all the tags
-    if path
-        fixed_send_file(path,
-                        {:filename => @filename,
-                         :type          =>  @content_type,
-                         :disposition  =>  'attachment'})            
-    else
-      render :status => 500
-    end    
-  end
-  
+    
   def send_original_file
     # Provide a copy of the original file, not updated or nuffin'
     path = @media_entry.media_file.file_storage_location.to_s
@@ -144,6 +113,8 @@ class DownloadController < ApplicationController
                       :disposition => 'attachment'})
   end
 
+  private
+
   # send_file() as above seems to be broken in Rails 3.1.3 and onwards?
   # The Rack::Sendfile#call method never seems to receive a body that respons to :to_path, even though it SHOULD,
   # therefore Sendfile is never triggered (!!), that's why we need this hacked Sendfile header implementation
@@ -153,6 +124,19 @@ class DownloadController < ApplicationController
     headers["X-Sendfile"] = path.to_s
     headers["Content-Length"] = '0'
     render :nothing => true
+  end
+
+  def send_file_with_correct_extension(path, filename, content_type)
+    if path
+      e = File.extname(path)
+      f = File.extname(filename)
+      fixed_send_file(path,
+                      {:filename => (!e.blank? and e != f) ? "#{filename}#{e}" : filename,
+                       :type          =>  content_type,
+                       :disposition  =>  'attachment'})            
+    else
+      render :status => 500
+    end    
   end
 
 end

@@ -42,6 +42,8 @@ class MediaEntriesController < ApplicationController
             :view
           when :update
             :edit
+          when :document
+            :download
         end
   
         begin
@@ -62,11 +64,36 @@ class MediaEntriesController < ApplicationController
   end
 
 #####################################################
+  
+  before_filter lambda{
+    @main_context_group = MetaContextGroup.sorted_by_position.first
+    other_context_groups = MetaContextGroup.where(MetaContextGroup.arel_table[:position].not_eq(1)).sorted_by_position
+    @other_relevant_context_groups = other_context_groups.select do |meta_context_group|
+      meta_context_group.meta_contexts.select{ |meta_context|
+        @media_entry.meta_data_for_context(meta_context, false).any?
+      }.any? or (meta_context_group.meta_contexts & @media_entry.individual_contexts).any?
+    end
+  }, :only => [:show, :map, :more_data, :parents, :context_group]
 
   def show
     respond_to do |format|
-      format.html
+      format.html {
+        @core_context = MetaContext.core
+        @core_meta_data = @media_entry.meta_data_for_context @core_context
+        @can_download = current_user.authorized?(:download, @media_entry)
+        @original_file = @media_entry.media_file
+        @original_file_available = (@original_file and File.exist?(@original_file.file_storage_location)) # NOTE it could be a zip file
+        @format_original_file = view_context.file_format_for(@original_file)
+        @x_large_file = @media_entry.media_file.get_preview(:x_large)
+        @x_large_file_available = (@x_large_file and File.exist?(@x_large_file.full_path))
+      }
       format.xml { render :xml=> @media_entry.to_xml(:include => {:meta_data => {:include => :meta_key}} ) }
+    end
+  end
+
+  def document
+    respond_to do |format|
+      format.html
     end
   end
   
@@ -82,6 +109,24 @@ class MediaEntriesController < ApplicationController
   end
   
   def browse
+  end
+
+  def more_data
+    @edit_sessions = @media_entry.edit_sessions.limit(5)
+    @objective_meta_data = [["Filename", @media_entry.media_file.filename]] + @media_entry.media_file.meta_data_without_binary.sort
+  end
+
+  def parents
+    @parents = @media_entry.parents.accessible_by_user(current_user)
+  end
+
+  def context_group
+    @context_group = MetaContextGroup.find_by_name(params[:name]) || raise("No MetaContextGroup found")
+    # @meta_contexts = (@context_group.meta_contexts & @media_entry.individual_contexts) |
+    #   @context_group.meta_contexts.select{ |meta_context| @media_entry.meta_data_for_context(meta_context, false).any? }
+
+    @meta_contexts = @context_group.meta_contexts.select {|mc| (not mc.individual_context?) or @media_entry.individual_contexts.include?(mc) }
+
   end
   
 #####################################################

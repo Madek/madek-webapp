@@ -1,6 +1,6 @@
 .app.view-dashboard
 
-  = render "application/header/logged_in"
+  = render "application/header"
 
   // PAGE TITLE
 
@@ -10,10 +10,9 @@
         .ui-body-title-label
           %h1.title-xl Meine Arbeitsgruppen
         .ui-body-title-actions
-          .dropdown
-            %a.button{:href => "#workgroup-new", "data-toggle" => "modal"}
-              %i.icon-new-group
-              Neue Arbeitsgruppe
+          %a.primary-button{:href => "#workgroup-new", "data-toggle" => "modal"}
+            %i.icon-new-group
+            Neue Arbeitsgruppe
 
     .app-body-ui-container
       .bordered.ui-container.midtone.rounded.table
@@ -41,100 +40,71 @@
 
         .app-body-content.table-cell.table-substance.ui-container
 
-          // CONTENT
+          .ui-resources-holder
+            .ui-resources-header
+              %h2.title-l.ui-resource-title
+                Arbeitsgruppen
 
-          .ui-container.ptl.phl.pbm
-            .ui-resources-wrapper
-              .ui-resources-header.mbm
-                %h2.title-l.ui-resources-title
-                  Arbeitsgruppen
-              %table.ui-workgroups.bordered.block
-                %thead
-                  %tr
-                    %td.ui-workgroup-name-title Arbeitsgrupp
-                    %td.ui-workgroup-items-title Inhalte
-                    %td.ui-workgroup-actions-title Aktionen
-                %tbody
-                  %tr
-                    %td.ui-workgroup-name Interactive Things
-                    %td.ui-workgroup-items
-                      %a{:href => "#"}
-                        54243
-                    %td.ui-workgroup-actions
-                      %a.button.small{:href => "#workgroup-delete", "data-toggle" => "modal"}
-                        %i.icon-trash.dark
-                      %a.button.small{:href => "#workgroup-edit", "data-toggle" => "modal"}
-                        %i.icon-pen.dark
-                  %tr
-                    %td.ui-workgroup-name Interactive Things 2
-                    %td.ui-workgroup-items
-                      %a{:href => "#"}
-                        54243
-                    %td.ui-workgroup-actions
-                      %a.button.small{:href => "#workgroup-delete", "data-toggle" => "modal"}
-                        %i.icon-trash.dark
-                      %a.button.small{:href => "#workgroup-edit", "data-toggle" => "modal"}
-                        %i.icon-pen.dark
-                  %tr
-                    %td.ui-workgroup-name Interactive Things 3
-                    %td.ui-workgroup-items
-                      %a{:href => "#"}
-                        54243
-                    %td.ui-workgroup-actions
-                      %a.button.small{:href => "#workgroup-delete", "data-toggle" => "modal"}
-                        %i.icon-trash.dark
-                      %a.button.small{:href => "#workgroup-edit", "data-toggle" => "modal"}
-                        %i.icon-pen.dark
+            %table.ui-workgroups.bordered.block
+              %thead
+                %tr
+                  %td.ui-workgroup-name-title Arbeitsgrupp
+                  %td.ui-workgroup-items-title Inhalte
+                  %td.ui-workgroup-actions-title Aktionen
+              %tbody
+                %tr
+                  %td.ui-workgroup-name Interactive Things
+                  %td.ui-workgroup-items
+                    %a{:href => "#"}
+                      54243
+                  %td.ui-workgroup-actions
+                    %a.button.small{:href => "#workgroup-delete", "data-toggle" => "modal"}
+                      %i.icon-trash.dark
+                    %a.button.small{:href => "#workgroup-edit", "data-toggle" => "modal"}
+                      %i.icon-pen.dark
+                %tr
+                  %td.ui-workgroup-name Interactive Things 2
+                  %td.ui-workgroup-items
+                    %a{:href => "#"}
+                      54243
+                  %td.ui-workgroup-actions
+                    %a.button.small{:href => "#workgroup-delete", "data-toggle" => "modal"}
+                      %i.icon-trash.dark
+                    %a.button.small{:href => "#workgroup-edit", "data-toggle" => "modal"}
+                      %i.icon-pen.dark
+                %tr
+                  %td.ui-workgroup-name Interactive Things 3
+                  %td.ui-workgroup-items
+                    %a{:href => "#"}
+                      54243
+                  %td.ui-workgroup-actions
+                    %a.button.small{:href => "#workgroup-delete", "data-toggle" => "modal"}
+                      %i.icon-trash.dark
+                    %a.button.small{:href => "#workgroup-edit", "data-toggle" => "modal"}
+                      %i.icon-pen.dark
 
           %hr.separator
 
-          .ui-container.ptl.phl.pbm
-            .ui-resources-wrapper
-              .ui-resources-header.mbm
-                %h2.title-l.ui-resources-title
-                  Systemgruppen
-              %table.ui-workgroups.bordered.block
-                %thead
-                  %tr
-                    %td.ui-workgroup-name-title Grupp Name
-                %tbody
-                  %tr
-                    %td.ui-workgroup-name ZHdK Group 1
-                  %tr
-                    %td.ui-workgroup-name ZHdK Group 2
-                  %tr
-                    %td.ui-workgroup-name ZHdK Group 3
-                  %tr
-                    %td.ui-workgroup-name ZHdK Group 4
-
-    // Footer
-
-    .app-footer
+          .ui-resources-holder
+            .ui-resources-header
+              %h2.title-l.ui-resource-title
+                Systemgruppen
+            %table.ui-workgroups.bordered.block
+              %thead
+                %tr
+                  %td.ui-workgroup-name-title Grupp Name
+              %tbody
+                %tr
+                  %td.ui-workgroup-name ZHdK Group 1
+                %tr
+                  %td.ui-workgroup-name ZHdK Group 2
+                %tr
+                  %td.ui-workgroup-name ZHdK Group 3
+                %tr
+                  %td.ui-workgroup-name ZHdK Group 4
 
   .app-footer-push
-
-.app-footer
-  %footer.ui-footer.ui-container.inverted
-    %ul.ui-footer-menu
-      %li
-        %a{:href => "#"} Informationen zum Projekt
-      %li
-        %a{:href => "#"} Impressum
-      %li
-        %a{:href => "#"} Kontakt
-      %li
-        %a{:href => "#"} Blog
-      %li
-        %a{:href => "#"} Hilfe
-      %li
-        %a{:href => "#"} Nutzungsbestimmungen
-      %li
-        %a{:href => "#"} Freie Software
-      %li
-        %a{:href => "#"} Archivierungsrichtlinien ZHdK
-    %p.ui-footer-copy
-      = image_tag "redesign/inserts/image-logo-madek.png", :alt => "MADEK", :class => "ui-footer-logo"
-      &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste
+= render "application/footer"
 
 #workgroup-new.modal.hide.fade.ui-modal.narrow{"aria-hidden" => "true", "aria-labelledby" => "workgroup-new-label", :role => "dialog", :tabindex => "-1"}
   %form
@@ -143,7 +113,7 @@
       %a.ui-modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button", :title => "Close", :class => "weak"}
     .ui-modal-body
       .form-body
-        .form-group.rowed
+        .ui-form-group.rowed
           %label.form-label
             Enter Name
           .form-item
@@ -169,15 +139,15 @@
             %td Pinco
             %td.by-right
               %a.button.small{:href => "#"}
-                %i.icon-trash.dark
+                &#215;
           %tr
             %td Pallino
             %td.by-right
               %a.button.small{:href => "#"}
-                %i.icon-trash.dark
+                &#215;
 
       .form-body
-        .form-group.rowed
+        .ui-form-group.rowed
           .form-item
             %input.block{:type => "text", :placeholder => "Person hinzufügen"}
             %p.form-note
@@ -193,7 +163,7 @@
       %h3#workgroup-delete-label.title-l Sind Sie sicher?
       %a.ui-modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button", :title => "Close", :class => "weak"}
     .ui-modal-body
-      %p.pal.by-center You choose to remove an item. Proceed?
+      %p.pvm.phl.by-center You choose to remove an item. Proceed?
     .ui-modal-footer
       .ui-actions
         %a.link.weak{"aria-hidden" => "true", "data-dismiss" => "modal", :class => "weak link"} Abbrechen

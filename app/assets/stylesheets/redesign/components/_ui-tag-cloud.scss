@@ -4,23 +4,104 @@
  * .small   - Small variation
  * .large   - Large variation
  *
- * Styleguide 6.4
+ * Styleguide 6.3
  */
 
 .ui-tag-cloud {
   @include micro-clearfix;
 }
-.ui-tag-cloud .tag-button {
+.ui-tag-cloud-item {
+  display: inline-block; 
+  list-style: none;
+}
+.ui-tag-button {
+  @include background-image(linear-gradient($grey-lighter, $grey-light));
+  @include border-radius(50px);
+  @include box-shadow($lighten 0 1px 0 inset);
+  @include single-text-shadow(false, 1px, false, false, $lighten-more);
+  background-color: $grey-lighter;
+  border: 1px solid $grey-mid-light;
+  color: $grey-darker;
+  cursor: pointer;
   display: inline-block;
+  font-size: $font-m;
+  font-weight: 600;
+  line-height: $line-height-l;
   margin-bottom: $space-s;
   margin-right: $space-x;
+  min-height: 26px;
+  overflow: hidden;
+  padding: 0 $space-s;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  &:hover {
+    @include background-image(linear-gradient(lighten($grey-lighter, 3%), lighten($grey-light, 3%)));
+    @include single-text-shadow(false, 1px, false, false, $lighten);
+    background-color: lighten($grey-light, 3%);
+    border-color: darken($grey-mid-light, 3%);
+    color: $grey-darker;
+    text-decoration: none;
+  }
+  &:active { 
+    @include background-image(linear-gradient(darken($grey-lighter, 10%), darken($grey-light, 10%)));
+    @include box-shadow($darken 0 1px 3px inset);
+    border-color: darken($grey-mid-light, 5%);
+    color: $grey-mid;
+    outline: 0;
+    i,
+    .ui-tag-button { 
+      opacity: $opacity-medium;
+    }
+  }
+}
+
+.ui-tag-button i,
+.ui-tag button .ui-tag-button { 
+  margin-top: 3px;
+  margin-right: $space-x;
+}
+.ui-tag-button .ui-tag-counter {
+  @include border-radius(50px);
+  background: $grey-mid-light;
+  color: $grey-dark; 
+  display: inline-block;
+  font-weight: 700;
+  line-height: 16px;
+  margin: 0 -4px 0 $space-x;
+  padding: 0 $space-x;
+}
+.ui-tag-button:active .ui-tag-counter { 
+  opacity: $opacity-medium;
 }
 
 // Size variations
 
-.ui-tag-cloud.small .tag-button {
-  @extend .button.small;
+.ui-tag-cloud.small .ui-tag-button {
+  font-size: $font-xs;
+  line-height: $line-height-m;
+  min-height: 18px;
+  padding-left: $space-x;
+  padding-right: $space-x;
+  i,
+  .ui-tag-icon { 
+    margin-bottom: -5px;
+    margin-top: -1px;
+  }
 }
-.ui-tag-cloud.large .tag-button {
-  @extend .button.large;
+.ui-tag-cloud.large .ui-tag-button {
+  font-size: $font-xl;
+  line-height: $line-height-xl;
+  min-height: 37px;
+  i,
+  .ui-tag-icon { 
+    margin-bottom: -5px;
+    margin-top: 8px;
+  }
+  .ui-tag-counter { 
+    line-height: 26px;
+    min-width: 18px;
+  }
 }

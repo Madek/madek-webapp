@@ -1,7 +1,6 @@
 /**
- * ## Side filter `.ui-side-filter`
+ * ## Form elements
  *
- * Styleguide 6.3
  */
 
 input[type="text"],
@@ -29,6 +28,21 @@ select {
   margin-bottom: $space-s;
 }
 
+/* Placeholder
+----------------------------------------- */
+::-webkit-input-placeholder {
+  color: lighten($grey-darker, 25%) !important;
+}
+:-moz-placeholder {
+  color: lighten($grey-darker, 25%) !important;
+}
+:-ms-input-placeholder {
+  color: lighten($grey-darker, 25%) !important;
+}
+
+/* Full width elements
+----------------------------------------- */
+
 input.block,
 select.block,
 textarea.block {
@@ -39,93 +53,47 @@ textarea.block {
   width: 100%;
 }
 
+/* Size variations
+----------------------------------------- */
+
 input.large {
   font-size: $font-l;
-  line-height: $line-height-l
+  line-height: $line-height-l;
+  padding: 3px 0;
 }
 
-// Form instructions
+/* State variations
+----------------------------------------- */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  &.error { 
+    border-color: $red;
+  }
+}
+
+/* Form instructions
+----------------------------------------- */
 
 .form-note {
   color: $grey-mid;
   font-size: $font-s;
   margin-bottom: $space-s;
 }
-
-// New Form Structure
-
-.form-footer {
-  padding-top: $space-x;
-  padding-left: 200px;
-  .primary-button {
-    @include float-left;
-    margin: -$space-s $space-m 0 0;
-  }
+.form-footer { 
+  margin-top: $space-m;
 }
 
-// Columned Form Group
+/**
+ * ## Sample columned form `form`
+ *
+ * Styleguide 4.1.1
+ */
 
-.form-group.columned {
-  @include micro-clearfix;
-  border-bottom: 1px solid $grey-light;
-  margin-bottom: $space-m;
-  padding-bottom: $space-s;
-  padding-right: 30px;
-  position: relative;
-  > .form-label {
-    @include float-left;
-    color: $grey-darker;
-    font-weight: 700;
-    padding-top: $space-x;
-    padding-bottom: $space-s;
-    width: 160px;
-    small {
-      color: $grey-mid;
-      display: block;
-      font-size: $font-xs;
-      font-weight: normal;
-    }
-    .form-tooltip-toggle {
-      @extend .icon-question-mark;
-      @include position-top-right($space-x,0);
-      display: inline-block;
-      opacity: $opacity-medium;
-    }
-    .form-tooltip-toggle:hover {
-      opacity: 1;
-    }
-  }
-  > .form-item {
-    margin-left: 200px; // form-label width + 40px
-    > .form-item-extension {
-      margin-top: $space-s;
-      margin-bottom: $space-m;
-    }
-    > .form-person-widget {
-      margin-top: $space-s;
-    }
-  }
-}
-
-// Rowed Form Group
-
-.form-group.rowed {
-  > .form-label {
-    clear: both;
-    display: block;
-  }
-  > .form-item {
-    @include micro-clearfix;
-  }
-}
-
-.form-checkbox-label {
-  display: block;
-  font-size: $font-s;
-  padding-left: $space-m;
-  padding-right: $space-x;
-  position: relative;
-  input[type="checkbox"] {
-    @include position-top-left(1px,0);
-  }
-}
+ /**
+ * ## Sample rowed form `form`
+ *
+ * Styleguide 4.1.2
+ */

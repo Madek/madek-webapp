@@ -1,0 +1,98 @@
+/**
+ *
+ * ## Pickadate override
+ *
+ */
+
+.pickadate__holder td { 
+  border: none;
+}
+.pickadate__calendar--box {
+  @include border-radius($border-radius-m);
+  @include box-shadow(0 1px 3px $darken-more);
+  padding: $space-x;
+  font-size: $font-s;
+  line-height: $line-height-m;
+  color: $grey-darker;
+  background: $grey-lighter;
+  border: 1px solid $grey-mid-light;
+}
+.pickadate__calendar {
+  margin-top: $space-x;
+}
+.pickadate__calendar--date {
+  @include border-radius($border-radius-s);
+  padding: 2px $space-x;
+  font-weight: 400;
+}
+.pickadate__weekday {
+  font-size: $font-xs;
+  padding-bottom: $space-x;
+  color: $grey-mid;
+  font-weight: 600;
+  text-align: center;
+}
+.pickadate__day--infocus,
+.pickadate__day--outfocus,
+.pickadate__month--prev,
+.pickadate__month--next {
+  border: 1px solid $grey-lighter;
+}
+.pickadate__day--infocus:hover,
+.pickadate__day--outfocus:hover,
+.pickadate__month--prev:hover,
+.pickadate__month--next:hover {
+  border-color: $grey-light;
+  cursor: pointer;
+  color: $grey-darker;
+  background: $brightest;
+}
+.pickadate__month--prev,
+.pickadate__month--next {
+  @include border-radius($border-radius-s);
+  top: $space-x;
+}
+.pickadate__month--prev {
+  left: $space-x;
+}
+.pickadate__month--next {
+  right: $space-x;
+}
+.pickadate__month--box,
+.pickadate__year--box {
+  text-align: center;
+}
+.pickadate__month {
+  font-weight: 500;
+}
+.pickadate__year {
+  font-size: .66em;
+  color: #999;
+  font-weight: bold;
+}
+.pickadate__month--box { 
+  margin-top: $space-s;
+}
+.pickadate__month--selector,
+.pickadate__year--selector {
+  font-size: $font-xs;
+  border: 1px solid $grey-light;
+  height: $space-m;
+}
+.pickadate__month--selector {
+  margin-bottom: $space-x;
+}
+.pickadate__day--outfocus {
+  color: #ccc;
+}
+.pickadate__day--today {
+  color: inherit;
+}
+.pickadate__day--selected,
+.pickadate__day--selected:hover {
+  background: $brightest;
+  border-color: $grey-mid-light;
+  border-width: 1px;
+  color: $grey-darker;
+  opacity: 1;
+}

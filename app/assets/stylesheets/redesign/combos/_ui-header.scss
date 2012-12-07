@@ -10,6 +10,10 @@
   padding: $space-s;
   position: relative;
 }
+
+/**
+ * Tab Menu
+ ----------------------------------------- */
 .ui-header-menu {
   @include position-bottom-right(0,50%);
   @include position-bottom-left(0,50%);
@@ -21,7 +25,15 @@
 .ui-header-menu .ui-tabs-item {
   @include border-top-radius($border-radius-s);
   @include box-shadow(0 -2px 2px $darken);
+  &.active .icon-nav-help,
+  &.active .icon-nav-search {
+    @extend .dark;
+  }
 }
+
+/**
+ * User area
+ ----------------------------------------- */
 .ui-header-user {
   @include position-top-right($space-s,$space-s);
   .dropdown {
@@ -29,7 +41,12 @@
   }
 }
 
-// Header brand area
+/**
+ * Brand area
+ ----------------------------------------- */
+.ui-header-brand a:hover {
+  text-decoration: none;
+}
 
 .ui-header-logo {
   @include float-left;

@@ -1,0 +1,8 @@
+%li.ui-side-filter-lvl1-item.ui-side-filter-item{:"data-filter-type" => "${filter_type}"}
+  %a.strong.ui-accordion-toggle
+    ${context_label}
+    %i.ui-side-filter-lvl1-marker
+
+  %ul.ui-side-filter-lvl2.ui-accordion-body
+    
+    {{tmpl(keys) App.renderPath("media_resources/filter/key")}}

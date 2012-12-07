@@ -1,0 +1,23 @@
+.app.view-media-entry
+
+  = render "application/header"
+
+  .app-body
+
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl= @media_entry.title
+        
+        = render :partial => "media_entries/actions"
+
+    .app-body-ui-container
+
+      = render :partial => "media_entries/tabs"
+
+      .ui-container.rounded-right.rounded-bottom.bordered.tab-content
+
+        = render :partial => "media_entries/more_data"
+
+  .app-footer-push
+= render "application/footer"

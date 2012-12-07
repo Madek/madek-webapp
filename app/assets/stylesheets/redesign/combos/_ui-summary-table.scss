@@ -4,6 +4,9 @@
  * Styleguide 7.5
  */
 
+.ui-summary-table {
+  max-width: 1000px;
+}
 .ui-summary-label {
   @extend .title-xs-alt;
   padding-right: $space-s;

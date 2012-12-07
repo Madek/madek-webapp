@@ -1,0 +1,154 @@
+/**
+ * ## Sample columned form `form`
+ *
+ * Styleguide 4.1.1
+ */
+
+ /**
+ * ## Sample rowed form `form`
+ *
+ * Styleguide 4.1.2
+ */
+
+ /**
+ * ## Form group `ui-form-group`
+ *
+ * .rowed              - Rowed form group
+ * .columned           - Columned
+ * .rowed.highlight    - Highlight variation
+ * .rowed.error        - Error variation
+ * .rowed.compact      - Compact mode
+ * .columned.highlight - Highlight variation
+ * .columned.error     - Error variation
+ * .columned.compact   - Compact mode
+ *
+ * Styleguide 4.3
+ */
+
+/**
+ * Generic
+ ----------------------------------------- */
+
+.ui-form-group { 
+  padding: $space-m $space-s;
+  position: relative;
+  > .form-label { 
+  color: $grey-darker;
+  }
+  &.compact { 
+    margin-bottom: -$space-s;
+    padding: $space-s $space-x;
+  }
+}
+.ui-form-group .ui-form-ui-ttip-toggle {
+  @extend .icon-question-mark;
+  @include position-top-right($space-m,$space-x);
+  display: inline-block;
+  opacity: $opacity-medium;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+/**
+ * Rowed
+ ----------------------------------------- */
+.ui-form-group.rowed {
+  > .form-label {
+    clear: both;
+    display: block;
+    font-weight: 700;
+    padding-bottom: $space-s;
+    small {
+      color: $grey-mid;
+      font-size: $font-xs;
+      font-weight: normal;
+      margin-left: $space-s;
+    }
+  }
+  > .form-item {
+    @include micro-clearfix;
+  }
+}
+
+.form-checkbox-label {
+  display: block;
+  font-size: $font-s;
+  padding-left: $space-m;
+  padding-right: $space-x;
+  position: relative;
+  input[type="checkbox"] {
+    @include position-top-left(1px,0);
+  }
+}
+
+/**
+ * Columned
+ ----------------------------------------- */
+.ui-form-group.columned {
+  @include micro-clearfix;
+  border-bottom: 1px solid $grey-light;
+  padding-right: 30px;
+  position: relative;
+  > .form-label {
+    @include float-left;
+    font-weight: 700;
+    padding-top: $space-x;
+    padding-bottom: $space-s;
+    width: 160px;
+    small {
+      color: $grey-mid;
+      display: block;
+      font-size: $font-xs;
+      font-weight: normal;
+    }
+  }
+  > .form-item {
+    margin-left: 200px; // form-label width + 40px
+    > .form-item-extension {
+      margin-top: $space-s;
+      margin-bottom: $space-m;
+    }
+    > .form-person-widget {
+      margin-top: $space-s;
+    }
+  }
+}
+
+/**
+ * Highglight / Error variations
+ ----------------------------------------- */
+
+.ui-form-group.error { 
+  background-color: lighten($red, 50%);
+  > .form-label { 
+    color: $red;
+  }
+  > .form-item textarea,
+  > .form-item input { 
+    @include box-shadow(0 0 5px $red);
+    border-color: $red;
+  }
+}
+
+.ui-form-group.highlight { 
+  background-color: lighten($yellow, 50%);
+  > .form-label { 
+    color: $yellow;
+  }
+  > .form-item textarea,
+  > .form-item input { 
+    @include box-shadow(0 0 5px $yellow);
+    border-color: $yellow;
+  }
+}
+
+
+/**
+ * Within modals
+ ----------------------------------------- */
+
+ .modal .ui-form-group { 
+  margin-left: -10px;
+  margin-right: -10px;
+ }

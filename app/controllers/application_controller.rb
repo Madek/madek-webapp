@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
 ##############################################
 # Authentication
 
-  before_filter :login_required, :except => [:root, :login, :login_successful, :logout, :feedback, :usage_terms] # TODO :help
+  before_filter :login_required, :except => [:login, :login_successful, :logout, :feedback, :usage_terms, :login_and_return_here] # TODO :help
 
   helper_method :current_user, :logged_in?, :_
 
@@ -71,19 +71,18 @@ end
 ##############################################
 
   def root
-    if logged_in?
+    if logged_in? and not current_user.is_guest?
       if @already_redirected
         # do nothing
       elsif session[:return_to]
         redirect_back_or_default('/')
       else
-        @latest_user_resources = current_user.media_resources.ordered_by(:updated_at).limit(6)
-        @latest_user_imports = current_user.media_entries.ordered_by(:created_at).limit(6)
-        @user_favorite_resources = current_user.media_entries.limit(12)
-        @user_keywords_count = current_user.keywords.count
-        @user_keywords = view_context.hash_for current_user.keywords.limit(6)
+        @latest_user_resources = (current_user.media_resources).filter(current_user).ordered_by(:updated_at).limit(6)
+        @latest_user_imports = (current_user.media_resources).filter(current_user, {:type => "media_entries"}).ordered_by(:created_at).limit(6)
+        @user_favorite_resources = MediaResource.filter(current_user, {:favorites => "true"}).limit(12)
+        @user_keywords = view_context.hash_for current_user.keywords.with_count.limit(6), {:count => true}
         @user_groups = current_user.groups.limit(4)
-        @user_entrusted_resources = MediaResource.entrusted_to_user(current_user).limit(6)
+        @user_entrusted_resources = MediaResource.filter(current_user).entrusted_to_user(current_user).limit(6)
         render :template => "/users/show" # TODO refactor to UsersController#show as Dashboard
       end
     else
@@ -104,6 +103,11 @@ end
   def feedback
     @title = "Medienarchiv der Künste: Feedback & Support"
     @disable_search = true
+  end
+
+  def login_and_return_here
+    store_location URI::parse(request.referrer).request_uri
+    redirect_to login_path
   end
 
 ##############################################
@@ -138,17 +142,24 @@ end
   def login_from_session
     user = nil
 
-    # TODO rename is_api_request to something sensible
-    is_api_request = (request.format.to_sym == :json or
-          (request[:controller] == "media_resources" and request[:action] == "image") )
-
     if session[:user_id]
       # TODO use find without exception: self.current_user = User.find(session[:user_id])
       self.current_user = user = User.find_by_id(session[:user_id])
-      check_usage_terms_accepted unless is_api_request
+      check_usage_terms_accepted unless request.format.to_sym == :json or (request[:controller] == "media_resources" and request[:action] == "image")
 
-    # TODO remove this when public open OR logged in through API
-    elsif is_api_request
+    elsif request.format.to_sym == :json or
+          (request[:controller] == "media_resources" and request[:action] == "image") or 
+          (request[:controller] == "media_resources" and request[:action] == "show") or
+          (request[:controller] == "media_resources" and request[:action] == "index") or
+          (request[:controller] == "explore") or 
+          (request[:controller] == "application" and request[:action] == "root") or 
+          (request[:controller] == "media_entries" and request[:action] == "show") or
+          (request[:controller] == "media_entries" and request[:action] == "parents") or
+          (request[:controller] == "media_entries" and request[:action] == "context_group") or
+          (request[:controller] == "media_entries" and request[:action] == "more_data") or
+          (request[:controller] == "media_sets" and request[:action] == "show") or 
+          (request[:controller] == "keywords" and request[:action] == "index") or 
+          (request[:controller] == "search" and request[:action] == "index")
       @current_user = user = User.new
 
     end
@@ -163,14 +174,13 @@ end
     end
   end
 
-  def store_location
-    session[:return_to] = request.fullpath
+  def store_location(path = nil)
+    session[:return_to] = path ? path : request.fullpath
   end
 
   def redirect_back_or_default(default)
     redirect_to(session[:return_to] || default)
     session[:return_to] = nil
   end
-
 
 end

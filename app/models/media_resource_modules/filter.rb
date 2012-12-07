@@ -7,8 +7,6 @@ module MediaResourceModules
              :media_file,:media_files, :media_set_id, :meta_data, :not_by_user_id,
              :permissions, :public, :search, :top_level, :type, :user_id,
              :query ] 
-    
-    DEPRECATED_KEYS = {:search => :query}
 
     def self.included(base)
       base.class_eval do
@@ -17,16 +15,17 @@ module MediaResourceModules
     end
 
     module ClassMethods
+      def get_filter_params params
+        params.select do |k,v| 
+          KEYS.include?(k.to_sym) 
+        end.delete_if {|k,v| v.blank?}.deep_symbolize_keys
+      end
+
       # returns a chainable collection of media_resources
       # when current_user argument is not provided, the permissions are not considered
       def filter(current_user = nil, filter = {})
         filter = filter.delete_if {|k,v| v.blank?}.deep_symbolize_keys
         raise "invalid option" unless filter.is_a?(Hash) #and (filter.keys - KEYS).blank?
-
-        DEPRECATED_KEYS.each_pair do |k,v|
-          filter[k] ||= filter.delete(v) if filter[v]
-        end
-
 
         ############################################################
 

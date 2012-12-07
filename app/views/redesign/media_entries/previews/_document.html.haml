@@ -1,0 +1,4 @@
+- if current_user.authorized? :download, @media_entry
+  = render :partial => "media_entries/previews/document/full_document"
+- else
+  = render :partial => "media_entries/previews/document/first_page"

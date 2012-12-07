@@ -49,6 +49,12 @@ class MetaContext < ActiveRecord::Base
   
 ##################################################################
 
+  def individual_context?
+    media_sets.exists?
+  end
+
+##################################################################
+
   # TODO dry with MediaSet#abstract  
   def abstract(current_user = nil, min_media_entries = nil)
     accessible_media_entry_ids = media_entries(current_user).pluck("media_resources.id")

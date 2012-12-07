@@ -96,7 +96,7 @@ module MediaResourceModules
       def accessible_by_user(user, action = :view)
         action = (action || :view).to_sym
 
-        unless user.try(:id)
+        if user.nil? or user.is_guest?
           where(action => true)
         else
           resource_ids_by_userpermission = Userpermission.select("media_resource_id").where(action => true, :user_id => user)
