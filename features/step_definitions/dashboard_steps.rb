@@ -18,7 +18,7 @@ Then /^I can choose to continue to a list of all content assigned to me$/ do
 end
 
 Then /^I see a block of resources showing content available to the public$/ do
-	(".media_resources.index.grid")[2].find(".page_title_left").should have_content("Öffentliche Inhalte")
+	all(".media_resources.index.grid")[2].find(".page_title_left").should have_content("Öffentliche Inhalte")
 end
 
 Then /^I can choose to continue to a list of all content available to the public$/ do
