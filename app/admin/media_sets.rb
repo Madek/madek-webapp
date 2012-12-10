@@ -18,7 +18,7 @@ ActiveAdmin.register MediaSet do
   
   index do
     column :type
-    column :title
+    column :title, :sortable => false
     column :user
     column "Entries / Sets" do |x|
       c1, c2 = [x.child_media_resources.media_entries.count, x.child_media_resources.media_sets.count]
