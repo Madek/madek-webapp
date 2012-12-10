@@ -51,6 +51,9 @@ ActiveAdmin.register MediaSet do
   scope :splashscreen_slideshow_set do |records|
     records.where(:id => AppSettings.splashscreen_slideshow_set_id)
   end
+  scope :with_individual_contexts do |records|
+    records.joins("INNER JOIN media_sets_meta_contexts ON media_sets_meta_contexts.media_set_id = media_resources.id")
+  end
 
   form :partial => "form"
 

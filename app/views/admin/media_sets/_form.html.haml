@@ -22,7 +22,7 @@
           %ul.columns_3
             - MetaContext.all.each do |context|
               %li
-                = check_box_tag "individual_contexts[]", context.id, f.object.individual_contexts.include?(context)
+                = check_box_tag "media_set[individual_context_ids][]", context.id, f.object.individual_contexts.include?(context)
                 = context
 
     %tr
