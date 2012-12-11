@@ -116,7 +116,7 @@ bundle exec rake madek:test:setup
       REXML::XPath.first(xml_doc,  \
                          "/project/buildWrappers/EnvInjectBuildWrapper/info/propertiesContent") \
                          .text= %Q{RAILS_ENV=test 
-CI_TEST_NAME=#{branch_name}_rspec
+CI_TEST_NAME=#{branch_name.downcase}_rspec
 }
 
       # this seems the only way to get it up reliably
