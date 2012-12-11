@@ -173,7 +173,7 @@ CI_TEST_NAME=#{branch_name}_rspec
     end
 
     def job_env job_params
-      "RAILS_ENV=test\nCI_TEST_NAME=#{job_params[:branch_name]}_#{job_params[:name]}\nCUCUMBER_FILE=#{job_params[:filename]}"
+      "RAILS_ENV=test\nCI_TEST_NAME=#{job_params[:branch_name].downcase}_#{job_params[:name].downcase}\nCUCUMBER_FILE=#{job_params[:filename]}"
     end
 
     def ci_job_name job_params
