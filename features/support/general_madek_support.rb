@@ -94,14 +94,14 @@ end
 
 def click_media_entry_titled(title)
   entry = find_media_resource_titled(title)
-  wait_until { entry.find("a") }
+  wait_until { entry.all("a img").size > 0 }
   entry.find("a img").click
   sleep 1.0
 end
 
 def click_media_set_titled(title)
   entry = find_media_resource_titled(title, MediaSet)
-  wait_until { entry.find("a") }
+  wait_until { entry.all("a").size > 0 }
   entry.find("a").click
   sleep 1.0
 end
@@ -117,7 +117,7 @@ end
 
 # Sets the checkbox of the media entry with the given title to true.
 def check_media_entry_titled(title)
-  wait_until { find(".thumb_box") }
+  wait_until { all(".thumb_box").size > 0 }
   # Crutch so we can check the otherwise invisible checkboxes (they only appear on hover,
   # which Capybara can't do)
   #make_hidden_items_visible
@@ -153,9 +153,10 @@ end
 
 # find the interface element of a media resource on the current screen
 def find_media_resource_element(mr)
-  while (all(".item_box[data-id='#{mr.id}']").empty?) 
+  while (all(".item_box[data-id='#{mr.id}']").empty?)
     scroll_to_next_page
-  end 
+  end
+  wait_until { all(".item_box[data-id='#{mr.id}']").size > 0 }
   element = find(".item_box[data-id='#{mr.id}']")
   puts "Interface element was not found for that media resource" unless element
   return element
@@ -362,14 +363,16 @@ def scroll_to_next_page
   wait_until { all(".page[data-page]").size > 0 }
   page = find(".page[data-page]")[:"data-page"]
   
-  wait_until {find(".page .pagination", :text => /Seite #{page}\svon/)}
-  find(".page .pagination", :text => /Seite #{page}\svon/).click
+  wait_until {all(".page .pagination", :text => /Seite #{page}\svon/).size > 0}
+  el1 = find(".page .pagination", :text => /Seite #{page}\svon/)
+  el1.click
   wait_until {all(".page[data-page='#{page}']").empty?}
-  wait_until {
-    all(".page[data-page='#{page}']").size == 0 and
-    find(".page .pagination", :text => /Seite #{page}\svon/).find(:xpath, "./..") and
-    find(".page .pagination", :text => /Seite #{page}\svon/).find(:xpath, "./..").all(".item_box img").size > 0
-  }
+  wait_until {all(".page[data-items_in_page] .pagination", :text => /Seite #{page}\svon/)}
+  # the element is now replaced, let's select the new one
+  el1 = find(".page[data-items_in_page] .pagination", :text => /Seite #{page}\svon/)
+  wait_until {el1.all(:xpath, "./..").size > 0}
+  el2 = el1.find(:xpath, "./..")
+  wait_until {el2.all(".item_box img").size > 0}
 end
 
 # after filter panel has been updated, fetch fresh the selected term

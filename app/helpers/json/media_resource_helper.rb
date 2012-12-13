@@ -28,7 +28,7 @@ module Json
           h[:meta_data] = []
           if meta_context_names = with[:meta_data][:meta_context_names]
             meta_context_names.each do |name|
-              h[:meta_data] += media_resource.meta_data_for_context(MetaContext.send(name)).map do |md|
+              h[:meta_data] += media_resource.meta_data.for_context(MetaContext.send(name)).map do |md|
                 hash_for md, {:label => {:context => name}}
               end
             end
@@ -132,12 +132,12 @@ module Json
     def hash_for_media_resources_with_pagination(media_resources, pagination, with = nil, type_totals = false)
       page = (pagination.is_a?(Hash) ? pagination[:page] : nil) || 1
       per_page = [((pagination.is_a?(Hash) ? pagination[:per_page] : nil) || PER_PAGE.first).to_i.abs, PER_PAGE.last].min
-      paginated_media_resources = media_resources.paginate(:page => page, :per_page => per_page)
+      paginated_media_resources = media_resources.page(page).per(per_page)
       
       pagination = {
-        total: paginated_media_resources.total_entries, 
+        total: paginated_media_resources.total_count, 
         page: paginated_media_resources.current_page,
-        per_page: paginated_media_resources.per_page,
+        per_page: per_page,
         total_pages: paginated_media_resources.total_pages
       }
       if type_totals
@@ -167,9 +167,8 @@ module Json
   
                       filters = MediaFile.
                         select("media_files.#{column} as value, count(*) as count").
-                        from("media_files,media_resources").
-                        where("media_files.id = media_resources.media_file_id").
-                        where("media_resources.id in (#{media_resources.select("media_resources.id").to_sql})").
+                        joins(:media_entries).
+                        where(:media_resources => {:id => media_resources}).
                         group("media_files.#{column}").
                         order("count DESC")
   

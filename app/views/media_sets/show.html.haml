@@ -177,24 +177,28 @@
       $(".icon_set_parents").toggleClass("open");
     });
   });
-  
+
 :coffeescript
   jQuery ->
 
+    hightlights_json = #{ hash_for_media_resources_with_pagination(@media_set.highlights.accessible_by_user(current_user), nil, with).to_json }
+    cover_id = #{ @media_set.cover(current_user).try(:id) || "undefined" }
+
     new App.MediaSets
-      highlightedResources: #{ hash_for_media_resources_with_pagination(@media_set.out_arcs.select(&:highlight).map(&:child), nil, with).to_json }
+      highlightedResources: hightlights_json 
 
     new MediaSetArcsHighlights
       trigger: $(".open_media_set_highlights_lightbox")
       parentId: $("#media_set_highlights").data("parent_id")
-      highlightedResources: #{ hash_for_media_resources_with_pagination(@media_set.out_arcs.select(&:highlight).map(&:child), nil, with).to_json }
+      highlightedResources: hightlights_json
       template: "tmpl/media_set/highlights_lightbox"
 
     new MediaSetArcsCover
       trigger: $(".open_media_set_cover_lightbox")
       parentId: $("#media_set_highlights").data("parent_id")
-      currentCoverId: #{ @media_set.out_arcs.where(cover: true).empty? ? "undefined" : @media_set.out_arcs.where(cover: true).first.child_id }
-  
+      currentCoverId: cover_id
+
+        
     $(".individual_context").change ->
       $(this).toggleClass("changed")
       

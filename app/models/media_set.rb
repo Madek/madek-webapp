@@ -2,6 +2,7 @@
 class MediaSet < MediaResource
 
   has_many :child_media_resources, :through => :out_arcs, :source => :child
+  has_many :highlights, :through => :out_arcs, :conditions => ['media_resource_arcs.highlight = ?',true] ,:source => :child
 
 =begin #old??#
   def self.find_by_id_or_create_by_title(values, user)
@@ -84,6 +85,10 @@ class MediaSet < MediaResource
 
 ########################################################
 
+  def cover(user)
+    child_media_resources.media_entries.accessible_by_user(user).joins(:out_arcs).where(media_resource_arcs: {cover: true}).first
+  end
+
   def get_media_file(user)
     unless out_arcs.where(cover: true).exists?
       # NOTE this is the fallback in case no cover is set yet.
@@ -92,8 +97,8 @@ class MediaSet < MediaResource
       arc = out_arcs.joins(:child).where(:media_resources => {:type => 'MediaEntry'}).order("media_resource_arcs.id ASC").readonly(false).first
       arc.update_attributes(cover: true) if arc
     end
-    
-    child_media_resources.media_entries.accessible_by_user(user).where(media_resource_arcs: {cover: true}).first.try(:media_file)
+
+    cover(user).try(:media_file)
   end
 
   def media_type

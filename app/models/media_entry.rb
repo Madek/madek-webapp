@@ -46,7 +46,7 @@ class MediaEntry < MediaResource
   def to_tms(xml, context)
     xml.snapshot do
       #old# meta_data.each do |meta_datum|
-      meta_data_for_context(context, false).each do |meta_datum|
+      meta_data.for_context(context, false).each do |meta_datum|
         key_map = meta_datum.meta_key.key_map_for(context)
         if key_map
           # TODO use treetop gem
@@ -148,10 +148,10 @@ class MediaEntry < MediaResource
 
  def self.compare_batch_by_meta_data_in_context(media_entries, context)
    compared_against, other_entries = media_entries[0], media_entries[1..-1]
-   meta_data_for_context = compared_against.meta_data_for_context(context)
+   compared_meta_data = compared_against.meta_data.for_context(context)
    
    new_blank_media_entry = self.new
-   meta_data_for_context.map do |md_bare|
+   compared_meta_data.map do |md_bare|
       if other_entries.any? {|me| not me.meta_data.get(md_bare.meta_key_id).same_value?(md_bare.value)}
         new_blank_media_entry.meta_data.build(:meta_key_id => md_bare.meta_key_id, :keep_original_value => true)
       else

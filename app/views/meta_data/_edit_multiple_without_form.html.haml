@@ -1,9 +1,9 @@
 .meta_data.meta_data_block{:id => "#{context.name}"}
-  != auto_link(context.description.to_s, :all, :target => "_blank")
+  != auto_link(html_escape(context.description.to_s), :html => {:target => '_blank', :rel => 'nofollow'})
 
   :ruby
     # if meta_data are sent in it means that we are editing multiple resources at once
-    meta_data ||= resource.object.meta_data_for_context(context)
+    meta_data ||= resource.object.meta_data.for_context(context)
 
     labels = {}
     last_label = nil

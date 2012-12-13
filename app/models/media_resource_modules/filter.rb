@@ -160,7 +160,7 @@ module MediaResourceModules
                 s = s.where(:meta_data_meta_terms => {:meta_term_id => id}) unless id == "any"
                 s
             end
-            resources = resources.where("media_resources.id IN  (#{sub.select("media_resources.id").to_sql})")
+            resources = resources.where(:id => sub)
           end
         end
         resources

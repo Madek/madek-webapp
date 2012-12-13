@@ -24,11 +24,8 @@ form_for @resource, :as => :resource,
 	<%= hidden_field_tag :context_id, @context.id %>
 
 	<%= content_tag :div, :class => "meta_data_block" do
-		@resource.meta_data_for_context(@context).each do |md|
+		@resource.meta_data.for_context(@context).each do |md|
 			next if md.meta_key.is_dynamic? and not ["copyright usage", "copyright url"].include?(md.meta_key.label) # OPTIMIZE
-
-			valid = md.context_valid?(@context) if false #future#
-			warnings = md.context_warnings(@context) if false #future#
 
 			resource.fields_for :meta_data, md do |meta_datum|
 
@@ -47,9 +44,6 @@ form_for @resource, :as => :resource,
 					content_tag :li, :style => "width: 12%;" do %>
 						<%= description_toggler(definition) %>
 					<% end
-					content_tag :li do
-						show_warnings(warnings)
-					end if false #future#
 				end
 
 			end

@@ -3,7 +3,9 @@ ActiveAdmin.register MediaSet do
   controller do
     def scoped_collection
       # including subclasses (FilterSet)
-      MediaResource.media_sets.includes(:user)
+      r = MediaResource.media_sets.includes(:user)
+      r = r.search(params[:search]) if params[:search]
+      r
     end
     
     def update
@@ -52,9 +54,16 @@ ActiveAdmin.register MediaSet do
     records.where(:id => AppSettings.splashscreen_slideshow_set_id)
   end
   scope :with_individual_contexts do |records|
-    records.joins("INNER JOIN media_sets_meta_contexts ON media_sets_meta_contexts.media_set_id = media_resources.id")
+    # TODO force active_admin to count(:distinct => true)
+    #records.joins("INNER JOIN media_sets_meta_contexts ON media_sets_meta_contexts.media_set_id = media_resources.id").uniq
+    records.joins("INNER JOIN media_sets_meta_contexts ON media_sets_meta_contexts.media_set_id = media_resources.id").group("media_resources.id")
   end
 
   form :partial => "form"
 
+  config.filters = false
+  sidebar :filters do
+    render :partial => "filter"
+  end
+  
 end

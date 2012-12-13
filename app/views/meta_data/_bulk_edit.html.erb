@@ -1,6 +1,6 @@
 <% # TODO merge with _edit_multiple_without_form ??
 
-meta_data = resource.meta_data_for_context(context)
+meta_data = resource.meta_data.for_context(context)
 
 labels = {}
 last_label = nil
@@ -62,6 +62,6 @@ labels.delete_if {|k, v| v.size < 2 }
 <% end %>
 
 <% fields_for resource do |r|
-	r.fields_for :meta_data, r.object.meta_data_for_context(context) do |meta_datum|
+	r.fields_for :meta_data, r.object.meta_data.for_context(context) do |meta_datum|
 	end
 end if false # TODO %>

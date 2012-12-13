@@ -13,7 +13,7 @@ end
 Then /^for each resource I see meta data from the "(.*?)" context$/ do |context|
   @inspected_resource = MediaResource.accessible_by_user(@current_user).last
   @inspected_resource_element = find(".item_box[data-id='#{@inspected_resource.id}']")
-  @inspected_meta_data = @inspected_resource.meta_data_for_context(MetaContext.send(context), false)
+  @inspected_meta_data = @inspected_resource.meta_data.for_context(MetaContext.send(context), false)
   @inspected_meta_data.each do |meta_datum|
     @inspected_resource_element.should have_content meta_datum.to_s
   end

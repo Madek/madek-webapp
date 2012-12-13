@@ -14,9 +14,9 @@ Feature: Filter set
       And I am "Normin"
 
   # https://www.pivotaltracker.com/story/show/33961905
-  @poltergeist
+  @javascript
   Scenario: Saving a filter configuration as a filtered set
-    When I see a filtered list of resources as a result of a search
+    When I see a filtered list of resources
     Then I can choose to save the configuration of the filters as a new set
     When I choose to save the filter configuration
     Then I am prompted for the name of the new set that is thus created

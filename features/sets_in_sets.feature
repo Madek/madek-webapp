@@ -98,7 +98,7 @@ Feature: Sets in Sets
      And I go to the home page
      And I click the arrow next to my name
      And I follow "Meine Sets"
-     And I click the media entry titled "After-Upload Set"
+     And I click the mediaset titled "After-Upload Set"
      And I hover the context actions menu
      And I follow "Editieren"
      And I fill in the metadata form as follows:

@@ -9,7 +9,7 @@
             %img.img_reference{:src => @media_entry.media_file.thumb_base64(:small_125)}
         .clear
         - context = MetaContext.core
-        - @media_entry.meta_data_for_context(context).collect do |meta_datum|
+        - @media_entry.meta_data.for_context(context).collect do |meta_datum|
           - definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
           %h4{:style => "margin-top: 10px;"}= definition.label.to_s
           = render :partial => "meta_data/show", :locals => { :meta_datum => meta_datum, :resource => @media_entry, :context => context }
@@ -28,8 +28,8 @@
           :ruby
             media_entries = MediaEntry.filter(current_user, {:meta_data => {meta_datum.meta_key.label.to_sym => {:ids => [meta_term.id]}}}).
                               where("media_resources.id != ?", @media_entry.id).
-                              paginate(:per_page => 20, :page => 1)
-            c = media_entries.total_entries
+                              page(1).per(20)
+            c = media_entries.total_count
             next if c.zero?
             nothing_found = false
             media_entries_data = json_for(media_entries, {:image => {:as => "base64"},

@@ -36,12 +36,13 @@ end
 Then /^I can filter by the values for that particular key$/ do
   @key.find("h3").click
   @term = @key.find(".term")
+  term_string = @term.text.gsub(/\n.*/, "")
   @term.click  
   wait_until {all(".loading", :visible=>true).size == 0}
   wait_until {all(".results .page .item_box").size > 0}
   all(".results .page .item_box").each do |item|
     mr = MediaResource.find item["data-id"].to_i
-    mr.meta_data.map(&:to_s).any?{|md| md.match @term.text.gsub(/\n.*/, "")}.should be_true
+    mr.meta_data.map(&:to_s).any?{|md| md.match term_string}.should be_true
   end
 end
 
@@ -167,13 +168,14 @@ end
 
 Then /^I can filter by the values of that key$/ do
   @term = @key.find(".term")
-  @term.click  
+  term_string = @term.text.gsub(/\n.*/, "")
+  @term.click
   wait_until {all(".loading", :visible=>true).size == 0}
   wait_until {find(".results .page .item_box")}
   wait_until {find("#filter_area .key")}
   all(".results .page .item_box").each do |item|
     mr = MediaResource.find item["data-id"].to_i
-    mr.meta_data.map(&:to_s).any?{|md| md.match @term.text.gsub(/\n.*/, "")}.should be_true
+    mr.meta_data.map(&:to_s).any?{|md| md.match term_string}.should be_true
   end
 end
 

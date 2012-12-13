@@ -109,12 +109,6 @@ EXIFTOOL_PATH = "exiftool -config #{EXIFTOOL_CONFIG}"
 # Under passenger, it has no idea. Maybe substitute as part of the Capistrano deploy?
 # EXIFTOOL_PATH = `/usr/bin/which exiftool`.gsub(/\n/,"")
 
-# yes, this could be optimised..
-tmp_ext = `exiftool -listf`.downcase.split("\n") # a list of file extensions that exiftool knows about. If it's here, its a good chance it's file we can understand
-tmp_ext.shift # get rid of the "recognized file extensions:"
-KNOWN_EXTENSIONS = tmp_ext.join.split # now we have an array of individual extensions..
-tmp_ext = nil
-
 FILE_UTIL_PATH = "/usr/bin/file -b --mime-type"
 
 THUMBNAILS = {:maximum => nil, :x_large => '1024x768>', :large => '620x500>', :medium => '300x300>', :small_125 => '125x125>', :small => '100x100>'}

@@ -406,6 +406,7 @@ end
 
 
 When /I choose the set "([^"]*)" from the media entry$/ do |set_name|
+  sleep(0.5)
   element = wait_until { find(:xpath, "//div[@class='set-box' and @oldtitle]") }
   if not element.nil? and element[:oldtitle] =~ /^#{set_name}/
     element.find("a").click

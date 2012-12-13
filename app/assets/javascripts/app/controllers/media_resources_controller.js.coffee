@@ -45,6 +45,7 @@ class MediaResourcesController
     rp = $("#result_page").tmpl(json)
     if container.hasClass("page")
       container.replaceWith(rp.show())
+      container.data "items_in_page", json.media_resources.length
     else
       container.append(rp.show())
       while json.pagination.page < json.pagination.total_pages

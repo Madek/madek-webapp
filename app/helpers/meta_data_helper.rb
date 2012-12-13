@@ -31,7 +31,7 @@ module MetaDataHelper
 
   def display_meta_data_for(resource, context)
     h = {}
-    meta_data = resource.meta_data_for_context(context, false)
+    meta_data = resource.meta_data.for_context(context, false)
     meta_data.each do |meta_datum|
       next if meta_datum.to_s.blank? #tmp# OPTIMIZE 2007
       definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
@@ -73,7 +73,7 @@ module MetaDataHelper
   
   def display_meta_data_for_context(resource, context)
     capture_haml do
-      uploader_info, other_info = resource.meta_data_for_context(context).partition {|md| ["uploaded by", "uploaded at"].include?(md.meta_key.label) }
+      uploader_info, other_info = resource.meta_data.for_context(context).partition {|md| ["uploaded by", "uploaded at"].include?(md.meta_key.label) }
       other_info.each do |meta_datum|
         definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
         haml_tag :h4, definition.label.to_s
@@ -117,10 +117,7 @@ module MetaDataHelper
         end.join(' ').html_safe
       else
         s = meta_datum.to_s
-        #(s =~ /\n/ ? simple_format(s) : s)
-        #old#
-        auto_link(s, :all, :target => "_blank")
-        #new1# auto_link(s, :href_options => { :target => '_blank' })
+        auto_link(html_escape(s), :html => {:target => '_blank', :rel => 'nofollow'})
         #new2# to_list(s)
     end
   end
@@ -525,7 +522,7 @@ module MetaDataHelper
   def description_toggler(definition)
     d = definition.description.try(:to_s)
     unless d.blank?
-      content_tag :span, "?", :class => "description_toggler", :title => d #old# auto_link(d, :all, :target => "_blank")
+      content_tag :span, "?", :class => "description_toggler", :title => d
     end
   end
 

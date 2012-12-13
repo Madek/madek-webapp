@@ -146,21 +146,6 @@ module MediaEntriesHelper
     media_file.content_type.gsub(/^.*?\//, '')
   end
 
-  def show_warnings(warnings)
-    content_tag :ul, :class => "error" do
-      a = "".html_safe
-      warnings.each_pair do |k, v|
-        a += content_tag :li do
-          b = content_tag :label do
-            "#{k}: "
-          end
-          b += v.join(', ')
-        end
-      end
-      a
-    end
-  end
-
   def resource_sizes(resource)
     content_tag :div do
       a = "".html_safe

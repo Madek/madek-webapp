@@ -3,7 +3,7 @@
   .media-entry-metadata.ui-container
               
     - meta_context_slice.each do |meta_context|
-      - meta_data = render :partial => "meta_data/meta_datum", :collection => @media_entry.meta_data_for_context(meta_context), 
+      - meta_data = render :partial => "meta_data/meta_datum", :collection => @media_entry.meta_data.for_context(meta_context), 
                              :locals => {:context => meta_context, :skip_empty_values => true}
 
       .col1of4

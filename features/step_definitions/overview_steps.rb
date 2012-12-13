@@ -59,7 +59,7 @@ Then /^the results are sorted by (.*)$/ do |sort_by|
     
   model_sorted_ids = MediaResource.filter(@current_user, @filter).
                       ordered_by(underscored_sort_by).
-                      paginate(:page => 1, :per_page => PER_PAGE.first).
+                      page(1).per(PER_PAGE.first).
                       map(&:id)
   model_sorted_ids.should == dom_ids
 end

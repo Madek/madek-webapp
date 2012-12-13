@@ -42,7 +42,7 @@ module ApplicationHelper
           r
         end
       else
-        auto_link(h, :href_options => { :target => '_blank' })
+        auto_link(html_escape(h), :html => {:target => '_blank', :rel => 'nofollow'})
     end
   end
   

@@ -9,6 +9,9 @@ ActiveAdmin.register Person, sort_order: 'id' do
     column :firstname
     column :lastname
     column :pseudonym
+    column :is_group do |x|
+      status_tag (x.is_group ? "Group" : "Person"), (x.is_group ? :warning : :ok)
+    end
     column :user do |person|
       if person.user
         link_to person.user, [:edit, :admin, person.user]
@@ -38,7 +41,7 @@ ActiveAdmin.register Person, sort_order: 'id' do
   scope :all, :default => true
   scope :with_user
   scope :with_meta_data
-
+  scope :groups
 
   ###################################################
   # Transferring meta_data from one person to an other

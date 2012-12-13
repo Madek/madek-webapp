@@ -20,7 +20,7 @@ class Person < ActiveRecord::Base
   scope :with_meta_data, where(%Q<
     "people"."id" in ( #{Person.joins(:meta_data).select('"people"."id"').group('"people"."id"').to_sql}) >)
   scope :with_user, joins(:user)
-
+  scope :groups, where(:is_group => true)
 
   scope :search, lambda { |query|
     return scoped if query.blank?

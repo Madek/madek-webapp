@@ -2,9 +2,6 @@
 class MediaEntriesController < ApplicationController
 
   before_filter do
-    # TODO test; useful for will_paginate and forwarding links; refactor to application_controller?
-    params.delete_if {|k,v| v.blank? }
-
     if [:edit_multiple, :update_multiple, :remove_multiple].include? request[:action].to_sym
       begin
         if !params[:media_set_id].blank?
@@ -70,7 +67,7 @@ class MediaEntriesController < ApplicationController
     other_context_groups = MetaContextGroup.where(MetaContextGroup.arel_table[:position].not_eq(1)).sorted_by_position
     @other_relevant_context_groups = other_context_groups.select do |meta_context_group|
       meta_context_group.meta_contexts.select{ |meta_context|
-        @media_entry.meta_data_for_context(meta_context, false).any?
+        @media_entry.meta_data.for_context(meta_context, false).any?
       }.any? or (meta_context_group.meta_contexts & @media_entry.individual_contexts).any?
     end
   }, :only => [:show, :map, :more_data, :parents, :context_group]
@@ -79,7 +76,7 @@ class MediaEntriesController < ApplicationController
     respond_to do |format|
       format.html {
         @core_context = MetaContext.core
-        @core_meta_data = @media_entry.meta_data_for_context @core_context
+        @core_meta_data = @media_entry.meta_data.for_context @core_context
         @can_download = current_user.authorized?(:download, @media_entry)
         @original_file = @media_entry.media_file
         @original_file_available = (@original_file and File.exist?(@original_file.file_storage_location)) # NOTE it could be a zip file
@@ -123,7 +120,7 @@ class MediaEntriesController < ApplicationController
   def context_group
     @context_group = MetaContextGroup.find_by_name(params[:name]) || raise("No MetaContextGroup found")
     # @meta_contexts = (@context_group.meta_contexts & @media_entry.individual_contexts) |
-    #   @context_group.meta_contexts.select{ |meta_context| @media_entry.meta_data_for_context(meta_context, false).any? }
+    #   @context_group.meta_contexts.select{ |meta_context| @media_entry.meta_data.for_context(meta_context, false).any? }
 
     @meta_contexts = @context_group.meta_contexts.select {|mc| (not mc.individual_context?) or @media_entry.individual_contexts.include?(mc) }
 

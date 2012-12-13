@@ -8,7 +8,7 @@ module Json
     def hash_for(target, with = nil)
       klass = target.class
       case klass.name
-        when "Array", "ActiveRecord::Relation", "WillPaginate::Collection"
+        when "Array", "ActiveRecord::Relation", "Kaminari::PaginatableArray"
           # TODO eager loading here for associations ?? 
           target.map do |t|
             hash_for(t, with)

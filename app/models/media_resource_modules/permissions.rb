@@ -118,7 +118,7 @@ module MediaResourceModules
 
         # TODO inner join sql
         resource_ids_by_grouppermission = Grouppermission.select("media_resource_id").where(action => true, :group_id => group)
-        where " media_resources.id IN  ( #{resource_ids_by_grouppermission.to_sql} )" 
+        where(:id => resource_ids_by_grouppermission)
       end
       
       def entrusted_to_user(user, action = :view)
