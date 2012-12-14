@@ -221,6 +221,29 @@ describe MediaResource do
       end
     end
   end
+
+  context "manage permission" do
+    before :all do
+      @user1 = FactoryGirl.create :user
+      @user2 = FactoryGirl.create :user
+      @media_resource = FactoryGirl.create :media_resource, user: @user1, view: true, manage: true
+    end
+
+    it "is always false for the public, even if it's set as true in the database" do
+      guest_user = User.new
+      MediaResource.where(manage: true).exists?.should be_true
+      MediaResource.accessible_by_user(guest_user, :manage).count.should == 0
+      MediaResource.accessible_by_user(@user1, :manage).count.should == 1
+      MediaResource.accessible_by_user(@user2, :manage).count.should == 0
+    end
+
+    it "is always false for a group, even if it's set as true in the database" do
+      group = FactoryGirl.create :group
+      group.users << @user2
+      FactoryGirl.create :grouppermission, :group => group, :media_resource => @media_resource, view: true, manage: true
+      MediaResource.accessible_by_user(@user2, :manage).count.should == 0
+    end
+  end
 end
 
 

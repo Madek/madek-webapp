@@ -76,7 +76,7 @@
     {{/if}}
     {{/if}}
     
-    {{if manage}}
+    {{if !$item.is_group && !$item.is_public && $item.data.manage != undefined && manage}}
     {{if manage.length>0 && Underscore.isEqual(manage.sort(), $item.media_resource_ids.sort())}}
     %label.manage.permission{:title => "Berechtigungen verwalten"}
       = check_box_tag 'manage', "true", true
