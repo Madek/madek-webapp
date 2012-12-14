@@ -359,9 +359,9 @@ def add_to_set(set_title = "Untitled Set", picture_title = "Untitled", owner = "
   wait_until { all(".widget").size == 0 }
 end
 
-def scroll_to_next_page
+def scroll_to_next_page(page = nil)
   wait_until { all(".page[data-page]").size > 0 }
-  page = find(".page[data-page]")[:"data-page"]
+  page ||= find(".page[data-page]")[:"data-page"]
   
   wait_until {all(".page .pagination", :text => /Seite #{page}\svon/).size > 0}
   el1 = find(".page .pagination", :text => /Seite #{page}\svon/)
