@@ -16,7 +16,6 @@ Feature: List view
     Then each resource is represented as one row of data
     And for each resource I see meta data from the "core" context
     And for each resource I see a thumbnail image if it is available
-    And for each resource I see an icon if no thumbnail is available
   
   @javascript
   Scenario: Actions available for a resource
@@ -61,7 +60,7 @@ Feature: List view
   @javascript
   Scenario: Behavior when clicking a thumbnail in list view
     When I see a resource in a list view
-    And I click the thumbnail of that resource
+    And I click that resource
     Then I'm redirected to the media resource's detail page
 
   @javascript

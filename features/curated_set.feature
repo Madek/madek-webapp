@@ -15,7 +15,7 @@ Feature: Curated set / Gallery
      And I open a set that I can not edit which has children
     Then I don't see the option to edit the highlights for this set
   
-  @poltergeist 
+  @javascript
   Scenario: Viewing a set that has highlighted resources
     Given I am "Normin"
      And I open a set that I can edit which has children

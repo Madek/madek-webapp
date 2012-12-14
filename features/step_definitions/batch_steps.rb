@@ -57,8 +57,9 @@ end
 
 When /^I batch edit those two media resources$/ do
   visit media_resources_path
-  wait_until {find(".thumb_box")}
-  find("#batch-deselect-all").find("input").click
+  wait_until { all(".thumb_box").size > 0 }
+
+  find("#batch-deselect-all input").click
 
   one_element = find_media_resource_by_id @one.id
   another_element = find_media_resource_by_id @another.id
@@ -68,7 +69,7 @@ When /^I batch edit those two media resources$/ do
   one_element.find(".check_box").click
   another_element.find(".check_box").click
 
-  all("#batch-edit").first.find("input").click
+  find("#batch-edit input").click
 end
 
 Then /^I should see that this meta data field has (.*?) value[s]*$/ do |value|

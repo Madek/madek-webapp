@@ -367,9 +367,9 @@ def scroll_to_next_page
   el1 = find(".page .pagination", :text => /Seite #{page}\svon/)
   el1.click
   wait_until {all(".page[data-page='#{page}']").empty?}
-  wait_until {all(".page[data-items_in_page] .pagination", :text => /Seite #{page}\svon/)}
+  wait_until {all(".page[items_in_page] .pagination", :text => /Seite #{page}\svon/).size > 0}
   # the element is now replaced, let's select the new one
-  el1 = find(".page[data-items_in_page] .pagination", :text => /Seite #{page}\svon/)
+  el1 = find(".page[items_in_page] .pagination", :text => /Seite #{page}\svon/)
   wait_until {el1.all(:xpath, "./..").size > 0}
   el2 = el1.find(:xpath, "./..")
   wait_until {el2.all(".item_box img").size > 0}
