@@ -29,32 +29,6 @@ module MediaResourceModules
     end
 
 
-    ### instance methods 
-
-=begin #old??#
-    def users_permitted_to_act(action)
-      # do not optimize away this query as resource.user can be null
-      owner_id = User.select("users.id").joins(:media_resources).where("media_resources.id" => id)
-      user_ids_by_userpermission= Userpermission.select("user_id").where("media_resource_id" => id).where("userpermissions.#{action}" => true)
-      user_ids_dissallowed_by_userpermission = Userpermission.select("user_id").where("media_resource_id" => id).where("userpermissions.#{action}" => false)
-      user_ids_by_grouppermission_but_not_dissallowed= Grouppermission.select("groups_users.user_id as user_id").joins(:group).joins("INNER JOIN groups_users ON groups_users.group_id = groups.id").where("media_resource_id" => id).where("grouppermissions.#{action}" => true).where(" user_id NOT IN ( #{user_ids_dissallowed_by_userpermission.to_sql} )")
-      user_ids_by_publicpermission= User.select("users.id").joins("CROSS JOIN media_resources").where("media_resources.#{action}" => true)
-
-      User.where " users.id IN (
-            #{owner_id.to_sql}
-          UNION
-            #{user_ids_by_userpermission.to_sql}
-          UNION
-            #{user_ids_by_grouppermission_but_not_dissallowed.to_sql}
-          UNION
-            #{user_ids_by_publicpermission.to_sql})"
-    end
-
-    def managers
-      users_permitted_to_act :manage
-    end
-=end
-
     def is_public?
       view?
     end
@@ -98,40 +72,51 @@ module MediaResourceModules
         action = (action || :view).to_sym
 
         if user.nil? or user.is_guest?
-          where(action => true)
+          if action == :manage
+            where("0=1")
+          else
+            where(action => true)
+          end
         else
           resource_ids_by_userpermission = Userpermission.select("media_resource_id").where(action => true, :user_id => user)
-          resource_ids_by_ownership_or_public_permission = MediaResource.select("media_resources.id").where(["media_resources.user_id = ? OR media_resources.#{action} = ?", user, true])
-
-          where " media_resources.id IN  (
-          #{resource_ids_by_userpermission.to_sql} 
-            UNION
-          #{grouppermissions_not_disallowed(user,action).select("media_resource_id").to_sql} 
-            UNION
-          #{resource_ids_by_ownership_or_public_permission.to_sql}
-                  )" 
+          subquery = if action == :manage
+            resource_ids_by_ownership = MediaResource.select("media_resources.id").where(["media_resources.user_id = ?", user])
+            "#{resource_ids_by_userpermission.to_sql}
+              UNION
+            #{resource_ids_by_ownership.to_sql}"
+          else
+            resource_ids_by_ownership_or_public_permission = MediaResource.select("media_resources.id").where(["media_resources.user_id = ? OR media_resources.#{action} = ?", user, true])
+            "#{resource_ids_by_userpermission.to_sql}
+              UNION
+            #{grouppermissions_not_disallowed(user,action).select("media_resource_id").to_sql}
+              UNION
+            #{resource_ids_by_ownership_or_public_permission.to_sql}"
+          end
+          where("media_resources.id IN (#{subquery})")
         end
       end
       
       def accessible_by_group(group, action = :view)
         action = (action || :view).to_sym
+        return where("0=1") if action == :manage
 
         # TODO inner join sql
         resource_ids_by_grouppermission = Grouppermission.select("media_resource_id").where(action => true, :group_id => group)
         where(:id => resource_ids_by_grouppermission)
       end
       
+      # TODO merge to accessible_by_user with additional argument
       def entrusted_to_user(user, action = :view)
         action = (action || :view).to_sym
-
         resource_ids_by_userpermission = Userpermission.select("media_resource_id").where(action => true, :user_id => user)
-
-        #where(:user_id)
-        where("media_resources.id IN  (
-        #{resource_ids_by_userpermission.to_sql} 
-          UNION
-        #{grouppermissions_not_disallowed(user,action).select("media_resource_id").to_sql} 
-                )") 
+        subquery = if action == :manage
+          resource_ids_by_userpermission.to_sql
+        else
+          "#{resource_ids_by_userpermission.to_sql}
+            UNION
+          #{grouppermissions_not_disallowed(user,action).select("media_resource_id").to_sql}"
+        end
+        where("media_resources.id IN (#{subquery})")
       end
 
     end
