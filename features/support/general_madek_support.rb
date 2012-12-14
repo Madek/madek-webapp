@@ -123,12 +123,8 @@ def check_media_entry_titled(title)
   #make_hidden_items_visible
   make_entries_controls_visible
   entry = find_media_resource_titled(title)
-  #cb_icon = entry.find(:css, ".check_box").find("img")
   cb_icon = entry.find(:css, "div.check_box")
-  #debugger; puts "lala"
   cb_icon.click if (cb_icon.find(:xpath, "../../..")[:class] =~ /.*selected.*/).nil?
-  # Old way, when it was a PNG
-  #cb_icon.click if (cb_icon[:src] =~ /_on.png$/).nil? # Only click if it's not yet checked
 end
 
 # Attempts to find a media entry based on its title by looking for
@@ -136,7 +132,7 @@ end
 # if successful, nil otherwise.
 def find_media_resource_titled(title, type = MediaResource)
   page.execute_script("$(document).scrollTop(0)")
-  wait_until { find(".item_box") }
+  wait_until { all(".item_box").size > 0 }
   
   results = type.accessible_by_user(@current_user).find_by_title(title)
   results = Array(results) unless results.is_a? Array # because of the different behaviour of MediaSet and MediaEntry .find_by_title -.-
@@ -146,17 +142,19 @@ end
 
 def find_media_resource_by_id(id, type = MediaResource)
   page.execute_script("$(document).scrollTop(0)")
-  wait_until { find(".item_box") }
+  wait_until { all(".item_box").size > 0 }
   
   find_media_resource_element type.accessible_by_user(@current_user).find id
 end
 
 # find the interface element of a media resource on the current screen
 def find_media_resource_element(mr)
-  while (all(".item_box[data-id='#{mr.id}']").empty?)
-    scroll_to_next_page
+  wait_until { all(".item_box[data-id]").size > 0 }
+  if all(".item_box[data-id='#{mr.id}']").empty? and all(".page[data-page]").size > 0
+    while (all(".item_box[data-id='#{mr.id}']").empty?)
+      scroll_to_next_page
+    end
   end
-  wait_until { all(".item_box[data-id='#{mr.id}']").size > 0 }
   element = find(".item_box[data-id='#{mr.id}']")
   puts "Interface element was not found for that media resource" unless element
   return element
@@ -278,6 +276,7 @@ end
 # that is necessary for the autocomplete to kick in, but it no longer does
 # so, breaking many of our tests. Needs more investigation.
 def type_into_autocomplete(type, text)
+  wait_until { all(".loading", :visible => true).empty? }
   if type == :user
     wait_for_css_element(".users .add.line .button")
     find(".users .add.line .button").click
