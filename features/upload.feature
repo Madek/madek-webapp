@@ -118,7 +118,7 @@ Feature: Upload
        And I can jump to the previous file
 
   # https://www.pivotaltracker.com/story/show/25923269
-  @poltergeist 
+  @javascript
   Scenario: Filtering only media entries with missing metadata in the sequential batch editor
     When I upload several files
      When I go to the upload edit
