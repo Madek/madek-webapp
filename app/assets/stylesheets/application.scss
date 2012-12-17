@@ -8,14 +8,10 @@
 
 @import "config";
 
-/* Reset all styles
------------------------------------------------ */
 @include ixt-reset;
 
-/* Import app specific styles
------------------------------------------------ */
-
 // General
+
 @import "general/buttons";
 @import "general/button-groups";
 @import "general/forms";
@@ -76,6 +72,7 @@
 @import "components/ui-context-selection";
 @import "components/ui-media-set-vocabulary";
 @import "components/ui-toolbar-additional-actions";
+@import "components/form-widgets";
 
 // Combos
 
@@ -98,6 +95,7 @@
 @import "combos/ui-workgroups";
 
 // Separating the following for their complexity
+
 @import "combos/ui-resources-common";
 @import "combos/ui-resources-page";
 @import "combos/ui-resources-grid";
@@ -105,6 +103,8 @@
 @import "combos/ui-resources-miniature";
 
 // Layout
+
 @import "layout";
 @import "layout-responsive";
+@import "library/space";
 

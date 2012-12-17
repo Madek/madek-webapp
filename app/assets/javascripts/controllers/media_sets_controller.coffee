@@ -15,13 +15,12 @@ class MediaSetsController
     form.bind "submit", (e)-> 
       e.preventDefault()
       ms = App.MediaSet.fromForm form
-      errors = ms.valid()
-      unless errors?
+      if ms.validate()
         dialog.remove()
         $(ms).bind "created", -> window.location = "/media_sets/#{ms.id}"
         ms.create()
       else
-        App.FormErrors.set form, errors
+        App.FormErrors.set form, ms.errors
       return false
     App.modal dialog
 

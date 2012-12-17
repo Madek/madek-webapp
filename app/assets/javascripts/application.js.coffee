@@ -30,14 +30,10 @@
 
 #= require mousewheel-3.0.6/jquery.mousewheel
 
-####### GENERAL
-
-#= require ./general/forms
-
 ####### APPLICATION
 
 #= require_self
-#= require_directory ./lib
+#= require_tree ./lib
 #= require_tree ./models
 #= require_tree ./controllers
 #= require_tree ./views

@@ -1,9 +1,1 @@
-.ui-form-group.columned
-  %label.form-label
-    = definition.label
-    %small= definition.hint
-    - unless definition.description.to_s.blank?    
-      %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => definition.description, "data-placement" => "left", :rel => "tooltip"}
-        Hilfe
-  .form-item
-    %input.block{:type => "text"}/
+%input.block{:type => "text"}

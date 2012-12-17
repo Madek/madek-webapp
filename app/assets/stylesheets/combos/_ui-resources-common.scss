@@ -6,10 +6,6 @@
 .ui-resources-holder { 
   @include micro-clearfix;
   padding: $space-l $space-l $space-m;
-
-  &.limited {
-    max-width: 1000px;
-  }
 }
 .ui-resources {
   @include micro-clearfix;

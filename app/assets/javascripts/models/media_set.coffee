@@ -5,10 +5,10 @@ class MediaSet
       @[k] = v
     @
 
-  valid: ->
-    errors = []
-    errors.push {text: "Titel ist ein Pflichtfeld"} if not @title? or @title.length <= 0
-    if errors.length then errors else undefined
+  validate: ->
+    @errors = []
+    @errors.push {text: "Titel ist ein Pflichtfeld"} if not @title? or @title.length <= 0
+    if @errors.length then false else true
 
   create: ->
     $.ajax

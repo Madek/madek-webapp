@@ -23,6 +23,11 @@
     margin-right: 0;
     width: auto;
   }
+
+  .tab-pane {
+    max-height: 350px;
+    overflow-y: scroll;
+  }
 }
 
 
@@ -36,7 +41,6 @@
 }
 
 .multi-select-input-holder {
-  @include micro-clearfix;
   @include position;
   display: block;
   list-style: none;

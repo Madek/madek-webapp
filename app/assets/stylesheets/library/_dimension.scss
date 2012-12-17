@@ -10,3 +10,15 @@
   max-height: $height;
   max-width: $width;
 }
+
+.limited-width {
+  max-width: 1000px;
+}
+
+.limited-width-m {
+  max-width: 600px;
+}
+
+.limited-width-s {
+  max-width: 300px;
+}

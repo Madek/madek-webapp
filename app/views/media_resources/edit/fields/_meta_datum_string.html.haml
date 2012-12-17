@@ -1,14 +1,5 @@
-.ui-form-group.columned
-  %label.form-label
-    = definition.label
-    %small= definition.hint
-    - unless definition.description.to_s.blank?    
-      %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => definition.description, "data-placement" => "left", :rel => "tooltip"}
-        Hilfe
-  .form-item
-
-    - if definition.length_max == 255
-      %input.block{:type => "text", :value => meta_datum.value, :name => "resource[meta_data_attributes][#{@i}][value]"}
-    - else
-      %textarea.block{:name => "resource[meta_data_attributes][#{@i}][value]"}
-        = meta_datum.value
+- if definition.length_max == 255
+  %input.block{:type => "text", :value => meta_datum.value, :name => "resource[meta_data_attributes][#{@i}][value]"}
+- else
+  %textarea.block{:name => "resource[meta_data_attributes][#{@i}][value]"}
+    = meta_datum.value

@@ -4,4 +4,12 @@
 %input{:type => :hidden, :name => "resource[meta_data_attributes][#{@i}][id]", :value => meta_datum.id}
 %input{:type => :hidden, :name => "resource[meta_data_attributes][#{@i}][meta_key_id]", :value => definition.meta_key.id}
 
-= render :partial => "media_resources/edit/fields/#{definition.meta_key.meta_datum_object_type.underscore}", :locals => {:definition => definition, :meta_datum => meta_datum}
+.ui-form-group.columned{:"data-type" => definition.meta_key.meta_datum_object_type.underscore, :"data-index" => @i}
+  %label.form-label
+    = definition.label
+    %small= definition.hint
+    - unless definition.description.to_s.blank?
+      %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => definition.description, "data-placement" => "left", :rel => "tooltip"}
+        Hilfe
+
+  .form-item= render :partial => "media_resources/edit/fields/#{definition.meta_key.meta_datum_object_type.underscore}", :locals => {:definition => definition, :meta_datum => meta_datum}

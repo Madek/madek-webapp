@@ -35,7 +35,7 @@ class ClipboardController
     do @checkPosition
 
   delegateEvents: ->
-    $(window).on "scroll resize render-inital-fetch layout-changed sorting-changed", => do @checkPosition
+    $(window).on "scroll resize render-inital-fetch layout-changed sorting-changed widget-toggled", => do @checkPosition
     @toggle_el.bind "click", => do @toggle
     @el.on "mouseenter", => do @clearToggleAnimation
     @content_el.on "click", ".ui-resource-clipboard-remove", "click", (e) => @removeElement(e.currentTarget)

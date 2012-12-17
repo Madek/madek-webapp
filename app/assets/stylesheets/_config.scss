@@ -119,7 +119,6 @@ $screen-size-xxl:     "only screen and (min-width: 1600px)";
 
 // Dependent on Mixins
 @import "library/grid";
-@import "library/space";
 
 // Load external fonts
 @import url("http://fonts.googleapis.com/css?family=Open+Sans:400,600,700");

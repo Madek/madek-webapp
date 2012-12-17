@@ -9,7 +9,8 @@ input[type="email"],
 input[type="password"],
 input[type="submit"],
 textarea,
-button, .button {
+button {
+
   &:focus {
     border-color: $blue !important;
     @include box-shadow(0 0 8px $blue !important);
