@@ -1,0 +1,39 @@
+.app.view-home
+
+  = render "application/header"
+
+  .app-body
+    
+    = render "application/collage_crooked"
+
+    .app-body-ui-container
+
+      = render "application/navigation"
+
+      - if @catalog_set and not @catalog_set_categories.empty?
+        = render :partial => "media_resources/wrapper", 
+                 :locals => {:id => 'catalog',
+                             :media_resources => @catalog_set_categories, 
+                             :catalog_set => @catalog_set,
+                             :title => @catalog_set.title, 
+                             :link => explore_catalog_path,
+                             :as => :category}
+
+        %hr.separator
+      
+      - if @featured_set and not @featured_set_children.empty?
+        = render :partial => "media_resources/wrapper", 
+          :locals => {:id => 'featured-set', 
+                      :media_resources => @featured_set_children, 
+                      :title => @featured_set.title,
+                      :link => explore_featured_set_path}
+        %hr.separator
+
+      - unless @latest_media_entries.empty?
+        = render :partial => "media_resources/wrapper", 
+          :locals => {:id => "latest-media-entries", 
+                      :media_resources => @latest_media_entries, 
+                      :title => "Neue Inhalte"}
+
+  .app-footer-push
+= render "application/footer"

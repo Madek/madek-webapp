@@ -324,7 +324,7 @@ class MediaFile < ActiveRecord::Base
 
     # nothing found, we show then a placeholder icon
     case Rails.env
-      when "development"
+      when false # "development"
         self.class.thumb_lorempixum_url id, size
       else
         # TODO remove code related to preview as string
@@ -335,34 +335,15 @@ class MediaFile < ActiveRecord::Base
   end
   
   def thumb_placeholder(size)
-    dir = if Thread.current[:redesign] == true
-      File.join(Rails.root, "app/assets/images/redesign/thumbnails")
-    else
-      File.join(Rails.root, "app/assets/images/thumbnails")
-    end
+    dir = File.join(Rails.root, "app/assets/images/thumbnails")
     @@placeholders ||= Dir.glob(File.join(dir, "*"))
     extension = File.extname(filename).downcase
-    if extension.blank?
-      extension = begin
-                    types = YAML.load File.read(File.join(Rails.root, "config/mime_icons.yml"))
-                    type = types["icons"].detect {|x| x["mime-type"] == content_type}
-                    type ? type["extensions"].first : nil
-                  end 
-    end
     if size == :small
       file_path = @@placeholders.detect {|x| x =~ /_small#{extension}\.png$/ }
-      file_path ||= if Thread.current[:redesign] == true
-        File.join(dir, "base_document_small_unknown.png")
-      else
-        File.join(dir, "base_document.png")
-      end
+      file_path ||= File.join(dir, "document_small_unknown.png")
     else
       file_path = @@placeholders.detect {|x| x =~ /#{extension}\.png$/ and not x =~ /_small/ }
-      file_path ||= if Thread.current[:redesign] == true
-        File.join(dir, "base_document_unknown.png")
-      else
-        File.join(dir, "base_document.png")
-      end
+      file_path ||= File.join(dir, "document_unknown.png")
     end
     File.read file_path
   end

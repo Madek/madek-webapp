@@ -1,0 +1,26 @@
+:ruby
+  with_actions = (defined? with_actions and with_actions)
+  as = (defined? as and as)
+  item_layout ||= "grid"
+  id ||= nil
+
+.ui-resources-holder{id: id}
+  - if defined? title
+    .ui-resources-header
+      %h2.title-l.ui-resource-title
+        = title
+        - if defined? link
+          %a.strong{:href => link} Alle anzeigen
+  %ul.ui-resources{:class => with_actions ? "active #{item_layout}" : "#{item_layout}"}
+    - media_resources.each do |mr|
+      - case as
+        - when :category
+          = render :partial => "media_sets/category", :locals => {:category => mr, :catalog_set => catalog_set}
+        - when :section
+          = render :partial => "filter_sets/section", :locals => {:section => mr, :category_set => category_set, :catalog_set => catalog_set}
+        - when :featured_set
+          = render :partial => "media_resources/media_resource",
+                   :locals => {:media_resource => mr, :with_actions => with_actions, :link => media_resource_path(mr.id)}
+        - else
+          = render :partial => "media_resources/media_resource",
+                   :locals => {:media_resource => mr, :with_actions => with_actions}

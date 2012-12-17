@@ -1,0 +1,35 @@
+#map_canvas{:style => "width: 100%; height: 500px;"}
+
+:javascript
+  function map_initialize() {
+    var latlng = new google.maps.LatLng(#{@lat}, #{@lng});
+    var myOptions = {
+      zoom: 14,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.HYBRID
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    var marker = new google.maps.Marker({
+        position: latlng, 
+        map: map,
+        title: "#{@media_entry.to_s}"
+    });
+
+    /// workaround to correctly display the map within a jQuery tab,
+    /// preventing the grey background
+    var listener = google.maps.event.addListener(map, 'tilesloaded', function() {
+      map.setCenter(latlng);
+      google.maps.event.trigger(map, 'resize');
+    });
+    google.maps.event.addListener(map, 'dragstart', function() {
+      google.maps.event.removeListener(listener);
+    });
+    ///
+  }
+    
+  $(document).ready(function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=map_initialize";
+    document.body.appendChild(script);
+  });

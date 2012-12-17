@@ -1,0 +1,17 @@
+%ul.ui-tabs.large
+  %li.ui-tabs-item{:class => media_entry_show_page? ? "active" : ""}
+    %a{:href => media_entry_path(@media_entry)}= @main_context_group.name
+  - if @media_entry.parents.accessible_by_user(current_user).any?
+    %li.ui-tabs-item{:class => media_entry_parents_page? ? "active" : ""}
+      %a{:href => parents_media_entry_path(@media_entry)} Übergeordnete Sets
+
+  - @other_relevant_context_groups.each do |meta_context_group|
+    %li.ui-tabs-item{:class => media_entry_context_group_page?(meta_context_group) ? "active" : ""}
+      %a{:href => context_group_media_entry_path(@media_entry.id, meta_context_group.name)}= meta_context_group.name
+
+  - if @media_entry.has_location?
+    %li.ui-tabs-item{:class => media_entry_map_page? ? "active" : ""}
+      %a{:href => map_media_entry_path(@media_entry)} Karte
+
+  %li.ui-tabs-item{:class => media_entry_more_data_page? ? "active" : ""}
+    %a{:href => more_data_media_entry_path(@media_entry)} Weitere Daten

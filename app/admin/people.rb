@@ -23,7 +23,7 @@ ActiveAdmin.register Person, sort_order: 'id' do
       count=person.meta_data.count
       if count>0
         link_to ("Transfer <span class='meta_data_count'>#{count}</span> to …").html_safe, 
-                transfer_meta_data_form_admin_person_path(person), :class => "button"
+                transfer_meta_data_form_admin_person_path(person), :class => ["button","transfer_meta_data_link"]
       end
     end
     column do |person|

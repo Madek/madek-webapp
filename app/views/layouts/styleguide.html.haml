@@ -9,9 +9,9 @@
   %head
     %meta{charset: 'utf-8'}
     %title Styleguides
-    = stylesheet_link_tag 'redesign' # Will be application.css in the future
+    = stylesheet_link_tag 'application'
     = stylesheet_link_tag 'styleguide'
-    = javascript_include_tag "redesign"
+    = javascript_include_tag "application"
 
 %body
   =yield :body if content_for? :body

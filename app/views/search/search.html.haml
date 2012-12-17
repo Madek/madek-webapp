@@ -1,0 +1,28 @@
+:ruby
+
+  placeholder_text = if @a_top_keyword
+    "z.B. #{@a_top_keyword[:label]}"
+  else
+    nil
+  end
+
+.app.view-search
+
+  = render "application/header"
+
+  .app-body
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl Suche
+
+    .app-body-ui-container
+      .bordered.ui-container.midtone.rounded.table
+        .ui-search-form
+          %form{:action => search_path, :method => :post}
+            .ui-search.large.mbm
+              %input.block.ui-search-input{:type => "text", :name => "search", :autofocus => :autofocus, :placeholder => placeholder_text}
+              %button.primary-button.ui-search-button Suchen
+
+  .app-footer-push
+= render "application/footer"

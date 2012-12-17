@@ -1,0 +1,53 @@
+:ruby
+
+  subtitle = []
+  subtitle.push pluralize(@my_media_entries_count, "Medieneintrag", "Medieneinträge") unless @my_media_entries_count.zero?
+  subtitle.push pluralize(@my_media_sets_count, "Set", "Sets") unless @my_media_sets_count.zero?
+  subtitle = subtitle.join " / "
+
+.app.view-my-media-resources
+
+  = render "application/header"
+
+  .app-body
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl 
+            Meine Inhalte
+
+        .ui-body-title-actions= render :partial => "login_action"
+
+    .app-body-ui-container
+      .bordered.ui-container.midtone.rounded.table
+
+        = render :partial => "application/sidebar/my_archive"
+
+        #ui-resources-list-container.app-body-content.table-cell.table-substance.ui-container
+
+          = render :partial => "media_resources/list/toolbar", 
+                   :locals => {:subtitle => subtitle}
+
+          = render :partial => "media_resources/list/filterbar"
+
+          .ui-resources-holder
+
+            .ui-container.table.auto
+
+              = render :partial => "media_resources/list/filter"
+
+              .ui-container.table-cell.table-substance
+                
+                %ul#ui-resources-list.ui-resources{:class => ui_resources_class}
+
+                  .pvh.mth
+                    .ui-preloader
+
+  .app-footer-push
+= render "application/footer"
+
+:coffeescript
+  
+  jQuery -> new App.MediaResourcesController.Index
+    baseFilter: #{{:user_id => current_user.id}.to_json}
+    startFilterParams: #{MediaResource.get_filter_params(params).to_json}

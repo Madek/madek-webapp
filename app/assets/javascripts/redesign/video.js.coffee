@@ -1,1 +1,0 @@
-#= require ./vendor/video-js-3.2.0/video.js

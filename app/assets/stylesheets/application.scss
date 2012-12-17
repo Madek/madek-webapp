@@ -1,35 +1,110 @@
-/*
- * This is a manifest file that'll automatically include all the stylesheets available in this directory
- * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
- * the top of the compiled file, but it's generally better to create a new file per style scope.
- * 
- *= require 960
- *= require reset 
- *= require jquery/jquery-ui-1.8.12.custom
- *= require jquery.tools
- *= require ../../../vendor/assets/javascripts/qtip/jquery.qtip.min.css
- *= require master
- *= require video-js
- *= require icons
- * 
- 
- *= require widgets/set_widget
- *= require button/button
- *= require modal_overlay/modal_overlay
- *= require media_set/popup
- * 
- *= require_tree ./upload
- *= require_tree ./media_entry
- *= require_tree ./permissions
- *= require_tree ./dialog
- *= require_tree ./media_resource
- *= require_tree ./meta_data
- *= require_tree ./autocomplete
- *= require_tree ./qtip
- *= require_tree ./bar
- *= require_tree ./media_set
- *= require_tree ./groups
- *= require_tree ./filter
- * 
- *= require visualization
-*/
+/**
+ * APPLICATION
+ * The main file that will be available to the browser
+ * Authors:
+ * - Peter Gassner <peter@interactivethings.com>
+ * - Piotr Fedorczyk <piotr@interactivethings.com>
+ */
+
+@import "config";
+
+/* Reset all styles
+----------------------------------------------- */
+@include ixt-reset;
+
+/* Import app specific styles
+----------------------------------------------- */
+
+// General
+@import "general/buttons";
+@import "general/button-groups";
+@import "general/forms";
+@import "general/icons";
+@import "general/tables";
+@import "general/typography";
+@import "general/focus";
+
+// Vendor
+
+@import "bootstrap";
+@import "bootstrap.popover";
+@import "jquery.plupload.queue";
+@import "pickadate";
+
+// Vendor overrides
+
+@import "overrides/jquery.plupload.queue";
+@import "overrides/pickadate";
+
+// Components
+
+@import "components/ui-actions";
+@import "components/ui-alerts";
+@import "components/ui-body-title";
+@import "components/ui-containers";
+@import "components/ui-drop-menus";
+@import "components/ui-form-group";
+@import "components/ui-metadata-box";
+@import "components/ui-modals";
+@import "components/ui-preloaders";
+@import "components/ui-resources-head";
+@import "components/ui-search-field";
+@import "components/ui-set-list";
+@import "components/ui-side-navigation";
+@import "components/ui-slider";
+@import "components/ui-stepline";
+@import "components/ui-tabs";
+@import "components/ui-tag-cloud";
+@import "components/ui-thumb";
+@import "components/ui-thumb-actions";
+@import "components/ui-thumb-catalog";
+@import "components/ui-thumb-micro";
+@import "components/ui-tooltip";
+
+// To be revamped
+
+@import "components/multi-select";
+@import "combos/upload";
+
+// Undocumented ITZ additions
+
+@import "components/ui-document-preview";
+@import "components/ui-export-blocks";
+@import "components/ui-image-zoom";
+@import "components/ui-magnifier";
+@import "components/ui-maps";
+@import "components/ui-context-selection";
+@import "components/ui-media-set-vocabulary";
+@import "components/ui-toolbar-additional-actions";
+
+// Combos
+
+@import "combos/ui-clipboard";
+@import "combos/ui-collage";
+@import "combos/ui-confirmation-dialog";
+@import "combos/ui-featured-entries";
+@import "combos/ui-filterbar";
+@import "combos/ui-footer";
+@import "combos/ui-header";
+@import "combos/ui-home-claim";
+@import "combos/ui-media-overview";
+@import "combos/ui-resources-table";
+@import "combos/ui-rights-management";
+@import "combos/ui-search-form";
+@import "combos/ui-set-overview";
+@import "combos/ui-side-filter";
+@import "combos/ui-summary-table";
+@import "combos/ui-toolbar";
+@import "combos/ui-workgroups";
+
+// Separating the following for their complexity
+@import "combos/ui-resources-common";
+@import "combos/ui-resources-page";
+@import "combos/ui-resources-grid";
+@import "combos/ui-resources-list";
+@import "combos/ui-resources-miniature";
+
+// Layout
+@import "layout";
+@import "layout-responsive";
+

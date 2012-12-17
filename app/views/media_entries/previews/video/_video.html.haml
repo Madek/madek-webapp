@@ -1,0 +1,21 @@
+- content_for :head do
+  = javascript_include_tag "video"
+  = stylesheet_link_tag "video"
+
+%video.video-js.vjs-default-skin{:width => video_preview_webm.width, 
+                                 :height => video_preview_webm.height,
+                                 :poster => image_media_resource_path(@media_entry),
+                                 :controls => true,
+                                 :"data-setup" => ""}
+
+  -# This src points to a symlink to the actual file, so that Apache serves it. This lets us support
+  -# seeking, partial content (HTTP status code 206) and request ranges without any additional work.
+
+  - unless video_preview_apple.nil? # Apple uses a nonstandard, patent-emcumbered codec (H.264) that is the only one supported in their browsers
+    %source{:type => video_preview_apple.content_type, :src => "/previews/#{video_preview_apple.filename}"}
+
+  - unless video_preview_webm.nil? # Everyone else uses an open codec (WebM)
+    %source{:type => video_preview_webm.content_type, :src => "/previews/#{video_preview_webm.filename}"}
+
+:coffeescript
+  _V_.options.flash.swf = #{asset_path("video-js-3.2.0/video-js.swf").to_json}

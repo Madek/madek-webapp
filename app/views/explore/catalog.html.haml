@@ -1,0 +1,30 @@
+.app.view-explore-catalog
+
+  = render "application/header"
+
+  .app-body
+
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl
+            Erkunden /
+            = @catalog_set.title
+            
+        .ui-body-title-actions= render :partial => "login_action"
+
+    .app-body-ui-container
+      .bordered.ui-container.midtone.rounded.table
+
+        = render :partial => "application/sidebar/explore"
+
+        .app-body-content.table-cell.table-substance.ui-container
+          - if @catalog_set and not @catalog_set_categories.empty?
+            = render :partial => "media_resources/wrapper", 
+                     :locals => {:media_resources => @catalog_set_categories, 
+                                 :title => @catalog_set.description,
+                                 :catalog_set => @catalog_set,
+                                 :as => :category}
+
+  .app-footer-push
+= render "application/footer"

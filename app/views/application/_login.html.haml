@@ -1,48 +1,39 @@
 :ruby
-  active_a = AppSettings.authentication_systems
-  strings = {:zhdk_agw => _("ZHdK-Login"),
-             :local_database => _("Externe Benutzer")}
 
-#login.sidebar-box
+  active_login = if params[:external_user_login] or !AppSettings.authentication_systems.include?(:zhdk_agw)
+    :external
+  else
+    :zhdk_agw
+  end
 
-  - if active_a.size > 1
-    .inline-tabs
-      .container
-        - active_a.each do |alternative_a|
-          %span.tab{:data => {:ref => "#{alternative_a}"}}
-            = strings[alternative_a]
-
-  - if active_a.include?(:zhdk_agw)
-    #zhdk_agw.authentication
-      %p
-        = link_to _("Anmelden"), login_path, :class => "actionbutton button yellow"
-      %p.disclaimer
-        Bis Ende 2012 ist das Medienarchiv nur für ZHdK-Angehörige zugänglich.
-
-  - if active_a.include?(:local_database)
-    #local_database.authentication
-      %p
-        = form_tag '/db/login', :method => :post do
-          %table
-            %tr
-              %td Login
-              %td= text_field_tag(:login, nil, :size => 25)
-            %tr
-              %td Passwort
-              %td= password_field_tag(:password, nil, :size => 25)
-            %tr
-              %td
-              %td= submit_tag _("Anmelden"), :class => "actionbutton button yellow"
-
-:coffeescript
-  jQuery ->
-    $("#login.sidebar-box .inline-tabs .tab").bind "click", (e)->
-      _this = $(this) 
-      if not _this.hasClass("active")
-        _this.addClass("active").siblings(".tab").removeClass("active")
-        $("#login.sidebar-box > .authentication").hide()
-        $("#login.sidebar-box > .authentication#" + _this.data("ref")).show()
-    if $("#login.sidebar-box > .authentication").length > 1
-      $("#login.sidebar-box .inline-tabs .tab:first").trigger "click"
-    else
-      $("#login.sidebar-box > .authentication:first").show()
+.ui-home-claim.ui-container
+  .col2of3
+    .pitch-claim
+      %h1.title-xxl Bilder, Fotos, Videos und Audio-Dateien
+      %h2.title-l Das Medienarchiv ist ein Werkzeug zum gemeinschaftlichen arbeiten mit Medien und zum Teilen von Inhalten.
+  .col1of3
+    .pitch-login
+      %ul.ui-tabs.ui-container
+        - if AppSettings.authentication_systems.include? :zhdk_agw
+          %li.ui-tabs-item.left{:class => active_login == :zhdk_agw ? "active" : ""}
+            %a#zhdk-user-login-tab{"data-toggle" => "tab", :href => "#internal-user"} ZHdK-Login
+        - if AppSettings.authentication_systems.include? :local_database
+          %li.ui-tabs-item.right{:class => active_login == :external ? "active" : ""}
+            %a#database-user-login-tab{"data-toggle" => "tab", :href => "#external-user"} Externe Benutzer
+      .tab-content.pitch-login-tab
+        - if AppSettings.authentication_systems.include? :zhdk_agw
+          #internal-user.tab-pane{:class => active_login == :zhdk_agw ? "active" : ""}
+            %form
+              .form-body
+                .ui-form-group.rowed
+                  %a#internal-login-link.primary-button.block.large{:href => login_path} Anmelden
+        - if AppSettings.authentication_systems.include? :local_database
+          #external-user.tab-pane{:class => active_login == :external ? "active" : ""}
+            %form{:action => "db/login", :method => :post}
+              .form-body
+                .ui-form-group.rowed.compact
+                  %input.block.large{:placeholder => "Benutzername", :type => "text", :name => :login, :autofocus => params[:external_user_login] ? "autofocus" : "false"}/
+                .ui-form-group.rowed.compact
+                  %input.block.large{:placeholder => "Passwort", :type => "password", :name => :password}/
+                .ui-form-group.rowed.compact
+                  %button.primary-button.block.large{:type => :submit} Anmelden

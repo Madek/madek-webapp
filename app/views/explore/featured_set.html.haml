@@ -1,0 +1,29 @@
+.app.view-featured-set
+
+  = render "application/header"
+
+  .app-body
+
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl
+            Erkunden /
+            = @featured_set.title
+            
+        .ui-body-title-actions= render :partial => "login_action"
+
+    .app-body-ui-container
+      .bordered.ui-container.midtone.rounded.table
+
+        = render :partial => "application/sidebar/explore"
+
+        .app-body-content.table-cell.table-substance.ui-container
+          - if @featured_set and not @featured_set_children.empty?
+            = render :partial => "media_resources/wrapper", 
+                     :locals => {:media_resources => @featured_set_children,
+                                 :title => @featured_set.description,
+                                 :as => :featured_set}
+
+  .app-footer-push
+= render "application/footer"

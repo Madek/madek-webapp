@@ -1,12 +1,109 @@
-#upload.container_12.clearfix
-  %section.content_body.clearfix
-    = render :partial => "header"
-    
-    #upload-container.set_media_sets
-      .clearfix{:style => "background: white; padding: 10px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"}
-        .results.media_resources.index.grid
-        = media_sets_widget(@media_entries, _("Einträge zu einem Set hinzufügen"), "upload_buttons", {:with => {:children => true}})
+.app.view-import
 
-    :coffeescript
-      jQuery ->
-        $(".results").html($.tmpl("tmpl/media_resource/thumb_box", #{old_render_json(@media_entries, :media_resources)}, {with_actions: false, with_link: false}))
+  = render "application/header"
+
+  .app-body
+
+    // PAGE TITLE
+
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl Medien Importieren
+
+    .app-body-ui-container
+      .ui-container.bordered.bright.rounded
+
+        .ui-stepline
+          .ui-stepline-item
+            %h3.title-m.ui-stepline-item-title
+              1. Medien übertragen
+          .ui-stepline-item
+            %h3.title-m.ui-stepline-item-title
+              2. Berechtigungen setzen
+          .ui-stepline-item
+            %h3.title-m.ui-stepline-item-title
+              3. Metadaten ergänzen
+          .ui-stepline-item.active
+            %h3.title-m.ui-stepline-item-title
+              4. Medien zusammenstellen
+
+        .media-import.step4.pal
+
+          %h3.title-l
+            Fotos, Videos und Audiofiles in Sets verwalten (optional):
+
+          .ui-container.clearfix.mvl.bordered.midtone.rounded.upload-overview
+
+            = render :partial => "media_resources/wrapper", 
+                     :locals => {:media_resources => current_user.media_resources, 
+                                 :phl => true,
+                                 :type => :media_entries,
+                                 :with_actions => false}
+
+          .ui-actions.mbm
+            %a.button{:href => "#add-to-set", "data-toggle" => "modal"}
+              Eintrage zum einem Set hinzufugen
+          .ui-actions
+            %a.primary-button.large
+              Import anschliessen
+
+  .app-footer-push
+.app-footer
+  %footer.ui-footer.ui-container.inverted
+    %ul.ui-footer-menu
+      %li
+        %a{:href => "#"} Informationen zum Projekt
+      %li
+        %a{:href => "#"} Impressum
+      %li
+        %a{:href => "#"} Kontakt
+      %li
+        %a{:href => "#"} Blog
+      %li
+        %a{:href => "#"} Hilfe
+      %li
+        %a{:href => "#"} Nutzungsbestimmungen
+      %li
+        %a{:href => "#"} Freie Software
+      %li
+        %a{:href => "#"} Archivierungsrichtlinien ZHdK
+    %p.ui-footer-copy
+      = image_tag "inserts/image-logo-madek.png", :alt => "MADEK", :class => "ui-footer-logo"
+      &copy; 2009-2011 Z&uuml;rcher Hochschule der K&uuml;nste
+
+
+#add-to-set.modal.ui-modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "add-to-set-label", :role => "dialog", :tabindex => "-1"}
+
+  %form
+    .ui-modal-head
+      %h3#add-to-set-label.title-l Group Name
+      %a.ui-modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button", :title => "Close", :class => "weak"}
+    .ui-modal-toolbar.top
+      %input.block{:placeholder => "Suchen…", :type => "text"}
+    .ui-modal-body
+      %ol.ui-set-list
+        %li.ui-set-list-item
+          %label{:title => "Awesomest set"}
+            %input#Awesomest_set{:name => "Awesomeset_Set", :type => "checkbox", :value => "1"}
+              %span.title Awesomest set
+              %span.owner Interactive Things
+              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
+        %li.ui-set-list-item
+          %label{:title => "Awesomest set2"}
+            %input#Awesomest_set2{:name => "Awesomeset_Set2", :type => "checkbox", :value => "1"}
+              %span.title Awesomest set2
+              %span.owner Interactive Things
+              %span.created-at{"data-search" => "20.08.2012"} 20.08.2012
+
+    .ui-modal-toolbar.bottom
+      %a.button.block Neues Set erstellen
+      .sets-add-new.hide
+        %input.block.small{:type => "text"}
+          %a.button.small
+            %i.icon-plus Add
+
+    .ui-modal-footer
+      .ui-actions
+        %a.link{"aria-hidden" => "true", "data-dismiss" => "modal", :class => "weak link"} Abbrechen
+        %button.primary-button Speichern

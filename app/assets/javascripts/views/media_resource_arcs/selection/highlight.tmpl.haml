@@ -1,0 +1,7 @@
+{{if mediaSet.isHighlight(mr)}}
+%input{:type => "checkbox", :checked => :checked}
+  %img.ui-thumbnail.micro{:src => "/media_resources/${mr.id}/image?size=small"}
+{{else}}
+%input{:type => "checkbox"}
+  %img.ui-thumbnail.micro{:src => "/media_resources/${mr.id}/image?size=small"}
+{{/if}}

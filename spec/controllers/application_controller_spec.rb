@@ -14,10 +14,9 @@ describe ApplicationController do
       FactoryGirl.create :usage_term
       @user = FactoryGirl.create :user
     end
-    it "should respond with success and using the users/show template" do
+    it "should respond with success" do
       get :root, {}, {user_id: @user.id}
       response.should be_success
-      response.should render_template("users/show")
     end
   end
   

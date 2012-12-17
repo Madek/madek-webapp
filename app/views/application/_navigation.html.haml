@@ -1,0 +1,14 @@
+.ui-header-menu
+  %ul.large.primary.ui-tabs
+    - unless current_user.is_guest?
+      %li.ui-tabs-item{:class => my_archive_page? ? "active" : ""}
+        %a#to-my-archive{:href => root_path} Mein Archiv
+    %li.ui-tabs-item{:class => explore_page? ? "active" : ""}
+      %a#to-explore{:href => explore_path} Erkunden
+    %li.ui-tabs-item{:class => search_page? ? "active" : ""}
+      %a#to-search{:href => search_path}
+        %i.icon-nav-search
+        Suchen
+    %li.ui-tabs-item
+      %a#to-help{:href => "/wiki"}
+        %i.icon-nav-help Help

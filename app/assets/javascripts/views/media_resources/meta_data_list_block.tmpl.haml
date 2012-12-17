@@ -1,0 +1,18 @@
+{{if App.MetaData.anyValue(meta_data)}}
+%table.borderless.block
+  %tbody
+    {{each(i,meta_datum) meta_data}}
+    {{if meta_datum.value}}
+    {{if meta_datum.name != "title"}}
+    %tr
+      %td.ui-resource-meta-label ${meta_datum.label}
+      %td.ui-resource-meta-content {{tmpl(meta_datum) App.renderPath("meta_data/meta_datum")}}
+    {{/if}}
+    {{/if}}
+    {{/each}}
+{{else}}
+%table.borderless.block
+  %tbody
+    %td.ui-resource-meta-label
+      %strong Es sind keine Metadaten zu dem Kontext "${$item.context}" bereit gestellt.
+{{/if}}

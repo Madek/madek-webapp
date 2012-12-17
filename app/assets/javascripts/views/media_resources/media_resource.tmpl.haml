@@ -1,0 +1,40 @@
+%li.ui-resource.not-loaded-contexts{:"data" => {:id => "${id}", :title => "${title}", :type => "${type}", :media_type => "${media_type}", :is_editable => "${is_editable}", :is_manageable => "${is_manageable}"}}
+  .ui-resource-head
+    %ul.ui-resource-actions
+      %li.ui-resource-action
+        %a.ui-thumbnail-action-checkbox{:"data-clipboard-toggle" => true, :title => "Zur Zwischenablage hinzufügen"}
+      %li.ui-resource-action
+        %a.ui-thumbnail-action-favorite{:"data-favor-toggle" => true} Favorite
+    %h3.ui-resource-title
+      ${title}
+  .ui-resource-body
+    .ui-resource-thumbnail
+      %div{:class => "ui-thumbnail ${type} ${media_type}"}
+        {{if type.match("set")}}
+        {{tmpl App.renderPath("media_sets/thumbnail_level_up")}}
+        {{/if}}
+        {{tmpl App.renderPath("media_resources/privacy")}}
+        %a.ui-thumbnail-image-wrapper{:href => "/media_resources/${id}"}
+          .ui-thumbnail-image-holder
+            .ui-thumbnail-table-image-holder
+              .ui-thumbnail-cell-image-holder
+                .ui-thumbnail-inner-image-holder
+                  {{if image}}
+                  %img{:class => "ui-thumbnail-image", :src => "${image}"}
+                  {{else}}
+                  %img{:class => "ui-thumbnail-image", :src => "/media_resources/${id}/image"}
+                  {{/if}}
+        .ui-thumbnail-meta
+          %h3.ui-thumbnail-meta-title ${title}
+          %h4.ui-thumbnail-meta-subtitle ${author}
+        {{tmpl App.renderPath("media_resources/actions")}}
+        {{if type.match("set")}}
+        {{tmpl App.renderPath("media_sets/thumbnail_level_down")}}
+        {{/if}}
+        {{tmpl App.renderPath("media_resources/dropdown")}}
+    .ui-resource-meta
+      {{if meta_data}}
+      {{tmpl(meta_data.rawWithNamespace()) App.renderPath("media_resources/meta_data_list_block")}}
+      {{/if}}
+    .ui-resource-description{:"data-context" => "institution"}
+    .ui-resource-extension{:"data-context" => "nutzung"}

@@ -1,41 +1,61 @@
 # -*- encoding : utf-8 -*-
 MAdeK::Application.routes.draw do
 
-  wiki_root '/wiki'
   root :to => "application#root"
 
-#####################################################
+##### VISUALIZATION
 
-  # :action is actually more like a resources that describes part of MediaRsources, such as
-  #   my_media_resources or my_sets_and_direct_descendants
   match 'visualization' => 'visualization#put', via: 'put'
   get 'visualization/filtered_resources' => 'visualization#filtered_resources'
   match 'visualization/:action(/:id)', controller: 'visualization'
 
-  #match 'visualization/:action', controller: 'visualization'
-  #match 'visualization/*params' => 'visualization#index', via: ['get']
-  #match 'visualization/my_sets_and_direct_descendants' => 'visualization#my_sets_and_direct_descendants', via: ['get']
+##### SEARCH
 
-#####################################################
+  get 'search', :to => 'search#search', :as => "search"
+  post 'search', :to => 'search#search', :as => "search"
+  get 'search/:term', :to => 'search#term', :as => "search_term"
 
-  match 'search', :to => 'search#index', :as => "search"
+##### EXPLORE
 
-#####################################################
+  get 'explore', :to => 'explore#index', :as => "explore"
 
-  match 'explore', :to => 'explore#index', :as => "explore"
-  match 'explore/:id', :to => 'explore#categories', :as => "explore_categories"
-  match 'explore/:id/:category', :to => 'explore#sections', :as => "explore_sections"
-  match 'explore/:id/:category/:section', :to => 'explore#media_resources', :as => "explore_media_resources"
+  get 'explore/catalog', :to => 'explore#catalog', :as => "explore_catalog"
+  get 'explore/catalog/:category', :to => 'explore#category', :as => "explore_category"
+  get 'explore/catalog/:category/:section', :to => 'explore#section', :as => "explore_section"
 
-#####################################################
+  get 'explore/featured_set', :to => 'explore#featured_set', :as => "explore_featured_set"
+
+  get 'explore/keywords', :to => 'explore#keywords', :as => "explore_keywords"
+
+##### MY
+
+  get 'my/media_resources', :to => 'my#media_resources', :as => "my_media_resources"
+  get 'my/latest_imports', :to => 'my#latest_imports', :as => "my_latest_imports"
+  get 'my/favorites', :to => 'my#favorites', :as => "my_favorites"
+  get 'my/keywords', :to => 'my#keywords', :as => "my_keywords"
+  get 'my/entrusted_media_resources', :to => 'my#entrusted_media_resources', :as => "my_entrusted_media_resources"
+  get 'my/groups', :to => 'my#groups', :as => "my_groups"
+
+##### COLLECTIONS
 
   put 'collections/add', :to => 'collections#add', :as => "collections_add"
   put 'collections/remove', :to => 'collections#remove', :as => "collections_remove"
   delete 'collections/:id', :to => 'collections#destroy', :as => "collections_destroy"
 
-###############################################
+##### IMPORT
 
-  # Mount the KSS engine for CSS styleguide development (development mode only)
+  get  'import' => 'import#start'
+  post 'import' => 'import#upload'
+  delete 'import' => 'import#destroy'
+  get  'import/dropbox' => 'import#dropbox'
+  post 'import/dropbox' => 'import#dropbox'
+  get  'import/permissions' => 'import#permissions', :as => "permissions_import"
+  get  'import/meta_data' => 'import#meta_data', :as => "edit_import"
+  get  'import/organize' => 'import#organize'
+  put  'import/complete' => 'import#complete'
+
+##### STYLEGUIDE
+
   mount Nkss::Engine => '/styleguide' if Rails.env.development?
 
 ###############################################
@@ -75,7 +95,6 @@ MAdeK::Application.routes.draw do
 
   resources :meta_context_groups, only: :index
 
-  resources :keywords, only: :index
   resources :meta_terms, only: :index
   resources :meta_data, only: [:update] # TODO merge to media_resources#update ??
   resources :copyrights, only: :index
@@ -105,13 +124,6 @@ MAdeK::Application.routes.draw do
       get :parents
       match 'context_group/:name', :to => 'media_entries#context_group', :as => "context_group"
     end
-    
-    resources :meta_data do
-      collection do
-        get :edit_multiple
-        put :update_multiple
-      end
-    end
   end
   
 ###############################################
@@ -124,19 +136,14 @@ MAdeK::Application.routes.draw do
     end
     member do
       get :abstract
+      get :vocabulary
       get :browse
       get :inheritable_contexts
       post :settings
       post :parents # TODO: remove
       delete :parents # TODO: remove
       get :category
-    end
-    
-    resources :meta_data do
-      collection do
-        get :edit_multiple
-        put :update_multiple
-      end
+      get :parents
     end
     
     resources :media_entries, :except => :destroy do
@@ -168,6 +175,13 @@ MAdeK::Application.routes.draw do
       end
 
       resources :meta_data, only: [:update]
+
+      resources :meta_data do
+        collection do
+          get :edit_multiple
+          post :update_multiple
+        end
+      end
     end
     
 #tmp#  end
@@ -203,18 +217,6 @@ MAdeK::Application.routes.draw do
   resources :people
 
   resources :groups, :only => [:index, :show, :create, :update, :destroy]
-
-###############################################
-
-  get  'import' => 'import#start'
-  post 'import' => 'import#upload'
-  delete 'import' => 'import#destroy'
-  get  'import/dropbox' => 'import#dropbox'
-  post 'import/dropbox' => 'import#dropbox'
-  get  'import/permissions' => 'import#permissions', :as => "permissions_import"
-  get  'import/meta_data' => 'import#meta_data', :as => "edit_import"
-  get  'import/organize' => 'import#organize'
-  put  'import/complete' => 'import#complete'
   
 ###################
    

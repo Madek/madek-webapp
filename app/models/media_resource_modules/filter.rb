@@ -29,7 +29,7 @@ module MediaResourceModules
 
         ############################################################
 
-        filter[:ids] = by_collection(current_user.id, filter[:collection_id]) if current_user and filter[:collection_id]
+        filter[:ids] = by_collection(filter[:collection_id]) if current_user and filter[:collection_id]
 
         ############################################################
         

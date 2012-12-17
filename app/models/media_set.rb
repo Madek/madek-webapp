@@ -24,7 +24,7 @@ class MediaSet < MediaResource
     MediaSet.joins(:meta_data => :meta_key).where(:meta_keys => {:label => "title"}, :meta_data => {:string => title}).first
   end
 
-  def self.splashscreen 
+  def self.splashscreen
     where(:id => AppSettings.splashscreen_slideshow_set_id).first
   end
 

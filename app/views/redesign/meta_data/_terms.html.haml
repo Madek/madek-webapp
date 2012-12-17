@@ -1,5 +1,0 @@
-- unless terms.blank?
-  %p
-    - terms.each_with_index do |term, i|
-      = link_to(term, media_resources_path(:meta_data => {key => {:ids => [term.id]}}))
-      = "; " unless i == terms.size-1

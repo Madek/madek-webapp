@@ -1,0 +1,34 @@
+:ruby
+  title_class = (meta_datum.meta_key.label == "title") ? "title-l" : ""
+  skip_empty_values = (defined? skip_empty_values and skip_empty_values)
+  as_table = (defined? as_table and as_table)
+
+  content = case meta_datum.meta_key.meta_datum_object_type
+    when "MetaDatumPeople", "MetaDatumUsers"
+      render :partial => "meta_data/people", :locals => {:people => Array(meta_datum.value)}
+    when "MetaDatumKeywords"
+      render :partial => "meta_data/keywords", :locals => {:keywords => Array(meta_datum.value)}
+    when "MetaDatumDate"
+      render :partial => "meta_data/date", :locals => {:meta_datum => meta_datum}
+    when "Date"
+      render :partial => "meta_data/date", :locals => {:meta_datum => meta_datum}
+    when "MetaDatumMetaTerms"
+      render :partial => "meta_data/terms", :locals => {:key => meta_datum.meta_key, :terms => Array(meta_datum.value)}
+    else
+      if meta_datum.meta_key.label == "parent media_resources"
+        render :partial => "meta_data/parents", :locals => {:count => meta_datum.media_resource.parent_sets.accessible_by_user(current_user).count}
+      else
+        s = meta_datum.to_s
+        auto_link(html_escape(s), :html => {:target => '_blank', :rel => "nofollow"})
+      end
+  end
+
+- unless skip_empty_values and content == ""
+  
+  - if as_table
+    %tr
+      %td.ui-summary-label= meta_datum.meta_key.meta_key_definitions.for_context(context).label
+      %td.ui-summary-content{:class => title_class}= content
+  - else
+    %dt.media-data-title.title-xs-alt= meta_datum.meta_key.meta_key_definitions.for_context(context).label
+    %dd.media-data-content{:class => title_class}= content

@@ -1,0 +1,16 @@
+- content_for :content do
+  
+  .ui-container.rounded-right.rounded-bottom.tab-content.bordered
+
+    .bright.ui-container.pal.rounded-bottom
+
+      %h2.title-l.separated.mbl
+        = "Dieses Set ist in"
+        = pluralize @parents.count, "Set", "Sets"
+        = "enthalten"
+
+      = render :partial => "media_resources/wrapper",
+               :locals => {:media_resources => @parents,
+                           :with_actions => true}
+
+= render :partial => "media_sets/layout"

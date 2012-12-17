@@ -1,36 +1,43 @@
 ---
+unknown:
+
+  - document
+  - audio
+  - video
+  - compressed
+
 icons:
   
   - mime-type: image/tiff
-    icon: base_document.png
+    icon: document.png
     extensions:
       - tif
       - tiff
 
   - mime-type: image/jpeg
-    icon: base_document.png
+    icon: document.png
     extensions:
       - jpg
       - jpeg
 
   - mime-type: image/png
-    icon: base_document.png
+    icon: document.png
     extensions:
       - png
 
   - mime-type: image/gif
-    icon: base_document.png
+    icon: document.png
     extensions:
       - gif
 
   - mime-type: video/quicktime
-    icon: base_video.png
+    icon: video.png
     extensions:
       - mov
       - qt
       
   - mime-type: audio/mpeg
-    icon: base_audio.png
+    icon: audio.png
     extensions:
       - mp3
       - mp2
@@ -39,160 +46,160 @@ icons:
       - mpga
 
   - mime-type: audio/flac
-    icon: base_audio.png
+    icon: audio.png
     extensions:
       - flac
 
   - mime-type: audio/ogg
-    icon: base_audio.png
+    icon: audio.png
     extensions:
       - ogg
       - oga
       - spx
 
   - mime-type: audio/x-wav
-    icon: base_audio.png
+    icon: audio.png
     extensions:
       - wav
 
   - mime-type: audio/x-wma
-    icon: base_audio.png
+    icon: audio.png
     extensions:
       - wma
 
   - mime-type: audio/x-aiff
-    icon: base_audio.png
+    icon: audio.png
     extensions:
       - aif
       - aiff
       - aifc
 
   - mime-type: video/mpeg
-    icon: base_video.png
+    icon: video.png
     extensions:
       - mpeg
       - mpe
       - mpg
 
   - mime-type: video/dv
-    icon: base_video.png
+    icon: video.png
     extensions:
       - dv
       - dif
 
   - mime-type: video/mp4
-    icon: base_video.png
+    icon: video.png
     extensions:
       - mp4
 
   - mime-type: video/ogg
-    icon: base_video.png
+    icon: video.png
     extensions: 
       - ogv
 
   - mime-type: video/webm
-    icon: base_video.png
+    icon: video.png
     extensions:
       - webm
 
   - mime-type: video/x-ms-wmv
-    icon: base_video.png
+    icon: video.png
     extensions:
       - wmv
 
   - mime-type: video/x-msvideo
-    icon: base_video.png
+    icon: video.png
     extensions:
       - avi
 
   - mime-type: video/x-matroska
-    icon: base_video.png
+    icon: video.png
     extensions:
       - mkv
 
   - mime-type: application/vnd.openxmlformats-officedocument.presentationml.presentation
-    icon: base_document.png
+    icon: document.png
     extensions:
       - pptx
  
   - mime-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet 
-    icon: base_document.png
+    icon: document.png
     extensions:
       - xlsx
 
   - mime-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
-    icon: base_document.png 
+    icon: document.png 
     extensions:
       - docx
 
   - mime-type: application/vnd.oasis.opendocument.presentation
-    icon: base_document.png 
+    icon: document.png 
     extensions:
       - odp
 
   - mime-type: application/vnd.oasis.opendocument.spreadsheet
-    icon: base_document.png 
+    icon: document.png 
     extensions:
       - ods
 
   - mime-type: application/vnd.oasis.opendocument.text
-    icon: base_document.png 
+    icon: document.png 
     extensions:
       - odt
 
   - mime-type: application/vnd.ms-excel
-    icon: base_document.png 
+    icon: document.png 
     extensions:
       - xls
       - xlt
       - xlb
 
   - mime-type: application/vnd.ms-powerpoint
-    icon: base_document.png 
+    icon: document.png 
     extensions:
       - ppt
       - pps
 
   - mime-type: application/msword
-    icon: base_document.png 
+    icon: document.png 
     extensions:
       - doc
       - doc
 
   - mime-type: application/zip
-    icon: base_compressed.png
+    icon: compressed.png
     extensions:
       - zip
 
   - mime-type: application/x-7z-compressed
-    icon: base_compressed.png
+    icon: compressed.png
     extensions:
       - 7z
 
   - mime-type: application/rar
-    icon: base_compressed.png
+    icon: compressed.png
     extensions:
       - rar
 
 
   - mime-type: application/x-gtar-compressed
-    icon: base_compressed.png
+    icon: compressed.png
     extensions:
       - tgz
       - taz
 
   - mime-type: application/x-shockwave-flash 
-    icon: base_document.png 
+    icon: document.png 
     extensions:
       - swf
       - swfl 
 
   - mime-type: text/plain 
-    icon: base_document.png 
+    icon: document.png 
     extensions:
       - txt
 
   - mime-type: application/pdf 
-    icon: base_document.png
+    icon: document.png
     extensions:
       - pdf 

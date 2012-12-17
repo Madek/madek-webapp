@@ -1,0 +1,28 @@
+.ui-header-user
+  .dropdown.ui-dropdown.stick-right
+    %a.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
+      = current_user.fullname
+      %i.icon-arrow-down.bright.stand-alone
+    %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+      %li.ui-drop-item
+        %a{:href => my_media_resources_path}
+          .icon-set.mid.ui-drop-icon
+          Meine Inhalte
+      %li.ui-drop-item
+        %a{:href => my_favorites_path}
+          .icon-star.mid.ui-drop-icon
+          Meine Favoriten
+      %li.ui-drop-item
+        %a{:href => my_groups_path}
+          .icon-privacy-group.mid.ui-drop-icon
+          Meine Arbeitsgruppen
+      %li.separator
+      - if current_user and current_user.groups.is_member?("Admin")
+        %li.ui-drop-item
+          %a.strong{:href => admin_root_path}
+            %i.icon-admin.ui-drop-icon
+            Admin
+      %li.ui-drop-item
+        %a.strong{:href => "/logout"} 
+          %i.icon-power-off.ui-drop-icon
+          Abmelden

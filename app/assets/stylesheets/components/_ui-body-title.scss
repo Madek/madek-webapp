@@ -1,0 +1,52 @@
+/**
+ * ## Page header `.ui-body-title`
+ *
+ * Styleguide 6.6
+ */
+
+.ui-body-title {
+  margin-bottom: $space-m;
+  position: relative;
+}
+
+// Page Title Content
+
+.ui-body-title-label {
+  overflow: hidden;
+  position: relative;
+}
+.ui-body-title-label:after {
+  @include dimension(170px,100%);
+  @include position-top-right(0,-1px);
+  background: image-url("backgrounds/page-title-overflow.png") 0 0 repeat-y;
+  content: " ";
+  display: block;
+  overflow: hidden;
+  z-index: 50;
+}
+.ui-body-title-label h1 {
+  display: inline;
+  white-space: nowrap;
+}
+
+// Page Title Actions
+
+.ui-body-title-actions {
+  @include position-top-right(-$space-x,0);
+  background: $body-background;
+  padding: $space-m 0 $space-m $space-s;
+  z-index: 100;
+}
+.ui-body-title-actions:before {
+  @include dimension(170px,100%);
+  @include position-top-left(0,-165px);
+  background: image-url("backgrounds/page-title-overflow.png") 0 0 repeat-y;
+  content: " ";
+  display: block;
+  overflow: hidden;
+  z-index: 50;
+}
+.ui-body-title-actions .primary-button,
+.ui-body-title-actions .button {
+  margin-left: $space-s;
+}

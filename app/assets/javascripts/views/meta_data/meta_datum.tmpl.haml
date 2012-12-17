@@ -1,0 +1,13 @@
+{{if $item.data.name == "parent media_resources"}}
+{{tmpl($item.data) App.renderPath("meta_data/by_name/parent_media_resources")}}
+{{else $item.data.name == "child media_resources"}}
+{{tmpl($item.data) App.renderPath("meta_data/by_name/child_media_resources")}}
+{{else}}
+
+{{if $.template[App.renderPath("meta_data/by_type/"+$item.data.type)] != undefined}}
+{{tmpl($item.data) App.renderPath("meta_data/by_type/"+$item.data.type)}}
+{{else}}
+${App.MetaData.formattedValue($item.data)}
+{{/if}}
+
+{{/if}}

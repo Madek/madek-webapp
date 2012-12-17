@@ -1,0 +1,54 @@
+.app.view-media-resource-browse
+
+  = render "application/header"
+
+  .app-body
+
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl Nach Vergleichbaren Inhalten stöbern
+
+    .app-body-ui-container
+      .bordered.ui-container.midtone.rounded.table
+
+        = render :partial => "application/sidebar/browse"
+
+        .app-body-content.table-cell.table-substance.ui-container
+
+          - if @browsable_meta_terms.any?
+            - @browsable_meta_terms.each do |meta_term|
+              .ui-container.midtone.rounded-right.ptl.phl.pbm
+                .ui-resources-header.mbm
+                  %h2.title-m.ui-resources-title
+                    %strong= "#{meta_term[:meta_datum].meta_key.all_context_labels}: "
+                    = meta_term[:meta_term]
+                    = "(#{meta_term[:count]})"
+                    - if meta_term[:count] > 20
+                      %a.strong{:href => media_resources_path(:meta_data => {meta_term[:meta_datum].meta_key.label => {:ids => [meta_term[:meta_term].id]}})} Alle anziegen
+
+                .ui-featured-entries.small.active
+
+                  %ul.ui-featured-entries-list.not-loaded{:data => {:meta_key => meta_term[:meta_datum].meta_key.label, :meta_term => meta_term[:meta_term].id}}
+
+              %hr.separator
+          - else
+
+            .row.mth
+              .pvh.mth.mbl
+                .title-l.by-center 
+                  Keine Verbindungen zu anderen Inhalten gefunden
+                  .title-s.by-center
+                    die Metadaten dieses Inhalts reichen nicht aus um Verwandte Inhalte zu finden
+                  - if current_user.authorized?(:edit, @media_resource)
+                    .mts
+                      %a.primary-button{:href => edit_media_resource_path(@media_resource)} Metadaten ergänzen
+
+  .app-footer-push
+= render "application/footer"
+
+:coffeescript
+
+  jQuery -> 
+    new App.MediaResourcesController.Browse
+      previewAmount: 20

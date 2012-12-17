@@ -5,7 +5,7 @@ class CollectionsController < ApplicationController
   before_filter do 
     @collection_id = params[:id]
     filter = MediaResource.get_filter_params params
-    @ids = MediaResource.filter(current_user, filter).pluck(:id)
+    @ids = MediaResource.filter(current_user, filter).pluck("media_resources.id")
   end
 
   def add 

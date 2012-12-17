@@ -1,0 +1,22 @@
+- content_for :head do
+  = javascript_include_tag "pdf"
+
+.ui-document-preview-container
+
+  %canvas#ui-document-preview.ui-media-overview-preview-item
+
+  .ui-document-preview-controls
+    .ui-document-preview-prev.hidden{:title => "Vorherige Seite"}
+      .ui-prev-arrow-prev
+    .ui-document-preview-next.hidden{:title => "Nächste Seite"}
+      .ui-prev-arrow-next
+    %a.ui-document-preview-open{:href => document_media_entry_path(:file => "/media_files/#{@media_entry.media_file.id}?access_hash=#{@media_entry.media_file.access_hash}"), 
+                                :target => "_blank", :title => "In neuem Fenster öffnen"}
+      %i.ui-prev-arrow-open.icon-magnifier.bright
+
+:coffeescript
+
+  jQuery ->
+    new App.PdfPreviewController
+      worker_path: #{asset_path("mozilla-pdf.js/src/worker_loader.js").to_json}
+      document_path: "/media_files/#{@media_entry.media_file.id}?access_hash=#{@media_entry.media_file.access_hash}"

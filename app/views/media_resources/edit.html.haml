@@ -1,0 +1,44 @@
+.app.view-media-entry-edit
+
+  = render "application/header"
+
+  .app-body
+
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl Metadaten editieren
+
+    .app-body-ui-container
+
+      %form#edit-media-resource{:action => update_multiple_media_resource_meta_data_path(@media_resource), :method => :post}
+
+        = token_tag nil
+
+        %ul.ui-tabs.large
+
+          = render :partial => "media_resources/edit/tabs"
+
+        .bordered.ui-container.tab-content.bright.rounded-bottom.rounded-right
+
+          .phl.ptl
+            .ui-container.table
+
+              = render :partial => "media_resources/edit/media_resource"
+
+              .app-body-content.table-cell.ui-container.table-substance.ui-container
+
+                = render :partial => "media_resources/edit/contexts"
+                
+          .ui-actions.phl.pbl.mtl
+            %a.link.weak{:href => media_resource_path(@media_resource)}
+              Abbrechen
+            %button.primary-button.large
+              Speichern
+
+  .app-footer-push
+= render "application/footer"
+
+:coffeescript
+
+  jQuery -> new App.MediaResourcesController.Edit

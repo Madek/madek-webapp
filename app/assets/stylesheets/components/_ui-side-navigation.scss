@@ -1,0 +1,50 @@
+/**
+ * ## Side Navigation `.ui-side-navigation`
+ *
+ * Styleguide 6.2
+ */
+
+.ui-side-navigation li {
+  clear: both;
+  display: block;
+  font-size: $font-s;
+  list-style: none;
+  margin: $space-x 0;
+}
+
+.ui-side-navigation-item > a {
+  line-height: $line-height-l;
+}
+.ui-side-navigation-item.active > a {
+  color: $grey-darker;
+  cursor: default;
+  line-height: $line-height-l;
+}
+
+// 2nd Level navigation list
+
+.ui-side-navigation-lvl2 {
+}
+.ui-side-navigation-lvl2-item > a {
+  @extend a.weak;
+  line-height: $line-height-s;
+}
+.ui-side-navigation-lvl2-item.active > a {
+  font-weight: 700;
+}
+
+// 3rd Level navigation list
+
+.ui-side-navigation-lvl3 {
+  padding: 0 0 0 $space-s;
+}
+.ui-side-navigation-lvl3-item:before {
+  content: "- ";
+}
+.ui-side-navigation-lvl3-item > a {
+  @extend a.weak;
+  line-height: $line-height-xs;
+}
+.ui-side-navigation-lvl3-item.active > a {
+  font-weight: 700;
+}

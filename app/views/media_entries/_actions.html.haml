@@ -1,0 +1,31 @@
+.ui-body-title-actions
+  - unless current_user.is_guest?
+    = render :partial => "media_resources/actions/clipboard_toggle"
+    = render :partial => "media_resources/actions/favor_toggle", :locals => {mr: @media_entry}
+
+    %a#ui-export-button.button
+      %i.icon-dload
+      Exportieren
+
+    .dropdown.ui-dropdown.stick-right
+      %a.primary-button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
+        Weitere Aktionen
+        %i.icon-arrow-down.bright.stand-alone
+
+      %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+
+        = render :partial => "media_resources/actions/edit", :locals => {mr: @media_entry}
+
+        = render :partial => "media_resources/actions/permissions"
+
+        = render :partial => "media_resources/actions/organize"
+
+        = render :partial => "media_resources/actions/browse"
+
+        = render :partial => "media_resources/actions/graph", :locals => {mr: @media_entry}
+
+        = render :partial => "media_resources/actions/delete"
+        
+  - else
+  
+    = render :partial => "login_action"

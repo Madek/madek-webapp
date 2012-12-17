@@ -1,0 +1,14 @@
+:ruby
+  width_limited = (defined? width_limited and width_limited)
+  mine = (defined? mine and mine)
+  id ||= nil
+
+.ui-resources-holder{:class => width_limited ? "limited" : "", id: id}
+  .ui-resources-header
+    %h2.title-l.ui-resources-title
+      = "#{title}"
+      - if defined? link
+        %a.strong{:href => link} Alle anzeigen
+  %ul.ui-tag-cloud
+    - keywords.each do |keyword|
+      = render :partial => "keywords/keyword", :locals => {:keyword => keyword, :mine => mine}

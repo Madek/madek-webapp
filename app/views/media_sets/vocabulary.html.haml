@@ -1,0 +1,43 @@
+- content_for :content do
+
+  #ui-media-set-vocabulary.ui-container.rounded-right.rounded-bottom.tab-content.bordered
+
+    .bright.ui-container.pal.rounded-bottom
+
+      %h2.title-l.separated 
+        Für dieses Set wurde ein spezifisches Vokabular erstellt
+
+        %span.right
+          %a.weak#ui-highlight-used-terms.hidden
+            %i.icon-checkbox
+            Die bereits vergebenen Werte hervorheben
+
+      - @vocabulary.each_with_index do |vocabular, i|
+
+        .mtl{:class => (@vocabulary.size != i+1) ? "separated" : ""}
+
+          .pbl
+            %h3.title-m= vocabular[:label]
+            %h4.title-s= vocabular[:description]
+
+          - vocabular[:meta_keys].in_groups_of(3, false) do |meta_keys|
+
+            .ui-container.mbl
+              
+              - meta_keys.each_with_index do |meta_key, i|
+                .col1of3
+                  .ui-metadata-box{:class => if i == 0 then "prm" elsif i == 1 then "phm" else "plm" end}
+
+                    %h5.title-xs.separated.light.mbm= meta_key[:label]
+
+                    %ol
+
+                      - meta_key[:meta_terms].each_with_index do |meta_term, i|
+
+                        %li{:class => (i+1)%2 == 0 ? "even" : "odd", :"data-is-used" => meta_term[:is_used]}= meta_term[:label]
+
+  :coffeescript
+
+    jQuery -> new App.MediaSetsController.Vocabulary
+
+= render :partial => "media_sets/layout"

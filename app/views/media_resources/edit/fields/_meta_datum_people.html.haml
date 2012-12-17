@@ -1,0 +1,24 @@
+.ui-form-group.columned
+  %label.form-label
+    = definition.label
+    %small= definition.hint
+    - unless definition.description.to_s.blank?
+      %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => definition.description, "data-placement" => "left", :rel => "tooltip"}
+        Hilfe
+  .form-item
+
+    .multi-select
+      
+      %ul.multi-select-holder
+
+        - meta_datum.value.each do |value|
+
+          %li.multi-select-tag
+            %input{:name => "resource[meta_data_attributes][#{@i}][value][]", :type => "hidden", :value => value.id}
+            = value
+            %a.multi-select-tag-remove
+              .icon-remove
+
+        %li.multi-select-input-holder
+          %input.multi-select-input{:type => "text"}
+            %a.multi-select-input-toggle

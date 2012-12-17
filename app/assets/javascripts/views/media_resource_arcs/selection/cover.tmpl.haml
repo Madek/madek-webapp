@@ -1,0 +1,7 @@
+{{if mediaSet.isCover(mr)}}
+%input{:type => "radio", :checked => :checked, :name => "cover"}
+  %img.ui-thumbnail.micro{:src => "/media_resources/${mr.id}/image?size=small"}
+{{else}}
+%input{:type => "radio", :name => "cover"}
+  %img.ui-thumbnail.micro{:src => "/media_resources/${mr.id}/image?size=small"}
+{{/if}}

@@ -1,0 +1,12 @@
+:ruby 
+  id ||=nil 
+
+.ui-resources-holder{id: id}
+  .ui-resources-header
+    %h2.title-l.ui-resources-title
+      = title
+      - if defined? link
+        %a.strong{:href => link} Alle anzeigen
+  %ul.inline
+    - groups.each do |group|
+      = render :partial => "groups/group", :locals => {group: group}

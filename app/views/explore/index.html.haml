@@ -1,0 +1,48 @@
+.app.view-explore
+  
+  = render "application/header"
+
+  .app-body
+
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl Erkunden
+
+        .ui-body-title-actions= render :partial => "login_action"
+
+    .app-body-ui-container
+      .bordered.ui-container.midtone.rounded.table
+
+        = render :partial => "application/sidebar/explore"
+
+        .app-body-content.table-cell.table-substance.ui-container
+
+          = render "application/collage" if @splashscreen_set and not @splashscreen_set_children.blank?
+
+          - if @catalog_set and not @catalog_set_categories.empty?
+            = render :partial => "media_resources/wrapper", 
+                     :locals => {:media_resources => @catalog_set_categories, 
+                                 :catalog_set => @catalog_set,
+                                 :title => @catalog_set.title, 
+                                 :link => explore_catalog_path,
+                                 :as => :category}
+            %hr.separator
+
+          - if @featured_set and not @featured_set_children.empty?
+            = render :partial => "media_resources/wrapper", 
+                     :locals => {:media_resources => @featured_set_children, 
+                                 :title => @featured_set.title,
+                                 :link => explore_featured_set_path,
+                                 :type => :media_entries}
+            %hr.separator
+
+          - if @any_top_keywords
+            = render :partial => "keywords/wrapper",
+                     :locals => {:keywords => @top_keywords,
+                                 :title => "Häufige Schlagworte",
+                                 :width_limited => true,
+                                 :link => explore_keywords_path}
+
+  .app-footer-push
+= render "application/footer"

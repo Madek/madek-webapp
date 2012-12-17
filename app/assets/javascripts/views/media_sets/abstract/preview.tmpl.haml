@@ -1,0 +1,17 @@
+.row.mls
+  {{each(i,mr) mediaResources}}
+  .col1of3
+    %ul.ui-resources.miniature
+      %li.ui-resource{:"data-id" => "${id}", :title => "${title}"}
+      .ui-resource-body
+        .ui-resource-thumbnail
+          %div{:class => "ui-thumbnail ${type} ${media_type}"}
+            %a.ui-thumbnail-image-wrapper{:href => "/media_resources/${id}"}
+              .ui-thumbnail-image-holder
+                .ui-thumbnail-table-image-holder
+                  .ui-thumbnail-cell-image-holder
+                    .ui-thumbnail-inner-image-holder
+                      %img{:class => "ui-thumbnail-image", :src => "/media_resources/${id}/image"}
+  {{/each}}
+.by-center
+  %span.title-xs-alt ${total} Inhalte

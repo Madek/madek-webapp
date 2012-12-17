@@ -1,0 +1,22 @@
+%ul.ui-tabs.large
+
+  %li.ui-tabs-item{:class => media_set_show_page? ? "active" : ""}
+    %a{:href => media_set_path(@media_set)} 
+      - unless @media_set.is_a? FilterSet
+        Set-Übersicht
+      - else
+        Filterset-Übersicht
+
+  - unless @parents_count.zero?
+    %li.ui-tabs-item{:class => media_set_parents_page? ? "active" : ""}
+      %a{:href => parents_media_set_path(@media_set)} Übergeordnete Sets
+
+  - unless @media_set.individual_contexts.blank?
+    %li.ui-tabs-item{:class => media_set_abstract_page? ? "active" : ""}
+      %a{:href => abstract_media_set_path} Auszug
+    %li.ui-tabs-item{:class => media_set_vocabulary_page? ? "active" : ""}
+      %a{:href => vocabulary_media_set_path} Vokabular
+
+  - if current_user.authorized?(:edit, @media_set) and !@media_set.individual_and_inheritable_contexts.empty?
+    %li.ui-tabs-item{:class => media_set_inheritable_contexts_page? ? "active" : ""}
+      %a{:href => inheritable_contexts_media_set_path(@media_set)} Kontexte

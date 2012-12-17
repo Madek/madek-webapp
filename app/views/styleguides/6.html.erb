@@ -65,8 +65,14 @@
 <% end %>
 
 <% kss_block '6.5' do %>
-<div class="ui-resources-header" style="display:block;">
-  <h2 class="title-l ui-resources-title">A filter <a href="#" class="strong">Alle anziegen</a></h2>
+<div class="ui-resources-header">
+  <h2 class="title-l ui-resources-title">A filter 
+  <div class="button-group small">
+    <button class="button active">Alle</button>
+    <button class="button">Medientr&auml;ge</button>
+    <button class="button">Sets</button>
+  </div>
+  <a href="#" class="strong">Alle anziegen</a></h2>
   <p class="paragraph-l ui-resources-intro">Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet arcu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
 </div>
 <% end %>
@@ -267,7 +273,35 @@
   </div>
   <a class="ui-thumbnail-image-wrapper">
     <div class="ui-thumbnail-image-holder">
-      <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-image" %>
+      <div class="ui-thumbnail-table-image-holder">
+        <div class="ui-thumbnail-cell-image-holder">
+          <div class="ui-thumbnail-inner-image-holder">
+            <%= image_tag "styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-image" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+  <div class="ui-thumbnail-meta">
+    <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines so lets try make it so shall we.</h3>
+    <p class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well so how about seeing how it works then?</p>
+    <span class="ui-thumbnail-meta-extension">500</span>
+  </div>
+</div>
+
+<div class="ui-thumbnail media-catalog">
+  <div class="ui-thumbnail-privacy">
+    <i class="icon-privacy-open">This media is Public</i>
+  </div>
+  <a class="ui-thumbnail-image-wrapper">
+    <div class="ui-thumbnail-image-holder">
+      <div class="ui-thumbnail-table-image-holder">
+        <div class="ui-thumbnail-cell-image-holder">
+          <div class="ui-thumbnail-inner-image-holder">
+            <%= image_tag "thumbnails/document.png.png", :class => "ui-thumbnail-image" %>
+          </div>
+        </div>
+      </div>
     </div>
   </a>
   <div class="ui-thumbnail-meta">
@@ -279,8 +313,8 @@
 <% end %>
 
 <% kss_block '6.18' do %>
-  <%= image_tag "redesign/styleguide/media-entry-1.png", :class => "ui-thumbnail micro", :alt => "ZHdK" %>
-  <%= image_tag "redesign/thumbnails/base_audio_small.wav.png", :class => "ui-thumbnail micro", :alt => "wav" %>
+  <%= image_tag "styleguide/media-entry-1.png", :class => "ui-thumbnail micro", :alt => "ZHdK" %>
+  <%= image_tag "thumbnails/audio_small.wav.png", :class => "ui-thumbnail micro", :alt => "wav" %>
 <% end %>
 
 <% kss_block '6.19' do %>
@@ -291,7 +325,13 @@
     </div>
     <a class="ui-thumbnail-image-wrapper">
       <div class="ui-thumbnail-image-holder">
-        <%= image_tag "redesign/styleguide/media-entry-4.jpeg", :class => "ui-thumbnail-image" %>
+        <div class="ui-thumbnail-table-image-holder">
+          <div class="ui-thumbnail-cell-image-holder">
+            <div class="ui-thumbnail-inner-image-holder">
+              <%= image_tag "styleguide/media-entry-4.jpeg", :class => "ui-thumbnail-image" %>
+            </div>
+          </div>
+        </div>
       </div>
     </a>
     <div class="ui-thumbnail-meta">
@@ -332,7 +372,13 @@
   </div>
   <a class="ui-thumbnail-image-wrapper">
     <div class="ui-thumbnail-image-holder">
-      <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-image" %>
+      <div class="ui-thumbnail-table-image-holder">
+        <div class="ui-thumbnail-cell-image-holder">
+          <div class="ui-thumbnail-inner-image-holder">
+            <%= image_tag "styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-image" %>
+          </div>
+        </div>
+      </div>
     </div>
   </a>
   <div class="ui-thumbnail-meta">
@@ -367,20 +413,133 @@
       <li class="ui-thumbnail-level-item odd">
         <a href="#" title="Set name" class="ui-level-image-wrapper">
           <div class="ui-thumbnail-level-image-holder">
-            <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
+            <%= image_tag "styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
           </div>
         </a>
       </li>
       <li class="ui-thumbnail-level-item even">
         <a href="#" title="Set name" class="ui-level-image-wrapper">
           <div class="ui-thumbnail-level-image-holder">
-            <%= image_tag "redesign/styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
+            <%= image_tag "styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
           </div>
         </a>
       </li>
     </ul>
     <span class="ui-thumbnail-level-notes">5 Inhalte</span>
   </div>
+</div>
+
+<div class="ui-thumbnail media-set">
+  <div class="ui-thumbnail-level-up-items">
+    <span class="ui-thumbnail-level-notes">Keine übergeordneten Sets</span>
+  </div>
+  <div class="ui-thumbnail-privacy">
+    <i class="icon-privacy-group">This media is shared with a group</i>
+  </div>
+  <a class="ui-thumbnail-image-wrapper">
+    <div class="ui-thumbnail-image-holder">
+      <div class="ui-thumbnail-table-image-holder">
+        <div class="ui-thumbnail-cell-image-holder">
+          <div class="ui-thumbnail-inner-image-holder">
+            <%= image_tag "thumbnails/document.png.png", :class => "ui-thumbnail-image" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+  <div class="ui-thumbnail-meta">
+    <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
+    <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
+  </div>
+  <div class="ui-thumbnail-actions">
+    <ul class="left by-left">
+      <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
+      <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
+    </ul>
+    <ul class="right by-right">
+      <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Browse</a></li>
+      <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Edit</a></li>
+      <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Delete</a></li>
+    </ul>
+  </div>
+  <div class="ui-thumbnail-dropdown">
+    <div class="dropdown ui-dropdown">
+      <a class="dropdown-toggle button block ui-drop-toggle" data-toggle="dropdown" href="#">Aktionen</a>
+      <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+        <li class="ui-drop-item"><a href="#">Item 1</a></li>
+        <li class="ui-drop-item"><a href="#">Item 2</a></li>
+        <li class="separator"></li>
+        <li class="ui-drop-item"><a href="#">Item 3</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ui-thumbnail-level-down-items">
+    <h3 class="ui-thumbnail-level-notes">Set enthalt</h3>
+    <ul class="ui-thumbnail-level-items">
+      <li class="ui-thumbnail-level-item odd">
+        <a href="#" title="Set name" class="ui-level-image-wrapper">
+          <div class="ui-thumbnail-level-image-holder">
+            <%= image_tag "styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
+          </div>
+        </a>
+      </li>
+      <li class="ui-thumbnail-level-item even">
+        <a href="#" title="Set name" class="ui-level-image-wrapper">
+          <div class="ui-thumbnail-level-image-holder">
+            <%= image_tag "styleguide/media-entry-6.jpeg", :class => "ui-thumbnail-level-image" %>
+          </div>
+        </a>
+      </li>
+    </ul>
+    <span class="ui-thumbnail-level-notes">5 Inhalte</span>
+  </div>
+</div>
+
+  <div class="ui-resource-thumbnail">
+    <div class="ui-thumbnail media-entry video">
+      <div class="ui-thumbnail-privacy">
+        <i class="icon-privacy-private">This media is private</i>
+      </div>
+      <a class="ui-thumbnail-image-wrapper">
+        <div class="ui-thumbnail-image-holder">
+          <div class="ui-thumbnail-table-image-holder">
+            <div class="ui-thumbnail-cell-image-holder">
+              <div class="ui-thumbnail-inner-image-holder">
+                <%= image_tag "thumbnails/document.pdf.png", :class => "ui-thumbnail-image" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+      <div class="ui-thumbnail-meta">
+        <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
+        <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
+      </div>
+      <div class="ui-thumbnail-actions">
+        <ul class="left by-left">
+          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
+          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
+        </ul>
+        <ul class="right by-right">
+          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Browse</a></li>
+          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Edit</a></li>
+          <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Delete</a></li>
+        </ul>
+      </div>
+      <div class="ui-thumbnail-dropdown">
+        <div class="dropdown ui-dropdown">
+          <a class="dropdown-toggle button block ui-drop-toggle" data-toggle="dropdown" href="#">Aktionen</a>
+          <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+            <li class="ui-drop-item"><a href="#">Item 1</a></li>
+            <li class="ui-drop-item"><a href="#">Item 2</a></li>
+            <li class="separator"></li>
+            <li class="ui-drop-item"><a href="#">Item 3</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 <% end %>
 

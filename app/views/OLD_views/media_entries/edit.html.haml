@@ -1,0 +1,32 @@
+:css
+  .madek_multiselect_container ul.holder li {
+    white-space: normal;
+  }
+  .ui-autocomplete { 
+      width: 10px;
+  }
+= prevent_leaving_page
+
+.container_12
+  %section.content_body.clearfix
+    #detail-main.grid_2
+      #detail-image{:style => "padding: 5px 0 0 0;"}
+        = link_to thumb_for(@media_resource, :small), @media_resource
+    .grid_9
+      %h3= _("Metadaten editieren")
+      = form_for @media_resource, :as => :resource, :url => [:update_multiple, @media_resource, :meta_data], :html => {:method => :put} do |resource|
+        - meta_contexts = MetaContext.defaults + @media_resource.individual_contexts
+        #detail_specification.tabs
+          %ul
+            - meta_contexts.each_with_index do |meta_context, index|
+              - if index == 0
+                %li= link_to meta_context, "##{meta_context.name}"
+              - else
+                %li= link_to meta_context, polymorphic_path([:edit_multiple, @media_resource, :meta_data], :context_id => meta_context)
+          - meta_contexts[0,1].each do |meta_context|
+            = render :partial => "meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :resource => resource }
+          
+        %div{:class => "save_buttons"}
+          = link_to _("Abbrechen"), @media_resource, :class => "buttons"
+          = resource.submit _("Speichern")
+.clear

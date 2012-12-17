@@ -1,0 +1,5 @@
+- unless terms.blank?
+  .ui-tag-cloud.small
+    - terms.each do |term|
+      %li.ui-tag-cloud-item
+        = link_to term, media_resources_path(:meta_data => {key => {:ids => [term.id]}}), :class => "ui-tag-button meta-term"

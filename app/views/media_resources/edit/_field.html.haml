@@ -1,0 +1,7 @@
+:ruby
+  @i = UUIDTools::UUID.timestamp_create.to_s
+
+%input{:type => :hidden, :name => "resource[meta_data_attributes][#{@i}][id]", :value => meta_datum.id}
+%input{:type => :hidden, :name => "resource[meta_data_attributes][#{@i}][meta_key_id]", :value => definition.meta_key.id}
+
+= render :partial => "media_resources/edit/fields/#{definition.meta_key.meta_datum_object_type.underscore}", :locals => {:definition => definition, :meta_datum => meta_datum}

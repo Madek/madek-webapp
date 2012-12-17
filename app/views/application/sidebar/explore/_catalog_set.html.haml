@@ -1,0 +1,16 @@
+%li.ui-side-navigation-item{:class => explore_catalog_page? ? "active" : ""}
+  %a.strong{:href => explore_catalog_path}= @catalog_set.title
+  - unless @catalog_set_categories.blank?
+    - @catalog_set_categories.each do |category|
+      %ul.ui-side-navigation-lvl2
+        %li.ui-side-navigation-lvl2-item{:class => explore_category_page?(category.id) ? "active" : ""}
+          %a.weak{:href => explore_category_path(category.id)}= category.title
+          - if (defined? @category_sections) and not @category_sections.empty? and explore_category_or_categories_page?(category.id)
+            %ul.ui-side-navigation-lvl3
+              - @category_sections.each do |section|
+                - active_section = explore_section_page?(category.id, section[:name])
+                - if active_section
+                  %li.ui-side-navigation-lvl3-item{:class => active_section ? "active" : ""}
+                    %a.weak{:href => explore_section_path(category.id, section[:name])}= section[:name]
+
+%li.separator.mini

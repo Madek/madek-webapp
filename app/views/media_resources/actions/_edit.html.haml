@@ -1,0 +1,12 @@
+:ruby
+  edit_path = case mr.type
+    when "MediaSet"
+      edit_media_resource_path(mr)
+    when "MediaEntry"
+      edit_media_entry_path(mr)
+  end
+
+%li.ui-drop-item
+  %a{:href => edit_path}
+    %i.icon-pen.mid
+    Metadaten Editieren

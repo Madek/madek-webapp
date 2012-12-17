@@ -1,0 +1,11 @@
+%li.ui-resource
+  .ui-thumbnail.media-catalog
+    %a.ui-thumbnail-image-wrapper{:href => explore_section_path(category_set, section[:name])}
+      .ui-thumbnail-image-holder
+        .ui-thumbnail-table-image-holder
+          .ui-thumbnail-cell-image-holder
+            .ui-thumbnail-inner-image-holder
+              %img.ui-thumbnail-image{:src => section[:image]}
+    .ui-thumbnail-meta
+      %h3.ui-thumbnail-meta-title= section[:name]
+      %span.ui-thumbnail-meta-extension= section[:count]

@@ -1,0 +1,15 @@
+- @contexts.each_with_index do |context, i|
+
+  - meta_data = @media_resource.meta_data.for_context(context) 
+
+  .tab-pane{:class => i == 0 ? "active" : "", :id => context.name}
+
+    .form-body
+
+      - context.meta_key_definitions.each do |definition|
+
+        - unless definition.meta_key.is_dynamic
+
+          = render :partial => "media_resources/edit/field", 
+                   :locals => {:meta_datum => meta_data.detect{|md| md.meta_key_id == definition.meta_key_id}, 
+                               :definition => definition}

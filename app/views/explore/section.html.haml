@@ -1,0 +1,50 @@
+.app.view-explore-section
+
+  = render "application/header"
+
+  .app-body
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl 
+            Erkunden /
+            = "#{@catalog_set.title} /"
+            = "#{@category_set.title} /"
+            = @current_section[:name]
+
+        .ui-body-title-actions= render :partial => "login_action"
+
+    .app-body-ui-container
+      .bordered.ui-container.midtone.rounded.table
+
+        = render :partial => "application/sidebar/explore"
+
+        #ui-resources-list-container.app-body-content.table-cell.table-substance.ui-container
+
+          = render :partial => "media_resources/list/toolbar", 
+                   :locals => {:title => "Sektion enthält",
+                               :subtitle => "#{@current_section[:count]} Inhalte"}
+
+          = render :partial => "media_resources/list/filterbar"
+
+          .ui-resources-holder
+
+            .ui-container.table.auto
+
+              = render :partial => "media_resources/list/filter"
+
+              .ui-container.table-cell.table-substance
+                
+                %ul#ui-resources-list.ui-resources{:class => ui_resources_class}
+
+                  .pvh.mth
+                    .ui-preloader
+
+  .app-footer-push
+= render "application/footer"
+
+:coffeescript
+  
+  jQuery -> new App.MediaResourcesController.Index
+    baseFilter: #{{:meta_data => {@current_section[:key] => {:ids => [@current_section[:id]]}}}.to_json}
+    startFilterParams: #{MediaResource.get_filter_params(params).to_json}

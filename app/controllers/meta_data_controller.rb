@@ -13,7 +13,7 @@ class MetaDataController < ApplicationController
       end
       
       begin
-        media_resource_ids = (params[:collection_id] ? MediaResource.by_collection(current_user.id, params[:collection_id]) : params[:media_resource_id])
+        media_resource_ids = (params[:collection_id] ? MediaResource.by_collection(params[:collection_id]) : params[:media_resource_id])
         @resource = MediaResource.accessible_by_user(current_user, action).find(media_resource_ids)
       rescue
         not_authorized!

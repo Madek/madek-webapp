@@ -47,7 +47,11 @@ ActiveAdmin.register User do
     column do |x|
       r = link_to "Edit", [:edit, :admin, x]
       r += " "
-      r += link_to "Switch to", [:switch_to, :admin, x], :method => :post, :class => "button"
+      r += link_to "Switch to", [:switch_to, :admin, x], :method => :post
+      if x.media_entries.count == 0
+        r += " "
+        r += link_to "Delete", [:admin,x], method: 'delete', :data => {:confirm => "Are you sure?"}
+      end
       r
     end
   end

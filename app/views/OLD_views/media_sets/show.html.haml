@@ -1,0 +1,210 @@
+:ruby
+  thumb_class = "thumb_box_set"
+  tab_title = @media_set.is_a?(FilterSet) ? _("Filterset") : _("Set")
+  content_title = _("Set")
+  icon_class = "icon_set"
+  can_edit = current_user.authorized?(:edit, @media_set)
+
+%section#content_head
+  .container_12.clearfix
+    #page_head
+          
+      .grid_3
+        #set_info
+          %div.item_box_set
+            %div.item_permission_set
+              = display_permission(@media_set, :icon)
+            %div{:class => thumb_class}
+              - if @media_set.is_a?(FilterSet)
+                .filter_set.icon
+              - else
+                = thumb_for(@media_set, :small_125)
+
+      .grid_9
+
+        .action_menu
+          = _("Aktionen")
+          .icon.arrow.up_and_down
+          .action_menu_list.right
+            %ul
+              - if can_edit
+                %li
+                  = link_to edit_media_resource_path(@media_set), :title => "Metadaten editieren" do
+                    .edit.icon
+                    = _("Editieren")
+                - if @media_set.is_a?(FilterSet)
+                  %li
+                    = link_to media_resources_path(@media_set.get_filter.merge(:edit_filter_set_id => @media_set.id)), :title => "Einstellungen des Filtersets ändern" do
+                      .edit_filter_set.icon
+                      = _("Einstellungen ändern")
+              %li
+                %span.favorite_link{:id => "fav_#{@media_set.id}", :title => "Als Favorit merken"}
+                  = link_to toggle_favorites_media_resource_path(@media_set), :remote => true, :"data-type" => "html", :method => :post do
+                    - s = (current_user.favorite_ids.include?(@media_set.id) ? "on" : "off")
+                    %div{:class => "icon button_favorit_#{s}" }
+                    = "Favorisieren"
+              %li
+                = link_to "",
+                :title => "Zugriffsberechtigungen lesen/bearbeiten",
+                :class => "open_permission_lightbox", 
+                :"data-media_resource_ids" => "[#{@media_set.id}]",
+                :"data-redirect_url" => "#{root_path}",
+                :"data-current_user" => "#{current_user.to_json(:only=>:id, :include => :groups)}" do
+                  .permissions.icon
+                  = "Zugriffsberechtigungen"
+              %li
+                = media_sets_widget(@media_set, "<div class='edit_arcs icon'></div> <span class='text'>Zu Set hinzufügen/entfernen</span>", nil, {}, "link")
+
+              - if can_edit
+                - unless @media_set.is_a? FilterSet
+                  %li
+                    = link_to "",
+                    :title => "Inhalte des Sets hervorheben",
+                    :class => "open_media_set_highlights_lightbox" do
+                      .highlight.icon
+                      %span.text= "Hervorheben"
+                  %li
+                    = link_to "",
+                    :title => "Titelbild für Set festlegen",
+                    :class => "open_media_set_cover_lightbox" do
+                      .set_cover.icon
+                      %span.text= "Titelbild"
+                %li
+                  = link_to "",
+                  :title => "Sortierung und Darstellung des Sets festlegen",
+                  :class => "saves_display_settings" do
+                    .display.icon
+                    %span.text= "Darstellung speichern"
+                %li
+                  %a{:href => "/media_resources/#{@media_set.id}", :title => "Unwiederbringlich entfernen", :onclick => "$(this).bind('ajax:success', function(){window.location = '/'});", :"data-method" => "delete", :"data-remote" => true, :class => "delete_me", :"data-type" => 'json', :"data-confirm" => "Sind Sie sicher dass Sie diesen Inhalt löschen möchten?"}
+                    .trash.icon
+                    %span.text= "Löschen"
+              %li
+                %a.open_create_set_dialog{:title => "Neues Set erstellen"}
+                  .create_set.icon
+                  %span.text= "Neues Set"
+
+              %li
+                %a.open_graph{:title => "Beziehung von Inhalten als Graph visualisieren", :href => "/visualization/descendants_of/#{@media_set.id}", :target => "_blank"}
+                  .graph.icon
+                  %span.text= "Graph berechnen"
+
+        #detail_specification.tabs
+          %ul
+            %li
+              = link_to tab_title, "#info_tab"
+            - unless @media_set.individual_contexts.empty?
+              %li
+                = link_to _("Auszug"), "#abstract_tab"
+              %li
+                = link_to _("Vokabular"), "#vocabulary_tab"
+              -# %li
+              -#    = link_to _("Vokabular Browser"), browse_media_set_path(@media_set), :class => "vocabulary_tab_browse"
+            - if can_edit and !@media_set.individual_and_inheritable_contexts.empty?
+              %li
+                = link_to _("Kontexte"), "#contexts_tab"
+
+          #info_tab.clearfix
+            -# TODO remove this, it's just temporary for debugging
+            - if @media_set.is_a?(FilterSet) and Rails.env.development?
+              = @media_set.settings[:filter].inspect
+
+            - context = MetaContext.media_set
+            = display_meta_data_for_context(@media_set, context)
+          - unless @media_set.individual_contexts.empty?
+            = render :partial => "media_entries/browsing"
+            #abstract_tab.clearfix
+              %p= _("Diese Metadaten wurden am häufigsten vergeben. Sie zeigen den thematischen Schwerpunkt des Projekts an.")
+              - total_children = @media_set.child_media_resources.accessible_by_user(current_user).count
+              = display_set_abstract_slider(@media_set, total_children)
+              = display_set_abstract(@media_set, (total_children * 30 / 100), current_user)
+            #vocabulary_tab.clearfix
+              = display_set_vocabulary(@media_set, current_user)
+          - if can_edit and !@media_set.individual_and_inheritable_contexts.empty?
+            #contexts_tab.clearfix
+              %p= _("Diesem Set sind zusätzliche Kontexte mit Metadaten zugewiesen.")
+              = form_for @media_set, :html => {:style => "margin: 2em;"} do |f|
+                = hidden_field_tag "individual_context_ids[]", nil # NOTE sending params[:individual_context_ids] even if no checkbox is checked
+                %ul
+                  - @media_set.individual_and_inheritable_contexts.each do |context|
+                    %li
+                      %label
+                        = check_box_tag "individual_context_ids[]", context.id, @media_set.individual_contexts.include?(context), :class => "individual_context", :autocomplete => "off"
+                        %strong= context
+                      = link_to context, :target => :_blank, :title => context.description do
+                        ="Kontext anzeigen"    
+                %div{:class => "save_buttons"}   
+                  = link_to _("Abbrechen"), "", :id => "revert_context_change"
+                  = submit_tag _("Speichern")
+              .clear
+              %hr
+              %p= _("So können für alle Medieneinträge, die in diesem Set enthalten sind, weitere inhaltliche Angaben gemacht werden. Darüber hinaus können alle Sets, die diesem Set zugewiesen werden, ebenfalls die ausgewählten zusätzlichen Kontexte erhalten.")
+
+#filter_area
+%section.content_body_set
+  #media_set_highlights{:class => (@media_set.out_arcs.any?(&:highlight)) ? "any" : nil, :"data-parent_id" => @media_set.id}
+    .container
+      .inner
+  - unless @parents.empty?
+    %div.page_title_left.set_parents_title
+      .icon_set_parents
+      = _("Set enthalten in")
+      %span
+        = _("Dieses Set ist in %s enthalten") % pluralize(@parents.size, "Set")
+    .clear
+    #parents.media_resources.index.grid
+
+  %section#children.media_resources.index
+    = render :partial => "media_resources/index"
+
+:ruby
+  with = {:media_type => true,
+          :image=>{:as=>"base64", :size=>"large"},
+          :meta_data => {:meta_context_names => ["core"]}}
+
+:javascript
+  $(document).ready(function () {
+    // hide parents at start
+    $("#parents").hide();
+        
+    // setup parents of current sets
+    var parents_as_json = #{ hash_for_media_resources_with_pagination(@parents, nil, with).to_json };
+    $("#parents").append($.tmpl("tmpl/media_resource/thumb_box", parents_as_json.media_resources));
+
+    // show parents toggle
+    $(".set_parents_title").click(function(){
+      $("#parents").toggle();
+      $(".icon_set_parents").toggleClass("open");
+    });
+  });
+  
+:coffeescript
+  jQuery ->
+
+    new App.MediaSets
+      highlightedResources: #{ hash_for_media_resources_with_pagination(@media_set.out_arcs.select(&:highlight).map(&:child), nil, with).to_json }
+
+    new MediaSetArcsHighlights
+      trigger: $(".open_media_set_highlights_lightbox")
+      parentId: $("#media_set_highlights").data("parent_id")
+      highlightedResources: #{ hash_for_media_resources_with_pagination(@media_set.out_arcs.select(&:highlight).map(&:child), nil, with).to_json }
+      template: "tmpl/media_set/highlights_lightbox"
+
+    new MediaSetArcsCover
+      trigger: $(".open_media_set_cover_lightbox")
+      parentId: $("#media_set_highlights").data("parent_id")
+      currentCoverId: #{ @media_set.out_arcs.where(cover: true).empty? ? "undefined" : @media_set.out_arcs.where(cover: true).first.child_id }
+  
+    $(".individual_context").change ->
+      $(this).toggleClass("changed")
+      
+    $("#revert_context_change").click (event)->
+      event.preventDefault()
+      $("input.changed[type=checkbox]").each ->
+        if $(this).attr("checked")?
+          $(this).attr("checked", "checked")
+        else
+          $(this).removeAttr("checked")
+        $(this).removeClass("changed")
+      return false
+  

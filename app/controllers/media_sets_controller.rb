@@ -23,6 +23,12 @@ class MediaSetsController < ApplicationController
 
 #####################################################
   
+  before_filter lambda{
+    @parents_count = @media_set.parent_sets.accessible_by_user(current_user).count
+  }, :only => [:show, :parents, :inheritable_contexts, :abstract, :vocabulary]
+
+#####################################################
+  
   ################### FIXME this is deprecated !! merge to media_resources#index ###############
   # Get media sets
   # 
@@ -73,7 +79,7 @@ class MediaSetsController < ApplicationController
         end
       }
       format.json {
-        child_ids = MediaResource.by_collection(current_user.id, collection_id) unless collection_id.blank?
+        child_ids = MediaResource.by_collection(collection_id) unless collection_id.blank?
         media_sets = unless child_ids.blank?
           MediaResource.where(:id => child_ids).flat_map do |child|
             child.parent_sets.accessible_by_user(current_user, accessible_action)
@@ -119,10 +125,7 @@ class MediaSetsController < ApplicationController
            per_page = (params[:per_page] || PER_PAGE.first).to_i)
     respond_to do |format|
       format.html {
-        # TODO this is temporary (similar to media_resources#index), remove it when not needed anymore
-        @filter = MediaResource.get_filter_params params
-
-        @parents = @media_set.parent_sets.accessible_by_user(current_user)
+        @highlights = @media_set.highlights.accessible_by_user(current_user)
       }
       format.json {
         render json: view_context.json_for(@media_set, with)
@@ -130,9 +133,19 @@ class MediaSetsController < ApplicationController
     end
   end
 
-  def abstract
+  def abstract(min = params[:min].to_i)
     respond_to do |format|
+      format.html {@totalChildren = @media_set.child_media_resources.accessible_by_user(current_user).count}
       format.js { render :layout => false }
+      format.json { render :json => view_context.hash_for(@media_set.abstract(min, current_user)) }
+    end
+  end
+
+  def vocabulary
+    used_meta_term_ids = @media_set.used_meta_term_ids(current_user)
+    @vocabulary = @media_set.individual_contexts.map {|context| view_context.vocabulary(context, used_meta_term_ids) }
+    respond_to do |format|
+      format.html
     end
   end
 
@@ -148,6 +161,7 @@ class MediaSetsController < ApplicationController
   def inheritable_contexts
     @inheritable_contexts = @media_set.inheritable_contexts
     respond_to do |format|
+      format.html
       format.json{render :json => @inheritable_contexts}
     end
 
@@ -322,23 +336,29 @@ class MediaSetsController < ApplicationController
   # @response_field [Array] media_set.parent_ids The ids of the parents of the changes media set 
   # 
   def parents(parent_media_set_ids = params[:parent_media_set_ids])
-    parent_media_sets = MediaSet.accessible_by_user(current_user, :edit).where(:id => parent_media_set_ids.map(&:to_i))
-    child_media_sets = Array(@media_set)
-    
-    child_media_sets.each do |media_set|
-      if request.post?
-        parent_media_sets.each do |parent_media_set|
-          media_set.parent_sets << parent_media_set
-        end
-      elsif request.delete?
-        parent_media_sets.each do |parent_media_set|
-          media_set.parent_sets.delete(parent_media_set)
-        end
-      end
-    end
     
     respond_to do |format|
+      format.html {
+        @parents = @media_set.parents
+      }
+
       format.json {
+
+        parent_media_sets = MediaSet.accessible_by_user(current_user, :edit).where(:id => parent_media_set_ids.map(&:to_i))
+        child_media_sets = Array(@media_set)
+        
+        child_media_sets.each do |media_set|
+          if request.post?
+            parent_media_sets.each do |parent_media_set|
+              media_set.parent_sets << parent_media_set
+            end
+          elsif request.delete?
+            parent_media_sets.each do |parent_media_set|
+              media_set.parent_sets.delete(parent_media_set)
+            end
+          end
+        end
+
         render json: view_context.json_for(child_media_sets, {:parents => true})
       }
     end

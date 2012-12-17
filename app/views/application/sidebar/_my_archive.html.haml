@@ -1,0 +1,20 @@
+.app-body-sidebar.table-cell.bright.ui-container.bordered-right.rounded-left.table-side
+  .ui-container.rounded-left.phm.pvl
+    %ul.ui-side-navigation
+      %li.ui-side-navigation-item{:class => my_media_resources_page? ? "active" : ""}
+        %a.strong{:href => my_media_resources_path} 
+          Meine Inhalte
+      %li.separator.mini
+      %li.ui-side-navigation-item{:class => my_favorites_page? ? "active" : ""}
+        %a.strong{:href => my_favorites_path} 
+          Meine Favoriten
+      %li.separator.mini
+      %li.ui-side-navigation-item{:class => my_keywords_page? ? "active" : ""}
+        %a.strong{:href => my_keywords_path} Meine Schlagworte
+      %li.separator.mini
+      %li.ui-side-navigation-item{:class => my_entrusted_media_resources_page? ? "active" : ""}
+        %a.strong{:href => my_entrusted_media_resources_path} Mir anvertaute Inhalte
+      %li.separator.mini
+      %li.ui-side-navigation-item
+        %a.strong{:href => groups_path} Meine Arbeitsgruppen
+      %li.separator.mini

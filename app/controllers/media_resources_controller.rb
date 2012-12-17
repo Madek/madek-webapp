@@ -651,9 +651,9 @@ class MediaResourcesController < ApplicationController
             per_page = [(params[:per_page] || PER_PAGE.first).to_i.abs, PER_PAGE.last].min)
 
     @filter = MediaResource.get_filter_params params
-    
+
     respond_to do |format|
-      format.html
+      format.html { @media_resources_count = MediaResource.accessible_by_user(current_user).count }
       format.json {
         resources = MediaResource.filter(current_user, @filter).ordered_by(sort)
 
@@ -683,11 +683,27 @@ class MediaResourcesController < ApplicationController
   end
 
   def browse
-
+    @browsable_meta_terms = []
+    @media_resource.meta_data.for_meta_terms.each do |meta_datum|
+      meta_datum.value.each do |meta_term|
+        count = MediaResource.filter(current_user, {:meta_data => {meta_datum.meta_key.label.to_sym => {:ids => [meta_term.id]}}}).where("media_resources.id != ?", @media_resource.id).count
+        if count > 0
+          @browsable_meta_terms.push :meta_term => meta_term, :meta_datum => meta_datum, :count => count
+        end
+      end
+    end
   end
 
   def edit
-    render :template => "/#{@media_resource.class.model_name.pluralize.underscore}/edit"
+    @contexts = if @media_resource.is_a? MediaEntry
+
+    elsif @media_resource.is_a? MediaSet
+      @contexts = [MetaContext.media_set]
+    end
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def destroy
@@ -718,15 +734,12 @@ class MediaResourcesController < ApplicationController
         else
           ids
       end
-      collection_id = Time.now.to_i
-      Rails.cache.write({user: current_user.id, collection: collection_id}, ids, expires_in: 1.week)
-    #elsif request.delete? and collection_id
-    #  collection_id = session[:media_resource_ids][collection_id] = nil
-    #elsif request.get? and collection_id
+
+      collection = Collection.add ids, collection_id
     end
 
     respond_to do |format|
-      format.json { render json: {collection_id: collection_id} }
+      format.json { render json: {collection_id: collection[:id]} }
     end
   end
 

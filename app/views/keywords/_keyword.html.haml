@@ -1,0 +1,14 @@
+:ruby
+
+  mine = (defined? mine and mine)
+  link = if mine
+    media_resources_path(:user_id => current_user.id,:meta_data => {:keywords => {:ids => [keyword[:id]]}})
+  else
+    media_resources_path(:meta_data => {:keywords => {:ids => [keyword[:id]]}})
+  end
+
+%li.ui-tag-cloud-item
+  %a.ui-tag-button{:href => link}
+    = keyword[:label]
+    - if keyword[:count]
+      %small.ui-tag-counter= keyword[:count]

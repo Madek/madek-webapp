@@ -1,0 +1,35 @@
+- content_for :content do
+
+  .ui-container.rounded-right.rounded-bottom.tab-content.bordered
+
+    .bright.ui-container.pal.rounded-bottom
+
+      %h2.title-l Diesem Set sind zusätzliche Kontexte mit Metadaten zugewiesen
+      %h3.title-s.pbx.mbl.separated
+        So können für alle Medieneinträge, die in diesem Set enthalten sind, weitere inhaltliche Angaben gemacht werden.
+        Darüber hinaus können alle Sets, die diesem Set zugewiesen werden, ebenfalls die ausgewählten zusätzlichen Kontexte erhalten.
+
+      = form_for @media_set do
+
+        .ui-form-group.rowed
+
+          .form-item
+
+            - (@media_set.individual_and_inheritable_contexts).each do |context|
+
+              .col1of5.mbl
+
+                %label.ui-context-selection{:title => context}
+                  = check_box_tag "individual_context_ids[]", context.id, @media_set.individual_contexts.include?(context), :class => "individual_context", :autocomplete => "off"
+                  %strong.ui-context-selection-name= context
+
+                %p.pln
+                  = link_to "Kontext Anzeigen", context, :target => :_blank, :title => context.description
+                    
+
+          %button.primary-button{:type => :submit}
+            Abgewählte Kontexte vom Set entfernen
+
+      
+
+= render :partial => "media_sets/layout"

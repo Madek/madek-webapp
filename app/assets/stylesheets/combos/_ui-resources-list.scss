@@ -1,0 +1,153 @@
+/**
+ * ## Media Resources List Mode `.ui-resources.list`
+ *
+ * .active    - To be interacted with
+ *
+ * Styleguide 7.9.3
+ */
+
+/* General styles
+----------------------------------------- */
+
+.ui-resources.list {
+
+  .ui-resource {
+    border-bottom: 1px solid $grey-mid-light;
+    margin: 0 $space-s $space-l;
+    padding-bottom: $space-l;
+    padding-top: $space-x;
+  }
+
+}
+
+/* Head
+----------------------------------------- */
+
+.ui-resources.list {
+  .ui-resource-head {
+    display: block;
+    margin-left: 160px;
+    padding: $space-x 0;
+  }
+  .ui-resource-title { 
+    font-weight: 700;
+  }
+
+  .ui-resource-actions {
+    @include float-left;
+    display: none;
+    margin-right: $space-x;
+    .ui-resource-action {
+      display: inline-block;
+      list-style: none;
+    }
+  }
+}
+
+/* Body
+----------------------------------------- */
+
+.ui-resources.list {
+
+  .ui-resource-body { 
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  // Columns
+
+  .ui-resource-thumbnail,
+  .ui-resource-meta,
+  .ui-resource-description,
+  .ui-resource-extension { 
+    display: table-cell;
+    vertical-align: top;
+  }
+  .ui-resource-thumbnail { 
+    width: 153px;
+    .ui-thumbnail { 
+      margin-top: -40px;
+      margin-right: -1px;
+    }
+  }
+  .ui-resource-meta,
+  .ui-resource-description,
+  .ui-resource-extension { 
+    padding: 0 $space-s;
+  }
+
+  // Deeper elements within those columns
+  .ui-resource-meta-label,
+  .ui-resource-meta-content { 
+    font-size: $font-xs;
+    line-height: $line-height-m;
+  }
+  .ui-resource-meta-label { 
+    color: $grey-mid;
+    padding-right: $space-s;
+  }
+
+  // Borders
+
+  .ui-resource-description,
+  .ui-resource-extension { 
+    border-left: 1px solid $grey-mid-light;
+  }
+}
+
+/*
+ * Active Mode
+ * ------------------------------------- */
+
+.ui-resources.list.active {
+
+  // Show/hide fluff
+
+  .ui-resource-actions,
+  .ui-thumbnail .ui-thumbnail-dropdown {
+    display: block;
+  }
+  .ui-thumbnail:hover {
+    .ui-thumbnail-actions,
+    .ui-thumbnail-meta {
+      display: none;
+    }
+    .ui-thumbnail-level-up-items,
+    .ui-thumbnail-level-down-items {  
+      display: block;
+    }
+  }
+
+  // Hover and active states styles (backgrounds, shadows and such)
+
+  .ui-thumbnail:hover {
+    @include box-shadow(0 0 3px $darken-more);
+    background: $brightest;
+  }
+  .ui-thumbnail.media-entry:hover {
+    @include border-radius($border-radius-m);
+  }
+  .ui-thumbnail.media-set:hover,
+  .ui-thumbnail.filter-set:hover {
+    background: $brightest image-url("backgrounds/thumb-set-backg.png") 0 0 no-repeat;
+  }
+  .ui-thumbnail.video .ui-thumbnail-image-wrapper {
+    background: $brightest image-url("backgrounds/thumb-video-backg.png") 0 0px no-repeat;
+  }
+
+}
+
+
+/*
+ * Media queries
+ * ------------------------------------- */
+
+ @media #{$screen-size-xs-s} {
+
+  // Hiding extension on smaller screens
+  .ui-resources.list .ui-resource-extension { 
+    display: none;
+  }
+
+}

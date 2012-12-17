@@ -1,1 +1,14 @@
-= render @media_entry
+- content_for :content do
+  .bright.ui-container.pal
+
+    .ui-media-overview
+      %dl.ui-media-overview-metadata.ui-metadata-box
+        = render :partial => "meta_data/meta_datum", :collection => @media_entry.meta_data.for_context(MetaContext.core), :locals => {:context => MetaContext.core}
+      .ui-media-overview-preview
+        = render :partial => "media_entries/preview"
+
+  .midtone.ui-container.pal.rounded-bottom.well
+
+    = render :partial => "meta_contexts/wrapper", :locals => {:skip_empty_values => true, :meta_contexts => @main_context_group.meta_contexts}
+
+= render "media_entries/layout"

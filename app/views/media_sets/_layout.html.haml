@@ -1,0 +1,25 @@
+.app.view-set{:data => {:id => @media_set.id, :title => @media_set.title, :type => @media_set.type.underscore.dasherize, :media_type => @media_set.media_type.downcase, :redirect_on_delete => true}}
+
+  = render "application/header"
+
+  .app-body
+
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl= @media_set.title
+
+        = render :partial => "media_sets/actions"
+
+    .app-body-ui-container
+
+      = render :partial => "media_sets/tabs"
+
+      = yield :content
+
+  .app-footer-push
+= render "application/footer"
+
+:coffeescript
+  
+  jQuery -> new App.MediaSetsController.Show

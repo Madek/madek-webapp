@@ -1,0 +1,22 @@
+.ui-resources-table
+  %table.block
+    %thead
+      %tr
+        %td.ui-resources-table-selection Auswahl
+        {{each(i, metaDatum) metaData}}
+        %td{:title => "${metaDatum.label}"} 
+          %span.ui-resources-table-cell-content ${metaDatum.label}
+        {{/each}}
+
+    %tbody
+
+      {{each(i, mr) mediaResources}}
+      %tr{:"data-id" => "${mr.id}"}
+        %td.ui-resources-table-selection
+          %label
+            {{tmpl({mediaSet: mediaSet, mr: mr}) App.renderPath("media_resource_arcs/selection/"+changeTarget)}}
+        {{each(i, metaDatum) metaData}}
+        %td{:title => "${mr.meta_data[metaDatum.name]}", :"data-name" => "${metaDatum.name}"}
+          %span.ui-resources-table-cell-content ${mr.meta_data[metaDatum.name]}
+        {{/each}}
+      {{/each}}

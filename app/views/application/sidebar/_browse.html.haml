@@ -1,0 +1,22 @@
+:ruby
+
+  type = @media_resource.type.underscore.dasherize
+  media_type = @media_resource.media_type.downcase
+  
+.app-body-sidebar.table-cell.bright.ui-container.bordered-right.rounded-left.table-side
+
+  .ui-container.rounded-left.phm.pvl
+
+    .ui-resource-thumbnail
+      %div{:class => "ui-thumbnail #{type} #{media_type}"}
+        %a.ui-thumbnail-image-wrapper
+          .ui-thumbnail-image-holder
+            .ui-thumbnail-table-image-holder
+              .ui-thumbnail-cell-image-holder
+                .ui-thumbnail-inner-image-holder
+                  %img.ui-thumbnail-image{:src => image_media_resource_path(@media_resource)}
+
+    .ui-metadata-box.ui-media-overview-metadata.ptm
+      %dl.ui-media-overview-metadata.ui-metadata-box
+
+        = render :partial => "meta_data/meta_datum", :collection => @media_resource.meta_data.for_context(MetaContext.core), :locals => {:context => MetaContext.core}

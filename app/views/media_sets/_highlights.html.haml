@@ -1,0 +1,9 @@
+.ui-container.midtone-darker.bordered
+  .ui-container.inverted.ui-toolbar.phs.pvx
+    %h2.ui-toolbar-header
+      %strong Hervorgehobene Inhalte
+
+  .ui-featured-entries
+    %ul.ui-featured-entries-list.pal
+
+      = render :partial => "media_sets/highlights/highlight", :collection => @highlights, :as => :highlight

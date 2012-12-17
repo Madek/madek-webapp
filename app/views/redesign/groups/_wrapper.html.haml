@@ -1,8 +1,0 @@
-.ui-resources-holder
-  .ui-resources-header
-    %h2.title-l.ui-resources-title
-      = title
-      %a.strong{:href => groups_path} Alle anzeigen
-  %ul.inline
-    - groups.each do |group|
-      = render :partial => "groups/group", :locals => {group: group}

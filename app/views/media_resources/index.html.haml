@@ -1,4 +1,45 @@
-#filter_area
-%section.content_body.media_resources.index
-  = render :partial => "media_resources/index"
+.app.view-explore-section
 
+  = render "application/header"
+
+  .app-body
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl 
+            Inhalte des
+            = AppSettings.title || "Medienarchiv"
+
+        .ui-body-title-actions= render :partial => "login_action"
+
+    .app-body-ui-container
+
+      #ui-resources-list-container.app-body-content.ui-container.midtone.bordered.rounded-bottom.rounded-top
+
+        = render :partial => "media_resources/list/toolbar", 
+                 :locals => {:subtitle => "#{@media_resources_count} Inhalte", :additional_class => "rounded-top"}
+
+        = render :partial => "media_resources/list/filterbar"
+
+        .ui-resources-holder
+
+          .ui-container.table.auto
+
+            = render :partial => "media_resources/list/filter"
+
+            .ui-container.table-cell.table-substance
+              
+              %ul#ui-resources-list.ui-resources{:class => ui_resources_class}
+
+                .pvh.mth
+                  .ui-preloader
+
+  .app-footer-push
+= render "application/footer"
+
+:coffeescript
+
+  jQuery ->
+    new App.MediaResourcesController.Index
+      baseFilter: {}
+      startFilterParams: #{MediaResource.get_filter_params(params).to_json}

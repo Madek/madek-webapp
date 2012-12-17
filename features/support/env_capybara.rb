@@ -1,6 +1,6 @@
 old_madek_capybara_wait_time = 25
 new_madek_capybara_wait_time = 1
-Capybara.javascript_driver = :selenium
+Capybara.javascript_driver = :poltergeist
 Capybara.default_wait_time = old_madek_capybara_wait_time
 
 
@@ -23,6 +23,13 @@ if `which phantomjs` != ""
   end
 end
 
+Before('@browser') do 
+  Capybara.current_driver = :poltergeist
+end
+After('@browser') do
+  Capybara.use_default_driver
+end
+
 # Firefox
 Before('@firefox') do |scenario|
     Capybara.default_wait_time = new_madek_capybara_wait_time
@@ -34,16 +41,13 @@ After('@firefox') do |scenario|
 end
 
 
-# Chrome
-if `which chromedriver` != ""
-  Before('@chrome') do |scenario|
-    Capybara.default_wait_time = new_madek_capybara_wait_time
-    Capybara.current_driver = :selenium_chrome
-  end
-  After('@chrome') do |scenario|
-    Capybara.use_default_driver
-    Capybara.default_wait_time = old_madek_capybara_wait_time
-  end
+Before('@chrome') do |scenario|
+  Capybara.default_wait_time = new_madek_capybara_wait_time
+  Capybara.current_driver = :selenium_chrome
+end
+After('@chrome') do |scenario|
+  Capybara.use_default_driver
+  Capybara.default_wait_time = old_madek_capybara_wait_time
 end
 
 

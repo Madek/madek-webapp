@@ -14,7 +14,7 @@ end
 
 When /^a person has some MetaData associated to it$/ do
   @person_with_meta_data = Person.find 7
-  expect{ @meta_data_transfer_link = find("tr#person_#{@person_with_meta_data.id} .meta_data_count")}.not_to raise_error
+  expect{ @meta_data_transfer_link = find("tr#person_#{@person_with_meta_data.id} a.transfer_meta_data_link")}.not_to raise_error
 end
 
 When /^I move all MetaData from that person to another person$/ do

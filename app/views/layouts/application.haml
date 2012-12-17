@@ -1,0 +1,15 @@
+!!!
+%html{:lang => "de-CH"}
+
+  %head
+    %meta{:charset => 'utf-8'}
+    %title= AppSettings.title || "Medienarchiv"
+    = stylesheet_link_tag "application"
+    %link{:href => "/favicon.ico", :rel => "shortcut icon", :type => "image/x-icon"}
+    = javascript_include_tag "application"
+    = csrf_meta_tag
+    = yield :head
+
+  %body
+    = render :partial => "application/flash", :locals => {:flash => flash} unless flash.empty?
+    = yield

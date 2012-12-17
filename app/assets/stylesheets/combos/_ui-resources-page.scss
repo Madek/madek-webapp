@@ -1,0 +1,50 @@
+/**
+ * ## Media resources page `.ui-resources-page`
+ *
+ * Styleguide 7.16
+ */
+
+.ui-resources-page { 
+  @include micro-clearfix;
+  border-top: 1px solid $grey-mid-light;
+  padding: $space-l 0 $space-m 0;
+  position: relative;
+  &:first-child { 
+    border: none;
+  }
+}
+.ui-resources-page-counter { 
+  @include dimension(200px,auto);
+  @include position-top-right(0,0);
+  color: $grey-mid;
+  text-align: right;
+  font-size: $font-xs;
+  font-weight: 700;
+}
+
+.ui-resources-page:not([data-page='1']) {
+  padding-top: $space-l + $space-s;
+  
+  .ui-resources-page-counter { 
+    @include position-top-right($space-s,0);
+  }
+}
+
+.ui-resources-group-of-ten-pages {
+  height: 2100px;
+}
+
+.ui-resources-page {
+
+  &.not-loaded, &.loading {
+    .ui-thumbnail-image-wrapper {
+      background: $darken;
+      @include box-shadow(none !important);
+    }
+    .ui-thumbnail:hover {
+      background: none !important;
+      border: none !important;
+      @include box-shadow(none !important);
+    }
+  }
+}

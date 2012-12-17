@@ -1,0 +1,61 @@
+:ruby
+  title = (defined? title and title)
+  subtitle = (defined? subtitle and subtitle)
+
+  active_sorting = if params[:sort] == "created_at"
+    "created_at"
+  elsif params[:sort] == "updated_at"
+    "updated_at"
+  elsif params[:sort] == "title"
+    "title"
+  elsif params[:sort] == "author"
+    "author"
+  elsif @media_set and @media_set.settings[:sorting]
+    @media_set.settings[:sorting].to_s
+  else
+    nil
+  end
+
+  actions = (defined? actions and actions)
+
+  additional_class ||= nil
+
+.ui-container.inverted.ui-toolbar.pvx{:class => additional_class}
+  %h2.ui-toolbar-header.pls
+    %strong= title if title
+    = subtitle if subtitle
+  - if actions
+    .ui-toolbar-additional-actions
+      = actions
+  .ui-toolbar-controls.by-right
+    #ui-resources-layout-switcher.button-group.tertiary.small.right.mls
+      %a.button.ui-toolbar-vis-button{:class => active_layout == "miniature" ? "active" : "", :title => "Miniatur-Ansicht", :"data-vis-mode" => "miniature"}
+        %i.ui-toolbar-icon-miniature Miniatur-Ansicht
+      %a.button.ui-toolbar-vis-button{:class => active_layout == "grid" ? "active" : "", :title => "Grid-Ansicht" ,:"data-vis-mode" => "grid", :"data-default" => true}
+        %i.ui-toolbar-icon-grid Grid-Ansicht
+      %a.button.ui-toolbar-vis-button{:class => active_layout == "list" ? "active" : "", :title => "Listen-Ansicht", :"data-vis-mode" => "list"}
+        %i.ui-toolbar-icon-list Listen-Ansicht
+    #ui-resources-sorting.dropdown.ui-dropdown.stick-right
+      %a.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
+        %span.ui-text
+          - case active_sorting
+            - when "created_at"
+              Sortieren nach Erstellungsdatum
+            - when "updated_at"
+              Sortieren nach Änderungsdatum
+            - when "title"
+              Sortieren nach Titel
+            - when "author"
+              Filtern und sortieren nach Autor/in
+            - else
+              Sortieren nach Erstellungsdatum
+        %i.icon-arrow-down.bright
+      %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+        %li.ui-drop-item{:class => (active_sorting == "created_at") ? "hidden active" : "", :"data-default" => true}
+          %a{:"data-sort" => "created_at"} Sortieren nach Erstellungsdatum
+        %li.ui-drop-item{:class => (active_sorting == "updated_at") ? "hidden active" : ""}
+          %a{:"data-sort" => "updated_at"} Sortieren nach Änderungsdatum
+        %li.ui-drop-item{:class => (active_sorting == "title") ? "hidden active" : ""}
+          %a{:"data-sort" => "title"} Sortieren nach Titel
+        %li.ui-drop-item{:class => (active_sorting == "author") ? "hidden active" : ""}
+          %a{:"data-sort" => "author"} Filtern und sortieren nach Autor/in

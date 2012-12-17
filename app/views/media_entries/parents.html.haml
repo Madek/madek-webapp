@@ -1,0 +1,13 @@
+- content_for :content do
+  .bright.ui-container.pal.rounded-bottom
+
+    %h2.title-l.separated.mbl
+      = "Dieser Eintrag ist in"
+      = pluralize @parents.count, "Set", "Sets"
+      = "enthalten"
+
+    = render :partial => "media_resources/wrapper",
+             :locals => {:media_resources => @parents,
+                         :with_actions => true}
+
+= render "media_entries/layout"

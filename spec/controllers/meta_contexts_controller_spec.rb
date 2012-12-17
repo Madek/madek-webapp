@@ -49,11 +49,6 @@ describe MetaContextsController do
       response.should be_success
     end
 
-    it "html request should be successful (vocabulary and abstract)"  do 
-      get :show , {id: @meta_context.name}, session
-      response.should be_success
-    end
-
     describe "the response" do
 
       it "should contain some minimal data (name, label, description)" do

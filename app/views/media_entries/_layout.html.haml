@@ -1,0 +1,32 @@
+.app.view-media-entry{:data => {:id => @media_entry.id, :title => @media_entry.title, :type => @media_entry.type.underscore.dasherize, :media_type => @media_entry.media_type.downcase, :redirect_on_delete => true}}
+
+  = render "application/header"
+
+  .app-body
+
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl= @media_entry.title
+        
+        = render :partial => "media_entries/actions"
+        = render :partial => "media_entries/export"
+
+    .app-body-ui-container
+
+      = render :partial => "media_entries/tabs"
+
+      .ui-container.rounded-right.rounded-bottom.bordered.tab-content
+
+        = yield :content
+
+  .app-footer-push
+= render "application/footer"
+
+:coffeescript
+  
+  jQuery -> new App.MediaEntriesController.Show
+    id: #{@media_entry.id}
+    media_file:
+      width: #{@media_entry.media_file.width.to_json}
+      height: #{@media_entry.media_file.height.to_json}

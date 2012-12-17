@@ -1,0 +1,8 @@
+%li.ui-featured-entries-item
+  %a.ui-featured-entry{:href => media_resource_path(highlight)}
+    .ui-featured-entry-preview
+      %span
+        %img{:src => image_media_resource_path(highlight, :size => :medium)}
+    .ui-featured-entry-metadata
+      %h3.title-s.ui-thumbnail-name= highlight.title
+      %h4.title-xs-alt.ui-thumbnail-author= highlight.author

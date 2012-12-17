@@ -1,0 +1,26 @@
+.app.view-my-keywords
+
+  = render "application/header"
+
+  .app-body
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl Meine Schlagworte
+
+        .ui-body-title-actions= render :partial => "login_action"
+
+    .app-body-ui-container
+      .bordered.ui-container.midtone.rounded.table
+
+        = render :partial => "application/sidebar/my_archive"
+
+        .app-body-content.table-cell.table-substance.ui-container
+
+          = render :partial => "keywords/wrapper",
+                   :locals => {:keywords => @keywords,
+                               :title => "Meine Schlagworte",
+                               :mine => true}
+
+  .app-footer-push
+= render "application/footer"

@@ -1,0 +1,73 @@
+/**
+ * ## Thumbnail common rules (undocumented)
+ *
+ */
+
+.ui-resources-holder { 
+  @include micro-clearfix;
+  padding: $space-l $space-l $space-m;
+
+  &.limited {
+    max-width: 1000px;
+  }
+}
+.ui-resources {
+  @include micro-clearfix;
+  display: block;
+  margin-left: -$space-s;
+  margin-right: -$space-s;
+}
+.ui-resources-page,
+.ui-resource {
+  list-style: none;
+}
+.ui-thumbnail {
+  display: block;
+  position: relative;
+}
+.ui-thumbnail-privacy {
+  display: none;
+}
+.ui-thumbnail-image-wrapper {
+  @include border-radius($border-radius-s);
+  @include box-shadow(0px 1px 3px rgba(0,0,0,0.2));
+  background: $brightest;
+  border: 1px solid $grey-mid;
+  display: inline-block;
+  line-height: 0;
+  padding: 4px;
+  position: relative;
+}
+.ui-thumbnail-image-holder {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+}
+.ui-thumbnail-meta-title {
+  font-size: $font-s;
+  font-weight: 600;
+}
+.ui-thumbnail-meta-subtitle {
+  color: $grey-mid;
+  font-size: $font-xs;
+}
+
+// Active state
+
+.ui-thumbnail-privacy { 
+  @include border-radius($border-radius-m 0, $border-radius-s 0);
+  @include dimension(21px,21px);
+  @include hide-text;
+  background-color: $brightest;
+  border-color: $grey-mid;
+  border-style: solid;
+  border-width: 0 1px 1px 0;
+  display: block;
+  z-index: 10;
+  .icon-privacy-open,
+  .icon-privacy-private,
+  .icon-privacy-group {
+    @include float-left;
+  }
+}

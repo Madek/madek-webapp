@@ -1,0 +1,5 @@
+- if keywords.any?
+  .ui-tag-cloud.small
+    - keywords.each do |keyword|
+      %li.ui-tag-cloud-item
+        = link_to keyword, media_resources_path(:meta_data => {:keywords => {:ids => [keyword.meta_term.id]}}), :class => "ui-tag-button"

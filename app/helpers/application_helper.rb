@@ -46,42 +46,4 @@ module ApplicationHelper
     end
   end
   
-  ######## Icon #########
-
-  def icon_tag(icon)
-    image_tag("icons/#{icon}.png", :style => "vertical-align: middle;")
-  end
-
-
-  ######## Editable #########
-
-  def prevent_leaving_page
-    javascript_tag do
-      begin
-      <<-HERECODE
-        var isUnsavedChange = false;
-        window.onbeforeunload = function(){
-          if( isUnsavedChange ){
-                 return "#{_("Sind Sie sicher? Aenderungen werden nicht gespeichert.")}";
-          }
-        }
-        $(document).ready(function () {
-          $("form[method='post']").submit(function(evt) {
-            isUnsavedChange = false;
-          });
-
-          $("form[method='post']").change(function(evt) {
-            var source = $(evt.target);
-            if(source.hasClass("placeholder")){
-              isUnsavedChange = false;
-            }else{
-              isUnsavedChange = true;
-            }
-          });
-        });
-      HERECODE
-      end.html_safe
-    end
-  end
-
 end

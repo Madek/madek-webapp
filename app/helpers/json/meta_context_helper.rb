@@ -48,7 +48,7 @@ module Json
           :meta_terms => meta_key.meta_terms.map do |meta_term|
             { :id => meta_term.id,
               :label => meta_term.to_s,
-              :is_used => (used_meta_term_ids.include?(meta_term.id) ? 1 : 0)
+              :is_used => used_meta_term_ids.include?(meta_term.id)
             }
           end
         }

@@ -1,0 +1,64 @@
+:ruby
+
+  placeholder_text = if @a_top_keyword
+    "Erneut suchen z.B. #{@a_top_keyword[:label]}"
+  else
+    nil
+  end
+
+.app.view-search
+
+  = render "application/header"
+
+  .app-body
+
+    .row 
+      .col2of3
+        .app-body-title
+          .ui-body-title
+            .ui-body-title-label
+              %h1.title-xl 
+                Suchergebnisse für
+                = "\"#{@term}\""
+      .col1of3
+
+        - unless current_user.is_guest?
+          %form{:action => search_path, :method => :post}
+            .ui-search.large.mts
+              %input.block.ui-search-input{:type => "text", :name => "search", :placeholder => placeholder_text}
+              %button.primary-button.ui-search-button Suchen
+        - else
+          .mts.by-right= render :partial => "login_action"
+
+    .app-body-ui-container
+      .bordered.midtone.ui-container.rounded
+
+        #ui-resources-list-container.app-body-content
+
+          = render :partial => "media_resources/list/toolbar", 
+                   :locals => {:title => "Suchresultat",
+                               :subtitle => "#{@result_count_for_term} Inhalte"}
+
+          = render :partial => "media_resources/list/filterbar"
+
+          .ui-resources-holder
+
+            .ui-container.table.auto
+
+              = render :partial => "media_resources/list/filter"
+
+              .ui-container.table-cell.table-substance
+                
+                %ul#ui-resources-list.ui-resources{:class => ui_resources_class}
+
+                  .pvh.mth
+                    .ui-preloader
+
+  .app-footer-push
+= render "application/footer"
+
+:coffeescript
+  
+  jQuery -> new App.MediaResourcesController.Index
+    baseFilter: #{{:search => params[:term]}.to_json}
+    startFilterParams: #{MediaResource.get_filter_params(params).to_json}

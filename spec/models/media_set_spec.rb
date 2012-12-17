@@ -155,16 +155,6 @@ describe MediaSet do
 
     end
 
-    it "should report 4 without user restriction" do
-      pending
-      #@top_set1.size().should == 4
-    end
-
-    it "should report 1 with user restriction" do
-      pending
-      #@top_set1.size(@viewer).should == 1
-    end
-
   end
 
 end

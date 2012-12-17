@@ -1,0 +1,25 @@
+:ruby
+  is_favorite = current_user.favorite_ids.include?(media_resource.id)
+
+.ui-thumbnail-actions
+  %ul.left.by-left
+    %li.ui-thumbnail-action
+      %a.ui-thumbnail-action-checkbox{:"data-clipboard-toggle" => true, :title => "Zur Zwischenablage hinzufügen"}
+        Zur Zwischenablage hinzufügen
+    %li.ui-thumbnail-action
+      %a.ui-thumbnail-action-favorite{:"data-favor-toggle" => true,
+                                      :title => is_favorite ? "Von Favoriten entfernen" : "Zu Favoriten hinzufügen", 
+                                      :class => is_favorite ? "active" : ""}
+        Zu Favoriten hinzufügen
+  %ul.right.by-right
+    %li.ui-thumbnail-action
+    - if media_resource.type == "MediaEntry"
+      %a.ui-thumbnail-action-browse{:title => "Stöbern", :href => browse_media_resource_path(media_resource)}
+        Erkunden
+    - if editable
+      %li.ui-thumbnail-action
+        %a.ui-thumbnail-action-edit{:title => "Editieren", :href => edit_media_resource_path(media_resource)}
+          Editieren
+      %li.ui-thumbnail-action
+        %a.ui-thumbnail-action-delete{:"data-delete-action" => true, :title => "Löschen"}
+          Löschen

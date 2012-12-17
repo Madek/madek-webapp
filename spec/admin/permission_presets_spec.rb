@@ -6,7 +6,8 @@ describe Admin::PermissionPresetsController, :type => :controller do
     FactoryGirl.create :usage_term 
     FactoryGirl.create :meta_context_core
     PermissionPreset.destroy_all
-    @adam = Persona.create :adam
+    @adam = FactoryGirl.create :user, login: "adam"
+    Group.find_or_create_by_name("Admin").users << @adam
   end
 
   def valid_attributes

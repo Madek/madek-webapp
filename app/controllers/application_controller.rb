@@ -5,36 +5,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
 ##############################################
-# Redesign Switcher
-  before_filter {prepend_view_path "app/views/redesign" if redesign?}
-  
-  layout Proc.new {|controller| if redesign? then "redesign" else "main" end }
-
-  def render(options = {}, extra_options = {}, &block)
-    if redesign? and request.format == "text/html"
-      unless options.has_key?(:template)
-        options[:template] = "/redesign/#{params[:controller]}/#{params[:action]}"
-      else
-        options[:template] = "/redesign#{options[:template]}"
-      end
-    end
-    super(options, extra_options, &block)
-  end
-
-  def redesign?
-    
-    if params.has_key?(:setredesign)
-      session[:design] = :setredesign
-    elsif params.has_key?(:resetdesign)
-      session.delete :design
-    end
-
-    redesign = (params.has_key?(:setredesign) or session[:design] == :setredesign)
-    Thread.current[:redesign] = redesign
-    return redesign
-  end
-
-##############################################
 # Authentication
 
   before_filter :login_required, :except => [:login, :login_successful, :logout, :feedback, :usage_terms, :login_and_return_here] # TODO :help
@@ -83,7 +53,7 @@ end
         @user_keywords = view_context.hash_for current_user.keywords.with_count.limit(6), {:count => true}
         @user_groups = current_user.groups.limit(4)
         @user_entrusted_resources = MediaResource.filter(current_user).entrusted_to_user(current_user).limit(6)
-        render :template => "/users/show" # TODO refactor to UsersController#show as Dashboard
+        render :template => "/my/dashboard"
       end
     else
       @splashscreen_set = MediaSet.splashscreen
@@ -92,8 +62,7 @@ end
       @featured_set_children = @featured_set.child_media_resources.where(:view => true).limit(6) if @featured_set
       @catalog_set = MediaSet.catalog
       @catalog_set_categories = @catalog_set.categories.where(:view => true).limit(3) if @catalog_set
-      @latest_media_entries = MediaResource.media_entries.where(:view => true).limit(6)
-      render :layout => redesign?
+      @latest_media_entries = MediaResource.media_entries.where(:view => true).limit(12)
     end
   end
 
@@ -145,7 +114,11 @@ end
     if session[:user_id]
       # TODO use find without exception: self.current_user = User.find(session[:user_id])
       self.current_user = user = User.find_by_id(session[:user_id])
-      check_usage_terms_accepted unless request.format.to_sym == :json or (request[:controller] == "media_resources" and request[:action] == "image")
+
+      # request format can be nil!
+      if not (request[:controller] == "media_resources" and request[:action] == "image") and (request.format and request.format.to_sym != :json)
+        check_usage_terms_accepted 
+      end
 
     elsif request.format.to_sym == :json or
           (request[:controller] == "media_resources" and request[:action] == "image") or 
@@ -159,7 +132,7 @@ end
           (request[:controller] == "media_entries" and request[:action] == "more_data") or
           (request[:controller] == "media_sets" and request[:action] == "show") or 
           (request[:controller] == "keywords" and request[:action] == "index") or 
-          (request[:controller] == "search" and request[:action] == "index")
+          (request[:controller] == "search")
       @current_user = user = User.new
 
     end

@@ -1,0 +1,154 @@
+:css
+  .madek_multiselect_container ul.holder li {
+    white-space: normal;
+  }
+  .ui-autocomplete { 
+      width: 10px;
+  }
+
+
+%section#content_head
+  .container_12.clearfix
+    #page_head_edit
+      %div.page_title_left
+        = image_tag "icons/icon_edit.png"
+        =_("Metadaten editieren")
+      .clear
+      .task_bar.clearfix
+        %ul
+          %li
+            %h4= "#{@media_entries.size} Medieneinträge ausgewählt"
+          %li= link_to _("Tabellenansicht"), "#", :id => "toggle"
+        #selected_items_edit
+          #list_as_thumbnails
+            hello from thumbnails
+    
+          #list_as_list
+            %table
+              %thead
+                %tr
+                  %td
+                    &nbsp;
+                  %td
+                    Titel und Autor/in:
+                  %td
+                    Datierung:
+                  %td
+                    Schlagworte:
+                  %td
+                    Rechte:
+                  %td{:colspan => "2"}
+                    Hochgeladen von und am:
+              %tbody
+              
+.container_12.clearfix              
+  %section.content_body_fixed
+    .grid_9.alpha
+      = form_tag update_multiple_media_entries_path, :method => :put do
+        = hidden_field_tag 'media_entry_ids', @media_entries.map(&:id).join(',')
+        - common_individual_contexts = @media_entries.map(&:individual_contexts).inject(&:&) # individual contexts common to all
+        - meta_contexts = (MetaContext.defaults + common_individual_contexts).flatten
+        - content_for :buttons do
+          %div{:class => "save_buttons"}
+            = link_to _("Abbrechen"), :back, :class => "buttons"
+            = submit_tag _("Speichern")
+ 
+        %div#detail_specification.tabs
+          %ul
+            - meta_contexts.each do |meta_context|
+              %li= link_to meta_context, "##{meta_context.name}" 
+          - meta_contexts.each do |meta_context|
+            - meta_data = MediaEntry.compare_batch_by_meta_data_in_context(@media_entries, meta_context)
+            = render :partial => "meta_data/edit_multiple_without_form", :locals => {:context => meta_context, :meta_data => meta_data }
+        = yield :buttons
+    .grid_3.omega
+      #legend
+        %h3 Legende
+        %p{:style => "background: white; height: 30px ; border: 1px solid #ccc;"} 
+        %p.info Noch keine Metadaten vorhanden.
+        %br
+        %p.different_values{:style => "height: 30px ; border: 1px solid #ccc;"} 
+        %p.info Unterschiedliche Metadaten vorhanden. Achtung: Bestehende Werte werden durch Änderungen überschrieben! Wenn keine Änderungen vorgenommen werden, bleiben die verschiedenen Werte erhalten.
+        %br
+        %p{:style => "background: white; height: 30px ; border: 1px solid #ccc; padding: 4px;"} 
+          %span.wert Text
+        %p.info Gleiche Metadaten vorhanden.
+    .clear 
+    :plain    
+      <script type="text/x-jquery-tmpl" id="thumbnail_view">
+          <div class="thumb_box">
+            <a href="/media_entries/${id}">
+              <img src="${image}">
+            </a>
+            <!-- <p>
+              <span class="item_title">${title}</span>
+              <span class="item_author">${author}</span>
+            </p> -->
+          </div>
+      </script>
+  
+      <script type="text/x-jquery-tmpl" id="list_view">
+            <tr>
+              <td>
+                <div class="thumb_mini">
+                  <a href="/media_entries/${id}">
+                    <img src="${image}">
+                  </a>
+                </div>
+              </td> 
+              <td>
+                ${title}
+                <br />
+                ${author}
+              </td> 
+              <td>
+                ${portrayed_object_dates}
+              </td>
+              <td>
+                ${keywords}
+              </td>
+              <td>
+                ${copyright_notice}
+              </td>
+              <td>
+                ${uploaded_by}
+              </td>
+              <td>
+                ${uploaded_at}
+              </td>
+            </tr>
+      </script>
+   
+
+:javascript
+
+  $(document).ready(function () { 
+    var data = #{@info_to_json};
+    showListAsThumbnails();
+    
+    // by default
+    $("input.keep").parents("li").addClass("different_values");
+    
+    
+    $('a#toggle').click(function() {
+      if($("#list_as_thumbnails").is(":visible")) {
+        showListAsList();
+      } else {
+        showListAsThumbnails();
+      };
+    });
+    
+    function showListAsThumbnails() {
+      $("#list_as_list").hide();
+      $("#list_as_thumbnails").show();
+      $("#list_as_thumbnails").html($("#thumbnail_view").tmpl(data));
+      $("#toggle").html("Tabellenansicht");
+    };
+    
+    function showListAsList() {
+      $("#list_as_thumbnails").hide();
+      $("#list_as_list").show();
+      $("#list_as_list table tbody").html($("#list_view").tmpl(data));
+      $("#toggle").html("Medienansicht");
+    };
+  });

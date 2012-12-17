@@ -152,8 +152,8 @@ class MediaResource < ActiveRecord::Base
 
   ################################################################
 
-  def self.by_collection(user_id, cid)
-    Rails.cache.read(user: user_id, collection: cid) || raise("Collection not found")
+  def self.by_collection(collection_id)
+    Rails.cache.read(collection_id) || raise("Collection not found")
   end
 
   ################################################################

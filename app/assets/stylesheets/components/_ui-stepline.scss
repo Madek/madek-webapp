@@ -1,0 +1,53 @@
+/**
+ * ## ui-stepline `.ui-stepline`
+ *
+ * Styleguide 6.16
+ */
+
+// ui-stepline
+
+.ui-stepline {
+  @include border-top-radius($border-radius-m);
+  @include micro-clearfix;
+  background-image: image-url("backgrounds/container-midtone.png");
+  display: table;
+  width: 100%;
+}
+.ui-stepline-item {
+  border-color: $grey-mid-light;
+  border-style: solid;
+  border-width: 0 0 1px;
+  display: table-cell;
+  padding: $space-m 0;
+  text-align: center;
+  vertical-align: top;
+  width: 25%;
+}
+.ui-stepline-item-title {
+  @include single-text-shadow(false, 1px, 0, false, $lighten-more);
+  color: $grey-mid;
+  padding: 0 $space-m;
+}
+
+.ui-stepline-item-title small {
+  clear: both;
+  display: block;
+  font-size: $font-xs;
+}
+.ui-stepline-item.active {
+  border-color: $brightest $grey-mid-light;
+  border-width: 0 1px 1px;
+  background: $brightest;
+  .ui-stepline-item-title,
+  .ui-stepline-item-description {
+    color: $grey-darker;
+  }
+  &:first-child {
+    @include border-top-left-radius($border-radius-m);
+    border-left: none;
+  }
+  &:last-child {
+    @include border-top-right-radius($border-radius-m);
+    border-right: none;
+  }
+}

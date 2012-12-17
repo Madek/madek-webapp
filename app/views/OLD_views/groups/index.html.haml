@@ -1,0 +1,50 @@
+.container_12.clearfix#groups.index        
+  %section.content_body
+    %div.page_title_left
+      .icon.groups
+      =_("Meine Arbeitsgruppen")
+
+    .action_menu
+      = _("Aktionen")
+      .icon.arrow.up_and_down
+      .action_menu_list.right
+        %ul
+          %li
+            = link_to "", :class => "create_group", :title => _("Neue Arbeitsgruppe erstellen") do
+              .add_group.icon
+              = _("Neue Arbeitsgruppe")
+    .clear
+    
+    %section.group
+      %h3= _("Arbeitsgruppen")
+      %ul
+        - @private_groups.each do |group|
+          %li.group{:"data-group" => json_for(group, { :users => {} }) }
+            = link_to group_path(group), :title => _("Löschen"), :class => "delete button", :method => :delete, :data => {:confirm => _("Sind Sie sicher?")} do
+              .trash.icon
+            %button.button.edit{:title => _("Bearbeiten")}
+              .edit.icon
+            %p= group
+            - total_accessible_by_group = MediaResource.accessible_by_group(group).where(:type => ["MediaEntry", "MediaSet"]).count
+            = link_to _("%d Inhalte") % total_accessible_by_group, media_resources_path(:group_id => group.id), :title => _("Inhalte diese Gruppe anzeigen")
+    
+    - unless @system_groups.empty?         
+      %section.group     
+        %h3= _("Systemgruppen")
+        %ul
+          - @system_groups.each do |group|
+            %li.without_actions
+              = group
+              
+    - unless @department_groups.empty?
+      %section.group
+        %h3= _("Abteilungsgruppen")
+        %ul
+          - @department_groups.each do |group|
+            %li.without_actions
+              = group
+          
+:coffeescript
+  
+  jQuery ->
+    new App.Groups

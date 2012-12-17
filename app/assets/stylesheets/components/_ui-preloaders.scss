@@ -1,0 +1,25 @@
+/**
+ * ## Preloaders `.ui-preloader`
+ *
+ * .small        - Small variation
+ * .dark         - Small variation
+ * .dark.small   - Small variation
+ *
+ * Styleguide 6.8
+ */
+
+.ui-preloader {
+  @include dimension(auto,100px);
+  @include hide-text;
+  background: transparent image-url("backgrounds/preloader-transparent-large.gif") top center no-repeat;
+  &.small { 
+    @include dimension(auto,50px);
+    background: transparent image-url("backgrounds/preloader-transparent-small.gif") center center no-repeat;
+  }
+  &.dark { 
+    background: transparent image-url("backgrounds/preloader-dark-large.gif") top center no-repeat;
+  }
+  &.dark.small { 
+    background: transparent image-url("backgrounds/preloader-dark-small.gif") center center no-repeat;
+  }
+}

@@ -1,0 +1,6 @@
+%li.ui-tag-cloud-item
+  %a.ui-ttip-toggle.ui-tag-button.meta-term{:href => "/media_resources?meta_data[${$item.metaDatum.name}][ids][]=${id}",
+                                  :"data-meta-datum-name" => "${$item.metaDatum.name}",
+                                  :"data-meta-key-id" => "${id}",
+                                  :title => "${value}"}
+    ${value}

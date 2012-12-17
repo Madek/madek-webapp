@@ -1,0 +1,50 @@
+/**
+ * ## Media resources table `.ui-resources-table`
+ *
+ * Styleguide 7.17
+ */
+
+ .ui-resources-table { 
+
+  .ui-thumbnail.micro { 
+    margin: 0 $space-x $space-x;
+  }
+
+  table {
+    table-layout: fixed;
+    width: 100%;
+
+    td {
+      vertical-align: middle;
+    }
+  }
+
+  tbody { 
+    color: $grey-mid;
+    font-size: $font-s;
+
+    tr td[data-name='title'] {
+      color: $grey-mid-dark;
+    }
+
+  }
+
+  .ui-resources-table-selection {
+    width: 75px;
+
+    input,
+    img{
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  .ui-resources-table-cell-content {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 90%;
+  }
+
+}
