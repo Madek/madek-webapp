@@ -11,7 +11,7 @@ set :application, "madek-readonly"
 
 set :scm, :git
 set :repository, "git://github.com/zhdk/madek.git"
-set :branch, "redesign"
+set :branch, "redesign_next"
 set :deploy_via, :remote_cache
 
 set :db_config, "/home/rails/madek-readonly/database.yml"
