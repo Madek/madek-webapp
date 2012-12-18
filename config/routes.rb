@@ -107,7 +107,6 @@ MAdeK::Application.routes.draw do
   # TODO merge to :media_resources ?? 
   resources :media_entries, :except => :destroy do
     collection do
-      get :keywords
       post :edit_multiple
       put :update_multiple
       post :media_sets

@@ -19,6 +19,7 @@ class MediaResourcesController.Edit
     new App.FormAutocompletes.Keywords {el: @el}
     new App.FormBehaviours.MetaDatumDate {el: @el}
     new App.FormAutocompletes.ExtensibleList {el: @el}
+    new App.FormBehaviours.Collapse {el: @el}
     do @delegateEvents
 
   delegateEvents: ->
