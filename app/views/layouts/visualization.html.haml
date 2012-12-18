@@ -6,6 +6,7 @@
     %title
       = @title || AppSettings.title || "Medienarchiv - Zürcher Hochschule der Künste"
     = stylesheet_link_tag "application"
+    = stylesheet_link_tag "visualization"
     = javascript_include_tag "application"
     = javascript_include_tag "visualization"
     = javascript_include_tag "test" unless Rails.env.production?

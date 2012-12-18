@@ -61,6 +61,7 @@ module MAdeK
                                     video.css
                                     visualization_layout_web_worker.js
                                     visualization.js
+                                    visualization.css
                                     test.js
                                   )
 

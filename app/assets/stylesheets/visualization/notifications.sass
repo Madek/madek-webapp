@@ -1,4 +1,4 @@
-@import "mixins"
+@import "compass/css3/border-radius"
 
 html#visualization 
 
@@ -6,7 +6,6 @@ html#visualization
     display: block
     position: relative
     width: 100%
-    @include unselectable()
 
     & > div
       font-size: 1.0em
@@ -23,10 +22,10 @@ html#visualization
         position: absolute
         top: 6px
         right: 8px
-        @include opacity(0.5)
+        opacity: 0.5
 
         &:hover
-          @include opacity(0.9)          
+          opacity: 0.9
     
     .notification
       background: rgba(255, 255, 50, 0.5)
