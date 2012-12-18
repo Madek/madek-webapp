@@ -102,7 +102,7 @@ d3.layout.mds = ->
 
   # WEB WORKER ########################################################################################
   
-  window.layout_web_worker = layout_web_worker= new Worker "/assets/visualization/layout_web_worker.js"
+  window.layout_web_worker = layout_web_worker= new Worker "/assets/visualization_layout_web_worker.js"
 
   layout_web_worker.addEventListener 'message', (e) ->
     if e.data['layout']? 
