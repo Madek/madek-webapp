@@ -138,17 +138,19 @@ module Json
       end
 
       ##### eager loading
-      if with[:media_type]
-        paginated_media_resources = paginated_media_resources.includes(:media_file)
-      end
-      if with[:is_editable]
-        @cache_is_editable = MediaResource.accessible_by_user(current_user, :edit).where(:id => paginated_media_resources).pluck(:id)
-      end
-      if with[:is_manageable]
-        @cache_is_manageable = MediaResource.accessible_by_user(current_user, :manage).where(:id => paginated_media_resources).pluck(:id)
-      end
-      if with[:is_favorite]
-        @cache_is_favorite = current_user.favorites.where(:id => paginated_media_resources).pluck(:id)
+      if with ||= nil
+        if with[:media_type]
+          paginated_media_resources = paginated_media_resources.includes(:media_file)
+        end
+        if with[:is_editable]
+          @cache_is_editable = MediaResource.accessible_by_user(current_user, :edit).where(:id => paginated_media_resources).pluck(:id)
+        end
+        if with[:is_manageable]
+          @cache_is_manageable = MediaResource.accessible_by_user(current_user, :manage).where(:id => paginated_media_resources).pluck(:id)
+        end
+        if with[:is_favorite]
+          @cache_is_favorite = current_user.favorites.where(:id => paginated_media_resources).pluck(:id)
+        end
       end
       #####
 
