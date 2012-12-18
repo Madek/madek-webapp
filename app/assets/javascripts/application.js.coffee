@@ -15,6 +15,7 @@
 #= require bootstrap-2.2.1/bootstrap-tab
 #= require bootstrap-2.2.1/bootstrap-tooltip
 #= require bootstrap-2.2.1/bootstrap-popover
+#= require bootstrap-2.2.1/bootstrap-typeahead
 
 #= require underscore-1.3.3/underscore
 #= require underscore.string-2.1.1/underscore.string

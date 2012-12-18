@@ -26,4 +26,12 @@ class Person
           @[k] = v
         callback(data) if callback?
 
+  @fetch: (query, callback)->
+    $.ajax
+      url: "/people.json"
+      data:
+        query: query
+      success: (data)->
+        callback data if callback?
+
 window.App.Person = Person
