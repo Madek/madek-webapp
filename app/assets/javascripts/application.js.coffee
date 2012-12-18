@@ -1,33 +1,31 @@
 ####### VENDOR
 
-#= require html5shiv-3.6.2pre/html5shiv
+#= require html5shiv/html5shiv
 
-#= require jquery-1.8.2/jquery-1.8.2.min
+#= require jquery/jquery.min
 #= require jquery.inview/jquery.inview
-#= require jquery-ui-1.9.2/jquery-ui-1.9.2.custom
+#= require jquery-ui/jquery-ui.custom
 #= require jquery_ujs
 #= require jquery-tmpl
 
-#= require bootstrap-2.2.1/bootstrap-transition
-#= require bootstrap-2.2.1/bootstrap-modal
-#= require bootstrap-2.2.1/bootstrap-dropdown
-#= require bootstrap-2.2.1/bootstrap-tab
-#= require bootstrap-2.2.1/bootstrap-tooltip
-#= require bootstrap-2.2.1/bootstrap-popover
+#= require bootstrap/bootstrap-transition
+#= require bootstrap/bootstrap-modal
+#= require bootstrap/bootstrap-dropdown
+#= require bootstrap/bootstrap-tab
+#= require bootstrap/bootstrap-tooltip
+#= require bootstrap/bootstrap-popover
 
-#= require underscore-1.3.3/underscore
-#= require underscore.string-2.1.1/underscore.string
-#= require moment-1.4.0/moment.min
+#= require underscore/underscore
+#= require underscore.string/underscore.string
+#= require moment/moment.min
  
-#= require URI.js.1.8.1/URI.js
+#= require URI.js/URI.js
 
-#= require plupload-1.5.4/plupload
-#= require plupload-1.5.4/jquery.plupload.queue
-#= require plupload-1.5.4/plupload.html5
+#= require plupload/plupload
+#= require plupload/jquery.plupload.queue
+#= require plupload/plupload.html5
 
-#= require pickadate-1.3/pickadate
-
-#= require mousewheel-3.0.6/jquery.mousewheel
+#= require mousewheel/jquery.mousewheel
 
 ####### APPLICATION
 

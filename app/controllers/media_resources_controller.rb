@@ -696,7 +696,7 @@ class MediaResourcesController < ApplicationController
 
   def edit
     @contexts = if @media_resource.is_a? MediaEntry
-
+      @contexts = MetaContext.defaults + @media_resource.individual_contexts
     elsif @media_resource.is_a? MediaSet
       @contexts = [MetaContext.media_set]
     end

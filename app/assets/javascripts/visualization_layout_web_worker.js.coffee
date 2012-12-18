@@ -1,4 +1,4 @@
-#= require underscore-1.3.3/underscore.js
+#= require underscore/underscore.js
 #= require visualization/layouters/mds_core.js
 
 self.mds_core = MDSCoreLayouter

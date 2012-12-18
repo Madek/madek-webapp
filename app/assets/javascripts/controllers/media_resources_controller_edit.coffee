@@ -17,6 +17,7 @@ class MediaResourcesController.Edit
     new App.FormAutocompletes.Person {el: @el}
     new App.FormWidgets.Keywords {el: @el}
     new App.FormAutocompletes.Keywords {el: @el}
+    new App.FormBehaviours.MetaDatumDate {el: @el}
     do @delegateEvents
 
   delegateEvents: ->
