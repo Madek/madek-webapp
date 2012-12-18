@@ -16,6 +16,7 @@ class MediaResourcesController.Edit
     new App.FormWidgets.Person {el: @el}
     new App.FormAutocompletes.Person {el: @el}
     new App.FormWidgets.Keywords {el: @el}
+    new App.FormAutocompletes.Keywords {el: @el}
     do @delegateEvents
 
   delegateEvents: ->

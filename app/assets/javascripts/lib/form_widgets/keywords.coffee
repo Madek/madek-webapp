@@ -18,7 +18,7 @@ class FormWidgets.Keywords
   showKeywords: (toggle)->
     toggle.addClass(".loading")
     unless App.Keyword.all()?
-      App.Keyword.fetch =>
+      App.Keyword.fetch null, =>
         toggle.removeClass(".loading")
         toggle.addClass(".loaded")
         @renderKeywords toggle

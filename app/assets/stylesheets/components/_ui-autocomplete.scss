@@ -1,4 +1,4 @@
-.typeahead.dropdown-menu {
+.ui-autocomplete {
   background-clip: padding-box;
   background-color: #FFFFFF;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -19,7 +19,7 @@
     list-style: none outside none;
   }
 
-  .active > a, .active > a:hover {
+  a.ui-state-focus {
     background-color: #0081C2;
     background-image: linear-gradient(to bottom, #0088CC, #0077B3);
     background-repeat: repeat-x;
@@ -37,4 +37,8 @@
     padding: 3px 20px;
     white-space: nowrap;
   }
+}
+
+.ui-helper-hidden-accessible {
+  display: none;
 }

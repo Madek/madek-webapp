@@ -4,10 +4,12 @@ class Keyword
     for k,v of data
       @[k] = v
 
-  @fetch: (callback)=>
+  @fetch: (term, callback)=>
+    data = {with: {count: true, created_at: true, mine: true}} 
+    $.extend data, {query: term} if term?
     $.ajax
       url: "/keywords.json"
-      data: {with: {count: true, created_at: true, mine: true}} 
+      data: data
       success: (response)=>
         @currentKeywords = response
         callback(@currentKeywords) if callback?

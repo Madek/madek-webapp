@@ -4,8 +4,7 @@
 
 #= require jquery-1.8.2/jquery-1.8.2.min
 #= require jquery.inview/jquery.inview
-#= require jquery-ui-1.9.2/jquery-ui-1.9.2.position
-#= require jquery-ui-1.9.2/jquery-ui-1.9.2.slider
+#= require jquery-ui-1.9.2/jquery-ui-1.9.2.custom
 #= require jquery_ujs
 #= require jquery-tmpl
 
@@ -15,13 +14,11 @@
 #= require bootstrap-2.2.1/bootstrap-tab
 #= require bootstrap-2.2.1/bootstrap-tooltip
 #= require bootstrap-2.2.1/bootstrap-popover
-#= require bootstrap-2.2.1/bootstrap-typeahead
 
 #= require underscore-1.3.3/underscore
 #= require underscore.string-2.1.1/underscore.string
 #= require moment-1.4.0/moment.min
  
-
 #= require URI.js.1.8.1/URI.js
 
 #= require plupload-1.5.4/plupload
