@@ -31,7 +31,7 @@ class FormAutocompletes.Person
     index = holder.closest(".ui-form-group").data "index"
     multiselect = holder.find(".multi-select-input-holder")
     person.index = index
-    multiselect.before App.render "media_resources/edit/widgets/person/multi-select-tag", person
+    multiselect.before App.render "media_resources/edit/multi-select/person", person
       
 window.App.FormAutocompletes = {} unless window.App.FormAutocompletes
 window.App.FormAutocompletes.Person = FormAutocompletes.Person

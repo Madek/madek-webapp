@@ -29,7 +29,7 @@ class FormAutocompletes.Keywords
     return true if holder.find(".multi-select-tag [value=#{keyword.id}]").length
     index = holder.closest(".ui-form-group").data "index"
     multiselect = holder.find(".multi-select-input-holder")
-    multiselect.before App.render "media_resources/edit/widgets/keywords/multi-select-tag", {keyword: keyword, index: index}
+    multiselect.before App.render "media_resources/edit/multi-select/keyword", {keyword: keyword, index: index}
       
 window.App.FormAutocompletes = {} unless window.App.FormAutocompletes
 window.App.FormAutocompletes.Keywords = FormAutocompletes.Keywords

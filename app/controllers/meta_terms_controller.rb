@@ -33,8 +33,13 @@ class MetaTermsController< ApplicationController
   #   ```
   # @example_response_description The associated MetaKeys are "Blue", "Red" and "Yellow".
   #
-  def index(meta_key_id = params[:meta_key_id])
-    if meta_key_id
+  def index(meta_key_id = params[:meta_key_id], meta_context_id = params[:meta_context_id])
+    if meta_key_id and meta_context_id
+      meta_terms = MetaContext.find(meta_context_id).meta_keys.find(meta_key_id).meta_terms
+      respond_to do |format|
+        format.json { render :json => view_context.json_for(meta_terms) }
+      end
+    elsif meta_key_id
       meta_terms = MetaKey.find(meta_key_id).meta_terms
       respond_to do |format|
         format.json { render :json => view_context.json_for(meta_terms) }
