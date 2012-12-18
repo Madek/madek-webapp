@@ -59,7 +59,8 @@ module MAdeK
                                     pdf-viewer.css
                                     video.js
                                     video.css
-                                    visualization/layout_web_worker.js
+                                    visualization_layout_web_worker.js
+                                    visualization.js
                                     test.js
                                   )
 
