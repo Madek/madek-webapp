@@ -13,27 +13,32 @@ class FormBehaviours.MetaDatumDate
     do @delegateEvents
 
   setupDatepickers: ->
-    # for datepicker in @el.find(".ui-form-group[data-type='meta_datum_date'] input.ui-datepicker")
-    #   do (datepicker) =>
-    #     self = @
-    #     datepicker = $(datepicker)
-    #     datepicker...
-    #       onSelect: -> self.setDate this.getDate(), datepicker
+    @el.find(".ui-form-group[data-type='meta_datum_date'] input.ui-datepicker").datepicker
+      changeMonth: true
+      changeYear: true
+      onSelect: (date, el)=>
+        @setDate date, $(el.input)
 
   setDate: (date, datepicker)->
     formGroup = datepicker.closest ".ui-form-group"
 
     # SET FREE INPUT
-    if datepicker.is ".input-on"
+    if datepicker.hasClass "input-on"
       formGroup.find("input.input-free").val date
-    else if datepicker.is ".input-from" or datepicker.is ".input-to"
-      formGroup.find("input.input-free").val "#{formGroup.find("input.input-from").val()} - #{formGroup.find("input.input-to").val()}"
+    else if datepicker.hasClass "input-from"
+      formGroup.find("input.input-free").val "#{date} - #{formGroup.find("input.input-to").val()}"
+    else if datepicker.hasClass "input-to"
+      formGroup.find("input.input-free").val "#{formGroup.find("input.input-from").val()} - #{date}"
 
     # SET OTHER DATEPICKERS
-    if datepicker.is ".input-on"
+    if datepicker.hasClass "input-on"
       formGroup.find("input.input-from").val date
-    else if datepicker.is ".input-from"
+    else if datepicker.hasClass "input-from"
       formGroup.find("input.input-on").val date
+
+    # SET MIN DATE FOR INPUT TO
+    unless datepicker.hasClass "input-to"
+      formGroup.find("input.input-to").datepicker "option", "minDate", $.datepicker.parseDate $.datepicker._defaults.dateFormat, date
 
   delegateEvents: ->
     @el.on "change", ".ui-form-group[data-type='meta_datum_date'] select", (e)=> @changeInput $(e.currentTarget)
