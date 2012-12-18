@@ -10,6 +10,11 @@ class MediaResource < ActiveRecord::Base
 
   belongs_to :user
 
+  # NOTE this is here because we use eager loader preload(:media_file) on MediaResource
+  # but it's effectively used only by MediaEntry
+  belongs_to :media_file #, :include => :previews # TODO validates_presence # TODO on destroy, also destroy the media_file if this is the only related media_entry
+
+###############################################################
 
   ### Connected Resources ##################################################
   def self.connected_resources(media_resource, resource_condition=nil)

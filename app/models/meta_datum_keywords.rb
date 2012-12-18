@@ -1,7 +1,8 @@
 # -*- encoding : utf-8 -*-
 class MetaDatumKeywords < MetaDatum
 
-  has_many :keywords, foreign_key: :meta_datum_id
+  # NOTE this is defined up in MetaDatum because eager loading
+  #has_many :keywords, foreign_key: :meta_datum_id
 
   def to_s
     value.map(&:to_s).join("; ")

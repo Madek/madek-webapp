@@ -34,8 +34,16 @@ class MetaDatum < ActiveRecord::Base
     raise "MetaDatum is abstract; instatiate a subclass" if self.reload.type == "MetaDatum" or self.reload.type == nil
   end
 
+  ########################################
+
+  # NOTE this is here because we use eager loader preload(:keywords) on MetaDatum
+  # but it's effectively used only by MetaDatumKeywords
+  has_many :keywords
+
   belongs_to :media_resource
   belongs_to :meta_key
+
+  ########################################
 
   validates_uniqueness_of :meta_key_id, :scope => :media_resource_id
   

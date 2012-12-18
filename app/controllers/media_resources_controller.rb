@@ -49,7 +49,6 @@ class MediaResourcesController < ApplicationController
   # @optional [Hash] with[image] Request the image of the MediaResources. You can define the responding image format like {"image": {"as": "base64" | "url"}}. The image size can be requested with {"image": {"size": "small"(100x100) | "small_125"(125x125) | "medium"(300x300) | "large"(620x500) | "x_large"(1024x768) }}
   # @optional [Boolean] with[filename] Request the filename of the MediaResources.
   # @optional [Boolean] with[media_type] Request the media_type of the MediaResources.
-  # @optional [Boolean] with[flags] Request status indicator informations (about permissions and favorites related to the current user) for the responding MediaResources.
   # @optional [Boolean] with[size] Request the size of the MediaFile of a particular MediaEntry.
   # @optional [Hash|Boolean] with[children] Request the children of the responding MediaResources (Attention: they are paginated!). Option forwarding possible.
   # @optional [Array] with[children][with] Forward with conditions to the children.
@@ -398,36 +397,6 @@ class MediaResourcesController < ApplicationController
   #   }
   #   ```  
   # @example_response_description
-  #
-  #####
-  #
-  # @example_request
-  #   ```json
-  #   {
-  #     "with": {
-  #       "flags":true
-  #     }
-  #   }
-  #   ``` 
-  # @example_request_description Request MediaResources with flags.
-  # @example_response
-  #   ```json
-  #   {
-  #     "media_resources": [
-  #       {
-  #        "id":1,
-  #        "is_public":true,
-  #        "is_private":false,
-  #        "is_shared":false,
-  #        "is_editable":true,
-  #        "is_manageable":true,
-  #        "is_favorite":false
-  #       }
-  #     ]
-  #   }
-  #   ```  
-  # @example_response_description The responding MediaResource with id 1 is accesible by everyone and is editable, managable by the current user. The MediaResource is not part of the current user's favorites.
-  #
   #
   #####
   #
