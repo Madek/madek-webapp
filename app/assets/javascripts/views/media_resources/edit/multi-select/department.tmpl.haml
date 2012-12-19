@@ -1,0 +1,7 @@
+%li.multi-select-tag{:"data-label" => "${department.label}"}
+  {{each(i,id) department.ids}}
+  %input{:name => "resource[meta_data_attributes][${index}][value][]", :type => "hidden", :value => "${id}"}
+  {{/each}}
+  ${department.label}
+  %a.multi-select-tag-remove
+    .icon-remove

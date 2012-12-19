@@ -21,6 +21,7 @@ class MediaResourcesController.Edit
     new App.FormAutocompletes.ExtensibleList {el: @el}
     new App.FormBehaviours.Collapse {el: @el}
     new App.FormBehaviours.Copyrights {el: @el}
+    new App.FormAutocompletes.Departments {el: @el}
     do @delegateEvents
 
   delegateEvents: ->

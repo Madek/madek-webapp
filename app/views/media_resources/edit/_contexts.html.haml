@@ -4,6 +4,9 @@
 
   .tab-pane{:class => i == 0 ? "active" : "", :id => context.name}
 
+    - if context.description
+      %h2.title-s.separated.mbl.pbm= context.description
+
     .form-body
 
       - context.meta_key_definitions.each do |definition|

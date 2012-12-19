@@ -1,0 +1,70 @@
+.ui-autocomplete.department-autocomplete {
+  
+  .ui-menu-item {
+
+    a {
+      line-height: $line-height-s;
+    }
+  }
+
+  .ui-menu-item-department {
+    position: relative;
+
+    &.has-navigator {
+
+      a {
+        padding-bottom: 32px;
+      }
+    }
+
+    &.opened {
+      a {
+        font-weight: bold;
+        padding-left: 28px;
+      }
+    }
+  }
+
+  .ui-navigator {
+    background: rgba(255,255,255,0.9);
+    color: $grey-dark;
+    display: block;
+    font-size: 0.9em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    top: -28px;
+    white-space: nowrap;
+    width: 90%;
+    margin: 0 $space-x -16px $space-m;
+    position: relative;
+    padding: 1px 0 0 4px;
+    @include border-radius($border-radius-s);
+    @include box-sizing(border-box);
+
+    &:hover {
+      background: white;
+      color: black;
+    }
+
+    .arrow {
+      @extend .icon-arrow-right;
+      position: relative;
+      top: 3px;
+    }
+
+    &.back {
+      left: -19px;
+      padding: 0 4px;
+      top: -22px;
+      width: 22px;
+
+      .ui-navigator-text {
+        display: none;
+      }
+
+      .arrow {
+        @extend .icon-arrow-left;
+      }
+    }
+  }
+}

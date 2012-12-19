@@ -14,6 +14,16 @@ class MetaDepartment < Group
     where(:name => name, :ldap_name => ldap_name)
   }
 
+  scope :without_semesters, where("ldap_name NOT SIMILAR TO '%_[0-9]{2}[A-Za-z]\.studierende'")
+  scope :without_verteilerlisten, where("ldap_name NOT SIMILAR TO 'Verteilerliste\.%'")
+  scope :without_rek, where("ldap_name NOT SIMILAR TO 'REK\.%'")
+  scope :without_personal, where("ldap_name NOT SIMILAR TO 'Personal\.%'")
+  scope :without_berechtigung, where("ldap_name NOT SIMILAR TO '%\.berechtigung\.%'")
+  
+  def self.relevant
+    self.without_semesters.without_personal.without_rek.without_verteilerlisten.without_berechtigung
+  end
+
   def to_s
     "#{name} (#{ldap_name})"
   end

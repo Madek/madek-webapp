@@ -41,7 +41,7 @@ class FormBehaviours.Copyrights
     @onRootChange @el.find(".ui-form-group[data-type='meta_datum_copyright'] select")
 
   setSelectedCopyright: (copyright_id)->
-    @el.find(".ui-form-group[data-type='meta_datum_copyright'] input[name]").val copyright_id
+    @el.find(".ui-form-group[data-type='meta_datum_copyright'] input.value-target").val copyright_id
 
 window.App.FormBehaviours = {} unless window.App.FormBehaviours
 window.App.FormBehaviours.Copyrights = FormBehaviours.Copyrights

@@ -28,6 +28,7 @@ class FormAutocompletes.ExtensibleList
         input.on "focus", -> input.autocomplete "search", input.val()
         input.autocomplete
           minLength: 0
+          appendTo: input.closest(".multi-select-input-holder")
           source: (request, response)=>
             unless input.data("terms")?
               @ajax.abort() if @ajax?

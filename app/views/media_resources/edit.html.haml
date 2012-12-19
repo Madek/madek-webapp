@@ -11,7 +11,7 @@
 
     .app-body-ui-container
 
-      %form#edit-media-resource{:action => update_multiple_media_resource_meta_data_path(@media_resource), :method => :post}
+      %form#edit-media-resource{:action => update_multiple_media_resource_meta_data_path(@media_resource), :method => :post, :autocomplete => :off}
 
         = token_tag nil
 

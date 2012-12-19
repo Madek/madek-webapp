@@ -9,20 +9,24 @@ class FormAutocompletes.Keywords
 
   constructor: (options)->
     @el = options.el
-    @el.find(".form-autocomplete-keywords").autocomplete
-      source: (request, response)=>
-        @ajax.abort() if @ajax?
-        @ajax = App.Keyword.fetch request.term, (keywords)->
-          response _.map keywords, (keyword)->
-            keyword.value = keyword.label
-            keyword.name = keyword.label
-            keyword
-      select: (event, ui)=>
-        keyword = new App.Keyword ui.item
-        input = $(event.target)
-        @addKeyword keyword, input
-        input.val ""
-        return false
+    for keywordField in @el.find(".form-autocomplete-keywords")
+      do (keywordField)->
+        keywordField = $(keywordField)
+        keywordField.autocomplete
+          appendTo: keywordField.closest(".multi-select-input-holder")
+          source: (request, response)=>
+            @ajax.abort() if @ajax?
+            @ajax = App.Keyword.fetch request.term, (keywords)->
+              response _.map keywords, (keyword)->
+                keyword.value = keyword.label
+                keyword.name = keyword.label
+                keyword
+          select: (event, ui)=>
+            keyword = new App.Keyword ui.item
+            input = $(event.target)
+            @addKeyword keyword, input
+            input.val ""
+            return false
 
   addKeyword: (keyword, input)->
     holder = input.closest(".multi-select-holder")

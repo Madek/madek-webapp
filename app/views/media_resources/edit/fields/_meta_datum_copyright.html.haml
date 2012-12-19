@@ -4,7 +4,7 @@
   copyright_roots = Copyright.roots
   value = meta_datum.value || Copyright.default
 
-%input{:name => "resource[meta_data_attributes][#{@i}][value]", :type => "hidden", :value => meta_datum.value.id, :autocomplete => "off"}
+%input.value-target{:name => "resource[meta_data_attributes][#{@i}][value]", :type => "hidden", :value => meta_datum.value.id}
 
 %select.block.copyright-roots
   
