@@ -113,4 +113,36 @@ class MetaKey < ActiveRecord::Base
     meta_key_definitions.empty? and meta_data.empty?
   end
 
+########################################################
+
+  def is_not_writable?
+    self.class.not_writable.include?(label)
+  end
+
+  def self.not_writable
+    not_writable_hash.values.flatten
+  end
+  
+  def self.not_writable_hash
+    {
+      "MetaDatumUsers"  => ["owner"],
+      "MetaDatumDate"   => ["uploaded at"],
+      "MetaDatumString" => ["public access", "media type", "parent media_resources", "child media_resources"]
+    }
+  end
+
+  def is_dynamic?
+    self.class.dynamic_keys.include?(label)
+  end
+
+  def self.dynamic_keys
+    dynamic_keys_hash.values.flatten
+  end
+
+  def self.dynamic_keys_hash
+    h = not_writable_hash
+    h["MetaDatumString"] += ["copyright usage", "copyright url"]
+    h
+  end
+
 end

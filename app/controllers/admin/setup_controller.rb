@@ -74,7 +74,7 @@ class Admin::SetupController < ActionController::Base
     unless dynamic_meta_keys?
       dynamic_meta_keys.each_pair do |k,v|
         v.each do |x|
-          MetaKey.create label: x, is_dynamic: true, meta_datum_object_type: k
+          MetaKey.create label: x, meta_datum_object_type: k
         end
       end
     end
@@ -238,18 +238,14 @@ class Admin::SetupController < ActionController::Base
 ##########
 
   def dynamic_meta_keys
-    {
-      "MetaDatumUsers"  => ["owner"],
-      "MetaDatumDate"   => ["uploaded at"],
-      "MetaDatumString" => ["copyright usage", "copyright url", "public access", "media type", "parent media_resources", "child media_resources"]
-    }
+    MetaKey.dynamic_keys_hash
   end
 
   def dynamic_meta_keys?
     r = []
     dynamic_meta_keys.each_pair do |k,v|
       r << v.all? do |x|
-        MetaKey.exists? label: x, is_dynamic: true, meta_datum_object_type: k
+        MetaKey.exists? label: x, meta_datum_object_type: k
       end
     end
     r.all? {|x| x }
@@ -258,7 +254,7 @@ class Admin::SetupController < ActionController::Base
   def dynamic_meta_keys_hash
     {
       valid: dynamic_meta_keys?,
-      title: "Dynamic MetaKeys (%s)" % dynamic_meta_keys.values.flatten.join(', '),
+      title: "Dynamic MetaKeys (%s)" % MetaKey.dynamic_keys.join(', '),
       success: "Success",
       failure: "Failure: <a href='/admin/setup/dynamic_meta_keys_do'>create missing ones automatically</a>"
     }

@@ -16,7 +16,7 @@ module MediaResourceModules
             else
               key
             end
-            r = where(:meta_key_id => key_id).first # OPTIMIZE prevent find if is_dynamic meta_key
+            r = where(:meta_key_id => key_id).first
             r ||= build(:meta_key_id => key_id) if build_if_not_found
             r
           end
@@ -48,13 +48,17 @@ module MediaResourceModules
             mds = where(:meta_key_id => meta_key_ids).eager_load(:meta_key)
             mds = mds.eager_load(:keywords => :meta_term) if meta_keys.map(&:label).include?("keywords")
   
-            mds += meta_keys.select{|x| x.is_dynamic? }.flat_map do |key|
+            already_ids = mds.map(&:meta_key_id)
+            mds += meta_keys.select{|x| x.is_dynamic? and not already_ids.include?(x.id) }.flat_map do |key|
               build(:meta_key => key)
             end
   
-            mds += (meta_key_ids - mds.map(&:meta_key_id)).flat_map do |key_id|
-              build(:meta_key_id => key_id)
-            end if build_if_not_exists
+            if build_if_not_exists
+              already_ids = mds.map(&:meta_key_id)
+              mds += (meta_key_ids - already_ids).flat_map do |key_id|
+                build(:meta_key_id => key_id)
+              end
+            end
 
             mds.sort_by {|md| meta_key_ids.index(md.meta_key_id) } 
           end

@@ -2,1827 +2,1462 @@
 meta_keys: 
 - id: 1
   label: identifier
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 2
   label: urn
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 3
   label: title
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 4
   label: subtitle
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 5
   label: author
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumPeople
 - id: 6
   label: additional authors
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumPeople
 - id: 7
   label: institutional affiliation
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumDepartments
 - id: 8
   label: portrayed object dates
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumDate
 - id: 9
   label: keywords
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumKeywords
 - id: 10
   label: classification
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 11
   label: portrayed object location
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 12
   label: portrayed object city
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 13
   label: portrayed object state
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 14
   label: portrayed object country
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 15
   label: portrayed object country code
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 16
   label: portrayed person
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 17
   label: portrayed institution
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 18
   label: other creative participants
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 20
   label: participating institution
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 21
   label: patron
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 22
   label: academic year
-  is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 23
   label: project leader
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 24
   label: project type
-  is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 25
   label: description
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 26
   label: short description
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 27
   label: public caption
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 28
   label: remark
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 29
   label: hyperlinks
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 30
   label: tags
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 31
   label: type
-  is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 32
   label: scene
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 33
   label: subject code
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 34
   label: coverage
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 35
   label: language
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 36
   label: relation
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 37
   label: creator
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumPeople
 - id: 38
   label: creator address
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 39
   label: creator city
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 40
   label: creator state
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 41
   label: creator postal code
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 42
   label: creator country
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 43
   label: creator work telephone
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 44
   label: creator work email
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 45
   label: creator work url
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 46
   label: creator position
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 47
   label: source
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 48
   label: source side
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 49
   label: source image
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 50
   label: source plate
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 51
   label: source isbn
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 52
   label: copyright notice
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 53
   label: copyright status
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumCopyright
 - id: 54
   label: copyright usage
-  is_dynamic: true
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 55
   label: copyright url
-  is_dynamic: true
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 56
   label: provider
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 57
   label: portrayed object dimensions
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 58
   label: portrayed object materials
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 59
   label: rating
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 60
   label: uploaded by
-  is_dynamic: false
   is_extensible_list: 
   meta_datum_object_type: MetaDatumUsers
 - id: 61
   label: uploaded at
-  is_dynamic: true
   is_extensible_list: 
   meta_datum_object_type: MetaDatumDate
 - id: 62
   label: description author
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumPeople
 - id: 63
   label: publisher
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 64
   label: format
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 65
   label: date created
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumDate
 - id: 66
   label: transmission reference
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 67
   label: objectnumber
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 68
   label: objectname
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 69
   label: color mode
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 70
   label: history
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 71
   label: intellectual genre
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 72
   label: creator contact info
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 73
   label: project title
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 74
   label: public access
-  is_dynamic: true
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 75
   label: edited by
-  is_dynamic: true
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 76
   label: media type
-  is_dynamic: true
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 77
   label: description author before import
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumPeople
 - id: 79
   label: sidecar for extension
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 81
   label: LV_Landschaftstyp
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 83
   label: LV_Verwendungszweck
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 85
   label: LV_Bildwirkung
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 87
   label: LV_Bildzeit
-  is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 89
   label: LV_Farbe
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 91
   label: LV_Landschaftselemente
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 93
   label: LV_Wetter/Klima
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 95
   label: LV_Horizontlinie
-  is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 97
   label: "LV_Ra\xCC\x88umliche Wahrnehmung"
-  is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 99
   label: LV_Abstraktionsgrad
-  is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 101
   label: category
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 103
   label: SL_Resourcen
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 105
   label: SO_Ordnungen
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 107
   label: CA_Konzept
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 109
   label: CA_Informationstechnologie
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 111
   label: CA_Zweck
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 113
   label: CA_Thema
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 115
   label: CA_Kontext
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 117
   label: CA_Ausgangsmaterial
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 119
   label: CA_Daten
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 121
   label: CA_Sinnstiftung
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 123
   label: epoch
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 125
   label: SO_Elemente
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 127
   label: SO_Kontext
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 129
   label: SO_Medium
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 133
   label: "VFO_Ans\xC3\xA4tze"
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 137
   label: VFO_Ausstellungen
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 139
   label: create date
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 141
   label: current time
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 143
   label: duration
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 145
   label: free
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 147
   label: matrix structure
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 149
   label: modify date
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 151
   label: movie data
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 153
   label: movie data size
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 155
   label: movie header version
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 157
   label: next track id
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 159
   label: poster time
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 161
   label: preferred rate
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 163
   label: preferred volume
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 165
   label: preview duration
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 167
   label: preview time
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 169
   label: selection duration
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 171
   label: selection time
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 173
   label: time scale
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 175
   label: wide
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 177
   label: audio bits per sample
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 179
   label: audio channels
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 181
   label: audio format
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 183
   label: audio sample rate
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 185
   label: balance
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 187
   label: chunk offset
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 189
   label: handler class
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 191
   label: handler description
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 193
   label: handler type
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 195
   label: handler vendor id
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 197
   label: media create date
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 199
   label: media duration
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 201
   label: media header version
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 203
   label: media modify date
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 205
   label: media time scale
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 207
   label: sample sizes
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 209
   label: sample to chunk
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 211
   label: time to sample table
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 213
   label: track create date
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 215
   label: track duration
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 217
   label: track header version
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 219
   label: track id
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 221
   label: track layer
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 223
   label: track modify date
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 225
   label: track volume
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 227
   label: unknown alis
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 229
   label: unknown edts
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 231
   label: bit depth
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 233
   label: compressor id
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 235
   label: compressor name
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 237
   label: graphics mode
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 239
   label: image height
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 241
   label: image width
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 243
   label: op color
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 245
   label: source image height
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 247
   label: source image width
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 249
   label: sync sample table
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 251
   label: vendor id
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 253
   label: video frame rate
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 255
   label: x resolution
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 257
   label: y resolution
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 259
   label: avg bitrate
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 261
   label: image size
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 263
   label: rotation
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 265
   label: track number
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 267
   label: media language code
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 269
   label: compatible brands
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 271
   label: major brand
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 273
   label: minor version
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 275
   label: initial object descriptor
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 277
   label: unknown gshh
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 279
   label: unknown gspm
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 281
   label: unknown gspu
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 283
   label: unknown gssd
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 285
   label: unknown gsst
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 287
   label: unknown gstd
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 289
   label: audio bitrate
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 291
   label: audio layer
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 293
   label: channel mode
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 295
   label: copyright flag
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 297
   label: emphasis
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 299
   label: encoder
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 301
   label: intensity stereo
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 303
   label: lame bitrate
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 305
   label: lame low pass filter
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 307
   label: lame method
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 309
   label: lame quality
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 311
   label: lame stereo mode
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 313
   label: lame vbr quality
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 315
   label: mpeg audio version
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 317
   label: ms stereo
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 319
   label: original media
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 321
   label: sample rate
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 323
   label: id3 size
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 325
   label: album
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 327
   label: artist
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 329
   label: comment
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 331
   label: genre
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 333
   label: track
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 335
   label: year
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 337
   label: date time original
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 339
   label: style
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 341
   label: Zett_Ansprechsperson
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumPeople
 - id: 343
   label: Zett_Artikel
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 345
   label: Zett_Ausgabe
-  is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 347
   label: Zett_Autorinnen
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumPeople
 - id: 349
   label: Zett_Kommentar
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 351
   label: Zett_Sparte
-  is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 353
   label: Zett_Status
-  is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 355
   label: Zett_Redaktion
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumPeople
 - id: 357
   label: Zett_Produktion
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumPeople
 - id: 359
   label: composition time to sample
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 361
   label: composition to decode timeline mapping
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 363
   label: idependent and disposable samples
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 365
   label: unknown tapt
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 367
   label: com apple finalcutstudio media uuid
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 369
   label: unknown stps
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 371
   label: unknown tmcd
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 373
   label: gen balance
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 375
   label: gen flags
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 377
   label: gen graphics mode
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 379
   label: gen media version
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 381
   label: gen op color
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 383
   label: other format
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 385
   label: unknown kgtt
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 387
   label: supplemental categories
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 389
   label: urgency
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 391
   label: Toni_Blickrichtung
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 393
   label: Toni_Prozess
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 395
   label: Toni_Objekt
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 397
   label: Zett_Artikelbildnr
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 399
   label: Zett_Artikel_Arbeitstitel
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 401
   label: audio gain
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 403
   label: bass
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 405
   label: brightness
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 407
   label: color
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 409
   label: contrast
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 411
   label: mute
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 413
   label: pitch shift
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 415
   label: play all frames
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 417
   label: play selection
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 419
   label: player version
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 421
   label: tint
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 423
   label: trebel
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 425
   label: version
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 427
   label: window location
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 429
   label: unknown load
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 431
   label: instructions
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 433
   label: unknown 0x009b
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 435
   label: unknown apmd
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 437
   label: user data tsc
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 439
   label: user data tsz
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 441
   label: unknown cios
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 443
   label: encoded by
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 445
   label: document ancestors
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 447
   label: text layer name
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 449
   label: text layer text
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 451
   label: user data enc
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 453
   label: source credits
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 455
   label: user data prd
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 457
   label: user data key
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 459
   label: compressor version
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 461
   label: unknown cndm
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 463
   label: unknown free
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 465
   label: aperture
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 467
   label: drive mode
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 469
   label: focal length35efl
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 471
   label: lens
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 473
   label: lens35efl
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 475
   label: lens id
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 477
   label: shooting mode
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 479
   label: shutter speed
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 481
   label: canon flash info
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 483
   label: canon flash mode
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 485
   label: flash activity
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 487
   label: flash bits
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 489
   label: flash exposure comp
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 491
   label: flash guide number
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 493
   label: flash output
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 495
   label: manual flash output
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 497
   label: flash
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 499
   label: flashpix version
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 501
   label: frame count
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 503
   label: frame rate
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 505
   label: max data rate
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 507
   label: quality
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 509
   label: sample size
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 511
   label: software
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 513
   label: stream count
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 515
   label: stream type
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 517
   label: video codec
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 519
   label: video frame count
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 520
   label: vbr bytes
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 522
   label: vbr frames
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 524
   label: encoder settings
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 526
   label: encoding time
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 528
   label: release time
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 530
   label: user defined text
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 533
   label: "FI_Ver\xC3\xB6ffentlichungen"
-  is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 535
   label: FI_Fachveranstaltungen
-  is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 537
   label: FI_Verbreitung
-  is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 539
   label: FI_Transfer
-  is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 541
   label: FI_Vernetzung
-  is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 543
   label: FI_Wissenschaftsbetrieb
-  is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 545
   label: FI_Drittmittel
-  is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 547
   label: "FI_Ver\xC3\xB6ffentlichungen_Text"
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 549
   label: FI_Fachveranstaltungen_Text
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 551
   label: unknown cr8r
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 553
   label: unknown fiel
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 555
   label: unknown fxtc
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 557
   label: unknown ae lk
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 559
   label: text junk
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 561
   label: total frame count
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 563
   label: requirements
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 565
   label: creation date deu
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 567
   label: make deu
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 569
   label: model deu
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 571
   label: software deu
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 573
   label: audio codec
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 575
   label: audio sample count
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 577
   label: avg bytes per sec
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 579
   label: bits per sample
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 581
   label: encoding
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 583
   label: num channels
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 585
   label: PA_Artefakttyp
-  is_dynamic: 
   is_extensible_list: false
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 587
   label: "PA_\xC3\x9Cberlieferungsleistung"
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 589
   label: PA_Vermittlungspotential
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 591
   label: PA_KommentarArtefakte
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 593
   label: PA_ArtefakttypDifferenzierung
-  is_dynamic: 
   is_extensible_list: true
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 595
   label: user data tim
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 597
   label: chunk offset64
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 599
   label: null media header
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 601
   label: pantry flash fired
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 603
   label: pantry flash function
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 605
   label: pantry flash mode
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 607
   label: pantry flash red eye mode
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 609
   label: pantry flash return
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 611
   label: Status Archivierung
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumMetaTerms
 - id: 613
   label: owner
-  is_dynamic: true
   is_extensible_list: 
   meta_datum_object_type: MetaDatumUsers
 - id: 615
   label: com apple finalcutstudio media history uuid
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 617
   label: unknown 0x010a
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 619
   label: chapter list
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 621
   label: text
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 623
   label: unknown kgit
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 625
   label: com apple proapps clip id
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 627
   label: com apple proapps is good
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 629
   label: com apple proapps original format
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 631
   label: com apple proapps reel
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 633
   label: com sony bprl mxf umid
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 635
   label: com sony bprl xdcamradplug version
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 637
   label: com sony professionaldisc nonrealtimemeta lastupdate
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 639
   label: org smpte mxf package material packageid
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 641
   label: unknown kgcg
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 643
   label: unknown kgsi
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 645
   label: firmware version
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 647
   label: unknown cndb
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 649
   label: unknown mvex
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 651
   label: camera identifier
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 653
   label: frame readout time
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 655
   label: create date deu
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 657
   label: gps coordinates deu
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 - id: 659
   label: software version deu
-  is_dynamic: 
   is_extensible_list: 
   meta_datum_object_type: MetaDatumString
 meta_terms: 

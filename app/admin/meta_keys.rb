@@ -6,7 +6,6 @@ ActiveAdmin.register MetaKey do
   index do
     column :label
     column :meta_datum_object_type
-    column :is_dynamic
     column :terms do |x|
       ul
         x.meta_terms.each do |y|

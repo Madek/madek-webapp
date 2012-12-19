@@ -23,7 +23,7 @@
   - @i ||= Time.now.to_i
   - meta_data.each do |md| # meta_data.each_with_index do |md, i|	
     - label = md.meta_key.label
-    - next if md.meta_key.is_dynamic? and not ["copyright usage", "copyright url"].include?(label) # OPTIMIZE
+    - next if md.meta_key.is_not_writable?
     =# resource.fields_for :meta_data, md do |meta_datum|
     - field_name = "resource[meta_data_attributes][#{context.id}-#{@i}]"
     = fields_for field_name, md do |meta_datum|

@@ -11,13 +11,11 @@ class MetaDatumUsers < MetaDatum
   end
   
   def value
-    if meta_key.is_dynamic? 
-      case meta_key.label
-        when "owner"
-          media_resource.user
-      end
-    else
-      users
+    case meta_key.label
+      when "owner"
+        media_resource.user
+      else
+        users
     end
   end
 
