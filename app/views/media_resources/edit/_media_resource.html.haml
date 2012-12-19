@@ -6,11 +6,17 @@
       .ui-thumbnail{:class => "#{@media_resource.type.underscore.dasherize} #{@media_resource.media_type.downcase}"}
         = render :partial => "media_resources/privacy", :locals => {:media_resource => @media_resource}
         .ui-thumbnail-image-wrapper
-          .ui-thumbnail-image-holder 
-            .ui-thumbnail-table-image-holder
-              .ui-thumbnail-cell-image-holder
-                .ui-thumbnail-inner-image-holder
-                  %img.ui-thumbnail-image{:src => "/media_resources/#{@media_resource.id}/image?size=medium"}          
+          .ui-has-magnifier
+            .ui-thumbnail-image-holder 
+              .ui-thumbnail-table-image-holder
+                .ui-thumbnail-cell-image-holder
+                  .ui-thumbnail-inner-image-holder
+                    %img.ui-thumbnail-image{:src => "/media_resources/#{@media_resource.id}/image?size=medium"}          
+
+            - if @media_resource.is_a? MediaEntry
+              %a#ui-image-zoom.ui-magnifier{:href => image_media_resource_path(@media_resource, :size => :maxiumum), :target => "_blank"}
+                .icon-magnifier.bright
+                    
         .ui-thumbnail-meta
           %h3.ui-thumbnail-meta-title= @media_resource.title
           %h4.ui-thumbnail-meta-subtitle= @media_resource.author

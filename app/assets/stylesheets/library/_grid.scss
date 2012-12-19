@@ -106,6 +106,10 @@
 
 .hidden {
   display: none;
+
+  &:not([style]) {
+    display: none !important;
+  }
 }
 
 .by-left {
