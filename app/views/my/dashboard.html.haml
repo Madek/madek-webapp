@@ -75,5 +75,20 @@
                                  :link => my_groups_path,
                                  :id => "my_groups_block"}
 
+          - if @user_groups.blank? and @user_entrusted_resources.blank? and @user_keywords.blank? and @user_favorite_resources.blank? and @latest_user_imports.blank? and @latest_user_resources.blank?
+            .row.mts
+              .pvh.mth.mbl
+                .title-l.by-center 
+                  Herzlich Willkommen
+                  .title-s.by-center
+                    Werke archivieren, Medien teilen, Wissen entwickeln, Inhalte erkunden
+                    .mtm
+                      %a.button{:href => explore_path} 
+                        %i.icon-eye
+                        Inhalte erkunden
+                      %a.primary-button{:href => import_path} 
+                        %i.icon-upload.bright
+                        Medien importieren
+
   .app-footer-push
 = render "application/footer"

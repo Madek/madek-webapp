@@ -1,20 +1,31 @@
-.app-body-sidebar.table-cell.bright.ui-container.bordered-right.rounded-left.table-side
-  .ui-container.rounded-left.phm.pvl
-    %ul.ui-side-navigation
-      %li.ui-side-navigation-item{:class => my_media_resources_page? ? "active" : ""}
-        %a.strong{:href => my_media_resources_path} 
-          Meine Inhalte
-      %li.separator.mini
-      %li.ui-side-navigation-item{:class => my_favorites_page? ? "active" : ""}
-        %a.strong{:href => my_favorites_path} 
-          Meine Favoriten
-      %li.separator.mini
-      %li.ui-side-navigation-item{:class => my_keywords_page? ? "active" : ""}
-        %a.strong{:href => my_keywords_path} Meine Schlagworte
-      %li.separator.mini
-      %li.ui-side-navigation-item{:class => my_entrusted_media_resources_page? ? "active" : ""}
-        %a.strong{:href => my_entrusted_media_resources_path} Mir anvertaute Inhalte
-      %li.separator.mini
-      %li.ui-side-navigation-item
-        %a.strong{:href => groups_path} Meine Arbeitsgruppen
-      %li.separator.mini
+- if !@user_groups.blank? or !@user_entrusted_resources.blank? or !@user_keywords.blank? or !@user_favorite_resources.blank? or !@latest_user_imports.blank? or !@latest_user_resources.blank?
+  .app-body-sidebar.table-cell.bright.ui-container.bordered-right.rounded-left.table-side
+    .ui-container.rounded-left.phm.pvl
+      %ul.ui-side-navigation
+
+        - unless @latest_user_resources.blank?
+          %li.ui-side-navigation-item{:class => my_media_resources_page? ? "active" : ""}
+            %a.strong{:href => my_media_resources_path} 
+              Meine Inhalte
+          %li.separator.mini
+
+        - unless @user_favorite_resources.blank?
+          %li.ui-side-navigation-item{:class => my_favorites_page? ? "active" : ""}
+            %a.strong{:href => my_favorites_path} 
+              Meine Favoriten
+          %li.separator.mini
+
+        - unless @user_keywords.blank?
+          %li.ui-side-navigation-item{:class => my_keywords_page? ? "active" : ""}
+            %a.strong{:href => my_keywords_path} Meine Schlagworte
+          %li.separator.mini
+
+        - unless @user_entrusted_resources.blank?
+          %li.ui-side-navigation-item{:class => my_entrusted_media_resources_page? ? "active" : ""}
+            %a.strong{:href => my_entrusted_media_resources_path} Mir anvertaute Inhalte
+          %li.separator.mini
+
+        - unless @user_groups.blank?
+          %li.ui-side-navigation-item
+            %a.strong{:href => groups_path} Meine Arbeitsgruppen
+          %li.separator.mini
