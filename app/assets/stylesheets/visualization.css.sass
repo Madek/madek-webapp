@@ -1,13 +1,14 @@
-#= require application
-#= require jquery.qtip
-#= require visualization/drawing
-#= require visualization/controls
-#= require visualization/popup_menu
-#= require visualization/notifications
-#= require_tree ./visualization
+@import "jquery.qtip.css"
+@import "application"
+@import "visualization/drawing"
+@import "visualization/controls"
+@import "visualization/notifications"
+@import "visualization/popup_menu"
+@import "visualization/title"
+
 
 html#visualization
-  background: white
+  background: $grey-lighter
   height: 100%
   width: 100%
 
@@ -15,7 +16,7 @@ html#visualization
     display: none !important
 
   body
-    background: white
+    background: $grey-lighter
     height: 100%
     margin: 0
     overflow: hidden

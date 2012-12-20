@@ -11,25 +11,30 @@ html#visualization
         // stroke-width: 1px
 
       .arc
-        stroke: rgb(100,100,100)
-        stroke-width: 1px
+        stroke: $grey-mid
+        stroke-width: 2px
 
       circle
         stroke-width: 2
 
-      .MediaSet
-        circle 
-          fill: hsl(0, 96%, 79%)
-          &.origin
-            fill: red
-            stroke: black
 
-      .MediaEntry
-        circle
-          fill: hsl(240, 90%, 73%)
+      .node
+        circle 
+          fill: lighten($grey-mid,20%)
           &.origin
-            fill: blue
-            stroke: black
+            fill: darken($grey-mid,20%)
+
+      .node.MediaSet
+        circle 
+          fill: lighten($red,20%)
+          &.origin
+            fill: darken($red,10%)
+
+      .node.MediaEntry
+        circle
+          fill: lighten($green,20%)
+          &.origin
+            fill: darken($green,10%)
 
        
       .MediaEntryIncomplete
@@ -44,7 +49,7 @@ html#visualization
       .node_label
 
         .bg
-          fill: rgba(255,255,255,0.8)
+          fill: rgba(255,255,255,0.7)
           stroke: rgba(100,100,100,0.5)
           stroke-width: 1px
 
