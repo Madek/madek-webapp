@@ -26,18 +26,8 @@ Visualization.Views.PopupMenu = Backbone.View.extend
                 title: target.data("title")
                 id: target.data("resource-id")
                 type: target.data("type")
-              $template.find(".image").append $.tmpl "tmpl/media_resource/thumb_box", 
-                  is_set: target.data("type")=="MediaSet"
-                  media_type: target.data("type")
-                  image: "/media_resources/#{target.data("resource-id")}/image"
-                ,
-                  with_link: false
-                  with_actions: false
               target.data "template", $template
               $template.data "target", target
-              # prevent media set popup
-              $template.delegate ".item_box .thumb_box_set", "mouseenter", (e)-> e.stopImmediatePropagation(); return false
-
               is_mine= -> target.data("user-id") == current_user.id 
               is_set= -> target.data("type") == "MediaSet"
 
@@ -69,29 +59,14 @@ Visualization.Views.PopupMenu = Backbone.View.extend
           target: target
 
   getAdditionalData: (template, id)->
-    $.ajax
-      url: "/media_resources.json"
-      type: 'GET'
-      data: 
-        ids: [id]
-        with: 
-          children: true
-          media_type: true
-          flags: true
-      success: (data)=>
-        mr = data.media_resources[0]
-        template.find(".infos").html JST['visualization/templates/popup_menu_info'](mr)
-        if mr.children? 
-          template.find(".contains_info").html @template_contains
-            n_media_entries: mr.children.pagination.total_media_entries
-            n_media_sets: mr.children.pagination.total_media_sets
-
-        template.find(".image").html $.tmpl "tmpl/media_resource/thumb_box", 
-          $.extend true, mr,
-            image: "/media_resources/#{mr.id}/image"
-            without_interactions: true
-        ,
-          with_link: false
-          with_actions: false
-          interactions: false
+    App.MediaResource.fetch
+      ids: [id]
+      with: 
+        children: true
+        media_type: true
+        flags: true
+      , (media_resources, response)=>
+        mr = media_resources[0]
+        template.find(".infos").html App.render "media_resources/media_resource", mr
         template.data("target").qtip("reposition")
+

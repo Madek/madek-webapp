@@ -1,9 +1,6 @@
 .popover-inner.popup
 
   .popover-title
-    .infos
-      .loading.icon
-
     %h2
       - if(@title == undefined)
         %span.grey= "kein Titel"
@@ -12,7 +9,8 @@
 
   .popover-content
   
-    .image
+    .infos.ui-resources.grid.pll
+      .loading.icon
 
     .contains_info
 
