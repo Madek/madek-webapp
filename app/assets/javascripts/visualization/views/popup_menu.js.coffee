@@ -51,7 +51,7 @@ Visualization.Views.PopupMenu = Backbone.View.extend
               $template = target.data "template"
             return $template
         style:
-          classes: 'ui-tooltip-meta_data_description popup_menu'
+          classes: 'popup_menu popover'
           tip:
             height: 18
             width: 12
