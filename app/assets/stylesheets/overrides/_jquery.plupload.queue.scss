@@ -15,14 +15,14 @@
   background-image: none;
 }
 li.plupload_uploading {
-  background-image: image-url("vendor/plupload-1.5.4/buttons-disabled.png") repeat-x 0 -238px;
+  background-image: image-url("vendor/plupload/buttons-disabled.png") repeat-x 0 -238px;
 }
 li.plupload_delete a {
   @include dimension(20px,20px);
   background-image: image-url("icons/icon-trash-dark.png");
 }
 li.plupload_failed a {
-  background-image: image-url("vendor/plupload-1.5.4/error.gif")
+  background-image: image-url("vendor/plupload/error.gif")
 }
 li.plupload_done a {
   @include dimension(20px,20px);

@@ -1,0 +1,6 @@
+%select.block{:name => "resource[meta_data_attributes][#{@i}][value]", :type => "hidden"}
+  
+  - MetaDatumCountry.get_codes.each do |country|
+
+    %option{:value => country["country_code"], :selected => meta_datum.value == country["country_code"] ? :selected : nil}
+      = "#{country["country_code"]} #{country["country_name"]}"

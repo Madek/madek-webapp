@@ -1,5 +1,5 @@
-- if definition.length_max == 255
-  %input.block{:type => "text", :value => meta_datum.value, :name => "resource[meta_data_attributes][#{@i}][value]"}
+- if definition.length_max and definition.length_max <= 255
+  %input.block{:type => "text", :value => meta_datum.value, :name => "resource[meta_data_attributes][#{@i}][value]", :maxlength => definition.length_max}
 - else
   %textarea.block{:name => "resource[meta_data_attributes][#{@i}][value]"}
     = meta_datum.value

@@ -1,10 +1,12 @@
 :ruby
-  @i = UUIDTools::UUID.timestamp_create.to_s
+  @i ||= 0
+  @i += 1 
 
-%input{:type => :hidden, :name => "resource[meta_data_attributes][#{@i}][id]", :value => meta_datum.id}
-%input{:type => :hidden, :name => "resource[meta_data_attributes][#{@i}][meta_key_id]", :value => definition.meta_key.id}
+.ui-form-group.columned{:"data-type" => definition.meta_key.meta_datum_object_type.underscore, :"data-index" => @i, :"data-meta-key" => definition.meta_key}
 
-.ui-form-group.columned{:"data-type" => definition.meta_key.meta_datum_object_type.underscore, :"data-index" => @i}
+  %input{:type => :hidden, :name => "resource[meta_data_attributes][#{@i}][id]", :value => meta_datum.id}
+  %input{:type => :hidden, :name => "resource[meta_data_attributes][#{@i}][meta_key_id]", :value => definition.meta_key.id}
+
   %label.form-label
     = definition.label
     %small= definition.hint

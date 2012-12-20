@@ -1,0 +1,37 @@
+:ruby
+
+  copyrights = Copyright.all 
+  copyright_roots = Copyright.roots
+  value = meta_datum.value || Copyright.default
+
+%input.value-target{:name => "resource[meta_data_attributes][#{@i}][value]", :type => "hidden", :value => meta_datum.value.id}
+
+%select.block.copyright-roots
+  
+  - copyright_roots.each do |copyright|
+
+    = render :partial => "media_resources/edit/fields/meta_datum_copyright/option", 
+             :locals => {:copyright => copyright,
+                         :selected => copyright_roots.detect{|s| (value and s.is_or_is_ancestor_of?(value)) }}
+
+- copyright_roots.each do |copyright|
+
+  - unless copyright.children.blank? 
+
+    %select.block.copyright-children.hidden{:"data-parent-id" => copyright.id}
+      
+      - copyright.children.each do |child|
+
+        - if child.children.blank?
+
+          = render :partial => "media_resources/edit/fields/meta_datum_copyright/option", 
+                   :locals => {:copyright => child}
+
+        - else
+
+          %optgroup{:label => child.label}
+
+            - child.children.each do |leaf|
+
+              = render :partial => "media_resources/edit/fields/meta_datum_copyright/option", 
+                       :locals => {:copyright => leaf}

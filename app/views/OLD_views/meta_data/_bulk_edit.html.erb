@@ -19,7 +19,6 @@ labels.delete_if {|k, v| v.size < 2 }
 %>
 
 <% meta_data.each_with_index do |md, i|
-	# next if md.meta_key.is_dynamic?
 	field_name = "resources[#{resource.class.name.underscore}][#{resource.id}][meta_data_attributes][#{i}]" %>
 	<%= fields_for field_name, md do |meta_datum|
 		definition = meta_datum.object.meta_key.meta_key_definitions.for_context(context)

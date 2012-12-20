@@ -25,7 +25,7 @@ form_for @resource, :as => :resource,
 
 	<%= content_tag :div, :class => "meta_data_block" do
 		@resource.meta_data.for_context(@context).each do |md|
-			next if md.meta_key.is_dynamic? and not ["copyright usage", "copyright url"].include?(md.meta_key.label) # OPTIMIZE
+			next if md.meta_key.is_not_writable?
 
 			resource.fields_for :meta_data, md do |meta_datum|
 

@@ -26,12 +26,27 @@ class Person
           @[k] = v
         callback(data) if callback?
 
+  toString: ->
+    name = ""
+    if @is_group
+      name = "#{@firstname} [Gruppe]"
+    else
+      name = []
+      name.push @firstname if @firstname? and @firstname.length
+      name.push @lastname if @lastname? and @lastname.length
+      name = name.join(", ")
+      if @pseudonym? and @pseudonym.length
+        name = [name, "(#{@pseudonym})"] 
+        name = name.join(" ")
+    return name
+
   @fetch: (query, callback)->
     $.ajax
       url: "/people.json"
       data:
         query: query
-      success: (data)->
-        callback data if callback?
+      success: (response)->
+        people = _.map response, (person) -> new Person person
+        callback people, response if callback?
 
 window.App.Person = Person

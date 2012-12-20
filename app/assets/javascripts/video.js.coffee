@@ -1,1 +1,1 @@
-#= require video-js-3.2.0/video.js
+#= require video-js/video.js

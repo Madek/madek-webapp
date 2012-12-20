@@ -161,20 +161,6 @@ class MediaEntriesController < ApplicationController
       }
     end
   end
-
-  # TODO refactor to KeywordsController#index
-  def keywords
-
-    # FIXME all fetch keywords associated to media_resources I can see ??   
-    @all_keywords = Keyword.select("*, COUNT(*) AS q").group(:meta_term_id).order("q DESC")
-    @my_keywords = Keyword.select("*, COUNT(*) AS q").where(:user_id => current_user).group(:meta_term_id).order("q DESC")
-    
-    
-    respond_to do |format|
-      format.html
-      format.js { render :layout => false }
-    end
-  end
   
 #####################################################
 # BATCH actions

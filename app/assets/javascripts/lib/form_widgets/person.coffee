@@ -22,7 +22,7 @@ class FormWidgets.Person
     if person.validate()
       person.create (data)=>
         index = widget.closest(".ui-form-group").data "index"
-        widget.closest(".multi-select-holder").find(".multi-select-input-holder").before App.render "media_resources/edit/widgets/person/multi-select-tag",
+        widget.closest(".multi-select-holder").find(".multi-select-input-holder").before App.render "media_resources/edit/multi-select/person",
           index: index
           label: data.label
           id: data.id

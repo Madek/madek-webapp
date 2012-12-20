@@ -5,13 +5,13 @@
     - meta_datum.value.each do |value|
 
       %li.multi-select-tag
-        %input{:name => "resource[meta_data_attributes][#{@i}][value][]", :type => "hidden", :value => value.meta_term_id, :autocomplete => "off"}
+        %input{:name => "resource[meta_data_attributes][#{@i}][value][]", :type => "hidden", :value => value.meta_term_id}
         = value
         %a.multi-select-tag-remove
           .icon-remove
 
     %li.multi-select-input-holder.mbs
-      %input.multi-select-input{:type => "text"}
+      %input.multi-select-input.form-autocomplete-keywords{:type => "text"}
         %a.multi-select-input-toggle
 
     %a.button.small.form-widget-toggle

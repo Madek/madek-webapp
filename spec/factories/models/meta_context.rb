@@ -21,7 +21,7 @@ FactoryGirl.define do
         FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, :label => "portrayed object dates ", :meta_datum_object_type => "MetaDatumDate")
         FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, :label => "keywords", :meta_datum_object_type => "MetaDatumKeywords")
         FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, :label => "copyright notice")
-        FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, :label => "owner", :is_dynamic => true, :meta_datum_object_type => "MetaDatumUsers")
+        FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, :label => "owner", :meta_datum_object_type => "MetaDatumUsers")
       end
     end    
     

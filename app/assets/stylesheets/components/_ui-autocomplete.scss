@@ -1,4 +1,4 @@
-.typeahead.dropdown-menu {
+.ui-autocomplete {
   background-clip: padding-box;
   background-color: #FFFFFF;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -9,17 +9,20 @@
   left: 0;
   list-style: none outside none;
   margin: 2px 0 0;
+  max-height: 300px;
   min-width: 160px;
+  overflow-y: auto; 
   padding: 5px 0;
   position: absolute;
   top: 100%;
   z-index: 1000;
+  width: 100% !important;
 
   li {
     list-style: none outside none;
   }
 
-  .active > a, .active > a:hover {
+  a.ui-state-focus, a:hover {
     background-color: #0081C2;
     background-image: linear-gradient(to bottom, #0088CC, #0077B3);
     background-repeat: repeat-x;
@@ -28,13 +31,20 @@
     text-decoration: none;
   }
 
-  li > a {
+  a {
     clear: both;
     color: #333333;
+    border-bottom: 1px solid $grey-lighter;
     display: block;
     font-weight: normal;
     line-height: 20px;
     padding: 3px 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
   }
+}
+
+.ui-helper-hidden-accessible {
+  display: none;
 }

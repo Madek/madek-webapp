@@ -32,7 +32,7 @@ class MetaDataController < ApplicationController
     respond_to do |format|
       format.js { render :layout => (params[:layout] != "false") }
       format.json {
-        with = {:label => {:context => @context.name}}
+        with = {:label => {:context => @context}}
         render :json => view_context.json_for(@meta_data, with)
       }
     end

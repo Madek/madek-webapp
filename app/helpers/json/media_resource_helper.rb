@@ -27,10 +27,10 @@ module Json
         if with[:meta_data]
           h[:meta_data] = []
           if meta_context_names = with[:meta_data][:meta_context_names]
+            @cache_contexts ||= {}
             meta_context_names.each do |name|
-              h[:meta_data] += media_resource.meta_data.for_context(MetaContext.send(name)).map do |md|
-                hash_for md, {:label => {:context => name}}
-              end
+              @cache_contexts[name] ||= MetaContext.send(name)
+              h[:meta_data] += hash_for media_resource.meta_data.for_context(@cache_contexts[name]), {:label => {:context => @cache_contexts[name]}}
             end
           end
           if meta_key_names = with[:meta_data][:meta_key_names]
@@ -53,15 +53,6 @@ module Json
           h[:size] = media_resource.is_a?(MediaSet) ? nil : media_resource.media_file.size
         end
 
-        if with[:flags]
-          h[:is_public] = media_resource.is_public?
-          h[:is_private] = h[:is_public] ? false : media_resource.is_private?(current_user)
-          h[:is_shared] = (not h[:is_public] and not h[:is_private]) # TODO drop and move to frontend
-          h[:is_editable] = current_user.authorized?(:edit, media_resource)
-          h[:is_manageable] = current_user.authorized?(:manage, media_resource)
-          h[:is_favorite] = current_user.favorite_ids.include?(media_resource.id)
-        end
-
         if with[:is_public]
           h[:is_public] = media_resource.is_public?
         end
@@ -71,15 +62,15 @@ module Json
         end
 
         if with[:is_editable]
-          h[:is_editable] = current_user.authorized?(:edit, media_resource)
+          h[:is_editable] = @cache_is_editable ? @cache_is_editable.include?(media_resource.id) : current_user.authorized?(:edit, media_resource)
         end
 
         if with[:is_manageable]
-          h[:is_manageable] = current_user.authorized?(:manage, media_resource)
+          h[:is_manageable] = @cache_is_manageable ? @cache_is_manageable.include?(media_resource.id) : current_user.authorized?(:manage, media_resource)
         end
 
         if with[:is_favorite]
-          h[:is_favorite] = current_user.favorite_ids.include?(media_resource.id)
+          h[:is_favorite] =  @cache_is_favorite ? @cache_is_favorite.include?(media_resource.id) : current_user.favorite_ids.include?(media_resource.id)
         end
         
         if with[:parents]
@@ -113,9 +104,10 @@ module Json
             [:media_file_id].each do |k|
               h[k] = media_resource.send(k) if with[k]
             end
-            if with[:flags]
-              h[:can_maybe_browse] = media_resource.meta_data.for_meta_terms.exists?
-            end
+            #old template#
+            #if with[:flags]
+            #  h[:can_maybe_browse] = media_resource.meta_data.for_meta_terms.exists?
+            #end
         end
       end
       
@@ -144,6 +136,23 @@ module Json
         pagination[:total_media_entries] = media_resources.media_entries.count 
         pagination[:total_media_sets] = media_resources.media_sets.count
       end
+
+      ##### eager loading
+      if with ||= nil
+        if with[:media_type]
+          paginated_media_resources = paginated_media_resources.includes(:media_file)
+        end
+        if with[:is_editable]
+          @cache_is_editable = MediaResource.accessible_by_user(current_user, :edit).where(:id => paginated_media_resources).pluck(:id)
+        end
+        if with[:is_manageable]
+          @cache_is_manageable = MediaResource.accessible_by_user(current_user, :manage).where(:id => paginated_media_resources).pluck(:id)
+        end
+        if with[:is_favorite]
+          @cache_is_favorite = current_user.favorites.where(:id => paginated_media_resources).pluck(:id)
+        end
+      end
+      #####
 
       {
         pagination: pagination, 

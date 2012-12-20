@@ -10,9 +10,12 @@ module Json
       }
       
       if with ||= nil
-        if with[:label] and with[:label][:context] and (context = MetaContext.send(with[:label][:context]))
-          definition = meta_datum.meta_key.meta_key_definitions.for_context(context)
-          h[:label] = definition.label.to_s 
+        if with[:label] and with[:label][:context]
+          @cache_definition_labels ||= {}
+          h[:label] = @cache_definition_labels[[with[:label][:context], meta_datum.meta_key_id]] ||= begin
+            definition = meta_datum.meta_key.meta_key_definitions.eager_load(:label).for_context(with[:label][:context])
+            definition.label.to_s
+          end
         end
       end
       

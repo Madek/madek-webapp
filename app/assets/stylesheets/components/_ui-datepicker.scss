@@ -1,7 +1,18 @@
-/**
- * ## Date picker `.ui-datepicker`
- *
- * Styleguide 4.2
- */
+.ui-datepicker {
+  background: white;
+  @include border-radius($border-radius-s);
+  @include box-shadow(0 1px 3px $darken-more);
+  @include micro-clearfix;
 
-// Datepicker properties are defined in overrides/pickadate.scss
+  .ui-datepicker-unselectable, .ui-state-disabled {
+    .ui-state-default {
+      opacity: 0.5;
+
+      &:hover {
+        background: none;
+        color: gray;
+      }
+    }
+  }
+}
+

@@ -7379,107 +7379,86 @@
 - id: 1
   label: identifier
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 2
   label: urn
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 3
   label: title
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 4
   label: subtitle
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 5
   label: author
   object_type: Person
-  is_dynamic: 
   is_extensible_list: 
 - id: 6
   label: additional authors
   object_type: Person
-  is_dynamic: 
   is_extensible_list: 
 - id: 7
   label: institutional affiliation
   object_type: MetaDepartment
-  is_dynamic: 
   is_extensible_list: 
 - id: 8
   label: portrayed object dates
   object_type: MetaDate
-  is_dynamic: 
   is_extensible_list: 
 - id: 9
   label: keywords
   object_type: Keyword
-  is_dynamic: 
   is_extensible_list: 
 - id: 10
   label: classification
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 11
   label: portrayed object location
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 12
   label: portrayed object city
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 13
   label: portrayed object state
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 14
   label: portrayed object country
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 15
   label: portrayed object country code
   object_type: MetaCountry
-  is_dynamic: 
   is_extensible_list: 
 - id: 16
   label: portrayed person
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 17
   label: portrayed institution
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 18
   label: other creative participants
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 20
   label: participating institution
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 21
   label: patron
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 22
   label: academic year
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: false
   meta_terms: 
   - 2131
@@ -7496,12 +7475,10 @@
 - id: 23
   label: project leader
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 24
   label: project type
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: false
   meta_terms: 
   - 85
@@ -7514,37 +7491,30 @@
 - id: 25
   label: description
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 26
   label: short description
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 27
   label: public caption
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 28
   label: remark
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 29
   label: hyperlinks
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 30
   label: tags
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 31
   label: type
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: false
   meta_terms: 
   - 73
@@ -7559,137 +7529,110 @@
 - id: 32
   label: scene
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 33
   label: subject code
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 34
   label: coverage
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 35
   label: language
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 36
   label: relation
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 37
   label: creator
   object_type: Person
-  is_dynamic: 
   is_extensible_list: 
 - id: 38
   label: creator address
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 39
   label: creator city
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 40
   label: creator state
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 41
   label: creator postal code
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 42
   label: creator country
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 43
   label: creator work telephone
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 44
   label: creator work email
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 45
   label: creator work url
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 46
   label: creator position
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 47
   label: source
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 48
   label: source side
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 49
   label: source image
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 50
   label: source plate
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 51
   label: source isbn
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 52
   label: copyright notice
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 53
   label: copyright status
   object_type: Copyright
-  is_dynamic: 
   is_extensible_list: 
 - id: 54
   label: copyright usage
   object_type: 
-  is_dynamic: true
   is_extensible_list: 
 - id: 55
   label: copyright url
   object_type: 
-  is_dynamic: true
   is_extensible_list: 
 - id: 56
   label: provider
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 57
   label: portrayed object dimensions
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 58
   label: portrayed object materials
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 2161
@@ -7744,107 +7687,86 @@
 - id: 59
   label: rating
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 60
   label: uploaded by
   object_type: User
-  is_dynamic: false
   is_extensible_list: 
 - id: 61
   label: uploaded at
   object_type: Date
-  is_dynamic: true
   is_extensible_list: 
 - id: 62
   label: description author
   object_type: Person
-  is_dynamic: 
   is_extensible_list: 
 - id: 63
   label: publisher
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 64
   label: format
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 65
   label: date created
   object_type: MetaDate
-  is_dynamic: 
   is_extensible_list: 
 - id: 66
   label: transmission reference
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 67
   label: objectnumber
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 68
   label: objectname
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 69
   label: color mode
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 70
   label: history
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 71
   label: intellectual genre
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 72
   label: creator contact info
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 73
   label: project title
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 74
   label: public access
   object_type: 
-  is_dynamic: true
   is_extensible_list: 
 - id: 75
   label: edited by
   object_type: 
-  is_dynamic: true
   is_extensible_list: 
 - id: 76
   label: media type
   object_type: 
-  is_dynamic: true
   is_extensible_list: 
 - id: 77
   label: description author before import
   object_type: Person
-  is_dynamic: 
   is_extensible_list: 
 - id: 79
   label: sidecar for extension
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 81
   label: LV_Landschaftstyp
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1063
@@ -7873,7 +7795,6 @@
 - id: 83
   label: LV_Verwendungszweck
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1019
@@ -7892,7 +7813,6 @@
 - id: 85
   label: LV_Bildwirkung
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1021
@@ -7933,7 +7853,6 @@
 - id: 87
   label: LV_Bildzeit
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: false
   meta_terms: 
   - 1033
@@ -7952,7 +7871,6 @@
 - id: 89
   label: LV_Farbe
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1331
@@ -7979,7 +7897,6 @@
 - id: 91
   label: LV_Landschaftselemente
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 2399
@@ -8057,7 +7974,6 @@
 - id: 93
   label: LV_Wetter/Klima
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1117
@@ -8078,7 +7994,6 @@
 - id: 95
   label: LV_Horizontlinie
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: false
   meta_terms: 
   - 1057
@@ -8088,7 +8003,6 @@
 - id: 97
   label: "LV_Ra\xCC\x88umliche Wahrnehmung"
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: false
   meta_terms: 
   - 1099
@@ -8101,7 +8015,6 @@
 - id: 99
   label: LV_Abstraktionsgrad
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: false
   meta_terms: 
   - 1021
@@ -8113,12 +8026,10 @@
 - id: 101
   label: category
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 103
   label: SL_Resourcen
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1479
@@ -8129,7 +8040,6 @@
 - id: 105
   label: SO_Ordnungen
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1493
@@ -8140,7 +8050,6 @@
 - id: 107
   label: CA_Konzept
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1593
@@ -8152,7 +8061,6 @@
 - id: 109
   label: CA_Informationstechnologie
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1749
@@ -8175,7 +8083,6 @@
 - id: 111
   label: CA_Zweck
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1705
@@ -8188,7 +8095,6 @@
 - id: 113
   label: CA_Thema
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1697
@@ -8206,7 +8112,6 @@
 - id: 115
   label: CA_Kontext
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 89
@@ -8217,7 +8122,6 @@
 - id: 117
   label: CA_Ausgangsmaterial
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1655
@@ -8230,7 +8134,6 @@
 - id: 119
   label: CA_Daten
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1753
@@ -8241,7 +8144,6 @@
 - id: 121
   label: CA_Sinnstiftung
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1795
@@ -8261,7 +8163,6 @@
 - id: 123
   label: epoch
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 667
@@ -8290,7 +8191,6 @@
 - id: 125
   label: SO_Elemente
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1647
@@ -8301,7 +8201,6 @@
 - id: 127
   label: SO_Kontext
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1649
@@ -8310,7 +8209,6 @@
 - id: 129
   label: SO_Medium
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1651
@@ -8318,7 +8216,6 @@
 - id: 133
   label: "VFO_Ans\xC3\xA4tze"
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1609
@@ -8339,7 +8236,6 @@
 - id: 137
   label: VFO_Ausstellungen
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 1869
@@ -8350,487 +8246,390 @@
 - id: 139
   label: create date
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 141
   label: current time
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 143
   label: duration
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 145
   label: free
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 147
   label: matrix structure
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 149
   label: modify date
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 151
   label: movie data
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 153
   label: movie data size
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 155
   label: movie header version
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 157
   label: next track id
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 159
   label: poster time
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 161
   label: preferred rate
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 163
   label: preferred volume
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 165
   label: preview duration
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 167
   label: preview time
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 169
   label: selection duration
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 171
   label: selection time
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 173
   label: time scale
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 175
   label: wide
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 177
   label: audio bits per sample
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 179
   label: audio channels
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 181
   label: audio format
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 183
   label: audio sample rate
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 185
   label: balance
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 187
   label: chunk offset
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 189
   label: handler class
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 191
   label: handler description
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 193
   label: handler type
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 195
   label: handler vendor id
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 197
   label: media create date
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 199
   label: media duration
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 201
   label: media header version
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 203
   label: media modify date
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 205
   label: media time scale
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 207
   label: sample sizes
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 209
   label: sample to chunk
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 211
   label: time to sample table
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 213
   label: track create date
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 215
   label: track duration
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 217
   label: track header version
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 219
   label: track id
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 221
   label: track layer
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 223
   label: track modify date
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 225
   label: track volume
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 227
   label: unknown alis
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 229
   label: unknown edts
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 231
   label: bit depth
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 233
   label: compressor id
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 235
   label: compressor name
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 237
   label: graphics mode
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 239
   label: image height
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 241
   label: image width
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 243
   label: op color
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 245
   label: source image height
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 247
   label: source image width
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 249
   label: sync sample table
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 251
   label: vendor id
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 253
   label: video frame rate
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 255
   label: x resolution
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 257
   label: y resolution
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 259
   label: avg bitrate
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 261
   label: image size
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 263
   label: rotation
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 265
   label: track number
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 267
   label: media language code
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 269
   label: compatible brands
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 271
   label: major brand
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 273
   label: minor version
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 275
   label: initial object descriptor
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 277
   label: unknown gshh
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 279
   label: unknown gspm
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 281
   label: unknown gspu
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 283
   label: unknown gssd
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 285
   label: unknown gsst
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 287
   label: unknown gstd
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 289
   label: audio bitrate
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 291
   label: audio layer
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 293
   label: channel mode
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 295
   label: copyright flag
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 297
   label: emphasis
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 299
   label: encoder
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 301
   label: intensity stereo
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 303
   label: lame bitrate
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 305
   label: lame low pass filter
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 307
   label: lame method
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 309
   label: lame quality
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 311
   label: lame stereo mode
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 313
   label: lame vbr quality
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 315
   label: mpeg audio version
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 317
   label: ms stereo
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 319
   label: original media
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 321
   label: sample rate
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 323
   label: id3 size
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 325
   label: album
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 327
   label: artist
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 329
   label: comment
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 331
   label: genre
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 447
@@ -8842,22 +8641,18 @@
 - id: 333
   label: track
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 335
   label: year
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 337
   label: date time original
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 339
   label: style
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 655
@@ -8875,17 +8670,14 @@
 - id: 341
   label: Zett_Ansprechsperson
   object_type: Person
-  is_dynamic: 
   is_extensible_list: 
 - id: 343
   label: Zett_Artikel
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 345
   label: Zett_Ausgabe
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: false
   meta_terms: 
   - 2097
@@ -8897,17 +8689,14 @@
 - id: 347
   label: Zett_Autorinnen
   object_type: Person
-  is_dynamic: 
   is_extensible_list: 
 - id: 349
   label: Zett_Kommentar
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 351
   label: Zett_Sparte
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: false
   meta_terms: 
   - 2075
@@ -8926,7 +8715,6 @@
 - id: 353
   label: Zett_Status
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: false
   meta_terms: 
   - 2107
@@ -8940,97 +8728,78 @@
 - id: 355
   label: Zett_Redaktion
   object_type: Person
-  is_dynamic: 
   is_extensible_list: 
 - id: 357
   label: Zett_Produktion
   object_type: Person
-  is_dynamic: 
   is_extensible_list: 
 - id: 359
   label: composition time to sample
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 361
   label: composition to decode timeline mapping
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 363
   label: idependent and disposable samples
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 365
   label: unknown tapt
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 367
   label: com apple finalcutstudio media uuid
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 369
   label: unknown stps
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 371
   label: unknown tmcd
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 373
   label: gen balance
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 375
   label: gen flags
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 377
   label: gen graphics mode
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 379
   label: gen media version
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 381
   label: gen op color
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 383
   label: other format
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 385
   label: unknown kgtt
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 387
   label: supplemental categories
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 389
   label: urgency
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 391
   label: Toni_Blickrichtung
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 2243
@@ -9039,12 +8808,10 @@
 - id: 393
   label: Toni_Prozess
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 395
   label: Toni_Objekt
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: 
   - 2241
@@ -9054,347 +8821,278 @@
 - id: 397
   label: Zett_Artikelbildnr
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 399
   label: Zett_Artikel_Arbeitstitel
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 401
   label: audio gain
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 403
   label: bass
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 405
   label: brightness
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 407
   label: color
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 409
   label: contrast
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 411
   label: mute
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 413
   label: pitch shift
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 415
   label: play all frames
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 417
   label: play selection
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 419
   label: player version
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 421
   label: tint
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 423
   label: trebel
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 425
   label: version
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 427
   label: window location
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 429
   label: unknown load
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 431
   label: instructions
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 433
   label: unknown 0x009b
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 435
   label: unknown apmd
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 437
   label: user data tsc
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 439
   label: user data tsz
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 441
   label: unknown cios
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 443
   label: encoded by
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 445
   label: document ancestors
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 447
   label: text layer name
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 449
   label: text layer text
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 451
   label: user data enc
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 453
   label: source credits
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 455
   label: user data prd
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 457
   label: user data key
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 459
   label: compressor version
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 461
   label: unknown cndm
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 463
   label: unknown free
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 465
   label: aperture
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 467
   label: drive mode
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 469
   label: focal length35efl
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 471
   label: lens
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 473
   label: lens35efl
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 475
   label: lens id
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 477
   label: shooting mode
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 479
   label: shutter speed
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 481
   label: canon flash info
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 483
   label: canon flash mode
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 485
   label: flash activity
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 487
   label: flash bits
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 489
   label: flash exposure comp
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 491
   label: flash guide number
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 493
   label: flash output
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 495
   label: manual flash output
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 497
   label: flash
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 499
   label: flashpix version
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 501
   label: frame count
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 503
   label: frame rate
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 505
   label: max data rate
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 507
   label: quality
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 509
   label: sample size
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 511
   label: software
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 513
   label: stream count
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 515
   label: stream type
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 517
   label: video codec
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 519
   label: video frame count
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 520
   label: vbr bytes
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 522
   label: vbr frames
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 524
   label: encoder settings
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 526
   label: encoding time
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 528
   label: release time
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 530
   label: user defined text
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 533
   label: "FI_Ver\xC3\xB6ffentlichungen"
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: false
   meta_terms: 
   - 3289
@@ -9412,7 +9110,6 @@
 - id: 535
   label: FI_Fachveranstaltungen
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: false
   meta_terms: 
   - 3311
@@ -9423,7 +9120,6 @@
 - id: 537
   label: FI_Verbreitung
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: false
   meta_terms: 
   - 3321
@@ -9435,7 +9131,6 @@
 - id: 539
   label: FI_Transfer
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: false
   meta_terms: 
   - 3333
@@ -9445,7 +9140,6 @@
 - id: 541
   label: FI_Vernetzung
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: false
   meta_terms: 
   - 3341
@@ -9455,7 +9149,6 @@
 - id: 543
   label: FI_Wissenschaftsbetrieb
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: false
   meta_terms: 
   - 3349
@@ -9465,7 +9158,6 @@
 - id: 545
   label: FI_Drittmittel
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: false
   meta_terms: 
   - 3357
@@ -9477,102 +9169,82 @@
 - id: 547
   label: "FI_Ver\xC3\xB6ffentlichungen_Text"
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 549
   label: FI_Fachveranstaltungen_Text
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 551
   label: unknown cr8r
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 553
   label: unknown fiel
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 555
   label: unknown fxtc
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 557
   label: unknown ae lk
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 559
   label: text junk
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 561
   label: total frame count
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 563
   label: requirements
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 565
   label: creation date deu
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 567
   label: make deu
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 569
   label: model deu
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 571
   label: software deu
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 573
   label: audio codec
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 575
   label: audio sample count
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 577
   label: avg bytes per sec
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 579
   label: bits per sample
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 581
   label: encoding
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 583
   label: num channels
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 585
   label: PA_Artefakttyp
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: false
   meta_terms: 
   - 4299
@@ -9586,155 +9258,126 @@
 - id: 587
   label: "PA_\xC3\x9Cberlieferungsleistung"
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: []
 
 - id: 589
   label: PA_Vermittlungspotential
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: []
 
 - id: 591
   label: PA_KommentarArtefakte
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 593
   label: PA_ArtefakttypDifferenzierung
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: true
   meta_terms: []
 
 - id: 595
   label: user data tim
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 597
   label: chunk offset64
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 599
   label: null media header
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 601
   label: pantry flash fired
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 603
   label: pantry flash function
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 605
   label: pantry flash mode
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 607
   label: pantry flash red eye mode
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 609
   label: pantry flash return
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 611
   label: Status Archivierung
   object_type: MetaTerm
-  is_dynamic: 
   is_extensible_list: 
   meta_terms: []
 
 - id: 613
   label: owner
   object_type: User
-  is_dynamic: true
   is_extensible_list: 
 - id: 615
   label: com apple finalcutstudio media history uuid
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 617
   label: unknown 0x010a
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 619
   label: chapter list
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 621
   label: text
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 623
   label: unknown kgit
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 625
   label: com apple proapps clip id
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 627
   label: com apple proapps is good
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 629
   label: com apple proapps original format
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 631
   label: com apple proapps reel
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 633
   label: com sony bprl mxf umid
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 635
   label: com sony bprl xdcamradplug version
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 637
   label: com sony professionaldisc nonrealtimemeta lastupdate
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 639
   label: org smpte mxf package material packageid
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 641
   label: unknown kgcg
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 - id: 643
   label: unknown kgsi
   object_type: 
-  is_dynamic: 
   is_extensible_list: 
 :meta_context_groups: 
 - id: 1

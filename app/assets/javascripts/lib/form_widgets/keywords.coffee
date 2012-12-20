@@ -18,7 +18,7 @@ class FormWidgets.Keywords
   showKeywords: (toggle)->
     toggle.addClass(".loading")
     unless App.Keyword.all()?
-      App.Keyword.fetch =>
+      App.Keyword.fetch null, =>
         toggle.removeClass(".loading")
         toggle.addClass(".loaded")
         @renderKeywords toggle
@@ -35,7 +35,7 @@ class FormWidgets.Keywords
     holder = keyword.closest(".multi-select-holder")
     return true if holder.find(".multi-select-tag [value=#{keyword.data().id}]").length
     index = keyword.closest(".ui-form-group").data "index"
-    holder.find(".multi-select-input-holder").before App.render "media_resources/edit/widgets/keywords/multi-select-tag",
+    holder.find(".multi-select-input-holder").before App.render "media_resources/edit/multi-select/keyword",
       index: index
       keyword: keyword.data()
 

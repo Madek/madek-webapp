@@ -1,1 +1,25 @@
-%input.block{:type => "text"}
+.col1of3
+  .mrs
+    %select.block
+      %option{:"data-input" => ".input-free"}
+        Freie Eingabe
+      %option{:"data-input" => ".input-on"}
+        am
+      %option{:"data-input" => ".input-from-to"}
+        von bis
+
+.form-date.input-free
+  .col2of3
+    %input.block.value-target.input-free{:type => "text", :name => "resource[meta_data_attributes][#{@i}][value]", :value => meta_datum.value, :placeholder => "wird als Text gespeichert"}
+
+.form-date.input-from-to.hidden
+  .col1of3
+    .mrx
+      %input.block.ui-datepicker.input-from{:type => "text", :placeholder => "von"}
+  .col1of3
+    .mlx
+      %input.block.ui-datepicker.input-to{:type => "text", :placeholder => "bis"}
+
+.form-date.input-on.hidden
+  .col2of3
+    %input.block.ui-datepicker.input-on{:type => "text", :placeholder => "am"}
