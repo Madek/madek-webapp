@@ -1,0 +1,71 @@
+/*!
+ modified for MADEK
+*/
+
+/* @group Reset */
+
+.fht-table,
+.fht-table thead,
+.fht-table tfoot,
+.fht-table tbody,
+.fht-table tr,
+.fht-table th,
+.fht-table td {
+
+  /* text */
+  font-size: 100%;
+  font: inherit;
+  vertical-align: top;
+  }
+
+.fht-table {
+  /* appearance */
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+/* @end */
+
+/* @group Content */
+
+.fht-table-wrapper,
+.fht-table-wrapper .fht-thead,
+.fht-table-wrapper .fht-tfoot,
+.fht-table-wrapper .fht-fixed-column .fht-tbody,
+.fht-table-wrapper .fht-fixed-body .fht-tbody,
+.fht-table-wrapper .fht-tbody {
+  /* appearance */
+  overflow: hidden;
+  
+  /* position */
+  position: relative;
+  }
+
+  .fht-table-wrapper .fht-fixed-body .fht-tbody,
+  .fht-table-wrapper .fht-tbody {
+    /* appearance */
+      overflow: auto;
+    }
+
+    .fht-table-wrapper .fht-table .fht-cell {
+      /* appearance */
+      overflow: hidden;
+      
+      /* size */
+        height: 1px;
+      }
+  
+  .fht-table-wrapper .fht-fixed-column,
+  .fht-table-wrapper .fht-fixed-body {
+      /* position */
+      top: 0;
+      left: 0;
+      position: absolute;
+      }
+      
+  .fht-table-wrapper .fht-fixed-column {
+      /* position */
+      z-index: 1;
+      }
+
+/* @end */

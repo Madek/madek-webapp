@@ -7,6 +7,7 @@
 #= require jquery-ui/jquery-ui.custom
 #= require jquery_ujs
 #= require jquery-tmpl
+#= require mousewheel/jquery.mousewheel
 
 #= require bootstrap/bootstrap-transition
 #= require bootstrap/bootstrap-modal
@@ -25,7 +26,7 @@
 #= require plupload/jquery.plupload.queue
 #= require plupload/plupload.html5
 
-#= require mousewheel/jquery.mousewheel
+#= require fixed-header-table/fixed-header-table
 
 ####### APPLICATION
 

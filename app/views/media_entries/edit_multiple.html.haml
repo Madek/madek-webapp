@@ -13,40 +13,8 @@
 
       .bordered.ui-container.midtone.rounded.mbm
 
-        .ui-toolbar.inverted.ui-container.pvx.phs.rounded-top
-          %h2.ui-toolbar-header
-            %strong 2 Medieneinträge ausgewählt
-          .ui-toolbar-controls.by-right
-            .button-group.small.tertiary
-              %a.button.active{:href => "#"} Tabellenansicht
-              %a.button{:href => "#"} Medienansicht
-              
-        %table.block
-
-          %thead
-            %tr
-              %td
-              - MetaContext.core.meta_key_definitions.each do |mkd|
-                %td= mkd.label
-          %tbody
-            %tr
-              %td
-                .thumbnail-doc.small{:class => "$modifier-class"}
-                  = image_tag "thumbnails/thumb-doc-small.png"
-              %td Data
-              %td Data
-              %td Data
-              %td Data
-              %td Data
-            %tr
-              %td
-                .thumbnail-video.small{:class => "$modifier-class"}
-                  = image_tag "thumbnails/thumb-video-small.png"
-              %td Data
-              %td Data
-              %td Data
-              %td Data
-              %td Data
+        = render :partial => "media_resources/selection",
+                 :locals => {:media_resources => @media_entries}
 
       %form
 
