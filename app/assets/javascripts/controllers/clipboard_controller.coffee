@@ -66,7 +66,8 @@ class ClipboardController
     else
       @actions.find(".ui-clipboard-edit-button").show()
       for a in @actions.find(".ui-clipboard-edit-button a")
-        $(a).attr "href", "#{$(a).attr("href")}?collection_id=#{@editableMediaEntriesCollection.id}"
+        uri = URI $(a).attr "href"
+        $(a).attr "href", uri.removeQuery("collection_id").addQuery("collection_id", @editableMediaEntriesCollection.id)
 
   updateManageableButtons: ->
     manageableCount = @manageableCollection.count

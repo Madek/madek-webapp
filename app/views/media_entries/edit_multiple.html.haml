@@ -4,8 +4,6 @@
 
   .app-body
 
-    // PAGE TITLE
-
     .app-body-title
       .ui-body-title
         .ui-body-title-label
@@ -22,15 +20,14 @@
             .button-group.small.tertiary
               %a.button.active{:href => "#"} Tabellenansicht
               %a.button{:href => "#"} Medienansicht
+              
         %table.block
+
           %thead
             %tr
               %td
-              %td Titel und Autor/in
-              %td Datierung
-              %td Schlagworte
-              %td Rechte
-              %td Hochgeladen von und am
+              - MetaContext.core.meta_key_definitions.each do |mkd|
+                %td= mkd.label
           %tbody
             %tr
               %td

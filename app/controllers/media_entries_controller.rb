@@ -10,8 +10,12 @@ class MediaEntriesController < ApplicationController
               :edit
           end
           @media_set = MediaSet.accessible_by_user(current_user, action).find(params[:media_set_id])
-        elsif !params[:media_entry_ids].blank?
-          selected_ids = params[:media_entry_ids].split(",").map{|e| e.to_i }
+        elsif not params[:media_entry_ids].blank? or not params[:collection_id].blank?
+          selected_ids = if params[:collection_id] 
+            MediaResource.by_collection(params[:collection_id])
+          else
+            params[:media_entry_ids].split(",").map{|e| e.to_i }
+          end
           action = case request[:action].to_sym
             when :edit_multiple, :update_multiple
               :edit
@@ -172,18 +176,19 @@ class MediaEntriesController < ApplicationController
   end
   
   def edit_multiple
-    labels = ["title", "author", "uploaded at", "uploaded by", "keywords", "copyright notice", "portrayed object dates"]
-    @info_to_json = @media_entries.map do |me|
-      core_info = view_context.hash_for(me, {:image => {:as => "base64"}})
-      # TODO add more attributes using hash_for helper as here before
-      labels.each do |label|
-        core_info[label.gsub(' ', '_')] = ""
-      end
-      me.meta_data.get_for_labels(labels).each do |md|
-        core_info[md.meta_key.label.gsub(' ', '_')] = md.to_s
-      end
-      me.attributes.merge!(core_info)
-    end.to_json
+        
+    # labels = ["title", "author", "uploaded at", "uploaded by", "keywords", "copyright notice", "portrayed object dates"]
+    # @info_to_json = @media_entries.map do |me|
+    #   core_info = view_context.hash_for(me, {:image => {:as => "base64"}})
+    #   # TODO add more attributes using hash_for helper as here before
+    #   labels.each do |label|
+    #     core_info[label.gsub(' ', '_')] = ""
+    #   end
+    #   me.meta_data.get_for_labels(labels).each do |md|
+    #     core_info[md.meta_key.label.gsub(' ', '_')] = md.to_s
+    #   end
+    #   me.attributes.merge!(core_info)
+    # end.to_json
   end
   
   def update_multiple
