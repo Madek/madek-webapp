@@ -28,12 +28,7 @@ class MediaResourcesController.Edit
     @el.on "click", ".form-widget-toggle", (e)=> @openFormWidget $(e.currentTarget)
     @el.on "click", ".form-widget .button", (e) => e.preventDefault(); return false
     @el.on "click", ".multi-select-tag-remove", (e) => $(e.currentTarget).closest(".multi-select-tag").remove()
-    @el.on "keydown", @preventEnter
-
-  preventEnter: (e)->
-    if e.keyCode == 13
-      e.preventDefault()
-      return false
+    #@el.on "submit", (e)=> debugger
 
   openFormWidget: (toggle)->
     widget = toggle.next ".form-widget"

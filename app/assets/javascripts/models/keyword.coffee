@@ -11,8 +11,8 @@ class Keyword
       url: "/keywords.json"
       data: data
       success: (response)=>
-        @currentKeywords = response
-        callback(@currentKeywords) if callback?
+        @currentKeywords = response unless term?
+        callback(response) if callback?
 
   @mine: => _.filter @currentKeywords, (keyword)-> keyword.yours
 
