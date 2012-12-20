@@ -23,10 +23,11 @@ if `which phantomjs` != ""
   end
 end
 
-Before('@browser') do 
+Before('@jsbrowser') do 
   Capybara.current_driver = :poltergeist
 end
-After('@browser') do
+
+After('@jsbrowser') do
   Capybara.use_default_driver
 end
 

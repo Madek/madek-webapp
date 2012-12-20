@@ -1,6 +1,6 @@
 Feature: Login
 
-  @browser
+  @jsbrowser
   Scenario: Login with ZHdK authentication
     When I go to the home page
     And I click on the ZHdK-Login

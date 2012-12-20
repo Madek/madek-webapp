@@ -7,8 +7,12 @@ Visualization.Views.PopupMenu = Backbone.View.extend
     @el = $("#drawing")
 
   delegateEvents: ->
-    @el.delegate ".node", "mouseenter", (e)=>
-      target = $(e.currentTarget)
+    @el.on "mouseenter", "circle, rect, text", (e)=>
+      console.log ["mouseenter event", e]
+      console.log $(e.currentTarget)
+      target = $(e.currentTarget).closest(".node")
+      console.log target
+      console.log target.find("circle")
       $(target).qtip
         position:
           target: target.find("circle")

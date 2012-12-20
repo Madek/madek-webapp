@@ -7,6 +7,7 @@ Given /^I am signed\-in as "(.*?)"$/ do |login|
   find("input[name='login']").set(login)
   find("input[name='password']").set('password')
   find("button[type='submit']").click
+  @current_user = User.find_by_login login
 end
 
 Then /^I can see the text "(.*?)"$/ do |text|
