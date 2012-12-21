@@ -108,7 +108,7 @@ MAdeK::Application.routes.draw do
   resources :media_entries, :except => :destroy do
     collection do
       get :edit_multiple
-      put :update_multiple
+      post :update_multiple
       post :media_sets
       delete :media_sets
     end

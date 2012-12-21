@@ -146,7 +146,7 @@ class MediaEntry < MediaResource
   
 ########################################################
 
- def self.compare_batch_by_meta_data_in_context(media_entries, context)
+ def self.compared_meta_data(media_entries, context)
    compared_against, other_entries = media_entries[0], media_entries[1..-1]
    compared_meta_data = compared_against.meta_data.for_context(context)
    
@@ -159,5 +159,4 @@ class MediaEntry < MediaResource
       end
    end
  end
-
 end

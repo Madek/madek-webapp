@@ -176,19 +176,10 @@ class MediaEntriesController < ApplicationController
   end
   
   def edit_multiple
-        
-    # labels = ["title", "author", "uploaded at", "uploaded by", "keywords", "copyright notice", "portrayed object dates"]
-    # @info_to_json = @media_entries.map do |me|
-    #   core_info = view_context.hash_for(me, {:image => {:as => "base64"}})
-    #   # TODO add more attributes using hash_for helper as here before
-    #   labels.each do |label|
-    #     core_info[label.gsub(' ', '_')] = ""
-    #   end
-    #   me.meta_data.get_for_labels(labels).each do |md|
-    #     core_info[md.meta_key.label.gsub(' ', '_')] = md.to_s
-    #   end
-    #   me.attributes.merge!(core_info)
-    # end.to_json
+    @contexts = @media_entries.map(&:individual_contexts).inject(&:&) # individual contexts common to all
+    @contexts = (MetaContext.defaults + @contexts).flatten
+    @meta_data = {}
+    @contexts.each {|context| @meta_data[context.id] = MediaEntry.compared_meta_data(@media_entries, context) }
   end
   
   def update_multiple
@@ -200,7 +191,7 @@ class MediaEntriesController < ApplicationController
       end
     end
     
-    redirect_back_or_default(media_resources_path)
+    redirect_back_or_default(root_path)
   end
   
 end

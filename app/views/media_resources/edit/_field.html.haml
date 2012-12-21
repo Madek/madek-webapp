@@ -1,11 +1,15 @@
 :ruby
   @i ||= 0
-  @i += 1 
+  @i += 1
 
-.ui-form-group.columned{:"data-type" => definition.meta_key.meta_datum_object_type.underscore, :"data-index" => @i, :"data-meta-key" => definition.meta_key}
+.ui-form-group.columned{:class => meta_datum.keep_original_value ? "highlight" : "",
+                        :"data-type" => definition.meta_key.meta_datum_object_type.underscore, :"data-index" => @i, :"data-meta-key" => definition.meta_key}
 
   %input{:type => :hidden, :name => "resource[meta_data_attributes][#{@i}][id]", :value => meta_datum.id}
   %input{:type => :hidden, :name => "resource[meta_data_attributes][#{@i}][meta_key_id]", :value => definition.meta_key.id}
+
+  - if meta_datum.keep_original_value 
+    %input{:type => :hidden, :name => "resource[meta_data_attributes][#{@i}][keep_original_value]", :value => true}
 
   %label.form-label
     = definition.label
