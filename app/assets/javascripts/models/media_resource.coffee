@@ -25,6 +25,10 @@ class MediaResource
       url: "/media_resources/#{@id}/disfavor.json"
       type: "PUT"
 
+  totalChildren: -> children.pagination.total
+  totalChildEntries: -> children.pagination.total_media_entries
+  totalChildSets: -> children.pagination.total_media_sets
+
   @fetch: (data, callback)=>
     $.ajax
       url: "/media_resources.json"
