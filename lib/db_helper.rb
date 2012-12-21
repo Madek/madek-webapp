@@ -112,7 +112,7 @@ module DBHelper
       if SQLHelper.adapter_is_postgresql?
         pid_name =  ENV['PGPIDNAME']  || "procpid"
         set_pg_env config
-        stdout = `psql template1 -c \"SELECT pg_terminate_backend(pg_stat_activity.#{pid_name}) FROM pg_stat_activity WHERE pg_stat_activity.datname = '#{config['database']}';\" 2>&1`
+        stdout = `psql -c \"SELECT pg_terminate_backend(pg_stat_activity.#{pid_name}) FROM pg_stat_activity WHERE pg_stat_activity.datname = '#{config['database']}';\" 2>&1`
         unless $?.exitstatus == 0 
           puts "TERMINATING OPEN PG CONNECTIONS FAILED, set the PGPIDNAME env variable to pid if you are using postgresql 9.2 or later"
         end
