@@ -4,11 +4,11 @@
 .ui-thumbnail-actions
   %ul.left.by-left
     %li.ui-thumbnail-action
-      %a.ui-thumbnail-action-checkbox{:"data-clipboard-toggle" => true, :title => "Zur Zwischenablage hinzufügen"}
+      %a.ui-thumbnail-action-checkbox{:"data-clipboard-toggle" => true, :title => "Zur Zwischenablage hinzufügen/entfernen"}
         Zur Zwischenablage hinzufügen
     %li.ui-thumbnail-action
       %a.ui-thumbnail-action-favorite{:"data-favor-toggle" => true,
-                                      :title => is_favorite ? "Von Favoriten entfernen" : "Zu Favoriten hinzufügen", 
+                                      :title => "Zu Favoriten hinzufügen/entfernen", 
                                       :class => is_favorite ? "active" : ""}
         Zu Favoriten hinzufügen
   %ul.right.by-right
