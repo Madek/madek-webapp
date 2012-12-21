@@ -36,10 +36,10 @@ class MediaSetPopup
           pagination: {per_page: 2}
           with:
             media_type: true
-      , (media_resources, response)=>
-        @children = media_resources[0].children.media_resources
+      , (mediaResources, response)=>
+        @children = mediaResources[0].children.media_resources
         @childrenPagination = response.media_resources[0].children.pagination
-        @parents = media_resources[0].parents.media_resources
+        @parents = mediaResources[0].parents.media_resources
         @parentsPagination = response.media_resources[0].parents.pagination
         do @render
 
