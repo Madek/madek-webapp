@@ -19,7 +19,7 @@ describe MediaResourceArcsController do
   describe "Getting the arcs by parent_id"  do
   
     before :each do
-      get :get_arcs_by_parent_id, {parent_id: @parent_set.id, format: 'json'}, valid_session
+      get :index, {parent_id: @parent_set.id, format: 'json'}, valid_session
       @data = JSON.parse(response.body)["media_resource_arcs"]
     end
 
@@ -62,13 +62,6 @@ describe MediaResourceArcsController do
       response.should be_success
       MediaResourceArc.where(parent_id: @parent_set.id).count.should == 2
       MediaResourceArc.where(parent_id: @parent_set.id, child_id: @child1.id).first.cover.should be_true
-
-      arcs = [{ parent_id: @parent_set.id, child_id: @child2.id, cover: true}]
-      put :update_arcs, {media_resource_arcs: arcs, format: 'json'}, valid_session
-      response.should_not be_success
-      MediaResourceArc.where(parent_id: @parent_set.id).count.should == 2
-      MediaResourceArc.where(parent_id: @parent_set.id, child_id: @child1.id).first.cover.should be_true
-
 
       arcs = [{ parent_id: @parent_set.id, child_id: @child1.id, cover: false}, { parent_id: @parent_set.id, child_id: @child2.id, cover: true}]
       put :update_arcs, {media_resource_arcs: arcs, format: 'json'}, valid_session
