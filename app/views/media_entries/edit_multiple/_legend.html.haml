@@ -1,0 +1,18 @@
+.ui-form-group.rowed.separated
+  .form-label 
+    Noch keine Metadaten vorhanden
+  .form-item
+    %input.block{:type => :text}
+
+.ui-form-group.rowed.highlight.separated
+  .form-label 
+    Unterschiedliche Metadaten vorhanden
+    %small Achtung: Bestehende Werte werden durch Änderungen überschrieben! Wenn keine Änderungen vorgenommen werden, bleiben die verschiedenen Werte erhalten.
+  .form-item
+    %input.block{:type => :text}
+
+.ui-form-group.rowed
+  .form-label 
+    Gleiche Metadaten vorhanden
+  .form-item
+    %input.block{:type => :text, :value => "Wert und Text"}

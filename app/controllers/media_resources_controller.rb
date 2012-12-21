@@ -670,9 +670,8 @@ class MediaResourcesController < ApplicationController
       @contexts = [MetaContext.media_set]
     end
 
-    respond_to do |format|
-      format.html
-    end
+    @meta_data = {}
+    @contexts.each {|context| @meta_data[context.id] = @media_resource.meta_data.for_context(context) }
   end
 
   def destroy

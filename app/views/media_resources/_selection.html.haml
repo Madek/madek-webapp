@@ -5,33 +5,29 @@
       %strong= "#{media_resources.count} Inhalte ausgewählt"
     .ui-toolbar-controls.by-right
       .button-group.small.tertiary
-        %a.button.active Tabellenansicht
-        %a.button Medienansicht
+        %a.button.active{:"data-view" => ".ui-resources-table"} Tabellenansicht
+        %a.button{:"data-view" => ".ui-resources-media"} Medienansicht  
+      
+  .ui-resources-table
 
-  .ui-container
-    
-        
-    .ui-resources-table
+    %table.block.fixed-table-header.medium
 
-      %table.block.fixed-table-header.medium
+      %thead
+        %tr
+          %th.ui-resources-table-selection
+          - MetaContext.core.meta_key_definitions.each do |mkd|
+            %th{:title => mkd.label}
+              %span.ui-resources-table-cell-content= mkd.label
 
-        %thead
+      %tbody
+        - media_resources.each do |media_resource|
           %tr
-            %th.ui-resources-table-selection
+            %td.ui-resources-table-selection
+              %img.ui-thumbnail.micro{:src => image_media_resource_path(media_resource, :size => :small)}
             - MetaContext.core.meta_key_definitions.each do |mkd|
-              %th{:title => mkd.label}
-                %span.ui-resources-table-cell-content= mkd.label
+              %td{:title => media_resource.meta_data.get(mkd.meta_key.id)}
+                %span.ui-resources-table-cell-content= media_resource.meta_data.get mkd.meta_key.id
 
-        %tbody
-
-          - media_resources.each do |media_resource|
-            %tr
-              %td.ui-resources-table-selection
-                %img.ui-thumbnail.micro{:src => image_media_resource_path(media_resource, :size => :small)}
-              - MetaContext.core.meta_key_definitions.each do |mkd|
-                %td{:title => media_resource.meta_data.get(mkd.meta_key.id)}
-                  %span.ui-resources-table-cell-content= media_resource.meta_data.get mkd.meta_key.id
-
-    .ui-resources-media.hidden
-      = render :partial => "media_resources/wrapper",
-               :locals => {:media_resources => media_resources}
+  .ui-resources-media.hidden
+    = render :partial => "media_resources/wrapper",
+             :locals => {:media_resources => media_resources}

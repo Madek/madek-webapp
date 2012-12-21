@@ -1,4 +1,6 @@
-- @contexts.each_with_index do |context, i|
+%ul.ui-tabs.large
 
-  %li.ui-tabs-item{:class => i == 0 ? "active" : ""}
-    %a{"data-toggle" => "tab", :href => "##{context.name}"}= context.label.to_s
+  - @contexts.each_with_index do |context, i|
+
+    %li.ui-tabs-item{:class => i == 0 ? "active" : ""}
+      %a{"data-toggle" => "tab", :href => "##{context.name}"}= context.label.to_s

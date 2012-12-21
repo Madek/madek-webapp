@@ -1,7 +1,5 @@
 - @contexts.each_with_index do |context, i|
 
-  - meta_data = @media_resource.meta_data.for_context(context) 
-
   .tab-pane{:class => i == 0 ? "active" : "", :id => context.name}
 
     - if context.description
@@ -15,5 +13,5 @@
         - unless definition.meta_key.is_not_writable?
 
           = render :partial => "media_resources/edit/field", 
-                   :locals => {:meta_datum => meta_data.detect{|md| md.meta_key_id == definition.meta_key_id}, 
+                   :locals => {:meta_datum => @meta_data[context.id].detect{|md| md.meta_key_id == definition.meta_key_id}, 
                                :definition => definition}
