@@ -34,8 +34,6 @@ rm -f $WORKSPACE/tmp/*.mysql
 rm -f $WORKSPACE/tmp/*.sql
 mkdir -p $WORKSPACE/tmp/html
 
-rvm use 1.9.3
-rbenv shell 1.9.3-p194
 bundle install --without development
 bundle exec rake madek:test:setup_ci_dbs
 bundle exec rake madek:test:setup
