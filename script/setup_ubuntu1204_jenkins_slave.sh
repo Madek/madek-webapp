@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#############################################################
+# remove the halfwitted stuff
+#############################################################
+rm -rf /etc/profile.d/rvm.sh 
+rm -rf /usr/local/rvm/
 
 #############################################################
 # update
@@ -133,11 +138,17 @@ EOF
 ###########################################################
 
 useradd --create-home -s /bin/bash jenkins
-su -c 'curl https://raw.github.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash' -l jenkins
-su -c 'rbenv install 1.9.3-p327' -l jenkins
-su -c 'rbenv global 1.9.3-p327' -l jenkins
-su -c 'rbenv bootstrap' -l jenkins
-su -c 'rbenv rehash' -l jenkins
+
+cat << 'JENKINS' | su -l jenkins
+curl https://raw.github.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
+JENKINS
+
+cat << 'JENKINS' | su -l jenkins
+rbenv install 1.9.3-p327
+rbenv global 1.9.3-p327
+rbenv bootstrap
+rbenv rehash
+JENKINS
 
 # ssh
 cat << 'JENKINS' | su -l jenkins
