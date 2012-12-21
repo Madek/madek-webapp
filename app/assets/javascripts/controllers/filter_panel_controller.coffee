@@ -20,7 +20,7 @@ class FilterPanelController
     @baseFilter = options.baseFilter if options.baseFilter?
     @startSelectedFilter = options.startSelectedFilter if options.startSelectedFilter?
     @startSelectedFilter = undefined if JSON.stringify({}) == JSON.stringify(@startSelectedFilter)
-    do @open if _.any(@startFilterParams) and not (JSON.stringify(@startSelectedFilter) == JSON.stringify(@baseFilter))
+    do @open if _.any(@startSelectedFilter) and not (JSON.stringify(@startSelectedFilter) == JSON.stringify(@baseFilter))
     do @showResetFilter if @startSelectedFilter? and not (JSON.stringify(@startSelectedFilter) == JSON.stringify(@baseFilter))
     do @plugin
     do @delegateEvents

@@ -15,11 +15,11 @@
         - hash_for(@media_set.abstract(1, current_user)).each do |meta_datum|
           .col1of3.mbl
             .ui-metadata-box.prl
-              .h3.title-m.separated.light.mbm= meta_datum[:name]
+              .h3.title-m.separated.light.mbm= MetaKey.find_by_label(meta_datum[:name]).all_context_labels
               %ul.ui-tag-cloud.small
                 - meta_datum[:raw_value].each do |value|
                   %li.ui-tag-cloud-item
-                    %a.ui-ttip-toggle.ui-tag-button.meta-term{:href => "/media_resources?meta_data[#{meta_datum[:name]}][ids][]=#{value[:id]}",
+                    %a.ui-tag-button.meta-term{:href => "/media_resources?meta_data[#{meta_datum[:name]}][ids][]=#{value[:id]}",
                                                     :"data-meta-datum-name" => meta_datum[:name],
                                                     :"data-meta-key-id" => value[:id],
                                                     :title => "#{value[:value]}"}

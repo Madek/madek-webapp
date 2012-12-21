@@ -86,7 +86,8 @@ class MediaSet < MediaResource
 ########################################################
 
   def cover(user)
-    child_media_resources.media_entries.accessible_by_user(user).joins(:out_arcs).where(media_resource_arcs: {cover: true}).first
+    cover = out_arcs.where(:cover => true).first.child
+    return cover if user.authorized? :view, cover
   end
 
   def get_media_file(user)

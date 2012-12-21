@@ -1,0 +1,45 @@
+.app.view-dashboard
+
+  = render "application/header"
+
+  .app-body
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl Mein Archiv
+        .ui-body-title-actions
+          %a.button{:"data-create-set" => true}
+            %i.icon-new-set
+            Set erstellen
+          %a.primary-button{:href => import_path}
+            %i.icon-upload.bright
+            Medien Importieren
+
+    .app-body-ui-container
+      .bordered.ui-container.midtone.rounded.table
+
+        = render "application/sidebar/my_archive"
+
+        .app-body-content.table-cell.table-substance.ui-container
+
+  .app-footer-push
+= render "application/footer"
+
+.modal-backdrop.fade.in
+
+.modal.hide.fade.ui-modal.wide.in{"aria-hidden" => "false", :role => "dialog", :style => "display: block;", :tabindex => "-1"}
+  %form{:action => usage_terms_user_path(current_user), :method => :post}
+    = token_tag nil
+    .ui-modal-head
+      %h3.title-l= @usage_term.title
+      %h4.title-s= @usage_term.version
+    .ui-modal-toolbar.top
+      .ui-alert.warning= @usage_term.intro
+    .ui-modal-body
+      != @usage_term.body
+      .pbm
+    .ui-modal-footer
+      .ui-actions
+        %a.link.weak{:href => "/logout"} Ablehnen
+        %button.primary-button{:type => "submit"} Akzeptieren
+

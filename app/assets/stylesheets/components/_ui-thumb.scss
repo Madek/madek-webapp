@@ -74,6 +74,7 @@
         @include dimension(130px,130px);
 
         .ui-thumbnail-inner-image-holder {
+          display: inline-block;
 
           .ui-thumbnail-image {
             @include min-dimension(auto,auto);

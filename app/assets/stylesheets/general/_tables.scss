@@ -10,12 +10,12 @@
 table.block {
   width: 100%;
 }
-thead td {
+thead td, thead th {
   border-bottom: 1px solid $grey-mid-light;
   font-size: $font-xs;
   font-weight: 700;
 }
-thead td span {
+thead td span, thead th span {
   font-weight: 700; 
 }
 tfoot td {
@@ -28,11 +28,14 @@ caption {
   padding: $space-x 0;
   text-align: left;
 }
-td {
+td, th {
   border-bottom: 1px solid $grey-light;
   line-height: $line-height-m;
   padding: $space-x 0;
   vertical-align: top;
+}
+.midtone td {
+  border-color: $grey-mid-light;
 }
 
 /* Borderless Tables

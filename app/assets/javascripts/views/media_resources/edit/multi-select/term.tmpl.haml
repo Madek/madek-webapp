@@ -1,5 +1,5 @@
 ${$item.value = (term.id != undefined) ? term.id : term.value, ""}
-%li.multi-select-tag
+%li.multi-select-tag.meta-term
   %input{:name => "resource[meta_data_attributes][${index}][value][]", :type => "hidden", :value => "${$item.value}"}
     ${term.value}
     %a.multi-select-tag-remove

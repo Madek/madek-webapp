@@ -53,10 +53,6 @@ class UsersController < ApplicationController
       redirect_to root_path
     else
       @usage_term = UsageTerm.current
-      
-      @title = "Medienarchiv der Künste: #{@usage_term.title}"
-      @disable_user_bar = true
-      @disable_search = true
     end
   end
 
