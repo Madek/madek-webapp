@@ -105,6 +105,7 @@ Then /^I see the title of that resource$/ do
 end
 
 Then /^I see the permission icon for that resource$/ do
+  pending
   expect{@popup.find(".item_permission")}.not_to raise_error
 end
 

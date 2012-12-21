@@ -9,11 +9,14 @@
 
   .popover-content
   
-    .infos.ui-resources.grid.pll
-      .loading.icon
+    .resource.ui-resources.grid.pll
+      .ui-preloader
 
     .info.row.pbx
-      .contains_info
+      .col1of2.by-left
+        .favorite_info
+      .col1of2.by-right
+        .contains_info
 
     .links
       %a#link_for_resource.shown{href: "/media_resources/#{@id}", target: "_blank"}= "Betrachte diese Resource im Medienarchiv"

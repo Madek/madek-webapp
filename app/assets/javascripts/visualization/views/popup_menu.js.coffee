@@ -2,6 +2,8 @@ Visualization.Views.PopupMenu = Backbone.View.extend
 
   template: JST['visualization/templates/popup_menu']
   template_contains: JST['visualization/templates/popup_menu_info_contains']
+  template_favorite: JST['visualization/templates/popup_menu_info_favorite']
+
 
   initialize: ->
     @el = $("#drawing")
@@ -64,12 +66,14 @@ Visualization.Views.PopupMenu = Backbone.View.extend
       with: 
         children: true
         media_type: true
-        flags: true
+        is_favorite: true
       , (media_resources, response)=>
         mr = media_resources[0]
-        //
-        template.find(".infos").html App.render "media_resources/media_resource", mr
+        template.find(".resource").html App.render "media_resources/media_resource", mr
         template.data("target").qtip("reposition")
+
+        template.find(".favorite_info").html @template_favorite
+          is_favorite: mr.is_favorite
 
         if mr.children? 
           template.find(".contains_info").html @template_contains
