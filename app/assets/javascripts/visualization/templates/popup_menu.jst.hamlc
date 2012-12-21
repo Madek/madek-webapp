@@ -9,7 +9,7 @@
 
   .popover-content
   
-    .infos.ui-resources.grid.pll
+    .resource.ui-resources.grid.pll
       .loading.icon
 
     .info.row.pbx
