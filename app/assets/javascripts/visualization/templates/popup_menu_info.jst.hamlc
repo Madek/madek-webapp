@@ -1,4 +1,0 @@
-- if(@.is_favorite)
-  .icon.button_favorit_on
-- else
-  .icon.button_favorit_off

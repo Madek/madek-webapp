@@ -14,7 +14,7 @@
 
     .info.row.pbx
       .col1of2.by-left
-        f
+        .favorite_info
       .col1of2.by-right
         .contains_info
 

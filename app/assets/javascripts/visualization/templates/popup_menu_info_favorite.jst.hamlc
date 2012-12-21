@@ -1,0 +1,5 @@
+- if(@is_favorite)
+  %i.icon-fav.active
+- else
+  %i.icon-fav
+
