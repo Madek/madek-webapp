@@ -1,9 +1,10 @@
-%span
-  Enthält: 
+.col1of2.by-left
+  f
+.col1of2.by-right
+  %p
     %span.n_media_entries
       = @n_media_entries
-    %span.media_entry.icon{title:'Medieneintrag'} 
-  und 
+    %i.icon-media-entry{title:'Medieneintrag'} 
     %span.n_media_sets
       = @n_media_sets
-    %span.media_set.icon{title:'Set'} 
+    %i.icon-set{title:'Set'} 
