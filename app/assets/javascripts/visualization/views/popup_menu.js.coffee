@@ -67,6 +67,13 @@ Visualization.Views.PopupMenu = Backbone.View.extend
         flags: true
       , (media_resources, response)=>
         mr = media_resources[0]
+        //
         template.find(".infos").html App.render "media_resources/media_resource", mr
         template.data("target").qtip("reposition")
+
+        if mr.children? 
+          template.find(".contains_info").html @template_contains
+            n_media_entries: mr.totalChildEntries()
+            n_media_sets: mr.totalChildSets()
+
 
