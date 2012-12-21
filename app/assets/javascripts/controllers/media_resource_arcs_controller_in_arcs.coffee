@@ -1,4 +1,5 @@
-class MediaResourceArcsController
+MediaResourceArcsController = {} unless MediaResourceArcsController?
+class MediaResourceArcsController.InArcs
 
   constructor: (options)->
     @el = $(options.el)
@@ -55,4 +56,5 @@ class MediaResourceArcsController
       if @changeTarget == "highlight"
         @mediaSet.unsetHighlight mr
 
-window.App.MediaResourceArcsController = MediaResourceArcsController
+window.App.MediaResourceArcsController = {} unless window.App.MediaResourceArcsController
+window.App.MediaResourceArcsController.InArcs = MediaResourceArcsController.InArcs
