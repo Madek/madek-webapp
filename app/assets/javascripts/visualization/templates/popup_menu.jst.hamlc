@@ -10,7 +10,7 @@
   .popover-content
   
     .resource.ui-resources.grid.pll
-      .loading.icon
+      .ui-preloader
 
     .info.row.pbx
       .contains_info
