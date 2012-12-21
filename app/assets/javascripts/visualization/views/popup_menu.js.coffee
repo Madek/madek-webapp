@@ -69,7 +69,6 @@ Visualization.Views.PopupMenu = Backbone.View.extend
         is_favorite: true
       , (media_resources, response)=>
         mr = media_resources[0]
-        //
         template.find(".resource").html App.render "media_resources/media_resource", mr
         template.data("target").qtip("reposition")
 
