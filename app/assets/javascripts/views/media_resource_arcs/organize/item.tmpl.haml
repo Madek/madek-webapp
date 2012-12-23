@@ -1,0 +1,14 @@
+.li.ui-set-list-item
+  %label
+
+    {{if $item.data.is_parent != undefined && is_parent == true}}
+    %input{:type => "checkbox", :checked => :checked, :title => "Zu Set hinzufügen/entfernen"}
+      %span.title ${meta_data.title}
+      %span.owner ${meta_data.owner}
+      %span.created-at ${moment(created_at).format("DD.MM.YYYY")}
+    {{else}}
+    %input{:type => "checkbox", :title => "Zu Set hinzufügen/entfernen"}
+      %span.title ${meta_data.title}
+      %span.owner ${meta_data.owner}
+      %span.created-at ${moment(created_at).format("DD.MM.YYYY")}
+    {{/if}}

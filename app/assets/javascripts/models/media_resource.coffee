@@ -29,6 +29,15 @@ class MediaResource
   totalChildEntries: -> @children.pagination.total_media_entries
   totalChildSets: -> @children.pagination.total_media_sets
 
+  fetchOutArcs: (callback)=>
+    $.ajax
+      url: "/media_resource_arcs.json"
+      data:
+        child_id: @id
+      success: (response)=>
+        @parentIds = _.map response.media_resource_arcs, (arc)-> arc.parent_id
+        callback(response) if callback?
+
   @fetch: (data, callback)=>
     $.ajax
       url: "/media_resources.json"
@@ -37,5 +46,6 @@ class MediaResource
         if response.media_resources?
           media_resources = _.map response.media_resources, (mr)-> new MediaResource mr
         callback(media_resources, response) if callback?
+
 
 window.App.MediaResource = MediaResource

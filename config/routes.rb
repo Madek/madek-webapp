@@ -80,7 +80,7 @@ MAdeK::Application.routes.draw do
 ### media_resource_arcs ###############################
    
   match "/media_resource_arcs/:parent_id", controller: "media_resource_arcs", action: "get_arcs_by_parent_id", via: [:get]
-  match "/media_resource_arcs/", controller: "media_resource_arcs", action: "get_arcs_by_parent_id", via: [:get]
+  match "/media_resource_arcs/", controller: "media_resource_arcs", action: "index", via: [:get]
   match "/media_resource_arcs/", controller: "media_resource_arcs", action: "update_arcs", via: [:put]
 
 ################################################
@@ -130,18 +130,12 @@ MAdeK::Application.routes.draw do
 
   # TODO merge to :media_resources ?? 
   resources :media_sets, :except => :destroy do #-# TODO , :except => :index # the index is only used to create new sets
-    collection do
-      post :parents
-      delete :parents
-    end
     member do
       get :abstract
       get :vocabulary
       get :browse
       get :inheritable_contexts
       post :settings
-      post :parents # TODO: remove
-      delete :parents # TODO: remove
       get :category
       get :parents
     end

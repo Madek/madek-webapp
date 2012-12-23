@@ -10,17 +10,19 @@ class MediaSet
     @errors.push {text: "Titel ist ein Pflichtfeld"} if not @title? or @title.length <= 0
     if @errors.length then false else true
 
-  create: ->
+  create: (callback)->
+    title = if @meta_data? and @meta_data.title? then @meta_data.title else @title
     $.ajax
       url: "/media_sets.json"
       type: "POST"
       data:
         media_set:
-          meta_data_attributes:[{meta_key_label: "title",value: @title}]
+          meta_data_attributes:[{meta_key_label: "title",value: title}]
       success: (data)=>
         for k,v of data
           @[k] = v
         $(@).trigger "created"
+        callback(data) if callback?
 
   setChildren: (children)-> @children = children
 

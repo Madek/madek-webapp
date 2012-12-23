@@ -10,8 +10,7 @@ class MediaResourceArcsController < ApplicationController
   #
   # @action GET
   # 
-  # @required [Integer] parent_id The id of the parent media resource (set).
-  #
+  # @optional [Integer] parent_id The id of the parent media resource (set).
   # @optional [Integer] child_id The id of the child media resource (set/entry). 
   #
   # @example_request {"parent_id":1}
@@ -28,9 +27,14 @@ class MediaResourceArcsController < ApplicationController
   # @response_field [Integer] child_id The id of the child media resource. 
   # @response_field [Boolean] highlight A status indicator if the arc is highlighted or not. 
   #
-  def get_arcs_by_parent_id
+  def index(parent_id = params[:parent_id], child_id = params[:child_id])
     begin
-      arcs = MediaResourceArc.where(parent_id: params[:parent_id])
+      arcs = if parent_id
+        MediaResourceArc.where(parent_id: parent_id)
+      elsif child_id
+        MediaResourceArc.where(child_id: child_id)
+      end
+
       render json: {media_resource_arcs: arcs.map{|x| view_context.hash_for_media_resource_arc(x)} }.to_json
     rescue  Exception => e
       respond_to do |format|

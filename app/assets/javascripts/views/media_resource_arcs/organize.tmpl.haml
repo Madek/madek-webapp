@@ -1,0 +1,30 @@
+.modal.ui-modal.hide.fade{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+
+  .ui-modal-head
+    %h3#add-to-set-label.title-l Zu Set hinzufügen/entfernen
+    %a.ui-modal-close.weak{"aria-hidden" => "true", "data-dismiss" => "modal", :title => "Close", :type => "button"}
+
+  .ui-modal-toolbar.top
+    .ui-search
+      %form
+        %input.ui-search-input.block{:placeholder => "Suche / Neues Set erstellen", :type => "text", :autofocus => :autofocus}
+
+  %form.save-arcs
+
+    .ui-modal-body
+      .mbx.mth
+        .ui-preloader
+
+    .ui-modal-toolbar.bottom.try-search-hint
+      %p.title-xs.by-center
+        Um die ausgewählten Inhalte einem bereits existierendem Set hinzuzufügen,
+        %br
+        benutzen Sie bitte die Suche.
+
+    .ui-modal-toolbar.bottom.refine-search-hint.hidden
+      %p.title-xs.by-center Es wurden noch weitere Sets gefunden. Bitte verfeinern Sie Ihre Suche.
+          
+    .ui-modal-footer
+      .ui-actions
+        %a.link.weak{"aria-hidden" => "true", "data-dismiss" => "modal"} Abbrechen
+        %button.primary-button Speichern

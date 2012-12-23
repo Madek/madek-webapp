@@ -15,7 +15,11 @@ class MediaResourcesController < ApplicationController
           else
             :view
         end
-        @media_resource = MediaResource.accessible_by_user(current_user, action).find(params[:media_resource_id])
+        @media_resource = if params[:collection_id]
+          MediaResource.accessible_by_user(current_user, action).by_collection(params[:collection_id])
+        else
+          MediaResource.accessible_by_user(current_user, action).find(params[:media_resource_id])
+        end
       end
     rescue
       not_authorized!
@@ -735,7 +739,29 @@ class MediaResourcesController < ApplicationController
   end
 
 ###################################################################################
-
+  
+  ##
+  # Manage parent media sets from a specific media set.
+  # 
+  # @url [POST] /media_sets/parents?[arguments]
+  # @url [DELETE] /media_sets/parents?[arguments]
+  # 
+  # @argument [parent_media_set_ids] array The ids of the parent media sets to remove/add
+  #
+  # @example_request
+  #   {"parent_media_set_ids": [1,2,3], "media_set_ids": [5]}
+  #   {"parent_media_set_ids": [1,2,3], "media_set_ids": [5,6]}
+  #
+  # @request_field [Array] parent_media_set_ids The ids of the parent media sets to remove/add  
+  # @request_field [Array] media_set_ids The ids of the media sets that have to be added to the parent sets (given in "parent_media_set_ids")   
+  #
+  # @example_response
+  #   [{"id":407, "parent_ids":[1,2,3]}]
+  # 
+  # @response_field [Hash] media_set The media set changed
+  # @response_field [Integer] media_set.id The id of the changed media set
+  # @response_field [Array] media_set.parent_ids The ids of the parents of the changes media set 
+  # 
   def parents(parent_media_set_ids = params[:parent_media_set_ids])
     parent_media_sets = MediaSet.accessible_by_user(current_user, :edit).where(:id => parent_media_set_ids.map(&:to_i))
     child_resources = Array(@media_resource)

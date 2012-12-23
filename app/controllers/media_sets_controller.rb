@@ -28,69 +28,6 @@ class MediaSetsController < ApplicationController
   }, :only => [:show, :parents, :inheritable_contexts, :abstract, :vocabulary]
 
 #####################################################
-  
-  ################### FIXME this is deprecated !! merge to media_resources#index ###############
-  # Get media sets
-  # 
-  # @resource /media_sets
-  #
-  # @action GET
-  # 
-  # @optional [accessible_action] string Limit the list of media sets by the accessible action
-  #   show, browse, abstract, inheritable_contexts, edit, update, add_member, parents
-  #
-  # @optional [with] hash Options forwarded to the results which will be inside of the respond 
-  # 
-  # @optional [child_ids] array An array with child ids which shall be used for scoping the media sets
-  #
-  # @example_request
-  #   {"accessible_action": "edit", "with": {"media_set": {"media_entries": 1}}}
-  #
-  # @example_request
-  #   {"accessible_action": "edit", "child_ids": [1]}
-  #
-  # @example_request
-  #   {"accessible_action": "edit", "child_ids": [1,2], "with": {"media_set": {"media_entries": 1, "child_sets": 1}} // FIXME {"children": 1}
-  #
-  # @example_request
-  #   {"accessible_action": "edit", "with": {"media_set": {"creator": 1, "created_at": 1, "title": 1}}}
-  #
-  def index(accessible_action = (params[:accessible_action] || :view).to_sym,
-            with = params[:with],
-            collection_id = params[:collection_id] || nil,
-            child_ids = params[:child_ids] || nil)
-    
-    respond_to do |format|
-      #-# only used for FeaturedSet
-      format.html {
-        resources = MediaSet.accessible_by_user(current_user)
-    
-        @media_sets, @my_media_sets, @my_title, @other_title = if @media_set
-          # all media_sets I can see, nested within a media set (for now only used with featured sets)
-          [resources.where(:id => @media_set.child_media_resources.media_sets), nil, "#{@media_set}", nil]
-        elsif @user and @user != current_user
-          # all media_sets I can see that have been created by another user
-          [resources.where(:user_id => @user), nil, "Sets von %s" % @user, nil]
-        else # TODO elsif @user == current_user
-          # all media sets I can see that have not been created by me
-          other = resources.not_by_user(current_user)
-          my = resources.where(:user_id => current_user)
-          [other, my, "Meine Sets", "Weitere Sets"]
-        end
-      }
-      format.json {
-        child_ids = MediaResource.by_collection(collection_id) unless collection_id.blank?
-        media_sets = unless child_ids.blank?
-          MediaResource.where(:id => child_ids).flat_map do |child|
-            child.parent_sets.accessible_by_user(current_user, accessible_action)
-          end.uniq
-        else
-          MediaSet.accessible_by_user(current_user, accessible_action)
-        end
-        render json: view_context.hash_for_media_resources_with_pagination(media_sets, true, with).to_json
-      }
-    end
-  end
 
   ##
   # Get a specific media set:
@@ -280,86 +217,10 @@ class MediaSetsController < ApplicationController
     end
   end
 
-#####################################################
-
-  def add_member
-    if @media_set
-      new_members = 0 #temp#
-      #raise params[:media_entry_ids].inspect
-      if params[:media_entry_ids] && !(params[:media_entry_ids] == "null") #check for blank submission from select
-        ids = params[:media_entry_ids].is_a?(String) ? params[:media_entry_ids].split(",") : params[:media_entry_ids]
-        media_entries = MediaEntry.find(ids)
-        new_members = @media_set.child_media_resources << media_entries
-      end
-      flash[:notice] = if new_members > 1
-         "#{new_members} neue Medieneinträge wurden dem Set #{@media_set.title} hinzugefügt" 
-      elsif new_members == 1
-        "Ein neuer Medieneintrag wurde dem Set #{@media_set.title} hinzugefügt" 
-      else
-        "Es wurden keine neuen Medieneinträge hinzugefügt."
-      end
-      respond_to do |format|
-        format.html { 
-          unless params[:media_entry_ids] == "null" # check for blank submission of batch edit form.
-            redirect_to(@media_set) 
-          else
-            flash[:error] = "Keine Medieneinträge ausgewählt"
-            redirect_to @media_set
-          end
-          } # OPTIMIZE
-      end
-    else
-      @media_sets = @user.media_sets
-    end
-  end
-
-  ##
-  # Manage parent media sets from a specific media set.
-  # 
-  # @url [POST] /media_sets/parents?[arguments]
-  # @url [DELETE] /media_sets/parents?[arguments]
-  # 
-  # @argument [parent_media_set_ids] array The ids of the parent media sets to remove/add
-  #
-  # @example_request
-  #   {"parent_media_set_ids": [1,2,3], "media_set_ids": [5]}
-  #   {"parent_media_set_ids": [1,2,3], "media_set_ids": [5,6]}
-  #
-  # @request_field [Array] parent_media_set_ids The ids of the parent media sets to remove/add  
-  # @request_field [Array] media_set_ids The ids of the media sets that have to be added to the parent sets (given in "parent_media_set_ids")   
-  #
-  # @example_response
-  #   [{"id":407, "parent_ids":[1,2,3]}]
-  # 
-  # @response_field [Hash] media_set The media set changed
-  # @response_field [Integer] media_set.id The id of the changed media set
-  # @response_field [Array] media_set.parent_ids The ids of the parents of the changes media set 
-  # 
-  def parents(parent_media_set_ids = params[:parent_media_set_ids])
-    
+  def parents(parent_media_set_ids = params[:parent_media_set_ids])  
     respond_to do |format|
       format.html {
-        @parents = @media_set.parents
-      }
-
-      format.json {
-
-        parent_media_sets = MediaSet.accessible_by_user(current_user, :edit).where(:id => parent_media_set_ids.map(&:to_i))
-        child_media_sets = Array(@media_set)
-        
-        child_media_sets.each do |media_set|
-          if request.post?
-            parent_media_sets.each do |parent_media_set|
-              media_set.parent_sets << parent_media_set
-            end
-          elsif request.delete?
-            parent_media_sets.each do |parent_media_set|
-              media_set.parent_sets.delete(parent_media_set)
-            end
-          end
-        end
-
-        render json: view_context.json_for(child_media_sets, {:parents => true})
+        @parents = @media_set.parents.accessible_by_user current_user
       }
     end
   end
