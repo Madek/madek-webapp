@@ -11,6 +11,7 @@ class MediaResourceArcsController.OutArcs
     @createStack = []
     @removeArcsStack = []
     @addArcsStack = []
+    @outArcResources = []
     do @createDialog
     @mediaResource = new App.MediaResource el.closest("[data-id]").data()
     @mediaResource.fetchOutArcs @loadOutArcResources
@@ -66,8 +67,9 @@ class MediaResourceArcsController.OutArcs
         accessible_action: "edit"
         with: App.MediaResourceArcsController.OutArcs.DEFAULT_WITH
       , (mediaResources, response)=>
-        _.each mediaResources, (mr)=>
+        mediaResources = _.filter mediaResources, (mr)=>
           mr.is_parent = true if _.any(@outArcResources,(arc)-> arc.id == mr.id)
+          return (mr.id != @mediaResource.id)
         mediaResources = (_.sortBy mediaResources, (mr)-> mr.meta_data.title).reverse()
         mediaResources = _.sortBy mediaResources, (mr)-> mr.is_parent
         @dialog.find(".refine-search-hint").show() if response.pagination.total_pages > 1
@@ -91,12 +93,15 @@ class MediaResourceArcsController.OutArcs
       @dialog.find(".ui-modal-body").html App.render "media_resource_arcs/organize/list" , {mediaResources: @outArcResources}
 
   loadOutArcResources: =>
-    resourcesLoader = new App.MediaResourcesPaginator
-    $(resourcesLoader).bind "completlyLoaded", @renderOutArcResources
-    resourcesLoader.start 
-      ids: @mediaResource.parentIds
-    , 
-      App.MediaResourceArcsController.OutArcs.DEFAULT_WITH
+    if @mediaResource.parentIds.length
+      resourcesLoader = new App.MediaResourcesPaginator
+      $(resourcesLoader).bind "completlyLoaded", @renderOutArcResources
+      resourcesLoader.start 
+        ids: @mediaResource.parentIds
+      , 
+        App.MediaResourceArcsController.OutArcs.DEFAULT_WITH
+    else
+      @dialog.find(".ui-modal-body").html ""
 
   renderOutArcResources: (e, mediaResources...)=>
     @outArcResources = _.sortBy mediaResources, (mr) -> mr.meta_data.title
