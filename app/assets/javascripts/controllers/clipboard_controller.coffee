@@ -44,7 +44,7 @@ class ClipboardController
     $("[data-clipboard-toggle]").live "click", (e)=> @toggleSelection $(e.currentTarget)
     $(".ui-thumbnail-action-checkbox:visible").live "inview", (e)=> @checkClipboardState $(e.currentTarget)
     $(".active.ui-resources .ui-resource").live "mouseenter", (e)=> @checkClipboardState $(e.currentTarget).find(".ui-thumbnail-action-checkbox")
-    $(@collection).bind "refresh", => do @saveCollection and do @updateCount
+    $(@collection).bind "refresh", => do @saveCollection and do @updateCount and do @updateMainCollectionButtons
     $(@editableMediaEntriesCollection).bind "refresh", => do @saveEditableMediaEntriesCollection and do @updateEditableButtons
     $(@manageableCollection).bind "refresh", => do @saveManageableCollection and do @updateManageableButtons
     $(window).on "render-inital-fetch", => do @enableSelectAll
@@ -57,6 +57,9 @@ class ClipboardController
       @emptyAlert_el.find(".text").shake()
       return false
     return true
+
+  updateMainCollectionButtons: ->
+    @actions.find("[data-organize-arcs]").data "collection", @collection
 
   updateEditableButtons: ->
     editableCount = @editableMediaEntriesCollection.count
@@ -170,6 +173,7 @@ class ClipboardController
       @manageableCollection.refreshData JSON.parse sessionStorage.clipboardManageableCollection
     do @updateManageableButtons
     do @updateEditableButtons
+    do @updateMainCollectionButtons
 
   destroyCollections: ->
     do @collection.destroy

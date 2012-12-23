@@ -27,16 +27,19 @@ class MediaResourceArcsController < ApplicationController
   # @response_field [Integer] child_id The id of the child media resource. 
   # @response_field [Boolean] highlight A status indicator if the arc is highlighted or not. 
   #
-  def index(parent_id = params[:parent_id], child_id = params[:child_id])
+  def index(parent_id = params[:parent_id], child_id = params[:child_id], collection_id = params[:collection_id])
     begin
       arcs = if parent_id
         MediaResourceArc.where(parent_id: parent_id)
       elsif child_id
         MediaResourceArc.where(child_id: child_id)
+      elsif collection_id
+        MediaResourceArc.where(child_id: MediaResource.by_collection(collection_id))
       end
 
       render json: {media_resource_arcs: arcs.map{|x| view_context.hash_for_media_resource_arc(x)} }.to_json
     rescue  Exception => e
+      binding.pry
       respond_to do |format|
         format.json { render json: e, status: :unprocessable_entity }
       end

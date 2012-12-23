@@ -324,9 +324,11 @@ module Json
 
     def hash_for_media_resource_arc(media_resource_arc, with = nil)
       h = {}
+
       [:parent_id, :child_id, :highlight, :cover].each do |k|
         h[k] = media_resource_arc.send(k)
       end
+      
       h
     end
 

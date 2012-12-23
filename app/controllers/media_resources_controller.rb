@@ -8,7 +8,7 @@ class MediaResourcesController < ApplicationController
   # TODO cancan # load_resource #:class => "MediaResource"
   before_filter :except => [:index, :collection] do
     begin
-      unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids]).blank?
+      unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids] || params[:collection_id]).blank?
         action = case request[:action].to_sym
           when :edit, :destroy
             :edit
@@ -16,7 +16,7 @@ class MediaResourcesController < ApplicationController
             :view
         end
         @media_resource = if params[:collection_id]
-          MediaResource.accessible_by_user(current_user, action).by_collection(params[:collection_id])
+          MediaResource.accessible_by_user(current_user, action).where(:id => MediaResource.by_collection(params[:collection_id]))
         else
           MediaResource.accessible_by_user(current_user, action).find(params[:media_resource_id])
         end
@@ -765,7 +765,7 @@ class MediaResourcesController < ApplicationController
   def parents(parent_media_set_ids = params[:parent_media_set_ids])
     parent_media_sets = MediaSet.accessible_by_user(current_user, :edit).where(:id => parent_media_set_ids.map(&:to_i))
     child_resources = Array(@media_resource)
-    
+
     child_resources.each do |resource|
       if request.post?
         (parent_media_sets - resource.parent_sets).each do |parent_media_set|

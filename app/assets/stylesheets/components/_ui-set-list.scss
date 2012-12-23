@@ -16,8 +16,16 @@
   &:hover {
     background: $grey-lighter;
   }
+
+  &.highlight {
+    background-color: lighten($yellow, 50%);
+    input { 
+      @include box-shadow(0 0 5px $yellow);
+      border-color: $yellow;
+    }
+  }
 }
-.ui-set-list-item input[type="checkbox"] {
+.ui-set-list-item .ui-set-list-input {
   @include position-top-left(15px,0);
 }
 .ui-set-list-item label {

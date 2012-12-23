@@ -1,0 +1,23 @@
+.tristate-checkbox-container {
+  position: relative;
+
+  input[type=checkbox] {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    top: 0;
+    left: 0;
+    @include dimension(14px,14px);  
+  }
+}
+
+.tristate-checkbox-mixed-value {
+  @include background(black);
+  @include dimension(6px,2px);
+  position: absolute;
+  top:  4px;
+  left: 0;
+  margin: 5px;
+  display: block;
+  @include border-radius(2px);
+}
