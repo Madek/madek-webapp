@@ -2,17 +2,19 @@
 
   .ui-modal-toolbar.top.phm.mrs
 
-    %table.ui-rights-group.block.borderless
+    .mrx
 
-      %thead
-        %tr
-          %td.ui-rights-user-title
-          %td.ui-rights-owner-title Eigentümer/in
-          %td.ui-rights-role-title  Berechtigung
-          %td.ui-rights-check-title Betrachten
-          %td.ui-rights-check-title Download Original
-          %td.ui-rights-check-title Editieren
-          %td.ui-rights-check-title Berechtigung verwalten
+      %table.ui-rights-group.block.borderless
+
+        %thead
+          %tr
+            %td.ui-rights-user-title
+            %td.ui-rights-owner-title Verantwortliche Person
+            %td.ui-rights-role-title  Berechtigung
+            %td.ui-rights-check-title Betrachten
+            %td.ui-rights-check-title Download Original
+            %td.ui-rights-check-title Editieren
+            %td.ui-rights-check-title Berechtigung verwalten
 
   .ui-modal-body
     .ui-rights-management-current-user
@@ -57,6 +59,12 @@
             %tbody
               {{tmpl(otherUsers) App.renderPath("permissions/line")}}
 
+          {{if $item.managable}}
+          %a.button.small
+            %i.icon-plus
+            Person hinzufugen
+          {{/if}}
+
       .ui-rights-management-other-groups
 
         %h4.title-s.mts.separated.mbx
@@ -70,12 +78,20 @@
             %tbody
               {{tmpl(otherGroups) App.renderPath("permissions/line")}}
 
+          {{if $item.managable}}
+          %a.button.small
+            %i.icon-plus
+            Gruppe hinzufugen
+          {{/if}}
+
   .ui-modal-toolbar.bottom.phm.mrs
 
     .ui-rights-management-public.mtx
 
-      %table.ui-rights-group.borderless.block
-       
-        %tbody
-          {{tmpl(public, {public: true}) App.renderPath("permissions/line")}}
-    
+      .mrx
+
+        %table.ui-rights-group.borderless.block
+         
+          %tbody
+            {{tmpl(public, {public: true}) App.renderPath("permissions/line")}}
+      

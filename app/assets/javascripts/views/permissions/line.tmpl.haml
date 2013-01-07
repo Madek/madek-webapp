@@ -13,40 +13,44 @@
 
   %td.ui-rights-owner
     {{if $item.data.id != undefined && $item.parent.data.ownerIds.indexOf(id) > -1}}
+    {{if $item.parent.manageable}}
     %input{:type => "radio", :checked => true}
     {{else}}
+    %input{:type => "radio", :checked => true, :disabled => :disabled}
+    {{/if}}
+    {{else}}
+    {{if $item.parent.manageable}}
     %input{:type => "radio"}
+    {{else}}
+    %input{:type => "radio", :disabled => :disabled}
+    {{/if}}
     {{/if}}
 
   %td.ui-rights-role
 
-    %select.ui-rights-role-select
-      {{each(i, preset) $item.parent.data.presets}}
-      %option{:value => "${preset.name}", :"data-preset" => "${JSON.stringify(preset)}"}= "${preset.name}"
-      {{/each}}
+    %div{:class => "ui-custom-select small{{if $item.parent.manageable == false}} disabled{{/if}}"}
+      %span.ui-custom-select-text 
+        {{if App.PermissionPreset.match($item.data, $item.parent.data.presets)}}
+        ${App.PermissionPreset.match($item.data, $item.parent.data.presets).name}
+        {{else}}
+        Angepasst
+        {{/if}}
+      {{if $item.parent.manageable == true}}
+      %i.icon-arrow-down.small
+      %select.ui-rights-role-select
+        {{each(i, preset) $item.parent.data.presets}}
+        {{if App.PermissionPreset.match($item.data, [preset])}}
+        %option{:selected => :selected, :value => "${preset.name}", :"data-preset" => "${JSON.stringify(preset)}"}= "${preset.name}"
+        {{else preset.manage == false}}
+        %option{:value => "${preset.name}", :"data-preset" => "${JSON.stringify(preset)}"}= "${preset.name}"
+        {{/if}}
+        {{/each}}
+      {{/if}}
 
-  %td.ui-rights-check{:title => "Betrachten"}
+  {{tmpl({permission: view, label: "Betrachten", name: "view"}) App.renderPath("permissions/line/right-check")}}
 
-    {{if view}}
-    {{if Underscore.isEqual(view.sort(), $item.parent.data.mediaResourceIds.sort())}}
-    %label= check_box_tag 'view', "true", true
-    {{else}}
-    {{if view.length>0}}
-    %label.mixed= check_box_tag 'view'
-    {{else}}
-    %label= check_box_tag 'view', "true", true
-    {{/if}}
-    {{/if}}
-    {{/if}}
+  {{tmpl({permission: download, label: "Download Original", name: "download"}) App.renderPath("permissions/line/right-check")}}
 
-
-
-
-  %td.ui-rights-check{:title => "Download Original"}
-    %input{:type => "checkbox"}
-
-  %td.ui-rights-check{:title => "Editieren"}
-    %input{:type => "checkbox"}
-
-  %td.ui-rights-check.ui-rights-manage{:title => "Berechtigung verwalten"}
-    %input{:type => "checkbox"}
+  {{tmpl({permission: edit, label: "Editieren", name: "edit"}) App.renderPath("permissions/line/right-check")}}
+  
+  {{tmpl({permission: manage, label: "Berechtigung verwalten", name: "manage"}) App.renderPath("permissions/line/right-check")}}

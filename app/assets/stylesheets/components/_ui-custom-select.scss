@@ -1,0 +1,32 @@
+.ui-custom-select {
+  @extend .button;
+  display: block;
+  position: relative;
+
+  select {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .ui-custom-select-text  {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 90%;
+    float: left;
+  }
+
+  i {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+  }
+
+  &.disabled, &.disabled:hover, &.disabled:active {
+    background: none;
+    border: none;
+  }
+
+}
