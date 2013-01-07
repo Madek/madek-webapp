@@ -105,12 +105,12 @@ Then /^I see the title of that resource$/ do
 end
 
 Then /^I see the permission icon for that resource$/ do
-  pending
-  expect{@popup.find(".item_permission")}.not_to raise_error
+  # it suffices to test if there is an icon inside ui-thumbnail-privacy
+  expect{ @popup.find(".ui-thumbnail-privacy i") }.not_to raise_error
 end
 
 Then /^I see the favorite status for that resource$/ do
-  expect{@popup.find(".button_favorit_off, .button_favorit_on")}.not_to raise_error
+  expect{@popup.find(".favorite_info i")}.not_to raise_error
 end
 
 Then /^I see the number of children devided by media entry and media set$/ do
