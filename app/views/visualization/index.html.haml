@@ -2,9 +2,9 @@
 #title
   %h1.title-xl
     - if @title
-      =" #{@title}" 
+      ="Zusammenhänge #{@title}" 
     - else
-      ="Medienarchiv Visualisierung"
+      ="Zusammenhänge"
 
 %svg#drawing{'xmlns' => "http://www.w3.org/2000/svg", version:"1.1", 'xmlns:xlink' => "http://www.w3.org/1999/xlink"}
 
@@ -32,5 +32,3 @@
     origin_resource: #{@origin_resource.to_json}
 
 
-
-    

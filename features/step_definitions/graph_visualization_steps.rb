@@ -1,12 +1,14 @@
 # encoding: utf-8
 Then /^I can see the relations for that resource[s]*$/ do
-  if @media_set
-    nodes = MediaResource.descendants_and_set(@media_set, MediaResource.accessible_by_user(@current_user))
-  elsif @media_entry
-    nodes = MediaResource.connected_resources(@media_entry, MediaResource.accessible_by_user(@current_user))
-  else
-    nodes = MediaResource.filter(@current_user, @filter) 
-  end
+  nodes = 
+    if @media_set
+      #MediaResource.descendants_and_set(@media_set, MediaResource.accessible_by_user(@current_user))
+      MediaResource.connected_resources(@media_set, MediaResource.accessible_by_user(@current_user))
+    elsif @media_entry
+      MediaResource.connected_resources(@media_entry, MediaResource.accessible_by_user(@current_user))
+    else
+      MediaResource.filter(@current_user, @filter) 
+    end
   page.driver.browser.switch_to.window page.driver.browser.window_handles.last
   wait_until { !current_url.match(/http:\/\//).nil? }
   env = Rack::MockRequest.env_for(current_url)
@@ -105,12 +107,12 @@ Then /^I see the title of that resource$/ do
 end
 
 Then /^I see the permission icon for that resource$/ do
-  pending
-  expect{@popup.find(".item_permission")}.not_to raise_error
+  # it suffices to test if there is an icon inside ui-thumbnail-privacy
+  expect{ @popup.find(".ui-thumbnail-privacy i") }.not_to raise_error
 end
 
 Then /^I see the favorite status for that resource$/ do
-  expect{@popup.find(".button_favorit_off, .button_favorit_on")}.not_to raise_error
+  expect{@popup.find(".favorite_info i")}.not_to raise_error
 end
 
 Then /^I see the number of children devided by media entry and media set$/ do

@@ -9,7 +9,7 @@
 
   .popover-content
   
-    .resource.ui-resources.grid.pll
+    .resource.ui-resources.grid.pll.show_permissions
       .ui-preloader
 
     .info.row.pbx

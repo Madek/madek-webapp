@@ -40,3 +40,11 @@ When /^I set the input with the name "(.*?)" to "(.*?)"$/ do |name, value|
   find("input[name='#{name}']").set(value)
 end
 
+When /^I use the "(.*?)" context action$/ do |context_name|  
+  find("a",text: "Weitere Aktionen").click
+  find("a",text: context_name).click
+end
+
+Given /^I wait for the following to be implemented$/ do
+  pending
+end

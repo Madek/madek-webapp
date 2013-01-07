@@ -65,8 +65,11 @@ Visualization.Views.PopupMenu = Backbone.View.extend
       ids: [id]
       with: 
         children: true
-        media_type: true
         is_favorite: true
+        is_private: true
+        is_public: true
+        is_shared: true
+        media_type: true
       , (media_resources, response)=>
         mr = media_resources[0]
         template.find(".resource").html App.render "media_resources/media_resource", mr
