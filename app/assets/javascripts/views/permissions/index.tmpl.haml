@@ -1,0 +1,81 @@
+.ui-rights-management
+
+  .ui-modal-toolbar.top.phm.mrs
+
+    %table.ui-rights-group.block.borderless
+
+      %thead
+        %tr
+          %td.ui-rights-user-title
+          %td.ui-rights-owner-title Eigentümer/in
+          %td.ui-rights-role-title  Berechtigung
+          %td.ui-rights-check-title Betrachten
+          %td.ui-rights-check-title Download Original
+          %td.ui-rights-check-title Editieren
+          %td.ui-rights-check-title Berechtigung verwalten
+
+  .ui-modal-body
+    .ui-rights-management-current-user
+
+      %h3.title-l.separated.mbx
+        Ich
+        .icon-privacy-private.mtx
+
+      .ui-rights-body
+
+        %table.ui-rights-group.bordered.block
+          %tbody
+            {{tmpl(you) App.renderPath("permissions/line")}}
+
+    {{if currentUserGroups}}
+    .ui-rights-management-current-user-groups
+
+      %h4.title-s.mts.separated.mbx
+        Gruppen mit mir
+        %i.icon-privacy-group
+
+      .ui-rights-body
+        %table.ui-rights-group.bordered.block
+          %tbody
+            {{tmpl(currentUserGroups) App.renderPath("permissions/line")}}
+    {{/if}}
+
+    .ui-rights-management-others
+
+      %h3.title-l.mts.mbx Andere
+
+      .ui-rights-management-other-people
+
+        %h4.title-s.mts.separated.mbx
+          Personen
+          %i.icon-privacy-private-alt
+
+        .ui-rights-body
+
+          %table.ui-rights-group.bordered.block
+           
+            %tbody
+              {{tmpl(otherUsers) App.renderPath("permissions/line")}}
+
+      .ui-rights-management-other-groups
+
+        %h4.title-s.mts.separated.mbx
+          Gruppen
+          %i.icon-privacy-group-alt
+
+        .ui-rights-body
+
+          %table.ui-rights-group.bordered.block
+           
+            %tbody
+              {{tmpl(otherGroups) App.renderPath("permissions/line")}}
+
+  .ui-modal-toolbar.bottom.phm.mrs
+
+    .ui-rights-management-public.mtx
+
+      %table.ui-rights-group.borderless.block
+       
+        %tbody
+          {{tmpl(public, {public: true}) App.renderPath("permissions/line")}}
+    

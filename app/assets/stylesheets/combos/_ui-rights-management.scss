@@ -29,23 +29,59 @@
 .ui-rights-check,
 .ui-rights-owner-title,
 .ui-rights-owner {
-  @include dimension(90px,auto);
+  @include dimension(80px,auto);
+  line-height: $line-height-s;
   text-align: center;
+}
+
+.ui-rights-owner-title,
+.ui-rights-owner {
+  padding-right: $space-s;
 }
 
 // Role column
 
 .ui-rights-role-title,
 .ui-rights-role { 
-  width: 100px;
+  line-height: $line-height-s;
+  width: 160px;
 }
 .ui-rights-role-select { 
-  @include dimension(100px,auto);
+  @include dimension(160px,auto);
+}
+
+// User column
+
+.ui-rights-user .text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 90%;
 }
 
 // Remove button
 
 .ui-rights-remove {
-  @include float-left;
   margin: 0 $space-x 0 0;
+  @include float-left;
+  display: none;
+}
+
+.ui-show-rights-remove .ui-rights-remove {
+  display: inline-block;
+}
+
+// Limitations for groups
+
+.ui-rights-management-current-user-groups, 
+.ui-rights-management-other-groups,
+.ui-rights-management-public {
+  .ui-rights-owner input {
+    display: none
+  }
+
+  .ui-rights-manage input {
+    display: none
+  }
 }

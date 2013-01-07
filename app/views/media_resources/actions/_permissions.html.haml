@@ -1,4 +1,4 @@
 %li.ui-drop-item
-  %a{:title => "Zugriffsberechtigungen lesen/bearbeiten"}
+  %a{:title => "Zugriffsberechtigungen lesen/bearbeiten", :"data-open-permissions" => true, :"data-media-resource-id" => @media_entry ? @media_entry.id : @media_set.id}
     %i.icon-lock.mid
     Zugriffsberechtigungen

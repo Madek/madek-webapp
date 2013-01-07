@@ -16,7 +16,19 @@
           %h1.title-xl 
             Meine Inhalte
 
-        .ui-body-title-actions= render :partial => "login_action"
+        .ui-body-title-actions
+
+            .dropdown.ui-dropdown.stick-right
+              %a.primary-button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
+                Weitere Aktionen
+                %i.icon-arrow-down.bright.stand-alone
+
+              %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+
+                %li.ui-drop-item
+                  %a{:href => visualization_filtered_resources(:user_id => current_user.id)}
+                    %i.icon-pen.mid
+                    Zusammenhänge zeigen
 
     .app-body-ui-container
       .bordered.ui-container.midtone.rounded.table
