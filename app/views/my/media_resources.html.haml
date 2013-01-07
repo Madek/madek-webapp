@@ -18,17 +18,17 @@
 
         .ui-body-title-actions
 
-            .dropdown.ui-dropdown.stick-right
-              %a.primary-button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
-                Weitere Aktionen
-                %i.icon-arrow-down.bright.stand-alone
+          .dropdown.ui-dropdown.stick-right
+            %a.primary-button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
+              Weitere Aktionen
+              %i.icon-arrow-down.bright.stand-alone
 
-              %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+            %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
 
-                %li.ui-drop-item
-                  %a{:href => visualization_filtered_resources(:user_id => current_user.id)}
-                    %i.icon-pen.mid
-                    Zusammenhänge zeigen
+              %li.ui-drop-item
+                %a{:href => visualization_filtered_resources_path(:user_id => current_user.id), :title => "Beziehung von Inhalten als Graph visualisieren"}
+                  %i.icon-vis-graph.mid
+                  Zusammenhänge anzeigen
 
     .app-body-ui-container
       .bordered.ui-container.midtone.rounded.table
