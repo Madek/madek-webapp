@@ -49,7 +49,7 @@ Feature: Visualization / Graph
       And I see the number of children devided by media entry and media set
       And I see the links to the resource, (my-)descendants, and (my)components
 
-  @jsbrowser 
+  @chrome
   Scenario: Popup for a media entry
     Given I am signed-in as "Normin"
      When I visit the visualization of "my_media_resources"
