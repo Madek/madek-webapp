@@ -20,6 +20,7 @@ class FilterPanelController
     @baseFilter = options.baseFilter if options.baseFilter?
     @startSelectedFilter = options.startSelectedFilter if options.startSelectedFilter?
     @startSelectedFilter = undefined if JSON.stringify({}) == JSON.stringify(@startSelectedFilter)
+    $(@panel).trigger "filter-initialized", @startSelectedFilter
     do @open if _.any(@startSelectedFilter) and not (JSON.stringify(@startSelectedFilter) == JSON.stringify(@baseFilter))
     do @showResetFilter if @startSelectedFilter? and not (JSON.stringify(@startSelectedFilter) == JSON.stringify(@baseFilter))
     do @plugin
