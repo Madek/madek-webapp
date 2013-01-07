@@ -63,11 +63,11 @@ class VisualizationController < ApplicationController
   def my_media_resources
     @resource_identifier = "my-resouces"
     set_layout_and_control_variables
-    @resources = MediaResource.where(user_id: current_user.id)
+    @resources = MediaResource.filter current_user, MediaResource.get_filter_params(params)
+    @resources = @resources.where(user_id: current_user.id)
     @arcs =  MediaResourceArc.connecting @resources
     render 'index'
   end
-
 
   def filtered_resources
     @filter = MediaResource.get_filter_params params

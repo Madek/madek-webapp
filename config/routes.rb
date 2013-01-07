@@ -7,6 +7,7 @@ MAdeK::Application.routes.draw do
 
   match 'visualization' => 'visualization#put', via: 'put'
   get 'visualization/filtered_resources' => 'visualization#filtered_resources'
+  get 'visualization/my/media_resources' => 'visualization#my_media_resources', :as => "visualization_of_my_media_resources"
   match 'visualization/:action(/:id)', controller: 'visualization'
 
 ##### SEARCH

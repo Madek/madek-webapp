@@ -40,6 +40,7 @@ class FilterPanelController
     do @toggleResetFilter
     do @deleteStartSelectedFilter
     $(@).trigger "filter-changed"
+    $(@panel).trigger "filter-changed", do @getSelectedFilter
 
   deleteStartSelectedFilter: -> @startSelectedFilter = undefined
 
@@ -58,6 +59,7 @@ class FilterPanelController
     @searchTerm.find("input").val ""
     do @deleteStartSelectedFilter
     $(@).trigger "filter-changed"
+    $(@panel).trigger "filter-changed", do @getSelectedFilter
     do @persistAllActiveToURL
     do @blockForLoading
     do @toggleResetFilter
@@ -141,6 +143,7 @@ class FilterPanelController
     item.addClass "active"
     do @deleteStartSelectedFilter
     $(@).trigger "filter-changed"
+    $(@panel).trigger "filter-changed", do @getSelectedFilter
     do @persistAllActiveToURL
     do @blockForLoading
     do @toggleResetFilter
@@ -149,6 +152,7 @@ class FilterPanelController
     item.removeClass "active"
     do @deleteStartSelectedFilter
     $(@).trigger "filter-changed"
+    $(@panel).trigger "filter-changed", do @getSelectedFilter
     @removeFromURL @getFilterFor item
     do @blockForLoading
     do @toggleResetFilter
