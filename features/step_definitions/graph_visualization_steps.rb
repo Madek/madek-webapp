@@ -1,12 +1,14 @@
 # encoding: utf-8
 Then /^I can see the relations for that resource[s]*$/ do
-  if @media_set
-    nodes = MediaResource.descendants_and_set(@media_set, MediaResource.accessible_by_user(@current_user))
-  elsif @media_entry
-    nodes = MediaResource.connected_resources(@media_entry, MediaResource.accessible_by_user(@current_user))
-  else
-    nodes = MediaResource.filter(@current_user, @filter) 
-  end
+  nodes = 
+    if @media_set
+      #MediaResource.descendants_and_set(@media_set, MediaResource.accessible_by_user(@current_user))
+      MediaResource.connected_resources(@media_set, MediaResource.accessible_by_user(@current_user))
+    elsif @media_entry
+      MediaResource.connected_resources(@media_entry, MediaResource.accessible_by_user(@current_user))
+    else
+      MediaResource.filter(@current_user, @filter) 
+    end
   page.driver.browser.switch_to.window page.driver.browser.window_handles.last
   wait_until { !current_url.match(/http:\/\//).nil? }
   env = Rack::MockRequest.env_for(current_url)
