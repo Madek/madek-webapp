@@ -1,4 +1,5 @@
 :coffeescript
-  window.current_user =
+  window.currentUser =
       id: #{current_user().id.to_json}
       name: #{current_user().name.to_json}
+      groups: #{current_user().groups.to_json}

@@ -135,7 +135,7 @@ class MediaResourceArcsController.OutArcs
         created_at: moment().format()
         meta_data:
           title: @searchInput.val()
-          owner: current_user.name
+          owner: currentUser.name
       @outArcResources.unshift ms
       @createStack.push ms
       @searchInput.val ""

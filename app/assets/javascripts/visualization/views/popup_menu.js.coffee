@@ -30,7 +30,7 @@ Visualization.Views.PopupMenu = Backbone.View.extend
                 type: target.data("type")
               target.data "template", $template
               $template.data "target", target
-              is_mine= -> target.data("user-id") == current_user.id 
+              is_mine= -> target.data("user-id") == currentUser.id 
               is_set= -> target.data("type") == "MediaSet"
 
               $template.find('#link_for_descendants_of').addClass('shown') if is_set()
