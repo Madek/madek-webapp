@@ -1,11 +1,11 @@
 # encoding: utf-8
-Then /^I can see the relations for that resource[s]*$/ do
+Then /^I can see my relations for that resource[s]*$/ do
   nodes = 
     if @media_set
       #MediaResource.descendants_and_set(@media_set, MediaResource.accessible_by_user(@current_user))
-      MediaResource.connected_resources(@media_set, MediaResource.accessible_by_user(@current_user))
+      MediaResource.connected_resources(@media_set, @current_user.media_resources)
     elsif @media_entry
-      MediaResource.connected_resources(@media_entry, MediaResource.accessible_by_user(@current_user))
+      MediaResource.connected_resources(@media_entry, @current_user.media_resources)
     else
       MediaResource.filter(@current_user, @filter) 
     end
@@ -25,13 +25,13 @@ Then /^I can see the relations for that resource[s]*$/ do
   arcs.each{|arc| find(".arc[parent_id='#{arc.parent_id}'][child_id='#{arc.child_id}']")}
 end
 
-When /^I open a media entry that is child of a set that I can see$/ do
-  @media_entry = MediaEntry.accessible_by_user(@current_user, :edit).detect{|me| me.parents.accessible_by_user(@current_user, :edit).size > 0}
+When /^I open one of my media entries that is child of a set that I can see$/ do
+  @media_entry =@current_user.media_entries.detect{|me| me.parents.accessible_by_user(@current_user, :edit).size > 0}
   visit media_resource_path @media_entry
 end
 
-When /^I open a set that has children and parents$/ do
-  @media_set = MediaSet.accessible_by_user(@current_user, :edit).detect{|ms| ms.parents.accessible_by_user(@current_user, :edit).size > 0 and ms.child_media_resources.accessible_by_user(@current_user, :edit).size > 0}
+When /^I open one of my sets that has children and parents$/ do
+  @media_set = MediaSet.find_by_id 22   
   visit media_resource_path @media_set
 end
 

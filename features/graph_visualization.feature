@@ -9,16 +9,16 @@ Feature: Visualization / Graph
   @firefox
   Scenario: Calculate graph on the media set view
     Given I am signed-in as "Normin"
-    When I open a set that has children and parents
-     And I use the "Zusammenhänge anzeigen" context action
-    Then I can see the relations for that resource
+    When I open one of my sets that has children and parents
+     And I use the "Zusammenhang zu meinen Inhalten anzeigen" context action
+    Then I can see my relations for that resource
 
   @firefox
   Scenario: Calculate graph on the media entry view
     Given I am signed-in as "Normin"
-    When I open a media entry that is child of a set that I can see
-     And I use the "Zusammenhänge anzeigen" context action
-    Then I can see the relations for that resource
+    When I open one of my media entries that is child of a set that I can see
+     And I use the "Zusammenhang zu meinen Inhalten anzeigen" context action
+    Then I can see my relations for that resource
 
   Scenario: Calculate graph on a filtered list
     Given I am signed-in as "Normin"
