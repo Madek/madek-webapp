@@ -10,7 +10,7 @@
     = javascript_include_tag "test" unless Rails.env.production?
     = javascript_tag ""
     = javascript_tag '$.fx.off = true;' if Rails.env.test?
-    = javascript_tag "window.current_user = #{json_for(current_user, {:groups => true})}"
+    = render :partial => "application/javascript"
     = csrf_meta_tag
     = yield :head
 
