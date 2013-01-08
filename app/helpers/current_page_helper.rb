@@ -7,14 +7,23 @@ module CurrentPageHelper
 ######### MY ARCHIVE
 
   def my_archive_page?
-    (current_user and request.fullpath== "/") or
     (current_user and @media_set and @media_set.user == current_user) or 
     (current_user and @media_entry and @media_entry.user == current_user) or
     (current_user and @media_resource and @media_resource.user == current_user) or
-    my_media_resources_page? or 
+    my_dashboard_page? or
+    my_media_resources_page? or
     my_favorites_page? or
-    my_keywords_page? or 
+    my_latest_imports_page? or
+    my_keywords_page? or
     my_entrusted_media_resources_page?
+  end
+
+  def my_latest_imports_page?
+    current_page? my_latest_imports_path
+  end
+
+  def my_dashboard_page?
+    current_page? my_dashboard_path
   end
 
   def my_media_resources_page?

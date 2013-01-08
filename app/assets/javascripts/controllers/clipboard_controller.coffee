@@ -60,6 +60,8 @@ class ClipboardController
 
   updateMainCollectionButtons: ->
     @actions.find("[data-organize-arcs]").data "collection", @collection
+    @actions.find("[data-open-permissions][data-manageable='false']").data "collection", @collection
+    @actions.find("[data-open-permissions][data-manageable='true']").data "collection", @manageableCollection
 
   updateEditableButtons: ->
     editableCount = @editableMediaEntriesCollection.count

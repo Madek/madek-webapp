@@ -47,14 +47,7 @@ end
       elsif session[:return_to]
         redirect_back_or_default('/')
       else
-        @latest_user_resources = (current_user.media_resources).filter(current_user).ordered_by(:updated_at).limit(6)
-        @user_favorite_resources = MediaResource.filter(current_user, {:favorites => "true"}).limit(12)
-        @user_keywords = view_context.hash_for current_user.keywords.with_count.limit(6), {:count => true}
-        @user_groups = current_user.groups.limit(4)
-        @user_entrusted_resources = MediaResource.filter(current_user).entrusted_to_user(current_user).limit(6)
-        
-        @latest_user_imports = (current_user.media_resources).filter(current_user, {:type => "media_entries"}).ordered_by(:created_at).limit(6)
-        render :template => "/my/dashboard"
+        redirect_to my_dashboard_path
       end
     else
       @splashscreen_set = MediaSet.splashscreen

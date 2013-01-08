@@ -12,13 +12,19 @@ class Permissions
     do @delegateEvents
     App.PermissionPreset.fetch null, (presets)=>
       @permissionPresets = presets
-      if el.data "media-resource-id"
+      if el.data("media-resource-id")?
         @mediaResourceIds = [el.data("media-resource-id")]
-        @loadForSingleMediaResource el.data "media-resource-id"
+        @mediaResourceId = el.data("media-resource-id")
+        do @fetchPermissions
+      else if el.data("collection")?
+        @collection = el.data("collection")
+        @mediaResourceIds = @collection.ids
+        do @fetchPermissions
 
   delegateEvents: ->
     @dialog.on "change", ".ui-rights-check input", @onChangePermission
-    @dialog.on "change", ".ui-rights-role select", @onChangePreset
+    @dialog.on "change", ".ui-rights-role select", (e)=> @onChangePreset $(e.currentTarget)
+    @dialog.on "click", ".ui-rights-role select option", (e)=> @onChangePreset $(e.currentTarget).closest "select"
     @dialog.on "click keydown", ".ui-add-subject .button", (e)=> @showAddInput $(e.currentTarget)
     @dialog.on "click", ".ui-rights-remove", (e)=> $(e.currentTarget).closest("tr").remove()
     @dialog.on "change", ".ui-rights-owner input", (e)=> @changeOwnerTo $(e.currentTarget).closest "tr"
@@ -171,11 +177,10 @@ class Permissions
     input.one "blur", (e)-> input.hide() and input.val("") and button.show()
     input.focus()
 
-  onChangePreset: (e)=>
-    select = $(e.currentTarget)
+  onChangePreset: (select)=>
     option = select.find("option:selected")
-    el = $(e.currentTarget).closest "tr"
-    @setPresetFor el, option.data "preset"
+    line = select.closest "tr"
+    @setPresetFor line, option.data "preset"
 
   onChangePermission: (e)=>
     el = $(e.currentTarget).closest "tr"
@@ -202,14 +207,28 @@ class Permissions
     el.find("input[name='edit']").attr("checked", preset.edit).trigger "change"
     el.find("input[name='manage']").attr("checked", preset.manage).trigger "change"
 
-  loadForSingleMediaResource: (id)->
-    App.Permission.fetch 
-      media_resource_ids: [id]
+  fetchPermissions: ->
+    fetchData = 
+      with: 
+        users: true
+        groups: true
+        owners: true
+    $.extend fetchData, {media_resource_ids: @mediaResourceIds} if @mediaResourceId?
+    $.extend fetchData, {collection_id: @collection.id} if @collection?
+    App.Permission.fetch fetchData, (permissions)=>
+      @permissions = permissions
+      do @render
+      do @enableSaveButton
+
+  loadPermissionsForMultipleResource: ->
+    App.Permission.fetch
+      collection_id: @collection.id
       with: 
         users: true
         groups: true
         owners: true
     , (permissions)=>
+      debugger
       @permissions = permissions
       do @render
       do @enableSaveButton

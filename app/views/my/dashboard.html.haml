@@ -35,6 +35,7 @@
             = render :partial => "media_resources/wrapper", 
                      :locals => {:media_resources => @latest_user_imports, 
                                  :title => "Meine letzen Importe", 
+                                 :link => my_latest_imports_path,
                                  :item_layout => "miniature",
                                  :with_actions => true,
                                  :id => "latest_user_imports_block" }

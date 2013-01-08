@@ -37,7 +37,7 @@
         #ui-resources-list-container.app-body-content.table-cell.table-substance.ui-container
 
           = render :partial => "media_resources/list/toolbar", 
-                   :locals => {:subtitle => "#{@favored_media_resources_count} Inhalte"}
+                   :locals => {:subtitle => "#{@user_favorite_resources_count} Inhalte"}
 
           = render :partial => "media_resources/list/filterbar"
 

@@ -30,6 +30,7 @@ MAdeK::Application.routes.draw do
 
 ##### MY
 
+  get 'my', :to => 'my#dashboard', :as => "my_dashboard"
   get 'my/media_resources', :to => 'my#media_resources', :as => "my_media_resources"
   get 'my/latest_imports', :to => 'my#latest_imports', :as => "my_latest_imports"
   get 'my/favorites', :to => 'my#favorites', :as => "my_favorites"

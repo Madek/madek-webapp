@@ -95,6 +95,8 @@ module MediaResourceModules
 
         resources = resources.filter_media_file(filter[:media_file]) if filter[:media_file] and filter[:media_file][:content_type]
 
+        resources = resources.filter_uploaded_by(filter[:uploader_id]) if filter[:uploader_id]
+
         resources
       end
 
@@ -152,6 +154,13 @@ module MediaResourceModules
                          joins("INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id")
                 s = s.where(:meta_data_meta_departments => {:meta_department_id => id}) unless id == "any"
                 s
+              when :"uploaded by"
+                s = unscoped.
+                  joins(:meta_data => :meta_key).
+                  joins("INNER JOIN meta_data_users ON meta_data.id = meta_data_users.meta_datum_id").
+                  where(:meta_keys => {:label => "uploaded by"},
+                        :meta_data_users => {:user_id => id})
+                s
               else
                 # OPTIMIZE accept also directly meta_key_id ?? 
                 s = unscoped.joins(:meta_data => :meta_key).
@@ -165,7 +174,7 @@ module MediaResourceModules
         end
         resources
       end
-      
+
       def filter_media_file(options = {})
         sql = media_entries.joins("RIGHT JOIN media_files ON media_resources.media_file_id = media_files.id")
       

@@ -1,4 +1,4 @@
-.app.view-my-entrusted-media-resources
+.app.view-my-favorites
 
   = render "application/header"
 
@@ -7,7 +7,7 @@
       .ui-body-title
         .ui-body-title-label
           %h1.title-xl 
-            Anvertraute Inhalte
+            Meine letzten Importen
 
         .ui-body-title-actions
 
@@ -37,7 +37,7 @@
         #ui-resources-list-container.app-body-content.table-cell.table-substance.ui-container
 
           = render :partial => "media_resources/list/toolbar", 
-                   :locals => {:subtitle => "#{@user_entrusted_resources_count} Inhalte"}
+                   :locals => {:subtitle => "#{@latest_user_imports_count} Medieneinträge"}
 
           = render :partial => "media_resources/list/filterbar"
 
@@ -60,5 +60,5 @@
 :coffeescript
   
   jQuery -> new App.MediaResourcesController.Index
-    baseFilter: #{{:permissions => {:scope => {:ids => ["entrusted"]}}}.to_json}
+    baseFilter: #{{:meta_data => {:"uploaded by" => {:ids => [current_user.id]}}}.to_json}
     startFilterParams: #{MediaResource.get_filter_params(params).to_json}

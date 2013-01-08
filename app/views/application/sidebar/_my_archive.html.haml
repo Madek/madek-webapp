@@ -1,31 +1,37 @@
-- if !@user_groups.blank? or !@user_entrusted_resources.blank? or !@user_keywords.blank? or !@user_favorite_resources.blank? or !@latest_user_imports.blank? or !@latest_user_resources.blank?
+- if !@latest_user_resources_count.zero? or !@user_favorite_resources_count.zero? or !@latest_user_imports_count.zero? or !@user_keywords_count.zero? or !@user_entrusted_resources_count.zero? or !@user_groups_count.zero?
   .app-body-sidebar.table-cell.bright.ui-container.bordered-right.rounded-left.table-side
     .ui-container.rounded-left.phm.pvl
       %ul.ui-side-navigation
 
-        - unless @latest_user_resources.blank?
+        - unless @latest_user_resources_count.zero?
           %li.ui-side-navigation-item{:class => my_media_resources_page? ? "active" : ""}
             %a.strong{:href => my_media_resources_path} 
               Meine Inhalte
           %li.separator.mini
 
-        - unless @user_favorite_resources.blank?
+        - unless @latest_user_imports_count.zero?
+          %li.ui-side-navigation-item{:class => my_latest_imports_page? ? "active" : ""}
+            %a.strong{:href => my_latest_imports_path} 
+              Meine letzten Importe
+          %li.separator.mini
+
+        - unless @user_favorite_resources_count.zero?
           %li.ui-side-navigation-item{:class => my_favorites_page? ? "active" : ""}
             %a.strong{:href => my_favorites_path} 
               Meine Favoriten
           %li.separator.mini
 
-        - unless @user_keywords.blank?
+        - unless @user_keywords_count.zero?
           %li.ui-side-navigation-item{:class => my_keywords_page? ? "active" : ""}
             %a.strong{:href => my_keywords_path} Meine Schlagworte
           %li.separator.mini
 
-        - unless @user_entrusted_resources.blank?
+        - unless @user_entrusted_resources_count.zero?
           %li.ui-side-navigation-item{:class => my_entrusted_media_resources_page? ? "active" : ""}
             %a.strong{:href => my_entrusted_media_resources_path} Mir anvertaute Inhalte
           %li.separator.mini
 
-        - unless @user_groups.blank?
+        - unless @user_groups_count.zero?
           %li.ui-side-navigation-item
             %a.strong{:href => groups_path} Meine Arbeitsgruppen
           %li.separator.mini

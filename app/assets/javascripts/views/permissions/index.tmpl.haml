@@ -46,6 +46,8 @@
 
       %h3.title-l.mts.mbx Andere
 
+
+      {{if $item.manageable == true || otherUsers.length > 0}}
       .ui-rights-management-other-users
 
         %h4.title-s.mts.separated.mbx
@@ -66,7 +68,10 @@
               %i.icon-plus
               Person hinzufugen
           {{/if}}
+      {{/if}}
 
+
+      {{if $item.manageable == true || otherGroups.length > 0}}
       .ui-rights-management-other-groups
 
         %h4.title-s.mts.separated.mbx
@@ -87,6 +92,7 @@
               %i.icon-plus
               Gruppe hinzufugen
           {{/if}}
+      {{/if}}
 
   .ui-modal-toolbar.bottom.phm.mrs
 
