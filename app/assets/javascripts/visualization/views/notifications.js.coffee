@@ -5,7 +5,7 @@ Visualization.Views.Notifications = Backbone.View.extend
 
     # loading notification
     $(window).bind "worker_startes_layouting", => 
-      @add "loading", "notification", "<div class='loading icon'></div> Graph wird berechnet... "
+      @add "loading", "notification", "<div class='ui-preloader'></div> Graph wird berechnet... "
       remove_loading_notification = => @remove "loading"; $(window).unbind "worker_finished_layouting", remove_loading_notification
       $(window).bind "worker_finished_layouting", remove_loading_notification
 
