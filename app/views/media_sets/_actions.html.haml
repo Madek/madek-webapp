@@ -19,7 +19,8 @@
 
         = render :partial => "media_sets/actions/cover"
 
-        = render :partial => "media_resources/actions/graph", :locals => {mr: @media_set}
+        -if @media_set.user == current_user
+          = render :partial => "media_resources/actions/visualize_my_component_with", :locals => {mr: @media_set}
 
         = render :partial => "media_resources/actions/delete"
 

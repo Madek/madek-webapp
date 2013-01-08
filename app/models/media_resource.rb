@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 
 class MediaResource < ActiveRecord::Base
+  extend MediaResourceModules::Graph
   include MediaResourceModules::Arcs
   include MediaResourceModules::MetaData
   include MediaResourceModules::Permissions
