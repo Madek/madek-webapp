@@ -209,7 +209,7 @@ class MediaResourceArcsController.OutArcs
   finish: (stackName) =>
     delete @[stackName]
     if not @addArcsStack? and not @removeArcsStack?
-      window.location = window.location
+      document.location.reload true
 
   @DEFAULT_WITH =
     created_at: true

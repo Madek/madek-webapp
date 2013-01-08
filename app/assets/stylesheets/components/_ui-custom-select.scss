@@ -18,6 +18,10 @@
     float: left;
   }
 
+  &.disabled .ui-custom-select-text {
+    width: 100%;
+  }
+
   i {
     position: absolute;
     right: 4px;

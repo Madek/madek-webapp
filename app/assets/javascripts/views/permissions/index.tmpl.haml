@@ -1,4 +1,4 @@
-.ui-rights-management
+%div{:class => "ui-rights-management{{if $item.manageable == false}} unmanageable{{/if}}{{if public[0].view == true}} public-view{{/if}}{{if public[0].download}} public-download{{/if}}{{if public[0].edit}} public-edit{{/if}}"}
 
   .ui-modal-toolbar.top.phm.mrs
 
@@ -27,10 +27,9 @@
 
         %table.ui-rights-group.bordered.block
           %tbody
-            {{tmpl(you) App.renderPath("permissions/line")}}
+            {{tmpl(you, {presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}
 
-    {{if currentUserGroups}}
-    .ui-rights-management-current-user-groups
+    %div{:class => "ui-rights-management-current-user-groups{{if currentUserGroups}}{{else}} hidden{{/if}}"}
 
       %h4.title-s.mts.separated.mbx
         Gruppen mit mir
@@ -39,14 +38,15 @@
       .ui-rights-body
         %table.ui-rights-group.bordered.block
           %tbody
-            {{tmpl(currentUserGroups) App.renderPath("permissions/line")}}
-    {{/if}}
+            {{if currentUserGroups}}
+            {{tmpl(currentUserGroups, {presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}
+            {{/if}}
 
     .ui-rights-management-others
 
       %h3.title-l.mts.mbx Andere
 
-      .ui-rights-management-other-people
+      .ui-rights-management-other-users
 
         %h4.title-s.mts.separated.mbx
           Personen
@@ -57,12 +57,14 @@
           %table.ui-rights-group.bordered.block
            
             %tbody
-              {{tmpl(otherUsers) App.renderPath("permissions/line")}}
+              {{tmpl(otherUsers, {presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}
 
-          {{if $item.managable}}
-          %a.button.small
-            %i.icon-plus
-            Person hinzufugen
+          {{if $item.manageable}}
+          #addUser.ui-add-subject.ptx
+            %input.small.block.hidden{:type => :text, :placeholder => "Name der Person"}
+            %a.button.small{:tabindex => 0}
+              %i.icon-plus
+              Person hinzufugen
           {{/if}}
 
       .ui-rights-management-other-groups
@@ -76,12 +78,14 @@
           %table.ui-rights-group.bordered.block
            
             %tbody
-              {{tmpl(otherGroups) App.renderPath("permissions/line")}}
+              {{tmpl(otherGroups, {presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}
 
-          {{if $item.managable}}
-          %a.button.small
-            %i.icon-plus
-            Gruppe hinzufugen
+          {{if $item.manageable}}
+          #addGroup.ui-add-subject.ptx
+            %input.small.block.hidden{:type => :text, :placeholder => "Name der Gruppe"}
+            %a.button.small{:tabindex => 0}
+              %i.icon-plus
+              Gruppe hinzufugen
           {{/if}}
 
   .ui-modal-toolbar.bottom.phm.mrs
@@ -93,5 +97,5 @@
         %table.ui-rights-group.borderless.block
          
           %tbody
-            {{tmpl(public, {public: true}) App.renderPath("permissions/line")}}
+            {{tmpl(public, {public: true, presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}
       

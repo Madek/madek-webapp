@@ -1,7 +1,10 @@
-%tr
+%tr{:"data-id" => "${id}", :"data-name" => "${name}", "data-ownership" => "${ownership}"}
 
   %td.ui-rights-user
-    %a.button.small.ui-rights-remove{:href => "#", :title => "Remove"} ×
+    {{if $item.manageable && ownership == false}}
+    %a.button.small.ui-rights-remove{:href => "#", :title => "Berechtigung entfernen"} ×
+    {{/if}}
+    
     %span.text{:title => "${name}"}
       {{if $item.public}}
       %h4.title-s
@@ -11,15 +14,15 @@
       ${name}
       {{/if}}
 
-  %td.ui-rights-owner
-    {{if $item.data.id != undefined && $item.parent.data.ownerIds.indexOf(id) > -1}}
-    {{if $item.parent.manageable}}
+  %td.ui-rights-owner{:title => "Verantwortliche Person"}
+    {{if ownership}}
+    {{if $item.manageable}}
     %input{:type => "radio", :checked => true}
     {{else}}
     %input{:type => "radio", :checked => true, :disabled => :disabled}
     {{/if}}
     {{else}}
-    {{if $item.parent.manageable}}
+    {{if $item.manageable}}
     %input{:type => "radio"}
     {{else}}
     %input{:type => "radio", :disabled => :disabled}
@@ -28,17 +31,22 @@
 
   %td.ui-rights-role
 
-    %div{:class => "ui-custom-select small{{if $item.parent.manageable == false}} disabled{{/if}}"}
+    {{if ownership}}
+    %div{:class => "ui-custom-select small disabled"}
+      %span.ui-custom-select-text
+        Verantwortliche Person
+    {{else}}
+    %div{:class => "ui-custom-select small{{if $item.manageable == false}} disabled{{/if}}"}
       %span.ui-custom-select-text 
-        {{if App.PermissionPreset.match($item.data, $item.parent.data.presets)}}
-        ${App.PermissionPreset.match($item.data, $item.parent.data.presets).name}
+        {{if App.PermissionPreset.match($item.data, $item.presets)}}
+        ${App.PermissionPreset.match($item.data, $item.presets).name}
         {{else}}
         Angepasst
         {{/if}}
-      {{if $item.parent.manageable == true}}
+      {{if $item.manageable == true}}
       %i.icon-arrow-down.small
       %select.ui-rights-role-select
-        {{each(i, preset) $item.parent.data.presets}}
+        {{each(i, preset) $item.presets}}
         {{if App.PermissionPreset.match($item.data, [preset])}}
         %option{:selected => :selected, :value => "${preset.name}", :"data-preset" => "${JSON.stringify(preset)}"}= "${preset.name}"
         {{else preset.manage == false}}
@@ -46,11 +54,12 @@
         {{/if}}
         {{/each}}
       {{/if}}
+    {{/if}}
 
-  {{tmpl({permission: view, label: "Betrachten", name: "view"}) App.renderPath("permissions/line/right-check")}}
+  {{tmpl({permission: view, label: "Betrachten", name: "view"}, {manageable: $item.manageable, ownership: ownership}) App.renderPath("permissions/line/right-check")}}
 
-  {{tmpl({permission: download, label: "Download Original", name: "download"}) App.renderPath("permissions/line/right-check")}}
+  {{tmpl({permission: download, label: "Download Original", name: "download"}, {manageable: $item.manageable, ownership: ownership}) App.renderPath("permissions/line/right-check")}}
 
-  {{tmpl({permission: edit, label: "Editieren", name: "edit"}) App.renderPath("permissions/line/right-check")}}
+  {{tmpl({permission: edit, label: "Editieren", name: "edit"}, {manageable: $item.manageable, ownership: ownership}) App.renderPath("permissions/line/right-check")}}
   
-  {{tmpl({permission: manage, label: "Berechtigung verwalten", name: "manage"}) App.renderPath("permissions/line/right-check")}}
+  {{tmpl({permission: manage, label: "Berechtigung verwalten", name: "manage"}, {manageable: $item.manageable, ownership: ownership}) App.renderPath("permissions/line/right-check")}}

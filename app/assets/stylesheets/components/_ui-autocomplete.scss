@@ -43,6 +43,10 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
+  &.narrow {
+    width: 300px !important;
+  }
 }
 
 .ui-helper-hidden-accessible {

@@ -64,6 +64,10 @@ input.large {
   padding: 3px 0;
 }
 
+input.small {
+  line-height: $line-height-xs;
+}
+
 /* State variations
 ----------------------------------------- */
 

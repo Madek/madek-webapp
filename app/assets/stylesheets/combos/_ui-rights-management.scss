@@ -69,13 +69,17 @@
 // Remove button
 
 .ui-rights-remove {
-  margin: 0 $space-x 0 0;
+  margin: 0 $space-s 0 0;
   @include float-left;
-  display: none;
+  display: inline-block;
 }
 
-.ui-show-rights-remove .ui-rights-remove {
-  display: inline-block;
+// Limitations for showing remove button
+
+.ui-rights-management-public, .ui-rights-management-current-user {
+  .ui-rights-remove {
+    display: none;
+  }
 }
 
 // Limitations for groups
@@ -84,10 +88,70 @@
 .ui-rights-management-other-groups,
 .ui-rights-management-public {
   .ui-rights-owner input {
-    display: none
+    display: none;
   }
 
-  .ui-rights-manage input {
-    display: none
+  .ui-rights-check input[name='manage'] {
+    display: none;
+  }
+}
+
+// 
+
+.ui-add-subject {
+  height: 32px;
+  display: block;
+  width: 300px;
+  position: relative;
+}
+
+// public view overwrites all public view checks
+
+.ui-rights-management.public-view {
+
+   &.unmanageable .ui-rights-check.view label { opacity: 0.5; }
+
+  .ui-rights-management-current-user,
+  .ui-rights-management-current-user-groups, 
+  .ui-rights-management-other-groups,
+  .ui-rights-management-other-users {
+    .ui-rights-check.view {
+      label { @extend .icon-privacy-open; }
+      input { display: none; }
+    }
+  }
+}
+
+// public download overwrites all public download checks
+
+.ui-rights-management.public-download {
+
+   &.unmanageable .ui-rights-check.download label { opacity: 0.5; }
+
+  .ui-rights-management-current-user,
+  .ui-rights-management-current-user-groups, 
+  .ui-rights-management-other-groups,
+  .ui-rights-management-other-users {
+    .ui-rights-check.download {
+      label { @extend .icon-privacy-open; }
+      input { display: none; }
+    }
+  }
+}
+
+// public edit overwrites all public edit checks
+
+.ui-rights-management.public-edit {
+
+   &.unmanageable .ui-rights-check.edit label { opacity: 0.5; }
+
+  .ui-rights-management-current-user,
+  .ui-rights-management-current-user-groups, 
+  .ui-rights-management-other-groups,
+  .ui-rights-management-other-users {
+    .ui-rights-check.edit {
+      label { @extend .icon-privacy-open; }
+      input { display: none; }
+    }
   }
 }

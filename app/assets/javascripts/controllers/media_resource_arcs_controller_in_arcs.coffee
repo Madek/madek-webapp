@@ -41,7 +41,7 @@ class MediaResourceArcsController.InArcs
     do e.preventDefault
     @mediaSet.persistArcs =>
       do @el.remove
-      window.location = window.location
+      document.location.reload true
     return false
 
   change: (e)=>

@@ -1,9 +1,9 @@
-%td.ui-rights-check{:title => "${label}"}
+%td{:class => "ui-rights-check ${name}", :title => "${label}"}
   %label
 
     {{if permission == true}}
 
-    {{if $item.parent.parent.manageable}}
+    {{if $item.manageable && $item.ownership == false}}
     %input{:checked => "checked", :name => "${name}", :type => "checkbox", :value => "true"}
     {{else}}
     %input{:checked => "checked", :name => "${name}", :type => "checkbox", :value => "true", :disabled => true}
@@ -11,7 +11,7 @@
     
     {{else permission == "mixed"}}
 
-    {{if $item.parent.parent.manageable}}
+    {{if $item.manageable && $item.ownership == false}}
     %input{:name => "${name}", :type => "checkbox", :value => "mixed"}
     {{else}}
     %input{:name => "${name}", :type => "checkbox", :value => "mixed", :disabled => true}
@@ -19,7 +19,7 @@
 
     {{else}}
 
-    {{if $item.parent.parent.manageable}}
+    {{if $item.manageable && $item.ownership == false}}
     %input{:name => "${name}", :type => "checkbox", :value => "true"}
     {{else}}
     %input{:name => "${name}", :type => "checkbox", :value => "true", :disabled => true}
