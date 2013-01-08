@@ -22,7 +22,8 @@
 
         = render :partial => "media_resources/actions/browse"
 
-        = render :partial => "media_resources/actions/graph", :locals => {mr: @media_entry}
+        -if @media_entry.user == current_user
+          = render :partial => "media_resources/actions/visualize_my_component_with", :locals => {mr: @media_entry}
 
         = render :partial => "media_resources/actions/delete"
         
