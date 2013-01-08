@@ -1,8 +1,12 @@
-.modal.hide.fade.ui-modal.wide{:role => "dialog", :tabindex => "-1"}
+.modal.hide.fade.ui-modal.extrawide{:role => "dialog", :tabindex => "-1"}
   %form
     .ui-modal-head
       %a.ui-modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button", :title => "Close", :class => "weak"}
-      %h3.title-l Zugriffsberechtigungen
+      %h3.title-l 
+        Zugriffsberechtigungen
+        {{if title}}
+        für "${title}"
+        {{/if}}
       
     .ui-rights-management
       .pvh.mth
@@ -10,5 +14,11 @@
 
     .ui-modal-footer
       .ui-actions
+        {{if $item.manageable}}
         %a.link.weak{"aria-hidden" => "true", "data-dismiss" => "modal", :class => "weak link"} Abbrechen
-        %button.primary-button.disabled{:type => :submit, :disabled => :disabled} Speichern
+        %button.primary-button.disabled{:type => :submit, :disabled => :disabled}
+          Speichern
+        {{else}}
+        %button.primary-button{"aria-hidden" => "true", "data-dismiss" => "modal", :class => "weak link"} 
+          Ok, zurück
+        {{/if}}

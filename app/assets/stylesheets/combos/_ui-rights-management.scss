@@ -6,6 +6,11 @@
 
 .ui-rights-management {
 }
+
+.ui-rights-management .ui-modal-body {
+  overflow-y: scroll;
+}
+
 .ui-rights-body {
   padding-bottom: $space-m;
 }
@@ -28,7 +33,8 @@
 .ui-rights-check-title,
 .ui-rights-check,
 .ui-rights-owner-title,
-.ui-rights-owner {
+.ui-rights-owner,
+.ui-rights-role-title {
   @include dimension(80px,auto);
   line-height: $line-height-s;
   text-align: center;
@@ -36,7 +42,7 @@
 
 .ui-rights-owner-title,
 .ui-rights-owner {
-  padding-right: $space-s;
+  padding-right: $space-m;
 }
 
 // Role column

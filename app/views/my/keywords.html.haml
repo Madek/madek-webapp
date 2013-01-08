@@ -8,7 +8,13 @@
         .ui-body-title-label
           %h1.title-xl Meine Schlagworte
 
-        .ui-body-title-actions= render :partial => "login_action"
+        .ui-body-title-actions
+          %a.button{:"data-create-set" => true}
+            %i.icon-new-set
+            Set erstellen
+          %a.primary-button{:href => import_path}
+            %i.icon-upload.bright
+            Medien Importieren
 
     .app-body-ui-container
       .bordered.ui-container.midtone.rounded.table

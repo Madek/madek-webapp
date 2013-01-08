@@ -3,6 +3,7 @@
  *
  * .narrow    - Narrow variation
  * .wide      - Wide variation
+ * .extrawide - Extra-Wide variation
  *
  * Styleguide 6.10
  */
@@ -78,18 +79,9 @@
   @include dimension(800px,auto);
   margin-left: -400px;
 }
-.ui-modal.max {
-  @include dimension(auto,auto);
-  margin-left: -50%;
-}
-
-.ui-modal.full {
-  @include dimension(100%, 100%);
-  top: 0;
-  left: 0;
-  margin: 0;
-  padding: 0;
-  position: fixed;
+.ui-modal.extrawide {
+  @include dimension(960px,auto);
+  margin-left: -480px;
 }
 
 // Small reset for modal elements
