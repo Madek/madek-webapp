@@ -45,6 +45,10 @@
 /**
  * Brand area
  ----------------------------------------- */
+.ui-header-brand {
+  max-width: 30%;  
+}
+
 .ui-header-brand a:hover {
   text-decoration: none;
 }

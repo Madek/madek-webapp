@@ -6,6 +6,9 @@
         - mr = @splashscreen_set_children[i-1]
         .ui-collage-item{:class => col.odd? ? "even" : "odd"}
           .ui-collage-item-wrapper
-            %img.ui-collage-item-image{:src => "/media_resources/#{mr.id}/image"} 
+            .ui-collage-item-table
+              .ui-collage-item-cell
+                .ui-collage-item-inner
+                  %img.ui-collage-item-image{:src => "/media_resources/#{mr.id}/image"} 
 
   = render "application/login"
