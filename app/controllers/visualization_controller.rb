@@ -59,13 +59,22 @@ class VisualizationController < ApplicationController
     render 'index'
   end
 
-
   def my_media_resources
     @resource_identifier = "my-resouces"
     set_layout_and_control_variables
     @resources = MediaResource.filter current_user, MediaResource.get_filter_params(params)
     @resources = @resources.where(user_id: current_user.id)
     @arcs =  MediaResourceArc.connecting @resources
+    render 'index'
+  end
+
+  def my_favorites
+    @resource_identifier = "my-favorites"
+    set_layout_and_control_variables
+    @resources = MediaResource.filter(current_user, {:favorites => "true"}) \
+      .filter(current_user, MediaResource.get_filter_params(params))
+    @arcs = MediaResourceArc.connecting @resources
+    @title = "Meine Favoriten" 
     render 'index'
   end
 
