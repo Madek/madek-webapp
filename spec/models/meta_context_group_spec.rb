@@ -13,7 +13,7 @@ describe MetaContextGroup do
 
   context "existing context_group and context" do
 
-    before :all do
+    before :each do
       @context_group = (FactoryGirl.create :meta_context_group)
       @context = (FactoryGirl.create :meta_context)
     end
