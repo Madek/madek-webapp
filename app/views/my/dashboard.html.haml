@@ -13,7 +13,7 @@
             Set erstellen
           %a.primary-button{:href => import_path}
             %i.icon-upload.bright
-            Medien Importieren
+            Medien importieren
 
     .app-body-ui-container
       .bordered.ui-container.midtone.rounded.table
@@ -34,7 +34,7 @@
           - unless @latest_user_imports.blank?
             = render :partial => "media_resources/wrapper", 
                      :locals => {:media_resources => @latest_user_imports, 
-                                 :title => "Meine letzen Importe", 
+                                 :title => "Meine letzten Importe", 
                                  :link => my_latest_imports_path,
                                  :item_layout => "miniature",
                                  :with_actions => true,
