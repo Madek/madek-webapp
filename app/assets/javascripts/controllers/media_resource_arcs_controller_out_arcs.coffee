@@ -1,6 +1,6 @@
 ###
 
-Organize OutArcs
+Organize OutArcs (content of a set)
 
 ###
 
@@ -216,7 +216,7 @@ class MediaResourceArcsController.OutArcs
     meta_data:
       meta_key_names: ["title", "owner"]
 
-jQuery -> $("[data-organize-arcs]").on "click", (e) => new MediaResourceArcsController.OutArcs $(e.currentTarget)
+jQuery -> $(document).on "click", "[data-organize-arcs]", (e) => new MediaResourceArcsController.OutArcs $(e.currentTarget)
 
 window.App.MediaResourceArcsController = {} unless window.App.MediaResourceArcsController
 window.App.MediaResourceArcsController.OutArcs = MediaResourceArcsController.OutArcs

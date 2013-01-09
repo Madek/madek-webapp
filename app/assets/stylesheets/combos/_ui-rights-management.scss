@@ -105,6 +105,10 @@
   position: relative;
 }
 
+// overwritten by public
+
+.ui-right-overwritten-by-public { display: none; }
+
 // public view overwrites all public view checks
 
 .ui-rights-management.public-view {
@@ -116,8 +120,8 @@
   .ui-rights-management-other-groups,
   .ui-rights-management-other-users {
     .ui-rights-check.view {
-      label { @extend .icon-privacy-open; }
-      input { display: none; }
+      .ui-right-overwritten-by-public { @extend .icon-privacy-open; }
+      label { display: none; }
     }
   }
 }
@@ -133,8 +137,8 @@
   .ui-rights-management-other-groups,
   .ui-rights-management-other-users {
     .ui-rights-check.download {
-      label { @extend .icon-privacy-open; }
-      input { display: none; }
+      .ui-right-overwritten-by-public { @extend .icon-privacy-open; }
+      label { display: none; }
     }
   }
 }
@@ -150,8 +154,63 @@
   .ui-rights-management-other-groups,
   .ui-rights-management-other-users {
     .ui-rights-check.edit {
-      label { @extend .icon-privacy-open; }
-      input { display: none; }
+      .ui-right-overwritten-by-public { @extend .icon-privacy-open; }
+      label { display: none; }
     }
+  }
+}
+
+// ui rights check label
+
+.ui-rights-check-label {
+  display: inline-block;
+  padding: 2px 1px 2px 0;
+  width: 26px;
+
+  &.mixed:not(.overwrite) {
+    background-color: lighten($yellow, 50%);
+    border: 1px solid $yellow;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    @include border-radius($border-radius-s);
+
+    input { 
+      @include box-shadow(0 0 5px $yellow);
+      border-color: $yellow;
+    }
+  }
+}
+
+// mixed indicator
+
+.ui-rights-check-label.mixed {
+  position: relative;
+
+  .ui-right-mixed-values {
+    height: 10px;
+    left: 9px;
+    position: absolute;
+    top: 5px;
+    width: 10px;
+
+    i {
+      background: black;
+      @include border-radius(2px);
+      display: inline-block;
+      height: 6px;
+      left: 2px;
+      position: absolute;
+      top: 2px;
+      width: 6px;
+    }
+  }
+}
+
+// disabled ui-rights-check
+
+.ui-rights-check.disabled {
+
+  .ui-right-mixed-values {
+    opacity: $opacity-medium;
   }
 }

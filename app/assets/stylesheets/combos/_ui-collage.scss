@@ -24,6 +24,7 @@
     }
   }
 }
+
 .ui-collage-item {
   display: table-cell;
   border: 1px solid $darkest;
@@ -32,24 +33,45 @@
   vertical-align: middle;
   width: 25%;
 }
+
 .ui-collage-item-wrapper {
   overflow: hidden;
   position: relative;
   text-align: center;
 }
+
+.ui-collage-item-table {
+  display: table;
+  height: 100%;
+  left: -50%;
+  position: relative;
+  top: -50%;
+  width: 100%;
+}
+
+.ui-collage-item-cell {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.ui-collage-item-inner {
+  display: inline-block;
+}
+
 .ui-collage-item-image {
   @include position-top-left(0,0);
-  @include max-dimension(110%,120%);
-  @include min-dimension(100%,100%);
+  @include min-dimension(150%,150%);
   display: inline-block;
   margin: 0;
   opacity: $opacity-strong;
 }
+
 .ui-collage-item:hover { 
   .ui-collage-item-image { 
     opacity: 1;
   }
 }
+
 .ui-collage-item-meta {
   @include position-bottom-left(0,0);
   @include position-right(0);
@@ -66,14 +88,34 @@
     display: block;
     content: " ";
   }
+
   h3, h4 {
     white-space: nowrap
   }
 }
+
 .ui-collage-item:hover {
   .ui-collage-item-meta {
     display: block;
   }
+}
+
+// collage items that dont need a border
+
+.ui-collage .ui-collage-row:first-child .ui-collage-item {
+  border-top: none;
+}
+
+.ui-collage .ui-collage-row:last-child .ui-collage-item {
+  border-bottom: none;
+}
+
+.ui-collage .ui-collage-row .ui-collage-item:first-child {
+  border-left: none;
+}
+
+.ui-collage .ui-collage-row .ui-collage-item:last-child {
+  border-right: none;
 }
 
 // Media queries
@@ -224,6 +266,6 @@
     top: -175px;
   }
   .ui-collage.crooked .odd .ui-collage-item-wrapper {
-    top: 0;
+    top: -1px;
   }
 }

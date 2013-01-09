@@ -14,11 +14,16 @@
           %i.icon-eye.mid
           Stöbern
       %li.ui-drop-item
-        %a{:title => "Zugriffsberechtigungen lesen/bearbeiten"}
+        %a{:title => "Zugriffsberechtigungen lesen/bearbeiten",
+           :"data-open-permissions" => true,
+           :"data-media-resource-id" => "${id}",
+           :"data-manageable" => "${is_editable}",
+           :"data-title" => "${title}"}
           %i.icon-lock.mid
           Zugriffsberechtigungen
       %li.ui-drop-item
-        %a{:title => "Zu Set hinzufügen/entfernen"}
+        %a{:title => "Zu Set hinzufügen/entfernen",
+           :"data-organize-arcs" => true}
           %i.icon-move.mid
           Zu Set hinzufügen/entfernen
       {{if is_editable}}

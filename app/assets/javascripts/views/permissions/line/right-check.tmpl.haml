@@ -1,28 +1,34 @@
-%td{:class => "ui-rights-check ${name}", :title => "${label}"}
-  %label
+%td{:class => "ui-rights-check ${name}{{if $item.ownership != false || $item.manageable == false}} disabled{{/if}}"}
 
-    {{if permission == true}}
+  %i.ui-right-overwritten-by-public{:title => "${label} (überschrieben durch die Öffentlichen Berechtigungen)"}
 
+  {{if permission == true}}
+
+  %label{:class => "ui-rights-check-label"}
     {{if $item.manageable && $item.ownership == false}}
-    %input{:checked => "checked", :name => "${name}", :type => "checkbox", :value => "true"}
+    %input{:checked => "checked", :name => "${name}", :type => "checkbox", :value => "true", :title => "${label}"}
     {{else}}
-    %input{:checked => "checked", :name => "${name}", :type => "checkbox", :value => "true", :disabled => true}
+    %input{:checked => "checked", :name => "${name}", :type => "checkbox", :value => "true", :title => "${label}", :disabled => true}
     {{/if}}
-    
-    {{else permission == "mixed"}}
 
+  {{else permission == "mixed"}}
+
+  %label{:class => "ui-rights-check-label mixed"}
     {{if $item.manageable && $item.ownership == false}}
-    %input{:name => "${name}", :type => "checkbox", :value => "mixed"}
+    %input{:name => "${name}", :type => "checkbox", :value => "mixed", :title => "${label}"}
     {{else}}
-    %input{:name => "${name}", :type => "checkbox", :value => "mixed", :disabled => true}
+    %input{:name => "${name}", :type => "checkbox", :value => "mixed", :title => "${label}", :disabled => true}
     {{/if}}
+    %span.ui-right-mixed-values{:title => "${label} (teilweise gesetzt)"}
+      %i
 
-    {{else}}
+  {{else}}
 
+  %label{:class => "ui-rights-check-label"}
     {{if $item.manageable && $item.ownership == false}}
-    %input{:name => "${name}", :type => "checkbox", :value => "true"}
+    %input{:name => "${name}", :type => "checkbox", :value => "true", :title => "${label}"}
     {{else}}
-    %input{:name => "${name}", :type => "checkbox", :value => "true", :disabled => true}
+    %input{:name => "${name}", :type => "checkbox", :value => "true", :title => "${label}", :disabled => true}
     {{/if}}
 
-    {{/if}}
+  {{/if}}

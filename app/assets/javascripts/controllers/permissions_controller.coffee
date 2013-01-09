@@ -22,6 +22,7 @@ class Permissions
         do @fetchPermissions
 
   delegateEvents: ->
+    @dialog.on "change", ".ui-rights-check-label.mixed input", @changeMixedValue
     @dialog.on "change", ".ui-rights-check input", @onChangePermission
     @dialog.on "change", ".ui-rights-role select", (e)=> @onChangePreset $(e.currentTarget)
     @dialog.on "click", ".ui-rights-role select option", (e)=> @onChangePreset $(e.currentTarget).closest "select"
@@ -30,6 +31,28 @@ class Permissions
     @dialog.on "change", ".ui-rights-owner input", (e)=> @changeOwnerTo $(e.currentTarget).closest "tr"
     @dialog.on "change", ".ui-rights-management-public .ui-rights-check input", @onChangePublicPermission
     @form.on "submit", @savePermissions
+
+  changeMixedValue: (e)=>
+    input = $(e.currentTarget)
+    mixedIndicator = input.next(".ui-right-mixed-values")
+    label = input.closest "label"
+    if input.val() is "mixed" # switch to none
+      mixedIndicator.hide()
+      input.val("none")
+      input.attr "checked", false
+      label.addClass "overwrite"
+      e.preventDefault()
+      return false
+    else if input.val() is "none"  # switch to all
+      mixedIndicator.hide()
+      input.val("all")
+      input.attr "checked", true
+      label.addClass "overwrite"
+    else if input.val() is "all" # switch to mixed
+      mixedIndicator.show()
+      input.val("mixed")
+      input.attr "checked", false
+      label.removeClass "overwrite"
 
   savePermissions: (e)=>
     do e.preventDefault
@@ -57,7 +80,13 @@ class Permissions
     manage: @getPermission "manage", line
 
   getPermission: (name, line)-> 
-    line.find("input[name='#{name}']:checked").length > 0
+    input = line.find "input[name='#{name}']"
+    if input.is ":checked"
+      true
+    else if input.val() is "mixed"
+      undefined
+    else
+      false
 
   onChangePublicPermission: =>
     if @publicPermissionsContainer.find(".ui-rights-check input[name='view']:checked").length
@@ -86,6 +115,7 @@ class Permissions
     ,
       presets: @permissionPresets
       manageable: @manageable
+      currentUserOwnership: @permissionsForRender(@permissions.you, @mediaResourceIds, @permissions.owners)[0].ownership
     newOwnerLine.replaceWith App.render "permissions/line", 
       id: newOwnerLine.data "id"
       name: newOwnerLine.data "name"
@@ -97,15 +127,17 @@ class Permissions
     ,
       presets: @permissionPresets
       manageable: @manageable
+      currentUserOwnership: @permissionsForRender(@permissions.you, @mediaResourceIds, @permissions.owners)[0].ownership
 
   showDialog: (el)->
-    @dialog = App.render "permissions/dialog", {title: el.data "title"}, {manageable: @manageable}
+    title = if el.data("media-resource-id") then "'#{el.data("title")}'" else if el.data("collection") then "für #{el.data("collection").count} Ausgewählte Inhalte"
+    @dialog = App.render "permissions/dialog", {title: title}, {manageable: @manageable}
     @saveButton = @dialog.find "button[type='submit']"
     @form = @dialog.children "form"
     @rightsContainer = @dialog.find ".ui-rights-management"
     App.modal @dialog
 
-  setupaddUser: ->
+  setupAddUser: ->
     setup = =>
       input = @addUserContainer.find("input")
       input.autocomplete
@@ -194,18 +226,25 @@ class Permissions
       manage: el.find("input[name='manage']").is ":checked"
     App.PermissionPreset.match elPermissions, @permissionPresets
 
-  switchPresetForElement: (el, preset)->
-    if preset?
-      el.find(".ui-rights-role option[value='#{preset.name}']").select().attr "selected", true
-      el.find(".ui-rights-role .ui-custom-select span").text preset.name
+  switchPresetForElement: (line, preset)->
+    if line.find(".ui-rights-check-label.mixed").length and not line.find(".ui-rights-check-label.mixed").hasClass "overwrite"
+      line.find(".ui-rights-role .ui-custom-select span").text "Gemischte Werte"
+    else if preset?
+      line.find(".ui-rights-role option[value='#{preset.name}']").select().attr "selected", true
+      line.find(".ui-rights-role .ui-custom-select span").text preset.name
     else
-      el.find(".ui-rights-role .ui-custom-select span").text "Angepasst"
+      line.find(".ui-rights-role .ui-custom-select span").text "Angepasst"
 
-  setPresetFor: (el, preset)->
-    el.find("input[name='view']").attr("checked", preset.view).trigger "change"
-    el.find("input[name='download']").attr("checked", preset.download).trigger "change"
-    el.find("input[name='edit']").attr("checked", preset.edit).trigger "change"
-    el.find("input[name='manage']").attr("checked", preset.manage).trigger "change"
+  setPresetFor: (line, preset)->
+    if line.find(".ui-rights-check-label.mixed").length
+      line.find("input[name='view']").val if preset.view then "none" else "mixed"
+      line.find("input[name='download']").val if preset.download then "none" else "mixed"
+      line.find("input[name='edit']").val if preset.edit then "none" else "mixed"
+      line.find("input[name='manage']").val if preset.manage then "none" else "mixed"
+    line.find("input[name='view']").attr("checked", preset.view).trigger "change"
+    line.find("input[name='download']").attr("checked", preset.download).trigger "change"
+    line.find("input[name='edit']").attr("checked", preset.edit).trigger "change"
+    line.find("input[name='manage']").attr("checked", preset.manage).trigger "change"
 
   fetchPermissions: ->
     fetchData = 
@@ -253,6 +292,7 @@ class Permissions
     otherGroups = _.filter(@permissions.groups, (group)-> not _.include(currentUserGroupIds, group.id))
     data = 
       you: @permissionsForRender @permissions.you, @mediaResourceIds, @permissions.owners
+      currentUserOwnership: @permissionsForRender(@permissions.you, @mediaResourceIds, @permissions.owners)[0].ownership
       presets: @permissionPresets
       public: @permissionsForRender @permissions.public, @mediaResourceIds, @permissions.owners
       mediaResourceIds: @mediaResourceIds
@@ -294,10 +334,10 @@ class Permissions
     @addUserContainer = template.find "#addUser"
     @addGroupContainer = template.find "#addGroup"
     @publicPermissionsContainer = template.find ".ui-rights-management-public"
-    do @setupaddUser if @addUserContainer.length
+    do @setupAddUser if @addUserContainer.length
     do @setupAddGroup if @addGroupContainer.length
 
 window.Permissions = Permissions
 
 jQuery ->
-  $("[data-open-permissions]").bind "click", (e)-> new Permissions $(e.currentTarget)
+  $(document).on "click", "[data-open-permissions]", (e)-> new Permissions $(e.currentTarget)

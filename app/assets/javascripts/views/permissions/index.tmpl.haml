@@ -1,4 +1,4 @@
-%div{:class => "ui-rights-management{{if $item.manageable == false}} unmanageable{{/if}}{{if public[0].view == true}} public-view{{/if}}{{if public[0].download}} public-download{{/if}}{{if public[0].edit}} public-edit{{/if}}"}
+%div{:class => "ui-rights-management{{if $item.manageable == false}} unmanageable{{/if}}{{if public[0].view == true}} public-view{{/if}}{{if public[0].download == true}} public-download{{/if}}{{if public[0].edit == true}} public-edit{{/if}}"}
 
   .ui-modal-toolbar.top.phm.mrs
 
@@ -27,7 +27,7 @@
 
         %table.ui-rights-group.bordered.block
           %tbody
-            {{tmpl(you, {presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}
+            {{tmpl(you, {presets: presets, manageable: $item.manageable, currentUserOwnership: currentUserOwnership}) App.renderPath("permissions/line")}}
 
     %div{:class => "ui-rights-management-current-user-groups{{if currentUserGroups}}{{else}} hidden{{/if}}"}
 
@@ -39,13 +39,12 @@
         %table.ui-rights-group.bordered.block
           %tbody
             {{if currentUserGroups}}
-            {{tmpl(currentUserGroups, {presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}
+            {{tmpl(currentUserGroups, {presets: presets, manageable: $item.manageable, currentUserOwnership: currentUserOwnership}) App.renderPath("permissions/line")}}
             {{/if}}
 
     .ui-rights-management-others
 
       %h3.title-l.mts.mbx Andere
-
 
       {{if $item.manageable == true || otherUsers.length > 0}}
       .ui-rights-management-other-users
@@ -59,7 +58,7 @@
           %table.ui-rights-group.bordered.block
            
             %tbody
-              {{tmpl(otherUsers, {presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}
+              {{tmpl(otherUsers, {presets: presets, manageable: $item.manageable, currentUserOwnership: currentUserOwnership}) App.renderPath("permissions/line")}}
 
           {{if $item.manageable}}
           #addUser.ui-add-subject.ptx
@@ -83,7 +82,7 @@
           %table.ui-rights-group.bordered.block
            
             %tbody
-              {{tmpl(otherGroups, {presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}
+              {{tmpl(otherGroups, {presets: presets, manageable: $item.manageable, currentUserOwnership: currentUserOwnership}) App.renderPath("permissions/line")}}
 
           {{if $item.manageable}}
           #addGroup.ui-add-subject.ptx
@@ -103,5 +102,5 @@
         %table.ui-rights-group.borderless.block
          
           %tbody
-            {{tmpl(public, {public: true, presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}
+            {{tmpl(public, {public: true, presets: presets, manageable: $item.manageable, currentUserOwnership: currentUserOwnership}) App.renderPath("permissions/line")}}
       

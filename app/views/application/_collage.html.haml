@@ -6,7 +6,10 @@
         - mr = @splashscreen_set_children[i]
         %a.ui-collage-item{:href => "/media_resources/#{mr.id}"}
           .ui-collage-item-wrapper
-            %img.ui-collage-item-image{:src => "/media_resources/#{mr.id}/image"} 
+            .ui-collage-item-table
+              .ui-collage-item-cell
+                .ui-collage-item-inner
+                  %img.ui-collage-item-image{:src => "/media_resources/#{mr.id}/image"} 
             .ui-collage-item-meta
               %h3.title-xs= mr.title
               %h4.title-xs-alt= mr.author

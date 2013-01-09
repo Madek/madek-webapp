@@ -16,13 +16,13 @@
 
   %td.ui-rights-owner{:title => "Verantwortliche Person"}
     {{if ownership}}
-    {{if $item.manageable}}
+    {{if $item.currentUserOwnership == true}}
     %input{:type => "radio", :checked => true}
     {{else}}
     %input{:type => "radio", :checked => true, :disabled => :disabled}
     {{/if}}
     {{else}}
-    {{if $item.manageable}}
+    {{if $item.currentUserOwnership == true}}
     %input{:type => "radio"}
     {{else}}
     %input{:type => "radio", :disabled => :disabled}
@@ -34,7 +34,11 @@
     {{if ownership}}
     %div{:class => "ui-custom-select small disabled"}
       %span.ui-custom-select-text
+        {{if ownership == "mixed"}}
+        Teilweise verantwortlich
+        {{else}}
         Verantwortliche Person
+        {{/if}}
     {{else}}
     %div{:class => "ui-custom-select small{{if $item.manageable == false}} disabled{{/if}}"}
       %span.ui-custom-select-text 
