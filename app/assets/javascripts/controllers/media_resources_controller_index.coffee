@@ -102,7 +102,8 @@ class MediaResourcesController.Index
     @sorting.find(".active").removeClass "active hidden"
     list_el.addClass "active hidden"
     @sorting.find(".dropdown-toggle .ui-text").html target_el.html()
-    window.history.pushState document.title, document.title, URI(window.location.href).removeQuery("sort").addQuery("sort", sort).toString()
+    uri = URI(window.location.href).removeQuery("sort").addQuery("sort", sort)
+    window.history.pushState uri._parts, document.title, uri.toString()
     do @resetForLoading
     @list.trigger "sorting-changed", sort
     do @initalFetch
@@ -112,9 +113,11 @@ class MediaResourcesController.Index
     target_el.addClass "active"
     type = target_el.data("type")
     if type?
-      window.history.pushState document.title, document.title, URI(window.location.href).removeQuery("type").addQuery("type", type).toString()  
+      uri = URI(window.location.href).removeQuery("type").addQuery("type", type)
+      window.history.pushState uri._parts, document.title, uri.toString()  
     else
-      window.history.pushState document.title, document.title, URI(window.location.href).removeQuery("type").toString()
+      uri = URI(window.location.href).removeQuery("type")
+      window.history.pushState uri._parts, document.title, uri.toString()
     do @resetForLoading
     do @initalFetch
 
@@ -128,7 +131,8 @@ class MediaResourcesController.Index
     @list.removeClass "miniature grid list"
     @list.addClass visMode
     do @switchContextInview
-    window.history.pushState document.title, document.title, URI(window.location.href).removeQuery("layout").addQuery("layout", visMode).toString()
+    uri = URI(window.location.href).removeQuery("layout").addQuery("layout", visMode)
+    window.history.pushState uri._parts, document.title, uri.toString()
     @list.trigger "layout-changed", visMode
     sessionStorage.currentLayout = JSON.stringify visMode
     
