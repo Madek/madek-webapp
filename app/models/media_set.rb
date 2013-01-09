@@ -4,19 +4,6 @@ class MediaSet < MediaResource
   has_many :child_media_resources, :through => :out_arcs, :source => :child
   has_many :highlights, :through => :out_arcs, :conditions => ['media_resource_arcs.highlight = ?',true] ,:source => :child
 
-=begin #old??#
-  def self.find_by_id_or_create_by_title(values, user)
-    records = Array(values).map do |v|
-                      if v.is_a?(Numeric) or (v.respond_to?(:is_integer?) and v.is_integer?)
-                        find_by_id(v)
-                      else
-                        user.media_sets.create(:meta_data_attributes => [{:meta_key_label => "title", :value => v}])
-                      end
-                  end
-    records.compact
-  end
-=end
-
   # TODO remove, it's used only on tests!
   # FIXME this only fetches the first set with that title,
   # but there could be many sets with the same title 
