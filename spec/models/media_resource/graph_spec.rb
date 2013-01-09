@@ -70,5 +70,22 @@ describe "Graph Queries" do
 
   end
 
+
+  describe "with_graph_size_and_title" do 
+
+    let :graph_resources do 
+      MediaResource.connected_resources @topset
+    end
+
+    it "should be callable" do
+      expect{graph_resources.with_graph_size_and_title}.not_to raise_error
+    end
+
+    it "should include the correct size" do
+      expect(graph_resources.with_graph_size_and_title.where(id: @topset.id).first.size.to_i).to eq 3
+    end
+
+  end
+
 end
 
