@@ -1,3 +1,9 @@
+###
+
+Organize InArcs like Highlights, CoverImage etc
+
+###
+
 MediaResourceArcsController = {} unless MediaResourceArcsController?
 class MediaResourceArcsController.InArcs
 
