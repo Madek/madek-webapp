@@ -88,11 +88,13 @@ class FilterPanelController
     do @hide
 
   show: ->
-    window.history.pushState document.title, document.title, URI(window.location.href).removeQuery("filterpanel").addQuery("filterpanel", true).toString()  
+    uri = URI(window.location.href).removeQuery("filterpanel").addQuery("filterpanel", true)
+    window.history.pushState uri._parts, document.title, uri.toString()  
     @panel.removeClass "hidden"
 
   hide: ->
-    window.history.pushState document.title, document.title, URI(window.location.href).removeQuery("filterpanel").toString()  
+    uri = URI(window.location.href).removeQuery("filterpanel")
+    window.history.pushState uri._parts, document.title, uri.toString()  
     @panel.addClass "hidden"
 
   isOpen: -> not @panel.hasClass "hidden"
@@ -169,14 +171,14 @@ class FilterPanelController
   removeFromURL: (filter)->
     uri = URI(window.location.href)
     uri.removeQuery decodeURIComponent($.param(filter)).replace /\=.*$/, ""
-    window.history.pushState document.title, document.title, uri.toString()
+    window.history.pushState uri._parts, document.title, uri.toString()
 
   persistAllActiveToURL: ->
     uri = URI(window.location.href)
     uri.removeQuery "search"
     uri.search "#{uri.search()}&#{$.param @getSelectedFilter()}"
     uri.normalizeSearch()
-    window.history.pushState document.title, document.title, uri.toString()
+    window.history.pushState uri._parts, document.title, uri.toString()
 
   anyActiveFilter: ->
     @panel.find(".active[data-value]").length or
