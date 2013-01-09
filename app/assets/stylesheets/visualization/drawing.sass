@@ -15,26 +15,31 @@ html#visualization
         stroke-width: 2px
 
       circle
-        stroke-width: 2
+        stroke-width: 3
 
 
       .node
         circle 
           fill: lighten($grey-mid,20%)
           &.origin
-            fill: darken($grey-mid,20%)
+          fill: lighten($grey-mid,20%)
+            stroke: black
 
       .node.MediaSet
         circle 
           fill: lighten($red,20%)
           &.origin
-            fill: darken($red,10%)
+            fill: lighten($red,20%)
+            stroke: black
+
 
       .node.MediaEntry
         circle
           fill: lighten($green,20%)
           &.origin
-            fill: darken($green,10%)
+            fill: lighten($green,20%)
+            stroke: black
+
 
        
       .MediaEntryIncomplete

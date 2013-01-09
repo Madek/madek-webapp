@@ -19,7 +19,7 @@
         .contains_info
 
     .links
-      %a#link_for_resource.shown{href: "/media_resources/#{@id}", target: "_blank"}= "Betrachte diese Resource im Medienarchiv"
+      %a#link_for_resource.shown{href: "/media_resources/#{@id}", target: "_blank"}= "Betrachte diesen Inhalt im Medienarchiv"
       %a#link_for_component_with.shown{href: "/visualization/component_with/#{@id}"}= "Zeigen alle verbundenen Inhalte"
       %a#link_for_my_component_with{href: "/visualization/my_component_with/#{@id}"}= "Zeigen meine verbundenen Inhalte"
       %a#link_for_descendants_of{href: "/visualization/descendants_of/#{@id}"}= "Zeige alle untergeordneten Inhalte"
