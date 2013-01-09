@@ -10,7 +10,7 @@ describe PermissionsController do
 
   describe "an index of permissions for a single resource" do
 
-    before :all do
+    before :each do
       @media_resource = FactoryGirl.create :media_resource, :user => @user
     end
 
@@ -29,7 +29,7 @@ describe PermissionsController do
 
   describe "an index of permissions for multiple resources, with users and groups" do
 
-    before :all do
+    before :each do
       @user_a = FactoryGirl.create :user
       @group_a = FactoryGirl.create :group
       @media_resources = 3.times.map do
@@ -61,7 +61,7 @@ describe PermissionsController do
 
   describe "PUTing on /permissions/" do
 
-    before :all do
+    before :each do
       @user_a = FactoryGirl.create :user
       @user_b = FactoryGirl.create :user
       @group_a = FactoryGirl.create :group

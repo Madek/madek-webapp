@@ -54,7 +54,7 @@ describe MediaResource do
 
     context "meta_data" do
 
-      before :all do
+      before :each do
         @media_entry.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => "Pablo Picasso"}}})
       end
       
@@ -71,8 +71,7 @@ describe MediaResource do
     context "internal permissions"  do
 
 
-      before :all do
-        # DataFactory.create_small_dataset
+      before :each do
         @media_resource = FactoryGirl.create :media_resource, view: false
         @user = FactoryGirl.create :user
       end
@@ -223,7 +222,7 @@ describe MediaResource do
   end
 
   context "manage permission" do
-    before :all do
+    before :each do
       @user1 = FactoryGirl.create :user
       @user2 = FactoryGirl.create :user
       @media_resource = FactoryGirl.create :media_resource, user: @user1, view: true, manage: true
