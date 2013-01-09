@@ -14,9 +14,9 @@ describe ApplicationController do
       FactoryGirl.create :usage_term
       @user = FactoryGirl.create :user
     end
-    it "should respond with success" do
+    it "should redirect to my dashboard" do
       get :root, {}, {user_id: @user.id}
-      response.should be_success
+      response.should redirect_to(my_dashboard_path)
     end
   end
   
