@@ -2,8 +2,8 @@ FactoryGirl.define do
 
   factory :user do |n| 
     person {FactoryGirl.create :person}
-    email {Faker::Internet.email}
-    login {Faker::Internet.user_name + "_#{UUIDTools::UUID.random_create.to_s.first 5}"}
+    email {Faker::Internet.email.gsub("@","_"+SecureRandom.uuid.first(8)+"@")}
+    login {Faker::Internet.user_name + (SecureRandom.uuid.first 8) }
     usage_terms_accepted_at {Time.now}
   end
 

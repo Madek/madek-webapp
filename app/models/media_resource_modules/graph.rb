@@ -2,6 +2,64 @@ module MediaResourceModules
   module Graph
     extend ActiveSupport::Concern
 
+    ### Connected Resources ##################################################
+    def connected_resources(media_resource, resource_condition=nil)
+      where <<-SQL
+        media_resources.id in  (
+          (WITH RECURSIVE pair(p,c) AS
+          (
+            SELECT parent_id as p, child_id as c FROM media_resource_arcs 
+              WHERE (parent_id in (#{media_resource.id}) OR child_id in (#{media_resource.id}))
+          #{ "AND parent_id in (#{resource_condition.select("media_resources.id").to_sql })" if resource_condition }
+          #{ "AND child_id in (#{resource_condition.select("media_resources.id").to_sql})" if resource_condition }
+            UNION
+              SELECT media_resource_arcs.parent_id as p, media_resource_arcs.child_id as c FROM pair, media_resource_arcs
+              WHERE ( 
+                media_resource_arcs.parent_id = pair.c
+                OR media_resource_arcs.child_id = pair.c
+                OR media_resource_arcs.parent_id = pair.p
+                OR media_resource_arcs.child_id = pair.p)
+          #{ "AND media_resource_arcs.parent_id in (#{resource_condition.select("media_resources.id").to_sql})"  if resource_condition }
+          #{ "AND media_resource_arcs.child_id in (#{resource_condition.select("media_resources.id").to_sql})"  if resource_condition }
+          )
+          SELECT pair.c from pair UNION SELECT pair.p from pair
+          )
+        )
+      SQL
+    end
+
+
+    ### Descendants #######################################
+
+    # set condition must be a query that returns media_resources; 
+    # condition is on the inclusion of the arcpoints
+    def descendants_and_set(media_set, resource_condition=nil)
+      where <<-SQL
+    media_resources.id in  (
+      (WITH RECURSIVE pair(p,c) AS
+      (
+        SELECT parent_id as p, child_id as c FROM media_resource_arcs 
+          WHERE parent_id in (#{media_set.id})
+      #{ "AND parent_id in (#{resource_condition.select("media_resources.id").to_sql })" if resource_condition }
+      #{ "AND child_id in (#{resource_condition.select("media_resources.id").to_sql})" if resource_condition }
+        UNION
+          SELECT media_resource_arcs.parent_id as p, media_resource_arcs.child_id as c FROM pair, media_resource_arcs
+          WHERE media_resource_arcs.parent_id = pair.c
+      #{ "AND media_resource_arcs.parent_id in (#{resource_condition.select("media_resources.id").to_sql})"  if resource_condition }
+      )
+      SELECT pair.c from pair
+      )
+     UNION
+    (
+      SELECT media_resources.id FROM media_resources WHERE id = #{media_set.id}
+    ))
+      SQL
+    end
+
+
+
+
+
     def with_graph_size_and_title 
 
       select("count(arc_id) as size, media_resources.*, MD.title as meta_datum_title").
