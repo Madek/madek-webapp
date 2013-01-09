@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class VisualizationController < ApplicationController
   layout 'visualization'
   respond_to 'html','json'
@@ -12,7 +14,9 @@ class VisualizationController < ApplicationController
     min_id = @resources.map(&:id).min
     @resource_identifier = "my-component-#{min_id}"
     set_layout_and_control_variables
-    @title = "\"#{@origin_resource.title}\" und meine verbundenen Inhalte" 
+    @main_title = @origin_resource.title
+    @sub_title = "Zusammenhänge mit meinen verbundenen Inhalten"
+    @title = "#{@main_title} - #{@sub_title}"
     render 'index'
   end
 
@@ -24,7 +28,11 @@ class VisualizationController < ApplicationController
     min_id = @resources.map(&:id).min
     @resource_identifier = "component-#{min_id}"
     set_layout_and_control_variables
-    @title = "\"#{@origin_resource.title}\" und verbundenen Inhalte" 
+
+    @main_title = @origin_resource.title
+    @sub_title = "Zusammenhänge mit allen verbundenen Inhalten"
+    @title = "#{@main_title} - #{@sub_title}"
+
     render 'index'
   end
 
@@ -33,7 +41,11 @@ class VisualizationController < ApplicationController
     set_layout_and_control_variables
     @resources = MediaSet.where(user_id: current_user.id)
     @arcs = MediaResourceArc.connecting @resources
-    @title = "Meine Sets" 
+
+    @main_title = "Zusammenhänge zwischen meinen Sets"
+    @sub_title = nil
+    @title = "#{@main_title}"
+
     render 'index'
   end
 
@@ -44,7 +56,11 @@ class VisualizationController < ApplicationController
     @resources = MediaResource.descendants_and_set(set,
                      MediaResource.where("user_id = ?",current_user.id))
     @arcs = MediaResourceArc.connecting @resources
-    @title = "\"#{@origin_resource.title}\" und meine untergeordneten Inhalte" 
+
+    @main_title = @origin_resource.title
+    @sub_title = "Zusammenhänge mit meinen untergeordneten Inhalten"
+    @title = "#{@main_title} - #{@sub_title}"
+
     render 'index'
   end
 
@@ -55,7 +71,11 @@ class VisualizationController < ApplicationController
     @resources = MediaResource.descendants_and_set(set,
                   MediaResource.accessible_by_user(current_user))
     @arcs = MediaResourceArc.connecting @resources
-    @title = "\"#{@origin_resource.title}\" und untergeordneten Inhalte" 
+
+    @main_title = @origin_resource.title
+    @sub_title = "Zusammenhänge mit allen untergeordneten Inhalten"
+    @title = "#{@main_title} - #{@sub_title}"
+
     render 'index'
   end
 
@@ -65,6 +85,11 @@ class VisualizationController < ApplicationController
     @resources = MediaResource.filter current_user, MediaResource.get_filter_params(params)
     @resources = @resources.where(user_id: current_user.id)
     @arcs =  MediaResourceArc.connecting @resources
+
+    @main_title = "Zusammenhänge zwischen meinen Inhalten"
+    @sub_title = ""
+    @title = "#{@main_title} "
+
     render 'index'
   end
 
@@ -74,7 +99,11 @@ class VisualizationController < ApplicationController
     @resources = MediaResource.filter(current_user, {:favorites => "true"}) \
       .filter(current_user, MediaResource.get_filter_params(params))
     @arcs = MediaResourceArc.connecting @resources
-    @title = "Meine Favoriten" 
+
+    @main_title = "Zusammenhänge zwischen meinen Favoriten"
+    @sub_title = ""
+    @title = "#{@main_title} "
+
     render 'index'
   end
 
