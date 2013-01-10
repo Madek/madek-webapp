@@ -13,6 +13,10 @@ When /^I visit the path of the resource$/ do
   visit media_resource_path @resource
 end
 
+Then /^I am redirected to the main page$/ do
+  expect(current_path).to eq "/my"
+end
+
 Then /^I see page for the resource$/ do
   expect(find(".app-body-title h1").text).to eq @resource.title
 end
