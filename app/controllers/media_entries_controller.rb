@@ -123,7 +123,7 @@ class MediaEntriesController < ApplicationController
     # @meta_contexts = (@context_group.meta_contexts & @media_entry.individual_contexts) |
     #   @context_group.meta_contexts.select{ |meta_context| @media_entry.meta_data.for_context(meta_context, false).any? }
 
-    @meta_contexts = @context_group.meta_contexts.select {|mc| (not mc.individual_context?) or @media_entry.individual_contexts.include?(mc) }
+    @meta_contexts = @context_group.meta_contexts.select {|mc| @media_entry.individual_contexts.include?(mc) }
 
   end
   
