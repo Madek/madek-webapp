@@ -1,3 +1,5 @@
+= javascript_include_tag "plupload/i18n/de.js"
+
 .app.view-import
 
   = render "application/header"
@@ -12,27 +14,13 @@
     .app-body-ui-container
       .ui-container.bordered.bright.rounded
 
-        .ui-stepline
-          .ui-stepline-item.active
-            %h3.title-m.ui-stepline-item-title
-              1. Medien übertragen
-          .ui-stepline-item
-            %h3.title-m.ui-stepline-item-title
-              2. Berechtigungen setzen
-          .ui-stepline-item
-            %h3.title-m.ui-stepline-item-title
-              3. Metadaten ergänzen
-          .ui-stepline-item
-            %h3.title-m.ui-stepline-item-title
-              4. Medien zusammenstellen
+        = render :partial => "import/stepline", :locals => {:step => 1}
 
         .media-import.step1.pal.bordered-bottom.ui-container
 
           %h3.title-l Fotos, Videos und Audiofiles bereitstellen:
 
           .ui-container.clearfix.mvl.bordered.midtone.rounded.media-import-content
-
-            = javascript_include_tag "plupload/i18n/de.js"
 
             #upload-ui-container
               #call2action
@@ -42,10 +30,8 @@
               #uploader
 
           .ui-actions
-            %a.link.weak
-              Abbrechen
-            %a.primary-button.large.disabled
-              Weiter&hellip;
+            = render :partial => "import/cancel"
+            %a.primary-button.large.disabled Weiter&hellip;
 
         .row.ui-container.midtone.pvm.phl.rounded-bottom
           .col1of2

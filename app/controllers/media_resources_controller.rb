@@ -661,7 +661,12 @@ class MediaResourcesController < ApplicationController
       meta_datum.value.each do |meta_term|
         count = MediaResource.filter(current_user, {:meta_data => {meta_datum.meta_key.label.to_sym => {:ids => [meta_term.id]}}}).where("media_resources.id != ?", @media_resource.id).count
         if count > 0
-          @browsable_meta_terms.push :meta_term => meta_term, :meta_datum => meta_datum, :count => count
+          data = {:meta_term => meta_term, :meta_datum => meta_datum, :count => count}
+          if @media_resource.individual_contexts[0].meta_keys.where(:id => meta_datum.meta_key).exists?
+            @browsable_meta_terms.unshift data
+          else
+            @browsable_meta_terms.push data
+          end
         end
       end
     end

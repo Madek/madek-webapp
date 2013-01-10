@@ -38,6 +38,7 @@ li.plupload_done a {
 .plupload_filelist_footer .plupload_total_status,
 .plupload_filelist_footer .plupload_file_size,
 .plupload_filelist_footer .plupload_progress,
+.plupload_filelist_footer .plupload_file_action,
 #mei_filelist {
   display: none;
 }
@@ -88,6 +89,13 @@ li.plupload_done a {
 }
 .delete_plupload_entry {
   @extend .icon-trash;
+  cursor: pointer;
+
+  opacity: $opacity-medium;
+
+  &:hover {
+    opacity: 1;
+  }
 }
 .plupload_filelist .plupload_file_name { 
   width: auto;
@@ -97,9 +105,15 @@ li.plupload_done a {
 ----------------------------------------- */
 
 .plupload_buttons {
-  @include position-top-right(-70px,-5px);
+  @include position-top-right(-70px,-11px);
   .plupload_disabled {
     display: none;
+  }
+
+  /* More button stuff */
+
+  .plupload_button {
+    margin-right: $space-s;
   }
 }
 
