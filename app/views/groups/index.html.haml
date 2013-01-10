@@ -23,7 +23,7 @@
           .ui-container.rounded-left.phm.pvl
             %ul.ui-side-navigation
               %li.ui-side-navigation-item
-                %a.strong{:href => "#"} Meine Inhalte
+                %a.strong{:href => "#"} Inhalte, für die ich verantwortlich bin
               %li.separator.mini
               %li.ui-side-navigation-item
                 %a.strong{:href => "#"} Meine Faroviten
@@ -32,7 +32,7 @@
                 %a.strong{:href => "#"} Meine Schlagworte
               %li.separator.mini
               %li.ui-side-navigation-item
-                %a.strong{:href => "#"} Mir anvertaute Inhalte
+                %a.strong{:href => "#"} Mir anvertraute Inhalte
               %li.separator.mini
               %li.ui-side-navigation-item.active
                 %a.strong{:href => "#"} Meine Arbeitsgruppen
@@ -48,7 +48,7 @@
             %table.ui-workgroups.bordered.block
               %thead
                 %tr
-                  %td.ui-workgroup-name-title Arbeitsgrupp
+                  %td.ui-workgroup-name-title Name der Arbeitsgruppe
                   %td.ui-workgroup-items-title Inhalte
                   %td.ui-workgroup-actions-title Aktionen
               %tbody
@@ -92,7 +92,7 @@
             %table.ui-workgroups.bordered.block
               %thead
                 %tr
-                  %td.ui-workgroup-name-title Grupp Name
+                  %td.ui-workgroup-name-title Name der Arbeitsgruppe
               %tbody
                 %tr
                   %td.ui-workgroup-name ZHdK Group 1
@@ -109,13 +109,13 @@
 #workgroup-new.modal.hide.fade.ui-modal.narrow{"aria-hidden" => "true", "aria-labelledby" => "workgroup-new-label", :role => "dialog", :tabindex => "-1"}
   %form
     .ui-modal-head
-      %h3#workgroup-new-label.title-l Neue Gruppe erstellen
+      %h3#workgroup-new-label.title-l Neue Arbeitsgruppe erstellen
       %a.ui-modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button", :title => "Close", :class => "weak"}
     .ui-modal-body
       .form-body
         .ui-form-group.rowed
           %label.form-label
-            Enter Name
+            Name eingeben
           .form-item
             %input.block{:type => "text"}
     .ui-modal-footer

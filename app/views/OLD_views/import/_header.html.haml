@@ -43,7 +43,7 @@
       = link_to _("weiter..."), "javascript:void(0)", :class => "upload_buttons next disabled", :id => "finish_meta_data"
     - elsif current_page?(:controller => :import, :action => :organize)
       = link_to _("Import abschliessen"), "/import/complete", :id => "cancel_import", :method => :put, :class => "upload_buttons next",:id => "complete_import"
-    = link_to "Abbrechen", "/import", :title=> "Import Abbrechen", :id => "cancel_import", :method => :delete, :data => {:confirm => "Wollen Sie den Import wirklich abbrechen?"}
+    = link_to "Abbrechen", "/import", :title=> "Import abbrechen", :id => "cancel_import", :method => :delete, :data => {:confirm => "Wollen Sie den Import wirklich abbrechen?"}
 
 :coffeescript
   jQuery ->
