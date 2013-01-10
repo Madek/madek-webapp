@@ -13,4 +13,11 @@ Feature: Permissions
 #- Nennt man eine Person oder eine Gruppe bei den Berechtigungen, wählt für diese aber keine Berechtigungen aus, so bedeutet dies, dass den genannten explizit die Berechtigungen entzogen sind.
 
 
+  @chrome @dirty
+  Scenario: View permission
+    Given I am signed-in as "Normin"
+    And A resource with no permissions whatsoever
+    When There are view permissions added for me to the resources
+    Then I can view this resource
+
 
