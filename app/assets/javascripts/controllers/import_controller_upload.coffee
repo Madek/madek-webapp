@@ -26,7 +26,6 @@ class ImportController.Upload
     @setup_open_dropbox_dialog()
     @setup_delete_mei()
     @setup_delete_dropbox_file()
-    @setup_delete_plupload_file()
     @setup_start_button()
     window.ui-alert = (msg)-> #prevent plupload error message
 
@@ -39,6 +38,7 @@ class ImportController.Upload
     @uploaderEl.bind "StateChanged", @onStateChange
     @uploaderEl.bind "FileUploaded", (uploader, file, response) => @pluploadFilesUploaded.push {file: file, media_entry_incomplete: JSON.parse(response.response).media_entry_incomplete}
     @uploaderEl.bind "error", @onError
+    $(".delete_plupload_entry").live "click", @deletePluploadFile
 
   setup_open_dropbox_dialog: ->
     $(".open_dropbox_dialog").live "click", ->
@@ -127,11 +127,15 @@ class ImportController.Upload
     button.addClass("plupload_disabled")
 
   showStartButton: ->
+    console.log "SHOW"
     button = $("#upload_navigation .plupload_start")
+    button.addClass "focus"
     button.show()
 
   hide_start_button: ->
+    console.log "HIDE"
     button = $("#upload_navigation .plupload_start")
+    button.removeClass "focus"
     button.hide()
 
   setup_dropbox_sync: ->
@@ -392,17 +396,18 @@ class ImportController.Upload
         dropbox_file:
           data
 
-  setup_delete_plupload_file: ->
-    $(".delete_plupload_entry").live "click", (event)->
-      if $(this).closest("li").hasClass("plupload_done")
-        filename = if ($(this).closest("li").tmplItem().data.filename == undefined) then $(this).closest("li").find(".plupload_file_name span").html() else $(this).closest("li").tmplItem().data.filename
-        return false if !confirm("Sind Sie sicher dass Sie die Datei " + filename + " löschen möchten?")
-        for element in @pluploadFilesUploaded
-          if $(this).closest("li").attr("id") == element.file.id
-            delete_mei_file $(this), element.media_entry_incomplete
-            @uploaderEl.splice($(this).closest("li").index(), 1)
-      else
-        @uploaderEl.splice($(this).closest("li").index(), 1)
+  deletePluploadFile: (e)=>
+    el = $(e.currentTarget)
+    line = el.closest("li")
+    if line.hasClass("plupload_done")
+      filename = if (line.tmplItem().data.filename == undefined) then line.find(".plupload_file_name span").html() else line.tmplItem().data.filename
+      return false if !confirm("Sind Sie sicher dass Sie die Datei " + filename + " löschen möchten?")
+      for element in @pluploadFilesUploaded
+        if line.attr("id") == element.file.id
+          delete_mei_file el, element.media_entry_incomplete
+          @uploaderEl.splice(line.index(), 1)
+    else
+      @uploaderEl.splice(line, 1)
 
   setup_start_button: ->
     $("#upload_navigation .plupload_start").bind "click", ()->

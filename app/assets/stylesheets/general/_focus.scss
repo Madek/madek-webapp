@@ -4,15 +4,13 @@
  */
 
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="submit"],
-textarea,
-button {
-
-  &:focus {
-    border-color: $blue !important;
-    @include box-shadow(0 0 8px $blue !important);
-  }
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="submit"]:focus,
+textarea:focus,
+button:focus,
+.focus {
+  border-color: $blue !important;
+  @include box-shadow(0 0 8px $blue !important);
 }
