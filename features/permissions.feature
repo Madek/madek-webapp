@@ -14,10 +14,18 @@ Feature: Permissions
 
 
   @chrome @dirty
+  Scenario: No permissions
+    Given I am signed-in as "Normin"
+    And A resource with no permissions whatsoever
+    Then I can view this resource
+
+
+  @chrome @dirty @wip
   Scenario: View permission
     Given I am signed-in as "Normin"
     And A resource with no permissions whatsoever
     When There are view permissions added for me to the resources
-    Then I can view this resource
+    And I visit the path of the resource
+    Then I see page for the resource
 
 
