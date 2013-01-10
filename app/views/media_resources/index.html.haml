@@ -10,7 +10,16 @@
             Inhalte des
             = AppSettings.title || "Medienarchiv"
 
-        .ui-body-title-actions= render :partial => "login_action"
+        .ui-body-title-actions
+          - if current_user.is_guest?
+            = render :partial => "login_action"
+          - else
+            %a.button{:"data-create-set" => true}
+              %i.icon-new-set
+              Set erstellen
+            %a.primary-button{:href => import_path}
+              %i.icon-upload.bright
+              Medien importieren
 
     .app-body-ui-container
 
