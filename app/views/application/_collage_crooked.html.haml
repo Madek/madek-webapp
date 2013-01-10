@@ -1,14 +1,15 @@
 #teaser-set.ui-collage.crooked.ui-container.overlaid
-  - 4.times do |row|
-    .ui-collage-row
-      - 5.times do |col|
-        - i = (((row*5)+col)%@splashscreen_set.child_media_resources.size)
-        - mr = @splashscreen_set_children[i-1]
-        .ui-collage-item{:class => col.odd? ? "even" : "odd"}
-          .ui-collage-item-wrapper
-            .ui-collage-item-table
-              .ui-collage-item-cell
-                .ui-collage-item-inner
-                  %img.ui-collage-item-image{:src => "/media_resources/#{mr.id}/image?size=large"} 
+  - if @splashscreen_set and not @splashscreen_set.empty?
+    - 4.times do |row|
+      .ui-collage-row
+        - 5.times do |col|
+          - i = (((row*5)+col)%@splashscreen_set.child_media_resources.size)
+          - mr = @splashscreen_set_children[i-1]
+          .ui-collage-item{:class => col.odd? ? "even" : "odd"}
+            .ui-collage-item-wrapper
+              .ui-collage-item-table
+                .ui-collage-item-cell
+                  .ui-collage-item-inner
+                    %img.ui-collage-item-image{:src => "/media_resources/#{mr.id}/image?size=large"} 
 
   = render "application/login"
