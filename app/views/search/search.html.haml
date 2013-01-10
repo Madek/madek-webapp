@@ -20,6 +20,7 @@
       .bordered.ui-container.midtone.rounded.table
         .ui-search-form
           %form{:action => search_path, :method => :post}
+            = token_tag nil
             .ui-search.large.mbm
               %input.block.ui-search-input{:type => "text", :name => "search", :autofocus => :autofocus, :placeholder => placeholder_text}
               %button.primary-button.ui-search-button Suchen
