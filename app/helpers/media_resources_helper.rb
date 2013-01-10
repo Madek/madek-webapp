@@ -26,7 +26,7 @@ module MediaResourcesHelper
         _("Alle Sets")
         
       when {:type => :all, :permissions => :mine}
-        _("Meine Inhalte")
+        _("Inhalte, für die ich verantwortlich bin")
       when {:type => :media_entries, :permissions => :mine}
         _("Meine Medieneinträge")
       when {:type => :media_sets, :permissions => :mine}

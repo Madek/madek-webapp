@@ -28,7 +28,7 @@ Then /^I can filter by the "(.*?)" scope$/ do |filter|
   a.find(".key h3", :text => "Zugriff").click
   label = case filter
     when "My content"
-      "Meine Inhalte"
+      "Inhalte, für die ich verantwortlich bin"
     when "Content assigned to me"
       "Mir anvertraute Inhalte"
     when "Available to the public"

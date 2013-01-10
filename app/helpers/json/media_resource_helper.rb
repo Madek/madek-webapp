@@ -237,7 +237,7 @@ module Json
                      { :key_name => k,
                        :key_label => "Zugriff", # FIXME get label from the DB
                        :terms => begin
-                         [[:mine, _("Meine Inhalte")],
+                         [[:mine, _("Inhalte, für die ich verantwortlich bin")],
                           [:entrusted, _("Mir anvertraute Inhalte")],
                           [:public,_("Öffentliche Inhalte")]].map do |x,y|
                            if (c = media_resources.filter_permissions(current_user, {:scope => {:ids => [x]}}).count) > 0
