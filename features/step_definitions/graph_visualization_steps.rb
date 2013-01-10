@@ -147,35 +147,8 @@ When /^I a see a graph$/ do
   visit "/visualization/my_media_resources"
 end
 
-Then /^I see a title$/ do
-  (expect find("#title").text.size).to be > 0
-end
-
-When /^I visualize the filter "(.*?)"$/ do |filter|
-  case filter
-  when "Meine Sets"
-    visit "/visualization/filtered_resources?type=media_sets&user_id=#{@current_user.id}"
-  when "Meine Inhalte"
-    visit "/visualization/filtered_resources?user_id=#{@current_user.id}"
-  when "Mir anvertraute Inhalte"
-    visit "/visualization/filtered_resources?not_by_user_id=#{@current_user.id}&public=false&type=all"
-  when "Meine Favoriten"
-    visit "/visualization/filtered_resources?favorites=true"
-  else
-    raise "implement this case"
-  end
-end
-
-Then /^I see the title "(.*?)"$/ do |subtitle|
-  (expect find("#title")).to have_content subtitle
-end
-
 When /^I visualize the filter Suchergebnisse für "(.*?)"$/ do |search|
   visit  "/visualization/filtered_resources?not_by_user_id=2&public=true&search=#{search}"
-end
-
-Then /^I see the title Suchergebnisse für "(.*?)"$/ do |search|
-  (expect find("#title")).to have_content search
 end
 
 When /^I visualize the descendants of a Set$/ do

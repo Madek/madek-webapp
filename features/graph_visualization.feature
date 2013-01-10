@@ -10,14 +10,14 @@ Feature: Visualization / Graph
   Scenario: Calculate graph on the media set view
     Given I am signed-in as "Normin"
     When I open one of my sets that has children and parents
-     And I use the "Zusammenhang zu meinen Inhalten anzeigen" context action
+     And I use the "Zusammenhänge anzeigen" context action
     Then I can see my relations for that resource
 
   @firefox
   Scenario: Calculate graph on the media entry view
     Given I am signed-in as "Normin"
     When I open one of my media entries that is child of a set that I can see
-     And I use the "Zusammenhang zu meinen Inhalten anzeigen" context action
+     And I use the "Zusammenhänge anzeigen" context action
     Then I can see my relations for that resource
 
   Scenario: Calculate graph on a filtered list
@@ -61,22 +61,6 @@ Feature: Visualization / Graph
       And I dont see any number of children and parents
       And I see the links to the resource (my)components
       And I don't see the links to the resource (my)descendants
-
-  @jsbrowser
-  Scenario: Title
-    Given I am signed-in as "Normin"
-     When I a see a graph
-     Then I see a title
-     When I visualize the filter "Meine Sets"
-     Then I see the title "Meine Sets"
-     When I visualize the filter "Meine Inhalte"
-     Then I see the title "Meine Inhalte"
-     When I visualize the filter "Mir anvertraute Inhalte"
-     Then I see the title "Mir anvertraute Inhalte"
-     When I visualize the filter "Meine Favoriten"
-     Then I see the title "Favoriten"
-     When I visualize the filter Suchergebnisse für "ZHdK"
-     Then I see the title Suchergebnisse für "ZHdK"
 
   @jsbrowser
   Scenario: Origin Highlight
