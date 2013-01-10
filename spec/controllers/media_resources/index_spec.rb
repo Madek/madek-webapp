@@ -39,6 +39,10 @@ describe MediaResourcesController do
       end
 
       it "should be ordered by title" do
+        # REMARK this fails sometimes, could be collation in database
+        # ["at dolorem rerum impedit", "at dolor minima tempore"]
+        # ["at dolor minima tempore", "at dolorem rerum impedit"]
+        # not reproducible on my macbook
         resources = extract_resources 
         resources.map(&:title).sort.should ==  resources.map(&:title)
       end
