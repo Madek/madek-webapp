@@ -1,17 +1,17 @@
 .ui-export-block
 
   .col1of2
-    %p Die aktuellen Metadaten als XML-Dokument für das TMS.
+    %p Die aktuellen Metadaten als XML-Dokument.
 
   .col1of2.by-right
 
     .dropdown.ui-dropdown.stick-right
       %a.button.dropdown-toggle.ui-drop-toggle{:"data-toggle" => "dropdown"}
-        TMS XML-Dokument
+        XML-Dokument
         %i.icon-arrow-down
 
       %ul.dropdown-menu.ui-drop-menu.absolute{"aria-labelledby" => "dLabel", :role => "menu"}
         
         %li.ui-drop-item.by-right
-          %a{:href => "/download?id=#{@media_entry.id}&type=tms"}
+          %a{:href => "/download?id=#{@media_entry.id}&type=xml"}
             %strong xml

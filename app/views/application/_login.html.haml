@@ -9,8 +9,16 @@
 .ui-home-claim.ui-container
   .col2of3
     .pitch-claim
-      %h1.title-xxl Bilder, Fotos, Videos und Audio-Dateien
-      %h2.title-l Das Medienarchiv ist ein Werkzeug zum gemeinschaftlichen arbeiten mit Medien und zum Teilen von Inhalten.
+      %h1.title-xxl 
+        - if AppSettings["welcome_title"]
+          = AppSettings["welcome_title"]
+        - else
+          Bilder, Videos, Audio-Dateien und Dokumente
+      %h2.title-l
+        - if AppSettings["welcome_subtitle"]
+          = AppSettings["welcome_subtitle"]
+        - else
+          Das Medienarchiv ist eine Plattform zum gemeinschaftlichen Arbeiten mit Medien und Teilen von Inhalten.
   .col1of3
     .pitch-login
       %ul.ui-tabs.ui-container
@@ -26,6 +34,7 @@
             %form
               .form-body
                 .ui-form-group.rowed
+                  %p.mbm Alle Funktionen nutzen und auf <br/> mehr Inhalte zugreifen.
                   %a#internal-login-link.primary-button.block.large{:href => login_path} Anmelden
         - if AppSettings.authentication_systems.include? :local_database
           #external-user.tab-pane{:class => active_login == :external ? "active" : ""}

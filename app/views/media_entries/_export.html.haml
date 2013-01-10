@@ -2,22 +2,20 @@
   
   .ui-modal-head
     %a.ui-modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button", :title => "Close", :class => "weak"}
-    %h3.title-l Inhalt exportieren
+    %h3.title-l 
+      = @media_entry.title
+      exportieren
   .ui-modal-body.ui-export-container
 
     - if @x_large_file_available
 
       - unless @original_file.content_type.match(/^video.*/)
 
-        = render :partial => "media_entries/export/without_meta_data"
-
-        .separator
-
         = render :partial => "media_entries/export/with_latest_meta_data"
 
         .separator
 
-        = render :partial => "media_entries/export/compressed_seperated_meta_data"
+        = render :partial => "media_entries/export/without_meta_data"
 
         .separator
 
@@ -27,8 +25,12 @@
 
       .separator
 
+    = render :partial => "media_entries/export/xml"
+
+    .separator
+
     = render :partial => "media_entries/export/tms"
 
   .ui-modal-footer
     .ui-actions
-      %a.link.weak{"aria-hidden" => "true", "data-dismiss" => "modal"} Abbrechen
+      %a.button{"aria-hidden" => "true", "data-dismiss" => "modal"} Schliessen

@@ -11,7 +11,9 @@ class AppSettings < Settings
     :authentication_systems         => {:type => Array,     :description => "Active authentication systems described as symbols",
                                         :possible_values => [:zhdk_agw, :local_database], :default => [:local_database]},
     :title                          => {:type => String,    :description => "The instance title"},                          
-    :wiki_url                       => {:type => String,    :description => "The link to the external wiki/help"}
+    :wiki_url                       => {:type => String,    :description => "The link to the external wiki/help"},
+    :welcome_title                  => {:type => String,    :description => "The title for the welcome page"},
+    :welcome_subtitle               => {:type => String,    :description => "The subtitle for the welcome page"}
   }
 
   def self.method_missing(method, *args)
