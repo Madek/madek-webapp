@@ -1,13 +1,3 @@
-
-  @javascript
-  Scenario: View permission
-    Given a resource
-      And I am "Normin"
-      And the resource has the following permissions:
-      |user              |permission       |value|
-      |Normin            |view             |true |
-     Then "Normin" can view the resource
-
   @javascript
   Scenario: Edit permission
     Given a resource

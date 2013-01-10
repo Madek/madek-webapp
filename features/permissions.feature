@@ -20,13 +20,35 @@ Feature: Permissions
     And I visit the path of the resource
     Then I am redirected to the main page
 
-
   @transactional_dirty
   Scenario: View permission
     Given I am signed-in as "Normin"
     And A resource with no permissions whatsoever
-    When There are view permissions added for me to the resources
+    When There are "view" user-permissions added for me to the resources
     And I visit the path of the resource
     Then I see page for the resource
+
+
+  @jsbrowser @dirty
+  Scenario: Not Manage permission
+    Given I am signed-in as "Normin"
+    And A resource with no permissions whatsoever
+    When There are "view" user-permissions added for me to the resources
+    And I visit the path of the resource
+    And I open the edit-permissions dialog
+    Then I can not edit the permissions
+
+  @jsbrowser @dirty 
+  Scenario: Manage permission
+    Given I am signed-in as "Normin"
+    And A resource with no permissions whatsoever
+    When There are "view" user-permissions added for me to the resources
+    And There are "manage" user-permissions added for me to the resources
+    And I visit the path of the resource
+    And I open the edit-permissions dialog
+    Then I can edit the permissions
+
+
+
 
 
