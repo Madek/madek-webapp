@@ -16,17 +16,16 @@ class ImportController.Upload
     @maxFileSize = options.maxFileSize
     @mediaEntryIncompletes = options.mediaEntriesIncomplete
     @pluploadFilesUploaded = []
+    @multipartParams = options.multipartParams
     do @initalizePlupload
-    @remove_not_needed_plupload_elements()
+    do @removeUnnecessaryElements
     @setupMEIFiles @mediaEntryIncompletes if @mediaEntryIncompletes?
     @setup_dropbox_sync()
-    @setup_dropbox_transfer_trigger()
     do @delegateEvents
     do @validateButtons
     @setup_open_dropbox_dialog()
     @setup_delete_mei()
     @setup_delete_dropbox_file()
-    @setup_start_button()
     window.ui-alert = (msg)-> #prevent plupload error message
 
   delegateEvents: ->
@@ -35,10 +34,11 @@ class ImportController.Upload
     @uploaderEl.bind "FilesAdded", @addFile
     @uploaderEl.bind "FilesRemoved", (uploader, files) => do @validateButtons
     @uploaderEl.bind "QueueChanged", @onQueueChange
-    @uploaderEl.bind "StateChanged", @onStateChange
     @uploaderEl.bind "FileUploaded", (uploader, file, response) => @pluploadFilesUploaded.push {file: file, media_entry_incomplete: JSON.parse(response.response).media_entry_incomplete}
     @uploaderEl.bind "error", @onError
     $(".delete_plupload_entry").live "click", @deletePluploadFile
+    $(document).on "click", "#import-start", @startImport
+    $(document).on "click", ".plupload_start.dropbox_enabled", @startDropboxTransfer
 
   setup_open_dropbox_dialog: ->
     $(".open_dropbox_dialog").live "click", ->
@@ -82,15 +82,12 @@ class ImportController.Upload
       else
         $("#upload_navigation .plupload_start").removeClass "dropbox_enabled"
 
-      # Everything is transfered so show continue button
+      # everything is transfered
       if $(".plupload_content li:not(.plupload_done):visible").length == 0 and $(".plupload_content li:visible").length > 0
-        enable_continue_button()
-        show_continue_button()
-        hide_start_button()
+        do @finishTransfer
       else
         do @disableContinueButton
         do @hideContinueButton
-        do @showStartButton
 
       # show/hide call2action depending if there is anything in the filelist or not
       if $(".plupload_content li:visible").length > 0
@@ -100,10 +97,8 @@ class ImportController.Upload
 
     , 200
 
-  enable_continue_button: ->
-    button = $("#upload_navigation .next")
-    button.removeClass("disabled")
-    button.attr("href", button.data("link_when_enabled"))
+  finishTransfer: ->
+    console.log "FINISH TRANSFER"
 
   disableContinueButton: ->
     button = $("#upload_navigation .next")
@@ -119,24 +114,12 @@ class ImportController.Upload
     button.hide()
 
   enableStartButton: ->
-    button = $("#upload_navigation .plupload_start")
-    button.removeClass("plupload_disabled")
+    button = $("#import-start")
+    button.removeClass "disabled"
 
   disableStartButton: ->
-    button = $("#upload_navigation .plupload_start")
-    button.addClass("plupload_disabled")
-
-  showStartButton: ->
-    console.log "SHOW"
-    button = $("#upload_navigation .plupload_start")
-    button.addClass "focus"
-    button.show()
-
-  hide_start_button: ->
-    console.log "HIDE"
-    button = $("#upload_navigation .plupload_start")
-    button.removeClass "focus"
-    button.hide()
+    button = $("#import-start")
+    button.addClass "disabled"
 
   setup_dropbox_sync: ->
     return false if @dropboxExists is false
@@ -153,11 +136,6 @@ class ImportController.Upload
         data: format:"json"
       })
     , @dropboxSyncIntervalTimer
-
-  setup_dropbox_transfer_trigger: ->
-    $(".plupload_start").live "click", (e)->
-      if $(e.currentTarget).hasClass("dropbox_enabled")
-        start_dropbox_transfer()
 
   setup_dopbox_files: (files)->
     # if ui-container is gone create the ui-container again
@@ -194,16 +172,13 @@ class ImportController.Upload
       max_file_size: @maxFileSize
       dragdrop: true
       drop_element: "plupload_content"
-      multipart_params:
-        '#{request_forgery_protection_token}': '#{form_authenticity_token}',
-        '#{request.session_options[:key]}': '#{request.session_options[:id]}'
+      multipart_params: @multipartParams
       preinit :
         Init: (up, info)->
           $("#uploader").find(".plupload_content").attr("id", "plupload_content")
     @uploaderEl = $("#uploader").pluploadQueue()
 
-  remove_not_needed_plupload_elements: ->
-    $("#uploader_ui-container").removeAttr("title")
+  removeUnnecessaryElements: -> $("#uploader_container").removeAttr("title")
 
   setCustomProgress: ->
     window.setTimeout ->
@@ -256,13 +231,6 @@ class ImportController.Upload
         @addDeleteToPlupload $(element)
     , 200
 
-  onStateChange: (uploader)=>
-    if uploader.state == plupload.STOPPED
-      window.setTimeout ->
-        for element in $("#uploader_filelist li")
-          @addDeleteToPlupload $(element)
-      , 200
-
   validate_progress_bar: ->
     if $(".plupload_content li:visible").length == 0
       hide_transfer_progress()
@@ -281,9 +249,9 @@ class ImportController.Upload
     $(".plupload_filelist_footer .plupload_upload_status").html(plupload.translate("Uploaded %d/%d files").replace(/%d/g, "0"))
     $(".plupload_filelist_footer .plupload_progress").hide()
 
-  start_dropbox_transfer: ->
+  startDropboxTransfer: ->
     clearInterval @dropboxSyncInterval
-    finish_transfer() if $("#dropbox_filelist li").length is 0
+    do @finishTransfer if $("#dropbox_filelist li").length is 0
     show_transfer_progress()
     # begin transfer each file seperately
     for dropbox_file in @dropboxFiles
@@ -313,9 +281,6 @@ class ImportController.Upload
             dirname: dropbox_file.dirname
             filename: dropbox_file.filename
       }
-
-  finish_transfer: ->
-    enable_continue_button()
 
   setupMEIFiles: (files)->
     # if ui-container is gone create the ui-container again
@@ -407,14 +372,12 @@ class ImportController.Upload
           delete_mei_file el, element.media_entry_incomplete
           @uploaderEl.splice(line.index(), 1)
     else
-      @uploaderEl.splice(line, 1)
+      @uploaderEl.splice(line.index(), 1)
 
-  setup_start_button: ->
-    $("#upload_navigation .plupload_start").bind "click", ()->
-      if $(this).is(":not(.plupload_disabled)")
-        $(".plupload .plupload_buttons .plupload_start").trigger("click")
-        hide_start_button()
-        show_continue_button()
+  startImport: =>
+    $(".delete_plupload_entry").remove()
+    $(".plupload .plupload_buttons .plupload_start").trigger("click")
+    do @show_continue_button
 
 window.App.ImportController = {} unless window.App.ImportController
 window.App.ImportController.Upload = ImportController.Upload

@@ -14,8 +14,8 @@
 .plupload_disabled, a.plupload_disabled:hover {
   background-image: none;
 }
-li.plupload_uploading {
-  background-image: image-url("vendor/plupload/buttons-disabled.png") repeat-x 0 -238px;
+li.plupload_uploading a {
+  background-image: image-url("icons/icon-upload-dark.png");
 }
 li.plupload_delete a {
   @include dimension(20px,20px);
@@ -45,9 +45,18 @@ li.plupload_done a {
 .plupload_droptext { 
   display: none !important;
 }
+
+/* Footer
+----------------------------------------- */
+
 .plupload_filelist_footer {
   background: transparent;
   border: none;
+  bottom: -32px;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  padding: 0;
 }
 
 /* Header elements
@@ -105,20 +114,19 @@ li.plupload_done a {
 ----------------------------------------- */
 
 .plupload_buttons {
-  @include position-top-right(-70px,-11px);
+  @include position-top-right(-286px, 0);
   .plupload_disabled {
     display: none;
-  }
-
-  /* More button stuff */
-
-  .plupload_button {
-    margin-right: $space-s;
   }
 }
 
 /* Fluff?
 ----------------------------------------- */
+
+.plupload_button.plupload_start {
+  display: none;
+}
+
 .uploader_filelist,
 .plupload_scroll .plupload_filelist {
   background: transparent;
