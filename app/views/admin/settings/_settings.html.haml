@@ -42,4 +42,10 @@
     = text_field_tag 'settings[title]', AppSettings.title
   %hr
 
+  %h3= _("Wiki / Help")
+  %p
+    Link to external wiki/help:
+    = text_field_tag 'settings[wiki_url]', AppSettings.wiki_url
+  %hr
+
   = submit_tag

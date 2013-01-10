@@ -9,6 +9,7 @@
       %a#to-search{:href => search_path}
         %i.icon-nav-search
         Suchen
-    %li.ui-tabs-item
-      %a#to-help{:href => "/wiki"}
-        %i.icon-nav-help Help
+    - if AppSettings["wiki_url"]
+      %li.ui-tabs-item
+        %a#to-help{:href => AppSettings["wiki_url"], :target => "_blank"}
+          %i.icon-nav-help Help

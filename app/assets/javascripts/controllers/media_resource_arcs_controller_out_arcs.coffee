@@ -1,6 +1,6 @@
 ###
 
-Organize OutArcs (content of a set)
+Organize OutArcs (add/remove set children)
 
 ###
 
@@ -160,7 +160,8 @@ class MediaResourceArcsController.OutArcs
       mr.is_parent = true
     @dialog.find(".ui-modal-body").html App.render "media_resource_arcs/organize/list" , {mediaResources: @outArcResources}
 
-  onSubmit: =>
+  onSubmit: (e)=>
+    do e.preventDefault
     @dialog.prev(".modal-backdrop").off "click"
     @dialog.remove()
     if @createStack.length
@@ -174,9 +175,9 @@ class MediaResourceArcsController.OutArcs
             do @saveOutArcs unless @createStack.length
     else
       do @saveOutArcs
+    return false
 
   saveOutArcs: =>
-    do @dialog.remove
     do @deleteRemovedArcs
     do @createNewArcs
 

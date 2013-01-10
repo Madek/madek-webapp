@@ -10,7 +10,8 @@ class AppSettings < Settings
     :ftp_dropbox_password           => {:type => String,    :description => "Dropbox: ftp password"},
     :authentication_systems         => {:type => Array,     :description => "Active authentication systems described as symbols",
                                         :possible_values => [:zhdk_agw, :local_database], :default => [:local_database]},
-    :title                          => {:type => String,    :description => "The instance title"}                                        
+    :title                          => {:type => String,    :description => "The instance title"},                          
+    :wiki_url                       => {:type => String,    :description => "The link to the external wiki/help"}
   }
 
   def self.method_missing(method, *args)
