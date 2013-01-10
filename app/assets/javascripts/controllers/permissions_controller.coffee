@@ -30,7 +30,7 @@ class Permissions
     @dialog.on "click", ".ui-rights-remove", (e)=> $(e.currentTarget).closest("tr").remove()
     @dialog.on "change", ".ui-rights-owner input", (e)=> @changeOwnerTo $(e.currentTarget).closest "tr"
     @dialog.on "change", ".ui-rights-management-public .ui-rights-check input", @onChangePublicPermission
-    @form.on "submit", @savePermissions
+    @form.on "submit", @onSubmit
 
   changeMixedValue: (e)=>
     input = $(e.currentTarget)
@@ -54,7 +54,7 @@ class Permissions
       input.attr "checked", false
       label.removeClass "overwrite"
 
-  savePermissions: (e)=>
+  onSubmit: (e)=>
     do e.preventDefault
     userPermissions = _.map @otherUsersContainer.find("tr"), (line)=> @getPermissionDataFromLine $(line)
     userPermissions.push @getPermissionDataFromLine @currentUserLine
@@ -193,6 +193,7 @@ class Permissions
     ,
       presets: @permissionPresets
       manageable: @manageable
+      currentUserOwnership: @permissionsForRender(@permissions.you, @mediaResourceIds, @permissions.owners)[0].ownership
     target = if subject instanceof App.User
       @otherUsersContainer.find("tbody")
     else if subject instanceof App.Group
@@ -336,6 +337,13 @@ class Permissions
     @publicPermissionsContainer = template.find ".ui-rights-management-public"
     do @setupAddUser if @addUserContainer.length
     do @setupAddGroup if @addGroupContainer.length
+    do @setInitalMixedValuesLabels
+
+  setInitalMixedValuesLabels: ->
+    for mixedLabel in @rightsContainer.find(".ui-rights-check-label.mixed")
+      mixedLabel = $(mixedLabel)
+      line = mixedLabel.closest "tr"
+      @switchPresetForElement line, @getPresetForElement line
 
 window.Permissions = Permissions
 

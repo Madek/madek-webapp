@@ -197,11 +197,11 @@
       background: black;
       @include border-radius(2px);
       display: inline-block;
-      height: 6px;
-      left: 2px;
+      height: 2px;
+      left: 1px;
       position: absolute;
-      top: 2px;
-      width: 6px;
+      top: 4px;
+      width: 7px;
     }
   }
 }

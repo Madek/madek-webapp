@@ -9,8 +9,10 @@
         %a{:target => "_blank", :href => "http://www.zhdk.ch/index.php?id=12968"} Kontakt
       %li
         %a{:target => "_blank", :href => "http://blog.zhdk.ch/madek/"} Blog
-      %li
-        %a{:target => "_blank", :href => "/wiki"} Hilfe
+
+      - if AppSettings["wiki_url"]
+        %li
+          %a{:target => "_blank", :href => AppSettings["wiki_url"]} Hilfe
       %li
         %a{:target => "_blank", :href => usage_terms_users_path} Nutzungsbestimmungen
       %li
