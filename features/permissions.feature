@@ -48,7 +48,28 @@ Feature: Permissions
     And I open the edit-permissions dialog
     Then I can edit the permissions
 
+  @jsbrowser @dirty 
+  Scenario: Not Edit permission
+    Given I am signed-in as "Normin"
+    And A resource with no permissions whatsoever 
+    When There are "view" user-permissions added for me to the resources
+    And I visit the path of the resource
+    And I click on the link "Weitere Aktionen"
+    And I click on the link "Metadaten editieren"
+    Then I see an error alert
+    And I am on the page of the resource
 
-
-
+  @jsbrowser @dirty
+  Scenario: Edit permission
+    Given I am signed-in as "Normin"
+    And A resource with no permissions whatsoever 
+    When There are "view" user-permissions added for me to the resources
+    When There are "edit" user-permissions added for me to the resources
+    And I visit the path of the resource
+    And I click on the link "Weitere Aktionen"
+    And I click on the link "Metadaten editieren"
+    And I am on the edit page of the resource
+    When I click on the submit button
+    Then I am on the page of the resource
+    And I see a confirmation alert
 

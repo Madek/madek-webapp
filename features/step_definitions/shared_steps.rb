@@ -1,5 +1,10 @@
 # the common steps are lexically ordered, 
 # PLEASE KEEP IT THIS WAY!
+#
+
+Then /^I am on the page of the resource$/ do
+  expect(current_path).to eq media_entry_path @resource
+end
 
 Given /^I am signed\-in as "(.*?)"$/ do |login|
   visit "/"
@@ -14,8 +19,16 @@ Then /^I can see the text "(.*?)"$/ do |text|
   expect(page.has_content? text).to be true
 end
 
+When /^I click on the link "(.*?)"$/ do |link_text|
+  find("a",text: link_text).click
+end
+
 When /^I click the submit input$/ do
   find("input[type='submit']").click
+end
+
+When /^I click on the submit button$/ do
+  find("button[type='submit']").click
 end
 
 When /^(?:|I )fill in the following:$/ do |fields|
@@ -36,6 +49,14 @@ When /^I pry$/ do
   binding.pry 
 end
 
+Then /^I see an error alert$/ do
+  expect{ find(".ui-alert.error",visible: true) }.not_to raise_error
+end
+
+Then /^I see a confirmation alert$/ do
+  expect{ find(".ui-alert.confirmation",visible: true) }.not_to raise_error
+end
+
 When /^I set the input with the name "(.*?)" to "(.*?)"$/ do |name, value|
   find("input[name='#{name}']").set(value)
 end
@@ -48,3 +69,8 @@ end
 Given /^I wait for the following to be implemented$/ do
   pending
 end
+
+
+
+
+
