@@ -1,0 +1,36 @@
+.modal.ui-modal.hide.fade.wide{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+
+  .ui-modal-head
+    %h3#add-to-set-label.title-l FTP Dropbox
+    %a.ui-modal-close.weak{"aria-hidden" => "true", "data-dismiss" => "modal", :title => "Close", :type => "button"}
+
+  {{if errorMsg}}
+  .ui-modal-toolbar.top
+    .ui-alert.error ${errorMsg}
+  {{/if}}
+
+  .ui-modal-body
+    %p
+      Sie benötigen auf Ihrem Computer einen
+      %a{:href => "http://de.wikipedia.org/wiki/Kategorie:FTP-Client", :target => "_blank"} FTP-Client
+      , mit dem Sie Ihre Dateien zum Medienarchiv-Server übertragen können. Für Hilfe beim Zugang über FTP, wenden Sie sich an Ihre IT-Abteilung.
+  
+  .ui-modal-toolbar.bottom
+    {{if dropbox_info}}
+
+    {{if dropbox_exists}}
+    {{tmpl(dropbox_info) App.renderPath("import/upload/dropbox_infos")}}
+    {{else}}
+    .ui-alert
+      Sie haben noch keine FTP-Dropbox erstellt:
+      %a.mls.primary-button#create-dropbox Dropbox erstellen
+
+    {{/if}}
+
+    {{else}}
+    .ui-alert.warning Für dieses Medienarchiv wurde noch keine FTP-Dropbox eingerichtet.
+    {{/if}}
+
+  .ui-modal-footer
+    .ui-actions
+      %button.button{"aria-hidden" => "true", "data-dismiss" => "modal", :class => "weak link"}  Schliessen

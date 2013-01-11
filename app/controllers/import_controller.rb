@@ -36,28 +36,35 @@ class ImportController < ApplicationController
   end
     
   def upload
-    uploaded_data = if params[:file]
-      params[:file]
-    elsif params[:dropbox_file]
-      user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name)
-      f = File.join(user_dropbox_root_dir, params[:dropbox_file][:dirname], params[:dropbox_file][:filename])
-      ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f)),
-                                             :tempfile=> File.new(f, "r"),
-                                             :filename=> File.basename(f))
-    else
-      raise "No file to import!"
-    end
-
-    media_entry_incomplete = current_user.incomplete_media_entries.create(:uploaded_data => uploaded_data)
-
-    unless media_entry_incomplete.persisted?
-      raise "Import failed!"
-    end
-
     respond_to do |format|
-      format.html { redirect_to "import" } # NOTE we need this for the Plupload html fallback
-      format.js { render :json => {"media_entry_incomplete" => {"id" => media_entry_incomplete.id} } } # NOTE this is used by Plupload
-      format.json { render :json => {"dropbox_file" => params[:dropbox_file], "media_entry_incomplete" => {"id" => media_entry_incomplete.id, "filename" => media_entry_incomplete.media_file.filename} } }
+      format.js { # this is used by Plupload
+        uploaded_data = params[:file] ? params[:file] : raise("No file to import!")
+        media_entry_incomplete = current_user.incomplete_media_entries.create(:uploaded_data => uploaded_data)
+        raise "Import failed!" unless media_entry_incomplete.persisted?
+        render :json => {"media_entry_incomplete" => {"id" => media_entry_incomplete.id} }
+      } 
+    end
+  end
+
+  def dropbox_import
+    respond_to do |format|
+      format.json { # this is used for FTP-Dropbox import    
+        begin
+          user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name)
+          files = Dir.glob(File.join(user_dropbox_root_dir, '**', '*')).select {|x| not File.directory?(x) }
+          files.each do |f|
+            media_entry_incomplete = current_user.incomplete_media_entries
+              .create(:uploaded_data => ActionDispatch::Http::UploadedFile
+                .new(:type=> Rack::Mime.mime_type(File.extname(f)),
+                     :tempfile=> File.new(f, "r"),
+                     :filename=> File.basename(f)))
+            raise "Import failed!" unless media_entry_incomplete.persisted?
+          end
+          render :json => files.length
+        rescue  Exception => e
+          format.json { render json: e, status: :unprocessable_entity }
+        end
+      }
     end
   end
 

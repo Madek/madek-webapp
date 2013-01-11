@@ -1,0 +1,19 @@
+%li{:class => "plupload_dropbox{{if $item.finished}} plupload_done{{else $item.status}} plupload_uploading{{else}} plupload_transfer{{/if}}"}
+  .plupload_file_name
+    {{if dirname && dirname.length > 0}}
+    ${dirname}/
+    {{/if}}
+    ${filename}
+    (Dropbox)
+  .plupload_file_action
+    %a{:class => "{{if $item.finisehd}}{{else $item.status}}{{else}}delete_dropbox_file{{/if}}"}
+  .plupload_file_status
+    {{if $item.status}}
+    ${$item.status}
+    {{else}}
+    0%
+    {{/if}}
+  .plupload_file_size
+    ${Number(size/1024).toFixed()} KB
+  .plupload_clearer
+  
