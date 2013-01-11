@@ -48,7 +48,7 @@ Feature: Permissions
     And I open the edit-permissions dialog
     Then I can edit the permissions
 
-  @jsbrowser @dirty 
+  @transactional_dirty
   Scenario: Not Edit permission
     Given I am signed-in as "Normin"
     And A resource with no permissions whatsoever 
@@ -59,7 +59,7 @@ Feature: Permissions
     Then I see an error alert
     And I am on the page of the resource
 
-  @jsbrowser @dirty
+  @transactional_dirty
   Scenario: Edit permission
     Given I am signed-in as "Normin"
     And A resource with no permissions whatsoever 
