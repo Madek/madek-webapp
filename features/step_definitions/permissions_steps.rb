@@ -40,7 +40,6 @@ Then /^I can edit the permissions/ do
   orig_download_permissions = permissions.download
   find("tr[data-name='#{@me.name}']").find("input[name=download]").click
   find("button.primary-button[type=submit]").click
-  wait_until{all(".ui-rights-management-others").size == 0}
-  sleep 0.100
+  wait_until{all(".modal-backdrop").size == 0}
   expect(permissions.reload.download).not_to eq orig_download_permissions
 end

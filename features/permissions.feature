@@ -38,10 +38,10 @@ Feature: Permissions
     And I open the edit-permissions dialog
     Then I can not edit the permissions
 
-  @jsbrowser @dirty 
+  @jsbrowser @dirty
   Scenario: Manage permission
     Given I am signed-in as "Normin"
-    And A resource with no permissions whatsoever
+    And A resource with no permissions whatsoever 
     When There are "view" user-permissions added for me to the resources
     And There are "manage" user-permissions added for me to the resources
     And I visit the path of the resource
