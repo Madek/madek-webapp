@@ -73,24 +73,24 @@ Feature: Permissions
     Then I am on the page of the resource
     And I see a confirmation alert
 
-  @jsbrowser @dirty
+  @chrome @dirty
   Scenario: No Download permission
     Given I am signed-in as "Normin"
     And A media_entry with file and no permissions whatsoever 
     When There are "view" user-permissions added for me to the resources
     And I visit the path of the resource
-    And I click on the link "Exportieren"
-    And I click on the link "Datei ohne Metadaten"
+    And I click on the link "Exportieren" 
+    And I click on the link "Datei ohne Metadaten" inside of the dialog 
     Then There is no link with class "original" in the list with class "download"
     
-  @jsbrowser @dirty
+  @chome @dirty
   Scenario: Download permission
     Given I am signed-in as "Normin"
     And A media_entry with file and no permissions whatsoever 
     When There are "view" user-permissions added for me to the resources
     When There are "download" user-permissions added for me to the resources
     And I visit the path of the resource
-    And I click on the link "Exportieren"
-    And I click on the link "Datei ohne Metadaten"
+    And I click on the link "Exportieren" 
+    And I click on the link "Datei ohne Metadaten" inside of the dialog 
     Then There is a link with class "original" in the list with class "download"
     

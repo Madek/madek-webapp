@@ -20,7 +20,12 @@ Then /^I can see the text "(.*?)"$/ do |text|
 end
 
 When /^I click on the link "(.*?)"$/ do |link_text|
-  wait_until(2){ all("a",text: link_text).size > 0}
+  wait_until(1){ all("a", text: link_text, visible: true).size > 0}
+  find("a",text: link_text).click
+end 
+
+When /^I click on the link "(.*?)" inside of the dialog$/ do |link_text|
+  wait_until(2){ all("#ui-export-dialog.ui-shown a", text: link_text, visible: true).size > 0}
   find("a",text: link_text).click
 end
 
