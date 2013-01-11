@@ -52,6 +52,7 @@ MAdeK::Application.routes.draw do
   delete 'import' => 'import#destroy'
   get  'import/dropbox' => 'import#dropbox'
   post 'import/dropbox' => 'import#dropbox'
+  put 'import/dropbox' => 'import#dropbox_import'
   get  'import/permissions' => 'import#permissions', :as => "permissions_import"
   get  'import/meta_data' => 'import#meta_data', :as => "edit_import"
   get  'import/organize' => 'import#organize'

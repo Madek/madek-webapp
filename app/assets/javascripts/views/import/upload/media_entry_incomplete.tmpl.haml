@@ -1,0 +1,10 @@
+%li.plupload_done
+  .plupload_file_name
+    %span
+      ${filename}
+  .plupload_file_action
+    %a.delete_mei
+  .plupload_file_status= "100%"
+  .plupload_file_size
+    ${Number(size/1024).toFixed()} KB
+  .plupload_clearer

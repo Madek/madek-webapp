@@ -8,73 +8,66 @@ ImportController = {} unless ImportController?
 class ImportController.Upload
 
   constructor: (options)->
-    @dropboxExists = options.dropboxExists
-    @dropboxFiles = options.dropboxFiles
-    @dropboxInfo = options.dropboxInfo
+    @dropboxData = if options.dropboxData? then options.dropboxData else {}
+    @dropboxFiles = if options.dropboxFiles? then options.dropboxFiles else []
     @dropboxSyncInterval = undefined
     @dropboxSyncIntervalTimer = options.dropboxSyncIntervalTimer
     @maxFileSize = options.maxFileSize
-    @mediaEntryIncompletes = options.mediaEntriesIncomplete
+    @mediaEntryIncompletes = options.mediaEntryIncompletes
+    @nextStepUrl = options.nextStepUrl
     @pluploadFilesUploaded = []
     @multipartParams = options.multipartParams
     do @initalizePlupload
     do @removeUnnecessaryElements
-    @setupMEIFiles @mediaEntryIncompletes if @mediaEntryIncompletes?
-    @setup_dropbox_sync()
+    @setupMEIFiles @mediaEntryIncompletes if @mediaEntryIncompletes? and @mediaEntryIncompletes.length
+    do @setupDropboxSync
     do @delegateEvents
-    do @validateButtons
-    @setup_open_dropbox_dialog()
-    @setup_delete_mei()
-    @setup_delete_dropbox_file()
+    do @validateState
     window.ui-alert = (msg)-> #prevent plupload error message
 
   delegateEvents: ->
     @uploaderEl.bind "UploadProgress", (uploader, file) => do @setCustomProgress
     @uploaderEl.bind "UploadComplete", @onUploadComplete
     @uploaderEl.bind "FilesAdded", @addFile
-    @uploaderEl.bind "FilesRemoved", (uploader, files) => do @validateButtons
+    @uploaderEl.bind "FilesRemoved", (uploader, files) => do @validateState
     @uploaderEl.bind "QueueChanged", @onQueueChange
     @uploaderEl.bind "FileUploaded", (uploader, file, response) => @pluploadFilesUploaded.push {file: file, media_entry_incomplete: JSON.parse(response.response).media_entry_incomplete}
     @uploaderEl.bind "error", @onError
     $(".delete_plupload_entry").live "click", @deletePluploadFile
-    $(document).on "click", "#import-start", @startImport
-    $(document).on "click", ".plupload_start.dropbox_enabled", @startDropboxTransfer
+    $(document).on "click", "#import-start.disabled", (e)-> e.preventDefault(); return false
+    $(document).on "click", "#import-start:not(.disabled)", (e)=> 
+      if @anyLinesForImport() 
+        do e.preventDefault
+        do @startImport
+    $(document).on "click", ".delete_mei", @deleteMEI
+    $(document).on "click", ".open_dropbox_dialog", => @openDropboxDialog(false)
+    $(document).on "click", ".delete_dropbox_file", @deleteDropboxFile
 
-  setup_open_dropbox_dialog: ->
-    $(".open_dropbox_dialog").live "click", ->
-      open_dropbox_dialog(false)
-    $("#create_dropbox").live "ajax:beforeSend", ->
-      $(this).html("Dropbox wird erstellt")
-      $(this).append $.tmpl("tmpl/loading_img")
-      $(this).bind "click", (event) ->
-        event.stopImmediatePropagation()
-        event.preventDefault()
-    $("#create_dropbox").live "ajax:success", (event, response, settings)->
-      @dropboxInfo = response
-      @dropboxExists = true
-      $("#no_ftp").hide()
-      $("#ftp_existing").show()
-      $(".dialog").closest(".ui-dialog").css("height", "auto")
-      setup_dropbox_sync()
+  openDropboxDialog: (errorMsg)=>
+    @template = App.render "import/upload/dropbox_dialog",
+      dropbox_info: @dropboxData.dropbox_info
+      dropbox_exists: @dropboxData.dropbox_exists
+      errorMsg: errorMsg
+    App.modal @template
+    @template.find("#create-dropbox").bind "click", (e)=>
+      container = $(e.currentTarget).closest ".ui-modal-toolbar"
+      container.html '<div class="ui-preloader small"></div>'
+      $.ajax
+        url: "/import/dropbox"
+        type: "POST"
+        success: (response)=>
+          @dropboxData.dropbox_info = response
+          @dropboxData.dropbox_exists = true
+          container.html App.render "import/upload/dropbox_infos", @dropboxData.dropbox_info
+          do @setupDropboxSync
 
-  open_dropbox_dialog: (error)->
-    content = if !error then $.tmpl("tmpl/upload/dropbox_info") else $.tmpl("tmpl/upload/dropbox_info", {error:error})
-    trigger = if !error then $(".open_dropbox_dialog") else $(".plupload_add")
-
-    Dialog.add {
-      trigger: trigger
-      content: content
-      dialogClass: "dropbox_info"
-      closeOnEscape: true
-    }
-
-  validateButtons: =>
+  validateState: =>
     window.setTimeout =>
       # If files are in the uploader filelist
       if $(".plupload_content li:not(.plupload_done):visible").length > 0
-        do @enableStartButton
+        do @enableStartButton unless $(".plupload_uploading:visible").length > 0
       else
-        do @disableStartButton
+        do @disableStartButton unless $(".plupload_content li:visible").length > 0
 
       # If Dropbox has files enable plupload start and mark as "dropbox enabled"
       if $("#dropbox_filelist li:visible").length > 0
@@ -83,35 +76,20 @@ class ImportController.Upload
         $("#upload_navigation .plupload_start").removeClass "dropbox_enabled"
 
       # everything is transfered
-      if $(".plupload_content li:not(.plupload_done):visible").length == 0 and $(".plupload_content li:visible").length > 0
+      if $(".plupload_content li:not(.plupload_done):visible").length == 0 and $(".plupload_content li:visible").length > 0 and @trasferWasStarted
         do @finishTransfer
-      else
-        do @disableContinueButton
-        do @hideContinueButton
 
       # show/hide call2action depending if there is anything in the filelist or not
       if $(".plupload_content li:visible").length > 0
         $("#call2action").hide()
       else
         $("#call2action").show()
-
     , 200
 
+  anyLinesForImport: -> !! $(".plupload_content li:not(.plupload_done):visible").length
+
   finishTransfer: ->
-    console.log "FINISH TRANSFER"
-
-  disableContinueButton: ->
-    button = $("#upload_navigation .next")
-    button.addClass("disabled")
-    button.attr("href", "javascript:void(0)")
-
-  show_continue_button: ->
-    button = $("#upload_navigation .next")
-    button.show()
-
-  hideContinueButton: ->
-    button = $("#upload_navigation .next")
-    button.hide()
+    window.location = @nextStepUrl if @nextStepUrl?
 
   enableStartButton: ->
     button = $("#import-start")
@@ -121,49 +99,23 @@ class ImportController.Upload
     button = $("#import-start")
     button.addClass "disabled"
 
-  setup_dropbox_sync: ->
-    return false if @dropboxExists is false
-    setup_dopbox_files @dropboxFiles if @dropboxFiles.length > 0
+  setupDropboxSync: ->
+    return false if @dropboxData.dropbox_exists is false
+    @setupDropboxFiles @dropboxFiles if @dropboxFiles.length > 0
     # load dropbox files with an interval
-    @dropboxSyncInterval = window.setInterval ->
-      $.ajax({
-        url: "/import"
-        success: (data, status, response) ->
-          if JSON.stringify(@dropboxFiles) != JSON.stringify(data)
-            setup_dopbox_files data
-          @dropboxFiles = data
-        type: "GET"
-        data: format:"json"
-      })
+    @dropboxSyncInterval = window.setInterval =>
+      $.ajax
+        url: "/import.json"
+        success: (response) =>
+          if @dropboxFiles.length != response.length
+            @setupDropboxFiles response
+          @dropboxFiles = response
     , @dropboxSyncIntervalTimer
 
-  setup_dopbox_files: (files)->
-    # if ui-container is gone create the ui-container again
-    if $("#uploader #dropbox_filelist").length == 0
-      $("#uploader #uploader_filelist").after $("<ul id='dropbox_filelist'></ul>")
-    # add files
-    for file in files
-      setup_dropbox_file file
-    # remove files that where deleted
-    for dropbox_element in $("#uploader #dropbox_filelist li")
-      file_exists = false
-      for file in files
-        if $(dropbox_element).tmplItem().data.dirname == file.dirname and $(dropbox_element).tmplItem().data.filename == file.filename
-          file_exists = true
-      if not file_exists
-        $(dropbox_element).remove()
-    do @validateButtons
-
-  setup_dropbox_file: (file)->
-    # if file list-element is not already exisiting create
-    already_existing = false
-    for dropbox_element in $("#uploader #dropbox_filelist li")
-      if $(dropbox_element).tmplItem().data.dirname == file.dirname and $(dropbox_element).tmplItem().data.filename == file.filename
-        already_existing = true
-    if not already_existing
-      template = $.tmpl("tmpl/upload/dropbox_file", file)
-      $("#uploader #dropbox_filelist").prepend template
-    do @validateButtons
+  setupDropboxFiles: (files)->
+    $("#uploader #uploader_filelist").after $("<ul id='dropbox_filelist'></ul>") unless $("#uploader #dropbox_filelist").length
+    $("#uploader #dropbox_filelist").html App.render "import/upload/dropbox_file", files
+    do @validateState
 
   initalizePlupload: ->
     $("#uploader").pluploadQueue
@@ -183,8 +135,8 @@ class ImportController.Upload
   setCustomProgress: ->
     window.setTimeout ->
       amount_not_transfered = $("#uploader_filelist li:not(.plupload_done):visible").length + $("#dropbox_filelist li:not(.plupload_done):visible").length
-      amount_transfered = $("#uploader_filelist li.plupload_done").length + $("#dropbox_filelist li.plupload_done").length
-      amount_total =  $("#uploader_filelist li:visible").length + $("#dropbox_filelist li:visible").length
+      amount_transfered = $("#uploader li.plupload_done").length
+      amount_total = $("#uploader li:visible").length
       # customize progress status text
       upload_status_text = $("#uploader .plupload_upload_status").html().replace(/\d+\/\d+/, (amount_total-amount_not_transfered)+"/"+amount_total)
       $("#uploader .plupload_upload_status").html(upload_status_text)
@@ -202,7 +154,7 @@ class ImportController.Upload
           content: $.tmpl("tmpl/upload/zero_bytes_error", {filename:file.name})
           dialogClass: "zero_bytes_error"
           closeOnEscape: true
-    do @validateButtons
+    do @validateState
     window.setTimeout =>
       for element in $("#uploader_filelist li.plupload_delete")
         @preventPluploadDelete $(element)
@@ -222,7 +174,7 @@ class ImportController.Upload
   onUploadComplete: (uploader) =>
     do @setCustomProgress
     do $("#uploader .plupload_progress").show
-    do @validateButtons
+    do @validateState
 
   onQueueChange: (uploader)=>
     window.setTimeout =>
@@ -231,19 +183,15 @@ class ImportController.Upload
         @addDeleteToPlupload $(element)
     , 200
 
-  validate_progress_bar: ->
-    if $(".plupload_content li:visible").length == 0
-      hide_transfer_progress()
-
-  show_transfer_progress: ->
-    $(".plupload_filelist_footer .plupload_buttons").hide()
+  showTransferProgress: ->
+    $(".plupload_filelist_footer .plupload_buttons .plupload_button").addClass "disabled"
     $(".plupload_filelist_footer .plupload_file_name").show()
     $(".plupload_filelist_footer .plupload_upload_status").show()
     $(".plupload_filelist_footer .plupload_upload_status").html(plupload.translate("Uploaded %d/%d files").replace(/%d/g, "0"))
     $(".plupload_filelist_footer .plupload_progress").show()
 
   hide_transfer_progress: ->
-    $(".plupload_filelist_footer .plupload_buttons").show()
+    $(".plupload_filelist_footer .plupload_buttons .plupload_button").removeClass "disabled"
     $(".plupload_filelist_footer .plupload_file_name").show()
     $(".plupload_filelist_footer .plupload_upload_status").hide()
     $(".plupload_filelist_footer .plupload_upload_status").html(plupload.translate("Uploaded %d/%d files").replace(/%d/g, "0"))
@@ -251,53 +199,28 @@ class ImportController.Upload
 
   startDropboxTransfer: ->
     clearInterval @dropboxSyncInterval
-    do @finishTransfer if $("#dropbox_filelist li").length is 0
-    show_transfer_progress()
-    # begin transfer each file seperately
-    for dropbox_file in @dropboxFiles
-      # mark file as transfer in progress
-      $("#dropbox_filelist li").each (i_element, element) ->
-        if($(element).tmplItem().data.dirname == dropbox_file.dirname && $(element).tmplItem().data.filename == dropbox_file.filename)
-          $(element).removeClass("plupload_delete").addClass("plupload_uploading")
-          $(element).find(".plupload_file_status").html("50%")
-      # transfer dropbox file
-      $.ajax {
-        url: "/import"
-        success: (data, status, request) ->
-          do @setCustomProgress
-          do @validateButtons
-          $("#dropbox_filelist li").each (i_element, element) ->
-            if($(element).tmplItem().data.dirname == data.dropbox_file.dirname && $(element).tmplItem().data.filename == data.dropbox_file.filename)
-              $(element).data("media_entry_incomplete", data.media_entry_incomplete)
-              $(element).removeClass("plupload_uploading plupload_transfer").addClass("plupload_done")
-              $(element).find(".plupload_file_status").html("100%")
-              $(element).find(".plupload_file_action").show()
-        error: (request, status, error) ->
-          console.log("ERROR")
-        type: "POST"
-        data:
-          format:"json"
-          dropbox_file:
-            dirname: dropbox_file.dirname
-            filename: dropbox_file.filename
-      }
+    do @showTransferProgress
+    $("#uploader #dropbox_filelist").html App.render "import/upload/dropbox_file", @dropboxFiles, {status: "50%"}
+    do @setCustomProgress
+    $.ajax
+      url: "/import/dropbox.json"
+      type: "PUT"
+      success: =>
+        $("#uploader #dropbox_filelist").html App.render "import/upload/dropbox_file", @dropboxFiles, {status: "100%", finished: true}
+        do @setCustomProgress
+        do @validateState
 
   setupMEIFiles: (files)->
     # if ui-container is gone create the ui-container again
     if $("#uploader #mei_filelist").length == 0
       $("#uploader #uploader_filelist").after $("<ul id='mei_filelist'></ul>")
-
-    # add files
-    for file in files
-      setup_media_entry_incomplete_file file
-
-  setup_media_entry_incomplete_file: (file)->
-    template = $.tmpl("tmpl/upload/mei_file", file)
-    $("#uploader #mei_filelist").prepend template
+    for file in files # create lines
+      $("#uploader #mei_filelist").prepend App.render "import/upload/media_entry_incomplete", file
+    $("#uploader #mei_filelist").show()
 
   onError: (uploader, error) =>
     if error.code == -600
-      open_dropbox_dialog(error.message)
+      openDropboxDialog(error.message)
     else
       Dialog.add
         trigger: $("#uploader_browse")
@@ -305,59 +228,27 @@ class ImportController.Upload
         dialogClass: "plupload_error"
         closeOnEscape: true
 
-  setup_delete_mei: ->
-    $(".delete_mei").live "click", (event)->
-      # prevent normal link behaviour
-      event.preventDefault()
-      return false
-    $(".delete_mei:not(.deleting)").live "click", (event)->
-      return false if !confirm("Sind Sie sicher dass Sie die Datei " + $(this).closest("li").tmplItem().data.filename + " löschen möchten?")
-      delete_mei_file $(this), $(this).tmplItem().data
+  deleteMEI: (e)=>
+    element = $(e.currentTarget)
+    data = element.tmplItem().data
+    line = element.closest("li")
+    return false if !confirm("Sind Sie sicher dass Sie die Datei " + data.filename + " löschen möchten?")
+    line.remove()
+    mri = new App.MediaEntryIncomplete data
+    mri.delete => do @validateState
 
-  delete_mei_file: (element, data)->
-    $(element).addClass "deleting"
-    $.ajax {
-      url: "/import"
-      success: (data, status, request) ->
-        element.removeClass("deleting")
-        element.closest("li").remove()
-        do @validateButtons
-        validate_progress_bar()
-      error: (request, status, error) ->
-        console.log("ERROR")
-      type: "DELETE"
-      data:
-        format:"json"
-        media_entry_incomplete:
-          data
-    }
-
-  setup_delete_dropbox_file: ->
-    $(".delete_dropbox_file").live "click", (event)->
-      # prevent normal link behaviour
-      event.preventDefault()
-      return false
-    $(".delete_dropbox_file:not(.deleting)").live "click", (event)->
-      return false if !confirm("Sind Sie sicher dass Sie die Datei " + $(this).closest("li").tmplItem().data.filename + " löschen möchten?")
-      if $(this).closest("li").data("media_entry_incomplete")
-        delete_mei_file $(this), $(this).closest("li").data("media_entry_incomplete")
-      else
-        delete_dropbox_file $(this), $(this).tmplItem().data
-
-  delete_dropbox_file: (element, data)->
-    $(element).addClass "deleting"
+  deleteDropboxFile: (e)=>
+    element = $(e.currentTarget)
+    data = element.tmplItem().data
+    line = element.closest("li")
+    return false if !confirm("Sind Sie sicher dass Sie die Datei " + data.filename + " löschen möchten?")
+    line.remove()
     $.ajax
-      url: "/import"
-      success: (data, status, request) ->
-        element.removeClass("deleting")
-        element.closest("li").remove()
-        do @validateButtons
-        validate_progress_bar()
-      error: (request, status, error) ->
-        console.log("ERROR")
+      url: "/import.json"
+      success: =>
+        do @validateState
       type: "DELETE"
       data:
-        format:"json"
         dropbox_file:
           data
 
@@ -375,9 +266,13 @@ class ImportController.Upload
       @uploaderEl.splice(line.index(), 1)
 
   startImport: =>
+    @trasferWasStarted = true
     $(".delete_plupload_entry").remove()
+    $(".delete_mei").removeClass "delete_mei"
+    $(".delete_dropbox_file").removeClass "delete_dropbox_file"
+    do @startDropboxTransfer if $(".plupload_dropbox.plupload_transfer").length
     $(".plupload .plupload_buttons .plupload_start").trigger("click")
-    do @show_continue_button
+    do @disableStartButton
 
 window.App.ImportController = {} unless window.App.ImportController
 window.App.ImportController.Upload = ImportController.Upload

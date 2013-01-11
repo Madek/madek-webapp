@@ -17,7 +17,7 @@
 li.plupload_uploading a {
   background-image: image-url("icons/icon-upload-dark.png");
 }
-li.plupload_delete a {
+li.plupload_delete a, .plupload_file_action .delete_mei, .plupload_file_action .delete_dropbox_file {
   @include dimension(20px,20px);
   background-image: image-url("icons/icon-trash-dark.png");
 }
@@ -44,6 +44,12 @@ li.plupload_done a {
 }
 .plupload_droptext { 
   display: none !important;
+}
+
+/* other filelists */
+
+#mei_filelist, #dropbox_filelist {
+  @extend .uploader_filelist;
 }
 
 /* Footer
@@ -78,10 +84,21 @@ li.plupload_done a {
   text-align: center;
 }
 
+/* Filelists */
+
+.plupload_filelist, #mei_filelist, #dropbox_filelist {
+  li {
+    padding: 10px 8px;
+    border-bottom: 1px solid #DDD;
+  }
+}
+
 /* File list elements
 ----------------------------------------- */
-.plupload_scroll .plupload_filelist {
+.plupload_scroll {
   overflow-y: auto;
+  height: 206px;
+
   .plupload_transfer,
   .plupload_delete,
   .plupload_done,
@@ -96,9 +113,13 @@ li.plupload_done a {
     position: relative;
   }
 }
+
 .delete_plupload_entry {
   @extend .icon-trash;
-  cursor: pointer;
+}
+
+.delete_plupload_entry, .delete_mei, .delete_dropbox_file {
+  cursor: pointer !important;
 
   opacity: $opacity-medium;
 
@@ -106,8 +127,15 @@ li.plupload_done a {
     opacity: 1;
   }
 }
-.plupload_filelist .plupload_file_name { 
-  width: auto;
+
+.plupload_file_name { 
+  width: auto !important;
+}
+
+/* Call to action (drag and drop call) */
+
+#call2action {
+  display: none;
 }
 
 /* Move buttons up right
@@ -115,9 +143,6 @@ li.plupload_done a {
 
 .plupload_buttons {
   @include position-top-right(-286px, 0);
-  .plupload_disabled {
-    display: none;
-  }
 }
 
 /* Fluff?
@@ -131,11 +156,6 @@ li.plupload_done a {
 .plupload_scroll .plupload_filelist {
   background: transparent;
   border: none;
-}
-.uploader_filelist {
-  border-color: $grey-mid-light;
-  border-style: solid;
-  border-width: 1px 0;
 }
 .plupload_wrapper {
   font: inherit;
