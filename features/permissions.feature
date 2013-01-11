@@ -73,7 +73,7 @@ Feature: Permissions
     Then I am on the page of the resource
     And I see a confirmation alert
 
-  @chrome @dirty
+  @jsbrowser @dirty
   Scenario: No Download permission
     Given I am signed-in as "Normin"
     And A media_entry with file and no permissions whatsoever 
@@ -83,7 +83,7 @@ Feature: Permissions
     And I click on the link "Datei ohne Metadaten" inside of the dialog 
     Then There is no link with class "original" in the list with class "download"
     
-  @chome @dirty
+  @jsbrowser @dirty
   Scenario: Download permission
     Given I am signed-in as "Normin"
     And A media_entry with file and no permissions whatsoever 
