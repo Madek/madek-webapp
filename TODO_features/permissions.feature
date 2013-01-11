@@ -1,32 +1,3 @@
-  @javascript
-  Scenario: Edit permission
-    Given a resource
-      And I am "Normin"
-      And the resource has the following permissions:
-      |user              |permission       |value|
-      |Normin            |view             |true |
-      |Normin            |edit             |true |
-     Then "Normin" can edit the resource
-
-  @javascript
-  Scenario: Download original permission
-    Given a resource
-      And I am "Normin"
-      And the resource has the following permissions:
-      |user              |permission       |value|
-      |Normin            |view             |true |
-      |Normin            |download         |true |
-     Then "Normin" can download the resource
-     
-  @javascript
-  Scenario: Manage permission
-    Given a resource
-      And I am "Normin"
-      And the resource has the following permissions:
-      |user              |permission       |value|
-      |Normin            |view             |true |
-      |Normin            |manage           |true |
-     Then "Normin" can manage the resource
 
   @javascript
   Scenario: Owner permission
