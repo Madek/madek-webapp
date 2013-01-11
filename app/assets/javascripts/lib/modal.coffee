@@ -10,5 +10,7 @@ It also autofocus fields that have the autofocus attribute
 ###
 window.App.modal = (el)=>
   $(el).bind "hidden", -> $(this).remove()
-  $(el).bind "shown", -> $(el).find("[autofocus=autofocus]").focus()
+  $(el).bind "shown", -> 
+    $(el).addClass "ui-standing-still"
+    $(el).find("[autofocus=autofocus]").focus()
   $(el).modal el
