@@ -20,7 +20,12 @@ Then /^I can see the text "(.*?)"$/ do |text|
 end
 
 When /^I click on the link "(.*?)"$/ do |link_text|
+  wait_until(2){ all("a",text: link_text).size > 0}
   find("a",text: link_text).click
+end
+
+When /^I click on the button "(.*?)"$/ do |button_text|
+  find("button",text: button_text).click
 end
 
 When /^I click the submit input$/ do
@@ -70,7 +75,10 @@ Given /^I wait for the following to be implemented$/ do
   pending
 end
 
+Then /^There is a link with class "(.*?)" in the list with class "(.*?)"$/ do |link_class, list_class|
+  expect{ find("ul.#{list_class} a.#{link_class}") }.not_to raise_error
+end
 
-
-
-
+Then /^There is no link with class "(.*?)" in the list with class "(.*?)"$/ do |link_class, list_class|
+  expect{ find("ul.#{list_class} a.#{link_class}") }.to raise_error
+end

@@ -10,11 +10,11 @@
         Datei ohne Metadaten
         %i.icon-arrow-down
 
-      %ul.dropdown-menu.ui-drop-menu.absolute{"aria-labelledby" => "dLabel", :role => "menu"}
+      %ul.download.dropdown-menu.ui-drop-menu.absolute{"aria-labelledby" => "dLabel", :role => "menu"}
         
         - if @can_download
           %li.ui-drop-item.by-right
-            %a{:href => "/download?id=#{@media_entry.id}&naked=1"}
+            %a.original{:href => "/download?id=#{@media_entry.id}&naked=1"}
               = number_to_human_size(@original_file.size)
               = "(#{dimensions_for(@original_file)})" if dimensions_for(@original_file)
               %strong= @format_original_file

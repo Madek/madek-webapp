@@ -1,16 +1,5 @@
 
   @javascript
-  Scenario: Download original permission
-    Given a resource
-      And I am "Normin"
-      And the resource has the following permissions:
-      |user              |permission       |value|
-      |Normin            |view             |true |
-      |Normin            |download         |true |
-     Then "Normin" can download the resource
-     
-
-  @javascript
   Scenario: Owner permission
     Given a resource owned by "Normin"
       And I am "Normin"

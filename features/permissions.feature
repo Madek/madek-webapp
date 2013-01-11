@@ -48,8 +48,8 @@ Feature: Permissions
     And I open the edit-permissions dialog
     Then I can edit the permissions
 
-  @transactional_dirty
-  Scenario: Not Edit permission
+  @jsbrowser @dirty
+  Scenario: No Edit permission
     Given I am signed-in as "Normin"
     And A resource with no permissions whatsoever 
     When There are "view" user-permissions added for me to the resources
@@ -59,7 +59,7 @@ Feature: Permissions
     Then I see an error alert
     And I am on the page of the resource
 
-  @transactional_dirty
+  @jsbrowser @dirty
   Scenario: Edit permission
     Given I am signed-in as "Normin"
     And A resource with no permissions whatsoever 
@@ -73,3 +73,24 @@ Feature: Permissions
     Then I am on the page of the resource
     And I see a confirmation alert
 
+  @jsbrowser @dirty
+  Scenario: No Download permission
+    Given I am signed-in as "Normin"
+    And A media_entry with file and no permissions whatsoever 
+    When There are "view" user-permissions added for me to the resources
+    And I visit the path of the resource
+    And I click on the link "Exportieren"
+    And I click on the link "Datei ohne Metadaten"
+    Then There is no link with class "original" in the list with class "download"
+    
+  @jsbrowser @dirty
+  Scenario: Download permission
+    Given I am signed-in as "Normin"
+    And A media_entry with file and no permissions whatsoever 
+    When There are "view" user-permissions added for me to the resources
+    When There are "download" user-permissions added for me to the resources
+    And I visit the path of the resource
+    And I click on the link "Exportieren"
+    And I click on the link "Datei ohne Metadaten"
+    Then There is a link with class "original" in the list with class "download"
+    

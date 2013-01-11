@@ -1,10 +1,17 @@
-Given /^A resource with no permissions whatsoever$/ do
-  @resource = User.find_by_login("petra").media_entries.first
+Given /^A media_entry with file and no permissions whatsoever$/ do
+  @petra = User.find_by_login("petra")
+  @resource = FactoryGirl.create :media_entry, user: @petra
   @resource.update_attributes download: false, edit: false, manage: false, view: false
-  @resource.grouppermissions.clear
+  @resource.userpermissions.clear
   @resource.grouppermissions.clear
 end
 
+Given /^A resource with no permissions whatsoever$/ do
+  @resource = User.find_by_login("petra").media_entries.first
+  @resource.update_attributes download: false, edit: false, manage: false, view: false
+  @resource.userpermissions.clear
+  @resource.grouppermissions.clear
+end
 
 When /^I am on the edit page of the resource$/ do
   expect(current_path).to eq edit_media_resource_path @resource
@@ -50,3 +57,11 @@ When /^There are "(.*?)" user-permissions added for me to the resources$/ do |pe
   permissions.update_attributes permission => true
 end
 
+
+When /^I click on the "(.*?)" button$/ do |arg1|
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^There is a "(.*?)" link in the "(.*?)" list$/ do |arg1, arg2|
+  pending # express the regexp above with the code you wish you had
+end
