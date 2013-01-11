@@ -90,7 +90,7 @@ Feature: Permissions
     When There are "view" user-permissions added for me to the resources
     When There are "download" user-permissions added for me to the resources
     And I visit the path of the resource
-    And I click on the link "Exportieren" inside of the dialog 
+    And I click on the link "Exportieren" 
     And I click on the link "Datei ohne Metadaten" inside of the dialog 
     Then There is a link with class "original" in the list with class "download"
     
