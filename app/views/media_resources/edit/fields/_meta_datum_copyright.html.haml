@@ -2,9 +2,9 @@
 
   copyrights = Copyright.all 
   copyright_roots = Copyright.roots
-  value = meta_datum.value || Copyright.default
+  value = (meta_datum.nil? ? nil : meta_datum.value) || Copyright.default
 
-%input.value-target{:name => "resource[meta_data_attributes][#{@i}][value]", :type => "hidden", :value => meta_datum.value.id}
+%input.value-target{:name => "resource[meta_data_attributes][#{@i}][value]", :type => "hidden", :value => meta_datum.nil? ? nil : meta_datum.value.id}
 
 %select.block.copyright-roots
   

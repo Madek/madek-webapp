@@ -107,7 +107,7 @@ class ImportController < ApplicationController
       partial
     end
     @media_entry_incompletes_collection_id = Collection.add(@media_entry_incompletes.pluck(:id))[:id]
-  }, only: [:permissions, :meta_edit, :organize]
+  }, only: [:permissions, :meta_data, :organize]
 
 ##################################################
 # step 2
@@ -118,7 +118,7 @@ class ImportController < ApplicationController
 ##################################################
 # step 3
 
-  def meta_edit
+  def meta_data
     @context = MetaContext.upload
   end
 
