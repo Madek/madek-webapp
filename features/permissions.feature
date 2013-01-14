@@ -16,14 +16,14 @@ Feature: Permissions
   @transactional_dirty
   Scenario: No permissions
     Given I am signed-in as "Normin"
-    And A resource with no permissions whatsoever
+    And A resource, not owned by normin, and with no permissions whatsoever 
     And I visit the path of the resource
     Then I am redirected to the main page
 
   @transactional_dirty
   Scenario: View permission
     Given I am signed-in as "Normin"
-    And A resource with no permissions whatsoever
+    And A resource, not owned by normin, and with no permissions whatsoever 
     When There are "view" user-permissions added for me to the resources
     And I visit the path of the resource
     Then I see page for the resource
@@ -32,7 +32,7 @@ Feature: Permissions
   @jsbrowser @dirty
   Scenario: Not Manage permission
     Given I am signed-in as "Normin"
-    And A resource with no permissions whatsoever
+    And A resource, not owned by normin, and with no permissions whatsoever 
     When There are "view" user-permissions added for me to the resources
     And I visit the path of the resource
     And I open the edit-permissions dialog
@@ -41,7 +41,7 @@ Feature: Permissions
   @jsbrowser @dirty
   Scenario: Manage permission
     Given I am signed-in as "Normin"
-    And A resource with no permissions whatsoever 
+    And A resource, not owned by normin, and with no permissions whatsoever 
     When There are "view" user-permissions added for me to the resources
     And There are "manage" user-permissions added for me to the resources
     And I visit the path of the resource
@@ -51,7 +51,7 @@ Feature: Permissions
   @jsbrowser @dirty
   Scenario: No Edit permission
     Given I am signed-in as "Normin"
-    And A resource with no permissions whatsoever 
+    And A resource, not owned by normin, and with no permissions whatsoever 
     When There are "view" user-permissions added for me to the resources
     And I visit the path of the resource
     And I click on the link "Weitere Aktionen"
@@ -62,7 +62,7 @@ Feature: Permissions
   @jsbrowser @dirty
   Scenario: Edit permission
     Given I am signed-in as "Normin"
-    And A resource with no permissions whatsoever 
+    And A resource, not owned by normin, and with no permissions whatsoever 
     When There are "view" user-permissions added for me to the resources
     When There are "edit" user-permissions added for me to the resources
     And I visit the path of the resource
@@ -76,7 +76,7 @@ Feature: Permissions
   @jsbrowser @dirty
   Scenario: No Download permission
     Given I am signed-in as "Normin"
-    And A media_entry with file and no permissions whatsoever 
+    And A media_entry with file, not owned by normin, and with no permissions whatsoever 
     When There are "view" user-permissions added for me to the resources
     And I visit the path of the resource
     And I click on the link "Exportieren" 
@@ -86,7 +86,7 @@ Feature: Permissions
   @jsbrowser @dirty
   Scenario: Download permission
     Given I am signed-in as "Normin"
-    And A media_entry with file and no permissions whatsoever 
+    And A media_entry with file, not owned by normin, and with no permissions whatsoever 
     When There are "view" user-permissions added for me to the resources
     When There are "download" user-permissions added for me to the resources
     And I visit the path of the resource

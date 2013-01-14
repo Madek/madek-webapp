@@ -1,4 +1,4 @@
-Given /^A media_entry with file and no permissions whatsoever$/ do
+Given /^A media_entry with file, not owned by normin, and with no permissions whatsoever$/ do
   @petra = User.find_by_login("petra")
   @resource = FactoryGirl.create :media_entry, user: @petra
   @resource.update_attributes download: false, edit: false, manage: false, view: false
@@ -6,7 +6,7 @@ Given /^A media_entry with file and no permissions whatsoever$/ do
   @resource.grouppermissions.clear
 end
 
-Given /^A resource with no permissions whatsoever$/ do
+Given /^A resource, not owned by normin, and with no permissions whatsoever$/ do
   @resource = User.find_by_login("petra").media_entries.first
   @resource.update_attributes download: false, edit: false, manage: false, view: false
   @resource.userpermissions.clear
