@@ -13,6 +13,10 @@ Given /^A resource, not owned by normin, and with no permissions whatsoever$/ do
   @resource.grouppermissions.clear
 end
 
+Given /^A resource owned by me$/ do
+  @resource = @me.media_resources.first
+end
+
 When /^I am on the edit page of the resource$/ do
   expect(current_path).to eq edit_media_resource_path @resource
 end
@@ -20,6 +24,16 @@ end
 Then /^I am redirected to the main page$/ do
   expect(current_path).to eq "/my"
 end
+
+Then /^I am the responsible person for that resource$/ do
+  expect(find(".ui-rights-management-current-user td.ui-rights-owner input")).to be_checked
+end
+
+Then /^I am not the responsible person for that resource$/ do
+  expect(find(".ui-rights-management-current-user td.ui-rights-owner input")).not_to be_checked
+end
+
+
 
 Then /^I can not edit the permissions/ do
   permissions = @resource.userpermissions.where(user_id: @me).first

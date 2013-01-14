@@ -12,6 +12,9 @@ Feature: Permissions
 #- Ownership: Person, die eine Ressource importiert/erstellt hat, hat defaultmässig die Ownership und alle obigen Berechtigungen.
 #- Nennt man eine Person oder eine Gruppe bei den Berechtigungen, wählt für diese aber keine Berechtigungen aus, so bedeutet dies, dass den genannten explizit die Berechtigungen entzogen sind.
 
+# the notion of "ownership" has changed; a resource has an fkey pointing to a
+# user, this is what used to be the 'owner' and is now called the 'responsible
+# person' in the ui; the term 'owner' is still used in the specifications below
 
   @transactional_dirty
   Scenario: No permissions
@@ -27,7 +30,6 @@ Feature: Permissions
     When There are "view" user-permissions added for me to the resources
     And I visit the path of the resource
     Then I see page for the resource
-
 
   @jsbrowser @dirty
   Scenario: Not Manage permission
@@ -47,6 +49,24 @@ Feature: Permissions
     And I visit the path of the resource
     And I open the edit-permissions dialog
     Then I can edit the permissions
+
+  @jsbrowser @dirty 
+  Scenario: Not the owner / responsible user of a resource 
+    Given I am signed-in as "Normin"
+    And A resource, not owned by normin, and with no permissions whatsoever 
+    When There are "view" user-permissions added for me to the resources
+    And There are "manage" user-permissions added for me to the resources
+    And I visit the path of the resource
+    And I open the edit-permissions dialog
+    Then I am not the responsible person for that resource
+
+  @jsbrowser @wip
+  Scenario: Owner / responsible user of a resource
+    Given I am signed-in as "Normin"
+    And A resource owned by me
+    And I visit the path of the resource
+    And I open the edit-permissions dialog
+    Then I am the responsible person for that resource
 
   @jsbrowser @dirty
   Scenario: No Edit permission
@@ -94,3 +114,8 @@ Feature: Permissions
     And I click on the link "Datei ohne Metadaten" inside of the dialog 
     Then There is a link with class "original" in the list with class "download"
     
+
+
+
+
+
