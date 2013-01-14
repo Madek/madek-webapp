@@ -22,9 +22,14 @@ Given /^A set, not owned by normin, and with no permissions whatsoever$/ do
   @set.grouppermissions.clear
 end
 
-
 Given /^A resource owned by me$/ do
   @resource = @me.media_resources.first
+end
+
+Given /^A resource owned by me and defined userpermissions for "(.*?)"$/ do |login|
+  @user_with_userpermissions = User.find_by_login login
+  @resource = MediaResource.where(user_id: @me.id).joins(:userpermissions)\
+    .where("userpermissions.user_id = ?", @user_with_userpermissions.id).first
 end
 
 Given /^I add the resource to the given set$/ do
@@ -35,6 +40,10 @@ Given /^I add the resource to the given set$/ do
   find("ol.ui-set-list li input[type='checkbox']#parent_resource_#{@set.id}").click
   find("button.primary-button").click
   wait_until{all(".modal-backdrop").size == 0}
+end
+
+Given /^I add "(.*?)" to grant user permissions$/ do |name|
+  wait_until{all(".ui-modal").size > 0}
 end
 
 When /^I am on the edit page of the resource$/ do
@@ -51,6 +60,11 @@ end
 
 Then /^I am not the responsible person for that resource$/ do
   expect(find(".ui-rights-management-current-user td.ui-rights-owner input")).not_to be_checked
+end
+
+Then /^I can choose from a set of labeled permissions presets instead of grant permissions explicitly$/ do
+  wait_until{all(".modal.ui-shown").size > 0 }
+  expect(all("tr[data-name='#{@user_with_userpermissions.name}'] select.ui-rights-role-select option").size).to be > 0
 end
 
 Then /^I can not edit the permissions/ do
@@ -112,6 +126,8 @@ end
 Then /^the resource is in the children of the given set$/ do
   expect(@set.child_media_resources.reload).to include @resource
 end
+
+
 
 
 

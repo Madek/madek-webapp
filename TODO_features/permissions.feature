@@ -1,14 +1,6 @@
   
 
-  # https://www.pivotaltracker.com/story/show/25238301
-  @javascript
-  Scenario: Permission presets
-    Given I am "Normin"
-     When I open one of my resources
-      And I open the permission lightbox
-      And I add "Petra" to grant user permissions
-     Then I can choose from a set of labeled permissions presets instead of grant permissions explicitly    
-  
+ 
   # https://www.pivotaltracker.com/story/show/23723319
   @javascript
   Scenario: Limiting what other users' permissions I can see

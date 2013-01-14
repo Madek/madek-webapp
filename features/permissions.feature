@@ -70,7 +70,7 @@ Feature: Permissions
     And I am on the page of the resource
 
   # test override only once
-  @jsbrowser @dirty @wip
+  @jsbrowser @dirty
   Scenario: No edit user-permission overrides edit user-permission
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
@@ -82,7 +82,6 @@ Feature: Permissions
     And I click on the link "Metadaten editieren"
     Then I see an error alert
     And I am on the page of the resource
-
 
   @jsbrowser @dirty
   Scenario: Edit user-permission will let me edit metadata
@@ -111,7 +110,6 @@ Feature: Permissions
     When I click on the submit button
     Then I am on the page of the resource
     And I see a confirmation alert
-
 
   @jsbrowser @dirty 
   Scenario: Not the owner / responsible user of a resource 
@@ -179,8 +177,12 @@ Feature: Permissions
     And I add the resource to the given set 
     Then the resource is in the children of the given set
 
-  
-
-
-
+  @jsbrowser @wip
+  Scenario: Permission presets
+    Given I am signed-in as "Normin"
+      And A resource owned by me and defined userpermissions for "Petra"
+      And I visit the path of the resource
+      And I click on the link "Weitere Aktionen"
+      And I click on the link "Zugriffsberechtigungen"
+     Then I can choose from a set of labeled permissions presets instead of grant permissions explicitly    
 
