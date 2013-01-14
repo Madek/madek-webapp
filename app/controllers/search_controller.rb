@@ -8,7 +8,11 @@ class SearchController < ApplicationController
 
   def search
     if request.post?
-      redirect_to :action=>'term', :term => params[:search]
+      unless params[:search].blank?
+        redirect_to :action => 'term', :term => params[:search]
+      else
+        redirect_to media_resources_path(:filterpanel => "true")
+      end
     else
       render "search"
     end
