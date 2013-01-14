@@ -8,6 +8,14 @@ Given /^A media_entry with file, not owned by normin, and with no permissions wh
   @resource.grouppermissions.clear
 end
 
+
+Given /^A resource owned by me with no other permissions$/ do
+  @resource = @me.media_resources.first
+  @resource.userpermissions.clear
+  @resource.grouppermissions.clear
+  @resource.update_attributes view: false, edit: false, manage: false, download: false
+end
+
 Given /^A resource, not owned by normin, and with no permissions whatsoever$/ do
   @resource = User.find_by_login("petra").media_entries.first
   @resource.update_attributes download: false, edit: false, manage: false, view: false
@@ -87,6 +95,10 @@ Then /^I see page for the resource$/ do
   expect(find(".app-body-title h1").text).to eq @resource.title
 end
 
+Then /^I see the following permissions:$/ do |table|
+  binding.pry
+end
+
 When /^I open the edit-permissions dialog$/ do
   find(".primary-button").click
   find("a[data-open-permissions]").click
@@ -125,6 +137,16 @@ end
 
 Then /^the resource is in the children of the given set$/ do
   expect(@set.child_media_resources.reload).to include @resource
+end
+
+Given /^The resource has the following user-permissions:$/ do |table|
+  table.rows.each do |row|
+    @user = User.find_by_login row[0]
+    permissions = \
+      @resource.userpermissions.where(user_id: @user.id).first  \
+      || @resource.userpermissions.create(user: @user)
+    permissions.update_attributes row[1] => row[2]
+  end
 end
 
 

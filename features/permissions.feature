@@ -177,7 +177,7 @@ Feature: Permissions
     And I add the resource to the given set 
     Then the resource is in the children of the given set
 
-  @jsbrowser @wip
+  @jsbrowser
   Scenario: Permission presets
     Given I am signed-in as "Normin"
       And A resource owned by me and defined userpermissions for "Petra"
@@ -185,4 +185,52 @@ Feature: Permissions
       And I click on the link "Weitere Aktionen"
       And I click on the link "Zugriffsberechtigungen"
      Then I can choose from a set of labeled permissions presets instead of grant permissions explicitly    
+
+
+  @chrome @dirty @wip 
+  Scenario: Limiting what other users' permissions I can see
+    Given I am signed-in as "Normin"
+    Given A resource owned by me with no other permissions
+      And The resource has the following user-permissions:
+      | user      | permission | value |
+      | Normin    | view       | true  |
+      | Normin    | download   | true  |
+      | Normin    | edit       | true  |
+      | Normin    | manage     | true  |
+      | Petra     | view       | true  |
+      | Beat      | view       | true  |
+      | Beat      | edit       | true  |
+      | Beat      | download   | true  |
+      | Liselotte | view       | true  |
+      | Liselotte | edit       | true  |
+      | Liselotte | download   | true  |
+    Given I logout.
+    Given I am signed-in as "Normin"
+    Then I see the following permissions:
+      | user      | permission |
+      | Normin    | view       |
+      | Normin    | download   |
+      | Normin    | edit       |
+      | Normin    | manage     |
+      | Petra     | view       |
+      | Beat      | edit       |
+      | Beat      | download   |
+      | Liselotte | edit       |
+      | Liselotte | download   |
+    Given I am signed-in as "Beat"
+    Then I see the following permissions:
+      | user   | permission |
+      | Normin | view       |
+      | Petra  | view       |
+    Given I am signed-in as "Liselotte"
+    Then I see the following permissions:
+      | user      | permission |
+      | Normin    | edit       |
+      | Beat      | edit       |
+      | Liselotte | edit       |
+    Given I am signed-in as "Petra"
+    Then I see the following permissions:
+      | user   | permission |
+      | Normin | view       |
+      | Petra  | view       |
 
