@@ -69,8 +69,23 @@ Feature: Permissions
     Then I see an error alert
     And I am on the page of the resource
 
+  # test override only once
+  @jsbrowser @dirty @wip
+  Scenario: No edit user-permission overrides edit user-permission
+    Given I am signed-in as "Normin"
+    And A resource, not owned by normin, and with no permissions whatsoever 
+    When There are "view" user-permissions added for me to the resource
+    When There are "view" group-permissions added for me to the resource
+    When There are "edit" group-permissions added for me to the resource
+    And I visit the path of the resource
+    And I click on the link "Weitere Aktionen"
+    And I click on the link "Metadaten editieren"
+    Then I see an error alert
+    And I am on the page of the resource
+
+
   @jsbrowser @dirty
-  Scenario: Edit user-permission will let met edit metadata
+  Scenario: Edit user-permission will let me edit metadata
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
     When There are "view" user-permissions added for me to the resource
@@ -84,7 +99,7 @@ Feature: Permissions
     And I see a confirmation alert
 
   @jsbrowser @dirty 
-  Scenario: Edit group-permission will let met edit metadata
+  Scenario: Edit group-permission will let me edit metadata
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
     When There are "view" group-permissions added for me to the resource
