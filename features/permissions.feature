@@ -27,7 +27,7 @@ Feature: Permissions
   Scenario: View permission
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
-    When There are "view" user-permissions added for me to the resources
+    When There are "view" user-permissions added for me to the resource
     And I visit the path of the resource
     Then I see page for the resource
 
@@ -35,7 +35,7 @@ Feature: Permissions
   Scenario: Not Manage permission
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
-    When There are "view" user-permissions added for me to the resources
+    When There are "view" user-permissions added for me to the resource
     And I visit the path of the resource
     And I open the edit-permissions dialog
     Then I can not edit the permissions
@@ -44,8 +44,8 @@ Feature: Permissions
   Scenario: Manage permission
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
-    When There are "view" user-permissions added for me to the resources
-    And There are "manage" user-permissions added for me to the resources
+    When There are "view" user-permissions added for me to the resource
+    And There are "manage" user-permissions added for me to the resource
     And I visit the path of the resource
     And I open the edit-permissions dialog
     Then I can edit the permissions
@@ -54,13 +54,13 @@ Feature: Permissions
   Scenario: Not the owner / responsible user of a resource 
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
-    When There are "view" user-permissions added for me to the resources
-    And There are "manage" user-permissions added for me to the resources
+    When There are "view" user-permissions added for me to the resource
+    And There are "manage" user-permissions added for me to the resource
     And I visit the path of the resource
     And I open the edit-permissions dialog
     Then I am not the responsible person for that resource
 
-  @jsbrowser @wip
+  @jsbrowser 
   Scenario: Owner / responsible user of a resource
     Given I am signed-in as "Normin"
     And A resource owned by me
@@ -72,7 +72,7 @@ Feature: Permissions
   Scenario: No Edit permission
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
-    When There are "view" user-permissions added for me to the resources
+    When There are "view" user-permissions added for me to the resource
     And I visit the path of the resource
     And I click on the link "Weitere Aktionen"
     And I click on the link "Metadaten editieren"
@@ -83,8 +83,8 @@ Feature: Permissions
   Scenario: Edit permission
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
-    When There are "view" user-permissions added for me to the resources
-    When There are "edit" user-permissions added for me to the resources
+    When There are "view" user-permissions added for me to the resource
+    When There are "edit" user-permissions added for me to the resource
     And I visit the path of the resource
     And I click on the link "Weitere Aktionen"
     And I click on the link "Metadaten editieren"
@@ -97,7 +97,7 @@ Feature: Permissions
   Scenario: No Download permission
     Given I am signed-in as "Normin"
     And A media_entry with file, not owned by normin, and with no permissions whatsoever 
-    When There are "view" user-permissions added for me to the resources
+    When There are "view" user-permissions added for me to the resource
     And I visit the path of the resource
     And I click on the link "Exportieren" 
     And I click on the link "Datei ohne Metadaten" inside of the dialog 
@@ -107,14 +107,31 @@ Feature: Permissions
   Scenario: Download permission
     Given I am signed-in as "Normin"
     And A media_entry with file, not owned by normin, and with no permissions whatsoever 
-    When There are "view" user-permissions added for me to the resources
-    When There are "download" user-permissions added for me to the resources
+    When There are "view" user-permissions added for me to the resource
+    When There are "download" user-permissions added for me to the resource
     And I visit the path of the resource
     And I click on the link "Exportieren" 
     And I click on the link "Datei ohne Metadaten" inside of the dialog 
     Then There is a link with class "original" in the list with class "download"
     
 
+  @jsbrowser @dirty
+  Scenario: Permissions for adding a resource to a set
+  Given I am signed-in as "Normin"
+  And A media_entry with file, not owned by normin, and with no permissions whatsoever 
+  And There are "view" user-permissions added for me to the resource
+  And There are "edit" user-permissions added for me to the resource
+  Given A set, not owned by normin, and with no permissions whatsoever 
+  And The set has no children
+  And There are "view" user-permissions added for me to the set
+  And There are "edit" user-permissions added for me to the set
+  And I visit the path of the resource
+  And I click on the link "Weitere Aktionen"
+  And I click on the link "Zu Set hinzufügen"
+  And I add the resource to the given set 
+  Then the resource is in the children of the given set
+
+  
 
 
 

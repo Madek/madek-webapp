@@ -1,24 +1,4 @@
-
-  @javascript
-  Scenario: Owner permission
-    Given a resource owned by "Normin"
-      And I am "Normin"
-     Then "Normin" is the owner of the resource
   
-  @javascript 
-  Scenario: Permission which allows a user to add MediaResources to a MediaSet  
-    Given a set named "Editable Set"
-      And I am "Normin"
-      And the resource has the following permissions:
-      |user              |permission       |value|
-      |Normin            |view             |true |
-      |Normin            |edit             |true |
-      And a set named "Viewable Set"
-      And the resource has the following permissions:
-      |user              |permission       |value|
-      |Normin            |view             |true |
-     When "Normin" adds the set "Viewable Set" to the set "Editable Set"
-     Then "Viewable Set" is in "Editable Set"
 
   @javascript
   Scenario: Permissions through groups

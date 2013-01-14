@@ -3,12 +3,12 @@
 
     {{if is_incomplete_arc}}
     .tristate-checkbox-container.ui-set-list-input
-      %input{:id => "resource_${id}", :type => "checkbox", :role => "tristate", :value => "mixed", :title => "Zu Set hinzufügen/entfernen"}
+      %input{:id => "parent_resource_${id}", :type => "checkbox", :role => "tristate", :value => "mixed", :title => "Zu Set hinzufügen/entfernen"}
       %span.tristate-checkbox-mixed-value{:title => "Ausgewählte Inhalte sind in diesem Set nur teilweise enthalten"}
     {{else $item.data.is_parent != undefined && is_parent == true}}
-    %input.ui-set-list-input{:id => "resource_${id}", :type => "checkbox", :checked => :checked, :title => "Zu Set hinzufügen/entfernen"}
+    %input.ui-set-list-input{:id => "parent_resource_${id}", :type => "checkbox", :checked => :checked, :title => "Zu Set hinzufügen/entfernen"}
     {{else}}
-    %input.ui-set-list-input{:id => "resource_${id}", :type => "checkbox", :title => "Zu Set hinzufügen/entfernen"}
+    %input.ui-set-list-input{:id => "parent_resource_${id}", :type => "checkbox", :title => "Zu Set hinzufügen/entfernen"}
     {{/if}}
 
     %span.title ${meta_data.title}
