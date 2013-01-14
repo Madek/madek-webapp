@@ -4,8 +4,6 @@
 
   .app-body
 
-    // PAGE TITLE
-
     .app-body-title
       .ui-body-title
         .ui-body-title-label
@@ -14,19 +12,7 @@
     .app-body-ui-container
       .ui-container.bordered.bright.rounded
 
-        .ui-stepline
-          .ui-stepline-item
-            %h3.title-m.ui-stepline-item-title
-              1. Medien übertragen
-          .ui-stepline-item
-            %h3.title-m.ui-stepline-item-title
-              2. Berechtigungen setzen
-          .ui-stepline-item.active
-            %h3.title-m.ui-stepline-item-title
-              3. Metadaten ergänzen
-          .ui-stepline-item
-            %h3.title-m.ui-stepline-item-title
-              4. Medien zusammenstellen
+        = render :partial => "import/stepline", :locals => {:step => 1}
 
         .media-import.step4.pal
 
@@ -35,14 +21,10 @@
             %span.right
               %label.weak{:href => "#"}
                 %input{:disabled => "disabled", :type => "checkbox"}
-                  Die bereits vergebenen Werte hervorheben
+                  Nur Inhalte mit unvollständigen Pflichtfeldern anzeigen 
 
           .ui-container.clearfix.mvl.bordered.midtone.rounded.upload-preview
-          
-            = render :partial => "media_resources/wrapper", 
-                     :locals => {:media_resources => current_user.media_resources, 
-                                 :type => :media_entries,
-                                 :with_actions => false}
+            
 
           .ui-container
             %form
