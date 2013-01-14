@@ -60,7 +60,6 @@ module MAdeK
                                     pdf.js
                                     pdf-viewer.js
                                     pdf-viewer.css
-                                    mozilla-pdf.js/src/worker_loader.js
                                     video.js
                                     video.css
                                     visualization_layout_web_worker.js
