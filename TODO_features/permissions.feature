@@ -1,36 +1,6 @@
   
 
-  @javascript
-  Scenario: Permissions through groups
-  # Petra and Normin are members of the ZHdK Group.
-  # Normin's Diplomarbeit (Set) is viewable by Petra, because Normin granted view permissions
-  # for the ZHdK Group and Petra is member of that group. 
-    Given I am "Petra"
-      And I can view "Diplomarbeit 2012" by "Normin"
-
-  @javascript
-  Scenario: Users with explicit user permissions are explicitly excluded even when they would have group permissions
-  # Normin and Petra are both in the Group ZHdK
-    Given a resource owned by "Normin"
-    And I am "Normin"
-    And "Normin" changes the resource's groupermissions for "ZHdK" as follows:
-    |permission       |value|
-    |view             |true |
-    And "Normin" changes the resource's permissions for "Petra" as follows:
-    |permission       |value|
-    |view             |false|
-    Given I am "Petra"
-    Then I can not view that resource
-
-  # https://www.pivotaltracker.com/story/show/25238301
-  @javascript
-  Scenario: Permission presets
-    Given I am "Normin"
-     When I open one of my resources
-      And I open the permission lightbox
-      And I add "Petra" to grant user permissions
-     Then I can choose from a set of labeled permissions presets instead of grant permissions explicitly    
-  
+ 
   # https://www.pivotaltracker.com/story/show/23723319
   @javascript
   Scenario: Limiting what other users' permissions I can see
