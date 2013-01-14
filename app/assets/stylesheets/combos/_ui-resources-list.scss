@@ -125,7 +125,8 @@
     @include box-shadow(0 0 3px $darken-more);
     background: $brightest;
   }
-  .ui-thumbnail.media-entry:hover {
+  .ui-thumbnail.media-entry:hover,
+  .ui-thumbnail.media-entry-incomplete:hover {
     @include border-radius($border-radius-m);
   }
   .ui-thumbnail.media-set:hover,

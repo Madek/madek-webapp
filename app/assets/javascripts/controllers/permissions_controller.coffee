@@ -4,11 +4,16 @@ Permissions
 
 ###
 
-class Permissions
+class PermissionsController
 
-  constructor: (el)->
+  constructor: (options)->
+    el = if options.dialog? then options.dialog else if options.inline? then options.inline
     @manageable = el.data "manageable"
-    @showDialog el
+    @redirectUrl = el.data "redirect-url"
+    if options.dialog?
+      @showDialog el
+    else if options.inline?
+      @showInline el
     do @delegateEvents
     App.PermissionPreset.fetch null, (presets)=>
       @permissionPresets = presets
@@ -20,16 +25,22 @@ class Permissions
         @collection = el.data("collection")
         @mediaResourceIds = @collection.ids
         do @fetchPermissions
+      else if el.data("collection-id")?
+        @collection = new App.Collection
+          id: el.data("collection-id")
+        @collection.get =>
+          @mediaResourceIds = @collection.ids
+          do @fetchPermissions
 
   delegateEvents: ->
-    @dialog.on "change", ".ui-rights-check-label.mixed input", @changeMixedValue
-    @dialog.on "change", ".ui-rights-check input", @onChangePermission
-    @dialog.on "change", ".ui-rights-role select", (e)=> @onChangePreset $(e.currentTarget)
-    @dialog.on "click", ".ui-rights-role select option", (e)=> @onChangePreset $(e.currentTarget).closest "select"
-    @dialog.on "click keydown", ".ui-add-subject .button", (e)=> @showAddInput $(e.currentTarget)
-    @dialog.on "click", ".ui-rights-remove", (e)=> $(e.currentTarget).closest("tr").remove()
-    @dialog.on "change", ".ui-rights-owner input", (e)=> @changeOwnerTo $(e.currentTarget).closest "tr"
-    @dialog.on "change", ".ui-rights-management-public .ui-rights-check input", @onChangePublicPermission
+    @el.on "change", ".ui-rights-check-label.mixed input", @changeMixedValue
+    @el.on "change", ".ui-rights-check input", @onChangePermission
+    @el.on "change", ".ui-rights-role select", (e)=> @onChangePreset $(e.currentTarget)
+    @el.on "click", ".ui-rights-role select option", (e)=> @onChangePreset $(e.currentTarget).closest "select"
+    @el.on "click keydown", ".ui-add-subject .button", (e)=> @showAddInput $(e.currentTarget)
+    @el.on "click", ".ui-rights-remove", (e)=> $(e.currentTarget).closest("tr").remove()
+    @el.on "change", ".ui-rights-owner input", (e)=> @changeOwnerTo $(e.currentTarget).closest "tr"
+    @el.on "change", ".ui-rights-management-public .ui-rights-check input", @onChangePublicPermission
     @form.on "submit", @onSubmit
 
   changeMixedValue: (e)=>
@@ -63,13 +74,21 @@ class Permissions
     publicPermissions = _.map @publicPermissionsContainer.find("tr"), (line)=> @getPermissionDataFromLine $(line)
     ownerLine = @rightsContainer.find(".ui-rights-owner input:checked").closest "tr"
     owner = if ownerLine.length then ownerLine.data("id") else undefined
-    do @dialog.remove
+    if @el.is ".ui-modal"
+      do @el.remove 
+    else
+      $("body").html ""
+      do App.BrowserLoadingIndicator.start
     App.Permission.storeMultiple
       users: userPermissions
       groups: groupPermissions
       public: publicPermissions[0]
       owner: owner
-    , @mediaResourceIds, (response)-> document.location.reload true
+    , @mediaResourceIds, (response)=> 
+      if @redirectUrl?
+        window.location = @redirectUrl
+      else
+        document.location.reload true
     return false
 
   getPermissionDataFromLine: (line)->
@@ -129,19 +148,25 @@ class Permissions
       manageable: @manageable
       currentUserOwnership: @permissionsForRender(@permissions.you, @mediaResourceIds, @permissions.owners)[0].ownership
 
-  showDialog: (el)->
+  showDialog: (el)=>
     title = if el.data("media-resource-id") then "'#{el.data("title")}'" else if el.data("collection") then "für #{el.data("collection").count} Ausgewählte Inhalte"
-    @dialog = App.render "permissions/dialog", {title: title}, {manageable: @manageable}
-    @saveButton = @dialog.find "button[type='submit']"
-    @form = @dialog.children "form"
-    @rightsContainer = @dialog.find ".ui-rights-management"
-    App.modal @dialog
+    @el = App.render "permissions/dialog", {title: title}, {manageable: @manageable}
+    @saveButton = @el.find "button[type='submit']"
+    @form = @el.children "form"
+    @rightsContainer = @el.find ".ui-rights-management"
+    App.modal @el
+
+  showInline: (el)->
+    @el = el
+    @saveButton = @el.find ".primary-button"
+    @form = @el
+    @rightsContainer = @el.find ".ui-rights-management"
 
   setupAddUser: ->
     setup = =>
       input = @addUserContainer.find("input")
       input.autocomplete
-        appendTo: @dialog
+        appendTo: @el
         source: (request, response)->
           @ajaxSearchPerson.abort() if @ajaxSearchPerson?
           @ajaxSearchPerson = App.User.fetch request.term, (users)->
@@ -157,13 +182,13 @@ class Permissions
           return false
       input.autocomplete("widget").addClass("narrow")
     # setup if dialog is visible (possible time shift because the bootstrap modal)
-    if @dialog.is ":visible" then do setup else @dialog.one "shown", => do setup
+    if @el.is ":visible" then do setup else @el.one "shown", => do setup
 
   setupAddGroup: ->
     setup = =>
       input = @addGroupContainer.find("input")
       input.autocomplete
-        appendTo: @dialog
+        appendTo: @el
         source: (request, response)->
           @ajaxSearchPerson.abort() if @ajaxSearchPerson?
           @ajaxSearchPerson = App.Group.fetch request.term, (groups)->
@@ -178,7 +203,7 @@ class Permissions
           return false
       input.autocomplete("widget").addClass("narrow")
     # setup if dialog is visible (possible time shift because the bootstrap modal)
-    if @dialog.is ":visible" then do setup else @dialog.one "shown", => do setup
+    if @el.is ":visible" then do setup else @el.one "shown", => do setup
 
   addPermissionForSubject: (subject) =>
     return true if @rightsContainer.find("[data-id=#{subject.id}]").length
@@ -345,7 +370,8 @@ class Permissions
       line = mixedLabel.closest "tr"
       @switchPresetForElement line, @getPresetForElement line
 
-window.Permissions = Permissions
+window.App.PermissionsController = PermissionsController
 
 jQuery ->
-  $(document).on "click", "[data-open-permissions]", (e)-> new Permissions $(e.currentTarget)
+  $(document).on "click", "[data-open-permissions]", (e)-> new PermissionsController
+    dialog: $(e.currentTarget)

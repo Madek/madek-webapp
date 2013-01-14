@@ -8,35 +8,38 @@
   link = link ? link : media_resource_path(media_resource.id)
 
 %li.ui-resource.not-loaded-contexts{:data => {:id => media_resource.id, :title => media_resource.title, :type => type, :media_type => media_type, :is_editable => is_editable, :is_manageable => is_manageable}}
-  .ui-resource-head
-    %ul.ui-resource-actions
-      %li.ui-resource-action
-        %a.ui-thumbnail-action-checkbox{:"data-clipboard-toggle" => true, :title => "Zur Zwischenablage hinzufügen/entfernen"} Select
-      %li.ui-resource-action
-        %a.ui-thumbnail-action-favorite{:"data-favor-toggle" => true, :title => "Zur Favoriten hinzufügen/entfernen"} Favorite
-    %h3.ui-resource-title
-      = media_resource.title
+  - unless type == "media-entry-incomplete"
+    .ui-resource-head
+      %ul.ui-resource-actions
+        %li.ui-resource-action
+          %a.ui-thumbnail-action-checkbox{:"data-clipboard-toggle" => true, :title => "Zur Zwischenablage hinzufügen/entfernen"} Select
+        %li.ui-resource-action
+          %a.ui-thumbnail-action-favorite{:"data-favor-toggle" => true, :title => "Zur Favoriten hinzufügen/entfernen"} Favorite
+      %h3.ui-resource-title
+        = media_resource.title
   .ui-resource-body
     .ui-resource-thumbnail
       %div{:class => "ui-thumbnail #{type} #{media_type}"}
         = render :partial => "media_sets/thumbnail_level_up" if media_resource.type.match("Set")
         = render :partial => "media_resources/privacy", :locals => {:media_resource => media_resource}
-        %a.ui-thumbnail-image-wrapper{:href => link}
+        %a.ui-thumbnail-image-wrapper{:href => type != "media-entry-incomplete" ? link : nil}
           .ui-thumbnail-image-holder 
             .ui-thumbnail-table-image-holder
               .ui-thumbnail-cell-image-holder
                 .ui-thumbnail-inner-image-holder
                   %img.ui-thumbnail-image{:src => "/media_resources/#{media_resource.id}/image?size=medium"}          
-        .ui-thumbnail-meta
-          %h3.ui-thumbnail-meta-title= media_resource.title
-          %h4.ui-thumbnail-meta-subtitle= media_resource.author
-        = render :partial => "media_resources/actions", :locals => {:media_resource => media_resource, :editable => editable} if with_actions
-        = render :partial => "media_sets/thumbnail_level_down" if media_resource.type.match("Set")
-    .ui-resource-meta
-      %table.borderless.block
-        %tbody
-          %tr
-            %td.ui-resource-meta-label Dummy Label
-            %td.ui-resource-meta-content Dummy Content
-    .ui-resource-description{:"data-context" => "institution"}
-    .ui-resource-extension{:"data-context" => "nutzung"}
+        - unless type == "media-entry-incomplete"
+          .ui-thumbnail-meta
+            %h3.ui-thumbnail-meta-title= media_resource.title
+            %h4.ui-thumbnail-meta-subtitle= media_resource.author
+          = render :partial => "media_resources/actions", :locals => {:media_resource => media_resource, :editable => editable} if with_actions
+          = render :partial => "media_sets/thumbnail_level_down" if media_resource.type.match("Set")
+    - unless type == "media-entry-incomplete"
+      .ui-resource-meta
+        %table.borderless.block
+          %tbody
+            %tr
+              %td.ui-resource-meta-label Dummy Label
+              %td.ui-resource-meta-content Dummy Content
+      .ui-resource-description{:"data-context" => "institution"}
+      .ui-resource-extension{:"data-context" => "nutzung"}

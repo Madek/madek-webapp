@@ -26,4 +26,17 @@ class Collection
     end
   end
 
+  def self.get collection_id
+    if Rails.cache.exist? collection_id
+      collection = Rails.cache.read(collection_id)
+      {:id => collection_id, :count => collection.count, :ids => collection}
+    else
+      raise "collection_id does not exist"
+    end
+  end
+
+  def self.exist? collection_id
+    Rails.cache.exist? collection_id
+  end
+
 end

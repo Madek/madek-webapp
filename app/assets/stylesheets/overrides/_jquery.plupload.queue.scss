@@ -16,6 +16,9 @@
 }
 li.plupload_uploading a {
   background-image: image-url("icons/icon-upload-dark.png");
+  animation:blink 1s infinite;
+  -moz-animation:blink 1s infinite;
+  -webkit-animation:blink 1s infinite;
 }
 li.plupload_delete a, .plupload_file_action .delete_mei, .plupload_file_action .delete_dropbox_file {
   @include dimension(20px,20px);
@@ -27,6 +30,50 @@ li.plupload_failed a {
 li.plupload_done a {
   @include dimension(20px,20px);
   background-image: image-url("icons/icon-check_mark-dark.png");
+}
+
+/* blink animation for uploading icon */
+
+@keyframes blink {
+  0%    { opacity: 1 }
+  10%   { opacity: 0.8 }
+  20%   { opacity: 0.6 }
+  30%   { opacity: 0.5 }
+  40%   { opacity: 0.4 }
+  50%   { opacity: 0.3 }
+  60%   { opacity: 0.4 }
+  70%   { opacity: 0.5 }
+  80%   { opacity: 0.6 }
+  90%   { opacity: 0.8 }
+  100%   { opacity: 1 }
+}
+
+@-moz-keyframes move {
+  0%    { opacity: 1 }
+  10%   { opacity: 0.8 }
+  20%   { opacity: 0.6 }
+  30%   { opacity: 0.5 }
+  40%   { opacity: 0.4 }
+  50%   { opacity: 0.3 }
+  60%   { opacity: 0.4 }
+  70%   { opacity: 0.5 }
+  80%   { opacity: 0.6 }
+  90%   { opacity: 0.8 }
+  100%   { opacity: 1 }
+}
+
+@-webkit-keyframes move {
+  0%    { opacity: 1 }
+  10%   { opacity: 0.8 }
+  20%   { opacity: 0.6 }
+  30%   { opacity: 0.5 }
+  40%   { opacity: 0.4 }
+  50%   { opacity: 0.3 }
+  60%   { opacity: 0.4 }
+  70%   { opacity: 0.5 }
+  80%   { opacity: 0.6 }
+  90%   { opacity: 0.8 }
+  100%   { opacity: 1 }
 }
 
 /* Generic reset

@@ -33,7 +33,7 @@
  */
 
 .upload-preview {
-  @include max-dimension(auto, 350px);
+  @include max-dimension(auto, 250px);
   overflow-y: auto;
   padding: $space-s $space-s 0;
   .ui-thumbnail {
