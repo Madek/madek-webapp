@@ -41,6 +41,7 @@ class ImportController < ApplicationController
         uploaded_data = params[:file] ? params[:file] : raise("No file to import!")
         media_entry_incomplete = current_user.incomplete_media_entries.create(:uploaded_data => uploaded_data)
         raise "Import failed!" unless media_entry_incomplete.persisted?
+        Rails.cache.delete "#{current_user.id}/media_entry_incompletes_partial"
         render :json => {"media_entry_incomplete" => {"id" => media_entry_incomplete.id} }
       } 
     end
@@ -60,6 +61,7 @@ class ImportController < ApplicationController
                      :filename=> File.basename(f)))
             raise "Import failed!" unless media_entry_incomplete.persisted?
           end
+          Rails.cache.delete "#{current_user.id}/media_entry_incompletes_partial"
           render :json => files.length
         rescue  Exception => e
           format.json { render json: e, status: :unprocessable_entity }
@@ -92,6 +94,22 @@ class ImportController < ApplicationController
   end
 
 ##################################################
+
+  before_filter lambda {
+    @media_entry_incompletes_partial = if Rails.cache.exist? "#{current_user.id}/media_entry_incompletes_partial"
+       Rails.cache.read("#{current_user.id}/media_entry_incompletes_partial")
+    else
+      partial = render_to_string :partial => "media_resources/wrapper", 
+                                                          :locals => {:media_resources => @media_entry_incompletes, 
+                                                          :phl => true,
+                                                          :with_actions => false}
+      Rails.cache.write "#{current_user.id}/media_entry_incompletes_partial", partial, :expires_in => 1.day
+      partial
+    end
+    @media_entry_incompletes_collection_id = Collection.add(@media_entry_incompletes.pluck(:id))[:id]
+  }, only: [:permissions, :meta_data, :organize]
+
+##################################################
 # step 2
 
   def permissions
@@ -100,7 +118,7 @@ class ImportController < ApplicationController
 ##################################################
 # step 3
 
-  def meta_edit
+  def meta_data
     @context = MetaContext.upload
   end
 
@@ -132,7 +150,7 @@ class ImportController < ApplicationController
           # we are canceling the full import, but not deleting
           # @media_entries.destroy_all # NOTE: the user is not excepting that anything is getting deleted just redirect
           flash[:notice] = "Import abgebrochen"
-          redirect_to root_path 
+          redirect_to my_dashboard_path
         end
         
         format.json do
@@ -140,6 +158,7 @@ class ImportController < ApplicationController
           if params[:media_entry_incomplete]
             if (media_entry_incomplete = current_user.incomplete_media_entries.find params[:media_entry_incomplete][:id])
               media_entry_incomplete.destroy
+              Rails.cache.delete "#{current_user.id}/media_entry_incompletes_partial"
               render :json => params[:media_entry_incomplete]
             else
               render :json => "MediaEntryIncomplete not found", :status => 500
@@ -148,6 +167,7 @@ class ImportController < ApplicationController
             user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name)
             if (f = File.join(user_dropbox_root_dir, params[:dropbox_file][:dirname], params[:dropbox_file][:filename]))
               File.delete(f)
+              Rails.cache.delete "#{current_user.id}/media_entry_incompletes_partial"
               render :json => params[:dropbox_file]
             else
               render :json => "File not found", :status => 500

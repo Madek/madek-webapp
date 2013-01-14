@@ -19,9 +19,9 @@ describe ImportController do
         response.should_not  be_success
       end
 
-      it "should redirect to root on delete with html request" do
-        delete :destroy, {}, {user_id: @user.id}
-        response.should  redirect_to(root_path)
+      it "should redirect to my dashboard on cancel" do
+        get :destroy, {format: 'html'}, {user_id: @user.id}
+        response.should redirect_to(my_dashboard_path)
       end
     end
 

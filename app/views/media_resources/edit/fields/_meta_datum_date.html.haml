@@ -10,7 +10,7 @@
 
 .form-date.input-free
   .col2of3
-    %input.block.value-target.input-free{:type => "text", :name => "resource[meta_data_attributes][#{@i}][value]", :value => meta_datum.value, :placeholder => "wird als Text gespeichert"}
+    %input.block.value-target.input-free{:type => "text", :name => "resource[meta_data_attributes][#{@i}][value]", :value => meta_datum.nil? ? nil : meta_datum.value, :placeholder => "wird als Text gespeichert"}
 
 .form-date.input-from-to.hidden
   .col1of3

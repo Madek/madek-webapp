@@ -23,6 +23,7 @@
   }
 
   .ui-thumbnail.media-entry,
+  .ui-thumbnail.media-entry-incomplete,
   .ui-thumbnail.media-set,
   .ui-thumbnail.filter-set {
     @include dimension(60px,60px);
@@ -77,7 +78,8 @@
 
   // Media entries' properties
 
-  .ui-thumbnail.media-entry {
+  .ui-thumbnail.media-entry,
+  .ui-thumbnail.media-entry-incomplete {
     .ui-thumbnail-image-wrapper {
       @include dimension(50px,50px);
     }
@@ -132,7 +134,8 @@
   top: 0;
   z-index: 1000;
 
-  .ui-thumbnail.media-entry {
+  .ui-thumbnail.media-entry,
+  .ui-thumbnail.media-entry-incomplete {
     @include border-radius($border-radius-m);
     background: $brightest;
   }

@@ -1,0 +1,68 @@
+.ui-selected-entry-control
+  position: relative
+  text-align: center
+  border-bottom: 1px solid $grey-light
+
+  .ui-selected-entry-control-container
+    display: inline-block
+    margin: 0 auto
+    width: 66.66%
+
+    .ui-entry-control-label
+      display: block
+
+    .ui-entry-control-title
+      display: block
+      @extend .title-s
+      margin-bottom: $space-x
+      min-height: 20px
+      display: block
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+      width: 100%
+
+    .button
+      width: 30%
+      @include box-sizing(border-box)
+
+    .ui-current-entry
+      background: none
+      border: 1px solid $grey-light
+      cursor: default
+      margin-bottom: -1px
+      padding-bottom: $space-x * 2
+      position: relative
+      @include border-bottom-radius(none)
+
+    .ui-prev-entry, .ui-next-entry
+      position: relative
+      top: -3px
+
+    .ui-prev-entry
+      text-align: left
+      padding-left: $space-l
+      padding-right: -$space-l
+      margin-right: $space-s
+
+      .ui-entry-control-arrow
+        border-top: 14px solid transparent
+        border-bottom: 14px solid transparent
+        border-right: 14px solid $grey-mid
+        position: absolute
+        left: $space-s
+        top: $space-s
+
+    .ui-next-entry
+      text-align: right
+      padding-left: -$space-l
+      padding-right: $space-l
+      margin-left: $space-s
+
+      .ui-entry-control-arrow
+        border-top: 14px solid transparent
+        border-bottom: 14px solid transparent
+        border-left: 14px solid $grey-mid
+        position: absolute
+        right: $space-s
+        top: $space-s

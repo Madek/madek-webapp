@@ -6,6 +6,13 @@ class Collection
 
   constructor: (data)-> @refreshData data
 
+  get: (callback)->
+    $.ajax
+      url: "/collections/#{@id}"
+      success: (data)=> 
+        @refreshData data
+        callback data if callback?
+
   add: (filter)->
     @count++
     data = filter

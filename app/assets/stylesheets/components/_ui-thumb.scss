@@ -86,7 +86,8 @@
   }
 }
 
-.ui-thumbnail.media-entry {
+.ui-thumbnail.media-entry,
+.ui-thumbnail.media-entry-incomplete {
   .ui-thumbnail-image-wrapper {
     @include dimension(130px,130px);
   }

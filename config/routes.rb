@@ -41,6 +41,7 @@ MAdeK::Application.routes.draw do
 
 ##### COLLECTIONS
 
+  get 'collections/:id', :to => 'collections#get', :as => "collections_get"
   put 'collections/add', :to => 'collections#add', :as => "collections_add"
   put 'collections/remove', :to => 'collections#remove', :as => "collections_remove"
   delete 'collections/:id', :to => 'collections#destroy', :as => "collections_destroy"
@@ -48,13 +49,14 @@ MAdeK::Application.routes.draw do
 ##### IMPORT
 
   get  'import' => 'import#start'
+  get  'import/cancel' => 'import#destroy', :as => "cancel_import"
   post 'import' => 'import#upload'
   delete 'import' => 'import#destroy'
   get  'import/dropbox' => 'import#dropbox'
   post 'import/dropbox' => 'import#dropbox'
   put 'import/dropbox' => 'import#dropbox_import'
   get  'import/permissions' => 'import#permissions', :as => "permissions_import"
-  get  'import/meta_data' => 'import#meta_data', :as => "edit_import"
+  get  'import/meta_data' => 'import#meta_data', :as => "meta_data_import"
   get  'import/organize' => 'import#organize'
   put  'import/complete' => 'import#complete'
 

@@ -29,6 +29,12 @@
     padding: 15px;
     position: relative;
   }
+  .ui-thumbnail.media-entry-incomplete {
+    @include dimension(140px,140px);
+    margin: 0;
+    padding: 15px;
+    position: relative;
+  }
   .ui-thumbnail-privacy { 
     display: none;
   }
@@ -64,6 +70,7 @@
   // Show / Hide on hover
   .ui-thumbnail.media-set:hover,
   .ui-thumbnail.filter-set:hover,
+  .ui-thumbnail.media-entry-incomplete:hover,
   .ui-thumbnail.media-entry:hover {
     .ui-thumbnail-actions {
       display: block;
@@ -84,7 +91,8 @@
   .ui-thumbnail:hover {
     @include box-shadow(0 0 3px $darken-more);
   }
-  .ui-thumbnail.media-entry:hover {
+  .ui-thumbnail.media-entry:hover,
+  .ui-thumbnail.media-entry-incomplete:hover {
     @include border-radius($border-radius-m);
     background: $brightest;
   }

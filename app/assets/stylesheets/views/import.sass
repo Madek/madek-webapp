@@ -1,0 +1,27 @@
+.view-import
+
+  &~.app-clipboard
+    display: none !important
+
+  .ui-rights-management
+
+    .ui-modal-body
+      overflow-y: visible
+      padding-left: 0
+      padding-right: 0
+      max-height: none
+      @include box-shadow(none !important)
+
+    .ui-modal-toolbar
+      padding-left: 0 !important
+      padding-right: 0 !important
+      margin: 0 !important
+
+    .ui-rights-owner-title, .ui-rights-owner
+      display: none
+
+    .ui-rights-role-title, .ui-rights-role, .ui-rights-check-title, .ui-rights-check, .ui-rights-owner-title, .ui-rights-owner, .ui-rights-role-title
+      width: auto
+
+    .ui-rights-user, .ui-rights-user-title
+      width: 33%
