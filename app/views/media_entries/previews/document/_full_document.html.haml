@@ -18,5 +18,5 @@
 
   jQuery ->
     new App.PdfPreviewController
-      worker_path: #{asset_path("mozilla-pdf.js/src/worker_loader.js").to_json}
+      worker_path: #{asset_path("pdf.js").to_json}
       document_path: "/media_files/#{@media_entry.media_file.id}?access_hash=#{@media_entry.media_file.access_hash}"
