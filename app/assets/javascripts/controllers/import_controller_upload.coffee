@@ -233,37 +233,40 @@ class ImportController.Upload
     data = element.tmplItem().data
     line = element.closest("li")
     return false if !confirm("Sind Sie sicher dass Sie die Datei " + data.filename + " löschen möchten?")
-    line.remove()
-    mri = new App.MediaEntryIncomplete data
-    mri.delete => do @validateState
+    line.fadeOut 200, => 
+      line.remove()
+      mri = new App.MediaEntryIncomplete data
+      mri.delete => do @validateState
 
   deleteDropboxFile: (e)=>
     element = $(e.currentTarget)
     data = element.tmplItem().data
     line = element.closest("li")
     return false if !confirm("Sind Sie sicher dass Sie die Datei " + data.filename + " löschen möchten?")
-    line.remove()
-    $.ajax
-      url: "/import.json"
-      success: =>
-        do @validateState
-      type: "DELETE"
-      data:
-        dropbox_file:
-          data
+    line.fadeOut 200, => 
+      line.remove()
+      $.ajax
+        url: "/import.json"
+        success: =>
+          do @validateState
+        type: "DELETE"
+        data:
+          dropbox_file:
+            data
 
   deletePluploadFile: (e)=>
     el = $(e.currentTarget)
     line = el.closest("li")
-    if line.hasClass("plupload_done")
-      filename = if (line.tmplItem().data.filename == undefined) then line.find(".plupload_file_name span").html() else line.tmplItem().data.filename
-      return false if !confirm("Sind Sie sicher dass Sie die Datei " + filename + " löschen möchten?")
-      for element in @pluploadFilesUploaded
-        if line.attr("id") == element.file.id
-          delete_mei_file el, element.media_entry_incomplete
-          @uploaderEl.splice(line.index(), 1)
-    else
-      @uploaderEl.splice(line.index(), 1)
+    line.fadeOut 200, => 
+      if line.hasClass("plupload_done")
+        filename = if (line.tmplItem().data.filename == undefined) then line.find(".plupload_file_name span").html() else line.tmplItem().data.filename
+        return false if !confirm("Sind Sie sicher dass Sie die Datei " + filename + " löschen möchten?")
+        for element in @pluploadFilesUploaded
+          if line.attr("id") == element.file.id
+            delete_mei_file el, element.media_entry_incomplete
+            @uploaderEl.splice(line.index(), 1)
+      else
+        @uploaderEl.splice(line.index(), 1)
 
   startImport: =>
     @trasferWasStarted = true

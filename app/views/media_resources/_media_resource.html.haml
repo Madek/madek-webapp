@@ -7,7 +7,13 @@
   is_manageable = current_user.authorized?(:manage, media_resource).to_json
   link = link ? link : media_resource_path(media_resource.id)
 
-%li.ui-resource.not-loaded-contexts{:data => {:id => media_resource.id, :title => media_resource.title, :type => type, :media_type => media_type, :is_editable => is_editable, :is_manageable => is_manageable}}
+%li.ui-resource.not-loaded-contexts{:data => {:id => media_resource.id, 
+                                              :title => (type == "media-entry-incomplete") ? nil : media_resource.title,
+                                              :type => type, 
+                                              :media_type => media_type,
+                                              :is_editable => is_editable, 
+                                              :is_manageable => is_manageable}}
+                                              
   - unless type == "media-entry-incomplete"
     .ui-resource-head
       %ul.ui-resource-actions

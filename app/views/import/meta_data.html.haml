@@ -25,39 +25,51 @@
 
           .ui-container.clearfix.mvl.bordered.midtone.rounded.upload-preview
             = @media_entry_incompletes_partial.html_safe
-            
-          .ui-selected-entry-control
-            .ui-selected-entry-control-container
-              %a.ui-prev-entry.button.disabled
-                .ui-entry-control-label Vorheriger Inhalt
-                .ui-entry-control-title 
-                .ui-entry-control-arrow
-              %a.ui-current-entry.button
-                .ui-entry-control-label Aktueller Inhalt
-                .ui-entry-control-title
-              %a.ui-next-entry.button.disabled
-                .ui-entry-control-label Nächster Inhalt
-                .ui-entry-control-title
-                .ui-entry-control-arrow
+          
+          #ui-edit-meta-data-preload
+            .pth
+              .ui-preloader
 
-          .ui-container
+          #ui-edit-meta-data.hidden
 
-            %form
+            .ui-selected-entry-control
+              .ui-selected-entry-control-container
+                %a.ui-prev-entry.button.disabled
+                  .ui-entry-control-label Vorheriger Eintrag
+                  .ui-entry-control-title 
+                  .ui-entry-control-arrow
+                %a.ui-current-entry.button
+                  .ui-entry-control-label Aktueller Eintrag
+                  .ui-entry-control-title
+                %a.ui-next-entry.button.disabled
+                  .ui-entry-control-label Nächster Eintrag
+                  .ui-entry-control-title
+                  .ui-entry-control-arrow
 
-              .form-body
+            .ui-container
 
-                - @context.meta_key_definitions.each do |definition|
+              %form
 
-                  - unless definition.meta_key.is_not_writable?
+                .form-body
 
-                    = render :partial => "media_resources/edit/field",
-                             :locals => {:definition => definition}
-                
-              .form-footer
-                .ui-actions
-                  = render :partial => "import/cancel"
-                  %a.primary-button.large
-                    Weiter&hellip;
+                  - @context.meta_key_definitions.each do |definition|
+
+                    - unless definition.meta_key.is_not_writable?
+
+                      = render :partial => "media_resources/edit/field",
+                               :locals => {:definition => definition}
+                  
+                .form-footer
+                  .ui-actions
+                    = render :partial => "import/cancel"
+                    %a.primary-button.large.disabled
+                      Weiter&hellip;
 
   .app-footer-push
 = render "application/footer"
+
+:coffeescript
+
+  jQuery -> new App.ImportController.MetaData
+    metaKeyDefinition: #{json_for(@context, {meta_keys: true})}
+    collectionId: #{@media_entry_incompletes_collection_id.to_json}

@@ -77,7 +77,7 @@ class PermissionsController
     if @el.is ".ui-modal"
       do @el.remove 
     else
-      $("body").html ""
+      @saveButton.addClass "disabled"
       do App.BrowserLoadingIndicator.start
     App.Permission.storeMultiple
       users: userPermissions
