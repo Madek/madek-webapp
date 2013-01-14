@@ -52,20 +52,47 @@ module MAdeK
 
     # Enable the asset pipeline
     config.assets.enabled = true
-    config.assets.version = '0.7.1'
+    config.assets.version = '0.7.2'
 
     # Please add any files you need precompiled here, otherwise it breaks production
     config.assets.precompile += %w( application.js
                                     application.css
-                                    pdf.js
-                                    pdf-viewer.js
-                                    pdf-viewer.css
                                     video.js
                                     video.css
                                     visualization_layout_web_worker.js
                                     visualization.js
                                     visualization.css
                                     test.js
+                                    pdf.js
+                                    pdf-viewer.css
+                                    mozilla-pdf/external/webL10n/l10n.js
+                                    mozilla-pdf/web/compatibility.js
+                                    mozilla-pdf/src/core.js
+                                    mozilla-pdf/src/util.js
+                                    mozilla-pdf/src/api.js
+                                    mozilla-pdf/src/metadata.js
+                                    mozilla-pdf/src/canvas.js
+                                    mozilla-pdf/src/obj.js
+                                    mozilla-pdf/src/function.js
+                                    mozilla-pdf/src/charsets.js
+                                    mozilla-pdf/src/cidmaps.js
+                                    mozilla-pdf/src/colorspace.js
+                                    mozilla-pdf/src/crypto.js
+                                    mozilla-pdf/src/evaluator.js
+                                    mozilla-pdf/src/fonts.js
+                                    mozilla-pdf/src/glyphlist.js
+                                    mozilla-pdf/src/image.js
+                                    mozilla-pdf/src/metrics.js
+                                    mozilla-pdf/src/parser.js
+                                    mozilla-pdf/src/pattern.js
+                                    mozilla-pdf/src/stream.js
+                                    mozilla-pdf/src/worker.js
+                                    mozilla-pdf/external/jpgjs/jpg.js
+                                    mozilla-pdf/src/jpx.js
+                                    mozilla-pdf/src/jbig2.js
+                                    mozilla-pdf/src/bidi.js
+                                    mozilla-pdf/web/debugger.js
+                                    mozilla-pdf/web/viewer.js
                                   )
 
     # So that the Content-Length header is sent, so that e.g. video files

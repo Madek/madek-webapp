@@ -1,0 +1,50 @@
+/* -*- Mode: Java; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */
+/* vim: set shiftwidth=2 tabstop=2 autoindent cindent expandtab: */
+/* Copyright 2012 Mozilla Foundation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+'use strict';
+
+// List of files to include;
+
+var files = [
+  "<%= asset_path('mozilla-pdf/src/core.js') %>",
+  "<%= asset_path('mozilla-pdf/src/util.js') %>",
+  "<%= asset_path('mozilla-pdf/src/canvas.js') %>",
+  "<%= asset_path('mozilla-pdf/src/obj.js') %>",
+  "<%= asset_path('mozilla-pdf/src/function.js') %>",
+  "<%= asset_path('mozilla-pdf/src/charsets.js') %>",
+  "<%= asset_path('mozilla-pdf/src/cidmaps.js') %>",
+  "<%= asset_path('mozilla-pdf/src/colorspace.js') %>",
+  "<%= asset_path('mozilla-pdf/src/crypto.js') %>",
+  "<%= asset_path('mozilla-pdf/src/evaluator.js') %>",
+  "<%= asset_path('mozilla-pdf/src/fonts.js') %>",
+  "<%= asset_path('mozilla-pdf/src/glyphlist.js') %>",
+  "<%= asset_path('mozilla-pdf/src/image.js') %>",
+  "<%= asset_path('mozilla-pdf/src/metrics.js') %>",
+  "<%= asset_path('mozilla-pdf/src/parser.js') %>",
+  "<%= asset_path('mozilla-pdf/src/pattern.js') %>",
+  "<%= asset_path('mozilla-pdf/src/stream.js') %>",
+  "<%= asset_path('mozilla-pdf/src/worker.js') %>",
+  "<%= asset_path('mozilla-pdf/src/jpx.js') %>",
+  "<%= asset_path('mozilla-pdf/src/jbig2.js') %>",
+  "<%= asset_path('mozilla-pdf/src/bidi.js') %>",
+  "<%= asset_path('mozilla-pdf/external/jpgjs/jpg.js') %>"
+];
+
+// Load all the files.
+for (var i = 0; i < files.length; i++) {
+  importScripts(files[i]);
+}
