@@ -65,34 +65,6 @@ module MAdeK
                                     test.js
                                     pdf.js
                                     pdf-viewer.css
-                                    mozilla-pdf/external/webL10n/l10n.js
-                                    mozilla-pdf/web/compatibility.js
-                                    mozilla-pdf/src/core.js
-                                    mozilla-pdf/src/util.js
-                                    mozilla-pdf/src/api.js
-                                    mozilla-pdf/src/metadata.js
-                                    mozilla-pdf/src/canvas.js
-                                    mozilla-pdf/src/obj.js
-                                    mozilla-pdf/src/function.js
-                                    mozilla-pdf/src/charsets.js
-                                    mozilla-pdf/src/cidmaps.js
-                                    mozilla-pdf/src/colorspace.js
-                                    mozilla-pdf/src/crypto.js
-                                    mozilla-pdf/src/evaluator.js
-                                    mozilla-pdf/src/fonts.js
-                                    mozilla-pdf/src/glyphlist.js
-                                    mozilla-pdf/src/image.js
-                                    mozilla-pdf/src/metrics.js
-                                    mozilla-pdf/src/parser.js
-                                    mozilla-pdf/src/pattern.js
-                                    mozilla-pdf/src/stream.js
-                                    mozilla-pdf/src/worker.js
-                                    mozilla-pdf/external/jpgjs/jpg.js
-                                    mozilla-pdf/src/jpx.js
-                                    mozilla-pdf/src/jbig2.js
-                                    mozilla-pdf/src/bidi.js
-                                    mozilla-pdf/web/debugger.js
-                                    mozilla-pdf/web/viewer.js
                                   )
 
     # So that the Content-Length header is sent, so that e.g. video files
