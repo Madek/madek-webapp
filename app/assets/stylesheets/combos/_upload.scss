@@ -33,11 +33,27 @@
  */
 
 .upload-preview {
-  @include max-dimension(auto, 250px);
+  @include dimension(auto, 200px);
   overflow-y: auto;
-  padding: $space-s $space-s 0;
+  padding: 0;
   .ui-thumbnail {
     @include dimension(140px,140px);
+  }
+
+  .ui-resources-holder {
+    @include dimension(auto, auto);
+    padding: 0;
+  }
+
+  .ui-resources {
+    @include dimension(auto, auto);
+    margin: 0 !important;
+    white-space: nowrap;
+  }
+
+  .ui-resource {
+    float: none !important;
+    margin: 0 !important;
   }
 }
 

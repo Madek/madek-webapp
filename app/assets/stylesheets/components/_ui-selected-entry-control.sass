@@ -18,7 +18,8 @@
       min-height: 20px
 
     .button
-      width: 28%
+      width: 30%
+      @include box-sizing(border-box)
 
     .ui-current-entry
       background: none
@@ -37,6 +38,7 @@
       text-align: left
       padding-left: $space-l
       padding-right: -$space-l
+      margin-right: $space-s
 
       .ui-entry-control-arrow
         border-top: 14px solid transparent
@@ -50,6 +52,7 @@
       text-align: right
       padding-left: -$space-l
       padding-right: $space-l
+      margin-left: $space-s
 
       .ui-entry-control-arrow
         border-top: 14px solid transparent

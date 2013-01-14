@@ -12,7 +12,7 @@
     .app-body-ui-container
       .ui-container.bordered.bright.rounded
 
-        = render :partial => "import/stepline", :locals => {:step => 1}
+        = render :partial => "import/stepline", :locals => {:step => 3}
 
         .media-import.step4.pal
 
@@ -24,6 +24,7 @@
                   Nur Inhalte mit unvollständigen Pflichtfeldern anzeigen 
 
           .ui-container.clearfix.mvl.bordered.midtone.rounded.upload-preview
+            = @media_entry_incompletes_partial.html_safe
             
           .ui-selected-entry-control
             .ui-selected-entry-control-container
@@ -49,7 +50,7 @@
 
                   - unless definition.meta_key.is_not_writable?
 
-                    = render :partial => "media_resources/edit/field", 
+                    = render :partial => "media_resources/edit/field",
                              :locals => {:definition => definition}
                 
               .form-footer
