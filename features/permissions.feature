@@ -250,7 +250,7 @@ Feature: Permissions
     And I close the modal dialog.
     And I logout.
 
-  @chrome @dirty
+  @chrome @dirty @wip
   Scenario: Display the complete LDAP name on the selection dropdown
     Given I am signed-in as "Normin"
     And I have set up some departments with ldap references
