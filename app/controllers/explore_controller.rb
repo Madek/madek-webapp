@@ -34,7 +34,7 @@ class ExploreController < ApplicationController
   end
 
   def featured_set
-    @featured_set_children = @featured_set.child_media_resources.where(:view => true) if @featured_set
+    @featured_set_children = @featured_set.child_media_resources.where(:view => true).ordered_by(:updated_at) if @featured_set
   end
 
   def keywords
