@@ -3,7 +3,14 @@
 #
 
 Then /^I am on the page of the resource$/ do
-  expect(current_path).to eq media_entry_path @resource
+  case @resource.type
+  when "MediaSet" 
+    expect(current_path).to eq media_set_path @resource
+  when "MediaEntry" 
+    expect(current_path).to eq media_entry_path @resource
+  else
+    raise
+  end
 end
 
 Given /^I am signed\-in as "(.*?)"$/ do |login|
@@ -43,7 +50,7 @@ end
 
 Given /^I close the modal dialog\.$/ do
   find(".modal a[data-dismiss='modal']").click
-  wait_until{all(".modal-backdrop").size == 0}
+  wait_until(2){all(".modal-backdrop").size == 0}
 end
 
 When /^(?:|I )fill in the following:$/ do |fields|
