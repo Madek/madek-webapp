@@ -13,7 +13,7 @@ class ImportController.Upload
     @dropboxSyncInterval = undefined
     @dropboxSyncIntervalTimer = options.dropboxSyncIntervalTimer
     @maxFileSize = options.maxFileSize
-    @mediaEntryIncompletes = options.mediaEntryIncompletes
+    @mediaEntryIncompletes = options.mediaEntryIncompletes.reverse()
     @nextStepUrl = options.nextStepUrl
     @pluploadFilesUploaded = []
     @multipartParams = options.multipartParams
