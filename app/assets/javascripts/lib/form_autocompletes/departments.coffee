@@ -14,8 +14,19 @@ class FormAutocompletes.Departments
     @currentSearchResults = []
     @currentSearchTerm = undefined
     @ignoreList = ["verteilerliste", "Verteilerliste"] # ldap prefixes case insensetive e.g. verteilerliste will remove ldap groups like "Verteilerliste.123"
-    @input_el = @el.find("#institutional_affiliation_autocomplete_search")
     do @delegateEvents
+
+  delegateEvents: ->
+    $(@el).on "focus", "#institutional_affiliation_autocomplete_search", (e)=> @setupAutocomplete($(e.currentTarget)) unless $(e.currentTarget).hasClass "ui-autocomplete-input"
+    @el.on "click", ".department-autocomplete .ui-navigator", @navigateDeeper
+    @el.on "click", ".department-autocomplete .ui-menu-item-department.opened + .ui-navigator", @navigateHigher
+
+  setupAutocomplete: (input)->
+    @input_el = input
+    @input_el.on "focus", @openOnFocus
+    @input_el.on "autocompletecreate", @createExtendedAutocomplete
+    @input_el.on "autocompletesearch", @searchDepartment
+    @input_el.on "autocompleteopen", @openExtendedAutocomplete
     @input_el.autocomplete
       minLength: 0
       source: (request, response)=> response @input_el.data("values")
@@ -23,14 +34,6 @@ class FormAutocompletes.Departments
       appendTo: @input_el.closest(".multi-select-input-holder")
     @autocomplete = @input_el.autocomplete "widget"
     @autocomplete.addClass "department-autocomplete"
-
-  delegateEvents: ->
-    @input_el.on "focus", @openOnFocus
-    @input_el.on "autocompletecreate", @createExtendedAutocomplete
-    @input_el.on "autocompletesearch", @searchDepartment
-    @input_el.on "autocompleteopen", @openExtendedAutocomplete
-    @el.on "click", ".department-autocomplete .ui-navigator", @navigateDeeper
-    @el.on "click", ".department-autocomplete .ui-menu-item-department.opened + .ui-navigator", @navigateHigher
 
   openOnFocus: (event) ->
     $(event.currentTarget).autocomplete "search", ""

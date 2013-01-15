@@ -20,6 +20,7 @@ class ImportController.MetaData
     @currentTitle = @el.find ".ui-current-entry .ui-entry-control-title"
     @mediaResourcePreviews = $("#ui-resources-preview")
     do @delegateEvents
+    do @extendForm
     @paginator.start {collection_id: @collectionId},
       meta_data:
         meta_context_names: ["upload"]
@@ -28,6 +29,18 @@ class ImportController.MetaData
       @mediaResources = _.sortBy resources, (resource) -> resource.id
       @setupResourceForEdit @mediaResources[0]
       do @showForm
+
+  extendForm: ->
+    new App.FormWidgets.Defaults {el: @el}
+    new App.FormWidgets.Person {el: @el}
+    new App.FormAutocompletes.Person {el: @el}
+    new App.FormWidgets.Keywords {el: @el}
+    new App.FormAutocompletes.Keywords {el: @el}
+    new App.FormBehaviours.MetaDatumDate {el: @el}
+    new App.FormAutocompletes.ExtensibleList {el: @el}
+    new App.FormBehaviours.Collapse {el: @el}
+    new App.FormBehaviours.Copyrights {el: @el}
+    new App.FormAutocompletes.Departments {el: @el}
 
   delegateEvents: ->
     $(document).on "click", ".ui-next-entry:not(.disabled)", @nextResource

@@ -9,29 +9,28 @@ class FormAutocompletes.Keywords
 
   constructor: (options)->
     @el = options.el
-    for keywordField in @el.find(".form-autocomplete-keywords")
-      do (keywordField)=>
-        keywordField = $(keywordField)
-        keywordField.autocomplete
-          appendTo: keywordField.closest(".multi-select-input-holder")
-          source: (request, response)=>
-            @ajax.abort() if @ajax?
-            @ajax = App.Keyword.fetch request.term, (keywords)->
-              response _.map keywords, (keyword)->
-                keyword.value = keyword.label
-                keyword.name = keyword.label
-                keyword
-          select: (event, ui)=>
-            keyword = new App.Keyword ui.item
-            input = $(event.target)
-            @addExistingKeyword keyword, input
-            input.val ""
-            return false
-
     do @delegateEvents
 
   delegateEvents: ->
+    $(@el).on "focus", ".form-autocomplete-keywords", (e)=> @setupAutocomplete($(e.currentTarget)) unless $(e.currentTarget).hasClass "ui-autocomplete-input"
     @el.on "keydown", ".form-autocomplete-keywords", (e) => @addNonExistingKeyword $(e.currentTarget) if e.keyCode == 13
+
+  setupAutocomplete: (input)->
+    input.autocomplete
+      appendTo: input.closest(".multi-select-input-holder")
+      source: (request, response)=>
+        @ajax.abort() if @ajax?
+        @ajax = App.Keyword.fetch request.term, (keywords)->
+          response _.map keywords, (keyword)->
+            keyword.value = keyword.label
+            keyword.name = keyword.label
+            keyword
+      select: (event, ui)=>
+        keyword = new App.Keyword ui.item
+        input = $(event.target)
+        @addExistingKeyword keyword, input
+        input.val ""
+        return false
 
   addNonExistingKeyword: (input)->
     term = input.val()

@@ -9,25 +9,28 @@ class FormAutocompletes.Person
 
   constructor: (options)->
     @el = options.el
-    for personField in @el.find(".form-autocomplete-person")
-      do (personField)=>
-        personField = $(personField)
-        personField.autocomplete
-          appendTo: personField.closest(".multi-select-input-holder")
-          source: (request, response)->
-            @ajax.abort() if @ajax?
-            @ajax = App.Person.fetch request.term, (people)->
-              response _.map people, (person)-> 
-                _person = JSON.parse JSON.stringify person
-                _person.value = person.toString()
-                _person.name = person.toString()
-                _person
-          select: (event, ui)=>
-            person = new App.Person ui.item
-            input = $(event.target)
-            @addPerson person, input
-            input.val ""
-            return false
+    do @delegateEvents
+
+  delegateEvents: ->
+    $(@el).on "focus", ".form-autocomplete-person", (e)=> @setupAutocomplete($(e.currentTarget)) unless $(e.currentTarget).hasClass "ui-autocomplete-input"
+
+  setupAutocomplete: (input)->
+    input.autocomplete
+      appendTo: input.closest(".multi-select-input-holder")
+      source: (request, response)->
+        @ajax.abort() if @ajax?
+        @ajax = App.Person.fetch request.term, (people)->
+          response _.map people, (person)-> 
+            _person = JSON.parse JSON.stringify person
+            _person.value = person.toString()
+            _person.name = person.toString()
+            _person
+      select: (event, ui)=>
+        person = new App.Person ui.item
+        input = $(event.target)
+        @addPerson person, input
+        input.val ""
+        return false
 
   addPerson: (person, input)->
     holder = input.closest(".multi-select-holder")

@@ -10,9 +10,9 @@ class FormAutocompletes.ExtensibleList
   constructor: (options)->
     @el = options.el
     do @delegateEvents
-    do @setupAutocomplete
 
   delegateEvents: ->
+    $(@el).on "focus", ".form-autocomplete-extensible-list", (e)=> @setupAutocomplete($(e.currentTarget)) unless $(e.currentTarget).hasClass "ui-autocomplete-input"
     @el.on "keypress", ".form-autocomplete-extensible-list", (e)=>
       if e.keyCode == 13
         input = $(e.currentTarget)
@@ -21,30 +21,27 @@ class FormAutocompletes.ExtensibleList
         input.val ""
         input.autocomplete "search", ""
 
-  setupAutocomplete: ->
-    for input in @el.find(".form-autocomplete-extensible-list")
-      do (input)=>
-        input = $(input)
-        input.on "focus", -> input.autocomplete "search", input.val()
-        input.autocomplete
-          minLength: 0
-          appendTo: input.closest(".multi-select-input-holder")
-          source: (request, response)=>
-            unless input.data("terms")?
-              @ajax.abort() if @ajax?
-              @ajax = App.MetaTerm.fetch 
-                meta_context_id: input.data("context")
-                meta_key_id: input.data("meta_key")
-              , (data)=>
-                input.data "terms", data
-                response @searchTerms request.term, data
-            else
-              response @searchTerms request.term, input.data "terms"
-          select: (event, ui)=>
-            @addTerm ui.item, $(event.target)
-            input.val ""
-            setTimeout (=> input.autocomplete "search", ""), 100
-            return false
+  setupAutocomplete: (input)->
+    input.on "focus", -> input.autocomplete "search", input.val()
+    input.autocomplete
+      minLength: 0
+      appendTo: input.closest(".multi-select-input-holder")
+      source: (request, response)=>
+        unless input.data("terms")?
+          @ajax.abort() if @ajax?
+          @ajax = App.MetaTerm.fetch 
+            meta_context_id: input.data("context")
+            meta_key_id: input.data("meta_key")
+          , (data)=>
+            input.data "terms", data
+            response @searchTerms request.term, data
+        else
+          response @searchTerms request.term, input.data "terms"
+      select: (event, ui)=>
+        @addTerm ui.item, $(event.target)
+        input.val ""
+        setTimeout (=> input.autocomplete "search", ""), 100
+        return false
 
   searchTerms: (query, terms)->
     _.filter terms, (term) -> term.value.match new RegExp query, "i"
