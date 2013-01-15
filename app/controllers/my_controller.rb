@@ -29,7 +29,6 @@ class MyController < ApplicationController
   end
 
   def keywords
-    # TODO use the ActiveRecord::Relation chainable query here too
     @keywords = view_context.hash_for current_user.keywords.with_count, {:count => true}
   end
 

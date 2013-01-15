@@ -38,7 +38,7 @@ class ExploreController < ApplicationController
   end
 
   def keywords
-    @keywords = view_context.hash_for Keyword.with_count_for_user(current_user).limit(200), {:count => true}
+    @keywords = view_context.hash_for Keyword.with_count_for_accessible_media_resources(current_user).limit(200), {:count => true}
   end
 
 end
