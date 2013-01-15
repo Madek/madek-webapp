@@ -161,7 +161,7 @@ Then /^I see the originating set beeing highlighted$/ do
 end
 
 Then /^I see the title of the set as graph\-title$/ do
-  (expect find("#title")).to have_content @set.title
+  (expect find(".app")).to have_content @set.title
 end
 
 When /^I visualize the component of a Entry$/ do
@@ -174,7 +174,7 @@ Then /^I see the originating entry beeing highlighted$/ do
 end
 
 Then /^I see the title of the entry as graph\-title$/ do
-  (expect find("#title")).to have_content @entry.title
+  (expect find(".app")).to have_content @entry.title
 end
 
 Then /^I see by default exactly the labels of the sets that have children in the current visualization$/ do
@@ -188,7 +188,7 @@ Then /^I see by default exactly the labels of the sets that have children in the
 end
 
 When /^I select "(.*?)" of the label select options$/ do |value|
-  find(".control_panel").click()
+  find("a.primary-button").click()
   find("#show_labels").select(value)
 end
 

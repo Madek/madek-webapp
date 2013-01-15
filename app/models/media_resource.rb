@@ -5,6 +5,7 @@ class MediaResource < ActiveRecord::Base
   extend MediaResourceModules::Graph
   include MediaResourceModules::MetaData
   include MediaResourceModules::Permissions
+  include Concerns::ResourcesThroughPermissions
   include MediaResourceModules::Filter
 
 ###############################################################
