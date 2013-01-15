@@ -32,9 +32,15 @@ class FormBehaviours.Copyrights
   onSelectChange: (select)->
     option = select.find("option:selected")
     if option.data("leaf")?
-      @el.find(".ui-form-group[data-meta-key='copyright usage'] textarea").val option.data "usage"
-      @el.find(".ui-form-group[data-meta-key='copyright url'] textarea").val option.data "url"
+      @el.find(".ui-form-group[data-meta-key='copyright usage']").find("textarea, input").val option.data "usage"
+      @el.find(".ui-form-group[data-meta-key='copyright url']").find("textarea, input").val option.data "url"
       @setSelectedCopyright option.data "id"
+    if not option.data().url? and not option.data().usage?
+      @el.find(".ui-form-group[data-meta-key='copyright usage']").hide()
+      @el.find(".ui-form-group[data-meta-key='copyright url']").hide()
+    else
+      @el.find(".ui-form-group[data-meta-key='copyright usage']").show()
+      @el.find(".ui-form-group[data-meta-key='copyright url']").show()
 
   setIndividualCopyright: ->
     @el.find(".ui-form-group[data-type='meta_datum_copyright'] select option[data-is-custom]").attr("selected", true)

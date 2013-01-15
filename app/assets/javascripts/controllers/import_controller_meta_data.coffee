@@ -88,17 +88,39 @@ class ImportController.MetaData
       @title.html ""
 
   setupFormFor: (resource)->
-    for field, i in @el.find(".form-body").children(".ui-form-group")
+    for field, i in @el.find(".form-body .ui-form-group[data-type]")
       field = $(field)
       metaKeyName = field.data "meta-key"
       metaDatumType = field.data "type"
       metaKey = @metaKeyDefinition.getKeyByName metaKeyName
       metaDatum = resource.getMetaDatumByMetaKeyName metaKeyName
-      template = App.render "media_resources/edit/fields/form_items/#{metaDatumType}",
-        i: i
-        definition: metaKey.settings
-        meta_datum: metaDatum
-      field.find(".form-item").html template
+      switch metaDatumType
+        when "meta_datum_copyright"
+          do (field, metaDatum)=>
+            $(@).one "form-setted-up", =>
+              @switchCopyright field, metaDatum
+        else
+          template = App.render "media_resources/edit/fields/#{metaDatumType}",
+            i: i
+            definition: metaKey.settings
+            meta_datum: metaDatum
+          formItemExtension = field.find(".form-item-extension").detach()
+          formItemExtensionToggle = field.find(".form-item-extension-toggle").detach()
+          field.find(".form-item").html template
+          field.find(".form-item").append formItemExtensionToggle
+          field.find(".form-item").append formItemExtension
+    $(@).trigger "form-setted-up"
+
+  switchCopyright: (field, metaDatum)->
+    if metaDatum.raw_value.parent_id?
+      parentOption = field.find("option[data-id='#{metaDatum.raw_value.parent_id}']")
+      parentOption.attr "selected", true
+      parentOption.trigger "change"
+      parentOption.trigger "select"
+    option = field.find("option[data-id='#{metaDatum.raw_value.id}']")
+    option.attr "selected", true
+    option.trigger "change"
+    option.trigger "select"
 
 window.App.ImportController = {} unless window.App.ImportController
 window.App.ImportController.MetaData = ImportController.MetaData

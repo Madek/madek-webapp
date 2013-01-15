@@ -26,18 +26,16 @@ class FormBehaviours.Collapse
   collapse: ->  
     parent = formGroup
     children = []
-    for formGroup in @el.find ".ui-form-group[data-type]"
-      do (formGroup)->
+    amountOfFileds = @el.find(".ui-form-group[data-type]").length
+    for formGroup, i in @el.find ".ui-form-group[data-type]"
+      do (formGroup)=>
         formGroup = $(formGroup)
         if not parent?
           parent = formGroup
-        else if parent? and 
-        (parent.data("meta-key").replace(/\s\w+$/, "") == formGroup.data("meta-key").replace(/\s\w+$/, "") or 
-        parent.data("meta-key") == formGroup.data("meta-key").replace(/\s\w+$/, "") or
-        parent.data("meta-key") == formGroup.data("meta-key").split(" ")[0] or
-        parent.data("meta-key").split(" ")[0] == formGroup.data("meta-key").split(" ")[0])
+        else if parent? and i!=(amountOfFileds-1) and @isSimilar parent, formGroup
           children.push formGroup
-        else if parent? and children.length > 2
+        else if parent? and ((children.length > 2) or i==(amountOfFileds-1))
+          children.push formGroup if i==(amountOfFileds-1) and @isSimilar parent, formGroup
           parent.find(".form-item").append App.render "media_resources/edit/collapsed_fields"
           for child in children
             child = $(child)
@@ -50,6 +48,12 @@ class FormBehaviours.Collapse
           # reset
           parent = formGroup
           children = []
+
+  isSimilar: (parent, current)->
+    parent.data("meta-key").replace(/\s\w+$/, "") == current.data("meta-key").replace(/\s\w+$/, "") or 
+    parent.data("meta-key") == current.data("meta-key").replace(/\s\w+$/, "") or
+    parent.data("meta-key") == current.data("meta-key").split(" ")[0] or
+    parent.data("meta-key").split(" ")[0] == current.data("meta-key").split(" ")[0]
         
 window.App.FormBehaviours = {} unless window.App.FormBehaviours
 window.App.FormBehaviours.Collapse = FormBehaviours.Collapse
