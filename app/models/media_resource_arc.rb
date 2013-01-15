@@ -35,7 +35,7 @@ class MediaResourceArc < ActiveRecord::Base
   end
 
   def new_exclusive_arc_becomes_cover
-    if parent.out_arcs.size.zero? or parent.out_arcs.where(cover:true).size.zero?
+    if not parent.out_arcs.exists? or not parent.out_arcs.where(cover:true).exists?
       self.cover = true 
     end
   end
