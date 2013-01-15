@@ -52,20 +52,19 @@ module MAdeK
 
     # Enable the asset pipeline
     config.assets.enabled = true
-    config.assets.version = '0.7.1'
+    config.assets.version = '0.7.2'
 
     # Please add any files you need precompiled here, otherwise it breaks production
     config.assets.precompile += %w( application.js
                                     application.css
-                                    pdf.js
-                                    pdf-viewer.js
-                                    pdf-viewer.css
                                     video.js
                                     video.css
                                     visualization_layout_web_worker.js
                                     visualization.js
                                     visualization.css
                                     test.js
+                                    pdf.js
+                                    pdf-viewer.css
                                   )
 
     # So that the Content-Length header is sent, so that e.g. video files
