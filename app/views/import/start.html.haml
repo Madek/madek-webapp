@@ -60,7 +60,7 @@
     dropboxSyncIntervalTimer: 2000
     maxFileSize: "1400mb"
     mediaEntryIncompletes: #{ json_for(@media_entry_incompletes, {:filename => true, :size => true}) }
-    multipartParams: 
+    multipartParams:
       '#{request_forgery_protection_token}': '#{form_authenticity_token}'
       '#{request.session_options[:key]}': '#{request.session_options[:id]}'
     nextStepUrl: "#{permissions_import_path}"
