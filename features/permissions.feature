@@ -204,8 +204,10 @@ Feature: Permissions
       | Liselotte | view       | true  |
       | Liselotte | edit       | true  |
       | Liselotte | download   | true  |
-    Given I logout.
+    And I logout.
+
     Given I am signed-in as "Normin"
+    And visit the permissions dialog of the resource
     Then I see the following permissions:
       | user      | permission |
       | Normin    | view       |
@@ -217,20 +219,34 @@ Feature: Permissions
       | Beat      | download   |
       | Liselotte | edit       |
       | Liselotte | download   |
+    And I close the modal dialog.
+    And I logout.
+
     Given I am signed-in as "Beat"
+    And visit the permissions dialog of the resource
     Then I see the following permissions:
       | user   | permission |
       | Normin | view       |
       | Petra  | view       |
+    And I close the modal dialog.
+    And I logout.
+
     Given I am signed-in as "Liselotte"
+    And visit the permissions dialog of the resource
     Then I see the following permissions:
       | user      | permission |
       | Normin    | edit       |
       | Beat      | edit       |
       | Liselotte | edit       |
+    And I close the modal dialog.
+    And I logout.
+
     Given I am signed-in as "Petra"
+    And visit the permissions dialog of the resource
     Then I see the following permissions:
       | user   | permission |
       | Normin | view       |
       | Petra  | view       |
+    And I close the modal dialog.
+    And I logout.
 

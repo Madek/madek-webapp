@@ -41,6 +41,11 @@ When /^I click on the submit button$/ do
   find("button[type='submit']").click
 end
 
+Given /^I close the modal dialog\.$/ do
+  find(".modal a[data-dismiss='modal']").click
+  wait_until{all(".modal-backdrop").size == 0}
+end
+
 When /^(?:|I )fill in the following:$/ do |fields|
   fields.rows_hash.each do |name, value|
     step %{I fill in "#{name}" with "#{value}"}
@@ -53,6 +58,11 @@ end
 
 When /^I go to the home page$/ do
   visit "/"
+end
+
+Given /^I logout\.$/ do
+  find(".app-header .ui-header-user a").click
+  find("a[href='/logout']").click
 end
 
 When /^I pry$/ do
@@ -87,3 +97,6 @@ end
 Then /^There is no link with class "(.*?)" in the list with class "(.*?)"$/ do |link_class, list_class|
   expect{ find("ul.#{list_class} a.#{link_class}") }.to raise_error
 end
+
+
+

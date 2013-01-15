@@ -96,16 +96,26 @@ Then /^I see page for the resource$/ do
 end
 
 Then /^I see the following permissions:$/ do |table|
-  binding.pry
+  table.rows.each do |row|
+    user= User.find_by_login row[0]
+    expect(find("tr[data-name='#{user.name}'] input[name='#{row[1]}']")).to be_checked
+  end
 end
 
 When /^I open the edit-permissions dialog$/ do
   find(".primary-button").click
   find("a[data-open-permissions]").click
+  wait_until{all(".modal.ui-shown").size > 0 }
 end
 
 When /^I visit the path of the resource$/ do
   visit media_resource_path @resource
+end
+
+Given /^visit the permissions dialog of the resource$/ do
+  visit media_resource_path @resource
+  find("a",text: "Weitere Aktionen").click
+  find("a",text: "Zugriffsberechtigungen").click
 end
 
 When /^There are "(.*?)" user-permissions added for me to the resource$/ do |permission|
