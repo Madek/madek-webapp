@@ -48,7 +48,7 @@
               %a.open_dropbox_dialog{:href => "javascript:void(0)", :style => "cursor:pointer"} So laden Sie Dateien über die FTP-Dropbox ins Medienarchiv.
 
   .app-footer-push
-= render "application/footer"
+= render :partial => "application/footer", :locals => {:clipboard => false}
 
 :coffeescript
 

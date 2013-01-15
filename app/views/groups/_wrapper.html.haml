@@ -1,5 +1,8 @@
 :ruby 
   id ||=nil 
+  as = (defined? as and as)
+  actions = (defined? actions and actions)
+  resources = (defined? resources and resources)
 
 .ui-resources-holder{id: id}
   .ui-resources-header
@@ -7,6 +10,34 @@
       = title
       - if defined? link
         %a.strong{:href => link} Alle anzeigen
-  %ul.inline
-    - groups.each do |group|
-      = render :partial => "groups/group", :locals => {group: group}
+
+  - if as == :table
+
+    %table.ui-workgroups.bordered.block
+      %thead
+        %tr
+          %td.ui-workgroup-name-title Name
+          - if resources
+            %td.ui-workgroup-items-title Inhalte
+          - if actions
+            %td.ui-workgroup-actions-title Aktionen
+      %tbody
+        - groups.each do |group|
+          %tr
+            %td.ui-workgroup-name= group.name
+            - if resources
+              - total_accessible_by_group = MediaResource.accessible_by_group(group).where(:type => ["MediaEntry", "MediaSet"]).count
+              %td.ui-workgroup-items
+                %a{:href => media_resources_path(:permissions => {:group => {:ids => [group.id]}}), :title => "Inhalte diese Gruppe anzeigen"}= total_accessible_by_group
+            - if actions
+              %td.ui-workgroup-actions
+                %a.button.small{:href => "#workgroup-delete", "data-toggle" => "modal"}
+                  %i.icon-trash.dark
+                %a.button.small{:href => "#workgroup-edit", "data-toggle" => "modal"}
+                  %i.icon-pen.dark
+
+  - else
+
+    %ul.inline
+      - groups.each do |group|
+        = render :partial => "groups/group", :locals => {group: group}

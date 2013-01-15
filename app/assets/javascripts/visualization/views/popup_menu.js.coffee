@@ -10,11 +10,9 @@ Visualization.Views.PopupMenu = Backbone.View.extend
 
   delegateEvents: ->
     @el.on "mouseenter", "circle, rect, text", (e)=>
-      console.log ["mouseenter event", e]
-      console.log $(e.currentTarget)
       target = $(e.currentTarget).closest(".node")
-      console.log target
-      console.log target.find("circle")
+      return true if target.attr("hasPopup") == "true"
+      target.attr "hasPopup", "true"
       $(target).qtip
         position:
           target: target.find("circle")
@@ -51,12 +49,8 @@ Visualization.Views.PopupMenu = Backbone.View.extend
           solo: true
           delay: 250
           ready: true
-          effect: ->
-            $(this).show()
-            $(target).qtip('reposition')
         hide:
-          event: "mouseleave"
-          delay: 300
+          delay: 400
           fixed: true
           target: target
 
@@ -73,7 +67,6 @@ Visualization.Views.PopupMenu = Backbone.View.extend
       , (media_resources, response)=>
         mr = media_resources[0]
         template.find(".resource").html App.render "media_resources/media_resource", mr
-        template.data("target").qtip("reposition")
 
         template.find(".favorite_info").html @template_favorite
           is_favorite: mr.is_favorite

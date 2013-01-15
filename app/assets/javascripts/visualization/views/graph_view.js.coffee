@@ -18,7 +18,7 @@ Visualization.Views.GraphView = Backbone.View.extend
         @autozoom()
 
     $(window).bind "resize", (e)=> 
-      @svg.attr("width", $(window).width()).attr("height", $(window).height())
+      @svg.attr("width", $(window).width()).attr("height",  $(window).height()-$("#drawing").offset().top-20)
       @autozoom()
 
   render: -> # this is called only once from init, se relayout for updating elements
@@ -28,7 +28,7 @@ Visualization.Views.GraphView = Backbone.View.extend
     # setting-up the svg element ###########################################################################
     @svg = d3.select("svg#drawing")
     @svg.attr('visibility','hidden') # we hide to prevent flickering during initial rendering 
-    @svg.attr("width", $(window).width()).attr("height", $(window).height())
+    @svg.attr("width", $(window).width()).attr("height", $(window).height()-$("#drawing").offset().top-20)
     @svg_height = ->
       $("#visualization svg").attr("height")
     @svg_width = ->
@@ -76,6 +76,7 @@ Visualization.Views.GraphView = Backbone.View.extend
 
   autozoom: ->
     #console.log "resetting transform ..."
+    # [left, top, right, bottom]
     bbox = Visualization.Functions.box_add Visualization.Functions.bbox($("#drawing .node,#drawing g.node_label")), [-25,-100,25,25]
     bbox_center = Visualization.Functions.center_of_box bbox
     @svg_graph.select("rect#bbox").remove()

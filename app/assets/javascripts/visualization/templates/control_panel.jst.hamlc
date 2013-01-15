@@ -1,54 +1,44 @@
-%h2 
-  .arrow.down.icon
-  = "Darstellung"
-
 .inner
 
   %form
 
-    .basic_option
+    .basic_option.separated
       %label Anzeige Titel:
         %select#show_labels.show_labels{style: "margin-bottom: 0px; padding-bottom: 0px"}  # TODO make nice 
           %option{value:"none"} keine
           %option{value:"sets_having_descendants"} die Wichtigsten
           %option{value:"all"} alle 
 
-    .basic_option
-      %hr 
+    .basic_option.separated
       %label 
         Abstand zwischen Nachbarn:
         %span#edge_length_value  
       #edge_length
 
-    .basic_option
-      %hr
+    .basic_option.separated
       %label 
         Abstand der Komponenten:  
         %span#component_separation_value
       #component_separation
 
     .basic_option
-      %hr
-        %label
-          %input#show_advanced_options{type: 'checkbox'}
-          %strong Weitere Optionen
- 
+      %label
+        %input#show_advanced_options{type: 'checkbox'}
+        %strong Weitere Optionen
 
-    .advanced_option
+    .advanced_option.separated
       %label
         Zusätzlicher Abstand zwischen benachbarten Sets: 
         %span#add_set_set_edge_length_value
       #add_set_set_edge_length
 
-    .advanced_option
-      %hr
+    .advanced_option.separated
       %label
         Radius der Knoten:
         %span#node_radius_value
       #node_radius
 
-    .advanced_option
-      %hr
+    .advanced_option.separated
       %label
         Zusätzlicher Radius gemäss Anzahl der Kinder:
         %span#max_set_radius_value

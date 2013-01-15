@@ -38,4 +38,11 @@ class MyController < ApplicationController
   def latest_imports
   end
 
+  def groups
+    groups = current_user.groups
+    @workgroups = groups.select{|g| g.type == "Group" and not g.is_readonly?}
+    @systemgroups = groups.select{|g| g.type == "Group" and g.is_readonly?}
+    @departmentgroups = groups.select{|g| g.type == "MetaDepartment"}
+  end
+
 end

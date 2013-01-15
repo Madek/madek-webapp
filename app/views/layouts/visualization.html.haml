@@ -4,7 +4,16 @@
   %head
     %meta{:charset => 'utf-8'}
     %title
-      = @title || AppSettings.title || "Medienarchiv - Zürcher Hochschule der Künste"
+      - if AppSettings.title
+        - if @title
+          = "#{AppSettings.title} - #{@title}"
+        - else
+          = "#{AppSettings.title}"
+      - else
+        - if @title
+          = "Medienarchiv - #{@title}"
+        - else
+          = "Medienarchiv"
     = stylesheet_link_tag "visualization"
     = javascript_include_tag "visualization"
     = javascript_include_tag "test" unless Rails.env.production?

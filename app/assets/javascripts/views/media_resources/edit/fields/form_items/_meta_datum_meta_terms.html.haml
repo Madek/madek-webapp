@@ -1,0 +1,4 @@
+- if definition.meta_key.is_extensible_list
+  = render :partial => "media_resources/edit/fields/meta_datum_meta_terms/extensible_list", :locals => {:definition => definition, :meta_datum => meta_datum}
+- else
+  = render :partial => "media_resources/edit/fields/meta_datum_meta_terms/not_extensible_list", :locals => {:definition => definition, :meta_datum => meta_datum}
