@@ -187,7 +187,7 @@ Feature: Permissions
      Then I can choose from a set of labeled permissions presets instead of grant permissions explicitly    
 
 
-  @chrome @dirty @wip 
+  @jsbrowser @dirty 
   Scenario: Limiting what other users' permissions I can see
     Given I am signed-in as "Normin"
     Given A resource owned by me with no other permissions
