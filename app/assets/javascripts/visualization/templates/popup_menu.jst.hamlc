@@ -10,7 +10,8 @@
   .popover-content
   
     .resource.ui-resources.grid.pll.show_permissions
-      .ui-preloader
+      .ptl
+        .ui-preloader
 
     .info.row.pbx
       .col1of2.by-left

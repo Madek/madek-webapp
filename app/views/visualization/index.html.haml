@@ -1,23 +1,38 @@
+.app.view-visualization
 
-#title
-  %h1.title-xl
-    - if @main_title
-      = "#{@main_title}" 
+  = render "application/header"
 
-  %h1.title-xl
-    - if @sub_title
-      = "#{@sub_title}" 
+  .app-body
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl= @main_title
 
+        .ui-body-title-actions
 
-%svg#drawing{'xmlns' => "http://www.w3.org/2000/svg", version:"1.1", 'xmlns:xlink' => "http://www.w3.org/1999/xlink"}
+          .dropdown.ui-dropdown.stick-right
+            %a.primary-button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
+              %i.icon-vis-graph
+              Darstellung ändern
+              %i.icon-arrow-down.bright.stand-alone
 
-#overlay
+            %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+              #controls 
+                .control_panel.menu
+                  TEST
 
-  #controls 
-    .control_panel.menu
-    .clear
+    .app-body-ui-container
 
-  #notifications
+      .bordered.bordered-bottom.bright.ui-container.rounded.phx
+
+        %svg#drawing{'xmlns' => "http://www.w3.org/2000/svg", version:"1.1", 'xmlns:xlink' => "http://www.w3.org/1999/xlink"}
+
+        %h2#visualization-subtitle.title-l= @sub_title
+
+        #notifications
+        
+  .app-footer-push
+= render :partial => "application/footer", :locals => {:clipboard => false}
 
 -if params[:insert_to_dom]
   != content_tag "div", id: "graph-data" , data: { nodes: vis_json(@resources), arcs: @arcs.as_json(only: [:child_id,:parent_id])}{}

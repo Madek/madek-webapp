@@ -37,7 +37,7 @@
                     Berechtigungen speichern und weiter&hellip;
 
   .app-footer-push
-= render "application/footer"
+= render :partial => "application/footer", :locals => {:clipboard => false}
 
 :coffeescript
 

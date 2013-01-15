@@ -1,3 +1,6 @@
+:ruby
+  clipboard = clipboard.nil? ? true : clipboard
+
 .app-footer
   %footer.ui-footer.ui-container.inverted
     %ul.ui-footer-menu
@@ -23,4 +26,5 @@
       = image_tag "inserts/image-logo-madek.png", :alt => "Madek - Medienarchiv der Künste", :class => "ui-footer-logo"
       Z&uuml;rcher Hochschule der K&uuml;nste
 
-= render "application/clipboard" unless current_user.is_guest?
+- if clipboard
+  = render "application/clipboard" unless current_user.is_guest?

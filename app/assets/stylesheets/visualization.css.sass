@@ -4,8 +4,26 @@
 @import "visualization/controls"
 @import "visualization/notifications"
 @import "visualization/popup_menu"
-@import "visualization/title"
+@import "visualization/subtitle"
 
+
+.view-visualization
+
+  .app-body-ui-container
+    display: inline-block
+    overflow: hidden
+    width: 100%
+ 
+  .ui-container
+    position: relative
+
+  .bordered-bottom
+    margin-bottom: 0
+
+  .ui-preloader
+    display: inline-block
+    width: 50px
+    height: 8px
 
 html#visualization
   background: $grey-lighter
@@ -19,7 +37,6 @@ html#visualization
     background: $grey-lighter
     height: 100%
     margin: 0
-    overflow: hidden
     padding: 0
     width: 100%  
 
@@ -38,3 +55,6 @@ html#visualization
     left: 0
     top: 5px
     width: 100%
+
+  .ui-tooltip-tip
+    display: none !important
