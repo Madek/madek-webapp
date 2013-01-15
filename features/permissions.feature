@@ -223,7 +223,7 @@ Feature: Permissions
     And I logout.
 
     Given I am signed-in as "Beat"
-    And visit the permissions dialog of the resource
+    And I visit the permissions dialog of the resource
     Then I see the following permissions:
       | user   | permission |
       | Normin | view       |
@@ -232,7 +232,7 @@ Feature: Permissions
     And I logout.
 
     Given I am signed-in as "Liselotte"
-    And visit the permissions dialog of the resource
+    And I visit the permissions dialog of the resource
     Then I see the following permissions:
       | user      | permission |
       | Normin    | edit       |
@@ -242,11 +242,22 @@ Feature: Permissions
     And I logout.
 
     Given I am signed-in as "Petra"
-    And visit the permissions dialog of the resource
+    And I visit the permissions dialog of the resource
     Then I see the following permissions:
       | user   | permission |
       | Normin | view       |
       | Petra  | view       |
     And I close the modal dialog.
     And I logout.
+
+  @chrome @dirty
+  Scenario: Display the complete LDAP name on the selection dropdown
+    Given I am signed-in as "Normin"
+    And I have set up some departments with ldap references
+    And A resource owned by me with no other permissions
+    When I visit the permissions dialog of the resource
+    Then I can select "Vertiefung Industrial Design (DDE_FDE_VID.dozierende)" to grant group permissions
+    When I click on the submit button
+    Then I am on the page of the resource
+    And I see a confirmation alert
 

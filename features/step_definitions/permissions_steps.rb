@@ -75,13 +75,6 @@ Then /^I can choose from a set of labeled permissions presets instead of grant p
   expect(all("tr[data-name='#{@user_with_userpermissions.name}'] select.ui-rights-role-select option").size).to be > 0
 end
 
-Then /^I can not edit the permissions/ do
-  permissions = @resource.userpermissions.where(user_id: @me).first
-  orig_download_permissions = permissions.download
-  find("tr[data-name='#{@me.name}']").find("input[name=download]").click
-  expect{find("button.primary-button[type=submit]")}.to raise_error
-end
-
 Then /^I can edit the permissions/ do
   permissions = @resource.userpermissions.where(user_id: @me).first
   orig_download_permissions = permissions.download
@@ -90,6 +83,27 @@ Then /^I can edit the permissions/ do
   wait_until{all(".modal-backdrop").size == 0}
   expect(permissions.reload.download).not_to eq orig_download_permissions
 end
+
+Then /^I can not edit the permissions/ do
+  permissions = @resource.userpermissions.where(user_id: @me).first
+  orig_download_permissions = permissions.download
+  find("tr[data-name='#{@me.name}']").find("input[name=download]").click
+  expect{find("button.primary-button[type=submit]")}.to raise_error
+end
+
+Then /^I can select "(.*?)" to grant group permissions$/ do |group|
+  find("#addGroup a",text: "Gruppe hinz").click
+  find("#addGroup input[type='text']").set group[0..10]
+  find("ul.ui-autocomplete li a").click
+end
+
+Given /^I have set up some departments with ldap references$/ do
+  MetaDepartment.create([
+   {:ldap_id => "4396.studierende", :ldap_name => "DKV_FAE_BAE.studierende", :name => "Bachelor Vermittlung von Kunst und Design"},
+   {:ldap_id => "56663.dozierende", :ldap_name => "DDE_FDE_VID.dozierende", :name => "Vertiefung Industrial Design"} 
+  ]) 
+end
+
 
 Then /^I see page for the resource$/ do
   expect(find(".app-body-title h1").text).to eq @resource.title
@@ -112,11 +126,12 @@ When /^I visit the path of the resource$/ do
   visit media_resource_path @resource
 end
 
-Given /^visit the permissions dialog of the resource$/ do
+Given /^I visit the permissions dialog of the resource$/ do
   visit media_resource_path @resource
   find("a",text: "Weitere Aktionen").click
   find("a",text: "Zugriffsberechtigungen").click
 end
+
 
 When /^There are "(.*?)" user-permissions added for me to the resource$/ do |permission|
   permissions = \
@@ -158,7 +173,6 @@ Given /^The resource has the following user-permissions:$/ do |table|
     permissions.update_attributes row[1] => row[2]
   end
 end
-
 
 
 
