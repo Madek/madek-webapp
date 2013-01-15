@@ -50,7 +50,7 @@ end
 
 Given /^I close the modal dialog\.$/ do
   find(".modal a[data-dismiss='modal']").click
-  wait_until{all(".modal-backdrop").size == 0}
+  wait_until(2){all(".modal-backdrop").size == 0}
 end
 
 When /^(?:|I )fill in the following:$/ do |fields|
