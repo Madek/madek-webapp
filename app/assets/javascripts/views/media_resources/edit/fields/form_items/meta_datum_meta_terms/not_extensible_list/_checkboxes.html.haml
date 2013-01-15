@@ -1,0 +1,4 @@
+- definition.meta_key.meta_terms.each do |term|
+  .col2of6
+    %input{:type => "checkbox", :checked => meta_datum.value.include?(term), :name => "resource[meta_data_attributes][#{@i}][value][]", :value => term.id}
+    = term

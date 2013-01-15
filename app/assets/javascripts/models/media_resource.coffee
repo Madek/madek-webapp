@@ -38,6 +38,9 @@ class MediaResource
         @parentIds = _.map response.media_resource_arcs, (arc)-> arc.parent_id
         callback(response) if callback?
 
+  getMetaDatumByMetaKeyName: (metaKeyName)-> 
+    metaDatum = new App.MetaDatum _.find @meta_data.raw(), (metaDatum)-> metaDatum.name is metaKeyName 
+
   @fetch: (data, callback)=>
     $.ajax
       url: "/media_resources.json"
@@ -46,6 +49,5 @@ class MediaResource
         if response.media_resources?
           media_resources = _.map response.media_resources, (mr)-> new MediaResource mr
         callback(media_resources, response) if callback?
-
 
 window.App.MediaResource = MediaResource

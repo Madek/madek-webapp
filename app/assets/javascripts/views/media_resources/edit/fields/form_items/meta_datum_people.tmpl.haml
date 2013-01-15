@@ -1,0 +1,52 @@
+.multi-select
+  
+  %ul.multi-select-holder
+
+    {{each(i, value) meta_datum.raw_value}}
+    %li.multi-select-tag.meta-term
+      %input{:name => "resource[meta_data_attributes][${i}][value][]", :type => "hidden", :value => "${value.id}"}
+      ${value.lastname}
+      %a.multi-select-tag-remove
+        .icon-remove
+    {{/each}}
+
+    %li.multi-select-input-holder.mbs
+      %input.multi-select-input.form-autocomplete-person{:type => "text"}
+        %a.multi-select-input-toggle
+
+    %a.button.small.form-widget-toggle
+      %i.icon-privacy-private
+
+    .form-person-widget.form-widget.hidden
+
+      %ul.ui-tabs
+        %li.ui-tabs-item.active.mll.pls
+          %a{"data-toggle" => "tab", :href => "#person${i}"} Person
+        %li.ui-tabs-item
+          %a{"data-toggle" => "tab", :href => "#group${i}"} Gruppe
+      .tab-content.mbs
+
+        .tab-pane.active.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "person${i}"}
+          .ui-form-group.rowed.pbx.ptx
+            %label.form-label Nachname
+            .form-item
+              %input.block{:type => "text", :name => "lastname"}
+          .ui-form-group.rowed.pbx.ptx
+            %label.form-label Vorname
+            .form-item
+              %input.block{:type => "text", :name => "firstname"}
+          .ui-form-group.rowed.pbx.ptx
+            %label.form-label Pseudonym
+            .form-item
+              %input.block{:type => "text", :name => "pseudonym"}
+          .ui-form-group.rowed.ptm.limited-width-s
+            %button.add-person.button.block Person einfügen
+
+        .tab-pane.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "group${i}"}
+          .ui-form-group.rowed.pbx.ptx
+            %label.form-label Name
+            .form-item
+              %input.block{:type => "hidden", :name => "is_group", :value => 1}
+              %input.block{:type => "text", :name => "firstname"}
+          .ui-form-group.rowed.ptm.limited-width-s
+            %button.add-group.button.block Gruppe einfügen
