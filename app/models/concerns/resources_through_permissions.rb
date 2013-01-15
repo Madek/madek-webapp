@@ -26,7 +26,7 @@ module Concerns
 
         if user.nil? or user.is_guest?
           if action == :manage
-            where("0=1") # TODO why not where(false) ?
+            where('false') 
           else
             where("media_resources.#{action.to_s} = true")
           end

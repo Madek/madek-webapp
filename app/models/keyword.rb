@@ -19,7 +19,7 @@ class Keyword < ActiveRecord::Base
     select("meta_term_id, COUNT(meta_term_id) AS count").group("keywords.meta_term_id").order("count DESC")
   end
 
-  def self.with_count_for_user user = nil
+  def self.with_count_for_accessible_media_resources user = nil
     with_count.joins(:meta_datum => :media_resource).accessible_by_user user
   end
 
