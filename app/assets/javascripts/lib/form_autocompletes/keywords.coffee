@@ -41,6 +41,7 @@ class FormAutocompletes.Keywords
       multiselect = holder.find(".multi-select-input-holder")
       multiselect.before App.render "media_resources/edit/multi-select/keyword", {keyword: {label: term}, index: index}
     input.val ""
+    input.trigger "change"
     return false
 
   addExistingKeyword: (keyword, input)->
@@ -49,6 +50,7 @@ class FormAutocompletes.Keywords
     index = holder.closest(".ui-form-group").data "index"
     multiselect = holder.find(".multi-select-input-holder")
     multiselect.before App.render "media_resources/edit/multi-select/keyword", {keyword: keyword, index: index}
+    input.trigger "change"
       
 window.App.FormAutocompletes = {} unless window.App.FormAutocompletes
 window.App.FormAutocompletes.Keywords = FormAutocompletes.Keywords

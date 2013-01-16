@@ -39,6 +39,7 @@ class FormAutocompletes.Person
     multiselect = holder.find(".multi-select-input-holder")
     person.index = index
     multiselect.before App.render "media_resources/edit/multi-select/person", person
+    input.trigger "change"
       
 window.App.FormAutocompletes = {} unless window.App.FormAutocompletes
 window.App.FormAutocompletes.Person = FormAutocompletes.Person

@@ -29,6 +29,7 @@ class ImportController.MetaData
       @mediaResources = _.sortBy resources, (resource) -> resource.id
       @setupResourceForEdit @mediaResources[0]
       do @showForm
+    do @el.delayedChange
 
   extendForm: ->
     new App.FormWidgets.Defaults {el: @el}
@@ -46,6 +47,14 @@ class ImportController.MetaData
     $(document).on "click", ".ui-next-entry:not(.disabled)", @nextResource
     $(document).on "click", ".ui-prev-entry:not(.disabled)", @prevResource
     @mediaResourcePreviews.on "click", ".ui-resource", (e)=> @setupResourceForEdit _.find(@mediaResources,(resource)-> resource.id == $(e.currentTarget).data("id"))
+    $(@).on "form-ready", => @el.on "change delayedChange", @persistField
+    $(@).on "form-unload", => @el.off "change delayedChange", @persistField
+
+  persistField: (e)=>
+    field = $(e.target).closest(".ui-form-group")
+    metaKeyName = field.data "data-meta-key"
+    console.log field.serializeArray()
+    #@currentResource.updateMetaDatum 
 
   showForm: ->
     @preload.hide()
@@ -88,20 +97,20 @@ class ImportController.MetaData
       @title.html ""
 
   setupFormFor: (resource)->
-    for field, i in @el.find(".form-body .ui-form-group[data-type]")
+    $(@).trigger "form-unload"
+    for field in @el.find(".form-body .ui-form-group[data-type]")
       field = $(field)
+      index = field.data "index"
       metaKeyName = field.data "meta-key"
       metaDatumType = field.data "type"
       metaKey = @metaKeyDefinition.getKeyByName metaKeyName
       metaDatum = resource.getMetaDatumByMetaKeyName metaKeyName
       switch metaDatumType
         when "meta_datum_copyright"
-          do (field, metaDatum)=>
-            $(@).one "form-setted-up", =>
-              @switchCopyright field, metaDatum
+          @switchCopyright field, metaDatum
         else
           template = App.render "media_resources/edit/fields/#{metaDatumType}",
-            i: i
+            index: index
             definition: metaKey.settings
             meta_datum: metaDatum
           formItemExtension = field.find(".form-item-extension").detach()
@@ -109,7 +118,7 @@ class ImportController.MetaData
           field.find(".form-item").html template
           field.find(".form-item").append formItemExtensionToggle
           field.find(".form-item").append formItemExtension
-    $(@).trigger "form-setted-up"
+    $(@).trigger "form-ready"
 
   switchCopyright: (field, metaDatum)->
     if metaDatum.raw_value.parent_id?

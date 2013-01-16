@@ -52,6 +52,7 @@ class FormAutocompletes.ExtensibleList
     index = holder.closest(".ui-form-group").data "index"
     multiselect = holder.find(".multi-select-input-holder")
     multiselect.before App.render "media_resources/edit/multi-select/term", {term: term, index: index}
+    input.trigger "change"
 
 window.App.FormAutocompletes = {} unless window.App.FormAutocompletes
 window.App.FormAutocompletes.ExtensibleList = FormAutocompletes.ExtensibleList

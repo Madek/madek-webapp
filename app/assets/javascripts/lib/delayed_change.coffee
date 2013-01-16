@@ -28,8 +28,9 @@ class DelayedChange
     @target.on "keydown mousedown change", => @last_value = @target.val()
     
   validate: (e)=>
+    target = $(e.target)
     clearTimeout @timeout if @timeout?
     @timeout = setTimeout =>
-      @target.trigger("delayedChange") if @target.val() != @last_value
-      @last_value = @target.val()  
+      target.trigger("delayedChange") if target.val() != @last_value
+      @last_value = target.val()  
     , @delay

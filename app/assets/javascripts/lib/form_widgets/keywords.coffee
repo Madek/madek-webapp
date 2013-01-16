@@ -38,6 +38,7 @@ class FormWidgets.Keywords
     holder.find(".multi-select-input-holder").before App.render "media_resources/edit/multi-select/keyword",
       index: index
       keyword: keyword.data()
+    holder.find(".multi-select-input").trigger "change"
 
 window.App.FormWidgets = {} unless window.App.FormWidgets
 window.App.FormWidgets.Keywords = FormWidgets.Keywords

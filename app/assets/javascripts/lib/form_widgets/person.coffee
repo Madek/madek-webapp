@@ -26,6 +26,7 @@ class FormWidgets.Person
           index: index
           label: data.label
           id: data.id
+      inputs.trigger "change"
       inputs.val ""
     else
       # error

@@ -292,6 +292,7 @@ class FormAutocompletes.Departments
     multiselect = holder.find(".multi-select-input-holder")
     multiselect.before App.render "media_resources/edit/multi-select/department", {department: department, index: index}
     input.val ""
+    input.trigger "change"
     return false
 
   searchDepartment: (event, ui) =>

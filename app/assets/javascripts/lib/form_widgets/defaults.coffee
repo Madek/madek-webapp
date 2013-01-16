@@ -14,7 +14,13 @@ class FormWidgets.Defaults
   delegateEvents: ->
     @el.on "click", ".form-widget-toggle", (e)=> @openFormWidget $(e.currentTarget)
     @el.on "click", ".form-widget .button", (e) => e.preventDefault(); return false
-    @el.on "click", ".multi-select-tag-remove", (e) => $(e.currentTarget).closest(".multi-select-tag").remove()
+    @el.on "click", ".multi-select-tag-remove", @removeTag
+
+  removeTag: (e) => 
+    tag = $(e.currentTarget).closest(".multi-select-tag")
+    input = tag.closest(".multi-select-holder").find ".multi-select-input"
+    input.trigger "change"
+    do tag.remove
 
   openFormWidget: (toggle)->
     widget = toggle.next ".form-widget"

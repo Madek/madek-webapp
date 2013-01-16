@@ -4,7 +4,7 @@
 
     {{each(i, value) meta_datum.raw_value}}
     %li.multi-select-tag
-      %input{:name => "resource[meta_data_attributes][${i}][value][]", :type => "hidden", :value => "${value.id}"}
+      %input{:name => "resource[meta_data_attributes][${index}][value][]", :type => "hidden", :value => "${value.id}"}
       ${value.label}
       %a.multi-select-tag-remove
         .icon-remove
@@ -21,24 +21,24 @@
 
       %ul.ui-tabs
         %li.ui-tabs-item.active.mll.pls
-          %a{"data-toggle" => "tab", :href => "#tags_mine_${i}"} Meine Schlagworte
+          %a{"data-toggle" => "tab", :href => "#tags_mine_${index}"} Meine Schlagworte
         %li.ui-tabs-item
-          %a{"data-toggle" => "tab", :href => "#tags_top_${i}"} Beliebtesten
+          %a{"data-toggle" => "tab", :href => "#tags_top_${index}"} Beliebtesten
         %li.ui-tabs-item
-          %a{"data-toggle" => "tab", :href => "#tags_latest_${i}"} Neusten
+          %a{"data-toggle" => "tab", :href => "#tags_latest_${index}"} Neusten
       .tab-content.mbs
 
-        .tags-mine.tab-pane.active.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_mine_${i}"}
+        .tags-mine.tab-pane.active.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_mine_${index}"}
           %ul.ui-tag-cloud.small
             .title-xs.by-center Lade Schlagworte
             .ui-preloader.small
            
-        .tags-top.tab-pane.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_top_${i}"}
+        .tags-top.tab-pane.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_top_${index}"}
           %ul.ui-tag-cloud.small
             .title-xs.by-center Lade Schlagworte
             .ui-preloader.small
 
-        .tags-latest.tab-pane.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_latest_${i}"}
+        .tags-latest.tab-pane.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_latest_${index}"}
           %ul.ui-tag-cloud.small
             .title-xs.by-center Lade Schlagworte
             .ui-preloader.small
