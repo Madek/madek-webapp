@@ -16,6 +16,11 @@ class MediaResourceArcsController.OutArcs
     if el.data("collection")?
       @collection = el.data "collection"
       do @fetchOutArcsThroughCollection
+    else if el.data("collection-id")?
+       @collection = new App.Collection
+          id: el.data("collection-id")
+        @collection.get =>
+          do @fetchOutArcsThroughCollection
     else
       @mediaResource = new App.MediaResource el.closest("[data-id]").data()
       @mediaResource.fetchOutArcs => @loadOutArcResources @mediaResource.parentIds

@@ -21,6 +21,8 @@ class ImportController.MetaData
     @mediaResourcePreviews = $("#ui-resources-preview")
     @onlyInvalidResourcesToggle = $("#display-only-invalid-resources")
     @invalidResourcesOnly = @onlyInvalidResourcesToggle.is ":checked"
+    @continueButton = $("#continue-import")
+    @checkInvalidToggle = false
     do @delegateEvents
     do @extendForm
     @paginator.start {collection_id: @collectionId},
@@ -29,9 +31,13 @@ class ImportController.MetaData
       filename: true
     $(@paginator).on "completlyLoaded", (e, resources...)=> 
       @mediaResources = _.sortBy resources, (resource) -> resource.id
-      @setupResourceForEdit @mediaResources[0]
-      do @showForm
       @validateAllResources true
+      if @invalidResourcesOnly and @mediaResources[0].valid
+        @setupResourceForEdit @getNextResource @mediaResources[0]
+      else
+        @setupResourceForEdit @mediaResources[0]
+      do @showForm
+      @checkInvalidToggle = true
     do @el.delayedChange
 
   extendForm: ->
@@ -53,6 +59,7 @@ class ImportController.MetaData
     $(@).on "form-ready", => @el.on "change delayedChange", @persistField
     $(@).on "form-unload", => @el.off "change delayedChange", @persistField
     @onlyInvalidResourcesToggle.on "change", @switchPreviewDisplay
+    @continueButton.on "click", @validateContinue
 
   switchPreviewDisplay: (e)=>
     input = $(e.currentTarget)
@@ -186,6 +193,7 @@ class ImportController.MetaData
     valid
 
   checkInvalidToggleDisplay: ->
+    return true unless @checkInvalidToggle
     if @mediaResourcePreviews.find(".ui-invalid").length == 0
       @onlyInvalidResourcesToggle.attr("checked", false)
       @onlyInvalidResourcesToggle.attr("disabled", true)
@@ -195,6 +203,7 @@ class ImportController.MetaData
         @setupResourceForEdit @currentResource
     else
       @onlyInvalidResourcesToggle.attr("disabled", false)
+
 
 window.App.ImportController = {} unless window.App.ImportController
 window.App.ImportController.MetaData = ImportController.MetaData

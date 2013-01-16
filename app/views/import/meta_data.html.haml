@@ -20,10 +20,10 @@
             Metadaten hinzufügen:
             %span.right
               %label
-                %input#display-only-invalid-resources{:type => "checkbox", :autocomplete => :off}
+                %input#display-only-invalid-resources{:type => "checkbox", :checked => params[:show_invalid_resources], :autocomplete => :off}
                   Nur Inhalte mit unvollständigen Pflichtfeldern anzeigen
 
-          #ui-resources-preview.ui-container.clearfix.mvl.bordered.midtone.rounded.upload-preview
+          #ui-resources-preview.ui-container.clearfix.mvl.bordered.midtone.rounded.upload-preview{:class => params[:show_invalid_resources] ? "ui-invalid-resources-only" : ""}
             = @media_entry_incompletes_partial.html_safe
           
           #ui-edit-meta-data-preload
@@ -62,7 +62,7 @@
                 .form-footer
                   .ui-actions
                     = render :partial => "import/cancel"
-                    %a.primary-button.large.disabled
+                    %a#continue-import.primary-button.large{:href => organize_import_path}
                       Weiter&hellip;
 
   .app-footer-push

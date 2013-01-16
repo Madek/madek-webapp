@@ -119,6 +119,7 @@ class ImportController < ApplicationController
 # step 3
 
   def meta_data
+    flash[:notice] = nil # hide permission changed flash
     @context = MetaContext.upload
   end
 
@@ -126,6 +127,10 @@ class ImportController < ApplicationController
 # step 4
 
   def organize
+    unless @media_entries.all? {|me| me.context_valid?(MetaContext.upload) }
+      flash[:error] = "Bitte geben Sie für alle Medieneinträge zumindestens die Pflichtfelder an"
+      redirect_to meta_data_import_path(:show_invalid_resources => true)
+    end
   end
 
 ##################################################
@@ -135,9 +140,8 @@ class ImportController < ApplicationController
       @media_entries.each {|me| me.set_as_complete }
       redirect_to root_path
     else
-      # OPTIMIZE
-      flash[:error] = "Einige Medieneinträge sind ungültig"
-      redirect_to "import/meta_data"
+      flash[:error] = "Bitte geben Sie für alle Medieneinträge zumindestens die Pflichtfelder an"
+      redirect_to meta_data_import_path(:show_invalid_resources => true)
     end
   end
 

@@ -28,6 +28,8 @@ module MediaResourceModules
           parent_sets
         when "MediaEntry"
           media_sets
+        when "MediaEntryIncomplete"
+          media_sets
         else
           raise "parents is not supported (yet) for your type"
       end

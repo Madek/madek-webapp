@@ -57,8 +57,8 @@ MAdeK::Application.routes.draw do
   put 'import/dropbox' => 'import#dropbox_import'
   get  'import/permissions' => 'import#permissions', :as => "permissions_import"
   get  'import/meta_data' => 'import#meta_data', :as => "meta_data_import"
-  get  'import/organize' => 'import#organize'
-  put  'import/complete' => 'import#complete'
+  get  'import/organize' => 'import#organize', :as => "organize_import"
+  post  'import/complete' => 'import#complete', :as => "complete_import"
 
 ##### STYLEGUIDE
 
