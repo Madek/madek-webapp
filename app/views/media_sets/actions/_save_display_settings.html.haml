@@ -1,4 +1,4 @@
--if current_user.authorized?(:edit, @media_set)
+-if @can_edit
   #ui-save-display-settings.hidden{:"data-text-saved" => "Darstellung gespeichert", :"data-text-unsaved" => "Darstellung festlegen"}
     %a.tertiary-button.small{:title => "Sortierung und Darstellung der Inhalte dieses Sets festlegen"}
       %i.icon-eye.mid

@@ -75,6 +75,7 @@ class MediaEntriesController < ApplicationController
       }.any? or (meta_context_group.meta_contexts & @media_entry.individual_contexts).any?
     end
     @can_download = current_user.authorized?(:download, @media_entry)
+    @can_edit = current_user.authorized?(:edit, @media_entry)
     @original_file = @media_entry.media_file
     @original_file_available = (@original_file and File.exist?(@original_file.file_storage_location)) # NOTE it could be a zip file
     @format_original_file = view_context.file_format_for(@original_file)

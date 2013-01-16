@@ -25,6 +25,7 @@ class MediaSetsController < ApplicationController
   
   before_filter lambda{
     @parents_count = @media_set.parent_sets.accessible_by_user(current_user).count
+    @can_edit = current_user.authorized?(:edit, @media_set)
   }, :only => [:show, :parents, :inheritable_contexts, :abstract, :vocabulary]
 
 #####################################################

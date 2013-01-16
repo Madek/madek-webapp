@@ -9,20 +9,24 @@
         %i.icon-arrow-down.bright.stand-alone
       %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
 
-        = render :partial => "media_resources/actions/edit", :locals => {mr: @media_set}
+        -if @can_edit
+          = render :partial => "media_resources/actions/edit", :locals => {mr: @media_set}
        
         = render :partial => "media_resources/actions/permissions"
 
         = render :partial => "media_resources/actions/organize"
 
-        = render :partial => "media_sets/actions/highlight"
+        - if @can_edit
+          = render :partial => "media_sets/actions/highlight"
 
-        = render :partial => "media_sets/actions/cover"
+        - if @can_edit
+          = render :partial => "media_sets/actions/cover"
 
         -if @media_set.user == current_user
           = render :partial => "media_resources/actions/visualize_my_component_with", :locals => {mr: @media_set}
 
-        = render :partial => "media_resources/actions/delete"
+        - if @can_edit
+          = render :partial => "media_resources/actions/delete"
 
   - else
 

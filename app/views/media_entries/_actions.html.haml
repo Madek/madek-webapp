@@ -14,7 +14,8 @@
 
       %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
 
-        = render :partial => "media_resources/actions/edit", :locals => {mr: @media_entry}
+        - if @can_edit
+          = render :partial => "media_resources/actions/edit", :locals => {mr: @media_entry}
 
         = render :partial => "media_resources/actions/permissions"
 
@@ -25,7 +26,8 @@
         -if @media_entry.user == current_user
           = render :partial => "media_resources/actions/visualize_my_component_with", :locals => {mr: @media_entry}
 
-        = render :partial => "media_resources/actions/delete"
+        - if @can_edit
+          = render :partial => "media_resources/actions/delete"
         
   - else
   
