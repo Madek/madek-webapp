@@ -31,5 +31,4 @@ class MetaDatum
       else
         field.find("input:visible").val()
 
-
 window.App.MetaDatum = MetaDatum

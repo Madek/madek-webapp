@@ -53,9 +53,9 @@ class ImportController.MetaData
   persistField: (e)=>
     return false if $(e.target).closest(".ui-form-group")[0] != $(e.target).closest(".ui-form-group[data-type]")[0]
     field = $(e.target).closest(".ui-form-group[data-type]")
-    metaKeyName = field.data "data-meta-key"
-    console.log App.MetaDatum.getValueFromField field
-    #@currentResource.updateMetaDatum 
+    metaKeyName = field.data "meta-key"
+    value = App.MetaDatum.getValueFromField field
+    @currentResource.updateMetaDatum metaKeyName, value
 
   showForm: ->
     @preload.hide()

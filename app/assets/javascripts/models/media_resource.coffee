@@ -40,11 +40,14 @@ class MediaResource
 
   getMetaDatumByMetaKeyName: (metaKeyName)-> new App.MetaDatum _.find @meta_data, (metaDatum)-> metaDatum.name is metaKeyName
 
-  updateMetaDatum: (metaKeyName, value)->
-    console.log "----------"
-    console.log name
-    console.log value
-    console.log "=========="
+  updateMetaDatum: (metaKeyName, value, callback)->
+    $.ajax
+      url: "/media_resources/#{@id}/meta_data/#{metaKeyName}.json"
+      type: "PUT"
+      data:
+        value: value
+      success: (response)->
+        callback(response) if callback?
 
   @fetch: (data, callback)=>
     $.ajax
