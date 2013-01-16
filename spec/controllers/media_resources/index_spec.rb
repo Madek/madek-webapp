@@ -13,7 +13,6 @@ describe MediaResourcesController do
     {:user_id => @user.id}
   end
 
-
   describe "sorting resources" do
 
     before :each do
@@ -291,10 +290,11 @@ describe MediaResourcesController do
       end
       
       it "has paginatable childrens" do
-        get :index, {format: 'json', ids: ids, with: {children: true}}, session
+        get :index, {format: 'json', with: {children: true}}, session
         response.should be_success
         json = JSON.parse(response.body)
-        mr = json["media_resources"].detect {|mr| mr["type"] == "media_set" }
+        mr = json["media_resources"].detect {|mr| mr["type"] == "media_set" and mr["children"]["pagination"]["total"] > 0 }
+        raise "no set with children found" if mr.blank?
         media_resource = MediaResource.find mr["id"]
         40.times {
           type = rand > 0.5 ? :media_entry : :media_set
