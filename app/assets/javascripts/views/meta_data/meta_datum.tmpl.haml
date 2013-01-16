@@ -7,7 +7,7 @@
 {{if $.template[App.renderPath("meta_data/by_type/"+$item.data.type)] != undefined}}
 {{tmpl($item.data) App.renderPath("meta_data/by_type/"+$item.data.type)}}
 {{else}}
-${App.MetaData.formattedValue($item.data)}
+${App.MetaDatum.formattedValue($item.data)}
 {{/if}}
 
 {{/if}}

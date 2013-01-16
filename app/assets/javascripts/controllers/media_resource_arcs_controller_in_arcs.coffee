@@ -33,7 +33,7 @@ class MediaResourceArcsController.InArcs
 
   render: ->
     template = App.render "media_resource_arcs/selection", 
-      metaData: @mediaSet.children[0].meta_data.raw()
+      metaData: @mediaSet.children[0].meta_data
       mediaResources: if @changeTarget == "cover" then @mediaSet.mediaEntries() else if @changeTarget == "highlight" then @mediaSet.children
       mediaSet: @mediaSet
       changeTarget: @changeTarget

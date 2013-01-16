@@ -34,7 +34,7 @@ class FormBehaviours.Collapse
           parent = formGroup
         else if parent? and i!=(amountOfFileds-1) and @isSimilar parent, formGroup
           children.push formGroup
-        else if parent? and ((children.length > 2) or i==(amountOfFileds-1))
+        else if parent? and (children.length > 2)
           children.push formGroup if i==(amountOfFileds-1) and @isSimilar parent, formGroup
           parent.find(".form-item").append App.render "media_resources/edit/collapsed_fields"
           for child in children

@@ -4,9 +4,9 @@ class MediaResource
     for k,v of data
       @[k] = v
     @type = _.str.dasherize(@type).replace(/^-/,"") if @type?
-    @meta_data = new App.MetaData @meta_data if @meta_data?
-    @title = @meta_data.title if @meta_data? and @meta_data.title?
-    @author = @meta_data.author if @meta_data? and @meta_data.author?
+    @meta_data = _.map(@meta_data, (md)->new App.MetaDatum md) if @meta_data?
+    @title = @getMetaDatumByMetaKeyName("title").value if @getMetaDatumByMetaKeyName("title")?
+    @author = @getMetaDatumByMetaKeyName("author").value if @getMetaDatumByMetaKeyName("author")?
     @is_shared = !@is_public and !@is_private if @is_private? and @is_public?
     @
 
@@ -38,7 +38,13 @@ class MediaResource
         @parentIds = _.map response.media_resource_arcs, (arc)-> arc.parent_id
         callback(response) if callback?
 
-  getMetaDatumByMetaKeyName: (metaKeyName)-> new App.MetaDatum _.find @meta_data.raw(), (metaDatum)-> metaDatum.name is metaKeyName 
+  getMetaDatumByMetaKeyName: (metaKeyName)-> new App.MetaDatum _.find @meta_data, (metaDatum)-> metaDatum.name is metaKeyName
+
+  updateMetaDatum: (metaKeyName, value)->
+    console.log "----------"
+    console.log name
+    console.log value
+    console.log "=========="
 
   @fetch: (data, callback)=>
     $.ajax

@@ -34,7 +34,7 @@
         {{tmpl App.renderPath("media_resources/dropdown")}}
     .ui-resource-meta
       {{if meta_data}}
-      {{tmpl(meta_data.rawWithNamespace()) App.renderPath("media_resources/meta_data_list_block")}}
+      {{tmpl({meta_data: meta_data}) App.renderPath("media_resources/meta_data_list_block")}}
       {{/if}}
     .ui-resource-description{:"data-context" => "institution"}
     .ui-resource-extension{:"data-context" => "nutzung"}

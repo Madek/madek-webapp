@@ -5,7 +5,7 @@
     {{each(i, value) meta_datum.raw_value}}
     %li.multi-select-tag.meta-term
       %input{:name => "resource[meta_data_attributes][${index}][value][]", :type => "hidden", :value => "${value.id}"}
-      ${App.MetaDatumPeople.formatedValue(value)}
+      ${App.MetaDatumPeople.formattedValue(value)}
       %a.multi-select-tag-remove
         .icon-remove
     {{/each}}

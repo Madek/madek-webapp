@@ -92,7 +92,7 @@ class MediaResourcesController.Index
               meta_context_names: [context]
         App.MediaResource.fetch data, (media_resources)=> 
           context_el.html App.render "media_resources/meta_data_list_block", 
-            media_resources[0].meta_data.rawWithNamespace(),
+            {meta_data: media_resources[0].meta_data},
             {context: context}
   
   changeSorting: (target_el)->

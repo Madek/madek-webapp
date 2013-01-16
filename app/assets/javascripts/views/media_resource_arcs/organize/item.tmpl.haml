@@ -11,6 +11,6 @@
     %input.ui-set-list-input{:id => "parent_resource_${id}", :type => "checkbox", :title => "Zu Set hinzufügen/entfernen"}
     {{/if}}
 
-    %span.title ${meta_data.title}
-    %span.owner ${meta_data.owner}
+    %span.title ${$item.data.getMetaDatumByMetaKeyName("title").formattedValue()}
+    %span.owner ${$item.data.getMetaDatumByMetaKeyName("owner").formattedValue()}
     %span.created-at ${moment(created_at).format("DD.MM.YYYY")}

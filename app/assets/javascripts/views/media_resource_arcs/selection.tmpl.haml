@@ -16,7 +16,9 @@
           %label
             {{tmpl({mediaSet: mediaSet, mr: mr}) App.renderPath("media_resource_arcs/selection/"+changeTarget)}}
         {{each(i, metaDatum) metaData}}
-        %td{:title => "${mr.meta_data[metaDatum.name]}", :"data-name" => "${metaDatum.name}"}
-          %span.ui-resources-table-cell-content ${mr.meta_data[metaDatum.name]}
+        %td{:title => "${mr.getMetaDatumByMetaKeyName(metaDatum.name).formattedValue()}", :"data-name" => "${metaDatum.name}"}
+          {{if mr.getMetaDatumByMetaKeyName(metaDatum.name).formattedValue()}}
+          %span.ui-resources-table-cell-content ${mr.getMetaDatumByMetaKeyName(metaDatum.name).formattedValue()}
+          {{/if}}
         {{/each}}
       {{/each}}

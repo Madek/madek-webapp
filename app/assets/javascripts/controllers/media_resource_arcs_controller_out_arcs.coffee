@@ -118,7 +118,7 @@ class MediaResourceArcsController.OutArcs
           else
             return not _.include @collection.ids, mr.id
         if mediaResources.length
-          mediaResources = (_.sortBy mediaResources, (mr)-> mr.meta_data.title).reverse()
+          mediaResources = (_.sortBy mediaResources, (mr)-> mr.getMetaDatumByMetaKeyName("title")).reverse()
           mediaResources = _.sortBy mediaResources, (mr)-> mr.is_parent
           @dialog.find(".refine-search-hint").show() if response.pagination.total_pages > 1
           @dialog.find(".ui-modal-body").html App.render("media_resource_arcs/organize/list" , {mediaResources: mediaResources})
@@ -133,9 +133,10 @@ class MediaResourceArcsController.OutArcs
       ms = new App.MediaSet
         is_parent: true
         created_at: moment().format()
-        meta_data:
-          title: @searchInput.val()
-          owner: currentUser.name
+        meta_data: [
+          {name: "title", value: @searchInput.val()},
+          {name: "owner", value: currentUser.name}
+        ]
       @outArcResources.unshift ms
       @createStack.push ms
       @searchInput.val ""
@@ -154,7 +155,7 @@ class MediaResourceArcsController.OutArcs
       @dialog.find(".ui-modal-body").html App.render "media_resource_arcs/organize/no_arcs_yet"
 
   renderOutArcResources: (e, mediaResources...)=>
-    @outArcResources = _.sortBy mediaResources, (mr) -> mr.meta_data.title
+    @outArcResources = _.sortBy mediaResources, (mr) -> mr.getMetaDatumByMetaKeyName("title")
     _.each @outArcResources, (mr)=>
       mr.is_incomplete_arc = _.include @incompleteArcParentIds, mr.id
       mr.is_parent = true

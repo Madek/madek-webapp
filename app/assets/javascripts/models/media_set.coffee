@@ -1,23 +1,24 @@
-class MediaSet
+class MediaSet extends App.MediaResource
 
   constructor: (data)->
+    super data
     for k,v of data
       @[k] = v
     @
 
   validate: ->
     @errors = []
+    debugger
     @errors.push {text: "Titel ist ein Pflichtfeld"} if not @title? or @title.length <= 0
     if @errors.length then false else true
 
   create: (callback)->
-    title = if @meta_data? and @meta_data.title? then @meta_data.title else @title
     $.ajax
       url: "/media_sets.json"
       type: "POST"
       data:
         media_set:
-          meta_data_attributes:[{meta_key_label: "title",value: title}]
+          meta_data_attributes:[{meta_key_label: "title",value: @getMetaDatumByMetaKeyName("title").value}]
       success: (data)=>
         for k,v of data
           @[k] = v
@@ -67,9 +68,9 @@ class MediaSet
       success: (data)=> callback(data) if callback?    
 
   @fromForm: (form)->
-    data = {}
-    for obj in form.serializeArray()
-      data[obj.name] = obj.value
-    new MediaSet data
+    metaData = _.map form.serializeArray(), (obj)=>
+      name: obj.name
+      value: obj.value
+    new MediaSet {meta_data: metaData}
 
 window.App.MediaSet = MediaSet
