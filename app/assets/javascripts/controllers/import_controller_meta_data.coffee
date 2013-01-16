@@ -19,6 +19,8 @@ class ImportController.MetaData
     @prevTitle = @prevButton.find ".ui-entry-control-title"
     @currentTitle = @el.find ".ui-current-entry .ui-entry-control-title"
     @mediaResourcePreviews = $("#ui-resources-preview")
+    @onlyInvalidResourcesToggle = $("#display-only-invalid-resources")
+    @invalidResourcesOnly = @onlyInvalidResourcesToggle.is ":checked"
     do @delegateEvents
     do @extendForm
     @paginator.start {collection_id: @collectionId},
@@ -29,6 +31,7 @@ class ImportController.MetaData
       @mediaResources = _.sortBy resources, (resource) -> resource.id
       @setupResourceForEdit @mediaResources[0]
       do @showForm
+      @validateAllResources true
     do @el.delayedChange
 
   extendForm: ->
@@ -44,26 +47,50 @@ class ImportController.MetaData
     new App.FormAutocompletes.Departments {el: @el}
 
   delegateEvents: ->
-    $(document).on "click", ".ui-next-entry:not(.disabled)", @nextResource
-    $(document).on "click", ".ui-prev-entry:not(.disabled)", @prevResource
+    $(document).on "click", ".ui-next-entry:not(.disabled)", @setupNextResource
+    $(document).on "click", ".ui-prev-entry:not(.disabled)", @setupPrevResource
     @mediaResourcePreviews.on "click", ".ui-resource", (e)=> @setupResourceForEdit _.find(@mediaResources,(resource)-> resource.id == $(e.currentTarget).data("id"))
     $(@).on "form-ready", => @el.on "change delayedChange", @persistField
     $(@).on "form-unload", => @el.off "change delayedChange", @persistField
+    @onlyInvalidResourcesToggle.on "change", @switchPreviewDisplay
+
+  switchPreviewDisplay: (e)=>
+    input = $(e.currentTarget)
+    if input.is ":checked"
+      @mediaResourcePreviews.addClass "ui-invalid-resources-only"
+      @invalidResourcesOnly = true
+    else
+      @mediaResourcePreviews.removeClass "ui-invalid-resources-only"
+      @invalidResourcesOnly = false
+    id = if @invalidResourcesOnly and not @mediaResourcePreviews.find(".ui-selected").hasClass "ui-invalid"
+      @mediaResourcePreviews.find(".ui-resource.ui-invalid").data "id"
+    else
+      @mediaResourcePreviews.find(".ui-resource.ui-selected").data "id"
+    @setupResourceForEdit _.find @mediaResources, (mr)-> mr.id is id
 
   persistField: (e)=>
     return false if $(e.target).closest(".ui-form-group")[0] != $(e.target).closest(".ui-form-group[data-type]")[0]
     field = $(e.target).closest(".ui-form-group[data-type]")
     metaKeyName = field.data "meta-key"
     value = App.MetaDatum.getValueFromField field
-    @currentResource.updateMetaDatum metaKeyName, value
+    additionalData = App.MetaDatum.getAdditionalDataFromField field
+    @currentResource.updateMetaDatum metaKeyName, value, additionalData
+    @validateField field, metaKeyName
+
+  validateField: (field, metaKeyName)->
+    if @currentResource.validateSingleKey @metaKeyDefinition, metaKeyName
+      field.removeClass "error"
+    else
+      field.addClass "error"
+    @validateSingleResource @currentResource, true
 
   showForm: ->
     @preload.hide()
     @el.removeClass "hidden"
 
-  nextResource: => @setupResourceForEdit @getNextResource @currentResource
+  setupNextResource: => @setupResourceForEdit @getNextResource @currentResource
 
-  prevResource: => @setupResourceForEdit @getPrevResource @currentResource
+  setupPrevResource: => @setupResourceForEdit @getPrevResource @currentResource
 
   setupResourceForEdit: (resource)->
     @currentResource = resource
@@ -79,11 +106,17 @@ class ImportController.MetaData
 
   getNextResource: (resource)->
     index = @mediaResources.indexOf(resource)+1
-    @mediaResources[index] if index < (@mediaResources.length)
+    if @invalidResourcesOnly
+      _.find @mediaResources.slice(index, @mediaResources.length), (mr)-> not mr.valid
+    else
+      @mediaResources[index] if index < (@mediaResources.length)
 
   getPrevResource: (resource)->
     index = @mediaResources.indexOf(resource)-1
-    @mediaResources[index] if index >= 0
+    if @invalidResourcesOnly
+      _.find @mediaResources.slice(0, index+1).reverse(), (mr)-> not mr.valid
+    else
+      @mediaResources[index] if index >= 0
 
   setButton: (resource, target)->
     @button = if target == "next" then @nextButton else if target == "prev" then @prevButton
@@ -119,6 +152,7 @@ class ImportController.MetaData
           field.find(".form-item").html template
           field.find(".form-item").append formItemExtensionToggle
           field.find(".form-item").append formItemExtension
+      @validateField field, metaKeyName
     $(@).trigger "form-ready"
 
   switchCopyright: (field, metaDatum)->
@@ -131,6 +165,36 @@ class ImportController.MetaData
     option.attr "selected", true
     option.trigger "change"
     option.trigger "select"
+
+  validateAllResources: (highlight)->
+    anyInvalid = false
+    for resource in @mediaResources
+      @validateSingleResource resource, highlight
+    anyInvalid
+
+  validateSingleResource: (resource, highlight)->
+    valid = false
+    unless resource.validateForDefinition @metaKeyDefinition
+      if highlight
+        @mediaResourcePreviews.find(".ui-resource[data-id='#{resource.id}']").addClass "ui-invalid"
+      valid = true
+    else
+      if highlight
+        @mediaResourcePreviews.find(".ui-resource[data-id='#{resource.id}']").removeClass "ui-invalid"
+      valid = false
+    do @checkInvalidToggleDisplay
+    valid
+
+  checkInvalidToggleDisplay: ->
+    if @mediaResourcePreviews.find(".ui-invalid").length == 0
+      @onlyInvalidResourcesToggle.attr("checked", false)
+      @onlyInvalidResourcesToggle.attr("disabled", true)
+      if @mediaResourcePreviews.hasClass "ui-invalid-resources-only"
+        @invalidResourcesOnly = false
+        @mediaResourcePreviews.removeClass "ui-invalid-resources-only"
+        @setupResourceForEdit @currentResource
+    else
+      @onlyInvalidResourcesToggle.attr("disabled", false)
 
 window.App.ImportController = {} unless window.App.ImportController
 window.App.ImportController.MetaData = ImportController.MetaData

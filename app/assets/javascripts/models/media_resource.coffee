@@ -40,7 +40,9 @@ class MediaResource
 
   getMetaDatumByMetaKeyName: (metaKeyName)-> new App.MetaDatum _.find @meta_data, (metaDatum)-> metaDatum.name is metaKeyName
 
-  updateMetaDatum: (metaKeyName, value, callback)->
+  updateMetaDatum: (metaKeyName, value, additionalData, callback)->
+    metaDatum = _.find @meta_data, (metaDatum)-> metaDatum.name is metaKeyName
+    metaDatum.setValue value, additionalData if metaDatum?
     $.ajax
       url: "/media_resources/#{@id}/meta_data/#{metaKeyName}.json"
       type: "PUT"
@@ -48,6 +50,26 @@ class MediaResource
         value: value
       success: (response)->
         callback(response) if callback?
+
+  validateForDefinition: (metaKeyDefinition)->
+    requiredKeys = _.filter metaKeyDefinition.meta_keys, (key)-> key.settings.is_required
+    @valid = not _.any requiredKeys, (key)=>
+      metaDatum = @getMetaDatumByMetaKeyName key.name
+      not (metaDatum.value? and metaDatum.value.length)
+    return @valid
+
+  validateSingleKey: (metaKeyDefinition, metaKeyName)->
+    requiredKeys = _.filter metaKeyDefinition.meta_keys, (key)-> key.settings.is_required
+    requiredKey = _.find requiredKeys, (requiredKey)-> requiredKey.name == metaKeyName
+    unless requiredKey?
+      @valid = true
+    else
+      metaDatum = @getMetaDatumByMetaKeyName metaKeyName
+      if (metaDatum.value? and metaDatum.value.length)
+        @valid = true
+      else
+        @valid = false
+    return @valid
 
   @fetch: (data, callback)=>
     $.ajax

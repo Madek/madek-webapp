@@ -1,5 +1,11 @@
 .view-import
 
+  .ui-resource .ui-thumbnail-image-wrapper
+    cursor: default
+
+  &.view-import-meta-data .ui-resource .ui-thumbnail-image-wrapper
+    cursor: pointer
+
   .ui-rights-management
 
     .ui-modal-body
@@ -22,3 +28,8 @@
 
     .ui-rights-user, .ui-rights-user-title
       width: 33%
+
+  .ui-invalid-resources-only
+
+    .ui-resource:not(.ui-invalid):not(.ui-selected)
+      display: none

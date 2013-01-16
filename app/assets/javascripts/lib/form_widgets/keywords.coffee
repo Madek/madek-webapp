@@ -35,9 +35,9 @@ class FormWidgets.Keywords
     holder = keyword.closest(".multi-select-holder")
     return true if holder.find(".multi-select-tag [value=#{keyword.data().id}]").length
     index = keyword.closest(".ui-form-group").data "index"
-    holder.find(".multi-select-input-holder").before App.render "media_resources/edit/multi-select/keyword",
-      index: index
-      keyword: keyword.data()
+    keyword = keyword.data()
+    keyword.index = index
+    holder.find(".multi-select-input-holder").before App.render "media_resources/edit/multi-select/keyword", keyword
     holder.find(".multi-select-input").trigger "change"
 
 window.App.FormWidgets = {} unless window.App.FormWidgets

@@ -7,6 +7,18 @@ class MetaDatum
 
   formattedValue: -> MetaDatum.formattedValue @
 
+  setValue: (value, additionalData)->
+    switch @type
+      when "people"
+        @value = _.map(additionalData, (person)->person.toString()).join("; ")
+        @raw_value = additionalData
+      when "keywords"
+        @value = _.map(additionalData, (keyword)->keyword.label).join("; ")
+        @raw_value = additionalData
+      else
+        @value = value
+        @raw_value = value
+
   @formattedValue: (metaDatum)->
     return metaDatum.value unless metaDatum.value?
     switch metaDatum.type
@@ -30,5 +42,13 @@ class MetaDatum
         field.find("input.value-target").val()
       else
         field.find("input:visible").val()
+
+  @getAdditionalDataFromField: (field)->
+    field = $(field)
+    switch field.data "type"
+      when "meta_datum_people"
+        _.map field.find(".multi-select-tag"), (entry)-> new App.Person $(entry).data()
+      when "meta_datum_keywords"
+        _.map field.find(".multi-select-tag"), (entry)-> $(entry).data()
 
 window.App.MetaDatum = MetaDatum

@@ -1,6 +1,11 @@
-${$item.value = keyword.id != undefined ? keyword.id : keyword.label, ""}
-%li.multi-select-tag
+{{if id}}
+${$item.value = id, ""}
+{{else label}}
+${$item.value = label, ""}
+{{/if}}
+
+%li.multi-select-tag{:"data-id" => "${id}", :"data-label" => "${label}"}
   %input{:name => "resource[meta_data_attributes][${index}][value][]", :type => "hidden", :value => "${$item.value}"}
-    ${keyword.label}
+    ${label}
     %a.multi-select-tag-remove
       .icon-remove

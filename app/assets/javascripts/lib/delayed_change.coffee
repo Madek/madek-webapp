@@ -12,20 +12,18 @@ $.extend $.fn, delayedChange: (options)-> @each -> $(this).data('_delayed_change
 
 class DelayedChange
   
-  @target
-  @timeout
-  @delay
-  @last_value
-  
   constructor:(element, options)->
     @delay = if options? and options.delay? then options.delay else 500 
     @target = $(element)
+    @last_value = @target.val()
     do @delegate_events 
     this
     
   delegate_events: ->
+    @target.on "keydown mousedown change", (e)=> 
+      target = $(e.target)
+      @last_value = target.val()
     @target.on "keyup", @validate
-    @target.on "keydown mousedown change", => @last_value = @target.val()
     
   validate: (e)=>
     target = $(e.target)

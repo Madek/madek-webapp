@@ -3,7 +3,7 @@
 class ImportController < ApplicationController
 
   before_filter :except => [:create, :dropbox_dir] do
-    @media_entry_incompletes =  @media_entries = current_user.incomplete_media_entries
+    @media_entry_incompletes = @media_entries = current_user.incomplete_media_entries.ordered_by(:id)
   end
 
 ##################################################

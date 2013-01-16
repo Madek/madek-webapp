@@ -39,7 +39,10 @@ class FormAutocompletes.Keywords
     unless holder.find(".multi-select-tag [value='#{term}']").length
       index = holder.closest(".ui-form-group").data "index"
       multiselect = holder.find(".multi-select-input-holder")
-      multiselect.before App.render "media_resources/edit/multi-select/keyword", {keyword: {label: term}, index: index}
+      keyword = 
+        label: term,
+        index: index
+      multiselect.before App.render "media_resources/edit/multi-select/keyword", keyword
     input.val ""
     input.trigger "change"
     return false
@@ -49,7 +52,8 @@ class FormAutocompletes.Keywords
     return true if holder.find(".multi-select-tag [value=#{keyword.id}]").length
     index = holder.closest(".ui-form-group").data "index"
     multiselect = holder.find(".multi-select-input-holder")
-    multiselect.before App.render "media_resources/edit/multi-select/keyword", {keyword: keyword, index: index}
+    keyword.index = index
+    multiselect.before App.render "media_resources/edit/multi-select/keyword", keyword
     input.trigger "change"
       
 window.App.FormAutocompletes = {} unless window.App.FormAutocompletes

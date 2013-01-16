@@ -19,8 +19,8 @@ class FormWidgets.Defaults
   removeTag: (e) => 
     tag = $(e.currentTarget).closest(".multi-select-tag")
     input = tag.closest(".multi-select-holder").find ".multi-select-input"
-    input.trigger "change"
     do tag.remove
+    input.trigger "change"
 
   openFormWidget: (toggle)->
     widget = toggle.next ".form-widget"

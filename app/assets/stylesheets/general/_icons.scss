@@ -537,6 +537,16 @@ $icons: sprite-map("icons/*.png");
   }
 }
 
+.icon-bang {
+  @include ixt-sprite($icons, icon-bang-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-bang-bright);
+  }
+  &.mid {
+    @include ixt-sprite($icons, icon-bang-mid);
+  }
+}
+
 /**
  * ## Special Icons `.icon-`
  *

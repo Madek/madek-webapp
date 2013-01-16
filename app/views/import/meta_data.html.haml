@@ -1,4 +1,4 @@
-.app.view-import
+.app.view-import.view-import-meta-data
 
   = render "application/header"
 
@@ -19,9 +19,9 @@
           %h3.title-l
             Metadaten hinzufügen:
             %span.right
-              %label.weak{:href => "#"}
-                %input{:disabled => "disabled", :type => "checkbox"}
-                  Nur Inhalte mit unvollständigen Pflichtfeldern anzeigen 
+              %label
+                %input#display-only-invalid-resources{:type => "checkbox", :autocomplete => :off}
+                  Nur Inhalte mit unvollständigen Pflichtfeldern anzeigen
 
           #ui-resources-preview.ui-container.clearfix.mvl.bordered.midtone.rounded.upload-preview
             = @media_entry_incompletes_partial.html_safe

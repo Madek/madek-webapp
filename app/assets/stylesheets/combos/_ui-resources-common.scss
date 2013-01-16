@@ -67,3 +67,17 @@
     @include float-left;
   }
 }
+
+// Invalid state
+.ui-resource.ui-invalid {
+  .ui-thumbnail-privacy {
+    background: $red;
+    display: block !important;
+    left: 15px;
+    top: 15px;
+
+    i {
+      @extend .icon-bang.bright;
+    }
+  }
+}

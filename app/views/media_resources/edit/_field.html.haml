@@ -14,6 +14,8 @@
 
   %label.form-label
     = definition.label
+    - if definition.is_required
+      %span{:title => "Pflichtfeld - Bitte angeben"} *
     %small= definition.hint
     - unless definition.description.to_s.blank?
       %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => definition.description, "data-placement" => "left", :rel => "tooltip"}
