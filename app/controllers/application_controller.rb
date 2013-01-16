@@ -80,7 +80,7 @@ end
     msg = "Sie haben nicht die notwendige Zugriffsberechtigung." #"You don't have appropriate permission to perform this operation."
     respond_to do |format|
       format.html { flash[:error] = msg
-                    redirect_to (request.env["HTTP_REFERER"] ? :back : root_path)
+                    redirect_to (request.env["HTTP_REFERER"] ? :back : my_dashboard_path)
                   }
       format.json { render :json => {error: msg}, :status => 500}
     end

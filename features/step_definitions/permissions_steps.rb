@@ -127,6 +127,10 @@ When /^I visit the path of the resource$/ do
   visit media_resource_path @resource
 end
 
+When /^I visit the edit path of the resource$/ do
+  visit edit_media_resource_path @resource
+end
+
 Given /^I visit the permissions dialog of the resource$/ do
   visit media_resource_path @resource
   find("a",text: "Weitere Aktionen").click

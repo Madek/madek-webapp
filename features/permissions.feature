@@ -63,11 +63,8 @@ Feature: Permissions
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
     When There are "view" user-permissions added for me to the resource
-    And I visit the path of the resource
-    And I click on the link "Weitere Aktionen"
-    And I click on the link "Metadaten editieren"
+    When I visit the edit path of the resource
     Then I see an error alert
-    And I am on the page of the resource
 
   # test override only once
   @jsbrowser @dirty
@@ -77,11 +74,8 @@ Feature: Permissions
     When There are "view" user-permissions added for me to the resource
     When There are "view" group-permissions added for me to the resource
     When There are "edit" group-permissions added for me to the resource
-    And I visit the path of the resource
-    And I click on the link "Weitere Aktionen"
-    And I click on the link "Metadaten editieren"
+    When I visit the edit path of the resource
     Then I see an error alert
-    And I am on the page of the resource
 
   @jsbrowser @dirty
   Scenario: Edit user-permission will let me edit metadata
