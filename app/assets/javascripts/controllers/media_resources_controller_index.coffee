@@ -156,18 +156,21 @@ class MediaResourcesController.Index
         @list.html page
         @totalPages = response.pagination.total_pages
         @total = response.pagination.total
-        if @totalPages > 1
-          groupsOfTen = Math.floor @totalPages/10
-          @initalPages = @totalPages%10
-          placeholders = $("<div></div>")
-          if @initalPages > 2
-            for page in [2..@initalPages]
-              placeholders.append App.render "media_resources/page", {page: page, not_loaded: true, total_pages: @totalPages, total: @total}
-          for groupOfTen in [1..groupsOfTen]
-            placeholders.append App.render "media_resources/group_of_ten_pages", {group: groupOfTen}
-          @list.append placeholders.html()
+        do @setupPlaceholdersPages if @totalPages > 1
       @filterPanel.update response.filter 
       @list.trigger "render-inital-fetch"
+
+  setupPlaceholdersPages: ->
+    groupsOfTen = Math.floor @totalPages/10
+    @initalPages = @totalPages%10
+    placeholders = $("<div></div>")
+    if @initalPages > 1
+      for page in [2..@initalPages]
+        placeholders.append App.render "media_resources/page", {page: page, not_loaded: true, total_pages: @totalPages, total: @total}
+    if groupsOfTen > 1
+      for groupOfTen in [1..groupsOfTen]
+        placeholders.append App.render "media_resources/group_of_ten_pages", {group: groupOfTen}
+    @list.append placeholders.html()
 
   fetchFilter: =>
     data = @getRequestData true
