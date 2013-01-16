@@ -64,7 +64,7 @@ module MetaDataHelper
       meta_data << [_("Beschreibung durch (vor dem Hochladen ins Medienarchiv)"), description_author_before_import]
     end
 
-    meta_data << [_("Eigentümer/in im Medienarchiv"), link_to(media_entry.user, media_resources_path(:search => media_entry.user.fullname))]
+    meta_data << [_("Verantwortlich im Medienarchiv"), link_to(media_entry.user, media_resources_path(:search => media_entry.user.fullname))]
 
     display_meta_data_helper( _("Aktivitäten"), meta_data)
   end

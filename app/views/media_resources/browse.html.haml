@@ -7,7 +7,7 @@
     .app-body-title
       .ui-body-title
         .ui-body-title-label
-          %h1.title-xl Nach Vergleichbaren Inhalten stöbern
+          %h1.title-xl Nach vergleichbaren Inhalten stöbern
 
     .app-body-ui-container
       .bordered.ui-container.midtone.rounded.table
@@ -25,7 +25,7 @@
                     = meta_term[:meta_term]
                     = "(#{meta_term[:count]})"
                     - if meta_term[:count] > 20
-                      %a.strong{:href => media_resources_path(:meta_data => {meta_term[:meta_datum].meta_key.label => {:ids => [meta_term[:meta_term].id]}})} Alle anziegen
+                      %a.strong{:href => media_resources_path(:meta_data => {meta_term[:meta_datum].meta_key.label => {:ids => [meta_term[:meta_term].id]}})} Alle anzeigen
 
                 .ui-featured-entries.small.active
 
@@ -37,9 +37,9 @@
             .row.mth
               .pvh.mth.mbl
                 .title-l.by-center 
-                  Keine Verbindungen zu anderen Inhalten gefunden
+                  Keine vergleichbaren Inhalte gefunden.
                   .title-s.by-center
-                    die Metadaten dieses Inhalts reichen nicht aus um Verwandte Inhalte zu finden
+                    Dieser Inhalt hat nicht genügend Metadaten.
                   - if current_user.authorized?(:edit, @media_resource)
                     .mts
                       %a.primary-button{:href => edit_media_resource_path(@media_resource)} Metadaten ergänzen
