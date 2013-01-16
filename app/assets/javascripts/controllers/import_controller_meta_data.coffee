@@ -51,9 +51,10 @@ class ImportController.MetaData
     $(@).on "form-unload", => @el.off "change delayedChange", @persistField
 
   persistField: (e)=>
-    field = $(e.target).closest(".ui-form-group")
+    return false if $(e.target).closest(".ui-form-group")[0] != $(e.target).closest(".ui-form-group[data-type]")[0]
+    field = $(e.target).closest(".ui-form-group[data-type]")
     metaKeyName = field.data "data-meta-key"
-    console.log field.serializeArray()
+    console.log App.MetaDatum.getValueFromField field
     #@currentResource.updateMetaDatum 
 
   showForm: ->

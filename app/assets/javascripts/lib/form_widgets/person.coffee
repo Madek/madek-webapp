@@ -22,11 +22,11 @@ class FormWidgets.Person
     if person.validate()
       person.create (data)=>
         index = widget.closest(".ui-form-group").data "index"
-        widget.closest(".multi-select-holder").find(".multi-select-input-holder").before App.render "media_resources/edit/multi-select/person",
-          index: index
-          label: data.label
-          id: data.id
-      inputs.trigger "change"
+        person = new App.Person data
+        person.index = index
+        inputHolder = widget.closest(".multi-select-holder").find(".multi-select-input-holder")
+        inputHolder.before App.render "media_resources/edit/multi-select/person", person
+        inputHolder.find("input:visible").trigger "change"
       inputs.val ""
     else
       # error
