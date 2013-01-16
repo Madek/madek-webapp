@@ -118,7 +118,7 @@ describe MediaResourcesController do
         mr = FactoryGirl.create type, :user => @user
         mr.parents << FactoryGirl.create(:media_set, :user => @user)
         mr.meta_data.create(:meta_key => MetaKey.find_by_label("title"), 
-                            :value => Faker::Lorem.words(4).join(' '))
+                            :value => Faker::Lorem.words(1).join(' '))
       end
       # MetaContext
       @meta_context = MetaContext.core
