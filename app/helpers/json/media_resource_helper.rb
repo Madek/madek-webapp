@@ -195,13 +195,13 @@ module Json
 
       if filter_types.include? :permissions and not current_user.is_guest?
         r << { :filter_type => "permissions",
-               :context_name => "permissions",       # FIXME
+               :context_name => "permissions",      
                :context_label => "Berechtigung",     # FIXME get label from the DB
                :keys => [:owner, :group, :scope].map do |k|
                  case k
                    when :owner
                      { :key_name => k,                   
-                       :key_label => "Eigentümer/in", # FIXME get label from the DB
+                       :key_label => "Verantwortliche Person", 
                        :terms => begin
                          owners = User.select("users.*, COUNT(media_resources.id) AS count").
                                     includes(:person).

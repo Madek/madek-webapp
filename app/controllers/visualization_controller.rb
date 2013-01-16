@@ -15,7 +15,7 @@ class VisualizationController < ApplicationController
     @resource_identifier = "my-component-#{min_id}"
     set_layout_and_control_variables
     @main_title = @origin_resource.title
-    @sub_title = "Zusammenhänge mit meinen verbundenen Inhalten"
+    @sub_title = "Zusammenhänge mit Inhalten, für die ich verantwortlich bin"
     @title = "#{@main_title} - #{@sub_title}"
     render 'index'
   end
