@@ -106,6 +106,13 @@ class ImportController.MetaData
     @setButton @getNextResource(resource), "next"
     @setButton @getPrevResource(resource), "prev"
     @setupFormFor resource
+    @scrollTo resource
+
+  scrollTo: (resource)->
+    selectedElement = @mediaResourcePreviews.find ".ui-resource[data-id='#{resource.id}']"
+    scrollPosition = @mediaResourcePreviews.scrollLeft() + selectedElement.offset().left - @mediaResourcePreviews.width()/2 + selectedElement.outerWidth()/2 - @mediaResourcePreviews.offset().left
+    @mediaResourcePreviews.stop(true,true).animate
+      scrollLeft: scrollPosition
 
   markAsSelected: (resource)->
     @mediaResourcePreviews.find(".ui-selected").removeClass "ui-selected"
