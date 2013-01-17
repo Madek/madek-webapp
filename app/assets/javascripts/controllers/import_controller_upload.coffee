@@ -138,8 +138,7 @@ class ImportController.Upload
       amount_transfered = $("#uploader li.plupload_done").length
       amount_total = $("#uploader li:visible").length
       # customize progress status text
-      upload_status_text = $("#uploader .plupload_upload_status").html().replace(/\d+\/\d+/, (amount_total-amount_not_transfered)+"/"+amount_total)
-      $("#uploader .plupload_upload_status").html(upload_status_text)
+      $("#uploader .plupload_upload_status").html "#{amount_total-amount_not_transfered}/#{amount_total} Dateien übertragen"
       # customize progress bar
       progress_bar_width = 100-(amount_not_transfered/amount_total*100)
       $("#uploader .plupload_progress_bar").width(progress_bar_width+"%")

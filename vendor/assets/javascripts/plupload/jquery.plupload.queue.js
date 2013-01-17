@@ -122,11 +122,11 @@
         }
 
         function updateTotalProgress() {
-          $('span.plupload_total_status', target).html(uploader.total.percent + '%');
-          $('div.plupload_progress_bar', target).css('width', uploader.total.percent + '%');
-          $('span.plupload_upload_status', target).text(
-            _('Uploaded %d/%d files').replace(/%d\/%d/, uploader.total.uploaded+'/'+uploader.files.length)
-          );
+          // $('span.plupload_total_status', target).html(uploader.total.percent + '%');
+          // $('div.plupload_progress_bar', target).css('width', uploader.total.percent + '%');
+          // $('span.plupload_upload_status', target).text(
+          //   _('Uploaded %d/%d files').replace(/%d\/%d/, uploader.total.uploaded+'/'+uploader.files.length)
+          // );
         }
 
         function updateList() {
