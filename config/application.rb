@@ -65,6 +65,7 @@ module MAdeK
                                     test.js
                                     pdf.js
                                     pdf-viewer.css
+                                    upload.js
                                   )
 
     # So that the Content-Length header is sent, so that e.g. video files
