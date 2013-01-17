@@ -235,7 +235,8 @@
           up.settings.browse_button = id + '_browse';
 
           // Enable drag/drop (see PostInit handler as well)
-          if (up.settings.dragdrop) {
+          
+          if (up.settings.dragdrop && up.settings.drop_element == undefined) {
             up.settings.drop_element = id + '_filelist';
           }
 

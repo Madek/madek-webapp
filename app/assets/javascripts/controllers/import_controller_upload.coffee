@@ -123,7 +123,7 @@ class ImportController.Upload
       url: "/import.js"
       max_file_size: @maxFileSize
       dragdrop: true
-      drop_element: "plupload_content"
+      drop_element: "uploader"
       multipart_params: @multipartParams
       preinit :
         Init: (up, info)->
