@@ -23,7 +23,6 @@ class ImportController.Upload
     do @setupDropboxSync
     do @delegateEvents
     do @validateState
-    window.ui-alert = (msg)-> #prevent plupload error message
 
   delegateEvents: ->
     @uploaderEl.bind "UploadProgress", (uploader, file) => do @setCustomProgress
@@ -31,7 +30,9 @@ class ImportController.Upload
     @uploaderEl.bind "FilesAdded", @addFile
     @uploaderEl.bind "FilesRemoved", (uploader, files) => do @validateState
     @uploaderEl.bind "QueueChanged", @onQueueChange
-    @uploaderEl.bind "FileUploaded", (uploader, file, response) => @pluploadFilesUploaded.push {file: file, media_entry_incomplete: JSON.parse(response.response).media_entry_incomplete}
+    @uploaderEl.bind "FileUploaded", (uploader, file, response) => 
+      do @scrollToUploadingFile
+      @pluploadFilesUploaded.push {file: file, media_entry_incomplete: JSON.parse(response.response).media_entry_incomplete}
     @uploaderEl.bind "error", @onError
     $(".delete_plupload_entry").live "click", @deletePluploadFile
     $(document).on "click", "#import-start.disabled", (e)-> e.preventDefault(); return false
@@ -197,7 +198,6 @@ class ImportController.Upload
     $(".plupload_filelist_footer .plupload_progress").hide()
 
   startDropboxTransfer: ->
-    clearInterval @dropboxSyncInterval
     do @showTransferProgress
     $("#uploader #dropbox_filelist").html App.render "import/upload/dropbox_file", @dropboxFiles, {status: "50%"}
     do @setCustomProgress
@@ -264,6 +264,7 @@ class ImportController.Upload
         @uploaderEl.splice(line.index(), 1)
 
   startImport: =>
+    clearInterval @dropboxSyncInterval
     @trasferWasStarted = true
     $(".delete_plupload_entry").remove()
     $(".delete_mei").removeClass "delete_mei"
@@ -271,6 +272,13 @@ class ImportController.Upload
     do @startDropboxTransfer if $(".plupload_dropbox.plupload_transfer").length
     $(".plupload .plupload_buttons .plupload_start").trigger("click")
     do @disableStartButton
+
+  scrollToUploadingFile: =>
+    container = $(".plupload_wrapper.plupload_scroll")
+    fileEl = $("#uploader_filelist .plupload_transfer:first")
+    scrollPosition = fileEl.position().top - container.outerHeight() + fileEl.outerHeight() + container.scrollTop()
+    container.stop(true,true).animate
+      scrollTop: scrollPosition
 
 window.App.ImportController = {} unless window.App.ImportController
 window.App.ImportController.Upload = ImportController.Upload
