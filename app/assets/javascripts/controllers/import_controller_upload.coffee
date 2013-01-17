@@ -220,13 +220,9 @@ class ImportController.Upload
 
   onError: (uploader, error) =>
     if error.code == -600
-      openDropboxDialog(error.message)
+      @openDropboxDialog(error.message)
     else
-      Dialog.add
-        trigger: $("#uploader_browse")
-        content: $.tmpl("tmpl/upload/error", {errormsg:error.message})
-        dialogClass: "plupload_error"
-        closeOnEscape: true
+      alert error.message
 
   deleteMEI: (e)=>
     element = $(e.currentTarget)
