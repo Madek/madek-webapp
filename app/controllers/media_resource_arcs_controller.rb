@@ -78,7 +78,6 @@ class MediaResourceArcsController < ApplicationController
           arc = parent.out_arcs.where(child_id: arc_params[:child_id]).first
           arc.update_attributes!(arc_params)
         end
-        flash[:notice] = "Zusammenhänge aktualisiert."
         respond_to do |format|
           format.json { render json: {} }
         end

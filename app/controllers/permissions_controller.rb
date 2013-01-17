@@ -165,8 +165,7 @@ class PermissionsController < ApplicationController
           MediaResource.find(mr_id).update_attributes! user_id: owner_id
         end
       end
-
-
+      
     end
 
     flash[:notice] = "Zugriffsberechtigungen wurden gespeichert."

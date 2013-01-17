@@ -782,7 +782,7 @@ class MediaResourcesController < ApplicationController
         end
       end
     end
-    
+    flash[:notice] = "Zusammenhänge aktualisiert."
     respond_to do |format|
       format.json {
         render :json => view_context.json_for(child_resources, {:parents => true})

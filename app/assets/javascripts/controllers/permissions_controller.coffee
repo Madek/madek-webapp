@@ -68,7 +68,7 @@ class PermissionsController
   onSubmit: (e)=>
     do e.preventDefault
     userPermissions = _.map @otherUsersContainer.find("tr"), (line)=> @getPermissionDataFromLine $(line)
-    userPermissions.push @getPermissionDataFromLine @currentUserLine
+    userPermissions.push @getPermissionDataFromLine @rightsContainer.find ".ui-rights-management-current-user tr"
     groupPermissions = _.map @otherGroupsContainer.find("tr"), (line)=> @getPermissionDataFromLine $(line)
     groupPermissions = groupPermissions.concat _.map @currentUserGroupsContainer.find("tr"), (line)=> @getPermissionDataFromLine $(line)
     publicPermissions = _.map @publicPermissionsContainer.find("tr"), (line)=> @getPermissionDataFromLine $(line)
@@ -356,7 +356,6 @@ class PermissionsController
     @otherGroupsContainer = template.find ".ui-rights-management-other-groups"
     @otherUsersContainer = template.find ".ui-rights-management-other-users"
     @currentUserGroupsContainer = template.find ".ui-rights-management-current-user-groups"
-    @currentUserLine = template.find ".ui-rights-management-current-user tr"
     @addUserContainer = template.find "#addUser"
     @addGroupContainer = template.find "#addGroup"
     @publicPermissionsContainer = template.find ".ui-rights-management-public"
