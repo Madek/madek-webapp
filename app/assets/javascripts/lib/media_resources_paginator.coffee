@@ -10,7 +10,7 @@ triggers "completlyLoaded" (mediaResources) for all media resources fetched with
 class MediaResourcesPaginator
 
   constructor: ->
-    currentPage: 1
+    @currentPage = 1
     @allResources = []
   
   start: (filter, withData)->
@@ -23,7 +23,7 @@ class MediaResourcesPaginator
     $(@collection).on "refresh", => do @loadPage
     @collection.add @filter
 
-  loadPage: ->
+  loadPage: =>
     data = if @withData? then JSON.parse JSON.stringify {with: @withData} else {}
     $.extend data,
       page: @currentPage
