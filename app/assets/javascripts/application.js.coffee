@@ -22,10 +22,6 @@
  
 #= require URI.js/URI.js
 
-#= require plupload/plupload
-#= require plupload/jquery.plupload.queue
-#= require plupload/plupload.html5
-
 #= require fixed-header-table/fixed-header-table
 
 ####### APPLICATION

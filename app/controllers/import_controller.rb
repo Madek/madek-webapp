@@ -27,6 +27,7 @@ class ImportController < ApplicationController
     
     respond_to do |format|
       format.html {
+        do_not_cache
         @dropbox_files_json = dropbox_files.to_json
       }
       format.json {
