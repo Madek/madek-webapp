@@ -13,7 +13,7 @@ class Authenticator::DatabaseAuthenticationController < ApplicationController
       if user = User.where(:login => params[:login].try(&:downcase), :password => crypted_password).first
         session[:user_id] = user.id
       else
-        flash[:error] = _("Invalid username/password")
+        flash[:error] = "Falscher Benutzername/Passwort."
       end
       redirect_to root_path
     else

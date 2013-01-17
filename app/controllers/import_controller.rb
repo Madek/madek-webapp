@@ -128,7 +128,7 @@ class ImportController < ApplicationController
 
   def organize
     unless @media_entries.all? {|me| me.context_valid?(MetaContext.upload) }
-      flash[:error] = "Bitte geben Sie für alle Medieneinträge zumindestens die Pflichtfelder an"
+      flash[:error] = "Bitte füllen Sie für alle Medieneinträge die Pflichtfelder aus."
       redirect_to meta_data_import_path(:show_invalid_resources => true)
     end
   end
@@ -138,9 +138,10 @@ class ImportController < ApplicationController
   def complete
     if @media_entries.all? {|me| me.context_valid?(MetaContext.upload) }
       @media_entries.each {|me| me.set_as_complete }
-      redirect_to root_path
+      flash[:notice] = "Import abgeschlossen."
+      redirect_to my_dashboard_path
     else
-      flash[:error] = "Bitte geben Sie für alle Medieneinträge zumindestens die Pflichtfelder an"
+      flash[:error] = "Bitte füllen Sie für alle Medieneinträge die Pflichtfelder aus."
       redirect_to meta_data_import_path(:show_invalid_resources => true)
     end
   end
@@ -153,7 +154,7 @@ class ImportController < ApplicationController
         format.html do
           # we are canceling the full import, but not deleting
           # @media_entries.destroy_all # NOTE: the user is not excepting that anything is getting deleted just redirect
-          flash[:notice] = "Import abgebrochen"
+          flash[:notice] = "Import abgebrochen."
           redirect_to my_dashboard_path
         end
         

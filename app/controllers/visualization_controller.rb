@@ -42,7 +42,7 @@ class VisualizationController < ApplicationController
     @resources = MediaSet.where(user_id: current_user.id)
     @arcs = MediaResourceArc.connecting @resources
 
-    @main_title = "Zusammenhänge zwischen meinen Sets"
+    @main_title = "Zusammenhänge zwischen Sets, für die ich verantwortlich bin"
     @sub_title = nil
     @title = "#{@main_title}"
 
@@ -58,7 +58,7 @@ class VisualizationController < ApplicationController
     @arcs = MediaResourceArc.connecting @resources
 
     @main_title = @origin_resource.title
-    @sub_title = "Zusammenhänge mit meinen untergeordneten Inhalten"
+    @sub_title = "Zusammenhänge mit untergeordneten Inhalten, für die ich verantwortlich bin"
     @title = "#{@main_title} - #{@sub_title}"
 
     render 'index'
@@ -86,7 +86,7 @@ class VisualizationController < ApplicationController
     @resources = @resources.where(user_id: current_user.id)
     @arcs =  MediaResourceArc.connecting @resources
 
-    @main_title = "Zusammenhänge zwischen meinen Inhalten"
+    @main_title = "Zusammenhänge zwischen Inhalten, für die ich verantwortlich bin"
     @sub_title = ""
     @title = "#{@main_title} "
 

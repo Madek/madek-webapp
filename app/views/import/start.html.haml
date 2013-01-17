@@ -36,16 +36,22 @@
 
         .row.ui-container.midtone.pvm.phl.rounded-bottom
           .col1of2
-            %h3.title-s.prm
-              Akzeptierte Dateiformate
-            %p.small-print.prm
-              Bilder (TIFF, JPEG, PNG) sowie Audio- und Videofiles in den gängigsten Formaten werden direkt verarbeitet und dargestellt. Weitere Dateitypen (PSDs, Webarchive) können ebenfalls hochgeladen werden, sind vorerst jedoch nur als ZIP-Datei verfügbar. PDFs sind bis zu einer Grösse von ca. 20 MB innerhalb des Medienarchivs lesbar.
+            %h3.title-m.prm
+              %strong
+                Hinweise
+            %p.prm
+              Bilder (TIFF, JPEG, PNG) sowie Audio- und Videofiles in den gängigsten Formaten werden direkt verarbeitet und dargestellt.
+              %br 
+              Bitte importieren Sie jeweils maximal 200 Dateien auf einmal. 
           .col1of2
-            %h3.title-s.plm
-              Akzeptierte Dateigrösse
-            %p.small-print.plm
+            %h3.title-m.plm
+              %strong
+                Akzeptierte Dateigrösse
+            %p.plm
               Dateien mit einer Grösse von über 1.4 GB müssen über eine FTP-Dropbox in das Medienarchiv geladen werden.
-              %a.open_dropbox_dialog{:href => "javascript:void(0)", :style => "cursor:pointer"} So laden Sie Dateien über die FTP-Dropbox ins Medienarchiv.
+              %br
+              %strong
+                %a.open_dropbox_dialog{:href => "javascript:void(0)", :style => "cursor:pointer"} So laden Sie Dateien über die FTP-Dropbox ins Medienarchiv.
 
   .app-footer-push
 = render :partial => "application/footer", :locals => {:clipboard => false}

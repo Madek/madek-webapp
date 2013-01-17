@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
 
 def authenticate_admin_user!
   unless current_user and Group.find_by_name("Admin").users.include? current_user
-    flash[:error] = "You are not in the admin-group!"
+    flash[:error] = "Sie sind kein Administrator."
     redirect_to root_path
   else
     true
@@ -92,7 +92,7 @@ end
   def login_required
     unless logged_in?
       store_location
-      flash[:error] = "Bitte anmelden."
+      flash[:error] = "Bitte melden Sie sich an."
       redirect_to root_path
     end
   end

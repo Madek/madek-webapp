@@ -1,8 +1,11 @@
 .pvh.mth.mbl
   .title-l.by-center 
+    {{if $item.filterReset}}
     Keine Inhalte
-    {{if !$item.filterReset}}vorhanden{{/if}}
-
+    {{else}}
+    Keine Inhalte zu diesem Suchwort vorhanden.
+    {{/if}}
+    
   {{if $item.filterReset}}
   .title-s.by-center
     für die aktuellen Filtereinstellungen gefunden.

@@ -16,7 +16,7 @@ ActiveAdmin.register_page "Settings" do
     params[:settings].each_pair do |k,v|
       AppSettings.send("#{k}=", v)
     end
-    flash[:notice] = "Updated"
+    flash[:notice] = "Einstellungen aktualisiert."
 
     redirect_to admin_settings_path
   end  

@@ -28,7 +28,7 @@
             - if resources
               - total_accessible_by_group = MediaResource.accessible_by_group(group).where(:type => ["MediaEntry", "MediaSet"]).count
               %td.ui-workgroup-items
-                %a{:href => media_resources_path(:permissions => {:group => {:ids => [group.id]}}), :title => "Inhalte diese Gruppe anzeigen"}= total_accessible_by_group
+                %a{:href => media_resources_path(:permissions => {:group => {:ids => [group.id]}}), :title => "Inhalte dieser Gruppe anzeigen"}= total_accessible_by_group
             - if actions
               %td.ui-workgroup-actions
                 %a.button.small{:href => "#workgroup-delete", "data-toggle" => "modal"}
