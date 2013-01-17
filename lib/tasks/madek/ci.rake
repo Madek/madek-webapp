@@ -9,7 +9,7 @@ namespace :madek do
       CIFeatureJobs.create_or_update_respec_job! ENV['BRANCH_NAME']
     end
   
-    desc "Delete jobs by matcing a regular expression; requires REX, CI_USER and CI_PW env variables" 
+    desc "Delete jobs by matching a regular expression; requires REX, CI_USER and CI_PW env variables" 
     task :delete_jobs_by_regex do
 
       raise "you must provide non empty REX parameter"  unless rex=ENV['REX'] and (not rex.empty?)
@@ -21,6 +21,7 @@ namespace :madek do
         puts jobs.map{|j| j['name']}.join("\n")
         puts "Confirm the deletion of the #{jobs.size} listed jobs by typing YES"
         if /^YES/ =~  STDIN.gets
+          puts "Start deleting jobs..."
           res = CIFeatureJobs.delete_jobs jobs 
           puts res.map{|job| "#{job[:status]} #{job['name']}"}.join("\n")
         end

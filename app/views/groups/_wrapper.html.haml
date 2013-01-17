@@ -5,7 +5,7 @@
   resources = (defined? resources and resources)
 
 .ui-resources-holder{id: id}
-  .ui-resources-header
+  .ui-resources-header.mbx
     %h2.title-l.ui-resources-title
       = title
       - if defined? link
@@ -16,11 +16,7 @@
     %table.ui-workgroups.bordered.block
       %thead
         %tr
-          %td.ui-workgroup-name-title Name
-          - if resources
-            %td.ui-workgroup-items-title Inhalte
-          - if actions
-            %td.ui-workgroup-actions-title Aktionen
+          %td{:colspan => 3}
       %tbody
         - groups.each do |group|
           %tr
@@ -28,9 +24,11 @@
             - if resources
               - total_accessible_by_group = MediaResource.accessible_by_group(group).where(:type => ["MediaEntry", "MediaSet"]).count
               %td.ui-workgroup-items
-                %a{:href => media_resources_path(:permissions => {:group => {:ids => [group.id]}}), :title => "Inhalte dieser Gruppe anzeigen"}= total_accessible_by_group
+                %a{:href => media_resources_path(:permissions => {:group => {:ids => [group.id]}}), :title => "Inhalte dieser Gruppe anzeigen"}
+                  = total_accessible_by_group
+                  Inhalte
             - if actions
-              %td.ui-workgroup-actions
+              %td.ui-workgroup-actions.hidden
                 %a.button.small{:href => "#workgroup-delete", "data-toggle" => "modal"}
                   %i.icon-trash.dark
                 %a.button.small{:href => "#workgroup-edit", "data-toggle" => "modal"}
