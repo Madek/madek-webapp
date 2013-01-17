@@ -172,7 +172,7 @@ class MediaEntriesController < ApplicationController
 
   def remove_multiple
     @media_set.child_media_resources.delete(@media_entries)
-    flash[:notice] = "Die Medieneinträge wurden aus dem Set gelöscht."
+    flash[:notice] = "Die Medieneinträge wurden aus dem Set entfernt."
     redirect_to media_set_url(@media_set)
   end
   

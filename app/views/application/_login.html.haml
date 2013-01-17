@@ -27,7 +27,7 @@
             %a#zhdk-user-login-tab{"data-toggle" => "tab", :href => "#internal-user"} ZHdK-Login
         - if AppSettings.authentication_systems.include? :local_database
           %li.ui-tabs-item.right{:class => active_login == :external ? "active" : ""}
-            %a#database-user-login-tab{"data-toggle" => "tab", :href => "#external-user"} Externe Benutzer
+            %a#database-user-login-tab{"data-toggle" => "tab", :href => "#external-user"} Externe
       .tab-content.pitch-login-tab
         - if AppSettings.authentication_systems.include? :zhdk_agw
           #internal-user.tab-pane{:class => active_login == :zhdk_agw ? "active" : ""}

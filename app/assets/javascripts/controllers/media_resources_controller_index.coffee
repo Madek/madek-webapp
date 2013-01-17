@@ -149,7 +149,10 @@ class MediaResourcesController.Index
     @initialFetchAjax = App.MediaResource.fetch data, (media_resources, response)=>
       App.currentFilter = response.current_filter
       if response.pagination.total == 0
-        @list.html App.render "media_resources/no_results", {}, {filterReset: @anySelectedFilter()}
+        if $(".app.view-search").length
+          @list.html App.render "media_resources/no_search_results", {}, {filterReset: @anySelectedFilter()}
+        else
+          @list.html App.render "media_resources/no_results", {}, {filterReset: @anySelectedFilter()}
       else
         page = App.render "media_resources/page", response.pagination
         page.find(".ui-resources-page-items").append App.render "media_resources/media_resource", media_resources

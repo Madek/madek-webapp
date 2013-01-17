@@ -1,7 +1,11 @@
+:ruby
+
+  primary = (!!defined?(primary) and !primary.nil?) ? primary : true
+
 - if current_user.is_guest?
   .dropdown.ui-dropdown.stick-right
-    %a.primary-button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#"}
-      %i.icon-man_silhouette.bright
+    %a.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#", :class => primary ? "primary-button" : "button"}
+      %i.icon-man_silhouette{:class => primary ? "bright" : ""}
       Anmelden
     %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
       - if AppSettings.authentication_systems.include? :zhdk_agw

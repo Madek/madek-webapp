@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 ##
 # Media resource arcs are the relations between media resources. Like a set has multiple media entries and a media entry can have multiple parent sets (Graph).   
 # 
@@ -76,6 +78,7 @@ class MediaResourceArcsController < ApplicationController
           arc = parent.out_arcs.where(child_id: arc_params[:child_id]).first
           arc.update_attributes!(arc_params)
         end
+        flash[:notice] = "Zusammenhänge aktualisiert."
         respond_to do |format|
           format.json { render json: {} }
         end

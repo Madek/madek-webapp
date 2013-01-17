@@ -16,6 +16,8 @@
         .ui-body-title-label
           %h1.title-xl Suche
 
+        .ui-body-title-actions= render :partial => "login_action", :locals => {:primary => false}
+
     .app-body-ui-container
       .bordered.ui-container.midtone.rounded.table
         .ui-search-form

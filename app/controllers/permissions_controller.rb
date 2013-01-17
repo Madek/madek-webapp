@@ -169,7 +169,7 @@ class PermissionsController < ApplicationController
 
     end
 
-    flash[:notice] = "Berechtigungen gespeichert"
+    flash[:notice] = "Zugriffsberechtigungen wurden gespeichert."
     respond_to do |format|
       format.json { render :json => {} }
     end

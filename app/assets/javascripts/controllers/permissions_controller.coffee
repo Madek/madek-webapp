@@ -149,7 +149,7 @@ class PermissionsController
       currentUserOwnership: @permissionsForRender(@permissions.you, @mediaResourceIds, @permissions.owners)[0].ownership
 
   showDialog: (el)=>
-    title = if el.data("media-resource-id") then "'#{el.data("title")}'" else if el.data("collection") then "für #{el.data("collection").count} Ausgewählte Inhalte"
+    title = if el.data("media-resource-id") then "'#{el.data("title")}'" else if el.data("collection") then "für #{el.data("collection").count} ausgewählte Inhalte"
     @el = App.render "permissions/dialog", {title: title}, {manageable: @manageable}
     @saveButton = @el.find "button[type='submit']"
     @form = @el.children "form"
