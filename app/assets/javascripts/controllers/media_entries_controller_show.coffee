@@ -21,7 +21,7 @@ class MediaEntriesController.Show
     @exportButton.on "click", => do @showExport
 
   showExport: ->
-    App.modal @export.clone().show()
+    new App.Modal @export.clone().show()
 
 window.App.MediaEntriesController = {} unless window.App.MediaEntriesController
 window.App.MediaEntriesController.Show = MediaEntriesController.Show

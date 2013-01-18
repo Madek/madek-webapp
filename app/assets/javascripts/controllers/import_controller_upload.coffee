@@ -49,7 +49,7 @@ class ImportController.Upload
       dropbox_info: @dropboxData.dropbox_info
       dropbox_exists: @dropboxData.dropbox_exists
       errorMsg: errorMsg
-    App.modal @template
+    new App.Modal @template
     @template.find("#create-dropbox").bind "click", (e)=>
       container = $(e.currentTarget).closest ".ui-modal-toolbar"
       container.html '<div class="ui-preloader small"></div>'

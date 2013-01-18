@@ -22,7 +22,7 @@ class MediaSetsController
       else
         App.FormErrors.set form, ms.errors
       return false
-    App.modal dialog
+    new App.Modal dialog
 
 window.App.MediaSetsController = MediaSetsController
 

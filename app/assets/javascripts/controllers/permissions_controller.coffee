@@ -154,7 +154,7 @@ class PermissionsController
     @saveButton = @el.find "button[type='submit']"
     @form = @el.children "form"
     @rightsContainer = @el.find ".ui-rights-management"
-    App.modal @el
+    new App.Modal @el
 
   showInline: (el)->
     @el = el

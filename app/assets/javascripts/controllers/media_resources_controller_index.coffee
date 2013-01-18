@@ -248,7 +248,7 @@ class MediaResourcesController.Index
         dialog.bind "hidden", -> setTimeout (-> container.remove()), 300
         dialog.modal("hide")
       return false
-    App.modal dialog
+    new App.Modal dialog
 
 window.App.MediaResourcesController = {} unless window.App.MediaResourcesController
 window.App.MediaResourcesController.Index = MediaResourcesController.Index

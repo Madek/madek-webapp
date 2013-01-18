@@ -26,7 +26,7 @@ class MediaSetsController.Show
   openSelectArcs: (title, target)->
     dialog = App.render "media_sets/select_arcs",
       title: title
-    App.modal dialog
+    new App.Modal dialog
     new App.MediaResourceArcsController.InArcs
       el: dialog
       mediaSet: new App.MediaSet(@el.data())

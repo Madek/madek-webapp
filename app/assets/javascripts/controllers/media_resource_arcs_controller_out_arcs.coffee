@@ -98,7 +98,7 @@ class MediaResourceArcsController.OutArcs
     @searchInput = @dialog.find("input.ui-search-input")
     @searchForm = @dialog.find(".ui-search form")
     @searchInput.delayedChange(delay: 400)
-    App.modal @dialog
+    new App.Modal @dialog
 
   search: ->
     return true if @searchInput.val() is @currentSearch

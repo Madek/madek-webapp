@@ -16,7 +16,6 @@
   @include dimension(550px,auto);
   background: $brightest;
   border: 1px solid $grey-darker;
-  margin-top: -360px;
   z-index: 2001; // clipboard is 2000
 
   &.transparent {
