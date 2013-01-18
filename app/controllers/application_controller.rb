@@ -125,6 +125,9 @@ end
           (request[:controller] == "media_entries" and request[:action] == "context_group") or
           (request[:controller] == "media_entries" and request[:action] == "more_data") or
           (request[:controller] == "media_sets" and request[:action] == "show") or 
+          (request[:controller] == "media_sets" and request[:action] == "abstract") or
+          (request[:controller] == "media_sets" and request[:action] == "parents") or
+          (request[:controller] == "media_sets" and request[:action] == "vocabulary") or
           (request[:controller] == "keywords" and request[:action] == "index") or 
           (request[:controller] == "search")
       @current_user = user = User.new
