@@ -11,6 +11,9 @@
   margin: 0 5px 0 0;
   padding: 15px;
   position: relative;
+  .ui-thumbnail-meta-subtitle {
+    height: 56px;
+  }
   .ui-thumbnail-privacy {
     display: none;
     @include position-top-left(16px,16px);
