@@ -44,8 +44,12 @@
   }
   .ui-thumbnail-meta-title,
   .ui-thumbnail-meta-subtitle {
-    height: 35px;
+    height: 36px;
     overflow: hidden;
+  }
+  .ui-thumbnail-meta-title {
+    line-height: $line-height-s-alt;
+    padding-top: $space-x;
   }
   .ui-thumbnail-actions {
     display: none;
