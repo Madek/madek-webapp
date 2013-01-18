@@ -16,7 +16,7 @@ class MediaResourcesController.Browse
 
   loadBrowsableList: (el)->
     el.removeClass("not-loaded").addClass("loading")
-    data = {meta_data: {}, with: {meta_data: {meta_key_names: ["title", "author"]}}, per_page: @previewAmount}
+    data = {meta_data: {}, with: {meta_data: {meta_key_names: ["title", "author"]}}, per_page: @previewAmount, sort: "random"}
     data.meta_data[el.data().meta_key] = {ids: []}
     data.meta_data[el.data().meta_key].ids = [el.data().meta_term]
     App.MediaResource.fetch data, (mediaResources, response)=>

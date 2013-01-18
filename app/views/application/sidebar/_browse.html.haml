@@ -9,7 +9,7 @@
 
     .ui-resource-thumbnail
       %div{:class => "ui-thumbnail #{type} #{media_type}"}
-        %a.ui-thumbnail-image-wrapper
+        %a.ui-thumbnail-image-wrapper{:href => media_resource_path(@media_resource)}
           .ui-thumbnail-image-holder
             .ui-thumbnail-table-image-holder
               .ui-thumbnail-cell-image-holder
