@@ -6,14 +6,14 @@ class ExploreController < ApplicationController
     @featured_set = MediaSet.featured
     @featured_set_children = @featured_set.child_media_resources.accessible_by_user(current_user).limit(6) if @featured_set
     @catalog_set = MediaSet.catalog
-    @any_top_keywords = Keyword.any?
+    @any_top_keywords = Keyword.with_count_for_accessible_media_resources(current_user).any?
   end
 
   def index 
     @splashscreen_set = MediaSet.splashscreen
     @splashscreen_set_children = @splashscreen_set.child_media_resources.where(:view => true).shuffle if @splashscreen_set
     @catalog_set_categories = @catalog_set.categories.where(:view => true).limit(6) if @catalog_set
-    @top_keywords = view_context.hash_for Keyword.with_count.limit(12), {:count => true}
+    @top_keywords = view_context.hash_for Keyword.with_count_for_accessible_media_resources(current_user).limit(12), {:count => true}
   end
 
   def catalog
