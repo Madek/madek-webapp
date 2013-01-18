@@ -56,7 +56,7 @@ end
       @featured_set_children = @featured_set.child_media_resources.where(:view => true).limit(6) if @featured_set
       @catalog_set = MediaSet.catalog
       @catalog_set_categories = @catalog_set.categories.where(:view => true).limit(3) if @catalog_set
-      @latest_media_entries = MediaResource.media_entries.where(:view => true).ordered_by(:updated_at).limit(12)
+      @latest_media_entries = MediaResource.media_entries.where(:view => true).ordered_by(:created_at).limit(12)
     end
   end
 

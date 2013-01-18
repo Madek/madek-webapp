@@ -26,7 +26,7 @@
             = render :partial => "media_resources/wrapper",
                      :locals => {:media_resources => @latest_user_resources,
                                  :title => "Inhalte, für die ich verantwortlich bin",
-                                 :link => my_media_resources_path,
+                                 :link => my_media_resources_path(:sort => :updated_at),
                                  :with_actions => true,
                                  :id => "latest_user_resources_block"}
             %hr.separator
@@ -45,7 +45,7 @@
             = render :partial => "media_resources/wrapper",
                      :locals => {:media_resources => @user_favorite_resources,
                                  :title => "Meine Favoriten",
-                                 :link => my_favorites_path,
+                                 :link => my_favorites_path(:sort => :updated_at),
                                  :with_actions => true,
                                  :id => "user_favorite_resources_block" }
             %hr.separator
@@ -62,7 +62,7 @@
             = render :partial => "media_resources/wrapper",
                      :locals => {:media_resources => @user_entrusted_resources,
                                  :title => "Mir anvertraute Inhalte",
-                                 :link => my_entrusted_media_resources_path,
+                                 :link => my_entrusted_media_resources_path(:sort => :updated_at),
                                  :item_layout => "miniature",
                                  :with_actions => true,
                                  :id => "user_entrusted_resources_block" }

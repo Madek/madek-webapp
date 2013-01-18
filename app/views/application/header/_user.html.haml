@@ -5,11 +5,11 @@
       %i.icon-arrow-down.bright.stand-alone
     %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
       %li.ui-drop-item
-        %a{:href => my_media_resources_path}
+        %a{:href => my_media_resources_path(:sort => :updated_at)}
           .icon-set.mid.ui-drop-icon
           Inhalte, für die ich verantwortlich bin
       %li.ui-drop-item
-        %a{:href => my_favorites_path}
+        %a{:href => my_favorites_path(:sort => :updated_at)}
           .icon-star.mid.ui-drop-icon
           Meine Favoriten
       %li.ui-drop-item
