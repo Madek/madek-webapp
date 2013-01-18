@@ -98,6 +98,12 @@
   .ui-resource-extension { 
     border-left: 1px solid $grey-mid-light;
   }
+
+  // Person Tag
+
+  .ui-resource-meta-content .ui-tag-button.person-tag {
+    font-size: 12px !important;
+  }
 }
 
 /*

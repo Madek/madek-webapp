@@ -2,7 +2,8 @@
   
   %ul.multi-select-holder
 
-    {{tmpl(meta_datum.raw_value) App.renderPath("media_resources/edit/multi-select/person")}}
+    .ui-tag-cloud.small
+      {{tmpl(meta_datum.raw_value) App.renderPath("media_resources/edit/multi-select/person")}}
 
     %li.multi-select-input-holder.mbs
       %input.multi-select-input.form-autocomplete-person{:type => "text"}

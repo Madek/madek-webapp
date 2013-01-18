@@ -1,2 +1,4 @@
-- people.each do |person|
-  = link_to person, media_resources_path(:search => person.fullname)
+.ui-tag-cloud.small
+  - people.each do |person|
+    %a.ui-tag-button.person-tag{:href => media_resources_path(:search => person.fullname)}
+      = person

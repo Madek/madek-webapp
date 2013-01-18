@@ -64,8 +64,24 @@
 
   &.meta-term {
     @include border-radius(2px);
-    font-size: $font-xl;
     font-weight: normal;
+  }
+
+  &.person-tag {
+    @include border-radius(2px);
+    font-size: $font-m !important;
+    font-weight: normal;
+    background: $lighten-less;
+    border-color: $lighten-less;
+    @include border-radius(4px);
+    color: $green;
+    padding: 0 4px !important;
+    width: auto;
+
+    &:hover {
+      background: $lighten-more;
+      color: $green-dark;
+    }
   }
 }
 
