@@ -1,7 +1,7 @@
 %h3.title-l.separated.mbl Aktivitaten
 %dl.media-data
   %dt.media-data-title.title-xs Hochgeladen von
-  %dd.media-data-content= link_to(@media_entry.user, media_resources_path(:search => @media_entry.user.fullname))
+  %dd.media-data-content= link_to(@media_entry.meta_data.get("uploaded by"), media_resources_path(:search => @media_entry.meta_data.get("uploaded by").to_s))
   %dt.media-data-title.title-xs Hochgeladen am
   %dd.media-data-content= _("%s Uhr") % @media_entry.created_at.to_formatted_s(:date_time)
 
