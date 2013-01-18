@@ -51,12 +51,12 @@ end
       end
     else
       @splashscreen_set = MediaSet.splashscreen
-      @splashscreen_set_children = @splashscreen_set.child_media_resources.where(:view => true).shuffle if @splashscreen_set
+      @splashscreen_set_children = @splashscreen_set.child_media_resources.accessible_by_user(current_user).shuffle if @splashscreen_set
       @featured_set = MediaSet.featured
-      @featured_set_children = @featured_set.child_media_resources.where(:view => true).limit(6) if @featured_set
+      @featured_set_children = @featured_set.child_media_resources.accessible_by_user(current_user).limit(6) if @featured_set
       @catalog_set = MediaSet.catalog
-      @catalog_set_categories = @catalog_set.categories.where(:view => true).limit(3) if @catalog_set
-      @latest_media_entries = MediaResource.media_entries.where(:view => true).ordered_by(:created_at).limit(12)
+      @catalog_set_categories = @catalog_set.categories.accessible_by_user(current_user).limit(3) if @catalog_set
+      @latest_media_entries = MediaResource.media_entries.accessible_by_user(current_user).ordered_by(:created_at).limit(12)
     end
   end
 

@@ -4,7 +4,7 @@ class ExploreController < ApplicationController
 
   before_filter do
     @featured_set = MediaSet.featured
-    @featured_set_children = @featured_set.child_media_resources.where(:view => true).limit(6) if @featured_set
+    @featured_set_children = @featured_set.child_media_resources.accessible_by_user(current_user).limit(6) if @featured_set
     @catalog_set = MediaSet.catalog
     @any_top_keywords = Keyword.any?
   end
@@ -34,7 +34,7 @@ class ExploreController < ApplicationController
   end
 
   def featured_set
-    @featured_set_children = @featured_set.child_media_resources.where(:view => true).ordered_by(:updated_at) if @featured_set
+    @featured_set_children = @featured_set.child_media_resources.accessible_by_user(current_user).ordered_by(:updated_at) if @featured_set
   end
 
   def keywords
