@@ -6,7 +6,7 @@ class ExploreController < ApplicationController
     @featured_set = MediaSet.featured
     @featured_set_children = @featured_set.child_media_resources.accessible_by_user(current_user).limit(6) if @featured_set
     @catalog_set = MediaSet.catalog
-    @any_top_keywords = Keyword.with_count_for_accessible_media_resources(current_user).any?
+    @any_top_keywords = Keyword.with_count_for_accessible_media_resources(current_user).exists?
   end
 
   def index 
