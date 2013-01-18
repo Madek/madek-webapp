@@ -56,11 +56,12 @@ class MediaSetsController.Abstract
   onSlide: (e, ui)=>
     @min = ui.value
     @tooltip.find(".from").html @min
+    do @ajax.abort if @ajax?
     if @cache[@min]?
       @mediaSet.abstract = @cache[@min]
       do @render
     else
-      @mediaSet.fetchAbstract @min, (data)=> 
+      @ajax = @mediaSet.fetchAbstract @min, (data)=>
         @cache[@min] = data
         do @render
 
