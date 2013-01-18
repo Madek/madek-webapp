@@ -67,12 +67,12 @@ class MediaResourceArcsController.OutArcs
       input.val("mixed")
       input.attr "checked", false
 
-  toggleOutArc: (input_el)->
-    mr = input_el.closest(".ui-set-list-item").tmplItem().data
-    if input_el.val() is "mixed"
+  toggleOutArc: (input)->
+    mr = input.closest(".ui-set-list-item").tmplItem().data
+    if input.val() is "mixed"
       @addArcsStack = _.reject @addArcsStack, (resource) -> resource is mr
       @removeArcsStack = _.reject @removeArcsStack, (resource) -> resource is mr
-    else if input_el.is ":checked"
+    else if input.is ":checked"
       @addToOutArcs mr
     else
       @removeFromOutArcs mr
@@ -86,10 +86,8 @@ class MediaResourceArcsController.OutArcs
     @outArcResources = _.filter @outArcResources, (arcResource)-> arcResource.id != mr.id
 
   addToOutArcs: (mr)->
-    if _.find(@removeArcsStack, (resource) -> resource is mr)
-      @removeArcsStack = _.reject @removeArcsStack, (resource) -> resource is mr
-    else
-      @addArcsStack.push mr
+    @removeArcsStack = _.reject @removeArcsStack, (resource) -> resource is mr
+    @addArcsStack.push mr
     mr.is_parent = true
     @outArcResources.push mr
 
