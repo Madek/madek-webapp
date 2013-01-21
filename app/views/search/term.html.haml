@@ -24,6 +24,7 @@
 
         - unless current_user.is_guest?
           %form{:action => search_path, :method => :post}
+            = token_tag nil
             .ui-search.large.mts
               %input.block.ui-search-input{:type => "text", :name => "search", :placeholder => placeholder_text}
               %button.primary-button.ui-search-button Suchen
