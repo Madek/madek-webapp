@@ -17,6 +17,10 @@
           .icon-privacy-group.mid.ui-drop-icon
           Meine Arbeitsgruppen
       %li.separator
+      %li.ui-drop-item
+        %a.strong{:href => import_path}
+          %i.icon-upload.ui-drop-icon
+          Medien Importieren
       - if current_user and current_user.groups.is_member?("Admin")
         %li.ui-drop-item
           %a.strong{:href => admin_root_path}

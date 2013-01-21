@@ -48,7 +48,7 @@ MAdeK::Application.routes.draw do
 
 ##### IMPORT
 
-  get  'import' => 'import#start'
+  get  'import' => 'import#start', :as => "import"
   get  'import/cancel' => 'import#destroy', :as => "cancel_import"
   post 'import' => 'import#upload'
   delete 'import' => 'import#destroy'
