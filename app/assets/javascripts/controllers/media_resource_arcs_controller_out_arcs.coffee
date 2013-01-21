@@ -152,6 +152,7 @@ class MediaResourceArcsController.OutArcs
       $(resourcesLoader).bind "completlyLoaded", @renderOutArcResources
       resourcesLoader.start 
         ids: ids
+        accessible_action: "edit"
       , 
         App.MediaResourceArcsController.OutArcs.DEFAULT_WITH
     else
