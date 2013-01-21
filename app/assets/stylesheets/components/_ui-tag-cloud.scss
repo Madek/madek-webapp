@@ -76,6 +76,7 @@
     @include border-radius(4px);
     color: $green;
     padding: 0 4px !important;
+    margin-left: -5px;
     width: auto;
 
     &:hover {
