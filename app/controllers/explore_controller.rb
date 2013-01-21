@@ -4,7 +4,7 @@ class ExploreController < ApplicationController
 
   before_filter do
     @featured_set = MediaSet.featured
-    @featured_set_children = @featured_set.child_media_resources.accessible_by_user(current_user).ordered_by(:created_at).limit(6) if @featured_set
+    @featured_set_children = @featured_set.child_media_resources.accessible_by_user(current_user).ordered_by(:updated_at).limit(6) if @featured_set
     @catalog_set = MediaSet.catalog
     @any_top_keywords = Keyword.with_count_for_accessible_media_resources(current_user).exists?
   end
