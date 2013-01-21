@@ -79,12 +79,12 @@
             %input#fileInput.fileInput{:oncontextmenu => "return false;", :style => "visibility: hidden; position: fixed; right: 0; top: 0", :type => "file"}/
             %button#fullscreen.toolbarButton.fullscreen{"data-l10n-id" => "presentation_mode", :tabindex => "11", :title => "Switch to Presentation Mode"}
               %span{"data-l10n-id" => "presentation_mode_label"} Presentation Mode
-            / %button#openFile.toolbarButton.openFile{"data-l10n-id" => "open_file", :tabindex => "12", :title => "Open File"}
-            /   %span{"data-l10n-id" => "open_file_label"} Open
+            %button#openFile.hidden.toolbarButton.openFile{"data-l10n-id" => "open_file", :tabindex => "12", :title => "Open File"}
+              %span{"data-l10n-id" => "open_file_label"} Open
             %button#print.toolbarButton.print{"data-l10n-id" => "print", :tabindex => "13", :title => "Print"}
               %span{"data-l10n-id" => "print_label"} Print
-            / %button#download.toolbarButton.download{"data-l10n-id" => "download", :tabindex => "14", :title => "Download"}
-            /   %span{"data-l10n-id" => "download_label"} Download
+            %button#download.toolbarButton.download.hidden{"data-l10n-id" => "download", :tabindex => "14", :title => "Download"}
+              %span{"data-l10n-id" => "download_label"} Download
             / <div class="toolbarButtonSpacer"></div>
             %a#viewBookmark.toolbarButton.bookmark{"data-l10n-id" => "bookmark", :href => "#", :tabindex => "15", :title => "Current view (copy or open in new window)"}
               %span{"data-l10n-id" => "bookmark_label"} Current View
