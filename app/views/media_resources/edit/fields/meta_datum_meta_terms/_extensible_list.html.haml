@@ -2,14 +2,15 @@
   
   %ul.multi-select-holder
 
-    - meta_datum.value.each do |term|
+    - unless meta_datum.nil?
+      - meta_datum.value.each do |term|
 
-      %li.multi-select-tag.meta-term
-        %input{:name => "resource[meta_data_attributes][#{@i}][value][]", :type => "hidden", :value => term.id}
-        = term
-        %a.multi-select-tag-remove
-          .icon-remove
+        %li.multi-select-tag.meta-term
+          %input{:name => "resource[meta_data_attributes][#{@i}][value][]", :type => "hidden", :value => term.id}
+          = term
+          %a.multi-select-tag-remove
+            .icon-remove
 
     %li.multi-select-input-holder.mbs
-      %input.multi-select-input.form-autocomplete-extensible-list{:type => "text", :"data-context" => definition.meta_context_id, :"data-meta_key" => meta_datum.meta_key_id }
+      %input.multi-select-input.form-autocomplete-extensible-list{:type => "text", :"data-context" => definition.meta_context_id, :"data-meta_key" => definition.meta_key_id }
         %a.multi-select-input-toggle

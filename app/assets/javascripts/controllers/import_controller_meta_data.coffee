@@ -156,10 +156,12 @@ class ImportController.MetaData
       switch metaDatumType
         when "meta_datum_copyright"
           @switchCopyright field, metaDatum
+        when "meta_datum_meta_terms"
+          @selectMetaTerms field, metaDatum
         else
           template = App.render "media_resources/edit/fields/#{metaDatumType}",
             index: index
-            definition: metaKey.settings
+            definition: metaKey
             meta_datum: metaDatum
           formItemExtension = field.find(".form-item-extension").detach()
           formItemExtensionToggle = field.find(".form-item-extension-toggle").detach()
@@ -179,6 +181,16 @@ class ImportController.MetaData
     option.attr "selected", true
     option.trigger "change"
     option.trigger "select"
+
+  selectMetaTerms: (field, metaDatum)->
+    if field.find(".multi-select").length
+      field.find(".multi-select-tag").remove()
+      for value in metaDatum.raw_value
+        field.find(".multi-select-input-holder").before App.render "media_resources/edit/multi-select/term", {term: value}
+    else
+      field.find("input").attr "checked", false
+      for value in metaDatum.raw_value
+        field.find("input[value='#{value.id}']").attr "checked", true
 
   validateAllResources: (highlight)->
     anyInvalid = false
@@ -210,7 +222,6 @@ class ImportController.MetaData
         @setupResourceForEdit @currentResource
     else
       @onlyInvalidResourcesToggle.attr("disabled", false)
-
 
 window.App.ImportController = {} unless window.App.ImportController
 window.App.ImportController.MetaData = ImportController.MetaData

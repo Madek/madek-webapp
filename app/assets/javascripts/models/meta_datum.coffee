@@ -15,6 +15,12 @@ class MetaDatum
       when "keywords"
         @value = _.map(additionalData, (keyword)->keyword.label).join("; ")
         @raw_value = additionalData
+      when "copyright"
+        @value = value
+        @raw_value = additionalData
+      when "meta_terms"
+        @value = value
+        @raw_value = additionalData
       else
         @value = value
         @raw_value = value
@@ -40,6 +46,11 @@ class MetaDatum
         _.map field.find(".multi-select-tag"), (entry)-> $(entry).find("input").val()
       when "meta_datum_copyright"
         field.find("input.value-target").val()
+      when "meta_datum_meta_terms"
+        if field.find(".multi-select").length
+          _.map field.find(".multi-select-tag"), (entry)-> $(entry).find("input").val()
+        else
+          _.map field.find("input:checked"), (input)-> $(input).val()
       else
         field.find("input:visible").val()
 
@@ -50,5 +61,12 @@ class MetaDatum
         _.map field.find(".multi-select-tag"), (entry)-> new App.Person $(entry).data()
       when "meta_datum_keywords"
         _.map field.find(".multi-select-tag"), (entry)-> $(entry).data()
+      when "meta_datum_copyright"
+        parent_id: field.find("input.value-target").val()
+      when "meta_datum_meta_terms"
+        if field.find(".multi-select").length
+          _.map field.find(".multi-select-tag"), (entry)-> $(entry).data()
+        else
+          _.map field.find("input:checked"), (input)-> {id: $(input).val()}
 
 window.App.MetaDatum = MetaDatum
