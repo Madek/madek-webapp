@@ -201,7 +201,14 @@ class PermissionsController
           $(event.target).blur()
           $(event.target).nextAll(".button").focus()
           return false
-      input.autocomplete("widget").addClass("narrow")
+      input.autocomplete("widget").addClass("wide")
+      input.data("autocomplete")._renderItem = (ul, item)->
+        listItem = $("<li title='#{item.label}'></li>")
+          .data("item.autocomplete", item)
+          .append("<a>#{item.label}</a>")
+          .appendTo(ul);
+        return listItem
+
     # setup if dialog is visible (possible time shift because the bootstrap modal)
     if @el.is ":visible" then do setup else @el.one "shown", => do setup
 
