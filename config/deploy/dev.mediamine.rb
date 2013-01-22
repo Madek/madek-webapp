@@ -126,10 +126,10 @@ end
 
 before "deploy:create_symlink", :make_tmp
 
-after "deploy:create_symlink", :link_config
-after "deploy:create_symlink", :link_attachments
-after "deploy:create_symlink", :configure_environment
-after "deploy:create_symlink", :record_deploy_info 
+before "deploy:create_symlink", :link_config
+before "deploy:create_symlink", :link_attachments
+before "deploy:create_symlink", :configure_environment
+before "deploy:create_symlink", :record_deploy_info 
 #after "deploy:create_symlink", :generate_documentation 
 
 after "link_config", :migrate_database
