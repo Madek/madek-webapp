@@ -1,7 +1,7 @@
 {{each(i, metaDatum) abstract}}
 .col1of3.mbl
   .ui-metadata-box.prl
-    .h3.title-m.separated.light.mbm ${metaDatum.name}
+    .h3.title-m.separated.light.mbm ${metaDatum.label}
     %ul.ui-tag-cloud.small
       {{tmpl(metaDatum.raw_value, {metaDatum: metaDatum}) App.renderPath("media_sets/abstract/term")}}
 {{/each}}

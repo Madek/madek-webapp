@@ -75,7 +75,7 @@ class MediaSetsController < ApplicationController
     respond_to do |format|
       format.html {@totalChildren = @media_set.child_media_resources.accessible_by_user(current_user).count}
       format.js { render :layout => false }
-      format.json { render :json => view_context.hash_for(@media_set.abstract(min, current_user)) }
+      format.json { render :json => view_context.hash_for(@media_set.abstract(min, current_user), {:label => true}) }
     end
   end
 
