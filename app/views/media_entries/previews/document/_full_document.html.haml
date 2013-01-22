@@ -25,10 +25,12 @@
   = javascript_include_tag "/mozilla-pdf/src/bidi.js"
 
 .ui-document-preview-container
-
+  
   %canvas#ui-document-preview.ui-media-overview-preview-item
 
   .ui-document-preview-controls
+    %a.ui-document-preview-link{:href => document_media_entry_path(:file => "/media_files/#{@media_entry.media_file.id}?access_hash=#{@media_entry.media_file.access_hash}"), 
+                                        :target => "_blank", :title => "In neuem Fenster öffnen"}
     .ui-document-preview-prev.hidden{:title => "Vorherige Seite"}
       .ui-prev-arrow-prev
     .ui-document-preview-next.hidden{:title => "Nächste Seite"}
