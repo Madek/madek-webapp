@@ -148,28 +148,34 @@ class ImportController.MetaData
     $(@).trigger "form-unload"
     for field in @el.find(".form-body .ui-form-group[data-type]")
       field = $(field)
-      index = field.data "index"
-      metaKeyName = field.data "meta-key"
       metaDatumType = field.data "type"
-      metaKey = @metaKeyDefinition.getKeyByName metaKeyName
+      metaKeyName = field.data "meta-key"
       metaDatum = resource.getMetaDatumByMetaKeyName metaKeyName
       switch metaDatumType
         when "meta_datum_copyright"
           @switchCopyright field, metaDatum
         when "meta_datum_meta_terms"
           @selectMetaTerms field, metaDatum
+        when "meta_datum_country"
+          @selectCountry field, metaDatum
         else
-          template = App.render "media_resources/edit/fields/#{metaDatumType}",
-            index: index
-            definition: metaKey
-            meta_datum: metaDatum
-          formItemExtension = field.find(".form-item-extension").detach()
-          formItemExtensionToggle = field.find(".form-item-extension-toggle").detach()
-          field.find(".form-item").html template
-          field.find(".form-item").append formItemExtensionToggle
-          field.find(".form-item").append formItemExtension
+          @renderFieldItem field, resource, metaDatum, metaKeyName
       @validateField field, metaKeyName
     $(@).trigger "form-ready"
+
+  renderFieldItem: (field, resource, metaDatum, metaKeyName)->
+    index = field.data "index"
+    metaDatumType = field.data "type"
+    metaKey = @metaKeyDefinition.getKeyByName metaKeyName
+    template = App.render "media_resources/edit/fields/#{metaDatumType}",
+      index: index
+      definition: metaKey
+      meta_datum: metaDatum
+    formItemExtension = field.find(".form-item-extension").detach()
+    formItemExtensionToggle = field.find(".form-item-extension-toggle").detach()
+    field.find(".form-item").html template
+    field.find(".form-item").append formItemExtensionToggle
+    field.find(".form-item").append formItemExtension
 
   switchCopyright: (field, metaDatum)->
     if metaDatum.raw_value.parent_id?
@@ -191,6 +197,12 @@ class ImportController.MetaData
       field.find("input").attr "checked", false
       for value in metaDatum.raw_value
         field.find("input[value='#{value.id}']").attr "checked", true
+
+  selectCountry: (field, metaDatum)->
+    if metaDatum.value?
+      field.find("option[value='#{metaDatum.value}']").attr "selected", true
+    else
+      field.find("option:first").attr "selected", true
 
   validateAllResources: (highlight)->
     anyInvalid = false

@@ -25,6 +25,7 @@ module Json
     alias :hash_for_meta_datum_copyright :hash_for_meta_datum
     alias :hash_for_meta_datum_date :hash_for_meta_datum
     alias :hash_for_meta_datum_departments :hash_for_meta_datum
+    alias :hash_for_meta_datum_country :hash_for_meta_datum
     alias :hash_for_meta_datum_keywords :hash_for_meta_datum
     alias :hash_for_meta_datum_meta_terms :hash_for_meta_datum
     alias :hash_for_meta_datum_people :hash_for_meta_datum

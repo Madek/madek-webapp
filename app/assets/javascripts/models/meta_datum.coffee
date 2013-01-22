@@ -51,6 +51,8 @@ class MetaDatum
           _.map field.find(".multi-select-tag"), (entry)-> $(entry).find("input").val()
         else
           _.map field.find("input:checked"), (input)-> $(input).val()
+      when "meta_datum_country"
+        field.find("option:selected").val()
       else
         field.find("input:visible").val()
 
