@@ -26,19 +26,22 @@ class Person
           @[k] = v
         callback(data) if callback?
 
-  toString: ->
-    name = ""
-    if @is_group
-      name = "#{@firstname} [Gruppe]"
+  toString: -> App.Person.toString @
+
+  @toString: (person)->
+    if person.is_group
+      name = "#{person.firstname} [Gruppe]"
+    else if person.name?
+      name = person.name
     else
       name = []
-      name.push @firstname if @firstname? and @firstname.length
-      name.push @lastname if @lastname? and @lastname.length
+      name.push person.lastname if person.lastname? and person.lastname.length
+      name.push person.firstname if person.firstname? and person.firstname.length
       name = name.join(", ")
-      if @pseudonym? and @pseudonym.length
-        name = [name, "(#{@pseudonym})"] 
+      if person.pseudonym? and person.pseudonym.length
+        name = [name, "(#{person.pseudonym})"] 
         name = name.join(" ")
-    return name
+    name
 
   @fetch: (query, callback)->
     $.ajax

@@ -34,6 +34,9 @@ td, th {
   padding: $space-x 0;
   vertical-align: top;
 }
+tr:last-child td {
+  border-bottom: none;
+}
 .midtone td {
   border-color: $grey-mid-light;
 }

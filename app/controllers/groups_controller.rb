@@ -41,6 +41,13 @@ class GroupsController < ApplicationController
     end
   end
 
+  ##
+  # Get a specific group
+  # 
+  # @resource /groups/:id
+  #
+  # @action GET
+  #
   def show
     respond_to do |format|
       format.json {
@@ -117,9 +124,16 @@ class GroupsController < ApplicationController
   end
 
   def destroy
-    not_authorized! and return if @group.is_readonly?
+    if @group.is_readonly? or @group.users.count > 1
+      not_authorized! and return 
+    end
+
     @group.destroy
-    redirect_to groups_path
+
+    respond_to do |format|
+      format.html { redirect_to groups_path }
+      format.json { render json: "", :status => :ok }
+    end
   end
 
 end

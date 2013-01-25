@@ -180,7 +180,6 @@ Feature: Permissions
       And I click on the link "Zugriffsberechtigungen"
      Then I can choose from a set of labeled permissions presets instead of grant permissions explicitly    
 
-
   @jsbrowser @dirty 
   Scenario: Limiting what other users' permissions I can see
     Given I am signed-in as "Normin"

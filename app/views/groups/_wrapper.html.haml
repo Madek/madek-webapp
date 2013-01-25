@@ -19,7 +19,7 @@
           %td{:colspan => 3}
       %tbody
         - groups.each do |group|
-          %tr
+          %tr{:"data-id" => group.id}
             %td.ui-workgroup-name= group.name
             - if resources
               - total_accessible_by_group = MediaResource.accessible_by_group(group).where(:type => ["MediaEntry", "MediaSet"]).count
@@ -28,14 +28,16 @@
                   = total_accessible_by_group
                   Inhalte
             - if actions
-              %td.ui-workgroup-actions.hidden
-                %a.button.small{:href => "#workgroup-delete", "data-toggle" => "modal"}
+              %td.ui-workgroup-actions
+                %a.button.small.delete-workgroup
                   %i.icon-trash.dark
-                %a.button.small{:href => "#workgroup-edit", "data-toggle" => "modal"}
+                %a.button.small.edit-workgroup
                   %i.icon-pen.dark
 
   - else
 
     %ul.inline
       - groups.each do |group|
-        = render :partial => "groups/group", :locals => {group: group}
+        %li
+          %a{:href => my_groups_path}
+            = group.name

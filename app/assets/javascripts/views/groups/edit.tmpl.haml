@@ -1,0 +1,39 @@
+#workgroup-edit.modal.hide.fade.ui-modal.wide{"aria-hidden" => "true", "aria-labelledby" => "workgroup-edit-label", :role => "dialog", :tabindex => "-1"}
+
+  .ui-modal-head
+    %a.ui-modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button", :title => "Close", :class => "weak"}
+    %h3#workgroup-edit-label.title-l ${name}
+
+  .ui-modal-toolbar.top
+
+    .by-center
+      %button.button.small#show-edit-name Gruppennamen ändern
+
+    .form-body.phm.hidden#edit-name-container
+      .ui-form-group.rowed
+        %label.form-label
+          Namen ändern
+
+          .form-item.mts
+            %input.block#group-name{:type => "text", :placeholder => "Name der Gruppe", :value => "${name}"}
+
+  .ui-modal-body
+    %table.mbs.block
+      %tbody#user-list
+
+  .ui-modal-toolbar.bottom
+
+    .form-body.phm
+      .ui-form-group.rowed
+        %label.form-label
+          Person hinzufügen
+          %small Es können nur Personen ausgewählt werden, die sich schon einmal im Medienarchiv eingeloggt haben.
+
+          .form-item.mts
+            %input.block#add-user{:type => "text", :placeholder => "Name der Person", :autofocus => :autofocus}
+
+  .ui-modal-footer
+    %form
+      .ui-actions
+        %a.link.weak{"aria-hidden" => "true", "data-dismiss" => "modal", :class => "weak link"} Abbrechen
+        %button.primary-button Speichern
