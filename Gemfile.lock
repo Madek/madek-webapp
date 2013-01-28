@@ -80,6 +80,10 @@ GEM
     autotest (4.4.6)
       ZenTest (>= 4.4.1)
     bcrypt-ruby (3.0.1)
+    better_errors (0.3.2)
+      coderay (>= 1.0.0)
+      erubis (>= 2.7.0)
+    binding_of_caller (0.6.8)
     bourbon (2.1.2)
       sass (>= 3.2)
       thor
@@ -225,6 +229,9 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     memcache-client (1.8.5)
+    meta_request (0.2.1)
+      rack-contrib
+      rails
     meta_search (1.1.3)
       actionpack (~> 3.1)
       activerecord (~> 3.1)
@@ -277,6 +284,8 @@ GEM
     rack (1.4.3)
     rack-cache (1.2)
       rack (>= 0.4)
+    rack-contrib (1.1.0)
+      rack (>= 0.9.1)
     rack-ssl (1.3.2)
       rack
     rack-test (0.6.2)
@@ -417,6 +426,8 @@ DEPENDENCIES
   activeadmin (~> 0.5.0)
   activerecord-jdbcpostgresql-adapter
   autotest
+  better_errors
+  binding_of_caller
   capistrano
   capistrano-ext
   capybara (= 1.1.2)
@@ -452,6 +463,7 @@ DEPENDENCIES
   launchy
   ledermann-rails-settings
   memcache-client
+  meta_request
   nested_set (~> 1.7)
   net-ldap!
   newrelic_rpm (~> 3.4)

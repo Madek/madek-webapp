@@ -8,7 +8,6 @@ class MediaSet extends App.MediaResource
 
   validate: ->
     @errors = []
-    debugger
     @errors.push {text: "Titel ist ein Pflichtfeld"} if not @title? or @title.length <= 0
     if @errors.length then false else true
 

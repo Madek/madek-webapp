@@ -6,6 +6,8 @@ class User
 
   isMemberOf: (group)-> _.include _.map(@groups, (group)->group.id), group.id
 
+  toString: => App.Person.toString @
+
   @fetch: (query, callback)->
     $.ajax
       url: "/users.json"

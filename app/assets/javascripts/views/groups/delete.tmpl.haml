@@ -1,0 +1,12 @@
+#workgroup-delete.modal.hide.fade.ui-modal.narrow{"aria-hidden" => "true", "aria-labelledby" => "workgroup-delete-label", :role => "dialog", :tabindex => "-1"}
+  %form
+    .ui-modal-head
+      %h3#workgroup-delete-label.title-l Gruppe löschen
+      %a.ui-modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button", :title => "Close", :class => "weak"}
+    .ui-modal-body
+      .form-body
+        %p.pvm.phl.by-center Soll diese Gruppe und die mit Ihr verbundenen Berechtigungen gelöscht werden?
+    .ui-modal-footer
+      .ui-actions
+        %a.link.weak{"aria-hidden" => "true", "data-dismiss" => "modal", :class => "weak link"} Abbrechen
+        %button.primary-button Löschen

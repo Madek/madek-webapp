@@ -39,7 +39,7 @@ class MyController < ApplicationController
   end
 
   def groups
-    groups = current_user.groups
+    groups = current_user.groups.order(:name)
     @workgroups = groups.select{|g| g.type == "Group" and not g.is_readonly?}
     @systemgroups = groups.select{|g| g.type == "Group" and g.is_readonly?}
     @departmentgroups = groups.select{|g| g.type == "MetaDepartment"}

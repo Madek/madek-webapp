@@ -32,12 +32,16 @@ When /^I click on the link "(.*?)"$/ do |link_text|
 end 
 
 When /^I click on the link "(.*?)" inside of the dialog$/ do |link_text|
-  wait_until(2){ all("#ui-export-dialog.ui-shown a", text: link_text, visible: true).size > 0}
+  step 'I wait for the dialog to appear'
   find("a",text: link_text).click
 end
 
 When /^I click on the button "(.*?)"$/ do |button_text|
   find("button",text: button_text).click
+end
+
+When /^I click the primary action of this dialog$/ do
+  find(".ui-modal .primary-button").click
 end
 
 When /^I click the submit input$/ do
@@ -91,6 +95,14 @@ end
 When /^I use the "(.*?)" context action$/ do |context_name|  
   find("a",text: "Weitere Aktionen").click
   find("a",text: context_name).click
+end
+
+When /^I wait for the dialog to appear$/ do
+  wait_until{all(".modal.ui-shown").size > 0 }
+end
+
+When /^I wait for the dialog to disappear$/ do
+  wait_until{all(".modal-backdrop").size == 0 }
 end
 
 Given /^I wait for the following to be implemented$/ do

@@ -70,17 +70,19 @@
   &.person-tag {
     @include border-radius(2px);
     font-size: $font-m !important;
-    font-weight: normal;
-    background: $lighten-less;
-    border-color: $lighten-less;
+    font-weight: 600;
+    background: white;
+    border-color: $darken-less;
     @include border-radius(4px);
     color: $green;
     padding: 0 4px !important;
     margin-left: -5px;
+    margin-bottom: 8px;
+    margin-right: 8px;
     width: auto;
 
     &:hover {
-      background: $lighten-more;
+      background: $darken-subtle;
       color: $green-dark;
     }
   }

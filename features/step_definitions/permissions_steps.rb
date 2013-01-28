@@ -71,7 +71,7 @@ Then /^I am not the responsible person for that resource$/ do
 end
 
 Then /^I can choose from a set of labeled permissions presets instead of grant permissions explicitly$/ do
-  wait_until{all(".modal.ui-shown").size > 0 }
+  step 'I wait for the dialog to appear'
   expect(all("tr[data-name='#{@user_with_userpermissions.name}'] select.ui-rights-role-select option").size).to be > 0
 end
 
@@ -120,7 +120,7 @@ end
 When /^I open the edit-permissions dialog$/ do
   find(".primary-button").click
   find("a[data-open-permissions]").click
-  wait_until{all(".modal.ui-shown").size > 0 }
+  step 'I wait for the dialog to appear'
 end
 
 When /^I visit the path of the resource$/ do
@@ -135,7 +135,7 @@ Given /^I visit the permissions dialog of the resource$/ do
   visit media_resource_path @resource
   find("a",text: "Weitere Aktionen").click
   find("a",text: "Zugriffsberechtigungen").click
-  wait_until{all(".modal.ui-shown").size > 0 }
+  step 'I wait for the dialog to appear'
 end
 
 

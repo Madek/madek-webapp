@@ -20,7 +20,7 @@ class MediaSetsController
         $(ms).bind "created", -> window.location = "/media_sets/#{ms.id}"
         ms.create()
       else
-        App.FormErrors.set form, ms.errors
+        App.DialogErrors.set form, ms.errors
       return false
     new App.Modal dialog
 
