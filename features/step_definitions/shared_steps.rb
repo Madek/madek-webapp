@@ -1,7 +1,9 @@
-# the common steps are lexically ordered, 
+# The common steps are lexically ordered. 
 # PLEASE KEEP IT THIS WAY!
 #
 
+### I am #########################################
+ 
 Then /^I am on the page of the resource$/ do
   case @resource.type
   when "MediaSet" 
@@ -21,6 +23,9 @@ Given /^I am signed\-in as "(.*?)"$/ do |login|
   find("button[type='submit']").click
   @me = @current_user = User.find_by_login login
 end
+
+
+### I c⋯ #########################################
 
 Then /^I can see the text "(.*?)"$/ do |text|
   expect(page.has_content? text).to be true
@@ -57,6 +62,8 @@ Given /^I close the modal dialog\.$/ do
   wait_until(2){all(".modal-backdrop").size == 0}
 end
 
+### I f⋯ ###################################################
+
 When /^(?:|I )fill in the following:$/ do |fields|
   fields.rows_hash.each do |name, value|
     step %{I fill in "#{name}" with "#{value}"}
@@ -67,18 +74,26 @@ When /^I follow the link with the text "(.*?)"$/ do |text|
   find("a",text: text).click
 end
 
+### I g⋯ ###################################################
+
 When /^I go to the home page$/ do
   visit "/"
 end
+
 
 Given /^I logout\.$/ do
   find(".app-header .ui-header-user a").click
   find("a[href='/logout']").click
 end
 
+### I p⋯ ###################################################
+
 When /^I pry$/ do
   binding.pry 
 end
+
+### I s⋯ ###################################################
+
 
 Then /^I see an error alert$/ do
   expect{ find(".ui-alert.error",visible: true) }.not_to raise_error
@@ -97,6 +112,8 @@ When /^I use the "(.*?)" context action$/ do |context_name|
   find("a",text: context_name).click
 end
 
+### I w⋯ ###################################################
+
 When /^I wait for the dialog to appear$/ do
   wait_until{all(".modal.ui-shown").size > 0 }
 end
@@ -108,6 +125,8 @@ end
 Given /^I wait for the following to be implemented$/ do
   pending
 end
+
+### T #########################################################
 
 Then /^There is a link with class "(.*?)" in the list with class "(.*?)"$/ do |link_class, list_class|
   expect{ find("ul.#{list_class} a.#{link_class}") }.not_to raise_error
