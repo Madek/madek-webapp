@@ -98,8 +98,10 @@ group :development, :production do
 end
 
 group :development do
-  # CSS styleguides
-  gem 'nkss-rails', :git => 'git://github.com/interactivethings/nkss-rails.git'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'meta_request'
+  gem 'nkss-rails', :git => 'git://github.com/interactivethings/nkss-rails.git'   # CSS styleguides
 end
 
 group :test do
