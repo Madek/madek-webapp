@@ -1,11 +1,12 @@
 Feature: Login
 
-  @jsbrowser
+  @jsbrowser @clean
   Scenario: Login with ZHdK authentication
     When I go to the home page
     And I click on the ZHdK-Login
     Then I go to the ZHdK-Login page
 
+  @clean
   Scenario: Login with database authentication
     When I go to the home page
     When I click on the database login tab

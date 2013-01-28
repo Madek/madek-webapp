@@ -4,6 +4,7 @@ Feature: Filter
   I want to filter lists of resources
   So that can narrow down results
 
+  @clean
   Scenario: Filter by "any" value
     When I see a list of resources
      And I open the filter

@@ -4,11 +4,13 @@ Feature: Context
   I want to work with contexts
   So that I can use specified vocabulary
 
+  @clean
   Scenario: See a list of contexts
     When I go to the explore page
     Then I see a list of contexts that are connected with media sets that i can see
     And for each context I see the label and description
 
+  @clean
   Scenario: Open a specific context
     When I go to the explore page
      And I open a context
@@ -22,11 +24,13 @@ Feature: Context
     When I click the vocabulary tab
     Then I see the vocabulary of that context
 
+  @clean
   Scenario: Highlight used vocabulary
     When I'm on the context's vocabulary page
      And I use the highlight used vocabulary action
     Then the unused values are faded out
 
+  @clean
   Scenario: Interact with the abstract slider of a context 
     When I'm on the context's abstract page
     Then I see all values that are at least used for one resource

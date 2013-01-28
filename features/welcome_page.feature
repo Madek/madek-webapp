@@ -1,5 +1,6 @@
 Feature: Welcome Page
 
+  @clean
   Scenario: Elements of welcome page
     When I go to the home page
     Then I see a selection of the images of the teaser set

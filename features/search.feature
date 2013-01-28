@@ -7,6 +7,7 @@ Feature: Search
   Background: 
     Given I am signed-in as "Normin"
 
+  @clean
   Scenario: Suggested search terms
     When I go to the search page
     Then I see one suggested keyword that is randomly picked from the top 25 keywords of resources that I can see

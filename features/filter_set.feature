@@ -18,6 +18,7 @@ Feature: Filter set
      And I save these changes
     Then the filter set settings are updated
 
+  @clean
   Scenario: See filter set settings
    When I open a filter set
    Then I can see the settings of that filter set
