@@ -7,7 +7,7 @@ Feature: Workgroups
   Background: 
     Given I am signed-in as "Normin"
 
-  @jsbrowser @dirty
+  @jsbrowser
   Scenario: Create a new group
     When I go to my groups
      And I try to create a new group by using the context primary action
@@ -15,7 +15,7 @@ Feature: Workgroups
      And I click the primary action of this dialog
     Then the group is created
 
-  @jsbrowser
+  @clean @jsbrowser
   Scenario: Requiring name during group creation
     When I go to my groups
      And I try to create a new group by using the context primary action
@@ -23,7 +23,7 @@ Feature: Workgroups
      And I click the primary action of this dialog
     Then I see an error that I have to provide a name for that group
 
-  @firefox @dirty
+  @chrome
   Scenario: Edit group members
     When I go to my groups
      And I edit one group
@@ -32,7 +32,7 @@ Feature: Workgroups
     When I click the primary action of this dialog
     Then the group members are updated
 
-  @firefox @dirty
+  @chrome
   Scenario: Delete a group
     When I go to my groups
      And I edit one group
@@ -40,14 +40,14 @@ Feature: Workgroups
      And I delete that group
     Then the group is deleted
   
-  @jsbrowser
+  @clean @jsbrowser
   Scenario: Error during group deletion
     When I go to my groups
      And I delete a group where I'm not the only remaining member
     Then I see an error message that the group cannot be deleted if there are more than 1 members
      And the group is not deleted
    
-  @jsbrowser @dirty
+  @jsbrowser
   Scenario: Successfully edit group name
     When I go to my groups
      And I edit one group
@@ -55,7 +55,7 @@ Feature: Workgroups
      And I click the primary action of this dialog
     Then the group name is changed
 
-   @jsbrowser
+   @clean @jsbrowser
    Scenario: Error providing empty group name during edit
     When I go to my groups
      And I edit one group
