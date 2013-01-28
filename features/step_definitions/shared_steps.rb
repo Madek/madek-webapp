@@ -42,7 +42,8 @@ When /^I click on the link "(.*?)" inside of the dialog$/ do |link_text|
 end
 
 When /^I click on the button "(.*?)"$/ do |button_text|
-  find("button",text: button_text).click
+  find(".app-footer").click # scroll down 
+  find("button",text: button_text).click # and up again
 end
 
 When /^I click the primary action of this dialog$/ do
