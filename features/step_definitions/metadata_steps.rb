@@ -1,3 +1,8 @@
+def stable_part_of_meta_datum_departement dep_name
+  dep_name.match(/^(.*)\(/).captures.first
+end
+
+
 Then /^I can see every meta\-data\-value somewhere on the page$/ do
   @meta_data.each do |meta_context_name,meta_data|
     meta_data.each do |md|
@@ -12,10 +17,6 @@ Then /^I can see every meta\-data\-value somewhere on the page$/ do
   end
 end
 
-
-def stable_part_of_meta_datum_departement dep_name
-  dep_name.match(/^(.*)\(/).captures.first
-end
 
 Given /^I change the value of each meta\-data field$/  do
 
@@ -148,6 +149,14 @@ end
 Then /^I am on the page of my first media_entry$/ do
   @media_entry = @me.media_entries.reorder(:id).first
   expect(current_path).to eq  media_entry_path(@media_entry)
+end
+
+When /^I delete all existing authors$/ do
+  all("fieldset[data-meta-key='author'] ul.multi-select-holder li a",visible:true).each{|e| e.click}
+end
+
+When /^I click on the icon of the author fieldset$/ do
+  find("fieldset[data-meta-key='author'] i").click
 end
 
 
