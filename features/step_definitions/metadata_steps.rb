@@ -160,4 +160,9 @@ When /^I click on the icon of the author fieldset$/ do
 end
 
 
+When /^I wait for multi\-select\-tag with the text "(.*?)"$/ do |text|
+  wait_until{all("li.multi-select-tag",text: text).size > 0}
+end
+
+
 

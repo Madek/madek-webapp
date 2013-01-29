@@ -12,8 +12,10 @@ class FormWidgets.Person
     do @delegateEvents
 
   delegateEvents: ->
-    @el.on "click", ".form-person-widget .add-person", (e) => @addPerson $(e.currentTarget).closest(".tab-pane").find("input"), $(e.currentTarget).closest(".form-widget")
-    @el.on "click", ".form-person-widget .add-group", (e) => @addPerson $(e.currentTarget).closest(".tab-pane").find("input"), $(e.currentTarget).closest(".form-widget")
+    @el.on "click", ".form-person-widget .add-person", (e) => 
+      @addPerson $(e.currentTarget).closest(".tab-pane").find("input"), $(e.currentTarget).closest(".form-widget")
+    @el.on "click", ".form-person-widget .add-group", (e) => 
+      @addPerson $(e.currentTarget).closest(".tab-pane").find("input"), $(e.currentTarget).closest(".form-widget")
     
   addPerson: (inputs, widget)->
     person = new App.Person
