@@ -20,25 +20,6 @@ Feature: Advanced metadata editing features (keywords, people, controlled vocabu
      Then I should see "Foo, Bar"
 
   @poltergeist 
-  Scenario: Putting a pseudonym into the author field
-    Given I am "normin"
-     And I upload some picture titled "Me and Leia Organa"
-     And I click the arrow next to my name
-     And I follow "Meine Medien"
-     And all the hidden items become visible
-     And I switch to the grid view
-     And I click the edit icon on the media entry titled "Me and Leia Organa"
-     And I fill in the metadata form as follows:
-     |label   |value      |options           |
-     |Autor/in|Yoda       |pseudonym field|
-     And I press "Speichern"
-     And I click the arrow next to my name
-     And I follow "Meine Medien"
-     And I click the media entry titled "Me and Leia Organa"
-     And I wait for the CSS element "#detail-excerpt"
-     Then I should see "(Yoda)"
-
-  @poltergeist 
   Scenario: Putting a group into the group name field in the group tab
     Given I am "normin"
      And I upload some picture titled "Me and Leia Organa"
