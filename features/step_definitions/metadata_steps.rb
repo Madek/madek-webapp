@@ -43,6 +43,18 @@ Given /^I change the value of each meta\-data field$/  do
           type: type)
           field_set.find("input", visible: true).set(meta_data[i][:value])
 
+      when 'meta_datum_keywords'
+        # remove all existing 
+        field_set.all(".multi-select li a.multi-select-tag-remove").each{|a| a.click}
+        @kws ||= MetaTerm.joins(:keywords).select("de_ch").uniq.map(&:de_ch).sort
+        random_kw = @kws[rand @kws.size]
+        meta_data[i] = HashWithIndifferentAccess.new(
+          value: random_kw,
+          type: type)
+        field_set.find("input", visible: true).set(random_kw)
+        wait_until{  field_set.all("a",text: random_kw).size > 0 }
+        field_set.find("a",text: random_kw).click
+
       else
         # TODO
       end
@@ -65,6 +77,8 @@ Then /^each meta\-data value should be equal to the one set previously$/ do
         expect(field_set.all("ul.multi-select-holder li",text: meta_data[i][:value]).size ).to eq 1
       when 'meta_datum_date' 
         expect(field_set.find("input", visible: true).value).to eq meta_data[i][:value]
+      when 'meta_datum_keywords'
+        expect(field_set.all("ul.multi-select-holder li",text: meta_data[i][:value]).size ).to eq 1
       else
         # TODO
       end
