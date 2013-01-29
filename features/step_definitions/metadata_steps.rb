@@ -16,6 +16,8 @@ Given /^I change the value of each meta\-data field$/  do
     meta_data= []
     all("form fieldset",visible: true).each_with_index do |field_set,i|
       type = field_set[:'data-type']
+      meta_key = field_set[:'data-meta-key']
+
 
       case type
 
@@ -44,7 +46,7 @@ Given /^I change the value of each meta\-data field$/  do
           field_set.find("input", visible: true).set(meta_data[i][:value])
 
       when 'meta_datum_keywords'
-        # remove all existing 
+
         field_set.all(".multi-select li a.multi-select-tag-remove").each{|a| a.click}
         @kws ||= MetaTerm.joins(:keywords).select("de_ch").uniq.map(&:de_ch).sort
         random_kw = @kws[rand @kws.size]
@@ -55,7 +57,28 @@ Given /^I change the value of each meta\-data field$/  do
         wait_until{  field_set.all("a",text: random_kw).size > 0 }
         field_set.find("a",text: random_kw).click
 
+
+      when 'meta_datum_meta_terms'
+        if field_set['data-is-extensible-list']
+          field_set.all(".multi-select li a.multi-select-tag-remove").each{|a| a.click}
+          field_set.find("input",visible: true).click
+          targets = field_set.all("ul.ui-autocomplete li a",visible: true)
+          targets[rand targets.size].click
+          wait_until{ field_set.all("ul.multi-select-holder li.meta-term").size > 0}
+          meta_data[i] = HashWithIndifferentAccess.new(
+            value: field_set.first("ul.multi-select-holder li.meta-term").text, 
+            type: type,
+            meta_key: meta_key) 
+        else
+          checkboxes = field_set.all("input",type: 'checkbox', visible: true)
+          checkboxes.each{|c| c.set false}
+          checkboxes[rand checkboxes.size].click
+          meta_data[i] = HashWithIndifferentAccess.new(
+            value: field_set.all("input", type: 'checkbox', visible: true,checked: true).first.find(:xpath,".//..").text,
+            type: type) 
+        end
       else
+        # binding.pry
         # TODO
       end
 
@@ -70,6 +93,8 @@ Then /^each meta\-data value should be equal to the one set previously$/ do
     meta_data= @meta_data[context[:'data-context-name']]
     all("form fieldset",visible: true).each_with_index do |field_set,i|
       type = field_set[:'data-type']
+      meta_key = field_set[:'data-meta-key']
+
       case type
       when 'meta_datum_string'
         expect(field_set.find("textarea").value).to eq meta_data[i][:value]
@@ -79,6 +104,12 @@ Then /^each meta\-data value should be equal to the one set previously$/ do
         expect(field_set.find("input", visible: true).value).to eq meta_data[i][:value]
       when 'meta_datum_keywords'
         expect(field_set.all("ul.multi-select-holder li",text: meta_data[i][:value]).size ).to eq 1
+      when 'meta_datum_meta_terms'
+        if field_set['data-is-extensible-list']
+          expect(field_set.first("ul.multi-select-holder li.meta-term").text).to eq  meta_data[i][:value]
+        else
+          expect(field_set.all("input", type: 'checkbox', visible: true,checked: true).first.find(:xpath,".//..").text).to eq meta_data[i][:value]
+        end
       else
         # TODO
       end
