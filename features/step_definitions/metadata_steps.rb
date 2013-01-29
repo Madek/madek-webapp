@@ -1,11 +1,21 @@
 Then /^I can see every meta\-data\-value somewhere on the page$/ do
   @meta_data.each do |meta_context_name,meta_data|
-    meta_data.select{|md| not md.nil?}.map{|md| md[:value]}.each do |value|
-      expect(page).to have_content value
+    meta_data.each do |md|
+      value= md[:value]
+      case md[:type]
+      when 'meta_datum_departments'
+        expect(page).to have_content stable_part_of_meta_datum_departement(value)
+      else
+        expect(page).to have_content value
+      end
     end
   end
 end
 
+
+def stable_part_of_meta_datum_departement dep_name
+  dep_name.match(/^(.*)\(/).captures.first
+end
 
 Given /^I change the value of each meta\-data field$/  do
 
@@ -77,9 +87,18 @@ Given /^I change the value of each meta\-data field$/  do
             value: field_set.all("input", type: 'checkbox', visible: true,checked: true).first.find(:xpath,".//..").text,
             type: type) 
         end
+
+      when 'meta_datum_departments' 
+        field_set.all(".multi-select li a.multi-select-tag-remove").each{|a| a.click}
+        field_set.find("input",visible: true).click
+        directly_chooseable= field_set.all("ul.ui-autocomplete li:not(.has-navigator) a",visible: true)
+        directly_chooseable[rand directly_chooseable.size].click
+        meta_data[i] = HashWithIndifferentAccess.new(
+          value: field_set.first("ul.multi-select-holder li.meta-term").text, 
+          type: type,
+          meta_key: meta_key) 
       else
-        # binding.pry
-        # TODO
+        rais "Implement this case" 
       end
 
     end
@@ -99,10 +118,11 @@ Then /^each meta\-data value should be equal to the one set previously$/ do
       when 'meta_datum_string'
         expect(field_set.find("textarea").value).to eq meta_data[i][:value]
       when 'meta_datum_people' 
-        expect(field_set.all("ul.multi-select-holder li",text: meta_data[i][:value]).size ).to eq 1
+        expect(field_set.first("ul.multi-select-holder li.meta-term").text).to eq  meta_data[i][:value]
       when 'meta_datum_date' 
         expect(field_set.find("input", visible: true).value).to eq meta_data[i][:value]
       when 'meta_datum_keywords'
+        #expect(field_set.first("ul.multi-select-holder li.meta-term").text).to eq  meta_data[i][:value]
         expect(field_set.all("ul.multi-select-holder li",text: meta_data[i][:value]).size ).to eq 1
       when 'meta_datum_meta_terms'
         if field_set['data-is-extensible-list']
@@ -110,8 +130,11 @@ Then /^each meta\-data value should be equal to the one set previously$/ do
         else
           expect(field_set.all("input", type: 'checkbox', visible: true,checked: true).first.find(:xpath,".//..").text).to eq meta_data[i][:value]
         end
+      when 'meta_datum_departments' 
+        expect( stable_part_of_meta_datum_departement(field_set.first("ul.multi-select-holder li.meta-term").text)).to \
+          eq stable_part_of_meta_datum_departement(meta_data[i][:value])
       else
-        # TODO
+        raise "Implement this case"
       end
     end
   end
