@@ -1,0 +1,15 @@
+#workgroup-delete.modal.hide.fade.ui-modal.narrow{"aria-hidden" => "true", "aria-labelledby" => "workgroup-delete-label", :role => "dialog", :tabindex => "-1"}
+  %form
+    .ui-modal-head
+      %h3#workgroup-delete-label.title-l Gruppe löschen
+      %a.ui-modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button", :title => "Close", :class => "weak"}
+    .ui-modal-body
+      .form-body
+        .ui-alerts
+          .ui-alert.error Diese Gruppe kann nicht gelöscht werden.
+        %p.pvm.phl.by-center 
+          Bitte entfernen Sie alle Mitglieder/innen aus dieser Gruppe (ausser sich selbst)
+          und versuchen Sie es dann erneut.
+    .ui-modal-footer
+      .ui-actions
+        %a.button.link.weak{"aria-hidden" => "true", "data-dismiss" => "modal", :class => "weak link"} Schliessen

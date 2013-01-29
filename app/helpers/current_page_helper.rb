@@ -15,7 +15,12 @@ module CurrentPageHelper
     my_favorites_page? or
     my_latest_imports_page? or
     my_keywords_page? or
-    my_entrusted_media_resources_page?
+    my_entrusted_media_resources_page? or
+    my_groups_page?
+  end
+
+  def my_groups_page?
+    current_page? my_groups_path
   end
 
   def my_latest_imports_page?

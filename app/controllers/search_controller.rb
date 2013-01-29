@@ -3,7 +3,7 @@ class SearchController < ApplicationController
   respond_to 'html'
 
   before_filter do
-    @a_top_keyword = (view_context.hash_for Keyword.with_count.limit(12)).shuffle.first    
+    @a_top_keyword = (view_context.hash_for Keyword.with_count_for_accessible_media_resources(current_user).limit(25)).shuffle.first
   end
 
   def search

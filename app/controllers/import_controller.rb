@@ -3,7 +3,7 @@
 class ImportController < ApplicationController
 
   before_filter :except => [:create, :dropbox_dir] do
-    @media_entry_incompletes = @media_entries = current_user.incomplete_media_entries.ordered_by(:id)
+    @media_entry_incompletes = @media_entries = current_user.incomplete_media_entries.order("ID ASC")
   end
 
 ##################################################
@@ -53,8 +53,8 @@ class ImportController < ApplicationController
       format.json { # this is used for FTP-Dropbox import    
         begin
           user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name)
-          files = Dir.glob(File.join(user_dropbox_root_dir, '**', '*')).select {|x| not File.directory?(x) }
-          files.each do |f|
+
+binding.pry          files.each do |f|
             media_entry_incomplete = current_user.incomplete_media_entries
               .create(:uploaded_data => ActionDispatch::Http::UploadedFile
                 .new(:type=> Rack::Mime.mime_type(File.extname(f)),
@@ -101,9 +101,9 @@ class ImportController < ApplicationController
        Rails.cache.read("#{current_user.id}/media_entry_incompletes_partial")
     else
       partial = render_to_string :partial => "media_resources/wrapper", 
-                                                          :locals => {:media_resources => @media_entry_incompletes, 
-                                                          :phl => true,
-                                                          :with_actions => false}
+                                 :locals => {:media_resources => @media_entry_incompletes, 
+                                 :phl => true,
+                                 :with_actions => false}
       Rails.cache.write "#{current_user.id}/media_entry_incompletes_partial", partial, :expires_in => 1.day
       partial
     end

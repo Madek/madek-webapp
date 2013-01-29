@@ -40,6 +40,6 @@
           %li.separator.mini
 
         - unless @user_groups_count.zero?
-          %li.ui-side-navigation-item
+          %li.ui-side-navigation-item{:class => my_groups_page? ? "active" : ""}
             %a.strong{:href => my_groups_path} Meine Arbeitsgruppen
           %li.separator.mini

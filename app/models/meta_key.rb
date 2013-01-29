@@ -41,8 +41,12 @@ class MetaKey < ActiveRecord::Base
     label
   end
 
-  def all_context_labels
-    meta_key_definitions.collect {|d| d.label.to_s if d.key_map.blank? }.compact.uniq.join(', ')
+  def all_context_labels contexts=nil
+    if contexts
+      meta_key_definitions.where(:meta_context_id => contexts)
+    else  
+      meta_key_definitions
+    end.collect {|d| d.label.to_s if d.key_map.blank? }.compact.uniq.join(', ')
   end
 
 ########################################################

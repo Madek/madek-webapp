@@ -16,14 +16,12 @@ Feature: Permissions
 # user, this is what used to be the 'owner' and is now called the 'responsible
 # person' in the ui; the term 'owner' is still used in the specifications below
 
-  @transactional_dirty
   Scenario: No permissions
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
     And I visit the path of the resource
     Then I am redirected to the main page
 
-  @transactional_dirty
   Scenario: View user-permission lets me view the resource
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
@@ -31,7 +29,6 @@ Feature: Permissions
     And I visit the path of the resource
     Then I see page for the resource
 
-  @transactional_dirty
   Scenario: View group-permission lets me view the resource
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
@@ -39,7 +36,7 @@ Feature: Permissions
     And I visit the path of the resource
     Then I see page for the resource
 
-  @jsbrowser @dirty
+  @jsbrowser 
   Scenario: Not manage user-permission won't let me edit permissions
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
@@ -48,7 +45,7 @@ Feature: Permissions
     And I open the edit-permissions dialog
     Then I can not edit the permissions
 
-  @jsbrowser @dirty
+  @jsbrowser 
   Scenario: Manage permission
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
@@ -58,7 +55,7 @@ Feature: Permissions
     And I open the edit-permissions dialog
     Then I can edit the permissions
 
-  @jsbrowser @dirty
+  @jsbrowser
   Scenario: No edit user-permission won't let mit edit metadata
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
@@ -67,7 +64,7 @@ Feature: Permissions
     Then I see an error alert
 
   # test override only once
-  @jsbrowser @dirty
+  @jsbrowser 
   Scenario: No edit user-permission overrides edit user-permission
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
@@ -77,7 +74,7 @@ Feature: Permissions
     When I visit the edit path of the resource
     Then I see an error alert
 
-  @jsbrowser @dirty
+  @jsbrowser
   Scenario: Edit user-permission will let me edit metadata
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
@@ -91,7 +88,7 @@ Feature: Permissions
     Then I am on the page of the resource
     And I see a confirmation alert
 
-  @jsbrowser @dirty 
+  @jsbrowser
   Scenario: Edit group-permission will let me edit metadata
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
@@ -105,7 +102,7 @@ Feature: Permissions
     Then I am on the page of the resource
     And I see a confirmation alert
 
-  @jsbrowser @dirty 
+  @jsbrowser
   Scenario: Not the owner / responsible user of a resource 
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
@@ -115,7 +112,7 @@ Feature: Permissions
     And I open the edit-permissions dialog
     Then I am not the responsible person for that resource
 
-  @jsbrowser 
+  @jsbrowser @clean
   Scenario: Owner / responsible user of a resource
     Given I am signed-in as "Normin"
     And A resource owned by me
@@ -123,7 +120,7 @@ Feature: Permissions
     And I open the edit-permissions dialog
     Then I am the responsible person for that resource
 
-  @jsbrowser @dirty
+  @jsbrowser
   Scenario: No Download permission will not let me download the resource
     Given I am signed-in as "Normin"
     And A media_entry with file, not owned by normin, and with no permissions whatsoever 
@@ -133,7 +130,7 @@ Feature: Permissions
     And I click on the link "Datei ohne Metadaten" inside of the dialog 
     Then There is no link with class "original" in the list with class "download"
     
-  @jsbrowser @dirty
+  @jsbrowser
   Scenario: Download permission will let me download the resource
     Given I am signed-in as "Normin"
     And A media_entry with file, not owned by normin, and with no permissions whatsoever 
@@ -144,7 +141,7 @@ Feature: Permissions
     And I click on the link "Datei ohne Metadaten" inside of the dialog 
     Then There is a link with class "original" in the list with class "download"
 
-  @jsbrowser @dirty 
+  @jsbrowser
   Scenario: Download permission will let me download the resource
     Given I am signed-in as "Normin"
     And A media_entry with file, not owned by normin, and with no permissions whatsoever 
@@ -155,7 +152,7 @@ Feature: Permissions
     And I click on the link "Datei ohne Metadaten" inside of the dialog 
     Then There is a link with class "original" in the list with class "download"
     
-  @jsbrowser @dirty
+  @jsbrowser
   Scenario: Permissions for adding a resource to a set
     Given I am signed-in as "Normin"
     And A media_entry with file, not owned by normin, and with no permissions whatsoever 
@@ -171,7 +168,7 @@ Feature: Permissions
     And I add the resource to the given set 
     Then the resource is in the children of the given set
 
-  @jsbrowser
+  @jsbrowser @clean
   Scenario: Permission presets
     Given I am signed-in as "Normin"
       And A resource owned by me and defined userpermissions for "Petra"
@@ -179,7 +176,6 @@ Feature: Permissions
       And I click on the link "Weitere Aktionen"
       And I click on the link "Zugriffsberechtigungen"
      Then I can choose from a set of labeled permissions presets instead of grant permissions explicitly    
-
 
   @jsbrowser @dirty 
   Scenario: Limiting what other users' permissions I can see

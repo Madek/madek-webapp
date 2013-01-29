@@ -1,47 +1,5 @@
 Feature: Advanced metadata editing features (keywords, people, controlled vocabularies...)
 
-  Foo
-
-  @poltergeist 
-  Scenario: Changing the core text fields of a media entry
-    Given I am "normin"
-     And I upload some picture titled "Millenium Falcon, Front View"
-     And I click the arrow next to my name
-     And I follow "Meine Medien"
-     And all the hidden items become visible
-     And I switch to the grid view
-     And I click the edit icon on the media entry titled "Millenium Falcon, Front View"
-     And I fill in the metadata form as follows:
-     |label|value|
-     |Titel des Werks|My beautiful and proud ship|
-     |Untertitel|The Millenium Falcon|
-     |Bildlegende|Foreground: A Millenium Falcon. Background: Chewbacca.|
-     |Gattung|Design|
-     |Gattung|Fotografie|
-     And I follow "Medium"
-     And I wait for the CSS element "#media_object"
-     And I fill in the metadata form as follows:
-     |label|value|
-     |Material/Format|Collage|
-     And I follow "Credits"
-     And I wait for the CSS element "#copyright"
-     And I fill in the metadata form as follows:
-     |label|value|
-     |Rechte|(C) 4233 Han Solo|
-     And I follow "ZHdK" within ".tabs"
-     And I wait for the CSS element "#zhdk_bereich"
-     And I fill in the metadata form as follows:
-     |label|value|
-     |Projekttitel|Photographs of Han's rides|
-# Testing this widget is too hard to do right now, let's skip using it.
-#     |Bereich ZHdK|Services, Informations-Technologie-Zentrum (SER_SUP_ITZ.alle)|
-     And I press "Speichern"
-    Then I should not see "Millenium Falcon, Front View"
-     And I should see "The Millenium Falcon"
-     And I should see "Foreground: A Millenium Falcon. Background: Chewbacca."
-     And I should see "Collage"
-     And I should see "Photographs of Han's rides"
-
   @poltergeist
   Scenario: Changing the author field on a media entry using the firstname/lastname entry form tab
     Given I am "normin"

@@ -27,10 +27,18 @@ class PdfPreviewController
     @prevButton.on "click", => do @prevPage
 
   fetchDocument: ->
-    PDFJS.getDocument(@document_path).then (pdf) => 
-      @pdf = pdf
-      do @enableNext if @pdf.numPages > 1
-      do @renderPage
+    PDFJS.getDocument(@document_path).then @setupPDF, @onError, @onLoad
+
+  setupPDF: (pdf) => 
+    @pdf = pdf
+    do @enableNext if @pdf.numPages > 1
+    do @renderPage
+
+  onError: (message, exception)=>
+    console.log "#{message}: #{exception}"
+
+  onLoad: (progressData)=>
+    console.log "#{progressData.loaded/progressData.total}%"
 
   enablePrev: -> @prevButton.show()
   disablePrev: -> @prevButton.hide()

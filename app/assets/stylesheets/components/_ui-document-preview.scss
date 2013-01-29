@@ -2,6 +2,10 @@
   display: block;
   position: relative;
   min-height: 375px;
+
+  &>a {
+    display: block;
+  }
 }
 
 .ui-document-preview-controls {
@@ -11,6 +15,13 @@
   position: absolute;
   top: 0;
   width: 100%;
+
+  &>a.ui-document-preview-link {
+    display: block;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+  }
 }
 
 .ui-document-preview-container:hover .ui-document-preview-controls {
