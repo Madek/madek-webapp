@@ -28,7 +28,7 @@ end
 ### I c⋯ #########################################
 
 Then /^I can see the text "(.*?)"$/ do |text|
-  expect(page.has_content? text).to be true
+  expect(page).to have_content text
 end
 
 When /^I click on the link "(.*?)"$/ do |link_text|
