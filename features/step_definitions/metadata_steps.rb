@@ -6,6 +6,7 @@ Then /^I can see every meta\-data\-value somewhere on the page$/ do
   end
 end
 
+
 Given /^I change the value of each meta\-data field$/  do
 
   @meta_data=HashWithIndifferentAccess.new
@@ -19,8 +20,20 @@ Given /^I change the value of each meta\-data field$/  do
       case type
       when 'meta_datum_string'
         meta_data[i] = HashWithIndifferentAccess.new(
-          value: Faker::Lorem.words.join(" "))
-          field_set.find("textarea").set(meta_data[i][:value])
+          value: Faker::Lorem.words.join(" "),
+          type: type)
+        field_set.find("textarea").set(meta_data[i][:value])
+      when 'meta_datum_people' 
+        # remove all existing 
+        field_set.all(".multi-select li a.multi-select-tag-remove").each{|a| a.click}
+        @people ||= Person.all
+        random_person =  @people[rand @people.size]
+        meta_data[i] = HashWithIndifferentAccess.new(
+          value: random_person.to_s,
+          type: type)
+        field_set.find("input.form-autocomplete-person").set(random_person.to_s)
+        wait_until{  field_set.all("a",text: random_person.to_s).size > 0 }
+        field_set.find("a",text: random_person.to_s).click
       else
         # TODO
       end
@@ -39,6 +52,8 @@ Then /^each meta\-data value should be equal to the one set previously$/ do
       case type
       when 'meta_datum_string'
         expect(field_set.find("textarea").value).to eq meta_data[i][:value]
+      when 'meta_datum_people' 
+        expect( field_set.all("ul.multi-select-holder li",text: meta_data[i][:value]).size ).to eq 1
       else
         # TODO
       end
