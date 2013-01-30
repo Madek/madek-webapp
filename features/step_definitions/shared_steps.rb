@@ -15,6 +15,11 @@ Then /^I am on the page of the resource$/ do
   end
 end
 
+
+Then /^I am on the "(.*?)" page$/ do |path|
+  expect(current_path).to eq path
+end
+
 Given /^I am signed\-in as "(.*?)"$/ do |login|
   visit "/"
   find("a#database-user-login-tab").click
@@ -23,6 +28,7 @@ Given /^I am signed\-in as "(.*?)"$/ do |login|
   find("button[type='submit']").click
   @me = @current_user = User.find_by_login login
 end
+
 
 
 ### I c⋯ #########################################
@@ -41,7 +47,13 @@ When /^I click on the link "(.*?)" inside of the dialog$/ do |link_text|
   find("a",text: link_text).click
 end
 
+When /^I click on "(.*?)" inside the autocomplete list$/ do |text|
+  wait_until{  all("ul.ui-autocomplete li").size > 0 }
+  find("ul.ui-autocomplete li a",text: text).click
+end
+
 When /^I click on the button "(.*?)"$/ do |button_text|
+  wait_until {  all("button", text: button_text).size > 0 }
   find("button",text: button_text).click
 end
 
@@ -107,6 +119,11 @@ When /^I set the input with the name "(.*?)" to "(.*?)"$/ do |name, value|
   find("input[name='#{name}']").set(value)
 end
 
+Then /^I set the input in the fieldset with "(.*?)" as meta\-key to "(.*?)"$/ do |meta_key_name, value|
+  find("fieldset[data-meta-key='#{meta_key_name}'] input",visible: true).set(value)
+end
+
+
 When /^I use the "(.*?)" context action$/ do |context_name|  
   find("a",text: "Weitere Aktionen").click
   find("a",text: context_name).click
@@ -126,6 +143,12 @@ Given /^I wait for the following to be implemented$/ do
   pending
 end
 
+When /^I wait until I am on the "(.*?)" page$/ do |path|
+  wait_until(10){ current_path == path }
+end
+
+
+
 ### T #########################################################
 
 Then /^There is a link with class "(.*?)" in the list with class "(.*?)"$/ do |link_class, list_class|
@@ -135,6 +158,7 @@ end
 Then /^There is no link with class "(.*?)" in the list with class "(.*?)"$/ do |link_class, list_class|
   expect{ find("ul.#{list_class} a.#{link_class}") }.to raise_error
 end
+
 
 
 
