@@ -83,7 +83,6 @@ Given /^I change the value of each meta\-data field$/  do
         else
           checkboxes = field_set.all("input",type: 'checkbox', visible: true)
           checkboxes.each{|c| c.set false}
-          find(".app-footer").click # scroll down 
           checkboxes[rand checkboxes.size].click
           meta_data[i] = HashWithIndifferentAccess.new(
             value: field_set.all("input", type: 'checkbox', visible: true,checked: true).first.find(:xpath,".//..").text,
