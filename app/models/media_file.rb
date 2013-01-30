@@ -50,21 +50,15 @@ class MediaFile < ActiveRecord::Base
 
 #########################################################
 
-  def get_preview(size = nil)
-    unless size.blank?
-      #tmp# p = previews.where(:thumbnail => size.to_s).first
-      p = previews.detect {|x| x.thumbnail == size.to_s}
-      p ||= begin
-        make_thumbnails([size])
-        #tmp# previews.where(:thumbnail => size.to_s).first
-        previews.detect {|x| x.thumbnail == size.to_s}
-      end
-      # OPTIMIZE p could still be nil !!
-      return p
-    else
-      # get the original
-      return file_storage_location
+  def get_preview(size = nil, type = nil)
+    _previews = previews
+    if size
+      _previews = _previews.where(:thumbnail => size)
     end
+    if type
+      _previews = _previews.where(:content_type => type)
+    end
+    _previews.first
   end
 
   def import
