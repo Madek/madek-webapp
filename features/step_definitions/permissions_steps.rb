@@ -98,6 +98,11 @@ Then /^I can select "(.*?)" to grant group permissions$/ do |group|
   find("ul.ui-autocomplete li a",text: group).click
 end
 
+
+When /^I click on the "(.*?)" permission for "(.*?)"$/ do |permission, user|
+  find("tr[data-name='#{user}'] input[name='#{permission}']").click
+end
+
 Given /^I have set up some departments with ldap references$/ do
   MetaDepartment.create([
    {:ldap_id => "4396.studierende", :ldap_name => "DKV_FAE_BAE.studierende", :name => "Bachelor Vermittlung von Kunst und Design"},
@@ -161,6 +166,9 @@ Given /^There are "(.*?)" user\-permissions added for me to the set$/ do |permis
   permissions.update_attributes permission => true
 end
 
+Then /^the "(.*?)" permission for "(.*?)" is checked$/ do |permission, user|
+  expect(find("tr[data-name='#{user}'] input[name='#{permission}']")).to be_checked
+end
 
 Given /^The set has no children$/ do
   @set.child_media_resources.clear
@@ -179,6 +187,7 @@ Given /^The resource has the following user-permissions:$/ do |table|
     permissions.update_attributes row[1] => row[2]
   end
 end
+
 
 
 

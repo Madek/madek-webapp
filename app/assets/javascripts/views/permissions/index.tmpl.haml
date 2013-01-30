@@ -62,8 +62,8 @@
 
           {{if $item.manageable}}
           #addUser.ui-add-subject.ptx
-            %input.small.block.hidden{:type => :text, :placeholder => "Name der Person"}
-            %a.button.small{:tabindex => 0}
+            %input.small.block.hidden{name: 'user', type: 'text', placeholder:  "Name der Person"}
+            %a.button.small{tabindex: 0}
               %i.icon-plus
               Person hinzufügen
           {{/if}}

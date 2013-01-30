@@ -7,7 +7,8 @@
   .ui-modal-toolbar.top
     .ui-search
       %form
-        %input.ui-search-input.block{:placeholder => "Suche / Neues Set erstellen", :type => "text", :autofocus => :autofocus}
+        %input.ui-search-input.block{name: "search_or_create_set", placeholder: "Suche / Neues Set erstellen", 
+          type: "text", :autofocus => :autofocus}
         %button.button.ui-search-button Neues Set erstellen
 
   %form.save-arcs
