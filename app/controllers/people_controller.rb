@@ -39,7 +39,6 @@ class PeopleController < ApplicationController
   end
 
   def create
-    # OPTIMIZE model uniqueness validation
     person = Person.find_or_create_by_firstname_and_lastname_and_pseudonym(:firstname => params[:person][:firstname],
                                                                            :lastname => params[:person][:lastname],
                                                                            :pseudonym => params[:person][:pseudonym],

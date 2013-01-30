@@ -808,6 +808,7 @@ class MediaResourcesController < ApplicationController
   # @example_request_description Responding with the image of that MediaResource or an placeholder image if the application cannot provide an image for that media_type.
   #
   def image(size = (params[:size] || :large).to_sym)
+
     if size == :maximum and not current_user.authorized? :download, @media_resource
       size = :x_large
     end
@@ -820,7 +821,7 @@ class MediaResourcesController < ApplicationController
       output = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==\n"
       send_data Base64.decode64(output), :type => "image/gif", :disposition => 'inline'
     else
-      preview = media_file.get_preview(size)
+      preview = media_file.get_preview(size, "image/jpeg")
       if preview and File.exist?(file = File.join(THUMBNAIL_STORAGE_DIR, media_file.shard, preview.filename))
         output = File.read(file)
         send_data output, :type => preview.content_type, :disposition => 'inline'

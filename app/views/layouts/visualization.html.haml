@@ -16,7 +16,7 @@
           = "Medienarchiv"
     = stylesheet_link_tag "visualization"
     = javascript_include_tag "visualization"
-    = javascript_include_tag "test" unless Rails.env.production?
+    = javascript_include_tag "test" if Rails.env.test?
     = javascript_tag ""
     = javascript_tag '$.fx.off = true;' if Rails.env.test?
     = render :partial => "application/javascript"
