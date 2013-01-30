@@ -1,0 +1,16 @@
+- meta_contexts.each_slice(4) do |meta_context_slice|
+
+  .media-entry-metadata.ui-container
+              
+    - meta_context_slice.each do |meta_context|
+      - meta_data = render :partial => "meta_data/meta_datum", :collection => @media_entry.meta_data.for_context(meta_context), 
+                             :locals => {:context => meta_context, :skip_empty_values => true}
+
+      .col1of4
+        .ui-metadata-box.prm
+          %h3.title-l.separated.mbm= meta_context.label
+          %dl.media-data
+            - unless meta_data.blank?
+              = meta_data
+            - else
+              %dt.media-data-title.title-xs-alt Es sind keine Metadaten zu diesem Kontext bereit gestellt.

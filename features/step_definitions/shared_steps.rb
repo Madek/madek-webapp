@@ -86,13 +86,6 @@ When /^I follow the link with the text "(.*?)"$/ do |text|
   find("a",text: text).click
 end
 
-### I g⋯ ###################################################
-
-When /^I go to the home page$/ do
-  visit "/"
-end
-
-
 Given /^I logout\.$/ do
   find(".app-header .ui-header-user a").click
   find("a[href='/logout']").click

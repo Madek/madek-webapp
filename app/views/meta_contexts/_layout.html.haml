@@ -1,0 +1,19 @@
+.app.view-meta-context{:"data-id" => @context.id}
+
+  = render "application/header"
+
+  .app-body
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl 
+            = @context
+
+    .app-body-ui-container
+
+      = render :partial => "meta_contexts/tabs"
+
+      = yield :content
+
+  .app-footer-push
+= render :partial => "application/footer"

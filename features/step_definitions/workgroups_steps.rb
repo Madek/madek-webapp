@@ -1,7 +1,3 @@
-When /^I go to my groups$/ do
-  visit my_groups_path
-end
-
 When /^I try to create a new group by using the context primary action$/ do
   find(".ui-body-title-actions .primary-button").click
   step 'I wait for the dialog to appear'

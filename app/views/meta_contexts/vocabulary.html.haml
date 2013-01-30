@@ -4,23 +4,19 @@
 
     .bright.ui-container.pal.rounded-bottom
 
-      %h2.title-l.separated 
-        Für dieses Set wurde ein spezifisches Vokabular erstellt
+      .row.separated
+        .col1of2
+          %h2.title-l Für diesen Kontext wurde ein spezifisches Vokabular erstellt
 
-        %span.right
+        .col1of2.by-right
           %a.weak#ui-highlight-used-terms.hidden
             %i.icon-checkbox
-            Die bereits in diesem Set vergebenen Werte hervorheben
+            Die bereits in diesem Kontext vergebenen Werte hervorheben
 
-      - @vocabulary.each_with_index do |vocabular, i|
+      .mtl
+        .pbl
 
-        .mtl{:class => (@vocabulary.size != i+1) ? "separated" : ""}
-
-          .pbl
-            %h3.title-m= vocabular[:label]
-            %h4.title-s= vocabular[:description]
-
-          - vocabular[:meta_keys].in_groups_of(3, false) do |meta_keys|
+          - @vocabulary[:meta_keys].in_groups_of(3, false) do |meta_keys|
 
             .ui-container.mbl
               
@@ -39,6 +35,6 @@
   :coffeescript
 
     jQuery -> new App.VocabularyController
-      el: $(".app.view-set")
+      el: $(".app.view-meta-context")
 
-= render :partial => "media_sets/layout"
+= render :partial => "meta_contexts/layout"

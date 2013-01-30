@@ -49,10 +49,11 @@ class MetaContextsController < ApplicationController
   def show(with = params[:with] || {})
     respond_to do |format|
       format.html {
-        @context_json = view_context.hash_for(@context, with.merge({vocabulary: true, abstract: true}))
-        @abstract_slider_hash = { :context_id => @context.id,
-                                  :total => @context.media_entries(current_user).to_a.size # OPTIMIZE @context.media_entries(current_user).count
-                                }
+        @resources_count = MediaResource.filter(current_user, {:meta_context_ids => [@context.id]}).count
+        # @context_json = view_context.hash_for(@context, with.merge({vocabulary: true, abstract: true}))
+        # @abstract_slider_hash = { :context_id => @context.id,
+        #                           :total => @context.media_entries(current_user).to_a.size # OPTIMIZE @context.media_entries(current_user).count
+        #                         }
       }
       format.json {
         render :json => view_context.json_for(@context, with)
@@ -60,10 +61,19 @@ class MetaContextsController < ApplicationController
     end
   end
 
-  def abstract
-    @abstract_hash = @context.abstract(current_user, params[:value].to_i)
+  def abstract(min = (params[:min] || 1).to_i)
+    @abstract = @context.abstract(current_user, min)
     respond_to do |format|
-      format.js { render :layout => false }
+      format.html
+      format.json { render :json => view_context.hash_for(@abstract, {:label => true}) }
+    end
+  end
+
+  def vocabulary
+    used_meta_term_ids = @context.used_meta_term_ids(current_user)
+    @vocabulary = view_context.vocabulary(@context, used_meta_term_ids)
+    respond_to do |format|
+      format.html
     end
   end
 

@@ -1,17 +1,14 @@
 ###
 
-MediaSets#Vocabulary
+Vocabulary
 
 ###
 
-MediaSetsController = {} unless MediaSetsController?
-class MediaSetsController.Vocabulary
-
-  el: ".app.view-set"
+class VocabularyController
 
   constructor: (options)->
-    @el = $(@el)
-    @vocabulary = @el.find("#ui-media-set-vocabulary")
+    @el = $(options.el)
+    @vocabulary = @el.find("#ui-vocabulary")
     @highlightButton = @el.find("#ui-highlight-used-terms")
     @highlightButton.show()
     do @delegateEvents
@@ -29,5 +26,4 @@ class MediaSetsController.Vocabulary
       @highlightButton.addClass "active"
       @vocabulary.addClass "highlight-used-terms"
 
-window.App.MediaSetsController = {} unless window.App.MediaSetsController
-window.App.MediaSetsController.Vocabulary = MediaSetsController.Vocabulary
+window.App.VocabularyController = VocabularyController

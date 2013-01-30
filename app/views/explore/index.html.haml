@@ -37,12 +37,11 @@
                                  :type => :media_entries}
             %hr.separator
 
-          - if @any_top_keywords
-            = render :partial => "keywords/wrapper",
-                     :locals => {:keywords => @top_keywords,
-                                 :title => "Häufige Schlagworte",
-                                 :width_limited => true,
-                                 :link => explore_keywords_path}
+          - if @any_context
+            = render :partial => "meta_contexts/wrapper", 
+                     :locals => {:meta_contexts => @contexts, 
+                                 :title => "Kontexte",
+                                 :link => explore_contexts_path}
 
   .app-footer-push
 = render :partial => "application/footer"

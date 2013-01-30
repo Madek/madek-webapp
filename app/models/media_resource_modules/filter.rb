@@ -6,7 +6,7 @@ module MediaResourceModules
     KEYS = [ :accessible_action, :collection_id, :favorites, :group_id, :ids,
              :media_file,:media_files, :media_set_id, :meta_data, :not_by_user_id,
              :permissions, :public, :search, :top_level, :type, :user_id,
-             :query ] 
+             :query, :meta_context_ids ] 
 
     def self.included(base)
       base.class_eval do
@@ -96,6 +96,8 @@ module MediaResourceModules
         resources = resources.filter_media_file(filter[:media_file]) if filter[:media_file] and filter[:media_file][:content_type]
 
         resources = resources.filter_uploaded_by(filter[:uploader_id]) if filter[:uploader_id]
+
+        resources = resources.filter_contexts(filter[:meta_context_ids]) if filter[:meta_context_ids]
 
         resources
       end
@@ -212,6 +214,16 @@ module MediaResourceModules
         end
     
         sql    
+      end
+
+      def filter_contexts(ids = [])
+        sub = unscoped.joins(:meta_data => {:meta_key => :meta_key_definitions})
+                      .where(:meta_key_definitions => {:meta_context_id => ids})
+                      .joins("INNER JOIN media_resource_arcs ON media_resource_arcs.child_id = media_resources.id")
+                      .joins("INNER JOIN media_sets_meta_contexts ON media_sets_meta_contexts.media_set_id = media_resource_arcs.parent_id")
+                      .where(:media_sets_meta_contexts => {:meta_context_id => ids})
+                      .uniq
+        resources = scoped.where(:id => sub)
       end
       
     end

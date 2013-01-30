@@ -1,0 +1,10 @@
+%ul.ui-tabs.large
+
+  %li.ui-tabs-item{:class => context_show_page? ? "active" : ""}
+    %a{:href => context_path(@context)} Kontext
+
+  %li.ui-tabs-item{:class => context_abstract_page? ? "active" : ""}
+    %a{:href => context_abstract_path(@context)} Auszug
+
+  %li.ui-tabs-item{:class => context_vocabulary_page? ? "active" : ""}
+    %a{:href => context_vocabulary_path(@context)} Vokabular
