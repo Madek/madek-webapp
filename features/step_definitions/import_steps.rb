@@ -27,3 +27,7 @@ Then /^Petra has "(.*?)" user\-permission on the new media_entry with the tile "
   userpermission = me.userpermissions.joins(:user).where("users.login = 'petra'").first
   expect(userpermission.send permission).to be_true
 end
+
+Then /^I can see that the fieldset with "(.*?)" as meta\-key is required$/ do |meta_key_name|
+  expect(find("fieldset.error[data-meta-key='#{meta_key_name}']")).to be
+end

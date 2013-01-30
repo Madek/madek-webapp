@@ -8,49 +8,7 @@ Feature: Import
     Given I am "Normin"
       And all users have dropboxes
 
-  # https://www.pivotaltracker.com/story/show/24559407 -> Zugriffsberechtigungen beim import: Gleich wie bei Medieneintrag editieren
-  @poltergeist 
-  Scenario: Setting permissions during import
-    When I import a file
-    Then the file is attached to a media entry
-     And I can set the permissions for the media entry during the import process
- 
-  @poltergeist 
-  Scenario: Filling in core metadata during import
-    When I import a file
-    Then the file is attached to a media entry
-    When I go to the import edit
-     And I fill in the metadata for entry number 1 as follows:
-     | label                           | value                    |
-     | Titel                           | Test image for importing |
-     | Autor/in                        | Hans Franz               |
-     | Datierung                       | 2011-08-08               |
-     | Schlagworte zu Inhalt und Motiv | some                     |
-     | Schlagworte zu Inhalt und Motiv | test                     |
-     | Rechte                       | Tester                   |
-     
-  # https://www.pivotaltracker.com/story/show/24559377 -> User kann beim import beim Vergeben der Metadaten die Werte zu Titel, Autor, Datierung, Schlagworte und Rechten von einem auf alle Medieneinträge übertrage
-  @poltergeist 
-  Scenario: Assigning one value to all imported things
-    When I import several files
-     When I go to the import edit
-     And I fill in the metadata for entry number 1 as follows:
-     | label                           | value                                    |
-     | Titel                           | Test image for mass assignment of values |
-     | Autor/in                        | Hans Franzfriedrich                      |
-     | Datierung                       | 2011-08-09                               |
-     | Schlagworte zu Inhalt und Motiv | other                                    |
-     | Schlagworte zu Inhalt und Motiv | example                                  |
-     | Rechte                       | Tester Two                               |
-    Then I can assign the Title to all the other files I just imported
-    Then I can assign the Copyright to all the other files I just imported
 
-  # Feature exists already, but needs this test
-  @poltergeist 
-  Scenario: Adding to a set during import
-    When I import a file
-    Then the file is attached to a media entry
-     And I add the media entry to a set called "Konzepte"
 
   # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
   @poltergeist 
@@ -96,18 +54,6 @@ Feature: Import
     When I import a file
     Then I want to have its original file name inside its metadata
 
-  # https://www.pivotaltracker.com/story/show/24559317 -> Highlighting für Felder, die nicht validieren (required)
-  @poltergeist 
-  Scenario: Fields that don't validate should be highlighted
-    When I import a file
-      When I go to the import edit
-      And I fill in the metadata for entry number 1 as follows:
-      | label | value                       |
-      | Titel | Test image for highlighting |
-      And I try to continue in the import process
-      Then I see an error message "Inhalte mit unvollständigen Metadaten!"
-      And the field "Rechte" is highlighted as invalid
-
   # https://www.pivotaltracker.com/story/show/25923269
   @poltergeist 
   Scenario: Sequential batch editor for importing many files
@@ -131,13 +77,6 @@ Feature: Import
      And I can choose to list only files with missing metadata
     When I choose to list only files with missing metadata
     Then only files with missing metadata are listed
-
-  @javascript
-  Scenario: meta terms in the context import
-    Given MetaTerms are existing in the import context
-     And I am "Normin"
-    When I import a file
-    Then I can set values for the meta data from type meta terms
 
   @poltergeist
 	Scenario: Dependencies among the pulldown menus of the copyright field

@@ -22,6 +22,11 @@ Feature: importing an image
     And I click on the button "Berechtigungen speichern" 
 
     And I wait until I am on the "/import/meta_data" page
+    Then I can see that the fieldset with "title" as meta-key is required
+    Then I can see that the fieldset with "copyright notice" as meta-key is required
+    When I click on the link "Weiter…" 
+    Then I am on the "/import/meta_data" page
+    And I see an error alert
     And I set the input in the fieldset with "title" as meta-key to "Berlin Wall" 
     And I set the input in the fieldset with "copyright notice" as meta-key to "WTFPL" 
     And I click on the link "Weiter…" 
