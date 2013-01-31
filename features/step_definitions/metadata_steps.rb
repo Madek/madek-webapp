@@ -141,10 +141,6 @@ Then /^each meta\-data value should be equal to the one set previously$/ do
   end
 end
 
-And /^I go to the edit-page of my first media_entry$/ do
-  @media_entry = @me.media_entries.reorder(:id).first
-  visit edit_media_resource_path @media_entry
-end
 
 Then /^I am on the page of my first media_entry$/ do
   @media_entry = @me.media_entries.reorder(:id).first
@@ -156,7 +152,7 @@ When /^I delete all existing authors$/ do
 end
 
 When /^I click on the icon of the author fieldset$/ do
-  find("fieldset[data-meta-key='author'] i").click
+  find("fieldset[data-meta-key='author'] a.form-widget-toggle").click
 end
 
 
