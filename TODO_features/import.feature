@@ -36,21 +36,6 @@ Feature: Import
        And I can jump to the next file
        And I can jump to the previous file
 
-  # https://www.pivotaltracker.com/story/show/25923269
-  @javascript
-  Scenario: Filtering only media entries with missing metadata in the sequential batch editor
-    When I import several files
-     When I go to the import edit
-     And I fill in the metadata for entry number 1 as follows:
-     | label                           | value                    |
-     | Titel                           | Test image for importing |
-     | Rechte                       | Tester                   |
-    Then I see a list of my imported files
-     And the files with missing metadata are marked
-     And I can choose to list only files with missing metadata
-    When I choose to list only files with missing metadata
-    Then only files with missing metadata are listed
-
   @poltergeist
 	Scenario: Dependencies among the pulldown menus of the copyright field
     When I import several files

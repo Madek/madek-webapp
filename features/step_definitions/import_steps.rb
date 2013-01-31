@@ -33,3 +33,16 @@ end
 Then /^I can see that the fieldset with "(.*?)" as meta\-key is required$/ do |meta_key_name|
   expect(find("fieldset.error[data-meta-key='#{meta_key_name}']")).to be
 end
+
+Then /^two files with missing metadata are marked$/ do
+  wait_until{all("ul.ui-resources li.ui-invalid").size > 1}
+  expect(all("ul.ui-resources li.ui-invalid").size).to eq 2
+end
+
+When /^I choose to list only files with missing metadata$/ do
+  find("input#display-only-invalid-resources").click
+end
+
+Then /^Only the files with missing metadata are listed$/ do
+  expect(all("ul.ui-resources li",visible: true).size).to eq 2
+end
