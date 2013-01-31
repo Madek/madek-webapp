@@ -110,11 +110,37 @@ Feature: importing an image
     And I wait for the dialog to disappear
     And I click on the button "Import abschliessen"
 
-    Then there are three new media_entries
+    Then there are "3" new media_entries
 
 
+    @chrome 
+    Scenario: Using the multiple metadata entry switcher
+    Given I am signed-in as "Normin"
+    And I am going to import images
 
+    And I click on the link "Medien importieren"
+    Then I am on the "/import" page
+    When I attach the file "berlin_wall_01.jpg"
+    And I attach the file "berlin_wall_02.jpg"
+    When I click on the link "Weiter"
 
+    And I wait until I am on the "/import/permissions" page
+    And I click on the button "Berechtigungen speichern" 
+
+    And I wait until I am on the "/import/meta_data" page
+    And I set the input in the fieldset with "title" as meta-key to "Berlin Wall 01" 
+    And I set the input in the fieldset with "copyright notice" as meta-key to "WTFPL" 
+    And I click on the link "Nächster Eintrag"
+    And I set the input in the fieldset with "title" as meta-key to "Berlin Wall 02" 
+    And I set the input in the fieldset with "copyright notice" as meta-key to "WTFPL" 
+    And I click on the link "Weiter…" 
+
+    And I wait until I am on the "/import/organize" page
+    And I click on the button "Import abschliessen"
+
+    Then there are "2" new media_entries
+    And there is a entry with the title "Berlin Wall 01" in the new media_entries
+    And there is a entry with the title "Berlin Wall 02" in the new media_entries
 
 
 

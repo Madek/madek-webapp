@@ -7,9 +7,9 @@ Given /^I am going to import images$/ do
   @previouse_media_sets = MediaSet.all
 end
 
-Then /^there are three new media_entries$/ do
+Then /^there are "(.*?)" new media_entries$/ do |num|
   @new_media_entries = MediaEntry.all - @previouse_media_entries
-  expect(@new_media_entries.size).to eq 3
+  expect(@new_media_entries.size).to eq num.to_i
 end
 
 Then /^there is a new set "(.*?)" that includes those new media\-entries$/ do |title|
