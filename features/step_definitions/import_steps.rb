@@ -2,7 +2,7 @@ When /^I attach the file "(.*?)"$/ do |file_name|
   attach_file find("input[type='file']")[:id], Rails.root.join("features","data","images",file_name)
 end
 
-Given /^I am going to import three images$/ do
+Given /^I am going to import images$/ do
   @previouse_media_entries = MediaEntry.all
   @previouse_media_sets = MediaSet.all
 end
@@ -13,12 +13,14 @@ Then /^there are three new media_entries$/ do
 end
 
 Then /^there is a new set "(.*?)" that includes those new media\-entries$/ do |title|
+  @new_media_entries = MediaEntry.all - @previouse_media_entries
   expect(@new_set = MediaSet.find_by_title(title)).to be
   expect((@new_set.child_media_resources and @new_media_entries).to_a).to eq @new_media_entries
 end
 
 
 Then /^there is a entry with the title "(.*?)" in the new media_entries$/ do |title|
+  @new_media_entries = MediaEntry.all - @previouse_media_entries
   expect(@new_media_entries.map(&:title)).to include title
 end
 
