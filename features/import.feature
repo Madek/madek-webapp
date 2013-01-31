@@ -144,7 +144,7 @@ Feature: importing an image
     And there is a entry with the title "Berlin Wall 02" in the new media_entries
 
 
-  @chrome @wip
+  @chrome 
   Scenario: Filtering entries with missing metadata in the sequential metadata editor
     Given I am signed-in as "Normin"
     And I am going to import images
@@ -177,5 +177,22 @@ Feature: importing an image
     Then there are "4" new media_entries
     And there is a entry with the title "Berlin Wall 01" in the new media_entries
     And there is a entry with the title "Berlin Wall 02" in the new media_entries
+
+
+  @chrome
+  Scenario: Canceling import preservers import files
+
+    Given I am signed-in as "Normin"
+    And I am going to import images
+
+    And I click on the link "Medien importieren"
+    Then I am on the "/import" page
+    When I attach the file "berlin_wall_01.jpg"
+    And I click on the link "Weiter…" 
+    And I wait until I am on the "/import/permissions" page
+    When I click on the link "Abbrechen"
+    Then I am on the "/my" page
+    When I click on the link "Medien importieren"
+    Then there is "berlin_wall_01.jpg" in my imports
 
 
