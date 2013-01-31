@@ -4,33 +4,6 @@ Feature: Import
   I want to import files to the system
   So that I can share my files with everyone
 
-  Background: Load the example data and personas
-    Given I am "Normin"
-      And all users have dropboxes
-
-
-
-  # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
-  @poltergeist 
-  Scenario: importing large files
-    When I import a file with a file size greater than 1.4 GB
-    Then the system gives me a warning telling me it's impossible to import so much through the browser
-     And the warning includes instructions for an FTP import
-
-  # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
-  @poltergeist 
-  Scenario: importing via a dropbox
-    When I have imported some files to my dropbox
-     And I start a new import process
-    Then I can choose files from my dropbox instead of importing them through the browser
-
-  # https://www.pivotaltracker.com/story/show/24559261 -> Dateien zum Import aus einer Dropbox holen 
-  @poltergeist 
-  Scenario: Recursively searching for importable files in my dropbox
-    When I have imported a directory containing files to my dropbox
-     And I start a new import process
-    Then I can choose files from my dropbox instead of importing them through the browser
-  
   # https://www.pivotaltracker.com/story/show/24564545 -> import abbrechen können   
   @javascript
   Scenario: Cancelling my import
