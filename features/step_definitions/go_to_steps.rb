@@ -27,6 +27,9 @@ When /^I go to (.*?)$/ do |page|
     when "the context's vocabulary page"
       context_vocabulary_path @context
 
+    when "the import page"
+      import_path
+
     else
       raise "#{page} not found"
   end

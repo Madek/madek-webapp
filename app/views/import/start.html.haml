@@ -60,9 +60,9 @@
 
   jQuery -> new App.ImportController.Upload
     dropboxData: 
-      dropbox_exists: #{@dropbox_exists.to_json}
+      dropbox_exists: #{@user_dropbox_exists.to_json}
       dropbox_info: #{@dropbox_info.to_json}
-    dropboxFiles: #{@dropbox_files_json}
+    dropboxFiles: #{@dropbox_files.to_json}
     dropboxSyncIntervalTimer: 2000
     maxFileSize: "1400mb"
     mediaEntryIncompletes: #{ json_for(@media_entry_incompletes, {:filename => true, :size => true}) }

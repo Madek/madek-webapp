@@ -4,25 +4,25 @@ Feature: Import via Dropbox
   I want a upload big files what is not possible through the browser
   So that I can import big files
 
-  @wip
-  Background: Load the example data and personas
-    Given I am "Normin"
-      And all users have dropboxes
+  Background:
+    Given I am signed-in as "Normin"
 
-  @wip
+  @jsbrowser
+  Scenario: Create my dropbox
+    When I go to the import page
+     And I open the dropbox informations dialog
+     And I create a dropbox
+    Then the dropbox was created for me
+     And I can see instructions for an FTP import
+
+  @jsbrowser @clean
   Scenario: Importing large files
-    When I import a file with a file size greater than 1.4 GB
-    Then the system gives me a warning telling me it's impossible to import so much through the browser
-     And the warning includes instructions for an FTP import
+    When I try to import a file with a file size greater than 1.4 GB
+    Then I see an error alert
+     And I can see instructions for an FTP import
 
-  @wip
+  @chrome
   Scenario: Importing via a dropbox
-    When I have imported some files to my dropbox
-     And I start a new import process
-    Then I can choose files from my dropbox instead of importing them through the browser
-
-  @wip
-  Scenario: Recursively searching for importable files in my dropbox
-    When I have imported a directory containing files to my dropbox
-     And I start a new import process
-    Then I can choose files from my dropbox instead of importing them through the browser
+    Given the current user has a dropbox
+     When I upload some files to my dropbox
+     Then those files are getting imported during the upload
