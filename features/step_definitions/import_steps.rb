@@ -72,3 +72,6 @@ Then /^There is no media\-entry incomplete with a filename matching "(.*?)"$/ do
   expect(MediaEntryIncomplete.all.select{|me| me.media_file.filename =~ /#{name}/}.size).to eq 0
 end
 
+When /^I visit the page of the last added media_entry$/ do
+  visit media_entry_path MediaEntry.order(:created_at).last
+end

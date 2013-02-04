@@ -64,4 +64,76 @@ Feature: Importing files with metadata and setting metadata
     And there is a entry with the title "Berlin Wall 01" in the new media_entries
     And there is a entry with the title "Berlin Wall 02" in the new media_entries
 
+  @chrome 
+  Scenario: import an image that has MAdeK title and date information (specific date) in its EXIF/IPTC metadata
+    Given I am signed-in as "Normin"
+    And I am going to import images
+    And I click on the link "Medien importieren"
+    Then I am on the "/import" page
+    When I attach the file "date_should_be_2011-05-30.jpg"
+    When I click on the link "Weiter"
+    And I wait until I am on the "/import/permissions" page
+    And I click on the button "Berechtigungen speichern" 
+    And I wait until I am on the "/import/meta_data" page
+    And I click on the link "Weiter…" 
+    And I wait until I am on the "/import/organize" page
+    And I click on the button "Import abschliessen"
+    Then there are "1" new media_entries
+    When I visit the page of the last added media_entry
+    Then I can see the text "30.05.2011"
+    And I can see the text "Grumpy Cat"
+
+
+  @chrome 
+  Scenario: import an image that has MAdeK title and date information (specific date) in its EXIF/IPTC metadata
+    Given I am signed-in as "Normin"
+    And I am going to import images
+    And I click on the link "Medien importieren"
+    Then I am on the "/import" page
+    When I attach the file "date_should_be_from_to_may.jpg"
+    When I click on the link "Weiter"
+    And I wait until I am on the "/import/permissions" page
+    And I click on the button "Berechtigungen speichern" 
+    And I wait until I am on the "/import/meta_data" page
+    And I click on the link "Weiter…" 
+    And I wait until I am on the "/import/organize" page
+    And I click on the button "Import abschliessen"
+    Then there are "1" new media_entries
+    When I visit the page of the last added media_entry
+    Then I can see the text "01.05.2011 - 31.05.2011"
+     And I can see the text "Frau-Sein"
+     And I can see the text "Buser, Monika"
+     And I can see the text "Diplomarbeit"
+     And I can see the text "Porträt"
+     And I can see the text "Selbstporträt"
+     And I can see the text "Schweiz"
+
+  @chrome 
+  Scenario: import an image that has MAdeK title and date information (specific date) in its EXIF/IPTC metadata
+    Given I am signed-in as "Normin"
+    And I am going to import images
+    And I click on the link "Medien importieren"
+    Then I am on the "/import" page
+    When I attach the file "date_should_be_1990.jpg"
+    When I click on the link "Weiter"
+    And I wait until I am on the "/import/permissions" page
+    And I click on the button "Berechtigungen speichern" 
+    And I wait until I am on the "/import/meta_data" page
+    And I click on the link "Weiter…" 
+    And I wait until I am on the "/import/organize" page
+    And I click on the button "Import abschliessen"
+    Then there are "1" new media_entries
+    When I visit the page of the last added media_entry
+    Then I can see the text "1990"
+     And I can see the text "Frau-Sein"
+     And I can see the text "Buser, Monika"
+     And I can see the text "Frau-Sein"
+     And I can see the text "Buser, Monika"
+     And I can see the text "Diplomarbeit"
+     And I can see the text "Porträt"
+     And I can see the text "Selbstporträt"
+     And I can see the text "Schweiz"
+
+
+
 
