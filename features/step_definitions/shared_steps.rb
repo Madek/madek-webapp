@@ -112,6 +112,10 @@ Then /^I see a confirmation alert$/ do
   expect{ find(".ui-alert.confirmation",visible: true) }.not_to raise_error
 end
 
+Then /^I select "(.*?)" from "(.*?)"$/ do |text, class_name|
+  find("select.#{class_name}").select(text)
+end
+
 When /^I set the input with the name "(.*?)" to "(.*?)"$/ do |name, value|
   find("input[name='#{name}']").set(value)
 end
@@ -119,7 +123,6 @@ end
 Then /^I set the input in the fieldset with "(.*?)" as meta\-key to "(.*?)"$/ do |meta_key_name, value|
   find("fieldset[data-meta-key='#{meta_key_name}'] input",visible: true).set(value)
 end
-
 
 When /^I use the "(.*?)" context action$/ do |context_name|  
   find("a",text: "Weitere Aktionen").click

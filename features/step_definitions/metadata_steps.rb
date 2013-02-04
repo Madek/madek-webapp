@@ -160,5 +160,10 @@ When /^I wait for multi\-select\-tag with the text "(.*?)"$/ do |text|
   wait_until{all("li.multi-select-tag",text: text).size > 0}
 end
 
+Then /^the textarea within the fieldset "(.*?)" is empty$/ do |meta_key|
+  expect(find("fieldset[data-meta-key='#{meta_key}'] textarea").value.strip).to eq ""
+end
 
-
+Then /^the textarea within the fieldset "(.*?)" is not empty$/ do |meta_key|
+  expect(find("fieldset[data-meta-key='#{meta_key}'] textarea").value.strip).not_to eq ""
+end

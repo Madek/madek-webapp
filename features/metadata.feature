@@ -43,6 +43,19 @@ Feature: Editing keywords, people, controlled vocabularies...
     And I can see the text "El grupo [Gruppe]"
 
 
+  @chrome @clean 
+  Scenario: License: selecting an individual license clears presets
+    Given I am signed-in as "Normin"
+    When I go to the edit-page of my first media_entry
+    And I click on the link "Credits"
+    And I click on the link "Weitere Angaben"
+    And I select "Public Domain" from "copyright-roots"
+    Then the textarea within the fieldset "copyright usage" is not empty
+    And the textarea within the fieldset "copyright url" is not empty
+    And I select "individuelle Lizenz" from "copyright-roots"
+    Then the textarea within the fieldset "copyright usage" is empty
+    Then the textarea within the fieldset "copyright url" is empty
+
 
 
     
