@@ -44,7 +44,7 @@ bundle exec rake madek:test:setup
     end
 
     def cucumber_ci_shell_commands
-      setup_ci_shell_commands + 'bundle exec rake madek:test:cucumber:all FILE=$CUCUMBER_FILE RERUN_LIMIT=3'
+      setup_ci_shell_commands + 'bundle exec rake madek:test:cucumber:all FILE=$CUCUMBER_FILE RERUN_LIMIT=0'
     end
 
     def rspec_ci_shell_commands
