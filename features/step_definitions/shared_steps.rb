@@ -74,6 +74,10 @@ Given /^I close the modal dialog\.$/ do
   wait_until(2){all(".modal-backdrop").size == 0}
 end
 
+And /^I confirm the browser dialog$/ do
+  page.driver.browser.switch_to.alert.accept
+end
+
 ### I f⋯ ###################################################
 
 When /^(?:|I )fill in the following:$/ do |fields|

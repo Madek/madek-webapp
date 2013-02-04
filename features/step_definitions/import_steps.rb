@@ -50,3 +50,25 @@ end
 Then /^there is "(.*?)" in my imports$/ do |file_name|
   expect(find("#mei_filelist li", text: file_name)).to be
 end
+
+Given /^There is no media\-entry with a filename matching "(.*?)"$/ do |fn_match|
+  MediaEntry.all.select{|me| me.media_file.filename =~ /berlin/}.each(&:destroy)
+end
+
+Given /^There is no incomplete media\-entry with a filename matching "(.*?)"$/ do |fn_match|
+  MediaEntryIncomplete.all.select{|me| me.media_file.filename =~ /berlin/}.each(&:destroy)
+end
+
+
+When /^I delete the import "(.*?)"$/ do |text|
+  find("ul#mei_filelist li",text: text).find("a.delete_mei").click
+end
+
+Then /^There is exactly one media\-entry with a filename matching "(.*?)"$/ do |name|
+  expect(MediaEntry.all.select{|me| me.media_file.filename =~ /#{name}/}.size).to eq 1
+end
+
+Then /^There is no media\-entry incomplete with a filename matching "(.*?)"$/ do |name|
+  expect(MediaEntryIncomplete.all.select{|me| me.media_file.filename =~ /#{name}/}.size).to eq 0
+end
+
