@@ -1,7 +1,13 @@
 # -*- encoding : utf-8 -*-
 MAdeK::Application.routes.draw do
 
+##### ROOT
+
   root :to => "application#root"
+
+##### STYLEGUIDE
+
+  mount Nkss::Engine => '/styleguide' if Rails.env.development?
 
 ##### VISUALIZATION
 
@@ -20,14 +26,12 @@ MAdeK::Application.routes.draw do
 ##### EXPLORE
 
   get 'explore', :to => 'explore#index', :as => "explore"
-
   get 'explore/catalog', :to => 'explore#catalog', :as => "explore_catalog"
   get 'explore/catalog/:category', :to => 'explore#category', :as => "explore_category"
   get 'explore/catalog/:category/:section', :to => 'explore#section', :as => "explore_section"
-
   get 'explore/featured_set', :to => 'explore#featured_set', :as => "explore_featured_set"
-
   get 'explore/keywords', :to => 'explore#keywords', :as => "explore_keywords"
+  get 'explore/contexts', :to => 'explore#contexts', :as => "explore_contexts"
 
 ##### MY
 
@@ -60,11 +64,19 @@ MAdeK::Application.routes.draw do
   get  'import/organize' => 'import#organize', :as => "organize_import"
   post  'import/complete' => 'import#complete', :as => "complete_import"
 
-##### STYLEGUIDE
+##### CONTEXTS
 
-  mount Nkss::Engine => '/styleguide' if Rails.env.development?
+  get 'contexts/:id', :to => 'meta_contexts#show', :as => "context"
+  get 'contexts/:id/abstract', :to => 'meta_contexts#abstract', :as => "context_abstract"
+  get 'contexts/:id/vocabulary', :to => 'meta_contexts#vocabulary', :as => "context_vocabulary"
 
-###############################################
+##############################################################################################
+##############################################################################################
+##############################################################################################
+### TODO: AFTER HERE HAS TO BE CHECKED IF STILL NEEDED #######################################
+##############################################################################################
+##############################################################################################
+##############################################################################################
 
   match '/help', :to => "application#help"
   match '/feedback', :to => "application#feedback"
@@ -221,12 +233,6 @@ MAdeK::Application.routes.draw do
 ###################
    
   resource :session
-
-  resources :meta_contexts, :only => :show do
-    member do
-      get :abstract
-    end
-  end
 
 #__ Admin namespace __##############################################################
 ####################################################################################

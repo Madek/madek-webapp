@@ -77,6 +77,10 @@ module CurrentPageHelper
     current_page? explore_keywords_path
   end
 
+  def explore_contexts_page?
+    current_page? explore_contexts_path
+  end
+
 ######### SEARCH
 
   def search_page?
@@ -126,6 +130,20 @@ module CurrentPageHelper
 
   def media_set_vocabulary_page?
     current_page? :controller => :media_sets, :action => :vocabulary
+  end
+
+######### CONTEXTS
+
+  def context_show_page?
+    current_page? :controller => :meta_contexts, :action => :show
+  end
+
+  def context_abstract_page?
+    current_page? context_abstract_path
+  end
+
+  def context_vocabulary_page?
+    current_page? context_vocabulary_path
   end
   
 end

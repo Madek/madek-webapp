@@ -113,7 +113,8 @@ class FormAutocompletes.Departments
         delete group["_info"]
       
       # when label is ampty dont add to options
-      allValues.push group  unless group.label is ""
+      if group.label? and group.label.length > 0
+        allValues.push group
     
     # save the computed infos on the target
     @input_el.data "values", allValues

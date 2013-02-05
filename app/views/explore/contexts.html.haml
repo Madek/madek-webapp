@@ -1,0 +1,28 @@
+.app.view-explore-catalog
+
+  = render "application/header"
+
+  .app-body
+
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl
+            Erkunden / Kontexte
+            
+        .ui-body-title-actions= render :partial => "login_action"
+
+    .app-body-ui-container
+      .bordered.ui-container.midtone.rounded.table
+
+        = render :partial => "application/sidebar/explore"
+
+        .app-body-content.table-cell.table-substance.ui-container
+          
+          = render :partial => "meta_contexts/wrapper", 
+                     :locals => {:meta_contexts => @contexts, 
+                                 :title => "Kontexte",
+                                 :link => explore_contexts_path}
+
+  .app-footer-push
+= render :partial => "application/footer"

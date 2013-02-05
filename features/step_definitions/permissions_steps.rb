@@ -1,5 +1,43 @@
 # -*- encoding : utf-8 -*-
 
+Given /^My first media_entry has no permissions whatsoever\.$/ do
+  @my_first_media_entry = @me.media_entries.reorder("created_at ASC").first
+  @my_first_media_entry.userpermissions.clear
+  @my_first_media_entry.grouppermissions.clear
+end
+
+Given /^I visit the path of my first media entry$/ do
+  visit media_resource_path @me.media_entries.reorder("created_at ASC").first
+end
+
+Then /^User "(.*?)" has "(.*?)" user\-permissions for my first media_entry$/ do |login, permission|
+  @my_first_media_entry = @me.media_entries.reorder("created_at ASC").first
+  @user = User.where(login: login).first
+  up = Userpermission.where(media_resource_id: @my_first_media_entry.id).where(user_id: @user.id).first
+  expect(up.send(permission)).to be_true
+end
+
+Then /^User "(.*?)" has not "(.*?)" user\-permissions for my first media_entry$/ do |login, permission|
+  @my_first_media_entry = @me.media_entries.reorder("created_at ASC").first
+  @user = User.where(login: login).first
+  up = Userpermission.where(media_resource_id: @my_first_media_entry.id).where(user_id: @user.id).first
+  expect(up.send(permission)).to be_false
+end
+
+Then /^Group "(.*?)" has "(.*?)" group\-permissions for my first media_entry$/ do |name, permission|
+  @my_first_media_entry = @me.media_entries.reorder("created_at ASC").first
+  @group = Group.where(name: name).first
+  up = Grouppermission.where(media_resource_id: @my_first_media_entry.id).where(group_id: @group.id).first
+  expect(up.send(permission)).to be_true
+end
+
+Then /^Group "(.*?)" has not "(.*?)" group\-permissions for my first media_entry$/ do |name, permission|
+  @my_first_media_entry = @me.media_entries.reorder("created_at ASC").first
+  @group = Group.where(name: name).first
+  up = Grouppermission.where(media_resource_id: @my_first_media_entry.id).where(group_id: @group.id).first
+  expect(up.send(permission)).to be_false
+end
+
 Given /^A media_entry with file, not owned by normin, and with no permissions whatsoever$/ do
   @petra = User.find_by_login("petra")
   @resource = FactoryGirl.create :media_entry, user: @petra
@@ -7,7 +45,6 @@ Given /^A media_entry with file, not owned by normin, and with no permissions wh
   @resource.userpermissions.clear
   @resource.grouppermissions.clear
 end
-
 
 Given /^A resource owned by me with no other permissions$/ do
   @resource = @me.media_resources.first
@@ -187,6 +224,7 @@ Given /^The resource has the following user-permissions:$/ do |table|
     permissions.update_attributes row[1] => row[2]
   end
 end
+
 
 
 

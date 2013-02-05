@@ -6,33 +6,15 @@ class ImportController < ApplicationController
     @media_entry_incompletes = @media_entries = current_user.incomplete_media_entries.order("ID ASC")
   end
 
-##################################################
-# step 1
-
   def start
-    dropbox_files = unless AppSettings.dropbox_root_dir and File.directory?(AppSettings.dropbox_root_dir)
-      @dropbox_exists = false
-      []
-    else
-      user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name)
-      @dropbox_exists = File.directory?(user_dropbox_root_dir)
-      @dropbox_info = dropbox_info
-      #TODO perhaps merge this logic to @user.dropbox_files 
-      Dir.glob(File.join(user_dropbox_root_dir, '**', '*')).
-                  select {|x| not File.directory?(x) }.
-                  map {|f| {:dirname=> File.dirname(f).gsub(user_dropbox_root_dir, ''),
-                            :filename=> File.basename(f),
-                            :size => File.size(f) } }
-    end
-    
+    @dropbox_files = current_user.dropbox_files
     respond_to do |format|
-      format.html {
-        do_not_cache
-        @dropbox_files_json = dropbox_files.to_json
+      format.html { 
+        do_not_cache 
+        @user_dropbox_exists = !!current_user.dropbox_dir
+        @dropbox_info = dropbox_info
       }
-      format.json {
-        render :json => dropbox_files
-      }
+      format.json { render :json => @dropbox_files }
     end
   end
     
@@ -50,22 +32,21 @@ class ImportController < ApplicationController
 
   def dropbox_import
     respond_to do |format|
-      format.json { # this is used for FTP-Dropbox import    
+      format.json {
         begin
-          user_dropbox_root_dir = File.join(AppSettings.dropbox_root_dir, current_user.dropbox_dir_name)
-
-binding.pry          files.each do |f|
+          current_user.dropbox_files.each do |f|
+            file = File.join(current_user.dropbox_dir, f[:dirname], f[:filename])
             media_entry_incomplete = current_user.incomplete_media_entries
               .create(:uploaded_data => ActionDispatch::Http::UploadedFile
-                .new(:type=> Rack::Mime.mime_type(File.extname(f)),
-                     :tempfile=> File.new(f, "r"),
-                     :filename=> File.basename(f)))
+                .new(:type=> Rack::Mime.mime_type(File.extname(file)),
+                     :tempfile=> File.new(file, "r"),
+                     :filename=> File.basename(file)))
             raise "Import failed!" unless media_entry_incomplete.persisted?
           end
           Rails.cache.delete "#{current_user.id}/media_entry_incompletes_partial"
-          render :json => files.length
+          render :json => current_user.dropbox_files.length
         rescue  Exception => e
-          format.json { render json: e, status: :unprocessable_entity }
+          render json: e, status: :unprocessable_entity
         end
       }
     end
@@ -85,14 +66,6 @@ binding.pry          files.each do |f|
       format.json { render :json => dropbox_info }
     end
   end
-  
-  # NOTE helper method
-  def dropbox_info
-    {:server => AppSettings.ftp_dropbox_server,
-     :login => AppSettings.ftp_dropbox_user,
-     :password => AppSettings.ftp_dropbox_password,
-     :dir_name => current_user.dropbox_dir_name}
-  end
 
 ##################################################
 
@@ -110,22 +83,13 @@ binding.pry          files.each do |f|
     @media_entry_incompletes_collection_id = Collection.add(@media_entry_incompletes.pluck(:id))[:id]
   }, only: [:permissions, :meta_data, :organize]
 
-##################################################
-# step 2
-
   def permissions
   end 
-
-##################################################
-# step 3
 
   def meta_data
     flash[:notice] = nil # hide permission changed flash
     @context = MetaContext.upload
   end
-
-##################################################
-# step 4
 
   def organize
     unless @media_entries.all? {|me| me.context_valid?(MetaContext.upload) }
@@ -189,5 +153,13 @@ binding.pry          files.each do |f|
 
   private
   
+    def dropbox_info
+      if AppSettings.dropbox_root_dir and File.directory?(AppSettings.dropbox_root_dir)    
+        { server: AppSettings.ftp_dropbox_server,
+          login: AppSettings.ftp_dropbox_user,
+          password: AppSettings.ftp_dropbox_password,
+          dir_name: current_user.dropbox_dir_name }
+      end
+    end
 
 end

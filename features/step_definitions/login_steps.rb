@@ -1,13 +1,11 @@
-
 When /^I click on the ZHdK\-Login$/ do
   find("a#zhdk-user-login-tab").click
   find("a#internal-login-link").click
 end
 
-Then /^I go to the ZHdK\-Login page$/ do
+Then /^I'm on the the ZHdK-Login page$/ do
   expect(current_url =~ /https:\/\/www\.zhdk\.ch\/\?agw/).to be
 end
-
 
 When /^I click on the database login tab$/ do
   find("#database-user-login-tab").click

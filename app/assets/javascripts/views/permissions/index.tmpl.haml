@@ -86,10 +86,10 @@
 
           {{if $item.manageable}}
           #addGroup.ui-add-subject.ptx
-            %input.small.block.hidden{:type => :text, :placeholder => "Name der Gruppe"}
+            %input.small.block.hidden{type: :text, placeholder: "Name der Gruppe", name: 'group'}
             %a.button.small{:tabindex => 0}
               %i.icon-plus
-              Gruppe hinzufugen
+              Gruppe hinzufügen
           {{/if}}
       {{/if}}
 

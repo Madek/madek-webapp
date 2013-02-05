@@ -11,3 +11,9 @@
   @extend .title-xs-alt;
   padding-right: $space-s;
 }
+.ui-summary-content.title-l {
+  padding: 0;
+}
+.ui-summary-content .person-tag {
+  top: -2px;
+}

@@ -1,0 +1,48 @@
+- content_for :content do
+  .ui-container.rounded-right.rounded-bottom.tab-content
+  
+    .ui-container.bright.bordered.pal
+      .ui-set-overview
+
+        .ui-metadata-box.ui-summary-table.ui-set-summary
+          %table.borderless
+            %tbody
+              %tr
+                %td.ui-summary-label Name des Kontexts
+                %td.ui-summary-content.title-l= @context
+              - if @context.description
+                %tr
+                  %td.ui-summary-label Beschreibung
+                  %td.ui-summary-content= @context.description
+
+    #ui-resources-list-container.ui-container.midtone.bordered.rounded-bottom
+
+      = render :partial => "media_resources/list/toolbar", 
+                 :locals => {:title => "Kontext enthält",
+                             :subtitle => "#{@resources_count} Inhalte",
+                             :actions => render(:partial => "media_sets/actions/save_display_settings")}
+
+      = render :partial => "media_resources/list/filterbar"
+
+      .ui-resources-holder
+
+        .ui-container.table.auto
+
+          = render :partial => "media_resources/list/filter"
+
+          .ui-container.table-cell.table-substance
+            
+            %ul#ui-resources-list.ui-resources{:class => ui_resources_class}
+
+              .pvh.mth
+                .ui-preloader
+
+  :coffeescript
+    jQuery -> 
+      mediaResourcesController = new App.MediaResourcesController.Index
+        baseFilter: #{{:meta_context_ids => [@context.id]}.to_json}
+        startFilterParams: #{MediaResource.get_filter_params(params).to_json}
+
+= render :partial => "meta_contexts/layout"
+
+        

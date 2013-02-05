@@ -129,6 +129,26 @@ class User < ActiveRecord::Base
 
 #############################################################
 
+  def dropbox_dir
+    if AppSettings.dropbox_root_dir and 
+    File.directory? AppSettings.dropbox_root_dir and
+    File.directory? AppSettings.dropbox_root_dir and
+    File.directory? File.join(AppSettings.dropbox_root_dir, dropbox_dir_name)
+      File.join(AppSettings.dropbox_root_dir, dropbox_dir_name)
+    end
+  end
+
+  def dropbox_files
+    if dropbox_dir
+      Dir.glob(File.join(dropbox_dir, '**', '*')).
+                    select {|x| not File.directory?(x) }.
+                    map {|f| {:dirname=> File.dirname(f).gsub(dropbox_dir, ''),
+                              :filename=> File.basename(f),
+                              :size => File.size(f) }}
+    end
+  end
+#############################################################
+
   # TODO check against usage_terms version ??
   def usage_terms_accepted?
     usage_terms_accepted_at.to_i >= UsageTerm.current.updated_at.to_i

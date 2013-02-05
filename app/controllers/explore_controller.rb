@@ -7,6 +7,7 @@ class ExploreController < ApplicationController
     @featured_set_children = @featured_set.child_media_resources.accessible_by_user(current_user).ordered_by(:updated_at).limit(6) if @featured_set
     @catalog_set = MediaSet.catalog
     @any_top_keywords = Keyword.with_count_for_accessible_media_resources(current_user).exists?
+    @any_context = current_user.individual_contexts.exists?
   end
 
   def index 
@@ -14,6 +15,7 @@ class ExploreController < ApplicationController
     @splashscreen_set_children = @splashscreen_set.child_media_resources.where(:view => true).shuffle if @splashscreen_set
     @catalog_set_categories = @catalog_set.categories.where(:view => true).limit(6) if @catalog_set
     @top_keywords = view_context.hash_for Keyword.with_count_for_accessible_media_resources(current_user).limit(12), {:count => true}
+    @contexts = current_user.individual_contexts.limit(4)
   end
 
   def catalog
@@ -39,6 +41,10 @@ class ExploreController < ApplicationController
 
   def keywords
     @keywords = view_context.hash_for Keyword.with_count_for_accessible_media_resources(current_user).limit(200), {:count => true}
+  end
+
+  def contexts
+    @contexts = current_user.individual_contexts
   end
 
 end

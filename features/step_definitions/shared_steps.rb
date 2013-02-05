@@ -74,6 +74,10 @@ Given /^I close the modal dialog\.$/ do
   wait_until(2){all(".modal-backdrop").size == 0}
 end
 
+And /^I confirm the browser dialog$/ do
+  page.driver.browser.switch_to.alert.accept
+end
+
 ### I f⋯ ###################################################
 
 When /^(?:|I )fill in the following:$/ do |fields|
@@ -85,13 +89,6 @@ end
 When /^I follow the link with the text "(.*?)"$/ do |text|
   find("a",text: text).click
 end
-
-### I g⋯ ###################################################
-
-When /^I go to the home page$/ do
-  visit "/"
-end
-
 
 Given /^I logout\.$/ do
   find(".app-header .ui-header-user a").click
@@ -115,6 +112,10 @@ Then /^I see a confirmation alert$/ do
   expect{ find(".ui-alert.confirmation",visible: true) }.not_to raise_error
 end
 
+Then /^I select "(.*?)" from "(.*?)"$/ do |text, class_name|
+  find("select.#{class_name}").select(text)
+end
+
 When /^I set the input with the name "(.*?)" to "(.*?)"$/ do |name, value|
   find("input[name='#{name}']").set(value)
 end
@@ -122,7 +123,6 @@ end
 Then /^I set the input in the fieldset with "(.*?)" as meta\-key to "(.*?)"$/ do |meta_key_name, value|
   find("fieldset[data-meta-key='#{meta_key_name}'] input",visible: true).set(value)
 end
-
 
 When /^I use the "(.*?)" context action$/ do |context_name|  
   find("a",text: "Weitere Aktionen").click

@@ -9,6 +9,6 @@
 
   .midtone.ui-container.pal.rounded-bottom.well
 
-    = render :partial => "meta_contexts/wrapper", :locals => {:skip_empty_values => true, :meta_contexts => @main_context_group.meta_contexts}
+    = render :partial => "media_entries/meta_contexts", :locals => {:skip_empty_values => true, :meta_contexts => @main_context_group.meta_contexts}
 
 = render "media_entries/layout"

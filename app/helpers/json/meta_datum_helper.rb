@@ -17,7 +17,11 @@ module Json
             definition.label.to_s
           end
         else
-          h[:label] = meta_datum.meta_key.all_context_labels(meta_datum.media_resource.individual_contexts)
+          h[:label] = if meta_datum.media_resource
+            meta_datum.meta_key.all_context_labels(meta_datum.media_resource.individual_contexts)
+          else
+            meta_datum.meta_key.all_context_labels
+          end
         end
       end
       

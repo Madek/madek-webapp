@@ -1,0 +1,28 @@
+- content_for :content do
+  .ui-container.rounded-right.rounded-bottom.tab-content
+  
+    .ui-container.bright.bordered.pal
+      
+      %h2.title-l Diese Metadaten wurden am häufigsten vergeben
+      %h3.title-s.pbx.mbl.separated
+        Sie zeigen den thematischen Schwerpunkt dieses Kontext an.
+
+      #ui-context-abstract-slider.mbl
+
+      #ui-context-abstract
+
+        
+        = render :partial => "abstracts/abstract", :locals => {:meta_data => @abstract}
+
+  :coffeescript
+
+    jQuery -> new App.AbstractController
+      el: $(".app.view-meta-context")
+      subject: new App.MetaContext $(".app.view-meta-context").data()
+      abstractContainer: $("#ui-context-abstract")
+      slider: $("#ui-context-abstract-slider")
+      totalChildren: #{MediaResource.filter(current_user, {:meta_context_ids => [@context.id]}).count}
+     
+= render :partial => "meta_contexts/layout"
+
+        
