@@ -5,10 +5,10 @@ Feature: Permissions
   As an owner of a Resource, I want to assign various permissions
   to users and groups.
 
-  @chrome 
-  Scenario: Assigning user permissions
+  @chrome
+  Scenario: Assigning and removing user permissions
     Given I am signed-in as "Normin"
-    And My first media_entry has no permissions whatsoever.
+    And I remove all permissions from my first media_entry
     And I visit the path of my first media entry
     And I open the edit-permissions dialog
     When I click on the link "Person hinzufügen" 
@@ -22,6 +22,12 @@ Feature: Permissions
     Then User "petra" has "view" user-permissions for my first media_entry
     Then User "petra" has "download" user-permissions for my first media_entry
     Then User "petra" has not "edit" user-permissions for my first media_entry
+    When I open the edit-permissions dialog
+    And I remove "Paula, Petra" from the user-permissions
+    And I click on the button "Speichern" 
+    And I wait for the dialog to disappear
+    Then "petra" has no user-permission for my first media_entry
+
 
   @chrome 
   Scenario: Assigning group permissions
