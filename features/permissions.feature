@@ -1,7 +1,46 @@
 Feature: Permissions
-  As a user
-  I want to have different permissions on resources
+  As an user I want to have different permissions on resources
   So that I can decide who has what kind of access to my data
+
+  As an owner of a Resource, I want to assign various permissions
+  to users and groups.
+
+  @chrome 
+  Scenario: Assigning user permissions
+    Given I am signed-in as "Normin"
+    And My first media_entry has no permissions whatsoever.
+    And I visit the path of my first media entry
+    And I open the edit-permissions dialog
+    When I click on the link "Person hinzufügen" 
+    And I set the input with the name "user" to "Paula, Petra"
+    And I click on "Paula, Petra" inside the autocomplete list
+    Then the "view" permission for "Paula, Petra" is checked
+    When I click on the "download" permission for "Paula, Petra"
+    Then the "download" permission for "Paula, Petra" is checked
+    And I click on the button "Speichern" 
+    And I wait for the dialog to disappear
+    Then User "petra" has "view" user-permissions for my first media_entry
+    Then User "petra" has "download" user-permissions for my first media_entry
+    Then User "petra" has not "edit" user-permissions for my first media_entry
+
+  @chrome 
+  Scenario: Assigning group permissions
+    Given I am signed-in as "Normin"
+    And My first media_entry has no permissions whatsoever.
+    And I visit the path of my first media entry
+    And I open the edit-permissions dialog
+    When I click on the link "Gruppe hinzufügen" 
+    And I set the input with the name "group" to "Zett"
+    And I click on "Zett" inside the autocomplete list
+    Then the "view" permission for "Zett" is checked
+    When I click on the "download" permission for "Zett"
+    Then the "download" permission for "Zett" is checked
+    And I click on the button "Speichern" 
+    And I wait for the dialog to disappear
+    Then Group "Zett" has "view" group-permissions for my first media_entry
+    Then Group "Zett" has "download" group-permissions for my first media_entry
+    Then Group "Zett" has not "edit" group-permissions for my first media_entry
+
 
 #Berechtigungen:
 #Es gibt folgende Berechtigungen auf Ressourcen im Medienarchiv (In Klammer die deutschen Bezeichnungen des Interfaces):
