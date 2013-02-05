@@ -48,6 +48,16 @@ Then /^"(.*?)" has no user\-permission for my first media_entry$/ do |login|
   ).to eq 0
 end
 
+When /^I remove "(.*?)" from the group\-permissions$/ do |group_name|
+  find("table.ui-rights-group td",text: group_name).find("a.ui-rights-remove").click
+end
+
+Then /^"(.*?)" has no group\-permission for my first media_entry$/ do |group_name|
+  expect(
+    @me.media_entries.reorder("created_at ASC").first.grouppermissions.joins(:group).where("groups.name= ?",group_name).count 
+  ).to eq 0
+end
+
 Given /^A media_entry with file, not owned by normin, and with no permissions whatsoever$/ do
   @petra = User.find_by_login("petra")
   @resource = FactoryGirl.create :media_entry, user: @petra

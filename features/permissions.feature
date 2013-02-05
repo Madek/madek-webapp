@@ -32,7 +32,7 @@ Feature: Permissions
   @chrome 
   Scenario: Assigning group permissions
     Given I am signed-in as "Normin"
-    And My first media_entry has no permissions whatsoever.
+    And I remove all permissions from my first media_entry
     And I visit the path of my first media entry
     And I open the edit-permissions dialog
     When I click on the link "Gruppe hinzufügen" 
@@ -46,6 +46,13 @@ Feature: Permissions
     Then Group "Zett" has "view" group-permissions for my first media_entry
     Then Group "Zett" has "download" group-permissions for my first media_entry
     Then Group "Zett" has not "edit" group-permissions for my first media_entry
+    When I open the edit-permissions dialog
+    And I remove "Zett" from the group-permissions
+    And I click on the button "Speichern" 
+    And I wait for the dialog to disappear
+    Then "Zett" has no group-permission for my first media_entry
+
+
 
 
 #Berechtigungen:
