@@ -171,7 +171,9 @@ module MediaResourceModules
                 s = s.where(:meta_data_meta_terms => {:meta_term_id => id}) unless id == "any"
                 s
             end
-            resources = resources.where(:id => sub)
+            # NOTE this doesn't work because is overwriting the statements:
+            # resources = resources.where(:id => sub)
+            resources = resources.where("media_resources.id IN (#{sub.select("media_resources.id").to_sql})")
           end
         end
         resources
