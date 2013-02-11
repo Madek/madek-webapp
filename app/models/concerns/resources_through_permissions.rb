@@ -69,7 +69,7 @@ module Concerns
             UNION
           #{grouppermissions_not_disallowed(user,action).select("media_resource_id").to_sql}"
         end
-        where("media_resources.id IN (#{subquery})")
+        where("media_resources.id IN (#{subquery})").where(arel_table[:user_id].not_eq user.id)
       end
 
 
