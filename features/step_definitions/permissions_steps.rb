@@ -100,11 +100,12 @@ end
 Given /^I add the resource to the given set$/ do
   wait_until{all(".ui-modal input.ui-search-input").size > 0}
   find(".ui-modal input.ui-search-input").set(@set.title)
-  wait_until{all("ol.ui-set-list li").size > 0 }
+  wait_until{all("ol.ui-set-list li",text: @set.title).size > 0 }
   expect(all("ol.ui-set-list li").size).to eq 1
   find("ol.ui-set-list li input[type='checkbox']#parent_resource_#{@set.id}").click
-  find("button.primary-button").click
+  find(".ui-modal button.primary-button").click
   wait_until{all(".modal-backdrop").size == 0}
+  wait_until{all(".ui-alert.confirmation",visible: true).size > 0 }
 end
 
 Given /^I add "(.*?)" to grant user permissions$/ do |name|
