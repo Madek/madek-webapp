@@ -25,23 +25,21 @@ module CIFeatureJobs
     ### Commands #################################################################################
   
     def setup_ci_shell_commands 
-      %q{#!/bin/bash --login
-
-ln -s /var/lib/jenkins/configs/madek-log $WORKSPACE/log
-mkdir -p $WORKSPACE/tmp/capybara
-rm -rf $WORKSPACE/log && mkdir -p $WORKSPACE/log
-rm -f $WORKSPACE/tmp/*.mysql
-rm -f $WORKSPACE/tmp/*.sql
-mkdir -p $WORKSPACE/tmp/html
-
-rvm use 1.9.3
-rbenv shell 1.9.3-p327
-bundle install --without development
-bundle exec rake madek:test:setup_ci_dbs
-bundle exec rake madek:test:setup
-}
-
+      @setup_ci_shell_commands ||= File.read Rails.root.join 'lib','ci','pre_job_shell_commands.sh'
     end
+
+    def post_job_shell_commands
+      @post_job_shell_commands ||= File.read Rails.root.join 'lib','ci','post_job_shell_commands.sh'
+    end
+
+    def aggregator_shell_commands
+      setup_ci_shell_commands + 'bundle exec rake madek:ci:query_all_success AUTH_FILE=/var/lib/jenkins/configs/api_credentials.yml'
+    end
+
+    def creator_shell_commands
+      setup_ci_shell_commands + 'bundle exec rake madek:ci:create_or_update_all_feature_jobs  AUTH_FILE=/var/lib/jenkins/configs/api_credentials.yml'
+    end
+
 
     def cucumber_ci_shell_commands
       setup_ci_shell_commands + 'bundle exec rake madek:test:cucumber:all FILE=$CUCUMBER_FILE RERUN_LIMIT=0'
@@ -73,8 +71,17 @@ bundle exec rake madek:test:setup
       "#{BASE_NAME}_#{branch_name}___CREATOR"
     end
 
-    def prepare_temlate branch_name, xml_doc = \
-      REXML::Document.new(File.new Rails.root.join "lib","ci","job_template.xml")
+    ################################################################
+    ### TEMPLATE XML
+    ################################################################
+
+
+    def prepare_template_for_job branch_name
+      xml_doc = REXML::Document.new(File.new Rails.root.join "lib","ci","job_template.xml")
+
+      REXML::XPath.first(xml_doc,  \
+                         "/project/publishers/hudson.plugins.postbuildtask.PostbuildTask/tasks/hudson.plugins.postbuildtask.TaskProperties/script") \
+                         .text= post_job_shell_commands
 
       REXML::XPath.first(xml_doc,  \
                          "/project/scm/branches/hudson.plugins.git.BranchSpec/name") \
@@ -83,13 +90,38 @@ bundle exec rake madek:test:setup
       REXML::XPath.first(xml_doc,  \
                          "/project/publishers/hudson.tasks.BuildTrigger/childProjects") \
                          .text= aggregator_job_name(branch_name)
+
       xml_doc
     end
+
+
+    def prepare_template_for_task branch_name
+      xml_doc = REXML::Document.new(File.new Rails.root.join "lib","ci","task_template.xml")
+
+      REXML::XPath.first(xml_doc,  \
+                         "/project/publishers/hudson.plugins.postbuildtask.PostbuildTask/tasks/hudson.plugins.postbuildtask.TaskProperties/script") \
+                         .text= post_job_shell_commands
+
+      REXML::XPath.first(xml_doc,  \
+                         "/project/scm/branches/hudson.plugins.git.BranchSpec/name") \
+                         .text= branch_name
+
+
+      REXML::XPath.first(xml_doc,"/project/disabled").text= "false"
+      REXML::XPath.first(xml_doc, "/project/assignedNode").text= "master"
+
+      xml_doc
+    end
+
+
     
+    ######################################################
+    ### 
+    ######################################################
 
     def create_new_job_template! branch_name
 
-      xml_doc = prepare_temlate branch_name
+      xml_doc = prepare_template_for_job branch_name
 
       REXML::XPath.first(xml_doc,  \
                          "/project/builders/hudson.tasks.Shell/command") \
@@ -97,17 +129,15 @@ bundle exec rake madek:test:setup
 
       # this seems the only way to get it up reliably
       create_ci_job!(job_template_name(branch_name), xml_doc.to_s) rescue nil
-      update_ci_job!(job_template_name(branch_name), xml_doc.to_s) rescue nil
+      update_ci_job!(job_template_name(branch_name), xml_doc.to_s) 
+      Rails.logger.info "create_new_job_template finished without error"
+      
     end
 
 
-    def create_or_update_respec_job! branch_name = ENV['BRANCH_NAME']
+    def create_or_update_rspec_job! branch_name = ENV['BRANCH_NAME']
 
-      xml_doc = prepare_temlate branch_name
-
-      REXML::XPath.first(xml_doc,  \
-                         "/project/disabled") \
-                         .text= "false"
+      xml_doc = prepare_template_for_job branch_name
 
       REXML::XPath.first(xml_doc,  \
                          "/project/builders/hudson.tasks.Shell/command") \
@@ -115,47 +145,59 @@ bundle exec rake madek:test:setup
 
       REXML::XPath.first(xml_doc,  \
                          "/project/buildWrappers/EnvInjectBuildWrapper/info/propertiesContent") \
-                         .text= %Q{RAILS_ENV=test 
-CI_TEST_NAME=#{branch_name.downcase}_rspec
-}
+                         .text= %Q{RAILS_ENV=test \nCI_TEST_NAME=#{branch_name.downcase}_rspec \n}
+
+      REXML::XPath.first(xml_doc,"/project/disabled").text= "false"
 
       # this seems the only way to get it up reliably
       create_ci_job!(rspec_job_name(branch_name), xml_doc.to_s) rescue nil
-      update_ci_job!(respc_job_name(branch_name), xml_doc.to_s) rescue nil
+      update_ci_job!(rspec_job_name(branch_name), xml_doc.to_s)
+      Rails.logger.info "create_or_update_rspec_job finished without error"
     end
 
 
-    def create_new_job_aggreagtor! branch_name, aggregator_xml_doc = \
-      REXML::Document.new(File.new Rails.root.join "lib","ci","aggregator.xml")
-      
-      REXML::XPath.first(aggregator_xml_doc,  \
-                         "/project/scm/branches/hudson.plugins.git.BranchSpec/name") \
-                         .text= branch_name
+    ###############################################################
+    ### CREATE AGGREGATOR JOB XML
+    ###############################################################
+    def create_new_job_aggregtor! branch_name
 
-      REXML::XPath.first(aggregator_xml_doc, \
-                         "/project/buildWrappers/EnvInjectBuildWrapper/info/propertiesContent") \
-                         .text= %Q[\nRAILS_ENV=test \nBRANCH_NAME=#{branch_name} \n]
-
-      create_ci_job!(aggregator_job_name(branch_name), aggregator_xml_doc.to_s) rescue nil
-      update_ci_job!(aggregator_job_name(branch_name), aggregator_xml_doc.to_s) rescue nil
-    end
-
-
-    def create_new_job_creator! branch_name, xml_doc = \
-      REXML::Document.new(File.new Rails.root.join "lib","ci","creator.xml")
-      
-      REXML::XPath.first(xml_doc,  \
-                         "/project/scm/branches/hudson.plugins.git.BranchSpec/name") \
-                         .text= branch_name
+      xml_doc = prepare_template_for_task branch_name
 
       REXML::XPath.first(xml_doc, \
                          "/project/buildWrappers/EnvInjectBuildWrapper/info/propertiesContent") \
-                         .text= %Q[\nRAILS_ENV=test \nBRANCH_NAME=#{branch_name} \n]
+                         .text= %Q[\nRAILS_ENV=test \nBRANCH_NAME=#{branch_name} \nCI_TEST_NAME=#{branch_name.downcase}_aggregator]
 
-      create_ci_job!(creator_job_name(branch_name), xml_doc.to_s) rescue nil
-      update_ci_job!(creator_job_name(branch_name), xml_doc.to_s) rescue nil
+      REXML::XPath.first(xml_doc,  \
+                         "/project/builders/hudson.tasks.Shell/command") \
+                         .text= aggregator_shell_commands()
+
+      create_ci_job!(aggregator_job_name(branch_name), xml_doc.to_s) rescue nil
+      update_ci_job!(aggregator_job_name(branch_name), xml_doc.to_s) 
+
+      Rails.logger.info "create_new_job_aggregtor finished without errors"
+
     end
 
+
+    def create_new_job_creator! branch_name
+
+      xml_doc = prepare_template_for_task branch_name
+
+      REXML::XPath.first(xml_doc, \
+                         "/project/buildWrappers/EnvInjectBuildWrapper/info/propertiesContent") \
+                         .text= %Q[\nRAILS_ENV=test \nBRANCH_NAME=#{branch_name} \nCI_TEST_NAME=#{branch_name.downcase}_creator]
+
+      REXML::XPath.first(xml_doc,  \
+                         "/project/builders/hudson.tasks.Shell/command") \
+                         .text= creator_shell_commands()
+
+
+      create_ci_job!(creator_job_name(branch_name), xml_doc.to_s) rescue nil
+      update_ci_job!(creator_job_name(branch_name), xml_doc.to_s) 
+
+      Rails.logger.info "create_new_job_creator finished without error"
+
+    end
 
 
     ### JOBS and JOB HELPERS ##################################################################
@@ -202,11 +244,16 @@ CI_TEST_NAME=#{branch_name.downcase}_rspec
     ### CI API ##################################################################
     #############################################################################
     
-  
+
     ### list and delete jobs #################
-     
-    def list_all_jobs
-      JSON.parse(RestClient.get "#{BASE_PATH}/view/All/api/json")['jobs']
+
+    def list_all_jobs opts = {}
+      response = create_connection(opts).get("/view/All/api/json")
+      if response.status >= 300
+        raise "list_all_jobs failed with #{response.status}" 
+      else
+        JSON.parse(response.body)['jobs']
+      end
     end
 
     def filter_jobs_by_regex strex, jobs = list_all_jobs 
@@ -226,7 +273,7 @@ CI_TEST_NAME=#{branch_name.downcase}_rspec
 
     ###########################################
 
-    def create_connection opts
+    def create_connection opts = {}
       Faraday.new(url: BASE_PATH) do |faraday|
         faraday.adapter Faraday.default_adapter
         faraday.basic_auth(opts_or_env(:ci_user,opts), opts_or_env(:ci_pw,opts))
@@ -234,19 +281,31 @@ CI_TEST_NAME=#{branch_name.downcase}_rspec
     end
 
     def update_ci_job! job_name, xml, opts = {}
-      create_connection(opts).post do |req|
-        req.path= "job/#{job_name}/config.xml"
-        req.headers['Content-Type'] = 'application/xml'
-        req.body = xml
+      unless (200..299).include? create_connection(opts).get("job/#{job_name}/config.xml").status
+        Rails.logger.debug "will not update the job #{job_name} since it does not exist in the first place"
+      else
+        response = create_connection(opts).post do |req|
+          req.path= "job/#{job_name}/config.xml"
+          req.headers['Content-Type'] = 'application/xml'
+          req.body = xml
+        end
+        raise "Updating the job #{job_name} failed with #{response.status}" if response.status >= 400
+        response
       end
     end
 
     def create_ci_job! job_name, xml, opts = {}
-      create_connection(opts).post do |req|
-        req.path= "/createItem"
-        req.params['name'] = job_name 
-        req.headers['Content-Type'] = 'application/xml'
-        req.body = xml
+      if (200..299).include? create_connection(opts).get("job/#{job_name}/config.xml").status
+        Rails.logger.debug "will not create the job #{job_name} since it exist already"
+      else
+        resp = create_connection(opts).post do |req|
+          req.path= "/createItem"
+          req.params['name'] = job_name 
+          req.headers['Content-Type'] = 'application/xml'
+          req.body = xml
+        end
+        raise "create_ci_job #{job_name} failed with #{resp.status}" if resp.status >= 400
+        resp
       end
     end
 
@@ -254,35 +313,33 @@ CI_TEST_NAME=#{branch_name.downcase}_rspec
       all_feature_jobs_params.each do |job_params|
         xml =  template_xml reload = false , opts
         xml_config = job_xml job_params, xml
-        begin
-          create_ci_job! ci_job_name(job_params), xml_config, opts
-        rescue
-        end
-        begin
-          resp = update_ci_job! ci_job_name(job_params), xml_config, opts
-        rescue => e
-          puts "update error: #{e}"
-        end
+        create_ci_job! ci_job_name(job_params), xml_config, opts rescue nil
+        update_ci_job! ci_job_name(job_params), xml_config, opts
+        Rails.logger.info "the job #{ci_job_name(job_params)} has been created w.o. errors"
       end
+      exit 0
     end
 
-    def get_last_build_status_of_all_feature_jobs
+    def get_last_build_status_of_all_feature_jobs opts={}
       add_success_status_to_all_jobs(
         all_feature_jobs_params.map do |job_params|
         job_params.merge({
           ci_last_build: 
           begin
-            JSON.parse(RestClient.get("http://ci.zhdk.ch/job/#{ci_job_name(job_params)}/lastBuild/api/json")).symbolize_keys!
-          rescue
-            nil
+            response = create_connection(opts).get("/job/#{ci_job_name(job_params)}/lastBuild/api/json")
+            if response.status >= 300 
+              raise "get_last_build_status_of_all_feature_jobs failed with #{response.status}"
+            else 
+              JSON.parse(response.body).symbolize_keys!
+            end
           end
         })      
         end
       )
     end
 
-    def all_features_success? buils
-      buils.map{|h| h[:is_success]}.all?
+    def all_features_success? builds
+      builds.map{|h| h[:is_success]}.all?
     end
 
    
@@ -302,16 +359,15 @@ CI_TEST_NAME=#{branch_name.downcase}_rspec
 
     ### rspec success ? ###############################################################
 
-    # test me
-    def rspec_success?
-      begin
-        (JSON.parse(RestClient.get("http://ci.zhdk.ch/job/#{rspec_job_name}/lastBuild/api/json")).symbolize_keys!)[:result]=="SUCCESS"
-      rescue
-        nil
+    def rspec_success? opts = {}
+      response = create_connection(opts).get("/job/#{rspec_job_name}/lastBuild/api/json")
+      if response.status >= 300
+        raise "querying rspec_success failed with status #{response.status}" 
+      else
+        (JSON.parse(response.body).symbolize_keys!)[:result]=="SUCCESS"
       end
     end
 
-    end
-
+  end
 
 end
