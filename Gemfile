@@ -22,7 +22,7 @@ gem 'pg', platform: :mri_19
 
 # THE REST
 gem 'RedCloth'
-gem 'activeadmin', '~> 0.5.0'
+gem 'activeadmin', :git => 'git://github.com/zhdk/active_admin.git' # '~> 0.5.0'
 gem 'coffee-filter', "~> 0.1.1"
 gem 'coffee-script', '~> 2.2'
 gem 'haml', '~> 3.1'
