@@ -24,10 +24,12 @@
       %ul.ui-tabs.ui-container
         - if AppSettings.authentication_systems.include? :zhdk_agw
           %li.ui-tabs-item.left{:class => active_login == :zhdk_agw ? "active" : ""}
-            %a#zhdk-user-login-tab{"data-toggle" => "tab", :href => "#internal-user"} ZHdK-Login
+            %a#zhdk-user-login-tab{"data-toggle" => "tab", :href => "#internal-user"}
+              = _("ZHdK login")
         - if AppSettings.authentication_systems.include? :local_database
           %li.ui-tabs-item.right{:class => active_login == :external ? "active" : ""}
-            %a#database-user-login-tab{"data-toggle" => "tab", :href => "#external-user"} Externe
+            %a#database-user-login-tab{"data-toggle" => "tab", :href => "#external-user"}
+              = _("External users")
       .tab-content.pitch-login-tab
         - if AppSettings.authentication_systems.include? :zhdk_agw
           #internal-user.tab-pane{:class => active_login == :zhdk_agw ? "active" : ""}
@@ -35,14 +37,16 @@
               .form-body
                 .ui-form-group.rowed
                   %p.mbm Alle Funktionen nutzen und auf <br/> mehr Inhalte zugreifen.
-                  %a#internal-login-link.primary-button.block.large{:href => login_path} Anmelden
+                  %a#internal-login-link.primary-button.block.large{:href => login_path}
+                    = _("Log in")
         - if AppSettings.authentication_systems.include? :local_database
           #external-user.tab-pane{:class => active_login == :external ? "active" : ""}
             %form{:action => "db/login", :method => :post}
               .form-body
                 .ui-form-group.rowed.compact
-                  %input.block.large{:placeholder => "Benutzername", :type => "text", :name => :login, :autofocus => params[:external_user_login] ? "autofocus" : "false"}/
+                  %input.block.large{:placeholder => _("Username"), :type => "text", :name => :login, :autofocus => params[:external_user_login] ? "autofocus" : "false"}/
                 .ui-form-group.rowed.compact
-                  %input.block.large{:placeholder => "Passwort", :type => "password", :name => :password}/
+                  %input.block.large{:placeholder => _("Password"), :type => "password", :name => :password}/
                 .ui-form-group.rowed.compact
-                  %button.primary-button.block.large{:type => :submit} Anmelden
+                  %button.primary-button.block.large{:type => :submit}
+                    = _("Log in")

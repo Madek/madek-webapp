@@ -1,0 +1,65 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Madek\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-02-13 13:17+0100\n"
+"PO-Revision-Date: 2013-02-13 13:25+0100\n"
+"Last-Translator: Ramón Cahenzli <ramon.cahenzli@zhdk.ch>\n"
+"Language-Team: German (Switzerland) <ramon.cahenzli@zhdk.ch>\n"
+"Language: German (Switzerland)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: Switzerland\n"
+
+msgid "About the project"
+msgstr "Informationen zum Projekt"
+
+msgid "Impressum"
+msgstr "Impressum"
+
+msgid "Contact"
+msgstr "Kontakt"
+
+msgid "Help"
+msgstr "Hilfe"
+
+msgid "Terms of Use"
+msgstr "Nutzungsbestimmungen"
+
+msgid "My archive"
+msgstr "Mein Archiv"
+
+msgid "Explore"
+msgstr "Erkunden"
+
+msgid "Search"
+msgstr "Suchen"
+
+msgid "ZHdK login"
+msgstr "ZHdK-Login"
+
+msgid "External users"
+msgstr "Externe"
+
+msgid "Log in"
+msgstr "Anmelden"
+
+msgid "Username"
+msgstr "Benutzername"
+
+msgid "Password"
+msgstr "Passwort"
+
+msgid "Contexts"
+msgstr "Kontexte"
+
+msgid "New content"
+msgstr "Neue Inhalte"

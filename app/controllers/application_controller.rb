@@ -7,9 +7,9 @@ class ApplicationController < ActionController::Base
 ##############################################
 # Authentication
 
-  before_filter :login_required, :except => [:login, :login_successful, :logout, :feedback, :login_and_return_here] # TODO :help
+  before_filter :set_gettext_locale, :login_required, :except => [:login, :login_successful, :logout, :feedback, :login_and_return_here] # TODO :help
 
-  helper_method :current_user, :logged_in?, :_
+  helper_method :current_user, :logged_in? 
 
   def logged_in?
     !!current_user
@@ -22,21 +22,19 @@ class ApplicationController < ActionController::Base
 ########################################################
 # Admin Authentication 
 
-def authenticate_admin_user!
-  unless current_user and Group.find_by_name("Admin").users.include? current_user
-    flash[:error] = "Sie sind kein Administrator."
-    redirect_to root_path
-  else
-    true
+  def authenticate_admin_user!
+    unless current_user and Group.find_by_name("Admin").users.include? current_user
+      flash[:error] = "Sie sind kein Administrator."
+      redirect_to root_path
+    else
+      true
+    end
   end
-end
 
-##############################################
-
-  # TODO i18n
-  def _(s)
-    s
+  def set_gettext_locale
+    I18n.locale = "de_CH".to_sym
   end
+
 
 ##############################################
 

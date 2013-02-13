@@ -45,6 +45,7 @@ gem 'uuidtools', '~> 2.1.3'
 gem 'kaminari', '~> 0.14' 
 gem 'zencoder', '~> 2.4'
 gem 'zip', '~> 2.0.2' # alternatives: 'rubyzip', 'zipruby', 'zippy'
+gem 'gettext_i18n_rails'
 
 group :assets do
   gem 'coffee-rails', '~> 3.2'
