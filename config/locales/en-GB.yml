@@ -1,12 +1,23 @@
-# GB English translations for Ruby on Rails
+# GB English translations for Ruby on Rails, plus some Madek strings
 
 "en-GB":
   
-  leihs:
+  madek:
     date:
       formats:
         day_long: "%A %d. %B %Y"
-  
+
+# ==== ActiveAdmin
+  flash:
+    actions:
+      create:
+        notice: "%{resource_name} was successfully created"
+      update:
+        notice: "%{resource_name} was successfully updated"
+      destroy:
+        notice: "%{resource_name} was successfully destroyed"
+        alert: "%{resource_name} could not be destroyed"
+
 # ==== FROM HERE DEFAULTS:  
 
   date:
@@ -232,3 +243,4 @@
 
       full_messages:
         format: "%{attribute} %{message}"
+
