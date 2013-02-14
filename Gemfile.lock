@@ -261,7 +261,6 @@ GEM
     net-ssh (2.6.2)
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
-    newrelic_rpm (3.5.6.46)
     nokogiri (1.5.5)
     orm_adapter (0.4.0)
     pg (0.14.1)
@@ -475,7 +474,6 @@ DEPENDENCIES
   meta_request
   nested_set (~> 1.7)
   net-ldap!
-  newrelic_rpm
   nkss-rails!
   nokogiri
   pg

@@ -147,8 +147,8 @@ cat << 'JENKINS' | su -l jenkins
 rbenv install 1.9.3-p385
 rbenv global 1.9.3-p385
 rbenv uninstall -f 1.9.3-p327
-
-rbenv bootstrap
+rbenv rehash
+gem install bundler
 rbenv rehash
 JENKINS
 
