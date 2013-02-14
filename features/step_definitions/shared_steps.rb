@@ -38,7 +38,7 @@ Then /^I can see the text "(.*?)"$/ do |text|
 end
 
 When /^I click on the link "(.*?)"$/ do |link_text|
-  wait_until(1){ all("a", text: link_text, visible: true).size > 0}
+  wait_until{ all("a", text: link_text, visible: true).size > 0}
   find("a",text: link_text).click
 end 
 
@@ -136,7 +136,7 @@ When /^I wait for the dialog to appear$/ do
 end
 
 When /^I wait for the dialog to disappear$/ do
-  wait_until{all(".modal-backdrop").size == 0 }
+  wait_until(5){all(".modal-backdrop").size == 0 }
 end
 
 Given /^I wait for the following to be implemented$/ do
