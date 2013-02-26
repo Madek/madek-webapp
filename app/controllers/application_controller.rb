@@ -127,7 +127,7 @@ class ApplicationController < ActionController::Base
           (request[:controller] == "media_sets" and request[:action] == "parents") or
           (request[:controller] == "media_sets" and request[:action] == "vocabulary") or
           (request[:controller] == "keywords" and request[:action] == "index") or 
-          (request[:controller] == "meta_contexts" and request[:action] == "show") or
+          (request[:controller] == "meta_contexts") or
           (request[:controller] == "search")
       @current_user = user = User.new
 
