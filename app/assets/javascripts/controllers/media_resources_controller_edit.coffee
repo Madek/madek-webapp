@@ -23,10 +23,7 @@ class MediaResourcesController.Edit
     new App.FormBehaviours.Collapse {el: @el}
     new App.FormBehaviours.Copyrights {el: @el}
     new App.FormAutocompletes.Departments {el: @el}
-    do @delegateEvents
-
-  delegateEvents: ->
-    #@el.on "submit", (e)=> debugger
+    new App.FormBehaviours.WarnOnLeave
 
 window.App.MediaResourcesController = {} unless window.App.MediaResourcesController
 window.App.MediaResourcesController.Edit = MediaResourcesController.Edit

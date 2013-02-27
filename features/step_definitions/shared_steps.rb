@@ -103,7 +103,6 @@ end
 
 ### I s⋯ ###################################################
 
-
 Then /^I see an error alert$/ do
   expect{ find(".ui-alert.error",visible: true) }.not_to raise_error
 end
