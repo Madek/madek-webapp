@@ -1,10 +1,5 @@
 When /^I click on the ZHdK\-Login$/ do
   find("a#zhdk-user-login-tab").click
-  find("a#internal-login-link").click
-end
-
-Then /^I'm on the the ZHdK-Login page$/ do
-  expect(current_url =~ /https:\/\/www\.zhdk\.ch\/\?agw/).to be
 end
 
 When /^I click on the database login tab$/ do
@@ -19,3 +14,7 @@ Then /^I am logged in$/ do
   expect(find("a[href='/logout']")).to be
 end
 
+
+Then /^There is a link to the "(.*?)" path$/ do |path|
+  expect("a[href='#{path}']").to be
+end

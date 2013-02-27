@@ -18,6 +18,12 @@ When /^I go to (.*?)$/ do |page|
     when "the explore contexts page"
       explore_contexts_path
 
+    when "the page of the media_entry"
+      media_entry_path @media_entry
+
+    when "the page of the media_entry in the admin interface"
+      admin_media_entry_path @media_entry
+
     when "the search page"
       search_path
 

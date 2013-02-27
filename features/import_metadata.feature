@@ -7,8 +7,8 @@ Feature: Importing files with metadata and setting metadata
 
     And I click on the link "Medien importieren"
     Then I am on the "/import" page
-    When I attach the file "berlin_wall_01.jpg"
-    And I attach the file "berlin_wall_02.jpg"
+    When I attach the file "images/berlin_wall_01.jpg"
+    And I attach the file "images/berlin_wall_02.jpg"
     When I click on the link "Weiter"
 
     And I wait until I am on the "/import/permissions" page
@@ -37,10 +37,10 @@ Feature: Importing files with metadata and setting metadata
 
     And I click on the link "Medien importieren"
     Then I am on the "/import" page
-    When I attach the file "berlin_wall_01.jpg"
-    And I attach the file "berlin_wall_02.jpg"
-    And I attach the file "date_should_be_1990.jpg"
-    And I attach the file "date_should_be_2011-05-30.jpg"
+    When I attach the file "images/berlin_wall_01.jpg"
+    And I attach the file "images/berlin_wall_02.jpg"
+    And I attach the file "images/date_should_be_1990.jpg"
+    And I attach the file "images/date_should_be_2011-05-30.jpg"
     When I click on the link "Weiter"
 
     And I wait until I am on the "/import/permissions" page
@@ -70,7 +70,7 @@ Feature: Importing files with metadata and setting metadata
     And I am going to import images
     And I click on the link "Medien importieren"
     Then I am on the "/import" page
-    When I attach the file "date_should_be_2011-05-30.jpg"
+    When I attach the file "images/date_should_be_2011-05-30.jpg"
     When I click on the link "Weiter"
     And I wait until I am on the "/import/permissions" page
     And I click on the button "Berechtigungen speichern" 
@@ -90,7 +90,7 @@ Feature: Importing files with metadata and setting metadata
     And I am going to import images
     And I click on the link "Medien importieren"
     Then I am on the "/import" page
-    When I attach the file "date_should_be_from_to_may.jpg"
+    When I attach the file "images/date_should_be_from_to_may.jpg"
     When I click on the link "Weiter"
     And I wait until I am on the "/import/permissions" page
     And I click on the button "Berechtigungen speichern" 
@@ -114,7 +114,7 @@ Feature: Importing files with metadata and setting metadata
     And I am going to import images
     And I click on the link "Medien importieren"
     Then I am on the "/import" page
-    When I attach the file "date_should_be_1990.jpg"
+    When I attach the file "images/date_should_be_1990.jpg"
     When I click on the link "Weiter"
     And I wait until I am on the "/import/permissions" page
     And I click on the button "Berechtigungen speichern" 

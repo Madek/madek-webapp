@@ -1,6 +1,17 @@
-- @media_entry.media_file.assign_audio_previews
+:ruby 
+  preview = @media_entry.media_file.previews.where("content_type = 'audio/ogg'").last
 
-= image_tag image_media_resource_path(@media_entry, :size => :large), :class => "ui-media-overview-preview-item pvm mtm"
-.pvm.mtm.by-center
-  %audio{:controls => true}
-    %source{:type => "audio/ogg", :src => "/download?id=#{@media_entry.id}&audio_preview=true"}
+  content = 
+    case @media_entry.try(:media_file).try(:most_recent_zencoder_job).try(:state)
+    when 'finished'
+      render "media_entries/previews/audio/audio", preview: preview
+    when 'submitted', 'importing'
+      render "media_entries/previews/encoding/converting", \
+        zencoder_job: @media_entry.media_file.most_recent_zencoder_job
+    else 
+      render "media_entries/previews/encoding/failed"
+    end
+
+= content
+
+

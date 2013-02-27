@@ -54,7 +54,7 @@ Feature: Editing keywords, people, controlled vocabularies...
     Then the textarea within the fieldset "copyright usage" is empty
     Then the textarea within the fieldset "copyright url" is empty
 
-  @wip # we have to wait until selenium webdriver is running again
+  @wip
   Scenario: Show warning before leaving media entry edit page and losing unsaved data
     Given I am signed-in as "Normin"
     When I go to the edit-page of my first media_entry
@@ -63,7 +63,7 @@ Feature: Editing keywords, people, controlled vocabularies...
     And I have to confirm
     Then Im able to leave the page
 
-  @wip # we have to wait until selenium webdriver is running again
+  @wip
   Scenario: Show warning before leaving media entry multiple edit page (batch) and losing unsaved data
     Given I am signed-in as "Normin"
     When I go to edit multiple media entries using the batch

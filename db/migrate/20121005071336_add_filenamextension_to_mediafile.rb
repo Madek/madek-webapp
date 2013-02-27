@@ -1,4 +1,8 @@
 class AddFilenamextensionToMediafile < ActiveRecord::Migration
+
+  class MediaFile < ActiveRecord::Base
+  end
+
   def up
 
     add_column :media_files, :extension, :string 

@@ -32,14 +32,21 @@ class User < ActiveRecord::Base
     end
   end
   
+
+
   has_and_belongs_to_many :groups do
     def is_member?(group)
       group = Group.find_by_name(group) if group.is_a? String
       group ? include?(group) : false
     end
   end
-  
-#############################################################
+
+  def is_admin? 
+    @is_admin ||= Group.where(name: 'Admin').joins(:users) \
+      .where("groups_users.user_id = ?", self.id).count > 0
+  end
+
+  #############################################################
 
   def individual_contexts
     # NOTE media_sets scope includes the subclasses (FilterSet) 

@@ -1,20 +1,21 @@
 :ruby
-  @media_entry.media_file.assign_video_thumbnails_to_preview
-  video_preview_webm = @media_entry.media_file.previews.where(:content_type => 'video/webm', :thumbnail => 'large').last
-  video_preview_apple = @media_entry.media_file.previews.where(:content_type => 'video/mp4', :thumbnail => 'large').last
+  video_preview_webm = @media_entry.media_file.previews.where(:content_type => 'video/webm', :thumbnail => 'large') \
+    .reorder("created_at DESC").first
+  video_preview_apple = @media_entry.media_file.previews.where(:content_type => 'video/mp4', :thumbnail => 'large') \
+    .reorder("created_at DESC").first
 
-  # Since we don't have a video preview, we also don't have any thumbnails, since those are generated while
-  # encoding the video.
-  content = if video_preview_webm.nil?
-    if !@media_entry.media_file.encode_job_finished?
-      render :partial => "media_entries/previews/video/converting"
-    else
-      render :partial => "media_entries/previews/video/image"
+  content = 
+    case @media_entry.try(:media_file).try(:most_recent_zencoder_job).try(:state)
+    when 'finished'
+      render :partial => "media_entries/previews/video/video", 
+        :locals => {:video_preview_webm => video_preview_webm, \
+          :video_preview_apple => video_preview_apple}
+    when 'submitted', 'importing'
+      render "media_entries/previews/encoding/converting", \
+        zencoder_job: @media_entry.media_file.most_recent_zencoder_job
+    else 
+      render "media_entries/previews/encoding/failed"
     end
-  else
-    render :partial => "media_entries/previews/video/video", 
-           :locals => {:video_preview_webm => video_preview_webm,
-                       :video_preview_apple => video_preview_apple}
-  end
+
 
 = content

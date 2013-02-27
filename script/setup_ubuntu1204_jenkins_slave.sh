@@ -141,13 +141,17 @@ useradd --create-home -s /bin/bash jenkins
 
 cat << 'JENKINS' | su -l jenkins
 curl https://raw.github.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
+rbenv update
 JENKINS
 
 cat << 'JENKINS' | su -l jenkins
-rbenv install 1.9.3-p385
-rbenv global 1.9.3-p385
-rbenv uninstall -f 1.9.3-p327
+rbenv install 1.9.3-p392 
+rbenv global 1.9.3-p392 
 rbenv rehash
+gem update --system
+gem install rubygems-update
+rbenv rehash
+update_rubygems
 gem install bundler
 rbenv rehash
 JENKINS

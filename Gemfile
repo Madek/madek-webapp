@@ -19,6 +19,7 @@ gem 'foreigner'
 gem 'jdbc-postgres', platform: :jruby
 gem 'memcache-client' 
 gem 'pg', platform: :mri_19
+gem 'postgres_ext'
 
 # THE REST
 gem 'RedCloth'
@@ -99,9 +100,10 @@ end
 
 group :development do
   gem 'better_errors'
-  gem 'binding_of_caller'
+  gem 'binding_of_caller', platform: :mri_19
   gem 'meta_request'
   gem 'nkss-rails', :git => 'git://github.com/interactivethings/nkss-rails.git'   # CSS styleguides
+  gem 'zencoder-fetcher'
 end
 
 group :test do

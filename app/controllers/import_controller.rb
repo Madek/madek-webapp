@@ -101,7 +101,11 @@ class ImportController < ApplicationController
 ##################################################
 
   def complete
+
     if @media_entries.all? {|me| me.context_valid?(MetaContext.upload) }
+
+      ZencoderJob.create_zencoder_jobs_if_applicable(@media_entries).each{|job| job.submit}
+
       @media_entries.each {|me| me.set_as_complete }
       flash[:notice] = "Import abgeschlossen."
       redirect_to my_dashboard_path

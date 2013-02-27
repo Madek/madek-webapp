@@ -1,26 +1,31 @@
 When /^I attach the file "(.*?)"$/ do |file_name|
-  attach_file find("input[type='file']")[:id], Rails.root.join("features","data","images",file_name)
+  attach_file find("input[type='file']")[:id], Rails.root.join("features","data",file_name)
 end
 
 Given /^I am going to import images$/ do
-  @previouse_media_entries = MediaEntry.all
-  @previouse_media_sets = MediaSet.all
+  @previous_media_entries = MediaEntry.all
+  @previous_media_sets = MediaSet.all
+  @previous_zencoder_jobs = ZencoderJob.all
 end
 
 Then /^there are "(.*?)" new media_entries$/ do |num|
-  @new_media_entries = MediaEntry.all - @previouse_media_entries
+  @new_media_entries = MediaEntry.all - @previous_media_entries
   expect(@new_media_entries.size).to eq num.to_i
 end
 
+Then /^there are "(.*?)" new zencoder_jobs/ do |num|
+  @new_zencoder_jobs = ZencoderJob.all - @previous_zencoder_jobs
+  expect(@new_zencoder_jobs.size).to eq num.to_i
+end
+
 Then /^there is a new set "(.*?)" that includes those new media\-entries$/ do |title|
-  @new_media_entries = MediaEntry.all - @previouse_media_entries
+  @new_media_entries = MediaEntry.all - @previous_media_entries
   expect(@new_set = MediaSet.find_by_title(title)).to be
   expect((@new_set.child_media_resources and @new_media_entries).to_a).to eq @new_media_entries
 end
 
-
 Then /^there is a entry with the title "(.*?)" in the new media_entries$/ do |title|
-  @new_media_entries = MediaEntry.all - @previouse_media_entries
+  @new_media_entries = MediaEntry.all - @previous_media_entries
   expect(@new_media_entries.map(&:title)).to include title
 end
 
@@ -74,4 +79,8 @@ end
 
 When /^I visit the page of the last added media_entry$/ do
   visit media_entry_path MediaEntry.order(:created_at).last
+end
+
+Then /^The most recent zencoder_job has the state "(.*?)"$/ do |state|
+  expect(ZencoderJob.reorder("created_at DESC").first.state ).to eq state
 end

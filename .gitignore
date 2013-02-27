@@ -6,6 +6,7 @@
 .git
 .jhw-cache
 .project
+.rbenv-version
 .rvmrc
 .sass-cache/
 .yardoc
@@ -15,6 +16,7 @@
 /coverage/
 /coverage/**
 /coverage/**/*
+/public/previews/
 /tmp/
 config/*.conf
 config/*.conf_with_pipe
@@ -24,6 +26,7 @@ config/definitions/metadata/ExifTool_config.pl
 config/sphinx.yml
 config/sphinx.yml.tpo
 config/test.sphinx.conf.tpo
+config/zencoder.yml
 coverage.data
 coverage/**
 coverage/**/*

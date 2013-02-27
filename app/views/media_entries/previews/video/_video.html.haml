@@ -12,10 +12,10 @@
   -# seeking, partial content (HTTP status code 206) and request ranges without any additional work.
 
   - unless video_preview_apple.nil? # Apple uses a nonstandard, patent-emcumbered codec (H.264) that is the only one supported in their browsers
-    %source{:type => video_preview_apple.content_type, :src => "/previews/#{video_preview_apple.filename}"}
+    %source{:type => video_preview_apple.content_type, :src => preview_path(video_preview_apple)  }
 
   - unless video_preview_webm.nil? # Everyone else uses an open codec (WebM)
-    %source{:type => video_preview_webm.content_type, :src => "/previews/#{video_preview_webm.filename}"}
+    %source{:type => video_preview_webm.content_type, :src => preview_path(video_preview_webm) }
 
 :coffeescript
   _V_.options.flash.swf = #{asset_path("video-js/video-js.swf").to_json}

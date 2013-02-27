@@ -24,6 +24,8 @@
 
 #= require fixed-header-table/fixed-header-table
 
+#= require progressive
+
 ####### APPLICATION
 
 #= require_self

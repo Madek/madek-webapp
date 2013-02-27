@@ -2,9 +2,16 @@
 # require 'digest'
 
 class MediaFile < ActiveRecord::Base
+  has_one :media_entry
+  has_many :zencoder_jobs
+
+  def most_recent_zencoder_job
+    zencoder_jobs.reorder("zencoder_jobs.created_at DESC").limit(1).first
+  end
 
   before_create do
-    self.access_hash = UUIDTools::UUID.random_create.to_s
+    self.guid = UUIDTools::UUID.random_create.hexdigest
+    self.access_hash = SecureRandom.uuid 
     
     #TODO - check for zip files and process accordingly
     unless importable_zipfile?
@@ -105,7 +112,6 @@ class MediaFile < ActiveRecord::Base
   # set some attributes, for use when storing the file.
   # NB Depending on if we are being called from a rake task or the webserver, we either get a tempfile or an array.
   def set_filename
-    self.guid = get_guid 
     self.filename = uploaded_data.original_filename
     self.size = uploaded_data.size
 
@@ -116,154 +122,18 @@ class MediaFile < ActiveRecord::Base
     self.media_type = MediaFile.media_type(self.content_type)
   end
 
-  # the cornerstone of identity..
-  # in an ideal world, this is farmed off to something that can crunch through large files _fast_
-  def get_guid
-    # This was the old GUID code in use up to June, 2011. Please leave to code here
-    # so we know why older files have different GUIDs. The new GUID code doesn't take
-    # the file hash into account at all, which is much faster at the expensve of a very
-    # low probability of file duplication.
-    # We can solve the file duplication problem elsewhere, e.g. by nightly hashing over all files
-    # that have identical size and assigning the media entries to the same file if there is a
-    # match on the hash. This would be a lot less expensive than doing it during upload.
-    #     # TODO in background?
-    #     # Hash or object, we should be seeing a pattern here by now.
-    #     if uploaded_data.kind_of? Hash
-    #       g = Digest::SHA256.hexdigest(uploaded_data[:tempfile].read)
-    #       uploaded_data[:tempfile].rewind
-    #     else
-    #       g = Digest::SHA256.hexdigest(uploaded_data.read)
-    #       uploaded_data.rewind
-    #     end
-    #     g
-
-    return UUIDTools::UUID.random_create.hexdigest
-  end
 
   def shard
-    # TODO variable length of sharding?
     self.guid[0..0]
   end
 
-  # OPTIMIZE this should be a background job
   def make_thumbnails(sizes = nil)
     case content_type
       when /image/, /pdf/ then
         thumbnail_jpegs_for(file_storage_location, sizes)
-      when /video/ then
-        submit_encoding_job
-      when /audio/ then
-        #add_audio_thumbnails   # This might be a future method that constructs some meaningful thumbnail for an audio file?
-        submit_encoding_job
     end
   end
 
-
-  def retrieve_encoded_files
-    paths = []
-    thumbnail_paths = []
-
-    unless self.job_id.blank?
-
-      begin
-        job = EncodeJob.new(self.job_id)
-        if job.finished?
-          # Get the encoded files via FTP
-          job.encoded_file_urls.each do |f|
-            filename = File.basename(f)
-            prefix = "#{thumbnail_storage_location}_encoded"
-            path = "#{prefix}_#{filename}"
-            result = EncodeJob.ftp_get(f, path, {:delete_after => true})
-            if result == true # Retrieval was a success
-              paths << path
-            else
-              logger.error("Retrieving #{f} and saving to #{path} failed.")
-            end
-          end
-          
-          job.thumbnail_file_urls.each do |f|
-            filename = File.basename(f).split("?")[0] # Take the first part of the name before the query string only
-            # example basename otherwise:
-            # frame_0000.png?AWSAccessKeyId=AKIAI456JQ76GBU7FECA&Signature=VpkFCcIwn77IucCkaDG7pERJieM%3D&Expires=1325862058
-            prefix = "#{thumbnail_storage_location}_encoded"
-            path = "#{prefix}_#{filename}"
-            result = EncodeJob.http_get(f, path)
-            if result == true # Retrieval was a success
-              thumbnail_paths << path
-            else
-              logger.error("Retrieving #{f} and saving to #{path} failed.")
-            end
-          end
-          
-          # If any of the encoding jobs resulted in a PNG screenshot of the film, use
-          # that as a thumbnail
-          pngs = thumbnail_paths.select{|path| path.match(/\.png$/)}
-          thumbnail_jpegs_for(pngs[0]) unless pngs.empty?
-          
-        end
-      rescue Exception => e
-        logger.error("Retrieving encoded files failed with exception: #{e.message}")
-      end
-    end
-        
-    return paths
-  end
-
-  # Video thumbnails only come in one size (large) because re-encoding these costs money and they only make sense
-  # in the media_entries/show view anyhow (not in smaller versions).
-  def assign_video_thumbnails_to_preview
-    result = true
-    supported_types = ["video/webm","video/mp4"]
-    if previews.where(:content_type => supported_types).empty?
-      paths = retrieve_encoded_files
-      unless paths.empty?
-        paths.each do |path|
-          content_type = "video/webm"
-          content_type = "video/mp4" if File.extname(path) == ".mp4"
-          if File.extname(path) == ".webm" or File.extname(path) == ".mp4"
-            # Must have Exiftool with Image::ExifTool::Matroska to support WebM!
-            w, h = Exiftool.parse_metadata(path, ["Composite:ImageSize"])[0][0][1].split("x")
-            if previews.create(:content_type => content_type, :filename => File.basename(path), :width => w.to_i, :height => h.to_i, :thumbnail => 'large')
-              # Link the file to a symlink inside of public/ so that Apache serves the preview file, otherwise
-              # it would become far too hard to support partial content (status 206) and ranges (for seeking in media files)
-              # This is an evil hack to determine if we have to symlink to 'current' instead of 'releases/#{timestamp}'
-              # Ideally, we would instead make the THUMBNAIL_STORAGE_DIR available under public/previews
-              # and/or save an absolute path to a potentially entirely different directory for the previews somewhere
-              if Rails.root.to_s.split("/").include?("releases") # If we're under "releases", we were probably deployed with Capistrano
-                directory_prefix = Rails.root + "../../current/public/previews"
-                path = path.gsub!(/releases\/\d+/,"current")
-              else
-                directory_prefix = Rails.root + "public/previews"
-              end
-
-              File.symlink(path, "#{directory_prefix}/#{File.basename(path)}") unless File.exists?("#{directory_prefix}/#{File.basename(path)}")
-            else
-              result = false 
-            end
-          end
-        end
-      end
-      return result
-    end
-  end
-
-  def assign_audio_previews
-    content_type = "audio/ogg"
-    if previews.where(:content_type => content_type).empty?
-      paths = retrieve_encoded_files
-      unless paths.empty?
-        paths.each do |path|
-          if File.extname(path) == ".ogg"
-            if previews.create(:content_type => content_type, :filename => File.basename(path), :width => 0, :height => 0, :thumbnail => 'large')
-              return true
-            else
-              return false
-            end
-          end
-        end
-      end
-    end
-  end
   
   def thumbnail_jpegs_for(file, sizes = nil)
     return unless File.exist?(file)
@@ -472,65 +342,6 @@ class MediaFile < ActiveRecord::Base
     #TODO - specifically for other non-zipped documents (e.g. source code, application binary, etc)
   end
  
-  def submit_encoding_job(force = false)
-    if force == true or job_id.blank?
-      begin
-        # submit http://this_host/download?media_file_id=foo&access_hash=bar
-        job = EncodeJob.new
-      rescue Exception => e  
-        logger.error("Encode job handling failed with exception: #{e.message}")
-        return false
-      end
-
-      if content_type.include?('video')
-        job.job_type = "video"
-      elsif content_type.include?('audio')
-        job.job_type = "audio"
-      else
-        raise ArgumentError, "Can only handle encoding jobs for content types video/* and audio/*, not #{content_type}"
-      end
-      # Note: We cannot use media_entry_url(self.id) here because ENCODING_BASE_URL may include
-      # a username/password (e.g. http://test:foo@www.blah.com) for Zencoder or other encoding
-      # services to reach the file by.
-      job.start_by_url("#{ENCODING_BASE_URL}/media_files/#{self.id}?access_hash=#{self.access_hash}")
-      # Save Zencoder job ID so we can use it in subsequent requests
-      update_attributes(:job_id => job.details['id'])
-      return job
-    else
-      logger.error("Won't encode -- this file already has a job_id, so it's probably already been encoded. Use submit_encoding_job(force = true) to override.")
-      return false
-    end
-  end
-
-
-  # TODO: Refactor into something like MediaFile#encode_job ?
-  def encode_job_finished?
-    if self.job_id.blank?
-      return false
-    else
-      begin
-        job = EncodeJob.new(self.job_id)
-        return job.finished?
-      rescue
-        return false
-      end
-    end
-  end
-
-  def encode_job_progress_percentage
-    if self.job_id.blank?
-      return 0
-    else
-      begin
-        job = EncodeJob.new(self.job_id)
-        return job.progress['progress'].to_f
-      rescue Exception => e  
-        logger.error("Encode job handling failed with exception: #{e.message}")
-        return 0
-      end
-    end
-  end
-
   def self.media_type(content_type)
     unless content_type
       "other"
@@ -559,5 +370,8 @@ class MediaFile < ActiveRecord::Base
     r.map {|x| x.map{|y| y.to_s.dup.force_encoding('utf-8') } }
   end
   
-  
+  def to_s
+    "MediaFile: #{id}"
+  end
+
 end
