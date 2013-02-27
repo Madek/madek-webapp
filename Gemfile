@@ -57,7 +57,7 @@ group :assets do
 end
 
 group :production do
-  # gem 'newrelic_rpm'
+  gem 'newrelic_rpm'
 end
 
 group :development, :personas do
@@ -111,7 +111,7 @@ group :test do
   gem 'cucumber', '~> 1.2'
   gem 'cucumber-rails', '~> 1.3', :require => false
   gem 'launchy'  
-  gem 'selenium-webdriver', '~> 2.25'
+  gem 'selenium-webdriver', '~> 2.3'
   gem 'simplecov', '~> 0.6'
   gem 'therubyracer', :platform => :mri_19
   gem 'therubyrhino', :platform => :jruby

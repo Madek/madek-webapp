@@ -10,7 +10,7 @@ When /^I go to (.*?)$/ do |page|
 
     when "the edit-page of my first media_entry"
       @media_entry = @me.media_entries.reorder(:id).first
-      visit edit_media_resource_path @media_entry
+      edit_media_resource_path(@media_entry)
 
     when "the explore page"
       explore_path

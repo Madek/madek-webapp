@@ -261,6 +261,7 @@ GEM
     net-ssh (2.6.2)
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
+    newrelic_rpm (3.5.7.59)
     nokogiri (1.5.5)
     orm_adapter (0.4.0)
     pg (0.14.1)
@@ -474,6 +475,7 @@ DEPENDENCIES
   meta_request
   nested_set (~> 1.7)
   net-ldap!
+  newrelic_rpm
   nkss-rails!
   nokogiri
   pg
@@ -493,7 +495,7 @@ DEPENDENCIES
   rvm-capistrano
   sass (~> 3.2)
   sass-rails (~> 3.2)
-  selenium-webdriver (~> 2.25)
+  selenium-webdriver (~> 2.3)
   simplecov (~> 0.6)
   spork-rails
   statsample
