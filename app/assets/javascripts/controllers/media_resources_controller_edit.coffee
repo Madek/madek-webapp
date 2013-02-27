@@ -24,6 +24,7 @@ class MediaResourcesController.Edit
     new App.FormBehaviours.Copyrights {el: @el}
     new App.FormAutocompletes.Departments {el: @el}
     new App.FormBehaviours.WarnOnLeave
+    new App.FormBehaviours.AcceptOnlyButtonSubmit {el: @el}
 
 window.App.MediaResourcesController = {} unless window.App.MediaResourcesController
 window.App.MediaResourcesController.Edit = MediaResourcesController.Edit
