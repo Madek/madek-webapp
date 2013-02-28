@@ -12,6 +12,10 @@ When /^I go to (.*?)$/ do |page|
       @media_entry = @me.media_entries.reorder(:id).first
       edit_media_resource_path(@media_entry)
 
+    when "edit multiple media entries using the batch"
+      @collection = Collection.add @me.media_entries.map(&:id)
+      edit_multiple_media_entries_path(:collection_id => @collection[:id])
+
     when "the explore page"
       explore_path
 

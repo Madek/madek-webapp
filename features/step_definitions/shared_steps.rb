@@ -3,7 +3,11 @@
 #
 
 ### I am #########################################
- 
+
+Then /^I am able to leave the page$/ do
+  @current_path.should_not eq page.current_path
+end
+
 Then /^I am on the page of the resource$/ do
   case @resource.type
   when "MediaSet" 
@@ -95,6 +99,12 @@ Given /^I logout\.$/ do
   find("a[href='/logout']").click
 end
 
+### I h⋯ ###################################################
+
+Then /^I have to confirm$/ do
+  page.driver.browser.switch_to.alert.accept
+end
+
 ### I p⋯ ###################################################
 
 When /^I pry$/ do
@@ -109,6 +119,10 @@ end
 
 Then /^I see a confirmation alert$/ do
   expect{ find(".ui-alert.confirmation",visible: true) }.not_to raise_error
+end
+
+Then /^I see a warning that I will lose unsaved data$/ do
+  page.driver.browser.switch_to.alert.text.should =~ /Nicht gespeicherte Daten gehen verloren/
 end
 
 Then /^I select "(.*?)" from "(.*?)"$/ do |text, class_name|
@@ -128,6 +142,13 @@ When /^I use the "(.*?)" context action$/ do |context_name|
   find("a",text: context_name).click
 end
 
+### I s⋯ ###################################################
+
+When /^I try to leave the page$/ do
+  @current_path = page.current_path
+  find("a[href='#{root_path}']").click
+end
+
 ### I w⋯ ###################################################
 
 When /^I wait for the dialog to appear$/ do
@@ -145,8 +166,6 @@ end
 When /^I wait until I am on the "(.*?)" page$/ do |path|
   wait_until(10){ current_path == path }
 end
-
-
 
 ### T #########################################################
 

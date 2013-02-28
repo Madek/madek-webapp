@@ -54,20 +54,20 @@ Feature: Editing keywords, people, controlled vocabularies...
     Then the textarea within the fieldset "copyright usage" is empty
     Then the textarea within the fieldset "copyright url" is empty
 
-  @wip
+  @chrome @clean
   Scenario: Show warning before leaving media entry edit page and losing unsaved data
     Given I am signed-in as "Normin"
     When I go to the edit-page of my first media_entry
     And I try to leave the page
     Then I see a warning that I will lose unsaved data
     And I have to confirm
-    Then Im able to leave the page
+    Then I am able to leave the page
 
-  @wip
+  @chrome @clean
   Scenario: Show warning before leaving media entry multiple edit page (batch) and losing unsaved data
     Given I am signed-in as "Normin"
     When I go to edit multiple media entries using the batch
     And I try to leave the page
     Then I see a warning that I will lose unsaved data
     And I have to confirm
-    Then Im able to leave the page
+    Then I am able to leave the page
