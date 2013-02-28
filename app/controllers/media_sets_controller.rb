@@ -183,7 +183,9 @@ class MediaSetsController < ApplicationController
   
   def update(individual_context_ids = params[:individual_context_ids],
              filter = params[:filter])
+
     if individual_context_ids
+      individual_context_ids.reject!{|x| x == "false"}
       individual_context_ids.delete_if &:blank? # NOTE receiving params[:individual_context_ids] even if no checkbox is checked
       @media_set.individual_contexts.clear
       @media_set.individual_contexts = MetaContext.find(individual_context_ids)
