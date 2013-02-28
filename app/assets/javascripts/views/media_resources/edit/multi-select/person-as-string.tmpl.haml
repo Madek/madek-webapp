@@ -1,0 +1,5 @@
+%li.multi-select-tag.meta-term{:"data-string" => "${string}"}
+  %input{:name => "resource[meta_data_attributes][${index}][value][]", :type => "hidden", :value => "${string}"}
+  ${string}
+  %a.multi-select-tag-remove
+    .icon-remove

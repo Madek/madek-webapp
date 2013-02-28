@@ -2,7 +2,8 @@
                                :"data-firstname" => "${firstname}", 
                                :"data-lastname" => "${lastname}", 
                                :"data-pseudonym" => "${pseudonym}", 
-                               :"data-is_group" => "${is_group}"}
+                               :"data-is_group" => "${is_group}",
+                               :"data-string" => "${toString}"}
   %input{:name => "resource[meta_data_attributes][${index}][value][]", :type => "hidden", :value => "${id}"}
     ${App.MetaDatumPeople.formattedValue($item.data)}
     %a.multi-select-tag-remove
