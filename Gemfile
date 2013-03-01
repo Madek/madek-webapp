@@ -112,7 +112,7 @@ group :test do
   gem 'cucumber', '~> 1.2'
   gem 'cucumber-rails', '~> 1.3', :require => false
   gem 'launchy'  
-  gem 'selenium-webdriver', '~> 2.3'
+  gem 'selenium-webdriver', '~> 2.30'
   gem 'simplecov', '~> 0.6'
   gem 'therubyracer', :platform => :mri_19
   gem 'therubyrhino', :platform => :jruby
