@@ -31,30 +31,6 @@ class DownloadController < ApplicationController
             path, content_type = @media_entry.updated_resource_file(true, @size) # true means we do want to blank all the tags
             send_file_with_correct_extension(path, @filename, content_type)
             
-          # Video files get a WebM preview file
-          elsif !params[:video_thumbnail].blank?
-            @content_type = "video/webm"
-            preview = @media_entry.media_file.previews.where(:content_type => @content_type).last
-            if preview.nil?
-              render :text => 'Preview file not found.', :status => 404
-            else
-              @filename = preview.filename # The filename going out to the browser
-              @path = "#{THUMBNAIL_STORAGE_DIR}/#{@media_entry.media_file.shard}/#{preview.filename}"
-              send_multimedia_preview
-            end
-            
-          # Audio files get an Ogg Vorbis preview file            
-          elsif !params[:audio_preview].blank?
-            @content_type = "audio/ogg"
-            preview = @media_entry.media_file.previews.where(:content_type => @content_type).last
-            if preview.nil?
-              render :text => 'Preview file not found.', :status => 404
-            else
-              @filename = preview.filename # The filename going out to the browser
-              @path = "#{THUMBNAIL_STORAGE_DIR}/#{@media_entry.media_file.shard}/#{preview.filename}"
-              send_multimedia_preview
-            end
-            
           # We use @size to find out if we have to send a resized preview -- this is pretty bad
           elsif !@size.blank?
             send_preview

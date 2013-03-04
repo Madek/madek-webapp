@@ -5,17 +5,22 @@
   %footer.ui-footer.ui-container.inverted
     %ul.ui-footer-menu
       %li
-        %a{:target => "_blank", :href => "http://www.zhdk.ch/?madek"} Informationen zum Projekt
+        %a{:target => "_blank", :href => "http://www.zhdk.ch/?madek"} 
+          = _("About the project")
       %li
-        %a{:target => "_blank", :href => "http://www.zhdk.ch/index.php?id=12970"} Impressum
+        %a{:target => "_blank", :href => "http://www.zhdk.ch/index.php?id=12970"}
+          = _("Impressum")
       %li
-        %a{:target => "_blank", :href => "http://www.zhdk.ch/index.php?id=49591"} Kontakt
+        %a{:target => "_blank", :href => "http://www.zhdk.ch/index.php?id=49591"}
+          = _("Contact")
 
       - if AppSettings["wiki_url"]
         %li
-          %a{:target => "_blank", :href => AppSettings["wiki_url"]} Hilfe
+          %a{:target => "_blank", :href => AppSettings["wiki_url"]}
+            = _("Help")
       %li
-        %a{:target => "_blank", :href => "https://wiki.zhdk.ch/madek-hilfe/doku.php?id=terms"} Nutzungsbestimmungen
+        %a{:target => "_blank", :href => "https://wiki.zhdk.ch/madek-hilfe/doku.php?id=terms"}
+          = _("Terms of Use")
         
       %li
         %a{:target => "_blank", :href => "http://www.zhdk.ch/?archivierung"} Archivierungsrichtlinien ZHdK

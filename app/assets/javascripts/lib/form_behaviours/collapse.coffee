@@ -36,7 +36,7 @@ class FormBehaviours.Collapse
           children.push formGroup
         else if parent? and ((children.length > 2) or (children.length >= 2 and  i==(amountOfFileds-1)))
           children.push formGroup if i==(amountOfFileds-1) and @isSimilar parent, formGroup
-          parent.find(".form-item").append App.render "media_resources/edit/collapsed_fields"
+          parent.children(".form-item").append App.render "media_resources/edit/collapsed_fields"
           for child in children
             child = $(child)
             child.removeClass("columned").addClass("rowed")

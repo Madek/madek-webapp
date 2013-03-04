@@ -8,11 +8,11 @@
       Exportieren
 
     .dropdown.ui-dropdown.stick-right
-      %a.primary-button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
+      %a.primary-button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown", href: "#"}
         Weitere Aktionen
         %i.icon-arrow-down.bright.stand-alone
 
-      %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+      %ul.dropdown-menu.dropdown-menu-progressive.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
 
         - if @can_edit
           = render :partial => "media_resources/actions/edit", :locals => {mr: @media_entry}
@@ -28,6 +28,10 @@
 
         - if @can_edit
           = render :partial => "media_resources/actions/delete"
+
+        - if current_user.is_admin? 
+          %li.separator
+          = render "media_entries/actions/admin"
         
   - else
   

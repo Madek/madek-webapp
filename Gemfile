@@ -10,7 +10,7 @@ source 'http://rubygems.org'
 source 'http://gems.github.com'
 
 # RAILS
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.12'
 
 # DATABASE
 gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
@@ -19,10 +19,11 @@ gem 'foreigner'
 gem 'jdbc-postgres', platform: :jruby
 gem 'memcache-client' 
 gem 'pg', platform: :mri_19
+gem 'postgres_ext'
 
 # THE REST
 gem 'RedCloth'
-gem 'activeadmin', '~> 0.5.0'
+gem 'activeadmin', :git => 'git://github.com/zhdk/active_admin.git' # '~> 0.5.0'
 gem 'coffee-filter', "~> 0.1.1"
 gem 'coffee-script', '~> 2.2'
 gem 'haml', '~> 3.1'
@@ -45,6 +46,7 @@ gem 'uuidtools', '~> 2.1.3'
 gem 'kaminari', '~> 0.14' 
 gem 'zencoder', '~> 2.4'
 gem 'zip', '~> 2.0.2' # alternatives: 'rubyzip', 'zipruby', 'zippy'
+gem 'gettext_i18n_rails'
 
 group :assets do
   gem 'coffee-rails', '~> 3.2'
@@ -69,7 +71,6 @@ group :development, :personas do
 end
 
 group :test, :development, :personas do
-  gem 'autotest'
   gem 'database_cleaner'
   gem 'factory_girl', '~> 4.0'
   gem 'factory_girl_rails', '~> 4.0'
@@ -99,9 +100,10 @@ end
 
 group :development do
   gem 'better_errors'
-  gem 'binding_of_caller'
+  gem 'binding_of_caller', platform: :mri_19
   gem 'meta_request'
   gem 'nkss-rails', :git => 'git://github.com/interactivethings/nkss-rails.git'   # CSS styleguides
+  gem 'zencoder-fetcher'
 end
 
 group :test do
@@ -110,7 +112,7 @@ group :test do
   gem 'cucumber', '~> 1.2'
   gem 'cucumber-rails', '~> 1.3', :require => false
   gem 'launchy'  
-  gem 'selenium-webdriver', '~> 2.25'
+  gem 'selenium-webdriver', '~> 2.30'
   gem 'simplecov', '~> 0.6'
   gem 'therubyracer', :platform => :mri_19
   gem 'therubyrhino', :platform => :jruby

@@ -55,7 +55,7 @@
     <scmName></scmName>
   </scm>
   <quietPeriod>10</quietPeriod>
-  <assignedNode>master</assignedNode>
+  <assignedNode>bigmacs</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>

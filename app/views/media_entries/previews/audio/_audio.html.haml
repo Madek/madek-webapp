@@ -1,0 +1,4 @@
+= image_tag image_media_resource_path(@media_entry, :size => :large), :class => "ui-media-overview-preview-item pvm mtm"
+.pvm.mtm.by-center
+  %audio{controls: true}
+    %source{type: "audio/ogg", src:  preview_path(preview) }

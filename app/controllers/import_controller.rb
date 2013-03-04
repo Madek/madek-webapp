@@ -101,8 +101,16 @@ class ImportController < ApplicationController
 ##################################################
 
   def complete
+
     if @media_entries.all? {|me| me.context_valid?(MetaContext.upload) }
-      @media_entries.each {|me| me.set_as_complete }
+
+      # convert to complete media_entries, returns an Array
+      complete =  @media_entries.map{|me| me.set_as_complete}
+
+      # create_zencoder_jobs_if_applicable expects an ActiveRecord::Relation
+      entries = MediaEntry.where(id: complete.map(&:id))
+      ZencoderJob.create_zencoder_jobs_if_applicable(entries).each{|job| job.submit}
+  
       flash[:notice] = "Import abgeschlossen."
       redirect_to my_dashboard_path
     else

@@ -17,6 +17,10 @@ class FormAutocompletes.ExtensibleList
       if e.keyCode == 13
         input = $(e.currentTarget)
         return unless input.val().length
+        if input.closest(".multi-select-holder").find("[data-value='#{input.val()}']").length
+          input.val ""  
+          input.autocomplete "search", ""
+          return true 
         @addTerm new App.MetaTerm({value: input.val()}), $(e.currentTarget)
         input.val ""
         input.autocomplete "search", ""
@@ -38,7 +42,8 @@ class FormAutocompletes.ExtensibleList
         else
           response @searchTerms request.term, input.data "terms"
       select: (event, ui)=>
-        @addTerm ui.item, $(event.target)
+        unless $(event.target).closest(".multi-select-holder").find("[data-value='#{input.val()}']").length
+          @addTerm ui.item, $(event.target)
         input.val ""
         setTimeout (=> input.autocomplete "search", ""), 100
         return false

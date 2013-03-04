@@ -5,7 +5,7 @@
     - if meta_datum
       - meta_datum.value.each do |value|
 
-        %li.multi-select-tag.meta-term
+        %li.multi-select-tag.meta-term{:"data-id" => value.id, :"data-string" => value.to_s}
           %input{:name => "resource[meta_data_attributes][#{@i}][value][]", :type => "hidden", :value => value.id}
           = value
           %a.multi-select-tag-remove

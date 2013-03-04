@@ -3,7 +3,11 @@
 #
 
 ### I am #########################################
- 
+
+Then /^I am able to leave the page$/ do
+  @current_path.should_not eq page.current_path
+end
+
 Then /^I am on the page of the resource$/ do
   case @resource.type
   when "MediaSet" 
@@ -37,8 +41,12 @@ Then /^I can see the text "(.*?)"$/ do |text|
   expect(page).to have_content text
 end
 
+When /^I change some input field$/ do
+  find("input[type=text]").set "123"
+end
+
 When /^I click on the link "(.*?)"$/ do |link_text|
-  wait_until(1){ all("a", text: link_text, visible: true).size > 0}
+  wait_until{ all("a", text: link_text, visible: true).size > 0}
   find("a",text: link_text).click
 end 
 
@@ -95,6 +103,12 @@ Given /^I logout\.$/ do
   find("a[href='/logout']").click
 end
 
+### I h⋯ ###################################################
+
+Then /^I have to confirm$/ do
+  page.driver.browser.switch_to.alert.accept
+end
+
 ### I p⋯ ###################################################
 
 When /^I pry$/ do
@@ -103,13 +117,16 @@ end
 
 ### I s⋯ ###################################################
 
-
 Then /^I see an error alert$/ do
   expect{ find(".ui-alert.error",visible: true) }.not_to raise_error
 end
 
 Then /^I see a confirmation alert$/ do
   expect{ find(".ui-alert.confirmation",visible: true) }.not_to raise_error
+end
+
+Then /^I see a warning that I will lose unsaved data$/ do
+  page.driver.browser.switch_to.alert.text.should =~ /Nicht gespeicherte Daten gehen verloren/
 end
 
 Then /^I select "(.*?)" from "(.*?)"$/ do |text, class_name|
@@ -129,6 +146,13 @@ When /^I use the "(.*?)" context action$/ do |context_name|
   find("a",text: context_name).click
 end
 
+### I s⋯ ###################################################
+
+When /^I try to leave the page$/ do
+  @current_path = page.current_path
+  find("a[href='#{root_path}']").click
+end
+
 ### I w⋯ ###################################################
 
 When /^I wait for the dialog to appear$/ do
@@ -136,7 +160,7 @@ When /^I wait for the dialog to appear$/ do
 end
 
 When /^I wait for the dialog to disappear$/ do
-  wait_until{all(".modal-backdrop").size == 0 }
+  wait_until(5){all(".modal-backdrop").size == 0 }
 end
 
 Given /^I wait for the following to be implemented$/ do
@@ -147,9 +171,15 @@ When /^I wait until I am on the "(.*?)" page$/ do |path|
   wait_until(10){ current_path == path }
 end
 
-
+When /^I visit the "(.*?)" path$/ do |path|
+  visit path
+end
 
 ### T #########################################################
+
+Then /^There is a link with the id "(.*?)"$/ do |id|
+  expect(find "a##{id}" ).to be
+end
 
 Then /^There is a link with class "(.*?)" in the list with class "(.*?)"$/ do |link_class, list_class|
   expect{ find("ul.#{list_class} a.#{link_class}") }.not_to raise_error
@@ -158,6 +188,8 @@ end
 Then /^There is no link with class "(.*?)" in the list with class "(.*?)"$/ do |link_class, list_class|
   expect{ find("ul.#{list_class} a.#{link_class}") }.to raise_error
 end
+
+
 
 
 

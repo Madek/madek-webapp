@@ -2,14 +2,17 @@
   %ul.large.primary.ui-tabs
     - unless current_user.is_guest?
       %li.ui-tabs-item{:class => my_archive_page? ? "active" : ""}
-        %a#to-my-archive{:href => root_path} Mein Archiv
+        %a#to-my-archive{:href => root_path} 
+          = _("My archive")
     %li.ui-tabs-item{:class => explore_page? ? "active" : ""}
-      %a#to-explore{:href => explore_path} Erkunden
+      %a#to-explore{:href => explore_path}
+        = _("Explore")
     %li.ui-tabs-item{:class => search_page? ? "active" : ""}
       %a#to-search{:href => search_path}
         %i.icon-nav-search
-        Suchen
+        = _("Search")
     - if AppSettings["wiki_url"]
       %li.ui-tabs-item
         %a#to-help{:href => AppSettings["wiki_url"], :target => "_blank"}
-          %i.icon-nav-help Help
+          %i.icon-nav-help
+            = _("Help")

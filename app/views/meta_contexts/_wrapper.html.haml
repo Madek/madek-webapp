@@ -9,13 +9,9 @@
     - meta_contexts.each do |context|
       - media_resource = MediaResource.filter(current_user, {:meta_context_ids => [context.id]}).ordered_by(:updated_at).first
       - if media_resource
-        .ui-context{:"data-id" => context.id}
-          .ui-context-preview-image.prm
-            .ui-resources.miniature
-              = render :partial => "media_resources/media_resource",
-                       :locals => {:media_resource => media_resource, :link => context_path(context.id)}
-          .ui-resources-header.pts
-            %h3.title-s= context
-            %p.ui-thumbnail-meta-subtitle= context.description
-          - unless meta_contexts.last == context
-            .separator.mbm
+        .ui-context.pvl.limited-width-m{:"data-id" => context.id}
+          %h3.title-m
+            %a= context
+          %p.ui-thumbnail-meta-subtitle= context.description
+        - unless meta_contexts.last == context
+          .separator.mbm

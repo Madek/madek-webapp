@@ -7,15 +7,15 @@
   .ui-modal-toolbar.top
 
     .by-center
-      %button.button.small#show-edit-name Gruppennamen ändern
+      %button.button.small#show-edit-name Titel ändern
 
     .form-body.phm.hidden#edit-name-container
       .ui-form-group.rowed
         %label.form-label
-          Namen ändern
+          Titel der Gruppe
 
           .form-item.mts
-            %input.block#group-name{:type => "text", :placeholder => "Name der Gruppe", :value => "${name}"}
+            %input.block#group-name{:type => "text", :placeholder => "Titel der Gruppe", :value => "${name}"}
 
   .ui-modal-body
     %table.mbs.block

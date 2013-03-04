@@ -20,7 +20,7 @@ end
 
 When /^I set the usage terms accepted at to next year$/ do
   find('select#user_usage_terms_accepted_at_1i').select((Time.now.year + 1).to_s)
-  find('select#user_usage_terms_accepted_at_2i').select("January")
+  find('select#user_usage_terms_accepted_at_2i').select("Januar")
   find('select#user_usage_terms_accepted_at_3i').select("1")
   find('select#user_usage_terms_accepted_at_4i').select("00")
   find('select#user_usage_terms_accepted_at_5i').select("00")

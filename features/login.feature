@@ -1,10 +1,10 @@
 Feature: Login
 
-  @jsbrowser @clean
-  Scenario: Login with ZHdK authentication
+  @clean
+  Scenario: Login with ZHdK auth
     When I go to the home page
     And I click on the ZHdK-Login
-    Then I'm on the the ZHdK-Login page
+    Then There is a link to the "/login" path
 
   @clean
   Scenario: Login with database authentication

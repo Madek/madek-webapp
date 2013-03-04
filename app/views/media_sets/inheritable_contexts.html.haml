@@ -20,6 +20,7 @@
               .col1of5.mbl
 
                 %label.ui-context-selection{:title => context}
+                  %input{:type => :hidden, :name => "individual_context_ids[]", :value => :false}
                   = check_box_tag "individual_context_ids[]", context.id, @media_set.individual_contexts.include?(context), :class => "individual_context", :autocomplete => "off"
                   %strong.ui-context-selection-name= context
 

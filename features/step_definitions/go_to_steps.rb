@@ -10,13 +10,23 @@ When /^I go to (.*?)$/ do |page|
 
     when "the edit-page of my first media_entry"
       @media_entry = @me.media_entries.reorder(:id).first
-      visit edit_media_resource_path @media_entry
+      edit_media_resource_path(@media_entry)
+
+    when "edit multiple media entries using the batch"
+      @collection = Collection.add @me.media_entries.map(&:id)
+      edit_multiple_media_entries_path(:collection_id => @collection[:id])
 
     when "the explore page"
       explore_path
 
     when "the explore contexts page"
       explore_contexts_path
+
+    when "the page of the media_entry"
+      media_entry_path @media_entry
+
+    when "the page of the media_entry in the admin interface"
+      admin_media_entry_path @media_entry
 
     when "the search page"
       search_path
