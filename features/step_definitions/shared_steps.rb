@@ -171,7 +171,15 @@ When /^I wait until I am on the "(.*?)" page$/ do |path|
   wait_until(10){ current_path == path }
 end
 
+When /^I visit the "(.*?)" path$/ do |path|
+  visit path
+end
+
 ### T #########################################################
+
+Then /^There is a link with the id "(.*?)"$/ do |id|
+  expect(find "a##{id}" ).to be
+end
 
 Then /^There is a link with class "(.*?)" in the list with class "(.*?)"$/ do |link_class, list_class|
   expect{ find("ul.#{list_class} a.#{link_class}") }.not_to raise_error
@@ -180,6 +188,8 @@ end
 Then /^There is no link with class "(.*?)" in the list with class "(.*?)"$/ do |link_class, list_class|
   expect{ find("ul.#{list_class} a.#{link_class}") }.to raise_error
 end
+
+
 
 
 
