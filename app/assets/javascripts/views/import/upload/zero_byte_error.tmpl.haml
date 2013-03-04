@@ -1,0 +1,18 @@
+.modal.ui-modal.hide.fade.wide{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+
+  .ui-modal-head
+    %h3.title-l Problem mit der ausgewählten Datei
+    %a.ui-modal-close.weak{"aria-hidden" => "true", "data-dismiss" => "modal", :title => "Close", :type => "button"}
+
+  .ui-modal-toolbar.top
+    .ui-alert.error Dateigrösse ist Null.
+
+  .ui-modal-body
+    %p
+      = "Die von Ihnen ausgewählte Datei"
+      %strong= "${filename}"
+      = "hat eine Dateigrösse von 0 Bytes und kann nicht hochgeladen werden."
+
+  .ui-modal-footer
+    .ui-actions
+      %button.button{"aria-hidden" => "true", "data-dismiss" => "modal", :class => "weak link"}  Schliessen

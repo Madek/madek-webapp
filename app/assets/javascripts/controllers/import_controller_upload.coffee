@@ -149,11 +149,7 @@ class ImportController.Upload
     for file in files
       if file.size == 0
         uploader.removeFile file
-        Dialog.add
-          trigger: $("#uploader_browse")
-          content: $.tmpl("tmpl/upload/zero_bytes_error", {filename:file.name})
-          dialogClass: "zero_bytes_error"
-          closeOnEscape: true
+        new App.Modal App.render "import/upload/zero_byte_error", {filename:file.name}
     do @validateState
     window.setTimeout =>
       for element in $("#uploader_filelist li.plupload_delete")
