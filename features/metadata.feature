@@ -41,7 +41,7 @@ Feature: Editing keywords, people, controlled vocabularies...
     Then I am on the page of my first media_entry
     And I can see the text "El grupo [Gruppe]"
 
-  @chrome @clean 
+  @chrome @clean
   Scenario: License: selecting an individual license clears presets
     Given I am signed-in as "Normin"
     When I go to the edit-page of my first media_entry
@@ -53,11 +53,14 @@ Feature: Editing keywords, people, controlled vocabularies...
     And I select "individuelle Lizenz" from "copyright-roots"
     Then the textarea within the fieldset "copyright usage" is empty
     Then the textarea within the fieldset "copyright url" is empty
+    When I try to leave the page
+    Then I have to confirm
 
   @chrome @clean
   Scenario: Show warning before leaving media entry edit page and losing unsaved data
     Given I am signed-in as "Normin"
     When I go to the edit-page of my first media_entry
+    And I change some input field
     And I try to leave the page
     Then I see a warning that I will lose unsaved data
     And I have to confirm
@@ -67,6 +70,7 @@ Feature: Editing keywords, people, controlled vocabularies...
   Scenario: Show warning before leaving media entry multiple edit page (batch) and losing unsaved data
     Given I am signed-in as "Normin"
     When I go to edit multiple media entries using the batch
+    And I change some input field
     And I try to leave the page
     Then I see a warning that I will lose unsaved data
     And I have to confirm

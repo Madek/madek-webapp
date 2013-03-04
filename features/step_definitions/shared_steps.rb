@@ -41,6 +41,10 @@ Then /^I can see the text "(.*?)"$/ do |text|
   expect(page).to have_content text
 end
 
+When /^I change some input field$/ do
+  find("input[type=text]").set "123"
+end
+
 When /^I click on the link "(.*?)"$/ do |link_text|
   wait_until{ all("a", text: link_text, visible: true).size > 0}
   find("a",text: link_text).click
