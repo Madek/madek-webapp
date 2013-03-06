@@ -20,8 +20,8 @@ class FormBehaviours.Copyrights
   delegateEvents: ->
     @el.on "change", ".ui-form-group[data-type='meta_datum_copyright'] select.copyright-roots", (e)=> @onRootChange $(e.currentTarget)
     @el.on "change", ".ui-form-group[data-type='meta_datum_copyright'] select", (e)=> @onSelectChange $(e.currentTarget)
-    @el.on "change delayedChange", ".ui-form-group[data-meta-key='copyright usage'] textarea", => do @setIndividualCopyright
-    @el.on "change delayedChange", ".ui-form-group[data-meta-key='copyright url'] textarea", => do @setIndividualCopyright
+    @el.on "change delayedChange", ".ui-form-group[data-meta-key='copyright usage'] *:visible", => do @setIndividualCopyright
+    @el.on "change delayedChange", ".ui-form-group[data-meta-key='copyright url'] *:visible", => do @setIndividualCopyright
 
   onRootChange: (select)->
     option = select.find("option:selected")
