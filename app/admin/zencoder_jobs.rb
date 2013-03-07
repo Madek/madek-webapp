@@ -28,7 +28,11 @@ ActiveAdmin.register ZencoderJob, sort_order: 'created_at DESC' do
       row :media_file
       row :state
       row :comment
-      row :error
+      row :error do
+        pre do
+          job.error
+        end
+      end
       row :request
       row :response
       row :notification

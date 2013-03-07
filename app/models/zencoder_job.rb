@@ -60,7 +60,7 @@ class ZencoderJob < ActiveRecord::Base
       end
 
     rescue => e
-      update_attributes state: 'failed', error: e.backtrace.join("\n")
+      update_attributes state: 'failed', error: (e.message.to_s + "\n\n" + e.backtrace.join("\n"))
     end
 
   end
@@ -86,8 +86,8 @@ class ZencoderJob < ActiveRecord::Base
       end
 
     rescue => e
-      logger.error e.backtrace.join("\n") rescue nil
-      update_attributes state: 'failed', error: e.backtrace.join("\n") rescue nil
+      logger.error (e.message.to_s + "\n\n" + e.backtrace.join("\n")) rescue nil
+      update_attributes state: 'failed', error: Formatter.error_to_s(e)
     end
   end
 
@@ -182,7 +182,7 @@ class ZencoderJob < ActiveRecord::Base
       update_attributes state: 'finished'
     rescue => e
       logger.error e
-      update_attributes state: 'failed', error: e.backtrace.pretty_inspect rescue nil
+      update_attributes state: 'failed', error: Formatter.error_to_s(e) rescue nil
       raise e
     end
   end
