@@ -165,7 +165,7 @@ module CIFeatureJobs
 
       REXML::XPath.first(xml_doc, \
                          "/project/buildWrappers/EnvInjectBuildWrapper/info/propertiesContent") \
-                         .text= %Q[\nRAILS_ENV=test \nBRANCH_NAME=#{branch_name} \nCI_TEST_NAME=#{branch_name.downcase}_aggregator \nCAPYBARA_WAIT_TIME=30]
+                         .text= %Q[\nRAILS_ENV=test \nBRANCH_NAME=#{branch_name} \nCI_TEST_NAME=#{branch_name.downcase}_aggregator]
 
       REXML::XPath.first(xml_doc,  \
                          "/project/builders/hudson.tasks.Shell/command") \
@@ -215,7 +215,7 @@ module CIFeatureJobs
     end
 
     def job_env job_params
-      "RAILS_ENV=test\nCI_TEST_NAME=#{job_params[:branch_name].downcase}_#{job_params[:name].downcase}\nCUCUMBER_FILE=#{job_params[:filename]}"
+      "RAILS_ENV=test\nCI_TEST_NAME=#{job_params[:branch_name].downcase}_#{job_params[:name].downcase}\nCUCUMBER_FILE=#{job_params[:filename]}  \nCAPYBARA_WAIT_TIME=30"
     end
 
     def ci_job_name job_params
