@@ -25,7 +25,7 @@
             = token_tag nil
             .ui-search.large.mbm
               %input.block.ui-search-input{:type => "text", :name => "search", :autofocus => :autofocus, :placeholder => placeholder_text}
-              %input.button.primary-button.ui-search-button{type: 'submit'} Suchen
+              = submit_tag "Suchen", class: "button primary-button ui-search-button"
 
   .app-footer-push
 = render :partial => "application/footer"
