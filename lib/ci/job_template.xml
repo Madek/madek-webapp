@@ -129,7 +129,9 @@ bundle exec rake madek:test:drop_ci_dbs --trace</script>
       <info>
         <propertiesContent>RAILS_ENV=test
 CI_TEST_NAME=bogus
-CUCUMBER_FILE=features/BOGUS.feature</propertiesContent>
+CUCUMBER_FILE=features/BOGUS.feature
+CAPYBARA_WAIT_TIME=30
+</propertiesContent>
         <loadFilesFromMaster>false</loadFilesFromMaster>
       </info>
     </EnvInjectBuildWrapper>

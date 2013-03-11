@@ -31,12 +31,3 @@ Feature: Guests / Not logged in user
     And I can see several resources
     And All resources that I can see have public view permission
 
-
-#  @chrome @clean
-#  Scenario: I can download a  media_entry with public view and download permission
-#    When I visit the path of a  media_entry with public view and download permission
-#    Then I can download the entry
-#
-
-
-

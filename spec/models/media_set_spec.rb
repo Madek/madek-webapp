@@ -80,18 +80,10 @@ describe MediaSet do
       it "could be contained in sets" do
         @media_set.should respond_to :parent_sets
       end
-
-      it "doesn't have parents, when it's a top-level set" do
-        @media_set.parent_sets.should be_empty
-        MediaSet.top_level.include?(@media_set).should == true
-        (FactoryGirl.create :media_set).child_media_resources << @media_set
-        MediaSet.top_level.include?(@media_set).should == false
-      end
       
       context "many set relationships" do
         before :all do
           existing_sets_count = MediaSet.count
-          existing_top_level_count = MediaSet.top_level.count
           
           sets = 10.times.map do
             FactoryGirl.create :media_set
@@ -100,21 +92,8 @@ describe MediaSet do
           sets[2].child_media_resources << sets[3, 2]
           
           (MediaSet.count - existing_sets_count).should == 10
-          (MediaSet.top_level.count - existing_top_level_count).should == 6
         end
         
-        it "all top-level sets do not have parents" do
-          MediaSet.top_level.each do |set|
-            set.parent_sets.should be_empty
-          end
-        end
-  
-        it "all non top-level sets have parents" do
-          # TODO non_top_level scope ??
-          (MediaSet.all - MediaSet.top_level).each do |set|
-            set.parent_sets.should_not be_empty
-          end
-        end
       end
       
     end

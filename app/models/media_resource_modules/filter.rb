@@ -5,7 +5,7 @@ module MediaResourceModules
 
     KEYS = [ :accessible_action, :collection_id, :favorites, :group_id, :ids,
              :media_file,:media_files, :media_set_id, :meta_data, :not_by_user_id,
-             :permissions, :public, :search, :top_level, :type, :user_id,
+             :permissions, :public, :search, :type, :user_id,
              :query, :meta_context_ids ] 
 
     def self.included(base)
@@ -44,7 +44,6 @@ module MediaResourceModules
         resources = case filter[:type]
           when "media_sets"
             r = resources.media_sets
-            r = r.top_level if filter[:top_level]
             r
           when "media_entries"
             resources.media_entries

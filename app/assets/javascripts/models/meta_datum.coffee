@@ -64,7 +64,8 @@ class MetaDatum
       when "meta_datum_keywords"
         _.map field.find(".multi-select-tag"), (entry)-> $(entry).data()
       when "meta_datum_copyright"
-        parent_id: field.find("input.value-target").val()
+        id: field.find("input.value-target").val()
+        parent_id: field.find("select.copyright-roots option:selected").data('id')
       when "meta_datum_meta_terms"
         if field.find(".multi-select").length
           _.map field.find(".multi-select-tag"), (entry)-> $(entry).data()

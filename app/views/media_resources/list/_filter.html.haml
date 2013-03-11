@@ -1,13 +1,10 @@
-#ui-side-filter.ui-side-filter{:class => params[:filterpanel] ? "" : "hidden"}
+#ui-side-filter.filter-panel.ui-side-filter{:class => params[:filterpanel] ? "" : "hidden"}
 
-  #ui-side-filter-search.ui-side-filter-search
+  #ui-side-filter-search.ui-side-filter-search.filter-search
     %h2 Eingrenzen mit Suchwort
     %input.block.ui-filter-search-input{:type => "text", :value => params[:search]}
 
-  .ui-side-filter-list
-
-    %ul.ui-accordion
-
-      %li.ui-slide-filter-item
-        .title-xs.by-center Filter werden geladen
-        .ui-preloader.small
+  %ul.top-filter-list.ui-side-filter-list
+    %li.ui-slide-filter-item
+      .title-xs.by-center Filter werden geladen
+      .ui-preloader.small
