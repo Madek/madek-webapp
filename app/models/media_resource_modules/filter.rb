@@ -44,7 +44,6 @@ module MediaResourceModules
         resources = case filter[:type]
           when "media_sets"
             r = resources.media_sets
-            r = r.top_level if filter[:top_level]
             r
           when "media_entries"
             resources.media_entries
