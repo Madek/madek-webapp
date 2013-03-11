@@ -31,9 +31,19 @@ Feature: Filter
     And The filter panel contains the top filter "Lehrmittel Fotografie"
 
 
+  @clean @jsbrowser 
+  Scenario: Filter by free-text search-term
+     Given I am signed-in as "Liselotte"
+     And I go to the media_resources with filter_panel
+     And I remember the number of resources
+     And I set the input with the name "search" to "Landschaft" and submit
+     And I wait for the number of resources to change
+     Then the number or resources is lower then before
 
-
-
-
-
+  @clean @chrome @wip
+  Scenario: Filter by file
+     Given I am signed-in as "Liselotte"
+     And I go to the media_resources with filter_panel
+     And I click on the link "Datei"
+     And I click on the link "Medientyp"
 

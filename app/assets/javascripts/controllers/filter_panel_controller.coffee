@@ -13,7 +13,7 @@ class FilterPanelController
     @panel = $("#ui-side-filter")
     @list = @panel.find ".ui-side-filter-list"
     @placeholder = @panel.find("#ui-side-filter-placeholder")
-    @searchTerm = @panel.find("#ui-side-filter-search")
+    @searchTerm = @panel.find("input#search_term")
     @fetch = options.fetch if options.fetch?
     @blockingLayer = App.render "media_resources/filter/blocking_layer"
     @filterReset = $("#ui-side-filter-reset")
@@ -31,7 +31,7 @@ class FilterPanelController
     @panel.on "click", ".ui-accordion-toggle", (e)=> @toggleAccordion $(e.currentTarget)
     @panel.on "click", "[data-value]:not(.active)", (e)=> @selectFilter $(e.currentTarget)
     @panel.on "click", "[data-value].active", (e)=> @deselectFilter $(e.currentTarget)
-    @searchTerm.find("input").on "change, delayedChange", (e)=> do @search
+    @searchTerm.on "change, delayedChange", (e)=> do @search
     @filterReset.on "click", => do @resetFilter
 
   search: ->
@@ -57,7 +57,7 @@ class FilterPanelController
       filter = {}
       filter[k] = @startSelectedFilter[k]
       @removeFromURL filter
-    @searchTerm.find("input").val ""
+    @searchTerm.val ""
     do @deleteStartSelectedFilter
     $(@).trigger "filter-changed"
     $(@panel).trigger "filter-changed", do @getSelectedFilter
@@ -66,7 +66,7 @@ class FilterPanelController
     do @toggleResetFilter
 
   plugin: ->
-    @searchTerm.find("input").delayedChange()
+    @searchTerm.delayedChange()
 
   toggleAccordion: (target)->
     target.toggleClass "open"
@@ -182,7 +182,7 @@ class FilterPanelController
 
   anyActiveFilter: ->
     @panel.find(".active[data-value]").length or
-    @searchTerm.find("input").val().length > 1
+    @searchTerm.val().length > 1
 
   getSelectedFilter: ->
     filter = {}
@@ -200,7 +200,7 @@ class FilterPanelController
               for id in terms.ids
                 filter[filterType][keyName].ids.push id
         $.extend true, filter, filterData unless filterKeyAlreadyExists
-      filter.search = @searchTerm.find("input").val()
+      filter.search = @searchTerm.val()
       filter
 
   getFilterFor: (filter_el)->

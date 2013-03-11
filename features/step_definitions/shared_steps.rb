@@ -135,6 +135,12 @@ end
 
 When /^I set the input with the name "(.*?)" to "(.*?)"$/ do |name, value|
   find("input[name='#{name}']").set(value)
+  # page.execute_script %Q{ $("input[name='#{name}']").trigger("change") }
+end
+
+Given /^I set the input with the name "(.*?)" to "(.*?)" and submit$/ do |name, value|
+  find("input[name='#{name}']").set(value)
+  find(:xpath, "//input[@name='#{name}']/ancestor::form").find("input[type='submit']").click()
 end
 
 Then /^I set the input in the fieldset with "(.*?)" as meta\-key to "(.*?)"$/ do |meta_key_name, value|
@@ -151,6 +157,17 @@ end
 When /^I try to leave the page$/ do
   @current_path = page.current_path
   find("a[href='#{root_path}']").click
+end
+
+
+### I t⋯ ###################################################
+Given /^I take a screenshot$/ do
+  case Capybara.current_driver
+  when :selenium_chrome
+    Rails.logger.warn "can't take screenshot with the chromedriver" 
+  else
+    Capybara::Screenshot.screenshot_and_save_page
+  end
 end
 
 ### I w⋯ ###################################################

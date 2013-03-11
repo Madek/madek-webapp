@@ -5,9 +5,7 @@ When /^I go to (.*?)$/ do |page|
     when "my groups"
       my_groups_path
 
-    when "the home page"
-      root_path
-
+    # the e ################################################
     when "the edit-page of my first media_entry"
       @media_entry = @me.media_entries.reorder(:id).first
       edit_media_resource_path(@media_entry)
@@ -22,12 +20,26 @@ When /^I go to (.*?)$/ do |page|
     when "the explore contexts page"
       explore_contexts_path
 
+
+    # the h ################################################
+    when "the home page"
+      root_path
+
+    # the p ################################################
     when "the page of the media_entry"
       media_entry_path @media_entry
 
     when "the page of the media_entry in the admin interface"
       admin_media_entry_path @media_entry
 
+
+    # the m ################################################
+    when "the media_resources with filter_panel" 
+      media_resources_path(filterpanel: true) 
+
+
+
+    # the s ################################################
     when "the search page"
       search_path
 
