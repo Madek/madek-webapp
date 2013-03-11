@@ -50,13 +50,18 @@ Feature: Filter
      And I wait for the number of resources to change
      Then the number or resources is equal to the remembered count
 
-  @clean @jsbrowser 
-  Scenario: Filter by permissions
+  @clean @jsbrowser
+  Scenario: Filter by permissions with multiple filters
      Given I am signed-in as "Liselotte"
      And I go to the media_resources with filter_panel
      And I remember the number of resources
      And I click on the link "Berechtigung"
-     And I click on the link "Verantwortliche Person"
+     And I click on the link "Zugriff"
+     And I remember the count for the filter "Öffentliche Inhalte"
+     And I click on the link "Öffentliche Inhalte"
+     And I wait for the number of resources to change
+     Then the number or resources is equal to the remembered count
+     When I click on the link "Verantwortliche Person"
      And I remember the count for the filter "Knacknuss, Karen"
      And I click on the link "Knacknuss, Karen"
      And I wait for the number of resources to change
@@ -74,8 +79,8 @@ Feature: Filter
      And I wait for the number of resources to change
      Then the number or resources is equal to the remembered count
 
-  @clean @jsbrowser 
-  Scenario: Filter by "Landschaftsvisualisierung"
+  @clean @jsbrowser
+  Scenario: Filter by "Landschaftsvisualisierung" with multiple field filter
      Given I am signed-in as "Liselotte"
      And I go to the media_resources with filter_panel
      And I remember the number of resources
@@ -84,6 +89,11 @@ Feature: Filter
      And I click on the link "Stil- und Kunstrichtungen"
      And I remember the count for the filter "Konzeptkunst"
      And I click on the link "Konzeptkunst"
+     And I wait for the number of resources to change
+     Then the number or resources is equal to the remembered count
+     When I remember the number of resources
+     And I remember the count for the filter "Reine Fotografie"
+     And I click on the link "Reine Fotografie"
      And I wait for the number of resources to change
      Then the number or resources is equal to the remembered count
 
@@ -134,4 +144,5 @@ Feature: Filter
      And I click on the link "Konzeptkunst"
      And I wait for the number of resources to change
      Then the number or resources is equal to the remembered count
+
 
