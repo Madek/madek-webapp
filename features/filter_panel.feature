@@ -40,10 +40,16 @@ Feature: Filter
      And I wait for the number of resources to change
      Then the number or resources is lower then before
 
-  @clean @chrome @wip
+  @clean @jsbrowser
   Scenario: Filter by file
      Given I am signed-in as "Liselotte"
      And I go to the media_resources with filter_panel
+     And I remember the number of resources
      And I click on the link "Datei"
      And I click on the link "Medientyp"
+     And I remember the count for the filter "image"
+     And I click on the link "image"
+     And I wait for the number of resources to change
+     Then the number or resources is equal to the remembered count
+
 
