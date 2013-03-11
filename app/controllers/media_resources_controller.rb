@@ -683,21 +683,35 @@ class MediaResourcesController < ApplicationController
     @contexts.each {|context| @meta_data[context.id] = @media_resource.meta_data.for_context(context) }
   end
 
-  def destroy
-    @media_resource.destroy
 
-    respond_to do |format|
-      format.html { 
-        flash[:notice] = "Der Inhalt wurde gelöscht."
-        redirect_back_or_default(media_resources_path) 
-      }
-      format.json {
-        render :json => {:id => @media_resource.id}
-      }
+  def destroy
+
+    begin
+      ActiveRecord::Base.transaction do
+        @media_resource = MediaResource.where(user_id: current_user.id,id: params[:id]).first
+        @media_resource.destroy
+
+        respond_to do |format|
+          format.html { 
+            flash[:notice] = "Der Inhalt wurde gelöscht."
+            redirect_back_or_default(media_resources_path) 
+          }
+          format.json {
+            render :json => {:id => @media_resource.id}
+          }
+        end
+      end
+    rescue  => e
+      logger.error Formatter.error_to_s e
+      respond_to do |format|
+        format.html{ flash[:error] = "Sie haben nicht die Berechtigung diese Resource zu löschen." }
+        format.json{ render json: {}, status: 403 }
+      end
     end
+
   end
 
-########################################################################
+  ########################################################################
 
   def collection(ids = params[:ids] || raise("ids are required"),
                  relation = params[:relation],
