@@ -85,7 +85,6 @@ Feature: Filter
      And I go to the media_resources with filter_panel
      And I remember the number of resources
      And I click on the link "Landschaftsvisualisierung"
-     And I take a screenshot
      And I click on the link "Stil- und Kunstrichtungen"
      And I remember the count for the filter "Konzeptkunst"
      And I click on the link "Konzeptkunst"
@@ -184,8 +183,45 @@ Feature: Filter
      Then the number or resources is equal to the remembered filter count
      And I click on the link "Alle Filter zurücksetzen"
      And I wait for the number of resources to change
-     And I remember the number of resources
+     When I remember the number of resources
      And I go to the media_resources with filter_panel
      Then the number or resources is equal to the remembered number of resources
+
+
+  @clean @jsbrowser 
+  Scenario: Resetting single filters
+     Given I am signed-in as "Liselotte"
+     And I go to the media_resources with filter_panel
+     And I remember the number of resources
+     And I click on the link "Datei"
+     And I click on the link "Dokumenttyp"
+     And I remember the count for the filter "jpg"
+     And I click on the link "jpg"
+     And I wait for the number of resources to change
+     Then the number or resources is equal to the remembered filter count
+     When I remember the number of resources
+     And I click on the link "Landschaftsvisualisierung"
+     And I click on the link "Stil- und Kunstrichtungen"
+     And I remember the count for the filter "Konzeptkunst"
+     And I click on the link "Konzeptkunst"
+     And I wait for the number of resources to change
+     Then the number or resources is equal to the remembered filter count
+
+     When I remember the number of resources
+     And I click on the link "Konzeptkunst"
+     Then I wait for the number of resources to change
+
+     When I remember the number of resources
+     And I click on the link "jpg"
+     Then I wait for the number of resources to change
+
+     When I remember the number of resources
+     And I go to the media_resources with filter_panel
+     Then the number or resources is equal to the remembered number of resources
+
+
+
+
+
 
 
