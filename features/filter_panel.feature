@@ -48,7 +48,7 @@ Feature: Filter
      And I remember the count for the filter "image"
      And I click on the link "image"
      And I wait for the number of resources to change
-     Then the number or resources is equal to the remembered count
+     Then the number or resources is equal to the remembered filter count
 
   @clean @jsbrowser
   Scenario: Filter by permissions with multiple filters
@@ -60,12 +60,12 @@ Feature: Filter
      And I remember the count for the filter "Öffentliche Inhalte"
      And I click on the link "Öffentliche Inhalte"
      And I wait for the number of resources to change
-     Then the number or resources is equal to the remembered count
+     Then the number or resources is equal to the remembered filter count
      When I click on the link "Verantwortliche Person"
      And I remember the count for the filter "Knacknuss, Karen"
      And I click on the link "Knacknuss, Karen"
      And I wait for the number of resources to change
-     Then the number or resources is equal to the remembered count
+     Then the number or resources is equal to the remembered filter count
 
   @clean @jsbrowser 
   Scenario: Filter by work
@@ -77,7 +77,7 @@ Feature: Filter
      And I remember the count for the filter "Fotografie"
      And I click on the link "Fotografie"
      And I wait for the number of resources to change
-     Then the number or resources is equal to the remembered count
+     Then the number or resources is equal to the remembered filter count
 
   @clean @jsbrowser
   Scenario: Filter by "Landschaftsvisualisierung" with multiple field filter
@@ -90,12 +90,12 @@ Feature: Filter
      And I remember the count for the filter "Konzeptkunst"
      And I click on the link "Konzeptkunst"
      And I wait for the number of resources to change
-     Then the number or resources is equal to the remembered count
+     Then the number or resources is equal to the remembered filter count
      When I remember the number of resources
      And I remember the count for the filter "Reine Fotografie"
      And I click on the link "Reine Fotografie"
      And I wait for the number of resources to change
-     Then the number or resources is equal to the remembered count
+     Then the number or resources is equal to the remembered filter count
 
   @clean @jsbrowser 
   Scenario: Filter by Medium
@@ -107,7 +107,7 @@ Feature: Filter
      And I remember the count for the filter "8-Kanal Audio"
      And I click on the link "8-Kanal Audio"
      And I wait for the number of resources to change
-     Then the number or resources is equal to the remembered count
+     Then the number or resources is equal to the remembered filter count
 
   @clean @jsbrowser 
   Scenario: Filter by "Säulenordnungen"
@@ -119,7 +119,7 @@ Feature: Filter
      And I remember the count for the filter "Konzeptkunst"
      And I click on the link "Konzeptkunst"
      And I wait for the number of resources to change
-     Then the number or resources is equal to the remembered count
+     Then the number or resources is equal to the remembered filter count
 
   @clean @jsbrowser
   Scenario: Filter by "ZHdK"
@@ -131,7 +131,7 @@ Feature: Filter
      And I remember the count for the filter "Abschlussarbeit"
      And I click on the link "Abschlussarbeit"
      And I wait for the number of resources to change
-     Then the number or resources is equal to the remembered count
+     Then the number or resources is equal to the remembered filter count
 
   @clean @jsbrowser
   Scenario: Filter by "Lehrmittel Fotografie"
@@ -143,7 +143,7 @@ Feature: Filter
      And I remember the count for the filter "Konzeptkunst"
      And I click on the link "Konzeptkunst"
      And I wait for the number of resources to change
-     Then the number or resources is equal to the remembered count
+     Then the number or resources is equal to the remembered filter count
 
   @clean @jsbrowser 
   Scenario: Combining multiple filter from multiple groups: "Datei" and "Berechtigung"
@@ -155,18 +155,37 @@ Feature: Filter
      And I remember the count for the filter "jpg"
      And I click on the link "jpg"
      And I wait for the number of resources to change
-     Then the number or resources is equal to the remembered count
+     Then the number or resources is equal to the remembered filter count
      When I remember the number of resources
      And I click on the link "Berechtigung"
      When I click on the link "Verantwortliche Person"
      And I remember the count for the filter "Knacknuss, Karen"
      And I click on the link "Knacknuss, Karen"
      And I wait for the number of resources to change
-     Then the number or resources is equal to the remembered count
+     Then the number or resources is equal to the remembered filter count
 
-
-
-
-
+  @clean @jsbrowser 
+  Scenario: Resetting all filters
+     Given I am signed-in as "Liselotte"
+     And I go to the media_resources with filter_panel
+     And I remember the number of resources
+     And I click on the link "Datei"
+     And I click on the link "Dokumenttyp"
+     And I remember the count for the filter "jpg"
+     And I click on the link "jpg"
+     And I wait for the number of resources to change
+     Then the number or resources is equal to the remembered filter count
+     And I click on the link "Berechtigung"
+     When I click on the link "Verantwortliche Person"
+     And I remember the number of resources
+     And I remember the count for the filter "Knacknuss, Karen"
+     And I click on the link "Knacknuss, Karen"
+     And I wait for the number of resources to change
+     Then the number or resources is equal to the remembered filter count
+     And I click on the link "Alle Filter zurücksetzen"
+     And I wait for the number of resources to change
+     And I remember the number of resources
+     And I go to the media_resources with filter_panel
+     Then the number or resources is equal to the remembered number of resources
 
 

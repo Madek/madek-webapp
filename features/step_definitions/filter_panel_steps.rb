@@ -34,6 +34,11 @@ Given /^I remember the count for the filter "(.*?)"$/ do |filter|
   @count= find("li.resources_filter",text: filter).find(".resources_count").text.to_i
 end
 
-Then /^the number or resources is equal to the remembered count$/ do
+Then /^the number or resources is equal to the remembered filter count$/ do
   expect(find("#resources_counter").text.to_i).to eq @count
+end
+
+
+Then /^the number or resources is equal to the remembered number of resources$/ do
+  expect(find("#resources_counter").text.to_i).to eq  @resources_counter
 end
