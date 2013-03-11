@@ -52,4 +52,16 @@ Feature: Filter
      And I wait for the number of resources to change
      Then the number or resources is equal to the remembered count
 
+  @clean @jsbrowser 
+  Scenario: Filter by permissions
+     Given I am signed-in as "Liselotte"
+     And I go to the media_resources with filter_panel
+     And I remember the number of resources
+     And I click on the link "Berechtigung"
+     And I click on the link "Verantwortliche Person"
+     And I remember the count for the filter "Knacknuss, Karen"
+     And I click on the link "Knacknuss, Karen"
+     And I wait for the number of resources to change
+     Then the number or resources is equal to the remembered count
+
 
