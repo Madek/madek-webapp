@@ -25,6 +25,10 @@ When /^I go to (.*?)$/ do |page|
     when "the home page"
       root_path
 
+    # the l ################################################
+    when "the list of entrusted media resources"
+      my_entrusted_media_resources_path
+
     # the p ################################################
     when "the page of the media_entry"
       media_entry_path @media_entry
@@ -32,12 +36,9 @@ When /^I go to (.*?)$/ do |page|
     when "the page of the media_entry in the admin interface"
       admin_media_entry_path @media_entry
 
-
     # the m ################################################
     when "the media_resources with filter_panel" 
       media_resources_path(filterpanel: true) 
-
-
 
     # the s ################################################
     when "the search page"

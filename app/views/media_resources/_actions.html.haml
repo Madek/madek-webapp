@@ -16,10 +16,11 @@
     - if media_resource.type == "MediaEntry"
       %a.ui-thumbnail-action-browse{:title => "Stöbern", :href => browse_media_resource_path(media_resource)}
         Erkunden
-    - if editable
+    - if current_user.authorized?(:edit, media_resource)
       %li.ui-thumbnail-action
         %a.ui-thumbnail-action-edit{:title => "Metadaten editieren", :href => edit_media_resource_path(media_resource)}
           Metadaten Editieren
+    - if current_user.authorized?(:delete, media_resource)
       %li.ui-thumbnail-action
         %a.ui-thumbnail-action-delete{:"data-delete-action" => true, :title => "Löschen"}
           Löschen

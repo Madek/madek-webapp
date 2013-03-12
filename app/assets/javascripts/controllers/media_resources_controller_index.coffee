@@ -214,6 +214,7 @@ class MediaResourcesController.Index
       is_public: true
       is_private: true
       is_editable: true
+      is_deletable: true
       is_manageable: true
       is_favorite: true
       meta_data:

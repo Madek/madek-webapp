@@ -65,6 +65,10 @@ module Json
           h[:is_editable] = @cache_is_editable ? @cache_is_editable.include?(media_resource.id) : current_user.authorized?(:edit, media_resource)
         end
 
+        if with[:is_deletable]
+          h[:is_deletable] = @cache_is_deletable ? @cache_is_deletable.include?(media_resource.id) : current_user.authorized?(:delete, media_resource)
+        end
+
         if with[:is_manageable]
           h[:is_manageable] = @cache_is_manageable ? @cache_is_manageable.include?(media_resource.id) : current_user.authorized?(:manage, media_resource)
         end
