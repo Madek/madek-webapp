@@ -3,7 +3,7 @@ require 'spec_helper'
 describe MediaResourcesController do
   render_views
 
-  before :all do
+  before :each do
     FactoryGirl.create :usage_term 
     FactoryGirl.create :meta_context_core
     @owner = FactoryGirl.create :user
@@ -23,23 +23,33 @@ describe MediaResourcesController do
       end
     end
 
+    context "on a none existing mr" do
+      it "should return not_found" do
+        delete :destroy, {format: "json", id: -1}, {user_id: @owner.id} 
+        expect(response).not_to be_success
+        expect(response.status).to eq 404
+      end
+    end
+
+
     context "by some other user" do
 
-      it "should not successful and retain the media_resource" do
+      it "should not be successful, retain the media_resource and return forbidden" do
         delete :destroy, {format: "json", id: @media_resource.id}, {user_id: @user.id} 
         expect(response).not_to be_success
         expect(MediaResource.where(id: @media_resource.id).first).not_to be_nil
+        expect(response.status).to eq 403
       end
-
 
       context "with view permission" do
         before :each do
           Userpermission.create media_resource: @media_resource, user: @user, view: true
         end
-        it "should not successful and retain the media_resource" do
+        it "should not be successful, retain the media_resource and return forbidden" do
           delete :destroy, {format: "json", id: @media_resource.id}, {user_id: @user.id} 
           expect(response).not_to be_success
           expect(MediaResource.where(id: @media_resource.id).first).not_to be_nil
+          expect(response.status).to eq 403
         end
       end
       
@@ -47,10 +57,11 @@ describe MediaResourcesController do
         before :each do
           Userpermission.create media_resource: @media_resource, user: @user, edit: true
         end
-        it "should not successful and retain the media_resource" do
+        it "should not be successful, retain the media_resource and return forbidden" do
           delete :destroy, {format: "json", id: @media_resource.id}, {user_id: @user.id} 
           expect(response).not_to be_success
           expect(MediaResource.where(id: @media_resource.id).first).not_to be_nil
+          expect(response.status).to eq 403
         end
       end
       
@@ -58,10 +69,11 @@ describe MediaResourcesController do
         before :each do
           Userpermission.create media_resource: @media_resource, user: @user, manage: true
         end
-        it "should not successful and retain the media_resource" do
+        it "should not be successful, retain the media_resource and return forbidden" do
           delete :destroy, {format: "json", id: @media_resource.id}, {user_id: @user.id} 
           expect(response).not_to be_success
           expect(MediaResource.where(id: @media_resource.id).first).not_to be_nil
+          expect(response.status).to eq 403
         end
       end
 
