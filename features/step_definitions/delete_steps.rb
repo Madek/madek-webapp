@@ -21,5 +21,6 @@ Then /^I cannot see the delete action for this resource$/ do
 end
 
 Then /^I can see the delete action for this resource$/ do
-  find(".ui-body-title-actions [data-delete-action]")
+  find(".ui-body-title-actions .primary-button").click
+  find("[data-delete-action]")
 end

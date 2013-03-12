@@ -18,7 +18,7 @@ Feature: Delete
     Then I can see the delete action for media resources where I am responsible for
     And I cannot see the delete action for media resources where I am not responsible for
 
-  @firefox @clean
+  @jsbrowser @clean
   Scenario: Access delete action for media entry on media entry page
    Given I am signed-in as "Normin"
     When I open a media entry where I have all permissions but I am not the responsible user
@@ -26,6 +26,10 @@ Feature: Delete
     When I open a media entry where I am the responsible user
     Then I can see the delete action for this resource
 
-  @firefox @clean
+  @jsbrowser @clean
   Scenario: Access delete action for media set on media set page
    Given I am signed-in as "Normin"
+   When I open a media set where I have all permissions but I am not the responsible user
+   Then I cannot see the delete action for this resource
+   When I open a media set where I am the responsible user
+   Then I can see the delete action for this resource
