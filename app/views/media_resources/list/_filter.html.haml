@@ -1,8 +1,10 @@
 #ui-side-filter.filter-panel.ui-side-filter{:class => params[:filterpanel] ? "" : "hidden"}
 
   #ui-side-filter-search.ui-side-filter-search.filter-search
-    %h2 Eingrenzen mit Suchwort
-    %input.block.ui-filter-search-input{:type => "text", :value => params[:search]}
+    %form
+      %input.unstyled{type: 'submit', value: "Eingrenzen mit Suchwort"}
+      %input#search_term.block.ui-filter-search-input{:type => "text", :value => params[:search], name: 'search'}
+      
 
   %ul.top-filter-list.ui-side-filter-list
     %li.ui-slide-filter-item

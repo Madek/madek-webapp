@@ -6,11 +6,11 @@
 class MediaResourcesController < ApplicationController
 
   # TODO cancan # load_resource #:class => "MediaResource"
-  before_filter :except => [:index, :collection] do
+  before_filter :except => [:index, :collection, :destroy] do
     begin
       unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids] || params[:collection_id]).blank?
         action = case request[:action].to_sym
-          when :edit, :destroy
+          when :edit
             :edit
           else
             :view
@@ -683,21 +683,26 @@ class MediaResourcesController < ApplicationController
     @contexts.each {|context| @meta_data[context.id] = @media_resource.meta_data.for_context(context) }
   end
 
-  def destroy
-    @media_resource.destroy
 
-    respond_to do |format|
-      format.html { 
-        flash[:notice] = "Der Inhalt wurde gelöscht."
-        redirect_back_or_default(media_resources_path) 
-      }
-      format.json {
-        render :json => {:id => @media_resource.id}
-      }
+  def destroy
+    begin
+      ActiveRecord::Base.transaction do
+        if MediaResource.where(id: params[:id]).empty?
+          render json: {}, status: 404
+        elsif MediaResource.where(id: params[:id],user_id: current_user.id).empty?
+          render json: {}, status: 403
+        else 
+          MediaResource.where(id: params[:id],user_id: current_user.id).destroy(params[:id])
+          render json: {}, status: 204
+        end
+      end
+    rescue  => e
+      logger.error Formatter.error_to_s e
+      render json: {}, status: 422 
     end
   end
 
-########################################################################
+  ########################################################################
 
   def collection(ids = params[:ids] || raise("ids are required"),
                  relation = params[:relation],

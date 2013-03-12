@@ -114,6 +114,8 @@ class User < ActiveRecord::Base
     Array(resource_or_resources).all? do |resource|
       if resource.user == self
         true
+      elsif action == :delete
+        false
       elsif resource.send(action) == true
         true
       elsif resource.userpermissions.disallows(self, action)

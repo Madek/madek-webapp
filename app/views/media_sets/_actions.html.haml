@@ -22,10 +22,10 @@
         - if @can_edit
           = render :partial => "media_sets/actions/cover"
 
-        -if @media_set.user == current_user
+        - if @media_set.user == current_user
           = render :partial => "media_resources/actions/visualize_my_component_with", :locals => {mr: @media_set}
 
-        - if @can_edit
+        - if current_user.authorized?(:delete, @media_set)
           = render :partial => "media_resources/actions/delete"
 
   - else

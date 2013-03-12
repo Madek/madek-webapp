@@ -1,5 +1,11 @@
 %li{:class => "ui-resources-page{{if not_loaded}} not-loaded{{/if}}", :"data-page" => "${page}"}
-  %span.ui-resources-page-counter ${total} Inhalte, Seite ${page} von ${total_pages}
+  %span.ui-resources-page-counter 
+    %span#resources_counter ${total} 
+    Inhalte, Seite  
+    %span#pages_counter ${page}
+    von 
+    %span#total_pages_counter ${total_pages}
+
   %ul.ui-resources-page-items
     {{if not_loaded}}
     {{each(i) App.MediaResourcesController.Index.PAGESIZE_ARRAY}}

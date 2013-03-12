@@ -18,6 +18,8 @@
     %li.ui-thumbnail-action
       %a.ui-thumbnail-action-edit{:title => "Metadaten editieren", :href => "/media_resources/${id}/edit"}
         Metadaten editieren
+    {{/if}}
+    {{if is_deletable}}
     %li.ui-thumbnail-action
       %a.ui-thumbnail-action-delete{:"data-delete-action" => true, :title => "Löschen"}
         Löschen

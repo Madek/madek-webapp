@@ -17,7 +17,7 @@
         %a{:title => "Zugriffsberechtigungen lesen/bearbeiten",
            :"data-open-permissions" => true,
            :"data-media-resource-id" => "${id}",
-           :"data-manageable" => "${is_editable}",
+           :"data-manageable" => "${is_manageable}",
            :"data-title" => "${title}"}
           %i.icon-lock.mid
           Zugriffsberechtigungen
@@ -26,9 +26,9 @@
            :"data-organize-arcs" => true}
           %i.icon-move.mid
           Zu Set hinzufügen/entfernen
-      {{if is_editable}}
+      {{if is_deletable}}
       %li.ui-drop-item
-        %a{:href => "/media_resources/${id}/edit", :title => "Unwiederbringlich entfernen"} 
+        %a{:"data-delete-action" => true, :title => "Unwiederbringlich entfernen"} 
           %i.icon-trash.mid
           Löschen
       {{/if}}
