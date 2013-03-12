@@ -22,45 +22,30 @@ ActiveAdmin.register_page "Dashboard" do
 
     panel "Deployment Info" do
 
-      table do
-        tbody do 
-          tr do
-            td do
-              "Most recent commit:"
+      div do 
+        span { "Most recent commit:" }
+        span do
+          begin
+            span do
+              link_to ("https://github.com/zhdk/madek/commit/" + `git log --pretty='%H'  -1`) do 
+                `git log --pretty=format':%h' -1` + ' @GitHub'
+              end 
             end
-            td do
-              div do
-                begin
-                  span do
-                    link_to ("https://github.com/zhdk/madek/commit/" + `git log --pretty='%H'  -1`) do 
-                      `git log --pretty=format':%h' -1` + ' @GITHUB'
-                    end 
-                  end
-                  span do
-                    `git log --pretty=format':%cn %d %s' --decorate -1`
-                  end
-                rescue
-                  'not available'
-                end
-              end
-            end
-          end
-          tr do
-            td do
-              'Rails root created at:'
-            end
-            td do
-              Rails.root.ctime
-            end
+            span { `git log --pretty=format':%ai %cn  %d %s' --decorate -1` }
+          rescue
+            'not available'
           end
         end
       end
 
+      div do
+        span { 'Rails root created at:' }
+        span {  Rails.root.ctime }
+      end
+
     end
 
-  
-
-  columns do
+    columns do
 
       column do
         panel "NewRelic Monitor" do
@@ -83,7 +68,7 @@ ActiveAdmin.register_page "Dashboard" do
 
     end # columns
 
- end # content
+  end # content
 
 
 
