@@ -4,13 +4,6 @@ Feature: Filter
   I want to filter lists of resources
   So that can narrow down results
 
-  @clean
-  Scenario: Filter by "any" value
-    When I see a list of resources
-     And I open the filter
-     And I select the "any" value checkbox for a specific key
-    Then the list shows only resources that have any value for that key
-    
   @clean @jsbrowser
   Scenario: Existence of the filter-panel and searching for an empty term
     Given I am signed-in as "Liselotte"
@@ -190,6 +183,7 @@ Feature: Filter
 
   @clean @jsbrowser 
   Scenario: Resetting single filters
+     Given Pending!
      Given I am signed-in as "Liselotte"
      And I go to the media_resources with filter_panel
      And I remember the number of resources
