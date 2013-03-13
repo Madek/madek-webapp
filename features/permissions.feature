@@ -5,7 +5,7 @@ Feature: Permissions
   As an owner of a Resource, I want to assign various permissions
   to users and groups.
 
-  @jsbrowser @wip
+  @jsbrowser 
   Scenario: Assigning and removing user permissions
     Given I am signed-in as "Normin"
     And I remove all permissions from my first media_entry
@@ -27,15 +27,13 @@ Feature: Permissions
     And I wait for the dialog to disappear
     Then "petra" has no user-permission for my first media_entry
 
-
-  @chrome 
+  @jsbrowser 
   Scenario: Assigning group permissions
     Given I am signed-in as "Normin"
     And I remove all permissions from my first media_entry
     And I visit the path of my first media entry
     And I open the edit-permissions dialog
-    When I click on the link "Gruppe hinzufügen" 
-    And I set the input with the name "group" to "Zett"
+    And I set the autocomplete-input with the name "group" to "Zett"
     And I click on "Zett" inside the autocomplete list
     Then the "view" permission for "Zett" is checked
     When I click on the "download" permission for "Zett"
@@ -51,8 +49,17 @@ Feature: Permissions
     And I wait for the dialog to disappear
     Then "Zett" has no group-permission for my first media_entry
 
-
-
+  @jsbrowser
+  Scenario: Display the complete LDAP name on the selection dropdown
+    Given I am signed-in as "Normin"
+    And I have set up some departments with ldap references
+    And A resource owned by me with no other permissions
+    When I visit the permissions dialog of the resource
+    And I set the autocomplete-input with the name "group" to "Vertiefung Industrial Design"
+    And I click on "Vertiefung Industrial Design (DDE_FDE_VID.dozierende)" inside the autocomplete list
+    When I click on the submit button
+    Then I am on the page of the resource
+    And I see a confirmation alert
 
 #Berechtigungen:
 #Es gibt folgende Berechtigungen auf Ressourcen im Medienarchiv (In Klammer die deutschen Bezeichnungen des Interfaces):
@@ -228,7 +235,7 @@ Feature: Permissions
       And I click on the link "Zugriffsberechtigungen"
      Then I can choose from a set of labeled permissions presets instead of grant permissions explicitly    
 
-  @jsbrowser @dirty 
+  @jsbrowser @dirty
   Scenario: Limiting what other users' permissions I can see
     Given I am signed-in as "Normin"
     Given A resource owned by me with no other permissions
@@ -248,7 +255,7 @@ Feature: Permissions
     And I logout.
 
     Given I am signed-in as "Normin"
-    And visit the permissions dialog of the resource
+    And I visit the permissions dialog of the resource
     Then I see the following permissions:
       | user      | permission |
       | Normin    | view       |
@@ -291,14 +298,4 @@ Feature: Permissions
     And I close the modal dialog.
     And I logout.
 
-  @chrome @dirty
-  Scenario: Display the complete LDAP name on the selection dropdown
-    Given I am signed-in as "Normin"
-    And I have set up some departments with ldap references
-    And A resource owned by me with no other permissions
-    When I visit the permissions dialog of the resource
-    Then I can select "Vertiefung Industrial Design (DDE_FDE_VID.dozierende)" to grant group permissions
-    When I click on the submit button
-    Then I am on the page of the resource
-    And I see a confirmation alert
 
