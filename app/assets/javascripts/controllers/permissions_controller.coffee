@@ -213,7 +213,8 @@ class PermissionsController
     if @el.is ":visible" then do setup else @el.one "shown", => do setup
 
   addPermissionForSubject: (subject) =>
-    return true if @rightsContainer.find("[data-id=#{subject.id}]").length
+    if @rightsContainer.find("[data-id='#{subject.id}'][data-name='#{subject.name}']").length
+      return true 
     line = App.render "permissions/line", 
       id: subject.id
       name: subject.name
