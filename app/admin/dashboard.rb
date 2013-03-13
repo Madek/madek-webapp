@@ -31,7 +31,7 @@ ActiveAdmin.register_page "Dashboard" do
                 `git log --pretty=format':%h' -1` + ' @GitHub'
               end 
             end
-            span { `git log --pretty=format':%ai %cn  %d %s' --decorate -1` }
+            span { `git log --pretty=format':%ar by %cn on %d: %s' --decorate -1` }
           rescue
             'not available'
           end
@@ -39,8 +39,9 @@ ActiveAdmin.register_page "Dashboard" do
       end
 
       div do
-        span { 'Rails root created at:' }
-        span {  Rails.root.ctime }
+        span { 'Rails root created:' }
+        span { distance_of_time_in_words(Time.zone.now,Rails.root.ctime) }
+        span { ' ago' }
       end
 
     end
