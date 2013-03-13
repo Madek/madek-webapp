@@ -106,7 +106,7 @@ end
 ### I h⋯ ###################################################
 
 Then /^I have to confirm$/ do
-  page.driver.browser.switch_to.alert.accept
+  page.driver.browser.switch_to.alert.accept unless Capybara.javascript_driver == :poltergeist
 end
 
 ### I p⋯ ###################################################

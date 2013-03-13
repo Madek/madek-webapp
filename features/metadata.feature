@@ -12,7 +12,7 @@ Feature: Editing keywords, people, controlled vocabularies...
      When I go to the edit-page of my first media_entry
      Then each meta-data value should be equal to the one set previously
 
-  @chrome
+  @jsbrowser
   Scenario: Adding a new person as the author
     Given I am signed-in as "Normin"
     When I go to the edit-page of my first media_entry
@@ -27,7 +27,7 @@ Feature: Editing keywords, people, controlled vocabularies...
     Then I am on the page of my first media_entry
     And I can see the text "Turner, William (Willi)"
 
-  @chrome
+  @jsbrowser 
   Scenario: Adding a new group as the author
     Given I am signed-in as "Normin"
     When I go to the edit-page of my first media_entry
@@ -41,7 +41,7 @@ Feature: Editing keywords, people, controlled vocabularies...
     Then I am on the page of my first media_entry
     And I can see the text "El grupo [Gruppe]"
 
-  @chrome @clean
+  @jsbrowser @clean
   Scenario: License: selecting an individual license clears presets
     Given I am signed-in as "Normin"
     When I go to the edit-page of my first media_entry
