@@ -37,7 +37,6 @@ class PermissionsController
     @el.on "change", ".ui-rights-check input", @onChangePermission
     @el.on "change", ".ui-rights-role select", (e)=> @onChangePreset $(e.currentTarget)
     @el.on "click", ".ui-rights-role select option", (e)=> @onChangePreset $(e.currentTarget).closest "select"
-    @el.on "click keydown", ".ui-add-subject .button", (e)=> @showAddInput $(e.currentTarget)
     @el.on "click", ".ui-rights-remove", (e)=> $(e.currentTarget).closest("tr").remove()
     @el.on "change", ".ui-rights-owner input", (e)=> @changeOwnerTo $(e.currentTarget).closest "tr"
     @el.on "change", ".ui-rights-management-public .ui-rights-check input", @onChangePublicPermission
@@ -178,7 +177,7 @@ class PermissionsController
         select: (event, ui)=>
           @addPermissionForSubject new App.User {id: ui.item.id, name: ui.item.name}
           $(event.target).blur()
-          $(event.target).nextAll(".button").focus()
+          input.val("").focus()
           return false
       input.autocomplete("widget").addClass("narrow")
     # setup if dialog is visible (possible time shift because the bootstrap modal)
@@ -199,7 +198,7 @@ class PermissionsController
         select: (event, ui)=>
           @addPermissionForSubject new App.Group {id: ui.item.id, name: ui.item.name}
           $(event.target).blur()
-          $(event.target).nextAll(".button").focus()
+          input.val("").focus()
           return false
       input.autocomplete("widget").addClass("wide")
       input.data("autocomplete")._renderItem = (ul, item)->
@@ -235,13 +234,6 @@ class PermissionsController
       else
         @otherGroupsContainer.find("tbody")
     target.append line
-
-  showAddInput: (button)=>
-    input = button.prevAll "input"
-    button.hide()
-    input.show()
-    input.one "blur", (e)-> input.hide() and input.val("") and button.show()
-    input.focus()
 
   onChangePreset: (select)=>
     option = select.find("option:selected")

@@ -5,14 +5,13 @@ Feature: Permissions
   As an owner of a Resource, I want to assign various permissions
   to users and groups.
 
-  @chrome
+  @jsbrowser @wip
   Scenario: Assigning and removing user permissions
     Given I am signed-in as "Normin"
     And I remove all permissions from my first media_entry
     And I visit the path of my first media entry
     And I open the edit-permissions dialog
-    When I click on the link "Person hinzufügen" 
-    And I set the input with the name "user" to "Paula, Petra"
+    And I set the autocomplete-input with the name "user" to "Paula, Petra"
     And I click on "Paula, Petra" inside the autocomplete list
     Then the "view" permission for "Paula, Petra" is checked
     When I click on the "download" permission for "Paula, Petra"

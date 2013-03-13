@@ -61,11 +61,9 @@
               {{tmpl(otherUsers, {presets: presets, manageable: $item.manageable, currentUserOwnership: currentUserOwnership}) App.renderPath("permissions/line")}}
 
           {{if $item.manageable}}
-          #addUser.ui-add-subject.ptx
-            %input.small.block.hidden{name: 'user', type: 'text', placeholder:  "Name der Person"}
-            %a.button.small{tabindex: 0}
-              %i.icon-plus
-              Person hinzufügen
+          #addUser.ui-add-subject.ptx.row
+            .col2of3
+              %input.small.block{name: 'user', type: 'text', placeholder:  "Name der Person"}
           {{/if}}
       {{/if}}
 
@@ -85,11 +83,9 @@
               {{tmpl(otherGroups, {presets: presets, manageable: $item.manageable, currentUserOwnership: currentUserOwnership}) App.renderPath("permissions/line")}}
 
           {{if $item.manageable}}
-          #addGroup.ui-add-subject.ptx
-            %input.small.block.hidden{type: :text, placeholder: "Name der Gruppe", name: 'group'}
-            %a.button.small{:tabindex => 0}
-              %i.icon-plus
-              Gruppe hinzufügen
+          #addGroup.ui-add-subject.ptx.row
+            .col2of3
+              %input.small.block{type: :text, placeholder: "Name der Gruppe", name: 'group'}
           {{/if}}
       {{/if}}
 
