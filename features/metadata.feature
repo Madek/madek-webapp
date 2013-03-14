@@ -1,7 +1,7 @@
 
 Feature: Editing keywords, people, controlled vocabularies...
 
-  @chrome
+  @jsbrowser
   Scenario: Changing all meta-data fields of a media entry
     Given I am signed-in as "Normin"
      When I go to the edit-page of my first media_entry

@@ -47,6 +47,7 @@ Given /^I change the value of each meta\-data field$/  do
           value: random_person.to_s,
           type: type)
         field_set.find("input.form-autocomplete-person").set(random_person.to_s)
+        page.execute_script %Q{ $("input.form-autocomplete-person").trigger("change") }
         wait_until{  field_set.all("a",text: random_person.to_s).size > 0 }
         field_set.find("a",text: random_person.to_s).click
 
@@ -65,6 +66,7 @@ Given /^I change the value of each meta\-data field$/  do
           value: random_kw,
           type: type)
         field_set.find("input", visible: true).set(random_kw)
+        page.execute_script %Q{ $("input.ui-autocomplete-input").trigger("change") }
         wait_until{  field_set.all("a",text: random_kw).size > 0 }
         field_set.find("a",text: random_kw).click
 
