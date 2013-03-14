@@ -11,7 +11,7 @@
       - if media_resource
         .ui-context.pvl.limited-width-m{:"data-id" => context.id}
           %h3.title-m
-            %a= context
+            %a{:href => context_path(context)}= context
           %p.ui-thumbnail-meta-subtitle= context.description
         - unless meta_contexts.last == context
           .separator.mbm

@@ -8,11 +8,12 @@ Then /^I see a preview list of contexts that are connected with media resources 
   end
 end
 
-Then /^for each context I see the label and description$/ do
+Then /^for each context I see the label and description and the link to that context$/ do
   all(".ui-contexts .ui-context").each do |ui_context|
     context = MetaContext.find ui_context[:"data-id"]
     ui_context.should have_content context.label.to_s
     ui_context.should have_content context.description.to_s
+    ui_context.find("a[href='#{context_path(context)}']").should have_content context.label.to_s
   end
 end
 
