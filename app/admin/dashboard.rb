@@ -17,6 +17,10 @@ ActiveAdmin.register_page "Dashboard" do
       div do
         "#{MediaSet.count} MediaSets"
       end
+      div do
+        MediaFile.where("NOT EXISTS (#{MediaEntry.where('media_file_id = media_files.id').to_sql})").count.to_s + 
+          " MediaFiles without MediaEntry"
+      end
 
     end
 
