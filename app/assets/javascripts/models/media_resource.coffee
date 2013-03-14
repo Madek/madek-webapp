@@ -10,10 +10,11 @@ class MediaResource
     @is_shared = !@is_public and !@is_private if @is_private? and @is_public?
     @
 
-  delete: ->
+  delete: (callback)->
     $.ajax
       url: "/media_resources/#{@id}.json"
       type: "DELETE"
+      success: -> callback() if callback?
 
   favor: ->
     $.ajax
