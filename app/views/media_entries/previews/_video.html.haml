@@ -7,9 +7,13 @@
   content = 
     case @media_entry.try(:media_file).try(:most_recent_zencoder_job).try(:state)
     when 'finished'
-      render :partial => "media_entries/previews/video/video", 
-        :locals => {:video_preview_webm => video_preview_webm, \
+      if video_preview_webm and video_preview_apple
+        render :partial => "media_entries/previews/video/video", 
+          :locals => {:video_preview_webm => video_preview_webm, \
           :video_preview_apple => video_preview_apple}
+      else
+        render "media_entries/previews/encoding/failed"
+      end
     when 'submitted', 'importing'
       render "media_entries/previews/encoding/converting", \
         zencoder_job: @media_entry.media_file.most_recent_zencoder_job
