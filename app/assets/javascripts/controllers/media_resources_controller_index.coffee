@@ -241,13 +241,13 @@ class MediaResourcesController.Index
     dialog = App.render "media_resources/delete_dialog", {media_resource: mr}
     dialog.find(".primary-button").bind "click", (e)-> 
       e.preventDefault()
-      mr.delete()
-      if container.data("redirect_on_delete")?
-        dialog.remove()
-        window.location.pathname = "/"
-      else
-        dialog.bind "hidden", -> setTimeout (-> container.remove()), 300
-        dialog.modal("hide")
+      mr.delete ->
+        if container.data("redirect_on_delete")?
+          dialog.remove()
+          window.location.pathname = "/"
+        else
+          dialog.bind "hidden", -> setTimeout (-> container.remove()), 300
+          dialog.modal("hide")
       return false
     new App.Modal dialog
 

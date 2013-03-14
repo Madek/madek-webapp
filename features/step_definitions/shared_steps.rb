@@ -83,7 +83,9 @@ Given /^I close the modal dialog\.$/ do
 end
 
 And /^I confirm the browser dialog$/ do
-  page.driver.browser.switch_to.alert.accept
+  unless Capybara.current_driver == :poltergeist
+    page.driver.browser.switch_to.alert.accept 
+  end
 end
 
 ### I f⋯ ###################################################
@@ -106,7 +108,9 @@ end
 ### I h⋯ ###################################################
 
 Then /^I have to confirm$/ do
-  page.driver.browser.switch_to.alert.accept
+  unless Capybara.current_driver == :poltergeist
+    page.driver.browser.switch_to.alert.accept 
+  end
 end
 
 ### I p⋯ ###################################################
@@ -136,6 +140,11 @@ end
 When /^I set the input with the name "(.*?)" to "(.*?)"$/ do |name, value|
   find("input[name='#{name}']").set(value)
   # page.execute_script %Q{ $("input[name='#{name}']").trigger("change") }
+end
+
+Given /^I set the autocomplete\-input with the name "(.*?)" to "(.*?)"$/ do |name, value|
+  find("input[name='#{name}']").set(value)
+  page.execute_script %Q{ $("input[name='#{name}']").trigger("change") }
 end
 
 Given /^I set the input with the name "(.*?)" to "(.*?)" and submit$/ do |name, value|

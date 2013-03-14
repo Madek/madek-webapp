@@ -11,10 +11,10 @@ Feature: Context
   Scenario: See a list of contexts
     When I go to the explore page
     Then I see a preview list of contexts that are connected with media resources that I can access
-    And for each context I see the label and description
+    And for each context I see the label and description and the link to that context
     When I go to the explore contexts page
     Then I see a list with all contexts that are connected with media resources that I can access
-    And for each context I see the label and description
+    And for each context I see the label and description and the link to that context
 
   @clean
   Scenario: Open a specific context

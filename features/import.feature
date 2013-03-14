@@ -60,7 +60,6 @@ Feature: importing an image
     When I click on the link "Weiter"
 
     And I wait until I am on the "/import/permissions" page
-    When I click on the link "Person hinzufügen" 
     And I set the input with the name "user" to "Paula, Petra"
     And I click on "Paula, Petra" inside the autocomplete list
     Then the "view" permission for "Paula, Petra" is checked

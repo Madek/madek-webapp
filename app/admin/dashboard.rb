@@ -3,7 +3,8 @@ ActiveAdmin.register_page "Dashboard" do
   menu :priority => 1, :label => proc{ I18n.t("active_admin.dashboard") }
 
   content :title => proc{ I18n.t("active_admin.dashboard") } do
-    panel "" do
+
+    panel "Stats" do
       div do
         "#{User.count} Nutzer/innen"
       end
@@ -16,11 +17,40 @@ ActiveAdmin.register_page "Dashboard" do
       div do
         "#{MediaSet.count} MediaSets"
       end
+      div do
+        MediaFile.where("NOT EXISTS (#{MediaEntry.where('media_file_id = media_files.id').to_sql})").count.to_s + 
+          " MediaFiles without MediaEntry"
+      end
 
     end
-  
 
-  columns do
+    panel "Deployment Info" do
+
+      div do 
+        span { "Most recent commit:" }
+        span do
+          begin
+            span do
+              link_to ("https://github.com/zhdk/madek/commit/" + `git log --pretty='%H'  -1`) do 
+                `git log --pretty=format':%h' -1` + ' @GitHub'
+              end 
+            end
+            span { `git log --pretty=format':%ar by %cn on %d: %s' --decorate -1` }
+          rescue
+            'not available'
+          end
+        end
+      end
+
+      div do
+        span { 'Rails root created:' }
+        span { distance_of_time_in_words(Time.zone.now,Rails.root.ctime) }
+        span { ' ago' }
+      end
+
+    end
+
+    columns do
 
       column do
         panel "NewRelic Monitor" do
@@ -43,7 +73,7 @@ ActiveAdmin.register_page "Dashboard" do
 
     end # columns
 
- end # content
+  end # content
 
 
 

@@ -151,7 +151,7 @@ end
 
 Then /^I can select "(.*?)" to grant group permissions$/ do |group|
   #wait_until{ all("#addGroup a", text: "Gruppe hinz").size > 0 }
-  find("#addGroup a",text: "Gruppe hinz").click
+  # find("#addGroup a",text: "Gruppe hinz").click
   find("#addGroup input[type='text']").set group[0..10]
   find("ul.ui-autocomplete li a",text: group).click
 end
