@@ -5,6 +5,13 @@ Feature: Filter
   So that can narrow down results
 
   @clean @jsbrowser
+  Scenario: Filter by "any" value
+    When I go to a list of resources
+     And I open the filter
+     And I select the any-value checkbox for a specific key
+    Then the list shows only resources that have any value for that key
+
+  @clean @jsbrowser
   Scenario: Existence of the filter-panel and searching for an empty term
     Given I am signed-in as "Liselotte"
     And I click on the link "Suchen"
@@ -180,7 +187,6 @@ Feature: Filter
      And I go to the media_resources with filter_panel
      Then the number or resources is equal to the remembered number of resources
 
-
   @clean @jsbrowser 
   Scenario: Resetting single filters
      Given Pending!
@@ -212,10 +218,3 @@ Feature: Filter
      When I remember the number of resources
      And I go to the media_resources with filter_panel
      Then the number or resources is equal to the remembered number of resources
-
-
-
-
-
-
-

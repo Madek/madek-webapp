@@ -1,3 +1,21 @@
+When /^I use some filters$/ do
+  @used_filter = []
+  step 'I open the filter'
+  (1..3).to_a.each do
+    wait_until { all(".ui-preloader", :visible => true).size == 0 }
+    wait_until { all("#ui-side-filter-blocking-layer", :visible => true).size == 0 }
+    filter_item = all(".filter-panel *[data-value]:not(.active)").shuffle.first
+    context_element = filter_item.find(:xpath, ".//ancestor::*[@data-context-name]")
+    key_element = filter_item.find(:xpath, ".//ancestor::*[@data-key-name]")
+    @used_filter.push :key_name => key_element["data-key-name"],
+                      :context => context_element["data-context-name"], 
+                      :value => filter_item["data-value"]
+    context_element.find("a").click unless context_element.find("a")[:class] =~ /open/
+    key_element.find("a").click unless key_element.find("a")[:class] =~ /open/
+    filter_item.click
+  end
+end
+
 Then /^I can see the filter panel$/ do
   wait_until{ all(".filter-panel").size > 0}
 end
@@ -41,4 +59,27 @@ end
 
 Then /^the number or resources is equal to the remembered number of resources$/ do
   expect(find("#resources_counter").text.to_i).to eq  @resources_counter
+end
+
+When /^I open the filter$/ do
+  wait_until { all(".ui-resource").size > 0 }
+  find("#ui-side-filter-toggle").click if all("#ui-side-filter-toggle.active").size == 0
+  wait_until { all(".ui-side-filter-item").size > 0 }
+end
+
+When /^I select the any-value checkbox for a specific key$/ do
+  @any_value_el = all(".any-value").shuffle.first
+  context_name = @any_value_el.find(:xpath, ".//ancestor::*[@data-context-name]")["data-context-name"]
+  key_name = @any_value_el.find(:xpath, ".//ancestor::*[@data-key-name]")["data-key-name"]
+  @meta_key = MetaKey.find_by_label key_name
+  @any_value_el.find(:xpath, ".//ancestor::*[@data-context-name]").click
+  @any_value_el.find(:xpath, ".//ancestor::label").click
+  wait_until { all(".ui-resource").size > 0 }
+end
+
+Then /^the list shows only resources that have any value for that key$/ do
+  all(".ui-resource[data-id]").each do |element|
+    media_resource = MediaResource.find element["data-id"]
+    media_resource.meta_data.where(:meta_key_id => @meta_key.id).size.should > 0
+  end
 end

@@ -16,10 +16,12 @@
 .ui-resources-page-counter { 
   @include dimension(200px,auto);
   @include position-top-right(0,0);
-  color: $grey-mid;
-  text-align: right;
-  font-size: $font-xs;
-  font-weight: 700;
+  & , &>span {
+    color: $grey-mid;
+    text-align: right;
+    font-size: $font-xs;
+    font-weight: 700; 
+  }
 }
 
 .ui-resources-page:not([data-page='1']) {

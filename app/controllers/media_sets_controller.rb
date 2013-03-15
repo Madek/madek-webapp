@@ -63,7 +63,13 @@ class MediaSetsController < ApplicationController
            per_page = (params[:per_page] || PER_PAGE.first).to_i)
     respond_to do |format|
       format.html {
-        @highlights = @media_set.highlights.accessible_by_user(current_user)
+        if @media_set.is_a? FilterSet
+          @filter_set = @media_set
+          render "filter_sets/show"
+        else
+          @highlights = @media_set.highlights.accessible_by_user(current_user)
+          render :show
+        end
       }
       format.json {
         render json: view_context.json_for(@media_set, with)

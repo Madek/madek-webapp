@@ -111,6 +111,10 @@
 
 .ui-tag-cloud.small {
 
+  &>i {
+    vertical-align: sub;
+  }
+
   .ui-tag-cloud-item {
     margin-right: $space-s;
   }

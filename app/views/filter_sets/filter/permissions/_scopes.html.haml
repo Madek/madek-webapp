@@ -1,0 +1,13 @@
+- scopes.each do |scope|
+
+  %li.ui-tag-cloud-item
+    %a.ui-tag-button.meta-term{:href => media_resources_path(:permissions => {:scope => {:ids => [scope]}})}
+
+      - if scope == "entrusted"
+        Mir anvertraute Inhalte
+
+      - if scope == "public"
+        Öffentliche Inhalte
+
+      - if scope == "mine"
+        Inhalte, für die ich verantwortlich bin

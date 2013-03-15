@@ -125,6 +125,10 @@ MAdeK::Application.routes.draw do
 
 
 ###############################################
+
+  resources :filter_sets, only: [:create,:update,:edit,:show]
+
+###############################################
 #NOTE first media_entries and then media_sets
 
   # TODO merge to :media_resources ?? 

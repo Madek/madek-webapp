@@ -1,0 +1,53 @@
+- content_for :content do
+  .ui-container.rounded-right.rounded-bottom.tab-content
+      
+    .ui-container.bright.bordered.pal
+      .ui-set-overview
+
+        .ui-set-preview
+          = render :partial => "media_resources/media_resource",
+           :locals => {:media_resource => @filter_set}
+
+        .ui-metadata-box.ui-summary-table.ui-set-summary
+          %table.borderless
+            %tbody
+              = render :partial => "meta_data/meta_datum", :collection => @filter_set.meta_data.for_context(MetaContext.media_set), 
+                       :locals => {:context => MetaContext.media_set, 
+                                   :as_table => true}
+
+              = render :partial => "filter_sets/filter", :locals => {:filter => @filter_set.settings[:filter]}
+
+    #ui-resources-list-container.ui-container.midtone.bordered.rounded-bottom
+
+      = render :partial => "media_resources/list/toolbar", 
+                 :locals => {:title => "Filterset enthält",
+                             :subtitle => "#{@filter_set.child_media_resources.accessible_by_user(current_user).count} Inhalte",
+                             :actions => render(:partial => "media_sets/actions/save_display_settings")}
+
+      = render :partial => "media_resources/list/filterbar"
+
+      .ui-resources-holder
+
+        .ui-container.table.auto
+
+          = render :partial => "media_resources/list/filter"
+
+          .ui-container.table-cell.table-substance
+            
+            %ul#ui-resources-list.ui-resources{:class => ui_resources_class}
+
+              .pvh.mth
+                .ui-preloader
+
+  :coffeescript
+    jQuery -> 
+      mediaResourcesController = new App.MediaResourcesController.Index
+        baseFilter: #{{:media_set_id => @filter_set.id.to_s}.to_json}
+        startFilterParams: #{MediaResource.get_filter_params(params).to_json}
+
+      new App.MediaSetsController.DisplaySettings
+        mediaResourcesController: mediaResourcesController
+        layout: #{@filter_set.settings[:layout].to_json}
+        sorting: #{@filter_set.settings[:sorting].to_json}
+
+= render :partial => "filter_sets/layout"

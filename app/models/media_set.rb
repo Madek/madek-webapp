@@ -47,14 +47,23 @@ class MediaSet < MediaResource
 
   ACCEPTED_SETTINGS = {
     :layout => {:possible_values => [:miniature, :grid, :list], :default => :grid},
-    :sorting => {:possible_values => [:created_at, :updated_at, :title, :author], :default => :updated_at}
+    :sorting => {:possible_values => [:created_at, :updated_at, :title, :author], :default => :updated_at},
+    :filter => {:default => {}}
   }
 
-  validate do
-    unless settings.blank?
-      errors.add(:settings, "Invalid key") unless (settings.keys - ACCEPTED_SETTINGS.keys).empty?
-      settings.each_pair do |k,v|
-        errors.add(:settings, "Invalid value") if ACCEPTED_SETTINGS[k][:possible_values] and not ACCEPTED_SETTINGS[k][:possible_values].include?(v)
+
+  validate :validate_settings
+
+  def validate_settings 
+    if _settings = ((not settings.blank?) and settings.deep_symbolize_keys)
+      unless (_settings.keys - ACCEPTED_SETTINGS.deep_symbolize_keys.keys).empty?
+        errors.add(:settings, "Invalid key") 
+      end
+      _settings.each_pair do |k,v|
+        if ACCEPTED_SETTINGS[k][:possible_values] and \
+          not ACCEPTED_SETTINGS[k][:possible_values].include?(v)
+          errors.add(:settings, "Invalid value") 
+        end
       end
     end 
   end

@@ -8,7 +8,12 @@ Controller for the FilterPanel
 
 class FilterPanelController
 
+  @currentPanel
+
   constructor: (options)->
+    return FilterPanelController.currentPanel if FilterPanelController.currentPanel?
+    FilterPanelController.currentPanel = @
+    
     @toggle = $("#ui-side-filter-toggle")
     @panel = $("#ui-side-filter")
     @list = @panel.find ".ui-side-filter-list"
@@ -26,15 +31,17 @@ class FilterPanelController
     do @plugin
     do @delegateEvents
 
-  delegateEvents: ->
+  delegateEvents: =>
     @toggle.on "click", => do @togglePanel
     @panel.on "click", ".ui-accordion-toggle", (e)=> @toggleAccordion $(e.currentTarget)
     @panel.on "click", "[data-value]:not(.active)", (e)=> @selectFilter $(e.currentTarget)
     @panel.on "click", "[data-value].active", (e)=> @deselectFilter $(e.currentTarget)
-    @searchTerm.on "change, delayedChange", (e)=> do @search
+    @panel.on "change", ".any-value", (e)=> @changeAnyValue $(e.currentTarget)
+    @searchTerm.on "change, delayedChange", => do @filterChange
+    @panel.on "submit", "form#search_form", (e)=> e.preventDefault(); do @filterChange
     @filterReset.on "click", => do @resetFilter
 
-  search: ->
+  filterChange: ->
     do @persistAllActiveToURL
     do @showResetFilter if @anyActiveFilter()
     do @blockForLoading
@@ -53,17 +60,15 @@ class FilterPanelController
     for activeFilter in @panel.find(".active[data-value]")
       @removeFromURL @getFilterFor activeFilter
       $(activeFilter).removeClass "active"
+    for activeAnyValue in @panel.find(".any-value:checked")
+      @removeFromURL @getFilterFor activeAnyValue
+      $(activeAnyValue).attr "checked", false 
     for k,v of @startSelectedFilter
       filter = {}
       filter[k] = @startSelectedFilter[k]
       @removeFromURL filter
     @searchTerm.val ""
-    do @deleteStartSelectedFilter
-    $(@).trigger "filter-changed"
-    $(@panel).trigger "filter-changed", do @getSelectedFilter
-    do @persistAllActiveToURL
-    do @blockForLoading
-    do @toggleResetFilter
+    do @filterChange
 
   plugin: ->
     @searchTerm.delayedChange()
@@ -89,12 +94,12 @@ class FilterPanelController
 
   show: ->
     uri = URI(window.location.href).removeQuery("filterpanel").addQuery("filterpanel", true)
-    window.history.pushState uri._parts, document.title, uri.toString()  
+    window.history.replaceState uri._parts, document.title, uri.toString()  
     @panel.removeClass "hidden"
 
   hide: ->
     uri = URI(window.location.href).removeQuery("filterpanel")
-    window.history.pushState uri._parts, document.title, uri.toString()  
+    window.history.replaceState uri._parts, document.title, uri.toString()  
     @panel.addClass "hidden"
 
   isOpen: -> not @panel.hasClass "hidden"
@@ -107,10 +112,8 @@ class FilterPanelController
     if @filter?
       selectedFilter = @getSelectedFilter()
       openAccordions = _.map @panel.find(".ui-accordion-body.open"), (a)->
-        a = $(a)
-        _return = 
-          keyName: a.closest("[data-key-name]").data "key-name"
-          filterType: a.closest("[data-filter-type]").data "filter-type"
+        keyName: $(a).closest("[data-key-name]").data "key-name"
+        contextName: $(a).closest("[data-context-name]").data "context-name"
       @list.html App.render "media_resources/filter/context", @filter
       @openAccordions openAccordions
       if @startSelectedFilter?
@@ -124,9 +127,9 @@ class FilterPanelController
   openAccordions: (accordions)->
     for accordion in accordions
       accordion = if accordion.keyName?
-        @list.find("[data-filter-type='#{accordion.filterType}'] [data-key-name='#{accordion.keyName}'] > .ui-accordion-body")
+        @list.find("[data-context-name='#{accordion.contextName}'] [data-key-name='#{accordion.keyName}'] > .ui-accordion-body")
       else
-        @list.find("[data-filter-type='#{accordion.filterType}'] > .ui-accordion-body")
+        @list.find("[data-context-name='#{accordion.contextName}'] > .ui-accordion-body")
       accordion.addClass "open"
       accordion.siblings(".ui-accordion-toggle").addClass "open"
 
@@ -135,30 +138,31 @@ class FilterPanelController
       continue if typeof filter != "object"
       for metaKey, values of filter
         for id in values.ids
-          terms = @panel.find("[data-key-name='#{metaKey}'] [data-value='#{id}']")
-          terms.addClass "active"
-          keys = terms.closest "[data-key-name='#{metaKey}']"
+          if id is "any"
+            el = anyValue_el = @panel.find("[data-key-name='#{metaKey}'] .any-value")
+            anyValue_el.attr "checked", true
+          else
+            el = terms = @panel.find("[data-key-name='#{metaKey}'] [data-value='#{id}']")
+            terms.addClass "active"
+          keys = el.closest "[data-key-name='#{metaKey}']"
           keys.addClass "has-active"
-          contexts = terms.closest "[data-filter-type]"
+          contexts = el.closest "[data-context-name]"
           contexts.addClass "has-active"
 
   selectFilter: (item)->
     item.addClass "active"
-    do @deleteStartSelectedFilter
-    $(@).trigger "filter-changed"
-    $(@panel).trigger "filter-changed", do @getSelectedFilter
-    do @persistAllActiveToURL
-    do @blockForLoading
-    do @toggleResetFilter
+    parentAnyValue = item.closest("[data-key-name]").find(".any-value")
+    if parentAnyValue.length
+      @deselectAnyValue parentAnyValue
+    else
+      do @filterChange
 
-  deselectFilter: (item)->
-    item.removeClass "active"
-    do @deleteStartSelectedFilter
-    $(@).trigger "filter-changed"
-    $(@panel).trigger "filter-changed", do @getSelectedFilter
+  deselectFilter: (item)=>
+    filterType = item.closest("[data-filter-type]").data "filter-type"
+    keyName = item.closest("[data-key-name]").data "key-name"
+    @panel.find("[data-filter-type='#{filterType}'] [data-key-name='#{keyName}'] [data-value='#{item.data("value")}']").removeClass "active"
     @removeFromURL @getFilterFor item
-    do @blockForLoading
-    do @toggleResetFilter
+    do @filterChange
 
   toggleResetFilter: ->
     if @anyActiveFilter()
@@ -171,24 +175,31 @@ class FilterPanelController
   removeFromURL: (filter)->
     uri = URI(window.location.href)
     uri.removeQuery decodeURIComponent($.param(filter)).replace /\=.*$/, ""
-    window.history.pushState uri._parts, document.title, uri.toString()
+    window.history.replaceState uri._parts, document.title, uri.toString()
 
   persistAllActiveToURL: ->
     uri = URI(window.location.href)
     uri.removeQuery "search"
     uri.search "#{uri.search()}&#{$.param @getSelectedFilter()}"
     uri.normalizeSearch()
-    window.history.pushState uri._parts, document.title, uri.toString()
+    window.history.replaceState uri._parts, document.title, uri.toString()
 
   anyActiveFilter: ->
     @panel.find(".active[data-value]").length or
+    @panel.find(".any-value:checked").length or
     @searchTerm.val().length > 1
 
-  getSelectedFilter: ->
+  getSelectedFilter: =>
     filter = {}
     if @startSelectedFilter?
       @startSelectedFilter
     else
+      for selectedAnyValue in @panel.find(".any-value:checked")
+        keyName = $(selectedAnyValue).closest("[data-key-name]").data "key-name"
+        filterType = $(selectedAnyValue).closest("[data-filter-type]").data "filter-type"
+        filter[filterType] = {} unless filter[filterType]?
+        filter[filterType][keyName] = {} unless filter[filterType][keyName]?
+        filter[filterType][keyName]["ids"] = ["any"]
       for selectedFilter in @panel.find(".active[data-value]")
         selectedFilter = $(selectedFilter)
         filterData = @getFilterFor selectedFilter
@@ -203,16 +214,48 @@ class FilterPanelController
       filter.search = @searchTerm.val()
       filter
 
-  getFilterFor: (filter_el)->
-    filter_el = $(filter_el)
+  getFilterFor: (el)->
+    el = $(el)
+    if el.hasClass "any-value"
+      @getFilterForAnyValueEl el
+    else
+      @getFilterForFilterEl el
+
+  getFilterForAnyValueEl: (el)->
+    keyName = el.closest("[data-key-name]").data "key-name"
+    filterType = el.closest("[data-filter-type]").data "filter-type"
     filter = {}
-    value = filter_el.data "value"
-    keyName = filter_el.closest("[data-key-name]").data "key-name"
-    filterType = filter_el.closest("[data-filter-type]").data "filter-type"
+    filter[filterType] = {}
+    filter[filterType][keyName] = {ids: ["any"]}
+    filter
+
+  getFilterForFilterEl: (el)->
+    filter = {}
+    value = el.data "value"
+    keyName = el.closest("[data-key-name]").data "key-name"
+    filterType = el.closest("[data-filter-type]").data "filter-type"
     filter[filterType] = {}
     filter[filterType][keyName] = {}
     filter[filterType][keyName]["ids"] = [] unless filter[filterType][keyName]["ids"]?
     filter[filterType][keyName]["ids"].push value
     return filter
+
+  changeAnyValue: (anyValue_el)->
+    if anyValue_el.is(":checked") then @selectAnyValue(anyValue_el) else @deselectAnyValue(anyValue_el)
+
+  selectAnyValue: (anyValue_el)->
+    anyValue_el.attr "checked", true
+    activeDescendantFilterItems = anyValue_el.closest("[data-key-name]").find(".active[data-value]")
+    if activeDescendantFilterItems.length
+      (@deselectFilter $(filterItem) for filterItem in activeDescendantFilterItems)
+    else
+      do @filterChange
+
+  deselectAnyValue: (anyValue_el)->
+    filterType = anyValue_el.closest("[data-filter-type]").data "filter-type"
+    keyName = anyValue_el.closest("[data-key-name]").data "key-name"
+    @panel.find("[data-filter-type='#{filterType}'] [data-key-name='#{keyName}'] .any-value").attr "checked", false
+    @removeFromURL @getFilterFor anyValue_el
+    do @filterChange
 
 window.App.FilterPanelController = FilterPanelController
