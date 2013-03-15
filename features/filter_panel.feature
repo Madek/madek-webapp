@@ -189,7 +189,6 @@ Feature: Filter
 
   @clean @jsbrowser 
   Scenario: Resetting single filters
-     Given Pending!
      Given I am signed-in as "Liselotte"
      And I go to the media_resources with filter_panel
      And I remember the number of resources
