@@ -11,7 +11,7 @@ When /^I provide a title$/ do
 end
 
 Then /^I am getting redirected to the (new|updated) filter set$/ do |either_or|
-  wait_until{ find(".app.view-set") }
+  wait_until{ all(".app.view-set").size > 0 }
 end
 
 Then /^I can see the provided title and the used filter settings$/ do
