@@ -4,6 +4,7 @@ class ZencoderJobsController < ActionController::Base
     begin 
       @job = ZencoderJob.find params[:id]
       if @job.state == 'submitted'
+        # TODO check if response is an error and set state to failed 
         @job.update_attributes notification: params
         @job.import_previews #error handling within @job
       end
