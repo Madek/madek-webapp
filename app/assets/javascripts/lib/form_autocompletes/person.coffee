@@ -45,6 +45,7 @@ class FormAutocompletes.Person
 
   addPersonUsingString: (input, string)=>
     return true unless string.length
+    string = App.Person.nameFromString string
     holder = input.closest(".multi-select-holder")
     return true if holder.find(".multi-select-tag[data-string='#{string}']").length
     index = holder.closest(".ui-form-group").data "index"
@@ -53,6 +54,7 @@ class FormAutocompletes.Person
       index: index
       string: string
     multiselect.before App.render "media_resources/edit/multi-select/person-as-string", data
+    input.val ""
     input.trigger "change"
 
 window.App.FormAutocompletes = {} unless window.App.FormAutocompletes

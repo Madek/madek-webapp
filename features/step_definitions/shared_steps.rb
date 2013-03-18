@@ -156,6 +156,10 @@ Then /^I set the input in the fieldset with "(.*?)" as meta\-key to "(.*?)"$/ do
   find("fieldset[data-meta-key='#{meta_key_name}'] input",visible: true).set(value)
 end
 
+When /^I submit$/ do
+  all("form").last.find("[type='submit']").click
+end
+
 When /^I use the "(.*?)" context action$/ do |context_name|  
   find("a",text: "Weitere Aktionen").click
   find("a",text: context_name).click

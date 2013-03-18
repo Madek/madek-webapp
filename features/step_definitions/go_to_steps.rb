@@ -2,6 +2,17 @@ When /^I go to (.*?)$/ do |page|
   
   visit case page
 
+
+    # a ################################################
+
+    when "a list of resources"
+      media_resources_path
+
+    when "a search result page"
+      search_term_path(:term => " ")
+
+    # my ################################################
+
     when "my groups"
       my_groups_path
 

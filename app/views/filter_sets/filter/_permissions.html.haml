@@ -1,0 +1,20 @@
+- permissions_filter.each do |key, value|
+  
+  - if key.to_sym == :owner
+    %i.icon-privacy-private.mid.mrx{:title => "Person"}
+    
+    - value[:ids].each do |value|
+      = render :partial => "filter_sets/filter/permissions/owner", :locals => {:user => User.find(value)}
+    %br
+
+  - if key.to_sym == :group
+    %i.icon-privacy-group.mid.mrx{:title => "Gruppen"}
+    
+    - value[:ids].each do |value|
+      = render :partial => "filter_sets/filter/permissions/group", :locals => {:group => Group.find(value)}
+    %br
+
+  - if key.to_sym == :scope
+    %i.icon-lock.mid.mrx{:title => "Berechtigungen"}
+    = render :partial => "filter_sets/filter/permissions/scopes", :locals => {:scopes => value[:ids]}
+    %br

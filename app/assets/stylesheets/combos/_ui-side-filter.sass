@@ -2,13 +2,14 @@
  * ## Side filter `.ui-side-filter`
  *
  * Styleguide 7.18
+ */
 
 /* Class naming convention:
  *
  * ui-side-filter-lvl1 - top level filter
  * ui-side-filter-lvl2 - second level filter
  * ui-side-filter-lvl3 - third level filter
- *
+ */
 
 .ui-side-filter
   form
@@ -38,10 +39,6 @@
   padding: $space-x
   position: relative
 
-/**
- *  Search component
- *-----------------------------------------
-
 .ui-side-filter-search
   +border-radius($border-radius-m)
   background: $darken
@@ -54,25 +51,15 @@
   .ui-filter-search-input
     margin: $space-x 0 0
 
-/**
- *  Box model
- *-----------------------------------------
-
-// 1st Level
-
 .ui-side-filter-item
   padding: $space-s 0
   &:first-child
     padding-top: 0
 
-// 2nd Level
-
 .ui-side-filter-lvl2-item > a
   font-size: $font-s
   font-weight: 600
   padding-left: $space-m
-
-// 3rd Level
 
 .ui-side-filter-lvl3-item
   padding-left: 18px
@@ -107,10 +94,6 @@
     +box-shadow(0 0 0 $brightest)
     border-bottom: none
 
-/**
- *  Toggle
- *-----------------------------------------
-
 .ui-accordion-body
   & > .ui-side-filter-lvl3-item:not(.active),
   & > .ui-side-filter-lvl2-item:not(.has-active)
@@ -121,12 +104,6 @@
   & > .ui-side-filter-lvl2-item
     display: block
 
-/**
- *  Arrow icons
- *-----------------------------------------
-
-// Level 1
-
 .ui-side-filter-lvl1-marker
   @extend .icon-arrow-down-green
   +position-top-right(3px, 0)
@@ -134,18 +111,12 @@
 .open > .ui-side-filter-lvl1-marker
   @extend .icon-arrow-up-green
 
-// Level 2
-
 .ui-side-filter-lvl2-marker
   @extend .icon-arrow-right-mid-small
   +position-top-left(7px, 3px)
 
 .open > .ui-side-filter-lvl2-marker
   @extend .icon-arrow-down-mid-small
-
-/**
- *  Hover and Active states
- *-----------------------------------------
 
 .ui-side-filter a
   &:hover
@@ -161,16 +132,8 @@
   .ui-lvl3-item-count
     color: $grey-mid-dark
 
-/**
- *  List of Filter
- *-----------------------------------------
-
 .ui-side-filter-list
   position: relative
-
-/**
- *  Blocking Layer
- *-----------------------------------------
 
 .ui-side-filter #ui-side-filter-blocking-layer
   background: $darken-less
@@ -181,3 +144,14 @@
   top: 0
   width: 110%
   +border-radius($border-radius-m)
+
+.ui-side-filter-lvl2-item
+  position: relative
+
+.ui-any-value
+  position: absolute
+  right: -3px
+  top: 6px
+
+input.any-value:checked+.icon-checkbox
+  @extend .icon-checkbox.active

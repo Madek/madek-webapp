@@ -6,8 +6,9 @@ class FilterSet < MediaSet
     MediaSet.model_name
   end
 
-  # extending settings
-  ACCEPTED_SETTINGS[:filter] = {:default => {}}
+  # override the validation of MediaSet
+  def validate_settings 
+  end
 
   def get_filter
     settings[:filter] || ACCEPTED_SETTINGS[:filter][:default]

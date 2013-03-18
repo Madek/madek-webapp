@@ -452,6 +452,24 @@ $icons: sprite-map("icons/*.png");
     @include ixt-sprite($icons, icon-lens-mid);
   }
 }
+.icon-filter {
+  @include ixt-sprite($icons, icon-filter-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-filter-bright);
+  }
+  &.mid {
+    @include ixt-sprite($icons, icon-filter-mid);
+  }
+}
+.icon-search {
+  @include ixt-sprite($icons, icon-search-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-search-bright);
+  }
+  &.mid {
+    @include ixt-sprite($icons, icon-search-mid);
+  }
+}
 .icon-highlight {
   @include ixt-sprite($icons, icon-highlight-dark);
   &.bright {
@@ -559,7 +577,7 @@ $icons: sprite-map("icons/*.png");
 
 .icon-checkbox {
   @include ixt-sprite($icons, icon-checkbox);
-  &.hover {
+  &.hover, &:hover {
     @include ixt-sprite($icons, icon-checkbox-hover);
   }
   &.disabled {
@@ -577,7 +595,7 @@ $icons: sprite-map("icons/*.png");
 }
 .icon-fav {
   @include ixt-sprite($icons, icon-star);
-  &.hover {
+  &.hover, &:hover {
     @include ixt-sprite($icons, icon-star-hover);
   }
   &.disabled {

@@ -1,0 +1,27 @@
+.ui-body-title-actions
+  - unless current_user.is_guest?
+    = render :partial => "media_resources/actions/clipboard_toggle"
+    = render :partial => "media_resources/actions/favor_toggle", :locals => {mr: @filter_set}
+
+    .dropdown.ui-dropdown.stick-right
+      %a.primary-button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
+        Weitere Aktionen
+        %i.icon-arrow-down.bright.stand-alone
+      %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+
+        -if @can_edit
+          = render :partial => "filter_sets/actions/edit_filter"
+
+        -if @can_edit
+          = render :partial => "media_resources/actions/edit", :locals => {mr: @filter_set}
+       
+        = render :partial => "media_resources/actions/permissions"
+
+        = render :partial => "media_resources/actions/organize"
+
+        - if @can_edit
+          = render :partial => "media_resources/actions/delete"
+
+  - else
+
+    = render :partial => "login_action"

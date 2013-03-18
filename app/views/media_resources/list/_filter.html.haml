@@ -1,7 +1,7 @@
 #ui-side-filter.filter-panel.ui-side-filter{:class => params[:filterpanel] ? "" : "hidden"}
 
   #ui-side-filter-search.ui-side-filter-search.filter-search
-    %form
+    %form#search_form
       %input.unstyled{type: 'submit', value: "Eingrenzen mit Suchwort"}
       %input#search_term.block.ui-filter-search-input{:type => "text", :value => params[:search], name: 'search'}
       

@@ -1,0 +1,4 @@
+- media_files_filter.each do |key, value|
+
+  - value[:ids].each do |value|
+    = render :partial => "filter_sets/filter/media_files/item", :locals => {:item => value, :key => key}

@@ -13,9 +13,9 @@
           - if current_user.is_guest?
             = render :partial => "login_action"
           - else
-            %a.button{:"data-create-set" => true}
-              %i.icon-new-set
-              Set erstellen
+
+            = render :partial => "create_relations"
+              
             %a.primary-button{:href => import_path}
               %i.icon-upload.bright
               Medien importieren

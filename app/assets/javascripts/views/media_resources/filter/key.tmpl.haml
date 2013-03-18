@@ -5,4 +5,11 @@
     ${key_label}
   %ul.ui-side-filter-lvl3.ui-accordion-body
     {{tmpl(terms) App.renderPath("media_resources/filter/term")}}
+
+  {{if $item.parent.data.filter_type == 'meta_data'}}
+  %label.ui-any-value{:title => "Jegliche Werte"}
+    %input.any-value.hidden{:type => "checkbox"}
+    %i.icon-checkbox
+  {{/if}}
+  
 {{/if}}

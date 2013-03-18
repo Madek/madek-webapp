@@ -75,6 +75,8 @@ Given /^I change the value of each meta\-data field$/  do
         if field_set['data-is-extensible-list']
           field_set.all(".multi-select li a.multi-select-tag-remove").each{|a| a.click}
           field_set.find("input",visible: true).click
+          page.execute_script %Q{ $("input.ui-autocomplete-input").trigger("change") }
+          wait_until{ field_set.all("ul.ui-autocomplete li a",visible: true).size >0 }
           targets = field_set.all("ul.ui-autocomplete li a",visible: true)
           targets[rand targets.size].click
           wait_until{ field_set.all("ul.multi-select-holder li.meta-term").size > 0}

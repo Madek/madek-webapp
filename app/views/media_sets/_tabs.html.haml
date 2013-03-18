@@ -1,11 +1,7 @@
 %ul.ui-tabs.large
 
   %li.ui-tabs-item{:class => media_set_show_page? ? "active" : ""}
-    %a{:href => media_set_path(@media_set)} 
-      - unless @media_set.is_a? FilterSet
-        Set
-      - else
-        Filterset
+    %a{:href => media_set_path(@media_set)} Set
 
   - unless @parents_count.zero?
     %li.ui-tabs-item{:class => media_set_parents_page? ? "active" : ""}

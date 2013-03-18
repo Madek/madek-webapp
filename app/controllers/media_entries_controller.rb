@@ -70,7 +70,7 @@ class MediaEntriesController < ApplicationController
     @main_context_group = MetaContextGroup.sorted_by_position.first
     other_context_groups = MetaContextGroup.where(MetaContextGroup.arel_table[:position].not_eq(1)).sorted_by_position
     @other_relevant_context_groups = other_context_groups.select do |meta_context_group|
-      meta_context_group.meta_contexts.select{ |meta_context|
+      (meta_context_group.meta_contexts & @media_entry.individual_contexts).select{ |meta_context|
         @media_entry.meta_data.for_context(meta_context, false).any?
       }.any? or (meta_context_group.meta_contexts & @media_entry.individual_contexts).any?
     end

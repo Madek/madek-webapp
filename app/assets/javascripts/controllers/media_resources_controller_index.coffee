@@ -10,8 +10,12 @@ MediaResourcesController = {} unless MediaResourcesController?
 class MediaResourcesController.Index
 
   el: "#ui-resources-list-container"
+  @current
 
   constructor: (options)->
+    return MediaResourcesController.Index.current if MediaResourcesController.Index.current?
+    MediaResourcesController.Index.current = @
+
     @el = $(@el)
     @list = @el.find "#ui-resources-list"
     @baseFilter = options.baseFilter if options.baseFilter?
@@ -103,7 +107,7 @@ class MediaResourcesController.Index
     list_el.addClass "active hidden"
     @sorting.find(".dropdown-toggle .ui-text").html target_el.html()
     uri = URI(window.location.href).removeQuery("sort").addQuery("sort", sort)
-    window.history.pushState uri._parts, document.title, uri.toString()
+    window.history.replaceState uri._parts, document.title, uri.toString()
     do @resetForLoading
     @list.trigger "sorting-changed", sort
     do @initalFetch
@@ -114,10 +118,10 @@ class MediaResourcesController.Index
     type = target_el.data("type")
     if type?
       uri = URI(window.location.href).removeQuery("type").addQuery("type", type)
-      window.history.pushState uri._parts, document.title, uri.toString()  
+      window.history.replaceState uri._parts, document.title, uri.toString()  
     else
       uri = URI(window.location.href).removeQuery("type")
-      window.history.pushState uri._parts, document.title, uri.toString()
+      window.history.replaceState uri._parts, document.title, uri.toString()
     do @resetForLoading
     do @initalFetch
 
@@ -132,7 +136,7 @@ class MediaResourcesController.Index
     @list.addClass visMode
     do @switchContextInview
     uri = URI(window.location.href).removeQuery("layout").addQuery("layout", visMode)
-    window.history.pushState uri._parts, document.title, uri.toString()
+    window.history.replaceState uri._parts, document.title, uri.toString()
     @list.trigger "layout-changed", visMode
     sessionStorage.currentLayout = JSON.stringify visMode
     
@@ -191,12 +195,16 @@ class MediaResourcesController.Index
       delete @startFilterParams
     $.extend true, data, {sort: @getCurrentSorting()}
     $.extend true, data, {type: @getCurrentTypeFilter()}
-    $.extend true, data, @filterPanel.getSelectedFilter()
-    $.extend true, data, @baseFilter
+    $.extend true, data, @getCurrentFilter()
+    data
+
+  getCurrentFilter: ->
+    filter = @filterPanel.getSelectedFilter()
+    $.extend true, filter, @baseFilter
     # merge basefilter search term with filter panel search term
     if @baseFilter.search? and @filterPanel.getSelectedFilter().search?
-      $.extend true, data, {search: @baseFilter.search + " " + @filterPanel.getSelectedFilter().search} 
-    data
+      $.extend true, filter, {search: @baseFilter.search + " " + @filterPanel.getSelectedFilter().search} 
+    filter
 
   getCurrentSorting: -> @sorting.find(".ui-drop-item.active [data-sort]").data "sort"
 

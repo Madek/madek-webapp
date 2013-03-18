@@ -1,0 +1,23 @@
+%tr
+  %td.ui-summary-label Filtereinstellungen
+  %td.ui-summary-content
+    %ul.ui-tag-cloud.small
+
+      - if filter.has_key? :search and not filter[:search].blank?
+        = render :partial => "filter_sets/filter/search", :locals => {:search => filter[:search]}
+        %br
+
+      - if filter.has_key?(:media_files) or filter.has_key?(:meta_data)
+        %i.icon-filter.mid.mrx{:title => "Filter"}
+
+      - if filter.has_key? :media_files
+        = render :partial => "filter_sets/filter/media_files", :locals => {:media_files_filter => filter[:media_files]}
+
+      - if filter.has_key? :meta_data
+        = render :partial => "filter_sets/filter/meta_data", :locals => {:meta_data_filter => filter[:meta_data]}
+
+      - if filter.has_key?(:media_files) or filter.has_key?(:meta_data)
+        %br
+
+      - if filter.has_key? :permissions
+        = render :partial => "filter_sets/filter/permissions", :locals => {:permissions_filter => filter[:permissions]}

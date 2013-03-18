@@ -43,6 +43,13 @@ class Person
         name = name.join(" ")
     name
 
+  @nameFromString: (string)->
+    splitted = string.split(/\s/)
+    if splitted.length == 2 and not string.match ","
+      "#{splitted[1]}, #{splitted[0]}"
+    else
+      string
+
   @fetch: (query, callback)->
     $.ajax
       url: "/people.json"

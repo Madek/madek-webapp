@@ -4,21 +4,23 @@ Feature: Filter set
   I want to organize automatically generated relations of resources
   So that I can track resources related to specific topics
 
-  Scenario: Create filter set
-    When I see the search results page
-     And I use the filter
-     And I create a filter set
-     And I provide a name
-    Then the filter set is created
+  @jsbrowser
+  Scenario: Create a filter set
+   Given I am signed-in as "Normin"
+    When I go to a search result page
+     And I use some filters
+     And I use the create filter set option
+     And I provide a title
+     And I submit
+    Then I am getting redirected to the new filter set
+    And I can see the provided title and the used filter settings
 
-  Scenario: Edit filter set
+  @jsbrowser
+  Scenario: Edit a filter set
+   Given I am signed-in as "Normin"
     When I open a filter set
      And I edit the filter set settings
      And I change the settings for that filter set
      And I save these changes
-    Then the filter set settings are updated
-
-  @clean
-  Scenario: See filter set settings
-   When I open a filter set
-   Then I can see the settings of that filter set
+    Then I am getting redirected to the updated filter set
+    And I can see the provided title and the used filter settings
