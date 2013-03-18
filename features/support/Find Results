@@ -1,0 +1,17 @@
+Searching 5107 files for "Capybara::Screenshot"
+
+Unable to open /Users/Sebastian/Work/Extern/ZHdK/MAdeK-ZHdK/ROR_MAdeK/database.yaml
+/Users/Sebastian/Work/Extern/ZHdK/MAdeK-ZHdK/ROR_MAdeK/features/step_definitions/shared_steps.rb:
+  180      Rails.logger.warn "can't take screenshot with the chromedriver" 
+  181    else
+  182:     Capybara::Screenshot.screenshot_and_save_page
+  183    end
+  184  end
+
+1 match in 1 file
+
+
+Searching 5107 files for "screen_shot"
+
+Unable to open /Users/Sebastian/Work/Extern/ZHdK/MAdeK-ZHdK/ROR_MAdeK/database.yaml
+0 matches across 0 files
