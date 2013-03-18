@@ -1,3 +1,4 @@
+require 'capybara-screenshot/cucumber'
 Capybara::Screenshot.autosave_on_failure = true
 
 def screen_shot_and_save_page
