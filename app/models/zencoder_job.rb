@@ -207,11 +207,20 @@ class ZencoderJob < ActiveRecord::Base
       media_file: media_file, 
       height: output['height'],
       width: output['width'],
-      content_type: 'video/' + output['format'],
+      content_type: 'video/' + convert_format_to_content_type_postfix(output['format']),
       thumbnail: 'large',
       filename: preview_file_name(media_file,uri)
     get_ftp_file(uri,preview)
     preview
+  end
+
+  def convert_format_to_content_type_postfix format
+    case format
+    when 'mpeg4'
+      'mp4'
+    else
+      format
+    end
   end
 
   def format_to_content_type_second_part format
