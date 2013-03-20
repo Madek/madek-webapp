@@ -84,3 +84,44 @@ end
 Then /^The most recent zencoder_job has the state "(.*?)"$/ do |state|
   expect(ZencoderJob.reorder("created_at DESC").first.state ).to eq state
 end
+
+Then /^I remove all uploaded files$/ do
+ all("ul#mei_filelist > li a.delete_mei").each do |link|
+    link.click()
+    page.driver.browser.switch_to.alert.accept 
+ end
+end
+
+When /^I click on my first media entry$/ do
+  all("ul.ui-resources li[data-type='media-entry']").first.find("a").click
+end
+
+When /^I wait and reload while the video is converting$/ do
+ while all('.ui-alert', text: /Konvertierung zu .* abgeschlossen/).size > 0 
+   sleep 1 
+   visit current_path
+ end
+end
+
+Then /^I can not see any alert$/ do
+  wait_until{all('.ui-alert').size == 0}
+end
+
+When /^I can see the preview$/ do
+  expect(find("img.vjs-poster")).to be
+end
+
+And /^I can watch the video$/ do
+  find(".vjs-big-play-button",visible: true).click()
+  expect( all(".vjs-big-play-button",visible: true).size ).to eq 0
+  wait_until(10){all(".vjs-big-play-button",visible: true).size > 0 }
+end
+
+
+Then /^I see the error\-alert "(.*?)"$/ do |message|
+  wait_until{ all('.ui-alert.error',text: message, visible: true).size > 0}
+end
+
+Then /^I can see "(.*?)"$/ do |text|
+  expect(page).to have_content text
+end

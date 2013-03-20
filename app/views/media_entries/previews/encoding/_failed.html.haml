@@ -1,7 +1,10 @@
-.ui-alert.error= "Konvertierung fehlgeschlagen"
+.ui-alert.error
+  Konvertierung fehlgeschlagen.
+  Bitte kontaktieren Sie einen Administrator. 
+
 .p.pvh.mth
+  %p The encoder reports: 
   %p 
-    Die Konvertierung zu einer abspielbaren Vorschau ist fehlgeschlagen.
-    Bitte kontaktieren Sie einen Administrator. 
+    = (@media_entry.media_file.zencoder_jobs.reorder("created_at DESC").first.notification['outputs'].select{|output| output['state'] == 'failed'}.map{|output| output['error_message']}.first || "Unknown error.") rescue "Unknown error."
 
 

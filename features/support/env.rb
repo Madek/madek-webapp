@@ -20,3 +20,14 @@ Before do
 end
 
 
+# this would help to avoid the random lexing erros; however, it doesn't
+# work for the time beeing, see 
+# https://github.com/cucumber/gherkin/issues/245
+#
+#Gherkin::I18n.class_eval do
+#  alias_method :orig_lexer, :lexer
+#  def lexer(listener, force_ruby=false)
+#    orig_lexer(listener,true)
+#  end
+#end
+

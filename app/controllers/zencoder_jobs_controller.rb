@@ -2,11 +2,24 @@ class ZencoderJobsController < ActionController::Base
 
   def post_notification
     begin 
-      @job = ZencoderJob.find params[:id]
-      if @job.state == 'submitted'
-        # TODO check if response is an error and set state to failed 
+      if  (@job = ZencoderJob.find params[:id]) and (@job.state == 'submitted')
         @job.update_attributes notification: params
-        @job.import_previews #error handling within @job
+        begin 
+          if state = params.try(:[],'input').try(:[],'state')
+            case state
+            when 'finished'
+              @job.import_previews #error handling within @job
+            when 'failed'
+              @job.update_attributes state: 'failed', 
+                error: params['outputs'].select{|output| output['state'] == 'failed'} \
+                .map{|output| output['error_message']}.join("\n\n")
+            else
+              @job.update_attributes state: 'failed', error: 'Unknown state in notification.'
+            end
+          end
+        rescue => e
+          @job.update_attributes state: 'failed', error: Formatter.error_to_s(e)
+        end
       end
     ensure
       # always respond with OK 
@@ -15,4 +28,5 @@ class ZencoderJobsController < ActionController::Base
       end
     end
   end
+
 end

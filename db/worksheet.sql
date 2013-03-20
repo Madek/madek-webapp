@@ -1,5 +1,15 @@
 
 
+SELECT id, firstname, lastname,
+  CASE lastname 
+    WHEN '' THEN firstname
+    ELSE lastname
+  END
+  from people;
+
+
+
+
 SELECT count(arc_id) as size, media_resources.id, meta_data.string as meta_datum_title FROM "media_resources" LEFT OUTER JOIN (  WITH RECURSIVE triple(p,c,media_resource_id) as
       (
         SELECT parent_id as p, child_id as c, media_resources.id as media_resource_id 

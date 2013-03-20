@@ -2,7 +2,13 @@
 # PLEASE KEEP IT THIS WAY!
 #
 
-### I am #########################################
+### I a... #########################################
+
+Given /^I accept the usage terms if I am supposed to do so$/ do
+  if all("h3",text: "Nutzungsbedingungen").size > 0
+    find("button",text: "Akzeptieren").click
+  end
+end
 
 Then /^I am able to leave the page$/ do
   @current_path.should_not eq page.current_path
@@ -64,6 +70,7 @@ When /^I click on the button "(.*?)"$/ do |button_text|
   wait_until {  all("button", text: button_text).size > 0 }
   find("button",text: button_text).click
 end
+
 
 When /^I click the primary action of this dialog$/ do
   find(".ui-modal .primary-button").click
@@ -167,9 +174,9 @@ end
 
 ### I s⋯ ###################################################
 
-When /^I try to leave the page$/ do
-  @current_path = page.current_path
-  find("a[href='#{root_path}']").click
+When /^I scroll all the way down and click on "(.*?)"$/ do |text|
+  page.execute_script "window.scrollBy(0,10000)"
+  find("a,button",text: text).click
 end
 
 
@@ -182,6 +189,12 @@ Given /^I take a screenshot$/ do
     Capybara::Screenshot.screenshot_and_save_page
   end
 end
+
+When /^I try to leave the page$/ do
+  @current_path = page.current_path
+  find("a[href='#{root_path}']").click
+end
+
 
 ### I w⋯ ###################################################
 
@@ -218,6 +231,7 @@ end
 Then /^There is no link with class "(.*?)" in the list with class "(.*?)"$/ do |link_class, list_class|
   expect{ find("ul.#{list_class} a.#{link_class}") }.to raise_error
 end
+
 
 
 
