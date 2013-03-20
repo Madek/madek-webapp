@@ -10,7 +10,7 @@ set :application, "photos.psy-q.ch"
 
 set :scm, :git
 set :repository, "git://github.com/zhdk/madek.git"
-set :branch, "master"
+set :branch, "next"
 set :deploy_via, :remote_cache
 
 set :db_config, "/home/web/photos.psy-q.ch/database.yml"
@@ -46,14 +46,14 @@ task :link_config do
   on_rollback { run "rm #{release_path}/config/database.yml" }
   run "rm -f #{release_path}/config/database.yml"
   run "ln -s #{db_config} #{release_path}/config/database.yml"
-  run "ln -s #{ldap_config} #{release_path}/config/LDAP.yml"
+  #run "ln -s #{ldap_config} #{release_path}/config/LDAP.yml"
 
-  run "rm -f #{release_path}/config/zencoder.yml"
-  run "ln -s #{zencoder_config} #{release_path}/config/zencoder.yml"
+  #run "rm -f #{release_path}/config/zencoder.yml"
+  #run "ln -s #{zencoder_config} #{release_path}/config/zencoder.yml"
 
-  run "rm -f #{release_path}/config/newrelic.yml"
-  run "ln -s #{newrelic_config} #{release_path}/config/newrelic.yml"
-  run "ln -s #{piwik_config} #{release_path}/config/piwik.html"
+  #run "rm -f #{release_path}/config/newrelic.yml"
+  #run "ln -s #{newrelic_config} #{release_path}/config/newrelic.yml"
+  #run "ln -s #{piwik_config} #{release_path}/config/piwik.html"
 end
 
 task :remove_htaccess do
@@ -102,6 +102,7 @@ task :record_deploy_info do
 end
 
 before "deploy", "retrieve_db_config"
+before "deploy:cold", "retrieve_db_config"
 before "deploy:create_symlink", :make_tmp
 
 before "deploy:create_symlink", :link_config
@@ -112,8 +113,8 @@ before "deploy:create_symlink", :record_deploy_info
 after "link_config", :migrate_database
 after "link_config", "precompile_assets"
 
-before "migrate_database", :backup_database
+#before "migrate_database", :backup_database
 after "migrate_database", :clear_cache
-after "migrate_database", :backup_database
+#after "migrate_database", :backup_database
 
 after "deploy", "deploy:cleanup"
