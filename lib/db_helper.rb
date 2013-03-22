@@ -23,13 +23,7 @@ module DBHelper
     ###########################################################################
 
     def file_extension
-      if SQLHelper.adapter_is_postgresql? 
-        "pgsql.gz"
-      elsif SQLHelper.adapter_is_mysql?
-        "mysql"
-      else 
-        raise "adapter not supported"
-      end
+      "pgsql.gz"
     end
 
     def base_file_name
@@ -51,18 +45,11 @@ module DBHelper
       ENV['PGDATABASE'] = config['database'].to_s if config['database']
     end
 
-    def get_mysql_cmd_credentials config 
-      " -u #{config['username']} --password=#{config['password'].to_s} "
-    end
-
     def drop config = Rails.configuration.database_configuration[Rails.env]
-      cmd=
-        if SQLHelper.adapter_is_postgresql?
-          set_pg_env config
-          "dropdb #{config['database']}" 
-        elsif SQLHelper.adapter_is_mysql?
-          "mysql #{get_mysql_cmd_credentials config} -e 'drop database if exists #{config['database']}' "
-        end
+      cmd= begin
+             set_pg_env config
+             "dropdb #{config['database']}" 
+           end
       ActiveRecord::Base.remove_connection
       terminate_open_connections config
       system cmd
@@ -72,31 +59,16 @@ module DBHelper
     end
 
     def create_from_template config, template_config
-      unless  SQLHelper.adapter_is_postgresql?
-        raise "not supported"
-      end
       set_pg_env template_config
       cmd = "psql -q -c 'CREATE DATABASE \"#{config['database']}\" TEMPLATE = \"#{template_config['database']}\"'"
       system cmd
     end
 
-    def create_from_template_for_mysql config = Rails.configuration.database_configuration[Rails.env], options = {}
-      template_config = options[:template_config]
-      DBHelper.dump_native({:config => template_config, :path => Rails.root + 'tmp/template_dump.mysql'})
-      cmd = "mysql #{get_mysql_cmd_credentials config} -e 'create database #{config['database']}'"
-      system(cmd)
-      result = DBHelper.restore_native(Rails.root + 'tmp/template_dump.mysql', config)
-      return result
-    end
-
     def create config = Rails.configuration.database_configuration[Rails.env]
-      cmd=
-        if SQLHelper.adapter_is_postgresql?
-          set_pg_env config
-          "createdb #{config['database']}"
-        elsif SQLHelper.adapter_is_mysql?
-          "mysql #{get_mysql_cmd_credentials config} -e 'create database #{config['database']}'"
-              end
+      cmd= begin
+             set_pg_env config
+             "createdb #{config['database']}"
+           end
       ActiveRecord::Base.remove_connection
       system cmd
       ActiveRecord::Base.establish_connection
@@ -109,15 +81,13 @@ module DBHelper
     ###########################################################################
 
     def terminate_open_connections config
-      if SQLHelper.adapter_is_postgresql?
-        pid_name =  ENV['PGPIDNAME']  || "procpid"
-        set_pg_env config
-        stdout = `psql template1 -c \"SELECT pg_terminate_backend(pg_stat_activity.#{pid_name}) FROM pg_stat_activity WHERE pg_stat_activity.datname = '#{config['database']}';\" 2>&1`
-        unless $?.exitstatus == 0 
-          puts "TERMINATING OPEN PG CONNECTIONS FAILED, set the PGPIDNAME env variable to pid if you are using postgresql 9.2 or later"
-        end
-        {status: $?.exitstatus,output: stdout}
+      pid_name =  ENV['PGPIDNAME']  || "procpid"
+      set_pg_env config
+      stdout = `psql template1 -c \"SELECT pg_terminate_backend(pg_stat_activity.#{pid_name}) FROM pg_stat_activity WHERE pg_stat_activity.datname = '#{config['database']}';\" 2>&1`
+      unless $?.exitstatus == 0 
+        puts "TERMINATING OPEN PG CONNECTIONS FAILED, set the PGPIDNAME env variable to pid if you are using postgresql 9.2 or later"
       end
+      {status: $?.exitstatus,output: stdout}
     end
 
     ###########################################################################
@@ -129,13 +99,9 @@ module DBHelper
       path = options[:path] || dump_file_path(options)
       config = options[:config] || Rails.configuration.database_configuration[Rails.env]
       cmd =
-        if SQLHelper.adapter_is_postgresql?
+        begin
           set_pg_env config
           "pg_dump -E utf-8 -F p -Z 5 -O --no-acl -f #{path}"
-        elsif SQLHelper.adapter_is_mysql? 
-          "mysqldump #{get_mysql_cmd_credentials config} #{config['database']} > #{path}"
-        else
-          raise "adapter not supported"
         end
       system cmd
       raise "#{cmd} failed" unless $?.exitstatus == 0

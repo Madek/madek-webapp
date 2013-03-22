@@ -1,17 +1,4 @@
 GIT
-  remote: git://github.com/alno/irwi.git
-  revision: b78694c09f5ae6e292646b2ad27f15cfccc690b1
-  ref: b78694
-  specs:
-    irwi (0.4.1)
-      actionpack (>= 3.0.0)
-      actionpack (>= 3.0.0)
-      activerecord (>= 3.0.0)
-      activesupport (>= 3.0.0)
-      diff-lcs (>= 1.1.2)
-      rails_autolink (>= 1.0)
-
-GIT
   remote: git://github.com/interactivethings/nkss-rails.git
   revision: 5bec96a104d6d5c575291cc4bdc154789a3a10eb
   specs:
@@ -50,7 +37,6 @@ GEM
   remote: http://gems.github.com/
   specs:
     BlueCloth (1.0.1)
-    RedCloth (4.2.9)
     actionmailer (3.2.12)
       actionpack (= 3.2.12)
       mail (~> 2.4.4)
@@ -440,7 +426,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  RedCloth
   activeadmin!
   activerecord-jdbcpostgresql-adapter
   better_errors
@@ -471,7 +456,6 @@ DEPENDENCIES
   haml (~> 3.1)
   haml_assets
   haml_coffee_assets
-  irwi!
   jdbc-postgres
   jquery-rails (= 1.0.16)
   jquery-tmpl-rails (~> 1.1)

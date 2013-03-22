@@ -3,7 +3,6 @@
 ln -s /var/lib/jenkins/configs/madek-log $WORKSPACE/log
 mkdir -p $WORKSPACE/tmp/capybara
 rm -rf $WORKSPACE/log && mkdir -p $WORKSPACE/log
-rm -f $WORKSPACE/tmp/*.mysql
 rm -f $WORKSPACE/tmp/*.sql
 mkdir -p $WORKSPACE/tmp/html
 

@@ -98,7 +98,7 @@ class MetaContext < ActiveRecord::Base
   end
 
   def self.method_missing(*args)
-    where("name #{SQLHelper.ilike} ?",args.first.to_s).first || super
+    where("name ilike ?",args.first.to_s).first || super
   end
 
 end

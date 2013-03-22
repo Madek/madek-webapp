@@ -181,9 +181,8 @@ module MediaResourceModules
       def filter_media_file(options = {})
         sql = media_entries.joins("RIGHT JOIN media_files ON media_resources.media_file_id = media_files.id")
       
-        # OPTIMIZE this is mutual exclusive in case of many media_types  
         options[:content_type].each do |x|
-          sql = sql.where("media_files.content_type #{SQLHelper.ilike} ?", "%#{x}%")
+          sql = sql.where("media_files.content_type ilike ?", "%#{x}%")
         end if options[:content_type]
         
         [:width, :height].each do |x|
