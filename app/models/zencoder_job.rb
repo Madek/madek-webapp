@@ -1,4 +1,5 @@
 class ZencoderJob < ActiveRecord::Base
+  set_primary_key 'id'
   belongs_to :media_file
   serialize :notification, JsonSerializer
   serialize :request, JsonSerializer
