@@ -1,5 +1,7 @@
 namespace :madek do
 
+  require Rails.root.join 'lib', 'db_helper'
+
   namespace :test do
     task :run_all do
       Rake::Task["madek:test:setup"].invoke
