@@ -59,14 +59,16 @@ namespace :madek do
         base_config['test']['database'] =  base_config['test']['database'] + "_" + ENV['CI_TEST_NAME']
       end
       File.open(Rails.root.join('config','database.yml'),'w'){ |f| f.write base_config.to_yaml}
-       ['personas','test'].each do |name|
-         db_name = base_config[name]['database']
-         DBHelper.set_pg_env base_config[name]
-         system "psql -d template1 -c 'DROP DATABASE IF EXISTS \"#{db_name}\";'"
-         system "psql -d template1 -c \"CREATE DATABASE \"#{db_name}\" WITH ENCODING 'utf8' TEMPLATE template0;\""
-       end
-       Rake::Task["db:migrate"].invoke
-       Rake::Task["madek:db:restore_personas_to_max_migration"].invoke
+      ['personas','test'].each do |name|
+        db_name = base_config[name]['database']
+        DBHelper.set_pg_env base_config[name]
+        `psql -d template1 -c 'DROP DATABASE IF EXISTS \"#{db_name}\";'`
+        raise $! unless $? == 0
+        `psql -d template1 -c \"CREATE DATABASE \"#{db_name}\" WITH ENCODING 'utf8' TEMPLATE template0;\"`
+        raise $! unless $? == 0
+      end
+      Rake::Task["db:migrate"].invoke
+      Rake::Task["madek:db:restore_personas_to_max_migration"].invoke
     end
 
     task :drop_ci_dbs do
