@@ -63,9 +63,9 @@ namespace :madek do
         db_name = base_config[name]['database']
         DBHelper.set_pg_env base_config[name]
         `psql -d template1 -c 'DROP DATABASE IF EXISTS \"#{db_name}\";'`
-        raise $! unless $? == 0
+        raise $! unless $?.exitstatus == 0
         `psql -d template1 -c \"CREATE DATABASE \"#{db_name}\" WITH ENCODING 'utf8' TEMPLATE template0;\"`
-        raise $! unless $? == 0
+        raise $! unless $?.exitstatus == 0
       end
       Rake::Task["db:migrate"].invoke
       Rake::Task["madek:db:restore_personas_to_max_migration"].invoke
