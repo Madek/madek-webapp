@@ -83,8 +83,9 @@ EOF
 cat << 'EOF' | su -l 
 cd /tmp 
 rm -rf phantomjs-1.7.0-linux-x86_64
-curl http://phantomjs.googlecode.com/files/phantomjs-1.7.0-linux-x86_64.tar.bz2 | tar xj
-cp phantomjs-1.7.0-linux-x86_64/bin/phantomjs /usr/local/bin/
+rm -rf phantomjs-1.9.0-linux-x86_64
+curl https://phantomjs.googlecode.com/files/phantomjs-1.9.0-linux-x86_64.tar.bz2 | tar xj
+cp phantomjs-1.9.0-linux-x86_64/bin/phantomjs /usr/local/bin/
 EOF
 
 
@@ -107,7 +108,7 @@ EOF
 cat << 'EOF' | su -l 
 cd /tmp 
 rm -rf chromedriver*
-curl http://chromedriver.googlecode.com/files/chromedriver_linux64_23.0.1240.0.zip > chromedriver.zip
+curl https://chromedriver.googlecode.com/files/chromedriver_linux64_26.0.1383.0.zip > chromedriver.zip
 unzip chromedriver.zip
 mv chromedriver /usr/local/bin
 EOF
