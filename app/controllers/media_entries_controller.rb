@@ -184,15 +184,18 @@ class MediaEntriesController < ApplicationController
   end
   
   def update_multiple
-    @media_entries.each do |media_entry|
-      if media_entry.update_attributes(params[:resource], current_user)
-        flash[:notice] = "Die Änderungen wurden gespeichert." # TODO appending success message and resource reference (id, title)
-      else
-        flash[:error] = "Die Änderungen wurden nicht gespeichert." # TODO appending success message and resource reference (id, title)
+    ActiveRecord::Base.transaction do
+      @media_entries.each do |media_entry|
+        if media_entry.update_attributes params[:resource] 
+          media_entry.editors << current_user 
+          media_entry.touch
+          flash[:notice] = "Die Änderungen wurden gespeichert." 
+        else
+          flash[:error] = "Die Änderungen wurden nicht gespeichert." 
+        end
       end
+      redirect_back_or_default(root_path)
     end
-    
-    redirect_back_or_default(root_path)
   end
-  
+
 end

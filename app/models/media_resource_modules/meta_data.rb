@@ -88,7 +88,7 @@ module MediaResourceModules
           t = meta_data.get_value_for("author")
         end
 
-        def update_attributes_with_pre_validation(attributes, current_user = nil)
+        def update_attributes_with_pre_validation(attributes)
           # we need to deep copy the attributes for batch edit (multiple resources)
           dup_attributes = Marshal.load(Marshal.dump(attributes)).deep_symbolize_keys
 
@@ -119,9 +119,6 @@ module MediaResourceModules
               end
             end
           end
-
-          self.editors << current_user if current_user # OPTIMIZE group by user ??
-          self.updated_at = Time.now # OPTIMIZE touch
           update_attributes_without_pre_validation(dup_attributes)
         end
       

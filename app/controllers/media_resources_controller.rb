@@ -5,7 +5,6 @@
 # 
 class MediaResourcesController < ApplicationController
 
-  # TODO cancan # load_resource #:class => "MediaResource"
   before_filter :except => [:index, :collection, :destroy] do
     begin
       unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids] || params[:collection_id]).blank?

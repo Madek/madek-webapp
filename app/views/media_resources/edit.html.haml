@@ -11,9 +11,9 @@
 
     .app-body-ui-container
 
-      %form#edit-media-resource{:action => update_multiple_media_resource_meta_data_path(@media_resource), :method => :post, :autocomplete => :off}
+      =form_tag update_multiple_media_resource_meta_data_path(@media_resource), method: 'POST', id: 'edit-media-resource' ,autocomplete: 'off'  do
 
-        = token_tag nil
+        = hidden_field :media_resource, :id, value: @media_resource.id
 
         = render :partial => "media_resources/edit/tabs"
 

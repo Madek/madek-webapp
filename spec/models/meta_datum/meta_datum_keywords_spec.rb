@@ -72,7 +72,7 @@ describe MetaDatumKeywords do
     
     it "should assign new keywords" do
       params = {meta_data_attributes: {"0" =>  {meta_key_id: @meta_key.id, value: [@term1.to_s, @term2.to_s]}}}
-      @media_entry.update_attributes(params, @user1)
+      @media_entry.update_attributes(params)
       @media_entry.reload
       @media_entry.meta_data.count.should == 1
       @media_entry.meta_data.flat_map(&:value).map(&:meta_term).map(&:id).sort.should == [@term1.id, @term2.id].sort
@@ -81,30 +81,27 @@ describe MetaDatumKeywords do
     it "should keep existing keywords assigning new keywords" do
       # the first user creates a keyword providing a term string
       params = {meta_data_attributes: {"0" =>  {meta_key_id: @meta_key.id, value: @term1.to_s}}}
-      @media_entry.update_attributes(params, @user1)
+      @media_entry.update_attributes(params)
       @media_entry.reload
       @media_entry.meta_data.count.should == 1
       keywords = @media_entry.meta_data.flat_map(&:value) 
       keywords.map(&:meta_term).should == [@term1]
-      keywords.map(&:user).should == [@user1]
 
       # the second user creates a keyword providing a term string and the already existing term id
       params = {meta_data_attributes: {"0" =>  {meta_key_id: @meta_key.id, value: [@term1.id, @term2.to_s]}}}
-      @media_entry.update_attributes(params, @user2)
+      @media_entry.update_attributes(params)
       @media_entry.reload
       @media_entry.meta_data.count.should == 1
       keywords = @media_entry.meta_data.flat_map(&:value) 
       keywords.map(&:meta_term).map(&:id).sort.should == [@term1, @term2].map(&:id).sort
-      keywords.map(&:user).map(&:id).sort.should == [@user1, @user2].map(&:id).sort
 
       # the second user deletes the keyword provided by the first user
       params = {meta_data_attributes: {"0" =>  {meta_key_id: @meta_key.id, value: [@term2.id]}}}
-      @media_entry.update_attributes(params, @user2)
+      @media_entry.update_attributes(params)
       @media_entry.reload
       @media_entry.meta_data.count.should == 1
       keywords = @media_entry.meta_data.flat_map(&:value) 
       keywords.map(&:meta_term).should == [@term2]
-      keywords.map(&:user).should == [@user2]
     end
   
   end

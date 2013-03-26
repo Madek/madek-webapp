@@ -34,29 +34,4 @@ describe MetaDataController do
 
   end
 
-  describe "JSON GET Response" do
-
-    let :get_json_as_hash do
-      get :index, {format: 'json', media_set_id: @media_set.id}, valid_session
-      JSON.parse(response.body)
-    end
-
-    it "should be successful" do
-      get :index, {format: 'json', media_set_id: @media_set.id}, valid_session
-      response.should  be_success
-    end
-
-    it "should contain the correct title meta_datum" do
-      json = get_json_as_hash
-      json.detect{|e| e["name"] == "title"}.should be
-      json.detect{|e| e["name"] == "title"}["type"].should == "string"
-    end
-
-    it "should contain the correct owner meta_datum" do
-      json = get_json_as_hash
-      json.detect{|e| e["name"] == "owner"}.should be
-      json.detect{|e| e["name"] == "owner"}["type"].should == "users"
-    end
-  end
-
 end
