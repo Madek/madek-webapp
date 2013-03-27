@@ -75,6 +75,10 @@ MAdeK::Application.routes.draw do
   get 'contexts/:id/abstract', :to => 'meta_contexts#abstract', :as => "context_abstract"
   get 'contexts/:id/vocabulary', :to => 'meta_contexts#vocabulary', :as => "context_vocabulary"
 
+  ##### METADATA
+
+  put 'meta_data/apply_to_all', :to => 'meta_data#apply_to_all'
+
   ##############################################################################################
   ##############################################################################################
   ##############################################################################################

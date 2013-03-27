@@ -93,8 +93,14 @@ module MediaResourceModules
           dup_attributes = Marshal.load(Marshal.dump(attributes)).deep_symbolize_keys
 
           if dup_attributes[:meta_data_attributes]
-            # To avoid overriding at batch update: remove from attribute hash if :keep_original_value and value is blank
+            # To avoid overwriting at batch update: remove from attribute hash if :keep_original_value and value is blank
             dup_attributes[:meta_data_attributes].delete_if { |key, attr| attr[:keep_original_value] and attr[:value].blank? }
+            # To avoid overwriting using "apply-to-all" (overwrite: false)
+            dup_attributes[:meta_data_attributes].delete_if { |key, attr| 
+              meta_datum = self.meta_data.find_by_meta_key_id(MetaKey.where(:label => attr[:meta_key_label]).first.try(&:id))
+              attr.delete :keep_original_value_if_exists and 
+              not meta_datum.blank? and
+              not meta_datum.value.blank?}
 
             dup_attributes[:meta_data_attributes].each_pair do |key, attr|
               if attr[:value].is_a? Array and attr[:value].all? {|x| x.blank? }

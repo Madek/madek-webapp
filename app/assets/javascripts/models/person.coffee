@@ -1,6 +1,9 @@
 class Person
 
   constructor: (data)->
+    if data? and data.string?
+      $.extend @, App.Person.firstAndLastNameFromString(data.string)
+      delete data.string
     for k,v of data
       @[k] = v
     @
@@ -42,6 +45,13 @@ class Person
         name = [name, "(#{person.pseudonym})"] 
         name = name.join(" ")
     name
+
+  @firstAndLastNameFromString: (string)->
+    splitted = string.split(/,\s/)
+    if splitted.length == 2
+      return {lastname: splitted[1], firstname: splitted[0]}
+    else
+      return {fistname: string}
 
   @nameFromString: (string)->
     splitted = string.split(/\s/)

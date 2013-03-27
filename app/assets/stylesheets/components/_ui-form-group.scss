@@ -42,18 +42,23 @@
 }
 .ui-form-group .ui-form-ui-ttip-toggle {
   @extend .icon-question-mark;
-  @include position-top-right($space-m,$space-x);
   display: inline-block;
   opacity: $opacity-medium;
   &:hover {
     opacity: 1;
   }
 }
+.ui-form-group .apply-to-all {
+  @include position-top-right($space-m,$space-s);
+  display: inline-block;
+}
 
 /**
  * Rowed
  ----------------------------------------- */
 .ui-form-group.rowed {
+  padding-right: 42px;
+
   > .form-label {
     clear: both;
     display: block;
@@ -68,6 +73,10 @@
   }
   > .form-item {
     @include micro-clearfix;
+  }
+  > .apply-to-all {
+    @include position-top-right(52px,$space-x);
+    display: inline-block;
   }
 }
 
@@ -88,14 +97,14 @@
 .ui-form-group.columned {
   @include micro-clearfix;
   border-bottom: 1px solid $grey-light;
-  padding-right: 30px;
+  padding-right: 50px;
   position: relative;
   > .form-label {
     @include float-left;
     font-weight: 700;
     padding-top: $space-x;
     padding-bottom: $space-s;
-    width: 160px;
+    width: 175px;
     small {
       color: $grey-mid;
       display: block;

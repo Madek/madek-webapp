@@ -25,7 +25,6 @@ class MetaDataController < ApplicationController
   def update_multiple
     if @media_resource = MediaResource.accessible_by_user(current_user, :edit) \
       .where(id: params[:media_resource][:id]).first
-
       ActiveRecord::Base.transaction do
         if @media_resource.update_attributes params[:resource]
           @media_resource.editors << current_user
@@ -38,6 +37,37 @@ class MetaDataController < ApplicationController
       redirect_to @media_resource
     else
       not_authorized!
+    end
+  end
+
+  def apply_to_all
+    if not (@media_resources = MediaResource.accessible_by_user(current_user, :edit).where(:id => MediaResource.by_collection(params[:collection_id]))).blank?
+
+      attributes = {meta_data_attributes: { '0' => 
+        { meta_key_label: params[:id], value: params[:value]} }}
+      if params[:overwrite] == "false"
+        attributes[:meta_data_attributes]["0"][:keep_original_value_if_exists] = true
+      end
+
+      begin
+        ActiveRecord::Base.transaction do
+          @media_resources.each do |media_resource|
+
+            if media_resource.update_attributes attributes
+              media_resource.editors << current_user
+              media_resource.touch
+            else
+              raise media_resource.errors.full_messages.join(", ")
+            end
+          end
+        end
+      rescue => e
+        render(json: {}, status: :unprocessable_entity) and return
+      end
+
+      render json: {}, status: :ok
+    else
+      render json: {}, status: :not_allowed
     end
   end
 

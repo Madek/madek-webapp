@@ -6,7 +6,7 @@
 
 %input.value-target{:name => "resource[meta_data_attributes][#{@i}][value]", :type => "hidden", :value => meta_datum.nil? ? nil : meta_datum.value.id}
 
-%select.block.copyright-roots
+%select.block.copyright-roots{:id => "resource[meta_data_attributes][#{@i}][value]"}
   
   - copyright_roots.each do |copyright|
 

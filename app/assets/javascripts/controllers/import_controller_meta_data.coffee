@@ -60,6 +60,17 @@ class ImportController.MetaData
     $(@).on "form-unload", => @el.off "change delayedChange", @persistField
     @onlyInvalidResourcesToggle.on "change", @switchPreviewDisplay
     @continueButton.on "click", @validateContinue
+    @el.on "apply-to-all", ".ui-form-group", @applyToAll
+
+  applyToAll: (e, apply)=>
+    for mediaResource in @mediaResources
+      if apply.overwrite
+        mediaResource.updateMetaDatum apply.metaKeyName, apply.value, apply.additionalData, null, true
+      else
+        metaDatum = mediaResource.getMetaDatumByMetaKeyName apply.metaKeyName
+        if not metaDatum.value? or metaDatum.length == 0
+          mediaResource.updateMetaDatum apply.metaKeyName, apply.value, apply.additionalData, null, true
+    @validateAllResources true
 
   switchPreviewDisplay: (e)=>
     input = $(e.currentTarget)

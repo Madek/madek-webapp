@@ -41,16 +41,17 @@ class MediaResource
 
   getMetaDatumByMetaKeyName: (metaKeyName)-> new App.MetaDatum _.find @meta_data, (metaDatum)-> metaDatum.name is metaKeyName
 
-  updateMetaDatum: (metaKeyName, value, additionalData, callback)->
+  updateMetaDatum: (metaKeyName, value, additionalData, callback, local)->
     metaDatum = _.find @meta_data, (metaDatum)-> metaDatum.name is metaKeyName
     metaDatum.setValue value, additionalData if metaDatum?
-    $.ajax
-      url: "/media_resources/#{@id}/meta_data/#{metaKeyName}.json"
-      type: "PUT"
-      data:
-        value: value
-      success: (response)->
-        callback(response) if callback?
+    if not local? or local == false
+      $.ajax
+        url: "/media_resources/#{@id}/meta_data/#{metaKeyName}.json"
+        type: "PUT"
+        data:
+          value: value
+        success: (response)->
+          callback(response) if callback?
 
   validateForDefinition: (metaKeyDefinition)->
     requiredKeys = _.filter metaKeyDefinition.meta_keys, (key)-> key.settings.is_required
