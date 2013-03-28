@@ -120,6 +120,16 @@ Then /^I have to confirm$/ do
   end
 end
 
+### I o⋯ ###################################################
+
+When /^I open the organize dialog$/ do
+  wait_until {all(".app[data-id]").size > 0}
+  find(".ui-body-title-actions .primary-button").click
+  wait_until {all(".ui-drop-item a[data-organize-arcs]", :visible => true).size > 0}
+  all(".ui-drop-item a[data-organize-arcs]", :visible => true).first.click
+  step 'I wait for the dialog to appear'
+end
+
 ### I p⋯ ###################################################
 
 When /^I pry$/ do
@@ -199,7 +209,7 @@ end
 ### I w⋯ ###################################################
 
 When /^I wait for the dialog to appear$/ do
-  wait_until{all(".modal.ui-shown").size > 0 }
+  wait_until(5){all(".modal.ui-shown").size > 0 }
 end
 
 When /^I wait for the dialog to disappear$/ do

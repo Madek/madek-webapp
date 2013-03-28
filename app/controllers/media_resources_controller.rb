@@ -778,11 +778,18 @@ class MediaResourcesController < ApplicationController
     child_resources.each do |resource|
       if request.post?
         (parent_media_sets - resource.parent_sets).each do |parent_media_set|
-          resource.parent_sets << parent_media_set 
+          resource.parent_sets << parent_media_set
+          if resource.is_a? MediaSet
+            individual_contexts = parent_media_set.individual_contexts.reject{|context| resource.individual_contexts.include? context}
+            resource.individual_contexts << individual_contexts unless individual_contexts.blank?
+          end
         end
       elsif request.delete?
         parent_media_sets.each do |parent_media_set|
           resource.parent_sets.delete(parent_media_set)
+          if resource.is_a? MediaSet
+            resource.individual_contexts = resource.individual_contexts.reject{|context| not resource.inheritable_contexts.include? context}
+          end
         end
       end
     end

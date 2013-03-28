@@ -11,26 +11,23 @@
 
       = form_for @media_set do
 
-        .ui-form-group.rowed
+        %table.ui-workgroups.bordered.block
+          %thead
+            %tr
+              %td{:colspan => 3}
 
-          .form-item
-
+          %tbody
             - (@media_set.individual_and_inheritable_contexts).each do |context|
+              %tr{:"data-id" => context.id}
+                %td
+                  %label.ui-context-selection{:title => "Aktivieren / Deaktivieren"}
+                    %input{:type => :hidden, :name => "individual_context_ids[]", :value => :false}
+                    = check_box_tag "individual_context_ids[]", context.id, @media_set.individual_contexts.include?(context), :class => "individual_context", :autocomplete => "off"
+                    %strong.ui-context-selection-name= context
+                %td.prm= context.description
+                %td
+                  = link_to "Anzeigen", context_path(context), :target => :_blank
 
-              .col1of5.mbl
-
-                %label.ui-context-selection{:title => context}
-                  %input{:type => :hidden, :name => "individual_context_ids[]", :value => :false}
-                  = check_box_tag "individual_context_ids[]", context.id, @media_set.individual_contexts.include?(context), :class => "individual_context", :autocomplete => "off"
-                  %strong.ui-context-selection-name= context
-
-                %p.pln
-                  = link_to "Kontext Anzeigen", context_path(context), :target => :_blank, :title => context.description
-                    
-
-          %button.primary-button{:type => :submit}
-            Abgewählte Kontexte vom Set entfernen
-
-      
+        %button.mtl.primary-button{:type => :submit} Speichern
 
 = render :partial => "media_sets/layout"
