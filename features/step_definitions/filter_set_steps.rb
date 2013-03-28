@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 When /^I use the create filter set option$/ do
-  find(".dropdown", :text => "Zusammenhänge").find(".dropdown-toggle").click
   find("a", :text => "Filterset erstellen").click
 end
 

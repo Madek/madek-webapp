@@ -38,7 +38,7 @@ class MediaResourcesController.Index
     @el.on "inview", "[data-group-of-ten-page]", (e)=> @enfoldGroupOfPages $(e.currentTarget)
     @sorting.on "click", "[data-sort]", (e) => @changeSorting $(e.currentTarget)
     @typeFilter.on "click", ".button", (e) => @changeTypeFilter $(e.currentTarget)
-    $(@filterPanel).on "filter-changed", => do @filterChanged
+    $(@filterPanel).on "filter-changed", @filterChanged
     @el.on "click", "#ui-all-filter-reset", => do @resetAll
 
   setDefaultLayout: ->
@@ -55,7 +55,7 @@ class MediaResourcesController.Index
     @changeTypeFilter @typeFilter.find(".button:not([data-type])")
     do @filterPanel.resetFilter
 
-  filterChanged: ->
+  filterChanged: =>
     do @resetForLoading
     do @initalFetch
 
@@ -148,6 +148,7 @@ class MediaResourcesController.Index
 
   initalFetch: ->
     data = do @getRequestData
+    do @filterPanel.blockForLoading
     @initialFetchAjax.abort() if @initialFetchAjax?
     @list.trigger "start-inital-fetch"
     @initialFetchAjax = App.MediaResource.fetch data, (media_resources, response)=>

@@ -6,7 +6,7 @@ module MediaResourceModules
     KEYS = [ :accessible_action, :collection_id, :favorites, :group_id, :ids,
              :media_file,:media_files, :media_set_id, :meta_data, :not_by_user_id,
              :permissions, :public, :search, :type, :user_id,
-             :query, :meta_context_ids ] 
+             :query, :meta_context_ids, :media_resources ] 
 
     def self.included(base)
       base.class_eval do
@@ -90,6 +90,8 @@ module MediaResourceModules
 
         ############################################################
 
+        resources = resources.filter_media_resources(filter[:media_resources]) if filter[:media_resources]
+
         resources = resources.filter_meta_data(filter[:meta_data]) if filter[:meta_data]
 
         resources = resources.filter_media_file(filter[:media_file]) if filter[:media_file] and filter[:media_file][:content_type]
@@ -137,6 +139,23 @@ module MediaResourceModules
         resources
       end
       
+      def filter_media_resources(filter = {})
+        resources = scoped
+        filter.each_pair do |k,v|
+          v[:ids].each do |id|
+            case id
+              when "MediaEntry"
+                resources = resources.where("media_resources.id IN (#{resources.where(:type => "MediaEntry").select("media_resources.id").to_sql})")
+              when "MediaSet"
+                resources = resources.where("media_resources.id IN (#{resources.where(:type => "MediaSet").select("media_resources.id").to_sql})")
+              when "FilterSet"
+                resources = resources.where("media_resources.id IN (#{resources.where(:type => "FilterSet").select("media_resources.id").to_sql})")
+            end
+          end
+        end
+        resources
+      end
+
       def filter_meta_data(filter = {})
         resources = scoped
         filter.each_pair do |k,v|

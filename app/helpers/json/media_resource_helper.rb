@@ -164,8 +164,28 @@ module Json
       }
     end
 
-    def hash_for_filter(media_resources, filter_types = [:media_files, :permissions, :meta_data])
+    def hash_for_filter(media_resources, filter_types = [:media_files, :permissions, :meta_data, :media_resource_type])
       r = []
+
+      if filter_types.include? :media_resource_type
+        r << { :filter_type => "media_resources",
+               :context_name => "media_resources", 
+               :context_label => "Inhalte",
+               :keys => [
+                  { key_name: "type",
+                    key_label: "Typ",
+                    terms:
+                      begin
+                        entries = {:id => "MediaEntry", :value => "Medieneinträge", :count => media_resources.where(:type => "MediaEntry").count},
+                                  {:id => "MediaSet", :value => "Sets", :count => media_resources.where(:type => "MediaSet").count},
+                                  {:id => "FilterSet", :value => "Filtersets", :count => media_resources.where(:type => "FilterSet").count}
+                        entries.reject! {|e| e[:count] == 0}
+                        entries.sort_by{|e| e[:count]}.reverse!
+                      end
+                  }
+               ]
+             }
+      end
 
       if filter_types.include? :media_files
         r << { :filter_type => "media_files",
@@ -319,6 +339,11 @@ module Json
                  end
                }
         end
+      end
+        
+      # remove filter with empty terms
+      r.reject! do |filter|
+        not filter[:keys].any?{|x| not x[:terms].blank?}
       end
 
       r
