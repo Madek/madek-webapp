@@ -17,7 +17,7 @@ class FormAutocompletes.Departments
     do @delegateEvents
 
   delegateEvents: ->
-    $(@el).on "focus", "#institutional_affiliation_autocomplete_search", (e)=> @setupAutocomplete($(e.currentTarget)) unless $(e.currentTarget).hasClass "ui-autocomplete-input"
+    $(@el).on "focus", ".institutional_affiliation_autocomplete_search", (e)=> @setupAutocomplete($(e.currentTarget)) unless $(e.currentTarget).hasClass "ui-autocomplete-input"
     @el.on "click", ".department-autocomplete .ui-navigator", @navigateDeeper
     @el.on "click", ".department-autocomplete .ui-menu-item-department.opened + .ui-navigator", @navigateHigher
 
@@ -214,7 +214,7 @@ class FormAutocompletes.Departments
 
   isSelected: (item) ->
     is_selected = false
-    selected_items = $("#institutional_affiliation_autocomplete_search").closest("li").prevAll(".bit-box")
+    selected_items = $(".institutional_affiliation_autocomplete_search").closest("li").prevAll(".bit-box")
     $.each selected_items, (i_s_item, selected_item) ->
       is_selected = true  if JSON.stringify($(selected_item).data().ids) is JSON.stringify($(item).data("uiAutocompleteItem").ids)
 

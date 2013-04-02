@@ -20,6 +20,7 @@ Feature: Filter
     Then I can see the filter panel
     And The filter panel contains a search input
     And The filter panel contains a top-filter-list
+    And The filter panel contains the top filter "Inhalte"
     And The filter panel contains the top filter "Datei"
     And The filter panel contains the top filter "Berechtigung"
     And The filter panel contains the top filter "Werk"

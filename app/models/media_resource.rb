@@ -68,10 +68,10 @@ class MediaResource < ActiveRecord::Base
 
   ################################################################
 
-  scope :media_entries_or_media_entry_incompletes, where(:type => ["MediaEntry", "MediaEntryIncomplete"])
-  scope :media_entries, where(:type => "MediaEntry")
-  scope :media_sets, where(:type => ["MediaSet", "FilterSet"])
-  scope :filter_sets, where(:type => "FilterSet")
+  scope :media_entries_or_media_entry_incompletes, lambda{where(:type => ["MediaEntry", "MediaEntryIncomplete"])}
+  scope :media_entries, lambda{where(:type => "MediaEntry")}
+  scope :media_sets, lambda{where(:type => ["MediaSet", "FilterSet"])}
+  scope :filter_sets, lambda{where(:type => "FilterSet")}
 
   ###############################################################
   

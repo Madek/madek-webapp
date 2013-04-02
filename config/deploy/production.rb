@@ -103,6 +103,7 @@ task :record_deploy_info do
 end
 
 before "deploy", "retrieve_db_config"
+before "deploy:cold", "retrieve_db_config"
 before "deploy:create_symlink", :make_tmp
 
 before "deploy:create_symlink", :link_config

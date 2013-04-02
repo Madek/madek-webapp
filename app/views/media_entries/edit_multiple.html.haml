@@ -1,4 +1,4 @@
-.app.view-media-entry-edit
+.app.view-edit-multiple-media-entries
 
   = render "application/header"
 
@@ -48,4 +48,6 @@
 
   jQuery -> 
     new App.MediaResourcesController.Edit
+    new App.FormBehaviours.ApplyToAll
+      el: $("#edit-media-resource")
 

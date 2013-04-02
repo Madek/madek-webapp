@@ -33,6 +33,22 @@ After('@chrome') do |scenario|
 end
 
 
+Before('@encoding') do
+  # let's wake up test
+  `curl -I http://test.madek.zhdk.ch/`
+
+  @run_server = Capybara.run_server
+  Capybara.run_server = false
+
+  @default_host =  Capybara.app_host
+  Capybara.app_host = 'http://test.madek.zhdk.ch'
+end
+ 
+After('@encoding') do
+  Capybara.run_server = @run_server
+  Capybara.app_host = @default_host
+end
+
 
 
 # Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In

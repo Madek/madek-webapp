@@ -7,6 +7,11 @@
         = render :partial => "filter_sets/filter/search", :locals => {:search => filter[:search]}
         %br
 
+      - if filter.has_key?(:media_resources)
+        %i.icon-set.mid.mrx{:title => "Inhalte"}
+        = render :partial => "filter_sets/filter/media_resources", :locals => {:type => filter[:media_resources][:type][:ids].first}
+        %br
+
       - if filter.has_key?(:media_files) or filter.has_key?(:meta_data)
         %i.icon-filter.mid.mrx{:title => "Filter"}
 

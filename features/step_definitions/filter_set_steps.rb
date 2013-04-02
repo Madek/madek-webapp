@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 When /^I use the create filter set option$/ do
-  find(".dropdown", :text => "Zusammenhänge").find(".dropdown-toggle").click
   find("a", :text => "Filterset erstellen").click
 end
 
@@ -11,13 +10,13 @@ When /^I provide a title$/ do
 end
 
 Then /^I am getting redirected to the (new|updated) filter set$/ do |either_or|
-  wait_until{ all(".app.view-set").size > 0 }
+  wait_until{ current_path =~ /media_sets/ }
 end
 
 Then /^I can see the provided title and the used filter settings$/ do
   page.should have_content @title
   @used_filter.each do |filter|
-    find("a[href*='#{filter[:key_name]}%5D%5Bids%5D%5B%5D=#{filter[:value]}']")
+    find("a[href*='#{filter[:key_name].gsub(/\s/, "+")}%5D%5Bids%5D%5B%5D=#{filter[:value]}']")
   end
 end
 

@@ -22,22 +22,19 @@ gem 'pg', platform: :mri_19
 gem 'postgres_ext'
 
 # THE REST
-gem 'RedCloth'
 gem 'activeadmin', :git => 'git://github.com/zhdk/active_admin.git' # '~> 0.5.0'
 gem 'coffee-filter', "~> 0.1.1"
 gem 'coffee-script', '~> 2.2'
 gem 'haml', '~> 3.1'
 gem 'haml_assets'
-gem 'irwi', :git => 'git://github.com/alno/irwi.git', :ref => 'b78694'
 gem 'jquery-rails', '= 1.0.16' # NOTE WARNING DO NOT CHANGE THIS LINE
 gem 'jquery-tmpl-rails', '~> 1.1'
 gem 'jruby-openssl', platform: :jruby
 gem 'json', '~> 1.7'
-gem 'ledermann-rails-settings', :require => 'rails-settings' # alternatives: 'settingslogic', 'settler', 'rails_config', 'settings', 'simpleconfig' 
+gem 'ledermann-rails-settings', '~> 1.2', :require => 'rails-settings' 
 gem 'nested_set', '~> 1.7'
 gem 'net-ldap', :require => 'net/ldap', :git => 'git://github.com/justcfx2u/ruby-net-ldap.git'
 gem 'nokogiri'
-gem 'quiet_assets', group: :development
 gem 'rails_autolink', '~> 1.0'
 gem 'require_relative'
 gem 'rgl', '~> 0.4.0', :require => 'rgl/adjacency'
@@ -103,6 +100,7 @@ group :development do
   gem 'binding_of_caller', platform: :mri_19
   gem 'meta_request'
   gem 'nkss-rails', :git => 'git://github.com/interactivethings/nkss-rails.git'   # CSS styleguides
+  gem 'quiet_assets'
   gem 'zencoder-fetcher'
 end
 

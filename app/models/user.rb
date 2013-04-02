@@ -84,7 +84,7 @@ class User < ActiveRecord::Base
 #############################################################
   
   def self.find_by_login(login)
-    where("login #{SQLHelper.ilike} ?",login).limit(1).first
+    where("login ilike ?",login).limit(1).first
   end
 
   def to_s

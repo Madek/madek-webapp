@@ -15,13 +15,28 @@
   - if not meta_datum.nil? and meta_datum.keep_original_value 
     %input{:type => :hidden, :name => "resource[meta_data_attributes][#{@i}][keep_original_value]", :value => true}
 
-  %label.form-label
+  %label.form-label{:for => "resource[meta_data_attributes][#{@i}][value]"}
     = definition.label
     - if definition.is_required
       %span{:title => "Pflichtfeld - Bitte angeben"} *
-    %small= definition.hint
     - unless definition.description.to_s.blank?
-      %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => definition.description, "data-placement" => "left", :rel => "tooltip"}
+      %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => definition.description, "data-placement" => "top", :rel => "tooltip"}
         Hilfe
+    %small= definition.hint
 
   .form-item= render :partial => "media_resources/edit/fields/#{definition.meta_key.meta_datum_object_type.underscore}", :locals => {:definition => definition, :meta_datum => meta_datum}
+
+  .ui-thumbnail-dropdown.apply-to-all
+    .dropdown.ui-dropdown.stick-right
+      %a.button.small.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown", :title => "Metadatum auf die gesamte Auswahl übertragen"}
+        %i.icon-applytoall
+      %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+        %li.ui-drop-item
+          .ui-container.overlaid
+            .title-s.separated.phs.pvs Feld auf alle Inhalte übertragen
+          %a{:"data-overwrite" => "true"}
+            Bestehende Werte überschreiben
+          %a{:"data-overwrite" => "false"}
+            Bestehnde Werte 
+            %strong nicht
+            überschreiben

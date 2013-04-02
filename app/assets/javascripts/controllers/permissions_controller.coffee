@@ -41,6 +41,10 @@ class PermissionsController
     @el.on "change", ".ui-rights-owner input", (e)=> @changeOwnerTo $(e.currentTarget).closest "tr"
     @el.on "change", ".ui-rights-management-public .ui-rights-check input", @onChangePublicPermission
     @form.on "submit", @onSubmit
+    @form.on "keypress", "input", (e)=> 
+      if e.keyCode == 13
+        e.preventDefault()
+        return false
 
   changeMixedValue: (e)=>
     input = $(e.currentTarget)

@@ -109,9 +109,6 @@ def minimal_export
 
     #####################################################
 
-    # TODO
-    #3 wiki_pages + wiki_page_versions
-
     { :meta_terms => meta_terms,
       :meta_keys => meta_keys,
       :meta_contexts => meta_contexts,

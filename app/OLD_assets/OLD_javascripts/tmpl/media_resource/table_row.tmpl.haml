@@ -1,9 +1,0 @@
-${$meta_data = MetaDatum.flatten(meta_data), ""}
-%tr
-  %td.image
-    .media_resource.thumb.micro
-      %image{:src => "${image}"}
-  {{each(i, meta_datum) meta_data}}
-  %td{:class => "${Underscore.string.underscored(meta_datum.name)}", :title => "${meta_datum.value}"}
-    ${Str.sliced_trunc(meta_datum.value,30)}
-  {{/each}}

@@ -192,7 +192,7 @@ Feature: importing an image
     And there are "1" new zencoder_jobs
     And The most recent zencoder_job has the state "submitted"
 
-  @jsbrowser @clean
+  @chrome @clean
   Scenario: Importing a file with 0 bytes
     Given I am signed-in as "Normin"
     And I click on the link "Medien importieren"

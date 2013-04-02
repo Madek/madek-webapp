@@ -83,8 +83,9 @@ EOF
 cat << 'EOF' | su -l 
 cd /tmp 
 rm -rf phantomjs-1.7.0-linux-x86_64
-curl http://phantomjs.googlecode.com/files/phantomjs-1.7.0-linux-x86_64.tar.bz2 | tar xj
-cp phantomjs-1.7.0-linux-x86_64/bin/phantomjs /usr/local/bin/
+rm -rf phantomjs-1.9.0-linux-x86_64
+curl https://phantomjs.googlecode.com/files/phantomjs-1.9.0-linux-x86_64.tar.bz2 | tar xj
+cp phantomjs-1.9.0-linux-x86_64/bin/phantomjs /usr/local/bin/
 EOF
 
 
@@ -107,7 +108,7 @@ EOF
 cat << 'EOF' | su -l 
 cd /tmp 
 rm -rf chromedriver*
-curl http://chromedriver.googlecode.com/files/chromedriver_linux64_23.0.1240.0.zip > chromedriver.zip
+curl https://chromedriver.googlecode.com/files/chromedriver_linux64_26.0.1383.0.zip > chromedriver.zip
 unzip chromedriver.zip
 mv chromedriver /usr/local/bin
 EOF
@@ -146,6 +147,15 @@ rbenv update
 JENKINS
 
 cat << 'JENKINS' | su -l jenkins
+rbenv install jruby-1.7.3
+rbenv shell jruby-1.7.3
+gem install bundler
+gem update --system
+gem install rubygems-update
+rbenv rehash
+gem install bundler
+rbenv rehash
+
 rbenv install 1.9.3-p392 
 rbenv global 1.9.3-p392 
 rbenv rehash

@@ -1,5 +1,4 @@
 class CreateUserpermissions < ActiveRecord::Migration
-  include MigrationHelpers
   include Constants
 
   def up 

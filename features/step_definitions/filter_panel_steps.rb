@@ -2,8 +2,8 @@ When /^I use some filters$/ do
   @used_filter = []
   step 'I open the filter'
   (1..3).to_a.each do
-    wait_until { all(".ui-preloader", :visible => true).size == 0 }
-    wait_until { all("#ui-side-filter-blocking-layer", :visible => true).size == 0 }
+    wait_until { page.evaluate_script("jQuery.active") == 0 }
+    wait_until { all(".filter-panel *[data-value]:not(.active)").size > 0}
     filter_item = all(".filter-panel *[data-value]:not(.active)").shuffle.first
     context_element = filter_item.find(:xpath, ".//ancestor::*[@data-context-name]")
     key_element = filter_item.find(:xpath, ".//ancestor::*[@data-key-name]")

@@ -1,0 +1,8 @@
+%li.ui-tag-cloud-item
+  %a.ui-tag-button.meta-term{:href => media_resources_path(:media_resources => {:type => {:ids => [type]}})}
+    - if type == "MediaEntry"
+      Medieneinträge
+    - elsif type == "MediaSet"
+      Sets
+    - elsif type == "FilterSet"
+      Filtersets

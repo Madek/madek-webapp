@@ -2,7 +2,13 @@
 # PLEASE KEEP IT THIS WAY!
 #
 
-### I am #########################################
+### I a... #########################################
+
+Given /^I accept the usage terms if I am supposed to do so$/ do
+  if all("h3",text: "Nutzungsbedingungen").size > 0
+    find("button",text: "Akzeptieren").click
+  end
+end
 
 Then /^I am able to leave the page$/ do
   @current_path.should_not eq page.current_path
@@ -65,6 +71,7 @@ When /^I click on the button "(.*?)"$/ do |button_text|
   find("button",text: button_text).click
 end
 
+
 When /^I click the primary action of this dialog$/ do
   find(".ui-modal .primary-button").click
 end
@@ -111,6 +118,16 @@ Then /^I have to confirm$/ do
   unless Capybara.current_driver == :poltergeist
     page.driver.browser.switch_to.alert.accept 
   end
+end
+
+### I o⋯ ###################################################
+
+When /^I open the organize dialog$/ do
+  wait_until {all(".app[data-id]").size > 0}
+  find(".ui-body-title-actions .primary-button").click
+  wait_until {all(".ui-drop-item a[data-organize-arcs]", :visible => true).size > 0}
+  all(".ui-drop-item a[data-organize-arcs]", :visible => true).first.click
+  step 'I wait for the dialog to appear'
 end
 
 ### I p⋯ ###################################################
@@ -167,9 +184,9 @@ end
 
 ### I s⋯ ###################################################
 
-When /^I try to leave the page$/ do
-  @current_path = page.current_path
-  find("a[href='#{root_path}']").click
+When /^I scroll all the way down and click on "(.*?)"$/ do |text|
+  page.execute_script "window.scrollBy(0,10000)"
+  find("a,button",text: text).click
 end
 
 
@@ -183,10 +200,16 @@ Given /^I take a screenshot$/ do
   end
 end
 
+When /^I try to leave the page$/ do
+  @current_path = page.current_path
+  find("a[href='#{root_path}']").click
+end
+
+
 ### I w⋯ ###################################################
 
 When /^I wait for the dialog to appear$/ do
-  wait_until{all(".modal.ui-shown").size > 0 }
+  wait_until(5){all(".modal.ui-shown").size > 0 }
 end
 
 When /^I wait for the dialog to disappear$/ do
@@ -218,6 +241,7 @@ end
 Then /^There is no link with class "(.*?)" in the list with class "(.*?)"$/ do |link_class, list_class|
   expect{ find("ul.#{list_class} a.#{link_class}") }.to raise_error
 end
+
 
 
 

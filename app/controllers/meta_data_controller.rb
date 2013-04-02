@@ -1,92 +1,73 @@
 # -*- encoding : utf-8 -*-
 class MetaDataController < ApplicationController
 
-  layout "meta_data"
+  def update
+    if @media_resource = MediaResource.accessible_by_user(current_user, :edit) \
+      .where(id: params[:media_resource_id]).first
 
-  before_filter do
-    unless (params[:media_resource_id] ||= params[:media_entry_id] || params[:media_set_id] || params[:collection_id]).blank?
-      action = case request[:action].to_sym
-        when :index
-          :view
-        when :edit, :update, :edit_multiple, :update_multiple
-          :edit
+      attributes = {meta_data_attributes: { '0' => 
+        { meta_key_label: params[:id], value: params[:value]} }}
+
+      ActiveRecord::Base.transaction do
+        if @media_resource.update_attributes attributes
+          @media_resource.editors << current_user
+          @media_resource.touch
+          render json: {}
+        else
+          render json: {}, status: :unprocessable_entity 
+        end
       end
-      
-      begin
-        media_resource_ids = (params[:collection_id] ? MediaResource.by_collection(params[:collection_id]) : params[:media_resource_id])
-        @resource = MediaResource.accessible_by_user(current_user, action).find(media_resource_ids)
-      rescue
-        not_authorized!
-      end
-    end
-    
-    @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
-    @context ||= MetaContext.core
-  end
-
-#################################################################
-  
-
-  def index
-    @meta_data = @resource.meta_data.for_context(@context, false)
-    respond_to do |format|
-      format.js { render :layout => (params[:layout] != "false") }
-      format.json {
-        with = {:label => {:context => @context}}
-        render :json => view_context.json_for(@meta_data, with)
-      }
-    end
-  end
-
-  ### 
-  # PUT /media_resources/1/meta_data/title {value: "My new title"}
-  #
-  def update(meta_key_name = params[:id],
-             value = params[:value])
-    
-    attrs = {"meta_data_attributes"=>
-                {
-                  "0"=>{"meta_key_label" => meta_key_name, "value" => value}
-                }
-            }
-    
-    media_resources = Array(@resource)
-    
-    begin
-      media_resources.each do |media_resource|
-        media_resource.update_attributes(attrs, current_user)
-      end      
-      
-      respond_to do |format|
-        format.json { render json: {} }
-      end
-    rescue => e
-      respond_to do |format|
-        format.json { render json: e.to_s, status: :unprocessable_entity }
-      end
-    end
-  end
-
-#################################################################
-
-  def edit_multiple
-    meta_data = @resource.meta_data.for_context(@context)
-    respond_to do |format|
-      format.js { render :partial => "edit_multiple_without_form", :locals => {:context => @context, :meta_data => meta_data } }
+    else
+      render json: {}, status: :not_allowed
     end
   end
 
   def update_multiple
-    if @resource.update_attributes(params[:resource], current_user)
-      flash[:notice] = "Die Änderungen wurden gespeichert."
+    if @media_resource = MediaResource.accessible_by_user(current_user, :edit) \
+      .where(id: params[:media_resource][:id]).first
+      ActiveRecord::Base.transaction do
+        if @media_resource.update_attributes params[:resource]
+          @media_resource.editors << current_user
+          @media_resource.touch
+          flash[:notice] = "Die Änderungen wurden gespeichert."
+        else
+          flash[:error] = "Die Änderungen wurden nicht gespeichert."
+        end
+      end
+      redirect_to @media_resource
     else
-      flash[:error] = "Die Änderungen wurden nicht gespeichert."
+      not_authorized!
     end
+  end
 
-    respond_to do |format|
-      format.html {
-        redirect_to @resource
-      }
+  def apply_to_all
+    if not (@media_resources = MediaResource.accessible_by_user(current_user, :edit).where(:id => MediaResource.by_collection(params[:collection_id]))).blank?
+
+      attributes = {meta_data_attributes: { '0' => 
+        { meta_key_label: params[:id], value: params[:value]} }}
+      if params[:overwrite] == "false"
+        attributes[:meta_data_attributes]["0"][:keep_original_value_if_exists] = true
+      end
+
+      begin
+        ActiveRecord::Base.transaction do
+          @media_resources.each do |media_resource|
+
+            if media_resource.update_attributes attributes
+              media_resource.editors << current_user
+              media_resource.touch
+            else
+              raise media_resource.errors.full_messages.join(", ")
+            end
+          end
+        end
+      rescue => e
+        render(json: {}, status: :unprocessable_entity) and return
+      end
+
+      render json: {}, status: :ok
+    else
+      render json: {}, status: :not_allowed
     end
   end
 

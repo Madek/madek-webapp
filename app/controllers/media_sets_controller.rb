@@ -227,9 +227,7 @@ class MediaSetsController < ApplicationController
 
   def parents(parent_media_set_ids = params[:parent_media_set_ids])  
     respond_to do |format|
-      format.html {
-        @parents = @media_set.parents.accessible_by_user current_user
-      }
+      format.html { @parents = @media_set.parents.accessible_by_user current_user }
     end
   end
 

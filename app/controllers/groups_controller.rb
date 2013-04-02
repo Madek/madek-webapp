@@ -34,8 +34,7 @@ class GroupsController < ApplicationController
         @department_groups = @groups.select{|g| g.type == "MetaDepartment"}
       }
       format.json {
-        # OPTIMIZE index groups to fulltext ??
-        groups = Group.where("name #{SQLHelper.ilike} :query OR ldap_name #{SQLHelper.ilike} :query", {:query => "%#{query}%"})
+        groups = Group.where("name ilike :query OR ldap_name ilike :query", {:query => "%#{query}%"})
         render :json => view_context.json_for(groups)
       }
     end

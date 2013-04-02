@@ -70,6 +70,10 @@
 
 :coffeescript
 
-  jQuery -> new App.ImportController.MetaData
-    metaKeyDefinition: #{json_for(@context, {meta_keys: true})}
-    collectionId: #{@media_entry_incompletes_collection_id.to_json}
+  jQuery -> 
+    new App.ImportController.MetaData
+      metaKeyDefinition: #{json_for(@context, {meta_keys: true})}
+      collectionId: #{@media_entry_incompletes_collection_id.to_json}
+    new App.FormBehaviours.ApplyToAll
+      el: $("#ui-edit-meta-data")
+      collectionId: #{@media_entry_incompletes_collection_id.to_json}

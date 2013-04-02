@@ -1,7 +1,8 @@
 module Concerns
   module ResourcesThroughPermissions
     extend ActiveSupport::Concern
-    module ::ClassMethods
+
+    module ClassMethods
 
       def userpermissions_disallowed user,action
         Userpermission.where(action => false, :user_id => user)

@@ -39,7 +39,11 @@ class MetaDatum
     field = $(field)
     switch field.data "type"
       when "meta_datum_people"
-        _.map field.find(".multi-select-tag"), (entry)-> $(entry).data "id"
+        _.map field.find(".multi-select-tag"), (entry)-> 
+          if $(entry).data("id")?
+            $(entry).data("id")
+          else if $(entry).data("string")?
+            $(entry).data("string")
       when "meta_datum_date"
         field.find("input.value-target").val()
       when "meta_datum_keywords"
@@ -71,5 +75,16 @@ class MetaDatum
           _.map field.find(".multi-select-tag"), (entry)-> $(entry).data()
         else
           _.map field.find("input:checked"), (input)-> {id: $(input).val()}
+
+  @applyToAll: (options)->
+    $.ajax
+      url: "/meta_data/apply_to_all.json"
+      data: 
+        collection_id: options.collectionId
+        id: options.metaKeyName
+        overwrite: options.overwrite
+        value: options.value
+      type: "PUT"
+      success: -> options.callback() if options.callback?
 
 window.App.MetaDatum = MetaDatum

@@ -452,6 +452,15 @@ $icons: sprite-map("icons/*.png");
     @include ixt-sprite($icons, icon-lens-mid);
   }
 }
+.icon-applytoall {
+  @include ixt-sprite($icons, icon-applytoall-dark);
+  &.bright {
+    @include ixt-sprite($icons, icon-applytoall-bright);
+  }
+  &.mid {
+    @include ixt-sprite($icons, icon-applytoall-mid);
+  }
+}
 .icon-filter {
   @include ixt-sprite($icons, icon-filter-dark);
   &.bright {
