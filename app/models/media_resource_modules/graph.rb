@@ -69,7 +69,7 @@ module MediaResourceModules
       (SELECT meta_data.media_resource_id as media_resource_id, meta_data.string as title
           FROM meta_data 
           INNER JOIN meta_keys ON meta_keys.id = meta_data.meta_key_id 
-          WHERE meta_keys.label = 'title'
+          WHERE meta_keys.id= 'title'
           ) MD ON  MD.media_resource_id = media_resources.id").
           group("media_resources.id, meta_datum_title") # note that yet alone id is unique
     end

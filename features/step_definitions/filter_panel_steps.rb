@@ -71,7 +71,7 @@ When /^I select the any-value checkbox for a specific key$/ do
   @any_value_el = all(".any-value").shuffle.first
   context_name = @any_value_el.find(:xpath, ".//ancestor::*[@data-context-name]")["data-context-name"]
   key_name = @any_value_el.find(:xpath, ".//ancestor::*[@data-key-name]")["data-key-name"]
-  @meta_key = MetaKey.find_by_label key_name
+  @meta_key = MetaKey.find_by_id key_name
   @any_value_el.find(:xpath, ".//ancestor::*[@data-context-name]").click
   @any_value_el.find(:xpath, ".//ancestor::label").click
   wait_until { all(".ui-resource").size > 0 }

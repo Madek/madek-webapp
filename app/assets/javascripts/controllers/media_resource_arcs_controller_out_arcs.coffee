@@ -220,7 +220,7 @@ class MediaResourceArcsController.OutArcs
   @DEFAULT_WITH =
     created_at: true
     meta_data:
-      meta_key_names: ["title", "owner"]
+      meta_key_ids: ["title", "owner"]
 
 jQuery -> $(document).on "click", "[data-organize-arcs]", (e) => new MediaResourceArcsController.OutArcs $(e.currentTarget)
 

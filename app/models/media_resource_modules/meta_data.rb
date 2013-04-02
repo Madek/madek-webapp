@@ -12,7 +12,7 @@ module MediaResourceModules
             key_id = if key.is_a? MetaKey
               key.id
             elsif not key.is_a? Fixnum
-              MetaKey.find_by_label(key).id
+              MetaKey.find_by_id(key).id
             else
               key
             end
@@ -97,7 +97,7 @@ module MediaResourceModules
             dup_attributes[:meta_data_attributes].delete_if { |key, attr| attr[:keep_original_value] and attr[:value].blank? }
             # To avoid overwriting using "apply-to-all" (overwrite: false)
             dup_attributes[:meta_data_attributes].delete_if { |key, attr| 
-              meta_datum = self.meta_data.find_by_meta_key_id(MetaKey.where(:label => attr[:meta_key_label]).first.try(&:id))
+              meta_datum = self.meta_data.find_by_meta_key_id(MetaKey.where(id: attr[:meta_key_label]).first.try(&:id))
               attr.delete :keep_original_value_if_exists and 
               not meta_datum.blank? and
               not meta_datum.value.blank?}
@@ -109,7 +109,7 @@ module MediaResourceModules
               # find existing meta_datum, if it exists
               if attr[:id].blank?
                 if attr[:meta_key_label]
-                  attr[:meta_key_id] ||= MetaKey.find_by_label(attr.delete(:meta_key_label)).try(:id)
+                  attr[:meta_key_id] ||= MetaKey.find_by_id(attr.delete(:meta_key_label)).try(:id)
                 end
                 if (md = meta_data.where(:meta_key_id => attr[:meta_key_id]).first)
                   attr[:id] = md.id

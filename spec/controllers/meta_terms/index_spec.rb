@@ -5,7 +5,7 @@ describe MetaTermsController do
 
   before :all do
     FactoryGirl.create :usage_term 
-    @meta_key = FactoryGirl.create :meta_key, :label => "Department", :meta_datum_object_type => "MetaDatumMetaTerms", :is_extensible_list => true
+    @meta_key = FactoryGirl.create :meta_key, id: "Department", :meta_datum_object_type => "MetaDatumMetaTerms", :is_extensible_list => true
     @user = FactoryGirl.create :user
   end
 

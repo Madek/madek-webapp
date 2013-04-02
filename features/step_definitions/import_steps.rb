@@ -35,8 +35,8 @@ Then /^Petra has "(.*?)" user\-permission on the new media_entry with the tile "
   expect(userpermission.send permission).to be_true
 end
 
-Then /^I can see that the fieldset with "(.*?)" as meta\-key is required$/ do |meta_key_name|
-  expect(find("fieldset.error[data-meta-key='#{meta_key_name}']")).to be
+Then /^I can see that the fieldset with "(.*?)" as meta\-key is required$/ do |meta_key_id|
+  expect(find("fieldset.error[data-meta-key='#{meta_key_id}']")).to be
 end
 
 Then /^two files with missing metadata are marked$/ do
