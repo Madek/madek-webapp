@@ -147,6 +147,15 @@ rbenv update
 JENKINS
 
 cat << 'JENKINS' | su -l jenkins
+rbenv install jruby-1.7.3
+rbenv shell jruby-1.7.3
+gem install bundler
+gem update --system
+gem install rubygems-update
+rbenv rehash
+gem install bundler
+rbenv rehash
+
 rbenv install 1.9.3-p392 
 rbenv global 1.9.3-p392 
 rbenv rehash
