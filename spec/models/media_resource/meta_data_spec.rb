@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "MetaData" do
 
   before :all do
-    FactoryGirl.create :meta_key, :label => "title"
+    FactoryGirl.create :meta_key, id: "title"
   end
 
   context "an existing MediaEntry" do
@@ -15,7 +15,7 @@ describe "MetaData" do
     describe "the title meta datum" do
 
       it "should be assignable using meta_key_id" do
-        meta_key_id = MetaKey.find_by_label("title").id
+        meta_key_id = MetaKey.find_by_id("title").id
         title= "Some Title"
         params = {meta_data_attributes: {"0" =>  {meta_key_id: meta_key_id,value: title}}}
         @media_entry.update_attributes(params)

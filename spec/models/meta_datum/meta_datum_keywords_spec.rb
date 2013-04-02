@@ -58,7 +58,7 @@ describe MetaDatumKeywords do
 
   describe "Editing media_entry's meta_data" do
     before :all do
-      @meta_key = FactoryGirl.create :meta_key, :label => "keywords", :meta_datum_object_type => "MetaDatumKeywords"
+      @meta_key = FactoryGirl.create :meta_key, id: "keywords", :meta_datum_object_type => "MetaDatumKeywords"
       @user1 = FactoryGirl.create :user
       @user2 = FactoryGirl.create :user
     end

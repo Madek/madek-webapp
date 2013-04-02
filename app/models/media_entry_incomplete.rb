@@ -63,9 +63,9 @@ class MediaEntryIncomplete < MediaEntry
             # TODO priority ??
             case entry_key
               when "Datum", "Datierung"
-                meta_key = MetaKey.find_by_label("portrayed object dates")
+                meta_key = MetaKey.find_by_id "portrayed object dates"
               when "Autor/in"
-                meta_key = MetaKey.find_by_label("author")
+                meta_key = MetaKey.find_by_id "author"
               else
                 next
             end
@@ -106,7 +106,7 @@ class MediaEntryIncomplete < MediaEntry
 
     if !copyright_status
       value = (are_usage_or_url_defined ? Copyright.custom : Copyright.default)
-      meta_data.build(:meta_key => MetaKey.find_by_label("copyright status"), :value => value)
+      meta_data.build(:meta_key => MetaKey.find_by_id("copyright status"), :value => value)
     elsif are_usage_or_url_defined 
       copyright_status.value = Copyright.custom
     end
