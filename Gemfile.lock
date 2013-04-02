@@ -17,7 +17,7 @@ GIT
 
 GIT
   remote: git://github.com/zhdk/active_admin.git
-  revision: 18cf1ac68a787c061b1110674ed38883797af4c3
+  revision: c769b3d6d9f794fe7f53768514bc6e2d8833eed5
   specs:
     activeadmin (0.5.1)
       arbre (>= 1.0.1)
