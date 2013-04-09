@@ -5,10 +5,6 @@ video, audio and image files along with their metadata. The system crowdsources 
 retrieving and assigning metadata to the users themselves instead of putting all the burden
 on the archival expert.
 
-We expect to release version 1.0 in January 2013. 
-
-See you then!
-
 
 ## Documentation and installation
 
