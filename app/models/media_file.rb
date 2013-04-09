@@ -392,4 +392,20 @@ class MediaFile < ActiveRecord::Base
     SQL
   end
 
+  def self.recreate_all_image_previews 
+    MediaFile.where("media_files.content_type SIMILAR TO '%(image|pdf)%'") \
+      .joins(:media_entry).pluck(:id).each do |id|
+
+      begin
+        media_file = MediaFile.find(id)
+        media_file.previews.destroy_all
+        media_file.make_thumbnails
+      rescue => e
+        logger.error Formatter.error_to_s(e)
+      end
+
+      end
+  end
+
 end
+
