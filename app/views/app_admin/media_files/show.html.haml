@@ -1,0 +1,49 @@
+%h2 
+  %i.icon-file
+  MediaFile
+  = @media_file.id
+
+-if @media_file.media_entry
+  %p
+    = link_to media_entry_path(@media_file.media_entry) do
+      = media_entry_path(@media_file.media_entry)
+-else 
+  %p.text-error
+    This MediaFile is not related to a MediaEntry. 
+
+%table.table.table-striped
+  %thead
+  %tbody
+  - @media_file.attributes.each do |name,value|
+    %tr
+      %td= name.capitalize.split("_").join(" ")
+      - case name
+      - when 'zencoder_id'
+        %td
+          - link = "https://app.zencoder.com/jobs/#{value}"
+          %a{href: link}
+            %i.icon-link
+            = link
+        
+      - else
+        %td= value
+
+- if @media_file.media_type =~ /video/
+  %h3 
+    %i.image-film
+    ZencoderJobs
+
+  = link_to "Reencode", reencode_app_admin_media_file_path(@media_file), class: 'btn btn-inverse', method: 'post', data: {confirm: "Let previes reencode by zencoder.com? This action is liable to pay costs."}
+
+
+  - @zencoder_jobs = @media_file.zencoder_jobs.reorder("created_at DESC")
+  = render 'app_admin/zencoder_jobs/zencoder_jobs_table'
+    
+%h3 
+  Previews
+
+%table.table.table-striped
+  %thead
+  %body
+    = render @media_file.previews.reorder("created_at DESC")
+

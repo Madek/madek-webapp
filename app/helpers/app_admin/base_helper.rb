@@ -1,0 +1,2 @@
+module AppAdmin::BaseHelper
+end

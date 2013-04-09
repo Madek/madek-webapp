@@ -1,0 +1,2 @@
+module AppAdmin::ZencoderJobsHelper
+end

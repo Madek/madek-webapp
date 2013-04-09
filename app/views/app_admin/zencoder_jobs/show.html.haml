@@ -1,0 +1,24 @@
+%h2 
+  %i.icon-film
+  ZencoderJob
+  = @zencoder_job.id
+
+%table.table.table-striped
+  %thead
+  %tbody
+  - @zencoder_job.attributes.each do |name,value|
+    %tr
+      %td= name.capitalize.split("_").join(" ")
+      - case name
+      - when 'zencoder_id'
+        %td
+          - link = "https://app.zencoder.com/jobs/#{value}"
+          %a{href: link}
+            %i.icon-link
+            = link
+        
+      - else
+        %td= value
+
+    
+ 

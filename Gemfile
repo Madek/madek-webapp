@@ -10,7 +10,7 @@ source 'http://rubygems.org'
 source 'http://gems.github.com'
 
 # RAILS
-gem 'rails', '3.2.12'
+gem 'rails', '3.2.13'
 
 # DATABASE
 gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
@@ -23,9 +23,8 @@ gem 'postgres_ext'
 
 # THE REST
 gem 'activeadmin', :git => 'git://github.com/zhdk/active_admin.git' # '~> 0.5.0'
-gem 'coffee-filter', "~> 0.1.1"
-gem 'coffee-script', '~> 2.2'
-gem 'haml', '~> 3.1'
+gem 'coffee-script'
+gem 'haml'
 gem 'haml_assets'
 gem 'jquery-rails', '= 1.0.16' # NOTE WARNING DO NOT CHANGE THIS LINE
 gem 'jquery-tmpl-rails', '~> 1.1'
@@ -47,8 +46,10 @@ gem 'gettext_i18n_rails'
 gem 'compass-rails'
 
 group :assets do
-  gem 'coffee-rails', '~> 3.2'
+  gem 'bootstrap-sass' 
+  gem 'coffee-rails'
   gem 'execjs'
+  gem 'font-awesomeplus-sass-rails', git: 'https://github.com/DrTom/font-awesome-plus-sass-rails.git'
   gem 'haml_coffee_assets'
   gem 'sass-rails', '~> 3.2'
   gem 'uglifier', '~> 1.2'
@@ -98,6 +99,7 @@ end
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', platform: :mri_19
+  gem 'haml-rails'
   gem 'meta_request'
   gem 'nkss-rails', :git => 'git://github.com/interactivethings/nkss-rails.git'   # CSS styleguides
   gem 'quiet_assets'

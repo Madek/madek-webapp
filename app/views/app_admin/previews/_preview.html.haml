@@ -1,0 +1,13 @@
+%tr
+  %td
+    =link_to app_admin_preview_path(preview) do
+      = app_admin_preview_path(preview)
+  %td
+    = preview.content_type
+  %td
+    = preview.thumbnail
+  %td
+    = preview.created_at
+
+
+

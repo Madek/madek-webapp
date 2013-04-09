@@ -1,0 +1,15 @@
+%tr
+  %td
+    = link_to app_admin_media_file_path(media_file) do
+      %i.icon-file
+      details
+  %td= media_file.media_type
+  %td= media_file.content_type
+  %td
+    - if media_file.media_entry
+      = link_to media_entry_path(media_file.media_entry) do
+        = media_entry_path(media_file.media_entry)
+    - else
+      .text-error
+        no media entry exists
+  %td= media_file.created_at

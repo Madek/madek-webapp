@@ -1,0 +1,17 @@
+%h2 
+  Preview
+  = @preview.id
+
+
+%table.table.table-striped
+  %thead
+  %tbody
+  - @preview.attributes.each do |name,value|
+    %tr
+      %td= name.capitalize.split("_").join(" ")
+      - case name
+      - when nil
+      - else
+        %td= value
+
+

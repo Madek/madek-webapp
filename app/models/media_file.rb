@@ -374,4 +374,22 @@ class MediaFile < ActiveRecord::Base
     "MediaFile: #{id}"
   end
 
+
+  def self.incomplete_encoded_videos
+    where(media_type: 'video').where <<-SQL
+
+        NOT EXISTS  (SELECT true FROM media_files as mf
+                        INNER JOIN previews ON previews.media_file_id = mf.id
+                        WHERE mf.id = media_files.id
+                        AND previews.content_type  = 'video/mp4')
+      OR 
+
+        NOT EXISTS  (SELECT true FROM media_files as mf
+                      INNER JOIN previews ON previews.media_file_id = mf.id
+                      WHERE mf.id = media_files.id
+                      AND previews.content_type  = 'video/webm')
+
+    SQL
+  end
+
 end
