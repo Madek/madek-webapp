@@ -36,6 +36,18 @@
                     ZencoderJobs
 
               
+      #messages
+        - if flash[:success]
+          .alert.alert-success.alertsucces
+            %button.close{type:"button", 'data-dismiss'=>'alert'} &#215
+            = flash[:success]
+        - if flash[:notice]
+          .alert.alert-notice.alertnotice
+            %button.close{type:"button", 'data-dismiss'=>"alert"} &#215
+            = flash[:notice]
+        - if flash[:error]
+          .alert.alert-error.alerterror 
+            %button.close{type:"button", 'data-dismiss'=>"alert"} &#215
+            = flash[:error]
 
-      = render :partial => "application/flash", :locals => {:flash => flash} unless flash.empty?
       = yield

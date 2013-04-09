@@ -283,7 +283,7 @@ MAdeK::Application.routes.draw do
       end
 
     end
-    resources :previews, only: [:show]
+    resources :previews, only: [:show,:destroy]
   end
 
 end
