@@ -1,13 +1,43 @@
 
 
-SELECT id, firstname, lastname,
-  CASE lastname 
-    WHEN '' THEN firstname
-    ELSE lastname
-  END
-  from people;
+-- All media_fieles of type video which do not have both previews (mp4 and webm)  
+-- and are referenced by an media_entry
+SELECT count(media_files.id) FROM media_files
+ INNER JOIN media_resources ON media_resources.media_file_id = media_files.id
+ WHERE media_files.media_type = 'video'
+ AND 
+  (
+    NOT EXISTS  (SELECT true FROM media_files as mf
+                    INNER JOIN previews ON previews.media_file_id = mf.id
+                    WHERE mf.id = media_files.id
+                    AND previews.content_type  = 'video/mp4')
+  OR 
+    NOT EXISTS  (SELECT true FROM media_files as mf
+                  INNER JOIN previews ON previews.media_file_id = mf.id
+                  WHERE mf.id = media_files.id
+                  AND previews.content_type  = 'video/webm')
+              );
 
 
+                  
+
+SELECT DISTINCT content_type FROM previews; 
+
+
+SELECT * FROM previews WHERE content_type = 'video/x-ms-wmv'; 
+SELECT * FROM previews WHERE content_type = 'video/quicktime'; 
+
+
+SELECT * FROM previews WHERE filename ilike '%mp4' AND content_type != 'video/mp4' ; 
+SELECT * FROM previews WHERE filename ilike '%webm' AND content_type != 'video/webm' ; 
+
+
+UPDATE previews SET content_type = 'video/mp4' WHERE filename ilike '%mp4' AND content_type != 'video/mp4'; 
+UPDATE previews SET content_type = 'video/webm' WHERE filename ilike '%webm' AND content_type != 'video/webm'; 
+
+
+
+--------------
 
 
 SELECT count(arc_id) as size, media_resources.id, meta_data.string as meta_datum_title FROM "media_resources" LEFT OUTER JOIN (  WITH RECURSIVE triple(p,c,media_resource_id) as
