@@ -1,7 +1,7 @@
 class AppAdmin::ZencoderJobsController < AppAdmin::BaseController
 
   def index
-    @zencoder_jobs = ZencoderJob.order("created_at DESC").page(params[:page])
+    @zencoder_jobs = ZencoderJob.reorder("created_at DESC").page(params[:page])
   end
 
   def show

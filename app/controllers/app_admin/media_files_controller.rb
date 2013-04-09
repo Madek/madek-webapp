@@ -34,15 +34,15 @@ class AppAdmin::MediaFilesController < AppAdmin::BaseController
     MediaFile.joins(:media_entry).incomplete_encoded_videos.each do |media_file|
 
       begin
-        ActiveRecord::Base.transcation do
-          media_file.previes.destroy_all
+        ActiveRecord::Base.transaction do
+          media_file.previews.destroy_all
           ZencoderJob.create(media_file: media_file).submit
         end
       rescue => e
         logger.error Formatter.error_to_s(e)
       end
 
-      redirect_to app_admin_media_files_path, flash: {success: "The jobs have been submitted."}
+      redirect_to :back, flash: {success: "The jobs have been submitted."}
     end
   end
 
