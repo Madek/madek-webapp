@@ -103,6 +103,7 @@ group :development do
   gem 'meta_request'
   gem 'nkss-rails', :git => 'git://github.com/interactivethings/nkss-rails.git'   # CSS styleguides
   gem 'quiet_assets'
+  gem 'rack-mini-profiler'
   gem 'zencoder-fetcher'
 end
 

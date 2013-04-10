@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 When /^I use the create filter set option$/ do
-  find("a", :text => "Filterset erstellen").click
+  find("button,a", :text => "Filterset erstellen").click
 end
 
 When /^I provide a title$/ do
