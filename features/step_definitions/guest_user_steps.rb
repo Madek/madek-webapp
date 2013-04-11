@@ -1,6 +1,6 @@
 
 Then /^I can see several images$/ do
-  wait_until{all("li[data-media_type='image']").size > 0}
+  wait_until{all("li[data-media-type='image']").size > 0}
 end
 
 When /^I can see several resources$/ do
