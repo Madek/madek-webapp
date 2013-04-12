@@ -1,0 +1,23 @@
+
+* globale vars
+
+* funktioniert nur auf statische elemente: 
+
+    $("form").on "submit", (event) ->
+    $("a").click (event) ->
+
+* funktioniert nicht auf buttons
+
+* code sieht nicht sehr professionell aus
+
+* event-handling: Auswirkungen auf die Applikation???
+
+* client arbeitet zuviel, Verlagerung auf den Server?
+
+* Google einbinden nicht erlaubt an der ZHdK
+
+* geolocation, aufwändig wozu?
+
+* verschiedene Umgebungen: prod/test/personas
+
+=> Statische Analyse der logfiles erscheint uns zuverlässiger
