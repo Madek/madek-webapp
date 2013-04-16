@@ -65,10 +65,6 @@ module MAdeK
                                     upload.js
                                   )
 
-    # So that the Content-Length header is sent, so that e.g. video files
-    # can be seeked and that mobile clients know how much data is coming
-    config.middleware.use Rack::ContentLength
-
   end
 end
 
