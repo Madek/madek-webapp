@@ -3,7 +3,7 @@ require 'spec_helper'
 describe MetaContextsController do
   render_views
 
-  before :all do
+  before :each do
     FactoryGirl.create :usage_term
     @user = FactoryGirl.create :user
     @description= FactoryGirl.create :meta_term

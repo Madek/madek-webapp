@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe PermissionPreset do
 
-  before :all do
+  before :each do
     PermissionPreset.destroy_all
   end
 

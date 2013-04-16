@@ -1,10 +1,30 @@
 # -*- encoding : utf-8 -*-
 
+def set_up_dropbox_settings
+  AppSettings.first.update_attributes \
+    dropbox_root_dir: Rails.root.join("tmp").to_s,
+    ftp_dropbox_user: ENV['USER']
+end
+
+Given(/^The dropbox settings are set\-up$/) do
+  set_up_dropbox_settings
+end
+
+
+Given(/^The current user doesn't have a dropbox$/) do
+  begin
+    `rm -rf #{@current_user.dropbox_dir}`
+  rescue
+  end
+end
+
 Given /^the current user has a dropbox$/ do
+  set_up_dropbox_settings
   FileUtils.mkdir_p File.join(AppSettings.dropbox_root_dir, @current_user.dropbox_dir_name)
 end
 
 When /^I open the dropbox informations dialog$/ do
+  set_up_dropbox_settings
   find(".open_dropbox_dialog").click
   step 'I wait for the dialog to appear'
 end

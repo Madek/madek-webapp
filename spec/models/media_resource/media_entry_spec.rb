@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe MediaEntry do
 
-  before :all do
+  before :each do
     FactoryGirl.create :meta_key, id: "title"
   end
 

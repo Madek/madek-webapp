@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe MediaEntryIncomplete do
 
-  before :all do 
+  before :each do 
     FactoryGirl.create :meta_key, id: "copyright status", :meta_datum_object_type => "MetaDatumCopyright"
     FactoryGirl.create :meta_key, id: "description author", :meta_datum_object_type => "MetaDatumPeople"
     FactoryGirl.create :meta_key, id: "description author before import", :meta_datum_object_type => "MetaDatumPeople"

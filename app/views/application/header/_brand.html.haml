@@ -1,5 +1,5 @@
 .ui-header-brand
   %a{:href => root_path}
-    = image_tag "inserts/image-logo-zhdk.png", :alt => "ZHDK", :class => "ui-header-logo"
-    %h1.ui-header-brand-name Z&uuml;rcher Hochschule der K&uuml;nste
+    = image_tag AppSettings.logo_url, :class => "ui-header-logo", style: "max-width: 100px;"
+    %h1.ui-header-brand-name= AppSettings.brand 
     %h2.ui-header-instance-name= AppSettings.title

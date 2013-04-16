@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Admin::MetaTermsController, :type => :controller do
 
-  before :all do
+  before :each do
     FactoryGirl.create :usage_term 
     @adam = FactoryGirl.create :user, login: "adam"
     Group.find_or_create_by_name("Admin").users << @adam

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "Graph Queries" do
 
-  before :all do
+  before :each do
     @topset = FactoryGirl.create :media_set
     @topset.child_media_resources << (@childset1_of_topset = FactoryGirl.create :media_set)
     @topset.child_media_resources << (@childentry1_of_topset = FactoryGirl.create :media_entry)

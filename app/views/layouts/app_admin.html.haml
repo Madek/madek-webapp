@@ -21,6 +21,10 @@
               =link_to app_admin_root_path do 
                 %i.icon-dashboard
                 Dashboard 
+            %li
+              =link_to edit_app_admin_settings_path do
+                %i.icon-cog
+                Settings
             %li.dropdown
               %a.dropdown-toggle{href: "#", data: {toggle: 'dropdown'}} 
                 Files

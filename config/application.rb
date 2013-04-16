@@ -49,7 +49,7 @@ module MAdeK
 
     # Enable the asset pipeline
     config.assets.enabled = true
-    config.assets.version = '0.7.2'
+    config.assets.version = '1.0.0'
 
     # Please add any files you need precompiled here, otherwise it breaks production
     config.assets.precompile += %w( application.js

@@ -250,8 +250,6 @@ GEM
     launchy (2.2.0-java)
       addressable (~> 2.3)
       spoon (~> 0.0.1)
-    ledermann-rails-settings (1.2.1)
-      activerecord (>= 2.3)
     libv8 (3.11.8.17)
     listen (0.7.3)
     lumberjack (1.0.3)
@@ -520,7 +518,6 @@ DEPENDENCIES
   json (~> 1.7)
   kaminari (~> 0.14)
   launchy
-  ledermann-rails-settings (~> 1.2)
   memcache-client
   meta_request
   nested_set (~> 1.7)

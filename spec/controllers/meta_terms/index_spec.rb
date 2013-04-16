@@ -3,7 +3,7 @@ require 'spec_helper'
 describe MetaTermsController do
   render_views
 
-  before :all do
+  before :each do
     FactoryGirl.create :usage_term 
     @meta_key = FactoryGirl.create :meta_key, id: "Department", :meta_datum_object_type => "MetaDatumMetaTerms", :is_extensible_list => true
     @user = FactoryGirl.create :user
