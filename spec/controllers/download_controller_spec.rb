@@ -3,7 +3,7 @@ require 'spec_helper'
 describe DownloadController do
 
   describe "download" do
-    before :all do
+    before :each do
       FactoryGirl.create :usage_term
       @user = FactoryGirl.create :user
       @me = FactoryGirl.create :media_entry, user: @user
@@ -32,7 +32,7 @@ describe DownloadController do
     end
 
     describe "update" do
-      before :all do
+      before :each do
         FactoryGirl.create :meta_context, name: 'io_interface', is_user_interface: false
       end
       it "no more options" do

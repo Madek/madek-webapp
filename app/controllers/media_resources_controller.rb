@@ -48,7 +48,7 @@ class MediaResourcesController < ApplicationController
   #
   # @optional [Hash] with[meta_data] Adds MetaData to the responding collection of MediaResources and forwards the hash as options to the MetaData.
   # @optional [Array] with[meta_data][meta_context_names] Adds all requested MetaContexts in the format: ["context_name1", "context_name2", ...] as MetaData to the responding MediaResources. 
-  # @optional [Array] with[meta_data][meta_key_names] Adds all requested MetaKeys in the format: ["key_name1", "key_name2", ...] as MetaData to the responding MediaResources. 
+  # @optional [Array] with[meta_data][meta_key_ids] Adds all requested MetaKeys in the format: ["key_name1", "key_name2", ...] as MetaData to the responding MediaResources. 
   # @optional [Hash] with[image] Request the image of the MediaResources. You can define the responding image format like {"image": {"as": "base64" | "url"}}. The image size can be requested with {"image": {"size": "small"(100x100) | "small_125"(125x125) | "medium"(300x300) | "large"(620x500) | "x_large"(1024x768) }}
   # @optional [Boolean] with[filename] Request the filename of the MediaResources.
   # @optional [Boolean] with[media_type] Request the media_type of the MediaResources.
@@ -145,7 +145,7 @@ class MediaResourcesController < ApplicationController
   #   {
   #     "with": {
   #       "meta_data":{
-  #         "meta_key_names": ["title", "author"]
+  #         "meta_key_ids": ["title", "author"]
   #       }
   #     }
   #   }
@@ -581,7 +581,7 @@ class MediaResourcesController < ApplicationController
   #         "ids": [4359]
   #       }
   #     },
-  #     "with": {"meta_data": {"meta_key_names": ["keywords"]}}
+  #     "with": {"meta_data": {"meta_key_ids": ["keywords"]}}
   #   }
   #   ``` 
   # @example_request_description Request MediaResources and apply a MetaData filter for the MetaDatumType "keywords" by id 4359.

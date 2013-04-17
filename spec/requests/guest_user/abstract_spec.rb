@@ -6,7 +6,7 @@ describe "guest user" do
 
     describe "should be able to access meta context pages" do
       
-      before :all do
+      before :each do
         @meta_context = FactoryGirl.create :meta_context
       end
 

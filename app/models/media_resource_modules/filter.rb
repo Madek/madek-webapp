@@ -25,7 +25,7 @@ module MediaResourceModules
       # when current_user argument is not provided, the permissions are not considered
       def filter(current_user = nil, filter = {})
         filter = filter.delete_if {|k,v| v.blank?}.deep_symbolize_keys
-        raise "invalid option" unless filter.is_a?(Hash) #and (filter.keys - KEYS).blank?
+        raise "invalid option" unless filter.is_a?(Hash) 
 
         ############################################################
 
@@ -178,14 +178,14 @@ module MediaResourceModules
                 s = unscoped.
                   joins(:meta_data => :meta_key).
                   joins("INNER JOIN meta_data_users ON meta_data.id = meta_data_users.meta_datum_id").
-                  where(:meta_keys => {:label => "uploaded by"},
+                  where(:meta_keys => {id: "uploaded by"},
                         :meta_data_users => {:user_id => id})
                 s
               else
                 # OPTIMIZE accept also directly meta_key_id ?? 
                 s = unscoped.joins(:meta_data => :meta_key).
                          joins("INNER JOIN meta_data_meta_terms ON meta_data_meta_terms.meta_datum_id = meta_data.id").
-                         where(:meta_keys => {:label => k, :meta_datum_object_type => "MetaDatumMetaTerms"})
+                         where(:meta_keys => {id: k, :meta_datum_object_type => "MetaDatumMetaTerms"})
                 s = s.where(:meta_data_meta_terms => {:meta_term_id => id}) unless id == "any"
                 s
             end

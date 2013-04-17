@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe FilterSet do
 
-  before :all do
+  before :each do
     @user = FactoryGirl.create :user
     @filter_set = FactoryGirl.create :filter_set_with_title, user: @user
   end
@@ -39,7 +39,7 @@ describe FilterSet do
           type = rand > 0.5 ? :media_entry : :media_set
           mr = FactoryGirl.create type, :user => @user
           all_fake_words += fake_words = Faker::Lorem.words(4)
-          mr.meta_data.create(:meta_key => MetaKey.find_by_label("title"), 
+          mr.meta_data.create(:meta_key => MetaKey.find_by_id("title"), 
                               :value => fake_words.join(' '))
           mr.save # force full_text reindex
         end

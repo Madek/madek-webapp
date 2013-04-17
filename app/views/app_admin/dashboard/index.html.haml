@@ -1,0 +1,22 @@
+
+%h1 
+  %i.icon-dashboard
+  Dashboard
+
+
+%h3 
+  %i.icon-film
+  Incomplete encoded videos
+
+%p 
+  There are 
+  %b= MediaFile.joins(:media_entry).incomplete_encoded_videos.count
+  videos with incomplete previews.
+
+= link_to reencode_incomplete_videos_app_admin_media_files_path, class: 'btn btn-warning', method: 'post', data: {confirm: "Reencode all affected videos by zencoder.com? This action is liable to pay costs."} do
+  Reencode all of them
+
+
+
+
+

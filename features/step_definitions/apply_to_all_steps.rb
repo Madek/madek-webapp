@@ -53,11 +53,11 @@ end
 
 Then /^all other media entries have the same meta data values$/ do
   reference_media_entry = MediaEntryIncomplete.find find(".ui-resource[data-id]")["data-id"]
-  @reference_meta_data = reference_media_entry.meta_data.where(:meta_key_id => MetaKey.where(:label => @meta_data.map{|x| x["meta_key"]}))
+  @reference_meta_data = reference_media_entry.meta_data.where(:meta_key_id => MetaKey.where(id: @meta_data.map{|x| x["meta_key"]}))
   @current_user.media_resources.where(:type => "MediaEntryIncomplete").each do |media_entry|
     find(".ui-resource[data-id='#{media_entry.id}']").click
     step 'each meta-data value should be equal to the one set previously'
-    meta_data = media_entry.meta_data.where(:meta_key_id => MetaKey.where(:label => @meta_data.map{|x| x["meta_key"]}))
+    meta_data = media_entry.meta_data.where(:meta_key_id => MetaKey.where(id: @meta_data.map{|x| x["meta_key"]}))
     expect(meta_data.map(&:to_s).sort).to be == @reference_meta_data.map(&:to_s).sort
   end
 end

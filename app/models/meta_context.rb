@@ -59,12 +59,12 @@ class MetaContext < ActiveRecord::Base
   def abstract(current_user = nil, min_media_entries = nil)
     accessible_media_entry_ids = MediaResource.filter(current_user, {:type => :media_entries, :meta_context_ids => [id]}).pluck("media_resources.id")
     min_media_entries ||= accessible_media_entry_ids.size.to_f * 50 / 100
-    meta_key_ids = meta_keys.for_meta_terms.where(MetaKey.arel_table[:label].not_in(MetaKey.dynamic_keys)).pluck("meta_keys.id") # TODO get all related meta_key_ids ?? 
+    meta_key_ids = meta_keys.for_meta_terms.where(MetaKey.arel_table[:id].not_in(MetaKey.dynamic_keys)).pluck("meta_keys.id") 
 
-    h = {} #1005# TODO upgrade to Ruby 1.9 and use ActiveSupport::OrderedHash.new
+    h = {} 
     mds = MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids)
     mds.each do |md|
-      h[md.meta_key_id] ||= [] # TODO md.meta_key
+      h[md.meta_key_id] ||= [] 
       h[md.meta_key_id] << md.value
     end
     h.delete_if {|k, v| v.size < min_media_entries }

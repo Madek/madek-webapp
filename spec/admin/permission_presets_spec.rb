@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Admin::PermissionPresetsController, :type => :controller do
 
-  before :all do
+  before :each do
     FactoryGirl.create :usage_term 
     FactoryGirl.create :meta_context_core
     PermissionPreset.destroy_all

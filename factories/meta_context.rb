@@ -15,13 +15,13 @@ FactoryGirl.define do
     factory :meta_context_core do
       name :core
       after(:create) do |f|
-        FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, :label => "title")
-        FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, :label => "subtitle")
-        FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, :label => "author", :meta_datum_object_type => "MetaDatumPeople")
-        FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, :label => "portrayed object dates ", :meta_datum_object_type => "MetaDatumDate")
-        FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, :label => "keywords", :meta_datum_object_type => "MetaDatumKeywords")
-        FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, :label => "copyright notice")
-        FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, :label => "owner", :meta_datum_object_type => "MetaDatumUsers")
+        FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, id: "title")
+        FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, id: "subtitle")
+        FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, id: "author", :meta_datum_object_type => "MetaDatumPeople")
+        FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, id: "portrayed object dates ", :meta_datum_object_type => "MetaDatumDate")
+        FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, id: "keywords", :meta_datum_object_type => "MetaDatumKeywords")
+        FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, id: "copyright notice")
+        FactoryGirl.create :meta_key_definition, :meta_context => f, :meta_key => (FactoryGirl.create :meta_key, id: "owner", :meta_datum_object_type => "MetaDatumUsers")
       end
     end    
     
@@ -30,7 +30,7 @@ FactoryGirl.define do
       is_user_interface false
       after(:create) do |f|
         FactoryGirl.create :meta_key_definition, :meta_context => f,
-                                                 :meta_key => (FactoryGirl.create :meta_key, :label => "author", :meta_datum_object_type => "MetaDatumPeople"),
+                                                 :meta_key => (FactoryGirl.create :meta_key, id: "author", :meta_datum_object_type => "MetaDatumPeople"),
                                                  :key_map => "XMP-madek:Author"
       end
     end    

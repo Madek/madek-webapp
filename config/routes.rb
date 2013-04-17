@@ -1,6 +1,24 @@
 # -*- encoding : utf-8 -*-
 MAdeK::Application.routes.draw do
 
+  get "settings/edit"
+
+  get "settings/show"
+
+  get "settings/update"
+
+  get "previews/show"
+
+  get "media_files/index"
+
+  get "media_files/show"
+
+  get "zencoder_jobs/index"
+
+  get "zencoder_jobs/show"
+
+  get "dashboard/index"
+
   ##### ROOT
 
   root :to => "application#root"
@@ -256,5 +274,22 @@ MAdeK::Application.routes.draw do
   end
 
   ActiveAdmin.routes(self)
+
+  namespace :app_admin do
+    root to: "dashboard#index"
+    resource :settings, only: [:edit,:update,:show]
+    resources :zencoder_jobs, only: [:index, :show]
+    resources :media_files, only: [:index, :show] do
+      member do 
+        post 'reencode'
+      end
+
+      collection do
+        post 'reencode_incomplete_videos'
+      end
+
+    end
+    resources :previews, only: [:show,:destroy]
+  end
 
 end

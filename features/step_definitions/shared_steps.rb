@@ -67,10 +67,9 @@ When /^I click on "(.*?)" inside the autocomplete list$/ do |text|
 end
 
 When /^I click on the button "(.*?)"$/ do |button_text|
-  wait_until {  all("button", text: button_text).size > 0 }
-  find("button",text: button_text).click
+  wait_until{all("button:not([disabled])", text: button_text).size > 0 }
+  find("button:not([disabled])",text: button_text).click
 end
-
 
 When /^I click the primary action of this dialog$/ do
   find(".ui-modal .primary-button").click
@@ -169,8 +168,8 @@ Given /^I set the input with the name "(.*?)" to "(.*?)" and submit$/ do |name, 
   find(:xpath, "//input[@name='#{name}']/ancestor::form").find("input[type='submit']").click()
 end
 
-Then /^I set the input in the fieldset with "(.*?)" as meta\-key to "(.*?)"$/ do |meta_key_name, value|
-  find("fieldset[data-meta-key='#{meta_key_name}'] input",visible: true).set(value)
+Then /^I set the input in the fieldset with "(.*?)" as meta\-key to "(.*?)"$/ do |meta_key_id, value|
+  find("fieldset[data-meta-key='#{meta_key_id}'] input",visible: true).set(value)
 end
 
 When /^I submit$/ do
@@ -209,11 +208,11 @@ end
 ### I w⋯ ###################################################
 
 When /^I wait for the dialog to appear$/ do
-  wait_until(5){all(".modal.ui-shown").size > 0 }
+  wait_until{all(".modal.ui-shown").size > 0 }
 end
 
 When /^I wait for the dialog to disappear$/ do
-  wait_until(5){all(".modal-backdrop").size == 0 }
+  wait_until{all(".modal-backdrop").size == 0 }
 end
 
 Given /^I wait for the following to be implemented$/ do
@@ -221,12 +220,18 @@ Given /^I wait for the following to be implemented$/ do
 end
 
 When /^I wait until I am on the "(.*?)" page$/ do |path|
-  wait_until(10){ current_path == path }
+  wait_until{ current_path == path }
 end
+
+When(/^I wait for the class "(.*?)" to be present$/) do |css_class|
+  wait_until{ all(".#{css_class}").size > 0}
+end
+
 
 When /^I visit the "(.*?)" path$/ do |path|
   visit path
 end
+
 
 ### T #########################################################
 

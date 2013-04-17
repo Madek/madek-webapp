@@ -33,8 +33,8 @@ module Json
               h[:meta_data] += hash_for media_resource.meta_data.for_context(@cache_contexts[name]), {:label => {:context => @cache_contexts[name]}}
             end
           end
-          if meta_key_names = with[:meta_data][:meta_key_names]
-            h[:meta_data] += meta_key_names.map do |name|
+          if meta_key_ids = with[:meta_data][:meta_key_ids]
+            h[:meta_data] += meta_key_ids.map do |name|
               md = media_resource.meta_data.get(name)
               hash_for md # NOTE we do not request labels, because are context related
             end
@@ -300,7 +300,7 @@ module Json
           end
           %Q( SELECT meta_contexts.name AS context_name, 
                   mt3.#{DEFAULT_LANGUAGE} AS context_label,
-                  meta_keys.label AS key_name, 
+                  meta_keys.id AS key_name, 
                   mt2.#{DEFAULT_LANGUAGE} AS key_label,
                   COUNT(meta_data.media_resource_id) AS count,
                   meta_context_groups.position AS context_group_position,
@@ -317,7 +317,7 @@ module Json
                    #{sql_join}
                 WHERE meta_keys.meta_datum_object_type = '#{meta_datum_object_type}'
                 AND meta_data.media_resource_id IN (#{media_resources.select("media_resources.id").to_sql})
-                GROUP BY #{sql_group}, meta_contexts.name, mt3.#{DEFAULT_LANGUAGE}, meta_keys.label, mt2.#{DEFAULT_LANGUAGE},
+                GROUP BY #{sql_group}, meta_contexts.name, mt3.#{DEFAULT_LANGUAGE}, meta_keys.id, mt2.#{DEFAULT_LANGUAGE},
                           meta_context_groups.position, meta_contexts.position, meta_key_definitions.position )
         end
         sql = "SELECT * FROM (%s) AS t1 ORDER BY context_group_position, context_position, definition_position" % queries.join(" UNION ")

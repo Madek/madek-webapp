@@ -3,7 +3,7 @@ require 'spec_helper'
 describe GroupsController do
   render_views
   
-  before :all do
+  before :each do
     @user1 = FactoryGirl.create :user, person: FactoryGirl.create(:person)
     @user2 = FactoryGirl.create :user, person: FactoryGirl.create(:person)
   end

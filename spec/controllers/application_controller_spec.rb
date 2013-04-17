@@ -10,7 +10,7 @@ describe ApplicationController do
   end
 
   describe "as logged in user" do
-    before :all do
+    before :each do
       FactoryGirl.create :usage_term
       @user = FactoryGirl.create :user
     end

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe PeopleController do
   render_views
   
-  before :all do
+  before :each do
     FactoryGirl.create :usage_term
     @user1 = FactoryGirl.create :user
     @user2= FactoryGirl.create :user, person: FactoryGirl.create(:person)

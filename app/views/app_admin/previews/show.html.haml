@@ -1,0 +1,17 @@
+%h2 
+  Preview
+  = @preview.id
+
+
+%table.table.table-striped
+  %thead
+  %tbody
+    - @preview.attributes.merge({full_path: @preview.full_path}).each do |name,value|
+      %tr
+        %td= name.to_s.capitalize.split("_").join(" ")
+        - case name
+        - when nil
+        - else
+          %td= value
+
+

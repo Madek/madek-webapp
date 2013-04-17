@@ -3,6 +3,7 @@
 #
 # Holds the set of basic meta data keys
 class MetaKey < ActiveRecord::Base
+  set_primary_key :id
 
   has_many :meta_data, :dependent => :destroy
   has_many :media_entries, :through => :meta_data, :uniq => true
@@ -18,12 +19,13 @@ class MetaKey < ActiveRecord::Base
   has_many :meta_terms, :through => :meta_key_meta_terms, :order => :position
   accepts_nested_attributes_for :meta_terms, :reject_if => proc { |attributes| LANGUAGES.all? {|l| attributes[l].blank? } } #old# , :allow_destroy => true
 
-  validates_uniqueness_of :label
-
-  #old#precedence problem# default_scope order(:label)
   scope :with_meta_data, joins(:meta_data).group(:id)
   scope :for_meta_terms, where(:meta_datum_object_type => "MetaDatumMetaTerms") 
-  
+
+  def label
+    id
+  end
+
 ########################################################
 
   before_update do
@@ -38,7 +40,7 @@ class MetaKey < ActiveRecord::Base
   end
 
   def to_s
-    label
+    id
   end
 
   def all_context_labels contexts=nil
@@ -78,11 +80,11 @@ class MetaKey < ActiveRecord::Base
 
     if mk.nil?
       entry_name = key_map.split(':').last.underscore.gsub(/[_-]/,' ')
-      mk = MetaKey.find_by_label(entry_name)
+      mk = MetaKey.find_by_id(entry_name)
     end
       # we have to create the meta key, since it doesnt exist
     if mk.nil?
-      mk = MetaKey.find_or_create_by_label(entry_name)
+      mk = MetaKey.find_or_create_by_id(entry_name)
       mc = MetaContext.io_interface
       mk.meta_key_definitions.create( :meta_context => mc,
                                       :label => {:en_gb => "", :de_ch => ""},
@@ -120,7 +122,7 @@ class MetaKey < ActiveRecord::Base
 ########################################################
 
   def is_not_writable?
-    self.class.not_writable.include?(label)
+    self.class.not_writable.include?(id)
   end
 
   def self.not_writable
@@ -136,7 +138,7 @@ class MetaKey < ActiveRecord::Base
   end
 
   def is_dynamic?
-    self.class.dynamic_keys.include?(label)
+    self.class.dynamic_keys.include?(id)
   end
 
   def self.dynamic_keys

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe MediaResourcesController do
   render_views
 
-  before :all do
+  before :each do
     FactoryGirl.create :usage_term 
     FactoryGirl.create :meta_context_core
     @user_a = FactoryGirl.create :user

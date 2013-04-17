@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe MediaResource do
 
-  before :all do
+  before :each do
     3.times do
       FactoryGirl.create :media_set_with_title
     end

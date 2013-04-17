@@ -3,7 +3,7 @@ require 'spec_helper'
 describe MediaResourcesController do
   render_views
   
-  before :all do
+  before :each do
     FactoryGirl.create :usage_term 
     FactoryGirl.create :meta_context_core
     @user = FactoryGirl.create :user
@@ -110,13 +110,13 @@ describe MediaResourcesController do
   end
 
   context "fetch an index of media resources" do
-    before :all do
+    before :each do
       # MediaResources
       40.times do
         type = rand > 0.5 ? :media_entry : :media_set
         mr = FactoryGirl.create type, :user => @user
         mr.parents << FactoryGirl.create(:media_set, :user => @user)
-        mr.meta_data.create(:meta_key => MetaKey.find_by_label("title"), 
+        mr.meta_data.create(:meta_key => MetaKey.find_by_id("title"), 
                             :value => Faker::Lorem.words(1).join(' '))
       end
       # MetaContext
@@ -365,9 +365,9 @@ describe MediaResourcesController do
       describe "including the meta data type meta terms" do
         it "should respond with meta data meta terms" do
           mr = MediaResource.media_entries.first
-          mk = FactoryGirl.create :meta_key, :label => "Department", :meta_datum_object_type => "MetaDatumMetaTerms", :is_extensible_list => true
+          mk = FactoryGirl.create :meta_key, id: "Department", :meta_datum_object_type => "MetaDatumMetaTerms", :is_extensible_list => true
           mr.meta_data.create :meta_key => mk, :value => [Faker::Lorem.words(4).join(' '), Faker::Lorem.words(4).join(' ')]
-          get :index, {format: 'json', ids: [mr.id], with: {meta_data: {meta_key_names: [mk.label]}}}, session
+          get :index, {format: 'json', ids: [mr.id], with: {meta_data: {meta_key_ids: [mk.label]}}}, session
           response.should  be_success
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
@@ -385,7 +385,7 @@ describe MediaResourcesController do
           response.should  be_success
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
-            mr["meta_data"].map{|x| x["name"]}.sort.should == @meta_context.meta_keys.pluck(:label).sort
+            mr["meta_data"].map{|x| x["name"]}.sort.should == @meta_context.meta_keys.pluck('meta_keys.id').sort
           end
         end        
       end
@@ -396,7 +396,7 @@ describe MediaResourcesController do
           response.should  be_success
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
-            mr["meta_data"].map{|x| x["name"]}.sort.should == @meta_context.meta_keys.pluck(:label).sort
+            mr["meta_data"].map{|x| x["name"]}.sort.should == @meta_context.meta_keys.pluck('meta_keys.id').sort
           end
         end        
       end
@@ -406,12 +406,12 @@ describe MediaResourcesController do
           # a second meta context with keys (beside core)
           @another_meta_context = FactoryGirl.create(:meta_context)
           meta_key_definition = FactoryGirl.create(:meta_key_definition, :meta_key => FactoryGirl.create(:meta_key), :meta_context => @another_meta_context)
-          meta_key_name = @another_meta_context.meta_keys.first.to_s
-          get :index, {format: 'json', ids: ids, with: {meta_data: {meta_key_names: ["#{meta_key_name}"]}}}, session
+          meta_key_id = @another_meta_context.meta_keys.first.to_s
+          get :index, {format: 'json', ids: ids, with: {meta_data: {meta_key_ids: ["#{meta_key_id}"]}}}, session
           response.should be_success
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
-            mr["meta_data"].first["name"].should == meta_key_name
+            mr["meta_data"].first["name"].should == meta_key_id
           end
         end        
       end
@@ -422,7 +422,7 @@ describe MediaResourcesController do
           response.should  be_success
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
-            mr["meta_data"].map{|x| x["name"]}.sort.should == @meta_context.meta_keys.pluck(:label).sort
+            mr["meta_data"].map{|x| x["name"]}.sort.should == @meta_context.meta_keys.pluck('meta_keys.id').sort
           end
         end        
       end

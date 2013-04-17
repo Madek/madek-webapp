@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe ImportController do
 
-  before :all do
+  before :each do
     FactoryGirl.create :usage_term
-    FactoryGirl.create :meta_key, :label => "copyright status", :meta_datum_object_type => "MetaDatumCopyright"
-    FactoryGirl.create :meta_key, :label => "description author", :meta_datum_object_type => "MetaDatumPeople"
-    FactoryGirl.create :meta_key, :label => "description author before import", :meta_datum_object_type => "MetaDatumPeople"
-    FactoryGirl.create :meta_key, :label => "uploaded by", :meta_datum_object_type => "MetaDatumUsers"
+    FactoryGirl.create :meta_key, id: "copyright status", :meta_datum_object_type => "MetaDatumCopyright"
+    FactoryGirl.create :meta_key, id: "description author", :meta_datum_object_type => "MetaDatumPeople"
+    FactoryGirl.create :meta_key, id: "description author before import", :meta_datum_object_type => "MetaDatumPeople"
+    FactoryGirl.create :meta_key, id: "uploaded by", :meta_datum_object_type => "MetaDatumUsers"
     @user = FactoryGirl.create :user
   end
 
@@ -26,7 +26,7 @@ describe ImportController do
     end
 
     describe "a single media_entry_incomplete with json format" do
-      before :all do
+      before :each do
         @mei = FactoryGirl.create :media_entry_incomplete, user: @user
       end
 

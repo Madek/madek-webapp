@@ -3,7 +3,7 @@ require 'spec_helper'
 describe MediaResourceArcsController do
   render_views
 
-  before :all do
+  before :each do
     FactoryGirl.create :usage_term
     @user = FactoryGirl.create :user
     @parent_set = FactoryGirl.create :media_set, user: @user

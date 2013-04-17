@@ -49,7 +49,7 @@ module MAdeK
 
     # Enable the asset pipeline
     config.assets.enabled = true
-    config.assets.version = '0.7.2'
+    config.assets.version = '1.0.0'
 
     # Please add any files you need precompiled here, otherwise it breaks production
     config.assets.precompile += %w( application.js
@@ -65,14 +65,9 @@ module MAdeK
                                     upload.js
                                   )
 
-    # So that the Content-Length header is sent, so that e.g. video files
-    # can be seeked and that mobile clients know how much data is coming
-    config.middleware.use Rack::ContentLength
-
   end
 end
 
-YAML::ENGINE.yamler= 'syck' # TODO use psych ??
 
 # Config files here.
 METADATA_CONFIG_DIR = "#{Rails.root}/config/definitions/metadata"

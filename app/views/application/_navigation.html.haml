@@ -11,8 +11,8 @@
       %a#to-search{:href => search_path}
         %i.icon-nav-search
         = _("Search")
-    - if AppSettings["wiki_url"]
+    - if AppSettings.support_url 
       %li.ui-tabs-item
-        %a#to-help{:href => AppSettings["wiki_url"], :target => "_blank"}
+        %a#to-help{:href => AppSettings.support_url, :target => "_blank"}
           %i.icon-nav-help
             = _("Help")

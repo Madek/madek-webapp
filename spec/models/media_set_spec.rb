@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe MediaSet do
 
-  before :all do
+  before :each do
     @media_set = FactoryGirl.create :media_set
   end
   
@@ -82,7 +82,7 @@ describe MediaSet do
       end
       
       context "many set relationships" do
-        before :all do
+        before :each do
           existing_sets_count = MediaSet.count
           
           sets = 10.times.map do

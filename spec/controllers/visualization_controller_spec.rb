@@ -3,7 +3,7 @@ require 'spec_helper'
 describe VisualizationController do
   render_views
 
-  before :all do
+  before :each do
     FactoryGirl.create :usage_term
     @user = FactoryGirl.create :user
 
