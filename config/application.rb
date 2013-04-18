@@ -54,6 +54,8 @@ module MAdeK
     # Please add any files you need precompiled here, otherwise it breaks production
     config.assets.precompile += %w( application.js
                                     application.css
+                                    app_admin.js
+                                    app_admin.css
                                     video.js
                                     video.css
                                     visualization_layout_web_worker.js
