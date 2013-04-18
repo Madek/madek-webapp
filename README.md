@@ -21,6 +21,20 @@ virtual appliance ready for download:
 https://github.com/zhdk/madek/downloads
 
 
+## Contributors
+
+The following people have contributed code to this project:
+
+* Thomas Schank
+* Franco Sellitto
+* Sebastian Pape
+* Ramón Cahenzli
+* Andrea Singh
+* Olivier Heitz
+* Tomáš Pospíšek
+* Susanne Schumacher
+
+
 ## Copyright and license
 
 Madek is (C) Zürcher Hochschule der Künste (Zurich University of the Arts).
