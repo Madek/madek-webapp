@@ -1,10 +1,30 @@
 # -*- encoding : utf-8 -*-
 
+def set_up_dropbox_settings
+  AppSettings.first.update_attributes \
+    dropbox_root_dir: Rails.root.join("tmp").to_s,
+    ftp_dropbox_user: ENV['USER']
+end
+
+Given(/^The dropbox settings are set\-up$/) do
+  set_up_dropbox_settings
+end
+
+
+Given(/^The current user doesn't have a dropbox$/) do
+  begin
+    `rm -rf #{@current_user.dropbox_dir}`
+  rescue
+  end
+end
+
 Given /^the current user has a dropbox$/ do
+  set_up_dropbox_settings
   FileUtils.mkdir_p File.join(AppSettings.dropbox_root_dir, @current_user.dropbox_dir_name)
 end
 
 When /^I open the dropbox informations dialog$/ do
+  set_up_dropbox_settings
   find(".open_dropbox_dialog").click
   step 'I wait for the dialog to appear'
 end
@@ -50,6 +70,6 @@ Then /^those files are getting imported during the upload$/ do
     find("#dropbox_filelist .plupload_dropbox.plupload_transfer", :text => matcher)
   end
   step 'I click on the link "Weiter…"'
-  wait_until(50){all("#dropbox_filelist").size == 0}
+  wait_until([3*Capybara.default_wait_time,60].max){all("#dropbox_filelist").size == 0}
   expect(@current_user.incomplete_media_entries.size).to eq @file_paths.size
 end

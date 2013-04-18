@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Keyword do
 
-  before :all do
+  before :each do
     3.times do
       FactoryGirl.create :keyword
     end

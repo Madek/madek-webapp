@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe FilterSet do
 
-  before :all do
+  before :each do
     @user = FactoryGirl.create :user
     @filter_set = FactoryGirl.create :filter_set_with_title, user: @user
   end

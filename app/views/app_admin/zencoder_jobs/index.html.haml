@@ -1,0 +1,24 @@
+%h1 
+  %i.icon-film
+  ZencoderJobs
+  
+
+
+//  .span3
+//    %h4 
+//      %i.icon-filter
+//      Filter and Scopes
+//    
+//    %p
+//      .btn-group
+//        =link_to  url_for(params.delete_if{|k,v| k == "state"}), class:  "btn " + ( (params.try('[]',:state).blank?) ? 'btn-inverse' : '') do
+//          All
+//      .btn-group
+//        =link_to  url_for (params.merge state: 'failed'), class:  "btn " + ( (params.try('[]',:state) == 'failed') ? 'btn-inverse' : '') do
+//          All
+//          
+
+
+= render partial: 'zencoder_jobs_table'
+ 
+= paginate @zencoder_jobs, theme: 'app_admin'

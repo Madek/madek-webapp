@@ -3,7 +3,7 @@ require 'spec_helper'
 describe MediaResourcesController do
   render_views
   
-  before :all do
+  before :each do
     FactoryGirl.create :usage_term 
     FactoryGirl.create :meta_context_core
     @user = FactoryGirl.create :user
@@ -110,7 +110,7 @@ describe MediaResourcesController do
   end
 
   context "fetch an index of media resources" do
-    before :all do
+    before :each do
       # MediaResources
       40.times do
         type = rand > 0.5 ? :media_entry : :media_set

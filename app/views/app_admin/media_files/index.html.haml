@@ -1,0 +1,35 @@
+%h1
+  %i.icon-file
+  MediaFiles
+
+
+.row 
+  .span9
+
+    %table.table.table-striped
+      %thead
+      %tbody
+        =render @media_files
+
+  %div.span3
+
+    %h3 
+      %i.icon-filter
+      Filters
+
+    = form_tag app_admin_media_files_path, method: 'GET' do
+
+      %label.checkbox 
+        = check_box_tag "only_with_media_entry", 1, !params[:only_with_media_entry].blank? 
+        Only with media entry
+
+
+      %label.checkbox 
+        = check_box_tag "incomplete_encoded_videos", 1, !params[:incomplete_encoded_videos].blank? 
+        Incomplete encoded videos
+
+      = button_tag type: 'submit', class: 'btn btn-small' do
+        Apply
+     
+
+= paginate @media_files, theme: 'app_admin'

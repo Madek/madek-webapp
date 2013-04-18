@@ -4,23 +4,23 @@ require 'pry'
 describe MediaSetsController do
   render_views
 
-  before :all do
+  before :each do
     FactoryGirl.create :usage_term
     FactoryGirl.create :meta_context_core
   end
 
   context "API Tests" do
 
-    before :all do
+    before :each do
       @user = FactoryGirl.create :user
     end
 
 
     context "a user without session" do
 
-      before :all do
+      before :each do
         @media_set = FactoryGirl.create :media_set, view: true, user: @user
-        AppSettings.splashscreen_slideshow_set_id = @media_set.id
+        AppSettings.first.update_attributes splashscreen_slideshow_set_id: @media_set.id
       end
 
 
@@ -49,7 +49,7 @@ describe MediaSetsController do
 
     context "a user with a session and user_id in that session" do 
 
-      before :all do
+      before :each do
         (1..5).each do
           @parent_media_set.child_media_resources << (FactoryGirl.create :media_entry, view: true, user: @user)
           media_set = FactoryGirl.create  :media_set, view: true, user: @user

@@ -25,7 +25,11 @@
         - unless current_user.is_guest?
           .row
             .col1of2.by-right.mtx
-              .mrs.mts= render :partial => "create_relations"
+              .mrs.mts
+                %button.button{:"data-create-filter-set" => true}
+                  %i.icon-new-set
+                  Filterset erstellen
+
             .col1of2
               %form{:action => search_path, :method => :post}
                 = token_tag nil

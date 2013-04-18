@@ -374,4 +374,38 @@ class MediaFile < ActiveRecord::Base
     "MediaFile: #{id}"
   end
 
+
+  def self.incomplete_encoded_videos
+    where(media_type: 'video').where <<-SQL
+
+        NOT EXISTS  (SELECT true FROM media_files as mf
+                        INNER JOIN previews ON previews.media_file_id = mf.id
+                        WHERE mf.id = media_files.id
+                        AND previews.content_type  = 'video/mp4')
+      OR 
+
+        NOT EXISTS  (SELECT true FROM media_files as mf
+                      INNER JOIN previews ON previews.media_file_id = mf.id
+                      WHERE mf.id = media_files.id
+                      AND previews.content_type  = 'video/webm')
+
+    SQL
+  end
+
+  def self.recreate_all_image_previews 
+    MediaFile.where("media_files.content_type SIMILAR TO '%(image|pdf)%'") \
+      .joins(:media_entry).pluck(:id).each do |id|
+
+      begin
+        media_file = MediaFile.find(id)
+        media_file.previews.destroy_all
+        media_file.make_thumbnails
+      rescue => e
+        logger.error Formatter.error_to_s(e)
+      end
+
+      end
+  end
+
 end
+

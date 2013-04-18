@@ -3,7 +3,7 @@ require 'spec_helper'
 describe ZencoderJobsController do
   render_views
 
-  before :all do
+  before :each do
     ENV['ZENCODER_CONFIG_FILE']= (Rails.root.join "features","data","zencoder.yml").to_s
     FactoryGirl.create :usage_term
     FactoryGirl.create :meta_key, id: "copyright status", :meta_datum_object_type => "MetaDatumCopyright"
