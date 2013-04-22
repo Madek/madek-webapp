@@ -112,3 +112,6 @@ msgstr ""
 
 msgid "Department groups"
 msgstr ""
+
+msgid "Change view"
+msgstr ""
