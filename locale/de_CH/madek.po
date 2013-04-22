@@ -105,3 +105,15 @@ msgstr "Medien teilen, Werke archivieren, Inhalte erkunden, Wissen entwickeln."
 
 msgid "Explore content"
 msgstr "Inhalte erkunden"
+
+msgid "New workgroup"
+msgstr "Neue Arbeitsgruppe"
+
+msgid "Workgroups"
+msgstr "Arbeitsgruppen"
+
+msgid "System groups"
+msgstr "Systemgruppen"
+
+msgid "Department groups"
+msgstr "Abteilungsgruppen"
