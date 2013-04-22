@@ -101,8 +101,7 @@ msgstr ""
 msgid "Explore content"
 msgstr ""
 
-msgid "New workgroup"
-msgstr ""
+msgid "New workgroup" msgstr ""
 
 msgid "Workgroups"
 msgstr ""
@@ -115,3 +114,10 @@ msgstr ""
 
 msgid "Change view"
 msgstr ""
+
+msgid "Reject"
+msgstr ""
+
+msgid "Accept"
+msgstr ""
+
