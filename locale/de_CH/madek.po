@@ -136,3 +136,5 @@ msgstr "Filterset erstellen"
 msgid "Search result"
 msgstr "Suchresultat"
 
+msgid "%s o'clock"
+msgstr "%s Uhr"
