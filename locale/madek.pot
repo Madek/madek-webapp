@@ -130,3 +130,6 @@ msgstr ""
 msgid "Search result"
 msgstr ""
 
+msgid "%s o'clock"
+msgstr ""
+
