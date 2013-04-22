@@ -117,3 +117,6 @@ msgstr "Systemgruppen"
 
 msgid "Department groups"
 msgstr "Abteilungsgruppen"
+
+msgid "Change view"
+msgstr "Darstellung ändern"
