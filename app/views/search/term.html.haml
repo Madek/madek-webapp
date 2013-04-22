@@ -18,7 +18,7 @@
           .ui-body-title
             .ui-body-title-label
               %h1.title-xl 
-                Suchergebnisse für
+                = _("Search results for")
                 = "\"#{@term}\""
 
       .col1of2
@@ -28,14 +28,15 @@
               .mrs.mts
                 %button.button{:"data-create-filter-set" => true}
                   %i.icon-new-set
-                  Filterset erstellen
+                    = _("Create filter set")
 
             .col1of2
               %form{:action => search_path, :method => :post}
                 = token_tag nil
                 .ui-search.large.mts
                   %input.block.ui-search-input{:type => "text", :name => "search", :placeholder => placeholder_text}
-                  %button.primary-button.ui-search-button Suchen
+                  %button.primary-button.ui-search-button 
+                    = _("Search")
         - else
           .mts.by-right= render :partial => "login_action"
 
@@ -45,7 +46,7 @@
         #ui-resources-list-container.app-body-content
 
           = render :partial => "media_resources/list/toolbar", 
-                   :locals => {:title => "Suchresultat",
+                   :locals => {:title => _("Search result"),
                                :subtitle => "#{@result_count_for_term} Inhalte"}
 
           = render :partial => "media_resources/list/filterbar"

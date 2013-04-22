@@ -41,7 +41,7 @@ msgid "Explore"
 msgstr "Erkunden"
 
 msgid "Search"
-msgstr "Suchen"
+msgstr "Suche"
 
 msgid "ZHdK login"
 msgstr "ZHdK-Login"
@@ -126,4 +126,13 @@ msgstr "Ablehnen"
 
 msgid "Accept"
 msgstr "Akzeptieren"
+
+msgid "Search results for"
+msgstr "Suchergebnisse für"
+
+msgid "Create filter set"
+msgstr "Filterset erstellen"
+
+msgid "Search result"
+msgstr "Suchresultat"
 

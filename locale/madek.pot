@@ -121,3 +121,12 @@ msgstr ""
 msgid "Accept"
 msgstr ""
 
+msgid "Search results for"
+msgstr ""
+
+msgid "Create filter set"
+msgstr ""
+
+msgid "Search result"
+msgstr ""
+
