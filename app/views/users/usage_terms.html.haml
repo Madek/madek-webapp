@@ -10,10 +10,10 @@
         .ui-body-title-actions
           %a.button{:"data-create-set" => true}
             %i.icon-new-set
-            Set erstellen
+            = _("Create set")
           %a.primary-button{:href => import_path}
             %i.icon-upload.bright
-            Medien importieren
+            = _("Import media")
 
     .app-body-ui-container
       .bordered.ui-container.midtone.rounded.table
@@ -40,8 +40,10 @@
       .pbm
     .ui-modal-footer
       .ui-actions
-        %a.link.weak{:href => "/logout"} Ablehnen
-        %button.primary-button{:type => "submit"} Akzeptieren
+        %a.link.weak{:href => "/logout"}
+          = _("Reject")
+        %button.primary-button{:type => "submit"}
+          = _("Accept")
 
 :coffeescript
   
