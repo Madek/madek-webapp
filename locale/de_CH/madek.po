@@ -63,3 +63,45 @@ msgstr "Kontexte"
 
 msgid "New content"
 msgstr "Neue Inhalte"
+
+msgid "Further actions"
+msgstr "Weitere Aktionen"
+
+msgid "Import media"
+msgstr "Medien importieren"
+
+msgid "Show connections"
+msgstr "Zusammenhänge anzeigen"
+
+msgid "Create set"
+msgstr "Set erstellen"
+
+msgid "My favorites"
+msgstr "Meine Favoriten"
+
+msgid "Content entrusted to me"
+msgstr "Mir anvertraute Inhalte"
+
+msgid "Export"
+msgstr "Exportieren"
+
+msgid "Content I am responsible for"
+msgstr "Inhalte, für die ich verantwortlich bin"
+
+msgid "My latest imports"
+msgstr "Meine letzten Importe"
+
+msgid "My keywords"
+msgstr "Meine Schlagworte"
+
+msgid "My workgroups"
+msgstr "Meine Arbeitsgruppen"
+
+msgid "Welcome"
+msgstr "Herzlich Willkommen"
+
+msgid "Share your media, archive your works, explore content, develop knowledge."
+msgstr "Medien teilen, Werke archivieren, Inhalte erkunden, Wissen entwickeln."
+
+msgid "Explore content"
+msgstr "Inhalte erkunden"

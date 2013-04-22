@@ -6,14 +6,15 @@
     .app-body-title
       .ui-body-title
         .ui-body-title-label
-          %h1.title-xl Mein Archiv
+          %h1.title-xl 
+            = _("My archive")
         .ui-body-title-actions
           %a.button{:"data-create-set" => true}
             %i.icon-new-set
-            Set erstellen
+            = _("Create set")
           %a.primary-button{:href => import_path}
             %i.icon-upload.bright
-            Medien importieren
+            = _("Import media")
 
     .app-body-ui-container
       .bordered.ui-container.midtone.rounded.table
@@ -25,7 +26,7 @@
           - unless @latest_user_resources.blank?
             = render :partial => "media_resources/wrapper",
                      :locals => {:media_resources => @latest_user_resources,
-                                 :title => "Inhalte, für die ich verantwortlich bin",
+                                 :title => _("Content I am responsible for"),
                                  :link => my_media_resources_path(:sort => :updated_at),
                                  :with_actions => true,
                                  :id => "latest_user_resources_block"}
@@ -34,7 +35,7 @@
           - unless @latest_user_imports.blank?
             = render :partial => "media_resources/wrapper", 
                      :locals => {:media_resources => @latest_user_imports, 
-                                 :title => "Meine letzten Importe", 
+                                 :title => _("My latest imports"), 
                                  :link => my_latest_imports_path,
                                  :item_layout => "miniature",
                                  :with_actions => true,
@@ -44,7 +45,7 @@
           - unless @user_favorite_resources.blank?
             = render :partial => "media_resources/wrapper",
                      :locals => {:media_resources => @user_favorite_resources,
-                                 :title => "Meine Favoriten",
+                                 :title => _("My favorites"),
                                  :link => my_favorites_path(:sort => :updated_at),
                                  :with_actions => true,
                                  :id => "user_favorite_resources_block" }
@@ -53,7 +54,7 @@
           - unless @user_keywords.blank?
             = render :partial => "keywords/wrapper",
                      :locals => {:keywords => @user_keywords,
-                                 :title => "Meine Schlagworte",
+                                 :title => _("My keywords"),
                                  :link => my_keywords_path,
                                  :id => "user_keywords_block" }
             %hr.separator
@@ -61,7 +62,7 @@
           - unless @user_entrusted_resources.blank?
             = render :partial => "media_resources/wrapper",
                      :locals => {:media_resources => @user_entrusted_resources,
-                                 :title => "Mir anvertraute Inhalte",
+                                 :title => _("Content entrusted to me"),
                                  :link => my_entrusted_media_resources_path(:sort => :updated_at),
                                  :item_layout => "miniature",
                                  :with_actions => true,
@@ -71,7 +72,7 @@
           - unless @user_groups.blank?
             = render :partial => "groups/wrapper", 
                      :locals => {:groups => @user_groups, 
-                                 :title => "Meine Arbeitsgruppen",
+                                 :title => _("My workgroups"),
                                  :link => my_groups_path,
                                  :id => "my_groups_block"}
 
@@ -79,16 +80,16 @@
             .row.mts
               .pvh.mth.mbl
                 .title-l.by-center 
-                  Herzlich Willkommen
+                  = _("Welcome")
                   .title-s.by-center
-                    Medien teilen, Werke archivieren, Inhalte erkunden, Wissen entwickeln.
+                    = _("Share your media, archive your works, explore content, develop knowledge.")
                     .mtm
                       %a.button{:href => explore_path} 
                         %i.icon-eye
-                        Inhalte erkunden
+                        = _("Explore content")
                       %a.primary-button{:href => import_path} 
                         %i.icon-upload.bright
-                        Medien importieren
+                        = _("Import media")
 
   .app-footer-push
 = render :partial => "application/footer"

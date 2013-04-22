@@ -58,3 +58,45 @@ msgstr ""
 
 msgid "New content"
 msgstr ""
+
+msgid "Further actions"
+msgstr ""
+
+msgid "Import media"
+msgstr ""
+
+msgid "Show connections"
+msgstr ""
+
+msgid "Create set"
+msgstr ""
+
+msgid "My favorites"
+msgstr ""
+
+msgid "Content entrusted to me"
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "Content I am responsible for"
+msgstr ""
+
+msgid "My latest imports"
+msgstr ""
+
+msgid "My keywords"
+msgstr ""
+
+msgid "My workgroups"
+msgstr ""
+
+msgid "Welcome"
+msgstr ""
+
+msgid "Share your media, archive your works, explore content, develop knowledge."
+msgstr ""
+
+msgid "Explore content"
+msgstr ""
