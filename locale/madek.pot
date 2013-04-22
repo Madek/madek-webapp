@@ -100,3 +100,15 @@ msgstr ""
 
 msgid "Explore content"
 msgstr ""
+
+msgid "New workgroup"
+msgstr ""
+
+msgid "Workgroups"
+msgstr ""
+
+msgid "System groups"
+msgstr ""
+
+msgid "Department groups"
+msgstr ""
