@@ -17,19 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "About the project"
-msgstr ""
-
-msgid "Impressum"
-msgstr ""
-
-msgid "Contact"
-msgstr ""
-
 msgid "Help"
-msgstr ""
-
-msgid "Terms of Use"
 msgstr ""
 
 msgid "My archive"
@@ -168,9 +156,7 @@ msgid "Show all"
 msgstr ""
 
 msgid "Cover image"
-msgstr ""
-
-msgid "Specify cover image for set"
+msgstr "" msgid "Specify cover image for set"
 msgstr ""
 
 msgid "Highlight content"
@@ -216,4 +202,142 @@ msgid "This set is contained in one set"
 msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "items"
+msgstr ""
+
+msgid "%d of %d items visible to you"
+msgstr ""
+
+msgid "Set contains"
+msgstr ""
+
+msgid "Browse for similar content"
+msgstr ""
+
+msgid "No similar content found"
+msgstr ""
+
+msgid "This item does not have enough metadata"
+msgstr ""
+
+msgid "Add metadata"
+msgstr ""
+
+msgid "Edit metadata"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Import media"
+msgstr ""
+
+msgid "%d items selected"
+msgstr ""
+
+msgid "Table view"
+msgstr ""
+
+msgid "Media view"
+msgstr ""
+
+msgid "These items are publicly accessible"
+msgstr ""
+
+msgid "These items are only accesible to you"
+msgstr ""
+
+msgid "These items are shared with others"
+msgstr ""
+
+msgid "List of media resources"
+msgstr ""
+
+msgid "Add to/remove from clipboard"
+msgstr ""
+
+msgid "Add to/remove from favorites"
+msgstr ""
+
+msgid "Add to clipboard"
+msgstr ""
+
+msgid "Browse"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Miniature view"
+msgstr ""
+
+msgid "Grid view"
+msgstr ""
+
+msgid "List view"
+msgstr ""
+
+msgid "Order by creation date"
+msgstr ""
+
+msgid "Order by modification date"
+msgstr ""
+
+msgid "Order by title"
+msgstr ""
+
+msgid "Filter and order by author"
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Reset filters"
+msgstr ""
+
+msgid "Deselect all"
+msgstr ""
+
+msgid "Select all"
+msgstr ""
+
+msgid "Limit by keyword"
+msgstr ""
+
+msgid "Loading filters"
+msgstr ""
+
+msgid "Required field - please fill in"
+msgstr ""
+
+msgid "Apply field to all items"
+msgstr ""
+
+msgid "Overwrite existing values"
+msgstr ""
+
+msgid "Person"
+msgstr ""
+
+msgid "Group"
+msgstr ""
+
+msgid "Last name"
+msgstr ""
+
+msgid "First name"
+msgstr ""
+
+msgid "Pseudonym"
+msgstr ""
+
+msgid "Add person"
+msgstr ""
+
+msgid "Add group"
+msgstr ""
+
+msgid "Name"
+msgstr ""
 

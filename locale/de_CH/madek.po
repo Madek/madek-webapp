@@ -16,23 +16,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Poedit-Language: German\n"
-"X-Poedit-Country: Switzerland\n"
-
-msgid "About the project"
-msgstr "Informationen zum Projekt"
-
-msgid "Impressum"
-msgstr "Impressum"
-
-msgid "Contact"
-msgstr "Kontakt"
 
 msgid "Help"
 msgstr "Hilfe"
-
-msgid "Terms of Use"
-msgstr "Nutzungsbestimmungen"
 
 msgid "My archive"
 msgstr "Mein Archiv"
@@ -228,7 +214,6 @@ msgid_plural "This set is contained in %d sets"
 msgstr[0] "Dieses Set ist in einem Set enthalten"
 msgstr[1] "Dieses Set ist in %d Sets enthalten"
 
-
 msgid "items"
 msgstr "Inhalte"
 
@@ -237,3 +222,132 @@ msgstr "%d von %d Inhalten für Sie sichtbar"
 
 msgid "Set contains"
 msgstr "Set enthält"
+
+msgid "Browse for similar content"
+msgstr "Nach vergleichbaren Inhalten stöbern"
+
+msgid "No similar content found"
+msgstr "Keine vergleichbaren Inhalte gefunden"
+
+msgid "This item does not have enough metadata"
+msgstr "Dieser Inhalt hat nicht genügend Metadaten"
+
+msgid "Add metadata"
+msgstr "Metadaten ergänzen"
+
+msgid "Edit metadata"
+msgstr "Metadaten editieren"
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgid "Import media"
+msgstr "Medien importieren"
+
+msgid "%d items selected"
+msgstr "%d Inhalte ausgewählt"
+
+msgid "Table view"
+msgstr "Tabellenansicht"
+
+msgid "Media view"
+msgstr "Medienansicht"
+
+msgid "These items are publicly accessible"
+msgstr "Diese Inhalte sind öffentlich zugänglich"
+
+msgid "These items are only accesible to you"
+msgstr "Diese Inhalte sind nur für Sie zugänglich"
+
+msgid "These items are shared with others"
+msgstr "Diese Inhalte werden mit Anderen geteilt"
+
+msgid "List of media resources"
+msgstr "Liste von Medienressourcen"
+
+msgid "Add to/remove from clipboard"
+msgstr "Zur Zwischenablage hinzufügen/entfernen"
+
+msgid "Add to/remove from favorites"
+msgstr "Zur Favoriten hinzufügen/entfernen"
+
+msgid "Add to clipboard"
+msgstr "Zur Zwischenablage hinzufügen"
+
+msgid "Browse"
+msgstr "Stöbern"
+
+msgid "Delete"
+msgstr "Löschen"
+
+msgid "Miniature view"
+msgstr "Miniatur-Ansicht"
+
+msgid "Grid view"
+msgstr "Raster-Ansicht"
+
+msgid "List view"
+msgstr "Listen-Ansicht"
+
+msgid "Order by creation date"
+msgstr "Sortieren nach Erstellungsdatum"
+
+msgid "Order by modification date"
+msgstr "Sortieren nach Änderungsdatum"
+
+msgid "Order by title"
+msgstr "Sortieren nach Titel"
+
+msgid "Filter and order by author"
+msgstr "Filtern und sortieren nach Autor/in"
+
+msgid "Filter"
+msgstr "Filtern"
+
+msgid "Reset filters"
+msgstr "Alle Filter zurücksetzen"
+
+msgid "Deselect all"
+msgstr "Alle abwählen"
+
+msgid "Select all"
+msgstr "Alle auswählen"
+
+msgid "Limit by keyword"
+msgstr "Eingrenzen mit Suchwort"
+
+msgid "Loading filters"
+msgstr "Filter werden geladen"
+
+msgid "Required field - please fill in"
+msgstr "Pflichtfeld - Bitte angeben"
+
+msgid "Apply field to all items"
+msgstr "Feld auf alle Inhalte übertragen"
+
+msgid "Overwrite existing values"
+msgstr "Bestehende Werte überschreiben"
+
+msgid "Person"
+msgstr "Person"
+
+msgid "Group"
+msgstr "Gruppe"
+
+msgid "Last name"
+msgstr "Nachname"
+
+msgid "First name"
+msgstr "Vorname"
+
+msgid "Pseudonym"
+msgstr "Pseudonym"
+
+msgid "Add person"
+msgstr "Person einfügen"
+
+msgid "Add group"
+msgstr "Gruppe einfügen"
+
+msgid "Name"
+msgstr "Name"
