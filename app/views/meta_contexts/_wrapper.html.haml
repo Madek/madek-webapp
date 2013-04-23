@@ -4,7 +4,8 @@
       %h2.title-l.ui-resource-title
         = title
         - if defined? link
-          %a.strong{:href => link} Alle anzeigen
+          %a.strong{:href => link} 
+            = _("Show all")
   .ui-contexts
     - meta_contexts.each do |context|
       - media_resource = MediaResource.filter(current_user, {:meta_context_ids => [context.id]}).ordered_by(:updated_at).first

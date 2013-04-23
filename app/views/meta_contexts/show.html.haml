@@ -8,17 +8,19 @@
           %table.borderless
             %tbody
               %tr
-                %td.ui-summary-label Titel
+                %td.ui-summary-label
+                  = _("Title")
                 %td.ui-summary-content.title-l= @context
               - if @context.description
                 %tr
-                  %td.ui-summary-label Beschreibung
+                  %td.ui-summary-label
+                    = _("Description")
                   %td.ui-summary-content= @context.description
 
     #ui-resources-list-container.ui-container.midtone.bordered.rounded-bottom
 
       = render :partial => "media_resources/list/toolbar", 
-                 :locals => {:title => "Kontext enthält",
+                 :locals => {:title => _("Context contains"),
                              :subtitle => "#{@resources_count} Inhalte",
                              :actions => render(:partial => "media_sets/actions/save_display_settings")}
 
