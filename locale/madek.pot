@@ -53,6 +53,9 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
+msgid "Context"
+msgstr ""
+
 msgid "Contexts"
 msgstr ""
 
@@ -133,3 +136,34 @@ msgstr ""
 
 msgid "%s o'clock"
 msgstr ""
+
+msgid "Extract"
+msgstr ""
+
+msgid "Vocabulary"
+msgstr ""
+
+msgid "A specific vocabulary was created for this context"
+msgstr ""
+
+msgid "Highlight values that were already used in this context"
+msgstr ""
+
+msgid "Context contains"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "These metadata were used most often"
+msgstr ""
+
+msgid "They show this context's area of focus"
+msgstr ""
+
+msgid "Show all"
+msgstr ""
+

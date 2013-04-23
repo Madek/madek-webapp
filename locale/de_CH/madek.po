@@ -58,6 +58,9 @@ msgstr "Benutzername"
 msgid "Password"
 msgstr "Passwort"
 
+msgid "Context"
+msgstr "Kontext"
+
 msgid "Contexts"
 msgstr "Kontexte"
 
@@ -138,3 +141,33 @@ msgstr "Suchresultat"
 
 msgid "%s o'clock"
 msgstr "%s Uhr"
+
+msgid "Extract"
+msgstr "Auszug"
+
+msgid "Vocabulary"
+msgstr "Vokabular"
+
+msgid "A specific vocabulary was created for this context"
+msgstr "Für diesen Kontext wurde ein spezifisches Vokabular erstellt"
+
+msgid "Highlight values that were already used in this context"
+msgstr "Die bereits in diesem Kontext vergebenen Werte hervorheben"
+
+msgid "Context contains"
+msgstr "Kontext enthält"
+
+msgid "Title"
+msgstr "Titel"
+
+msgid "Description"
+msgstr "Beschreibung"
+
+msgid "These metadata were used most often"
+msgstr "Diese Metadaten wurden am häufigsten vergeben"
+
+msgid "They show this context's area of focus"
+msgstr "Sie zeigen den thematischen Schwerpunkt dieses Kontext an"
+
+msgid "Show all"
+msgstr "Alle anzeigen"
