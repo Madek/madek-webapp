@@ -1,6 +1,6 @@
 %select.block{:id => "resource[meta_data_attributes][#{@i}][value]" , :name => "resource[meta_data_attributes][#{@i}][value]", :type => "hidden", :autocomplete => :off}
 
-  %option{:label => "Bitte Land auswählen"}
+  %option{:label => _("Please select country")}
   
   - MetaDatumCountry.get_codes.each do |country|
 

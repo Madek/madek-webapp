@@ -7,7 +7,8 @@
     .app-body-title
       .ui-body-title
         .ui-body-title-label
-          %h1.title-xl Metadaten editieren
+          %h1.title-xl
+            = _("Edit metadata")
 
     .app-body-ui-container
 
@@ -30,9 +31,9 @@
                 
           .ui-actions.phl.pbl.mtl
             %a.link.weak{:href => media_resource_path(@media_resource)}
-              Abbrechen
+              = _("Cancel")
             %button.primary-button.large{type: 'submit'}
-              Speichern
+              = _("Save")
 
   .app-footer-push
 = render :partial => "application/footer"
