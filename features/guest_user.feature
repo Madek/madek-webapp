@@ -11,7 +11,7 @@ Feature: Guests / Not logged in user
   @jsbrowser @clean
   Scenario: Search page
     When I go to the home page
-    When I click on the link "Suchen"
+    When I click on the link "Suche"
     Then I am on the "/search" page
     And I can see the text "Suche"
     And I set the input with the name "search" to "Landschaft"
