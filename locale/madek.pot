@@ -32,6 +32,9 @@ msgstr ""
 msgid "ZHdK login"
 msgstr ""
 
+msgid "External users"
+msgstr ""
+
 msgid "Log in"
 msgstr ""
 
@@ -134,7 +137,13 @@ msgstr ""
 msgid "A specific vocabulary was created for this context"
 msgstr ""
 
+msgid "A specific vocabulary was created for this set"
+msgstr ""
+
 msgid "Highlight values that were already used in this context"
+msgstr ""
+
+msgid "Highlight values that were already used in this set"
 msgstr ""
 
 msgid "Context contains"
@@ -230,9 +239,6 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-msgid "Import media"
-msgstr ""
-
 msgid "%d items selected"
 msgstr ""
 
@@ -255,6 +261,9 @@ msgid "List of media resources"
 msgstr ""
 
 msgid "Add to/remove from clipboard"
+msgstr ""
+
+msgid "Add to/remove from set"
 msgstr ""
 
 msgid "Add to/remove from favorites"
@@ -339,5 +348,44 @@ msgid "Add group"
 msgstr ""
 
 msgid "Name"
+msgstr ""
+
+msgid "Most popular"
+msgstr ""
+
+msgid "Latest"
+msgstr ""
+
+msgid "Loading keywords"
+msgstr ""
+
+msgid "Free entry"
+msgstr ""
+
+msgid "on"
+msgstr ""
+
+msgid "von/bis"
+msgstr ""
+
+msgid "will be saved as text"
+msgstr ""
+
+msgid "from"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
+msgid "Please select country"
+msgstr ""
+
+msgid "Visualize relationship between items as a graph"
+msgstr ""
+
+msgid "Read/edit permissions"
+msgstr ""
+
+msgid "Permissions"
 msgstr ""
 

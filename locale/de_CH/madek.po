@@ -33,7 +33,7 @@ msgid "ZHdK login"
 msgstr "ZHdK-Login"
 
 msgid "External users"
-msgstr "Externe"
+msgstr "Externe Benutzer"
 
 msgid "Log in"
 msgstr "Anmelden"
@@ -241,9 +241,6 @@ msgstr "Metadaten editieren"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-msgid "Import media"
-msgstr "Medien importieren"
-
 msgid "%d items selected"
 msgstr "%d Inhalte ausgewählt"
 
@@ -267,6 +264,9 @@ msgstr "Liste von Medienressourcen"
 
 msgid "Add to/remove from clipboard"
 msgstr "Zur Zwischenablage hinzufügen/entfernen"
+
+msgid "Add to/remove from set"
+msgstr "Zu Set hinzufügen/entfernen"
 
 msgid "Add to/remove from favorites"
 msgstr "Zur Favoriten hinzufügen/entfernen"
@@ -351,3 +351,42 @@ msgstr "Gruppe einfügen"
 
 msgid "Name"
 msgstr "Name"
+
+msgid "Most popular"
+msgstr "Beliebteste"
+
+msgid "Latest"
+msgstr "Neuste"
+
+msgid "Loading keywords"
+msgstr "Lade Schlagworte"
+
+msgid "Free entry"
+msgstr "Freie Eingabe"
+
+msgid "on"
+msgstr "am"
+
+msgid "von/bis"
+msgstr "from/to"
+
+msgid "will be saved as text"
+msgstr "wird als Text gespeichert"
+
+msgid "from"
+msgstr "von"
+
+msgid "to"
+msgstr "bis"
+
+msgid "Please select country"
+msgstr "Bitte Land auswählen"
+
+msgid "Visualize relationship between items as a graph"
+msgstr "Beziehung von Inhalten als Graph visualisieren"
+
+msgid "Read/edit permissions"
+msgstr "Zugriffsberechtigungen lesen/bearbeiten"
+
+msgid "Permissions"
+msgstr "Zugriffsberechtigungen"
