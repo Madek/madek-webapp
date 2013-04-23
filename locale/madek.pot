@@ -167,3 +167,53 @@ msgstr ""
 msgid "Show all"
 msgstr ""
 
+msgid "Cover image"
+msgstr ""
+
+msgid "Specify cover image for set"
+msgstr ""
+
+msgid "Highlight content"
+msgstr ""
+
+msgid "Display settings saved"
+msgstr ""
+
+msgid "Save display settings"
+msgstr ""
+
+msgid "Specify sort and display settings for this set"
+msgstr ""
+
+msgid "Specify display settings"
+msgstr ""
+
+msgid "Highlighted content"
+msgstr ""
+
+msgid "Parent sets"
+msgstr ""
+
+msgid "They show this set's area of focus"
+msgstr ""
+
+msgid "This set has additional contexts with metadata"
+msgstr ""
+
+msgid "This allows adding further details to all media entries contained in this set."
+msgstr ""
+
+msgid "Furthermore, you may also assign any contexts that are assigned to this set to any set contained within."
+msgstr ""
+
+msgid "Aktivieren / Deaktivieren"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "This set is contained in one set"
+msgid_plural ""
+msgstr[0] ""
+msgstr[1] ""
+

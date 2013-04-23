@@ -4,13 +4,13 @@
 
     .bright.ui-container.pal.rounded-bottom
 
-      %h2.title-l.separated 
-        Für dieses Set wurde ein spezifisches Vokabular erstellt
+      %h2.title-l.separated
+        = _("A specific vocabulary was created for this set")
 
         %span.right
           %a.weak#ui-highlight-used-terms.hidden
             %i.icon-checkbox
-            Die bereits in diesem Set vergebenen Werte hervorheben
+            = _("Highlight values that were already used in this set")
 
       - @vocabulary.each_with_index do |vocabular, i|
 

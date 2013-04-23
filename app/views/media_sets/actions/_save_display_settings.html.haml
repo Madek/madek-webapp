@@ -1,5 +1,6 @@
 -if @can_edit
-  #ui-save-display-settings.hidden{:"data-text-saved" => "Darstellung gespeichert", :"data-text-unsaved" => "Darstellung festlegen"}
-    %a.tertiary-button.small{:title => "Sortierung und Darstellung der Inhalte dieses Sets festlegen"}
+  #ui-save-display-settings.hidden{:"data-text-saved" => _("Display settings saved"), :"data-text-unsaved" => _("Save display settings")}
+    %a.tertiary-button.small{:title => _("Specify sort and display settings for this set")}
       %i.icon-eye.mid
-      %span.text Darstellung festlegen
+      %span.text
+        = _("Specify display settings")

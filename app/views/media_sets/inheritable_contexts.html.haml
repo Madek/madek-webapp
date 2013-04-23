@@ -4,10 +4,11 @@
 
     .bright.ui-container.pal.rounded-bottom
 
-      %h2.title-l Diesem Set sind zusätzliche Kontexte mit Metadaten zugewiesen.
+      %h2.title-l 
+        = _("This set has additional contexts with metadata")
       %h3.title-s.pbx.mbl.separated
-        So können für alle Medieneinträge, die in diesem Set enthalten sind, weitere inhaltliche Angaben gemacht werden.
-        Darüber hinaus können alle Sets, die diesem Set zugewiesen werden, ebenfalls die ausgewählten zusätzlichen Kontexte erhalten.
+        = _("This allows adding further details to all media entries contained in this set.")
+        = _("Furthermore, you may also assign any contexts that are assigned to this set to any set contained within.")
 
       = form_for @media_set do
 
@@ -20,7 +21,7 @@
             - (@media_set.individual_and_inheritable_contexts).each do |context|
               %tr{:"data-id" => context.id}
                 %td
-                  %label.ui-context-selection{:title => "Aktivieren / Deaktivieren"}
+                  %label.ui-context-selection{:title => _("Activate / Deactivate")}
                     %input{:type => :hidden, :name => "individual_context_ids[]", :value => :false}
                     = check_box_tag "individual_context_ids[]", context.id, @media_set.individual_contexts.include?(context), :class => "individual_context", :autocomplete => "off"
                     %strong.ui-context-selection-name= context
@@ -28,6 +29,7 @@
                 %td
                   = link_to "Anzeigen", context_path(context), :target => :_blank
 
-        %button.mtl.primary-button{:type => :submit} Speichern
+        %button.mtl.primary-button{:type => :submit}
+          = _("Save")
 
 = render :partial => "media_sets/layout"
