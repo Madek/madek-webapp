@@ -151,8 +151,14 @@ msgstr "Vokabular"
 msgid "A specific vocabulary was created for this context"
 msgstr "Für diesen Kontext wurde ein spezifisches Vokabular erstellt"
 
+msgid "A specific vocabulary was created for this set"
+msgstr "Für dieses Set wurde ein spezifisches Vokabular erstellt"
+
 msgid "Highlight values that were already used in this context"
 msgstr "Die bereits in diesem Kontext vergebenen Werte hervorheben"
+
+msgid "Highlight values that were already used in this set"
+msgstr "Die bereits in diesem Set vergebenen Werte hervorheben"
 
 msgid "Context contains"
 msgstr "Kontext enthält"
@@ -171,3 +177,63 @@ msgstr "Sie zeigen den thematischen Schwerpunkt dieses Kontext an"
 
 msgid "Show all"
 msgstr "Alle anzeigen"
+
+msgid "Cover image"
+msgstr "Titelbild"
+
+msgid "Specify cover image for set"
+msgstr "Titelbild für Set festlegen"
+
+msgid "Highlight content"
+msgstr "Inhalte hervorheben"
+
+msgid "Display settings saved"
+msgstr "Darstellung gespeichert"
+
+msgid "Save display settings"
+msgstr "Darstellung festlegen"
+
+msgid "Specify sort and display settings for this set"
+msgstr "Sortierung und Darstellung der Inhalte dieses Sets festlegen"
+
+msgid "Specify display settings"
+msgstr "Darstellung festlegen"
+
+msgid "Highlighted content"
+msgstr "Hervorgehobene Inhalte"
+
+msgid "Parent sets"
+msgstr "Übergeordnete Sets"
+
+msgid "They show this set's area of focus"
+msgstr "Sie zeigen den thematischen Schwerpunkt dieses Sets an"
+
+msgid "This set has additional contexts with metadata"
+msgstr "Diesem Set sind zusätzliche Kontexte mit Metadaten zugewiesen"
+
+msgid "This allows adding further details to all media entries contained in this set."
+msgstr "So können für alle Medieneinträge, die in diesem Set enthalten sind, weitere inhaltliche Angaben gemacht werden."
+
+msgid "Furthermore, you may also assign any contexts that are assigned to this set to any set contained within."
+msgstr "Darüber hinaus können alle Sets, die diesem Set zugewiesen werden, ebenfalls die ausgewählten zusätzlichen Kontexte erhalten."
+
+msgid "Aktivieren / Deaktivieren"
+msgstr "Activate / Deactivate"
+
+msgid "Save"
+msgstr "Speichern"
+
+msgid "This set is contained in one set"
+msgid_plural "This set is contained in %d sets"
+msgstr[0] "Dieses Set ist in einem Set enthalten"
+msgstr[1] "Dieses Set ist in %d Sets enthalten"
+
+
+msgid "items"
+msgstr "Inhalte"
+
+msgid "%d of %d items visible to you"
+msgstr "%d von %d Inhalten für Sie sichtbar"
+
+msgid "Set contains"
+msgstr "Set enthält"
