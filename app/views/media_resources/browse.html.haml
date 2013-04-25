@@ -29,8 +29,7 @@
                       %a.strong{:href => media_resources_path(:meta_data => {meta_term[:meta_datum].meta_key.label => {:ids => [meta_term[:meta_term].id]}})} Alle anzeigen
 
                 .ui-featured-entries.small.active
-
-                  %ul.ui-featured-entries-list.not-loaded{:data => {:meta_key => meta_term[:meta_datum].meta_key.label, :meta_term => meta_term[:meta_term].id}}
+                  %ul.ui-featured-entries-list.not-loaded{:data => {"meta-key" => meta_term[:meta_datum].meta_key.label, "meta-term" => meta_term[:meta_term].id}}
 
               %hr.separator
           - else

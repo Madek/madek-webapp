@@ -17,8 +17,8 @@ class MediaResourcesController.Browse
   loadBrowsableList: (el)->
     el.removeClass("not-loaded").addClass("loading")
     data = {meta_data: {}, with: {meta_data: {meta_key_ids: ["title", "author"]}}, per_page: @previewAmount, sort: "random"}
-    data.meta_data[el.data().meta_key] = {ids: []}
-    data.meta_data[el.data().meta_key].ids = [el.data().meta_term]
+    data.meta_data[el.data("meta-key")] = {ids: []}
+    data.meta_data[el.data("meta-key")].ids = [el.data("meta-term")]
     App.MediaResource.fetch data, (mediaResources, response)=>
       el.removeClass("loading")
       el.html App.render "media_resources/browse/entry", mediaResources
