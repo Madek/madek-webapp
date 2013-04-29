@@ -1,5 +1,5 @@
 #teaser-set.ui-collage.crooked.ui-container.overlaid
-  - if @splashscreen_set
+  - if @splashscreen_set and @splashscreen_set_children.any?
     - 4.times do |row|
       .ui-collage-row
         - 5.times do |col|
