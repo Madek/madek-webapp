@@ -27,7 +27,7 @@
 }
 .ui-clipboard-counter {
   @include border-radius(100px);
-  @include background-image(linear-gradient($green, $green-dark));
+  @include background-image(linear-gradient($main-color, $main-color-dark));
   background-color: $red;
   font-size: $font-xs;
   font-weight: 700;

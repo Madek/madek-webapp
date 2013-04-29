@@ -1,0 +1,12 @@
+<% 
+  config = begin
+             YAML.load_file (Rails.root.join "config", "colors.yml")
+           rescue 
+             YAML.load_file (Rails.root.join "config", "colors_default.yml")
+           end
+
+%>
+
+$main-color:               <%= config["main_color"] %>;
+$main-color-dark:          darken($main-color, 10%);
+$main-color-light:         lighten($main-color, 10%);
