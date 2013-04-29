@@ -14,6 +14,7 @@ set :deploy_via, :remote_cache
 
 set :db_config, "/home/madek/database.yml"
 set :zencoder_config, "/home/madek/zencoder.yml"
+set :authentication_systems_config, "/home/madek/authentication_systems.yml"
 #set :ldap_config, "/home/madek/LDAP.yml"
 #set :newrelic_config, "/home/madek/newrelic.yml"
 
@@ -48,7 +49,11 @@ task :link_config do
 #  run "ln -s #{ldap_config} #{release_path}/config/LDAP.yml"
 
 #  run "rm -f #{release_path}/config/zencoder.yml"
+
   run "ln -sf #{zencoder_config} #{release_path}/config/zencoder.yml"
+
+  run "rm -f #{release_path}/config/authentication_systems.yml"
+  run "ln -s #{authentication_systems_config} #{release_path}/config/authentication_systems.yml"
 
 #  run "rm -f #{release_path}/config/newrelic.yml"
 #  run "ln -s #{newrelic_config} #{release_path}/config/newrelic.yml"
