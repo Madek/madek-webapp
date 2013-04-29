@@ -1,0 +1,2 @@
+module AppAdmin::UsersHelper
+end

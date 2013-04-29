@@ -1,0 +1,13 @@
+
+%h1 Add user
+
+
+= form_tag  add_user_app_admin_group_path(@group) , method: 'POST', class: "form-horizontal" do
+
+  .control-group
+    %label.control-label User id
+    .controls
+      =text_field nil, :user_id, type: 'number'
+
+  =button_tag type: 'submit', class: 'btn btn-success' do
+    Add user

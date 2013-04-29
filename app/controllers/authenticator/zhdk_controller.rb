@@ -63,10 +63,9 @@ class Authenticator::ZhdkController < ApplicationController
   def create_or_update_user(xml)
     user = User.find_by_zhdkid(xml["id"]) # TODO use xml["uniqueid"] ??
     if user.nil?
-      person = Person.find_or_create_by_firstname_and_lastname(:firstname => xml["firstname"],
-                                                               :lastname => xml["lastname"])
-
-      user = person.create_user login: xml["local_username"], email: xml["email"], zhdkid: xml["id"]
+      person = Person.find_or_create_by_first_name_and_last_name(:first_name => xml["firstname"],
+                                                               :last_name => xml["lastname"])
+      user = person.create_user login: xml["local_username"], email: xml["email"], zhdkid: xml["id"], password: SecureRandom.base64
     end
     if user
       groups = Array(xml['memberof']['group'])

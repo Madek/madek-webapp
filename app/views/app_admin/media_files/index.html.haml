@@ -1,15 +1,9 @@
-%h1
+%h1.text-center
   %i.icon-file
   MediaFiles
 
 
 .row 
-  .span9
-
-    %table.table.table-striped
-      %thead
-      %tbody
-        =render @media_files
 
   %div.span3
 
@@ -18,6 +12,9 @@
       Filters
 
     = form_tag app_admin_media_files_path, method: 'GET' do
+
+      %label 
+        = text_field nil, :fuzzy_search, class: "search-query", value: params[:fuzzy_search] 
 
       %label.checkbox 
         = check_box_tag "only_with_media_entry", 1, !params[:only_with_media_entry].blank? 
@@ -31,5 +28,18 @@
       = button_tag type: 'submit', class: 'btn btn-small' do
         Apply
      
+
+
+  .span9
+
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Type
+          %th Content type
+          %th Media entry
+          %th Created at
+      %tbody
+        =render @media_files
 
 = paginate @media_files, theme: 'app_admin'

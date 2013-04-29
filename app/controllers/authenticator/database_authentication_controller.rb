@@ -9,8 +9,7 @@ class Authenticator::DatabaseAuthenticationController < ApplicationController
 
   def login
     if request.post?
-      crypted_password = Digest::SHA1.hexdigest(params[:password])
-      if user = User.where(:login => params[:login].try(&:downcase), :password => crypted_password).first
+      if user = User.where(login: params[:login].try(&:downcase)).first and user.authenticate(params[:password])
         session[:user_id] = user.id
       else
         flash[:error] = "Falscher Benutzername/Passwort."
@@ -26,25 +25,6 @@ class Authenticator::DatabaseAuthenticationController < ApplicationController
     flash[:notice] = "Sie haben sich abgemeldet." 
     redirect_to root_path
   end
-
-  
-#   def change_password
-#     if request.post?
-#       d = DatabaseAuthentication.find_or_create_by_login(params[:dbauth])
-#       d.update_attributes(params[:dbauth])
-#       d.password_confirmation = d.password
-#       unless d.save
-#         flash[:error] = d.errors.full_messages
-#       else
-#         flash[:notice] = _("Password changed")
-#       end
-#       render :update do |page|
-#         page.replace_html 'flash', flash_content
-#         flash.discard
-#       end
-#     end
-# 
-#   end
 
 end
 

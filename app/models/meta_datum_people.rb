@@ -22,8 +22,8 @@ class MetaDatumPeople < MetaDatum
         elsif v.is_a?(Fixnum) or (v.respond_to?(:is_integer?) and v.is_integer?)
           Person.find_by_id(v)
         else
-          firstname, lastname = Person.parse(v)
-          Person.find_or_initialize_by_firstname_and_lastname(:firstname => firstname, :lastname => lastname) if firstname or lastname
+          first_name, last_name = Person.parse(v)
+          Person.find_or_initialize_by_first_name_and_last_name(:first_name => first_name, :last_name => last_name) if first_name or last_name
         end
     end
   end

@@ -1,24 +1,6 @@
 # -*- encoding : utf-8 -*-
 MAdeK::Application.routes.draw do
 
-  get "settings/edit"
-
-  get "settings/show"
-
-  get "settings/update"
-
-  get "previews/show"
-
-  get "media_files/index"
-
-  get "media_files/show"
-
-  get "zencoder_jobs/index"
-
-  get "zencoder_jobs/show"
-
-  get "dashboard/index"
-
   ##### ROOT
 
   root :to => "application#root"
@@ -290,6 +272,34 @@ MAdeK::Application.routes.draw do
 
     end
     resources :previews, only: [:show,:destroy]
+
+    resources :groups do
+      member do
+        get 'form_add_user'
+        post 'add_user'
+      end
+      resources :users, only: [] do
+        member do 
+          delete 'remove_user_from_group'
+        end
+      end
+    end
+    resources :people do 
+      member do
+        get  :form_transfer_meta_data
+        post :transfer_meta_data
+      end
+    end
+    resources :users do
+      collection do
+        get :form_create_with_user
+        post :create_with_user
+      end
+      member do
+        post :switch_to
+      end
+    end
+
   end
 
 end

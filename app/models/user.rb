@@ -1,9 +1,8 @@
 # -*- encoding : utf-8 -*-
 # user is the system oriented representation of a User
 
-require 'digest/sha1'
-
 class User < ActiveRecord::Base
+  has_secure_password
 
   belongs_to :person
   delegate :name, :fullname, :shortname, :to => :person
@@ -15,6 +14,7 @@ class User < ActiveRecord::Base
   has_many :media_entries
   has_many :incomplete_media_entries, :class_name => "MediaEntryIncomplete", :dependent => :destroy
   has_many :keywords 
+  has_and_belongs_to_many :meta_data
 
   has_and_belongs_to_many :favorites, :class_name => "MediaResource", :join_table => "favorites" do
     def toggle(media_resource)
@@ -67,19 +67,8 @@ class User < ActiveRecord::Base
   validates_length_of       :email,    :within => 6..100 #r@a.wk
   validates_uniqueness_of   :email
   validates_format_of       :email,    :with => /\A[\w\.%\+\-]+@(?:[A-Z0-9\-]+\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|jobs|museum)\z/i, :message => "should look like an email address."
-
   validates_presence_of     :person
 
-  # HACK HACK HACK -- how to do attr_accessible from here?
-  # prevents a user from submitting a crafted form that bypasses activation
-  # anything else you want your user to change should be added here.
-#temp#  attr_accessible :login, :email, :person_id
-
-#############################################################
-
-  before_create do
-    self.password = Digest::SHA1.hexdigest(self.password) unless self.password.blank?
-  end
 
 #############################################################
   

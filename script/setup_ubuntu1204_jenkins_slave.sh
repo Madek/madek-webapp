@@ -64,7 +64,7 @@ update-alternatives --set editor /usr/bin/vim.nox
 #############################################################
 # postgresql
 #############################################################
-apt-get install --assume-yes  postgresql postgresql-client libpq-dev
+apt-get install --assume-yes  postgresql postgresql-client libpq-dev postgresql-contrib
 sed -i 's/peer/trust/g' /etc/postgresql/9.1/main/pg_hba.conf
 sed -i 's/md5/trust/g' /etc/postgresql/9.1/main/pg_hba.conf
 /etc/init.d/postgresql restart

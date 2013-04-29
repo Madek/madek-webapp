@@ -18,8 +18,8 @@ Feature: Editing keywords, people, controlled vocabularies...
     When I go to the edit-page of my first media_entry
     And I delete all existing authors
     And I click on the icon of the author fieldset
-    And I set the input with the name "lastname" to "Turner"
-    And I set the input with the name "firstname" to "William"
+    And I set the input with the name "last_name" to "Turner"
+    And I set the input with the name "first_name" to "William"
     And I set the input with the name "pseudonym" to "Willi"
     And I click on the button "Person einfügen"
     And I wait for multi-select-tag with the text "Turner, William (Willi)"
@@ -34,7 +34,7 @@ Feature: Editing keywords, people, controlled vocabularies...
     And I delete all existing authors
     And I click on the icon of the author fieldset
     And I click on the link "Gruppe" 
-    And I set the input with the name "firstname" to "El grupo"
+    And I set the input with the name "first_name" to "El grupo"
     And I click on the button "Gruppe einfügen"
     And I wait for multi-select-tag with the text "El grupo [Gruppe]"
     And I click on the button "Speichern"

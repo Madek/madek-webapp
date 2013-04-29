@@ -1,0 +1,22 @@
+%h1
+  %i.icon-user 
+  #{@person}
+
+%ul.inline
+  %li
+    =link_to edit_app_admin_person_path(@person), class: "btn btn-warning" do
+      %i.icon-pencil
+      Edit
+
+
+%table.table.table-striped
+  %thead
+  %tbody
+  - @person.attributes.each do |name,value|
+    %tr
+      %td= name.capitalize.split("_").join(" ")
+      - case name
+      - when nil
+      - else
+        %td= value
+

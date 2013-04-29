@@ -1,0 +1,39 @@
+%h1 
+  New user with person
+
+
+
+= form_tag create_with_user_app_admin_users_path, method: 'POST', class: "form-horizontal" do
+
+  %fieldset.well 
+    - [:last_name, :first_name].each do |field|
+      .control-group
+        %label.control-label=  field.to_s.capitalize.split("_").join(" ")
+        .controls
+          = text_field :person, field
+
+  %fieldset.well
+
+    .control-group
+      %label.control-label Login
+      .controls
+        = text_field :user, :login, required: true
+
+    .control-group
+      %label.control-label E-mail
+      .controls
+        = text_field :user, :email, type: 'email', required: true
+
+
+    .control-group
+      %label.control-label Password
+      .controls
+        = text_field :user, :password, required: true
+
+  = button_tag type: 'submit', class: "btn btn-success" do
+    Create
+
+
+
+
+

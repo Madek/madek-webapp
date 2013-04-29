@@ -66,12 +66,12 @@ describe MediaResourcesController do
        describe "correct ordering" do
 
          before :each do
-           @aa= Person.create  lastname:"A", firstname: "A"
-           @ab= Person.create  lastname:"A", firstname: "B"
-           @az= Person.create  lastname:"A", firstname: "Z"
-           @bb= Person.create  lastname:"B", firstname: "B"
-           @cc= Person.create  lastname:"C", firstname: "C"
-           @zz= Person.create  lastname:"Z", firstname: "Z"
+           @aa= Person.create  last_name:"A", first_name: "A"
+           @ab= Person.create  last_name:"A", first_name: "B"
+           @az= Person.create  last_name:"A", first_name: "Z"
+           @bb= Person.create  last_name:"B", first_name: "B"
+           @cc= Person.create  last_name:"C", first_name: "C"
+           @zz= Person.create  last_name:"Z", first_name: "Z"
          end
 
          it "should list entries with multiple authors multiply" do

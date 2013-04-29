@@ -1,12 +1,13 @@
 
 %tr
-  %td
-    = link_to app_admin_zencoder_job_path(zencoder_job) do
-      %i.icon-film
-      details
   %td= zencoder_job.state
   %td
     = link_to app_admin_media_file_path(zencoder_job.media_file) do
       %i.icon-file-alt
-      media file
+      media file #{zencoder_job.media_file.id}
   %td= zencoder_job.created_at
+  %td
+    = link_to app_admin_zencoder_job_path(zencoder_job), class: "btn btn-mini" do
+      %i.icon-eye-open
+      Show
+

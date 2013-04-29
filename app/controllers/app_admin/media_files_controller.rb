@@ -3,6 +3,10 @@ class AppAdmin::MediaFilesController < AppAdmin::BaseController
 
     @media_files = MediaFile.order("created_at DESC").page(params[:page])
 
+    if !params[:fuzzy_search].blank?
+      @media_files= @media_files.fuzzy_search(params[:fuzzy_search])
+    end
+
     if !params[:incomplete_encoded_videos].blank?
       @media_files = @media_files.send(:incomplete_encoded_videos)
     end

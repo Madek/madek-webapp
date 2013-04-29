@@ -6,8 +6,8 @@ ActiveAdmin.register Person, sort_order: 'id' do
 
   index do
     column :id
-    column :firstname
-    column :lastname
+    column :first_name
+    column :last_name
     column :pseudonym
     column :is_group do |x|
       status_tag (x.is_group ? "Group" : "Person"), (x.is_group ? :warning : :ok)

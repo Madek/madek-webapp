@@ -63,8 +63,8 @@ describe GroupsController do
             json_body['users'][0]['id'].should_not == nil
           end
 
-          it "should include the :lastname of the users" do
-            json_body['users'][0]['lastname'].should_not == nil
+          it "should include the :last_name of the users" do
+            json_body['users'][0]['last_name'].should_not == nil
           end
         end
       end

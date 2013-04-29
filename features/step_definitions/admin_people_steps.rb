@@ -3,6 +3,10 @@ When /^I navigate to the admin\/people interface$/ do
   visit "/admin/people"  
 end
 
+When(/^I navigate to the app_admin\/people interface$/) do
+   visit "/app_admin/people"  
+end
+
 Then /^for each person I see the id$/ do
   expect{find("th.id")}.not_to raise_error
 end
@@ -13,7 +17,7 @@ Then /^I see the count of MetaData associated to each person$/ do
 end
 
 When /^a person has some MetaData associated to it$/ do
-  @person_with_meta_data = Person.find 7
+  @person_with_meta_data = Person.find 1
   expect{ @meta_data_transfer_link = find("tr#person_#{@person_with_meta_data.id} a.transfer_meta_data_link")}.not_to raise_error
 end
 
@@ -24,7 +28,7 @@ When /^I move all MetaData from that person to another person$/ do
 end
 
 Then /^I am redirected to the admin people list$/ do
-  expect(current_path).to eq "/admin/people"
+  expect(current_path).to eq "/app_admin/people"
 end
 
 Then /^the origin person has not meta_data to transfer$/ do
@@ -33,8 +37,8 @@ end
 
 
 When /^a person does not have any MetaData neither User associated to it$/ do
-  @person_without_meta_data = Person.find 7
-  ActiveRecord::Base.connection.execute "delete from meta_data_people where person_id = 7"
+  @person_without_meta_data = Person.find 24  
+  ActiveRecord::Base.connection.execute "delete from meta_data_people where person_id = 24"
   visit(current_path)
   expect{  find("tr#person_#{@person_without_meta_data.id} .meta_data_count") }.to raise_error
 end

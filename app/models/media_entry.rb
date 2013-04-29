@@ -87,8 +87,8 @@ class MediaEntry < MediaResource
               when "MetaDatumPeople"
                 meta_datum.value.each do |dv|
                   xml.tag!(name, attrs) do
-                    xml.tag!("firstname", dv.firstname)
-                    xml.tag!("lastname", dv.lastname)
+                    xml.tag!("first_name", dv.first_name)
+                    xml.tag!("last_name", dv.last_name)
                   end
                 end
               else
@@ -111,8 +111,8 @@ class MediaEntry < MediaResource
 #                  when "MetaDatumPeople"
 #                    meta_datum.value.each do |dv|
 #                      xml.person(attrs) do
-#                        xml.tag!("firstname", dv.firstname)
-#                        xml.tag!("lastname", dv.lastname)
+#                        xml.tag!("first_name", dv.first_name)
+#                        xml.tag!("last_name", dv.last_name)
 #                      end
 #                    end
 #                  else

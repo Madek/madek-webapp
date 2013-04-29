@@ -7,7 +7,7 @@ describe UsersController do
     FactoryGirl.create :usage_term
     @normin = FactoryGirl.create :user, login: "normin"
     @adam= FactoryGirl.create :user, login: "adam", 
-      person: FactoryGirl.create(:person, firstname: "Adam"  )
+      person: FactoryGirl.create(:person, first_name: "Adam"  )
 
     @group = Group.create name: "Some Group"
     @group.users << @adam

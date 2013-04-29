@@ -1,0 +1,2 @@
+module AppAdmin::PeopleHelper
+end

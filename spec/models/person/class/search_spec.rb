@@ -12,7 +12,7 @@ describe Person do
 
     context "search" do
       it "finds existing resources" do
-        string = Person.first.firstname
+        string = Person.first.first_name
         Person.search(string).count.should >= 1
       end
       

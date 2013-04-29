@@ -39,8 +39,8 @@ class PeopleController < ApplicationController
   end
 
   def create
-    person = Person.find_or_create_by_firstname_and_lastname_and_pseudonym(:firstname => params[:person][:firstname],
-                                                                           :lastname => params[:person][:lastname],
+    person = Person.find_or_create_by_first_name_and_last_name_and_pseudonym(:first_name => params[:person][:first_name],
+                                                                           :last_name => params[:person][:last_name],
                                                                            :pseudonym => params[:person][:pseudonym],
                                                                            :is_group => params[:person][:is_group] || false)
     respond_to do |format|
