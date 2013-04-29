@@ -18,7 +18,7 @@ gem 'composite_primary_keys', '~> 5.0.10'
 gem 'foreigner'
 gem 'jdbc-postgres', platform: :jruby
 gem 'memcache-client' 
-gem 'pg', platform: :mri_19
+gem 'pg', platform: :mri
 gem 'postgres_ext'
 # The textacular gem is more of a hack than I hoped for. We will have to let of
 # it if the situation doesn't improve. 
@@ -34,7 +34,7 @@ gem 'haml'
 gem 'haml_assets'
 gem 'jquery-rails', '= 1.0.16' # NOTE WARNING DO NOT CHANGE THIS LINE
 gem 'jquery-tmpl-rails', '~> 1.1'
-gem 'jruby-openssl', platform: :jruby
+gem 'jruby-openssl', :platform => :jruby
 gem 'json', '~> 1.7'
 gem 'kaminari', '~> 0.14' 
 gem 'nested_set', '~> 1.7'
@@ -68,7 +68,7 @@ group :development, :personas do
   gem 'railroady'
   gem 'rvm-capistrano'
   gem 'statsample'
-  gem 'thin', platform: :mri_19 # web server (Webrick do not support keep-alive connections)
+  gem 'thin', :platform => :mri # web server (Webrick do not support keep-alive connections)
 end
 
 group :test, :development, :personas do
@@ -80,7 +80,7 @@ group :test, :development, :personas do
   gem 'guard', '~> 1.3'
   gem 'guard-cucumber', '~> 1.2'
   gem 'guard-rspec', '~> 2.1'
-  gem 'guard-spork', '~> 1.1', platform: :mri_19
+  gem 'guard-spork', '~> 1.1', platform: :mri
   gem 'poltergeist'
   gem 'pry'
   gem 'rb-fsevent', '~> 0.9'
@@ -92,16 +92,20 @@ end
 
 group :development, :production do
   # we could use yard with an other mkd provider https://github.com/lsegal/yard/issues/488
-  platform :mri_19 do
+  platform :mri do
     gem "yard", "~> 0.8.3"
     gem "yard-rest", "~> 1.1.4"
     gem 'redcarpet' # yard-rest dependency
+    gem 'therubyracer'
+  end
+  platform :jruby do
+    gem 'therubyrhino'
   end
 end
 
 group :development do
   gem 'better_errors'
-  gem 'binding_of_caller', platform: :mri_19
+  gem 'binding_of_caller', platform: :mri
   gem 'haml-rails'
   gem 'meta_request'
   gem 'nkss-rails', :git => 'git://github.com/interactivethings/nkss-rails.git'   # CSS styleguides
@@ -118,6 +122,6 @@ group :test do
   gem 'launchy'  
   gem 'selenium-webdriver', '~> 2.30'
   gem 'simplecov', '~> 0.6'
-  gem 'therubyracer', :platform => :mri_19
+  gem 'therubyracer', :platform => :mri
   gem 'therubyrhino', :platform => :jruby
 end
