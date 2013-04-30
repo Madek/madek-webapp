@@ -14,26 +14,20 @@ set :deploy_via, :remote_cache
 
 set :app, "test.arch.ethz.madek.zhdk.ch"
 
-set :db_config, "/home/madek/#{app}/database.yml"
-set :zencoder_config, "/home/madek/#{app}/zencoder.yml"
-set :authentication_systems_config, "/home/madek/#{app}/authentication_systems.yml"
-#set :ldap_config, "/home/madek/LDAP.yml"
-#set :newrelic_config, "/home/madek/newrelic.yml"
+set :db_config, "/home/#{app}/database.yml"
+set :zencoder_config, "/home/#{app}/zencoder.yml"
+set :authentication_systems_config, "/home/#{app}/authentication_systems.yml"
 
 set :checkout, :export
 
 set :use_sudo, false
 set :rails_env, "production"
 
-set :deploy_to, "/home/madek/#{app}"
+set :deploy_to, "/home/#{app}"
 
-# If you aren't using Subversion to manage your source code, specify
-# your SCM below:
-# set :scm, :subversion
-
-role :app, "madek@arch.ethz.madek.zhdk.ch"
-role :web, "madek@arch.ethz.madek.zhdk.ch"
-role :db,  "madek@arch.ethz.madek.zhdk.ch", :primary => true
+role :app, "test_arch_ethz@arch.ethz.madek.zhdk.ch"
+role :web, "test_arch_ethz@arch.ethz.madek.zhdk.ch"
+role :db,  "test_arch_ethz@arch.ethz.madek.zhdk.ch", :primary => true
 
 load 'config/deploy/recipes/link_attachments'
 load 'config/deploy/recipes/retrieve_db_config'
