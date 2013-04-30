@@ -3,6 +3,15 @@
   #{@person}
 
 %ul.inline
+  - if @person.meta_data.count > 0
+    %li 
+      = link_to form_transfer_meta_data_app_admin_person_path(@person), class: "btn transfer_meta_data_link btn-warning" do
+        %i.icon-random
+        transfer 
+        %span.meta_data_count #{@person.meta_data.count} 
+        meta-data to ...
+
+
   %li
     =link_to edit_app_admin_person_path(@person), class: "btn btn-warning" do
       %i.icon-pencil
