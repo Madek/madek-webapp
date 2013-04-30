@@ -1,6 +1,6 @@
 class EnablePgTrigram < ActiveRecord::Migration
   def up
-    execute 'CREATE EXTENSION pg_trgm'
+    execute 'CREATE EXTENSION IF NOT EXISTS pg_trgm'
   end
 
   def down
