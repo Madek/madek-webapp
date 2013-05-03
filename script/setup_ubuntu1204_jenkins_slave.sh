@@ -1,5 +1,17 @@
 #!/bin/bash
 
+################################################################
+# Notes
+# 
+# This is a jenkins setup script for ubuntu 12.04 and madek.
+# This script is idempotent and it must be kept this way! 
+# 
+# example of invocation (as root):
+#
+# curl https://raw.github.com/zhdk/madek/next/script/setup_ubuntu1204_jenkins_slave.sh | bash -l
+#
+################################################################
+
 #############################################################
 # remove the halfwitted stuff
 #############################################################
