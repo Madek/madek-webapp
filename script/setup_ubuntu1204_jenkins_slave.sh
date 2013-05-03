@@ -33,7 +33,7 @@ EOF
 # upgrade and install 
 #############################################################
 apt-get dist-upgrade --assume-yes
-apt-get install --assume-yes openssh-server openjdk-7-jdk
+apt-get install --assume-yes curl openssh-server openjdk-7-jdk
 
 
 #############################################################
@@ -118,7 +118,9 @@ EOF
 # prepare rbenv, ruby and ...
 ###########################################################
 
-apt-get install --assume-yes curl git x11vnc xvfb zlib1g-dev libssl-dev libxslt1-dev libxml2-dev build-essential libimage-exiftool-perl imagemagick firefox libreadline-dev libreadline6 libreadline6-dev
+apt-get install --assume-yes git x11vnc xvfb zlib1g-dev \
+  libssl-dev libxslt1-dev libxml2-dev build-essential \
+  libimage-exiftool-perl imagemagick firefox libreadline-dev libreadline6 libreadline6-dev 
 
 cat << 'EOF' > /etc/profile.d/rbenv.sh
 # rbenv
@@ -166,6 +168,28 @@ update_rubygems
 gem install bundler
 rbenv rehash
 JENKINS
+
+
+###########################################################
+# gherkin lexer so we can run it under plain ruby
+###########################################################
+
+apt-get install --assume-yes ragel
+
+cat << 'JENKINS' | su -l jenkins
+cd ~/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/gherkin-2.12.0/ 
+rbenv shell 1.9.3-p392 
+bundle install
+rbenv rehash
+bundle exec rake compile:gherkin_lexer_en
+JENKINS
+
+
+
+###########################################################
+# jenkins login stuff
+###########################################################
+
 
 # ssh
 cat << 'JENKINS' | su -l jenkins

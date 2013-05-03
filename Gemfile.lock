@@ -515,6 +515,7 @@ DEPENDENCIES
   font-awesomeplus-sass-rails!
   foreigner
   gettext_i18n_rails
+  gherkin (= 2.12.0)
   guard (~> 1.3)
   guard-cucumber (~> 1.2)
   guard-rspec (~> 2.1)
