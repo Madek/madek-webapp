@@ -1,4 +1,4 @@
-@import "color_config";
+@import "custom_config";
 
 /**
  *
@@ -35,6 +35,12 @@ $line-height-xs:      1;
 
 /* Color palette
 ----------------------------------------- */
+
+$main-color: #7A9D29 !default;        
+$main-color-dark: darken($main-color, 10%);
+$main-color-light: lighten($main-color, 10%);
+
+
 $base-color:          #4C4C4C;
 
 // Grey Shades

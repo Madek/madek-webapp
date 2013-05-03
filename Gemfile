@@ -43,7 +43,7 @@ gem 'nokogiri'
 gem 'rails_autolink', '~> 1.0'
 gem 'require_relative'
 gem 'rgl', '~> 0.4.0', :require => 'rgl/adjacency'
-gem 'sass', '~> 3.2'
+gem 'sass'
 gem 'uuidtools', '~> 2.1.3'
 gem 'zencoder', '~> 2.4'
 gem 'zip', '~> 2.0.2' # alternatives: 'rubyzip', 'zipruby', 'zippy'
@@ -54,7 +54,7 @@ group :assets do
   gem 'execjs'
   gem 'font-awesomeplus-sass-rails', git: 'https://github.com/DrTom/font-awesome-plus-sass-rails.git'
   gem 'haml_coffee_assets'
-  gem 'sass-rails', '~> 3.2'
+  gem 'sass-rails'
   gem 'uglifier', '~> 1.2'
 end
 
