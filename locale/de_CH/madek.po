@@ -16,23 +16,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Poedit-Language: German\n"
-"X-Poedit-Country: Switzerland\n"
-
-msgid "About the project"
-msgstr "Informationen zum Projekt"
-
-msgid "Impressum"
-msgstr "Impressum"
-
-msgid "Contact"
-msgstr "Kontakt"
 
 msgid "Help"
 msgstr "Hilfe"
-
-msgid "Terms of Use"
-msgstr "Nutzungsbestimmungen"
 
 msgid "My archive"
 msgstr "Mein Archiv"
@@ -41,13 +27,13 @@ msgid "Explore"
 msgstr "Erkunden"
 
 msgid "Search"
-msgstr "Suchen"
+msgstr "Suche"
 
 msgid "ZHdK login"
 msgstr "ZHdK-Login"
 
 msgid "External users"
-msgstr "Externe"
+msgstr "Externe Benutzer"
 
 msgid "Log in"
 msgstr "Anmelden"
@@ -58,8 +44,349 @@ msgstr "Benutzername"
 msgid "Password"
 msgstr "Passwort"
 
+msgid "Context"
+msgstr "Kontext"
+
 msgid "Contexts"
 msgstr "Kontexte"
 
 msgid "New content"
 msgstr "Neue Inhalte"
+
+msgid "Further actions"
+msgstr "Weitere Aktionen"
+
+msgid "Import media"
+msgstr "Medien importieren"
+
+msgid "Show connections"
+msgstr "Zusammenhänge anzeigen"
+
+msgid "Create set"
+msgstr "Set erstellen"
+
+msgid "My favorites"
+msgstr "Meine Favoriten"
+
+msgid "Content entrusted to me"
+msgstr "Mir anvertraute Inhalte"
+
+msgid "Export"
+msgstr "Exportieren"
+
+msgid "Content I am responsible for"
+msgstr "Inhalte, für die ich verantwortlich bin"
+
+msgid "My latest imports"
+msgstr "Meine letzten Importe"
+
+msgid "My keywords"
+msgstr "Meine Schlagworte"
+
+msgid "My workgroups"
+msgstr "Meine Arbeitsgruppen"
+
+msgid "Welcome"
+msgstr "Herzlich Willkommen"
+
+msgid "Share your media, archive your works, explore content, develop knowledge."
+msgstr "Medien teilen, Werke archivieren, Inhalte erkunden, Wissen entwickeln."
+
+msgid "Explore content"
+msgstr "Inhalte erkunden"
+
+msgid "New workgroup"
+msgstr "Neue Arbeitsgruppe"
+
+msgid "Workgroups"
+msgstr "Arbeitsgruppen"
+
+msgid "System groups"
+msgstr "Systemgruppen"
+
+msgid "Department groups"
+msgstr "Abteilungsgruppen"
+
+msgid "Change view"
+msgstr "Darstellung ändern"
+
+msgid "Reject"
+msgstr "Ablehnen"
+
+msgid "Accept"
+msgstr "Akzeptieren"
+
+msgid "Search results for"
+msgstr "Suchergebnisse für"
+
+msgid "Create filter set"
+msgstr "Filterset erstellen"
+
+msgid "Search result"
+msgstr "Suchresultat"
+
+msgid "%s o'clock"
+msgstr "%s Uhr"
+
+msgid "Extract"
+msgstr "Auszug"
+
+msgid "Vocabulary"
+msgstr "Vokabular"
+
+msgid "A specific vocabulary was created for this context"
+msgstr "Für diesen Kontext wurde ein spezifisches Vokabular erstellt"
+
+msgid "A specific vocabulary was created for this set"
+msgstr "Für dieses Set wurde ein spezifisches Vokabular erstellt"
+
+msgid "Highlight values that were already used in this context"
+msgstr "Die bereits in diesem Kontext vergebenen Werte hervorheben"
+
+msgid "Highlight values that were already used in this set"
+msgstr "Die bereits in diesem Set vergebenen Werte hervorheben"
+
+msgid "Context contains"
+msgstr "Kontext enthält"
+
+msgid "Title"
+msgstr "Titel"
+
+msgid "Description"
+msgstr "Beschreibung"
+
+msgid "These metadata were used most often"
+msgstr "Diese Metadaten wurden am häufigsten vergeben"
+
+msgid "They show this context's area of focus"
+msgstr "Sie zeigen den thematischen Schwerpunkt dieses Kontext an"
+
+msgid "Show all"
+msgstr "Alle anzeigen"
+
+msgid "Cover image"
+msgstr "Titelbild"
+
+msgid "Specify cover image for set"
+msgstr "Titelbild für Set festlegen"
+
+msgid "Highlight content"
+msgstr "Inhalte hervorheben"
+
+msgid "Display settings saved"
+msgstr "Darstellung gespeichert"
+
+msgid "Save display settings"
+msgstr "Darstellung festlegen"
+
+msgid "Specify sort and display settings for this set"
+msgstr "Sortierung und Darstellung der Inhalte dieses Sets festlegen"
+
+msgid "Specify display settings"
+msgstr "Darstellung festlegen"
+
+msgid "Highlighted content"
+msgstr "Hervorgehobene Inhalte"
+
+msgid "Parent sets"
+msgstr "Übergeordnete Sets"
+
+msgid "They show this set's area of focus"
+msgstr "Sie zeigen den thematischen Schwerpunkt dieses Sets an"
+
+msgid "This set has additional contexts with metadata"
+msgstr "Diesem Set sind zusätzliche Kontexte mit Metadaten zugewiesen"
+
+msgid "This allows adding further details to all media entries contained in this set."
+msgstr "So können für alle Medieneinträge, die in diesem Set enthalten sind, weitere inhaltliche Angaben gemacht werden."
+
+msgid "Furthermore, you may also assign any contexts that are assigned to this set to any set contained within."
+msgstr "Darüber hinaus können alle Sets, die diesem Set zugewiesen werden, ebenfalls die ausgewählten zusätzlichen Kontexte erhalten."
+
+msgid "Aktivieren / Deaktivieren"
+msgstr "Activate / Deactivate"
+
+msgid "Save"
+msgstr "Speichern"
+
+msgid "This set is contained in one set"
+msgid_plural "This set is contained in %d sets"
+msgstr[0] "Dieses Set ist in einem Set enthalten"
+msgstr[1] "Dieses Set ist in %d Sets enthalten"
+
+msgid "items"
+msgstr "Inhalte"
+
+msgid "%d of %d items visible to you"
+msgstr "%d von %d Inhalten für Sie sichtbar"
+
+msgid "Set contains"
+msgstr "Set enthält"
+
+msgid "Browse for similar content"
+msgstr "Nach vergleichbaren Inhalten stöbern"
+
+msgid "No similar content found"
+msgstr "Keine vergleichbaren Inhalte gefunden"
+
+msgid "This item does not have enough metadata"
+msgstr "Dieser Inhalt hat nicht genügend Metadaten"
+
+msgid "Add metadata"
+msgstr "Metadaten ergänzen"
+
+msgid "Edit metadata"
+msgstr "Metadaten editieren"
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgid "%d items selected"
+msgstr "%d Inhalte ausgewählt"
+
+msgid "Table view"
+msgstr "Tabellenansicht"
+
+msgid "Media view"
+msgstr "Medienansicht"
+
+msgid "These items are publicly accessible"
+msgstr "Diese Inhalte sind öffentlich zugänglich"
+
+msgid "These items are only accesible to you"
+msgstr "Diese Inhalte sind nur für Sie zugänglich"
+
+msgid "These items are shared with others"
+msgstr "Diese Inhalte werden mit Anderen geteilt"
+
+msgid "List of media resources"
+msgstr "Liste von Medienressourcen"
+
+msgid "Add to/remove from clipboard"
+msgstr "Zur Zwischenablage hinzufügen/entfernen"
+
+msgid "Add to/remove from set"
+msgstr "Zu Set hinzufügen/entfernen"
+
+msgid "Add to/remove from favorites"
+msgstr "Zur Favoriten hinzufügen/entfernen"
+
+msgid "Add to clipboard"
+msgstr "Zur Zwischenablage hinzufügen"
+
+msgid "Browse"
+msgstr "Stöbern"
+
+msgid "Delete"
+msgstr "Löschen"
+
+msgid "Miniature view"
+msgstr "Miniatur-Ansicht"
+
+msgid "Grid view"
+msgstr "Raster-Ansicht"
+
+msgid "List view"
+msgstr "Listen-Ansicht"
+
+msgid "Order by creation date"
+msgstr "Sortieren nach Erstellungsdatum"
+
+msgid "Order by modification date"
+msgstr "Sortieren nach Änderungsdatum"
+
+msgid "Order by title"
+msgstr "Sortieren nach Titel"
+
+msgid "Filter and order by author"
+msgstr "Filtern und sortieren nach Autor/in"
+
+msgid "Filter"
+msgstr "Filtern"
+
+msgid "Reset filters"
+msgstr "Alle Filter zurücksetzen"
+
+msgid "Deselect all"
+msgstr "Alle abwählen"
+
+msgid "Select all"
+msgstr "Alle auswählen"
+
+msgid "Limit by keyword"
+msgstr "Eingrenzen mit Suchwort"
+
+msgid "Loading filters"
+msgstr "Filter werden geladen"
+
+msgid "Required field - please fill in"
+msgstr "Pflichtfeld - Bitte angeben"
+
+msgid "Apply field to all items"
+msgstr "Feld auf alle Inhalte übertragen"
+
+msgid "Overwrite existing values"
+msgstr "Bestehende Werte überschreiben"
+
+msgid "Person"
+msgstr "Person"
+
+msgid "Group"
+msgstr "Gruppe"
+
+msgid "Last name"
+msgstr "Nachname"
+
+msgid "First name"
+msgstr "Vorname"
+
+msgid "Pseudonym"
+msgstr "Pseudonym"
+
+msgid "Add person"
+msgstr "Person einfügen"
+
+msgid "Add group"
+msgstr "Gruppe einfügen"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Most popular"
+msgstr "Beliebteste"
+
+msgid "Latest"
+msgstr "Neuste"
+
+msgid "Loading keywords"
+msgstr "Lade Schlagworte"
+
+msgid "Free entry"
+msgstr "Freie Eingabe"
+
+msgid "on"
+msgstr "am"
+
+msgid "von/bis"
+msgstr "from/to"
+
+msgid "will be saved as text"
+msgstr "wird als Text gespeichert"
+
+msgid "from"
+msgstr "von"
+
+msgid "to"
+msgstr "bis"
+
+msgid "Please select country"
+msgstr "Bitte Land auswählen"
+
+msgid "Visualize relationship between items as a graph"
+msgstr "Beziehung von Inhalten als Graph visualisieren"
+
+msgid "Read/edit permissions"
+msgstr "Zugriffsberechtigungen lesen/bearbeiten"
+
+msgid "Permissions"
+msgstr "Zugriffsberechtigungen"

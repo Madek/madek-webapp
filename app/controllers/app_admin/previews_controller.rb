@@ -7,7 +7,7 @@ class AppAdmin::PreviewsController < AppAdmin::BaseController
     begin 
       @preview = Preview.find params[:id]
       @preview.destroy
-      redirect_to :back, flash: {success: "The Review has been deleted."}
+      redirect_to app_admin_media_file_path(@preview.media_file), flash: {success: "The Review has been deleted."}
     rescue  => e
       redirect_to :back, flash: {error: e.to_s} 
     end

@@ -42,8 +42,13 @@
 %h3 
   Previews
 
-%table.table.table-striped
+%ul.inline
+  %li
+    = link_to  recreate_thumbnails_app_admin_media_file_path(@media_file),  class: "btn btn-warning", method: 'post' do
+      Recreate Thumbnails
+
+%table.previews.table.table-striped
   %thead
-  %body
+  %tbody
     = render @media_file.previews.reorder("created_at DESC")
 

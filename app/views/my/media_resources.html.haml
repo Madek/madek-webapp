@@ -14,14 +14,14 @@
       .ui-body-title
         .ui-body-title-label
           %h1.title-xl 
-            Inhalte, für die ich verantwortlich bin
+            = _("Content I am responsible for")
 
 
         .ui-body-title-actions
 
           %a.button{:"data-create-set" => true}
             %i.icon-new-set
-            Set erstellen
+            = _("Create set")
 
           .dropdown.ui-dropdown.stick-right
             %a.primary-button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
@@ -31,11 +31,11 @@
               %li.ui-drop-item
                 %a{:href => import_path}
                   %i.icon-upload.mid
-                  Medien importieren
+                  = _("Import media")
               %li.ui-drop-item
                 %a.ui-connect-to-visualization{:href => visualization_of_my_media_resources_path, :target => "_blank", :title => "Beziehung von Inhalten als Graph visualisieren"}
                   %i.icon-vis-graph.mid
-                  Zusammenhänge anzeigen
+                  = _("Show connections")
 
     .app-body-ui-container
       .bordered.ui-container.midtone.rounded.table

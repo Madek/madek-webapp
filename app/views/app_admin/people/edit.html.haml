@@ -1,0 +1,30 @@
+%h1 
+  Edit Person #{@person}
+
+  = form_for @person, url: app_admin_person_path(@person) , method: "PUT", html: {class: "form-horizontal"} do |f|
+
+    %fieldset.well
+      - [:last_name, :first_name, :pseudonym].each do |field|
+        .control-group
+          %label.control-label=  field.to_s.capitalize.split("_").join(" ")
+          .controls
+            = f.text_field field
+
+    %fieldset.well
+      .control-group
+        %label.control-label Is group
+        .controls
+          = f.check_box :is_group 
+
+
+    %fieldset.well
+      - [:date_of_birth, :date_of_death].each do |field|
+        .control-group
+          %label.control-label=  field.to_s.capitalize.split("_").join(" ")
+          .controls
+            = text_field :person, field, type: 'date', value: @person[field]
+
+    = button_tag type: 'submit', class: "btn btn-success" do
+      Save
+
+

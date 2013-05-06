@@ -14,24 +14,24 @@ describe Person do
   # makes sure that we don't manipulate the data anymore.
   it "should not mess with the casing of the first and last name" do
     person = FactoryGirl.create(:person)
-    person.firstname = "Hans-Friedrich"
-    person.lastname = "Van Den Berg"
+    person.first_name = "Hans-Friedrich"
+    person.last_name = "Van Den Berg"
     person.save
 
     person.reload
 
-    person.firstname.should == "Hans-Friedrich" # NOT 'Hans-friedrich'!
-    person.lastname.should == "Van Den Berg" # NOT 'Van den berg'!
+    person.first_name.should == "Hans-Friedrich" # NOT 'Hans-friedrich'!
+    person.last_name.should == "Van Den Berg" # NOT 'Van den berg'!
 
   end
 
   it "should parse the first and last name from a string without messing up the casing" do
     person = FactoryGirl.create(:person)
-    person.firstname, person.lastname = Person.parse("Van Den Berg, Hans-Friedrich")
+    person.first_name, person.last_name = Person.parse("Van Den Berg, Hans-Friedrich")
     person.save
     person.reload
-    person.firstname.should == "Hans-Friedrich" # NOT 'Hans-friedrich'!
-    person.lastname.should == "Van Den Berg" # NOT 'Van den berg'!
+    person.first_name.should == "Hans-Friedrich" # NOT 'Hans-friedrich'!
+    person.last_name.should == "Van Den Berg" # NOT 'Van den berg'!
   end
 
   it "should leave the casing alone even when using a person in a meta data field" do

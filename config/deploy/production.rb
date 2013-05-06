@@ -3,6 +3,7 @@
 require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 set :rvm_ruby_string, '1.9.3'        # Or whatever env you want it to run in.
 set :rvm_type, :system
+set :rvm_path, "/usr/local/rvm" 
 
 
 require "bundler/capistrano"
@@ -11,7 +12,7 @@ set :application, "madek"
 
 set :scm, :git
 set :repository, "git://github.com/zhdk/madek.git"
-set :branch, "master"
+set :branch, "1.1.1"
 set :deploy_via, :remote_cache
 
 set :db_config, "/home/rails/madek/database.yml"

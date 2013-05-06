@@ -4,12 +4,11 @@ module Json
     def hash_for_person(person, with = nil)
       h = {
         id: person.id,
-        firstname: person.firstname,
-        lastname: person.lastname,
-        birthdate: person.birthdate,
-        deathdate: person.deathdate,
+        first_name: person.first_name,
+        last_name: person.last_name,
+        date_of_birth: person.date_of_birth,
+        date_of_death: person.date_of_death,
         is_group: person.is_group,
-        nationality: person.nationality,
         pseudonym: person.pseudonym
       }
       

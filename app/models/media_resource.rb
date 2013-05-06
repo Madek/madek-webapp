@@ -56,7 +56,7 @@ class MediaResource < ActiveRecord::Base
         joins(meta_data: :meta_key).where("meta_keys.id = ?", x)
         .joins('INNER JOIN meta_data_people ON meta_data.id = meta_data_people.meta_datum_id')
         .joins('INNER JOIN people ON meta_data_people.person_id = people.id')
-        .order('people.lastname, people.firstname ASC')
+        .order('people.last_name, people.first_name ASC')
       when :title
         joins(meta_data: :meta_key).where("meta_keys.id = ?", x).order("meta_data.string ASC")
       when :updated_at, :created_at

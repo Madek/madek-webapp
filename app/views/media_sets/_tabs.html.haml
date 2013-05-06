@@ -5,14 +5,18 @@
 
   - unless @parents_count.zero?
     %li.ui-tabs-item{:class => media_set_parents_page? ? "active" : ""}
-      %a{:href => parents_media_set_path(@media_set)} Übergeordnete Sets
+      %a{:href => parents_media_set_path(@media_set)}
+        = _("Parent sets")
 
   - unless @media_set.individual_contexts.blank?
     %li.ui-tabs-item{:class => media_set_abstract_page? ? "active" : ""}
-      %a{:href => abstract_media_set_path} Auszug
+      %a{:href => abstract_media_set_path}
+        = _("Extract")
     %li.ui-tabs-item{:class => media_set_vocabulary_page? ? "active" : ""}
-      %a{:href => vocabulary_media_set_path} Vokabular
+      %a{:href => vocabulary_media_set_path}
+        = _("Vocabulary")
 
   - if current_user.authorized?(:edit, @media_set) and !@media_set.individual_and_inheritable_contexts.empty?
     %li.ui-tabs-item{:class => media_set_inheritable_contexts_page? ? "active" : ""}
-      %a{:href => inheritable_contexts_media_set_path(@media_set)} Kontexte
+      %a{:href => inheritable_contexts_media_set_path(@media_set)}
+        = _("Contexts")

@@ -1,3 +1,5 @@
+@import "custom_config";
+
 /**
  *
  * ## Asset Configuration
@@ -33,6 +35,12 @@ $line-height-xs:      1;
 
 /* Color palette
 ----------------------------------------- */
+
+$main-color: #7A9D29 !default;        
+$main-color-dark: darken($main-color, 10%);
+$main-color-light: lighten($main-color, 10%);
+
+
 $base-color:          #4C4C4C;
 
 // Grey Shades
@@ -46,11 +54,8 @@ $grey-light:          #E7E7E7;
 $grey-lighter:        #F3F3F3;
 $brightest:           #fff;
 
-// Green Shades
-$green:               #7A9D29;
-$green-dark:          darken($green, 10%);
-$green-light:         lighten($green, 10%);
 
+$green:               #7A9D29;
 // Feedback colour rainbow
 $red:                 #B63A52;
 $blue:                #3A91B6;

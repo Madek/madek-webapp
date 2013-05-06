@@ -1,8 +1,4 @@
 %tr
-  %td
-    = link_to app_admin_media_file_path(media_file) do
-      %i.icon-file
-      details
   %td= media_file.media_type
   %td= media_file.content_type
   %td
@@ -13,3 +9,8 @@
       .text-error
         no media entry exists
   %td= media_file.created_at
+  %td
+    = link_to app_admin_media_file_path(media_file) , class: 'btn btn-mini' do
+      %i.icon-eye-open
+      Details
+

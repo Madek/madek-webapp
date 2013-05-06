@@ -16,8 +16,8 @@ module Json
             {
               id: user.id,
               login: user.login,
-              lastname: user.person.lastname,
-              firstname: user.person.firstname
+              last_name: user.person.last_name,
+              first_name: user.person.first_name
             }
           end
         end

@@ -1,0 +1,11 @@
+%tr
+  %td #{user.login}
+  %td #{user.email}
+  %td #{user.id}
+  %td 
+    // see if @group and @user defined
+    = link_to  remove_user_from_group_app_admin_group_user_path(@group,user), method: 'DELETE', class: 'btn btn-warning btn-mini' do
+      %i.icon-remove
+      Remove from group
+
+

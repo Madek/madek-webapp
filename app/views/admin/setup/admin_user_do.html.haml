@@ -6,12 +6,12 @@
 = form_for @person, :url => "/admin/setup/admin_user_do" do |f|
   %table
     %tr
-      %td= f.label :firstname
-      %td= f.text_field :firstname
+      %td= f.label :first_name
+      %td= f.text_field :first_name
 
     %tr
-      %td= f.label :lastname
-      %td= f.text_field :lastname
+      %td= f.label :last_name
+      %td= f.text_field :last_name
 
     %tr
       %td= f.label :pseudonym

@@ -7,7 +7,8 @@
     .app-body-title
       .ui-body-title
         .ui-body-title-label
-          %h1.title-xl Nach vergleichbaren Inhalten stöbern
+          %h1.title-xl
+            = _("Browse for similar content")
 
     .app-body-ui-container
       .bordered.ui-container.midtone.rounded.table
@@ -36,12 +37,13 @@
             .row.mth
               .pvh.mth.mbl
                 .title-l.by-center 
-                  Keine vergleichbaren Inhalte gefunden.
+                  = _("No similar content found")
                   .title-s.by-center
-                    Dieser Inhalt hat nicht genügend Metadaten.
+                    = _("This item does not have enough metadata")
                   - if current_user.authorized?(:edit, @media_resource)
                     .mts
-                      %a.primary-button{:href => edit_media_resource_path(@media_resource)} Metadaten ergänzen
+                      %a.primary-button{:href => edit_media_resource_path(@media_resource)}
+                        = _("Add metadata")
 
   .app-footer-push
 = render :partial => "application/footer"

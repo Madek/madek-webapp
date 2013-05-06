@@ -4,6 +4,12 @@ ActiveAdmin.register_page "Dashboard" do
 
   content :title => proc{ I18n.t("active_admin.dashboard") } do
 
+    panel "Old interface" do
+      div do
+        "This is the old administration interface!" 
+      end
+    end
+
     panel "Stats" do
       div do
         "#{User.count} Nutzer/innen"

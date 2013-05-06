@@ -47,6 +47,10 @@ Then /^I can see the text "(.*?)"$/ do |text|
   expect(page).to have_content text
 end
 
+Then(/^I can see a success message$/) do
+  expect(all("#messages .alert-success").size).to be > 0
+end
+
 When /^I change some input field$/ do
   find("input[type=text]").set "123"
 end
@@ -69,6 +73,11 @@ end
 When /^I click on the button "(.*?)"$/ do |button_text|
   wait_until{all("button:not([disabled])", text: button_text).size > 0 }
   find("button:not([disabled])",text: button_text).click
+end
+
+When(/^I click on "(.*?)"$/) do |text|
+  wait_until{ all("a, button", text: text, visible: true).size > 0}
+  find("a, button",text: text).click
 end
 
 When /^I click the primary action of this dialog$/ do

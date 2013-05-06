@@ -11,7 +11,7 @@ class Person < ActiveRecord::Base
   has_and_belongs_to_many :meta_data, join_table: :meta_data_people
 
   validate do
-    errors.add(:base, "Name cannot be blank") if [firstname, lastname, pseudonym].all? {|x| x.blank? }
+    errors.add(:base, "Name cannot be blank") if [first_name, last_name, pseudonym].all? {|x| x.blank? }
   end
   
 
@@ -26,8 +26,8 @@ class Person < ActiveRecord::Base
     return scoped if query.blank?
 
     q = query.split.map{|s| "%#{s}%"}
-    where(arel_table[:firstname].matches_any(q).
-          or(arel_table[:lastname].matches_any(q)).
+    where(arel_table[:first_name].matches_any(q).
+          or(arel_table[:last_name].matches_any(q)).
           or(arel_table[:pseudonym].matches_any(q)))
   }
 
@@ -39,15 +39,15 @@ class Person < ActiveRecord::Base
 
   def shortname
     r = ""
-    r += "#{firstname[0]}. " unless firstname.blank?
-    r += "#{lastname}"
+    r += "#{first_name[0]}. " unless first_name.blank?
+    r += "#{last_name}"
     r
   end
 
   def name
     a = []
-    a << lastname unless lastname.blank? 
-    a << firstname unless firstname.blank? 
+    a << last_name unless last_name.blank? 
+    a << first_name unless first_name.blank? 
     r = a.join(", ")
     r += " (#{pseudonym})" unless pseudonym.blank?
     r += " [Gruppe]" if is_group?
@@ -56,7 +56,7 @@ class Person < ActiveRecord::Base
 
   # TODO drop this method, use to_s instead
   def fullname
-    r = "#{firstname} #{lastname}"
+    r = "#{first_name} #{last_name}"
     r += " (#{pseudonym})" unless pseudonym.blank?
     r
   end
@@ -64,17 +64,17 @@ class Person < ActiveRecord::Base
 # class method to parse a name out of something that purports 
 # to be a name representing a natural person.
 # Input is presented either as:
-#   Firstname Lastname , or
-#   Lastname, Firstname
+#   first_name last_name , or
+#   last_name, first_name
   def self.parse(value)
     #TODO untrivialise this name splitter
     #TODO does this really belong here?
     value.gsub!(/[*%;]/,'')
-    if value.include?(",") # input comes to us as lastname<comma>firstname(s)
+    if value.include?(",") # input comes to us as last_name<comma>first_name(s)
       x = value.strip.squeeze(" ").split(/\s*,\s*/,2)
       fn = x.pop
       ln = x.pop
-    else # Last word is family name, everything else is firstname(s)
+    else # Last word is family name, everything else is first_name(s)
       x = value.strip.split(/\s{1}/,-1)
       ln = x.pop
       fn = x.each {|e| e.capitalize }.join(' ')
@@ -94,11 +94,11 @@ class Person < ActiveRecord::Base
 #temp#
 #  def to_tms(xml)
 #    xml.person do
-#      xml.firstname do
-#        firstname
+#      xml.first_name do
+#        first_name
 #      end
-#      xml.lastname do
-#        lastname
+#      xml.last_name do
+#        last_name
 #      end
 #    end
 #  end

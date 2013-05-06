@@ -1,0 +1,20 @@
+%tr
+  %td
+    %span.limit250 #{group.name}
+  %td
+    %span.limit250 #{group.ldap_name}
+
+  %td
+    #{group.users.count}
+
+  %td
+    %ul.inline
+      %li 
+        = link_to app_admin_group_path(group), class: "btn btn-mini" do
+          %i.icon-eye-open
+          Details
+      %li
+        = link_to edit_app_admin_group_path(group), class: "btn btn-warning btn-mini" do
+          %i.icon-pencil
+          Edit
+

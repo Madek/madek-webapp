@@ -68,3 +68,8 @@ When /^I go to (.*?)$/ do |page|
       raise "#{page} not found"
   end
 end
+
+
+When(/^I visit "(.*?)"$/) do |path|
+  visit path
+end

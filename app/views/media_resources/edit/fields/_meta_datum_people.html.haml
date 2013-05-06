@@ -22,32 +22,40 @@
 
       %ul.ui-tabs
         %li.ui-tabs-item.active.mll.pls
-          %a{"data-toggle" => "tab", :href => "#person#{@i}"} Person
+          %a{"data-toggle" => "tab", :href => "#person#{@i}"}
+            = _("Person")
         %li.ui-tabs-item
-          %a{"data-toggle" => "tab", :href => "#group#{@i}"} Gruppe
+          %a{"data-toggle" => "tab", :href => "#group#{@i}"}
+            = _("Group")
       .tab-content.mbs
 
         .tab-pane.active.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "person#{@i}"}
           .ui-form-group.rowed.pbx.ptx
-            %label.form-label Nachname
+            %label.form-label
+              = _("Last name")
             .form-item
-              %input.block{:type => "text", :name => "lastname"}
+              %input.block{:type => "text", :name => "last_name"}
           .ui-form-group.rowed.pbx.ptx
-            %label.form-label Vorname
+            %label.form-label
+              = _("First name")
             .form-item
-              %input.block{:type => "text", :name => "firstname"}
+              %input.block{:type => "text", :name => "first_name"}
           .ui-form-group.rowed.pbx.ptx
-            %label.form-label Pseudonym
+            %label.form-label
+              = _("Pseudonym")
             .form-item
               %input.block{:type => "text", :name => "pseudonym"}
           .ui-form-group.rowed.ptm.limited-width-s
-            %button.add-person.button.block Person einfügen
+            %button.add-person.button.block
+              = _("Add person")
 
         .tab-pane.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "group#{@i}"}
           .ui-form-group.rowed.pbx.ptx
-            %label.form-label Name
+            %label.form-label
+              = _("Name")
             .form-item
               %input.block{:type => "hidden", :name => "is_group", :value => 1}
-              %input.block{:type => "text", :name => "firstname"}
+              %input.block{:type => "text", :name => "first_name"}
           .ui-form-group.rowed.ptm.limited-width-s
-            %button.add-group.button.block Gruppe einfügen
+            %button.add-group.button.block
+              = _("Add group")

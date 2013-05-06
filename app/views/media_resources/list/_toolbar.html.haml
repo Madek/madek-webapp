@@ -29,33 +29,40 @@
       = actions
   .ui-toolbar-controls.by-right
     #ui-resources-layout-switcher.button-group.tertiary.small.right.mls
-      %a.button.ui-toolbar-vis-button{:class => active_layout == "miniature" ? "active" : "", :title => "Miniatur-Ansicht", :"data-vis-mode" => "miniature"}
-        %i.ui-toolbar-icon-miniature Miniatur-Ansicht
-      %a.button.ui-toolbar-vis-button{:class => active_layout == "grid" ? "active" : "", :title => "Raster-Ansicht" ,:"data-vis-mode" => "grid", :"data-default" => true}
-        %i.ui-toolbar-icon-grid Raster-Ansicht
-      %a.button.ui-toolbar-vis-button{:class => active_layout == "list" ? "active" : "", :title => "Listen-Ansicht", :"data-vis-mode" => "list"}
-        %i.ui-toolbar-icon-list Listen-Ansicht
+      %a.button.ui-toolbar-vis-button{:class => active_layout == "miniature" ? "active" : "", :title => _("Miniature view"), :"data-vis-mode" => "miniature"}
+        %i.ui-toolbar-icon-miniature
+          = _("Miniature view")
+      %a.button.ui-toolbar-vis-button{:class => active_layout == "grid" ? "active" : "", :title => _("Grid view"), :"data-vis-mode" => "grid", :"data-default" => true}
+        %i.ui-toolbar-icon-grid
+          = _("Grid view")
+      %a.button.ui-toolbar-vis-button{:class => active_layout == "list" ? "active" : "", :title => _("List view"), :"data-vis-mode" => "list"}
+        %i.ui-toolbar-icon-list 
+          = _("List view")
     #ui-resources-sorting.dropdown.ui-dropdown.stick-right
       %a.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
         %span.ui-text
           - case active_sorting
             - when "created_at"
-              Sortieren nach Erstellungsdatum
+              = _("Order by creation date")
             - when "updated_at"
-              Sortieren nach Änderungsdatum
+              = _("Order by modification date")
             - when "title"
-              Sortieren nach Titel
+              = _("Order by title")
             - when "author"
-              Filtern und sortieren nach Autor/in
+              = _("Filter and order by author")
             - else
-              Sortieren nach Erstellungsdatum
+              = _("Order by creation date")
         %i.icon-arrow-down.bright
       %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
         %li.ui-drop-item{:class => (active_sorting == "created_at") ? "hidden active" : "", :"data-default" => true}
-          %a{:"data-sort" => "created_at"} Sortieren nach Erstellungsdatum
+          %a{:"data-sort" => "created_at"}
+            = _("Order by creation date")
         %li.ui-drop-item{:class => (active_sorting == "updated_at") ? "hidden active" : ""}
-          %a{:"data-sort" => "updated_at"} Sortieren nach Änderungsdatum
+          %a{:"data-sort" => "updated_at"}
+            = _("Order by modification date")
         %li.ui-drop-item{:class => (active_sorting == "title") ? "hidden active" : ""}
-          %a{:"data-sort" => "title"} Sortieren nach Titel
+          %a{:"data-sort" => "title"}
+            = _("Order by title")
         %li.ui-drop-item{:class => (active_sorting == "author") ? "hidden active" : ""}
-          %a{:"data-sort" => "author"} Filtern und sortieren nach Autor/in
+          %a{:"data-sort" => "author"}
+            = _("Filter and order by author")

@@ -14,7 +14,7 @@ Feature: Filter
   @clean @jsbrowser
   Scenario: Existence of the filter-panel and searching for an empty term
     Given I am signed-in as "Liselotte"
-    And I click on the link "Suchen"
+    And I click on the link "Suche"
     Then I am on the "/search" page
     When I click the submit input
     Then I can see the filter panel

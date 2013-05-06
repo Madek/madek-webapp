@@ -74,7 +74,7 @@
     background: white;
     border-color: $darken-less;
     @include border-radius(4px);
-    color: $green;
+    color: $main-color;
     padding: 0 4px !important;
     margin-left: -5px;
     margin-bottom: 8px;
@@ -83,7 +83,7 @@
 
     &:hover {
       background: $darken-subtle;
-      color: $green-dark;
+      color: $main-color-dark;
     }
   }
 }

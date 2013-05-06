@@ -7,6 +7,7 @@ Given /^All previews are deleted for the media_entry/ do
 end
 
 Then /^I can see that there are no previews$/ do
+  find("table.previews tbody")
   expect(all("table.previews tbody tr").size).to eq 0
 end
 

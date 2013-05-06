@@ -10,7 +10,7 @@ class Person
 
   validate: ->
     @errors = []
-    if !@firstname? and !@lastname? and !@pseudonym?
+    if !@first_name? and !@last_name? and !@pseudonym?
       @errors.push {text: "Mindestens eine Angabe ist Pflicht"}
     if @errors.length then false else true
 
@@ -20,8 +20,8 @@ class Person
       type: "POST"
       data:
         person:
-          firstname: @firstname
-          lastname: @lastname
+          first_name: @first_name
+          last_name: @last_name
           pseudonym: @pseudonym
           is_group: @is_group
       success: (data)=>
@@ -33,13 +33,13 @@ class Person
 
   @toString: (person)->
     if person.is_group
-      name = "#{person.firstname} [Gruppe]"
+      name = "#{person.first_name} [Gruppe]"
     else if person.name?
       name = person.name
     else
       name = []
-      name.push person.lastname if person.lastname? and person.lastname.length
-      name.push person.firstname if person.firstname? and person.firstname.length
+      name.push person.last_name if person.last_name? and person.last_name.length
+      name.push person.first_name if person.first_name? and person.first_name.length
       name = name.join(", ")
       if person.pseudonym? and person.pseudonym.length
         name = [name, "(#{person.pseudonym})"] 
@@ -49,9 +49,9 @@ class Person
   @firstAndLastNameFromString: (string)->
     splitted = string.split(/,\s/)
     if splitted.length == 2
-      return {lastname: splitted[1], firstname: splitted[0]}
+      return {last_name: splitted[1], first_name: splitted[0]}
     else
-      return {fistname: string}
+      return {first_name: string}
 
   @nameFromString: (string)->
     splitted = string.split(/\s/)

@@ -17,19 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "About the project"
-msgstr ""
-
-msgid "Impressum"
-msgstr ""
-
-msgid "Contact"
-msgstr ""
-
 msgid "Help"
-msgstr ""
-
-msgid "Terms of Use"
 msgstr ""
 
 msgid "My archive"
@@ -44,6 +32,9 @@ msgstr ""
 msgid "ZHdK login"
 msgstr ""
 
+msgid "External users"
+msgstr ""
+
 msgid "Log in"
 msgstr ""
 
@@ -53,8 +44,348 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
+msgid "Context"
+msgstr ""
+
 msgid "Contexts"
 msgstr ""
 
 msgid "New content"
 msgstr ""
+
+msgid "Further actions"
+msgstr ""
+
+msgid "Import media"
+msgstr ""
+
+msgid "Show connections"
+msgstr ""
+
+msgid "Create set"
+msgstr ""
+
+msgid "My favorites"
+msgstr ""
+
+msgid "Content entrusted to me"
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "Content I am responsible for"
+msgstr ""
+
+msgid "My latest imports"
+msgstr ""
+
+msgid "My keywords"
+msgstr ""
+
+msgid "My workgroups"
+msgstr ""
+
+msgid "Welcome"
+msgstr ""
+
+msgid "Share your media, archive your works, explore content, develop knowledge."
+msgstr ""
+
+msgid "Explore content"
+msgstr ""
+
+msgid "New workgroup"
+msgstr ""
+
+msgid "Workgroups"
+msgstr ""
+
+msgid "System groups"
+msgstr ""
+
+msgid "Department groups"
+msgstr ""
+
+msgid "Change view"
+msgstr ""
+
+msgid "Reject"
+msgstr ""
+
+msgid "Accept"
+msgstr ""
+
+msgid "Search results for"
+msgstr ""
+
+msgid "Create filter set"
+msgstr ""
+
+msgid "Search result"
+msgstr ""
+
+msgid "%s o'clock"
+msgstr ""
+
+msgid "Extract"
+msgstr ""
+
+msgid "Vocabulary"
+msgstr ""
+
+msgid "A specific vocabulary was created for this context"
+msgstr ""
+
+msgid "A specific vocabulary was created for this set"
+msgstr ""
+
+msgid "Highlight values that were already used in this context"
+msgstr ""
+
+msgid "Highlight values that were already used in this set"
+msgstr ""
+
+msgid "Context contains"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "These metadata were used most often"
+msgstr ""
+
+msgid "They show this context's area of focus"
+msgstr ""
+
+msgid "Show all"
+msgstr ""
+
+msgid "Cover image"
+msgstr "" msgid "Specify cover image for set"
+msgstr ""
+
+msgid "Highlight content"
+msgstr ""
+
+msgid "Display settings saved"
+msgstr ""
+
+msgid "Save display settings"
+msgstr ""
+
+msgid "Specify sort and display settings for this set"
+msgstr ""
+
+msgid "Specify display settings"
+msgstr ""
+
+msgid "Highlighted content"
+msgstr ""
+
+msgid "Parent sets"
+msgstr ""
+
+msgid "They show this set's area of focus"
+msgstr ""
+
+msgid "This set has additional contexts with metadata"
+msgstr ""
+
+msgid "This allows adding further details to all media entries contained in this set."
+msgstr ""
+
+msgid "Furthermore, you may also assign any contexts that are assigned to this set to any set contained within."
+msgstr ""
+
+msgid "Aktivieren / Deaktivieren"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "This set is contained in one set"
+msgid_plural ""
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "items"
+msgstr ""
+
+msgid "%d of %d items visible to you"
+msgstr ""
+
+msgid "Set contains"
+msgstr ""
+
+msgid "Browse for similar content"
+msgstr ""
+
+msgid "No similar content found"
+msgstr ""
+
+msgid "This item does not have enough metadata"
+msgstr ""
+
+msgid "Add metadata"
+msgstr ""
+
+msgid "Edit metadata"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "%d items selected"
+msgstr ""
+
+msgid "Table view"
+msgstr ""
+
+msgid "Media view"
+msgstr ""
+
+msgid "These items are publicly accessible"
+msgstr ""
+
+msgid "These items are only accesible to you"
+msgstr ""
+
+msgid "These items are shared with others"
+msgstr ""
+
+msgid "List of media resources"
+msgstr ""
+
+msgid "Add to/remove from clipboard"
+msgstr ""
+
+msgid "Add to/remove from set"
+msgstr ""
+
+msgid "Add to/remove from favorites"
+msgstr ""
+
+msgid "Add to clipboard"
+msgstr ""
+
+msgid "Browse"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Miniature view"
+msgstr ""
+
+msgid "Grid view"
+msgstr ""
+
+msgid "List view"
+msgstr ""
+
+msgid "Order by creation date"
+msgstr ""
+
+msgid "Order by modification date"
+msgstr ""
+
+msgid "Order by title"
+msgstr ""
+
+msgid "Filter and order by author"
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Reset filters"
+msgstr ""
+
+msgid "Deselect all"
+msgstr ""
+
+msgid "Select all"
+msgstr ""
+
+msgid "Limit by keyword"
+msgstr ""
+
+msgid "Loading filters"
+msgstr ""
+
+msgid "Required field - please fill in"
+msgstr ""
+
+msgid "Apply field to all items"
+msgstr ""
+
+msgid "Overwrite existing values"
+msgstr ""
+
+msgid "Person"
+msgstr ""
+
+msgid "Group"
+msgstr ""
+
+msgid "Last name"
+msgstr ""
+
+msgid "First name"
+msgstr ""
+
+msgid "Pseudonym"
+msgstr ""
+
+msgid "Add person"
+msgstr ""
+
+msgid "Add group"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Most popular"
+msgstr ""
+
+msgid "Latest"
+msgstr ""
+
+msgid "Loading keywords"
+msgstr ""
+
+msgid "Free entry"
+msgstr ""
+
+msgid "on"
+msgstr ""
+
+msgid "von/bis"
+msgstr ""
+
+msgid "will be saved as text"
+msgstr ""
+
+msgid "from"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
+msgid "Please select country"
+msgstr ""
+
+msgid "Visualize relationship between items as a graph"
+msgstr ""
+
+msgid "Read/edit permissions"
+msgstr ""
+
+msgid "Permissions"
+msgstr ""
+

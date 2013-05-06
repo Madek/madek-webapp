@@ -22,24 +22,30 @@
 
       %ul.ui-tabs
         %li.ui-tabs-item.active.mll.pls
-          %a{"data-toggle" => "tab", :href => "#tags_mine_#{@i}"} Meine Schlagworte
+          %a{"data-toggle" => "tab", :href => "#tags_mine_#{@i}"}
+            = _("My keywords")
         %li.ui-tabs-item
-          %a{"data-toggle" => "tab", :href => "#tags_top_#{@i}"} Beliebtesten
+          %a{"data-toggle" => "tab", :href => "#tags_top_#{@i}"}
+            = _("Most popular")
         %li.ui-tabs-item
-          %a{"data-toggle" => "tab", :href => "#tags_latest_#{@i}"} Neusten
+          %a{"data-toggle" => "tab", :href => "#tags_latest_#{@i}"}
+            = _("Latest")
       .tab-content.mbs
 
         .tags-mine.tab-pane.active.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_mine_#{@i}"}
           %ul.ui-tag-cloud.small
-            .title-xs.by-center Lade Schlagworte
+            .title-xs.by-center
+              = _("Loading keywords")
             .ui-preloader.small
            
         .tags-top.tab-pane.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_top_#{@i}"}
           %ul.ui-tag-cloud.small
-            .title-xs.by-center Lade Schlagworte
+            .title-xs.by-center
+              = _("Loading keywords")
             .ui-preloader.small
 
         .tags-latest.tab-pane.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_latest_#{@i}"}
           %ul.ui-tag-cloud.small
-            .title-xs.by-center Lade Schlagworte
+            .title-xs.by-center
+              = _("Loading keywords")
             .ui-preloader.small

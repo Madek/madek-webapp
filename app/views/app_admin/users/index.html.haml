@@ -1,0 +1,48 @@
+%h1.text-center 
+  %i.icon-user
+  Users
+
+%ul.inline
+
+  %li
+    = link_to form_create_with_user_app_admin_users_path, class: 'btn btn-success' do
+      %i.icon-plus
+      New user with person
+
+  %li
+    = link_to new_app_admin_user_path, class: 'btn btn-success' do
+      %i.icon-plus
+      New user for existing person
+
+.row
+
+  %div.span3
+
+    %h3 
+      %i.icon-filter
+      Filters
+
+    = form_tag app_admin_users_path, method: 'GET' do
+
+      %label 
+        = text_field :filter, :fuzzy_search, class: "search-query", value: params.try(:[],:filter).try(:[],:fuzzy_search)
+
+      = button_tag type: 'submit', class: 'btn btn-small' do
+        Filter
+
+  .span9
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Login
+          %th E-mail
+          %th id
+          %th Person
+      %tbody
+        =render @users
+
+
+
+= paginate @users, theme: 'app_admin'
+
+

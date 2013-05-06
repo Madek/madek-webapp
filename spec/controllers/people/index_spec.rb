@@ -21,12 +21,11 @@ describe PeopleController do
         expected = Person.all.map {|x| 
           {
             id: x.id,
-            firstname: x.firstname,
-            lastname: x.lastname,
-            birthdate: x.birthdate,
-            deathdate: x.deathdate,
+            first_name: x.first_name,
+            last_name: x.last_name,
+            date_of_birth: x.date_of_birth,
+            date_of_death: x.date_of_death,
             is_group: x.is_group,
-            nationality: x.nationality,
             pseudonym: x.pseudonym           
           }
         }
@@ -34,17 +33,16 @@ describe PeopleController do
       end
 
       it "should find matching people" do
-        get :index, {format: :json, query: @user2.person.firstname.downcase}, session
+        get :index, {format: :json, query: @user2.person.first_name.downcase}, session
         json = JSON.parse(response.body)
         expected = [@user2.person].map {|x| 
           {
             id: x.id,
-            firstname: x.firstname,
-            lastname: x.lastname,
-            birthdate: x.birthdate,
-            deathdate: x.deathdate,
+            first_name: x.first_name,
+            last_name: x.last_name,
+            date_of_birth: x.date_of_birth,
+            date_of_death: x.date_of_death,
             is_group: x.is_group,
-            nationality: x.nationality,
             pseudonym: x.pseudonym           
           }
         }

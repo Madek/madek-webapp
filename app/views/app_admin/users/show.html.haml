@@ -1,0 +1,56 @@
+%h1
+  %i.icon-user 
+  #{@user}
+
+%ul.inline
+
+  %li
+    =form_tag app_admin_user_path(@user), method: 'DELETE' do
+      = button_tag type: 'submit', class: "btn btn-danger" do
+        %i.icon-trash
+        Destroy
+
+  %li
+    =link_to edit_app_admin_user_path(@user), class: "btn btn-warning" do
+      %i.icon-pencil
+      Edit
+
+  %li
+    = link_to switch_to_app_admin_user_path(@user), method: 'POST', class: "btn btn-warning" do
+      Switch to
+
+
+
+%table.table.table-striped
+  %thead
+  %tbody
+  - @user.attributes.each do |name,value|
+    %tr
+      %td= name.capitalize.split("_").join(" ")
+      - case name
+      - when nil
+      - else
+        %td= value
+
+  %tr
+    %td # Resources
+    %td #{@user.media_resources.count}
+
+  %tr
+    %td # Keywords
+    %td #{@user.keywords.count}
+
+  %tr
+    %td # MetaData
+    %td #{@user.meta_data.count}
+
+
+%h2.text-center
+  Groups
+
+%table.table.table-striped
+  %body
+    = render partial: 'app_admin/users/group', collection: @groups
+
+= paginate @groups, theme: 'app_admin'
+

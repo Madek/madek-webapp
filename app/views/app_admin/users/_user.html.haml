@@ -1,0 +1,20 @@
+%tr
+  %td #{user.login}
+  %td #{user.email}
+  %td #{user.id}
+  %td 
+    =link_to app_admin_person_path(user.person) do 
+      #{user.person}
+  %td
+    %ul.inline
+
+      %li
+        =link_to app_admin_user_path(user), class: "btn btn-mini" do
+          %i.icon-eye-open
+          Details
+
+
+      %li
+        = link_to switch_to_app_admin_user_path(user), method: 'POST', class: "btn btn-mini btn-warning" do
+          Switch to
+

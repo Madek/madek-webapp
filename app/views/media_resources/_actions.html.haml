@@ -4,23 +4,23 @@
 .ui-thumbnail-actions
   %ul.left.by-left
     %li.ui-thumbnail-action
-      %a.ui-thumbnail-action-checkbox{:"data-clipboard-toggle" => true, :title => "Zur Zwischenablage hinzufügen/entfernen"}
-        Zur Zwischenablage hinzufügen
+      %a.ui-thumbnail-action-checkbox{:"data-clipboard-toggle" => true, :title => _("Add to/remove from clipboard")}
+        = _("Add to clipboard")
     %li.ui-thumbnail-action
       %a.ui-thumbnail-action-favorite{:"data-favor-toggle" => true,
-                                      :title => "Zu Favoriten hinzufügen/entfernen", 
+                                      :title => _("Add to/remove from favorites"),
                                       :class => is_favorite ? "active" : ""}
         Zu Favoriten hinzufügen
   %ul.right.by-right
     %li.ui-thumbnail-action
     - if media_resource.type == "MediaEntry"
-      %a.ui-thumbnail-action-browse{:title => "Stöbern", :href => browse_media_resource_path(media_resource)}
-        Erkunden
+      %a.ui-thumbnail-action-browse{:title => _("Browse"), :href => browse_media_resource_path(media_resource)}
+        = _("Browse")
     - if current_user.authorized?(:edit, media_resource)
       %li.ui-thumbnail-action
-        %a.ui-thumbnail-action-edit{:title => "Metadaten editieren", :href => edit_media_resource_path(media_resource)}
-          Metadaten Editieren
+        %a.ui-thumbnail-action-edit{:title => _("Edit metadata"), :href => edit_media_resource_path(media_resource)}
+          = _("Edit metadata")
     - if current_user.authorized?(:delete, media_resource)
       %li.ui-thumbnail-action
-        %a.ui-thumbnail-action-delete{:"data-delete-action" => true, :title => "Löschen"}
-          Löschen
+        %a.ui-thumbnail-action-delete{:"data-delete-action" => true, :title => _("Delete")}
+          = _("Delete")

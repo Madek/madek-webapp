@@ -18,7 +18,7 @@
   %label.form-label{:for => "resource[meta_data_attributes][#{@i}][value]"}
     = definition.label
     - if definition.is_required
-      %span{:title => "Pflichtfeld - Bitte angeben"} *
+      %span{:title => "Required field - please fill in"} *
     - unless definition.description.to_s.blank?
       %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => definition.description, "data-placement" => "top", :rel => "tooltip"}
         Hilfe
@@ -33,9 +33,10 @@
       %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
         %li.ui-drop-item
           .ui-container.overlaid
-            .title-s.separated.phs.pvs Feld auf alle Inhalte übertragen
+            .title-s.separated.phs.pvs 
+              = _("Apply field to all items")
           %a{:"data-overwrite" => "true"}
-            Bestehende Werte überschreiben
+            = _("Overwrite existing values")
           %a{:"data-overwrite" => "false"}
             Bestehnde Werte 
             %strong nicht

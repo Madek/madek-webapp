@@ -1,8 +1,44 @@
-
 %h1 
   %i.icon-dashboard
   Dashboard
 
+
+%p.alert.alert-warning
+  We are revamping the administration interface.
+  Some of the missing functionality might be still accessible in the 
+  = link_to '/admin' do
+    old administration interface.
+
+
+%h2 Stats
+
+%table.table.table-striped
+  %thead
+  %tbody
+    %tr 
+      %td #{User.count} Nutzer/innen
+    %tr
+      %td #{Keyword.joins(:meta_datum => :media_resource).where(:media_resources => {:type => ["MediaEntry", "MediaSet", "FilterSet"]}).count} Schlagworte
+    %tr
+      %td #{MediaEntry.count} Medien
+    %tr
+      %td #{MediaSet.count} MediaSets
+    %tr 
+      %td=  MediaFile.where("NOT EXISTS (#{MediaEntry.where('media_file_id = media_files.id').to_sql})").count.to_s + " MediaFiles without MediaEntry"
+
+
+      
+
+
+
+
+
+
+
+
+%h2 Movie re-encoding
+
+%p (to be removed)
 
 %h3 
   %i.icon-film

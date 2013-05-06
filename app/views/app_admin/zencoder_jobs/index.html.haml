@@ -1,24 +1,26 @@
-%h1 
+%h1.text-center
   %i.icon-film
   ZencoderJobs
   
 
+.row
 
-//  .span3
-//    %h4 
-//      %i.icon-filter
-//      Filter and Scopes
-//    
-//    %p
-//      .btn-group
-//        =link_to  url_for(params.delete_if{|k,v| k == "state"}), class:  "btn " + ( (params.try('[]',:state).blank?) ? 'btn-inverse' : '') do
-//          All
-//      .btn-group
-//        =link_to  url_for (params.merge state: 'failed'), class:  "btn " + ( (params.try('[]',:state) == 'failed') ? 'btn-inverse' : '') do
-//          All
-//          
+  %div.span3
 
+    %h3 
+      %i.icon-filter
+      Filters
 
-= render partial: 'zencoder_jobs_table'
+    = form_tag app_admin_zencoder_jobs_path, method: 'GET' do
+
+      %label 
+        = text_field nil, :fuzzy_search, class: "search-query", value: params[:fuzzy_search] 
+
+      = button_tag type: 'submit', class: 'btn btn-small' do
+        Filter
+
+  .span9
+
+    = render partial: 'zencoder_jobs_table'
  
 = paginate @zencoder_jobs, theme: 'app_admin'

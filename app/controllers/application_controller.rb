@@ -31,10 +31,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def set_gettext_locale
-    I18n.locale = "de_CH".to_sym
-  end
 
+  def set_gettext_locale
+    locale_symbol = "de_CH".to_sym
+    if params[:locale]
+      session[:locale] = params[:locale]
+      locale_symbol = params[:locale].to_sym
+    end
+    if session[:locale]
+      locale_symbol = session[:locale].to_sym
+    end
+    I18n.locale = locale_symbol
+  end
 
 ##############################################
 

@@ -2,11 +2,13 @@
 
   .ui-toolbar.inverted.ui-container.pvx.phs.rounded-top
     %h2.ui-toolbar-header
-      %strong= "#{media_resources.count} Inhalte ausgewählt"
+      %strong= _("%d items selected" % media_resources.count)
     .ui-toolbar-controls.by-right
       .button-group.small.tertiary
-        %a.button.active{:"data-view" => ".ui-resources-table"} Tabellenansicht
-        %a.button{:"data-view" => ".ui-resources-media"} Medienansicht  
+        %a.button.active{:"data-view" => ".ui-resources-table"}
+          = _("Table view")
+        %a.button{:"data-view" => ".ui-resources-media"}
+          = _("Media view")
       
   .ui-resources-table
 
