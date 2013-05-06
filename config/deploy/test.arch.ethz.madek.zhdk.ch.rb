@@ -9,7 +9,7 @@ require "bundler/capistrano"
 
 set :scm, :git
 set :repository, "git://github.com/zhdk/madek.git"
-set :branch, "master"
+set :branch, "next"
 set :deploy_via, :remote_cache
 
 set :app, "test.arch.ethz.madek.zhdk.ch"
