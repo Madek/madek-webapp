@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::PeopleController, :type => :controller do
+describe AppAdmin::PeopleController do
 
   before :each do
     FactoryGirl.create :usage_term 
@@ -91,4 +91,8 @@ describe Admin::PeopleController, :type => :controller do
       end
     end
   end
+
+
 end
+
+
