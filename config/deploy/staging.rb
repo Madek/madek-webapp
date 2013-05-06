@@ -17,8 +17,8 @@ set :db_config, "/home/rails/madek-test/database.yml"
 set :ldap_config, "/home/rails/madek-test/LDAP.yml"
 set :zencoder_config, "/home/rails/madek-test/zencoder.yml"
 set :newrelic_config, "/home/rails/madek-test/newrelic.yml"
+set :custom_config_css, "/home/rails/madek-test/_custom_config.css.sass"
 set :checkout, :export
-
 
 set :use_sudo, false 
 set :rails_env, "production"
@@ -52,6 +52,9 @@ task :link_config do
 
   run "rm -f #{release_path}/config/newrelic.yml"
   run "ln -s #{newrelic_config} #{release_path}/config/newrelic.yml"
+
+  run "rm -f #{release_path}/app/assets/stylesheets/_custom_config.css.sass"
+  run "ln -s #{custom_config_css} #{release_path}/app/assets/stylesheets/_custom_config.css.sass"
 end
 
 namespace :deploy do

@@ -17,6 +17,7 @@ set :app, "test.arch.ethz.madek.zhdk.ch"
 set :db_config, "/home/#{app}/database.yml"
 set :zencoder_config, "/home/#{app}/zencoder.yml"
 set :authentication_systems_config, "/home/#{app}/authentication_systems.yml"
+set :custom_config_css, "/home/test.arch.madek.zhdk.ch/_custom_config.css.sass"
 
 set :checkout, :export
 
@@ -51,8 +52,9 @@ task :link_config do
   run "rm -f #{release_path}/config/authentication_systems.yml"
   run "ln -s #{authentication_systems_config} #{release_path}/config/authentication_systems.yml"
 
-#  run "rm -f #{release_path}/config/newrelic.yml"
-#  run "ln -s #{newrelic_config} #{release_path}/config/newrelic.yml"
+  run "rm -f #{release_path}/app/assets/stylesheets/_custom_config.css.sass"
+  run "ln -s #{custom_config_css} #{release_path}/app/assets/stylesheets/_custom_config.css.sass"
+
 end
 
 
