@@ -1,0 +1,15 @@
+%h1.text-center
+  %i.icon-file
+  Media Entries
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Owner
+      %th Media File
+      %th Id
+      %th Created at
+  %tbody
+    =render @media_entries
+
+= paginate @media_entries, theme: 'app_admin'

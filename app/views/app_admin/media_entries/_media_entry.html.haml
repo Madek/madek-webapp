@@ -1,0 +1,14 @@
+%tr
+  %td
+    = link_to app_admin_user_path(media_entry.user) do
+      = media_entry.user.to_s
+  %td 
+    = link_to app_admin_media_file_path(media_entry.media_file) do
+      = media_entry.media_file.id
+  %td= media_entry.id
+  %td= media_entry.created_at
+  %td
+    = link_to app_admin_media_entry_path(media_entry), class: "btn btn-small" do
+      %i.icon-eye-open
+      Details
+

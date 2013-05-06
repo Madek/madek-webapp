@@ -1,6 +1,10 @@
 # -*- encoding : utf-8 -*-
 MAdeK::Application.routes.draw do
 
+  get "media_entries/index"
+
+  get "media_entries/show"
+
   ##### ROOT
 
   root :to => "application#root"
@@ -259,18 +263,24 @@ MAdeK::Application.routes.draw do
 
   namespace :app_admin do
     root to: "dashboard#index"
+
     resource :settings, only: [:edit,:update,:show]
+
     resources :zencoder_jobs, only: [:index, :show]
+
     resources :media_files, only: [:index, :show] do
       member do 
         post 'reencode'
+        post 'recreate_thumbnails'
       end
-
       collection do
         post 'reencode_incomplete_videos'
       end
-
     end
+
+    resources :media_entries, only: [:index, :show] do
+    end
+
     resources :previews, only: [:show,:destroy]
 
     resources :groups do
