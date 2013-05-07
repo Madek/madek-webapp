@@ -47,6 +47,7 @@ gem 'sass'
 gem 'uuidtools', '~> 2.1.3'
 gem 'zencoder', '~> 2.4'
 gem 'zip', '~> 2.0.2' # alternatives: 'rubyzip', 'zipruby', 'zippy'
+gem 'animation'
 
 group :assets do
   gem 'bootstrap-sass' 

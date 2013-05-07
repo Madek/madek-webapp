@@ -1,10 +1,6 @@
 # -*- encoding : utf-8 -*-
 MAdeK::Application.routes.draw do
 
-  get "media_entries/index"
-
-  get "media_entries/show"
-
   ##### ROOT
 
   root :to => "application#root"
@@ -262,7 +258,9 @@ MAdeK::Application.routes.draw do
   ActiveAdmin.routes(self)
 
   namespace :app_admin do
-    root to: "dashboard#index"
+
+    post 'enter_uberadmin' => "base#enter_uberadmin"
+    post 'exit_uberadmin' => "base#exit_uberadmin"
 
     resource :settings, only: [:edit,:update,:show]
 
@@ -309,6 +307,8 @@ MAdeK::Application.routes.draw do
         post :switch_to
       end
     end
+
+    root to: "dashboard#index"
 
   end
 

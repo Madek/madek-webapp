@@ -178,7 +178,7 @@ Given /^I set the input with the name "(.*?)" to "(.*?)" and submit$/ do |name, 
 end
 
 Then /^I set the input in the fieldset with "(.*?)" as meta\-key to "(.*?)"$/ do |meta_key_id, value|
-  find("fieldset[data-meta-key='#{meta_key_id}'] input",visible: true).set(value)
+  find("fieldset[data-meta-key='#{meta_key_id}']").find("input,textarea",visible: true).set(value)
 end
 
 When /^I submit$/ do

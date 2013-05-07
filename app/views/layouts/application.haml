@@ -12,6 +12,6 @@
     = csrf_meta_tag
     = yield :head
 
-  %body
+  %body{data: {uberadmin: session[:act_as_uberadmin]}}
     = render :partial => "application/flash", :locals => {:flash => flash} unless flash.empty?
     = yield
