@@ -1,4 +1,4 @@
-class FilterSetsController < MediaSetsController 
+class FilterSetsController < ApplicationController
 
   def create
     begin
@@ -21,6 +21,10 @@ class FilterSetsController < MediaSetsController
   def edit 
     @filter_set = FilterSet.where(:id => params[:id]).accessible_by_user(current_user, :edit).first
     render status: :not_found unless @filter_set
+  end
+
+  def show 
+    @filter_set = FilterSet.where(:id => params[:id]).accessible_by_user(current_user, :edit).first
   end
 
   def update

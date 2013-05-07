@@ -651,7 +651,12 @@ class MediaResourcesController < ApplicationController
   end
 
   def show
-    redirect_to @media_resource
+    case @media_resource.type
+    when "FilterSet"
+      redirect_to filter_set_path(@media_resource)
+    else
+      redirect_to @media_resource
+    end
   end
 
   def browse

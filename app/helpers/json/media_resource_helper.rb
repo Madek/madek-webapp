@@ -103,6 +103,26 @@ module Json
                 hash_for_media_resources_with_pagination(media_resources, pagination, forwarded_with, true)
               end
             end
+
+          when "FilterSet"
+            if with[:children]
+              h[:children] = begin
+                # respond with media_resources children
+                media_resources = media_resource.filtered_resources(current_user)
+                
+                case with[:children][:type]
+                  when "media_entry"
+                    media_resources = media_resources.media_entries
+                  when "media_set"
+                    media_resources = media_resources.media_sets
+                end if with[:children].is_a?(Hash) and with[:children][:type]
+                  
+                pagination = ((with[:children].is_a? Hash) ? with[:children][:pagination] : nil) || true
+                forwarded_with = (with[:children].is_a? Hash) ? (with[:children][:with]||=nil) : nil
+                hash_for_media_resources_with_pagination(media_resources, pagination, forwarded_with, true)
+              end
+            end
+ 
           
           when "MediaEntry"
             [:media_file_id].each do |k|

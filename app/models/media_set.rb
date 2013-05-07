@@ -47,8 +47,7 @@ class MediaSet < MediaResource
 
   ACCEPTED_SETTINGS = {
     :layout => {:possible_values => [:miniature, :grid, :list], :default => :grid},
-    :sorting => {:possible_values => [:created_at, :updated_at, :title, :author], :default => :updated_at},
-    :filter => {:default => {}}
+    :sorting => {:possible_values => [:created_at, :updated_at, :title, :author], :default => :updated_at}
   }
 
 

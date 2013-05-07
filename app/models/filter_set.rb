@@ -1,28 +1,24 @@
 # -*- encoding : utf-8 -*-
-class FilterSet < MediaSet
+class FilterSet < MediaResource
+  store :settings
 
-  # NOTE provides alias for routes and used for sti type switcher
-  def self.model_name
-    MediaSet.model_name
-  end
-
-  # override the validation of MediaSet
-  def validate_settings 
+  def media_type
+    self.type.gsub(/Media/, '')
   end
 
   def get_filter
-    settings[:filter] || ACCEPTED_SETTINGS[:filter][:default]
+    settings[:filter] || {} 
   end
 
-  def child_media_resources(user)
-    settings[:filter] ||= ACCEPTED_SETTINGS[:filter][:default]
+  def filtered_resources(user)
+    settings[:filter] ||= {}
     MediaResource.filter(user, settings[:filter])
   end
 
   def get_media_file(user = nil)
     # we just provide the first public media_entry's image
     # we provide random image for filter sets
-    child_media_resources.media_entries.where(view: true).ordered_by(:random).first.try(:media_file)
+    filtered_resources(user).media_entries.where(view: true).ordered_by(:random).first.try(:media_file)
   end
 
   def sections possible_filters

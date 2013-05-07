@@ -9,11 +9,11 @@
         .ui-body-title-label
           %h1.title-xl= @filter_set.title
 
-        = render :partial => "filter_sets/actions"
+        = render "filter_sets/actions"
 
     .app-body-ui-container
 
-      = render :partial => "filter_sets/tabs"
+      = render "filter_sets/tabs"
 
       = yield :content
 

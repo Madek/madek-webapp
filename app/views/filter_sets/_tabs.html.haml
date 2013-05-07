@@ -3,6 +3,6 @@
   %li.ui-tabs-item{:class => media_set_show_page? ? "active" : ""}
     %a{:href => media_set_path(@filter_set)} FilterSet
 
-  - unless @parents_count.zero?
-    %li.ui-tabs-item{:class => media_set_parents_page? ? "active" : ""}
+  - unless @filter_set.parent_sets.count.zero?
+    %li.ui-tabs-item{class: media_set_parents_page? ? "active" : ""}
       %a{:href => parents_media_set_path(@filter_set)} Übergeordnete Sets

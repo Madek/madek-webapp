@@ -10,7 +10,7 @@ When /^I provide a title$/ do
 end
 
 Then /^I am getting redirected to the (new|updated) filter set$/ do |either_or|
-  wait_until{ current_path =~ /media_sets/ }
+  wait_until{ current_path =~ /filter_sets/ }
 end
 
 Then /^I can see the provided title and the used filter settings$/ do
@@ -21,8 +21,8 @@ Then /^I can see the provided title and the used filter settings$/ do
 end
 
 When /^I open a filter set$/ do
-  @filter_set = @current_user.media_sets.where(:type => "FilterSet").first
-  visit media_set_path @filter_set
+  @filter_set = @current_user.media_resources.where(:type => "FilterSet").first
+  visit filter_set_path @filter_set
 end
 
 When /^I edit the filter set settings$/ do

@@ -36,7 +36,7 @@ module MediaResourceModules
         resources = if current_user and filter[:favorites] == "true"
           current_user.favorites
         elsif filter[:media_set_id]
-          MediaSet.find(filter[:media_set_id]).child_media_resources(current_user)
+          FilterSet.find(filter[:media_set_id]).filtered_resources(current_user)
         else
           self
         end
