@@ -2,7 +2,7 @@
 class AppAdmin::MediaEntriesController < AppAdmin::BaseController
 
   def index
-    @media_entries = MediaEntry.reorder("created_at DESC").page(params[:page]).per(16)
+    @media_entries = MediaEntry.where(type: "MediaEntry").reorder("created_at DESC").page(params[:page]).per(16)
   end
 
   def show
