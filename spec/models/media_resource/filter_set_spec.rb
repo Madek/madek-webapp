@@ -9,7 +9,7 @@ describe FilterSet do
   
   it "should contain media entries" do
     @filter_set.should respond_to :child_media_resources
-    @filter_set.child_media_resources.should respond_to :media_entries
+    @filter_set.child_media_resources(@user).should respond_to :media_entries
   end
 
   it "should be producible by a factory" do
@@ -45,8 +45,8 @@ describe FilterSet do
         end
         all_fake_words.each do |w|
           fs = FactoryGirl.create(:filter_set, user: @user, settings: {filter: {search: w}})
-          fs.child_media_resources.count.should_not be_zero
-          fs.child_media_resources.count.should == MediaResource.filter(@user, {search: w}).count
+          fs.child_media_resources(@user).count.should_not be_zero
+          fs.child_media_resources(@user).count.should == MediaResource.filter(@user, {search: w}).count
         end
         
       end
