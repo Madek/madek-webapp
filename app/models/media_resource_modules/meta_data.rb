@@ -11,10 +11,12 @@ module MediaResourceModules
             key_id = if key.is_a? MetaKey
                        key.id  
                      else 
-                       MetaKey.find_by_id(key).id
+                       MetaKey.find_by_id(key).try(&:id)
                      end
-            where(meta_key_id: key_id).first \
-              || (build(:meta_key_id => key_id) if build_if_not_found)
+            if key_id
+              where(meta_key_id: key_id).first \
+                || (build(:meta_key_id => key_id) if build_if_not_found)
+            end
           end
 
           def get_value_for(key_id)

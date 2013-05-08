@@ -116,6 +116,7 @@ describe MediaResourcesController do
         type = rand > 0.5 ? :media_entry : :media_set
         mr = FactoryGirl.create type, :user => @user
         mr.parents << FactoryGirl.create(:media_set, :user => @user)
+        binding.pry
         mr.meta_data.create(:meta_key => MetaKey.find_by_id("title"), 
                             :value => Faker::Lorem.words(1).join(' '))
       end
