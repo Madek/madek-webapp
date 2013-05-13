@@ -42,10 +42,28 @@ EOF
 
 
 #############################################################
-# upgrade and install 
+# upgrade and install basic stuff
 #############################################################
 apt-get dist-upgrade --assume-yes
 apt-get install --assume-yes curl openssh-server openjdk-7-jdk
+
+
+#############################################################
+# setup ntp
+#############################################################
+apt-get install ntp
+service ntp stop
+ntpdate ntp.zhdk.ch
+cat << 'EOF' > /etc/ntp.conf
+driftfile /var/lib/ntp/ntp.drift
+statsdir /var/log/ntpstats/
+statistics loopstats peerstats clockstats
+filegen loopstats file loopstats type day enable
+filegen peerstats file peerstats type day enable
+filegen clockstats file clockstats type day enable
+server ntp.zhdk.ch
+EOF
+service ntp start
 
 
 #############################################################
@@ -218,4 +236,21 @@ chmod 600 $HOME/.ssh/authorized_keys
 chown `whoami` $HOME/.ssh/authorized_keys
 JENKINS
 
+
+
+###########################################################
+# cleanup jenkins 
+###########################################################
+
+cat << 'EOF' > /etc/cron.weekly/jenkins_cleanup
+#!/bin/bash -l
+JENKINS_HOME='/home/jenkins'
+echo "CLEANING JENKINS STUFF IN ${JENKINS_HOME}"
+mv -f "${JENKINS_HOME}/.ssh/authorized_keys" "#{JENKINS_HOME}/.ssh/authorized_keys_tmp"
+pkill  -u jenkins
+rm -rf "${JENKINS_HOME}/"*xvfb
+rm -rf "${JENKINS_HOME}/workspace/"*
+mv -f "${JENKINS_HOME}/.ssh/authorized_keys_tmp" "${JENKINS_HOME}/.ssh/authorized_keys"
+EOF
+chmod a+x /etc/cron.weekly/jenkins_cleanup
 
