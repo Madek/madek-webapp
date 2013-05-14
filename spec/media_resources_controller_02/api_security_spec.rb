@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MediaResourcesController do
+describe MediaResourcesController, type: :controller do
   render_views
 
   before :each do

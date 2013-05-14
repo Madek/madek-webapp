@@ -16,14 +16,12 @@ namespace :madek do
       Rails.logger.info "Reitialized the logger, all logging goes to stdout, nowhere else!"
     end
 
-    desc "Create the aggregator, create, respec and template of a new branch to be tested, requires BRANCH_NAME, CI_USER and CI_PW  env variables"
+    desc "Create the AGGREGATOR, and CREATOR of a new branch to be tested, requires BRANCH_NAME, CI_USER and CI_PW  env variables"
     task :create_branch => :initialize do
       Rails.logger.warn "depending on the mood of Jenkins: CALL THIS TASK TWICE!"
       begin
-        CIFeatureJobs.create_new_job_aggregtor! ENV['BRANCH_NAME']
-        CIFeatureJobs.create_new_job_creator! ENV['BRANCH_NAME']
-        CIFeatureJobs.create_new_job_template! ENV['BRANCH_NAME']
-        CIFeatureJobs.create_or_update_rspec_job! ENV['BRANCH_NAME']
+        CIJobs.create_new_job_aggregtor! ENV['BRANCH_NAME']
+        CIJobs.create_new_job_creator! ENV['BRANCH_NAME']
       rescue => e
         Rails.logger.error e
       end
@@ -34,7 +32,7 @@ namespace :madek do
 
       raise "you must provide non empty REX parameter"  unless rex=ENV['REX'] and (not rex.empty?)
 
-      jobs = CIFeatureJobs.filter_jobs_by_regex rex
+      jobs = CIJobs.filter_jobs_by_regex rex
       if jobs.size < 1
         puts "no job mached your query, so I don't do anything"
       else
@@ -42,29 +40,29 @@ namespace :madek do
         puts "Confirm the deletion of the #{jobs.size} listed jobs by typing YES"
         if /^YES/ =~  STDIN.gets
           puts "Start deleting jobs..."
-          res = CIFeatureJobs.delete_jobs jobs 
+          res = CIJobs.delete_jobs jobs 
           puts res.map{|job| "#{job[:status]} #{job['name']}"}.join("\n")
         end
       end
     end
 
-    desc "Updates and (creates when needed) all feature jobs; requires CI_USER and CI_PW env variables, or a AUTH_FILE and also BRANCH_NAME"
-    task :create_or_update_all_feature_jobs => :initialize do
+    desc "Updates and (creates when needed) all jobs; requires CI_USER and CI_PW env variables, or a AUTH_FILE and also BRANCH_NAME"
+    task :create_or_update_all_jobs => :initialize do
       opts = 
         begin 
           YAML::load_file(ENV['AUTH_FILE']).symbolize_keys
         rescue 
           {}
         end
-      CIFeatureJobs.create_or_update_all_jobs! opts
+      CIJobs.create_or_update_all_jobs! opts
     end
 
-    desc "Checks if rspec all feature have been built successfully, requires BRANCH_NAME, CI_USER and CI_PW  env variables" 
+    desc "Checks if all jobs have been built successfully, requires BRANCH_NAME, CI_USER and CI_PW  env variables" 
     task :query_all_success => :initialize do
       opts = YAML::load_file(ENV['AUTH_FILE']).symbolize_keys rescue {}
-      last_job_builds = CIFeatureJobs.get_last_build_status_of_all_feature_jobs(opts)
+      last_job_builds = CIJobs.get_last_build_status_of_all_jobs(opts)
       begin 
-        if CIFeatureJobs.all_features_success?(last_job_builds) and CIFeatureJobs.rspec_success?(opts)
+        if CIJobs.all_success?(last_job_builds) 
           puts "all jobs have been build successfully"
           exit 0
         else
