@@ -56,7 +56,7 @@
       %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
         %li.ui-drop-item{:class => (active_sorting == "created_at") ? "hidden active" : "", :"data-default" => true}
           %a{:"data-sort" => "created_at"}
-            = _("Order by creation date")
+            = _("Order by date of import")
         %li.ui-drop-item{:class => (active_sorting == "updated_at") ? "hidden active" : ""}
           %a{:"data-sort" => "updated_at"}
             = _("Order by modification date")

@@ -33,7 +33,7 @@ msgid "ZHdK login"
 msgstr "ZHdK-Login"
 
 msgid "External users"
-msgstr "Externe Benutzer"
+msgstr "Externe"
 
 msgid "Log in"
 msgstr "Anmelden"
@@ -323,10 +323,10 @@ msgid "Required field - please fill in"
 msgstr "Pflichtfeld - Bitte angeben"
 
 msgid "Apply field to all items"
-msgstr "Freie Felder füllen"
+msgstr "Werte übertragen"
 
 msgid "Overwrite existing values"
-msgstr "Bestehende Werte überschreiben"
+msgstr "Werte auf alle Inhalte übertragen"
 
 msgid "Person"
 msgstr "Person"

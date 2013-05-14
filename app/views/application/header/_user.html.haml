@@ -24,17 +24,17 @@
       - if current_user and current_user.groups.is_member?("Admin")
         %li.ui-drop-item
           %a.strong{:href => app_admin_root_path}
-            %i.icon-admin.ui-drop-icon
-            Admin
+            %i.icon-lock.ui-drop-icon
+            Admin-Interface öffnen
         %li.ui-drop-item
           - if session[:act_as_uberadmin] == true
             = link_to app_admin_exit_uberadmin_path, method: 'POST', class: 'strong' do
               %i.icon-admin.ui-drop-icon
-              Verlasse Überadmin-Modus
+              Admin-Modus verlassen
           - else
             = link_to app_admin_enter_uberadmin_path, method: 'POST', class: 'strong' do
               %i.icon-admin.ui-drop-icon
-              Werde Überadmin 
+              In Admin-Modus wechseln
       %li.ui-drop-item
         %a.strong{:href => "/logout"} 
           %i.icon-power-off.ui-drop-icon
