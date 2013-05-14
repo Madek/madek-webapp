@@ -26,6 +26,15 @@
           %a.strong{:href => app_admin_root_path}
             %i.icon-admin.ui-drop-icon
             Admin
+        %li.ui-drop-item
+          - if session[:act_as_uberadmin] == true
+            = link_to app_admin_exit_uberadmin_path, method: 'POST', class: 'strong' do
+              %i.icon-admin.ui-drop-icon
+              Verlasse Überadmin-Modus
+          - else
+            = link_to app_admin_enter_uberadmin_path, method: 'POST', class: 'strong' do
+              %i.icon-admin.ui-drop-icon
+              Werde Überadmin 
       %li.ui-drop-item
         %a.strong{:href => "/logout"} 
           %i.icon-power-off.ui-drop-icon

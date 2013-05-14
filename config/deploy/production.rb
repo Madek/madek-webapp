@@ -12,7 +12,7 @@ set :application, "madek"
 
 set :scm, :git
 set :repository, "git://github.com/zhdk/madek.git"
-set :branch, "1.1.1"
+set :branch, "1.2.0"
 set :deploy_via, :remote_cache
 
 set :db_config, "/home/rails/madek/database.yml"

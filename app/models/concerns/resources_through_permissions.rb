@@ -32,21 +32,27 @@ module Concerns
             where("media_resources.#{action.to_s} = true")
           end
         else
-          resource_ids_by_userpermission = Userpermission.select("media_resource_id").where(action => true, :user_id => user)
-          subquery = if action == :manage
-            resource_ids_by_ownership = MediaResource.select("media_resources.id").where(["media_resources.user_id = ?", user])
-            "#{resource_ids_by_userpermission.to_sql}
-              UNION
-            #{resource_ids_by_ownership.to_sql}"
+
+          if user.act_as_uberadmin # no restrictions here
+            where("true")
           else
-            resource_ids_by_ownership_or_public_permission = MediaResource.select("media_resources.id").where(["media_resources.user_id = ? OR media_resources.#{action} = ?", user, true])
-            "#{resource_ids_by_userpermission.to_sql}
-              UNION
-            #{grouppermissions_not_disallowed(user,action).select("media_resource_id").to_sql}
-              UNION
-            #{resource_ids_by_ownership_or_public_permission.to_sql}"
+            resource_ids_by_userpermission = Userpermission.select("media_resource_id").where(action => true, :user_id => user)
+            subquery = if action == :manage
+              resource_ids_by_ownership = MediaResource.select("media_resources.id").where(["media_resources.user_id = ?", user])
+              "#{resource_ids_by_userpermission.to_sql}
+                UNION
+              #{resource_ids_by_ownership.to_sql}"
+            else
+              resource_ids_by_ownership_or_public_permission = MediaResource.select("media_resources.id").where(["media_resources.user_id = ? OR media_resources.#{action} = ?", user, true])
+              "#{resource_ids_by_userpermission.to_sql}
+                UNION
+              #{grouppermissions_not_disallowed(user,action).select("media_resource_id").to_sql}
+                UNION
+              #{resource_ids_by_ownership_or_public_permission.to_sql}"
+            end
+            where("media_resources.id IN (#{subquery})")
           end
-          where("media_resources.id IN (#{subquery})")
+
         end
       end
 

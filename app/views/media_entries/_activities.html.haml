@@ -1,8 +1,8 @@
-%h3.title-l.separated.mbl Aktivitaten
+%h3.title-l.separated.mbl Aktivitäten
 %dl.media-data
-  %dt.media-data-title.title-xs Hochgeladen von
+  %dt.media-data-title.title-xs Importiert von
   %dd.media-data-content= link_to(@media_entry.meta_data.get("uploaded by"), media_resources_path(:search => @media_entry.meta_data.get("uploaded by").to_s))
-  %dt.media-data-title.title-xs Hochgeladen am
+  %dt.media-data-title.title-xs Importiert am
   %dd.media-data-content= _("%s Uhr") % @media_entry.created_at.to_formatted_s(:date_time)
 
   - if @edit_sessions.any?

@@ -4,6 +4,8 @@
 class User < ActiveRecord::Base
   has_secure_password
 
+  attr_accessor 'act_as_uberadmin'
+
   belongs_to :person
   delegate :name, :fullname, :shortname, :to => :person
 
@@ -100,23 +102,27 @@ class User < ActiveRecord::Base
 #############################################################
 
   def authorized?(action, resource_or_resources)
-    Array(resource_or_resources).all? do |resource|
-      if resource.user == self
-        true
-      elsif action == :delete
-        false
-      elsif resource.send(action) == true
-        true
-      elsif resource.userpermissions.disallows(self, action)
-        false
-      elsif resource.userpermissions.allows(self, action)
-        true
-      elsif resource.grouppermissions.allows(self, action)
-        true
-      else
-        false
-      end
-    end 
+    if act_as_uberadmin
+      true
+    else
+      Array(resource_or_resources).all? do |resource|
+        if resource.user == self
+          true
+        elsif action == :delete
+          false
+        elsif resource.send(action) == true
+          true
+        elsif resource.userpermissions.disallows(self, action)
+          false
+        elsif resource.userpermissions.allows(self, action)
+          true
+        elsif resource.grouppermissions.allows(self, action)
+          true
+        else
+          false
+        end
+      end 
+    end
   end
 
 #############################################################

@@ -289,8 +289,8 @@ msgstr "Raster-Ansicht"
 msgid "List view"
 msgstr "Listen-Ansicht"
 
-msgid "Order by creation date"
-msgstr "Sortieren nach Erstellungsdatum"
+msgid "Order by date of import"
+msgstr "Sortieren nach Importdatum"
 
 msgid "Order by modification date"
 msgstr "Sortieren nach Änderungsdatum"
@@ -323,7 +323,7 @@ msgid "Required field - please fill in"
 msgstr "Pflichtfeld - Bitte angeben"
 
 msgid "Apply field to all items"
-msgstr "Feld auf alle Inhalte übertragen"
+msgstr "Freie Felder füllen"
 
 msgid "Overwrite existing values"
 msgstr "Bestehende Werte überschreiben"
