@@ -3,7 +3,8 @@
 ################################################################
 # Notes
 # 
-# This is a jenkins setup script for ubuntu 12.04 and madek.
+# This is a jenkins setup script for Debian wheezy, Ubuntu 12.04
+# and madek.
 # This script is idempotent and it must be kept this way! 
 # 
 # example of invocation (as root):
@@ -11,6 +12,8 @@
 # curl https://raw.github.com/zhdk/madek/next/script/setup_ubuntu1204_jenkins_slave.sh | bash -l
 #
 ################################################################
+
+
 
 #############################################################
 # remove the halfwitted stuff
@@ -22,6 +25,15 @@ rm -rf /usr/local/rvm/
 # update
 #############################################################
 apt-get update
+
+#############################################################
+# Adapt to our environment
+#############################################################
+apt-get install --assume-yes lsb_release
+if [ `lsb_release -is` == "Debian" ] 
+then MOZILLA_BROWSER=iceweasel
+else MOZILLA_BROWSER=firefox
+fi
 
 #############################################################
 # fix broken debian/ubuntu locale
@@ -51,7 +63,7 @@ apt-get install --assume-yes curl openssh-server openjdk-7-jdk
 #############################################################
 # setup ntp
 #############################################################
-apt-get install ntp
+apt-get install --assume-yes ntp ntpdate
 service ntp stop
 ntpdate ntp.zhdk.ch
 cat << 'EOF' > /etc/ntp.conf
@@ -89,10 +101,8 @@ chown `whoami` $HOME/.ssh/authorized_keys
 apt-get install --assume-yes vim-nox
 update-alternatives --set editor /usr/bin/vim.nox
 
-
-
 #############################################################
-# postgresql
+# PostgreSQL (mostly for Madek)
 #############################################################
 apt-get install --assume-yes  postgresql postgresql-client libpq-dev postgresql-contrib
 sed -i 's/peer/trust/g' /etc/postgresql/9.1/main/pg_hba.conf
@@ -104,6 +114,13 @@ CREATE USER JENKINS PASSWORD 'jenkins' superuser createdb login;
 CREATE DATABASE jenkins;
 GRANT ALL ON DATABASE jenkins TO jenkins;
 EOF
+
+#############################################################
+# MySQL (mostly for leihs)
+#############################################################
+whiptail --msgbox "In the following dialogs, please ENTER NO PASSWORD for the MySQL root user.\n\nJust press enter if prompted for a password." 10 110
+apt-get install --assume-yes mysql-server libmysqlclient-dev
+mysql -uroot -e "grant all privileges on *.* to jenkins@localhost identified by 'jenkins';"
 
 
 ###########################################################
@@ -123,13 +140,15 @@ EOF
 # google chrome
 #############################################################
 
+if [ ! -f /etc/apt/sources.list.d/google-chrome.list ]; then
 cat << 'EOF' | su -l 
-curl https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
 echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
 apt-get update
 apt-get install --assume-yes google-chrome-stable
+rm /etc/apt/sources.list.d/google.list
 EOF
-
+fi
 
 #############################################################
 # chromedriver
@@ -150,7 +169,8 @@ EOF
 
 apt-get install --assume-yes git x11vnc xvfb zlib1g-dev \
   libssl-dev libxslt1-dev libxml2-dev build-essential \
-  libimage-exiftool-perl imagemagick firefox libreadline-dev libreadline6 libreadline6-dev 
+  libimage-exiftool-perl imagemagick $MOZILLA_BROWSER libreadline-dev libreadline6 libreadline6-dev \
+  g++
 
 cat << 'EOF' > /etc/profile.d/rbenv.sh
 # rbenv
@@ -207,6 +227,7 @@ JENKINS
 apt-get install --assume-yes ragel
 
 cat << 'JENKINS' | su -l jenkins
+gem install gherkin -v 2.12.0
 cd ~/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/gherkin-2.12.0/ 
 rbenv shell 1.9.3-p392 
 bundle install
