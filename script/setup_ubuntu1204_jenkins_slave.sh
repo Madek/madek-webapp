@@ -3,7 +3,8 @@
 ################################################################
 # Notes
 # 
-# This is a jenkins setup script for ubuntu 12.04 and madek.
+# This is a jenkins setup script for Debian wheezy, Ubuntu 12.04
+# and madek.
 # This script is idempotent and it must be kept this way! 
 # 
 # example of invocation (as root):
@@ -11,6 +12,8 @@
 # curl https://raw.github.com/zhdk/madek/next/script/setup_ubuntu1204_jenkins_slave.sh | bash -l
 #
 ################################################################
+
+
 
 #############################################################
 # remove the halfwitted stuff
@@ -22,6 +25,15 @@ rm -rf /usr/local/rvm/
 # update
 #############################################################
 apt-get update
+
+#############################################################
+# Adapt to our environment
+#############################################################
+apt-get install --assume-yes lsb_release
+if [ `lsb_release -is` == "Debian" ] 
+then MOZILLA_BROWSER=iceweasel
+else MOZILLA_BROWSER=firefox
+fi
 
 #############################################################
 # fix broken debian/ubuntu locale
@@ -132,7 +144,7 @@ EOF
 
 apt-get install --assume-yes git x11vnc xvfb zlib1g-dev \
   libssl-dev libxslt1-dev libxml2-dev build-essential \
-  libimage-exiftool-perl imagemagick firefox libreadline-dev libreadline6 libreadline6-dev 
+  libimage-exiftool-perl imagemagick $MOZILLA_BROWSER libreadline-dev libreadline6 libreadline6-dev 
 
 cat << 'EOF' > /etc/profile.d/rbenv.sh
 # rbenv
