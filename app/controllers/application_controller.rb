@@ -57,7 +57,7 @@ class ApplicationController < ActionController::Base
       end
     else
       @splashscreen_set = MediaSet.splashscreen
-      @splashscreen_set_children = @splashscreen_set.child_media_resources.accessible_by_user(current_user).shuffle if @splashscreen_set
+      @splashscreen_set_included_resources = @splashscreen_set.child_media_resources.accessible_by_user(current_user).shuffle if @splashscreen_set
       @featured_set = MediaSet.featured
       @featured_set_children = @featured_set.child_media_resources.accessible_by_user(current_user).ordered_by(:updated_at).limit(6) if @featured_set
       @catalog_set = MediaSet.catalog

@@ -23,6 +23,12 @@ class MediaSet < MediaResource
     where(:id => AppSettings.catalog_set_id).first
   end
 
+
+  def included_resources_accessible_by_user  user
+    child_media_resources.accessible_by_user(user)
+  end
+
+
 ########################################################
 
   has_and_belongs_to_many :individual_contexts, :class_name => "MetaContext",

@@ -1,10 +1,10 @@
 #teaser-set.ui-collage.crooked.ui-container.overlaid
-  - if @splashscreen_set and @splashscreen_set_children.any?
+  - if @splashscreen_set and @splashscreen_set_included_resources.any?
     - 4.times do |row|
       .ui-collage-row
         - 5.times do |col|
           - i = (((row*5)+col)%@splashscreen_set.child_media_resources.size)
-          - mr = @splashscreen_set_children[i-1]
+          - mr = @splashscreen_set_included_resources[i-1]
           .ui-collage-item{:class => col.odd? ? "even" : "odd"}
             .ui-collage-item-wrapper
               .ui-collage-item-table
