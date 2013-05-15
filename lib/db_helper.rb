@@ -2,6 +2,10 @@ module DBHelper
 
   class << self
 
+    def reload! 
+      load Rails.root.join(__FILE__)
+    end
+
     def module_path # for convenient reloading
       Rails.root.join(__FILE__)
     end
@@ -110,7 +114,13 @@ module DBHelper
 
     def restore_native path, options = {} 
       config = options[:config] || Rails.configuration.database_configuration[Rails.env]
-      cmd = "cat #{path} | gunzip | psql -q #{config['database'].to_s}"
+      cond_unzip_pipe = case path.to_s
+                   when /\.gz$/
+                     "| gunzip"
+                   else
+                     ""
+                   end
+      cmd = "cat #{path} #{cond_unzip_pipe} | psql -q #{config['database'].to_s}"
       ActiveRecord::Base.remove_connection
       terminate_open_connections config
       system cmd

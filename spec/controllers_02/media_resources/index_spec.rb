@@ -3,31 +3,38 @@ require 'spec_helper'
 describe MediaResourcesController, type: :controller do
   render_views
 
-  before :each do
+  # NOTE: This test would be extremely slow with `before :each`.  We use
+  # `before :all `before :all` and reset the database in the `after :all` hook.
+  # Apparently this comes with the price of some complexity. 
+
+  before :all do
     FactoryGirl.create :usage_term 
     FactoryGirl.create :meta_context_core
     @user = FactoryGirl.create :user
+
+    40.times do
+      type = rand > 0.5 ? :media_entry : :media_set
+      mr = FactoryGirl.create type, :user => @user
+      mr.parents << FactoryGirl.create(:media_set, :user => @user)
+      mr.meta_data.create(:meta_key => MetaKey.find_by_id("title"), 
+                          :value => Faker::Lorem.words(1).join(' '))
+    end
+    @meta_context = MetaContext.core
   end
+
+  after :all do
+    DBHelper.drop
+    DBHelper.create
+    DBHelper.restore_native Rails.root.join("db","structure.sql")
+  end
+
 
   let :session do
     {:user_id => @user.id}
   end
 
-
   describe "fetch an index of media resources" do
-    before :each do
-      # MediaResources
-      40.times do
-        type = rand > 0.5 ? :media_entry : :media_set
-        mr = FactoryGirl.create type, :user => @user
-        mr.parents << FactoryGirl.create(:media_set, :user => @user)
-        mr.meta_data.create(:meta_key => MetaKey.find_by_id("title"), 
-                            :value => Faker::Lorem.words(1).join(' '))
-      end
-      # MetaContext
-      @meta_context = MetaContext.core
-    end
-
+  
     let :ids do
       MediaResource.all.shuffle[1..3].map(&:id)
     end
