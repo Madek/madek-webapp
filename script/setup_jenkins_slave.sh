@@ -57,7 +57,7 @@ EOF
 # upgrade and install basic stuff
 #############################################################
 apt-get dist-upgrade --assume-yes
-apt-get install --assume-yes curl openssh-server openjdk-7-jdk
+apt-get install --assume-yes curl openssh-server openjdk-7-jdk unzip zip
 
 
 #############################################################
@@ -227,9 +227,9 @@ JENKINS
 apt-get install --assume-yes ragel
 
 cat << 'JENKINS' | su -l jenkins
+rbenv shell 1.9.3-p392 
 gem install gherkin -v 2.12.0
 cd ~/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/gherkin-2.12.0/ 
-rbenv shell 1.9.3-p392 
 bundle install
 rbenv rehash
 bundle exec rake compile:gherkin_lexer_en
