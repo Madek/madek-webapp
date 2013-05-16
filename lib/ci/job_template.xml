@@ -61,7 +61,7 @@
     <scmName></scmName>
   </scm>
   <quietPeriod>10</quietPeriod>
-  <assignedNode>bigmacs</assignedNode>
+  <assignedNode>bigmacs||slaves</assignedNode>
   <canRoam>false</canRoam>
   <disabled>true</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
