@@ -12,47 +12,25 @@
 
 %h2 Stats
 
+%p There are 
+
 %table.table.table-striped
   %thead
   %tbody
     %tr 
-      %td #{User.count} Nutzer/innen
+      %td #{User.count} Users
     %tr
-      %td #{Keyword.joins(:meta_datum => :media_resource).where(:media_resources => {:type => ["MediaEntry", "MediaSet", "FilterSet"]}).count} Schlagworte
+      %td #{Keyword.joins(:meta_datum => :media_resource).where(:media_resources => {:type => ["MediaEntry", "MediaSet", "FilterSet"]}).count} Keywords
     %tr
-      %td #{MediaEntry.count} Medien
+      %td #{MediaEntry.count} Media
     %tr
-      %td #{MediaSet.count} MediaSets
+      %td #{MediaSet.count} Sets
+    %tr
+      %td #{FilterSet.count} FilterSets
     %tr 
       %td=  MediaFile.where("NOT EXISTS (#{MediaEntry.where('media_file_id = media_files.id').to_sql})").count.to_s + " MediaFiles without MediaEntry"
-
-
-      
-
-
-
-
-
-
-
-
-%h2 Movie re-encoding
-
-%p (to be removed)
-
-%h3 
-  %i.icon-film
-  Incomplete encoded videos
-
-%p 
-  There are 
-  %b= MediaFile.joins(:media_entry).incomplete_encoded_videos.count
-  videos with incomplete previews.
-
-= link_to reencode_incomplete_videos_app_admin_media_files_path, class: 'btn btn-warning', method: 'post', data: {confirm: "Reencode all affected videos by zencoder.com? This action is liable to pay costs."} do
-  Reencode all of them
-
-
-
-
+    %tr
+      %td
+        = MediaFile.joins(:media_entry).incomplete_encoded_videos.count
+        videos with incomplete previews
 
