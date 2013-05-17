@@ -42,7 +42,7 @@ module CIJobs
 
 
     def cucumber_ci_shell_commands
-      setup_ci_shell_commands + 'bundle exec rake madek:test:cucumber:all FILE=$FILE RERUN_LIMIT=0'
+      setup_ci_shell_commands + 'bundle exec rake madek:test:cucumber:all FILE=$FILE '
     end
 
     def rspec_ci_shell_commands
