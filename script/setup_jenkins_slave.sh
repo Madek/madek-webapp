@@ -9,7 +9,7 @@
 # 
 # example of invocation (as root):
 #
-# curl https://raw.github.com/zhdk/madek/next/script/setup_ubuntu1204_jenkins_slave.sh | bash -l
+# curl https://raw.github.com/zhdk/madek/next/script/setup_jenkins_slave.sh | bash -l
 #
 ################################################################
 
@@ -118,8 +118,7 @@ EOF
 #############################################################
 # MySQL (mostly for leihs)
 #############################################################
-whiptail --msgbox "In the following dialogs, please ENTER NO PASSWORD for the MySQL root user.\n\nJust press enter if prompted for a password." 10 110
-apt-get install --assume-yes mysql-server libmysqlclient-dev
+DEBIAN_FRONTEND=noninteractive apt-get install -q --assume-yes mysql-server libmysqlclient-dev 
 mysql -uroot -e "grant all privileges on *.* to jenkins@localhost identified by 'jenkins';"
 
 
@@ -260,18 +259,22 @@ JENKINS
 
 
 ###########################################################
-# cleanup jenkins 
+# install jenkins_cleanup cron script
 ###########################################################
 
 cat << 'EOF' > /etc/cron.weekly/jenkins_cleanup
 #!/bin/bash -l
 JENKINS_HOME='/home/jenkins'
 echo "CLEANING JENKINS STUFF IN ${JENKINS_HOME}"
-mv -f "${JENKINS_HOME}/.ssh/authorized_keys" "#{JENKINS_HOME}/.ssh/authorized_keys_tmp"
+mv -f "${JENKINS_HOME}/.ssh/authorized_keys" "${JENKINS_HOME}/.ssh/authorized_keys_tmp"
 pkill  -u jenkins
 rm -rf "${JENKINS_HOME}/"*xvfb
 rm -rf "${JENKINS_HOME}/workspace/"*
 mv -f "${JENKINS_HOME}/.ssh/authorized_keys_tmp" "${JENKINS_HOME}/.ssh/authorized_keys"
 EOF
 chmod a+x /etc/cron.weekly/jenkins_cleanup
+
+# cleanup now, this will also stop and disconnect the slave
+/etc/cron.weekly/jenkins_cleanup
+
 
