@@ -3,7 +3,8 @@
 #
 # Holds the set of basic meta data keys
 class MetaKey < ActiveRecord::Base
-  set_primary_key :id
+  self.primary_key= 'id'
+  attr_accessible 'id', 'is_extensible_list', 'meta_datum_object_type'
 
   has_many :meta_data, :dependent => :destroy
   has_many :media_entries, :through => :meta_data, :uniq => true
