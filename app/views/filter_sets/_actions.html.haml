@@ -1,3 +1,4 @@
+- can_edit = current_user.authorized?(:edit,@filter_set)
 .ui-body-title-actions
   - unless current_user.is_guest?
     = render :partial => "media_resources/actions/clipboard_toggle"
@@ -9,17 +10,17 @@
         %i.icon-arrow-down.bright.stand-alone
       %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
 
-        -if @can_edit
+        -if can_edit
           = render :partial => "filter_sets/actions/edit_filter"
 
-        -if @can_edit
+        -if can_edit
           = render :partial => "media_resources/actions/edit", :locals => {mr: @filter_set}
        
-        = render :partial => "media_resources/actions/permissions"
+        = render "media_resources/actions/permissions", media_resource: @filter_set
 
         = render :partial => "media_resources/actions/organize"
 
-        - if @can_edit
+        - if can_edit
           = render :partial => "media_resources/actions/delete"
 
   - else

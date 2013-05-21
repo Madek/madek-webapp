@@ -65,10 +65,10 @@ Then /^I am on the featured sets set page$/ do
   expect(current_path).to eq "/explore/featured_set"
 end
 
-When /^I click on show me more of new content$/ do
-  binding.pry
+Then(/^I click on the first a tag in the class "(.*?)"$/) do |_class|
+  all(".#{_class} a").first.click
 end
 
-Then /^I am on the new content page$/ do
-  binding.pry
+Then(/^I can see several items of class "(.*?)" in the class "(.*?)"$/) do |li_class, ul_class|
+  expect( all("ul.#{ul_class} li.#{li_class}").size ).to be > 1
 end

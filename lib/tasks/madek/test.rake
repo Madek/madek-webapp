@@ -98,7 +98,7 @@ namespace :madek do
         exit_code = $?.exitstatus
         puts "First run exited with #{exit_code}"
 
-        rerun_limit = ENV['RERUN_LIMIT'].try(:to_i) || 1
+        rerun_limit = ENV['CUCUMBER_RERUN_LIMIT'].try(:to_i) || 1
         rerun_count = 0
 
         while exit_code != 0 and rerun_count < rerun_limit

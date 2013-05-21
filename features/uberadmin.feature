@@ -6,11 +6,11 @@ Feature: Acting as an Uberadmin
     And I visit "/media_resources?filterpanel=true"
     And I remember the number of resources
     And I click on "Adam Admin"
-    And I click on "Werde Überadmin" 
+    And I click on "In Admin-Modus wechseln" 
     Then I can see more resources than before
     And I can see all resources
     When I click on "Adam Admin"
-    And I click on "Verlasse Überadmin-Modus"
+    And I click on "Admin-Modus verlassen"
     Then I see exactly the same number of resources as before
 
   @jsbrowser
@@ -22,7 +22,7 @@ Feature: Acting as an Uberadmin
     Then I am on the "/my" page
     And I can see "Sie haben nicht die notwendige Zugriffsberechtigung."
     When I click on "Adam Admin"
-    And I click on "Werde Überadmin" 
+    And I click on "In Admin-Modus wechseln" 
     And I visit "/media_entries/65"
     Then I am on the "/media_entries/65" page
     When I click on "Weitere Aktionen"
@@ -34,7 +34,7 @@ Feature: Acting as an Uberadmin
     And I can see "XYZ Titel"
     And I am the last editor of the media entry with the id "65"
     When I click on "Adam Admin"
-    And I click on "Verlasse Überadmin-Modus"
+    And I click on "Admin-Modus verlassen"
     Then I am on the "/my" page
     And I can see "Sie haben nicht die notwendige Zugriffsberechtigung."
 

@@ -1,128 +1,40 @@
 require 'spec_helper'
 
-describe MediaResourcesController do
+describe MediaResourcesController, type: :controller do
   render_views
-  
-  before :each do
+
+  # NOTE: This test would be extremely slow with `before :each`.  We use
+  # `before :all `before :all` and reset the database in the `after :all` hook.
+  # Apparently this comes with the price of some complexity. 
+
+  before :all do
     FactoryGirl.create :usage_term 
     FactoryGirl.create :meta_context_core
     @user = FactoryGirl.create :user
+
+    40.times do
+      type = rand > 0.5 ? :media_entry : :media_set
+      mr = FactoryGirl.create type, :user => @user
+      mr.parents << FactoryGirl.create(:media_set, :user => @user)
+      mr.meta_data.create(:meta_key => MetaKey.find_by_id("title"), 
+                          :value => Faker::Lorem.words(1).join(' '))
+    end
+    @meta_context = MetaContext.core
   end
+
+  after :all do
+    DBHelper.drop
+    DBHelper.create
+    DBHelper.restore_native Rails.root.join("db","structure.sql")
+  end
+
 
   let :session do
     {:user_id => @user.id}
   end
 
-  describe "sorting resources" do
-
-    before :each do
-      @media_sets = 10.times.map{FactoryGirl.create :media_set_with_title, user: @user}
-    end
-
-    let :extract_resources do
-      JSON.parse(response.body)["media_resources"].map{|h| MediaResource.find_by_id(h["id"])}
-    end
-
-    describe "ordering by title" do
-
-      before :each do
-        get :index, {format: "json", sort: "title"}, session
-      end
-
-      it "should be successful" do
-        response.should  be_success
-      end
-
-      it "should assign @media_resources" do
-        JSON.parse(response.body)["media_resources"].should be
-      end
-
-      it "should be ordered by title" do
-        # REMARK this fails sometimes, could be collation in database
-        # ["at dolorem rerum impedit", "at dolor minima tempore"]
-        # ["at dolor minima tempore", "at dolorem rerum impedit"]
-        # not reproducible on my macbook
-        resources = extract_resources 
-        resources.map(&:title).sort.should ==  resources.map(&:title)
-      end
-
-    end
-
-    describe "ordering by author" do
-
-      before :each do
-      end
-
-      let :get_ordered_by_author do
-        get :index, {format: "json", sort: "author"}, session
-      end
-
-       it "should be successful" do
-        get_ordered_by_author
-        response.should  be_success
-      end
-
-
-       describe "correct ordering" do
-
-         before :each do
-           @aa= Person.create  last_name:"A", first_name: "A"
-           @ab= Person.create  last_name:"A", first_name: "B"
-           @az= Person.create  last_name:"A", first_name: "Z"
-           @bb= Person.create  last_name:"B", first_name: "B"
-           @cc= Person.create  last_name:"C", first_name: "C"
-           @zz= Person.create  last_name:"Z", first_name: "Z"
-         end
-
-         it "should list entries with multiple authors multiply" do
-           @media_sets[0].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => [@bb,@aa]}}})
-           get_ordered_by_author
-           resources = extract_resources
-           resources.size.should == 2
-         end
-
-         it "should use the consider the first name" do
-           @media_sets[0].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @ab}}})
-           @media_sets[1].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @aa}}})
-           get_ordered_by_author
-           resources = extract_resources
-           resources[0].should == @media_sets[1]
-           resources[1].should == @media_sets[0]
-         end
-
-         it "should order them" do
-           @media_sets[0].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @zz}}})
-           @media_sets[1].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @aa}}})
-           @media_sets[2].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @cc}}})
-           @media_sets[3].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @bb}}})
-           get_ordered_by_author
-           resources = extract_resources
-           resources[0].should == @media_sets[1]
-           resources[1].should == @media_sets[3]
-           resources[2].should == @media_sets[2]
-           resources[3].should == @media_sets[0]
-         end
-
-       end
-
-    end
-
-  end
-
-  context "fetch an index of media resources" do
-    before :each do
-      # MediaResources
-      40.times do
-        type = rand > 0.5 ? :media_entry : :media_set
-        mr = FactoryGirl.create type, :user => @user
-        mr.parents << FactoryGirl.create(:media_set, :user => @user)
-        mr.meta_data.create(:meta_key => MetaKey.find_by_id("title"), 
-                            :value => Faker::Lorem.words(1).join(' '))
-      end
-      # MetaContext
-      @meta_context = MetaContext.core
-    end
-    
+  describe "fetch an index of media resources" do
+  
     let :ids do
       MediaResource.all.shuffle[1..3].map(&:id)
     end
@@ -140,7 +52,7 @@ describe MediaResourcesController do
         json["pagination"]["total"].should == n
       end
     end
-    
+
     describe "as logged in user" do
       it "should respond with success" do
         get :index, {format: 'json'}, session
@@ -154,7 +66,7 @@ describe MediaResourcesController do
         json["pagination"]["total"].should == n
       end
     end
-    
+
     describe "a plain response" do
       it "should respond only with a collection of id's and type's if there is not more requested" do
         get :index, {format: 'json', ids: ids}, session
@@ -167,10 +79,10 @@ describe MediaResourcesController do
         end     
       end
     end
-    
+
     describe "a response with images" do
       it "respond with a collection of resources with images as base 64 when requested" do
-       get :index, {format: 'json', ids: ids, with: {image: {as: "base64"}}}, session
+        get :index, {format: 'json', ids: ids, with: {image: {as: "base64"}}}, session
         response.should be_success
         json = JSON.parse(response.body)
         json["media_resources"].each do |mr|
@@ -181,7 +93,7 @@ describe MediaResourcesController do
 
     describe "a response with filename" do
       it "respond with a collection of resources with filename for media_entries when requested" do
-       get :index, {format: 'json', ids: ids, with: {filename: true}}, session
+        get :index, {format: 'json', ids: ids, with: {filename: true}}, session
         response.should be_success
         json = JSON.parse(response.body)
         json["media_resources"].each do |mr|
@@ -189,17 +101,17 @@ describe MediaResourcesController do
         end    
       end
     end
-    
+
     describe "a response with parents" do
       it "respond with a collection of resources and their parents" do
-       get :index, {format: 'json', ids: ids, with: {parents: true}}, session
+        get :index, {format: 'json', ids: ids, with: {parents: true}}, session
         response.should be_success
         json = JSON.parse(response.body)
         json["media_resources"].each do |mr|
           mr.keys.should include("parents")
         end    
       end
-      
+
       it "respond with a collection of resources and their parents with pagination" do
         get :index, {format: 'json', ids: ids, with: {parents: true}}, session
         response.should be_success
@@ -220,7 +132,7 @@ describe MediaResourcesController do
           json["pagination"]["page"].should == page
         end
       end
-      
+
       it "has paginatable parents" do
         get :index, {format: 'json', ids: ids, with: {parents: true}}, session
         json = JSON.parse(response.body)
@@ -230,7 +142,7 @@ describe MediaResourcesController do
           mr = FactoryGirl.create :media_set, :user => @user
           media_resource.parents << mr
         }
-        
+
         get :index, {format: 'json', ids: [media_resource.id], with: {parents: true}}, session
         json = JSON.parse(response.body)
         mr = json["media_resources"].first
@@ -238,7 +150,7 @@ describe MediaResourcesController do
         mr["parents"]["media_resources"].size.should == parents_pagination["per_page"]
         parents_pagination["total"].should >= 40
         parents_pagination["total_pages"].should > 1
-        
+
         get :index, {format: 'json', ids: [media_resource.id], with: {parents: {pagination: {page: 2}}}}, session
         json = JSON.parse(response.body)
         mr = json["media_resources"].first
@@ -246,7 +158,7 @@ describe MediaResourcesController do
         parents_pagination["page"].should == 2
         (parents_pagination["total"] - parents_pagination["per_page"]).should == mr["parents"]["media_resources"].size 
       end
-      
+
       it "is forwarding only the explicit with for the parents to responding parents" do
         get :index, {format: 'json', ids: ids, with: {media_type: true, parents: true}}, session
         json = JSON.parse(response.body)
@@ -266,7 +178,7 @@ describe MediaResourcesController do
         end
       end
     end
-    
+
     describe "a response with children" do
       it "respond with a collection of resources and their children" do
         get :index, {format: 'json', ids: ids, with: {children: true}}, session
@@ -275,7 +187,7 @@ describe MediaResourcesController do
           mr.keys.should include("children") if mr["type"] == "media_set"
         end 
       end
-      
+
       it "respond with a collection of resources and their children with pagination" do
         get :index, {format: 'json', ids: ids, with: {children: true}}, session
         response.should be_success
@@ -288,7 +200,7 @@ describe MediaResourcesController do
           end
         end 
       end
-      
+
       it "has paginatable childrens" do
         get :index, {format: 'json', with: {children: true}}, session
         response.should be_success
@@ -317,9 +229,9 @@ describe MediaResourcesController do
         children_pagination["page"].should == 2
         (children_pagination["total"] - children_pagination["per_page"]).should == mr["children"]["media_resources"].size 
       end
-      
+
       context "is forwarding only the explicit with for the children to responding children" do
-        
+
         it "is not forwarding the root with" do
           get :index, {format: 'json', ids: ids, with: {media_type: true, children: true}}, session
           json = JSON.parse(response.body)
@@ -333,7 +245,7 @@ describe MediaResourcesController do
             end
           end
         end 
-        
+
         it "is forwarding the media_type with" do
           get :index, {format: 'json', ids: ids, with: {media_type: true, children: {with: {media_type: true}}}}, session
           json = JSON.parse(response.body)
@@ -345,7 +257,7 @@ describe MediaResourcesController do
             end
           end
         end
-        
+
         it "is forwarding the meta_data with" do
           get :index, {format: 'json', ids: ids, with: {children: {with: {meta_data: {meta_context_names: [@meta_context.name]}}}}}, session
           json = JSON.parse(response.body)
@@ -359,9 +271,9 @@ describe MediaResourcesController do
         end
       end
     end
-    
+
     describe "a response with nested meta data" do
-      
+
       describe "including the meta data type meta terms" do
         it "should respond with meta data meta terms" do
           mr = MediaResource.media_entries.first
@@ -389,7 +301,7 @@ describe MediaResourcesController do
           end
         end        
       end
-      
+
       describe "through meta contexts with a collection of provided ids" do
         it "should respond with the requested collection of media resources with nested meta data for the core meta context" do
           get :index, {format: 'json', ids: ids, with: {meta_data: {meta_context_names: [@meta_context.name]}}}, session
@@ -415,7 +327,7 @@ describe MediaResourcesController do
           end
         end        
       end
-      
+
       describe "through meta contexts with a single id provided" do
         it "should respond with the requested collection of media resources with nested meta data for the core meta context" do
           get :index, {format: 'json', ids: ids[0,1], with: {meta_data: {meta_context_names: [@meta_context.name]}}}, session
@@ -426,7 +338,7 @@ describe MediaResourcesController do
           end
         end        
       end
-    
+
       describe "a response filtered by media resource type" do
         it "should respond only with media entries when requested" do
           get :index, {format: 'json', type: "media_entries"}, session
@@ -452,7 +364,7 @@ describe MediaResourcesController do
       let :media_resource_ids do
         MediaResource.pluck(:id)
       end
-    
+
       it "should respond with success" do
         get :index, {format: 'json'}, session
         response.should  be_success

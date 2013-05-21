@@ -36,7 +36,9 @@ module MediaResourceModules
         resources = if current_user and filter[:favorites] == "true"
           current_user.favorites
         elsif filter[:media_set_id]
-          MediaSet.find(filter[:media_set_id]).child_media_resources
+          # hacketihack media_set_id kann auch zu einem FilterSet gehören
+          MediaResource.where(type: ['MediaSet','FilterSet']).find(filter[:media_set_id])\
+            .included_resources_accessible_by_user(current_user)
         else
           self
         end

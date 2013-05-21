@@ -6,12 +6,12 @@ class AppAdmin::BaseController < ApplicationController
 
   def enter_uberadmin
     session[:act_as_uberadmin] = true
-    redirect_to :back, flash: {warning: "Sie sind nun im Überadmin-Modus."}
+    redirect_to :back, flash: {warning: "Sie sind nun im Admin-Modus."}
   end
 
   def exit_uberadmin 
     session[:act_as_uberadmin] = false
-    redirect_to :back, flash: {success: "Sie haben den Überadmin-Modus verlassen."}
+    redirect_to :back, flash: {success: "Sie haben den Admin-Modus verlassen."}
   end
 
 end

@@ -15,7 +15,7 @@
     - media_resources.each do |mr|
       - case as
         - when :category
-          = render :partial => "media_sets/category", :locals => {:category => mr, :catalog_set => catalog_set}
+          = render  "filter_sets/category", category: mr, catalog_set: catalog_set
         - when :section
           = render :partial => "filter_sets/section", :locals => {:section => mr, :category_set => category_set, :catalog_set => catalog_set}
         - when :featured_set

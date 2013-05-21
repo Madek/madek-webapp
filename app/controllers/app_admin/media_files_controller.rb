@@ -34,22 +34,6 @@ class AppAdmin::MediaFilesController < AppAdmin::BaseController
 
   end
 
-  def reencode_incomplete_videos 
-    MediaFile.joins(:media_entry).incomplete_encoded_videos.each do |media_file|
-
-      begin
-        ActiveRecord::Base.transaction do
-          media_file.previews.destroy_all
-          ZencoderJob.create(media_file: media_file).submit
-        end
-      rescue => e
-        logger.error Formatter.error_to_s(e)
-      end
-
-      redirect_to :back, flash: {success: "The jobs have been submitted."}
-    end
-  end
-
   def recreate_thumbnails
     begin 
       @media_file = MediaFile.find params[:id]

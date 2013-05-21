@@ -27,11 +27,10 @@ class MetaDatumString < MetaDatum
         media_resource.media_type
       when "parent media_resources"
         {:media_sets => media_resource.parent_sets.accessible_by_user(user).count}
+      # TODO problem with FilterSet ???
       when "child media_resources"
         {:media_sets => media_resource.child_media_resources.media_sets.accessible_by_user(user).count,
          :media_entries => media_resource.child_media_resources.media_entries.accessible_by_user(user).count} if media_resource.is_a?(MediaSet)
-      #when "gps"
-      #  return media_resource.media_file.meta_data["GPS"]
       else
         string
     end

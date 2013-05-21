@@ -70,6 +70,7 @@ When /^I click on "(.*?)" inside the autocomplete list$/ do |text|
   find("ul.ui-autocomplete li a",text: text).click
 end
 
+
 When /^I click on the button "(.*?)"$/ do |button_text|
   wait_until{all("button:not([disabled])", text: button_text).size > 0 }
   find("button:not([disabled])",text: button_text).click
@@ -78,6 +79,11 @@ end
 When(/^I click on "(.*?)"$/) do |text|
   wait_until{ all("a, button", text: text, visible: true).size > 0}
   find("a, button",text: text).click
+end
+
+
+When(/^I click on the clickable with text "(.*?)" and with the value "(.*?)" for the attribute "(.*?)"$/) do |text, value, attribute_name|
+  find("a[#{attribute_name}=#{value}], button[#{attribute_name}=#{value}]",text: text).click
 end
 
 When /^I click the primary action of this dialog$/ do

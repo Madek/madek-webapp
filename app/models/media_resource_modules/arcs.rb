@@ -18,6 +18,8 @@ module MediaResourceModules
           parent_sets
         when "MediaEntry"
           media_sets
+        when "FilterSet"
+          parent_sets
         when "MediaEntryIncomplete"
           media_sets
         else

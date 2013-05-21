@@ -9,7 +9,7 @@
 # 
 # example of invocation (as root):
 #
-# curl https://raw.github.com/zhdk/madek/next/script/setup_ubuntu1204_jenkins_slave.sh | bash -l
+# curl https://raw.github.com/zhdk/madek/next/script/setup_jenkins_slave.sh | bash -l
 #
 ################################################################
 
@@ -54,10 +54,28 @@ EOF
 
 
 #############################################################
-# upgrade and install 
+# upgrade and install basic stuff
 #############################################################
 apt-get dist-upgrade --assume-yes
-apt-get install --assume-yes curl openssh-server openjdk-7-jdk
+apt-get install --assume-yes curl openssh-server openjdk-7-jdk unzip zip
+
+
+#############################################################
+# setup ntp
+#############################################################
+apt-get install --assume-yes ntp ntpdate
+service ntp stop
+ntpdate ntp.zhdk.ch
+cat << 'EOF' > /etc/ntp.conf
+driftfile /var/lib/ntp/ntp.drift
+statsdir /var/log/ntpstats/
+statistics loopstats peerstats clockstats
+filegen loopstats file loopstats type day enable
+filegen peerstats file peerstats type day enable
+filegen clockstats file clockstats type day enable
+server ntp.zhdk.ch
+EOF
+service ntp start
 
 
 #############################################################
@@ -83,10 +101,8 @@ chown `whoami` $HOME/.ssh/authorized_keys
 apt-get install --assume-yes vim-nox
 update-alternatives --set editor /usr/bin/vim.nox
 
-
-
 #############################################################
-# postgresql
+# PostgreSQL (mostly for Madek)
 #############################################################
 apt-get install --assume-yes  postgresql postgresql-client libpq-dev postgresql-contrib
 sed -i 's/peer/trust/g' /etc/postgresql/9.1/main/pg_hba.conf
@@ -98,6 +114,12 @@ CREATE USER JENKINS PASSWORD 'jenkins' superuser createdb login;
 CREATE DATABASE jenkins;
 GRANT ALL ON DATABASE jenkins TO jenkins;
 EOF
+
+#############################################################
+# MySQL (mostly for leihs)
+#############################################################
+DEBIAN_FRONTEND=noninteractive apt-get install -q --assume-yes mysql-server libmysqlclient-dev 
+mysql -uroot -e "grant all privileges on *.* to jenkins@localhost identified by 'jenkins';"
 
 
 ###########################################################
@@ -117,13 +139,15 @@ EOF
 # google chrome
 #############################################################
 
+if [ ! -f /etc/apt/sources.list.d/google-chrome.list ]; then
 cat << 'EOF' | su -l 
-curl https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
 echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
 apt-get update
 apt-get install --assume-yes google-chrome-stable
+rm /etc/apt/sources.list.d/google.list
 EOF
-
+fi
 
 #############################################################
 # chromedriver
@@ -144,7 +168,8 @@ EOF
 
 apt-get install --assume-yes git x11vnc xvfb zlib1g-dev \
   libssl-dev libxslt1-dev libxml2-dev build-essential \
-  libimage-exiftool-perl imagemagick $MOZILLA_BROWSER libreadline-dev libreadline6 libreadline6-dev 
+  libimage-exiftool-perl imagemagick $MOZILLA_BROWSER libreadline-dev libreadline6 libreadline6-dev \
+  g++
 
 cat << 'EOF' > /etc/profile.d/rbenv.sh
 # rbenv
@@ -201,8 +226,9 @@ JENKINS
 apt-get install --assume-yes ragel
 
 cat << 'JENKINS' | su -l jenkins
-cd ~/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/gherkin-2.12.0/ 
 rbenv shell 1.9.3-p392 
+gem install gherkin -v 2.12.0
+cd ~/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/gherkin-2.12.0/ 
 bundle install
 rbenv rehash
 bundle exec rake compile:gherkin_lexer_en
@@ -229,5 +255,26 @@ EOF
 chmod 600 $HOME/.ssh/authorized_keys
 chown `whoami` $HOME/.ssh/authorized_keys
 JENKINS
+
+
+
+###########################################################
+# install jenkins_cleanup cron script
+###########################################################
+
+cat << 'EOF' > /etc/cron.weekly/jenkins_cleanup
+#!/bin/bash -l
+JENKINS_HOME='/home/jenkins'
+echo "CLEANING JENKINS STUFF IN ${JENKINS_HOME}"
+mv -f "${JENKINS_HOME}/.ssh/authorized_keys" "${JENKINS_HOME}/.ssh/authorized_keys_tmp"
+pkill  -u jenkins
+rm -rf "${JENKINS_HOME}/"*xvfb
+rm -rf "${JENKINS_HOME}/workspace/"*
+mv -f "${JENKINS_HOME}/.ssh/authorized_keys_tmp" "${JENKINS_HOME}/.ssh/authorized_keys"
+EOF
+chmod a+x /etc/cron.weekly/jenkins_cleanup
+
+# cleanup now, this will also stop and disconnect the slave
+/etc/cron.weekly/jenkins_cleanup
 
 

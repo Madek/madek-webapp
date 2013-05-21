@@ -15,6 +15,16 @@ FactoryGirl.define do
     meta_datum_object_type "MetaDatumCopyright" 
   end
 
+  factory :meta_key_copyright_usage, class: MetaKey do
+    id 'copyright usage'
+    meta_datum_object_type "MetaDatumCopyright" 
+  end
+
+  factory :meta_key_copyright_url, class: MetaKey do
+    id 'copyright url'
+    meta_datum_object_type "MetaDatumCopyright" 
+  end
+
   factory :meta_key_academic_year, class: MetaKey do
     id 'academic year'
     meta_datum_object_type 'MetaDatumMetaTerms'
@@ -34,6 +44,11 @@ FactoryGirl.define do
   factory :meta_key_institutional_affiliation, class: MetaKey do
     id 'institutional affiliation'
     meta_datum_object_type 'MetaDatumDepartments'
+  end
+
+  factory :meta_key_public_caption, class: MetaKey do
+    id 'public caption'
+    meta_datum_object_type 'MetaDatumKeywords'
   end
 
 end

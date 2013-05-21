@@ -6,17 +6,19 @@ module Json
     end
 
     def hash_for(target, with = nil)
-      klass = target.class
-      case klass.name
-        when "Array", "ActiveRecord::Relation", "Kaminari::PaginatableArray"
-          # TODO eager loading here for associations ?? 
-          target.map do |t|
-            hash_for(t, with)
-          end
-        else
-          #TODO with = get_with_preset(with[:preset]).deep_merge(with) if not with.nil? and with[:preset]
-          with = with.try(:deep_symbolize_keys)
-          send("hash_for_#{klass.name.underscore}", target, with)
+      unless target.nil?
+        klass = target.class
+        case klass.name
+          when "Array", "ActiveRecord::Relation", "Kaminari::PaginatableArray"
+            # TODO eager loading here for associations ?? 
+            target.map do |t|
+              hash_for(t, with)
+            end
+          else
+            #TODO with = get_with_preset(with[:preset]).deep_merge(with) if not with.nil? and with[:preset]
+            with = with.try(:deep_symbolize_keys)
+            send("hash_for_#{klass.name.underscore}", target, with)
+        end
       end
     end
     

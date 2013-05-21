@@ -1,6 +1,6 @@
-%h1 Edit Group #{@group.name}
+%h1 New Group
 
-= form_for @group, url: app_admin_group_path(@group), method: "PUT", html: {class: "form-horizontal"} do |f|
+= form_for @group, url: app_admin_groups_path, method: "POST", html: {class: "form-horizontal"} do |f|
 
   %fieldset
 

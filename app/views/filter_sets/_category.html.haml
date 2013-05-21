@@ -10,4 +10,4 @@
     .ui-thumbnail-meta
       %h3.ui-thumbnail-meta-title= category.title
       %p.ui-thumbnail-meta-subtitle= category.description
-      %span.ui-thumbnail-meta-extension= category.child_media_resources.count
+      %span.ui-thumbnail-meta-extension= category.filtered_resources(current_user).count

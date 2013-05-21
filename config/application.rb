@@ -51,6 +51,8 @@ module MAdeK
     config.assets.enabled = true
     config.assets.version = '1.0.0'
 
+    config.assets.initialize_on_precompile = false
+
     # Please add any files you need precompiled here, otherwise it breaks production
     config.assets.precompile += %w( application.js
                                     application.css
