@@ -208,7 +208,7 @@ msgid "Save"
 msgstr ""
 
 msgid "This set is contained in one set"
-msgid_plural ""
+msgid_plural "This set is contained in %d sets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -256,7 +256,6 @@ msgstr ""
 
 msgid "These items are shared with others"
 msgstr ""
-
 msgid "List of media resources"
 msgstr ""
 
@@ -388,4 +387,109 @@ msgstr ""
 
 msgid "Permissions"
 msgstr ""
+
+msgid "This entry is contained in one set"
+msgid_plural "This entry is contained in %d sets"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Responsibility"
+msgstr ""
+
+msgid "Person responsible in the media archive"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "There are no metadata available for this context"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "Activities"
+msgstr ""
+
+msgid "Imported by"
+msgstr ""
+
+msgid "Last updated"
+msgstr ""
+
+msgid "No metadata yet"
+msgstr ""
+
+msgid "The metadata present differs between entries"
+msgstr ""
+
+msgid "Caution: Any existing values will be overwritten with the data you enter here! If you do not enter anything, the differing values will remain unchanged."
+msgstr ""
+
+msgid "Existing metadata is identical"
+msgstr ""
+
+msgid "Value and text"
+msgstr ""
+
+msgid "Originial file, metadata as they were when it was uploaded into the archive."
+msgstr ""
+
+msgid "File containing its original metadata"
+msgstr ""
+
+msgid "Current metadata as XML document for TMS."
+msgstr ""
+
+msgid "TMS XML document"
+msgstr ""
+
+msgid "Current metadata from the media archive is written directly into the file in the XMP/IPTC format."
+msgstr ""
+
+msgid "File with current metadata"
+msgstr ""
+
+msgid "File without embedded metadata."
+msgstr ""
+
+msgid "File without metadata"
+msgstr ""
+
+msgid "Current metadata as XML document."
+msgstr ""
+
+msgid "XML document"
+msgstr ""
+
+msgid "Open in new window"
+msgstr ""
+
+msgid "Previous page"
+msgstr ""
+
+msgid "Next page"
+msgstr ""
+
+msgid "Conversion is %f\% complete"
+msgstr ""
+
+msgid "This file is being converted so it can be previewed."
+msgstr ""
+
+msgid "As soon as this is done, you will find a playable version here."
+msgstr ""
+
+msgid "Please reload this page to see the latest progress."
+msgstr ""
+
+msgid "Conversion failed"
+msgstr ""
+
+msgid "Please contact support."
+msgstr ""
+
 

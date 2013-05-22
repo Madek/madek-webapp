@@ -1,6 +1,7 @@
-.ui-alert.warning= "Konvertierung zu #{zencoder_job.progress_per_cent}% abgeschlossen"
+.ui-alert.warning= _("Conversion is %f\% complete" % zencoder_job.progress_per_cent)
 .p.pvh.mth
-  Diese Datei wird gerade für eine Vorschau konvertiert.
-  Sobald dies abgeschlossen ist, finden Sie hier eine abspielbare Version.
+  = _("This file is being converted so it can be previewed.")
+  = _("As soon as this is done, you will find a playable version here.")
   %br
-  %span.title-xs Laden Sie diese Seite neu, um den aktuellsten Stand zu erfahren.
+  %span.title-xs 
+    = _("Please reload this page to see the latest progress.")

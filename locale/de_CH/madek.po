@@ -390,3 +390,109 @@ msgstr "Zugriffsberechtigungen lesen/bearbeiten"
 
 msgid "Permissions"
 msgstr "Zugriffsberechtigungen"
+
+msgid "This entry is contained in one set"
+msgid_plural "This entry is contained in %d sets"
+msgstr[0] "Dieser Eintrag ist in einem Set enthalten"
+msgstr[1] "Dieser Eintrag ist in %d Sets enthalten"
+
+msgid "Responsibility"
+msgstr "Verantwortlichkeit"
+
+msgid "Person responsible in the media archive"
+msgstr "Verantwortliche Person im Medienarchiv"
+
+msgid "File"
+msgstr "Datei"
+
+msgid "There are no metadata available for this context"
+msgstr "Es sind keine Metadaten zu diesem Kontext bereit gestellt."
+
+msgid "Close"
+msgstr "Schliessen"
+
+msgid "Activities"
+msgstr "Aktivitäten"
+
+msgid "Imported by"
+msgstr "Importiert von"
+
+msgid "Last updated"
+msgstr "Letzte Aktualisierung"
+
+msgid "No metadata yet"
+msgstr "Noch keine Metadaten vorhanden"
+
+msgid "The metadata present differs between entries"
+msgstr "Unterschiedliche Metadaten vorhanden"
+
+msgid "Caution: Any existing values will be overwritten with the data you enter here! If you do not enter anything, the differing values will remain unchanged."
+msgstr "Achtung: Bestehende Werte werden durch Änderungen überschrieben! Wenn keine Änderungen vorgenommen werden, bleiben die verschiedenen Werte erhalten."
+
+msgid "Existing metadata is identical"
+msgstr "Gleiche Metadaten vorhanden"
+
+msgid "Value and text"
+msgstr "Wert und Text"
+
+msgid "Originial file, metadata as they were when it was uploaded into the archive."
+msgstr "Originaldatei mit gleichen Metadaten wie beim Hochladen ins Medienarchiv."
+
+msgid "File containing its original metadata"
+msgstr "Datei mit ursprünglichen Metadaten"
+
+msgid "Current metadata as XML document for TMS."
+msgstr "Die aktuellen Metadaten als XML-Dokument für TMS."
+
+msgid "TMS XML document"
+msgstr "TMS XML-Dokument"
+
+msgid "Current metadata from the media archive is written directly into the file in the XMP/IPTC format."
+msgstr "Die aktuellen Metadaten aus dem Medienarchiv im Format XMP/IPTC sind direkt in die Datei eingeschrieben."
+
+msgid "File with current metadata"
+msgstr "Datei mit aktuellen Metadaten"
+
+msgid "File without embedded metadata."
+msgstr "Datei ohne eingeschriebene Metadaten."
+
+msgid "File without metadata"
+msgstr "Datei ohne Metadaten"
+
+msgid "Current metadata as XML document."
+msgstr "Die aktuellen Metadaten als XML-Dokument."
+
+msgid "XML document"
+msgstr "XML-Dokument"
+
+msgid "Open in new window"
+msgstr "In neuem Fenster öffnen"
+
+msgid "Previous page"
+msgstr "Vorherige Seite"
+
+msgid "Next page"
+msgstr "Nächste Seite"
+
+msgid "Conversion is %f\% complete"
+msgstr "Konvertierung zu %f\% abgeschlossen"
+
+msgid "This file is being converted so it can be previewed."
+msgstr "Diese Datei wird gerade für eine Vorschau konvertiert."
+
+msgid "As soon as this is done, you will find a playable version here."
+msgstr "Sobald dies abgeschlossen ist, finden Sie hier eine abspielbare Version."
+
+msgid "Please reload this page to see the latest progress."
+msgstr "Laden Sie diese Seite neu, um den aktuellsten Stand zu erfahren."
+
+msgid "Conversion failed"
+msgstr "Konvertierung fehlgeschlagen."
+
+msgid "Please contact support."
+msgstr "Bitte kontaktieren Sie den Support."
+
+msgid "The encoder reports:"
+msgstr "Der Encoder sagt:"
+
+
