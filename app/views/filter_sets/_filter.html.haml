@@ -1,5 +1,6 @@
 %tr
-  %td.ui-summary-label Filtereinstellungen
+  %td.ui-summary-label 
+    = _("Filter settings")
   %td.ui-summary-content
     %ul.ui-tag-cloud.small
 
@@ -8,12 +9,12 @@
         %br
 
       - if filter.has_key?(:media_resources)
-        %i.icon-set.mid.mrx{:title => "Inhalte"}
+        %i.icon-set.mid.mrx{:title => _("content elements")}
         = render :partial => "filter_sets/filter/media_resources", :locals => {:type => filter[:media_resources][:type][:ids].first}
         %br
 
       - if filter.has_key?(:media_files) or filter.has_key?(:meta_data)
-        %i.icon-filter.mid.mrx{:title => "Filter"}
+        %i.icon-filter.mid.mrx{:title => _("Filters")}
 
       - if filter.has_key? :media_files
         = render :partial => "filter_sets/filter/media_files", :locals => {:media_files_filter => filter[:media_files]}

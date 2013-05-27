@@ -9,7 +9,8 @@
     .app-body-title
       .ui-body-title
         .ui-body-title-label
-          %h1.title-xl Medien importieren
+          %h1.title-xl 
+            = _("Import media")
 
     .app-body-ui-container
       .ui-container.bordered.bright.rounded
@@ -18,15 +19,17 @@
 
         .media-import.step1.pal.bordered-bottom.ui-container
 
-          %h3.title-l.limited-width-m Bilder, Videos, Audio-Dateien oder Dokumente  bereitstellen:
+          %h3.title-l.limited-width-m 
+            = _("Make available images, video and audio files or documents:")
 
           .ui-container.clearfix.mvl.bordered.midtone.rounded.media-import-content
 
             #upload-ui-container
               #call2action
-                = "Sie habe noch keine Medien ausgewählt."
+                = _("You have not selected any media yet.")
                 %br
-                %small= "(Drag & Drop)"
+                %small
+                  = _("(Drag & Drop)")
               #uploader
 
           .ui-actions
@@ -38,20 +41,21 @@
           .col1of2
             %h3.title-m.prm
               %strong
-                Hinweise
+                = _("Note")
             %p.prm.ptx
-              Bilder (TIFF, JPEG, PNG) sowie Audio- und Videofiles in den gängigsten Formaten werden direkt verarbeitet und dargestellt.
+              = _("Images (TIFF, JPEG, PNG) as well as audio and video files in popular formats are processed directly and can then be displayed.")
             %p.prm.ptx
-              Bitte importieren Sie jeweils maximal 200 Dateien auf einmal. 
+              = _("Please import no more than 200 files at a time.")
           .col1of2
             %h3.title-m.plm
               %strong
-                Akzeptierte Dateigrösse
+                = _("Accepted file size")
             %p.plm.ptx
-              Dateien mit einer Grösse von über 1.4 GB müssen über eine FTP-Dropbox in das Medienarchiv geladen werden.
+              = _("Files larger than 1.4 GB must be uploaded using an FTP dropbox.")
             %p.plm.ptx
               %strong
-                %a.open_dropbox_dialog{:href => "javascript:void(0)", :style => "cursor:pointer"} So laden Sie Dateien über die FTP-Dropbox ins Medienarchiv.
+                %a.open_dropbox_dialog{:href => "javascript:void(0)", :style => "cursor:pointer"} 
+                  = _("This is how you upload files using the FTP dropbox.")
 
   .app-footer-push
 = render :partial => "application/footer", :locals => {:clipboard => false}

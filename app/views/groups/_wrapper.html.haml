@@ -9,7 +9,8 @@
     %h2.title-l.ui-resources-title
       = title
       - if defined? link
-        %a.strong{:href => link} Alle anzeigen
+        %a.strong{:href => link}
+          = _("Show all")
 
   - if as == :table
 
@@ -24,9 +25,9 @@
             - if resources
               - total_accessible_by_group = MediaResource.accessible_by_group(group).where(:type => ["MediaEntry", "MediaSet"]).count
               %td.ui-workgroup-items
-                %a{:href => media_resources_path(:permissions => {:group => {:ids => [group.id]}}), :title => "Inhalte dieser Gruppe anzeigen"}
+                %a{:href => media_resources_path(:permissions => {:group => {:ids => [group.id]}}), :title => _("Show this group's content")}
                   = total_accessible_by_group
-                  Inhalte
+                  = _("content elements")
             - if actions
               %td.ui-workgroup-actions
                 %a.button.small.delete-workgroup

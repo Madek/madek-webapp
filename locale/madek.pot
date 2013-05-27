@@ -492,4 +492,5 @@ msgstr ""
 msgid "Please contact support."
 msgstr ""
 
-
+msgid "The encoder reports:"
+msgstr ""

@@ -495,4 +495,139 @@ msgstr "Bitte kontaktieren Sie den Support."
 msgid "The encoder reports:"
 msgstr "Der Encoder sagt:"
 
+--
 
+msgid "Popular keywords"
+msgstr "Häufige Schlagworte"
+
+msgid "My keywords"
+msgstr "Meine Schlagworte"
+
+msgid "Show all"
+msgstr "Alle anzeigen"
+
+msgid "Import media"
+msgstr "Medien importieren"
+
+msgid "Make available images, video and audio files or documents:"
+msgstr "Bilder, Videos, Audio-Dateien oder Dokumente  bereitstellen:"
+
+msgid "You have not selected any media yet."
+msgstr "Sie habe noch keine Medien ausgewählt."
+
+msgid "(Drag & Drop)"
+msgstr "(Drag & Drop)"
+
+msgid "Note"
+msgstr "Hinweise"
+
+msgid "Images (TIFF, JPEG, PNG) as well as audio and video files in popular formats are processed directly and can then be displayed."
+msgstr "Bilder (TIFF, JPEG, PNG) sowie Audio- und Videofiles in den gängigsten Formaten werden direkt verarbeitet und dargestellt."
+
+msgid "Please import no more than 200 files at a time."
+msgstr "Bitte importieren Sie jeweils maximal 200 Dateien auf einmal."
+
+msgid "Accepted file size"
+msgstr "Akzeptierte Dateigrösse"
+
+msgid "Files larger than 1.4 GB must be uploaded using an FTP dropbox."
+msgstr "Dateien mit einer Grösse von über 1.4 GB müssen über eine FTP-Dropbox hochgeladen werden."
+
+msgid "This is how you upload files using the FTP dropbox."
+msgstr "So laden Sie Dateien über die FTP-Dropbox hoch."
+
+msgid "Specify access and visibility:"
+msgstr "Zugriff und Sichtbarkeit festlegen:"
+
+msgid "Save permissions and continue&hellip;"
+msgstr "Berechtigungen speichern und weiter&hellip;"
+
+msgid "Manage newly uploaded content using sets (optional):"
+msgstr "Die neuen Inhalte in Sets verwalten (optional):"
+
+msgid "Add entries to a set"
+msgstr "Einträge zum einem Set hinzufügen"
+
+msgid "Finish import"
+msgstr "Import abschliessen"
+
+msgid "Add metadata:"
+msgstr "Metadaten hinzufügen:"
+
+msgid "Show only content missing required metadata"
+msgstr "Nur Inhalte mit unvollständigen Pflichtfeldern anzeigen"
+
+msgid "Previous entry"
+msgstr "Vorheriger Eintrag"
+
+msgid "Current entry"
+msgstr "Aktueller Eintrag"
+
+msgid "Next entry"
+msgstr "Nächster Eintrag"
+
+msgid "1. Transfer media"
+msgstr "1. Medien übertragen"
+
+msgid "2. Set permissions"
+msgstr "2. Berechtigungen setzen"
+
+msgid "3. Add metadata"
+msgstr "3. Metadaten ergänzen"
+
+msgid "4. Organize media entries"
+msgstr "4. Medieneinträge zusammenstellen"
+
+msgid "Cancel import"
+msgstr "Import abbrechen"
+
+msgid "Show this group's content"
+msgstr "Inhalte dieser Gruppe anzeigen"
+
+msgid "content elements"
+msgstr "Inhalte"
+
+msgid "Change filter settings"
+msgstr "Filtereinstellungen ändern"
+
+msgid "Public content"
+msgstr "Öffentliche Inhalte"
+
+msgid "Media entries"
+msgstr "Medieneinträge"
+
+msgid "Sets"
+msgstr "Sets"
+
+msgid "Filter sets"
+msgstr "Filtersets"
+
+msgid "Person"
+msgstr "Person"
+
+msgid "Groups"
+msgstr "Gruppen"
+
+msgid "Permissions"
+msgstr "Berechtigungen"
+
+msgid "Search keyword"
+msgstr "Suchwort"
+
+msgid "Filter settings"
+msgstr "Filtereinstellungen"
+
+msgid "Filters"
+msgstr "Filter"
+
+msgid "Filter set"
+msgstr "Filterset"
+
+msgid "Edit filter set"
+msgstr "Filterset editieren"
+
+msgid "Save filter settings"
+msgstr "Filtereinstellungen speichern"
+
+msgid "%d content elements"
+msgstr "%d Inhalte"

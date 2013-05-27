@@ -7,7 +7,8 @@
     .app-body-title
       .ui-body-title
         .ui-body-title-label
-          %h1.title-xl Medien importieren
+          %h1.title-xl 
+            = _("Import media")
 
     .app-body-ui-container
       .ui-container.bordered.bright.rounded
@@ -17,7 +18,7 @@
         .media-import.step4.pal
 
           %h3.title-l
-            Die neuen Inhalte in Sets verwalten (optional):
+            = _("Manage newly uploaded content using sets (optional):")
 
           #ui-resources-preview.ui-container.clearfix.mvl.bordered.midtone.rounded.upload-overview
             = @media_entry_incompletes_partial.html_safe
@@ -25,13 +26,13 @@
           .ui-actions.mbm
             %a.button{:"data-organize-arcs" => "true", :"data-collection-id" => @media_entry_incompletes_collection_id}
               %i.icon-move
-              Einträge zum einem Set hinzufügen
+              = _("Add entries to a set")
 
           .ui-actions
             %form{:action => complete_import_path, :method => :post}
               = token_tag nil
               %button.primary-button.large{:type => :submit}
-                Import abschliessen
+                = _("Finish import")
 
   .app-footer-push
 = render :partial => "application/footer", :locals => {:clipboard => false}
