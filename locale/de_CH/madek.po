@@ -495,8 +495,6 @@ msgstr "Bitte kontaktieren Sie den Support."
 msgid "The encoder reports:"
 msgstr "Der Encoder sagt:"
 
---
-
 msgid "Popular keywords"
 msgstr "Häufige Schlagworte"
 

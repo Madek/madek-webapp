@@ -494,3 +494,138 @@ msgstr ""
 
 msgid "The encoder reports:"
 msgstr ""
+
+msgid "Popular keywords"
+msgstr ""
+
+msgid "My keywords"
+msgstr ""
+
+msgid "Show all"
+msgstr ""
+
+msgid "Import media"
+msgstr ""
+
+msgid "Make available images, video and audio files or documents:"
+msgstr ""
+
+msgid "You have not selected any media yet."
+msgstr ""
+
+msgid "(Drag & Drop)"
+msgstr ""
+
+msgid "Note"
+msgstr ""
+
+msgid "Images (TIFF, JPEG, PNG) as well as audio and video files in popular formats are processed directly and can then be displayed."
+msgstr ""
+
+msgid "Please import no more than 200 files at a time."
+msgstr ""
+
+msgid "Accepted file size"
+msgstr ""
+
+msgid "Files larger than 1.4 GB must be uploaded using an FTP dropbox."
+msgstr ""
+
+msgid "This is how you upload files using the FTP dropbox."
+msgstr ""
+
+msgid "Specify access and visibility:"
+msgstr ""
+
+msgid "Save permissions and continue&hellip;"
+msgstr ""
+
+msgid "Manage newly uploaded content using sets (optional):"
+msgstr ""
+
+msgid "Add entries to a set"
+msgstr ""
+
+msgid "Finish import"
+msgstr ""
+
+msgid "Add metadata:"
+msgstr ""
+
+msgid "Show only content missing required metadata"
+msgstr ""
+
+msgid "Previous entry"
+msgstr ""
+
+msgid "Current entry"
+msgstr ""
+
+msgid "Next entry"
+msgstr ""
+
+msgid "1. Transfer media"
+msgstr ""
+
+msgid "2. Set permissions"
+msgstr ""
+
+msgid "3. Add metadata"
+msgstr ""
+
+msgid "4. Organize media entries"
+msgstr ""
+
+msgid "Cancel import"
+msgstr ""
+
+msgid "Show this group's content"
+msgstr ""
+
+msgid "content elements"
+msgstr ""
+
+msgid "Change filter settings"
+msgstr ""
+
+msgid "Public content"
+msgstr ""
+
+msgid "Media entries"
+msgstr ""
+
+msgid "Sets"
+msgstr ""
+
+msgid "Filter sets"
+msgstr ""
+
+msgid "Person"
+msgstr ""
+
+msgid "Groups"
+msgstr ""
+
+msgid "Permissions"
+msgstr ""
+
+msgid "Search keyword"
+msgstr ""
+
+msgid "Filter settings"
+msgstr ""
+
+msgid "Filters"
+msgstr ""
+
+msgid "Filter set"
+msgstr ""
+
+msgid "Edit filter set"
+msgstr ""
+
+msgid "Save filter settings"
+msgstr ""
+
+msgid "%d content elements"
+msgstr ""
