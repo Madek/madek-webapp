@@ -606,9 +606,6 @@ msgstr "Person"
 msgid "Groups"
 msgstr "Gruppen"
 
-msgid "Permissions"
-msgstr "Berechtigungen"
-
 msgid "Search keyword"
 msgstr "Suchwort"
 
