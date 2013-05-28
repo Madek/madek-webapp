@@ -9,7 +9,6 @@ end
 Given(/^There is a movie with previews and public viewing\-permission$/) do
   System.execute_cmd! "tar xf #{Rails.root.join "features/data/media_files_with_movie.tar.gz"} -C #{Rails.root.join  "db/media_files/", Rails.env}"
   @movie = MediaResource.find 113
-  binding.pry
 end
 
 When(/^I visit the page of that movie$/) do
