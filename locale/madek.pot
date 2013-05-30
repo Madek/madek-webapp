@@ -626,3 +626,45 @@ msgstr ""
 
 msgid "%d content elements"
 msgstr ""
+
+msgid "Open admin interface"
+msgstr ""
+
+msgid "Exit admin mode"
+msgstr ""
+
+msgid "Switch to admin mode"
+msgstr ""
+
+msgid "Log out"
+msgstr ""
+
+msgid "Clipboard"
+msgstr "Zwischenablage"
+
+msgid "Empty"
+msgstr "Leer"
+
+msgid "No content selected"
+msgstr "Keine Inhalte ausgewählt"
+
+msgid "Actions"
+msgstr "Aktionen"
+
+msgid "Add to/remove from set"
+msgstr "Zu Set hinzufügen/entfernen"
+
+msgid "Show permissions"
+msgstr "Zugriffsberechtigungen anzeigen"
+
+msgid "Edit permissions"
+msgstr "Zugriffsberechtigungen bearbeiten"
+
+msgid "Edit metadata of these media entries"
+msgstr "Metadaten von Medieneinträgen editieren"
+
+msgid "Clear clipboard"
+msgstr "Zwischenablage leeren"
+
+msgid "Explore / "
+msgstr "Erkunden / "
