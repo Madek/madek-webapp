@@ -640,31 +640,67 @@ msgid "Log out"
 msgstr ""
 
 msgid "Clipboard"
-msgstr "Zwischenablage"
+msgstr ""
 
 msgid "Empty"
-msgstr "Leer"
+msgstr ""
 
 msgid "No content selected"
-msgstr "Keine Inhalte ausgewählt"
+msgstr ""
 
 msgid "Actions"
-msgstr "Aktionen"
+msgstr ""
 
 msgid "Add to/remove from set"
-msgstr "Zu Set hinzufügen/entfernen"
+msgstr ""
 
 msgid "Show permissions"
-msgstr "Zugriffsberechtigungen anzeigen"
+msgstr ""
 
 msgid "Edit permissions"
-msgstr "Zugriffsberechtigungen bearbeiten"
+msgstr ""
 
 msgid "Edit metadata of these media entries"
-msgstr "Metadaten von Medieneinträgen editieren"
+msgstr ""
 
 msgid "Clear clipboard"
-msgstr "Zwischenablage leeren"
+msgstr ""
 
 msgid "Explore / "
-msgstr "Erkunden / "
+msgstr ""
+
+msgid "Explore / Contexts"
+msgstr ""
+
+msgid "Section contains"
+msgstr ""
+
+msgid "Explore / Popular keywords"
+msgstr ""
+
+msgid "Search / Create new set"
+msgstr ""
+
+msgid "Search for a set and add selected content to it."
+msgstr ""
+
+msgid "Sets that only partially contain the selected content"
+msgstr ""
+
+msgid "are highlighted."
+msgstr ""
+
+msgid "Further sets were found. Please narrow your search."
+msgstr ""
+
+msgid "Loading filters"
+msgstr ""
+
+msgid "Remove permission")
+msgstr ""
+
+msgid "Public"
+msgstr ""
+
+msgid "Responsible person"
+msgstr ""

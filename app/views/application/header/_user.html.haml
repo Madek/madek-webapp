@@ -25,7 +25,7 @@
         %li.ui-drop-item
           %a.strong{:href => app_admin_root_path}
             %i.icon-lock.ui-drop-icon
-            = _("Open admin interface)"
+            = _("Open admin interface")
         %li.ui-drop-item
           - if session[:act_as_uberadmin] == true
             = link_to app_admin_exit_uberadmin_path, method: 'POST', class: 'strong' do

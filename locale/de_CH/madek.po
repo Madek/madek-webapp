@@ -668,3 +668,39 @@ msgstr "Zwischenablage leeren"
 
 msgid "Explore / "
 msgstr "Erkunden / "
+
+msgid "Explore / Contexts"
+msgstr "Erkunden / Kontexte"
+
+msgid "Section contains"
+msgstr "Sektion enthält"
+
+msgid "Explore / Popular keywords"
+msgstr "Erkunden / Häufige Schlagworte"
+
+msgid "Search / Create new set"
+msgstr "Suche / Neues Set erstellen"
+
+msgid "Search for a set and add selected content to it."
+msgstr "Suchen Sie ein Set und fügen Sie die ausgewählten Inhalte zu diesem hinzu."
+
+msgid "Sets that only partially contain the selected content"
+msgstr "Sets, zu denen die ausgewählten Inhalte nur teilweise hinzugefügt sind,"
+
+msgid "are highlighted."
+msgstr "werden farbig gekennzeichnet."
+
+msgid "Further sets were found. Please narrow your search."
+msgstr "Es wurden noch weitere Sets gefunden. Bitte verfeinern Sie Ihre Suche."
+
+msgid "Loading filters"
+msgstr "Filter werden geladen"
+
+msgid "Remove permission")
+msgstr "Berechtigung entfernen"
+
+msgid "Public"
+msgstr "Öffentlichkeit"
+
+msgid "Responsible person"
+msgstr "Verantwortliche Person"
