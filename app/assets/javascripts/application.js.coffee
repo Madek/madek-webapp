@@ -25,6 +25,8 @@
 #= require fixed-header-table/fixed-header-table
 
 #= require progressive
+#= require jed/jed
+#= require i18n/i18n
 
 ####### APPLICATION
 

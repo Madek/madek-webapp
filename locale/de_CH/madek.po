@@ -474,8 +474,8 @@ msgstr "Vorherige Seite"
 msgid "Next page"
 msgstr "Nächste Seite"
 
-msgid "Conversion is %f\% complete"
-msgstr "Konvertierung zu %f\% abgeschlossen"
+msgid "Conversion is %f%% complete"
+msgstr "Konvertierung zu %f%% abgeschlossen"
 
 msgid "This file is being converted so it can be previewed."
 msgstr "Diese Datei wird gerade für eine Vorschau konvertiert."
@@ -497,15 +497,6 @@ msgstr "Der Encoder sagt:"
 
 msgid "Popular keywords"
 msgstr "Häufige Schlagworte"
-
-msgid "My keywords"
-msgstr "Meine Schlagworte"
-
-msgid "Show all"
-msgstr "Alle anzeigen"
-
-msgid "Import media"
-msgstr "Medien importieren"
 
 msgid "Make available images, video and audio files or documents:"
 msgstr "Bilder, Videos, Audio-Dateien oder Dokumente  bereitstellen:"
@@ -600,9 +591,6 @@ msgstr "Sets"
 msgid "Filter sets"
 msgstr "Filtersets"
 
-msgid "Person"
-msgstr "Person"
-
 msgid "Groups"
 msgstr "Gruppen"
 
@@ -651,9 +639,6 @@ msgstr "Keine Inhalte ausgewählt"
 msgid "Actions"
 msgstr "Aktionen"
 
-msgid "Add to/remove from set"
-msgstr "Zu Set hinzufügen/entfernen"
-
 msgid "Show permissions"
 msgstr "Zugriffsberechtigungen anzeigen"
 
@@ -693,10 +678,7 @@ msgstr "werden farbig gekennzeichnet."
 msgid "Further sets were found. Please narrow your search."
 msgstr "Es wurden noch weitere Sets gefunden. Bitte verfeinern Sie Ihre Suche."
 
-msgid "Loading filters"
-msgstr "Filter werden geladen"
-
-msgid "Remove permission")
+msgid "Remove permission"
 msgstr "Berechtigung entfernen"
 
 msgid "Public"
