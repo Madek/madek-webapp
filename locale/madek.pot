@@ -408,9 +408,6 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-msgid "File"
-msgstr ""
-
 msgid "Activities"
 msgstr ""
 
@@ -474,7 +471,7 @@ msgstr ""
 msgid "Next page"
 msgstr ""
 
-msgid "Conversion is %f\% complete"
+msgid "Conversion is %f%% complete"
 msgstr ""
 
 msgid "This file is being converted so it can be previewed."
@@ -496,15 +493,6 @@ msgid "The encoder reports:"
 msgstr ""
 
 msgid "Popular keywords"
-msgstr ""
-
-msgid "My keywords"
-msgstr ""
-
-msgid "Show all"
-msgstr ""
-
-msgid "Import media"
 msgstr ""
 
 msgid "Make available images, video and audio files or documents:"
@@ -600,9 +588,6 @@ msgstr ""
 msgid "Filter sets"
 msgstr ""
 
-msgid "Person"
-msgstr ""
-
 msgid "Groups"
 msgstr ""
 
@@ -651,9 +636,6 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-msgid "Add to/remove from set"
-msgstr ""
-
 msgid "Show permissions"
 msgstr ""
 
@@ -693,10 +675,7 @@ msgstr ""
 msgid "Further sets were found. Please narrow your search."
 msgstr ""
 
-msgid "Loading filters"
-msgstr ""
-
-msgid "Remove permission")
+msgid "Remove permission"
 msgstr ""
 
 msgid "Public"
