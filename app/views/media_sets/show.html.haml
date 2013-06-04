@@ -21,7 +21,7 @@
 
       - count_visible = @media_set.child_media_resources.accessible_by_user(current_user).count
       - count_invisible = @media_set.child_media_resources.count
-      - subtitle = count_visible == count_invisible ? _("%d items" %) count_visible : _("%d of %d items visible to you") % [count_visible, count_invisible]
+      - subtitle = count_visible == count_invisible ? _("%d items") % count_visible : _("%d of %d items visible to you") % [count_visible, count_invisible]
       = render :partial => "media_resources/list/toolbar", 
                  :locals => {:title => _("Set contains"),
                              :subtitle => subtitle,
