@@ -23,7 +23,7 @@
 
           = render :partial => "media_resources/list/toolbar", 
                    :locals => {:title => _("Section contains"),
-                               :subtitle => _("%d content elements" % @current_section[:count])}
+                               :subtitle => _("%d content elements") % [@current_section[:count]]}
 
           = render :partial => "media_resources/list/filterbar"
 
