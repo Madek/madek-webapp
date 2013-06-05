@@ -210,6 +210,11 @@ msgstr[1] "This set is contained in %d sets"
 msgid "items"
 msgstr "items"
 
+msgid "%d item"
+msgid_plural "%d items"
+msgstr[0] "%d item"
+msgstr[1] "%d items"
+
 msgid "%d of %d items visible to you"
 msgstr "%d of %d items visible to you"
 

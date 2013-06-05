@@ -217,6 +217,11 @@ msgstr[1] "Dieses Set ist in %d Sets enthalten"
 msgid "items"
 msgstr "Inhalte"
 
+msgid "%d item"
+msgid_plural "%d items"
+msgstr[0] "%d Inhalt"
+msgstr[1] "%d Inhalte"
+
 msgid "%d of %d items visible to you"
 msgstr "%d von %d Inhalten für Sie sichtbar"
 
