@@ -215,6 +215,11 @@ msgstr[1] ""
 msgid "items"
 msgstr ""
 
+msgid "%d item" 
+msgid_plural "%d items"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "%d of %d items visible to you"
 msgstr ""
 
