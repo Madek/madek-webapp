@@ -1,9 +1,9 @@
 # -*- encoding : utf-8 -*-
 #$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
 require "rvm/capistrano"                  # Load RVM's capistrano plugin.
-set :rvm_ruby_string, '1.9.3'        # Or whatever env you want it to run in.
 set :rvm_type, :system
 set :rvm_path, "/usr/local/rvm" 
+set :rvm_ruby_string, '1.9.3'        # Or whatever env you want it to run in.
 
 require "bundler/capistrano"
 
@@ -12,7 +12,6 @@ set :repository, "git://github.com/zhdk/madek.git"
 load 'config/deploy/stable_version'
 set :deploy_via, :remote_cache
 
-# TODO: Move everything from /home/madek/current to /home/arch.ethz.madek.zhdk.ch and use this config here
 set :app, "arch.ethz.madek.zhdk.ch"
 
 set :db_config, "/home/#{app}/database.yml"
@@ -26,10 +25,6 @@ set :use_sudo, false
 set :rails_env, "production"
 
 set :deploy_to, "/home/#{app}"
-
-# If you aren't using Subversion to manage your source code, specify
-# your SCM below:
-# set :scm, :subversion
 
 role :app, "arch_ethz@arch.ethz.madek.zhdk.ch"
 role :web, "arch_ethz@arch.ethz.madek.zhdk.ch"
@@ -76,7 +71,7 @@ end
 
 task :configure_environment do
   run "sed -i 's:EXIFTOOL_PATH = \"/opt/local/bin/exiftool\":EXIFTOOL_PATH = \"/usr/local/bin/exiftool\":' #{release_path}/config/application.rb"
-  run "cp #{release_path}/app/views/application/root-arch.ethz.madek.zhdk.ch.html.erb #{release_path}/app/views/application/root.html.erb"
+  #run "cp #{release_path}/app/views/application/root-arch.ethz.madek.zhdk.ch.html.erb #{release_path}/app/views/application/root.html.erb"
   run "sed -i 's:ENCODING_TEST_MODE = 1:ENCODING_TEST_MODE = 0:' #{release_path}/config/application.rb"
 
   new_url = "http://arch.ethz.madek.zhdk.ch".gsub("/","\\/")
