@@ -8,7 +8,7 @@ class MediaSet < MediaResource
   # FIXME this only fetches the first set with that title,
   # but there could be many sets with the same title 
   def self.find_by_title(title)
-    MediaSet.joins(:meta_data => :meta_key).where(:meta_keys => {:label => "title"}, :meta_data => {:string => title}).first
+    MediaSet.joins(:meta_data => :meta_key).where(:meta_keys => {:id => "title"}, :meta_data => {:string => title}).first
   end
 
   def self.splashscreen
