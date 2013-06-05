@@ -51,8 +51,6 @@ task :link_config do
   run "ln -s #{custom_config_css} #{release_path}/app/assets/stylesheets/_custom_config.css.sass"
 end
 
-
-
 namespace :deploy do
 	task :start do
 	# we do absolutely nothing here, as we currently aren't
