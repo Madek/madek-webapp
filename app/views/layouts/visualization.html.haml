@@ -13,7 +13,7 @@
         - if @title
           = "Medienarchiv - #{@title}"
         - else
-          = "Medienarchiv"
+          = AppSettings.title || "Medienarchiv"
     = stylesheet_link_tag "visualization"
     = javascript_include_tag "visualization"
     = javascript_include_tag "test" if Rails.env.test?

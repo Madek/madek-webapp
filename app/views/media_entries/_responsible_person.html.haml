@@ -1,4 +1,6 @@
-%h3.title-l.separated.mbl Verantwortlichkeit
+%h3.title-l.separated.mbl
+  = _("Responsibility")
 %dl.media-data
-  %dt.media-data-title.title-xs Verantwortliche Person im Medienarchiv
+  %dt.media-data-title.title-xs
+    = _("Person responsible in the media archive")
   %dd.media-data-content= link_to(@media_entry.user, media_resources_path(:search => @media_entry.user.fullname))

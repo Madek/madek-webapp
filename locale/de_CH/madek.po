@@ -217,6 +217,11 @@ msgstr[1] "Dieses Set ist in %d Sets enthalten"
 msgid "items"
 msgstr "Inhalte"
 
+msgid "%d item"
+msgid_plural "%d items"
+msgstr[0] "%d Inhalt"
+msgstr[1] "%d Inhalte"
+
 msgid "%d of %d items visible to you"
 msgstr "%d von %d Inhalten für Sie sichtbar"
 
@@ -390,3 +395,299 @@ msgstr "Zugriffsberechtigungen lesen/bearbeiten"
 
 msgid "Permissions"
 msgstr "Zugriffsberechtigungen"
+
+msgid "This entry is contained in one set"
+msgid_plural "This entry is contained in %d sets"
+msgstr[0] "Dieser Eintrag ist in einem Set enthalten"
+msgstr[1] "Dieser Eintrag ist in %d Sets enthalten"
+
+msgid "Responsibility"
+msgstr "Verantwortlichkeit"
+
+msgid "Person responsible in the media archive"
+msgstr "Verantwortliche Person im Medienarchiv"
+
+msgid "File"
+msgstr "Datei"
+
+msgid "There are no metadata available for this context"
+msgstr "Es sind keine Metadaten zu diesem Kontext bereit gestellt."
+
+msgid "Close"
+msgstr "Schliessen"
+
+msgid "Activities"
+msgstr "Aktivitäten"
+
+msgid "Imported by"
+msgstr "Importiert von"
+
+msgid "Last updated"
+msgstr "Letzte Aktualisierung"
+
+msgid "No metadata yet"
+msgstr "Noch keine Metadaten vorhanden"
+
+msgid "The metadata present differs between entries"
+msgstr "Unterschiedliche Metadaten vorhanden"
+
+msgid "Caution: Any existing values will be overwritten with the data you enter here! If you do not enter anything, the differing values will remain unchanged."
+msgstr "Achtung: Bestehende Werte werden durch Änderungen überschrieben! Wenn keine Änderungen vorgenommen werden, bleiben die verschiedenen Werte erhalten."
+
+msgid "Existing metadata is identical"
+msgstr "Gleiche Metadaten vorhanden"
+
+msgid "Value and text"
+msgstr "Wert und Text"
+
+msgid "Originial file, metadata as they were when it was uploaded into the archive."
+msgstr "Originaldatei mit gleichen Metadaten wie beim Hochladen ins Medienarchiv."
+
+msgid "File containing its original metadata"
+msgstr "Datei mit ursprünglichen Metadaten"
+
+msgid "Current metadata as XML document for TMS."
+msgstr "Die aktuellen Metadaten als XML-Dokument für TMS."
+
+msgid "TMS XML document"
+msgstr "TMS XML-Dokument"
+
+msgid "Current metadata from the media archive is written directly into the file in the XMP/IPTC format."
+msgstr "Die aktuellen Metadaten aus dem Medienarchiv im Format XMP/IPTC sind direkt in die Datei eingeschrieben."
+
+msgid "File with current metadata"
+msgstr "Datei mit aktuellen Metadaten"
+
+msgid "File without embedded metadata."
+msgstr "Datei ohne eingeschriebene Metadaten."
+
+msgid "File without metadata"
+msgstr "Datei ohne Metadaten"
+
+msgid "Current metadata as XML document."
+msgstr "Die aktuellen Metadaten als XML-Dokument."
+
+msgid "XML document"
+msgstr "XML-Dokument"
+
+msgid "Open in new window"
+msgstr "In neuem Fenster öffnen"
+
+msgid "Previous page"
+msgstr "Vorherige Seite"
+
+msgid "Next page"
+msgstr "Nächste Seite"
+
+msgid "Conversion is %f%% complete"
+msgstr "Konvertierung zu %f%% abgeschlossen"
+
+msgid "This file is being converted so it can be previewed."
+msgstr "Diese Datei wird gerade für eine Vorschau konvertiert."
+
+msgid "As soon as this is done, you will find a playable version here."
+msgstr "Sobald dies abgeschlossen ist, finden Sie hier eine abspielbare Version."
+
+msgid "Please reload this page to see the latest progress."
+msgstr "Laden Sie diese Seite neu, um den aktuellsten Stand zu erfahren."
+
+msgid "Conversion failed"
+msgstr "Konvertierung fehlgeschlagen."
+
+msgid "Please contact support."
+msgstr "Bitte kontaktieren Sie den Support."
+
+msgid "The encoder reports:"
+msgstr "Der Encoder sagt:"
+
+msgid "Popular keywords"
+msgstr "Häufige Schlagworte"
+
+msgid "Make available images, video and audio files or documents:"
+msgstr "Bilder, Videos, Audio-Dateien oder Dokumente  bereitstellen:"
+
+msgid "You have not selected any media yet."
+msgstr "Sie habe noch keine Medien ausgewählt."
+
+msgid "(Drag & Drop)"
+msgstr "(Drag & Drop)"
+
+msgid "Note"
+msgstr "Hinweise"
+
+msgid "Images (TIFF, JPEG, PNG) as well as audio and video files in popular formats are processed directly and can then be displayed."
+msgstr "Bilder (TIFF, JPEG, PNG) sowie Audio- und Videofiles in den gängigsten Formaten werden direkt verarbeitet und dargestellt."
+
+msgid "Please import no more than 200 files at a time."
+msgstr "Bitte importieren Sie jeweils maximal 200 Dateien auf einmal."
+
+msgid "Accepted file size"
+msgstr "Akzeptierte Dateigrösse"
+
+msgid "Files larger than 1.4 GB must be uploaded using an FTP dropbox."
+msgstr "Dateien mit einer Grösse von über 1.4 GB müssen über eine FTP-Dropbox hochgeladen werden."
+
+msgid "This is how you upload files using the FTP dropbox."
+msgstr "So laden Sie Dateien über die FTP-Dropbox hoch."
+
+msgid "Specify access and visibility:"
+msgstr "Zugriff und Sichtbarkeit festlegen:"
+
+msgid "Save permissions and continue&hellip;"
+msgstr "Berechtigungen speichern und weiter&hellip;"
+
+msgid "Manage newly uploaded content using sets (optional):"
+msgstr "Die neuen Inhalte in Sets verwalten (optional):"
+
+msgid "Add entries to a set"
+msgstr "Einträge zum einem Set hinzufügen"
+
+msgid "Finish import"
+msgstr "Import abschliessen"
+
+msgid "Add metadata:"
+msgstr "Metadaten hinzufügen:"
+
+msgid "Show only content missing required metadata"
+msgstr "Nur Inhalte mit unvollständigen Pflichtfeldern anzeigen"
+
+msgid "Previous entry"
+msgstr "Vorheriger Eintrag"
+
+msgid "Current entry"
+msgstr "Aktueller Eintrag"
+
+msgid "Next entry"
+msgstr "Nächster Eintrag"
+
+msgid "1. Transfer media"
+msgstr "1. Medien übertragen"
+
+msgid "2. Set permissions"
+msgstr "2. Berechtigungen setzen"
+
+msgid "3. Add metadata"
+msgstr "3. Metadaten ergänzen"
+
+msgid "4. Organize media entries"
+msgstr "4. Medieneinträge zusammenstellen"
+
+msgid "Cancel import"
+msgstr "Import abbrechen"
+
+msgid "Show this group's content"
+msgstr "Inhalte dieser Gruppe anzeigen"
+
+msgid "content elements"
+msgstr "Inhalte"
+
+msgid "Change filter settings"
+msgstr "Filtereinstellungen ändern"
+
+msgid "Public content"
+msgstr "Öffentliche Inhalte"
+
+msgid "Media entries"
+msgstr "Medieneinträge"
+
+msgid "Sets"
+msgstr "Sets"
+
+msgid "Filter sets"
+msgstr "Filtersets"
+
+msgid "Groups"
+msgstr "Gruppen"
+
+msgid "Search keyword"
+msgstr "Suchwort"
+
+msgid "Filter settings"
+msgstr "Filtereinstellungen"
+
+msgid "Filters"
+msgstr "Filter"
+
+msgid "Filter set"
+msgstr "Filterset"
+
+msgid "Edit filter set"
+msgstr "Filterset editieren"
+
+msgid "Save filter settings"
+msgstr "Filtereinstellungen speichern"
+
+msgid "%d content elements"
+msgstr "%d Inhalte"
+
+msgid "Open admin interface"
+msgstr "Admin-Interface öffnen"
+
+msgid "Exit admin mode"
+msgstr "Admin-Modus verlassen"
+
+msgid "Switch to admin mode"
+msgstr "In Admin-Modus wechseln"
+
+msgid "Log out"
+msgstr "Abmelden"
+
+msgid "Clipboard"
+msgstr "Zwischenablage"
+
+msgid "Empty"
+msgstr "Leer"
+
+msgid "No content selected"
+msgstr "Keine Inhalte ausgewählt"
+
+msgid "Actions"
+msgstr "Aktionen"
+
+msgid "Show permissions"
+msgstr "Zugriffsberechtigungen anzeigen"
+
+msgid "Edit permissions"
+msgstr "Zugriffsberechtigungen bearbeiten"
+
+msgid "Edit metadata of these media entries"
+msgstr "Metadaten von Medieneinträgen editieren"
+
+msgid "Clear clipboard"
+msgstr "Zwischenablage leeren"
+
+msgid "Explore / "
+msgstr "Erkunden / "
+
+msgid "Explore / Contexts"
+msgstr "Erkunden / Kontexte"
+
+msgid "Section contains"
+msgstr "Sektion enthält"
+
+msgid "Explore / Popular keywords"
+msgstr "Erkunden / Häufige Schlagworte"
+
+msgid "Search / Create new set"
+msgstr "Suche / Neues Set erstellen"
+
+msgid "Search for a set and add selected content to it."
+msgstr "Suchen Sie ein Set und fügen Sie die ausgewählten Inhalte zu diesem hinzu."
+
+msgid "Sets that only partially contain the selected content"
+msgstr "Sets, zu denen die ausgewählten Inhalte nur teilweise hinzugefügt sind,"
+
+msgid "are highlighted."
+msgstr "werden farbig gekennzeichnet."
+
+msgid "Further sets were found. Please narrow your search."
+msgstr "Es wurden noch weitere Sets gefunden. Bitte verfeinern Sie Ihre Suche."
+
+msgid "Remove permission"
+msgstr "Berechtigung entfernen"
+
+msgid "Public"
+msgstr "Öffentlichkeit"
+
+msgid "Responsible person"
+msgstr "Verantwortliche Person"

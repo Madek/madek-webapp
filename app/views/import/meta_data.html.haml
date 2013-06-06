@@ -7,7 +7,8 @@
     .app-body-title
       .ui-body-title
         .ui-body-title-label
-          %h1.title-xl Medien importieren
+          %h1.title-xl 
+            = _("Import media")
 
     .app-body-ui-container
       .ui-container.bordered.bright.rounded
@@ -17,11 +18,11 @@
         .media-import.step4.pal
 
           %h3.title-l
-            Metadaten hinzufügen:
+            = _("Add metadata:")
             %span.right
               %label
                 %input#display-only-invalid-resources{:type => "checkbox", :checked => params[:show_invalid_resources], :autocomplete => :off}
-                  Nur Inhalte mit unvollständigen Pflichtfeldern anzeigen
+                  = _("Show only content missing required metadata")
 
           #ui-resources-preview.ui-container.clearfix.mvl.bordered.midtone.rounded.upload-preview{:class => params[:show_invalid_resources] ? "ui-invalid-resources-only" : ""}
             = @media_entry_incompletes_partial.html_safe
@@ -35,14 +36,17 @@
             .ui-selected-entry-control
               .ui-selected-entry-control-container
                 %a.ui-prev-entry.button.disabled
-                  .ui-entry-control-label Vorheriger Eintrag
-                  .ui-entry-control-title 
+                  .ui-entry-control-label
+                    = _("Previous entry")
+                  .ui-entry-control-title
                   .ui-entry-control-arrow
                 %a.ui-current-entry.button
-                  .ui-entry-control-label Aktueller Eintrag
+                  .ui-entry-control-label
+                    = _("Current entry")
                   .ui-entry-control-title
                 %a.ui-next-entry.button.disabled
-                  .ui-entry-control-label Nächster Eintrag
+                  .ui-entry-control-label
+                    = _("Next entry")
                   .ui-entry-control-title
                   .ui-entry-control-arrow
 

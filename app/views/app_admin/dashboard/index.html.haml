@@ -10,9 +10,9 @@
     old administration interface.
 
 
-%h2 Stats
+%h2 Info and Statistics 
 
-%p There are 
+%p about this instance of MAdeK. There are 
 
 %table.table.table-striped
   %thead
@@ -33,4 +33,13 @@
       %td
         = MediaFile.joins(:media_entry).incomplete_encoded_videos.count
         videos with incomplete previews
+
+%p 
+  The deployed commit is 
+  = link_to ("https://github.com/zhdk/madek/commit/" + `git log --pretty='%H'  -1`) do 
+    = `git log --pretty=format':%h' -1` + ' @GitHub'
+  %b= `git log --pretty=format':%ar by %cn on %d' --decorate -1`
+  with the message
+  %blockquote #{`git log --pretty=format'%s' --decorate -1`}
+
 

@@ -6,7 +6,8 @@
     .app-body-title
       .ui-body-title
         .ui-body-title-label
-          %h1.title-xl Erkunden / Häufige Schlagworte
+          %h1.title-xl
+            = _("Explore / Popular keywords")
             
 
         .ui-body-title-actions= render :partial => "login_action"
@@ -20,7 +21,7 @@
 
           = render :partial => "keywords/wrapper",
                    :locals => {:keywords => @keywords,
-                               :title => "Häufige Schlagworte"}
+                               :title => _("Popular keywords")}
 
   .app-footer-push
 = render :partial => "application/footer"

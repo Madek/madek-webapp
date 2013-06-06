@@ -8,7 +8,8 @@
     %h2.title-l.ui-resources-title
       = "#{title}"
       - if defined? link
-        %a.strong{:href => link} Alle anzeigen
+        %a.strong{:href => link} 
+          = _("Show all")
   %ul.ui-tag-cloud
     - keywords.each do |keyword|
       = render :partial => "keywords/keyword", :locals => {:keyword => keyword, :mine => mine}

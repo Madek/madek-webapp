@@ -4,10 +4,10 @@
     %a.ui-tag-button.meta-term{:href => media_resources_path(:permissions => {:scope => {:ids => [scope]}})}
 
       - if scope == "entrusted"
-        Mir anvertraute Inhalte
+        = _("Content entrusted to me")
 
       - if scope == "public"
-        Öffentliche Inhalte
+        = _("Public content")
 
       - if scope == "mine"
-        Inhalte, für die ich verantwortlich bin
+        = _("Content I am responsible for")

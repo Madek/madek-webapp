@@ -208,12 +208,17 @@ msgid "Save"
 msgstr ""
 
 msgid "This set is contained in one set"
-msgid_plural ""
+msgid_plural "This set is contained in %d sets"
 msgstr[0] ""
 msgstr[1] ""
 
 msgid "items"
 msgstr ""
+
+msgid "%d item" 
+msgid_plural "%d items"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "%d of %d items visible to you"
 msgstr ""
@@ -256,7 +261,6 @@ msgstr ""
 
 msgid "These items are shared with others"
 msgstr ""
-
 msgid "List of media resources"
 msgstr ""
 
@@ -389,3 +393,298 @@ msgstr ""
 msgid "Permissions"
 msgstr ""
 
+msgid "This entry is contained in one set"
+msgid_plural "This entry is contained in %d sets"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Responsibility"
+msgstr ""
+
+msgid "Person responsible in the media archive"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "There are no metadata available for this context"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Activities"
+msgstr ""
+
+msgid "Imported by"
+msgstr ""
+
+msgid "Last updated"
+msgstr ""
+
+msgid "No metadata yet"
+msgstr ""
+
+msgid "The metadata present differs between entries"
+msgstr ""
+
+msgid "Caution: Any existing values will be overwritten with the data you enter here! If you do not enter anything, the differing values will remain unchanged."
+msgstr ""
+
+msgid "Existing metadata is identical"
+msgstr ""
+
+msgid "Value and text"
+msgstr ""
+
+msgid "Originial file, metadata as they were when it was uploaded into the archive."
+msgstr ""
+
+msgid "File containing its original metadata"
+msgstr ""
+
+msgid "Current metadata as XML document for TMS."
+msgstr ""
+
+msgid "TMS XML document"
+msgstr ""
+
+msgid "Current metadata from the media archive is written directly into the file in the XMP/IPTC format."
+msgstr ""
+
+msgid "File with current metadata"
+msgstr ""
+
+msgid "File without embedded metadata."
+msgstr ""
+
+msgid "File without metadata"
+msgstr ""
+
+msgid "Current metadata as XML document."
+msgstr ""
+
+msgid "XML document"
+msgstr ""
+
+msgid "Open in new window"
+msgstr ""
+
+msgid "Previous page"
+msgstr ""
+
+msgid "Next page"
+msgstr ""
+
+msgid "Conversion is %f%% complete"
+msgstr ""
+
+msgid "This file is being converted so it can be previewed."
+msgstr ""
+
+msgid "As soon as this is done, you will find a playable version here."
+msgstr ""
+
+msgid "Please reload this page to see the latest progress."
+msgstr ""
+
+msgid "Conversion failed"
+msgstr ""
+
+msgid "Please contact support."
+msgstr ""
+
+msgid "The encoder reports:"
+msgstr ""
+
+msgid "Popular keywords"
+msgstr ""
+
+msgid "Make available images, video and audio files or documents:"
+msgstr ""
+
+msgid "You have not selected any media yet."
+msgstr ""
+
+msgid "(Drag & Drop)"
+msgstr ""
+
+msgid "Note"
+msgstr ""
+
+msgid "Images (TIFF, JPEG, PNG) as well as audio and video files in popular formats are processed directly and can then be displayed."
+msgstr ""
+
+msgid "Please import no more than 200 files at a time."
+msgstr ""
+
+msgid "Accepted file size"
+msgstr ""
+
+msgid "Files larger than 1.4 GB must be uploaded using an FTP dropbox."
+msgstr ""
+
+msgid "This is how you upload files using the FTP dropbox."
+msgstr ""
+
+msgid "Specify access and visibility:"
+msgstr ""
+
+msgid "Save permissions and continue&hellip;"
+msgstr ""
+
+msgid "Manage newly uploaded content using sets (optional):"
+msgstr ""
+
+msgid "Add entries to a set"
+msgstr ""
+
+msgid "Finish import"
+msgstr ""
+
+msgid "Add metadata:"
+msgstr ""
+
+msgid "Show only content missing required metadata"
+msgstr ""
+
+msgid "Previous entry"
+msgstr ""
+
+msgid "Current entry"
+msgstr ""
+
+msgid "Next entry"
+msgstr ""
+
+msgid "1. Transfer media"
+msgstr ""
+
+msgid "2. Set permissions"
+msgstr ""
+
+msgid "3. Add metadata"
+msgstr ""
+
+msgid "4. Organize media entries"
+msgstr ""
+
+msgid "Cancel import"
+msgstr ""
+
+msgid "Show this group's content"
+msgstr ""
+
+msgid "content elements"
+msgstr ""
+
+msgid "Change filter settings"
+msgstr ""
+
+msgid "Public content"
+msgstr ""
+
+msgid "Media entries"
+msgstr ""
+
+msgid "Sets"
+msgstr ""
+
+msgid "Filter sets"
+msgstr ""
+
+msgid "Groups"
+msgstr ""
+
+msgid "Search keyword"
+msgstr ""
+
+msgid "Filter settings"
+msgstr ""
+
+msgid "Filters"
+msgstr ""
+
+msgid "Filter set"
+msgstr ""
+
+msgid "Edit filter set"
+msgstr ""
+
+msgid "Save filter settings"
+msgstr ""
+
+msgid "%d content elements"
+msgstr ""
+
+msgid "Open admin interface"
+msgstr ""
+
+msgid "Exit admin mode"
+msgstr ""
+
+msgid "Switch to admin mode"
+msgstr ""
+
+msgid "Log out"
+msgstr ""
+
+msgid "Clipboard"
+msgstr ""
+
+msgid "Empty"
+msgstr ""
+
+msgid "No content selected"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Show permissions"
+msgstr ""
+
+msgid "Edit permissions"
+msgstr ""
+
+msgid "Edit metadata of these media entries"
+msgstr ""
+
+msgid "Clear clipboard"
+msgstr ""
+
+msgid "Explore / "
+msgstr ""
+
+msgid "Explore / Contexts"
+msgstr ""
+
+msgid "Section contains"
+msgstr ""
+
+msgid "Explore / Popular keywords"
+msgstr ""
+
+msgid "Search / Create new set"
+msgstr ""
+
+msgid "Search for a set and add selected content to it."
+msgstr ""
+
+msgid "Sets that only partially contain the selected content"
+msgstr ""
+
+msgid "are highlighted."
+msgstr ""
+
+msgid "Further sets were found. Please narrow your search."
+msgstr ""
+
+msgid "Remove permission"
+msgstr ""
+
+msgid "Public"
+msgstr ""
+
+msgid "Responsible person"
+msgstr ""

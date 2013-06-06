@@ -22,5 +22,15 @@ Feature: Showing resources in the archive
     Then I can see exactly "2" included resources
 
 
+  @chrome 
+  Scenario: Watching a movie as a guest
+    Given There is a movie with previews and public viewing-permission
+    When I visit the page of that movie
+    And I can see the preview
+    And I can watch the video
+
+
+
+
 
 

@@ -60,7 +60,7 @@ module MediaResourceModules
         # NOTE the check on _destroy should be automatic, check Rails > 3.0.3
 
         def self.find_by_title(title)
-          MediaResource.joins(:meta_data => :meta_key).where(:meta_keys => {:label => "title"}, :meta_data => {:string => title})
+          joins(:meta_data => :meta_key).where(:meta_keys => {:id=> "title"}, :meta_data => {:string => title}).first
         end
 
         def title

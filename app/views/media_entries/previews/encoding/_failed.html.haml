@@ -1,9 +1,10 @@
 .ui-alert.error
-  Konvertierung fehlgeschlagen.
-  Bitte kontaktieren Sie den Support.
+  = _("Conversion failed")
+  = _("Please contact support.")
 
 .p.pvh.mth
-  %p The encoder reports: 
+  %p 
+    = _("The encoder reports:")
   %p 
     = (@media_entry.media_file.zencoder_jobs.reorder("created_at DESC").first.notification['outputs'].select{|output| output['state'] == 'failed'}.map{|output| output['error_message']}.first || "Unknown error.") rescue "Unknown error."
 

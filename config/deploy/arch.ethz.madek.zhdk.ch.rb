@@ -1,40 +1,34 @@
 # -*- encoding : utf-8 -*-
 #$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
 require "rvm/capistrano"                  # Load RVM's capistrano plugin.
-set :rvm_ruby_string, '1.9.3'        # Or whatever env you want it to run in.
 set :rvm_type, :system
 set :rvm_path, "/usr/local/rvm" 
+set :rvm_ruby_string, '1.9.3'        # Or whatever env you want it to run in.
 
 require "bundler/capistrano"
 
 set :scm, :git
 set :repository, "git://github.com/zhdk/madek.git"
-set :branch, "master"
+load 'config/deploy/stable_version'
 set :deploy_via, :remote_cache
 
-# TODO: Move everything from /home/madek/current to /home/madek/arch.ethz.madek.zhdk.ch and use this config here
 set :app, "arch.ethz.madek.zhdk.ch"
 
-set :db_config, "/home/madek/database.yml"
-set :zencoder_config, "/home/madek/zencoder.yml"
-set :authentication_systems_config, "/home/madek/authentication_systems.yml"
-#set :ldap_config, "/home/madek/LDAP.yml"
-#set :newrelic_config, "/home/madek/newrelic.yml"
+set :db_config, "/home/#{app}/database.yml"
+set :zencoder_config, "/home/#{app}/zencoder.yml"
+set :authentication_systems_config, "/home/#{app}/authentication_systems.yml"
+set :custom_config_css, "/home/#{app}/_custom_config.css.sass"
 
 set :checkout, :export
 
 set :use_sudo, false
 set :rails_env, "production"
 
-set :deploy_to, "/home/madek"
+set :deploy_to, "/home/#{app}"
 
-# If you aren't using Subversion to manage your source code, specify
-# your SCM below:
-# set :scm, :subversion
-
-role :app, "madek@arch.ethz.madek.zhdk.ch"
-role :web, "madek@arch.ethz.madek.zhdk.ch"
-role :db,  "madek@arch.ethz.madek.zhdk.ch", :primary => true
+role :app, "arch_ethz@arch.ethz.madek.zhdk.ch"
+role :web, "arch_ethz@arch.ethz.madek.zhdk.ch"
+role :db,  "arch_ethz@arch.ethz.madek.zhdk.ch", :primary => true
 
 load 'config/deploy/recipes/link_attachments'
 load 'config/deploy/recipes/retrieve_db_config'
@@ -49,19 +43,15 @@ task :link_config do
   on_rollback { run "rm #{release_path}/config/database.yml" }
   run "rm -f #{release_path}/config/database.yml"
   run "ln -s #{db_config} #{release_path}/config/database.yml"
-#  run "ln -s #{ldap_config} #{release_path}/config/LDAP.yml"
-
-#  run "rm -f #{release_path}/config/zencoder.yml"
 
   run "ln -sf #{zencoder_config} #{release_path}/config/zencoder.yml"
 
   run "rm -f #{release_path}/config/authentication_systems.yml"
   run "ln -s #{authentication_systems_config} #{release_path}/config/authentication_systems.yml"
 
-#  run "rm -f #{release_path}/config/newrelic.yml"
-#  run "ln -s #{newrelic_config} #{release_path}/config/newrelic.yml"
+  run "rm -f #{release_path}/app/assets/stylesheets/_custom_config.css.sass"
+  run "ln -s #{custom_config_css} #{release_path}/app/assets/stylesheets/_custom_config.css.sass"
 end
-
 
 
 namespace :deploy do
@@ -81,7 +71,7 @@ end
 
 task :configure_environment do
   run "sed -i 's:EXIFTOOL_PATH = \"/opt/local/bin/exiftool\":EXIFTOOL_PATH = \"/usr/local/bin/exiftool\":' #{release_path}/config/application.rb"
-  run "cp #{release_path}/app/views/application/root-arch.ethz.madek.zhdk.ch.html.erb #{release_path}/app/views/application/root.html.erb"
+  #run "cp #{release_path}/app/views/application/root-arch.ethz.madek.zhdk.ch.html.erb #{release_path}/app/views/application/root.html.erb"
   run "sed -i 's:ENCODING_TEST_MODE = 1:ENCODING_TEST_MODE = 0:' #{release_path}/config/application.rb"
 
   new_url = "http://arch.ethz.madek.zhdk.ch".gsub("/","\\/")

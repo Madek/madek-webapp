@@ -6,6 +6,9 @@
     %title= AppSettings.title || "Medienarchiv"
     = stylesheet_link_tag "application"
     %link{:href => "/favicon.ico", :rel => "shortcut icon", :type => "image/x-icon"}
+    -# The application_controller makes sure that I18n.locale is set to something valid, so we
+    -# can safely use it here.
+    = javascript_include_tag "i18n/locale/#{I18n.locale.to_s.dasherize}"
     = javascript_include_tag "application"
     = javascript_include_tag "test" if Rails.env.test?
     = render :partial => "application/javascript"

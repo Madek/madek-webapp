@@ -20,8 +20,8 @@
                                             :"data-collection-id" => @media_entry_incompletes_collection_id,
                                             :"data-redirect-url" => meta_data_import_path}
 
-            %h3.title-l Zugriff und Sichtbarkeit festlegen:
-
+            %h3.title-l 
+              = _("Specify access and visibility:")
             .ui-container.clearfix.mvl.bordered.midtone.rounded.upload-preview
               = @media_entry_incompletes_partial.html_safe
 
@@ -34,7 +34,7 @@
                 .ui-actions
                   = render :partial => "import/cancel"
                   %button.primary-button.large{type: :submit, disabled: true}
-                    Berechtigungen speichern und weiter&hellip;
+                    = _("Save permissions and continue&hellip;")
 
   .app-footer-push
 = render :partial => "application/footer", :locals => {:clipboard => false}

@@ -7,35 +7,35 @@
       %li.ui-drop-item
         %a{:href => my_media_resources_path(:sort => :updated_at)}
           .icon-set.mid.ui-drop-icon
-          Inhalte, für die ich verantwortlich bin
+          = _("Content I am responsible for")
       %li.ui-drop-item
         %a{:href => my_favorites_path(:sort => :updated_at)}
           .icon-star.mid.ui-drop-icon
-          Meine Favoriten
+          = _("My favorites")
       %li.ui-drop-item
         %a{:href => my_groups_path}
           .icon-privacy-group.mid.ui-drop-icon
-          Meine Arbeitsgruppen
+          = _("My workgroups")
       %li.separator
       %li.ui-drop-item
         %a.strong{:href => import_path}
           %i.icon-upload.ui-drop-icon
-          Medien importieren
+          = _("Import media")
       - if current_user and current_user.groups.is_member?("Admin")
         %li.ui-drop-item
           %a.strong{:href => app_admin_root_path}
             %i.icon-lock.ui-drop-icon
-            Admin-Interface öffnen
+            = _("Open admin interface")
         %li.ui-drop-item
           - if session[:act_as_uberadmin] == true
             = link_to app_admin_exit_uberadmin_path, method: 'POST', class: 'strong' do
               %i.icon-admin.ui-drop-icon
-              Admin-Modus verlassen
+              = _("Exit admin mode")
           - else
             = link_to app_admin_enter_uberadmin_path, method: 'POST', class: 'strong' do
               %i.icon-admin.ui-drop-icon
-              In Admin-Modus wechseln
+              = _("Switch to admin mode")
       %li.ui-drop-item
         %a.strong{:href => "/logout"} 
           %i.icon-power-off.ui-drop-icon
-          Abmelden
+          = _("Log out")

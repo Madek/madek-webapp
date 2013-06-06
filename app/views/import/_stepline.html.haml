@@ -1,13 +1,13 @@
 .ui-stepline
   .ui-stepline-item{:class => step == 1 ? "active" : ""}
     %h3.title-m.ui-stepline-item-title
-      1. Medien übertragen
+      = _("1. Transfer media")
   .ui-stepline-item{:class => step == 2 ? "active" : ""}
     %h3.title-m.ui-stepline-item-title
-      2. Berechtigungen setzen
+      = _("2. Set permissions")
   .ui-stepline-item{:class => step == 3 ? "active" : ""}
     %h3.title-m.ui-stepline-item-title
-      3. Metadaten ergänzen
+      = _("3. Add metadata")
   .ui-stepline-item{:class => step == 4 ? "active" : ""}
     %h3.title-m.ui-stepline-item-title
-      4. Medieneinträge zusammenstellen
+      = _("4. Organize media entries")

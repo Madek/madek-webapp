@@ -5,7 +5,7 @@
     .bright.ui-container.pal.rounded-bottom
 
       %h2.title-l.separated.mbl
-        = n_("This set is contained in one set", "This set is contained in %d sets" % @parents.count, @parents.count)
+        = n_("This set is contained in one set", "This set is contained in %d sets", @parents.count) % @parents.count
 
       = render :partial => "media_resources/wrapper",
                :locals => {:media_resources => @parents,

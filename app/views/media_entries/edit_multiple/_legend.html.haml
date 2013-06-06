@@ -1,18 +1,19 @@
 .ui-form-group.rowed.separated
   .form-label 
-    Noch keine Metadaten vorhanden
+    = _("No metadata yet")
   .form-item
     %input.block{:type => :text}
 
 .ui-form-group.rowed.highlight.separated
   .form-label 
-    Unterschiedliche Metadaten vorhanden
-    %small Achtung: Bestehende Werte werden durch Änderungen überschrieben! Wenn keine Änderungen vorgenommen werden, bleiben die verschiedenen Werte erhalten.
+    = _("The metadata present differs between entries")
+    %small
+      = _("Caution: Any existing values will be overwritten with the data you enter here! If you do not enter anything, the differing values will remain unchanged.")
   .form-item
     %input.block{:type => :text}
 
 .ui-form-group.rowed
   .form-label 
-    Gleiche Metadaten vorhanden
+    = _("Existing metadata is identical")
   .form-item
-    %input.block{:type => :text, :value => "Wert und Text"}
+    %input.block{:type => :text, :value => _("Value and text")}

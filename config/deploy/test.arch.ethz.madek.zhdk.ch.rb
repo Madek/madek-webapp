@@ -9,7 +9,7 @@ require "bundler/capistrano"
 
 set :scm, :git
 set :repository, "git://github.com/zhdk/madek.git"
-set :branch, "next"
+load 'config/deploy/stable_version'
 set :deploy_via, :remote_cache
 
 set :app, "test.arch.ethz.madek.zhdk.ch"
@@ -50,8 +50,6 @@ task :link_config do
   run "rm -f #{release_path}/app/assets/stylesheets/_custom_config.css.sass"
   run "ln -s #{custom_config_css} #{release_path}/app/assets/stylesheets/_custom_config.css.sass"
 end
-
-
 
 namespace :deploy do
 	task :start do

@@ -14,32 +14,35 @@
         - unless @latest_user_resources_count.zero?
           %li.ui-side-navigation-item{:class => my_media_resources_page? ? "active" : ""}
             %a.strong{:href => my_media_resources_path(:sort => :updated_at)} 
-              Inhalte, für die ich verantwortlich bin
+              = _("Content I am responsible for")
           %li.separator.mini
 
         - unless @latest_user_imports_count.zero?
           %li.ui-side-navigation-item{:class => my_latest_imports_page? ? "active" : ""}
             %a.strong{:href => my_latest_imports_path} 
-              Meine letzten Importe
+              = _("My latest imports")
           %li.separator.mini
 
         - unless @user_favorite_resources_count.zero?
           %li.ui-side-navigation-item{:class => my_favorites_page? ? "active" : ""}
             %a.strong{:href => my_favorites_path(:sort => :updated_at)}
-              Meine Favoriten
+              = _("My favorites")
           %li.separator.mini
 
         - unless @user_keywords_count.zero?
           %li.ui-side-navigation-item{:class => my_keywords_page? ? "active" : ""}
-            %a.strong{:href => my_keywords_path} Meine Schlagworte
+            %a.strong{:href => my_keywords_path} 
+              = _("My keywords")
           %li.separator.mini
 
         - unless @user_entrusted_resources_count.zero?
           %li.ui-side-navigation-item{:class => my_entrusted_media_resources_page? ? "active" : ""}
-            %a.strong{:href => my_entrusted_media_resources_path(:sort => :updated_at)} Mir anvertraute Inhalte
+            %a.strong{:href => my_entrusted_media_resources_path(:sort => :updated_at)} 
+              = _("Content entrusted to me")
           %li.separator.mini
 
         - unless @user_groups_count.zero?
           %li.ui-side-navigation-item{:class => my_groups_page? ? "active" : ""}
-            %a.strong{:href => my_groups_path} Meine Arbeitsgruppen
+            %a.strong{:href => my_groups_path} 
+              = _("My workgroups")
           %li.separator.mini

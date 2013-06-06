@@ -7,7 +7,7 @@
       .ui-body-title
         .ui-body-title-label
           %h1.title-xl 
-            Erkunden /
+            = _("Erkunden / ")
             = "#{@catalog_set.title} /"
             = "#{@category_set.title} /"
             = @current_section[:name]
@@ -22,8 +22,8 @@
         #ui-resources-list-container.app-body-content.table-cell.table-substance.ui-container
 
           = render :partial => "media_resources/list/toolbar", 
-                   :locals => {:title => "Sektion enthält",
-                               :subtitle => "#{@current_section[:count]} Inhalte"}
+                   :locals => {:title => _("Section contains"),
+                               :subtitle => _("%d content elements") % [@current_section[:count]]}
 
           = render :partial => "media_resources/list/filterbar"
 

@@ -6,12 +6,13 @@
     .app-body-title
       .ui-body-title
         .ui-body-title-label
-          %h1.title-xl Filterset editieren
+          %h1.title-xl
+            = _("Edit filter set")
 
         .ui-body-title-actions
           %a.primary-button{"data-update-filter-set" => true}
             %i.icon-filter.bright
-            Filtereinstellungen speichern
+            = _("Save filter settings")
 
     .app-body-ui-container
 

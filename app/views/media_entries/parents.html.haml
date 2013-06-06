@@ -2,9 +2,7 @@
   .bright.ui-container.pal.rounded-bottom
 
     %h2.title-l.separated.mbl
-      = "Dieser Eintrag ist in"
-      = pluralize @parents.count, "Set", "Sets"
-      = "enthalten"
+      = n_("This entry is contained in one set", "This entry is contained in %d sets" % @parents.count, @parents.count)
 
     = render :partial => "media_resources/wrapper",
              :locals => {:media_resources => @parents,

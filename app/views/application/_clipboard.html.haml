@@ -2,42 +2,44 @@
   .ui-clipboard.closed
     %a.block.ui-clipboard-toggle.inverted-transparent#clipboard-toggle
       %i.icon-clipboard.bright
-      Zwischenablage
+      = _("Clipboard")
       %span.ui-clipboard-counter.hidden
-        Leer
+        = _("Empty")
     .ui-container.inverted-transparent.ui-clipboard-content
       .col5of6
         .prm
           %ul.ui-resources.miniature.ui-clipboard-resources-list.hidden
           %p.ui-clipboard-alert.ui-clipboard-empty-alert 
-            %span.text.title-l Keine Inhalte ausgewählt
+            %span.text.title-l 
+              = _("No content selected")
           %p.ui-clipboard-alert.ui-clipboard-size-alert.title-l.hidden Mehr als 99 Elemente ausgewählt
       .col1of6
         .ui-clipboard-actions
           .ui-dropup.dropup.stick-right
             %a.primary-button.block.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
-              Aktionen
+              = _("Actions")
               %i.icon-arrow-up.bright.stand-alone
             %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
               %li.ui-drop-item
                 %a{:"data-organize-arcs" => "true"}
                   %i.icon-move.mid
-                  Zu Set hinzufügen/entfernen
+                  = _("Add to/remove from set")
               %li.ui-drop-item
                 %a{:"data-open-permissions" => true, :"data-manageable" => "false"}
                   %i.icon-lock.mid
-                  Zugriffsberechtigungen anzeigen
+                  = _("Show permissions")
               %li.ui-drop-item.ui-clipboard-manage-button
                 %a{:"data-open-permissions" => true, :"data-manageable" => "true"}
                   %i.icon-lock.mid
                   %span.ui-count
-                  Zugriffsberechtigungen bearbeiten
+                  = _("Edit permissions")
               %li.ui-drop-item.ui-clipboard-edit-button
                 %a{:href => edit_multiple_media_entries_path}
                   %i.icon-pen.mid
                   %span.ui-count
-                  Metadaten von Medieneinträgen editieren
-          %a.tertiary-button.small.block.ui-clipboard-clear Zwischenablage leeren
+                  = _("Edit metadata of these media entries")
+          %a.tertiary-button.small.block.ui-clipboard-clear 
+            = _("Clear clipboard")
 
 :coffeescript
   $ -> new App.ClipboardController

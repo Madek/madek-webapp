@@ -4,13 +4,6 @@ class MediaSet < MediaResource
   has_many :child_media_resources, :through => :out_arcs, :source => :child
   has_many :highlights, :through => :out_arcs, :conditions => ['media_resource_arcs.highlight = ?',true] ,:source => :child
 
-  # TODO remove, it's used only on tests!
-  # FIXME this only fetches the first set with that title,
-  # but there could be many sets with the same title 
-  def self.find_by_title(title)
-    MediaSet.joins(:meta_data => :meta_key).where(:meta_keys => {:label => "title"}, :meta_data => {:string => title}).first
-  end
-
   def self.splashscreen
     where(:id => AppSettings.splashscreen_slideshow_set_id).first
   end

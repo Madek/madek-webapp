@@ -1,15 +1,18 @@
-%h3.title-l.separated.mbl Aktivitäten
+%h3.Filetitle-l.separated.mbl
+  = _("Activities")
 %dl.media-data
-  %dt.media-data-title.title-xs Importiert von
+  %dt.media-data-title.title-xs
+    = _("Imported by")
   %dd.media-data-content= link_to(@media_entry.meta_data.get("uploaded by"), media_resources_path(:search => @media_entry.meta_data.get("uploaded by").to_s))
   %dt.media-data-title.title-xs Importiert am
-  %dd.media-data-content= _("%s Uhr") % @media_entry.created_at.to_formatted_s(:date_time)
+  %dd.media-data-content= @media_entry.created_at.to_formatted_s(:date_time)
 
   - if @edit_sessions.any?
-    %dt.media-data-title.title-xs Letzte Aktualisierung
+    %dt.media-data-title.title-xs 
+      = _("Last updated")
     %dd.media-data-content
       - @edit_sessions.each do |edit_session|
         %p
           = edit_session.user
           = "/"
-          = _("%s Uhr") % edit_session.created_at.to_formatted_s(:date_time)
+          = edit_session.created_at.to_formatted_s(:date_time)
