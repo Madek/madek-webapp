@@ -136,16 +136,16 @@ EOF
 
 
 #############################################################
-# google chrome
+# chromium
 #############################################################
 
 if [ ! -f /etc/apt/sources.list.d/google-chrome.list ]; then
 cat << 'EOF' | su -l 
-curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
 apt-get update
-apt-get install --assume-yes google-chrome-stable
+apt-get purge --assume-yes google-chrome-stable
 rm /etc/apt/sources.list.d/google.list
+apt-get update
+apt-get install --assume-yes chromium-browser
 EOF
 fi
 
