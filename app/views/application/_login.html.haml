@@ -22,15 +22,17 @@
   .col1of3
     .pitch-login
       %ul.ui-tabs.ui-container
-        - if AppSettings.authentication_systems.include? :zhdk_agw
-          %li.ui-tabs-item.left{:class => active_login == :zhdk_agw ? "active" : ""}
-            %a#zhdk-user-login-tab{"data-toggle" => "tab", :href => "#internal-user"}
-              = _("ZHdK login")
-        - if AppSettings.authentication_systems.include? :local_database
-          %li.ui-tabs-item.right{:class => active_login == :external ? "active" : ""}
-            %a#database-user-login-tab{"data-toggle" => "tab", :href => "#external-user"}
-              = _("External users")
-      .tab-content.pitch-login-tab
+        -if AppSettings.authentication_systems.size > 1
+          - if AppSettings.authentication_systems.include? :zhdk_agw
+            %li.ui-tabs-item.left{:class => active_login == :zhdk_agw ? "active" : ""}
+              %a#zhdk-user-login-tab{"data-toggle" => "tab", :href => "#internal-user"}
+                = _("ZHdK login")
+          - if AppSettings.authentication_systems.include? :local_database
+            %li.ui-tabs-item.right{:class => active_login == :external ? "active" : ""}
+              %a#database-user-login-tab{"data-toggle" => "tab", :href => "#external-user"}
+                = _("External users")
+
+      .tab-content.pitch-login-tab{class: ( AppSettings.authentication_systems.size < 2 ? "round mts pts" : "")}
         - if AppSettings.authentication_systems.include? :zhdk_agw
           #internal-user.tab-pane{:class => active_login == :zhdk_agw ? "active" : ""}
             %form

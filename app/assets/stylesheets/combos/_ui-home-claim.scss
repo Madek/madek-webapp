@@ -34,3 +34,7 @@
   min-height: 150px;
   padding: $space-s $space-m $space-m;
 }
+
+.pitch-login-tab.round {
+  @include border-radius($border-radius-m);
+}
