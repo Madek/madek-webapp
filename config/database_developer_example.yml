@@ -26,10 +26,4 @@ production:
   <<: *default
   database: madek_prod
 
-dilps: 
-  adapter: mysql2
-  database: dilps
-  host: localhost
-  username: root
-  pool: 5
 

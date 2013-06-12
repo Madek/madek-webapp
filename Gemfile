@@ -18,10 +18,9 @@ gem 'composite_primary_keys', '~> 5.0.10'
 gem 'foreigner'
 gem 'jdbc-postgres', platform: :jruby
 gem 'memcache-client' 
-gem 'mysql2'
 gem 'pg', platform: :mri
 gem 'postgres_ext'
-# The textacular gem is more of a hack than I hoped for. We will have to let go of
+# The textacular gem is more of a hack than I hoped for. We will have to let of
 # it if the situation doesn't improve. 
 gem 'textacular', '~> 3.0', require: 'textacular/rails', git: 'http://github.com/DrTom/textacular.git' 
 
