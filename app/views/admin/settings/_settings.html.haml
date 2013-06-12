@@ -46,9 +46,11 @@
     = _("Wiki")
     /
     = _("Help")
-  %p
-    Link to external wiki/help:
-    = text_field_tag 'settings[wiki_url]', AppSettings.wiki_url
+
+  - unless AppSettings.wiki_url.blank? 
+    %p
+      Link to external wiki/help:
+      = text_field_tag 'settings[wiki_url]', AppSettings.wiki_url
   %hr
 
   %h3= _("Welcome Page")
