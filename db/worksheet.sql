@@ -1,5 +1,51 @@
 
 
+-- Query for getting DILPS entry for susanne with meta data
+-- Note the double linking between item_rev and item !!!
+
+SELECT
+  nested_groups.l2_name,
+  nested_groups.l3_name,
+  d2_group_resource.item_collection,
+  d2_group_resource.itemid,
+  d2_item_rev.title,
+  d2_item_rev.id
+FROM
+  d2_group_resource
+INNER JOIN nested_groups ON d2_group_resource.groupid = nested_groups.l3_id
+INNER JOIN d2_item ON d2_group_resource.itemid = d2_item.id
+INNER JOIN d2_item_rev ON d2_item_rev.itemid = d2_item.id
+AND d2_item_rev.collectionid = d2_item.collectionid
+WHERE
+  l2_name = 'zhdk/schumacher'
+AND item_collection = 8
+AND d2_group_resource.itemid = 1008
+ORDER BY
+  d2_item_rev.id DESC,
+  nested_groups.l3_name ASC
+LIMIT 1
+
+
+-- like above, this one includes the resource
+
+SELECT nested_groups.l2_name, 
+  nested_groups.l3_name, 
+  d2_group_resource.item_collection, 
+  d2_group_resource.itemid, 
+  d2_item_rev.title, 
+  d2_item.deleted, 
+  d2_resource_rev.urn
+FROM d2_group_resource INNER JOIN nested_groups ON d2_group_resource.groupid = nested_groups.l3_id
+   INNER JOIN d2_item ON d2_group_resource.itemid = d2_item.id
+   INNER JOIN d2_item_rev ON d2_item_rev.itemid = d2_item.id AND d2_item_rev.collectionid = d2_item.collectionid
+   INNER JOIN d2_resource ON d2_group_resource.resourceid = d2_resource.id
+   INNER JOIN d2_resource_rev ON d2_resource.resource_revid = d2_resource_rev.id
+WHERE l2_name = 'zhdk/schumacher'
+AND item_collection = 8
+AND d2_group_resource.itemid = 1008
+ORDER BY d2_item_rev.id DESC, nested_groups.l3_name ASC
+LIMIT 1
+
 -- All media_fieles of type video which do not have both previews (mp4 and webm)  
 -- and are referenced by an media_entry
 SELECT count(media_files.id) FROM media_files

@@ -283,6 +283,7 @@ GEM
     multi_json (1.7.2)
     multi_xml (0.5.3)
     multipart-post (1.2.0)
+    mysql2 (0.3.11)
     nested_set (1.7.1)
       activerecord (>= 3.0.0)
       railties (>= 3.0.0)
@@ -537,6 +538,7 @@ DEPENDENCIES
   launchy
   memcache-client
   meta_request
+  mysql2
   nested_set (~> 1.7)
   net-ldap!
   newrelic_rpm
