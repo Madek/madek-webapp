@@ -56,7 +56,7 @@ class Admin::SetupController < ActionController::Base
     unless meta_keys?
       meta_keys.each_pair do |k,v|
         v.each do |x|
-          MetaKey.create label: x, meta_datum_object_type: k
+          MetaKey.create id: x, meta_datum_object_type: k
         end
       end
     end
@@ -74,7 +74,7 @@ class Admin::SetupController < ActionController::Base
     unless dynamic_meta_keys?
       dynamic_meta_keys.each_pair do |k,v|
         v.each do |x|
-          MetaKey.create label: x, meta_datum_object_type: k
+          MetaKey.create id: x, meta_datum_object_type: k
         end
       end
     end
@@ -220,7 +220,7 @@ class Admin::SetupController < ActionController::Base
     r = []
     meta_keys.each_pair do |k,v|
       r << v.all? do |x|
-        MetaKey.exists? label: x, meta_datum_object_type: k
+        MetaKey.exists? id: x, meta_datum_object_type: k
       end
     end
     r.all? {|x| x }
@@ -245,7 +245,7 @@ class Admin::SetupController < ActionController::Base
     r = []
     dynamic_meta_keys.each_pair do |k,v|
       r << v.all? do |x|
-        MetaKey.exists? label: x, meta_datum_object_type: k
+        MetaKey.exists? id: x, meta_datum_object_type: k
       end
     end
     r.all? {|x| x }
