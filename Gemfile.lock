@@ -280,7 +280,7 @@ GEM
     mime-types (1.23)
     minimization (0.2.1)
       text-table (~> 1.2)
-    multi_json (1.7.2)
+    multi_json (1.7.7)
     multi_xml (0.5.3)
     multipart-post (1.2.0)
     nested_set (1.7.1)
