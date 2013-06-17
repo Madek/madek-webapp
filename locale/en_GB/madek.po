@@ -685,3 +685,5 @@ msgstr "Public"
 msgid "Responsible person"
 msgstr "Responsible person"
 
+msgid "Continue..."
+msgstr "Continue..."

@@ -343,6 +343,11 @@ window.i18n.locale_data = {
          null,
          "items"
       ],
+      "%d item": [
+         "%d items",
+         "%d item",
+         "%d items"
+      ],
       "%d of %d items visible to you": [
          null,
          "%d of %d items visible to you"
@@ -967,6 +972,10 @@ window.i18n.locale_data = {
       "Responsible person": [
          null,
          "Responsible person"
+      ],
+      "Continue...": [
+         null,
+         "Continue..."
       ]
    }
 }

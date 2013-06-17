@@ -348,6 +348,11 @@ window.i18n.locale_data = {
          null,
          "Inhalte"
       ],
+      "%d item": [
+         "%d items",
+         "%d Inhalt",
+         "%d Inhalte"
+      ],
       "%d of %d items visible to you": [
          null,
          "%d von %d Inhalten für Sie sichtbar"
@@ -761,9 +766,9 @@ window.i18n.locale_data = {
          null,
          "Zugriff und Sichtbarkeit festlegen:"
       ],
-      "Save permissions and continue&hellip;": [
+      "Save permissions and continue...": [
          null,
-         "Berechtigungen speichern und weiter&hellip;"
+         "Berechtigungen speichern und weiter..."
       ],
       "Manage newly uploaded content using sets (optional):": [
          null,
@@ -972,6 +977,10 @@ window.i18n.locale_data = {
       "Responsible person": [
          null,
          "Verantwortliche Person"
+      ],
+      "Continue...": [
+         null,
+         "Weiter..."
       ]
    }
 }
