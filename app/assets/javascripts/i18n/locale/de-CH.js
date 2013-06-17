@@ -981,6 +981,18 @@ window.i18n.locale_data = {
       "Continue...": [
          null,
          "Weiter..."
+      ],
+      "Create new set": [
+         null,
+         "Neues Set erstellen"
+      ],
+      "Search for a set and add the selected content to it.": [
+         null,
+         "Suchen Sie ein Set und fügen Sie die ausgewählten Inhalte zu diesem hinzu."
+      ],
+      "Further sets were found. Please refine your search.": [
+         null,
+         "Es wurden noch weitere Sets gefunden. Bitte verfeinern Sie Ihre Suche."
       ]
    }
 }

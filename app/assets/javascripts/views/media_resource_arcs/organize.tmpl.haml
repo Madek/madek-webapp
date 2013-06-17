@@ -1,15 +1,15 @@
 .modal.ui-modal.hide.fade{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
 
   .ui-modal-head
-    %h3#add-to-set-label.title-l Zu Set hinzufügen/entfernen
-    %a.ui-modal-close.weak{"aria-hidden" => "true", "data-dismiss" => "modal", :title => "Close", :type => "button"}
+    %h3#add-to-set-label.title-l ${_jed("Add to/remove from set")}
+    %a.ui-modal-close.weak{"aria-hidden" => "true", "data-dismiss" => "modal", :title => "${_jed('Close')}", :type => "button"}
 
   .ui-modal-toolbar.top
     .ui-search
       %form
-        %input.ui-search-input.block{name: "search_or_create_set", placeholder: "Suche / Neues Set erstellen", 
+        %input.ui-search-input.block{name: "search_or_create_set", placeholder: "${_jed('Search / Create new set')}", 
           type: "text", :autofocus => :autofocus}
-        %button.button.ui-search-button Neues Set erstellen
+        %button.button.ui-search-button ${_jed('Create new set')}
 
   %form.save-arcs
 
@@ -19,18 +19,18 @@
 
     .ui-modal-toolbar.bottom.try-search-hint
       %p.title-xs.by-center
-        Suchen Sie ein Set und fügen Sie die ausgewählten Inhalte zu diesem hinzu.
+        ${_jed('Search for a set and add the selected content to it.')}
 
     .ui-modal-toolbar.bottom.incomplete-arcs-hint.hidden
       %p.title-xs.by-center
-        Sets, zu denen die ausgewählten Inhalte nur teilweise hinzugefügt sind, 
+        ${_jed('Sets that only partially contain the selected content')}
         %br
-        werden farbig gekennzeichnet.
+        ${_jed('are highlighted.')}
 
     .ui-modal-toolbar.bottom.refine-search-hint.hidden
-      %p.title-xs.by-center Es wurden noch weitere Sets gefunden. Bitte verfeinern Sie Ihre Suche.
+      %p.title-xs.by-center ${_jed('Further sets were found. Please refine your search.')}
           
     .ui-modal-footer
       .ui-actions
-        %a.link.weak{"aria-hidden" => "true", "data-dismiss" => "modal"} Abbrechen
-        %button.primary-button{:type => :submit} Speichern
+        %a.link.weak{"aria-hidden" => "true", "data-dismiss" => "modal"} ${_jed('Cancel')}
+        %button.primary-button{:type => :submit} ${_jed('Save')}
