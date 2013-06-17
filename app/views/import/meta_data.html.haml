@@ -67,7 +67,7 @@
                   .ui-actions
                     = render :partial => "import/cancel"
                     %a#continue-import.primary-button.large{:href => organize_import_path}
-                      Weiter&hellip;
+                      = _("Continue...")
 
   .app-footer-push
 = render :partial => "application/footer", :locals => {:clipboard => false}

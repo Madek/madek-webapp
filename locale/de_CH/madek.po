@@ -537,8 +537,8 @@ msgstr "So laden Sie Dateien über die FTP-Dropbox hoch."
 msgid "Specify access and visibility:"
 msgstr "Zugriff und Sichtbarkeit festlegen:"
 
-msgid "Save permissions and continue&hellip;"
-msgstr "Berechtigungen speichern und weiter&hellip;"
+msgid "Save permissions and continue..."
+msgstr "Berechtigungen speichern und weiter..."
 
 msgid "Manage newly uploaded content using sets (optional):"
 msgstr "Die neuen Inhalte in Sets verwalten (optional):"
@@ -704,3 +704,6 @@ msgstr "Öffentlichkeit"
 
 msgid "Responsible person"
 msgstr "Verantwortliche Person"
+
+msgid "Continue..."
+msgstr "Weiter..."

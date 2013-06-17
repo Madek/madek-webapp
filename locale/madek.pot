@@ -537,7 +537,7 @@ msgstr ""
 msgid "Specify access and visibility:"
 msgstr ""
 
-msgid "Save permissions and continue&hellip;"
+msgid "Save permissions and continue..."
 msgstr ""
 
 msgid "Manage newly uploaded content using sets (optional):"
@@ -703,4 +703,7 @@ msgid "Public"
 msgstr ""
 
 msgid "Responsible person"
+msgstr ""
+
+msgid "Continue..."
 msgstr ""

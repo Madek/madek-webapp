@@ -35,7 +35,7 @@
           .ui-actions
             = render :partial => "import/cancel"
             %a#import-start.primary-button.large{:href => permissions_import_path, :class => @media_entry_incompletes.count.zero? ? "disabled" : ""}
-              Weiter&hellip;
+              = _("Continue...")
 
         .row.ui-container.midtone.pvm.phl.rounded-bottom
           .col1of2
