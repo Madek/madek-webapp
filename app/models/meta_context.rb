@@ -97,6 +97,7 @@ class MetaContext < ActiveRecord::Base
     MetaContextGroup.first.try(:meta_contexts) || []
   end
 
+  # TODO remove this 
   def self.method_missing(*args)
     where("name ilike ?",args.first.to_s).first || super
   end

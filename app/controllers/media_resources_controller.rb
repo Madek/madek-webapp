@@ -677,11 +677,15 @@ class MediaResourcesController < ApplicationController
   end
 
   def edit
-    @contexts = if @media_resource.is_a? MediaEntry
-      MetaContext.defaults + @media_resource.individual_contexts
-    elsif @media_resource.is_a? MediaSet
-      [MetaContext.media_set]
-    end
+    @contexts =
+      case @media_resource
+      when MediaEntry
+        MetaContext.defaults + @media_resource.individual_contexts
+      when MediaSet, FilterSet
+        [MetaContext.find_by_name(:media_set)]
+      else
+        raise "Add the class #{@media_resource.class} to dispatching"
+      end
 
     @meta_data = {}
     @contexts.each {|context| @meta_data[context.id] = @media_resource.meta_data.for_context(context) }
