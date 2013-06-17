@@ -15,6 +15,7 @@
         - else
           = AppSettings.title || "Medienarchiv"
     = stylesheet_link_tag "visualization"
+    = javascript_include_tag "i18n/locale/#{I18n.locale.to_s.dasherize}"
     = javascript_include_tag "visualization"
     = javascript_include_tag "test" if Rails.env.test?
     = javascript_tag ""
