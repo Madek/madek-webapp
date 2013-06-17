@@ -6,13 +6,15 @@
 # MetaContexts were originally intended to provide assistance selecting the right keys to be exported to a given external system
 # However, they are quite flexible, and may also be used for managing meta-data upon import.
 class MetaContext < ActiveRecord::Base
+
+  self.primary_key = :name
   
   belongs_to :meta_context_group
 
-  has_many :meta_key_definitions, :dependent => :destroy
+  has_many :meta_key_definitions, foreign_key: :meta_context_name, :dependent => :destroy
   has_many :meta_keys, :through => :meta_key_definitions, :order => :position
   has_many :meta_data, :through => :meta_keys
-  has_and_belongs_to_many :media_sets
+  has_and_belongs_to_many :media_sets, foreign_key: :meta_context_name
 
 ##################################################################
 
@@ -57,7 +59,7 @@ class MetaContext < ActiveRecord::Base
 
   # TODO dry with MediaSet#abstract  
   def abstract(current_user = nil, min_media_entries = nil)
-    accessible_media_entry_ids = MediaResource.filter(current_user, {:type => :media_entries, :meta_context_ids => [id]}).pluck("media_resources.id")
+    accessible_media_entry_ids = MediaResource.filter(current_user, {:type => :media_entries, :meta_context_names => [name]}).pluck("media_resources.id")
     min_media_entries ||= accessible_media_entry_ids.size.to_f * 50 / 100
     meta_key_ids = meta_keys.for_meta_terms.where(MetaKey.arel_table[:id].not_in(MetaKey.dynamic_keys)).pluck("meta_keys.id") 
 

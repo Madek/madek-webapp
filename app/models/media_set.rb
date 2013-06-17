@@ -24,9 +24,10 @@ class MediaSet < MediaResource
 
 ########################################################
 
-  has_and_belongs_to_many :individual_contexts, :class_name => "MetaContext",
-                                                :join_table => :media_sets_meta_contexts,
-                                                :foreign_key => :media_set_id
+  has_and_belongs_to_many :individual_contexts, class_name: "MetaContext",
+                                                join_table: :media_sets_meta_contexts,
+                                                foreign_key: :media_set_id, 
+                                                association_foreign_key: :meta_context_name
   
   def inheritable_contexts
     parent_sets.flat_map(&:individual_contexts).to_set.to_a # removes duplicates, I don't know how efficient .to_a.uniq is

@@ -7,7 +7,7 @@ Feature: Context
   Background: 
     Given I am signed-in as "Normin"
 
-  @clean
+  @clean @wip @chrome
   Scenario: See a list of contexts
     When I go to the explore page
     Then I see a preview list of contexts that are connected with media resources that I can access
@@ -16,7 +16,7 @@ Feature: Context
     Then I see a list with all contexts that are connected with media resources that I can access
     And for each context I see the label and description and the link to that context
 
-  @clean
+  @clean 
   Scenario: Open a specific context
     When I open a specific context
     Then I see the title of the context

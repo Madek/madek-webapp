@@ -19,9 +19,8 @@ ActiveAdmin.register MetaKeyDefinition do
   end
 
   collection_action :reorder, :method => :put do
-    meta_context = MetaContext.find(params[:meta_context_id])
+    meta_context = MetaContext.find(params[:meta_context_name])
     MetaKeyDefinition.transaction do
-      # OPTIMIZE keep [meta_context_id, position] unique: 
       meta_context.meta_key_definitions.update_all("position = (position*-1)", ["id IN (?)", params[:meta_key_definition]])
       # using update_all (instead of update) to avoid instantiating (and validating) the object
       params[:meta_key_definition].each_with_index do |id, index|

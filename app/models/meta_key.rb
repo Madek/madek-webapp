@@ -11,7 +11,7 @@ class MetaKey < ActiveRecord::Base
   
   has_many :meta_key_definitions, :dependent => :destroy do
     def for_context(context)
-      scoped_by_meta_context_id(context).first
+      scoped_by_meta_context_name(context).first
     end
   end
   has_many :meta_contexts, :through => :meta_key_definitions
@@ -46,7 +46,7 @@ class MetaKey < ActiveRecord::Base
 
   def all_context_labels contexts=nil
     if contexts
-      meta_key_definitions.where(:meta_context_id => contexts)
+      meta_key_definitions.where(:meta_context_name => contexts)
     else  
       meta_key_definitions
     end.collect {|d| d.label.to_s if d.key_map.blank? }.compact.uniq.join(', ')

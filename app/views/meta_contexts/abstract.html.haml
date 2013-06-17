@@ -22,7 +22,7 @@
       subject: new App.MetaContext $(".app.view-meta-context").data()
       abstractContainer: $("#ui-context-abstract")
       slider: $("#ui-context-abstract-slider")
-      totalChildren: #{MediaResource.filter(current_user, {:meta_context_ids => [@context.id]}).count}
+      totalChildren: #{MediaResource.filter(current_user, {:meta_context_names => [@context.name]}).count}
      
 = render :partial => "meta_contexts/layout"
 

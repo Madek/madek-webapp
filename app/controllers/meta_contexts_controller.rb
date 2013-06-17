@@ -49,7 +49,7 @@ class MetaContextsController < ApplicationController
   def show(with = params[:with] || {})
     respond_to do |format|
       format.html {
-        @resources_count = MediaResource.filter(current_user, {:meta_context_ids => [@context.id]}).count
+        @resources_count = MediaResource.filter(current_user, {:meta_context_names => [@context.name]}).count
         # @context_json = view_context.hash_for(@context, with.merge({vocabulary: true, abstract: true}))
         # @abstract_slider_hash = { :context_id => @context.id,
         #                           :total => @context.media_entries(current_user).to_a.size # OPTIMIZE @context.media_entries(current_user).count

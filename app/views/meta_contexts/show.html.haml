@@ -42,7 +42,7 @@
   :coffeescript
     jQuery -> 
       mediaResourcesController = new App.MediaResourcesController.Index
-        baseFilter: #{{:meta_context_ids => [@context.id]}.to_json}
+        baseFilter: #{{:meta_context_names => [@context.name]}.to_json}
         startFilterParams: #{MediaResource.get_filter_params(params).to_json}
 
 = render :partial => "meta_contexts/layout"

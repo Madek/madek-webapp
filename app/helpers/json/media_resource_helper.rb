@@ -329,7 +329,7 @@ module Json
                   #{sql_select}
                 FROM meta_contexts
                    INNER JOIN meta_context_groups ON meta_context_groups.id = meta_contexts.meta_context_group_id
-                   INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_id = meta_contexts.id
+                   INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_name = meta_contexts.name
                    INNER JOIN meta_terms mt2 ON meta_key_definitions.label_id = mt2.id
                    INNER JOIN meta_terms mt3 ON meta_contexts.label_id = mt3.id
                    INNER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id

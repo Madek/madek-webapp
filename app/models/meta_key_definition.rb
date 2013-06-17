@@ -7,7 +7,7 @@
 
 class MetaKeyDefinition < ActiveRecord::Base
 
-  belongs_to    :meta_context
+  belongs_to    :meta_context, foreign_key: :meta_context_name
   belongs_to    :meta_key
 
   validates_presence_of :meta_key 
