@@ -21,7 +21,7 @@ Then /^I can see the provided title and the used filter settings$/ do
 end
 
 When /^I open a filter set$/ do
-  @filter_set = @current_user.media_resources.where(:type => "FilterSet").first
+  @resource= @filter_set = @current_user.media_resources.where(:type => "FilterSet").first
   visit filter_set_path @filter_set
 end
 
@@ -38,4 +38,8 @@ end
 
 When /^I save these changes$/ do
   find(".primary-button", :text => "Filtereinstellungen speichern").click
+end
+
+Then(/^I am on the edit page of the filter_set$/) do
+  expect(current_path).to eq edit_filter_set_path(@filter_set)
 end

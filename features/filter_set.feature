@@ -26,3 +26,14 @@ Feature: Filter set
      And I save these changes
     Then I am getting redirected to the updated filter set
     And I can see the provided title and the used filter settings
+
+  @chrome 
+  Scenario: Edit the meta-data of a filter set
+    Given I am signed-in as "Normin"
+    When I open a filter set
+    And I click on the link "Weitere Aktionen"
+    And I click on the link "Metadaten editieren"
+    And I am on the edit page of the resource
+    And I click on "Speichern" 
+    Then I can see "Die Änderungen wurden gespeichert."
+

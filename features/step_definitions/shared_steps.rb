@@ -51,6 +51,7 @@ Then(/^I can see a success message$/) do
   expect(all("#messages .alert-success").size).to be > 0
 end
 
+
 When /^I change some input field$/ do
   find("input[type=text]").set "123"
 end
