@@ -698,11 +698,11 @@ msgstr ""
 msgid "Search for a set and add the selected content to it."
 msgstr ""
 
-msgid "are highlighted."
-msgstr ""
-
 msgid "Further sets were found. Please refine your search."
 msgstr ""
 
 msgid "of"
+msgstr ""
+
+msgid "Remove from clipboard"
 msgstr ""

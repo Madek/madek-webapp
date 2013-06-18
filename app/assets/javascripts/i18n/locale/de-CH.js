@@ -997,6 +997,10 @@ window.i18n.locale_data = {
       "of": [
          null,
          "von"
+      ],
+      "Remove from clipboard": [
+         null,
+         "Aus der Zwischenablage entfernen"
       ]
    }
 }
