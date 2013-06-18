@@ -993,6 +993,10 @@ window.i18n.locale_data = {
       "Further sets were found. Please refine your search.": [
          null,
          "Es wurden noch weitere Sets gefunden. Bitte verfeinern Sie Ihre Suche."
+      ],
+      "of": [
+         null,
+         "von"
       ]
    }
 }

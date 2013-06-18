@@ -710,3 +710,6 @@ msgstr "werden farbig gekennzeichnet."
 
 msgid "Further sets were found. Please refine your search."
 msgstr "Es wurden noch weitere Sets gefunden. Bitte verfeinern Sie Ihre Suche."
+
+msgid "of"
+msgstr "von"

@@ -976,6 +976,22 @@ window.i18n.locale_data = {
       "Continue...": [
          null,
          "Continue..."
+      ],
+      "Create new set": [
+         null,
+         "Create new set"
+      ],
+      "Search for a set and add the selected content to it.": [
+         null,
+         "Search for a set and add the selected content to it."
+      ],
+      "Further sets were found. Please refine your search.": [
+         null,
+         "Further sets were found. Please refine your search."
+      ],
+      "of": [
+         null,
+         "of"
       ]
    }
 }
