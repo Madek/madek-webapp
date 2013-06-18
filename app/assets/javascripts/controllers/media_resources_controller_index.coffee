@@ -88,17 +88,17 @@ class MediaResourcesController.Index
     for context_el in mr_el.find("[data-context]")
       do (context_el)->
         context_el = $(context_el)
-        context = context_el.data("context")
-        data = 
-          ids: [media_resource_id] 
-          with: 
-            meta_data: 
-              meta_context_names: [context]
-        App.MediaResource.fetch data, (media_resources)=> 
-          context_el.html App.render "media_resources/meta_data_list_block", 
-            {meta_data: media_resources[0].meta_data},
-            {context: context}
-  
+        if (context = AppSettings[context_el.data("context")])?
+          data = 
+            ids: [media_resource_id] 
+            with: 
+              meta_data: 
+                meta_context_names: [context]
+          App.MediaResource.fetch data, (media_resources)=> 
+            context_el.html App.render "media_resources/meta_data_list_block", 
+              {meta_data: media_resources[0].meta_data},
+              {context: context}
+    
   changeSorting: (target_el)->
     sort = target_el.data "sort"
     return true if sort == @getCurrentSorting()

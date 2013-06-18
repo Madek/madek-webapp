@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 ##############################################
 # Authentication
 
-  before_filter :set_gettext_locale, :login_required, :except => [:login, :login_successful, :logout, :feedback, :login_and_return_here] # TODO :help
+  before_filter :load_app_settings, :set_gettext_locale, :login_required, :except => [:login, :login_successful, :logout, :feedback, :login_and_return_here] # TODO :help
 
   helper_method :current_user, :logged_in? 
 
@@ -17,6 +17,13 @@ class ApplicationController < ActionController::Base
 
   def current_user
     @current_user ||= login_from_session
+  end
+
+
+########################################################
+
+  def load_app_settings
+    @app_settings = AppSettings.first
   end
 
 ########################################################

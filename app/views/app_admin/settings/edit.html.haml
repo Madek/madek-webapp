@@ -1,83 +1,112 @@
 %h1
   %i.icon-cog
   Edit Settings
-  = form_tag app_admin_settings_path, method: "PUT", class: "form-horizontal settings" do
 
-    %fieldset.well
-      %h3
-        %i.icon-align-center
-        Header and footer
+= form_tag app_admin_settings_path, method: "PUT", class: "form-horizontal settings" do
 
-      - [:title,:brand,:logo_url].each do |attr|
-        .control-group
-          %label.control-label
-            = attr.to_s.capitalize.split("_").join(" ")
-          .controls
-            = text_field :app_settings, attr, value: @settings.send(attr)
+  %fieldset.well
+    %h3
+      %i.icon-align-center
+      Header and footer
 
+    - [:title,:brand,:logo_url].each do |attr|
       .control-group
-        %label.control-label Footer links
+        %label.control-label
+          = attr.to_s.capitalize.split("_").join(" ")
         .controls
-          = text_area :app_settings_extra , :yaml_footer_links, value: @settings.footer_links.to_yaml
+          = text_field :app_settings, attr, value: @settings.send(attr)
+
+    .control-group
+      %label.control-label Footer links
+      .controls
+        = text_area :app_settings_extra , :yaml_footer_links, value: @settings.footer_links.to_yaml
 
 
-    %fieldset.well
+  %fieldset.well
 
-      %h3 
-        %i.icon-align-justify
-        Welcome 
+    %h3 
+      %i.icon-align-justify
+      Welcome 
 
-      - [:welcome_title,:welcome_subtitle].each do |attr|
-        .control-group
-          %label.control-label
-            = attr.to_s.capitalize.split("_").join(" ")
-          .controls
-            = text_field :app_settings, attr, value: @settings.send(attr)
-
-
-    %fieldset.well
-
-      %h3 
-        %i.icon-globe
-        Other / Urls
-
-      - [:support_url].each do |attr|
-        .control-group
-          %label.control-label
-            = attr.to_s.capitalize.split("_").join(" ")
-          .controls
-            = text_field :app_settings, attr, value: @settings.send(attr)
+    - [:welcome_title,:welcome_subtitle].each do |attr|
+      .control-group
+        %label.control-label
+          = attr.to_s.capitalize.split("_").join(" ")
+        .controls
+          = text_field :app_settings, attr, value: @settings.send(attr)
 
 
-    %fieldset.well
+  %fieldset.well
 
-      %h3 
-        %i.icon-folder-close
-        Sets 
+    %h3 
+      %i.icon-globe
+      Other / Urls
 
-      - [:featured_set_id,:splashscreen_slideshow_set_id,:catalog_set_id].each do |attr|
-        .control-group
-          %label.control-label
-            = attr.to_s.capitalize.split("_").join(" ")
-          .controls
-            = text_field :app_settings, attr, value: @settings.send(attr)
-
-    %fieldset.well
-
-      %h3 
-        %i.icon-download-alt
-        Dropbox
-
-      - [:dropbox_root_dir,:ftp_dropbox_server,:ftp_dropbox_user,:ftp_dropbox_password].each do |attr|
-        .control-group
-          %label.control-label
-            = attr.to_s.capitalize.split("_").join(" ")
-          .controls
-            = text_field :app_settings, attr, value: @settings.send(attr)
+    - [:support_url].each do |attr|
+      .control-group
+        %label.control-label
+          = attr.to_s.capitalize.split("_").join(" ")
+        .controls
+          = text_field :app_settings, attr, value: @settings.send(attr)
 
 
+  %fieldset.well
 
-    =button_tag type: 'submit', class: 'btn btn-success'  do
-      Submit
+    %h3 Displayed MetaContexts
+
+    %label 
+      %p
+        Configure the second and third MetaContext to be displayed, e.g. in a list view. 
+        The first displayed MetaContext is always set to 
+        %b core.
+      %p
+        Only 
+        %b existing 
+        MetaContext names can be submitted here!
+
+
+    .control-group
+      %label.control-label Name of the second displayed MetaContext 
+      .controls
+        = text_field :app_settings, :second_displayed_meta_context_name, value: @settings.second_displayed_meta_context_name
+
+    .control-group
+      %label.control-label Name of the third displayed MetaContext 
+      .controls
+        = text_field :app_settings, :third_displayed_meta_context_name, value: @settings.third_displayed_meta_context_name
+
+
+
+
+  %fieldset.well
+
+    %h3 
+      %i.icon-folder-close
+      Sets 
+
+    - [:featured_set_id,:splashscreen_slideshow_set_id,:catalog_set_id].each do |attr|
+      .control-group
+        %label.control-label
+          = attr.to_s.capitalize.split("_").join(" ")
+        .controls
+          = text_field :app_settings, attr, value: @settings.send(attr)
+
+  %fieldset.well
+
+    %h3 
+      %i.icon-download-alt
+      Dropbox
+
+    - [:dropbox_root_dir,:ftp_dropbox_server,:ftp_dropbox_user,:ftp_dropbox_password].each do |attr|
+      .control-group
+        %label.control-label
+          = attr.to_s.capitalize.split("_").join(" ")
+        .controls
+          = text_field :app_settings, attr, value: @settings.send(attr)
+
+
+
+  =button_tag type: 'submit', class: 'btn btn-success'  do
+    Submit
 
 

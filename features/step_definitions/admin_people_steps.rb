@@ -7,6 +7,11 @@ When(/^I navigate to the app_admin\/people interface$/) do
    visit "/app_admin/people"  
 end
 
+When(/^I navigate to the app_admin\/settings interface$/) do
+   visit "/app_admin/settings"  
+end
+
+
 Then /^for each person I see the id$/ do
   expect{find("th.id")}.not_to raise_error
 end

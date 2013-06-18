@@ -7,7 +7,7 @@ Feature: Context
   Background: 
     Given I am signed-in as "Normin"
 
-  @clean @wip @chrome
+  @clean
   Scenario: See a list of contexts
     When I go to the explore page
     Then I see a preview list of contexts that are connected with media resources that I can access
