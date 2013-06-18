@@ -713,3 +713,5 @@ msgstr "Aus der Zwischenablage entfernen"
 msgid "Save the currently selected keywords and filters as a filter set."
 msgstr "Die aktuell eingestellten Suchbegriffe und Filter als Filterset speichern."
 
+msgid "All"
+msgstr "Alle"

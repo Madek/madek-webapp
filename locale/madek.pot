@@ -710,3 +710,5 @@ msgstr ""
 msgid "Save the currently selected keywords and filters as a filter set."
 msgstr ""
 
+msgid "All"
+msgstr ""

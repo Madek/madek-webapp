@@ -703,3 +703,12 @@ msgstr "Further sets were found. Please refine your search."
 msgid "of"
 msgstr "of"
 
+msgid "Remove from clipboard"
+msgstr "Remove from clipboard"
+
+msgid "Save the currently selected keywords and filters as a filter set."
+msgstr "Save the currently selected keywords and filters as a filter set."
+
+msgid "All"
+msgstr "All"
+
