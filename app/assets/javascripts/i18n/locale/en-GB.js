@@ -992,6 +992,18 @@ window.i18n.locale_data = {
       "of": [
          null,
          "of"
+      ],
+      "Remove from clipboard": [
+         null,
+         "Remove from clipboard"
+      ],
+      "Save the currently selected keywords and filters as a filter set.": [
+         null,
+         "Save the currently selected keywords and filters as a filter set."
+      ],
+      "All": [
+         null,
+         "All"
       ]
    }
 }

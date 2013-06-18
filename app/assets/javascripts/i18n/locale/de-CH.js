@@ -1005,6 +1005,10 @@ window.i18n.locale_data = {
       "Save the currently selected keywords and filters as a filter set.": [
          null,
          "Die aktuell eingestellten Suchbegriffe und Filter als Filterset speichern."
+      ],
+      "All": [
+         null,
+         "Alle"
       ]
    }
 }
