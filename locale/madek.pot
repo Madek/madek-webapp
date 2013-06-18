@@ -706,3 +706,7 @@ msgstr ""
 
 msgid "Remove from clipboard"
 msgstr ""
+
+msgid "Save the currently selected keywords and filters as a filter set."
+msgstr ""
+
