@@ -18,7 +18,7 @@ Feature: importing an image
     And I wait until I am on the "/import/meta_data" page
     And I set the input in the fieldset with "title" as meta-key to "Berlin Wall" 
     And I set the input in the fieldset with "copyright notice" as meta-key to "WTFPL" 
-    And I click on the link "Weiter…" 
+    And I click on the link "Weiter..." 
 
     And I wait until I am on the "/import/organize" page
     And I click on the button "Import abschliessen"
@@ -40,13 +40,13 @@ Feature: importing an image
     And I wait until I am on the "/import/meta_data" page
     Then I can see that the fieldset with "title" as meta-key is required
     Then I can see that the fieldset with "copyright notice" as meta-key is required
-    When I click on the link "Weiter…" 
+    When I click on the link "Weiter..." 
 
     Then I am on the "/import/meta_data" page
     And I see an error alert
     And I set the input in the fieldset with "title" as meta-key to "Berlin Wall" 
     And I set the input in the fieldset with "copyright notice" as meta-key to "WTFPL" 
-    And I click on the link "Weiter…" 
+    And I click on the link "Weiter..." 
     And I wait until I am on the "/import/organize" page
 
 
@@ -70,7 +70,7 @@ Feature: importing an image
     And I wait until I am on the "/import/meta_data" page
     And I set the input in the fieldset with "title" as meta-key to "Berlin Wall" 
     And I set the input in the fieldset with "copyright notice" as meta-key to "WTFPL" 
-    And I click on the link "Weiter…" 
+    And I click on the link "Weiter..." 
 
     And I wait until I am on the "/import/organize" page
     And I click on the button "Import abschliessen"
@@ -98,7 +98,7 @@ Feature: importing an image
     And I wait until I am on the "/import/meta_data" page
     And I set the input in the fieldset with "title" as meta-key to "Berlin Wall" 
     And I set the input in the fieldset with "copyright notice" as meta-key to "WTFPL" 
-    And I click on the link "Weiter…" 
+    And I click on the link "Weiter..." 
 
     And I wait until I am on the "/import/organize" page
     And I click on the link "Einträge zum einem Set hinzufügen"
@@ -121,7 +121,7 @@ Feature: importing an image
     And I click on the link "Medien importieren"
     Then I am on the "/import" page
     When I attach the file "images/berlin_wall_01.jpg"
-    And I click on the link "Weiter…" 
+    And I click on the link "Weiter..." 
     And I wait until I am on the "/import/permissions" page
     When I click on the link "Abbrechen"
     Then I am on the "/my" page
@@ -156,7 +156,7 @@ Feature: importing an image
     And I wait until I am on the "/import/meta_data" page
     And I set the input in the fieldset with "title" as meta-key to "Berlin Wall 01" 
     And I set the input in the fieldset with "copyright notice" as meta-key to "WTFPL" 
-    And I click on the link "Weiter…" 
+    And I click on the link "Weiter..." 
 
     And I wait until I am on the "/import/organize" page
     And I click on the button "Import abschliessen"
@@ -182,7 +182,7 @@ Feature: importing an image
     And I wait until I am on the "/import/meta_data" page
     And I set the input in the fieldset with "title" as meta-key to "Zencoder Movie" 
     And I set the input in the fieldset with "copyright notice" as meta-key to "WTFPL" 
-    And I click on the link "Weiter…" 
+    And I click on the link "Weiter..." 
 
     And I wait until I am on the "/import/organize" page
     And I click on the button "Import abschliessen"

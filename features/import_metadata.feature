@@ -20,7 +20,7 @@ Feature: Importing files with metadata and setting metadata
     And I click on the link "Nächster Eintrag"
     And I set the input in the fieldset with "title" as meta-key to "Berlin Wall 02" 
     And I set the input in the fieldset with "copyright notice" as meta-key to "WTFPL" 
-    And I click on the link "Weiter…" 
+    And I click on the link "Weiter..." 
 
     And I wait until I am on the "/import/organize" page
     And I click on the button "Import abschliessen"
@@ -55,7 +55,7 @@ Feature: Importing files with metadata and setting metadata
     And I click on the link "Nächster Eintrag"
     And I set the input in the fieldset with "title" as meta-key to "Berlin Wall 02" 
     And I set the input in the fieldset with "copyright notice" as meta-key to "WTFPL" 
-    And I click on the link "Weiter…" 
+    And I click on the link "Weiter..." 
 
     And I wait until I am on the "/import/organize" page
     And I click on the button "Import abschliessen"
@@ -75,7 +75,7 @@ Feature: Importing files with metadata and setting metadata
     And I wait until I am on the "/import/permissions" page
     And I click on the button "Berechtigungen speichern" 
     And I wait until I am on the "/import/meta_data" page
-    And I click on the link "Weiter…" 
+    And I click on the link "Weiter..." 
     And I wait until I am on the "/import/organize" page
     And I click on the button "Import abschliessen"
     Then there are "1" new media_entries
@@ -95,7 +95,7 @@ Feature: Importing files with metadata and setting metadata
     And I wait until I am on the "/import/permissions" page
     And I click on the button "Berechtigungen speichern" 
     And I wait until I am on the "/import/meta_data" page
-    And I click on the link "Weiter…" 
+    And I click on the link "Weiter..." 
     And I wait until I am on the "/import/organize" page
     And I click on the button "Import abschliessen"
     Then there are "1" new media_entries
@@ -119,7 +119,7 @@ Feature: Importing files with metadata and setting metadata
     And I wait until I am on the "/import/permissions" page
     And I click on the button "Berechtigungen speichern" 
     And I wait until I am on the "/import/meta_data" page
-    And I click on the link "Weiter…" 
+    And I click on the link "Weiter..." 
     And I wait until I am on the "/import/organize" page
     And I click on the button "Import abschliessen"
     Then there are "1" new media_entries

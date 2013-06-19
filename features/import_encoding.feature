@@ -25,7 +25,7 @@ Feature: encoding videos
     And I wait until I am on the "/import/meta_data" page
     And I set the input in the fieldset with "title" as meta-key to "Zencoder Movie" 
     And I set the input in the fieldset with "copyright notice" as meta-key to "WTFPL" 
-    And I click on the link "Weiter…" 
+    And I click on the link "Weiter... 
 
     And I wait until I am on the "/import/organize" page
     And I click on the button "Import abschliessen"
@@ -55,7 +55,7 @@ Feature: encoding videos
     And I wait until I am on the "/import/meta_data" page
     And I set the input in the fieldset with "title" as meta-key to "Broken Reference Movie" 
     And I set the input in the fieldset with "copyright notice" as meta-key to "WTFPL" 
-    And I click on the link "Weiter…" 
+    And I click on the link "Weiter... 
 
     And I wait until I am on the "/import/organize" page
     And I click on the button "Import abschliessen"
