@@ -31,9 +31,8 @@ module MediaResourceModules
             all.map(&:to_s).join('; ')
           end
 
-          def for_context(context = MetaContext.core, build_if_not_exists = true)
-            meta_keys = context.meta_keys
-            meta_key_ids = context.meta_key_ids
+          def for_context(context = MetaContext.find("core"), build_if_not_exists = true)
+            meta_keys = context.meta_keys meta_key_ids = context.meta_key_ids
 
             mds = where(:meta_key_id => meta_key_ids).eager_load(:meta_key)
             mds = mds.eager_load(:keywords => :meta_term) if meta_keys.map(&:label).include?("keywords")
@@ -119,7 +118,7 @@ module MediaResourceModules
       
         alias_method_chain :update_attributes, :pre_validation
 
-        def context_valid?(context = MetaContext.core)
+        def context_valid?(context = MetaContext.find("core"))
           meta_data.for_context(context).all? {|meta_datum| meta_datum.context_valid?(context) }
         end
 

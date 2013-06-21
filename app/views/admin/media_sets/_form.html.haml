@@ -3,7 +3,7 @@
     = f.fields_for :meta_data, f.object.meta_data.get("title") do |ff|
       %tr
         %td= ff.object.meta_key.label
-        %td= field_tag(ff, MetaContext.media_set)
+        %td= field_tag(ff, MetaContext.find("media_set"))
 
     - if f.object.view
       %tr

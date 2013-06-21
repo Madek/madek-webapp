@@ -29,7 +29,7 @@ module Json
           if meta_context_names = with[:meta_data][:meta_context_names]
             @cache_contexts ||= {}
             meta_context_names.each do |name|
-              @cache_contexts[name] ||= MetaContext.send(name)
+              @cache_contexts[name] ||= MetaContext.find(name)
               h[:meta_data] += hash_for media_resource.meta_data.for_context(@cache_contexts[name]), {:label => {:context => @cache_contexts[name]}}
             end
           end

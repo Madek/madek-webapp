@@ -86,7 +86,7 @@ class MetaKey < ActiveRecord::Base
       # we have to create the meta key, since it doesnt exist
     if mk.nil?
       mk = MetaKey.find_or_create_by_id(entry_name)
-      mc = MetaContext.io_interface
+      mc = MetaContext.find("io_interface")
       mk.meta_key_definitions.create( :meta_context => mc,
                                       :label => {:en_gb => "", :de_ch => ""},
                                       :description => {:en_gb => "", :de_ch => ""},

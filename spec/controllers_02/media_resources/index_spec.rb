@@ -19,7 +19,7 @@ describe MediaResourcesController, type: :controller do
       mr.meta_data.create(:meta_key => MetaKey.find_by_id("title"), 
                           :value => Faker::Lorem.words(1).join(' '))
     end
-    @meta_context = MetaContext.core
+    @meta_context = MetaContext.find("core")
   end
 
   after :all do

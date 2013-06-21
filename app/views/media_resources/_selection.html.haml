@@ -17,7 +17,7 @@
       %thead
         %tr
           %th.ui-resources-table-selection
-          - MetaContext.core.meta_key_definitions.each do |mkd|
+          - MetaContext.find("core").meta_key_definitions.each do |mkd|
             %th{:title => mkd.label}
               %span.ui-resources-table-cell-content= mkd.label
 
@@ -26,7 +26,7 @@
           %tr
             %td.ui-resources-table-selection
               %img.ui-thumbnail.micro{:src => image_media_resource_path(media_resource, :size => :small)}
-            - MetaContext.core.meta_key_definitions.each do |mkd|
+            - MetaContext.find("core").meta_key_definitions.each do |mkd|
               %td{:title => media_resource.meta_data.get(mkd.meta_key.id)}
                 %span.ui-resources-table-cell-content= media_resource.meta_data.get mkd.meta_key.id
 

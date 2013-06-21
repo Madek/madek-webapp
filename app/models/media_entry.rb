@@ -30,7 +30,7 @@ class MediaEntry < MediaResource
 
 ########################################################
 
-  def self.to_tms_doc(resources, context = MetaContext.tms)
+  def self.to_tms_doc(resources, context = MetaContext.find("tms"))
     require 'active_support/builder' unless defined?(::Builder)
     xml = ::Builder::XmlMarkup.new
     xml.instruct!

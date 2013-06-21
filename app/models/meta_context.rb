@@ -99,9 +99,11 @@ class MetaContext < ActiveRecord::Base
     MetaContextGroup.first.try(:meta_contexts) || []
   end
 
-  # TODO remove this 
-  def self.method_missing(*args)
-    where("name ilike ?",args.first.to_s).first || super
-  end
+  # try to hunt the bug with this if there are regressions
+  #def self.method_missing(*args)
+  #  raise "DEPRECATED" if where("name ilike ?",args.first.to_s).first
+  #  super
+  #end
+
 
 end

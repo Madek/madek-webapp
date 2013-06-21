@@ -108,7 +108,7 @@ class MediaResource < ActiveRecord::Base
   # NB: In this case the 'export' in 'get_data_for_export' also means 'download' 
   #     (since we write meta-data to the file anyway regardless of if we do a download or an export)
   def to_metadata_tags
-    MetaContext.io_interface.meta_key_definitions.collect do |definition|
+    MetaContext.find("io_interface").meta_key_definitions.collect do |definition|
       definition.key_map.split(',').collect do |km|
         km.strip!
         case definition.key_map_type
