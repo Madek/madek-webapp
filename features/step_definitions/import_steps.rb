@@ -65,8 +65,8 @@ Given /^There is no incomplete media\-entry with a filename matching "(.*?)"$/ d
 end
 
 
-When /^I delete the import "(.*?)"$/ do |text|
-  find("ul#mei_filelist li",text: text).find("a.delete_mei").click
+When /^I delete the dropbox import "(.*?)"$/ do |text|
+  find("ul#dropbox_filelist li",text: text).find("a.delete_dropbox_file").click
 end
 
 Then /^There is exactly one media\-entry with a filename matching "(.*?)"$/ do |name|

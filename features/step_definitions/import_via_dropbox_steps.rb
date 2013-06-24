@@ -20,6 +20,7 @@ end
 
 Given /^the current user has a dropbox$/ do
   set_up_dropbox_settings
+  `rm -rf #{@current_user.dropbox_dir_path(@app_settings)}`
   FileUtils.mkdir_p @current_user.dropbox_dir_path(@app_settings)
 end
 
@@ -72,4 +73,8 @@ Then /^those files are getting imported during the upload$/ do
   step 'I click on the link "Weiter..."'
   wait_until([3*Capybara.default_wait_time,60].max){all("#dropbox_filelist").size == 0}
   expect(@current_user.incomplete_media_entries.size).to eq @file_paths.size
+end
+
+When(/^I upload the image "(.*?)" via dropbox$/) do |file_name|
+  `cp #{Rails.root.join 'features','data','images',file_name} #{@current_user.dropbox_dir(@app_settings)}`
 end

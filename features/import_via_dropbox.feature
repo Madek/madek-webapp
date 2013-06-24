@@ -33,15 +33,16 @@ Feature: Import via Dropbox
   @chrome
   Scenario: Deleting files during the import via a dropbox
     Given I am signed-in as "Normin"
+    Given the current user has a dropbox
     And I am going to import images
     And There is no media-entry with a filename matching "berlin"
     And There is no incomplete media-entry with a filename matching "berlin"
 
-    When I upload the file "berlin_wall_01.jpg" via dropbox
-    And I upload the file "berlin_wall_02.jpg" via dropbox
+    When I upload the image "berlin_wall_01.jpg" via dropbox
+    And I upload the image "berlin_wall_02.jpg" via dropbox
 
     And I go to the import page
-    And I delete the import "berlin_wall_01.jpg"
+    And I delete the dropbox import "berlin_wall_01.jpg"
     And I confirm the browser dialog
     When I click on the link "Weiter"
 
