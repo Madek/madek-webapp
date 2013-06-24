@@ -4,7 +4,7 @@
 .app-footer
   %footer.ui-footer.ui-container.inverted
     %ul.ui-footer-menu
-      - AppSettings.footer_links.map{|k,v| {text: k, href: v}}.each do |footer_link|
+      - @app_settings.footer_links.map{|k,v| {text: k, href: v}}.each do |footer_link|
         = render 'footer_link', footer_link: footer_link
 
     %p.ui-footer-copy

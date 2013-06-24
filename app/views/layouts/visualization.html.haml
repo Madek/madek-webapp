@@ -4,16 +4,16 @@
   %head
     %meta{:charset => 'utf-8'}
     %title
-      - if AppSettings.title
+      - if @app_settings.title
         - if @title
-          = "#{AppSettings.title} - #{@title}"
+          = "#{@app_settings.title} - #{@title}"
         - else
-          = "#{AppSettings.title}"
+          = "#{@app_settings.title}"
       - else
         - if @title
           = "Medienarchiv - #{@title}"
         - else
-          = AppSettings.title || "Medienarchiv"
+          = @app_settings.title || "Medienarchiv"
     = stylesheet_link_tag "visualization"
     = javascript_include_tag "i18n/locale/#{I18n.locale.to_s.dasherize}"
     = javascript_include_tag "visualization"

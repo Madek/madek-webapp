@@ -8,11 +8,11 @@
       %i.icon-man_silhouette{:class => primary ? "bright" : ""}
       = _("Log in")
     %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
-      - if AppSettings.authentication_systems.include? :zhdk_agw
+      - if @app_settings.authentication_systems.include? :zhdk_agw
         %li.ui-drop-item
           %a{:href => login_and_return_here_path}
             = _("ZHdK login")
-      - if AppSettings.authentication_systems.include? :local_database
+      - if @app_settings.authentication_systems.include? :local_database
         %li.ui-drop-item
           %a{:href => root_path(:external_user_login => true)}
             = _("External users")

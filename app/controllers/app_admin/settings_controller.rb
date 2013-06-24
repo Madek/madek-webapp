@@ -1,11 +1,11 @@
 class AppAdmin::SettingsController < AppAdmin::BaseController 
 
   def edit
-    @settings = AppSettings.first
+    @settings = @app_settings 
   end
 
   def show
-    @settings = AppSettings.first
+    @settings = @app_settings
   end
 
   def update

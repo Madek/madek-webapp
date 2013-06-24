@@ -1,7 +1,8 @@
 # -*- encoding : utf-8 -*-
 
 def set_up_dropbox_settings
-  AppSettings.first.update_attributes \
+  @app_settings = AppSettings.first
+  @app_settings.update_attributes! \
     dropbox_root_dir: Rails.root.join("tmp").to_s,
     ftp_dropbox_user: ENV['USER']
 end
@@ -12,15 +13,14 @@ end
 
 
 Given(/^The current user doesn't have a dropbox$/) do
-  begin
-    `rm -rf #{@current_user.dropbox_dir}`
-  rescue
+  if _dir = @current_user.dropbox_dir(@app_settings)
+    `rm -rf #{_dir}`
   end
 end
 
 Given /^the current user has a dropbox$/ do
   set_up_dropbox_settings
-  FileUtils.mkdir_p File.join(AppSettings.dropbox_root_dir, @current_user.dropbox_dir_name)
+  FileUtils.mkdir_p @current_user.dropbox_dir_path(@app_settings)
 end
 
 When /^I open the dropbox informations dialog$/ do
@@ -39,9 +39,9 @@ end
 
 Then /^I can see instructions for an FTP import$/ do
   step %Q{I can see the text "#{@current_user.dropbox_dir_name}"}
-  step %Q{I can see the text "#{AppSettings.ftp_dropbox_server}"}
-  step %Q{I can see the text "#{AppSettings.ftp_dropbox_user}"}
-  step %Q{I can see the text "#{AppSettings.ftp_dropbox_password}"}
+  step %Q{I can see the text "#{@app_settings.ftp_dropbox_server}"}
+  step %Q{I can see the text "#{@app_settings.ftp_dropbox_user}"}
+  step %Q{I can see the text "#{@app_settings.ftp_dropbox_password}"}
 end
 
 When /^I try to import a file with a file size greater than 1.4 GB$/ do
@@ -57,7 +57,7 @@ end
 
 When /^I upload some files to my dropbox$/ do
   @dir = "/ftp_test"
-  dropbox_test_dir = File.join(AppSettings.dropbox_root_dir, @current_user.dropbox_dir_name, @dir)
+  dropbox_test_dir = File.join(@app_settings.dropbox_root_dir, @current_user.dropbox_dir_name, @dir)
   FileUtils.mkdir_p dropbox_test_dir
   @file_paths = Dir.glob("#{Rails.root}/features/data/images/*.jpg")
   FileUtils.cp_r(@file_paths, dropbox_test_dir)

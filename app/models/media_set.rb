@@ -4,19 +4,6 @@ class MediaSet < MediaResource
   has_many :child_media_resources, :through => :out_arcs, :source => :child
   has_many :highlights, :through => :out_arcs, :conditions => ['media_resource_arcs.highlight = ?',true] ,:source => :child
 
-  def self.splashscreen
-    where(:id => AppSettings.splashscreen_slideshow_set_id).first
-  end
-
-  def self.featured
-    where(:id => AppSettings.featured_set_id).first
-  end
-
-  def self.catalog
-    where(:id => AppSettings.catalog_set_id).first
-  end
-
-
   def included_resources_accessible_by_user  user
     child_media_resources.accessible_by_user(user)
   end
@@ -103,7 +90,7 @@ class MediaSet < MediaResource
 ########################################################
 
   def is_featured_set?
-    !self.id.nil? and self.id == AppSettings.featured_set_id
+    !self.id.nil? and self.id == @app_settings.featured_set_id
   end
 
 ########################################################

@@ -3,7 +3,7 @@
 
   %head
     %meta{:charset => 'utf-8'}
-    %title= AppSettings.title || "Medienarchiv"
+    %title= @app_settings.title || "Medienarchiv"
     = stylesheet_link_tag "application"
     %link{:href => "/favicon.ico", :rel => "shortcut icon", :type => "image/x-icon"}
     -# The application_controller makes sure that I18n.locale is set to something valid, so we

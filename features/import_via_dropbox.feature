@@ -15,7 +15,7 @@ Feature: Import via Dropbox
     Then the dropbox was created for me
      And I can see instructions for an FTP import
 
-  @jsbrowser @clean
+  @jsbrowser @clean 
   Scenario: Importing large files
     Given I am signed-in as "Normin"
     Given the current user has a dropbox

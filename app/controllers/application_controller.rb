@@ -7,7 +7,8 @@ class ApplicationController < ActionController::Base
 ##############################################
 # Authentication
 
-  before_filter :load_app_settings, :set_gettext_locale, :login_required, :except => [:login, :login_successful, :logout, :feedback, :login_and_return_here] # TODO :help
+  before_filter :load_app_settings
+  before_filter :set_gettext_locale, :login_required, :except => [:login, :login_successful, :logout, :feedback, :login_and_return_here] # TODO :help
 
   helper_method :current_user, :logged_in? 
 
@@ -63,11 +64,11 @@ class ApplicationController < ActionController::Base
         redirect_to my_dashboard_path, flash: flash
       end
     else
-      @splashscreen_set = MediaSet.splashscreen
+      @splashscreen_set = MediaSet.find_by_id @app_settings.splashscreen_slideshow_set_id 
       @splashscreen_set_included_resources = @splashscreen_set.child_media_resources.accessible_by_user(current_user).shuffle if @splashscreen_set
-      @featured_set = MediaSet.featured
+      @featured_set = MediaSet.find_by_id @app_settings.featured_set_id 
       @featured_set_children = @featured_set.child_media_resources.accessible_by_user(current_user).ordered_by(:updated_at).limit(6) if @featured_set
-      @catalog_set = MediaSet.catalog
+      @catalog_set = MediaSet.find_by_id @app_settings.catalog_set_id 
       @catalog_set_categories = @catalog_set.categories.accessible_by_user(current_user).limit(3) if @catalog_set
       @latest_media_entries = MediaResource.media_entries.accessible_by_user(current_user).ordered_by(:created_at).limit(12)
     end

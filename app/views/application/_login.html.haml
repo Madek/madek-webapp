@@ -1,6 +1,6 @@
 :ruby
 
-  active_login = if params[:external_user_login] or !AppSettings.authentication_systems.include?(:zhdk_agw)
+  active_login = if params[:external_user_login] or !@app_settings.authentication_systems.include?(:zhdk_agw)
     :external
   else
     :zhdk_agw
@@ -10,30 +10,30 @@
   .col2of3
     .pitch-claim
       %h1.title-xxl 
-        - if AppSettings["welcome_title"]
-          = AppSettings["welcome_title"]
+        - if @app_settings["welcome_title"]
+          = @app_settings["welcome_title"]
         - else
           Bilder, Videos, Audio-Dateien und Dokumente
       %h2.title-l
-        - if AppSettings["welcome_subtitle"]
-          = AppSettings["welcome_subtitle"]
+        - if @app_settings["welcome_subtitle"]
+          = @app_settings["welcome_subtitle"]
         - else
           Das Medienarchiv ist eine Plattform zum gemeinschaftlichen Arbeiten mit Medien und Teilen von Inhalten.
   .col1of3
     .pitch-login
       %ul.ui-tabs.ui-container
-        -if AppSettings.authentication_systems.size > 1
-          - if AppSettings.authentication_systems.include? :zhdk_agw
+        -if @app_settings.authentication_systems.size > 1
+          - if @app_settings.authentication_systems.include? :zhdk_agw
             %li.ui-tabs-item.left{:class => active_login == :zhdk_agw ? "active" : ""}
               %a#zhdk-user-login-tab{"data-toggle" => "tab", :href => "#internal-user"}
                 = _("ZHdK login")
-          - if AppSettings.authentication_systems.include? :local_database
+          - if @app_settings.authentication_systems.include? :local_database
             %li.ui-tabs-item.right{:class => active_login == :external ? "active" : ""}
               %a#database-user-login-tab{"data-toggle" => "tab", :href => "#external-user"}
                 = _("External users")
 
-      .tab-content.pitch-login-tab{class: ( AppSettings.authentication_systems.size < 2 ? "round mts pts" : "")}
-        - if AppSettings.authentication_systems.include? :zhdk_agw
+      .tab-content.pitch-login-tab{class: ( @app_settings.authentication_systems.size < 2 ? "round mts pts" : "")}
+        - if @app_settings.authentication_systems.include? :zhdk_agw
           #internal-user.tab-pane{:class => active_login == :zhdk_agw ? "active" : ""}
             %form
               .form-body
@@ -41,7 +41,7 @@
                   %p.mbm Alle Funktionen nutzen und auf <br/> mehr Inhalte zugreifen.
                   %a#internal-login-link.primary-button.block.large{:href => login_path}
                     = _("Log in")
-        - if AppSettings.authentication_systems.include? :local_database
+        - if @app_settings.authentication_systems.include? :local_database
           #external-user.tab-pane{:class => active_login == :external ? "active" : ""}
             %form{:action => "db/login", :method => :post}
               .form-body

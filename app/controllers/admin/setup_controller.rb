@@ -302,7 +302,7 @@ class Admin::SetupController < ActionController::Base
 ##########
 
   def dropbox?
-    AppSettings.dropbox_root_dir and File.directory?(AppSettings.dropbox_root_dir)
+    @app_settings.dropbox_root_dir and File.directory?(@app_settings.dropbox_root_dir)
   end
   
   def dropbox_hash
@@ -317,7 +317,7 @@ class Admin::SetupController < ActionController::Base
 ##########
 
   def special_sets?
-    AppSettings.featured_set_id and AppSettings.splashscreen_slideshow_set_id
+    @app_settings.featured_set_id and @app_settings.splashscreen_slideshow_set_id
   end
   
   def special_sets_hash
