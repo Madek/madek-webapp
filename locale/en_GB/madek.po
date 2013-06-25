@@ -694,9 +694,6 @@ msgstr "Create new set"
 msgid "Search for a set and add the selected content to it."
 msgstr "Search for a set and add the selected content to it."
 
-msgid "are highlighted."
-msgstr "are highlighted."
-
 msgid "Further sets were found. Please refine your search."
 msgstr "Further sets were found. Please refine your search."
 
