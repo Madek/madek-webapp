@@ -1,11 +1,11 @@
 .pvh.mth.mbl
   .title-l.by-center 
-    Keine Inhalte
-    {{if !$item.filterReset}}vorhanden{{/if}}
+    ${_jed('No content')}
+    {{if !$item.filterReset}}${_jed('available')}{{/if}}
 
   {{if $item.filterReset}}
   .title-s.by-center
-    für die aktuellen Filtereinstellungen gefunden.
+    ${_jed('for the current filter settings.')}
     %br
-    %a.mtm.button#ui-all-filter-reset Filter zurücksetzen
+    %a.mtm.button#ui-all-filter-reset ${_jed('Reset filters')}
   {{/if}}

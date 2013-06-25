@@ -471,7 +471,7 @@ window.i18n.locale_data = {
       ],
       "Reset filters": [
          null,
-         "Alle Filter zurücksetzen"
+         "Filter zurücksetzen"
       ],
       "Deselect all": [
          null,
@@ -1025,6 +1025,74 @@ window.i18n.locale_data = {
       "Selected content is only partially contained in this set.": [
          null,
          "Ausgewählte Inhalte sind in diesem Set nur teilweise enthalten."
+      ],
+      "Order by creation date": [
+         null,
+         "Sortieren nach Erstelldatum"
+      ],
+      "page": [
+         null,
+         "Seite"
+      ],
+      "No content": [
+         null,
+         "Keine Inhalte"
+      ],
+      "found for the current filter settings.": [
+         null,
+         "für die aktuellen Filtereinstellungen gefunden."
+      ],
+      "No content found for this keyword.": [
+         null,
+         "Keine Inhalte zu diesem Suchwort vorhanden."
+      ],
+      "available": [
+         null,
+         "verfügbar"
+      ],
+      "for the current filter settings.": [
+         null,
+         "für die aktuellen Filtereinstellungen."
+      ],
+      "No metadata available for the context \"%s\"": [
+         null,
+         "Es sind keine Metadaten zu dem Kontext \"%s\" bereit gestellt"
+      ],
+      "Delete forever": [
+         null,
+         "Unwiederbringlich löschen"
+      ],
+      "Delete item": [
+         null,
+         "Inhalt löschen"
+      ],
+      "Are you sure you want to delete the following:": [
+         null,
+         "Sind Sie sicher, dass Sie das folgende löschen möchten:"
+      ],
+      "Remove from favorites": [
+         null,
+         "Aus Favoriten entfernen"
+      ],
+      "Add to favorites": [
+         null,
+         "Zu Favoriten hinzufügen"
+      ],
+      "unknown": [
+         null,
+         "unbekannt"
+      ],
+      "Any values": [
+         null,
+         "Jegliche Werte"
+      ],
+      "Further details": [
+         null,
+         "Weitere Angaben"
+      ],
+      "Continue browsing in this direction": [
+         null,
+         "In diese Richtung weiterstöbern"
       ]
    }
 }

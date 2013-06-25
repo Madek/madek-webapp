@@ -15,24 +15,24 @@
 
       %ul.ui-tabs
         %li.ui-tabs-item.active.mll.pls
-          %a{"data-toggle" => "tab", :href => "#tags_mine_${index}"} Meine Schlagworte
+          %a{"data-toggle" => "tab", :href => "#tags_mine_${index}"} ${_jed('My keywords')}
         %li.ui-tabs-item
-          %a{"data-toggle" => "tab", :href => "#tags_top_${index}"} Beliebtesten
+          %a{"data-toggle" => "tab", :href => "#tags_top_${index}"} ${_jed('Most popular')}
         %li.ui-tabs-item
-          %a{"data-toggle" => "tab", :href => "#tags_latest_${index}"} Neusten
+          %a{"data-toggle" => "tab", :href => "#tags_latest_${index}"} ${_jed('Latest')}
       .tab-content.mbs
 
         .tags-mine.tab-pane.active.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_mine_${index}"}
           %ul.ui-tag-cloud.small
-            .title-xs.by-center Lade Schlagworte
+            .title-xs.by-center ${_jed('Loading keywords')}
             .ui-preloader.small
            
         .tags-top.tab-pane.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_top_${index}"}
           %ul.ui-tag-cloud.small
-            .title-xs.by-center Lade Schlagworte
+            .title-xs.by-center ${_jed('Loading keywords')}
             .ui-preloader.small
 
         .tags-latest.tab-pane.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_latest_${index}"}
           %ul.ui-tag-cloud.small
-            .title-xs.by-center Lade Schlagworte
+            .title-xs.by-center ${_jed('Loading keywords')}
             .ui-preloader.small

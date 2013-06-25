@@ -282,6 +282,10 @@ window.i18n.locale_data = {
          null,
          "Cover image"
       ],
+      "Specify cover image for set": [
+         null,
+         "Specify cover image for set"
+      ],
       "Highlight content": [
          null,
          "Highlight content"
@@ -761,9 +765,9 @@ window.i18n.locale_data = {
          null,
          "Specify access and visibility:"
       ],
-      "Save permissions and continue&hellip;": [
+      "Save permissions and continue...": [
          null,
-         "Save permissions and continue&hellip;"
+         "Save permissions and continue..."
       ],
       "Manage newly uploaded content using sets (optional):": [
          null,
@@ -1004,6 +1008,90 @@ window.i18n.locale_data = {
       "All": [
          null,
          "All"
+      ],
+      "Selection": [
+         null,
+         "Selection"
+      ],
+      "No set was found matching this search": [
+         null,
+         "No set was found matching this search"
+      ],
+      "Content is not yet assigned to any set": [
+         null,
+         "Content is not yet assigned to any set"
+      ],
+      "Selected content is only partially contained in this set.": [
+         null,
+         "Selected content is only partially contained in this set."
+      ],
+      "Order by creation date": [
+         null,
+         "Order by creation date"
+      ],
+      "page": [
+         null,
+         "page"
+      ],
+      "No content": [
+         null,
+         "No content"
+      ],
+      "found for the current filter settings.": [
+         null,
+         "found for the current filter settings."
+      ],
+      "No content found for this keyword.": [
+         null,
+         "No content found for this keyword."
+      ],
+      "available": [
+         null,
+         "available"
+      ],
+      "for the current filter settings.": [
+         null,
+         "for the current filter settings."
+      ],
+      "No metadata available for the context \"%s\"": [
+         null,
+         "No metadata available for the context \"%s\""
+      ],
+      "Delete forever": [
+         null,
+         "Delete forever"
+      ],
+      "Delete item": [
+         null,
+         "Delete item"
+      ],
+      "Are you sure you want to delete the following:": [
+         null,
+         "Are you sure you want to delete the following:"
+      ],
+      "Remove from favorites": [
+         null,
+         "Remove from favorites"
+      ],
+      "Add to favorites": [
+         null,
+         "Add to favorites"
+      ],
+      "unknown": [
+         null,
+         "unknown"
+      ],
+      "Any values": [
+         null,
+         "Any values"
+      ],
+      "Further details": [
+         null,
+         "Further details"
+      ],
+      "Continue browsing in this direction": [
+         null,
+         "Continue browsing in this direction"
       ]
    }
 }

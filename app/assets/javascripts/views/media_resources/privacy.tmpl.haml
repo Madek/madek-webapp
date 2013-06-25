@@ -1,8 +1,8 @@
 .ui-thumbnail-privacy
   {{if is_public}}
-  %i.icon-privacy-open{:title => "Diese Inhalte sind öffentlich zugänglich"} Diese Inhalte sind öffentlich zugänglich
+  %i.icon-privacy-open{:title => "${_jed('These items are publicly accessible')}"} ${_jed('These items are publicly accessible')}
   {{else is_private}}
-  %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"} Diese Inhalte sind nur für Sie zugänglich
+  %i.icon-privacy-private{:title => "${_jed('These items are only accesible to you')}"} ${_jed('These items are only accesible to you')}
   {{else is_shared}}
-  %i.icon-privacy-group{:title => "Diese Inhalte werden mit Anderen geteilt"} Diese Inhalte werden mit Anderen geteilt
+  %i.icon-privacy-group{:title => "${_jed('These items are shared with others')}"} ${_jed('These items are shared with others')}
   {{/if}}

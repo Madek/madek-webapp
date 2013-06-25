@@ -1,14 +1,14 @@
 .pvh.mth.mbl
   .title-l.by-center 
     {{if $item.filterReset}}
-    Keine Inhalte
+    ${_jed('No content')}
     {{else}}
-    Keine Inhalte zu diesem Suchwort vorhanden.
+    ${_jed('No content found for this keyword.')}
     {{/if}}
     
   {{if $item.filterReset}}
   .title-s.by-center
-    für die aktuellen Filtereinstellungen gefunden.
+    ${_jed('found for the current filter settings.')}
     %br
-    %a.mtm.button#ui-all-filter-reset Filter zurücksetzen
+    %a.mtm.button#ui-all-filter-reset ${_jed('Reset filters')}
   {{/if}}

@@ -163,6 +163,9 @@ msgstr "Show all"
 msgid "Cover image"
 msgstr "Cover image"
 
+msgid "Specify cover image for set"
+msgstr "Specify cover image for set"
+
 msgid "Highlight content"
 msgstr "Highlight content"
 
@@ -526,8 +529,8 @@ msgstr "This is how you upload files using the FTP dropbox."
 msgid "Specify access and visibility:"
 msgstr "Specify access and visibility:"
 
-msgid "Save permissions and continue&hellip;"
-msgstr "Save permissions and continue&hellip;"
+msgid "Save permissions and continue..."
+msgstr "Save permissions and continue..."
 
 msgid "Manage newly uploaded content using sets (optional):"
 msgstr "Manage newly uploaded content using sets (optional):"
@@ -721,3 +724,54 @@ msgstr "Content is not yet assigned to any set"
 msgid "Selected content is only partially contained in this set."
 msgstr "Selected content is only partially contained in this set."
 
+msgid "Order by creation date"
+msgstr "Order by creation date"
+
+msgid "page"
+msgstr "page"
+
+msgid "No content"
+msgstr "No content"
+
+msgid "found for the current filter settings."
+msgstr "found for the current filter settings."
+
+msgid "No content found for this keyword."
+msgstr "No content found for this keyword."
+
+msgid "available"
+msgstr "available"
+
+msgid "for the current filter settings."
+msgstr "for the current filter settings."
+
+
+msgid "No metadata available for the context \"%s\""
+msgstr "No metadata available for the context \"%s\""
+
+msgid "Delete forever"
+msgstr "Delete forever"
+
+msgid "Delete item"
+msgstr "Delete item"
+
+msgid "Are you sure you want to delete the following:"
+msgstr "Are you sure you want to delete the following:"
+
+msgid "Remove from favorites"
+msgstr "Remove from favorites"
+
+msgid "Add to favorites"
+msgstr "Add to favorites"
+
+msgid "unknown"
+msgstr "unknown"
+
+msgid "Any values"
+msgstr "Any values"
+
+msgid "Further details"
+msgstr "Further details"
+
+msgid "Continue browsing in this direction"
+msgstr "Continue browsing in this direction"

@@ -310,7 +310,7 @@ msgid "Filter"
 msgstr "Filtern"
 
 msgid "Reset filters"
-msgstr "Alle Filter zurücksetzen"
+msgstr "Filter zurücksetzen"
 
 msgid "Deselect all"
 msgstr "Alle abwählen"
@@ -727,3 +727,54 @@ msgstr "Inhalte sind noch keinem Set zugewiesen."
 
 msgid "Selected content is only partially contained in this set."
 msgstr "Ausgewählte Inhalte sind in diesem Set nur teilweise enthalten."
+
+msgid "Order by creation date"
+msgstr "Sortieren nach Erstelldatum"
+
+msgid "page"
+msgstr "Seite"
+
+msgid "No content"
+msgstr "Keine Inhalte"
+
+msgid "found for the current filter settings."
+msgstr "für die aktuellen Filtereinstellungen gefunden."
+
+msgid "No content found for this keyword."
+msgstr "Keine Inhalte zu diesem Suchwort vorhanden."
+
+msgid "available"
+msgstr "verfügbar"
+
+msgid "for the current filter settings."
+msgstr "für die aktuellen Filtereinstellungen."
+
+msgid "No metadata available for the context \"%s\""
+msgstr "Es sind keine Metadaten zu dem Kontext \"%s\" bereit gestellt"
+
+msgid "Delete forever"
+msgstr "Unwiederbringlich löschen"
+
+msgid "Delete item"
+msgstr "Inhalt löschen"
+
+msgid "Are you sure you want to delete the following:"
+msgstr "Sind Sie sicher, dass Sie das folgende löschen möchten:"
+
+msgid "Remove from favorites"
+msgstr "Aus Favoriten entfernen"
+
+msgid "Add to favorites"
+msgstr "Zu Favoriten hinzufügen"
+
+msgid "unknown"
+msgstr "unbekannt"
+
+msgid "Any values"
+msgstr "Jegliche Werte"
+
+msgid "Further details"
+msgstr "Weitere Angaben"
+
+msgid "Continue browsing in this direction"
+msgstr "In diese Richtung weiterstöbern"
