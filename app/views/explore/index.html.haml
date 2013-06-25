@@ -22,20 +22,17 @@
           = render "application/collage" if @splashscreen_set and not @splashscreen_set.included_resources_accessible_by_user(current_user).empty?
 
           - if @catalog_set and not @catalog_set_categories.empty?
-            = render :partial => "media_resources/wrapper", 
-                     :locals => {:media_resources => @catalog_set_categories, 
-                                 :catalog_set => @catalog_set,
-                                 :title => @catalog_set.title, 
-                                 :link => explore_catalog_path,
-                                 :as => :category}
+            = render "media_resources/wrapper", :id => 'catalog',
+              :media_resources => @catalog_set_categories, :catalog_set => @catalog_set,
+              :title => @catalog_set.title, :link => explore_catalog_path, :as => :category
+
             %hr.separator
 
           - if @featured_set and not @featured_set_children.empty?
-            = render :partial => "media_resources/wrapper", 
-                     :locals => {:media_resources => @featured_set_children, 
-                                 :title => @featured_set.title,
-                                 :link => explore_featured_set_path,
-                                 :type => :media_entries}
+            = render  "media_resources/wrapper", :id => 'featured-set', 
+                :media_resources => @featured_set_children, 
+                :title => @featured_set.title, :link => explore_featured_set_path
+
             %hr.separator
 
           - if @any_context
