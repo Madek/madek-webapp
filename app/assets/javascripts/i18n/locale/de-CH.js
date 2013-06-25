@@ -1009,6 +1009,22 @@ window.i18n.locale_data = {
       "All": [
          null,
          "Alle"
+      ],
+      "Selection": [
+         null,
+         "Auswahl"
+      ],
+      "No set was found matching this search": [
+         null,
+         "Zu dieser Suche wurde kein Set gefunden"
+      ],
+      "Content is not yet assigned to any set": [
+         null,
+         "Inhalte sind noch keinem Set zugewiesen."
+      ],
+      "Selected content is only partially contained in this set.": [
+         null,
+         "Ausgewählte Inhalte sind in diesem Set nur teilweise enthalten."
       ]
    }
 }

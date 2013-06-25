@@ -712,3 +712,15 @@ msgstr ""
 
 msgid "All"
 msgstr ""
+
+msgid "Selection"
+msgstr ""
+
+msgid "No set was found matching this search"
+msgstr ""
+
+msgid "Content is not yet assigned to any set"
+msgstr ""
+
+msgid "Selected content is only partially contained in this set."
+msgstr ""

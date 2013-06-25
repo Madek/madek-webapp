@@ -2,7 +2,7 @@
   %table.block
     %thead
       %tr
-        %td.ui-resources-table-selection Auswahl
+        %td.ui-resources-table-selection ${_jed('Selection')}
         {{each(i, metaDatum) metaData}}
         %td{:title => "${metaDatum.label}"} 
           %span.ui-resources-table-cell-content ${metaDatum.label}

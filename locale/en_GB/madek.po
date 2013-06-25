@@ -709,3 +709,15 @@ msgstr "Save the currently selected keywords and filters as a filter set."
 msgid "All"
 msgstr "All"
 
+msgid "Selection"
+msgstr "Selection"
+
+msgid "No set was found matching this search"
+msgstr "No set was found matching this search"
+
+msgid "Content is not yet assigned to any set"
+msgstr "Content is not yet assigned to any set"
+
+msgid "Selected content is only partially contained in this set."
+msgstr "Selected content is only partially contained in this set."
+

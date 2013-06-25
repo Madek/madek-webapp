@@ -715,3 +715,15 @@ msgstr "Die aktuell eingestellten Suchbegriffe und Filter als Filterset speicher
 
 msgid "All"
 msgstr "Alle"
+
+msgid "Selection"
+msgstr "Auswahl"
+
+msgid "No set was found matching this search"
+msgstr "Zu dieser Suche wurde kein Set gefunden"
+
+msgid "Content is not yet assigned to any set"
+msgstr "Inhalte sind noch keinem Set zugewiesen."
+
+msgid "Selected content is only partially contained in this set."
+msgstr "Ausgewählte Inhalte sind in diesem Set nur teilweise enthalten."
