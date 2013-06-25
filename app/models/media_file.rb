@@ -202,15 +202,26 @@ class MediaFile < ActiveRecord::Base
     dir = File.join(Rails.root, "app/assets/images/thumbnails")
     @@placeholders ||= Dir.glob(File.join(dir, "*"))
     extension = File.extname(filename).downcase
-    if size == :small
-      file_path = @@placeholders.detect {|x| x =~ /_small#{extension}\.png$/ }
-      file_path ||= File.join(dir, "document_small_unknown.png")
+    if extension.blank? 
+      case size
+      when :small
+        file_path = File.join(dir, "document_small_unknown.png")
+      else
+        file_path = File.join(dir, "document_unknown.png")
+      end
     else
-      file_path = @@placeholders.detect {|x| x =~ /#{extension}\.png$/ and not x =~ /_small/ }
-      file_path ||= File.join(dir, "document_unknown.png")
+      if size == :small
+        file_path = @@placeholders.detect {|x| x =~ /_small#{extension}\.png$/ }
+        file_path ||= File.join(dir, "document_small_unknown.png")
+      else
+        file_path = @@placeholders.detect {|x| x =~ /#{extension}\.png$/ and not x =~ /_small/ }
+          file_path ||= File.join(dir, "document_unknown.png")
+      end
     end
     File.read file_path
   end
+
+
 
   class << self
     def thumb_lorempixum_url(id, size = :small)
