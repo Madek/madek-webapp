@@ -175,7 +175,7 @@ class MediaResourcesController.Index
     if @initalPages > 1
       for page in [2..@initalPages]
         placeholders.append App.render "media_resources/page", {page: page, not_loaded: true, total_pages: @totalPages, total: @total}
-    if groupsOfTen > 1
+    if groupsOfTen >= 1
       for groupOfTen in [1..groupsOfTen]
         placeholders.append App.render "media_resources/group_of_ten_pages", {group: groupOfTen}
     @list.append placeholders.html()
