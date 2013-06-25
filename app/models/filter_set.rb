@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class FilterSet < MediaResource
+class FilterSet < MediaResourceCollection
   store :settings
 
   def media_type

@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class MediaSet < MediaResource
+class MediaSet < MediaResourceCollection
 
   has_many :child_media_resources, :through => :out_arcs, :source => :child
   has_many :highlights, :through => :out_arcs, :conditions => ['media_resource_arcs.highlight = ?',true] ,:source => :child
