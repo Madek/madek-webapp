@@ -22,7 +22,11 @@ class Modal
     $(window).on "resize", @setModalBodyMaxHeight
     
   setModalBodyMaxHeight: =>
-    height = $(window).height() - (@el.offset().top*2) - @el.outerHeight() + @el.find(".ui-modal-body").height()
+    windowHeight = $(window).height()
+    rim =  ( @el.position().top - $(document).scrollTop() )*2
+    elHeight = @el.outerHeight()
+    elBodyHeight = @el.find(".ui-modal-body").height()
+    height =  windowHeight - rim - elHeight  + elBodyHeight 
     @el.find(".ui-modal-body").css "max-height", height
 
   onHide: =>
