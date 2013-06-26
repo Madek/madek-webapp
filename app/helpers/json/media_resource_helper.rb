@@ -84,8 +84,8 @@ module Json
           h[:parents] = hash_for_media_resources_with_pagination(media_resources, pagination, forwarded_with)
         end
       
-        case media_resource.class.model_name.to_s
-          when "MediaSet"
+        case media_resource
+          when MediaSet
             if with[:children]
               h[:children] = begin
                 # respond with media_resources children
@@ -104,7 +104,7 @@ module Json
               end
             end
 
-          when "FilterSet"
+          when FilterSet
             if with[:children]
               h[:children] = begin
                 # respond with media_resources children
@@ -124,7 +124,7 @@ module Json
             end
  
           
-          when "MediaEntry"
+          when MediaEntry
             [:media_file_id].each do |k|
               h[k] = media_resource.send(k) if with[k]
             end
