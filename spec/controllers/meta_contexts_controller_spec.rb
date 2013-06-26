@@ -105,16 +105,6 @@ describe MetaContextsController do
     end
   end
 
-  after :all do
-    @meta_key_definition.destroy
-    @meta_key.destroy
-    @meta_context.destroy
-    @description.destroy
-    @hint.destroy
-    @label.destroy
-    @user.destroy
-    @user.person.destroy
-  end
 end
 
 
