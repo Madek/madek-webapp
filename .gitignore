@@ -38,7 +38,6 @@ db/media_files/
 db/production_structure.sql
 db/schema.rb
 db/sphinx/
-db/structure.sql
 db/test_structure.sql
 doc/api/yard
 log/*.log
