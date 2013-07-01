@@ -1,8 +1,8 @@
-%h3.ui-thumbnail-level-notes Set enthält
+%h3.ui-thumbnail-level-notes ${_jed('Set contains')}
 %ul.ui-thumbnail-level-items
   {{each(i,media_resource) children}}
   {{tmpl(media_resource,{i:i}) App.renderPath("media_sets/popup/item")}}
   {{/each}}
 %span.ui-thumbnail-level-notes
   ${$item.pagination.total}
-  ${Underscore.str.pluralize($item.pagination.total,"Inhalt", "Inhalte")}
+  ${_jed('%d content elements', $item.pagination.total)}

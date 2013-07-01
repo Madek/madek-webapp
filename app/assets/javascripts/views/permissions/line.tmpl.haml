@@ -8,13 +8,13 @@
     %span.text{:title => "${name}"}
       {{if $item.public}}
       %h4.title-s
-        Öffentlichkeit
+        ${_jed('Public')}
         %i.icon-privacy-open
       {{else}}
       ${name}
       {{/if}}
 
-  %td.ui-rights-owner{:title => "Verantwortliche Person"}
+  %td.ui-rights-owner{:title => "${_jed('Responsible person')}"}
     {{if ownership}}
     {{if $item.currentUserOwnership == true}}
     %input{:type => "radio", :checked => true}
@@ -35,9 +35,9 @@
     %div{:class => "ui-custom-select small disabled"}
       %span.ui-custom-select-text
         {{if ownership == "mixed"}}
-        Teilweise verantwortlich
+        ${_jed('Partially responsible')}
         {{else}}
-        Verantwortliche Person
+        ${_jed('Responsible person')}
         {{/if}}
     {{else}}
     %div{:class => "ui-custom-select small{{if $item.manageable == false}} disabled{{/if}}"}
@@ -45,7 +45,7 @@
         {{if App.PermissionPreset.match($item.data, $item.presets)}}
         ${App.PermissionPreset.match($item.data, $item.presets).name}
         {{else}}
-        Angepasst
+        ${_jed('Custom')}
         {{/if}}
       {{if $item.manageable == true}}
       %i.icon-arrow-down.small

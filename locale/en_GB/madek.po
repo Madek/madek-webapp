@@ -218,6 +218,11 @@ msgid_plural "%d items"
 msgstr[0] "%d item"
 msgstr[1] "%d items"
 
+msgid "%d set" 
+msgid_plural "%d sets"
+msgstr[0] "%d set"
+msgstr[1] "%d sets"
+
 msgid "%d of %d items visible to you"
 msgstr "%d of %d items visible to you"
 
@@ -775,3 +780,51 @@ msgstr "Further details"
 
 msgid "Continue browsing in this direction"
 msgstr "Continue browsing in this direction"
+
+msgid "Save selection"
+msgstr "Save selection"
+
+msgid "Set"
+msgstr "Set"
+
+msgid "Entries"
+msgstr "Entries"
+
+msgid "%s (overwritten by public permissions)"
+msgstr "%s (overwritten by public permissions)"
+
+msgid "%s (partially set)"
+msgstr "%s (partially set)"
+
+msgid "View"
+msgstr "View"
+
+msgid "Download original"
+msgstr "Download original"
+
+msgid "Edit"
+msgstr "Edit"
+
+msgid "Me"
+msgstr "Me"
+
+msgid "Me"
+msgstr "Me"
+
+msgid "Groups that include me"
+msgstr "Groups that include me"
+
+msgid "Others"
+msgstr "Others"
+
+msgid "People"
+msgstr "People"
+
+msgid "Name of the person"
+msgstr "Name of the person"
+
+msgid "Name of the group"
+msgstr "Name of the group"
+
+msgid "Partially responsible"
+msgstr "Partially responsible"

@@ -353,6 +353,11 @@ window.i18n.locale_data = {
          "%d Inhalt",
          "%d Inhalte"
       ],
+      "%d set": [
+         "%d sets",
+         "%d Set",
+         "%d Sets"
+      ],
       "%d of %d items visible to you": [
          null,
          "%d von %d Inhalten für Sie sichtbar"
@@ -1093,6 +1098,66 @@ window.i18n.locale_data = {
       "Continue browsing in this direction": [
          null,
          "In diese Richtung weiterstöbern"
+      ],
+      "Save selection": [
+         null,
+         "Auswahl speichern"
+      ],
+      "Set": [
+         null,
+         "Set"
+      ],
+      "Entries": [
+         null,
+         "Einträge"
+      ],
+      "%s (overwritten by public permissions)": [
+         null,
+         "%s (überschrieben durch die Öffentlichen Berechtigungen)"
+      ],
+      "%s (partially set)": [
+         null,
+         "%s (teilweise gesetzt)"
+      ],
+      "View": [
+         null,
+         "Betrachten"
+      ],
+      "Download original": [
+         null,
+         "Download Original"
+      ],
+      "Edit": [
+         null,
+         "Editieren"
+      ],
+      "Me": [
+         null,
+         "Ich"
+      ],
+      "Groups that include me": [
+         null,
+         "Gruppen mit mir"
+      ],
+      "Others": [
+         null,
+         "Andere"
+      ],
+      "People": [
+         null,
+         "Personen"
+      ],
+      "Name of the person": [
+         null,
+         "Name der Person"
+      ],
+      "Name of the group": [
+         null,
+         "Name der Gruppe"
+      ],
+      "Partially responsible": [
+         null,
+         "Teilweise verantwortlich"
       ]
    }
 }

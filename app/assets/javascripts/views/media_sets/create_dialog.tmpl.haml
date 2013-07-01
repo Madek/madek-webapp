@@ -2,15 +2,15 @@
   %form
     .ui-modal-head
       %a.ui-modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button", :title => "Close", :class => "weak"}
-      %h3.title-l Set erstellen
+      %h3.title-l ${_jed('Create set')}
     .ui-modal-body
       .form-body
         .ui-form-group.rowed
           %label.form-label
-            Titel
+            ${_jed('Title')}
           .form-item
             %input.block{:name => :title, :autofocus => :autofocus, :type => "text", :autocomplete => "off"}
     .ui-modal-footer
       .ui-actions
-        %a.link.weak{"aria-hidden" => "true", "data-dismiss" => "modal", :class => "weak link"} Abbrechen
-        %button.primary-button{:type => :submit} Set erstellen
+        %a.link.weak{"aria-hidden" => "true", "data-dismiss" => "modal", :class => "weak link"} ${_jed('Cancel')}
+        %button.primary-button{:type => :submit} ${_jed('Create set')}

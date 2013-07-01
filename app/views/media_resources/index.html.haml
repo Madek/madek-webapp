@@ -25,7 +25,7 @@
       #ui-resources-list-container.app-body-content.ui-container.midtone.bordered.rounded-bottom.rounded-top
 
         = render :partial => "media_resources/list/toolbar", 
-                 :locals => {:subtitle => "#{@media_resources_count} Inhalte", :additional_class => "rounded-top"}
+                 :locals => {:subtitle => _("%d content elements" % @media_resources_count), :additional_class => "rounded-top"}
 
         = render :partial => "media_resources/list/filterbar"
 

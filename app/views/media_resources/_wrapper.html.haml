@@ -10,7 +10,8 @@
       %h2.title-l.ui-resource-title
         = title
         - if defined? link
-          %a.strong{:href => link} Alle anzeigen
+          %a.strong{:href => link} 
+            = _("Show all")
   %ul.ui-resources{:class => with_actions ? "active #{item_layout}" : "#{item_layout}"}
     - media_resources.each do |mr|
       - case as

@@ -352,6 +352,11 @@ window.i18n.locale_data = {
          "%d item",
          "%d items"
       ],
+      "%d set": [
+         "%d sets",
+         "%d set",
+         "%d sets"
+      ],
       "%d of %d items visible to you": [
          null,
          "%d of %d items visible to you"
@@ -1092,6 +1097,66 @@ window.i18n.locale_data = {
       "Continue browsing in this direction": [
          null,
          "Continue browsing in this direction"
+      ],
+      "Save selection": [
+         null,
+         "Save selection"
+      ],
+      "Set": [
+         null,
+         "Set"
+      ],
+      "Entries": [
+         null,
+         "Entries"
+      ],
+      "%s (overwritten by public permissions)": [
+         null,
+         "%s (overwritten by public permissions)"
+      ],
+      "%s (partially set)": [
+         null,
+         "%s (partially set)"
+      ],
+      "View": [
+         null,
+         "View"
+      ],
+      "Download original": [
+         null,
+         "Download original"
+      ],
+      "Edit": [
+         null,
+         "Edit"
+      ],
+      "Me": [
+         null,
+         "Me"
+      ],
+      "Groups that include me": [
+         null,
+         "Groups that include me"
+      ],
+      "Others": [
+         null,
+         "Others"
+      ],
+      "People": [
+         null,
+         "People"
+      ],
+      "Name of the person": [
+         null,
+         "Name of the person"
+      ],
+      "Name of the group": [
+         null,
+         "Name of the group"
+      ],
+      "Partially responsible": [
+         null,
+         "Partially responsible"
       ]
    }
 }

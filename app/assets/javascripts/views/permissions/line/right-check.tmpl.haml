@@ -1,6 +1,6 @@
 %td{:class => "ui-rights-check ${name}{{if $item.ownership != false || $item.manageable == false}} disabled{{/if}}"}
 
-  %i.ui-right-overwritten-by-public{:title => "${label} (überschrieben durch die Öffentlichen Berechtigungen)"}
+  %i.ui-right-overwritten-by-public{:title => "${_jed('%s (overwritten by public permissions)', label)}"}
 
   {{if permission == true}}
 
@@ -19,7 +19,7 @@
     {{else}}
     %input{:name => "${name}", :type => "checkbox", :value => "mixed", :title => "${label}", :disabled => true}
     {{/if}}
-    %span.ui-right-mixed-values{:title => "${label} (teilweise gesetzt)"}
+    %span.ui-right-mixed-values{:title => "${_jed('%s (partially set)', label)}"}
       %i
 
   {{else}}
