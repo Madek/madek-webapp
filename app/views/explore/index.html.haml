@@ -33,6 +33,16 @@
                 :media_resources => @featured_set_children, 
                 :title => @featured_set.title, :link => explore_featured_set_path
 
+
+            %hr.separator
+
+          - if @any_top_keywords
+            = render :partial => "keywords/wrapper",
+                     :locals => {:keywords => @top_keywords,
+                                 :title => "Häufige Schlagworte",
+                                 :width_limited => true,
+                                 :link => explore_keywords_path}
+
             %hr.separator
 
           - if @any_context
