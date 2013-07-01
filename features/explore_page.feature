@@ -8,4 +8,5 @@ Feature: Explore Page
     Then I see a selection of the images of the teaser set
     And I see at most three elements of the catalog
     And I see sets of the featured sets
+    And I can see the text "Häufige Schlagworte"
 
