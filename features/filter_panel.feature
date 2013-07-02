@@ -182,7 +182,7 @@ Feature: Filter
      And I click on the link "Knacknuss, Karen"
      And I wait for the number of resources to change
      Then the number or resources is equal to the remembered filter count
-     And I click on the link "Alle Filter zurücksetzen"
+     And I click on the link "Filter zurücksetzen"
      And I wait for the number of resources to change
      When I remember the number of resources
      And I go to the media_resources with filter_panel
