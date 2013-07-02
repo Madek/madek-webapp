@@ -47,7 +47,7 @@
 
           = render :partial => "media_resources/list/toolbar", 
                    :locals => {:title => _("Search result"),
-                               :subtitle => _("%d content elements", @result_count_for_term)}
+                               :subtitle => _("%d content elements" % @result_count_for_term)}
 
           = render :partial => "media_resources/list/filterbar"
 
