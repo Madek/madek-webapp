@@ -244,7 +244,7 @@ module MediaResourceModules
                       .joins("INNER JOIN media_sets_meta_contexts ON media_sets_meta_contexts.media_set_id = media_resource_arcs.parent_id")
                       .where(:media_sets_meta_contexts => {:meta_context_name => names})
                       .uniq
-        resources = scoped.where(:id => sub)
+        scoped.where(:id => sub)
       end
       
     end

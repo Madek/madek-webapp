@@ -44,25 +44,25 @@ class MediaResource < ActiveRecord::Base
     not (media_file.meta_data["GPS:GPSLatitude"].blank? or media_file.meta_data["GPS:GPSLongitude"].blank?)
   end
 
-##########################################################################################################################
-##########################################################################################################################
-   
+  ##########################################################################################################################
+  ##########################################################################################################################
+
   # ORDERINGS
   
   scope :ordered_by, lambda {|x|
     x ||= :updated_at 
-      case x.to_sym
-      when :author
-        joins(meta_data: :meta_key).where("meta_keys.id = ?", x)
-        .joins('INNER JOIN meta_data_people ON meta_data.id = meta_data_people.meta_datum_id')
-        .joins('INNER JOIN people ON meta_data_people.person_id = people.id')
-        .order('people.last_name, people.first_name ASC')
-      when :title
-        joins(meta_data: :meta_key).where("meta_keys.id = ?", x).order("meta_data.string ASC")
-      when :updated_at, :created_at
-        order(arel_table[x.to_sym].desc)
-      when :random
-        order("RANDOM()")
+    case x.to_sym
+    when :author
+      joins(meta_data: :meta_key).where("meta_keys.id = ?", x)
+      .joins('INNER JOIN meta_data_people ON meta_data.id = meta_data_people.meta_datum_id')
+      .joins('INNER JOIN people ON meta_data_people.person_id = people.id')
+      .order('people.last_name, people.first_name ASC')
+    when :title
+      joins(meta_data: :meta_key).where("meta_keys.id = ?", x).order("meta_data.string ASC")
+    when :updated_at, :created_at
+      order(arel_table[x.to_sym].desc)
+    else
+      raise "not implemented" 
     end
   }
 

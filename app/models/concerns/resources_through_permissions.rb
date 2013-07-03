@@ -62,7 +62,7 @@ module Concerns
 
         # TODO inner join sql
         resource_ids_by_grouppermission = Grouppermission.select("media_resource_id").where(action => true, :group_id => group)
-        where(:id => resource_ids_by_grouppermission)
+        where("media_resources.id IN (#{resource_ids_by_grouppermission.to_sql})")
       end
       
       # TODO merge to accessible_by_user with additional argument
