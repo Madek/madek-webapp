@@ -704,7 +704,7 @@ class MediaResourcesController < ApplicationController
           render json: {}, status: 204
         end
       end
-    rescue  => e
+    rescue Exception => e
       logger.error Formatter.error_to_s e
       render json: {}, status: 422 
     end

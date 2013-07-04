@@ -251,7 +251,7 @@ class MediaResourcesController.Index
     dialog.find(".primary-button").bind "click", (e)-> 
       e.preventDefault()
       mr.delete ->
-        if container.data("redirect_on_delete")?
+        if container.data("redirect-on-delete")?
           dialog.remove()
           window.location.pathname = "/"
         else
