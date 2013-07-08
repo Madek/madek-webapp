@@ -13,7 +13,7 @@
                   .ui-thumbnail-inner-image-holder
                     %img.ui-thumbnail-image{:src => "/media_resources/#{@media_resource.id}/image?size=medium"}          
 
-            - if @media_resource.is_a? MediaEntry
+            - if @media_resource.is_a? MediaEntry and @media_resource.media_file.content_type =~ /^image/
               %a#ui-image-zoom.ui-magnifier{:href => image_media_resource_path(@media_resource, :size => :maximum), :target => "_blank"}
                 .icon-magnifier.bright
                     
