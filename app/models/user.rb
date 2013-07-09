@@ -2,7 +2,7 @@
 # user is the system oriented representation of a User
 
 class User < ActiveRecord::Base
-  has_secure_password
+  has_secure_password # validations: false  TODO will work as of rails 4
 
   attr_accessor 'act_as_uberadmin'
 
