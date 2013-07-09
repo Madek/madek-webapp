@@ -31,12 +31,13 @@
                     = _("Create filter set")
 
             .col1of2
-              %form{:action => search_path, :method => :post}
-                = token_tag nil
+
+              =form_tag search_path, method: 'POST' do
                 .ui-search.large.mts
-                  %input.block.ui-search-input{:type => "text", :name => "search", :placeholder => placeholder_text}
-                  %button.primary-button.ui-search-button 
-                    = _("Search")
+                  =text_field_tag :search, @term, type: 'text', placeholder: placeholder_text, class: "block ui-search-input"
+                  =button_tag type: 'submit', class: "primary-button ui-search-button" do
+                    =_("Search")
+
         - else
           .mts.by-right= render :partial => "login_action"
 
