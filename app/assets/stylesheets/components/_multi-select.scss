@@ -31,7 +31,7 @@
 
 
 .multi-select-tag-remove {
-  @extend .icon-trash.mini;
+  @extend .icon-trash.mini !optional;
   opacity: $opacity-medium;
 
   &:hover {
