@@ -15,7 +15,7 @@ Feature: Guests / Not logged in user
     Then I am on the "/search" page
     And I can see the text "Suche"
     And I set the input with the name "search" to "Landschaft"
-    And I click the submit input
+    And I submit
     Then I am on the "/search/Landschaft" page
     And I can see the text "Suchresultat"
     And I can see several images 
