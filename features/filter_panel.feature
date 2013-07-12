@@ -16,7 +16,7 @@ Feature: Filter
     Given I am signed-in as "Liselotte"
     And I click on the link "Suche"
     Then I am on the "/search" page
-    When I click the submit input
+    When I submit
     Then I can see the filter panel
     And The filter panel contains a search input
     And The filter panel contains a top-filter-list
