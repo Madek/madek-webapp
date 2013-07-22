@@ -2,7 +2,7 @@
 # require 'digest'
 
 class MediaFile < ActiveRecord::Base
-  has_one :media_entry
+  belongs_to :media_entry, foreign_key: :media_entry_id
   has_many :zencoder_jobs
 
   def most_recent_zencoder_job
@@ -37,8 +37,11 @@ class MediaFile < ActiveRecord::Base
     make_thumbnails
   end
 
-  after_destroy do
-    # TODO ensure that the media file is not still being used by another media_entry
+
+
+  after_commit :delete_files, on: :destroy
+
+  def delete_files
     File.delete(file_storage_location)
   end
 
@@ -50,7 +53,6 @@ class MediaFile < ActiveRecord::Base
 
   serialize     :meta_data, Hash
 
-  has_many      :media_entries # TODO validation: at least one media_entry (even empty) 
   has_many      :previews, :dependent => :destroy # TODO - the eventual resting place of all preview files derived from the original (e.g. thumbnails)
 
   scope :original, where(:parent_id => nil)

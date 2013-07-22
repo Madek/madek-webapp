@@ -3,12 +3,11 @@
 module MediaResourceModules
   module MediaFile
 
-    # NOTE this is defined up in MediaResource because eager loading
-    #def self.included(base)
-    #  base.class_eval do
-    #    belongs_to :media_file #, :include => :previews # TODO validates_presence # TODO on destroy, also destroy the media_file if this is the only related media_entry
-    #  end
-    #end
+    def self.included(base)
+      base.class_eval do
+        has_one :media_file, foreign_key: :media_entry_id, dependent: :destroy
+      end
+    end
 
     # Instance method to update a copy (referenced by path) of a media file with the meta_data tags provided
     # args: blank_all_tags = flag indicating whether we clean all the tags from the file, or update the tags in the file
@@ -47,23 +46,20 @@ module MediaResourceModules
     end
 
     def media_type
-      if media_file_id
-        case media_file.content_type
-          when /video/ then 
-            "Video"
-          when /audio/ then
-            "Audio"
-          when /image/ then
-            "Image"
-          else 
-            "Doc"
-        end 
-      else
-        self.type.gsub(/Media/, '')
-      end    
-    end
+      case media_file.content_type
+      when /video/ then 
+        "Video"
+      when /audio/ then
+        "Audio"
+      when /image/ then
+        "Image"
+      else 
+        "Doc"
+      end 
+    end    
 
   end
+
 end
 
 

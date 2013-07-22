@@ -200,7 +200,7 @@ module MediaResourceModules
       end
 
       def filter_media_file(options = {})
-        sql = media_entries.joins("RIGHT JOIN media_files ON media_resources.media_file_id = media_files.id")
+        sql = media_entries.joins("RIGHT JOIN media_files ON media_resources.id = media_files.media_entry_id")
       
         options[:content_type].each do |x|
           sql = sql.where("media_files.content_type ilike ?", "%#{x}%")

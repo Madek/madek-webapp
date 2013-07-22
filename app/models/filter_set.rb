@@ -36,7 +36,7 @@ class FilterSet < MediaResourceCollection
                         :name => term[:value],
                         :count => term[:count],
                         :image => begin
-                          media_file = MediaResource.filter(nil, {:meta_data => {k => {:ids => [term[:id]]}}}).where(view: true).ordered_by(:updated_at).first.try(:media_file)
+                          media_file = MediaEntry.filter(nil, {:meta_data => {k => {:ids => [term[:id]]}}}).where(view: true).ordered_by(:updated_at).first.try(:media_file)
                           # TODO consider provide url images instead of base64
                           media_file.thumb_base64(:medium) unless media_file.nil?
                         end

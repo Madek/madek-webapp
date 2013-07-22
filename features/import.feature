@@ -200,13 +200,3 @@ Feature: importing an image
     When I attach the file "files/empty_file.mp3"
     Then I see an error alert
 
-
-
-
-
-
-
-
-
-
-

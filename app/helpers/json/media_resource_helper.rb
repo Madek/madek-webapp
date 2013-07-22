@@ -164,7 +164,8 @@ module Json
       ##### eager loading
       if with ||= nil
         if with[:media_type]
-          paginated_media_resources = paginated_media_resources.includes(:media_file)
+          # NOTE disabled for now, revisit after migrating to rails4
+          # paginated_media_resources = paginated_media_resources.includes(:media_file)
         end
         if with[:is_editable]
           @cache_is_editable = MediaResource.accessible_by_user(current_user, :edit).where(:id => paginated_media_resources).pluck(:id)
@@ -220,7 +221,7 @@ module Json
   
                       filters = MediaFile.
                         select("media_files.#{column} as value, count(*) as count").
-                        joins(:media_entries).
+                        joins(:media_entry).
                         where(:media_resources => {:id => media_resources}).
                         group("media_files.#{column}").
                         order("count DESC")

@@ -28,7 +28,7 @@
     %tr
       %td #{FilterSet.count} FilterSets
     %tr 
-      %td=  MediaFile.where("NOT EXISTS (#{MediaEntry.where('media_file_id = media_files.id').to_sql})").count.to_s + " MediaFiles without MediaEntry"
+      %td=  MediaFile.where("media_entry_id IS NULL").count.to_s + " MediaFiles without MediaEntry"
     %tr
       %td
         = MediaFile.joins(:media_entry).incomplete_encoded_videos.count

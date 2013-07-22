@@ -1,6 +1,9 @@
 # -*- encoding : utf-8 -*-
 
 class MediaResource < ActiveRecord::Base
+
+
+
   include MediaResourceModules::Arcs
   extend MediaResourceModules::Graph
   include MediaResourceModules::MetaData
@@ -12,12 +15,12 @@ class MediaResource < ActiveRecord::Base
 
   belongs_to :user
 
-  # NOTE this is here because we use eager loader preload(:media_file) on MediaResource
-  # but it's effectively used only by MediaEntry
-  belongs_to :media_file #, :include => :previews # TODO validates_presence # TODO on destroy, also destroy the media_file if this is the only related media_entry
+################################################################
+
+  # only entries have media_files, this is to enable eager loading
+  has_one :media_file, foreign_key: :media_entry_id
 
 ###############################################################
-
 
   has_many  :edit_sessions, :dependent => :destroy, :readonly => true
   has_many  :editors, :through => :edit_sessions, :source => :user
@@ -26,7 +29,7 @@ class MediaResource < ActiveRecord::Base
 
   has_one :full_text, :dependent => :destroy
   after_save { reindex } # OPTIMIZE
-  
+
 ########################################################
 
   def reindex
@@ -69,9 +72,14 @@ class MediaResource < ActiveRecord::Base
   ################################################################
 
   scope :media_entries_or_media_entry_incompletes, lambda{where(:type => ["MediaEntry", "MediaEntryIncomplete"])}
-  scope :media_entries, lambda{where(:type => "MediaEntry")}
+  #scope :media_entries, lambda{where(:type => "MediaEntry")}
   scope :media_sets, lambda{where(:type => ["MediaSet", "FilterSet"])}
   scope :filter_sets, lambda{where(:type => "FilterSet")}
+
+
+  def self.media_entries
+    MediaEntry.where("media_resources.id IN ( ? )",scoped.select("media_resources.id"))
+  end
 
   ###############################################################
   
