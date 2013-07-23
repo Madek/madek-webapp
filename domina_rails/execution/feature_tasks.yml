@@ -1,0 +1,117 @@
+---
+- name: admin_people
+  scripts:
+    main:
+      body: bundle exec cucumber "features/admin_people.feature"
+- name: admin_previews
+  scripts:
+    main:
+      body: bundle exec cucumber "features/admin_previews.feature"
+- name: admin_specify_links_and_logo
+  scripts:
+    main:
+      body: bundle exec cucumber "features/admin_specify_links_and_logo.feature"
+- name: admin_users
+  scripts:
+    main:
+      body: bundle exec cucumber "features/admin_users.feature"
+- name: apply_to_all
+  scripts:
+    main:
+      body: bundle exec cucumber "features/apply_to_all.feature"
+- name: browse
+  scripts:
+    main:
+      body: bundle exec cucumber "features/browse.feature"
+- name: configurable_contexts_in_lists
+  scripts:
+    main:
+      body: bundle exec cucumber "features/configurable_contexts_in_lists.feature"
+- name: context
+  scripts:
+    main:
+      body: bundle exec cucumber "features/context.feature"
+- name: dashboard_page
+  scripts:
+    main:
+      body: bundle exec cucumber "features/dashboard_page.feature"
+- name: delete
+  scripts:
+    main:
+      body: bundle exec cucumber "features/delete.feature"
+- name: explore_page
+  scripts:
+    main:
+      body: bundle exec cucumber "features/explore_page.feature"
+- name: filter_media_resource_types
+  scripts:
+    main:
+      body: bundle exec cucumber "features/filter_media_resource_types.feature"
+- name: filter_panel
+  scripts:
+    main:
+      body: bundle exec cucumber "features/filter_panel.feature"
+- name: filter_set
+  scripts:
+    main:
+      body: bundle exec cucumber "features/filter_set.feature"
+- name: graph_visualization
+  scripts:
+    main:
+      body: bundle exec cucumber "features/graph_visualization.feature"
+- name: guest_user
+  scripts:
+    main:
+      body: bundle exec cucumber "features/guest_user.feature"
+- name: import
+  scripts:
+    main:
+      body: bundle exec cucumber "features/import.feature"
+- name: import_encoding
+  scripts:
+    main:
+      body: bundle exec cucumber "features/import_encoding.feature"
+- name: import_metadata
+  scripts:
+    main:
+      body: bundle exec cucumber "features/import_metadata.feature"
+- name: import_via_dropbox
+  scripts:
+    main:
+      body: bundle exec cucumber "features/import_via_dropbox.feature"
+- name: inheritance_of_contexts
+  scripts:
+    main:
+      body: bundle exec cucumber "features/inheritance_of_contexts.feature"
+- name: login
+  scripts:
+    main:
+      body: bundle exec cucumber "features/login.feature"
+- name: metadata
+  scripts:
+    main:
+      body: bundle exec cucumber "features/metadata.feature"
+- name: permissions
+  scripts:
+    main:
+      body: bundle exec cucumber "features/permissions.feature"
+- name: search
+  scripts:
+    main:
+      body: bundle exec cucumber "features/search.feature"
+- name: showing_media_resources
+  scripts:
+    main:
+      body: bundle exec cucumber "features/showing_media_resources.feature"
+- name: uberadmin
+  scripts:
+    main:
+      body: bundle exec cucumber "features/uberadmin.feature"
+- name: welcome_page
+  scripts:
+    main:
+      body: bundle exec cucumber "features/welcome_page.feature"
+- name: workgroups
+  scripts:
+    main:
+      body: bundle exec cucumber "features/workgroups.feature"

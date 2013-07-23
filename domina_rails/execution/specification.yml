@@ -1,0 +1,40 @@
+---
+name: Madek
+environments:
+- linux
+contexts:
+- name: environment 
+  tasks:
+  - name: ls
+    scripts:
+      main:
+        body: ls -lah
+  - name: env
+    scripts:
+      main:
+        body: env | sort
+- name: cucumber features 
+  scripts:
+    bundle: 
+      order: 2
+      prepare_executor: true
+      body_substitute_with_path: "domina_rails/scripts/bundle.sh"
+    setup_personas_db: 
+      order: 2
+      prepare_executor: true
+      body_substitute_with_path: "domina_rails/scripts/context_feature_setup_personas_db.sh"
+    startx:
+      order: 3
+      body_substitute_with_path: "domina_rails/scripts/context_feature_startx.sh"
+    setup_madek:
+      order: 4
+      body_substitute_with_path: "domina_rails/scripts/context_feature_setup_madek.sh"
+    main: 
+      order: 5
+      body_substitute_with_path: "domina_rails/scripts/context_feature_main.sh"
+    stopx: 
+      order: 9
+      post_process: true
+      body_substitute_with_path: "domina_rails/scripts/context_feature_stopx.sh"
+  tasks: "substitute_with_path: domina_rails/execution/feature_tasks.yml"
+

@@ -79,15 +79,13 @@ end
 # Config files here.
 METADATA_CONFIG_DIR = "#{Rails.root}/config/definitions/metadata"
 
-# We have a variety of different storage location constants defined here because we *might* at some point want to optimise
-# our storage (e.g. placing temp files on a fast filesystem, and permanent files in a 'slower' filesystem).
-ZIP_STORAGE_DIR         = "#{Rails.root}/tmp/zipfiles" # NB This should be regularly cleaned
-DOWNLOAD_STORAGE_DIR    = "#{Rails.root}/tmp/downloads" # this all needs rationalising, which will happen soon.
+# Directory config is externalized so it can be accessed from not only within rails
+load  Rails.root.join("config/directories_config.rb")
+DOWNLOAD_STORAGE_DIR  = DirectoriesConfig::DOWNLOAD_STORAGE_DIR 
+FILE_STORAGE_DIR      = DirectoriesConfig::FILE_STORAGE_DIR
+THUMBNAIL_STORAGE_DIR = DirectoriesConfig::THUMBNAIL_STORAGE_DIR
+ZIP_STORAGE_DIR       = DirectoriesConfig::ZIP_STORAGE_DIR 
 
-# NB This is sharded. Likely to be used infrequently.
-FILE_STORAGE_DIR    = "#{Rails.root}/db/media_files/#{Rails.env}/attachments"
-# NB This is sharded. A good candidate for a fast filesystem, since thumbnails will be used regularly.
-THUMBNAIL_STORAGE_DIR = "#{Rails.root}/db/media_files/#{Rails.env}/attachments"
 
 # symbolic links, to ultimately break your installation :-/
 # $ sudo ln -s /usr/bin/exiftool /usr/local/bin/exiftool
