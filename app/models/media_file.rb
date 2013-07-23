@@ -38,11 +38,14 @@ class MediaFile < ActiveRecord::Base
   end
 
 
-
   after_commit :delete_files, on: :destroy
 
   def delete_files
-    File.delete(file_storage_location)
+    begin 
+      File.delete(file_storage_location)
+    rescue Exception => e
+      Rails.logger.warn Formatter.exception_to_log_s(e)
+    end
   end
 
 #########################################################
