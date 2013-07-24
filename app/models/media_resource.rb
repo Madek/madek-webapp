@@ -53,8 +53,7 @@ class MediaResource < ActiveRecord::Base
   # ORDERINGS
   
   scope :ordered_by, lambda {|x|
-    x ||= :updated_at 
-    case x.to_sym
+    case x.try(:to_sym)
     when :author
       joins(meta_data: :meta_key).where("meta_keys.id = ?", x)
       .joins('INNER JOIN meta_data_people ON meta_data.id = meta_data_people.meta_datum_id')
@@ -65,7 +64,7 @@ class MediaResource < ActiveRecord::Base
     when :updated_at, :created_at
       order(arel_table[x.to_sym].desc)
     else
-      raise "not implemented" 
+      order("media_resources.updated_at DESC")
     end
   }
 
