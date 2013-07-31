@@ -135,6 +135,19 @@ cp phantomjs-1.9.0-linux-x86_64/bin/phantomjs /usr/local/bin/
 EOF
 
 
+###########################################################
+# iceweasel > 10.0
+###########################################################
+if [ MOZILLA_BROWSER == "iceweasel" ]
+then
+        echo "deb http://mozilla.debian.net/ wheezy-backports iceweasel-release" > /etc/apt/sources.list.d/iceweasel.list
+        apt-get update
+        apt-get install --assume-yes pkg-mozilla-archive-keyring
+        gpg --check-sigs --fingerprint --keyring /etc/apt/trusted.gpg.d/pkg-mozilla-archive-keyring.gpg --keyring /usr/share/keyrings/debian-keyring.gpg pkg-mozilla-maintainers
+        apt-get install --assume-yes iceweasel
+fi
+
+
 #############################################################
 # chromium
 #############################################################
