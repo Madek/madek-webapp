@@ -60,7 +60,7 @@ group :assets do
   gem 'uglifier', '~> 1.2'
 end
 
-group :production do
+group :production, :development do
   gem 'newrelic_rpm'
 end
 
