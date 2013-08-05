@@ -23,7 +23,7 @@ Feature: Workgroups
      And I click the primary action of this dialog
     Then I see an error that I have to provide a name for that group
 
-  @chrome
+  @firefox
   Scenario: Edit group members
     When I go to my groups
      And I edit one group
