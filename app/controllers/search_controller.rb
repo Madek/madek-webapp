@@ -6,6 +6,10 @@ class SearchController < ApplicationController
     @a_top_keyword = (view_context.hash_for Keyword.with_count_for_accessible_media_resources(current_user).limit(25)).shuffle.first
   end
 
+  before_filter do 
+    params[:term] =  Rack::Utils.unescape(params[:term]) if params[:term]
+  end
+
   def search
     if request.post?
       unless params[:search].blank?
@@ -19,7 +23,7 @@ class SearchController < ApplicationController
   end
 
   def term
-    @term = Rack::Utils.unescape(params[:term])
+    @term = params[:term]
     @result_count_for_term = MediaResource.filter(current_user, MediaResource.get_filter_params({:search => @term})).count
   end
 
