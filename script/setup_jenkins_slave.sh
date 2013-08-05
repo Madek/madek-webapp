@@ -245,6 +245,7 @@ cd ~/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/gherkin-2.12.0/
 bundle install
 rbenv rehash
 bundle exec rake compile:gherkin_lexer_en
+bundle exec rake compile:gherkin_lexer_de
 JENKINS
 
 
