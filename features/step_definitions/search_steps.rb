@@ -6,3 +6,7 @@ Then /^I see one suggested keyword that is randomly picked from the top (\d+) ke
   end
   raise "this is not one of the top #{count} accessible keywords" unless found
 end
+
+Then(/^The "(.*?)" has the same count as the "(.*?)"$/) do |id1, id2|
+  expect( find("##{id1}").text.to_i ).to be == find("##{id2}").text.to_i 
+end

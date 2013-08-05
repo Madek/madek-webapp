@@ -23,7 +23,7 @@
 .ui-container.inverted.ui-toolbar.pvx{:class => additional_class}
   %h2.ui-toolbar-header.pls
     %strong= title if title
-    = subtitle if subtitle
+    != subtitle if subtitle
   - if actions
     .ui-toolbar-additional-actions
       = actions
