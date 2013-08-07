@@ -103,16 +103,19 @@ class DownloadController < ApplicationController
   end
 
   def send_file_with_correct_extension(path, filename, content_type)
-    if path
+    begin
+      raise ArgumentError.new "path must not be nil" unless path
+      raise ArgumentError.new "path must exist" unless File.exists? path
       e = File.extname(path)
       f = File.extname(filename)
       fixed_send_file(path,
                       {:filename => (!e.blank? and e != f) ? "#{filename}#{e}" : filename,
-                       :type          =>  content_type,
-                       :disposition  =>  'attachment'})            
-    else
-      render :status => 500
-    end    
+                        :type          =>  content_type,
+                        :disposition  =>  'attachment'})            
+    rescue Exception => e 
+      Rails.logger.error Formatter.exception_to_log_s e
+      raise e
+    end
   end
 
 end
