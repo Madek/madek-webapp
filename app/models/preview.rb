@@ -5,8 +5,9 @@ class Preview < ActiveRecord::Base
   after_destroy do
     begin
       File.delete(full_path)
-    rescue Errno::ENOENT
-      puts "Can't delete #{full_path}, file does not exist."
+    rescue Errno::ENOENT => e
+      # might not be an error in some cases
+      Rails.logger.warn Formatter.exception_to_log_s(e)
     end
   end
 
