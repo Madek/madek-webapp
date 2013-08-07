@@ -16,6 +16,7 @@
 /coverage/
 /coverage/**
 /coverage/**/*
+/public/assets/
 /public/previews/
 /tmp/
 config/*.conf
