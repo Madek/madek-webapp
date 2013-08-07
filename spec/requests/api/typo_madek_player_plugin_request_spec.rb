@@ -6,8 +6,8 @@ describe "requests of the typo madek player plugin" do
   # in the case that you dont know the difference between :each and :all
   # read here: https://www.relishapp.com/rspec/rspec-core/v/2-2/docs/hooks/before-and-after-hooks
   #
-  # TS: maybe you don't need to read that; WE DO NOT USE :all ANYWHERE; there
-  # are some nasty side effects with database cleaner and truncations ....
+  # TS: maybe you don't need to read that; we almost never use :all; there are
+  # some nasty side effects with database cleaner and truncations ....
   before :each do 
     FactoryGirl.create :meta_context_core
     FactoryGirl.create :meta_key_public_caption
