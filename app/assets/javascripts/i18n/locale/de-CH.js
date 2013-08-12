@@ -584,11 +584,11 @@ window.i18n.locale_data = {
       ],
       "Read/edit permissions": [
          null,
-         "Zugriffsberechtigungen lesen/bearbeiten"
+         "Berechtigungen lesen/verwalten"
       ],
       "Permissions": [
          null,
-         "Zugriffsberechtigungen"
+         "Berechtigungen"
       ],
       "This entry is contained in one set": [
          "This entry is contained in %d sets",
@@ -921,11 +921,11 @@ window.i18n.locale_data = {
       ],
       "Show permissions": [
          null,
-         "Zugriffsberechtigungen anzeigen"
+         "Berechtigungen anzeigen"
       ],
       "Edit permissions": [
          null,
-         "Zugriffsberechtigungen bearbeiten"
+         "Berechtigungen verwalten"
       ],
       "Edit metadata of these media entries": [
          null,
@@ -1158,6 +1158,10 @@ window.i18n.locale_data = {
       "Partially responsible": [
          null,
          "Teilweise verantwortlich"
+      ],
+      "Permission": [
+         null,
+         "Berechtigung"
       ]
    }
 }

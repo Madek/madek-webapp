@@ -825,3 +825,6 @@ msgstr ""
 
 msgid "Partially responsible"
 msgstr ""
+
+msgid "Permission"
+msgstr ""

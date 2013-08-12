@@ -396,10 +396,10 @@ msgid "Visualize relationship between items as a graph"
 msgstr "Beziehung von Inhalten als Graph visualisieren"
 
 msgid "Read/edit permissions"
-msgstr "Zugriffsberechtigungen lesen/bearbeiten"
+msgstr "Berechtigungen lesen/verwalten"
 
 msgid "Permissions"
-msgstr "Zugriffsberechtigungen"
+msgstr "Berechtigungen"
 
 msgid "This entry is contained in one set"
 msgid_plural "This entry is contained in %d sets"
@@ -650,10 +650,10 @@ msgid "Actions"
 msgstr "Aktionen"
 
 msgid "Show permissions"
-msgstr "Zugriffsberechtigungen anzeigen"
+msgstr "Berechtigungen anzeigen"
 
 msgid "Edit permissions"
-msgstr "Zugriffsberechtigungen bearbeiten"
+msgstr "Berechtigungen verwalten"
 
 msgid "Edit metadata of these media entries"
 msgstr "Metadaten von Medieneinträgen editieren"
@@ -828,3 +828,6 @@ msgstr "Name der Gruppe"
 
 msgid "Partially responsible"
 msgstr "Teilweise verantwortlich"
+
+msgid "Permission"
+msgstr "Berechtigung"
