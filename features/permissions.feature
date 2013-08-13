@@ -232,7 +232,7 @@ Feature: Permissions
       And A resource owned by me and defined userpermissions for "Petra"
       And I visit the path of the resource
       And I click on the link "Weitere Aktionen"
-      And I click on the link "Zugriffsberechtigungen"
+      And I click on the link "Berechtigungen"
      Then I can choose from a set of labeled permissions presets instead of grant permissions explicitly    
 
   @jsbrowser @dirty
