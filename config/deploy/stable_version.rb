@@ -1,1 +1,1 @@
-set :branch, "1.7.4"
+set :branch, "1.7.6"
