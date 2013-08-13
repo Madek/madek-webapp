@@ -179,7 +179,7 @@ EOF
 # prepare rbenv, ruby and ...
 ###########################################################
 
-apt-get install --assume-yes git x11vnc xvfb zlib1g-dev \
+apt-get install --assume-yes git x11vnc fluxbox xvfb zlib1g-dev \
   libssl-dev libxslt1-dev libxml2-dev build-essential \
   libimage-exiftool-perl imagemagick $MOZILLA_BROWSER libreadline-dev libreadline6 libreadline6-dev \
   g++
