@@ -7,6 +7,7 @@
 .jhw-cache
 .project
 .rbenv-version
+.ruby-version
 .rvmrc
 .sass-cache/
 .yardoc
