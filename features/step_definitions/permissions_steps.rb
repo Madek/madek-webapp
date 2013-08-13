@@ -197,7 +197,7 @@ end
 Given /^I visit the permissions dialog of the resource$/ do
   visit media_resource_path @resource
   find("a",text: "Weitere Aktionen").click
-  find("a",text: "Zugriffsberechtigungen").click
+  find("a",text: "Berechtigungen").click
   step 'I wait for the dialog to appear'
 end
 
