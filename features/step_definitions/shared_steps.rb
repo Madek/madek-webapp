@@ -251,6 +251,15 @@ end
 
 ### T #########################################################
 
+
+Then(/^The element with the id "(.*?)" hash the class "(.*?)"$/) do |id, _class|
+  expect(find("##{id}.#{_class}")).to be
+end
+
+Then(/^The link with the title "(.*?)" hash the class "(.*?)"$/) do |title, _class|
+  expect(find("a[title='#{title}'].#{_class}")).to be
+end
+
 Then /^There is a link with the id "(.*?)"$/ do |id|
   expect(find "a##{id}" ).to be
 end
@@ -262,6 +271,7 @@ end
 Then /^There is no link with class "(.*?)" in the list with class "(.*?)"$/ do |link_class, list_class|
   expect{ find("ul.#{list_class} a.#{link_class}") }.to raise_error
 end
+
 
 
 

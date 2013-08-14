@@ -33,29 +33,4 @@ Feature: Action bar
      And I can sort by author
      And the results are sorted by author
     
-  # This scenario includes actually clicking each of the actions and trying
-  # each of the behaviors.
-  # https://www.pivotaltracker.com/story/show/27418863
-  @javascript 
-  Scenario: Layout i can set in the action bar
-    Given I am "Normin"
-     When I see the action bar
-      And I can switch the layout of the results to the grid view
-      And I can switch the layout of the results to the list view 
-      And I can switch the layout of the results to the miniature view 
 
-  # https://www.pivotaltracker.com/story/show/27418863
-  @javascript
-  Scenario: Picking any action from the action bar changes the page I am on
-    Given I am "Normin"
-     When I change any of the settings in the bar then i am forwarded to a different page url
-
-  # https://www.pivotaltracker.com/story/show/27418863
-  @javascript
-  Scenario: Content counter
-   Given I am "Normin"
-    When I go to set view
-    Then the counter is formatted as "N von M für Sie sichtbar"
-    When I go to search results
-     And the grid layout is active
-    Then the counter is formatted as "N Resultate"
