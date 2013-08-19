@@ -222,7 +222,7 @@ msgid_plural "%d items"
 msgstr[0] "%d Inhalt"
 msgstr[1] "%d Inhalte"
 
-msgid "%d set" 
+msgid "%d set"
 msgid_plural "%d sets"
 msgstr[0] "%d Set"
 msgstr[1] "%d Sets"
