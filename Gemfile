@@ -74,7 +74,7 @@ group :development, :personas do
 end
 
 group :test, :development, :personas do
-  gem 'database_cleaner'
+#  gem 'database_cleaner'
   gem 'factory_girl', '~> 4.0'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'faker'

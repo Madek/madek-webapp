@@ -64,8 +64,11 @@ module DBHelper
 
     def create_from_template config, template_config
       set_pg_env template_config
-      cmd = "psql -q -c 'CREATE DATABASE \"#{config['database']}\" TEMPLATE = \"#{template_config['database']}\"'"
-      system cmd
+      cmd = "psql -d template1 -q -c 'CREATE DATABASE \"#{config['database']}\" TEMPLATE = \"#{template_config['database']}\"'"
+      Rails.logger.debug "executing: #{cmd}"
+      output = `#{cmd}`
+      raise "ERROR executing #{cmd} with output: #{output}" if $?.exitstatus != 0
+      output
     end
 
     def create config = Rails.configuration.database_configuration[Rails.env]

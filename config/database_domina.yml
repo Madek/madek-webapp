@@ -3,6 +3,7 @@ default: &default
   encoding: utf8
   username: domina
   password: domina
+  pool: 5
 
 test: 
   <<: *default

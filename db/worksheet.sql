@@ -1,5 +1,10 @@
 
 
+SELECT * FROM pg_stat_activity WHERE pg_stat_activity.datname = 'madek_test';
+
+SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'madek_test';
+
+
 -- All media_fieles of type video which do not have both previews (mp4 and webm)  
 -- and are referenced by an media_entry
 SELECT count(media_files.id) FROM media_files

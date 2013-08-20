@@ -1,5 +1,5 @@
 Capybara.javascript_driver = :poltergeist
-Capybara.default_wait_time = ENV['CAPYBARA_WAIT_TIME'].try(:to_i) || 2
+Capybara.default_wait_time = ENV['CAPYBARA_WAIT_TIME'].try(:to_i) || 10
 
 require 'capybara/poltergeist'
 
