@@ -21,11 +21,13 @@ class ImportController < ApplicationController
   def upload
     respond_to do |format|
       format.js { # this is used by Plupload
-        uploaded_data = params[:file] ? params[:file] : raise("No file to import!")
-        media_entry_incomplete = current_user.incomplete_media_entries.create(:uploaded_data => uploaded_data)
-        raise "Import failed!" unless media_entry_incomplete.persisted?
-        Rails.cache.delete "#{current_user.id}/media_entry_incompletes_partial"
-        render :json => {"media_entry_incomplete" => {"id" => media_entry_incomplete.id} }
+        ExceptionHelper.log_and_reraise do
+          uploaded_data = params[:file] ? params[:file] : raise("No file to import!")
+          media_entry_incomplete = current_user.incomplete_media_entries.create(:uploaded_data => uploaded_data)
+          raise "Import failed!" unless media_entry_incomplete.persisted?
+          Rails.cache.delete "#{current_user.id}/media_entry_incompletes_partial"
+          render :json => {"media_entry_incomplete" => {"id" => media_entry_incomplete.id} }
+        end
       } 
     end
   end
