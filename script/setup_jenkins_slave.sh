@@ -146,7 +146,7 @@ fi
 ###########################################################
 # MariaDB
 ###########################################################
-apt-get remove mysql-client-5.5 mysql-server-5.5 mysql-common
+apt-get remove -q --assume-yes mysql-client-5.5 mysql-server-5.5 mysql-common
 apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
 echo "# MariaDB 5.5 repository list - created 2013-08-20 09:55 UTC" > /etc/apt/sources.list.d/mariadb.list
 echo "# http://mariadb.org/mariadb/repositories/" >> /etc/apt/sources.list.d/mariadb.list
