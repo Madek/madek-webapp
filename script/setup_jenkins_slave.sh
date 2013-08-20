@@ -115,11 +115,6 @@ CREATE DATABASE jenkins;
 GRANT ALL ON DATABASE jenkins TO jenkins;
 EOF
 
-#############################################################
-# MySQL (mostly for leihs)
-#############################################################
-DEBIAN_FRONTEND=noninteractive apt-get install -q --assume-yes mysql-server libmysqlclient-dev 
-mysql -uroot -e "grant all privileges on *.* to jenkins@localhost identified by 'jenkins';"
 
 
 ###########################################################
@@ -146,6 +141,21 @@ then
         gpg --check-sigs --fingerprint --keyring /etc/apt/trusted.gpg.d/pkg-mozilla-archive-keyring.gpg --keyring /usr/share/keyrings/debian-keyring.gpg pkg-mozilla-maintainers
         apt-get install --assume-yes iceweasel
 fi
+
+
+###########################################################
+# MariaDB
+###########################################################
+apt-get remove mysql-client-5.5 mysql-server-5.5 mysql-common
+apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
+echo "# MariaDB 5.5 repository list - created 2013-08-20 09:55 UTC" > /etc/apt/sources.list.d/mariadb.list
+echo "# http://mariadb.org/mariadb/repositories/" >> /etc/apt/sources.list.d/mariadb.list
+echo "deb http://mirror.netcologne.de/mariadb/repo/5.5/debian wheezy main" >> /etc/apt/sources.list.d/mariadb.list
+echo "deb-src http://mirror.netcologne.de/mariadb/repo/5.5/debian wheezy main" >> /etc/apt/sources.list.d/mariadb.list
+apt-get update
+DEBIAN_FRONTEND=noninteractive apt-get install -q --assume-yes mariadb-server
+mysql -uroot -e "grant all privileges on *.* to jenkins@localhost identified by 'jenkins';"
+apt-get install -q --assume-yes libmariadbclient-dev libmariadbclient18 libmysqlclient18
 
 
 #############################################################
