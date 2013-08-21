@@ -4,7 +4,7 @@ Feature: Browse media entries
   I want to find similar entries
   starting from a specific one
 
-  @javascript
+  @jsbrowser
   Scenario: Browse a media entry
     Given I am signed-in as "Normin"
     When I see a media entry

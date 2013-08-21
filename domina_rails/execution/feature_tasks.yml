@@ -63,10 +63,14 @@
   scripts:
     main:
       body: bundle exec cucumber "features/guest_user.feature"
-- name: import
+- name: import_01
   scripts:
     main:
-      body: bundle exec cucumber "features/import.feature"
+      body: bundle exec cucumber "features/import_01.feature"
+- name: import_02
+  scripts:
+    main:
+      body: bundle exec cucumber "features/import_02.feature"
 - name: import_encoding
   scripts:
     main:
@@ -91,10 +95,18 @@
   scripts:
     main:
       body: bundle exec cucumber "features/metadata.feature"
-- name: permissions
+- name: permissions_01
   scripts:
     main:
-      body: bundle exec cucumber "features/permissions.feature"
+      body: bundle exec cucumber "features/permissions_01.feature"
+- name: permissions_02
+  scripts:
+    main:
+      body: bundle exec cucumber "features/permissions_02.feature"
+- name: preview
+  scripts:
+    main:
+      body: bundle exec cucumber "features/preview.feature"
 - name: search
   scripts:
     main:
