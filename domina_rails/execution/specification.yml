@@ -2,6 +2,9 @@
 name: Madek
 environments:
 - linux
+- ruby-1.9.3
+- x-server
+
 contexts:
 - name: environment 
   tasks:
@@ -13,6 +16,20 @@ contexts:
     scripts:
       main:
         body: env | sort
+- name: rspec specs
+  scripts:
+    bundle: 
+      order: 2
+      prepare_executor: true
+      body_substitute_with_path: "domina_rails/scripts/bundle.sh"
+    setup_madek:
+      order: 4
+      body_substitute_with_path: "domina_rails/scripts/setup_madek.sh"
+    main: 
+      order: 5
+      body_substitute_with_path: "domina_rails/scripts/context_feature_main.sh"
+  tasks: "substitute_with_path: domina_rails/execution/rspec_tasks.yml"
+  
 - name: cucumber features 
   scripts:
     bundle: 
@@ -28,7 +45,7 @@ contexts:
       body_substitute_with_path: "domina_rails/scripts/context_feature_startx.sh"
     setup_madek:
       order: 4
-      body_substitute_with_path: "domina_rails/scripts/context_feature_setup_madek.sh"
+      body_substitute_with_path: "domina_rails/scripts/setup_madek.sh"
     main: 
       order: 5
       body_substitute_with_path: "domina_rails/scripts/context_feature_main.sh"
@@ -37,4 +54,3 @@ contexts:
       post_process: true
       body_substitute_with_path: "domina_rails/scripts/context_feature_stopx.sh"
   tasks: "substitute_with_path: domina_rails/execution/feature_tasks.yml"
-
