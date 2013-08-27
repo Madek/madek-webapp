@@ -1,4 +1,11 @@
-When /^I go to (.*?)$/ do |page|
+# -*- encoding : utf-8 -*-
+#
+Then /^I get rid of the anoying browser warning$/ do
+  find("#not_supported_warning button").click()
+end
+
+
+Then /^I go to (.*?)$/ do |page|
   
   visit case page
 
@@ -69,7 +76,3 @@ When /^I go to (.*?)$/ do |page|
   end
 end
 
-
-When(/^I visit "(.*?)"$/) do |path|
-  visit path
-end
