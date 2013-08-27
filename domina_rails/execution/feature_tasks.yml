@@ -2,128 +2,128 @@
 - name: admin_people
   scripts:
     main:
-      body: bundle exec cucumber "features/admin_people.feature"
+      body: bundle exec cucumber --strict "features/admin_people.feature"
 - name: admin_previews
   scripts:
     main:
-      body: bundle exec cucumber "features/admin_previews.feature"
+      body: bundle exec cucumber --strict "features/admin_previews.feature"
 - name: admin_specify_links_and_logo
   scripts:
     main:
-      body: bundle exec cucumber "features/admin_specify_links_and_logo.feature"
+      body: bundle exec cucumber --strict "features/admin_specify_links_and_logo.feature"
 - name: admin_users
   scripts:
     main:
-      body: bundle exec cucumber "features/admin_users.feature"
+      body: bundle exec cucumber --strict "features/admin_users.feature"
 - name: apply_to_all
   scripts:
     main:
-      body: bundle exec cucumber "features/apply_to_all.feature"
+      body: bundle exec cucumber --strict "features/apply_to_all.feature"
 - name: browse
   scripts:
     main:
-      body: bundle exec cucumber "features/browse.feature"
+      body: bundle exec cucumber --strict "features/browse.feature"
 - name: configurable_contexts_in_lists
   scripts:
     main:
-      body: bundle exec cucumber "features/configurable_contexts_in_lists.feature"
+      body: bundle exec cucumber --strict "features/configurable_contexts_in_lists.feature"
 - name: context
   scripts:
     main:
-      body: bundle exec cucumber "features/context.feature"
+      body: bundle exec cucumber --strict "features/context.feature"
 - name: dashboard_page
   scripts:
     main:
-      body: bundle exec cucumber "features/dashboard_page.feature"
+      body: bundle exec cucumber --strict "features/dashboard_page.feature"
 - name: delete
   scripts:
     main:
-      body: bundle exec cucumber "features/delete.feature"
+      body: bundle exec cucumber --strict "features/delete.feature"
 - name: explore_page
   scripts:
     main:
-      body: bundle exec cucumber "features/explore_page.feature"
+      body: bundle exec cucumber --strict "features/explore_page.feature"
 - name: filter_media_resource_types
   scripts:
     main:
-      body: bundle exec cucumber "features/filter_media_resource_types.feature"
+      body: bundle exec cucumber --strict "features/filter_media_resource_types.feature"
 - name: filter_panel
   scripts:
     main:
-      body: bundle exec cucumber "features/filter_panel.feature"
+      body: bundle exec cucumber --strict "features/filter_panel.feature"
 - name: filter_set
   scripts:
     main:
-      body: bundle exec cucumber "features/filter_set.feature"
+      body: bundle exec cucumber --strict "features/filter_set.feature"
 - name: graph_visualization
   scripts:
     main:
-      body: bundle exec cucumber "features/graph_visualization.feature"
+      body: bundle exec cucumber --strict "features/graph_visualization.feature"
 - name: guest_user
   scripts:
     main:
-      body: bundle exec cucumber "features/guest_user.feature"
+      body: bundle exec cucumber --strict "features/guest_user.feature"
 - name: import_01
   scripts:
     main:
-      body: bundle exec cucumber "features/import_01.feature"
+      body: bundle exec cucumber --strict "features/import_01.feature"
 - name: import_02
   scripts:
     main:
-      body: bundle exec cucumber "features/import_02.feature"
+      body: bundle exec cucumber --strict "features/import_02.feature"
 - name: import_encoding
   scripts:
     main:
-      body: bundle exec cucumber "features/import_encoding.feature"
+      body: bundle exec cucumber --strict "features/import_encoding.feature"
 - name: import_metadata
   scripts:
     main:
-      body: bundle exec cucumber "features/import_metadata.feature"
+      body: bundle exec cucumber --strict "features/import_metadata.feature"
 - name: import_via_dropbox
   scripts:
     main:
-      body: bundle exec cucumber "features/import_via_dropbox.feature"
+      body: bundle exec cucumber --strict "features/import_via_dropbox.feature"
 - name: inheritance_of_contexts
   scripts:
     main:
-      body: bundle exec cucumber "features/inheritance_of_contexts.feature"
+      body: bundle exec cucumber --strict "features/inheritance_of_contexts.feature"
 - name: login
   scripts:
     main:
-      body: bundle exec cucumber "features/login.feature"
+      body: bundle exec cucumber --strict "features/login.feature"
 - name: metadata
   scripts:
     main:
-      body: bundle exec cucumber "features/metadata.feature"
+      body: bundle exec cucumber --strict "features/metadata.feature"
 - name: permissions_01
   scripts:
     main:
-      body: bundle exec cucumber "features/permissions_01.feature"
+      body: bundle exec cucumber --strict "features/permissions_01.feature"
 - name: permissions_02
   scripts:
     main:
-      body: bundle exec cucumber "features/permissions_02.feature"
+      body: bundle exec cucumber --strict "features/permissions_02.feature"
 - name: preview
   scripts:
     main:
-      body: bundle exec cucumber "features/preview.feature"
+      body: bundle exec cucumber --strict "features/preview.feature"
 - name: search
   scripts:
     main:
-      body: bundle exec cucumber "features/search.feature"
+      body: bundle exec cucumber --strict "features/search.feature"
 - name: showing_media_resources
   scripts:
     main:
-      body: bundle exec cucumber "features/showing_media_resources.feature"
+      body: bundle exec cucumber --strict "features/showing_media_resources.feature"
 - name: uberadmin
   scripts:
     main:
-      body: bundle exec cucumber "features/uberadmin.feature"
+      body: bundle exec cucumber --strict "features/uberadmin.feature"
 - name: welcome_page
   scripts:
     main:
-      body: bundle exec cucumber "features/welcome_page.feature"
+      body: bundle exec cucumber --strict "features/welcome_page.feature"
 - name: workgroups
   scripts:
     main:
-      body: bundle exec cucumber "features/workgroups.feature"
+      body: bundle exec cucumber --strict "features/workgroups.feature"
