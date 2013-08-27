@@ -8,6 +8,11 @@ Then /^this context is removed from set A$/ do
   expect(@media_set_a.individual_contexts.include?(@individual_context)).to be_false
 end
 
+Then /^This logo_url appears as the logo of this instance$/  do
+  visit "/my"
+  find ".app-header .ui-header-brand img[src='#{@logo_url}']"
+end
+
 Then /^those contexts are no longer connected to that set$/ do
   @individual_contexts.each do |context|
     expect(@media_set.reload.individual_contexts.include? context).to be_false
@@ -30,3 +35,9 @@ Then /^two files with missing metadata are marked$/ do
   expect(all("ul.ui-resources li.ui-invalid").size).to eq 2
 end
 
+Then /^Those links appear in the footer of the path "(.*?)"$/  do |path|
+  visit path
+  @links.each do |k,v| 
+    find(".app-footer").find("a[href='#{v}']",text: k)
+  end
+end

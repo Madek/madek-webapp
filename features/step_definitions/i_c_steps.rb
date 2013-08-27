@@ -480,7 +480,14 @@ Then /^I choose to list only files with missing metadata$/ do
   find("input#display-only-invalid-resources").click
 end
 
-And /^I confirm the browser dialog$/ do
+Then /^I configure some logo_url as the logo of my instance$/  do
+  @logo_url="http://somwhere.com/some_logo.png"
+  visit '/app_admin/settings/edit'
+  find("input#app_settings_logo_url").set(@logo_url)
+  find("*[type=submit]").click()
+end
+
+Then /^I confirm the browser dialog$/ do
   unless Capybara.current_driver == :poltergeist
     page.driver.browser.switch_to.alert.accept 
   end

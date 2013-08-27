@@ -11,6 +11,13 @@ Then /^I accept the usage terms if I am supposed to do so$/ do
   end
 end
 
+Then  /^I add some links for footer in the admin interface$/ do
+  visit '/app_admin/settings/edit'
+  @links={"THE SOMEWHERE LINK" => "http://somwhere.com", "THE NOWHERE LINK" => "http://nowhere.com"}
+  find("textarea#app_settings_extra_yaml_footer_links").set(@links.to_yaml)
+  find("*[type='submit']").click()
+end
+
 Then /^I add the resource to the given set$/ do
   wait_until{all(".ui-modal input.ui-search-input").size > 0}
   find(".ui-modal input.ui-search-input").set(@set.title)
