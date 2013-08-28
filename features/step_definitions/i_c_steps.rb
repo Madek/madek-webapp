@@ -282,7 +282,7 @@ Then /^I change the value of each meta\-data field of each context$/  do
 
   all("ul.contexts li").each do |context|
     context.find("a").click()
-    step 'I change the valule of each visible meta-data field'
+    step 'I change the value of each visible meta-data field'
     @meta_data_by_context[context[:'data-context-name']] = @meta_data
   end
 end
