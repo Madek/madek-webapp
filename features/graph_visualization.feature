@@ -20,14 +20,6 @@ Feature: Visualization / Graph
      And I use the "Zusammenhänge anzeigen" context action
     Then I can see my relations for that resource
 
-  @clean
-  Scenario: Calculate graph on a filtered list
-    Given I am signed-in as "Normin"
-    Given I see a filtered list of resources where at least one element has arcs
-    And I wait for the following to be implemented
-    And I use the "Zusammenhänge anzeigen" context action
-    Then I can see the relations for that resources
-
   @jsbrowser @clean
   Scenario: Browser Switcher
     Given I am signed-in as "Normin"
