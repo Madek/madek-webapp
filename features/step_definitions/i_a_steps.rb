@@ -107,7 +107,6 @@ Then /^I am on the dashboard$/ do
 end
 
 Then /^I am on the my groups page$/ do
-  pending
   expect(current_path).to eq "/my/groups"
 end
 

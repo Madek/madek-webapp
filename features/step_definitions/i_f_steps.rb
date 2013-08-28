@@ -16,8 +16,7 @@ Then /^I follow the first link to create a new user$/ do
 end
 
 Then /^I follow the link to my groups$/ do
-  pending
-  (find "#my_groups_block a[href*='/my/groups']").click
+  (find"a[href*='/my/groups']").click
 end
 
 Then /^I follow the link to my keywords$/ do
