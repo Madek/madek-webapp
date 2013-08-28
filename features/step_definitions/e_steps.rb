@@ -1,7 +1,7 @@
 Then /^each meta\-data value in each context should be equal to the one set previously$/ do
   all("ul.contexts li").each do |context|
     context.find("a").click()
-    @meta_data ||= @meta_data_by_context[context[:'data-context-name']]
+    @meta_data = @meta_data_by_context[context[:'data-context-name']]
     step 'each meta-data value should be equal to the one set previously'
   end
 end
