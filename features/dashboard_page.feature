@@ -44,13 +44,3 @@ Feature: Dashboard
     When I follow the link to my groups
     Then I am on the my groups page
 
-   Scenario: Contexts
-   # to be implemented
-    Given I am on the dashboard
-    Then I see a list of contexts which is non empty
-    When I can choose to continue to the context "to be added"
-    Then I see a sidebar that lists all blocks of resources showing my content
-    And I can choose one of the labels
-    And I got to the related page
-    And I see the clipboard
-    And I see context related actions
