@@ -10,6 +10,10 @@ Then /^I delete all existing authors$/ do
   all("fieldset[data-meta-key='author'] ul.multi-select-holder li a",visible:true).each{|e| e.click}
 end
 
+When /^I delete the import "(.*?)"$/ do |text|
+  find("ul#mei_filelist li",text: text).find("a.delete_mei").click
+end
+
 Then /^I delete the dropbox import "(.*?)"$/ do |text|
   find("ul#dropbox_filelist li",text: text).find("a.delete_dropbox_file").click
 end
