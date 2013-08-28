@@ -34,7 +34,8 @@ Feature: Context
 
   @clean
   Scenario: Interact with the abstract slider of a context 
-    When I'm on the context's abstract page
+    When I open a specific context
+     And I go to the context's abstract page
     Then I see all values that are at least used for one resource
     When I open a specific context
      And I go to the context's abstract page
