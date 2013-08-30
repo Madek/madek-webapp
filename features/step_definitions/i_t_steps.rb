@@ -7,6 +7,11 @@ Then /^I take a screenshot$/ do
   end
 end
 
+When /^I try to create a new group by using the context primary action$/ do
+  find(".ui-body-title-actions .primary-button").click
+  step 'I wait for the dialog to appear'
+end
+
 Then /^I try to leave the page$/ do
   @current_path = page.current_path
   find("a[href='#{root_path}']").click
