@@ -16,6 +16,46 @@ Then /^a person does not have any MetaData neither User associated to it$/ do
   expect{  find("tr#person_#{@person_without_meta_data.id} .meta_data_count") }.to raise_error
 end
 
+Given /^A media_entry with file, not owned by normin, and with no permissions whatsoever$/ do
+  @petra = User.find_by_login("petra")
+  @resource = FactoryGirl.create :media_entry, user: @petra
+  @resource.update_attributes download: false, edit: false, manage: false, view: false
+  @resource.userpermissions.clear
+  @resource.grouppermissions.clear
+end
+
+Given /^A resource owned by me$/ do
+  @resource = @me.media_resources.first
+end
+
+Given /^A resource, not owned by normin, and with no permissions whatsoever$/ do
+  @resource = User.find_by_login("petra").media_entries.first
+  @resource.update_attributes download: false, edit: false, manage: false, view: false
+  @resource.userpermissions.clear
+  @resource.grouppermissions.clear
+end
+
+Given /^A resource owned by me and defined userpermissions for "(.*?)"$/ do |login|
+  @user_with_userpermissions = User.find_by_login login
+  @resource = MediaResource.where(user_id: @me.id).joins(:userpermissions)\
+    .where("userpermissions.user_id = ?", @user_with_userpermissions.id).first
+end
+
+Given /^A resource owned by me with no other permissions$/ do
+  @resource = @me.media_resources.first
+  @resource.userpermissions.clear
+  @resource.grouppermissions.clear
+  @resource.update_attributes view: false, edit: false, manage: false, download: false
+end
+
+Given /^A set, not owned by normin, and with no permissions whatsoever$/ do
+  @set = User.find_by_login("petra").media_sets.first
+  @set.update_attributes download: false, edit: false, manage: false, view: false
+  @set.userpermissions.clear
+  @set.grouppermissions.clear
+end
+
+
 Then /^All resources that I can see have public view permission$/ do
   ids = all("li.ui-resource").map{|el| el['data-id'].to_i}
   view_permissions = MediaResource.where(id: ids).map(&:view)
