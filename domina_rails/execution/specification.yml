@@ -2,8 +2,15 @@
 name: Madek
 environments:
 - linux
+- postgresql
+- rbenv
 - ruby-1.9.3
-- x-server
+- tightvncserver
+
+attachments: 
+  logs: 
+    glob: 'log/*.log'
+    content-type: text/plain
 
 contexts:
 - name: environment 
