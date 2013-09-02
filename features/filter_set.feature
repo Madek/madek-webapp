@@ -5,7 +5,7 @@ Feature: Filter set
   So that I can track resources related to specific topics
 
   # TODO sollte im @jsbrowser laufen 
-  @chrome
+  @firefox
   Scenario: Create a filter set
    Given I am signed-in as "Normin"
     When I go to a search result page
@@ -17,7 +17,7 @@ Feature: Filter set
     And I can see the provided title and the used filter settings
 
   # TODO sollte im @jsbrowser laufen 
-  @chrome
+  @firefox
   Scenario: Edit a filter set
    Given I am signed-in as "Normin"
     When I open a filter set
@@ -27,7 +27,7 @@ Feature: Filter set
     Then I am getting redirected to the updated filter set
     And I can see the provided title and the used filter settings
 
-  @chrome 
+  @firefox 
   Scenario: Edit the meta-data of a filter set
     Given I am signed-in as "Normin"
     When I open a filter set

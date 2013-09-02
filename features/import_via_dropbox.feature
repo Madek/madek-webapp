@@ -4,7 +4,7 @@ Feature: Import via Dropbox
   I want a upload big files what is not possible through the browser
   So that I can import big files
 
-  @chrome
+  @firefox
   Scenario: Create my dropbox
     Given I am signed-in as "Normin"
     Given The dropbox settings are set-up
@@ -23,14 +23,14 @@ Feature: Import via Dropbox
     Then I see an error alert
      And I can see instructions for an FTP import
 
-  @chrome
+  @firefox
   Scenario: Importing via a dropbox
     Given I am signed-in as "Normin"
     Given the current user has a dropbox
      When I upload some files to my dropbox
      Then those files are getting imported during the upload
 
-  @chrome
+  @firefox
   Scenario: Deleting files during the import via a dropbox
     Given I am signed-in as "Normin"
     Given the current user has a dropbox
