@@ -4,7 +4,7 @@ Then /^I can apply meta data from one specific field to the same field of multip
   step 'I click on the button "Berechtigungen speichern"'
   step 'I wait until I am on the "/import/meta_data" page'
   wait_until {all(".apply-to-all", :visible => true).size > 0}
-  all(".apply-to-all").first.click
+  find(".apply-to-all a").click
   find("a[data-overwrite='true']", :visible => true)
   find("a[data-overwrite='false']", :visible => true)
 end

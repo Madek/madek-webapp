@@ -53,7 +53,7 @@ Then /^I apply each meta datum field of one media entry to all other media entri
     end
   end
   all("form fieldset",visible: true).each_with_index do |field_set,i|
-    field_set.find(".apply-to-all").click
+    field_set.find(".apply-to-all a").click
     field_set.find("a[data-overwrite='false']").click
     wait_until { field_set.all(".icon-checkmark").size > 0}
   end
@@ -65,7 +65,7 @@ Then /^I apply each meta datum field of one media entry to all other media entri
   wait_until {all("form fieldset",visible: true).size > 0}
   step 'I change the value of each visible meta-data field'
   all("form fieldset",visible: true).each_with_index do |field_set,i|
-    field_set.find(".apply-to-all").click
+    field_set.find(".apply-to-all a").click
     field_set.find("a[data-overwrite='true']").click
     wait_until { field_set.all(".icon-checkmark").size > 0}
   end
