@@ -29,7 +29,6 @@ Feature: Importing files with metadata and setting metadata
     And there is a entry with the title "Berlin Wall 01" in the new media_entries
     And there is a entry with the title "Berlin Wall 02" in the new media_entries
 
-
   @chrome 
   Scenario: Filtering entries with missing metadata in the sequential metadata editor
     Given I am signed-in as "Normin"
@@ -83,7 +82,6 @@ Feature: Importing files with metadata and setting metadata
     Then I can see the text "30.05.2011"
     And I can see the text "Grumpy Cat"
 
-
   @chrome 
   Scenario: import an image that has MAdeK title and date information (specific date) in its EXIF/IPTC metadata
     Given I am signed-in as "Normin"
@@ -133,7 +131,5 @@ Feature: Importing files with metadata and setting metadata
      And I can see the text "Porträt"
      And I can see the text "Selbstporträt"
      And I can see the text "Schweiz"
-
-
 
 

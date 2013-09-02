@@ -1,6 +1,5 @@
 Feature: Welcome Page
 
-  @clean 
   Scenario: Elements of welcome page
     When I go to the home page
     Then I see a selection of the images of the teaser set
@@ -22,11 +21,11 @@ Feature: Welcome Page
     Then I am on the featured sets set page
     When I go to the home page
 
-  @clean 
   Scenario: Catalog Feature
     When I go to the home page
     And I click on show me more of the catalog
     Then I am on the catalog page
     And I click on the first a tag in the class "ui-resources"
     Then I can see several items of class "ui-resource" in the class "ui-resources"
+
 

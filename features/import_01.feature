@@ -16,10 +16,9 @@ Feature: Importing
     When I click on the link "Medien importieren"
     Then there is "berlin_wall_01.jpg" in my imports
 
-
   @chrome 
   Scenario: Deleting files during the import 
-  
+
     Given I am signed-in as "Normin"
     And There is no media-entry with a filename matching "berlin"
     And There is no incomplete media-entry with a filename matching "berlin"
@@ -53,7 +52,6 @@ Feature: Importing
     And There is exactly one media-entry with a filename matching "berlin"
     And There is no media-entry incomplete with a filename matching "berlin"
 
-
   @chrome
   Scenario: Importing a video creates a Zencoder.job and submits it
     Given I am signed-in as "Normin"
@@ -80,11 +78,12 @@ Feature: Importing
     And there are "1" new zencoder_jobs
     And The most recent zencoder_job has the state "submitted"
 
-  @chrome @clean
+  @chrome 
   Scenario: Importing a file with 0 bytes
     Given I am signed-in as "Normin"
     And I click on the link "Medien importieren"
     Then I am on the "/import" page
     When I attach the file "files/empty_file.mp3"
     Then I see an error alert
+
 

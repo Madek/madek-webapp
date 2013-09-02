@@ -49,7 +49,6 @@ Feature: importing an image
     And I click on the link "Weiter..." 
     And I wait until I am on the "/import/organize" page
 
-
   @chrome
   Scenario: Setting permissions during the import
     Given I am signed-in as "Normin"
@@ -78,7 +77,6 @@ Feature: importing an image
     And there is a entry with the title "Berlin Wall" in the new media_entries
     And Petra has "view" user-permission on the new media_entry with the tile "Berlin Wall"
     And Petra has "download" user-permission on the new media_entry with the tile "Berlin Wall"
-
 
   @chrome 
   Scenario: Adding the imports to a new set 

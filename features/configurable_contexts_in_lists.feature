@@ -13,11 +13,3 @@ Feature: Setting and displaying configurable contexts in list views
     Then There is a element with the data-context-name "Landschaftsvisualisierung" in the ui-resource-body
 
 
-
-    
-
-
-
-
-
-

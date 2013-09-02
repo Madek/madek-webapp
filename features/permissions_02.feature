@@ -15,7 +15,7 @@ Feature: Permissions
     And I open the edit-permissions dialog
     Then I am not the responsible person for that resource
 
-  @jsbrowser @clean
+  @jsbrowser 
   Scenario: Owner / responsible user of a resource
     Given I am signed-in as "Normin"
     And A resource owned by me
@@ -32,7 +32,7 @@ Feature: Permissions
     And I click on the link "Exportieren" 
     And I click on the link "Datei ohne Metadaten" inside of the dialog 
     Then There is no link with class "original" in the list with class "download"
-    
+
   @jsbrowser
   Scenario: Download permission will let me download the resource
     Given I am signed-in as "Normin"
@@ -54,7 +54,7 @@ Feature: Permissions
     And I click on the link "Exportieren" 
     And I click on the link "Datei ohne Metadaten" inside of the dialog 
     Then There is a link with class "original" in the list with class "download"
-    
+
   @jsbrowser
   Scenario: Permissions for adding a resource to a set
     Given I am signed-in as "Normin"
@@ -71,7 +71,7 @@ Feature: Permissions
     And I add the resource to the given set 
     Then the resource is in the children of the given set
 
-  @jsbrowser @clean
+  @jsbrowser 
   Scenario: Permission presets
     Given I am signed-in as "Normin"
       And A resource owned by me and defined userpermissions for "Petra"

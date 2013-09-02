@@ -3,14 +3,12 @@ Feature: Dashboard
   Background: 
     Given I am signed-in as "Normin"
 
-
   Scenario: My resources
     Given I am on the dashboard
     Then I see a block of resources showing my content
     And There is a link to my resources
     When I follow the link to my resources
     Then I am on the my resources page
-
 
   Scenario: Showing last imports
     Given I am on the dashboard
@@ -43,4 +41,5 @@ Feature: Dashboard
     And There is a link to my groups
     When I follow the link to my groups
     Then I am on the my groups page
+
 

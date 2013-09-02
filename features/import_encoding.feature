@@ -1,6 +1,5 @@
 Feature: encoding videos
 
-
   # Scenarios with the tag @encoding must be rung from the encoding profile, e.g: 
   #
   #   bundle exec cucumber -p encoding
@@ -37,7 +36,6 @@ Feature: encoding videos
     And I can see the preview
     And I can watch the video
 
-
   @encoding @chrome
   Scenario: Importing and encoding a broken video file
     Given I am signed-in as "Testicus"
@@ -66,6 +64,5 @@ Feature: encoding videos
 
     Then I see the error-alert "Konvertierung fehlgeschlagen."
     And I can see "The input file is a Quicktime file that contains external references."
-
 
 

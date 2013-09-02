@@ -15,7 +15,7 @@ Feature: Import via Dropbox
     Then the dropbox was created for me
      And I can see instructions for an FTP import
 
-  @jsbrowser @clean 
+  @jsbrowser  
   Scenario: Importing large files
     Given I am signed-in as "Normin"
     Given the current user has a dropbox
@@ -60,12 +60,5 @@ Feature: Import via Dropbox
     Then there are "1" new media_entries
     And There is exactly one media-entry with a filename matching "berlin"
     And There is no media-entry incomplete with a filename matching "berlin"
-
-
-
-
-
-
-
 
 

@@ -4,14 +4,14 @@ Feature: Filter
   I want to filter lists of resources
   So that can narrow down results
 
-  @clean @jsbrowser
+   @jsbrowser
   Scenario: Filter by "any" value
     When I go to a list of resources
      And I open the filter
      And I select the any-value checkbox for a specific key
     Then the list shows only resources that have any value for that key
 
-  @clean @jsbrowser
+   @jsbrowser
   Scenario: Existence of the filter-panel and searching for an empty term
     Given I am signed-in as "Liselotte"
     And I click on the link "Suche"
@@ -30,7 +30,7 @@ Feature: Filter
     And The filter panel contains the top filter "ZHdK"
     And The filter panel contains the top filter "Lehrmittel Fotografie"
 
-  @clean @jsbrowser 
+   @jsbrowser 
   Scenario: Filter by free-text search-term
      Given I am signed-in as "Liselotte"
      And I go to the media_resources with filter_panel
@@ -39,7 +39,7 @@ Feature: Filter
      And I wait for the number of resources to change
      Then the number or resources is lower then before
 
-  @clean @jsbrowser
+   @jsbrowser
   Scenario: Filter by file
      Given I am signed-in as "Liselotte"
      And I go to the media_resources with filter_panel
@@ -51,7 +51,7 @@ Feature: Filter
      And I wait for the number of resources to change
      Then the number or resources is equal to the remembered filter count
 
-  @clean @jsbrowser
+   @jsbrowser
   Scenario: Filter by permissions with multiple filters
      Given I am signed-in as "Liselotte"
      And I go to the media_resources with filter_panel
@@ -68,7 +68,7 @@ Feature: Filter
      And I wait for the number of resources to change
      Then the number or resources is equal to the remembered filter count
 
-  @clean @jsbrowser 
+   @jsbrowser 
   Scenario: Filter by work
      Given I am signed-in as "Liselotte"
      And I go to the media_resources with filter_panel
@@ -80,7 +80,7 @@ Feature: Filter
      And I wait for the number of resources to change
      Then the number or resources is equal to the remembered filter count
 
-  @clean @jsbrowser
+   @jsbrowser
   Scenario: Filter by "Landschaftsvisualisierung" with multiple field filter
      Given I am signed-in as "Liselotte"
      And I go to the media_resources with filter_panel
@@ -97,7 +97,7 @@ Feature: Filter
      And I wait for the number of resources to change
      Then the number or resources is equal to the remembered filter count
 
-  @clean @jsbrowser 
+   @jsbrowser 
   Scenario: Filter by Medium
      Given I am signed-in as "Liselotte"
      And I go to the media_resources with filter_panel
@@ -109,7 +109,7 @@ Feature: Filter
      And I wait for the number of resources to change
      Then the number or resources is equal to the remembered filter count
 
-  @clean @jsbrowser 
+   @jsbrowser 
   Scenario: Filter by "Säulenordnungen"
      Given I am signed-in as "Liselotte"
      And I go to the media_resources with filter_panel
@@ -121,7 +121,7 @@ Feature: Filter
      And I wait for the number of resources to change
      Then the number or resources is equal to the remembered filter count
 
-  @clean @jsbrowser
+   @jsbrowser
   Scenario: Filter by "ZHdK"
      Given I am signed-in as "Liselotte"
      And I go to the media_resources with filter_panel
@@ -133,7 +133,7 @@ Feature: Filter
      And I wait for the number of resources to change
      Then the number or resources is equal to the remembered filter count
 
-  @clean @jsbrowser
+   @jsbrowser
   Scenario: Filter by "Lehrmittel Fotografie"
      Given I am signed-in as "Liselotte"
      And I go to the media_resources with filter_panel
@@ -145,7 +145,7 @@ Feature: Filter
      And I wait for the number of resources to change
      Then the number or resources is equal to the remembered filter count
 
-  @clean @jsbrowser 
+   @jsbrowser 
   Scenario: Combining multiple filter from multiple groups: "Datei" and "Berechtigung"
      Given I am signed-in as "Liselotte"
      And I go to the media_resources with filter_panel
@@ -164,7 +164,7 @@ Feature: Filter
      And I wait for the number of resources to change
      Then the number or resources is equal to the remembered filter count
 
-  @clean @jsbrowser 
+   @jsbrowser 
   Scenario: Resetting all filters
      Given I am signed-in as "Liselotte"
      And I go to the media_resources with filter_panel
@@ -188,7 +188,7 @@ Feature: Filter
      And I go to the media_resources with filter_panel
      Then the number or resources is equal to the remembered number of resources
 
-  @clean @jsbrowser 
+   @jsbrowser 
   Scenario: Resetting single filters
      Given I am signed-in as "Liselotte"
      And I go to the media_resources with filter_panel

@@ -1,6 +1,5 @@
 Feature: Explore Page
 
-  @clean
   Scenario: Elements of welcome page
     When I go to the home page
     And I click on the explore tab
@@ -9,4 +8,5 @@ Feature: Explore Page
     And I see at most three elements of the catalog
     And I see sets of the featured sets
     And I can see the text "Häufige Schlagworte"
+
 

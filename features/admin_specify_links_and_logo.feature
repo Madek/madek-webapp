@@ -2,7 +2,7 @@ Feature: Admin interface: Configure footer and logo
   As a MAdeK admin
   I want to configure the logo and links on the splash page
   So my Madek instance looks different than other people's instances
-  
+
   Background: 
     Given I am signed-in as "Adam"
 
