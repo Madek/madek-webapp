@@ -118,7 +118,6 @@ end
 
 group :test do
   gem 'capybara', '1.1.2'
-  gem 'capybara-screenshot'
   gem 'cucumber', '~> 1.2'
   gem 'cucumber-rails', '~> 1.3', :require => false
   gem 'gherkin', '= 2.12.0' # NOTE, CI setup must be adjusted if this is updated !!!
