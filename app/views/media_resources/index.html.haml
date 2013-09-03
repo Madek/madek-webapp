@@ -8,6 +8,8 @@
         .ui-body-title-label
           %h1.title-xl 
             = @app_settings.title || "Medienarchiv"
+            // TODO INTERNATIONALIZE
+            // TODO TABIFIZIERUNG
 
         .ui-body-title-actions
           - if current_user.is_guest?

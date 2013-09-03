@@ -87,9 +87,6 @@ MAdeK::Application.routes.draw do
   ##############################################################################################
   ##############################################################################################
 
-  match '/help', :to => "application#help"
-  match '/feedback', :to => "application#feedback"
-
   match '/login', :to => "authenticator/zhdk#login"
   match '/logout', :to => "authenticator/zhdk#logout"
   match '/login_and_return_here', :to => "application#login_and_return_here" 

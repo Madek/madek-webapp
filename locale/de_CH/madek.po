@@ -409,8 +409,8 @@ msgstr[1] "Dieser Eintrag ist in %d Sets enthalten"
 msgid "Responsibility"
 msgstr "Verantwortlichkeit"
 
-msgid "Person responsible in the media archive"
-msgstr "Verantwortliche Person im Medienarchiv"
+msgid "Person responsible in the system"
+msgstr "Verantwortliche Person im System"
 
 msgid "File"
 msgstr "Datei"
@@ -445,8 +445,8 @@ msgstr "Gleiche Metadaten vorhanden"
 msgid "Value and text"
 msgstr "Wert und Text"
 
-msgid "Originial file, metadata as they were when it was uploaded into the archive."
-msgstr "Originaldatei mit gleichen Metadaten wie beim Hochladen ins Medienarchiv."
+msgid "Original file, metadata as they were when it was uploaded into the system."
+msgstr "Originaldatei mit gleichen Metadaten wie beim Hochladen ins System."
 
 msgid "File containing its original metadata"
 msgstr "Datei mit ursprünglichen Metadaten"
@@ -457,8 +457,8 @@ msgstr "Die aktuellen Metadaten als XML-Dokument für TMS."
 msgid "TMS XML document"
 msgstr "TMS XML-Dokument"
 
-msgid "Current metadata from the media archive is written directly into the file in the XMP/IPTC format."
-msgstr "Die aktuellen Metadaten aus dem Medienarchiv im Format XMP/IPTC sind direkt in die Datei eingeschrieben."
+msgid "Current metadata from the system is written directly into the file in the XMP/IPTC format."
+msgstr "Die aktuellen Metadaten aus dem System im Format XMP/IPTC sind direkt in die Datei eingeschrieben."
 
 msgid "File with current metadata"
 msgstr "Datei mit aktuellen Metadaten"
@@ -831,3 +831,6 @@ msgstr "Teilweise verantwortlich"
 
 msgid "Permission"
 msgstr "Berechtigung"
+
+msgid "Madek - Media Archive of the Arts"
+msgstr "Madek - Medienarchiv der Künste"

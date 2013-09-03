@@ -11,9 +11,10 @@
 
   .ui-modal-body
     %p
+      - # TODO INTERNATIONALIZE
       Sie benötigen auf Ihrem Computer einen
       %a{:href => "http://de.wikipedia.org/wiki/Kategorie:FTP-Client", :target => "_blank"} FTP-Client
-      , mit dem Sie Ihre Dateien zum Medienarchiv-Server übertragen können. Für Hilfe beim Zugang über FTP, wenden Sie sich an Ihre IT-Abteilung.
+      , mit dem Sie Ihre Dateien zum System-Server übertragen können. Für Hilfe beim Zugang über FTP, wenden Sie sich an Ihre IT-Abteilung.
   
   .ui-modal-toolbar.bottom
     {{if dropbox_info}}
@@ -28,7 +29,8 @@
     {{/if}}
 
     {{else}}
-    .ui-alert.warning Für dieses Medienarchiv wurde noch keine FTP-Dropbox eingerichtet.
+    // TODO INTERNATIONALIZE
+    .ui-alert.warning Für dieses System wurde noch keine FTP-Dropbox eingerichtet.
     {{/if}}
 
   .ui-modal-footer

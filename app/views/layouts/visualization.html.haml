@@ -12,6 +12,8 @@
       - else
         - if @title
           = "Medienarchiv - #{@title}"
+          // TODO INTERNATIONALIZE
+          // TODO TABIFIZIERUNG
         - else
           = @app_settings.title || "Medienarchiv"
     = stylesheet_link_tag "visualization"
