@@ -22,8 +22,8 @@ gem 'pg', platform: :mri
 gem 'postgres_ext'
 # there is a conflict with textacular and some other gem that overwrites respond_to? 
 # check how the situation is after upgrading to rails 4; 
-gem 'textacular', '~> 3.0', require: 'textacular/rails', git: 'http://github.com/DrTom/textacular.git' 
-# gem 'textacular', '~> 3.0', require: 'textacular/rails', git: 'git://github.com/textacular/textacular.git' 
+# gem 'textacular', '~> 3.0', require: 'textacular/rails', git: 'http://github.com/DrTom/textacular.git' 
+gem 'textacular', '~> 3.0', require: 'textacular/rails'
 
 # THE REST
 gem 'activeadmin', :git => 'git://github.com/zhdk/active_admin.git' # '~> 0.5.0'

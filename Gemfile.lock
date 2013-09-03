@@ -33,13 +33,6 @@ GIT
       sass (>= 3.1.0)
 
 GIT
-  remote: http://github.com/DrTom/textacular.git
-  revision: 8891399a017541fd0263e2f028aefe2d96c36dc5
-  specs:
-    textacular (3.0.0)
-      activerecord (>= 3.0, < 4.1)
-
-GIT
   remote: https://github.com/DrTom/font-awesome-plus-sass-rails.git
   revision: 1d8a749f899473782444a6457cfe039ac6639f6d
   specs:
@@ -450,6 +443,8 @@ GEM
       distribution (~> 0.6)
     stream (0.5)
     text-table (1.2.3)
+    textacular (3.1.0)
+      activerecord (>= 3.0, < 4.1)
     therubyracer (0.11.4)
       libv8 (~> 3.11.8.12)
       ref
@@ -563,7 +558,7 @@ DEPENDENCIES
   simplecov (~> 0.6)
   spork-rails
   statsample
-  textacular (~> 3.0)!
+  textacular (~> 3.0)
   therubyracer
   therubyrhino
   thin
