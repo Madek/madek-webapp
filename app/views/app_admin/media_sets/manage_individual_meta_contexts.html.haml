@@ -1,0 +1,39 @@
+- media_set ||= @media_set
+%h1 Manage individual meta-contexts of the media-set "#{media_set}"
+
+%h2 Individual meta-contexts
+
+%table.table.table-striped
+  %thead
+    %tr 
+      %th 
+      %th Name (id)
+      %th Position
+  %tbody
+    - @individual_meta_contexts.each do |meta_context|
+      %tr
+        %td= meta_context
+        %td= meta_context.name
+        %td= meta_context.position
+        %td
+          =link_to remove_app_admin_media_set_individual_meta_context_path(media_set,meta_context), method: 'POST', class: "btn btn-warning btn-mini" do
+            %i.icon-minus-sign
+            Remove
+
+%h2 Other meta-contexts
+%table.table.table-striped
+  %thead
+    %tr 
+      %th 
+      %th Name (id)
+      %th Position
+  %tbody
+    - @other_meta_contexts.each do |meta_context|
+      %tr 
+        %td= meta_context
+        %td= meta_context.name
+        %td= meta_context.position
+        %td
+          =link_to add_app_admin_media_set_individual_meta_context_path(media_set,meta_context), method: 'POST', class: "btn btn-warning btn-mini" do
+            %i.icon-plus-sign
+            Add

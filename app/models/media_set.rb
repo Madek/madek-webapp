@@ -57,12 +57,15 @@ class MediaSet < MediaResourceCollection
 ########################################################
 
   def to_s
-    return "Beispielhafte Sets" if is_featured_set?
-    title_and_count
+    if is_featured_set? 
+      "Beispielhafte Sets"
+    else
+      title_and_count
+    end
   end
-  
+
   def title_and_count
-    "#{title} (#{child_media_resources.media_entries.count})" # TODO filter accessible ?? "(#{child_media_resources.media_entries.accessible_by_user(current_user).count})"
+    "#{title} (#{child_media_resources.media_entries.count})" 
   end
 
 ########################################################
@@ -90,7 +93,7 @@ class MediaSet < MediaResourceCollection
 ########################################################
 
   def is_featured_set?
-    !self.id.nil? and self.id == @app_settings.featured_set_id
+    !self.id.nil? and self.id == AppSettings.first.featured_set_id
   end
 
 ########################################################

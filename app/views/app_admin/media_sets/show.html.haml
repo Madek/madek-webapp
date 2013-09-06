@@ -1,0 +1,80 @@
+- media_set ||= @media_set
+%h1 Media-Set "#{media_set.title}"
+
+%ul.inline
+  %li
+    =link_to delete_with_child_media_resources_app_admin_media_set_path(media_set), method: 'DELETE', data: {confirm: "Do you really want to delete this media-set including all children? "}, class: "btn btn-danger" do
+      %i.icon-trash
+      Delete with all children
+  %li
+    =link_to manage_app_admin_media_set_individual_meta_contexts_path(media_set), class: "btn btn-warning" do
+      Manage individual contexts
+
+%p
+  =link_to media_set do 
+    Visit "#{media_set}" in the archive.
+
+%table.table.table-striped
+  %thead
+  %tbody
+  - media_set.attributes.each do |name,value|
+    %tr
+      %td= name.capitalize.split("_").join(" ")
+      - case name
+      - when nil
+      - else
+        %td= value
+
+
+
+- if (media_set.individual_contexts.count > 0) 
+
+  %h2
+    %i.icon-contexts
+    Individual contexts
+
+  %table.table.table-striped
+    %thead
+    %tbody
+      = render partial: 'meta_context_row', collection: media_set.individual_contexts, as: :meta_context
+
+
+- if (media_set.userpermissions.count > 0) or (media_set.grouppermissions.count > 0)
+
+  %h2 
+    %i.icon-permissions
+    Permissions
+
+  - if media_set.userpermissions.count > 0 
+
+    %h3 Userpermissions
+
+    %table.table.table-striped
+      %thead
+        %th Person
+        %th View 
+        %th Download
+        %th Edit
+        %th Manage
+      %tbody
+        = render partial: 'userpermission_row', collection: media_set.userpermissions, as: :userpermission
+
+
+  - if  media_set.grouppermissions.count > 0
+
+    %h3 Grouppermissions
+
+    %table.table.table-striped
+      %thead
+        %th Group
+        %th View 
+        %th Download
+        %th Edit
+        %th Manage
+      %tbody
+        = render partial: 'grouppermission_row', collection: media_set.grouppermissions, as: :grouppermission
+
+
+
+
+

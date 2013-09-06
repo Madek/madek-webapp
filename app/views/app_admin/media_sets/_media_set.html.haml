@@ -1,0 +1,16 @@
+%tr
+  %td
+    = link_to app_admin_user_path(media_set.user) do
+      = media_set.user.to_s
+  %td= truncate(media_set.title,length: 40)
+  %td= media_set.id
+  %td= media_set.created_at
+  %td= media_set.child_media_resources.count
+  %td= media_set.userpermissions.count
+  %td= media_set.grouppermissions.count
+  %td= media_set.individual_contexts.count
+  %td
+    = link_to app_admin_media_set_path(media_set), class: "btn btn-small" do
+      %i.icon-eye-open
+      Details
+

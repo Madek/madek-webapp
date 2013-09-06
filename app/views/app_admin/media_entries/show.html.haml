@@ -1,4 +1,4 @@
-%h1 Media Entry #{@media_entry.id}
+%h1 Media-Entry #{@media_entry.id}
 
 %table.table.table-striped
   %thead
@@ -11,10 +11,10 @@
       - else
         %td= value
   %tr
-    %td Media file
+    %td Media-File
     %td
       = link_to app_admin_media_file_path(@media_entry.media_file) do
-        MediaFile: #{@media_entry.media_file.id}
+        Media-File: #{@media_entry.media_file.id}
 
 
 
