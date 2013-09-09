@@ -29,6 +29,7 @@ apt-get update
 #############################################################
 # Adapt to our environment
 #############################################################
+# This is now handled by Ansible
 apt-get install --assume-yes lsb_release
 if [ `lsb_release -is` == "Debian" ] 
 then MOZILLA_BROWSER=iceweasel
@@ -39,6 +40,7 @@ fi
 # fix broken debian/ubuntu locale
 #############################################################
 
+# This is now handled by Ansible
 export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
@@ -57,6 +59,7 @@ EOF
 # upgrade and install basic stuff
 #############################################################
 apt-get dist-upgrade --assume-yes
+# This is now handled by Ansible
 apt-get install --assume-yes curl openssh-server openjdk-7-jdk unzip zip
 
 
@@ -98,6 +101,7 @@ chown `whoami` $HOME/.ssh/authorized_keys
 #############################################################
 # editor
 #############################################################
+# This is now handled by Ansible
 apt-get install --assume-yes vim-nox
 update-alternatives --set editor /usr/bin/vim.nox
 
@@ -133,6 +137,7 @@ EOF
 ###########################################################
 # iceweasel > 10.0
 ###########################################################
+# This is now handled by Ansible
 if [ MOZILLA_BROWSER == "iceweasel" ]
 then
         echo "deb http://mozilla.debian.net/ wheezy-backports iceweasel-release" > /etc/apt/sources.list.d/iceweasel.list
@@ -146,6 +151,7 @@ fi
 ###########################################################
 # MariaDB
 ###########################################################
+# This is now handled by Ansible
 apt-get remove -q --assume-yes mysql-client-5.5 mysql-server-5.5 mysql-common
 apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
 echo "# MariaDB 5.5 repository list - created 2013-08-20 09:55 UTC" > /etc/apt/sources.list.d/mariadb.list
