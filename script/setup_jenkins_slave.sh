@@ -110,6 +110,7 @@ update-alternatives --set editor /usr/bin/vim.nox
 #############################################################
 # PostgreSQL (mostly for Madek)
 #############################################################
+# This is now handled by Ansible and will be removed from this script on the next release. See gitolite@code.zhdk.ch:ansible.git
 apt-get install --assume-yes  postgresql postgresql-client libpq-dev postgresql-contrib
 sed -i 's/peer/trust/g' /etc/postgresql/9.1/main/pg_hba.conf
 sed -i 's/md5/trust/g' /etc/postgresql/9.1/main/pg_hba.conf
