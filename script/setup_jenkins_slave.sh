@@ -29,7 +29,7 @@ apt-get update
 #############################################################
 # Adapt to our environment
 #############################################################
-# This is now handled by Ansible
+# This is now handled by Ansible and will be removed from this script on the next release. See gitolite@code.zhdk.ch:ansible.git
 apt-get install --assume-yes lsb_release
 if [ `lsb_release -is` == "Debian" ] 
 then MOZILLA_BROWSER=iceweasel
@@ -40,7 +40,7 @@ fi
 # fix broken debian/ubuntu locale
 #############################################################
 
-# This is now handled by Ansible
+# This is now handled by Ansible and will be removed from this script on the next release. See gitolite@code.zhdk.ch:ansible.git
 export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
@@ -59,13 +59,14 @@ EOF
 # upgrade and install basic stuff
 #############################################################
 apt-get dist-upgrade --assume-yes
-# This is now handled by Ansible
+# This is now handled by Ansible and will be removed from this script on the next release. See gitolite@code.zhdk.ch:ansible.git
 apt-get install --assume-yes curl openssh-server openjdk-7-jdk unzip zip
 
 
 #############################################################
 # setup ntp
 #############################################################
+# This is now handled by Ansible and will be removed from this script on the next release. See gitolite@code.zhdk.ch:ansible.git
 apt-get install --assume-yes ntp ntpdate
 service ntp stop
 ntpdate ntp.zhdk.ch
@@ -85,6 +86,7 @@ service ntp start
 # ssh server
 #############################################################
 
+# This is now handled by Ansible and will be removed from this script on the next release. See gitolite@code.zhdk.ch:ansible.git
 chmod go-w ~/
 mkdir -p ~/.ssh
 chmod go-w $HOME $HOME/.ssh
@@ -101,7 +103,7 @@ chown `whoami` $HOME/.ssh/authorized_keys
 #############################################################
 # editor
 #############################################################
-# This is now handled by Ansible
+# This is now handled by Ansible and will be removed from this script on the next release. See gitolite@code.zhdk.ch:ansible.git
 apt-get install --assume-yes vim-nox
 update-alternatives --set editor /usr/bin/vim.nox
 
@@ -137,7 +139,7 @@ EOF
 ###########################################################
 # iceweasel > 10.0
 ###########################################################
-# This is now handled by Ansible
+# This is now handled by Ansible and will be removed from this script on the next release. See gitolite@code.zhdk.ch:ansible.git
 if [ MOZILLA_BROWSER == "iceweasel" ]
 then
         echo "deb http://mozilla.debian.net/ wheezy-backports iceweasel-release" > /etc/apt/sources.list.d/iceweasel.list
@@ -151,7 +153,7 @@ fi
 ###########################################################
 # MariaDB
 ###########################################################
-# This is now handled by Ansible
+# This is now handled by Ansible and will be removed from this script on the next release. See gitolite@code.zhdk.ch:ansible.git
 apt-get remove -q --assume-yes mysql-client-5.5 mysql-server-5.5 mysql-common
 apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
 echo "# MariaDB 5.5 repository list - created 2013-08-20 09:55 UTC" > /etc/apt/sources.list.d/mariadb.list
@@ -168,6 +170,7 @@ apt-get install -q --assume-yes libmariadbclient-dev libmariadbclient18 libmysql
 # chromium
 #############################################################
 
+# This is now handled by Ansible and will be removed from this script on the next release. See gitolite@code.zhdk.ch:ansible.git
 if [ ! -f /etc/apt/sources.list.d/google-chrome.list ]; then
 cat << 'EOF' | su -l 
 apt-get update
@@ -182,6 +185,7 @@ fi
 # chromedriver
 #############################################################
 
+# This is now handled by Ansible and will be removed from this script on the next release. See gitolite@code.zhdk.ch:ansible.git
 cat << 'EOF' | su -l 
 cd /tmp 
 rm -rf chromedriver*
@@ -270,6 +274,7 @@ JENKINS
 # jenkins login stuff
 ###########################################################
 
+# This is now handled by Ansible and will be removed from this script on the next release. See gitolite@code.zhdk.ch:ansible.git
 
 # ssh
 cat << 'JENKINS' | su -l jenkins
