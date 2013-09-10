@@ -41,6 +41,7 @@ fi
 #############################################################
 
 # This is now handled by Ansible and will be removed from this script on the next release. See gitolite@code.zhdk.ch:ansible.git
+
 export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
@@ -128,6 +129,7 @@ EOF
 # phantomjs 1.7
 ###########################################################
 
+# This is now handled by Ansible and will be removed from this script on the next release. See gitolite@code.zhdk.ch:ansible.git
 cat << 'EOF' | su -l 
 cd /tmp 
 rm -rf phantomjs-1.7.0-linux-x86_64
