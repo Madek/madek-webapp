@@ -59,8 +59,8 @@ EOF
 #############################################################
 # upgrade and install basic stuff
 #############################################################
-apt-get dist-upgrade --assume-yes
 # This is now handled by Ansible and will be removed from this script on the next release. See gitolite@code.zhdk.ch:ansible.git
+apt-get dist-upgrade --assume-yes
 apt-get install --assume-yes curl openssh-server openjdk-7-jdk unzip zip
 
 
@@ -202,11 +202,14 @@ EOF
 # prepare rbenv, ruby and ...
 ###########################################################
 
+# This is now handled by Ansible and will be removed from this script on the next release. See gitolite@code.zhdk.ch:ansible.git
 apt-get install --assume-yes git x11vnc fluxbox tightvncserver zlib1g-dev \
   libssl-dev libxslt1-dev libxml2-dev build-essential \
   libimage-exiftool-perl imagemagick $MOZILLA_BROWSER libreadline-dev libreadline6 libreadline6-dev \
   g++
 
+# NOTE TODO DANGER: This snippet seems outdated and broken, please
+# use the new one. See rbenv-installer for how to do that.
 cat << 'EOF' > /etc/profile.d/rbenv.sh
 # rbenv
 if [ -d $HOME/.rbenv ]; then
@@ -225,6 +228,8 @@ EOF
 ###########################################################
 # jenkins user and rbenv rubies
 ###########################################################
+
+# This is now handled by Ansible and will be removed from this script on the next release. See gitolite@code.zhdk.ch:ansible.git
 
 useradd --create-home -s /bin/bash jenkins
 
