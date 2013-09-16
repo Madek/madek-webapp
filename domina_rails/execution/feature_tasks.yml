@@ -1,4 +1,8 @@
 ---
+- name: admin_media_sets
+  scripts:
+    main:
+      body: bundle exec cucumber --strict "features/admin_media_sets.feature"
 - name: admin_people
   scripts:
     main:

@@ -132,6 +132,22 @@ Then (/^The media_file doesn't exist anymore$/) do
   expect(MediaFile.where(id: @media_file.id).count).to be == 0
 end
 
+Then /^The media_resource with the id "(.*?)" exists$/  do |id|
+  expect{MediaResource.find id}.not_to raise_error
+end
+
+Then /^The media_resource with the id "(.*?)" doesn't exist$/  do |id|
+  expect{MediaResource.find id}.to raise_error
+end
+
+Then /^The meta_context "(.*?)" is included in the individual_meta_contexts$/ do |meta_context|
+  find("table.individual_meta_contexts tr.individual_meta_context[data-name='#{meta_context}']")
+end
+
+Then /^The meta_context "(.*?)" is not included in the individual_meta_contexts$/ do |meta_context|
+  expect(  all("table.individual_meta_contexts tr.individual_meta_context[data-name='#{meta_context}']").size).to be== 0
+end
+
 Then /^The most recent zencoder_job has the state "(.*?)"$/ do |state|
   expect(ZencoderJob.reorder("created_at DESC").first.state ).to eq state
 end

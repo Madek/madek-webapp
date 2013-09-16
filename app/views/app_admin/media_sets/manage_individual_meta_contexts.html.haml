@@ -3,7 +3,7 @@
 
 %h2 Individual meta-contexts
 
-%table.table.table-striped
+%table.table.table-striped.individual_meta_contexts
   %thead
     %tr 
       %th 
@@ -11,9 +11,9 @@
       %th Position
   %tbody
     - @individual_meta_contexts.each do |meta_context|
-      %tr
+      %tr.individual_meta_context{data: {name: meta_context.name}}
         %td= meta_context
-        %td= meta_context.name
+        %td{data: {name: meta_context.name}}= meta_context.name
         %td= meta_context.position
         %td
           =link_to remove_app_admin_media_set_individual_meta_context_path(media_set,meta_context), method: 'POST', class: "btn btn-warning btn-mini" do
@@ -21,7 +21,7 @@
             Remove
 
 %h2 Other meta-contexts
-%table.table.table-striped
+%table.table.table-striped.other_meta_contexts.meta_contexts
   %thead
     %tr 
       %th 
@@ -29,7 +29,7 @@
       %th Position
   %tbody
     - @other_meta_contexts.each do |meta_context|
-      %tr 
+      %tr.meta_context{data: {name: meta_context.name}}
         %td= meta_context
         %td= meta_context.name
         %td= meta_context.position

@@ -436,16 +436,25 @@ Then /^I click on the icon of the author fieldset$/ do
   find("fieldset[data-meta-key='author'] a.form-widget-toggle").click
 end
 
-Then /^I click on the link "(.*?)"$/ do |link_text|
+Then /^I click on the link "([^\"]*?)"$/ do |link_text|
   wait_until{ all("a", text: link_text, visible: true).size > 0}
   find("a",text: link_text).click
 end 
+
+Then /^I click on the link "([\s\w]*?)" of the individual_meta_context "([\s\w]*?)"$/ do |link_text,individual_meta_context|
+  find("table.individual_meta_contexts tr.individual_meta_context[data-name='#{individual_meta_context}']") \
+    .find("a",text: link_text).click
+end 
+
+Then /^I click on the link "([\s\w]*?)" of the meta_context "([\s\w]*?)"$/ do |link_text,meta_context|
+  find("table.meta_contexts tr.meta_context[data-name='#{meta_context}']") \
+    .find("a",text: link_text).click
+end
 
 Then /^I click on the link "(.*?)" inside of the dialog$/ do |link_text|
   step 'I wait for the dialog to appear'
   find("a",text: link_text).click
 end
-
 
 Then /^I click on the submit button$/ do
   find("button[type='submit']").click

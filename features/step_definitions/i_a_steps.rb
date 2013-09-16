@@ -106,6 +106,10 @@ Then /^I am on the dashboard$/ do
   visit "/"
 end
 
+Then /^I am on a "(.*?)" page$/ do |path|
+  expect(current_path).to match path
+end
+
 Then /^I am on the my groups page$/ do
   expect(current_path).to eq "/my/groups"
 end
