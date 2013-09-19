@@ -21,6 +21,11 @@ module DominaRails
         puts DominaRails::System.execute_cmd! "createdb #{config['database']}"
       end
 
+      def drop_db config
+        set_pg_env config
+        puts DominaRails::System.execute_cmd! "dropdb --if-exists #{config['database']}"
+      end
+
     end
   end
 end

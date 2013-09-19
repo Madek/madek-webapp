@@ -38,6 +38,10 @@ contexts:
     main: 
       order: 5
       body_substitute_with_path: "domina_rails/scripts/context_feature_main.sh"
+    drop_test_db: 
+      order: 8
+      post_process: true
+      body_substitute_with_path: "domina_rails/scripts/drop_test_db.sh"
   tasks: "substitute_with_path: domina_rails/execution/rspec_tasks.yml"
   
 - name: cucumber features 
@@ -59,6 +63,10 @@ contexts:
     main: 
       order: 5
       body_substitute_with_path: "domina_rails/scripts/context_feature_main.sh"
+    drop_test_db: 
+      order: 8
+      post_process: true
+      body_substitute_with_path: "domina_rails/scripts/drop_test_db.sh"
     stopx: 
       order: 9
       post_process: true
