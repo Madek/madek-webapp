@@ -1,12 +1,5 @@
 class AddNewAppSettings < ActiveRecord::Migration
 
-  class OldSettings < ActiveRecord::Base
-    set_table_name :settings
-    serialize :value
-  end
-
-  class AppSettings < ActiveRecord::Base
-  end
 
   def up
     create_table :app_settings, id: false  do |t|
@@ -37,19 +30,6 @@ class AddNewAppSettings < ActiveRecord::Migration
 
 
     execute 'INSERT INTO app_settings (id,created_at,updated_at) values (0,NOW(),NOW());'
-
-    AppSettings.reset_column_information
-
-    AppSettings.first.update_attributes title: "The Title"
-
-    ["featured_set_id", "splashscreen_slideshow_set_id", "dropbox_root_dir", "ftp_dropbox_server",
-      "ftp_dropbox_user", "ftp_dropbox_password", "catalog_set_id", "title", "wiki_url",
-      "welcome_title", "welcome_subtitle"].each do |attr|
-      begin 
-        AppSettings.first.update_attributes attr =>  OldSettings.find_by_var(attr).value
-      rescue
-      end
-      end
 
     drop_table :settings
   end

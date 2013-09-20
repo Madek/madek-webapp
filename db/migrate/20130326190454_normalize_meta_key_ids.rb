@@ -1,19 +1,5 @@
 class NormalizeMetaKeyIds < ActiveRecord::Migration
 
-  class MetaKey < ActiveRecord::Base
-    has_many :meta_data
-    has_many :meta_key_meta_terms
-    has_many :meta_key_definitions
-  end
-
-  class MetaKeyMetaTerm < ActiveRecord::Base
-    belongs_to :meta_key
-  end
-
-  class MetaKeyDefinition < ActiveRecord::Base
-    belongs_to :meta_key
-  end
-
   def up
 
     add_column :meta_key_definitions, :meta_key_label, :string
