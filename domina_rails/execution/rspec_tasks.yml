@@ -1,257 +1,257 @@
 ---
 - name: admin meta_context_groups
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/admin/meta_context_groups_spec.rb"
 - name: admin meta_terms
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/admin/meta_terms_spec.rb"
 - name: admin permission_presets
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/admin/permission_presets_spec.rb"
 - name: controllers app_admin people
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/app_admin/people_spec.rb"
 - name: controllers application_controller
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/application_controller_spec.rb"
 - name: controllers download_controller
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/download_controller_spec.rb"
 - name: controllers filter_sets_controller
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/filter_sets_controller_spec.rb"
 - name: controllers groups destroy
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/groups/destroy_spec.rb"
 - name: controllers groups_controller
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/groups_controller_spec.rb"
 - name: controllers import_controller zencoder_job
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/import_controller/zencoder_job_spec.rb"
 - name: controllers import_controller
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/import_controller_spec.rb"
 - name: controllers keywords index
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/keywords/index_spec.rb"
 - name: controllers media_resource_arcs_controller
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/media_resource_arcs_controller_spec.rb"
 - name: controllers media_sets show
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/media_sets/show_spec.rb"
 - name: controllers media_sets_controller_api
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/media_sets_controller_api_spec.rb"
 - name: controllers media_sets_controller
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/media_sets_controller_spec.rb"
 - name: controllers meta_context_groups_controller
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/meta_context_groups_controller_spec.rb"
 - name: controllers meta_contexts_controller
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/meta_contexts_controller_spec.rb"
 - name: controllers meta_data_controller
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/meta_data_controller_spec.rb"
 - name: controllers meta_terms index
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/meta_terms/index_spec.rb"
 - name: controllers people index
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/people/index_spec.rb"
 - name: controllers permissions_controller
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/permissions_controller_spec.rb"
 - name: controllers previews_controller
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/previews_controller_spec.rb"
 - name: controllers users index
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/users/index_spec.rb"
 - name: controllers visualization_controller
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/visualization_controller_spec.rb"
 - name: controllers zencoder_jobs
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers/zencoder_jobs_spec.rb"
 - name: controllers_02 media_resources api_security
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers_02/media_resources/api_security_spec.rb"
 - name: controllers_02 media_resources delete
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers_02/media_resources/delete_spec.rb"
 - name: controllers_02 media_resources index
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers_02/media_resources/index_spec.rb"
 - name: controllers_02 media_resources sorting
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/controllers_02/media_resources/sorting_spec.rb"
 - name: misc exiftool
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/misc/exiftool_spec.rb"
 - name: models copyright
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/copyright_spec.rb"
 - name: models group
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/group_spec.rb"
 - name: models grouppermission
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/grouppermission_spec.rb"
 - name: models keyword class search
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/keyword/class/search_spec.rb"
 - name: models media_resource class search
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/media_resource/class/search_spec.rb"
 - name: models media_resource filter_set
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/media_resource/filter_set_spec.rb"
 - name: models media_resource graph
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/media_resource/graph_spec.rb"
 - name: models media_resource media_entry_incomplete
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/media_resource/media_entry_incomplete_spec.rb"
 - name: models media_resource media_entry
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/media_resource/media_entry_spec.rb"
 - name: models media_resource media_resource
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/media_resource/media_resource_spec.rb"
 - name: models media_resource meta_data
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/media_resource/meta_data_spec.rb"
 - name: models media_resource title_meta_datum
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/media_resource/title_meta_datum_spec.rb"
 - name: models media_resource_arc
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/media_resource_arc_spec.rb"
 - name: models media_set
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/media_set_spec.rb"
 - name: models meta_context_group
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/meta_context_group_spec.rb"
 - name: models meta_context
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/meta_context_spec.rb"
 - name: models meta_datum meta_datum_copyright
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/meta_datum/meta_datum_copyright_spec.rb"
 - name: models meta_datum meta_datum_date
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/meta_datum/meta_datum_date_spec.rb"
 - name: models meta_datum meta_datum_keywords
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/meta_datum/meta_datum_keywords_spec.rb"
 - name: models meta_datum meta_datum_meta_departments
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/meta_datum/meta_datum_meta_departments_spec.rb"
 - name: models meta_datum meta_datum_meta_terms
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/meta_datum/meta_datum_meta_terms_spec.rb"
 - name: models meta_datum meta_datum_people
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/meta_datum/meta_datum_people_spec.rb"
 - name: models meta_datum meta_datum
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/meta_datum/meta_datum_spec.rb"
 - name: models meta_datum meta_datum_string
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/meta_datum/meta_datum_string_spec.rb"
 - name: models meta_department
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/meta_department_spec.rb"
 - name: models permission_preset
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/permission_preset_spec.rb"
 - name: models person class search
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/person/class/search_spec.rb"
 - name: models person person
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/person/person_spec.rb"
 - name: models user
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/user_spec.rb"
 - name: models userpermission
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/userpermission_spec.rb"
 - name: models zencoder_job
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/models/zencoder_job_spec.rb"
 - name: requests api typo_madek_player_plugin_request
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/requests/api/typo_madek_player_plugin_request_spec.rb"
 - name: requests guest_user abstract
   scripts:
-    main:
+    rspec:
       body: bundle exec rspec "spec/requests/guest_user/abstract_spec.rb"

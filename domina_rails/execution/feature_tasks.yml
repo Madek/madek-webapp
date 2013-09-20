@@ -1,133 +1,133 @@
 ---
 - name: admin_media_sets
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/admin_media_sets.feature"
 - name: admin_people
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/admin_people.feature"
 - name: admin_previews
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/admin_previews.feature"
 - name: admin_specify_links_and_logo
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/admin_specify_links_and_logo.feature"
 - name: admin_users
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/admin_users.feature"
 - name: apply_to_all
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/apply_to_all.feature"
 - name: browse
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/browse.feature"
 - name: configurable_contexts_in_lists
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/configurable_contexts_in_lists.feature"
 - name: context
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/context.feature"
 - name: dashboard_page
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/dashboard_page.feature"
 - name: delete
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/delete.feature"
 - name: explore_page
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/explore_page.feature"
 - name: filter_media_resource_types
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/filter_media_resource_types.feature"
 - name: filter_panel
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/filter_panel.feature"
 - name: filter_set
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/filter_set.feature"
 - name: graph_visualization
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/graph_visualization.feature"
 - name: guest_user
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/guest_user.feature"
 - name: import_01
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/import_01.feature"
 - name: import_02
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/import_02.feature"
 - name: import_encoding
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/import_encoding.feature"
 - name: import_metadata
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/import_metadata.feature"
 - name: import_via_dropbox
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/import_via_dropbox.feature"
 - name: inheritance_of_contexts
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/inheritance_of_contexts.feature"
 - name: login
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/login.feature"
 - name: metadata
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/metadata.feature"
 - name: permissions_01
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/permissions_01.feature"
 - name: permissions_02
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/permissions_02.feature"
 - name: preview
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/preview.feature"
 - name: search
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/search.feature"
 - name: showing_media_resources
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/showing_media_resources.feature"
 - name: uberadmin
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/uberadmin.feature"
 - name: welcome_page
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/welcome_page.feature"
 - name: workgroups
   scripts:
-    main:
+    cucumber:
       body: bundle exec cucumber --strict "features/workgroups.feature"

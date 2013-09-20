@@ -7,7 +7,7 @@ def task_for_feature_file file_path
   exec = %{bundle exec cucumber --strict "#{file_path}"}
   {"name" => name,
     "scripts" => {
-    "main" => {
+    "cucumber" => {
     "body" => exec } } }
 end
 

@@ -7,7 +7,7 @@ def task_for_rspec_file file_path
   exec = %{bundle exec rspec "#{file_path}"}
   {"name" => name,
     "scripts" => {
-    "main" => {
+    "rspec" => {
     "body" => exec } } }
 end
 

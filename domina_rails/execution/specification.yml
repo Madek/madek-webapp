@@ -16,6 +16,7 @@ attachments:
     content-type: image/png
 
 contexts:
+
 - name: environment 
   tasks:
   - name: ls
@@ -26,21 +27,22 @@ contexts:
     scripts:
       main:
         body: env | sort
+
 - name: rspec specs
   scripts:
     bundle: 
       order: 2
-      prepare_executor: true
+      type: prepare_executor
       body_substitute_with_path: "domina_rails/scripts/bundle.sh"
     setup_madek:
       order: 4
       body_substitute_with_path: "domina_rails/scripts/setup_madek.sh"
-    main: 
+    rspec: 
       order: 5
-      body_substitute_with_path: "domina_rails/scripts/context_feature_main.sh"
+      body_substitute_with_path: "domina_rails/scripts/context_specs_rspec.sh"
     drop_test_db: 
       order: 8
-      post_process: true
+      type: post_process
       body_substitute_with_path: "domina_rails/scripts/drop_test_db.sh"
   tasks: "substitute_with_path: domina_rails/execution/rspec_tasks.yml"
   
@@ -48,7 +50,7 @@ contexts:
   scripts:
     bundle: 
       order: 2
-      prepare_executor: true
+      type: prepare_executor
       body_substitute_with_path: "domina_rails/scripts/bundle.sh"
     setup_personas_db: 
       order: 2
@@ -60,15 +62,15 @@ contexts:
     setup_madek:
       order: 4
       body_substitute_with_path: "domina_rails/scripts/setup_madek.sh"
-    main: 
+    cucumber: 
       order: 5
-      body_substitute_with_path: "domina_rails/scripts/context_feature_main.sh"
+      body_substitute_with_path: "domina_rails/scripts/context_feature_cucumber.sh"
     drop_test_db: 
       order: 8
-      post_process: true
+      type: post_process
       body_substitute_with_path: "domina_rails/scripts/drop_test_db.sh"
     stopx: 
       order: 9
-      post_process: true
+      type: post_process
       body_substitute_with_path: "domina_rails/scripts/context_feature_stopx.sh"
   tasks: "substitute_with_path: domina_rails/execution/feature_tasks.yml"

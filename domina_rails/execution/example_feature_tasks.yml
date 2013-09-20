@@ -1,9 +1,0 @@
-- name: delete
-  scripts:
-    main:
-      body: bundle exec cucumber "features/delete.feature"
-- name: login
-  scripts:
-    main:
-      body: bundle exec cucumber "features/login.feature"
-
