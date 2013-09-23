@@ -1,6 +1,6 @@
-require 'domina_rails'
+require 'domina'
 
-module DominaRails
+module Domina
   module System
     class << self
 

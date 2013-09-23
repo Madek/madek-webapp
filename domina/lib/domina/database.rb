@@ -1,6 +1,6 @@
-require 'domina_rails/system'
+require 'domina/system'
 
-module DominaRails
+module Domina
   module Database
     class << self
 
@@ -16,14 +16,14 @@ module DominaRails
 
       def create_db config
         set_pg_env config
-        puts DominaRails::System.execute_cmd! "env | grep 'PG' | sort"
-        puts DominaRails::System.execute_cmd! "dropdb --if-exists #{config['database']}"
-        puts DominaRails::System.execute_cmd! "createdb #{config['database']}"
+        puts Domina::System.execute_cmd! "env | grep 'PG' | sort"
+        puts Domina::System.execute_cmd! "dropdb --if-exists #{config['database']}"
+        puts Domina::System.execute_cmd! "createdb #{config['database']}"
       end
 
       def drop_db config
         set_pg_env config
-        puts DominaRails::System.execute_cmd! "dropdb --if-exists #{config['database']}"
+        puts Domina::System.execute_cmd! "dropdb --if-exists #{config['database']}"
       end
 
     end
