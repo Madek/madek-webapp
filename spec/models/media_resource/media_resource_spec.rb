@@ -221,28 +221,40 @@ describe MediaResource do
     end
   end
 
-  context "manage permission" do
+  context "manage and edit public permission" do
+
     before :each do
       @user1 = FactoryGirl.create :user
-      @user2 = FactoryGirl.create :user
-      @media_resource = FactoryGirl.create :media_resource, user: @user1, view: true, manage: true
+      @media_resource = FactoryGirl.create :media_resource, user: @user1, view: true
     end
 
-    it "is always false for the public, even if it's set as true in the database" do
-      guest_user = User.new
-      MediaResource.where(manage: true).exists?.should be_true
-      MediaResource.accessible_by_user(guest_user, :manage).count.should == 0
-      MediaResource.accessible_by_user(@user1, :manage).count.should == 1
-      MediaResource.accessible_by_user(@user2, :manage).count.should == 0
+    it "edit cannot be set to true" do
+      expect{@media_resource.update_attributes! edit: true}
     end
 
-    it "is always false for a group, even if it's set as true in the database" do
-      group = FactoryGirl.create :group
-      group.users << @user2
-      FactoryGirl.create :grouppermission, :group => group, :media_resource => @media_resource, view: true, manage: true
-      MediaResource.accessible_by_user(@user2, :manage).count.should == 0
+    it "manage cannot be set to true" do
+      expect{@media_resource.update_attributes! edit: true}
     end
+
   end
+
+
+  context "mange permissions for groups" do
+
+    before :each do 
+      @group = FactoryGirl.create :group
+      @user1 = FactoryGirl.create :user
+      @media_resource = FactoryGirl.create :media_resource, user: @user1, view: true
+      @group.users << @user1
+      @grouppermission = FactoryGirl.create :grouppermission, group: @group, media_resource:  @media_resource, view: true
+    end
+
+    it "cannot be set to true" do
+      expect{@grouppermission.update_attributes! manage: true}.to raise_error
+    end
+
+  end
+
 end
 
 

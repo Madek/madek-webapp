@@ -32,7 +32,7 @@ FactoryGirl.define do
     view {FactoryHelper.rand_bool 1/4.0}
     download { view and FactoryHelper.rand_bool}
     edit {FactoryHelper.rand_bool 1/4.0}
-    manage {edit and FactoryHelper.rand_bool}
+    manage false
 
     group {Group.find_random || (FactoryGirl.create :group)}
 
