@@ -65,12 +65,12 @@ class ApplicationController < ActionController::Base
       end
     else
       @splashscreen_set = MediaSet.find_by_id @app_settings.splashscreen_slideshow_set_id 
-      @splashscreen_set_included_resources = @splashscreen_set.child_media_resources.accessible_by_user(current_user).shuffle if @splashscreen_set
+      @splashscreen_set_included_resources = @splashscreen_set.child_media_resources.accessible_by_user(current_user,:view).shuffle if @splashscreen_set
       @featured_set = MediaSet.find_by_id @app_settings.featured_set_id 
-      @featured_set_children = @featured_set.child_media_resources.accessible_by_user(current_user).ordered_by(:updated_at).limit(6) if @featured_set
+      @featured_set_children = @featured_set.child_media_resources.accessible_by_user(current_user,:view).ordered_by(:updated_at).limit(6) if @featured_set
       @catalog_set = MediaSet.find_by_id @app_settings.catalog_set_id 
-      @catalog_set_categories = @catalog_set.categories.accessible_by_user(current_user).limit(3) if @catalog_set
-      @latest_media_entries = MediaResource.media_entries.accessible_by_user(current_user).ordered_by(:created_at).limit(12)
+      @catalog_set_categories = @catalog_set.categories.accessible_by_user(current_user,:view).limit(3) if @catalog_set
+      @latest_media_entries = MediaResource.media_entries.accessible_by_user(current_user,:view).ordered_by(:created_at).limit(12)
     end
   end
 

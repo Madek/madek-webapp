@@ -23,7 +23,7 @@ class VisualizationController < ApplicationController
   def component_with
     @resources = MediaResource.connected_resources(
       MediaResource.find(params[:id]),
-      MediaResource.accessible_by_user(current_user))
+      MediaResource.accessible_by_user(current_user,:view))
     @arcs = MediaResourceArc.connecting @resources
     min_id = @resources.map(&:id).min
     @resource_identifier = "component-#{min_id}"
@@ -69,7 +69,7 @@ class VisualizationController < ApplicationController
     @resource_identifier = "descendants-#{set.id}"
     set_layout_and_control_variables
     @resources = MediaResource.descendants_and_set(set,
-                  MediaResource.accessible_by_user(current_user))
+                  MediaResource.accessible_by_user(current_user,:view))
     @arcs = MediaResourceArc.connecting @resources
 
     @main_title = @origin_resource.title

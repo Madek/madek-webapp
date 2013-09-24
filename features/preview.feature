@@ -1,6 +1,6 @@
 Feature: Showing previews 
 
-  @chrome 
+  @jsbrowser
   Scenario: Switching between, minature, grid and list
     Given I am signed-in as "Normin"
     And I visit "/media_resources"

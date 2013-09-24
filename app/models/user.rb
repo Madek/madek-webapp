@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
 
   def individual_contexts
     # NOTE media_sets scope includes the subclasses (FilterSet) 
-    r = MediaSet.media_sets.accessible_by_user(self).select("media_resources.id")
+    r = MediaSet.media_sets.accessible_by_user(self,:view).select("media_resources.id")
     MetaContext.joins(:media_sets).uniq.where(:media_resources => {:id => r})
   end
 
@@ -93,26 +93,14 @@ class User < ActiveRecord::Base
 #############################################################
 
   def authorized?(action, resource_or_resources)
-    if act_as_uberadmin
-      true
-    else
-      Array(resource_or_resources).all? do |resource|
-        if resource.user == self
-          true
-        elsif action == :delete
-          false
-        elsif resource.send(action) == true
-          true
-        elsif resource.userpermissions.disallows(self, action)
-          false
-        elsif resource.userpermissions.allows(self, action)
-          true
-        elsif resource.grouppermissions.allows(self, action)
-          true
-        else
-          false
-        end
-      end 
+    Array(resource_or_resources).all? do |resource|
+      case action.to_sym
+      when :delete
+        resource.user == self
+      else
+        MediaResource.where(id: resource).
+          accessible_by_user(self,action).count > 0
+      end
     end
   end
 

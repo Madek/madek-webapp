@@ -121,17 +121,6 @@ Feature: Permissions
     When I visit the edit path of the resource
     Then I see an error alert
 
-  # test override only once
-  @jsbrowser 
-  Scenario: No edit user-permission overrides edit user-permission
-    Given I am signed-in as "Normin"
-    And A resource, not owned by normin, and with no permissions whatsoever 
-    When There are "view" user-permissions added for me to the resource
-    When There are "view" group-permissions added for me to the resource
-    When There are "edit" group-permissions added for me to the resource
-    When I visit the edit path of the resource
-    Then I see an error alert
-
   @jsbrowser
   Scenario: Edit user-permission will let me edit metadata
     Given I am signed-in as "Normin"

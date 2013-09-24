@@ -24,7 +24,7 @@ class MediaSetsController < ApplicationController
 #####################################################
   
   before_filter lambda{
-    @parents_count = @media_set.parent_sets.accessible_by_user(current_user).count
+    @parents_count = @media_set.parent_sets.accessible_by_user(current_user,:view).count
     @can_edit = current_user.authorized?(:edit, @media_set)
   }, :only => [:show, :parents, :inheritable_contexts, :abstract, :vocabulary]
 
@@ -67,7 +67,7 @@ class MediaSetsController < ApplicationController
           @filter_set = @media_set
           render "filter_sets/show"
         else
-          @highlights = @media_set.highlights.accessible_by_user(current_user)
+          @highlights = @media_set.highlights.accessible_by_user(current_user,:view)
           render :show
         end
       }
@@ -79,7 +79,7 @@ class MediaSetsController < ApplicationController
 
   def abstract(min = params[:min].to_i)
     respond_to do |format|
-      format.html {@totalChildren = @media_set.child_media_resources.accessible_by_user(current_user).count}
+      format.html {@totalChildren = @media_set.child_media_resources.accessible_by_user(current_user,:view).count}
       format.json { render :json => view_context.hash_for(@media_set.abstract(min, current_user), {:label => true}) }
     end
   end
@@ -227,7 +227,7 @@ class MediaSetsController < ApplicationController
 
   def parents(parent_media_set_ids = params[:parent_media_set_ids])  
     respond_to do |format|
-      format.html { @parents = @media_set.parents.accessible_by_user current_user }
+      format.html { @parents = @media_set.parents.accessible_by_user(current_user,:view) }
     end
   end
 

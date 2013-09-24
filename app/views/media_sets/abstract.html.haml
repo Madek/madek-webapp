@@ -22,6 +22,6 @@
       subject: new App.MediaSet $(".app.view-set").data()
       abstractContainer: $("#ui-media-set-abstract")
       slider: $("#ui-media-set-abstract-slider")
-      totalChildren: #{@media_set.child_media_resources.accessible_by_user(current_user).count}
+      totalChildren: #{@media_set.child_media_resources.accessible_by_user(current_user,:view).count}
 
 = render :partial => "media_sets/layout"

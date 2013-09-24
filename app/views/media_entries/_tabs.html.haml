@@ -1,7 +1,7 @@
 %ul.ui-tabs.large
   %li.ui-tabs-item{:class => media_entry_show_page? ? "active" : ""}
     %a{:href => media_entry_path(@media_entry)}= @main_context_group.name
-  - if @media_entry.parents.accessible_by_user(current_user).any?
+  - if @media_entry.parents.accessible_by_user(current_user,:view).any?
     %li.ui-tabs-item{:class => media_entry_parents_page? ? "active" : ""}
       %a{:href => parents_media_entry_path(@media_entry)} Übergeordnete Sets
 

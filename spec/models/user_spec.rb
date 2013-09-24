@@ -84,16 +84,8 @@ describe User do
           @user.authorized?(:view , @media_resource).should == true
         end
 
-        context "when a userpermission denies the user to view" do
-          before(:each) do
-            FactoryGirl.create :userpermission, user: @user, media_resource: @media_resource, view: false
-          end
-
-          it "should not be viewable for the user" do
-            @user.authorized?(:view , @media_resource).should == false
-          end
-        end
       end
+
     end
 
   end

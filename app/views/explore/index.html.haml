@@ -19,7 +19,7 @@
 
         .app-body-content.table-cell.table-substance.ui-container
 
-          = render "application/collage" if @splashscreen_set and not @splashscreen_set.included_resources_accessible_by_user(current_user).empty?
+          = render "application/collage" if @splashscreen_set and not @splashscreen_set.included_resources_accessible_by_user(current_user,:view).empty?
 
           - if @catalog_set and not @catalog_set_categories.empty?
             = render "media_resources/wrapper", :id => 'catalog',

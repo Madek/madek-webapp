@@ -8,7 +8,7 @@ class DownloadController < ApplicationController
   # WE SHOULD NEVER UPDATE AN UPLOADED FILE WITH MADEK METADATA.
   def download
       unless params[:id].blank? 
-        @media_entry = MediaEntry.accessible_by_user(current_user).find_by_id(params[:id])
+        @media_entry = MediaEntry.accessible_by_user(current_user,:view).find_by_id(params[:id])
         if @media_entry.nil?
           not_authorized!
         else

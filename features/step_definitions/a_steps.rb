@@ -65,7 +65,7 @@ end
 
 Then /^all media entries contained in set A (doesnt have that context anymore|have all contexts of set A)$/ do |they_have_it|
   they_have_it = if they_have_it == "have all contexts of set A" then true else false end
-  @media_set_a.child_media_resources.media_entries.accessible_by_user(@current_user).each do |media_entry|
+  @media_set_a.child_media_resources.media_entries.accessible_by_user(@current_user,:view).each do |media_entry|
     visit context_group_media_entry_path media_entry, "Kontexte"
     @media_set_a.individual_contexts.each do |context|
       if they_have_it

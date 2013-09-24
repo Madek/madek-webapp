@@ -38,7 +38,7 @@ module MediaResourceModules
         elsif filter[:media_set_id]
           # hacketihack media_set_id kann auch zu einem FilterSet gehören
           MediaResource.where(type: ['MediaSet','FilterSet']).find(filter[:media_set_id])\
-            .included_resources_accessible_by_user(current_user)
+            .included_resources_accessible_by_user(current_user,:view)
         else
           self
         end
@@ -57,7 +57,7 @@ module MediaResourceModules
             resources.where(:type => types)
         end
         
-        resources = resources.accessible_by_user(current_user, filter[:accessible_action]) if current_user
+        resources = resources.accessible_by_user(current_user, (filter[:accessible_action] or :view)) if current_user
 
         ############################################################
       
@@ -79,7 +79,7 @@ module MediaResourceModules
 
         ############################################################
         
-        resources = resources.accessible_by_group(filter[:group_id]) if filter[:group_id]
+        resources = resources.accessible_by_group(filter[:group_id],:view) if filter[:group_id]
 
         resources = resources.where(:user_id => filter[:user_id]) if filter[:user_id]
 
@@ -125,13 +125,13 @@ module MediaResourceModules
               when :owner
                 resources.where(:user_id => id)
               when :group
-                resources.accessible_by_group(id)
+                resources.accessible_by_group(id,:view)
               when :scope
                 case id.to_sym
                   when :mine
                     resources.where(:user_id => current_user)
                   when :entrusted
-                    resources.entrusted_to_user(current_user)
+                    resources.entrusted_to_user(current_user,:view)
                   when :public
                     resources.filter_public("true")
                 end

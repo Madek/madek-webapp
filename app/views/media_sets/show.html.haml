@@ -19,7 +19,7 @@
 
     #ui-resources-list-container.ui-container.midtone.bordered.rounded-bottom
 
-      - count_visible = @media_set.child_media_resources.accessible_by_user(current_user).count
+      - count_visible = @media_set.child_media_resources.accessible_by_user(current_user,:view).count
       - count_invisible = @media_set.child_media_resources.count
       - subtitle = count_visible == count_invisible ? n_("%d item", "%d items", count_visible) % count_visible : _("%d of %d items visible to you") % [count_visible, count_invisible]
       = render :partial => "media_resources/list/toolbar", 

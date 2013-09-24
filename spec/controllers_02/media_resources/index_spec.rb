@@ -48,7 +48,7 @@ describe MediaResourcesController, type: :controller do
         json["pagination"].keys.sort.should == ["page", "per_page", "total", "total_pages"]
         json["media_resources"].is_a?(Array).should be_true
         json["media_resources"].size.should <= json["pagination"]["per_page"]
-        n = MediaResource.accessible_by_user(User.new).count
+        n = MediaResource.accessible_by_user(User.new,:view).count
         json["pagination"]["total"].should == n
       end
     end
@@ -62,7 +62,7 @@ describe MediaResourcesController, type: :controller do
         json["pagination"].keys.sort.should == ["page", "per_page", "total", "total_pages"]
         json["media_resources"].is_a?(Array).should be_true
         json["media_resources"].size.should <= json["pagination"]["per_page"]
-        n = MediaResource.accessible_by_user(@user).count
+        n = MediaResource.accessible_by_user(@user,:view).count
         json["pagination"]["total"].should == n
       end
     end

@@ -4,8 +4,8 @@ class MediaSet < MediaResourceCollection
   has_many :child_media_resources, :through => :out_arcs, :source => :child
   has_many :highlights, :through => :out_arcs, :conditions => ['media_resource_arcs.highlight = ?',true] ,:source => :child
 
-  def included_resources_accessible_by_user  user
-    child_media_resources.accessible_by_user(user)
+  def included_resources_accessible_by_user  user, action
+    child_media_resources.accessible_by_user(user,action)
   end
 
 
@@ -71,7 +71,7 @@ class MediaSet < MediaResourceCollection
 ########################################################
 
   def cover(user)
-    child_media_resources.media_entries.accessible_by_user(user).joins(:in_arcs).where(media_resource_arcs: {cover: true}).first
+    child_media_resources.media_entries.accessible_by_user(user,:view).joins(:in_arcs).where(media_resource_arcs: {cover: true}).first
   end
 
   def get_media_file(user)
@@ -130,7 +130,7 @@ class MediaSet < MediaResourceCollection
   
   def accessible_media_entry_ids_by(current_user)
     if current_user
-      child_media_resources.media_entries.accessible_by_user(current_user)
+      child_media_resources.media_entries.accessible_by_user(current_user,:view)
     else
       child_media_resources.media_entries
     end.pluck("media_resources.id")

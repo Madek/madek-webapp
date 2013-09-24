@@ -26,11 +26,11 @@ class MetaDatumString < MetaDatum
       when "media type"
         media_resource.media_type
       when "parent media_resources"
-        {:media_sets => media_resource.parent_sets.accessible_by_user(user).count}
+        {:media_sets => media_resource.parent_sets.accessible_by_user(user,:view).count}
       # TODO problem with FilterSet ???
       when "child media_resources"
-        {:media_sets => media_resource.child_media_resources.media_sets.accessible_by_user(user).count,
-         :media_entries => media_resource.child_media_resources.media_entries.accessible_by_user(user).count} if media_resource.is_a?(MediaSet)
+        {:media_sets => media_resource.child_media_resources.media_sets.accessible_by_user(user,:view).count,
+         :media_entries => media_resource.child_media_resources.media_entries.accessible_by_user(user,:view).count} if media_resource.is_a?(MediaSet)
       else
         string
     end

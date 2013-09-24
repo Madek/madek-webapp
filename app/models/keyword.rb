@@ -20,7 +20,7 @@ class Keyword < ActiveRecord::Base
   end
 
   def self.with_count_for_accessible_media_resources user = nil
-    with_count.joins(:meta_datum => :media_resource).accessible_by_user user
+    with_count.joins(:meta_datum => :media_resource).accessible_by_user(user,:view)
   end
 
 #######################################

@@ -625,7 +625,7 @@ class MediaResourcesController < ApplicationController
     @filter = MediaResource.get_filter_params params
 
     respond_to do |format|
-      format.html { @media_resources_count = MediaResource.accessible_by_user(current_user).count }
+      format.html { @media_resources_count = MediaResource.accessible_by_user(current_user,:view).count }
       format.json {
         resources = MediaResource.filter(current_user, @filter).ordered_by(sort)
 
@@ -696,12 +696,12 @@ class MediaResourcesController < ApplicationController
     begin
       ActiveRecord::Base.transaction do
         if MediaResource.where(id: params[:id]).empty?
-          render json: {}, status: 404
-        elsif MediaResource.where(id: params[:id],user_id: current_user.id).empty?
-          render json: {}, status: 403
-        else 
-          MediaResource.where(id: params[:id],user_id: current_user.id).destroy(params[:id])
           render json: {}, status: 204
+        elsif (media_resource=MediaResource.find(params[:id])) and current_user.authorized?(:delete, media_resource)
+          media_resource.destroy
+          render json: {}, status: 204
+        else 
+          render json: {}, status: 403
         end
       end
     rescue Exception => e
@@ -719,7 +719,7 @@ class MediaResourcesController < ApplicationController
       ids = case relation
         when "parents"
           MediaResource.where(:id => ids).flat_map do |child|
-            child.parent_sets.accessible_by_user(current_user).pluck("media_resources.id")
+            child.parent_sets.accessible_by_user(current_user,:view).pluck("media_resources.id")
           end.uniq
         else
           ids

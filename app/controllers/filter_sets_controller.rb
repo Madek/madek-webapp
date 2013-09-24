@@ -24,7 +24,7 @@ class FilterSetsController < ApplicationController
   end
 
   def show 
-    @filter_set = FilterSet.where(:id => params[:id]).accessible_by_user(current_user).first
+    @filter_set = FilterSet.where(:id => params[:id]).accessible_by_user(current_user,:view).first
   end
 
   def update

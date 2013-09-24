@@ -8,6 +8,8 @@ class MediaEntriesController < ApplicationController
           action = case request[:action].to_sym
             when :remove_multiple
               :edit
+            else
+              :view
           end
           @media_set = MediaSet.accessible_by_user(current_user, action).find(params[:media_set_id])
         elsif not params[:media_entry_ids].blank? or not params[:collection_id].blank?
@@ -20,6 +22,8 @@ class MediaEntriesController < ApplicationController
             when :edit_multiple, :update_multiple
               :edit
             when :remove_multiple
+              :view
+            else
               :view
           end
           @media_entries = MediaEntry.accessible_by_user(current_user, action).find(selected_ids)
@@ -45,6 +49,8 @@ class MediaEntriesController < ApplicationController
             :edit
           when :document
             :download
+          else
+            :view
         end
   
         begin
@@ -116,7 +122,7 @@ class MediaEntriesController < ApplicationController
   end
 
   def parents
-    @parents = @media_entry.parents.accessible_by_user(current_user)
+    @parents = @media_entry.parents.accessible_by_user(current_user,:view)
   end
 
   def context_group

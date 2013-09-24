@@ -15,7 +15,9 @@ class FilterSet < MediaResourceCollection
     MediaResource.filter(user, settings[:filter])
   end
 
-  alias :included_resources_accessible_by_user :filtered_resources
+  def included_resources_accessible_by_user user, action
+    filtered_resources user
+  end
 
   def get_media_file(user = nil)
     # we just provide the first public media_entry's image

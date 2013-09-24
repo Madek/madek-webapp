@@ -83,7 +83,7 @@ class MetaContext < ActiveRecord::Base
     meta_key_ids = meta_keys.for_meta_terms.pluck("meta_keys.id")
 
     mds = if current_user
-      accessible_media_entry_ids = MediaEntry.accessible_by_user(current_user).pluck(:id)
+      accessible_media_entry_ids = MediaEntry.accessible_by_user(current_user,:view).pluck(:id)
       MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids)
     else
       MetaDatum.where(:meta_key_id => meta_key_ids)

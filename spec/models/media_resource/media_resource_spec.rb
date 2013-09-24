@@ -208,15 +208,6 @@ describe MediaResource do
           (MediaResource.accessible_by_user @user, :view).should include @media_resource
         end
 
-        context "when a mediaresourceuserpermission denies the user to view" do
-          before(:each) do
-            FactoryGirl.create :userpermission, user: @user, media_resource: @media_resource, view: false
-          end
-
-          it "should not be included for the user" do
-            (MediaResource.accessible_by_user @user, :view).should_not include @media_resource
-          end
-        end
       end
     end
   end

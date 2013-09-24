@@ -97,22 +97,6 @@ describe MediaResourcesController, type: :controller do
         end
       end
 
-      context "The requester has view permission on exactly one child through a grouppermission but is denied though a userpermission" do
-        before :each do
-          @group = FactoryGirl.create :group
-          @group.users << @user_b
-          Grouppermission.create group: @group, media_resource: @entry_1, view: true
-          Userpermission.create user: @user_b, media_resource: @entry_1, view: false
-        end
-        describe "the response" do
-          it "should contain no children" do
-            children['media_resources'].should be_empty
-          end
-        end
-      end
-
-
-
     end
 
   end

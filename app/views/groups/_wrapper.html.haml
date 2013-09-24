@@ -23,7 +23,7 @@
           %tr{:"data-id" => group.id}
             %td.ui-workgroup-name= group.name
             - if resources
-              - total_accessible_by_group = MediaResource.accessible_by_group(group).where(:type => ["MediaEntry", "MediaSet"]).count
+              - total_accessible_by_group = MediaResource.accessible_by_group(group,:view).where(:type => ["MediaEntry", "MediaSet"]).count
               %td.ui-workgroup-items
                 %a{:href => media_resources_path(:permissions => {:group => {:ids => [group.id]}}), :title => _("Show this group's content")}
                   = total_accessible_by_group

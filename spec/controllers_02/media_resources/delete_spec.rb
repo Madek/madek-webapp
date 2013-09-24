@@ -24,10 +24,9 @@ describe MediaResourcesController, type: :controller do
     end
 
     context "on a none existing mr" do
-      it "should return not_found" do
+      it "should be success" do
         delete :destroy, {format: "json", id: -1}, {user_id: @owner.id} 
-        expect(response).not_to be_success
-        expect(response.status).to eq 404
+        expect(response).to be_success
       end
     end
 
@@ -69,11 +68,9 @@ describe MediaResourcesController, type: :controller do
         before :each do
           Userpermission.create media_resource: @media_resource, user: @user, manage: true
         end
-        it "should not be successful, retain the media_resource and return forbidden" do
+        it "should not be successful" do
           delete :destroy, {format: "json", id: @media_resource.id}, {user_id: @user.id} 
           expect(response).not_to be_success
-          expect(MediaResource.where(id: @media_resource.id).first).not_to be_nil
-          expect(response.status).to eq 403
         end
       end
 

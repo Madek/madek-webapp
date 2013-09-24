@@ -16,7 +16,7 @@
       render :partial => "meta_data/terms", :locals => {:key => meta_datum.meta_key, :terms => Array(meta_datum.value)}
     else
       if meta_datum.meta_key.label == "parent media_resources"
-        render :partial => "meta_data/parents", :locals => {:count => meta_datum.media_resource.parent_sets.accessible_by_user(current_user).count}
+        render :partial => "meta_data/parents", :locals => {:count => meta_datum.media_resource.parent_sets.accessible_by_user(current_user,:view).count}
       else
         s = meta_datum.to_s
         auto_link(html_escape(s), :html => {:target => '_blank', :rel => "nofollow"})
