@@ -70,10 +70,8 @@ class PermissionsController
 
   onSubmit: (e)=>
     do e.preventDefault
-    userPermissions = _.map @otherUsersContainer.find("tr"), (line)=> @getPermissionDataFromLine $(line)
-    userPermissions.push @getPermissionDataFromLine @rightsContainer.find ".ui-rights-management-current-user tr"
-    groupPermissions = _.map @otherGroupsContainer.find("tr"), (line)=> @getPermissionDataFromLine $(line)
-    groupPermissions = groupPermissions.concat _.map @currentUserGroupsContainer.find("tr"), (line)=> @getPermissionDataFromLine $(line)
+    userPermissions = _.map @usersContainer.find("tr"), (line)=> @getPermissionDataFromLine $(line)
+    groupPermissions = _.map @groupsContainer.find("tr"), (line)=> @getPermissionDataFromLine $(line)
     publicPermissions = _.map @publicPermissionsContainer.find("tr"), (line)=> @getPermissionDataFromLine $(line)
     ownerLine = @rightsContainer.find(".ui-rights-owner input:checked").closest "tr"
     owner = if ownerLine.length then ownerLine.data("id") else undefined
@@ -231,12 +229,9 @@ class PermissionsController
       manageable: @manageable
       currentUserOwnership: @permissionsForRender(@permissions.you, @mediaResourceIds, @permissions.owners)[0].ownership
     target = if subject instanceof App.User
-      @otherUsersContainer.find("tbody")
+      @usersContainer.find("tbody")
     else if subject instanceof App.Group
-      if currentUser.isMemberOf subject
-        @currentUserGroupsContainer.show().find("tbody")
-      else
-        @otherGroupsContainer.find("tbody")
+      @groupsContainer.find("tbody")
     target.append line
 
   onChangePreset: (select)=>
@@ -308,27 +303,25 @@ class PermissionsController
 
   getDataForRender: ->
     currentUserGroupIds = _.map(currentUser.groups, (group)-> group.id)
-    currentUserGroups = _.filter(@permissions.groups, (group)-> _.include(currentUserGroupIds, group.id))
-    otherUsers = _.filter(@permissions.users, (user)-> user.id != currentUser.id)
+    _.each @permissions.groups , (g)-> g.isCurrentUserGroup = _.include(currentUserGroupIds,g.id)
+    users = @permissions.users
+    _.each users, (u)-> u.isCurrentUser = (u.id is currentUser.id)
     for owner in _.filter(@permissions.owners, (user)-> user.id != currentUser.id)
-      otherUsers = _.filter otherUsers, (user)-> user.id != owner.id
-      otherUsers.unshift do =>
+      users = _.filter users, (user)-> user.id != owner.id
+      users.unshift do =>
         mediaResourceIds = owner.media_resource_ids
         owner.view = mediaResourceIds
         owner.edit = mediaResourceIds
         owner.download = mediaResourceIds
         owner.manage = mediaResourceIds
         return owner
-    otherGroups = _.filter(@permissions.groups, (group)-> not _.include(currentUserGroupIds, group.id))
     data = 
-      you: @permissionsForRender @permissions.you, @mediaResourceIds, @permissions.owners
       currentUserOwnership: @permissionsForRender(@permissions.you, @mediaResourceIds, @permissions.owners)[0].ownership
       presets: @permissionPresets
       public: @permissionsForRender @permissions.public, @mediaResourceIds, @permissions.owners
       mediaResourceIds: @mediaResourceIds
-      otherUsers: @permissionsForRender _.sortBy(otherUsers, (user)-> user.name), @mediaResourceIds, @permissions.owners
-      otherGroups: @permissionsForRender _.sortBy(otherGroups, (group)-> group.name), @mediaResourceIds, @permissions.owners
-    $.extend data, {currentUserGroups:  @permissionsForRender(_.sortBy(currentUserGroups, (group)-> group.name), @mediaResourceIds, @permissions.owners)} if currentUserGroups.length
+      users: @permissionsForRender _.sortBy(users, (user)-> user.name), @mediaResourceIds, @permissions.owners
+      groups: @permissionsForRender _.sortBy(@permissions.groups, (group)-> group.name), @mediaResourceIds, @permissions.owners
     return data
 
   ownersForRender: (owners, mediaResourceIds)->
@@ -357,9 +350,8 @@ class PermissionsController
     template = App.render "permissions/index", do @getDataForRender, {manageable: @manageable}
     @rightsContainer.replaceWith template
     @rightsContainer = template
-    @otherGroupsContainer = template.find ".ui-rights-management-other-groups"
-    @otherUsersContainer = template.find ".ui-rights-management-other-users"
-    @currentUserGroupsContainer = template.find ".ui-rights-management-current-user-groups"
+    @groupsContainer = template.find ".ui-rights-management-groups"
+    @usersContainer = template.find ".ui-rights-management-users"
     @addUserContainer = template.find "#addUser"
     @addGroupContainer = template.find "#addGroup"
     @publicPermissionsContainer = template.find ".ui-rights-management-public"

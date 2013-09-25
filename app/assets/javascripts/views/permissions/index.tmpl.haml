@@ -17,77 +17,45 @@
             %td.ui-rights-check-title ${_jed('Edit permissions')}
 
   .ui-modal-body
-    .ui-rights-management-current-user
 
-      %h3.title-l.separated.mbx
-        ${_jed('Me')}
-        .icon-privacy-private.mtx
-
-      .ui-rights-body
-
-        %table.ui-rights-group.bordered.block
-          %tbody
-            {{tmpl(you, {presets: presets, manageable: $item.manageable, currentUserOwnership: currentUserOwnership}) App.renderPath("permissions/line")}}
-
-    %div{:class => "ui-rights-management-current-user-groups{{if currentUserGroups}}{{else}} hidden{{/if}}"}
+    .ui-rights-management-users
 
       %h4.title-s.mts.separated.mbx
-        ${_jed('Groups that include me')}
-        %i.icon-privacy-group
+        ${_jed('People')}
+        %i.icon-privacy-private-alt
 
       .ui-rights-body
+
         %table.ui-rights-group.bordered.block
+         
           %tbody
-            {{if currentUserGroups}}
-            {{tmpl(currentUserGroups, {presets: presets, manageable: $item.manageable, currentUserOwnership: currentUserOwnership}) App.renderPath("permissions/line")}}
-            {{/if}}
+            {{tmpl(users, {presets: presets, manageable: $item.manageable, currentUserOwnership: currentUserOwnership}) App.renderPath("permissions/line")}}
 
-    .ui-rights-management-others
-
-      %h3.title-l.mts.mbx ${_jed('Others')}
-
-      {{if $item.manageable == true || otherUsers.length > 0}}
-      .ui-rights-management-other-users
-
-        %h4.title-s.mts.separated.mbx
-          ${_jed('People')}
-          %i.icon-privacy-private-alt
-
-        .ui-rights-body
-
-          %table.ui-rights-group.bordered.block
-           
-            %tbody
-              {{tmpl(otherUsers, {presets: presets, manageable: $item.manageable, currentUserOwnership: currentUserOwnership}) App.renderPath("permissions/line")}}
-
-          {{if $item.manageable}}
-          #addUser.ui-add-subject.ptx.row
-            .col2of3
-              %input.small.block{name: 'user', type: 'text', placeholder:  "${_jed('Name of the person')}"}
-          {{/if}}
-      {{/if}}
+        {{if $item.manageable}}
+        #addUser.ui-add-subject.ptx.row
+          .col2of3
+            %input.small.block{name: 'user', type: 'text', placeholder:  "${_jed('Name of the person')}"}
+        {{/if}}
 
 
-      {{if $item.manageable == true || otherGroups.length > 0}}
-      .ui-rights-management-other-groups
+    .ui-rights-management-groups
 
-        %h4.title-s.mts.separated.mbx
-          ${_jed('Groups')}
-          %i.icon-privacy-group-alt
+      %h4.title-s.mts.separated.mbx
+        ${_jed('Groups')}
+        %i.icon-privacy-group-alt
 
-        .ui-rights-body
+      .ui-rights-body
 
-          %table.ui-rights-group.bordered.block
-           
-            %tbody
-              {{tmpl(otherGroups, {presets: presets, manageable: $item.manageable, currentUserOwnership: currentUserOwnership}) App.renderPath("permissions/line")}}
+        %table.ui-rights-group.bordered.block
+         
+          %tbody
+            {{tmpl(groups, {presets: presets, manageable: $item.manageable, currentUserOwnership: currentUserOwnership}) App.renderPath("permissions/line")}}
 
-          {{if $item.manageable}}
-          #addGroup.ui-add-subject.ptx.row
-            .col2of3
-              %input.small.block{type: :text, placeholder: "${_jed('Name of the group')}", name: 'group'}
-          {{/if}}
-      {{/if}}
+        {{if $item.manageable}}
+        #addGroup.ui-add-subject.ptx.row
+          .col2of3
+            %input.small.block{type: :text, placeholder: "${_jed('Name of the group')}", name: 'group'}
+        {{/if}}
 
   .ui-modal-toolbar.bottom.phm.mrs
 

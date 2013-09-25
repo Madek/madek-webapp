@@ -76,7 +76,7 @@
 
 // Limitations for showing remove button
 
-.ui-rights-management-public, .ui-rights-management-current-user {
+.ui-rights-management-public {
   .ui-rights-remove {
     display: none;
   }
@@ -84,8 +84,7 @@
 
 // Limitations for groups
 
-.ui-rights-management-current-user-groups, 
-.ui-rights-management-other-groups,
+.ui-rights-management-groups,
 .ui-rights-management-public {
   .ui-rights-owner input {
     display: none;
@@ -115,10 +114,8 @@
 
    &.unmanageable .ui-rights-check.view label { opacity: 0.5; }
 
-  .ui-rights-management-current-user,
-  .ui-rights-management-current-user-groups, 
-  .ui-rights-management-other-groups,
-  .ui-rights-management-other-users {
+  .ui-rights-management-groups,
+  .ui-rights-management-users {
     .ui-rights-check.view {
       .ui-right-overwritten-by-public { @extend .icon-privacy-open; }
       label { display: none; }
@@ -132,10 +129,8 @@
 
    &.unmanageable .ui-rights-check.download label { opacity: 0.5; }
 
-  .ui-rights-management-current-user,
-  .ui-rights-management-current-user-groups, 
-  .ui-rights-management-other-groups,
-  .ui-rights-management-other-users {
+  .ui-rights-management-groups,
+  .ui-rights-management-users {
     .ui-rights-check.download {
       .ui-right-overwritten-by-public { @extend .icon-privacy-open; }
       label { display: none; }
@@ -149,10 +144,8 @@
 
    &.unmanageable .ui-rights-check.edit label { opacity: 0.5; }
 
-  .ui-rights-management-current-user,
-  .ui-rights-management-current-user-groups, 
-  .ui-rights-management-other-groups,
-  .ui-rights-management-other-users {
+  .ui-rights-management-groups,
+  .ui-rights-management-users {
     .ui-rights-check.edit {
       .ui-right-overwritten-by-public { @extend .icon-privacy-open; }
       label { display: none; }

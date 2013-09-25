@@ -28,6 +28,12 @@ Given /^A resource owned by me$/ do
   @resource = @me.media_resources.first
 end
 
+Given(/^A resource owned by me with view permission explicitly set for me$/) do
+  @resource = @me.media_resources.first
+  (Userpermission.where(user_id: @me.id, media_resource_id: @resource.id).first or 
+   Userpermission.create(user_id: @me.id, media_resource_id: @resource.id)).update_attributes!(view: true)
+end
+
 Given /^A resource, not owned by normin, and with no permissions whatsoever$/ do
   @resource = User.find_by_login("petra").media_entries.first
   @resource.update_attributes download: false, edit: false, manage: false, view: false

@@ -143,7 +143,7 @@ end
 
 
 Then /^I am not the responsible person for that resource$/ do
-  expect(find(".ui-rights-management-current-user td.ui-rights-owner input")).not_to be_checked
+  expect(find("tr[data-is-current-user='true'] td.ui-rights-owner input")).not_to be_checked
 end
 
 Then /^I am redirected to the admin people list$/ do
@@ -168,7 +168,7 @@ Then (/^I am the last editor of the media entry with the id "(.*?)"$/) do |id|
 end
 
 Then /^I am the responsible person for that resource$/ do
-  expect(find(".ui-rights-management-current-user td.ui-rights-owner input")).to be_checked
+  expect(find("tr[data-is-current-user='true'] td.ui-rights-owner input")).to be_checked
 end
 
 ### 

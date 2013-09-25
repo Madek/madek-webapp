@@ -1,11 +1,15 @@
-%tr{:"data-id" => "${id}", :"data-name" => "${name}", "data-ownership" => "${ownership}"}
+%tr{:"data-id" => "${id}", :"data-name" => "${name}", "data-ownership" => "${ownership}", "data-is-current-user-group" => "${isCurrentUserGroup}", "data-is-current-user" => "${isCurrentUser}"}
 
   %td.ui-rights-user
     {{if $item.manageable && ownership == false}}
     %a.button.small.ui-rights-remove{:href => "#", :title => "Berechtigung entfernen"} ×
     {{/if}}
     
+
     %span.text{:title => "${name}"}
+      {{if isCurrentUserGroup}}
+      %i.icon-privacy-private
+      {{/if}}
       {{if $item.public}}
       %h4.title-s
         ${_jed('Public')}

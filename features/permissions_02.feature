@@ -15,10 +15,10 @@ Feature: Permissions
     And I open the edit-permissions dialog
     Then I am not the responsible person for that resource
 
-  @jsbrowser 
+  @jsbrowser
   Scenario: Owner / responsible user of a resource
     Given I am signed-in as "Normin"
-    And A resource owned by me
+    And A resource owned by me with view permission explicitly set for me
     And I visit the path of the resource
     And I open the edit-permissions dialog
     Then I am the responsible person for that resource
