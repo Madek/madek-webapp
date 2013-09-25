@@ -62,8 +62,6 @@ module Concerns
       def entrusted_to_user(user, action)
         where("media_resources.user_id <> ?",user)\
         .where <<-SQL 
-                media_resources.#{action.to_s} = true
-                OR
                 EXISTS ( #{userpermission_query(user,action).select("'true'").to_sql} ) 
                 OR
                 EXISTS ( #{grouppermission_by_user_query(user,action).select("'true'").to_sql} ) 
