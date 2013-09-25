@@ -2,7 +2,7 @@ Feature: Managing Previews
 
   As a MAdeK admin, sometimes I need to regenerate the preview images that are attached to resources.
 
-  @chrome
+  @firefox
   Scenario: Regenerating previews for still images (JPEG, TIFF...)
     Given I am signed-in as "Adam"
     And I have a media_entry of type image including previews
