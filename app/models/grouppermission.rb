@@ -4,4 +4,10 @@ class Grouppermission < ActiveRecord::Base
 
   delegate :name, to: :group
 
+  def self.destroy_irrelevant
+    Grouppermission.where(view: false, edit:false, download: false,manage: false).destroy_all
+  end
+
+
+
 end
