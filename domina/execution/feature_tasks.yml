@@ -23,6 +23,10 @@
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/apply_to_all.feature"
+- name: batch_edit_permissions
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/batch_edit_permissions.feature"
 - name: browse
   scripts:
     cucumber:
