@@ -17,16 +17,23 @@ attachments:
 
 contexts:
 
-- name: environment 
+- name: meta
+  scripts:
+    completeness:
+      body: "substitute_with_path: domina/scripts/context_meta_completeness.sh"
   tasks:
-  - name: ls
+  - name: completeness of rspec tasks
     scripts:
-      main:
-        body: ls -lah
+      completeness: 
+        body: "substitute_with_path: domina/scripts/context_meta_rspec_complete.sh"
+  - name: completeness of cucumber feature tasks
+    scripts:
+      completeness: 
+        body: "substitute_with_path: domina/scripts/context_meta_cucumber_complete.sh"
   - name: env
     scripts:
       main:
-        body: env | sort
+        body: env | sort; ls
 
 - name: rspec specs
   scripts:
