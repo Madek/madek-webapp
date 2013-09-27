@@ -40,17 +40,17 @@ contexts:
     bundle: 
       order: 2
       type: prepare_executor
-      body_substitute_with_path: "domina/scripts/bundle.sh"
+      body: "substitute_with_path: domina/scripts/bundle.sh"
     setup_madek:
       order: 4
-      body_substitute_with_path: "domina/scripts/setup_madek.sh"
+      body: "substitute_with_path: domina/scripts/setup_madek.sh"
     rspec: 
       order: 5
-      body_substitute_with_path: "domina/scripts/context_specs_rspec.sh"
+      body: "substitute_with_path: domina/scripts/context_specs_rspec.sh"
     drop_test_db: 
       order: 8
       type: post_process
-      body_substitute_with_path: "domina/scripts/drop_test_db.sh"
+      body: "substitute_with_path: domina/scripts/drop_test_db.sh"
   tasks: "substitute_with_path: domina/execution/rspec_tasks.yml"
   
 - name: cucumber features 
@@ -58,26 +58,26 @@ contexts:
     bundle: 
       order: 1
       type: prepare_executor
-      body_substitute_with_path: "domina/scripts/bundle.sh"
+      body: "substitute_with_path: domina/scripts/bundle.sh"
     setup_personas_db: 
       order: 2
       type: prepare_executor
-      body_substitute_with_path: "domina/scripts/context_feature_setup_personas_db.sh"
+      body: "substitute_with_path: domina/scripts/context_feature_setup_personas_db.sh"
     startx:
       order: 3
-      body_substitute_with_path: "domina/scripts/context_feature_startx.sh"
+      body: "substitute_with_path: domina/scripts/context_feature_startx.sh"
     setup_madek:
       order: 4
-      body_substitute_with_path: "domina/scripts/setup_madek.sh"
+      body: "substitute_with_path: domina/scripts/setup_madek.sh"
     cucumber: 
       order: 5
-      body_substitute_with_path: "domina/scripts/context_feature_cucumber.sh"
+      body: "substitute_with_path: domina/scripts/context_feature_cucumber.sh"
     drop_test_db: 
       order: 8
       type: post_process
-      body_substitute_with_path: "domina/scripts/drop_test_db.sh"
+      body: "substitute_with_path: domina/scripts/drop_test_db.sh"
     stopx: 
       order: 9
       type: post_process
-      body_substitute_with_path: "domina/scripts/context_feature_stopx.sh"
+      body: "substitute_with_path: domina/scripts/context_feature_stopx.sh"
   tasks: "substitute_with_path: domina/execution/feature_tasks.yml"
