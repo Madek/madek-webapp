@@ -4,6 +4,10 @@ Then /^I wait for multi\-select\-tag with the text "(.*?)"$/ do |text|
   wait_until{all("li.multi-select-tag",text: text).size > 0}
 end
 
+Then /^I wait for the clipboard to be fully open$/  do
+  find(".ui-clipboard.ui-open")
+end
+
 Then /^I wait for the dialog to appear$/ do
   wait_until{all(".modal.ui-shown").size > 0 }
 end

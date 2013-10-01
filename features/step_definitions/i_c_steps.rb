@@ -214,8 +214,27 @@ Then /^I can see the filter panel$/ do
   wait_until{ all(".filter-panel").size > 0}
 end
 
+Then(/^I can see the following permissions\-state:$/) do |table|
+  table.rows.each do |row|
+    user = User.find_by_login row[0]
+    action = row[1]
+    permission = row[2]
+    tr = find("tr[data-id='#{user.id}']")
+    input = tr.find("input[name='#{action}']")
+    if permission == "true"
+      expect(input).to be_checked
+    else
+      expect(input).not_to be_checked
+    end
+  end
+end
+
 Then /^I can see the text "(.*?)"$/ do |text|
   expect(page).to have_content text
+end
+
+Then /^I can see the permissions dialog$/  do
+  find(".modal .ui-rights-management")
 end
 
 Then /^I can see the provided title and the used filter settings$/ do
@@ -227,6 +246,11 @@ end
 
 Then /^I can see the preview$/ do
   expect(find("img.vjs-poster")).to be
+end
+
+Then(/^I can see the resource(\d+) in the clipboard$/) do |d|
+  resource = @resources[d.to_i]
+  find(".ui-clipboard .ui-resource[data-id='#{resource.id}']",visible: true)
 end
 
 ###
@@ -407,8 +431,55 @@ Then /^I click on show me more of the catalog$/ do
   find("#catalog a").click
 end
 
-Then /^I click on the "(.*?)" permission for "(.*?)"$/ do |permission, user|
+Then /^I click on the "([^\"]*?)" permission for "([^\"]*?)"$/ do |permission, user|
   find("tr[data-name='#{user}'] input[name='#{permission}']").click
+end
+
+When /^I click on the "([^\"]*?)" permission for "([^\"]*?)" until it is "([^\"]*?)"$/ do |permission, user_login, pvalue|
+  user = User.find_by_login user_login
+  td_element = find("tr[data-name='#{user.to_s}']  td.ui-rights-check.#{permission}")
+  input_element = td_element.find("input[name='#{permission}']")
+
+  input_element.instance_eval do
+    def mixed? 
+      self.value == "mixed"
+    end
+  end
+  
+  begin
+    input_element.click
+    done = 
+      case pvalue
+      when "false"
+        not input_element.mixed? and not input_element.checked?
+      when "true"
+        not input_element.mixed? and input_element.checked?
+      when "mixed"
+        input_element.mixed?
+      else
+        raise "you should never gotten here"
+      end
+  end while not done
+
+end
+
+
+When(/^I click on the public "(.*?)" permission until it is "(.*?)"$/) do |permission, pvalue|
+  # there is only one public row in it's own table
+  td_element = find(".ui-rights-management-public table tr td.ui-rights-check.#{permission}")
+  input_element = td_element.find("input[name='#{permission}']")
+  begin
+    input_element.click
+    done = 
+      case pvalue
+      when "false"
+        not input_element.checked?
+      when "true"
+        input_element.checked?
+      else
+        raise "you should never gotten here"
+      end
+  end while not done
 end
 
 Then /^I click on the button "(.*?)"$/ do |button_text|
@@ -440,6 +511,10 @@ Then /^I click on the link "([^\"]*?)"$/ do |link_text|
   wait_until{ all("a", text: link_text, visible: true).size > 0}
   find("a",text: link_text).click
 end 
+
+When(/^I click on the link "(.*?)" in the clipboard$/) do |text|
+  find(".ui-clipboard a",text: text).click
+end
 
 Then /^I click on the link "([\s\w]*?)" of the individual_meta_context "([\s\w]*?)"$/ do |link_text,individual_meta_context|
   find("table.individual_meta_contexts tr.individual_meta_context[data-name='#{individual_meta_context}']") \

@@ -1,6 +1,6 @@
 def take_screenshot
   @screenshot_dir ||= Rails.root.join("tmp","capybara")
-  Dir.mkdir @screenshot_dir rescue 
+  Dir.mkdir @screenshot_dir rescue nil
   path= @screenshot_dir.join("screenshot_#{Time.zone.now.iso8601.gsub(/:/,'-')}.png")
   case Capybara.current_driver
   when :selenium, :selenium_chrome

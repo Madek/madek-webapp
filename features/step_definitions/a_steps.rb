@@ -54,6 +54,15 @@ Given /^A resource owned by me with no other permissions$/ do
   @resource.update_attributes view: false, edit: false, manage: false, download: false
 end
 
+Given(/^A resource(\d+) owned by me with no other permissions$/) do |ns|
+  n = ns.to_i
+  @resources ||= []
+  @resources[n] = @me.media_resources[n]
+  @resources[n].userpermissions.clear
+  @resources[n].grouppermissions.clear
+  @resources[n].update_attributes view: false, edit: false, manage: false, download: false
+end
+
 Given /^A set, not owned by normin, and with no permissions whatsoever$/ do
   @set = User.find_by_login("petra").media_sets.first
   @set.update_attributes download: false, edit: false, manage: false, view: false

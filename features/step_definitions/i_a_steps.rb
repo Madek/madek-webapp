@@ -29,6 +29,16 @@ Then /^I add the resource to the given set$/ do
   wait_until{all(".ui-alert.confirmation",visible: true).size > 0 }
 end
 
+
+When(/^I add the resource(\d+) to the clipboard$/) do |ns|
+  i = ns.to_i
+  id = @resources[i].id
+  visit "/media_resources/#{id}"
+  find("a[data-clipboard-toggle]").click
+  wait_until{page.evaluate_script(%<$.active>) == 0}
+  wait_until{find(".ui-clipboard li.ui-resource[data-id='#{id}']",visible: false)}
+end
+
 Then /^I add "(.*?)" to grant user permissions$/ do |name|
   wait_until{all(".ui-modal").size > 0}
 end

@@ -201,6 +201,36 @@ Then /^The resource has the following user-permissions:$/ do |table|
   end
 end
 
+Then /^The resource(\d+) has the following user-permissions:$/ do |ns,table|
+  n = ns.to_i
+  table.rows.each do |row|
+    user = User.find_by_login row[0]
+    permissions = \
+      @resources[n].userpermissions.where(user_id: user.id).first  \
+      || @resources[n].userpermissions.create(user: user)
+    permissions.update_attributes row[1] => row[2]
+  end
+end
+
+Then(/^The resource(\d+) has the following user\-permissions set:$/) do |ns, table|
+  i = ns.to_i
+  media_resource = @resources[i]
+  table.rows.each do |row|
+    user = User.find_by_login row[0]
+    action = row[1]
+    value = row[2]
+    userpermission = Userpermission.where(user_id: user.id, media_resource_id: media_resource.id).first
+    expect(userpermission).to be
+    if value == "true"
+      expect(userpermission[action]).to be== true, row.to_s
+    elsif value == "false"
+      expect(userpermission[action]).to be== false, row.to_s
+    else
+      raise "should not be here" 
+    end
+  end
+end
+
 
 ### the s 
 
