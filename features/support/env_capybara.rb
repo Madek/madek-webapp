@@ -7,12 +7,27 @@ Capybara.register_driver :selenium_chrome do |app|
     Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
 
+Capybara.register_driver :poltergeist_debug do |app|
+  Capybara::Poltergeist::Driver.new(app, :inspector => true)
+end
 
 Before('@jsbrowser') do 
   Capybara.current_driver = :poltergeist
 end
 
 After('@jsbrowser') do
+  Capybara.use_default_driver
+end
+
+
+# poltergeist_debug
+# see https://github.com/jonleighton/poltergeist
+# http://www.jonathanleighton.com/articles/2012/poltergeist-0-6-0/
+Before('@poltergeist_debug') do 
+  Capybara.current_driver = :poltergeist_debug
+end
+
+After('@poltergeist_debug') do
   Capybara.use_default_driver
 end
 
