@@ -1,4 +1,4 @@
-%tr{:"data-id" => "${id}", :"data-name" => "${name}", "data-ownership" => "${ownership}", "data-is-current-user-group" => "${isCurrentUserGroup}", "data-is-current-user" => "${isCurrentUser}"}
+%tr{:"data-id" => "${id}", :"data-name" => "${name}", "data-type" => "${type}", "data-ownership" => "${ownership}", "data-is-current-user-group" => "${isCurrentUserGroup}", "data-is-current-user" => "${isCurrentUser}"}
 
   %td.ui-rights-user
     {{if $item.manageable && ownership == false}}
@@ -53,10 +53,14 @@
         {{/if}}
       {{if $item.manageable == true}}
       %i.icon-arrow-down.small
-      %select.ui-rights-role-select
+      %select.ui-rights-role-select 
         {{each(i, preset) $item.presets}}
         {{if App.PermissionPreset.match($item.data, [preset])}}
         %option{:selected => :selected, :value => "${preset.name}", :"data-preset" => "${JSON.stringify(preset)}"}= "${preset.name}"
+        {{else $item.data.type == "userpermission" }}
+        %option{:value => "${preset.name}", :"data-preset" => "${JSON.stringify(preset)}"}= "${preset.name}"
+        {{else $item.data.type == "grouppermission" && preset.manage == false }}
+        %option{:value => "${preset.name}", :"data-preset" => "${JSON.stringify(preset)}"}= "${preset.name}"
         {{else preset.manage == false}}
         %option{:value => "${preset.name}", :"data-preset" => "${JSON.stringify(preset)}"}= "${preset.name}"
         {{/if}}

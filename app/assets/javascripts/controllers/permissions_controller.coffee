@@ -224,6 +224,7 @@ class PermissionsController
       edit: false
       manage: false
       ownership: false
+      type: if (subject instanceof App.User) then "userpermission" else if  (subject instanceof App.Group) then "grouppermission" 
     ,
       presets: @permissionPresets
       manageable: @manageable
@@ -304,6 +305,8 @@ class PermissionsController
   getDataForRender: ->
     currentUserGroupIds = _.map(currentUser.groups, (group)-> group.id)
     _.each @permissions.groups , (g)-> g.isCurrentUserGroup = _.include(currentUserGroupIds,g.id)
+    _.each @permissions.groups , (g)-> g.type = "grouppermission"
+    _.each @permissions.users, (g)-> g.isUserpermission = true
     users = @permissions.users
     _.each users, (u)-> u.isCurrentUser = (u.id is currentUser.id)
     for owner in _.filter(@permissions.owners, (user)-> user.id != currentUser.id)
