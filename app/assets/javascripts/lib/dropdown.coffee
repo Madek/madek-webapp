@@ -6,7 +6,8 @@ Workaround for making Bootstrap dropdowns work in Chrome.
 
 jQuery -> 
   $('.dropdown-menu').on 'touchstart.dropdown.data-api', (e) -> e.stopPropagation()
-  $(".dropdown-toggle").on "click", (e)->
+
+  $("*:not(.ui-dropup) > .dropdown-toggle").on "click", (e)->
     target = $(e.currentTarget)
     dropdown = target.closest ".dropdown"
     dropdownMenu = dropdown.find ".dropdown-menu"
