@@ -1,3 +1,43 @@
+SELECT groups.name, groups.id, count(grouppermissions.id) as count_all_false_grouppermissions
+FROM "grouppermissions"
+INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id"
+WHERE "grouppermissions"."view" = 'f'
+  AND "grouppermissions"."edit" = 'f'
+  AND "grouppermissions"."download" = 'f'
+  AND "grouppermissions"."manage" = 'f'
+GROUP BY groups.id 
+ORDER BY count_all_false_grouppermissions DESC;
+
+
+SELECT media_resources.id , count(userpermissions.id) as count_all_false_userpermissions
+FROM "userpermissions"
+INNER JOIN "media_resources" ON "media_resources"."id" = "userpermissions"."media_resource_id"
+WHERE "userpermissions"."view" = 'f'
+  AND "userpermissions"."edit" = 'f'
+  AND "userpermissions"."download" = 'f'
+  AND "userpermissions"."manage" = 'f'
+GROUP BY media_resources.id
+ORDER BY count_all_false_userpermissions DESC;
+
+SELECT users.email, users.id, count(userpermissions.id) as count_all_false_userpermissions
+FROM "userpermissions"
+INNER JOIN "users" ON "users"."id" = "userpermissions"."user_id"
+WHERE "userpermissions"."view" = 'f'
+  AND "userpermissions"."edit" = 'f'
+  AND "userpermissions"."download" = 'f'
+  AND "userpermissions"."manage" = 'f'
+GROUP BY users.id
+ORDER BY count_all_false_userpermissions DESC
+;
+
+
+SELECT "userpermissions".*
+FROM "userpermissions"
+INNER JOIN "media_resources" ON "media_resources"."id" = "userpermissions"."media_resource_id"
+WHERE "userpermissions"."view" = 'f'
+  AND "userpermissions"."edit" = 'f'
+  AND "userpermissions"."download" = 'f'
+  AND "userpermissions"."manage" = 'f'
 
 
 SELECT * FROM pg_stat_activity WHERE pg_stat_activity.datname = 'madek_test';
