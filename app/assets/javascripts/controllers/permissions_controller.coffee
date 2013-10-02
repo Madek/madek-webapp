@@ -226,6 +226,7 @@ class PermissionsController
       ownership: false
       type: if (subject instanceof App.User) then "userpermission" else if  (subject instanceof App.Group) then "grouppermission" 
       isCurrentUserGroup: if (subject instanceof App.Group) and  _.include(_.map(currentUser.groups, (group)-> group.id) ,subject.id) then true else false
+      isCurrentUser: if (subject instanceof App.User) and subject.id == currentUser.id then true else false
     ,
       presets: @permissionPresets
       manageable: @manageable
