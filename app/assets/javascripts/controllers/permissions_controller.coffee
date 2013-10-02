@@ -171,7 +171,6 @@ class PermissionsController
         source: (request, response)->
           @ajaxSearchPerson.abort() if @ajaxSearchPerson?
           @ajaxSearchPerson = App.User.fetch request.term, (users)->
-            users = _.filter users, (user) -> user.id != currentUser.id
             response _.map users, (user)-> 
               _user = JSON.parse JSON.stringify user
               _user.value = user.name
