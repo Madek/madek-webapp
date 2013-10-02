@@ -7,9 +7,7 @@
     
 
     %span.text{:title => "${name}"}
-      {{if isCurrentUserGroup}}
-      %i.icon-privacy-private
-      {{/if}}
+      %i.current-user-icon.icon-privacy-private
       {{if $item.public}}
       %h4.title-s
         ${_jed('Public')}

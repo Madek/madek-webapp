@@ -208,3 +208,12 @@
     opacity: $opacity-medium;
   }
 }
+
+
+.ui-rights-management { 
+  .current-user-icon {
+    display: none; }
+  tr[data-is-current-user="true"],tr[data-is-current-user-group="true"] {
+    .current-user-icon {
+      display: inline-block; } }}
+
