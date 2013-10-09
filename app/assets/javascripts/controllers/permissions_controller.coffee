@@ -128,6 +128,7 @@ class PermissionsController
       id: previousOwnerLine.data "id"
       name: previousOwnerLine.data "name"
       view: true
+      isCurrentUser: (currentUser.id == (previousOwnerLine.data "id"))
       download: true
       edit: true
       manage: true
@@ -140,6 +141,7 @@ class PermissionsController
       id: newOwnerLine.data "id"
       name: newOwnerLine.data "name"
       view: true
+      isCurrentUser: (currentUser.id == (newOwnerLine.data "id"))
       download: true
       edit: true
       manage: true
