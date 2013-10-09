@@ -1174,7 +1174,7 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 -- Data for Name: app_settings; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO app_settings VALUES (0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2013-09-23 09:16:46.305459', '2013-09-23 09:16:46.367256', '/assets/inserts/image-logo-zhdk.png', 'Zürcher Hochschule der Künste', '{"About the project":"http://www.zhdk.ch/?madek","Impressum":"http://www.zhdk.ch/index.php?id=12970","Contact":"http://www.zhdk.ch/index.php?id=49591","Help":"http://wiki.zhdk.ch/madek-hilfe","Terms of Use":"https://wiki.zhdk.ch/madek-hilfe/doku.php?id=terms","Archivierungsrichtlinien ZHdK":"http://www.zhdk.ch/?archivierung"}', NULL, NULL);
+INSERT INTO app_settings VALUES (0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2013-10-09 08:35:49.923724', '2013-10-09 08:35:49.984166', '/assets/inserts/image-logo-zhdk.png', 'Zürcher Hochschule der Künste', '{"About the project":"http://www.zhdk.ch/?madek","Impressum":"http://www.zhdk.ch/index.php?id=12970","Contact":"http://www.zhdk.ch/index.php?id=49591","Help":"http://wiki.zhdk.ch/madek-hilfe","Terms of Use":"https://wiki.zhdk.ch/madek-hilfe/doku.php?id=terms","Archivierungsrichtlinien ZHdK":"http://www.zhdk.ch/?archivierung"}', NULL, NULL);
 
 
 --
@@ -1392,6 +1392,7 @@ INSERT INTO schema_migrations VALUES ('20130716084432');
 INSERT INTO schema_migrations VALUES ('20130716091049');
 INSERT INTO schema_migrations VALUES ('20130920133708');
 INSERT INTO schema_migrations VALUES ('20130923085830');
+INSERT INTO schema_migrations VALUES ('20131009083332');
 
 
 --
