@@ -40,6 +40,13 @@ GIT
       railties (>= 3.1.1)
       sass-rails (>= 3.1.1)
 
+GIT
+  remote: https://github.com/DrTom/textacular.git
+  revision: a00ec6eac179ceab612295df0eb0e157cda4022a
+  specs:
+    textacular (3.1.0)
+      activerecord (>= 3.0, < 4.1)
+
 GEM
   remote: http://rubygems.org/
   remote: http://gems.github.com/
@@ -443,8 +450,6 @@ GEM
       distribution (~> 0.6)
     stream (0.5)
     text-table (1.2.3)
-    textacular (3.1.0)
-      activerecord (>= 3.0, < 4.1)
     therubyracer (0.11.4)
       libv8 (~> 3.11.8.12)
       ref
@@ -558,7 +563,7 @@ DEPENDENCIES
   simplecov (~> 0.6)
   spork-rails
   statsample
-  textacular (~> 3.0)
+  textacular!
   therubyracer
   therubyrhino
   thin
