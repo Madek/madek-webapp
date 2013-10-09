@@ -1,0 +1,31 @@
+/**
+ * ## Media overview `.ui-media-overview`
+ *
+ * Styleguide 7.7.1
+
+.ui-media-overview
+  display: table
+  width: 100%
+
+.ui-media-overview-metadata,
+.ui-media-overview-preview
+  display: table-cell
+  vertical-align: middle
+  width: 50%
+
+.ui-media-overview-metadata .media-data-content
+  font-size: $font-l
+
+// Preview
+
+.ui-media-overview-preview
+  +border-top-right-radius($border-radius-m)
+  border-left: 1px solid $grey-mid-light
+  text-align: center
+  padding-left: $space-l
+  position: relative
+  min-height: 500px
+
+.ui-media-overview-preview .ui-media-overview-preview-item
+  display: inline-block
+  max-width: 500px

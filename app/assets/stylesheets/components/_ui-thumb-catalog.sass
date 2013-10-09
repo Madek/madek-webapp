@@ -1,0 +1,51 @@
+/**
+ * ## Catalogue Thumbnail `.ui-thumbnail.media-catalog`
+ *
+ * Styleguide 6.17
+
+.ui-thumbnail.media-catalog
+  +dimension(300px, auto)
+  background: transparent image-url("backgrounds/thumb-catalog-backg.png") 3px -4px no-repeat
+  overflow: hidden
+  margin: 0 5px 0 0
+  padding: 15px
+  position: relative
+  .ui-thumbnail-meta-subtitle
+    height: 56px
+  .ui-thumbnail-privacy
+    display: none
+    +position-top-left(16px, 16px)
+  .ui-thumbnail-image-wrapper
+    line-height: 0
+    position: relative
+    vertical-align: middle
+  .ui-thumbnail-image-holder
+    +dimension(290px, 190px)
+    overflow: hidden
+    position: relative
+    .ui-thumbnail-table-image-holder
+      height: 1000px
+      left: -355px
+      position: relative
+      top: -400px
+      width: 1000px
+      .ui-thumbnail-cell-image-holder
+        +dimension(290px, 190px)
+        .ui-thumbnail-inner-image-holder
+          .ui-thumbnail-image
+            +min-dimension(auto, auto)
+            +max-dimension(400px, 400px)
+  .ui-thumbnail-meta
+    margin: 10px 0 0
+    .ui-thumbnail-meta-extension
+      +border-top-left-radius($border-radius-s)
+      +border-bottom-right-radius($border-radius-s)
+      +dimension(auto, 21px)
+      +position-top-right(192px, 16px)
+      background: $brightest
+      border-color: $grey-mid
+      border-style: solid
+      border-width: 1px 0 0 1px
+      font-size: $font-xs
+      overflow: hidden
+      padding: 0 5px

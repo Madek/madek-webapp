@@ -1,0 +1,48 @@
+/**
+ *
+ * ## Defining layout of pages and rounded corners on containers as they vary from screen to screen
+ *
+
+@media #{$screen-size-xs}
+  .ui-header-brand-name,
+  .ui-header-instance-name
+    display: block
+    line-height: $line-height-xs
+  .ui-header-instance-name
+    $font-size: $font-xs
+  .ui-header-logo
+    display: none
+
+@media #{$screen-size-xs-s}
+  /* Responsive Footer
+   *-----------------------------------------
+  +sticky-footer(75px, ".app", ".app-footer-push", ".app-footer")
+  .app-footer
+    -webkit-backface-visibility: hidden
+    /* webkit flicker work-around
+  .ui-footer
+    height: 55px
+  .ui-footer
+    text-align: center
+  .ui-footer-menu
+    clear: both
+    display: block
+    float: none
+    margin-bottom: $space-s
+
+@media #{$screen-size-m}
+  /* Responsive Footer
+   *-----------------------------------------
+  +sticky-footer(75px, ".app", ".app-footer-push", ".app-footer")
+  .app-footer
+    -webkit-backface-visibility: hidden
+    /* webkit flicker work-around
+  .ui-footer
+    height: 55px
+  .ui-footer
+    text-align: center
+  .ui-footer-menu
+    clear: both
+    display: block
+    float: none
+    margin-bottom: $space-s

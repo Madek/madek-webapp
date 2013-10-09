@@ -1,0 +1,35 @@
+/**
+ * ## Thumbnail Actions `.ui-thumbnail-actions`
+ *
+ * Styleguide 6.12
+
+.ui-thumbnail-actions
+  +micro-clearfix
+  +position-bottom-left(13px, 11px)
+  line-height: 0
+  right: 11px
+  .ui-thumbnail-action
+    display: inline-block
+    list-style: none
+
+.ui-thumbnail-action-checkbox
+  @extend .icon-checkbox
+
+.ui-thumbnail-action-favorite
+  @extend .icon-fav
+
+.ui-thumbnail-action-browse
+  @extend .icon-eye
+
+.ui-thumbnail-action-edit
+  @extend .icon-pen
+
+.ui-thumbnail-action-delete
+  @extend .icon-trash
+
+.ui-thumbnail-action-browse,
+.ui-thumbnail-action-edit,
+.ui-thumbnail-action-delete
+  opacity: $opacity-medium
+  &:hover
+    opacity: 1

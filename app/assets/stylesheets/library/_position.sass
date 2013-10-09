@@ -1,0 +1,34 @@
+=position($position: relative)
+  position: $position
+
+=position-top($a: 0, $position: absolute)
+  position: $position
+  top: $a
+
+=position-right($a: 0, $position: absolute)
+  position: $position
+  right: $a
+
+=position-bottom($a: 0, $position: absolute)
+  position: $position
+  bottom: $a
+
+=position-left($a: 0, $position: absolute)
+  position: $position
+  left: $a
+
+=position-top-left($a: 0, $b: 0, $position: absolute)
+  +position-top($a, $position)
+  left: $b
+
+=position-top-right($a: 0, $b: 0, $position: absolute)
+  +position-top($a, $position)
+  right: $b
+
+=position-bottom-left($a: 0, $b: 0, $position: absolute)
+  +position-bottom($a, $position)
+  left: $b
+
+=position-bottom-right($a: 0, $b: 0, $position: absolute)
+  +position-bottom($a, $position)
+  right: $b
