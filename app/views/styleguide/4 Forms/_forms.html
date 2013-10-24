@@ -1,0 +1,781 @@
+<section class="sg-body">
+  <section class="sg-example" id="4.1.1">
+    <h3>
+      <a href="#4.1.1">4.1.1</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_forms.scss</span>
+      <h2>Sample columned form <code>form</code></h2>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+          <form>
+            <div class="form-head">
+              <div class="ui-alerts">
+                <div class="ui-alert error">There's an error in this form.</div>
+                <div class="ui-alert warning">There's also a warning/highlight.</div>
+              </div>
+            </div> 
+            <div class="form-body">
+              <div class="ui-form-group rowed">
+                <label class="form-label">
+                  Checkboxes
+                  <small>Comment if needed</small>
+                  <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                    More Info
+                  </span>
+                </label>
+                <div class="form-item">
+                  <label class="col2of6"><input type="checkbox"> Checkbox</label>
+                  <label class="col2of6"><input type="checkbox"> Checkbox</label>
+                  <label class="col2of6"><input type="checkbox"> Checkbox</label>
+                </div>
+              </div>
+              <div class="ui-form-group rowed">
+                <label class="form-label">
+                  Radios
+                  <small>Comment if needed</small>
+                  <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                    More Info
+                  </span>
+                </label>
+                <div class="form-item">
+                  <label class="col2of6"><input type="radio"> Radio button</label>
+                  <label class="col2of6"><input type="radio"> Radio button</label>
+                  <label class="col2of6"><input type="radio"> Radio button</label>
+                </div>
+              </div>
+              <div class="ui-form-group rowed">
+                <label class="form-label">
+                  Date
+                  <small>Comment if needed</small>
+                  <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                    More Info
+                  </span>
+                </label>
+                <div class="form-item">
+                  <input type="text" class="block ui-datepicker">
+                </div>
+              </div>
+              <div class="ui-form-group rowed">
+                <label class="form-label">
+                  Text
+                  <small>Comment if needed</small>
+                  <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                    More Info
+                  </span>
+                </label>
+                <div class="form-item">
+                  <input type="text" class="block">
+                </div>
+              </div>
+              <div class="ui-form-group rowed highlight">
+                <label class="form-label">
+                  Textarea
+                  <small>Comment if needed</small>
+                  <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Personen, die zum Werk beigetragen haben, z.B. Bühnenbildner oder die Regieassistenz. Die entsprechende Funktion sollte ebenfalls genannt werden.">
+                    More Info
+                  </span>
+                </label>
+                <div class="form-item">
+                  <textarea class="block"></textarea>
+                </div>
+              </div>
+              <div class="ui-form-group rowed">
+                <label class="form-label">
+                  Select
+                  <small>Comment if needed</small>
+                  <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                    More Info
+                  </span>
+                </label>
+                <div class="form-item">
+                  <select class="block"><option>Option 1</option><option>Option 2</option></select>
+                </div>
+              </div>
+              <div class="ui-form-group rowed error">
+                <label class="form-label">
+                  Text
+                  <small>Comment if needed</small>
+                  <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                    More Info
+                  </span>
+                </label>
+                <div class="form-item">
+                  <input type="text" class="block">
+                </div>
+              </div>
+            </div>
+            <div class="form-footer">
+              <div class="ui-actions">
+                <a class="link weak">Secondary Action</a>
+                <button class="primary-button large">Primary Action</button>
+              </div>
+          </div>
+          </form>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;form&gt;
+&lt;div class="form-head"&gt;
+  &lt;div class="ui-alerts"&gt;
+    &lt;div class="ui-alert error"&gt;There's an error in this form.&lt;/div&gt;
+    &lt;div class="ui-alert warning"&gt;There's also a warning/highlight.&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt; 
+&lt;div class="form-body"&gt;
+  &lt;div class="ui-form-group rowed"&gt;
+    &lt;label class="form-label"&gt;
+      Checkboxes
+      &lt;small&gt;Comment if needed&lt;/small&gt;
+      &lt;span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text"&gt;
+        More Info
+      &lt;/span&gt;
+    &lt;/label&gt;
+    &lt;div class="form-item"&gt;
+      &lt;label class="col2of6"&gt;&lt;input type="checkbox"&gt; Checkbox&lt;/label&gt;
+      &lt;label class="col2of6"&gt;&lt;input type="checkbox"&gt; Checkbox&lt;/label&gt;
+      &lt;label class="col2of6"&gt;&lt;input type="checkbox"&gt; Checkbox&lt;/label&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ui-form-group rowed"&gt;
+    &lt;label class="form-label"&gt;
+      Radios
+      &lt;small&gt;Comment if needed&lt;/small&gt;
+      &lt;span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text"&gt;
+        More Info
+      &lt;/span&gt;
+    &lt;/label&gt;
+    &lt;div class="form-item"&gt;
+      &lt;label class="col2of6"&gt;&lt;input type="radio"&gt; Radio button&lt;/label&gt;
+      &lt;label class="col2of6"&gt;&lt;input type="radio"&gt; Radio button&lt;/label&gt;
+      &lt;label class="col2of6"&gt;&lt;input type="radio"&gt; Radio button&lt;/label&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ui-form-group rowed"&gt;
+    &lt;label class="form-label"&gt;
+      Date
+      &lt;small&gt;Comment if needed&lt;/small&gt;
+      &lt;span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text"&gt;
+        More Info
+      &lt;/span&gt;
+    &lt;/label&gt;
+    &lt;div class="form-item"&gt;
+      &lt;input type="text" class="block ui-datepicker"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ui-form-group rowed"&gt;
+    &lt;label class="form-label"&gt;
+      Text
+      &lt;small&gt;Comment if needed&lt;/small&gt;
+      &lt;span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text"&gt;
+        More Info
+      &lt;/span&gt;
+    &lt;/label&gt;
+    &lt;div class="form-item"&gt;
+      &lt;input type="text" class="block"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ui-form-group rowed highlight"&gt;
+    &lt;label class="form-label"&gt;
+      Textarea
+      &lt;small&gt;Comment if needed&lt;/small&gt;
+      &lt;span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Personen, die zum Werk beigetragen haben, z.B. Bühnenbildner oder die Regieassistenz. Die entsprechende Funktion sollte ebenfalls genannt werden."&gt;
+        More Info
+      &lt;/span&gt;
+    &lt;/label&gt;
+    &lt;div class="form-item"&gt;
+      &lt;textarea class="block"&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ui-form-group rowed"&gt;
+    &lt;label class="form-label"&gt;
+      Select
+      &lt;small&gt;Comment if needed&lt;/small&gt;
+      &lt;span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text"&gt;
+        More Info
+      &lt;/span&gt;
+    &lt;/label&gt;
+    &lt;div class="form-item"&gt;
+      &lt;select class="block"&gt;&lt;option&gt;Option 1&lt;/option&gt;&lt;option&gt;Option 2&lt;/option&gt;&lt;/select&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ui-form-group rowed error"&gt;
+    &lt;label class="form-label"&gt;
+      Text
+      &lt;small&gt;Comment if needed&lt;/small&gt;
+      &lt;span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text"&gt;
+        More Info
+      &lt;/span&gt;
+    &lt;/label&gt;
+    &lt;div class="form-item"&gt;
+      &lt;input type="text" class="block"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="form-footer"&gt;
+  &lt;div class="ui-actions"&gt;
+    &lt;a class="link weak"&gt;Secondary Action&lt;/a&gt;
+    &lt;button class="primary-button large"&gt;Primary Action&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/form&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="4.1.1">
+    <h3>
+      <a href="#4.1.1">4.1.1</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_forms.scss</span>
+      <h2>Sample columned form <code>form</code></h2>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+          <form>
+            <div class="form-head">
+              <div class="ui-alerts">
+                <div class="ui-alert success">Success message for this form has been provided.</div>
+              </div>
+            </div>
+            <div class="form-body">
+              <div class="ui-form-group columned">
+                <label class="form-label">
+                  Checkboxes
+                  <small>Comment if needed</small>
+                  <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                    More Info
+                  </span>
+                </label>
+                <div class="form-item">
+                  <label class="col2of6"><input type="checkbox"> Checkbox</label>
+                  <label class="col2of6"><input type="checkbox"> Checkbox</label>
+                  <label class="col2of6"><input type="checkbox"> Checkbox</label>
+                </div>
+              </div>
+              <div class="ui-form-group columned">
+                <label class="form-label">
+                  Radios
+                  <small>Comment if needed</small>
+                  <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                    More Info
+                  </span>
+                </label>
+                <div class="form-item">
+                  <label class="col2of6"><input type="radio"> Radio button</label>
+                  <label class="col2of6"><input type="radio"> Radio button</label>
+                  <label class="col2of6"><input type="radio"> Radio button</label>
+                </div>
+              </div>
+              <div class="ui-form-group columned">
+                <label class="form-label">
+                  Date
+                  <small>Comment if needed</small>
+                  <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                    More Info
+                  </span>
+                </label>
+                <div class="form-item">
+                  <input type="text" class="block ui-datepicker">
+                </div>
+              </div>
+              <div class="ui-form-group columned">
+                <label class="form-label">
+                  Text
+                  <small>Comment if needed</small>
+                  <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                    More Info
+                  </span>
+                </label>
+                <div class="form-item">
+                  <input type="text" class="block">
+                </div>
+              </div>
+              <div class="ui-form-group columned">
+                <label class="form-label">
+                  Textarea
+                  <small>Comment if needed</small>
+                  <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Personen, die zum Werk beigetragen haben, z.B. Bühnenbildner oder die Regieassistenz. Die entsprechende Funktion sollte ebenfalls genannt werden.">
+                    More Info
+                  </span>
+                </label>
+                <div class="form-item">
+                  <textarea class="block"></textarea>
+                </div>
+              </div>
+              <div class="ui-form-group columned">
+                <label class="form-label">
+                  Select
+                  <small>Comment if needed</small>
+                  <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                    More Info
+                  </span>
+                </label>
+                <div class="form-item">
+                  <select class="block"><option>Option 1</option><option>Option 2</option></select>
+                </div>
+              </div>
+              <div class="ui-form-group columned">
+                <label class="form-label">
+                  Text
+                  <small>Comment if needed</small>
+                  <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                    More Info
+                  </span>
+                </label>
+                <div class="form-item">
+                  <input type="text" class="block">
+                </div>
+              </div>
+            </div>
+            <div class="form-footer">
+              <div class="ui-actions">
+                <a class="link weak">Secondary Action</a>
+                <button class="primary-button">Primary Action</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;form&gt;
+&lt;div class="form-head"&gt;
+  &lt;div class="ui-alerts"&gt;
+    &lt;div class="ui-alert success"&gt;Success message for this form has been provided.&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="form-body"&gt;
+  &lt;div class="ui-form-group columned"&gt;
+    &lt;label class="form-label"&gt;
+      Checkboxes
+      &lt;small&gt;Comment if needed&lt;/small&gt;
+      &lt;span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text"&gt;
+        More Info
+      &lt;/span&gt;
+    &lt;/label&gt;
+    &lt;div class="form-item"&gt;
+      &lt;label class="col2of6"&gt;&lt;input type="checkbox"&gt; Checkbox&lt;/label&gt;
+      &lt;label class="col2of6"&gt;&lt;input type="checkbox"&gt; Checkbox&lt;/label&gt;
+      &lt;label class="col2of6"&gt;&lt;input type="checkbox"&gt; Checkbox&lt;/label&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ui-form-group columned"&gt;
+    &lt;label class="form-label"&gt;
+      Radios
+      &lt;small&gt;Comment if needed&lt;/small&gt;
+      &lt;span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text"&gt;
+        More Info
+      &lt;/span&gt;
+    &lt;/label&gt;
+    &lt;div class="form-item"&gt;
+      &lt;label class="col2of6"&gt;&lt;input type="radio"&gt; Radio button&lt;/label&gt;
+      &lt;label class="col2of6"&gt;&lt;input type="radio"&gt; Radio button&lt;/label&gt;
+      &lt;label class="col2of6"&gt;&lt;input type="radio"&gt; Radio button&lt;/label&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ui-form-group columned"&gt;
+    &lt;label class="form-label"&gt;
+      Date
+      &lt;small&gt;Comment if needed&lt;/small&gt;
+      &lt;span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text"&gt;
+        More Info
+      &lt;/span&gt;
+    &lt;/label&gt;
+    &lt;div class="form-item"&gt;
+      &lt;input type="text" class="block ui-datepicker"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ui-form-group columned"&gt;
+    &lt;label class="form-label"&gt;
+      Text
+      &lt;small&gt;Comment if needed&lt;/small&gt;
+      &lt;span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text"&gt;
+        More Info
+      &lt;/span&gt;
+    &lt;/label&gt;
+    &lt;div class="form-item"&gt;
+      &lt;input type="text" class="block"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ui-form-group columned"&gt;
+    &lt;label class="form-label"&gt;
+      Textarea
+      &lt;small&gt;Comment if needed&lt;/small&gt;
+      &lt;span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Personen, die zum Werk beigetragen haben, z.B. Bühnenbildner oder die Regieassistenz. Die entsprechende Funktion sollte ebenfalls genannt werden."&gt;
+        More Info
+      &lt;/span&gt;
+    &lt;/label&gt;
+    &lt;div class="form-item"&gt;
+      &lt;textarea class="block"&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ui-form-group columned"&gt;
+    &lt;label class="form-label"&gt;
+      Select
+      &lt;small&gt;Comment if needed&lt;/small&gt;
+      &lt;span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text"&gt;
+        More Info
+      &lt;/span&gt;
+    &lt;/label&gt;
+    &lt;div class="form-item"&gt;
+      &lt;select class="block"&gt;&lt;option&gt;Option 1&lt;/option&gt;&lt;option&gt;Option 2&lt;/option&gt;&lt;/select&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ui-form-group columned"&gt;
+    &lt;label class="form-label"&gt;
+      Text
+      &lt;small&gt;Comment if needed&lt;/small&gt;
+      &lt;span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text"&gt;
+        More Info
+      &lt;/span&gt;
+    &lt;/label&gt;
+    &lt;div class="form-item"&gt;
+      &lt;input type="text" class="block"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="form-footer"&gt;
+  &lt;div class="ui-actions"&gt;
+    &lt;a class="link weak"&gt;Secondary Action&lt;/a&gt;
+    &lt;button class="primary-button"&gt;Primary Action&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/form&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="4.2">
+    <h3>
+      <a href="#4.2">4.2</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-form-alerts.scss</span>
+      <h2>Form alerts <code>.ui-datepicker</code></h2>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="padding-bottom: 400px;margin: 0 auto">  <input type="text" class="ui-datepicker"></div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;input type="text" class="ui-datepicker"&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="4.3">
+    <h3>
+      <a href="#4.3">4.3</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-form-group.scss</span>
+      <h2>Form group <code>ui-form-group</code></h2>
+      <ul class="sg-modifiers">
+        <li>
+          <strong>.rowed</strong>
+          -
+          Rowed form group
+        </li>
+        <li>
+          <strong>.columned</strong>
+          -
+          Columned
+        </li>
+        <li>
+          <strong>.rowed.highlight</strong>
+          -
+          Highlight variation
+        </li>
+        <li>
+          <strong>.rowed.error</strong>
+          -
+          Error variation
+        </li>
+        <li>
+          <strong>.rowed.compact</strong>
+          -
+          Compact mode
+        </li>
+        <li>
+          <strong>.columned.highlight</strong>
+          -
+          Highlight variation
+        </li>
+        <li>
+          <strong>.columned.error</strong>
+          -
+          Error variation
+        </li>
+        <li>
+          <strong>.columned.compact</strong>
+          -
+          Compact mode
+        </li>
+      </ul>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.rowed</span>
+        <div style="">
+          <div class="ui-form-group rowed">
+            <label class="form-label">
+              Form label
+              <small>Comment if needed</small>
+              <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                More Info
+              </span>
+            </label>
+            <div class="form-item">
+              <input type="text" class="block">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.columned</span>
+        <div style="">
+          <div class="ui-form-group columned">
+            <label class="form-label">
+              Form label
+              <small>Comment if needed</small>
+              <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                More Info
+              </span>
+            </label>
+            <div class="form-item">
+              <input type="text" class="block">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.rowed.highlight</span>
+        <div style="">
+          <div class="ui-form-group rowed highlight">
+            <label class="form-label">
+              Form label
+              <small>Comment if needed</small>
+              <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                More Info
+              </span>
+            </label>
+            <div class="form-item">
+              <input type="text" class="block">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.rowed.error</span>
+        <div style="">
+          <div class="ui-form-group rowed error">
+            <label class="form-label">
+              Form label
+              <small>Comment if needed</small>
+              <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                More Info
+              </span>
+            </label>
+            <div class="form-item">
+              <input type="text" class="block">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.rowed.compact</span>
+        <div style="">
+          <div class="ui-form-group rowed compact">
+            <label class="form-label">
+              Form label
+              <small>Comment if needed</small>
+              <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                More Info
+              </span>
+            </label>
+            <div class="form-item">
+              <input type="text" class="block">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.columned.highlight</span>
+        <div style="">
+          <div class="ui-form-group columned highlight">
+            <label class="form-label">
+              Form label
+              <small>Comment if needed</small>
+              <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                More Info
+              </span>
+            </label>
+            <div class="form-item">
+              <input type="text" class="block">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.columned.error</span>
+        <div style="">
+          <div class="ui-form-group columned error">
+            <label class="form-label">
+              Form label
+              <small>Comment if needed</small>
+              <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                More Info
+              </span>
+            </label>
+            <div class="form-item">
+              <input type="text" class="block">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.columned.compact</span>
+        <div style="">
+          <div class="ui-form-group columned compact">
+            <label class="form-label">
+              Form label
+              <small>Comment if needed</small>
+              <span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text">
+                More Info
+              </span>
+            </label>
+            <div class="form-item">
+              <input type="text" class="block">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;div class="ui-form-group"&gt;
+&lt;label class="form-label"&gt;
+  Form label
+  &lt;small&gt;Comment if needed&lt;/small&gt;
+  &lt;span class="ui-form-ui-ttip-toggle ui-ttip-toggle" data-placement="left" rel="tooltip" data-original-title="Tooltip Text"&gt;
+    More Info
+  &lt;/span&gt;
+&lt;/label&gt;
+&lt;div class="form-item"&gt;
+  &lt;input type="text" class="block"&gt;
+&lt;/div&gt;
+&lt;/div&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="4.4">
+    <h3>
+      <a href="#4.4">4.4</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-search-field.scss</span>
+      <h2>Search input <code>.ui-search</code></h2>
+      <ul class="sg-modifiers">
+        <li>
+          <strong>.large</strong>
+          -
+          Large variation
+        </li>
+      </ul>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+            <div class="ui-search $modifier-class">
+              <input type="text" class="block ui-search-input">
+              <button class="primary-button ui-search-button">Search</button>
+            </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.large</span>
+        <div style="">
+            <div class="ui-search large">
+              <input type="text" class="block ui-search-input">
+              <button class="primary-button ui-search-button">Search</button>
+            </div>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;div class="ui-search"&gt;
+  &lt;input type="text" class="block ui-search-input"&gt;
+  &lt;button class="primary-button ui-search-button"&gt;Search&lt;/button&gt;
+&lt;/div&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="4.5">
+    <h3>
+      <a href="#4.5">4.5</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_multi-select.scss</span>
+      <h2>Multi-select form element <code>.multi-select</code></h2>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+            <div class="multi-select $modifier-class">
+              <ul class="multi-select-holder">
+                <li class="multi-select-tag">
+                  Tusche und Airbrush auf Karton <a class="multi-select-tag-remove" href="#"></a>
+                </li>
+          
+                <li class="multi-select-tag">
+                  Rendering <a class="multi-select-tag-remove" href="#"></a>
+                </li>
+          
+                <li class="multi-select-input-holder">
+                  <input type="text" class="multi-select-input">
+                  <a class="multi-select-input-toggle" href="#"></a>
+                </li>
+              </ul>
+            </div>
+          
+            <!--<ul class="ui-autocomplete ui-menu ui-widget ui-widget-content ui-corner-all" role="listbox" aria-activedescendant="ui-active-menuitem" style="z-index: 1; top: 650px; left: 652px; display: block; width: 332px; ">
+              <li class="ui-menu-item" role="menuitem"><a class="ui-corner-all" tabindex="-1">Screenshot</a></li>
+              <li class="ui-menu-item" role="menuitem"><a class="ui-corner-all ui-state-hover" tabindex="-1" id="ui-active-menuitem">zeichnung</a></li>
+            </ul>-->
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;div class="multi-select"&gt;
+  &lt;ul class="multi-select-holder"&gt;
+    &lt;li class="multi-select-tag"&gt;
+      Tusche und Airbrush auf Karton &lt;a class="multi-select-tag-remove" href="#"&gt;&lt;/a&gt;
+    &lt;/li&gt;
+
+    &lt;li class="multi-select-tag"&gt;
+      Rendering &lt;a class="multi-select-tag-remove" href="#"&gt;&lt;/a&gt;
+    &lt;/li&gt;
+
+    &lt;li class="multi-select-input-holder"&gt;
+      &lt;input type="text" class="multi-select-input"&gt;
+      &lt;a class="multi-select-input-toggle" href="#"&gt;&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;!--&lt;ul class="ui-autocomplete ui-menu ui-widget ui-widget-content ui-corner-all" role="listbox" aria-activedescendant="ui-active-menuitem"&gt;
+  &lt;li class="ui-menu-item" role="menuitem"&gt;&lt;a class="ui-corner-all" tabindex="-1"&gt;Screenshot&lt;/a&gt;&lt;/li&gt;
+  &lt;li class="ui-menu-item" role="menuitem"&gt;&lt;a class="ui-corner-all ui-state-hover" tabindex="-1" id="ui-active-menuitem"&gt;zeichnung&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;--&gt;</pre>
+      </div>
+    </div>
+  </section>
+</section>

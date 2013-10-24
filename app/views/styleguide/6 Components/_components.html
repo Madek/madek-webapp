@@ -1,0 +1,1790 @@
+<section class="sg-body">
+  <section class="sg-example" id="6.1">
+    <h3>
+      <a href="#6.1">6.1</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-containers.scss</span>
+      <h2>ui-containers <code>.ui-container</code></h2>
+      <ul class="sg-modifiers">
+        <li>
+          <strong>.bright</strong>
+          -
+          Bright ui-container
+        </li>
+        <li>
+          <strong>.transparent</strong>
+          -
+          Semi-transparent bright box: home page elevator pitch
+        </li>
+        <li>
+          <strong>.inverted</strong>
+          -
+          Dark gradient boxes: top-nav, footer and filter bar ui-containers
+        </li>
+        <li>
+          <strong>.inverted-transparent</strong>
+          -
+          Semi-transparent dark box: clipboard
+        </li>
+        <li>
+          <strong>.midtone</strong>
+          -
+          Light grey box: thumb grid ui-containers
+        </li>
+        <li>
+          <strong>.bordered</strong>
+          -
+          Box with border. Possible extensions: .bordered-bottom, .bordered-top, .bordered-right
+        </li>
+        <li>
+          <strong>.rounded</strong>
+          -
+          Rounded corners equal to medium border radius value. Possible extensions:; .rounded-bottom, .rounded-top, .rounded-right, .rounded-left
+        </li>
+        <li>
+          <strong>.overlaid</strong>
+          -
+          ui-containers needing a layer on top of them (such as home page collage)
+        </li>
+        <li>
+          <strong>.well</strong>
+          -
+          ui-container with and inside shadow
+        </li>
+      </ul>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+            <div class="ui-container $modifier-class" style="height:80px">
+            </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.bright</span>
+        <div style="">
+            <div class="ui-container bright" style="height:80px">
+            </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.transparent</span>
+        <div style="">
+            <div class="ui-container transparent" style="height:80px">
+            </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.inverted</span>
+        <div style="">
+            <div class="ui-container inverted" style="height:80px">
+            </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.inverted-transparent</span>
+        <div style="">
+            <div class="ui-container inverted-transparent" style="height:80px">
+            </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.midtone</span>
+        <div style="">
+            <div class="ui-container midtone" style="height:80px">
+            </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.bordered</span>
+        <div style="">
+            <div class="ui-container bordered" style="height:80px">
+            </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.rounded</span>
+        <div style="">
+            <div class="ui-container rounded" style="height:80px">
+            </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.overlaid</span>
+        <div style="">
+            <div class="ui-container overlaid" style="height:80px">
+            </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.well</span>
+        <div style="">
+            <div class="ui-container well" style="height:80px">
+            </div>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;div class="ui-container"&gt;
+&lt;/div&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="6.2">
+    <h3>
+      <a href="#6.2">6.2</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-side-navigation.scss</span>
+      <h2>Side Navigation <code>.ui-side-navigation</code></h2>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+          <ul class="ui-side-navigation">
+            <li class="ui-side-navigation-item">
+              <a class="strong" href="#">Katalog</a>
+            </li>
+            <ul class="ui-side-navigation-lvl2">
+              <li class="ui-side-navigation-lvl2-item">
+                <a class="weak" href="#">ZHdK Bereich</a>
+              </li>
+              <li class="ui-side-navigation-lvl2-item active">
+                <a class="weak" href="#">Gattung</a>
+                <ul class="ui-side-navigation-lvl3">
+                  <li class="ui-side-navigation-lvl3-item">
+                    <a class="weak" href="#">Architektur</a>
+                  </li>
+                  <li class="ui-side-navigation-lvl3-item">
+                    <a class="weak" href="#">Design</a>
+                  </li>
+                  <li class="ui-side-navigation-lvl3-item">
+                    <a class="weak" href="#">Film</a>
+                  </li>
+                  <li class="ui-side-navigation-lvl3-item">
+                    <a class="weak" href="#">Fotografie</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="ui-side-navigation-lvl2-item">
+                <a class="weak" href="#">Projekttyp</a>
+              </li>
+            </ul>
+            <li class="separator mini"></li>
+            <li class="ui-side-navigation-item">
+              <a class="strong" href="#">Interessante Inhalte</a>
+            </li>
+            <li class="separator mini"></li>
+            <li class="ui-side-navigation-item">
+              <a class="strong" href="#">Neue Inhalte</a>
+            </li>
+            <li class="separator mini"></li>
+            <li class="ui-side-navigation-item">
+              <a class="strong" href="#">Häufige Schlagworte</a>
+            </li>
+            <li class="separator mini"></li>
+          </ul>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;ul class="ui-side-navigation"&gt;
+&lt;li class="ui-side-navigation-item"&gt;
+  &lt;a class="strong" href="#"&gt;Katalog&lt;/a&gt;
+&lt;/li&gt;
+&lt;ul class="ui-side-navigation-lvl2"&gt;
+  &lt;li class="ui-side-navigation-lvl2-item"&gt;
+    &lt;a class="weak" href="#"&gt;ZHdK Bereich&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li class="ui-side-navigation-lvl2-item active"&gt;
+    &lt;a class="weak" href="#"&gt;Gattung&lt;/a&gt;
+    &lt;ul class="ui-side-navigation-lvl3"&gt;
+      &lt;li class="ui-side-navigation-lvl3-item"&gt;
+        &lt;a class="weak" href="#"&gt;Architektur&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li class="ui-side-navigation-lvl3-item"&gt;
+        &lt;a class="weak" href="#"&gt;Design&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li class="ui-side-navigation-lvl3-item"&gt;
+        &lt;a class="weak" href="#"&gt;Film&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li class="ui-side-navigation-lvl3-item"&gt;
+        &lt;a class="weak" href="#"&gt;Fotografie&lt;/a&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li class="ui-side-navigation-lvl2-item"&gt;
+    &lt;a class="weak" href="#"&gt;Projekttyp&lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;li class="separator mini"&gt;&lt;/li&gt;
+&lt;li class="ui-side-navigation-item"&gt;
+  &lt;a class="strong" href="#"&gt;Interessante Inhalte&lt;/a&gt;
+&lt;/li&gt;
+&lt;li class="separator mini"&gt;&lt;/li&gt;
+&lt;li class="ui-side-navigation-item"&gt;
+  &lt;a class="strong" href="#"&gt;Neue Inhalte&lt;/a&gt;
+&lt;/li&gt;
+&lt;li class="separator mini"&gt;&lt;/li&gt;
+&lt;li class="ui-side-navigation-item"&gt;
+  &lt;a class="strong" href="#"&gt;Häufige Schlagworte&lt;/a&gt;
+&lt;/li&gt;
+&lt;li class="separator mini"&gt;&lt;/li&gt;
+&lt;/ul&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="6.3">
+    <h3>
+      <a href="#6.3">6.3</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-tag-cloud.scss</span>
+      <h2>Tag cloud <code>.ui-tag-cloud</code></h2>
+      <ul class="sg-modifiers">
+        <li>
+          <strong>.small</strong>
+          -
+          Small variation
+        </li>
+        <li>
+          <strong>.large</strong>
+          -
+          Large variation
+        </li>
+      </ul>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+          <ul class="ui-tag-cloud $modifier-class">
+            <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button"><i class="icon-eye ui-tag-icon"></i> Tag 1 <span class="ui-tag-counter">5</span></a></li>
+            <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+            <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button"><i class="icon-eye ui-tag-icon"></i>Tag 3 <span class="ui-tag-counter">237</span></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.small</span>
+        <div style="">
+          <ul class="ui-tag-cloud small">
+            <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button"><i class="icon-eye ui-tag-icon"></i> Tag 1 <span class="ui-tag-counter">5</span></a></li>
+            <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+            <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button"><i class="icon-eye ui-tag-icon"></i>Tag 3 <span class="ui-tag-counter">237</span></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.large</span>
+        <div style="">
+          <ul class="ui-tag-cloud large">
+            <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button"><i class="icon-eye ui-tag-icon"></i> Tag 1 <span class="ui-tag-counter">5</span></a></li>
+            <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button">Tag 2</a></li>
+            <li class="ui-tag-cloud-item"><a href="#" class="ui-tag-button"><i class="icon-eye ui-tag-icon"></i>Tag 3 <span class="ui-tag-counter">237</span></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;ul class="ui-tag-cloud"&gt;
+&lt;li class="ui-tag-cloud-item"&gt;&lt;a href="#" class="ui-tag-button"&gt;&lt;i class="icon-eye ui-tag-icon"&gt;&lt;/i&gt; Tag 1 &lt;span class="ui-tag-counter"&gt;5&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li class="ui-tag-cloud-item"&gt;&lt;a href="#" class="ui-tag-button"&gt;Tag 2&lt;/a&gt;&lt;/li&gt;
+&lt;li class="ui-tag-cloud-item"&gt;&lt;a href="#" class="ui-tag-button"&gt;&lt;i class="icon-eye ui-tag-icon"&gt;&lt;/i&gt;Tag 3 &lt;span class="ui-tag-counter"&gt;237&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="6.4">
+    <h3>
+      <a href="#6.4">6.4</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-tabs.scss</span>
+      <h2>Tabs <code>.ui-tabs</code></h2>
+      <ul class="sg-modifiers">
+        <li>
+          <strong>.primary</strong>
+          -
+          Primary tab navigation
+        </li>
+        <li>
+          <strong>.small</strong>
+          -
+          Small tab navigation
+        </li>
+        <li>
+          <strong>.large</strong>
+          -
+          Large tab navigation
+        </li>
+        <li>
+          <strong>.by-right</strong>
+          -
+          Aligned right
+        </li>
+        <li>
+          <strong>.by-center</strong>
+          -
+          Centered
+        </li>
+      </ul>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+          <ul class="ui-tabs $modifier-class">
+            <li class="ui-tabs-item"><a href="#">Item 1</a></li>
+            <li class="ui-tabs-item active"><a href="#">Item 2</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.primary</span>
+        <div style="">
+          <ul class="ui-tabs primary">
+            <li class="ui-tabs-item"><a href="#">Item 1</a></li>
+            <li class="ui-tabs-item active"><a href="#">Item 2</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.small</span>
+        <div style="">
+          <ul class="ui-tabs small">
+            <li class="ui-tabs-item"><a href="#">Item 1</a></li>
+            <li class="ui-tabs-item active"><a href="#">Item 2</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.large</span>
+        <div style="">
+          <ul class="ui-tabs large">
+            <li class="ui-tabs-item"><a href="#">Item 1</a></li>
+            <li class="ui-tabs-item active"><a href="#">Item 2</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.by-right</span>
+        <div style="">
+          <ul class="ui-tabs by-right">
+            <li class="ui-tabs-item"><a href="#">Item 1</a></li>
+            <li class="ui-tabs-item active"><a href="#">Item 2</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.by-center</span>
+        <div style="">
+          <ul class="ui-tabs by-center">
+            <li class="ui-tabs-item"><a href="#">Item 1</a></li>
+            <li class="ui-tabs-item active"><a href="#">Item 2</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;ul class="ui-tabs"&gt;
+&lt;li class="ui-tabs-item"&gt;&lt;a href="#"&gt;Item 1&lt;/a&gt;&lt;/li&gt;
+&lt;li class="ui-tabs-item active"&gt;&lt;a href="#"&gt;Item 2&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="6.5">
+    <h3>
+      <a href="#6.5">6.5</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-resources-head.scss</span>
+      <h2>Resources header <code>.ui-resources-header</code></h2>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+          <div class="ui-resources-header">
+            <h2 class="title-l ui-resources-title">A filter 
+            <div class="button-group small">
+              <button class="button active">Alle</button>
+              <button class="button">Medienträge</button>
+              <button class="button">Sets</button>
+            </div>
+            <a href="#" class="strong">Alle anzeigen</a></h2>
+            <p class="paragraph-l ui-resources-intro">Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet arcu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+          </div>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;div class="ui-resources-header"&gt;
+&lt;h2 class="title-l ui-resources-title"&gt;A filter 
+&lt;div class="button-group small"&gt;
+  &lt;button class="button active"&gt;Alle&lt;/button&gt;
+  &lt;button class="button"&gt;Medientr&amp;auml;ge&lt;/button&gt;
+  &lt;button class="button"&gt;Sets&lt;/button&gt;
+&lt;/div&gt;
+&lt;a href="#" class="strong"&gt;Alle anzeigen&lt;/a&gt;&lt;/h2&gt;
+&lt;p class="paragraph-l ui-resources-intro"&gt;Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet arcu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.&lt;/p&gt;
+&lt;/div&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="6.6">
+    <h3>
+      <a href="#6.6">6.6</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-body-title.scss</span>
+      <h2>Page header <code>.ui-body-title</code></h2>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+          <div class="ui-body-title">
+            <div class="ui-body-title-label">
+              <h1 class="title-xl">Page header that could possibly go onto two lines but will not because of the overlay.</h1>
+            </div>
+            <div class="ui-body-title-actions">
+              <a href="#" class="primary-button">Primary button</a>
+              <a href="#" class="button">Secondary button</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;div class="ui-body-title"&gt;
+&lt;div class="ui-body-title-label"&gt;
+  &lt;h1 class="title-xl"&gt;Page header that could possibly go onto two lines but will not because of the overlay.&lt;/h1&gt;
+&lt;/div&gt;
+&lt;div class="ui-body-title-actions"&gt;
+  &lt;a href="#" class="primary-button"&gt;Primary button&lt;/a&gt;
+  &lt;a href="#" class="button"&gt;Secondary button&lt;/a&gt;
+&lt;/div&gt;
+&lt;/div&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="6.7">
+    <h3>
+      <a href="#6.7">6.7</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-alerts.scss</span>
+      <h2>Alert messages <code>.ui-alert</code></h2>
+      <ul class="sg-modifiers">
+        <li>
+          <strong>.success</strong>
+          -
+          Success messages
+        </li>
+        <li>
+          <strong>.warning</strong>
+          -
+          Warning messages
+        </li>
+        <li>
+          <strong>.error</strong>
+          -
+          Error messages
+        </li>
+        <li>
+          <strong>.confirmation</strong>
+          -
+          Confirmation messages
+        </li>
+      </ul>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+            <div class="ui-alerts">
+              <div class="ui-alert $modifier-class">Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere.</div>
+            </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.success</span>
+        <div style="">
+            <div class="ui-alerts">
+              <div class="ui-alert success">Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere.</div>
+            </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.warning</span>
+        <div style="">
+            <div class="ui-alerts">
+              <div class="ui-alert warning">Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere.</div>
+            </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.error</span>
+        <div style="">
+            <div class="ui-alerts">
+              <div class="ui-alert error">Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere.</div>
+            </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.confirmation</span>
+        <div style="">
+            <div class="ui-alerts">
+              <div class="ui-alert confirmation">Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere.</div>
+            </div>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;div class="ui-alerts"&gt;
+  &lt;div class="ui-alert"&gt;Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere.&lt;/div&gt;
+&lt;/div&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="6.8">
+    <h3>
+      <a href="#6.8">6.8</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-preloaders.scss</span>
+      <h2>Preloaders <code>.ui-preloader</code></h2>
+      <ul class="sg-modifiers">
+        <li>
+          <strong>.small</strong>
+          -
+          Small variation
+        </li>
+        <li>
+          <strong>.dark</strong>
+          -
+          Small variation
+        </li>
+        <li>
+          <strong>.dark.small</strong>
+          -
+          Small variation
+        </li>
+      </ul>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+          <div class="ui-preloader $modifier-class">
+            Loading in progress
+          </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.small</span>
+        <div style="">
+          <div class="ui-preloader small">
+            Loading in progress
+          </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.dark</span>
+        <div style="">
+          <div class="ui-preloader dark">
+            Loading in progress
+          </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.dark.small</span>
+        <div style="">
+          <div class="ui-preloader dark small">
+            Loading in progress
+          </div>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;div class="ui-preloader"&gt;
+Loading in progress
+&lt;/div&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="6.9">
+    <h3>
+      <a href="#6.9">6.9</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-slider.scss</span>
+      <h2>ui-slider <code>.ui-slider</code></h2>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+          <div class="ui-slider">
+            <a class="ui-slider-handle"><span class="ui-slider-info ui-container inverted">8 von 14</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;div class="ui-slider"&gt;
+&lt;a class="ui-slider-handle"&gt;&lt;span class="ui-slider-info ui-container inverted"&gt;8 von 14&lt;/span&gt;&lt;/a&gt;
+&lt;/div&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="6.10">
+    <h3>
+      <a href="#6.10">6.10</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-modals.scss</span>
+      <h2>ui-modals <code>.ui-modal</code></h2>
+      <ul class="sg-modifiers">
+        <li>
+          <strong>.narrow</strong>
+          -
+          Narrow variation
+        </li>
+        <li>
+          <strong>.wide</strong>
+          -
+          Wide variation
+        </li>
+        <li>
+          <strong>.extrawide</strong>
+          -
+          Extra-Wide variation
+        </li>
+      </ul>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+          <div class="ui-modal $modifier-class">
+            <div class="ui-modal-head">
+              <h3 class="title-l">ui-modal Title</h3>
+              <a class="modal-close ui-modal-close" aria-hidden="true" data-dismiss="modal" title="Close"></a>
+            </div>
+            <div class="ui-modal-toolbar top">
+              ui-toolbar content if any
+            </div>
+            <div class="ui-modal-body">
+              ui-modal Body
+            </div>
+            <div class="ui-modal-toolbar bottom">
+              ui-toolbar content if any
+            </div>
+            <div class="ui-modal-footer">
+              <div class="ui-actions">
+                <a class="link weak">Secondary Action</a>
+                <a class="primary-button">Primary Action</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.narrow</span>
+        <div style="">
+          <div class="ui-modal narrow">
+            <div class="ui-modal-head">
+              <h3 class="title-l">ui-modal Title</h3>
+              <a class="modal-close ui-modal-close" aria-hidden="true" data-dismiss="modal" title="Close"></a>
+            </div>
+            <div class="ui-modal-toolbar top">
+              ui-toolbar content if any
+            </div>
+            <div class="ui-modal-body">
+              ui-modal Body
+            </div>
+            <div class="ui-modal-toolbar bottom">
+              ui-toolbar content if any
+            </div>
+            <div class="ui-modal-footer">
+              <div class="ui-actions">
+                <a class="link weak">Secondary Action</a>
+                <a class="primary-button">Primary Action</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.wide</span>
+        <div style="">
+          <div class="ui-modal wide">
+            <div class="ui-modal-head">
+              <h3 class="title-l">ui-modal Title</h3>
+              <a class="modal-close ui-modal-close" aria-hidden="true" data-dismiss="modal" title="Close"></a>
+            </div>
+            <div class="ui-modal-toolbar top">
+              ui-toolbar content if any
+            </div>
+            <div class="ui-modal-body">
+              ui-modal Body
+            </div>
+            <div class="ui-modal-toolbar bottom">
+              ui-toolbar content if any
+            </div>
+            <div class="ui-modal-footer">
+              <div class="ui-actions">
+                <a class="link weak">Secondary Action</a>
+                <a class="primary-button">Primary Action</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.extrawide</span>
+        <div style="">
+          <div class="ui-modal extrawide">
+            <div class="ui-modal-head">
+              <h3 class="title-l">ui-modal Title</h3>
+              <a class="modal-close ui-modal-close" aria-hidden="true" data-dismiss="modal" title="Close"></a>
+            </div>
+            <div class="ui-modal-toolbar top">
+              ui-toolbar content if any
+            </div>
+            <div class="ui-modal-body">
+              ui-modal Body
+            </div>
+            <div class="ui-modal-toolbar bottom">
+              ui-toolbar content if any
+            </div>
+            <div class="ui-modal-footer">
+              <div class="ui-actions">
+                <a class="link weak">Secondary Action</a>
+                <a class="primary-button">Primary Action</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;div class="ui-modal"&gt;
+&lt;div class="ui-modal-head"&gt;
+  &lt;h3 class="title-l"&gt;ui-modal Title&lt;/h3&gt;
+  &lt;a class="modal-close ui-modal-close" aria-hidden="true" data-dismiss="modal" title="Close"&gt;&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class="ui-modal-toolbar top"&gt;
+  ui-toolbar content if any
+&lt;/div&gt;
+&lt;div class="ui-modal-body"&gt;
+  ui-modal Body
+&lt;/div&gt;
+&lt;div class="ui-modal-toolbar bottom"&gt;
+  ui-toolbar content if any
+&lt;/div&gt;
+&lt;div class="ui-modal-footer"&gt;
+  &lt;div class="ui-actions"&gt;
+    &lt;a class="link weak"&gt;Secondary Action&lt;/a&gt;
+    &lt;a class="primary-button"&gt;Primary Action&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="6.11">
+    <h3>
+      <a href="#6.11">6.11</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-drop-menus.scss</span>
+      <h2>Dropdowns <code>.ui-dropdown</code></h2>
+      <ul class="sg-modifiers">
+        <li>
+          <strong>.stick-right</strong>
+          -
+          Right-positioned ui-drop-menu
+        </li>
+      </ul>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="padding-top: 100px;margin: 0 auto;padding-right: 150px;padding-bottom: 100px;padding-left: 150px">
+          
+          <div class="dropdown ui-dropdown $modifier-class">
+            <a class="dropdown-toggle ui-drop-toggle" data-toggle="dropdown" href="#">Drop-down Toggle</a>
+            <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+              <li class="ui-drop-item"><a href="#"><i class="icon-star mid ui-drop-icon"></i>Item 1</a></li>
+              <li class="ui-drop-item"><a href="#">Item 2</a></li>
+              <li class="separator"></li>
+              <li class="ui-drop-item"><a href="#">Item 3</a></li>
+            </ul>
+          </div>
+          
+          <div class="dropdown ui-dropup $modifier-class">
+            <a class="dropdown-toggle ui-drop-toggle" data-toggle="dropdown" href="#">Drop-up Toggle</a>
+            <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+              <li class="ui-drop-item"><a href="#"><i class="icon-star mid ui-drop-icon"></i>Item 1</a></li>
+              <li class="ui-drop-item"><a href="#">Item 2</a></li>
+              <li class="separator"></li>
+              <li class="ui-drop-item"><a href="#">Item 3</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.stick-right</span>
+        <div style="padding-top: 100px;margin: 0 auto;padding-right: 150px;padding-bottom: 100px;padding-left: 150px">
+          
+          <div class="dropdown ui-dropdown stick-right">
+            <a class="dropdown-toggle ui-drop-toggle" data-toggle="dropdown" href="#">Drop-down Toggle</a>
+            <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+              <li class="ui-drop-item"><a href="#"><i class="icon-star mid ui-drop-icon"></i>Item 1</a></li>
+              <li class="ui-drop-item"><a href="#">Item 2</a></li>
+              <li class="separator"></li>
+              <li class="ui-drop-item"><a href="#">Item 3</a></li>
+            </ul>
+          </div>
+          
+          <div class="dropdown ui-dropup stick-right">
+            <a class="dropdown-toggle ui-drop-toggle" data-toggle="dropdown" href="#">Drop-up Toggle</a>
+            <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+              <li class="ui-drop-item"><a href="#"><i class="icon-star mid ui-drop-icon"></i>Item 1</a></li>
+              <li class="ui-drop-item"><a href="#">Item 2</a></li>
+              <li class="separator"></li>
+              <li class="ui-drop-item"><a href="#">Item 3</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;div class="dropdown ui-dropdown"&gt;
+&lt;a class="dropdown-toggle ui-drop-toggle" data-toggle="dropdown" href="#"&gt;Drop-down Toggle&lt;/a&gt;
+&lt;ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel"&gt;
+  &lt;li class="ui-drop-item"&gt;&lt;a href="#"&gt;&lt;i class="icon-star mid ui-drop-icon"&gt;&lt;/i&gt;Item 1&lt;/a&gt;&lt;/li&gt;
+  &lt;li class="ui-drop-item"&gt;&lt;a href="#"&gt;Item 2&lt;/a&gt;&lt;/li&gt;
+  &lt;li class="separator"&gt;&lt;/li&gt;
+  &lt;li class="ui-drop-item"&gt;&lt;a href="#"&gt;Item 3&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div class="dropdown ui-dropup"&gt;
+&lt;a class="dropdown-toggle ui-drop-toggle" data-toggle="dropdown" href="#"&gt;Drop-up Toggle&lt;/a&gt;
+&lt;ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel"&gt;
+  &lt;li class="ui-drop-item"&gt;&lt;a href="#"&gt;&lt;i class="icon-star mid ui-drop-icon"&gt;&lt;/i&gt;Item 1&lt;/a&gt;&lt;/li&gt;
+  &lt;li class="ui-drop-item"&gt;&lt;a href="#"&gt;Item 2&lt;/a&gt;&lt;/li&gt;
+  &lt;li class="separator"&gt;&lt;/li&gt;
+  &lt;li class="ui-drop-item"&gt;&lt;a href="#"&gt;Item 3&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="6.12">
+    <h3>
+      <a href="#6.12">6.12</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-thumb-actions.scss</span>
+      <h2>Thumbnail Actions <code>.ui-thumbnail-actions</code></h2>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+            <div class="ui-thumbnail-actions">
+              <ul class="left by-left">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
+              </ul>
+              <ul class="right by-right">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Select</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Select</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Select</a></li>
+              </ul>
+            </div>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;div class="ui-thumbnail-actions"&gt;
+  &lt;ul class="left by-left"&gt;
+    &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-checkbox"&gt;Select&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-favorite"&gt;Favorite&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;ul class="right by-right"&gt;
+    &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-browse"&gt;Select&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-edit"&gt;Select&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-delete"&gt;Select&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="6.13">
+    <h3>
+      <a href="#6.13">6.13</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-metadata-box.scss</span>
+      <h2>Metadata box ordinated List variation <code>.ui-metadata-box</code></h2>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+          <div class="ui-metadata-box">
+            <h3 class="title-m separated light mbs pbs">Horizontlinie</h3>
+            <ol>
+              <li class="odd">Agglomeration</li>
+              <li class="even">Bucht</li>
+              <li class="odd">Ebene</li>
+              <li class="even">Erholungszone</li>
+              <li class="odd">Something very very long that could break</li>
+              <li class="even">Short</li>
+              <li class="odd">Landwirtschaft</li>
+              <li class="even">Naturlandschaft</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;div class="ui-metadata-box"&gt;
+&lt;h3 class="title-m separated light mbs pbs"&gt;Horizontlinie&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li class="odd"&gt;Agglomeration&lt;/li&gt;
+  &lt;li class="even"&gt;Bucht&lt;/li&gt;
+  &lt;li class="odd"&gt;Ebene&lt;/li&gt;
+  &lt;li class="even"&gt;Erholungszone&lt;/li&gt;
+  &lt;li class="odd"&gt;Something very very long that could break&lt;/li&gt;
+  &lt;li class="even"&gt;Short&lt;/li&gt;
+  &lt;li class="odd"&gt;Landwirtschaft&lt;/li&gt;
+  &lt;li class="even"&gt;Naturlandschaft&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="6.14">
+    <h3>
+      <a href="#6.14">6.14</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-metadata-box.scss</span>
+      <h2>Metadata box definition list variation <code>.ui-metadata-box</code></h2>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+            <dl class="ui-media-overview-metadata ui-metadata-box">
+              <dt class="media-data-title title-xs-alt">Titel</dt>
+              <dd class="media-data-content title-l">Die Eismalerin</dd>
+              <dt class="media-data-title title-xs-alt">Untertitel</dt>
+              <dd class="media-data-content">Installationsansicht</dd>
+              <dt class="media-data-title title-xs-alt">Autor/in</dt>
+              <dd class="media-data-content">
+                <a href="#">Stemmle, Janka</a>
+              </dd>
+              <dt class="media-data-title title-xs-alt">Datierrung</dt>
+              <dd class="media-data-content">2012</dd>
+              <dt class="media-data-title title-xs-alt">Schlagworte zu Inhalt und Motiv</dt>
+              <dd class="media-data-content">
+                <ul class="ui-tag-cloud small">
+                  <li class="ui-tag-cloud-item">
+                    <a href="#" class="ui-tag-button">Tag 1</a>
+                  </li>
+                  <li class="ui-tag-cloud-item">
+                    <a href="#" class="ui-tag-button">Tag 2</a>
+                  </li>
+                </ul>
+              </dd>
+              <dt class="media-data-title title-xs-alt">Rechte am geistigen Eigentum</dt>
+              <dd class="media-data-content">ZHdK DKM VMK</dd>
+              <dt class="media-data-title title-xs-alt">Privacy</dt>
+              <dd class="media-data-content">
+                This entry is public
+                <i class="icon-privacy-public"></i>
+              </dd>
+              <dt class="media-data-title title-xs-alt">Eigentumer/in im Medienarchiv</dt>
+              <dd class="media-data-content">
+                <a href="#">Rüegger, Romy</a>
+              </dd>
+            </dl>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;dl class="ui-media-overview-metadata ui-metadata-box"&gt;
+  &lt;dt class="media-data-title title-xs-alt"&gt;Titel&lt;/dt&gt;
+  &lt;dd class="media-data-content title-l"&gt;Die Eismalerin&lt;/dd&gt;
+  &lt;dt class="media-data-title title-xs-alt"&gt;Untertitel&lt;/dt&gt;
+  &lt;dd class="media-data-content"&gt;Installationsansicht&lt;/dd&gt;
+  &lt;dt class="media-data-title title-xs-alt"&gt;Autor/in&lt;/dt&gt;
+  &lt;dd class="media-data-content"&gt;
+    &lt;a href="#"&gt;Stemmle, Janka&lt;/a&gt;
+  &lt;/dd&gt;
+  &lt;dt class="media-data-title title-xs-alt"&gt;Datierrung&lt;/dt&gt;
+  &lt;dd class="media-data-content"&gt;2012&lt;/dd&gt;
+  &lt;dt class="media-data-title title-xs-alt"&gt;Schlagworte zu Inhalt und Motiv&lt;/dt&gt;
+  &lt;dd class="media-data-content"&gt;
+    &lt;ul class="ui-tag-cloud small"&gt;
+      &lt;li class="ui-tag-cloud-item"&gt;
+        &lt;a href="#" class="ui-tag-button"&gt;Tag 1&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li class="ui-tag-cloud-item"&gt;
+        &lt;a href="#" class="ui-tag-button"&gt;Tag 2&lt;/a&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/dd&gt;
+  &lt;dt class="media-data-title title-xs-alt"&gt;Rechte am geistigen Eigentum&lt;/dt&gt;
+  &lt;dd class="media-data-content"&gt;ZHdK DKM VMK&lt;/dd&gt;
+  &lt;dt class="media-data-title title-xs-alt"&gt;Privacy&lt;/dt&gt;
+  &lt;dd class="media-data-content"&gt;
+    This entry is public
+    &lt;i class="icon-privacy-public"&gt;&lt;/i&gt;
+  &lt;/dd&gt;
+  &lt;dt class="media-data-title title-xs-alt"&gt;Eigentumer/in im Medienarchiv&lt;/dt&gt;
+  &lt;dd class="media-data-content"&gt;
+    &lt;a href="#"&gt;Rüegger, Romy&lt;/a&gt;
+  &lt;/dd&gt;
+&lt;/dl&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="6.15">
+    <h3>
+      <a href="#6.15">6.15</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-actions.scss</span>
+      <h2>Actions Bar <code>.ui-actions</code></h2>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+          <div class="ui-actions">
+            <a class="link weak">Secondary Action</a>
+            <a class="primary-button">Primary Action</a>
+          </div>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;div class="ui-actions"&gt;
+&lt;a class="link weak"&gt;Secondary Action&lt;/a&gt;
+&lt;a class="primary-button"&gt;Primary Action&lt;/a&gt;
+&lt;/div&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="6.16">
+    <h3>
+      <a href="#6.16">6.16</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-stepline.scss</span>
+      <h2>ui-stepline <code>.ui-stepline</code></h2>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+          <div class="ui-stepline">
+            <div class="ui-stepline-item">
+              <h3 class="title-s ui-stepline-item-title">
+                <small>
+                  1 of 4
+                </small>
+                Medien übertragen
+              </h3>
+            </div>
+            <div class="ui-stepline-item">
+              <h3 class="title-s ui-stepline-item-title">
+                <small>
+                  2 of 4
+                </small>
+                Berechtigungen setzen
+              </h3>
+            </div>
+            <div class="ui-stepline-item active">
+              <h3 class="title-s ui-stepline-item-title">
+                <small>
+                  3 of 4
+                </small>
+                Metadaten ergänzen
+              </h3>
+            </div>
+            <div class="ui-stepline-item">
+              <h3 class="title-s ui-stepline-item-title">
+                <small>
+                  4 of 4
+                </small>
+                Medien zusammenstellen
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;div class="ui-stepline"&gt;
+&lt;div class="ui-stepline-item"&gt;
+  &lt;h3 class="title-s ui-stepline-item-title"&gt;
+    &lt;small&gt;
+      1 of 4
+    &lt;/small&gt;
+    Medien übertragen
+  &lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class="ui-stepline-item"&gt;
+  &lt;h3 class="title-s ui-stepline-item-title"&gt;
+    &lt;small&gt;
+      2 of 4
+    &lt;/small&gt;
+    Berechtigungen setzen
+  &lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class="ui-stepline-item active"&gt;
+  &lt;h3 class="title-s ui-stepline-item-title"&gt;
+    &lt;small&gt;
+      3 of 4
+    &lt;/small&gt;
+    Metadaten ergänzen
+  &lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class="ui-stepline-item"&gt;
+  &lt;h3 class="title-s ui-stepline-item-title"&gt;
+    &lt;small&gt;
+      4 of 4
+    &lt;/small&gt;
+    Medien zusammenstellen
+  &lt;/h3&gt;
+&lt;/div&gt;
+&lt;/div&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="6.17">
+    <h3>
+      <a href="#6.17">6.17</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-thumb-catalog.scss</span>
+      <h2>Catalogue Thumbnail <code>.ui-thumbnail.media-catalog</code></h2>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+          <div class="ui-thumbnail media-catalog">
+            <div class="ui-thumbnail-privacy">
+              <i class="icon-privacy-open">This media is Public</i>
+            </div>
+            <a class="ui-thumbnail-image-wrapper">
+              <div class="ui-thumbnail-image-holder">
+                <div class="ui-thumbnail-table-image-holder">
+                  <div class="ui-thumbnail-cell-image-holder">
+                    <div class="ui-thumbnail-inner-image-holder">
+                      <img alt="Media-entry-6" class="ui-thumbnail-image" src="/assets/styleguide/media-entry-6.jpeg">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <div class="ui-thumbnail-meta">
+              <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines so lets try make it so shall we.</h3>
+              <p class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well so how about seeing how it works then?</p>
+              <span class="ui-thumbnail-meta-extension">500</span>
+            </div>
+          </div>
+          
+          <div class="ui-thumbnail media-catalog">
+            <div class="ui-thumbnail-privacy">
+              <i class="icon-privacy-open">This media is Public</i>
+            </div>
+            <a class="ui-thumbnail-image-wrapper">
+              <div class="ui-thumbnail-image-holder">
+                <div class="ui-thumbnail-table-image-holder">
+                  <div class="ui-thumbnail-cell-image-holder">
+                    <div class="ui-thumbnail-inner-image-holder">
+                      <img alt="Document.png" class="ui-thumbnail-image" src="/assets/thumbnails/document.png.png">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <div class="ui-thumbnail-meta">
+              <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines so lets try make it so shall we.</h3>
+              <p class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well so how about seeing how it works then?</p>
+              <span class="ui-thumbnail-meta-extension">500</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;div class="ui-thumbnail media-catalog"&gt;
+&lt;div class="ui-thumbnail-privacy"&gt;
+  &lt;i class="icon-privacy-open"&gt;This media is Public&lt;/i&gt;
+&lt;/div&gt;
+&lt;a class="ui-thumbnail-image-wrapper"&gt;
+  &lt;div class="ui-thumbnail-image-holder"&gt;
+    &lt;div class="ui-thumbnail-table-image-holder"&gt;
+      &lt;div class="ui-thumbnail-cell-image-holder"&gt;
+        &lt;div class="ui-thumbnail-inner-image-holder"&gt;
+          &lt;img alt="Media-entry-6" class="ui-thumbnail-image" src="/assets/styleguide/media-entry-6.jpeg" /&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/a&gt;
+&lt;div class="ui-thumbnail-meta"&gt;
+  &lt;h3 class="ui-thumbnail-meta-title"&gt;Name that can easily go onto 2 lines so lets try make it so shall we.&lt;/h3&gt;
+  &lt;p class="ui-thumbnail-meta-subtitle"&gt;Author that can easily go onto 2 lines as well so how about seeing how it works then?&lt;/p&gt;
+  &lt;span class="ui-thumbnail-meta-extension"&gt;500&lt;/span&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="ui-thumbnail media-catalog"&gt;
+&lt;div class="ui-thumbnail-privacy"&gt;
+  &lt;i class="icon-privacy-open"&gt;This media is Public&lt;/i&gt;
+&lt;/div&gt;
+&lt;a class="ui-thumbnail-image-wrapper"&gt;
+  &lt;div class="ui-thumbnail-image-holder"&gt;
+    &lt;div class="ui-thumbnail-table-image-holder"&gt;
+      &lt;div class="ui-thumbnail-cell-image-holder"&gt;
+        &lt;div class="ui-thumbnail-inner-image-holder"&gt;
+          &lt;img alt="Document.png" class="ui-thumbnail-image" src="/assets/thumbnails/document.png.png" /&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/a&gt;
+&lt;div class="ui-thumbnail-meta"&gt;
+  &lt;h3 class="ui-thumbnail-meta-title"&gt;Name that can easily go onto 2 lines so lets try make it so shall we.&lt;/h3&gt;
+  &lt;p class="ui-thumbnail-meta-subtitle"&gt;Author that can easily go onto 2 lines as well so how about seeing how it works then?&lt;/p&gt;
+  &lt;span class="ui-thumbnail-meta-extension"&gt;500&lt;/span&gt;
+&lt;/div&gt;
+&lt;/div&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="6.18">
+    <h3>
+      <a href="#6.18">6.18</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-thumb-micro.scss</span>
+      <h2>Micro thumbnails <code>.ui-thumbnail.micro</code></h2>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+            <img alt="ZHdK" class="ui-thumbnail micro" src="/assets/styleguide/media-entry-1.png">
+            <img alt="wav" class="ui-thumbnail micro" src="/assets/thumbnails/audio_small.wav.png">
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;img alt="ZHdK" class="ui-thumbnail micro" src="/assets/styleguide/media-entry-1.png" /&gt;
+&lt;img alt="wav" class="ui-thumbnail micro" src="/assets/thumbnails/audio_small.wav.png" /&gt;</pre>
+      </div>
+    </div>
+  </section>
+  
+  <section class="sg-example" id="6.19">
+    <h3>
+      <a href="#6.19">6.19</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-thumb.scss</span>
+      <h2>Default thumbnail style, independent from visualization mode <code>.ui-thumbnail</code></h2>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="">
+          <div class="ui-resource-thumbnail">
+            <div class="ui-thumbnail media-entry video">
+              <div class="ui-thumbnail-privacy">
+                <i class="icon-privacy-private">This media is private</i>
+              </div>
+              <a class="ui-thumbnail-image-wrapper">
+                <div class="ui-thumbnail-image-holder">
+                  <div class="ui-thumbnail-table-image-holder">
+                    <div class="ui-thumbnail-cell-image-holder">
+                      <div class="ui-thumbnail-inner-image-holder">
+                        <img alt="Media-entry-4" class="ui-thumbnail-image" src="/assets/styleguide/media-entry-4.jpeg">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <div class="ui-thumbnail-meta">
+                <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
+                <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
+              </div>
+              <div class="ui-thumbnail-actions">
+                <ul class="left by-left">
+                  <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
+                  <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
+                </ul>
+                <ul class="right by-right">
+                  <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Browse</a></li>
+                  <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Edit</a></li>
+                  <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Delete</a></li>
+                </ul>
+              </div>
+              <div class="ui-thumbnail-dropdown">
+                <div class="dropdown ui-dropdown">
+                  <a class="dropdown-toggle button block ui-drop-toggle" data-toggle="dropdown" href="#">Aktionen</a>
+                  <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+                    <li class="ui-drop-item"><a href="#">Item 1</a></li>
+                    <li class="ui-drop-item"><a href="#">Item 2</a></li>
+                    <li class="separator"></li>
+                    <li class="ui-drop-item"><a href="#">Item 3</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="ui-thumbnail filter-set">
+            <div class="ui-thumbnail-level-up-items">
+              <span class="ui-thumbnail-level-notes">Keine übergeordneten Sets</span>
+            </div>
+            <div class="ui-thumbnail-privacy">
+              <i class="icon-privacy-group">This media is shared with a group</i>
+            </div>
+            <a class="ui-thumbnail-image-wrapper">
+              <div class="ui-thumbnail-image-holder">
+                <div class="ui-thumbnail-table-image-holder">
+                  <div class="ui-thumbnail-cell-image-holder">
+                    <div class="ui-thumbnail-inner-image-holder">
+                      <img alt="Media-entry-6" class="ui-thumbnail-image" src="/assets/styleguide/media-entry-6.jpeg">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <div class="ui-thumbnail-meta">
+              <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
+              <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
+            </div>
+            <div class="ui-thumbnail-actions">
+              <ul class="left by-left">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
+              </ul>
+              <ul class="right by-right">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Browse</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Edit</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Delete</a></li>
+              </ul>
+            </div>
+            <div class="ui-thumbnail-dropdown">
+              <div class="dropdown ui-dropdown">
+                <a class="dropdown-toggle button block ui-drop-toggle" data-toggle="dropdown" href="#">Aktionen</a>
+                <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+                  <li class="ui-drop-item"><a href="#">Item 1</a></li>
+                  <li class="ui-drop-item"><a href="#">Item 2</a></li>
+                  <li class="separator"></li>
+                  <li class="ui-drop-item"><a href="#">Item 3</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="ui-thumbnail-level-down-items">
+              <h3 class="ui-thumbnail-level-notes">Set enthalt</h3>
+              <ul class="ui-thumbnail-level-items">
+                <li class="ui-thumbnail-level-item odd">
+                  <a href="#" title="Set name" class="ui-level-image-wrapper">
+                    <div class="ui-thumbnail-level-image-holder">
+                      <img alt="Media-entry-6" class="ui-thumbnail-level-image" src="/assets/styleguide/media-entry-6.jpeg">
+                    </div>
+                  </a>
+                </li>
+                <li class="ui-thumbnail-level-item even">
+                  <a href="#" title="Set name" class="ui-level-image-wrapper">
+                    <div class="ui-thumbnail-level-image-holder">
+                      <img alt="Media-entry-6" class="ui-thumbnail-level-image" src="/assets/styleguide/media-entry-6.jpeg">
+                    </div>
+                  </a>
+                </li>
+              </ul>
+              <span class="ui-thumbnail-level-notes">5 Inhalte</span>
+            </div>
+          </div>
+          
+          <div class="ui-thumbnail media-set">
+            <div class="ui-thumbnail-level-up-items">
+              <span class="ui-thumbnail-level-notes">Keine übergeordneten Sets</span>
+            </div>
+            <div class="ui-thumbnail-privacy">
+              <i class="icon-privacy-group">This media is shared with a group</i>
+            </div>
+            <a class="ui-thumbnail-image-wrapper">
+              <div class="ui-thumbnail-image-holder">
+                <div class="ui-thumbnail-table-image-holder">
+                  <div class="ui-thumbnail-cell-image-holder">
+                    <div class="ui-thumbnail-inner-image-holder">
+                      <img alt="Document.png" class="ui-thumbnail-image" src="/assets/thumbnails/document.png.png">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <div class="ui-thumbnail-meta">
+              <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
+              <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
+            </div>
+            <div class="ui-thumbnail-actions">
+              <ul class="left by-left">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
+              </ul>
+              <ul class="right by-right">
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Browse</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Edit</a></li>
+                <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Delete</a></li>
+              </ul>
+            </div>
+            <div class="ui-thumbnail-dropdown">
+              <div class="dropdown ui-dropdown">
+                <a class="dropdown-toggle button block ui-drop-toggle" data-toggle="dropdown" href="#">Aktionen</a>
+                <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+                  <li class="ui-drop-item"><a href="#">Item 1</a></li>
+                  <li class="ui-drop-item"><a href="#">Item 2</a></li>
+                  <li class="separator"></li>
+                  <li class="ui-drop-item"><a href="#">Item 3</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="ui-thumbnail-level-down-items">
+              <h3 class="ui-thumbnail-level-notes">Set enthalt</h3>
+              <ul class="ui-thumbnail-level-items">
+                <li class="ui-thumbnail-level-item odd">
+                  <a href="#" title="Set name" class="ui-level-image-wrapper">
+                    <div class="ui-thumbnail-level-image-holder">
+                      <img alt="Media-entry-6" class="ui-thumbnail-level-image" src="/assets/styleguide/media-entry-6.jpeg">
+                    </div>
+                  </a>
+                </li>
+                <li class="ui-thumbnail-level-item even">
+                  <a href="#" title="Set name" class="ui-level-image-wrapper">
+                    <div class="ui-thumbnail-level-image-holder">
+                      <img alt="Media-entry-6" class="ui-thumbnail-level-image" src="/assets/styleguide/media-entry-6.jpeg">
+                    </div>
+                  </a>
+                </li>
+              </ul>
+              <span class="ui-thumbnail-level-notes">5 Inhalte</span>
+            </div>
+          </div>
+          
+            <div class="ui-resource-thumbnail">
+              <div class="ui-thumbnail media-entry video">
+                <div class="ui-thumbnail-privacy">
+                  <i class="icon-privacy-private">This media is private</i>
+                </div>
+                <a class="ui-thumbnail-image-wrapper">
+                  <div class="ui-thumbnail-image-holder">
+                    <div class="ui-thumbnail-table-image-holder">
+                      <div class="ui-thumbnail-cell-image-holder">
+                        <div class="ui-thumbnail-inner-image-holder">
+                          <img alt="Document.pdf" class="ui-thumbnail-image" src="/assets/thumbnails/document.pdf.png">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                <div class="ui-thumbnail-meta">
+                  <h3 class="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
+                  <h4 class="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
+                </div>
+                <div class="ui-thumbnail-actions">
+                  <ul class="left by-left">
+                    <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-checkbox">Select</a></li>
+                    <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-favorite">Favorite</a></li>
+                  </ul>
+                  <ul class="right by-right">
+                    <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-browse">Browse</a></li>
+                    <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-edit">Edit</a></li>
+                    <li class="ui-thumbnail-action"><a class="ui-thumbnail-action-delete">Delete</a></li>
+                  </ul>
+                </div>
+                <div class="ui-thumbnail-dropdown">
+                  <div class="dropdown ui-dropdown">
+                    <a class="dropdown-toggle button block ui-drop-toggle" data-toggle="dropdown" href="#">Aktionen</a>
+                    <ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel">
+                      <li class="ui-drop-item"><a href="#">Item 1</a></li>
+                      <li class="ui-drop-item"><a href="#">Item 2</a></li>
+                      <li class="separator"></li>
+                      <li class="ui-drop-item"><a href="#">Item 3</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;div class="ui-resource-thumbnail"&gt;
+&lt;div class="ui-thumbnail media-entry video"&gt;
+  &lt;div class="ui-thumbnail-privacy"&gt;
+    &lt;i class="icon-privacy-private"&gt;This media is private&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;a class="ui-thumbnail-image-wrapper"&gt;
+    &lt;div class="ui-thumbnail-image-holder"&gt;
+      &lt;div class="ui-thumbnail-table-image-holder"&gt;
+        &lt;div class="ui-thumbnail-cell-image-holder"&gt;
+          &lt;div class="ui-thumbnail-inner-image-holder"&gt;
+            &lt;img alt="Media-entry-4" class="ui-thumbnail-image" src="/assets/styleguide/media-entry-4.jpeg" /&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/a&gt;
+  &lt;div class="ui-thumbnail-meta"&gt;
+    &lt;h3 class="ui-thumbnail-meta-title"&gt;Name that can easily go onto 2 lines&lt;/h3&gt;
+    &lt;h4 class="ui-thumbnail-meta-subtitle"&gt;Author that can easily go onto 2 lines as well&lt;/h4&gt;
+  &lt;/div&gt;
+  &lt;div class="ui-thumbnail-actions"&gt;
+    &lt;ul class="left by-left"&gt;
+      &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-checkbox"&gt;Select&lt;/a&gt;&lt;/li&gt;
+      &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-favorite"&gt;Favorite&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;ul class="right by-right"&gt;
+      &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-browse"&gt;Browse&lt;/a&gt;&lt;/li&gt;
+      &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-edit"&gt;Edit&lt;/a&gt;&lt;/li&gt;
+      &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-delete"&gt;Delete&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;div class="ui-thumbnail-dropdown"&gt;
+    &lt;div class="dropdown ui-dropdown"&gt;
+      &lt;a class="dropdown-toggle button block ui-drop-toggle" data-toggle="dropdown" href="#"&gt;Aktionen&lt;/a&gt;
+      &lt;ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel"&gt;
+        &lt;li class="ui-drop-item"&gt;&lt;a href="#"&gt;Item 1&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="ui-drop-item"&gt;&lt;a href="#"&gt;Item 2&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="separator"&gt;&lt;/li&gt;
+        &lt;li class="ui-drop-item"&gt;&lt;a href="#"&gt;Item 3&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="ui-thumbnail filter-set"&gt;
+&lt;div class="ui-thumbnail-level-up-items"&gt;
+  &lt;span class="ui-thumbnail-level-notes"&gt;Keine übergeordneten Sets&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class="ui-thumbnail-privacy"&gt;
+  &lt;i class="icon-privacy-group"&gt;This media is shared with a group&lt;/i&gt;
+&lt;/div&gt;
+&lt;a class="ui-thumbnail-image-wrapper"&gt;
+  &lt;div class="ui-thumbnail-image-holder"&gt;
+    &lt;div class="ui-thumbnail-table-image-holder"&gt;
+      &lt;div class="ui-thumbnail-cell-image-holder"&gt;
+        &lt;div class="ui-thumbnail-inner-image-holder"&gt;
+          &lt;img alt="Media-entry-6" class="ui-thumbnail-image" src="/assets/styleguide/media-entry-6.jpeg" /&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/a&gt;
+&lt;div class="ui-thumbnail-meta"&gt;
+  &lt;h3 class="ui-thumbnail-meta-title"&gt;Name that can easily go onto 2 lines&lt;/h3&gt;
+  &lt;h4 class="ui-thumbnail-meta-subtitle"&gt;Author that can easily go onto 2 lines as well&lt;/h4&gt;
+&lt;/div&gt;
+&lt;div class="ui-thumbnail-actions"&gt;
+  &lt;ul class="left by-left"&gt;
+    &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-checkbox"&gt;Select&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-favorite"&gt;Favorite&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;ul class="right by-right"&gt;
+    &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-browse"&gt;Browse&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-edit"&gt;Edit&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-delete"&gt;Delete&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="ui-thumbnail-dropdown"&gt;
+  &lt;div class="dropdown ui-dropdown"&gt;
+    &lt;a class="dropdown-toggle button block ui-drop-toggle" data-toggle="dropdown" href="#"&gt;Aktionen&lt;/a&gt;
+    &lt;ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel"&gt;
+      &lt;li class="ui-drop-item"&gt;&lt;a href="#"&gt;Item 1&lt;/a&gt;&lt;/li&gt;
+      &lt;li class="ui-drop-item"&gt;&lt;a href="#"&gt;Item 2&lt;/a&gt;&lt;/li&gt;
+      &lt;li class="separator"&gt;&lt;/li&gt;
+      &lt;li class="ui-drop-item"&gt;&lt;a href="#"&gt;Item 3&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="ui-thumbnail-level-down-items"&gt;
+  &lt;h3 class="ui-thumbnail-level-notes"&gt;Set enthalt&lt;/h3&gt;
+  &lt;ul class="ui-thumbnail-level-items"&gt;
+    &lt;li class="ui-thumbnail-level-item odd"&gt;
+      &lt;a href="#" title="Set name" class="ui-level-image-wrapper"&gt;
+        &lt;div class="ui-thumbnail-level-image-holder"&gt;
+          &lt;img alt="Media-entry-6" class="ui-thumbnail-level-image" src="/assets/styleguide/media-entry-6.jpeg" /&gt;
+        &lt;/div&gt;
+      &lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class="ui-thumbnail-level-item even"&gt;
+      &lt;a href="#" title="Set name" class="ui-level-image-wrapper"&gt;
+        &lt;div class="ui-thumbnail-level-image-holder"&gt;
+          &lt;img alt="Media-entry-6" class="ui-thumbnail-level-image" src="/assets/styleguide/media-entry-6.jpeg" /&gt;
+        &lt;/div&gt;
+      &lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;span class="ui-thumbnail-level-notes"&gt;5 Inhalte&lt;/span&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="ui-thumbnail media-set"&gt;
+&lt;div class="ui-thumbnail-level-up-items"&gt;
+  &lt;span class="ui-thumbnail-level-notes"&gt;Keine übergeordneten Sets&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class="ui-thumbnail-privacy"&gt;
+  &lt;i class="icon-privacy-group"&gt;This media is shared with a group&lt;/i&gt;
+&lt;/div&gt;
+&lt;a class="ui-thumbnail-image-wrapper"&gt;
+  &lt;div class="ui-thumbnail-image-holder"&gt;
+    &lt;div class="ui-thumbnail-table-image-holder"&gt;
+      &lt;div class="ui-thumbnail-cell-image-holder"&gt;
+        &lt;div class="ui-thumbnail-inner-image-holder"&gt;
+          &lt;img alt="Document.png" class="ui-thumbnail-image" src="/assets/thumbnails/document.png.png" /&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/a&gt;
+&lt;div class="ui-thumbnail-meta"&gt;
+  &lt;h3 class="ui-thumbnail-meta-title"&gt;Name that can easily go onto 2 lines&lt;/h3&gt;
+  &lt;h4 class="ui-thumbnail-meta-subtitle"&gt;Author that can easily go onto 2 lines as well&lt;/h4&gt;
+&lt;/div&gt;
+&lt;div class="ui-thumbnail-actions"&gt;
+  &lt;ul class="left by-left"&gt;
+    &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-checkbox"&gt;Select&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-favorite"&gt;Favorite&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;ul class="right by-right"&gt;
+    &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-browse"&gt;Browse&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-edit"&gt;Edit&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-delete"&gt;Delete&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="ui-thumbnail-dropdown"&gt;
+  &lt;div class="dropdown ui-dropdown"&gt;
+    &lt;a class="dropdown-toggle button block ui-drop-toggle" data-toggle="dropdown" href="#"&gt;Aktionen&lt;/a&gt;
+    &lt;ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel"&gt;
+      &lt;li class="ui-drop-item"&gt;&lt;a href="#"&gt;Item 1&lt;/a&gt;&lt;/li&gt;
+      &lt;li class="ui-drop-item"&gt;&lt;a href="#"&gt;Item 2&lt;/a&gt;&lt;/li&gt;
+      &lt;li class="separator"&gt;&lt;/li&gt;
+      &lt;li class="ui-drop-item"&gt;&lt;a href="#"&gt;Item 3&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="ui-thumbnail-level-down-items"&gt;
+  &lt;h3 class="ui-thumbnail-level-notes"&gt;Set enthalt&lt;/h3&gt;
+  &lt;ul class="ui-thumbnail-level-items"&gt;
+    &lt;li class="ui-thumbnail-level-item odd"&gt;
+      &lt;a href="#" title="Set name" class="ui-level-image-wrapper"&gt;
+        &lt;div class="ui-thumbnail-level-image-holder"&gt;
+          &lt;img alt="Media-entry-6" class="ui-thumbnail-level-image" src="/assets/styleguide/media-entry-6.jpeg" /&gt;
+        &lt;/div&gt;
+      &lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class="ui-thumbnail-level-item even"&gt;
+      &lt;a href="#" title="Set name" class="ui-level-image-wrapper"&gt;
+        &lt;div class="ui-thumbnail-level-image-holder"&gt;
+          &lt;img alt="Media-entry-6" class="ui-thumbnail-level-image" src="/assets/styleguide/media-entry-6.jpeg" /&gt;
+        &lt;/div&gt;
+      &lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;span class="ui-thumbnail-level-notes"&gt;5 Inhalte&lt;/span&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="ui-resource-thumbnail"&gt;
+  &lt;div class="ui-thumbnail media-entry video"&gt;
+    &lt;div class="ui-thumbnail-privacy"&gt;
+      &lt;i class="icon-privacy-private"&gt;This media is private&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;a class="ui-thumbnail-image-wrapper"&gt;
+      &lt;div class="ui-thumbnail-image-holder"&gt;
+        &lt;div class="ui-thumbnail-table-image-holder"&gt;
+          &lt;div class="ui-thumbnail-cell-image-holder"&gt;
+            &lt;div class="ui-thumbnail-inner-image-holder"&gt;
+              &lt;img alt="Document.pdf" class="ui-thumbnail-image" src="/assets/thumbnails/document.pdf.png" /&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/a&gt;
+    &lt;div class="ui-thumbnail-meta"&gt;
+      &lt;h3 class="ui-thumbnail-meta-title"&gt;Name that can easily go onto 2 lines&lt;/h3&gt;
+      &lt;h4 class="ui-thumbnail-meta-subtitle"&gt;Author that can easily go onto 2 lines as well&lt;/h4&gt;
+    &lt;/div&gt;
+    &lt;div class="ui-thumbnail-actions"&gt;
+      &lt;ul class="left by-left"&gt;
+        &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-checkbox"&gt;Select&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-favorite"&gt;Favorite&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+      &lt;ul class="right by-right"&gt;
+        &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-browse"&gt;Browse&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-edit"&gt;Edit&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="ui-thumbnail-action"&gt;&lt;a class="ui-thumbnail-action-delete"&gt;Delete&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div class="ui-thumbnail-dropdown"&gt;
+      &lt;div class="dropdown ui-dropdown"&gt;
+        &lt;a class="dropdown-toggle button block ui-drop-toggle" data-toggle="dropdown" href="#"&gt;Aktionen&lt;/a&gt;
+        &lt;ul class="dropdown-menu ui-drop-menu" role="menu" aria-labelledby="dLabel"&gt;
+          &lt;li class="ui-drop-item"&gt;&lt;a href="#"&gt;Item 1&lt;/a&gt;&lt;/li&gt;
+          &lt;li class="ui-drop-item"&gt;&lt;a href="#"&gt;Item 2&lt;/a&gt;&lt;/li&gt;
+          &lt;li class="separator"&gt;&lt;/li&gt;
+          &lt;li class="ui-drop-item"&gt;&lt;a href="#"&gt;Item 3&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;</pre>
+      </div>
+    
+  </section>
+  
+  <section class="sg-example" id="6.20">
+    <h3>
+      <a href="#6.20">6.20</a>
+    </h3>
+    <button class="sg-button sg-view-code">HTML</button>
+    <div class="sg-description">
+      <span class="sg-filename">_ui-tooltip.scss</span>
+      <h2>Tooltip <code>.ui-ttip-toggle</code></h2>
+    </div>
+    <div class="sg-canvases">
+      <div class="align-left bg-light sg-canvas">
+        <div style="padding-top: 50px;margin: 0 auto;padding-right: 50px;padding-bottom: 50px;padding-left: 50px">  <a class="ui-ttip-toggle" title="Tooltip Text">Tooltip toggle</a></div>
+      </div>
+      <div class="sg-html">
+        <pre class="prettyprint lang-html">&lt;a class="ui-ttip-toggle" title="Tooltip Text"&gt;Tooltip toggle&lt;/a&gt;</pre>
+      </div>
+    </div>
+  </section>
+</section>

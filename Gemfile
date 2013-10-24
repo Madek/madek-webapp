@@ -107,7 +107,6 @@ group :development do
   gem 'binding_of_caller', platform: :mri
   gem 'haml-rails'
   gem 'meta_request'
-  gem 'nkss-rails', :git => 'git://github.com/interactivethings/nkss-rails.git'   # CSS styleguides
   gem 'quiet_assets'
   gem 'zencoder-fetcher'
 # gem 'rack-mini-profiler'

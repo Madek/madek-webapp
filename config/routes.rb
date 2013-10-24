@@ -7,7 +7,8 @@ MAdeK::Application.routes.draw do
 
   ##### STYLEGUIDE
 
-  mount Nkss::Engine => '/styleguide' if Rails.env.development?
+  get "styleguide", :to => "styleguide#show"
+  get "styleguide/:section", :to => "styleguide#show"
 
   ##### VISUALIZATION
 

@@ -1,15 +1,4 @@
 GIT
-  remote: git://github.com/interactivethings/nkss-rails.git
-  revision: 5bec96a104d6d5c575291cc4bdc154789a3a10eb
-  specs:
-    nkss-rails (0.0.1)
-      BlueCloth
-      ffaker
-      haml
-      kss
-      rails (~> 3.2.0)
-
-GIT
   remote: git://github.com/justcfx2u/ruby-net-ldap.git
   revision: 656039cee0708bb7cb5673eade7a821df03b5d9a
   specs:
@@ -51,7 +40,6 @@ GEM
   remote: http://rubygems.org/
   remote: http://gems.github.com/
   specs:
-    BlueCloth (1.0.1)
     actionmailer (3.2.13)
       actionpack (= 3.2.13)
       mail (~> 2.5.3)
@@ -182,7 +170,6 @@ GEM
       eventmachine (>= 0.12.0)
     faye-websocket (0.4.7-java)
       eventmachine (>= 0.12.0)
-    ffaker (1.16.2)
     ffi (1.9.0)
     ffi (1.9.0-java)
     foreigner (1.4.2)
@@ -253,7 +240,6 @@ GEM
     kaminari (0.14.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
-    kss (0.4.0)
     launchy (2.3.0)
       addressable (~> 2.3)
     libv8 (3.11.8.17)
@@ -539,7 +525,6 @@ DEPENDENCIES
   nested_set (~> 1.7)
   net-ldap!
   newrelic_rpm
-  nkss-rails!
   nokogiri
   pg
   poltergeist
