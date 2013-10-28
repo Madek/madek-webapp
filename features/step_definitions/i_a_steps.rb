@@ -151,6 +151,13 @@ Then /^I am on the page of the resource$/ do
   end
 end
 
+Then /^I am on the view permissions page of the resource$/  do
+  wait_until{ current_url.match /_action\=view/ }
+  expect(current_path).to eq "/permissions/edit"
+  expect(current_url).to match /_action\=view/
+  expect(current_url).to match /media_resource_id\=#{@resource.id}/
+end
+
 
 Then /^I am not the responsible person for that resource$/ do
   expect(find("tr[data-is-current-user='true'] td.ui-rights-owner input")).not_to be_checked

@@ -62,8 +62,14 @@ end
 
 Then /^I open the edit-permissions page/ do
   find(".primary-button",text: "Weitere Aktionen").click
-  find("a",text: "Berechtigungen").click
+  find("a#edit_permissions_of_resource").click
 end
+
+Then /^I open the view-permissions page/ do
+  find(".primary-button",text: "Weitere Aktionen").click
+  find("a#view_permissions_of_resource").click
+end
+
 
 Then /^I open the filter$/ do
   wait_until { all(".ui-resource").size > 0 }

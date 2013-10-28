@@ -58,8 +58,7 @@ Feature: Permissions
     Given I am signed-in as "Normin"
       And A resource owned by me and defined userpermissions for "Petra"
       And I visit the path of the resource
-      And I click on the link "Weitere Aktionen"
-      And I click on the link "Berechtigungen"
+     When I open the edit-permissions page
      Then I can choose from a set of labeled permissions presets instead of grant permissions explicitly    
 
   @jsbrowser
@@ -99,7 +98,7 @@ Feature: Permissions
 
     Given I am signed-in as "Beat"
     And I visit the path of the resource
-    And I open the edit-permissions page
+    And I open the view-permissions page
     Then I see the following permissions:
       | user   | permission |
       | Normin | view       |
@@ -108,7 +107,7 @@ Feature: Permissions
 
     Given I am signed-in as "Liselotte"
     And I visit the path of the resource
-    And I open the edit-permissions page
+    And I open the view-permissions page
     Then I see the following permissions:
       | user      | permission |
       | Normin    | edit       |
@@ -118,7 +117,7 @@ Feature: Permissions
 
     Given I am signed-in as "Petra"
     And I visit the path of the resource
-    And I open the edit-permissions page
+    And I open the view-permissions page
     Then I see the following permissions:
       | user   | permission |
       | Normin | view       |

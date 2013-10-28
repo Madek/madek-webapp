@@ -1,5 +1,5 @@
 %li.ui-drop-item
-  =link_to edit_permissions_path(media_resource_id: media_resource.id, _action: 'view'), id: "show_permissions_of_resource"  do
+  =link_to edit_permissions_path(media_resource_id: media_resource.id, _action: 'view'), id: "view_permissions_of_resource"  do
     %i.icon-lock.mid
     = _"Show permissions"
 - if current_user.authorized?(:manage,media_resource)

@@ -21,6 +21,7 @@ Feature: Permissions
     Then User "petra" has "view" user-permissions for my first media_entry
     Then User "petra" has "download" user-permissions for my first media_entry
     Then User "petra" has not "edit" user-permissions for my first media_entry
+    And I visit the path of my first media entry
     When I open the edit-permissions page
     And I remove "Paula, Petra" from the user-permissions
     And I click on the button "Speichern" 
@@ -43,6 +44,7 @@ Feature: Permissions
     Then Group "Zett" has "view" group-permissions for my first media_entry
     Then Group "Zett" has "download" group-permissions for my first media_entry
     Then Group "Zett" has not "edit" group-permissions for my first media_entry
+    And I visit the path of my first media entry
     When I open the edit-permissions page
     And I remove "Zett" from the group-permissions
     And I click on the button "Speichern" 
@@ -60,7 +62,7 @@ Feature: Permissions
     And I click on "Vertiefung Industrial Design (DDE_FDE_VID.dozierende)" inside the autocomplete list
     When I click on the submit button
     And I wait until there are no more ajax requests running
-    Then I am on the page of the resource
+    Then I am on the view permissions page of the resource
     And I see a confirmation alert
 
 #Berechtigungen:
@@ -96,13 +98,13 @@ Feature: Permissions
     And I visit the path of the resource
     Then I see page for the resource
 
-  @chrome @wip
+  @jsbrowser
   Scenario: Not manage user-permission won't let me edit permissions
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
     When There are "view" user-permissions added for me to the resource
     And I visit the path of the resource
-    And I open the edit-permissions page
+    And I open the view-permissions page
     Then I can not edit the permissions
 
   @jsbrowser 
