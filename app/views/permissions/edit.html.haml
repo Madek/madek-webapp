@@ -8,23 +8,33 @@
       .ui-body-title
         .ui-body-title-label
           %h1.title-xl 
+
             - if @media_resources.count == 1
-              Berechtigungen für "#{@media_resources.first.title}"
-            - else 
+              Berechtigungen für "#{@media_resources.first.title}" 
+
+            - else
               Berechtigungen für #{@media_resources.count} 
               - if @media_resources.count != @all_media_resources.count
                 aus #{@all_media_resources.count} 
-              Inhalte bearbeiten
+              Inhalte
+
+            - case @action
+            - when :edit
+              bearbeiten
+            - when :view 
+              betrachten
+
+
 
 
     .app-body-ui-container
 
       .bordered.ui-container.midtone.rounded.mbm
 
-        - if @media_resources.count != 1
+        - if @media_resources.count > 1
           = render :partial => "media_resources/selection",
                    :locals => {:media_resources => @media_resources.limit(100)}
- 
+
       .ui-container.bordered.midtone.rounded
 
         .pal

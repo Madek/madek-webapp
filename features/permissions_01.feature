@@ -96,7 +96,7 @@ Feature: Permissions
     And I visit the path of the resource
     Then I see page for the resource
 
-  @jsbrowser 
+  @chrome @wip
   Scenario: Not manage user-permission won't let me edit permissions
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
