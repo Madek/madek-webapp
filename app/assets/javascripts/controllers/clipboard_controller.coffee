@@ -62,6 +62,19 @@ class ClipboardController
     @actions.find("[data-organize-arcs]").data "collection", @collection
     @actions.find("[data-open-permissions][data-manageable='false']").data "collection", @collection
     @actions.find("[data-open-permissions][data-manageable='true']").data "collection", @manageableCollection
+    (=>
+      $a = @el.find("#view-clipboard-permissions")
+      uri= URI($a.attr("href")).setQuery({collection_id: @collection.id})
+      $a.attr("href",uri.toString()))()
+    (=>
+      $a = @el.find("#edit-clipboard-permissions")
+      uri= URI($a.attr("href")).setQuery({collection_id: @collection.id})
+      $a.attr("href",uri.toString()))()
+    (=>
+      $a = @el.find("#transfer-responsibilities")
+      uri= URI($a.attr("href")).setQuery({collection_id: @collection.id})
+      $a.attr("href",uri.toString()))()
+
 
   updateEditableButtons: ->
     editableCount = @editableMediaEntriesCollection.count

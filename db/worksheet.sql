@@ -1,3 +1,17 @@
+
+
+DELETE
+FROM "userpermissions"
+USING "media_resources"
+WHERE "media_resources"."id" = "userpermissions"."media_resource_id"
+AND userpermissions.user_id = media_resources.user_id
+
+SELECT userpermissions.id,media_resources.id, userpermissions.user_id, media_resources.user_id
+FROM "userpermissions".delete_all
+INNER JOIN "media_resources" ON "media_resources"."id" = "userpermissions"."media_resource_id"
+WHERE (userpermissions.user_id = media_resources.user_id)
+;
+
 SELECT groups.name, groups.id, count(grouppermissions.id) as count_all_false_grouppermissions
 FROM "grouppermissions"
 INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id"

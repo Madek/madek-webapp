@@ -13,9 +13,6 @@ module MediaResourceModules
           def allows(user, action)
             where(:user_id => user, action => true).exists?
           end
-          def disallows(user, action)
-            where(:user_id => user, action => false).exists?
-          end
         end
         
         has_many :grouppermissions, :dependent => :destroy do

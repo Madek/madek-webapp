@@ -1,0 +1,86 @@
+.app
+
+  = render "application/header"
+
+  .app-body
+
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl 
+            - if @media_resources.count == 1
+              Berechtigungen für "#{@media_resources.first.title}"
+            - else 
+              Berechtigungen für #{@media_resources.count} 
+              - if @media_resources.count != @all_media_resources.count
+                aus #{@all_media_resources.count} 
+              Inhalte bearbeiten
+
+
+    .app-body-ui-container
+
+      .bordered.ui-container.midtone.rounded.mbm
+
+        - if @media_resources.count != 1
+          = render :partial => "media_resources/selection",
+                   :locals => {:media_resources => @media_resources.limit(100)}
+ 
+      .ui-container.bordered.midtone.rounded
+
+        .pal
+
+          %form#ui-rights-management-import{data: @data}
+
+            %h3.title-l 
+              = _("Specify access and visibility:")
+
+            %table.borderless
+              %tr
+                %td.ui-summary-label
+                  - case @responsible_users.count 
+                  - when 1..1
+                    Verantwortliche Person: 
+                  - when 2..3
+                    Verantwortliche Personen: 
+                  - else
+                    Es sind mehr als 3 verschiedene Personen für diese Inhalte verantwortlich.
+                %td.ui-summary-content
+                  %ul.ui-tag-cloud
+                    - @responsible_users.each do |user|
+                      %li.ui-tag-button.person-tag= user 
+              %tr
+                %td.ui-summary-label
+                  Sie, 
+                  %b #{current_user}, 
+                  haben gegenwärtig folgende Berechtigungen: 
+
+                %td.ui-summary-content
+                  %ul.ui-tag-cloud
+                    - %w(view download edit manage).each do |action|
+                      - if @media_resources.accessible_by_user(current_user,action.to_sym).count == @media_resources.count
+                        %li.ui-tag-cloud-item
+                          .ui-tag-button=_(action)
+
+
+            .ui-container.bright.bordered.rounded-bottom.pal
+              .ui-rights-management
+                .pth
+                  .ui-preloader
+
+              .ptl
+                .form-footer
+                  .ui-actions
+                    = link_to @back_link, class: "link weak", title: _("Cancel") do
+                      = _("Cancel")
+                    - if @data[:manageable]
+                      %button.primary-button.large{type: :submit, disabled: true}
+                        = _("Save")
+
+  .app-footer-push
+= render :partial => "application/footer", :locals => {:clipboard => false}
+
+:coffeescript
+
+  jQuery ->
+    new App.PermissionsController
+      inline: $("#ui-rights-management-import")

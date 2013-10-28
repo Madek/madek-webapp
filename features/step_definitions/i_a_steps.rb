@@ -143,9 +143,9 @@ end
 Then /^I am on the page of the resource$/ do
   case @resource.type
   when "MediaSet" 
-    expect(current_path).to eq media_set_path @resource
+    wait_until{ current_path == media_set_path(@resource)}
   when "MediaEntry" 
-    expect(current_path).to eq media_entry_path @resource
+    wait_until{ current_path == media_entry_path(@resource)}
   else
     raise
   end

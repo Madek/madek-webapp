@@ -653,9 +653,9 @@ class MediaResourcesController < ApplicationController
   def show
     case @media_resource.type
     when "FilterSet"
-      redirect_to filter_set_path(@media_resource)
+      redirect_to filter_set_path(@media_resource), flash: flash
     else
-      redirect_to @media_resource
+      redirect_to @media_resource, flash: flash
     end
   end
 

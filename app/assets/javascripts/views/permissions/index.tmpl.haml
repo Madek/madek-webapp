@@ -1,70 +1,66 @@
 %div{:class => "ui-rights-management{{if $item.manageable == false}} unmanageable{{/if}}{{if public[0].view == true}} public-view{{/if}}{{if public[0].download == true}} public-download{{/if}}{{if public[0].edit == true}} public-edit{{/if}}"}
 
-  .ui-modal-toolbar.top.phm.mrs
+
+  .mrx
+
+    %table.ui-rights-group.block.borderless
+
+      %thead
+        %tr
+          %td.ui-rights-user-title
+          %td.ui-rights-role-title  ${_jed('Permission')}
+          %td.ui-rights-check-title ${_jed('View')}
+          %td.ui-rights-check-title ${_jed('Download original')}
+          %td.ui-rights-check-title ${_jed('Edit')}
+          %td.ui-rights-check-title ${_jed('Edit permissions')}
+
+
+  .ui-rights-management-users
+
+    %h4.title-s.mts.separated.mbx
+      ${_jed('People')}
+      %i.icon-privacy-private-alt
+
+    .ui-rights-body
+
+      %table.ui-rights-group.bordered.block
+       
+        %tbody
+          {{tmpl(users, {presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}
+
+      {{if $item.manageable}}
+      #addUser.ui-add-subject.ptx.row
+        .col2of3
+          %input.small.block{name: 'user', type: 'text', placeholder:  "${_jed('Name of the person')}"}
+      {{/if}}
+
+
+  .ui-rights-management-groups
+
+    %h4.title-s.mts.separated.mbx
+      ${_jed('Groups')}
+      %i.icon-privacy-group-alt
+
+    .ui-rights-body
+
+      %table.ui-rights-group.bordered.block
+       
+        %tbody
+          {{tmpl(groups, {presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}
+
+      {{if $item.manageable}}
+      #addGroup.ui-add-subject.ptx.row
+        .col2of3
+          %input.small.block{type: :text, placeholder: "${_jed('Name of the group')}", name: 'group'}
+      {{/if}}
+
+
+  .ui-rights-management-public.mtx
 
     .mrx
 
-      %table.ui-rights-group.block.borderless
-
-        %thead
-          %tr
-            %td.ui-rights-user-title
-            %td.ui-rights-owner-title ${_jed('Responsible person')}
-            %td.ui-rights-role-title  ${_jed('Permission')}
-            %td.ui-rights-check-title ${_jed('View')}
-            %td.ui-rights-check-title ${_jed('Download original')}
-            %td.ui-rights-check-title ${_jed('Edit')}
-            %td.ui-rights-check-title ${_jed('Edit permissions')}
-
-  .ui-modal-body
-
-    .ui-rights-management-users
-
-      %h4.title-s.mts.separated.mbx
-        ${_jed('People')}
-        %i.icon-privacy-private-alt
-
-      .ui-rights-body
-
-        %table.ui-rights-group.bordered.block
-         
-          %tbody
-            {{tmpl(users, {presets: presets, manageable: $item.manageable, currentUserOwnership: currentUserOwnership}) App.renderPath("permissions/line")}}
-
-        {{if $item.manageable}}
-        #addUser.ui-add-subject.ptx.row
-          .col2of3
-            %input.small.block{name: 'user', type: 'text', placeholder:  "${_jed('Name of the person')}"}
-        {{/if}}
-
-
-    .ui-rights-management-groups
-
-      %h4.title-s.mts.separated.mbx
-        ${_jed('Groups')}
-        %i.icon-privacy-group-alt
-
-      .ui-rights-body
-
-        %table.ui-rights-group.bordered.block
-         
-          %tbody
-            {{tmpl(groups, {presets: presets, manageable: $item.manageable, currentUserOwnership: currentUserOwnership}) App.renderPath("permissions/line")}}
-
-        {{if $item.manageable}}
-        #addGroup.ui-add-subject.ptx.row
-          .col2of3
-            %input.small.block{type: :text, placeholder: "${_jed('Name of the group')}", name: 'group'}
-        {{/if}}
-
-  .ui-modal-toolbar.bottom.phm.mrs
-
-    .ui-rights-management-public.mtx
-
-      .mrx
-
-        %table.ui-rights-group.borderless.block
-         
-          %tbody
-            {{tmpl(public, {public: true, presets: presets, manageable: $item.manageable, currentUserOwnership: currentUserOwnership}) App.renderPath("permissions/line")}}
-      
+      %table.ui-rights-group.borderless.block
+       
+        %tbody
+          {{tmpl(public, {public: true, presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}
+    

@@ -1,0 +1,82 @@
+.app
+
+  = render "application/header"
+
+  .app-body
+
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl 
+            - if @media_resources.count == 1
+              Verantwortlichkeit für "#{@media_resources.first.title}" übertragen
+            - else 
+              Verantwortlichkeit für #{@media_resources.count} 
+              - if @media_resources.count != @all_media_resources.count
+                aus #{@all_media_resources.count} 
+              Inhalte übertragen
+
+
+    .app-body-ui-container
+
+      .bordered.ui-container.midtone.rounded.mbm
+
+        - if @media_resources.count != 1
+          = render :partial => "media_resources/selection",
+                   :locals => {:media_resources => @media_resources.limit(100)}
+ 
+      .ui-container.bordered.bright.rounded
+
+        .pal
+
+          =form_tag responsibilities_path, id: "responsibility" ,method: 'PUT' do
+
+            =hidden_field_tag :media_resource_id, params[:media_resource_id]
+
+            =hidden_field_tag :collection_id, params[:collection_id]
+
+            %fieldset
+
+              
+              %label{for: "autocomplete_user"}
+                Verantwortung auf folgende Person übertragen:
+                -#=text_field_tag :user, nil, class: "block", placeholder: "Id des Benutzers"
+                =text_field_tag :user, nil, class: "block", placeholder: "Nachname, Vorname [login]"
+
+
+            %fieldset 
+
+              Sie erhalten die folgende Zugriffsberechtigungen:
+  
+              %label
+                =_"View"
+                =check_box :userpermission, :view, {checked: true}
+
+              %label
+                =_"Download"
+                =check_box :userpermission, :download, {checked: true}
+
+              %label
+                =_"Edit"
+                =check_box :userpermission, :edit, {checked: true}
+
+              %label
+                =_"Manage"
+                =check_box :userpermission, :manage, {checked: true}
+
+
+            .form-footer
+              .ui-actions
+
+                = link_to @back_link, class: "link weak", title: _("Cancel") do
+                  = _("Cancel")
+
+                = button_tag type: 'submit' , class: "primary-button large" do
+                  Übertragen
+                   
+  .app-footer-push
+= render :partial => "application/footer", :locals => {:clipboard => false}
+
+:coffee
+  $ -> 
+    window.App.Responsibilities.initialize($("form#responsibility"))

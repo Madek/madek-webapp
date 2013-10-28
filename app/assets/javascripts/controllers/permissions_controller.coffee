@@ -8,7 +8,7 @@ class PermissionsController
 
   constructor: (options)->
     el = if options.dialog? then options.dialog else if options.inline? then options.inline
-    @manageable = el.data "manageable"
+    @manageable = el.data("manageable")?
     @redirectUrl = el.data "redirect-url"
     if options.dialog?
       @showDialog el
@@ -38,7 +38,6 @@ class PermissionsController
     @el.on "change", ".ui-rights-role select", (e)=> @onChangePreset $(e.currentTarget)
     @el.on "click", ".ui-rights-role select option", (e)=> @onChangePreset $(e.currentTarget).closest "select"
     @el.on "click", ".ui-rights-remove", (e)=> $(e.currentTarget).closest("tr").remove()
-    @el.on "change", ".ui-rights-owner input", (e)=> @changeOwnerTo $(e.currentTarget).closest "tr"
     @el.on "change", ".ui-rights-management-public .ui-rights-check input", @onChangePublicPermission
     @form.on "submit", @onSubmit
     @form.on "keypress", "input", (e)=> 
@@ -73,8 +72,6 @@ class PermissionsController
     userPermissions = _.map @usersContainer.find("tr"), (line)=> @getPermissionDataFromLine $(line)
     groupPermissions = _.map @groupsContainer.find("tr"), (line)=> @getPermissionDataFromLine $(line)
     publicPermissions = _.map @publicPermissionsContainer.find("tr"), (line)=> @getPermissionDataFromLine $(line)
-    ownerLine = @rightsContainer.find(".ui-rights-owner input:checked").closest "tr"
-    owner = if ownerLine.length then ownerLine.data("id") else undefined
     if @el.is ".ui-modal"
       do @el.remove 
     else
@@ -84,7 +81,6 @@ class PermissionsController
       users: userPermissions
       groups: groupPermissions
       public: publicPermissions[0]
-      owner: owner
     , @mediaResourceIds, (response)=> 
       if @redirectUrl?
         window.location = @redirectUrl
@@ -122,34 +118,6 @@ class PermissionsController
     else
       @rightsContainer.removeClass "public-edit"
 
-  changeOwnerTo: (newOwnerLine)->
-    previousOwnerLine = @rightsContainer.find("[data-ownership='true']")
-    previousOwnerLine.replaceWith App.render "permissions/line", 
-      id: previousOwnerLine.data "id"
-      name: previousOwnerLine.data "name"
-      view: true
-      isCurrentUser: (currentUser.id == (previousOwnerLine.data "id"))
-      download: true
-      edit: true
-      manage: true
-      ownership: false
-    ,
-      presets: @permissionPresets
-      manageable: @manageable
-      currentUserOwnership: @permissionsForRender(@permissions.you, @mediaResourceIds, @permissions.owners)[0].ownership
-    newOwnerLine.replaceWith App.render "permissions/line", 
-      id: newOwnerLine.data "id"
-      name: newOwnerLine.data "name"
-      view: true
-      isCurrentUser: (currentUser.id == (newOwnerLine.data "id"))
-      download: true
-      edit: true
-      manage: true
-      ownership: true
-    ,
-      presets: @permissionPresets
-      manageable: @manageable
-      currentUserOwnership: @permissionsForRender(@permissions.you, @mediaResourceIds, @permissions.owners)[0].ownership
 
   showDialog: (el)=>
     title = if el.data("media-resource-id") then "'#{el.data("title")}'" else if el.data("collection") then "für #{el.data("collection").count} ausgewählte Inhalte"
@@ -224,14 +192,12 @@ class PermissionsController
       download: false
       edit: false
       manage: false
-      ownership: false
       type: if (subject instanceof App.User) then "userpermission" else if  (subject instanceof App.Group) then "grouppermission" 
       isCurrentUserGroup: if (subject instanceof App.Group) and  _.include(_.map(currentUser.groups, (group)-> group.id) ,subject.id) then true else false
       isCurrentUser: if (subject instanceof App.User) and subject.id == currentUser.id then true else false
     ,
       presets: @permissionPresets
       manageable: @manageable
-      currentUserOwnership: @permissionsForRender(@permissions.you, @mediaResourceIds, @permissions.owners)[0].ownership
     target = if subject instanceof App.User
       @usersContainer.find("tbody")
     else if subject instanceof App.Group
@@ -280,7 +246,6 @@ class PermissionsController
       with: 
         users: true
         groups: true
-        owners: true
     $.extend fetchData, {media_resource_ids: @mediaResourceIds} if @mediaResourceId?
     $.extend fetchData, {collection_id: @collection.id} if @collection?
     App.Permission.fetch fetchData, (permissions)=>
@@ -294,7 +259,6 @@ class PermissionsController
       with: 
         users: true
         groups: true
-        owners: true
     , (permissions)=>
       debugger
       @permissions = permissions
@@ -312,29 +276,15 @@ class PermissionsController
     _.each @permissions.users, (g)-> g.isUserpermission = true
     users = @permissions.users
     _.each users, (u)-> u.isCurrentUser = (u.id is currentUser.id)
-    for owner in _.filter(@permissions.owners, (user)-> user.id != currentUser.id)
-      users = _.filter users, (user)-> user.id != owner.id
-      users.unshift do =>
-        mediaResourceIds = owner.media_resource_ids
-        owner.view = mediaResourceIds
-        owner.edit = mediaResourceIds
-        owner.download = mediaResourceIds
-        owner.manage = mediaResourceIds
-        return owner
     data = 
-      currentUserOwnership: @permissionsForRender(@permissions.you, @mediaResourceIds, @permissions.owners)[0].ownership
       presets: @permissionPresets
-      public: @permissionsForRender @permissions.public, @mediaResourceIds, @permissions.owners
+      public: @permissionsForRender @permissions.public, @mediaResourceIds
       mediaResourceIds: @mediaResourceIds
-      users: @permissionsForRender _.sortBy(users, (user)-> user.name), @mediaResourceIds, @permissions.owners
-      groups: @permissionsForRender _.sortBy(@permissions.groups, (group)-> group.name), @mediaResourceIds, @permissions.owners
+      users: @permissionsForRender _.sortBy(users, (user)-> user.name), @mediaResourceIds
+      groups: @permissionsForRender _.sortBy(@permissions.groups, (group)-> group.name), @mediaResourceIds
     return data
 
-  ownersForRender: (owners, mediaResourceIds)->
-    owners = _.map(@permissions.owners, (user)-> user.id)
-    if _.isEqual(owners.sort(), mediaResourceIds.sort()) then true else if permission.view.length then "mixed" else false
-
-  permissionsForRender: (permissions, mediaResourceIds, owners)->
+  permissionsForRender: (permissions, mediaResourceIds)->
     permissions = [permissions] unless permissions instanceof Array
     permissions = JSON.parse JSON.stringify permissions
     for permission in permissions
@@ -342,14 +292,6 @@ class PermissionsController
       permission.download = if _.isEqual(permission.download.sort(), mediaResourceIds.sort()) then true else if permission.download.length then "mixed" else false
       permission.edit = if _.isEqual(permission.edit.sort(), mediaResourceIds.sort()) then true else if permission.edit.length then "mixed" else false
       permission.manage = if permission.manage? and _.isEqual(permission.manage.sort(), mediaResourceIds.sort()) then true else if permission.manage? and permission.manage.length then "mixed" else false
-      owner = _.find owners, (subject)-> subject.id == permission.id
-      if owner?
-        if _.isEqual(owner.media_resource_ids.sort(), mediaResourceIds.sort()) 
-          permission.ownership = true
-        else
-          permission.ownership = "mixed"
-      else
-        permission.ownership = false
     return permissions
 
   render: ->

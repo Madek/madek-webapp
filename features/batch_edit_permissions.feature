@@ -36,8 +36,8 @@ Feature: Edit the permissions through batch-edit
     Then I can see the resource1 in the clipboard 
     And I can see the resource2 in the clipboard 
     When I click on the link "Aktionen" in the clipboard 
-    And I click on the link "Berechtigungen verwalten" 
-    Then I can see the permissions dialog
+    And I click on the link "Berechtigungen der verwaltbaren Inhalte editieren"
+    Then I can see a from for editing permissions
 
   @jsbrowser
   Scenario: Looking at the permission properties 

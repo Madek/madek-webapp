@@ -60,10 +60,9 @@ Then /^I open the dropbox informations dialog$/ do
   step 'I wait for the dialog to appear'
 end
 
-Then /^I open the edit-permissions dialog$/ do
-  find(".primary-button").click
-  find("a[data-open-permissions]").click
-  step 'I wait for the dialog to appear'
+Then /^I open the edit-permissions page/ do
+  find(".primary-button",text: "Weitere Aktionen").click
+  find("a",text: "Berechtigungen").click
 end
 
 Then /^I open the filter$/ do

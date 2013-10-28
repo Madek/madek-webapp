@@ -76,20 +76,6 @@ describe MediaResource do
         @user = FactoryGirl.create :user
       end
 
-      context "function userpermission_disallows" do
-
-        it "should return not false if there is a userpermission that disallows" do
-          FactoryGirl.create :userpermission, view: false, user: @user, media_resource: @media_resource
-          @media_resource.userpermissions.disallows(@user, :view).should_not == false
-        end
-
-        it "should return false if there is no userpermission that disallows" do
-          @media_resource.userpermissions.disallows(@user, :view).should == false
-        end
-
-
-      end
-
       context "function userpermission_allows " do
 
         it "should return not false if there is a userpermission that allows " do

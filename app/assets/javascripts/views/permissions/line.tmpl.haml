@@ -1,7 +1,7 @@
-%tr{:"data-id" => "${id}", :"data-name" => "${name}", "data-type" => "${type}", "data-ownership" => "${ownership}", "data-is-current-user-group" => "${isCurrentUserGroup}", "data-is-current-user" => "${isCurrentUser}"}
+%tr{:"data-id" => "${id}", :"data-name" => "${name}", "data-type" => "${type}", "data-is-current-user-group" => "${isCurrentUserGroup}", "data-is-current-user" => "${isCurrentUser}"}
 
   %td.ui-rights-user
-    {{if $item.manageable && ownership == false}}
+    {{if $item.manageable}}
     %a.button.small.ui-rights-remove{:href => "#", :title => "Berechtigung entfernen"} ×
     {{/if}}
     
@@ -16,32 +16,8 @@
       ${name}
       {{/if}}
 
-  %td.ui-rights-owner{:title => "${_jed('Responsible person')}"}
-    {{if ownership}}
-    {{if $item.currentUserOwnership == true}}
-    %input{:type => "radio", :checked => true}
-    {{else}}
-    %input{:type => "radio", :checked => true, :disabled => :disabled}
-    {{/if}}
-    {{else}}
-    {{if $item.currentUserOwnership == true}}
-    %input{:type => "radio"}
-    {{else}}
-    %input{:type => "radio", :disabled => :disabled}
-    {{/if}}
-    {{/if}}
-
   %td.ui-rights-role
 
-    {{if ownership}}
-    %div{:class => "ui-custom-select small disabled"}
-      %span.ui-custom-select-text
-        {{if ownership == "mixed"}}
-        ${_jed('Partially responsible')}
-        {{else}}
-        ${_jed('Responsible person')}
-        {{/if}}
-    {{else}}
     %div{:class => "ui-custom-select small{{if $item.manageable == false}} disabled{{/if}}"}
       %span.ui-custom-select-text 
         {{if App.PermissionPreset.match($item.data, $item.presets)}}
@@ -64,12 +40,11 @@
         {{/if}}
         {{/each}}
       {{/if}}
-    {{/if}}
 
-  {{tmpl({permission: view, label: "Betrachten", name: "view"}, {manageable: $item.manageable, ownership: ownership}) App.renderPath("permissions/line/right-check")}}
+  {{tmpl({permission: view, label: "Betrachten", name: "view"}, {manageable: $item.manageable}) App.renderPath("permissions/line/right-check")}}
 
-  {{tmpl({permission: download, label: "Download Original", name: "download"}, {manageable: $item.manageable, ownership: ownership}) App.renderPath("permissions/line/right-check")}}
+  {{tmpl({permission: download, label: "Download Original", name: "download"}, {manageable: $item.manageable}) App.renderPath("permissions/line/right-check")}}
 
-  {{tmpl({permission: edit, label: "Editieren", name: "edit"}, {manageable: $item.manageable, ownership: ownership}) App.renderPath("permissions/line/right-check")}}
+  {{tmpl({permission: edit, label: "Editieren", name: "edit"}, {manageable: $item.manageable}) App.renderPath("permissions/line/right-check")}}
   
-  {{tmpl({permission: manage, label: "Berechtigung verwalten", name: "manage"}, {manageable: $item.manageable, ownership: ownership}) App.renderPath("permissions/line/right-check")}}
+  {{tmpl({permission: manage, label: "Berechtigung verwalten", name: "manage"}, {manageable: $item.manageable}) App.renderPath("permissions/line/right-check")}}

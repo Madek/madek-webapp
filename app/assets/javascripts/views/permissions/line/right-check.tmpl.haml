@@ -1,11 +1,11 @@
-%td{:class => "ui-rights-check ${name}{{if $item.ownership != false || $item.manageable == false}} disabled{{/if}}"}
+%td{:class => "ui-rights-check ${name}{{if $item.manageable == false}} disabled{{/if}}"}
 
   %i.ui-right-overwritten-by-public{:title => "${_jed('%s (overwritten by public permissions)', label)}"}
 
   {{if permission == true}}
 
   %label{:class => "ui-rights-check-label"}
-    {{if $item.manageable && $item.ownership == false}}
+    {{if $item.manageable}}
     %input{:checked => "checked", :name => "${name}", :type => "checkbox", :value => "true", :title => "${label}"}
     {{else}}
     %input{:checked => "checked", :name => "${name}", :type => "checkbox", :value => "true", :title => "${label}", :disabled => true}
@@ -14,7 +14,7 @@
   {{else permission == "mixed"}}
 
   %label{:class => "ui-rights-check-label mixed"}
-    {{if $item.manageable && $item.ownership == false}}
+    {{if $item.manageable}}
     %input{:name => "${name}", :type => "checkbox", :value => "mixed", :title => "${label}"}
     {{else}}
     %input{:name => "${name}", :type => "checkbox", :value => "mixed", :title => "${label}", :disabled => true}
@@ -25,7 +25,7 @@
   {{else}}
 
   %label{:class => "ui-rights-check-label"}
-    {{if $item.manageable && $item.ownership == false}}
+    {{if $item.manageable}}
     %input{:name => "${name}", :type => "checkbox", :value => "true", :title => "${label}"}
     {{else}}
     %input{:name => "${name}", :type => "checkbox", :value => "true", :title => "${label}", :disabled => true}

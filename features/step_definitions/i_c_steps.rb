@@ -16,7 +16,7 @@ Then /^I can add a new member to the group$/ do
 end
 
 Then /^I can choose from a set of labeled permissions presets instead of grant permissions explicitly$/ do
-  step 'I wait for the dialog to appear'
+  step "I wait until there are no more ajax requests running"
   expect(all("tr[data-name='#{@user_with_userpermissions.name}'] select.ui-rights-role-select option").size).to be > 0
 end
 
@@ -43,7 +43,7 @@ Then /^I can edit the permissions/ do
   orig_download_permissions = permissions.download
   find("tr[data-name='#{@me.name}']").find("input[name=download]").click
   find("button.primary-button[type=submit]").click
-  wait_until{all(".modal-backdrop").size == 0}
+  wait_until{page.evaluate_script(%<$.active>) == 0}
   expect(permissions.reload.download).not_to eq orig_download_permissions
 end
 
@@ -102,6 +102,10 @@ end
 
 Then /^I can see "(.*?)"$/ do |text|
   expect(page).to have_content text
+end
+
+Then(/^I can see a from for editing permissions$/) do
+  find("form#ui-rights-management-import")
 end
 
 Then (/^I can see a success message$/) do

@@ -6,24 +6,6 @@ Feature: Permissions
   to users and groups.
 
   @jsbrowser
-  Scenario: Not the owner / responsible user of a resource 
-    Given I am signed-in as "Normin"
-    And A resource, not owned by normin, and with no permissions whatsoever 
-    When There are "view" user-permissions added for me to the resource
-    And There are "manage" user-permissions added for me to the resource
-    And I visit the path of the resource
-    And I open the edit-permissions dialog
-    Then I am not the responsible person for that resource
-
-  @jsbrowser
-  Scenario: Owner / responsible user of a resource
-    Given I am signed-in as "Normin"
-    And A resource owned by me with view permission explicitly set for me
-    And I visit the path of the resource
-    And I open the edit-permissions dialog
-    Then I am the responsible person for that resource
-
-  @jsbrowser
   Scenario: No Download permission will not let me download the resource
     Given I am signed-in as "Normin"
     And A media_entry with file, not owned by normin, and with no permissions whatsoever 
@@ -71,7 +53,7 @@ Feature: Permissions
     And I add the resource to the given set 
     Then the resource is in the children of the given set
 
-  @jsbrowser 
+  @jsbrowser
   Scenario: Permission presets
     Given I am signed-in as "Normin"
       And A resource owned by me and defined userpermissions for "Petra"
@@ -80,7 +62,7 @@ Feature: Permissions
       And I click on the link "Berechtigungen"
      Then I can choose from a set of labeled permissions presets instead of grant permissions explicitly    
 
-  @jsbrowser @dirty
+  @jsbrowser
   Scenario: Limiting what other users' permissions I can see
     Given I am signed-in as "Normin"
     Given A resource owned by me with no other permissions
@@ -100,7 +82,8 @@ Feature: Permissions
     And I logout.
 
     Given I am signed-in as "Normin"
-    And I visit the permissions dialog of the resource
+    And I visit the path of the resource
+    And I open the edit-permissions page
     Then I see the following permissions:
       | user      | permission |
       | Normin    | view       |
@@ -112,35 +95,34 @@ Feature: Permissions
       | Beat      | download   |
       | Liselotte | edit       |
       | Liselotte | download   |
-    And I close the modal dialog.
     And I logout.
 
     Given I am signed-in as "Beat"
-    And I visit the permissions dialog of the resource
+    And I visit the path of the resource
+    And I open the edit-permissions page
     Then I see the following permissions:
       | user   | permission |
       | Normin | view       |
       | Petra  | view       |
-    And I close the modal dialog.
     And I logout.
 
     Given I am signed-in as "Liselotte"
-    And I visit the permissions dialog of the resource
+    And I visit the path of the resource
+    And I open the edit-permissions page
     Then I see the following permissions:
       | user      | permission |
       | Normin    | edit       |
       | Beat      | edit       |
       | Liselotte | edit       |
-    And I close the modal dialog.
     And I logout.
 
     Given I am signed-in as "Petra"
-    And I visit the permissions dialog of the resource
+    And I visit the path of the resource
+    And I open the edit-permissions page
     Then I see the following permissions:
       | user   | permission |
       | Normin | view       |
       | Petra  | view       |
-    And I close the modal dialog.
     And I logout.
 
 

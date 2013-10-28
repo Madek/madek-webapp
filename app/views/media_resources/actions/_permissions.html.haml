@@ -1,8 +1,9 @@
 %li.ui-drop-item
-  %a{:title => _("Read/edit permissions"), 
-     :"data-open-permissions" => true, 
-     :"data-media-resource-id" => media_resource.id,
-     :"data-manageable" => current_user.authorized?(:manage, MediaResource.find(params[:id])).to_json,
-     :"data-title" => media_resource.title}
+  =link_to edit_permissions_path(media_resource_id: media_resource.id), id: "permissions_of_resource"  do
     %i.icon-lock.mid
-    = _("Permissions")
+    = _"Permissions"
+- if current_user.authorized?(:transfer,media_resource)
+  %li.ui-drop-item
+    =link_to edit_responsibilities_path(media_resource_id: media_resource.id), id: "transfer_responsibility_of_resource" do
+      %i.icon-lock.mid
+      = _"Transfer responsibility"

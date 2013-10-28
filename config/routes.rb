@@ -110,9 +110,17 @@ MAdeK::Application.routes.draw do
 
   ################################################
 
-  resources :permissions, :only => :index, :format => true, :constraints => {:format => /json/} do
+  resources :permissions, only: :index do
     collection do
-      put :update # TODO merge to media_resources#update ??
+      get :edit
+      put :update 
+    end
+  end
+
+  resources :responsibilities, only: [] do
+    collection do
+      get :edit
+      put :update
     end
   end
 

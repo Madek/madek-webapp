@@ -105,8 +105,7 @@ class PermissionsController < ApplicationController
   def update(groups = Array(params[:groups].is_a?(Hash) ? params[:groups].values : params[:groups]),
              users = Array(params[:users].is_a?(Hash) ? params[:users].values : params[:users]),
              media_resource_ids = Array(params[:media_resource_ids].is_a?(Hash) ? params[:media_resource_ids].values : params[:media_resource_ids]),
-             public_permission= params[:public],
-             owner = params[:owner])
+             public_permission= params[:public])
     
     require 'set'
 
@@ -159,13 +158,6 @@ class PermissionsController < ApplicationController
         end
       end
 
-      # update owner
-      if owner_id= (owner and owner.to_i)
-        media_resource_ids.each do |mr_id|
-          MediaResource.find(mr_id).update_attributes! user_id: owner_id
-        end
-      end
-
       Userpermission.destroy_irrelevant
       Grouppermission.destroy_irrelevant
 
@@ -176,6 +168,47 @@ class PermissionsController < ApplicationController
       format.json { render :json => {} }
     end
 
+  end
+
+
+  def init_multiple
+    @collection = Collection.get(params[:collection_id])
+    @all_media_resources = MediaResource.where("id IN (?)",@collection[:ids])
+    @manageable_media_resources = @all_media_resources.accessible_by_user(current_user,:manage)
+    @media_resources = case params['_action']
+                       when "view"
+                         @all_media_resources
+                       when "edit"
+                         @manageable_media_resources
+                       else
+                         raise "no action given"
+                       end
+
+    @save_link= view_context.edit_permissions_path(_action: "view",collection_id: params[:collection_id])
+    @back_link= view_context.my_dashboard_path
+  end
+
+  def responsible_users media_resources_ar
+    User.where("id IN (#{media_resources_ar.select("user_id").to_sql})")
+  end
+
+  def edit
+    if params[:media_resource_id] # the case where we edit one 
+      @all_media_resources= MediaResource.where(id: params[:media_resource_id])
+      @media_resources= @all_media_resources.accessible_by_user(current_user,:manage)
+      @save_link = view_context.media_resource_path(@media_resources.first)
+      @back_link = view_context.media_resource_path(@media_resources.first)
+    elsif params[:collection_id]
+      init_multiple
+    else
+      raise "neither media_resource_id no collection_id given"
+    end
+    @responsible_users =responsible_users(@media_resources)
+    @data = {
+      media_resource_id:  params[:media_resource_id],
+      collection_id: params[:collection_id],
+      manageable: params['_action'] == "view" ? false : current_user.authorized?(:manage,@media_resources),
+      redirect_url: @save_link}
   end
 
 end

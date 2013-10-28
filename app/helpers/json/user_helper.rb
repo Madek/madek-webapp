@@ -4,7 +4,8 @@ module Json
     def hash_for_user(user, with = nil)
       h = {
         id: user.id,
-        name: user.to_s
+        name: user.to_s,
+        login: user.login
       }
 
       if with ||= nil

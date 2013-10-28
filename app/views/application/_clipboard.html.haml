@@ -25,14 +25,17 @@
                   %i.icon-move.mid
                   = _("Add to/remove from set")
               %li.ui-drop-item
-                %a{:"data-open-permissions" => true, :"data-manageable" => "false"}
+                =link_to edit_permissions_path(_action: "view"), id: "view-clipboard-permissions",data: {manageable: false} do
                   %i.icon-lock.mid
-                  = _("Show permissions")
-              %li.ui-drop-item.ui-clipboard-manage-button
-                %a{:"data-open-permissions" => true, :"data-manageable" => "true"}
+                  = "Berechtigungen aller Inhalte anzeigen"
+              %li.ui-drop-item
+                =link_to edit_permissions_path(_action: "edit"), id: "edit-clipboard-permissions",data: {manageable: true} do
                   %i.icon-lock.mid
-                  %span.ui-count
-                  = _("Edit permissions")
+                  = "Berechtigungen der verwaltbaren Inhalte editieren"
+              %li.ui-drop-item
+                =link_to edit_responsibilities_path, id: "transfer-responsibilities" do
+                  %i.icon-lock.mid
+                  = "Verantwortlichkeit übertragen"
               %li.ui-drop-item.ui-clipboard-edit-button
                 %a{:href => edit_multiple_media_entries_path}
                   %i.icon-pen.mid

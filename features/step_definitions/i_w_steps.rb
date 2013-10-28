@@ -38,3 +38,8 @@ end
 Then /^I wait until I am on the "(.*?)" page$/ do |path|
   wait_until{ current_path == path }
 end
+
+
+Then(/^I wait until there are no more ajax requests running$/) do
+  wait_until{page.evaluate_script(%<$.active>) == 0}
+end
