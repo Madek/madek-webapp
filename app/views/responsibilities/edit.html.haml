@@ -21,10 +21,9 @@
 
       .bordered.ui-container.midtone.rounded.mbm
 
-        - if @media_resources.count != 1
-          = render :partial => "media_resources/selection",
-                   :locals => {:media_resources => @media_resources.limit(100)}
- 
+        = render :partial => "media_resources/selection",
+                 :locals => {:media_resources => @media_resources.limit(100)}
+
       .ui-container.bordered.bright.rounded
 
         .pal
@@ -36,17 +35,19 @@
             =hidden_field_tag :collection_id, params[:collection_id]
 
             %fieldset
-
               
               %label{for: "autocomplete_user"}
-                Verantwortung auf folgende Person übertragen:
+                .title-l.pbm Verantwortung auf folgende Person übertragen
                 -#=text_field_tag :user, nil, class: "block", placeholder: "Id des Benutzers"
                 =text_field_tag :user, nil, class: "block", placeholder: "Nachname, Vorname [login]"
 
 
-            %fieldset 
+            %fieldset.ptm.userpermission
 
-              Sie erhalten die folgende Zugriffsberechtigungen:
+              %p.title-xs-alt Sie erhalten die folgende Zugriffsberechtigungen
+
+              %label
+                =select :premission, :presets, PermissionPreset.all.collect{|p| [p.name, Hash[%w(view download edit manage).map{|perm|["userpermission_#{perm}",p[perm]]}]]} << [_("Custom"),'custom'], {}, class: 'hidden'
   
               %label
                 =_"View"

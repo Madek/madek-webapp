@@ -30,7 +30,7 @@
 
       {{if $item.manageable}}
       #addUser.ui-add-subject.ptx.row
-        .col2of3
+        .col1of2
           %input.small.block{name: 'user', type: 'text', placeholder:  "${_jed('Name of the person')}"}
       {{/if}}
 
@@ -50,10 +50,11 @@
 
       {{if $item.manageable}}
       #addGroup.ui-add-subject.ptx.row
-        .col2of3
+        .col1of2
           %input.small.block{type: :text, placeholder: "${_jed('Name of the group')}", name: 'group'}
       {{/if}}
 
+  .separator
 
   .ui-rights-management-public.mtx
 

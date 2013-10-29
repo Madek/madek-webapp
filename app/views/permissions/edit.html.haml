@@ -31,9 +31,8 @@
 
       .bordered.ui-container.midtone.rounded.mbm
 
-        - if @media_resources.count > 1
-          = render :partial => "media_resources/selection",
-                   :locals => {:media_resources => @media_resources.limit(100)}
+        = render :partial => "media_resources/selection",
+                 :locals => {:media_resources => @media_resources.limit(100)}
 
       .ui-container.bordered.midtone.rounded
 
@@ -56,7 +55,7 @@
                     Es sind mehr als 3 verschiedene Personen für diese Inhalte verantwortlich.
                 %td.ui-summary-content
                   %ul.ui-tag-cloud
-                    - @responsible_users.each do |user|
+                    - @responsible_users.sort.each do |user|
                       %li.ui-tag-button.person-tag= user 
               %tr
                 %td.ui-summary-label
@@ -72,7 +71,7 @@
                           .ui-tag-button=_(action)
 
 
-            .ui-container.bright.bordered.rounded-bottom.pal
+            .ui-container.bright.bordered.rounded.pal
               .ui-rights-management
                 .pth
                   .ui-preloader
