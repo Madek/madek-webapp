@@ -1,16 +1,16 @@
 %h1
-  %i.icon-user 
+  %i.fa.fa-user 
   #{@group}
 
-%ul.inline
+%ul.list-inline
   %li
     =link_to form_add_user_app_admin_group_path(@group), class: 'btn btn-success' do
-      %i.icon-plus-sign
+      %i.fa.fa-plus-sign
       Add user
 
   %li
     =link_to edit_app_admin_group_path(@group), class: "btn btn-warning" do
-      %i.icon-pencil
+      %i.fa.fa-pencil
       Edit
 
 
@@ -31,10 +31,10 @@
   Users
 
 .row
-  %div.span3
+  %div.col-md-3
 
     %h3 
-      %i.icon-filter
+      %i.fa.fa-filter
       Filters
 
     = form_tag app_admin_group_path(@group), method: 'GET' do
@@ -42,10 +42,10 @@
       %label 
         = text_field nil, :fuzzy_search, class: "search-query", value: params[:fuzzy_search] 
 
-      = button_tag type: 'submit', class: 'btn btn-small' do
+      = button_tag type: 'submit', class: 'btn btn-sm' do
         Filter
 
-  .span9
+  .col-md-9
 
 
     %table.table.table-striped.group-users

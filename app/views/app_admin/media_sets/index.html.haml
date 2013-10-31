@@ -1,14 +1,14 @@
 %h1.text-center
-  %i.icon-media-sets
+  %i.fa.fa-media-sets
   Media Sets
 
 
 .row 
 
-  .span3
+  .col-md-3
 
     %h3 
-      %i.icon-filter
+      %i.fa.fa-filter
       Filters
 
     = form_tag app_admin_media_sets_path, method: 'GET' do
@@ -16,11 +16,11 @@
       %label 
         = text_field nil, :fuzzy_search, class: "search-query", value: params[:fuzzy_search] 
 
-      = button_tag type: 'submit', class: 'btn btn-small' do
+      = button_tag type: 'submit', class: 'btn btn-sm' do
         Filter
      
 
-  .span9
+  .col-md-9
 
     %table.table.table-striped
       %thead

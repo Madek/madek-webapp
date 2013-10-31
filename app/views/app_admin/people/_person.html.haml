@@ -12,24 +12,24 @@
         #{person.user.login}
   %td 
     - if person.meta_data.count > 0
-      = link_to form_transfer_meta_data_app_admin_person_path(person), class: "btn btn-mini transfer_meta_data_link" do
-        %i.icon-random
+      = link_to form_transfer_meta_data_app_admin_person_path(person), class: "btn btn-xs transfer_meta_data_link" do
+        %i.fa.fa-random
         transfer 
         %span.meta_data_count #{person.meta_data.count} 
         to ...
 
   %td
-    %ul.inline
+    %ul.list-inline
       %li 
-        = link_to app_admin_person_path(person), class: "btn btn-mini" do
-          %i.icon-eye-open
+        = link_to app_admin_person_path(person), class: "btn btn-xs" do
+          %i.fa.fa-eye-open
           Details
       %li
-        = link_to edit_app_admin_person_path(person), class: "btn btn-warning btn-mini" do
-          %i.icon-pencil
+        = link_to edit_app_admin_person_path(person), class: "btn btn-warning btn-xs" do
+          %i.fa.fa-pencil
           Edit
       %li
         - if !person.user  and (person.meta_data.count == 0)
-          = link_to app_admin_person_path(person), method: 'DELETE', class: "btn btn-danger btn-mini" do
-            %i.icon-trash
+          = link_to app_admin_person_path(person), method: 'DELETE', class: "btn btn-danger btn-xs" do
+            %i.fa.fa-trash
             Delete

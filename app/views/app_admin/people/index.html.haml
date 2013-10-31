@@ -1,13 +1,13 @@
 %h1.text-center
-  %i.icon-user
+  %i.fa.fa-user
   People
 
 .row
 
-  %div.span3
+  %div.col-md-3
 
     %h3 
-      %i.icon-filter
+      %i.fa.fa-filter
       Filters
 
     = form_tag app_admin_people_path, method: 'GET' do
@@ -23,10 +23,10 @@
         = check_box_tag "with_meta_data", 1, !params[:with_meta_data].blank? 
         With meta data
 
-      = button_tag type: 'submit', class: 'btn btn-small' do
+      = button_tag type: 'submit', class: 'btn btn-sm' do
         Filter
 
-  .span9
+  .col-md-9
     %table.table.table-striped
       %thead
         %tr

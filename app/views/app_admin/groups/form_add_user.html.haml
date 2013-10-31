@@ -2,12 +2,14 @@
 %h1 Add user
 
 
-= form_tag  add_user_app_admin_group_path(@group) , method: 'POST', class: "form-horizontal" do
+= form_tag  add_user_app_admin_group_path(@group) , method: 'POST', class: "form-horizontal", role: "form" do
 
-  .control-group
-    %label.control-label User id
-    .controls
-      =text_field nil, :user_id, type: 'number'
+  .form-group
+    %label.control-label.col-sm-1 User id
+    .col-sm-4
+      = text_field nil, :user_id, type: 'number', class: "form-control"
 
-  =button_tag type: 'submit', class: 'btn btn-success' do
-    Add user
+  .form-group
+    .col-sm-offset-1.col-sm-4
+      = button_tag type: 'submit', class: 'btn btn-success' do
+        Add user

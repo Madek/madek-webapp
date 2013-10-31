@@ -3,35 +3,37 @@
 
 
 
-= form_tag create_with_user_app_admin_users_path, method: 'POST', class: "form-horizontal" do
+= form_tag create_with_user_app_admin_users_path, method: 'POST', class: "form-horizontal", role: "form" do
 
   %fieldset.well 
     - [:last_name, :first_name].each do |field|
-      .control-group
-        %label.control-label=  field.to_s.capitalize.split("_").join(" ")
-        .controls
-          = text_field :person, field
+      .form-group
+        %label.control-label.col-sm-2=  field.to_s.capitalize.split("_").join(" ")
+        .col-sm-4
+          = text_field :person, field, class: "form-control"
 
   %fieldset.well
 
-    .control-group
-      %label.control-label Login
-      .controls
-        = text_field :user, :login, required: true
+    .form-group
+      %label.control-label.col-sm-2 Login
+      .col-sm-4
+        = text_field :user, :login, required: true, class: "form-control"
 
-    .control-group
-      %label.control-label E-mail
-      .controls
-        = text_field :user, :email, type: 'email', required: true
+    .form-group
+      %label.control-label.col-sm-2 E-mail
+      .col-sm-4
+        = text_field :user, :email, type: 'email', required: true, class: "form-control"
 
 
-    .control-group
-      %label.control-label Password
-      .controls
-        = text_field :user, :password, required: true
+    .form-group
+      %label.control-label.col-sm-2 Password
+      .col-sm-4
+        = text_field :user, :password, required: true, class: "form-control"
 
-  = button_tag type: 'submit', class: "btn btn-success" do
-    Create
+  .form-group
+    .col-sm-2
+      = button_tag type: 'submit', class: "btn btn-success" do
+        Create
 
 
 

@@ -16,8 +16,8 @@
         %td{data: {name: meta_context.name}}= meta_context.name
         %td= meta_context.position
         %td
-          =link_to remove_app_admin_media_set_individual_meta_context_path(media_set,meta_context), method: 'POST', class: "btn btn-warning btn-mini" do
-            %i.icon-minus-sign
+          =link_to remove_app_admin_media_set_individual_meta_context_path(media_set,meta_context), method: 'POST', class: "btn btn-warning btn-xs" do
+            %i.fa.fa-minus-sign
             Remove
 
 %h2 Other meta-contexts
@@ -34,6 +34,6 @@
         %td= meta_context.name
         %td= meta_context.position
         %td
-          =link_to add_app_admin_media_set_individual_meta_context_path(media_set,meta_context), method: 'POST', class: "btn btn-warning btn-mini" do
-            %i.icon-plus-sign
+          =link_to add_app_admin_media_set_individual_meta_context_path(media_set,meta_context), method: 'POST', class: "btn btn-warning btn-xs" do
+            %i.fa.fa-plus-sign
             Add

@@ -4,14 +4,15 @@
 %p Transfer all meta data associated with this person to an other person.
 
 
-= form_tag transfer_meta_data_app_admin_person_path(@person.id), method: 'POST', class: "form-horizontal" do
+= form_tag transfer_meta_data_app_admin_person_path(@person.id), method: 'POST', class: "form-horizontal", role: "form" do
 
-  .control-group
-    %label.control-label Id of the receiving person:
-    .controls
-      = text_field nil, :id_receiver, type: 'number', id: "id_receiver"
+  .form-group
+    %label.control-label.col-sm-3 Id of the receiving person:
+    .col-sm-4
+      = text_field nil, :id_receiver, type: 'number', id: "id_receiver", class: "form-control"
 
-
-  = button_tag type: 'submit', class: 'btn btn-warning' do
-    Transfer
+  .form-group
+    .col-sm-offset-3.col-sm-4
+      = button_tag type: 'submit', class: 'btn btn-warning' do
+        Transfer
 

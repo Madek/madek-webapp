@@ -6,11 +6,11 @@
       = link_to media_entry_path(media_file.media_entry) do
         = media_entry_path(media_file.media_entry)
     - else
-      .text-error
+      .text-danger
         no media entry exists
   %td= media_file.created_at
   %td
-    = link_to app_admin_media_file_path(media_file) , class: 'btn btn-mini' do
-      %i.icon-eye-open
+    = link_to app_admin_media_file_path(media_file) , class: 'btn btn-xs' do
+      %i.fa.fa-eye-open
       Details
 

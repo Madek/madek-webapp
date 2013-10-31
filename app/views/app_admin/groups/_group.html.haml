@@ -8,13 +8,13 @@
     #{group.users.count}
 
   %td
-    %ul.inline
+    %ul.list-inline
       %li 
-        = link_to app_admin_group_path(group), class: "btn btn-mini" do
-          %i.icon-eye-open
+        = link_to app_admin_group_path(group), class: "btn btn-xs" do
+          %i.fa.fa-eye-open
           Details
       %li
-        = link_to edit_app_admin_group_path(group), class: "btn btn-warning btn-mini" do
-          %i.icon-pencil
+        = link_to edit_app_admin_group_path(group), class: "btn btn-warning btn-xs" do
+          %i.fa.fa-pencil
           Edit
 

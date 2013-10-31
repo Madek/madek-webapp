@@ -1,30 +1,31 @@
-%h1 
-  Edit Person #{@person}
+%h1 Edit Person #{@person}
 
-  = form_for @person, url: app_admin_person_path(@person) , method: "PUT", html: {class: "form-horizontal"} do |f|
+= form_for @person, url: app_admin_person_path(@person) , method: "PUT", html: {class: "form-horizontal", role: "form"} do |f|
 
-    %fieldset.well
-      - [:last_name, :first_name, :pseudonym].each do |field|
-        .control-group
-          %label.control-label=  field.to_s.capitalize.split("_").join(" ")
-          .controls
-            = f.text_field field
+  %fieldset.well
+    - [:last_name, :first_name, :pseudonym].each do |field|
+      .form-group
+        %label.control-label.col-sm-2=  field.to_s.capitalize.split("_").join(" ")
+        .col-sm-4
+          = f.text_field field, class: "form-control"
 
-    %fieldset.well
-      .control-group
-        %label.control-label Is group
-        .controls
-          = f.check_box :is_group 
+  %fieldset.well
+    .form-group
+      .col-sm-offset-2.col-sm-4
+        .checkbox
+          %label
+            = f.check_box :is_group
+            Is group
 
 
-    %fieldset.well
-      - [:date_of_birth, :date_of_death].each do |field|
-        .control-group
-          %label.control-label=  field.to_s.capitalize.split("_").join(" ")
-          .controls
-            = text_field :person, field, type: 'date', value: @person[field]
+  %fieldset.well
+    - [:date_of_birth, :date_of_death].each do |field|
+      .form-group
+        %label.control-label.col-sm-2=  field.to_s.capitalize.split("_").join(" ")
+        .col-sm-4
+          = text_field :person, field, type: 'date', value: @person[field], class: "form-control"
 
-    = button_tag type: 'submit', class: "btn btn-success" do
-      Save
+  = button_tag type: 'submit', class: "btn btn-success" do
+    Save
 
 

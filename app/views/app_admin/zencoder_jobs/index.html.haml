@@ -1,14 +1,14 @@
 %h1.text-center
-  %i.icon-film
+  %i.fa.fa-film
   ZencoderJobs
   
 
 .row
 
-  %div.span3
+  %div.col-md-3
 
     %h3 
-      %i.icon-filter
+      %i.fa.fa-filter
       Filters
 
     = form_tag app_admin_zencoder_jobs_path, method: 'GET' do
@@ -16,10 +16,10 @@
       %label 
         = text_field nil, :fuzzy_search, class: "search-query", value: params[:fuzzy_search] 
 
-      = button_tag type: 'submit', class: 'btn btn-small' do
+      = button_tag type: 'submit', class: 'btn btn-sm' do
         Filter
 
-  .span9
+  .col-md-9
 
     = render partial: 'zencoder_jobs_table'
  

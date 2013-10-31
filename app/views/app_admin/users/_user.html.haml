@@ -6,15 +6,15 @@
     =link_to app_admin_person_path(user.person) do 
       #{user.person}
   %td
-    %ul.inline
+    %ul.list-inline
 
       %li
-        =link_to app_admin_user_path(user), class: "btn btn-mini" do
-          %i.icon-eye-open
+        =link_to app_admin_user_path(user), class: "btn btn-xs" do
+          %i.fa.fa-eye-open
           Details
 
 
       %li
-        = link_to switch_to_app_admin_user_path(user), method: 'POST', class: "btn btn-mini btn-warning" do
+        = link_to switch_to_app_admin_user_path(user), method: 'POST', class: "btn btn-xs btn-warning" do
           Switch to
 

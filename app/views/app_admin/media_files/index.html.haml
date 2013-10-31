@@ -1,14 +1,14 @@
 %h1.text-center
-  %i.icon-file
+  %i.fa.fa-file
   MediaFiles
 
 
 .row 
 
-  %div.span3
+  %div.col-md-3
 
     %h3 
-      %i.icon-filter
+      %i.fa.fa-filter
       Filters
 
     = form_tag app_admin_media_files_path, method: 'GET' do
@@ -25,12 +25,12 @@
         = check_box_tag "incomplete_encoded_videos", 1, !params[:incomplete_encoded_videos].blank? 
         Incomplete encoded videos
 
-      = button_tag type: 'submit', class: 'btn btn-small' do
+      = button_tag type: 'submit', class: 'btn btn-sm' do
         Filter
      
 
 
-  .span9
+  .col-md-9
 
     %table.table.table-striped
       %thead

@@ -1,5 +1,5 @@
 %h2 
-  %i.icon-file
+  %i.fa.fa-file
   MediaFile
   = @media_file.id
 
@@ -8,7 +8,7 @@
     = link_to media_entry_path(@media_file.media_entry) do
       = media_entry_path(@media_file.media_entry)
 -else 
-  %p.text-error
+  %p.text-danger
     This MediaFile is not related to a MediaEntry. 
 
 %table.table.table-striped
@@ -22,7 +22,7 @@
         %td
           - link = "https://app.zencoder.com/jobs/#{value}"
           %a{href: link}
-            %i.icon-link
+            %i.fa.fa-link
             = link
         
       - else
@@ -42,7 +42,7 @@
 %h3 
   Previews
 
-%ul.inline
+%ul.list-inline
   %li
     = link_to  recreate_thumbnails_app_admin_media_file_path(@media_file),  class: "btn btn-warning", method: 'post' do
       Recreate Thumbnails
