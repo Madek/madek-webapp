@@ -1,6 +1,6 @@
 .ui-header-user
   .dropdown.ui-dropdown.stick-right
-    %a.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
+    %a#user-action-button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
       = current_user.fullname
       %i.icon-arrow-down.bright.stand-alone
     %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
@@ -32,7 +32,7 @@
               %i.icon-admin.ui-drop-icon
               = _("Exit admin mode")
           - else
-            = link_to app_admin_enter_uberadmin_path, method: 'POST', class: 'strong' do
+            = link_to app_admin_enter_uberadmin_path, id: "switch-to-uberadmin", method: 'POST', class: 'strong' do
               %i.icon-admin.ui-drop-icon
               = _("Switch to admin mode")
       %li.ui-drop-item

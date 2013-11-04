@@ -65,6 +65,12 @@ Then /^I open the edit-permissions page/ do
   find("a#edit_permissions_of_resource").click
 end
 
+Then /^I open the transfer responsibility page for this resource$/ do
+  find("#resource-action-button").click
+  find("#transfer_responsibility_of_resource").click
+end
+
+
 Then /^I open the view-permissions page/ do
   find(".primary-button",text: "Weitere Aktionen").click
   find("a#view_permissions_of_resource").click

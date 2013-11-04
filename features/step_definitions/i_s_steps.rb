@@ -62,4 +62,7 @@ Then /^I switch to (.*?) view$/ do |vismode|
   find("[data-vis-mode='#{vismode}']").click
 end
 
-
+Given(/^I switch to uberadmin modus$/) do
+  find("#user-action-button").click
+  find("a#switch-to-uberadmin").click
+end

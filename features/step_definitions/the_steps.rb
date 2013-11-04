@@ -167,6 +167,10 @@ Then /^the number or resources is equal to the remembered number of resources$/ 
 end
 
 ### 
+
+Then /^The owner of the media_resource is "(.*?)"$/  do |login|
+  expect(@media_resource.reload.user).to be== User.find_by_login(login.downcase)
+end
  
 Then /^the origin person has not meta_data to transfer$/ do
   expect{find("tr#person_#{@person_with_meta_data.id} .meta_data_count")}.to raise_error

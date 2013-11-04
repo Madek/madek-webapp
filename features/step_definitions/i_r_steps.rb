@@ -18,9 +18,16 @@ Then /^I remove all members of a specific group except myself$/ do
   step 'I click the primary action of this dialog'
 end
 
+Then /^I remember the count for the filter "(.*?)"$/ do |filter|
+  @count= find("li.resources_filter",text: filter).find(".resources_count").text.to_i
+end
 
 Then /^I remember the number of ZencoderJobs$/ do
   @zencoder_jobs_number = all("table.zencoder-jobs tbody tr").size rescue 0
+end
+
+Then /^I remember the number of resources$/ do
+  @resources_counter = find("#resources_counter").text.to_i
 end
 
 Then /^I remember the last imported media_entry with media_file and the actual file$/ do
@@ -29,12 +36,8 @@ Then /^I remember the last imported media_entry with media_file and the actual f
   @file = @media_file.file_storage_location
 end
 
-Then /^I remember the number of resources$/ do
-  @resources_counter = find("#resources_counter").text.to_i
-end
-
-Then /^I remember the count for the filter "(.*?)"$/ do |filter|
-  @count= find("li.resources_filter",text: filter).find(".resources_count").text.to_i
+Given(/^I remember this media_resource$/) do
+  @resource = @media_resource= MediaResource.find current_path.match(/\/(\w+)$/)[1].to_i
 end
 
 Then /^I remove a set A from a set B from which set A is inheriting a context$/ do
@@ -59,4 +62,10 @@ Then /^I remove all permissions from my first media_entry$/ do
   @my_first_media_entry = @me.media_entries.reorder("created_at ASC").first
   @my_first_media_entry.userpermissions.clear
   @my_first_media_entry.grouppermissions.clear
+end
+
+Given(/^I remove all permissions from "(.*?)"\\'s first media_entry$/) do |login|
+  @media_entry = User.find_by_login(login).media_entries.reorder("created_at ASC").first
+  @media_entry.userpermissions.clear
+  @media_entry.grouppermissions.clear
 end

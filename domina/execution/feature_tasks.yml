@@ -123,6 +123,10 @@
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/showing_media_resources.feature"
+- name: transfer_responsibility
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/transfer_responsibility.feature"
 - name: uberadmin
   scripts:
     cucumber:

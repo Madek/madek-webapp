@@ -439,6 +439,26 @@ Then /^I click on the "([^\"]*?)" permission for "([^\"]*?)"$/ do |permission, u
   find("tr[data-name='#{user}'] input[name='#{permission}']").click
 end
 
+
+When(/^I click on the "(.*?)" permission until it is "(.*?)"$/) do |permission, pvalue|
+  input_element = find("input[name='userpermission[#{permission}]']")
+
+  begin
+    input_element.click
+    done = 
+      case pvalue
+      when "false"
+        not input_element.checked?
+      when "true"
+        input_element.checked?
+      else
+        raise "you should never gotten here"
+      end
+  end while not done
+
+end
+
+
 When /^I click on the "([^\"]*?)" permission for "([^\"]*?)" until it is "([^\"]*?)"$/ do |permission, user_login, pvalue|
   user = User.find_by_login user_login
   td_element = find("tr[data-name='#{user.to_s}']  td.ui-rights-check.#{permission}")

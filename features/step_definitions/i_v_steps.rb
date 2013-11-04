@@ -31,6 +31,10 @@ Then /^I visit the path of my first media entry$/ do
   visit media_resource_path @me.media_entries.reorder("created_at ASC").first
 end
 
+Given(/^I visit the path of "(.*?)"\\'s first media entry$/) do |login|
+  visit media_resource_path User.find_by_login(login.downcase).media_entries.reorder("created_at ASC").first
+end
+
 Then /^I visit the edit path of the resource$/ do
   visit edit_media_resource_path @resource
 end

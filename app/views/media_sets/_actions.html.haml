@@ -4,7 +4,7 @@
     = render :partial => "media_resources/actions/favor_toggle", :locals => {mr: @media_set}
 
     .dropdown.ui-dropdown.stick-right
-      %a.primary-button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
+      %a#resource-action-button.primary-button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
         = _("Further actions")
         %i.icon-arrow-down.bright.stand-alone
       %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
