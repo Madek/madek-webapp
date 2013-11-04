@@ -176,6 +176,8 @@ class PermissionsController < ApplicationController
   end
 
   def edit
+    @action = params['_action'].to_sym
+
 
     @all_media_resources= if params[:media_resource_id] # the case where we edit one 
                             MediaResource.where(id: params[:media_resource_id])
@@ -186,9 +188,15 @@ class PermissionsController < ApplicationController
                             raise "neither media_resource_id no collection_id given"
                           end
 
+    @viewable_media_resources = @all_media_resources.accessible_by_user(current_user,:view)
+
+
+    if @all_media_resources.count == 0 or @viewable_media_resources.count < @all_media_resources.count   
+      redirect_to my_dashboard_path, flash: {error: "You are not allowed to view all of the selected resources."}
+    end
+
     @manageable_media_resources = @all_media_resources.accessible_by_user(current_user,:manage)
 
-    @action = params['_action'].to_sym
     @media_resources= case @action
                       when :edit 
                         @manageable_media_resources
