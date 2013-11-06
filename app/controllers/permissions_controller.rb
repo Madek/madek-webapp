@@ -104,8 +104,13 @@ class PermissionsController < ApplicationController
   #
   def update(groups = Array(params[:groups].is_a?(Hash) ? params[:groups].values : params[:groups]),
              users = Array(params[:users].is_a?(Hash) ? params[:users].values : params[:users]),
-             media_resource_ids = Array(params[:media_resource_ids].is_a?(Hash) ? params[:media_resource_ids].values : params[:media_resource_ids]),
+             _media_resource_ids = Array(params[:media_resource_ids].is_a?(Hash) ? params[:media_resource_ids].values : params[:media_resource_ids]),
              public_permission= params[:public])
+
+
+    # filter the resources which the current user may manage 
+    media_resource_ids = MediaResource.where(%[ id in (#{_media_resource_ids.join(", ")})]) \
+      .accessible_by_user(current_user,:manage).pluck(:id)
     
     require 'set'
 

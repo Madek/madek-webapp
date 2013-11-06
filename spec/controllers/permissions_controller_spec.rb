@@ -96,12 +96,35 @@ describe PermissionsController do
       before :each do
         Userpermission.create user: @user_b, media_resource: @mr1
       end
-      it "should update a uerspermission " do
+      it "should update a userpermission " do
         Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_b.id).size.should == 1
         Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_b.id).first.view.should == false
         put :update, {format: 'json',media_resource_ids: [@mr1.id],users: [{id: @user_b.id, view: true, download: nil, manage:""}]}, {user_id: @user_a.id}
         Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_b.id).size.should == 1
         Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_b.id).first.view.should == true
+      end
+    end
+
+    describe "updating a userpermission of a resourche that is not manageable by the cuurent user" do
+
+      before :each do
+        Userpermission.create user: @user_b, media_resource: @mr1, view: true, download: true
+        @mr1.update_attributes! user: @user_a
+      end
+
+      it "should not update the userpermission" do
+        Userpermission.where("media_resource_id = ?",@mr1.id) \
+          .where("user_id = ?",@user_b.id).size.should == 1
+        Userpermission.where("media_resource_id = ?",@mr1.id) \
+          .where("user_id = ?",@user_b.id).first.download.should == true
+        put :update, {format: 'json', \
+          media_resource_ids: [@mr1.id], \
+          users: [{id: @user_b.id, download: false}]}, \
+          {user_id: @user_a.id}
+        Userpermission.where("media_resource_id = ?",@mr1.id) \
+          .where("user_id = ?",@user_b.id).size.should == 1
+        Userpermission.where("media_resource_id = ?",@mr1.id) \
+          .where("user_id = ?",@user_b.id).first.download.should == false
       end
     end
 
