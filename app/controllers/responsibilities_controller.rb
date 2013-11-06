@@ -28,8 +28,8 @@ class ResponsibilitiesController < ApplicationController
     flash_message= 
       begin
         login_rex= /\[(.*)\]\s*$/
-        login= login_rex.match(params[:user])[1]
-        new_user = User.where(login: login).first or raise "Could not find user by login: #{login}"
+        login= login_rex.match(params[:user])[1] rescue nil
+        new_user = User.find_by_login(login) or raise "Could not find target user"
         if not params[:media_resource_id].blank? # the case where we edit one 
           init_single
         elsif params[:collection_id]
@@ -56,7 +56,12 @@ class ResponsibilitiesController < ApplicationController
         {error: e.to_s}
       end
 
-    redirect_to @back_link, flash: flash_message
+
+    if @back_link 
+      redirect_to @back_link, flash: flash_message
+    else
+      redirect_to my_dashboard_path, flash: flash_message
+    end
   end
 
 end

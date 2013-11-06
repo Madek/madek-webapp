@@ -202,13 +202,24 @@ class PermissionsController < ApplicationController
 
     @manageable_media_resources = @all_media_resources.accessible_by_user(current_user,:manage)
 
+
+    # redirect away under circumstances 
+    if @all_media_resources.count == 0
+      redirect_to my_dashboard_path, flash: {error: "The collection is empty."}
+    end
+    if @viewable_media_resources.count < @all_media_resources.count   
+      redirect_to my_dashboard_path, flash: {error: "You are not allowed to view all of the selected resources."}
+    end
+    if @action == :edit and @manageable_media_resources.count == 0
+      redirect_to my_dashboard_path, flash: {error: "You are not allowed to manage any of the selected resources."}
+    end
+
     @media_resources= case @action
                       when :edit 
                         @manageable_media_resources
                       when :view
-                        @all_media_resources
+                        @viewable_media_resources
                       end
-
 
     @save_link = case @action
                  when :edit
@@ -227,6 +238,7 @@ class PermissionsController < ApplicationController
 
 
     @responsible_users =responsible_users(@media_resources)
+
     @data = {
       media_resource_id:  params[:media_resource_id],
       collection_id: params[:collection_id],

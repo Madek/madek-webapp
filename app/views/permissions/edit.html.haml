@@ -47,6 +47,8 @@
               %tr
                 %td.ui-summary-label
                   - case @responsible_users.count 
+                  - when 0
+                    Keine verantwortliche Person!
                   - when 1..1
                     Verantwortliche Person: 
                   - when 2..3
@@ -55,8 +57,9 @@
                     Es sind mehr als 3 verschiedene Personen für diese Inhalte verantwortlich.
                 %td.ui-summary-content
                   %ul.ui-tag-cloud
-                    - @responsible_users.sort.each do |user|
-                      %li.ui-tag-button.person-tag= user 
+                    - if @responsible_users.count <= 3
+                      - @responsible_users.sort.each do |user|
+                        %li.ui-tag-button.person-tag= user 
               %tr
                 %td.ui-summary-label
                   Sie, 
