@@ -35,11 +35,12 @@ Feature: Edit the permissions through batch-edit
     And I wait for the clipboard to be fully open
     Then I can see the resource1 in the clipboard 
     And I can see the resource2 in the clipboard 
-    When I click on the link "Aktionen" in the clipboard 
-    And I click on the link "Berechtigungen der verwaltbaren Inhalte editieren"
+    When I click on the link with the id "clipboard-actions"
+    And I click on the link with the id "view-clipboard-permissions"
+    And I click on the link with the id "edit-permissions" 
     Then I can see a from for editing permissions
 
-  @jsbrowser
+  @jsbrowser @wip
   Scenario: Looking at the permission properties 
     Then I can see the following permissions-state:
       | user      | permission | state |

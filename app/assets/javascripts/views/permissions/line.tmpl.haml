@@ -4,14 +4,11 @@
     {{if $item.manageable}}
     %a.button.small.ui-rights-remove{:href => "#", :title => "Berechtigung entfernen"} ×
     {{/if}}
-    
 
     %span.text{:title => "${name}"}
       %i.current-user-icon.icon-privacy-private
       {{if $item.public}}
-      %h4.title-s
-        ${_jed('Public')}
-        %i.icon-privacy-open
+      ${_jed('Internet')}
       {{else}}
       ${name}
       {{/if}}
@@ -19,7 +16,7 @@
   %td.ui-rights-role
 
     %div{:class => "ui-custom-select small{{if $item.manageable == false}} disabled{{/if}}"}
-      %span.ui-custom-select-text 
+      %span.ui-custom-select-text
         {{if App.PermissionPreset.match($item.data, $item.presets)}}
         ${App.PermissionPreset.match($item.data, $item.presets).name}
         {{else}}
@@ -27,7 +24,7 @@
         {{/if}}
       {{if $item.manageable == true}}
       %i.icon-arrow-down.small
-      %select.ui-rights-role-select 
+      %select.ui-rights-role-select
         {{each(i, preset) $item.presets}}
         {{if App.PermissionPreset.match($item.data, [preset])}}
         %option{:selected => :selected, :value => "${preset.name}", :"data-preset" => "${JSON.stringify(preset)}"}= "${preset.name}"
@@ -46,5 +43,5 @@
   {{tmpl({permission: download, label: "Download Original", name: "download"}, {manageable: $item.manageable}) App.renderPath("permissions/line/right-check")}}
 
   {{tmpl({permission: edit, label: "Editieren", name: "edit"}, {manageable: $item.manageable}) App.renderPath("permissions/line/right-check")}}
-  
+
   {{tmpl({permission: manage, label: "Berechtigung verwalten", name: "manage"}, {manageable: $item.manageable}) App.renderPath("permissions/line/right-check")}}

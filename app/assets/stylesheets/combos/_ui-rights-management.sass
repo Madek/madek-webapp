@@ -1,7 +1,7 @@
 /**
  * ## Rights management table `.ui-rights-management`
  *
- * Styleguide 7.12
+ * Styleguide 7.12 */
 
 .ui-rights-management
 
@@ -21,32 +21,38 @@
 // Group Titles
 
 .ui-rights-user-title,
+.ui-rights-user
+  width: 50%
+
+.ui-rights-user-title
+  font-size: $font-m
+
 .ui-rights-role-title,
 .ui-rights-check-title
   font-size: $font-xs
 
 .ui-rights-check-title,
-.ui-rights-check,
-.ui-rights-owner-title,
-.ui-rights-owner,
-.ui-rights-role-title
-  +dimension(80px, auto)
+.ui-rights-check
+  +dimension(10%, auto)
   line-height: $line-height-s
   text-align: center
+  font-size: $font-xs
 
-.ui-rights-owner-title,
-.ui-rights-owner
-  padding-right: $space-m
+.ui-rigths-check label
+  margin-left: $space-m
+  display: inline-block
 
 // Role column
 
 .ui-rights-role-title,
 .ui-rights-role
+  +dimension(10%, auto)
   line-height: $line-height-s
-  width: 160px
 
-.ui-rights-role-select
-  +dimension(160px, auto)
+.ui-rights-role-select,
+.ui-rights-role .ui-custom-select
+  +dimension(100%, auto)
+  margin-bottom: 0
 
 // User column
 
@@ -60,9 +66,18 @@
 // Remove button
 
 .ui-rights-remove
-  margin: 0 $space-s 0 0
+  margin: 0 $space-x 0 0
   +float-left
   display: inline-block
+
+.ui-rights-add
+  display: inline-block
+  font-size: $font-s
+  font-weight: bold
+  margin-top: $space-x
+
+.ui-rights-add-input
+  margin-top: $space-x
 
 // Limitations for showing remove button
 
@@ -74,8 +89,6 @@
 
 .ui-rights-management-groups,
 .ui-rights-management-public
-  .ui-rights-owner input
-    display: none
   .ui-rights-check input[name='manage']
     display: none
 
@@ -138,17 +151,8 @@
 
 .ui-rights-check-label
   display: inline-block
-  padding: 2px 1px 2px 0
-  width: 26px
   &.mixed:not(.overwrite)
-    background-color: lighten($yellow, 50%)
-    border: 1px solid $yellow
-    padding-top: 1px
-    padding-bottom: 1px
-    +border-radius($border-radius-s)
     input
-      +box-shadow(0 0 5px $yellow)
-      border-color: $yellow
 
 // mixed indicator
 
@@ -156,20 +160,19 @@
   position: relative
   .ui-right-mixed-values
     pointer-events: none
-    height: 10px
-    left: 9px
+    left: 4px
     position: absolute
-    top: 5px
+    top: 4px
     width: 10px
     i
       background: black
-      +border-radius(2px)
+      +border-radius(3px)
       display: inline-block
       height: 2px
-      left: 1px
+      left: 0
       position: absolute
       top: 4px
-      width: 7px
+      width: 8px
 
 // disabled ui-rights-check
 
@@ -183,3 +186,11 @@
   tr[data-is-current-user="true"],tr[data-is-current-user-group="true"]
     .current-user-icon
       display: inline-block
+
+// Compact Rights Management Variation
+
+.ui-rights-management.compact
+  .ui-rights-role
+    width: 30%
+  .ui-rights-check
+    width: auto

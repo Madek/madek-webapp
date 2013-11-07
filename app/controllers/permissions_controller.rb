@@ -231,9 +231,19 @@ class PermissionsController < ApplicationController
                  end
 
     @back_link= if params[:media_resource_id]
-                  view_context.media_resource_path(@all_media_resources.first)
+                  case @action
+                  when :view 
+                    view_context.my_dashboard_path
+                  when :edit 
+                    view_context.edit_permissions_path(_action: 'view', media_resource_id: params[:media_resource_id])
+                  end
                 elsif params[:collection_id]
-                  view_context.my_dashboard_path
+                  case @action
+                  when :view 
+                    view_context.my_dashboard_path
+                  when :edit 
+                     view_context.edit_permissions_path(_action: "view",collection_id: params[:collection_id])
+                  end
                 end
 
 

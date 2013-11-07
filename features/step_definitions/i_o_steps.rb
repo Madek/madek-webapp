@@ -61,13 +61,15 @@ Then /^I open the dropbox informations dialog$/ do
 end
 
 Then /^I open the edit-permissions page/ do
-  find(".primary-button",text: "Weitere Aktionen").click
-  find("a#edit_permissions_of_resource").click
+  find("#resource-action-button").click
+  find("#view_permissions_of_resource").click
+  find("#edit-permissions").click
 end
 
 Then /^I open the transfer responsibility page for this resource$/ do
   find("#resource-action-button").click
-  find("#transfer_responsibility_of_resource").click
+  find("#view_permissions_of_resource").click
+  find("#transfer-responsibilities").click
 end
 
 

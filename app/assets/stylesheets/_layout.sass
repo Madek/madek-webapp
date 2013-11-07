@@ -13,6 +13,18 @@ body
   padding: $space-m $space-m 80px $space-m
   position: relative
 
+// Force scrollbars in webkit
+
+::-webkit-scrollbar
+  -webkit-appearance: none
+  height: 7px
+  width: 7px
+
+::-webkit-scrollbar-thumb
+  border-radius: 100px
+  background-color: rgba(0,0,0,.5)
+  -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5)
+
 /**
  *  FOOTER
  *-----------------------------------------

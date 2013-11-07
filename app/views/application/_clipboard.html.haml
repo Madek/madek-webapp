@@ -16,7 +16,7 @@
       .col1of6
         .ui-clipboard-actions
           .ui-dropup.dropup.stick-right
-            %a.primary-button.block.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
+            =link_to "#", id: "clipboard-actions", data:{toggle: 'dropdown'}, class: "primary-button block dropdown-toggle ui-drop-toggle" do
               = _("Actions")
               %i.icon-arrow-up.bright.stand-alone
             %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
@@ -28,14 +28,6 @@
                 =link_to edit_permissions_path(_action: "view"), id: "view-clipboard-permissions",data: {manageable: false} do
                   %i.icon-lock.mid
                   = "Berechtigungen aller Inhalte anzeigen"
-              %li.ui-drop-item
-                =link_to edit_permissions_path(_action: "edit"), id: "edit-clipboard-permissions",data: {manageable: true} do
-                  %i.icon-lock.mid
-                  = "Berechtigungen der verwaltbaren Inhalte editieren"
-              %li.ui-drop-item
-                =link_to edit_responsibilities_path, id: "transfer-responsibilities" do
-                  %i.icon-lock.mid
-                  = "Verantwortlichkeit übertragen"
               %li.ui-drop-item.ui-clipboard-edit-button
                 %a{:href => edit_multiple_media_entries_path}
                   %i.icon-pen.mid

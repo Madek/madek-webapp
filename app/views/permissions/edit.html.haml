@@ -7,24 +7,26 @@
     .app-body-title
       .ui-body-title
         .ui-body-title-label
-          %h1.title-xl 
+          %h1.title-xl
 
             - if @media_resources.count == 1
-              Berechtigungen für "#{@media_resources.first.title}" 
+              Berechtigungen für "#{@media_resources.first.title}"
 
             - else
-              Berechtigungen für #{@media_resources.count} 
+              Berechtigungen für #{@media_resources.count}
               - if @media_resources.count != @all_media_resources.count
-                aus #{@all_media_resources.count} 
+                aus #{@all_media_resources.count}
               Inhalte
 
-            - case @action
-            - when :edit
-              bearbeiten
-            - when :view 
-              betrachten
-
-
+        - case @action
+        - when :edit
+          / bearbeiten
+        - when :view
+          .ui-body-title-actions
+            =link_to edit_responsibilities_path(params.slice(:media_resource_id,:collection_id).merge({_action: "edit"})), id: "transfer-responsibilities", class: "button" do
+              Verantwortlichkeit übertragen
+            =link_to edit_permissions_path(params.slice(:media_resource_id,:collection_id).merge({_action: "edit"})), id: "edit-permissions",data: {manageable: true}, class: "primary-button" do
+              Berechtigungen editieren
 
 
     .app-body-ui-container
@@ -34,59 +36,67 @@
         = render :partial => "media_resources/selection",
                  :locals => {:media_resources => @media_resources.limit(100)}
 
-      .ui-container.bordered.midtone.rounded
+      .ui-container.bright.bordered.rounded.pal
 
-        .pal
+        %form#ui-rights-management-import{data: @data}
 
-          %form#ui-rights-management-import{data: @data}
+          .row
+            .col1of2
+              .ui-info-box
+                - case @responsible_users.count
+                - when 0
+                  Keine verantwortliche Person!
+                - when 1..1
+                  %h2.title-l.ui-info-box-title Verantwortliche Person
+                  %p.ui-info-box-intro Die verantwortliche Person hat alle Berechtigungen zu den ausgewählten Inhalten und kann diese auch löschen.
+                - when 2..3
+                  %h2.title-l.ui-info-box-title Verantwortliche Personen
+                  %p.ui-info-box-intro Die verantwortliche Person hat alle Berechtigungen zu den ausgewählten Inhalten und kann diese auch löschen.
+                - else
+                  %h2.title-l.ui-info-box-title Es sind mehr als 3 verschiedene Personen für diese Inhalte verantwortlich.
+                %ul.inline
+                  - if @responsible_users.count <= 3
+                    - @responsible_users.sort.each do |user|
+                      - case @action
+                      - when :edit 
+                        %li.person-tag= user
+                      - when :view 
+                        %li 
+                          =link_to media_resources_path(search: user.person.fullname), class: "person-tag" do
+                            = user
+                        
 
-            %h3.title-l 
-              = _("Specify access and visibility:")
+            .col1of2
+              %h2.title-l.ui-info-box-title Ihre Berechtigungen
+              %p.ui-info-box-intro Sie, #{current_user}, haben gegenwärtig als Person oder als Mitglied einer Gruppe folgende Berechtigungen
+              %ul.inline.capitilize
+                - %w(view download edit manage).each do |action|
+                  - if @media_resources.accessible_by_user(current_user,action.to_sym).count == @media_resources.count
+                    %li
+                      =_(action)
 
-            %table.borderless
-              %tr
-                %td.ui-summary-label
-                  - case @responsible_users.count 
-                  - when 0
-                    Keine verantwortliche Person!
-                  - when 1..1
-                    Verantwortliche Person: 
-                  - when 2..3
-                    Verantwortliche Personen: 
-                  - else
-                    Es sind mehr als 3 verschiedene Personen für diese Inhalte verantwortlich.
-                %td.ui-summary-content
-                  %ul.ui-tag-cloud
-                    - if @responsible_users.count <= 3
-                      - @responsible_users.sort.each do |user|
-                        %li.ui-tag-button.person-tag= user 
-              %tr
-                %td.ui-summary-label
-                  Sie, 
-                  %b #{current_user}, 
-                  haben gegenwärtig folgende Berechtigungen: 
+          %hr.separator.light.mvl
 
-                %td.ui-summary-content
-                  %ul.ui-tag-cloud
-                    - %w(view download edit manage).each do |action|
-                      - if @media_resources.accessible_by_user(current_user,action.to_sym).count == @media_resources.count
-                        %li.ui-tag-cloud-item
-                          .ui-tag-button=_(action)
+          %h3.title-l.mbs Berechtigungen
 
+          .ui-rights-management
+            .pth
+              .ui-preloader
 
-            .ui-container.bright.bordered.rounded.pal
-              .ui-rights-management
-                .pth
-                  .ui-preloader
+          .ptl
+            .form-footer
+              .ui-actions
 
-              .ptl
-                .form-footer
-                  .ui-actions
-                    = link_to @back_link, class: "link weak", title: _("Cancel") do
-                      = _("Cancel")
-                    - if @data[:manageable]
-                      %button.primary-button.large{type: :submit, disabled: true}
-                        = _("Save")
+                - case @action
+                - when :edit
+                  = link_to @back_link, class: "link weak", title: _("Cancel") do
+                    = _("Cancel")
+                  - if @data[:manageable]
+                    %button.primary-button.large{type: :submit, disabled: true}
+                      = _("Save")
+                - when :view
+                  %a.link.weak Verantwortlichkeit übertragen
+                  %a.primary-button.large Berechtigungen editieren
 
   .app-footer-push
 = render :partial => "application/footer", :locals => {:clipboard => false}

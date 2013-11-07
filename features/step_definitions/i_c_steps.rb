@@ -536,8 +536,9 @@ Then /^I click on the link "([^\"]*?)"$/ do |link_text|
   find("a",text: link_text).click
 end 
 
-When(/^I click on the link "(.*?)" in the clipboard$/) do |text|
-  find(".ui-clipboard a",text: text).click
+
+When /^I click on the link with the id "(.*?)"$/  do |id|
+  find("##{id}").click
 end
 
 Then /^I click on the link "([\s\w]*?)" of the individual_meta_context "([\s\w]*?)"$/ do |link_text,individual_meta_context|
