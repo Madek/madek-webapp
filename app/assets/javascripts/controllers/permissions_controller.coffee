@@ -223,12 +223,11 @@ class PermissionsController
 
   switchPresetForElement: (line, preset)->
     if line.find(".ui-rights-check-label.mixed").length and not line.find(".ui-rights-check-label.mixed").hasClass "overwrite"
-      line.find(".ui-rights-role .ui-custom-select span").text "Gemischte Werte"
+      line.find(".ui-rights-role select option[data-mixed]").attr("selected",true)
     else if preset?
       line.find(".ui-rights-role option[value='#{preset.name}']").select().attr "selected", true
-      line.find(".ui-rights-role .ui-custom-select span").text preset.name
     else
-      line.find(".ui-rights-role .ui-custom-select span").text "Angepasst"
+      line.find(".ui-rights-role select option[data-custom]").attr("selected",true)
 
   setPresetFor: (line, preset)->
     if line.find(".ui-rights-check-label.mixed").length
@@ -273,7 +272,7 @@ class PermissionsController
     currentUserGroupIds = _.map(currentUser.groups, (group)-> group.id)
     _.each @permissions.groups , (g)-> g.isCurrentUserGroup = _.include(currentUserGroupIds,g.id)
     _.each @permissions.groups , (g)-> g.type = "grouppermission"
-    _.each @permissions.users, (g)-> g.isUserpermission = true
+    _.each @permissions.users, (up)-> up.isUserpermission = true; up.type = "userpermission" 
     users = @permissions.users
     _.each users, (u)-> u.isCurrentUser = (u.id is currentUser.id)
     data = 

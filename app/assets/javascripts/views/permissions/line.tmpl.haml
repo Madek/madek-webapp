@@ -15,27 +15,18 @@
 
   %td.ui-rights-role
 
-    %div{:class => "ui-custom-select small{{if $item.manageable == false}} disabled{{/if}}"}
-      %span.ui-custom-select-text
-        {{if App.PermissionPreset.match($item.data, $item.presets)}}
-        ${App.PermissionPreset.match($item.data, $item.presets).name}
-        {{else}}
-        ${_jed('Custom')}
-        {{/if}}
+    %div{:class => "small{{if $item.manageable == false}} disabled{{/if}}"}
       {{if $item.manageable == true}}
-      %i.icon-arrow-down.small
       %select.ui-rights-role-select
         {{each(i, preset) $item.presets}}
         {{if App.PermissionPreset.match($item.data, [preset])}}
         %option{:selected => :selected, :value => "${preset.name}", :"data-preset" => "${JSON.stringify(preset)}"}= "${preset.name}"
-        {{else $item.data.type == "userpermission" }}
-        %option{:value => "${preset.name}", :"data-preset" => "${JSON.stringify(preset)}"}= "${preset.name}"
-        {{else $item.data.type == "grouppermission" && preset.manage == false }}
-        %option{:value => "${preset.name}", :"data-preset" => "${JSON.stringify(preset)}"}= "${preset.name}"
-        {{else preset.manage == false}}
+        {{else}}
         %option{:value => "${preset.name}", :"data-preset" => "${JSON.stringify(preset)}"}= "${preset.name}"
         {{/if}}
         {{/each}}
+        %option{data: {mixed: true},disabled: :disabled} Gemischte Werte
+        %option{data: {custom: true},disabled: :disabled} Angepasste Werte
       {{/if}}
 
   {{tmpl({permission: view, label: "Betrachten", name: "view"}, {manageable: $item.manageable}) App.renderPath("permissions/line/right-check")}}
