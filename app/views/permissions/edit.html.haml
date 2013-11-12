@@ -38,7 +38,7 @@
 
       .ui-container.bright.bordered.rounded.pal
 
-        %form#ui-rights-management-import{data: @data}
+        %form#ui-rights-management{data: @data}
 
           .row
             .col1of2
@@ -95,8 +95,11 @@
                     %button.primary-button.large{type: :submit, disabled: true}
                       = _("Save")
                 - when :view
-                  %a.link.weak Verantwortlichkeit übertragen
-                  %a.primary-button.large Berechtigungen editieren
+                  - if @viewable_media_resources.count > 1 or @viewable_media_resources.count == 0
+                    %a.link.weak{href: my_dashboard_path}= _"My archive"
+                  - if @viewable_media_resources.count == 1
+                    %a.link.weak{href: media_resource_path(@viewable_media_resources.first)}= _"Current entry"
+
 
   .app-footer-push
 = render :partial => "application/footer", :locals => {:clipboard => false}
@@ -105,4 +108,4 @@
 
   jQuery ->
     new App.PermissionsController
-      inline: $("#ui-rights-management-import")
+      inline: $("#ui-rights-management")

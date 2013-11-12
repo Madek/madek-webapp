@@ -120,7 +120,7 @@ MAdeK::Application.routes.draw do
   resources :responsibilities, only: [] do
     collection do
       get :edit
-      put :update
+      post :transfer
     end
   end
 

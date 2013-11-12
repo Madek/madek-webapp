@@ -104,8 +104,8 @@ Then /^I can see "(.*?)"$/ do |text|
   expect(page).to have_content text
 end
 
-Then(/^I can see a from for editing permissions$/) do
-  find("form#ui-rights-management-import")
+Then(/^I can see a form for editing permissions$/) do
+  find("form#ui-rights-management")
 end
 
 Then (/^I can see a success message$/) do

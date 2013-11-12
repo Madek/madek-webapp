@@ -27,7 +27,7 @@
 
         .pal
 
-          =form_tag responsibilities_path, id: "responsibility" ,method: 'PUT' do
+          =form_tag transfer_responsibilities_path, id: "responsibility" ,method: 'POST' do
 
             =hidden_field_tag :media_resource_id, params[:media_resource_id]
             =hidden_field_tag :collection_id, params[:collection_id]
