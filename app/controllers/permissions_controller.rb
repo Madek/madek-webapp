@@ -151,7 +151,7 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
           uid= newup[:id].to_i
           up = Grouppermission.where("media_resource_id= ?",mr_id) \
             .where("group_id = ?",uid).first || (Grouppermission.new group_id: uid, media_resource_id: mr_id)
-          up.update_attributes! newup.select{|k,v| v.to_s == "true" || v.to_s == "false"}
+          up.update_attributes! newup.slice(:view,:download,:edit).select{|k,v| v.to_s == "true" || v.to_s == "false"}
         end
       end
 
@@ -159,7 +159,7 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
       if public_permission
         media_resource_ids.each do |mr_id|
           MediaResource.find(mr_id).update_attributes! \
-            public_permission.select{|k,v| v.to_s == "true" or  v.to_s == "false"}
+            public_permission.slice(:view,:download).select{|k,v| v.to_s == "true" or  v.to_s == "false"}
         end
       end
 
@@ -173,11 +173,6 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
       format.json { render :json => {} }
     end
 
-  end
-
-
-  def responsible_users media_resources_ar
-    User.where("id IN (#{media_resources_ar.select("user_id").to_sql})")
   end
 
 
