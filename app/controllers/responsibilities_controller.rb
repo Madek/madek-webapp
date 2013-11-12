@@ -22,7 +22,7 @@ class ResponsibilitiesController < AbstractPermissionsAndResponsibilitiesControl
       begin
         login_rex= /\[(.*)\]\s*$/
         login= login_rex.match(params[:user])[1] rescue nil
-        new_user = User.find_by_login(login) or raise "Could not find target user"
+        new_user = User.find_by_login(login) or raise "Sie haben keine Person ausgewaehlt. Die Verantwortlichkeit konnte nicht uebertragen werden."
 
   
         MediaResource.transaction do
@@ -37,7 +37,7 @@ class ResponsibilitiesController < AbstractPermissionsAndResponsibilitiesControl
           Userpermission.destroy_irrelevant
         end
 
-        {success: "The responsibility of the resources have been transfered."}
+        {success: "Sie haben erfolgreich einer anderen Person die Verantwortlichkeit fuer die ausgewaehlten Inhalte uebertragen."}
 
       rescue Exception => e
         {error: e.to_s}

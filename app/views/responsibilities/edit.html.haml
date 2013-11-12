@@ -13,8 +13,8 @@
             - else
               Verantwortlichkeit für #{@media_resources.count}
               - if @media_resources.count != @all_media_resources.count
-                aus #{@all_media_resources.count}
-              Inhalte übertragen
+                von #{@all_media_resources.count}
+              Inhalten übertragen
 
     .app-body-ui-container
 
@@ -36,7 +36,7 @@
               .ui-form-group.rowed.minimal
                 %fieldset
                   %label{for: "autocomplete_user", class: "form-label title-l mbs"}
-                    .title-l.pbm Verantwortung auf folgende Person übertragen
+                    .title-l.pbm Verantwortlichkeit auf folgende Person übertragen
                     -#=text_field_tag :user, nil, class: "block", placeholder: "Id des Benutzers"
                   .form-item
                     =text_field_tag :user, nil, class: "col1of2", placeholder: "Nachname, Vorname [login]"
@@ -45,7 +45,7 @@
                   .ui-rights-management.compact
                     .ui-rights-body
                       %table.ui-rights-group
-                        %caption Sie erhalten die folgende Zugriffsberechtigungen
+                        %caption Die vorherige verantwortliche Person erhält folgende Berechtigungen
                         %tbody
                           %td.ui-rights-role
                             -# TODO how to make custom select element work here?
