@@ -22,7 +22,9 @@ class AbstractPermissionsAndResponsibilitiesController < ApplicationController
 
 
     if @all_media_resources.count == 0 or @viewable_media_resources.count < @all_media_resources.count   
-      redirect_to my_dashboard_path, flash: {error: "You are not allowed to view all of the selected resources."}
+      redirect_to(my_dashboard_path, 
+                  flash: {error: "You are not allowed to view all of the selected resources."})
+      return 
     end
 
     @manageable_media_resources = @all_media_resources.accessible_by_user(current_user,:manage)
