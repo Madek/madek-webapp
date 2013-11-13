@@ -3,6 +3,7 @@ class ResponsibilitiesController < AbstractPermissionsAndResponsibilitiesControl
 
   def edit
     initilize_resources_and_more
+    @media_resources = @all_media_resources.accessible_by_user(current_user,:transfer)
   end
 
   def transfer
@@ -16,7 +17,7 @@ class ResponsibilitiesController < AbstractPermissionsAndResponsibilitiesControl
                             raise "neither media_resource_id no collection_id given"
                           end
 
-    @manageable_media_resources = @all_media_resources.accessible_by_user(current_user,:manage)
+    @transferableable_media_resources = @all_media_resources.accessible_by_user(current_user,:transfer)
 
     flash_message= 
       begin
@@ -27,7 +28,7 @@ class ResponsibilitiesController < AbstractPermissionsAndResponsibilitiesControl
   
         MediaResource.transaction do
           Userpermission.destroy_irrelevant
-          @manageable_media_resources.each do |media_resource|
+          @transferableable_media_resources.each do |media_resource|
             previous_user= media_resource.user
             media_resource.update_attributes! user_id: new_user.id
             # slice is a workaround against parameter injection, use strong parameters once we are in Rails4

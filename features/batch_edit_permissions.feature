@@ -40,7 +40,7 @@ Feature: Edit the permissions through batch-edit
     And I click on the link with the id "edit-permissions" 
     Then I can see a form for editing permissions
 
-  @jsbrowser @wip
+  @jsbrowser
   Scenario: Looking at the permission properties 
     Then I can see the following permissions-state:
       | user      | permission | state |
