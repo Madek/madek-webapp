@@ -69,9 +69,9 @@ class PermissionsController
 
   onSubmit: (e)=>
     do e.preventDefault
-    userPermissions = _.map @usersContainer.find("tr"), (line)=> @getPermissionDataFromLine $(line)
-    groupPermissions = _.map @groupsContainer.find("tr"), (line)=> @getPermissionDataFromLine $(line)
-    publicPermissions = _.map @publicPermissionsContainer.find("tr"), (line)=> @getPermissionDataFromLine $(line)
+    userPermissions = _.map @usersContainer.find("tbody tr"), (line)=> @getPermissionDataFromLine $(line)
+    groupPermissions = _.map @groupsContainer.find("tbody tr"), (line)=> @getPermissionDataFromLine $(line)
+    publicPermissions = _.map @publicPermissionsContainer.find("tbody tr"), (line)=> @getPermissionDataFromLine $(line)
     if @el.is ".ui-modal"
       do @el.remove 
     else

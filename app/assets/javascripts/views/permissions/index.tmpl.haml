@@ -1,67 +1,73 @@
 %div{:class => "ui-rights-management{{if $item.manageable == false}} unmanageable{{/if}}{{if public[0].view == true}} public-view{{/if}}{{if public[0].download == true}} public-download{{/if}}{{if public[0].edit == true}} public-edit{{/if}}"}
 
-
-  .mrx
-
-    %table.ui-rights-group.block.borderless
-
-      %thead
-        %tr
-          %td.ui-rights-user-title
-          %td.ui-rights-role-title  ${_jed('Permission')}
-          %td.ui-rights-check-title ${_jed('View')}
-          %td.ui-rights-check-title ${_jed('Download original')}
-          %td.ui-rights-check-title ${_jed('Edit')}
-          %td.ui-rights-check-title ${_jed('Edit permissions')}
-
-
   .ui-rights-management-users
-
-    %h4.title-s.mts.separated.mbx
-      ${_jed('People')}
-      %i.icon-privacy-private-alt
 
     .ui-rights-body
 
-      %table.ui-rights-group.bordered.block
-       
+      %table.ui-rights-group
+
+        %thead
+          %tr
+            %td.ui-rights-user-title
+              ${_jed('People')}
+              %i.icon-privacy-private-alt
+            %td.ui-rights-role-title  ${_jed('Permission')}
+            %td.ui-rights-check-title ${_jed('View')}
+            %td.ui-rights-check-title ${_jed('Download original')}
+            %td.ui-rights-check-title ${_jed('Edit')}
+            %td.ui-rights-check-title ${_jed('Edit permissions')}
+
         %tbody
           {{tmpl(users, {presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}
 
       {{if $item.manageable}}
       #addUser.ui-add-subject.ptx.row
-        .col1of2
+        .col1of3
           %input.small.block{name: 'user', type: 'text', placeholder:  "${_jed('Name of the person')}"}
       {{/if}}
 
-
   .ui-rights-management-groups
-
-    %h4.title-s.mts.separated.mbx
-      ${_jed('Groups')}
-      %i.icon-privacy-group-alt
 
     .ui-rights-body
 
-      %table.ui-rights-group.bordered.block
-       
+      %table.ui-rights-group
+
+        %thead
+          %tr
+            %td.ui-rights-user-title
+              ${_jed('Groups')}
+              %i.icon-privacy-group-alt
+            %td.ui-rights-role-title
+            %td.ui-rights-check-title
+            %td.ui-rights-check-title
+            %td.ui-rights-check-title
+            %td.ui-rights-check-title
+
         %tbody
           {{tmpl(groups, {presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}
 
       {{if $item.manageable}}
       #addGroup.ui-add-subject.ptx.row
-        .col1of2
+        .col1of3
           %input.small.block{type: :text, placeholder: "${_jed('Name of the group')}", name: 'group'}
       {{/if}}
 
-  .separator
 
-  .ui-rights-management-public.mtx
+  .ui-rights-management-public
 
-    .mrx
+    %table.ui-rights-group
 
-      %table.ui-rights-group.borderless.block
-       
+      %thead
+        %tr
+          %td.ui-rights-user-title
+            ${_jed('Public')}
+            %i.icon-privacy-open
+          %td.ui-rights-role-title
+          %td.ui-rights-check-title
+          %td.ui-rights-check-title
+          %td.ui-rights-check-title
+          %td.ui-rights-check-title
+
         %tbody
           {{tmpl(public, {public: true, presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}
     
