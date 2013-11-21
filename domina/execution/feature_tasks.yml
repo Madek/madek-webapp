@@ -1,4 +1,8 @@
 ---
+- name: admin_interface
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/admin_interface.feature"
 - name: admin_media_sets
   scripts:
     cucumber:
