@@ -38,21 +38,37 @@
   &:hover
     text-decoration: none
 
+.ui-featured-entry.filterset
+  .ui-featured-entry-filterset-flag
+    +position-top-right(0,0)
+    background: $brightest
+    display: block
+    height: 20px
+    width: 20px
+    i
+      font-size: 14px
+      color: $grey-mid
+      position: relative
+      top: 1px
+
 .ui-featured-entry-metadata
   +position-bottom-right(0, 0)
   +position-bottom-left(0, 0)
   background: $brightest
   overflow: hidden
+  margin-right: 10px
   padding: $space-s
   .ui-thumbnail-name,
   .ui-thumbnail-author
     height: $space-m
     white-space: nowrap
+    margin-right: 10px
+    overflow: hidden
     text-align: left
   &:after
     +background(linear-gradient(right, $brightest, rgba(255, 255, 255, 0)))
-    +dimension(20%, 100%)
-    +position-top-right(0, 0)
+    +dimension(30px, 100%)
+    +position-top-right(0, 20px)
     display: block
     content: " "
     z-index: 50
@@ -69,6 +85,20 @@
     opacity: $opacity-strong
     &:hover
       opacity: 1.0
+    a
+      color: $brightest
+      &:hover
+        text-decoration: none
+
+.ui-featured-entry-type
+  +position-top-right($space-s + 2px, 0)
+  z-index: 100
+  color: $grey-mid
+
+.ui-featured-entry-type
+  +position-top-right($space-s + 2px, 0)
+  z-index: 100
+  color: $grey-mid
 
 /**
  *  SMALL variation
@@ -103,13 +133,12 @@
     .ui-featured-entry-action
       display: inline-block
       margin: 0 2px
-    .ui-featured-action-delete
-      @extend .icon-trash-bright
-    .ui-featured-action-browse
-      @extend .icon-eye-bright
-    .ui-featured-action-edit
-      @extend .icon-pen-bright
+    .ui-featured-action-delete,
+    .ui-featured-action-browse,
+    .ui-featured-action-edit,
     .ui-featured-action-select
-      @extend .icon-checkbox-bright
+      color: $brightest
+      &:hover
+        text-decoration: none
   &.small .ui-featured-entries-item:hover .ui-featured-entry-actions
     bottom: 15px

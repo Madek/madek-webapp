@@ -6,11 +6,11 @@
     .app-body-title
       .ui-body-title
         .ui-body-title-label
-          %h1.title-xl 
+          %h1.title-xl
             = _("My archive")
         .ui-body-title-actions
           %a.button{:"data-create-set" => true}
-            %i.icon-new-set
+            %i.icon-plus
             = _("Create set")
           %a.primary-button{:href => import_path}
             %i.icon-upload.bright
@@ -33,9 +33,9 @@
             %hr.separator
 
           - unless @latest_user_imports.blank?
-            = render :partial => "media_resources/wrapper", 
-                     :locals => {:media_resources => @latest_user_imports, 
-                                 :title => _("My latest imports"), 
+            = render :partial => "media_resources/wrapper",
+                     :locals => {:media_resources => @latest_user_imports,
+                                 :title => _("My latest imports"),
                                  :link => my_latest_imports_path,
                                  :item_layout => "miniature",
                                  :with_actions => true,
@@ -70,8 +70,8 @@
             %hr.separator
 
           - unless @user_groups.blank?
-            = render :partial => "groups/wrapper", 
-                     :locals => {:groups => @user_groups, 
+            = render :partial => "groups/wrapper",
+                     :locals => {:groups => @user_groups,
                                  :title => _("My workgroups"),
                                  :link => my_groups_path,
                                  :id => "my_groups_block"}
@@ -79,15 +79,15 @@
           - if @user_groups.blank? and @user_entrusted_resources.blank? and @user_keywords.blank? and @user_favorite_resources.blank? and @latest_user_imports.blank? and @latest_user_resources.blank?
             .row.mts
               .pvh.mth.mbl
-                .title-l.by-center 
+                .title-l.by-center
                   = _("Welcome")
                   .title-s.by-center
                     = _("Share your media, archive your works, explore content, develop knowledge.")
                     .mtm
-                      %a.button{:href => explore_path} 
+                      %a.button{:href => explore_path}
                         %i.icon-eye
                         = _("Explore content")
-                      %a.primary-button{:href => import_path} 
+                      %a.primary-button{:href => import_path}
                         %i.icon-upload.bright
                         = _("Import media")
 

@@ -52,7 +52,6 @@
 .ui-thumbnail-privacy
   +border-radius($border-radius-m 0, $border-radius-s 0)
   +dimension(21px, 21px)
-  +hide-text
   background-color: $brightest
   border-color: $grey-mid
   border-style: solid
@@ -62,7 +61,11 @@
   .icon-privacy-open,
   .icon-privacy-private,
   .icon-privacy-group
-    +float-left
+    position: relative
+    color: $grey-dark
+    margin-left: 3px
+    top: 1px
+    font-size: 14px
 
 // Invalid state
 .ui-resource.ui-invalid
@@ -71,5 +74,6 @@
     display: block !important
     left: 15px
     top: 15px
-    i
-      @extend .icon-bang.bright
+    .icon-privacy-private:before
+      content: "\e616"
+      color: $brightest

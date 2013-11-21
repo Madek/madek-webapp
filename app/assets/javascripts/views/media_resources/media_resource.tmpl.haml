@@ -3,8 +3,10 @@
     %ul.ui-resource-actions
       %li.ui-resource-action
         %a.ui-thumbnail-action-checkbox{:"data-clipboard-toggle" => true, :title => "${_jed('Add to/remove from clipboard')}"}
+          %i.icon-checkbox
       %li.ui-resource-action
-        %a.ui-thumbnail-action-favorite{:"data-favor-toggle" => true, :title => "${_jed('Add to/remove from favorites')}"} Favorite
+        %a.ui-thumbnail-action-favorite{:"data-favor-toggle" => true, :title => "${_jed('Add to/remove from favorites')}"}
+          %i.icon-star-empty
     %h3.ui-resource-title
       ${title}
   .ui-resource-body

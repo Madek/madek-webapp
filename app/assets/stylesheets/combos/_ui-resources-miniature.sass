@@ -93,3 +93,22 @@
   .ui-thumbnail.media-entry-incomplete
     +border-radius($border-radius-m)
     background: $brightest
+
+/*
+ * Media queries
+ * -------------------------------------
+
+@media #{$screen-size-xs-s}
+  // Hiding extension on smaller screens
+  .ui-resources.list .ui-resource-extension
+    display: none
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
+  .ui-resources.miniature
+    .ui-thumbnail.media-set,
+    .ui-thumbnail.filter-set
+      background: transparent image-url("backgrounds/thumb-set-backg-small@2x.png") -1px 0px no-repeat
+      background-size: 82px 82px
+    .ui-thumbnail.video .ui-thumbnail-image-wrapper
+      background: $brightest image-url("backgrounds/thumb-video-backg-small@2x.png") 0 0px no-repeat
+      background-size: 58px 58px

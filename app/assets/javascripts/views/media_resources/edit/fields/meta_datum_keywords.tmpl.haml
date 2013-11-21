@@ -1,5 +1,5 @@
 .multi-select
-  
+
   %ul.multi-select-holder
 
     {{tmpl(meta_datum.raw_value) App.renderPath("media_resources/edit/multi-select/keyword")}}
@@ -9,7 +9,7 @@
         %a.multi-select-input-toggle
 
     %a.button.small.form-widget-toggle
-      %i.icon-tag.dark
+      %i.icon-tag.dark.small
 
     .form-tags-widget.form-widget.hidden
 
@@ -26,7 +26,7 @@
           %ul.ui-tag-cloud.small
             .title-xs.by-center ${_jed('Loading keywords')}
             .ui-preloader.small
-           
+
         .tags-top.tab-pane.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_top_${index}"}
           %ul.ui-tag-cloud.small
             .title-xs.by-center ${_jed('Loading keywords')}

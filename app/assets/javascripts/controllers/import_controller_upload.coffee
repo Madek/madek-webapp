@@ -30,14 +30,14 @@ class ImportController.Upload
     @uploaderEl.bind "FilesAdded", @addFile
     @uploaderEl.bind "FilesRemoved", (uploader, files) => do @validateState
     @uploaderEl.bind "QueueChanged", @onQueueChange
-    @uploaderEl.bind "FileUploaded", (uploader, file, response) => 
+    @uploaderEl.bind "FileUploaded", (uploader, file, response) =>
       do @scrollToUploadingFile
       @pluploadFilesUploaded.push {file: file, media_entry_incomplete: JSON.parse(response.response).media_entry_incomplete}
     @uploaderEl.bind "error", @onError
     $(".delete_plupload_entry").live "click", @deletePluploadFile
     $(document).on "click", "#import-start.disabled", (e)-> e.preventDefault(); return false
-    $(document).on "click", "#import-start:not(.disabled)", (e)=> 
-      if @anyLinesForImport() 
+    $(document).on "click", "#import-start:not(.disabled)", (e)=>
+      if @anyLinesForImport()
         do e.preventDefault
         do @startImport
     $(document).on "click", ".delete_mei", @deleteMEI
@@ -145,7 +145,7 @@ class ImportController.Upload
       $("#uploader .plupload_progress_bar").width(progress_bar_width+"%")
     , 200
 
-  addFile: (uploader, files)=>  
+  addFile: (uploader, files)=>
     for file in files
       if file.size == 0
         uploader.removeFile file
@@ -159,7 +159,7 @@ class ImportController.Upload
 
   addDeleteToPlupload: (element) ->
     if $(element).find(".delete_plupload_entry").length == 0
-      $(element).find(".plupload_file_action").append("<span class='delete_plupload_entry'></span>")
+      $(element).find(".plupload_file_action").append("<span class='delete_plupload_entry'><i class='icon-trash'></i></span>")
 
   preventPluploadDelete: (element) =>
     cloned_action = $(element).find(".plupload_file_action a").clone()
@@ -224,7 +224,7 @@ class ImportController.Upload
     data = element.tmplItem().data
     line = element.closest("li")
     return false if !confirm("Sind Sie sicher dass Sie die Datei " + data.filename + " löschen möchten?")
-    line.fadeOut 200, => 
+    line.fadeOut 200, =>
       line.remove()
       mri = new App.MediaEntryIncomplete data
       mri.delete => do @validateState
@@ -234,7 +234,7 @@ class ImportController.Upload
     data = element.tmplItem().data
     line = element.closest("li")
     return false if !confirm("Sind Sie sicher dass Sie die Datei " + data.filename + " löschen möchten?")
-    line.fadeOut 200, => 
+    line.fadeOut 200, =>
       line.remove()
       $.ajax
         url: "/import.json"
@@ -248,7 +248,7 @@ class ImportController.Upload
   deletePluploadFile: (e)=>
     el = $(e.currentTarget)
     line = el.closest("li")
-    line.fadeOut 200, => 
+    line.fadeOut 200, =>
       if line.hasClass("plupload_done")
         filename = if (line.tmplItem().data.filename == undefined) then line.find(".plupload_file_name span").html() else line.tmplItem().data.filename
         return false if !confirm("Sind Sie sicher dass Sie die Datei " + filename + " löschen möchten?")

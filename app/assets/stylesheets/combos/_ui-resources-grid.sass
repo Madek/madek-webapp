@@ -79,3 +79,18 @@
     background: $brightest image-url("backgrounds/thumb-catalog-backg.png") 3px -4px no-repeat
   .ui-thumbnail.video .ui-thumbnail-image-wrapper
     background: $brightest image-url("backgrounds/thumb-video-backg.png") 0 0px no-repeat
+
+// Media Queries
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
+  .grid.active
+    .ui-thumbnail.media-set:hover,
+    .ui-thumbnail.filter-set:hover
+      background: $brightest image-url("backgrounds/thumb-set-backg.png@2x") 0 0 no-repeat
+      background-size: 168px 168px
+    .ui-thumbnail.media-catalog:hover
+      background: $brightest image-url("backgrounds/thumb-catalog-backg.png@2x") 3px -4px no-repeat
+      background-size: 328px 236px
+    .ui-thumbnail.video .ui-thumbnail-image-wrapper
+      background: $brightest image-url("backgrounds/thumb-video-backg.png@2x") 0 0px no-repeat
+      background-size: 138px 138px

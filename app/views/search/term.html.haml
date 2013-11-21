@@ -12,12 +12,12 @@
 
   .app-body
 
-    .row 
+    .row
       .col1of2
         .app-body-title
           .ui-body-title
             .ui-body-title-label
-              %h1.title-xl 
+              %h1.title-xl
                 = _("Search results for")
                 = "\"#{@term}\""
 
@@ -27,7 +27,7 @@
             .col1of2.by-right.mtx
               .mrs.mts
                 %button.button{:"data-create-filter-set" => true}
-                  %i.icon-new-set
+                  %i.icon-plus
                     = _("Create filter set")
 
             .col1of2
@@ -46,7 +46,7 @@
 
         #ui-resources-list-container.app-body-content
 
-          = render :partial => "media_resources/list/toolbar", 
+          = render :partial => "media_resources/list/toolbar",
                    :locals => {:title => _("Search result"),
                                :subtitle => _(%Q[<span id="result_count">%d</span> content elements] % @result_count_for_term)}
 
@@ -59,7 +59,7 @@
               = render :partial => "media_resources/list/filter"
 
               .ui-container.table-cell.table-substance
-                
+
                 %ul#ui-resources-list.ui-resources{:class => ui_resources_class}
 
                   .pvh.mth
@@ -69,7 +69,7 @@
 = render :partial => "application/footer"
 
 :coffeescript
-  
+
   jQuery -> new App.MediaResourcesController.Index
     baseFilter: #{{:search => params[:term]}.to_json}
     startFilterParams: #{MediaResource.get_filter_params(params).to_json}

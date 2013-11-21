@@ -46,3 +46,17 @@
 .ui-body-title-actions .primary-button,
 .ui-body-title-actions .button
   margin-left: $space-s
+
+// Media Queries
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
+  .ui-body-title-label:after
+    background: image-url("backgrounds/page-title-overflow.png") 0 0 repeat-y
+    background-size: 85px 10px
+    +dimension(85px, 100%)
+
+  .ui-body-title-actions:before
+    background: image-url("backgrounds/page-title-overflow.png") 0 0 repeat-y
+    background-size: 85px 10px
+    +dimension(85px, 100%)
+    +position-top-left(0, -80px)

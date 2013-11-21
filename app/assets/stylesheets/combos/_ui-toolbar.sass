@@ -13,7 +13,7 @@
 
 .ui-toolbar .ui-toolbar-header
   font-size: $font-m
-  line-height: $line-height-s
+  line-height: $line-height-s-alt
 
 .ui-toolbar .ui-dropdown
   float: right
@@ -21,11 +21,5 @@
 .ui-toolbar-controls
   +position-top-right($space-x, $space-x)
 
-.ui-toolbar-icon-miniature
-  @extend .icon-vis-miniature-bright
-
-.ui-toolbar-icon-list
-  @extend .icon-vis-list-bright
-
-.ui-toolbar-icon-grid
-  @extend .icon-vis-grid-bright
+.ui-toolbar-vis-button.small i
+  font-size: 16px

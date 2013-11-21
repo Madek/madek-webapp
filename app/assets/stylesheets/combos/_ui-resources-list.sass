@@ -34,6 +34,12 @@
     .ui-resource-action
       display: inline-block
       list-style: none
+      margin-right: $space-x
+      a
+        color: $grey-mid-dark
+        text-decoration: none !important
+        &:hover
+          color: $grey-darker
 
 /* Body
  *-----------------------------------------
@@ -115,3 +121,13 @@
   // Hiding extension on smaller screens
   .ui-resources.list .ui-resource-extension
     display: none
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
+  .ui-resources.list.active
+    .ui-thumbnail.media-set:hover,
+    .ui-thumbnail.filter-set:hover
+      background: $brightest image-url("backgrounds/thumb-set-backg.png@2x") 0 0 no-repeat
+      background-size: 168px 168px
+    .ui-thumbnail.video .ui-thumbnail-image-wrapper
+      background: $brightest image-url("backgrounds/thumb-video-backg.png@2x") 0 0px no-repeat
+      background-size: 138px 138px

@@ -13,21 +13,27 @@
   background-image: none
 
 li.plupload_uploading a
-  background-image: image-url("icons/icon-upload-dark.png")
+  // background-image: image-url("icons/icon-upload-dark.png")
   animation: blink 1s infinite
   -moz-animation: blink 1s infinite
   -webkit-animation: blink 1s infinite
 
 li.plupload_delete a, .plupload_file_action .delete_mei, .plupload_file_action .delete_dropbox_file
   +dimension(20px, 20px)
-  background-image: image-url("icons/icon-trash-dark.png")
 
 li.plupload_failed a
   background-image: image-url("vendor/plupload/error.gif")
 
 li.plupload_done a
   +dimension(20px, 20px)
-  background-image: image-url("icons/icon-check_mark-dark.png")
+  color: $grey-dark
+  &:hover
+    color: $grey-darker
+    text-decoration: none
+
+.plupload_file_action
+  width: auto
+  height: auto
 
 /* blink animation for uploading icon
 
@@ -191,6 +197,7 @@ li.plupload_done a
 
 .plupload_file_name
   width: auto !important
+  color: $grey-dark
 
 /* Call to action (drag and drop call)
 

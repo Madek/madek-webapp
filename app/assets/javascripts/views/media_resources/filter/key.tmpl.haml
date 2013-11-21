@@ -1,6 +1,6 @@
 {{if terms.length > 0}}
 %li.ui-side-filter-lvl2-item{:"data-key-name" => "${key_name}"}
-  %a.ui-accordion-toggle.weak 
+  %a.ui-accordion-toggle.weak
     %i.ui-side-filter-lvl2-marker
     ${key_label}
   %ul.ui-side-filter-lvl3.ui-accordion-body
@@ -9,7 +9,7 @@
   {{if $item.parent.data.filter_type == 'meta_data'}}
   %label.ui-any-value{:title => "${_jed('Any values')}"}
     %input.any-value.hidden{:type => "checkbox"}
-    %i.icon-checkbox
+    %i.icon-checkbox.mid
   {{/if}}
-  
+
 {{/if}}

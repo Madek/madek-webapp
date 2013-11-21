@@ -1,13 +1,13 @@
 .ui-filterbar.separated.ui-container
   .left.col2of6
     %a.button#ui-side-filter-toggle{:class => params[:filterpanel] ? "active" : ""}
-      %i.icon-sidebar
+      %i.icon-filter.small
       = _("Filter")
     %a#ui-side-filter-reset.mlx.hidden
       = _("Reset filters")
   .col2of6.by-center
     #ui-resources-type-filter.button-group
-      %a.button{:"data-type" => nil, :class => (params[:type].nil?) ? "active" : ""} 
+      %a.button{:"data-type" => nil, :class => (params[:type].nil?) ? "active" : ""}
         = _("All")
       %a.button{:"data-type" => "media_entries", :class => (params[:type] == "media_entries") ? "active" : ""}
         = _("Media entries")

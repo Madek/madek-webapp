@@ -2,25 +2,25 @@
   %ul.left.by-left
     %li.ui-thumbnail-action
       %a.ui-thumbnail-action-checkbox{:"data-clipboard-toggle" => true, :title => "${_jed('Add to/remove from clipboard')}"}
-        ${_jed('Add to clipboard')}
+        %i.icon-checkbox
     %li.ui-thumbnail-action
       %a{:"data-favor-toggle" => true,
-         :title => "{{if is_favorite}}${_jed('Remove from favorites')}{{else}}${_jed('Add to favorites')}{{/if}}", 
+         :title => "{{if is_favorite}}${_jed('Remove from favorites')}{{else}}${_jed('Add to favorites')}{{/if}}",
          :class => "ui-thumbnail-action-favorite{{if is_favorite}} active{{/if}}"}
-        ${_jed('Add to favorites')}
+        %i.icon-star-empty
   %ul.right.by-right
-    %li.ui-thumbnail-action
     {{if type == "media-entry"}}
-    %a.ui-thumbnail-action-browse{:title => "${_jed('Browse')}", :href => "/media_resources/${id}/browse"}
-      ${_jed('Browse')}
+    %li.ui-thumbnail-action
+      %a.ui-thumbnail-action-browse{:title => "${_jed('Browse')}", :href => "/media_resources/${id}/browse"}
+        %i.icon-eye
     {{/if}}
     {{if is_editable}}
     %li.ui-thumbnail-action
       %a.ui-thumbnail-action-edit{:title => "${_jed('Edit metadata')}", :href => "/media_resources/${id}/edit"}
-        ${_jed('Edit metadata')}
+        %i.icon-pen
     {{/if}}
     {{if is_deletable}}
     %li.ui-thumbnail-action
       %a.ui-thumbnail-action-delete{:"data-delete-action" => true, :title => "${_jed('Delete')}"}
-        ${_jed('Delete')}
+        %i.icon-trash
     {{/if}}

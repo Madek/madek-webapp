@@ -29,15 +29,12 @@
       = actions
   .ui-toolbar-controls.by-right
     #ui-resources-layout-switcher.button-group.tertiary.small.right.mls
-      %a.button.ui-toolbar-vis-button{:class => active_layout == "miniature" ? "active" : "", :title => _("Miniature view"), :"data-vis-mode" => "miniature"}
-        %i.ui-toolbar-icon-miniature
-          = _("Miniature view")
-      %a.button.ui-toolbar-vis-button{:class => active_layout == "grid" ? "active" : "", :title => _("Grid view"), :"data-vis-mode" => "grid", :"data-default" => true}
-        %i.ui-toolbar-icon-grid
-          = _("Grid view")
-      %a.button.ui-toolbar-vis-button{:class => active_layout == "list" ? "active" : "", :title => _("List view"), :"data-vis-mode" => "list"}
-        %i.ui-toolbar-icon-list 
-          = _("List view")
+      %a#miniature-view.button.small.ui-toolbar-vis-button{:class => active_layout == "miniature" ? "active" : "", :title => _("Miniature view"), :"data-vis-mode" => "miniature"}
+        %i.icon-vis-miniature{:title => _("Miniature view")}
+      %a#grid-view.button.small.ui-toolbar-vis-button{:class => active_layout == "grid" ? "active" : "", :title => _("Grid view"), :"data-vis-mode" => "grid", :"data-default" => true}
+        %i.icon-vis-grid{:title => _("Grid view")}
+      %a#list-view.button.small.ui-toolbar-vis-button{:class => active_layout == "list" ? "active" : "", :title => _("List view"), :"data-vis-mode" => "list"}
+        %i.icon-vis-list{:title => _("List view")}
     #ui-resources-sorting.dropdown.ui-dropdown.stick-right
       %a.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
         %span.ui-text
@@ -52,7 +49,7 @@
               = _("Filter and order by author")
             - else
               = _("Order by creation date")
-        %i.icon-arrow-down.bright
+      %i.icon-arrow-down.bright.small
       %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
         %li.ui-drop-item{:class => (active_sorting == "created_at") ? "hidden active" : "", :"data-default" => true}
           %a{:"data-sort" => "created_at"}

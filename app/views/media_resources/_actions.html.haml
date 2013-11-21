@@ -5,22 +5,22 @@
   %ul.left.by-left
     %li.ui-thumbnail-action
       %a.ui-thumbnail-action-checkbox{:"data-clipboard-toggle" => true, :title => _("Add to/remove from clipboard")}
-        = _("Add to clipboard")
+        %i.icon-checkbox
     %li.ui-thumbnail-action
       %a.ui-thumbnail-action-favorite{:"data-favor-toggle" => true,
                                       :title => _("Add to/remove from favorites"),
                                       :class => is_favorite ? "active" : ""}
-        Zu Favoriten hinzufügen
+        %i.icon-star-empty
   %ul.right.by-right
-    %li.ui-thumbnail-action
     - if media_resource.type == "MediaEntry"
-      %a.ui-thumbnail-action-browse{:title => _("Browse"), :href => browse_media_resource_path(media_resource)}
-        = _("Browse")
+      %li.ui-thumbnail-action
+        %a.ui-thumbnail-action-browse{:title => _("Browse"), :href => browse_media_resource_path(media_resource)}
+          %i.icon-eye
     - if current_user.authorized?(:edit, media_resource)
       %li.ui-thumbnail-action
         %a.ui-thumbnail-action-edit{:title => _("Edit metadata"), :href => edit_media_resource_path(media_resource)}
-          = _("Edit metadata")
+          %i.icon-pen
     - if current_user.authorized?(:delete, media_resource)
       %li.ui-thumbnail-action
         %a.ui-thumbnail-action-delete{:"data-delete-action" => true, :title => _("Delete")}
-          = _("Delete")
+          %i.icon-trash

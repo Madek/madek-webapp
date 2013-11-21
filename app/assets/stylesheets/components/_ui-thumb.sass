@@ -204,3 +204,41 @@
 .ui-thumbnail-level-up-items .thumbnail.even,
 .ui-thumbnail-level-down-items .thumbnail.even
   margin: $space-s 0 $space-s $space-s
+
+// Filterset Flag
+
+.ui-thumbnail.filter-set
+  width: 140px
+
+.ui-thumbnail-filterset-flag
+  +position-top-right(16px, 16px)
+  +border-top-right-radius($border-radius-m)
+  +dimension(21px, 21px)
+  background-color: $brightest
+  border-color: $grey-mid
+  border-style: solid
+  border-width: 0 0 1px 1px
+  display: block
+  z-index: 10
+  .icon-filter
+    position: relative
+    color: $grey-dark
+    margin-left: 4px
+    top: 2px
+    font-size: 14px
+
+// Media Queries
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
+  .ui-thumbnail.media-set,
+  .ui-thumbnail.filter-set
+    background: transparent image-url("backgrounds/thumb-set-backg@2x.png") 0 0 no-repeat
+    background-size: 168px 168px
+
+  .ui-thumbnail.video .ui-thumbnail-image-wrapper
+    background: $brightest image-url("backgrounds/thumb-video-backg@2x.png") 0 0px no-repeat
+    background-size: 138px 138px
+
+  .ui-thumbnail-level-item.media_set
+    background: transparent image-url("backgrounds/thumb-set-backg-small-alt@2x.png") -3px -2px no-repeat
+    background-size: 82px 82px

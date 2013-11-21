@@ -2,40 +2,42 @@
   .dropdown.ui-dropdown.stick-right
     %a#user-action-button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
       = current_user.fullname
-      %i.icon-arrow-down.bright.stand-alone
+    %i.icon-arrow-down.stand-alone.small
     %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
-      %li.ui-drop-item
-        %a{:href => my_media_resources_path(:sort => :updated_at)}
-          .icon-set.mid.ui-drop-icon
-          = _("Content I am responsible for")
-      %li.ui-drop-item
-        %a{:href => my_favorites_path(:sort => :updated_at)}
-          .icon-star.mid.ui-drop-icon
-          = _("My favorites")
-      %li.ui-drop-item
-        %a{:href => my_groups_path}
-          .icon-privacy-group.mid.ui-drop-icon
-          = _("My workgroups")
-      %li.separator
       %li.ui-drop-item
         %a.strong{:href => import_path}
           %i.icon-upload.ui-drop-icon
           = _("Import media")
+      %li.separator
+      %li.ui-drop-item
+        %a{:href => my_media_resources_path(:sort => :updated_at)}
+          %i.icon-set.mid.ui-drop-icon
+          = _("Content I am responsible for")
+      %li.ui-drop-item
+        %a{:href => my_favorites_path(:sort => :updated_at)}
+          %i.icon-star.mid.ui-drop-icon
+          = _("My favorites")
+      %li.ui-drop-item
+        %a{:href => my_groups_path}
+          %i.icon-privacy-group.mid.ui-drop-icon
+          = _("My workgroups")
       - if current_user and current_user.groups.is_member?("Admin")
+        %li.separator
         %li.ui-drop-item
-          %a.strong{:href => app_admin_root_path}
-            %i.icon-lock.ui-drop-icon
+          %a{:href => app_admin_root_path}
+            %i.icon-cog.ui-drop-icon.mid
             = _("Open admin interface")
         %li.ui-drop-item
           - if session[:act_as_uberadmin] == true
-            = link_to app_admin_exit_uberadmin_path, method: 'POST', class: 'strong' do
-              %i.icon-admin.ui-drop-icon
+            = link_to app_admin_exit_uberadmin_path, method: 'POST', class: '' do
+              %i.icon-admin.ui-drop-icon.mid
               = _("Exit admin mode")
           - else
-            = link_to app_admin_enter_uberadmin_path, id: "switch-to-uberadmin", method: 'POST', class: 'strong' do
-              %i.icon-admin.ui-drop-icon
+            = link_to app_admin_enter_uberadmin_path, id: "switch-to-uberadmin", method: 'POST', class: '' do
+              %i.icon-admin.ui-drop-icon.mid
               = _("Switch to admin mode")
+      %li.separator
       %li.ui-drop-item
-        %a.strong{:href => "/logout"} 
+        %a.strong{:href => "/logout"}
           %i.icon-power-off.ui-drop-icon
           = _("Log out")

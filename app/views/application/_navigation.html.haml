@@ -2,7 +2,7 @@
   %ul.large.primary.ui-tabs
     - unless current_user.is_guest?
       %li.ui-tabs-item{:class => my_archive_page? ? "active" : ""}
-        %a#to-my-archive{:href => root_path} 
+        %a#to-my-archive{:href => root_path}
           = _("My archive")
     %li.ui-tabs-item{:class => explore_page? ? "active" : ""}
       %a#to-explore{:href => explore_path}
@@ -15,4 +15,5 @@
       %li.ui-tabs-item
         %a#to-help{:href => @app_settings.support_url, :target => "_blank"}
           %i.icon-nav-help
+          %span.hide-text
             = _("Help")

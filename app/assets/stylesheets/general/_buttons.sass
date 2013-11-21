@@ -79,7 +79,7 @@ a:active
 
 .button.small
   font-size: $font-xs
-  line-height: $line-height-m
+  line-height: $line-height-s-alt
   min-height: 18px
   padding-left: $space-x
   padding-right: $space-x
@@ -110,8 +110,7 @@ a:active
  *-----------------------------------------
 
 .button i
-  margin-left: -1px
-  margin-top: 3px
+  top: 2px
   position: relative
 
 .button:active i,
@@ -120,33 +119,35 @@ a:active
   opacity: 0.5
 
 .button.small i
-  margin-bottom: -2px
-  margin-top: -1px
+
+.button i.small
+  top: 1px
 
 .button.large i
-  margin-top: 8px
+  top: 1px
 
 .button .stand-alone
   margin-left: $space-x
   margin-right: -3px
   position: relative
+  padding-left: $space-x
+  top: 2px
   &:after
     +position-top-left(-1px, -1px)
     bottom: 0
     content: " "
     display: block
     border-left: 1px solid $darken
-    height: 150%
+    height: 100%
     z-index: 3
-    background: $grey-darker
+    background: $darken
 
 // Extended buttons (most commonly featuring a dropdown icon)
 
 .button.block i.stand-alone
   +position-top-right(50%, $space-x)
   display: inline-block
-  margin: -10px 0 0
-  // must be equal to half of icons's size
+  margin: -8px 0 0 // must be equal to half of icons's size
 
 /* Full width buttons
  *-----------------------------------------

@@ -5,7 +5,7 @@
 - if current_user.is_guest?
   .dropdown.ui-dropdown.stick-right
     %a.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#", :class => primary ? "primary-button" : "button"}
-      %i.icon-man_silhouette{:class => primary ? "bright" : ""}
+      %i.icon-man_silhouette{:class => primary ? "" : ""}
       = _("Log in")
     %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
       - if @app_settings.authentication_systems.include? :zhdk_agw

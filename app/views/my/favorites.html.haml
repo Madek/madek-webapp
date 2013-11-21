@@ -6,13 +6,13 @@
     .app-body-title
       .ui-body-title
         .ui-body-title-label
-          %h1.title-xl 
+          %h1.title-xl
             = _("My favorites")
 
         .ui-body-title-actions
 
           %a.button{:"data-create-set" => true}
-            %i.icon-new-set
+            %i.icon-plus
             = _("Create set")
 
           .dropdown.ui-dropdown.stick-right
@@ -36,7 +36,7 @@
 
         #ui-resources-list-container.app-body-content.table-cell.table-substance.ui-container
 
-          = render :partial => "media_resources/list/toolbar", 
+          = render :partial => "media_resources/list/toolbar",
                    :locals => {:subtitle => "#{@user_favorite_resources_count} Inhalte"}
 
           = render :partial => "media_resources/list/filterbar"
@@ -48,7 +48,7 @@
               = render :partial => "media_resources/list/filter"
 
               .ui-container.table-cell.table-substance
-                
+
                 %ul#ui-resources-list.ui-resources{:class => ui_resources_class}
 
                   .pvh.mth
@@ -58,7 +58,7 @@
 = render :partial => "application/footer"
 
 :coffeescript
-  
+
   jQuery -> new App.MediaResourcesController.Index
     baseFilter: #{{:favorites => true}.to_json}
     startFilterParams: #{MediaResource.get_filter_params(params).to_json}

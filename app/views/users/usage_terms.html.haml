@@ -9,7 +9,7 @@
           %h1.title-xl Mein Archiv
         .ui-body-title-actions
           %a.button{:"data-create-set" => true}
-            %i.icon-new-set
+            %i.icon-plus
             = _("Create set")
           %a.primary-button{:href => import_path}
             %i.icon-upload.bright
@@ -46,6 +46,6 @@
           = _("Accept")
 
 :coffeescript
-  
+
   jQuery -> new App.Modal $(".modal")
 

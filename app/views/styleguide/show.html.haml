@@ -20,15 +20,15 @@
     .wrapper
 
       %h1.pbl.title-xl Styleguide Madek
-      
+
     .bordered.ui-container.midtone.rounded.table
-      
+
       .app-body-sidebar.table-cell.bright.ui-container.bordered-right.rounded-left.table-side
 
         .ui-container.rounded-left.phm.pvl
           - @sections.each_pair do |k,v|
             %a.row{:href => styleguide_path(:section => k)}= k.camelize
-        
+
       .app-body-content.table-cell.table-substance.ui-container.ptl.pll.prm
         - if @sections[@current_section]
           - @sections[@current_section].each do |section|
