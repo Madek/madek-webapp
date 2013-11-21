@@ -20,7 +20,7 @@ Feature: Showing resources in the archive
     When I click on the clickable with text "Sets" and with the value "media_sets" for the attribute "data-type"
     Then I can see exactly "2" included resources
 
-  @chrome 
+  @firefox
   Scenario: Watching a movie as a guest
     Given There is a movie with previews and public viewing-permission
     When I visit the page of that movie
