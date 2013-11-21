@@ -19,11 +19,11 @@
           %ul.nav.navbar-nav
             %li 
               =link_to app_admin_root_path do 
-                %i.icon-dashboard
+                %i.fa.fa-dashboard
                 Dashboard 
             %li
               =link_to edit_app_admin_settings_path do
-                %i.icon-cog
+                %i.fa.fa-cog
                 Settings
             %li.dropdown
               %a.dropdown-toggle{href: "#", data: {toggle: 'dropdown'}} 
@@ -32,11 +32,11 @@
               %ul.dropdown-menu
                 %li
                   = link_to app_admin_media_files_path do
-                    %i.icon-file
+                    %i.fa.fa-file
                     Media Files
                 %li
                   = link_to app_admin_zencoder_jobs_path do
-                    %i.icon-film
+                    %i.fa.fa-film
                     ZencoderJobs
 
             %li.dropdown
@@ -46,18 +46,18 @@
               %ul.dropdown-menu
                 %li
                   = link_to app_admin_media_entries_path do
-                    %i.icon-file
+                    %i.fa.fa-file
                     Media Entries
                 %li
                   = link_to app_admin_media_sets_path do
-                    %i.icon-media-sets
+                    %i.fa.fa-media-sets
                     Media Sets
 
 
 
             %li.dropdown
               %a.dropdown-toggle{href: "#", data: {toggle: 'dropdown'}} 
-                %i.icon-user
+                %i.fa.fa-user
                 Users &amp; Groups
                 %b.caret
               %ul.dropdown-menu

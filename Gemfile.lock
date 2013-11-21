@@ -22,14 +22,6 @@ GIT
       sass (>= 3.1.0)
 
 GIT
-  remote: https://github.com/DrTom/font-awesome-plus-sass-rails.git
-  revision: 1d8a749f899473782444a6457cfe039ac6639f6d
-  specs:
-    font-awesomeplus-sass-rails (3.0.2.2)
-      railties (>= 3.1.1)
-      sass-rails (>= 3.1.1)
-
-GIT
   remote: https://github.com/DrTom/textacular.git
   revision: a00ec6eac179ceab612295df0eb0e157cda4022a
   specs:
@@ -504,7 +496,6 @@ DEPENDENCIES
   faker
   faraday
   font-awesome-sass
-  font-awesomeplus-sass-rails!
   foreigner
   gettext_i18n_rails
   gherkin (= 2.12.0)

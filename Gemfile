@@ -51,7 +51,6 @@ group :assets do
   gem 'bootstrap-sass', '~> 3.0.0.0.rc' 
   gem 'coffee-rails'
   gem 'execjs'
-  gem 'font-awesomeplus-sass-rails', git: 'https://github.com/DrTom/font-awesome-plus-sass-rails.git'
   gem 'font-awesome-sass'
   gem 'haml_coffee_assets'
   gem 'sass-rails', '>= 3.2'
