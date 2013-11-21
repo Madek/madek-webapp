@@ -23,7 +23,7 @@ Feature: Workgroups
      And I click the primary action of this dialog
     Then I see an error that I have to provide a name for that group
 
-  @firefox
+  @chrome
   Scenario: Edit group members
     When I go to my groups
      And I edit one group
@@ -32,7 +32,7 @@ Feature: Workgroups
     When I click the primary action of this dialog
     Then the group members are updated
 
-  @chrome
+  @jsbrowser
   Scenario: Delete a group
     When I go to my groups
      And I edit one group
