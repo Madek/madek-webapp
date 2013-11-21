@@ -278,7 +278,7 @@ Then /^I see sets of the featured sets$/ do
 end
 
 Then /^I see the column with a number of user resources$/ do
-  (expect find("th:last").text).not eq("# of resources")
+  find("th", text: "# of resources")
 end
 
 Then /^I see users list sorted by login$/ do
