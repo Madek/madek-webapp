@@ -10,6 +10,8 @@
     - if person.user
       =link_to app_admin_user_path(person.user) do
         #{person.user.login}
+  %td
+    = person.is_group ? "Yes" : "No"
   %td 
     - if person.meta_data.count > 0
       = link_to form_transfer_meta_data_app_admin_person_path(person), class: "btn btn-xs transfer_meta_data_link" do

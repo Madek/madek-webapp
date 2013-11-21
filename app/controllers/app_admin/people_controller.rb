@@ -7,6 +7,10 @@ class AppAdmin::PeopleController < AppAdmin::BaseController
       @people = @people.fuzzy_search(params[:fuzzy_search])
     end
 
+    if !params[:is_group].blank?
+      @people = @people.groups
+    end
+
     if !params[:with_user].blank?
       @people = @people.joins(:user)
     end

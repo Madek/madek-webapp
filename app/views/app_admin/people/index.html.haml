@@ -23,6 +23,10 @@
         = check_box_tag "with_meta_data", 1, !params[:with_meta_data].blank? 
         With meta data
 
+      %label.checkbox
+        = check_box_tag "is_group", 1, !params[:is_group].blank?
+        Is a group
+
       = button_tag type: 'submit', class: 'btn btn-sm' do
         Filter
 
@@ -35,6 +39,7 @@
           %th Pseudonym
           %th.id Id
           %th User
+          %th Is a group?
           %th Meta data 
       %tbody
         =render @people
