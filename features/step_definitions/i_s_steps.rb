@@ -66,3 +66,7 @@ Given(/^I switch to uberadmin modus$/) do
   find("#user-action-button").click
   find("a#switch-to-uberadmin").click
 end
+
+When(/^I select "(.*?)" option from Sort by select$/) do |option|
+  select(option, from: 'sort_by')
+end

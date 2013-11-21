@@ -276,3 +276,17 @@ end
 Then /^I see sets of the featured sets$/ do
   expect( find("#featured-set .grid").all("li.ui-resource").size ).to be > 0
 end
+
+Then /^I see the column with a number of user resources$/ do
+  (expect find("th:last").text).not eq("# of resources")
+end
+
+Then /^I see users list sorted by login$/ do
+  users_logins = all("table tbody tr td.user-login").map(&:text)
+  expect(users_logins == users_logins.sort).to be_true
+end
+
+Then /^I see user list sorted by amount of resources$/ do
+  users_resources_amount = all("table tbody tr td.user-resources-amount").map(&:text).map(&:to_i)
+  expect(users_resources_amount == users_resources_amount.sort.reverse).to be_true
+end

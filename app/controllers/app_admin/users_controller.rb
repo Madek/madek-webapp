@@ -1,7 +1,16 @@
 class AppAdmin::UsersController < AppAdmin::BaseController
 
   def index
-    @users = User.reorder("login ASC").page(params[:page])
+    @users = User.with_resources_amount
+
+    if params.try(:[], :sort_by) == 'resources_amount'
+      @sort_by = :resources_amount
+    else
+      @sort_by = :login
+      @users = @users.reorder("login ASC")
+    end
+
+    @users = @users.page(params[:page])
     
     if ! (fuzzy_search = params.try(:[],:filter).try(:[],:fuzzy_search)).blank?
       @users = @users.fuzzy_search(fuzzy_search)

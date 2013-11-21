@@ -24,11 +24,17 @@
 
     = form_tag app_admin_users_path, method: 'GET' do
 
-      %label 
-        = text_field :filter, :fuzzy_search, class: "search-query", value: params.try(:[],:filter).try(:[],:fuzzy_search)
+      .form-group
+        = text_field :filter, :fuzzy_search, class: "search-query, form-control", value: params.try(:[],:filter).try(:[],:fuzzy_search)
 
-      = button_tag type: 'submit', class: 'btn btn-sm' do
-        Filter
+      .form-group
+        %label Sort by:
+        %select.form-control{name: :sort_by}
+          = options_for_select [["Login ascending", :login], ["Amount of resources", :resources_amount]], @sort_by
+
+      .form-group
+        = button_tag type: 'submit', class: 'btn btn-sm' do
+          Filter
 
   .col-md-9
     %table.table.table-striped
@@ -38,6 +44,7 @@
           %th E-mail
           %th id
           %th Person
+          %th # of resources
       %tbody
         =render @users
 

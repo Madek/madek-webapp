@@ -6,6 +6,11 @@ class User < ActiveRecord::Base
 
   attr_accessor 'act_as_uberadmin'
 
+  scope :with_resources_amount, select("users.*, count(media_resources.id) as resources_amount").
+    joins("LEFT OUTER JOIN media_resources ON users.id = media_resources.user_id").
+    group("users.id").
+    order("resources_amount desc")
+
   belongs_to :person
   delegate :name, :fullname, :shortname, :to => :person
 

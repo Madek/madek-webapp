@@ -1,10 +1,11 @@
 %tr
-  %td #{user.login}
+  %td.user-login #{user.login}
   %td #{user.email}
   %td #{user.id}
   %td 
     =link_to app_admin_person_path(user.person) do 
       #{user.person}
+  %td.user-resources-amount #{user.resources_amount}
   %td
     %ul.list-inline
 

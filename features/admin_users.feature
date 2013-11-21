@@ -61,4 +61,17 @@ Feature: Managing Users and Logins
     And I submit
     Then I can see a success message
 
+  Scenario: Listing users with amount of resources
+    When I visit "/app_admin/users"
+    Then I see the column with a number of user resources
 
+  Scenario: Default users sorting by login
+    When I visit "/app_admin/users"
+    Then I see users list sorted by login
+
+  Scenario: Sorting users by amount of resources
+    When I visit "/app_admin/users"
+    And I select "Amount of resources" option from Sort by select
+    And I submit
+    Then I see user list sorted by amount of resources
+    And There is "Amount of resources" sorting option selected
