@@ -220,3 +220,7 @@ Then /^I am on the page of my first media_entry$/ do
   expect(current_path).to eq  media_entry_path(@media_entry)
 end
 
+Then /^I am redirected to the media archive$/ do
+  expect(current_path).to eq "/my"
+end
+

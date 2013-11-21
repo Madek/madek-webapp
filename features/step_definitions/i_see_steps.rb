@@ -290,3 +290,9 @@ Then /^I see user list sorted by amount of resources$/ do
   users_resources_amount = all("table tbody tr td.user-resources-amount").map(&:text).map(&:to_i)
   expect(users_resources_amount == users_resources_amount.sort.reverse).to be_true
 end
+
+Then /^I see the return link in the navbar$/ do
+  link = find('.navbar .navbar-right a')
+  expect(link.text).to match /return to user\-interface/
+  expect(link[:href]).to eq("/")
+end
