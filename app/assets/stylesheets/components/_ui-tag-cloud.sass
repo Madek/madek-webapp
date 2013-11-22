@@ -17,13 +17,13 @@
   margin-right: $space-m
 
 .ui-tag-button
-  +background-image(linear-gradient($grey-lighter, $grey-light))
+  +background-image(linear-gradient($mono-bright, $mono-weak))
   +border-radius(50px)
   +box-shadow($lighten 0 1px 0 inset)
   +single-text-shadow(false, 1px, false, false, $lighten-more)
-  background-color: $grey-lighter
-  border: 1px solid $grey-mid-light
-  color: $grey-darker
+  background-color: $mono-bright
+  border: 1px solid $mono-light
+  color: $mono-dark
   cursor: pointer
   display: inline-block
   font-size: $font-m
@@ -42,17 +42,17 @@
   width: 100%
   +ellipsis(true)
   &:hover
-    +background-image(linear-gradient(lighten($grey-lighter, 3%), lighten($grey-light, 3%)))
+    +background-image(linear-gradient(lighten($mono-bright, 3%), lighten($mono-weak, 3%)))
     +single-text-shadow(false, 1px, false, false, $lighten)
-    background-color: lighten($grey-light, 3%)
-    border-color: darken($grey-mid-light, 3%)
-    color: $grey-darker
+    background-color: lighten($mono-weak, 3%)
+    border-color: darken($mono-light, 3%)
+    color: $mono-dark
     text-decoration: none
   &:active
-    +background-image(linear-gradient(darken($grey-lighter, 10%), darken($grey-light, 10%)))
+    +background-image(linear-gradient(darken($mono-bright, 10%), darken($mono-weak, 10%)))
     +box-shadow($darken 0 1px 3px inset)
-    border-color: darken($grey-mid-light, 5%)
-    color: $grey-mid
+    border-color: darken($mono-light, 5%)
+    color: $mono-mid
     outline: 0
     i,
     .ui-tag-button
@@ -84,8 +84,8 @@
 
 .ui-tag-button .ui-tag-counter
   +border-radius(50px)
-  background: $grey-mid-light
-  color: $grey-dark
+  background: $mono-light
+  color: $mono-strong
   display: inline-block
   font-weight: 700
   line-height: 16px

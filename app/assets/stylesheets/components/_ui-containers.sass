@@ -19,7 +19,7 @@
 // Bright ui-containers
 
 .ui-container.bright
-  background-color: $brightest
+  background-color: $mono-brightest
 
 .transparent,
 .ui-container.transparent
@@ -28,10 +28,10 @@
 // Dark ui-containers
 
 .ui-container.inverted
-  +background-image(linear-gradient($grey-dark, $grey-darker))
+  +background-image(linear-gradient($mono-strong, $mono-dark))
   +single-text-shadow(false, 1px, false, false, $darken)
-  background-color: $grey-dark
-  color: $grey-lighter
+  background-color: $mono-strong
+  color: $mono-bright
 
 .ui-container.inverted,
 .ui-container.inverted-transparent
@@ -40,10 +40,10 @@
   > p,
   > ul > li > a,
   .dropdown > a
-    color: $grey-lighter
+    color: $mono-bright
   > a:hover,
   .dropdown > a:hover
-    color: $brightest
+    color: $mono-brightest
 
 .ui-container.inverted-transparent,
 .inverted-transparent
@@ -72,22 +72,22 @@
 // Bordered ui-containers
 
 .ui-container.bordered
-  border: 1px solid $grey-mid-light
+  border: 1px solid $mono-light
   margin-bottom: -1px
 
 .ui-container.bordered-bottom
-  border-bottom: 1px solid $grey-mid-light
+  border-bottom: 1px solid $mono-light
 
 .ui-container.bordered-top
-  border-bottom: 1px solid $grey-mid-light
+  border-bottom: 1px solid $mono-light
   margin-top: -1px
 
 .ui-container.bordered-right
-  border-right: 1px solid $grey-mid-light
+  border-right: 1px solid $mono-light
   margin-right: -1px
 
 .ui-container.bordered-left
-  border-left: 1px solid $grey-mid-light
+  border-left: 1px solid $mono-light
   margin-left: -1px
 
 // Rounded ui-containers
@@ -140,7 +140,6 @@
   display: block
   z-index: 5
 
-
 // Media Queries
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
@@ -150,3 +149,10 @@
   .ui-container.midtone-darker
     background-image: image-url("backgrounds/container-midtone-darker.png")
     background-size: 29px 29px
+
+/* Projection Styles
+ *-----------------------------------------
+
+@if $projection
+  .ui-container.midtone
+    background-image: none

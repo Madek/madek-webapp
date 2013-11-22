@@ -10,7 +10,7 @@
 
 .ui-resources.list
   .ui-resource
-    border-bottom: 1px solid $grey-mid-light
+    border-bottom: 1px solid $mono-light
     margin: 0 $space-s $space-l
     padding-bottom: $space-l
     padding-top: $space-x
@@ -36,10 +36,10 @@
       list-style: none
       margin-right: $space-x
       a
-        color: $grey-mid-dark
+        color: $mono-heavy
         text-decoration: none !important
         &:hover
-          color: $grey-darker
+          color: $mono-dark
 
 /* Body
  *-----------------------------------------
@@ -71,12 +71,12 @@
     font-size: $font-xs
     line-height: $line-height-m
   .ui-resource-meta-label
-    color: $grey-mid
+    color: $mono-mid
     padding-right: $space-s
   // Borders
   .ui-resource-description,
   .ui-resource-extension
-    border-left: 1px solid $grey-mid-light
+    border-left: 1px solid $mono-light
   // Person Tag
   .ui-resource-meta-content .ui-tag-button.person-tag
     font-size: 12px !important
@@ -103,15 +103,15 @@
   // Hover and active states styles (backgrounds, shadows and such)
   .ui-thumbnail:hover
     +box-shadow(0 0 3px $darken-more)
-    background: $brightest
+    background: $mono-brightest
   .ui-thumbnail.media-entry:hover,
   .ui-thumbnail.media-entry-incomplete:hover
     +border-radius($border-radius-m)
   .ui-thumbnail.media-set:hover,
   .ui-thumbnail.filter-set:hover
-    background: $brightest image-url("backgrounds/thumb-set-backg.png") 0 0 no-repeat
+    background: $mono-brightest image-url("backgrounds/thumb-set-backg.png") 0 0 no-repeat
   .ui-thumbnail.video .ui-thumbnail-image-wrapper
-    background: $brightest image-url("backgrounds/thumb-video-backg.png") 0 0px no-repeat
+    background: $mono-brightest image-url("backgrounds/thumb-video-backg.png") 0 0px no-repeat
 
 /*
  * Media queries
@@ -126,8 +126,20 @@
   .ui-resources.list.active
     .ui-thumbnail.media-set:hover,
     .ui-thumbnail.filter-set:hover
-      background: $brightest image-url("backgrounds/thumb-set-backg.png@2x") 0 0 no-repeat
+      background: $mono-brightest image-url("backgrounds/thumb-set-backg.png@2x") 0 0 no-repeat
       background-size: 168px 168px
     .ui-thumbnail.video .ui-thumbnail-image-wrapper
-      background: $brightest image-url("backgrounds/thumb-video-backg.png@2x") 0 0px no-repeat
+      background: $mono-brightest image-url("backgrounds/thumb-video-backg.png@2x") 0 0px no-repeat
       background-size: 138px 138px
+
+/* Projection Styles
+ *-----------------------------------------
+
+@if $projection
+
+  .ui-resources.list.active
+    .ui-thumbnail.media-set:hover,
+    .ui-thumbnail.filter-set:hover
+      background: $mono-brightest image-url("backgrounds/thumb-set-backg-projct.png") 0 0 no-repeat
+    .ui-thumbnail.video .ui-thumbnail-image-wrapper
+      background: $mono-brightest image-url("backgrounds/thumb-video-backg-projct.png") 0 0px no-repeat

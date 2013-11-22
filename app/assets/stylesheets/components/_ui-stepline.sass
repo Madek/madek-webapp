@@ -13,7 +13,7 @@
   width: 100%
 
 .ui-stepline-item
-  border-color: $grey-mid-light
+  border-color: $mono-light
   border-style: solid
   border-width: 0 0 1px
   display: table-cell
@@ -24,7 +24,7 @@
 
 .ui-stepline-item-title
   +single-text-shadow(false, 1px, 0, false, $lighten-more)
-  color: $grey-mid
+  color: $mono-mid
   padding: 0 $space-m
 
 .ui-stepline-item-title small
@@ -33,12 +33,12 @@
   font-size: $font-xs
 
 .ui-stepline-item.active
-  border-color: $brightest $grey-mid-light
+  border-color: $mono-brightest $mono-light
   border-width: 0 1px 1px
-  background: $brightest
+  background: $mono-brightest
   .ui-stepline-item-title,
   .ui-stepline-item-description
-    color: $grey-darker
+    color: $mono-dark
   &:first-child
     +border-top-left-radius($border-radius-m)
     border-left: none

@@ -6,8 +6,8 @@
 .multi-select
   +border-radius($border-radius-m)
   +micro-clearfix
-  background: $brightest
-  border: 1px solid $grey-mid-light
+  background: $mono-brightest
+  border: 1px solid $mono-light
   padding: $space-s
 
 .multi-select-holder
@@ -44,4 +44,7 @@
     width: 100%
   .multi-select-input-toggle
     +position-top-right(7px, 6px)
-    @extend .icon-arrow-down
+    color: $mono-heavy
+    &:hover
+      text-decoration: none
+      color: $mono-dark

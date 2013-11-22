@@ -69,16 +69,16 @@
   .ui-thumbnail.media-entry:hover,
   .ui-thumbnail.media-entry-incomplete:hover
     +border-radius($border-radius-m)
-    background: $brightest
+    background: $mono-brightest
   .ui-thumbnail.media-set:hover,
   .ui-thumbnail.filter-set:hover
     +box-shadow(0 0 3px $darken-more)
-    background: $brightest image-url("backgrounds/thumb-set-backg.png") 0 0 no-repeat
+    background: $mono-brightest image-url("backgrounds/thumb-set-backg.png") 0 0 no-repeat
   .ui-thumbnail.media-catalog:hover
     +border-radius($border-radius-m)
-    background: $brightest image-url("backgrounds/thumb-catalog-backg.png") 3px -4px no-repeat
+    background: $mono-brightest image-url("backgrounds/thumb-catalog-backg.png") 3px -4px no-repeat
   .ui-thumbnail.video .ui-thumbnail-image-wrapper
-    background: $brightest image-url("backgrounds/thumb-video-backg.png") 0 0px no-repeat
+    background: $mono-brightest image-url("backgrounds/thumb-video-backg.png") 0 0px no-repeat
 
 // Media Queries
 
@@ -86,11 +86,25 @@
   .grid.active
     .ui-thumbnail.media-set:hover,
     .ui-thumbnail.filter-set:hover
-      background: $brightest image-url("backgrounds/thumb-set-backg.png@2x") 0 0 no-repeat
+      background: $mono-brightest image-url("backgrounds/thumb-set-backg.png@2x") 0 0 no-repeat
       background-size: 168px 168px
     .ui-thumbnail.media-catalog:hover
-      background: $brightest image-url("backgrounds/thumb-catalog-backg.png@2x") 3px -4px no-repeat
+      background: $mono-brightest image-url("backgrounds/thumb-catalog-backg.png@2x") 3px -4px no-repeat
       background-size: 328px 236px
     .ui-thumbnail.video .ui-thumbnail-image-wrapper
-      background: $brightest image-url("backgrounds/thumb-video-backg.png@2x") 0 0px no-repeat
+      background: $mono-brightest image-url("backgrounds/thumb-video-backg.png@2x") 0 0px no-repeat
       background-size: 138px 138px
+
+/* Projection Styles
+ *-----------------------------------------
+
+@if $projection
+
+  .grid.active
+    .ui-thumbnail.media-set:hover,
+    .ui-thumbnail.filter-set:hover
+      background: $mono-brightest image-url("backgrounds/thumb-set-backg-projct.png") 0 0 no-repeat
+    .ui-thumbnail.media-catalog:hover
+      background: $mono-brightest image-url("backgrounds/thumb-catalog-backg-projct.png") 3px -4px no-repeat
+    .ui-thumbnail.video .ui-thumbnail-image-wrapper
+      background: $mono-brightest image-url("backgrounds/thumb-video-backg-projct.png") 0 0px no-repeat

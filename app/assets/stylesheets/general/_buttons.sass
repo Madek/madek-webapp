@@ -19,10 +19,10 @@ a.strong
   font-weight: bold
 
 a.weak
-  color: $grey-dark
+  color: $mono-strong
 
 a:active
-  color: $grey-dark
+  color: $mono-strong
 
 /**
  * ## Button `.button`
@@ -39,13 +39,13 @@ a:active
 .button
   // Support for background gradients in IE9 through SVG
   $experimental-support-for-svg: true
-  +background-image(linear-gradient($grey-lighter, $grey-light))
+  background-color: $mono-bright
+  +background-image(linear-gradient($mono-bright, $mono-weak))
   +border-radius($border-radius-s)
   +box-shadow($lighten 0 1px 0 inset)
   +single-text-shadow(false, 1px, false, false, $lighten-more)
-  background-color: $grey-lighter
-  border: 1px solid $grey-mid-light
-  color: $grey-darker
+  border: 1px solid $mono-light
+  color: $mono-dark
   cursor: pointer
   display: inline-block
   font-size: $font-m
@@ -63,18 +63,18 @@ a:active
     text-decoration: none
 
 .button:hover
-  +background-image(linear-gradient(lighten($grey-lighter, 3%), lighten($grey-light, 3%)))
+  +background-image(linear-gradient(lighten($mono-bright, 3%), lighten($mono-weak, 3%)))
   +single-text-shadow(false, 1px, false, false, $lighten)
-  background-color: lighten($grey-light, 3%)
-  border-color: darken($grey-mid-light, 3%)
-  color: $grey-darker
+  background-color: lighten($mono-weak, 3%)
+  border-color: darken($mono-light, 3%)
+  color: $mono-dark
 
 .button:active,
 .button.active
-  +background-image(linear-gradient(darken($grey-lighter, 10%), darken($grey-light, 10%)))
+  +background-image(linear-gradient(darken($mono-bright, 10%), darken($mono-weak, 10%)))
   +box-shadow($darken 0 1px 3px inset)
-  border-color: darken($grey-mid-light, 5%)
-  color: $grey-mid
+  border-color: darken($mono-light, 5%)
+  color: $mono-mid
   outline: 0
 
 .button.small
@@ -98,10 +98,10 @@ a:active
 
 .button.disabled,
 .button.disabled:hover
-  +background-image(linear-gradient(darken($grey-lighter, 10%), darken($grey-light, 10%)))
+  +background-image(linear-gradient(darken($mono-bright, 10%), darken($mono-weak, 10%)))
   +single-text-shadow(false, 1px, 0, false, $lighten)
-  border-color: darken($grey-mid-light, 5%)
-  color: $grey-mid
+  border-color: darken($mono-light, 5%)
+  color: $mono-mid
   cursor: default
   &:active
     +box-shadow(none)
@@ -140,7 +140,7 @@ a:active
     border-left: 1px solid $darken
     height: 100%
     z-index: 3
-    background: $darken
+    background: $mono-dark
 
 // Extended buttons (most commonly featuring a dropdown icon)
 
@@ -176,7 +176,7 @@ a:active
   +single-text-shadow(false, 1px, 0, false, $darken)
   background-color: $main-color
   border: 1px solid $main-color-dark
-  color: darken($brightest, 5%)
+  color: darken($mono-brightest, 5%)
 
 // Hover state
 .primary-button:hover
@@ -184,7 +184,7 @@ a:active
   +single-text-shadow(false, 1px, 0, false, $darken)
   background-color: lighten($main-color, 3%)
   border-color: darken($main-color-dark, 3%)
-  color: $brightest
+  color: $mono-brightest
 
 // Active state
 .primary-button:active,
@@ -193,7 +193,7 @@ a:active
   +background-image(linear-gradient(darken($main-color-light, 10%), darken($main-color, 10%)))
   +single-text-shadow(false, -1px, 0, false, $darken)
   border-color: darken($main-color-dark, 5%)
-  color: darken($brightest, 20%)
+  color: darken($mono-brightest, 20%)
   outline: 0
 
 .primary-button i
@@ -212,37 +212,26 @@ a:active
 
 .tertiary-button
   @extend .button
-  +background-image(linear-gradient($grey-mid, $grey-dark))
+  +background-image(linear-gradient($mono-mid, $mono-strong))
   +single-text-shadow(false, 1px, 0, false, $darken)
-  background-color: $grey-dark
-  border: 1px solid $grey-darker
-  color: $grey-lighter
+  background-color: $mono-strong
+  border: 1px solid $mono-dark
+  color: $mono-bright
 
 .tertiary-button:hover
-  +background-image(linear-gradient(lighten($grey-mid, 3%), lighten($grey-dark, 3%)))
+  +background-image(linear-gradient(lighten($mono-mid, 3%), lighten($mono-strong, 3%)))
   +single-text-shadow(false, 1px, 0, false, $darken)
-  background-color: lighten($grey-dark, 3%)
-  border: 1px solid darken($grey-darker, 5%)
-  color: $brightest
+  background-color: lighten($mono-strong, 3%)
+  border: 1px solid darken($mono-dark, 5%)
+  color: $mono-brightest
 
 .tertiary-button:active,
 .tertiary-button.active
-  +background-image(linear-gradient(darken($grey-dark, 10%), darken($grey-darker, 10%)))
+  +background-image(linear-gradient(darken($mono-strong, 10%), darken($mono-dark, 10%)))
   +box-shadow($darken 0 1px 3px inset)
   +single-text-shadow(false, -1px, 0, false, $darken-more)
-  border: 1px solid $darkest
-  color: $brightest
+  border: 1px solid $mono-darkest
+  color: $mono-brightest
 
 .tertiary-button:active
-  color: $grey-mid
-
-/**
- * ## Extended Buttons `.button`
- *
- * .small         - Small extended button
- * .large         - Large extended button
- * .block         - Block extended button
- * .block small   - Block extended button
- * .block large   - Block extended button
- *
- * Styleguide 3.5
+  color: $mono-mid

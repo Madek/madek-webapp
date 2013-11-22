@@ -15,3 +15,4 @@
                                 :type => "text", 
                                 :"data-values" => MetaDepartment.relevant.collect {|department| {:label => department.to_s, :id => department.id}}.to_json}
         %a.multi-select-input-toggle
+          %i.icon-arrow-down

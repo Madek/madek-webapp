@@ -31,7 +31,7 @@
 .ui-featured-entry
   +box-shadow(0 1px 5px $darken-more)
   +dimension(auto, 320px)
-  background: $brightest
+  background: $mono-brightest
   display: inline-block
   position: relative
   margin: 0 $space-m 0 0
@@ -41,20 +41,20 @@
 .ui-featured-entry.filterset
   .ui-featured-entry-filterset-flag
     +position-top-right(0,0)
-    background: $brightest
+    background: $mono-brightest
     display: block
     height: 20px
     width: 20px
     i
       font-size: 14px
-      color: $grey-mid
+      color: $mono-mid
       position: relative
       top: 1px
 
 .ui-featured-entry-metadata
   +position-bottom-right(0, 0)
   +position-bottom-left(0, 0)
-  background: $brightest
+  background: $mono-brightest
   overflow: hidden
   margin-right: 10px
   padding: $space-s
@@ -66,9 +66,9 @@
     overflow: hidden
     text-align: left
   &:after
-    +background(linear-gradient(right, $brightest, rgba(255, 255, 255, 0)))
-    +dimension(30px, 100%)
-    +position-top-right(0, 20px)
+    +background(linear-gradient(right, $mono-brightest, rgba(255, 255, 255, 0)))
+    +dimension(20%, 100%)
+    +position-top-right(0, 0)
     display: block
     content: " "
     z-index: 50
@@ -86,19 +86,19 @@
     &:hover
       opacity: 1.0
     a
-      color: $brightest
+      color: $mono-brightest
       &:hover
         text-decoration: none
 
 .ui-featured-entry-type
   +position-top-right($space-s + 2px, 0)
   z-index: 100
-  color: $grey-mid
+  color: $mono-mid
 
 .ui-featured-entry-type
   +position-top-right($space-s + 2px, 0)
   z-index: 100
-  color: $grey-mid
+  color: $mono-mid
 
 /**
  *  SMALL variation
@@ -137,7 +137,7 @@
     .ui-featured-action-browse,
     .ui-featured-action-edit,
     .ui-featured-action-select
-      color: $brightest
+      color: $mono-brightest
       &:hover
         text-decoration: none
   &.small .ui-featured-entries-item:hover .ui-featured-entry-actions

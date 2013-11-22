@@ -1,0 +1,63 @@
+$projection         : true
+
+/* Color Definitions
+ *-----------------------------------------
+
+// Grey Shades
+$mono-darkest       : #000
+$mono-dark          : #000
+$mono-strong        : #000
+$mono-heavy         : #3F3F3F
+$mono-mid           : #3F3F3F
+$mono-light         : #666666
+$mono-weak          : #999999
+$mono-bright        : #ccc
+$mono-brightest     : #fff
+
+// Rainbow Shades
+$green              : #4B601F
+$red                : #741217
+$blue               : #2B637B
+$yellow             : #987517
+
+$main-color         : #171717
+$main-color-dark    : #171717
+$main-color-light   : #171717
+
+/* Create Instance Colour Variables
+ *-----------------------------------------
+
+=colour-palette
+  @if $scheme-green
+    @debug "$scheme-green is #{$scheme-green}"
+    $main-color         : $green
+    $main-color-dark    : darken($main-color, 20%)
+    $main-color-light   : lighten($main-color, 5%)
+  @if $scheme-red
+    @debug "$scheme-red is #{$scheme-red}"
+    $main-color         : $red
+    $main-color-dark    : darken($main-color, 20%)
+    $main-color-light   : lighten($main-color, 5%)
+  @if $scheme-blue
+    @debug "$scheme-blue is #{$scheme-blue}"
+    $main-color         : $blue
+    $main-color-dark    : darken($main-color, 20%)
+    $main-color-light   : lighten($main-color, 5%)
+  @if $scheme-mono
+    @debug "$scheme-mono is #{$scheme-mono}"
+    $main-color-dark    : darken($main-color, 10%)
+    $main-color-light   : lighten($main-color, 10%)
+
+/* Transparency Values
+ *-----------------------------------------
+
+$opacity-strong     : 1
+$opacity-medium     : 1
+$opacity-subtle     : 0.25
+$opacity-light      : 0.15
+$opacity-subtle     : 0.05
+
+/* Body
+ *-----------------------------------------
+
+$body-background:   $mono-bright

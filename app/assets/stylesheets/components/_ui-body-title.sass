@@ -60,3 +60,15 @@
     background-size: 85px 10px
     +dimension(85px, 100%)
     +position-top-left(0, -80px)
+
+/* Projection Styles
+ *-----------------------------------------
+
+@if $projection
+
+  .ui-body-title-label h1
+    text-overflow: ellipsis
+  .ui-body-title-label:after
+    background: none
+  .ui-body-title-actions:before
+    background: none

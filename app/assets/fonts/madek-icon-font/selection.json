@@ -1070,9 +1070,10 @@
 			"resetPoint": 58880,
 			"showQuickUse": true,
 			"quickUsageToken": false,
-			"showMetrics": true,
+			"showMetrics": false,
 			"showMetadata": false,
-			"embed": true
+			"embed": true,
+			"postfix": ""
 		},
 		"imagePref": {
 			"color": 0,
@@ -1086,6 +1087,8 @@
 		"showCodes": true,
 		"gridSize": 16,
 		"showLiga": false,
-		"showGrid": true
+		"showGrid": true,
+		"showGlyphs": true,
+		"showQuickUse": true
 	}
 }

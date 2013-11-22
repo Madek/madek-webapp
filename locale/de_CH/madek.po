@@ -637,6 +637,9 @@ msgstr "Admin-Modus verlassen"
 msgid "Switch to admin mode"
 msgstr "In Admin-Modus wechseln"
 
+msgid "Enable High Contrast Mode"
+msgstr "Enable High Contrast Mode"
+
 msgid "Log out"
 msgstr "Abmelden"
 

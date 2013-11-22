@@ -42,14 +42,13 @@
       +border-bottom-right-radius($border-radius-s)
       +dimension(auto, 21px)
       +position-top-right(192px, 16px)
-      background: $brightest
-      border-color: $grey-mid
+      background: $mono-brightest
+      border-color: $mono-mid
       border-style: solid
       border-width: 1px 0 0 1px
       font-size: $font-xs
       overflow: hidden
       padding: 0 5px
-
 
 // Media Queries
 
@@ -57,3 +56,10 @@
   .ui-thumbnail.media-catalog
     background: transparent image-url("backgrounds/thumb-catalog-backg@2x.png") 3px -4px no-repeat
     background-size: 328px 236px
+
+/* Projection Styles
+ *-----------------------------------------
+
+@if $projection
+  .ui-thumbnail.media-catalog
+    background: transparent image-url("backgrounds/thumb-catalog-backg-projct.png") 3px -4px no-repeat

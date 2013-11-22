@@ -13,7 +13,7 @@
     display: inline-block
     overflow: hidden
     width: 100%
- 
+
   .ui-container
     position: relative
 
@@ -26,7 +26,7 @@
     height: 8px
 
 html#visualization
-  background: $grey-lighter
+  background: $mono-bright
   height: 100%
   width: 100%
 
@@ -34,18 +34,18 @@ html#visualization
     display: none !important
 
   body
-    background: $grey-lighter
+    background: $mono-bright
     height: 100%
     margin: 0
     padding: 0
-    width: 100%  
+    width: 100%
 
   &:not(.show_labels_all):not(.show_labels_sets_having_descendants)
     .node_label
       opacity: 0.0
       pointer-events: none
 
-  &.show_labels_sets_having_descendants 
+  &.show_labels_sets_having_descendants
     .node_label[data-size='0']
       opacity: 0.0
       pointer-events: none

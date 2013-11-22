@@ -5,8 +5,8 @@
     %meta{:charset => 'utf-8'}
     // TODO INTERNATIONALIZE
     %title= "Styleguide"
-    = stylesheet_link_tag "application"
-    = stylesheet_link_tag "styleguide"
+    = stylesheet_link_tag "application", :media => "all"
+    = stylesheet_link_tag "styleguide", :media => "all"
     %link{:href => "/favicon.ico", :rel => "shortcut icon", :type => "image/x-icon"}
     -# The application_controller makes sure that I18n.locale is set to something valid, so we
     -# can safely use it here.

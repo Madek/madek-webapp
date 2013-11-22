@@ -74,7 +74,7 @@
     top: 21px
 
 .ui-thumbnail.video .ui-thumbnail-image-wrapper
-  background: $brightest image-url("backgrounds/thumb-video-backg.png") 0 0px no-repeat
+  background: $mono-brightest image-url("backgrounds/thumb-video-backg.png") 0 0px no-repeat
 
 /* Additional Set hover styles
  *-----------------------------------------
@@ -83,7 +83,7 @@
 .ui-thumbnail-level-down-items
   +micro-clearfix
   border-style: solid
-  background: $grey-darker
+  background: $mono-dark
   display: none
   left: 0
   padding: $space-s $space-x
@@ -108,7 +108,7 @@
   padding-top: $space-s
 
 .ui-thumbnail-level-notes
-  color: $grey-mid-light
+  color: $mono-light
   font-size: $font-s
   padding-bottom: $space-x
 
@@ -136,8 +136,8 @@
   +border-radius($border-radius-m)
   +box-shadow(0 1px 3px $darken)
   +dimension(50px, 50px)
-  border: 1px solid $grey-dark
-  background: $brightest
+  border: 1px solid $mono-strong
+  background: $mono-brightest
   display: block
   line-height: 0
   padding: 4px
@@ -214,15 +214,15 @@
   +position-top-right(16px, 16px)
   +border-top-right-radius($border-radius-m)
   +dimension(21px, 21px)
-  background-color: $brightest
-  border-color: $grey-mid
+  background-color: $mono-brightest
+  border-color: $mono-mid
   border-style: solid
   border-width: 0 0 1px 1px
   display: block
   z-index: 10
   .icon-filter
     position: relative
-    color: $grey-dark
+    color: $mono-strong
     margin-left: 4px
     top: 2px
     font-size: 14px
@@ -236,9 +236,24 @@
     background-size: 168px 168px
 
   .ui-thumbnail.video .ui-thumbnail-image-wrapper
-    background: $brightest image-url("backgrounds/thumb-video-backg@2x.png") 0 0px no-repeat
+    background: $mono-brightest image-url("backgrounds/thumb-video-backg@2x.png") 0 0px no-repeat
     background-size: 138px 138px
 
   .ui-thumbnail-level-item.media_set
     background: transparent image-url("backgrounds/thumb-set-backg-small-alt@2x.png") -3px -2px no-repeat
     background-size: 82px 82px
+
+/* Projection Styles
+ *-----------------------------------------
+
+@if $projection
+
+  .ui-thumbnail.media-set,
+  .ui-thumbnail.filter-set
+    background: transparent image-url("backgrounds/thumb-set-backg-projct.png") 0 0 no-repeat
+
+  .ui-thumbnail.video .ui-thumbnail-image-wrapper
+    background: $mono-brightest image-url("backgrounds/thumb-video-backg-projct.png") 0 0px no-repeat
+
+  .ui-thumbnail-level-item.media_set
+    background: transparent image-url("backgrounds/thumb-set-backg-small-alt-projct.png") -3px -2px no-repeat

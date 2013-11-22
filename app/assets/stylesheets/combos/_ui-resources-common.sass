@@ -26,8 +26,8 @@
 .ui-thumbnail-image-wrapper
   +border-radius($border-radius-s)
   +box-shadow(0px 1px 3px rgba(0, 0, 0, 0.2))
-  background: $brightest
-  border: 1px solid $grey-mid
+  background: $mono-brightest
+  border: 1px solid $mono-mid
   display: inline-block
   line-height: 0
   padding: 4px
@@ -44,7 +44,7 @@
   font-weight: 600
 
 .ui-thumbnail-meta-subtitle
-  color: $grey-mid
+  color: $mono-mid
   font-size: $font-xs
 
 // Active state
@@ -52,8 +52,8 @@
 .ui-thumbnail-privacy
   +border-radius($border-radius-m 0, $border-radius-s 0)
   +dimension(21px, 21px)
-  background-color: $brightest
-  border-color: $grey-mid
+  background-color: $mono-brightest
+  border-color: $mono-mid
   border-style: solid
   border-width: 0 1px 1px 0
   display: block
@@ -62,7 +62,7 @@
   .icon-privacy-private,
   .icon-privacy-group
     position: relative
-    color: $grey-dark
+    color: $mono-strong
     margin-left: 3px
     top: 1px
     font-size: 14px
@@ -76,4 +76,4 @@
     top: 15px
     .icon-privacy-private:before
       content: "\e616"
-      color: $brightest
+      color: $mono-brightest
