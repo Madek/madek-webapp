@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
 ##############################################
 # Authentication
 
+
   before_filter :load_app_settings
   before_filter :set_gettext_locale, :login_required, :except => [:login, :login_successful, :logout, :login_and_return_here] # TODO :help
 
@@ -50,6 +51,11 @@ class ApplicationController < ActionController::Base
       locale_symbol = session[:locale].to_sym
     end
     I18n.locale = locale_symbol
+
+    if Rails.env.development?
+      FastGettext.reload! 
+      Po2json.create 
+    end
   end
 
 ##############################################
