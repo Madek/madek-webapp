@@ -8,15 +8,15 @@
       .ui-body-title
         .ui-body-title-label
           %h1.title-xl
-
+            Berechtigungen für
             - if @media_resources.count == 1
-              Berechtigungen für "#{@media_resources.first.title}"
+              "#{@media_resources.first.title}"
 
             - else
-              Berechtigungen für #{@media_resources.count}
+              #{@media_resources.count}
               - if @media_resources.count != @all_media_resources.count
                 von #{@all_media_resources.count}
-              Inhalten
+              Inhalte
 
         - case @action
         - when :edit
@@ -24,9 +24,9 @@
         - when :view
           .ui-body-title-actions
             =link_to edit_responsibilities_path(params.slice(:media_resource_id,:collection_id).merge({_action: "edit"})), id: "transfer-responsibilities", class: "button" do
-              Verantwortlichkeit übertragen
+              =_("Transfer responsibility")
             =link_to edit_permissions_path(params.slice(:media_resource_id,:collection_id).merge({_action: "edit"})), id: "edit-permissions",data: {manageable: true}, class: "primary-button" do
-              Berechtigungen editieren
+              =_("Manage permissions")
 
 
     .app-body-ui-container
@@ -70,10 +70,11 @@
               %h2.title-l.ui-info-box-title Ihre Berechtigungen
               %p.ui-info-box-intro Sie, #{current_user}, haben gegenwärtig als Person oder als Mitglied einer Gruppe folgende Berechtigungen
               %ul.inline.capitilize
-                - %w(view download edit manage).each do |action|
-                  - if @media_resources.accessible_by_user(current_user,action.to_sym).count == @media_resources.count
+                - action_map= {view: "View", download: "Export original", edit: "Edit metadata" , manage: "Manage permissions"}
+                - [:view, :download, :edit, :manage].each do |action|
+                  - if @media_resources.accessible_by_user(current_user,action).count == @media_resources.count
                     %li
-                      =_(action)
+                      = _(action_map[action])
 
           %hr.separator.light.mvl
 

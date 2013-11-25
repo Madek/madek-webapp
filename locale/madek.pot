@@ -236,6 +236,9 @@ msgstr ""
 msgid "Display settings saved"
 msgstr ""
 
+msgid "Download"
+msgstr ""
+
 msgid "Download original"
 msgstr ""
 
@@ -282,6 +285,9 @@ msgid "Explore content"
 msgstr ""
 
 msgid "Export"
+msgstr ""
+
+msgid "Export original"
 msgstr ""
 
 msgid "External users"
@@ -384,6 +390,9 @@ msgid ""
 "are processed directly and can then be displayed."
 msgstr ""
 
+msgid "Inhalten"
+msgstr ""
+
 msgid "Import media"
 msgstr ""
 
@@ -424,6 +433,12 @@ msgid "Madek - Media Archive of the Arts"
 msgstr ""
 
 msgid "Make available images, video and audio files or documents:"
+msgstr ""
+
+msgid "Manage" 
+msgstr ""
+
+msgid "Manage permissions"
 msgstr ""
 
 msgid "Manage newly uploaded content using sets (optional):"
@@ -548,6 +563,9 @@ msgid "Permission"
 msgstr ""
 
 msgid "Permissions"
+msgstr ""
+
+msgid "Permissions and responsibility"
 msgstr ""
 
 msgid "Person"
@@ -776,6 +794,12 @@ msgstr[1] ""
 msgid "Title"
 msgstr ""
 
+msgid "Transfer responsibility"
+msgstr ""
+
+msgid "Transfer responsibility of"
+msgstr ""
+
 msgid "Username"
 msgstr ""
 
@@ -831,6 +855,9 @@ msgid "of"
 msgstr ""
 
 msgid "on"
+msgstr ""
+
+msgid "out of"
 msgstr ""
 
 msgid "page"

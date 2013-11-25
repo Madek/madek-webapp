@@ -237,8 +237,11 @@ msgstr "Deselect all"
 msgid "Display settings saved"
 msgstr "Display settings saved"
 
+msgid "Download"
+msgstr "Download"
+
 msgid "Download original"
-msgstr "Download original"
+msgstr "Export original"
 
 msgid "Edit"
 msgstr "Edit"
@@ -428,6 +431,12 @@ msgstr "Log out"
 msgid "Make available images, video and audio files or documents:"
 msgstr "Make available images, video and audio files or documents:"
 
+msgid "Manage"
+msgstr "Manage"
+
+msgid "Manage permissions"
+msgstr "Manage permissions"
+
 msgid "Manage newly uploaded content using sets (optional):"
 msgstr "Manage newly uploaded content using sets (optional):"
 
@@ -549,6 +558,9 @@ msgstr "People"
 
 msgid "Permissions"
 msgstr "Permissions"
+
+msgid "Permissions and responsibility"
+msgstr "Permissions and responsibility"
 
 msgid "Person"
 msgstr "Person"
@@ -779,6 +791,12 @@ msgstr[1] "This set is contained in %d sets"
 msgid "Title"
 msgstr "Title"
 
+msgid "Transfer responsibility"
+msgstr "Transfer responsibility"
+
+msgid "Transfer responsibility of"
+msgstr "Transfer responsibility of"
+
 msgid "Username"
 msgstr "Username"
 
@@ -835,6 +853,9 @@ msgstr "of"
 
 msgid "on"
 msgstr "on"
+
+msgid "out of"
+msgstr "out of"
 
 msgid "page"
 msgstr "page"

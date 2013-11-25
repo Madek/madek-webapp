@@ -241,8 +241,11 @@ msgstr "Alle abwählen"
 msgid "Display settings saved"
 msgstr "Darstellung gespeichert"
 
+msgid "Download"
+msgstr "Herunterladen"
+
 msgid "Download original"
-msgstr "Download Original"
+msgstr "Exportieren Original"
 
 msgid "Edit"
 msgstr "Editieren"
@@ -255,9 +258,6 @@ msgstr "Metadaten editieren"
 
 msgid "Edit metadata of these media entries"
 msgstr "Metadaten von Medieneinträgen editieren"
-
-msgid "Edit permissions"
-msgstr "Berechtigungen editieren"
 
 msgid "Empty"
 msgstr "Leer"
@@ -291,6 +291,9 @@ msgstr "Inhalte erkunden"
 
 msgid "Export"
 msgstr "Exportieren"
+
+msgid "Export original"
+msgstr "Original exportieren"
 
 msgid "External users"
 msgstr "Externe"
@@ -443,6 +446,12 @@ msgstr "Madek - Medienarchiv der Künste"
 msgid "Make available images, video and audio files or documents:"
 msgstr "Bilder, Videos, Audio-Dateien oder Dokumente  bereitstellen:"
 
+msgid "Manage"
+msgstr "Verwalten"
+
+msgid "Manage permissions"
+msgstr "Berechtigungen verwalten"
+
 msgid "Manage newly uploaded content using sets (optional):"
 msgstr "Die neuen Inhalte in Sets verwalten (optional):"
 
@@ -569,6 +578,9 @@ msgstr "Berechtigung"
 
 msgid "Permissions"
 msgstr "Berechtigungen"
+
+msgid "Permissions and responsibility"
+msgstr "Berechtigungen und Verantwortlichkeit"
 
 msgid "Person"
 msgstr "Person"
@@ -802,6 +814,12 @@ msgstr[1] "Dieses Set ist in %d Sets enthalten"
 msgid "Title"
 msgstr "Titel"
 
+msgid "Transfer responsibility"
+msgstr "Verantwortlichkeit übertragen"
+
+msgid "Transfer responsibility of"
+msgstr "Verantwortlichkeit übertragen von"
+
 msgid "Username"
 msgstr "Benutzername"
 
@@ -858,6 +876,9 @@ msgstr "von"
 
 msgid "on"
 msgstr "am"
+
+msgid "out of"
+msgstr "aus"
 
 msgid "page"
 msgstr "Seite"

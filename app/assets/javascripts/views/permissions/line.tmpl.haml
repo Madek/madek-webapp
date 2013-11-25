@@ -31,8 +31,8 @@
 
   {{tmpl({permission: view, label: "Betrachten", name: "view"}, {manageable: $item.manageable}) App.renderPath("permissions/line/right-check")}}
 
-  {{tmpl({permission: download, label: "Download Original", name: "download"}, {manageable: $item.manageable}) App.renderPath("permissions/line/right-check")}}
+  {{tmpl({permission: download, label: "Export original", name: "download"}, {manageable: $item.manageable}) App.renderPath("permissions/line/right-check")}}
 
-  {{tmpl({permission: edit, label: "Editieren", name: "edit"}, {manageable: $item.manageable}) App.renderPath("permissions/line/right-check")}}
+  {{tmpl({permission: edit, label: "Edit metadata", name: "edit"}, {manageable: $item.manageable}) App.renderPath("permissions/line/right-check")}}
 
-  {{tmpl({permission: manage, label: "Berechtigung verwalten", name: "manage"}, {manageable: $item.manageable}) App.renderPath("permissions/line/right-check")}}
+  {{tmpl({permission: manage, label: "Manage permissions", name: "manage"}, {manageable: $item.manageable}) App.renderPath("permissions/line/right-check")}}

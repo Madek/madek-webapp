@@ -13,9 +13,9 @@
               %i.icon-privacy-private-alt
             %td.ui-rights-role-title  ${_jed('Permission')}
             %td.ui-rights-check-title ${_jed('View')}
-            %td.ui-rights-check-title ${_jed('Download original')}
-            %td.ui-rights-check-title ${_jed('Edit')}
-            %td.ui-rights-check-title ${_jed('Edit permissions')}
+            %td.ui-rights-check-title ${_jed('Export original')}
+            %td.ui-rights-check-title ${_jed('Edit metadata')}
+            %td.ui-rights-check-title ${_jed('Manage permissions')}
 
         %tbody
           {{tmpl(users, {presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}

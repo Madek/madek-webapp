@@ -82,729 +82,43 @@ window.i18n.locale_data = {
          "X-Poedit-SourceCharset": " utf-8",
          "Plural-Forms": " nplurals=2; plural=(n != 1)"
       },
-      "Help": [
+      "%d content elements": [
          null,
-         "Help"
-      ],
-      "My archive": [
-         null,
-         "My archive"
-      ],
-      "Explore": [
-         null,
-         "Explore"
-      ],
-      "Search": [
-         null,
-         "Search"
-      ],
-      "ZHdK login": [
-         null,
-         "ZHdK login"
-      ],
-      "External users": [
-         null,
-         "External users"
-      ],
-      "Log in": [
-         null,
-         "Log in"
-      ],
-      "Username": [
-         null,
-         "Username"
-      ],
-      "Password": [
-         null,
-         "Password"
-      ],
-      "Context": [
-         null,
-         "Context"
-      ],
-      "Contexts": [
-         null,
-         "Contexts"
-      ],
-      "New content": [
-         null,
-         "New content"
-      ],
-      "Further actions": [
-         null,
-         "Further actions"
-      ],
-      "Import media": [
-         null,
-         "Import media"
-      ],
-      "Show connections": [
-         null,
-         "Show connections"
-      ],
-      "Create set": [
-         null,
-         "Create set"
-      ],
-      "My favorites": [
-         null,
-         "My favorites"
-      ],
-      "Content entrusted to me": [
-         null,
-         "Content entrusted to me"
-      ],
-      "Export": [
-         null,
-         "Export"
-      ],
-      "Content I am responsible for": [
-         null,
-         "Content I am responsible for"
-      ],
-      "My latest imports": [
-         null,
-         "My latest imports"
-      ],
-      "My keywords": [
-         null,
-         "My keywords"
-      ],
-      "My workgroups": [
-         null,
-         "My workgroups"
-      ],
-      "Welcome": [
-         null,
-         "Welcome"
-      ],
-      "Share your media, archive your works, explore content, develop knowledge.": [
-         null,
-         "Share your media, archive your works, explore content, develop knowledge."
-      ],
-      "Explore content": [
-         null,
-         "Explore content"
-      ],
-      "New workgroup": [
-         null,
-         "New workgroup"
-      ],
-      "Workgroups": [
-         null,
-         "Workgroups"
-      ],
-      "System groups": [
-         null,
-         "System groups"
-      ],
-      "Department groups": [
-         null,
-         "Department groups"
-      ],
-      "Change view": [
-         null,
-         "Change view"
-      ],
-      "Reject": [
-         null,
-         "Reject"
-      ],
-      "Accept": [
-         null,
-         "Accept"
-      ],
-      "Search results for": [
-         null,
-         "Search results for"
-      ],
-      "Create filter set": [
-         null,
-         "Create filter set"
-      ],
-      "Search result": [
-         null,
-         "Search result"
-      ],
-      "%s o'clock": [
-         null,
-         "%s o'clock"
-      ],
-      "Extract": [
-         null,
-         "Extract"
-      ],
-      "Vocabulary": [
-         null,
-         "Vocabulary"
-      ],
-      "A specific vocabulary was created for this context": [
-         null,
-         "A specific vocabulary was created for this context"
-      ],
-      "A specific vocabulary was created for this set": [
-         null,
-         "A specific vocabulary was created for this set"
-      ],
-      "Highlight values that were already used in this context": [
-         null,
-         "Highlight values that were already used in this context"
-      ],
-      "Highlight values that were already used in this set": [
-         null,
-         "Highlight values that were already used in this set"
-      ],
-      "Context contains": [
-         null,
-         "Context contains"
-      ],
-      "Title": [
-         null,
-         "Title"
-      ],
-      "Description": [
-         null,
-         "Description"
-      ],
-      "These metadata were used most often": [
-         null,
-         "These metadata were used most often"
-      ],
-      "They show this context's area of focus": [
-         null,
-         "They show this context's area of focus"
-      ],
-      "Show all": [
-         null,
-         "Show all"
-      ],
-      "Cover image": [
-         null,
-         "Cover image"
-      ],
-      "Specify cover image for set": [
-         null,
-         "Specify cover image for set"
-      ],
-      "Highlight content": [
-         null,
-         "Highlight content"
-      ],
-      "Display settings saved": [
-         null,
-         "Display settings saved"
-      ],
-      "Save display settings": [
-         null,
-         "Save display settings"
-      ],
-      "Specify sort and display settings for this set": [
-         null,
-         "Specify sort and display settings for this set"
-      ],
-      "Specify display settings": [
-         null,
-         "Specify display settings"
-      ],
-      "Highlighted content": [
-         null,
-         "Highlighted content"
-      ],
-      "Parent sets": [
-         null,
-         "Parent sets"
-      ],
-      "They show this set's area of focus": [
-         null,
-         "They show this set's area of focus"
-      ],
-      "This set has additional contexts with metadata": [
-         null,
-         "This set has additional contexts with metadata"
-      ],
-      "This allows adding further details to all media entries contained in this set.": [
-         null,
-         "This allows adding further details to all media entries contained in this set."
-      ],
-      "Furthermore, you may also assign any contexts that are assigned to this set to any set contained within.": [
-         null,
-         "Furthermore, you may also assign any contexts that are assigned to this set to any set contained within."
-      ],
-      "Aktivieren / Deaktivieren": [
-         null,
-         "Aktivieren / Deaktivieren"
-      ],
-      "Save": [
-         null,
-         "Save"
-      ],
-      "This set is contained in one set": [
-         "This set is contained in %d sets",
-         "This set is contained in one set",
-         "This set is contained in %d sets"
-      ],
-      "items": [
-         null,
-         "items"
+         "%d content elements"
       ],
       "%d item": [
          "%d items",
          "%d item",
          "%d items"
       ],
-      "%d set": [
-         "%d sets",
-         "%d set",
-         "%d sets"
+      "%d items selected": [
+         null,
+         "%d items selected"
       ],
       "%d of %d items visible to you": [
          null,
          "%d of %d items visible to you"
       ],
-      "Set contains": [
-         null,
-         "Set contains"
-      ],
-      "Browse for similar content": [
-         null,
-         "Browse for similar content"
-      ],
-      "No similar content found": [
-         null,
-         "No similar content found"
-      ],
-      "This item does not have enough metadata": [
-         null,
-         "This item does not have enough metadata"
-      ],
-      "Add metadata": [
-         null,
-         "Add metadata"
-      ],
-      "Edit metadata": [
-         null,
-         "Edit metadata"
-      ],
-      "Cancel": [
-         null,
-         "Cancel"
-      ],
-      "%d items selected": [
-         null,
-         "%d items selected"
-      ],
-      "Table view": [
-         null,
-         "Table view"
-      ],
-      "Media view": [
-         null,
-         "Media view"
-      ],
-      "These items are publicly accessible": [
-         null,
-         "These items are publicly accessible"
-      ],
-      "These items are only accesible to you": [
-         null,
-         "These items are only accesible to you"
-      ],
-      "These items are shared with others": [
-         null,
-         "These items are shared with others"
-      ],
-      "List of media resources": [
-         null,
-         "List of media resources"
-      ],
-      "Add to/remove from clipboard": [
-         null,
-         "Add to/remove from clipboard"
-      ],
-      "Add to/remove from set": [
-         null,
-         "Add to/remove from set"
-      ],
-      "Add to/remove from favorites": [
-         null,
-         "Add to/remove from favorites"
-      ],
-      "Add to clipboard": [
-         null,
-         "Add to clipboard"
-      ],
-      "Browse": [
-         null,
-         "Browse"
-      ],
-      "Delete": [
-         null,
-         "Delete"
-      ],
-      "Miniature view": [
-         null,
-         "Miniature view"
-      ],
-      "Grid view": [
-         null,
-         "Grid view"
-      ],
-      "List view": [
-         null,
-         "List view"
-      ],
-      "Order by date of import": [
-         null,
-         "Order by date of import"
-      ],
-      "Order by modification date": [
-         null,
-         "Order by modification date"
-      ],
-      "Order by title": [
-         null,
-         "Order by title"
-      ],
-      "Filter and order by author": [
-         null,
-         "Filter and order by author"
-      ],
-      "Filter": [
-         null,
-         "Filter"
-      ],
-      "Reset filters": [
-         null,
-         "Reset filters"
-      ],
-      "Deselect all": [
-         null,
-         "Deselect all"
-      ],
-      "Select all": [
-         null,
-         "Select all"
-      ],
-      "Limit by keyword": [
-         null,
-         "Limit by keyword"
-      ],
-      "Loading filters": [
-         null,
-         "Loading filters"
-      ],
-      "Required field - please fill in": [
-         null,
-         "Required field - please fill in"
-      ],
-      "Apply field to all items": [
-         null,
-         "Apply field to all items"
-      ],
-      "Overwrite existing values": [
-         null,
-         "Overwrite existing values"
-      ],
-      "Person": [
-         null,
-         "Person"
-      ],
-      "Group": [
-         null,
-         "Group"
-      ],
-      "Last name": [
-         null,
-         "Last name"
-      ],
-      "First name": [
-         null,
-         "First name"
-      ],
-      "Pseudonym": [
-         null,
-         "Pseudonym"
-      ],
-      "Add person": [
-         null,
-         "Add person"
-      ],
-      "Add group": [
-         null,
-         "Add group"
-      ],
-      "Name": [
-         null,
-         "Name"
-      ],
-      "Most popular": [
-         null,
-         "Most popular"
-      ],
-      "Latest": [
-         null,
-         "Latest"
-      ],
-      "Loading keywords": [
-         null,
-         "Loading keywords"
-      ],
-      "Free entry": [
-         null,
-         "Free entry"
-      ],
-      "on": [
-         null,
-         "on"
-      ],
-      "von/bis": [
-         null,
-         "von/bis"
-      ],
-      "will be saved as text": [
-         null,
-         "will be saved as text"
-      ],
-      "from": [
-         null,
-         "from"
-      ],
-      "to": [
-         null,
-         "to"
-      ],
-      "Please select country": [
-         null,
-         "Please select country"
-      ],
-      "Visualize relationship between items as a graph": [
-         null,
-         "Visualize relationship between items as a graph"
-      ],
-      "Read/edit permissions": [
-         null,
-         "Read/edit permissions"
-      ],
-      "Permissions": [
-         null,
-         "Permissions"
-      ],
-      "This entry is contained in one set": [
-         "This entry is contained in %d sets",
-         "This entry is contained in one set",
-         "This entry is contained in %d sets"
-      ],
-      "Responsibility": [
-         null,
-         "Responsibility"
-      ],
-      "Person responsible in the media archive": [
-         null,
-         "Person responsible in the media archive"
-      ],
-      "File": [
-         null,
-         "File"
-      ],
-      "There are no metadata available for this context": [
-         null,
-         "There are no metadata available for this context"
-      ],
-      "Close": [
-         null,
-         "Close"
-      ],
-      "Activities": [
-         null,
-         "Activities"
-      ],
-      "Imported by": [
-         null,
-         "Imported by"
-      ],
-      "Last updated": [
-         null,
-         "Last updated"
-      ],
-      "No metadata yet": [
-         null,
-         "No metadata yet"
-      ],
-      "The metadata present differs between entries": [
-         null,
-         "The metadata present differs between entries"
-      ],
-      "Caution: Any existing values will be overwritten with the data you enter here! If you do not enter anything, the differing values will remain unchanged.": [
-         null,
-         "Caution: Any existing values will be overwritten with the data you enter here! If you do not enter anything, the differing values will remain unchanged."
-      ],
-      "Existing metadata is identical": [
-         null,
-         "Existing metadata is identical"
-      ],
-      "Value and text": [
-         null,
-         "Value and text"
-      ],
-      "Originial file, metadata as they were when it was uploaded into the archive.": [
-         null,
-         "Originial file, metadata as they were when it was uploaded into the archive."
-      ],
-      "File containing its original metadata": [
-         null,
-         "File containing its original metadata"
-      ],
-      "Current metadata as XML document for TMS.": [
-         null,
-         "Current metadata as XML document for TMS."
-      ],
-      "TMS XML document": [
-         null,
-         "TMS XML document"
-      ],
-      "Current metadata from the media archive is written directly into the file in the XMP/IPTC format.": [
-         null,
-         "Current metadata from the media archive is written directly into the file in the XMP/IPTC format."
-      ],
-      "File with current metadata": [
-         null,
-         "File with current metadata"
-      ],
-      "File without embedded metadata.": [
-         null,
-         "File without embedded metadata."
-      ],
-      "File without metadata": [
-         null,
-         "File without metadata"
-      ],
-      "Current metadata as XML document.": [
-         null,
-         "Current metadata as XML document."
-      ],
-      "XML document": [
-         null,
-         "XML document"
-      ],
-      "Open in new window": [
-         null,
-         "Open in new window"
-      ],
-      "Previous page": [
-         null,
-         "Previous page"
-      ],
-      "Next page": [
-         null,
-         "Next page"
-      ],
-      "Conversion is %f%% complete": [
-         null,
-         "Conversion is %f%% complete"
-      ],
-      "This file is being converted so it can be previewed.": [
-         null,
-         "This file is being converted so it can be previewed."
-      ],
-      "As soon as this is done, you will find a playable version here.": [
-         null,
-         "As soon as this is done, you will find a playable version here."
-      ],
-      "Please reload this page to see the latest progress.": [
-         null,
-         "Please reload this page to see the latest progress."
-      ],
-      "Conversion failed": [
-         null,
-         "Conversion failed"
-      ],
-      "Please contact support.": [
-         null,
-         "Please contact support."
-      ],
-      "The encoder reports:": [
-         null,
-         "The encoder reports:"
+      "%d set": [
+         "%d sets",
+         "%d set",
+         "%d sets"
       ],
-      "Popular keywords": [
+      "%s (overwritten by public permissions)": [
          null,
-         "Popular keywords"
+         "%s (overwritten by public permissions)"
       ],
-      "Make available images, video and audio files or documents:": [
+      "%s (partially set)": [
          null,
-         "Make available images, video and audio files or documents:"
+         "%s (partially set)"
       ],
-      "You have not selected any media yet.": [
+      "%s o'clock": [
          null,
-         "You have not selected any media yet."
+         "%s o'clock"
       ],
       "(Drag & Drop)": [
          null,
          "(Drag & Drop)"
-      ],
-      "Note": [
-         null,
-         "Note"
-      ],
-      "Images (TIFF, JPEG, PNG) as well as audio and video files in popular formats are processed directly and can then be displayed.": [
-         null,
-         "Images (TIFF, JPEG, PNG) as well as audio and video files in popular formats are processed directly and can then be displayed."
-      ],
-      "Please import no more than 200 files at a time.": [
-         null,
-         "Please import no more than 200 files at a time."
-      ],
-      "Accepted file size": [
-         null,
-         "Accepted file size"
-      ],
-      "Files larger than 1.4 GB must be uploaded using an FTP dropbox.": [
-         null,
-         "Files larger than 1.4 GB must be uploaded using an FTP dropbox."
-      ],
-      "This is how you upload files using the FTP dropbox.": [
-         null,
-         "This is how you upload files using the FTP dropbox."
-      ],
-      "Specify access and visibility:": [
-         null,
-         "Specify access and visibility:"
-      ],
-      "Save permissions and continue...": [
-         null,
-         "Save permissions and continue..."
-      ],
-      "Manage newly uploaded content using sets (optional):": [
-         null,
-         "Manage newly uploaded content using sets (optional):"
-      ],
-      "Add entries to a set": [
-         null,
-         "Add entries to a set"
-      ],
-      "Finish import": [
-         null,
-         "Finish import"
-      ],
-      "Add metadata:": [
-         null,
-         "Add metadata:"
-      ],
-      "Show only content missing required metadata": [
-         null,
-         "Show only content missing required metadata"
-      ],
-      "Previous entry": [
-         null,
-         "Previous entry"
-      ],
-      "Current entry": [
-         null,
-         "Current entry"
-      ],
-      "Next entry": [
-         null,
-         "Next entry"
       ],
       "1. Transfer media": [
          null,
@@ -822,245 +136,209 @@ window.i18n.locale_data = {
          null,
          "4. Organize media entries"
       ],
-      "Cancel import": [
+      "A specific vocabulary was created for this context": [
          null,
-         "Cancel import"
+         "A specific vocabulary was created for this context"
       ],
-      "Show this group's content": [
+      "A specific vocabulary was created for this set": [
          null,
-         "Show this group's content"
+         "A specific vocabulary was created for this set"
       ],
-      "content elements": [
+      "Accept": [
          null,
-         "content elements"
+         "Accept"
       ],
-      "Change filter settings": [
+      "Accepted file size": [
          null,
-         "Change filter settings"
-      ],
-      "Public content": [
-         null,
-         "Public content"
-      ],
-      "Media entries": [
-         null,
-         "Media entries"
-      ],
-      "Sets": [
-         null,
-         "Sets"
-      ],
-      "Filter sets": [
-         null,
-         "Filter sets"
-      ],
-      "Groups": [
-         null,
-         "Groups"
-      ],
-      "Search keyword": [
-         null,
-         "Search keyword"
-      ],
-      "Filter settings": [
-         null,
-         "Filter settings"
-      ],
-      "Filters": [
-         null,
-         "Filters"
-      ],
-      "Filter set": [
-         null,
-         "Filter set"
-      ],
-      "Edit filter set": [
-         null,
-         "Edit filter set"
-      ],
-      "Save filter settings": [
-         null,
-         "Save filter settings"
-      ],
-      "%d content elements": [
-         null,
-         "%d content elements"
-      ],
-      "Open admin interface": [
-         null,
-         "Open admin interface"
-      ],
-      "Exit admin mode": [
-         null,
-         "Exit admin mode"
-      ],
-      "Switch to admin mode": [
-         null,
-         "Switch to admin mode"
-      ],
-      "Log out": [
-         null,
-         "Log out"
-      ],
-      "Clipboard": [
-         null,
-         "Clipboard"
-      ],
-      "Empty": [
-         null,
-         "Empty"
-      ],
-      "No content selected": [
-         null,
-         "No content selected"
+         "Accepted file size"
       ],
       "Actions": [
          null,
          "Actions"
       ],
-      "Show permissions": [
+      "Activities": [
          null,
-         "Show permissions"
+         "Activities"
       ],
-      "Edit permissions": [
+      "Add entries to a set": [
          null,
-         "Edit permissions"
+         "Add entries to a set"
       ],
-      "Edit metadata of these media entries": [
+      "Add group": [
          null,
-         "Edit metadata of these media entries"
+         "Add group"
       ],
-      "Clear clipboard": [
+      "Add metadata": [
          null,
-         "Clear clipboard"
+         "Add metadata"
       ],
-      "Explore / ": [
+      "Add metadata:": [
          null,
-         "Explore / "
+         "Add metadata:"
       ],
-      "Explore / Contexts": [
+      "Add person": [
          null,
-         "Explore / Contexts"
+         "Add person"
       ],
-      "Section contains": [
+      "Add to clipboard": [
          null,
-         "Section contains"
+         "Add to clipboard"
       ],
-      "Explore / Popular keywords": [
+      "Add to favorites": [
          null,
-         "Explore / Popular keywords"
+         "Add to favorites"
       ],
-      "Search / Create new set": [
+      "Add to/remove from clipboard": [
          null,
-         "Search / Create new set"
+         "Add to/remove from clipboard"
       ],
-      "Search for a set and add selected content to it.": [
+      "Add to/remove from favorites": [
          null,
-         "Search for a set and add selected content to it."
+         "Add to/remove from favorites"
       ],
-      "Sets that only partially contain the selected content": [
+      "Add to/remove from set": [
          null,
-         "Sets that only partially contain the selected content"
+         "Add to/remove from set"
       ],
-      "are highlighted.": [
+      "Aktivieren / Deaktivieren": [
          null,
-         "are highlighted."
-      ],
-      "Further sets were found. Please narrow your search.": [
-         null,
-         "Further sets were found. Please narrow your search."
-      ],
-      "Remove permission": [
-         null,
-         "Remove permission"
-      ],
-      "Public": [
-         null,
-         "Public"
-      ],
-      "Responsible person": [
-         null,
-         "Responsible person"
-      ],
-      "Continue...": [
-         null,
-         "Continue..."
-      ],
-      "Create new set": [
-         null,
-         "Create new set"
-      ],
-      "Search for a set and add the selected content to it.": [
-         null,
-         "Search for a set and add the selected content to it."
-      ],
-      "Further sets were found. Please refine your search.": [
-         null,
-         "Further sets were found. Please refine your search."
-      ],
-      "of": [
-         null,
-         "of"
-      ],
-      "Remove from clipboard": [
-         null,
-         "Remove from clipboard"
-      ],
-      "Save the currently selected keywords and filters as a filter set.": [
-         null,
-         "Save the currently selected keywords and filters as a filter set."
+         "Aktivieren / Deaktivieren"
       ],
       "All": [
          null,
          "All"
       ],
-      "Selection": [
+      "Any values": [
          null,
-         "Selection"
+         "Any values"
       ],
-      "No set was found matching this search": [
+      "Apply field to all items": [
          null,
-         "No set was found matching this search"
+         "Apply field to all items"
+      ],
+      "Are you sure you want to delete the following:": [
+         null,
+         "Are you sure you want to delete the following:"
+      ],
+      "As soon as this is done, you will find a playable version here.": [
+         null,
+         "As soon as this is done, you will find a playable version here."
+      ],
+      "Browse": [
+         null,
+         "Browse"
+      ],
+      "Browse for similar content": [
+         null,
+         "Browse for similar content"
+      ],
+      "Cancel": [
+         null,
+         "Cancel"
+      ],
+      "Cancel import": [
+         null,
+         "Cancel import"
+      ],
+      "Caution: Any existing values will be overwritten with the data you enter here! If you do not enter anything, the differing values will remain unchanged.": [
+         null,
+         "Caution: Any existing values will be overwritten with the data you enter here! If you do not enter anything, the differing values will remain unchanged."
+      ],
+      "Change filter settings": [
+         null,
+         "Change filter settings"
+      ],
+      "Change view": [
+         null,
+         "Change view"
+      ],
+      "Clear clipboard": [
+         null,
+         "Clear clipboard"
+      ],
+      "Clipboard": [
+         null,
+         "Clipboard"
+      ],
+      "Close": [
+         null,
+         "Close"
+      ],
+      "Content I am responsible for": [
+         null,
+         "Content I am responsible for"
+      ],
+      "Content entrusted to me": [
+         null,
+         "Content entrusted to me"
       ],
       "Content is not yet assigned to any set": [
          null,
          "Content is not yet assigned to any set"
       ],
-      "Selected content is only partially contained in this set.": [
+      "Context": [
          null,
-         "Selected content is only partially contained in this set."
+         "Context"
       ],
-      "Order by creation date": [
+      "Context contains": [
          null,
-         "Order by creation date"
+         "Context contains"
       ],
-      "page": [
+      "Contexts": [
          null,
-         "page"
+         "Contexts"
       ],
-      "No content": [
+      "Continue browsing in this direction": [
          null,
-         "No content"
+         "Continue browsing in this direction"
       ],
-      "found for the current filter settings.": [
+      "Continue...": [
          null,
-         "found for the current filter settings."
+         "Continue..."
       ],
-      "No content found for this keyword.": [
+      "Conversion failed": [
          null,
-         "No content found for this keyword."
+         "Conversion failed"
       ],
-      "available": [
+      "Conversion is %f%% complete": [
          null,
-         "available"
+         "Conversion is %f%% complete"
       ],
-      "for the current filter settings.": [
+      "Cover image": [
          null,
-         "for the current filter settings."
+         "Cover image"
       ],
-      "No metadata available for the context \"%s\"": [
+      "Create filter set": [
          null,
-         "No metadata available for the context \"%s\""
+         "Create filter set"
+      ],
+      "Create new set": [
+         null,
+         "Create new set"
+      ],
+      "Create set": [
+         null,
+         "Create set"
+      ],
+      "Current entry": [
+         null,
+         "Current entry"
+      ],
+      "Current metadata as XML document for TMS.": [
+         null,
+         "Current metadata as XML document for TMS."
+      ],
+      "Current metadata as XML document.": [
+         null,
+         "Current metadata as XML document."
+      ],
+      "Current metadata from the media archive is written directly into the file in the XMP/IPTC format.": [
+         null,
+         "Current metadata from the media archive is written directly into the file in the XMP/IPTC format."
+      ],
+      "Delete": [
+         null,
+         "Delete"
       ],
       "Delete forever": [
          null,
@@ -1070,93 +348,843 @@ window.i18n.locale_data = {
          null,
          "Delete item"
       ],
-      "Are you sure you want to delete the following:": [
+      "Department groups": [
          null,
-         "Are you sure you want to delete the following:"
+         "Department groups"
       ],
-      "Remove from favorites": [
+      "Description": [
          null,
-         "Remove from favorites"
+         "Description"
       ],
-      "Add to favorites": [
+      "Deselect all": [
          null,
-         "Add to favorites"
+         "Deselect all"
       ],
-      "unknown": [
+      "Display settings saved": [
          null,
-         "unknown"
+         "Display settings saved"
       ],
-      "Any values": [
+      "Download": [
          null,
-         "Any values"
-      ],
-      "Further details": [
-         null,
-         "Further details"
-      ],
-      "Continue browsing in this direction": [
-         null,
-         "Continue browsing in this direction"
-      ],
-      "Save selection": [
-         null,
-         "Save selection"
-      ],
-      "Set": [
-         null,
-         "Set"
-      ],
-      "Entries": [
-         null,
-         "Entries"
-      ],
-      "%s (overwritten by public permissions)": [
-         null,
-         "%s (overwritten by public permissions)"
-      ],
-      "%s (partially set)": [
-         null,
-         "%s (partially set)"
-      ],
-      "View": [
-         null,
-         "View"
+         "Download"
       ],
       "Download original": [
          null,
-         "Download original"
+         "Export original"
       ],
       "Edit": [
          null,
          "Edit"
       ],
-      "Me": [
+      "Edit filter set": [
          null,
-         "Me"
+         "Edit filter set"
+      ],
+      "Edit metadata": [
+         null,
+         "Edit metadata"
+      ],
+      "Edit metadata of these media entries": [
+         null,
+         "Edit metadata of these media entries"
+      ],
+      "Edit permissions": [
+         null,
+         "Edit permissions"
+      ],
+      "Empty": [
+         null,
+         "Empty"
+      ],
+      "Entries": [
+         null,
+         "Entries"
+      ],
+      "Existing metadata is identical": [
+         null,
+         "Existing metadata is identical"
+      ],
+      "Exit admin mode": [
+         null,
+         "Exit admin mode"
+      ],
+      "Explore": [
+         null,
+         "Explore"
+      ],
+      "Explore / ": [
+         null,
+         "Explore / "
+      ],
+      "Explore / Contexts": [
+         null,
+         "Explore / Contexts"
+      ],
+      "Explore / Popular keywords": [
+         null,
+         "Explore / Popular keywords"
+      ],
+      "Explore content": [
+         null,
+         "Explore content"
+      ],
+      "Export": [
+         null,
+         "Export"
+      ],
+      "External users": [
+         null,
+         "External users"
+      ],
+      "Extract": [
+         null,
+         "Extract"
+      ],
+      "File": [
+         null,
+         "File"
+      ],
+      "File containing its original metadata": [
+         null,
+         "File containing its original metadata"
+      ],
+      "File with current metadata": [
+         null,
+         "File with current metadata"
+      ],
+      "File without embedded metadata.": [
+         null,
+         "File without embedded metadata."
+      ],
+      "File without metadata": [
+         null,
+         "File without metadata"
+      ],
+      "Files larger than 1.4 GB must be uploaded using an FTP dropbox.": [
+         null,
+         "Files larger than 1.4 GB must be uploaded using an FTP dropbox."
+      ],
+      "Filter": [
+         null,
+         "Filter"
+      ],
+      "Filter and order by author": [
+         null,
+         "Filter and order by author"
+      ],
+      "Filter set": [
+         null,
+         "Filter set"
+      ],
+      "Filter sets": [
+         null,
+         "Filter sets"
+      ],
+      "Filter settings": [
+         null,
+         "Filter settings"
+      ],
+      "Filters": [
+         null,
+         "Filters"
+      ],
+      "Finish import": [
+         null,
+         "Finish import"
+      ],
+      "First name": [
+         null,
+         "First name"
+      ],
+      "Free entry": [
+         null,
+         "Free entry"
+      ],
+      "Further actions": [
+         null,
+         "Further actions"
+      ],
+      "Further details": [
+         null,
+         "Further details"
+      ],
+      "Further sets were found. Please narrow your search.": [
+         null,
+         "Further sets were found. Please narrow your search."
+      ],
+      "Further sets were found. Please refine your search.": [
+         null,
+         "Further sets were found. Please refine your search."
+      ],
+      "Furthermore, you may also assign any contexts that are assigned to this set to any set contained within.": [
+         null,
+         "Furthermore, you may also assign any contexts that are assigned to this set to any set contained within."
+      ],
+      "Grid view": [
+         null,
+         "Grid view"
+      ],
+      "Group": [
+         null,
+         "Group"
+      ],
+      "Groups": [
+         null,
+         "Groups"
       ],
       "Groups that include me": [
          null,
          "Groups that include me"
       ],
-      "Others": [
+      "Help": [
          null,
-         "Others"
+         "Help"
       ],
-      "People": [
+      "Highlight content": [
          null,
-         "People"
+         "Highlight content"
       ],
-      "Name of the person": [
+      "Highlight values that were already used in this context": [
          null,
-         "Name of the person"
+         "Highlight values that were already used in this context"
+      ],
+      "Highlight values that were already used in this set": [
+         null,
+         "Highlight values that were already used in this set"
+      ],
+      "Highlighted content": [
+         null,
+         "Highlighted content"
+      ],
+      "Images (TIFF, JPEG, PNG) as well as audio and video files in popular formats are processed directly and can then be displayed.": [
+         null,
+         "Images (TIFF, JPEG, PNG) as well as audio and video files in popular formats are processed directly and can then be displayed."
+      ],
+      "Import media": [
+         null,
+         "Import media"
+      ],
+      "Imported by": [
+         null,
+         "Imported by"
+      ],
+      "Last name": [
+         null,
+         "Last name"
+      ],
+      "Last updated": [
+         null,
+         "Last updated"
+      ],
+      "Latest": [
+         null,
+         "Latest"
+      ],
+      "Limit by keyword": [
+         null,
+         "Limit by keyword"
+      ],
+      "List of media resources": [
+         null,
+         "List of media resources"
+      ],
+      "List view": [
+         null,
+         "List view"
+      ],
+      "Loading filters": [
+         null,
+         "Loading filters"
+      ],
+      "Loading keywords": [
+         null,
+         "Loading keywords"
+      ],
+      "Log in": [
+         null,
+         "Log in"
+      ],
+      "Log out": [
+         null,
+         "Log out"
+      ],
+      "Make available images, video and audio files or documents:": [
+         null,
+         "Make available images, video and audio files or documents:"
+      ],
+      "Manage": [
+         null,
+         "Manage"
+      ],
+      "Manage permissions": [
+         null,
+         "Manage permissions"
+      ],
+      "Manage newly uploaded content using sets (optional):": [
+         null,
+         "Manage newly uploaded content using sets (optional):"
+      ],
+      "Me": [
+         null,
+         "Me"
+      ],
+      "Media entries": [
+         null,
+         "Media entries"
+      ],
+      "Media view": [
+         null,
+         "Media view"
+      ],
+      "Miniature view": [
+         null,
+         "Miniature view"
+      ],
+      "Most popular": [
+         null,
+         "Most popular"
+      ],
+      "My archive": [
+         null,
+         "My archive"
+      ],
+      "My favorites": [
+         null,
+         "My favorites"
+      ],
+      "My keywords": [
+         null,
+         "My keywords"
+      ],
+      "My latest imports": [
+         null,
+         "My latest imports"
+      ],
+      "My workgroups": [
+         null,
+         "My workgroups"
+      ],
+      "Name": [
+         null,
+         "Name"
       ],
       "Name of the group": [
          null,
          "Name of the group"
       ],
+      "Name of the person": [
+         null,
+         "Name of the person"
+      ],
+      "New content": [
+         null,
+         "New content"
+      ],
+      "New workgroup": [
+         null,
+         "New workgroup"
+      ],
+      "Next entry": [
+         null,
+         "Next entry"
+      ],
+      "Next page": [
+         null,
+         "Next page"
+      ],
+      "No content": [
+         null,
+         "No content"
+      ],
+      "No content found for this keyword.": [
+         null,
+         "No content found for this keyword."
+      ],
+      "No content selected": [
+         null,
+         "No content selected"
+      ],
+      "No metadata available for the context \"%s\"": [
+         null,
+         "No metadata available for the context \"%s\""
+      ],
+      "No metadata yet": [
+         null,
+         "No metadata yet"
+      ],
+      "No set was found matching this search": [
+         null,
+         "No set was found matching this search"
+      ],
+      "No similar content found": [
+         null,
+         "No similar content found"
+      ],
+      "Note": [
+         null,
+         "Note"
+      ],
+      "Open admin interface": [
+         null,
+         "Open admin interface"
+      ],
+      "Open in new window": [
+         null,
+         "Open in new window"
+      ],
+      "Order by creation date": [
+         null,
+         "Order by creation date"
+      ],
+      "Order by date of import": [
+         null,
+         "Order by date of import"
+      ],
+      "Order by modification date": [
+         null,
+         "Order by modification date"
+      ],
+      "Order by title": [
+         null,
+         "Order by title"
+      ],
+      "Originial file, metadata as they were when it was uploaded into the archive.": [
+         null,
+         "Originial file, metadata as they were when it was uploaded into the archive."
+      ],
+      "Others": [
+         null,
+         "Others"
+      ],
+      "Overwrite existing values": [
+         null,
+         "Overwrite existing values"
+      ],
+      "Parent sets": [
+         null,
+         "Parent sets"
+      ],
       "Partially responsible": [
          null,
          "Partially responsible"
+      ],
+      "Password": [
+         null,
+         "Password"
+      ],
+      "People": [
+         null,
+         "People"
+      ],
+      "Permissions": [
+         null,
+         "Permissions"
+      ],
+      "Permissions and responsibility": [
+         null,
+         "Permissions and responsibility"
+      ],
+      "Person": [
+         null,
+         "Person"
+      ],
+      "Person responsible in the media archive": [
+         null,
+         "Person responsible in the media archive"
+      ],
+      "Please contact support.": [
+         null,
+         "Please contact support."
+      ],
+      "Please import no more than 200 files at a time.": [
+         null,
+         "Please import no more than 200 files at a time."
+      ],
+      "Please reload this page to see the latest progress.": [
+         null,
+         "Please reload this page to see the latest progress."
+      ],
+      "Please select country": [
+         null,
+         "Please select country"
+      ],
+      "Popular keywords": [
+         null,
+         "Popular keywords"
+      ],
+      "Previous entry": [
+         null,
+         "Previous entry"
+      ],
+      "Previous page": [
+         null,
+         "Previous page"
+      ],
+      "Pseudonym": [
+         null,
+         "Pseudonym"
+      ],
+      "Public": [
+         null,
+         "Public"
+      ],
+      "Public content": [
+         null,
+         "Public content"
+      ],
+      "Read/edit permissions": [
+         null,
+         "Read/edit permissions"
+      ],
+      "Reject": [
+         null,
+         "Reject"
+      ],
+      "Remove from clipboard": [
+         null,
+         "Remove from clipboard"
+      ],
+      "Remove from favorites": [
+         null,
+         "Remove from favorites"
+      ],
+      "Remove permission": [
+         null,
+         "Remove permission"
+      ],
+      "Required field - please fill in": [
+         null,
+         "Required field - please fill in"
+      ],
+      "Reset filters": [
+         null,
+         "Reset filters"
+      ],
+      "Responsibility": [
+         null,
+         "Responsibility"
+      ],
+      "Responsible person": [
+         null,
+         "Responsible person"
+      ],
+      "Save": [
+         null,
+         "Save"
+      ],
+      "Save display settings": [
+         null,
+         "Save display settings"
+      ],
+      "Save filter settings": [
+         null,
+         "Save filter settings"
+      ],
+      "Save permissions and continue...": [
+         null,
+         "Save permissions and continue..."
+      ],
+      "Save selection": [
+         null,
+         "Save selection"
+      ],
+      "Save the currently selected keywords and filters as a filter set.": [
+         null,
+         "Save the currently selected keywords and filters as a filter set."
+      ],
+      "Search": [
+         null,
+         "Search"
+      ],
+      "Search / Create new set": [
+         null,
+         "Search / Create new set"
+      ],
+      "Search for a set and add selected content to it.": [
+         null,
+         "Search for a set and add selected content to it."
+      ],
+      "Search for a set and add the selected content to it.": [
+         null,
+         "Search for a set and add the selected content to it."
+      ],
+      "Search keyword": [
+         null,
+         "Search keyword"
+      ],
+      "Search result": [
+         null,
+         "Search result"
+      ],
+      "Search results for": [
+         null,
+         "Search results for"
+      ],
+      "Section contains": [
+         null,
+         "Section contains"
+      ],
+      "Select all": [
+         null,
+         "Select all"
+      ],
+      "Selected content is only partially contained in this set.": [
+         null,
+         "Selected content is only partially contained in this set."
+      ],
+      "Selection": [
+         null,
+         "Selection"
+      ],
+      "Set": [
+         null,
+         "Set"
+      ],
+      "Set contains": [
+         null,
+         "Set contains"
+      ],
+      "Sets": [
+         null,
+         "Sets"
+      ],
+      "Sets that only partially contain the selected content": [
+         null,
+         "Sets that only partially contain the selected content"
+      ],
+      "Share your media, archive your works, explore content, develop knowledge.": [
+         null,
+         "Share your media, archive your works, explore content, develop knowledge."
+      ],
+      "Show all": [
+         null,
+         "Show all"
+      ],
+      "Show connections": [
+         null,
+         "Show connections"
+      ],
+      "Show only content missing required metadata": [
+         null,
+         "Show only content missing required metadata"
+      ],
+      "Show permissions": [
+         null,
+         "Show permissions"
+      ],
+      "Show this group's content": [
+         null,
+         "Show this group's content"
+      ],
+      "Specify access and visibility:": [
+         null,
+         "Specify access and visibility:"
+      ],
+      "Specify cover image for set": [
+         null,
+         "Specify cover image for set"
+      ],
+      "Specify display settings": [
+         null,
+         "Specify display settings"
+      ],
+      "Specify sort and display settings for this set": [
+         null,
+         "Specify sort and display settings for this set"
+      ],
+      "Switch to admin mode": [
+         null,
+         "Switch to admin mode"
+      ],
+      "System groups": [
+         null,
+         "System groups"
+      ],
+      "TMS XML document": [
+         null,
+         "TMS XML document"
+      ],
+      "Table view": [
+         null,
+         "Table view"
+      ],
+      "The encoder reports:": [
+         null,
+         "The encoder reports:"
+      ],
+      "The metadata present differs between entries": [
+         null,
+         "The metadata present differs between entries"
+      ],
+      "There are no metadata available for this context": [
+         null,
+         "There are no metadata available for this context"
+      ],
+      "These items are only accesible to you": [
+         null,
+         "These items are only accesible to you"
+      ],
+      "These items are publicly accessible": [
+         null,
+         "These items are publicly accessible"
+      ],
+      "These items are shared with others": [
+         null,
+         "These items are shared with others"
+      ],
+      "These metadata were used most often": [
+         null,
+         "These metadata were used most often"
+      ],
+      "They show this context's area of focus": [
+         null,
+         "They show this context's area of focus"
+      ],
+      "They show this set's area of focus": [
+         null,
+         "They show this set's area of focus"
+      ],
+      "This allows adding further details to all media entries contained in this set.": [
+         null,
+         "This allows adding further details to all media entries contained in this set."
+      ],
+      "This entry is contained in one set": [
+         "This entry is contained in %d sets",
+         "This entry is contained in one set",
+         "This entry is contained in %d sets"
+      ],
+      "This file is being converted so it can be previewed.": [
+         null,
+         "This file is being converted so it can be previewed."
+      ],
+      "This is how you upload files using the FTP dropbox.": [
+         null,
+         "This is how you upload files using the FTP dropbox."
+      ],
+      "This item does not have enough metadata": [
+         null,
+         "This item does not have enough metadata"
+      ],
+      "This set has additional contexts with metadata": [
+         null,
+         "This set has additional contexts with metadata"
+      ],
+      "This set is contained in one set": [
+         "This set is contained in %d sets",
+         "This set is contained in one set",
+         "This set is contained in %d sets"
+      ],
+      "Title": [
+         null,
+         "Title"
+      ],
+      "Transfer responsibility": [
+         null,
+         "Transfer responsibility"
+      ],
+      "Transfer responsibility of": [
+         null,
+         "Transfer responsibility of"
+      ],
+      "Username": [
+         null,
+         "Username"
+      ],
+      "Value and text": [
+         null,
+         "Value and text"
+      ],
+      "View": [
+         null,
+         "View"
+      ],
+      "Visualize relationship between items as a graph": [
+         null,
+         "Visualize relationship between items as a graph"
+      ],
+      "Vocabulary": [
+         null,
+         "Vocabulary"
+      ],
+      "Welcome": [
+         null,
+         "Welcome"
+      ],
+      "Workgroups": [
+         null,
+         "Workgroups"
+      ],
+      "XML document": [
+         null,
+         "XML document"
+      ],
+      "You have not selected any media yet.": [
+         null,
+         "You have not selected any media yet."
+      ],
+      "ZHdK login": [
+         null,
+         "ZHdK login"
+      ],
+      "are highlighted.": [
+         null,
+         "are highlighted."
+      ],
+      "available": [
+         null,
+         "available"
+      ],
+      "content elements": [
+         null,
+         "content elements"
+      ],
+      "for the current filter settings.": [
+         null,
+         "for the current filter settings."
+      ],
+      "found for the current filter settings.": [
+         null,
+         "found for the current filter settings."
+      ],
+      "from": [
+         null,
+         "from"
+      ],
+      "items": [
+         null,
+         "items"
+      ],
+      "of": [
+         null,
+         "of"
+      ],
+      "on": [
+         null,
+         "on"
+      ],
+      "out of": [
+         null,
+         "out of"
+      ],
+      "page": [
+         null,
+         "page"
+      ],
+      "to": [
+         null,
+         "to"
+      ],
+      "unknown": [
+         null,
+         "unknown"
+      ],
+      "von/bis": [
+         null,
+         "von/bis"
+      ],
+      "will be saved as text": [
+         null,
+         "will be saved as text"
       ]
    }
 }
