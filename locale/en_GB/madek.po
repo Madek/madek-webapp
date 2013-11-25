@@ -13,553 +13,36 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-msgid "Help"
-msgstr "Help"
-
-msgid "My archive"
-msgstr "My archive"
-
-msgid "Explore"
-msgstr "Explore"
-
-msgid "Search"
-msgstr "Search"
-
-msgid "ZHdK login"
-msgstr "ZHdK login"
-
-msgid "External users"
-msgstr "External users"
-
-msgid "Log in"
-msgstr "Log in"
-
-msgid "Username"
-msgstr "Username"
-
-msgid "Password"
-msgstr "Password"
-
-msgid "Context"
-msgstr "Context"
-
-msgid "Contexts"
-msgstr "Contexts"
-
-msgid "New content"
-msgstr "New content"
-
-msgid "Further actions"
-msgstr "Further actions"
-
-msgid "Import media"
-msgstr "Import media"
-
-msgid "Show connections"
-msgstr "Show connections"
-
-msgid "Create set"
-msgstr "Create set"
-
-msgid "My favorites"
-msgstr "My favorites"
-
-msgid "Content entrusted to me"
-msgstr "Content entrusted to me"
-
-msgid "Export"
-msgstr "Export"
-
-msgid "Content I am responsible for"
-msgstr "Content I am responsible for"
-
-msgid "My latest imports"
-msgstr "My latest imports"
-
-msgid "My keywords"
-msgstr "My keywords"
-
-msgid "My workgroups"
-msgstr "My workgroups"
-
-msgid "Welcome"
-msgstr "Welcome"
-
-msgid "Share your media, archive your works, explore content, develop knowledge."
-msgstr "Share your media, archive your works, explore content, develop knowledge."
-
-msgid "Explore content"
-msgstr "Explore content"
-
-msgid "New workgroup"
-msgstr "New workgroup"
-
-msgid "Workgroups"
-msgstr "Workgroups"
-
-msgid "System groups"
-msgstr "System groups"
-
-msgid "Department groups"
-msgstr "Department groups"
-
-msgid "Change view"
-msgstr "Change view"
-
-msgid "Reject"
-msgstr "Reject"
-
-msgid "Accept"
-msgstr "Accept"
-
-msgid "Search results for"
-msgstr "Search results for"
-
-msgid "Create filter set"
-msgstr "Create filter set"
-
-msgid "Search result"
-msgstr "Search result"
-
-msgid "%s o'clock"
-msgstr "%s o'clock"
-
-msgid "Extract"
-msgstr "Extract"
-
-msgid "Vocabulary"
-msgstr "Vocabulary"
-
-msgid "A specific vocabulary was created for this context"
-msgstr "A specific vocabulary was created for this context"
-
-msgid "A specific vocabulary was created for this set"
-msgstr "A specific vocabulary was created for this set"
-
-msgid "Highlight values that were already used in this context"
-msgstr "Highlight values that were already used in this context"
-
-msgid "Highlight values that were already used in this set"
-msgstr "Highlight values that were already used in this set"
-
-msgid "Context contains"
-msgstr "Context contains"
-
-msgid "Title"
-msgstr "Title"
-
-msgid "Description"
-msgstr "Description"
-
-msgid "These metadata were used most often"
-msgstr "These metadata were used most often"
-
-msgid "They show this context's area of focus"
-msgstr "They show this context's area of focus"
-
-msgid "Show all"
-msgstr "Show all"
-
-msgid "Cover image"
-msgstr "Cover image"
-
-msgid "Specify cover image for set"
-msgstr "Specify cover image for set"
-
-msgid "Highlight content"
-msgstr "Highlight content"
-
-msgid "Display settings saved"
-msgstr "Display settings saved"
-
-msgid "Save display settings"
-msgstr "Save display settings"
-
-msgid "Specify sort and display settings for this set"
-msgstr "Specify sort and display settings for this set"
-
-msgid "Specify display settings"
-msgstr "Specify display settings"
-
-msgid "Highlighted content"
-msgstr "Highlighted content"
-
-msgid "Parent sets"
-msgstr "Parent sets"
-
-msgid "They show this set's area of focus"
-msgstr "They show this set's area of focus"
-
-msgid "This set has additional contexts with metadata"
-msgstr "This set has additional contexts with metadata"
-
-msgid "This allows adding further details to all media entries contained in this set."
-msgstr "This allows adding further details to all media entries contained in this set."
-
-msgid "Furthermore, you may also assign any contexts that are assigned to this set to any set contained within."
-msgstr "Furthermore, you may also assign any contexts that are assigned to this set to any set contained within."
-
-msgid "Aktivieren / Deaktivieren"
-msgstr "Aktivieren / Deaktivieren"
-
-msgid "Save"
-msgstr "Save"
-
-msgid "This set is contained in one set"
-msgid_plural "This set is contained in %d sets"
-msgstr[0] "This set is contained in one set"
-msgstr[1] "This set is contained in %d sets"
-
-msgid "items"
-msgstr "items"
+msgid "%d content elements"
+msgstr "%d content elements"
 
 msgid "%d item"
 msgid_plural "%d items"
 msgstr[0] "%d item"
 msgstr[1] "%d items"
 
-msgid "%d set" 
-msgid_plural "%d sets"
-msgstr[0] "%d set"
-msgstr[1] "%d sets"
+msgid "%d items selected"
+msgstr "%d items selected"
 
 msgid "%d of %d items visible to you"
 msgstr "%d of %d items visible to you"
 
-msgid "Set contains"
-msgstr "Set contains"
-
-msgid "Browse for similar content"
-msgstr "Browse for similar content"
-
-msgid "No similar content found"
-msgstr "No similar content found"
-
-msgid "This item does not have enough metadata"
-msgstr "This item does not have enough metadata"
-
-msgid "Add metadata"
-msgstr "Add metadata"
-
-msgid "Edit metadata"
-msgstr "Edit metadata"
-
-msgid "Cancel"
-msgstr "Cancel"
-
-msgid "%d items selected"
-msgstr "%d items selected"
-
-msgid "Table view"
-msgstr "Table view"
-
-msgid "Media view"
-msgstr "Media view"
-
-msgid "These items are publicly accessible"
-msgstr "These items are publicly accessible"
-
-msgid "These items are only accesible to you"
-msgstr "These items are only accesible to you"
-
-msgid "These items are shared with others"
-msgstr "These items are shared with others"
-
-msgid "List of media resources"
-msgstr "List of media resources"
-
-msgid "Add to/remove from clipboard"
-msgstr "Add to/remove from clipboard"
-
-msgid "Add to/remove from set"
-msgstr "Add to/remove from set"
-
-msgid "Add to/remove from favorites"
-msgstr "Add to/remove from favorites"
-
-msgid "Add to clipboard"
-msgstr "Add to clipboard"
-
-msgid "Browse"
-msgstr "Browse"
-
-msgid "Delete"
-msgstr "Delete"
-
-msgid "Miniature view"
-msgstr "Miniature view"
-
-msgid "Grid view"
-msgstr "Grid view"
-
-msgid "List view"
-msgstr "List view"
-
-msgid "Order by date of import"
-msgstr "Order by date of import"
-
-msgid "Order by modification date"
-msgstr "Order by modification date"
-
-msgid "Order by title"
-msgstr "Order by title"
-
-msgid "Filter and order by author"
-msgstr "Filter and order by author"
-
-msgid "Filter"
-msgstr "Filter"
-
-msgid "Reset filters"
-msgstr "Reset filters"
-
-msgid "Deselect all"
-msgstr "Deselect all"
-
-msgid "Select all"
-msgstr "Select all"
-
-msgid "Limit by keyword"
-msgstr "Limit by keyword"
-
-msgid "Loading filters"
-msgstr "Loading filters"
-
-msgid "Required field - please fill in"
-msgstr "Required field - please fill in"
-
-msgid "Apply field to all items"
-msgstr "Apply field to all items"
-
-msgid "Overwrite existing values"
-msgstr "Overwrite existing values"
-
-msgid "Person"
-msgstr "Person"
-
-msgid "Group"
-msgstr "Group"
-
-msgid "Last name"
-msgstr "Last name"
-
-msgid "First name"
-msgstr "First name"
-
-msgid "Pseudonym"
-msgstr "Pseudonym"
-
-msgid "Add person"
-msgstr "Add person"
-
-msgid "Add group"
-msgstr "Add group"
-
-msgid "Name"
-msgstr "Name"
-
-msgid "Most popular"
-msgstr "Most popular"
-
-msgid "Latest"
-msgstr "Latest"
-
-msgid "Loading keywords"
-msgstr "Loading keywords"
-
-msgid "Free entry"
-msgstr "Free entry"
-
-msgid "on"
-msgstr "on"
-
-msgid "von/bis"
-msgstr "von/bis"
-
-msgid "will be saved as text"
-msgstr "will be saved as text"
-
-msgid "from"
-msgstr "from"
-
-msgid "to"
-msgstr "to"
-
-msgid "Please select country"
-msgstr "Please select country"
-
-msgid "Visualize relationship between items as a graph"
-msgstr "Visualize relationship between items as a graph"
-
-msgid "Read/edit permissions"
-msgstr "Read/edit permissions"
-
-msgid "Permissions"
-msgstr "Permissions"
-
-msgid "This entry is contained in one set"
-msgid_plural "This entry is contained in %d sets"
-msgstr[0] "This entry is contained in one set"
-msgstr[1] "This entry is contained in %d sets"
-
-msgid "Responsibility"
-msgstr "Responsibility"
-
-msgid "Person responsible in the media archive"
-msgstr "Person responsible in the media archive"
-
-msgid "File"
-msgstr "File"
-
-msgid "There are no metadata available for this context"
-msgstr "There are no metadata available for this context"
-
-msgid "Close"
-msgstr "Close"
-
-msgid "Activities"
-msgstr "Activities"
-
-msgid "Imported by"
-msgstr "Imported by"
-
-msgid "Last updated"
-msgstr "Last updated"
-
-msgid "No metadata yet"
-msgstr "No metadata yet"
-
-msgid "The metadata present differs between entries"
-msgstr "The metadata present differs between entries"
-
-msgid "Caution: Any existing values will be overwritten with the data you enter here! If you do not enter anything, the differing values will remain unchanged."
-msgstr "Caution: Any existing values will be overwritten with the data you enter here! If you do not enter anything, the differing values will remain unchanged."
-
-msgid "Existing metadata is identical"
-msgstr "Existing metadata is identical"
-
-msgid "Value and text"
-msgstr "Value and text"
-
-msgid "Originial file, metadata as they were when it was uploaded into the archive."
-msgstr "Originial file, metadata as they were when it was uploaded into the archive."
-
-msgid "File containing its original metadata"
-msgstr "File containing its original metadata"
-
-msgid "Current metadata as XML document for TMS."
-msgstr "Current metadata as XML document for TMS."
-
-msgid "TMS XML document"
-msgstr "TMS XML document"
-
-msgid "Current metadata from the media archive is written directly into the file in the XMP/IPTC format."
-msgstr "Current metadata from the media archive is written directly into the file in the XMP/IPTC format."
-
-msgid "File with current metadata"
-msgstr "File with current metadata"
-
-msgid "File without embedded metadata."
-msgstr "File without embedded metadata."
-
-msgid "File without metadata"
-msgstr "File without metadata"
-
-msgid "Current metadata as XML document."
-msgstr "Current metadata as XML document."
-
-msgid "XML document"
-msgstr "XML document"
-
-msgid "Open in new window"
-msgstr "Open in new window"
-
-msgid "Previous page"
-msgstr "Previous page"
-
-msgid "Next page"
-msgstr "Next page"
-
-msgid "Conversion is %f%% complete"
-msgstr "Conversion is %f%% complete"
-
-msgid "This file is being converted so it can be previewed."
-msgstr "This file is being converted so it can be previewed."
-
-msgid "As soon as this is done, you will find a playable version here."
-msgstr "As soon as this is done, you will find a playable version here."
-
-msgid "Please reload this page to see the latest progress."
-msgstr "Please reload this page to see the latest progress."
-
-msgid "Conversion failed"
-msgstr "Conversion failed"
-
-msgid "Please contact support."
-msgstr "Please contact support."
-
-msgid "The encoder reports:"
-msgstr "The encoder reports:"
-
-msgid "Popular keywords"
-msgstr "Popular keywords"
-
-msgid "Make available images, video and audio files or documents:"
-msgstr "Make available images, video and audio files or documents:"
-
-msgid "You have not selected any media yet."
-msgstr "You have not selected any media yet."
+msgid "%d set"
+msgid_plural "%d sets"
+msgstr[0] "%d set"
+msgstr[1] "%d sets"
+
+msgid "%s (overwritten by public permissions)"
+msgstr "%s (overwritten by public permissions)"
+
+msgid "%s (partially set)"
+msgstr "%s (partially set)"
+
+msgid "%s o'clock"
+msgstr "%s o'clock"
 
 msgid "(Drag & Drop)"
 msgstr "(Drag & Drop)"
-
-msgid "Note"
-msgstr "Note"
-
-msgid "Images (TIFF, JPEG, PNG) as well as audio and video files in popular formats are processed directly and can then be displayed."
-msgstr "Images (TIFF, JPEG, PNG) as well as audio and video files in popular formats are processed directly and can then be displayed."
-
-msgid "Please import no more than 200 files at a time."
-msgstr "Please import no more than 200 files at a time."
-
-msgid "Accepted file size"
-msgstr "Accepted file size"
-
-msgid "Files larger than 1.4 GB must be uploaded using an FTP dropbox."
-msgstr "Files larger than 1.4 GB must be uploaded using an FTP dropbox."
-
-msgid "This is how you upload files using the FTP dropbox."
-msgstr "This is how you upload files using the FTP dropbox."
-
-msgid "Specify access and visibility:"
-msgstr "Specify access and visibility:"
-
-msgid "Save permissions and continue..."
-msgstr "Save permissions and continue..."
-
-msgid "Manage newly uploaded content using sets (optional):"
-msgstr "Manage newly uploaded content using sets (optional):"
-
-msgid "Add entries to a set"
-msgstr "Add entries to a set"
-
-msgid "Finish import"
-msgstr "Finish import"
-
-msgid "Add metadata:"
-msgstr "Add metadata:"
-
-msgid "Show only content missing required metadata"
-msgstr "Show only content missing required metadata"
-
-msgid "Previous entry"
-msgstr "Previous entry"
-
-msgid "Current entry"
-msgstr "Current entry"
-
-msgid "Next entry"
-msgstr "Next entry"
 
 msgid "1. Transfer media"
 msgstr "1. Transfer media"
@@ -573,186 +56,168 @@ msgstr "3. Add metadata"
 msgid "4. Organize media entries"
 msgstr "4. Organize media entries"
 
-msgid "Cancel import"
-msgstr "Cancel import"
+msgid "A specific vocabulary was created for this context"
+msgstr "A specific vocabulary was created for this context"
 
-msgid "Show this group's content"
-msgstr "Show this group's content"
+msgid "A specific vocabulary was created for this set"
+msgstr "A specific vocabulary was created for this set"
 
-msgid "content elements"
-msgstr "content elements"
+msgid "Accept"
+msgstr "Accept"
 
-msgid "Change filter settings"
-msgstr "Change filter settings"
-
-msgid "Public content"
-msgstr "Public content"
-
-msgid "Media entries"
-msgstr "Media entries"
-
-msgid "Sets"
-msgstr "Sets"
-
-msgid "Filter sets"
-msgstr "Filter sets"
-
-msgid "Groups"
-msgstr "Groups"
-
-msgid "Search keyword"
-msgstr "Search keyword"
-
-msgid "Filter settings"
-msgstr "Filter settings"
-
-msgid "Filters"
-msgstr "Filters"
-
-msgid "Filter set"
-msgstr "Filter set"
-
-msgid "Edit filter set"
-msgstr "Edit filter set"
-
-msgid "Save filter settings"
-msgstr "Save filter settings"
-
-msgid "%d content elements"
-msgstr "%d content elements"
-
-msgid "Open admin interface"
-msgstr "Open admin interface"
-
-msgid "Exit admin mode"
-msgstr "Exit admin mode"
-
-msgid "Switch to admin mode"
-msgstr "Switch to admin mode"
-
-msgid "Log out"
-msgstr "Log out"
-
-msgid "Clipboard"
-msgstr "Clipboard"
-
-msgid "Empty"
-msgstr "Empty"
-
-msgid "No content selected"
-msgstr "No content selected"
+msgid "Accepted file size"
+msgstr "Accepted file size"
 
 msgid "Actions"
 msgstr "Actions"
 
-msgid "Show permissions"
-msgstr "Show permissions"
+msgid "Activities"
+msgstr "Activities"
 
-msgid "Edit permissions"
-msgstr "Edit permissions"
+msgid "Add entries to a set"
+msgstr "Add entries to a set"
 
-msgid "Edit metadata of these media entries"
-msgstr "Edit metadata of these media entries"
+msgid "Add group"
+msgstr "Add group"
 
-msgid "Clear clipboard"
-msgstr "Clear clipboard"
+msgid "Add metadata"
+msgstr "Add metadata"
 
-msgid "Explore / "
-msgstr "Explore / "
+msgid "Add metadata:"
+msgstr "Add metadata:"
 
-msgid "Explore / Contexts"
-msgstr "Explore / Contexts"
+msgid "Add person"
+msgstr "Add person"
 
-msgid "Section contains"
-msgstr "Section contains"
+msgid "Add to clipboard"
+msgstr "Add to clipboard"
 
-msgid "Explore / Popular keywords"
-msgstr "Explore / Popular keywords"
+msgid "Add to favorites"
+msgstr "Add to favorites"
 
-msgid "Search / Create new set"
-msgstr "Search / Create new set"
+msgid "Add to/remove from clipboard"
+msgstr "Add to/remove from clipboard"
 
-msgid "Search for a set and add selected content to it."
-msgstr "Search for a set and add selected content to it."
+msgid "Add to/remove from favorites"
+msgstr "Add to/remove from favorites"
 
-msgid "Sets that only partially contain the selected content"
-msgstr "Sets that only partially contain the selected content"
+msgid "Add to/remove from set"
+msgstr "Add to/remove from set"
 
-msgid "are highlighted."
-msgstr "are highlighted."
-
-msgid "Further sets were found. Please narrow your search."
-msgstr "Further sets were found. Please narrow your search."
-
-msgid "Remove permission"
-msgstr "Remove permission"
-
-msgid "Public"
-msgstr "Public"
-
-msgid "Responsible person"
-msgstr "Responsible person"
-
-msgid "Continue..."
-msgstr "Continue..."
-
-msgid "Create new set"
-msgstr "Create new set"
-
-msgid "Search for a set and add the selected content to it."
-msgstr "Search for a set and add the selected content to it."
-
-msgid "Further sets were found. Please refine your search."
-msgstr "Further sets were found. Please refine your search."
-
-msgid "of"
-msgstr "of"
-
-msgid "Remove from clipboard"
-msgstr "Remove from clipboard"
-
-msgid "Save the currently selected keywords and filters as a filter set."
-msgstr "Save the currently selected keywords and filters as a filter set."
+msgid "Aktivieren / Deaktivieren"
+msgstr "Aktivieren / Deaktivieren"
 
 msgid "All"
 msgstr "All"
 
-msgid "Selection"
-msgstr "Selection"
+msgid "Any values"
+msgstr "Any values"
 
-msgid "No set was found matching this search"
-msgstr "No set was found matching this search"
+msgid "Apply field to all items"
+msgstr "Apply field to all items"
+
+msgid "Are you sure you want to delete the following:"
+msgstr "Are you sure you want to delete the following:"
+
+msgid "As soon as this is done, you will find a playable version here."
+msgstr "As soon as this is done, you will find a playable version here."
+
+msgid "Browse"
+msgstr "Browse"
+
+msgid "Browse for similar content"
+msgstr "Browse for similar content"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Cancel import"
+msgstr "Cancel import"
+
+msgid ""
+"Caution: Any existing values will be overwritten with the data you enter "
+"here! If you do not enter anything, the differing values will remain "
+"unchanged."
+msgstr ""
+"Caution: Any existing values will be overwritten with the data you enter "
+"here! If you do not enter anything, the differing values will remain "
+"unchanged."
+
+msgid "Change filter settings"
+msgstr "Change filter settings"
+
+msgid "Change view"
+msgstr "Change view"
+
+msgid "Clear clipboard"
+msgstr "Clear clipboard"
+
+msgid "Clipboard"
+msgstr "Clipboard"
+
+msgid "Close"
+msgstr "Close"
+
+msgid "Content I am responsible for"
+msgstr "Content I am responsible for"
+
+msgid "Content entrusted to me"
+msgstr "Content entrusted to me"
 
 msgid "Content is not yet assigned to any set"
 msgstr "Content is not yet assigned to any set"
 
-msgid "Selected content is only partially contained in this set."
-msgstr "Selected content is only partially contained in this set."
+msgid "Context"
+msgstr "Context"
 
-msgid "Order by creation date"
-msgstr "Order by creation date"
+msgid "Context contains"
+msgstr "Context contains"
 
-msgid "page"
-msgstr "page"
+msgid "Contexts"
+msgstr "Contexts"
 
-msgid "No content"
-msgstr "No content"
+msgid "Continue browsing in this direction"
+msgstr "Continue browsing in this direction"
 
-msgid "found for the current filter settings."
-msgstr "found for the current filter settings."
+msgid "Continue..."
+msgstr "Continue..."
 
-msgid "No content found for this keyword."
-msgstr "No content found for this keyword."
+msgid "Conversion failed"
+msgstr "Conversion failed"
 
-msgid "available"
-msgstr "available"
+msgid "Conversion is %f%% complete"
+msgstr "Conversion is %f%% complete"
 
-msgid "for the current filter settings."
-msgstr "for the current filter settings."
+msgid "Cover image"
+msgstr "Cover image"
 
+msgid "Create filter set"
+msgstr "Create filter set"
 
-msgid "No metadata available for the context \"%s\""
-msgstr "No metadata available for the context \"%s\""
+msgid "Create new set"
+msgstr "Create new set"
+
+msgid "Create set"
+msgstr "Create set"
+
+msgid "Current entry"
+msgstr "Current entry"
+
+msgid "Current metadata as XML document for TMS."
+msgstr "Current metadata as XML document for TMS."
+
+msgid "Current metadata as XML document."
+msgstr "Current metadata as XML document."
+
+msgid ""
+"Current metadata from the media archive is written directly into the file in "
+"the XMP/IPTC format."
+msgstr ""
+"Current metadata from the media archive is written directly into the file in "
+"the XMP/IPTC format."
+
+msgid "Delete"
+msgstr "Delete"
 
 msgid "Delete forever"
 msgstr "Delete forever"
@@ -760,44 +225,17 @@ msgstr "Delete forever"
 msgid "Delete item"
 msgstr "Delete item"
 
-msgid "Are you sure you want to delete the following:"
-msgstr "Are you sure you want to delete the following:"
+msgid "Department groups"
+msgstr "Department groups"
 
-msgid "Remove from favorites"
-msgstr "Remove from favorites"
+msgid "Description"
+msgstr "Description"
 
-msgid "Add to favorites"
-msgstr "Add to favorites"
+msgid "Deselect all"
+msgstr "Deselect all"
 
-msgid "unknown"
-msgstr "unknown"
-
-msgid "Any values"
-msgstr "Any values"
-
-msgid "Further details"
-msgstr "Further details"
-
-msgid "Continue browsing in this direction"
-msgstr "Continue browsing in this direction"
-
-msgid "Save selection"
-msgstr "Save selection"
-
-msgid "Set"
-msgstr "Set"
-
-msgid "Entries"
-msgstr "Entries"
-
-msgid "%s (overwritten by public permissions)"
-msgstr "%s (overwritten by public permissions)"
-
-msgid "%s (partially set)"
-msgstr "%s (partially set)"
-
-msgid "View"
-msgstr "View"
+msgid "Display settings saved"
+msgstr "Display settings saved"
 
 msgid "Download original"
 msgstr "Download original"
@@ -805,26 +243,610 @@ msgstr "Download original"
 msgid "Edit"
 msgstr "Edit"
 
-msgid "Me"
-msgstr "Me"
+msgid "Edit filter set"
+msgstr "Edit filter set"
 
-msgid "Me"
-msgstr "Me"
+msgid "Edit metadata"
+msgstr "Edit metadata"
+
+msgid "Edit metadata of these media entries"
+msgstr "Edit metadata of these media entries"
+
+msgid "Edit permissions"
+msgstr "Edit permissions"
+
+msgid "Empty"
+msgstr "Empty"
+
+msgid "Entries"
+msgstr "Entries"
+
+msgid "Existing metadata is identical"
+msgstr "Existing metadata is identical"
+
+msgid "Exit admin mode"
+msgstr "Exit admin mode"
+
+msgid "Explore"
+msgstr "Explore"
+
+msgid "Explore / "
+msgstr "Explore / "
+
+msgid "Explore / Contexts"
+msgstr "Explore / Contexts"
+
+msgid "Explore / Popular keywords"
+msgstr "Explore / Popular keywords"
+
+msgid "Explore content"
+msgstr "Explore content"
+
+msgid "Export"
+msgstr "Export"
+
+msgid "External users"
+msgstr "External users"
+
+msgid "Extract"
+msgstr "Extract"
+
+msgid "File"
+msgstr "File"
+
+msgid "File containing its original metadata"
+msgstr "File containing its original metadata"
+
+msgid "File with current metadata"
+msgstr "File with current metadata"
+
+msgid "File without embedded metadata."
+msgstr "File without embedded metadata."
+
+msgid "File without metadata"
+msgstr "File without metadata"
+
+msgid "Files larger than 1.4 GB must be uploaded using an FTP dropbox."
+msgstr "Files larger than 1.4 GB must be uploaded using an FTP dropbox."
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Filter and order by author"
+msgstr "Filter and order by author"
+
+msgid "Filter set"
+msgstr "Filter set"
+
+msgid "Filter sets"
+msgstr "Filter sets"
+
+msgid "Filter settings"
+msgstr "Filter settings"
+
+msgid "Filters"
+msgstr "Filters"
+
+msgid "Finish import"
+msgstr "Finish import"
+
+msgid "First name"
+msgstr "First name"
+
+msgid "Free entry"
+msgstr "Free entry"
+
+msgid "Further actions"
+msgstr "Further actions"
+
+msgid "Further details"
+msgstr "Further details"
+
+msgid "Further sets were found. Please narrow your search."
+msgstr "Further sets were found. Please narrow your search."
+
+msgid "Further sets were found. Please refine your search."
+msgstr "Further sets were found. Please refine your search."
+
+msgid ""
+"Furthermore, you may also assign any contexts that are assigned to this set "
+"to any set contained within."
+msgstr ""
+"Furthermore, you may also assign any contexts that are assigned to this set "
+"to any set contained within."
+
+msgid "Grid view"
+msgstr "Grid view"
+
+msgid "Group"
+msgstr "Group"
+
+msgid "Groups"
+msgstr "Groups"
 
 msgid "Groups that include me"
 msgstr "Groups that include me"
 
-msgid "Others"
-msgstr "Others"
+msgid "Help"
+msgstr "Help"
 
-msgid "People"
-msgstr "People"
+msgid "Highlight content"
+msgstr "Highlight content"
 
-msgid "Name of the person"
-msgstr "Name of the person"
+msgid "Highlight values that were already used in this context"
+msgstr "Highlight values that were already used in this context"
+
+msgid "Highlight values that were already used in this set"
+msgstr "Highlight values that were already used in this set"
+
+msgid "Highlighted content"
+msgstr "Highlighted content"
+
+msgid ""
+"Images (TIFF, JPEG, PNG) as well as audio and video files in popular formats "
+"are processed directly and can then be displayed."
+msgstr ""
+"Images (TIFF, JPEG, PNG) as well as audio and video files in popular formats "
+"are processed directly and can then be displayed."
+
+msgid "Import media"
+msgstr "Import media"
+
+msgid "Imported by"
+msgstr "Imported by"
+
+msgid "Last name"
+msgstr "Last name"
+
+msgid "Last updated"
+msgstr "Last updated"
+
+msgid "Latest"
+msgstr "Latest"
+
+msgid "Limit by keyword"
+msgstr "Limit by keyword"
+
+msgid "List of media resources"
+msgstr "List of media resources"
+
+msgid "List view"
+msgstr "List view"
+
+msgid "Loading filters"
+msgstr "Loading filters"
+
+msgid "Loading keywords"
+msgstr "Loading keywords"
+
+msgid "Log in"
+msgstr "Log in"
+
+msgid "Log out"
+msgstr "Log out"
+
+msgid "Make available images, video and audio files or documents:"
+msgstr "Make available images, video and audio files or documents:"
+
+msgid "Manage newly uploaded content using sets (optional):"
+msgstr "Manage newly uploaded content using sets (optional):"
+
+msgid "Me"
+msgstr "Me"
+
+msgid "Media entries"
+msgstr "Media entries"
+
+msgid "Media view"
+msgstr "Media view"
+
+msgid "Miniature view"
+msgstr "Miniature view"
+
+msgid "Most popular"
+msgstr "Most popular"
+
+msgid "My archive"
+msgstr "My archive"
+
+msgid "My favorites"
+msgstr "My favorites"
+
+msgid "My keywords"
+msgstr "My keywords"
+
+msgid "My latest imports"
+msgstr "My latest imports"
+
+msgid "My workgroups"
+msgstr "My workgroups"
+
+msgid "Name"
+msgstr "Name"
 
 msgid "Name of the group"
 msgstr "Name of the group"
 
+msgid "Name of the person"
+msgstr "Name of the person"
+
+msgid "New content"
+msgstr "New content"
+
+msgid "New workgroup"
+msgstr "New workgroup"
+
+msgid "Next entry"
+msgstr "Next entry"
+
+msgid "Next page"
+msgstr "Next page"
+
+msgid "No content"
+msgstr "No content"
+
+msgid "No content found for this keyword."
+msgstr "No content found for this keyword."
+
+msgid "No content selected"
+msgstr "No content selected"
+
+msgid "No metadata available for the context \"%s\""
+msgstr "No metadata available for the context \"%s\""
+
+msgid "No metadata yet"
+msgstr "No metadata yet"
+
+msgid "No set was found matching this search"
+msgstr "No set was found matching this search"
+
+msgid "No similar content found"
+msgstr "No similar content found"
+
+msgid "Note"
+msgstr "Note"
+
+msgid "Open admin interface"
+msgstr "Open admin interface"
+
+msgid "Open in new window"
+msgstr "Open in new window"
+
+msgid "Order by creation date"
+msgstr "Order by creation date"
+
+msgid "Order by date of import"
+msgstr "Order by date of import"
+
+msgid "Order by modification date"
+msgstr "Order by modification date"
+
+msgid "Order by title"
+msgstr "Order by title"
+
+msgid ""
+"Originial file, metadata as they were when it was uploaded into the archive."
+msgstr ""
+"Originial file, metadata as they were when it was uploaded into the archive."
+
+msgid "Others"
+msgstr "Others"
+
+msgid "Overwrite existing values"
+msgstr "Overwrite existing values"
+
+msgid "Parent sets"
+msgstr "Parent sets"
+
 msgid "Partially responsible"
 msgstr "Partially responsible"
+
+msgid "Password"
+msgstr "Password"
+
+msgid "People"
+msgstr "People"
+
+msgid "Permissions"
+msgstr "Permissions"
+
+msgid "Person"
+msgstr "Person"
+
+msgid "Person responsible in the media archive"
+msgstr "Person responsible in the media archive"
+
+msgid "Please contact support."
+msgstr "Please contact support."
+
+msgid "Please import no more than 200 files at a time."
+msgstr "Please import no more than 200 files at a time."
+
+msgid "Please reload this page to see the latest progress."
+msgstr "Please reload this page to see the latest progress."
+
+msgid "Please select country"
+msgstr "Please select country"
+
+msgid "Popular keywords"
+msgstr "Popular keywords"
+
+msgid "Previous entry"
+msgstr "Previous entry"
+
+msgid "Previous page"
+msgstr "Previous page"
+
+msgid "Pseudonym"
+msgstr "Pseudonym"
+
+msgid "Public"
+msgstr "Public"
+
+msgid "Public content"
+msgstr "Public content"
+
+msgid "Read/edit permissions"
+msgstr "Read/edit permissions"
+
+msgid "Reject"
+msgstr "Reject"
+
+msgid "Remove from clipboard"
+msgstr "Remove from clipboard"
+
+msgid "Remove from favorites"
+msgstr "Remove from favorites"
+
+msgid "Remove permission"
+msgstr "Remove permission"
+
+msgid "Required field - please fill in"
+msgstr "Required field - please fill in"
+
+msgid "Reset filters"
+msgstr "Reset filters"
+
+msgid "Responsibility"
+msgstr "Responsibility"
+
+msgid "Responsible person"
+msgstr "Responsible person"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "Save display settings"
+msgstr "Save display settings"
+
+msgid "Save filter settings"
+msgstr "Save filter settings"
+
+msgid "Save permissions and continue..."
+msgstr "Save permissions and continue..."
+
+msgid "Save selection"
+msgstr "Save selection"
+
+msgid "Save the currently selected keywords and filters as a filter set."
+msgstr "Save the currently selected keywords and filters as a filter set."
+
+msgid "Search"
+msgstr "Search"
+
+msgid "Search / Create new set"
+msgstr "Search / Create new set"
+
+msgid "Search for a set and add selected content to it."
+msgstr "Search for a set and add selected content to it."
+
+msgid "Search for a set and add the selected content to it."
+msgstr "Search for a set and add the selected content to it."
+
+msgid "Search keyword"
+msgstr "Search keyword"
+
+msgid "Search result"
+msgstr "Search result"
+
+msgid "Search results for"
+msgstr "Search results for"
+
+msgid "Section contains"
+msgstr "Section contains"
+
+msgid "Select all"
+msgstr "Select all"
+
+msgid "Selected content is only partially contained in this set."
+msgstr "Selected content is only partially contained in this set."
+
+msgid "Selection"
+msgstr "Selection"
+
+msgid "Set"
+msgstr "Set"
+
+msgid "Set contains"
+msgstr "Set contains"
+
+msgid "Sets"
+msgstr "Sets"
+
+msgid "Sets that only partially contain the selected content"
+msgstr "Sets that only partially contain the selected content"
+
+msgid ""
+"Share your media, archive your works, explore content, develop knowledge."
+msgstr ""
+"Share your media, archive your works, explore content, develop knowledge."
+
+msgid "Show all"
+msgstr "Show all"
+
+msgid "Show connections"
+msgstr "Show connections"
+
+msgid "Show only content missing required metadata"
+msgstr "Show only content missing required metadata"
+
+msgid "Show permissions"
+msgstr "Show permissions"
+
+msgid "Show this group's content"
+msgstr "Show this group's content"
+
+msgid "Specify access and visibility:"
+msgstr "Specify access and visibility:"
+
+msgid "Specify cover image for set"
+msgstr "Specify cover image for set"
+
+msgid "Specify display settings"
+msgstr "Specify display settings"
+
+msgid "Specify sort and display settings for this set"
+msgstr "Specify sort and display settings for this set"
+
+msgid "Switch to admin mode"
+msgstr "Switch to admin mode"
+
+msgid "System groups"
+msgstr "System groups"
+
+msgid "TMS XML document"
+msgstr "TMS XML document"
+
+msgid "Table view"
+msgstr "Table view"
+
+msgid "The encoder reports:"
+msgstr "The encoder reports:"
+
+msgid "The metadata present differs between entries"
+msgstr "The metadata present differs between entries"
+
+msgid "There are no metadata available for this context"
+msgstr "There are no metadata available for this context"
+
+msgid "These items are only accesible to you"
+msgstr "These items are only accesible to you"
+
+msgid "These items are publicly accessible"
+msgstr "These items are publicly accessible"
+
+msgid "These items are shared with others"
+msgstr "These items are shared with others"
+
+msgid "These metadata were used most often"
+msgstr "These metadata were used most often"
+
+msgid "They show this context's area of focus"
+msgstr "They show this context's area of focus"
+
+msgid "They show this set's area of focus"
+msgstr "They show this set's area of focus"
+
+msgid ""
+"This allows adding further details to all media entries contained in this "
+"set."
+msgstr ""
+"This allows adding further details to all media entries contained in this "
+"set."
+
+msgid "This entry is contained in one set"
+msgid_plural "This entry is contained in %d sets"
+msgstr[0] "This entry is contained in one set"
+msgstr[1] "This entry is contained in %d sets"
+
+msgid "This file is being converted so it can be previewed."
+msgstr "This file is being converted so it can be previewed."
+
+msgid "This is how you upload files using the FTP dropbox."
+msgstr "This is how you upload files using the FTP dropbox."
+
+msgid "This item does not have enough metadata"
+msgstr "This item does not have enough metadata"
+
+msgid "This set has additional contexts with metadata"
+msgstr "This set has additional contexts with metadata"
+
+msgid "This set is contained in one set"
+msgid_plural "This set is contained in %d sets"
+msgstr[0] "This set is contained in one set"
+msgstr[1] "This set is contained in %d sets"
+
+msgid "Title"
+msgstr "Title"
+
+msgid "Username"
+msgstr "Username"
+
+msgid "Value and text"
+msgstr "Value and text"
+
+msgid "View"
+msgstr "View"
+
+msgid "Visualize relationship between items as a graph"
+msgstr "Visualize relationship between items as a graph"
+
+msgid "Vocabulary"
+msgstr "Vocabulary"
+
+msgid "Welcome"
+msgstr "Welcome"
+
+msgid "Workgroups"
+msgstr "Workgroups"
+
+msgid "XML document"
+msgstr "XML document"
+
+msgid "You have not selected any media yet."
+msgstr "You have not selected any media yet."
+
+msgid "ZHdK login"
+msgstr "ZHdK login"
+
+msgid "are highlighted."
+msgstr "are highlighted."
+
+msgid "available"
+msgstr "available"
+
+msgid "content elements"
+msgstr "content elements"
+
+msgid "for the current filter settings."
+msgstr "for the current filter settings."
+
+msgid "found for the current filter settings."
+msgstr "found for the current filter settings."
+
+msgid "from"
+msgstr "from"
+
+msgid "items"
+msgstr "items"
+
+msgid "of"
+msgstr "of"
+
+msgid "on"
+msgstr "on"
+
+msgid "page"
+msgstr "page"
+
+msgid "to"
+msgstr "to"
+
+msgid "unknown"
+msgstr "unknown"
+
+msgid "von/bis"
+msgstr "von/bis"
+
+msgid "will be saved as text"
+msgstr "will be saved as text"
