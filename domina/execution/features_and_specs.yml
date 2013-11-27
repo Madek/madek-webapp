@@ -15,6 +15,9 @@ attachments:
     glob: 'tmp/capybara/*.png'
     content-type: image/png
 
+env_vars: 
+  TERM: vt100
+
 contexts:
 
 - name: meta

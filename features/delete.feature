@@ -34,7 +34,7 @@ Feature: Delete
    When I open a media set where I am the responsible user
    Then I can see the delete action for this resource
 
-  @chrome 
+  @firefox
   Scenario: Importing and deleting an image
     Given I am signed-in as "Normin"
     And I am going to import images
