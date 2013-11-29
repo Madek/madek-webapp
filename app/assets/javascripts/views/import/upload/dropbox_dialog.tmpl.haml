@@ -2,7 +2,8 @@
 
   .ui-modal-head
     %h3#add-to-set-label.title-l FTP Dropbox
-    %a.ui-modal-close.weak{"aria-hidden" => "true", "data-dismiss" => "modal", :title => "Close", :type => "button"}
+    %a.ui-modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :title => "Close", :type => "button"}
+      %i.icon-close
 
   {{if errorMsg}}
   .ui-modal-toolbar.top

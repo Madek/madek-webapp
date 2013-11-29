@@ -1,6 +1,7 @@
 %td{:class => "ui-rights-check ${name}{{if $item.manageable == false}} disabled{{/if}}"}
 
   %i.ui-right-overwritten-by-public{:title => "${_jed('%s (overwritten by public permissions)', label)}"}
+    %i.icon-privacy-open
 
   {{if permission == true}}
 

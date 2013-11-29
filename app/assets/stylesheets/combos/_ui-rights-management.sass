@@ -117,7 +117,9 @@
   .ui-rights-management-users
     .ui-rights-check.view
       .ui-right-overwritten-by-public
-        @extend .icon-privacy-open
+        display: inline-block
+        position: relative
+        top: 2px
       label
         display: none
 
@@ -130,7 +132,9 @@
   .ui-rights-management-users
     .ui-rights-check.download
       .ui-right-overwritten-by-public
-        @extend .icon-privacy-open
+        display: inline-block
+        position: relative
+        top: 2px
       label
         display: none
 
@@ -144,21 +148,25 @@
 // mixed indicator
 
 .ui-rights-check-label.mixed
+  display: inline-block
+  height: 16px
+  margin: 2px
   position: relative
+  width: 16px
+  input[type="checkbox"]
+    margin: 0
+
   .ui-right-mixed-values
+    @include position-top-right(0,0)
+    @include position-bottom-left(0,0)
     pointer-events: none
-    left: 4px
-    position: absolute
-    top: 4px
-    width: 10px
     i
-      background: black
-      +border-radius(3px)
-      display: inline-block
+      @include position-top-left(50%,50%)
+      background: $mono-darkest
+      display: block
       height: 2px
-      left: 0
-      position: absolute
-      top: 4px
+      margin-top: -2px
+      margin-left: -4px
       width: 8px
 
 // disabled ui-rights-check
