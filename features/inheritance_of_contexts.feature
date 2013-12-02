@@ -11,7 +11,7 @@ Feature: Inheritance of contexts
     Then the set A inherits all the contexts of the set B
     And all media entries contained in set A have all contexts of set A
 
-  @chrome
+  @firefox
   Scenario: Remove contexts from a set while disconnecting from inheriting set
     Given I am signed-in as "Adam"
     When I remove a set A from a set B from which set A is inheriting a context
