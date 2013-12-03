@@ -45,25 +45,6 @@ contexts:
       main:
         body: env | sort; ls
 
-- name: rspec specs
-  scripts:
-    bundle: 
-      timeout: 500
-      order: 2
-      type: prepare_executor
-      body: "substitute_with_path: domina/scripts/bundle.sh"
-    setup_madek:
-      order: 4
-      body: "substitute_with_path: domina/scripts/setup_madek.sh"
-    rspec: 
-      order: 5
-      body: "substitute_with_path: domina/scripts/context_specs_rspec.sh"
-    drop_test_db: 
-      order: 8
-      type: post_process
-      body: "substitute_with_path: domina/scripts/drop_test_db.sh"
-  tasks: "substitute_with_path: domina/execution/rspec_tasks.yml"
-  
 - name: cucumber features 
   scripts:
     bundle: 
@@ -93,3 +74,24 @@ contexts:
       type: post_process
       body: "substitute_with_path: domina/scripts/context_feature_stopx.sh"
   tasks: "substitute_with_path: domina/execution/feature_tasks.yml"
+
+- name: rspec specs
+  scripts:
+    bundle: 
+      timeout: 500
+      order: 2
+      type: prepare_executor
+      body: "substitute_with_path: domina/scripts/bundle.sh"
+    setup_madek:
+      order: 4
+      body: "substitute_with_path: domina/scripts/setup_madek.sh"
+    rspec: 
+      order: 5
+      body: "substitute_with_path: domina/scripts/context_specs_rspec.sh"
+    drop_test_db: 
+      order: 8
+      type: post_process
+      body: "substitute_with_path: domina/scripts/drop_test_db.sh"
+  tasks: "substitute_with_path: domina/execution/rspec_tasks.yml"
+  
+
