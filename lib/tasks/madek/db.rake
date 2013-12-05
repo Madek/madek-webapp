@@ -95,14 +95,14 @@ namespace :madek do
 
     desc "Fetch the current dump of the personas db(Postgres only)" 
     task :fetch_personas do
-      outs = `ssh madek-personas@madek-server "cd current;RAILS_ENV=production bundle exec rake madek:db:dump" 2>&1`
+      outs = `ssh madek-personas@madek-server.zhdk.ch "cd current;RAILS_ENV=production bundle exec rake madek:db:dump" 2>&1`
       unless $?.exitstatus == 0
-        puts "dumping the database on the remote server failed with #{stderr}"
+        puts "dumping the database on the remote server failed with #{outs}"
         $?.exitstatus
       else
         dumpfile = outs.split(/\s/).last
         target_file =  Rails.root.join 'db','empty_medienarchiv_instance_with_personas.pgsql.gz'
-        outs = `scp madek-personas@madek-server:#{dumpfile} #{target_file} 2>&1`
+        outs = `scp madek-personas@madek-server.zhdk.ch:#{dumpfile} #{target_file} 2>&1`
         unless $?.exitstatus == 0
           puts "copying the dump from the remote machine failed"
           $?.exitstatus
