@@ -316,8 +316,6 @@ end
 Then /^I see the return link in the navbar$/ do
   link = find('.navbar .navbar-right a')
   expect(link.text).to match /return to user\-interface/
-  expect(link[:href]).to eq("/")
-  (expect find("th:last").text).not eq("# of resources")
 end
 
 Then /^I see the submit button is disabled$/ do
