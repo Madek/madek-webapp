@@ -196,6 +196,10 @@ Then /^I can see that there are several previews$/ do
   expect(all("table.previews tbody tr").size).to be > 1
 end
 
+Then /^I can see the "(.*?)" link$/ do |anchor_text|
+  expect(has_link?(anchor_text)).to be_true
+end
+
 Then /^I can see the delete action for media resources where I am responsible for$/ do
   all(".ui-resource[data-id]").each do |resource_el|
     media_resource = MediaResource.find resource_el["data-id"]
@@ -284,6 +288,9 @@ Then /^I cannot see the delete action for this resource$/ do
   all(".ui-body-title-actions [data-delete-action]").size.should == 0
 end
 
+Then /^I cannot see "(.*?)"$/ do |text|
+  expect(page).not_to have_content text
+end
 
 ### I change 
 
@@ -605,4 +612,3 @@ end
 Then /^I create a dropbox$/ do
   step 'I click on the link "Dropbox erstellen" inside of the dialog'
 end
-

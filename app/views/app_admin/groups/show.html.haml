@@ -5,7 +5,7 @@
 %ul.list-inline
   %li
     =link_to form_add_user_app_admin_group_path(@group), class: 'btn btn-success' do
-      %i.fa.fa-plus-sign
+      %i.fa.fa-plus-circle
       Add user
 
   %li
@@ -13,6 +13,10 @@
       %i.fa.fa-pencil
       Edit
 
+  %li
+    =link_to app_admin_group_path(@group), method: :delete, class: "btn btn-danger", confirm: "Are you really want to delete this group?" do
+      %i.fa.fa-trash-o
+      Delete
 
 %table.table.table-striped
   %thead

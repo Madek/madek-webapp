@@ -45,6 +45,16 @@ class AppAdmin::GroupsController < AppAdmin::BaseController
     @group = Group.find params[:id]
   end
 
+  def destroy
+    begin
+      @group = Group.find params[:id]
+      @group.destroy
+      redirect_to app_admin_groups_path, flash: {success: "The Group has been deleted."}
+    rescue => e
+      redirect_to :back, flash: {error: e.to_s}
+    end
+  end
+
   def form_add_user
     @group = Group.find params[:id]
   end
