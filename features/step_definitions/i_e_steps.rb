@@ -11,7 +11,8 @@ Then /^I edit the contexts of a set that has contexts$/ do
 end
 
 Then /^I edit the filter set settings$/ do
-  step 'I use the "Filtereinstellungen ändern" context action'
+  find("a#resource-action-button").click
+  find("a#edit-filter-set").click
 end
 
 Then /^I edit one group$/ do

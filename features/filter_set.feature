@@ -17,7 +17,7 @@ Feature: Filter set
     And I can see the provided title and the used filter settings
 
   # TODO sollte im @jsbrowser laufen 
-  @firefox
+  @firefox 
   Scenario: Edit a filter set
    Given I am signed-in as "Normin"
     When I open a filter set

@@ -2,7 +2,7 @@
 
 
 Then /^I save these changes$/ do
-  find(".primary-button", :text => "Filtereinstellungen speichern").click
+  find(".primary-button").click
 end
 
 Then /^I use the "(.*?)" context action$/ do |context_name|  

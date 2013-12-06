@@ -1,5 +1,5 @@
 %li.ui-drop-item
-  %a{:href => edit_filter_set_path(@filter_set, @filter_set[:settings][:filter])}
+  %a#edit-filter-set{:href => edit_filter_set_path(@filter_set, @filter_set[:settings][:filter])}
     %i.icon-filter.mid
     = _("Change filter settings")
 %li.separator
