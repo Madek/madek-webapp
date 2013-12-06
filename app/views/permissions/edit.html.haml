@@ -8,19 +8,22 @@
       .ui-body-title
         .ui-body-title-label
           %h1.title-xl
-            Berechtigungen für
+            - case @action
+            - when :view 
+              =_"Permissions"
+            - when :edit
+              =_"Manage permissions"
+            = _"of"
             - if @media_resources.count == 1
               "#{@media_resources.first.title}"
 
             - else
               #{@media_resources.count}
               - if @media_resources.count != @all_media_resources.count
-                von #{@all_media_resources.count}
-              Inhalte
+                #{_"out of"} #{@all_media_resources.count}
+              = _"Inhalten"
 
         - case @action
-        - when :edit
-          / bearbeiten
         - when :view
           .ui-body-title-actions
             =link_to edit_responsibilities_path(params.slice(:media_resource_id,:collection_id).merge({_action: "edit"})), id: "transfer-responsibilities", class: "button" do
@@ -73,8 +76,8 @@
                 - action_map= {view: "View", download: "Export original", edit: "Edit metadata" , manage: "Manage permissions"}
                 - [:view, :download, :edit, :manage].each do |action|
                   - if @media_resources.accessible_by_user(current_user,action).count == @media_resources.count
-                    %li
-                      = _(action_map[action])
+                    %li<>
+                      =_(action_map[action])
 
           %hr.separator.light.mvl
 
