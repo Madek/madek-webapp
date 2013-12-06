@@ -3,27 +3,28 @@
  *
  * Styleguide 7.16
 
+.ui-resources
+  .ui-resources-page
+    margin-top: -10px
+    margin-left: -10px
+
 .ui-resources-page
   +micro-clearfix
-  border-top: 1px solid $mono-light
-  padding: $space-l 0 $space-m 0
-  position: relative
-  &:first-child
-    border: none
 
 .ui-resources-page-counter
-  +dimension(200px, auto)
-  +position-top-right(0, 0)
-  &, & > span
-    color: $mono-mid
-    text-align: right
-    font-size: $font-xs
+  border-radius: $border-radius-s
+  padding: 2px $space-x
+  margin: $space-s 0 $space-x $space-s
+  display: block
+  background: $mono-light
+  &,
+  & span
+    font-size: 10px
     font-weight: 700
+    color: $mono-dark
 
 .ui-resources-page:not([data-page='1'])
-  padding-top: $space-l + $space-s
-  .ui-resources-page-counter
-    +position-top-right($space-s, 0)
+  padding-top: $space-s
 
 .ui-resources-group-of-ten-pages
   height: 2100px

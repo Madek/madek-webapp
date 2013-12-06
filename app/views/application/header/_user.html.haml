@@ -2,7 +2,7 @@
   .dropdown.ui-dropdown.stick-right
     %a#user-action-button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
       = current_user.fullname
-    %i.icon-arrow-down.stand-alone.small
+      %i.icon-arrow-down.stand-alone.small
     %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
       %li.ui-drop-item
         %a.strong{:href => import_path}
@@ -21,6 +21,11 @@
         %a{:href => my_groups_path}
           %i.icon-privacy-group.mid.ui-drop-icon
           = _("My workgroups")
+      / %li.separator
+      / %li.ui-drop-item
+      /   %a{:href => "_____ SAME PAGE _____" }
+      /     %i.icon-contrast.ui-drop-icon.mid
+      /     = _("Enable High Contrast Mode")
       - if current_user and current_user.groups.is_member?("Admin")
         %li.separator
         %li.ui-drop-item
@@ -37,12 +42,6 @@
               %i.icon-admin.ui-drop-icon.mid
               = _("Switch to admin mode")
       %li.separator
-      / %li.separator
-      / %li.ui-drop-item
-      /   %a{:href => _____ SAME PAGE _____ }
-      /     .icon-contrast.mid.ui-drop-icon
-      /     = _("Enable High Contrast Mode")
-      / %li.separator
       %li.ui-drop-item
         %a.strong{:href => "/logout"}
           %i.icon-power-off.ui-drop-icon

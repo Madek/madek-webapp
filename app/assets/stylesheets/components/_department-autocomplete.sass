@@ -1,7 +1,7 @@
 .ui-autocomplete.department-autocomplete
   .ui-menu-item
     a
-      line-height: $line-height-s
+      line-height: $line-height-xs
   .ui-menu-item-department
     position: relative
     &.has-navigator
@@ -30,9 +30,10 @@
       background: white
       color: black
     .arrow
-      @extend .icon-arrow-right
       position: relative
       top: 3px
+      &:before
+        content: "\e602"
     &.back
       left: -19px
       padding: 0 4px
@@ -40,5 +41,5 @@
       width: 22px
       .ui-navigator-text
         display: none
-      .arrow
-        @extend .icon-arrow-left
+      .arrow:before
+        content: "\e605"

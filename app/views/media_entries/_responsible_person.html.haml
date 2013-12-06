@@ -1,6 +1,12 @@
-%h3.title-l.separated.mbl
+%h3.title-l.separated.mbm
   = _("Responsibility")
 %dl.media-data
   %dt.media-data-title.title-xs
     = _("Person responsible in the media archive")
-  %dd.media-data-content= link_to(@media_entry.user, media_resources_path(:search => @media_entry.user.fullname))
+  %dd.media-data-content
+    .ui-tag-cloud.small
+      .ui-tag-cloud-item
+        = link_to(media_resources_path(:search => @media_entry.user.fullname), :class => "ui-tag-button person-tag") do
+          %i.icon-user-mini.ui-tag-icon
+          = @media_entry.user
+

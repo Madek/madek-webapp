@@ -4,8 +4,8 @@
   actions = (defined? actions and actions)
   resources = (defined? resources and resources)
 
-.ui-resources-holder{id: id}
-  .ui-resources-header.mbx
+.ui-resources-holder{id: id, class: "pbl phl"}
+  .ui-resources-header
     %h2.title-l.ui-resources-title
       = title
       - if defined? link
@@ -15,9 +15,6 @@
   - if as == :table
 
     %table.ui-workgroups.bordered.block
-      %thead
-        %tr
-          %td{:colspan => 3}
       %tbody
         - groups.each do |group|
           %tr{:"data-id" => group.id}
@@ -30,15 +27,16 @@
                   = _("content elements")
             - if actions
               %td.ui-workgroup-actions
-                %a.button.small.delete-workgroup
+                %a.button.delete-workgroup
                   %i.icon-trash.dark
-                %a.button.small.edit-workgroup
+                %a.button.edit-workgroup
                   %i.icon-pen.dark
 
   - else
 
-    %ul.inline
+    %ul.ui-tag-cloud
       - groups.each do |group|
-        %li
-          %a{:href => my_groups_path}
+        %li.ui-tag-cloud-item
+          %a{:href => my_groups_path, :class => "ui-tag-button"}
+            %i.icon-group-mini.ui-tag-icon
             = group.name

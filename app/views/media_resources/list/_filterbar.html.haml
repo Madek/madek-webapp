@@ -3,7 +3,8 @@
     %a.button#ui-side-filter-toggle{:class => params[:filterpanel] ? "active" : ""}
       %i.icon-filter.small
       = _("Filter")
-    %a#ui-side-filter-reset.mlx.hidden
+    %a#ui-side-filter-reset.mlx.hidden.weak
+      %i.icon-undo
       = _("Reset filters")
   .col2of6.by-center
     #ui-resources-type-filter.button-group

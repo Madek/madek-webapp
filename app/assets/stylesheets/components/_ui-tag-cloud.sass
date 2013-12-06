@@ -10,36 +10,31 @@
   +micro-clearfix
 
 .ui-tag-cloud-item
-  +box-sizing(content-box)
   display: inline-block
   list-style: none
-  max-width: 100%
-  margin-right: $space-m
 
 .ui-tag-button
-  +background-image(linear-gradient($mono-bright, $mono-weak))
+  background-color: $mono-bright
+  +background-image(linear-gradient($mono-brightest, $mono-bright))
   +border-radius(50px)
   +box-shadow($lighten 0 1px 0 inset)
   +single-text-shadow(false, 1px, false, false, $lighten-more)
-  background-color: $mono-bright
-  border: 1px solid $mono-light
+  border: 1px solid (lighten($mono-light, 5%))
   color: $mono-dark
   cursor: pointer
   display: inline-block
   font-size: $font-m
   font-weight: 600
   line-height: $line-height-l
-  margin-bottom: $space-s
+  margin-bottom: $space-x
   margin-right: $space-x
   min-height: 26px
-  overflow: hidden
-  padding: 0 $space-x
+  padding: 0 $space-s
   position: relative
   text-align: center
   text-decoration: none
   white-space: nowrap
-  vertical-align: middle
-  width: 100%
+  vertical-align: top
   +ellipsis(true)
   &:hover
     +background-image(linear-gradient(lighten($mono-bright, 3%), lighten($mono-weak, 3%)))
@@ -54,75 +49,57 @@
     border-color: darken($mono-light, 5%)
     color: $mono-mid
     outline: 0
-    i,
     .ui-tag-button
       opacity: $opacity-medium
-  &.meta-term
-    +border-radius(2px)
-    font-weight: normal
-  &.person-tag
-    +border-radius(2px)
-    font-size: $font-m !important
-    font-weight: 600
-    background: white
-    border-color: $darken-less
-    +border-radius(4px)
-    color: $main-color
-    padding: 0 4px !important
-    margin-left: -5px
-    margin-bottom: 8px
-    margin-right: 8px
-    width: auto
-    &:hover
-      background: $darken-subtle
-      color: $main-color-dark
 
-.ui-tag-button i,
-.ui-tag button .ui-tag-button
-  margin-top: 3px
-  margin-right: $space-x
+.ui-tag-icon
+  color: (darken($mono-light, 5%))
+  top: 2px
+  position: relative
 
 .ui-tag-button .ui-tag-counter
   +border-radius(50px)
-  background: $mono-light
-  color: $mono-strong
+  border: 1px solid $mono-weak
+  background: $mono-weak
+  color: $mono-mid
+  font-size: $font-xs
+  font-weight: bold
   display: inline-block
-  font-weight: 700
-  line-height: 16px
-  margin: 0 -4px 0 $space-x
+  line-height: $line-height-s
+  margin: 0 -5px 0 3px
   padding: 0 $space-x
 
 .ui-tag-button:active .ui-tag-counter
-  opacity: $opacity-medium
+  background: transparent
+  border-color: $mono-light
 
 // Size variations
 
 .ui-tag-cloud.small
-  & > i
-    vertical-align: top
-  .ui-tag-cloud-item
-    margin-right: $space-s
   .ui-tag-button
     font-size: $font-xs
-    line-height: $line-height-m
+    line-height: 19px
     min-height: 18px
-    padding-left: 1px
-    padding-right: 1px
-    &.meta-term
-      font-size: $font-s
-    i,
-    .ui-tag-icon
-      margin-bottom: -5px
-      margin-top: -1px
-
-.ui-tag-cloud.large .ui-tag-button
-  font-size: $font-xl
-  line-height: $line-height-xl
-  min-height: 37px
-  i,
   .ui-tag-icon
-    margin-bottom: -5px
-    margin-top: 8px
-  .ui-tag-counter
-    line-height: 26px
-    min-width: 18px
+    top: 2px
+    left: -3px
+  .ui-tag-button .ui-tag-counter
+    margin-right: -9px
+    padding: 0 $space-x 1px
+    position: relative
+    top: -1px
+
+.ui-tag-cloud.large
+  .ui-tag-button
+    font-size: $font-xl
+    line-height: $line-height-xl
+    min-height: 37px
+  .ui-tag-icon
+    top: 1px
+  .ui-tag-button 
+    padding: 0 15px
+    .ui-tag-icon
+      left: -3px
+    .ui-tag-counter
+      position: relative
+      top: -2px

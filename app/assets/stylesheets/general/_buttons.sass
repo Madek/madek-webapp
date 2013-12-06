@@ -79,7 +79,7 @@ a:active
 
 .button.small
   font-size: $font-xs
-  line-height: $line-height-s-alt
+  line-height: $line-height-s
   min-height: 18px
   padding-left: $space-x
   padding-right: $space-x
@@ -133,16 +133,18 @@ a:active
   padding-left: $space-x
   top: 2px
   &:after
-    +position-top-left(-1px, -1px)
+    +position-top-left(0, -1px)
     bottom: 0
     content: " "
     display: block
     border-left: 1px solid $darken
+    border-left: 1px solid $darken
     height: 100%
     z-index: 3
-    background: $mono-dark
-
-// Extended buttons (most commonly featuring a dropdown icon)
+    background: $mono-light
+.primary-button .stand-alone
+  &:after
+    border-left: 1px solid (darken($main-color, 5%)) // Extended buttons (most commonly featuring a dropdown icon)
 
 .button.block i.stand-alone
   +position-top-right(50%, $space-x)

@@ -11,10 +11,11 @@
   padding: $space-m
 
 .pitch-claim
-  padding: $space-s $space-l $space-s $space-s
+  padding: $space-m $space-l $space-s $space-s
+  h1
+    line-height: 1.1em
   h2
-    line-height: $line-height-l
-    padding-top: $space-s
+    padding-top: $space-m
 
 .pitch-login
   position: relative
@@ -29,8 +30,18 @@
   +border-bottom-radius($border-radius-m)
   border: 1px solid $mono-light
   background: $mono-brightest
-  min-height: 150px
-  padding: $space-s $space-m $space-m
+  min-height: 180px
+  padding: $space-s $space-m 0
 
 .pitch-login-tab.round
   +border-radius($border-radius-m)
+
+// Override form styles forced by context
+
+.pitch-login
+  .ui-form-group,
+  .ui-form-group
+    padding-right: $space-s
+    &.compact
+      padding-bottom: ($space-s - 1px)
+      padding-top: ($space-s - 1px)

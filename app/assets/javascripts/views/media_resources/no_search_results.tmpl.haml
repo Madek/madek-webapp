@@ -10,5 +10,7 @@
   .title-s.by-center
     ${_jed('found for the current filter settings.')}
     %br
-    %a.mtm.button#ui-all-filter-reset ${_jed('Reset filters')}
+    %a.mtm.button#ui-all-filter-reset.weak
+      %i.icon-undo
+      ${_jed('Reset filters')}
   {{/if}}

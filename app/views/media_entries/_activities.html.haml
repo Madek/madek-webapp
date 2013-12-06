@@ -1,9 +1,15 @@
-%h3.Filetitle-l.separated.mbl
+%h3.title-l.separated.mbm
   = _("Activities")
 %dl.media-data
   %dt.media-data-title.title-xs
     = _("Imported by")
-  %dd.media-data-content= link_to(@media_entry.meta_data.get("uploaded by"), media_resources_path(:search => @media_entry.meta_data.get("uploaded by").to_s))
+  %dd.media-data-content
+    .ui-tag-cloud.small
+      .ui-tag-cloud-item
+        = link_to(media_resources_path(:search => @media_entry.meta_data.get("uploaded by").to_s), :class => "ui-tag-button person-tag") do
+          %i.icon-user-mini.ui-tag-icon
+          = @media_entry.meta_data.get("uploaded by")
+
   %dt.media-data-title.title-xs Importiert am
   %dd.media-data-content= @media_entry.created_at.to_formatted_s(:date_time)
 

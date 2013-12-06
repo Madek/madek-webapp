@@ -3,6 +3,11 @@
  *
  * Styleguide 6.2
 
+
+.ui-side-navigation
+  position: relative
+  top: -5px
+
 .ui-side-navigation li
   clear: both
   display: block
@@ -25,7 +30,7 @@
 
 .ui-side-navigation-lvl2-item > a
   @extend a.weak
-  line-height: $line-height-s
+  line-height: $line-height-xs
 
 .ui-side-navigation-lvl2-item.active > a
   font-weight: 700
@@ -40,7 +45,6 @@
 
 .ui-side-navigation-lvl3-item > a
   @extend a.weak
-  line-height: $line-height-xs
 
 .ui-side-navigation-lvl3-item.active > a
   font-weight: 700

@@ -11,7 +11,7 @@
 
         .ui-body-title-actions
           %a.primary-button#create-workgroup
-            %i.icon-new-group
+            %i.icon-plus
             = _("New workgroup")
 
     .app-body-ui-container
@@ -22,6 +22,7 @@
         .app-body-content.table-cell.table-substance.ui-container
 
           - unless @workgroups.blank?
+            %hr.separator
             = render :partial => "groups/wrapper", 
                        :locals => {:groups => @workgroups, 
                                    :title => _("Workgroups"),
@@ -29,25 +30,24 @@
                                    :actions => true,
                                    :resources => true,
                                    :id => "my_workgroups"}
-            %hr.separator
 
           - unless @systemgroups.blank?
+            %hr.separator
             = render :partial => "groups/wrapper", 
                        :locals => {:groups => @systemgroups, 
                                    :title => _("System groups"),
                                    :as => :table,
                                    :resources => true,
                                    :id => "my_systemgroups"}
-            %hr.separator
 
           - unless @departmentgroups.blank?
+            %hr.separator
             = render :partial => "groups/wrapper", 
                        :locals => {:groups => @departmentgroups, 
                                    :title => _("Department groups"),
                                    :as => :table,
                                    :resources => true,
                                    :id => "my_departmentgroups"}
-            %hr.separator
 
   .app-footer-push
 = render :partial => "application/footer"

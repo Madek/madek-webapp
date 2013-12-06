@@ -11,11 +11,18 @@
 .ui-resources.list
   .ui-resource
     border-bottom: 1px solid $mono-light
-    margin: 0 $space-s $space-l
-    padding-bottom: $space-l
-    padding-top: $space-x
+    margin: 0 $space-s $space-s
+    padding-bottom: 15px
+    &:last-child
+      border-bottom: none
+
+  .ui-resources-page-items
+    margin-top: 9px
   .ui-resources-page
-    border-top: none
+    margin: -10px 0 0 -10px
+  .ui-resources-page-items
+    margin-left: 0
+    margin-top: 14px
 
 /* Head
  *-----------------------------------------
@@ -31,6 +38,9 @@
     +float-left
     display: none
     margin-right: $space-x
+    position: relative
+    left: 2px
+    top: 1px
     .ui-resource-action
       display: inline-block
       list-style: none
@@ -69,7 +79,7 @@
   .ui-resource-meta-label,
   .ui-resource-meta-content
     font-size: $font-xs
-    line-height: $line-height-m
+    line-height: $line-height-s
   .ui-resource-meta-label
     color: $mono-mid
     padding-right: $space-s
@@ -77,12 +87,9 @@
   .ui-resource-description,
   .ui-resource-extension
     border-left: 1px solid $mono-light
-  // Person Tag
-  .ui-resource-meta-content .ui-tag-button.person-tag
-    font-size: 12px !important
-    font-weight: normal
-    padding-bottom: 2px
-    margin-right: 8px
+  .ui-resource-meta-content,
+  .ui-resource-meta-label
+    border: none
 
 /*
  * Active Mode
@@ -112,6 +119,8 @@
     background: $mono-brightest image-url("backgrounds/thumb-set-backg.png") 0 0 no-repeat
   .ui-thumbnail.video .ui-thumbnail-image-wrapper
     background: $mono-brightest image-url("backgrounds/thumb-video-backg.png") 0 0px no-repeat
+  .ui-thumbnail .ui-thumbnail-privacy
+    display: block
 
 /*
  * Media queries

@@ -26,6 +26,11 @@
 
 .ui-rights-user-title
   font-size: $font-m
+  .icon-privacy-open,
+  .icon-privacy-group-alt,
+  .icon-privacy-private-alt
+    position: relative
+    top: 2px
 
 .ui-rights-role-title,
 .ui-rights-check-title
@@ -34,7 +39,7 @@
 .ui-rights-check-title,
 .ui-rights-check
   +dimension(10%, auto)
-  line-height: $line-height-s
+  line-height: $line-height-xs
   text-align: center
   font-size: $font-xs
 
@@ -47,7 +52,7 @@
 .ui-rights-role-title,
 .ui-rights-role
   +dimension(10%, auto)
-  line-height: $line-height-s
+  line-height: $line-height-xs
 
 .ui-rights-role-select,
 .ui-rights-role .ui-custom-select
@@ -141,6 +146,7 @@
 // ui rights check label
 
 .ui-rights-check-label
+  cursor: default
   display: inline-block
   &.mixed:not(.overwrite)
     input

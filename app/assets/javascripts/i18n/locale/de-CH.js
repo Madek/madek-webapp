@@ -247,7 +247,7 @@ window.i18n.locale_data = {
       ],
       "Change filter settings": [
          null,
-         "Filtereinstellungen ändern"
+         "Filterset editieren"
       ],
       "Change view": [
          null,
@@ -899,7 +899,7 @@ window.i18n.locale_data = {
       ],
       "Save filter settings": [
          null,
-         "Filtereinstellungen speichern"
+         "Filterset speichern"
       ],
       "Save permissions and continue...": [
          null,

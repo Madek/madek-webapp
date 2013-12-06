@@ -21,7 +21,7 @@
   +box-shadow(1px 0 0 $mono-brightest)
   +micro-clearfix
   border-right: 1px solid $mono-light
-  margin: 35px 20px 0 -20px
+  margin-right: $space-m
   min-width: 200px
   padding-right: $space-m
   position: relative
@@ -105,11 +105,14 @@
     display: block
 
 .ui-side-filter-lvl1-marker
-  @extend .icon-arrow-down-green
-  +position-top-right(3px, 0)
+  @extend .icon-extend
+  +position-top-right(9px, $space-x)
+  &:before
+    content: "\e603"
 
 .open > .ui-side-filter-lvl1-marker
-  @extend .icon-arrow-up-green
+  &:before
+    content: "\e604"
 
 .ui-side-filter-lvl2-marker
   @extend .icon-arrow-right-mid-small
@@ -150,7 +153,7 @@
 
 .ui-any-value
   position: absolute
-  right: -3px
+  right: -1px
   top: 6px
 
 input.any-value:checked+.icon-checkbox

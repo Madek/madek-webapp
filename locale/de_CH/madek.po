@@ -148,7 +148,7 @@ msgstr ""
 "Änderungen vorgenommen werden, bleiben die verschiedenen Werte erhalten."
 
 msgid "Change filter settings"
-msgstr "Filtereinstellungen ändern"
+msgstr "Filterset editieren"
 
 msgid "Change view"
 msgstr "Darstellung ändern"
@@ -652,7 +652,7 @@ msgid "Save display settings"
 msgstr "Darstellung festlegen"
 
 msgid "Save filter settings"
-msgstr "Filtereinstellungen speichern"
+msgstr "Filterset speichern"
 
 msgid "Save permissions and continue..."
 msgstr "Berechtigungen speichern und weiter..."

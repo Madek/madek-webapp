@@ -4,3 +4,4 @@
   = render "application/header/logged_out"
 - else
   = render "application/header/logged_in"
+= render :partial => "application/flash", :locals => {:flash => flash} unless flash.empty?

@@ -22,7 +22,7 @@
 
 .ui-container.inverted.ui-toolbar.pvx{:class => additional_class}
   %h2.ui-toolbar-header.pls
-    %strong= title if title
+    = title if title
     != subtitle if subtitle
   - if actions
     .ui-toolbar-additional-actions
@@ -49,7 +49,7 @@
               = _("Filter and order by author")
             - else
               = _("Order by creation date")
-      %i.icon-arrow-down.bright.small
+        %i.icon-arrow-down.bright.small
       %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
         %li.ui-drop-item{:class => (active_sorting == "created_at") ? "hidden active" : "", :"data-default" => true}
           %a{:"data-sort" => "created_at"}

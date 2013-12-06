@@ -10,35 +10,32 @@ table.block
   width: 100%
 
 thead td, thead th
-  border-bottom: 1px solid $mono-weak
+  border-bottom: 1px solid $mono-bright
   font-size: $font-xs
   font-weight: 700
 
 thead td span, thead th span
   font-weight: 700
-  border-bottom
 
 tfoot td
   font-size: $font-xs
 
 caption
-  border-bottom: 1px solid $mono-weak
+  border-bottom: 1px solid $mono-bright
   font-weight: 700
   line-height: $line-height-m
   padding: $space-x 0
   text-align: left
 
 td, th
-  border-bottom: 1px solid $mono-weak
-  line-height: $line-height-m
+  border-bottom: 1px solid $mono-bright
+  line-height: $line-height-l
   padding: $space-x 0
   vertical-align: top
 
-// tbody tr:last-child td
-//   border-bottom: none
-
-// .midtone td
-//   border-color: $mono-light
+.ui-container.midtone
+  td, th, caption, thead td, thead th
+    border-bottom: 1px solid $mono-light
 
 /* Borderless Tables
  *----------------------------------------- */

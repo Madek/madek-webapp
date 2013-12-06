@@ -10,8 +10,11 @@
             = _("Edit filter set")
 
         .ui-body-title-actions
+          %a.button
+            %i.icon-close
+            = _("Cancel")
           %a.primary-button{"data-update-filter-set" => true}
-            %i.icon-filter.bright
+            %i.icon-checkmark
             = _("Save filter settings")
 
     .app-body-ui-container

@@ -21,7 +21,7 @@
 
         = render "application/sidebar/my_archive"
 
-        .app-body-content.table-cell.table-substance.ui-container
+        .app-body-content.table-cell.table-substance.ui-container.context-fix
 
           - unless @latest_user_resources.blank?
             = render :partial => "media_resources/wrapper",

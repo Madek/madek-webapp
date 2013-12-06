@@ -27,6 +27,7 @@
           %i.icon-move.mid
           ${_jed('Add to/remove from set')}
       {{if is_deletable}}
+      %li.separator
       %li.ui-drop-item
         %a{:"data-delete-action" => true, :title => "${_jed('Delete forever')}"} 
           %i.icon-trash.mid

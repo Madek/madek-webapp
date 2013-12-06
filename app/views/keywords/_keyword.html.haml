@@ -9,6 +9,7 @@
 
 %li.ui-tag-cloud-item
   %a.ui-tag-button{:href => link}
+    %i.icon-tag-mini.ui-tag-icon
     = keyword[:label]
     - if keyword[:count]
       %small.ui-tag-counter= keyword[:count]

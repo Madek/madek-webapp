@@ -19,7 +19,7 @@
 
         = render :partial => "application/sidebar/explore"
 
-        .app-body-content.table-cell.table-substance.ui-container
+        .app-body-content.table-cell.table-substance.ui-container.context-fix
           - if @category_set and not @category_sections.empty?
             = render :partial => "media_resources/wrapper", 
                      :locals => {:media_resources => @category_sections, 

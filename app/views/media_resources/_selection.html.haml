@@ -2,7 +2,7 @@
 
   .ui-toolbar.inverted.ui-container.pvx.phs.rounded-top
     %h2.ui-toolbar-header
-      %strong= _("%d items selected" % media_resources.count)
+      = _("%d items selected" % media_resources.count)
     .ui-toolbar-controls.by-right
       .button-group.small.tertiary
         %a.button.active{:"data-view" => ".ui-resources-table"}

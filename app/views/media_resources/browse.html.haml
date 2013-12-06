@@ -22,9 +22,10 @@
               .ui-container.midtone.rounded-right.ptl.phl.pbm
                 .ui-resources-header.mbm
                   %h2.title-m.ui-resources-title
-                    %strong= "#{meta_term[:meta_datum].meta_key.all_context_labels}: "
+                    %strong.ui-resource-title-core= "#{meta_term[:meta_datum].meta_key.all_context_labels}: "
                     = meta_term[:meta_term]
-                    = "(#{meta_term[:count]})"
+                    %span.ui-resource-title-counter
+                      = "#{meta_term[:count]}"
                     - if meta_term[:count] > 20
                       %a.strong{:href => media_resources_path(:meta_data => {meta_term[:meta_datum].meta_key.label => {:ids => [meta_term[:meta_term].id]}})} Alle anzeigen
 

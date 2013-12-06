@@ -23,13 +23,12 @@
           #ui-resources-preview.ui-container.clearfix.mvl.bordered.midtone.rounded.upload-overview
             = @media_entry_incompletes_partial.html_safe
 
-          .ui-actions.mbm
+          .ui-actions
             %a.button{:"data-organize-arcs" => "true", :"data-collection-id" => @media_entry_incompletes_collection_id}
               %i.icon-move
               = _("Add entries to a set")
 
-          .ui-actions
-            %form{:action => complete_import_path, :method => :post}
+            %form{:action => complete_import_path, :method => :post, :style => "display: inline"}
               = token_tag nil
               %button.primary-button.large{:type => :submit}
                 = _("Finish import")

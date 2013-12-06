@@ -4,17 +4,43 @@
 
 .ui-resources-holder
   +micro-clearfix
-  padding: $space-l $space-l $space-m
+  padding: $space-l $space-m
+.context-fix .ui-resources-holder
+  padding-left: $space-l
+  padding-right: $space-l
+.context-parents .ui-resources-holder // valid only for Parent Sets view
+  padding: 0
 
 .ui-resources
   +micro-clearfix
   display: block
-  margin-left: -$space-s
-  margin-right: -$space-s
+
+.ui-resources-holder.context-fix
+  .ui-resources
+    margin-left: -15px
 
 .ui-resources-page,
 .ui-resource
   list-style: none
+
+.ui-resource-title-core
+  margin-right: $space-x
+
+.ui-resource-title-counter
+  display: inline-block
+  color: $mono-heavy
+  border: 1px solid $mono-light
+  @include border-radius(50px)
+  font-size: $font-xs
+  font-weight: bold
+  margin-left: $space-x
+  background: $mono-weak
+  padding: 0 $space-x
+  position: relative
+  top: -1px
+
+.ui-resources-page-items
+  +micro-clearfix
 
 .ui-thumbnail
   display: block

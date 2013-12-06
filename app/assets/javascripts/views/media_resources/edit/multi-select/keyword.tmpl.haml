@@ -5,7 +5,8 @@ ${$item.value = label, ""}
 {{/if}}
 
 %li.multi-select-tag{:"data-id" => "${id}", :"data-label" => "${label}"}
+  %i.icon-tag-mini.ui-tag-icon
   %input{:name => "resource[meta_data_attributes][${index}][value][]", :type => "hidden", :value => "${$item.value}"}
     ${label}
     %a.multi-select-tag-remove
-      .icon-remove
+      .icon-remove.icon-close.small

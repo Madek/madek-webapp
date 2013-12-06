@@ -10,9 +10,9 @@
     - meta_contexts.each do |context|
       - media_resource = MediaResource.filter(current_user, {:meta_context_names => [context.name]}).ordered_by(:updated_at).first
       - if media_resource
-        .ui-context.pvl.limited-width-m{:"data-name" => context.name}
+        .ui-context.limited-width-m{:"data-name" => context.name}
           %h3.title-m
             %a{:href => context_path(context)}= context
           %p.ui-thumbnail-meta-subtitle= context.description
         - unless meta_contexts.last == context
-          .separator.mbm
+          / .separator.mbm
