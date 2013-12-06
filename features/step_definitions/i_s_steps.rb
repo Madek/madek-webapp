@@ -67,6 +67,17 @@ Given(/^I switch to uberadmin modus$/) do
   find("a#switch-to-uberadmin").click
 end
 
+
 When(/^I select "(.*?)" option from Sort by select$/) do |option|
   select(option, from: 'sort_by')
+end
+
+When /^I select first result from the autocomplete list$/ do
+  page.execute_script %Q{ $('[name="[query]"]').trigger('keydown') }
+  selector = %Q{ul.ui-autocomplete li.ui-menu-item a:first }
+
+  page.should have_selector('ul.ui-autocomplete li.ui-menu-item a')
+  page.execute_script %Q{ $('#{selector}').trigger('mouseenter').click() }
+
+  page.execute_script("$('.ui-menu-item a:first').trigger('mouseenter').click() ")
 end

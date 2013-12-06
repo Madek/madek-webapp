@@ -1,15 +1,15 @@
-
 %h1 Add user
 
+= form_tag add_user_app_admin_group_path(@group), method: 'POST', class: "form-horizontal", role: "form", id: "add-group-user" do
 
-= form_tag  add_user_app_admin_group_path(@group) , method: 'POST', class: "form-horizontal", role: "form" do
+  = hidden_field nil, :user_id 
 
   .form-group
-    %label.control-label.col-sm-1 User id
+    %label.control-label.col-sm-1 User
     .col-sm-4
-      = text_field nil, :user_id, type: 'number', class: "form-control"
+      = text_field nil, :query, class: "form-control", placeholder: "Nachname, Vorname [login]"
 
   .form-group
     .col-sm-offset-1.col-sm-4
-      = button_tag type: 'submit', class: 'btn btn-success' do
+      = button_tag type: 'submit', class: 'btn btn-success', disabled: true do
         Add user

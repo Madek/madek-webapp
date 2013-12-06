@@ -301,3 +301,11 @@ Then /^I see the return link in the navbar$/ do
   expect(link[:href]).to eq("/")
   (expect find("th:last").text).not eq("# of resources")
 end
+
+Then /^I see the submit button is disabled$/ do
+  expect(find("button[type=submit]")["disabled"]).to eq "disabled"
+end
+
+Then(/^I see the submit button is enabled$/) do
+  expect(find("button[type=submit]")["disabled"]).to eq nil
+end

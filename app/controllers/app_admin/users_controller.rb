@@ -1,19 +1,27 @@
 class AppAdmin::UsersController < AppAdmin::BaseController
 
   def index
-    @users = User.with_resources_amount
+    respond_to do |format|
+      format.json {
+        users = Person.search(params[:query]).map(&:user).compact
+        render :json => view_context.json_for(users)
+      }
+      format.html {
+        @users = User.with_resources_amount
 
-    if params.try(:[], :sort_by) == 'resources_amount'
-      @sort_by = :resources_amount
-    else
-      @sort_by = :login
-      @users = @users.reorder("login ASC")
-    end
+        if params.try(:[], :sort_by) == 'resources_amount'
+          @sort_by = :resources_amount
+        else
+          @sort_by = :login
+          @users = @users.reorder("login ASC")
+        end
 
-    @users = @users.page(params[:page])
-    
-    if ! (fuzzy_search = params.try(:[],:filter).try(:[],:fuzzy_search)).blank?
-      @users = @users.fuzzy_search(fuzzy_search)
+        @users = @users.page(params[:page])
+  
+        if ! (fuzzy_search = params.try(:[],:filter).try(:[],:fuzzy_search)).blank?
+          @users = @users.fuzzy_search(fuzzy_search)
+        end
+      }
     end
   end
 

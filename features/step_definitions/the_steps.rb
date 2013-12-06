@@ -95,7 +95,12 @@ Then /^the group members are updated$/ do
   expect{@group.users.find(@removed_user.id)}.to raise_error
 end
 
+### the h
 
+Then /^The hidden field with name "(.*?)" should have a value$/ do |field_name|
+  input = find("input[name='#{field_name}']")
+  expect(input.value).to match(/^\w+$/)
+end
 
 ### the l ##############################################
  
@@ -274,6 +279,3 @@ end
 Then /^The visualization test test_noupdate_positions is running$/ do
   wait_until(5){ all("#test_noupdate_positions_running").size > 0}
 end
-
-
-

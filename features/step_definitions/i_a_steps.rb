@@ -224,3 +224,10 @@ Then /^I am redirected to the media archive$/ do
   expect(current_path).to eq "/my"
 end
 
+Then /^I am on the group page with id "(.*?)"$/ do |group_id|
+  expect(current_path).to eq "/app_admin/groups/#{group_id}"
+end
+
+Then /^I am on the page where I can add a user to the group with id "(.*?)"$/ do |group_id|
+  expect(current_path).to eq "/app_admin/groups/#{group_id}/form_add_user"
+end
