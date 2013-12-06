@@ -28,6 +28,7 @@ ports:
 contexts:
 
 - name: meta
+  priority: 7
   scripts:
     completeness:
       body: "substitute_with_path: domina/scripts/context_meta_completeness.sh"
@@ -46,6 +47,7 @@ contexts:
         body: env | sort; ls
 
 - name: cucumber features 
+  priority: 5
   scripts:
     bundle: 
       timeout: 500
@@ -76,6 +78,7 @@ contexts:
   tasks: "substitute_with_path: domina/execution/feature_tasks.yml"
 
 - name: rspec specs
+  priority: 3
   scripts:
     bundle: 
       timeout: 500
