@@ -37,6 +37,18 @@
     %td #{@user.media_resources.count}
 
   %tr
+    %td # Media Entries
+    %td #{@user.media_resources.media_entries_or_media_entry_incompletes.count}
+
+  %tr
+    %td # Media Sets
+    %td #{@user.media_resources.media_sets.count}
+
+  %tr
+    %td # Filter Sets
+    %td #{@user.media_resources.filter_sets.count}
+
+  %tr
     %td # Keywords
     %td #{@user.keywords.count}
 

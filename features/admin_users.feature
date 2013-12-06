@@ -75,3 +75,13 @@ Feature: Managing Users and Logins
     And I submit
     Then I see user list sorted by amount of resources
     And There is "Amount of resources" sorting option selected
+
+  Scenario: Listing detailed information about user's resources
+    When I visit "/app_admin/users"
+    And I click on the link "Details"
+    Then I am on a "/app_admin/users/1" page
+    And I see a table row with "# Media Entries"
+    And I see a table row with "# Media Sets"
+    And I see a table row with "# Filter Sets"
+
+

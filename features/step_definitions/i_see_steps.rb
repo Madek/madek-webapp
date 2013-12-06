@@ -84,6 +84,10 @@ Then /^I see a selection of the images of the teaser set$/ do
   expect( find("#teaser-set").all("img").size).to be > 0
 end
 
+Then /^I see a table row with "(.*?)"$/ do |label|
+  (expect find(".table")).to have_content label
+end
+
 Then /^I see a warning that I will lose unsaved data$/ do
   page.driver.browser.switch_to.alert.text.should =~ /Nicht gespeicherte Daten gehen verloren/
 end
@@ -295,4 +299,5 @@ Then /^I see the return link in the navbar$/ do
   link = find('.navbar .navbar-right a')
   expect(link.text).to match /return to user\-interface/
   expect(link[:href]).to eq("/")
+  (expect find("th:last").text).not eq("# of resources")
 end
