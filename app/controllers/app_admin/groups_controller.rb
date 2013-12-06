@@ -1,6 +1,12 @@
 class AppAdmin::GroupsController < AppAdmin::BaseController
   def index
     @groups = Group.reorder("name ASC, ldap_name ASC").page(params[:page])
+    @type = :all
+
+    if !params[:type].blank? && params[:type] != "all"
+      @groups = @groups.where(type: type_parameter)
+      @type = params[:type]
+    end
 
     if !params[:fuzzy_search].blank?
       @groups = @groups.fuzzy_search(params[:fuzzy_search])
@@ -69,5 +75,10 @@ class AppAdmin::GroupsController < AppAdmin::BaseController
       redirect_to app_admin_group_path(@group), flash: {error: e.to_s}
     end
   end
+
+    private
+    def type_parameter
+      params[:type].split("_").map(&:capitalize).join("")
+    end
 
 end

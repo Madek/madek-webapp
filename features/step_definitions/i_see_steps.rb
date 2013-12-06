@@ -162,6 +162,12 @@ Then (/^I see exactly the same number of resources as before$/) do
   expect(find("#resources_counter").text.to_i).to eq @resources_counter
 end
 
+Then /^I see groups with "(.*?)" type$/ do |group_type|
+  all( "table tbody tr" ).each do |row|
+    expect( row ).to have_content(group_type)
+  end
+end
+
 Then /^I see one suggested keyword that is randomly picked from the top (\d+) keywords of resources that I can see$/ do |count|
   top_accessible_keywords = Keyword.with_count_for_accessible_media_resources(@current_user).limit(count.to_i)
   found = false
@@ -180,6 +186,14 @@ Then /^I see page for the resource$/ do
 end
 
 ### I see the ###########
+
+Then /^I see a select input with "(.*?)" name$/ do |select_name|
+  expect( find_field(select_name) ).not_to raise_error
+end
+
+Then /^I see the "(.*?)" type in the group list$/ do |group_type|
+  expect(find("table")).to have_content(group_type)
+end
 
 Then /^I see the count of MetaData associated to each person$/ do
   wait_until{ all(".meta_data_count").size > 0 }
@@ -283,6 +297,10 @@ end
 
 Then /^I see the column with a number of user resources$/ do
   find("th", text: "# of resources")
+end
+
+Then /^I see the column with a group type$/ do
+  expect{find("th", text: "Type")}.not_to raise_error
 end
 
 Then /^I see users list sorted by login$/ do

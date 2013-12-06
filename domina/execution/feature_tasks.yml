@@ -1,4 +1,8 @@
 ---
+- name: admin_groups
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/admin_groups.feature"
 - name: admin_interface
   scripts:
     cucumber:

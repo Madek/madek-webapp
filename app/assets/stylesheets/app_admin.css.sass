@@ -1,10 +1,14 @@
 @import 'bootstrap'
-@import 'colors'
 
 @import 'font-awesome'
 
-$grey-lighter: #ddd
-@import 'components/ui-autocomplete'
+@mixin limit($max-width)
+  display: block
+  width: 100%
+  overflow: hidden
+  max-width: $max-width
+  text-overflow: ellipsis
+  white-space: nowrap
 
 form.settings
   input[type='text'], textarea
@@ -14,18 +18,10 @@ form.settings
     height: 200px
   
 span.limit250
-  display: block
-  width: 100%
-  overflow: hidden
-  max-width: 250px
-  text-overflow: ellipsis
-  white-space: nowrap
+  @include limit(250px)
 
 span.limit150
-  display: block
-  width: 100%
-  overflow: hidden
-  max-width: 150px
-  text-overflow: ellipsis
-  white-space: nowrap
+  @include limit(150px)
 
+.no-wrap
+  white-space: nowrap

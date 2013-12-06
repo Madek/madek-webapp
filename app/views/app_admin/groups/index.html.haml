@@ -21,7 +21,11 @@
     = form_tag app_admin_groups_path, method: 'GET' do
 
       %label 
-        = text_field nil, :fuzzy_search, class: "search-query", value: params[:fuzzy_search] 
+        = text_field nil, :fuzzy_search, class: "search-query", value: params[:fuzzy_search]
+      .form-group
+        %label Type of
+        %select.form-control{name: :type}
+          = options_for_select [["All", :all], ["Group", :group], ["MetaDepartment", :meta_department]], @type
 
       = button_tag type: 'submit', class: 'btn btn-sm' do
         Filter
@@ -32,7 +36,9 @@
         %tr
           %th Name
           %th Ldap name
-          %th # Users
+          %th Type
+          %th.no-wrap # Users
+          %th
       %tbody
         =render partial: 'group', collection: @groups
 

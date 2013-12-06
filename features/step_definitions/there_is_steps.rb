@@ -81,3 +81,9 @@ Then /^There is "(.*?)" sorting option selected$/ do |option|
     expect(find("option[value='resources_amount']")[:selected]).to eq("selected")
   end
 end
+
+Then /^There is "(.*?)" group type option selected$/ do |option|
+  within "select[name='type']" do
+    expect(find("option[value='#{option}']")[:selected]).to eq("selected")
+  end
+end

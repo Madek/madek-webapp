@@ -58,6 +58,12 @@ Then /^I dont see any number of children and parents$/ do
   expect(@popup.all(".media_set.icon").size).to eq(0)
 end
 
+Then /^I don't see groups with "(.*?)" type$/ do |group_type|
+  all( "table tbody tr" ).each do |row|
+    expect( row ).not_to have_content(group_type)
+  end
+end
+
 Then /^I don't see the links to the resource \(my\)descendants$/ do
   expect(@popup.all("a#link_for_my_descendants_of",visible: true)).to be_empty
   expect(@popup.all("a#link_for_descendants_of",visible: true)).to be_empty

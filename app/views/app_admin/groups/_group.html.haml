@@ -3,11 +3,13 @@
     %span.limit250 #{group.name}
   %td
     %span.limit250 #{group.ldap_name}
+  %td
+    %span #{group.type}
 
   %td
     #{group.users.count}
 
-  %td
+  %td.no-wrap
     %ul.list-inline
       %li 
         = link_to app_admin_group_path(group), class: "btn btn-xs" do
