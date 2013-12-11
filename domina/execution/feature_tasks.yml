@@ -63,10 +63,14 @@
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/filter_media_resource_types.feature"
-- name: filter_panel
+- name: filter_panel_01
   scripts:
     cucumber:
-      body: bundle exec cucumber --strict "features/filter_panel.feature"
+      body: bundle exec cucumber --strict "features/filter_panel_01.feature"
+- name: filter_panel_02
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/filter_panel_02.feature"
 - name: filter_set
   scripts:
     cucumber:
