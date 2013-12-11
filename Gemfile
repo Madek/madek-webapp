@@ -28,6 +28,7 @@ gem 'bcrypt-ruby', '~> 3.0.0' # TODO reevaluate with rails4; nasty stacktrace wi
 gem 'coffee-script'
 gem 'compass-rails'
 gem 'gettext_i18n_rails'
+gem 'git'
 gem 'haml'
 gem 'haml_assets'
 gem 'jquery-rails', '= 1.0.16' # NOTE WARNING DO NOT CHANGE THIS LINE

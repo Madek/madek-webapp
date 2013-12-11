@@ -12,11 +12,12 @@
         %i.icon-madek.ui-footer-logo
       Z&uuml;rcher Hochschule der K&uuml;nste and contributors
 
-    / / TODO: THOMAS
-    / %p.ui-footer-version
-    /   Last deployment: 
-    /   %a.weak
-    /     Fri, 22 Nov 2013
+    %p.ui-footer-version
+      Aufgespielter Commit 
+      %a.weak{href: "https://github.com/zhdk/madek/commit/#{CurrentCommit.get}", style: "font-family: monospace"}
+        #{CurrentCommit.get.to_s[0..5]} 
+      vom 
+      = l CurrentCommit.get.committer_date, format: :short
 
 - if clipboard
   = render "application/clipboard" unless current_user.is_guest?
