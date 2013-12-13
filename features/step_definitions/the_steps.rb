@@ -97,9 +97,13 @@ end
 
 ### the h
 
-Then /^The hidden field with name "(.*?)" should have a value$/ do |field_name|
+Then /^The hidden field with name "(.*?)" should match "(.*?)"$/ do |field_name, regexp|
   input = find("input[name='#{field_name}']")
-  expect(input.value).to match(/^\w+$/)
+  if regexp.present?
+    expect(input.value).to match(Regexp.new(regexp))
+  else
+    expect(input.value).to eq("")
+  end
 end
 
 ### the l ##############################################

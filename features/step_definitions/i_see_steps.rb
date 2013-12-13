@@ -322,6 +322,7 @@ Then /^I see the submit button is disabled$/ do
   expect(find("button[type=submit]")["disabled"]).to eq "disabled"
 end
 
-Then(/^I see the submit button is enabled$/) do
+Then /^I see the submit button is enabled$/ do
+  page.execute_script "$('#_user_id').trigger('keyup')"
   expect(find("button[type=submit]")["disabled"]).to eq nil
 end

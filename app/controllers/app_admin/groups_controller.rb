@@ -67,18 +67,27 @@ class AppAdmin::GroupsController < AppAdmin::BaseController
 
   def add_user
     begin
-      @group= Group.find params[:id]
-      @user = User.find(params[:user_id])
+      @group = Group.find params[:id]
+      @user  = find_user
       @group.users << @user
-      redirect_to app_admin_group_path(@group), flash: {success: "The user has been added"}
+      redirect_to app_admin_group_path(@group), flash: {success: "The user <b>#{@user.login}</b> has been added".html_safe}
     rescue => e
       redirect_to app_admin_group_path(@group), flash: {error: e.to_s}
     end
   end
 
-    private
-    def type_parameter
-      params[:type].split("_").map(&:capitalize).join("")
+  private
+
+  def type_parameter
+    params[:type].split("_").map(&:capitalize).join("")
+  end
+
+  def find_user
+    if params[:query] =~ /^\[\w+\]$/ && params[:user_id].blank?
+      User.find_by_login(params[:query][1..-2])
+    else
+      User.find(params[:user_id])
     end
+  end
 
 end

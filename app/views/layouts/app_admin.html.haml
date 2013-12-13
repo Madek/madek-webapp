@@ -80,11 +80,11 @@
             %button.close{type:"button", 'data-dismiss'=>'alert'} &#215
             = flash[:success]
         - if flash[:notice]
-          .alert.alert-notice.alertnotice
+          .alert.alert-info.alertnotice
             %button.close{type:"button", 'data-dismiss'=>"alert"} &#215
             = flash[:notice]
         - if flash[:error]
-          .alert.alert-error.alerterror 
+          .alert.alert-danger.alerterror 
             %button.close{type:"button", 'data-dismiss'=>"alert"} &#215
             = flash[:error]
 

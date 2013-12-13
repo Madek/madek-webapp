@@ -26,7 +26,17 @@ Feature: Managing Users and Logins
     And I see the submit button is disabled
     When I set the input with the name "[query]" to "nor"
     And I select first result from the autocomplete list
-    Then The hidden field with name "[user_id]" should have a value
+    Then The hidden field with name "[user_id]" should match "^\w+$"
+    And I see the submit button is enabled
+    When I submit
+    Then I can see a success message
+
+  @jsbrowser
+  Scenario: Adding user to a group by login
+    When I visit "/app_admin/groups/2/form_add_user"
+    And I see the submit button is disabled
+    When I set the input with the name "[query]" to "[norbert]"
+    Then The hidden field with name "[user_id]" should match ""
     And I see the submit button is enabled
     When I submit
     Then I can see a success message

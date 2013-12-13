@@ -19,11 +19,14 @@ class GroupsController.Edit
       false if @submitButton.prop("disabled")
     @textField.on "focus", (e)=>
       @setupAutocomplete($(e.currentTarget)) unless $(e.currentTarget).hasClass "ui-autocomplete-input"
+    @textField.on "keyup", (e)=>
+      @checkIfLogin()
 
   setupAutocomplete: (input)->
     input.autocomplete
       appendTo: input.closest ".col-sm-4"
       source: (request, response) =>
+        return if @checkIfLogin()
         @resetUser()
         @ajax.abort() if @ajax?
         @ajax = AppAdmin.User.fetch request.term, (users)->
@@ -36,7 +39,6 @@ class GroupsController.Edit
         @addUser new AppAdmin.User
           id: ui.item.id
         @enableSubmit()
-        false
 
   addUser: (user)=>
     @userId.val(user.id)
@@ -44,6 +46,10 @@ class GroupsController.Edit
   resetUser: ->
     @disableSubmit()
     @userId.val('')
+
+  checkIfLogin: ->
+    if /^\[\w+\]$/.test(@textField.val())
+      @enableSubmit()
 
   enableSubmit: ->
     @submitButton.prop("disabled", false)
