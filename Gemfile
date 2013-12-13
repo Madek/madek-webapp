@@ -10,117 +10,78 @@ source 'http://rubygems.org'
 source 'http://gems.github.com'
 
 # RAILS
-gem 'rails', '3.2.13'
+gem 'rails', '4.0.2'
+
 
 # DATABASE
 gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
-gem 'composite_primary_keys', '~> 5.0.10'
+gem 'composite_primary_keys', "~> 6.0"
 gem 'foreigner'
 gem 'jdbc-postgres', platform: :jruby
 gem 'memcache-client' 
 gem 'pg', platform: :mri
-gem 'postgres_ext'
 gem 'textacular', git: 'https://github.com/DrTom/textacular.git'
 
 # THE REST
-gem 'activeadmin', :git => 'git://github.com/zhdk/active_admin.git' # '~> 0.5.0'
-gem 'bcrypt-ruby', '~> 3.0.0' # TODO reevaluate with rails4; nasty stacktrace without version restriction; 
+gem 'animation'
+gem 'bcrypt-ruby', '~> 3.1.2'
+gem 'better_errors', group: [:development]
+gem 'binding_of_caller', platform: :mri, group: [:development]
+gem 'bootstrap-sass' 
+gem 'capistrano', group: [:development, :personas]
+gem 'capistrano-ext', group: [:development, :personas]
+gem 'capybara', '1.1.2', group: [:test]
+gem 'coffee-rails'
 gem 'coffee-script'
-gem 'compass-rails'
+gem 'compass-rails', github: "Compass/compass-rails", branch: "rails4-hack"
+gem 'cucumber', '~> 1.2', group: [:test]
+gem 'cucumber-rails', '~> 1.3', :require => false, group: [:test]
+gem 'execjs'
+gem 'factory_girl', group: [:test, :development, :personas]
+gem 'factory_girl_rails', group: [:test, :development, :personas]
+gem 'faker', group: [:test, :development, :personas]
+gem 'font-awesome-sass'
 gem 'gettext_i18n_rails'
+gem 'gherkin', '= 2.12.0', group: [:test] # NOTE, CI setup must be adjusted if this is updated !!!
 gem 'git'
 gem 'haml'
+gem 'haml-rails', group: [:development]
 gem 'haml_assets'
-gem 'jquery-rails', '= 1.0.16' # NOTE WARNING DO NOT CHANGE THIS LINE
-gem 'jquery-tmpl-rails', '~> 1.1'
+gem 'haml_coffee_assets'
+gem 'jquery-rails'
+gem 'jquery-tmpl-rails'
+gem 'jquery-ui-rails'
 gem 'jruby-openssl', :platform => :jruby
-gem 'json', '~> 1.7'
-gem 'kaminari', '~> 0.14' 
-gem 'nested_set', '~> 1.7'
+gem 'json'
+gem 'kaminari'
+gem 'meta_request', group: [:development]
 gem 'net-ldap', :require => 'net/ldap', :git => 'git://github.com/justcfx2u/ruby-net-ldap.git'
+gem 'newrelic_rpm', group: [:production, :development]
 gem 'nokogiri'
+gem 'poltergeist', group: [:test, :development, :personas]
+gem 'pry', group: [:test, :development, :personas]
+gem 'quiet_assets', group: [:development]
 gem 'rails_autolink', '~> 1.0'
-gem 'require_relative'
-gem 'rgl', '~> 0.4.0', :require => 'rgl/adjacency'
-gem 'sass', '~> 3.2.0'
-gem 'uuidtools', '~> 2.1.3'
+gem 'rest-client', group: [:test, :development, :personas]
+gem 'rspec-rails', group: [:test, :development, :personas]
+gem 'rvm-capistrano', group: [:development, :personas]
+gem 'sass-rails', '~> 4.0.1'
+gem 'sass', '3.2.12'
+gem 'selenium-webdriver', group: [:test]
+gem 'therubyracer', platform: :mri, group: [:development, :production, :test]
+gem 'therubyrhino', platform: :jruby, group: [:development, :production, :test]
+gem 'thin', :platform => :mri, group: [:development, :personas] # web server (Webrick do not support keep-alive connections)
+gem 'uglifier', '~> 1.3'
+gem 'uuidtools'
 gem 'zencoder', '~> 2.4'
-gem 'zip', '~> 2.0.2' # alternatives: 'rubyzip', 'zipruby', 'zippy'
-gem 'animation'
+gem 'zencoder-fetcher', group: [:development]
+gem 'rubyzip'
 
-group :assets do
-  gem 'bootstrap-sass', '~> 3.0.0.0.rc' 
-  gem 'coffee-rails'
-  gem 'execjs'
-  gem 'font-awesome-sass'
-  gem 'haml_coffee_assets'
-  gem 'sass-rails', '>= 3.2'
-  gem 'uglifier', '~> 1.2'
-end
+# TEMPORARILY DISABLED
+ 
+# gem "yard", "~> 0.8.3", platform: :mri, group: [:development, :production]
+# gem "yard-rest", "~> 1.1.4", platform: :mri, group: [:development, :production]
+# gem 'rack-mini-profiler', group: [:development]
+# gem 'redcarpet', platform: :mri, group: [:development, :production] # yard-rest dependency
 
-group :production, :development do
-  gem 'newrelic_rpm'
-end
 
-group :development, :personas do
-  gem 'capistrano'
-  gem 'capistrano-ext'
-  gem 'railroady'
-  gem 'rvm-capistrano'
-  gem 'statsample'
-  gem 'thin', :platform => :mri # web server (Webrick do not support keep-alive connections)
-end
-
-group :test, :development, :personas do
-#  gem 'database_cleaner'
-  gem 'factory_girl', '~> 4.0'
-  gem 'factory_girl_rails', '~> 4.0'
-  gem 'faker'
-  gem 'faraday'
-  gem 'guard', '~> 1.3'
-  gem 'guard-cucumber', '~> 1.2'
-  gem 'guard-rspec', '~> 2.1'
-  gem 'guard-spork', '~> 1.1', platform: :mri
-  gem 'poltergeist'
-  gem 'pry'
-  gem 'rb-fsevent', '~> 0.9'
-  gem 'rest-client'
-  gem 'rspec-rails'
-  gem 'ruby_gntp', '~> 0.3.4'
-  gem 'spork-rails'
-end
-
-group :development, :production do
-  # we could use yard with an other mkd provider https://github.com/lsegal/yard/issues/488
-  platform :mri do
-    gem "yard", "~> 0.8.3"
-    gem "yard-rest", "~> 1.1.4"
-    gem 'redcarpet' # yard-rest dependency
-    gem 'therubyracer'
-  end
-  platform :jruby do
-    gem 'therubyrhino'
-  end
-end
-
-group :development do
-  gem 'better_errors'
-  gem 'binding_of_caller', platform: :mri
-  gem 'haml-rails'
-  gem 'meta_request'
-  gem 'quiet_assets'
-  gem 'zencoder-fetcher'
-# gem 'rack-mini-profiler'
-end
-
-group :test do
-  gem 'capybara', '1.1.2'
-  gem 'cucumber', '~> 1.2'
-  gem 'cucumber-rails', '~> 1.3', :require => false
-  gem 'gherkin', '= 2.12.0' # NOTE, CI setup must be adjusted if this is updated !!!
-  gem 'launchy'  
-  gem 'selenium-webdriver', '~> 2.30'
-  gem 'simplecov', '~> 0.6'
-  gem 'therubyracer', :platform => :mri
-  gem 'therubyrhino', :platform => :jruby
-end

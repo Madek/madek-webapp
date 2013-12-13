@@ -25,7 +25,7 @@ describe FilterSet do
     context "settings" do
       it "stores the filter" do
         @filter_set.should respond_to(:settings)
-        f = {:public => "true", :search => "zhdk"}
+        f = {"public" => "true", "search" => "zhdk"}
         @filter_set.settings[:filter] = f
         @filter_set.save.should be_true
         @filter_set.reload
@@ -35,12 +35,11 @@ describe FilterSet do
       it "returns child_media_resources based on the current_user" do
         all_fake_words = []
         # MediaResources
-        20.times do
+        3.times do
           type = rand > 0.5 ? :media_entry : :media_set
           mr = FactoryGirl.create type, :user => @user
-          all_fake_words += fake_words = Faker::Lorem.words(4)
-          mr.meta_data.create(:meta_key => MetaKey.find_by_id("title"), 
-                              :value => fake_words.join(' '))
+          all_fake_words += fake_words = Faker::Lorem.words(2)
+          mr.set_meta_data({meta_data_attributes: {"0" => {meta_key_label: "title",value: fake_words.join(' ')}}})
           mr.save # force full_text reindex
         end
         all_fake_words.each do |w|

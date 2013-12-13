@@ -6,15 +6,15 @@ Feature: Guests / Not logged in user
     Then I am on the "/explore" page
     And I can see the text "Erkunden"
 
-  @jsbrowser 
+  @jsbrowser
   Scenario: Search page
     When I go to the home page
     When I click on the link "Suche"
     Then I am on the "/search" page
     And I can see the text "Suche"
-    And I set the input with the name "search" to "Landschaft"
+    And I set the input with the name "terms" to "Landschaft"
     And I submit
-    Then I am on the "/search/Landschaft" page
+    Then I am on the "/search/result" page
     And I can see the text "Suchresultat"
     And I can see several images 
 

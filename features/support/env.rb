@@ -25,3 +25,9 @@ Gherkin::I18n.class_eval do
   end
 end
 
+
+# TODO remove this when 'fixed'
+require 'multi_test' 
+MultiTest.disable_autorun
+
+

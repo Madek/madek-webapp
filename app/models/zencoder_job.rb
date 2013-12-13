@@ -1,19 +1,15 @@
 class ZencoderJob < ActiveRecord::Base
-  set_primary_key 'id'
+  self.primary_key= 'id'
   belongs_to :media_file
   serialize :notification, JsonSerializer
   serialize :request, JsonSerializer
   serialize :response, JsonSerializer
 
-  attribute_names.map(&:to_sym).each{|att| attr_accessible att}
-  attr_accessible :media_file
-
-
   before_create do |model|
     model.id ||= SecureRandom.uuid 
   end
 
-  default_scope order("zencoder_jobs.created_at ASC")
+  default_scope lambda{order("zencoder_jobs.created_at ASC")}
 
   ################################################################
   # config

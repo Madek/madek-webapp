@@ -3,13 +3,6 @@
   Dashboard
 
 
-%p.alert.alert-warning
-  We are revamping the administration interface.
-  Some of the missing functionality might be still accessible in the 
-  = link_to '/admin' do
-    old administration interface.
-
-
 %h2 Info and Statistics 
 
 %p about this instance of MAdeK. There are 
@@ -38,8 +31,8 @@
   The deployed commit is 
   = link_to ("https://github.com/zhdk/madek/commit/" + `git log --pretty='%H'  -1`) do 
     = `git log --pretty=format':%h' -1` + ' @GitHub'
-  %b= `git log --pretty=format':%ar by %cn on %d' --decorate -1`
+  %b= `git log --pretty=format':%ar (%ad) by %cn on %d' --decorate -1`
   with the message
-  %blockquote #{`git log --pretty=format'%s' --decorate -1`}
+  %blockquote #{`git log --pretty='%s' --decorate -1`}
 
 

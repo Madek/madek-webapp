@@ -1,13 +1,13 @@
 %span.dropdown.ui-dropdown
-  %a.button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
+  %a#nexuses.button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
     %i.icon-plus
     Zusammenhänge
     %i.icon-arrow-down.stand-alone
 
   %ul.dropdown-menu.dropdown-menu-progressive.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
     %li.ui-drop-item
-      %a{:"data-create-set" => true}
+      %a#create-set{:"data-create-set" => true}
         = _("Create set")
     %li.ui-drop-item
-      %a{:"data-create-filter-set" => true}
+      %a#create-filter-set{:"data-create-filter-set" => true}
         = _("Create filter set")

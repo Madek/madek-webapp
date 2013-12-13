@@ -18,7 +18,7 @@ describe "MetaData" do
         meta_key_id = MetaKey.find_by_id("title").id
         title= "Some Title"
         params = {meta_data_attributes: {"0" =>  {meta_key_id: meta_key_id,value: title}}}
-        @media_entry.update_attributes(params)
+        @media_entry.set_meta_data(params)
         @media_entry.reload.title.should == title
       end
 

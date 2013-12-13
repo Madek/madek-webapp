@@ -11,12 +11,12 @@ class MetaTerm < ActiveRecord::Base
     errors.add(:base, "A term cannot be blank") if LANGUAGES.all? {|lang| send(lang).blank? }
   end
 
-  scope :with_meta_data, where(%Q<
-    "meta_terms"."id" in (#{joins(:meta_data).select('"meta_terms"."id"').group('"meta_terms"."id"').to_sql}) >)
+  scope :with_meta_data, lambda{where(%Q<
+    "meta_terms"."id" in (#{joins(:meta_data).select('"meta_terms"."id"').group('"meta_terms"."id"').to_sql}) >)}
     # essentially does the same as above with DISTINCT ON instead of GROUP BY, 
     # queries are different but there is no much difference in speed
-  scope :with_keywords, where(%Q<
-    "meta_terms"."id" in (#{joins(:keywords).select('DISTINCT ON ("meta_terms"."id") "meta_terms"."id"').to_sql}) >)
+  scope :with_keywords, lambda{where(%Q<
+    "meta_terms"."id" in (#{joins(:keywords).select('DISTINCT ON ("meta_terms"."id") "meta_terms"."id"').to_sql}) >)}
 
 
   def to_s(lang = nil)
@@ -59,7 +59,7 @@ class MetaTerm < ActiveRecord::Base
       end
       find_or_create_by_en_gb_and_de_ch(l)
     elsif h.values.any? {|x| not x.blank? }
-      find_or_create_by_en_gb_and_de_ch(h)
+      find_or_create_by h
     end
   end
 

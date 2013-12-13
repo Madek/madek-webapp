@@ -63,7 +63,7 @@ module MediaResourceModules
     def with_graph_size_and_title 
 
       select("count(arc_id) as size, media_resources.*, MD.title as meta_datum_title").
-        joins("LEFT OUTER JOIN ( #{conditional_descendants_cte_query(scoped)} ) descendants ON media_resources.id = descendants.media_resource_id").
+        joins("LEFT OUTER JOIN ( #{conditional_descendants_cte_query(self)} ) descendants ON media_resources.id = descendants.media_resource_id").
         # use a left outer join in the title true
         joins(" LEFT OUTER JOIN 
       (SELECT meta_data.media_resource_id as media_resource_id, meta_data.string as title

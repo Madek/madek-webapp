@@ -4,29 +4,31 @@
 # Holds the set of basic meta data keys
 class MetaKey < ActiveRecord::Base
   self.primary_key= 'id'
-  attr_accessible 'id', 'is_extensible_list', 'meta_datum_object_type'
 
-  has_many :meta_data, :dependent => :destroy
-  has_many :media_entries, :through => :meta_data, :uniq => true
+  has_many :meta_data, dependent: :destroy
+  has_many :media_entries, ->{uniq}, through: :meta_data
   
-  has_many :meta_key_definitions, :dependent => :destroy do
+  has_many :meta_key_definitions, dependent: :destroy do
     def for_context(context)
-      scoped_by_meta_context_name(context).first
+      where(meta_context_name: context.name).first
     end
   end
-  has_many :meta_contexts, :through => :meta_key_definitions
+  has_many :meta_contexts, through: :meta_key_definitions
 
-  has_many :meta_key_meta_terms, :dependent => :destroy
-  has_many :meta_terms, :through => :meta_key_meta_terms, :order => :position
-  accepts_nested_attributes_for :meta_terms, :reject_if => proc { |attributes| LANGUAGES.all? {|l| attributes[l].blank? } } #old# , :allow_destroy => true
+  has_many :meta_key_meta_terms, dependent: :destroy
+  has_many :meta_terms, ->{order("meta_keys_meta_terms.position ASC")}, through: :meta_key_meta_terms
+  accepts_nested_attributes_for :meta_terms, reject_if: proc { |attributes| LANGUAGES.all? {|l| attributes[l].blank? } } #old# , allow_destroy: true
 
-  scope :with_meta_data, joins(:meta_data).group(:id)
-  scope :for_meta_terms, where(:meta_datum_object_type => "MetaDatumMetaTerms") 
+  scope :with_meta_data, lambda{joins(:meta_data).group(:id)}
+  scope :for_meta_terms, lambda{where(meta_datum_object_type: "MetaDatumMetaTerms")}
 
   def label
     id
   end
 
+  def get_meta_datum_class
+    Kernel.const_get(meta_datum_object_type)
+  end
 ########################################################
 
   before_update do
@@ -34,7 +36,7 @@ class MetaKey < ActiveRecord::Base
       case meta_datum_object_type
         when "MetaDatumMetaTerms"
           self.is_extensible_list = true
-          meta_data.each {|md| md.update_attributes(:value => md.value) }
+          meta_data.each {|md| md.update_attributes(value: md.value) }
         # TODO when... else
       end
     end
@@ -46,7 +48,7 @@ class MetaKey < ActiveRecord::Base
 
   def all_context_labels contexts=nil
     if contexts
-      meta_key_definitions.where(:meta_context_name => contexts)
+      meta_key_definitions.where(meta_context_name: contexts)
     else  
       meta_key_definitions
     end.collect {|d| d.label.to_s if d.key_map.blank? }.compact.uniq.join(', ')
@@ -85,14 +87,14 @@ class MetaKey < ActiveRecord::Base
     end
       # we have to create the meta key, since it doesnt exist
     if mk.nil?
-      mk = MetaKey.find_or_create_by_id(entry_name)
+      mk = MetaKey.find_or_create_by(id: entry_name)
       mc = MetaContext.find("io_interface")
-      mk.meta_key_definitions.create( :meta_context => mc,
-                                      :label => {:en_gb => "", :de_ch => ""},
-                                      :description => {:en_gb => "", :de_ch => ""},
-                                      :key_map => key_map,
-                                      :key_map_type => nil,
-                                      :position => mc.meta_key_definitions.maximum("position").to_i + 1 )
+      mk.meta_key_definitions.create( meta_context: mc,
+                                      label: {en_gb: "", de_ch: ""},
+                                      description: {en_gb: "", de_ch: ""},
+                                      key_map: key_map,
+                                      key_map_type: nil,
+                                      position: mc.meta_key_definitions.maximum("position").to_i + 1 )
     end
     mk
   end

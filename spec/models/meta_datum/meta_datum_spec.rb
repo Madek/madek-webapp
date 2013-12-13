@@ -15,11 +15,4 @@ describe MetaDatum do
     expect {MetaDatum.create }.to raise_error
   end
 
-  it "should be of correct type when created with a meta_key" do
-    (@mr.meta_data.create meta_key: @mk).class.should == MetaDatumString
-  end
-
 end
-
-
- 

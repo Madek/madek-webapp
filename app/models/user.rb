@@ -2,14 +2,14 @@
 # user is the system oriented representation of a User
 
 class User < ActiveRecord::Base
-  has_secure_password # validations: false  TODO will work as of rails 4
+  has_secure_password  validations: false 
 
   attr_accessor 'act_as_uberadmin'
 
-  scope :with_resources_amount, select("users.*, count(media_resources.id) as resources_amount").
+  scope :with_resources_amount, ->{select("users.*, count(media_resources.id) as resources_amount").
     joins("LEFT OUTER JOIN media_resources ON users.id = media_resources.user_id").
     group("users.id").
-    order("resources_amount desc")
+    order("resources_amount desc")}
 
   belongs_to :person
   delegate :name, :fullname, :shortname, :to => :person

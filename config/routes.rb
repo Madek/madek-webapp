@@ -12,11 +12,11 @@ MAdeK::Application.routes.draw do
 
   ##### VISUALIZATION
 
-  match 'visualization' => 'visualization#put', via: 'put'
+  put 'visualization' => 'visualization#put', via: 'put'
   get 'visualization/filtered_resources' => 'visualization#filtered_resources'
   get 'visualization/my/media_resources' => 'visualization#my_media_resources', :as => "visualization_of_my_media_resources"
   get 'visualization/my/favorites' => 'visualization#my_favorites', :as => "visualization_of_my_favorites"
-  match 'visualization/:action(/:id)', controller: 'visualization'
+  get 'visualization/:action(/:id)', controller: 'visualization'
 
   ##### Zencoder
 
@@ -24,10 +24,10 @@ MAdeK::Application.routes.draw do
   resources 'previews', only: [:show]
 
   ##### SEARCH
-
-  get 'search', :to => 'search#search', :as => "search"
-  post 'search', :to => 'search#search', :as => "search"
-  get 'search/:term', :to => 'search#term', :as => "search_term"
+  
+  resource :search , controller: :search, only: [:show] do
+    get 'result'
+  end
 
   ##### EXPLORE
 
@@ -88,25 +88,28 @@ MAdeK::Application.routes.draw do
   ##############################################################################################
   ##############################################################################################
 
-  match '/login', :to => "authenticator/zhdk#login"
-  match '/logout', :to => "authenticator/zhdk#logout"
-  match '/login_and_return_here', :to => "application#login_and_return_here" 
-  match '/db/login', :to => "authenticator/database_authentication#login"
-  match '/db/logout', :to => "authenticator/database_authentication#logout"
-  match '/authenticator/zhdk/login_successful/:id', :to => "authenticator/zhdk#login_successful"
+  #get '/login', :to => "authenticator/zhdk#login"
+  #post '/logout', :to => "authenticator/zhdk#logout"
+  get '/login_and_return_here', :to => "application#login_and_return_here" 
+  #get '/db/login', :to => "authenticator/database_authentication#login"
+  #post '/db/do_login', :to => "authenticator/database_authentication#do_login"
+  #post '/db/logout', :to => "authenticator/database_authentication#logout"
+  #get '/authenticator/zhdk/login_successful/:id', :to => "authenticator/zhdk#login_successful"
+
 
   ###############################################
 
-  match '/download', :controller => 'download', :action => 'download'
+  # TODO this is to unspecific; I wonder that it works at all
+  get '/download', :controller => 'download', :action => 'download'
 
-  match '/nagiosstat', :to => Nagiosstat
+  #match '/nagiosstat', :to => Nagiosstat
 
 
   ### media_resource_arcs ###############################
 
-  match "/media_resource_arcs/:parent_id", controller: "media_resource_arcs", action: "get_arcs_by_parent_id", via: [:get]
-  match "/media_resource_arcs/", controller: "media_resource_arcs", action: "index", via: [:get]
-  match "/media_resource_arcs/", controller: "media_resource_arcs", action: "update_arcs", via: [:put]
+  get "/media_resource_arcs/:parent_id", controller: "media_resource_arcs", action: "get_arcs_by_parent_id"
+  get "/media_resource_arcs/", controller: "media_resource_arcs", action: "index"
+  put "/media_resource_arcs/", controller: "media_resource_arcs", action: "update_arcs"
 
   ################################################
 
@@ -158,7 +161,7 @@ MAdeK::Application.routes.draw do
       get :more_data
       get :browse
       get :parents
-      match 'context_group/:name', :to => 'media_entries#context_group', :as => "context_group"
+      get 'context_group/:name', :to => 'media_entries#context_group', :as => "context_group"
     end
   end
 
@@ -251,17 +254,14 @@ MAdeK::Application.routes.draw do
 
   ###################
 
-  resource :session
+  resource 'session', only: [] do
+    post 'sign_in'
+    post 'sign_out'
+  end
+
 
   #__ Admin namespace __##############################################################
   ####################################################################################
-
-  namespace :admin do
-    match '/setup', :to => "setup#show"
-    match '/setup/:action', :to => "setup"
-  end
-
-  ActiveAdmin.routes(self)
 
   namespace :app_admin do
 

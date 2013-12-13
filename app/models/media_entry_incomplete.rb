@@ -25,7 +25,7 @@ class MediaEntryIncomplete < MediaEntry
 
   def set_as_complete
     me = becomes MediaEntry
-    update_column(:type, type)
+    update_column(:type, MediaEntry.to_s)
     me
   end
 
@@ -52,6 +52,7 @@ class MediaEntryIncomplete < MediaEntry
   end
 
 
+  # TODO this is a mess !!! 
   def process_metadata meta_arr
     meta_arr.each do |tag_array_entry|
       tag_array_entry.each do |entry_key, entry_value|
@@ -80,14 +81,22 @@ class MediaEntryIncomplete < MediaEntry
             end
           end
         else
-          meta_key = MetaKey.meta_key_for(entry_key) #working here#10 , MetaContext.file_embedded)
+          meta_key = MetaKey.meta_key_for(entry_key) 
 
-          next if entry_value.blank? or meta_data.detect {|md| md.meta_key == meta_key } # we do sometimes receive a blank value in metadata, hence the check.
-          entry_value.gsub!(/\\n/,"\n") if entry_value.is_a?(String) # OPTIMIZE line breaks in text are broken somehow
-          begin
-            meta_data.build(:meta_key => meta_key, :value => entry_value )
-          rescue
-            # ignoring silently, don't blocking the import process
+          case meta_key.meta_datum_object_type
+          when "MetaDatumKeywords", "MetaDatumPeople", 
+            "MetaDatumUsers", "MetaDatumDepartments", "MetaDatumMetaTerms" 
+            Array[entry_value]
+          else
+            Array(entry_value)
+          end.each do |value_s|
+            next if value_s.blank? or meta_data.detect {|md| md.meta_key == meta_key } # we do sometimes receive a blank value in metadata, hence the check.
+            value_s.gsub!(/\\n/,"\n") if value_s.is_a?(String) # OPTIMIZE line breaks in text are broken somehow
+            begin
+              meta_data.build(:meta_key => meta_key, :value => value_s)
+            rescue Exception => e
+              Rails.logger.error Formatter.exception_to_log_s(e)
+            end
           end
         end
 

@@ -10,19 +10,18 @@
   
   - copyright_roots.each do |copyright|
 
-    = render :partial => "media_resources/edit/fields/meta_datum_copyright/option", 
-             :locals => {:copyright => copyright,
-                         :selected => copyright_roots.detect{|s| (value and s.is_or_is_ancestor_of?(value)) }}
+    = render partial: "media_resources/edit/fields/meta_datum_copyright/option", 
+             locals: {:copyright => copyright, :selected => copyright.root}
 
 - copyright_roots.each do |copyright|
 
-  - unless copyright.children.blank? 
+  - unless copyright.leaf?
 
     %select.block.copyright-children.hidden{:"data-parent-id" => copyright.id}
       
       - copyright.children.each do |child|
 
-        - if child.children.blank?
+        - if child.leaf?
 
           = render :partial => "media_resources/edit/fields/meta_datum_copyright/option", 
                    :locals => {:copyright => child}

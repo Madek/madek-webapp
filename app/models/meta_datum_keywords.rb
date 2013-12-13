@@ -13,7 +13,7 @@ class MetaDatumKeywords < MetaDatum
   end
 
   def value=(new_value)
-    user = media_resource.edit_sessions.first.try(:user) || (media_resource.respond_to?(:user) ? media_resource.user : nil)
+    user = media_resource.try(:edit_sessions).try(:first).try(:user) || (media_resource.respond_to?(:user) ? media_resource.user : nil)
     new_keywords = Array(new_value).map do |v|
       if v.is_a?(Fixnum) or (v.respond_to?(:is_integer?) and v.is_integer?)
         k = nil

@@ -1,32 +1,17 @@
 # -*- encoding : utf-8 -*-
 class MediaSetsController < ApplicationController
 
-  before_filter do
-      @user = User.find(params[:user_id]) unless params[:user_id].blank?
-      @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
-      
-      unless (params[:media_set_id] ||= params[:id] || params[:media_set_ids]).blank?
-        action = case request[:action].to_sym
-          when :index, :show, :browse, :abstract, :inheritable_contexts, :parents
-            :view
-          when :update, :add_member
-            :edit
-        end
-
-        begin
-          @media_set = (@user? @user.media_sets : MediaSet).accessible_by_user(current_user, action).find(params[:media_set_id])
-        rescue
-          not_authorized!
-        end
-      end
-  end
-
-#####################################################
-  
-  before_filter lambda{
+  def check_and_initialize_for_view
+    @media_set = MediaSet.find(params[:id])
+    not_authorized! unless current_user.authorized?(:view,@media_set)
     @parents_count = @media_set.parent_sets.accessible_by_user(current_user,:view).count
     @can_edit = current_user.authorized?(:edit, @media_set)
-  }, :only => [:show, :parents, :inheritable_contexts, :abstract, :vocabulary]
+  end
+
+  def check_and_initialize_for_edit
+    @media_set = MediaSet.find(params[:id])
+    not_authorized! unless current_user.authorized?(:edit,@media_set)
+  end
 
 #####################################################
 
@@ -58,11 +43,15 @@ class MediaSetsController < ApplicationController
   # @response_field [Array] children The children of the specific MediaSet.
   # @response_field [Array] parents The parents of the specific MediaSet.
   #
-  def show(with = params[:with],
-           page = params[:page],
-           per_page = (params[:per_page] || PER_PAGE.first).to_i)
+  def show
+    check_and_initialize_for_view
+
+    with = params[:with]
+    page = params[:page]
+    per_page = (params[:per_page] || PER_PAGE.first).to_i
+
     respond_to do |format|
-      format.html {
+      format.html do
         if @media_set.is_a? FilterSet
           @filter_set = @media_set
           render "filter_sets/show"
@@ -70,21 +59,22 @@ class MediaSetsController < ApplicationController
           @highlights = @media_set.highlights.accessible_by_user(current_user,:view)
           render :show
         end
-      }
-      format.json {
-        render json: view_context.json_for(@media_set, with)
-      }
+      end
+      format.json { render json: view_context.json_for(@media_set, with) }
     end
   end
 
-  def abstract(min = params[:min].to_i)
+  def abstract
+    check_and_initialize_for_view
+
     respond_to do |format|
       format.html {@totalChildren = @media_set.child_media_resources.accessible_by_user(current_user,:view).count}
-      format.json { render :json => view_context.hash_for(@media_set.abstract(min, current_user), {:label => true}) }
+      format.json { render :json => view_context.hash_for(@media_set.abstract(params[:min].to_i, current_user), {:label => true}) }
     end
   end
 
   def vocabulary
+    check_and_initialize_for_view
     used_meta_term_ids = @media_set.used_meta_term_ids(current_user)
     @vocabulary = @media_set.individual_contexts.map {|context| view_context.vocabulary(context, used_meta_term_ids) }
     respond_to do |format|
@@ -93,6 +83,7 @@ class MediaSetsController < ApplicationController
   end
 
   def browse
+    check_and_initialize_for_view
     respond_to do |format|
       format.html
       format.js { render :layout => false }
@@ -102,6 +93,7 @@ class MediaSetsController < ApplicationController
 #####################
  
   def inheritable_contexts
+    check_and_initialize_for_view 
     @inheritable_contexts = @media_set.inheritable_contexts
     respond_to do |format|
       format.html
@@ -141,89 +133,70 @@ class MediaSetsController < ApplicationController
   #
   # @response_field [Integer] title The title of the created set
   # 
-  def create(attr = params[:media_sets] || params[:media_set],
-             filter = params[:filter])
+  def create
+    
+    attr = params[:media_sets] || params[:media_set]
+    filter = params[:filter]
     is_saved = true
+
     if not attr.blank? and attr.has_key? "0" # CREATE MULTIPLE
-      # TODO ?? find_by_id_or_create_by_title
       @media_sets = [] 
       attr.each_pair do |k,v|
         media_set = current_user.media_sets.create
         media_set.update_attributes(v)
+        media_set.set_meta_data v.slice("meta_data_attributes")
+        media_set.update_attributes! v.except("meta_data_attributes")
         @media_sets << media_set
         is_saved = (is_saved and media_set.save)
       end
     else # CREATE SINGLE
       @media_set = current_user.media_sets.create
-      is_saved = @media_set.update_attributes(attr)
-    end
-
-    # we are actually creating a filter_set
-    unless filter.blank?
-      (@media_sets || [@media_set]).each do |media_set|
-        media_set.becomes FilterSet
-        media_set.update_column(:type, "FilterSet")
-        media_set.settings[:filter] = filter.delete_if {|k,v| v.blank?}.deep_symbolize_keys
-        media_set.save
-      end
+      @media_set.set_meta_data attr.slice("meta_data_attributes")
+      @media_set.update_attributes! attr.except("meta_data_attributes")
+      is_saved = @media_set.save
     end
 
     respond_to do |format|
-      format.html {
+      format.html do
         if is_saved
           redirect_to media_resources_path(:user_id => current_user, :type => "media_sets")
         else
           flash[:notice] = @media_set.errors.full_messages
           redirect_to :back
         end
-      }
-      format.json {
+      end
+      format.json do
         if @media_sets
           render json: view_context.hash_for_media_resources_with_pagination(@media_sets, true).to_json, :status => (is_saved ? 200 : 500)
         else
           render json: view_context.json_for(@media_set), :status => (is_saved ? 200 : 500)
         end
-      }
+      end
     end
   end
   
-  def update(individual_context_ids = params[:individual_context_ids],
-             filter = params[:filter])
-
-    if individual_context_ids
-      individual_context_ids.reject!{|x| x == "false"}
-      individual_context_ids.delete_if &:blank? # NOTE receiving params[:individual_context_ids] even if no checkbox is checked
-      @media_set.individual_contexts.clear
-      @media_set.individual_contexts = MetaContext.find(individual_context_ids)
-      @media_set.save
-    end
-
-    # we are actually updating a filter_set
-    if @media_set.is_a?(FilterSet) and not filter.blank?
-      @media_set.settings[:filter] = filter.delete_if {|k,v| v.blank?}.deep_symbolize_keys
-      @media_set.save
-    end
-
-    respond_to do |format|
-      format.html { redirect_to @media_set }
-      format.json { render :json => {:id => @media_set.id}, :status => :ok }
-    end
+  def update
+    check_and_initialize_for_edit
+    @media_set.individual_contexts=  
+      MetaContext.where(name: (params[:individual_context_names] || []))
+    redirect_to @media_set 
   end
 
 #####################################################
 
   def settings
-    if request.post?
-      begin
-        @media_set.settings[:layout] = params[:layout].to_sym unless params[:layout].nil?
-        @media_set.settings[:sorting] = params[:sorting].to_sym unless params[:sorting].nil?
-        @media_set.save
-        render :nothing => true, :status => :ok
-      rescue
-        render :nothing => true, :status => :bad_request
-      end
+    check_and_initialize_for_edit
+    begin
+      @media_set.settings[:layout] = params[:layout].to_sym unless params[:layout].nil?
+      @media_set.settings[:sorting] = params[:sorting].to_sym unless params[:sorting].nil?
+      @media_set.save
+      render :nothing => true, :status => :ok
+    rescue
+      render :nothing => true, :status => :bad_request
     end
   end
+
+
 
   def parents(parent_media_set_ids = params[:parent_media_set_ids])  
     respond_to do |format|
@@ -233,5 +206,7 @@ class MediaSetsController < ApplicationController
 
   def category
   end
-      
+
+
+
 end

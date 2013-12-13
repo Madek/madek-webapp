@@ -42,7 +42,7 @@ class AppAdmin::UsersController < AppAdmin::BaseController
   def update
     begin
       @user = User.find(params[:id])
-      @user.update_attributes! params[:user]
+      @user.update_attributes! user_params
       redirect_to app_admin_user_path(@user), flash: {success: "The user has been updated."}
     rescue => e
       redirect_to edit_app_admin_user_path(@user), flash: {error: e.to_s}
@@ -52,7 +52,7 @@ class AppAdmin::UsersController < AppAdmin::BaseController
 
   def create
     begin
-      @user = User.create! params[:user]
+      @user = User.create! user_params
       redirect_to app_admin_user_path(@user), flash: {success: "A new user has been created"}
     rescue => e
       redirect_to new_app_admin_user_path, flash: {error: e.to_s}
@@ -63,8 +63,8 @@ class AppAdmin::UsersController < AppAdmin::BaseController
   def create_with_user
     begin
       ActiveRecord::Base.transaction do
-        @person = Person.create! params[:person]
-        @user = User.create! params[:user].merge({person: @person}) 
+        @person = Person.create! person_params
+        @user = User.create! user_params.merge({person: @person}) 
         redirect_to app_admin_users_path, flash: {success: "A new user with person has been created!"}
       end
     rescue => e
@@ -96,6 +96,16 @@ class AppAdmin::UsersController < AppAdmin::BaseController
     reset_session
     self.current_user = User.find(params[:id])
     redirect_to root_path
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit!
+  end
+
+  def person_params
+    params.require(:person).permit!
   end
 
 end

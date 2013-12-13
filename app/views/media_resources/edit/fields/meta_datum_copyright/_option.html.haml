@@ -8,7 +8,7 @@
 
 %option{:"data-id" => copyright.id, 
         :selected => selected,
-        :"data-leaf" => copyright.children.blank? ? "leaf" : nil,
+        :"data-leaf" => copyright.leaf? ? "leaf" : nil,
         :"data-is-custom" => copyright.is_custom,
         :"data-url" => copyright.url,
         :"data-usage" => copyright.usage}

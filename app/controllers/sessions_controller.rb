@@ -1,41 +1,23 @@
-# -*- encoding : utf-8 -*-
-# This controller handles the login/logout function of the site.  
-class SessionsController < ApplicationController
+class SessionsController < ActionController::Base
 
-  # render new.rhtml
-  def new
-  end
-
-  def create
-    logout_keeping_session!
-    user = User.authenticate(params[:login].try(&:downcase), params[:password])
-    if user
-      # Protects against session fixation attacks, causes request forgery
-      # protection if user resubmits an earlier form using back
-      # button. Uncomment if you understand the tradeoffs.
-      # reset_session
-      self.current_user = user
-      new_cookie_flag = (params[:remember_me] == "1")
-      handle_remember_cookie! new_cookie_flag
-      redirect_back_or_default('/')
-    else
-      note_failed_signin
-      @login       = params[:login]
-      @remember_me = params[:remember_me]
-      render :action => 'new'
+  def sign_in
+    begin 
+      @user = User.find_by login: params[:login].try(&:downcase)
+      unless @user.authenticate params[:password] 
+        raise "Password didn't match"
+      else
+        session[:user_id] = @user.id
+        redirect_to my_dashboard_path, flash: {success: "Sie haben sich abgemeldet."}
+      end
+    rescue Exception => e
+      redirect_to root_path, flash: {error: "Falscher Benutzername/Passwort."} 
     end
   end
 
-  def destroy
-    logout_killing_session!
-    flash[:notice] = "Sie haben sich abgemeldet." #"You have been logged out."
-    redirect_back_or_default('/')
+  def sign_out
+    reset_session
+    flash[:notice] = "Sie haben sich abgemeldet." 
+    redirect_to root_path
   end
 
-protected
-  # Track failed login attempts
-  def note_failed_signin
-    flash[:error] = "Anmeldung fehlgeschlagen."
-    logger.warn "Failed login for '#{params[:login]}' from #{request.remote_ip} at #{Time.now.utc}"
-  end
 end

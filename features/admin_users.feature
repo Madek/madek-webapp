@@ -26,6 +26,7 @@ Feature: Managing Users and Logins
     And I submit 
     Then I can see a success message
 
+  @jsbrowser
   Scenario: Loging-in as a newly created user 
     When I visit "/app_admin/users"
     And I click on the link "New user with person"
@@ -36,13 +37,13 @@ Feature: Managing Users and Logins
     And I set the input with the name "user[password]" to "new_password"
     And I submit 
     Then I can see a success message
-    When I visit "/logout"
-    And I go to the home page
+    When I logout
     And I click on the database login tab
     And I set the input with the name "login" to "fritzli"
     And I set the input with the name "password" to "new_password"
     And I click the submit button
-    Then I am logged in
+    And I accept the usage terms if I am supposed to do so
+    Then I am logged in as "Fritz"
 
   Scenario: Deleting a user
     When I visit "/app_admin/users"

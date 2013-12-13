@@ -7,6 +7,8 @@ describe VisualizationController do
     FactoryGirl.create :usage_term
     @user = FactoryGirl.create :user
 
+    AppSettings.create id: 0, logo_url: "/assets/inserts/image-logo-zhdk.png"
+
     #  @set 
     #    -> @child_of_set
     #    -> @childset_of_set

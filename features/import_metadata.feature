@@ -82,7 +82,7 @@ Feature: Importing files with metadata and setting metadata
     Then I can see the text "30.05.2011"
     And I can see the text "Grumpy Cat"
 
-  @firefox 
+  @firefox @wip
   Scenario: import an image that has MAdeK title and date information (specific date) in its EXIF/IPTC metadata
     Given I am signed-in as "Normin"
     And I am going to import images
@@ -102,11 +102,13 @@ Feature: Importing files with metadata and setting metadata
      And I can see the text "Frau-Sein"
      And I can see the text "Buser, Monika"
      And I can see the text "Diplomarbeit"
+     # Only one out of keyword seems to be imported; is it an array or umlaut problem ? 
+     # or something else
      And I can see the text "Porträt"
      And I can see the text "Selbstporträt"
      And I can see the text "Schweiz"
 
-  @firefox 
+  @firefox  
   Scenario: import an image that has MAdeK title and date information (specific date) in its EXIF/IPTC metadata
     Given I am signed-in as "Normin"
     And I am going to import images

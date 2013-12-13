@@ -1,16 +1,4 @@
 ---
-- name: admin meta_context_groups
-  scripts:
-    rspec:
-      body: bundle exec rspec "spec/admin/meta_context_groups_spec.rb"
-- name: admin meta_terms
-  scripts:
-    rspec:
-      body: bundle exec rspec "spec/admin/meta_terms_spec.rb"
-- name: admin permission_presets
-  scripts:
-    rspec:
-      body: bundle exec rspec "spec/admin/permission_presets_spec.rb"
 - name: controllers app_admin people
   scripts:
     rspec:

@@ -43,7 +43,8 @@ Then /^I use some filters$/ do
 end
 
 Then /^I use the create filter set option$/ do
-  find("button,a", :text => "Filterset erstellen").click
+  find("a#nexuses").click
+  find("a#create-filter-set").click
 end
 
 

@@ -23,45 +23,46 @@ module MediaResourceModules
 
       # returns a chainable collection of media_resources
       # when current_user argument is not provided, the permissions are not considered
-      def filter(current_user = nil, filter = {})
-        filter = filter.delete_if {|k,v| v.blank?}.deep_symbolize_keys
-        raise "invalid option" unless filter.is_a?(Hash) 
+      def filter(current_user, filter_opts)
+        filter_opts = filter_opts.delete_if {|k,v| v.blank?}.deep_symbolize_keys
+        raise "invalid option" unless filter_opts.is_a?(Hash) 
 
         ############################################################
 
-        filter[:ids] = by_collection(filter[:collection_id]) if current_user and filter[:collection_id]
+        filter_opts[:ids] = by_collection(filter_opts[:collection_id]) if current_user and filter_opts[:collection_id]
 
         ############################################################
         
-        resources = if current_user and filter[:favorites] == "true"
+        resources = if current_user and filter_opts[:favorites] == "true"
           current_user.favorites
-        elsif filter[:media_set_id]
+        elsif filter_opts[:media_set_id]
           # hacketihack media_set_id kann auch zu einem FilterSet gehören
-          MediaResource.where(type: ['MediaSet','FilterSet']).find(filter[:media_set_id])\
+          MediaResource.where(type: ['MediaSet','FilterSet']).find(filter_opts[:media_set_id])\
             .included_resources_accessible_by_user(current_user,:view)
         else
           self
         end
 
-        resources = case filter[:type]
+        resources = case filter_opts[:type]
+          when "sets"
+            resources.where(type: ["MediaSet","FilterSet"])
           when "media_sets"
-            r = resources.media_sets
-            r
+            resources.media_sets
           when "media_entries"
             resources.media_entries
           when "media_entry_incompletes"
             resources.where(:type => "MediaEntryIncomplete")
           else
             types = ["MediaEntry", "MediaSet", "FilterSet"]
-            types << "MediaEntryIncomplete" if filter[:ids]
+            types << "MediaEntryIncomplete" if filter_opts[:ids]
             resources.where(:type => types)
         end
-        
-        resources = resources.accessible_by_user(current_user, (filter[:accessible_action] or :view)) if current_user
+
+        resources = resources.accessible_by_user(current_user, (filter_opts[:accessible_action] or :view)) if current_user
 
         ############################################################
       
-        if media_files_filter = filter[:media_files]
+        if media_files_filter = filter_opts[:media_files]
           media_files_filter.each do |column,h|
             value =h[:ids].first # we can simplify here, since there can be only one extension/type
             resources = resources.media_entries. # only media entries can have media file
@@ -70,45 +71,42 @@ module MediaResourceModules
           end
         end
 
-
         ############################################################
 
-        resources = resources.where(:id => filter[:ids]) if filter[:ids]
+        resources = resources.where(:id => filter_opts[:ids]) if filter_opts[:ids]
 
-        resources = resources.search(filter[:search]) unless filter[:search].blank?
+        resources = resources.search(filter_opts[:search]) unless filter_opts[:search].blank?
 
         ############################################################
         
-        resources = resources.accessible_by_group(filter[:group_id],:view) if filter[:group_id]
+        resources = resources.accessible_by_group(filter_opts[:group_id],:view) if filter_opts[:group_id]
 
-        resources = resources.where(:user_id => filter[:user_id]) if filter[:user_id]
+        resources = resources.where(:user_id => filter_opts[:user_id]) if filter_opts[:user_id]
 
         # FIXME use presets and :manage permission
-        resources = resources.not_by_user(filter[:not_by_user_id]) if filter[:not_by_user_id]
+        resources = resources.not_by_user(filter_opts[:not_by_user_id]) if filter_opts[:not_by_user_id]
 
-        resources = resources.filter_public(filter[:public]) if filter[:public]
+        resources = resources.filter_public(filter_opts[:public]) if filter_opts[:public]
 
-        resources = resources.filter_permissions(current_user, filter[:permissions]) if current_user and filter[:permissions]
+        resources = resources.filter_permissions(resources,current_user, filter_opts[:permissions]) if current_user and filter_opts[:permissions]
 
         ############################################################
 
-        resources = resources.filter_media_resources(filter[:media_resources]) if filter[:media_resources]
+        resources = resources.filter_media_resources(resources,filter_opts[:media_resources]) if filter_opts[:media_resources]
 
-        resources = resources.filter_meta_data(filter[:meta_data]) if filter[:meta_data]
+        resources = resources.filter_meta_data(resources, filter_opts[:meta_data]) if filter_opts[:meta_data]
 
-        resources = resources.filter_media_file(filter[:media_file]) if filter[:media_file] and filter[:media_file][:content_type]
+        resources = resources.filter_media_file(filter_opts[:media_file]) if filter_opts[:media_file] and filter_opts[:media_file][:content_type]
 
-        resources = resources.filter_uploaded_by(filter[:uploader_id]) if filter[:uploader_id]
+        resources = resources.filter_uploaded_by(filter_opts[:uploader_id]) if filter_opts[:uploader_id]
 
-        resources = resources.filter_contexts(filter[:meta_context_names]) if filter[:meta_context_names]
+        resources = resources.filter_contexts(resources,filter_opts[:meta_context_names]) if filter_opts[:meta_context_names]
 
         resources
       end
 
-      # FIXME doesn't work the chaining when are private methods
-      # private
 
-      def filter_public(filter = {})
+      def filter_public(filter)
         case filter
           when "true"
             where(:view => true)
@@ -117,8 +115,7 @@ module MediaResourceModules
         end
       end
 
-      def filter_permissions(current_user, filter = {})
-        resources = scoped
+      def filter_permissions(resources, current_user, filter)
         filter.each_pair do |k,v|
           v[:ids].each do |id|
             resources = case k
@@ -141,8 +138,7 @@ module MediaResourceModules
         resources
       end
       
-      def filter_media_resources(filter = {})
-        resources = scoped
+      def filter_media_resources(resources, filter)
         filter.each_pair do |k,v|
           v[:ids].each do |id|
             case id
@@ -158,8 +154,7 @@ module MediaResourceModules
         resources
       end
 
-      def filter_meta_data(filter = {})
-        resources = scoped
+      def filter_meta_data(resources, filter)
         filter.each_pair do |k,v|
           # this is AND implementation
           v[:ids].each do |id|
@@ -199,7 +194,7 @@ module MediaResourceModules
         resources
       end
 
-      def filter_media_file(options = {})
+      def filter_media_file(options)
         sql = media_entries.joins("RIGHT JOIN media_files ON media_resources.id = media_files.media_entry_id")
       
         options[:content_type].each do |x|
@@ -237,14 +232,14 @@ module MediaResourceModules
         sql    
       end
 
-      def filter_contexts(names= [])
+      def filter_contexts(resources,names)
         sub = unscoped.joins(:meta_data => {:meta_key => :meta_key_definitions})
                       .where(:meta_key_definitions => {:meta_context_name => names})
                       .joins("INNER JOIN media_resource_arcs ON media_resource_arcs.child_id = media_resources.id")
                       .joins("INNER JOIN media_sets_meta_contexts ON media_sets_meta_contexts.media_set_id = media_resource_arcs.parent_id")
                       .where(:media_sets_meta_contexts => {:meta_context_name => names})
                       .uniq
-        scoped.where(:id => sub)
+        resources.where(:id => sub)
       end
       
     end

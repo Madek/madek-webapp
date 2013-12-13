@@ -285,7 +285,7 @@ module Json
                          [[:mine, _("Inhalte, für die ich verantwortlich bin")],
                           [:entrusted, _("Mir anvertraute Inhalte")],
                           [:public,_("Öffentliche Inhalte")]].map do |x,y|
-                           if (c = media_resources.filter_permissions(current_user, {:scope => {:ids => [x]}}).count) > 0
+                           if (c = media_resources.filter_permissions(media_resources,current_user, {:scope => {:ids => [x]}}).count) > 0
                             {:id => x,
                              :value => y,
                              :count => c

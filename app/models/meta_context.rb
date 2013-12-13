@@ -12,9 +12,9 @@ class MetaContext < ActiveRecord::Base
   belongs_to :meta_context_group
 
   has_many :meta_key_definitions, foreign_key: :meta_context_name, :dependent => :destroy
-  has_many :meta_keys, :through => :meta_key_definitions, :order => :position
-  has_many :meta_data, :through => :meta_keys
-  has_and_belongs_to_many :media_sets, foreign_key: :meta_context_name
+  has_many :meta_keys, lambda{order("meta_key_definitions.position ASC")}, through: :meta_key_definitions
+  has_many :meta_data, through: :meta_keys
+  has_and_belongs_to_many :media_sets, join_table: 'media_sets_meta_contexts', foreign_key: :meta_context_name
 
 ##################################################################
 
@@ -27,8 +27,8 @@ class MetaContext < ActiveRecord::Base
 
 ##################################################################
 
-  scope :for_interface, where(:is_user_interface => true)
-  scope :for_import_export, where(:is_user_interface => false)
+  scope :for_interface, ->{where(:is_user_interface => true)}
+  scope :for_import_export, ->{where(:is_user_interface => false)}
 
 ##################################################################
 

@@ -76,15 +76,15 @@ describe MediaResourcesController, type: :controller do
         end
 
         it "should list entries with multiple authors multiply" do
-          @media_sets[0].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => [@bb,@aa]}}})
+          @media_sets[0].set_meta_data({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => [@bb,@aa]}}})
           get_ordered_by_author
           resources = extract_resources
           resources.size.should == 2
         end
 
         it "should use the consider the first name" do
-          @media_sets[0].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @ab}}})
-          @media_sets[1].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @aa}}})
+          @media_sets[0].set_meta_data({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @ab}}})
+          @media_sets[1].set_meta_data({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @aa}}})
           get_ordered_by_author
           resources = extract_resources
           resources[0].should == @media_sets[1]
@@ -92,10 +92,10 @@ describe MediaResourcesController, type: :controller do
         end
 
         it "should order them" do
-          @media_sets[0].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @zz}}})
-          @media_sets[1].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @aa}}})
-          @media_sets[2].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @cc}}})
-          @media_sets[3].update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @bb}}})
+          @media_sets[0].set_meta_data({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @zz}}})
+          @media_sets[1].set_meta_data({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @aa}}})
+          @media_sets[2].set_meta_data({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @cc}}})
+          @media_sets[3].set_meta_data({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @bb}}})
           get_ordered_by_author
           resources = extract_resources
           resources[0].should == @media_sets[1]

@@ -106,10 +106,10 @@ module CurrentPageHelper
   end
 
   def media_entry_context_group_page? context_group
-    current_page? :controller => :media_entries, :action => :context_group and
-    params[:name] == context_group.name
+    current_page? controller: :media_entries, \
+      action: :context_group, name: context_group.name
   end
-  
+
 ######### MEDIA SET
 
   def media_set_show_page?

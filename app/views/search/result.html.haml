@@ -69,7 +69,6 @@
 = render :partial => "application/footer"
 
 :coffeescript
-
   jQuery -> new App.MediaResourcesController.Index
-    baseFilter: #{{:search => params[:term]}.to_json}
+    baseFilter: #{{search: params[:terms]}.to_json}
     startFilterParams: #{MediaResource.get_filter_params(params).to_json}

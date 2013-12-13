@@ -2,11 +2,12 @@
 class MetaDatum < ActiveRecord::Base
 
   class << self
+    # TODO this has to GO! 
     def new_with_cast(*args, &block)
       if (h = args.first.try(:symbolize_keys)).is_a?(Hash) and
           (meta_key = h[:meta_key] || (h[:meta_key_id] ? MetaKey.find_by_id(h[:meta_key_id]) : nil)) and
           (klass = meta_key.meta_datum_object_type.constantize)
-            raise "#{klass.name} must be a subclass of #{self.name}" unless klass < self
+            #raise "#{klass.name} must be a subclass of #{self.name}" unless klass < self
             # NOTE the value setter has to be invoked after the instanciation (not during)
             value = args.first.delete("value") || args.first.delete(:value)
             r = klass.new_without_cast(*args, &block)
@@ -30,9 +31,6 @@ class MetaDatum < ActiveRecord::Base
     end
   end
 
-  after_save do
-    raise "MetaDatum is abstract; instatiate a subclass" if self.reload.type == "MetaDatum" or self.reload.type == nil
-  end
 
   ########################################
 
@@ -49,7 +47,7 @@ class MetaDatum < ActiveRecord::Base
   
   attr_accessor :keep_original_value
 
-  scope :for_meta_terms, joins(:meta_key).where(:meta_keys => {:meta_datum_object_type => "MetaDatumMetaTerms"})
+  scope :for_meta_terms, lambda{ joins(:meta_key).where(:meta_keys => {:meta_datum_object_type => "MetaDatumMetaTerms"})}
 
 ########################################
 

@@ -17,10 +17,10 @@ class Person < ActiveRecord::Base
 
 ### SCOPES ####################################
 
-  scope :with_meta_data, where(%Q<
-    "people"."id" in ( #{Person.joins(:meta_data).select('"people"."id"').group('"people"."id"').to_sql}) >)
-  scope :with_user, joins(:user)
-  scope :groups, where(:is_group => true)
+  scope :with_meta_data, lambda{ where(%Q<
+    "people"."id" in ( #{Person.joins(:meta_data).select('"people"."id"').group('"people"."id"').to_sql}) >)}
+  scope :with_user, lambda{joins(:user)}
+  scope :groups, lambda{where(:is_group => true)}
 
   scope :search, lambda { |query|
     return scoped if query.blank?

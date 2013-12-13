@@ -26,7 +26,7 @@ class MetaDatumMetaTerms < MetaDatum
       elsif meta_key.is_extensible_list?
         h = {}
         LANGUAGES.each {|lang| h[lang] = v}
-        term = MetaTerm.find_or_initialize_by_en_gb_and_de_ch(h)
+        term = MetaTerm.find_or_initialize_by h
         meta_key.meta_terms << term unless meta_key.meta_terms.include?(term)
         term
       elsif v.is_a?(String) # the meta_key is not extensible list

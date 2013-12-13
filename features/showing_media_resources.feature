@@ -7,7 +7,7 @@ Feature: Showing resources in the archive
     Then I can see at least "3" included resources
     When I click on the clickable with text "Medieneinträge" and with the value "media_entries" for the attribute "data-type"
     Then I can see at least "3" included resources
-    When I click on the clickable with text "Sets" and with the value "media_sets" for the attribute "data-type"
+    When I click on the clickable with text "Sets" and with the value "sets" for the attribute "data-type"
     Then I can see at least "3" included resources
 
   @jsbrowser
@@ -17,7 +17,7 @@ Feature: Showing resources in the archive
     Then I can see exactly "3" included resources
     When I click on the clickable with text "Medieneinträge" and with the value "media_entries" for the attribute "data-type"
     Then I can see exactly "1" included resources
-    When I click on the clickable with text "Sets" and with the value "media_sets" for the attribute "data-type"
+    When I click on the clickable with text "Sets" and with the value "sets" for the attribute "data-type"
     Then I can see exactly "2" included resources
 
   @firefox

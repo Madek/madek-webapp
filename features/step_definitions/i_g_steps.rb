@@ -16,7 +16,7 @@ Then /^I go to (.*?)$/ do |page|
       media_resources_path
 
     when "a search result page"
-      search_term_path(:term => "a")
+      result_search_path()
 
     # my ################################################
 

@@ -17,12 +17,13 @@ describe "requests of the typo madek player plugin" do
     @user = FactoryGirl.create :user
     @media_set = FactoryGirl.create :media_set, :user => @user
     @media_set.update_attribute :view, true
-    @media_set.meta_data.create :meta_key => MetaKey.find_by_id("title"), :value => "My Set"
-    @media_set.meta_data.create :meta_key => MetaKey.find_by_id("author"), :value => @user.name
+    meta_data_h = {meta_data_attributes: {
+      a: {meta_key_label: "title", value: "My Set"}, 
+      b: {meta_key_label: "author", value: @user.name}}}
+      @media_set.set_meta_data meta_data_h
     5.times do
-      me = FactoryGirl.create :media_entry, :user => @user
-      me.update_attribute :view, true
-      me.meta_data.create :meta_key => MetaKey.find_by_id("title"), :value => Faker::Lorem.words(1).join(' ')
+      me = FactoryGirl.create :media_entry, user: @user, view: true
+      me.set_meta_data({meta_data_attributes: {a: {meta_key_label: "title", :value => Faker::Lorem.words(1).join(' ') }}})
       @media_set.child_media_resources << me
     end
     MediaResource.reindex

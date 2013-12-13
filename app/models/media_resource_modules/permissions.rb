@@ -9,19 +9,8 @@ module MediaResourceModules
 
         extend(ClassMethods) # look way below
 
-        has_many :userpermissions, :dependent => :destroy do
-          def allows(user, action)
-            where(:user_id => user, action => true).exists?
-          end
-        end
-        
-        has_many :grouppermissions, :dependent => :destroy do
-          def allows(user, action)
-            joins('INNER JOIN "groups_users" ON "groups_users"."group_id" = "grouppermissions"."group_id"').
-            where(action => true, :groups_users => {:user_id => user}).exists?
-          end
-        end
-
+        has_many :userpermissions, :dependent => :destroy         
+        has_many :grouppermissions, :dependent => :destroy
       end
     end
 

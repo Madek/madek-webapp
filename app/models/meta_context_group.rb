@@ -1,7 +1,7 @@
 class MetaContextGroup < ActiveRecord::Base
-  has_many :meta_contexts, :order => :position
+  has_many :meta_contexts, lambda{order(:position)}
   
-  default_scope order(:position)
+  default_scope lambda{order(:position)}
 
   before_create do |meta_context_group|
     meta_context_group.position ||= MetaContextGroup.maximum(:position).to_i + 1
@@ -13,5 +13,5 @@ class MetaContextGroup < ActiveRecord::Base
     end
   end
 
-  scope :sorted_by_position, order(:position, :id)
+  scope :sorted_by_position, lambda{order(:position, :id)}
 end

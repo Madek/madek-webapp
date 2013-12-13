@@ -5,7 +5,7 @@ describe AppAdmin::PeopleController do
   before :each do
     FactoryGirl.create :usage_term 
     @adam = FactoryGirl.create :user, login: "adam"
-    Group.find_or_create_by_name("Admin").users << @adam
+    Group.find_or_create_by(name: "Admin").users << @adam
   end
 
   def valid_session
@@ -36,7 +36,7 @@ describe AppAdmin::PeopleController do
 
         describe "person1"  do
           it "should should not have any metadata" do
-            expect(@person1.meta_data).to eq []
+            expect(@person1.reload.meta_data.reload).to eq []
           end
         end
 

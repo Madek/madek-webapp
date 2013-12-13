@@ -14,7 +14,7 @@ Feature: Search
    @jsbrowser
   Scenario: Searching for two words
     When I go to the search page
-    And I set the input with the name "search" to "Ausstellung ZHDK"
+    And I set the input with the name "terms" to "Ausstellung ZHDK"
     And I submit
     Then The "resources_counter" has the same count as the "result_count"
     And I can see several resources

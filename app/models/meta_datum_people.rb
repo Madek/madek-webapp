@@ -23,7 +23,7 @@ class MetaDatumPeople < MetaDatum
           Person.find_by_id(v)
         else
           first_name, last_name = Person.parse(v)
-          Person.find_or_initialize_by_first_name_and_last_name(:first_name => first_name, :last_name => last_name) if first_name or last_name
+          Person.find_or_initialize_by(:first_name => first_name, :last_name => last_name) if first_name or last_name
         end
     end
   end

@@ -10,21 +10,14 @@ class SearchController < ApplicationController
     params[:term] =  Rack::Utils.unescape(params[:term]) if params[:term]
   end
 
-  def search
-    if request.post?
-      unless params[:search].blank?
-        redirect_to :action => 'term', term:  Rack::Utils.escape(params[:search])
-      else
-        redirect_to media_resources_path(:filterpanel => "true")
-      end
+  def result
+    if (@terms = params[:terms]).blank?
+      redirect_to media_resources_path(:filterpanel => "true")
     else
-      render "search"
+      @result_count_for_term = MediaResource \
+        .filter(current_user, MediaResource.get_filter_params({:search => @terms})) \
+        .count
     end
-  end
-
-  def term
-    @term = params[:term]
-    @result_count_for_term = MediaResource.filter(current_user, MediaResource.get_filter_params({:search => @term})).count
   end
 
 end

@@ -34,7 +34,7 @@ describe ImportController do
         @user.incomplete_media_entries.count.should == 1
         delete :destroy, {format: 'json', media_entry_incomplete: {id: @mei.id}}, {user_id: @user.id}
         @user.incomplete_media_entries.count.should == 0
-        MediaEntryIncomplete.exists?(@mei.id).should == false
+        expect(MediaEntryIncomplete.exists?(@mei.id)).not_to be
         response.should  be_success
       end
     end

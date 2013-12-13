@@ -56,7 +56,7 @@ Feature: Editing keywords, people, controlled vocabularies...
     When I try to leave the page
     Then I have to confirm
 
-  @chrome 
+  @firefox 
   Scenario: Show warning before leaving media entry edit page and losing unsaved data
     Given I am signed-in as "Normin"
     When I go to the edit-page of my first media_entry
@@ -66,7 +66,7 @@ Feature: Editing keywords, people, controlled vocabularies...
     And I have to confirm
     Then I am able to leave the page
 
-  @chrome 
+  @firefox 
   Scenario: Show warning before leaving media entry multiple edit page (batch) and losing unsaved data
     Given I am signed-in as "Normin"
     When I go to edit multiple media entries using the batch

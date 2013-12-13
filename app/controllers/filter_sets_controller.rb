@@ -7,7 +7,8 @@ class FilterSetsController < ApplicationController
       else
         ActiveRecord::Base.transaction do
           @filter_set = FilterSet.create! user: current_user
-          @filter_set.update_attributes params[:filter_set]
+          @filter_set.update_attributes params["filter_set"].slice("settings").permit!
+          @filter_set.set_meta_data  params["filter_set"].slice("meta_data_attributes").permit!
           raise @filter_set.errors.full_messages.join(", ") unless @filter_set.valid?
           render json: @filter_set, status: :created
         end

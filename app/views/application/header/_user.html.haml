@@ -43,6 +43,6 @@
               = _("Switch to admin mode")
       %li.separator
       %li.ui-drop-item
-        %a.strong{:href => "/logout"}
+        =link_to sign_out_session_path, id: "sign-out", method: 'POST', class: "strong" do
           %i.icon-power-off.ui-drop-icon
           = _("Log out")

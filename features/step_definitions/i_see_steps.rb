@@ -89,7 +89,7 @@ Then /^I see a table row with "(.*?)"$/ do |label|
 end
 
 Then /^I see a warning that I will lose unsaved data$/ do
-  page.driver.browser.switch_to.alert.text.should =~ /Nicht gespeicherte Daten gehen verloren/
+  expect(page.driver.browser.switch_to.alert.text).not_to be_blank
 end
 
 Then /^I see a ZHdK\-Login$/ do

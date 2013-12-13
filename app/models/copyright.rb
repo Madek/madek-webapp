@@ -3,9 +3,28 @@ class Copyright < ActiveRecord::Base
 
   has_many :meta_datum_copyrights
 
-  acts_as_nested_set
-  
   validates_presence_of :label
+
+  scope :roots, ->{where("parent_id is NULL")}
+
+  belongs_to :parent, class_name: "Copyright"
+
+  def root
+    unless parent_id
+      self
+    else
+      parent.root
+    end
+  end
+
+
+  def children
+    Copyright.where("parent_id = ?",id)
+  end
+
+  def leaf?
+    children.count == 0
+  end
 
   def to_s
     label
@@ -14,6 +33,11 @@ class Copyright < ActiveRecord::Base
   def is_deletable?
     not has_descendants? and meta_datum_copyrights.empty?
   end
+
+  def has_descendants? 
+    Copyright.where("parent_id = ?",id).count > 0
+  end
+
 
 #######################################
 
@@ -40,28 +64,5 @@ class Copyright < ActiveRecord::Base
   end
 
 ##################################################
-  class << self
-
-    def save_as_nested_set(nodes, parent = nil)
-      case nodes.class.name
-        when "Hash"
-            if nodes.keys.first.is_a?(Hash)
-              nodes.each_pair do |key,value|
-                new_parent = create(key)
-                new_parent.move_to_child_of parent if parent
-                save_as_nested_set(value, new_parent) if value.is_a?(Array)
-              end
-            else
-                new_leaf = create(nodes)
-                new_leaf.move_to_child_of parent if parent
-            end
-        when "Array"
-          nodes.each do |value|
-            save_as_nested_set(value, parent)
-          end
-      end
-    end
-
-  end
 
 end

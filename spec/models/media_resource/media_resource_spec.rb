@@ -55,7 +55,7 @@ describe MediaResource do
     context "meta_data" do
 
       before :each do
-        @media_entry.update_attributes({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => "Pablo Picasso"}}})
+        @media_entry.set_meta_data({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => "Pablo Picasso"}}})
       end
       
       it "exports person meta_data as string for exiftool, not as ruby object" do
@@ -66,59 +66,7 @@ describe MediaResource do
       
     end
 
-    ####### INTERNAL Permissions
-
-    context "internal permissions"  do
-
-
-      before :each do
-        @media_resource = FactoryGirl.create :media_resource, view: false
-        @user = FactoryGirl.create :user
-      end
-
-      context "function userpermission_allows " do
-
-        it "should return not false if there is a userpermission that allows " do
-          FactoryGirl.create :userpermission, view: true, user: @user, media_resource: @media_resource
-          @media_resource.userpermissions.allows(@user, :view).should_not == false
-        end
-
-        it "should return false if there is no userpermission that allows " do
-          @media_resource.userpermissions.allows(@user, :view).should == false
-        end
-
-      end
-
-      context "function grouppermission_allows" do
-
-        before :each do
-          @group = FactoryGirl.create :group
-          @group.users << @user
-        end
-
-        it "should return false if there is no grouppermission at all" do
-          @media_resource.grouppermissions.allows(@user, :view).should == false
-        end
-
-
-        it "should return false if there is a grouppermission that does not allow " do
-          FactoryGirl.create :grouppermission, view: false, group: @group, media_resource: @media_resource
-          @media_resource.grouppermissions.allows(@user, :view).should == false
-        end
-
-
-        it "should return not false if there is a grouppermission that allows " do
-          FactoryGirl.create :grouppermission, view: true, group: @group, media_resource: @media_resource
-          @media_resource.grouppermissions.allows(@user, :view).should_not == false
-        end
-
-
-      end
-
-    end
-
   end
-
 
   context "public permissions" do
 

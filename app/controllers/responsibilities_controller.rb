@@ -33,7 +33,7 @@ class ResponsibilitiesController < AbstractPermissionsAndResponsibilitiesControl
             media_resource.update_attributes! user_id: new_user.id
             # slice is a workaround against parameter injection, use strong parameters once we are in Rails4
             Userpermission.create!(user_id: previous_user.id, media_resource_id: media_resource.id) \
-              .update_attributes! params[:userpermission].slice(:view,:download,:edit,:manage)
+              .update_attributes! params.require(:userpermission).permit(:view,:download,:edit,:manage)
           end
           Userpermission.destroy_irrelevant
         end
@@ -41,6 +41,7 @@ class ResponsibilitiesController < AbstractPermissionsAndResponsibilitiesControl
         {success: "Sie haben erfolgreich einer anderen Person die Verantwortlichkeit fuer die ausgewaehlten Inhalte uebertragen."}
 
       rescue Exception => e
+        Rails.logger.warn Formatter.exception_to_log_s(e)
         {error: e.to_s}
       end
 

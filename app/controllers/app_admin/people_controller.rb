@@ -57,9 +57,11 @@ class AppAdmin::PeopleController < AppAdmin::BaseController
       person_originator= Person.find(params[:id])
       person_receiver= Person.find(params[:id_receiver])
       ActiveRecord::Base.transaction do
-        person_receiver.meta_data << 
-        person_originator.meta_data.where("id not in (#{person_receiver.meta_data.select('"meta_data"."id"').to_sql})")
-        person_originator.meta_data.clear
+        person_receiver.meta_data <<  \
+          person_originator.meta_data.where("id not in (#{person_receiver.meta_data.select('"meta_data"."id"').to_sql})")
+        # TODO had to change this from person_originator.meta_data.clear to make the test pass in rails 4.0.1
+        # as fare as I can see it still should have worked and would be preferable
+        person_originator.meta_data.each {|md| person_originator.meta_data.delete md}
       end
       redirect_to app_admin_people_path, flash: {success: "The meta data has been transfered"}
     rescue => e

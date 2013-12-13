@@ -3,6 +3,8 @@ MAdeK::Application.configure do
    
   config.cache_store = :memory_store
 
+  config.eager_load = false
+
   # The test environment is used exclusively to run your application's
   # test suite.  You never need to work with it otherwise.  Remember that
   # your test database is "scratch space" for the test suite and is wiped
@@ -12,9 +14,6 @@ MAdeK::Application.configure do
   # Configure static asset server for tests with Cache-Control for performance
   config.serve_static_assets = true
   config.static_cache_control = "public, max-age=3600"
-
-  # Log error messages when you accidentally call methods on nil.
-  config.whiny_nils = true
 
   #config.log_level = :debug
 
@@ -37,9 +36,6 @@ MAdeK::Application.configure do
   # This is necessary if your schema can't be completely dumped by the schema dumper,
   # like if you have constraints or database-specific column types
   config.active_record.schema_format = :sql
-
-  # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr

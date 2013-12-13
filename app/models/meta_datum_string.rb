@@ -16,10 +16,10 @@ class MetaDatumString < MetaDatum
       when "uploaded at"
         media_resource.created_at #old# .to_formatted_s(:date_time)
       when "copyright usage"
-        copyright = media_resource.meta_data.get("copyright status").value || Copyright.default # OPTIMIZE array or single element
+        copyright = media_resource.try(:meta_data).try(:get,"copyright status").try(:value) || Copyright.default
         copyright.usage(read_attribute(:string))
       when "copyright url"
-        copyright = media_resource.meta_data.get("copyright status").value  || Copyright.default # OPTIMIZE array or single element
+        copyright = media_resource.try(:meta_data).try(:get,"copyright status").try(:value) || Copyright.default 
         copyright.url(read_attribute(:string))
       when "public access"
         media_resource.is_public?

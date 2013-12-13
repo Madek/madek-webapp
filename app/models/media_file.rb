@@ -58,7 +58,7 @@ class MediaFile < ActiveRecord::Base
 
   has_many      :previews, :dependent => :destroy # TODO - the eventual resting place of all preview files derived from the original (e.g. thumbnails)
 
-  scope :original, where(:parent_id => nil)
+  scope :original, lambda{where(:parent_id => nil)}
 
 #########################################################
 
@@ -327,7 +327,7 @@ class MediaFile < ActiveRecord::Base
     # logger.info "inspect: #{full_path_file[:tempfile].inspect}"
     # logger.info "full_path_file[:tempfile] stat=#{full_path_file[:tempfile].stat.inspect}"
     # logger.info "full_path_file[:tempfile] path=#{full_path_file[:tempfile].path.inspect}"
-    z = Zip::ZipFile.open(full_path_file[:tempfile].path)
+    z = Zip::File.open(full_path_file[:tempfile].path)
     mf = []
     # logger.info { "*****************************************************************" }
     # logger.info { "ZIPFLE HAS #{z.entries.size} ENTRIES" }

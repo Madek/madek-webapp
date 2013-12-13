@@ -7,6 +7,7 @@ describe "guest user" do
     describe "should be able to access meta context pages" do
       
       before :each do
+        AppSettings.create id: 0
         @meta_context = FactoryGirl.create :meta_context
       end
 

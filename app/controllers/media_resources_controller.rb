@@ -616,11 +616,13 @@ class MediaResourcesController < ApplicationController
   #   ```  
   # @example_response_description The responding MediaResources are filtered by "keywords": "blueprint". So the results are containing that MetaData.
   #
-  def index(with_filter = params[:with_filter],
-            with = params[:with] || {},
-            sort = params[:sort],
-            page = params[:page],
-            per_page = [(params[:per_page] || PER_PAGE.first).to_i.abs, PER_PAGE.last].min)
+  def index()
+
+    with_filter = params[:with_filter]
+    with = params[:with] || {}
+    sort = params[:sort]
+    page = params[:page]
+    per_page = [(params[:per_page] || PER_PAGE.first).to_i.abs, PER_PAGE.last].min
 
     @filter = MediaResource.get_filter_params params
 
@@ -780,7 +782,9 @@ class MediaResourcesController < ApplicationController
   # @response_field [Integer] media_set.id The id of the changed media set
   # @response_field [Array] media_set.parent_ids The ids of the parents of the changes media set 
   # 
-  def parents(parent_media_set_ids = params[:parent_media_set_ids])
+  def parents()
+
+    parent_media_set_ids = params[:parent_media_set_ids]
     parent_media_sets = MediaSet.accessible_by_user(current_user, :edit).where(:id => parent_media_set_ids.map(&:to_i))
     child_resources = Array(@media_resource)
 

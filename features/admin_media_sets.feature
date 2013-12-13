@@ -16,11 +16,13 @@ Feature: Managing Media-Sets
     And I click on the link "Details"
     Then I am on a "/app_admin/media_sets/" page
 
-  @jsbrowser 
+  @jsbrowser
   Scenario: Delete a Set with all children
     Given The media_resource with the id "6" exists
     When I visit "/app_admin/media_sets/38"
     And I click on the link "Delete with all children" 
+    And I confirm the browser dialog
+    Then I am on the "/app_admin/media_sets" page
     Then The media_resource with the id "38" doesn't exist
     Then The media_resource with the id "6" doesn't exist
 

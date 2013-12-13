@@ -2,8 +2,6 @@
 
 class MediaResource < ActiveRecord::Base
 
-
-
   include MediaResourceModules::Arcs
   extend MediaResourceModules::Graph
   include MediaResourceModules::MetaData
@@ -22,12 +20,12 @@ class MediaResource < ActiveRecord::Base
 
 ###############################################################
 
-  has_many  :edit_sessions, :dependent => :destroy, :readonly => true
-  has_many  :editors, :through => :edit_sessions, :source => :user
+  has_many  :edit_sessions, :dependent => :destroy
+  has_many  :editors, through: :edit_sessions, source: :user
 
   validates_presence_of :user
 
-  has_one :full_text, :dependent => :destroy
+  has_one :full_text, dependent: :destroy
   after_save { reindex } # OPTIMIZE
 
 ########################################################
@@ -38,7 +36,7 @@ class MediaResource < ActiveRecord::Base
     [:user].each do |method|
       new_text << " #{send(method)}" if respond_to?(method)
     end
-    ft.update_attributes(:text => new_text)
+    ft.update_attributes(text: new_text)
   end
 
 ########################################################
@@ -70,15 +68,11 @@ class MediaResource < ActiveRecord::Base
 
   ################################################################
 
-  scope :media_entries_or_media_entry_incompletes, lambda{where(:type => ["MediaEntry", "MediaEntryIncomplete"])}
-  #scope :media_entries, lambda{where(:type => "MediaEntry")}
-  scope :media_sets, lambda{where(:type => ["MediaSet", "FilterSet"])}
-  scope :filter_sets, lambda{where(:type => "FilterSet")}
+  scope :media_entries_or_media_entry_incompletes, lambda{where(type: ["MediaEntry", "MediaEntryIncomplete"])}
+  scope :media_sets, lambda{where(type: "MediaSet")}
+  scope :filter_sets, lambda{where(type: "FilterSet")}
+  scope :media_entries, lambda{where(type: "MediaEntry")}
 
-
-  def self.media_entries
-    MediaEntry.where("media_resources.id IN ( ? )",scoped.select("media_resources.id"))
-  end
 
   ###############################################################
   
@@ -90,9 +84,11 @@ class MediaResource < ActiveRecord::Base
   ################################################################
 
   scope :search, lambda { |query|
-    q = query.split.map{|s| "%#{s}%"}
-    joins("LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id").
-      where(FullText.arel_table[:text].matches_all(q))
+    ar = joins("LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id")
+    query.split.map{|s| "%#{s}%"}.each do |term| 
+      ar = ar.where("full_texts.text ilike ?",term)
+    end
+    ar
   }
 
   ################################################################

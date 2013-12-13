@@ -10,7 +10,7 @@
         = _("This allows adding further details to all media entries contained in this set.")
         = _("Furthermore, you may also assign any contexts that are assigned to this set to any set contained within.")
 
-      = form_for @media_set do
+      = form_for @media_set do |form|
 
         %table.ui-workgroups.bordered.block
           %thead
@@ -22,8 +22,7 @@
               %tr{:"data-id" => context.id}
                 %td
                   %label.ui-context-selection{:title => _("Activate / Deactivate")}
-                    %input{:type => :hidden, :name => "individual_context_ids[]", :value => :false}
-                    = check_box_tag "individual_context_ids[]", context.id, @media_set.individual_contexts.include?(context), :class => "individual_context", :autocomplete => "off"
+                    = check_box_tag "individual_context_names[]", context.id, @media_set.individual_contexts.include?(context), :class => "individual_context", :autocomplete => "off"
                     %strong.ui-context-selection-name= context
                 %td
                   = context.description

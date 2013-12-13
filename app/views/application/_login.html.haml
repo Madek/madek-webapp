@@ -40,11 +40,11 @@
               .form-body
                 .ui-form-group.rowed
                   %p.mbm Alle Funktionen nutzen und auf <br/> mehr Inhalte zugreifen.
-                  %a#internal-login-link.primary-button.block.large{:href => login_path}
+                  %a#internal-login-link.primary-button.block.large{:href => "#"}
                     = _("Log in")
         - if @app_settings.authentication_systems.include? :local_database
           #external-user.tab-pane{:class => active_login == :external ? "active" : ""}
-            %form{:action => "db/login", :method => :post}
+            = form_tag sign_in_session_path do
               .form-body
                 .ui-form-group.rowed.compact
                   %input.block.large{:placeholder => _("Username"), :type => "text", :name => :login, :autofocus => params[:external_user_login] ? "autofocus" : "false"}/

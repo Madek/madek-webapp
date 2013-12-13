@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe ApplicationController do
 
+  before :each do
+    AppSettings.create id: 0
+  end
+
   describe "as guest user" do
     it "should respond with success" do
       get :root, {}, {}

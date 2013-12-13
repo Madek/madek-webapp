@@ -95,13 +95,17 @@ Then /^I am getting redirected to the (new|updated) filter set$/ do |either_or|
 end
 
 Then /^I am going to import images$/ do
-  @previous_media_entries = MediaEntry.all
-  @previous_media_sets = MediaSet.all
-  @previous_zencoder_jobs = ZencoderJob.all
+  @previous_media_entries = MediaEntry.all.to_a
+  @previous_media_sets = MediaSet.all.to_a
+  @previous_zencoder_jobs = ZencoderJob.all.to_a
 end
 
 Then /^I am logged in$/ do
-  expect(find("a[href='/logout']")).to be
+  expect(find("a#user-action-button", text: "Normin")).not_to raise_error
+end
+
+Then /^I am logged in as "(.*?)"$/ do |first_name|
+  expect(find("a#user-action-button", text: first_name)).not_to raise_error
 end
 
 Then /^I am on the catalog page$/ do

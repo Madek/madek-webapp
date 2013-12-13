@@ -9,7 +9,7 @@ module Json
       unless target.nil?
         klass = target.class
         case klass.name
-          when "Array", "ActiveRecord::Relation", "Kaminari::PaginatableArray"
+          when "Array", "ActiveRecord::AssociationRelation", "ActiveRecord::Relation", "Kaminari::PaginatableArray", "ActiveRecord::Associations::CollectionProxy"
             # TODO eager loading here for associations ?? 
             target.map do |t|
               hash_for(t, with)
