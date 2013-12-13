@@ -1,10 +1,10 @@
 %tr{id: "person_#{person.id}"}
   %td 
-    %span.limit150 #{person.last_name}
+    %span.limit150{title: person.last_name} #{person.last_name}
   %td 
-    %span.limit150 #{person.first_name}
+    %span.limit150{title: person.first_name} #{person.first_name}
   %td 
-    %span.limit150 #{person.pseudonym}
+    %span.limit150{title: person.pseudonym} #{person.pseudonym}
   %td #{person.id}
   %td
     - if person.user
