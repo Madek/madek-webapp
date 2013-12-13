@@ -154,16 +154,25 @@
                   </li>
                   <li class="ui-tabs-item">
                     <a href="#">
-                      <i class="icon-question-mark-alt bright">Help</i>
+                      <i class="icon-nav-help"></i>
                     </a>
                   </li>
                 </ul>
               </div>
               <div class="ui-header-user">
-                <a class="primary-button" href="#">
-                  <i class="icon-man_silhouette bright"></i>
-                  Anmelden
-                </a>
+                <div class="dropdown ui-dropdown stick-right">
+                  <a class="dropdown-toggle ui-drop-toggle" data-toggle="dropdown" id="user-action-button">
+                    Normin Normalo
+                    <i class="icon-arrow-down stand-alone small"></i>
+                  </a>
+                  <ul aria-labelledby="dLabel" class="dropdown-menu ui-drop-menu" role="menu" style="top: 100%; bottom: auto;">
+                    <li class="ui-drop-item">
+                      <a class="strong" href="">
+                        Dropdown
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </header>
         </div>
@@ -183,38 +192,43 @@
     <div class="sg-canvases">
       <div class="align-left bg-light sg-canvas">
         <div style="">
-            <footer class="ui-footer ui-container inverted">
-              <ul class="ui-footer-menu">
-                <li>
-                  <a href="#">Informationen zum Projekt</a>
-                </li>
-                <li>
-                  <a href="#">Impressum</a>
-                </li>
-                <li>
-                  <a href="#">Kontakt</a>
-                </li>
-                <li>
-                  <a href="#">Blog</a>
-                </li>
-                <li>
-                  <a href="#">Hilfe</a>
-                </li>
-                <li>
-                  <a href="#">Nutzungsbestimmungen</a>
-                </li>
-                <li>
-                  <a href="#">Freie Software</a>
-                </li>
-                <li>
-                  <a href="#">Archivierungsrichtlinien ZHdK</a>
-                </li>
-              </ul>
-              <p class="ui-footer-copy">
-                <i class="icon-madek ui-footer-logo"></i>
-                © 2009-2011 Zürcher Hochschule der Künste
-              </p>
-            </footer>
+          <footer class="ui-footer ui-container inverted">
+            <ul class="ui-footer-menu">
+              <li>
+                <a href="http://www.zhdk.ch/?madek">About the project
+                </a>
+              </li>
+              <li>
+                <a href="http://www.zhdk.ch/index.php?id=12970">Impressum
+                </a>
+              </li>
+              <li>
+                <a href="http://www.zhdk.ch/index.php?id=49591">Contact
+                </a>
+              </li>
+              <li>
+                <a href="http://wiki.zhdk.ch/madek-hilfe">Help
+                </a>
+              </li>
+              <li>
+                <a href="https://wiki.zhdk.ch/madek-hilfe/doku.php?id=terms">Terms of Use
+                </a>
+              </li>
+              <li>
+                <a href="http://www.zhdk.ch/?archivierung">Archivierungsrichtlinien ZHdK
+                </a>
+              </li>
+            </ul>
+            <p class="ui-footer-copy">
+              <a href="http://madek.zhdk.ch"><i class="icon-madek ui-footer-logo"></i>
+              </a>
+              Zürcher Hochschule der Künste and contributors
+            </p>
+            <p class="ui-footer-version">
+              Last deployment:
+              <a class="weak" href="#">Fri, 22 Nov 2013</a>
+            </p>
+          </footer>
         </div>
       </div>
     </div>
@@ -551,102 +565,163 @@
     <div class="sg-canvases">
       <div class="align-left bg-light sg-canvas">
         <div style="">
-            <div class="ui-collage">
-              <div class="ui-collage-row">
-                <a class="ui-collage-item">
-                  <div class="ui-collage-item-wrapper">
-                    <img alt="Media-entry-4" class="ui-collage-item-image" src="/assets/styleguide/media-entry-4.jpeg">
-                    <div class="ui-collage-item-meta">
-                      <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-                      <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
+
+          <div class="ui-collage" id="teaser-set">
+            <div class="ui-collage-row">
+              <a class="ui-collage-item" href="/media_resources/16">
+                <div class="ui-collage-item-wrapper">
+                  <div class="ui-collage-item-table">
+                    <div class="ui-collage-item-cell">
+                      <div class="ui-collage-item-inner">
+                        <img alt="Media-entry-4" class="ui-collage-item-image" src="/assets/styleguide/media-entry-4.jpeg">
+                      </div>
                     </div>
                   </div>
-                </a>
-                <a class="ui-collage-item">
-                  <div class="ui-collage-item-wrapper">
-                    <img alt="Media-entry-1" class="ui-collage-item-image" src="/assets/styleguide/media-entry-1.png">
-                    <div class="ui-collage-item-meta">
-                      <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-                      <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
+                  <div class="ui-collage-item-meta">
+                    <h3 class="title-xs">Präsentation</h3>
+                    <h4 class="title-xs-alt"></h4>
+                  </div>
+                </div>
+              </a>
+              <a class="ui-collage-item" href="/media_resources/6">
+                <div class="ui-collage-item-wrapper">
+                  <div class="ui-collage-item-table">
+                    <div class="ui-collage-item-cell">
+                      <div class="ui-collage-item-inner">
+                        <img alt="Media-entry-4" class="ui-collage-item-image" src="/assets/styleguide/media-entry-3.jpeg">
+                      </div>
                     </div>
                   </div>
-                </a>
-                <a class="ui-collage-item">
-                  <div class="ui-collage-item-wrapper">
-                    <img alt="Media-entry-2" class="ui-collage-item-image" src="/assets/styleguide/media-entry-2.png">
-                    <div class="ui-collage-item-meta">
-                      <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-                      <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
+                  <div class="ui-collage-item-meta">
+                    <h3 class="title-xs">Mein Erstes Photo (mit der neuen Nikon)</h3>
+                    <h4 class="title-xs-alt"></h4>
+                  </div>
+                </div>
+              </a>
+              <a class="ui-collage-item" href="/media_resources/16">
+                <div class="ui-collage-item-wrapper">
+                  <div class="ui-collage-item-table">
+                    <div class="ui-collage-item-cell">
+                      <div class="ui-collage-item-inner">
+                        <img alt="Media-entry-4" class="ui-collage-item-image" src="/assets/styleguide/media-entry-5.jpeg">
+                      </div>
                     </div>
                   </div>
-                </a>
-                <a class="ui-collage-item">
-                  <div class="ui-collage-item-wrapper">
-                    <img alt="Media-entry-4" class="ui-collage-item-image" src="/assets/styleguide/media-entry-4.jpeg">
-                    <div class="ui-collage-item-meta">
-                      <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-                      <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
+                  <div class="ui-collage-item-meta">
+                    <h3 class="title-xs">Präsentation</h3>
+                    <h4 class="title-xs-alt"></h4>
+                  </div>
+                </div>
+              </a>
+              <a class="ui-collage-item" href="/media_resources/6">
+                <div class="ui-collage-item-wrapper">
+                  <div class="ui-collage-item-table">
+                    <div class="ui-collage-item-cell">
+                      <div class="ui-collage-item-inner">
+                        <img alt="Media-entry-4" class="ui-collage-item-image" src="/assets/styleguide/media-entry-4.jpeg">
+                      </div>
                     </div>
                   </div>
-                </a>
-                <a class="ui-collage-item">
-                  <div class="ui-collage-item-wrapper">
-                    <img alt="Media-entry-2" class="ui-collage-item-image" src="/assets/styleguide/media-entry-2.png">
-                    <div class="ui-collage-item-meta">
-                      <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-                      <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
+                  <div class="ui-collage-item-meta">
+                    <h3 class="title-xs">Mein Erstes Photo (mit der neuen Nikon)</h3>
+                    <h4 class="title-xs-alt"></h4>
+                  </div>
+                </div>
+              </a>
+              <a class="ui-collage-item" href="/media_resources/16">
+                <div class="ui-collage-item-wrapper">
+                  <div class="ui-collage-item-table">
+                    <div class="ui-collage-item-cell">
+                      <div class="ui-collage-item-inner">
+                        <img alt="Media-entry-4" class="ui-collage-item-image" src="/assets/styleguide/media-entry-7.jpeg">
+                      </div>
                     </div>
                   </div>
-                </a>
-              </div>
-              <div class="ui-collage-row">
-                <a class="ui-collage-item">
-                  <div class="ui-collage-item-wrapper">
-                    <img alt="Media-entry-5" class="ui-collage-item-image" src="/assets/styleguide/media-entry-5.jpeg">
-                    <div class="ui-collage-item-meta">
-                      <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-                      <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
-                    </div>
+                  <div class="ui-collage-item-meta">
+                    <h3 class="title-xs">Präsentation</h3>
+                    <h4 class="title-xs-alt"></h4>
                   </div>
-                </a>
-                <a class="ui-collage-item">
-                  <div class="ui-collage-item-wrapper">
-                    <img alt="Media-entry-6" class="ui-collage-item-image" src="/assets/styleguide/media-entry-6.jpeg">
-                    <div class="ui-collage-item-meta">
-                      <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-                      <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
-                    </div>
-                  </div>
-                </a>
-                <a class="ui-collage-item">
-                  <div class="ui-collage-item-wrapper">
-                    <img alt="Media-entry-6" class="ui-collage-item-image" src="/assets/styleguide/media-entry-6.jpeg">
-                    <div class="ui-collage-item-meta">
-                      <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-                      <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
-                    </div>
-                  </div>
-                </a>
-                <a class="ui-collage-item">
-                  <div class="ui-collage-item-wrapper">
-                    <img alt="Media-entry-7" class="ui-collage-item-image" src="/assets/styleguide/media-entry-7.jpeg">
-                    <div class="ui-collage-item-meta">
-                      <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-                      <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
-                    </div>
-                  </div>
-                </a>
-                <a class="ui-collage-item">
-                  <div class="ui-collage-item-wrapper">
-                    <img alt="Media-entry-6" class="ui-collage-item-image" src="/assets/styleguide/media-entry-6.jpeg">
-                    <div class="ui-collage-item-meta">
-                      <h3 class="title-xs">Set title that is unlikely to go onto two lines</h3>
-                      <h4 class="title-xs-alt">Author Name which can easily go onto two lines too.</h4>
-                    </div>
-                  </div>
-                </a>
-              </div>
+                </div>
+              </a>
             </div>
+            <div class="ui-collage-row">
+              <a class="ui-collage-item" href="/media_resources/6">
+                <div class="ui-collage-item-wrapper">
+                  <div class="ui-collage-item-table">
+                    <div class="ui-collage-item-cell">
+                      <div class="ui-collage-item-inner">
+                        <img alt="Media-entry-4" class="ui-collage-item-image" src="/assets/styleguide/media-entry-6.jpeg">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ui-collage-item-meta">
+                    <h3 class="title-xs">Mein Erstes Photo (mit der neuen Nikon)</h3>
+                    <h4 class="title-xs-alt"></h4>
+                  </div>
+                </div>
+              </a>
+              <a class="ui-collage-item" href="/media_resources/16">
+                <div class="ui-collage-item-wrapper">
+                  <div class="ui-collage-item-table">
+                    <div class="ui-collage-item-cell">
+                      <div class="ui-collage-item-inner">
+                        <img alt="Media-entry-4" class="ui-collage-item-image" src="/assets/styleguide/media-entry-7.jpeg">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ui-collage-item-meta">
+                    <h3 class="title-xs">Präsentation</h3>
+                    <h4 class="title-xs-alt"></h4>
+                  </div>
+                </div>
+              </a>
+              <a class="ui-collage-item" href="/media_resources/6">
+                <div class="ui-collage-item-wrapper">
+                  <div class="ui-collage-item-table">
+                    <div class="ui-collage-item-cell">
+                      <div class="ui-collage-item-inner">
+                        <img alt="Media-entry-4" class="ui-collage-item-image" src="/assets/styleguide/media-entry-4.jpeg">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ui-collage-item-meta">
+                    <h3 class="title-xs">Mein Erstes Photo (mit der neuen Nikon)</h3>
+                    <h4 class="title-xs-alt"></h4>
+                  </div>
+                </div>
+              </a>
+              <a class="ui-collage-item" href="/media_resources/16">
+                <div class="ui-collage-item-wrapper">
+                  <div class="ui-collage-item-table">
+                    <div class="ui-collage-item-cell">
+                      <div class="ui-collage-item-inner">
+                        <img alt="Media-entry-4" class="ui-collage-item-image" src="/assets/styleguide/media-entry-5.jpeg">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ui-collage-item-meta">
+                    <h3 class="title-xs">Präsentation</h3>
+                    <h4 class="title-xs-alt"></h4>
+                  </div>
+                </div>
+              </a>
+              <a class="ui-collage-item" href="/media_resources/6">
+                <div class="ui-collage-item-wrapper">
+                  <div class="ui-collage-item-table">
+                    <div class="ui-collage-item-cell">
+                      <div class="ui-collage-item-inner">
+                        <img alt="Media-entry-4" class="ui-collage-item-image" src="/assets/styleguide/media-entry-4.jpeg">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ui-collage-item-meta">
+                    <h3 class="title-xs">Mein Erstes Photo (mit der neuen Nikon)</h3>
+                    <h4 class="title-xs-alt"></h4>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -6847,13 +6922,19 @@
             <ul class="ui-resources list $modifier-class">
               <li class="ui-resource">
                 <div class="ui-resource-head">
-                  <div class="ui-resource-actions">
-                    <ul class="ui-resource-actions-list">
-                      <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-checkbox">Select</a></li>
-                      <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-favorite">Favorite</a></li>
-                    </ul>
-                  </div>
-                  <h3 class="ui-resource-title">Resource Title</h3>
+                  <ul class="ui-resource-actions">
+                    <li class="ui-resource-action">
+                      <a class="ui-thumbnail-action-checkbox" data-clipboard-toggle="" title="Zur Zwischenablage hinzufügen/entfernen">
+                        <i class="icon-checkbox"></i>
+                      </a>
+                    </li>
+                    <li class="ui-resource-action">
+                      <a class="ui-thumbnail-action-favorite" data-favor-toggle="" title="Zur Favoriten hinzufügen/entfernen">
+                        <i class="icon-star-empty"></i>
+                      </a>
+                    </li>
+                  </ul>
+                  <h3 class="ui-resource-title">FilterSet including all public accessible resources</h3>
                 </div>
                 <div class="ui-resource-body">
                   <div class="ui-resource-thumbnail">
@@ -7038,13 +7119,19 @@
 
               <li class="ui-resource">
                 <div class="ui-resource-head">
-                  <div class="ui-resource-actions">
-                    <ul class="ui-resource-actions-list">
-                      <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-checkbox">Select</a></li>
-                      <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-favorite">Favorite</a></li>
-                    </ul>
-                  </div>
-                  <h3 class="ui-resource-title">Resource Title</h3>
+                  <ul class="ui-resource-actions">
+                    <li class="ui-resource-action">
+                      <a class="ui-thumbnail-action-checkbox" data-clipboard-toggle="" title="Zur Zwischenablage hinzufügen/entfernen">
+                        <i class="icon-checkbox"></i>
+                      </a>
+                    </li>
+                    <li class="ui-resource-action">
+                      <a class="ui-thumbnail-action-favorite" data-favor-toggle="" title="Zur Favoriten hinzufügen/entfernen">
+                        <i class="icon-star-empty"></i>
+                      </a>
+                    </li>
+                  </ul>
+                  <h3 class="ui-resource-title">FilterSet including all public accessible resources</h3>
                 </div>
                 <div class="ui-resource-body">
                   <div class="ui-resource-thumbnail">
@@ -7189,13 +7276,19 @@
 
               <li class="ui-resource">
                 <div class="ui-resource-head">
-                  <div class="ui-resource-actions">
-                    <ul class="ui-resource-actions-list">
-                      <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-checkbox">Select</a></li>
-                      <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-favorite">Favorite</a></li>
-                    </ul>
-                  </div>
-                  <h3 class="ui-resource-title">Resource Title</h3>
+                  <ul class="ui-resource-actions">
+                    <li class="ui-resource-action">
+                      <a class="ui-thumbnail-action-checkbox" data-clipboard-toggle="" title="Zur Zwischenablage hinzufügen/entfernen">
+                        <i class="icon-checkbox"></i>
+                      </a>
+                    </li>
+                    <li class="ui-resource-action">
+                      <a class="ui-thumbnail-action-favorite" data-favor-toggle="" title="Zur Favoriten hinzufügen/entfernen">
+                        <i class="icon-star-empty"></i>
+                      </a>
+                    </li>
+                  </ul>
+                  <h3 class="ui-resource-title">FilterSet including all public accessible resources</h3>
                 </div>
                 <div class="ui-resource-body">
                   <div class="ui-resource-thumbnail">
@@ -7346,13 +7439,19 @@
             <ul class="ui-resources list active">
               <li class="ui-resource">
                 <div class="ui-resource-head">
-                  <div class="ui-resource-actions">
-                    <ul class="ui-resource-actions-list">
-                      <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-checkbox">Select</a></li>
-                      <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-favorite">Favorite</a></li>
-                    </ul>
-                  </div>
-                  <h3 class="ui-resource-title">Resource Title</h3>
+                  <ul class="ui-resource-actions">
+                    <li class="ui-resource-action">
+                      <a class="ui-thumbnail-action-checkbox" data-clipboard-toggle="" title="Zur Zwischenablage hinzufügen/entfernen">
+                        <i class="icon-checkbox"></i>
+                      </a>
+                    </li>
+                    <li class="ui-resource-action">
+                      <a class="ui-thumbnail-action-favorite" data-favor-toggle="" title="Zur Favoriten hinzufügen/entfernen">
+                        <i class="icon-star-empty"></i>
+                      </a>
+                    </li>
+                  </ul>
+                  <h3 class="ui-resource-title">FilterSet including all public accessible resources</h3>
                 </div>
                 <div class="ui-resource-body">
                   <div class="ui-resource-thumbnail">
@@ -7537,13 +7636,19 @@
 
               <li class="ui-resource">
                 <div class="ui-resource-head">
-                  <div class="ui-resource-actions">
-                    <ul class="ui-resource-actions-list">
-                      <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-checkbox">Select</a></li>
-                      <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-favorite">Favorite</a></li>
-                    </ul>
-                  </div>
-                  <h3 class="ui-resource-title">Resource Title</h3>
+                  <ul class="ui-resource-actions">
+                    <li class="ui-resource-action">
+                      <a class="ui-thumbnail-action-checkbox" data-clipboard-toggle="" title="Zur Zwischenablage hinzufügen/entfernen">
+                        <i class="icon-checkbox"></i>
+                      </a>
+                    </li>
+                    <li class="ui-resource-action">
+                      <a class="ui-thumbnail-action-favorite" data-favor-toggle="" title="Zur Favoriten hinzufügen/entfernen">
+                        <i class="icon-star-empty"></i>
+                      </a>
+                    </li>
+                  </ul>
+                  <h3 class="ui-resource-title">FilterSet including all public accessible resources</h3>
                 </div>
                 <div class="ui-resource-body">
                   <div class="ui-resource-thumbnail">
@@ -7688,13 +7793,19 @@
 
               <li class="ui-resource">
                 <div class="ui-resource-head">
-                  <div class="ui-resource-actions">
-                    <ul class="ui-resource-actions-list">
-                      <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-checkbox">Select</a></li>
-                      <li class="ui-resource-action"><a href="#" class="ui-thumbnail-action-favorite">Favorite</a></li>
-                    </ul>
-                  </div>
-                  <h3 class="ui-resource-title">Resource Title</h3>
+                  <ul class="ui-resource-actions">
+                    <li class="ui-resource-action">
+                      <a class="ui-thumbnail-action-checkbox" data-clipboard-toggle="" title="Zur Zwischenablage hinzufügen/entfernen">
+                        <i class="icon-checkbox"></i>
+                      </a>
+                    </li>
+                    <li class="ui-resource-action">
+                      <a class="ui-thumbnail-action-favorite" data-favor-toggle="" title="Zur Favoriten hinzufügen/entfernen">
+                        <i class="icon-star-empty"></i>
+                      </a>
+                    </li>
+                  </ul>
+                  <h3 class="ui-resource-title">FilterSet including all public accessible resources</h3>
                 </div>
                 <div class="ui-resource-body">
                   <div class="ui-resource-thumbnail">
@@ -8784,46 +8895,66 @@
     <div class="sg-canvases">
       <div class="align-left bg-light sg-canvas">
         <div style="">
-            <div class="ui-home-claim ui-container">
-              <div class="col2of3">
-                <div class="pitch-claim">
-                  <h1 class="title-xxl">Bilder, Fotos, Videos und Audio-Dateien</h1>
-                  <h2 class="title-l">Das Medienarchiv ist ein Werkzeug zum gemeinschaftlichen arbeiten mit Medien und zum Teilen von Inhalten.</h2>
-                </div>
+          <div class="ui-home-claim ui-container">
+            <div class="col2of3">
+              <div class="pitch-claim">
+                <h1 class="title-xxl">
+                  Bilder, Videos, Audio-Dateien und Dokumente
+                </h1>
+                <h2 class="title-l">
+                  <!-- / TODO INTERNATIONALIZE -->
+                  Diese Plattform dient dem gemeinschaftlichen Arbeiten mit Medien und dem Teilen von Inhalten.
+                </h2>
               </div>
-              <div class="col1of3">
-                <div class="pitch-login">
-                  <ul class="ui-tabs ui-container">
-                    <li class="ui-tabs-item active left">
-                      <a href="#zhdk-user" data-toggle="tab">ZHdK-Login</a>
-                    </li>
-                    <li class="ui-tabs-item right">
-                      <a href="#external-user" data-toggle="tab">Externe Benutzer</a>
-                    </li>
-                  </ul>
-                  <div class="tab-content pitch-login-tab">
-                    <div id="zhdk-user" class="tab-pane active">
-                      <p>Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est uVivamus hendrerit arcu sed erat molestie vehicula. Sed au.</p>
-                    </div>
-                    <div id="external-user" class="tab-pane">
-                      <form>
-                        <div class="form-body">
-                          <div class="ui-form-group rowed compact">
-                            <input type="text" placeholder="Benutzername" class="block large">
-                          </div>
-                          <div class="ui-form-group rowed compact">
-                            <input type="password" placeholder="Passwort" class="block large">
-                          </div>
-                          <div class="ui-form-group rowed compact">
-                            <button class="primary-button block large">Anmelden</button>
-                          </div>
+            </div>
+            <div class="col1of3">
+              <div class="pitch-login">
+                <ul class="ui-tabs ui-container">
+                  <li class="active left ui-tabs-item">
+                    <a data-toggle="tab" href="#internal-user" id="zhdk-user-login-tab">
+                      ZHdK-Login
+                    </a>
+                  </li>
+                  <li class="right ui-tabs-item">
+                    <a data-toggle="tab" href="#external-user" id="database-user-login-tab">
+                      Externe
+                    </a>
+                  </li>
+                </ul>
+                <div class="pitch-login-tab tab-content">
+                  <div class="active tab-pane" id="internal-user">
+                    <form>
+                      <div class="form-body">
+                        <div class="ui-form-group rowed">
+                          <p class="mbm">Alle Funktionen nutzen und auf <br> mehr Inhalte zugreifen.</p>
+                          <a class="primary-button block large" href="/login" id="internal-login-link">
+                            Anmelden
+                          </a>
                         </div>
-                      </form>
-                    </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="tab-pane" id="external-user">
+                    <form action="db/login" method="post">
+                      <div class="form-body">
+                        <div class="ui-form-group rowed compact">
+                          <input autofocus="false" class="block large" name="login" placeholder="Benutzername" type="text">
+                        </div>
+                        <div class="ui-form-group rowed compact">
+                          <input class="block large" name="password" placeholder="Passwort" type="password">
+                        </div>
+                        <div class="ui-form-group rowed compact">
+                          <button class="primary-button block large" type="submit">
+                            Anmelden
+                          </button>
+                        </div>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
@@ -9038,65 +9169,25 @@
     <div class="sg-canvases">
       <div class="align-left bg-light sg-canvas">
         <div style="">
-            <table class="ui-workgroups bordered block">
-              <thead>
-                <tr>
-                  <td class="ui-workgroup-name-title">Arbeitsgrupp</td>
-                  <td class="ui-workgroup-items-title">Inhalte</td>
-                  <td class="ui-workgroup-actions-title">Aktionen</td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="ui-workgroup-name">Interactive Things</td>
-                  <td class="ui-workgroup-items">
-                    <a href="#">
-                      54243
-                    </a>
-                  </td>
-                  <td class="ui-workgroup-actions">
-                    <a class="button small" data-toggle="modal" href="#workgroup-delete" title="Delete">
-                      <i class="icon-trash"></i>
-                    </a>
-                    <a class="button small" data-toggle="modal" href="#workgroup-edit" title="Edit">
-                      <i class="icon-pen"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="ui-workgroup-name">Interactive Things 2</td>
-                  <td class="ui-workgroup-items">
-                    <a href="#">
-                      54243
-                    </a>
-                  </td>
-                  <td class="ui-workgroup-actions">
-                    <a class="button small" data-toggle="modal" href="#workgroup-delete" title="Delete">
-                      <i class="icon-trash"></i>
-                    </a>
-                    <a class="button small" data-toggle="modal" href="#workgroup-edit" title="Edit">
-                      <i class="icon-pen"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="ui-workgroup-name">Interactive Things 3</td>
-                  <td class="ui-workgroup-items">
-                    <a href="#">
-                      54243
-                    </a>
-                  </td>
-                  <td class="ui-workgroup-actions">
-                    <a class="button small" data-toggle="modal" href="#workgroup-delete" title="Delete">
-                      <i class="icon-trash"></i>
-                    </a>
-                    <a class="button small" data-toggle="modal" href="#workgroup-edit" title="Edit">
-                      <i class="icon-pen"></i>
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <table class="ui-workgroups bordered block">
+            <tbody>
+              <tr data-id="4">
+                <td class="ui-workgroup-name">Diplomarbeitsgruppe</td>
+
+                <td class="ui-workgroup-items"><a href="/media_resources?permissions%5Bgroup%5D%5Bids%5D%5B%5D=4" title="Inhalte dieser Gruppe anzeigen">2 Inhalte</a></td>
+
+                <td class="ui-workgroup-actions"><a class="button delete-workgroup"><i class="icon-trash dark"></i></a> <a class="button edit-workgroup"><i class="icon-pen dark"></i></a></td>
+              </tr>
+
+              <tr data-id="3">
+                <td class="ui-workgroup-name">ZHdK</td>
+
+                <td class="ui-workgroup-items"><a href="/media_resources?permissions%5Bgroup%5D%5Bids%5D%5B%5D=3" title="Inhalte dieser Gruppe anzeigen">3 Inhalte</a></td>
+
+                <td class="ui-workgroup-actions"><a class="button delete-workgroup"><i class="icon-trash dark"></i></a> <a class="button edit-workgroup"><i class="icon-pen dark"></i></a></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -9114,21 +9205,28 @@
     <div class="sg-canvases">
       <div class="align-left bg-light sg-canvas">
         <div style="">
-            <div class="ui-modal narrow">
+          <div class="modal hide fade ui-modal narrow in ui-shown" style=
+          "display: block;" tabindex="-1">
+            <form>
               <div class="ui-modal-head">
-                <h3 class="title-l">ui-modal Title</h3>
-                <a class="modal-close ui-modal-close" aria-hidden="true" data-dismiss="modal" title="Close"></a>
+                <a class="ui-modal-close" data-dismiss="modal" title="Close"
+                type="button"></a>
+
+                <h3 class="title-l">Confirmation Modal</h3>
               </div>
-              <div class="ui-modal-body">
+
+              <div class="ui-modal-body" style="max-height: 886.21875px;">
                 <p class="phl pvm by-center">Are you sure?</p>
               </div>
+
               <div class="ui-modal-footer">
                 <div class="ui-actions">
-                  <a class="link weak">No</a>
-                  <a class="primary-button">Yes</a>
+                  <a class="link weak" data-dismiss="modal">No</a>
+                  <button class="primary-button" type="submit">Yes</button>
                 </div>
               </div>
-            </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -9146,12 +9244,9 @@
     <div class="sg-canvases">
       <div class="align-left bg-light sg-canvas">
         <div style="">
-            <div class="ui-resources-page">
-              <span class="ui-resources-page-counter">Page <strong>1</strong> of <strong>5</strong></span>
-            </div>
-            <div class="ui-resources-page">
-              <span class="ui-resources-page-counter">Page <strong>1</strong> of <strong>5</strong></span>
-            </div>
+          <span class="ui-resources-page-counter">
+            <span id="resources_counter">20</span> Inhalte, Seite <span id="pages_counter">1</span> von <span id="total_pages_counter">1</span>
+          </span>
         </div>
       </div>
     </div>
@@ -9230,92 +9325,9 @@
     <div class="sg-canvases">
       <div class="align-left bg-light sg-canvas">
         <div style="">
-          <div class="ui-side-filter" id="ui-side-filter">
-              <div class="ui-side-filter-search" id="ui-side-filter-search">
-                  <h2>
-                      Eingrenzen mit Suchwort
-                  </h2><input class="block ui-filter-search-input" type="text">
-              </div>
-              <div class="ui-side-filter-list">
-                  <ul>
-                      <li class="ui-side-filter-lvl1-item ui-side-filter-item" data-filter-type="media_files">
-                          <a class="strong ui-accordion-toggle">Datei</a>
-                          <ul class="ui-side-filter-lvl2 ui-accordion-body">
-                              <li class="ui-side-filter-lvl2-item" data-key-name="media_type">
-                                  <a class="ui-accordion-toggle weak">Medientyp</a>
-                                  <ul class="ui-side-filter-lvl3 ui-accordion-body">
-                                      <li class="ui-side-filter-lvl3-item" data-value="image">
-                                          <a class="weak">image <span class="ui-lvl3-item-count">35</span></a>
-                                      </li>
-                                      <li class="ui-side-filter-lvl3-item" data-value="document">
-                                          <a class="weak">document <span class="ui-lvl3-item-count">1</span></a>
-                                      </li>
-                                  </ul>
-                              </li>
-                              <li class="ui-side-filter-lvl2-item" data-key-name="extension">
-                                  <a class="ui-accordion-toggle weak">Dokumenttyp</a>
-                                  <ul class="ui-side-filter-lvl3 ui-accordion-body">
-                                      <li class="ui-side-filter-lvl3-item" data-value="png">
-                                          <a class="weak">png <span class="ui-lvl3-item-count">35</span></a>
-                                      </li>
-                                      <li class="ui-side-filter-lvl3-item" data-value="pdf">
-                                          <a class="weak">pdf <span class="ui-lvl3-item-count">1</span></a>
-                                      </li>
-                                  </ul>
-                              </li>
-                          </ul>
-                      </li>
-                      <li class="ui-side-filter-lvl1-item ui-side-filter-item" data-filter-type="permissions">
-                          <a class="strong ui-accordion-toggle">Berechtigung</a>
-                          <ul class="ui-side-filter-lvl2 ui-accordion-body">
-                              <li class="ui-side-filter-lvl2-item" data-key-name="owner">
-                                  <a class="ui-accordion-toggle weak">Eigentümer/in</a>
-                                  <ul class="ui-side-filter-lvl3 ui-accordion-body">
-                                      <li class="ui-side-filter-lvl3-item" data-value="1">
-                                          <a class="weak">Admin, Adam <span class="ui-lvl3-item-count">36</span></a>
-                                      </li>
-                                  </ul>
-                              </li>
-                              <li class="ui-side-filter-lvl2-item" data-key-name="scope">
-                                  <a class="ui-accordion-toggle weak">Zugriff</a>
-                                  <ul class="ui-side-filter-lvl3 ui-accordion-body">
-                                      <li class="ui-side-filter-lvl3-item" data-value="mine">
-                                          <a class="weak">Inhalte, für die ich verantwortlich bin<span class="ui-lvl3-item-count">36</span></a>
-                                      </li>
-                                  </ul>
-                              </li>
-                          </ul>
-                      </li>
-                      <li class="ui-side-filter-lvl1-item ui-side-filter-item" data-filter-type="meta_data">
-                          <a class="strong ui-accordion-toggle">Werk</a>
-                          <ul class="ui-side-filter-lvl2 ui-accordion-body">
-                              <li class="ui-side-filter-lvl2-item" data-key-name="keywords">
-                                  <a class="ui-accordion-toggle weak">Schlagworte zu Inhalt und Motiv</a>
-                                  <ul class="ui-side-filter-lvl3 ui-accordion-body">
-                                      <li class="ui-side-filter-lvl3-item" data-value="4601">
-                                          <a class="weak">My tag <span class="ui-lvl3-item-count">36</span></a>
-                                      </li>
-                                  </ul>
-                              </li>
-                              <li class="ui-side-filter-lvl2-item" data-key-name="type">
-                                  <a class="ui-accordion-toggle weak">Gattung</a>
-                                  <ul class="ui-side-filter-lvl3 ui-accordion-body">
-                                      <li class="ui-side-filter-lvl3-item" data-value="76">
-                                          <a class="weak">Fotografie <span class="ui-lvl3-item-count">36</span></a>
-                                      </li>
-                                      <li class="ui-side-filter-lvl3-item" data-value="79">
-                                          <a class="weak">Kunst <span class="ui-lvl3-item-count">36</span></a>
-                                      </li>
-                                      <li class="ui-side-filter-lvl3-item" data-value="83">
-                                          <a class="weak">Musik <span class="ui-lvl3-item-count">36</span></a>
-                                      </li>
-                                  </ul>
-                              </li>
-                          </ul>
-                      </li>
-                  </ul>
-              </div>
-          </div>
+
+  
+
         </div>
       </div>
     </div>
@@ -9325,7 +9337,6 @@
     <h3>
       <a href="#7.19">7.19</a>
     </h3>
-    
     <div class="sg-description">
       <span class="sg-filename">_ui-search-form.scss</span>
       <h2>Search Form <code>.ui-search-form</code></h2>
@@ -9333,14 +9344,18 @@
     <div class="sg-canvases">
       <div class="align-left bg-light sg-canvas">
         <div style="">
-            <div class="ui-search-form">
-              <form>
-                <div class="ui-search large mbm">
-                  <input class="block ui-search-input" placeholder="Search term" type="text">
-                  <button class="primary-button ui-search-button">Search</button>
-                </div>
-              </form>
-            </div>
+          <div class="ui-search-form">
+            <form accept-charset="UTF-8" action="/search" method="post">
+              <div style="margin:0;padding:0;display:inline">
+                <input name="utf8" type="hidden" value="✓">
+                <input name="authenticity_token" type="hidden" value="J2zGT/GbRydo5RJ9ogojTO79rSF5U+wWOPTfufkMmcU=">
+              </div>
+              <div class="ui-search large mts">
+                <input autofocus="autofocus" class="block ui-search-input" id="search" name="search" placeholder="z.B. Bild-Text" type="text">
+                <button class="primary-button ui-search-button" type="submit">Suche</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

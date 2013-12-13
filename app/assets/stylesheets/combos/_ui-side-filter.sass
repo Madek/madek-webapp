@@ -22,7 +22,7 @@
   +micro-clearfix
   border-right: 1px solid $mono-light
   margin-right: $space-m
-  min-width: 200px
+  min-width: 220px
   padding-right: $space-m
   position: relative
 
@@ -34,8 +34,6 @@
   +border-radius($border-radius-m)
   display: block
   line-height: 1.5
-  margin-left: -5px
-  margin-right: -5px
   padding: $space-x
   position: relative
 
@@ -60,6 +58,7 @@
   font-size: $font-s
   font-weight: 600
   padding-left: $space-m
+  padding-right: $space-m
 
 .ui-side-filter-lvl3-item
   padding-left: 18px
@@ -115,11 +114,17 @@
     content: "\e604"
 
 .ui-side-filter-lvl2-marker
-  @extend .icon-arrow-right-mid-small
+  @extend .icon-extend
   +position-top-left(7px, 3px)
+  color: $mono-mid
+  &:hover
+    color: $mono-dark
+  &:before
+    content: "\e605"
 
 .open > .ui-side-filter-lvl2-marker
-  @extend .icon-arrow-down-mid-small
+  &:before
+    content: "\e603"
 
 .ui-side-filter a
   &:hover
@@ -139,13 +144,12 @@
   position: relative
 
 .ui-side-filter #ui-side-filter-blocking-layer
-  background: $darken-less
+  background: $darken-subtle
   display: block
   height: 100%
-  left: -($space-m / 2)
   position: absolute
   top: 0
-  width: 110%
+  width: 100%
   +border-radius($border-radius-m)
 
 .ui-side-filter-lvl2-item
@@ -153,8 +157,13 @@
 
 .ui-any-value
   position: absolute
-  right: -1px
+  right: 3px
   top: 6px
+  .icon-checkbox
+    color: $mono-mid
+  &:hover
+    .icon-checkbox
+      color: $mono-dark
 
 input.any-value:checked+.icon-checkbox
   @extend .icon-checkbox.active

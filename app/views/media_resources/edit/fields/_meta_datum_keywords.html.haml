@@ -34,19 +34,19 @@
       .tab-content.mbs
 
         .tags-mine.tab-pane.active.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_mine_#{@i}"}
-          %ul.ui-tag-cloud.small
+          %ul.ui-tag-cloud.small.ellipsed
             .title-xs.by-center
               = _("Loading keywords")
             .ui-preloader.small
 
         .tags-top.tab-pane.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_top_#{@i}"}
-          %ul.ui-tag-cloud.small
+          %ul.ui-tag-cloud.small.ellipsed
             .title-xs.by-center
               = _("Loading keywords")
             .ui-preloader.small
 
         .tags-latest.tab-pane.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_latest_#{@i}"}
-          %ul.ui-tag-cloud.small
+          %ul.ui-tag-cloud.small.ellipsed
             .title-xs.by-center
               = _("Loading keywords")
             .ui-preloader.small

@@ -327,6 +327,9 @@ msgstr "Filter sets"
 msgid "Filter settings"
 msgstr "Filter settings"
 
+msgid "Filter keyword"
+msgstr "Filter keyword"
+
 msgid "Filters"
 msgstr "Filters"
 
@@ -725,6 +728,9 @@ msgstr "Switch to admin mode"
 
 msgid "System groups"
 msgstr "System groups"
+
+msgid "Edit group"
+msgstr "Editieren"
 
 msgid "TMS XML document"
 msgstr "TMS XML document"

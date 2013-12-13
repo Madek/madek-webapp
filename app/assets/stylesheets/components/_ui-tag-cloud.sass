@@ -12,6 +12,9 @@
 .ui-tag-cloud-item
   display: inline-block
   list-style: none
+  .ui-tag-button
+    margin-bottom: $space-x
+    margin-right: $space-x
 
 .ui-tag-button
   background-color: $mono-bright
@@ -26,16 +29,12 @@
   font-size: $font-m
   font-weight: 600
   line-height: $line-height-l
-  margin-bottom: $space-x
-  margin-right: $space-x
   min-height: 26px
   padding: 0 $space-s
   position: relative
-  text-align: center
   text-decoration: none
   white-space: nowrap
   vertical-align: top
-  +ellipsis(true)
   &:hover
     +background-image(linear-gradient(lighten($mono-bright, 3%), lighten($mono-weak, 3%)))
     +single-text-shadow(false, 1px, false, false, $lighten)
@@ -73,7 +72,7 @@
   background: transparent
   border-color: $mono-light
 
-// Size variations
+// Modifiers
 
 .ui-tag-cloud.small
   .ui-tag-button
@@ -83,6 +82,7 @@
   .ui-tag-icon
     top: 2px
     left: -3px
+    margin-right: -3px
   .ui-tag-button .ui-tag-counter
     margin-right: -9px
     padding: 0 $space-x 1px
@@ -103,3 +103,12 @@
     .ui-tag-counter
       position: relative
       top: -2px
+
+.ui-tag-cloud.ellipsed
+  .ui-tag-button
+    max-width: 130px
+    +ellipsis(true)
+
+.ui-tag-cloud.compact
+  .ui-tag-button .ui-tag-counter
+    display: none

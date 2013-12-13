@@ -14,11 +14,12 @@
 
       - @vocabulary.each_with_index do |vocabular, i|
 
-        .mtl{:class => (@vocabulary.size != i+1) ? "separated" : ""}
+        .mtl{:class => (@vocabulary.size != i+1) ? "" : ""}
 
-          .pbl
-            %h3.title-m= vocabular[:label]
-            %h4.title-s= vocabular[:description]
+          %h3.ui-pager.light.mbm
+            = vocabular[:label]
+          %p.mbm
+            = vocabular[:description]
 
           - vocabular[:meta_keys].in_groups_of(3, false) do |meta_keys|
 

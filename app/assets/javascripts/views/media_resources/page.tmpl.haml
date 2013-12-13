@@ -1,5 +1,5 @@
 %li{:class => "ui-resources-page{{if not_loaded}} not-loaded{{/if}}", :"data-page" => "${page}"}
-  %span.ui-resources-page-counter 
+  %span.ui-resources-page-counter.ui-pager.small
     %span#resources_counter ${total} 
     ${_jed('items')}, ${_jed('page')}  
     %span#pages_counter ${page}

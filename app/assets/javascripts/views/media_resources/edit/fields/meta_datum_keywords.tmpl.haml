@@ -24,16 +24,16 @@
       .tab-content.mbs
 
         .tags-mine.tab-pane.active.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_mine_${index}"}
-          %ul.ui-tag-cloud.small
+          %ul.ui-tag-cloud.small.ellipsed.compact
             .title-xs.by-center ${_jed('Loading keywords')}
             .ui-preloader.small
 
         .tags-top.tab-pane.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_top_${index}"}
-          %ul.ui-tag-cloud.small
+          %ul.ui-tag-cloud.small.ellipsed.compact
             .title-xs.by-center ${_jed('Loading keywords')}
             .ui-preloader.small
 
         .tags-latest.tab-pane.pam.ui-container.bordered.rounded-right.rounded-bottom{:id => "tags_latest_${index}"}
-          %ul.ui-tag-cloud.small
+          %ul.ui-tag-cloud.small.ellipsed.compact
             .title-xs.by-center ${_jed('Loading keywords')}
             .ui-preloader.small

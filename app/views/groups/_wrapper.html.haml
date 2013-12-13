@@ -18,7 +18,10 @@
       %tbody
         - groups.each do |group|
           %tr{:"data-id" => group.id}
-            %td.ui-workgroup-name= group.name
+            %td.ui-workgroup-name
+              %a.ui-tag-button.group-tag{:href => media_resources_path(:permissions => {:group => {:ids => [group.id]}}), :title => _("Show this group's content")}
+                %i.icon-group-mini.ui-tag-icon
+                = group.name
             - if resources
               - total_accessible_by_group = MediaResource.accessible_by_group(group,:view).where(:type => ["MediaEntry", "MediaSet"]).count
               %td.ui-workgroup-items
@@ -29,14 +32,15 @@
               %td.ui-workgroup-actions
                 %a.button.delete-workgroup
                   %i.icon-trash.dark
-                %a.button.edit-workgroup
+                %a.button.edit-workgroup.mls
                   %i.icon-pen.dark
+                  = _("Edit group")
 
   - else
 
-    %ul.ui-tag-cloud
+    %ul.ui-tag-cloud.compact
       - groups.each do |group|
         %li.ui-tag-cloud-item
-          %a{:href => my_groups_path, :class => "ui-tag-button"}
+          %a{:href => my_groups_path, :class => "ui-tag-button", :title => group.name}
             %i.icon-group-mini.ui-tag-icon
             = group.name

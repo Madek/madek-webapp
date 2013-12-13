@@ -2,7 +2,7 @@
   .col1of3.mbl
     .ui-metadata-box.prl
       .h3.title-m.separated.light.mbm= meta_datum.meta_key.all_context_labels
-      %ul.ui-tag-cloud.small
+      %ul.ui-tag-cloud.small.ellipsed.compact
         - meta_datum.value.each do |value|
           %li.ui-tag-cloud-item
             %a.ui-tag-button.meta-term{:href => "/media_resources?meta_data[#{meta_datum.meta_key.label}][ids][]=#{value.id}",

@@ -484,6 +484,10 @@ window.i18n.locale_data = {
          null,
          "Filter settings"
       ],
+      "Filter keyword": [
+         null,
+         "Filter keyword"
+      ],
       "Filters": [
          null,
          "Filters"
@@ -999,6 +1003,10 @@ window.i18n.locale_data = {
       "System groups": [
          null,
          "System groups"
+      ],
+      "Edit group": [
+         null,
+         "Editieren"
       ],
       "TMS XML document": [
          null,

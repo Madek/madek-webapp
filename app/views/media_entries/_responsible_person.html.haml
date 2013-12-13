@@ -6,7 +6,7 @@
   %dd.media-data-content
     .ui-tag-cloud.small
       .ui-tag-cloud-item
-        = link_to(media_resources_path(:search => @media_entry.user.fullname), :class => "ui-tag-button person-tag") do
+        = link_to(media_resources_path(:search => @media_entry.user.fullname), :class => "ui-tag-button person-tag", :title => @media_entry.user) do
           %i.icon-user-mini.ui-tag-icon
           = @media_entry.user
 

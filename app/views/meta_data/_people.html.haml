@@ -1,5 +1,6 @@
-%ul.ui-tag-cloud.small
+%ul.ui-tag-cloud.small.ellipsed
   - people.each do |person|
-    %a.ui-tag-button.person-tag{:href => media_resources_path(:search => person.fullname)}
-      %i.icon-user-mini.ui-tag-icon
-      = person
+    %li.ui-tag-cloud-item
+      %a.ui-tag-button.person-tag{:href => media_resources_path(:search => person.fullname), :title => person}
+        %i.icon-user-mini.ui-tag-icon
+        = person

@@ -2,6 +2,6 @@
 .col1of3.mbl
   .ui-metadata-box.prl
     .h3.title-m.separated.light.mbm ${metaDatum.label}
-    %ul.ui-tag-cloud.small
+    %ul.ui-tag-cloud.small.ellipsed.compact
       {{tmpl(metaDatum.raw_value, {metaDatum: metaDatum}) App.renderPath("abstracts/term")}}
 {{/each}}
