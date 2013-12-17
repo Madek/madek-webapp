@@ -38,6 +38,7 @@ Feature: Edit the permissions through batch-edit
     When I click on the link with the id "clipboard-actions"
     And I click on the link with the id "view-clipboard-permissions"
     And I click on the link with the id "edit-permissions" 
+    And I wait until there are no more ajax requests running
     Then I can see a form for editing permissions
 
   @jsbrowser
