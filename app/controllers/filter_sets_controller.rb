@@ -1,5 +1,7 @@
 class FilterSetsController < ApplicationController
 
+  include Concerns::PreviousIdRedirect
+
   def create
     begin
       unless current_user

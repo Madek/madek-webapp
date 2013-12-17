@@ -44,7 +44,7 @@ Then /^I can edit the permissions/ do
   find("tr[data-name='#{@me.name}']").find("input[name=download]").click
   find("button.primary-button[type=submit]").click
   wait_until{page.evaluate_script(%<$.active>) == 0}
-  expect(permissions.reload.download).not_to eq orig_download_permissions
+  expect(@resource.userpermissions.find_by(user_id: @me).download).not_to eq orig_download_permissions
 end
 
 Then /^I can filter by the type of media resources$/ do

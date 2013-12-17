@@ -36,6 +36,20 @@ CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA public;
 COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching based on trigrams';
 
 
+--
+-- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
+
+
 SET search_path = public, pg_catalog;
 
 SET default_tablespace = '';
@@ -48,9 +62,6 @@ SET default_with_oids = false;
 
 CREATE TABLE app_settings (
     id integer NOT NULL,
-    featured_set_id integer,
-    splashscreen_slideshow_set_id integer,
-    catalog_set_id integer,
     dropbox_root_dir character varying(255),
     ftp_dropbox_server character varying(255),
     ftp_dropbox_user character varying(255),
@@ -66,6 +77,9 @@ CREATE TABLE app_settings (
     footer_links text,
     second_displayed_meta_context_name character varying(255),
     third_displayed_meta_context_name character varying(255),
+    splashscreen_slideshow_set_id uuid,
+    catalog_set_id uuid,
+    featured_set_id uuid,
     CONSTRAINT oneandonly CHECK ((id = 0))
 );
 
@@ -111,9 +125,9 @@ ALTER SEQUENCE copyrights_id_seq OWNED BY copyrights.id;
 CREATE TABLE edit_sessions (
     id integer NOT NULL,
     user_id integer NOT NULL,
-    media_resource_id integer NOT NULL,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    media_resource_id uuid
 );
 
 
@@ -142,7 +156,7 @@ ALTER SEQUENCE edit_sessions_id_seq OWNED BY edit_sessions.id;
 
 CREATE TABLE favorites (
     user_id integer NOT NULL,
-    media_resource_id integer NOT NULL
+    media_resource_id uuid
 );
 
 
@@ -152,8 +166,8 @@ CREATE TABLE favorites (
 
 CREATE TABLE full_texts (
     id integer NOT NULL,
-    media_resource_id integer NOT NULL,
-    text text
+    text text,
+    media_resource_id uuid
 );
 
 
@@ -182,12 +196,12 @@ ALTER SEQUENCE full_texts_id_seq OWNED BY full_texts.id;
 
 CREATE TABLE grouppermissions (
     id integer NOT NULL,
-    media_resource_id integer NOT NULL,
     group_id integer NOT NULL,
     download boolean DEFAULT false NOT NULL,
     edit boolean DEFAULT false NOT NULL,
     manage boolean DEFAULT false NOT NULL,
     view boolean DEFAULT false NOT NULL,
+    media_resource_id uuid,
     CONSTRAINT manage_on_grouppermissions_is_false CHECK ((manage = false))
 );
 
@@ -303,7 +317,7 @@ CREATE TABLE media_files (
     updated_at timestamp without time zone,
     extension character varying(255),
     media_type character varying(255),
-    media_entry_id integer
+    media_entry_id uuid
 );
 
 
@@ -332,11 +346,10 @@ ALTER SEQUENCE media_files_id_seq OWNED BY media_files.id;
 
 CREATE TABLE media_resource_arcs (
     id integer NOT NULL,
-    parent_id integer NOT NULL,
-    child_id integer NOT NULL,
     highlight boolean DEFAULT false,
     cover boolean,
-    CONSTRAINT media_resource_arcs_check CHECK ((parent_id <> child_id))
+    parent_id uuid,
+    child_id uuid
 );
 
 
@@ -364,39 +377,20 @@ ALTER SEQUENCE media_resource_arcs_id_seq OWNED BY media_resource_arcs.id;
 --
 
 CREATE TABLE media_resources (
-    id integer NOT NULL,
+    previous_id integer,
     download boolean DEFAULT false NOT NULL,
     edit boolean DEFAULT false NOT NULL,
     manage boolean DEFAULT false NOT NULL,
     view boolean DEFAULT false NOT NULL,
-    media_entry_id integer,
     user_id integer NOT NULL,
     settings text,
     type character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
     CONSTRAINT edit_on_publicpermissions_is_false CHECK ((edit = false)),
     CONSTRAINT manage_on_publicpermissions_is_false CHECK ((manage = false))
 );
-
-
---
--- Name: media_resources_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE media_resources_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: media_resources_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE media_resources_id_seq OWNED BY media_resources.id;
 
 
 --
@@ -404,8 +398,8 @@ ALTER SEQUENCE media_resources_id_seq OWNED BY media_resources.id;
 --
 
 CREATE TABLE media_sets_meta_contexts (
-    media_set_id integer NOT NULL,
-    meta_context_name character varying(255)
+    meta_context_name character varying(255),
+    media_set_id uuid
 );
 
 
@@ -460,10 +454,10 @@ CREATE TABLE meta_contexts (
 CREATE TABLE meta_data (
     id integer NOT NULL,
     copyright_id integer,
-    media_resource_id integer NOT NULL,
     type character varying(255),
     string text,
-    meta_key_id character varying(255)
+    meta_key_id character varying(255),
+    media_resource_id uuid
 );
 
 
@@ -792,12 +786,12 @@ ALTER SEQUENCE usage_terms_id_seq OWNED BY usage_terms.id;
 
 CREATE TABLE userpermissions (
     id integer NOT NULL,
-    media_resource_id integer NOT NULL,
     user_id integer NOT NULL,
     download boolean DEFAULT false NOT NULL,
     edit boolean DEFAULT false NOT NULL,
     manage boolean DEFAULT false NOT NULL,
-    view boolean DEFAULT false NOT NULL
+    view boolean DEFAULT false NOT NULL,
+    media_resource_id uuid
 );
 
 
@@ -942,13 +936,6 @@ ALTER TABLE ONLY media_files ALTER COLUMN id SET DEFAULT nextval('media_files_id
 --
 
 ALTER TABLE ONLY media_resource_arcs ALTER COLUMN id SET DEFAULT nextval('media_resource_arcs_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_resources ALTER COLUMN id SET DEFAULT nextval('media_resources_id_seq'::regclass);
 
 
 --
@@ -1285,10 +1272,10 @@ CREATE INDEX index_edit_sessions_on_user_id ON edit_sessions USING btree (user_i
 
 
 --
--- Name: index_favorites_on_user_id_and_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_favorites_on_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_favorites_on_user_id_and_media_resource_id ON favorites USING btree (user_id, media_resource_id);
+CREATE INDEX index_favorites_on_media_resource_id ON favorites USING btree (media_resource_id);
 
 
 --
@@ -1303,13 +1290,6 @@ CREATE INDEX index_full_texts_on_media_resource_id ON full_texts USING btree (me
 --
 
 CREATE INDEX index_grouppermissions_on_group_id ON grouppermissions USING btree (group_id);
-
-
---
--- Name: index_grouppermissions_on_group_id_and_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_grouppermissions_on_group_id_and_media_resource_id ON grouppermissions USING btree (group_id, media_resource_id);
 
 
 --
@@ -1432,10 +1412,10 @@ CREATE UNIQUE INDEX index_media_resource_arcs_on_parent_id_and_child_id ON media
 
 
 --
--- Name: index_media_resources_on_media_entry_id_and_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_media_resources_on_previous_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_media_resources_on_media_entry_id_and_created_at ON media_resources USING btree (media_entry_id, created_at);
+CREATE INDEX index_media_resources_on_previous_id ON media_resources USING btree (previous_id);
 
 
 --
@@ -1457,6 +1437,13 @@ CREATE INDEX index_media_resources_on_updated_at ON media_resources USING btree 
 --
 
 CREATE INDEX index_media_resources_on_user_id ON media_resources USING btree (user_id);
+
+
+--
+-- Name: index_media_sets_meta_contexts_on_media_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_sets_meta_contexts_on_media_set_id ON media_sets_meta_contexts USING btree (media_set_id);
 
 
 --
@@ -1513,6 +1500,13 @@ CREATE UNIQUE INDEX index_meta_data_meta_terms_on_meta_datum_id_and_meta_term_id
 --
 
 CREATE INDEX index_meta_data_on_copyright_id ON meta_data USING btree (copyright_id);
+
+
+--
+-- Name: index_meta_data_on_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_data_on_media_resource_id ON meta_data USING btree (media_resource_id);
 
 
 --
@@ -1618,13 +1612,6 @@ CREATE INDEX index_previews_on_media_file_id ON previews USING btree (media_file
 --
 
 CREATE INDEX index_userpermissions_on_media_resource_id ON userpermissions USING btree (media_resource_id);
-
-
---
--- Name: index_userpermissions_on_media_resource_id_and_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_userpermissions_on_media_resource_id_and_user_id ON userpermissions USING btree (media_resource_id, user_id);
 
 
 --
@@ -1834,14 +1821,6 @@ ALTER TABLE ONLY media_resource_arcs
 
 ALTER TABLE ONLY media_resource_arcs
     ADD CONSTRAINT media_resource_arcs_parent_id_fk FOREIGN KEY (parent_id) REFERENCES media_resources(id) ON DELETE CASCADE;
-
-
---
--- Name: media_resources_media_entry_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_resources
-    ADD CONSTRAINT media_resources_media_entry_id_fk FOREIGN KEY (media_entry_id) REFERENCES media_resources(id) ON DELETE CASCADE;
 
 
 --
@@ -2167,6 +2146,8 @@ INSERT INTO schema_migrations (version) VALUES ('20130923085830');
 INSERT INTO schema_migrations (version) VALUES ('20131009083332');
 
 INSERT INTO schema_migrations (version) VALUES ('20131105100927');
+
+INSERT INTO schema_migrations (version) VALUES ('20131213124951');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

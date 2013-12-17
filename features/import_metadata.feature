@@ -82,7 +82,7 @@ Feature: Importing files with metadata and setting metadata
     Then I can see the text "30.05.2011"
     And I can see the text "Grumpy Cat"
 
-  @firefox @wip
+  @firefox
   Scenario: import an image that has MAdeK title and date information (specific date) in its EXIF/IPTC metadata
     Given I am signed-in as "Normin"
     And I am going to import images

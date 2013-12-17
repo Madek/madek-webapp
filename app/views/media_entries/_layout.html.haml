@@ -26,7 +26,7 @@
 :coffeescript
   
   jQuery -> new App.MediaEntriesController.Show
-    id: #{@media_entry.id}
+    id: "#{@media_entry.id}"
     media_file:
       width: #{@media_entry.media_file.width.to_json}
       height: #{@media_entry.media_file.height.to_json}

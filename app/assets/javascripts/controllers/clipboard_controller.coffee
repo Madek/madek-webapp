@@ -147,7 +147,7 @@ class ClipboardController
           @addToVisibleResources mr
     else
       media_resources = for k,v of @visibleResources
-        new App.MediaResource _.extend v, {id: parseInt(k)}
+        new App.MediaResource _.extend v, {id: k}
       @list_el.html App.render "clipboard/media_resource", media_resources
       
   showSizeAlert: ->

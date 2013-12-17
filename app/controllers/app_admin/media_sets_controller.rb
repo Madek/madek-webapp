@@ -1,6 +1,16 @@
 
 class AppAdmin::MediaSetsController < AppAdmin::BaseController
 
+  before_filter only: [:show] do
+    if (id = params[:id]) and (not id.blank?) and (id =~ /^\d+$/)
+      if mr = MediaResource.find_by(previous_id: id)
+        redirect_to app_admin_media_set_path(mr.id), status: 301
+        return
+      end
+    end
+  end
+
+
   def index
     @media_sets = MediaSet.reorder("created_at DESC").page(params[:page]).per(16)
 

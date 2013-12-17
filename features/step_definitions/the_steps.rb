@@ -190,7 +190,7 @@ Then /^the person is deleted$/ do
 end
 
 Then /^the resource is in the children of the given set$/ do
-  expect(@set.child_media_resources.reload).to include @resource
+  expect(@set.child_media_resources.reload.pluck(:id)).to include @resource.id
 end
 
 Then (/^the resource with the id "(.*?)" has doesn't belong to me and has no other permissions$/) do |id|

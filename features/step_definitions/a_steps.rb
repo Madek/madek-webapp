@@ -72,7 +72,7 @@ end
 
 
 Then /^All resources that I can see have public view permission$/ do
-  ids = all("li.ui-resource").map{|el| el['data-id'].to_i}
+  ids = all("li.ui-resource").map{|el| el['data-id']}
   view_permissions = MediaResource.where(id: ids).map(&:view)
   expect(view_permissions.size).to be > 0
   expect(view_permissions.all?{|p| p == true} ).to  be_true

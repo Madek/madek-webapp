@@ -9,7 +9,7 @@ module MediaResourceModules
           (WITH RECURSIVE pair(p,c) AS
           (
             SELECT parent_id as p, child_id as c FROM media_resource_arcs 
-              WHERE (parent_id in (#{media_resource.id}) OR child_id in (#{media_resource.id}))
+              WHERE (parent_id in ('#{media_resource.id}') OR child_id in ('#{media_resource.id}'))
           #{ "AND parent_id in (#{resource_condition.select("media_resources.id").to_sql })" if resource_condition }
           #{ "AND child_id in (#{resource_condition.select("media_resources.id").to_sql})" if resource_condition }
             UNION
@@ -39,7 +39,7 @@ module MediaResourceModules
       (WITH RECURSIVE pair(p,c) AS
       (
         SELECT parent_id as p, child_id as c FROM media_resource_arcs 
-          WHERE parent_id in (#{media_set.id})
+          WHERE parent_id in ('#{media_set.id}')
       #{ "AND parent_id in (#{resource_condition.select("media_resources.id").to_sql })" if resource_condition }
       #{ "AND child_id in (#{resource_condition.select("media_resources.id").to_sql})" if resource_condition }
         UNION
@@ -51,7 +51,7 @@ module MediaResourceModules
       )
      UNION
     (
-      SELECT media_resources.id FROM media_resources WHERE id = #{media_set.id}
+      SELECT media_resources.id FROM media_resources WHERE id = '#{media_set.id}'
     ))
       SQL
     end

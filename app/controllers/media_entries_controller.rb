@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 class MediaEntriesController < ApplicationController
 
+  include Concerns::PreviousIdRedirect
+
   before_filter do
     if [:edit_multiple, :update_multiple, :remove_multiple].include? request[:action].to_sym
       begin

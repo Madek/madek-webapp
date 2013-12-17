@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 class MediaSetsController < ApplicationController
 
+  include Concerns::PreviousIdRedirect
+
   def check_and_initialize_for_view
     @media_set = MediaSet.find(params[:id])
     not_authorized! unless current_user.authorized?(:view,@media_set)

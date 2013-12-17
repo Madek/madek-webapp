@@ -8,7 +8,7 @@ Feature: Setting and displaying configurable contexts in list views
     And I set the input with the name "app_settings[third_displayed_meta_context_name]" to "Landschaftsvisualisierung"
     And I submit
     Then I can see a success message
-    When I visit "/media_sets/101?layout=list"
+    When I visit "/media_sets/92f2ed5b-8223-4ec1-9b74-b9396537eb47?layout=list"
     Then There is a element with the data-context-name "Institution" in the ui-resource-body
     Then There is a element with the data-context-name "Landschaftsvisualisierung" in the ui-resource-body
 

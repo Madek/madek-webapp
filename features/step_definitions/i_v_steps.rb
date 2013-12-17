@@ -55,12 +55,12 @@ Then /^I visualize the filter Suchergebnisse für "(.*?)"$/ do |search|
 end
 
 Then /^I visualize the descendants of a Set$/ do
-  @set = MediaSet.find(17)
+  @set = MediaSet.find("9b7229e7-d080-4471-9594-6e583abe4fd2")
   visit "/visualization/descendants_of/#{@set.id}"
 end
 
 Then /^I visualize the component of a Entry$/ do
-  @entry = MediaResource.find(21)
+  @entry = MediaResource.find("2cf95539-cb6c-4737-acca-bae68799b2fc")
   visit "/visualization/component_with/#{@entry.id}"
 end
 

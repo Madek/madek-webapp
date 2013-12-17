@@ -46,7 +46,7 @@ Then /^I open one of my media entries that is child of a set that I can see$/ do
 end
 
 Then /^I open one of my sets that has children and parents$/ do
-  @media_set = MediaSet.find_by_id 22   
+  @media_set = MediaSet.find_by id: "490f44d0-637a-49cc-9668-60df33081731"    
   visit media_resource_path @media_set
 end
 

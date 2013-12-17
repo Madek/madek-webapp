@@ -102,23 +102,26 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
   # @example_request_description Sets the public-permissions for the MediaResources with id 1,2 and 3. It just sets the view-permission to true and doesnt touch the other pemissions.
   # @example_response "" (empty response body with status: 200 OK)
   #
-  def update(groups = Array(params[:groups].is_a?(Hash) ? params[:groups].values : params[:groups]),
-             users = Array(params[:users].is_a?(Hash) ? params[:users].values : params[:users]),
-             _media_resource_ids = Array(params[:media_resource_ids].is_a?(Hash) ? params[:media_resource_ids].values : params[:media_resource_ids]),
-             public_permission= params[:public])
+  def update
+
+    groups= Array(params[:groups].is_a?(Hash) ? params[:groups].values : params[:groups])
+    users = Array(params[:users].is_a?(Hash) ? params[:users].values : params[:users])
+    _media_resource_ids = Array(params[:media_resource_ids].is_a?(Hash) ? params[:media_resource_ids].values : params[:media_resource_ids])
+    public_permission= params[:public]
 
 
     # filter the resources which the current user may manage 
-    media_resource_ids = MediaResource.where(%[ id in (#{_media_resource_ids.join(", ")})]) \
+    media_resource_ids = MediaResource.where(id: _media_resource_ids) \
       .accessible_by_user(current_user,:manage).pluck(:id)
     
+
     require 'set'
 
     ActiveRecord::Base.transaction do
 
-      media_resource_ids = Set.new media_resource_ids.map{|i| i.to_i}
-      affected_user_ids=  Set.new users.map{|up| up["id"].to_i}
-      affected_group_ids=  Set.new groups.map{|gp| gp["id"].to_i}
+      media_resource_ids = Set.new media_resource_ids
+      affected_user_ids=  Set.new users.map{|up| up["id"]}
+      affected_group_ids=  Set.new groups.map{|gp| gp["id"]}
 
       # destroy deleted or no more wanted user_permissions
       media_resource_ids.each do |mr_id| 

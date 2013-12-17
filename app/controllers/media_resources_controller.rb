@@ -5,6 +5,8 @@
 # 
 class MediaResourcesController < ApplicationController
 
+  include Concerns::PreviousIdRedirect
+
   before_filter :except => [:index, :collection, :destroy] do
     begin
       unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids] || params[:collection_id]).blank?
@@ -653,11 +655,15 @@ class MediaResourcesController < ApplicationController
   end
 
   def show
-    case @media_resource.type
-    when "FilterSet"
+    case @media_resource
+    when FilterSet
       redirect_to filter_set_path(@media_resource), flash: flash
+    when MediaEntry, MediaEntryIncomplete
+      redirect_to media_entry_path(@media_resource), flash: flash
+    when MediaSet
+      redirect_to media_set_path(@media_resource), flash: flash
     else
-      redirect_to @media_resource, flash: flash
+      raise "missing dispatch on #{@media_resource.type}"
     end
   end
 
@@ -785,7 +791,7 @@ class MediaResourcesController < ApplicationController
   def parents()
 
     parent_media_set_ids = params[:parent_media_set_ids]
-    parent_media_sets = MediaSet.accessible_by_user(current_user, :edit).where(:id => parent_media_set_ids.map(&:to_i))
+    parent_media_sets = MediaSet.accessible_by_user(current_user, :edit).where(:id => parent_media_set_ids)
     child_resources = Array(@media_resource)
 
     child_resources.each do |resource|

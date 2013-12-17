@@ -37,7 +37,8 @@ Then /^I remember the last imported media_entry with media_file and the actual f
 end
 
 Given(/^I remember this media_resource$/) do
-  @resource = @media_resource= MediaResource.find current_path.match(/\/(\w+)$/)[1].to_i
+  uuid = current_path.match(/\/([\w-]+)$/)[1] 
+  @resource = @media_resource= MediaResource.find uuid
 end
 
 Then /^I remove a set A from a set B from which set A is inheriting a context$/ do

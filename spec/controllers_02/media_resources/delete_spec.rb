@@ -25,7 +25,7 @@ describe MediaResourcesController, type: :controller do
 
     context "on a none existing mr" do
       it "should be success" do
-        delete :destroy, {format: "json", id: -1}, {user_id: @owner.id} 
+        delete :destroy, {format: "json", id: SecureRandom.uuid}, {user_id: @owner.id} 
         expect(response).to be_success
       end
     end
