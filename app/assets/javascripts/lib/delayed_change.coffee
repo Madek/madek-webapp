@@ -21,12 +21,12 @@ class DelayedChange
     
   delegate_events: ->
     @target.on "keydown mousedown change", (e)=> 
-      @target.attr("data-delay-timeout-pending",true)
       target = $(e.target)
       @last_value = target.val()
     @target.on "keyup", @validate
     
   validate: (e)=>
+    @target.attr("data-delay-timeout-pending",true)
     target = $(e.target)
     clearTimeout @timeout if @timeout?
     @timeout = setTimeout =>
