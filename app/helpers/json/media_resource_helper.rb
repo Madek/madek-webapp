@@ -265,11 +265,14 @@ module Json
                      { :key_name => k,
                        :key_label => "Arbeitsgruppen", # FIXME get label from the DB
                        :terms => begin
-                         groups = Group.select("groups.*, COUNT(grouppermissions.media_resource_id) AS count").
-                                    joins("INNER JOIN groups_users ON groups_users.group_id = groups.id AND groups_users.user_id = #{current_user.id}").
-                                    joins("INNER JOIN grouppermissions ON grouppermissions.group_id = groups.id AND grouppermissions.view = TRUE AND grouppermissions.media_resource_id IN (#{media_resources.select("media_resources.id").to_sql}) ").
-                                    group("groups.id").
-                                    order("count DESC, name")
+                         groups = Group.select("groups.*, COUNT(grouppermissions.media_resource_id) AS count") \
+                           .joins("INNER JOIN groups_users ON groups_users.group_id = groups.id") \
+                           .where("groups_users.user_id = ?",current_user.id) \
+                           .joins("INNER JOIN grouppermissions ON grouppermissions.group_id = groups.id") \
+                           .where("grouppermissions.view = ?",true) \
+                           .where("grouppermissions.media_resource_id IN (#{media_resources.select("media_resources.id").to_sql}) ") \
+                           .group("groups.id") \
+                             .order("count DESC, name")
                          groups.map do |group|
                            { :id => group.id,
                              :value => group.to_s,

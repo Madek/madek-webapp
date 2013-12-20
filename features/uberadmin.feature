@@ -16,23 +16,22 @@ Feature: Acting as an Uberadmin
   @jsbrowser
   Scenario: Viewing and editing a private entry as Überadmin
     Given I am signed-in as "Adam"
-    And the resource with the id "a9b857f0-0653-4304-b156-86a86985c6dd" has doesn't belong to me and has no other permissions
-    And the resource with the id "a9b857f0-0653-4304-b156-86a86985c6dd" has no public view permission
-    And I visit "/media_entries/a9b857f0-0653-4304-b156-86a86985c6dd"
+    And I remember a media_entry that doesn't belong to me, has no public, nor other permissions
+    And I visit the media_entry
     Then I am on the "/my" page
     And I can see "Sie haben nicht die notwendige Zugriffsberechtigung."
     When I click on "Adam Admin"
     And I click on "In Admin-Modus wechseln" 
-    And I visit "/media_entries/a9b857f0-0653-4304-b156-86a86985c6dd"
-    Then I am on the "/media_entries/a9b857f0-0653-4304-b156-86a86985c6dd" page
+    And I visit the media_entry
+    Then I am on the page of the resource
     When I click on "Weitere Aktionen"
     And I click on "Metadaten editieren" 
-    Then I am on the "/media_resources/a9b857f0-0653-4304-b156-86a86985c6dd/edit" page
+    Then I am on the edit page of the resource
     When I set the input in the fieldset with "title" as meta-key to "XYZ Titel"
     And I submit
-    Then I am on the "/media_entries/a9b857f0-0653-4304-b156-86a86985c6dd" page
+    Then I am on the page of the resource
     And I can see "XYZ Titel"
-    And I am the last editor of the media entry with the id "a9b857f0-0653-4304-b156-86a86985c6dd"
+    And I am the last editor of the remembered resource
     When I click on "Adam Admin"
     And I click on "Admin-Modus verlassen"
     Then I am on the "/my" page

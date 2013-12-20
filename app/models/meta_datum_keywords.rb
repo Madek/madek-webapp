@@ -12,12 +12,13 @@ class MetaDatumKeywords < MetaDatum
     keywords
   end
 
+  # TODO this is a insane 
   def value=(new_value)
     user = media_resource.try(:edit_sessions).try(:first).try(:user) || (media_resource.respond_to?(:user) ? media_resource.user : nil)
     new_keywords = Array(new_value).map do |v|
-      if v.is_a?(Fixnum) or (v.respond_to?(:is_integer?) and v.is_integer?)
+      if UUID_V4_REGEXP.match v 
         k = nil
-        k = Keyword.where(:meta_term_id => v, :meta_datum_id => self.id).first if self.persisted?
+        k = Keyword.find_by(meta_term_id: v, meta_datum_id: self.id) if self.persisted?
         k ||= Keyword.new(:meta_term_id => v, :user => user)
       elsif v.is_a? Keyword
         Keyword.new(:meta_term => v.meta_term)        

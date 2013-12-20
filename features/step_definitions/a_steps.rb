@@ -5,13 +5,14 @@ Then /^A new ZencoderJob has been added$/ do
 end
 
 Then /^a person has some MetaData associated to it$/ do
-  @person_with_meta_data = Person.find 1
+  @person_with_meta_data = Person.reorder("people.created_at").joins(:meta_data).first
   expect{ @meta_data_transfer_link = find("tr#person_#{@person_with_meta_data.id} a.transfer_meta_data_link")}.not_to raise_error
 end
 
 Then /^a person does not have any MetaData neither User associated to it$/ do
-  @person_without_meta_data = Person.find 24  
-  ActiveRecord::Base.connection.execute "delete from meta_data_people where person_id = 24"
+  @person = @person_without_meta_data = Person.reorder("people.created_at")  \
+    .where(%[ NOT EXISTS (SELECT true FROM users WHERE users.person_id = people.id)]).first
+  ActiveRecord::Base.connection.execute "delete from meta_data_people where person_id = '#{@person_without_meta_data.id}'"
   visit(current_path)
   expect{  find("tr#person_#{@person_without_meta_data.id} .meta_data_count") }.to raise_error
 end

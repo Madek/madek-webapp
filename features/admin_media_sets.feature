@@ -18,13 +18,11 @@ Feature: Managing Media-Sets
 
   @jsbrowser
   Scenario: Delete a Set with all children
-    Given The media_resource with the id "842dda2d-2370-4d4e-8936-6b139e2b6a4b" exists
+    Given The media_resource with the previous_id "6" exists
     When I visit "/app_admin/media_sets/38"
     And I click on the link "Delete with all children" 
-    And I confirm the browser dialog
-    Then I am on the "/app_admin/media_sets" page
-    Then The media_resource with the id "8bbd2617-9022-4341-b963-f24f1538d7fe" doesn't exist
-    Then The media_resource with the id "842dda2d-2370-4d4e-8936-6b139e2b6a4b" doesn't exist
+    Then The media_resource with the previous_id "38" doesn't exist
+    Then The media_resource with the previous_id "6" doesn't exist
 
   @jsbrowser
   Scenario: Manage individual context

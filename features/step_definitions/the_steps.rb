@@ -141,12 +141,12 @@ Then (/^The media_file doesn't exist anymore$/) do
   expect(MediaFile.where(id: @media_file.id).count).to be == 0
 end
 
-Then /^The media_resource with the id "(.*?)" exists$/  do |id|
-  expect{MediaResource.find id}.not_to raise_error
+Then /^The media_resource with the previous_id "(.*?)" exists$/  do |id|
+  expect(MediaResource.find_by previous_id: id).to be 
 end
 
-Then /^The media_resource with the id "(.*?)" doesn't exist$/  do |id|
-  expect{MediaResource.find id}.to raise_error
+Then /^The media_resource with the previous_id "(.*?)" doesn't exist$/  do |id|
+  expect(MediaResource.find_by previous_id: id).not_to be
 end
 
 Then /^The meta_context "(.*?)" is included in the individual_meta_contexts$/ do |meta_context|

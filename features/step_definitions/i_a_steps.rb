@@ -188,6 +188,10 @@ Then (/^I am the last editor of the media entry with the id "(.*?)"$/) do |id|
   expect(MediaEntry.find(id).editors.reorder("edit_sessions.created_at DESC").first).to be == @me
 end
 
+Then /^I am the last editor of the remembered resource$/ do
+  expect(MediaEntry.find(@resource).editors.reorder("edit_sessions.created_at DESC").first).to be == @me
+end
+
 Then /^I am the responsible person for that resource$/ do
   expect(find("tr[data-is-current-user='true'] td.ui-rights-owner input")).to be_checked
 end

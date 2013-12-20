@@ -46,15 +46,15 @@ module Concerns
           when :transfer
             where("media_resources.user_id = ?", user.id)
           else
-            where <<-SQL 
-                    media_resources.user_id = #{user.id}
+            where %[
+                    media_resources.user_id = ?
                     OR
                     media_resources.#{action.to_s} = true
                     OR
                     EXISTS ( #{userpermission_query(user,action).select("'true'").to_sql} ) 
                     OR
                     EXISTS ( #{grouppermission_by_user_query(user,action).select("'true'").to_sql} ) 
-                    SQL
+                    ], user.id
           end
       end
 

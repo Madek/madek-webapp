@@ -8,32 +8,37 @@ Feature: Managing Users and Logins
   @jsbrowser
   Scenario: Deleting groups
     When I visit "/app_admin/groups"
+    And I set the input with the name "[fuzzy_search]" to "DDE_FDE_BDE"
+    And I submit
     Then I can see "DDE_FDE_BDE.alle"
-    When I visit "/app_admin/groups/651"
+    When I remember the id of the first group-row
+    And I click on the details link of the first row
     Then I can see the "Delete" link
     When I click on "Delete"
     And I confirm the browser dialog
     Then I can see a success message
+    And I set the input with the name "[fuzzy_search]" to "DDE_FDE_BDE"
+    And I submit
     And I cannot see "DDE_FDE_BDE.alle"
 
   @jsbrowser
   Scenario: Adding user to a group 
     When I visit "/app_admin/groups"
-    And I click on "Details"
-    Then I am on the group page with id "2"
+    And I click on the details link of the first row
     When I click on "Add user"
-    Then I am on the page where I can add a user to the group with id "2"
     And I see the submit button is disabled
     When I set the input with the name "[query]" to "nor"
     And I select first result from the autocomplete list
-    Then The hidden field with name "[user_id]" should match "^\w+$"
+    Then The hidden field with name "[user_id]" should match "^\w+"
     And I see the submit button is enabled
     When I submit
     Then I can see a success message
 
   @jsbrowser
   Scenario: Adding user to a group by login
-    When I visit "/app_admin/groups/2/form_add_user"
+    When I visit "/app_admin/groups"
+    And I click on the details link of the first row
+    When I click on "Add user"
     And I see the submit button is disabled
     When I set the input with the name "[query]" to "[norbert]"
     Then The hidden field with name "[user_id]" should match ""

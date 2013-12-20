@@ -1,4 +1,4 @@
-%tr
+%tr.group{id: group.id}
   %td
     %span.limit250{title: group.name} #{group.name}
   %td
@@ -12,11 +12,11 @@
   %td.no-wrap
     %ul.list-inline
       %li 
-        = link_to app_admin_group_path(group), class: "btn btn-xs" do
+        = link_to app_admin_group_path(group), class: "btn btn-xs details" do
           %i.fa.fa-eye-open
           Details
       %li
-        = link_to edit_app_admin_group_path(group), class: "btn btn-warning btn-xs" do
+        = link_to edit_app_admin_group_path(group), class: "btn btn-warning btn-xs edit" do
           %i.fa.fa-pencil
           Edit
 

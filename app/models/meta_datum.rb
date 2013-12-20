@@ -1,8 +1,9 @@
 # -*- encoding : utf-8 -*-
 class MetaDatum < ActiveRecord::Base
 
+  UUID_V4_REGEXP= /^\w{8}-\w{4}-4\w{3}-\w{4}-\w{12}$/
+
   class << self
-    # TODO this has to GO! 
     def new_with_cast(*args, &block)
       if (h = args.first.try(:symbolize_keys)).is_a?(Hash) and
           (meta_key = h[:meta_key] || (h[:meta_key_id] ? MetaKey.find_by_id(h[:meta_key_id]) : nil)) and

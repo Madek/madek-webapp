@@ -20,9 +20,8 @@ class MetaDatumMetaTerms < MetaDatum
     new_meta_terms = Array(new_value).flat_map do |v|
       if v.is_a?(MetaTerm)
         v
-      elsif v.is_a?(Fixnum) or (v.respond_to?(:is_integer?) and v.is_integer?)
-        # TODO check if is member of meta_key.meta_terms
-        MetaTerm.find_by_id(v)
+      elsif UUID_V4_REGEXP.match v 
+        MetaTerm.find_by id: v
       elsif meta_key.is_extensible_list?
         h = {}
         LANGUAGES.each {|lang| h[lang] = v}

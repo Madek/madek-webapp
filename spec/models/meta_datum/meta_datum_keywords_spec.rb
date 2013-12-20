@@ -18,44 +18,6 @@ describe MetaDatumKeywords do
 
   end
   
-=begin
-  describe "Linking with Keywords" do
-
-    before :each do
-      @mdk = FactoryGirl.create :meta_datum_keywords
-      @keyword1 = FactoryGirl.create :keyword
-      @keyword2 = FactoryGirl.create :keyword
-    end
-
-    it "should be possible to associate an existing keyword" do
-      expect{@mdk.keywords << @keyword1}.to_not raise_error
-    end
-
-    context "added relations" do 
-
-      before :each do
-        @mdk.keywords << @keyword1
-        @mdk.keywords << @keyword2
-      end
-
-      it "should have persist added relations" do
-        MetaDatumKeywords.find(@mdk.id).keywords.should include @keyword1
-        MetaDatumKeywords.find(@mdk.id).keywords.should include @keyword2
-      end
-
-      describe "value interface" do
-        it "should be an alias for people" do
-          MetaDatumKeywords.find(@mdk.id).value.should include @keyword1
-          MetaDatumKeywords.find(@mdk.id).value.should include @keyword2
-        end
-
-      end
-
-    end
-
-  end
-=end
-
   describe "Editing media_entry's meta_data" do
     before :each do
       @meta_key = FactoryGirl.create :meta_key, id: "keywords", :meta_datum_object_type => "MetaDatumKeywords"

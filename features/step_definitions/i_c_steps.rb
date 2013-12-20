@@ -434,6 +434,10 @@ Then /^I click on my first media entry$/ do
   all("ul.ui-resources li[data-type='media-entry']").first.find("a").click
 end
 
+When(/^I click on the details link of the first row$/) do
+  all("tr a.details").first.click
+end
+
 Then /^I click on show me more of the featured sets$/ do
   find("#featured-set a").click
 end

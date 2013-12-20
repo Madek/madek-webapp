@@ -46,7 +46,8 @@ Then /^I open one of my media entries that is child of a set that I can see$/ do
 end
 
 Then /^I open one of my sets that has children and parents$/ do
-  @media_set = MediaSet.find_by id: "490f44d0-637a-49cc-9668-60df33081731"    
+  @media_set = @me.media_sets.where(%[ EXISTS (SELECT true FROM media_resource_arcs WHERE child_id = media_resources.id) ]) \
+    .where(%[ EXISTS (SELECT true FROM media_resource_arcs WHERE parent_id= media_resources.id) ]).first
   visit media_resource_path @media_set
 end
 

@@ -1,17 +1,10 @@
 # encoding: utf-8
 
 class ActiveRecord::Base
-
   def self.find_random 
-    if not (find_by_sql "SELECT * FROM #{table_name} LIMIT 1").first 
-      nil
-    else
-      (find_by_sql "SELECT * from #{table_name} WHERE id = (SELECT floor((max(id) - min(id) + 1) * random())::int  + min(id) from #{table_name});").first 
-    end
+    find_by_sql(%[ SELECT * FROM  #{table_name} OFFSET floor(random() * (select count(*) from users))  LIMIT 1 ]).first
   end
-
 end
-
 
 
 module FactoryHelper

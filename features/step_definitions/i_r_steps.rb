@@ -22,6 +22,17 @@ Then /^I remember the count for the filter "(.*?)"$/ do |filter|
   @count= find("li.resources_filter",text: filter).find(".resources_count").text.to_i
 end
 
+Then /^I remember a media_entry that doesn't belong to me, has no public, nor other permissions$/  do
+  @media_entry = @media_resource = @resource = MediaEntry.where.not(user_id: @me.id).first
+  @media_entry.update_attributes! view: false, download: false, manage: false, edit: false
+  @media_entry.userpermissions.destroy_all
+  @media_entry.grouppermissions.destroy_all
+end
+
+When(/^I remember the id of the first group-row$/) do
+  @id = all("tr.group").first[:id]
+end
+
 Then /^I remember the number of ZencoderJobs$/ do
   @zencoder_jobs_number = all("table.zencoder-jobs tbody tr").size rescue 0
 end

@@ -80,7 +80,7 @@ Feature: Managing Users and Logins
   Scenario: Listing detailed information about user's resources
     When I visit "/app_admin/users"
     And I click on the link "Details"
-    Then I am on a "/app_admin/users/1" page
+    Then I am on a "/app_admin/users/\w+" page
     And I see a table row with "# Media Entries"
     And I see a table row with "# Media Sets"
     And I see a table row with "# Filter Sets"

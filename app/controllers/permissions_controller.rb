@@ -134,7 +134,7 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
       # create or update userpermission 
       media_resource_ids.each do |mr_id| 
         users.each do |newup| 
-          uid= newup[:id].to_i
+          uid= newup[:id]
           up = Userpermission.where("media_resource_id= ?",mr_id).where("user_id = ?",uid).first || (Userpermission.new user_id: uid, media_resource_id: mr_id)
           up.update_attributes! newup.select{|k,v| v.to_s == "true" || v.to_s == "false"}
         end
@@ -151,7 +151,7 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
       # create or update grouppermission 
       media_resource_ids.each do |mr_id| 
         groups.each do |newup| 
-          uid= newup[:id].to_i
+          uid= newup[:id]
           up = Grouppermission.where("media_resource_id= ?",mr_id) \
             .where("group_id = ?",uid).first || (Grouppermission.new group_id: uid, media_resource_id: mr_id)
           up.update_attributes! newup.slice(:view,:download,:edit).select{|k,v| v.to_s == "true" || v.to_s == "false"}

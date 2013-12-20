@@ -18,6 +18,8 @@ Feature: Admin interface
   Scenario: Delete a person
     When I navigate to the app_admin/people interface
     When a person does not have any MetaData neither User associated to it
+    And I set the input with the name "[fuzzy_search]" to persons last name
+    And I submit
     Then I can delete that person
     When I delete the person
     Then the person is deleted

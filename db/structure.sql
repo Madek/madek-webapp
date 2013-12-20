@@ -70,16 +70,16 @@ CREATE TABLE app_settings (
     support_url character varying(255),
     welcome_title character varying(255),
     welcome_subtitle character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     logo_url character varying(255) DEFAULT '/assets/inserts/image-logo-zhdk.png'::character varying NOT NULL,
     brand character varying(255) DEFAULT 'Zürcher Hochschule der Künste'::character varying NOT NULL,
     footer_links text,
     second_displayed_meta_context_name character varying(255),
     third_displayed_meta_context_name character varying(255),
-    splashscreen_slideshow_set_id uuid,
     catalog_set_id uuid,
     featured_set_id uuid,
+    splashscreen_slideshow_set_id uuid,
     CONSTRAINT oneandonly CHECK ((id = 0))
 );
 
@@ -89,33 +89,14 @@ CREATE TABLE app_settings (
 --
 
 CREATE TABLE copyrights (
-    id integer NOT NULL,
     is_default boolean DEFAULT false,
     is_custom boolean DEFAULT false,
     label character varying(255),
-    parent_id integer,
     usage character varying(255),
-    url character varying(255)
+    url character varying(255),
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    parent_id uuid
 );
-
-
---
--- Name: copyrights_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE copyrights_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: copyrights_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE copyrights_id_seq OWNED BY copyrights.id;
 
 
 --
@@ -123,31 +104,12 @@ ALTER SEQUENCE copyrights_id_seq OWNED BY copyrights.id;
 --
 
 CREATE TABLE edit_sessions (
-    id integer NOT NULL,
-    user_id integer NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    media_resource_id uuid
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    media_resource_id uuid NOT NULL,
+    user_id uuid NOT NULL,
+    id uuid DEFAULT uuid_generate_v4() NOT NULL
 );
-
-
---
--- Name: edit_sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE edit_sessions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: edit_sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE edit_sessions_id_seq OWNED BY edit_sessions.id;
 
 
 --
@@ -155,8 +117,8 @@ ALTER SEQUENCE edit_sessions_id_seq OWNED BY edit_sessions.id;
 --
 
 CREATE TABLE favorites (
-    user_id integer NOT NULL,
-    media_resource_id uuid
+    media_resource_id uuid NOT NULL,
+    user_id uuid NOT NULL
 );
 
 
@@ -165,29 +127,9 @@ CREATE TABLE favorites (
 --
 
 CREATE TABLE full_texts (
-    id integer NOT NULL,
     text text,
-    media_resource_id uuid
+    media_resource_id uuid NOT NULL
 );
-
-
---
--- Name: full_texts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE full_texts_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: full_texts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE full_texts_id_seq OWNED BY full_texts.id;
 
 
 --
@@ -195,34 +137,15 @@ ALTER SEQUENCE full_texts_id_seq OWNED BY full_texts.id;
 --
 
 CREATE TABLE grouppermissions (
-    id integer NOT NULL,
-    group_id integer NOT NULL,
     download boolean DEFAULT false NOT NULL,
+    view boolean DEFAULT false NOT NULL,
     edit boolean DEFAULT false NOT NULL,
     manage boolean DEFAULT false NOT NULL,
-    view boolean DEFAULT false NOT NULL,
-    media_resource_id uuid,
+    media_resource_id uuid NOT NULL,
+    group_id uuid NOT NULL,
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
     CONSTRAINT manage_on_grouppermissions_is_false CHECK ((manage = false))
 );
-
-
---
--- Name: grouppermissions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE grouppermissions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: grouppermissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE grouppermissions_id_seq OWNED BY grouppermissions.id;
 
 
 --
@@ -230,31 +153,12 @@ ALTER SEQUENCE grouppermissions_id_seq OWNED BY grouppermissions.id;
 --
 
 CREATE TABLE groups (
-    id integer NOT NULL,
     name character varying(255),
     ldap_id character varying(255),
     ldap_name character varying(255),
-    type character varying(255) DEFAULT 'Group'::character varying NOT NULL
+    type character varying(255) DEFAULT 'Group'::character varying NOT NULL,
+    id uuid DEFAULT uuid_generate_v4() NOT NULL
 );
-
-
---
--- Name: groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE groups_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE groups_id_seq OWNED BY groups.id;
 
 
 --
@@ -262,8 +166,8 @@ ALTER SEQUENCE groups_id_seq OWNED BY groups.id;
 --
 
 CREATE TABLE groups_users (
-    group_id integer NOT NULL,
-    user_id integer NOT NULL
+    group_id uuid NOT NULL,
+    user_id uuid NOT NULL
 );
 
 
@@ -272,31 +176,12 @@ CREATE TABLE groups_users (
 --
 
 CREATE TABLE keywords (
-    id integer NOT NULL,
-    meta_term_id integer NOT NULL,
-    user_id integer,
-    meta_datum_id integer NOT NULL,
-    created_at timestamp without time zone
+    created_at timestamp without time zone,
+    user_id uuid,
+    meta_datum_id uuid NOT NULL,
+    meta_term_id uuid NOT NULL,
+    id uuid DEFAULT uuid_generate_v4() NOT NULL
 );
-
-
---
--- Name: keywords_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE keywords_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: keywords_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE keywords_id_seq OWNED BY keywords.id;
 
 
 --
@@ -304,7 +189,6 @@ ALTER SEQUENCE keywords_id_seq OWNED BY keywords.id;
 --
 
 CREATE TABLE media_files (
-    id integer NOT NULL,
     height integer,
     size bigint,
     width integer,
@@ -313,31 +197,13 @@ CREATE TABLE media_files (
     guid character varying(255),
     access_hash text,
     meta_data text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     extension character varying(255),
     media_type character varying(255),
-    media_entry_id uuid
+    media_entry_id uuid,
+    id uuid DEFAULT uuid_generate_v4() NOT NULL
 );
-
-
---
--- Name: media_files_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE media_files_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: media_files_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE media_files_id_seq OWNED BY media_files.id;
 
 
 --
@@ -345,31 +211,12 @@ ALTER SEQUENCE media_files_id_seq OWNED BY media_files.id;
 --
 
 CREATE TABLE media_resource_arcs (
-    id integer NOT NULL,
     highlight boolean DEFAULT false,
     cover boolean,
-    parent_id uuid,
-    child_id uuid
+    child_id uuid NOT NULL,
+    parent_id uuid NOT NULL,
+    id uuid DEFAULT uuid_generate_v4() NOT NULL
 );
-
-
---
--- Name: media_resource_arcs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE media_resource_arcs_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: media_resource_arcs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE media_resource_arcs_id_seq OWNED BY media_resource_arcs.id;
 
 
 --
@@ -382,12 +229,12 @@ CREATE TABLE media_resources (
     edit boolean DEFAULT false NOT NULL,
     manage boolean DEFAULT false NOT NULL,
     view boolean DEFAULT false NOT NULL,
-    user_id integer NOT NULL,
     settings text,
     type character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    user_id uuid NOT NULL,
     CONSTRAINT edit_on_publicpermissions_is_false CHECK ((edit = false)),
     CONSTRAINT manage_on_publicpermissions_is_false CHECK ((manage = false))
 );
@@ -399,7 +246,7 @@ CREATE TABLE media_resources (
 
 CREATE TABLE media_sets_meta_contexts (
     meta_context_name character varying(255),
-    media_set_id uuid
+    media_set_id uuid NOT NULL
 );
 
 
@@ -408,29 +255,10 @@ CREATE TABLE media_sets_meta_contexts (
 --
 
 CREATE TABLE meta_context_groups (
-    id integer NOT NULL,
     name character varying(255),
-    "position" integer NOT NULL
+    "position" integer NOT NULL,
+    id uuid DEFAULT uuid_generate_v4() NOT NULL
 );
-
-
---
--- Name: meta_context_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE meta_context_groups_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: meta_context_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE meta_context_groups_id_seq OWNED BY meta_context_groups.id;
 
 
 --
@@ -438,12 +266,12 @@ ALTER SEQUENCE meta_context_groups_id_seq OWNED BY meta_context_groups.id;
 --
 
 CREATE TABLE meta_contexts (
-    label_id integer NOT NULL,
-    description_id integer,
-    meta_context_group_id integer,
     is_user_interface boolean DEFAULT false,
     "position" integer,
-    name character varying(255) NOT NULL
+    name character varying(255) NOT NULL,
+    meta_context_group_id uuid,
+    label_id uuid NOT NULL,
+    description_id uuid
 );
 
 
@@ -452,32 +280,13 @@ CREATE TABLE meta_contexts (
 --
 
 CREATE TABLE meta_data (
-    id integer NOT NULL,
-    copyright_id integer,
     type character varying(255),
     string text,
     meta_key_id character varying(255),
-    media_resource_id uuid
+    media_resource_id uuid NOT NULL,
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    copyright_id uuid
 );
-
-
---
--- Name: meta_data_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE meta_data_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: meta_data_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE meta_data_id_seq OWNED BY meta_data.id;
 
 
 --
@@ -485,8 +294,8 @@ ALTER SEQUENCE meta_data_id_seq OWNED BY meta_data.id;
 --
 
 CREATE TABLE meta_data_meta_departments (
-    meta_datum_id integer NOT NULL,
-    meta_department_id integer NOT NULL
+    meta_department_id uuid NOT NULL,
+    meta_datum_id uuid NOT NULL
 );
 
 
@@ -495,8 +304,8 @@ CREATE TABLE meta_data_meta_departments (
 --
 
 CREATE TABLE meta_data_meta_terms (
-    meta_datum_id integer NOT NULL,
-    meta_term_id integer NOT NULL
+    meta_datum_id uuid NOT NULL,
+    meta_term_id uuid NOT NULL
 );
 
 
@@ -505,8 +314,8 @@ CREATE TABLE meta_data_meta_terms (
 --
 
 CREATE TABLE meta_data_people (
-    meta_datum_id integer NOT NULL,
-    person_id integer NOT NULL
+    person_id uuid NOT NULL,
+    meta_datum_id uuid NOT NULL
 );
 
 
@@ -515,8 +324,8 @@ CREATE TABLE meta_data_people (
 --
 
 CREATE TABLE meta_data_users (
-    meta_datum_id integer NOT NULL,
-    user_id integer NOT NULL
+    user_id uuid NOT NULL,
+    meta_datum_id uuid NOT NULL
 );
 
 
@@ -525,40 +334,21 @@ CREATE TABLE meta_data_users (
 --
 
 CREATE TABLE meta_key_definitions (
-    id integer NOT NULL,
-    description_id integer,
-    hint_id integer,
-    label_id integer,
     is_required boolean DEFAULT false,
     length_max integer,
     length_min integer,
     "position" integer NOT NULL,
     key_map character varying(255),
     key_map_type character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     meta_key_id character varying(255),
-    meta_context_name character varying(255)
+    meta_context_name character varying(255),
+    description_id uuid,
+    hint_id uuid,
+    label_id uuid,
+    id uuid DEFAULT uuid_generate_v4() NOT NULL
 );
-
-
---
--- Name: meta_key_definitions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE meta_key_definitions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: meta_key_definitions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE meta_key_definitions_id_seq OWNED BY meta_key_definitions.id;
 
 
 --
@@ -577,30 +367,11 @@ CREATE TABLE meta_keys (
 --
 
 CREATE TABLE meta_keys_meta_terms (
-    id integer NOT NULL,
-    meta_term_id integer NOT NULL,
     "position" integer DEFAULT 0 NOT NULL,
-    meta_key_id character varying(255)
+    meta_key_id character varying(255),
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    meta_term_id uuid NOT NULL
 );
-
-
---
--- Name: meta_keys_meta_terms_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE meta_keys_meta_terms_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: meta_keys_meta_terms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE meta_keys_meta_terms_id_seq OWNED BY meta_keys_meta_terms.id;
 
 
 --
@@ -608,29 +379,10 @@ ALTER SEQUENCE meta_keys_meta_terms_id_seq OWNED BY meta_keys_meta_terms.id;
 --
 
 CREATE TABLE meta_terms (
-    id integer NOT NULL,
     en_gb character varying(255),
-    de_ch character varying(255)
+    de_ch character varying(255),
+    id uuid DEFAULT uuid_generate_v4() NOT NULL
 );
-
-
---
--- Name: meta_terms_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE meta_terms_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: meta_terms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE meta_terms_id_seq OWNED BY meta_terms.id;
 
 
 --
@@ -638,35 +390,16 @@ ALTER SEQUENCE meta_terms_id_seq OWNED BY meta_terms.id;
 --
 
 CREATE TABLE people (
-    id integer NOT NULL,
     is_group boolean DEFAULT false,
     date_of_birth date,
     date_of_death date,
     first_name character varying(255),
     last_name character varying(255),
     pseudonym character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    id uuid DEFAULT uuid_generate_v4() NOT NULL
 );
-
-
---
--- Name: people_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE people_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: people_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE people_id_seq OWNED BY people.id;
 
 
 --
@@ -674,32 +407,13 @@ ALTER SEQUENCE people_id_seq OWNED BY people.id;
 --
 
 CREATE TABLE permission_presets (
-    id integer NOT NULL,
     name character varying(255),
     download boolean DEFAULT false NOT NULL,
+    view boolean DEFAULT false NOT NULL,
     edit boolean DEFAULT false NOT NULL,
     manage boolean DEFAULT false NOT NULL,
-    view boolean DEFAULT false NOT NULL
+    id uuid DEFAULT uuid_generate_v4() NOT NULL
 );
-
-
---
--- Name: permission_presets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE permission_presets_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: permission_presets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE permission_presets_id_seq OWNED BY permission_presets.id;
 
 
 --
@@ -707,35 +421,16 @@ ALTER SEQUENCE permission_presets_id_seq OWNED BY permission_presets.id;
 --
 
 CREATE TABLE previews (
-    id integer NOT NULL,
-    media_file_id integer NOT NULL,
     height integer,
     width integer,
     content_type character varying(255),
     filename character varying(255),
     thumbnail character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    media_file_id uuid NOT NULL,
+    id uuid DEFAULT uuid_generate_v4() NOT NULL
 );
-
-
---
--- Name: previews_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE previews_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: previews_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE previews_id_seq OWNED BY previews.id;
 
 
 --
@@ -752,32 +447,13 @@ CREATE TABLE schema_migrations (
 --
 
 CREATE TABLE usage_terms (
-    id integer NOT NULL,
     title character varying(255),
     version character varying(255),
     intro text,
     body text,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    id uuid DEFAULT uuid_generate_v4() NOT NULL
 );
-
-
---
--- Name: usage_terms_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE usage_terms_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: usage_terms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE usage_terms_id_seq OWNED BY usage_terms.id;
 
 
 --
@@ -785,33 +461,14 @@ ALTER SEQUENCE usage_terms_id_seq OWNED BY usage_terms.id;
 --
 
 CREATE TABLE userpermissions (
-    id integer NOT NULL,
-    user_id integer NOT NULL,
     download boolean DEFAULT false NOT NULL,
+    view boolean DEFAULT false NOT NULL,
     edit boolean DEFAULT false NOT NULL,
     manage boolean DEFAULT false NOT NULL,
-    view boolean DEFAULT false NOT NULL,
-    media_resource_id uuid
+    media_resource_id uuid NOT NULL,
+    user_id uuid NOT NULL,
+    id uuid DEFAULT uuid_generate_v4() NOT NULL
 );
-
-
---
--- Name: userpermissions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE userpermissions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: userpermissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE userpermissions_id_seq OWNED BY userpermissions.id;
 
 
 --
@@ -819,36 +476,17 @@ ALTER SEQUENCE userpermissions_id_seq OWNED BY userpermissions.id;
 --
 
 CREATE TABLE users (
-    id integer NOT NULL,
-    person_id integer NOT NULL,
     zhdkid integer,
     email character varying(100),
     login character varying(40),
     notes text,
     usage_terms_accepted_at timestamp without time zone,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    password_digest character varying(255)
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    password_digest character varying(255),
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    person_id uuid NOT NULL
 );
-
-
---
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE users_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
@@ -856,10 +494,10 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 --
 
 CREATE TABLE visualizations (
-    user_id integer NOT NULL,
     resource_identifier character varying(255) NOT NULL,
     control_settings text,
-    layout text
+    layout text,
+    user_id uuid NOT NULL
 );
 
 
@@ -869,7 +507,6 @@ CREATE TABLE visualizations (
 
 CREATE TABLE zencoder_jobs (
     id uuid NOT NULL,
-    media_file_id integer NOT NULL,
     zencoder_id integer,
     comment text,
     state character varying(255) DEFAULT 'initialized'::character varying NOT NULL,
@@ -877,142 +514,10 @@ CREATE TABLE zencoder_jobs (
     notification text,
     request text,
     response text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    media_file_id uuid NOT NULL
 );
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY copyrights ALTER COLUMN id SET DEFAULT nextval('copyrights_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY edit_sessions ALTER COLUMN id SET DEFAULT nextval('edit_sessions_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY full_texts ALTER COLUMN id SET DEFAULT nextval('full_texts_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY grouppermissions ALTER COLUMN id SET DEFAULT nextval('grouppermissions_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY groups ALTER COLUMN id SET DEFAULT nextval('groups_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY keywords ALTER COLUMN id SET DEFAULT nextval('keywords_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_files ALTER COLUMN id SET DEFAULT nextval('media_files_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_resource_arcs ALTER COLUMN id SET DEFAULT nextval('media_resource_arcs_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_context_groups ALTER COLUMN id SET DEFAULT nextval('meta_context_groups_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_data ALTER COLUMN id SET DEFAULT nextval('meta_data_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_key_definitions ALTER COLUMN id SET DEFAULT nextval('meta_key_definitions_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_keys_meta_terms ALTER COLUMN id SET DEFAULT nextval('meta_keys_meta_terms_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_terms ALTER COLUMN id SET DEFAULT nextval('meta_terms_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY people ALTER COLUMN id SET DEFAULT nextval('people_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY permission_presets ALTER COLUMN id SET DEFAULT nextval('permission_presets_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY previews ALTER COLUMN id SET DEFAULT nextval('previews_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY usage_terms ALTER COLUMN id SET DEFAULT nextval('usage_terms_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY userpermissions ALTER COLUMN id SET DEFAULT nextval('userpermissions_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
 --
@@ -1044,7 +549,7 @@ ALTER TABLE ONLY edit_sessions
 --
 
 ALTER TABLE ONLY full_texts
-    ADD CONSTRAINT full_texts_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT full_texts_pkey PRIMARY KEY (media_resource_id);
 
 
 --
@@ -1200,14 +705,6 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: visualizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY visualizations
-    ADD CONSTRAINT visualizations_pkey PRIMARY KEY (user_id, resource_identifier);
-
-
---
 -- Name: zencoder_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1227,6 +724,27 @@ CREATE UNIQUE INDEX idx_bools_unique ON permission_presets USING btree (view, ed
 --
 
 CREATE UNIQUE INDEX idx_name_unique ON permission_presets USING btree (name);
+
+
+--
+-- Name: index_app_settings_on_catalog_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_app_settings_on_catalog_set_id ON app_settings USING btree (catalog_set_id);
+
+
+--
+-- Name: index_app_settings_on_featured_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_app_settings_on_featured_set_id ON app_settings USING btree (featured_set_id);
+
+
+--
+-- Name: index_app_settings_on_splashscreen_slideshow_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_app_settings_on_splashscreen_slideshow_set_id ON app_settings USING btree (splashscreen_slideshow_set_id);
 
 
 --
@@ -1251,13 +769,6 @@ CREATE UNIQUE INDEX index_copyrights_on_label ON copyrights USING btree (label);
 
 
 --
--- Name: index_copyrights_on_parent_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_copyrights_on_parent_id ON copyrights USING btree (parent_id);
-
-
---
 -- Name: index_edit_sessions_on_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1276,6 +787,13 @@ CREATE INDEX index_edit_sessions_on_user_id ON edit_sessions USING btree (user_i
 --
 
 CREATE INDEX index_favorites_on_media_resource_id ON favorites USING btree (media_resource_id);
+
+
+--
+-- Name: index_favorites_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_favorites_on_user_id ON favorites USING btree (user_id);
 
 
 --
@@ -1321,17 +839,17 @@ CREATE INDEX index_groups_on_type ON groups USING btree (type);
 
 
 --
--- Name: index_groups_users_on_group_id_and_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_groups_users_on_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_groups_users_on_group_id_and_user_id ON groups_users USING btree (group_id, user_id);
+CREATE INDEX index_groups_users_on_group_id ON groups_users USING btree (group_id);
 
 
 --
--- Name: index_groups_users_on_user_id_and_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_groups_users_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_groups_users_on_user_id_and_group_id ON groups_users USING btree (user_id, group_id);
+CREATE INDEX index_groups_users_on_user_id ON groups_users USING btree (user_id);
 
 
 --
@@ -1349,10 +867,10 @@ CREATE INDEX index_keywords_on_meta_datum_id ON keywords USING btree (meta_datum
 
 
 --
--- Name: index_keywords_on_meta_term_id_and_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_keywords_on_meta_term_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_keywords_on_meta_term_id_and_user_id ON keywords USING btree (meta_term_id, user_id);
+CREATE INDEX index_keywords_on_meta_term_id ON keywords USING btree (meta_term_id);
 
 
 --
@@ -1402,13 +920,6 @@ CREATE INDEX index_media_resource_arcs_on_cover ON media_resource_arcs USING btr
 --
 
 CREATE INDEX index_media_resource_arcs_on_parent_id ON media_resource_arcs USING btree (parent_id);
-
-
---
--- Name: index_media_resource_arcs_on_parent_id_and_child_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_media_resource_arcs_on_parent_id_and_child_id ON media_resource_arcs USING btree (parent_id, child_id);
 
 
 --
@@ -1468,6 +979,27 @@ CREATE INDEX index_meta_context_groups_on_position ON meta_context_groups USING 
 
 
 --
+-- Name: index_meta_contexts_on_description_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_contexts_on_description_id ON meta_contexts USING btree (description_id);
+
+
+--
+-- Name: index_meta_contexts_on_label_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_contexts_on_label_id ON meta_contexts USING btree (label_id);
+
+
+--
+-- Name: index_meta_contexts_on_meta_context_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_contexts_on_meta_context_group_id ON meta_contexts USING btree (meta_context_group_id);
+
+
+--
 -- Name: index_meta_contexts_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1482,17 +1014,38 @@ CREATE INDEX index_meta_contexts_on_position ON meta_contexts USING btree ("posi
 
 
 --
--- Name: index_meta_data_meta_departments; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_meta_data_meta_dep_on_meta_datum_id_and_meta_dep_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_meta_data_meta_departments ON meta_data_meta_departments USING btree (meta_datum_id, meta_department_id);
+CREATE UNIQUE INDEX index_meta_data_meta_dep_on_meta_datum_id_and_meta_dep_id ON meta_data_meta_departments USING btree (meta_datum_id, meta_department_id);
 
 
 --
--- Name: index_meta_data_meta_terms_on_meta_datum_id_and_meta_term_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_meta_data_meta_departments_on_meta_datum_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_meta_data_meta_terms_on_meta_datum_id_and_meta_term_id ON meta_data_meta_terms USING btree (meta_datum_id, meta_term_id);
+CREATE INDEX index_meta_data_meta_departments_on_meta_datum_id ON meta_data_meta_departments USING btree (meta_datum_id);
+
+
+--
+-- Name: index_meta_data_meta_departments_on_meta_department_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_data_meta_departments_on_meta_department_id ON meta_data_meta_departments USING btree (meta_department_id);
+
+
+--
+-- Name: index_meta_data_meta_terms_on_meta_datum_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_data_meta_terms_on_meta_datum_id ON meta_data_meta_terms USING btree (meta_datum_id);
+
+
+--
+-- Name: index_meta_data_meta_terms_on_meta_term_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_data_meta_terms_on_meta_term_id ON meta_data_meta_terms USING btree (meta_term_id);
 
 
 --
@@ -1517,6 +1070,13 @@ CREATE INDEX index_meta_data_on_meta_key_id ON meta_data USING btree (meta_key_i
 
 
 --
+-- Name: index_meta_data_people_on_meta_datum_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_data_people_on_meta_datum_id ON meta_data_people USING btree (meta_datum_id);
+
+
+--
 -- Name: index_meta_data_people_on_meta_datum_id_and_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1524,10 +1084,52 @@ CREATE UNIQUE INDEX index_meta_data_people_on_meta_datum_id_and_person_id ON met
 
 
 --
+-- Name: index_meta_data_people_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_data_people_on_person_id ON meta_data_people USING btree (person_id);
+
+
+--
+-- Name: index_meta_data_users_on_meta_datum_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_data_users_on_meta_datum_id ON meta_data_users USING btree (meta_datum_id);
+
+
+--
 -- Name: index_meta_data_users_on_meta_datum_id_and_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_meta_data_users_on_meta_datum_id_and_user_id ON meta_data_users USING btree (meta_datum_id, user_id);
+
+
+--
+-- Name: index_meta_data_users_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_data_users_on_user_id ON meta_data_users USING btree (user_id);
+
+
+--
+-- Name: index_meta_key_definitions_on_description_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_key_definitions_on_description_id ON meta_key_definitions USING btree (description_id);
+
+
+--
+-- Name: index_meta_key_definitions_on_hint_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_key_definitions_on_hint_id ON meta_key_definitions USING btree (hint_id);
+
+
+--
+-- Name: index_meta_key_definitions_on_label_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_key_definitions_on_label_id ON meta_key_definitions USING btree (label_id);
 
 
 --
@@ -1552,6 +1154,13 @@ CREATE INDEX index_meta_keys_meta_terms_on_meta_key_id ON meta_keys_meta_terms U
 
 
 --
+-- Name: index_meta_keys_meta_terms_on_meta_term_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_keys_meta_terms_on_meta_term_id ON meta_keys_meta_terms USING btree (meta_term_id);
+
+
+--
 -- Name: index_meta_keys_meta_terms_on_position; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1559,10 +1168,10 @@ CREATE INDEX index_meta_keys_meta_terms_on_position ON meta_keys_meta_terms USIN
 
 
 --
--- Name: index_meta_keys_on_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_meta_keys_on_label; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_meta_keys_on_id ON meta_keys USING btree (id);
+CREATE UNIQUE INDEX index_meta_keys_on_label ON meta_keys USING btree (id);
 
 
 --
@@ -1580,10 +1189,10 @@ CREATE INDEX index_meta_terms_on_en_gb ON meta_terms USING btree (en_gb);
 
 
 --
--- Name: index_people_on_first_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_people_on_firstname; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_people_on_first_name ON people USING btree (first_name);
+CREATE INDEX index_people_on_firstname ON people USING btree (first_name);
 
 
 --
@@ -1594,10 +1203,10 @@ CREATE INDEX index_people_on_is_group ON people USING btree (is_group);
 
 
 --
--- Name: index_people_on_last_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_people_on_lastname; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_people_on_last_name ON people USING btree (last_name);
+CREATE INDEX index_people_on_lastname ON people USING btree (last_name);
 
 
 --
@@ -1632,7 +1241,7 @@ CREATE UNIQUE INDEX index_users_on_login ON users USING btree (login);
 -- Name: index_users_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_users_on_person_id ON users USING btree (person_id);
+CREATE INDEX index_users_on_person_id ON users USING btree (person_id);
 
 
 --
@@ -1640,6 +1249,20 @@ CREATE UNIQUE INDEX index_users_on_person_id ON users USING btree (person_id);
 --
 
 CREATE UNIQUE INDEX index_users_on_zhdkid ON users USING btree (zhdkid);
+
+
+--
+-- Name: index_visualizations_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_visualizations_on_user_id ON visualizations USING btree (user_id);
+
+
+--
+-- Name: index_visualizations_on_user_id_and_resource_identifier; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_visualizations_on_user_id_and_resource_identifier ON visualizations USING btree (user_id, resource_identifier);
 
 
 --
@@ -1668,7 +1291,7 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 --
 
 ALTER TABLE ONLY app_settings
-    ADD CONSTRAINT app_settings_catalog_set_id_fk FOREIGN KEY (catalog_set_id) REFERENCES media_resources(id);
+    ADD CONSTRAINT app_settings_catalog_set_id_fk FOREIGN KEY (catalog_set_id) REFERENCES media_resources(id) ON DELETE SET NULL;
 
 
 --
@@ -1676,7 +1299,7 @@ ALTER TABLE ONLY app_settings
 --
 
 ALTER TABLE ONLY app_settings
-    ADD CONSTRAINT app_settings_featured_set_id_fk FOREIGN KEY (featured_set_id) REFERENCES media_resources(id);
+    ADD CONSTRAINT app_settings_featured_set_id_fk FOREIGN KEY (featured_set_id) REFERENCES media_resources(id) ON DELETE SET NULL;
 
 
 --
@@ -1692,7 +1315,7 @@ ALTER TABLE ONLY app_settings
 --
 
 ALTER TABLE ONLY app_settings
-    ADD CONSTRAINT app_settings_splashscreen_slideshow_set_id_fk FOREIGN KEY (splashscreen_slideshow_set_id) REFERENCES media_resources(id);
+    ADD CONSTRAINT app_settings_splashscreen_slideshow_set_id_fk FOREIGN KEY (splashscreen_slideshow_set_id) REFERENCES media_resources(id) ON DELETE SET NULL;
 
 
 --
@@ -1701,6 +1324,14 @@ ALTER TABLE ONLY app_settings
 
 ALTER TABLE ONLY app_settings
     ADD CONSTRAINT app_settings_third_displayed_meta_context_name_fk FOREIGN KEY (third_displayed_meta_context_name) REFERENCES meta_contexts(name);
+
+
+--
+-- Name: copyrights_parent_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY copyrights
+    ADD CONSTRAINT copyrights_parent_id_fk FOREIGN KEY (parent_id) REFERENCES copyrights(id);
 
 
 --
@@ -1788,7 +1419,7 @@ ALTER TABLE ONLY keywords
 --
 
 ALTER TABLE ONLY keywords
-    ADD CONSTRAINT keywords_meta_term_id_fk FOREIGN KEY (meta_term_id) REFERENCES meta_terms(id);
+    ADD CONSTRAINT keywords_meta_term_id_fk FOREIGN KEY (meta_term_id) REFERENCES meta_terms(id) ON DELETE CASCADE;
 
 
 --
@@ -1852,7 +1483,7 @@ ALTER TABLE ONLY media_sets_meta_contexts
 --
 
 ALTER TABLE ONLY meta_contexts
-    ADD CONSTRAINT meta_contexts_description_id_fk FOREIGN KEY (description_id) REFERENCES meta_terms(id);
+    ADD CONSTRAINT meta_contexts_description_id_fk FOREIGN KEY (description_id) REFERENCES meta_terms(id) ON DELETE SET NULL;
 
 
 --
@@ -1868,7 +1499,15 @@ ALTER TABLE ONLY meta_contexts
 --
 
 ALTER TABLE ONLY meta_contexts
-    ADD CONSTRAINT meta_contexts_meta_context_group_id_fk FOREIGN KEY (meta_context_group_id) REFERENCES meta_context_groups(id);
+    ADD CONSTRAINT meta_contexts_meta_context_group_id_fk FOREIGN KEY (meta_context_group_id) REFERENCES meta_context_groups(id) ON DELETE SET NULL;
+
+
+--
+-- Name: meta_data_copyright_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meta_data
+    ADD CONSTRAINT meta_data_copyright_id_fk FOREIGN KEY (copyright_id) REFERENCES copyrights(id);
 
 
 --
@@ -1956,7 +1595,7 @@ ALTER TABLE ONLY meta_data_users
 --
 
 ALTER TABLE ONLY meta_key_definitions
-    ADD CONSTRAINT meta_key_definitions_description_id_fk FOREIGN KEY (description_id) REFERENCES meta_terms(id);
+    ADD CONSTRAINT meta_key_definitions_description_id_fk FOREIGN KEY (description_id) REFERENCES meta_terms(id) ON DELETE SET NULL;
 
 
 --
@@ -1964,7 +1603,7 @@ ALTER TABLE ONLY meta_key_definitions
 --
 
 ALTER TABLE ONLY meta_key_definitions
-    ADD CONSTRAINT meta_key_definitions_hint_id_fk FOREIGN KEY (hint_id) REFERENCES meta_terms(id);
+    ADD CONSTRAINT meta_key_definitions_hint_id_fk FOREIGN KEY (hint_id) REFERENCES meta_terms(id) ON DELETE SET NULL;
 
 
 --
@@ -1972,7 +1611,7 @@ ALTER TABLE ONLY meta_key_definitions
 --
 
 ALTER TABLE ONLY meta_key_definitions
-    ADD CONSTRAINT meta_key_definitions_label_id_fk FOREIGN KEY (label_id) REFERENCES meta_terms(id);
+    ADD CONSTRAINT meta_key_definitions_label_id_fk FOREIGN KEY (label_id) REFERENCES meta_terms(id) ON DELETE SET NULL;
 
 
 --
@@ -2004,15 +1643,7 @@ ALTER TABLE ONLY meta_keys_meta_terms
 --
 
 ALTER TABLE ONLY meta_keys_meta_terms
-    ADD CONSTRAINT meta_keys_meta_terms_meta_term_id_fk FOREIGN KEY (meta_term_id) REFERENCES meta_terms(id) ON DELETE CASCADE;
-
-
---
--- Name: parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY copyrights
-    ADD CONSTRAINT parent_id_fkey FOREIGN KEY (parent_id) REFERENCES copyrights(id);
+    ADD CONSTRAINT meta_keys_meta_terms_meta_term_id_fk FOREIGN KEY (meta_term_id) REFERENCES meta_terms(id);
 
 
 --
@@ -2020,7 +1651,7 @@ ALTER TABLE ONLY copyrights
 --
 
 ALTER TABLE ONLY previews
-    ADD CONSTRAINT previews_media_file_id_fk FOREIGN KEY (media_file_id) REFERENCES media_files(id) ON DELETE CASCADE;
+    ADD CONSTRAINT previews_media_file_id_fk FOREIGN KEY (media_file_id) REFERENCES media_files(id);
 
 
 --
@@ -2048,11 +1679,19 @@ ALTER TABLE ONLY users
 
 
 --
+-- Name: visualizations_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY visualizations
+    ADD CONSTRAINT visualizations_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: zencoder_jobs_media_file_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY zencoder_jobs
-    ADD CONSTRAINT zencoder_jobs_media_file_id_fk FOREIGN KEY (media_file_id) REFERENCES media_files(id);
+    ADD CONSTRAINT zencoder_jobs_media_file_id_fk FOREIGN KEY (media_file_id) REFERENCES media_files(id) ON DELETE CASCADE;
 
 
 --
@@ -2148,6 +1787,14 @@ INSERT INTO schema_migrations (version) VALUES ('20131009083332');
 INSERT INTO schema_migrations (version) VALUES ('20131105100927');
 
 INSERT INTO schema_migrations (version) VALUES ('20131213124951');
+
+INSERT INTO schema_migrations (version) VALUES ('20131219093649');
+
+INSERT INTO schema_migrations (version) VALUES ('20131220080516');
+
+INSERT INTO schema_migrations (version) VALUES ('20131220084119');
+
+INSERT INTO schema_migrations (version) VALUES ('20131220092952');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

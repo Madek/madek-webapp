@@ -19,8 +19,8 @@ class MetaDatumPeople < MetaDatum
     people << Person.split(Array(new_value)).map do |v|
         if v.is_a?(Person)
           v
-        elsif v.is_a?(Fixnum) or (v.respond_to?(:is_integer?) and v.is_integer?)
-          Person.find_by_id(v)
+        elsif UUID_V4_REGEXP.match v 
+          Person.find_by id: v
         else
           first_name, last_name = Person.parse(v)
           Person.find_or_initialize_by(:first_name => first_name, :last_name => last_name) if first_name or last_name
