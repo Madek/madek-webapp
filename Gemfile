@@ -59,7 +59,8 @@ gem 'net-ldap', :require => 'net/ldap', :git => 'git://github.com/justcfx2u/ruby
 gem 'newrelic_rpm', group: [:production, :development]
 gem 'nokogiri'
 gem 'poltergeist', group: [:test, :development, :personas]
-gem 'pry', group: [:test, :development, :personas]
+gem 'pry', group: [:test, :development]
+gem 'pry-nav', group: [:test, :development]
 gem 'quiet_assets', group: [:development]
 gem 'rails_autolink', '~> 1.0'
 gem 'rest-client', group: [:test, :development, :personas]
