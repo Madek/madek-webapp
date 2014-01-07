@@ -29,6 +29,9 @@ class MediaResource < ActiveRecord::Base
   after_save { reindex } # OPTIMIZE
 
 ########################################################
+  
+
+  default_scope { reorder(:created_at) }
 
   def reindex
     ft = full_text || build_full_text
@@ -56,13 +59,13 @@ class MediaResource < ActiveRecord::Base
       joins(meta_data: :meta_key).where("meta_keys.id = ?", x)
       .joins('INNER JOIN meta_data_people ON meta_data.id = meta_data_people.meta_datum_id')
       .joins('INNER JOIN people ON meta_data_people.person_id = people.id')
-      .order('people.last_name, people.first_name ASC')
+      .reorder('people.last_name, people.first_name ASC')
     when :title
-      joins(meta_data: :meta_key).where("meta_keys.id = ?", x).order("meta_data.string ASC")
+      joins(meta_data: :meta_key).where("meta_keys.id = ?", x).reorder("meta_data.string ASC")
     when :updated_at, :created_at
-      order(arel_table[x.to_sym].desc)
+      reorder(arel_table[x.to_sym].desc)
     else
-      order("media_resources.updated_at DESC")
+      reorder("media_resources.updated_at DESC")
     end
   }
 
