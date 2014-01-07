@@ -15,7 +15,7 @@ class UuidAsPkeyForUsersEtc < ActiveRecord::Migration
     migrate_foreign_key 'grouppermissions', 'groups'
     migrate_foreign_key 'groups_users', 'groups'
     migrate_foreign_key 'meta_data_meta_departments', 'groups', false, 'meta_department_id'
-    migrate_table 'groups'
+    migrate_table 'groups', keep_as_previous_id: true
     add_foreign_key 'grouppermissions', 'groups', dependent: :delete
     add_foreign_key 'groups_users', 'groups', dependent: :delete
     add_foreign_key 'meta_data_meta_departments', 'groups', column: 'meta_department_id', dependent: :delete
@@ -39,7 +39,7 @@ class UuidAsPkeyForUsersEtc < ActiveRecord::Migration
     migrate_foreign_key 'userpermissions', 'users'
     migrate_foreign_key 'visualizations', 'users'
 
-    migrate_table 'users'
+    migrate_table 'users', keep_as_previous_id: true
 
     add_foreign_key 'edit_sessions', 'users', dependent: :delete
     add_foreign_key 'favorites', 'users', dependent: :delete

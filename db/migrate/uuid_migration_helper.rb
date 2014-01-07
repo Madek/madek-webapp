@@ -3,7 +3,12 @@ module UuidMigrationHelper
     add_column table_name, :uuid, :uuid, null: false, default: 'uuid_generate_v4()'
   end
 
-  def migrate_table table_name 
+  def migrate_table table_name , opts = {} 
+    if opts[:keep_as_previous_id] == true 
+      add_column table_name, :previous_id, :integer 
+      execute %[ UPDATE #{table_name} SET previous_id = id ]
+      add_index table_name, :previous_id
+    end
     remove_column table_name, :id
     rename_column table_name, :uuid, :id
     execute %[ALTER TABLE #{table_name} ADD PRIMARY KEY (id)]

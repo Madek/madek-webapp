@@ -157,7 +157,8 @@ CREATE TABLE groups (
     ldap_id character varying(255),
     ldap_name character varying(255),
     type character varying(255) DEFAULT 'Group'::character varying NOT NULL,
-    id uuid DEFAULT uuid_generate_v4() NOT NULL
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    previous_id integer
 );
 
 
@@ -381,7 +382,8 @@ CREATE TABLE meta_keys_meta_terms (
 CREATE TABLE meta_terms (
     en_gb character varying(255),
     de_ch character varying(255),
-    id uuid DEFAULT uuid_generate_v4() NOT NULL
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    previous_id integer
 );
 
 
@@ -485,6 +487,7 @@ CREATE TABLE users (
     updated_at timestamp without time zone NOT NULL,
     password_digest character varying(255),
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    previous_id integer,
     person_id uuid NOT NULL
 );
 
@@ -829,6 +832,13 @@ CREATE INDEX index_groups_on_ldap_id ON groups USING btree (ldap_id);
 --
 
 CREATE INDEX index_groups_on_ldap_name ON groups USING btree (ldap_name);
+
+
+--
+-- Name: index_groups_on_previous_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_groups_on_previous_id ON groups USING btree (previous_id);
 
 
 --
@@ -1189,6 +1199,13 @@ CREATE INDEX index_meta_terms_on_en_gb ON meta_terms USING btree (en_gb);
 
 
 --
+-- Name: index_meta_terms_on_previous_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_terms_on_previous_id ON meta_terms USING btree (previous_id);
+
+
+--
 -- Name: index_people_on_firstname; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1242,6 +1259,13 @@ CREATE UNIQUE INDEX index_users_on_login ON users USING btree (login);
 --
 
 CREATE INDEX index_users_on_person_id ON users USING btree (person_id);
+
+
+--
+-- Name: index_users_on_previous_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_previous_id ON users USING btree (previous_id);
 
 
 --
@@ -1795,6 +1819,8 @@ INSERT INTO schema_migrations (version) VALUES ('20131220080516');
 INSERT INTO schema_migrations (version) VALUES ('20131220084119');
 
 INSERT INTO schema_migrations (version) VALUES ('20131220092952');
+
+INSERT INTO schema_migrations (version) VALUES ('20140106090500');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

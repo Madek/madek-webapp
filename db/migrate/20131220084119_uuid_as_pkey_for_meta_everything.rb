@@ -65,7 +65,8 @@ class UuidAsPkeyForMetaEverything < ActiveRecord::Migration
     migrate_foreign_key 'meta_key_definitions', 'meta_terms', true, 'label_id'
     migrate_foreign_key 'meta_keys_meta_terms', 'meta_terms'
 
-    migrate_table 'meta_terms'
+    migrate_table 'meta_terms', keep_as_previous_id: true
+
 
     add_foreign_key 'keywords', 'meta_terms', dependent: :delete
     add_foreign_key 'meta_contexts', 'meta_terms', column: 'description_id', options: 'ON DELETE SET NULL'
