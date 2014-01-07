@@ -120,6 +120,9 @@ class ApplicationController < ActionController::Base
 
     if session[:user_id]
       self.current_user = user = User.find_by_id(session[:user_id])
+
+      return nil unless user
+
       self.current_user.act_as_uberadmin = session[:act_as_uberadmin]
 
       # request format can be nil!
