@@ -68,12 +68,11 @@ describe MediaResourcesController, type: :controller do
     end
 
     describe "a plain response" do
-      it "should respond only with a collection of id's and type's if there is not more requested" do
+      it "should respond with a collection containing id's and type's " do
         get :index, {format: 'json', ids: ids}, session
         response.should be_success
         json = JSON.parse(response.body)
         json["media_resources"].each do |mr|
-          mr.keys.size.should == 2
           mr.keys.include?("id").should be_true
           mr.keys.include?("type").should be_true
         end     

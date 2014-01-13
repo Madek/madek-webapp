@@ -91,22 +91,22 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/controllers/zencoder_jobs_spec.rb"
-- name: controllers_02 media_resources api_security
+- name: controllers media_resources api_security
   scripts:
     rspec:
-      body: bundle exec rspec "spec/controllers_02/media_resources/api_security_spec.rb"
-- name: controllers_02 media_resources delete
+      body: bundle exec rspec "spec/controllers/media_resources/api_security_spec.rb"
+- name: controllers media_resources delete
   scripts:
     rspec:
-      body: bundle exec rspec "spec/controllers_02/media_resources/delete_spec.rb"
-- name: controllers_02 media_resources index
+      body: bundle exec rspec "spec/controllers/media_resources/delete_spec.rb"
+- name: controllers media_resources index
   scripts:
     rspec:
-      body: bundle exec rspec "spec/controllers_02/media_resources/index_spec.rb"
-- name: controllers_02 media_resources sorting
+      body: bundle exec rspec "spec/controllers/media_resources/index_spec.rb"
+- name: controllers media_resources sorting
   scripts:
     rspec:
-      body: bundle exec rspec "spec/controllers_02/media_resources/sorting_spec.rb"
+      body: bundle exec rspec "spec/controllers/media_resources/sorting_spec.rb"
 - name: misc exiftool
   scripts:
     rspec:
