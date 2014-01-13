@@ -8,7 +8,7 @@
   .ui-modal-toolbar.top
     .ui-search
       %form
-        %input.ui-search-input.block{name: "search_or_create_set", placeholder: "${_jed('Search / Create new set')}", 
+        %input#search_or_create_new_set.ui-search-input.block{name: "search_or_create_set", placeholder: "${_jed('Search / Create new set')}", 
           type: "text", :autofocus => :autofocus}
         %button.button.ui-search-button ${_jed('Create new set')}
 

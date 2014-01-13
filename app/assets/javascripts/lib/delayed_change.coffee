@@ -15,22 +15,36 @@ class DelayedChange
   constructor:(element, options)->
     @delay = if options? and options.delay? then options.delay else 500 
     @target = $(element)
-    @last_value = @target.val()
+    @last_values = []
+    @timeouts = []
     do @delegate_events 
     this
     
   delegate_events: ->
     @target.on "keydown mousedown change", (e)=> 
-      target = $(e.target)
-      @last_value = target.val()
-    @target.on "keyup", @validate
-    
-  validate: (e)=>
-    @target.attr("data-delay-timeout-pending",true)
-    target = $(e.target)
-    clearTimeout @timeout if @timeout?
-    @timeout = setTimeout =>
-      @target.removeAttr("data-delay-timeout-pending")
-      target.trigger("delayedChange") if target.val() != @last_value
-      @last_value = target.val()  
-    , @delay
+      target= $(e.target)
+      target_id= target.attr('id')
+      target_value= target.val()
+      #console.log ["setting delayed_change event", target_id,target_value]
+      if target_id 
+        #console.log ["setting last_values", target_id, target_value]
+        @last_values[target_id]= target_value
+
+
+    @target.on "keyup", (e)=> 
+      target= $(e.target)
+      target_id= target.attr('id')
+      target_value= target.val()
+      #console.log ["evaluating delayed_change event", target_id,target_value]
+      if target_id and @last_values[target_id] != target.val()
+        #console.log ["new value",target_id,target_value]
+        @last_values[target_id] = target_value
+        clearTimeout @timeouts[target_id] if @timeouts[target_id]
+        target.attr("data-delay-timeout-pending",true)
+        # console.log ["setting delay attr", target_id]
+        @timeouts[target_id] = setTimeout => 
+          target.trigger("delayedChange") 
+          #console.log ["trigger delayedChange and removing delay attr", target_id]
+          target.removeAttr("data-delay-timeout-pending") 
+        , @delay
+
