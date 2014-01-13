@@ -20,6 +20,7 @@ set :ldap_config, "/home/rails/madek/LDAP.yml"
 set :zencoder_config, "/home/rails/madek/zencoder.yml"
 set :newrelic_config, "/home/rails/madek/newrelic.yml"
 set :piwik_config, "/home/rails/madek/piwik.html"
+set :secret_token_file, "/home/rails/madek/secret_token.rb"
 set :checkout, :export
 
 set :use_sudo, false
@@ -56,6 +57,8 @@ task :link_config do
   run "rm -f #{release_path}/config/newrelic.yml"
   run "ln -s #{newrelic_config} #{release_path}/config/newrelic.yml"
   run "ln -s #{piwik_config} #{release_path}/config/piwik.html"
+
+  run "ln -sf #{secret_token_file} #{release_path}/config/initializers/secret_token.rb"
 end
 
 task :remove_htaccess do

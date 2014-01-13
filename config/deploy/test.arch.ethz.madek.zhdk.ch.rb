@@ -18,6 +18,7 @@ set :db_config, "/home/#{app}/database.yml"
 set :zencoder_config, "/home/#{app}/zencoder.yml"
 set :authentication_systems_config, "/home/#{app}/authentication_systems.yml"
 set :custom_config_css, "/home/#{app}/_custom_config.css.sass"
+set :secret_token_file, "/home/#{app}/secret_token.rb"
 
 set :checkout, :export
 
@@ -49,6 +50,8 @@ task :link_config do
 
   run "rm -f #{release_path}/app/assets/stylesheets/_custom_config.css.sass"
   run "ln -s #{custom_config_css} #{release_path}/app/assets/stylesheets/_custom_config.css.sass"
+
+  run "ln -sf #{secret_token_file} #{release_path}/config/initializers/secret_token.rb"
 end
 
 namespace :deploy do

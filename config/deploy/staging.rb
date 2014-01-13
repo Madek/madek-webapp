@@ -18,6 +18,7 @@ set :ldap_config, "/home/rails/madek-test/LDAP.yml"
 set :zencoder_config, "/home/rails/madek-test/zencoder.yml"
 set :newrelic_config, "/home/rails/madek-test/newrelic.yml"
 set :custom_config_css, "/home/rails/madek-test/_custom_config.css.sass"
+set :secret_token_file, "/home/rails/madek-test/secret_token.rb"
 set :checkout, :export
 
 set :use_sudo, false 
@@ -55,6 +56,8 @@ task :link_config do
 
   run "rm -f #{release_path}/app/assets/stylesheets/_custom_config.css.sass"
   run "ln -s #{custom_config_css} #{release_path}/app/assets/stylesheets/_custom_config.css.sass"
+
+  run "ln -sf #{secret_token_file} #{release_path}/config/initializers/secret_token.rb"
 end
 
 namespace :deploy do
