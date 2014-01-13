@@ -117,10 +117,13 @@ Then /^all other media entries have the same meta data values in those fields th
   @current_user.media_resources.where(:type => "MediaEntryIncomplete").each do |media_entry|
     find(".ui-resource[data-id='#{media_entry.id}']").click
     @meta_data_before_apply[media_entry.id].each do |meta_datum|
+      resource_value = MediaResource.find(meta_datum[:media_resource_id]).meta_data.get(meta_datum[:meta_key_id]).to_s
+      refererence_value = reference_media_entry.meta_data.get(meta_datum[:meta_key_id]).to_s
+      Rails.logger.info ["meta_datum:",meta_datum, "resource_value:", resource_value, "refererence_value", refererence_value]
       if meta_datum[:value].blank?
-        expect(MediaResource.find(meta_datum[:media_resource_id]).meta_data.get(meta_datum[:meta_key_id]).to_s == reference_media_entry.meta_data.get(meta_datum[:meta_key_id]).to_s).to be_true
+        expect(resource_value).to eq refererence_value 
       elsif media_entry.id != reference_media_entry.id
-        expect(MediaResource.find(meta_datum[:media_resource_id]).meta_data.get(meta_datum[:meta_key_id]).to_s == reference_media_entry.meta_data.get(meta_datum[:meta_key_id]).to_s).to be_false
+        expect(resource_value).not_to eq refererence_value 
       end
     end
   end

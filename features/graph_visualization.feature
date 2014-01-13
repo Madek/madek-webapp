@@ -4,8 +4,6 @@ Feature: Visualization / Graph
   I want a tool that is visualizing the realtionships between resources
   So that I understand structures better
 
-  Background: 
-
   @firefox 
   Scenario: Calculate graph on the media set view
     Given I am signed-in as "Normin"
@@ -20,7 +18,7 @@ Feature: Visualization / Graph
      And I use the "Zusammenhänge anzeigen" context action
     Then I can see my relations for that resource
 
-  @jsbrowser 
+  @firefox
   Scenario: Browser Switcher
     Given I am signed-in as "Normin"
       And There are no persisted visualizations
