@@ -88,13 +88,14 @@ MAdeK::Application.routes.draw do
   ##############################################################################################
   ##############################################################################################
 
-  #get '/login', :to => "authenticator/zhdk#login"
-  #post '/logout', :to => "authenticator/zhdk#logout"
+  get '/login', :to => "authenticator/zhdk#login"
+  get '/authenticator/zhdk/login_successful/:id', :to => "authenticator/zhdk#login_successful"
+
   get '/login_and_return_here', :to => "application#login_and_return_here" 
+  #post '/logout', :to => "authenticator/zhdk#logout"
   #get '/db/login', :to => "authenticator/database_authentication#login"
   #post '/db/do_login', :to => "authenticator/database_authentication#do_login"
   #post '/db/logout', :to => "authenticator/database_authentication#logout"
-  #get '/authenticator/zhdk/login_successful/:id', :to => "authenticator/zhdk#login_successful"
 
 
   ###############################################

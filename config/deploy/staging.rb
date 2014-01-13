@@ -13,26 +13,27 @@ set :repository, "git://github.com/zhdk/madek.git"
 set :branch, "staging"
 set :deploy_via, :remote_cache
 
-set :db_config, "/home/rails/madek-test/database.yml"
-set :ldap_config, "/home/rails/madek-test/LDAP.yml"
-set :zencoder_config, "/home/rails/madek-test/zencoder.yml"
-set :newrelic_config, "/home/rails/madek-test/newrelic.yml"
-set :custom_config_css, "/home/rails/madek-test/_custom_config.css.sass"
-set :secret_token_file, "/home/rails/madek-test/secret_token.rb"
+set :db_config, "/home/rails/madek-staging/database.yml"
+set :ldap_config, "/home/rails/madek-staging/LDAP.yml"
+set :zencoder_config, "/home/rails/madek-staging/zencoder.yml"
+set :newrelic_config, "/home/rails/madek-staging/newrelic.yml"
+set :custom_config_css, "/home/rails/madek-staging/_custom_config.css.sass"
+set :secret_token_file, "/home/rails/madek-staging/secret_token.rb"
+
 set :checkout, :export
 
 set :use_sudo, false 
 set :rails_env, "production"
 
-set :deploy_to, "/home/rails/madek-test"
+set :deploy_to, "/home/rails/madek-staging"
 
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
 # set :scm, :subversion
 
-role :app, "madek-test@madek-server.zhdk.ch"
-role :web, "madek-test@madek-server.zhdk.ch"
-role :db,  "madek-test@madek-server.zhdk.ch", :primary => true
+role :app, "madek-staging@madek-server.zhdk.ch"
+role :web, "madek-staging@madek-server.zhdk.ch"
+role :db,  "madek-staging@madek-server.zhdk.ch", :primary => true
 
 load 'config/deploy/recipes/link_attachments'
 load 'config/deploy/recipes/retrieve_db_config'

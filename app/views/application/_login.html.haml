@@ -40,7 +40,7 @@
               .form-body
                 .ui-form-group.rowed
                   %p.mbm Alle Funktionen nutzen und auf <br/> mehr Inhalte zugreifen.
-                  %a#internal-login-link.primary-button.block.large{:href => "#"}
+                  %a#internal-login-link.primary-button.block.large{href: login_path}
                     = _("Log in")
         - if @app_settings.authentication_systems.include? :local_database
           #external-user.tab-pane{:class => active_login == :external ? "active" : ""}
