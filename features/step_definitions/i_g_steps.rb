@@ -25,7 +25,7 @@ Then /^I go to (.*?)$/ do |page|
 
     # the e ################################################
     when "the edit-page of my first media_entry"
-      @media_entry = @me.media_entries.reorder(:id).first
+      @media_entry = @me.media_entries.reorder(:created_at).first
       edit_media_resource_path(@media_entry)
 
     when "edit multiple media entries using the batch"

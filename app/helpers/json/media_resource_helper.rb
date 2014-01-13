@@ -6,11 +6,13 @@ module Json
     def hash_for_media_resource(media_resource, with = nil)
       h = {
         id: media_resource.id,
+        created_at: media_resource.created_at.iso8601,
+        updated_at: media_resource.updated_at.iso8601,
         type: media_resource.type.underscore
       }
       
       if with ||= nil
-        [:user_id, :created_at, :updated_at].each do |k|
+        [:user_id].each do |k|
           h[k] = media_resource.send(k) if with[k]
         end
       

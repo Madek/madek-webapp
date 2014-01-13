@@ -30,7 +30,7 @@ class ImportController.MetaData
         meta_context_names: ["upload"]
       filename: true
     $(@paginator).on "completlyLoaded", (e, resources...)=> 
-      @mediaResources = _.sortBy resources, (resource) -> resource.id
+      @mediaResources = _.sortBy resources, (resource) -> "#{resource.created_at} #{resource.id}"
       @validateAllResources true
       if @invalidResourcesOnly and @mediaResources[0].valid
         @setupResourceForEdit @getNextResource @mediaResources[0]

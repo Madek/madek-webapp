@@ -7,6 +7,8 @@
 class MediaEntry < MediaResource
   include MediaResourceModules::MediaFile
 
+  default_scope { reorder(:created_at) }
+
   alias :media_sets :parent_sets 
 
 ########################################################

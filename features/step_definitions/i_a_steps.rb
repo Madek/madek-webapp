@@ -224,7 +224,7 @@ Then /^I am on the help page$/ do
 end
 
 Then /^I am on the page of my first media_entry$/ do
-  @media_entry = @me.media_entries.reorder(:id).first
+  @media_entry = @me.media_entries.reorder(:created_at).first
   expect(current_path).to eq  media_entry_path(@media_entry)
 end
 

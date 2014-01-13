@@ -1,4 +1,7 @@
 class ZencoderJob < ActiveRecord::Base
+
+  default_scope { reorder(:created_at) }
+
   self.primary_key= 'id'
   belongs_to :media_file
   serialize :notification, JsonSerializer

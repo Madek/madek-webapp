@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 class Copyright < ActiveRecord::Base
 
+  default_scope { reorder(:label) }
+
   has_many :meta_datum_copyrights
 
   validates_presence_of :label
