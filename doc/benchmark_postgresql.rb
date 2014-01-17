@@ -9,6 +9,8 @@ class PsqlBenchmark
   end
 
   def run
+    i = 0
+    puts "Running #{queries.count} queries"
     @queries.each do |query|
       next if (query.blank? or query == "\n")
       runtimes = []
@@ -18,6 +20,8 @@ class PsqlBenchmark
         }
       end
       @logfile.puts(query + "\n" + runtimes.join(",") + "\n")
+      i += 1
+      puts "Query #{i}/#{queries.count} done"
     end
   end
 
