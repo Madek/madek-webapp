@@ -13,8 +13,7 @@ SELECT COUNT(*) FROM "media_resources" WHERE "media_resources"."id" = 61297 AND 
       EXISTS ( SELECT 'true' FROM "userpermissions" WHERE "userpermissions"."edit" = 't' AND "userpermissions"."user_id" = 10262 AND (userpermissions.media_resource_id = media_resources.id) )
        OR
         EXISTS ( SELECT 'true' FROM "grouppermissions" INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" WHERE "grouppermissions"."edit" = 't' AND (grouppermissions.media_resource_id = media_resources.id) AND (users.id = 10262) )
-        );
-SELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM "media_resources" WHERE "media_resources"."type" IN ('MediaEntry', 'MediaSet', 'FilterSet') AND ( media_resources.user_id = 10262
+        ); SELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM "media_resources" WHERE "media_resources"."type" IN ('MediaEntry', 'MediaSet', 'FilterSet') AND ( media_resources.user_id = 10262
    OR
     media_resources.view = true
      OR
@@ -32,3 +31,303 @@ SELECT "media_resources".* FROM "media_resources" INNER JOIN "media_resource_arc
  OR
  EXISTS ( SELECT 'true' FROM "grouppermissions" INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" WHERE "grouppermissions"."view" = 't' AND (grouppermissions.media_resource_id = media_resources.id) AND (users.id = 10262) )
 ) LIMIT 1;
+SELECT * FROM ( SELECT meta_contexts.name AS context_name, 
+ mt3.de_ch AS context_label,
+ meta_keys.id AS key_name, 
+ mt2.de_ch AS key_label,
+ COUNT(meta_data.media_resource_id) AS count,
+ meta_context_groups.position AS context_group_position,
+ meta_contexts.position AS context_position,
+ meta_key_definitions.position AS definition_position,
+ meta_terms.id, meta_terms.de_ch as value
+ FROM meta_contexts
+ INNER JOIN meta_context_groups ON meta_context_groups.id = meta_contexts.meta_context_group_id
+ INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_name = meta_contexts.name
+ INNER JOIN meta_terms mt2 ON meta_key_definitions.label_id = mt2.id
+ INNER JOIN meta_terms mt3 ON meta_contexts.label_id = mt3.id
+ INNER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id
+ INNER JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
+ INNER JOIN meta_data_meta_terms ON meta_data_meta_terms.meta_datum_id = meta_data.id
+ INNER JOIN meta_terms ON meta_data_meta_terms.meta_term_id = meta_terms.id
+ WHERE meta_keys.meta_datum_object_type = 'MetaDatumMetaTerms'
+ AND meta_data.media_resource_id IN (SELECT media_resources.id FROM "media_resources" LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id WHERE "media_resources"."type" IN ('MediaEntry', 'MediaSet', 'FilterSet') AND ( media_resources.user_id = 10262
+ OR
+ media_resources.view = true
+ OR
+ EXISTS ( SELECT 'true' FROM "userpermissions" WHERE "userpermissions"."view" = 't' AND "userpermissions"."user_id" = 10262 AND (userpermissions.media_resource_id = media_resources.id) ) 
+ OR
+ EXISTS ( SELECT 'true' FROM "grouppermissions" INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" WHERE "grouppermissions"."view" = 't' AND (grouppermissions.media_resource_id = media_resources.id) AND (users.id = 10262) ) 
+) AND (("full_texts"."text" ILIKE '%india%')) ORDER BY "media_resources"."created_at" DESC)
+ GROUP BY meta_terms.id, meta_contexts.name, mt3.de_ch, meta_keys.id, mt2.de_ch,
+ meta_context_groups.position, meta_contexts.position, meta_key_definitions.position UNION SELECT meta_contexts.name AS context_name, 
+ mt3.de_ch AS context_label,
+ meta_keys.id AS key_name, 
+ mt2.de_ch AS key_label,
+ COUNT(meta_data.media_resource_id) AS count,
+ meta_context_groups.position AS context_group_position,
+ meta_contexts.position AS context_position,
+ meta_key_definitions.position AS definition_position,
+ meta_terms.id, meta_terms.de_ch as value
+ FROM meta_contexts
+ INNER JOIN meta_context_groups ON meta_context_groups.id = meta_contexts.meta_context_group_id
+ INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_name = meta_contexts.name
+ INNER JOIN meta_terms mt2 ON meta_key_definitions.label_id = mt2.id
+ INNER JOIN meta_terms mt3 ON meta_contexts.label_id = mt3.id
+ INNER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id
+ INNER JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
+ INNER JOIN keywords ON keywords.meta_datum_id = meta_data.id
+ INNER JOIN meta_terms ON keywords.meta_term_id = meta_terms.id
+ WHERE meta_keys.meta_datum_object_type = 'MetaDatumKeywords'
+ AND meta_data.media_resource_id IN (SELECT media_resources.id FROM "media_resources" LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id WHERE "media_resources"."type" IN ('MediaEntry', 'MediaSet', 'FilterSet') AND ( media_resources.user_id = 10262
+ OR
+ media_resources.view = true
+ OR
+ EXISTS ( SELECT 'true' FROM "userpermissions" WHERE "userpermissions"."view" = 't' AND "userpermissions"."user_id" = 10262 AND (userpermissions.media_resource_id = media_resources.id) ) 
+ OR
+ EXISTS ( SELECT 'true' FROM "grouppermissions" INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" WHERE "grouppermissions"."view" = 't' AND (grouppermissions.media_resource_id = media_resources.id) AND (users.id = 10262) ) 
+) AND (("full_texts"."text" ILIKE '%india%')) ORDER BY "media_resources"."created_at" DESC)
+ GROUP BY meta_terms.id, meta_contexts.name, mt3.de_ch, meta_keys.id, mt2.de_ch,
+ meta_context_groups.position, meta_contexts.position, meta_key_definitions.position UNION SELECT meta_contexts.name AS context_name, 
+ mt3.de_ch AS context_label,
+ meta_keys.id AS key_name, 
+ mt2.de_ch AS key_label,
+ COUNT(meta_data.media_resource_id) AS count,
+ meta_context_groups.position AS context_group_position,
+ meta_contexts.position AS context_position,
+ meta_key_definitions.position AS definition_position,
+ groups.id, groups.name AS value
+ FROM meta_contexts
+ INNER JOIN meta_context_groups ON meta_context_groups.id = meta_contexts.meta_context_group_id
+ INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_name = meta_contexts.name
+ INNER JOIN meta_terms mt2 ON meta_key_definitions.label_id = mt2.id
+ INNER JOIN meta_terms mt3 ON meta_contexts.label_id = mt3.id
+ INNER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id
+ INNER JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
+ INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id
+ INNER JOIN groups ON meta_data_meta_departments.meta_department_id = groups.id
+ WHERE meta_keys.meta_datum_object_type = 'MetaDatumDepartments'
+ AND meta_data.media_resource_id IN (SELECT media_resources.id FROM "media_resources" LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id WHERE "media_resources"."type" IN ('MediaEntry', 'MediaSet', 'FilterSet') AND ( media_resources.user_id = 10262
+ OR
+ media_resources.view = true
+ OR
+ EXISTS ( SELECT 'true' FROM "userpermissions" WHERE "userpermissions"."view" = 't' AND "userpermissions"."user_id" = 10262 AND (userpermissions.media_resource_id = media_resources.id) )
+ OR
+ EXISTS ( SELECT 'true' FROM "grouppermissions" INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" WHERE "grouppermissions"."view" = 't' AND (grouppermissions.media_resource_id = media_resources.id) AND (users.id = 10262) ) 
+) AND (("full_texts"."text" ILIKE '%india%')) ORDER BY "media_resources"."created_at" DESC)
+ GROUP BY groups.id, meta_contexts.name, mt3.de_ch, meta_keys.id, mt2.de_ch,
+ meta_context_groups.position, meta_contexts.position, meta_key_definitions.position ) AS t1 ORDER BY context_group_position, context_position, definition_position;
+SELECT * FROM ( SELECT meta_contexts.name AS context_name, 
+ mt3.de_ch AS context_label,
+ meta_keys.id AS key_name, 
+ mt2.de_ch AS key_label,
+ COUNT(meta_data.media_resource_id) AS count,
+ meta_context_groups.position AS context_group_position,
+ meta_contexts.position AS context_position,
+ meta_key_definitions.position AS definition_position,
+ meta_terms.id, meta_terms.de_ch as value
+ FROM meta_contexts
+ INNER JOIN meta_context_groups ON meta_context_groups.id = meta_contexts.meta_context_group_id
+ INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_name = meta_contexts.name
+ INNER JOIN meta_terms mt2 ON meta_key_definitions.label_id = mt2.id
+ INNER JOIN meta_terms mt3 ON meta_contexts.label_id = mt3.id
+ INNER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id
+ INNER JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
+ INNER JOIN meta_data_meta_terms ON meta_data_meta_terms.meta_datum_id = meta_data.id
+ INNER JOIN meta_terms ON meta_data_meta_terms.meta_term_id = meta_terms.id
+ WHERE meta_keys.meta_datum_object_type = 'MetaDatumMetaTerms'
+ AND meta_data.media_resource_id IN (SELECT media_resources.id FROM "media_resources" LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id WHERE "media_resources"."type" IN ('MediaEntry', 'MediaSet', 'FilterSet') AND "media_resources"."user_id" = 10262 AND ( media_resources.user_id = 10262
+ OR
+ media_resources.view = true
+ OR
+ EXISTS ( SELECT 'true' FROM "userpermissions" WHERE "userpermissions"."view" = 't' AND "userpermissions"."user_id" = 10262 AND (userpermissions.media_resource_id = media_resources.id) ) 
+ OR
+ EXISTS ( SELECT 'true' FROM "grouppermissions" INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" WHERE "grouppermissions"."view" = 't' AND (grouppermissions.media_resource_id = media_resources.id) AND (users.id = 10262) ) 
+) AND (("full_texts"."text" ILIKE '%india%')) ORDER BY "media_resources"."created_at" DESC)
+ GROUP BY meta_terms.id, meta_contexts.name, mt3.de_ch, meta_keys.id, mt2.de_ch,
+ meta_context_groups.position, meta_contexts.position, meta_key_definitions.position UNION SELECT meta_contexts.name AS context_name, 
+ mt3.de_ch AS context_label,
+ meta_keys.id AS key_name, 
+ mt2.de_ch AS key_label,
+ COUNT(meta_data.media_resource_id) AS count,
+ meta_context_groups.position AS context_group_position,
+ meta_contexts.position AS context_position,
+ meta_key_definitions.position AS definition_position,
+ meta_terms.id, meta_terms.de_ch as value
+ FROM meta_contexts
+ INNER JOIN meta_context_groups ON meta_context_groups.id = meta_contexts.meta_context_group_id
+ INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_name = meta_contexts.name
+ INNER JOIN meta_terms mt2 ON meta_key_definitions.label_id = mt2.id
+ INNER JOIN meta_terms mt3 ON meta_contexts.label_id = mt3.id
+ INNER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id
+ INNER JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
+ INNER JOIN keywords ON keywords.meta_datum_id = meta_data.id
+ INNER JOIN meta_terms ON keywords.meta_term_id = meta_terms.id
+ WHERE meta_keys.meta_datum_object_type = 'MetaDatumKeywords'
+ AND meta_data.media_resource_id IN (SELECT media_resources.id FROM "media_resources" LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id WHERE "media_resources"."type" IN ('MediaEntry', 'MediaSet', 'FilterSet') AND "media_resources"."user_id" = 10262 AND ( media_resources.user_id = 10262
+ OR
+ media_resources.view = true
+ OR
+ EXISTS ( SELECT 'true' FROM "userpermissions" WHERE "userpermissions"."view" = 't' AND "userpermissions"."user_id" = 10262 AND (userpermissions.media_resource_id = media_resources.id) ) 
+ OR
+ EXISTS ( SELECT 'true' FROM "grouppermissions" INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" WHERE "grouppermissions"."view" = 't' AND (grouppermissions.media_resource_id = media_resources.id) AND (users.id = 10262) ) 
+) AND (("full_texts"."text" ILIKE '%india%')) ORDER BY "media_resources"."created_at" DESC)
+ GROUP BY meta_terms.id, meta_contexts.name, mt3.de_ch, meta_keys.id, mt2.de_ch,
+ meta_context_groups.position, meta_contexts.position, meta_key_definitions.position UNION SELECT meta_contexts.name AS context_name, 
+ mt3.de_ch AS context_label,
+ meta_keys.id AS key_name, 
+ mt2.de_ch AS key_label,
+ COUNT(meta_data.media_resource_id) AS count,
+ meta_context_groups.position AS context_group_position,
+ meta_contexts.position AS context_position,
+ meta_key_definitions.position AS definition_position,
+ groups.id, groups.name AS value
+ FROM meta_contexts
+ INNER JOIN meta_context_groups ON meta_context_groups.id = meta_contexts.meta_context_group_id
+ INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_name = meta_contexts.name
+ INNER JOIN meta_terms mt2 ON meta_key_definitions.label_id = mt2.id
+ INNER JOIN meta_terms mt3 ON meta_contexts.label_id = mt3.id
+ INNER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id
+ INNER JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
+ INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id
+ INNER JOIN groups ON meta_data_meta_departments.meta_department_id = groups.id
+ WHERE meta_keys.meta_datum_object_type = 'MetaDatumDepartments'
+ AND meta_data.media_resource_id IN (SELECT media_resources.id FROM "media_resources" LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id WHERE "media_resources"."type" IN ('MediaEntry', 'MediaSet', 'FilterSet') AND "media_resources"."user_id" = 10262 AND ( media_resources.user_id = 10262
+ OR
+ media_resources.view = true
+ OR
+ EXISTS ( SELECT 'true' FROM "userpermissions" WHERE "userpermissions"."view" = 't' AND "userpermissions"."user_id" = 10262 AND (userpermissions.media_resource_id = media_resources.id) ) 
+ OR
+ EXISTS ( SELECT 'true' FROM "grouppermissions" INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" WHERE "grouppermissions"."view" = 't' AND (grouppermissions.media_resource_id = media_resources.id) AND (users.id = 10262) ) 
+) AND (("full_texts"."text" ILIKE '%india%')) ORDER BY "media_resources"."created_at" DESC)
+ GROUP BY groups.id, meta_contexts.name, mt3.de_ch, meta_keys.id, mt2.de_ch,
+ meta_context_groups.position, meta_contexts.position, meta_key_definitions.position ) AS t1 ORDER BY context_group_position, context_position, definition_position;
+SELECT meta_term_id, COUNT(meta_term_id) AS count FROM "keywords" INNER JOIN "meta_data" ON "meta_data"."id" = "keywords"."meta_datum_id" INNER JOIN "media_resources" ON "media_resources"."id" = "meta_data"."media_resource_id" WHERE (media_resources.view = true) GROUP BY keywords.meta_term_id ORDER BY count DESC LIMIT 12;
+SELECT media_resources.id FROM "media_resources" WHERE "media_resources"."type" IN ('MediaEntry', 'MediaSet', 'FilterSet') AND (media_resources.view = true) AND (media_resources.id IN (SELECT media_resources.id FROM "media_resources" INNER JOIN "meta_data" ON "meta_data"."media_resource_id" = "media_resources"."id" INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id));
+SELECT COUNT(media_resources.id) FROM "media_resources" WHERE "media_resources"."type" IN ('MediaEntry', 'MediaSet', 'FilterSet') AND (media_resources.view = true) AND (media_resources.id IN (SELECT media_resources.id FROM "media_resources" INNER JOIN "meta_data" ON "meta_data"."media_resource_id" = "media_resources"."id" INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id));
+SELECT media_resources.id FROM "media_resources";
+SELECT COUNT(media_resources.id) FROM "media_resources" WHERE "media_resources"."type" IN ('MediaEntry', 'MediaSet', 'FilterSet') AND (media_resources.view = true) AND (media_resources.id IN (SELECT media_resources.id FROM "media_resources" INNER JOIN "meta_data" ON "meta_data"."media_resource_id" = "media_resources"."id" INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id));
+SELECT meta_term_id, COUNT(meta_term_id) AS count FROM "keywords" INNER JOIN "meta_data" ON "meta_data"."id" = "keywords"."meta_datum_id" INNER JOIN "media_resources" ON "media_resources"."id" = "meta_data"."media_resource_id" WHERE ( media_resources.user_id = 10262
+ OR
+ media_resources.view = true
+ OR
+ EXISTS ( SELECT 'true' FROM "userpermissions" WHERE "userpermissions"."view" = 't' AND "userpermissions"."user_id" = 10262 AND (userpermissions.media_resource_id = media_resources.id) ) 
+ OR
+ EXISTS ( SELECT 'true' FROM "grouppermissions" INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" WHERE "grouppermissions"."view" = 't' AND (grouppermissions.media_resource_id = media_resources.id) AND (users.id = 10262) ) 
+) GROUP BY keywords.meta_term_id ORDER BY count DESC LIMIT 25;
+SELECT media_files.media_type as value, count(*) as count FROM "media_files" INNER JOIN "media_resources" ON "media_resources"."id" = "media_files"."media_entry_id" AND "media_resources"."type" IN ('MediaEntry') WHERE "media_resources"."id" IN (SELECT "media_resources"."id" FROM "media_resources" LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id WHERE "media_resources"."type" IN ('MediaEntry', 'MediaSet', 'FilterSet') AND ( media_resources.user_id = 10262
+ OR
+ media_resources.view = true
+ OR
+ EXISTS ( SELECT 'true' FROM "userpermissions" WHERE "userpermissions"."view" = 't' AND "userpermissions"."user_id" = 10262 AND (userpermissions.media_resource_id = media_resources.id) ) 
+ OR
+ EXISTS ( SELECT 'true' FROM "grouppermissions" INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" WHERE "grouppermissions"."view" = 't' AND (grouppermissions.media_resource_id = media_resources.id) AND (users.id = 10262) ) 
+) AND (("full_texts"."text" ILIKE '%india%')) ORDER BY "media_resources"."created_at" DESC) GROUP BY media_files.media_type ORDER BY count DESC;
+SELECT groups.*, COUNT(grouppermissions.media_resource_id) AS count FROM "groups" INNER JOIN groups_users ON groups_users.group_id = groups.id AND groups_users.user_id = 10262 INNER JOIN grouppermissions ON grouppermissions.group_id = groups.id AND grouppermissions.view = TRUE AND grouppermissions.media_resource_id IN (SELECT media_resources.id FROM "media_resources" LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id WHERE "media_resources"."type" IN ('MediaEntry', 'MediaSet', 'FilterSet') AND ( media_resources.user_id = 10262
+ OR
+ media_resources.view = true
+ OR
+ EXISTS ( SELECT 'true' FROM "userpermissions" WHERE "userpermissions"."view" = 't' AND "userpermissions"."user_id" = 10262 AND (userpermissions.media_resource_id = media_resources.id) ) 
+ OR
+ EXISTS ( SELECT 'true' FROM "grouppermissions" INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" WHERE "grouppermissions"."view" = 't' AND (grouppermissions.media_resource_id = media_resources.id) AND (users.id = 10262) ) 
+) AND (("full_texts"."text" ILIKE '%india%')) ORDER BY "media_resources"."created_at" DESC) GROUP BY groups.id ORDER BY count DESC, name;
+SELECT COUNT(*) FROM "media_resources" WHERE "media_resources"."type" IN ('MediaEntry', 'MediaSet', 'FilterSet') AND ( media_resources.user_id = 10262
+ OR
+ media_resources.view = true
+ OR
+ EXISTS ( SELECT 'true' FROM "userpermissions" WHERE "userpermissions"."view" = 't' AND "userpermissions"."user_id" = 10262 AND (userpermissions.media_resource_id = media_resources.id) ) 
+ OR
+ EXISTS ( SELECT 'true' FROM "grouppermissions" INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" WHERE "grouppermissions"."view" = 't' AND (grouppermissions.media_resource_id = media_resources.id) AND (users.id = 10262) ) 
+) AND (media_resources.id IN (SELECT media_resources.id FROM "media_resources" INNER JOIN "meta_data" ON "meta_data"."media_resource_id" = "media_resources"."id" INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id));
+SELECT COUNT(media_resources.id) FROM "media_resources" WHERE "media_resources"."type" IN ('MediaEntry', 'MediaSet', 'FilterSet') AND ( media_resources.user_id = 10262
+ OR
+ media_resources.view = true
+ OR
+ EXISTS ( SELECT 'true' FROM "userpermissions" WHERE "userpermissions"."view" = 't' AND "userpermissions"."user_id" = 10262 AND (userpermissions.media_resource_id = media_resources.id) ) 
+ OR
+ EXISTS ( SELECT 'true' FROM "grouppermissions" INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" WHERE "grouppermissions"."view" = 't' AND (grouppermissions.media_resource_id = media_resources.id) AND (users.id = 10262) ) 
+) AND (media_resources.id IN (SELECT media_resources.id FROM "media_resources" INNER JOIN "meta_data" ON "meta_data"."media_resource_id" = "media_resources"."id" INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id));
+SELECT * FROM ( SELECT meta_contexts.name AS context_name, 
+ mt3.de_ch AS context_label,
+ meta_keys.id AS key_name, 
+ mt2.de_ch AS key_label,
+ COUNT(meta_data.media_resource_id) AS count,
+ meta_context_groups.position AS context_group_position,
+ meta_contexts.position AS context_position,
+ meta_key_definitions.position AS definition_position,
+ meta_terms.id, meta_terms.de_ch as value
+ FROM meta_contexts
+ INNER JOIN meta_context_groups ON meta_context_groups.id = meta_contexts.meta_context_group_id
+ INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_name = meta_contexts.name
+ INNER JOIN meta_terms mt2 ON meta_key_definitions.label_id = mt2.id
+ INNER JOIN meta_terms mt3 ON meta_contexts.label_id = mt3.id
+ INNER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id
+ INNER JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
+ INNER JOIN meta_data_meta_terms ON meta_data_meta_terms.meta_datum_id = meta_data.id
+ INNER JOIN meta_terms ON meta_data_meta_terms.meta_term_id = meta_terms.id
+ WHERE meta_keys.meta_datum_object_type = 'MetaDatumMetaTerms'
+ AND meta_data.media_resource_id IN (SELECT media_resources.id FROM "media_resources" WHERE "media_resources"."type" IN ('MediaEntry', 'MediaSet', 'FilterSet') AND ( media_resources.user_id = 10262
+ OR
+ media_resources.view = true
+ OR
+ EXISTS ( SELECT 'true' FROM "userpermissions" WHERE "userpermissions"."view" = 't' AND "userpermissions"."user_id" = 10262 AND (userpermissions.media_resource_id = media_resources.id) ) 
+ OR
+ EXISTS ( SELECT 'true' FROM "grouppermissions" INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" WHERE "grouppermissions"."view" = 't' AND (grouppermissions.media_resource_id = media_resources.id) AND (users.id = 10262) ) 
+) AND (media_resources.id IN (SELECT media_resources.id FROM "media_resources" INNER JOIN "meta_data" ON "meta_data"."media_resource_id" = "media_resources"."id" INNER JOIN "meta_keys" ON "meta_keys"."id" = "meta_data"."meta_key_id" INNER JOIN meta_data_meta_terms ON meta_data_meta_terms.meta_datum_id = meta_data.id WHERE "meta_keys"."id" = 'project type' AND "meta_keys"."meta_datum_object_type" = 'MetaDatumMetaTerms')))
+ GROUP BY meta_terms.id, meta_contexts.name, mt3.de_ch, meta_keys.id, mt2.de_ch,
+ meta_context_groups.position, meta_contexts.position, meta_key_definitions.position UNION SELECT meta_contexts.name AS context_name, 
+ mt3.de_ch AS context_label,
+ meta_keys.id AS key_name, 
+ mt2.de_ch AS key_label,
+ COUNT(meta_data.media_resource_id) AS count,
+ meta_context_groups.position AS context_group_position,
+ meta_contexts.position AS context_position,
+ meta_key_definitions.position AS definition_position,
+ meta_terms.id, meta_terms.de_ch as value
+ FROM meta_contexts
+ INNER JOIN meta_context_groups ON meta_context_groups.id = meta_contexts.meta_context_group_id
+ INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_name = meta_contexts.name
+ INNER JOIN meta_terms mt2 ON meta_key_definitions.label_id = mt2.id
+ INNER JOIN meta_terms mt3 ON meta_contexts.label_id = mt3.id
+ INNER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id
+ INNER JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
+ INNER JOIN keywords ON keywords.meta_datum_id = meta_data.id
+ INNER JOIN meta_terms ON keywords.meta_term_id = meta_terms.id
+ WHERE meta_keys.meta_datum_object_type = 'MetaDatumKeywords'
+ AND meta_data.media_resource_id IN (SELECT media_resources.id FROM "media_resources" WHERE "media_resources"."type" IN ('MediaEntry', 'MediaSet', 'FilterSet') AND ( media_resources.user_id = 10262
+ OR
+ media_resources.view = true
+ OR
+ EXISTS ( SELECT 'true' FROM "userpermissions" WHERE "userpermissions"."view" = 't' AND "userpermissions"."user_id" = 10262 AND (userpermissions.media_resource_id = media_resources.id) ) 
+ OR
+ EXISTS ( SELECT 'true' FROM "grouppermissions" INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" WHERE "grouppermissions"."view" = 't' AND (grouppermissions.media_resource_id = media_resources.id) AND (users.id = 10262) ) 
+) AND (media_resources.id IN (SELECT media_resources.id FROM "media_resources" INNER JOIN "meta_data" ON "meta_data"."media_resource_id" = "media_resources"."id" INNER JOIN "meta_keys" ON "meta_keys"."id" = "meta_data"."meta_key_id" INNER JOIN meta_data_meta_terms ON meta_data_meta_terms.meta_datum_id = meta_data.id WHERE "meta_keys"."id" = 'project type' AND "meta_keys"."meta_datum_object_type" = 'MetaDatumMetaTerms')))
+ GROUP BY meta_terms.id, meta_contexts.name, mt3.de_ch, meta_keys.id, mt2.de_ch,
+ meta_context_groups.position, meta_contexts.position, meta_key_definitions.position UNION SELECT meta_contexts.name AS context_name, 
+ mt3.de_ch AS context_label,
+ meta_keys.id AS key_name, 
+ mt2.de_ch AS key_label,
+ COUNT(meta_data.media_resource_id) AS count,
+ meta_context_groups.position AS context_group_position,
+ meta_contexts.position AS context_position,
+ meta_key_definitions.position AS definition_position,
+ groups.id, groups.name AS value
+ FROM meta_contexts
+ INNER JOIN meta_context_groups ON meta_context_groups.id = meta_contexts.meta_context_group_id
+ INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_name = meta_contexts.name
+ INNER JOIN meta_terms mt2 ON meta_key_definitions.label_id = mt2.id
+ INNER JOIN meta_terms mt3 ON meta_contexts.label_id = mt3.id
+ INNER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id
+ INNER JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
+ INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id
+ INNER JOIN groups ON meta_data_meta_departments.meta_department_id = groups.id
+ WHERE meta_keys.meta_datum_object_type = 'MetaDatumDepartments'
+ AND meta_data.media_resource_id IN (SELECT media_resources.id FROM "media_resources" WHERE "media_resources"."type" IN ('MediaEntry', 'MediaSet', 'FilterSet') AND ( media_resources.user_id = 10262
+ OR
+ media_resources.view = true
+ OR
+ EXISTS ( SELECT 'true' FROM "userpermissions" WHERE "userpermissions"."view" = 't' AND "userpermissions"."user_id" = 10262 AND (userpermissions.media_resource_id = media_resources.id) ) 
+ OR
+ EXISTS ( SELECT 'true' FROM "grouppermissions" INNER JOIN "groups" ON "groups"."id" = "grouppermissions"."group_id" INNER JOIN "groups_users" ON "groups_users"."group_id" = "groups"."id" INNER JOIN "users" ON "users"."id" = "groups_users"."user_id" WHERE "grouppermissions"."view" = 't' AND (grouppermissions.media_resource_id = media_resources.id) AND (users.id = 10262) ) 
+) AND (media_resources.id IN (SELECT media_resources.id FROM "media_resources" INNER JOIN "meta_data" ON "meta_data"."media_resource_id" = "media_resources"."id" INNER JOIN "meta_keys" ON "meta_keys"."id" = "meta_data"."meta_key_id" INNER JOIN meta_data_meta_terms ON meta_data_meta_terms.meta_datum_id = meta_data.id WHERE "meta_keys"."id" = 'project type' AND "meta_keys"."meta_datum_object_type" = 'MetaDatumMetaTerms')))
+ GROUP BY groups.id, meta_contexts.name, mt3.de_ch, meta_keys.id, mt2.de_ch,
+ meta_context_groups.position, meta_contexts.position, meta_key_definitions.position ) AS t1 ORDER BY context_group_position, context_position, definition_position;
