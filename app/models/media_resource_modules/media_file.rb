@@ -6,6 +6,7 @@ module MediaResourceModules
     def self.included(base)
       base.class_eval do
         has_one :media_file, foreign_key: :media_entry_id, dependent: :destroy
+        delegate :media_type, to: :media_file
       end
     end
 
@@ -38,19 +39,6 @@ module MediaResourceModules
     def get_media_file(user = nil)
       media_file
     end
-
-    def media_type
-      case media_file.content_type
-      when /video/ then 
-        "Video"
-      when /audio/ then
-        "Audio"
-      when /image/ then
-        "Image"
-      else 
-        "Doc"
-      end 
-    end    
 
   end
 

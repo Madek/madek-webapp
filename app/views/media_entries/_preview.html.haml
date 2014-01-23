@@ -2,16 +2,16 @@
 
   content = case @media_entry.media_type
 
-    when "Image"
+    when "image"
       render :partial => "media_entries/previews/image"
 
-    when "Audio"
+    when "audio"
       render :partial => "media_entries/previews/audio"
       
-    when "Video"
+    when "video"
       render :partial => "media_entries/previews/video"
 
-    when "Doc"
+    else
       render :partial => "media_entries/previews/document"
 
   end
