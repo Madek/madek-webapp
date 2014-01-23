@@ -130,7 +130,7 @@ GEM
     fssm (0.2.10)
     gettext_i18n_rails (1.0.3)
       fast_gettext (>= 0.4.8)
-    gherkin (2.12.0)
+    gherkin (2.12.2)
       multi_json (~> 1.3)
     git (1.2.6)
     haml (4.0.5)
@@ -325,7 +325,7 @@ DEPENDENCIES
   font-awesome-sass
   foreigner
   gettext_i18n_rails
-  gherkin (= 2.12.0)
+  gherkin
   git
   haml
   haml-rails

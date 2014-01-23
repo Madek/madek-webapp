@@ -43,7 +43,7 @@ gem 'factory_girl_rails', group: [:test, :development, :personas]
 gem 'faker', group: [:test, :development, :personas]
 gem 'font-awesome-sass'
 gem 'gettext_i18n_rails'
-gem 'gherkin', '= 2.12.0', group: [:test] # NOTE, CI setup must be adjusted if this is updated !!!
+gem 'gherkin',  group: [:test] 
 gem 'git'
 gem 'haml'
 gem 'haml-rails', group: [:development]
