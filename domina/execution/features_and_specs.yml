@@ -17,7 +17,7 @@ attachments:
 
 environment_variables: 
   TERM: vt100
-  RUBY_VERSION: ruby-1.9.3
+  RUBY_VERSION: ruby-2.1.0
 
 ports:
   xvnc_port: 
