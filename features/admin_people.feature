@@ -7,7 +7,6 @@ Feature: Admin interface
 
   Scenario: Changing MetaData to a person 
     When I visit "/app_admin/people?utf8=%E2%9C%93&%5Bfuzzy_search%5D=&with_meta_data=1" 
-    Then for each person I see the id
      And I see the count of MetaData associated to each person
     When a person has some MetaData associated to it
      And I move all MetaData from that person to another person 

@@ -2,42 +2,39 @@
   %i.fa.fa-user
   People
 
+
+.well.pull-right
+  = form_tag app_admin_people_path, method: 'GET', class: 'form-inline'  do
+
+    %label 
+      = text_field nil, :fuzzy_search, class: "search-query", placeholder: "Search term", value: params[:fuzzy_search] 
+
+    %label.checkbox 
+      = check_box_tag "with_user", 1, !params[:with_user].blank? 
+      With user
+
+    %label.checkbox 
+      = check_box_tag "with_meta_data", 1, !params[:with_meta_data].blank? 
+      With meta data
+
+    %label.checkbox
+      = check_box_tag "is_group", 1, !params[:is_group].blank?
+      Is a group
+
+    = button_tag type: 'submit', class: 'btn btn-sm' do
+      %i.fa.fa-filter
+      Filter
+
+
 .row
 
-  %div.col-md-3
-
-    %h3 
-      %i.fa.fa-filter
-      Filters
-
-    = form_tag app_admin_people_path, method: 'GET' do
-
-      %label 
-        = text_field nil, :fuzzy_search, class: "search-query", value: params[:fuzzy_search] 
-
-      %label.checkbox 
-        = check_box_tag "with_user", 1, !params[:with_user].blank? 
-        With user
-
-      %label.checkbox 
-        = check_box_tag "with_meta_data", 1, !params[:with_meta_data].blank? 
-        With meta data
-
-      %label.checkbox
-        = check_box_tag "is_group", 1, !params[:is_group].blank?
-        Is a group
-
-      = button_tag type: 'submit', class: 'btn btn-sm' do
-        Filter
-
-  .col-md-9
+  .col-md-12
     %table.table.table-striped
       %thead
         %tr
           %th Last name
           %th First name
           %th Pseudonym
-          %th.id Id
           %th User
           %th Is a group?
           %th Meta data 

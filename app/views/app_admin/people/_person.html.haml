@@ -1,11 +1,10 @@
 %tr{id: "person_#{person.id}"}
   %td 
-    %span.limit150{title: person.last_name} #{person.last_name}
+    %span.limit250{title: person.last_name} #{person.last_name}
   %td 
-    %span.limit150{title: person.first_name} #{person.first_name}
+    %span.limit250{title: person.first_name} #{person.first_name}
   %td 
-    %span.limit150{title: person.pseudonym} #{person.pseudonym}
-  %td #{person.id}
+    %span.limit250{title: person.pseudonym} #{person.pseudonym}
   %td
     - if person.user
       =link_to app_admin_user_path(person.user) do

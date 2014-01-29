@@ -1,7 +1,7 @@
 class AppAdmin::PeopleController < AppAdmin::BaseController
 
   def index
-    @people = Person.reorder("last_name ASC, first_name ASC").page(params[:page]).per(12)
+    @people = Person.page(params[:page]).per(12)
 
     if !params[:fuzzy_search].blank?
       @people = @people.fuzzy_search(params[:fuzzy_search])
@@ -18,6 +18,8 @@ class AppAdmin::PeopleController < AppAdmin::BaseController
     if !params[:with_meta_data].blank?
       @people = @people.joins(:meta_data).uniq
     end
+
+    @people= @people.reorder("last_name ASC, first_name ASC")
 
   end
 
