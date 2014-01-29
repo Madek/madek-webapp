@@ -459,6 +459,14 @@ CREATE TABLE usage_terms (
 
 
 --
+-- Name: user_resources_counts; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW user_resources_counts AS
+    SELECT count(*) AS resouces_count, media_resources.user_id FROM media_resources GROUP BY media_resources.user_id;
+
+
+--
 -- Name: userpermissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -488,7 +496,8 @@ CREATE TABLE users (
     password_digest character varying(255),
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     previous_id integer,
-    person_id uuid NOT NULL
+    person_id uuid NOT NULL,
+    searchable text DEFAULT ''::text NOT NULL
 );
 
 
@@ -1311,6 +1320,13 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 
 --
+-- Name: users_to_tsvector_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX users_to_tsvector_idx ON users USING gin (to_tsvector('english'::regconfig, searchable));
+
+
+--
 -- Name: app_settings_catalog_set_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1821,6 +1837,10 @@ INSERT INTO schema_migrations (version) VALUES ('20131220084119');
 INSERT INTO schema_migrations (version) VALUES ('20131220092952');
 
 INSERT INTO schema_migrations (version) VALUES ('20140106090500');
+
+INSERT INTO schema_migrations (version) VALUES ('20140129091723');
+
+INSERT INTO schema_migrations (version) VALUES ('20140129115655');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

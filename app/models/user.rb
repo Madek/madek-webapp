@@ -8,10 +8,15 @@ class User < ActiveRecord::Base
 
   default_scope { reorder(:login) }
 
-  scope :with_resources_amount, ->{select("users.*, count(media_resources.id) as resources_amount").
-    joins("LEFT OUTER JOIN media_resources ON users.id = media_resources.user_id").
-    group("users.id").
-    reorder("resources_amount desc")}
+  after_save :update_searchable
+
+  # using a view here saves us from having a GROUP BY in the scope, which gives all sorts
+  # of problems when we try to chain further
+  scope :with_resources_amount, ->{
+    select("users.*, COALESCE(user_resources_counts.resouces_count,0) as resources_amount").
+    joins("LEFT OUTER JOIN user_resources_counts ON user_resources_counts.user_id = users.id") }
+
+  scope :sort_by_resouces_amount, ->{ reorder("resources_amount desc")}
 
   belongs_to :person
   delegate :name, :fullname, :shortname, :to => :person
@@ -150,9 +155,7 @@ class User < ActiveRecord::Base
   end
 
 
-#############################################################
 
-  # TODO check against usage_terms version ??
   def usage_terms_accepted?
     usage_terms_accepted_at.to_i >= UsageTerm.current.updated_at.to_i
   end
@@ -161,4 +164,19 @@ class User < ActiveRecord::Base
     update_attributes(:usage_terms_accepted_at => Time.now)
   end
 
+
+  ### text search ######################################## text search ######################################## text search ######################################## text search ########################################
+  # postgres' text doesn't split up email addresses; let's do it manually in a searchable field;
+  # since we have searchable field, let's put all strings in there; searching is simpler and we need only one index 
+  
+  def convert_to_searchable str
+    [str,str.gsub(/[^\w]/,' ').split(/\s+/)].flatten.sort.join(' ')
+  end
+
+  def update_searchable
+    update_columns searchable: [convert_to_searchable(login),convert_to_searchable(email),
+                                person.last_name,person.first_name].flatten.sort.join(" ")
+  end
+
+  scope :text_search, lambda{|search_term| basic_search({searchable: search_term},true)}
 end

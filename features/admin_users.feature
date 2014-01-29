@@ -48,7 +48,7 @@ Feature: Managing Users and Logins
   Scenario: Deleting a user
     When I visit "/app_admin/users"
     And I set the input with the name "filter[fuzzy_search]" to "beat"
-    And I click on the button "Filter"
+    And I click on the button "Apply"
     And I click on the link "Details"
     And I click on "Destroy"
     Then I can see a success message
@@ -65,10 +65,6 @@ Feature: Managing Users and Logins
   Scenario: Listing users with amount of resources
     When I visit "/app_admin/users"
     Then I see the column with a number of user resources
-
-  Scenario: Default users sorting by login
-    When I visit "/app_admin/users"
-    Then I see users list sorted by login
 
   Scenario: Sorting users by amount of resources
     When I visit "/app_admin/users"

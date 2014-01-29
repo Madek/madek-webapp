@@ -9,17 +9,24 @@ class AppAdmin::UsersController < AppAdmin::BaseController
       format.html {
         @users = User.with_resources_amount
 
-        if params.try(:[], :sort_by) == 'resources_amount'
-          @sort_by = :resources_amount
-        else
-          @sort_by = :login
-          @users = @users.reorder("login ASC")
-        end
-
         @users = @users.page(params[:page])
   
         if ! (fuzzy_search = params.try(:[],:filter).try(:[],:fuzzy_search)).blank?
-          @users = @users.fuzzy_search(fuzzy_search)
+          @users = @users.text_search(fuzzy_search)
+        end
+
+        # reorder has to come after text-search; 
+        # textacular orders by ranking which might cut off results
+        case params.try(:[], :sort_by) || 'last_name_first_name'
+        when 'resources_amount'
+          @sort_by = :resources_amount
+          @users= @users.sort_by_resouces_amount
+        when 'last_name_first_name'
+          @sort_by= :last_name_first_name
+          @users= @users.joins(:person).reorder("people.last_name ASC, people.first_name ASC")
+        when 'login'
+          @sort_by = :login
+          @users = @users.reorder("login ASC")
         end
       }
     end
