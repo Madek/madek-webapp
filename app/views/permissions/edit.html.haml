@@ -51,10 +51,10 @@
                   Keine verantwortliche Person!
                 - when 1..1
                   %h2.title-l.ui-info-box-title Verantwortliche Person
-                  %p.ui-info-box-intro Die verantwortliche Person hat alle Berechtigungen zu den ausgewählten Inhalten und kann diese auch löschen.
+                  %p.ui-info-box-intro.prm Die verantwortliche Person hat alle Berechtigungen zu den ausgewählten Inhalten und kann diese auch löschen.
                 - when 2..3
                   %h2.title-l.ui-info-box-title Verantwortliche Personen
-                  %p.ui-info-box-intro Die verantwortliche Person hat alle Berechtigungen zu den ausgewählten Inhalten und kann diese auch löschen.
+                  %p.ui-info-box-intro.prm Die verantwortliche Person hat alle Berechtigungen zu den ausgewählten Inhalten und kann diese auch löschen.
                 - else
                   %h2.title-l.ui-info-box-title Es sind mehr als 3 verschiedene Personen für diese Inhalte verantwortlich.
                 %ul.inline
@@ -72,7 +72,7 @@
             .col1of2
               %h2.title-l.ui-info-box-title Ihre Berechtigungen
               %p.ui-info-box-intro Sie, #{current_user}, haben gegenwärtig als Person oder als Mitglied einer Gruppe folgende Berechtigungen
-              %ul.inline.capitilize
+              %ul.inline
                 - action_map= {view: "View", download: "Export original", edit: "Edit metadata" , manage: "Manage permissions"}
                 - [:view, :download, :edit, :manage].each do |action|
                   - if @media_resources.accessible_by_user(current_user,action).count == @media_resources.count

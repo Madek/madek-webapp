@@ -8,6 +8,7 @@
  *
  * Styleguide 3.1
 
+.link,
 a
   text-decoration: none
   cursor: pointer
@@ -24,6 +25,9 @@ a.weak
   &:hover
     color: $mono-dark
     text-decoration: none
+
+a.disabled
+  color: $mono-mid !important
 
 a:active
   color: $mono-strong
@@ -125,7 +129,7 @@ a:active
 .button.small i
 
 .button i.small
-  top: 1px
+  top: 2px
 
 .button.large i
   top: 1px

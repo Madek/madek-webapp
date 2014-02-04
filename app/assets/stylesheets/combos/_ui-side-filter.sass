@@ -12,12 +12,6 @@
  */
 
 .ui-side-filter
-  form
-    input.unstyled
-      background: none
-      border: none
-
-.ui-side-filter
   +box-shadow(1px 0 0 $mono-brightest)
   +micro-clearfix
   border-right: 1px solid $mono-light
@@ -26,28 +20,54 @@
   padding-right: $space-m
   position: relative
 
+.ui-side-filter-filterset,
+.ui-side-filter-search
+  +clearfix
+  +box-shadow(0 1px 0 $lighten-more)
+  border-bottom: 1px solid $mono-light
+  margin-bottom: $space-m
+  padding-bottom: $space-m
+  .ui-filterset-new,
+  .ui-filterset-reset
+    display: block
+  .ui-filterset-new
+    margin-right: $space-s
+
 .ui-side-filter li
   clear: both
   list-style: none
 
-.ui-side-filter a
+.ui-side-filter-list
+  position: relative
+
+.ui-side-filter-list a
   +border-radius($border-radius-m)
   display: block
   line-height: 1.5
   padding: $space-x
   position: relative
+  &:hover
+    background: $lighten-more
+    text-decoration: none
+  &:active
+    background: $darken-subtle
+    +box-shadow(inset 0 1px 2px $darken)
 
 .ui-side-filter-search
-  +border-radius($border-radius-m)
-  background: $darken
-  border: 1px solid $mono-light
   font-size: $font-xs
   font-weight: 700
   margin-bottom: $space-s
-  padding: $space-x
-  text-align: center
   .ui-filter-search-input
     margin: $space-x 0 0
+  input.unstyled
+    background: transparent
+    border: none
+    color: $mono-dark
+    font-family: $default-font-family
+    font-size: $font-s
+    font-weight: bold
+    margin: 0
+    padding: 0
 
 .ui-side-filter-item
   padding: $space-s 0
@@ -126,22 +146,11 @@
   &:before
     content: "\e603"
 
-.ui-side-filter a
-  &:hover
-    background: $lighten-more
-    text-decoration: none
-  &:active
-    background: $darken-subtle
-    +box-shadow(inset 0 1px 2px $darken)
-
 .ui-side-filter-lvl3-item.active > a
   +box-shadow(inset 0 1px 2px $darken)
   background: $darken-subtle
   .ui-lvl3-item-count
     color: $mono-heavy
-
-.ui-side-filter-list
-  position: relative
 
 .ui-side-filter #ui-side-filter-blocking-layer
   background: $darken-subtle

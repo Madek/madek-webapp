@@ -2,7 +2,8 @@
 
   %td.ui-rights-user
     {{if $item.manageable}}
-    %a.button.small.ui-rights-remove{:href => "#", :title => "Berechtigung entfernen"} ×
+    %a.button.small.ui-rights-remove{:title => "Berechtigung entfernen"}
+      %i.icon-close.small
     {{/if}}
 
     %span.text{:title => "${name}"}

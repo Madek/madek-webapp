@@ -9,7 +9,7 @@
           %input{:id => "resource[meta_data_attributes][#{@i}][value]", :name => "resource[meta_data_attributes][#{@i}][value][]", :type => "hidden", :value => term.id}
           = term
           %a.multi-select-tag-remove
-            .icon-remove
+            .icon-close
 
     %li.multi-select-input-holder.mbs
       %input.multi-select-input.form-autocomplete-extensible-list{:type => "text", :"data-context" => definition.meta_context_name, :"data-meta_key" => definition.meta_key_id }

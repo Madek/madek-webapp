@@ -9,7 +9,7 @@
           %input{:name => "resource[meta_data_attributes][#{@i}][value][]", :type => "hidden", :value => value.id}
           = value
           %a.multi-select-tag-remove
-            .icon-remove
+            .icon-close
 
     %li.multi-select-input-holder.mbs
       %input.multi-select-input.form-autocomplete-person{:id => "resource[meta_data_attributes][#{@i}][value]", :type => "text"}

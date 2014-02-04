@@ -22,7 +22,6 @@
         .app-body-content.table-cell.table-substance.ui-container
 
           - unless @workgroups.blank?
-            %hr.separator
             = render :partial => "groups/wrapper", 
                        :locals => {:groups => @workgroups, 
                                    :title => _("Workgroups"),
@@ -32,7 +31,6 @@
                                    :id => "my_workgroups"}
 
           - unless @systemgroups.blank?
-            %hr.separator
             = render :partial => "groups/wrapper", 
                        :locals => {:groups => @systemgroups, 
                                    :title => _("System groups"),
@@ -41,7 +39,6 @@
                                    :id => "my_systemgroups"}
 
           - unless @departmentgroups.blank?
-            %hr.separator
             = render :partial => "groups/wrapper", 
                        :locals => {:groups => @departmentgroups, 
                                    :title => _("Department groups"),
