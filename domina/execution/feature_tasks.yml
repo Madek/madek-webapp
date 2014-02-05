@@ -11,6 +11,10 @@
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/admin_media_sets.feature"
+- name: admin_meta_keys
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/admin_meta_keys.feature"
 - name: admin_people
   scripts:
     cucumber:
@@ -23,6 +27,10 @@
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/admin_specify_links_and_logo.feature"
+- name: admin_statistics
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/admin_statistics.feature"
 - name: admin_users
   scripts:
     cucumber:
