@@ -144,6 +144,12 @@ Then /^I am on the "(.*?)" page$/ do |path|
   expect(current_path).to eq path
 end
 
+Then /^I am on the statistics page$/ do
+  header = find("h1")
+  expect(header).to be
+  expect(header.text).to eq "Info and Statistics"
+end
+
 Then /^I am on the page of the resource$/ do
   case @resource.type
   when "MediaSet" 

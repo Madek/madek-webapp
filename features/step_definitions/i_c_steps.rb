@@ -200,6 +200,16 @@ Then /^I can see the "(.*?)" link$/ do |anchor_text|
   expect(has_link?(anchor_text)).to be_true
 end
 
+Then /^I can see the amounts of all admin panel categories$/ do
+  categories = %w{Users People Groups Keywords Media Sets FilterSets}
+  categories += ["MediaFiles without MediaEntry", "videos with incomplete previews"]
+  cells = all("table tbody td")
+  categories.each do |category|
+    cells.delete_if { |cell| cell.text =~ /\d+\s+#{category}/ }
+  end
+  expect(cells).to eq []
+end
+
 Then /^I can see the delete action for media resources where I am responsible for$/ do
   all(".ui-resource[data-id]").each do |resource_el|
     media_resource = MediaResource.find resource_el["data-id"]

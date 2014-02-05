@@ -331,6 +331,8 @@ MAdeK::Application.routes.draw do
       end
     end
 
+    resources :statistics, only: [:index]
+
     root to: "dashboard#index"
 
   end

@@ -321,3 +321,10 @@ Then /^I see the submit button is enabled$/ do
   page.execute_script "$('#_user_id').trigger('keyup')"
   expect(find("button[type=submit]")["disabled"]).to eq nil
 end
+
+Then /^I see the "(.*?)" menu item$/ do |anchor_text|
+  within ".navbar-nav" do
+    links = all("li a")
+    expect(links.any? { |link| link.text =~ /Info \+ Statistics/}).to be_true
+  end
+end

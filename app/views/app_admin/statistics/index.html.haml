@@ -1,0 +1,27 @@
+%h1 Info and Statistics 
+
+%p about this instance of MAdeK. There are:
+
+%table.table.table-striped
+  %thead
+  %tbody
+    %tr 
+      %td #{User.count} Users
+    %tr 
+      %td #{Person.count} People
+    %tr 
+      %td #{Group.count} Groups
+    %tr
+      %td #{Keyword.joins(:meta_datum => :media_resource).where(:media_resources => {:type => ["MediaEntry", "MediaSet", "FilterSet"]}).count} Keywords
+    %tr
+      %td #{MediaEntry.count} Media
+    %tr
+      %td #{MediaSet.count} Sets
+    %tr
+      %td #{FilterSet.count} FilterSets
+    %tr 
+      %td= MediaFile.where("media_entry_id IS NULL").count.to_s + " MediaFiles without MediaEntry"
+    %tr
+      %td
+        = MediaFile.joins(:media_entry).incomplete_encoded_videos.count
+        videos with incomplete previews
