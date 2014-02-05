@@ -57,7 +57,13 @@
                     %i.fa.fa-media-sets
                     Media Sets
 
-
+          %li.dropdown
+            %a.dropdown-toggle{href: "#", data: {toggle: 'dropdown'}}
+              Meta
+              %b.caret
+            %ul.dropdown-menu
+              %li
+                = link_to "Meta Keys", app_admin_meta_keys_path
 
             %li.dropdown
               %a.dropdown-toggle{href: "#", data: {toggle: 'dropdown'}} 

@@ -1,0 +1,15 @@
+= form_for [:app_admin, @meta_key], html: {class: "form-horizontal", role: "form"} do |f|
+
+  .form-group
+    %label.control-label.col-sm-2 Label
+    .col-sm-4
+      = f.text_field :id, class: 'form-control'
+
+  .form-group
+    %label.control-label.col-sm-2 Meta datum object type
+    .col-sm-4
+      = f.select :meta_datum_object_type, MetaKey.object_types, {include_blank: false}, {class: "form-control"}
+
+  .form-group
+    .col-sm-offset-1.col-sm-4
+      = button_tag "Submit", type: 'submit', class: "btn btn-success"

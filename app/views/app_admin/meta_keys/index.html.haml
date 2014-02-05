@@ -1,0 +1,20 @@
+%h1.text-center
+  %i.fa.fa-file
+  Meta Keys
+
+%ul.list-inline
+  %li
+    = link_to new_app_admin_meta_key_path, class: 'btn btn-success' do
+      %i.fa.fa-plus
+      New Meta Key
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Label
+      %th Meta datum object type
+      %th
+  %tbody
+    =render @meta_keys
+
+= paginate @meta_keys, theme: 'app_admin'
