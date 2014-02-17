@@ -5,6 +5,7 @@
     =link_to app_admin_person_path(user.person) do 
       #{user.person}
   %td.user-resources-amount #{user.resources_amount}
+  %td.search-rank= user.respond_to?(:search_rank) ?  user.search_rank : ''
   %td
     %ul.list-inline
 

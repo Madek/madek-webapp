@@ -12,7 +12,16 @@ class AppAdmin::UsersController < AppAdmin::BaseController
         @users = @users.page(params[:page])
   
         if ! (fuzzy_search = params.try(:[],:filter).try(:[],:fuzzy_search)).blank?
-          @users = @users.text_search(fuzzy_search)
+          case params.try(:[], :sort_by) 
+          when 'trgm_rank'
+            @users= @users.trgm_rank_search(fuzzy_search) \
+              .joins(:person).order("people.last_name ASC, people.first_name ASC")
+          when 'text_rank'
+            @users= @users.text_rank_search(fuzzy_search) \
+              .joins(:person).order("people.last_name ASC, people.first_name ASC")
+          else
+            @users= @users.text_search(fuzzy_search)
+          end
         end
 
         # reorder has to come after text-search; 
@@ -27,6 +36,10 @@ class AppAdmin::UsersController < AppAdmin::BaseController
         when 'login'
           @sort_by = :login
           @users = @users.reorder("login ASC")
+        when 'trgm_rank'
+          @sort_by = :trgm_rank
+        when 'text_rank'
+          @sort_by = :text_rank
         end
       }
     end

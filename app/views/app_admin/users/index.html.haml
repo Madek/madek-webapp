@@ -1,3 +1,9 @@
+
+.alert.alert-warning
+  Search features are experimental. 
+
+  (Trigram should have trgm indexed searchable field)
+
 %h1.text-center 
   %i.fa.fa-user
   Users
@@ -25,7 +31,11 @@
     .form-group
       %label Sort by:
       %select.form-control{name: :sort_by}
-        = options_for_select [["Last-, first-name", :last_name_first_name],["Login ascending", :login], ["Amount of resources", :resources_amount]], @sort_by
+        = options_for_select [["Last-, first-name", :last_name_first_name],
+          ["Trigram search ranking", :trgm_rank],
+          ["Text search ranking",:text_rank],
+          ["Login ascending", :login], 
+          ["Amount of resources", :resources_amount]], @sort_by
 
     .form-group
       = button_tag type: 'submit', class: 'btn btn-sm' do
@@ -44,6 +54,7 @@
           %th E-mail
           %th Person
           %th # of resources
+          %th Search rank
       %tbody
         =render @users
 
