@@ -189,17 +189,15 @@ class User < ActiveRecord::Base
   scope :text_search, lambda{|search_term| basic_search({searchable: search_term},true)}
 
   scope :text_rank_search, lambda{|search_term| 
-    quoted_search_term= ActiveRecord::Base.connection.quote_string search_term
-    ts_rank= "ts_rank(to_tsvector('english',users.searchable::text), plainto_tsquery('english','#{quoted_search_term}'))"
-    select("#{'users.*,' if select_values.empty?}  #{ts_rank} AS search_rank") \
-      .where("#{ts_rank} > 0.05") \
+    rank= text_search_rank :searchable, search_term
+    select("#{'users.*,' if select_values.empty?}  #{rank} AS search_rank") \
+      .where("#{rank} > 0.05") \
       .reorder("search_rank DESC") }
 
   scope :trgm_rank_search, lambda{|search_term| 
-    quoted_search_term= ActiveRecord::Base.connection.quote_string search_term
-    similarity= "similarity(users.trgm_searchable,'#{quoted_search_term}')"
-    select("#{'users.*,' if select_values.empty?} #{similarity} AS search_rank") \
-      .where("#{similarity} > 0.05") \
+    rank= trgm_search_rank :trgm_searchable, search_term
+    select("#{'users.*,' if select_values.empty?} #{rank} AS search_rank") \
+      .where("#{rank} > 0.05") \
       .reorder("search_rank DESC") }
 
 end
