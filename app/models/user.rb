@@ -176,11 +176,14 @@ class User < ActiveRecord::Base
 
   def update_searchable
     update_columns searchable: [convert_to_searchable(login),convert_to_searchable(email),
-                                person.last_name,person.first_name].flatten.sort.uniq.join(" ")
+                                person.last_name,person.first_name,person.pseudonym] \
+                                .flatten.compact.sort.uniq.join(" ")
   end
 
   def update_trgm_searchable
-    update_columns trgm_searchable: [login,email,person.last_name,person.first_name].flatten.sort.uniq.join(" ")
+    update_columns trgm_searchable: [login,email,person.last_name,
+                                     person.first_name,person.pseudonym] \
+                                     .flatten.compact.sort.uniq.join(" ")
   end
 
   scope :text_search, lambda{|search_term| basic_search({searchable: search_term},true)}
