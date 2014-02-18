@@ -8,6 +8,8 @@ class Person < ActiveRecord::Base
 
   has_one :user
 
+  after_save :update_searchable
+
   has_and_belongs_to_many :meta_data, join_table: :meta_data_people
 
   validate do
@@ -31,8 +33,30 @@ class Person < ActiveRecord::Base
           or(arel_table[:pseudonym].matches_any(q)))
   }
 
-#######################################
 
+### text search ######################################## 
+  
+  def update_searchable
+    update_columns searchable: [last_name,first_name,pseudonym].flatten \
+      .compact.sort.uniq.join(" ")
+  end
+
+  scope :text_search, lambda{|search_term| basic_search({searchable: search_term},true)}
+
+  scope :text_rank_search, lambda{|search_term| 
+    rank= text_search_rank :searchable, search_term
+    select("#{'people.*,' if select_values.empty?}  #{rank} AS search_rank") \
+      .where("#{rank} > 0.05") \
+      .reorder("search_rank DESC") }
+
+  scope :trgm_rank_search, lambda{|search_term| 
+    rank= trgm_search_rank :searchable, search_term
+    select("#{'people.*,' if select_values.empty?} #{rank} AS search_rank") \
+      .where("#{rank} > 0.05") \
+      .reorder("search_rank DESC") }
+
+
+#######################################
   def to_s
     name
   end

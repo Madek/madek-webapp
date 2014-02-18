@@ -400,7 +400,8 @@ CREATE TABLE people (
     pseudonym character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    id uuid DEFAULT uuid_generate_v4() NOT NULL
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    searchable text DEFAULT ''::text NOT NULL
 );
 
 
@@ -1314,6 +1315,20 @@ CREATE INDEX index_zencoder_jobs_on_media_file_id ON zencoder_jobs USING btree (
 
 
 --
+-- Name: people_searchable_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX people_searchable_idx ON people USING gin (searchable gin_trgm_ops);
+
+
+--
+-- Name: people_to_tsvector_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX people_to_tsvector_idx ON people USING gin (to_tsvector('english'::regconfig, searchable));
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1851,6 +1866,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140129091723');
 INSERT INTO schema_migrations (version) VALUES ('20140129115655');
 
 INSERT INTO schema_migrations (version) VALUES ('20140218080030');
+
+INSERT INTO schema_migrations (version) VALUES ('20140218092526');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

@@ -19,6 +19,8 @@
         %span.meta_data_count #{person.meta_data.count} 
         to ...
 
+  %td.search-rank= person.respond_to?(:search_rank) ?  person.search_rank : ''
+
   %td
     %ul.list-inline
       %li 

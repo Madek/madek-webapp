@@ -1,25 +1,54 @@
 class AppAdmin::PeopleController < AppAdmin::BaseController
 
   def index
-    @people = Person.page(params[:page]).per(12)
+    begin 
+      @people = Person.page(params[:page]) 
 
-    if !params[:fuzzy_search].blank?
-      @people = @people.fuzzy_search(params[:fuzzy_search])
+
+      if !params[:is_group].blank?
+        @people = @people.groups
+      end
+
+      if !params[:with_user].blank?
+        @people = @people.joins(:user)
+      end
+
+      if !params[:with_meta_data].blank?
+        @people = @people.joins(:meta_data).uniq
+      end
+
+      search_terms = params.try(:[],:filter).try(:[],:search_terms)
+
+      if ! search_terms.blank?
+        case params.try(:[], :sort_by) 
+        when 'text_rank'
+          @people= @people.text_rank_search(search_terms) \
+            .order("last_name ASC, first_name ASC")
+        when 'trgm_rank'
+          @people= @people.trgm_rank_search(search_terms) \
+            .order("last_name ASC, first_name ASC")
+        else
+          @people= @people.text_search(search_terms)
+        end
+      end
+
+      case params.try(:[], :sort_by) || 'last_name_first_name'
+      when 'last_name_first_name'
+        @sort_by= :last_name_first_name
+        @people= @people.reorder("last_name ASC, first_name ASC, pseudonym ASC")
+      when 'trgm_rank'
+        @sort_by = :trgm_rank
+        raise "Search term must not be blank!" if search_terms.blank? 
+      when 'text_rank'
+        @sort_by = :text_rank
+        raise "Search term must not be blank!" if search_terms.blank? 
+      end
+
+    rescue Exception => e
+      @people = Person.where("true = false").page(params[:page])
+      @error_message= e.to_s
     end
 
-    if !params[:is_group].blank?
-      @people = @people.groups
-    end
-
-    if !params[:with_user].blank?
-      @people = @people.joins(:user)
-    end
-
-    if !params[:with_meta_data].blank?
-      @people = @people.joins(:meta_data).uniq
-    end
-
-    @people= @people.reorder("last_name ASC, first_name ASC")
 
   end
 

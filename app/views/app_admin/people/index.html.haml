@@ -6,24 +6,38 @@
 .well.pull-right
   = form_tag app_admin_people_path, method: 'GET', class: 'form-inline'  do
 
-    %label 
-      = text_field nil, :fuzzy_search, class: "search-query", placeholder: "Search term", value: params[:fuzzy_search] 
+    .form-group
+      = text_field :filter, :search_terms, class: "search-query, form-control", 
+          placeholder: 'Search term',  value: params.try(:[],:filter).try(:[],:search_terms)
 
-    %label.checkbox 
-      = check_box_tag "with_user", 1, !params[:with_user].blank? 
-      With user
 
-    %label.checkbox 
-      = check_box_tag "with_meta_data", 1, !params[:with_meta_data].blank? 
-      With meta data
+    .form-group
+      %label Sort (and search) by:
+      %select.form-control{name: :sort_by}
+        = options_for_select [["Last-, first-name", :last_name_first_name],
+          ["Text search ranking",:text_rank],
+          ["Trigram search ranking", :trgm_rank],
+          ], @sort_by
 
-    %label.checkbox
-      = check_box_tag "is_group", 1, !params[:is_group].blank?
-      Is a group
+    .form-group
+      %label.checkbox 
+        = check_box_tag "with_user", 1, !params[:with_user].blank? 
+        With user
 
-    = button_tag type: 'submit', class: 'btn btn-sm' do
-      %i.fa.fa-filter
-      Apply
+    .form-group
+      %label.checkbox 
+        = check_box_tag "with_meta_data", 1, !params[:with_meta_data].blank? 
+        With meta data
+
+    .form-group
+      %label.checkbox
+        = check_box_tag "is_group", 1, !params[:is_group].blank?
+        Is a group
+
+    .form-group
+      = button_tag type: 'submit', class: 'btn btn-sm' do
+        %i.fa.fa-filter
+        Apply
 
 
 .row
@@ -38,6 +52,7 @@
           %th User
           %th Is a group?
           %th Meta data 
+          %th Search rank
       %tbody
         =render @people
 

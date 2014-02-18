@@ -166,7 +166,7 @@ class User < ActiveRecord::Base
   end
 
 
-  ### text search ######################################## text search ######################################## text search ######################################## text search ########################################
+  ### text search ######################################## 
   # postgres' text doesn't split up email addresses; let's do it manually in a searchable field;
   # since we have searchable field, let's put all strings in there; searching is simpler and we need only one index 
   
