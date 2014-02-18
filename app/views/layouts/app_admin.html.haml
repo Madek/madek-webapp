@@ -90,17 +90,17 @@
               return to user-interface
               
       #messages
-        - if flash[:success]
+        - if success_message= flash[:success] || @success_message
           .alert.alert-success.alertsucces
             %button.close{type:"button", 'data-dismiss'=>'alert'} &#215
-            = flash[:success]
-        - if flash[:notice]
+            = success_message
+        - if notice_message= flash[:notice] || @notice_message
           .alert.alert-info.alertnotice
             %button.close{type:"button", 'data-dismiss'=>"alert"} &#215
-            = flash[:notice]
-        - if flash[:error]
+            = notice_message
+        - if error_message= flash[:error] || @error_message
           .alert.alert-danger.alerterror 
             %button.close{type:"button", 'data-dismiss'=>"alert"} &#215
-            = flash[:error]
+            = error_message
 
       = yield

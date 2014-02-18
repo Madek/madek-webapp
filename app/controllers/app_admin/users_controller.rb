@@ -7,39 +7,49 @@ class AppAdmin::UsersController < AppAdmin::BaseController
         render :json => view_context.json_for(users)
       }
       format.html {
-        @users = User.with_resources_amount
 
-        @users = @users.page(params[:page])
-  
-        if ! (fuzzy_search = params.try(:[],:filter).try(:[],:fuzzy_search)).blank?
-          case params.try(:[], :sort_by) 
-          when 'trgm_rank'
-            @users= @users.trgm_rank_search(fuzzy_search) \
-              .joins(:person).order("people.last_name ASC, people.first_name ASC")
-          when 'text_rank'
-            @users= @users.text_rank_search(fuzzy_search) \
-              .joins(:person).order("people.last_name ASC, people.first_name ASC")
-          else
-            @users= @users.text_search(fuzzy_search)
+          begin
+          @users = User.with_resources_amount
+
+          @users = @users.page(params[:page])
+
+          search_terms = params.try(:[],:filter).try(:[],:search_terms)
+
+          if ! search_terms.blank?
+            case params.try(:[], :sort_by) 
+            when 'trgm_rank'
+              @users= @users.trgm_rank_search(search_terms) \
+                .joins(:person).order("people.last_name ASC, people.first_name ASC")
+            when 'text_rank'
+              @users= @users.text_rank_search(search_terms) \
+                .joins(:person).order("people.last_name ASC, people.first_name ASC")
+            else
+              @users= @users.text_search(search_terms)
+            end
           end
-        end
 
-        # reorder has to come after text-search; 
-        # textacular orders by ranking which might cut off results
-        case params.try(:[], :sort_by) || 'last_name_first_name'
-        when 'resources_amount'
-          @sort_by = :resources_amount
-          @users= @users.sort_by_resouces_amount
-        when 'last_name_first_name'
-          @sort_by= :last_name_first_name
-          @users= @users.joins(:person).reorder("people.last_name ASC, people.first_name ASC")
-        when 'login'
-          @sort_by = :login
-          @users = @users.reorder("login ASC")
-        when 'trgm_rank'
-          @sort_by = :trgm_rank
-        when 'text_rank'
-          @sort_by = :text_rank
+          # reorder has to come after text-search; 
+          # textacular orders by ranking which might cut off results
+          case params.try(:[], :sort_by) || 'last_name_first_name'
+          when 'resources_amount'
+            @sort_by = :resources_amount
+            @users= @users.sort_by_resouces_amount
+          when 'last_name_first_name'
+            @sort_by= :last_name_first_name
+            @users= @users.joins(:person).reorder("people.last_name ASC, people.first_name ASC")
+          when 'login'
+            @sort_by = :login
+            @users = @users.reorder("login ASC")
+          when 'trgm_rank'
+            @sort_by = :trgm_rank
+            raise "Search term must not be blank!" if search_terms.blank? 
+          when 'text_rank'
+            @sort_by = :text_rank
+            raise "Search term must not be blank!" if search_terms.blank? 
+          end
+        rescue Exception => e
+          @users = User.where("false = true").page(0)
+          @error_message= e.to_s
         end
       }
     end

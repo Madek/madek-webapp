@@ -497,7 +497,8 @@ CREATE TABLE users (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     previous_id integer,
     person_id uuid NOT NULL,
-    searchable text DEFAULT ''::text NOT NULL
+    searchable text DEFAULT ''::text NOT NULL,
+    trgm_searchable text DEFAULT ''::text NOT NULL
 );
 
 
@@ -1327,6 +1328,13 @@ CREATE INDEX users_to_tsvector_idx ON users USING gin (to_tsvector('english'::re
 
 
 --
+-- Name: users_trgm_searchable_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX users_trgm_searchable_idx ON users USING gin (trgm_searchable gin_trgm_ops);
+
+
+--
 -- Name: app_settings_catalog_set_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1841,6 +1849,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140106090500');
 INSERT INTO schema_migrations (version) VALUES ('20140129091723');
 
 INSERT INTO schema_migrations (version) VALUES ('20140129115655');
+
+INSERT INTO schema_migrations (version) VALUES ('20140218080030');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

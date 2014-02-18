@@ -104,6 +104,10 @@ Then /^I can see "(.*?)"$/ do |text|
   expect(page).to have_content text
 end
 
+Then /^I can not see "(.*?)"$/ do |text|
+  expect(page).not_to have_content text
+end
+
 Then(/^I can see a form for editing permissions$/) do
   find("form#ui-rights-management")
 end

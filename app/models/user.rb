@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   default_scope { reorder(:login) }
 
   after_save :update_searchable
+  after_save :update_trgm_searchable
 
   # using a view here saves us from having a GROUP BY in the scope, which gives all sorts
   # of problems when we try to chain further
@@ -175,20 +176,27 @@ class User < ActiveRecord::Base
 
   def update_searchable
     update_columns searchable: [convert_to_searchable(login),convert_to_searchable(email),
-                                person.last_name,person.first_name].flatten.sort.join(" ")
+                                person.last_name,person.first_name].flatten.sort.uniq.join(" ")
+  end
+
+  def update_trgm_searchable
+    update_columns trgm_searchable: [login,email,person.last_name,person.first_name].flatten.sort.uniq.join(" ")
   end
 
   scope :text_search, lambda{|search_term| basic_search({searchable: search_term},true)}
 
   scope :text_rank_search, lambda{|search_term| 
     quoted_search_term= ActiveRecord::Base.connection.quote_string search_term
-    select("#{'users.*,' if select_values.empty?} COALESCE(ts_rank(to_tsvector('english',users.searchable::text), 
-       plainto_tsquery('english','#{quoted_search_term}' )), 0) AS search_rank") \
+    ts_rank= "ts_rank(to_tsvector('english',users.searchable::text), plainto_tsquery('english','#{quoted_search_term}'))"
+    select("#{'users.*,' if select_values.empty?}  #{ts_rank} AS search_rank") \
+      .where("#{ts_rank} > 0.05") \
       .reorder("search_rank DESC") }
 
   scope :trgm_rank_search, lambda{|search_term| 
     quoted_search_term= ActiveRecord::Base.connection.quote_string search_term
-    select("#{'users.*,' if select_values.empty?} similarity(users.searchable,'#{quoted_search_term}') AS search_rank") \
+    similarity= "similarity(users.trgm_searchable,'#{quoted_search_term}')"
+    select("#{'users.*,' if select_values.empty?} #{similarity} AS search_rank") \
+      .where("#{similarity} > 0.05") \
       .reorder("search_rank DESC") }
 
 end

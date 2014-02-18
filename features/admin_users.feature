@@ -47,7 +47,7 @@ Feature: Managing Users and Logins
 
   Scenario: Deleting a user
     When I visit "/app_admin/users"
-    And I set the input with the name "filter[fuzzy_search]" to "beat"
+    And I set the input with the name "filter[search_terms]" to "beat"
     And I click on the button "Apply"
     And I click on the link "Details"
     And I click on "Destroy"
@@ -81,4 +81,20 @@ Feature: Managing Users and Logins
     And I see a table row with "# Media Sets"
     And I see a table row with "# Filter Sets"
 
+  Scenario: Searching and ranking users by text search
+    When I visit "/app_admin/users"
+    And I set the input with the name "filter[search_terms]" to "ada"
+    And I select "Text search ranking" option from Sort by select
+    And I submit
+    Then I can not see "Adam"
+    And I set the input with the name "filter[search_terms]" to "Adam"
+    And I select "Text search ranking" option from Sort by select
+    And I submit
+    Then I can see "Adam"
 
+  Scenario: Searching and ranking users by text search
+    When I visit "/app_admin/users"
+    And I set the input with the name "filter[search_terms]" to "ada"
+    And I select "Trigram search ranking" option from Sort by select
+    And I submit
+    Then I can see "Adam"

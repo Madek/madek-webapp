@@ -1,9 +1,3 @@
-
-.alert.alert-warning
-  Search features are experimental. 
-
-  (Trigram should have trgm indexed searchable field)
-
 %h1.text-center 
   %i.fa.fa-user
   Users
@@ -25,24 +19,23 @@
   = form_tag app_admin_users_path, method: 'GET', class: 'form-inline' do
 
     .form-group
-      = text_field :filter, :fuzzy_search, class: "search-query, form-control", 
-          placeholder: 'Search term',  value: params.try(:[],:filter).try(:[],:fuzzy_search)
+      = text_field :filter, :search_terms, class: "search-query, form-control", 
+          placeholder: 'Search term',  value: params.try(:[],:filter).try(:[],:search_terms)
 
     .form-group
-      %label Sort by:
+      %label Sort (and search) by:
       %select.form-control{name: :sort_by}
         = options_for_select [["Last-, first-name", :last_name_first_name],
-          ["Trigram search ranking", :trgm_rank],
-          ["Text search ranking",:text_rank],
           ["Login ascending", :login], 
-          ["Amount of resources", :resources_amount]], @sort_by
+          ["Amount of resources", :resources_amount],
+          ["Text search ranking",:text_rank],
+          ["Trigram search ranking", :trgm_rank],
+          ], @sort_by
 
     .form-group
       = button_tag type: 'submit', class: 'btn btn-sm' do
         %i.fa.fa-filter
         Apply
-
-
 
 .row
 
