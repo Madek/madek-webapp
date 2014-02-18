@@ -9,6 +9,8 @@
   %td
     #{group.users.count}
 
+  %td.search-rank= group.respond_to?(:search_rank) ?  group.search_rank : ''
+
   %td.no-wrap
     %ul.list-inline
       %li 

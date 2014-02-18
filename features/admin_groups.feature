@@ -8,18 +8,20 @@ Feature: Managing Users and Logins
   @jsbrowser
   Scenario: Deleting groups
     When I visit "/app_admin/groups"
-    And I set the input with the name "[fuzzy_search]" to "DDE_FDE_BDE"
+    And I set the input with the name "filter[search_terms]" to "Expert"
+    And I select "Group" from the select node with the name "type"
     And I submit
-    Then I can see "DDE_FDE_BDE.alle"
+    Then I can see "Expert"
     When I remember the id of the first group-row
     And I click on the details link of the first row
     Then I can see the "Delete" link
     When I click on "Delete"
     And I confirm the browser dialog
     Then I can see a success message
-    And I set the input with the name "[fuzzy_search]" to "DDE_FDE_BDE"
+    When I set the input with the name "filter[search_terms]" to "Expert"
+    And I select "Group" from the select node with the name "type"
     And I submit
-    And I cannot see "DDE_FDE_BDE.alle"
+    And I cannot see "Expert"
 
   @jsbrowser
   Scenario: Adding user to a group 
@@ -56,12 +58,12 @@ Feature: Managing Users and Logins
     When I visit "/app_admin/groups"
     Then I see a select input with "type" name
     And There is "all" group type option selected
-    When I select "Group" from "form-control"
+    When I select "Group" from the select node with the name "type"
     And I submit
     Then I see groups with "Group" type
     And I don't see groups with "MetaDepartment" type
     And There is "group" group type option selected
-    When I select "MetaDepartment" from "form-control"
+    When I select "MetaDepartment" from the select node with the name "type"
     And I submit
     Then I see groups with "MetaDepartment" type
     And I don't see groups with "Group" type

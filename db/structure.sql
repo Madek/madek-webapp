@@ -158,7 +158,8 @@ CREATE TABLE groups (
     ldap_name character varying(255),
     type character varying(255) DEFAULT 'Group'::character varying NOT NULL,
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    previous_id integer
+    previous_id integer,
+    searchable text DEFAULT ''::text NOT NULL
 );
 
 
@@ -724,6 +725,20 @@ ALTER TABLE ONLY users
 
 ALTER TABLE ONLY zencoder_jobs
     ADD CONSTRAINT zencoder_jobs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: groups_searchable_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX groups_searchable_idx ON groups USING gin (searchable gin_trgm_ops);
+
+
+--
+-- Name: groups_to_tsvector_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX groups_to_tsvector_idx ON groups USING gin (to_tsvector('english'::regconfig, searchable));
 
 
 --
@@ -1868,6 +1883,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140129115655');
 INSERT INTO schema_migrations (version) VALUES ('20140218080030');
 
 INSERT INTO schema_migrations (version) VALUES ('20140218092526');
+
+INSERT INTO schema_migrations (version) VALUES ('20140218190628');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

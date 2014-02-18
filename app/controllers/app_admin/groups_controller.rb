@@ -1,16 +1,48 @@
 class AppAdmin::GroupsController < AppAdmin::BaseController
   def index
-    @groups = Group.reorder("name ASC, ldap_name ASC").page(params[:page])
-    @type = :all
 
-    if !params[:type].blank? && params[:type] != "all"
-      @groups = @groups.where(type: type_parameter)
-      @type = params[:type]
+    begin 
+
+      @groups = Group.page(params[:page])
+
+      @type = :all
+      if !params[:type].blank? && params[:type] != "all"
+        @groups = @groups.where(type: type_parameter)
+        @type = params[:type]
+      end
+
+      search_terms = params.try(:[],:filter).try(:[],:search_terms)
+
+      if ! search_terms.blank?
+        case params.try(:[], :sort_by) 
+        when 'text_rank'
+          @groups= @groups.text_rank_search(search_terms) \
+            .order("name ASC, ldap_name ASC")
+        when 'trgm_rank'
+          @groups= @groups.trgm_rank_search(search_terms) \
+            .order("name ASC, ldap_name ASC")
+        else
+          @groups= @groups.text_search(search_terms)
+        end
+      end
+
+      case params.try(:[], :sort_by) || 'name'
+      when 'name'
+        @sort_by= :name
+        @groups= @groups.reorder("name ASC, ldap_name ASC")
+      when 'trgm_rank'
+        @sort_by = :trgm_rank
+        raise "Search term must not be blank!" if search_terms.blank? 
+      when 'text_rank'
+        @sort_by = :text_rank
+        raise "Search term must not be blank!" if search_terms.blank? 
+      end
+
+    rescue Exception => e
+      @groups = Group.where("true = false").page(params[:page])
+      @error_message= e.to_s
     end
 
-    if !params[:fuzzy_search].blank?
-      @groups = @groups.fuzzy_search(params[:fuzzy_search])
-    end
   end
 
   def new
