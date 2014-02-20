@@ -199,16 +199,12 @@ class MediaSetsController < ApplicationController
   end
 
 
-
   def parents(parent_media_set_ids = params[:parent_media_set_ids])  
-    respond_to do |format|
-      format.html { @parents = @media_set.parents.accessible_by_user(current_user,:view) }
-    end
+    check_and_initialize_for_view 
+    @parents = @media_set.parent_sets.accessible_by_user(current_user,:view) 
   end
 
   def category
   end
-
-
 
 end

@@ -27,4 +27,10 @@ Feature: Showing resources in the archive
     And I can see the preview
     And I can watch the video
 
+  @jsbrowser
+  Scenario: Displaying parent sets 
+    Given I am signed-in as "Normin"
+    And I visit "/media_resources/93"
+    And I click on "Übergeordnete Sets"
+    Then I can see "Public Set including"
 
