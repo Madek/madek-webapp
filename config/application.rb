@@ -69,6 +69,7 @@ module MAdeK
                                     pdf-viewer.css
                                     upload.js
                                     i18n/locale/* 
+                                    *.png
                                   )
 
   end
