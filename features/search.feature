@@ -20,3 +20,12 @@ Feature: Search
     And I can see several resources
 
 
+  @jsbrowser 
+  Scenario: Searching from the secondary window
+    When I visit "/search/result?utf8=✓&terms=Blah"
+    And I set the input with the name "terms" to "Ausstellung ZHDK"
+    And I submit
+    Then The "resources_counter" has the same count as the "result_count"
+    And I can see several resources
+
+
