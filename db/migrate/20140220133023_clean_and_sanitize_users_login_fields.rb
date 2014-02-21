@@ -1,3 +1,4 @@
+# encoding: utf-8
 class CleanAndSanitizeUsersLoginFields < ActiveRecord::Migration
 
   class User < ActiveRecord::Base
