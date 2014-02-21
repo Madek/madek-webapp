@@ -1,0 +1,25 @@
+.app.view-home
+
+  = render "application/header"
+
+  .app-body
+
+    .bordered.ui-container.midtone.rounded.table.pbl.mtl{id: ""}
+      .row.phl.ptl.mtl
+        .pitch-claim
+          %h1.title-xxl HTTP Fehler 404 - Nicht gefunden 
+          %h2.title-l
+            Die aufgerufene Resource konnte nicht gefunden werden. Bitte kehren Sie zur
+            %a{href: "/"}
+              %strong Startseite
+            zurück.
+      .ptl
+
+    - unless Rails.env.production?
+      .bordered.ui-container.bright.well
+        .pitch-claim
+          .pre.code
+            = exception.to_s
+
+  .app-footer-push
+= render :partial => "application/footer"

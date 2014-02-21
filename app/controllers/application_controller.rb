@@ -4,11 +4,12 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
-  if Rails.env.production?
+  unless Rails.env.development?
     rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   end
-  def record_not_found
-    render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found 
+
+  def record_not_found exception
+    render "not_found",  :status => :not_found, locals: {exception: exception}
   end
 
 
