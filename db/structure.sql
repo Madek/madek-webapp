@@ -489,8 +489,8 @@ CREATE TABLE userpermissions (
 
 CREATE TABLE users (
     zhdkid integer,
-    email character varying(100),
-    login character varying(40),
+    email character varying(255) NOT NULL,
+    login text NOT NULL,
     notes text,
     usage_terms_accepted_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
@@ -500,7 +500,8 @@ CREATE TABLE users (
     previous_id integer,
     person_id uuid NOT NULL,
     searchable text DEFAULT ''::text NOT NULL,
-    trgm_searchable text DEFAULT ''::text NOT NULL
+    trgm_searchable text DEFAULT ''::text NOT NULL,
+    CONSTRAINT users_login_simple CHECK ((login ~* '^[a-z0-9\.\-\_]+$'::text))
 );
 
 
@@ -1885,6 +1886,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140218080030');
 INSERT INTO schema_migrations (version) VALUES ('20140218092526');
 
 INSERT INTO schema_migrations (version) VALUES ('20140218190628');
+
+INSERT INTO schema_migrations (version) VALUES ('20140220133023');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

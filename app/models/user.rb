@@ -70,19 +70,15 @@ class User < ActiveRecord::Base
   end
 
 #############################################################
+  
 
-  validates_presence_of     :login
-  validates_length_of       :login,    :within => 3..40
-  validates_uniqueness_of   :login
-  # DANGER: This validation is broken! It allows only ASCII characters (\w only includes those), but our users have umlauts etc. in their logins!
-  #  validates_format_of       :login,    :with => /\A\w[\w\.\-_@]+\z/, :message => "use only letters, numbers, and .-_@ please."
+  # NOTE login constraints are enforced on the db layer now 
+  # NOTE contrary to what was noted previously here: ZHDK logins do only use ascii lowercase without
+  #   umlauts etc, and sometimes numbers; nothing else! This information was given to me in Feb 2014.
 
-
-  validates_presence_of     :email
-  validates_length_of       :email,    :within => 6..100 #r@a.wk
-  validates_uniqueness_of   :email
-  validates_format_of       :email,    :with => /\A[\w\.%\+\-]+@(?:[A-Z0-9\-]+\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|jobs|museum)\z/i, :message => "should look like an email address."
-  validates_presence_of     :person
+  # NOTE removed the old email validation; it was WAY to restrictive
+  #  http://davidcel.is/blog/2012/09/06/stop-validating-email-addresses-with-regex/
+  validates_format_of  :email,  :with => /@/, :message => "Email must contain a '@' sign."
 
 
 #############################################################
