@@ -10,7 +10,7 @@ source 'http://rubygems.org'
 source 'http://gems.github.com'
 
 # RAILS
-gem 'rails', '4.0.2'
+gem 'rails', '4.0.3'
 
 
 # DATABASE
