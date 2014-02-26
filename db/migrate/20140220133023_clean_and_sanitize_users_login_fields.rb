@@ -5,9 +5,9 @@ class CleanAndSanitizeUsersLoginFields < ActiveRecord::Migration
   end
 
   def up
-    User.find_by(login: 'strebel@arch.ethz.ch').try :update_attributes, login: 'istrebel'
-    User.find_by(login: 'heinz-günter.kuper').try :update_attributes, login: 'hgkuper' 
-    User.find_by(login: 'markus.schönholzer').try :update_attributes, login:  'mschoenholzer' 
+    User.find_by(login: 'strebel@arch.ethz.ch').try :update_attributes, login: 'ignatz.strebel'
+    User.find_by(login: 'heinz-günter.kuper').try :update_attributes, login: 'heinz-guenter.kuper' 
+    User.find_by(login: 'markus.schönholzer').try :update_attributes, login:  'markus.schoenholzer' 
     User.find_by(login: 'michaelbürgi').try :update_attributes, login:  'buergi' 
     User.all.each do |user| 
       user.update_attributes login: user.login.gsub(/\@.*/, '')
