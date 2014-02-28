@@ -1,5 +1,5 @@
 %h1
-  %i.fa.fa-user 
+  %i.icon-user 
   #{@group}
 
 %ul.list-inline
@@ -10,12 +10,12 @@
 
   %li
     =link_to edit_app_admin_group_path(@group), class: "btn btn-warning" do
-      %i.fa.fa-pencil
+      %i.icon-pen
       Edit
 
   %li
     =link_to app_admin_group_path(@group), method: :delete, class: "btn btn-danger", confirm: "Are you really want to delete this group?" do
-      %i.fa.fa-trash-o
+      %i.icon-trash-o
       Delete
 
 %table.table.table-striped
@@ -38,7 +38,7 @@
   %div.col-md-3
 
     %h3 
-      %i.fa.fa-filter
+      %i.icon-filter
       Filters
 
     = form_tag app_admin_group_path(@group), method: 'GET' do

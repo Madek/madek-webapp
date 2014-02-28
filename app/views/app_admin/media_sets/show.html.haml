@@ -4,7 +4,7 @@
 %ul.list-inline
   %li
     =link_to delete_with_child_media_resources_app_admin_media_set_path(media_set), method: 'DELETE', data: {confirm: "Do you really want to delete this media-set including all children? "}, class: "btn btn-danger" do
-      %i.fa.fa-trash
+      %i.icon-trash
       Delete with all children
   %li
     =link_to manage_app_admin_media_set_individual_meta_contexts_path(media_set), class: "btn btn-warning" do

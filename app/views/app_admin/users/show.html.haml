@@ -1,5 +1,5 @@
 %h1
-  %i.fa.fa-user 
+  %i.icon-user 
   #{@user}
 
 %ul.list-inline
@@ -7,12 +7,12 @@
   %li
     =form_tag app_admin_user_path(@user), method: 'DELETE' do
       = button_tag type: 'submit', class: "btn btn-danger" do
-        %i.fa.fa-trash
+        %i.icon-trash
         Destroy
 
   %li
     =link_to edit_app_admin_user_path(@user), class: "btn btn-warning" do
-      %i.fa.fa-pencil
+      %i.icon-pen
       Edit
 
   %li

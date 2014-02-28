@@ -29,10 +29,10 @@
           Details
       %li
         = link_to edit_app_admin_person_path(person), class: "btn btn-warning btn-xs" do
-          %i.fa.fa-pencil
+          %i.icon-pen
           Edit
       %li
         - if !person.user  and (person.meta_data.count == 0)
           = link_to app_admin_person_path(person), method: 'DELETE', class: "btn btn-danger btn-xs" do
-            %i.fa.fa-trash
+            %i.icon-trash
             Delete
