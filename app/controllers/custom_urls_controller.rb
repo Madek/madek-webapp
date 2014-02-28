@@ -1,3 +1,4 @@
+# encoding: utf-8
 class CustomUrlsController < ApplicationController
 
   class EagerCustomURLCreation < Exception; end
