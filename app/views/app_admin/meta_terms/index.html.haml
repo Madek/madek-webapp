@@ -1,0 +1,20 @@
+%h1.text-center
+  %i.fa.fa-file
+  MetaTerms
+
+.row
+  .col-md-12
+    %table.table.table-striped
+      %thead
+        %tr
+          %th #
+          %th EN_GB
+          %th DE_CH
+          %th.no-wrap Is used?
+          %th.no-wrap Used # times
+          %th.no-wrap Used as:
+          %th
+      %tbody
+        =render @meta_terms
+
+= paginate @meta_terms, theme: 'app_admin'

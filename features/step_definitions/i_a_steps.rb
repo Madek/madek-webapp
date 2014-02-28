@@ -124,6 +124,10 @@ Then /^I am on a "(.*?)" page$/ do |path|
   expect(current_path).to match path
 end
 
+Then /^I am on an edit page$/ do
+  expect(current_path).to match "#{@edited_model_id}/edit"
+end
+
 Then /^I am on the my groups page$/ do
   expect(current_path).to eq "/my/groups"
 end

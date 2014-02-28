@@ -1,0 +1,24 @@
+%h1 
+  Edit Meta Term #{@meta_term}
+
+
+= form_for @meta_term, url: app_admin_meta_term_path(@meta_term) , method: "PUT", html: {class: "form-horizontal", role: "form"} do |f|
+
+  %fieldset 
+
+    .form-group
+      %label.control-label.col-sm-2 English
+      .col-sm-4
+        = f.text_field :en_gb, class: "form-control"
+
+    .form-group
+      %label.control-label.col-sm-2 German
+      .col-sm-4
+        = f.text_field :de_ch, class: "form-control"
+
+    .form-group
+      .col-sm-offset-2.col-sm-4
+        = button_tag type: 'submit', class: "btn btn-success" do
+          Save
+
+

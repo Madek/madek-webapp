@@ -1,0 +1,18 @@
+%h1
+  Transfer #{@meta_term.used_times} resources from #{@meta_term}
+
+%p Transfer all resources associated with this meta term to an other meta term.
+
+
+= form_tag transfer_resources_app_admin_meta_term_path(@meta_term), method: :post, class: "form-horizontal", role: "form" do
+
+  .form-group
+    %label.control-label.col-sm-3 Id of the receiving meta term:
+    .col-sm-4
+      = text_field nil, :id_receiver, type: 'text', id: "id_receiver", class: "form-control"
+
+  .form-group
+    .col-sm-offset-3.col-sm-4
+      = button_tag type: 'submit', class: 'btn btn-warning' do
+        Transfer
+

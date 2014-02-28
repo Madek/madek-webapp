@@ -3,6 +3,10 @@ Then /^I visit the media_entry$/ do
   visit media_entry_path(@media_entry)
 end
 
+When /^I visit the admin panel$/ do
+  visit '/app_admin/'
+end
+
 Then /^I visit "(.*?)"$/ do |path|
   visit path
 end

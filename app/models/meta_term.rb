@@ -4,7 +4,10 @@ class MetaTerm < ActiveRecord::Base
   has_many :meta_keys, :through => :meta_key_meta_terms
 
   # TODO include keywords ??
-  has_and_belongs_to_many :meta_data
+  has_and_belongs_to_many :meta_data,
+    join_table: :meta_data_meta_terms, 
+    foreign_key: :meta_term_id, 
+    association_foreign_key: :meta_datum_id
   has_many :keywords, :foreign_key => :meta_term_id
 
   validate do
@@ -23,6 +26,8 @@ class MetaTerm < ActiveRecord::Base
     lang ||= DEFAULT_LANGUAGE
     self.send(lang)
   end
+
+  USAGE = [:key_label, :key_hint, :key_description, :term, :keyword]
 
   ######################################################
 
@@ -44,6 +49,35 @@ class MetaTerm < ActiveRecord::Base
       meta_data.exists?
     end
   
+  ######################################################
+
+    def used_times
+      MetaKeyDefinition.where("? IN (label_id, description_id, hint_id)", id).count +
+      MetaContext.where("? IN (label_id, description_id)", id).count +
+      meta_key_meta_terms.count +
+      keywords.count +
+      meta_data.count
+    end
+
+  ######################################################
+
+    def used_as?(type)
+      case type
+      when :term
+        meta_data.exists?
+      when :keyword
+        keywords.exists?
+      when :key_label
+        MetaKeyDefinition.where(label_id: id).exists?
+      when :key_hint
+        MetaKeyDefinition.where(hint_id: id).exists?
+      when :key_description
+        MetaKeyDefinition.where(description_id: id).exists?
+      else
+        false
+      end
+    end
+
   ######################################################
 
   # OPTIMIZE 2210 uniqueness

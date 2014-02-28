@@ -15,6 +15,10 @@
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/admin_meta_keys.feature"
+- name: admin_meta_terms
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/admin_meta_terms.feature"
 - name: admin_people
   scripts:
     cucumber:

@@ -1,0 +1,17 @@
+%tr
+  %td= meta_term.id
+  %td.limit250= meta_term.en_gb
+  %td.limit250= meta_term.de_ch
+  %td= meta_term.is_used? ? "Yes" : "No"
+  %td= meta_term.used_times
+  %td.no-wrap.limit150= used_as meta_term
+  %td.no-wrap
+    = link_to edit_app_admin_meta_term_path(meta_term) do
+      %i.fa.fa-pencil
+      Edit
+    %br
+    = link_to form_transfer_resources_app_admin_meta_term_path(meta_term) do
+      %i.fa.fa-random
+      Transfer
+      %span= meta_term.used_times
+      to...

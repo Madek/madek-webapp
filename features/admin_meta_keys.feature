@@ -1,4 +1,4 @@
-Feature: Admin Interface
+Feature: Admin Meta Keys
 
   As a MAdeK admin
 
