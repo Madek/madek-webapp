@@ -1,0 +1,46 @@
+.app
+
+  = render "application/header"
+
+  .app-body
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xxl URL Transfer Bestätigen
+
+          .paragraph-s
+            Die gewählte URL 
+            %strong= @custom_url.id
+            ist gegenwärtig mit der Resource
+            = link_to "#{@custom_url.media_resource.title} (#{@custom_url.media_resource.id.truncate(12)})", media_resource_path(@custom_url.media_resource)
+            assoziert.
+
+            - if url_tranfer_authorized? @media_resource, @custom_url
+
+              Sie können nun diese URL auf die Resources 
+              = link_to "#{@media_resource.title} (#{@media_resource.id.truncate(12)})", media_resource_path(@media_resource)
+              übertragen.
+
+          - if url_tranfer_authorized? @media_resource, @custom_url
+
+            = form_tag transfer_url_media_resource_path(@media_resource,url: @custom_url.id), method: 'POST' do
+
+              .form-footer
+                .ui-actions
+
+                  = link_to new_custom_url_path(@media_resource,url_id: params[:url], warning: "Die URL wurde nicht übertragen!"), class: "button link weak large"  do
+                    Abbrechen
+
+                  = button_tag "URL übertragen", type: 'submit' , class: "button primary-button large"
+
+          - else
+
+            Sie haben nicht die notwendigen Berechtigungen um die URL zu transferieren.
+
+            = link_to new_custom_url_path(@media_resource,url_id: params[:url]), class: "button link weak large"  do
+              Abbrechen
+
+          
+  = render :partial => "application/footer", :locals => {:clipboard => false}
+
+

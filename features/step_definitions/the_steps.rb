@@ -17,6 +17,14 @@ Then /^The actual_file doesn't exist anymore$/  do
 end
 
 ### the c
+
+Then /^The current_path matches "(.*?)"$/  do |regexp|
+  expect(current_path).to match(Regexp.new(regexp))
+end
+
+Then /^The current_path is equal to the remembered one$/  do
+  expect(current_path).to be== @the_path
+end
  
 Then /^The current user doesn't have a dropbox$/  do
   if _dir = @current_user.dropbox_dir(@app_settings)
@@ -104,6 +112,12 @@ Then /^The hidden field with name "(.*?)" should match "(.*?)"$/ do |field_name,
   else
     expect(input.value).to eq("")
   end
+end
+
+### the i
+
+Then /^The input with the id "(.*?)" has the value "(.*?)"$/ do |id, value|
+  expect(find("input##{id}").value).to be== value
 end
 
 ### the l ##############################################

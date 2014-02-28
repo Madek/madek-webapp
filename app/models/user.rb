@@ -31,6 +31,10 @@ class User < ActiveRecord::Base
   has_many :keywords 
   has_and_belongs_to_many :meta_data
 
+  has_many :created_custom_urls, class_name: 'CustomUrl', foreign_key: :creator_id
+  has_many :updated_custom_urls, class_name: 'CustomUrl', foreign_key: :updator_id
+
+
   has_and_belongs_to_many :favorites, :class_name => "MediaResource", :join_table => "favorites" do
     def toggle(media_resource)
       if exists?(media_resource)
@@ -89,6 +93,13 @@ class User < ActiveRecord::Base
 
   def to_s
     name
+  end
+
+  def canonical_name
+    (person.last_name.blank? ? '' : "#{person.last_name},") \
+      << (person.first_name.blank? ? '' : " #{person.first_name}") \
+      << (person.pseudonym.blank? ? '' : " (#{person.pseudonym})") \
+      << " [#{login}]" 
   end
 
   def login=(value)

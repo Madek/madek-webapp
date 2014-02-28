@@ -2,9 +2,11 @@
 class MediaSetsController < ApplicationController
 
   include Concerns::PreviousIdRedirect
+  include Concerns::CustomUrls
 
   def check_and_initialize_for_view
-    @media_set = MediaSet.find(params[:id])
+    @media_set = find_media_resource 
+    raise "Wrong type" unless @media_set.is_a? MediaSet
     not_authorized! unless current_user.authorized?(:view,@media_set)
     @parents_count = @media_set.parent_sets.accessible_by_user(current_user,:view).count
     @can_edit = current_user.authorized?(:edit, @media_set)

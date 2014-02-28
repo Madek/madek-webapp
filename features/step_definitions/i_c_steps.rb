@@ -108,12 +108,16 @@ Then /^I can not see "(.*?)"$/ do |text|
   expect(page).not_to have_content text
 end
 
+Then (/^I can see a error message$/) do
+  expect(all(".alert-error").size + all(".ui-alert.error").size) .to be > 0
+end
+
 Then(/^I can see a form for editing permissions$/) do
   find("form#ui-rights-management")
 end
 
 Then (/^I can see a success message$/) do
-  expect(all("#messages .alert-success").size).to be > 0
+  expect(all(".alert-success").size + all(".ui-alert.success").size) .to be > 0
 end
 
 Then (/^I can see all resources$/) do
@@ -251,8 +255,12 @@ Then(/^I can see the following permissions\-state:$/) do |table|
   end
 end
 
-Then /^I can see the text "(.*?)"$/ do |text|
+Then /^I can see the text "([^\"]*?)"$/ do |text|
   expect(page).to have_content text
+end
+
+Then /^I can see the text "(.*?)" inside the node with the id "(.*?)"$/  do |text, id|
+  find("##{id}", text: text)
 end
 
 Then /^I can see the permissions dialog$/  do
@@ -437,7 +445,7 @@ end
 
 ###  I click
  
-Then (/^I click on "(.*?)"$/) do |text|
+Then /^I click on "([^\"]*?)"$/ do |text|
   wait_until{ all("a, button", text: text, visible: true).size > 0}
   find("a, button",text: text).click
 end
@@ -447,12 +455,24 @@ Then /^I click on "(.*?)" inside the autocomplete list$/ do |text|
   find("ul.ui-autocomplete li a",text: text).click
 end
 
+Then /^I click on "(.*?)" inside the node with the id "(.*?)"$/  do |text, id|
+  find("##{id} a",text: text).click
+end
+
 Then /^I click on my first media entry$/ do
   all("ul.ui-resources li[data-type='media-entry']").first.find("a").click
 end
 
+When(/^I click on my first media resource$/) do
+  all("ul.ui-resources li[data-type]").first.find("a").click
+end
+
 When(/^I click on the details link of the first row$/) do
   all("tr a.details").first.click
+end
+
+When(/^I click on the first link inside the node with the id "(.*?)"$/) do |id|
+  all("##{id} a").first.click
 end
 
 Then /^I click on show me more of the featured sets$/ do

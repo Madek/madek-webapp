@@ -1,0 +1,63 @@
+.app
+
+  = render "application/header"
+
+  .app-body
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xxl 
+            URLs für 
+            = link_to  media_resource_path(@media_resource) do
+              "#{@media_resource.title} (#{@media_resource.id})"
+        -if create_url_authorized?
+          .ui-body-title-actions
+            =link_to new_custom_url_path(@media_resource), class: "primary-button" do
+              Neue URL anlegen / Bestehende URL übertragen
+
+    %table.block
+      %thead
+        %tr
+          %th URL
+          %th Datum
+          %th Erzeuger
+          %th Typ
+          - if create_url_authorized?
+            %th Aktionen
+      %body
+        %tr{id: "_uuid"}
+          %td= link_to @media_resource.id, custom_url_path(@media_resource,@media_resource.id)
+          %td= l @media_resource.created_at, format: :long rescue "???"
+          %td= @media_resource.user.canonical_name
+          %td 
+            - if CustomUrl.find_by(media_resource: @media_resource, is_primary: true)
+              Weiterleitung
+            - else
+              %strong Primäre URL 
+          - if create_url_authorized?
+            %td
+              - if CustomUrl.find_by(media_resource: @media_resource, is_primary: true)
+                = link_to set_primary_url_media_resource_path(@media_resource,@media_resource.id), method: 'POST' do
+                  %button.button Als primäre URL setzen
+
+              =render @custom_urls
+
+
+    .paragraph-s.ptl
+      Es gibt immer genau eine primäre URL für jede Resource. Diese ist als solche 
+      in der Addressleiste des Browsers sichtbar wenn die die Resource angezeigt wird.
+
+      Alle anderen URLs einer Resource lösen eine Weiterleitung auf die primäre URL 
+      aus.
+
+
+    .paragraph-s.pts
+      Jede Resource hat eine (auf der zur Resource gehörende UUID basierende)
+      kanonische URL.  Diese URL kann nicht übertragen oder entfernt werden.  Sie ist
+      immer als erste in der obigen Tabelle aufgelistet. 
+
+
+ 
+  = render :partial => "application/footer", :locals => {:clipboard => false}
+
+

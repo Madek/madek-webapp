@@ -25,6 +25,8 @@
         - if @media_set.user == current_user
           = render :partial => "media_resources/actions/visualize_my_component_with", :locals => {mr: @media_set}
 
+        = render "media_resources/actions/urls", media_resource: @media_set
+
         - if current_user.authorized?(:delete, @media_set)
           = render :partial => "media_resources/actions/delete"
 

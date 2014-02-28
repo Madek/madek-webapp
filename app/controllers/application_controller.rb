@@ -1,6 +1,10 @@
 # -*- encoding : utf-8 -*-
+#
+
 class ApplicationController < ActionController::Base
   #FE# before_filter { headers['Access-Control-Allow-Origin'] = '*' }
+
+  class ::NotAuthorized < Exception; end
 
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 

@@ -192,8 +192,6 @@ MAdeK::Application.routes.draw do
 
   ###############################################
 
-  #tmp#  constraints(:id => /\d+/) do
-
   resources :media_resources do
 
     collection do
@@ -203,6 +201,11 @@ MAdeK::Application.routes.draw do
     end
 
     member do
+      post '/custom_urls/:url/set_as_primary', url: /[^\/]+/, controller: :custom_urls, action: :set_primary_url, as: :set_primary_url
+      get '/custom_urls/:url/confirm_url_transfer', url: /[^\/]+/, controller: :custom_urls, action: :confirm_url_transfer, as: :confirm_url_transfer
+      post '/custom_urls/:url/transfer_url', url: /[^\/]+/, controller: :custom_urls, action: :transfer_url, as: :transfer_url
+      resources :custom_urls, only: [:index,:create,:new] do
+      end
       post :toggle_favorites
       put :favor
       put :disfavor

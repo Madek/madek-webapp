@@ -7,6 +7,13 @@ class FilterSetsController < ApplicationController
   end
 
   include Concerns::PreviousIdRedirect
+  include Concerns::CustomUrls
+
+  def check_and_initialize_for_view
+    @filter_set = find_media_resource 
+    raise "Wrong type" unless @filter_set.is_a? FilterSet
+    not_authorized! unless current_user.authorized?(:view,@filter_set)
+  end
 
   def create
     begin
@@ -33,7 +40,7 @@ class FilterSetsController < ApplicationController
   end
 
   def show 
-    @filter_set = FilterSet.where(:id => params[:id]).accessible_by_user(current_user,:view).first
+    check_and_initialize_for_view
   end
 
   def update

@@ -19,6 +19,8 @@ class MediaResource < ActiveRecord::Base
   has_one :media_file, foreign_key: :media_entry_id
 
 ###############################################################
+  
+  has_many :custom_urls
 
   has_many  :edit_sessions, :dependent => :destroy
   has_many  :editors, through: :edit_sessions, source: :user
@@ -30,6 +32,16 @@ class MediaResource < ActiveRecord::Base
 
 ########################################################
   
+  has_many :custom_urls
+
+  def primary_custom_url 
+    custom_urls.where(is_primary: true).first
+  end
+
+########################################################
+
+  
+
 
   default_scope { reorder(:created_at) }
 

@@ -55,6 +55,10 @@
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/context.feature"
+- name: custom_urls
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/custom_urls.feature"
 - name: dashboard_page
   scripts:
     cucumber:

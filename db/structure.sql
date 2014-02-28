@@ -100,6 +100,23 @@ CREATE TABLE copyrights (
 
 
 --
+-- Name: custom_urls; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE custom_urls (
+    id character varying(255) NOT NULL,
+    is_primary boolean DEFAULT false NOT NULL,
+    media_resource_id uuid NOT NULL,
+    creator_id uuid NOT NULL,
+    updator_id uuid NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    CONSTRAINT custom_urls_id_format CHECK (((id)::text ~* '^[a-z][a-z0-9\-\_]+$'::text)),
+    CONSTRAINT custom_urls_id_is_not_uuid CHECK ((NOT ((id)::text ~* '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'::text)))
+);
+
+
+--
 -- Name: edit_sessions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -553,6 +570,14 @@ ALTER TABLE ONLY copyrights
 
 
 --
+-- Name: custom_urls_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY custom_urls
+    ADD CONSTRAINT custom_urls_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: edit_sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -796,6 +821,27 @@ CREATE INDEX index_copyrights_on_is_default ON copyrights USING btree (is_defaul
 --
 
 CREATE UNIQUE INDEX index_copyrights_on_label ON copyrights USING btree (label);
+
+
+--
+-- Name: index_custom_urls_on_creator_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_custom_urls_on_creator_id ON custom_urls USING btree (creator_id);
+
+
+--
+-- Name: index_custom_urls_on_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_custom_urls_on_media_resource_id ON custom_urls USING btree (media_resource_id);
+
+
+--
+-- Name: index_custom_urls_on_updator_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_custom_urls_on_updator_id ON custom_urls USING btree (updator_id);
 
 
 --
@@ -1414,6 +1460,30 @@ ALTER TABLE ONLY copyrights
 
 
 --
+-- Name: custom_urls_creator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY custom_urls
+    ADD CONSTRAINT custom_urls_creator_id_fk FOREIGN KEY (creator_id) REFERENCES users(id);
+
+
+--
+-- Name: custom_urls_media_resource_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY custom_urls
+    ADD CONSTRAINT custom_urls_media_resource_id_fk FOREIGN KEY (media_resource_id) REFERENCES media_resources(id) ON DELETE CASCADE;
+
+
+--
+-- Name: custom_urls_updator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY custom_urls
+    ADD CONSTRAINT custom_urls_updator_id_fk FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
 -- Name: edit_sessions_media_resource_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1888,6 +1958,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140218092526');
 INSERT INTO schema_migrations (version) VALUES ('20140218190628');
 
 INSERT INTO schema_migrations (version) VALUES ('20140220133023');
+
+INSERT INTO schema_migrations (version) VALUES ('20140224081939');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

@@ -1,0 +1,44 @@
+.app
+
+  = render "application/header"
+
+  .app-body
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xxl 
+            Neue URL anlegen / bestehende URL übertragen für 
+            = link_to  media_resource_path(@media_resource) do
+              "#{@media_resource.title} (#{@media_resource.id})"
+
+    = form_tag custom_urls_path(@media_resource), method: 'POST' do
+
+      .form-body
+        .ui-form-group.rowed.minimal
+          %fieldset
+            %label{for: "url", class: "form-label title-l mbs"}
+              .paragraph-s 
+                Eine URL darf nur genau einmal im Archiv vorkommen. Sie beginnt immer mit einem
+                Kleinbuchstaben, gefolgt von (mindestens einem) weiteren Zeichen aus Kleinbuchstaben, 
+                Nummern, Bindestriche und Grundstriche in beliebiger Reihenfolge.
+              .paragraph-s.pbl
+                Eine bereits bestehende URL kann auf diese Resource übertragen werden.
+                Geben Sie dazu die URL ein und bestätigen Sie auf der folgenden Seite. 
+                Sie müssen dazu für beide Ressourcen entsprechend berechtigt sein!
+
+            .form-item
+              =text_field_tag :url, params[:url], class: "col1of1", placeholder: "ein_neuer_url-alias"
+
+      .form-footer
+        .ui-actions
+
+          = link_to custom_urls_path(@media_resource), class: "button link weak large"  do
+            Abbrechen
+
+
+          = button_tag "Anlegen / übertragen", type: 'submit' , class: "button large primary-button"
+
+
+  = render :partial => "application/footer", :locals => {:clipboard => false}
+
+

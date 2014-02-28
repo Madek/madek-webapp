@@ -2,8 +2,13 @@
 class MediaEntriesController < ApplicationController
 
   include Concerns::PreviousIdRedirect
+  include Concerns::CustomUrls
 
-  before_filter do
+  before_action :the_messy_before_filter, except: [:show] 
+  before_action :set_instance_vars, :only => [:map, :more_data, :parents, :context_group]
+
+  # TODO, what a MESS, this has to go!  
+  def the_messy_before_filter 
     if [:edit_multiple, :update_multiple, :remove_multiple].include? request[:action].to_sym
       begin
         if !params[:media_set_id].blank?
@@ -74,7 +79,8 @@ class MediaEntriesController < ApplicationController
 
 #####################################################
   
-  before_filter lambda{
+
+  def set_instance_vars
     @main_context_group = MetaContextGroup.sorted_by_position.first
     other_context_groups = MetaContextGroup.where(MetaContextGroup.arel_table[:position].not_eq(1)).sorted_by_position
     @other_relevant_context_groups = other_context_groups.select do |meta_context_group|
@@ -89,13 +95,18 @@ class MediaEntriesController < ApplicationController
     @format_original_file = view_context.file_format_for(@original_file)
     @x_large_file = @media_entry.media_file.get_preview(:x_large)
     @x_large_file_available = (@x_large_file and File.exist?(@x_large_file.full_path))
-  }, :only => [:show, :map, :more_data, :parents, :context_group]
+  end 
+
+
+  def check_and_initialize_for_view
+    @media_entry = find_media_resource 
+    raise "Wrong type" unless @media_entry.is_a? MediaEntry
+    not_authorized! unless current_user.authorized?(:view,@media_entry)
+  end
 
   def show
-    respond_to do |format|
-      format.html
-      format.xml { render :xml=> @media_entry.to_xml(:include => {:meta_data => {:include => :meta_key}} ) }
-    end
+    check_and_initialize_for_view
+    set_instance_vars
   end
 
   def document

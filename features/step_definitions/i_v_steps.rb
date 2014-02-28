@@ -11,7 +11,11 @@ Then /^I visit the "(.*?)" path$/ do |path|
   visit path
 end
 
-When(/^I visit my first media_set$/) do
+When /^I visit my first media_entry$/ do
+  visit media_entry_path(@me.media_entries.reorder(:created_at).first)
+end
+
+When /^I visit my first media_set$/ do
   visit media_set_path(@me.media_sets.reorder(:created_at).first)
 end
 

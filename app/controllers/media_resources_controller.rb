@@ -6,6 +6,7 @@
 class MediaResourcesController < ApplicationController
 
   include Concerns::PreviousIdRedirect
+  include Concerns::CustomUrls
 
   before_filter :except => [:index, :collection, :destroy] do
     begin

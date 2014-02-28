@@ -20,6 +20,8 @@
 
         = render :partial => "media_resources/actions/organize"
 
+        = render "media_resources/actions/urls", media_resource: @filter_set
+
         - if can_edit
           = render :partial => "media_resources/actions/delete"
 
