@@ -64,7 +64,7 @@ class CustomUrlsController < ApplicationController
     rescue ActiveRecord::StatementInvalid => e
       case e.original_exception
       when PG::CheckViolation
-        redirect_to custom_urls_path(@media_resource,url: params[:url]), 
+        redirect_to new_custom_url_path(@media_resource,url: params[:url]), 
           flash: {error:  "Die URL entspricht nicht den Anforderungen!"} 
       else
         raise e.original_exception
