@@ -14,7 +14,7 @@ class CreateCustomUrls < ActiveRecord::Migration
     add_foreign_key :custom_urls, :media_resources, dependent: :delete
     add_foreign_key :custom_urls, :users, column: :creator_id
     add_foreign_key :custom_urls, :users, column: :updator_id
-    execute %q< ALTER TABLE custom_urls ADD CONSTRAINT custom_urls_id_format CHECK (id ~* '^[a-z][a-z0-9\-\_]+$'); >
+    execute %q< ALTER TABLE custom_urls ADD CONSTRAINT custom_urls_id_format CHECK (id ~ '^[a-z][a-z0-9\-\_]+$'); >
     execute %q< ALTER TABLE custom_urls ADD CONSTRAINT custom_urls_id_is_not_uuid  CHECK (NOT id ~* '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'); >
     execute "ALTER TABLE custom_urls ADD PRIMARY KEY (id)"
   end
