@@ -37,8 +37,11 @@
 
             Sie haben nicht die notwendigen Berechtigungen um die URL zu transferieren.
 
-            = link_to new_custom_url_path(@media_resource,url_id: params[:url]), class: "button link weak large"  do
-              Abbrechen
+            .form-footer
+              .ui-actions
+
+                = link_to new_custom_url_path(@media_resource,url: params[:url]), class: "button link weak large"  do
+                  Abbrechen
 
           
   = render :partial => "application/footer", :locals => {:clipboard => false}
