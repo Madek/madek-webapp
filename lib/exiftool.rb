@@ -65,7 +65,7 @@ module Exiftool
 
     def parse_metadata(file, tags = nil)
       result_set = []
-      parse_hash = JSON.parse(`#{EXIFTOOL_PATH} -s "#{file}" -a -u -G1 -D -j`).first
+      parse_hash = JSON.parse(`#{EXIFTOOL_PATH} -s "#{file}" -a -u -G1 -j`).first
       parse_hash.delete_if do |k,v| 
         v.is_a?(String) and (not v.valid_encoding? or v=~/^\(Binary data/)
       end
