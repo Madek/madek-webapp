@@ -259,9 +259,8 @@ class MediaFile < ActiveRecord::Base
       end
       meta_data.merge!(exif_hash)
     end
-    # FIXME - We are inserting image-specific data into a model that is generic in intent, for the convenience of it all.
-    # Apparently IFD0 is not the best fit (some files don't contain it), perhaps we should use the Composite:ImageSize tag, till we get rid of these columns..
-    img_x, img_y = exif_hash["Composite:ImageSize"].split("x")
+    # Use ImageMagick to get dimensions; exiftool turned out to be unreliable 
+    img_x, img_y= System.execute_cmd!("identify -format '%w %h' #{full_path_file}").split
     update_attributes(:width => img_x, :height => img_y)
   end
 
