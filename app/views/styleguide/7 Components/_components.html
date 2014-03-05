@@ -690,6 +690,9 @@
       </h2>
       <ul class="sg-modifiers">
         <li>
+          <strong>.crucial</strong> - Can be used instead of <code>app-body</code> and is scrollable
+        </li>
+        <li>
           <strong>.narrow</strong> - Narrow variation
         </li>
         <li>
@@ -704,6 +707,32 @@
       <div class="align-left bg-light sg-canvas">
         <div style="">
           <div class="ui-modal $modifier-class">
+            <div class="ui-modal-head">
+              <h3 class="title-l">
+                ui-modal Title
+              </h3><a class="modal-close ui-modal-close" aria-hidden="true" data-dismiss="modal" title="Close"><i class="icon-close"></i></a>
+            </div>
+            <div class="ui-modal-toolbar top">
+              ui-toolbar content if any
+            </div>
+            <div class="ui-modal-body">
+              ui-modal Body
+            </div>
+            <div class="ui-modal-toolbar bottom">
+              ui-toolbar content if any
+            </div>
+            <div class="ui-modal-footer">
+              <div class="ui-actions">
+                <a class="link weak">Secondary Action</a> <a class="primary-button">Primary Action</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="align-left bg-light sg-canvas sg-modifier">
+        <span class="sg-modifier-name">.crucial</span>
+        <div style="">
+          <div class="ui-modal crucial">
             <div class="ui-modal-head">
               <h3 class="title-l">
                 ui-modal Title
