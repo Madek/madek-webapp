@@ -27,7 +27,7 @@
 
 .modal-backdrop.fade.in
 
-.modal.hide.fade.ui-modal.wide.in{"aria-hidden" => "false", :role => "dialog", :style => "display: block;", :tabindex => "-1"}
+.modal.hide.fade.ui-modal.wide.in{"aria-hidden" => "false", :role => "dialog", :style => "display: block;", :tabindex => "-1", :data => {"backdrop" => "static", "keyboard" => "false"}}
   %form{:action => usage_terms_user_path(current_user), :method => :post}
     = token_tag nil
     .ui-modal-head
