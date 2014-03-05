@@ -56,6 +56,17 @@ Feature: Editing keywords, people, controlled vocabularies...
     When I try to leave the page
     Then I have to confirm
 
+  @jsbrowser
+  Scenario: License: selecting a child of a license
+    Given I am signed-in as "Normin"
+    When I go to the edit-page of my first media_entry
+    And I click on the link "Credits"
+    And I click on the link "Weitere Angaben"
+    And I select "Urheberrechtlich geschützt (standardisierte Lizenz)" from "copyright-roots"
+    And I select "CC-By-CH: Attribution" from "copyright-children"
+    And I click on the button "Speichern"
+    Then I can see "C-By-CH: Attribution"
+
   @firefox 
   Scenario: Show warning before leaving media entry edit page and losing unsaved data
     Given I am signed-in as "Normin"

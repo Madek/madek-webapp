@@ -86,9 +86,9 @@ class UuidAsPkeyForMetaEverything < ActiveRecord::Migration
     migrate_foreign_key 'meta_data', 'copyrights', true
     add_column :copyrights, :parent_uuid, :uuid
     execute %[ UPDATE copyrights 
-                SET parent_uuid = cp.uuid 
-                FROM copyrights as cp
-                WHERE copyrights.parent_id = cp.parent_id] 
+                SET parent_uuid = cps.uuid 
+                FROM copyrights as cps
+                WHERE copyrights.parent_id = cps.id] 
     remove_column :copyrights, :parent_id
     rename_column :copyrights, :parent_uuid, :parent_id
     migrate_table 'copyrights'
