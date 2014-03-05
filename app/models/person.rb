@@ -10,6 +10,13 @@ class Person < ActiveRecord::Base
 
   after_save :update_searchable
 
+  after_save do
+    if user
+      user.update_searchable
+      user.update_trgm_searchable
+    end
+  end
+
   has_and_belongs_to_many :meta_data, join_table: :meta_data_people
 
   validate do
