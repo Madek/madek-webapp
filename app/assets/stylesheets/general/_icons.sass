@@ -11,20 +11,21 @@
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
 
-[class*="icon-"]
+// match our icons as well as generic font-awesome
+[class*="icon-"], .fa[class*="fa-"]
   font-size: 16px
+  
+  &.bright
+    color: $mono-brightest
 
-[class*="icon-"].bright
-  color: $mono-brightest
+  &.mid
+    color: $mono-mid
 
-[class*="icon-"].mid
-  color: $mono-mid
+  &.branded
+    color: $main-color
 
-[class*="icon-"].branded
-  color: $main-color
-
-[class*="icon-"].small
-  font-size: 12px
+  &.small
+    font-size: 12px
 
 // Icon Font Extensions
 
