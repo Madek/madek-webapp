@@ -62,6 +62,7 @@ module MAdeK
                                     application.css
                                     application.js
                                     i18n/locale/* 
+                                    plupload/*
                                     pdf-viewer.css
                                     pdf.js
                                     styleguide.css
