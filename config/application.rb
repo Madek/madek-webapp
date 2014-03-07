@@ -55,22 +55,24 @@ module MAdeK
     config.assets.initialize_on_precompile = false
 
     # Please add any files you need precompiled here, otherwise it breaks production
-    config.assets.precompile += %w( application.js
-                                    application.css
-                                    app_admin.js
-                                    app_admin.css
-                                    video.js
-                                    video.css
-                                    visualization_layout_web_worker.js
-                                    visualization.js
-                                    visualization.css
-                                    test.js
-                                    pdf.js
-                                    pdf-viewer.css
-                                    upload.js
-                                    i18n/locale/* 
+    config.assets.precompile += %w( 
                                     *.png
-                                  )
+                                    app_admin.css
+                                    app_admin.js
+                                    application.css
+                                    application.js
+                                    i18n/locale/* 
+                                    pdf-viewer.css
+                                    pdf.js
+                                    styleguide.css
+                                    test.js
+                                    upload.js
+                                    video.css
+                                    video.js
+                                    visualization.css
+                                    visualization.js
+                                    visualization_layout_web_worker.js
+    )
 
   end
 end
