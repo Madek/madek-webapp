@@ -41,6 +41,12 @@ Feature: Edit the permissions through batch-edit
     And I wait until there are no more ajax requests running
     Then I can see a form for editing permissions
 
+
+  @jsbrowser
+  Scenario: Looking at the permission page 
+    Then I can see the media view and not the table view
+
+
   @jsbrowser
   Scenario: Looking at the permission properties 
     Then I can see the following permissions-state:

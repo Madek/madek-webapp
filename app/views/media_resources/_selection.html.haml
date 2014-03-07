@@ -5,12 +5,12 @@
       = _("%d items selected" % media_resources.count)
     .ui-toolbar-controls.by-right
       .button-group.small.tertiary
-        %a.button.active{:"data-view" => ".ui-resources-table"}
+        %a.button{:"data-view" => ".ui-resources-table"}
           = _("Table view")
-        %a.button{:"data-view" => ".ui-resources-media"}
+        %a.button.active{:"data-view" => ".ui-resources-media"}
           = _("Media view")
       
-  .ui-resources-table
+  .ui-resources-table.hidden
 
     %table.block.fixed-table-header.medium
 
@@ -30,6 +30,6 @@
               %td{:title => media_resource.meta_data.get(mkd.meta_key.id)}
                 %span.ui-resources-table-cell-content= media_resource.meta_data.get mkd.meta_key.id
 
-  .ui-resources-media.hidden
+  .ui-resources-media
     = render :partial => "media_resources/wrapper",
              :locals => {:media_resources => media_resources}

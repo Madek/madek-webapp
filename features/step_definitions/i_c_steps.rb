@@ -276,6 +276,11 @@ Then /^I can see the permissions dialog$/  do
   find(".modal .ui-rights-management")
 end
 
+Then /^I can see the media view and not the table view$/  do
+  find(".ui-resources-selection .ui-resources-media", visible: true)
+  find(".ui-resources-selection .ui-resources-table", visible: false)
+end
+
 Then /^I can see the provided title and the used filter settings$/ do
   page.should have_content @title
   @used_filter.each do |filter|

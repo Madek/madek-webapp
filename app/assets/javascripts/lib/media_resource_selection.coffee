@@ -14,3 +14,9 @@ jQuery ->
     selection.find(".ui-resources-table").hide()
     selection.find(".ui-resources-media").hide()
     selection.find(button.data("view")).show()
+    
+    # initialize the table if neccessary
+    freshTable= $('.laterTableInit')
+    if freshTable.get(0)._initTable?
+      freshTable.get(0)._initTable(freshTable)
+    
