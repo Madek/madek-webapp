@@ -217,6 +217,12 @@ Then /^I set the input with the name "(.*?)" to the id of a newly created person
   find("input[name='#{name}']").set(@person.id)
 end
 
+Then /^I see the meta terms list sorted by en_gb in descending order$/ do
+  meta_terms = all(:xpath, "//table/tbody/tr/td[2]").map(&:text).reject{ |mt| mt.blank? }
+  meta_terms_sorted = meta_terms.sort.reverse.reject { |mt| mt.blank? }
+  expect(meta_terms == meta_terms_sorted).to be_true
+end
+
 Then /^I see the links to the resource, \(my\-\)descendants, and \(my\)components$/ do
   expect{@popup.find("a#link_for_resource",visible: true)}.not_to raise_error
   expect{@popup.find("a#link_for_component_with",visible: true)}.not_to raise_error

@@ -1,6 +1,41 @@
 class AppAdmin::MetaTermsController < AppAdmin::BaseController
   def index
-    @meta_terms = MetaTerm.page(params[:page]).per(12).order(:en_gb)
+    begin
+      @meta_terms = MetaTerm.page(params[:page]).per(12)
+      @filter_by = params.try(:[], :filter_by) || nil
+      @sort_by = params.try(:[], :sort_by) || :en_gb_asc
+
+      case @filter_by
+      when 'is_used'
+        @meta_terms = @meta_terms.is_used
+      when 'keyword'
+        @meta_terms = @meta_terms.with_keywords
+      when 'term'
+        @meta_terms = @meta_terms.with_meta_data
+      when 'key_label'
+        @meta_terms = @meta_terms.with_key_labels
+      when 'key_hint'
+        @meta_terms = @meta_terms.with_key_hints
+      when 'key_description'
+        @meta_terms = @meta_terms.with_key_descriptions
+      else
+      end
+
+      case @sort_by
+      when 'en_gb_desc'
+        @meta_terms = @meta_terms.order('en_gb DESC')
+      when 'de_ch_asc'
+        @meta_terms = @meta_terms.order('de_ch ASC')
+      when 'de_ch_desc'
+        @meta_terms = @meta_terms.order('de_ch DESC')
+      else
+        @meta_terms= @meta_terms.order('en_gb ASC')
+      end
+
+    rescue Exception => e
+      @meta_terms = MetaTerm.where("true = false").page(params[:page])
+      @error_message= e.to_s
+    end
   end
 
   def edit
@@ -14,6 +49,21 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
       redirect_to app_admin_meta_terms_url, flash: {success: "A meta term has been updated"}
     rescue => e
       redirect_to edit_app_admin_meta_term_url(@meta_term), flash: {error: e.to_s}
+    end
+  end
+
+  def destroy
+    begin
+      @meta_term = MetaTerm.find params[:id]
+      unless @meta_term.is_used?
+        @meta_term.destroy
+        flash = {success: "The Meta Term has been deleted."}
+      else
+        message = {error: "The Meta Term is used and cannot be deleted."}
+      end
+      redirect_to app_admin_meta_terms_url, flash: flash
+    rescue => e
+      redirect_to :back, flash: {error: e.to_s}
     end
   end
 

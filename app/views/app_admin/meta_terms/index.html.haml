@@ -2,6 +2,35 @@
   %i.fa.fa-file
   MetaTerms
 
+.well.pull-right
+  = form_tag app_admin_meta_terms_path, method: 'GET', class: 'form-inline'  do
+
+    .form-group
+      %label Filter by:
+      %select.form-control{name: :filter_by}
+        = options_for_select [["All", nil],
+          ["Is used?", :is_used],
+          ["Keyword?", :keyword],
+          ["Term?", :term],
+          ["Used as a label", :key_label],
+          ["Used as a hint", :key_hint],
+          ["Used as a description", :key_description]],
+          @filter_by
+
+    .form-group
+      %label Sort by:
+      %select.form-control.sort-by{name: :sort_by}
+        = options_for_select [["EN_GB ascending", :en_gb_asc],
+          ["EN_GB descending", :en_gb_desc],
+          ["DE_CH ascending", :de_ch_asc],
+          ["DE_CH descending", :de_ch_desc]],
+          @sort_by
+
+    .form-group
+      = button_tag type: 'submit', class: 'btn btn-sm' do
+        %i.icon-filter
+        Apply
+
 .row
   .col-md-12
     %table.table.table-striped
@@ -12,6 +41,8 @@
           %th DE_CH
           %th.no-wrap Is used?
           %th.no-wrap Used # times
+          %th Keyword?
+          %th Term?
           %th.no-wrap Used as:
           %th
       %tbody

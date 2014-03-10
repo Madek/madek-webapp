@@ -108,6 +108,10 @@ Then /^I can see edit links in a table$/ do
   expect(all('table tr a', text: "Edit").size).to be > 0
 end
 
+Then /^I can see delete links in a table$/ do
+  expect(all('table tr a', text: "Delete").size).to be > 0
+end
+
 Then /^I can not see "(.*?)"$/ do |text|
   expect(page).not_to have_content text
 end
@@ -467,6 +471,12 @@ end
 When /^I click on the first edit link$/ do
   link = find('a', text: "Edit")
   @edited_model_id = link[:href].gsub(/\/edit/, '').split('/').last
+  link.click
+end
+
+When /^I click on the first delete link$/ do
+  link = find('a', text: "Delete")
+  @meta_term_to_delete = link[:href].split('/').last
   link.click
 end
 

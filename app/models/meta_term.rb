@@ -21,13 +21,28 @@ class MetaTerm < ActiveRecord::Base
   scope :with_keywords, lambda{where(%Q<
     "meta_terms"."id" in (#{joins(:keywords).select('DISTINCT ON ("meta_terms"."id") "meta_terms"."id"').to_sql}) >)}
 
+  scope :with_key_labels, lambda{where(%Q<
+    "meta_terms"."id" IN (SELECT "label_id" FROM "meta_key_definitions" GROUP BY "label_id") >)}
+
+  scope :with_key_hints, lambda{where(%Q<
+    "meta_terms"."id" IN (SELECT "hint_id" FROM "meta_key_definitions" GROUP BY "hint_id") >)}
+
+  scope :with_key_descriptions, lambda{where(%Q<
+    "meta_terms"."id" IN (SELECT "description_id" FROM "meta_key_definitions" GROUP BY "description_id") >)}
+
+  scope :is_used, lambda{where(%Q<
+    "meta_terms"."id" IN (SELECT "label_id" FROM "meta_key_definitions" GROUP BY "label_id") OR
+    "meta_terms"."id" IN (SELECT "hint_id" FROM "meta_key_definitions" GROUP BY "hint_id") OR
+    "meta_terms"."id" IN (SELECT "description_id" FROM "meta_key_definitions" GROUP BY "description_id") OR
+    "meta_terms"."id" in (#{joins(:meta_data).select('"meta_terms"."id"').group('"meta_terms"."id"').to_sql}) OR
+    "meta_terms"."id" in (#{joins(:keywords).select('DISTINCT ON ("meta_terms"."id") "meta_terms"."id"').to_sql}) >)}
 
   def to_s(lang = nil)
     lang ||= DEFAULT_LANGUAGE
     self.send(lang)
   end
 
-  USAGE = [:key_label, :key_hint, :key_description, :term, :keyword]
+  USAGE = [:key_label, :key_hint, :key_description]
 
   ######################################################
 

@@ -163,6 +163,10 @@ Then /^The media_resource with the previous_id "(.*?)" doesn't exist$/  do |id|
   expect(MediaResource.find_by previous_id: id).not_to be
 end
 
+Then /^The meta term does not exist$/ do
+  expect { MetaTerm.find(@meta_term_to_delete) }.to raise_error(ActiveRecord::RecordNotFound)
+end
+
 Then /^The meta_context "(.*?)" is included in the individual_meta_contexts$/ do |meta_context|
   find("table.individual_meta_contexts tr.individual_meta_context[data-name='#{meta_context}']")
 end

@@ -306,7 +306,7 @@ MAdeK::Application.routes.draw do
     end
 
     resources :meta_keys, only: [:index, :create, :new]
-    resources :meta_terms, only: [:index, :edit, :update] do
+    resources :meta_terms, only: [:index, :edit, :update, :destroy] do
       member do
         get  :form_transfer_resources
         post :transfer_resources

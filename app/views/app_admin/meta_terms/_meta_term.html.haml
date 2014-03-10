@@ -4,14 +4,26 @@
   %td.limit250= meta_term.de_ch
   %td= meta_term.is_used? ? "Yes" : "No"
   %td= meta_term.used_times
+  %td= meta_term.used_as?(:keyword) ? "Yes" : "No"
+  %td= meta_term.used_as?(:term) ? "Yes" : "No"
   %td.no-wrap.limit150= used_as meta_term
   %td.no-wrap
     = link_to edit_app_admin_meta_term_path(meta_term) do
-      %i.fa.fa-pencil
+      %i.icon-pen
       Edit
+    - unless meta_term.is_used?
+      %br
+      = link_to app_admin_meta_term_path(meta_term), method: :delete, confirm: "Are you sure you want to delete this meta term?" do
+        %i.icon-trash
+        Delete
     %br
     = link_to form_transfer_resources_app_admin_meta_term_path(meta_term) do
       %i.fa.fa-random
       Transfer
       %span= meta_term.used_times
       to...
+    - if meta_term.is_used?
+      %br
+      = link_to result_search_path(terms: meta_term.de_ch) do
+        %i.icon-vis-graph
+        Show resources
