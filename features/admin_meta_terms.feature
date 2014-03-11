@@ -29,9 +29,3 @@ Feature: Admin Meta Terms
     Then I can see a success message
     And The meta term does not exist
 
-  @jsbrowser
-  Scenario: Sorting by en_gb in descending order
-    When I visit "/app_admin/meta_terms"
-    And I select "EN_GB descending" from "sort-by"
-    And I submit
-    Then I see the meta terms list sorted by en_gb in descending order
