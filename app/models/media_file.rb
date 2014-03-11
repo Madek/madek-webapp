@@ -58,8 +58,6 @@ class MediaFile < ActiveRecord::Base
 
   has_many      :previews, :dependent => :destroy # TODO - the eventual resting place of all preview files derived from the original (e.g. thumbnails)
 
-  scope :original, lambda{where(:parent_id => nil)}
-
 #########################################################
 
   def get_preview(size = nil, type = nil)
