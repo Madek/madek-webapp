@@ -219,8 +219,8 @@ end
 
 Then /^I see the meta terms list sorted by en_gb in descending order$/ do
   meta_terms = all(:xpath, "//table/tbody/tr/td[2]").map(&:text).reject{ |mt| mt.blank? }
-  meta_terms_sorted = meta_terms.sort.reverse.reject { |mt| mt.blank? }
-  expect(meta_terms == meta_terms_sorted).to be_true
+  meta_terms_sorted = meta_terms.sort.reverse
+  expect(meta_terms).to be== meta_terms_sorted
 end
 
 Then /^I see the links to the resource, \(my\-\)descendants, and \(my\)components$/ do
