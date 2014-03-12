@@ -7,7 +7,7 @@ class SessionsController < ActionController::Base
         raise "Password didn't match"
       else
         session[:user_id] = @user.id
-        redirect_to my_dashboard_path, flash: {success: "Sie haben sich abgemeldet."}
+        redirect_to my_dashboard_path, flash: {success: "Sie haben sich angemeldet."}
       end
     rescue Exception => e
       redirect_to root_path, flash: {error: "Falscher Benutzername/Passwort."} 
