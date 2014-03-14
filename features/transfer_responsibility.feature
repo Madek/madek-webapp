@@ -16,7 +16,8 @@ Feature: Transfer responsibility
     | Normin    | edit       | true  |
     | Normin    | manage     | true  |
 
-
+  
+  @firefox @wip
   Scenario: Transferring a media resource where I am not the owner
     Given I am signed-in as "Normin"
     And I remove all permissions from my first media_entry
@@ -32,11 +33,10 @@ Feature: Transfer responsibility
       | Normin    | download   | true  |
       | Normin    | edit       | true  |
       | Normin    | manage     | true  |
+
     When I visit the path of the resource
-    And I open the transfer responsibility page for this resource
-    And I set the input with the name "user" to "[normin]"
-    And I submit
-    Then The owner of the media_resource is "petra"
+    And I click on the link "Weitere Aktionen"
+    Then I don't see the button "Verantwortlichkeit übertragen"
 
   Scenario: Setting custom permissions
     Given I am signed-in as "Normin"

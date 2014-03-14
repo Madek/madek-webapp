@@ -108,6 +108,16 @@ Feature: Permissions
     Then I can not edit the permissions
 
   @jsbrowser 
+  Scenario: Viewing permissions of resource I don't own doesn't show me edit permissions nor transfer buttons
+    Given I am signed-in as "Normin"
+    And A resource, not owned by normin, and with no permissions whatsoever 
+    When There are "view" user-permissions added for me to the resource
+    And I visit the path of the resource
+    And I click on the link "Weitere Aktionen"
+    And I click on the link "Berechtigungen und Verantwortlichkeit"
+    And I don't see the button "Berechtigungen verwalten"
+
+  @jsbrowser 
   Scenario: Manage permission
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
@@ -138,5 +148,3 @@ Feature: Permissions
     When I click on the submit button
     Then I am on the page of the resource
     And I see a confirmation alert
-
-

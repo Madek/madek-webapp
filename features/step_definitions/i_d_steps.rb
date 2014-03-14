@@ -53,6 +53,12 @@ Then /^I don't see "(.*?)"$/ do |arg1|
   expect(page.text[arg1]).not_to be
 end
 
+Then /^I don't see the button "(.*?)"$/ do |text|
+  all(".button").each do |button|
+    expect( button ).not_to have_content(text)
+  end
+end
+
 Then /^I dont see any number of children and parents$/ do
   expect(@popup.all(".media_entry.icon").size).to eq(0)
   expect(@popup.all(".media_set.icon").size).to eq(0)
