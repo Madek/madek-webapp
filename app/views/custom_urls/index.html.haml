@@ -6,58 +6,69 @@
     .app-body-title
       .ui-body-title
         .ui-body-title-label
-          %h1.title-xxl 
-            URLs für 
-            = link_to  media_resource_path(@media_resource) do
-              "#{@media_resource.title} (#{@media_resource.id})"
+          %h1.title-xl
+            = "Adressen für \"#{@media_resource.title}\""
         -if create_url_authorized?
           .ui-body-title-actions
             =link_to new_custom_url_path(@media_resource), class: "primary-button" do
-              Neue URL anlegen / Bestehende URL übertragen
+              Adresse anlegen / übertragen
+              
+    .app-body-ui-container
+    
+      .ui-container.bright.bordered.rounded.pal
+      
+        %form#ui-custom-urls
+          
+          .row
+            .col1of2
+              .ui-info-box
+              
+                %h2.title-l.ui-info-box-title Primäre Adresse
+                %p.ui-info-box-intro.prm
+                  Für jeden Inhalt gibt es immer <strong>genau eine</strong> primäre Adresse.
+                  Diese ist in der Adressleiste des Browsers sichtbar wenn der Inhalt angezeigt wird. 
+                  Neben der primären Adresse können weitere gesetzt werden, die auf die primäre Adresse weiterleiten.
 
-    %table.block
-      %thead
-        %tr
-          %th URL
-          %th Datum
-          %th Erzeuger
-          %th Typ
-          - if create_url_authorized?
-            %th Aktionen
-      %body
-        %tr{id: "_uuid"}
-          %td= link_to @media_resource.id, custom_url_path(@media_resource,@media_resource.id)
-          %td= l @media_resource.created_at, format: :long rescue "???"
-          %td= @media_resource.user.canonical_name
-          %td 
-            - if CustomUrl.find_by(media_resource: @media_resource, is_primary: true)
-              Weiterleitung
-            - else
-              %strong Primäre URL 
-          - if create_url_authorized?
-            %td
-              - if CustomUrl.find_by(media_resource: @media_resource, is_primary: true)
-                = link_to set_primary_url_media_resource_path(@media_resource,@media_resource.id), method: 'POST' do
-                  %button.button Als primäre URL setzen
+            .col1of2
+              .ui-info-box
+                
+                %h2.title-l.ui-info-box-title Kanonische Adresse (UUID)
+                %p.ui-info-box-intro.prm
+                  Jeder Inhalt hat eine (auf der zum Inhalt gehörende UUID basierende) automatisch erzeugte, kanonische Adresse bestehend aus Zahlen und Buchstaben. 
+                  Diese Adresse kann nicht übertragen oder entfernt werden und ist deshalb immer an erster Stelle aufgelistet. 
 
-              =render @custom_urls
+        %hr.separator.light.mvl
+        
+        %h3.title-l.mbs Adressverwaltung
+        
+        %table.block
+          %thead
+            %tr
+              %th Adresse
+              %th Datum
+              %th erstellt durch
+              %th Typ
+              - if create_url_authorized?
+                %th Aktionen
+          %body
+            %tr{id: "_uuid"}
+              %td= link_to @media_resource.id, custom_url_path(@media_resource,@media_resource.id)
+              %td= l @media_resource.created_at, format: :long rescue "???"
+              %td= @media_resource.user.canonical_name
+              %td 
+                - if CustomUrl.find_by(media_resource: @media_resource, is_primary: true)
+                  Weiterleitung
+                - else
+                  %strong Primäre Adresse 
+              - if create_url_authorized?
+                %td
+                  - if CustomUrl.find_by(media_resource: @media_resource, is_primary: true)
+                    = link_to set_primary_url_media_resource_path(@media_resource,@media_resource.id), method: 'POST' do
+                      %button.button Als primäre Adresse setzen
 
+                  =render @custom_urls
 
-    .paragraph-s.ptl
-      Es gibt immer genau eine primäre URL für jede Resource. Diese ist als solche 
-      in der Addressleiste des Browsers sichtbar wenn die die Resource angezeigt wird.
-
-      Alle anderen URLs einer Resource lösen eine Weiterleitung auf die primäre URL 
-      aus.
-
-
-    .paragraph-s.pts
-      Jede Resource hat eine (auf der zur Resource gehörende UUID basierende)
-      kanonische URL.  Diese URL kann nicht übertragen oder entfernt werden.  Sie ist
-      immer als erste in der obigen Tabelle aufgelistet. 
-
-
- 
-  = render :partial => "application/footer", :locals => {:clipboard => false}
+  .app-footer-push 
+= render :partial => "application/footer", :locals => {:clipboard => false}
 
 

@@ -7,10 +7,10 @@ class CustomUrlsController < ApplicationController
 
   before_action :set_messages
 
-  helper_method :url_tranfer_authorized? 
+  helper_method :url_transfer_authorized? 
   helper_method :create_url_authorized?
 
-  def url_tranfer_authorized? media_resource, custom_url
+  def url_transfer_authorized? media_resource, custom_url
     current_user.authorized?(:manage,media_resource) \
       and current_user.authorized?(:manage,custom_url.media_resource)
   end
@@ -51,21 +51,21 @@ class CustomUrlsController < ApplicationController
       end
       CustomUrl.create id: params[:url], media_resource: @media_resource, 
         creator: current_user, updator: current_user
-      redirect_to custom_urls_path(@media_resource), flash: {success: "Die URL wurde angelegt."}
+      redirect_to custom_urls_path(@media_resource), flash: {success: "Die Adresse wurde angelegt!"}
     rescue NotAuthorized => e
       redirect_to custom_urls_path(@media_resource,url: params[:url]), 
         flash: {http_code: 403, error:  "Sie haben nicht die notwendige Berechtigung!"} 
     rescue EagerCustomURLCreation => e
       redirect_to new_custom_url_path(@media_resource,url: params[:url]), 
         flash: {http_code: 422, 
-                error:  "Es kann maximal eine URL im Zeitraum von 3 Minuten für eine Resource erzeugt werden. Bitte warten Sie!"} 
+                error:  "Es kann maximal eine Adresse im Zeitraum von 3 Minuten für einen Inhalt erzeugt werden. Bitte warten Sie!"} 
     rescue ActiveRecord::RecordNotUnique => e
       redirect_to confirm_url_transfer_media_resource_path(@media_resource,url: params[:url]) 
     rescue ActiveRecord::StatementInvalid => e
       case e.original_exception
       when PG::CheckViolation
         redirect_to new_custom_url_path(@media_resource,url: params[:url]), 
-          flash: {error:  "Die URL entspricht nicht den Anforderungen!"} 
+          flash: {error:  "Die Adresse entspricht nicht den Anforderungen!"} 
       else
         raise e.original_exception
       end
@@ -84,13 +84,13 @@ class CustomUrlsController < ApplicationController
     begin
       @custom_url= CustomUrl.find params[:url]
       @media_resource= MediaResource.find params[:id]
-      raise NotAuthorized unless url_tranfer_authorized?(@media_resource,@custom_url)       
+      raise NotAuthorized unless url_transfer_authorized?(@media_resource,@custom_url)       
       @custom_url.update_attributes! media_resource: @media_resource, is_primary: false, \
         updator: current_user
-      redirect_to custom_urls_path(@media_resource), flash: {success: "The URL has been transfered."}
+      redirect_to custom_urls_path(@media_resource), flash: {success: "Die Adresse wurde erfolgreich übertragen!"}
     rescue NotAuthorized => e
       redirect_to confirm_url_transfer_media_resource_path(@media_resource,url: params[:url]), 
-        flash: {http_code: 403, error: "Sie sind nicht berechtigt diese URL zu transferieren!"}
+        flash: {http_code: 403, error: "Sie sind nicht berechtigt diese Adresse zu übertragen!"}
     end
   end
 
@@ -107,7 +107,7 @@ class CustomUrlsController < ApplicationController
         @custom_url= CustomUrl.find_by(id: params[:url], media_resource_id: @media_resource.id)
         @custom_url.update_attributes!(is_primary: true, updator: current_user) if @custom_url
       end
-      redirect_to custom_urls_path(@media_resource), flash: {success: "Eine neue primäre URL wurde gesetetzt!"}
+      redirect_to custom_urls_path(@media_resource), flash: {success: "Eine neue primäre Adresse wurde gesetzt!"}
     rescue NotAuthorized => e
       redirect_to confirm_url_transfer_media_resource_path(@media_resource), 
         flash: {error: "Sie sind nicht berechtigt diese Aktion auszuführen!"}

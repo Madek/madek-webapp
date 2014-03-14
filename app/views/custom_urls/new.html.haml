@@ -6,39 +6,51 @@
     .app-body-title
       .ui-body-title
         .ui-body-title-label
-          %h1.title-xxl 
-            Neue URL anlegen / bestehende URL übertragen für 
-            = link_to  media_resource_path(@media_resource) do
-              "#{@media_resource.title} (#{@media_resource.id})"
+          %h1.title-xl
+            = "Neue Adresse für \"#{@media_resource.title}\""
+    
+      .ui-container.bright.bordered.rounded.pal
+      
+        .row
+          .col1of2
+            .ui-info-box
+            
+              %h2.title-l.ui-info-box-title Anforderungen
+              %p.ui-info-box-intro.prm
+                Eine Adresse darf nur <strong>genau einmal</strong> im System vorkommen. <br>
+                Sie beginnt immer mit einem Kleinbuchstaben, gefolgt von (mindestens einem) weiteren Zeichen 
+                aus Kleinbuchstaben, Nummern, Bindestrichen ("<code>-</code>") und Grundstrichen ("<code>_</code>") in beliebiger Reihenfolge.
 
-    = form_tag custom_urls_path(@media_resource), method: 'POST' do
+          .col1of2
+            .ui-info-box
+              
+              %h2.title-l.ui-info-box-title Übertragen
+              %p.ui-info-box-intro.prm
+                Eine bereits bestehende Adresse kann auf diesen Inhalt übertragen werden, indem er hier eingeben wird. <br>
+                Dazu müssen Sie für beide Inhalte über die Zugriffsberechtigung "Verwalten" verfügen!                
 
-      .form-body
-        .ui-form-group.rowed.minimal
-          %fieldset
-            %label{for: "url", class: "form-label title-l mbs"}
-              .paragraph-s 
-                Eine URL darf nur genau einmal im Archiv vorkommen. Sie beginnt immer mit einem
-                Kleinbuchstaben, gefolgt von (mindestens einem) weiteren Zeichen aus Kleinbuchstaben, 
-                Nummern, Bindestriche und Grundstriche in beliebiger Reihenfolge.
-              .paragraph-s.pbl
-                Eine bereits bestehende URL kann auf diese Resource übertragen werden.
-                Geben Sie dazu die URL ein und bestätigen Sie auf der folgenden Seite. 
-                Sie müssen dazu für beide Ressourcen entsprechend berechtigt sein!
+        %hr.separator.light.mvs
+      
+        = form_tag custom_urls_path(@media_resource), id: 'ui-custom-urls', method: 'POST' do
 
-            .form-item
-              =text_field_tag :url, params[:url], class: "col1of1", placeholder: "ein_neuer_url-alias"
+          .form-body
+            .ui-form-group.rowed.minimal
+              %fieldset
+                %label{for: "url", class: "form-label title-m mbs"}
+                  Gewünschte Adresse:
 
-      .form-footer
-        .ui-actions
+                .form-item
+                  =text_field_tag :url, params[:url], class: "col1of1", placeholder: "meine-neue-adresse"
 
-          = link_to custom_urls_path(@media_resource), class: "button link weak large"  do
-            Abbrechen
+          .form-footer
+            .ui-actions
 
-
-          = button_tag "Anlegen / übertragen", type: 'submit' , class: "button large primary-button"
-
-
-  = render :partial => "application/footer", :locals => {:clipboard => false}
+              = link_to custom_urls_path(@media_resource), class: "button-link weak large"  do
+                Abbrechen
 
 
+              = button_tag "Anlegen / übertragen", type: 'submit' , class: "button large primary-button"
+
+  .app-footer-push
+
+= render :partial => "application/footer", :locals => {:clipboard => false}

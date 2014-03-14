@@ -4,12 +4,12 @@
   %td= custom_url.creator.canonical_name
   %td
     - if custom_url.is_primary 
-      %strong Primäre URL
+      %strong Primäre Adresse
     - else
       Weiterleitung
   %td
     - if create_url_authorized?
       - unless custom_url.is_primary 
         = link_to set_primary_url_media_resource_path(@media_resource,custom_url), method: 'POST' do
-          %button.button Als primäre URL setzen
+          %button.button Als primäre Adresse setzen
 
