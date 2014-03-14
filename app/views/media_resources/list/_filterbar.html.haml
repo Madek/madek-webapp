@@ -1,6 +1,10 @@
+:ruby
+
+  show_filterbar = show_filterbar || params[:filterpanel]
+
 .ui-filterbar.separated.ui-container
   .left.col2of6
-    %a.button#ui-side-filter-toggle{:class => params[:filterpanel] ? "active" : ""}
+    %a.button#ui-side-filter-toggle{:class => show_filterbar ? "active" : ""}
       %i.icon-filter.small
       = _("Filter")
     %a#ui-side-filter-reset.mlx.hidden.weak

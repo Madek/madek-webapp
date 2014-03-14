@@ -11,7 +11,7 @@ Feature: Search
     When I go to the search page
     Then I see one suggested keyword that is randomly picked from the top 25 keywords of resources that I can see
 
-   @jsbrowser
+  @jsbrowser 
   Scenario: Searching for two words
     When I go to the search page
     And I set the input with the name "terms" to "Ausstellung ZHDK"
@@ -24,7 +24,7 @@ Feature: Search
   Scenario: Searching from the secondary window
     When I visit "/search/result?utf8=✓&terms=Blah"
     And I set the input with the name "terms" to "Ausstellung ZHDK"
-    And I submit
+    And I submit the form with id "main_search"
     Then The "resources_counter" has the same count as the "result_count"
     And I can see several resources
 

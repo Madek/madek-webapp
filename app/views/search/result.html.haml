@@ -32,7 +32,7 @@
 
             .col1of2
 
-              =form_tag result_search_path, method: 'GET' do
+              =form_tag result_search_path, method: 'GET', id: "main_search" do
                 .ui-search.large.mts
                   =text_field_tag :terms, nil, type: 'text', autofocus: true, placeholder: placeholder_text, class: "block ui-search-input"
                   =button_tag type: 'submit', class: "primary-button ui-search-button" do
@@ -50,13 +50,15 @@
                    :locals => {:title => _("Search result"),
                                :subtitle => _(%Q[<span id="result_count">%d</span> content elements] % @result_count_for_term)}
 
-          = render :partial => "media_resources/list/filterbar"
+          = render :partial => "media_resources/list/filterbar",
+                   :locals => {:show_filterbar => true}
 
           .ui-resources-holder.pam
 
             .ui-container.table.auto
 
-              = render :partial => "media_resources/list/filter"
+              = render :partial => "media_resources/list/filter",
+                   :locals => {:show_filterbar => true}
 
               .ui-container.table-cell.table-substance
 

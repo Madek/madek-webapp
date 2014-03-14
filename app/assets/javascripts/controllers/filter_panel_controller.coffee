@@ -38,7 +38,7 @@ class FilterPanelController
     @panel.on "click", "[data-value].active", (e)=> @deselectFilter $(e.currentTarget)
     @panel.on "change", ".any-value", (e)=> @changeAnyValue $(e.currentTarget)
     @searchTerm.on "change, delayedChange", => do @filterChange
-    @panel.on "submit", "form#search_form", (e)=> e.preventDefault(); do @filterChange
+    @panel.on "submit", "form#filter_search_form", (e)=> e.preventDefault(); do @filterChange
     @filterReset.on "click", => do @resetFilter
 
   filterChange: ->

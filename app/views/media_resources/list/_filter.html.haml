@@ -1,7 +1,11 @@
-#ui-side-filter.filter-panel.ui-side-filter{:class => params[:filterpanel] ? "" : "hidden"}
+:ruby
+
+  show_filterbar = show_filterbar || params[:filterpanel]
+
+#ui-side-filter.filter-panel.ui-side-filter{:class => show_filterbar ? "" : "hidden"}
 
   #ui-side-filter-search.ui-side-filter-search.filter-search
-    %form#search_form
+    %form#filter_search_form
       %input.unstyled{:type => 'submit', :value => _("Limit by keyword")}
       %input#search_term.block.ui-filter-search-input{:type => "text", :value => params[:search], :name => 'search'}
       
