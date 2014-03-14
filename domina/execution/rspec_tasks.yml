@@ -27,6 +27,14 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/controllers/groups_controller_spec.rb"
+- name: controllers import_controller delete
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/controllers/import_controller/delete_spec.rb"
+- name: controllers import_controller upload
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/controllers/import_controller/upload_spec.rb"
 - name: controllers import_controller zencoder_job
   scripts:
     rspec:

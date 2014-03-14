@@ -8,7 +8,7 @@ FactoryGirl.define do
     width { 429 }
     
     uploaded_data  {
-      f = "#{Rails.root}/features/data/images/berlin_wall_01.jpg"
+      f = "#{Rails.root}/features/data/images/grumpy_cat.jpg"
 
       # Need to copy this file to a temporary new file because files are moved away after succesful
       # uploads!
