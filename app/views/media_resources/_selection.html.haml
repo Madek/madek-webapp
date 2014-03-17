@@ -25,7 +25,8 @@
         - media_resources.each do |media_resource|
           %tr
             %td.ui-resources-table-selection
-              %img.ui-thumbnail.micro{:src => image_media_resource_path(media_resource, :size => :small)}
+              %a{:href => media_resource_path(media_resource.id)}
+                %img.ui-thumbnail.micro{:src => image_media_resource_path(media_resource, :size => :small)}
             - MetaContext.find("core").meta_key_definitions.each do |mkd|
               %td{:title => media_resource.meta_data.get(mkd.meta_key.id)}
                 %span.ui-resources-table-cell-content= media_resource.meta_data.get mkd.meta_key.id
