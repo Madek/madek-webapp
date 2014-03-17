@@ -476,7 +476,7 @@ end
 
 When /^I click on the first delete link$/ do
   link = find('a', text: "Delete")
-  @meta_term_to_delete = link[:href].split('/').last
+  @meta_term_to_delete = link[:href].split('/').last.split('?').first
   link.click
 end
 

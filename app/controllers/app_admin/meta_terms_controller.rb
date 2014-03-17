@@ -3,11 +3,26 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
     begin
       @meta_terms = MetaTerm.page(params[:page]).per(12)
       @filter_by = params.try(:[], :filter_by) || nil
-      @sort_by = params.try(:[], :sort_by) || :en_gb_asc
+      @sort_by = params.try(:[], :sort_by) || :de_ch_asc
+
+      search_terms = params.try(:[],:filter).try(:[],:search_terms)
+
+      if !search_terms.blank?
+        case params.try(:[], :sort_by) 
+        when 'trgm_rank'
+          @meta_terms= @meta_terms.trgm_rank_search(search_terms)
+        when 'text_rank'
+          @meta_terms= @meta_terms.text_rank_search(search_terms)
+        else
+          @meta_terms= @meta_terms.text_search(search_terms)
+        end
+      end
 
       case @filter_by
-      when 'is_used'
-        @meta_terms = @meta_terms.is_used
+      when 'used'
+        @meta_terms = @meta_terms.used
+      when 'not_used'
+        @meta_terms = @meta_terms.used(false)
       when 'keyword'
         @meta_terms = @meta_terms.with_keywords
       when 'term'
@@ -22,14 +37,20 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
       end
 
       case @sort_by
+      when 'en_gb_asc'
+        @meta_terms = @meta_terms.order('en_gb ASC')
       when 'en_gb_desc'
         @meta_terms = @meta_terms.order('en_gb DESC')
-      when 'de_ch_asc'
-        @meta_terms = @meta_terms.order('de_ch ASC')
       when 'de_ch_desc'
         @meta_terms = @meta_terms.order('de_ch DESC')
+      when 'trgm_rank'
+        @sort_by = :trgm_rank
+        raise "Search term must not be blank!" if search_terms.blank? 
+      when 'text_rank'
+        @sort_by = :text_rank
+        raise "Search term must not be blank!" if search_terms.blank? 
       else
-        @meta_terms= @meta_terms.order('en_gb ASC')
+        @meta_terms= @meta_terms.order('de_ch ASC')
       end
 
     rescue Exception => e
@@ -61,7 +82,7 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
       else
         message = {error: "The Meta Term is used and cannot be deleted."}
       end
-      redirect_to app_admin_meta_terms_url, flash: flash
+      redirect_to app_admin_meta_terms_url(sort_by: params[:sort_by]), flash: flash
     rescue => e
       redirect_to :back, flash: {error: e.to_s}
     end
@@ -80,9 +101,9 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
         transfer_keywords
         transfer_meta_data
       end
-      redirect_to app_admin_meta_terms_path, flash: {success: "The meta term's resources have been transfered"}
+      redirect_to app_admin_meta_terms_path(sort_by: params[:sort_by]), flash: {success: "The meta term's resources have been transfered"}
     rescue => e
-      redirect_to app_admin_meta_terms_path, flash: {error: e.to_s}
+      redirect_to app_admin_meta_terms_path(sort_by: params[:sort_by]), flash: {error: e.to_s}
     end
   end
 

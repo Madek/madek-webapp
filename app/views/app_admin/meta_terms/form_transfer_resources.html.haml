@@ -9,7 +9,8 @@
   .form-group
     %label.control-label.col-sm-3 Id of the receiving meta term:
     .col-sm-4
-      = text_field nil, :id_receiver, type: 'text', id: "id_receiver", class: "form-control"
+      = text_field nil, :id_receiver, id: "id_receiver", class: "form-control"
+      = hidden_field_tag :sort_by, params[:sort_by]
 
   .form-group
     .col-sm-offset-3.col-sm-4

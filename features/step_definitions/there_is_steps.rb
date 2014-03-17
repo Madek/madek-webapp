@@ -80,9 +80,9 @@ Then /^There is no media\-entry incomplete with a filename matching "(.*?)"$/ do
   expect(MediaEntryIncomplete.all.select{|me| me.media_file.filename =~ /#{name}/}.size).to eq 0
 end
 
-Then /^There is "(.*?)" sorting option selected$/ do |option|
+Then /^There is "(.*?)" sorting option selected$/ do |option_text|
   within "select[name='sort_by']" do
-    expect(find("option[value='resources_amount']")[:selected]).to eq("selected")
+    expect(find("option", text: option_text)[:selected]).to eq("selected")
   end
 end
 

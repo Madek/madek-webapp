@@ -6,10 +6,15 @@
   = form_tag app_admin_meta_terms_path, method: 'GET', class: 'form-inline'  do
 
     .form-group
+      = text_field :filter, :search_terms, class: "search-query form-control",
+          placeholder: "Search term", value: params.try(:[], :filter).try(:[], :search_terms)
+
+    .form-group
       %label Filter by:
       %select.form-control{name: :filter_by}
         = options_for_select [["All", nil],
-          ["Is used?", :is_used],
+          ["Used", :used],
+          ["Not used", :not_used],
           ["Keyword?", :keyword],
           ["Term?", :term],
           ["Used as a label", :key_label],
@@ -23,7 +28,9 @@
         = options_for_select [["EN_GB ascending", :en_gb_asc],
           ["EN_GB descending", :en_gb_desc],
           ["DE_CH ascending", :de_ch_asc],
-          ["DE_CH descending", :de_ch_desc]],
+          ["DE_CH descending", :de_ch_desc],
+          ["Text search ranking", :text_rank],
+          ["Trigram search ranking", :trgm_rank]],
           @sort_by
 
     .form-group

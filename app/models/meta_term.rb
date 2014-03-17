@@ -14,6 +14,9 @@ class MetaTerm < ActiveRecord::Base
     errors.add(:base, "A term cannot be blank") if LANGUAGES.all? {|lang| send(lang).blank? }
   end
 
+  after_save :update_searchable
+  after_save :update_trgm_searchable
+
   scope :with_meta_data, lambda{where(%Q<
     "meta_terms"."id" in (#{joins(:meta_data).select('"meta_terms"."id"').group('"meta_terms"."id"').to_sql}) >)}
     # essentially does the same as above with DISTINCT ON instead of GROUP BY, 
@@ -30,12 +33,29 @@ class MetaTerm < ActiveRecord::Base
   scope :with_key_descriptions, lambda{where(%Q<
     "meta_terms"."id" IN (SELECT "description_id" FROM "meta_key_definitions" GROUP BY "description_id") >)}
 
-  scope :is_used, lambda{where(%Q<
-    "meta_terms"."id" IN (SELECT "label_id" FROM "meta_key_definitions" GROUP BY "label_id") OR
-    "meta_terms"."id" IN (SELECT "hint_id" FROM "meta_key_definitions" GROUP BY "hint_id") OR
-    "meta_terms"."id" IN (SELECT "description_id" FROM "meta_key_definitions" GROUP BY "description_id") OR
-    "meta_terms"."id" in (#{joins(:meta_data).select('"meta_terms"."id"').group('"meta_terms"."id"').to_sql}) OR
-    "meta_terms"."id" in (#{joins(:keywords).select('DISTINCT ON ("meta_terms"."id") "meta_terms"."id"').to_sql}) >)}
+  scope :used, ->(are_used = true){
+    condition = are_used ? 'EXISTS' : 'NOT EXISTS'
+    operator  = are_used ? 'OR'     : 'AND'
+    where(%Q<
+      #{condition} (SELECT NULL FROM "meta_key_definitions" WHERE "meta_terms"."id" = "meta_key_definitions"."label_id") #{operator}
+      #{condition} (SELECT NULL FROM "meta_key_definitions" WHERE "meta_terms"."id" = "meta_key_definitions"."hint_id") #{operator}
+      #{condition} (SELECT NULL FROM "meta_key_definitions" WHERE "meta_terms"."id" = "meta_key_definitions"."description_id") #{operator}
+      #{condition} (SELECT NULL FROM "meta_data_meta_terms" WHERE "meta_terms"."id" = "meta_data_meta_terms"."meta_term_id") #{operator}
+      #{condition} (SELECT NULL FROM "keywords" WHERE "meta_terms"."id" = "keywords"."meta_term_id") #{operator}
+      #{condition} (SELECT NULL FROM "meta_contexts" WHERE "meta_terms"."id" = "meta_contexts"."label_id") #{operator}
+      #{condition} (SELECT NULL FROM "meta_contexts" WHERE "meta_terms"."id" = "meta_contexts"."description_id") #{operator}
+      #{condition} (SELECT NULL FROM "meta_keys_meta_terms" WHERE "meta_terms"."id" = "meta_keys_meta_terms"."meta_term_id") >)
+  }
+
+  scope :not_used, lambda{where(%Q<
+    NOT EXISTS (SELECT NULL FROM "meta_key_definitions" WHERE "meta_terms"."id" = "meta_key_definitions"."label_id") AND
+    NOT EXISTS (SELECT NULL FROM "meta_key_definitions" WHERE "meta_terms"."id" = "meta_key_definitions"."hint_id") AND
+    NOT EXISTS (SELECT NULL FROM "meta_key_definitions" WHERE "meta_terms"."id" = "meta_key_definitions"."description_id") AND
+    NOT EXISTS (SELECT NULL FROM "meta_data_meta_terms" WHERE "meta_terms"."id" = "meta_data_meta_terms"."meta_term_id") AND
+    NOT EXISTS (SELECT NULL FROM "keywords" WHERE "meta_terms"."id" = "keywords"."meta_term_id") AND
+    NOT EXISTS (SELECT NULL FROM "meta_contexts" WHERE "meta_terms"."id" = "meta_contexts"."label_id") AND
+    NOT EXISTS (SELECT NULL FROM "meta_contexts" WHERE "meta_terms"."id" = "meta_contexts"."description_id") AND
+    NOT EXISTS (SELECT NULL FROM "meta_keys_meta_terms" WHERE "meta_terms"."id" = "meta_keys_meta_terms"."meta_term_id") >)}
 
   def to_s(lang = nil)
     lang ||= DEFAULT_LANGUAGE
@@ -111,5 +131,36 @@ class MetaTerm < ActiveRecord::Base
       find_or_create_by h
     end
   end
+
+  ### text search ######################################## 
+  # postgres' text doesn't split up de_ch addresses; let's do it manually in a searchable field;
+  # since we have searchable field, let's put all strings in there; searching is simpler and we need only one index 
+  
+  def convert_to_searchable str
+    str = str.to_s
+    [str,str.gsub(/[^\w]/,' ').split(/\s+/)].flatten.sort.join(' ')
+  end
+
+  def update_searchable
+    update_columns searchable: [convert_to_searchable(en_gb || ''),convert_to_searchable(de_ch || '')].flatten.compact.sort.uniq.join(" ")
+  end
+
+  def update_trgm_searchable
+    update_columns trgm_searchable: [en_gb,de_ch].flatten.compact.sort.uniq.join(" ")
+  end
+
+  scope :text_search, lambda{|search_term| where(searchable: search_term)}
+
+  scope :text_rank_search, lambda{|search_term| 
+    rank= text_search_rank :searchable, search_term
+    select("#{'meta_terms.*,' if select_values.empty?}  #{rank} AS search_rank") \
+      .where("#{rank} > 0.05") \
+      .reorder("search_rank DESC") }
+
+  scope :trgm_rank_search, lambda{|search_term| 
+    rank= trgm_search_rank :trgm_searchable, search_term
+    select("#{'meta_terms.*,' if select_values.empty?} #{rank} AS search_rank") \
+      .where("#{rank} > 0.05") \
+      .reorder("search_rank DESC") }
 
 end

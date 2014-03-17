@@ -13,11 +13,11 @@
       Edit
     - unless meta_term.is_used?
       %br
-      = link_to app_admin_meta_term_path(meta_term), method: :delete, confirm: "Are you sure you want to delete this meta term?" do
+      = link_to app_admin_meta_term_path(meta_term, sort_by: @sort_by), method: :delete, confirm: "Are you sure you want to delete this meta term?" do
         %i.icon-trash
         Delete
     %br
-    = link_to form_transfer_resources_app_admin_meta_term_path(meta_term) do
+    = link_to form_transfer_resources_app_admin_meta_term_path(meta_term, sort_by: @sort_by) do
       %i.fa.fa-random
       Transfer
       %span= meta_term.used_times
