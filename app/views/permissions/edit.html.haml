@@ -1,9 +1,15 @@
 :ruby
-  # is the user allowed to transfer ALL selected resources?
-  all_can_be_transfered = @all_media_resources.count == @all_media_resources.accessible_by_user(current_user,:transfer).count
+  # is the user allowed to transfer AT LEAST 1 selected resource?
+  some_can_be_transfered = @all_media_resources.accessible_by_user(current_user,:transfer).count >= 1
   
+  # is the user allowed to transfer ALL selected resources?
+  #all_can_be_transfered = @all_media_resources.count == @all_media_resources.accessible_by_user(current_user,:transfer).count
+  
+  # is the user allowed to manage AT LEAST 1 selected resource?
+  some_can_be_managed = @media_resources.accessible_by_user(current_user, :manage).count >= 1
+
   # is the user allowed to manage ALL selected resource?
-  all_can_be_managed = @media_resources.accessible_by_user(current_user, :manage).count == @media_resources.count
+  #all_can_be_managed = @media_resources.accessible_by_user(current_user, :manage).count == @media_resources.count
 
 .app
 
@@ -33,11 +39,11 @@
         - case @action
         - when :view
           .ui-body-title-actions
-            - if all_can_be_transfered
+            - if some_can_be_transfered
               =link_to edit_responsibilities_path(params.slice(:media_resource_id,:collection_id).merge({_action: "edit"})), id: "transfer-responsibilities", class: "button" do
                 =_("Transfer responsibility")
               
-            - if all_can_be_managed
+            - if some_can_be_managed
               =link_to edit_permissions_path(params.slice(:media_resource_id,:collection_id).merge({_action: "edit"})), id: "edit-permissions",data: {manageable: true}, class: "primary-button" do
                 =_("Manage permissions")
 
