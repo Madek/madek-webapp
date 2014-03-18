@@ -56,11 +56,18 @@ describe ImportController do
           expect(@media_entry_incomplete = MediaEntryIncomplete.reorder(created_at: :desc).first).to be
         end
 
-        it "creates a media_file with actual file" do
+        it "creates a media_file with actual file and properties" do
           expect(@media_entry_incomplete = MediaEntryIncomplete.reorder(created_at: :desc).first).to be
           expect(@media_file= @media_entry_incomplete.media_file).to be
           expect(File.exist? @media_file.file_storage_location).to be
           expect(File.new(@media_file.file_storage_location).size).to be> 0
+        
+          @media_file.filename.should be== "grumpy_cat.jpg"
+          @media_file.content_type.should be== "image/jpeg"
+          @media_file.size.should be== 54335
+          @media_file.width.should be== 480 
+          @media_file.extension.should be== "jpg" 
+          @media_file.media_type.should be== "image"
         end
 
         it "creates previews with actual files" do
@@ -76,9 +83,16 @@ describe ImportController do
 
         it "sets the embedded meta data from the file" do
           expect(@media_entry_incomplete = MediaEntryIncomplete.reorder(created_at: :desc).first).to be
+          expect(@meta_data = @media_entry_incomplete.meta_data).to be
 
-          expect(@media_entry_incomplete.meta_data.where(meta_key_id: 'title').first.value).to be== "Grumpy Cat"
-          # TODO add more here
+          @meta_data.get("author").value.should be==  "Cahenzli, Ramon"
+          @meta_data.get("marked").value.should be== "t"
+          @meta_data.get("portrayed object dates").value.should be== "30.05.2011"
+          @meta_data.get("rights").value.should be==  "Ramón Cahenzli"
+          @meta_data.get("title").value.should be== "Grumpy Cat"
+          @meta_data.get("uploaded by").value.first.should be== @user
+          @meta_data.get("usage terms").value.should be== "Bitte jeweils die angegebenen Nutzungsmodifikationen beachten."
+          @meta_data.get("web statement").value.should be== "http://creativecommons.org/licenses/by/2.5/ch/"
         end
 
       end
