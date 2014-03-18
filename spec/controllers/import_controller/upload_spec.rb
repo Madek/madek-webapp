@@ -66,6 +66,7 @@ describe ImportController do
           @media_file.content_type.should be== "image/jpeg"
           @media_file.size.should be== 54335
           @media_file.width.should be== 480 
+          @media_file.height.should be== 360
           @media_file.extension.should be== "jpg" 
           @media_file.media_type.should be== "image"
         end

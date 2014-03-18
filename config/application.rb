@@ -101,7 +101,7 @@ EXIFTOOL_PATH = "exiftool -config #{EXIFTOOL_CONFIG}"
 
 FILE_UTIL_PATH = "/usr/bin/file -b --mime-type"
 
-THUMBNAILS = {:maximum => nil, :x_large => '1024x768>', :large => '620x500>', :medium => '300x300>', :small_125 => '125x125>', :small => '100x100>'}
+THUMBNAILS = {maximum: nil, x_large: '1024x768', large: '620x500', medium: '300x300', small_125: '125x125', small:  '100x100'}
 PER_PAGE = [36,100]
 
 LANGUAGES = [:de_ch, :en_gb]
