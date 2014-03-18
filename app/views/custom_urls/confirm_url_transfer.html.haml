@@ -6,7 +6,7 @@
     .app-body-title
       .ui-body-title
         .ui-body-title-label
-          %h1.title-xl Adress-Übertragung bestätigen
+          %h1.title-xl Übertragung der Adresse bestätigen
           
     .app-body-ui-container
     
@@ -36,7 +36,7 @@
                 .form-footer
                   .ui-actions
 
-                    = link_to new_custom_url_path(@media_resource,url_id: params[:url], warning: "Die Adresse wurde nicht übertragen!"), class: "button-link weak large"  do
+                    = link_to new_custom_url_path(@media_resource,url_id: params[:url], warning: "Die Adresse wurde nicht übertragen."), class: "button-link weak large"  do
                       Abbrechen
 
                     = button_tag "Adresse übertragen", type: 'submit' , class: "button primary-button large"
