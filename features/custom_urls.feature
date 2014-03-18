@@ -80,7 +80,7 @@ Feature: Setting and using custom URLs for MediaResources
     And I click on "Adresse anlegen / übertragen"
     And I set the input with the name "url" to "the_new_url_for_testing"
     And I submit
-    Then I can see "Adress-Übertragung bestätigen"
+    Then I can see "Übertragung der Adresse bestätigen"
 
     When I click on "Adresse übertragen"
     Then I can see a success message
