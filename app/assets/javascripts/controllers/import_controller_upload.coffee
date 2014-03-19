@@ -198,8 +198,8 @@ class ImportController.Upload
     $("#uploader #dropbox_filelist").html App.render "import/upload/dropbox_file", @dropboxFiles, {status: "50%"}
     do @setCustomProgress
     $.ajax
-      url: "/import/dropbox.json"
-      type: "PUT"
+      url: "/import/dropbox_import"
+      type: "POST"
       success: =>
         $("#uploader #dropbox_filelist").html App.render "import/upload/dropbox_file", @dropboxFiles, {status: "100%", finished: true}
         do @setCustomProgress

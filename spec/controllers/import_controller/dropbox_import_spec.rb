@@ -13,6 +13,14 @@ describe ImportController do
     FactoryGirl.create :meta_context, name: 'io_interface', is_user_interface: false
     FactoryGirl.create :meta_context, name: 'upload', is_user_interface: false
     @user = FactoryGirl.create :user
+
+    @dropbox_root_path = Rails.root.join("tmp","dropbox").to_s
+    `mkdir #{@dropbox_root_path}`
+    @app_settings = AppSettings.create! \
+      id: 0, 
+      dropbox_root_dir: @dropbox_root_path,
+      ftp_dropbox_user: ENV['USER']
+
   end
 
   after :all do
@@ -23,36 +31,44 @@ describe ImportController do
     {:user_id => @user.id}
   end
 
-  describe "updoad" do
+  context "the dropbox directory does not exist" do
 
-    context "without providing a file" 
-    it "fails" do
-      expect{
-        post :upload,{} , session
-      }.to raise_exception
+    before :each do
+      `rm -rf #{Rails.root.join("tmp","dropbox","*").to_s}`
     end
 
-    context "with file data"  do
-      
-      before :each do
-        f = "#{Rails.root}/features/data/images/grumpy_cat.jpg"
-        f_temp = "#{Rails.root}/tmp/#{File.basename(f)}"
-        FileUtils.cp(f, f_temp)
-        @uploaded_file= ActionDispatch::Http::UploadedFile.new(type: Rack::Mime.mime_type(File.extname(f_temp)),
-                                                               tempfile: File.new(f_temp, "r"),
-                                                               filename:  File.basename(f_temp))
+    describe "dropbox_create" do
+      it "doesn't raise an error, is successful and creates the Dropbox dir" do
+        expect{post :dropbox_create,{},session}.not_to raise_error
+        response.should be_success
+        Dir.exist?(@user.dropbox_dir_path(@app_settings)).should be true
       end
+    end
+  end
+
+  context "existing dropbox and the grumpy_cat within" do
+
+    before :each do
+      grumpy_cat_original= "#{Rails.root}/features/data/images/grumpy_cat.jpg"
+      users_drop_box_path= @user.dropbox_dir_path(@app_settings)
+      `rm -rf #{users_drop_box_path}`
+      `mkdir -p #{users_drop_box_path}`
+      FileUtils.cp grumpy_cat_original, users_drop_box_path 
+    end
+
+    describe "dropbox_import" do
 
       it "is is successful" do 
-        expect{ post :upload,{file: @uploaded_file} , session }.not_to raise_error
+        expect{ post :dropbox_import,{} , session }.not_to raise_error
         expect(response).to be_success
       end
+
 
       context " successful upload " do
 
         before :each do
           @media_entry_incompletes_count_before= MediaEntryIncomplete.all.count
-          post :upload,{file: @uploaded_file} , session 
+          post :dropbox_import,{} , session
         end
 
         it "creates media_entry_incomplete " do

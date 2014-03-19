@@ -29,41 +29,36 @@ class ImportController < ApplicationController
   end
 
   def dropbox_import
-    respond_to do |format|
-      format.json {
-        begin
-          current_user.dropbox_files(@app_settings).each do |f|
-            file = File.join(current_user.dropbox_dir(@app_settings), f[:dirname], f[:filename])
-            media_entry_incomplete = current_user.incomplete_media_entries
-              .create(:uploaded_data => ActionDispatch::Http::UploadedFile
+    begin
+      current_user.dropbox_files(@app_settings).each do |f|
+        file = File.join(current_user.dropbox_dir(@app_settings), f[:dirname], f[:filename])
+        media_entry_incomplete = current_user.incomplete_media_entries
+        .create(:uploaded_data => ActionDispatch::Http::UploadedFile
                 .new(:type=> Rack::Mime.mime_type(File.extname(file)),
                      :tempfile=> File.new(file, "r"),
                      :filename=> File.basename(file)))
-            raise "Import failed!" unless media_entry_incomplete.persisted?
-          end
-          Rails.cache.delete "#{current_user.id}/media_entry_incompletes_partial"
-          render :json => current_user.dropbox_files(@app_settings).length
-        rescue  Exception => e
-          binding.pry
-          render json: e, status: :unprocessable_entity
-        end
-      }
+        raise "Import failed!" unless media_entry_incomplete.persisted?
+      end
+      Rails.cache.delete "#{current_user.id}/media_entry_incompletes_partial"
+      render :json => current_user.dropbox_files(@app_settings).length
+    rescue  Exception => e
+      render json: e, status: :unprocessable_entity
     end
   end
 
-  def dropbox
-    if request.post?
-      if File.directory?(@app_settings.dropbox_root_dir) and
-        (user_dropbox_root_dir = File.join(@app_settings.dropbox_root_dir, current_user.dropbox_dir_name))
-        Dir.mkdir(user_dropbox_root_dir)
-        File.new(user_dropbox_root_dir).chmod(0770)
-      else
-        raise "The dropbox root directory is not yet defined. Contact the administrator."
-      end
+  def dropbox_create
+    if File.directory?(@app_settings.dropbox_root_dir) \
+        and (user_dropbox_root_dir = current_user.dropbox_dir_path(@app_settings))
+      Dir.mkdir(user_dropbox_root_dir)
+      File.new(user_dropbox_root_dir).chmod(0770)
+    else
+      raise "The dropbox root directory is not yet defined. Contact the administrator."
     end
-    respond_to do |format|
-      format.json { render :json => dropbox_info }
-    end
+    render json: dropbox_info 
+  end
+
+  def dropbox_info
+    render json: dropbox_info
   end
 
 ##################################################

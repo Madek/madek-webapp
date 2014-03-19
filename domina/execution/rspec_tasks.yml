@@ -31,6 +31,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/controllers/import_controller/delete_spec.rb"
+- name: controllers import_controller dropbox_import
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/controllers/import_controller/dropbox_import_spec.rb"
 - name: controllers import_controller upload
   scripts:
     rspec:
