@@ -234,7 +234,8 @@ MAdeK::Application.routes.draw do
   resources :users do
     member do
       get :usage_terms
-      post :usage_terms
+      post :usage_terms_accept
+      get :usage_terms_reject
       get :keywords
     end
     collection do

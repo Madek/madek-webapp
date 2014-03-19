@@ -141,7 +141,11 @@ class ApplicationController < ActionController::Base
 
       # request format can be nil!
       if not (request[:controller] == "media_resources" and request[:action] == "image") and (request.format and request.format.to_sym != :json)
-        check_usage_terms_accepted 
+        # sorry for the mess, i just stacked on top of the pile! o_O
+        # don't run this check when user decides on the usage_terms
+        unless request[:controller] == "users" and %w(usage_terms_reject usage_terms_accept).include? request[:action]
+          check_usage_terms_accepted
+        end
       end
 
     elsif request.format.to_sym == :json or

@@ -47,13 +47,13 @@ class UsersController < ApplicationController
 #####################################################
 
   def usage_terms
-    if request.post?
-      # OPTIMIZE check if really submitted the form (hidden variable?)
-      current_user.usage_terms_accepted!
-      redirect_to root_path
-    else
-      @usage_term = UsageTerm.current
-    end
+    @usage_term = UsageTerm.current    
+  end
+
+  def usage_terms_accept
+    current_user.usage_terms_accepted!
+    redirect_to root_path
+  end
   end
 
 end
