@@ -60,7 +60,7 @@ Feature: Permissions
     When I open the edit-permissions page
     And I set the autocomplete-input with the name "group" to "Vertiefung Industrial Design"
     And I click on "Vertiefung Industrial Design (DDE_FDE_VID.dozierende)" inside the autocomplete list
-    When I click on the submit button
+    When I click the submit button
     And I wait until there are no more ajax requests running
     Then I am on the view permissions page of the resource
     And I see a confirmation alert
@@ -82,7 +82,7 @@ Feature: Permissions
     Given I am signed-in as "Normin"
     And A resource, not owned by normin, and with no permissions whatsoever 
     And I visit the path of the resource
-    Then I am redirected to the main page
+    Then I am redirected to the media archive
 
   Scenario: View user-permission lets me view the resource
     Given I am signed-in as "Normin"
@@ -145,6 +145,6 @@ Feature: Permissions
     And I click on the link "Weitere Aktionen"
     And I click on the link "Metadaten editieren"
     And I am on the edit page of the resource
-    When I click on the submit button
+    When I click the submit button
     Then I am on the page of the resource
     And I see a confirmation alert

@@ -181,7 +181,7 @@ Then /^I am redirected to the admin people list$/ do
   expect(current_path).to eq "/app_admin/people"
 end
 
-Then /^I am redirected to the main page$/ do
+Then /^I am redirected to the media archive$/ do
   expect(current_path).to eq "/my"
 end
 
@@ -236,10 +236,6 @@ end
 Then /^I am on the page of my first media_entry$/ do
   @media_entry = @me.media_entries.reorder(:created_at).first
   expect(current_path).to eq  media_entry_path(@media_entry)
-end
-
-Then /^I am redirected to the media archive$/ do
-  expect(current_path).to eq "/my"
 end
 
 Then /^I am on the group page with id "(.*?)"$/ do |group_id|

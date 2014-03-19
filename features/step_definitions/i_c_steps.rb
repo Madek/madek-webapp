@@ -634,10 +634,6 @@ Then /^I click on the link "(.*?)" inside of the dialog$/ do |link_text|
   find("a",text: link_text).click
 end
 
-Then /^I click on the submit button$/ do
-  find("button[type='submit']").click
-end
-
 Then /^I click on the ZHdK\-Login$/ do
   find("a#zhdk-user-login-tab").click
 end
