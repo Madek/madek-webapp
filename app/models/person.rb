@@ -6,16 +6,9 @@
 
 class Person < ActiveRecord::Base
 
+  include PersonModules::TextSearch
+
   has_one :user
-
-  after_save :update_searchable
-
-  after_save do
-    if user
-      user.update_searchable
-      user.update_trgm_searchable
-    end
-  end
 
   has_and_belongs_to_many :meta_data, join_table: :meta_data_people
 
@@ -28,7 +21,9 @@ class Person < ActiveRecord::Base
 
   scope :with_meta_data, lambda{ where(%Q<
     "people"."id" in ( #{Person.joins(:meta_data).select('"people"."id"').group('"people"."id"').to_sql}) >)}
+
   scope :with_user, lambda{joins(:user)}
+
   scope :groups, lambda{where(:is_group => true)}
 
   scope :search, lambda { |query|
@@ -41,29 +36,9 @@ class Person < ActiveRecord::Base
   }
 
 
-### text search ######################################## 
-  
-  def update_searchable
-    update_columns searchable: [last_name,first_name,pseudonym].flatten \
-      .compact.sort.uniq.join(" ")
-  end
-
-  scope :text_search, lambda{|search_term| basic_search({searchable: search_term},true)}
-
-  scope :text_rank_search, lambda{|search_term| 
-    rank= text_search_rank :searchable, search_term
-    select("#{'people.*,' if select_values.empty?}  #{rank} AS search_rank") \
-      .where("#{rank} > 0.05") \
-      .reorder("search_rank DESC") }
-
-  scope :trgm_rank_search, lambda{|search_term| 
-    rank= trgm_search_rank :searchable, search_term
-    select("#{'people.*,' if select_values.empty?} #{rank} AS search_rank") \
-      .where("#{rank} > 0.05") \
-      .reorder("search_rank DESC") }
-
 
 #######################################
+   
   def to_s
     name
   end
@@ -119,19 +94,5 @@ class Person < ActiveRecord::Base
   def self.split(values)
     values.flat_map {|v| v.respond_to?(:split) ? v.split(';') : v }
   end
-
-#######################################
-
-#temp#
-#  def to_tms(xml)
-#    xml.person do
-#      xml.first_name do
-#        first_name
-#      end
-#      xml.last_name do
-#        last_name
-#      end
-#    end
-#  end
 
 end

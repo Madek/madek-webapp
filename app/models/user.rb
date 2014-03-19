@@ -2,6 +2,10 @@
 # user is the system oriented representation of a User
 
 class User < ActiveRecord::Base
+
+  include UserModules::Dropbox
+  include UserModules::TextSearch
+
   has_secure_password  validations: false 
 
   attr_accessor 'act_as_uberadmin'
@@ -132,37 +136,6 @@ class User < ActiveRecord::Base
 
 #############################################################
 
-  # returns the path as string or false if it doesn't exist
-  def dropbox_dir app_settings
-    _dropbox_dir = dropbox_dir_path(app_settings)
-    File.directory?(_dropbox_dir) and _dropbox_dir
-  end
-
-  # returns the path as string, even if it doesn't exist
-  def dropbox_dir_path app_settings
-    File.join(app_settings.dropbox_root_dir.to_s, dropbox_dir_name)
-  end
-
-  def dropbox_files app_settings
-    if dd = dropbox_dir(app_settings)
-      Dir.glob(File.join(dd, '**', '*')).
-                    select {|x| not File.directory?(x) }.
-                    map {|f| {:dirname=> File.dirname(f).gsub(dd, ''),
-                              :filename=> File.basename(f),
-                              :size => File.size(f) }}
-    end
-  end
-
-  def dropbox_dir_name
-    if persisted?
-      sha = Digest::SHA1.hexdigest("#{id}#{created_at}")
-      "#{id}_#{sha}"    
-    else
-      raise "The user record has to be persisted."
-    end
-  end
-
-
 
   def usage_terms_accepted?
     usage_terms_accepted_at.to_i >= UsageTerm.current.updated_at.to_i
@@ -173,38 +146,5 @@ class User < ActiveRecord::Base
   end
 
 
-  ### text search ######################################## 
-  # postgres' text doesn't split up email addresses; let's do it manually in a searchable field;
-  # since we have searchable field, let's put all strings in there; searching is simpler and we need only one index 
-  
-  def convert_to_searchable str
-    [str,str.gsub(/[^\w]/,' ').split(/\s+/)].flatten.sort.join(' ')
-  end
-
-  def update_searchable
-    update_columns searchable: [convert_to_searchable(login),convert_to_searchable(email),
-                                person.last_name,person.first_name,person.pseudonym] \
-                                .flatten.compact.sort.uniq.join(" ")
-  end
-
-  def update_trgm_searchable
-    update_columns trgm_searchable: [login,email,person.last_name,
-                                     person.first_name,person.pseudonym] \
-                                     .flatten.compact.sort.uniq.join(" ")
-  end
-
-  scope :text_search, lambda{|search_term| basic_search({searchable: search_term},true)}
-
-  scope :text_rank_search, lambda{|search_term| 
-    rank= text_search_rank :searchable, search_term
-    select("#{'users.*,' if select_values.empty?}  #{rank} AS search_rank") \
-      .where("#{rank} > 0.05") \
-      .reorder("search_rank DESC") }
-
-  scope :trgm_rank_search, lambda{|search_term| 
-    rank= trgm_search_rank :trgm_searchable, search_term
-    select("#{'users.*,' if select_values.empty?} #{rank} AS search_rank") \
-      .where("#{rank} > 0.05") \
-      .reorder("search_rank DESC") }
 
 end
