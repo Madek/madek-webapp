@@ -3,7 +3,7 @@
   = render "application/header"
   
   .modal.hide.fade.ui-modal.wide.crucial.in{"aria-hidden" => "false", :role => "dialog", :style => "display: block;", :tabindex => "-1", :data => {"backdrop" => "static", "keyboard" => "false"}}
-    %form{:action => usage_terms_user_path(current_user), :method => :post}
+    %form{:action => usage_terms_accept_user_path(current_user), :method => :post}
       = token_tag nil
       .ui-modal-head
         %h3.title-l= @usage_term.title
@@ -15,7 +15,7 @@
         .pbm
       .ui-modal-footer
         .ui-actions
-          %a.link.weak{:href => "/logout"}
+          %a.link.weak{:href => usage_terms_reject_user_path(current_user)}
             = _("Reject")
           %button.primary-button{:type => "submit"}
             = _("Accept")
@@ -24,8 +24,3 @@
 = render :partial => "application/footer"
 
 .modal-backdrop.fade.in
-
-:coffeescript
-
-  jQuery -> new App.Modal $(".modal")
-

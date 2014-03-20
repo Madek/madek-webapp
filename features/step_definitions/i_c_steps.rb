@@ -642,6 +642,10 @@ Then (/^I click on the first a tag in the class "(.*?)"$/) do |_class|
   all(".#{_class} a").first.click
 end
 
+Then (/^I click the "(.*?)" link$/) do |text|
+  find("a", text: text).click
+end
+
 Then /^I click the primary action of this dialog$/ do
   find(".ui-modal .primary-button").click
 end

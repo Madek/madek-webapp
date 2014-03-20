@@ -5,6 +5,13 @@ Then /^I a see the graph of the resource "(.*?)"$/ do |resource|
     visit "/visualization/#{resource}"
 end
 
+Then /^I accept the usage terms$/ do
+  all(".modal").each do |modal|
+    # "h3",text: "Nutzungsbedingungen"
+    context("button",text: "Akzeptieren").click
+  end
+end
+
 Then /^I accept the usage terms if I am supposed to do so$/ do
   if all("h3",text: "Nutzungsbedingungen").size > 0
     find("button",text: "Akzeptieren").click
@@ -108,6 +115,11 @@ Then /^I am logged in as "(.*?)"$/ do |first_name|
   expect(find("a#user-action-button", text: first_name)).not_to raise_error
 end
 
+Then /^I am logged out$/ do
+  # TODO: how to just check for the session? possiburu?
+  expect(find("a#user-action-button")).not_to be
+end
+
 Then /^I am on the catalog page$/ do
   expect(find ".app.view-explore-catalog").to be
 end
@@ -179,6 +191,10 @@ end
 
 Then /^I am redirected to the admin people list$/ do
   expect(current_path).to eq "/app_admin/people"
+end
+
+Then /^I am redirected to the home page$/ do
+  expect(current_path).to eq "/"
 end
 
 Then /^I am redirected to the media archive$/ do

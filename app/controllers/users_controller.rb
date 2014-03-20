@@ -54,6 +54,10 @@ class UsersController < ApplicationController
     current_user.usage_terms_accepted!
     redirect_to root_path
   end
+
+  def usage_terms_reject
+    reset_session
+    redirect_to root_path, flash: {error: "Das Akzeptieren der Nutzungsbedingungen ist Vorraussetzung für die Nutzung des Medienarchivs."}
   end
 
 end

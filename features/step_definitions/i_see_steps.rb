@@ -29,6 +29,12 @@ Then /^I see a database login$/ do
   expect(find "#external-user" ).to be
 end
 
+Then /^I see a "(.*?)" modal$/ do |title|
+  within(".modal .ui-modal-head") do
+    expect(find "*", text: title ).to be
+  end
+end
+
 Then /^I see a filtered list of resources where at least one element has arcs$/ do
   me = MediaEntry.accessible_by_user(@current_user).detect do |me|
     me.meta_data.where(:type => "MetaDatumKeywords").size > 0 and
@@ -102,6 +108,10 @@ end
 
 Then /^I see an error alert$/ do
   expect{ find(".ui-alert.error",visible: true) }.not_to raise_error
+end
+
+Then (/^I see an error alert mentioning "(.*?)"$/) do |message|
+  find(".ui-alert.error", text: message)
 end
 
 Then /^I see an error that I have to provide a name for that group$/ do

@@ -13,4 +13,17 @@ Feature: Login
     And I click the submit button
     Then I am logged in
 
+  Scenario: Accepting usage terms after fresh login
+    Given "Normin" has not yet accepted the usage terms
+    And I am signed-in as "Normin"
+    When I see a "Nutzungsbedingungen" modal
+    And I click the submit button
+    Then I am redirected to the media archive
 
+  Scenario: Rejecting usage terms after fresh login
+    Given "Normin" has not yet accepted the usage terms
+    And I am signed-in as "Normin"
+    When I see a "Nutzungsbedingungen" modal
+    And I click the "Ablehnen" link
+    Then I am redirected to the home page
+    And I see an error alert mentioning "Nutzungsbedingungen"
