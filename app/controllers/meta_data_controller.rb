@@ -2,6 +2,7 @@
 class MetaDataController < ApplicationController
 
   def update
+
     if @media_resource = MediaResource.accessible_by_user(current_user, :edit) \
       .where(id: params[:media_resource_id]).first
 

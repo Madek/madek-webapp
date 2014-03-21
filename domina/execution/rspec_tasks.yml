@@ -91,6 +91,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/controllers/meta_contexts_controller_spec.rb"
+- name: controllers meta_data update
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/controllers/meta_data/update_spec.rb"
 - name: controllers meta_data_controller
   scripts:
     rspec:
