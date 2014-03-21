@@ -11,7 +11,7 @@
   - copyright_roots.each do |copyright|
 
     = render partial: "media_resources/edit/fields/meta_datum_copyright/option", 
-             locals: {:copyright => copyright, :selected => copyright.root}
+             locals: {:copyright => copyright, :selected => value.root}
 
 - copyright_roots.each do |copyright|
 
