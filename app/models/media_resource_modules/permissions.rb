@@ -11,6 +11,8 @@ module MediaResourceModules
 
         has_many :userpermissions, :dependent => :destroy         
         has_many :grouppermissions, :dependent => :destroy
+        has_many :applicationpermissions, dependent: :destroy, \
+          class_name: 'API::Applicationpermission'
       end
     end
 

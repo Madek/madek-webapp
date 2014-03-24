@@ -65,6 +65,7 @@ module Json
             x = {:id => group.id, :name => group.to_s}
             group_actions.each do |action|
               x[action] = media_resources.select do |media_resource|
+                # TODO awesome notation x within x within h
                 !!media_resource.grouppermissions.detect {|x| x.group_id == group.id and x.send(action) }
               end.map(&:id).sort
             end
@@ -72,7 +73,22 @@ module Json
           end
         end
       end
-        
+
+      h[:applications] = media_resources \
+        .flat_map(&:applicationpermissions).map(&:application).uniq.map do |app|
+
+        app_data = {:id => app.id,description: app.description}
+        [:view,:download,:edit,:manage].each do |action|
+          app_data[action] = media_resources.select do |media_resource|
+            !!media_resource.applicationpermissions.detect do |app_perm| 
+              app_perm.application_id == app.id and app_perm.send(action)
+            end
+          end.map(&:id).sort
+        end
+
+        app_data
+      end
+
       h
     end
 
