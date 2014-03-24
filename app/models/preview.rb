@@ -2,6 +2,12 @@
 class Preview < ActiveRecord::Base
   belongs_to :media_file
 
+  before_create :set_media_type
+
+  def set_media_type
+    self.media_type = Concerns::MediaType.map_to_media_type(self.content_type)
+  end
+
   after_destroy do
     begin
       File.delete(full_path)

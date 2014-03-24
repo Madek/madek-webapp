@@ -1,0 +1,21 @@
+%h1.text-center 
+  API Applications
+
+
+%ul.list-inline
+
+  %li
+    = link_to new_app_admin_application_path, class: 'btn btn-success' do
+      %i.fa.fa-plus
+      Create a new application
+
+
+%table.table.table-striped
+  %thead
+  %tbody
+    =render collection: @applications, partial: 'application_row', as: 'application'
+
+
+= paginate @applications, theme: 'app_admin'
+
+

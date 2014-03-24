@@ -1,0 +1,10 @@
+Welcome to the Madek API
+========================
+
+You requested the api with for viewable content for e.g. a browser. However,
+the api is meant to be used for requesting data with the content type
+`application/json` or `application/json+hal`. 
+
+Consider to visit the [api documentation](/public/api_docs) or browse the API with the embedded [MAdeK API Browser](/api-browser/browser.html#/api/).
+
+

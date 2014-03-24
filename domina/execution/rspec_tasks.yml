@@ -255,11 +255,19 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/zencoder_job_spec.rb"
-- name: requests api typo_madek_player_plugin_request
+- name: requests api authentication
   scripts:
     rspec:
-      body: bundle exec rspec "spec/requests/api/typo_madek_player_plugin_request_spec.rb"
+      body: bundle exec rspec "spec/requests/api/authentication_spec.rb"
+- name: requests api media_resources
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/requests/api/media_resources_spec.rb"
 - name: requests guest_user abstract
   scripts:
     rspec:
       body: bundle exec rspec "spec/requests/guest_user/abstract_spec.rb"
+- name: requests old_api typo_madek_player_plugin_request
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/requests/old_api/typo_madek_player_plugin_request_spec.rb"

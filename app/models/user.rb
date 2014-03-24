@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
 
   include UserModules::Dropbox
   include UserModules::TextSearch
+  include UserModules::AutoCompletion
+
 
   has_secure_password  validations: false 
 
@@ -22,6 +24,9 @@ class User < ActiveRecord::Base
     joins("LEFT OUTER JOIN user_resources_counts ON user_resources_counts.user_id = users.id") }
 
   scope :sort_by_resouces_amount, ->{ reorder("resources_amount desc")}
+
+  scope :order_by_last_name_first_name, ->{
+    joins(:person).reorder("people.last_name, people.first_name, people.pseudonym") }
 
   belongs_to :person
   delegate :name, :fullname, :shortname, :to => :person
@@ -97,13 +102,6 @@ class User < ActiveRecord::Base
 
   def to_s
     name
-  end
-
-  def canonical_name
-    (person.last_name.blank? ? '' : "#{person.last_name},") \
-      << (person.first_name.blank? ? '' : " #{person.first_name}") \
-      << (person.pseudonym.blank? ? '' : " (#{person.pseudonym})") \
-      << " [#{login}]" 
   end
 
   def login=(value)

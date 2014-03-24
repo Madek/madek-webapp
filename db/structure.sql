@@ -85,6 +85,35 @@ CREATE TABLE app_settings (
 
 
 --
+-- Name: applicationpermissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE applicationpermissions (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    media_resource_id uuid NOT NULL,
+    application_id character varying(255) NOT NULL,
+    download boolean DEFAULT false NOT NULL,
+    edit boolean DEFAULT false NOT NULL,
+    manage boolean DEFAULT false NOT NULL,
+    view boolean DEFAULT false NOT NULL,
+    CONSTRAINT edit_on_applicationpermissions_is_false CHECK ((edit = false)),
+    CONSTRAINT manage_on_applicationpermissions_is_false CHECK ((manage = false))
+);
+
+
+--
+-- Name: applications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE applications (
+    user_id uuid NOT NULL,
+    id character varying(255) NOT NULL,
+    description text,
+    secret uuid DEFAULT uuid_generate_v4()
+);
+
+
+--
 -- Name: copyrights; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -211,7 +240,7 @@ CREATE TABLE media_files (
     height integer,
     size bigint,
     width integer,
-    content_type character varying(255),
+    content_type character varying(255) NOT NULL,
     filename character varying(255),
     guid character varying(255),
     access_hash text,
@@ -219,7 +248,7 @@ CREATE TABLE media_files (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     extension character varying(255),
-    media_type character varying(255),
+    media_type character varying(255) NOT NULL,
     media_entry_id uuid,
     id uuid DEFAULT uuid_generate_v4() NOT NULL
 );
@@ -446,13 +475,14 @@ CREATE TABLE permission_presets (
 CREATE TABLE previews (
     height integer,
     width integer,
-    content_type character varying(255),
+    content_type character varying(255) NOT NULL,
     filename character varying(255),
     thumbnail character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     media_file_id uuid NOT NULL,
-    id uuid DEFAULT uuid_generate_v4() NOT NULL
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    media_type character varying(255) NOT NULL
 );
 
 
@@ -520,6 +550,7 @@ CREATE TABLE users (
     person_id uuid NOT NULL,
     searchable text DEFAULT ''::text NOT NULL,
     trgm_searchable text DEFAULT ''::text NOT NULL,
+    autocomplete character varying(255) DEFAULT ''::character varying NOT NULL,
     CONSTRAINT users_login_simple CHECK ((login ~* '^[a-z0-9\.\-\_]+$'::text))
 );
 
@@ -561,6 +592,22 @@ CREATE TABLE zencoder_jobs (
 
 ALTER TABLE ONLY app_settings
     ADD CONSTRAINT app_settings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: applicationpermissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY applicationpermissions
+    ADD CONSTRAINT applicationpermissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY applications
+    ADD CONSTRAINT applications_pkey PRIMARY KEY (id);
 
 
 --
@@ -802,6 +849,27 @@ CREATE INDEX index_app_settings_on_featured_set_id ON app_settings USING btree (
 --
 
 CREATE INDEX index_app_settings_on_splashscreen_slideshow_set_id ON app_settings USING btree (splashscreen_slideshow_set_id);
+
+
+--
+-- Name: index_applicationpermissions_on_application_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_applicationpermissions_on_application_id ON applicationpermissions USING btree (application_id);
+
+
+--
+-- Name: index_applicationpermissions_on_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_applicationpermissions_on_media_resource_id ON applicationpermissions USING btree (media_resource_id);
+
+
+--
+-- Name: index_applicationpermissions_on_mr_id_and_app_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_applicationpermissions_on_mr_id_and_app_id ON applicationpermissions USING btree (media_resource_id, application_id);
 
 
 --
@@ -1302,10 +1370,24 @@ CREATE INDEX index_people_on_last_name ON people USING btree (last_name);
 
 
 --
+-- Name: index_previews_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_previews_on_created_at ON previews USING btree (created_at);
+
+
+--
 -- Name: index_previews_on_media_file_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_previews_on_media_file_id ON previews USING btree (media_file_id);
+
+
+--
+-- Name: index_previews_on_media_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_previews_on_media_type ON previews USING btree (media_type);
 
 
 --
@@ -1320,6 +1402,13 @@ CREATE INDEX index_userpermissions_on_media_resource_id ON userpermissions USING
 --
 
 CREATE INDEX index_userpermissions_on_user_id ON userpermissions USING btree (user_id);
+
+
+--
+-- Name: index_users_on_autocomplete; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_autocomplete ON users USING btree (autocomplete);
 
 
 --
@@ -1465,6 +1554,30 @@ ALTER TABLE ONLY app_settings
 
 ALTER TABLE ONLY app_settings
     ADD CONSTRAINT app_settings_third_displayed_meta_context_name_fk FOREIGN KEY (third_displayed_meta_context_name) REFERENCES meta_contexts(name);
+
+
+--
+-- Name: applicationpermissions_application_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY applicationpermissions
+    ADD CONSTRAINT applicationpermissions_application_id_fk FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE;
+
+
+--
+-- Name: applicationpermissions_media_resource_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY applicationpermissions
+    ADD CONSTRAINT applicationpermissions_media_resource_id_fk FOREIGN KEY (media_resource_id) REFERENCES media_resources(id) ON DELETE CASCADE;
+
+
+--
+-- Name: applications_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY applications
+    ADD CONSTRAINT applications_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1963,9 +2076,13 @@ INSERT INTO schema_migrations (version) VALUES ('20131220092952');
 
 INSERT INTO schema_migrations (version) VALUES ('20140106090500');
 
+INSERT INTO schema_migrations (version) VALUES ('20140128104450');
+
 INSERT INTO schema_migrations (version) VALUES ('20140129091723');
 
 INSERT INTO schema_migrations (version) VALUES ('20140129115655');
+
+INSERT INTO schema_migrations (version) VALUES ('20140205063856');
 
 INSERT INTO schema_migrations (version) VALUES ('20140218080030');
 
@@ -1976,6 +2093,10 @@ INSERT INTO schema_migrations (version) VALUES ('20140218190628');
 INSERT INTO schema_migrations (version) VALUES ('20140220133023');
 
 INSERT INTO schema_migrations (version) VALUES ('20140224081939');
+
+INSERT INTO schema_migrations (version) VALUES ('20140304114839');
+
+INSERT INTO schema_migrations (version) VALUES ('20140310141910');
 
 INSERT INTO schema_migrations (version) VALUES ('20140314113548');
 

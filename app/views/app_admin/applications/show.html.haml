@@ -1,0 +1,29 @@
+
+%h1 Application "#{@application.id}"
+
+%ul.list-inline
+
+  %li
+    =form_tag app_admin_application_path(@application), method: 'DELETE' do
+      = button_tag type: 'submit', class: "btn btn-danger" do
+        %i.fa.fa-trash
+        Destroy
+
+
+
+%table.table.table-striped
+  %thead
+  %tbody
+  - @application.attributes.each do |name,value|
+    %tr
+      - case name
+      - when "user_id"
+        %td Responsible user
+        %td= @application.user.to_s
+      - else
+        %td= name.capitalize.split("_").join(" ")
+        %td= value
+
+
+
+

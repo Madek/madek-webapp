@@ -1,0 +1,6 @@
+%tr
+  %td #{application.id}
+  %td #{application.user.to_s}
+  %td
+    = link_to app_admin_application_path(application) do
+      show details

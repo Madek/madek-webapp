@@ -10,6 +10,12 @@ class Person < ActiveRecord::Base
 
   has_one :user
 
+  after_save do
+    if user
+      user.update_autocomplete
+    end
+  end
+
   has_and_belongs_to_many :meta_data, join_table: :meta_data_people
 
   validate do

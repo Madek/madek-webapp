@@ -1,0 +1,49 @@
+Authentication
+==============
+
+Every resource accessible through the API (except of the entry point) requires
+proper authentication. Failing to perform authentication will result with a
+`401 Unauthorized` response.
+
+    curl -I -H "Accept: application/json" http://medienarchiv.zhdk.ch/api/media_resources
+
+    HTTP/1.1 401 Unauthorized
+    ...
+
+Authorization requires knowledge of two properties: 
+
+  1. an application **ID**, and
+  2. a corresponding application **SECRET**.  
+
+Contact your MAdeK support, respectively administrator, to obtain the required
+ID and SECRET. There are two ways to perform authentication.
+
+Authentication Method 1: HTTP Basic Authentication
+--------------------------------------------------
+
+_[Http basic authentication][]_ is based on using an *user name* and a
+*password*. The ID serves as the *user name* and the SECRET as the *password*.
+
+    curl -u test-api:877e9f33-2350-4eed-a796-e67bfb1a0b4f -I -H "Accept: application/json" http://localhost:3000/api/media_resources
+
+    HTTP/1.1 200 OK
+    ...
+
+Authentication Method 2: Custom Headers
+---------------------------------------
+
+The Http basic authentication should be the primary method of authentication as
+it is a well defined standard. I is possible to send ID and SECRET via the
+custom headers `API_ID` and `API_SECRET` when http basic is inconvenient to 
+use or not supported by the tool performing requests. 
+
+    curl -I  -H "API_ID: test-api" -H "API_SECRET: 877e9f33-2350-4eed-a796-e67bfb1a0b4f" \
+       -H "Accept: application/json" http://medienarchiv.zhdk.ch/api/media_resources
+
+    HTTP/1.1 200 OK
+    ...
+
+
+
+  [Http basic authentication]: http://en.wikipedia.org/wiki/Basic_access_authentication
+

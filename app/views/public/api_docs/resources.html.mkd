@@ -1,0 +1,97 @@
+Resources
+=========
+
+A resource is the basic entity in the Representational state transfer protocol.
+Every resources is associated in a one to one relation with an url. Some of the
+urls may make use of parameters. The user of the API should think of a resource
+in terms of the base url and not its parameters. The documentation for the
+Madek API is organized in this way where every base url has its own document
+that describes the returned properties and the possible request parameters. 
+
+Lists and Pagination
+--------------------
+
+Some index URLs, like `/api/media_resources` for example, return a list of some
+sort where the number of contained items can be large. A single request might
+then only return a fixed number of items. Further items are to retrieved by 
+following the `next`-link. 
+
+### The `next`-link
+
+The `_links` section will contain a **`next`**-link to return further items **if
+and only if** the list has not yet been exhausted. 
+
+Note: any query parameters given to current request will be taken over to the
+`next`-link. 
+
+Remark: the state of the pagination is stored in the `page` parameter. This
+parameter should be considered as an internal property of the API. 
+
+
+### Default order of lists
+
+List are always ordered. The implicit order corresponds to the `created_at` (if
+available) property in ascending order. 
+
+
+Common and shared properties
+----------------------------  
+
+Some properties returned by the API are similar and im some sense equivalent
+for many resources. They are identified by a common name and described here. 
+
+
+### `created_at` 
+
+Refers to the date and time when the resource was created. The value is
+of **type string** and it is formated according to the [iso8601][]
+standard.
+
+  [iso8601]: http://en.wikipedia.org/wiki/ISO_8601
+
+### `updated_at` 
+
+Refers to the date and time when the resource was last modified. The value is
+of **type string** and it is formated according to the [iso8601][] standard.
+
+### `id` or `name`
+
+A identifier that uniquely distinguishes a resources among those of the same
+kind. It is usually a representation of the underlying primary key in the Madek
+database. The **type** is always a **string**. Most ids in Madek are 
+[UUIDs][] according to the version 4 of the standard. 
+
+  [UUIDs]: http://en.wikipedia.org/wiki/Universally_unique_identifier
+
+As of early 2014 every id in Madek  is always a **string**. Before that it
+could have been either a **string** or **integer**. So, the "old API" might have
+returned mixed types.
+
+### `content_type`
+
+A value of **type string**. Some resources contain links to arbitrary data. The
+content_type is equal to the content_type header that is send when this data is
+requested. See also [media types in the w3 standard][] and [internet media type
+at wikipedia][].
+
+  [media types in the w3 standard]: http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.7
+  [internet media type at wikipedia]: http://en.wikipedia.org/wiki/Internet_media_type
+
+### `media_type`
+
+A value of **type string** derived from the `content_type` where the subtype is
+ignored for the `video/*`, `audio/*` and `image/*` types. `text/*` and
+`application/*` map to `document` and all other types to `other`. See also the
+definition of `self.media_type` in the [media file model][].
+
+The `media_type` exists primarily for filtering.
+
+Note: It appears to me that it was unwise to name this parameter `media_type`
+due to the inconsistent mapping and possible confusion with the term
+`media_type` which seem to be synonym for content_type. However, it is part of
+the _old_ API and the whole application and can't be easily renamed.
+
+
+  [media file model]: https://github.com/zhdk/madek/blob/master/app/models/media_file.rb#L361
+
+

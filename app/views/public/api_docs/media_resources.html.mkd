@@ -1,0 +1,25 @@
+MediaResources [`/api/media_resources`][]
+======================================
+
+Requests to this URL return a paginated list of MediaResources.
+
+Query Parameters
+----------------
+
+### `media_type` 
+
+This parameter can be used for filtering on the `media_type`
+property of a MediaEntry. See also the [media_type section in the Resources
+document](/public/api_docs/resources#mediatype).
+
+Note: supplying a `media_type` key implies also the filter `type=MediaEntry`.
+
+
+### `type`
+
+This parameter filters the list of MediaResources. A value for the
+key `type`, can be  `FilterSet`, `MediaEntry`, or `MediaSet`. 
+ 
+  [`/api/media_resources`]: /api-browser/browser.html#/api/media_resources
+
+

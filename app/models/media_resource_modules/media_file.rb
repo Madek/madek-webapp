@@ -6,6 +6,7 @@ module MediaResourceModules
     def self.included(base)
       base.class_eval do
         has_one :media_file, foreign_key: :media_entry_id, dependent: :destroy
+        delegate :content_type, to: :media_file
         delegate :media_type, to: :media_file
       end
     end

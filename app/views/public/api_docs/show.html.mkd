@@ -1,0 +1,69 @@
+The Media Archive API 
+=====================
+
+This document describes the [*Application Programming Interface*][] in the
+version 2 for the [MAdeK project][]. We use the term the *Madek API*  or simply
+*API* in this documentation.
+
+Fundamentals
+------------
+
+The Madek API follows the principles of the [*Representational state
+transfer protocol*][]. It provides truly *RESTful* HTTP with hypermedia
+that uses embedded links. The *Madek API* strives to implement an
+architecture known as *Hypermedia as the Engine of Application State*, or
+*[HATEOAS][]* in short. More specifically, it implements the specification of the
+[*JSON Hypertext Application Language*][], often abbreviated with *HAL*.
+
+
+The *HAL* specification describes conventions how properties and links are
+embedded in a JSON document. One of the many benefits is that the Madek API is
+browsable with the embedded [Madek API Browser][]. **Browsing the API is a very
+efficient and effective  method to get acquainted with the Madek API**. See
+also the *API Browser* link on the top of this page.
+
+
+Entry Point and Accept Header
+-----------------------------
+
+The entry point of the API is `/api`. The appropriate and supported accept
+header is `application/json` or `application/hal+json` for requesting
+properties from the API. The returned content-type can be either
+`application/json` or `application/json+hal`.[^jsonhal] The content will
+always conform to the HAL standard for both content types! 
+
+
+    curl -I -H "Accept: application/json" http://medienarchiv.zhdk.ch/api
+
+    HTTP/1.1 200 OK
+    ...
+    Content-Type: application/json; charset=utf-8
+    ...
+
+Some of the provided links by the API will refer to arbitrary (most likely
+binary) data. The content can be the uploaded file, or a preview in form of an
+image, movie or similar. The content-type will then be the appropriate for the
+returned data, for example `image/jpeg`, `video/webm`, `video/mp4`, etc.
+
+Examples in this documentation
+------------------------------
+We illustrate requests (and possibly the corresponding response) by
+providing examples. We do do this by either employing the command line
+tool *[cURL][]*, as seen above in [Entry Point and Accept Header][], or
+by using the embedded [Madek API Browser].
+
+  [Entry Point and Accept Header]: #entry-point-and-accept-header
+
+Footnotes
+---------
+
+[^jsonhal]: For the time being Madek will always send `application/json` in this case. However, the application using the API should not distinct between the two types and accept both.
+
+
+  [*Application Programming Interface*]: http://en.wikipedia.org/wiki/Application_programming_interface
+  [*JSON Hypertext Application Language*]: http://tools.ietf.org/html/draft-kelly-json-hal-06
+  [*Representational state transfer protocol*]: http://en.wikipedia.org/wiki/Representational_state_transfer
+  [HATEOAS]: http://en.wikipedia.org/wiki/HATEOAS
+  [MAdeK project]: https://github.com/zhdk/madek
+  [Madek API Browser]: https://github.com/zhdk/madek-api-browser
+  [cURL]: http://curl.haxx.se/

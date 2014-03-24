@@ -33,7 +33,7 @@ class MediaFile < ActiveRecord::Base
 
   serialize     :meta_data, Hash
 
-  has_many      :previews, :dependent => :destroy 
+  has_many :previews, lambda{order(created_at: :asc)}, :dependent => :destroy 
 
 #########################################################
    

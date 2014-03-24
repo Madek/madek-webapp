@@ -20,6 +20,7 @@ module MAdeK
 
     config.autoload_paths += [
       Rails.root.join("lib"),
+      Rails.root.join("app","api"),
       Rails.root.join("app","lib"),
       Rails.root.join("app","models","concerns")
     ]

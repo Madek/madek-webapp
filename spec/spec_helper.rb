@@ -39,3 +39,12 @@ RSpec.configure do |config|
   config.order = "random"
 
 end
+
+def truncate_tables 
+  connection = ActiveRecord::Base.connection 
+  connection.tables.keep_if{|t| t != "schema_migrations"}.each do |table_name| 
+    connection.execute "TRUNCATE TABLE #{table_name} CASCADE;" 
+  end 
+end
+
+

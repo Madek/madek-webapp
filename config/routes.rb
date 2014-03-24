@@ -1,6 +1,35 @@
 # -*- encoding : utf-8 -*-
 MAdeK::Application.routes.draw do
 
+  get 'api', controller: "api", action: "show"
+
+  namespace "api" do
+    resources :media_resources, only: [:index,:show]
+    resources :media_entries, only: [:show] do
+      member do
+        resources :previews, only: [:index]
+        get 'content_stream', to: "media_entries#content_stream"
+      end
+    end
+    resources :previews, only: [:show] do
+      get 'content_stream', to: "previews#content_stream"
+    end
+  end
+
+  get 'public', controller: "public", action: "index"
+  namespace "public" do
+    resource "api_docs", only: [:show] do
+      member do
+        get 'authentication'
+        get 'authorization'
+        get 'resources'
+        get 'media_resources'
+        get 'query_parameters'
+        get 'forwarding_auth'
+      end
+    end
+  end
+
   ##### ROOT
 
   root :to => "application#root"
@@ -336,6 +365,8 @@ MAdeK::Application.routes.draw do
     resources :users do
       collection do
         get :form_create_with_user
+        get :search
+        get :autocomplete_search
         post :create_with_user
       end
       member do
@@ -344,6 +375,8 @@ MAdeK::Application.routes.draw do
     end
 
     resources :statistics, only: [:index]
+
+    resources :applications
 
     root to: "dashboard#index"
 

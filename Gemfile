@@ -22,6 +22,11 @@ gem 'memcache-client'
 gem 'pg', platform: :mri
 gem 'textacular', git: 'https://github.com/DrTom/textacular.git'
 
+# API 
+gem 'roar'
+gem 'kramdown'
+gem 'roar-rails'
+
 # THE REST
 gem 'animation'
 gem 'bcrypt-ruby', '~> 3.1.2'
@@ -78,6 +83,8 @@ gem 'uuidtools'
 gem 'zencoder', '~> 2.4'
 gem 'zencoder-fetcher', group: [:development]
 gem 'rubyzip'
+
+
 
 # TEMPORARILY DISABLED
  

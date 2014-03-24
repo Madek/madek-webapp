@@ -10,6 +10,12 @@ module Concerns
           .where(action => true).where(user_id: user)
       end
 
+      def applicationpermission_query(api_application,action)
+        API::Applicationpermission \
+          .where("applicationpermissions.media_resource_id = media_resources.id") \
+          .where(action => true).where(application_id: api_application.id)
+      end
+
       def grouppermission_by_user_query(user,action)
         Grouppermission.joins(group: :users) \
           .where("grouppermissions.media_resource_id = media_resources.id") \
@@ -39,6 +45,14 @@ module Concerns
         else
           accessible_by_signedin_user(user,action)
         end
+      end
+
+      def accessible_by_api_application(api_application,action)
+        where %[ media_resources.#{action.to_s} = true
+                 OR
+                 EXISTS ( #{applicationpermission_query(api_application,action).select("'true'").to_sql} ) 
+              ]
+
       end
 
       def accessible_by_signedin_user(user,action)
