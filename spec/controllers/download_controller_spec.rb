@@ -6,7 +6,7 @@ describe DownloadController do
     before :each do
       FactoryGirl.create :usage_term
       @user = FactoryGirl.create :user
-      @me = FactoryGirl.create :media_entry, user: @user
+      @me = FactoryGirl.create :media_entry_with_image_media_file, user: @user
     end
   
     let :valid_session do

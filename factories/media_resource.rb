@@ -16,51 +16,46 @@ FactoryGirl.define do
 
   factory :media_entry do
     user {User.find_random || (FactoryGirl.create :user)}
-    media_file {FactoryGirl.create :media_file}
-    factory :media_entry_with_title, class: "MediaEntry" do
-      after(:create) do |ms| 
-        meta_key = MetaKey.find_by_id(:title) || FactoryGirl.create(:meta_key_title)
-        ms.meta_data.create meta_key: meta_key, value: Faker::Lorem.words[0]
-        ms.reindex
-      end
+  end
+
+  factory :media_entry_with_image_media_file, class: "MediaEntry"  do
+    user {User.find_random || (FactoryGirl.create :user)}
+    after(:create) do |me|
+      FactoryGirl.create :media_file_for_image, media_entry: me
     end
   end
 
+  factory :media_entry_with_title, class: "MediaEntry" do
+    user {User.find_random || (FactoryGirl.create :user)}
+    after(:create) do |me| 
+      meta_key = MetaKey.find_by_id(:title) || FactoryGirl.create(:meta_key_title)
+      me.meta_data.create meta_key: meta_key, value: Faker::Lorem.words[0]
+      me.reindex
+    end
+  end
+
+##################################################################
+
   factory :media_entry_incomplete do
     user {User.find_random || (FactoryGirl.create :user)}
+    after :create do |mei|
+      FactoryGirl.create :media_file_for_image, media_entry: mei
+    end
+  end
 
-    uploaded_data  do
-      f = "#{Rails.root}/features/data/images/berlin_wall_01.jpg"
-
-      # Need to copy this file to a temporary new file because files are moved away after succesful
-      # uploads!
-      f_temp = "#{Rails.root}/tmp/#{File.basename(f)}"
-
-      FileUtils.cp(f, f_temp)
-      ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f_temp)),
-                                             :tempfile=> File.new(f_temp, "r"),
-                                             :filename=> File.basename(f_temp))
+  factory :media_entry_incomplete_for_image, class: :media_entry_incomplete do
+    user {User.find_random || (FactoryGirl.create :user)}
+    after :create do |mei|
+      FactoryGirl.create :media_file_for_image, media_entry: mei
     end
   end
 
 
   factory :media_entry_incomplete_for_movie, class: :media_entry_incomplete do
     user {User.find_random || (FactoryGirl.create :user)}
-
-    uploaded_data  do
-
-      f = Rails.root.join("features","data","zencoder_test.mov")
-
-      # Need to copy this file to a temporary new file because files are moved away after succesful
-      # uploads!
-      f_temp = "#{Rails.root}/tmp/#{File.basename(f)}"
-
-      FileUtils.cp(f, f_temp)
-      ActionDispatch::Http::UploadedFile.new(:type=> Rack::Mime.mime_type(File.extname(f_temp)),
-                                             :tempfile=> File.new(f_temp, "r"),
-                                             :filename=> File.basename(f_temp))
+    after :create do |mei|
+      FactoryGirl.create :media_file_for_movie, media_entry: mei
     end
-
   end
 
 

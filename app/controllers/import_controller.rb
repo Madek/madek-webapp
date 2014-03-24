@@ -2,6 +2,10 @@
 
 class ImportController < ApplicationController
 
+  # what the heck are we doing with the cache here
+  # people: the 'cache' is, well a cache, and volatile in unpredictable ways!
+  # TODO have a look at this and possibly fix it together with the collections
+
   before_filter :except => [:create, :dropbox_dir] do
     @media_entry_incompletes = @media_entries = current_user.incomplete_media_entries.reorder(created_at: :asc, id: :asc)
   end
@@ -20,24 +24,41 @@ class ImportController < ApplicationController
     
   def upload
     ExceptionHelper.log_and_reraise do
-      uploaded_data = params[:file] ? params[:file] : raise("No file to import!")
-      media_entry_incomplete = current_user.incomplete_media_entries.create(:uploaded_data => uploaded_data)
-      raise "Import failed!" unless media_entry_incomplete.persisted?
-      Rails.cache.delete "#{current_user.id}/media_entry_incompletes_partial"
-      render :json => {"media_entry_incomplete" => {"id" => media_entry_incomplete.id} }
+      ActiveRecord::Base.transaction do
+        @uploaded_file= params[:file] or raise("Missing file parameter in upload!")
+        original_filename= @uploaded_file.original_filename 
+        @media_entry_incomplete= 
+          MediaEntryIncomplete.create_with_media_file_and_previews!  \
+            current_user, @uploaded_file.tempfile.path, \
+            # it is saver to evaluate @uploaded_file for some properties, since
+            # the tempfile could have a strange name etc.
+            size: @uploaded_file.size,
+            basename: original_filename,
+            content_type: Rack::Mime.mime_type(File.extname(original_filename)), 
+            extname: File.extname(original_filename)
+        @media_entry_incomplete.extract_and_set_meta_data!
+        @media_entry_incomplete.set_meta_data_for_importer! current_user
+        raise "Import failed!" unless @media_entry_incomplete.persisted?
+        Rails.cache.delete "#{current_user.id}/media_entry_incompletes_partial"
+        render :json => {"media_entry_incomplete" => {"id" => @media_entry_incomplete.id} }
+      end
     end
   end
 
   def dropbox_import
     begin
       current_user.dropbox_files(@app_settings).each do |f|
-        file = File.join(current_user.dropbox_dir(@app_settings), f[:dirname], f[:filename])
-        media_entry_incomplete = current_user.incomplete_media_entries
-        .create(:uploaded_data => ActionDispatch::Http::UploadedFile
-                .new(:type=> Rack::Mime.mime_type(File.extname(file)),
-                     :tempfile=> File.new(file, "r"),
-                     :filename=> File.basename(file)))
-        raise "Import failed!" unless media_entry_incomplete.persisted?
+        ExceptionHelper.log_and_reraise do
+          ActiveRecord::Base.transaction do
+            path = File.join(current_user.dropbox_dir(@app_settings), f[:dirname], f[:filename])
+            @media_entry_incomplete= 
+              MediaEntryIncomplete.create_with_media_file_and_previews!  \
+                current_user, path
+            @media_entry_incomplete.extract_and_set_meta_data!
+            @media_entry_incomplete.set_meta_data_for_importer! current_user
+            raise "Import failed!" unless @media_entry_incomplete.persisted?
+          end
+        end
       end
       Rails.cache.delete "#{current_user.id}/media_entry_incompletes_partial"
       render :json => current_user.dropbox_files(@app_settings).length

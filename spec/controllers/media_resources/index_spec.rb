@@ -13,7 +13,7 @@ describe MediaResourcesController, type: :controller do
     @user = FactoryGirl.create :user
 
     40.times do
-      type = rand > 0.5 ? :media_entry : :media_set
+      type = rand > 0.5 ? :media_entry_with_image_media_file : :media_set
       mr = FactoryGirl.create type, :user => @user
       mr.parents << FactoryGirl.create(:media_set, :user => @user)
       mr.meta_data.create(:meta_key => MetaKey.find_by_id("title"), 

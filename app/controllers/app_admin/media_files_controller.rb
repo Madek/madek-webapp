@@ -36,9 +36,8 @@ class AppAdmin::MediaFilesController < AppAdmin::BaseController
 
   def recreate_thumbnails
     begin 
-      @media_file = MediaFile.find params[:id]
-      @media_file.previews.destroy_all
-      @media_file.make_thumbnails
+      @media_file= MediaFile.find params[:id]
+      @media_file.recreate_image_previews!
       redirect_to app_admin_media_file_path(@media_file), flash: {success: "The thumbnails have been recreated"}
     rescue => e 
       redirect_to app_admin_media_file_path(@media_file), flash: {error: e}

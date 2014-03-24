@@ -22,7 +22,7 @@ describe "requests of the typo madek player plugin" do
       b: {meta_key_label: "author", value: @user.name}}}
       @media_set.set_meta_data meta_data_h
     5.times do
-      me = FactoryGirl.create :media_entry, user: @user, view: true
+      me = FactoryGirl.create :media_entry_with_image_media_file, user: @user, view: true
       me.set_meta_data({meta_data_attributes: {a: {meta_key_label: "title", :value => Faker::Lorem.words(1).join(' ') }}})
       @media_set.child_media_resources << me
     end

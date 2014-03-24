@@ -98,6 +98,7 @@ describe ImportController do
           @meta_data.get("uploaded by").value.first.should be== @user
           @meta_data.get("usage terms").value.should be== "Bitte jeweils die angegebenen Nutzungsmodifikationen beachten."
           @meta_data.get("web statement").value.should be== "http://creativecommons.org/licenses/by/2.5/ch/"
+
         end
 
       end

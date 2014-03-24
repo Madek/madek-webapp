@@ -19,7 +19,7 @@ end
 
 Given /^A media_entry with file, not owned by normin, and with no permissions whatsoever$/ do
   @petra = User.find_by_login("petra")
-  @resource = FactoryGirl.create :media_entry, user: @petra
+  @resource = FactoryGirl.create :media_entry_with_image_media_file, user: @petra
   @resource.update_attributes download: false, edit: false, manage: false, view: false
   @resource.userpermissions.clear
   @resource.grouppermissions.clear

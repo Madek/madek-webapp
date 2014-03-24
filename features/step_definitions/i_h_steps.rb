@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 
 Then /^I have a media_entry of type image including previews$/ do
- @media_entry = FactoryGirl.create(:media_entry, user: @me)
+ @media_entry = FactoryGirl.create(:media_entry_with_image_media_file, user: @me)
 end
 
 Then /^I have a media_entry of type video$/ do  

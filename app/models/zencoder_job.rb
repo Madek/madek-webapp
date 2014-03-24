@@ -170,7 +170,7 @@ class ZencoderJob < ActiveRecord::Base
               import_preview_thumbnail(image)
             end
             if thumbnail_preview = thumbnails_previews.first
-              media_file.thumbnail_jpegs_for thumbnail_preview.full_path
+              media_file.create_jpeg_previews_for_file thumbnail_preview.full_path
             end
           end
         elsif  media_file.content_type =~ /audio/
