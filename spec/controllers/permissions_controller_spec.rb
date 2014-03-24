@@ -191,6 +191,44 @@ describe PermissionsController do
     end
 
 
+    describe API::Applicationpermission do
+
+      before :each do
+        @app_a= FactoryGirl.create :application, user: @user_a
+        @app_b= FactoryGirl.create :application, user: @user_b
+      end
+
+      describe "updating an existing application-permission" do
+        before :each do
+          @app_perm= API::Applicationpermission.create application: @app_a, media_resource: @mr1, view: false
+        end
+        it "should be successful and update" do
+          put :update, 
+            {format: 'json', 
+             media_resource_ids: [@mr1.id],
+             applications: [{id: @app_a.id, view: true, download: nil, manage:""}]}, 
+            {user_id: @user_a.id}
+          response.should be_success
+          @app_perm.reload.view.should be== true
+        end
+      end
+
+      describe "creating a new application-permission" do
+        it "should be successful and create" do
+          @mr1.applicationpermissions.count.should be== 0
+          put :update, 
+            {format: 'json', 
+             media_resource_ids: [@mr1.id],
+             applications: [{id: @app_a.id, view: true, download: nil, manage:""}]}, 
+            {user_id: @user_a.id}
+          response.should be_success
+          @mr1.applicationpermissions.reload.first.view.should be== true
+        end
+      end
+
+    end
+
+
     describe "updating public permissions with put" do
       it "should update the view view permission to true" do
         MediaResource.find(@mr1.id).view.should == false

@@ -21,6 +21,10 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
 
     groups= Array(params[:groups].is_a?(Hash) ? params[:groups].values : params[:groups])
     users = Array(params[:users].is_a?(Hash) ? params[:users].values : params[:users])
+
+    applications=  Array(params[:application].is_a?(Hash) ? 
+                         params[:applications].values : params[:applications])
+
     _media_resource_ids = Array(params[:media_resource_ids].is_a?(Hash) ? params[:media_resource_ids].values : params[:media_resource_ids])
     public_permission= params[:public]
 
@@ -37,41 +41,65 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
       media_resource_ids = Set.new media_resource_ids
       affected_user_ids=  Set.new users.map{|up| up["id"]}
       affected_group_ids=  Set.new groups.map{|gp| gp["id"]}
+      affected_application_ids= Set.new applications.map{|app| app["id"]}
 
       # destroy deleted or no more wanted user_permissions
       media_resource_ids.each do |mr_id| 
         existing_up_user_ids = Set.new Userpermission.where("media_resource_id= ?",mr_id).pluck(:user_id)
         (existing_up_user_ids - affected_user_ids).each do |uid|
-          Userpermission.where("media_resource_id= ?",mr_id).where("user_id = ?",uid).first.destroy
+          Userpermission.find_by(media_resource_id: mr_id, user_id: uid).destroy
         end
       end
 
       # create or update userpermission 
       media_resource_ids.each do |mr_id| 
         users.each do |newup| 
-          uid= newup[:id]
-          up = Userpermission.where("media_resource_id= ?",mr_id).where("user_id = ?",uid).first || (Userpermission.new user_id: uid, media_resource_id: mr_id)
-          up.update_attributes! newup.select{|k,v| v.to_s == "true" || v.to_s == "false"}
+          Userpermission.find_or_create_by(
+            media_resource_id: mr_id, 
+            user_id: newup["id"]).update_attributes!(
+              newup.select{|k,v| v.to_s == "true" || v.to_s == "false"})
         end
       end
 
-      # destroy deleted or no more wanted group_permissions
+      # destroy deleted no more wanted group_permissions
       media_resource_ids.each do |mr_id| 
         existing_gp_group_ids = Set.new Grouppermission.where("media_resource_id= ?",mr_id).pluck(:group_id)
         (existing_gp_group_ids - affected_group_ids).each do |gid|
-          Grouppermission.where("media_resource_id= ?",mr_id).where("group_id = ?",gid).first.destroy
+          Grouppermission.find_by(media_resource_id: mr_id,group_id: gid).destroy
         end
       end
 
       # create or update grouppermission 
       media_resource_ids.each do |mr_id| 
         groups.each do |newup| 
-          uid= newup[:id]
-          up = Grouppermission.where("media_resource_id= ?",mr_id) \
-            .where("group_id = ?",uid).first || (Grouppermission.new group_id: uid, media_resource_id: mr_id)
-          up.update_attributes! newup.slice(:view,:download,:edit).select{|k,v| v.to_s == "true" || v.to_s == "false"}
+          Grouppermission.find_or_create_by(
+            media_resource_id: mr_id, 
+            group_id: newup[:id]).update_attributes!(
+              newup.select{|k,v| v.to_s == "true" || v.to_s == "false"})
         end
       end
+
+      # destroy deleted or no more wanted application-permissions
+      media_resource_ids.each do |mr_id| 
+        existing_application_ids = Set.new API::Applicationpermission \
+          .where("media_resource_id= ?",mr_id).pluck(:application_id)
+        (existing_application_ids - affected_application_ids).each do |app_id|
+          API::Applicationpermission.find_by(media_resource_id: mr_id, 
+                                             application_id: app_id).destroy 
+        end
+      end
+
+
+      # create or update application-permissions
+      media_resource_ids.each do |mr_id| 
+        applications.each do |new_app_perm| 
+          API::Applicationpermission.find_or_create_by(
+            media_resource_id:mr_id,
+            application_id: new_app_perm[:id]).update_attributes!(
+              new_app_perm.select{|k,v| v.to_s == "true" || v.to_s == "false"})
+        end
+      end
+
 
       # update public permissions
       if public_permission
@@ -83,6 +111,7 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
 
       Userpermission.destroy_irrelevant
       Grouppermission.destroy_irrelevant
+      API::Applicationpermission.destroy_irrelevant
 
     end
 
