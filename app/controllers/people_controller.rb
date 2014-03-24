@@ -1,21 +1,6 @@
 # -*- encoding : utf-8 -*-
 class PeopleController < ApplicationController
 
-  ##
-  # Get a collection of People
-  # 
-  # @resource /people
-  #
-  # @action GET
-  # 
-  # @optional [String] query The search query to find matching users 
-  #
-  # @example_request {}
-  # @example_response [{"id":1,"name":"Sellitto, Franco"},{"id":2,"name":"Pape, Sebastian"}] 
-  #
-  # @example_request {"query": "franco"}
-  # @example_response [{"id":1,"name":"Sellitto, Franco"}] 
-  #
   def index(query = params[:query])
     respond_to do |format|
       format.json {

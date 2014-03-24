@@ -1,26 +1,6 @@
 # -*- encoding : utf-8 -*-
 class UsersController < ApplicationController
 
-  ##
-  # Get a collection of Users
-  # 
-  # @resource /users
-  #
-  # @action GET
-  # 
-  # @optional [String] query The search query to find matching users 
-  # @optional [Integer] exclude_group_id The id of the group to exclude the members from the result 
-  #
-  # @example_request {}
-  # @example_response [{"id":1,"name":"Sellitto, Franco"},{"id":2,"name":"Pape, Sebastian"}] 
-  #
-  # @example_request {"query": "franco"}
-  # @example_response [{"id":1,"name":"Sellitto, Franco"}] 
-  #
-  # @example_request {"exclude_group_id": 1} 
-  # @example_request_description Assuming that Franco is member of group_id 1
-  # @example_response [{"id":2,"name":"Pape, Sebastian"}] 
-  #
   def index(query = params[:query],
             exclude_group_id = params[:exclude_group_id])
     respond_to do |format|
