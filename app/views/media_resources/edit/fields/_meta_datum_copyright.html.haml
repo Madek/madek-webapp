@@ -1,18 +1,19 @@
 :ruby
 
-  copyrights = Copyright.all 
   copyright_roots = Copyright.roots
-  value = (meta_datum.nil? ? nil : meta_datum.value) || Copyright.default
+  current = (meta_datum.nil? ? nil : meta_datum.value) || Copyright.default
 
-%input.value-target{:name => "resource[meta_data_attributes][#{@i}][value]", :type => "hidden", :value => meta_datum.nil? ? nil : meta_datum.value.id}
+%input.value-target{:name => "resource[meta_data_attributes][#{@i}][value]", :type => "hidden", :value => current}
 
 %select.block.copyright-roots{:id => "resource[meta_data_attributes][#{@i}][value]"}
   
+  / # parent copyright options
   - copyright_roots.each do |copyright|
-
+    
     = render partial: "media_resources/edit/fields/meta_datum_copyright/option", 
-             locals: {:copyright => copyright, :selected => value.root}
+             locals: {:copyright => copyright, :selected => current.root}
 
+/   # child copyright options
 - copyright_roots.each do |copyright|
 
   - unless copyright.leaf?
@@ -21,16 +22,16 @@
       
       - copyright.children.each do |child|
 
-        - if child.leaf?
+        - if child.leaf? # if it's just an option…
 
           = render :partial => "media_resources/edit/fields/meta_datum_copyright/option", 
-                   :locals => {:copyright => child}
+                   :locals => {:copyright => child, :selected => current}
 
-        - else
+        - else # if it's a "grouped" option…
 
           %optgroup{:label => child.label}
 
             - child.children.each do |leaf|
 
               = render :partial => "media_resources/edit/fields/meta_datum_copyright/option", 
-                       :locals => {:copyright => leaf}
+                       :locals => {:copyright => leaf, :selected => current}

@@ -13,3 +13,7 @@ end
 Then /^"(.*?)" has not yet accepted the usage terms$/ do |login|
   User.find_by_login(login).update_attributes!(usage_terms_accepted_at: nil)
 end
+
+Then (/^in the "(.*?)" dropdown "(.*?)" should be selected$/) do |element, option|
+  expect(page.evaluate_script("$('select.#{element}').val()")).to eq option
+end

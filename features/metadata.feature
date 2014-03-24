@@ -67,6 +67,20 @@ Feature: Editing keywords, people, controlled vocabularies...
     And I click on the button "Speichern"
     Then I can see "C-By-CH: Attribution"
 
+  @jsbrowser
+  Scenario: License: editing license shows current (sub) selection
+    Given I am signed-in as "Normin"
+    When I go to the edit-page of my first media_entry
+    And I click on the link "Credits"
+    And I click on the link "Weitere Angaben"
+    And I select "Urheberrechtlich geschützt (standardisierte Lizenz)" from "copyright-roots"
+    And I select "CC-By-CH: Attribution" from "copyright-children"
+    And I click on the button "Speichern"
+    When I go to the edit-page of my first media_entry
+    And I click on the link "Credits"
+    And I click on the link "Weitere Angaben"
+    Then in the "copyright-children" dropdown "CC-By-CH: Attribution" should be selected
+
   @firefox 
   Scenario: Show warning before leaving media entry edit page and losing unsaved data
     Given I am signed-in as "Normin"
