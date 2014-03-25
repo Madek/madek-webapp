@@ -29,7 +29,6 @@ class AppAdmin::ApplicationsController < AppAdmin::BaseController
     @application= API::Application.find params[:id]
   end
 
-
   def destroy 
     begin 
       ::API::Application.destroy(params[:id])

@@ -1,7 +1,6 @@
 class API::IndexRepresenter < API::RepresenterBase
 
   property :welcome_message
-  property :authenticated
 
   link :self do api_path end
 

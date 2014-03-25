@@ -1,24 +1,29 @@
 class ApiController < ActionController::Base
 
-  before_action :require_authentication!, except: [:show]
+  before_action :authenticate! 
 
   def initialize_api_application
     @api_id,@api_secret= ActionController::HttpAuthentication::Basic.user_name_and_password(request) rescue [nil,nil]
-    @api_id ||= request.headers['HTTP_API_ID']
-    @api_secret ||= request.headers['HTTP_API_SECRET']
     @api_application= API::Application.find_by(id: @api_id) 
   end
 
   def authenticated? 
-    initialize_api_application
     (! @api_application.nil?) and @api_application.secret == @api_secret
   end
 
+  def authenticate!
+    require_authentication! unless  params["controller"] == "api" and params["action"] == "show" 
+  end
+
   def require_authentication!
-    unless authenticated? 
-      render json: {error: "authentication required"}, status: 401 
-      return
-    end
+    initialize_api_application
+    send_not_authorized_and_return unless authenticated?
+  end
+
+  def send_not_authorized_and_return
+    response.headers["WWW-Authenticate"]='Basic realm="Provide application id and secret to access the Madek API."'
+    render json: {error: "authentication required"}, status: 401 
+    return
   end
 
   class Index
@@ -28,10 +33,6 @@ class ApiController < ActionController::Base
 
     def welcome_message
       "Welcome to the MAdeK API!"
-    end
-
-    def authenticated
-      @api_controller.authenticated?
     end
   end
 

@@ -1,11 +1,21 @@
 require 'spec_helper'
 
 describe "authentication"  do
-  describe "on get /api/media_resources as an example" do
+
+  describe "get /api" do
+
+    it "doesn't require authentication" do
+      get "/api"
+      response.should be_success
+    end
+
+  end
+
+  describe "get /api/media_resources as an example" do
 
     before :all do
       @user1 = FactoryGirl.create :user, login: "user1"
-      @api_app1= API::Application.create!( user: @user1, id: 'app1').reload
+      @api_app1= API::Application.create!(user: @user1, id: 'app1').reload
     end
     after :all do
       truncate_tables
