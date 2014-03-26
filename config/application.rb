@@ -58,6 +58,8 @@ module MAdeK
     # Please add any files you need precompiled here, otherwise it breaks production
     config.assets.precompile += %w( 
                                     *.png
+                                    api_docs.css
+                                    api_docs.js
                                     app_admin.css
                                     app_admin.js
                                     application.css
