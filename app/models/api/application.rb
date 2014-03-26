@@ -13,14 +13,13 @@ class API::Application < ActiveRecord::Base
   def authorization_header_value
     "Basic #{::Base64.strict_encode64("#{id}:#{secret}")}"
   end
+
   def authorization_header 
     %[Authorization: #{authorization_header_value}"}]
   end
 
-  # hacky way to show the auth header when listing attributes
-  def attributes
-    original= super
-    original.merge("authorization_header" => authorization_header)
+  def attributes_with_authorization_header
+    attributes.merge("authorization_header" => authorization_header)
   end
 
 

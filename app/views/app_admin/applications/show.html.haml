@@ -14,7 +14,7 @@
 %table.table.table-striped
   %thead
   %tbody
-  - @application.attributes.each do |name,value|
+  - @application.attributes_with_authorization_header.each do |name,value|
     %tr
       - case name
       - when "user_id"
