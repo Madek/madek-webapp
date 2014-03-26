@@ -57,8 +57,20 @@ class Api::MediaResourcesController <  ApiController
   end
 
   def show
-    @media_resource= MediaResource.find(params[:id])
-    render json: API::MediaResourceRepresenter.new(@media_resource).as_json.to_json
+    if Concerns::CustomUrls::UUID_MATCHER.match params[:id]
+      @media_resource= MediaResource.find(params[:id])
+      case @media_resource #redirect to the proper entity controller
+      when MediaEntry
+        redirect_to api_media_entry_path(@media_resource)
+        return
+      end
+      render json: API::MediaResourceRepresenter.new(@media_resource).as_json.to_json
+    elsif custom_url= CustomUrl.find_by(id: params[:id])
+      redirect_to api_media_resource_path(custom_url.media_resource)
+      return
+    else
+      render json: {}, status: :not_found
+    end
   end
 
 end

@@ -1,7 +1,18 @@
 class Api::MediaEntriesController < ApiController
+
   def show
-    @media_entry= MediaEntry.find(params[:id])
-    render json: API::MediaEntryRepresenter.new(@media_entry).as_json.to_json
+    if Concerns::CustomUrls::UUID_MATCHER.match params[:id]
+      @media_resource= MediaResource.find(params[:id])
+      if @media_resource.is_a? MediaEntry
+        render json: API::MediaEntryRepresenter.new(@media_resource).as_json.to_json
+      else 
+        redirect_to api_media_resource_path(@media_resource.id)
+        return
+      end
+    else 
+      redirect_to api_media_resource_path(params[:id])
+      return
+    end
   end
 
   def data_stream
@@ -11,4 +22,5 @@ class Api::MediaEntriesController < ApiController
       type: @media_file.content_type,
       disposition: 'inline'
   end
+
 end

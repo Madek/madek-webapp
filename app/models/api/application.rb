@@ -10,8 +10,11 @@ class API::Application < ActiveRecord::Base
                                     first character must be a letter, all letters must be lowercase]}
   validates :id, length: {in: 3..20}
 
+  def authorization_header_value
+    "Basic #{::Base64.strict_encode64("#{id}:#{secret}")}"
+  end
   def authorization_header 
-    %[Authorization: Basic #{::Base64.strict_encode64("#{id}:#{secret}")}]
+    %[Authorization: #{authorization_header_value}"}]
   end
 
   # hacky way to show the auth header when listing attributes
