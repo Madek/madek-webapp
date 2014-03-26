@@ -20,6 +20,7 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
   def update
 
     groups= Array(params[:groups].is_a?(Hash) ? params[:groups].values : params[:groups])
+
     users = Array(params[:users].is_a?(Hash) ? params[:users].values : params[:users])
 
     applications=  Array(params[:application].is_a?(Hash) ? 
@@ -28,6 +29,8 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
     _media_resource_ids = Array(params[:media_resource_ids].is_a?(Hash) ? params[:media_resource_ids].values : params[:media_resource_ids])
     public_permission= params[:public]
 
+
+    permissions_value_select_filter= lambda{|k,v| v.to_s == "true" || v.to_s == "false"}
 
     # filter the resources which the current user may manage 
     media_resource_ids = MediaResource.where(id: _media_resource_ids) \
@@ -57,7 +60,7 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
           Userpermission.find_or_create_by(
             media_resource_id: mr_id, 
             user_id: newup["id"]).update_attributes!(
-              newup.select{|k,v| v.to_s == "true" || v.to_s == "false"})
+              newup.select(&permissions_value_select_filter))
         end
       end
 
@@ -75,7 +78,9 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
           Grouppermission.find_or_create_by(
             media_resource_id: mr_id, 
             group_id: newup[:id]).update_attributes!(
-              newup.select{|k,v| v.to_s == "true" || v.to_s == "false"})
+              newup \
+              .slice(*Grouppermission::ALLOWED_PERMISSIONS) \
+              .select(&permissions_value_select_filter))
         end
       end
 
@@ -96,7 +101,9 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
           API::Applicationpermission.find_or_create_by(
             media_resource_id:mr_id,
             application_id: new_app_perm[:id]).update_attributes!(
-              new_app_perm.select{|k,v| v.to_s == "true" || v.to_s == "false"})
+              new_app_perm \
+              .slice(*API::Applicationpermission::ALLOWED_PERMISSIONS) \
+              .select(&permissions_value_select_filter))
         end
       end
 
@@ -104,8 +111,10 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
       # update public permissions
       if public_permission
         media_resource_ids.each do |mr_id|
-          MediaResource.find(mr_id).update_attributes! \
-            public_permission.slice(:view,:download).select{|k,v| v.to_s == "true" or  v.to_s == "false"}
+          MediaResource.find(mr_id).update_attributes!( \
+            public_permission \
+              .slice(*MediaResource::ALLOWED_PERMISSIONS) \
+              .select(&permissions_value_select_filter))
         end
       end
 

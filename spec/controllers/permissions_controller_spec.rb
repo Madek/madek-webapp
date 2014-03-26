@@ -70,9 +70,7 @@ describe PermissionsController do
                   applications:[{id: @application.id,
                                  description: @application.description,
                                  view: media_resource_ids,
-                                 edit: [],
-                                 download: [],
-                                 manage: []} ]}
+                                 download: [] }]}
 
       expect(response_data.keys).to be== expected.keys
       expect(response_data[:public].deep_symbolize_keys).to be== expected[:public]

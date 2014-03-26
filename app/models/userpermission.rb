@@ -1,4 +1,7 @@
 class Userpermission < ActiveRecord::Base 
+
+  ALLOWED_PERMISSIONS = [:view,:download,:edit,:manage]
+
   belongs_to :media_resource
   belongs_to :user 
 

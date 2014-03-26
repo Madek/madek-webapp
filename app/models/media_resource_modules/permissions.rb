@@ -3,6 +3,8 @@
 module MediaResourceModules
   module Permissions
 
+    ALLOWED_PERMISSIONS= [:view,:download]
+
     def self.included(base)
 
       base.class_eval do

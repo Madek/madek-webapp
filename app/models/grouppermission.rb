@@ -1,4 +1,7 @@
 class Grouppermission < ActiveRecord::Base
+
+  ALLOWED_PERMISSIONS = [:view,:download,:edit]
+
   belongs_to :group
   belongs_to :media_resource
 

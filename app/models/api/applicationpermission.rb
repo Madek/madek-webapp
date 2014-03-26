@@ -1,4 +1,7 @@
 class API::Applicationpermission < ActiveRecord::Base 
+  
+  ALLOWED_PERMISSIONS = [:view,:download]
+
   belongs_to :media_resource
   belongs_to :application 
 

@@ -19,16 +19,17 @@ module Json
         you: {}
       }
       
-      user_actions = [:view, :edit, :download, :manage]
-      group_actions = [:view, :edit, :download]
       
       # PUBLIC  
-      group_actions.each do |action|
+      # should be like: 
+      #   MediaResource::ALLOWED_PERMISSIONS.each do |action|
+      # however, breaks js code somehow
+      [:view, :edit, :download].each do |action|
         h[:public][action] = media_resources.select(&action).map(&:id).sort
-        end
-       
+      end
+
       # YOU
-      user_actions.each do |action|
+      Userpermission::ALLOWED_PERMISSIONS.each do |action|
         h[:you][action] = media_resources.select do |media_resource|
           current_user.authorized?(action, media_resource)
         end.map(&:id).sort
@@ -51,7 +52,7 @@ module Json
         if with[:users] and with[:users].to_s == "true" # OPTIMIZE boolean check
           h[:users] = media_resources.flat_map(&:userpermissions).map(&:user).uniq.map do |user|
             x = {:id => user.id, :name => user.to_s}
-            user_actions.each do |action|
+            Userpermission::ALLOWED_PERMISSIONS.each do |action|
               x[action] = media_resources.select do |media_resource|
                 !!media_resource.userpermissions.detect {|x| x.user_id == user.id and x.send(action) }
               end.map(&:id).sort
@@ -63,7 +64,7 @@ module Json
         if with[:groups] and with[:groups].to_s == "true" # OPTIMIZE boolean check
           h[:groups] = media_resources.flat_map(&:grouppermissions).map(&:group).uniq.map do |group|
             x = {:id => group.id, :name => group.to_s}
-            group_actions.each do |action|
+            Grouppermission::ALLOWED_PERMISSIONS.each do |action|
               x[action] = media_resources.select do |media_resource|
                 # TODO awesome notation x within x within h
                 !!media_resource.grouppermissions.detect {|x| x.group_id == group.id and x.send(action) }
@@ -78,7 +79,7 @@ module Json
         .flat_map(&:applicationpermissions).map(&:application).uniq.map do |app|
 
         app_data = {:id => app.id,description: app.description}
-        [:view,:download,:edit,:manage].each do |action|
+        API::Applicationpermission::ALLOWED_PERMISSIONS.each do |action|
           app_data[action] = media_resources.select do |media_resource|
             !!media_resource.applicationpermissions.detect do |app_perm| 
               app_perm.application_id == app.id and app_perm.send(action)
