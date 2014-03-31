@@ -19,11 +19,13 @@ class Api::PreviewsController < ApiController
     previews= previews.page(params[:page])
 
     render json: API::PreviewsRepresenter.new(previews).as_json
+    response.headers["Content-Type"] = "application/hal+json; charset=utf-8"
   end
 
   def show
     preview= Preview.find(params[:id])
     render json: API::PreviewRepresenter.new(preview).as_json
+    response.headers["Content-Type"] = "application/hal+json; charset=utf-8"
   end
 
   def content_stream

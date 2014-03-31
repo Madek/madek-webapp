@@ -27,17 +27,16 @@ Entry Point and Accept Header
 -----------------------------
 
 The entry point of the API is `/api`. The appropriate and supported accept
-header is `application/json` or `application/hal+json` for requesting
-properties from the API. The returned content-type can be either
-`application/json` or `application/json+hal`.[^jsonhal] The content will
+header is `application/hal+json` for requesting properties from the API. The
+returned content-type is`application/json+hal`.[^jsonhal] The content will
 always conform to the HAL standard for both content types! 
 
 
-    curl -I -H "Accept: application/json" http://medienarchiv.zhdk.ch/api
+    curl -I -H "Accept: application/hal+json" http://medienarchiv.zhdk.ch/api
 
     HTTP/1.1 200 OK
     ...
-    Content-Type: application/json; charset=utf-8
+    Content-Type: application/hal+json; charset=utf-8
     ...
 
 Some of the provided links by the API will refer to arbitrary (most likely
@@ -57,7 +56,7 @@ by using the embedded [Madek API Browser].
 Footnotes
 ---------
 
-[^jsonhal]: For the time being Madek will always send `application/json` in this case. However, the application using the API should not distinct between the two types and accept both.
+[^jsonhal]: The API will respond with `application/hal+json` even if `application/json` was requested.
 
 
   [*Application Programming Interface*]: http://en.wikipedia.org/wiki/Application_programming_interface

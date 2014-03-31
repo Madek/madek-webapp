@@ -5,6 +5,7 @@ class Api::MediaEntriesController < ApiController
       @media_resource= MediaResource.find(params[:id])
       if @media_resource.is_a? MediaEntry
         render json: API::MediaEntryRepresenter.new(@media_resource).as_json.to_json
+        response.headers["Content-Type"] = "application/hal+json; charset=utf-8"
       else 
         redirect_to api_media_resource_path(@media_resource.id)
         return

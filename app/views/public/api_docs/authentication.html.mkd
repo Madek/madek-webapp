@@ -7,7 +7,7 @@ proper authentication. Failing to perform authentication will result with a
 
 
 ~~~ 
-curl -I -H "Accept: application/json" http://medienarchiv.zhdk.ch/api/media_resources
+curl -I -H "Accept: application/hal+json" http://medienarchiv.zhdk.ch/api/media_resources
 
 HTTP/1.1 401 Unauthorized
 ...
@@ -40,7 +40,7 @@ HTTP Basic Authentication
 *password*. Many frameworks and application provide convenient methods
 to pass on these parameters:
 
-    curl -u demo-app:725553c2-67ce-4186-9087-a7f8e9762a41 -I -H "Accept: application/json" http://localhost:3000/api/media_resources 
+    curl -u demo-app:725553c2-67ce-4186-9087-a7f8e9762a41 -I -H "Accept: application/hal+json" http://localhost:3000/api/media_resources 
 
     HTTP/1.1 200 OK
     ...

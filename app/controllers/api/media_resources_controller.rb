@@ -65,11 +65,12 @@ class Api::MediaResourcesController <  ApiController
         return
       end
       render json: API::MediaResourceRepresenter.new(@media_resource).as_json.to_json
+      response.headers["Content-Type"] = "application/hal+json; charset=utf-8"
     elsif custom_url= CustomUrl.find_by(id: params[:id])
       redirect_to api_media_resource_path(custom_url.media_resource)
       return
     else
-      render json: {}, status: :not_found
+      render text: "", status: :not_found
     end
   end
 

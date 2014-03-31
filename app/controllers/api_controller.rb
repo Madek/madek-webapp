@@ -37,12 +37,13 @@ class ApiController < ActionController::Base
   end
 
   def show
-    respond_to do |format|
-      format.json do
-        render json: API::IndexRepresenter.new(Index.new(self)).as_json 
-      end
-      format.html do
-      end
+    # the conventional rails way doesn't workout 
+    accepted_types= request.accept.split(',')
+    if accepted_types.any?{ |t| t =~ /^application\/.*json.*/ }
+      render json: API::IndexRepresenter.new(Index.new(self)).as_json 
+      response.headers["Content-Type"] = "application/hal+json; charset=utf-8"
+    else
+      render
     end
   end
 
