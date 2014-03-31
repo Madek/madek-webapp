@@ -29,6 +29,20 @@ class AppAdmin::MediaSetsController < AppAdmin::BaseController
     @media_set = MediaSet.find params[:id]
   end
 
+  def edit
+    @media_set = MediaSet.find params[:id]
+  end
+
+  def update
+    begin
+      @media_set = MediaSet.find params[:id]
+      @media_set.update_attributes(media_set_params)
+      redirect_to app_admin_media_sets_path, flash: {success: "The media set has been saved successfuly."}
+    rescue => e
+      redirect_to app_admin_media_sets_path, flash: {error: e.to_s}
+    end
+  end
+
   def delete_with_child_media_resources
     begin
       ActiveRecord::Base.transaction do
@@ -72,5 +86,10 @@ class AppAdmin::MediaSetsController < AppAdmin::BaseController
     @media_set.individual_contexts << @meta_context
     redirect_to manage_app_admin_media_set_individual_meta_contexts_path(@media_set), 
       flash: {success: "The context has been added to the media-set."}
+  end
+
+  private
+  def media_set_params
+    params.require(:media_set).permit(:id, :user_id)
   end
 end

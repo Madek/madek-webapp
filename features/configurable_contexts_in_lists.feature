@@ -7,8 +7,10 @@ Feature: Setting and displaying configurable contexts in list views
     And I click on the link with the id "list-view"
     Then There is not an element with the data-context-name "Institution" in the ui-resource-body
     Then There is not an element with the data-context-name "Landschaftsvisualisierung" in the ui-resource-body
-    When I visit the "/app_admin/settings/edit" path 
+    When I visit the "/app_admin/settings/second_displayed_meta_context_name/edit" path 
     And I set the input with the name "app_settings[second_displayed_meta_context_name]" to "Institution"
+    And I submit
+    When I visit the "/app_admin/settings/third_displayed_meta_context_name/edit" path
     And I set the input with the name "app_settings[third_displayed_meta_context_name]" to "Landschaftsvisualisierung"
     And I submit
     Then I can see a success message

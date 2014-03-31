@@ -302,7 +302,9 @@ MAdeK::Application.routes.draw do
     post 'enter_uberadmin' => "base#enter_uberadmin"
     post 'exit_uberadmin' => "base#exit_uberadmin"
 
-    resource :settings, only: [:edit,:update,:show]
+    resources :settings, only: [:index,:edit] do
+      put '', on: :collection, to: "settings#update", as: :update
+    end
 
     resources :zencoder_jobs, only: [:index, :show]
 
@@ -316,7 +318,7 @@ MAdeK::Application.routes.draw do
       end
     end
 
-    resources :media_sets, only: [:index, :show] do
+    resources :media_sets, only: [:index, :show, :edit, :update] do
       member do
         delete 'delete_with_child_media_resources' 
       end

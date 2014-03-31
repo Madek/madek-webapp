@@ -669,7 +669,7 @@ end
 
 Then /^I configure some logo_url as the logo of my instance$/  do
   @logo_url="http://somwhere.com/some_logo.png"
-  visit '/app_admin/settings/edit'
+  visit '/app_admin/settings/logo_url/edit'
   find("input#app_settings_logo_url").set(@logo_url)
   find("*[type=submit]").click()
 end
