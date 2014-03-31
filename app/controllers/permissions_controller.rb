@@ -23,7 +23,7 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
 
     users = Array(params[:users].is_a?(Hash) ? params[:users].values : params[:users])
 
-    applications=  Array(params[:application].is_a?(Hash) ? 
+    applications=  Array(params[:applications].is_a?(Hash) ? 
                          params[:applications].values : params[:applications])
 
     _media_resource_ids = Array(params[:media_resource_ids].is_a?(Hash) ? params[:media_resource_ids].values : params[:media_resource_ids])
