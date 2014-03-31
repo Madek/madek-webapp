@@ -120,6 +120,10 @@ Then /^The input with the id "(.*?)" has the value "(.*?)"$/ do |id, value|
   expect(find("input##{id}").value).to be== value
 end
 
+Then /^The input with name "(.*?)" is empty$/ do |name|
+  expect(find("input[name='#{name}']").value).to be_nil
+end
+
 ### the l ##############################################
  
 Then /^the label option "(.*?)" is selected$/ do |option|

@@ -39,6 +39,25 @@ Feature: Admin Meta Terms
     Then I am on the "/app_admin/meta_terms" page
     And There is "EN_GB descending" sorting option selected
 
+  Scenario: Remembering filtering after meta term delete
+    When I visit "/app_admin/meta_terms"
+    And I select "Not used" from "filter-by"
+    And I submit
+    And I click on the first delete link
+    Then I can see a success message
+    Then I am on the "/app_admin/meta_terms" page
+    And There is "Not used" filtering option selected
+
+  Scenario: Remembering search term after meta term delete
+    When I visit "/app_admin/meta_terms/?filter_by=not_used&sort_by=text_rank"
+    And I set the input with the name "filter[search_terms]" to "title"
+    Then I submit
+    When I click on the first delete link
+    Then I can see a success message
+    Then I am on the "/app_admin/meta_terms" page
+    And There is the input with name "filter[search_terms]" set to "title"
+
+  @firefox
   Scenario: Searching and ranking meta terms by text search
     When I visit "/app_admin/meta_terms"
     And I set the input with the name "filter[search_terms]" to "tite"
@@ -50,9 +69,21 @@ Feature: Admin Meta Terms
     And I submit
     Then I can see "Titel"
 
+  @firefox
   Scenario: Searching and ranking meta terms by trigram search
     When I visit "/app_admin/meta_terms"
     And I set the input with the name "filter[search_terms]" to "tite"
     And I select "Trigram search ranking" option from Sort by select
     And I submit
     Then I can see "Titel"
+
+  Scenario: Reseting searching, filtering and sorting
+    When I visit "/app_admin/meta_terms/?filter[search_terms]=TERM&filter_by=used&sort_by=en_gb_desc"
+    Then There is the input with name "filter[search_terms]" set to "TERM"
+    And There is "Used" filtering option selected
+    And There is "EN_GB descending" sorting option selected
+    When I click on "Reset"
+    Then The input with name "filter[search_terms]" is empty
+    And There is no filtering option selected
+    And There is "DE_CH ascending" sorting option selected
+

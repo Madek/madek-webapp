@@ -86,8 +86,24 @@ Then /^There is "(.*?)" sorting option selected$/ do |option_text|
   end
 end
 
+Then /^There is "(.*?)" filtering option selected$/ do |option_text|
+  within "select[name='filter_by']" do
+    expect(find("option", text: option_text)[:selected]).to eq("selected")
+  end
+end
+
+Then /^There is no filtering option selected$/ do
+  all("select[name='filter_by'] option").each do |option|
+    expect(option[:selected]).to be_false
+  end
+end
+
 Then /^There is "(.*?)" group type option selected$/ do |option|
   within "select[name='type']" do
     expect(find("option[value='#{option}']")[:selected]).to eq("selected")
   end
+end
+
+Then /^There is the input with name "(.*?)" set to "(.*?)"$/ do |name, value|
+  expect(find("input[name='#{name}']").value).to eq(value)
 end

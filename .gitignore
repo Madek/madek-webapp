@@ -8,6 +8,7 @@
 .project
 .rbenv-version
 .ruby-version
+.ruby-gemset
 .rvmrc
 .sass-cache/
 .yardoc

@@ -470,7 +470,7 @@ end
 
 When /^I click on the first edit link$/ do
   link = find('a', text: "Edit")
-  @edited_model_id = link[:href].gsub(/\/edit/, '').split('/').last
+  @edited_model_id = link[:href].gsub(/\/edit/, '').split('/').last.split('?').first
   link.click
 end
 
