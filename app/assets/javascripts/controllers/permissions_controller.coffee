@@ -71,6 +71,7 @@ class PermissionsController
     do e.preventDefault
     userPermissions = _.map @usersContainer.find("tbody tr"), (line)=> @getPermissionDataFromLine $(line)
     groupPermissions = _.map @groupsContainer.find("tbody tr"), (line)=> @getPermissionDataFromLine $(line)
+    apiApplicationPermissions = _.map @apiApplicationsContainer.find("tbody tr"), (line)=> @getPermissionDataFromLine $(line)
     publicPermissions = _.map @publicPermissionsContainer.find("tbody tr"), (line)=> @getPermissionDataFromLine $(line)
     if @el.is ".ui-modal"
       do @el.remove 
@@ -80,6 +81,7 @@ class PermissionsController
     App.Permission.storeMultiple
       users: userPermissions
       groups: groupPermissions
+      applications: apiApplicationPermissions
       public: publicPermissions[0]
     , @mediaResourceIds, (response)=> 
       if @redirectUrl?
@@ -104,6 +106,7 @@ class PermissionsController
     else
       false
 
+  # TODO: whats with the classes? data or presentation?
   onChangePublicPermission: =>
     if @publicPermissionsContainer.find(".ui-rights-check input[name='view']:checked").length
       @rightsContainer.addClass "public-view"
@@ -142,9 +145,8 @@ class PermissionsController
           @ajaxSearchPerson.abort() if @ajaxSearchPerson?
           @ajaxSearchPerson = App.User.fetch request.term, (users)->
             response _.map users, (user)-> 
-              _user = JSON.parse JSON.stringify user
-              _user.value = user.name
-              _user
+              user.value = user.name
+              return user
         select: (event, ui)=>
           @addPermissionForSubject new App.User {id: ui.item.id, name: ui.item.name}
           $(event.target).blur()
@@ -163,9 +165,8 @@ class PermissionsController
           @ajaxSearchPerson.abort() if @ajaxSearchPerson?
           @ajaxSearchPerson = App.Group.fetch request.term, (groups)->
             response _.map groups, (group)-> 
-              _group = JSON.parse JSON.stringify group
-              _group.value = group.name
-              _group
+              group.value = group.name
+              return group
         select: (event, ui)=>
           @addPermissionForSubject new App.Group {id: ui.item.id, name: ui.item.name}
           $(event.target).blur()
@@ -182,6 +183,35 @@ class PermissionsController
     # setup if dialog is visible (possible time shift because the bootstrap modal)
     if @el.is ":visible" then do setup else @el.one "shown", => do setup
 
+
+  setupAddAPIApp: ->
+    setup = =>
+      input = @addAPIApplicationContainer.find("input")
+      input.autocomplete
+        appendTo: @el
+        source: (request, response)->
+          @ajaxSearchPerson.abort() if @ajaxSearchPerson?
+          @ajaxSearchPerson = App.APIApplication.fetch request.term, (apps)->
+            response _.map apps, (app)-> 
+              app.value = app.id
+              return app
+        select: (event, ui)=>
+          @addPermissionForSubject new App.APIApplication {id: ui.item.id, name: ui.item.id}
+          $(event.target).blur()
+          input.val("").focus()
+          return false
+      input.autocomplete("widget").addClass("wide")
+      input.data("autocomplete")._renderItem = (ul, item)->
+        listItem = $("<li title='#{item.label}'></li>")
+          .data("item.autocomplete", item)
+          .append("<a>#{item.label}</a>")
+          .appendTo(ul);
+        return listItem
+
+    # setup if dialog is visible (possible time shift because the bootstrap modal)
+    if @el.is ":visible" then do setup else @el.one "shown", => do setup
+
+
   addPermissionForSubject: (subject) =>
     if @rightsContainer.find("[data-id='#{subject.id}'][data-name='#{subject.name}']").length
       return true 
@@ -192,8 +222,10 @@ class PermissionsController
       download: false
       edit: false
       manage: false
-      type: if (subject instanceof App.User) then "userpermission" else if  (subject instanceof App.Group) then "grouppermission" 
-      isCurrentUserGroup: if (subject instanceof App.Group) and  _.include(_.map(currentUser.groups, (group)-> group.id) ,subject.id) then true else false
+      type: if (subject instanceof App.User) then "userpermission" 
+      else if (subject instanceof App.Group) then "grouppermission" 
+      else if (subject instanceof App.APIApplication) then "apiapppermission"
+      isCurrentUserGroup: if (subject instanceof App.Group) and _.include(_.map(currentUser.groups, (group)-> group.id) ,subject.id) then true else false
       isCurrentUser: if (subject instanceof App.User) and subject.id == currentUser.id then true else false
     ,
       presets: @permissionPresets
@@ -202,6 +234,8 @@ class PermissionsController
       @usersContainer.find("tbody")
     else if subject instanceof App.Group
       @groupsContainer.find("tbody")
+    else if subject instanceof App.APIApplication
+      @apiApplicationsContainer.find("tbody")
     target.append line
 
   onChangePreset: (select)=>
@@ -270,9 +304,12 @@ class PermissionsController
 
   getDataForRender: ->
     currentUserGroupIds = _.map(currentUser.groups, (group)-> group.id)
+    ##### WTF? -- these iterations seems to have no effect but returning bools to nowhere
     _.each @permissions.groups , (g)-> g.isCurrentUserGroup = _.include(currentUserGroupIds,g.id)
     _.each @permissions.groups , (g)-> g.type = "grouppermission"
+    _.each @permissions.applications , (g)-> g.type = "apiapppermission"
     _.each @permissions.users, (up)-> up.isUserpermission = true; up.type = "userpermission" 
+    ##### END WTF!
     users = @permissions.users
     _.each users, (u)-> u.isCurrentUser = (u.id is currentUser.id)
     data = 
@@ -281,16 +318,30 @@ class PermissionsController
       mediaResourceIds: @mediaResourceIds
       users: @permissionsForRender _.sortBy(users, (user)-> user.name), @mediaResourceIds
       groups: @permissionsForRender _.sortBy(@permissions.groups, (group)-> group.name), @mediaResourceIds
+      applications: @permissionsForRender _.sortBy(@permissions.applications, (app)-> app.id), @mediaResourceIds
     return data
 
   permissionsForRender: (permissions, mediaResourceIds)->
     permissions = [permissions] unless permissions instanceof Array
-    permissions = JSON.parse JSON.stringify permissions
+    # WTF? not sure if valid check or just stupid
+    # permissions = JSON.parse JSON.stringify permissions
+    
     for permission in permissions
+
       permission.view = if _.isEqual(permission.view.sort(), mediaResourceIds.sort()) then true else if permission.view.length then "mixed" else false
+
       permission.download = if _.isEqual(permission.download.sort(), mediaResourceIds.sort()) then true else if permission.download.length then "mixed" else false
-      permission.edit = if _.isEqual(permission.edit.sort(), mediaResourceIds.sort()) then true else if permission.edit.length then "mixed" else false
-      permission.manage = if permission.manage? and _.isEqual(permission.manage.sort(), mediaResourceIds.sort()) then true else if permission.manage? and permission.manage.length then "mixed" else false
+      
+      if permission.edit?
+        permission.edit = if _.isEqual(permission.edit.sort(), mediaResourceIds.sort()) then true else if permission.edit.length then "mixed" else false
+      else
+        permission.edit = null
+      
+      if permission.manage?
+        permission.manage = if _.isEqual(permission.manage.sort(), mediaResourceIds.sort()) then true else if permission.manage? and permission.manage.length then "mixed" else false
+      else
+        permission.manage = null
+    
     return permissions
 
   render: ->
@@ -299,11 +350,14 @@ class PermissionsController
     @rightsContainer = template
     @groupsContainer = template.find ".ui-rights-management-groups"
     @usersContainer = template.find ".ui-rights-management-users"
+    @apiApplicationsContainer = template.find ".ui-rights-management-apiapps"
     @addUserContainer = template.find "#addUser"
     @addGroupContainer = template.find "#addGroup"
+    @addAPIApplicationContainer = template.find "#addApplication"
     @publicPermissionsContainer = template.find ".ui-rights-management-public"
     do @setupAddUser if @addUserContainer.length
     do @setupAddGroup if @addGroupContainer.length
+    do @setupAddAPIApp if @addAPIApplicationContainer.length
     do @setInitalMixedValuesLabels
 
   setInitalMixedValuesLabels: ->

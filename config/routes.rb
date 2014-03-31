@@ -2,6 +2,8 @@
 MAdeK::Application.routes.draw do
 
   get 'api', controller: "api", action: "show"
+  
+  resources :applications, only: [:index] # TODO: refactor as "internal API"
 
   namespace "api" do
     resources :media_resources, only: [:index,:show]

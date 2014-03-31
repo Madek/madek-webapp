@@ -6,12 +6,19 @@
       %i.icon-close.small
     {{/if}}
 
-    %span.text{:title => "${name}"}
+    %span.text{:title => "${name} ${description}"}
       %i.current-user-icon.icon-privacy-private
       {{if $item.public}}
       ${_jed('Internet')}
       {{else}}
+      {{if type === "apiapppermission"}}
+      ${id}
+      {{if description}}
+      %span.small-print (${description})
+      {{/if}}
+      {{else}}
       ${name}
+      {{/if}}
       {{/if}}
 
   %td.ui-rights-role

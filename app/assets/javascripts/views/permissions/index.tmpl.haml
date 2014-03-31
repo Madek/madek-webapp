@@ -1,5 +1,6 @@
 %div{:class => "ui-rights-management{{if $item.manageable == false}} unmanageable{{/if}}{{if public[0].view == true}} public-view{{/if}}{{if public[0].download == true}} public-download{{/if}}{{if public[0].edit == true}} public-edit{{/if}}"}
 
+  / User permissions
   .ui-rights-management-users
 
     .ui-rights-body
@@ -26,6 +27,7 @@
           %input.small.block{name: 'user', type: 'text', placeholder:  "${_jed('Name of the person')}"}
       {{/if}}
 
+  / Groups permissions
   .ui-rights-management-groups
 
     .ui-rights-body
@@ -53,6 +55,37 @@
       {{/if}}
 
 
+  / ApiApp permissions — hidden on show if no content; always visible on edit
+  {{if ($item.manageable == true) || (applications && applications.length)}}
+  .ui-rights-management-apiapps
+
+    .ui-rights-body
+      
+      %table.ui-rights-group
+
+        %thead
+          %tr
+            %td.ui-rights-user-title
+              ${_jed('API-Applikationen')}
+              %i.fa.fa-flask
+              / %i.fa.fa-puzzle-piece
+            %td.ui-rights-role-title
+            %td.ui-rights-check-title
+            %td.ui-rights-check-title
+            %td.ui-rights-check-title
+            %td.ui-rights-check-title
+
+        %tbody
+          {{tmpl(applications, {presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}
+
+      {{if $item.manageable}}
+      #addApplication.ui-add-subject.ptx.row
+        .col1of3
+          %input.small.block{type: :text, placeholder: "${_jed('Name of the Application')}", name: 'group'}
+      {{/if}}
+  {{/if}}
+
+  / Public permissions
   .ui-rights-management-public
 
     %table.ui-rights-group
