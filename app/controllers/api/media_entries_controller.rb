@@ -16,7 +16,7 @@ class Api::MediaEntriesController < ApiController
     end
   end
 
-  def data_stream
+  def content_stream
     @media_entry= MediaEntry.find(params[:id])
     @media_file= @media_entry.media_file
     send_file @media_file.file_storage_location.to_s,  

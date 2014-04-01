@@ -15,7 +15,7 @@ class API::Application < ActiveRecord::Base
   end
 
   def authorization_header 
-    %[Authorization: #{authorization_header_value}"}]
+    %[Authorization: #{authorization_header_value}]
   end
 
   def attributes_with_authorization_header
