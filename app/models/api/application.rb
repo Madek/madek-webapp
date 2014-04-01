@@ -22,5 +22,13 @@ class API::Application < ActiveRecord::Base
     attributes.merge("authorization_header" => authorization_header)
   end
 
+  def authorized?(action, resource_or_resources)
+    Array(resource_or_resources).all? do |resource|
+      MediaResource.where(id: resource)  \
+        .accessible_by_api_application(self,action).count > 0
+    end
+  end
+
+
 
 end

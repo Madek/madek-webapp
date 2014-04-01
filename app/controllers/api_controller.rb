@@ -1,6 +1,11 @@
 class ApiController < ActionController::Base
 
+  class ::NotAuthorized < Exception; end
+
   before_action :authenticate! 
+
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  rescue_from ::NotAuthorized, with: :not_authorized
 
   def initialize_api_application
     @api_id,@api_secret= ActionController::HttpAuthentication::Basic.user_name_and_password(request) rescue [nil,nil]
@@ -46,6 +51,19 @@ class ApiController < ActionController::Base
       render
     end
   end
+
+
+
+  def record_not_found exception
+    render json: {error: "forbidden"}, status: :forbidden
+    return
+  end
+
+  def not_authorized exception
+    render json: {error: "forbidden"}, status: :forbidden
+    return
+  end
+
 
 end
 
