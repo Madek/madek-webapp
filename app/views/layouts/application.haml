@@ -5,7 +5,11 @@
     %meta{:charset => 'utf-8'}
     // TODO INTERNATIONALIZE
     %title= @app_settings.title || "Medienarchiv"
-    = stylesheet_link_tag "application", :media => "all"
+    -# hack!
+    - if params[:contrast] === "true"
+      = stylesheet_link_tag "application-contrasted", :media => "all"
+    - else
+      = stylesheet_link_tag "application", :media => "all"
     %link{:href => "/favicon.ico", :rel => "shortcut icon", :type => "image/x-icon"}
     -# The application_controller makes sure that I18n.locale is set to something valid, so we
     -# can safely use it here.

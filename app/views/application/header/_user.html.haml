@@ -21,11 +21,11 @@
         %a{:href => my_groups_path}
           %i.icon-privacy-group.mid.ui-drop-icon
           = _("My workgroups")
-      / %li.separator
-      / %li.ui-drop-item
-      /   %a{:href => "_____ SAME PAGE _____" }
-      /     %i.icon-contrast.ui-drop-icon.mid
-      /     = _("Enable High Contrast Mode")
+      %li.separator
+      %li.ui-drop-item
+        %a{:href => "#" }
+          %i.icon-contrast.ui-drop-icon.mid
+          = _("Enable High Contrast Mode")
       - if current_user and current_user.groups.is_member?("Admin")
         %li.separator
         %li.ui-drop-item
