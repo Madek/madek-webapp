@@ -66,6 +66,7 @@ module MAdeK
                                     app_admin.css
                                     app_admin.js
                                     application.css
+                                    application-contrasted.css
                                     application.js
                                     i18n/locale/* 
                                     plupload/*
