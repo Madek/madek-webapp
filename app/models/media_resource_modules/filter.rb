@@ -74,7 +74,10 @@ module MediaResourceModules
 
         ############################################################
 
-        resources = resources.where(:id => filter_opts[:ids]) if filter_opts[:ids]
+        if filter_opts[:ids]
+          existing_ids = filter_opts[:ids].map{|id| MediaResource.some_id_to_uuid(id)}.compact
+          resources = resources.where(id: existing_ids)
+        end
 
         resources = resources.search(filter_opts[:search]) unless filter_opts[:search].blank?
 

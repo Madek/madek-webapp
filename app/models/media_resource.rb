@@ -7,7 +7,9 @@ class MediaResource < ActiveRecord::Base
   include MediaResourceModules::MetaData
   include MediaResourceModules::Permissions
   include Concerns::ResourcesThroughPermissions
+  include Concerns::MediaResourceIdConverter
   include MediaResourceModules::Filter
+
 
 ###############################################################
 
