@@ -77,6 +77,7 @@ gem 'sass', '3.2.12'
 gem 'selenium-webdriver', group: [:test]
 gem 'therubyracer', platform: :mri, group: [:development, :production, :test]
 gem 'therubyrhino', platform: :jruby, group: [:development, :production, :test]
+gem 'thin', :platform => :mri, group: [:development, :personas] # web server (Webrick do not support keep-alive connections)
 gem 'uglifier', '~> 1.3'
 gem 'uuidtools'
 gem 'zencoder', '~> 2.4'

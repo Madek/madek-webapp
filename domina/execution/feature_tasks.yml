@@ -44,7 +44,6 @@
     cucumber:
       body: bundle exec cucumber --strict "features/apply_to_all.feature"
 - name: batch_edit_permissions
-  timeout: 600
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/batch_edit_permissions.feature"
@@ -133,12 +132,10 @@
     cucumber:
       body: bundle exec cucumber --strict "features/metadata.feature"
 - name: permissions_01
-  timeout: 600
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/permissions_01.feature"
 - name: permissions_02
-  timeout: 600
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/permissions_02.feature"
