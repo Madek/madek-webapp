@@ -16,9 +16,9 @@ module MediaFileModules
       _previews.first
     end
 
-
     def previews_creatable? 
-      ['image','pdf'].include? media_type 
+      ['image'].include? media_type or \
+        ['application/pdf'].include? content_type
     end
 
     def recreate_image_previews!
