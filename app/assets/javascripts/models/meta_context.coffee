@@ -6,6 +6,8 @@ class MetaContext
     @
 
   fetchAbstract: (min, callback)->
+    # contexts are referenced by @name, not @id!
+    @id = @name
     $.ajax
       url: "/contexts/#{@id}/abstract.json"
       data:

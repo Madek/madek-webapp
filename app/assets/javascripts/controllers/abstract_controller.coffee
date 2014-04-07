@@ -58,10 +58,14 @@ class AbstractController
       @subject.abstract = @cache[@min]
       do @render
     else
+      do @showLoading
       @ajax = @subject.fetchAbstract @min, (data)=>
         @cache[@min] = data
         do @render
 
+  showLoading: ->
+    @abstractContainer.html '<div class="ui-preloader"></div>'
+  
   render: -> 
     @abstractContainer.html App.render "abstracts/abstract", {abstract: @subject.abstract}
 
