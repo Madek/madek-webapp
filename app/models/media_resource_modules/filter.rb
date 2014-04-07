@@ -75,7 +75,7 @@ module MediaResourceModules
         ############################################################
 
         if filter_opts[:ids]
-          existing_ids = filter_opts[:ids].map{|id| MediaResource.some_id_to_uuid(id)}.compact
+          existing_ids = Array(filter_opts[:ids]).map{|id| MediaResource.some_id_to_uuid(id)}.compact
           resources = resources.where(id: existing_ids)
         end
 
