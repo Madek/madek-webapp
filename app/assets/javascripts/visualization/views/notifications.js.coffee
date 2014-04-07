@@ -6,7 +6,7 @@ Visualization.Views.Notifications = Backbone.View.extend
     # loading notification
     $(window).bind "worker_startes_layouting", => 
       @add "loading", "", "Zusammenhänge werden berechnet.<span class='ui-preloader small'></span>"
-      remove_loading_notification = => @remove "loading"; $(window).unbind "worker_finished_layouting", remove_loading_notification
+      remove_loading_notification = => @remove "loading"
       $(window).bind "worker_finished_layouting", remove_loading_notification
 
     # alert when there are only media_entries 
@@ -16,7 +16,7 @@ Visualization.Views.Notifications = Backbone.View.extend
     # alert when there are a lot of nodes
     if @options.nodes.length > 1000
       @add "size_of_nodes", "warning", "Aufgrund der sehr hohen Anzahl der darzustellenden Inhalte kann die Berechnung ihrer Zusammenhänge einige Minuten dauern."
-      remove_size_alert = => @remove "size_alert"; $(window).unbind "worker_finished_layouting", remove_size_alert
+      remove_size_alert = => @remove "size_of_nodes"
       $(window).bind "worker_finished_layouting", remove_size_alert
 
   add: (name, type, text)->
@@ -30,4 +30,7 @@ Visualization.Views.Notifications = Backbone.View.extend
       template.append close
     @el.prepend template
 
-  remove: (name)-> @el.find("##{name}").remove()
+  remove: (name)->
+    # only remove notification if there is one
+    $notification = @el.find("##{name}")
+    $notification.remove() if $notification?
