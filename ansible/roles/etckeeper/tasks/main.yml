@@ -1,0 +1,14 @@
+- name: Install
+  apt: pkg={{item}} state=latest update_cache=yes cache_valid_time=3600
+  with_items: 
+    - etckeeper
+    - git 
+
+- name: Uninitialize bzr
+  command: removes=/etc/.bzr "etckeeper uninit -f"
+
+- name: Configure for git
+  copy: src=etckeeper.conf dest=/etc/etckeeper/etckeeper.conf
+
+- name: Initialize with git
+  shell: creates=/etc/.git etckeeper init && etckeeper commit 'initial commit'

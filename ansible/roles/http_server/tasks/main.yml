@@ -1,0 +1,24 @@
+- name: Install apache2
+  apt: pkg={{item}} state=latest update_cache=yes cache_valid_time=3600
+  with_items: 
+    - apache2
+    - libapache2-mod-xsendfile
+  notify: 
+    - Disable default site
+    - Enable modules
+    - Restart
+
+- name: Add passenger apt key
+  apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x561f9b9cac40b2f7
+
+- name: Install apt prerequisites for passenger
+  apt: pkg={{item}} state=present update_cache=yes cache_valid_time=3600
+  with_items: ['apt-transport-https', 'ca-certificates']
+
+- name: Add phusion apt repository
+  apt_repository:  repo="deb https://oss-binaries.phusionpassenger.com/apt/passenger {{ansible_distribution_release}} main"
+
+- name: Install mod-passenger
+  apt: pkg={{item}} state=present update_cache=yes cache_valid_time=3600
+  with_items: ['libapache2-mod-passenger']
+  notify: [Restart, Enable mod-passenger]

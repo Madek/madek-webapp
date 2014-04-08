@@ -1,0 +1,6 @@
+- name: Install rubies
+  shell: su -s /bin/bash -l -c 'source /etc/profile.d/rbenv-load.sh && rbenv-load && rbenv install {{item.version}}' {{user}}
+         executable=/bin/bash
+         creates=~{{user}}/.rbenv/versions/{{item.version}}
+  with_items: rubies
+

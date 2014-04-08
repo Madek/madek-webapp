@@ -1,0 +1,87 @@
+- name: Install madek dependencies
+  apt: pkg={{item}} state=present update_cache=yes cache_valid_time=3600
+  with_items:
+    - memcached
+    - libimage-exiftool-perl
+    - imagemagick
+
+- name: Create target dir 
+  file: path={{madek_root}}
+        owner=madek
+        group=madek
+        state=directory
+        mode=0755
+
+- name: Git clone or update project
+  sudo: True
+  sudo_user: madek
+  git:  repo=https://github.com/zhdk/madek.git
+        dest={{madek_root}}
+        version={{madek_git_ref}}
+        update=yes
+  register: clone_madek_project
+
+- name: Configure database
+  template: src=database.yml
+            dest={{madek_root}}/config/database.yml
+            owner=madek
+            mode=0755
+
+- name: Bundle
+  shell: su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh 
+          && rbenv-load 
+          && cd {{madek_root}}
+          && export RAILS_ENV={{rails_env}} 
+          && export RBENV_VERSION={{item.version}} 
+          && bundle install --deployment' madek
+         executable=/bin/bash
+  with_items: rubies
+  when: clone_madek_project.changed
+
+
+- name: Setup madek dirs
+  shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh 
+            && rbenv-load 
+            && cd {{madek_root}}
+            && export RAILS_ENV={{rails_env}} 
+            && export RBENV_VERSION={{mri_ruby_version}} 
+            && bundle exec rake madek:setup:dirs' madek
+          executable=/bin/bash
+  when: clone_madek_project.changed
+
+
+- name: Migrate
+  shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh 
+            && rbenv-load 
+            && cd {{madek_root}}
+            && export RAILS_ENV={{rails_env}} 
+            && export RBENV_VERSION={{mri_ruby_version}} 
+            && bundle exec rake db:create db:migrate' madek
+          executable=/bin/bash
+  when: clone_madek_project.changed
+
+
+- name: Precompile assets 
+  shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh 
+            && rbenv-load 
+            && cd {{madek_root}}
+            && export RAILS_ENV={{rails_env}} 
+            && export RBENV_VERSION={{mri_ruby_version}} 
+            && rm -rf public/assets/*"
+            && rm -rf tmp/cache/*"
+            && bundle exec rake assets:precompile' madek
+          executable=/bin/bash
+  when: clone_madek_project.changed
+
+- name: Notify passenger restart
+  command: touch {{madek_root}}/tmp/restart.txt
+  when: clone_madek_project.changed
+
+- name: Apache site config
+  template: src=apache.conf
+            dest=/etc/apache2/sites-available/madek
+            mode=0755
+  notify: 
+    - Enable site
+    - Reload apache
+

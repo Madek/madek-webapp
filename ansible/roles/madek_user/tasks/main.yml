@@ -1,0 +1,23 @@
+- name: Add the group "madek"
+  group:  name=madek
+          system=true
+
+- name: Add the user "madek"
+  user: name=madek
+        generate_ssh_key=yes
+        group=madek
+        system=yes
+        shell=/bin/bash
+
+- name: Add ssh keys to the user
+  authorized_key: key='{{item}}'
+                  user=madek
+  with_items: "{{ssh_keys}}"
+
+- name: Create or update postgresql user
+  postgresql_user:  name={{database.username}}
+                    password={{database.password}}
+                    role_attr_flags=CREATEDB,NOSUPERUSER
+                    login_user=root
+                    port={{database.port}}
+

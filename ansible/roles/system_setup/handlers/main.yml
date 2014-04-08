@@ -1,0 +1,12 @@
+- name: Update locale en_US.UTF-8
+  command: /usr/sbin/update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 
+
+- name: Reconfigure tzdata
+  shell: dpkg-reconfigure -f noninteractive tzdata
+
+- name: Set vim-nox as default editor
+  command: update-alternatives --set editor /usr/bin/vim.nox
+
+
+
+

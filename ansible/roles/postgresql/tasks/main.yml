@@ -1,0 +1,50 @@
+- name: Add pgdg apt key
+  apt_key: id=ACCC4CF8 url=http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc 
+
+- name: Add pgdg apt repository
+  apt_repository:  repo="deb http://apt.postgresql.org/pub/repos/apt/ {{ansible_distribution_release}}-pgdg main"
+
+- name: Install postgresql
+  apt: pkg={{item}} state=present update_cache=yes cache_valid_time=3600
+  with_items: 
+    - libpq-dev
+    - postgresql-client
+    - postgresql-contrib-{{ version }}
+    - postgresql-{{ version }}
+    - python-psycopg2
+
+- name: Configure postgresql
+  template: src=postgresql-{{version}}.conf dest=/etc/postgresql/{{version}}/main/postgresql.conf mode=755
+  register: pg_configured
+
+- name: Restart postgresql
+  service: name=postgresql state=restarted arguments={{version}}
+  when: pg_configured.changed
+
+
+- name: Create root user
+  sudo: True
+  sudo_user: postgres
+  postgresql_user:  name=root
+                    password=root
+                    role_attr_flags=CREATEDB,SUPERUSER
+                    login_user=postgres
+                    port={{database.port}}
+  register: pg_create_root_user
+  when: pg_configured.changed
+
+- name: Create root database
+  sudo: True
+  sudo_user: postgres
+  postgresql_db: name=root
+                 owner=root
+                 login_user=postgres 
+                 port={{database.port}}
+  when: pg_create_root_user.changed
+
+- name: Enable extensions 
+  command: psql template1 -U root -p {{port}} -c 
+                'CREATE EXTENSION IF NOT EXISTS "uuid-ossp"; 
+                 CREATE EXTENSION IF NOT EXISTS "pg_trgm";' 
+  when: pg_configured.changed
+
