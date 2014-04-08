@@ -6,7 +6,7 @@
     // TODO INTERNATIONALIZE
     %title= @app_settings.title || "Medienarchiv"
     -# hack!
-    - if params[:contrast] === "true"
+    - if current_user.contrast_mode
       = stylesheet_link_tag "application-contrasted", :media => "all"
     - else
       = stylesheet_link_tag "application", :media => "all"

@@ -268,6 +268,7 @@ MAdeK::Application.routes.draw do
       post :usage_terms_accept
       get :usage_terms_reject
       get :keywords
+      put :contrast_mode
     end
     collection do
       get :usage_terms

@@ -7,6 +7,12 @@
       - @app_settings.footer_links.map{|k,v| {text: k, href: v}}.each do |footer_link|
         = render 'footer_link', footer_link: footer_link
 
+      -# TODO: link to contrast_mode for guest users
+      -# - if current_user.is_guest?
+      -#   %li
+      -#     =link_to contrast_mode_user_path(current_user,contrast_mode: !current_user.contrast_mode), method: 'PUT' do
+      -#       = current_user.contrast_mode ? _("Disable High Contrast Mode") : _("Enable High Contrast Mode")
+    
     %p.ui-footer-copy
       = link_to "http://madek.zhdk.ch" do
         %i.icon-madek.ui-footer-logo

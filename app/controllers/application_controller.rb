@@ -138,6 +138,8 @@ class ApplicationController < ActionController::Base
       return nil unless user
 
       self.current_user.act_as_uberadmin = session[:act_as_uberadmin]
+      
+      # TODO: contrast_mode: cookie to session bool
 
       # request format can be nil!
       if not (request[:controller] == "media_resources" and request[:action] == "image") and (request.format and request.format.to_sym != :json)

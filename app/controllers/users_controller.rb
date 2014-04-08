@@ -23,6 +23,11 @@ class UsersController < ApplicationController
   def keywords
 
   end
+  
+  def contrast_mode
+    current_user.update_attributes! contrast_mode: params[:contrast_mode]
+    redirect_to :back # TODO: check if always correct
+  end
 
 #####################################################
 

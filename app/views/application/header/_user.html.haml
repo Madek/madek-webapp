@@ -9,6 +9,7 @@
           %i.icon-upload.ui-drop-icon
           = _("Import media")
       %li.separator
+      
       %li.ui-drop-item
         %a{:href => my_media_resources_path(:sort => :updated_at)}
           %i.icon-set.mid.ui-drop-icon
@@ -22,12 +23,15 @@
           %i.icon-privacy-group.mid.ui-drop-icon
           = _("My workgroups")
       %li.separator
+      
       %li.ui-drop-item
-        %a{:href => "#" }
+        =link_to contrast_mode_user_path(current_user,contrast_mode: !current_user.contrast_mode), method: 'PUT' do
           %i.icon-contrast.ui-drop-icon.mid
-          = _("Enable High Contrast Mode")
+          = current_user.contrast_mode ? _("Disable High Contrast Mode") : _("Enable High Contrast Mode")
+      
       - if current_user and current_user.groups.is_member?("Admin")
         %li.separator
+        
         %li.ui-drop-item
           %a{:href => app_admin_root_path}
             %i.icon-cog.ui-drop-icon.mid
@@ -41,7 +45,9 @@
             = link_to app_admin_enter_uberadmin_path, id: "switch-to-uberadmin", method: 'POST', class: '' do
               %i.icon-admin.ui-drop-icon.mid
               = _("Switch to admin mode")
+      
       %li.separator
+      
       %li.ui-drop-item
         =link_to sign_out_session_path, id: "sign-out", method: 'POST', class: "strong" do
           %i.icon-power-off.ui-drop-icon
