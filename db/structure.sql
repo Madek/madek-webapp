@@ -514,7 +514,10 @@ CREATE TABLE usage_terms (
 --
 
 CREATE VIEW user_resources_counts AS
-    SELECT count(*) AS resouces_count, media_resources.user_id FROM media_resources GROUP BY media_resources.user_id;
+ SELECT count(*) AS resouces_count,
+    media_resources.user_id
+   FROM media_resources
+  GROUP BY media_resources.user_id;
 
 
 --
@@ -551,6 +554,7 @@ CREATE TABLE users (
     searchable text DEFAULT ''::text NOT NULL,
     trgm_searchable text DEFAULT ''::text NOT NULL,
     autocomplete character varying(255) DEFAULT ''::character varying NOT NULL,
+    contrast_mode boolean DEFAULT false NOT NULL,
     CONSTRAINT users_login_simple CHECK ((login ~* '^[a-z0-9\.\-\_]+$'::text))
 );
 
@@ -2101,6 +2105,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140310141910');
 INSERT INTO schema_migrations (version) VALUES ('20140314113548');
 
 INSERT INTO schema_migrations (version) VALUES ('20140314125723');
+
+INSERT INTO schema_migrations (version) VALUES ('20140408112530');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
