@@ -56,7 +56,7 @@ class AppAdmin::UsersController < AppAdmin::BaseController
   end
 
   def autocomplete_search 
-    @users= User.reorder(:autocomplete).where("autocomplete like ?","#{params[:search_term]}%").limit(50)
+    @users= User.reorder(:autocomplete).where("autocomplete ilike ?","#{params[:search_term]}%").limit(50)
     render json: @users.map(&:autocomplete)
   end
 
