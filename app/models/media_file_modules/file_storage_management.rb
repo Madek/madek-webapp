@@ -5,11 +5,11 @@ module MediaFileModules
     module ClassMethods
     end
 
-
     def move_temp_file_to_storage_location! tmp_file_path
       raise "Temp file doesn't exist!" unless  File.exists? tmp_file_path
       raise "Target file already exists!" if File.exists? file_storage_location
       FileUtils.mv tmp_file_path, file_storage_location
+      File.chmod(0644,file_storage_location)
     end
 
     def file_storage_location
