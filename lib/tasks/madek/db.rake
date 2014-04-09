@@ -7,6 +7,28 @@ namespace :madek do
     end
     task :kill => :terminate_open_connections
 
+    desc "Truncate all tables, i.e. delete all data (sans schema_migrations)" 
+    task :truncate => :environment do
+      DBHelper.truncate_tables
+    end
+
+    desc "Truncate all tables, i.e. delete all data (sans schema_migrations)" 
+    task :truncate => :environment do
+      DBHelper.truncate_tables
+    end
+
+    desc "Dump the data only, without schema and without schema_migrations table, supply DIR or FILE env to specify a destination"
+    task :dump_data => :environment do
+      res = DBHelper.dump_data config: Rails.configuration.database_configuration[Rails.env], dir: ENV['DIR'], path: ENV['FILE']
+      puts "the data has been dumped into #{res[:path]}"
+    end
+
+    desc "Load data only, requires FILE environment (e.g. FILE=db/personas.data.psql)" 
+    task :load_data => :environment do
+      raise "FILE must be set" unless File.exist?(ENV['FILE'])
+      DBHelper.load_data ENV['FILE'], config: Rails.configuration.database_configuration[Rails.env]
+    end
+
     desc "Dump the database in the native adapter format, use DIR or FILE env to specify a destination"
     task :dump => :environment do
       res = DBHelper.dump_native config: Rails.configuration.database_configuration[Rails.env], dir: ENV['DIR'], path: ENV['FILE']
