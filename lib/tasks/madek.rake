@@ -3,9 +3,6 @@ require 'action_controller'
 
 namespace :madek do
 
-  desc "Set up the environment for testing, then run all tests in one block"
-  task :test => 'test:run_all'
-
   desc "Back up images and database before doing anything silly"
   task :backup do
    unless Rails.env == "production"
