@@ -1,6 +1,8 @@
 - hosts: madek
   vars:
 
+    reset_database_with_personas_data: True
+
     pg_port: 5433
 
     rails_env: production

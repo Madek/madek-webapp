@@ -60,6 +60,15 @@
           executable=/bin/bash
   when: clone_madek_project.changed
 
+- name: Reset database with personas data
+  shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh 
+            && rbenv-load 
+            && cd {{madek_root}}
+            && export RAILS_ENV={{rails_env}} 
+            && export RBENV_VERSION={{mri_ruby_version}} 
+            && bundle exec rake madek:db:truncate madek:db:load_data FILE=db/personas.data.psql' madek
+          executable=/bin/bash
+  when: reset_database_with_personas_data 
 
 - name: Precompile assets 
   shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh 
