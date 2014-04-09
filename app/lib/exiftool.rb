@@ -98,7 +98,6 @@ module Exiftool
       exif_conf.close
     end
 
-
   end
 
 end
