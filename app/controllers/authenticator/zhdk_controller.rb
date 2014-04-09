@@ -5,25 +5,12 @@ require 'cgi'
 
 class Authenticator::ZhdkController < ApplicationController
   
-  
   AUTHENTICATION_URL = 'http://www.zhdk.ch/?auth/madek'
   APPLICATION_IDENT = 'fc7228cdd9defd78b81532ac71967beb'
     
   def login
-    if Rails.env.development? and params["bypass"]
-      if params["bypass"]== "true"
-        session[:user_id] = create_or_update_user(DevelopmentHelpers::AUTH_XML)
-      elsif user = User.where("login = ?",params["bypass"]).try(:first)
-        session[:user_id] = user.id
-      else
-        raise "User #{params[:bypass]} not found"
-      end
-      (User.find session[:user_id]).usage_terms_accepted!
-      redirect_to root_path
-    else
-      target = AUTHENTICATION_URL + "&url_postlogin=" + CGI::escape("http://#{request.host}:#{request.port}#{url_for('/authenticator/zhdk/login_successful/%s')}")
-      redirect_to target
-    end
+    target = AUTHENTICATION_URL + "&url_postlogin=" + CGI::escape("http://#{request.host}:#{request.port}#{url_for('/authenticator/zhdk/login_successful/%s')}")
+    redirect_to target
   end
 
   def login_successful(session_id = params[:id])
