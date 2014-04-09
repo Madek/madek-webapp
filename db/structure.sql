@@ -514,10 +514,7 @@ CREATE TABLE usage_terms (
 --
 
 CREATE VIEW user_resources_counts AS
- SELECT count(*) AS resouces_count,
-    media_resources.user_id
-   FROM media_resources
-  GROUP BY media_resources.user_id;
+    SELECT count(*) AS resouces_count, media_resources.user_id FROM media_resources GROUP BY media_resources.user_id;
 
 
 --

@@ -12,11 +12,7 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 def truncate_tables
-  ActiveRecord::Base.connection.tap do |connection|
-    connection.tables.reject{|tn|tn=="schema_migrations"}.join(', ').tap do |tables|
-      connection.execute " TRUNCATE TABLE #{tables} CASCADE; "
-    end
-  end
+  DBHelper.truncate_tables
 end
 
 RSpec.configure do |config|

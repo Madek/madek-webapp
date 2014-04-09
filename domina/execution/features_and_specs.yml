@@ -54,10 +54,6 @@ contexts:
       order: 1
       type: prepare_executor
       body: "substitute_with_path: domina/scripts/bundle.sh"
-    setup_personas_db: 
-      order: 2
-      type: prepare_executor
-      body: "substitute_with_path: domina/scripts/context_feature_setup_personas_db.sh"
     startx:
       order: 3
       body: "substitute_with_path: domina/scripts/context_feature_startx.sh"

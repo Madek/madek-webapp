@@ -1,5 +1,7 @@
 module DBHelper
 
+  #  pg_dump -a -O -x -T schema_migrations --disable-triggers -f tmp/data.sql  madek_dev
+
   class << self
 
     def reload! 
@@ -38,7 +40,7 @@ module DBHelper
 
     def dump_file_path opts={}
       dir = opts[:dir] || (Rails.root.join "tmp")
-      "#{dir}/#{base_file_name}.#{file_extension}"
+      "#{dir}/#{base_file_name}.#{opts[:extension] || file_extension}"
     end
 
     def set_pg_env config
@@ -97,8 +99,49 @@ module DBHelper
       {status: $?.exitstatus,output: stdout}
     end
 
+
     ###########################################################################
-    # dump and restore
+    # dump and restore data only 
+    ###########################################################################
+  
+    def dump_data options= {}
+      options = options.symbolize_keys
+      path = options[:path] || dump_file_path(options.merge({extension: 'pqsql'}))
+      config = options[:config] || Rails.configuration.database_configuration[Rails.env]
+      cmd =
+        begin
+          set_pg_env config
+          "pg_dump -x -T schema_migrations --disable-triggers -E utf-8 -a -O --no-acl -f #{path}"
+        end
+      system cmd
+      raise "#{cmd} failed" unless $?.exitstatus == 0
+      {path: path, return_value: $?}
+    end
+
+    def load_data path, options = {} 
+      config = options[:config] || Rails.configuration.database_configuration[Rails.env]
+      cond_unzip_pipe = case path.to_s
+                   when /\.gz$/
+                     "| gunzip"
+                   else
+                     ""
+                   end
+      cmd = "cat #{path} #{cond_unzip_pipe} | psql -q #{config['database'].to_s}"
+      system cmd
+      raise "#{cmd} failed" unless $?.exitstatus == 0
+      $?
+    end
+
+    def truncate_tables
+      ActiveRecord::Base.connection.tap do |connection|
+        connection.tables.reject{|tn|tn=="schema_migrations"}.join(', ').tap do |tables|
+          connection.execute " TRUNCATE TABLE #{tables} CASCADE; "
+        end
+      end
+    end
+
+    ###########################################################################
+    # dump and restore with schema
     ###########################################################################
 
     def dump_native options = {}

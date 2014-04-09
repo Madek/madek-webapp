@@ -15,7 +15,6 @@ end
 
 config = YAML.load_file("config/database_domina.yml")
 config["test"]["database"] = %Q[#{config["test"]["database"]}_#{trial_id}]
-config["personas"]["database"] = %Q[#{config["personas"]["database"]}_#{execution_id}]
 
 File.delete "config/database.yml" rescue nil
 File.open("config/database.yml",'w'){|f| f.write(config.to_yaml)}
