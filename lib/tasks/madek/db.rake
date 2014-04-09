@@ -1,45 +1,11 @@
 namespace :madek do
   namespace :db  do
 
-    desc "Transfer the data from on SOURCE env TARGET env (env is anything defined in config/database.yml)"
-    task :transfer => :environment do
-      DBHelper.transfer Constants::ALL_TABLES, ENV['SOURCE'], ENV['TARGET']
-      DBHelper.reset_autoinc_sequences Constants::ALL_TABLES
-    end
-
-    desc "Compare the data in the SOURCE env TARGET env (env is anything defined in config/database.yml)"
-    task :compare => :environment do
-      DBHelper.compare Constants::ALL_TABLES, ENV['SOURCE'], ENV['TARGET']
-    end
-
-    desc "Reset the autoinc values" 
-    task :reset_auto_inc => :environment do
-      DBHelper.reset_autoinc_sequences Constants::ALL_TABLES
-    end
-
     desc "Terminate all open connections"
     task :terminate_open_connections => :environment do
       DBHelper.terminate_open_connections Rails.configuration.database_configuration[Rails.env]
     end
     task :kill => :terminate_open_connections
-
-    desc "Dump the database from whatever DB to YAML"
-    task :dump_to_yaml => :environment do
-      data_hash = DBHelper.create_hash Constants::ALL_TABLES
-      file_path = Rails.root.join "tmp", "#{DBHelper.base_file_name}.yml"
-      File.open(file_path, "w"){|f| f.write data_hash.to_yaml } 
-      puts "the file has been saved to #{file_path}"
-    end
-
-    desc "Restore the DB from YAML" 
-    task :restore_from_yaml => :environment do
-      if file_name= ENV['FILE']
-        h = YAML.load File.read file_name
-        DBHelper.import_hash h, Constants::ALL_TABLES
-      else
-        raise "missing FILE env varialbe"
-      end
-    end
 
     desc "Dump the database in the native adapter format, use DIR or FILE env to specify a destination"
     task :dump => :environment do
