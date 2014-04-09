@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 class GroupsController < ApplicationController
-  include SQLHelper
 
   before_filter do
     unless (params[:group_id] ||= params[:id]).blank?
