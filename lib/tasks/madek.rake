@@ -22,8 +22,8 @@ namespace :madek do
 
   desc "Fetch meta information from ldap, store it into db/ldap.json and update meta_departments"
   task :fetch_ldap => :environment do
-    DevelopmentHelpers.fetch_from_ldap
-    DevelopmentHelpers.update_meta_departments_from_ldap_localfile
+    LdapHelper.fetch_from_ldap
+    LdapHelper.update_meta_departments_from_ldap_localfile
   end
 
   desc "Reset"
