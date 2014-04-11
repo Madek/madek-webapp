@@ -45,3 +45,9 @@
           %li.ui-side-navigation-item{:class => my_groups_page? ? "active" : ""}
             %a.strong{:href => my_groups_path} 
               = _("My workgroups")
+          %li.separator.mini
+
+        - unless @user_contexts_count.zero?
+          %li.ui-side-navigation-item{:class => my_contexts_page? ? "active" : ""}
+            %a.strong{:href => my_contexts_path} 
+              = _("My contexts")

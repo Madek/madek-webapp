@@ -491,6 +491,9 @@ msgstr "Meine letzten Importe"
 msgid "My workgroups"
 msgstr "Meine Arbeitsgruppen"
 
+msgid "My contexts"
+msgstr "Meine Kontexte"
+
 msgid "Name"
 msgstr "Name"
 

@@ -47,6 +47,10 @@ module CurrentPageHelper
     current_page? my_entrusted_media_resources_path
   end
 
+  def my_contexts_page?
+    current_page? my_contexts_path
+  end
+
 ######### EXPLORE
 
   def explore_page?

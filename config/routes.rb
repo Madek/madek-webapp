@@ -79,6 +79,7 @@ MAdeK::Application.routes.draw do
   get 'my/keywords', :to => 'my#keywords', :as => "my_keywords"
   get 'my/entrusted_media_resources', :to => 'my#entrusted_media_resources', :as => "my_entrusted_media_resources"
   get 'my/groups', :to => 'my#groups', :as => "my_groups"
+  get 'my/contexts', :to => 'my#contexts', :as => "my_contexts"
 
   ##### COLLECTIONS
 

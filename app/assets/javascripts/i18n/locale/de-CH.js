@@ -685,6 +685,10 @@ window.i18n.locale_data = {
          null,
          "Meine Arbeitsgruppen"
       ],
+      "My contexts": [
+         null,
+         "Meine Kontexte"
+      ],
       "Name": [
          null,
          "Name"
