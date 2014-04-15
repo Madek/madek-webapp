@@ -238,6 +238,9 @@ msgstr "Beschreibung"
 msgid "Deselect all"
 msgstr "Alle abwählen"
 
+msgid "Disable High Contrast Mode"
+msgstr "Kontrast-Modus ausschalten"
+
 msgid "Display settings saved"
 msgstr "Darstellung gespeichert"
 
@@ -263,7 +266,7 @@ msgid "Empty"
 msgstr "Leer"
 
 msgid "Enable High Contrast Mode"
-msgstr "Enable High Contrast Mode"
+msgstr "Kontrast-Modus einschalten"
 
 msgid "Entries"
 msgstr "Einträge"

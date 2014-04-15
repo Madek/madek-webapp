@@ -361,6 +361,10 @@ window.i18n.locale_data = {
          null,
          "Alle abwählen"
       ],
+      "Disable High Contrast Mode": [
+         null,
+         "Kontrast-Modus ausschalten"
+      ],
       "Display settings saved": [
          null,
          "Darstellung gespeichert"
@@ -395,7 +399,7 @@ window.i18n.locale_data = {
       ],
       "Enable High Contrast Mode": [
          null,
-         "Enable High Contrast Mode"
+         "Kontrast-Modus einschalten"
       ],
       "Entries": [
          null,
