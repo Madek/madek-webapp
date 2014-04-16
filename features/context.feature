@@ -8,10 +8,10 @@ Feature: Context
     Given I am signed-in as "Normin"
 
   Scenario: See a list of contexts
-    When I go to the explore page
+    When I visit "/my"
     Then I see a preview list of contexts that are connected with media resources that I can access
     And for each context I see the label and description and the link to that context
-    When I go to the explore contexts page
+    When I go to the my contexts page
     Then I see a list with all contexts that are connected with media resources that I can access
     And for each context I see the label and description and the link to that context
 

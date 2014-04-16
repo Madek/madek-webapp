@@ -43,13 +43,5 @@
                                  :width_limited => true,
                                  :link => explore_keywords_path}
 
-            %hr.separator
-
-          - if @any_context
-            = render :partial => "meta_contexts/wrapper", 
-                     :locals => {:meta_contexts => @contexts, 
-                                 :title => "Kontexte",
-                                 :link => explore_contexts_path}
-
   .app-footer-push
 = render :partial => "application/footer"

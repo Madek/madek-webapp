@@ -35,10 +35,6 @@ Then /^I go to (.*?)$/ do |page|
     when "the explore page"
       explore_path
 
-    when "the explore contexts page"
-      explore_contexts_path
-
-
     # the h ################################################
     when "the home page"
       root_path
@@ -57,6 +53,9 @@ Then /^I go to (.*?)$/ do |page|
     # the m ################################################
     when "the media_resources with filter_panel" 
       media_resources_path(filterpanel: true) 
+
+    when "the my contexts page"
+      my_contexts_path
 
     # the s ################################################
     when "the search page"
