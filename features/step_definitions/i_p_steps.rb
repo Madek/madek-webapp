@@ -1,8 +1,14 @@
 # -*- encoding : utf-8 -*-
 
 Then /^I put a set A that has media entries in set B that has any context$/ do
-  @media_set_a = @current_user.media_sets.detect{|ms| ms.individual_contexts.count == 0 and ms.child_media_resources.media_entries.count > 0}
-  @media_set_b = @current_user.media_sets.detect{|ms| ms.individual_contexts.count > 0}
+
+  @media_set_a = MediaSet.find "434c473e-c685-4ea8-83f1-ceebff16c843"
+  @media_set_a.individual_contexts.count.should be== 0
+  @media_set_a.child_media_resources.media_entries.count.should be> 0
+
+  @media_set_b = MediaSet.find "b23c6f19-4fdd-4e7d-b48e-697953fe5f12"
+  @media_set_b.individual_contexts.count.should be> 0
+
   visit media_set_path(@media_set_a)
   step 'I open the organize dialog'
   find("[name='search_or_create_set']").set @media_set_b.title

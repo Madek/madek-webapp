@@ -4,12 +4,12 @@ Feature: Inheritance of contexts
   I want add individual data to media entries
   So that I store my specialized meta data
 
-  @jsbrowser
+  @jsbrowser 
   Scenario: Inherit contexts from another set
     Given I am signed-in as "Adam"
     When I put a set A that has media entries in set B that has any context
-    Then the set A inherits all the contexts of the set B
-    And all media entries contained in set A have all contexts of set A
+    Then Set A inherits all the contexts of the set B
+    And Set A bequests all contexts to every media entry of its children
 
   @firefox
   Scenario: Remove contexts from a set while disconnecting from inheriting set

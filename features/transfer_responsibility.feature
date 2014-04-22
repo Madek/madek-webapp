@@ -17,7 +17,7 @@ Feature: Transfer responsibility
     | Normin    | manage     | true  |
 
   
-  @firefox @wip
+  @jsbrowser
   Scenario: Transferring a media resource where I am not the owner
     Given I am signed-in as "Normin"
     And I remove all permissions from my first media_entry

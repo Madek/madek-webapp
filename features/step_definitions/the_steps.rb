@@ -273,14 +273,6 @@ Then /^The state of the newest ZencoderJob is "(.*?)"$/ do |state|
   expect(find("table.zencoder-jobs tbody tr td.state").text).to eq  state
 end
 
-Then /^the set A inherits all the contexts of the set B$/ do
-  find("a[href='#{inheritable_contexts_media_set_path(@media_set_a)}']").click
-  @media_set_b.individual_contexts.each do |context|
-    page.should have_content context.label.to_s
-    find("a[href='#{context_path context}']")
-  end
-end
-
 Then /^The set has no children$/ do
   @set.child_media_resources.clear
 end
