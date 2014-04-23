@@ -4,6 +4,11 @@ set :rvm_ruby_string, '2.1.0'        # Or whatever env you want it to run in.
 set :rvm_type, :system
 set :rvm_path, "/usr/local/rvm" 
 
+# check out git-submodules (recursive)
+set :git_enable_submodules, true
+set :git_submodules_recursive, true
+set :deploy_via, :remote_cache
+
 require "bundler/capistrano"
 
 set :application, "madek"
