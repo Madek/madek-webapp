@@ -144,30 +144,8 @@ class MediaEntriesController < ApplicationController
     #   @context_group.meta_contexts.select{ |meta_context| @media_entry.meta_data.for_context(meta_context, false).any? }
 
     @meta_contexts = @context_group.meta_contexts.select {|mc| @media_entry.individual_contexts.include?(mc) }
-
   end
   
-#####################################################
-
-  ##
-  # Manage parent media sets from a specific media entry.
-  # 
-  # @url [POST] /media_entries/media_sets?[arguments]
-  # @url [DELETE] /media_entries/media_sets?[arguments]
-  # 
-  # @argument [parent_media_set_ids] array The ids of the parent media sets to remove/add
-  # @argument [media_entry_ids] array The ids of the entries that have to be added to the sets given as "parent_media_set_ids"
-  #
-  # @example_request
-  #   {"parent_media_set_ids": [1,2,3], "media_entry_ids": [5,6,7]}
-  #
-  # @request_field [Array] media_set_ids The ids of the parent media sets to remove/add  
-  #
-  # @example_response
-  #   [{"id":407},{"id":406}]
-  # 
-  # @response_field [Integer] id The id of a removed or an added parent set 
-  # 
   def media_sets(parent_media_set_ids = params[:parent_media_set_ids])
     parent_media_sets = MediaSet.accessible_by_user(current_user, :edit).where(:id => parent_media_set_ids.map(&:to_i))
 
@@ -205,7 +183,13 @@ class MediaEntriesController < ApplicationController
   def update_multiple
     ActiveRecord::Base.transaction do
       @media_entries.each do |media_entry|
-        if media_entry.update_attributes params[:resource] 
+        meta_data_attributes= params[:resource].try(:[],'meta_data_attributes')
+        to_be_updated_meta_data_attributes=
+          meta_data_attributes.select do |_,new_meta_datum|
+            media_entry.meta_data.where(meta_key_id: new_meta_datum['meta_key_id']).map(&:value).try(&:first).blank? \
+            and (! new_meta_datum['value'].blank?)
+          end
+        if media_entry.set_meta_data meta_data_attributes: to_be_updated_meta_data_attributes
           media_entry.editors << current_user 
           media_entry.touch
           flash[:notice] = "Die Änderungen wurden gespeichert." 
