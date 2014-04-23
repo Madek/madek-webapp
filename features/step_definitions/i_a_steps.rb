@@ -211,11 +211,11 @@ Then /^I am signed\-in as "(.*?)"$/ do |login|
 end
 
 Then (/^I am the last editor of the media entry with the id "(.*?)"$/) do |id|
-  expect(MediaEntry.find(id).editors.reorder("edit_sessions.created_at DESC").first).to be == @me
+  expect(MediaEntry.find(id).editors.reorder(created_at: :desc, id: :asc).first).to be == @me
 end
 
 Then /^I am the last editor of the remembered resource$/ do
-  expect(MediaEntry.find(@resource).editors.reorder("edit_sessions.created_at DESC").first).to be == @me
+  expect(MediaEntry.find(@resource).editors.reorder("edit_sessions.created_at DESC, id ASC").first).to be == @me
 end
 
 Then /^I am the responsible person for that resource$/ do
@@ -250,7 +250,7 @@ Then /^I am on the help page$/ do
 end
 
 Then /^I am on the page of my first media_entry$/ do
-  @media_entry = @me.media_entries.reorder(:created_at).first
+  @media_entry = @me.media_entries.reorder(:created_at,:id).first
   expect(current_path).to eq  media_entry_path(@media_entry)
 end
 

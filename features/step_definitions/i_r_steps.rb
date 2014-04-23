@@ -34,7 +34,7 @@ Then /^I remember the id of the first group-row$/ do
 end
 
 Then /^I remember the last imported media_entry with media_file and the actual file$/ do
-  @media_entry = MediaEntry.reorder("created_at DESC").first
+  @media_entry = MediaEntry.reorder(created_at: :desc,id: :asc).first
   @media_file = @media_entry.media_file
   @file = @media_file.file_storage_location
 end
@@ -75,13 +75,13 @@ Then /^I remove all uploaded files$/ do
 end
 
 Then /^I remove all permissions from my first media_entry$/ do
-  @my_first_media_entry = @me.media_entries.reorder("created_at ASC").first
+  @my_first_media_entry = @me.media_entries.reorder(:created_at,:id).first
   @my_first_media_entry.userpermissions.clear
   @my_first_media_entry.grouppermissions.clear
 end
 
 Given(/^I remove all permissions from "(.*?)"\\'s first media_entry$/) do |login|
-  @media_entry = User.find_by_login(login).media_entries.reorder("created_at ASC").first
+  @media_entry = User.find_by_login(login).media_entries.reorder(:created_at,:id).first
   @media_entry.userpermissions.clear
   @media_entry.grouppermissions.clear
 end

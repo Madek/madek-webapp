@@ -180,7 +180,7 @@ Then /^The meta_context "(.*?)" is not included in the individual_meta_contexts$
 end
 
 Then /^The most recent zencoder_job has the state "(.*?)"$/ do |state|
-  expect(ZencoderJob.reorder("created_at DESC").first.state ).to eq state
+  expect(ZencoderJob.reorder(created_at: :desc,id: :asc).first.state ).to eq state
 end
 
 ### the n ###########################################

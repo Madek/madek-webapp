@@ -16,15 +16,15 @@ Then /^I visit the "(.*?)" path$/ do |path|
 end
 
 When /^I visit my first media_entry$/ do
-  visit media_entry_path(@me.media_entries.reorder(:created_at).first)
+  visit media_entry_path(@me.media_entries.reorder(:created_at,:id).first)
 end
 
 When /^I visit my first media_set$/ do
-  visit media_set_path(@me.media_sets.reorder(:created_at).first)
+  visit media_set_path(@me.media_sets.reorder(:created_at,:id).first)
 end
 
 Then /^I visit the page of the last added media_entry$/ do
-  visit media_entry_path MediaEntry.order(:created_at).last
+  visit media_entry_path MediaEntry.reorder(created_at: :desc, id: :asc).first
 end
 
 Then (/^I visit the page of that movie$/) do
@@ -40,11 +40,11 @@ Then /^I visit the path of the resource$/ do
 end
 
 Then /^I visit the path of my first media entry$/ do
-  visit media_resource_path @me.media_entries.reorder("created_at ASC").first
+  visit media_resource_path @me.media_entries.reorder(:created_at,:id).first
 end
 
 Given(/^I visit the path of "(.*?)"\\'s first media entry$/) do |login|
-  visit media_resource_path User.find_by_login(login.downcase).media_entries.reorder("created_at ASC").first
+  visit media_resource_path User.find_by_login(login.downcase).media_entries.reorder(:created_at,:id).first
 end
 
 Then /^I visit the edit path of the resource$/ do
