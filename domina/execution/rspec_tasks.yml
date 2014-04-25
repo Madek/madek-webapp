@@ -127,6 +127,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/controllers/zencoder_jobs_spec.rb"
+- name: features batch update_metadata
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/features/batch/update_metadata_spec.rb"
 - name: misc exiftool
   scripts:
     rspec:
