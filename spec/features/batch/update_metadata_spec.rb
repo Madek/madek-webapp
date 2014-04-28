@@ -28,12 +28,14 @@ feature "Batch edit metadata" do
 
     sign_in_as 'normin'
 
-    @media_entry_with_title = FactoryGirl.create :media_entry_with_image_media_file, user: @me
-    meta_key = MetaKey.find_by_id(:title) 
-    @media_entry_with_title.meta_data.create meta_key: meta_key, value: "AN EXISTING TITLE"
+    @media_entry_with_title_and_subtitle = FactoryGirl.create :media_entry_with_image_media_file, user: @me
+    @media_entry_with_title_and_subtitle.meta_data \
+      .create meta_key: MetaKey.find_by_id(:title), value: "AN EXISTING TITLE"
+    @media_entry_with_title_and_subtitle.meta_data \
+      .create meta_key: MetaKey.find_by_id(:subtitle), value: "AN EXISTING SUBTITLE"
     @media_entry_without_title = FactoryGirl.create :media_entry_with_image_media_file, user: @me
 
-    add_to_the_clipboard @media_entry_with_title
+    add_to_the_clipboard @media_entry_with_title_and_subtitle
     add_to_the_clipboard @media_entry_without_title
 
     visit my_dashboard_path
@@ -44,7 +46,7 @@ feature "Batch edit metadata" do
     find(".ui-clipboard.ui-open")
 
     # both entries must be visible in the clip board
-    find(".ui-clipboard .ui-resource[data-id='#{@media_entry_with_title.id}']",visible: true)
+    find(".ui-clipboard .ui-resource[data-id='#{@media_entry_with_title_and_subtitle.id}']",visible: true)
     find(".ui-clipboard .ui-resource[data-id='#{@media_entry_without_title.id}']",visible: true)
 
     i_click_on "Metadaten von Medieneinträgen editieren"
@@ -55,11 +57,16 @@ feature "Batch edit metadata" do
 
     i_click_on "Speichern"
 
-    # the new title is now displayed
-    expect(page).to have_content "THE NEW TITLE"
 
-    # the old title has not been overwritten
-    expect(page).to have_content "AN EXISTING TITLE"
+    visit media_entry_path(@media_entry_with_title_and_subtitle)
+    # the new title has been created
+    expect(page).to have_content "THE NEW TITLE"
+    # the existing not changed subtitle is still there
+    expect(page).to have_content "AN EXISTING SUBTITLE"
+
+    visit media_entry_path(@media_entry_without_title)
+    # the old title has now been overwritten
+    expect(page).to have_content "THE NEW TITLE"
 
 
   end
