@@ -54,23 +54,44 @@ class MetaDatum < ActiveRecord::Base
 
   def same_value?(other_value)
     # TODO raise "this method must be implemented in the derived class"
+    
+    # Can the value be iterated?
+    if value.respond_to? :each
+      
+      # What is the first element?
+      case value.first
+      when NilClass
+        # just compare, other is either also Nil or different.
+        value === other_value
+      when Keyword
+        # just compare as a list of strings.
+        value.sort.uniq.map(&:to_s) === other_value.sort.uniq.map(&:to_s)
 
-    case value.class.to_s
-      when "String"
+      when Person, MetaTerm, Group
+        value.sort.uniq.map(&:id) === other_value.sort.uniq.map(&:id)
+
+      else
+        raise "Unknown Meta-Data List Comparison!"
+      end
+      
+    # if the value can NOT be iterated…
+    else
+      case value
+      # if it is a string, …
+      when String
+        # just compare the string!
         value == other_value
-      when "Array"
-        return false unless other_value.is_a?(Array)
-        if value.first.is_a?(MetaDatumDate)
-          other_value.first.is_a?(MetaDatumDate) and (other_value.first.free_text == value.first.free_text)
-        elsif meta_key.meta_datum_object_type == "MetaDatumKeywords"
-          referenced_meta_term_ids = Keyword.where(:id => other_value).all.map(&:meta_term_id)
-          value.map(&:meta_term_id).uniq.sort.eql?(referenced_meta_term_ids.uniq.sort)
-        else
-          value.uniq.sort.eql?(other_value.uniq.sort)
-        end
-      when "NilClass"
+      when Copyright
+        value.id == other_value.id
+      # if it is nill, …
+      when NilClass
+        # just compare if other is blank
         other_value.blank?
+      else
+        raise "Unknown Meta-Data Comparison!"
+      end
     end
+
   end
 
 ########################################
