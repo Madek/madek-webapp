@@ -1,22 +1,19 @@
 # -*- encoding : utf-8 -*-
 class Keyword < ActiveRecord::Base
+
+  # TODO WTFK is this doing HERE ? 
   include Concerns::ResourcesThroughPermissions
   
-  belongs_to :meta_term
   belongs_to :user
   belongs_to :meta_datum
-
-  validates_presence_of :meta_term # FIXME check after, :meta_datum
-  validates_uniqueness_of :meta_term_id, :scope => :meta_datum_id
-
-  #default_scope :include => :meta_term
+  belongs_to :keyword_term
 
   def to_s
-    "#{meta_term}"
+    "#{keyword_term}"
   end
 
   def self.with_count
-    select("meta_term_id, COUNT(meta_term_id) AS count").group("keywords.meta_term_id").order("count DESC")
+    select("keyword_term_id, COUNT(keyword_term_id) AS count").group("keywords.keyword_term_id").order("count DESC")
   end
 
   def self.with_count_for_accessible_media_resources user = nil
@@ -27,9 +24,8 @@ class Keyword < ActiveRecord::Base
 
   scope :search, lambda { |query|
     return scoped if query.blank?
-
-    q = query.split.map{|s| "%#{s}%"}
-    joins(:meta_term).where(MetaTerm.arel_table[DEFAULT_LANGUAGE].matches_all(q))
+    search_term= "%#{query}%"
+    joins(:keyword_term).where("keyword_terms.term ilike ?","%#{query}%")
   }
   
 end

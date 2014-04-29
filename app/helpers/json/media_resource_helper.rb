@@ -42,11 +42,11 @@ module Json
             end
           end
         end
-        
+
         if with[:media_type]
           h[:media_type] = media_resource.media_type.downcase
         end
-        
+
         if with[:filename]
           h[:filename] = media_resource.is_a?(MediaSet) ? nil : media_resource.media_file.filename
         end
@@ -309,10 +309,10 @@ module Json
         queries = meta_datum_object_types.map do |meta_datum_object_type|
           sql_select, sql_join, sql_group = case meta_datum_object_type
             when "MetaDatumKeywords"
-              [%Q(meta_terms.id, meta_terms.#{DEFAULT_LANGUAGE} as value),
+              [%Q(keyword_terms.id, keyword_terms.term as value),
                %Q(INNER JOIN keywords ON keywords.meta_datum_id = meta_data.id
-                  INNER JOIN meta_terms ON keywords.meta_term_id = meta_terms.id),
-               %Q(meta_terms.id)]
+                  INNER JOIN keyword_terms ON keywords.keyword_term_id = keyword_terms.id),
+               %Q(keyword_terms.id)]
             when "MetaDatumDepartments"
               [%Q(groups.id, groups.name AS value),
                %Q(INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id

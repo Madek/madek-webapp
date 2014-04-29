@@ -21,21 +21,11 @@ class MetaDatumKeywords < MetaDatum
         Keyword.new(:meta_term => v.meta_term)
       elsif UUID_V4_REGEXP.match v 
         k = nil
-        k = Keyword.find_by(meta_term_id: v, meta_datum_id: self.id) if self.persisted?
-        k ||= Keyword.new(:meta_term_id => v, :user => user)
+        k = Keyword.find_by(keyword_term_id: v, meta_datum_id: self.id) if self.persisted?
+        k ||= Keyword.new(:keyword_term_id => v, :user => user)
       else
-        conditions = {DEFAULT_LANGUAGE => v}
-        term = MetaTerm.where(conditions).first
-
-        term ||= begin
-                   h = {}
-                   LANGUAGES.each do |lang|
-                     h[lang] = v
-                   end
-                   MetaTerm.create(h)
-                 end
-
-        Keyword.new(:meta_term_id => term.id, :user => user)
+        term = KeywordTerm.find_or_create_by term: v
+        Keyword.new(keyword_term: term, user: user)
       end
       rescue Exception => e
         binding.pry

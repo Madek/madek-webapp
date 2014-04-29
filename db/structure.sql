@@ -220,6 +220,18 @@ CREATE TABLE groups_users (
 
 
 --
+-- Name: keyword_terms; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE keyword_terms (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    term character varying(255) DEFAULT ''::character varying NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
 -- Name: keywords; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -227,8 +239,8 @@ CREATE TABLE keywords (
     created_at timestamp without time zone,
     user_id uuid,
     meta_datum_id uuid NOT NULL,
-    meta_term_id uuid NOT NULL,
-    id uuid DEFAULT uuid_generate_v4() NOT NULL
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    keyword_term_id uuid NOT NULL
 );
 
 
@@ -660,6 +672,14 @@ ALTER TABLE ONLY groups
 
 
 --
+-- Name: keyword_terms_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY keyword_terms
+    ADD CONSTRAINT keyword_terms_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: keywords_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1007,6 +1027,13 @@ CREATE INDEX index_groups_users_on_user_id ON groups_users USING btree (user_id)
 
 
 --
+-- Name: index_keyword_terms_on_term; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_keyword_terms_on_term ON keyword_terms USING btree (term);
+
+
+--
 -- Name: index_keywords_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1014,17 +1041,17 @@ CREATE INDEX index_keywords_on_created_at ON keywords USING btree (created_at);
 
 
 --
+-- Name: index_keywords_on_keyword_term_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_keywords_on_keyword_term_id ON keywords USING btree (keyword_term_id);
+
+
+--
 -- Name: index_keywords_on_meta_datum_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_keywords_on_meta_datum_id ON keywords USING btree (meta_datum_id);
-
-
---
--- Name: index_keywords_on_meta_term_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_keywords_on_meta_term_id ON keywords USING btree (meta_term_id);
 
 
 --
@@ -1686,19 +1713,19 @@ ALTER TABLE ONLY groups_users
 
 
 --
+-- Name: keywords_keyword_term_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY keywords
+    ADD CONSTRAINT keywords_keyword_term_id_fk FOREIGN KEY (keyword_term_id) REFERENCES keyword_terms(id);
+
+
+--
 -- Name: keywords_meta_datum_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY keywords
     ADD CONSTRAINT keywords_meta_datum_id_fk FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
-
-
---
--- Name: keywords_meta_term_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY keywords
-    ADD CONSTRAINT keywords_meta_term_id_fk FOREIGN KEY (meta_term_id) REFERENCES meta_terms(id) ON DELETE CASCADE;
 
 
 --
@@ -2104,6 +2131,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140314113548');
 INSERT INTO schema_migrations (version) VALUES ('20140314125723');
 
 INSERT INTO schema_migrations (version) VALUES ('20140408112530');
+
+INSERT INTO schema_migrations (version) VALUES ('20140429074104');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

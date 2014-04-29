@@ -8,7 +8,6 @@ class MetaTerm < ActiveRecord::Base
     join_table: :meta_data_meta_terms, 
     foreign_key: :meta_term_id, 
     association_foreign_key: :meta_datum_id
-  has_many :keywords, :foreign_key => :meta_term_id
 
   validate do
     errors.add(:base, "A term cannot be blank") if LANGUAGES.all? {|lang| send(lang).blank? }
@@ -21,8 +20,6 @@ class MetaTerm < ActiveRecord::Base
     "meta_terms"."id" in (#{joins(:meta_data).select('"meta_terms"."id"').group('"meta_terms"."id"').to_sql}) >)}
     # essentially does the same as above with DISTINCT ON instead of GROUP BY, 
     # queries are different but there is no much difference in speed
-  scope :with_keywords, lambda{where(%Q<
-    "meta_terms"."id" in (#{joins(:keywords).select('DISTINCT ON ("meta_terms"."id") "meta_terms"."id"').to_sql}) >)}
 
   scope :with_key_labels, lambda{where(%Q<
     "meta_terms"."id" IN (SELECT "label_id" FROM "meta_key_definitions" GROUP BY "label_id") >)}
@@ -41,7 +38,6 @@ class MetaTerm < ActiveRecord::Base
       #{condition} (SELECT NULL FROM "meta_key_definitions" WHERE "meta_terms"."id" = "meta_key_definitions"."hint_id") #{operator}
       #{condition} (SELECT NULL FROM "meta_key_definitions" WHERE "meta_terms"."id" = "meta_key_definitions"."description_id") #{operator}
       #{condition} (SELECT NULL FROM "meta_data_meta_terms" WHERE "meta_terms"."id" = "meta_data_meta_terms"."meta_term_id") #{operator}
-      #{condition} (SELECT NULL FROM "keywords" WHERE "meta_terms"."id" = "keywords"."meta_term_id") #{operator}
       #{condition} (SELECT NULL FROM "meta_contexts" WHERE "meta_terms"."id" = "meta_contexts"."label_id") #{operator}
       #{condition} (SELECT NULL FROM "meta_contexts" WHERE "meta_terms"."id" = "meta_contexts"."description_id") #{operator}
       #{condition} (SELECT NULL FROM "meta_keys_meta_terms" WHERE "meta_terms"."id" = "meta_keys_meta_terms"."meta_term_id") >)
@@ -52,7 +48,6 @@ class MetaTerm < ActiveRecord::Base
     NOT EXISTS (SELECT NULL FROM "meta_key_definitions" WHERE "meta_terms"."id" = "meta_key_definitions"."hint_id") AND
     NOT EXISTS (SELECT NULL FROM "meta_key_definitions" WHERE "meta_terms"."id" = "meta_key_definitions"."description_id") AND
     NOT EXISTS (SELECT NULL FROM "meta_data_meta_terms" WHERE "meta_terms"."id" = "meta_data_meta_terms"."meta_term_id") AND
-    NOT EXISTS (SELECT NULL FROM "keywords" WHERE "meta_terms"."id" = "keywords"."meta_term_id") AND
     NOT EXISTS (SELECT NULL FROM "meta_contexts" WHERE "meta_terms"."id" = "meta_contexts"."label_id") AND
     NOT EXISTS (SELECT NULL FROM "meta_contexts" WHERE "meta_terms"."id" = "meta_contexts"."description_id") AND
     NOT EXISTS (SELECT NULL FROM "meta_keys_meta_terms" WHERE "meta_terms"."id" = "meta_keys_meta_terms"."meta_term_id") >)}
@@ -80,7 +75,6 @@ class MetaTerm < ActiveRecord::Base
       MetaKeyDefinition.where("? IN (label_id, description_id, hint_id)", id).exists? or
       MetaContext.where("? IN (label_id, description_id)", id).exists? or
       meta_key_meta_terms.exists? or
-      keywords.exists? or
       meta_data.exists?
     end
   
@@ -90,7 +84,6 @@ class MetaTerm < ActiveRecord::Base
       MetaKeyDefinition.where("? IN (label_id, description_id, hint_id)", id).count +
       MetaContext.where("? IN (label_id, description_id)", id).count +
       meta_key_meta_terms.count +
-      keywords.count +
       meta_data.count
     end
 
@@ -100,8 +93,6 @@ class MetaTerm < ActiveRecord::Base
       case type
       when :term
         meta_data.exists?
-      when :keyword
-        keywords.exists?
       when :key_label
         MetaKeyDefinition.where(label_id: id).exists?
       when :key_hint

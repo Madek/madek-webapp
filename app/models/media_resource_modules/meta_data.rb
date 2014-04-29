@@ -37,7 +37,7 @@ module MediaResourceModules
             meta_key_ids = context.meta_key_ids
 
             mds = where(:meta_key_id => meta_key_ids).eager_load(:meta_key)
-            mds = mds.eager_load(:keywords => :meta_term) if meta_keys.map(&:label).include?("keywords")
+            mds = mds.eager_load(:keywords => :keyword_term) if meta_keys.map(&:label).include?("keywords")
   
             already_ids = mds.map(&:meta_key_id)
             mds += meta_keys.select{|x| x.is_dynamic? and not already_ids.include?(x.id) }.flat_map do |key|

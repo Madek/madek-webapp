@@ -168,7 +168,7 @@ module MediaResourceModules
               when :keywords
                 s = unscoped.joins(:meta_data).
                          joins("INNER JOIN keywords ON keywords.meta_datum_id = meta_data.id")
-                s = s.where(:keywords => {:meta_term_id => id}) unless id == "any"
+                s = s.where(:keywords => {:keyword_term_id => id}) unless id == "any"
                 s
               when :"institutional affiliation"
                 s = unscoped.joins(:meta_data).

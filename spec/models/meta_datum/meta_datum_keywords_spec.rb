@@ -28,8 +28,8 @@ describe MetaDatumKeywords do
     before :each do
       @media_entry = FactoryGirl.create :media_entry
       @media_entry.meta_data.count.should == 0
-      @term1 = FactoryGirl.create :meta_term
-      @term2 = FactoryGirl.create :meta_term
+      @term1 = FactoryGirl.create :keyword_term
+      @term2 = FactoryGirl.create :keyword_term
     end
     
     it "should assign new keywords" do
@@ -37,7 +37,7 @@ describe MetaDatumKeywords do
       @media_entry.set_meta_data(params)
       @media_entry.reload
       @media_entry.meta_data.count.should == 1
-      @media_entry.meta_data.flat_map(&:value).map(&:meta_term).map(&:id).sort.should == [@term1.id, @term2.id].sort
+      @media_entry.meta_data.flat_map(&:value).map(&:keyword_term).map(&:id).sort.should == [@term1.id, @term2.id].sort
     end
   
     it "should keep existing keywords assigning new keywords" do
@@ -47,7 +47,7 @@ describe MetaDatumKeywords do
       @media_entry.reload
       @media_entry.meta_data.count.should == 1
       keywords = @media_entry.meta_data.flat_map(&:value) 
-      keywords.map(&:meta_term).should == [@term1]
+      keywords.map(&:keyword_term).should == [@term1]
 
       # the second user creates a keyword providing a term string and the already existing term id
       params = {meta_data_attributes: {"0" =>  {meta_key_id: @meta_key.id, value: [@term1.id, @term2.to_s]}}}
@@ -55,7 +55,7 @@ describe MetaDatumKeywords do
       @media_entry.reload
       @media_entry.meta_data.count.should == 1
       keywords = @media_entry.meta_data.flat_map(&:value) 
-      keywords.map(&:meta_term).map(&:id).sort.should == [@term1, @term2].map(&:id).sort
+      keywords.map(&:keyword_term).map(&:id).sort.should == [@term1, @term2].map(&:id).sort
 
       # the second user deletes the keyword provided by the first user
       params = {meta_data_attributes: {"0" =>  {meta_key_id: @meta_key.id, value: [@term2.id]}}}
@@ -63,7 +63,7 @@ describe MetaDatumKeywords do
       @media_entry.reload
       @media_entry.meta_data.count.should == 1
       keywords = @media_entry.meta_data.flat_map(&:value) 
-      keywords.map(&:meta_term).should == [@term2]
+      keywords.map(&:keyword_term).should == [@term2]
     end
   
   end

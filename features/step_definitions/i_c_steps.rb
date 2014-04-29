@@ -407,7 +407,7 @@ Then /^I change the value of each visible meta\-data field$/ do
     when 'meta_datum_keywords'
 
       field_set.all(".multi-select li a.multi-select-tag-remove").each{|a| a.click}
-      @kws ||= MetaTerm.joins(:keywords).select("de_ch").uniq.map(&:de_ch).sort
+      @kws ||= KeywordTerm.joins(:keywords).select("term").uniq.map(&:term).sort
       random_kw = @kws[rand @kws.size]
       @meta_data[i] = HashWithIndifferentAccess.new(
         value: random_kw,

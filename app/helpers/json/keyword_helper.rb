@@ -3,7 +3,7 @@ module Json
 
     def hash_for_keyword(keyword, with = nil)
       h = {
-        id: keyword.meta_term_id,
+        id: keyword.keyword_term_id,
         label: keyword.to_s
       }
       
@@ -23,7 +23,7 @@ module Json
           h[:count] = if keyword.respond_to? :count
             keyword.count
           else
-            Keyword.where(:meta_term_id => keyword.meta_term_id).count
+            Keyword.where(:keyword_term_id => keyword.keyword_term_id).count
           end  
         end
       end
