@@ -1,11 +1,11 @@
 class MoveMetaTermLabelsToTheirParentModels < ActiveRecord::Migration
   def change
-    add_column :meta_contexts, :label, :string, default: "", null: false
-    add_column :meta_contexts, :description, :string, default: "", null: false
+    add_column :meta_contexts, :label, :text, default: "", null: false
+    add_column :meta_contexts, :description, :text, default: "", null: false
 
-    add_column :meta_key_definitions, :label, :string, default: "", null: false
-    add_column :meta_key_definitions, :hint, :string, default: "", null: false
-    add_column :meta_key_definitions, :description, :string, default: "", null: false
+    add_column :meta_key_definitions, :label, :text, default: "", null: false
+    add_column :meta_key_definitions, :hint, :text, default: "", null: false
+    add_column :meta_key_definitions, :description, :text, default: "", null: false
 
     reversible do |dir|
       dir.up do

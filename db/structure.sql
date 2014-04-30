@@ -330,8 +330,8 @@ CREATE TABLE meta_contexts (
     "position" integer,
     name character varying(255) NOT NULL,
     meta_context_group_id uuid,
-    label character varying(255) DEFAULT ''::character varying NOT NULL,
-    description character varying(255) DEFAULT ''::character varying NOT NULL
+    label text DEFAULT ''::text NOT NULL,
+    description text DEFAULT ''::text NOT NULL
 );
 
 
@@ -405,9 +405,9 @@ CREATE TABLE meta_key_definitions (
     meta_key_id character varying(255),
     meta_context_name character varying(255),
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    label character varying(255) DEFAULT ''::character varying NOT NULL,
-    hint character varying(255) DEFAULT ''::character varying NOT NULL,
-    description character varying(255) DEFAULT ''::character varying NOT NULL
+    label text DEFAULT ''::text NOT NULL,
+    hint text DEFAULT ''::text NOT NULL,
+    description text DEFAULT ''::text NOT NULL
 );
 
 
@@ -430,7 +430,7 @@ CREATE TABLE meta_keys_meta_terms (
     "position" integer DEFAULT 0 NOT NULL,
     meta_key_id character varying(255),
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    meta_term_id uuid NOT NULL
+    meta_term_id uuid
 );
 
 
@@ -439,12 +439,8 @@ CREATE TABLE meta_keys_meta_terms (
 --
 
 CREATE TABLE meta_terms (
-    en_gb character varying(255),
-    de_ch character varying(255),
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    previous_id integer,
-    searchable text DEFAULT ''::text NOT NULL,
-    trgm_searchable text DEFAULT ''::text NOT NULL
+    term text DEFAULT ''::text NOT NULL
 );
 
 
@@ -760,11 +756,11 @@ ALTER TABLE ONLY meta_keys
 
 
 --
--- Name: meta_terms_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: meta_terms_pkey1; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY meta_terms
-    ADD CONSTRAINT meta_terms_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT meta_terms_pkey1 PRIMARY KEY (id);
 
 
 --
@@ -1300,13 +1296,6 @@ CREATE INDEX index_meta_keys_meta_terms_on_meta_key_id ON meta_keys_meta_terms U
 
 
 --
--- Name: index_meta_keys_meta_terms_on_meta_term_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_meta_keys_meta_terms_on_meta_term_id ON meta_keys_meta_terms USING btree (meta_term_id);
-
-
---
 -- Name: index_meta_keys_meta_terms_on_position; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1321,24 +1310,10 @@ CREATE UNIQUE INDEX index_meta_keys_on_id ON meta_keys USING btree (id);
 
 
 --
--- Name: index_meta_terms_on_de_ch; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_meta_terms_on_term; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_meta_terms_on_de_ch ON meta_terms USING btree (de_ch);
-
-
---
--- Name: index_meta_terms_on_en_gb; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_meta_terms_on_en_gb ON meta_terms USING btree (en_gb);
-
-
---
--- Name: index_meta_terms_on_previous_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_meta_terms_on_previous_id ON meta_terms USING btree (previous_id);
+CREATE UNIQUE INDEX index_meta_terms_on_term ON meta_terms USING btree (term);
 
 
 --
@@ -1461,17 +1436,17 @@ CREATE INDEX index_zencoder_jobs_on_media_file_id ON zencoder_jobs USING btree (
 
 
 --
+-- Name: meta_terms_term_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX meta_terms_term_idx ON meta_terms USING gin (term gin_trgm_ops);
+
+
+--
 -- Name: meta_terms_to_tsvector_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX meta_terms_to_tsvector_idx ON meta_terms USING gin (to_tsvector('english'::regconfig, searchable));
-
-
---
--- Name: meta_terms_trgm_searchable_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX meta_terms_trgm_searchable_idx ON meta_terms USING gin (trgm_searchable gin_trgm_ops);
+CREATE INDEX meta_terms_to_tsvector_idx ON meta_terms USING gin (to_tsvector('english'::regconfig, term));
 
 
 --
@@ -2060,6 +2035,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140408112530');
 INSERT INTO schema_migrations (version) VALUES ('20140429074104');
 
 INSERT INTO schema_migrations (version) VALUES ('20140430082935');
+
+INSERT INTO schema_migrations (version) VALUES ('20140430112951');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

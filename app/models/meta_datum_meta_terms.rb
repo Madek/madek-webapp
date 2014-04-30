@@ -23,19 +23,14 @@ class MetaDatumMetaTerms < MetaDatum
       elsif UUID_V4_REGEXP.match v 
         MetaTerm.find_by id: v
       elsif meta_key.is_extensible_list?
-        h = {}
-        LANGUAGES.each {|lang| h[lang] = v}
-        term = MetaTerm.find_or_initialize_by h
+        term = MetaTerm.find_or_initialize_by term: v
         meta_key.meta_terms << term unless meta_key.meta_terms.include?(term)
         term
       elsif v.is_a?(String) # the meta_key is not extensible list
-        h = {}
-        LANGUAGES.each {|lang| h[lang] = v}
-        r = meta_key.meta_terms.where(h).first
-        r ||= v.split(SEPARATOR).map do |vv| # reconvert string to array, in case reimporting previously exported media_resources
-          h = {}
-          LANGUAGES.each {|lang| h[lang] = vv}
-          meta_key.meta_terms.where(h).first
+        # WTF
+        r = meta_key.meta_terms.find_by term: v
+        r ||= v.split(SEPARATOR).map do |term| # reconvert string to array, in case reimporting previously exported media_resources
+          meta_key.meta_terms.find_or_initialize_by term: term
         end
         r
       else

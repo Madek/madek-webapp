@@ -319,7 +319,7 @@ module Json
                   INNER JOIN groups ON meta_data_meta_departments.meta_department_id = groups.id),
                %Q(groups.id)]
             else
-              [%Q(meta_terms.id, meta_terms.#{DEFAULT_LANGUAGE} as value),
+              [%Q(meta_terms.id, meta_terms.term as value),
                %Q(INNER JOIN meta_data_meta_terms ON meta_data_meta_terms.meta_datum_id = meta_data.id
                   INNER JOIN meta_terms ON meta_data_meta_terms.meta_term_id = meta_terms.id),
                %Q(meta_terms.id)]
