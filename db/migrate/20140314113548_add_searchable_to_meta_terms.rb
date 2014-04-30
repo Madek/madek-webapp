@@ -5,9 +5,11 @@ class AddSearchableToMetaTerms < ActiveRecord::Migration
 
   def up
     add_column :meta_terms, :searchable, :text, default: "", null: false
-    MetaTerm.all.each do |meta_term| 
-      meta_term.update_searchable
-    end
+
+    # 
+    # MetaTerm.all.each do |meta_term| 
+    #   meta_term.update_searchable
+    # end
     create_text_index :meta_terms, :searchable
   end
 

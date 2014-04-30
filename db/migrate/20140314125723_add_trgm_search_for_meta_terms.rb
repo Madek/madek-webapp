@@ -5,9 +5,10 @@ class AddTrgmSearchForMetaTerms < ActiveRecord::Migration
 
   def up
     add_column :meta_terms, :trgm_searchable, :text, default: "", null: false 
-    MetaTerm.all.each do |meta_term| 
-      meta_term.update_trgm_searchable
-    end
+
+    # MetaTerm.all.each do |meta_term| 
+    #  meta_term.update_trgm_searchable
+    # end
     create_trgm_index :meta_terms, :trgm_searchable
   end
 
