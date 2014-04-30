@@ -186,7 +186,13 @@ class MediaEntriesController < ApplicationController
         meta_data_attributes= params[:resource].try(:[],'meta_data_attributes')
         to_be_updated_meta_data_attributes=
           meta_data_attributes.select do |_,new_meta_datum|
-            not new_meta_datum['value'].blank?
+            if (not new_meta_datum['value'].blank?)
+              true
+            elsif (not new_meta_datum['keep_original_value'])
+              true
+            else
+              false
+            end
           end
         if media_entry.set_meta_data meta_data_attributes: to_be_updated_meta_data_attributes
           media_entry.editors << current_user 

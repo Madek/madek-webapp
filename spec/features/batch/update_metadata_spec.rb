@@ -24,19 +24,14 @@ feature "Batch edit metadata" do
     find("a, button",text: text).click
   end
 
-  scenario "Updating the title", browser: :headless do
+  def create_media_entries
+    @media_entry1 = FactoryGirl.create :media_entry_with_image_media_file, user: @me
+    @media_entry2 = FactoryGirl.create :media_entry_with_image_media_file, user: @me
+  end
 
-    sign_in_as 'normin'
-
-    @media_entry_with_title_and_subtitle = FactoryGirl.create :media_entry_with_image_media_file, user: @me
-    @media_entry_with_title_and_subtitle.meta_data \
-      .create meta_key: MetaKey.find_by_id(:title), value: "AN EXISTING TITLE"
-    @media_entry_with_title_and_subtitle.meta_data \
-      .create meta_key: MetaKey.find_by_id(:subtitle), value: "AN EXISTING SUBTITLE"
-    @media_entry_without_title = FactoryGirl.create :media_entry_with_image_media_file, user: @me
-
-    add_to_the_clipboard @media_entry_with_title_and_subtitle
-    add_to_the_clipboard @media_entry_without_title
+  def place_entries_in_clipboard_and_open_batch_edit
+    add_to_the_clipboard @media_entry1
+    add_to_the_clipboard @media_entry2
 
     visit my_dashboard_path
     i_click_on 'Zwischenablage'
@@ -46,28 +41,74 @@ feature "Batch edit metadata" do
     find(".ui-clipboard.ui-open")
 
     # both entries must be visible in the clip board
-    find(".ui-clipboard .ui-resource[data-id='#{@media_entry_with_title_and_subtitle.id}']",visible: true)
-    find(".ui-clipboard .ui-resource[data-id='#{@media_entry_without_title.id}']",visible: true)
+    find(".ui-clipboard .ui-resource[data-id='#{@media_entry1.id}']",visible: true)
+    find(".ui-clipboard .ui-resource[data-id='#{@media_entry2.id}']",visible: true)
 
     i_click_on "Metadaten von Medieneinträgen editieren"
+  end
 
-    # unfortunately, there is no attribute that points to the meta_key 'title'
-    # so we use the generic rails name
-    find("textarea[name='resource[meta_data_attributes][1][value]']").set("THE NEW TITLE")
+  def find_input_for_meta_key name
+    find("fieldset[data-meta-key='#{name}']").find("textarea,input")
+  end
+
+  scenario "Updating an unset title meta-datum", browser: :headless do
+    sign_in_as 'normin'
+
+    create_media_entries
+    place_entries_in_clipboard_and_open_batch_edit
+
+    find_input_for_meta_key("title").set("THE NEW TITLE")
 
     i_click_on "Speichern"
 
-
-    visit media_entry_path(@media_entry_with_title_and_subtitle)
-    # the new title has been created
-    expect(page).to have_content "THE NEW TITLE"
-    # the existing not changed subtitle is still there
-    expect(page).to have_content "AN EXISTING SUBTITLE"
-
-    visit media_entry_path(@media_entry_without_title)
-    # the old title has now been overwritten
+    visit media_entry_path(@media_entry1)
     expect(page).to have_content "THE NEW TITLE"
 
-
+    visit media_entry_path(@media_entry2)
+    expect(page).to have_content "THE NEW TITLE"
   end
+
+  scenario "Updating a mixed title meta-datum", browser: :headless do
+    sign_in_as 'normin'
+
+    create_media_entries
+    @media_entry1.meta_data \
+      .create meta_key: MetaKey.find_by_id(:title), value: "AN EXISTING TITLE"
+
+    place_entries_in_clipboard_and_open_batch_edit
+
+    find_input_for_meta_key("title").set("THE NEW TITLE")
+
+    i_click_on "Speichern"
+
+    visit media_entry_path(@media_entry1)
+    expect(page).to have_content "THE NEW TITLE"
+
+    visit media_entry_path(@media_entry2)
+    expect(page).to have_content "THE NEW TITLE"
+  end
+
+
+  scenario "Deleting a non mixed title meta-datum", browser: :jsbrowser do
+    sign_in_as 'normin'
+
+    create_media_entries
+    @media_entry1.meta_data \
+      .create meta_key: MetaKey.find_by_id(:title), value: "AN EXISTING TITLE"
+    @media_entry2.meta_data \
+      .create meta_key: MetaKey.find_by_id(:title), value: "AN EXISTING TITLE"
+
+    place_entries_in_clipboard_and_open_batch_edit
+
+    find_input_for_meta_key("title").set("")
+
+    i_click_on "Speichern"
+
+    visit media_entry_path(@media_entry1)
+    expect(page).not_to have_content "AN EXISTING TITLE"
+
+    visit media_entry_path(@media_entry2)
+    expect(page).not_to have_content "AN EXISTING TITLE"
+  end
+
 end
