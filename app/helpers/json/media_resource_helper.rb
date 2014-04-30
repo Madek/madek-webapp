@@ -325,9 +325,9 @@ module Json
                %Q(meta_terms.id)]
           end
           %Q( SELECT meta_contexts.name AS context_name, 
-                  mt3.#{DEFAULT_LANGUAGE} AS context_label,
+                  meta_contexts.label AS context_label,
                   meta_keys.id AS key_name, 
-                  mt2.#{DEFAULT_LANGUAGE} AS key_label,
+                  meta_key_definitions.label AS key_label,
                   COUNT(meta_data.media_resource_id) AS count,
                   meta_context_groups.position AS context_group_position,
                   meta_contexts.position AS context_position,
@@ -336,15 +336,12 @@ module Json
                 FROM meta_contexts
                    INNER JOIN meta_context_groups ON meta_context_groups.id = meta_contexts.meta_context_group_id
                    INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_name = meta_contexts.name
-                   INNER JOIN meta_terms mt2 ON meta_key_definitions.label_id = mt2.id
-                   INNER JOIN meta_terms mt3 ON meta_contexts.label_id = mt3.id
                    INNER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id
                    INNER JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
                    #{sql_join}
                 WHERE meta_keys.meta_datum_object_type = '#{meta_datum_object_type}'
                 AND meta_data.media_resource_id IN (#{media_resources.select("media_resources.id").to_sql})
-                GROUP BY #{sql_group}, meta_contexts.name, mt3.#{DEFAULT_LANGUAGE}, meta_keys.id, mt2.#{DEFAULT_LANGUAGE},
-                          meta_context_groups.position, meta_contexts.position, meta_key_definitions.position )
+                GROUP BY #{sql_group}, meta_contexts.name, meta_keys.id, meta_context_groups.position, meta_contexts.position, meta_key_definitions.position, meta_key_definitions.label )
         end
         sql = "SELECT * FROM (%s) AS t1 ORDER BY context_group_position, context_position, definition_position" % queries.join(" UNION ")
         executed_query = ActiveRecord::Base.connection.execute(sql)

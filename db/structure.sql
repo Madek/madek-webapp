@@ -330,8 +330,8 @@ CREATE TABLE meta_contexts (
     "position" integer,
     name character varying(255) NOT NULL,
     meta_context_group_id uuid,
-    label_id uuid NOT NULL,
-    description_id uuid
+    label character varying(255) DEFAULT ''::character varying NOT NULL,
+    description character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -404,10 +404,10 @@ CREATE TABLE meta_key_definitions (
     updated_at timestamp without time zone,
     meta_key_id character varying(255),
     meta_context_name character varying(255),
-    description_id uuid,
-    hint_id uuid,
-    label_id uuid,
-    id uuid DEFAULT uuid_generate_v4() NOT NULL
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    label character varying(255) DEFAULT ''::character varying NOT NULL,
+    hint character varying(255) DEFAULT ''::character varying NOT NULL,
+    description character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1160,20 +1160,6 @@ CREATE INDEX index_meta_context_groups_on_position ON meta_context_groups USING 
 
 
 --
--- Name: index_meta_contexts_on_description_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_meta_contexts_on_description_id ON meta_contexts USING btree (description_id);
-
-
---
--- Name: index_meta_contexts_on_label_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_meta_contexts_on_label_id ON meta_contexts USING btree (label_id);
-
-
---
 -- Name: index_meta_contexts_on_meta_context_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1290,27 +1276,6 @@ CREATE UNIQUE INDEX index_meta_data_users_on_meta_datum_id_and_user_id ON meta_d
 --
 
 CREATE INDEX index_meta_data_users_on_user_id ON meta_data_users USING btree (user_id);
-
-
---
--- Name: index_meta_key_definitions_on_description_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_meta_key_definitions_on_description_id ON meta_key_definitions USING btree (description_id);
-
-
---
--- Name: index_meta_key_definitions_on_hint_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_meta_key_definitions_on_hint_id ON meta_key_definitions USING btree (hint_id);
-
-
---
--- Name: index_meta_key_definitions_on_label_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_meta_key_definitions_on_label_id ON meta_key_definitions USING btree (label_id);
 
 
 --
@@ -1785,22 +1750,6 @@ ALTER TABLE ONLY media_sets_meta_contexts
 
 
 --
--- Name: meta_contexts_description_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_contexts
-    ADD CONSTRAINT meta_contexts_description_id_fk FOREIGN KEY (description_id) REFERENCES meta_terms(id) ON DELETE SET NULL;
-
-
---
--- Name: meta_contexts_label_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_contexts
-    ADD CONSTRAINT meta_contexts_label_id_fk FOREIGN KEY (label_id) REFERENCES meta_terms(id);
-
-
---
 -- Name: meta_contexts_meta_context_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1894,30 +1843,6 @@ ALTER TABLE ONLY meta_data_users
 
 ALTER TABLE ONLY meta_data_users
     ADD CONSTRAINT meta_data_users_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
-
-
---
--- Name: meta_key_definitions_description_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_key_definitions
-    ADD CONSTRAINT meta_key_definitions_description_id_fk FOREIGN KEY (description_id) REFERENCES meta_terms(id) ON DELETE SET NULL;
-
-
---
--- Name: meta_key_definitions_hint_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_key_definitions
-    ADD CONSTRAINT meta_key_definitions_hint_id_fk FOREIGN KEY (hint_id) REFERENCES meta_terms(id) ON DELETE SET NULL;
-
-
---
--- Name: meta_key_definitions_label_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_key_definitions
-    ADD CONSTRAINT meta_key_definitions_label_id_fk FOREIGN KEY (label_id) REFERENCES meta_terms(id) ON DELETE SET NULL;
 
 
 --
@@ -2133,6 +2058,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140314125723');
 INSERT INTO schema_migrations (version) VALUES ('20140408112530');
 
 INSERT INTO schema_migrations (version) VALUES ('20140429074104');
+
+INSERT INTO schema_migrations (version) VALUES ('20140430082935');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

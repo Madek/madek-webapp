@@ -18,8 +18,6 @@ class MetaContext < ActiveRecord::Base
 
 ##################################################################
 
-  validates_presence_of :name, :label
-
   # compares two objects in order to sort them
   def <=>(other)
     self.name <=> other.name
@@ -31,13 +29,6 @@ class MetaContext < ActiveRecord::Base
   scope :for_import_export, ->{where(:is_user_interface => false)}
 
 ##################################################################
-
-  [:label, :description].each do |name|
-    belongs_to name, :class_name => "MetaTerm"
-    define_method "#{name}=" do |h|
-      write_attribute("#{name}_id", MetaTerm.find_or_create(h).try(:id))
-    end
-  end
 
 ##################################################################
 

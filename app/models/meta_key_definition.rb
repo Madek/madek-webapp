@@ -27,11 +27,4 @@ class MetaKeyDefinition < ActiveRecord::Base
 
 #########################
 
-  [:label, :description, :hint].each do |name|
-    belongs_to name, :class_name => "MetaTerm"
-    define_method "#{name}=" do |h|
-      write_attribute("#{name}_id", MetaTerm.find_or_create(h).try(:id))
-    end
-  end
-
 end
