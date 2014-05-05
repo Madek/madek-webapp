@@ -70,8 +70,8 @@ CREATE TABLE app_settings (
     support_url character varying(255),
     welcome_title character varying(255),
     welcome_subtitle character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     logo_url character varying(255) DEFAULT '/assets/inserts/image-logo-zhdk.png'::character varying NOT NULL,
     brand character varying(255) DEFAULT 'Zürcher Hochschule der Künste'::character varying NOT NULL,
     footer_links text,
@@ -150,8 +150,8 @@ CREATE TABLE custom_urls (
 --
 
 CREATE TABLE edit_sessions (
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     media_resource_id uuid NOT NULL,
     user_id uuid NOT NULL,
     id uuid DEFAULT uuid_generate_v4() NOT NULL
@@ -184,9 +184,9 @@ CREATE TABLE full_texts (
 
 CREATE TABLE grouppermissions (
     download boolean DEFAULT false NOT NULL,
+    view boolean DEFAULT false NOT NULL,
     edit boolean DEFAULT false NOT NULL,
     manage boolean DEFAULT false NOT NULL,
-    view boolean DEFAULT false NOT NULL,
     media_resource_id uuid NOT NULL,
     group_id uuid NOT NULL,
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
@@ -257,8 +257,8 @@ CREATE TABLE media_files (
     guid character varying(255),
     access_hash text,
     meta_data text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     extension character varying(255),
     media_type character varying(255) NOT NULL,
     media_entry_id uuid,
@@ -291,8 +291,8 @@ CREATE TABLE media_resources (
     view boolean DEFAULT false NOT NULL,
     settings text,
     type character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     user_id uuid NOT NULL,
     CONSTRAINT edit_on_publicpermissions_is_false CHECK ((edit = false)),
@@ -400,8 +400,8 @@ CREATE TABLE meta_key_definitions (
     "position" integer NOT NULL,
     key_map character varying(255),
     key_map_type character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     meta_key_id character varying(255),
     meta_context_name character varying(255),
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
@@ -455,8 +455,8 @@ CREATE TABLE people (
     first_name character varying(255),
     last_name character varying(255),
     pseudonym character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     searchable text DEFAULT ''::text NOT NULL
 );
@@ -469,9 +469,9 @@ CREATE TABLE people (
 CREATE TABLE permission_presets (
     name character varying(255),
     download boolean DEFAULT false NOT NULL,
+    view boolean DEFAULT false NOT NULL,
     edit boolean DEFAULT false NOT NULL,
     manage boolean DEFAULT false NOT NULL,
-    view boolean DEFAULT false NOT NULL,
     id uuid DEFAULT uuid_generate_v4() NOT NULL
 );
 
@@ -486,8 +486,8 @@ CREATE TABLE previews (
     content_type character varying(255) NOT NULL,
     filename character varying(255),
     thumbnail character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     media_file_id uuid NOT NULL,
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     media_type character varying(255) NOT NULL
@@ -531,9 +531,9 @@ CREATE VIEW user_resources_counts AS
 
 CREATE TABLE userpermissions (
     download boolean DEFAULT false NOT NULL,
+    view boolean DEFAULT false NOT NULL,
     edit boolean DEFAULT false NOT NULL,
     manage boolean DEFAULT false NOT NULL,
-    view boolean DEFAULT false NOT NULL,
     media_resource_id uuid NOT NULL,
     user_id uuid NOT NULL,
     id uuid DEFAULT uuid_generate_v4() NOT NULL
@@ -550,8 +550,8 @@ CREATE TABLE users (
     login text NOT NULL,
     notes text,
     usage_terms_accepted_at timestamp without time zone,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     password_digest character varying(255),
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     previous_id integer,
@@ -589,8 +589,8 @@ CREATE TABLE zencoder_jobs (
     notification text,
     request text,
     response text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     media_file_id uuid NOT NULL
 );
 
@@ -1303,10 +1303,10 @@ CREATE INDEX index_meta_keys_meta_terms_on_position ON meta_keys_meta_terms USIN
 
 
 --
--- Name: index_meta_keys_on_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_meta_keys_on_label; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_meta_keys_on_id ON meta_keys USING btree (id);
+CREATE UNIQUE INDEX index_meta_keys_on_label ON meta_keys USING btree (id);
 
 
 --
@@ -1317,10 +1317,10 @@ CREATE UNIQUE INDEX index_meta_terms_on_term ON meta_terms USING btree (term);
 
 
 --
--- Name: index_people_on_first_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_people_on_firstname; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_people_on_first_name ON people USING btree (first_name);
+CREATE INDEX index_people_on_firstname ON people USING btree (first_name);
 
 
 --
@@ -1331,10 +1331,10 @@ CREATE INDEX index_people_on_is_group ON people USING btree (is_group);
 
 
 --
--- Name: index_people_on_last_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_people_on_lastname; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_people_on_last_name ON people USING btree (last_name);
+CREATE INDEX index_people_on_lastname ON people USING btree (last_name);
 
 
 --
