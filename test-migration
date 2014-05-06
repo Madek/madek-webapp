@@ -1,2 +1,0 @@
-rake db:drop db:create db:migrate VERSION=20140430082935 madek:db:truncate madek:db:load_data FILE=db/personas.20140430082935.data.psql
-rake db:migrate

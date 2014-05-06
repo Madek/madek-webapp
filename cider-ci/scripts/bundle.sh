@@ -1,1 +1,0 @@
-rebenv-load && bundle
