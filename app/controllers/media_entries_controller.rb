@@ -4,7 +4,7 @@ class MediaEntriesController < ApplicationController
   include Concerns::PreviousIdRedirect
   include Concerns::CustomUrls
 
-  before_action :the_messy_before_filter, except: [:show] 
+  before_action :the_messy_before_filter, except: [:show,:document] 
   before_action :set_instance_vars, :only => [:map, :more_data, :parents, :context_group]
 
   # TODO, what a MESS, this has to go!  
@@ -110,11 +110,10 @@ class MediaEntriesController < ApplicationController
   end
 
   def document
-    respond_to do |format|
-      format.html
-    end
+    check_and_initialize_for_view
+    set_instance_vars
   end
-  
+
   def map
     meta_data = @media_entry.media_file.meta_data
     @lat = meta_data["GPS:GPSLatitude"]
