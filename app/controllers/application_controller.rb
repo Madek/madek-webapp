@@ -139,8 +139,6 @@ class ApplicationController < ActionController::Base
       rescue Exception => e
         reset_session
         Rails.logger.error e
-        redirect_to root_path
-        return
       end
 
       return nil unless user
