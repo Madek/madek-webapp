@@ -133,7 +133,13 @@ class ApplicationController < ActionController::Base
     user = nil
 
     if session[:user_id]
-      self.current_user = user = User.find_by_id(session[:user_id])
+
+      begin
+        self.current_user = user = User.find_by_id(session[:user_id])
+      rescue Exception => e
+        reset_session
+        Rails.logger.error e
+      end
 
       return nil unless user
 
