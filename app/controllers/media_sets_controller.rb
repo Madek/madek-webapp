@@ -33,7 +33,6 @@ class MediaSetsController < ApplicationController
           render "filter_sets/show"
         else
           @highlights = @media_set.highlights.accessible_by_user(current_user,:view)
-          render :show
         end
       end
       format.json { render json: view_context.json_for(@media_set, with) }
