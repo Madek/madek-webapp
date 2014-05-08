@@ -3,7 +3,7 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
     begin
       @meta_terms = MetaTerm.page(params[:page]).per(12)
       @filter_by = reset_params? ? nil : (params.try(:[], :filter_by) || nil)
-      @sort_by = reset_params? ? :de_ch_asc : (params.try(:[], :sort_by) || :de_ch_asc)
+      @sort_by = reset_params? ? :asc : (params.try(:[], :sort_by) || :asc)
 
       @search_terms = reset_params? ? nil : params.try(:[],:filter).try(:[],:search_terms)
 
@@ -23,26 +23,16 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
         @meta_terms = @meta_terms.used
       when 'not_used'
         @meta_terms = @meta_terms.used(false)
-      when 'keyword'
-        @meta_terms = @meta_terms.with_keywords
       when 'term'
         @meta_terms = @meta_terms.with_meta_data
-      when 'key_label'
-        @meta_terms = @meta_terms.with_key_labels
-      when 'key_hint'
-        @meta_terms = @meta_terms.with_key_hints
-      when 'key_description'
-        @meta_terms = @meta_terms.with_key_descriptions
       else
       end
 
       case @sort_by
-      when 'en_gb_asc'
-        @meta_terms = @meta_terms.order('en_gb ASC')
-      when 'en_gb_desc'
-        @meta_terms = @meta_terms.order('en_gb DESC')
-      when 'de_ch_desc'
-        @meta_terms = @meta_terms.order('de_ch DESC')
+      when 'asc'
+        @meta_terms = @meta_terms.order('term ASC')
+      when 'desc'
+        @meta_terms = @meta_terms.order('term DESC')
       when 'trgm_rank'
         @sort_by = :trgm_rank
         raise "Search term must not be blank!" if @search_terms.blank? 
@@ -50,7 +40,7 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
         @sort_by = :text_rank
         raise "Search term must not be blank!" if @search_terms.blank? 
       else
-        @meta_terms= @meta_terms.order('de_ch ASC')
+        @meta_terms= @meta_terms.order('term ASC')
       end
 
     rescue Exception => e
@@ -117,7 +107,7 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
 
   private
   def meta_term_params
-    params.require(:meta_term).permit(:en_gb, :de_ch)
+    params.require(:meta_term).permit(:term)
   end
 
   def transfer_keywords

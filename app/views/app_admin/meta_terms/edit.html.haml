@@ -7,18 +7,11 @@
   %fieldset 
 
     .form-group
-      %label.control-label.col-sm-2 English
+      %label.control-label.col-sm-2 Term
       .col-sm-4
-        = f.text_field :en_gb, class: "form-control"
-
-    .form-group
-      %label.control-label.col-sm-2 German
-      .col-sm-4
-        = f.text_field :de_ch, class: "form-control"
+        = f.text_field :term, class: "form-control"
 
     .form-group
       .col-sm-offset-2.col-sm-4
         = button_tag type: 'submit', class: "btn btn-success" do
           Save
-
-

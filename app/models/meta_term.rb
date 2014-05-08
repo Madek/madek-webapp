@@ -45,8 +45,6 @@ class MetaTerm < ActiveRecord::Base
   ######################################################
 
     def is_used?
-      MetaKeyDefinition.where("? IN (label_id, description_id, hint_id)", id).exists? or
-      MetaContext.where("? IN (label_id, description_id)", id).exists? or
       meta_key_meta_terms.exists? or
       meta_data.exists?
     end
@@ -54,8 +52,6 @@ class MetaTerm < ActiveRecord::Base
   ######################################################
 
     def used_times
-      MetaKeyDefinition.where("? IN (label_id, description_id, hint_id)", id).count +
-      MetaContext.where("? IN (label_id, description_id)", id).count +
       meta_key_meta_terms.count +
       meta_data.count
     end
@@ -66,12 +62,6 @@ class MetaTerm < ActiveRecord::Base
       case type
       when :term
         meta_data.exists?
-      when :key_label
-        MetaKeyDefinition.where(label_id: id).exists?
-      when :key_hint
-        MetaKeyDefinition.where(hint_id: id).exists?
-      when :key_description
-        MetaKeyDefinition.where(description_id: id).exists?
       else
         false
       end

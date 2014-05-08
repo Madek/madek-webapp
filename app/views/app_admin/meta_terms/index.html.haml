@@ -15,20 +15,14 @@
         = options_for_select [["All", nil],
           ["Used", :used],
           ["Not used", :not_used],
-          ["Keyword?", :keyword],
-          ["Term?", :term],
-          ["Used as a label", :key_label],
-          ["Used as a hint", :key_hint],
-          ["Used as a description", :key_description]],
+          ["Term?", :term]],
           @filter_by
 
     .form-group
       %label Sort by:
       %select.form-control.sort-by{name: :sort_by}
-        = options_for_select [["EN_GB ascending", :en_gb_asc],
-          ["EN_GB descending", :en_gb_desc],
-          ["DE_CH ascending", :de_ch_asc],
-          ["DE_CH descending", :de_ch_desc],
+        = options_for_select [["ascending", :asc],
+          ["descending", :desc],
           ["Text search ranking", :text_rank],
           ["Trigram search ranking", :trgm_rank]],
           @sort_by
@@ -45,13 +39,10 @@
       %thead
         %tr
           %th #
-          %th EN_GB
-          %th DE_CH
+          %th Term
           %th.no-wrap Is used?
           %th.no-wrap Used # times
-          %th Keyword?
           %th Term?
-          %th.no-wrap Used as:
           %th
       %tbody
         =render @meta_terms

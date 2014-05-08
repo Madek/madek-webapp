@@ -1,12 +1,9 @@
 %tr
   %td= meta_term.id
-  %td.limit250= meta_term.en_gb
-  %td.limit250= meta_term.de_ch
+  %td.limit250= meta_term.term
   %td= meta_term.is_used? ? "Yes" : "No"
   %td= meta_term.used_times
-  %td= meta_term.used_as?(:keyword) ? "Yes" : "No"
   %td= meta_term.used_as?(:term) ? "Yes" : "No"
-  %td.no-wrap.limit150= used_as meta_term
   %td.no-wrap
     = link_to edit_app_admin_meta_term_path(meta_term) do
       %i.icon-pen
@@ -24,6 +21,6 @@
       to...
     - if meta_term.is_used?
       %br
-      = link_to result_search_path(terms: meta_term.de_ch) do
+      = link_to result_search_path(terms: meta_term.term) do
         %i.icon-vis-graph
         Show resources
