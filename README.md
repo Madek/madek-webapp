@@ -23,11 +23,13 @@ https://github.com/zhdk/madek/downloads
 
 ## Contributors
 
-The following people have contributed code to this project:
+The following people have contributed to this project:
 
 * Thomas Schank
 * Franco Sellitto
 * Sebastian Pape
+* Richard Rasu
+* Max Albrecht
 * Ramón Cahenzli
 * Andrea Singh
 * Olivier Heitz
