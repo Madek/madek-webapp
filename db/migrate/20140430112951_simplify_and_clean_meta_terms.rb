@@ -82,6 +82,11 @@ class SimplifyAndCleanMetaTerms < ActiveRecord::Migration
     add_foreign_key :meta_data_meta_terms, :meta_terms, dependent: :delete
 
 
+    MetaDatumMetaTerms.reset_column_information
+    MetaTerm.reset_column_information
+    OldMetaTerm.reset_column_information
+    XMetaDatumMetaTerms.reset_column_information
+
     MetaKeyMetaTerm.all.each do |mkt|
       term= mkt.old_meta_term.de_ch
       mkt.update_attributes! meta_term: MetaTerm.find_or_create_by(term: term)
@@ -89,6 +94,10 @@ class SimplifyAndCleanMetaTerms < ActiveRecord::Migration
     remove_column :meta_keys_meta_terms, :old_meta_term_id
     add_foreign_key :meta_keys_meta_terms , :meta_terms
 
+    MetaDatumMetaTerms.reset_column_information
+    MetaTerm.reset_column_information
+    OldMetaTerm.reset_column_information
+    XMetaDatumMetaTerms.reset_column_information
 
     XMetaDatumMetaTerms.all.each do |mdmt|
       mdmt.old_meta_terms.each do |omt| 
