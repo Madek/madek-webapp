@@ -15,6 +15,23 @@ class MetaContext < ActiveRecord::Base
   has_many :meta_keys, lambda{order("meta_key_definitions.position ASC")}, through: :meta_key_definitions
   has_many :meta_data, through: :meta_keys
   has_and_belongs_to_many :media_sets, join_table: 'media_sets_meta_contexts', foreign_key: :meta_context_name
+  
+
+##################################################################
+
+  def meta_terms
+    MetaTerm.joins(meta_keys: :meta_contexts) \
+      .where("meta_contexts.name= ?",name) \
+      .where("meta_keys.meta_datum_object_type = ?","MetaDatumMetaTerms")
+  end
+
+  # this adds a "dynamic" count column, you will not see it in the AR
+  # table definition, but you can retrieve it as if it was a normal column
+  def meta_terms_with_non_zero_count
+    meta_terms.joins(meta_data: :media_resource) \
+      .group("meta_terms.id") \
+      .select("meta_terms.*, count(meta_terms.id)")
+  end
 
 ##################################################################
 
