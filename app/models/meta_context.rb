@@ -33,6 +33,14 @@ class MetaContext < ActiveRecord::Base
       .select("meta_terms.*, count(meta_terms.id) as count")
   end
 
+  # groups additionally by meta_key_definition
+  def meta_terms_by_meta_key_definition_with_non_zero_count
+    meta_terms.joins(meta_data: :media_resource) \
+      .group("meta_terms.id, meta_key_definitions.id") \
+      .select("meta_terms.*, meta_key_definitions.id as meta_key_definition_id, count(meta_terms.id) as count")
+  end
+
+
 ##################################################################
 
   # compares two objects in order to sort them
