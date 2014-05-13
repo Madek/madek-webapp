@@ -3,29 +3,30 @@ class MetaTerm < ActiveRecord::Base
   has_many :meta_key_meta_terms, :foreign_key => :meta_term_id
   has_many :meta_keys, :through => :meta_key_meta_terms
 
-  # TODO include keywords ??
   has_and_belongs_to_many :meta_data,
     join_table: :meta_data_meta_terms, 
     foreign_key: :meta_term_id, 
     association_foreign_key: :meta_datum_id
 
   scope :with_meta_data, lambda{where(%Q<
-    "meta_terms"."id" in (#{joins(:meta_data).select('"meta_terms"."id"').group('"meta_terms"."id"').to_sql}) >)}
-    # essentially does the same as above with DISTINCT ON instead of GROUP BY, 
-    # queries are different but there is no much difference in speed
-
+    "meta_terms"."id" in (#{joins(:meta_data).select('"meta_terms"."id"') \
+                                      .group('"meta_terms"."id"').to_sql}) >)}
 
   scope :used, ->(are_used = true){
     condition = are_used ? 'EXISTS' : 'NOT EXISTS'
     operator  = are_used ? 'OR'     : 'AND'
     where(%Q<
-      #{condition} (SELECT NULL FROM "meta_data_meta_terms" WHERE "meta_terms"."id" = "meta_data_meta_terms"."meta_term_id") #{operator}
-      #{condition} (SELECT NULL FROM "meta_keys_meta_terms" WHERE "meta_terms"."id" = "meta_keys_meta_terms"."meta_term_id") >)
-  }
+      #{condition} (SELECT NULL FROM "meta_data_meta_terms" 
+                      WHERE "meta_terms"."id" = "meta_data_meta_terms"."meta_term_id") 
+      #{operator}
+      #{condition} (SELECT NULL FROM "meta_keys_meta_terms" 
+          WHERE "meta_terms"."id" = "meta_keys_meta_terms"."meta_term_id") >) }
 
   scope :not_used, lambda{where(%Q<
-    NOT EXISTS (SELECT NULL FROM "meta_data_meta_terms" WHERE "meta_terms"."id" = "meta_data_meta_terms"."meta_term_id") AND
-    NOT EXISTS (SELECT NULL FROM "meta_keys_meta_terms" WHERE "meta_terms"."id" = "meta_keys_meta_terms"."meta_term_id") >)}
+    NOT EXISTS (SELECT NULL FROM "meta_data_meta_terms" 
+      WHERE "meta_terms"."id" = "meta_data_meta_terms"."meta_term_id") AND
+    NOT EXISTS (SELECT NULL FROM "meta_keys_meta_terms" 
+                      WHERE "meta_terms"."id" = "meta_keys_meta_terms"."meta_term_id") >)}
 
   def to_s
     term
