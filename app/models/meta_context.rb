@@ -30,7 +30,7 @@ class MetaContext < ActiveRecord::Base
   def meta_terms_with_non_zero_count
     meta_terms.joins(meta_data: :media_resource) \
       .group("meta_terms.id") \
-      .select("meta_terms.*, count(meta_terms.id)")
+      .select("meta_terms.*, count(meta_terms.id) as count")
   end
 
 ##################################################################
