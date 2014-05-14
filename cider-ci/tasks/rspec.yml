@@ -191,6 +191,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/media_set_spec.rb"
+- name: models meta_context vocabulary
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/meta_context/vocabulary_spec.rb"
 - name: models meta_context_group
   scripts:
     rspec:

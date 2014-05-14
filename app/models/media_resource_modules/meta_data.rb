@@ -5,7 +5,13 @@ module MediaResourceModules
     def self.included(base)
       base.class_eval do 
 
-        has_many :meta_data, :dependent => :destroy do #working here#7 :include => :meta_key
+        # to build joins over to meta_terms from a media resource
+        has_many :meta_data_meta_terms, 
+          lambda{where('meta_data.type = ?','MetaDatumMetaTerms')}, 
+          class_name: 'MetaDatumMetaTerms'
+
+
+        has_many :meta_data, :dependent => :destroy do 
 
           def get(key, build_if_not_found = true)
             key_id = if key.is_a? MetaKey
