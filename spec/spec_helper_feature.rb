@@ -51,3 +51,4 @@ RSpec.configure do |config|
 
 end
 
+require 'spec_helper_feature_shared'
