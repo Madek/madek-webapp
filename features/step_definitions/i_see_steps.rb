@@ -306,11 +306,23 @@ Then /^I see sets of the featured sets$/ do
 end
 
 Then /^I see the column with a number of user resources$/ do
-  find("th", text: "# of resources")
+  expect{find("th", text: "# of resources")}.not_to raise_error
+end
+
+Then /^I see the column with a number of meta key resources$/ do
+  expect{find("th", text: "Amount of resources")}.not_to raise_error
 end
 
 Then /^I see the column with a group type$/ do
   expect{find("th", text: "Type")}.not_to raise_error
+end
+
+Then /^I see the column with a meta datum object type$/ do
+  expect{find("th", text: "Meta datum object type")}.not_to raise_error
+end
+
+Then /^I see the column with contexts in which meta key is used$/ do
+  expect{find("th", text: "Contexts")}.not_to raise_error
 end
 
 Then /^I see user list sorted by amount of resources$/ do

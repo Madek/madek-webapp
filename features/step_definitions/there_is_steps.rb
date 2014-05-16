@@ -98,9 +98,21 @@ Then /^There is no filtering option selected$/ do
   end
 end
 
+Then /^There is no option selected in "(.*?)" select$/ do |name|
+  all("select[name='#{name}'] option").each do |option|
+    expect(option[:selected]).to be_false
+  end
+end
+
 Then /^There is "(.*?)" group type option selected$/ do |option|
   within "select[name='type']" do
     expect(find("option[value='#{option}']")[:selected]).to eq("selected")
+  end
+end
+
+Then /^There is "(.*?)" option selected in "(.*?)" select$/ do |option, name|
+  within "select[name='#{name}']" do
+    expect(find("option", text: option)[:selected]).to eq("selected")
   end
 end
 

@@ -1,11 +1,17 @@
 %tr
   %td= meta_key.label
   %td= meta_key.meta_datum_object_type
-  %td
+  %td= meta_key.media_entries.count
+  %td.limit250
     - if meta_key.meta_datum_object_type == 'MetaDatumMetaTerms'
       %ul
         - meta_key.meta_terms.each do |meta_term|
           %li= meta_term
+  %td.limit250
+    %ul
+      - meta_key.meta_contexts.each do |meta_context|
+        %li= meta_context.label
+
   %td.no-wrap
     = link_to edit_app_admin_meta_key_path(meta_key), class: "btn btn-warning btn-xs" do
       %i.icon-pen

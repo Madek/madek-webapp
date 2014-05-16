@@ -161,6 +161,12 @@ Then /^I can see instructions for an FTP import$/ do
   step %Q{I can see the text "#{@app_settings.ftp_dropbox_password}"}
 end
 
+Then /^I can see only meta keys containing "(.*?)" term$/ do |term|
+  all('table tbody tr').each do |row|
+    expect(row).to have_content(term)
+  end
+end
+
 Then (/^I can see more resources than before$/) do
   expect(find("#resources_counter").text.to_i).to be > @resources_counter
 end
@@ -210,6 +216,15 @@ end
 
 Then /^I can see that there are several previews$/ do
   expect(all("table.previews tbody tr").size).to be > 1
+end
+
+Then /^I can see the input with the name "(.*?)" with no value$/ do |name|
+  expect(page).to have_field(name)
+  expect(find_field(name).value).to be_nil
+end
+
+Then /^I can see the input with the name "(.*?)" with value "(.*?)"$/ do |name, value|
+  expect(page).to have_field(name, with: value)
 end
 
 Then /^I can see the "(.*?)" link$/ do |anchor_text|
@@ -326,6 +341,10 @@ end
 
 Then /^I cannot see the delete action for this resource$/ do
   all(".ui-body-title-actions [data-delete-action]").size.should == 0
+end
+
+Then /^I cannot see the input with the name "(.*?)" with value "(.*?)"$/ do |name, value|
+  expect(page).not_to have_field(name, with: value)
 end
 
 Then /^I cannot see "(.*?)"$/ do |text|

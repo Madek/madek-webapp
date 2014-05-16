@@ -6,7 +6,9 @@ class MetaKey < ActiveRecord::Base
   self.primary_key= 'id'
 
   has_many :meta_data, dependent: :destroy
-  has_many :media_entries, ->{uniq}, through: :meta_data
+  has_and_belongs_to_many :media_entries,
+    join_table: :meta_data,
+    association_foreign_key: :media_resource_id
   
   has_many :meta_key_definitions, dependent: :destroy do
     def for_context(context)
@@ -17,10 +19,11 @@ class MetaKey < ActiveRecord::Base
 
   has_many :meta_key_meta_terms, dependent: :destroy
   has_many :meta_terms, ->{order("meta_keys_meta_terms.position ASC")}, through: :meta_key_meta_terms
-  accepts_nested_attributes_for :meta_terms, reject_if: proc { |attributes| LANGUAGES.all? {|l| attributes[l].blank? } } #old# , allow_destroy: true
+  accepts_nested_attributes_for :meta_terms, reject_if: proc { |attributes| attributes[:term].blank? }
 
   scope :with_meta_data, lambda{joins(:meta_data).group(:id)}
   scope :for_meta_terms, lambda{where(meta_datum_object_type: "MetaDatumMetaTerms")}
+  scope :with_context,   lambda{ |context_label| joins(:meta_contexts).where('meta_contexts.label' => context_label)}
 
   def label
     id
@@ -52,6 +55,17 @@ class MetaKey < ActiveRecord::Base
     else  
       meta_key_definitions
     end.collect {|d| d.label.to_s if d.key_map.blank? }.compact.uniq.join(', ')
+  end
+
+  def update_associations_with_id(new_id)
+    new_meta_key = MetaKey.create(id: new_id, meta_datum_object_type: meta_datum_object_type)
+    ActiveRecord::Base.transaction do
+      meta_data.update_all(meta_key_id: new_meta_key.id)
+      meta_key_definitions.update_all(meta_key_id: new_meta_key.id)
+      meta_key_meta_terms.update_all(meta_key_id: new_meta_key.id)
+      destroy
+    end
+    new_meta_key
   end
 
 ########################################################
