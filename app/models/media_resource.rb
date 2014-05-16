@@ -30,7 +30,7 @@ class MediaResource < ActiveRecord::Base
   validates_presence_of :user
 
   has_one :full_text, dependent: :destroy
-  after_save { reindex } # OPTIMIZE
+  after_save { reindex } 
 
 ########################################################
   
@@ -41,8 +41,6 @@ class MediaResource < ActiveRecord::Base
   end
 
 ########################################################
-
-  
 
 
   default_scope { reorder(:created_at) }
