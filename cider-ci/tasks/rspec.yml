@@ -131,6 +131,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/features/batch/update_metadata_spec.rb"
+- name: features search updated_meta_datum
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/features/search/updated_meta_datum_spec.rb"
 - name: misc exiftool
   scripts:
     rspec:

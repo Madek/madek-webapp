@@ -1,5 +1,6 @@
 require "spec_helper"
 require "spec_helper_feature"
+require 'spec_helper_feature_shared'
 
 feature "Batch edit metadata" do
 

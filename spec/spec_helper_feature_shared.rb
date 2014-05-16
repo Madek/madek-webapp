@@ -25,3 +25,7 @@ def sign_in_as login, password= 'password'
   User.find_by_login login
 end
 
+def submit_form
+  find("form *[type='submit']").click
+end
+
