@@ -118,6 +118,8 @@ module MediaResourceModules
               end
             end
           end
+          touch
+          reindex
           reload
         end
 
