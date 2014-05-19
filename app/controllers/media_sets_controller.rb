@@ -39,24 +39,51 @@ class MediaSetsController < ApplicationController
     end
   end
 
-  def abstract
-    check_and_initialize_for_view
+#####################################################
 
-    respond_to do |format|
-      format.html {@totalChildren = @media_set.child_media_resources.accessible_by_user(current_user,:view).count}
-      format.json { render :json => view_context.hash_for(@media_set.abstract(params[:min].to_i, current_user), {:label => true}) }
+  def parents 
+    unless check_for_old_id_and_in_case_redirect_to :parents_media_set 
+      check_and_initialize_for_view 
+      @parents = @media_set.parent_sets.accessible_by_user(current_user,:view) 
+    end
+  end
+
+  def abstract
+    unless check_for_old_id_and_in_case_redirect_to :abstract_media_set_path
+      check_and_initialize_for_view
+      respond_to do |format|
+        format.html {@totalChildren = @media_set.child_media_resources.accessible_by_user(current_user,:view).count}
+        format.json { render :json => view_context.hash_for(@media_set.abstract(params[:min].to_i, current_user), {:label => true}) }
+      end
     end
   end
 
   def vocabulary
-    check_and_initialize_for_view
-    used_meta_term_ids = @media_set.used_meta_term_ids(current_user)
-    @vocabulary = @media_set.individual_contexts.map {|context| view_context.vocabulary(context, used_meta_term_ids) }
-    respond_to do |format|
-      format.html
+    unless check_for_old_id_and_in_case_redirect_to :vocabulary_media_set_path
+      check_and_initialize_for_view
+      used_meta_term_ids = @media_set.used_meta_term_ids(current_user)
+      @vocabulary = @media_set.individual_contexts.map {|context| view_context.vocabulary(context, used_meta_term_ids) }
+      respond_to do |format|
+        format.html
+      end
     end
   end
 
+  def inheritable_contexts
+    unless check_for_old_id_and_in_case_redirect_to :inheritable_contexts_media_set_path
+      check_and_initialize_for_view 
+      @inheritable_contexts = @media_set.inheritable_contexts
+      respond_to do |format|
+        format.html
+        format.json{render :json => @inheritable_contexts}
+      end
+    end
+  end
+
+
+#####################################################
+
+  # TODO is this one still used? ; the html view is broken at any rate
   def browse
     check_and_initialize_for_view
     respond_to do |format|
@@ -65,17 +92,6 @@ class MediaSetsController < ApplicationController
     end
   end
 
-#####################
- 
-  def inheritable_contexts
-    check_and_initialize_for_view 
-    @inheritable_contexts = @media_set.inheritable_contexts
-    respond_to do |format|
-      format.html
-      format.json{render :json => @inheritable_contexts}
-    end
-
-  end
 
 #####################################################
 
@@ -142,11 +158,6 @@ class MediaSetsController < ApplicationController
     end
   end
 
-
-  def parents(parent_media_set_ids = params[:parent_media_set_ids])  
-    check_and_initialize_for_view 
-    @parents = @media_set.parent_sets.accessible_by_user(current_user,:view) 
-  end
 
   def category
   end
