@@ -24,6 +24,7 @@ class MetaDataController < ApplicationController
   end
 
   def update_multiple
+    # TODO swap if/unless or just raise and no if
     if @media_resource = MediaResource.accessible_by_user(current_user, :edit) \
       .where(id: params[:media_resource][:id]).first
       ActiveRecord::Base.transaction do
@@ -37,7 +38,7 @@ class MetaDataController < ApplicationController
       end
       redirect_to @media_resource
     else
-      not_authorized!
+      raise UserForbiddenError
     end
   end
 

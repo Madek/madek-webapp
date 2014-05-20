@@ -12,7 +12,7 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
       render :json => view_context.hash_for_permissions_for_media_resources(media_resources, params[:with]).to_json
     rescue Exception => e
       # TODO yet another `not_authorized!` shadowing proper response codes 
-      not_authorized!
+      raise UserForbiddenError
     end
   end
 

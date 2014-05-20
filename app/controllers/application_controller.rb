@@ -4,8 +4,23 @@
 class ApplicationController < ActionController::Base
   #FE# before_filter { headers['Access-Control-Allow-Origin'] = '*' }
 
-  class ::NotAuthorized < Exception; end
+  ################
+  # Error Classes like <http://www.ruby-doc.org/core-2.1.2/Exception.html>
+  
+  class Error < StandardError # Generic App Error (500)
+  end
+  rescue_from Error, with: :error_application
 
+  class UserUnauthorizedError < Error # User has not authorized (401 Unauthorized)
+  end
+  rescue_from UserUnauthorizedError, with: :error_user_unauthorized
+  
+  class UserForbiddenError < Error # User has insufficent right (403 Forbidden)
+  end
+  rescue_from UserForbiddenError, with: :error_user_forbidden
+  
+  ################
+  
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   unless Rails.env.development?
@@ -103,24 +118,43 @@ class ApplicationController < ActionController::Base
   end
 
 ##############################################
-  protected
 
-  def not_authorized!
+  private
+
+  ################ error handling: ################
+  
+  # TODO: redirect vs. status code (non-JSON) – how to correctly?
+
+  def error_application    # handles 'Error'
+    msg = "Entschuldigung, ein allgemeiner Fehler ist aufgetreten." 
+    respond_to do |format|
+      format.html { flash[:error] = msg ; redirect_back_or_root }
+      format.json { render :json => {error: msg}, status: 500}
+    end
+  end
+  
+  def error_user_forbidden # handles 'UserUnauthorizedError'
+    msg = "Bitte melden Sie sich an." 
+    respond_to do |format|
+      format.html { flash[:error] = msg ; redirect_back_or_root }
+      format.json { render :json => {error: msg}, status: :forbidden}
+    end
+  end
+  
+  def error_user_forbidden # handles 'UserForbiddenError'
     msg = "Sie haben nicht die notwendige Zugriffsberechtigung." 
     respond_to do |format|
-      format.html { redirect_to root_path, flash: {error:  msg} }
+      format.html { flash[:error] = msg ; redirect_back_or_root }
       format.json { render :json => {error: msg}, status: :not_authorized}
     end
   end
-
-##############################################
-  private
+  
+  ################ other private methods: ################
 
   def login_required
     unless logged_in?
       store_location
-      flash[:error] = "Bitte melden Sie sich an."
-      redirect_to root_path
+      raise UserUnauthorizedError
     end
   end
 
@@ -196,6 +230,14 @@ class ApplicationController < ActionController::Base
   def redirect_back_or_default(default)
     redirect_to(session[:return_to] || default)
     session[:return_to] = nil
+  end
+  
+  def redirect_back_or_root
+    unless (request.env["HTTP_REFERER"].blank?) or (request.env["HTTP_REFERER"] != request.env["REQUEST_URI"])
+      redirect_to :back
+    else
+      redirect_to root_url # _url not_path so it also works wrt http(s)
+    end
   end
 
   def do_not_cache

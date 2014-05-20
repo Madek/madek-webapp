@@ -12,7 +12,7 @@ class FilterSetsController < ApplicationController
   def check_and_initialize_for_view
     @filter_set = find_media_resource 
     raise "Wrong type" unless @filter_set.is_a? FilterSet
-    not_authorized! unless current_user.authorized?(:view,@filter_set)
+    raise UserForbiddenError unless current_user.authorized?(:view,@filter_set)
   end
 
   def create

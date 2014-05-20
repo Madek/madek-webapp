@@ -49,7 +49,7 @@ class GroupsController < ApplicationController
   end
 
   def update(name = params[:name], user_ids = params[:user_ids])
-    not_authorized! and return if @group.is_readonly?
+    raise UserForbiddenError if @group.is_readonly?
     @group.name = name unless name.blank?        
     @group.users = User.where(:id => user_ids) unless user_ids.blank? # FIXME can we delete all members ??
         
@@ -67,7 +67,7 @@ class GroupsController < ApplicationController
 
   def destroy
     if @group.is_readonly? or @group.users.count > 1
-      not_authorized! and return 
+      raise UserForbiddenError
     end
 
     @group.destroy

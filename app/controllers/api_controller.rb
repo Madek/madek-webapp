@@ -1,5 +1,6 @@
 class ApiController < ActionController::Base
 
+  # TODO: consilidate with new Error handling!
   class ::NotAuthorized < Exception; end
 
   before_action :authenticate! 

@@ -39,7 +39,7 @@ class MediaEntriesController < ApplicationController
           redirect_to :back
         end
       rescue
-        not_authorized!
+        raise UserForbiddenError
       end
 
     else
@@ -70,7 +70,7 @@ class MediaEntriesController < ApplicationController
                             MediaResource.media_entries_or_media_entry_incompletes.accessible_by_user(current_user, action).find(params[:media_entry_id])
                           end
         rescue
-          not_authorized!
+          raise UserForbiddenError
         end
       end
     end
@@ -101,7 +101,7 @@ class MediaEntriesController < ApplicationController
   def check_and_initialize_for_view
     @media_entry = find_media_resource 
     raise "Wrong type" unless @media_entry.is_a? MediaEntry
-    not_authorized! unless current_user.authorized?(:view,@media_entry)
+    raise UserForbiddenError unless current_user.authorized?(:view,@media_entry)
   end
 
   def show

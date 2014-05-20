@@ -24,7 +24,7 @@ class MediaResourcesController < ApplicationController
         end
       end
     rescue
-      not_authorized!
+      raise UserForbiddenError
     end
   end
 

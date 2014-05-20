@@ -1,7 +1,9 @@
 # encoding: utf-8
 class CustomUrlsController < ApplicationController
 
+  # TODO: consilidate with general error handling
   class EagerCustomURLCreation < Exception; end
+  class ::NotAuthorized < Exception; end
 
   include Concerns::CustomUrls
 
