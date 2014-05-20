@@ -10,7 +10,7 @@ source 'http://rubygems.org'
 source 'http://gems.github.com'
 
 # RAILS
-gem 'rails', '4.0.3'
+gem 'rails', '4.0.5'
 
 
 # DATABASE
@@ -38,7 +38,7 @@ gem 'capistrano-ext', group: [:development, :personas]
 gem 'capybara', '1.1.2', group: [:test]
 gem 'coffee-rails'
 gem 'coffee-script'
-gem 'compass-rails', github: "Compass/compass-rails", branch: "rails4-hack"
+gem 'compass-rails'
 gem 'cucumber', '~> 1.2', group: [:test]
 gem 'cucumber-rails', '~> 1.3', :require => false, group: [:test]
 gem 'dalli'

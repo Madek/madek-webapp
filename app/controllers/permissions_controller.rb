@@ -21,7 +21,7 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
 
     groups= Array(params[:groups].is_a?(Hash) ? params[:groups].values : params[:groups])
 
-    users = Array(params[:users].is_a?(Hash) ? params[:users].values : params[:users])
+    users = Array(params[:users].is_a?(Hash) ? params[:users].values : params[:users]) 
 
     applications=  Array(params[:applications].is_a?(Hash) ? 
                          params[:applications].values : params[:applications])
@@ -60,7 +60,8 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
           Userpermission.find_or_create_by(
             media_resource_id: mr_id, 
             user_id: newup["id"]).update_attributes!(
-              newup.select(&permissions_value_select_filter))
+              permit_permission_attributes(
+                newup.select(&permissions_value_select_filter)))
         end
       end
 
@@ -78,9 +79,9 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
           Grouppermission.find_or_create_by(
             media_resource_id: mr_id, 
             group_id: newup[:id]).update_attributes!(
-              newup \
-              .slice(*Grouppermission::ALLOWED_PERMISSIONS) \
-              .select(&permissions_value_select_filter))
+              permit_permission_attributes( newup 
+              .slice(*Grouppermission::ALLOWED_PERMISSIONS) 
+              .select(&permissions_value_select_filter)))
         end
       end
 
@@ -101,9 +102,9 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
           API::Applicationpermission.find_or_create_by(
             media_resource_id:mr_id,
             application_id: new_app_perm[:id]).update_attributes!(
-              new_app_perm \
-              .slice(*API::Applicationpermission::ALLOWED_PERMISSIONS) \
-              .select(&permissions_value_select_filter))
+              permit_permission_attributes( new_app_perm 
+                .slice(*API::Applicationpermission::ALLOWED_PERMISSIONS) 
+                .select(&permissions_value_select_filter)))
         end
       end
 
@@ -111,10 +112,11 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
       # update public permissions
       if public_permission
         media_resource_ids.each do |mr_id|
-          MediaResource.find(mr_id).update_attributes!( \
-            public_permission \
-              .slice(*MediaResource::ALLOWED_PERMISSIONS) \
-              .select(&permissions_value_select_filter))
+          MediaResource.find(mr_id).update_attributes!(
+            permit_permission_attributes(
+            public_permission 
+              .slice(*MediaResource::ALLOWED_PERMISSIONS) 
+              .select(&permissions_value_select_filter)))
         end
       end
 
@@ -125,9 +127,8 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
     end
 
     flash[:notice] = "Zugriffsberechtigungen wurden gespeichert."
-    respond_to do |format|
-      format.json { render :json => {} }
-    end
+
+    render :json => {} 
 
   end
 
@@ -140,6 +141,13 @@ class PermissionsController < AbstractPermissionsAndResponsibilitiesController
       collection_id: params[:collection_id],
       manageable: @action == :edit,
       redirect_url: @save_link}
+  end
+
+
+  def permit_permission_attributes attributes
+    # sometimes it has permit, sometimes not 
+    # sort of a temporary solution
+    attributes.permit(:view,:download,:edit,:manage) rescue attributes
   end
 
 end

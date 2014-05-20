@@ -44,27 +44,23 @@ class FilterSetsController < ApplicationController
   end
 
   def update
-    begin
-      ActiveRecord::Base.transaction do
-        @filter_set=FilterSet.where(id: params[:id]).first
-        if not @filter_set
-          render json: {}, status: :not_found
-        elsif current_user.authorized? :edit, @filter_set
-          @filter_set.update_attributes! permitted_update_params
-          render json: @filter_set, status: :ok
-        else
-          render json: {}, status: :forbidden
-        end
+    ActiveRecord::Base.transaction do
+      @filter_set=FilterSet.where(id: params[:id]).first
+      if not @filter_set
+        render json: {}, status: :not_found
+      elsif current_user.authorized? :edit, @filter_set
+        @filter_set.update_attributes! permitted_update_params
+        render json: @filter_set, status: :ok
+      else
+        render json: {}, status: :forbidden
       end
-    rescue => e
-      render json: {}, status: :unprocessable_entity
     end
   end
 
   private
 
   def permitted_update_params
-    params[:filter_set].select{|k,v| k=='settings'}
+    params[:filter_set].select{|k,v| k=='settings'}.permit!
   end
 
 end
