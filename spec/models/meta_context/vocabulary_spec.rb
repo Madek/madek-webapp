@@ -4,13 +4,34 @@ describe Concerns::MetaContext::Vocabulary do
 
   context "personas data, user normin, and the Landschaftsvisualisierung context, " do
 
+    # TODO we use the personas data for now since we do not have a minimal # meta data set; 
+    # this MUST BE FIXED; the personas data is to variable and messy to perform 
+    # checks in this manner
+
+
     before :all do
-      # we use the personas data for now
       DBHelper.truncate_tables
       DBHelper.load_data Rails.root.join('db','personas.data.psql')
 
       @user = User.find_by login: 'normin'
       @context = MetaContext.find_by name: 'Landschaftsvisualisierung'
+    end
+
+    describe "getting the included (individual) media_entries" do
+
+      it "should not raise an error" do
+        expect{ @context.media_entries @user }.not_to raise_error
+      end
+
+      it "includes 'Diplom' (8b5050fe-280d-4712-9acb-fe8323e5c33e) e.g." do
+        @context.media_entries(@user).map(&:id).should include '8b5050fe-280d-4712-9acb-fe8323e5c33e'
+      end
+
+      describe " the count" do
+        it "should be >= 5" do 
+          @context.media_entries_count(@user).should be>= 5
+        end
+      end
     end
 
     describe "building the vocabulary," do

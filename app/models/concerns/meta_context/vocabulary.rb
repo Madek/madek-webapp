@@ -24,5 +24,18 @@ module Concerns
         .map(&:deep_symbolize_keys)
     end
 
+    def media_entries user
+      MediaEntry.accessible_by_user(user,:view) 
+      .joins("INNER JOIN media_resource_arcs ON child_id = media_resources.id")
+      .joins("INNER JOIN media_resources AS parents ON parent_id = parents.id")
+      .joins("INNER JOIN media_sets_meta_contexts ON media_set_id = parents.id")
+      .joins("INNER JOIN meta_contexts ON meta_contexts.name = meta_context_name")
+      .where("meta_contexts.name = ?",name)
+    end
+
+    def media_entries_count user
+      media_entries(user).count
+    end
+
   end
 end
