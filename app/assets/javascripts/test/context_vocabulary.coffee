@@ -1,5 +1,11 @@
 window.Test.ContextVocabulary =
 
   all_unused_vocabulary_is_fade_out: ->
-    not _.any $(".ui-metadata-box ol li:not([data-is-used])"), (el)->
-      not parseInt($(el).css('opacity')) < 1
+    
+    return false
+    # not _.any $(".ui-metadata-box ul li.ui-tag-cloud-item a").map ->
+    #   state = $(this).hasClass 'disabled'
+    #   if ($(this).data('term-count') == 0)
+    #     state
+    #   else
+    #     not state

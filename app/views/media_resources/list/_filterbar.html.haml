@@ -1,6 +1,8 @@
 :ruby
 
   show_filterbar = show_filterbar || params[:filterpanel]
+  # optional: can be set to false in calling template to diable type filter
+  filter_by_type = filter_by_type.nil? ? true : !!filter_by_type
 
 .ui-filterbar.separated.ui-container
   .left.col2of6
@@ -11,13 +13,16 @@
       %i.icon-undo
       = _("Reset filters")
   .col2of6.by-center
-    #ui-resources-type-filter.button-group
-      %a.button{:"data-type" => nil, :class => (params[:type].nil?) ? "active" : ""}
-        = _("All")
-      %a.button{:"data-type" => "media_entries", :class => (params[:type] == "media_entries") ? "active" : ""}
-        = _("Media entries")
-      %a.button.sets{data: {type: :sets}, class: (params[:type]=="sets") ? "active" : "", href: "#"}
-        = _("Sets")
+    - if filter_by_type
+      #ui-resources-type-filter.button-group
+        %a.button{:"data-type" => nil, :class => (params[:type].nil?) ? "active" : ""}
+          = _("All")
+        %a.button{:"data-type" => "media_entries", :class => (params[:type] == "media_entries") ? "active" : ""}
+          = _("Media entries")
+        %a.button.sets{data: {type: :sets}, class: (params[:type]=="sets") ? "active" : "", href: "#"}
+          = _("Sets")
+    - else
+      %span.spacer &nbsp;
   .col2of6.by-right
     %label#ui-clipboard-select-all.weak.disabled.ui-filterbar-select
       %span.active

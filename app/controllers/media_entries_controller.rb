@@ -4,8 +4,8 @@ class MediaEntriesController < ApplicationController
   include Concerns::PreviousIdRedirect
   include Concerns::CustomUrls
 
-  before_action :the_messy_before_filter, except: [:show,:document] 
-  before_action :set_instance_vars, :only => [:map, :more_data, :parents, :context_group]
+  before_action :the_messy_before_filter, except: [:show, :document] 
+  before_action :set_instance_vars, :only => [:map, :more_data, :parents, :contexts]
 
   # TODO, what a MESS, this has to go!  
   def the_messy_before_filter 
@@ -112,8 +112,11 @@ class MediaEntriesController < ApplicationController
   def document
     check_and_initialize_for_view
     set_instance_vars
+    respond_to do |format|
+      format.html
+    end
   end
-
+  
   def map
     meta_data = @media_entry.media_file.meta_data
     @lat = meta_data["GPS:GPSLatitude"]
@@ -137,11 +140,10 @@ class MediaEntriesController < ApplicationController
     @parents = @media_entry.parents.accessible_by_user(current_user,:view)
   end
 
-  def context_group
-    @context_group = MetaContextGroup.find_by_name(params[:name]) || raise("No MetaContextGroup found")
-    # @meta_contexts = (@context_group.meta_contexts & @media_entry.individual_contexts) |
-    #   @context_group.meta_contexts.select{ |meta_context| @media_entry.meta_data.for_context(meta_context, false).any? }
-
+  def contexts
+    # TODO: fetch the 'individual_contexts' like we also do for sets
+    # why was this even done in such a roundabout way?
+    @context_group = MetaContextGroup.find_by_name('Kontexte') || raise("No MetaContextGroup found")
     @meta_contexts = @context_group.meta_contexts.select {|mc| @media_entry.individual_contexts.include?(mc) }
   end
   

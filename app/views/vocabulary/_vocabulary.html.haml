@@ -1,0 +1,65 @@
+#context_vocabulary
+
+  .ui-container.midtone.bordered.rounded-bottom
+    
+    .ui-container.inverted.ui-toolbar.pvx
+      %h2.ui-toolbar-header.pls
+        = _("Vokabular bezieht sich auf %d Medieneinträge. Davon sind %d beschlagwortet.") % [@entries_count, @entries_with_terms_count]
+
+  .ui-container.midtone.rounded-bottom
+
+    -# the 3-way mini filterbar
+    .ui-filterbar.separated.ui-container.by-center{"data-filter-control" => "bar"}
+      .button-group
+        %a.button.active{"data-filter-mode" => "all"} Alle Begriffe
+        %a.button{"data-filter-mode" => "used"} Vergebene
+        %a.button{"data-filter-mode" => "frequent"} Häufigste
+
+    -# the frequently-used slider. ONLY VISIBLE IF data-filter-target="frequent"
+    .ui-terms-filter.separated.mhm{"data-filter-control" => "slider", style: "display: none"}
+      .ui-terms-filter-label-holder.left.by-center
+        %span.title-s
+          Häufigkeit auswerten
+          %span{:class => "ui-form-ui-ttip-toggle ui-ttip-toggle", :"data-original-title" => "Tooltip Content.", :"data-placement" => "bottom", :rel => "tooltip"}
+            %i.icon-question.mid
+      .ui-terms-filter-slider-holder.ptx
+        .ui-slider
+          %a.ui-slider-handle
+            %span.ui-slider-info.ui-container.inverted
+              min.
+              %span{"data-slider-handle-value" => ""} 1
+               × vergeben
+
+      .ui-terms-filter-note-holder.by-center.right
+        Max. 
+        =@max_usage_count
+    
+    -# now the actual list of keys and terms
+    = render :partial => "vocabulary/terms"
+
+-# script: the slider
+:javascript
+  $(document).ready(function () {
+
+    var config = {
+      elements: {
+        container: '[data-filter-container="terms"]',
+        filterbar: '[data-filter-control="bar"]',
+        slider: '[data-filter-control="slider"]'
+      }
+    };
+    
+    window.App.vocabulary(config);
+    
+  });
+
+-# script: the popover
+:coffeescript
+
+  jQuery -> new App.AbstractController
+    abstractContainer: $("#context_vocabulary")
+
+
+
+
+

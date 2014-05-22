@@ -64,9 +64,6 @@ Then /^I go to (.*?)$/ do |page|
     when "the context's abstract page"
       context_abstract_path @context
 
-    when "the context's vocabulary page"
-      context_vocabulary_path @context
-
     when "the import page"
       import_path
 

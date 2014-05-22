@@ -10,6 +10,15 @@ class MediaSetsController < ApplicationController
     raise UserForbiddenError unless current_user.authorized?(:view,@media_set)
     @parents_count = @media_set.parent_sets.accessible_by_user(current_user,:view).count
     @can_edit = current_user.authorized?(:edit, @media_set)
+    
+    # TODO: new query @tom
+    @entries_count = @media_set.child_media_resources.accessible_by_user(current_user,:view).count
+    @entries_total_count = @media_set.child_media_resources.count
+    
+    # TODO: queries
+    @entries_with_terms_count = 2342
+    @entries_total_count = 1337
+
   end
 
   def check_and_initialize_for_edit
@@ -39,56 +48,80 @@ class MediaSetsController < ApplicationController
     end
   end
 
-#####################################################
-
-  def parents 
-    unless check_for_old_id_and_in_case_redirect_to :parents_media_set 
-      check_and_initialize_for_view 
-      @parents = @media_set.parent_sets.accessible_by_user(current_user,:view) 
-    end
-  end
-
-  def abstract
-    unless check_for_old_id_and_in_case_redirect_to :abstract_media_set_path
-      check_and_initialize_for_view
-      respond_to do |format|
-        format.html {@totalChildren = @media_set.child_media_resources.accessible_by_user(current_user,:view).count}
-        format.json { render :json => view_context.hash_for(@media_set.abstract(params[:min].to_i, current_user), {:label => true}) }
-      end
-    end
-  end
-
-  def vocabulary
-    unless check_for_old_id_and_in_case_redirect_to :vocabulary_media_set_path
-      check_and_initialize_for_view
-      used_meta_term_ids = @media_set.used_meta_term_ids(current_user)
-      @vocabulary = @media_set.individual_contexts.map {|context| view_context.vocabulary(context, used_meta_term_ids) }
-      respond_to do |format|
-        format.html
-      end
-    end
-  end
-
-  def inheritable_contexts
-    unless check_for_old_id_and_in_case_redirect_to :inheritable_contexts_media_set_path
-      check_and_initialize_for_view 
-      @inheritable_contexts = @media_set.inheritable_contexts
-      respond_to do |format|
-        format.html
-        format.json{render :json => @inheritable_contexts}
-      end
-    end
-  end
-
-
-#####################################################
-
-  # TODO is this one still used? ; the html view is broken at any rate
   def browse
     check_and_initialize_for_view
     respond_to do |format|
       format.html
       format.js { render :layout => false }
+    end
+  end
+
+#####################
+  
+  def individual_contexts
+    unless check_for_old_id_and_in_case_redirect_to :inheritable_contexts_media_set_path
+      check_and_initialize_for_view # sets @media_set
+      
+      if (params[:context_id]).blank?
+        raise "No context.id given!"
+      end
+
+      # get all contexts, sorted by group and position
+      @individual_contexts = @media_set.individual_and_inheritable_contexts.sort_by do |context|
+        context.meta_context_group_id.to_s + context.position.to_s
+      end
+      
+      # find out if each context is inherited and/or enabled
+      @count_enabled_contexts = 0
+      @individual_contexts.each do |context|
+        context[:inherited] = @media_set.inheritable_contexts.include?(context)
+        if @media_set.individual_contexts.include?(context)
+          context[:enabled] = true
+          @count_enabled_contexts += 1
+        end
+      end
+      
+      if @individual_contexts.blank?
+        raise "Tried to show vocabularies, but none exist!"
+      end
+      
+      # get desired context and it's vocabulary - we fetch it from our list because it already contains usefull info (from above)
+      @context = @individual_contexts[@individual_contexts.index{|c|c[:id]===params[:context_id]}]
+      @vocabulary = @context.build_vocabulary @current_user
+      @max_usage_count = @vocabulary.map{|key|key[:meta_terms].map{|term|term[:usage_count]}.max}.max
+    end
+  end
+  
+  
+  def enable_individual_context
+    check_and_initialize_for_edit
+    @context = MetaContext.find(params[:context_id])
+    # add to list of individual contexts
+    @media_set.individual_contexts << @context
+    redirect_to context_media_set_path(@media_set, @context),
+      flash: {success: "Das Vokabular \"#{@context}\" wurde für dieses Set aktiviert."}
+  end
+
+  def disable_individual_context
+    check_and_initialize_for_edit
+    @context = MetaContext.find(params[:context_id])
+    # remove from list of individual contexts
+    @media_set.individual_contexts.delete @context
+    
+    # decide where to redirect:
+    # - if context was not inherited it is removed completely => first context
+    # - if that removed context was the last one => main view of set
+    if @media_set.individual_and_inheritable_contexts.include? @context
+      redirect_to context_media_set_path(@media_set, @context),
+        flash: {success: "Das Vokabular \"#{@context}\" wurde für dieses Set deaktiviert."}
+    else
+      unless @media_set.individual_contexts.empty?
+        redirect_target = context_media_set_path(@media_set, @media_set.individual_contexts.first)
+      else
+        redirect_target = media_set_path
+      end
+      redirect_to redirect_target,
+        flash: {success: "Die Zuweisung des Vokabulars \"#{@context}\" zu diesem Set wurde aufgehoben."}
     end
   end
 
@@ -137,13 +170,6 @@ class MediaSetsController < ApplicationController
     end
   end
   
-  def update
-    check_and_initialize_for_edit
-    @media_set.individual_contexts=  
-      MetaContext.where(name: (params[:individual_context_names] || []))
-    redirect_to @media_set 
-  end
-
 #####################################################
 
   def settings
@@ -158,6 +184,13 @@ class MediaSetsController < ApplicationController
     end
   end
 
+
+  def parents 
+    unless check_for_old_id_and_in_case_redirect_to :parents_media_set 
+      check_and_initialize_for_view 
+      @parents = @media_set.parent_sets.accessible_by_user(current_user,:view) 
+    end
+  end
 
   def category
   end

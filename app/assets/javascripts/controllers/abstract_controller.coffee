@@ -7,25 +7,21 @@ Abstract
 class AbstractController
 
   constructor: (options)->
-    @el = $(options.el)
-    @subject = options.subject
     @abstractContainer = options.abstractContainer
-    @slider = options.slider
-    @max = options.totalChildren
-    @cache = {}
     do @delegateEvents
-    do @setupSlider
 
   delegateEvents: ->
-    @slider.on "slide", @onSlide
-    @abstractContainer.on "mouseenter", ".ui-tag-button", (e)=>
+    terms = '[data-ui-role="meta_term"]'
+    
+    @abstractContainer.on "mouseenter", terms, (e)=>
       target = $(e.currentTarget)
       target.addClass "mouseenter"
       if target.data("popover")?
         target.popover "show"
       else
         @loadPreview target
-    @abstractContainer.on "mouseleave", ".ui-tag-button", -> $(this).removeClass "mouseenter"
+
+    @abstractContainer.on "mouseleave", terms, -> $(this).removeClass "mouseenter"
 
   loadPreview: (target)->
     filter = {meta_data: {}}
@@ -41,32 +37,5 @@ class AbstractController
         trigger: "hover"
         content: content
       target.popover "show" if target.is ".mouseenter"
-
-  setupSlider: ->
-    @slider.slider
-      max: @max
-      min: 1
-    # add tooltip to handle
-    @tooltip = App.render("abstracts/slider_tooltip", {total: @max})
-    @slider.find(".ui-slider-handle").append @tooltip
-
-  onSlide: (e, ui)=>
-    @min = ui.value
-    @tooltip.find(".from").html @min
-    do @ajax.abort if @ajax?
-    if @cache[@min]?
-      @subject.abstract = @cache[@min]
-      do @render
-    else
-      do @showLoading
-      @ajax = @subject.fetchAbstract @min, (data)=>
-        @cache[@min] = data
-        do @render
-
-  showLoading: ->
-    @abstractContainer.html '<div class="ui-preloader"></div>'
-  
-  render: -> 
-    @abstractContainer.html App.render "abstracts/abstract", {abstract: @subject.abstract}
 
 window.App.AbstractController = AbstractController

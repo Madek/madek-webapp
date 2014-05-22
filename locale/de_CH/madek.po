@@ -60,12 +60,6 @@ msgstr "3. Metadaten ergänzen"
 msgid "4. Organize media entries"
 msgstr "4. Medieneinträge zusammenstellen"
 
-msgid "A specific vocabulary was created for this context"
-msgstr "Für diesen Kontext wurde ein spezifisches Vokabular erstellt"
-
-msgid "A specific vocabulary was created for this set"
-msgstr "Für dieses Set wurde ein spezifisches Vokabular erstellt"
-
 msgid "Accept"
 msgstr "Akzeptieren"
 

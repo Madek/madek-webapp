@@ -2,12 +2,8 @@
 
   %li.ui-tabs-item{:class => context_show_page? ? "active" : ""}
     %a{:href => context_path(@context)}
-      = _("Context")
-
-  %li.ui-tabs-item{:class => context_abstract_page? ? "active" : ""}
-    %a{:href => context_abstract_path(@context)}
-      = _("Extract")
-
-  %li.ui-tabs-item{:class => context_vocabulary_page? ? "active" : ""}
-    %a{:href => context_vocabulary_path(@context)}
       = _("Vocabulary")
+
+  %li.ui-tabs-item{:class => context_entries_page? ? "active" : ""}
+    %a{:href => context_entries_path(@context)}
+      = _("Inhalte")
