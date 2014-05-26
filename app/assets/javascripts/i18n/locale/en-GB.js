@@ -136,6 +136,14 @@ window.i18n.locale_data = {
          null,
          "4. Organize media entries"
       ],
+      "A specific vocabulary was created for this context": [
+         null,
+         "A specific vocabulary was created for this context"
+      ],
+      "A specific vocabulary was created for this set": [
+         null,
+         "A specific vocabulary was created for this set"
+      ],
       "Accept": [
          null,
          "Accept"

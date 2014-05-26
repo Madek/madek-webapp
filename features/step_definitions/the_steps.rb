@@ -290,7 +290,7 @@ end
 ### the u
 
 Then /^the unused values are faded out$/ do
-  find('[data-filter-mode="used"]')
+  find(".highlight-used-terms")
   page.evaluate_script %Q{ Test.ContextVocabulary.all_unused_vocabulary_is_fade_out() }
 end
 

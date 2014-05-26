@@ -138,9 +138,9 @@ end
 
 ### I see all ###########
 
-Then /^I see all resources that are using that context$/ do
+Then /^I see all resources that are inheritancing that context and have any meta data for that context$/ do
   @media_resources = MediaResource.filter(@current_user, {:meta_context_names => [@context.name]})
-  expect( find("#ui-resources-list-container .ui-resources-page-counter").text ).to include @media_resources.count.to_s
+  expect( find("#ui-resources-list-container .ui-toolbar-header").text ).to include @media_resources.count.to_s
   all(".ui-resource", :visible => true).each do |resource_el|
     id = resource_el["data-id"]
     expect{@media_resources.include? MediaResource.find id}.to be_true

@@ -109,8 +109,9 @@ module CurrentPageHelper
     current_page? :controller => :media_entries, :action => :parents
   end
 
-  def media_entry_contexts_page?
-    current_page? controller: :media_entries, action: :contexts
+  def media_entry_context_group_page? context_group
+    current_page? controller: :media_entries, \
+      action: :context_group, name: context_group.name
   end
 
 ######### MEDIA SET
@@ -123,11 +124,16 @@ module CurrentPageHelper
     current_page? :controller => :media_sets, :action => :parents
   end
 
-  def media_set_context_page?
-    # FIXME: the above throws weird errors. WTF?
-    # # current_page? :controller => :media_sets, :action => :individual_contexts
-    # workaround:
-    (controller.class.to_s === "MediaSetsController") && (controller.action_name === "individual_contexts")
+  def media_set_inheritable_contexts_page?
+    current_page? :controller => :media_sets, :action => :inheritable_contexts
+  end
+
+  def media_set_abstract_page?
+    current_page? :controller => :media_sets, :action => :abstract
+  end
+
+  def media_set_vocabulary_page?
+    current_page? :controller => :media_sets, :action => :vocabulary
   end
 
 ######### CONTEXTS
@@ -135,9 +141,13 @@ module CurrentPageHelper
   def context_show_page?
     current_page? :controller => :meta_contexts, :action => :show
   end
-  
-  def context_entries_page?
-    current_page? context_entries_path
+
+  def context_abstract_page?
+    current_page? context_abstract_path
+  end
+
+  def context_vocabulary_page?
+    current_page? context_vocabulary_path
   end
   
 end

@@ -8,7 +8,7 @@
       .ui-body-title
         .ui-body-title-label
           %h1.title-xl
-            = _("Vocabularies")
+            = _("Contexts")
 
     .app-body-ui-container
       .bordered.ui-container.midtone.rounded.table
@@ -19,7 +19,7 @@
           
           = render :partial => "meta_contexts/wrapper", 
                      :locals => {:meta_contexts => @contexts, 
-                                 :title => _("My vocabularies")}
+                                 :title => _("My contexts")}
 
   .app-footer-push
 = render :partial => "application/footer"

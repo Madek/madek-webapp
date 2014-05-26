@@ -137,6 +137,14 @@ window.i18n.locale_data = {
          null,
          "4. Medieneinträge zusammenstellen"
       ],
+      "A specific vocabulary was created for this context": [
+         null,
+         "Für diesen Kontext wurde ein spezifisches Vokabular erstellt"
+      ],
+      "A specific vocabulary was created for this set": [
+         null,
+         "Für dieses Set wurde ein spezifisches Vokabular erstellt"
+      ],
       "Accept": [
          null,
          "Akzeptieren"

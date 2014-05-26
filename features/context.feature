@@ -15,23 +15,24 @@ Feature: Context
     Then I see a list with all contexts that are connected with media resources that I can access
     And for each context I see the label and description and the link to that context
 
-  @firefox
   Scenario: Open a specific context
     When I open a specific context
     Then I see the title of the context
-      And I see the description of the context
-    When I click on "Inhalte"
-    And I pry
-    Then I see all resources that are using that context
+     And I see the description of the context
+     And I see all resources that are inheritancing that context and have any meta data for that context
+     And I can go to the abstract of that context
+     And I can go to the vocabulary of that context
 
   @jsbrowser 
   Scenario: Highlight used vocabulary
     When I open a specific context
+     And I go to the context's vocabulary page
      And I use the highlight used vocabulary action
     Then the unused values are faded out
 
   Scenario: Interact with the abstract slider of a context 
     When I open a specific context
+     And I go to the context's abstract page
     Then I see all values that are at least used for one resource
     When I open a specific context
      And I go to the context's abstract page

@@ -46,4 +46,3 @@ doc/api/yard
 log/*.log
 log/searchd.development.pid
 log/searchd.test.pid
-rerun*.txt

@@ -1,26 +1,50 @@
 - content_for :content do
-  
   .ui-container.rounded-right.rounded-bottom.tab-content
-    .ui-container.bright.bordered.pal
-      - if @context.description
-        .row
-          .col2of3
-            %p.paragraph-l= @context.description
   
-    .ui-container.midtone.bordered.rounded-bottom
-      = render :partial => "vocabulary/vocabulary"
+    .ui-container.bright.bordered.pal
+      .ui-set-overview
 
-  -# :coffeescript
-  -#   jQuery -> 
-  -#     mediaResourcesController = new App.MediaResourcesController.Index
-  -#       baseFilter: #{{:meta_context_names => [@context.name]}.to_json}
-  -#       startFilterParams: #{MediaResource.get_filter_params(params).to_json}
-        
+        .ui-metadata-box.ui-summary-table.ui-set-summary.compact
+          %table.borderless
+            %tbody
+              %tr
+                %td.ui-summary-label
+                  = _("Title")
+                %td.ui-summary-content.title-l= @context
+              - if @context.description
+                %tr
+                  %td.ui-summary-label
+                    = _("Description")
+                  %td.ui-summary-content= @context.description
+
+    #ui-resources-list-container.ui-container.midtone.bordered.rounded-bottom
+
+      = render :partial => "media_resources/list/toolbar", 
+                 :locals => {:title => _("Context contains"),
+                             :subtitle => "#{@resources_count} Inhalte",
+                             :actions => render(:partial => "media_sets/actions/save_display_settings")}
+
+      = render :partial => "media_resources/list/filterbar"
+
+      .ui-resources-holder.pam
+
+        .ui-container.table.auto
+
+          = render :partial => "media_resources/list/filter"
+
+          .ui-container.table-cell.table-substance
+            
+            %ul#ui-resources-list.ui-resources{:class => ui_resources_class}
+
+              .pvh.mth
+                .ui-preloader
+
   :coffeescript
-    jQuery -> new App.AbstractController
-      el: $(".ui-view-set")
-      subject: new App.MediaSet $(".app.view-set").data()
-      abstractContainer: $("#ui-media-set-abstract")
+    jQuery -> 
+      mediaResourcesController = new App.MediaResourcesController.Index
+        baseFilter: #{{:meta_context_names => [@context.name]}.to_json}
+        startFilterParams: #{MediaResource.get_filter_params(params).to_json}
 
 = render :partial => "meta_contexts/layout"
 
+        

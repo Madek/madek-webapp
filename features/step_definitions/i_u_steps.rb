@@ -20,8 +20,8 @@ Then (/^I upload the image "(.*?)" via dropbox$/) do |file_name|
   `cp #{Rails.root.join 'features','data','images',file_name} #{@current_user.dropbox_dir(@app_settings)}`
 end
 
- Then /^I use the highlight used vocabulary action$/ do
-  find('[data-filter-mode="used"]').click
+Then /^I use the highlight used vocabulary action$/ do
+  find("#ui-highlight-used-terms").click
 end
 
 Then /^I use some filters$/ do
