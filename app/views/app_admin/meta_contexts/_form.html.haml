@@ -1,0 +1,68 @@
+.meta-contexts
+  = form_for [:app_admin, @meta_context], html: {class: "form-horizontal", role: "form"} do |f|
+
+    .form-group
+      %label.control-label.col-sm-2 Name
+      .col-sm-4
+        = f.text_field :name, class: 'form-control', disabled: f.object.persisted?
+
+    .form-group
+      %label.control-label.col-sm-2 Meta context group
+      .col-sm-4
+        = f.select :meta_context_group_id, MetaContextGroup.all.collect { |mcg| [ mcg.name, mcg.id ] }, { include_blank: false }, { class: "form-control" }
+
+    - if f.object.persisted?
+      %h3 Meta Key Definitions
+      = link_to new_app_admin_meta_context_meta_key_definition_path(@meta_context), class: "btn btn-success" do
+        %i.fa.fa-plus
+        Add Meta Key Definition
+
+      %table.table
+        %thead
+          %tr
+            %th.no-wrap Meta Key
+            %th.no-wrap Key map
+            %th.no-wrap Key map type
+            %th Label
+            %th Hint
+            %th Description
+            %th.no-wrap Is required?
+            %th
+        %tbody#sortable
+          = f.fields_for :meta_key_definitions do |ff|
+            %tr
+              %td
+                = ff.object.meta_key
+                = ff.hidden_field :position, class: "meta-key-definition-position"
+              %td= ff.object.key_map
+              %td= ff.object.key_map_type
+              %td= ff.object.label
+              %td= ff.object.hint
+              %td= ff.object.description
+              %td= ff.object.is_required ? "Yes" : "No"
+              %td
+                = link_to edit_app_admin_meta_context_meta_key_definition_path(f.object, ff.object), class: "btn btn-warning btn-xs" do
+                  %i.icon-pen
+                  Edit
+    .form-group              
+      = f.submit "Save", class: "btn btn-success"
+
+:javascript
+  $(document).ready(function(){
+    function setPosition() {
+      var positions = [];
+      $('#sortable .meta-key-definition-position').each(function(index, el) {
+        $(this).val(index);
+      });
+    }
+
+    $("#sortable").sortable({
+      axis: 'y',
+      items: 'tr',
+      placeholder: 'placeholder',
+      forcePlaceholderSize: true,
+      stop: function(event, ui) {
+        setPosition();
+      }
+    });
+  });

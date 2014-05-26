@@ -1,0 +1,21 @@
+%h1.text-center
+  Meta Contexts
+
+%ul.list-inline
+  %li
+    = link_to new_app_admin_meta_context_path, class: 'btn btn-success' do
+      %i.fa.fa-plus
+      New Meta Context
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Name
+      %th.no-wrap Meta context group
+      %th Position
+      %th Label
+      %th Description
+      %th.no-wrap Show in user interface?
+      %th
+  %tbody
+    = render @meta_contexts

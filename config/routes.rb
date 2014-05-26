@@ -348,6 +348,10 @@ MAdeK::Application.routes.draw do
         post :transfer_resources
       end
     end
+    resources :meta_context_groups, only: [:index, :edit, :update, :new, :create]
+    resources :meta_contexts, only: [:index, :edit, :update, :new, :create] do
+      resources :meta_key_definitions, only: [:edit, :update, :new, :create]
+    end
 
     resources :previews, only: [:show,:destroy]
 

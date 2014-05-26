@@ -14,4 +14,10 @@ class MetaContextGroup < ActiveRecord::Base
   end
 
   scope :sorted_by_position, lambda{order(:position, :id)}
+
+  accepts_nested_attributes_for :meta_contexts
+
+  def to_s
+    name
+  end
 end

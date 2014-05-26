@@ -17,6 +17,8 @@ class MetaContext < ActiveRecord::Base
   has_many :meta_keys, lambda{order("meta_key_definitions.position ASC")}, through: :meta_key_definitions
   has_many :meta_data, through: :meta_keys
   has_and_belongs_to_many :media_sets, join_table: 'media_sets_meta_contexts', foreign_key: :meta_context_name
+
+  accepts_nested_attributes_for :meta_key_definitions
   
 ##################################################################
 

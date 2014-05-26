@@ -1,0 +1,29 @@
+.meta-key-definitions
+  = form_for [:app_admin, @meta_context, @meta_key_definition], html: {class: "form-horizontal", role: "form"} do |f|
+
+    .form-group
+      %label.control-label.col-sm-2 Label
+      .col-sm-6
+        = f.text_field :label, class: 'form-control'
+
+    .form-group
+      %label.control-label.col-sm-2 Hint
+      .col-sm-6
+        = f.text_area :hint, class: 'form-control', rows: 2
+
+    .form-group
+      %label.control-label.col-sm-2 Description
+      .col-sm-6
+        = f.text_area :description, class: 'form-control', rows: 6
+
+    .form-group
+      .col-sm-offset-2.col-sm-6
+        .checkbox
+          %label
+            = f.check_box :is_required
+            Is required?
+
+    .form-group
+      .col-sm-offset-2.col-sm-6
+        = f.submit "Save", class: "btn btn-success"
+        = link_to "Cancel", edit_app_admin_meta_context_path(@meta_context)
