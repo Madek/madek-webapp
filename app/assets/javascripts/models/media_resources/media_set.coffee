@@ -13,7 +13,7 @@ class MediaSet extends App.MediaResource
 
   create: (callback)->
     $.ajax
-      url: "/media_sets.json"
+      url: "/sets.json"
       type: "POST"
       data:
         media_set:
@@ -47,7 +47,7 @@ class MediaSet extends App.MediaResource
 
   fetchAbstract: (min, callback)->
     $.ajax
-      url: "/media_sets/#{@id}/abstract.json"
+      url: "/sets/#{@id}/abstract.json"
       data:
         min: min
       success: (data)=> 

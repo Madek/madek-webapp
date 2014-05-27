@@ -48,7 +48,7 @@ class MediaSetsController.DisplaySettings
     @savedLayout = @mediaResourcesController.getCurrentVisMode()
     @savedSorting = @mediaResourcesController.getCurrentSorting()
     $.ajax
-      url: "/media_sets/#{@mediaSet.id}/settings"
+      url: "/sets/#{@mediaSet.id}/settings"
       data: 
         layout: @savedLayout
         sorting: @savedSorting

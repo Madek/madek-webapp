@@ -15,7 +15,7 @@ Feature: Setting and using custom URLs for MediaResources
     Then I can see a success message
     Then I can see "the_new_url_for_testing"
     When I click on "the_new_url_for_testing"
-    Then I am on a "media_entries" page
+    Then I am on a "entries" page
 
   @jsbrowser
   Scenario: Defining and redirection to the primary url
@@ -30,7 +30,7 @@ Feature: Setting and using custom URLs for MediaResources
     And I submit
 
     When I click on "the_new_url_for_testing"
-    Then I am on a "media_entries" page
+    Then I am on a "entries" page
     And The current_path is equal to the remembered one
 
     When I click on "Weitere Aktionen"
@@ -40,7 +40,7 @@ Feature: Setting and using custom URLs for MediaResources
     Then I can see a success message
     And I can see the text "Primäre Adresse" inside the node with the id "the_new_url_for_testing"
     When I click on "the_new_url_for_testing"
-    Then I am on a "media_entries" page
+    Then I am on a "entries" page
     And The current_path matches "the_new_url_for_testing"
 
     When I click on "Weitere Aktionen"
@@ -69,10 +69,10 @@ Feature: Setting and using custom URLs for MediaResources
     And I can see the text "Primäre Adresse" inside the node with the id "the_new_url_for_testing"
 
     When I click on "the_new_url_for_testing"
-    Then The current_path matches "media_entries/the_new_url_for_testing"
+    Then The current_path matches "entries/the_new_url_for_testing"
 
     When I visit "/media_resources/the_new_url_for_testing"
-    Then The current_path matches "media_entries/the_new_url_for_testing"
+    Then The current_path matches "entries/the_new_url_for_testing"
 
     When I visit my first media_set
     And I click on "Weitere Aktionen"
@@ -88,7 +88,7 @@ Feature: Setting and using custom URLs for MediaResources
     Then I can see a success message
 
     When I visit "/media_resources/the_new_url_for_testing"
-    Then The current_path matches "media_sets/the_new_url_for_testing"
+    Then The current_path matches "sets/the_new_url_for_testing"
 
 
   @jsbrowser 
@@ -126,7 +126,7 @@ Feature: Setting and using custom URLs for MediaResources
     Then I can see a success message
     Then I can see "the_new_url_for_testing"
     When I click on "the_new_url_for_testing"
-    Then I am on a "media_entries" page
+    Then I am on a "entries" page
 
     When I click on "Weitere Aktionen"
     And I click on "Adressen verwalten"

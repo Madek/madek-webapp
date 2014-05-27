@@ -177,7 +177,7 @@ MAdeK::Application.routes.draw do
   #NOTE first media_entries and then media_sets
 
   # TODO merge to :media_resources ?? 
-  resources :media_entries, :except => :destroy do
+  resources 'entries', :to => 'media_entries', :as => 'media_entries', :except => :destroy do
     collection do
       get :edit_multiple
       post :update_multiple
@@ -200,8 +200,9 @@ MAdeK::Application.routes.draw do
 
   ###############################################
 
-  # TODO merge to :media_resources ?? 
-  resources :media_sets, :except => :destroy do #-# TODO , :except => :index # the index is only used to create new sets
+  # TODO merge to :media_resources ??
+  
+  resources 'sets', :to => 'media_sets', :as => 'media_sets', :except => :destroy do #-# TODO , :except => :index # the index is only used to create new sets
     member do
       get :abstract
       get :vocabulary
@@ -212,7 +213,7 @@ MAdeK::Application.routes.draw do
       get :parents
     end
 
-    resources :media_entries, :except => :destroy do
+    resources 'entries', :to => 'media_entries', :as => 'media_entries', :except => :destroy do
       collection do
         delete :remove_multiple
       end
@@ -224,7 +225,7 @@ MAdeK::Application.routes.draw do
 
   ###############################################
 
-  resources :media_resources do
+   resources :media_resources do
 
     collection do
       post :collection
@@ -391,5 +392,15 @@ MAdeK::Application.routes.draw do
     root to: "dashboard#index"
 
   end
+
+  ####################################################################################
+  # LEGACY REDIRECTIONS! We need to keep them around indefinitely… ###################
+  ####################################################################################
+  get '/media_entries/:id' => redirect("/entries/%{id}")
+  get '/media_entries/:id/context_group/:name' => redirect("/entries/%{id}/vocabulary")
+  
+  get '/media_sets/:id' => redirect("/sets/%{id}")
+  get '/media_sets/:id/media_entries/:entry_id' => redirect("/sets/%{id}/entries/%{entry_id}")
+  ####################################################################################
 
 end

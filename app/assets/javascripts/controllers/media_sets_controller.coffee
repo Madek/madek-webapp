@@ -17,7 +17,7 @@ class MediaSetsController
       ms = App.MediaSet.fromForm form
       if ms.validate()
         dialog.remove()
-        $(ms).bind "created", -> window.location = "/media_sets/#{ms.id}"
+        $(ms).bind "created", -> window.location = "/sets/#{ms.id}"
         ms.create()
       else
         App.DialogErrors.set form, ms.errors
