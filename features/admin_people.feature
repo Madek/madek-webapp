@@ -27,3 +27,17 @@ Feature: Admin interface
     When I navigate to the app_admin/people interface
     When a person has some MetaData associated to it
     Then I can not delete that person
+
+  Scenario: Editing person
+    When I visit "/app_admin/people"
+    And I click on "Edit"
+    And I set the input with the name "person[last_name]" to "LAST_NAME"
+    And I set the input with the name "person[first_name]" to "FIRST_NAME"
+    And I set the input with the name "person[pseudonym]" to "PSEUDONYM"
+    And I set the input with the name "person[date_of_birth]" to "10.04.1989"
+    And I submit
+    Then I can see a success message
+    And I can see "LAST_NAME"
+    And I can see "FIRST_NAME"
+    And I can see "PSEUDONYM"
+    And I can see "1989-04-10"

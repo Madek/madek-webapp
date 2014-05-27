@@ -64,8 +64,8 @@ class AppAdmin::PeopleController < AppAdmin::BaseController
   def update
     begin
       @person = Person.find(params[:id])
-      @person.update_attributes! params[:person]
-      redirect_to app_admin_person_path(@person)
+      @person.update_attributes!(person_params)
+      redirect_to app_admin_person_path(@person), flash: {success: "A person has been update"}
     rescue => e
       redirect_to edit_app_admin_person_path(@person), flash: {error: e.to_s}
     end
@@ -102,6 +102,12 @@ class AppAdmin::PeopleController < AppAdmin::BaseController
 
   def form_transfer_meta_data
     @person = Person.find  params[:id]
+  end
+
+  private
+
+  def person_params
+    params.require(:person).permit!
   end
 
 end
