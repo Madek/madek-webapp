@@ -24,6 +24,13 @@ class AppAdmin::MetaContextsController < AppAdmin::BaseController
     redirect_to app_admin_meta_contexts_url
   end
 
+  def destroy
+    @meta_context = MetaContext.find(params[:id])
+    @meta_context.destroy
+
+    redirect_to app_admin_meta_contexts_url, flash: {success: "The meta context has been deleted"}
+  end
+
   private
 
   def meta_context_params

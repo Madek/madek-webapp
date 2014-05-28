@@ -2,6 +2,16 @@
   = form_for [:app_admin, @meta_context, @meta_key_definition], html: {class: "form-horizontal", role: "form"} do |f|
 
     .form-group
+      %label.control-label.col-sm-2 Meta Key
+      .col-sm-6
+        = f.select :meta_key_id, MetaKey.order(:id).map(&:id), {}, {class: "form-control"}
+
+    .form-group
+      %label.control-label.col-sm-2 Meta Context
+      .col-sm-6
+        = f.select :meta_context_name, MetaContext.order(:name).map(&:name), {}, {class: "form-control"}
+
+    .form-group
       %label.control-label.col-sm-2 Label
       .col-sm-6
         = f.text_field :label, class: 'form-control'

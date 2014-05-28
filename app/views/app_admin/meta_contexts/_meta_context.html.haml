@@ -9,3 +9,6 @@
     = link_to edit_app_admin_meta_context_path(meta_context), class: "btn btn-warning btn-xs" do
       %i.icon-pen
       Edit
+    = link_to app_admin_meta_context_path(meta_context), class: "btn btn-danger btn-xs", method: :delete, data: {confirm: "Are you sure you want to delete this meta context?"} do
+      %i.icon-trash
+      Delete

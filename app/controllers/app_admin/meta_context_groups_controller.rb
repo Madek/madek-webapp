@@ -27,6 +27,6 @@ class AppAdmin::MetaContextGroupsController < AppAdmin::BaseController
   private
 
   def meta_context_group_params
-    params.require(:meta_context_group).permit!
+    params.require(:meta_context_group).permit(:name, meta_contexts_attributes: [:id, :position, :meta_context_group_id])
   end
 end

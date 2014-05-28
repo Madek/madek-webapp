@@ -8,7 +8,7 @@
 
     - if f.object.persisted?
       .form-group
-        %label.control-label.col-sm-2 Terms
+        %label.control-label.col-sm-2 Meta contexts
         .col-sm-6
           %ul#sortable.list-unstyled
             = f.fields_for :meta_contexts do |ff|
@@ -16,6 +16,10 @@
                 = ff.object.label
                 = ff.hidden_field :id
                 = ff.hidden_field :position, class: "meta-context-position"
+                .checkbox
+                  %label
+                    = ff.check_box :meta_context_group_id, {}, "", @meta_context_group.id
+                    Delete
 
     .form-group
       .col-sm-offset-2.col-sm-4

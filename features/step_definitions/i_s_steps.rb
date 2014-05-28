@@ -47,7 +47,6 @@ end
 
 Then /^I set the input with the name "(.*?)" to "(.*?)"$/ do |name, value|
   find("input[name='#{name}']").set(value)
-  # page.execute_script %Q{ $("input[name='#{name}']").trigger("change") }
 end
 
 When(/^I set the input with the name "(.*?)" to persons last name$/) do |name|
@@ -61,6 +60,10 @@ end
 
 Then /^I set the input in the fieldset with "(.*?)" as meta\-key to "(.*?)"$/ do |meta_key_id, value|
   find("fieldset[data-meta-key='#{meta_key_id}']").find("input,textarea",visible: true).set(value)
+end
+
+Then /^I set the textarea with the name "(.*?)" to "(.*?)"$/ do |name, value|
+  find("textarea[name='#{name}']").set(value)
 end
 
 Then /^I submit$/ do

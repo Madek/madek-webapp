@@ -352,8 +352,8 @@ MAdeK::Application.routes.draw do
       end
     end
     resources :meta_context_groups, only: [:index, :edit, :update, :new, :create]
-    resources :meta_contexts, only: [:index, :edit, :update, :new, :create] do
-      resources :meta_key_definitions, only: [:edit, :update, :new, :create]
+    resources :meta_contexts do
+      resources :meta_key_definitions, only: [:edit, :update, :new, :create, :destroy]
     end
 
     resources :previews, only: [:show,:destroy]

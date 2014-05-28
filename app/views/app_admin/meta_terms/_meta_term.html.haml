@@ -10,7 +10,7 @@
       Edit
     - unless meta_term.is_used?
       %br
-      = link_to app_admin_meta_term_path(meta_term, sort_by: @sort_by), method: :delete, confirm: "Are you sure you want to delete this meta term?" do
+      = link_to app_admin_meta_term_path(meta_term, sort_by: @sort_by), method: :delete, data: {confirm: "Are you sure you want to delete this meta term?"} do
         %i.icon-trash
         Delete
     %br

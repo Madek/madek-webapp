@@ -14,7 +14,7 @@
       Edit
 
   %li
-    =link_to app_admin_group_path(@group), method: :delete, class: "btn btn-danger", confirm: "Are you really want to delete this group?" do
+    =link_to app_admin_group_path(@group), method: :delete, class: "btn btn-danger", data: {confirm: "Are you really want to delete this group?"} do
       %i.icon-trash-o
       Delete
 

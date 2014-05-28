@@ -124,6 +124,18 @@ Then(/^I can see a form for editing permissions$/) do
   find("form#ui-rights-management")
 end
 
+Then /^I can see a form with id "(.*?)"$/ do |form_id|
+  find("form##{form_id}")
+end
+
+Then /^I can see a row with values "(.*?)"$/ do |values|
+  values = values.split(',')
+  row = all('table tbody tr').first
+  values.each do |value|
+    expect(row).to have_content value
+  end
+end
+
 Then (/^I can see a success message$/) do
   expect(all(".alert-success").size + all(".ui-alert.success").size) .to be > 0
 end
