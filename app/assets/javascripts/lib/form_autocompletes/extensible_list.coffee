@@ -14,6 +14,7 @@ class FormAutocompletes.ExtensibleList
   delegateEvents: ->
     $(@el).on "focus", ".form-autocomplete-extensible-list", (e)=> @setupAutocomplete($(e.currentTarget)) unless $(e.currentTarget).hasClass "ui-autocomplete-input"
     @el.on "keypress", ".form-autocomplete-extensible-list", (e)=>
+      return if $(e.currentTarget).hasClass('closed-list')
       if e.keyCode == 13
         input = $(e.currentTarget)
         return unless input.val().length

@@ -49,6 +49,12 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
     end
   end
 
+  def apply_alphabetical_order
+    meta_key = MetaKey.find(params[:id])
+    @meta_term_ids = meta_key.meta_terms.reorder('term').map(&:id)
+    render json: @meta_term_ids
+  end
+
   private
 
   def new_meta_key_params
@@ -56,7 +62,7 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
   end
 
   def meta_key_params
-    params.require(:meta_key).permit(meta_terms_attributes: [:id, :term])
+    params.require(:meta_key).permit(:meta_terms_alphabetical_order, :is_extensible_list, meta_terms_attributes: [:id, :term])
   end
 
   def destroy_chosen_meta_terms
@@ -76,6 +82,7 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
         meta_term = @meta_key.meta_key_meta_terms.find_by(meta_term_id: id)
         meta_term.update_attribute(:position, index)
       end
+    @meta_key.update_attribute(:meta_terms_alphabetical_order, false)
     end
   end
 

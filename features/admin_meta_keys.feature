@@ -63,3 +63,12 @@ Feature: Admin Meta Keys
     And I submit
     Then I can see only meta keys containing "IO Interface" term
     And There is "IO Interface" option selected in "filter[context]" select
+
+  @firefox
+  Scenario: Applying alphabetical order to meta terms
+    When I visit "/app_admin/meta_keys?filter[meta_datum_object_type]=MetaDatumMetaTerms"
+    And I click on "Edit"
+    Then I can see the "Apply Alphabetical Order" link
+    When I click on "Apply Alphabetical Order"
+    Then There is the input with name "meta_key[meta_terms_alphabetical_order]" set to "1"
+    And The meta terms are sorted

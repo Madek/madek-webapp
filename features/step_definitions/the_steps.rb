@@ -167,6 +167,13 @@ Then /^The media_resource with the previous_id "(.*?)" doesn't exist$/  do |id|
   expect(MediaResource.find_by previous_id: id).not_to be
 end
 
+Then /^The meta terms are sorted$/ do
+  within("#sortable") do
+    positions = all('li').map { |li| li["data-position"] }.compact.map(&:to_i)
+    expect(positions.sort).to be== positions
+  end
+end
+
 Then /^The meta term does not exist$/ do
   expect { MetaTerm.find(@meta_term_to_delete) }.to raise_error(ActiveRecord::RecordNotFound)
 end

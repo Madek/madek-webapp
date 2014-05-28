@@ -2,11 +2,12 @@
   = form_for [:app_admin, @meta_key], html: {class: "form-horizontal", role: "form"} do |f|
 
     = hidden_field_tag :meta_terms_positions
+    = f.hidden_field :meta_terms_alphabetical_order
 
     .form-group
       %label.control-label.col-sm-2 Label
       .col-sm-4
-        = f.text_field :id, class: 'form-control'#, disabled: f.object.persisted?
+        = f.text_field :id, class: 'form-control'
 
     - unless @meta_key.persisted?
       .form-group
@@ -18,7 +19,7 @@
       .form-group
         %label.control-label.col-sm-2 Terms
         .col-sm-6
-          = link_to "#", class: "btn btn-primary", id: "alphabetical-order" do
+          = link_to apply_alphabetical_order_app_admin_meta_key_path(@meta_key), class: "btn btn-primary", id: "alphabetical-order", method: :post, remote: true do
             %i.fa.fa-sort-alpha-asc
             Apply Alphabetical Order
           %ul#sortable.list-unstyled
@@ -75,27 +76,35 @@
       cursor: 'move',
       placeholder: 'placeholder',
       forcePlaceholderSize: true,
-      stop: function(event, ui) {
+      update: function(event, ui) {
         getPositions();
+        $('#meta_key_meta_terms_alphabetical_order').val(0);
       }
     });
 
-    $('#alphabetical-order').on('click', function(e) {
-      e.preventDefault();
+    $(document).ajaxSuccess(function(event, xhr, settings) {
+      if($('#alphabetical-order').attr('href') === settings.url) {
+        var data = $.parseJSON(xhr.responseText);
+        console.log('data:', data);
+        $.each(data, function(index, id) {
+          $('#' + id).attr('data-position', index);
+        });
 
-      function compare(a, b) {
-        var aValue = $(a).data('term').toLowerCase();
-        var bValue = $(b).data('term').toLowerCase();
-        if(aValue < bValue) {
-          return -1;
+        function compare(a, b) {
+          var aValue = $(a).data('position');
+          var bValue = $(b).data('position');
+          if(aValue < bValue) {
+            return -1;
+          }
+          if(aValue > bValue) {
+            return 1;
+          }
+          return 0;
         }
-        if(aValue > bValue) {
-          return 1;
-        }
-        return 0;
+
+        $('#sortable li[data-position]').detach().sort(compare).prependTo('#sortable');
+        $('#meta_key_meta_terms_alphabetical_order').val(1);
+        getPositions();
       }
-
-      $('#sortable li[data-term]').detach().sort(compare).prependTo('#sortable');
-      getPositions();
     });
   });

@@ -3,7 +3,6 @@
 --
 
 SET statement_timeout = 0;
-SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -419,7 +418,8 @@ CREATE TABLE meta_key_definitions (
 CREATE TABLE meta_keys (
     is_extensible_list boolean,
     id character varying(255) NOT NULL,
-    meta_datum_object_type character varying(255) DEFAULT 'MetaDatumString'::character varying NOT NULL
+    meta_datum_object_type character varying(255) DEFAULT 'MetaDatumString'::character varying NOT NULL,
+    meta_terms_alphabetical_order boolean DEFAULT true
 );
 
 
@@ -523,10 +523,7 @@ CREATE TABLE usage_terms (
 --
 
 CREATE VIEW user_resources_counts AS
- SELECT count(*) AS resouces_count,
-    media_resources.user_id
-   FROM media_resources
-  GROUP BY media_resources.user_id;
+    SELECT count(*) AS resouces_count, media_resources.user_id FROM media_resources GROUP BY media_resources.user_id;
 
 
 --
@@ -2043,6 +2040,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140430082935');
 INSERT INTO schema_migrations (version) VALUES ('20140430112951');
 
 INSERT INTO schema_migrations (version) VALUES ('20140516092321');
+
+INSERT INTO schema_migrations (version) VALUES ('20140519083555');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
