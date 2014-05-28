@@ -1,9 +1,10 @@
 class KeywordsController< ApplicationController
 
-  def index(query = params[:query],
-            with = params[:with])
+  def index
+    query = params[:query]
+    with = params[:with]
 
-    keywords = Keyword.search(query).select "DISTINCT ON (keyword_term_id) * "
+    keywords = Keyword.hacky_search(query).select "DISTINCT ON (keyword_term_id) * "
 
     respond_to do |format|
       format.json {

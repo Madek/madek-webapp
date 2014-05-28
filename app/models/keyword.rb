@@ -22,10 +22,13 @@ class Keyword < ActiveRecord::Base
 
 #######################################
 
-  scope :search, lambda { |query|
-    return scoped if query.blank?
-    search_term= "%#{query}%"
-    joins(:keyword_term).where("keyword_terms.term ilike ?","%#{query}%")
+  scope :hacky_search, lambda { |query|
+    if query.blank?
+      where(nil)
+    else
+      search_term= "%#{query}%"
+      joins(:keyword_term).where("keyword_terms.term ilike ?","%#{query}%")
+    end
   }
-  
+
 end

@@ -72,7 +72,8 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
       else
         message = {error: "The Meta Term is used and cannot be deleted."}
       end
-      redirect_to app_admin_meta_terms_url, flash: flash
+      flash.keep
+      redirect_to app_admin_meta_terms_url
     rescue => e
       redirect_to :back, flash: {error: e.to_s}
     end

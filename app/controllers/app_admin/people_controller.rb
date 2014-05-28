@@ -88,8 +88,12 @@ class AppAdmin::PeopleController < AppAdmin::BaseController
       person_originator= Person.find(params[:id])
       person_receiver= Person.find(params[:id_receiver])
       ActiveRecord::Base.transaction do
-        person_receiver.meta_data <<  \
-          person_originator.meta_data.where("id not in (#{person_receiver.meta_data.select('"meta_data"."id"').to_sql})")
+
+        meta_data_ids= person_receiver.meta_data.select('"meta_data"."id"')
+        to_be_added= person_originator.meta_data.where(
+          "id NOT IN (#{meta_data_ids.to_sql})")
+        person_receiver.meta_data <<  to_be_added
+
         # TODO had to change this from person_originator.meta_data.clear to make the test pass in rails 4.0.1
         # as fare as I can see it still should have worked and would be preferable
         person_originator.meta_data.each {|md| person_originator.meta_data.delete md}

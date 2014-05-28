@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -523,7 +524,10 @@ CREATE TABLE usage_terms (
 --
 
 CREATE VIEW user_resources_counts AS
-    SELECT count(*) AS resouces_count, media_resources.user_id FROM media_resources GROUP BY media_resources.user_id;
+ SELECT count(*) AS resouces_count,
+    media_resources.user_id
+   FROM media_resources
+  GROUP BY media_resources.user_id;
 
 
 --
@@ -573,7 +577,8 @@ CREATE TABLE visualizations (
     resource_identifier character varying(255) NOT NULL,
     control_settings text,
     layout text,
-    user_id uuid NOT NULL
+    user_id uuid NOT NULL,
+    id uuid DEFAULT uuid_generate_v4() NOT NULL
 );
 
 
@@ -810,6 +815,14 @@ ALTER TABLE ONLY userpermissions
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: visualizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY visualizations
+    ADD CONSTRAINT visualizations_pkey PRIMARY KEY (id);
 
 
 --
@@ -2043,6 +2056,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140516092321');
 
 INSERT INTO schema_migrations (version) VALUES ('20140519083555');
 
+INSERT INTO schema_migrations (version) VALUES ('20140521065627');
+
 INSERT INTO schema_migrations (version) VALUES ('21');
 
 INSERT INTO schema_migrations (version) VALUES ('22');
@@ -2070,3 +2085,4 @@ INSERT INTO schema_migrations (version) VALUES ('7');
 INSERT INTO schema_migrations (version) VALUES ('8');
 
 INSERT INTO schema_migrations (version) VALUES ('9');
+

@@ -98,7 +98,7 @@ class MediaResource < ActiveRecord::Base
 
   ################################################################
 
-  scope :search, lambda { |query|
+  scope :text_search, lambda { |query|
     ar = joins("LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id")
     query.split.map{|s| "%#{s}%"}.each do |term| 
       ar = ar.where("full_texts.text ilike ?",term)

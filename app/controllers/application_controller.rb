@@ -96,7 +96,8 @@ class ApplicationController < ActionController::Base
       elsif session[:return_to]
         redirect_back_or_default('/')
       else
-        redirect_to my_dashboard_path, flash: flash
+        flash.keep
+        redirect_to my_dashboard_path
       end
     else
       @splashscreen_set = MediaSet.find_by_id @app_settings.splashscreen_slideshow_set_id 

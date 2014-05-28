@@ -3,7 +3,7 @@ class AppAdmin::UsersController < AppAdmin::BaseController
   def index
     respond_to do |format|
       format.json {
-        users = Person.search(params[:query]).map(&:user).compact
+        users = Person.hacky_search(params[:query]).map(&:user).compact
         render :json => view_context.json_for(users)
       }
       format.html {

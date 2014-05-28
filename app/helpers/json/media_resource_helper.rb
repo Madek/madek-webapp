@@ -170,13 +170,18 @@ module Json
           # paginated_media_resources = paginated_media_resources.includes(:media_file)
         end
         if with[:is_editable]
-          @cache_is_editable = MediaResource.accessible_by_user(current_user, :edit).where(:id => paginated_media_resources).pluck(:id)
+          @cache_is_editable = MediaResource.accessible_by_user(current_user, :edit) \
+            .where(:id => paginated_media_resources).pluck(:id)
         end
         if with[:is_manageable]
-          @cache_is_manageable = MediaResource.accessible_by_user(current_user, :manage).where(:id => paginated_media_resources).pluck(:id)
+          @cache_is_manageable = MediaResource.accessible_by_user(current_user, :manage) \
+            .where(:id => paginated_media_resources).pluck(:id)
         end
         if with[:is_favorite]
-          @cache_is_favorite = current_user.favorites.where(:id => paginated_media_resources).pluck(:id)
+          paginared_media_resources_ids_subquery=  
+            "id IN (#{paginated_media_resources.select("id").to_sql})"
+          @cache_is_favorite = current_user.favorites \
+            .where(paginared_media_resources_ids_subquery).pluck(:id)
         end
       end
       #####

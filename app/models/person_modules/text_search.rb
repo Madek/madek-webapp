@@ -17,17 +17,8 @@ module PersonModules
           .compact.sort.uniq.join(" ")
       end
 
-
-      # NOTE: this is an old implementation; it doesn't use pg text search features
-      # and it is slow, too
-      scope :search, lambda { |query|
-        return scoped if query.blank?
-        q = query.split.map{|s| "%#{s}%"}
-        where(arel_table[:first_name].matches_any(q).
-              or(arel_table[:last_name].matches_any(q)).
-              or(arel_table[:pseudonym].matches_any(q))) }
-
-      scope :text_search, lambda{|search_term| basic_search({searchable: search_term},true)}
+      scope :text_search, lambda{|search_term| 
+        basic_search({searchable: search_term},true)}
 
       scope :text_rank_search, lambda{|search_term| 
         rank= text_search_rank :searchable, search_term

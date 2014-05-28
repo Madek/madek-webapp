@@ -79,7 +79,7 @@ module MediaResourceModules
           resources = resources.where(id: existing_ids)
         end
 
-        resources = resources.search(filter_opts[:search]) unless filter_opts[:search].blank?
+        resources = resources.text_search(filter_opts[:search]) unless filter_opts[:search].blank?
 
         ############################################################
         

@@ -1,19 +1,16 @@
 # -*- encoding : utf-8 -*-
 class UsersController < ApplicationController
 
-  def index(query = params[:query],
-            exclude_group_id = params[:exclude_group_id])
-    respond_to do |format|
-      format.json {
-        users = Person.search(query).map(&:user).compact
-        if exclude_group_id
-          group = Group.find(exclude_group_id)
-          users -= group.users
-        end
-        render :json => view_context.json_for(users)
-      }
+  def index 
+    query = params[:query]
+    exclude_group_id = params[:exclude_group_id]
+    users = Person.hacky_search(query).map(&:user).compact
+    if exclude_group_id
+      group = Group.find(exclude_group_id)
+      users -= group.users
     end
-  end
+    render json: view_context.json_for(users)
+end
 
   def show
     # TODO refactor from ApplicationController#root

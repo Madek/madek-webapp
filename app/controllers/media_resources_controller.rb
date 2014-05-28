@@ -66,13 +66,14 @@ class MediaResourcesController < ApplicationController
   end
 
   def show
+    flash.keep
     case @media_resource
     when FilterSet
-      redirect_to filter_set_path(@media_resource), flash: flash
+      redirect_to filter_set_path(@media_resource)
     when MediaEntry, MediaEntryIncomplete
-      redirect_to media_entry_path(@media_resource), flash: flash
+      redirect_to media_entry_path(@media_resource)
     when MediaSet
-      redirect_to media_set_path(@media_resource), flash: flash
+      redirect_to media_set_path(@media_resource)
     else
       raise "missing dispatch on #{@media_resource.type}"
     end

@@ -32,15 +32,17 @@ class Person < ActiveRecord::Base
 
   scope :groups, lambda{where(:is_group => true)}
 
-  scope :search, lambda { |query|
-    return scoped if query.blank?
-
-    q = query.split.map{|s| "%#{s}%"}
-    where(arel_table[:first_name].matches_any(q).
-          or(arel_table[:last_name].matches_any(q)).
-          or(arel_table[:pseudonym].matches_any(q)))
+  # TODO bad, doesn't scale, ... TO BE REMOVED
+  scope :hacky_search, lambda { |query|
+    if query.blank?
+      where(nil)
+    else
+      q = query.split.map{|s| "%#{s}%"}
+      where(arel_table[:first_name].matches_any(q).
+            or(arel_table[:last_name].matches_any(q)).
+            or(arel_table[:pseudonym].matches_any(q)))
+    end
   }
-
 
 
 #######################################

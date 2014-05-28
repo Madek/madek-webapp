@@ -13,7 +13,7 @@ describe Keyword do
     context "search" do
       it "finds existing resources" do
         string = Keyword.first.to_s
-        Keyword.search(string).count.should >= 1
+        Keyword.search(string).count("*").should >= 1
       end
       
       it "prevents sql injection" do

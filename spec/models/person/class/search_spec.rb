@@ -13,13 +13,12 @@ describe Person do
     context "search" do
       it "finds existing resources" do
         string = Person.first.first_name
-        Person.search(string).count.should >= 1
+        Person.text_rank_search(string).count('*').should >= 1
       end
       
       it "prevents sql injection" do
         string = "string ' with quotes"
-        lambda {Person.search(string)}.should_not raise_error
-        #Person.search(string).count.should == 0
+        lambda {Person.text_search(string)}.should_not raise_error
       end
     end
 
