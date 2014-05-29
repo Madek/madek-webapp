@@ -1,43 +1,29 @@
 # -*- encoding : utf-8 -*-
 class MetaContextsController < ApplicationController
 
-  before_filter do
-    unless (context_id = params[:id]).blank?
-      @context = MetaContext.find(context_id)
+  def initialize_for_view
+    if (params[:id]).blank?
+      raise "No context.id given!"
     end
+    @context = MetaContext.find(params[:id])
+
+    @entries = @context.media_entries @current_user
+    @entries_count = @context.media_entries_count @current_user
+    
+    # TODO: queries
+    @entries_with_terms_count = 2342
+    @entries_with_terms_count
+    @entries_total_count = 1337
   end
 
-#################################################################
-
-
-  def show(with = params[:with] || {}) respond_to do |format|
-      format.html {
-        @resources_count = MediaResource.filter(current_user, {:meta_context_names => [@context.name]}).count
-        # @context_json = view_context.hash_for(@context, with.merge({vocabulary: true, abstract: true}))
-        # @abstract_slider_hash = { :context_id => @context.id,
-        #                           :total => @context.media_entries(current_user).to_a.size # OPTIMIZE @context.media_entries(current_user).count
-        #                         }
-      }
-      format.json {
-        render :json => view_context.json_for(@context, with)
-      }
-    end
+  def show
+    initialize_for_view
+    @vocabulary = @context.build_vocabulary @current_user
+    @max_usage_count = @vocabulary.map{|key|key[:meta_terms].map{|term|term[:usage_count]}.max}.max
   end
 
-  def abstract(min = (params[:min] || 1).to_i)
-    @abstract = @context.abstract(current_user, min)
-    respond_to do |format|
-      format.html
-      format.json { render :json => view_context.hash_for(@abstract, {:label => true}) }
-    end
-  end
-
-  def vocabulary
-    used_meta_term_ids = @context.used_meta_term_ids(current_user)
-    @vocabulary = view_context.vocabulary(@context, used_meta_term_ids)
-    respond_to do |format|
-      format.html
-    end
+  def entries
+    initialize_for_view
   end
 
 end

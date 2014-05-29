@@ -68,7 +68,7 @@ MAdeK::Application.routes.draw do
   get 'explore/catalog/:category/:section', :to => 'explore#section', :as => "explore_section"
   get 'explore/featured_set', :to => 'explore#featured_set', :as => "explore_featured_set"
   get 'explore/keywords', :to => 'explore#keywords', :as => "explore_keywords"
-  get 'explore/contexts', :to => 'explore#contexts', :as => "explore_contexts"
+  get 'explore/vocabulary', :to => 'explore#contexts', :as => "explore_contexts"
 
   ##### MY
 
@@ -79,7 +79,7 @@ MAdeK::Application.routes.draw do
   get 'my/keywords', :to => 'my#keywords', :as => "my_keywords"
   get 'my/entrusted_media_resources', :to => 'my#entrusted_media_resources', :as => "my_entrusted_media_resources"
   get 'my/groups', :to => 'my#groups', :as => "my_groups"
-  get 'my/contexts', :to => 'my#contexts', :as => "my_contexts"
+  get 'my/vocabulary', :to => 'my#contexts', :as => "my_contexts"
 
   ##### COLLECTIONS
 
@@ -104,10 +104,9 @@ MAdeK::Application.routes.draw do
 
   ##### CONTEXTS
 
-  get 'contexts/:id', :to => 'meta_contexts#show', :as => "context"
-  get 'contexts/:id/abstract', :to => 'meta_contexts#abstract', :as => "context_abstract"
-  get 'contexts/:id/vocabulary', :to => 'meta_contexts#vocabulary', :as => "context_vocabulary"
-
+  get 'vocabulary/:id', :to => 'meta_contexts#show', :as => "context"
+  get 'vocabulary/:id/entries', :to => 'meta_contexts#entries', :as => "context_entries"
+  
   ##### METADATA
 
   put 'meta_data/apply_to_all', :to => 'meta_data#apply_to_all'
@@ -194,7 +193,7 @@ MAdeK::Application.routes.draw do
       get :more_data
       get :browse
       get :parents
-      get 'context_group/:name', :to => 'media_entries#context_group', :as => "context_group"
+      get 'vocabulary', :to => 'media_entries#contexts', :as => "contexts"
     end
   end
 
@@ -204,14 +203,24 @@ MAdeK::Application.routes.draw do
   
   resources 'sets', :to => 'media_sets', :as => 'media_sets', :except => :destroy do #-# TODO , :except => :index # the index is only used to create new sets
     member do
-      get :abstract
-      get :vocabulary
-      get :browse
-      get :inheritable_contexts
       post :settings
       get :category
       get :parents
+      get :browse    
+      get 'vocabulary/:context_id', controller: 'media_sets', action: 'individual_contexts', as: 'context'
+      put 'vocabulary/:context_id/enable', to: 'media_sets#enable_individual_context', as: 'enable_context'
+      put 'vocabulary/:context_id/disable', to: 'media_sets#disable_individual_context', as: 'disable_context'
     end
+
+
+  # resources :media_sets, :except => :destroy do #-# TODO , :except => :index # the index is only used to create new sets
+  #   member do
+  #     get :abstract
+  #     get :vocabulary
+  #     get :inheritable_contexts
+    # end
+    
+    
 
     resources 'entries', :to => 'media_entries', :as => 'media_entries', :except => :destroy do
       collection do
@@ -225,7 +234,7 @@ MAdeK::Application.routes.draw do
 
   ###############################################
 
-   resources :media_resources do
+  resources :media_resources do
 
     collection do
       post :collection
@@ -403,6 +412,11 @@ MAdeK::Application.routes.draw do
   
   get '/media_sets/:id' => redirect("/sets/%{id}")
   get '/media_sets/:id/media_entries/:entry_id' => redirect("/sets/%{id}/entries/%{entry_id}")
+
+
+  get '/contexts/:id' => redirect("/vocabulary/%{id}")
+  get '/contexts/:id/entries' => redirect("/vocabulary/%{id}/entries")
+  get '/media_entries/:id/context_group/:name' => redirect("/entries/%{id}/vocabulary")
   ####################################################################################
 
 end

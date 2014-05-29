@@ -21,7 +21,11 @@ Then (/^I upload the image "(.*?)" via dropbox$/) do |file_name|
 end
 
 Then /^I use the highlight used vocabulary action$/ do
-  find("#ui-highlight-used-terms").click
+  find('[data-filter-mode="used"]').click
+end
+
+Then /^I use the filter used vocabulary action$/ do
+  find('[data-filter-mode="frequent"]').click
 end
 
 Then /^I use some filters$/ do

@@ -52,27 +52,8 @@ class MetaContext < ActiveRecord::Base
 
 ##################################################################
 
-  # TODO dry with MediaSet#abstract  
-  def abstract(current_user = nil, min_media_entries = nil)
-    accessible_media_entry_ids = MediaResource.filter(current_user, {:type => :media_entries, :meta_context_names => [name]}).pluck("media_resources.id")
-    min_media_entries ||= accessible_media_entry_ids.size.to_f * 50 / 100
-    meta_key_ids = meta_keys.for_meta_terms.where(MetaKey.arel_table[:id].not_in(MetaKey.dynamic_keys)).pluck("meta_keys.id") 
-
-    h = {} 
-    mds = MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids)
-    mds.each do |md|
-      h[md.meta_key_id] ||= [] 
-      h[md.meta_key_id] << md.value
-    end
-    h.delete_if {|k, v| v.size < min_media_entries }
-    h.each_pair {|k, v| h[k] = v.flatten.group_by {|x| x}.delete_if {|k, v| v.size < min_media_entries }.keys }
-    h.delete_if {|k, v| v.blank? }
-    #1005# return h.collect {|k, v| meta_data.build(:meta_key_id => k, :value => v) }
-    b = []
-    h.each_pair {|k, v| b[meta_key_ids.index(k)] = MetaDatum.new(:meta_key_id => k, :value => v) }
-    return b.compact
-  end
-
+  # TODO @TOM: still senseful?
+  
   # TODO dry with MediaSet#used_meta_term_ids  
   def used_meta_term_ids(current_user = nil)
     meta_key_ids = meta_keys.for_meta_terms.pluck("meta_keys.id")

@@ -79,18 +79,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/controllers/media_sets_controller_api_spec.rb"
-- name: controllers media_sets_controller
-  scripts:
-    rspec:
-      body: bundle exec rspec "spec/controllers/media_sets_controller_spec.rb"
 - name: controllers meta_context_groups_controller
   scripts:
     rspec:
       body: bundle exec rspec "spec/controllers/meta_context_groups_controller_spec.rb"
-- name: controllers meta_contexts_controller
-  scripts:
-    rspec:
-      body: bundle exec rspec "spec/controllers/meta_contexts_controller_spec.rb"
 - name: controllers meta_data update
   scripts:
     rspec:

@@ -7,7 +7,7 @@ end
 Then /^I edit the contexts of a set that has contexts$/ do
   @media_set = @current_user.media_sets.detect{|ms| ms.individual_contexts.count > 0}
   @individual_contexts = @media_set.individual_contexts
-  visit inheritable_contexts_media_set_path @media_set
+  visit context_media_set_path(@media_set, @media_set.individual_and_inheritable_contexts.first)
 end
 
 Then /^I edit the filter set settings$/ do

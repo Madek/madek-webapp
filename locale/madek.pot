@@ -60,12 +60,6 @@ msgstr ""
 msgid "4. Organize media entries"
 msgstr ""
 
-msgid "A specific vocabulary was created for this context"
-msgstr ""
-
-msgid "A specific vocabulary was created for this set"
-msgstr ""
-
 msgid "Accept"
 msgstr ""
 
@@ -823,6 +817,9 @@ msgstr ""
 
 msgid "Vocabulary"
 msgstr ""
+
+msgid "Vocabularies"
+msgstr "Vokabulare"
 
 msgid "Welcome"
 msgstr ""

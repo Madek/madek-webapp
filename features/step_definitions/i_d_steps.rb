@@ -35,9 +35,8 @@ end
 
 Then /^I disconnect any contexts from that set$/ do
   @individual_contexts.each do |context|
-    find("input[value='#{context.id}']").click
+    find("a, button", text: "Entfernen\!").click
   end
-  step 'I submit'
 end
 
 Then /^I don't provide a name$/ do

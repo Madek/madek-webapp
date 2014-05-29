@@ -8,7 +8,8 @@ Feature: Inheritance of contexts
   Scenario: Inherit contexts from another set
     Given I am signed-in as "Adam"
     When I put a set A that has media entries in set B that has any context
-    Then Set A inherits all the contexts of the set B
+    And I click on "Vokabular"
+    Then all the contexts of the set B are listed for set A
     And Set A bequests all contexts to every media entry of its children
 
   @firefox
@@ -18,7 +19,7 @@ Feature: Inheritance of contexts
     Then this context is removed from set A
     And all media entries contained in set A doesnt have that context anymore
 
-  @jsbrowser
+  @firefox
   Scenario: Disconnect contexts from a set
     Given I am signed-in as "Adam"
     When I edit the contexts of a set that has contexts

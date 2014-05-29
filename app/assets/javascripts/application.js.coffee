@@ -36,6 +36,8 @@
 #= require_tree ./controllers
 #= require_tree ./views
 
+#= require vocabulary
+
 window.App = {}
 App.default_render_path = "views/"
 window.Underscore = _ # make underscore available in jQuery Templates
