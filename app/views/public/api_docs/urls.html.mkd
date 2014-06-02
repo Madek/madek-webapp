@@ -1,0 +1,49 @@
+
+Redirects
+=========
+
+The API uses [HTTP redirection][] in various places. Client libraries
+should be able to handle redirects and follow the returned links.
+
+  [HTTP redirection]: http://tools.ietf.org/html/rfc2616#section-10.3
+
+
+Madek URLs - API vs Browser
+===========================
+
+The main URLs in the API are closely related to how entities are named in the
+database and the application. This is no anymore true for Madek (in the
+browser) which changed urls in version `2.0.4`.
+
+The following table highlights the differences. 
+
+{:.table}
+|---
+|  Madek (Browser)| Madek API
+|-
+|  /media_resources/:id | /api/media_resources/:id 
+|-
+|  /entries/:id | /api/media_entries/:id 
+|-
+|  /sets/:id | /api/media_sets/:id  
+|---
+
+
+Redirect convenience
+--------------------
+
+It is possible to copy an URL from the main browser interface, like
+`/entry/:id`, and use the corresponding URL in API like `/api/entry/:id`. The
+API will then issue a redirect to the proper URL.
+
+
+Custom URLs
+===========
+
+Madek supports custom URLs since version `2.0.3`. The madek API itself doesn't
+use custom URLs. However, it supports them as follows:
+
+A custom URL in the browser might look like `/entries/madek-entities`. IT is
+possible to enter a corresponding URL like `/api/entries/madek-entities` in the
+API. The API will then issue a redirect to the proper URL.
+

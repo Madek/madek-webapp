@@ -263,6 +263,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/requests/api/authentication_spec.rb"
+- name: requests api media_resources new_urls_reverse_redirects
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/requests/api/media_resources/new_urls_reverse_redirects_spec.rb"
 - name: requests api media_resources redirects_and_custom_urls
   scripts:
     rspec:

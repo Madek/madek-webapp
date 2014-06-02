@@ -1,0 +1,21 @@
+
+Madek URLs: API vs Browser
+==========================
+
+The URLs in the API are closely related to how entities are named in the
+database and the application.
+
+
+{:.table}
+|---
+|  Madek Browser | API
+|-
+|  /media_resources/:id | /api/media_resources/:id                            
+|-
+|  /entries/:id | /api/media_entries/:id                            
+|-
+|  /sets/:id | /api/media_sets/:id                            
+|---
+
+
+Madek as seen in the browser uses 

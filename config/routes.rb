@@ -16,6 +16,12 @@ MAdeK::Application.routes.draw do
     resources :previews, only: [:show] do
       get 'content_stream', to: "previews#content_stream"
     end
+
+    # reverse redirects from the "new" entries and sets urls 
+    get '/entries/:id' => redirect("/api/media_resources/%{id}", status: 301)
+    get '/sets/:id' => redirect("/api/media_resources/%{id}", status: 301)
+
+
   end
 
   get 'public', controller: "public", action: "index"
@@ -25,6 +31,7 @@ MAdeK::Application.routes.draw do
         get 'authentication'
         get 'authorization'
         get 'resources'
+        get 'urls'
         get 'media_resources'
         get 'query_parameters'
         get 'forwarding_auth'
