@@ -5,8 +5,9 @@
 
 -if @media_file.media_entry
   %p
-    = link_to media_entry_path(@media_file.media_entry) do
-      = media_entry_path(@media_file.media_entry)
+    = link_to media_entry_path(@media_file.media_entry), target: "_blank"  do
+      %i.icon-vis-graph
+      Show media file
 -else 
   %p.text-danger
     This MediaFile is not related to a MediaEntry. 

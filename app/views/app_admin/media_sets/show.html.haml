@@ -15,8 +15,9 @@
       Edit
 
 %p
-  =link_to media_set do 
-    Visit "#{media_set}" in the archive.
+  =link_to media_set, target: "_blank" do 
+    %i.icon-vis-graph
+    Show #{media_set}
 
 %table.table.table-striped
   %thead

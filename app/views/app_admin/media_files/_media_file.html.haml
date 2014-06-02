@@ -3,8 +3,9 @@
   %td= media_file.content_type
   %td
     - if media_file.media_entry
-      = link_to media_entry_path(media_file.media_entry) do
-        = media_entry_path(media_file.media_entry)
+      = link_to media_entry_path(media_file.media_entry), target: "_blank" do
+        %i.icon-vis-graph
+        Show media file
     - else
       .text-danger
         no media entry exists
