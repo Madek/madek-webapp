@@ -19,7 +19,11 @@ class MetaContextsController < ApplicationController
   def show
     initialize_for_view
     @vocabulary = @context.build_vocabulary @current_user
-    @max_usage_count = @vocabulary.map{|key|key[:meta_terms].map{|term|term[:usage_count]}.max}.max
+    # binding.pry
+    @max_usage_count = @vocabulary.map{|key|
+      # guard against empty keys
+      key[:meta_terms].empty? ? 0 : key[:meta_terms].map{|term|term[:usage_count]}.max
+    }.max
   end
 
   def entries

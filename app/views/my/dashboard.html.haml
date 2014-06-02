@@ -76,16 +76,7 @@
                                  :link => my_groups_path,
                                  :id => "my_groups_block"}
 
-            %hr.separator
-
-          - unless @user_contexts_count.zero?
-            = render :partial => "meta_contexts/wrapper",
-                     :locals => {:meta_contexts => @user_contexts,
-                                 :title => _("Vocabularies"),
-                                 :link => my_contexts_path,
-                                 :id => "my_contexts_block"}
-
-          - if @user_groups.blank? and @user_entrusted_resources.blank? and @user_keywords.blank? and @user_favorite_resources.blank? and @latest_user_imports.blank? and @latest_user_resources.blank?
+          - if @user_groups.blank? and @user_entrusted_resources.blank? and @user_keywords.blank? and @user_favorite_resources.blank? and @latest_user_imports.blank? and @latest_user_resources.blank? #TODO: and @user_contexts.blank?
             .row.mts
               .pvh.mth.mbl
                 .title-l.by-center
@@ -99,6 +90,15 @@
                       %a.primary-button{:href => import_path}
                         %i.icon-upload.bright
                         = _("Import media")
+
+            %hr.separator
+
+          - unless @user_contexts_count.zero?
+            = render :partial => "meta_contexts/wrapper",
+                     :locals => {:meta_contexts => @user_contexts,
+                                 :title => _("Vocabularies"),
+                                 :link => my_contexts_path,
+                                 :id => "my_contexts_block"}
 
   .app-footer-push
 = render :partial => "application/footer"

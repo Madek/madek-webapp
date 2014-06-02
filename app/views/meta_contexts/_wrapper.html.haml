@@ -1,3 +1,9 @@
+:ruby
+  # filter contexts that the current user has any resources for
+  user_contexts= meta_contexts.map { |context|
+    context unless MediaResource.filter(current_user, {:meta_context_names => [context.name]}).empty?
+  }.reject(&:nil?)
+
 .ui-resources-holder.pal
   - if defined? title
     .ui-resources-header
@@ -6,16 +12,14 @@
         - if defined? link
           %a.strong{:href => link} 
             = _("Show all")
+
   .ui-contexts
-    .row
-      - meta_contexts.each do |context|
-        - media_resource = MediaResource.filter(current_user, {:meta_context_names => [context.name]}).ordered_by(:updated_at).first
-        - if media_resource
+    - user_contexts.in_groups_of(3, false).each_with_index do |contextrow, index|
+      .row
+        - contextrow.each do |context|
           .col1of3
-            .prs
+            .prs.pbm
               .ui-context{:"data-name" => context.name}
                 %h3.title-m
                   %a{:href => context_path(context)}= context
                 %p.ui-thumbnail-meta-subtitle= context.description
-              - unless meta_contexts.last == context
-                / .separator.mbm

@@ -1,8 +1,8 @@
 .ui-resources-holder.pam{"data-filter-container" => "terms", "data-max-usage-count" => @max_usage_count}
 
 
-  -# split into 4 colums, for each colum. TODO: rotate 90° o_O
-  - @vocabulary.in_groups_of(4, false) do |meta_keys|
+  -# split into 4 colums, for each colum.
+  - @vocabulary.in_groups(4, false) do |meta_keys|
     .col1of4
 
       -# for each key (group of terms)…
