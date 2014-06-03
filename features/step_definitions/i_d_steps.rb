@@ -35,7 +35,7 @@ end
 
 Then /^I disconnect any contexts from that set$/ do
   @individual_contexts.each do |context|
-    find("a, button", text: "Entfernen\!").click
+    find("a, button", text: "Entfernen").click
   end
 end
 

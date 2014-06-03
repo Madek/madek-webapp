@@ -31,13 +31,14 @@
         .col1of3.by-right
           - if @can_edit
             - if @context['enabled']
-              =link_to disable_context_media_set_path(@media_set, @context), method: :put, class: 'button' do
-                - if @context['inherited']
+              - if @context['inherited']
+                =link_to disable_context_media_set_path(@media_set, @context), method: :put, class: 'button' do
                   %i.icon-close
                   =_('Deaktivieren')
-                - else
+              - else
+                =link_to disable_context_media_set_path(@media_set, @context), method: :put, class: 'button', data: {confirm: "Soll die Zuweisung des Vokabulars \"#{@context.name}\" wirklich vom aktuellen Set entfernt werden?"} do
                   %i.icon-trash
-                  =_('Entfernen!')
+                  =_('Entfernen')
             - else
               =link_to enable_context_media_set_path(@media_set, @context), method: :put, class: 'button' do
                 %i.icon-checkmark
@@ -45,7 +46,7 @@
         
           %a.button.mls{href: context_path(@context.id)}
             %i.icon-eye
-            View
+            Anzeigen
     
     .ui-container.midtone.bordered.rounded-bottom
       = render :partial => "vocabulary/vocabulary"

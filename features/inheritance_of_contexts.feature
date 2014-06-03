@@ -24,5 +24,7 @@ Feature: Inheritance of contexts
     Given I am signed-in as "Adam"
     When I edit the contexts of a set that has contexts
     And I disconnect any contexts from that set
+    And I confirm the browser dialog
+    And I wait until there are no more ajax requests running
     Then those contexts are no longer connected to that set
     And all media entries contained in that set do not have the disconnected contexts any more

@@ -88,7 +88,11 @@ class MediaSetsController < ApplicationController
       # get desired context and it's vocabulary - we fetch it from our list because it already contains usefull info (from above)
       @context = @individual_contexts[@individual_contexts.index{|c|c[:id]===params[:context_id]}]
       @vocabulary = @context.build_vocabulary @current_user
-      @max_usage_count = @vocabulary.map{|key|key[:meta_terms].map{|term|term[:usage_count]}.max}.max
+      @max_usage_count = @vocabulary.map{|key|
+        # guard against empty keys
+        key[:meta_terms].empty? ? 0 : key[:meta_terms].map{|term|term[:usage_count]}.max
+      }.max
+
     end
   end
   

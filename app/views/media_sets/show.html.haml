@@ -18,8 +18,9 @@
     = render :partial => "media_sets/highlights" unless @highlights.blank?
 
     #ui-resources-list-container.ui-container.midtone.bordered.rounded-bottom
-
-      - subtitle = @entries_count == @entries_total_count ? n_("%d item", "%d items", @entries_count) % @entries_count : _("%d of %d items visible to you") % [@entries_count, @entries_total_count]
+      - subtitle = n_("%d item", "%d items", @entries_count) % @entries_count
+      -# TODO:
+      -# - subtitle = @entries_count == @entries_total_count ? n_("%d item", "%d items", @entries_count) % @entries_count : _("%d of %d items visible to you") % [@entries_count, @entries_total_count]
       = render :partial => "media_resources/list/toolbar", 
                  :locals => {:title => _("Set contains"),
                              :subtitle => subtitle,
