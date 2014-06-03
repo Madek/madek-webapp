@@ -1,4 +1,4 @@
-Feature: Admin Meta Keys
+Feature: Admin Meta Contexts
 
   As a MAdeK admin
 
@@ -24,8 +24,8 @@ Feature: Admin Meta Keys
     And I click on "Delete"
     Then I can see a success message
 
-  Scenario: Deleting a meta key from a context
+  Scenario: Removing a meta key from a context
     When I visit "/app_admin/meta_contexts"
     And I click on "Edit"
-    And I click on "Delete"
+    And I click on "Remove"
     Then I can see a success message

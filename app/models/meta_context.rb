@@ -19,6 +19,16 @@ class MetaContext < ActiveRecord::Base
   has_and_belongs_to_many :media_sets, join_table: 'media_sets_meta_contexts', foreign_key: :meta_context_name
 
   accepts_nested_attributes_for :meta_key_definitions
+
+  before_save do |meta_context|
+    meta_context.meta_context_group_id = nil if meta_context.meta_context_group_id.blank?
+  end
+
+  before_destroy do |meta_context|
+    meta_context.media_sets.each do |media_set|
+      media_set.individual_contexts.delete(meta_context)
+    end
+  end
   
 ##################################################################
 

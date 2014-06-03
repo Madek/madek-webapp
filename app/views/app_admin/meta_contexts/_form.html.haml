@@ -9,7 +9,7 @@
     .form-group
       %label.control-label.col-sm-2 Meta context group
       .col-sm-4
-        = f.select :meta_context_group_id, MetaContextGroup.all.collect { |mcg| [ mcg.name, mcg.id ] }, {}, { class: "form-control" }
+        = f.select :meta_context_group_id, MetaContextGroup.all.collect { |mcg| [ mcg.name, mcg.id ] }, {include_blank: true}, { class: "form-control" }
 
     - if f.object.persisted?
       %h3 Meta Key Definitions
@@ -44,9 +44,9 @@
                 = link_to edit_app_admin_meta_context_meta_key_definition_path(f.object, ff.object), class: "btn btn-warning btn-xs" do
                   %i.icon-pen
                   Edit
-                = link_to app_admin_meta_context_meta_key_definition_path(f.object, ff.object), method: :delete, data: {confirm: "Are you sure you want to delete this meta key definition?"}, class: "btn btn-danger btn-xs" do
+                = link_to app_admin_meta_context_meta_key_definition_path(f.object, ff.object), method: :delete, data: {confirm: "Are you sure you want to remove this meta key definition?"}, class: "btn btn-danger btn-xs" do
                   %i.icon-trash
-                  Delete
+                  Remove
 
     .form-group              
       = f.submit "Save", class: "btn btn-success"

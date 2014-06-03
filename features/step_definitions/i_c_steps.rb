@@ -104,6 +104,10 @@ Then /^I can see "(.*?)"$/ do |text|
   expect(page).to have_content text
 end
 
+Then /^I can see a list of "(.*?)" meta contexts$/ do |count|
+  expect(all("#sortable li").size).to be== count.to_i
+end
+
 Then /^I can see edit links in a table$/ do
   expect(all('table tr a', text: "Edit").size).to be > 0
 end
@@ -361,6 +365,10 @@ end
 
 Then /^I cannot see "(.*?)"$/ do |text|
   expect(page).not_to have_content text
+end
+
+When /^I check the first remove checkbox$/ do
+  find("#sortable input[type='checkbox']").set(true)
 end
 
 ### I change 
