@@ -8,7 +8,7 @@ feature "Transfering PersonMetaData and search"  do
           Transfering all PersonMetaData from person X to person Y.
           Searching for Person X doesn't show the media entries as before.
           Searching for Person Y does show the media entries as before.",
-          browser: :chrome do
+          browser: :headless do
 
     @current_user= sign_in_as 'adam'
 

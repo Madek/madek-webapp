@@ -90,13 +90,31 @@ class AppAdmin::PeopleController < AppAdmin::BaseController
       ActiveRecord::Base.transaction do
 
         meta_data_ids= person_receiver.meta_data.select('"meta_data"."id"')
+
         to_be_added= person_originator.meta_data.where(
           "id NOT IN (#{meta_data_ids.to_sql})")
+
+        # the ones we of the meta_data we add 
+        to_be_reindexed_mr_ids= Set.new(
+          MediaResource.joins(:meta_data) \
+          .where("meta_data.id IN (?)",to_be_added.pluck(:id)).pluck(:id))
+
         person_receiver.meta_data <<  to_be_added
+
+        # and also the ones we of the meta_data we remove
+        to_be_reindexed_mr_ids= to_be_reindexed_mr_ids.merge(
+          MediaResource.joins(:meta_data) \
+          .where("meta_data.id IN (?)",person_originator.meta_data.pluck(:id)).pluck(:id))
 
         # TODO had to change this from person_originator.meta_data.clear to make the test pass in rails 4.0.1
         # as fare as I can see it still should have worked and would be preferable
         person_originator.meta_data.each {|md| person_originator.meta_data.delete md}
+
+        MediaResource.where("id IN (?)",to_be_reindexed_mr_ids).each do |mr|
+          mr.reindex
+        end
+
+        
       end
       redirect_to app_admin_people_path, flash: {success: "The meta data has been transferred"}
     rescue => e
