@@ -9,6 +9,8 @@ class MetaContext < ActiveRecord::Base
 
   include Concerns::MetaContext::Vocabulary
 
+  attr_accessor :inherited, :enabled
+
   self.primary_key = :name
   
   belongs_to :meta_context_group

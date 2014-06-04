@@ -74,9 +74,9 @@ class MediaSetsController < ApplicationController
       # find out if each context is inherited and/or enabled
       @count_enabled_contexts = 0
       @individual_contexts.each do |context|
-        context[:inherited] = @media_set.inheritable_contexts.include?(context)
+        context.inherited = @media_set.inheritable_contexts.include?(context)
         if @media_set.individual_contexts.include?(context)
-          context[:enabled] = true
+          context.enabled = true
           @count_enabled_contexts += 1
         end
       end
