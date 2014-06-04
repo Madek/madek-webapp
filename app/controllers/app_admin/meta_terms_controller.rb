@@ -92,7 +92,7 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
         transfer_keywords
         transfer_meta_data
       end
-      redirect_to app_admin_meta_terms_path, flash: {success: "The meta term's resources have been transfered"}
+      redirect_to app_admin_meta_terms_path, flash: {success: "The meta term's resources have been transferred"}
     rescue => e
       redirect_to app_admin_meta_terms_path, flash: {error: e.to_s}
     end

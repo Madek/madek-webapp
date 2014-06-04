@@ -16,6 +16,10 @@ def click_on_text text
   find("a, button",text: text).click
 end
 
+def find_input_with_name name
+  find("textarea,input[name='#{name}']")
+end
+
 def sign_in_as login, password= 'password'
   visit "/"
   find("a#database-user-login-tab").click

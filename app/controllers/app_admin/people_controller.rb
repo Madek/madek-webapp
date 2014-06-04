@@ -98,7 +98,7 @@ class AppAdmin::PeopleController < AppAdmin::BaseController
         # as fare as I can see it still should have worked and would be preferable
         person_originator.meta_data.each {|md| person_originator.meta_data.delete md}
       end
-      redirect_to app_admin_people_path, flash: {success: "The meta data has been transfered"}
+      redirect_to app_admin_people_path, flash: {success: "The meta data has been transferred"}
     rescue => e
       redirect_to app_admin_people_path, flash: {error: e.to_s}
     end

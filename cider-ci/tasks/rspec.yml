@@ -123,6 +123,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/features/batch/update_metadata_spec.rb"
+- name: features search transfer_meta_datum_people
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/features/search/transfer_meta_datum_people_spec.rb"
 - name: features search updated_meta_datum
   scripts:
     rspec:
