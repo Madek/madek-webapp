@@ -12,6 +12,14 @@ Feature: Admin Meta Terms
     Then I am on the "/app_admin/meta_terms" page
     And I can see the text "MetaTerms"
 
+  Scenario: Transferring resources to another meta term
+    When I visit "/app_admin/meta_terms?utf8=%E2%9C%93&filter_by=used"
+    And I see the count of resources associated to each meta term
+    When a meta term has some resources associated to it
+    And I move all resources from that meta term to another meta term
+    Then I am redirected to the admin meta term list
+    Then the origin meta term has no resources to transfer
+
   Scenario: Editing term value
     When I visit "/app_admin/meta_terms"
     Then I can see edit links in a table

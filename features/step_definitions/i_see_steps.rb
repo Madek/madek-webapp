@@ -210,6 +210,11 @@ Then /^I see the count of MetaData associated to each person$/ do
   expect( all(".meta_data_count").size).to be  > 0
 end
 
+Then /^I see the count of resources associated to each meta term$/ do
+  wait_until{ all(".resource-count").size > 0 }
+  expect( all(".resource-count").size).to be  > 0
+end
+
 Then /^I see the description of the context$/ do
   page.should have_content @context.description.to_s
 end

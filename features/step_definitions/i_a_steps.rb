@@ -193,6 +193,10 @@ Then /^I am redirected to the admin people list$/ do
   expect(current_path).to eq "/app_admin/people"
 end
 
+Then /^I am redirected to the admin meta term list$/ do
+  expect(current_path).to eq "/app_admin/meta_terms"
+end
+
 Then /^I am redirected to the home page$/ do
   expect(current_path).to eq "/"
 end

@@ -1,4 +1,4 @@
-%tr
+%tr{id: "meta_term_#{meta_term.id}"}
   %td= meta_term.id
   %td.limit250= meta_term.term
   %td= meta_term.is_used? ? "Yes" : "No"
@@ -14,10 +14,10 @@
         %i.icon-trash
         Delete
     %br
-    = link_to form_transfer_resources_app_admin_meta_term_path(meta_term, sort_by: @sort_by) do
+    = link_to form_transfer_resources_app_admin_meta_term_path(meta_term, sort_by: @sort_by), class: "transfer-resources-link" do
       %i.fa.fa-random
       Transfer
-      %span= meta_term.used_times
+      %span.resource-count= meta_term.used_times
       to...
     - if meta_term.is_used?
       %br

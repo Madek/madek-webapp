@@ -112,7 +112,7 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
   end
 
   def transfer_keywords
-    @meta_term_originator.keywords.each do |keyword|
+    @meta_term_originator.meta_key_meta_terms.each do |keyword|
       keyword.update_attribute :meta_term, @meta_term_receiver
     end
   end

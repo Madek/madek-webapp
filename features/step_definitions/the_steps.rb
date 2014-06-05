@@ -213,6 +213,10 @@ end
 Then /^the origin person has not meta_data to transfer$/ do
   expect{find("tr#person_#{@person_with_meta_data.id} .meta_data_count")}.to raise_error
 end
+ 
+Then /^the origin meta term has no resources to transfer$/ do
+  expect{find("tr#meta_term_#{@meta_term_with_resources.id} .meta_data_count")}.to raise_error
+end
 
 Then /^the person is deleted$/ do
   expect{find "tr#person_7"}.to raise_error
