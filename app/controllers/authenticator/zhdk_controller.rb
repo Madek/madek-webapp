@@ -50,7 +50,7 @@ class Authenticator::ZhdkController < ApplicationController
   def create_or_update_user(xml)
     user = User.find_by_zhdkid(xml["id"]) # TODO use xml["uniqueid"] ??
     if user.nil?
-      person = Person.find_or_create_by_first_name_and_last_name(:first_name => xml["firstname"],
+      person = Person.find_or_create_by(:first_name => xml["firstname"],
                                                                :last_name => xml["lastname"])
       user = person.create_user login: xml["local_username"], email: xml["email"], zhdkid: xml["id"], password: SecureRandom.base64
     end
@@ -63,7 +63,7 @@ class Authenticator::ZhdkController < ApplicationController
       user.groups << to_add
       user.groups.delete(to_remove)
       
-      zhdk_group = Group.find_or_create_by_name(:name => "ZHdK (Zürcher Hochschule der Künste)")
+      zhdk_group = Group.find_or_create_by(:name => "ZHdK (Zürcher Hochschule der Künste)")
       user.groups << zhdk_group unless user.groups.include?(zhdk_group) 
       
       user.id
