@@ -87,10 +87,9 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
     begin
       @meta_term_originator = MetaTerm.find params[:id]
       @meta_term_receiver   = MetaTerm.find params[:id_receiver]
-
       ActiveRecord::Base.transaction do
-        transfer_keywords
-        transfer_meta_data
+        transfer_meta_terms_of_meta_key  @meta_term_originator, @meta_term_receiver
+        transfer_meta_terms_of_meta_data @meta_term_originator, @meta_term_receiver
       end
       redirect_to app_admin_meta_terms_path, flash: {success: "The meta term's resources have been transferred"}
     rescue => e
@@ -111,17 +110,17 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
     params.require(:meta_term).permit(:term)
   end
 
-  def transfer_keywords
-    @meta_term_originator.meta_key_meta_terms.each do |keyword|
-      keyword.update_attribute :meta_term, @meta_term_receiver
+  def transfer_meta_terms_of_meta_key meta_term_originator, meta_term_receiver
+    meta_term_originator.meta_key_meta_terms.each do |mkmt|
+      mkmt.update_attribute :meta_term, meta_term_receiver
     end
   end
 
-  def transfer_meta_data
-    @meta_term_receiver.meta_data << \
-      @meta_term_originator.meta_data \
-      .where("id not in (#{@meta_term_receiver.meta_data.select('"meta_data"."id"').to_sql})")
-    @meta_term_originator.meta_data.destroy_all
+  def transfer_meta_terms_of_meta_data meta_term_originator, meta_term_receiver
+    meta_term_receiver.meta_data << \
+      meta_term_originator.meta_data \
+      .where(%<id not in (#{meta_term_receiver.meta_data.select('"meta_data"."id"').to_sql})>)
+    meta_term_originator.meta_data.destroy_all
   end
 
   def reset_params?
