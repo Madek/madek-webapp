@@ -50,7 +50,6 @@ feature "Transfering PersonMetaData and search"  do
     submit_form
     expect(page).to have_content "Schnarchnase"
 
-
   end
 
 

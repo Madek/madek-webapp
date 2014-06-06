@@ -127,6 +127,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/features/search/transfer_meta_datum_people_spec.rb"
+- name: features search transfer_meta_term
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/features/search/transfer_meta_term_spec.rb"
 - name: features search updated_meta_datum
   scripts:
     rspec:
