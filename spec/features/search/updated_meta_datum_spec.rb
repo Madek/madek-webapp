@@ -4,6 +4,7 @@ require 'spec_helper_feature_shared'
 
 feature "Searching for an updated meta datum" do
 
+
   scenario "setting the subtitle and searching for it 
     should yield the media resource", browser: :headless do
 
@@ -24,10 +25,8 @@ feature "Searching for an updated meta datum" do
   end
 
 
-  def create_a_media_entry
-    FactoryGirl.create :media_entry_with_image_media_file, 
-      user: @current_user
-  end
+  require Rails.root.join "spec","features","search","shared.rb"
+  include Features::Search::Shared
 
   def find_input_with_name name
     find("textarea,input[name='#{name}']")
@@ -35,11 +34,6 @@ feature "Searching for an updated meta datum" do
 
   def find_input_for_meta_key name
     find("fieldset[data-meta-key='#{name}']").find("textarea,input")
-  end
-
-  def set_media_resource_title media_resource , title
-    media_resource.meta_data \
-      .create meta_key: MetaKey.find_by_id(:title), value: title
   end
 
 end

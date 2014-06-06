@@ -4,6 +4,7 @@ require 'spec_helper_feature_shared'
 
 feature "Transfering PersonMetaData and search"  do
 
+
   scenario "Searching for a Person X name shows related media entries. 
           Transfering all PersonMetaData from person X to person Y.
           Searching for Person X doesn't show the media entries as before.
@@ -52,16 +53,9 @@ feature "Transfering PersonMetaData and search"  do
 
   end
 
-  def create_a_media_entry
-    FactoryGirl.create :media_entry_with_image_media_file, 
-      user: @current_user
-  end
 
-
-  def set_media_resource_title media_resource , title
-    media_resource.meta_data \
-      .create meta_key: MetaKey.find_by_id(:title), value: title
-  end
+  require Rails.root.join "spec","features","search","shared.rb"
+  include Features::Search::Shared
 
   def set_media_resource_authors media_resource, authors
     media_resource.meta_data \
