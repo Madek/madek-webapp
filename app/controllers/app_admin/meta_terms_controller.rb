@@ -90,6 +90,7 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
       ActiveRecord::Base.transaction do
         transfer_meta_terms_of_meta_key  @meta_term_originator, @meta_term_receiver
         transfer_meta_terms_of_meta_data @meta_term_originator, @meta_term_receiver
+        @meta_term_receiver.reload.meta_data.reload.map(&:media_resource).each(&:reindex)
       end
       redirect_to app_admin_meta_terms_path, flash: {success: "The meta term's resources have been transferred"}
     rescue => e
