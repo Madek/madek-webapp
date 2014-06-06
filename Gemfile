@@ -63,7 +63,7 @@ gem 'quiet_assets', group: [:development]
 gem 'rails_autolink', '~> 1.0'
 gem 'rest-client', group: [:test, :development, :personas]
 gem 'rspec-rails', group: [:test, :development, :personas]
-gem 'rspec', '~> 2.99.0'
+gem 'rspec', '= 2.14.1'
 gem 'rubyzip'
 gem 'rvm-capistrano', group: [:development, :personas]
 gem 'sass-rails'
