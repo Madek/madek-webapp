@@ -18,6 +18,9 @@
 
       = button_tag type: 'submit', class: 'btn btn-sm' do
         Filter
+    .row
+      = "Number of zencoder jobs found:"
+      %span#counter #{@zencoder_jobs.total_count}
 
   .col-md-9
 

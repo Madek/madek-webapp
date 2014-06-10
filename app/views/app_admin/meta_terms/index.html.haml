@@ -34,6 +34,10 @@
       = link_to "Reset", app_admin_meta_terms_path(reset: true)
 
 .row
+  = "Number of meta terms found:"
+  %span#counter #{@meta_terms.total_count}
+
+.row
   .col-md-12
     %table.table.table-striped
       %thead

@@ -33,6 +33,9 @@
     = link_to new_app_admin_meta_key_path, class: 'btn btn-success' do
       %i.fa.fa-plus
       New Meta Key
+.row.pull-left
+  = "Number of meta keys found:"
+  %span#counter #{@meta_keys.total_count}
 
 %table.table.table-striped
   %thead

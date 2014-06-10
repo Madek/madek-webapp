@@ -2,6 +2,10 @@
   %i.icon-media-entry
   Media Entries
 
+.row
+  = "Number of media entries:"
+  %span#counter #{@media_entries.total_count}
+
 %table.table.table-striped
   %thead
     %tr

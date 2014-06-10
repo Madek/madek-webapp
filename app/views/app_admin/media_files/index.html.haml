@@ -27,6 +27,9 @@
 
       = button_tag type: 'submit', class: 'btn btn-sm' do
         Filter
+    .row
+      = "Number of media files found:"
+      %span#counter #{@media_files.total_count}
      
 
 
