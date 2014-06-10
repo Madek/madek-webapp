@@ -32,6 +32,10 @@
           %i.icon-pen
           Edit
       %li
+        = link_to result_search_path(terms: person.fullname), target: "_blank", class: "btn btn-warning btn-xs" do
+          %i.icon-vis-graph
+          Resources
+      %li
         - if !person.user  and (person.meta_data.count == 0)
           = link_to app_admin_person_path(person), method: 'DELETE', class: "btn btn-danger btn-xs" do
             %i.icon-trash
