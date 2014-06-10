@@ -1,0 +1,24 @@
+%h1
+  %i.icon-cog
+  #{@usage_term}
+
+%ul.list-inline
+  %li
+    =link_to edit_app_admin_usage_term_path(@usage_term), class: "btn btn-warning" do
+      %i.icon-pen
+      Edit
+  %li
+    =link_to app_admin_usage_term_path(@usage_term), method: :delete, class: "btn btn-danger", data: {confirm: "Are you really want to delete this usage term?"} do
+      %i.icon-trash-o
+      Delete
+
+%table.table.table-striped
+  %thead
+  %tbody
+  - @usage_term.attributes.each do |name,value|
+    %tr
+      %td= name.capitalize.split("_").join(" ")
+      - case name
+      - when nil
+      - else
+        %td= value

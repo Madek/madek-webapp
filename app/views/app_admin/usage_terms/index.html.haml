@@ -1,0 +1,26 @@
+%h1.text-center 
+  %i.icon-cog
+  Usage terms
+
+%ul.list-inline
+  %li
+    = link_to new_app_admin_usage_term_path, class: 'btn btn-success' do
+      %i.fa.fa-plus
+      New usage term
+
+.row
+  .col-md-12
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Id
+          %th Title
+          %th Version
+          %th Intro
+          %th
+      %tbody
+        =render partial: 'usage_term', collection: @usage_terms
+
+
+= paginate @usage_terms, theme: 'app_admin'
+

@@ -143,6 +143,10 @@ class User < ActiveRecord::Base
     update_attributes(:usage_terms_accepted_at => Time.now)
   end
 
+  def reset_usage_terms
+    update_attributes(usage_terms_accepted_at: nil)
+  end
+
 
 
 end

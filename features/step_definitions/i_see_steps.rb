@@ -349,6 +349,10 @@ Then /^I see the submit button is enabled$/ do
   expect(find("button[type=submit]")["disabled"]).to eq nil
 end
 
+Then /^I see the Akzeptieren button$/ do
+  find_button("Akzeptieren").should_not be_nil
+end
+
 Then /^I see the "(.*?)" menu item$/ do |anchor_text|
   within ".navbar-nav" do
     links = all("li a")

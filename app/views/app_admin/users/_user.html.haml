@@ -19,3 +19,7 @@
         = link_to switch_to_app_admin_user_path(user), method: 'POST', class: "btn btn-xs btn-warning" do
           Switch to
 
+      %li
+        = link_to reset_usage_terms_app_admin_user_path(user), method: 'PUT', class: "btn btn-xs btn-warning" do
+          Reset usage terms
+

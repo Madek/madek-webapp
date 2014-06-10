@@ -1,0 +1,23 @@
+= form_for [:app_admin, @usage_term], html: {class: "form-horizontal", role: "form"} do |f|
+
+  .form-group
+    %label.control-label.col-sm-1 Title
+    .col-sm-4
+      = f.text_field :title, class: 'form-control'
+  .form-group
+    %label.control-label.col-sm-1 Version
+    .col-sm-4
+      = f.text_field :version, class: 'form-control'
+  .form-group
+    %label.control-label.col-sm-1 Intro
+    .col-sm-4
+      = f.text_area :intro, rows: 10, cols: 70
+  .form-group
+    %label.control-label.col-sm-1 Body
+    .col-sm-4
+      = f.text_area :body, rows: 25, cols: 70
+
+  .form-group
+    .col-sm-offset-1.col-sm-4
+      = button_tag button, type: 'submit', class: "btn btn-success"
+

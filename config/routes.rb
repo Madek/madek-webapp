@@ -326,6 +326,7 @@ MAdeK::Application.routes.draw do
     resources :settings, only: [:index,:edit] do
       put '', on: :collection, to: "settings#update", as: :update
     end
+    resources :usage_terms
 
     resources :zencoder_jobs, only: [:index, :show]
 
@@ -400,6 +401,7 @@ MAdeK::Application.routes.draw do
       end
       member do
         post :switch_to
+        put :reset_usage_terms
       end
     end
 

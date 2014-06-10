@@ -138,6 +138,12 @@ class AppAdmin::UsersController < AppAdmin::BaseController
     redirect_to root_path
   end
 
+  def reset_usage_terms
+    @user = User.find(params[:id])
+    @user.reset_usage_terms
+    redirect_to app_admin_users_path
+  end
+
   private
 
   def user_params
