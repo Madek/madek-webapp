@@ -25,6 +25,8 @@ class MetaKeyDefinition < ActiveRecord::Base
     self.position = meta_context.next_position  unless self.position
   end
 
+  enum input_type: [ :text_field, :text_area ]
+
 #########################
 
 end

@@ -26,6 +26,27 @@
       .col-sm-6
         = f.text_area :description, class: 'form-control', rows: 6
 
+    - if @meta_key_definition.new_record? || @meta_key_definition.meta_key.meta_datum_object_type == 'MetaDatumString'
+      .form-group
+        %label.control-label.col-sm-2 Length min
+        .col-sm-2
+          = f.text_field :length_min, class: "form-control"
+
+      .form-group
+        %label.control-label.col-sm-2 Length max
+        .col-sm-2
+          = f.text_field :length_max, class: "form-control"
+
+      .form-group
+        %label.control-label.col-sm-2 Input type
+        .col-sm-6
+          %label.radio-inline
+            = f.radio_button :input_type, :text_field
+            Text field
+          %label.radio-inline
+            = f.radio_button :input_type, :text_area
+            Textarea
+
     .form-group
       .col-sm-offset-2.col-sm-6
         .checkbox

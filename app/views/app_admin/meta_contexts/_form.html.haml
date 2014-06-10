@@ -26,6 +26,7 @@
             %th Label
             %th Hint
             %th Description
+            %th.no-wrap Input type
             %th.no-wrap Is required?
             %th
         %tbody#sortable
@@ -39,6 +40,7 @@
               %td= ff.object.label
               %td= ff.object.hint
               %td= ff.object.description
+              %td= ff.object.input_type.try(:humanize) || '-'
               %td= ff.object.is_required ? "Yes" : "No"
               %td.no-wrap
                 = link_to edit_app_admin_meta_context_meta_key_definition_path(f.object, ff.object), class: "btn btn-warning btn-xs" do

@@ -3,7 +3,6 @@
 --
 
 SET statement_timeout = 0;
-SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -408,7 +407,8 @@ CREATE TABLE meta_key_definitions (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     label text DEFAULT ''::text NOT NULL,
     hint text DEFAULT ''::text NOT NULL,
-    description text DEFAULT ''::text NOT NULL
+    description text DEFAULT ''::text NOT NULL,
+    input_type integer
 );
 
 
@@ -524,10 +524,7 @@ CREATE TABLE usage_terms (
 --
 
 CREATE VIEW user_resources_counts AS
- SELECT count(*) AS resouces_count,
-    media_resources.user_id
-   FROM media_resources
-  GROUP BY media_resources.user_id;
+    SELECT count(*) AS resouces_count, media_resources.user_id FROM media_resources GROUP BY media_resources.user_id;
 
 
 --
@@ -2059,6 +2056,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140519083555');
 INSERT INTO schema_migrations (version) VALUES ('20140521065627');
 
 INSERT INTO schema_migrations (version) VALUES ('20140606172708');
+
+INSERT INTO schema_migrations (version) VALUES ('20140609181841');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

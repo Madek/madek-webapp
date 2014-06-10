@@ -108,6 +108,10 @@ Then /^I can see a list of "(.*?)" meta contexts$/ do |count|
   expect(all("#sortable li").size).to be== count.to_i
 end
 
+Then /^I can see checked radio button with the name "(.*?)" with the value "(.*?)"$/ do |name, value|
+  expect(find("input[type='radio'][value='#{value}']")[:checked]).to be_true
+end
+
 Then /^I can see edit links in a table$/ do
   expect(all('table tr a', text: "Edit").size).to be > 0
 end
@@ -332,6 +336,14 @@ Then(/^I can see the resource(\d+) in the clipboard$/) do |d|
   find(".ui-clipboard .ui-resource[data-id='#{resource.id}']",visible: true)
 end
 
+Then /^I can see two unchecked radio buttons with the name "(.*?)"$/ do |name|
+  radio_buttons = all("input[type='radio'][name='#{name}']")
+  expect(radio_buttons.length).to be== 2
+  radio_buttons.each do |radio_button|
+    expect(radio_button[:checked]).to be_false
+  end
+end
+
 ###
 
 And /^I can watch the video$/ do
@@ -369,6 +381,10 @@ end
 
 When /^I check the first remove checkbox$/ do
   find("#sortable input[type='checkbox']").set(true)
+end
+
+When /^I check the radio button with the name "(.*?)" with the value "(.*?)"$/ do |name, value|
+  find("input[type='radio'][value='#{value}']").set(true)
 end
 
 ### I change 
