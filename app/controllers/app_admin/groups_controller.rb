@@ -51,8 +51,11 @@ class AppAdmin::GroupsController < AppAdmin::BaseController
 
   def update
     begin
+      if params.has_key?(:meta_department)
+        params[:group] = params.delete(:meta_department)
+      end
       @group = Group.find(params[:id])
-      @group.update_attributes! params[:group]
+      @group.update_attributes!(group_params)
       redirect_to app_admin_group_path(@group), flash: {success: "The group has been updated."}
     rescue => e
       redirect_to edit_app_admin_group_path(@group), flash: {error: e.to_s}
@@ -61,7 +64,7 @@ class AppAdmin::GroupsController < AppAdmin::BaseController
 
   def create
     begin
-      @group = Group.create! params[:group]
+      @group = Group.create!(group_params)
       redirect_to app_admin_group_path(@group), flash: {success: "A new group has been created."}
     rescue => e
       redirect_to new_app_admin_group_path(@group),flash: {error: e.to_s}
@@ -120,6 +123,10 @@ class AppAdmin::GroupsController < AppAdmin::BaseController
     else
       User.find(params[:user_id])
     end
+  end
+
+  def group_params
+    params.require(:group).permit(:name)
   end
 
 end

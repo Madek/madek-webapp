@@ -68,3 +68,31 @@ Feature: Managing Users and Logins
     Then I see groups with "MetaDepartment" type
     And I don't see groups with "Group" type
     And There is "meta_department" group type option selected
+
+  Scenario: Create a new group
+    When I visit "/app_admin/groups"
+    And I click on "New group"
+    And I set the input with the name "group[name]" to "AWESOME GROUP"
+    And I submit
+    Then I can see a success message
+    And I can see "AWESOME GROUP"
+
+  Scenario: Editing a group
+    When I visit "/app_admin/groups"
+    And I select "Group" from the select node with the name "type"
+    And I submit
+    And I click on the second Edit
+    And I set the input with the name "group[name]" to "AWESOME GROUP"
+    And I submit
+    Then I can see a success message
+    And I can see "AWESOME GROUP"
+
+  Scenario: Editing a meta department
+    When I visit "/app_admin/groups"
+    And I select "MetaDepartment" from the select node with the name "type"
+    And I submit
+    And I click on the second Edit
+    And I set the input with the name "meta_department[name]" to "AWESOME META DEPARTMENT"
+    And I submit
+    Then I can see a success message
+    And I can see "AWESOME META DEPARTMENT"

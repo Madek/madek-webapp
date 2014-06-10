@@ -523,6 +523,11 @@ Then /^I click on "([^\"]*?)"$/ do |text|
   find("a, button",text: text).click
 end
 
+Then /^I click on the second Edit$/ do
+  wait_until{ all("a, button", text: "Edit", visible: true).size > 0}
+  all("a, button", text: "Edit")[1].click
+end
+
 When /^I click on the first edit link$/ do
   link = find('a', text: "Edit")
   @edited_model_id = link[:href].gsub(/\/edit/, '').split('/').last.split('?').first
