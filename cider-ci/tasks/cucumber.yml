@@ -11,14 +11,14 @@
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/admin_media_sets.feature"
-- name: admin_meta_contexts
-  scripts:
-    cucumber:
-      body: bundle exec cucumber --strict "features/admin_meta_contexts.feature"
 - name: admin_meta_context_groups
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/admin_meta_context_groups.feature"
+- name: admin_meta_contexts
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/admin_meta_contexts.feature"
 - name: admin_meta_key_definitions
   scripts:
     cucumber:
@@ -47,6 +47,10 @@
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/admin_statistics.feature"
+- name: admin_usage_terms
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/admin_usage_terms.feature"
 - name: admin_users
   scripts:
     cucumber:
