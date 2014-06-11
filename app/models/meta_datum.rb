@@ -77,15 +77,11 @@ class MetaDatum < ActiveRecord::Base
     # if the value can NOT be iterated…
     else
       case value
-      # if it is a string, …
-      when String
-        # just compare the string!
+      when String, false, true
         value == other_value
       when Copyright
         value.id == other_value.id
-      # if it is nill, …
       when NilClass
-        # just compare if other is blank
         other_value.blank?
       else
         raise "Unknown Meta-Data Comparison!"
