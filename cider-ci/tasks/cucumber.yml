@@ -103,12 +103,6 @@
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/filter_panel_02.feature"
-- name: filter_set
-  eager_trials: 2
-  auto_trials: 6
-  scripts:
-    cucumber:
-      body: bundle exec cucumber --strict "features/filter_set.feature"
 - name: graph_visualization
   scripts:
     cucumber:
