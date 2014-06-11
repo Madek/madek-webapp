@@ -134,7 +134,7 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def error_user_forbidden # handles 'UserUnauthorizedError'
+  def error_user_unauthorized # handles 'UserUnauthorizedError'
     msg = "Bitte melden Sie sich an." 
     respond_to do |format|
       format.html { flash[:error] = msg ; redirect_back_or_root }
