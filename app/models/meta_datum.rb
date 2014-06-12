@@ -84,7 +84,8 @@ class MetaDatum < ActiveRecord::Base
       when NilClass
         other_value.blank?
       else
-        raise "Unknown Meta-Data Comparison!"
+        Rails.logger.warn "Unsafe meta-data comparison, add the following to the cases: #{value} #{value.class}"
+        value.id == other_value.id
       end
     end
 
