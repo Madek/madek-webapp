@@ -120,6 +120,16 @@ class AppAdmin::GroupsController < AppAdmin::BaseController
     end
   end
 
+  def show_media_sets
+    @group = Group.find(params[:id])
+    @permission_presets = PermissionPreset.where.not(name: "Gesperrt")
+  end
+
+  def show_media_entries
+    @group = Group.find(params[:id])
+    @permission_presets = PermissionPreset.where.not(name: "Gesperrt")
+  end
+
   private
 
   def type_parameter

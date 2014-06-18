@@ -28,6 +28,13 @@ module Concerns
           .where(action => true).where(group_id: group)
       end
 
+      def grouppermission_by_group_query_with_permissions(group, permissions)
+        Grouppermission \
+          .where("grouppermissions.media_resource_id = media_resources.id") \
+          .where(:view => permissions[0], :download => permissions[1], \
+                 :edit => permissions[2], :manage => permissions[3]) \
+          .where(group_id: group)
+      end
 
       def accessible_to_public(action)
           if action.to_sym == :manage
@@ -75,6 +82,10 @@ module Concerns
 
       def accessible_by_group(group, action)
         where(" EXISTS ( #{grouppermission_by_group_query(group,action).to_sql } ) ")
+      end
+
+      def accessible_by_group_with_permissions(group, permissions)
+        where(" EXISTS ( #{grouppermission_by_group_query_with_permissions(group, permissions).to_sql } ) ")
       end
 
       # not the owner but has userpermission or grouppermission

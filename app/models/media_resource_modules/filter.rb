@@ -6,7 +6,7 @@ module MediaResourceModules
     KEYS = [ :accessible_action, :collection_id, :favorites, :group_id, :ids,
              :media_file,:media_files, :media_set_id, :meta_data, :not_by_user_id,
              :permissions, :public, :search, :type, :user_id,
-             :query, :context_ids, :media_resources ] 
+             :query, :context_ids, :media_resources, :permission_presets ] 
 
     def self.included(base)
       base.class_eval do
@@ -92,6 +92,8 @@ module MediaResourceModules
 
         resources = resources.filter_public(filter_opts[:public]) if filter_opts[:public]
 
+        resources = resources.filter_permission_presets(resources, filter_opts[:permission_presets]) if filter_opts[:permission_presets]
+
         resources = resources.filter_permissions(resources,current_user, filter_opts[:permissions]) if current_user and filter_opts[:permissions]
 
         ############################################################
@@ -117,6 +119,16 @@ module MediaResourceModules
           when "false"
             where(:view => false)
         end
+      end
+
+      def filter_permission_presets(resources, filter)
+        id = filter[:ids]
+        filter[:category].each_pair do |k,v|
+          if v == "true"
+            resources = resources.accessible_by_group(id, k)
+          end
+        end
+        resources
       end
 
       def filter_permissions(resources, current_user, filter)

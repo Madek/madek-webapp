@@ -135,7 +135,7 @@ class FilterPanelController
 
   activateSelectedFilterElements: (selectedFilter)->
     for filterType, filter of selectedFilter
-      continue if typeof filter != "object"
+      continue if typeof filter != "object" || typeof filter.category == "object"
       for metaKey, values of filter
         for id in values.ids
           if id is "any"
