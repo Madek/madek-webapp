@@ -11,14 +11,14 @@
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/admin_media_sets.feature"
-- name: admin_meta_context_groups
+- name: admin_context_groups
   scripts:
     cucumber:
-      body: bundle exec cucumber --strict "features/admin_meta_context_groups.feature"
-- name: admin_meta_contexts
+      body: bundle exec cucumber --strict "features/admin_context_groups.feature"
+- name: admin_contexts
   scripts:
     cucumber:
-      body: bundle exec cucumber --strict "features/admin_meta_contexts.feature"
+      body: bundle exec cucumber --strict "features/admin_contexts.feature"
 - name: admin_meta_key_definitions
   scripts:
     cucumber:

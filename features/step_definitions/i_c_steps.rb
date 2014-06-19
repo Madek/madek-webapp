@@ -48,7 +48,7 @@ Then /^I can edit the permissions/ do
 end
 
 Then /^I can filter by the type of media resources$/ do
-  find("[data-context-name='media_resources']").click
+  find("[data-context-id='media_resources']").click
   find("[data-key-name='type']").click
 
   # MediaEntry
@@ -157,7 +157,7 @@ Then (/^I can see at least "(.*?)" included resources$/) do |snum|
 end
 
 Then /^I can see every meta\-data\-value somewhere on the page$/ do
-  @meta_data_by_context.each do |meta_context_name,meta_data|
+  @meta_data_by_context.each do |context_id,meta_data|
     meta_data.each do |md|
       value= md[:value]
       case md[:type]
@@ -412,9 +412,9 @@ Then /^I change the value of each meta\-data field of each context$/  do
 
   all("ul.contexts li").each do |context|
     context.find("a").click()
-    Rails.logger.info ["changin metadata for context", context[:'data-context-name']]
+    Rails.logger.info ["changin metadata for context", context[:'data-context-id']]
     step 'I change the value of each visible meta-data field'
-    @meta_data_by_context[context[:'data-context-name']] = @meta_data
+    @meta_data_by_context[context[:'data-context-id']] = @meta_data
   end
 end
 
@@ -679,13 +679,13 @@ When /^I click on the link with the id "(.*?)"$/  do |id|
   find("##{id}").click
 end
 
-Then /^I click on the link "([\s\w]*?)" of the individual_meta_context "([\s\w]*?)"$/ do |link_text,individual_meta_context|
-  find("table.individual_meta_contexts tr.individual_meta_context[data-name='#{individual_meta_context}']") \
+Then /^I click on the link "([\s\w]*?)" of the individual_context "([\s\w]*?)"$/ do |link_text,individual_context|
+  find("table.individual_contexts tr.individual_context[data-name='#{individual_context}']") \
     .find("a",text: link_text).click
 end 
 
-Then /^I click on the link "([\s\w]*?)" of the meta_context "([\s\w]*?)"$/ do |link_text,meta_context|
-  find("table.meta_contexts tr.meta_context[data-name='#{meta_context}']") \
+Then /^I click on the link "([\s\w]*?)" of the context "([\s\w]*?)"$/ do |link_text,context|
+  find("table.contexts tr.context[data-name='#{context}']") \
     .find("a",text: link_text).click
 end
 

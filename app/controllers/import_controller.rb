@@ -103,11 +103,11 @@ class ImportController < ApplicationController
 
   def meta_data
     flash[:notice] = nil # hide permission changed flash
-    @context = MetaContext.find("upload")
+    @context = Context.find("upload")
   end
 
   def organize
-    unless @media_entries.all? {|me| me.context_valid?(MetaContext.find("upload")) }
+    unless @media_entries.all? {|me| me.context_valid?(Context.find("upload")) }
       flash[:error] = "Bitte füllen Sie für alle Medieneinträge die Pflichtfelder aus."
       redirect_to meta_data_import_path(:show_invalid_resources => true)
     end
@@ -117,7 +117,7 @@ class ImportController < ApplicationController
 
   def complete
 
-    if @media_entries.all? {|me| me.context_valid?(MetaContext.find("upload")) }
+    if @media_entries.all? {|me| me.context_valid?(Context.find("upload")) }
 
       # convert to complete media_entries, returns an Array
       complete =  @media_entries.map{|me| me.set_as_complete}

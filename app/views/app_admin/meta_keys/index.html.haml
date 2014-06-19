@@ -19,7 +19,7 @@
       %label Context
       %select.form-control{name: 'filter[context]'}
         %option{value: ''} All
-        = options_from_collection_for_select MetaContext.order(:label), 'label', 'label', @context
+        = options_from_collection_for_select ::Context.order(:label), 'label', 'label', @context
 
     .form-group
       = button_tag type: 'submit', class: 'btn btn-sm' do

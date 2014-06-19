@@ -11,8 +11,8 @@
         .ui-metadata-box.ui-summary-table.ui-set-summary.compact
           %table.borderless
             %tbody
-              = render :partial => "meta_data/meta_datum", :collection => @media_set.meta_data.for_context(MetaContext.find("media_set")), 
-                       :locals => {:context => MetaContext.find("media_set"), 
+              = render :partial => "meta_data/meta_datum", :collection => @media_set.meta_data.for_context(::Context.find("media_set")), 
+                       :locals => {:context => ::Context.find("media_set"), 
                                    :as_table => true}
 
     = render :partial => "media_sets/highlights" unless @highlights.blank?

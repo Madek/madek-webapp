@@ -17,7 +17,7 @@ feature "Transferring resources between terms and searching for those terms."  d
       id: 'the_meta_key' 
 
     mkd= MetaKeyDefinition.create! \
-      meta_context_name: 'core',
+      context_id: 'core',
       label: "The meta key for testing MetaKeyMetaTerms",
       meta_key: the_meta_key
 

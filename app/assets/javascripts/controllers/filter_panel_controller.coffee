@@ -113,7 +113,7 @@ class FilterPanelController
       selectedFilter = @getSelectedFilter()
       openAccordions = _.map @panel.find(".ui-accordion-body.open"), (a)->
         keyName: $(a).closest("[data-key-name]").data "key-name"
-        contextName: $(a).closest("[data-context-name]").data "context-name"
+        contextName: $(a).closest("[data-context-id]").data "context-id"
       @list.html App.render "media_resources/filter/context", @filter
       @openAccordions openAccordions
       if @startSelectedFilter?
@@ -127,9 +127,9 @@ class FilterPanelController
   openAccordions: (accordions)->
     for accordion in accordions
       accordion = if accordion.keyName?
-        @list.find("[data-context-name='#{accordion.contextName}'] [data-key-name='#{accordion.keyName}'] > .ui-accordion-body")
+        @list.find("[data-context-id='#{accordion.contextName}'] [data-key-name='#{accordion.keyName}'] > .ui-accordion-body")
       else
-        @list.find("[data-context-name='#{accordion.contextName}'] > .ui-accordion-body")
+        @list.find("[data-context-id='#{accordion.contextName}'] > .ui-accordion-body")
       accordion.addClass "open"
       accordion.siblings(".ui-accordion-toggle").addClass "open"
 
@@ -146,7 +146,7 @@ class FilterPanelController
             terms.addClass "active"
           keys = el.closest "[data-key-name='#{metaKey}']"
           keys.addClass "has-active"
-          contexts = el.closest "[data-context-name]"
+          contexts = el.closest "[data-context-id]"
           contexts.addClass "has-active"
 
   selectFilter: (item)->

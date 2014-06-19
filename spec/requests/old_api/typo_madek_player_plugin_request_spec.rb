@@ -9,7 +9,7 @@ describe "requests of the typo madek player plugin" do
   # TS: maybe you don't need to read that; we almost never use :all; there are
   # some nasty side effects with database cleaner and truncations ....
   before :each do 
-    FactoryGirl.create :meta_context_core
+    FactoryGirl.create :context_core
     FactoryGirl.create :meta_key_public_caption
     FactoryGirl.create :meta_key_copyright_status
     FactoryGirl.create :meta_key_copyright_usage

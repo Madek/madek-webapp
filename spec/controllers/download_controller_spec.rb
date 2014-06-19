@@ -33,8 +33,9 @@ describe DownloadController do
 
     describe "update" do
       before :each do
-        FactoryGirl.create :meta_context, name: 'io_interface', is_user_interface: false
+        FactoryGirl.create :io_interface
       end
+
       it "no more options" do
         get :download, {id: @me.id, update: '1'}, valid_session
       end
@@ -48,7 +49,7 @@ describe DownloadController do
         get :download, {id: @me.id, type: 'xml'}, valid_session
       end
       it "tms" do
-        FactoryGirl.create :meta_context, name: 'tms', is_user_interface: false
+        FactoryGirl.create :io_interface, id: 'tms'
         get :download, {id: @me.id, type: 'tms'}, valid_session
       end
     end

@@ -83,8 +83,9 @@ module Exiftool
     # is only called once, entrys' contents cached, and obj/subj meta-data
     # extracted as necessary  
     def generate_exiftool_config
-      exiftool_keys = MetaContext.find_by_name("io_interface").meta_key_definitions.collect do |e| 
-        "#{e.key_map.split(":").last} => {#{e.key_map_type == "Array" ? " List => 'Bag'" : nil} },"
+      exiftool_keys = IoInterface.find("default") \
+        .io_mappings.collect do |io_mapping| 
+        "#{io_mapping.key_map.split(":").last} => {#{io_mapping.key_map_type == "Array" ? " List => 'Bag'" : nil} },"
       end
 
       skels = Dir.glob("#{METADATA_CONFIG_DIR}/ExifTool_config.skeleton.*")

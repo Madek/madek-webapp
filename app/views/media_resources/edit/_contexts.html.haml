@@ -1,6 +1,6 @@
 - @contexts.each_with_index do |context, i|
 
-  .tab-pane{:class => i == 0 ? "active" : "", :id => context.name}
+  .tab-pane{:class => i == 0 ? "active" : "", :id => context.id}
 
     - if context.description
       %h2.title-s.pbs.limited-width-l= context.description

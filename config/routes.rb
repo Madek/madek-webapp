@@ -111,8 +111,8 @@ MAdeK::Application.routes.draw do
 
   ##### CONTEXTS
 
-  get 'vocabulary/:id', :to => 'meta_contexts#show', :as => "context"
-  get 'vocabulary/:id/entries', :to => 'meta_contexts#entries', :as => "context_entries"
+  get 'vocabulary/:id', :to => 'contexts#show', :as => "context"
+  get 'vocabulary/:id/entries', :to => 'contexts#entries', :as => "context_entries"
   
   ##### METADATA
 
@@ -168,7 +168,7 @@ MAdeK::Application.routes.draw do
 
   resources :permission_presets, :only => :index, :format => true, :constraints => {:format => /json/}
 
-  resources :meta_context_groups, only: :index
+  resources :context_groups, only: :index
 
   resources :keywords, only: :index
   resources :meta_terms, only: :index
@@ -345,13 +345,13 @@ MAdeK::Application.routes.draw do
         delete 'delete_with_child_media_resources' 
       end
 
-      resources 'individual_meta_contexts', only: [] do
+      resources 'individual_contexts', only: [] do
         collection do
-          get 'manage', action: 'manage_individual_meta_contexts', controller: 'media_sets'
+          get 'manage', action: 'manage_individual_contexts', controller: 'media_sets'
         end
         member do
-          post 'remove', action: 'remove_individual_meta_context', controller: 'media_sets'
-          post 'add', action: 'add_individual_meta_context', controller: 'media_sets'
+          post 'remove', action: 'remove_individual_context', controller: 'media_sets'
+          post 'add', action: 'add_individual_context', controller: 'media_sets'
         end
       end
     end
@@ -368,8 +368,8 @@ MAdeK::Application.routes.draw do
         post :transfer_resources
       end
     end
-    resources :meta_context_groups, only: [:index, :edit, :update, :new, :create]
-    resources :meta_contexts do
+    resources :context_groups, only: [:index, :edit, :update, :new, :create]
+    resources :contexts do
       resources :meta_key_definitions, only: [:edit, :update, :new, :create, :destroy]
     end
 

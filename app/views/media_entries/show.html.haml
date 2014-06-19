@@ -3,12 +3,12 @@
 
     .ui-media-overview
       %dl.ui-media-overview-metadata.ui-metadata-box
-        = render :partial => "meta_data/meta_datum", :collection => @media_entry.meta_data.for_context(MetaContext.find("core")), :locals => {:context => MetaContext.find("core")}
+        = render :partial => "meta_data/meta_datum", :collection => @media_entry.meta_data.for_context(::Context.find("core")), :locals => {:context => ::Context.find("core")}
       .ui-media-overview-preview
         = render :partial => "media_entries/preview"
 
   .midtone.ui-container.pal.rounded-bottom.well
 
-    = render :partial => "media_entries/meta_contexts", :locals => {:skip_empty_values => true, :meta_contexts => @main_context_group.meta_contexts}
+    = render :partial => "media_entries/contexts", :locals => {:skip_empty_values => true, :contexts => @main_context_group.contexts}
 
 = render "media_entries/layout"

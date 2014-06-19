@@ -133,7 +133,7 @@ module CurrentPageHelper
 ######### CONTEXTS
 
   def context_show_page?
-    current_page? :controller => :meta_contexts, :action => :show
+    current_page? :controller => :contexts, :action => :show
   end
   
   def context_entries_page?

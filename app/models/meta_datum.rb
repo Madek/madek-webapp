@@ -93,7 +93,7 @@ class MetaDatum < ActiveRecord::Base
 
 ########################################
 
-  def context_warnings(context = MetaContext.find("core"))
+  def context_warnings(context = Context.find("core"))
     # TODO raise "this method must be implemented in the derived class"
     
     definition = meta_key.meta_key_definitions.for_context(context)
@@ -105,7 +105,7 @@ class MetaDatum < ActiveRecord::Base
     r
   end
 
-  def context_valid?(context = MetaContext.find("core"))
+  def context_valid?(context = Context.find("core"))
     # TODO raise "this method must be implemented in the derived class"
 
     context_warnings(context).empty?

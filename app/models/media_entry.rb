@@ -32,35 +32,30 @@ class MediaEntry < MediaResource
 
 ########################################################
 
-  def self.to_tms_doc(resources, context = MetaContext.find("tms"))
+  def self.to_tms_doc(resources, io_interface= IoInterface.find("tms"))
     require 'active_support/builder' unless defined?(::Builder)
     xml = ::Builder::XmlMarkup.new
     xml.instruct!
     xml.madek(:version => RELEASE_VERSION) do
       Array(resources).each do |resource|
-        resource.to_tms(xml, context)
+        resource.to_tms(xml, io_interface)
       end
     end
   end
   
 ########################################################
 
-  def to_tms(xml, context)
+  def to_tms(xml, io_interface)
     xml.snapshot do
       #old# meta_data.each do |meta_datum|
-      meta_data.for_context(context, false).each do |meta_datum|
-        key_map = meta_datum.meta_key.key_map_for(context)
+      meta_data.for_io_interface(io_interface).each do |meta_datum|
+        key_map = meta_datum.meta_key.key_map_for(io_interface)
         if key_map
           # TODO use treetop gem
           key_map.split('||').each do |km|
             tokens = km.split(' ', 2)
             name = tokens.first
             attrs = {}
-#old#
-#            tokens.last.split(' ').each do |token|
-#              a = token.split('=', 2)
-#              attrs[a.first] = a.last
-#            end if tokens.size > 1
           
             tokens = (tokens.size > 1 ? tokens.last : nil)
             
@@ -78,7 +73,6 @@ class MediaEntry < MediaResource
               end
               attrs[k] = v
             end
-#temp#
             case meta_datum.meta_key.meta_datum_object_type
               when "MetaDatumMetaTerms"
                 xml.tag!(name, attrs) do
@@ -106,44 +100,10 @@ class MediaEntry < MediaResource
                     xml.tag!(name, attrs, value)
                 end
             end
-
-#            case name
-#              when "person"
-#                case meta_datum.meta_key.meta_datum_object_type
-#                  when "MetaDatumPeople"
-#                    meta_datum.value.each do |dv|
-#                      xml.person(attrs) do
-#                        xml.tag!("first_name", dv.first_name)
-#                        xml.tag!("last_name", dv.last_name)
-#                      end
-#                    end
-#                  else
-#                    xml.person(attrs) do
-#                      xml.tag!("name", meta_datum.to_s)
-#                    end
-#                end
-##              when "location"
-##              when "keywords"
-##              when "gattung"
-#              else
-#                value = meta_datum.to_s
-#                xml.tag!(name, attrs, value)
-#            end
-          
           end
         end
       end
     end
-#    xml.media_set do
-#      xml.id id
-#      xml.owner user.to_s
-#      meta_data.each do |meta_datum|
-#        xml.tag!(meta_datum.object.meta_key.meta_key_definitions.for_context(context).label.parameterize('_'), meta_datum)
-#      end
-#      media_entries.each do |media_entry|
-#        media_entry.to_tms(xml, context)
-#      end
-#    end
   end
   
 ########################################################

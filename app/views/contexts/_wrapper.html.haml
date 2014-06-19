@@ -1,0 +1,25 @@
+:ruby
+  # filter contexts that the current user has any resources for
+  user_contexts= contexts.map { |context|
+    context unless MediaResource.filter(current_user, {:context_ids => [context.id]}).empty?
+  }.reject(&:nil?)
+
+.ui-resources-holder.pal
+  - if defined? title
+    .ui-resources-header
+      %h2.title-l.ui-resource-title
+        = title
+        - if defined? link
+          %a.strong{:href => link} 
+            = _("Show all")
+
+  .ui-contexts
+    - user_contexts.in_groups_of(3, false).each_with_index do |contextrow, index|
+      .row
+        - contextrow.each do |context|
+          .col1of3
+            .prs.pbm
+              .ui-context{:"data-name" => context.id}
+                %h3.title-m
+                  %a{:href => context_path(context)}= context
+                %p.ui-thumbnail-meta-subtitle= context.description

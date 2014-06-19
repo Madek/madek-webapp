@@ -7,7 +7,7 @@
       %i.icon-trash
       Delete with all children
   %li
-    =link_to manage_app_admin_media_set_individual_meta_contexts_path(media_set), class: "btn btn-warning" do
+    =link_to manage_app_admin_media_set_individual_contexts_path(media_set), class: "btn btn-warning" do
       Manage individual contexts
   %li
     = link_to edit_app_admin_media_set_path(media_set), class: "btn btn-warning" do
@@ -41,7 +41,7 @@
   %table.table.table-striped
     %thead
     %tbody
-      = render partial: 'meta_context_row', collection: media_set.individual_contexts, as: :meta_context
+      = render partial: 'context_row', collection: media_set.individual_contexts, as: :context
 
 
 - if (media_set.userpermissions.count > 0) or (media_set.grouppermissions.count > 0)

@@ -29,7 +29,7 @@ class MediaResourceArcsController.InArcs
   fetch: -> @mediaSet.fetchArcs (data)=>
     @paginator.start {ids: _.map @mediaSet.arcs, (arc)-> arc.child_id},
       meta_data:
-        meta_context_names: ["core"]
+        context_ids: ["core"]
 
   render: ->
     template = App.render "media_resource_arcs/selection", 

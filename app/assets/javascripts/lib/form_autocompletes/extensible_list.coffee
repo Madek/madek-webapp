@@ -35,7 +35,7 @@ class FormAutocompletes.ExtensibleList
         unless input.data("terms")?
           @ajax.abort() if @ajax?
           @ajax = App.MetaTerm.fetch 
-            meta_context_name: input.data("context")
+            context_id: input.data("context")
             meta_key_id: input.data("meta_key")
           , (data)=>
             input.data "terms", data

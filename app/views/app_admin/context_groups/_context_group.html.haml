@@ -1,0 +1,11 @@
+%tr
+  %td= context_group.position
+  %td= context_group.name
+  %td
+    %ul
+      - context_group.contexts.each do |context|
+        %li= context.label
+  %td.no-wrap
+    = link_to edit_app_admin_context_group_path(context_group) do
+      %i.icon-pen
+      Edit

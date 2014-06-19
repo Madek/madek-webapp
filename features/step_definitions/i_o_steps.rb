@@ -35,7 +35,7 @@ end
 
 Then /^I open a specific context$/ do
   @context = @current_user.individual_contexts.find do |context|
-    MediaResource.filter(@current_user, {:meta_context_names => [context.name]}).exists?
+    MediaResource.filter(@current_user, {:context_ids => [context.id]}).exists?
   end
   visit context_path(@context)
 end

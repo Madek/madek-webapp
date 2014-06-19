@@ -19,4 +19,4 @@
     .ui-metadata-box.ui-media-overview-metadata.ptm
       %dl.ui-media-overview-metadata.ui-metadata-box
 
-        = render :partial => "meta_data/meta_datum", :collection => @media_resource.meta_data.for_context(MetaContext.find("core")), :locals => {:context => MetaContext.find("core")}
+        = render :partial => "meta_data/meta_datum", :collection => @media_resource.meta_data.for_context(::Context.find("core")), :locals => {:context => ::Context.find("core")}

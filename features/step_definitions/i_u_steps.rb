@@ -35,10 +35,10 @@ Then /^I use some filters$/ do
     wait_until { page.evaluate_script("jQuery.active") == 0 }
     wait_until { all(".filter-panel *[data-value]:not(.active)").size > 0}
     filter_item = all(".filter-panel *[data-value]:not(.active)").shuffle.first
-    context_element = filter_item.find(:xpath, ".//ancestor::*[@data-context-name]")
+    context_element = filter_item.find(:xpath, ".//ancestor::*[@data-context-id]")
     key_element = filter_item.find(:xpath, ".//ancestor::*[@data-key-name]")
     @used_filter.push :key_name => key_element["data-key-name"],
-                      :context => context_element["data-context-name"], 
+                      :context => context_element["data-context-id"], 
                       :value => filter_item["data-value"]
     context_element.find("a").click unless context_element.find("a")[:class] =~ /open/
     key_element.find("a").click unless key_element.find("a")[:class] =~ /open/

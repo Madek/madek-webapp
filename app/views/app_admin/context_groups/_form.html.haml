@@ -1,0 +1,46 @@
+.meta-context-groups
+  = form_for [:app_admin, @context_group], html: {class: "form-horizontal", role: "form"} do |f|
+
+    .form-group
+      %label.control-label.col-sm-2 Name
+      .col-sm-4
+        = f.text_field :name, class: 'form-control'
+
+    - if f.object.persisted?
+      .form-group
+        %label.control-label.col-sm-2 Meta contexts
+        .col-sm-6
+          %ul#sortable.list-unstyled
+            = f.fields_for :contexts do |ff|
+              %li
+                = ff.object.label
+                = ff.hidden_field :id
+                = ff.hidden_field :position, class: "meta-context-position"
+                .checkbox
+                  %label
+                    = ff.check_box :context_group_id, {}, "", @context_group.id
+                    Remove
+
+    .form-group
+      .col-sm-offset-2.col-sm-4
+        = f.button "Submit", type: 'submit', class: "btn btn-success"
+
+:javascript
+  $(document).ready(function(){
+    function setPosition() {
+      var positions = [];
+      $('#sortable .meta-context-position').each(function(index, el) {
+        $(this).val(index);
+      });
+    }
+
+    $("#sortable").sortable({
+      axis: 'y',
+      items: 'li',
+      placeholder: 'placeholder',
+      forcePlaceholderSize: true,
+      stop: function(event, ui) {
+        setPosition();
+      }
+    });
+  });

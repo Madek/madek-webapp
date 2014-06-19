@@ -10,8 +10,8 @@ describe ImportController do
     FactoryGirl.create :meta_key, id: "description author", :meta_datum_object_type => "MetaDatumPeople"
     FactoryGirl.create :meta_key, id: "description author before import", :meta_datum_object_type => "MetaDatumPeople"
     FactoryGirl.create :meta_key, id: "uploaded by", :meta_datum_object_type => "MetaDatumUsers"
-    FactoryGirl.create :meta_context, name: 'io_interface', is_user_interface: false
-    FactoryGirl.create :meta_context, name: 'upload', is_user_interface: false
+    FactoryGirl.create :context, id: 'upload'
+    FactoryGirl.create :io_interface
     @user = FactoryGirl.create :user
     @media_entry_incomplete_for_image= (FactoryGirl.create :media_entry_incomplete_for_image, user: @user)
     @media_entry_incomplete_for_movie= (FactoryGirl.create :media_entry_incomplete_for_movie, user: @user)

@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -75,8 +76,8 @@ CREATE TABLE app_settings (
     logo_url character varying(255) DEFAULT '/assets/inserts/image-logo-zhdk.png'::character varying NOT NULL,
     brand character varying(255) DEFAULT 'Zürcher Hochschule der Künste'::character varying NOT NULL,
     footer_links text,
-    second_displayed_meta_context_name character varying(255),
-    third_displayed_meta_context_name character varying(255),
+    second_displayed_context_id character varying(255),
+    third_displayed_context_id character varying(255),
     catalog_set_id uuid,
     featured_set_id uuid,
     splashscreen_slideshow_set_id uuid,
@@ -110,6 +111,30 @@ CREATE TABLE applications (
     id character varying(255) NOT NULL,
     description text,
     secret uuid DEFAULT uuid_generate_v4()
+);
+
+
+--
+-- Name: context_groups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE context_groups (
+    name character varying(255),
+    "position" integer NOT NULL,
+    id uuid DEFAULT uuid_generate_v4() NOT NULL
+);
+
+
+--
+-- Name: contexts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE contexts (
+    "position" integer,
+    id character varying(255) NOT NULL,
+    context_group_id uuid,
+    label text DEFAULT ''::text NOT NULL,
+    description text DEFAULT ''::text NOT NULL
 );
 
 
@@ -220,6 +245,32 @@ CREATE TABLE groups_users (
 
 
 --
+-- Name: io_interfaces; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE io_interfaces (
+    id character varying(255) NOT NULL,
+    description character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: io_mappings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE io_mappings (
+    io_interface_id character varying(255) NOT NULL,
+    meta_key_id character varying(255) NOT NULL,
+    key_map character varying(255),
+    key_map_type character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
 -- Name: keyword_terms; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -301,37 +352,12 @@ CREATE TABLE media_resources (
 
 
 --
--- Name: media_sets_meta_contexts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: media_sets_contexts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE TABLE media_sets_meta_contexts (
-    meta_context_name character varying(255),
+CREATE TABLE media_sets_contexts (
+    context_id character varying(255),
     media_set_id uuid NOT NULL
-);
-
-
---
--- Name: meta_context_groups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE meta_context_groups (
-    name character varying(255),
-    "position" integer NOT NULL,
-    id uuid DEFAULT uuid_generate_v4() NOT NULL
-);
-
-
---
--- Name: meta_contexts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE meta_contexts (
-    is_user_interface boolean DEFAULT false,
-    "position" integer,
-    name character varying(255) NOT NULL,
-    meta_context_group_id uuid,
-    label text DEFAULT ''::text NOT NULL,
-    description text DEFAULT ''::text NOT NULL
 );
 
 
@@ -398,12 +424,10 @@ CREATE TABLE meta_key_definitions (
     length_max integer,
     length_min integer,
     "position" integer NOT NULL,
-    key_map character varying(255),
-    key_map_type character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     meta_key_id character varying(255),
-    meta_context_name character varying(255),
+    context_id character varying(255),
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     label text DEFAULT ''::text NOT NULL,
     hint text DEFAULT ''::text NOT NULL,
@@ -524,7 +548,10 @@ CREATE TABLE usage_terms (
 --
 
 CREATE VIEW user_resources_counts AS
-    SELECT count(*) AS resouces_count, media_resources.user_id FROM media_resources GROUP BY media_resources.user_id;
+ SELECT count(*) AS resouces_count,
+    media_resources.user_id
+   FROM media_resources
+  GROUP BY media_resources.user_id;
 
 
 --
@@ -671,6 +698,22 @@ ALTER TABLE ONLY groups
 
 
 --
+-- Name: io_interfaces_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY io_interfaces
+    ADD CONSTRAINT io_interfaces_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: io_mappings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY io_mappings
+    ADD CONSTRAINT io_mappings_pkey PRIMARY KEY (io_interface_id, meta_key_id);
+
+
+--
 -- Name: keyword_terms_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -714,7 +757,7 @@ ALTER TABLE ONLY media_resources
 -- Name: meta_context_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY meta_context_groups
+ALTER TABLE ONLY context_groups
     ADD CONSTRAINT meta_context_groups_pkey PRIMARY KEY (id);
 
 
@@ -722,8 +765,8 @@ ALTER TABLE ONLY meta_context_groups
 -- Name: meta_contexts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY meta_contexts
-    ADD CONSTRAINT meta_contexts_pkey PRIMARY KEY (name);
+ALTER TABLE ONLY contexts
+    ADD CONSTRAINT meta_contexts_pkey PRIMARY KEY (id);
 
 
 --
@@ -898,6 +941,41 @@ CREATE INDEX index_applicationpermissions_on_media_resource_id ON applicationper
 --
 
 CREATE UNIQUE INDEX index_applicationpermissions_on_mr_id_and_app_id ON applicationpermissions USING btree (media_resource_id, application_id);
+
+
+--
+-- Name: index_context_groups_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_context_groups_on_name ON context_groups USING btree (name);
+
+
+--
+-- Name: index_context_groups_on_position; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_context_groups_on_position ON context_groups USING btree ("position");
+
+
+--
+-- Name: index_contexts_on_context_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_contexts_on_context_group_id ON contexts USING btree (context_group_id);
+
+
+--
+-- Name: index_contexts_on_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_contexts_on_id ON contexts USING btree (id);
+
+
+--
+-- Name: index_contexts_on_position; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_contexts_on_position ON contexts USING btree ("position");
 
 
 --
@@ -1139,52 +1217,17 @@ CREATE INDEX index_media_resources_on_user_id ON media_resources USING btree (us
 
 
 --
--- Name: index_media_sets_meta_contexts_on_media_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_media_sets_contexts_on_context_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_media_sets_meta_contexts_on_media_set_id ON media_sets_meta_contexts USING btree (media_set_id);
-
-
---
--- Name: index_media_sets_meta_contexts_on_meta_context_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_media_sets_meta_contexts_on_meta_context_name ON media_sets_meta_contexts USING btree (meta_context_name);
+CREATE INDEX index_media_sets_contexts_on_context_id ON media_sets_contexts USING btree (context_id);
 
 
 --
--- Name: index_meta_context_groups_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_media_sets_contexts_on_media_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_meta_context_groups_on_name ON meta_context_groups USING btree (name);
-
-
---
--- Name: index_meta_context_groups_on_position; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_meta_context_groups_on_position ON meta_context_groups USING btree ("position");
-
-
---
--- Name: index_meta_contexts_on_meta_context_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_meta_contexts_on_meta_context_group_id ON meta_contexts USING btree (meta_context_group_id);
-
-
---
--- Name: index_meta_contexts_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_meta_contexts_on_name ON meta_contexts USING btree (name);
-
-
---
--- Name: index_meta_contexts_on_position; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_meta_contexts_on_position ON meta_contexts USING btree ("position");
+CREATE INDEX index_media_sets_contexts_on_media_set_id ON media_sets_contexts USING btree (media_set_id);
 
 
 --
@@ -1286,10 +1329,10 @@ CREATE INDEX index_meta_data_users_on_user_id ON meta_data_users USING btree (us
 
 
 --
--- Name: index_meta_key_definitions_on_meta_context_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_meta_key_definitions_on_context_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_meta_key_definitions_on_meta_context_name ON meta_key_definitions USING btree (meta_context_name);
+CREATE INDEX index_meta_key_definitions_on_context_id ON meta_key_definitions USING btree (context_id);
 
 
 --
@@ -1516,7 +1559,7 @@ ALTER TABLE ONLY app_settings
 --
 
 ALTER TABLE ONLY app_settings
-    ADD CONSTRAINT app_settings_second_displayed_meta_context_name_fk FOREIGN KEY (second_displayed_meta_context_name) REFERENCES meta_contexts(name);
+    ADD CONSTRAINT app_settings_second_displayed_meta_context_name_fk FOREIGN KEY (second_displayed_context_id) REFERENCES contexts(id);
 
 
 --
@@ -1532,7 +1575,7 @@ ALTER TABLE ONLY app_settings
 --
 
 ALTER TABLE ONLY app_settings
-    ADD CONSTRAINT app_settings_third_displayed_meta_context_name_fk FOREIGN KEY (third_displayed_meta_context_name) REFERENCES meta_contexts(name);
+    ADD CONSTRAINT app_settings_third_displayed_meta_context_name_fk FOREIGN KEY (third_displayed_context_id) REFERENCES contexts(id);
 
 
 --
@@ -1664,6 +1707,22 @@ ALTER TABLE ONLY groups_users
 
 
 --
+-- Name: io_mappings_io_interface_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY io_mappings
+    ADD CONSTRAINT io_mappings_io_interface_id_fk FOREIGN KEY (io_interface_id) REFERENCES io_interfaces(id) ON DELETE CASCADE;
+
+
+--
+-- Name: io_mappings_meta_key_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY io_mappings
+    ADD CONSTRAINT io_mappings_meta_key_id_fk FOREIGN KEY (meta_key_id) REFERENCES meta_keys(id) ON DELETE CASCADE;
+
+
+--
 -- Name: keywords_keyword_term_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1723,7 +1782,7 @@ ALTER TABLE ONLY media_resources
 -- Name: media_sets_meta_contexts_media_set_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY media_sets_meta_contexts
+ALTER TABLE ONLY media_sets_contexts
     ADD CONSTRAINT media_sets_meta_contexts_media_set_id_fk FOREIGN KEY (media_set_id) REFERENCES media_resources(id) ON DELETE CASCADE;
 
 
@@ -1731,16 +1790,16 @@ ALTER TABLE ONLY media_sets_meta_contexts
 -- Name: media_sets_meta_contexts_meta_context_name_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY media_sets_meta_contexts
-    ADD CONSTRAINT media_sets_meta_contexts_meta_context_name_fk FOREIGN KEY (meta_context_name) REFERENCES meta_contexts(name);
+ALTER TABLE ONLY media_sets_contexts
+    ADD CONSTRAINT media_sets_meta_contexts_meta_context_name_fk FOREIGN KEY (context_id) REFERENCES contexts(id);
 
 
 --
 -- Name: meta_contexts_meta_context_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY meta_contexts
-    ADD CONSTRAINT meta_contexts_meta_context_group_id_fk FOREIGN KEY (meta_context_group_id) REFERENCES meta_context_groups(id) ON DELETE SET NULL;
+ALTER TABLE ONLY contexts
+    ADD CONSTRAINT meta_contexts_meta_context_group_id_fk FOREIGN KEY (context_group_id) REFERENCES context_groups(id) ON DELETE SET NULL;
 
 
 --
@@ -1836,7 +1895,7 @@ ALTER TABLE ONLY meta_data_users
 --
 
 ALTER TABLE ONLY meta_key_definitions
-    ADD CONSTRAINT meta_key_definitions_meta_context_name_fk FOREIGN KEY (meta_context_name) REFERENCES meta_contexts(name);
+    ADD CONSTRAINT meta_key_definitions_meta_context_name_fk FOREIGN KEY (context_id) REFERENCES contexts(id);
 
 
 --
@@ -2058,6 +2117,14 @@ INSERT INTO schema_migrations (version) VALUES ('20140521065627');
 INSERT INTO schema_migrations (version) VALUES ('20140606172708');
 
 INSERT INTO schema_migrations (version) VALUES ('20140609181841');
+
+INSERT INTO schema_migrations (version) VALUES ('20140613084713');
+
+INSERT INTO schema_migrations (version) VALUES ('20140613150056');
+
+INSERT INTO schema_migrations (version) VALUES ('20140613150648');
+
+INSERT INTO schema_migrations (version) VALUES ('20140613154055');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

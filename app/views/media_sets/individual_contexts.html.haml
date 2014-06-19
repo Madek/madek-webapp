@@ -13,18 +13,18 @@
           - if @individual_contexts.count === 1 # no dropdown if just 1 thing
             -#                                                                 FIXME: inline > css
             %h2.dropdown-toggle.ui-drop-toggle.title-l.separated.light.link.mbm{"style" => "text-decoration:none"}
-              =(@context.label || @context.name)
+              =(@context.label || @context.id)
           - else
             .dropdown.ui-dropdown
               %h2.dropdown-toggle.ui-drop-toggle.title-l.separated.light.mbm{"data-toggle" => "dropdown", 
                                                                   class: @context.enabled ? 'link' : 'weak'}
-                =(@context.label || @context.name)
+                =(@context.label || @context.id)
                 %i.icon-arrow-down
               %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", role: "menu", style: "top: 100%; bottom: auto;"}
                 - (@individual_contexts-[@context]).each do |context|
                   %li.ui-drop-item
                     %a{class: context.enabled ? '' : 'disabled', href: context_media_set_path(@media_set.id, context.id)}
-                      = (context.label || context.name)
+                      = (context.label || context.id)
           
           %p.paragraph-l= @context.description
 
@@ -36,7 +36,7 @@
                   %i.icon-close
                   =_('Deaktivieren')
               - else
-                =link_to disable_context_media_set_path(@media_set, @context), method: :put, class: 'button', data: {confirm: "Soll die Zuweisung des Vokabulars \"#{@context.name}\" wirklich vom aktuellen Set entfernt werden?"} do
+                =link_to disable_context_media_set_path(@media_set, @context), method: :put, class: 'button', data: {confirm: "Soll die Zuweisung des Vokabulars \"#{@context.id}\" wirklich vom aktuellen Set entfernt werden?"} do
                   %i.icon-trash
                   =_('Entfernen')
             - else

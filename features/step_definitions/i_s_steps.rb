@@ -5,9 +5,9 @@ Then /^I save these changes$/ do
   find(".primary-button").click
 end
 
-Then /^I use the "(.*?)" context action$/ do |context_name|  
+Then /^I use the "(.*?)" context action$/ do |context_id|  
   find("a",text: "Weitere Aktionen").click
-  find("a",text: context_name).click
+  find("a",text: context_id).click
 end
 
 Then /^I scroll all the way down and click on "(.*?)"$/ do |text|
@@ -26,10 +26,10 @@ end
 
 Then /^I select the any-value checkbox for a specific key$/ do
   @any_value_el = all(".any-value").shuffle.first
-  context_name = @any_value_el.find(:xpath, ".//ancestor::*[@data-context-name]")["data-context-name"]
+  context_id = @any_value_el.find(:xpath, ".//ancestor::*[@data-context-id]")["data-context-id"]
   key_name = @any_value_el.find(:xpath, ".//ancestor::*[@data-key-name]")["data-key-name"]
   @meta_key = MetaKey.find_by_id key_name
-  @any_value_el.find(:xpath, ".//ancestor::*[@data-context-name]").click
+  @any_value_el.find(:xpath, ".//ancestor::*[@data-context-id]").click
   @any_value_el.find(:xpath, ".//ancestor::label").click
   wait_until { all(".ui-resource").size > 0 }
 end

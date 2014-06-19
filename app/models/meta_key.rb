@@ -9,13 +9,15 @@ class MetaKey < ActiveRecord::Base
   has_and_belongs_to_many :media_entries,
     join_table: :meta_data,
     association_foreign_key: :media_resource_id
+
+  has_many :io_mappings, dependent: :destroy
   
   has_many :meta_key_definitions, dependent: :destroy do
     def for_context(context)
-      where(meta_context_name: context.name).first
+      where(context_id: context.id).first
     end
   end
-  has_many :meta_contexts, through: :meta_key_definitions
+  has_many :contexts, through: :meta_key_definitions
 
   has_many :meta_key_meta_terms, dependent: :destroy
   has_many :meta_terms, ->{order("meta_keys_meta_terms.position ASC")}, through: :meta_key_meta_terms
@@ -23,7 +25,7 @@ class MetaKey < ActiveRecord::Base
 
   scope :with_meta_data, lambda{joins(:meta_data).group(:id)}
   scope :for_meta_terms, lambda{where(meta_datum_object_type: "MetaDatumMetaTerms")}
-  scope :with_context,   lambda{ |context_label| joins(:meta_contexts).where('meta_contexts.label' => context_label)}
+  scope :with_context,   lambda{ |context_label| joins(:contexts).where('contexts.label' => context_label)}
 
   def label
     id
@@ -51,7 +53,7 @@ class MetaKey < ActiveRecord::Base
 
   def all_context_labels contexts=nil
     if contexts
-      meta_key_definitions.where(meta_context_name: contexts)
+      meta_key_definitions.where(context_id: contexts)
     else  
       meta_key_definitions
     end.collect {|d| d.label.to_s if d.key_map.blank? }.compact.uniq.join(', ')
@@ -85,15 +87,9 @@ class MetaKey < ActiveRecord::Base
 #
 # NB: If no meta_key matching the key-map is found, it is created 
 # along with a new meta_key_definition (albeit with minimal label and description data)
-  def self.meta_key_for(key_map) # TODO, context = nil)
-    # do we really need to find by context here?
-#    mk =  if context.nil?
-#            MetaKeyDefinition.find_by_key_map(key_map).try(:meta_key)
-#          else
-#            context.meta_key_definitions.find_by_key_map(key_map).try(:meta_key)
-#          end
+  def self.meta_key_for(key_map) 
 
-    mk = MetaKeyDefinition.where("key_map ilike ?", "%#{key_map}%").first.try(:meta_key)
+    mk = IoMapping.where("key_map ilike ?", "%#{key_map}%").first.try(:meta_key)
 
     if mk.nil?
       entry_name = key_map.split(':').last.underscore.gsub(/[_-]/,' ')
@@ -101,14 +97,11 @@ class MetaKey < ActiveRecord::Base
     end
       # we have to create the meta key, since it doesnt exist
     if mk.nil?
-      mk = MetaKey.find_or_create_by(id: entry_name)
-      mc = MetaContext.find("io_interface")
-      mk.meta_key_definitions.create( meta_context: mc,
-                                      label: "",
-                                      description: "",
-                                      key_map: key_map,
-                                      key_map_type: nil,
-                                      position: mc.meta_key_definitions.maximum("position").to_i + 1 )
+      mk= MetaKey.find_or_create_by(id: entry_name)
+      io_interface= IoInterface.find("default")
+      mk.io_mappings.create \
+        io_interface: io_interface,
+        key_map: key_map
     end
     mk
   end

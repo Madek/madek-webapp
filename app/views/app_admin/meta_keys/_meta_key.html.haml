@@ -9,8 +9,8 @@
           %li= meta_term
   %td.limit250
     %ul
-      - meta_key.meta_contexts.each do |meta_context|
-        %li= meta_context.label
+      - meta_key.contexts.each do |context|
+        %li= context.label
 
   %td.no-wrap
     = link_to edit_app_admin_meta_key_path(meta_key), class: "btn btn-warning btn-xs" do

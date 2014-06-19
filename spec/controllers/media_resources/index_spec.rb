@@ -9,7 +9,7 @@ describe MediaResourcesController, type: :controller do
 
   before :all do
     FactoryGirl.create :usage_term 
-    FactoryGirl.create :meta_context_core
+    FactoryGirl.create :context_core
     @user = FactoryGirl.create :user
 
     40.times do
@@ -19,7 +19,7 @@ describe MediaResourcesController, type: :controller do
       mr.meta_data.create(:meta_key => MetaKey.find_by_id("title"), 
                           :value => Faker::Lorem.words(1).join(' '))
     end
-    @meta_context = MetaContext.find("core")
+    @context = Context.find("core")
   end
 
   after :all do
@@ -258,7 +258,7 @@ describe MediaResourcesController, type: :controller do
         end
 
         it "is forwarding the meta_data with" do
-          get :index, {format: 'json', ids: ids, with: {children: {with: {meta_data: {meta_context_names: [@meta_context.name]}}}}}, session
+          get :index, {format: 'json', ids: ids, with: {children: {with: {meta_data: {context_ids: [@context.id]}}}}}, session
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
             if mr["type"] == "media_set"
@@ -292,22 +292,22 @@ describe MediaResourcesController, type: :controller do
 
       describe "through meta contexts" do
         it "should respond with a collection of media resources with nested meta data for the core meta context" do
-          get :index, {format: 'json', ids: ids, with: {meta_data: {meta_context_names: [@meta_context.name]}}}, session
+          get :index, {format: 'json', ids: ids, with: {meta_data: {context_ids: [@context.id]}}}, session
           response.should  be_success
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
-            mr["meta_data"].map{|x| x["name"]}.sort.should == @meta_context.meta_keys.pluck('meta_keys.id').sort
+            mr["meta_data"].map{|x| x["name"]}.sort.should == @context.meta_keys.pluck('meta_keys.id').sort
           end
         end        
       end
 
       describe "through meta contexts with a collection of provided ids" do
         it "should respond with the requested collection of media resources with nested meta data for the core meta context" do
-          get :index, {format: 'json', ids: ids, with: {meta_data: {meta_context_names: [@meta_context.name]}}}, session
+          get :index, {format: 'json', ids: ids, with: {meta_data: {context_ids: [@context.id]}}}, session
           response.should  be_success
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
-            mr["meta_data"].map{|x| x["name"]}.sort.should == @meta_context.meta_keys.pluck('meta_keys.id').sort
+            mr["meta_data"].map{|x| x["name"]}.sort.should == @context.meta_keys.pluck('meta_keys.id').sort
           end
         end        
       end
@@ -315,9 +315,9 @@ describe MediaResourcesController, type: :controller do
       describe "through meta key names" do
         it "should respond with the requested collection of media resources with nested meta data for the given meta key names of a context beside core" do
           # a second meta context with keys (beside core)
-          @another_meta_context = FactoryGirl.create(:meta_context)
-          meta_key_definition = FactoryGirl.create(:meta_key_definition, :meta_key => FactoryGirl.create(:meta_key), :meta_context => @another_meta_context)
-          meta_key_id = @another_meta_context.meta_keys.first.to_s
+          @another_context = FactoryGirl.create(:context)
+          meta_key_definition = FactoryGirl.create(:meta_key_definition, :meta_key => FactoryGirl.create(:meta_key), :context => @another_context)
+          meta_key_id = @another_context.meta_keys.first.to_s
           get :index, {format: 'json', ids: ids, with: {meta_data: {meta_key_ids: ["#{meta_key_id}"]}}}, session
           response.should be_success
           json = JSON.parse(response.body)
@@ -329,11 +329,11 @@ describe MediaResourcesController, type: :controller do
 
       describe "through meta contexts with a single id provided" do
         it "should respond with the requested collection of media resources with nested meta data for the core meta context" do
-          get :index, {format: 'json', ids: ids[0,1], with: {meta_data: {meta_context_names: [@meta_context.name]}}}, session
+          get :index, {format: 'json', ids: ids[0,1], with: {meta_data: {context_ids: [@context.id]}}}, session
           response.should  be_success
           json = JSON.parse(response.body)
           json["media_resources"].each do |mr|
-            mr["meta_data"].map{|x| x["name"]}.sort.should == @meta_context.meta_keys.pluck('meta_keys.id').sort
+            mr["meta_data"].map{|x| x["name"]}.sort.should == @context.meta_keys.pluck('meta_keys.id').sort
           end
         end        
       end

@@ -11,10 +11,10 @@ class MediaSet < MediaResourceCollection
 
 ########################################################
 
-  has_and_belongs_to_many :individual_contexts, class_name: "MetaContext",
-                                                join_table: :media_sets_meta_contexts,
+  has_and_belongs_to_many :individual_contexts, class_name: "Context",
+                                                join_table: :media_sets_contexts,
                                                 foreign_key: :media_set_id, 
-                                                association_foreign_key: :meta_context_name
+                                                association_foreign_key: :context_id
   
   def inheritable_contexts
     parent_sets.flat_map(&:individual_contexts).to_set.to_a # removes duplicates, I don't know how efficient .to_a.uniq is
@@ -98,7 +98,7 @@ class MediaSet < MediaResourceCollection
 
 ########################################################
 
-  # TODO dry with MetaContext#abstract  
+  # TODO dry with Context#abstract  
   def abstract(min_media_entries = nil, current_user = nil)
     min_media_entries ||= media_entries.count.to_f * 50 / 100
     meta_key_ids = individual_contexts.map do |c|
@@ -119,7 +119,7 @@ class MediaSet < MediaResourceCollection
     return b.compact
   end
 
-  # TODO dry with MetaContext#used_meta_term_ids  
+  # TODO dry with Context#used_meta_term_ids  
   def used_meta_term_ids(current_user = nil)
     meta_key_ids = individual_contexts.flat_map{|ic| ic.meta_keys.for_meta_terms.pluck("meta_keys.id") }
     mds = MetaDatum.where(:meta_key_id => meta_key_ids, :media_resource_id => accessible_media_entry_ids_by(current_user))

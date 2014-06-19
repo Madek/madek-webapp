@@ -1,0 +1,14 @@
+%tr
+  %td= context.id
+  %td= context.context_group
+  %td= context.position
+  %td= context.label
+  %td= context.description
+  %td= context.is_user_interface ? "Yes" : "No"
+  %td.no-wrap
+    = link_to edit_app_admin_context_path(context), class: "btn btn-warning btn-xs" do
+      %i.icon-pen
+      Edit
+    = link_to app_admin_context_path(context), class: "btn btn-danger btn-xs", method: :delete, data: {confirm: "Are you sure you want to delete this meta context?"} do
+      %i.icon-trash
+      Delete

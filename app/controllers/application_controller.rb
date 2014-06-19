@@ -207,7 +207,7 @@ class ApplicationController < ActionController::Base
           (request[:controller] == "filter_sets" and request[:action] == "show") or
           (request[:controller] == "keywords" and request[:action] == "index") or
           (request[:controller] == "previews" and request[:action] == "show") or 
-          (request[:controller] == "meta_contexts") or
+          (request[:controller] == "contexts") or
           (request[:controller] == "search")
       @current_user = user = User.new
 

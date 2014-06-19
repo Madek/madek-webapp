@@ -4,7 +4,7 @@ describe FilterSetsController do
 
   before :each do
     FactoryGirl.create :usage_term 
-    FactoryGirl.create :meta_context_core
+    FactoryGirl.create :context_core
     @user = FactoryGirl.create :user
   end
 

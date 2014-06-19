@@ -5,7 +5,7 @@ describe CustomUrlsController do
 
   before :each do
     FactoryGirl.create :usage_term 
-    FactoryGirl.create :meta_context_core
+    FactoryGirl.create :context_core
     @user1 = FactoryGirl.create :user
     @media_set1= FactoryGirl.create :media_set, :user => @user1
     @media_set2= FactoryGirl.create :media_set, :user => @user1

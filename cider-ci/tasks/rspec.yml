@@ -7,6 +7,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/controllers/application_controller_spec.rb"
+- name: controllers context_groups_controller
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/controllers/context_groups_controller_spec.rb"
 - name: controllers custom_urls_controller
   scripts:
     rspec:
@@ -79,10 +83,6 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/controllers/media_sets_controller_api_spec.rb"
-- name: controllers meta_context_groups_controller
-  scripts:
-    rspec:
-      body: bundle exec rspec "spec/controllers/meta_context_groups_controller_spec.rb"
 - name: controllers meta_data update
   scripts:
     rspec:
@@ -124,11 +124,13 @@
     rspec:
       body: bundle exec rspec "spec/features/batch/update_metadata_spec.rb"
 - name: features filter_set filter_set
-  eager_trials: 2
-  auto_trials: 6
   scripts:
     rspec:
       body: bundle exec rspec "spec/features/filter_set/filter_set_spec.rb"
+- name: features meta_data
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/features/meta_data_spec.rb"
 - name: features search transfer_meta_datum_people
   scripts:
     rspec:
@@ -145,6 +147,18 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/misc/exiftool_spec.rb"
+- name: models context vocabulary
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/context/vocabulary_spec.rb"
+- name: models context_group
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/context_group_spec.rb"
+- name: models context
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/context_spec.rb"
 - name: models copyright
   scripts:
     rspec:
@@ -157,6 +171,14 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/grouppermission_spec.rb"
+- name: models io_interface
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/io_interface_spec.rb"
+- name: models io_mapping
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/io_mapping_spec.rb"
 - name: models keyword class search
   scripts:
     rspec:
@@ -201,18 +223,6 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/media_set_spec.rb"
-- name: models meta_context vocabulary
-  scripts:
-    rspec:
-      body: bundle exec rspec "spec/models/meta_context/vocabulary_spec.rb"
-- name: models meta_context_group
-  scripts:
-    rspec:
-      body: bundle exec rspec "spec/models/meta_context_group_spec.rb"
-- name: models meta_context
-  scripts:
-    rspec:
-      body: bundle exec rspec "spec/models/meta_context_spec.rb"
 - name: models meta_datum meta_datum_copyright
   scripts:
     rspec:

@@ -38,7 +38,30 @@ module MediaResourceModules
             to_a.map(&:to_s).join('; ')
           end
 
-          def for_context(context = MetaContext.find("core"), build_if_not_exists = true)
+
+          # TODO ugly, not dry, copied from for_context to get going for now
+          def for_io_interface io_interface
+            meta_keys = io_interface.meta_keys 
+            meta_key_ids = meta_keys.map(&:id)
+
+            mds = where(:meta_key_id => meta_key_ids).eager_load(:meta_key)
+            mds = mds.eager_load(:keywords => :keyword_term) if meta_keys.map(&:label).include?("keywords")
+  
+            already_ids = mds.map(&:meta_key_id)
+            mds += meta_keys.select{|x| x.is_dynamic? and not already_ids.include?(x.id) }.flat_map do |key|
+              build(:meta_key => key)
+            end
+  
+            already_ids = mds.map(&:meta_key_id)
+            mds += (meta_key_ids - already_ids).flat_map do |key_id|
+              build(:meta_key_id => key_id)
+            end
+
+            mds.sort_by {|md| meta_key_ids.index(md.meta_key_id) } 
+          end
+
+
+          def for_context(context = Context.find("core"), build_if_not_exists = true)
             meta_keys = context.meta_keys 
             meta_key_ids = context.meta_key_ids
 
@@ -126,7 +149,7 @@ module MediaResourceModules
         ###################
 
 
-        def context_valid?(context = MetaContext.find("core"))
+        def context_valid?(context = Context.find("core"))
           meta_data.for_context(context).all? {|meta_datum| meta_datum.context_valid?(context) }
         end
 

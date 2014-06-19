@@ -30,7 +30,7 @@ module Json
         when :media_resources
           { :media_type => true,
             :image=>{:as=>"base64", :size=>"large"},
-            :meta_data => {:meta_context_names => ["core"]}}
+            :meta_data => {:context_ids => ["core"]}}
         else
           {}
       end

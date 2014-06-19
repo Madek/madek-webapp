@@ -93,7 +93,7 @@ class MediaResourcesController.Index
             ids: [media_resource_id] 
             with: 
               meta_data: 
-                meta_context_names: [context]
+                context_ids: [context]
           App.MediaResource.fetch data, (media_resources)=> 
             context_el.html App.render "media_resources/meta_data_list_block", 
               {meta_data: media_resources[0].meta_data},
@@ -227,7 +227,7 @@ class MediaResourcesController.Index
       is_manageable: true
       is_favorite: true
       meta_data:
-        meta_context_names: ["core"]
+        context_ids: ["core"]
 
   @PAGESIZE= 36 
   @PAGESIZE_ARRAY = [1..@PAGESIZE]

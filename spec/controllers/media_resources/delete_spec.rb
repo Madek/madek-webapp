@@ -5,7 +5,7 @@ describe MediaResourcesController, type: :controller do
 
   before :each do
     FactoryGirl.create :usage_term 
-    FactoryGirl.create :meta_context_core
+    FactoryGirl.create :context_core
     @owner = FactoryGirl.create :user
     @user = FactoryGirl.create :user
   end

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "/api/media_resources" do
   
   before :all do
-    FactoryGirl.create :meta_context_core
+    FactoryGirl.create :context_core
     FactoryGirl.create :meta_key_public_caption
     FactoryGirl.create :meta_key_copyright_status
     FactoryGirl.create :meta_key_copyright_usage

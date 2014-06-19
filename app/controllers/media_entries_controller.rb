@@ -45,7 +45,7 @@ class MediaEntriesController < ApplicationController
     else
 
       @user = User.find(params[:user_id]) unless params[:user_id].blank?
-      @context = MetaContext.find(params[:context_id]) unless params[:context_id].blank?
+      @context = Context.find(params[:context_id]) unless params[:context_id].blank?
       @media_set = (@user? @user.media_sets : MediaSet).find(params[:media_set_id]) unless params[:media_set_id].blank? # TODO shallow
   
       unless (params[:media_entry_id] ||= params[:id] || params[:media_entry_ids]).blank?
@@ -81,12 +81,12 @@ class MediaEntriesController < ApplicationController
   
 
   def set_instance_vars
-    @main_context_group = MetaContextGroup.sorted_by_position.first
-    other_context_groups = MetaContextGroup.where(MetaContextGroup.arel_table[:position].not_eq(1)).sorted_by_position
-    @other_relevant_context_groups = other_context_groups.select do |meta_context_group|
-      (meta_context_group.meta_contexts & @media_entry.individual_contexts).select{ |meta_context|
-        @media_entry.meta_data.for_context(meta_context, false).any?
-      }.any? or (meta_context_group.meta_contexts & @media_entry.individual_contexts).any?
+    @main_context_group = ContextGroup.sorted_by_position.first
+    other_context_groups = ContextGroup.where(ContextGroup.arel_table[:position].not_eq(1)).sorted_by_position
+    @other_relevant_context_groups = other_context_groups.select do |context_group|
+      (context_group.contexts & @media_entry.individual_contexts).select{ |context|
+        @media_entry.meta_data.for_context(context, false).any?
+      }.any? or (context_group.contexts & @media_entry.individual_contexts).any?
     end
     @can_download = current_user.authorized?(:download, @media_entry)
     @can_edit = current_user.authorized?(:edit, @media_entry)
@@ -143,8 +143,8 @@ class MediaEntriesController < ApplicationController
   def contexts
     # TODO: fetch the 'individual_contexts' like we also do for sets
     # why was this even done in such a roundabout way?
-    @context_group = MetaContextGroup.find_by_name('Kontexte') || raise("No MetaContextGroup found")
-    @meta_contexts = @context_group.meta_contexts.select {|mc| @media_entry.individual_contexts.include?(mc) }
+    @context_group = ContextGroup.find_by_name('Kontexte') || raise("No ContextGroup found")
+    @contexts = @context_group.contexts.select {|mc| @media_entry.individual_contexts.include?(mc) }
   end
   
   def media_sets(parent_media_set_ids = params[:parent_media_set_ids])
@@ -176,7 +176,7 @@ class MediaEntriesController < ApplicationController
   
   def edit_multiple
     @contexts = @media_entries.map(&:individual_contexts).inject(&:&) # individual contexts common to all
-    @contexts = (MetaContext.defaults + @contexts).flatten
+    @contexts = (Context.defaults + @contexts).flatten
     @meta_data = {}
     @contexts.each {|context| @meta_data[context.id] = MediaEntry.compared_meta_data(@media_entries, context) }
   end

@@ -100,9 +100,9 @@ class MediaResourcesController < ApplicationController
     @contexts =
       case @media_resource
       when MediaEntry
-        MetaContext.defaults + @media_resource.individual_contexts
+        Context.defaults + @media_resource.individual_contexts
       when MediaSet, FilterSet
-        [MetaContext.find_by_name(:media_set)]
+        [Context.find_by_name(:media_set)]
       else
         raise "Add the class #{@media_resource.class} to dispatching"
       end

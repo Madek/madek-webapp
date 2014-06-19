@@ -65,26 +65,26 @@
               Edit
 
 %section
-  %h3 Displayed MetaContexts
+  %h3 Displayed Contexts
 
   %p
-    Configure the second and third MetaContext to be displayed, e.g. in a list view. 
-    The first displayed MetaContext is always set to 
+    Configure the second and third Context to be displayed, e.g. in a list view. 
+    The first displayed Context is always set to 
     %b core.
   %p
     Only 
     %b existing 
-    MetaContext names can be submitted here!
+    Context names can be submitted here!
 
   %table.table.table-striped
     %tbody
       - %w{second third}.each do |context|
         %tr
-          %td.limit250 Name of the #{context} displayed MetaContext
+          %td.limit250 Name of the #{context} displayed Context
           %td.limit700
-            = @settings.send("#{context}_displayed_meta_context_name")
+            = @settings.send("#{context}_displayed_context_id")
           %td
-            = link_to edit_app_admin_setting_path("#{context}_displayed_meta_context_name"), class: "btn btn-warning btn-xs" do
+            = link_to edit_app_admin_setting_path("#{context}_displayed_context_id"), class: "btn btn-warning btn-xs" do
               %i.fa.fa-pencil
               Edit
 

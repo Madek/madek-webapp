@@ -79,7 +79,7 @@ class User < ActiveRecord::Base
   def individual_contexts
     # NOTE media_sets scope includes the subclasses (FilterSet) 
     r = MediaSet.media_sets.accessible_by_user(self,:view).select("media_resources.id")
-    MetaContext.joins(:media_sets).uniq.where(:media_resources => {:id => r})
+    Context.joins(:media_sets).uniq.where(:media_resources => {:id => r})
   end
 
 #############################################################

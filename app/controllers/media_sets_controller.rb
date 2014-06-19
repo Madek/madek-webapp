@@ -68,7 +68,7 @@ class MediaSetsController < ApplicationController
 
       # get all contexts, sorted by group and position
       @individual_contexts = @media_set.individual_and_inheritable_contexts.sort_by do |context|
-        context.meta_context_group_id.to_s + context.position.to_s
+        context.context_group_id.to_s + context.position.to_s
       end
       
       # find out if each context is inherited and/or enabled
@@ -99,7 +99,7 @@ class MediaSetsController < ApplicationController
   
   def enable_individual_context
     check_and_initialize_for_edit
-    @context = MetaContext.find(params[:context_id])
+    @context = Context.find(params[:context_id])
     # add to list of individual contexts
     @media_set.individual_contexts << @context
     redirect_to context_media_set_path(@media_set, @context),
@@ -108,7 +108,7 @@ class MediaSetsController < ApplicationController
 
   def disable_individual_context
     check_and_initialize_for_edit
-    @context = MetaContext.find(params[:context_id])
+    @context = Context.find(params[:context_id])
     # remove from list of individual contexts
     @media_set.individual_contexts.delete @context
     

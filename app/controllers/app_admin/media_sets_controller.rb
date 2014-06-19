@@ -60,30 +60,30 @@ class AppAdmin::MediaSetsController < AppAdmin::BaseController
     end
   end
 
-  def manage_individual_meta_contexts 
+  def manage_individual_contexts 
     @media_set= MediaSet.find params[:media_set_id]
-    @individual_meta_contexts = @media_set.individual_contexts.reorder(:position,:name)
-    @other_meta_contexts = 
-      if @individual_meta_contexts.count > 0
-        MetaContext.where("name NOT IN (?)",@media_set.individual_context_ids).reorder(:position,:name)
+    @individual_contexts = @media_set.individual_contexts.reorder(:position,:id)
+    @other_contexts = 
+      if @individual_contexts.count > 0
+        Context.where("id NOT IN (?)",@media_set.individual_context_ids).reorder(:position,id)
       else
-        MetaContext.reorder(:position,:name)
+        Context.reorder(:position,:id)
       end
   end
 
-  def remove_individual_meta_context
+  def remove_individual_context
     @media_set = MediaSet.find params[:media_set_id]
-    @meta_context = MetaContext.find params[:id]
-    @media_set.individual_contexts.delete @meta_context
-    redirect_to manage_app_admin_media_set_individual_meta_contexts_path(@media_set), 
+    @context = Context.find params[:id]
+    @media_set.individual_contexts.delete @context
+    redirect_to manage_app_admin_media_set_individual_contexts_path(@media_set), 
       flash: {success: "The context has been revmoved from the media-set."}
   end
 
-  def add_individual_meta_context
+  def add_individual_context
     @media_set = MediaSet.find params[:media_set_id]
-    @meta_context = MetaContext.find params[:id]
-    @media_set.individual_contexts << @meta_context
-    redirect_to manage_app_admin_media_set_individual_meta_contexts_path(@media_set), 
+    @context = Context.find params[:id]
+    @media_set.individual_contexts << @context
+    redirect_to manage_app_admin_media_set_individual_contexts_path(@media_set), 
       flash: {success: "The context has been added to the media-set."}
   end
 

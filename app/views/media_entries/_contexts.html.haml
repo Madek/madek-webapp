@@ -1,0 +1,17 @@
+- contexts.each_slice(4) do |context_slice|
+
+  .media-entry-metadata.ui-container
+              
+    - context_slice.each do |context|
+      - meta_data = render :partial => "meta_data/meta_datum", :collection => @media_entry.meta_data.for_context(context), 
+                             :locals => {:context => context, :skip_empty_values => true}
+
+      .col1of4
+        .ui-metadata-box.prm
+          %h3.title-l.separated.mbm= context.label
+          %dl.media-data
+            - unless meta_data.blank?
+              = meta_data
+            - else
+              %dt.media-data-title.title-xs-alt 
+                = _("There are no metadata available for this context")

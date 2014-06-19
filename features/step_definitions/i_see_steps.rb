@@ -60,10 +60,10 @@ end
 
 Then /^I see a list with all contexts that are connected with media resources that I can access$/ do
   contexts_with_resources = @current_user.individual_contexts.reject do |context|
-    not MediaResource.filter(@current_user, {:meta_context_names => [context.name]}).exists?
+    not MediaResource.filter(@current_user, {:context_ids => [context.id]}).exists?
   end
   contexts_with_resources.each do |context|
-    find(".ui-contexts .ui-context[data-name='#{context.name}']")
+    find(".ui-contexts .ui-context[data-name='#{context.id}']")
   end
 end
 
@@ -78,11 +78,11 @@ end
 
 Then /^I see a preview list of contexts that are connected with media resources that I can access$/ do
   contexts_with_resources = @current_user.individual_contexts.reject do |context|
-    not MediaResource.filter(@current_user, {:meta_context_names => [context.name]}).exists?
+    not MediaResource.filter(@current_user, {:context_ids => [context.id]}).exists?
   end
   all(".ui-contexts .ui-context").length > 0 if contexts_with_resources
   all(".ui-contexts .ui-context").each do |ui_context|
-    expect(contexts_with_resources.any? {|context| context.name == ui_context[:"data-name"]}).to be true
+    expect(contexts_with_resources.any? {|context| context.id == ui_context[:"data-name"]}).to be true
   end
 end
 
@@ -139,7 +139,7 @@ end
 ### I see all ###########
 
 Then /^I see all resources that are using that context$/ do
-  @media_resources = MediaResource.filter(@current_user, {:meta_context_names => [@context.name]})
+  @media_resources = MediaResource.filter(@current_user, {:context_ids => [@context.id]})
   expect( find("#ui-resources-list-container .ui-resources-page-counter").text ).to include @media_resources.count.to_s
   all(".ui-resource", :visible => true).each do |resource_el|
     id = resource_el["data-id"]
@@ -148,7 +148,7 @@ Then /^I see all resources that are using that context$/ do
 end
 
 Then /^I see all values that are at least used for one resource$/ do
-  media_resources = MediaResource.filter(@current_user, {:meta_context_names => [@context.name]})
+  media_resources = MediaResource.filter(@current_user, {:context_ids => [@context.id]})
   meta_data = media_resources.map { |resource| resource.meta_data.for_context @context }.flatten
   meta_data.reject! {|meta_datum| meta_datum.value.blank? }
   meta_data.map(&:value).flatten.map(&:to_s).each do |term|

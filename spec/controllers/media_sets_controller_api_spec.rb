@@ -6,7 +6,7 @@ describe MediaSetsController do
 
   before :each do
     FactoryGirl.create :usage_term
-    FactoryGirl.create :meta_context_core
+    FactoryGirl.create :context_core
   end
 
   context "API Tests" do
@@ -27,7 +27,7 @@ describe MediaSetsController do
       context  "accesses splashscreen"  do
 
         let(:get_params) do
-          {id: @media_set.id, format: :json, with: {children: true, meta_data:{meta_context_names: ["core"]}, image: {size: "large"}}}
+          {id: @media_set.id, format: :json, with: {children: true, meta_data:{conetxt_ids: ["core"]}, image: {size: "large"}}}
         end
 
         it  "should not redirect" do

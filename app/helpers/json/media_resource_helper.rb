@@ -28,10 +28,10 @@ module Json
         
         if with[:meta_data]
           h[:meta_data] = []
-          if meta_context_names = with[:meta_data][:meta_context_names]
+          if context_ids = with[:meta_data][:context_ids]
             @cache_contexts ||= {}
-            meta_context_names.each do |name|
-              @cache_contexts[name] ||= MetaContext.find(name)
+            context_ids.each do |name|
+              @cache_contexts[name] ||= Context.find(name)
               h[:meta_data] += hash_for media_resource.meta_data.for_context(@cache_contexts[name]), {:label => {:context => @cache_contexts[name]}}
             end
           end
@@ -197,7 +197,7 @@ module Json
 
       if filter_types.include? :media_resource_type
         r << { :filter_type => "media_resources",
-               :context_name => "media_resources", 
+               :context_id => "media_resources", 
                :context_label => "Inhalte",
                :keys => [
                   { key_name: "type",
@@ -217,7 +217,7 @@ module Json
 
       if filter_types.include? :media_files
         r << { :filter_type => "media_files",
-               :context_name => "media_files", 
+               :context_id => "media_files", 
                :context_label => "Datei",
                :keys => [ {label: "Medientyp", column: "media_type"},
                           {label: "Dokumenttyp", column: "extension"}].map do |key|
@@ -247,7 +247,7 @@ module Json
 
       if filter_types.include? :permissions and not current_user.is_guest?
         r << { :filter_type => "permissions",
-               :context_name => "permissions",      
+               :context_id => "permissions",      
                :context_label => "Berechtigung",     # FIXME get label from the DB
                :keys => [:owner, :group, :scope].map do |k|
                  case k
@@ -329,30 +329,30 @@ module Json
                   INNER JOIN meta_terms ON meta_data_meta_terms.meta_term_id = meta_terms.id),
                %Q(meta_terms.id)]
           end
-          %Q( SELECT meta_contexts.name AS context_name, 
-                  meta_contexts.label AS context_label,
+          %Q( SELECT contexts.id AS context_id, 
+                  contexts.label AS context_label,
                   meta_keys.id AS key_name, 
                   meta_key_definitions.label AS key_label,
                   COUNT(meta_data.media_resource_id) AS count,
-                  meta_context_groups.position AS context_group_position,
-                  meta_contexts.position AS context_position,
+                  context_groups.position AS context_group_position,
+                  contexts.position AS context_position,
                   meta_key_definitions.position AS definition_position,
                   #{sql_select}
-                FROM meta_contexts
-                   INNER JOIN meta_context_groups ON meta_context_groups.id = meta_contexts.meta_context_group_id
-                   INNER JOIN meta_key_definitions ON meta_key_definitions.meta_context_name = meta_contexts.name
+                FROM contexts
+                   INNER JOIN context_groups ON context_groups.id = contexts.context_group_id
+                   INNER JOIN meta_key_definitions ON meta_key_definitions.context_id = contexts.id
                    INNER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id
                    INNER JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
                    #{sql_join}
                 WHERE meta_keys.meta_datum_object_type = '#{meta_datum_object_type}'
                 AND meta_data.media_resource_id IN (#{media_resources.select("media_resources.id").to_sql})
-                GROUP BY #{sql_group}, meta_contexts.name, meta_keys.id, meta_context_groups.position, meta_contexts.position, meta_key_definitions.position, meta_key_definitions.label )
+                GROUP BY #{sql_group}, contexts.id, meta_keys.id, context_groups.position, contexts.position, meta_key_definitions.position, meta_key_definitions.label )
         end
         sql = "SELECT * FROM (%s) AS t1 ORDER BY context_group_position, context_position, definition_position" % queries.join(" UNION ")
         executed_query = ActiveRecord::Base.connection.execute(sql)
-        executed_query.group_by{|x| x["context_name"]}.each_pair do |k, v|
+        executed_query.group_by{|x| x["context_id"]}.each_pair do |k, v|
           r << { :filter_type => "meta_data",
-                 :context_name => v.first["context_name"],
+                 :context_id => v.first["context_id"],
                  :context_label => v.first["context_label"],
                  :keys => v.group_by{|x| x["key_name"]}.map do |vv|
                    { :key_name => vv[1].first["key_name"],

@@ -126,17 +126,17 @@ class MediaResource < ActiveRecord::Base
   # NB: In this case the 'export' in 'get_data_for_export' also means 'download' 
   #     (since we write meta-data to the file anyway regardless of if we do a download or an export)
   def to_metadata_tags
-    MetaContext.find("io_interface").meta_key_definitions.collect do |definition|
-      definition.key_map.split(',').collect do |km|
+    IoInterface.find("default").io_mappings.collect do |io_mapping|
+      io_mapping.key_map.split(',').collect do |km|
         km.strip!
-        case definition.key_map_type
+        case io_mapping.key_map_type
           when "Array"
-            value = meta_data.get(definition.meta_key_id).value
+            value = meta_data.get(io_mapping.meta_key_id).value
             vo = ["-#{km}= "]
             vo += value.collect {|m| "-#{km}='#{(m.respond_to?(:strip) ? m.strip : m)}'" } if value
             vo
           else
-            value = meta_data.get(definition.meta_key_id).to_s
+            value = meta_data.get(io_mapping.meta_key_id).to_s
             "-#{km}='#{value}'"          
         end
       end

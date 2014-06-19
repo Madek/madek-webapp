@@ -27,7 +27,7 @@ class ImportController.MetaData
     do @extendForm
     @paginator.start {collection_id: @collectionId},
       meta_data:
-        meta_context_names: ["upload"]
+        context_ids: ["upload"]
       filename: true
     $(@paginator).on "completlyLoaded", (e, resources...)=> 
       @mediaResources = _.sortBy resources, (resource) -> "#{resource.created_at} #{resource.id}"

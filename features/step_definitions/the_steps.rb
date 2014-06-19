@@ -178,12 +178,12 @@ Then /^The meta term does not exist$/ do
   expect { MetaTerm.find(@meta_term_to_delete) }.to raise_error(ActiveRecord::RecordNotFound)
 end
 
-Then /^The meta_context "(.*?)" is included in the individual_meta_contexts$/ do |meta_context|
-  find("table.individual_meta_contexts tr.individual_meta_context[data-name='#{meta_context}']")
+Then /^The context "(.*?)" is included in the individual_contexts$/ do |context|
+  find("table.individual_contexts tr.individual_context[data-name='#{context}']")
 end
 
-Then /^The meta_context "(.*?)" is not included in the individual_meta_contexts$/ do |meta_context|
-  expect(  all("table.individual_meta_contexts tr.individual_meta_context[data-name='#{meta_context}']").size).to be== 0
+Then /^The context "(.*?)" is not included in the individual_contexts$/ do |context|
+  expect(  all("table.individual_contexts tr.individual_context[data-name='#{context}']").size).to be== 0
 end
 
 Then /^The most recent zencoder_job has the state "(.*?)"$/ do |state|

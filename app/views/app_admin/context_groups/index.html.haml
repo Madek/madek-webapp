@@ -1,0 +1,21 @@
+%h1.text-center
+  Meta Context Groups
+
+%ul.list-inline
+  %li
+    = link_to new_app_admin_context_group_path, class: 'btn btn-success' do
+      %i.fa.fa-plus
+      New Meta Context Group
+.row
+  = "Number of meta context groups:"
+  %span#counter #{@context_groups.count}
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Position
+      %th.no-wrap Name
+      %th Meta contexts
+      %th
+  %tbody
+    = render @context_groups

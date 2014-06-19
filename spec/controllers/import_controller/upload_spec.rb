@@ -4,14 +4,15 @@ describe ImportController do
   render_views
 
   before :all do
+    truncate_tables
     ENV['ZENCODER_CONFIG_FILE']= (Rails.root.join "features","data","zencoder.yml").to_s
     FactoryGirl.create :usage_term
     FactoryGirl.create :meta_key, id: "copyright status", :meta_datum_object_type => "MetaDatumCopyright"
     FactoryGirl.create :meta_key, id: "description author", :meta_datum_object_type => "MetaDatumPeople"
     FactoryGirl.create :meta_key, id: "description author before import", :meta_datum_object_type => "MetaDatumPeople"
     FactoryGirl.create :meta_key, id: "uploaded by", :meta_datum_object_type => "MetaDatumUsers"
-    FactoryGirl.create :meta_context, name: 'io_interface', is_user_interface: false
-    FactoryGirl.create :meta_context, name: 'upload', is_user_interface: false
+    FactoryGirl.create :context, id: 'upload'
+    FactoryGirl.create :io_interface
     @user = FactoryGirl.create :user
   end
 
@@ -21,6 +22,12 @@ describe ImportController do
 
   let :session do
     {:user_id => @user.id}
+  end
+
+  describe "prerequisite MetaKey.meta_key_for " do
+    it "returns an meta_key object" do
+      expect(MetaKey.meta_key_for("XMP-madek:PortrayedObjectDates")).to be
+    end
   end
 
   describe "updoad" do
@@ -90,7 +97,7 @@ describe ImportController do
           expect(@media_entry_incomplete = MediaEntryIncomplete.reorder(created_at: :desc).first).to be
           expect(@meta_data = @media_entry_incomplete.meta_data).to be
 
-          @meta_data.get("author").value.should be==  "Cahenzli, Ramon"
+          @meta_data.get("author").value.first.to_s.should be==  "Cahenzli, Ramon"
           @meta_data.get("marked").value.should be== "t"
           @meta_data.get("portrayed object dates").value.should be== "30.05.2011"
           @meta_data.get("rights").value.should be==  "Ramón Cahenzli"

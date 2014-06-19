@@ -6,7 +6,7 @@ module MediaResourceModules
     KEYS = [ :accessible_action, :collection_id, :favorites, :group_id, :ids,
              :media_file,:media_files, :media_set_id, :meta_data, :not_by_user_id,
              :permissions, :public, :search, :type, :user_id,
-             :query, :meta_context_names, :media_resources ] 
+             :query, :context_ids, :media_resources ] 
 
     def self.included(base)
       base.class_eval do
@@ -104,7 +104,7 @@ module MediaResourceModules
 
         resources = resources.filter_uploaded_by(filter_opts[:uploader_id]) if filter_opts[:uploader_id]
 
-        resources = resources.filter_contexts(resources,filter_opts[:meta_context_names]) if filter_opts[:meta_context_names]
+        resources = resources.filter_contexts(resources,filter_opts[:context_ids]) if filter_opts[:context_ids]
 
         resources
       end
@@ -238,10 +238,10 @@ module MediaResourceModules
 
       def filter_contexts(resources,names)
         sub = unscoped.joins(:meta_data => {:meta_key => :meta_key_definitions})
-                      .where(:meta_key_definitions => {:meta_context_name => names})
+                      .where(:meta_key_definitions => {:context_id => names})
                       .joins("INNER JOIN media_resource_arcs ON media_resource_arcs.child_id = media_resources.id")
-                      .joins("INNER JOIN media_sets_meta_contexts ON media_sets_meta_contexts.media_set_id = media_resource_arcs.parent_id")
-                      .where(:media_sets_meta_contexts => {:meta_context_name => names})
+                      .joins("INNER JOIN media_sets_contexts ON media_sets_contexts.media_set_id = media_resource_arcs.parent_id")
+                      .where(:media_sets_contexts => {:context_id => names})
                       .uniq
         resources.where(:id => sub)
       end
