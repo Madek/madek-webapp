@@ -6,7 +6,7 @@ Feature: Admin Meta Key Definitions
     Given I am signed-in as "Adam"
 
   Scenario: Setting min & max length
-    When I visit "/app_admin/meta_contexts/core/edit"
+    When I visit "/app_admin/contexts/core/edit"
     And I click on "Edit"
     Then I can see the input with the name "meta_key_definition[length_min]" with no value
     And I can see the input with the name "meta_key_definition[length_max]" with no value
@@ -19,7 +19,7 @@ Feature: Admin Meta Key Definitions
     And I can see the input with the name "meta_key_definition[length_max]" with value "64"
 
   Scenario: Setting input type
-    When I visit "/app_admin/meta_contexts/core/edit"
+    When I visit "/app_admin/contexts/core/edit"
     And I click on "Edit"
     Then I can see two unchecked radio buttons with the name "meta_key_definition[input_type]"
     When I check the radio button with the name "meta_key_definition[input_type]" with the value "text_area"

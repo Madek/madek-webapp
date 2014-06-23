@@ -2,12 +2,12 @@
   = form_for [:app_admin, @context], html: {class: "form-horizontal", role: "form"} do |f|
 
     .form-group
-      %label.control-label.col-sm-2 Name
+      %label.control-label.col-sm-2 Id
       .col-sm-4
-        = f.text_field :name, class: 'form-control', disabled: f.object.persisted?
+        = f.text_field :id, class: 'form-control', disabled: f.object.persisted?
 
     .form-group
-      %label.control-label.col-sm-2 Meta context group
+      %label.control-label.col-sm-2 Context group
       .col-sm-4
         = f.select :context_group_id, ContextGroup.all.collect { |mcg| [ mcg.name, mcg.id ] }, {include_blank: true}, { class: "form-control" }
 
@@ -35,8 +35,6 @@
               %td
                 = ff.object.meta_key
                 = ff.hidden_field :position, class: "meta-key-definition-position"
-              %td= ff.object.key_map
-              %td= ff.object.key_map_type
               %td= ff.object.label
               %td= ff.object.hint
               %td= ff.object.description

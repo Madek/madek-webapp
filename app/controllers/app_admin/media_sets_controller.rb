@@ -65,7 +65,7 @@ class AppAdmin::MediaSetsController < AppAdmin::BaseController
     @individual_contexts = @media_set.individual_contexts.reorder(:position,:id)
     @other_contexts = 
       if @individual_contexts.count > 0
-        Context.where("id NOT IN (?)",@media_set.individual_context_ids).reorder(:position,id)
+        Context.where("id NOT IN (?)",@media_set.individual_context_ids).reorder(:position,:id)
       else
         Context.reorder(:position,:id)
       end

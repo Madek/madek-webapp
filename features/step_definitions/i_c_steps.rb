@@ -685,7 +685,7 @@ Then /^I click on the link "([\s\w]*?)" of the individual_context "([\s\w]*?)"$/
 end 
 
 Then /^I click on the link "([\s\w]*?)" of the context "([\s\w]*?)"$/ do |link_text,context|
-  find("table.contexts tr.context[data-name='#{context}']") \
+  find("table.contexts tr.context[data-id='#{context}']") \
     .find("a",text: link_text).click
 end
 

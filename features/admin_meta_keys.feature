@@ -59,10 +59,10 @@ Feature: Admin Meta Keys
     When I visit "/app_admin/meta_keys"
     Then I see a select input with "filter[context]" name
     And There is no option selected in "filter[context]" select
-    When I select "IO Interface" from the select node with the name "filter[context]"
+    When I select "Core" from the select node with the name "filter[context]"
     And I submit
-    Then I can see only meta keys containing "IO Interface" term
-    And There is "IO Interface" option selected in "filter[context]" select
+    Then I can see only meta keys containing "Core" term
+    And There is "Core" option selected in "filter[context]" select
 
   @firefox
   Scenario: Applying alphabetical order to meta terms

@@ -27,19 +27,9 @@ Feature: Managing Media-Sets
   @jsbrowser
   Scenario: Manage individual context
   When I visit "/app_admin/media_sets/2"
-  And I click on the link "Manage individual contexts" 
-  Then The meta_context "Zett" is included in the individual_meta_contexts
-  When I click on the link "Remove" of the individual_meta_context "Zett"
-  Then The meta_context "Zett" is not included in the individual_meta_contexts
-  When I click on the link "Add" of the meta_context "Zett"
-  Then The meta_context "Zett" is included in the individual_meta_contexts
-
-
-
-
-
-  
-
-
-
-
+  And I click on the link "Manage individual contexts"
+  Then The context "Zett" is included in the individual_contexts
+  When I click on the link "Remove" of the individual_context "Zett"
+  Then The context "Zett" is not included in the individual_contexts
+  When I click on the link "Add" of the context "Zett"
+  Then The context "Zett" is included in the individual_contexts

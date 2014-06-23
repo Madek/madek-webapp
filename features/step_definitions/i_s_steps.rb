@@ -23,7 +23,6 @@ Then /^I select "(.*?)" from the select node with the name "(.*?)"$/ do |text, n
   find("select[name='#{name}']").select(text)
 end
 
-
 Then /^I select the any-value checkbox for a specific key$/ do
   @any_value_el = all(".any-value").shuffle.first
   context_id = @any_value_el.find(:xpath, ".//ancestor::*[@data-context-id]")["data-context-id"]

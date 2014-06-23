@@ -6,7 +6,7 @@ Feature: Admin Meta Context Groups
     Given I am signed-in as "Adam"
 
   Scenario: Removing a meta context
-    When I visit "/app_admin/meta_context_groups"
+    When I visit "/app_admin/context_groups"
     And I click on "Edit"
     Then I can see a list of "4" meta contexts
     When I check the first remove checkbox

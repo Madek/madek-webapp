@@ -4,7 +4,6 @@
   %td= context.position
   %td= context.label
   %td= context.description
-  %td= context.is_user_interface ? "Yes" : "No"
   %td.no-wrap
     = link_to edit_app_admin_context_path(context), class: "btn btn-warning btn-xs" do
       %i.icon-pen
