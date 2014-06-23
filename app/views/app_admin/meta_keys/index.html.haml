@@ -22,6 +22,12 @@
         = options_from_collection_for_select ::Context.order(:label), 'label', 'label', @context
 
     .form-group
+      %label Used?
+      %select.form-control{name: 'filter[is_used]'}
+        %option{value: ''} All
+        = options_for_select([["Used", true], ["Not used", false]], @is_used)
+
+    .form-group
       = button_tag type: 'submit', class: 'btn btn-sm' do
         %i.icon-filter
         Apply
@@ -45,6 +51,7 @@
       %th Amount of resources
       %th Terms
       %th Contexts
+      %th.no-wrap Used / Not used
       %th
   %tbody
     =render @meta_keys

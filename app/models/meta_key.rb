@@ -26,6 +26,19 @@ class MetaKey < ActiveRecord::Base
   scope :with_meta_data, lambda{joins(:meta_data).group(:id)}
   scope :for_meta_terms, lambda{where(meta_datum_object_type: "MetaDatumMetaTerms")}
   scope :with_context,   lambda{ |context_label| joins(:contexts).where('contexts.label' => context_label)}
+  
+  scope :used, ->(is_used = true){
+    condition = is_used ? 'EXISTS' : 'NOT EXISTS'
+    operator  = is_used ? 'OR'     : 'AND'
+    where(%Q<
+      #{condition} (SELECT NULL FROM "meta_data" 
+                      WHERE "meta_keys"."id" = "meta_data"."meta_key_id") 
+      #{operator}
+      #{condition} (SELECT NULL FROM "meta_key_definitions" 
+                      WHERE "meta_keys"."id" = "meta_key_definitions"."meta_key_id")
+      #{operator}
+      #{condition} (SELECT NULL FROM "meta_keys_meta_terms"
+                      WHERE "meta_keys"."id" = "meta_keys_meta_terms"."meta_key_id") >) }
 
   def label
     id
@@ -59,15 +72,8 @@ class MetaKey < ActiveRecord::Base
     end.collect {|d| d.label.to_s if d.key_map.blank? }.compact.uniq.join(', ')
   end
 
-  def update_associations_with_id(new_id)
-    new_meta_key = MetaKey.create(id: new_id, meta_datum_object_type: meta_datum_object_type)
-    ActiveRecord::Base.transaction do
-      meta_data.update_all(meta_key_id: new_meta_key.id)
-      meta_key_definitions.update_all(meta_key_id: new_meta_key.id)
-      meta_key_meta_terms.update_all(meta_key_id: new_meta_key.id)
-      destroy
-    end
-    new_meta_key
+  def used?
+    !meta_key_definitions.empty? || !meta_data.empty? || !meta_key_meta_terms.empty?
   end
 
 ########################################################

@@ -11,8 +11,13 @@
     %ul
       - meta_key.contexts.each do |context|
         %li= context.label
-
+  %td= meta_key.used? ? "Used" : "Not used"
   %td.no-wrap
     = link_to edit_app_admin_meta_key_path(meta_key), class: "btn btn-warning btn-xs" do
       %i.icon-pen
       Edit
+
+    - unless meta_key.used?
+      = link_to app_admin_meta_key_path(meta_key), class: "btn btn-danger btn-xs", method: :delete, data: {confirm: "Are you sure you want to delete this meta key?"} do
+        %i.icon-trash
+        Delete

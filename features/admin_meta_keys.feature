@@ -15,17 +15,6 @@ Feature: Admin Meta Keys
     And I submit
     Then I can see a success message
 
-  Scenario: Renaming the label of the key
-    When I visit "/app_admin/meta_keys/project%20type/edit"
-    Then I can see the input with the name "meta_key[id]" with value "project type"
-    When I set the input with the name "meta_key[id]" to "project type edited"
-    And I submit
-    Then I can see a success message
-    And I am on the "/app_admin/meta_keys/project%20type%20edited/edit" page
-    And I can see the input with the name "meta_key[id]" with value "project type edited"
-    When I visit "/app_admin/meta_keys/project%20type/edit"
-    Then I cannot see the input with the name "meta_key[id]" with value "project type"
-
   Scenario: Listing meta keys with type info
     When I visit "/app_admin/meta_keys"
     Then I see the column with a meta datum object type
@@ -64,6 +53,21 @@ Feature: Admin Meta Keys
     Then I can see only meta keys containing "Core" term
     And There is "Core" option selected in "filter[context]" select
 
+  Scenario: Filtering meta keys by used / not used status
+    When I visit "/app_admin/meta_keys"
+    Then I see a select input with "filter[is_used]" name
+    And There is no option selected in "filter[is_used]" select
+    When I select "Not used" from the select node with the name "filter[is_used]"
+    And I submit
+    Then I can see only meta keys containing "Not used" term
+
+  Scenario: Deleting not used meta key
+    When I visit "/app_admin/meta_keys?is_used=false"
+    Then I can see delete links in a table
+    And I click on "Delete"
+    Then I can see a success message
+    And There is one less delete link
+ 
   @firefox
   Scenario: Applying alphabetical order to meta terms
     When I visit "/app_admin/meta_keys?filter[meta_datum_object_type]=MetaDatumMetaTerms"

@@ -7,7 +7,7 @@
     .form-group
       %label.control-label.col-sm-2 Label
       .col-sm-4
-        = f.text_field :id, class: 'form-control'
+        = f.text_field :id, class: 'form-control', disabled: f.object.persisted?
 
     - unless @meta_key.persisted?
       .form-group
@@ -56,7 +56,7 @@
       .col-sm-offset-2.col-sm-4
         = button_tag "Submit", type: 'submit', class: "btn btn-success"
         - if @meta_key.persisted?
-          = link_to "Cancel", edit_app_admin_meta_key_path(@meta_key), class: "btn btn-danger"
+          = link_to "Cancel", app_admin_meta_keys_path
 
 :javascript
   $(document).ready(function(){

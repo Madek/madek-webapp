@@ -13,6 +13,11 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
     if (@context = params.try(:[], :filter).try(:[], :context)).present?
       @meta_keys = @meta_keys.with_context(@context)
     end
+
+    if (@is_used = params.try(:[], :filter).try(:[], :is_used)).present?
+      @is_used = @is_used == "true" ? true : false
+      @meta_keys = @meta_keys.used(@is_used)
+    end
   end
 
   def new
@@ -41,11 +46,22 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
       merge_meta_terms
       destroy_chosen_meta_terms
       update_meta_terms_positions
-      handle_id_change
 
       redirect_to edit_app_admin_meta_key_url(@meta_key), flash: {success: "The meta key has been updated"}
     rescue => e
       redirect_to edit_app_admin_meta_key_url(@meta_key), flash: {error: e.to_s}
+    end
+  end
+
+  def destroy
+    begin
+      @meta_key = MetaKey.find(params[:id])
+      raise "Cannot delete an used meta key" if @meta_key.used?
+      @meta_key.destroy
+
+      redirect_to app_admin_meta_keys_url, flash: {success: "The meta key has been deleted"}
+    rescue => e
+      redirect_to app_admin_meta_keys_url, flash: {error: e.to_s}
     end
   end
 
@@ -94,11 +110,5 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
       next if from == to
       from.reassign_meta_data_to_term(to, @meta_key)
     end if params[:reassign_term_id]
-  end
-
-  def handle_id_change
-    if @meta_key.id != params[:meta_key][:id]
-      @meta_key = @meta_key.update_associations_with_id(params[:meta_key][:id])
-    end
   end
 end

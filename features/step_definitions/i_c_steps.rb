@@ -117,7 +117,8 @@ Then /^I can see edit links in a table$/ do
 end
 
 Then /^I can see delete links in a table$/ do
-  expect(all('table tr a', text: "Delete").size).to be > 0
+  @delete_links_count = all('table tr a', text: "Delete").size
+  expect(@delete_links_count).to be > 0
 end
 
 Then /^I can not see "(.*?)"$/ do |text|

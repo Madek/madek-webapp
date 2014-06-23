@@ -104,6 +104,10 @@ Then /^There is no option selected in "(.*?)" select$/ do |name|
   end
 end
 
+Then /^There is one less delete link$/ do
+  expect(all('table tr a', text: "Delete").size).to be== @delete_links_count - 1
+end
+
 Then /^There is "(.*?)" group type option selected$/ do |option|
   within "select[name='type']" do
     expect(find("option[value='#{option}']")[:selected]).to eq("selected")
