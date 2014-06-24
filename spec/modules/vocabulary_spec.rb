@@ -34,36 +34,105 @@ describe ::Vocabulary do
       end
     end
 
-    describe "building the vocabulary," do
+    describe "building the vocabulary for context and user," do
 
       it "should not raise an error" do
         expect{ ::Vocabulary.build_for_context_and_user(@context,@user) }.not_to raise_error
       end
 
+
+      describe "the vocabulary, " do
+
+        before :each do 
+          @vocabulary= ::Vocabulary.build_for_context_and_user @context, @user
+        end
+
+        it "contains an item with the label 'Landschaftstyp'" do 
+          @vocabulary.select{|item| item[:label]== 'Landschaftstyp'}.should_not be_empty
+        end
+
+        describe "the 'Landschaftstyp' item" do
+          before :each do
+            @landschaftstyp_item= @vocabulary.select{|item| item[:label]== 'Landschaftstyp'}.first
+          end
+          it "contains a 'Agglomeration' term which is used at least once"  do
+            agglomeration_term= @landschaftstyp_item[:meta_terms].select{|mt| mt[:term] ==  'Agglomeration'}.first
+            agglomeration_term.should be
+            agglomeration_term[:usage_count].should be>= 1
+          end
+        end
+
+      end
     end
 
-    describe "the vocabulary, " do
 
-      before :each do 
-        @vocabulary= ::Vocabulary.build_for_context_and_user @context, @user
-      end
+    describe "building the vocabulary for context, set  and user," do
 
-      it "contains an item with the label 'Landschaftstyp'" do 
-        @vocabulary.select{|item| item[:label]== 'Landschaftstyp'}.should_not be_empty
-      end
+      context "the first set of the Landschaftsvisualisierung" do
 
-      describe "the 'Landschaftstyp' item" do
         before :each do
-          @landschaftstyp_item= @vocabulary.select{|item| item[:label]== 'Landschaftstyp'}.first
+          @set = @context.media_sets.first
         end
-        it "contains a 'Agglomeration' term which is used at least once"  do
-          agglomeration_term= @landschaftstyp_item[:meta_terms].select{|mt| mt[:term] ==  'Agglomeration'}.first
-          agglomeration_term.should be
-          agglomeration_term[:usage_count].should be>= 1
+
+        it "exists" do 
+          expect{@set}.to be 
         end
+
+        it "has children" do
+           @set.child_media_resources.count.should be>= 1
+        end
+
+        describe "::Vocabulary.meta_terms_for_set" do
+
+          before :each do
+            @terms = ::Vocabulary.meta_terms_for_set(@set) 
+          end
+
+          it "has terms" do
+            @terms.count.should be>= 1
+          end
+        end
+
+        describe "build_for_context_set_and_user" do
+
+          it "succeeds" do
+            expect{  
+              ::Vocabulary.build_for_context_set_and_user(
+                @context,@set,@user)
+            }.not_to raise_error
+          end
+
+          describe "the vocabulary, " do
+
+            before :each do 
+              @vocabulary= ::Vocabulary.build_for_context_set_and_user @context,@set, @user
+            end
+
+            it "contains an item with the label 'Landschaftstyp'" do 
+              @vocabulary.select{|item| item[:label]== 'Landschaftstyp'}.should_not be_empty
+            end
+
+            describe "the 'Stil- und Kunstrichtungen' item" do
+              before :each do
+                @suk_item= @vocabulary.select{|item| item[:label]== 'Stil- und Kunstrichtungen'}.first
+              end
+              it "contains a 'Konzeptkunst' term which is used at least once"  do
+                konzeptkunst_term= @suk_item[:meta_terms].select{|mt| mt[:term] ==  'Konzeptkunst'}.first
+                konzeptkunst_term.should be
+                konzeptkunst_term[:usage_count].should be>= 1
+              end
+            end
+
+          end
+
+
+        end
+
       end
 
     end
+
   end
+
 end
 
