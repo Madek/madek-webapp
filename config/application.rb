@@ -19,10 +19,11 @@ module MAdeK
     # config.autoload_paths += %W(#{config.root}/extras)
 
     config.autoload_paths += [
-      Rails.root.join("lib"),
       Rails.root.join("app","api"),
       Rails.root.join("app","lib"),
-      Rails.root.join("app","models","concerns")
+      Rails.root.join("app","models","concerns"),
+      Rails.root.join("app","modules"),
+      Rails.root.join("lib")
     ]
 
     # Only load the plugins named here, in the order given (default is alphabetical).

@@ -4,7 +4,7 @@ Feature: Inheritance of contexts
   I want add individual data to media entries
   So that I store my specialized meta data
 
-  @jsbrowser 
+  @jsbrowser
   Scenario: Inherit contexts from another set
     Given I am signed-in as "Adam"
     When I put a set A that has media entries in set B that has any context
@@ -19,7 +19,7 @@ Feature: Inheritance of contexts
     Then this context is removed from set A
     And all media entries contained in set A doesnt have that context anymore
 
-  @firefox
+  @jsbrowser
   Scenario: Disconnect contexts from a set
     Given I am signed-in as "Adam"
     When I edit the contexts of a set that has contexts

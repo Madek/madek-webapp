@@ -7,8 +7,8 @@ class ContextsController < ApplicationController
     end
     @context = Context.find(params[:id])
 
-    @entries = @context.media_entries @current_user
-    @entries_count = @context.media_entries_count @current_user
+    @entries = ::Vocabulary.media_entries @context, @current_user
+    @entries_count = ::Vocabulary.media_entries_count @context, @current_user
     
     # TODO: queries
     @entries_with_terms_count = 2342
@@ -18,7 +18,7 @@ class ContextsController < ApplicationController
 
   def show
     initialize_for_view
-    @vocabulary = @context.build_vocabulary @current_user
+    @vocabulary = ::Vocabulary.build_for_context_and_user(@context, @current_user)
     # binding.pry
     @max_usage_count = @vocabulary.map{|key|
       # guard against empty keys

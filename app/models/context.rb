@@ -7,8 +7,6 @@
 # However, they are quite flexible, and may also be used for managing meta-data upon import.
 class Context < ActiveRecord::Base
 
-  include Concerns::Context::Vocabulary
-
   attr_accessor :inherited, :enabled
 
   belongs_to :context_group

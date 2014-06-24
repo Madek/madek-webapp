@@ -149,10 +149,6 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/misc/exiftool_spec.rb"
-- name: models context vocabulary
-  scripts:
-    rspec:
-      body: bundle exec rspec "spec/models/context/vocabulary_spec.rb"
 - name: models context_group
   scripts:
     rspec:
@@ -285,6 +281,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/zencoder_job_spec.rb"
+- name: modules vocabulary
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/modules/vocabulary_spec.rb"
 - name: requests api authentication
   scripts:
     rspec:

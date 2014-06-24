@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Concerns::Context::Vocabulary do
+describe ::Vocabulary do
 
   context "personas data, user normin, and the Landschaftsvisualisierung context, " do
 
@@ -20,16 +20,16 @@ describe Concerns::Context::Vocabulary do
     describe "getting the included (individual) media_entries" do
 
       it "should not raise an error" do
-        expect{ @context.media_entries @user }.not_to raise_error
+        expect{ ::Vocabulary.media_entries(@context, @user) }.not_to raise_error
       end
 
       it "includes 'Diplom' (8b5050fe-280d-4712-9acb-fe8323e5c33e) e.g." do
-        @context.media_entries(@user).map(&:id).should include '8b5050fe-280d-4712-9acb-fe8323e5c33e'
+        ::Vocabulary.media_entries(@context,@user).map(&:id).should include '8b5050fe-280d-4712-9acb-fe8323e5c33e'
       end
 
       describe " the count" do
         it "should be >= 5" do 
-          @context.media_entries_count(@user).should be>= 5
+          ::Vocabulary.media_entries_count(@context,@user).should be>= 5
         end
       end
     end
@@ -37,7 +37,7 @@ describe Concerns::Context::Vocabulary do
     describe "building the vocabulary," do
 
       it "should not raise an error" do
-        expect{ @context.build_vocabulary @user }.not_to raise_error
+        expect{ ::Vocabulary.build_for_context_and_user(@context,@user) }.not_to raise_error
       end
 
     end
@@ -45,7 +45,7 @@ describe Concerns::Context::Vocabulary do
     describe "the vocabulary, " do
 
       before :each do 
-        @vocabulary= @context.build_vocabulary @user
+        @vocabulary= ::Vocabulary.build_for_context_and_user @context, @user
       end
 
       it "contains an item with the label 'Landschaftstyp'" do 
