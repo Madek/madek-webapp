@@ -14,8 +14,9 @@ module Vocabulary
     end
 
     def build_for_context_and_user context, user
-      MetaKeyDefinition.joins(:context) 
-        .where("contexts.id= ?",context.id) 
+      MetaKeyDefinition \
+        .joins(:context).where("contexts.id= ?",context.id) 
+        .joins(:meta_key).where("meta_datum_object_type = 'MetaDatumMetaTerms'")
         .order(:label).map{ |mkd|
           mkd.attributes.merge(
             meta_terms: MetaTerm.joins(meta_keys: :meta_key_definitions) 
@@ -28,8 +29,9 @@ module Vocabulary
 
     # TODO remove duplication here
     def build_for_context_set_and_user context, set, user
-      MetaKeyDefinition.joins(:context) 
-        .where("contexts.id= ?",context.id) 
+      MetaKeyDefinition \
+        .joins(:context).where("contexts.id= ?",context.id) 
+        .joins(:meta_key).where("meta_datum_object_type = 'MetaDatumMetaTerms'")
         .order(:label).map{ |mkd|
           mkd.attributes.merge(
             meta_terms: MetaTerm.joins(meta_keys: :meta_key_definitions) 
