@@ -42,8 +42,6 @@ window.App.vocabulary = function (config) {
     });
   };
   
-  console.log($.easing)
-  
   // setup the slider (elm, min, max, callback)
   setupSlider(
     $('[data-filter-control="slider"]').find('.ui-slider'), 
@@ -135,7 +133,16 @@ window.App.vocabulary = function (config) {
           $element.addClass('disabled');
           $element.parent().show();
         } else {
+          // hide the tag
           $element.parent().hide();
+          // if it's parent list is now empty, show placeholder
+          var list = $element.parents('ul.ui-tag-cloud');
+          var placeholder = list.find('[data-ui-role="empty_list"]');
+          if (list.find('li:visible').length === 0) {
+            placeholder.show();
+          } else {
+            placeholder.hide();
+          }
         }
       } 
       else { // off

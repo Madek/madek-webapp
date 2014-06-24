@@ -8,7 +8,9 @@
 
       .col1of4
         .ui-metadata-box.prm
-          %h3.title-l.separated.mbm= context.label
+          %h3.separated.mbm
+            %a.title-l{href: context_path(context.id)}
+              = context.label
           %dl.media-data
             - unless meta_data.blank?
               = meta_data

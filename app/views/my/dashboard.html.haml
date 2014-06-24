@@ -75,6 +75,8 @@
                                  :title => _("My workgroups"),
                                  :link => my_groups_path,
                                  :id => "my_groups_block"}
+                                 
+            %hr.separator
 
           - if @user_groups.blank? and @user_entrusted_resources.blank? and @user_keywords.blank? and @user_favorite_resources.blank? and @latest_user_imports.blank? and @latest_user_resources.blank? #TODO: and @user_contexts.blank?
             .row.mts
@@ -95,8 +97,8 @@
 
           - unless @user_contexts_count.zero?
             = render :partial => "contexts/wrapper",
-                     :locals => {:contexts => @user_contexts,
-                                 :title => _("Vocabularies"),
+                     :locals => {:contexts => @user_contexts.limit(3),
+                                 :title => _("Vokabulare"),
                                  :link => my_contexts_path,
                                  :id => "my_contexts_block"}
 

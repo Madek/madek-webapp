@@ -142,7 +142,6 @@ class MediaEntriesController < ApplicationController
 
   def contexts
     # TODO: fetch the 'individual_contexts' like we also do for sets
-    # why was this even done in such a roundabout way?
     @context_group = ContextGroup.find_by_name('Kontexte') || raise("No ContextGroup found")
     @contexts = @context_group.contexts.select {|mc| @media_entry.individual_contexts.include?(mc) }
   end

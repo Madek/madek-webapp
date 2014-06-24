@@ -741,6 +741,10 @@ Then /^I confirm the browser dialog$/ do
   end
 end
 
+When(/^I confirm the modal$/) do
+  find('.modal.in').find('.primary-button').click
+end
+
 Then /^I create a dropbox$/ do
   step 'I click on the link "Dropbox erstellen" inside of the dialog'
 end

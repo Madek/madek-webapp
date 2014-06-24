@@ -11,7 +11,7 @@ class AbstractController
     do @delegateEvents
 
   delegateEvents: ->
-    terms = '[data-ui-role="meta_term"]'
+    terms = '[data-ui-role="meta_term"] a'
     
     @abstractContainer.on "mouseenter", terms, (e)=>
       target = $(e.currentTarget)
@@ -25,10 +25,10 @@ class AbstractController
 
   loadPreview: (target)->
     
-    return if target.find('a').data('term-count') == 0
+    return if target.data('term-count') == 0
     
     filter = {meta_data: {}}
-    filter.meta_data[target.find("a").data("meta-datum-name")] = {ids: [target.find("a").data("term-id")]}
+    filter.meta_data[target.data("meta-datum-name")] = {ids: [target.data("term-id")]}
     App.MediaResource.fetch 
       meta_data: filter.meta_data
       per_page: 3

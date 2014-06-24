@@ -13,12 +13,17 @@
           %h3.title-s-alt.separated.light.mbx{:id => meta_key[:meta_key_id], :title => (meta_key[:description] || '')}
             = meta_key[:label] 
             %span.title-xs-alt.mlx 
-              -# group.sorting_mode #TODO: SORTING_MODE of group (later, when in schema)
+              -# Show alphabetical or custom order
+              - unless meta_key[:meta_key_meta_terms_alphabetical_order].nil?
+                = meta_key[:meta_key_meta_terms_alphabetical_order] ? "(a–z)" : "(thematisch sortiert)"
 
           -# list of terms
           %ul.ui-tag-cloud.small.ellipsed.compact
 
             -# for each term
+            %span.title-xs-alt{:'data-ui-role' => 'empty_list', 
+              :'class'=> meta_key[:meta_terms].empty? ? '':'hidden'}
+              = "(Keine Begriffe)"
             - meta_key[:meta_terms].each do |meta_term|
             
               %li.ui-tag-cloud-item{:'data-ui-role' => 'meta_term'}
