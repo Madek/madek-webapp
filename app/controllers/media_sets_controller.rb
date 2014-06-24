@@ -16,8 +16,8 @@ class MediaSetsController < ApplicationController
     @entries_total_count = @media_set.child_media_resources.count
     
     # TODO: queries
-    @entries_with_terms_count = 2342
-    @entries_total_count = 1337
+    # @entries_with_terms_count = 2342
+    # @entries_total_count = 1337
 
   end
 
@@ -87,7 +87,7 @@ class MediaSetsController < ApplicationController
       
       # get desired context and it's vocabulary - we fetch it from our list because it already contains usefull info (from above)
       @context = @individual_contexts[@individual_contexts.index{|c|c[:id]===params[:context_id]}]
-      @vocabulary = ::Vocabulary.build_for_context_and_user(@context,@current_user)
+      @vocabulary = ::Vocabulary.build_for_context_set_and_user(@context, @media_set, @current_user)
       @max_usage_count = @vocabulary.map{|key|
         # guard against empty keys
         key[:meta_terms].empty? ? 0 : key[:meta_terms].map{|term|term[:usage_count]}.max
