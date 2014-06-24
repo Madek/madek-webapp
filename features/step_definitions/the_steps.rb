@@ -209,6 +209,10 @@ end
 Then /^The owner of the media_resource is "(.*?)"$/  do |login|
   expect(@media_resource.reload.user).to be== User.find_by_login(login.downcase)
 end
+
+Then /^The origin keyword has no resources to transfer$/ do
+  expect{ find("tr#keyword-term-#{@keyword_with_resources.id} a.transfer-resources") }.to raise_error
+end
  
 Then /^the origin person has not meta_data to transfer$/ do
   expect{find("tr#person_#{@person_with_meta_data.id} .meta_data_count")}.to raise_error

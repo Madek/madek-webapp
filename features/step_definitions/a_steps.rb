@@ -1,5 +1,10 @@
 # -*- encoding : utf-8 -*-
 
+When /^A keyword has some resources associated to it$/ do
+  @keyword_with_resources = KeywordTerm.with_count.order("keywords_count DESC").first
+  expect{ @keyword_transfer_link = find("tr#keyword-term-#{@keyword_with_resources.id} a.transfer-resources") }.not_to raise_error
+end
+
 Then /^A new ZencoderJob has been added$/ do
   expect( all("table.zencoder-jobs tbody tr").size ).to eq (@zencoder_jobs_number + 1)
 end

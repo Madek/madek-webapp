@@ -3,7 +3,6 @@
 --
 
 SET statement_timeout = 0;
-SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -548,10 +547,7 @@ CREATE TABLE usage_terms (
 --
 
 CREATE VIEW user_resources_counts AS
- SELECT count(*) AS resouces_count,
-    media_resources.user_id
-   FROM media_resources
-  GROUP BY media_resources.user_id;
+    SELECT count(*) AS resouces_count, media_resources.user_id FROM media_resources GROUP BY media_resources.user_id;
 
 
 --
@@ -1490,6 +1486,20 @@ CREATE INDEX index_zencoder_jobs_on_media_file_id ON zencoder_jobs USING btree (
 
 
 --
+-- Name: keyword_terms_term_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX keyword_terms_term_idx ON keyword_terms USING gin (term gin_trgm_ops);
+
+
+--
+-- Name: keyword_terms_to_tsvector_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX keyword_terms_to_tsvector_idx ON keyword_terms USING gin (to_tsvector('english'::regconfig, (term)::text));
+
+
+--
 -- Name: meta_terms_term_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2125,6 +2135,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140613150056');
 INSERT INTO schema_migrations (version) VALUES ('20140613150648');
 
 INSERT INTO schema_migrations (version) VALUES ('20140613154055');
+
+INSERT INTO schema_migrations (version) VALUES ('20140623075458');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

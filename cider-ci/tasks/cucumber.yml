@@ -19,6 +19,10 @@
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/admin_contexts.feature"
+- name: admin_keywords
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/admin_keywords.feature"
 - name: admin_meta_key_definitions
   scripts:
     cucumber:

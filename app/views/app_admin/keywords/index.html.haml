@@ -1,0 +1,40 @@
+%h1.text-center Keywords
+
+.well.pull-right
+
+  = form_tag app_admin_keywords_path, method: 'GET', class: 'form-inline' do
+
+    .form-group
+      = text_field_tag :search_term, @search_term, placeholder: "Term", class: "form-control"
+
+    .form-group
+      %label Sort by:
+      %select.form-control.sort-by{name: :sort_by}
+        = options_for_select [["---", nil],
+          ["Used times (ascending)", :used_times_asc],
+          ["Used times (descending)", :used_times_desc],
+          ["Users", :users],
+          ["Created at (ascending)", :created_at_asc],
+          ["Created at (descending)", :created_at_desc],
+          ["Text search ranking", :text_rank],
+          ["Trigram search ranking", :trgm_rank]],
+          @sort_by
+
+    .form-group
+      = button_tag type: 'submit', class: 'btn btn-sm' do
+        %i.icon-filter
+        Apply
+
+    = link_to "Reset", app_admin_keywords_path(reset: true, search_term: nil, sort_by: nil)
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th ID
+      %th Term
+      %th Used times
+      %th User
+      %th Created at
+      %th
+  %tbody
+    =render partial: 'keyword', collection: @keyword_terms

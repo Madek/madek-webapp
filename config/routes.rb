@@ -372,6 +372,12 @@ MAdeK::Application.routes.draw do
     resources :contexts do
       resources :meta_key_definitions, only: [:edit, :update, :new, :create, :destroy]
     end
+    resources :keywords, only: [:index, :edit, :update, :destroy] do
+      member do
+        get  :form_transfer_resources
+        post :transfer_resources
+      end
+    end
 
     resources :previews, only: [:show,:destroy]
 

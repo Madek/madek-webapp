@@ -7,7 +7,6 @@ class AddSearcheableFieldToPeople < ActiveRecord::Migration
     execute "CREATE INDEX ON #{t.to_s} USING gin(to_tsvector('english',#{c.to_s}));"
   end
 
-
   def up
     add_column :people, :searchable, :text, default: "", null: false 
     Person.all.each do |person| 
