@@ -69,7 +69,7 @@ class MetaKey < ActiveRecord::Base
       meta_key_definitions.where(context_id: contexts)
     else  
       meta_key_definitions
-    end.collect {|d| d.label.to_s if d.key_map.blank? }.compact.uniq.join(', ')
+    end.collect {|d| d.label.to_s}.compact.uniq.join(', ')
   end
 
   def used?
