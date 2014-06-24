@@ -12,7 +12,4 @@ class AddTrgmAndTextRankSearchForKeywordTerms < ActiveRecord::Migration
     create_text_index :keyword_terms, :term
   end
 
-  def down
-    remove_column :keyword_terms, :trgm_searchable
-  end
 end
