@@ -19,6 +19,8 @@ module Vocabulary
         .joins(:meta_key).where("meta_datum_object_type = 'MetaDatumMetaTerms'")
         .order(:label).map{ |mkd|
           mkd.attributes.merge(
+            meta_key_meta_terms_alphabetical_order: \
+              MetaKey.find_by(id: mkd.meta_key_id).meta_terms_alphabetical_order,
             meta_terms: MetaTerm.joins(meta_keys: :meta_key_definitions) 
               .where("meta_key_definitions.id = ?",mkd.id)
               .order(:term).map{ |mt| 
@@ -34,6 +36,8 @@ module Vocabulary
         .joins(:meta_key).where("meta_datum_object_type = 'MetaDatumMetaTerms'")
         .order(:label).map{ |mkd|
           mkd.attributes.merge(
+            meta_key_meta_terms_alphabetical_order: \
+              MetaKey.find_by(id: mkd.meta_key_id).meta_terms_alphabetical_order,
             meta_terms: MetaTerm.joins(meta_keys: :meta_key_definitions) 
               .where("meta_terms.id in ( #{meta_terms_for_set(set).select('meta_terms.id').to_sql} )")
               .where("meta_key_definitions.id = ?",mkd.id)
