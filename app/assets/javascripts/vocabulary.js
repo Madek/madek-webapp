@@ -25,6 +25,7 @@ window.App.vocabulary = function (config) {
   
   var state = {
     'mode': filterbar.find('.active').data('filter-mode'),
+    'slidervalue': null
   };
 
   // get container height and set fixed value to prevent flicker
@@ -50,18 +51,22 @@ window.App.vocabulary = function (config) {
     // when the slider moves:
     function (event, ui) {
       if (ui.value) {
+        var distance = 0.8; // in em
         var speed = 100;
         var easing = 'swing'; //'easeOutExpo'; // comes from $.UI
+        var direction = ui.value > state.slidervalue ? 1 : -1;
+        
+        state.slidervalue = ui.value;
         
         if (!sliderHandle.isAnimating) {
           sliderHandle.isAnimating = true;
           
           // slide down
-          sliderHandle.animate({top:'0.8em', opacity: 0}, speed, easing)
+          sliderHandle.animate({top:(direction*distance)+'em', opacity: 0}, speed, easing)
             // set value
             .text(ui.value)
             // put up
-            .animate({top:'-0.8em'}, 0)
+            .animate({top:(-1*direction*distance)+'em'}, 0)
             // slide down again
             .animate({top:'0px', opacity: 1}, speed, easing, function () {
               sliderHandle.isAnimating = false;
@@ -69,13 +74,17 @@ window.App.vocabulary = function (config) {
         } else {
           sliderHandle.text(ui.value);
         }
+        
+        if (ui.value) {
+          filterByCount(ui.value);
+        }
       }
     },
     // when the slider changes:
     function (event, ui) {
-      if (ui.value) {
-        filterByCount(ui.value);
-      }
+      // if (ui.value) {
+      //   filterByCount(ui.value);
+      // }
     }
   );
   
@@ -85,8 +94,8 @@ window.App.vocabulary = function (config) {
     var mode = target.data('filter-mode');
     
     // only do it when the mode has changed
-    if (mode !== state) {
-      state = mode;
+    if (mode !== state.mode) {
+      state.mode = mode;
       
       // - set visual button state
       filterbar.find('[data-filter-mode]').removeClass('active');
