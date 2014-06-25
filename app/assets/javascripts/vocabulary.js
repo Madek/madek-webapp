@@ -125,29 +125,38 @@ window.App.vocabulary = function (config) {
     // find elements below threshold and filter them.
     // `filterMode` is either 'fade' or 'hide'
     
-    // handle filtermodes (toggle or fade)
+    // get the placeholder (shown when no items in list)
+    function handlePlaceholder($element) {
+      // if it's parent list is now empty, show placeholder
+      var list = $element.parents('ul.ui-tag-cloud');
+      var placeholder = list.find('[data-ui-role="empty_list"]');
+
+      if (list.find('li:visible').length === 0) {
+        placeholder.show();
+      } else {
+        placeholder.hide();
+      }
+
+    }
+    
     function filter(on, $element) {
-      // note we toggle the parent coz they wrapped in a <li>
+      // we toggle the parent coz they wrapped in a <li>
       if (on) {
+        // handle filtermodes (toggle or fade)
         if (filterMode === 'fade') {
           $element.addClass('disabled');
-          $element.parent().show();
         } else {
           // hide the tag
-          $element.parent().hide();
-          // if it's parent list is now empty, show placeholder
-          var list = $element.parents('ul.ui-tag-cloud');
-          var placeholder = list.find('[data-ui-role="empty_list"]');
-          if (list.find('li:visible').length === 0) {
-            placeholder.show();
-          } else {
-            placeholder.hide();
-          }
+          $element.parent().hide(0, function () {
+            handlePlaceholder($element);
+          });
         }
       } 
       else { // off
         $element.removeClass('disabled');
-        $element.parent().show();
+        $element.parent().show(0, function () {
+          handlePlaceholder($element);
+        });
       }
     }
     

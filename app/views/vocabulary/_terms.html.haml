@@ -23,7 +23,7 @@
             -# for each term
             %span.title-xs-alt{:'data-ui-role' => 'empty_list', 
               :'class'=> meta_key[:meta_terms].empty? ? '':'hidden'}
-              = "(Keine Begriffe)"
+              = _("Keine Begriffe")
             - meta_key[:meta_terms].each do |meta_term|
             
               %li.ui-tag-cloud-item{:'data-ui-role' => 'meta_term'}
