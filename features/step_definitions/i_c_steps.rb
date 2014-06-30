@@ -719,6 +719,11 @@ Then /^I click the submit button$/ do
   find("button[type='submit']").click
 end
 
+Then /^I click on the parent details$/ do
+  wait_until{ all("a", text: "Details", visible: true).size > 0}
+  all("a", text: "Details")[3].click
+end
+
 Then /^I close the modal dialog\.$/ do
   find(".modal a[data-dismiss='modal']").click
   wait_until(2){all(".modal-backdrop").size == 0}

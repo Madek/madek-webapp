@@ -1,0 +1,21 @@
+%h1
+  %i.icon-user 
+  #{@copyright.label}
+
+%ul.list-inline
+  %li
+    =link_to edit_app_admin_copyright_path(@copyright), class: "btn btn-warning" do
+      %i.icon-pen
+      Edit
+
+%table.table.table-striped
+  %thead
+  %tbody
+  - @copyright.attributes.each do |name,value|
+    %tr
+      %td= name.capitalize.split("_").join(" ")
+      - case name
+      - when nil
+      - else
+        %td= value
+

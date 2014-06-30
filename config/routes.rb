@@ -412,6 +412,7 @@ MAdeK::Application.routes.draw do
     end
 
     resources :statistics, only: [:index]
+    resources :copyrights
 
     resources :applications
 

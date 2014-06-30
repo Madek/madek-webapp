@@ -1,0 +1,22 @@
+%h1.text-center 
+  %i.icon-privacy-copyright
+    Copyrights
+
+%ul.list-inline
+  %li
+    = link_to new_app_admin_copyright_path, class: 'btn btn-success' do
+      %i.fa.fa-plus
+      New copyright
+
+  .col-md-12
+    %table.table
+      %thead
+        %tr
+          %th Id
+          %th Label
+          %th Is default?
+          %th Is custom?
+          %th
+      %tbody
+        =render @copyright_roots, indent: 0
+

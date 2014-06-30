@@ -1,0 +1,12 @@
+%tr{class: "offset#{indent}"}
+  %td= copyright.id
+  %td= copyright.label 
+  %td= copyright.is_default
+  %td= copyright.is_custom
+  %td
+    = link_to app_admin_copyright_path(copyright), class: "btn btn-sm" do
+      %i.fa.fa-eye-open
+      Details
+- if copyright.has_descendants?
+  - copyright.children.each do |child|
+    =render child, indent: indent+1

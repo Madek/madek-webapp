@@ -19,6 +19,18 @@ class Copyright < ActiveRecord::Base
     end
   end
 
+  def parents
+    parents = label
+    if parent_id.present?
+      parents = parent.label
+      unless root == parent
+        parents = parents + " - " + parent.parents
+      end
+      parents = parents + " - " + label
+    end
+    parents
+  end
+
 
   def children
     Copyright.where("parent_id = ?",id)
