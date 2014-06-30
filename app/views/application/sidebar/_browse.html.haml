@@ -20,3 +20,6 @@
       %dl.ui-media-overview-metadata.ui-metadata-box
 
         = render :partial => "meta_data/meta_datum", :collection => @media_resource.meta_data.for_context(::Context.find("core")), :locals => {:context => ::Context.find("core")}
+
+  .ui-fadeout-right{role:"presentation"}
+    
