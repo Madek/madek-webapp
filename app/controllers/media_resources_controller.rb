@@ -102,7 +102,7 @@ class MediaResourcesController < ApplicationController
       when MediaEntry
         Context.defaults + @media_resource.individual_contexts
       when MediaSet, FilterSet
-        [Context.find_by_name(:media_set)]
+        [Context.find_by_id(:media_set)]
       else
         raise "Add the class #{@media_resource.class} to dispatching"
       end
