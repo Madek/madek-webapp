@@ -12,13 +12,15 @@
       .form-group
         %label.control-label.col-sm-2 Meta datum object type
         .col-sm-4
-          = f.select :meta_datum_object_type, MetaKey.object_types, {include_blank: false}, {class: "form-control"}
+          = f.select :meta_datum_object_type, MetaKey.object_types, 
+              {include_blank: false}, {class: "form-control"}
 
     - if @meta_key.meta_datum_object_type == 'MetaDatumMetaTerms'
       .form-group
         %label.control-label.col-sm-2 Terms
         .col-sm-6
-          = f.select :meta_terms_alphabetical_order, [["alphabetical order", true], ["thematic order", false]], {}, class: "form-control"
+          = f.select :meta_terms_alphabetical_order, [["alphabetical order", true], 
+              ["thematic order", false]], {}, class: "form-control"
           %ul#sortable.list-unstyled.meta-terms
             = f.fields_for :meta_terms do |ff|
               - if ff.object.new_record?
