@@ -112,3 +112,12 @@ Feature: Admin Meta Keys
     And I set the input with the name "reassign_term_id[9a51b344-ce70-420d-8f16-9974b6afdb4c]" to " 6b443b98-4297-499e-9964-4492f0be41ee  "
     And I submit
     Then I can see a success message
+
+  Scenario: Changing type from MetaDatumString to MetaDatumMetaTerms
+    When I visit "/app_admin/meta_keys/subtitle/edit"
+    Then There is "MetaDatumString" option selected in "meta_key[meta_datum_object_type]" select
+    When I change the type of the meta key to MetaDatumMetaTerms
+    Then I am on a "/app_admin/meta_keys/subtitle/edit" page
+    And I can see a success message
+    And I can see "Terms"
+    And There is "alphabetical order" option selected in "meta_key[meta_terms_alphabetical_order]" select

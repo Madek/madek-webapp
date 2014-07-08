@@ -44,7 +44,8 @@ class MetaKey < ActiveRecord::Base
 
   def self.search_with(term)
     joins("LEFT OUTER JOIN meta_key_definitions ON meta_keys.id = meta_key_definitions.meta_key_id") \
-      .where("meta_keys.id LIKE :label OR meta_key_definitions.label LIKE :label", label: "%#{term}%")
+      .where("meta_keys.id LIKE :label OR meta_key_definitions.label LIKE :label", label: "%#{term}%") \
+      .group("meta_keys.id")
   end
 
   def label
@@ -122,7 +123,7 @@ class MetaKey < ActiveRecord::Base
   def self.object_types
     # NOTE in development mode we need to preload
     # FIXME
-    if Rails.env == "development"
+    if Rails.env.development? || Rails.env.test?
       # Dir.glob(File.join(Rails.root, "app/models/meta_datum_*.rb")).each {|model_file| require model_file } if Rails.env == "development"
       ["MetaDatumCopyright", "MetaDatumDate", "MetaDatumDepartments", "MetaDatumKeywords",
        "MetaDatumMetaTerms", "MetaDatumPeople", "MetaDatumString", "MetaDatumUsers"]

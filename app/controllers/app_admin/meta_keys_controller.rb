@@ -58,7 +58,7 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
       raise "Cannot delete an used meta key" if @meta_key.used?
       @meta_key.destroy
 
-      redirect_to app_admin_meta_keys_url, flash: {success: "The meta key has been deleted"}
+      redirect_to app_admin_meta_keys_url, flash: {success: "The meta key has been deleted."}
     rescue => e
       redirect_to app_admin_meta_keys_url, flash: {error: e.to_s}
     end
@@ -88,6 +88,27 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
     redirect_to edit_app_admin_meta_key_url(meta_key), flash: {success: "The position of the meta term has been updated"}
   rescue => e
     redirect_to edit_app_admin_meta_key_url(meta_key)
+  end
+
+  def change_type
+    begin
+      meta_key = MetaKey.find(params[:id])
+
+      ActiveRecord::Base.transaction do
+        meta_key.update_attributes!(meta_datum_object_type: 'MetaDatumMetaTerms')
+        meta_key.meta_data.each do |mt|
+          meta_term = MetaTerm.find_or_create_by!(term: mt.string)
+          meta_key.meta_terms << meta_term unless meta_key.meta_terms.exists?(term: meta_term.term)
+          mt.update_attributes!(type: 'MetaDatumMetaTerms', string: '')
+          meta_term.meta_data << mt
+        end
+        meta_key.sort_meta_terms
+      end
+
+      redirect_to edit_app_admin_meta_key_url(meta_key), flash: {success: "The type of the meta key has been changed."}
+    rescue => e
+      redirect_to edit_app_admin_meta_key_url(meta_key), flash: {error: e.to_s}
+    end
   end
 
   private

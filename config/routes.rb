@@ -370,6 +370,8 @@ MAdeK::Application.routes.draw do
         patch 'move_up',   on: :member, controller: 'meta_keys'
         patch 'move_down', on: :member, controller: 'meta_keys'
       end
+      post :apply_alphabetical_order, on: :member
+      post :change_type,              on: :member
     end
     resources :meta_terms, only: [:index, :edit, :update, :destroy] do
       member do

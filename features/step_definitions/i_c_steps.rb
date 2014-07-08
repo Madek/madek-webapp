@@ -427,6 +427,34 @@ Then /^I change the settings for that filter set$/ do
   step 'I use some filters'
 end
 
+When /^I change the type of the meta key to MetaDatumMetaTerms$/ do
+  meta_key      = MetaKey.find('subtitle')
+  meta_data     = meta_key.meta_data.to_a
+  media_entries = meta_key.media_entries.to_a
+
+  expect(meta_key.meta_datum_object_type).to eq("MetaDatumString")
+  meta_data.each do |mt|
+    expect(mt.type).to eq("MetaDatumString")
+  end
+  expect(meta_key.meta_terms.count).to eq(0)
+
+  step %Q{I click on "Change type to the MetaDatumMetaTerms"}
+
+  expect(meta_key.reload.meta_datum_object_type).to eq("MetaDatumMetaTerms")
+  expect(media_entries.length).to eq(meta_key.reload.media_entries.count)
+  meta_key.reload.meta_data do |mt|
+    expect(mt.type).to eq("MetaDatumMetaTerms")
+    expect(mt.string).to be_empty
+  end
+  meta_data.each do |mt|
+    meta_term = MetaTerm.find_by(term: mt.string)
+    
+    expect(meta_key.reload.meta_terms.where(term: mt.string).count).to eq(1)
+    expect(MetaDatumMetaTerms.find(mt.id).meta_terms.pluck(:id)) \
+      .to include(meta_term.id)
+  end
+end
+
 Then /^I change the value of each meta\-data field of each context$/  do
 
   @meta_data_by_context=HashWithIndifferentAccess.new

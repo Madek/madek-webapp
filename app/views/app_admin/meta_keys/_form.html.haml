@@ -8,12 +8,15 @@
       .col-sm-4
         = f.text_field :id, class: 'form-control', disabled: f.object.persisted?
 
-    - unless @meta_key.persisted?
-      .form-group
-        %label.control-label.col-sm-2 Meta datum object type
-        .col-sm-4
-          = f.select :meta_datum_object_type, MetaKey.object_types, 
-              {include_blank: false}, {class: "form-control"}
+    .form-group
+      %label.control-label.col-sm-2 Meta datum object type
+      .col-sm-4
+        = f.select :meta_datum_object_type, MetaKey.object_types, {include_blank: false}, {class: "form-control", disabled: @meta_key.persisted?}
+        - if @meta_key.persisted? && @meta_key.meta_datum_object_type == 'MetaDatumString'
+          %br
+          = link_to change_type_app_admin_meta_key_path(@meta_key), method: :post, class: "btn btn-warning", data: {confirm: "Are you sure you want to change the type to MetaDatumMetaTerms?"} do
+            %i.icon-bang
+            Change type to the MetaDatumMetaTerms
 
     - if @meta_key.meta_datum_object_type == 'MetaDatumMetaTerms'
       .form-group
