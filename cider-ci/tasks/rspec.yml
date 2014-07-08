@@ -145,6 +145,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/features/search/updated_meta_datum_spec.rb"
+- name: helpers app_admin media_sets_helper
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/helpers/app_admin/media_sets_helper_spec.rb"
 - name: misc exiftool
   scripts:
     rspec:

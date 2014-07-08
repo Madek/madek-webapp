@@ -1,16 +1,4 @@
 ---
-- name: admin_groups
-  scripts:
-    cucumber:
-      body: bundle exec cucumber --strict "features/admin_groups.feature"
-- name: admin_interface
-  scripts:
-    cucumber:
-      body: bundle exec cucumber --strict "features/admin_interface.feature"
-- name: admin_media_sets
-  scripts:
-    cucumber:
-      body: bundle exec cucumber --strict "features/admin_media_sets.feature"
 - name: admin_context_groups
   scripts:
     cucumber:
@@ -19,10 +7,26 @@
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/admin_contexts.feature"
+- name: admin_copyrights
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/admin_copyrights.feature"
+- name: admin_groups
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/admin_groups.feature"
+- name: admin_interface
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/admin_interface.feature"
 - name: admin_keywords
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/admin_keywords.feature"
+- name: admin_media_sets
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/admin_media_sets.feature"
 - name: admin_meta_key_definitions
   scripts:
     cucumber:
@@ -39,6 +43,10 @@
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/admin_people.feature"
+- name: admin_permission_presets
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/admin_permission_presets.feature"
 - name: admin_previews
   scripts:
     cucumber:
@@ -59,14 +67,6 @@
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/admin_users.feature"
-- name: admin_copyrights
-  scripts:
-    cucumber:
-      body: bundle exec cucumber --strict "features/admin_copyrights.feature"
-- name: admin_permission_presets
-  scripts:
-    cucumber:
-      body: bundle exec cucumber --strict "features/admin_permission_presets.feature"
 - name: apply_to_all
   scripts:
     cucumber:
