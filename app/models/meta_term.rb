@@ -28,19 +28,25 @@ class MetaTerm < ActiveRecord::Base
     NOT EXISTS (SELECT NULL FROM "meta_keys_meta_terms" 
                       WHERE "meta_terms"."id" = "meta_keys_meta_terms"."meta_term_id") >)}
 
+  after_create :set_position
+
   def to_s
     term
   end
 
-
   ######################################################
 
-    def reassign_meta_data_to_term(term, meta_key = nil)
-      meta_data_to_reassign = meta_key ? meta_data.where(:meta_key_id => meta_key) : meta_data
-      meta_data_to_reassign.each do |md|
-        md.value = md.value.map {|x| x == self ? term : x }
-        md.save
+    def transfer_meta_terms_of_meta_key meta_term_receiver
+      meta_key_meta_terms.each do |mkmt|
+        mkmt.update_attribute :meta_term, meta_term_receiver
       end
+    end
+
+    def transfer_meta_terms_of_meta_data meta_term_receiver
+      meta_term_receiver.meta_data << \
+        meta_data \
+        .where(%<id not in (#{meta_term_receiver.meta_data.select('"meta_data"."id"').to_sql})>)
+      meta_data.destroy_all
     end
   
   ######################################################
@@ -81,5 +87,15 @@ class MetaTerm < ActiveRecord::Base
     select("#{'meta_terms.*,' if select_values.empty?} #{rank} AS search_rank") \
       .where("#{rank} > 0.05") \
       .reorder("search_rank DESC") }
+
+  private
+
+  def set_position
+    ActiveRecord::Base.transaction do
+      meta_keys.each do |meta_key|
+        meta_key.sort_meta_terms
+      end
+    end
+  end
 
 end

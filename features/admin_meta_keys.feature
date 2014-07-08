@@ -67,12 +67,35 @@ Feature: Admin Meta Keys
     And I click on "Delete"
     Then I can see a success message
     And There is one less delete link
- 
-  @firefox
+
+  Scenario: Adding a meta term with aplhabetical order
+    When I visit "/app_admin/meta_keys/type/edit"
+    Then There is "alphabetical order" option selected in "meta_key[meta_terms_alphabetical_order]" select
+    When I set the input for a new meta term to "A"
+    And I submit
+    Then I can see a success message
+    And The meta term is at the top of the list
+
+  Scenario: Adding a meta term with thematic order
+    When I visit "/app_admin/meta_keys/type/edit"
+    And I select "thematic order" from the select node with the name "meta_key[meta_terms_alphabetical_order]"
+    And I set the input for a new meta term to "A"
+    And I submit
+    Then I can see a success message
+    And The meta term is at the end of the list
+
   Scenario: Applying alphabetical order to meta terms
-    When I visit "/app_admin/meta_keys?filter[meta_datum_object_type]=MetaDatumMetaTerms"
-    And I click on "Edit"
-    Then I can see the "Apply Alphabetical Order" link
-    When I click on "Apply Alphabetical Order"
-    Then There is the input with name "meta_key[meta_terms_alphabetical_order]" set to "1"
-    And The meta terms are sorted
+    When I visit "/app_admin/meta_keys/type/edit"
+    And I add a meta term with thematic order
+    Then The meta term is at the end of the list
+    When I select "alphabetical order" from the select node with the name "meta_key[meta_terms_alphabetical_order]"
+    And I submit
+    Then The meta term is at the top of the list
+
+  Scenario: Merging a meta term to another one
+    When I visit "/app_admin/meta_keys/LV_Wetter@Klima/edit"
+    Then I can see the "Gewitter" meta term on the list
+    And I can see the "Morgenrot" meta term on the list
+    When I merge "Gewitter" meta term to "Morgenrot"
+    Then There is only one "Morgenrot" meta term on the list
+    And I can not see the "Gewitter" meta term on the list

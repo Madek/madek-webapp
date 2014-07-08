@@ -363,9 +363,7 @@ MAdeK::Application.routes.draw do
     resources :media_entries, only: [:index, :show] do
     end
 
-    resources :meta_keys, only: [:index, :create, :new, :edit, :update, :destroy] do
-      post :apply_alphabetical_order, on: :member
-    end
+    resources :meta_keys, only: [:index, :create, :new, :edit, :update, :destroy]
     resources :meta_terms, only: [:index, :edit, :update, :destroy] do
       member do
         get  :form_transfer_resources

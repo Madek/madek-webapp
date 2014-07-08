@@ -167,11 +167,14 @@ Then /^The media_resource with the previous_id "(.*?)" doesn't exist$/  do |id|
   expect(MediaResource.find_by previous_id: id).not_to be
 end
 
-Then /^The meta terms are sorted$/ do
-  within("#sortable") do
-    positions = all('li').map { |li| li["data-position"] }.compact.map(&:to_i)
-    expect(positions.sort).to be== positions
-  end
+Then /^The meta term is at the top of the list$/ do
+  meta_terms = all("#sortable li[data-term]")
+  expect(meta_terms.first["data-term"]).to be== @new_meta_term_value
+end
+
+Then /^The meta term is at the end of the list$/ do
+  meta_terms = all("#sortable li[data-term]")
+  expect(meta_terms.last["data-term"]).to be== @new_meta_term_value
 end
 
 Then /^The meta term does not exist$/ do

@@ -257,6 +257,12 @@ Then /^I can see the "(.*?)" link in a dropdown with "(.*?)" label$/ do |anchor_
   expect(dropdown.has_link?(anchor_text)).to be_true
 end
 
+Then /^I can see the "(.*?)" meta term on the list$/ do |term|
+  within 'ul.meta-terms' do
+    expect{find('input', value: term)}.to_not raise_error
+  end
+end
+
 Then /^I can see the amounts of all admin panel categories$/ do
   categories = %w{Users People Groups Keywords Media Sets FilterSets}
   categories += ["MediaFiles without MediaEntry", "videos with incomplete previews"]
@@ -362,6 +368,10 @@ end
 
 Then /^I can not see any alert$/ do
   wait_until{all('.ui-alert').size == 0}
+end
+
+Then /^I can not see the "(.*?)" meta term on the list$/ do |term|
+  expect{find("ul.meta-terms input[value='#{term}']")}.to raise_error
 end
 
 Then /^I cannot see the delete action for media resources where I am not responsible for$/ do

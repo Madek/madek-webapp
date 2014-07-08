@@ -6,6 +6,16 @@ Then /^I make the group name empty$/ do
   find("input#group-name").set ""
 end
 
+When /^I merge "(.*?)" meta term to "(.*?)"$/ do |from, to|
+  originator    = find("ul.meta-terms input[value='#{from}']")
+  originator_li = originator.find(:xpath, "ancestor::li")
+  receiver      = find("ul.meta-terms input[value='#{to}']")
+  receiver_li   = receiver.find(:xpath, "ancestor::li")
+
+  find("input[name='reassign_term_id[#{originator_li[:id]}]']").set(receiver_li[:id])
+  step "I submit"
+end
+
 Then /^I move all MetaData from that person to another person$/ do
   @meta_data_transfer_link.click()
   find("input#id_receiver").set(Person.reorder(:created_at,:id).first.id)

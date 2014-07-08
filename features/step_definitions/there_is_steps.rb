@@ -120,6 +120,10 @@ Then /^There is "(.*?)" option selected in "(.*?)" select$/ do |option, name|
   end
 end
 
+Then /^There is only one "(.*?)" meta term on the list$/ do |term|
+  expect(all("ul.meta-terms input[value='#{term}']").size).to eq 1
+end
+
 Then /^There is the input with name "(.*?)" set to "(.*?)"$/ do |name, value|
   expect(find("input[name='#{name}']").value).to eq(value)
 end

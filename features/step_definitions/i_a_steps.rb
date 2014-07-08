@@ -18,6 +18,12 @@ Then /^I accept the usage terms if I am supposed to do so$/ do
   end
 end
 
+When /^I add a meta term with thematic order$/ do
+  step 'I select "thematic order" from the select node with the name "meta_key[meta_terms_alphabetical_order]"'
+  step 'I set the input for a new meta term to "A"'
+  step "I submit"
+end
+
 Then  /^I add some links for footer in the admin interface$/ do
   visit '/app_admin/settings/footer_links/edit'
   @links={"THE SOMEWHERE LINK" => "http://somwhere.com", "THE NOWHERE LINK" => "http://nowhere.com"}

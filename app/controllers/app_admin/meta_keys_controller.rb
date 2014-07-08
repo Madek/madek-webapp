@@ -34,13 +34,13 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
   end
 
   def edit
-    @meta_key = MetaKey.find(params[:id])
+    @meta_key = MetaKey.find(meta_key_id)
     @meta_key.meta_terms.build
   end
 
   def update
     begin
-      @meta_key = MetaKey.find(params[:id])
+      @meta_key = MetaKey.find(meta_key_id)
       @meta_key.update(meta_key_params)
 
       merge_meta_terms
@@ -55,7 +55,7 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
 
   def destroy
     begin
-      @meta_key = MetaKey.find(params[:id])
+      @meta_key = MetaKey.find(meta_key_id)
       raise "Cannot delete an used meta key" if @meta_key.used?
       @meta_key.destroy
 
@@ -63,12 +63,6 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
     rescue => e
       redirect_to app_admin_meta_keys_url, flash: {error: e.to_s}
     end
-  end
-
-  def apply_alphabetical_order
-    meta_key = MetaKey.find(params[:id])
-    @meta_term_ids = meta_key.meta_terms.reorder('term').map(&:id)
-    render json: @meta_term_ids
   end
 
   private
@@ -79,6 +73,10 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
 
   def meta_key_params
     params.require(:meta_key).permit(:meta_terms_alphabetical_order, :is_extensible_list, meta_terms_attributes: [:id, :term])
+  end
+
+  def meta_key_id
+    params[:id].gsub('@', '/')
   end
 
   def destroy_chosen_meta_terms
@@ -93,22 +91,26 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
   end
 
   def update_meta_terms_positions
-    if meta_terms_positions = params[:meta_terms_positions]
+    if (meta_terms_positions = params[:meta_terms_positions]) && !@meta_key.meta_terms_alphabetical_order
       meta_terms_positions.split(',').each_with_index do |id, index|
         meta_term = @meta_key.meta_key_meta_terms.find_by(meta_term_id: id)
         meta_term.update_attribute(:position, index)
       end
-    @meta_key.update_attribute(:meta_terms_alphabetical_order, false)
+      @meta_key.update_attribute(:meta_terms_alphabetical_order, false)
     end
   end
 
   def merge_meta_terms
-    params[:reassign_term_id].each_pair do |k, v|
-      next if v.blank?
-      from = @meta_key.meta_terms.find(k)
-      to = @meta_key.meta_terms.find(v)
-      next if from == to
-      from.reassign_meta_data_to_term(to, @meta_key)
+    params[:reassign_term_id].each_pair do |originator_id, receiver_id|
+      next if receiver_id.blank?
+      originator = @meta_key.meta_terms.find(originator_id)
+      receiver   = @meta_key.meta_terms.find(receiver_id)
+      next if originator == receiver
+
+      originator.transfer_meta_terms_of_meta_data receiver
+      receiver.reload.meta_data.reload.map(&:media_resource).each(&:reindex)
+      @meta_key.meta_key_meta_terms.where(meta_term_id: originator.id).destroy_all
+
     end if params[:reassign_term_id]
   end
 end

@@ -44,6 +44,13 @@ Then /^I set the autocomplete\-input with the name "(.*?)" to "(.*?)"$/ do |name
   page.execute_script %Q{ $("input[name='#{name}']").trigger("change") }
 end
 
+When /^I set the input for a new meta term to "(.*?)"$/ do |value|
+  @new_meta_term_value = value
+  within('.new-term') do
+    find("input[type='text']").set(value)
+  end
+end
+
 Then /^I set the input with the name "(.*?)" to "(.*?)"$/ do |name, value|
   find("input[name='#{name}']").set(value)
 end

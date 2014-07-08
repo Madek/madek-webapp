@@ -40,6 +40,8 @@ class MetaKey < ActiveRecord::Base
       #{condition} (SELECT NULL FROM "meta_keys_meta_terms"
                       WHERE "meta_keys"."id" = "meta_keys_meta_terms"."meta_key_id") >) }
 
+  after_update :sort_meta_terms
+
   def label
     id
   end
@@ -165,6 +167,21 @@ class MetaKey < ActiveRecord::Base
     h = not_writable_hash
     h["MetaDatumString"] += ["copyright usage", "copyright url"]
     h
+  end
+
+  def sort_meta_terms
+    if meta_terms_alphabetical_order
+      ActiveRecord::Base.transaction do
+        meta_terms.reorder('term').to_a.each_with_index do |meta_term, index|
+          meta_term_to_update = meta_key_meta_terms.find_by(meta_term_id: meta_term.id)
+          meta_term_to_update.update_attribute(:position, index)
+        end
+      end
+    end
+  end
+
+  def to_param
+    id.gsub('/', '@')
   end
 
 end
