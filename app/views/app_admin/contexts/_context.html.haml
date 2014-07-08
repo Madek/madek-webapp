@@ -5,6 +5,12 @@
   %td= context.label
   %td= context.description
   %td.no-wrap
+    %ul.list-unstyled
+      - context.media_sets.each do |media_set|
+        %li
+          = link_to media_set.title, media_set_path(media_set), target: "_blank"
+          = active_context_for_media_set?(media_set, context) ? ": ACTIVE" : ": NOT ACTIVE"
+  %td.no-wrap
     = link_to edit_app_admin_context_path(context), class: "btn btn-warning btn-xs" do
       %i.icon-pen
       Edit
