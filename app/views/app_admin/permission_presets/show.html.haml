@@ -4,17 +4,22 @@
 
 %ul.list-inline
   %li
-    = link_to move_up_app_admin_permission_preset_path(@permission_preset), method: "PUT", class: "btn btn-warning" do
+    = link_to move_up_app_admin_permission_preset_path(@permission_preset),
+        method: "PUT", class: "btn btn-warning" do
       %i.icon-arrow-up
   %li
-    = link_to move_down_app_admin_permission_preset_path(@permission_preset), method: "PUT", class: "btn btn-warning" do
+    = link_to move_down_app_admin_permission_preset_path(@permission_preset),
+        method: "PUT", class: "btn btn-warning" do
       %i.icon-arrow-down
   %li
-    =link_to edit_app_admin_permission_preset_path(@permission_preset), class: "btn btn-warning" do
+    =link_to edit_app_admin_permission_preset_path(@permission_preset),
+        class: "btn btn-warning" do
       %i.icon-pen
       Edit
   %li
-    =link_to app_admin_permission_preset_path(@permission_preset), method: :delete, class: "btn btn-danger", data: {confirm: "Are you really want to delete this usage term?"} do
+    =link_to app_admin_permission_preset_path(@permission_preset),
+        method: :delete, class: "btn btn-danger", 
+        data: {confirm: "Are you really want to delete this usage term?"} do
       %i.icon-trash-o
       Delete
 

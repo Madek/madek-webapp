@@ -17,18 +17,22 @@ class AppAdmin::PermissionPresetsController < AppAdmin::BaseController
     begin
       @permission_preset = PermissionPreset.find(params[:id])
       @permission_preset.update_attributes! permission_preset_params
-      redirect_to app_admin_permission_preset_path(@permission_preset), flash: {success: "The permission_preset has been updated."}
+      redirect_to app_admin_permission_preset_path(@permission_preset), \
+        flash: {success: "The permission_preset has been updated."}
     rescue => e
-      redirect_to edit_app_admin_permission_preset_path(@permission_preset), flash: {error: e.to_s}
+      redirect_to edit_app_admin_permission_preset_path(@permission_preset), \
+        flash: {error: e.to_s}
     end
   end
 
   def create
     begin
       @permission_preset = PermissionPreset.create! permission_preset_params
-      redirect_to app_admin_permission_preset_path(@permission_preset), flash: {success: "A new permission_preset has been created."}
+      redirect_to app_admin_permission_preset_path(@permission_preset), \
+        flash: {success: "A new permission_preset has been created."}
     rescue => e
-      redirect_to new_app_admin_permission_preset_path(@permission_preset),flash: {error: e.to_s}
+      redirect_to new_app_admin_permission_preset_path(@permission_preset), \
+        flash: {error: e.to_s}
     end
   end
 
@@ -43,7 +47,8 @@ class AppAdmin::PermissionPresetsController < AppAdmin::BaseController
   def destroy
       @permission_preset = PermissionPreset.find params[:id]
       @permission_preset.destroy
-      redirect_to app_admin_permission_presets_path, flash: {success: "The PermissionPreset has been deleted."}
+      redirect_to app_admin_permission_presets_path, \
+        flash: {success: "The PermissionPreset has been deleted."}
   end
 
   def move_up
