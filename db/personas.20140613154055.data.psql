@@ -5640,12 +5640,12 @@ ALTER TABLE meta_keys_meta_terms ENABLE TRIGGER ALL;
 
 ALTER TABLE permission_presets DISABLE TRIGGER ALL;
 
-COPY permission_presets (name, download, edit, manage, view, id) FROM stdin;
-Bevollmächtigte/r	t	t	t	t	da59613c-a8cb-4cc1-a4cc-a2e95992468f
-Betrachter/in	f	f	f	t	3fe29b59-8b8e-4463-81da-952a0e364cb9
-Betrachter/in & Original	t	f	f	t	0f8e7cb1-8b4f-4eef-934c-8bd12baf0953
-Gesperrt	f	f	f	f	2d253a34-ba7e-4840-847c-3adcb1e1666a
-Redakteur/in	t	t	f	t	f5884609-687d-4cd8-969f-c33899250df7
+COPY permission_presets (name, download, edit, manage, view, position, id) FROM stdin;
+Bevollmächtigte/r	t	t	t	t	1	da59613c-a8cb-4cc1-a4cc-a2e95992468f
+Betrachter/in	f	f	f	t	2	3fe29b59-8b8e-4463-81da-952a0e364cb9
+Betrachter/in & Original	t	f	f	t	3	0f8e7cb1-8b4f-4eef-934c-8bd12baf0953
+Gesperrt	f	f	f	f	4	2d253a34-ba7e-4840-847c-3adcb1e1666a
+Redakteur/in	t	t	f	t	5	f5884609-687d-4cd8-969f-c33899250df7
 \.
 
 

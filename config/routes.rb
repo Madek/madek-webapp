@@ -327,6 +327,10 @@ MAdeK::Application.routes.draw do
       put '', on: :collection, to: "settings#update", as: :update
     end
     resources :usage_terms
+    resources :permission_presets do
+      put 'move_up', on: :member
+      put 'move_down', on: :member
+    end
 
     resources :zencoder_jobs, only: [:index, :show]
 

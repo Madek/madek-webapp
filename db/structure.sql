@@ -497,7 +497,8 @@ CREATE TABLE permission_presets (
     edit boolean DEFAULT false NOT NULL,
     manage boolean DEFAULT false NOT NULL,
     view boolean DEFAULT false NOT NULL,
-    id uuid DEFAULT uuid_generate_v4() NOT NULL
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    "position" double precision
 );
 
 
@@ -2127,6 +2128,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140521065627');
 INSERT INTO schema_migrations (version) VALUES ('20140606172708');
 
 INSERT INTO schema_migrations (version) VALUES ('20140609181841');
+
+INSERT INTO schema_migrations (version) VALUES ('20140611121741');
 
 INSERT INTO schema_migrations (version) VALUES ('20140613084713');
 

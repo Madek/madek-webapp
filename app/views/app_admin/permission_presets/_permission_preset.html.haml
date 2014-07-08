@@ -1,0 +1,35 @@
+%tr.usage-term{id: permission_preset.id}
+  %td
+    %span #{permission_preset.id}
+  %td
+    %span #{permission_preset.name}
+  %td
+    %span #{permission_preset.download}
+  %td
+    %span #{permission_preset.view}
+  %td
+    %span #{permission_preset.edit}
+  %td
+    %span #{permission_preset.manage}
+
+  %td.no-wrap
+    %ul.list-inline
+      %li 
+        = link_to app_admin_permission_preset_path(permission_preset), class: "btn btn-xs details" do
+          %i.fa.fa-eye-open
+          Details
+      %li
+        = link_to move_up_app_admin_permission_preset_path(permission_preset), method: "PUT", class: "btn btn-warning btn-xs up" do
+          %i.icon-arrow-up
+      %li
+        = link_to move_down_app_admin_permission_preset_path(permission_preset), method: "PUT", class: "btn btn-warning btn-xs down" do
+          %i.icon-arrow-down
+      %li
+        = link_to edit_app_admin_permission_preset_path(permission_preset), class: "btn btn-warning btn-xs edit" do
+          %i.icon-pen
+          Edit
+      %li
+        = link_to app_admin_permission_preset_path(permission_preset), method: "DELETE" ,class: "btn btn-warning btn-xs destroy" do
+          %i.icon-trash
+          Delete
+

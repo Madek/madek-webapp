@@ -1,0 +1,28 @@
+%h1.text-center 
+  %i.icon-cog
+  Permission presets
+
+%ul.list-inline
+  %li
+    = link_to new_app_admin_permission_preset_path, class: 'btn btn-success' do
+      %i.fa.fa-plus
+      New permission preset
+
+.row
+  .col-md-12
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Id
+          %th Name
+          %th Download
+          %th View
+          %th Edit
+          %th Manage
+          %th
+      %tbody
+        =render partial: 'permission_preset', collection: @permission_presets
+
+
+= paginate @permission_presets, theme: 'app_admin'
+

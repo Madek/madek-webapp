@@ -63,6 +63,10 @@
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/admin_copyrights.feature"
+- name: admin_permission_presets
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/admin_permission_presets.feature"
 - name: apply_to_all
   scripts:
     cucumber:

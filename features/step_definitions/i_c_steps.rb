@@ -353,6 +353,11 @@ And /^I can watch the video$/ do
   wait_until(10){all(".vjs-big-play-button",visible: true).size > 0 }
 end
 
+Then /^I can see permission preset to move down$/ do
+  @new_id = find("tr:eq(3)")[:id]
+  @new_id.should == @id
+end
+
 ####### I cannot ##### #############
 
 Then /^I can not see any alert$/ do
@@ -724,6 +729,13 @@ Then /^I click on the parent details$/ do
   all("a", text: "Details")[3].click
 end
 
+Then /^I click on the first arrow down$/ do
+  @id = find("tr:eq(2)")[:id]
+  within(find("tr:eq(2)")) do
+    find("a.down").click
+  end
+end
+
 Then /^I close the modal dialog\.$/ do
   find(".modal a[data-dismiss='modal']").click
   wait_until(2){all(".modal-backdrop").size == 0}
@@ -752,4 +764,8 @@ end
 
 Then /^I create a dropbox$/ do
   step 'I click on the link "Dropbox erstellen" inside of the dialog'
+end
+
+Then /^I check a checkbox with name "(.*?)"$/ do |name|
+  check("#{name}")
 end
