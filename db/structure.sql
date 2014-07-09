@@ -1351,6 +1351,13 @@ CREATE INDEX index_meta_keys_meta_terms_on_meta_key_id ON meta_keys_meta_terms U
 
 
 --
+-- Name: index_meta_keys_meta_terms_on_meta_key_id_and_meta_term_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_meta_keys_meta_terms_on_meta_key_id_and_meta_term_id ON meta_keys_meta_terms USING btree (meta_key_id, meta_term_id);
+
+
+--
 -- Name: index_meta_keys_meta_terms_on_position; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1926,7 +1933,7 @@ ALTER TABLE ONLY meta_key_definitions
 --
 
 ALTER TABLE ONLY meta_keys_meta_terms
-    ADD CONSTRAINT meta_keys_meta_terms_meta_key_id_fk FOREIGN KEY (meta_key_id) REFERENCES meta_keys(id);
+    ADD CONSTRAINT meta_keys_meta_terms_meta_key_id_fk FOREIGN KEY (meta_key_id) REFERENCES meta_keys(id) ON DELETE CASCADE;
 
 
 --
@@ -1934,7 +1941,7 @@ ALTER TABLE ONLY meta_keys_meta_terms
 --
 
 ALTER TABLE ONLY meta_keys_meta_terms
-    ADD CONSTRAINT meta_keys_meta_terms_meta_term_id_fk FOREIGN KEY (meta_term_id) REFERENCES meta_terms(id);
+    ADD CONSTRAINT meta_keys_meta_terms_meta_term_id_fk FOREIGN KEY (meta_term_id) REFERENCES meta_terms(id) ON DELETE CASCADE;
 
 
 --
@@ -2144,6 +2151,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140613150648');
 INSERT INTO schema_migrations (version) VALUES ('20140613154055');
 
 INSERT INTO schema_migrations (version) VALUES ('20140623075458');
+
+INSERT INTO schema_migrations (version) VALUES ('20140709085016');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

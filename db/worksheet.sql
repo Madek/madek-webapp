@@ -1,4 +1,15 @@
 
+SELECT "meta_terms"."term",
+       count(*) AS count
+FROM "meta_terms"
+INNER JOIN "meta_keys_meta_terms" ON "meta_keys_meta_terms"."meta_term_id" = "meta_terms"."id"
+GROUP BY meta_terms.term,
+         meta_keys_meta_terms.meta_key_id,
+         meta_keys_meta_terms.meta_term_id
+HAVING count(*) > 1
+ORDER BY count desc 
+;
+
 SELECT "media_resources".*
 FROM "media_resources"
 LEFT JOIN full_texts ON media_resources.id = full_texts.media_resource_id
