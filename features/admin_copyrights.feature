@@ -1,4 +1,4 @@
-Feature: Managing Copyrigts
+Feature: Managing Copyrights
   
   As a MAdeK admin
 

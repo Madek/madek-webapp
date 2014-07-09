@@ -34,18 +34,17 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
   end
 
   def edit
-    @meta_key = MetaKey.find(meta_key_id)
+    @meta_key = MetaKey.find(id_from_params(:id))
     @meta_key.meta_terms.build
   end
 
   def update
     begin
-      @meta_key = MetaKey.find(meta_key_id)
+      @meta_key = MetaKey.find(id_from_params(:id))
       @meta_key.update(meta_key_params)
 
       merge_meta_terms
       destroy_chosen_meta_terms
-      update_meta_terms_positions
 
       redirect_to edit_app_admin_meta_key_url(@meta_key), flash: {success: "The meta key has been updated"}
     rescue => e
@@ -55,7 +54,7 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
 
   def destroy
     begin
-      @meta_key = MetaKey.find(meta_key_id)
+      @meta_key = MetaKey.find(id_from_params(:id))
       raise "Cannot delete an used meta key" if @meta_key.used?
       @meta_key.destroy
 
@@ -63,6 +62,32 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
     rescue => e
       redirect_to app_admin_meta_keys_url, flash: {error: e.to_s}
     end
+  end
+
+  def move_up
+    meta_key = MetaKey.find(id_from_params(:meta_key_id))
+    meta_key_meta_term = meta_key.meta_key_meta_terms.find_by(meta_term_id: params[:id])
+    ActiveRecord::Base.transaction do
+      meta_key_meta_term.move_up
+      meta_key.update_attribute(:meta_terms_alphabetical_order, false)
+    end
+
+    redirect_to edit_app_admin_meta_key_url(meta_key), flash: {success: "The position of the meta term has been updated"}
+  rescue => e
+    redirect_to edit_app_admin_meta_key_url(meta_key), flash: {error: e.to_s}
+  end
+
+  def move_down
+    meta_key = MetaKey.find(id_from_params(:meta_key_id))
+    meta_key_meta_term = meta_key.meta_key_meta_terms.find_by(meta_term_id: params[:id])
+    ActiveRecord::Base.transaction do
+      meta_key_meta_term.move_down
+      meta_key.update_attribute(:meta_terms_alphabetical_order, false)
+    end
+
+    redirect_to edit_app_admin_meta_key_url(meta_key), flash: {success: "The position of the meta term has been updated"}
+  rescue => e
+    redirect_to edit_app_admin_meta_key_url(meta_key)
   end
 
   private
@@ -75,8 +100,8 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
     params.require(:meta_key).permit(:meta_terms_alphabetical_order, :is_extensible_list, meta_terms_attributes: [:id, :term])
   end
 
-  def meta_key_id
-    params[:id].gsub('@', '/')
+  def id_from_params(key)
+    params[key].gsub('@', '/')
   end
 
   def destroy_chosen_meta_terms
@@ -87,16 +112,6 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
           @meta_key.meta_terms.delete(meta_term)
         end
       end
-    end
-  end
-
-  def update_meta_terms_positions
-    if (meta_terms_positions = params[:meta_terms_positions]) && !@meta_key.meta_terms_alphabetical_order
-      meta_terms_positions.split(',').each_with_index do |id, index|
-        meta_term = @meta_key.meta_key_meta_terms.find_by(meta_term_id: id)
-        meta_term.update_attribute(:position, index)
-      end
-      @meta_key.update_attribute(:meta_terms_alphabetical_order, false)
     end
   end
 

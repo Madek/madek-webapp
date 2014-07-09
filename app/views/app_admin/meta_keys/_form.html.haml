@@ -40,9 +40,17 @@
                     = label_tag "reassign_term_id[#{ff.object.id}]", "Used, merge to:"
                     = text_field_tag "reassign_term_id[#{ff.object.id}]", nil, size: 31
                     %br
-                  - if ff.object.persisted? && 
-                    = ff.check_box :_destroy
-                    = ff.label :_destroy, 'Delete'
+                  %ul.list-inline.actions
+                    - if ff.object.persisted?
+                      %li
+                        = ff.check_box :_destroy
+                        = ff.label :_destroy, 'Delete'
+                    %li.pull-right
+                      = link_to move_down_app_admin_meta_key_meta_term_path(@meta_key, ff.object), class: "btn btn-warning btn-xs ui-move-down", method: :patch do
+                        %i.icon-arrow-down
+                    %li.pull-right
+                      = link_to move_up_app_admin_meta_key_meta_term_path(@meta_key, ff.object), class: "btn btn-warning btn-xs ui-move-up", method: :patch do
+                        %i.icon-arrow-up
 
       .form-group
         .col-sm-offset-2.col-sm-4
@@ -56,28 +64,3 @@
         = button_tag "Submit", type: 'submit', class: "btn btn-success"
         - if @meta_key.persisted?
           = link_to "Cancel", app_admin_meta_keys_path
-
-:javascript
-  $(document).ready(function(){
-    function getPositions() {
-      var positions = [];
-      $('#sortable li').each(function() {
-        if(this.id) {
-          positions.push(this.id);
-        }
-      });
-      $('#meta_terms_positions').val( positions.join(',') );
-    }
-
-    $("#sortable").sortable({
-      axis: 'y',
-      items: '> li:not(.new-term)',
-      cursor: 'move',
-      placeholder: 'placeholder',
-      forcePlaceholderSize: true,
-      update: function(event, ui) {
-        getPositions();
-        $('#meta_key_meta_terms_alphabetical_order').val('false');
-      }
-    });
-  });
