@@ -88,8 +88,7 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
       @meta_term_originator = MetaTerm.find sanitize_id(params[:id])
       @meta_term_receiver   = MetaTerm.find sanitize_id(params[:id_receiver])
       ActiveRecord::Base.transaction do
-        @meta_term_originator.transfer_meta_terms_of_meta_key @meta_term_receiver
-        @meta_term_originator.transfer_meta_terms_of_meta_data @meta_term_receiver
+        @meta_term_originator.transfer_meta_data_meta_terms_to @meta_term_receiver
         @meta_term_receiver.reload.meta_data.reload.map(&:media_resource).each(&:reindex)
       end
       redirect_to app_admin_meta_terms_path, flash: {success: "The meta term's resources have been transferred"}

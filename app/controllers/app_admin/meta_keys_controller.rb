@@ -107,7 +107,7 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
       receiver   = @meta_key.meta_terms.find(sanitize_id(receiver_id))
       next if originator == receiver
 
-      originator.transfer_meta_terms_of_meta_data receiver
+      originator.transfer_meta_data_meta_terms_to receiver
       receiver.reload.meta_data.reload.map(&:media_resource).each(&:reindex)
       @meta_key.meta_key_meta_terms.where(meta_term_id: originator.id).destroy_all
 

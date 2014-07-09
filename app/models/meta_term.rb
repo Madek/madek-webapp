@@ -35,20 +35,14 @@ class MetaTerm < ActiveRecord::Base
   end
 
   ######################################################
+ 
+  def transfer_meta_data_meta_terms_to meta_term_receiver
+    meta_term_receiver.meta_data << \
+      meta_data \
+      .where(%<id not in (#{meta_term_receiver.meta_data.select('"meta_data"."id"').to_sql})>)
+    meta_data.destroy_all
+  end
 
-    def transfer_meta_terms_of_meta_key meta_term_receiver
-      meta_key_meta_terms.each do |mkmt|
-        mkmt.update_attribute :meta_term, meta_term_receiver
-      end
-    end
-
-    def transfer_meta_terms_of_meta_data meta_term_receiver
-      meta_term_receiver.meta_data << \
-        meta_data \
-        .where(%<id not in (#{meta_term_receiver.meta_data.select('"meta_data"."id"').to_sql})>)
-      meta_data.destroy_all
-    end
-  
   ######################################################
 
     def is_used?
