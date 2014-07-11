@@ -99,3 +99,9 @@ Feature: Admin Meta Keys
     When I merge "Gewitter" meta term to "Morgenrot"
     Then There is only one "Morgenrot" meta term on the list
     And I can not see the "Gewitter" meta term on the list
+
+  Scenario: Merging a meta term by giving an id with whitespaces
+    When I visit "/app_admin/meta_keys/type/edit"
+    And I set the input with the name "reassign_term_id[9a51b344-ce70-420d-8f16-9974b6afdb4c]" to " 6b443b98-4297-499e-9964-4492f0be41ee  "
+    And I submit
+    Then I can see a success message

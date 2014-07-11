@@ -14,4 +14,10 @@ class AppAdmin::BaseController < ApplicationController
     redirect_to :back, flash: {success: "Sie haben den Admin-Modus verlassen."}
   end
 
+  protected
+
+  def sanitize_id(id)
+    id.strip
+  end
+
 end

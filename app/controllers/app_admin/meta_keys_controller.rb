@@ -103,8 +103,8 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
   def merge_meta_terms
     params[:reassign_term_id].each_pair do |originator_id, receiver_id|
       next if receiver_id.blank?
-      originator = @meta_key.meta_terms.find(originator_id)
-      receiver   = @meta_key.meta_terms.find(receiver_id)
+      originator = @meta_key.meta_terms.find(sanitize_id(originator_id))
+      receiver   = @meta_key.meta_terms.find(sanitize_id(receiver_id))
       next if originator == receiver
 
       originator.transfer_meta_terms_of_meta_data receiver

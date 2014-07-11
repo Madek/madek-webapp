@@ -85,8 +85,8 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
 
   def transfer_resources
     begin
-      @meta_term_originator = MetaTerm.find params[:id]
-      @meta_term_receiver   = MetaTerm.find params[:id_receiver]
+      @meta_term_originator = MetaTerm.find sanitize_id(params[:id])
+      @meta_term_receiver   = MetaTerm.find sanitize_id(params[:id_receiver])
       ActiveRecord::Base.transaction do
         @meta_term_originator.transfer_meta_terms_of_meta_key @meta_term_receiver
         @meta_term_originator.transfer_meta_terms_of_meta_data @meta_term_receiver
