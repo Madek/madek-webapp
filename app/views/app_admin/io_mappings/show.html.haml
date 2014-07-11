@@ -1,0 +1,21 @@
+%h1
+  %i.icon-user 
+  #{@io_mapping.id}
+
+%ul.list-inline
+  %li
+    =link_to edit_app_admin_io_mapping_path(@io_mapping), class: "btn btn-warning" do
+      %i.icon-pen
+      Edit
+
+%table.table.table-striped
+  %thead
+  %tbody
+  - @io_mapping.attributes.each do |name,value|
+    %tr
+      %td= name.capitalize.split("_").join(" ")
+      - case name
+      - when nil
+      - else
+        %td= value
+

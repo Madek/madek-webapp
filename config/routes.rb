@@ -416,6 +416,9 @@ MAdeK::Application.routes.draw do
     resources :statistics, only: [:index]
     resources :copyrights
 
+    resources :io_mappings
+    resources :io_interfaces, except: [:edit, :update]
+
     resources :applications
 
     root to: "dashboard#index"

@@ -1,0 +1,18 @@
+%tr{id:io_interface.id}
+  %td= io_interface.id
+  %td= io_interface.description
+  %td.no-wrap
+    = link_to app_admin_io_interface_path(io_interface), class: "btn btn-xs" do
+      %i.fa.fa-eye-open
+      Details
+
+    = link_to app_admin_io_mappings_path(filter: {io_interface: io_interface.id}),
+        class: "btn btn-warning btn-xs" do
+      %i.icon-pen
+      Io Mappings
+
+    = link_to app_admin_io_interface_path(io_interface),
+        class: "btn btn-danger btn-xs", method: :delete,
+        data: {confirm: "Are you sure you want to delete this io interface?"} do
+      %i.icon-trash
+      Delete

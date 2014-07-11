@@ -145,6 +145,14 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/features/search/updated_meta_datum_spec.rb"
+- name: features io_mappings io_mappings
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/features/io_mappings/io_mappings_spec.rb"
+- name: features io_interfaces io_interfaces
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/features/io_interfaces/io_interfaces_spec.rb"
 - name: helpers app_admin media_sets_helper
   scripts:
     rspec:

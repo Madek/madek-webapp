@@ -108,6 +108,20 @@
                 = link_to app_admin_users_path do
                   %i.icon-user
                   Users
+          %li.dropdown
+            %a.dropdown-toggle{href: "#", data: {toggle: 'dropdown'}} 
+              %i.icon-cog
+              IO
+              %b.caret
+            %ul.dropdown-menu
+              %li
+                =link_to app_admin_io_interfaces_path do
+                  %i.icon-cog
+                  Io Interfaces
+              %li
+                = link_to app_admin_io_mappings_path do
+                  %i.icon-cog
+                  Io Mappings
         %ul.nav.navbar-nav.navbar-right
           %li
             = link_to root_path, target: "_blank" do

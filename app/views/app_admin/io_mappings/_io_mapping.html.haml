@@ -1,0 +1,22 @@
+%tr
+  %td= io_mapping.id
+  %td= io_mapping.key_map
+  %td= io_mapping.key_map_type
+  %td= io_mapping.meta_key_id
+  %td= io_mapping.io_interface_id
+  %td.no-wrap
+    = link_to app_admin_io_mapping_path("#{io_mapping.io_interface_id},#{io_mapping.meta_key_id}"),
+      class: "btn btn-xs" do
+      %i.fa.fa-eye-open
+      Details
+
+    = link_to edit_app_admin_io_mapping_path("#{io_mapping.io_interface_id},#{io_mapping.meta_key_id}"), 
+      class: "btn btn-warning btn-xs" do
+      %i.icon-pen
+      Edit
+
+    = link_to app_admin_io_mapping_path("#{io_mapping.io_interface_id},#{io_mapping.meta_key_id}"), 
+      class: "btn btn-danger btn-xs", method: :delete, 
+      data: {confirm: "Are you sure you want to delete this meta key?"} do
+      %i.icon-trash
+      Delete

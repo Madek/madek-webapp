@@ -1,0 +1,15 @@
+%h1
+  %i.icon-user 
+  #{@io_interface.id}
+
+%table.table.table-striped
+  %thead
+  %tbody
+  - @io_interface.attributes.each do |name,value|
+    %tr
+      %td= name.capitalize.split("_").join(" ")
+      - case name
+      - when nil
+      - else
+        %td= value
+
