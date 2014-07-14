@@ -49,6 +49,7 @@ module Vocabulary
 
     def meta_terms_for_set set
       MetaTerm \
+        .distinct
         .joins(%< 
           INNER JOIN meta_data_meta_terms AS mdmts ON mdmts.meta_term_id = meta_terms.id
           INNER JOIN meta_data ON meta_data.id = mdmts.meta_datum_id
