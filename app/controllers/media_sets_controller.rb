@@ -11,6 +11,11 @@ class MediaSetsController < ApplicationController
     @parents_count = @media_set.parent_sets.accessible_by_user(current_user,:view).count
     @can_edit = current_user.authorized?(:edit, @media_set)
     
+    # get all individual contexts, sorted by group and position
+    @individual_contexts = @media_set.individual_and_inheritable_contexts.sort_by do |context|
+      context.context_group_id.to_s + context.position.to_s
+    end
+    
     # TODO: new query @tom
     @entries_count = @media_set.child_media_resources.accessible_by_user(current_user,:view).count
     @entries_total_count = @media_set.child_media_resources.count
@@ -60,15 +65,10 @@ class MediaSetsController < ApplicationController
   
   def individual_contexts
     unless check_for_old_id_and_in_case_redirect_to :inheritable_contexts_media_set_path
-      check_and_initialize_for_view # sets @media_set
+      check_and_initialize_for_view # sets @media_set, @individual_contexts
       
       if (params[:context_id]).blank?
         raise "No context.id given!"
-      end
-
-      # get all contexts, sorted by group and position
-      @individual_contexts = @media_set.individual_and_inheritable_contexts.sort_by do |context|
-        context.context_group_id.to_s + context.position.to_s
       end
       
       # find out if each context is inherited and/or enabled

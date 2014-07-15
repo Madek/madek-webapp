@@ -8,8 +8,8 @@
       %a{:href => parents_media_set_path(@media_set)}
         = _("Parent sets")
 
-  - unless @media_set.individual_contexts.blank?
+  - unless @individual_contexts.blank?
 
     %li.ui-tabs-item{:class => media_set_context_page? ? "active" : ""}
-      %a{:href => context_media_set_path(@media_set, @media_set.individual_contexts.first)}
+      %a{:href => context_media_set_path(@media_set, @individual_contexts.first)}
         = _("Vocabulary")
