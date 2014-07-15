@@ -21,9 +21,3 @@ Feature: Managing Copyrigts
     And I submit
     Then I can see a success message
     And I can see "NEW COPYRIGHT"
-
-  Scenario: Editing parent id not possible for copyright with children
-    When I visit "/app_admin/copyrights"
-    And I click on the parent details
-    And I click on "Edit"
-    Then I cannot see "Parent id"

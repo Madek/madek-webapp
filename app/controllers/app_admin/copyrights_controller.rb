@@ -1,5 +1,7 @@
 class AppAdmin::CopyrightsController < AppAdmin::BaseController
 
+  before_action :labels_for_select, only: [:edit, :new]
+
   def index
     @copyright_roots = Copyright.where(parent_id: nil)
   end
@@ -51,6 +53,37 @@ class AppAdmin::CopyrightsController < AppAdmin::BaseController
     rescue => e
       redirect_to :back, flash: {error: e.to_s}
     end
+  end
+
+  def move_up
+    @copyright = Copyright.find(params[:id])
+    @copyright.move_higher
+    redirect_to app_admin_copyrights_path
+  end
+
+  def move_down
+    @copyright = Copyright.find(params[:id])
+    @copyright.move_lower
+    redirect_to app_admin_copyrights_path
+  end
+
+  def labels_for_select
+    @copyrights = build_labels(Copyright.where(parent_id: nil), 0)
+    @disabled = build_labels(Copyright.where(id: params[:id]), nil)
+  end
+  
+  def build_labels(copyright, depth)
+    result = []
+    copyright.each do |copy|
+      if depth
+        result << ["#{'-' * depth} #{copy.label}", copy.id]
+        result += build_labels(copy.children, depth+1)
+      else
+        result += [copy.label, copy.id]
+        result += build_labels(copy.children, nil)
+      end
+    end
+    result
   end
 
   private

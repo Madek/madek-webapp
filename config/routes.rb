@@ -414,7 +414,10 @@ MAdeK::Application.routes.draw do
     end
 
     resources :statistics, only: [:index]
-    resources :copyrights
+    resources :copyrights do
+      put 'move_up', on: :member
+      put 'move_down', on: :member
+    end
 
     resources :io_mappings
     resources :io_interfaces, except: [:edit, :update]

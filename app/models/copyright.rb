@@ -1,7 +1,10 @@
 # -*- encoding : utf-8 -*-
 class Copyright < ActiveRecord::Base
 
-  default_scope { reorder(:label) }
+  before_create :set_position
+  after_destroy :regeerate_position
+
+  default_scope { reorder(:position) }
 
   has_many :meta_datum_copyrights
 
@@ -78,5 +81,41 @@ class Copyright < ActiveRecord::Base
   end
 
 ##################################################
+
+  def set_position
+    if (last = Copyright.where(parent_id: parent_id).last).present? && last.position.present?
+      self.position = last.position + 1
+    else
+      self.position = 1
+    end
+  end
+
+  def move_higher
+    self.regenerate_positions
+    if (higher = Copyright.where(parent_id: parent_id).find_by position: self.position - 1).present?
+      Copyright.transaction do
+        higher.update_attributes(position: self.position)
+        self.update_attributes(position: self.position - 1)
+      end
+    end
+  end
+
+  def move_lower
+    self.regenerate_positions
+    if (lower = Copyright.where(parent_id: parent_id).find_by position: self.position + 1).present?
+      Copyright.transaction do
+        lower.update_attributes(position: self.position)
+        self.update_attributes(position: self.position + 1)
+      end
+    end
+  end
+
+  def regenerate_positions
+    Copyright.transaction do
+      Copyright.where(parent_id: parent_id).each_with_index do |pp, i|
+        pp.update_attribute(:position, i+1)
+      end
+    end
+  end
 
 end

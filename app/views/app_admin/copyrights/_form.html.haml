@@ -12,11 +12,10 @@
     %label.control-label.col-sm-1 Is custom
     .col-sm-4
       = f.check_box :is_custom
-  -if @copyright.leaf?
-    .form-group
-      %label.control-label.col-sm-1 Parent id
-      .col-sm-4
-        = f.select(:parent_id, [["No parent", "NULL"]] + Copyright.where.not(id: @copyright.id).collect { |c| [c.parents, c.id]})
+  .form-group
+    %label.control-label.col-sm-1 Parent id
+    .col-sm-4
+      = f.select(:parent_id, [["No parent", "NULL"]] + @copyrights, {disabled: @disabled})
 
   .form-group
     .col-sm-offset-1.col-sm-4

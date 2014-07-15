@@ -3,10 +3,20 @@
   %td= copyright.label 
   %td= copyright.is_default
   %td= copyright.is_custom
-  %td
-    = link_to app_admin_copyright_path(copyright), class: "btn btn-sm" do
-      %i.fa.fa-eye-open
-      Details
+  %td.no-wrap
+    %ul.list-inline
+      %li 
+      = link_to app_admin_copyright_path(copyright), class: "btn btn-sm" do
+        %i.fa.fa-eye-open
+        Details
+      %li
+        = link_to move_up_app_admin_copyright_path(copyright),
+            method: "PUT", class: "btn btn-warning btn-xs up" do
+          %i.icon-arrow-up
+      %li
+        = link_to move_down_app_admin_copyright_path(copyright),
+            method: "PUT", class: "btn btn-warning btn-xs down" do
+          %i.icon-arrow-down
 - if copyright.has_descendants?
   - copyright.children.each do |child|
     =render child, indent: indent+1

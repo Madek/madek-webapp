@@ -149,7 +149,8 @@ CREATE TABLE copyrights (
     usage character varying(255),
     url character varying(255),
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    parent_id uuid
+    parent_id uuid,
+    "position" double precision
 );
 
 
@@ -2153,6 +2154,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140613154055');
 INSERT INTO schema_migrations (version) VALUES ('20140623075458');
 
 INSERT INTO schema_migrations (version) VALUES ('20140709085016');
+
+INSERT INTO schema_migrations (version) VALUES ('20140714140008');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
