@@ -290,12 +290,12 @@ class ClipboardController
       delete sessionStorage.visibleResources
 
   toggle: ->
-    @content_el.slideToggle "fast", => unless @ui_el.is ".closed" then @ui_el.addClass("ui-open") else @ui_el.removeClass("ui-open")
+    @content_el.slideToggle "fast"
     if @ui_el.is ".closed"
-      @ui_el.removeClass "closed"
+      @ui_el.addClass("ui-open").removeClass "closed"
       $("body").addClass "ui-clipboard-open"
     else
-      @ui_el.addClass "closed"
+      @ui_el.removeClass("ui-open").addClass "closed"
       $("body").removeClass "ui-clipboard-open"
 
   checkPosition: ->

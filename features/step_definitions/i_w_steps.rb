@@ -5,7 +5,7 @@ Then /^I wait for multi\-select\-tag with the text "(.*?)"$/ do |text|
 end
 
 Then /^I wait for the clipboard to be fully open$/  do
-  find(".ui-clipboard.ui-open")
+  page.find(".ui-clipboard.ui-open")
 end
 
 Then /^I wait for the dialog to appear$/ do
