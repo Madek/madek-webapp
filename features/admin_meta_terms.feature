@@ -63,3 +63,6 @@ Feature: Admin Meta Terms
     And There is no filtering option selected
     And There is "ascending" sorting option selected
 
+  Scenario: Deleting unused meta term
+    When I visit "/app_admin/meta_terms"
+    And Delete unused meta term
