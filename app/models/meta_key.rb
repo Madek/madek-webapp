@@ -42,6 +42,11 @@ class MetaKey < ActiveRecord::Base
 
   after_update :sort_meta_terms
 
+  def self.search_with(term)
+    joins("LEFT OUTER JOIN meta_key_definitions ON meta_keys.id = meta_key_definitions.meta_key_id") \
+      .where("meta_keys.id LIKE :label OR meta_key_definitions.label LIKE :label", label: "%#{term}%")
+  end
+
   def label
     id
   end

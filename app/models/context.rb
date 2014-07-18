@@ -77,4 +77,8 @@ class Context < ActiveRecord::Base
     ContextGroup.first.try(:contexts) || []
   end
 
+  def label_for_meta_key(meta_key)
+    meta_key_definitions.find_by(meta_key_id: meta_key.id).label
+  end
+
 end

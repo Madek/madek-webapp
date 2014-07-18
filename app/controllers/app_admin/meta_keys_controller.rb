@@ -3,7 +3,7 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
     @meta_keys = MetaKey.page(params[:page]).per(12)
 
     if (label = params.try(:[], :filter).try(:[], :label)).present?
-      @meta_keys = @meta_keys.where("meta_keys.id LIKE ?", "%#{label}%")
+      @meta_keys = @meta_keys.search_with(label)
     end
 
     if (@meta_datum_object_type = params.try(:[], :filter).try(:[], :meta_datum_object_type)).present?

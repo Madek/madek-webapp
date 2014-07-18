@@ -30,10 +30,17 @@ Feature: Admin Meta Keys
   Scenario: Filtering meta keys by label
     When I visit "/app_admin/meta_keys"
     Then I can see the input with the name "filter[label]" with no value
-    When I set the input with the name "filter[label]" to "title"
+    When I set the input with the name "filter[label]" to "identifier"
     And I submit
-    Then I can see only meta keys containing "title" term
-    And I can see the input with the name "filter[label]" with value "title"
+    Then I can see only meta keys containing "identifier" term
+    And I can see the input with the name "filter[label]" with value "identifier"
+
+  Scenario: Filtering meta keys by label related to a context
+    When I visit "/app_admin/meta_keys"
+    And I set the input with the name "filter[label]" to "Titel"
+    And I submit
+    Then I can see only meta keys containing "Titel des Werks" term
+    And I can see only meta keys containing "Titel" term 
 
   Scenario: Filtering meta keys by their types
     When I visit "/app_admin/meta_keys"

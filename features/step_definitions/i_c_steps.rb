@@ -183,6 +183,7 @@ Then /^I can see instructions for an FTP import$/ do
 end
 
 Then /^I can see only meta keys containing "(.*?)" term$/ do |term|
+  expect(all('table tbody tr').length).to be > 0
   all('table tbody tr').each do |row|
     expect(row).to have_content(term)
   end
