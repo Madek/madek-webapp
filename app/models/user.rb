@@ -62,7 +62,9 @@ class User < ActiveRecord::Base
   
 
 
-  has_and_belongs_to_many :groups do
+  has_and_belongs_to_many :groups,
+                          after_add: :increment_user_counter, 
+                          after_remove: :decrement_user_counter do
     def is_member?(group)
       group = Group.find_by_name(group) if group.is_a? String
       group ? include?(group) : false
@@ -72,6 +74,15 @@ class User < ActiveRecord::Base
   def is_admin? 
     @is_admin ||= Group.where(name: 'Admin').joins(:users) \
       .where("groups_users.user_id = ?", self.id).count > 0
+  end
+
+### counters ###################################################
+  def increment_user_counter(group)
+    group.increment!(:users_count)
+  end
+
+  def decrement_user_counter(group)
+    group.decrement!(:users_count)
   end
 
   #############################################################

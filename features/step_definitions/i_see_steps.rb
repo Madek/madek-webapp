@@ -359,3 +359,15 @@ Then /^I see the "(.*?)" menu item$/ do |anchor_text|
     expect(links.any? { |link| link.text =~ /Info \+ Statistics/}).to be_true
   end
 end
+
+Then /^I see the user count$/ do
+  @count = all("tr.user_count").first.to_i
+end
+
+Then /^I see incremented user count$/ do
+  expect(@count + 1 == all("tr.user_count").first.to_i)
+end
+
+Then /^I see decremented user count$/ do
+  expect(@count == all("tr.user_count").first.to_i)
+end

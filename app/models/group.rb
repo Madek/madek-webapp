@@ -18,6 +18,13 @@ class Group < ActiveRecord::Base
     ["Admin", "ZHdK (Zürcher Hochschule der Künste)"].include?(name) # FIXME remove zhdk
   end
 
+### use in case counters get broken ####################
+
+  def self.reset_users_count
+    Group.all.each do |group|
+      group.update_attributes(users_count: group.users.count)
+    end
+  end
 
 ### text search ######################################## 
   

@@ -6,8 +6,8 @@
   %td
     %span #{group.type}
 
-  %td
-    #{group.users.count}
+  %td.user_count
+    #{group.users_count}
 
   %td.search-rank= group.respond_to?(:search_rank) ?  group.search_rank : ''
 

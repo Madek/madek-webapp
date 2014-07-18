@@ -30,6 +30,9 @@ class AppAdmin::GroupsController < AppAdmin::BaseController
       when 'name'
         @sort_by= :name
         @groups= @groups.reorder("name ASC, ldap_name ASC")
+      when 'amount'
+        @sort_by = :amount
+        @groups = @groups.reorder("users_count DESC, name ASC, ldap_name ASC")
       when 'trgm_rank'
         @sort_by = :trgm_rank
         raise "Search term must not be blank!" if search_terms.blank? 
