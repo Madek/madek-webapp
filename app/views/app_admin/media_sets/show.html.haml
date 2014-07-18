@@ -29,7 +29,9 @@
       - when nil
       - else
         %td= value
-
+  %tr
+    %td Searchable
+    %td= @media_set.full_text.try(:text)
 
 
 - if (media_set.individual_contexts.count > 0) 

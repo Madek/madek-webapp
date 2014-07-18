@@ -11,6 +11,9 @@
       - else
         %td= value
   %tr
+    %td Searchable
+    %td= @media_entry.full_text.try(:text)
+  %tr
     %td Media-File
     %td
       = link_to app_admin_media_file_path(@media_entry.media_file) do
