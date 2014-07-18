@@ -4,7 +4,6 @@ class AppAdmin::PeopleController < AppAdmin::BaseController
     begin 
       @people = Person.page(params[:page]) 
 
-
       if !params[:is_group].blank?
         @people = @people.groups
       end
@@ -32,24 +31,22 @@ class AppAdmin::PeopleController < AppAdmin::BaseController
         end
       end
 
-      case params.try(:[], :sort_by) || 'last_name_first_name'
-      when 'last_name_first_name'
-        @sort_by= :last_name_first_name
-        @people= @people.reorder("last_name ASC, first_name ASC, pseudonym ASC")
-      when 'trgm_rank'
-        @sort_by = :trgm_rank
+      @sort_by = params[:sort_by].to_sym rescue :last_name_first_name
+      case @sort_by
+      when :last_name_first_name
+        @people = @people.reorder("last_name ASC, first_name ASC, pseudonym ASC")
+      when :trgm_rank
         raise "Search term must not be blank!" if search_terms.blank? 
-      when 'text_rank'
-        @sort_by = :text_rank
-        raise "Search term must not be blank!" if search_terms.blank? 
+      when :text_rank
+        raise "Search term must not be blank!" if search_terms.blank?
+      when :created_at
+        @people = @people.reorder("created_at DESC")
       end
 
     rescue Exception => e
       @people = Person.where("true = false").page(params[:page])
       @error_message= e.to_s
     end
-
-
   end
 
   def show

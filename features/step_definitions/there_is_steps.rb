@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
- 
+
 Then /^there is "(.*?)" in my imports$/ do |file_name|
   expect(find("#mei_filelist li", text: file_name)).to be
 end
@@ -118,6 +118,11 @@ Then /^There is "(.*?)" option selected in "(.*?)" select$/ do |option, name|
   within "select[name='#{name}']" do
     expect(find("option", text: option)[:selected]).to eq("selected")
   end
+end
+
+Then /^There is "(.*?)" at the top of the list$/ do |last_name|
+  row = all("table tbody tr").first
+  expect(row).to have_content(last_name)
 end
 
 Then /^There is only one "(.*?)" meta term on the list$/ do |term|

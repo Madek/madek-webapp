@@ -41,3 +41,14 @@ Feature: Admin interface
     And I can see "FIRST_NAME"
     And I can see "PSEUDONYM"
     And I can see "1989-04-10"
+
+  Scenario: Default sorting
+    When I visit "/app_admin/people"
+    Then There is "Last-, first-name" sorting option selected
+    And There is "Admin" at the top of the list
+
+  Scenario: Sorting by date of creation
+    When I visit "/app_admin/people"
+    And I select "Date of creation" from the select node with the name "sort_by"
+    And I submit
+    Then There is "Pape" at the top of the list

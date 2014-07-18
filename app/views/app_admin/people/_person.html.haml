@@ -21,6 +21,8 @@
 
   %td.search-rank= person.respond_to?(:search_rank) ?  person.search_rank : ''
 
+  %td= person.created_at.to_s(:long)
+
   %td
     %ul.list-inline
       %li 

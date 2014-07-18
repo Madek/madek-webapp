@@ -17,6 +17,7 @@
         = options_for_select [["Last-, first-name", :last_name_first_name],
           ["Text search ranking",:text_rank],
           ["Trigram search ranking", :trgm_rank],
+          ["Date of creation", :created_at],
           ], @sort_by
 
     .form-group
@@ -56,6 +57,7 @@
           %th Is a group?
           %th Meta data 
           %th Search rank
+          %th Created at
       %tbody
         =render @people
 
