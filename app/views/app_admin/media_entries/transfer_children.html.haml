@@ -1,0 +1,12 @@
+%h1 Edit Media Set <em>#{@media_set.title}</em>
+
+= form_tag change_children_owner_app_admin_media_set_path(@media_set) , method: "PUT", html: {class: "form-horizontal", role: "form"} do
+
+  .form-group
+    %label.control-label.col-sm-2= user
+    .col-sm-4
+      = f.text_field field, class: "form-control"
+
+  = button_tag type: 'submit', class: "btn btn-success" do
+    Transfer
+

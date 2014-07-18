@@ -45,6 +45,16 @@ class AppAdmin::MediaSetsController < AppAdmin::BaseController
     end
   end
 
+  def destroy
+    begin
+      @media_set = MediaSet.find params[:id]
+      @media_set.destroy
+      redirect_to app_admin_media_sets_url, flash: {success: "The media set has been deleted without related resources"}
+    rescue => e
+      redirect_to app_admin_media_sets_url, flash: {error: e.to_s}
+    end
+  end
+
   def delete_with_child_media_resources
     begin
       ActiveRecord::Base.transaction do
@@ -53,6 +63,28 @@ class AppAdmin::MediaSetsController < AppAdmin::BaseController
         @media_set.destroy
         redirect_to app_admin_media_sets_path, 
           flash: {success: "The Mediaset with the id #{params[:id]} and all including resources have been removed!"}
+      end
+    rescue Exception => e
+      if @media_set
+        redirect_to app_admin_media_set_path(@media_set), flash: {error: e.to_s}
+      else
+        redirect_to app_admin_media_sets_path, flash: {error: e.to_s}
+      end
+    end
+  end
+
+  def transfer_children
+    @media_set = MediaSet.find params[:id]
+  end
+
+  def change_children_owner
+    begin
+      ActiveRecord::Base.transaction do
+        @media_set = MediaSet.find params[:id]
+        user = User.find(params[:user_id])
+        @media_set.child_media_resources.each{|mr| mr.update_attributes(user: user) unless mr.type == "MediaSet"}
+        redirect_to app_admin_media_set_path,
+          flash: {success: "Successfuly changed responsible user for children"}
       end
     rescue Exception => e
       if @media_set

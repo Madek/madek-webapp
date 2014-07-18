@@ -7,8 +7,16 @@
       %i.icon-trash
       Delete with all children
   %li
+    =link_to app_admin_media_set_path(media_set), method: 'DELETE', data: {confirm: "Do you really want to delete this meda set, without related resources?"}, class: "btn btn-danger" do
+      %i.icon-trash
+      Delete without children
+  %li
     =link_to manage_app_admin_media_set_individual_contexts_path(media_set), class: "btn btn-warning" do
       Manage individual contexts
+  %li
+    = link_to transfer_children_app_admin_media_set_path(media_set), class: "btn btn-warning" do
+      %i.fa.fa-pencil
+      Transfer children
   %li
     = link_to edit_app_admin_media_set_path(media_set), class: "btn btn-warning" do
       %i.fa.fa-pencil

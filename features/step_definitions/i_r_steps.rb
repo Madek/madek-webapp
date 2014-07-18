@@ -67,6 +67,10 @@ Then /^I remove a set A from a set B from which set A is inheriting a context$/ 
   step 'I wait for the dialog to disappear'
 end
 
+Given(/^I remember the owner of media_resource with previous_id "(.*?)"$/) do |id|
+  @user = (MediaResource.find_by previous_id: id).user
+end
+
 Then /^I remove all uploaded files$/ do
  all("ul#mei_filelist > li a.delete_mei").each do |link|
     link.click()

@@ -344,9 +344,11 @@ MAdeK::Application.routes.draw do
       end
     end
 
-    resources :media_sets, only: [:index, :show, :edit, :update] do
+    resources :media_sets, only: [:index, :show, :edit, :update, :destroy] do
       member do
-        delete 'delete_with_child_media_resources' 
+        delete 'delete_with_child_media_resources'
+        get 'transfer_children'
+        put 'change_children_owner'
       end
 
       resources 'individual_contexts', only: [] do

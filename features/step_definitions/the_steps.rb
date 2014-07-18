@@ -167,6 +167,14 @@ Then /^The media_resource with the previous_id "(.*?)" doesn't exist$/  do |id|
   expect(MediaResource.find_by previous_id: id).not_to be
 end
 
+Then /^The media_resource with the previous_id "(.*?)" has the same owner$/  do |id|
+  expect((MediaResource.find_by previous_id: id).reload.user.name).to be== @user.name
+end
+
+Then /^The media_resource with the previous_id "(.*?)" has owner "(.*?)"$/  do |id, user_name|
+  expect((MediaResource.find_by previous_id: id).reload.user.name).to be== user_name
+end
+
 Then /^The meta term is at the top of the list$/ do
   meta_terms = all("#sortable li[data-term]")
   expect(meta_terms.first["data-term"]).to be== @new_meta_term_value
