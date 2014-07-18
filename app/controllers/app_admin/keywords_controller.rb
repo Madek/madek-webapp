@@ -2,7 +2,7 @@ class AppAdmin::KeywordsController < AppAdmin::BaseController
   before_action :set_filters, only: :index
 
   def index
-    @keyword_terms = KeywordTerm.with_count
+    @keyword_terms = KeywordTerm.with_count.with_date_of_creation.page(params[:page]).per(12)
 
     if @search_term.present?
       case params.try(:[], :sort_by) 
@@ -17,13 +17,13 @@ class AppAdmin::KeywordsController < AppAdmin::BaseController
 
     case @sort_by
     when :used_times_asc
-      @keyword_terms = @keyword_terms.order("keywords_count ASC")
+      @keyword_terms = @keyword_terms.order("keywords_count")
     when :used_times_desc
       @keyword_terms = @keyword_terms.order("keywords_count DESC")
     when :created_at_asc
-      @keyword_terms = @keyword_terms.order(:created_at)
+      @keyword_terms = @keyword_terms.order("date_of_creation")
     when :created_at_desc
-      @keyword_terms = @keyword_terms.order(created_at: :desc)
+      @keyword_terms = @keyword_terms.order("date_of_creation DESC")
     when :trgm_rank, :text_rank
       raise "Search term must not be blank!" if @search_term.blank?
     end

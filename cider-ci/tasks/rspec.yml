@@ -193,6 +193,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/keyword/class/search_spec.rb"
+- name: models keyword_term
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/keyword_term_spec.rb"
 - name: models media_resource class search
   scripts:
     rspec:

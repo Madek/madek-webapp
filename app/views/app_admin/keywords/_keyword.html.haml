@@ -2,8 +2,8 @@
   %td= keyword.id
   %td= keyword.term
   %td= keyword.keywords_count.zero? ? "Not used" : keyword.keywords_count
-  %td= keyword.keywords.map(&:user).count
-  %td= keyword.created_at
+  %td= keyword.creator
+  %td= keyword.formatted_created_at
   %td.no-wrap
     = link_to edit_app_admin_keyword_path(keyword), class: "btn btn-warning btn-xs" do
       %i.icon-pen

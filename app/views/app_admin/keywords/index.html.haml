@@ -13,7 +13,6 @@
         = options_for_select [["---", nil],
           ["Used times (ascending)", :used_times_asc],
           ["Used times (descending)", :used_times_desc],
-          ["Users", :users],
           ["Created at (ascending)", :created_at_asc],
           ["Created at (descending)", :created_at_desc],
           ["Text search ranking", :text_rank],
@@ -27,14 +26,20 @@
 
     = link_to "Reset", app_admin_keywords_path(reset: true, search_term: nil, sort_by: nil)
 
+.pull-left
+  = "Number of keyword terms found:"
+  %span#counter #{@keyword_terms.total_count}
+
 %table.table.table-striped
   %thead
     %tr
       %th ID
       %th Term
       %th Used times
-      %th User
+      %th Created by
       %th Created at
       %th
   %tbody
     =render partial: 'keyword', collection: @keyword_terms
+
+= paginate @keyword_terms, theme: 'app_admin'
