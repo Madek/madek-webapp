@@ -107,16 +107,38 @@
 
 / --------------------------------
 
-= form_tag app_admin_settings_path, method: "PUT", class: "form-horizontal settings", role: "form" do
+%section
+  %h3 
+    %i.glyphicon.glyphicon-folder-close
+    Special sets
 
-  %fieldset.well
+= form_for [:app_admin, @settings], url: app_admin_settings_path, method: "PUT", html: {class: "form-horizontal settings", role: "form", id: "special-sets-form"} do |f|
+  %table.table.table-striped
+    - [:featured_set_id, :splashscreen_slideshow_set_id, :catalog_set_id].each do |attr|
+      %tr
+        %td.limit250
+          = attr.to_s.capitalize.split("_").join(" ")
+        %td.limit700
+          = f.hidden_field attr
+          = text_field_tag attr, MediaSet.find(f.object.send(attr)).title, class: "form-control autocomplete"
+        %td
+          %ul.list-inline
+            %li
+              = f.button type: :submit, class: "btn btn-warning btn-xs" do
+                %i.fa.fa-pencil
+                Change set
+            %li
+              = link_to app_admin_media_set_path(@settings.send(attr)), class: "btn btn-info btn-xs" do
+                %i.fa.fa-eye
+                Details
 
-    %h3 
-      %i.glyphicon.glyphicon-folder-close
-      Sets 
-
-    - [:featured_set_id,:splashscreen_slideshow_set_id,:catalog_set_id].each do |attr|
-      %p
-        = link_to app_admin_media_set_path(@settings.send(attr)), class: "btn btn-info" do
-          %i.fa.fa-eye
-          #{attr.to_s.humanize} Details
+:javascript
+  $(function() {
+    $('.autocomplete').autocomplete({
+      source: "/app_admin/media_sets",
+      minLength: 2,
+      select: function( event, ui ) {
+        $("input[name='app_settings[" + $(event.target).attr('name') + "]']").val(ui.item.id);
+      }
+    });
+  });

@@ -51,6 +51,10 @@
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/admin_previews.feature"
+- name: admin_settings
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/admin_settings.feature"
 - name: admin_specify_links_and_logo
   scripts:
     cucumber:

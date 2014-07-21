@@ -76,8 +76,10 @@ Then /^I submit$/ do
   all("form").last.find("[type='submit']").click
 end
 
-Then /^I submit the form with id "(.*?)"$/ do |formid|
-  find("form##{formid}").find("[type='submit']").click
+Then /^I submit the form with id "(.*?)"$/ do |form_id|
+  within("form##{form_id}") do
+    find("[type='submit']").click
+  end
 end
 
 Then /^I switch to (.*?) view$/ do |vismode|

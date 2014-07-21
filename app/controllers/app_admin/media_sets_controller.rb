@@ -11,17 +11,20 @@ class AppAdmin::MediaSetsController < AppAdmin::BaseController
 
 
   def index
-    @media_sets = MediaSet.reorder("created_at DESC").page(params[:page]).per(16)
+    if params[:term].present?
+      render json: autocomplete_for(params[:term])
+    else
+      @media_sets = MediaSet.reorder("created_at DESC").page(params[:page]).per(16)
 
-    if !params[:fuzzy_search].blank? && fuzzy_query=params[:fuzzy_search]
-      @media_sets= @media_sets.joins(user: :person, meta_data: :meta_key) \
-        .where("meta_keys.id = 'title'") \
-        .fuzzy_search(
-          {users: {login: fuzzy_query, email: fuzzy_query}, 
-            people: {last_name: fuzzy_query, first_name: fuzzy_query},
-            meta_data: {string: fuzzy_query}},false)
+      if !params[:fuzzy_search].blank? && fuzzy_query=params[:fuzzy_search]
+        @media_sets= @media_sets.joins(user: :person, meta_data: :meta_key) \
+          .where("meta_keys.id = 'title'") \
+          .fuzzy_search(
+            {users: {login: fuzzy_query, email: fuzzy_query}, 
+              people: {last_name: fuzzy_query, first_name: fuzzy_query},
+              meta_data: {string: fuzzy_query}},false)
+      end
     end
-
   end
 
   def show
@@ -90,5 +93,13 @@ class AppAdmin::MediaSetsController < AppAdmin::BaseController
   private
   def media_set_params
     params.require(:media_set).permit(:id, :user_id)
+  end
+
+  def autocomplete_for(term)
+    MediaSet.joins(:meta_data) \
+      .where("meta_data.string ILIKE :string AND meta_data.meta_key_id='title'", string: "%#{term}%") \
+      .map do |media_set|
+       {id: media_set.id, label: media_set.title, value: media_set.title}
+      end.sort_by { |hash| hash[:label] }
   end
 end

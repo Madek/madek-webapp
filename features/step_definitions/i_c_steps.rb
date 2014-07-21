@@ -108,6 +108,10 @@ Then /^I can see a list of "(.*?)" meta contexts$/ do |count|
   expect(all("#sortable li").size).to be== count.to_i
 end
 
+Then /^I can see a notice with message "(.*?)"$/ do |message|
+  expect{find(".alert-info", text: message)}.to_not raise_error
+end
+
 Then /^I can see checked radio button with the name "(.*?)" with the value "(.*?)"$/ do |name, value|
   expect(find("input[type='radio'][value='#{value}']")[:checked]).to be_true
 end
