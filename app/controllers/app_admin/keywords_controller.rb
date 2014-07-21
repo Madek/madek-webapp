@@ -42,7 +42,7 @@ class AppAdmin::KeywordsController < AppAdmin::BaseController
       @keyword_term = KeywordTerm.find(params[:id])
       @keyword_term.update(keyword_params)
 
-      redirect_to app_admin_keywords_url(search_term: nil), flash: {success: "Keyword has been updated."}
+      redirect_to app_admin_keywords_url(search_term: nil), flash: {success: "The keyword term has been updated."}
     rescue => e
       redirect_to app_admin_keywords_url, flash: {error: e.to_s}
     end
@@ -62,7 +62,7 @@ class AppAdmin::KeywordsController < AppAdmin::BaseController
           keyword.update_attribute(:keyword_term, @keyword_term_receiver)
         end
       end
-      redirect_to app_admin_keywords_path, flash: {success: "The keyword term resources have been transferred."}
+      redirect_to app_admin_keywords_path, flash: {success: "The keyword term's resources have been transferred."}
     rescue => e
       redirect_to app_admin_keywords_path, flash: {error: e.to_s}
     end
@@ -74,7 +74,7 @@ class AppAdmin::KeywordsController < AppAdmin::BaseController
       raise "Cannot delete an used keyword." unless keyword_term.keywords.count.zero?
       keyword_term.destroy
 
-      redirect_to app_admin_keywords_url, flash: {success: "A keyword term has been destroyed."}
+      redirect_to app_admin_keywords_url, flash: {success: "The keyword term has been destroyed."}
     rescue => e
       redirect_to app_admin_keywords_url, flash: {error: e.to_s} 
     end
@@ -82,8 +82,8 @@ class AppAdmin::KeywordsController < AppAdmin::BaseController
 
   def default_url_options(options={})
     {
-      :search_term      => params.try(:[], :search_term),
-      :sort_by          => params.try(:[], :sort_by).try(&:to_sym)
+      :search_term => params.try(:[], :search_term),
+      :sort_by     => params.try(:[], :sort_by).try(&:to_sym)
     }
   end
 
@@ -94,8 +94,7 @@ class AppAdmin::KeywordsController < AppAdmin::BaseController
   end
 
   def set_filters
-    @reset_param    = params.try(:[], :reset).to_s == "true"
-    @search_term    = @reset_param ? nil : params.try(:[], :search_term)
-    @sort_by        = @reset_param ? nil : params.try(:[], :sort_by).try(&:to_sym)
+    @search_term    = params[:search_term]
+    @sort_by        = params[:sort_by].to_sym rescue :created_at_desc
   end
 end

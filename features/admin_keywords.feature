@@ -55,5 +55,4 @@ Feature: Admin Keywords
     And There is "Used times (descending)" sorting option selected
     When I click on "Reset"
     Then The input with name "search_term" is empty
-    And There is no option selected in "sort_by" select
-
+    And There is "Created at (descending)" sorting option selected

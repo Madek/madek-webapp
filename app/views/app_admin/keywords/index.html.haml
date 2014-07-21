@@ -10,8 +10,7 @@
     .form-group
       %label Sort by:
       %select.form-control.sort-by{name: :sort_by}
-        = options_for_select [["---", nil],
-          ["Used times (ascending)", :used_times_asc],
+        = options_for_select [["Used times (ascending)", :used_times_asc],
           ["Used times (descending)", :used_times_desc],
           ["Created at (ascending)", :created_at_asc],
           ["Created at (descending)", :created_at_desc],
@@ -24,7 +23,7 @@
         %i.icon-filter
         Apply
 
-    = link_to "Reset", app_admin_keywords_path(reset: true, search_term: nil, sort_by: nil)
+    = link_to "Reset", app_admin_keywords_path(search_term: nil, sort_by: nil)
 
 .pull-left
   = "Number of keyword terms found:"
