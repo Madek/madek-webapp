@@ -325,6 +325,10 @@ Then /^the unused values are faded out$/ do
   page.evaluate_script %Q{ Test.ContextVocabulary.all_unused_vocabulary_is_fade_out() }
 end
 
+Then /^The user with login "(.*?)" is an admin$/ do |login|
+  expect(User.find_by(login: login).is_admin?).to be_true
+end
+
 Then /^The visualization test test_noupdate_positions is running$/ do
   wait_until(5){ all("#test_noupdate_positions_running").size > 0}
 end

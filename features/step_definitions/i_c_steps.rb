@@ -794,6 +794,10 @@ When /^I click the last move up button$/ do
   all("table tbody a.move-up").last.click
 end
 
+When /^I click on the last "(.*?)" link$/ do |text|
+  all("a", text: text).last.click
+end
+
 Then (/^I click the "(.*?)" link$/) do |text|
   find("a", text: text).click
 end

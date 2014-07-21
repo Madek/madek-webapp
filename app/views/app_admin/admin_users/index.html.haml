@@ -1,0 +1,55 @@
+%h1.text-center 
+  %i.icon-admin
+  Admin Users
+
+%ul.list-inline
+  %li
+    = link_to form_create_with_user_app_admin_admin_users_path, class: 'btn btn-success' do
+      %i.fa.fa-plus
+      New Admin User with person
+  %li
+    = link_to new_app_admin_admin_user_path, class: 'btn btn-success' do
+      %i.fa.fa-plus
+      New Admin User for existing person
+
+.well.pull-right
+
+  = form_tag app_admin_admin_users_path, method: 'GET', class: 'form-inline' do
+
+    .form-group
+      = text_field :filter, :search_terms, class: "search-query, form-control", 
+          placeholder: 'Search term',  value: params.try(:[],:filter).try(:[],:search_terms)
+
+    .form-group
+      %label Sort (and search) by:
+      %select.form-control{name: :sort_by}
+        = options_for_select [["Last-, first-name", :last_name_first_name],
+          ["Login ascending", :login], 
+          ["Amount of resources", :resources_amount],
+          ["Text search ranking",:text_rank],
+          ["Trigram search ranking", :trgm_rank],
+          ], @sort_by
+
+    .form-group
+      = button_tag type: 'submit', class: 'btn btn-sm' do
+        %i.icon-filter
+        Apply
+
+.row
+  = "Number of users found:"
+  %span#counter #{@admin_users.total_count}
+
+.row
+  .col-md-12
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Login
+          %th E-mail
+          %th Person
+          %th # of resources
+          %th Search rank
+      %tbody
+        = render partial: 'app_admin/admin_users/admin_user', collection: @admin_users
+
+= paginate @admin_users, theme: 'app_admin'

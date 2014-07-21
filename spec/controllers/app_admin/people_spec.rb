@@ -5,13 +5,13 @@ describe AppAdmin::PeopleController do
 
   before :each do
     FactoryGirl.create :usage_term 
-    @adam = FactoryGirl.create :user, login: "adam"
-    Group.find_or_create_by(name: "Admin").users << @adam
+    @admin = FactoryGirl.create :user, login: "admin"
+    AdminUser.create!(user: @admin)
   end
 
   describe "index" do
     it "should respond with success" do
-      get :index, {}, valid_session(@adam)
+      get :index, {}, valid_session(@admin)
       response.should be_success
     end
   end
@@ -28,7 +28,7 @@ describe AppAdmin::PeopleController do
       describe "posting the transfer from person1 to person2 " do 
 
         before :each do
-          post :transfer_meta_data, {id: @person1.id, id_receiver: @person2.id}, valid_session(@adam)
+          post :transfer_meta_data, {id: @person1.id, id_receiver: @person2.id}, valid_session(@admin)
         end
 
         describe "person1"  do
@@ -66,7 +66,7 @@ describe AppAdmin::PeopleController do
       describe "posting the transfer" do
 
         before :each do
-          post :transfer_meta_data, {id: @person1.id, id_receiver: @person2.id}, valid_session(@adam)
+          post :transfer_meta_data, {id: @person1.id, id_receiver: @person2.id}, valid_session(@admin)
         end
 
         it "the response should be success" do

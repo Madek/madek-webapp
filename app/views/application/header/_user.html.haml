@@ -29,7 +29,7 @@
           %i.icon-contrast.ui-drop-icon.mid
           = current_user.contrast_mode ? _("Disable High Contrast Mode") : _("Enable High Contrast Mode")
       
-      - if current_user and current_user.groups.is_member?("Admin")
+      - if current_user and current_user.is_admin?
         %li.separator
         
         %li.ui-drop-item

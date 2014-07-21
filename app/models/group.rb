@@ -7,6 +7,7 @@ class Group < ActiveRecord::Base
   after_save :update_searchable
 
   validates_presence_of :name
+  validates :name, uniqueness: { scope: :ldap_name }
 
   scope :departments, ->{where(:type => "MetaDepartment")}
 

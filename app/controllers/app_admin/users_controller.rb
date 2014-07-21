@@ -10,7 +10,7 @@ class AppAdmin::UsersController < AppAdmin::BaseController
       format.html {
 
           begin
-          @users = User.with_resources_amount
+          @users = User.with_resources_amount.ordinary_users
 
           @users = @users.page(params[:page])
 
@@ -142,7 +142,17 @@ class AppAdmin::UsersController < AppAdmin::BaseController
   def reset_usage_terms
     @user = User.find(params[:id])
     @user.reset_usage_terms
+
     redirect_to app_admin_users_path
+  end
+
+  def add_to_admins
+    user = User.find(params[:id])
+    AdminUser.create!(user: user)
+
+    redirect_to app_admin_users_path, flash: {success: "The user has become an admin."}
+  rescue => e
+    redirect_to app_admin_users_path, flash: {error: e.message}
   end
 
   private

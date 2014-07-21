@@ -57,6 +57,16 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: admin_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE admin_users (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    user_id uuid NOT NULL
+);
+
+
+--
 -- Name: app_settings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -621,6 +631,14 @@ CREATE TABLE zencoder_jobs (
 
 
 --
+-- Name: admin_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY admin_users
+    ADD CONSTRAINT admin_users_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: app_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -894,6 +912,13 @@ CREATE UNIQUE INDEX idx_bools_unique ON permission_presets USING btree (view, ed
 --
 
 CREATE UNIQUE INDEX idx_name_unique ON permission_presets USING btree (name);
+
+
+--
+-- Name: index_admin_users_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_admin_users_on_user_id ON admin_users USING btree (user_id);
 
 
 --
@@ -2151,6 +2176,12 @@ INSERT INTO schema_migrations (version) VALUES ('20140709085016');
 INSERT INTO schema_migrations (version) VALUES ('20140714140008');
 
 INSERT INTO schema_migrations (version) VALUES ('20140716154252');
+
+INSERT INTO schema_migrations (version) VALUES ('20140721075032');
+
+INSERT INTO schema_migrations (version) VALUES ('20140721075956');
+
+INSERT INTO schema_migrations (version) VALUES ('20140722104558');
 
 INSERT INTO schema_migrations (version) VALUES ('20140808090502');
 

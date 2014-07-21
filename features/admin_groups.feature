@@ -48,9 +48,13 @@ Feature: Managing Users and Logins
   @jsbrowser
   Scenario: Removing user from a group
     When I visit "/app_admin/groups"
-    When I click on the details link of the first row
+    And I select "Group" from the select node with the name "type"
+    And I submit
+    And I click on the details link of the first row
     And I click on "Remove from group"
-    When I visit "/app_admin/groups"
+    And I visit "/app_admin/groups"
+    When I select "Group" from the select node with the name "type"
+    And I submit
     Then I see decremented user count
 
   @jsbrowser
@@ -67,9 +71,14 @@ Feature: Managing Users and Logins
 
   Scenario: Listing all groups with their types
     When I visit "/app_admin/groups"
+    When I select "Group" from the select node with the name "type"
+    And I submit
     Then I see the column with a group type
     And I see the "Group" type in the group list
-    And I see the "MetaDepartment" type in the group list
+    When I visit "/app_admin/groups"
+    When I select "MetaDepartment" from the select node with the name "type"
+    And I submit
+    Then I see the "MetaDepartment" type in the group list
 
   @firefox
   Scenario: Filtering groups

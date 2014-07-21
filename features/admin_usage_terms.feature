@@ -1,4 +1,4 @@
-Feature: Admin interface
+  Feature: Admin interface
 
   As a MAdeK admin
 
@@ -15,6 +15,6 @@ Feature: Admin interface
 
   @jsbrowser
   Scenario: Resetting usage terms acceptance of a user
-    When I visit "/app_admin/users"
+    When I visit "/app_admin/admin_users"
     And I click on "Reset usage terms"
     Then I see the Akzeptieren button

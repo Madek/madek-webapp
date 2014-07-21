@@ -108,6 +108,9 @@
                 = link_to app_admin_users_path, class: "users"  do
                   %i.icon-user
                   Users
+                = link_to app_admin_admin_users_path do
+                  %i.icon-admin
+                  Admin Users
           %li.dropdown
             %a.dropdown-toggle{href: "#", data: {toggle: 'dropdown'}} 
               %i.icon-cog

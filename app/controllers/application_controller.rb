@@ -61,7 +61,7 @@ class ApplicationController < ActionController::Base
 # Admin Authentication 
 
   def authenticate_admin_user!
-    unless current_user and Group.find_by_name("Admin").users.include? current_user
+    unless current_user and current_user.is_admin?
       flash[:error] = "Sie sind kein Administrator."
       redirect_to root_path
     else
