@@ -82,12 +82,6 @@ class MediaEntriesController < ApplicationController
 
   def set_instance_vars
     @main_context_group = ContextGroup.sorted_by_position.first
-    other_context_groups = ContextGroup.where(ContextGroup.arel_table[:position].not_eq(1)).sorted_by_position
-    @other_relevant_context_groups = other_context_groups.select do |context_group|
-      (context_group.contexts & @media_entry.individual_contexts).select{ |context|
-        @media_entry.meta_data.for_context(context, false).any?
-      }.any? or (context_group.contexts & @media_entry.individual_contexts).any?
-    end
     @can_download = current_user.authorized?(:download, @media_entry)
     @can_edit = current_user.authorized?(:edit, @media_entry)
     @original_file = @media_entry.media_file
@@ -141,9 +135,7 @@ class MediaEntriesController < ApplicationController
   end
 
   def contexts
-    # TODO: fetch the 'individual_contexts' like we also do for sets
-    @context_group = ContextGroup.find_by_name('Kontexte') || raise("No ContextGroup found")
-    @contexts = @context_group.contexts.select {|mc| @media_entry.individual_contexts.include?(mc) }
+    @contexts= @media_entry.individual_contexts
   end
   
   def media_sets(parent_media_set_ids = params[:parent_media_set_ids])
