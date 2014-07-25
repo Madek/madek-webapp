@@ -25,9 +25,13 @@ class KeywordTerm < ActiveRecord::Base
 
   def formatted_created_at
     date_of_creation.in_time_zone.to_s(:long)
+  rescue
+    "<em>not available</em>".html_safe
   end
 
   def creator
     keywords.order(:created_at).first.user
+  rescue
+    "<em>not available</em>".html_safe
   end
 end
