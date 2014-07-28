@@ -12,6 +12,7 @@ end
 Then /^I can add a new member to the group$/ do
   @added_user = User.where(User.arel_table[:id].not_eq(@current_user.id)).where(User.arel_table[:id].not_in(@group.users.map(&:id))).first
   find("input#add-user").set @added_user.to_s
+  page.execute_script %Q{ $("input#add-user").trigger("change") }
   find("ul.ui-autocomplete li a", text: @added_user.to_s).click
 end
 

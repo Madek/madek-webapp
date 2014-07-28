@@ -15,7 +15,7 @@ Feature: Workgroups
      And I click the primary action of this dialog
     Then the group is created
 
-   @jsbrowser
+  @jsbrowser
   Scenario: Requiring name during group creation
     When I go to my groups
      And I try to create a new group by using the context primary action
@@ -23,7 +23,7 @@ Feature: Workgroups
      And I click the primary action of this dialog
     Then I see an error that I have to provide a name for that group
 
-  @firefox
+  @jsbrowser
   Scenario: Edit group members
     When I go to my groups
      And I edit one group
@@ -40,7 +40,7 @@ Feature: Workgroups
      And I delete that group
     Then the group is deleted
 
-   @jsbrowser
+  @jsbrowser
   Scenario: Error during group deletion
     When I go to my groups
      And I delete a group where I'm not the only remaining member
@@ -55,8 +55,8 @@ Feature: Workgroups
      And I click the primary action of this dialog
     Then the group name is changed
 
-    @jsbrowser
-   Scenario: Error providing empty group name during edit
+  @jsbrowser
+  Scenario: Error providing empty group name during edit
     When I go to my groups
      And I edit one group
      And I make the group name empty

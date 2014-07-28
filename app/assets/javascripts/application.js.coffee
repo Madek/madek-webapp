@@ -2,7 +2,8 @@
 
 #= require html5shiv/html5shiv
 
-#= require jquery/jquery.min
+#= require jquery/jquery-1.11.1
+#= require jquery/jquery-migrate-1.2.1.min
 #= require jquery.inview/jquery.inview
 #= require jquery-ui/jquery-ui.custom
 #= require jquery_ujs
@@ -13,8 +14,8 @@
 #= require bootstrap/bootstrap-modal
 #= require bootstrap/bootstrap-dropdown
 #= require bootstrap/bootstrap-tab
-#= require bootstrap/bootstrap-tooltip
-#= require bootstrap/bootstrap-popover
+#= require bootstrap32/tooltip
+#= require bootstrap32/popover
 
 #= require underscore/underscore
 #= require underscore.string/underscore.string
