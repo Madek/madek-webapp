@@ -15,17 +15,15 @@ class AbstractController
     
     @abstractContainer.on "mouseenter", terms, (e)=>
       target = $(e.currentTarget)
-      target.addClass "mouseenter"
-      if target.data("popover")?
+      
+      if target.data('term-count') == 0 then return false
+      
+      if target.data('popover')?
         target.popover "show"
       else
         @loadPreview target
 
-    @abstractContainer.on "mouseleave", terms, -> $(this).removeClass "mouseenter"
-
   loadPreview: (target)->
-    
-    return if target.data('term-count') == 0
     
     filter = {meta_data: {}}
     filter.meta_data[target.data("meta-datum-name")] = {ids: [target.data("term-id")]}
@@ -35,10 +33,12 @@ class AbstractController
     , (media_resources, response)=>
       content = App.render("abstracts/preview", {mediaResources: media_resources, total: response.pagination.total})
       target.popover
-        html: true
-        placement: "top"
         trigger: "hover"
+        placement: "top"
+        html: true
         content: content
-      target.popover "show" if target.is ".mouseenter"
+        animation: false
+        viewport: { selector: 'body', padding: 10 }
+      target.popover "show" if target.is ":hover"
 
 window.App.AbstractController = AbstractController

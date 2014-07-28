@@ -120,6 +120,7 @@ window.App.vocabulary = function (config) {
       slider.hide();
     },
     'used': function () {
+      filterByCount(0);
       filterByCount(1, 'fade');
       slider.hide();
     },
