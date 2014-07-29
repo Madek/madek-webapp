@@ -32,15 +32,15 @@ Feature: Admin Meta Keys
     Then I can see the input with the name "filter[label]" with no value
     When I set the input with the name "filter[label]" to "identifier"
     And I submit
-    Then I can see only meta keys containing "identifier" term
+    Then I can see only results containing "identifier" term
     And I can see the input with the name "filter[label]" with value "identifier"
 
   Scenario: Filtering meta keys by label related to a context
     When I visit "/app_admin/meta_keys"
     And I set the input with the name "filter[label]" to "Titel"
     And I submit
-    Then I can see only meta keys containing "Titel des Werks" term
-    And I can see only meta keys containing "Titel" term 
+    Then I can see only results containing "Titel des Werks" term
+    And I can see only results containing "Titel" term 
 
   Scenario: Filtering meta keys by their types
     When I visit "/app_admin/meta_keys"
@@ -48,7 +48,7 @@ Feature: Admin Meta Keys
     And There is no option selected in "filter[meta_datum_object_type]" select
     When I select "MetaDatumPeople" from the select node with the name "filter[meta_datum_object_type]"
     And I submit
-    Then I can see only meta keys containing "MetaDatumPeople" term
+    Then I can see only results containing "MetaDatumPeople" term
     And There is "MetaDatumPeople" option selected in "filter[meta_datum_object_type]" select
 
   Scenario: Filtering meta keys by context
@@ -57,7 +57,7 @@ Feature: Admin Meta Keys
     And There is no option selected in "filter[context]" select
     When I select "Core" from the select node with the name "filter[context]"
     And I submit
-    Then I can see only meta keys containing "Core" term
+    Then I can see only results containing "Core" term
     And There is "Core" option selected in "filter[context]" select
 
   Scenario: Filtering meta keys by used / not used status
@@ -66,7 +66,7 @@ Feature: Admin Meta Keys
     And There is no option selected in "filter[is_used]" select
     When I select "Not used" from the select node with the name "filter[is_used]"
     And I submit
-    Then I can see only meta keys containing "Not used" term
+    Then I can see only results containing "Not used" term
 
   Scenario: Deleting not used meta key
     When I visit "/app_admin/meta_keys?is_used=false"

@@ -7,6 +7,12 @@ Then /^(?:|I )fill in the following:$/ do |fields|
   end
 end
 
+When /^I filter media entries with custom url$/ do
+  custom_url = FactoryGirl.create :custom_url
+  step %Q{I set the input with the name "filter[search_term]" to "#{custom_url.id}" and submit}
+  step %Q{I can see only results containing "#{custom_url.media_resource.title}" term}
+end
+
 Then /^I follow the link to content assigned to me$/ do
   (find "#user_entrusted_resources_block a[href*='/my/entrusted_media_resources']").click
 end

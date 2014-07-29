@@ -23,6 +23,10 @@
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/admin_keywords.feature"
+- name: admin_media_entries
+  scripts:
+    cucumber:
+      body: bundle exec cucumber --strict "features/admin_media_entries.feature"
 - name: admin_media_sets
   scripts:
     cucumber:

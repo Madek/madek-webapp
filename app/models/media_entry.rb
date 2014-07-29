@@ -108,7 +108,7 @@ class MediaEntry < MediaResource
   
 ########################################################
 
- def self.compared_meta_data(media_entries, context)
+  def self.compared_meta_data(media_entries, context)
    compared_against, other_entries = media_entries[0], media_entries[1..-1]
    compared_meta_data = compared_against.meta_data.for_context(context)
    
@@ -120,5 +120,20 @@ class MediaEntry < MediaResource
         new_blank_media_entry.meta_data.build(:meta_key_id => md_bare.meta_key_id, :value => md_bare.value)
       end
    end
- end
+  end
+
+  def self.search_with(term)
+    if uuid?(term)
+      where(id: term)
+    else
+      joins(%Q{LEFT OUTER JOIN custom_urls ON "custom_urls"."media_resource_id"="media_resources"."id"}) \
+        .joins(%Q{LEFT OUTER JOIN meta_data ON "meta_data"."media_resource_id"="media_resources"."id"}) \
+        .where(%Q{"custom_urls"."id" ILIKE :search_term OR "meta_data"."meta_key_id"='title' AND "meta_data"."string" ILIKE :search_term}, search_term: "%#{term}%") \
+        .group("media_resources.id")
+    end
+  end
+
+  def self.uuid?(id)
+    id =~ /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+  end
 end

@@ -61,7 +61,7 @@ end
 
 Then /^I set the input with the name "(.*?)" to "(.*?)" and submit$/ do |name, value|
   find("input[name='#{name}']").set(value)
-  find(:xpath, "//input[@name='#{name}']/ancestor::form").find("input[type='submit']").click()
+  find(:xpath, "//input[@name='#{name}']/ancestor::form").find("input[type='submit'], button[type='submit']").click()
 end
 
 Then /^I set the input in the fieldset with "(.*?)" as meta\-key to "(.*?)"$/ do |meta_key_id, value|

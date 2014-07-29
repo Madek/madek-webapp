@@ -1,4 +1,3 @@
-
 class AppAdmin::MediaEntriesController < AppAdmin::BaseController
 
   before_filter only: [:show] do
@@ -10,10 +9,13 @@ class AppAdmin::MediaEntriesController < AppAdmin::BaseController
     end
   end
 
-
-
   def index
     @media_entries = MediaEntry.where(type: "MediaEntry").reorder("created_at DESC").page(params[:page]).per(16)
+
+    if (@search_term = params[:filter].try(:[], :search_term)).present?
+      @search_term   = @search_term.strip
+      @media_entries = @media_entries.search_with(@search_term)
+    end
   end
 
   def show

@@ -2,6 +2,20 @@
   %i.icon-media-entry
   Media Entries
 
+.well.pull-right
+
+  = form_tag app_admin_media_entries_path, method: 'GET', class: 'form-inline media-entry-search-form' do
+
+    .form-group
+      = text_field_tag 'filter[search_term]', @search_term, placeholder: "ID, Custom URL, title", class: "form-control"
+
+    .form-group
+      = button_tag type: 'submit', class: 'btn btn-sm' do
+        %i.icon-filter
+        Apply
+
+    = link_to "Reset", app_admin_media_entries_path
+
 .row
   = "Number of media entries:"
   %span#counter #{@media_entries.total_count}
@@ -9,6 +23,7 @@
 %table.table.table-striped
   %thead
     %tr
+      %th Title
       %th Owner
       %th Media File
       %th Id
