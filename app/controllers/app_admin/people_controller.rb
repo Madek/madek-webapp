@@ -16,18 +16,19 @@ class AppAdmin::PeopleController < AppAdmin::BaseController
         @people = @people.joins(:meta_data).uniq
       end
 
-      search_terms = params.try(:[],:filter).try(:[],:search_terms)
+      @search_terms = params.try(:[],:filter).try(:[],:search_terms)
 
-      if ! search_terms.blank?
+      if ! @search_terms.blank?
+        @search_terms = @search_terms.strip
         case params.try(:[], :sort_by) 
         when 'text_rank'
-          @people= @people.text_rank_search(search_terms) \
+          @people= @people.text_rank_search(@search_terms) \
             .order("last_name ASC, first_name ASC")
         when 'trgm_rank'
-          @people= @people.trgm_rank_search(search_terms) \
+          @people= @people.trgm_rank_search(@search_terms) \
             .order("last_name ASC, first_name ASC")
         else
-          @people= @people.text_search(search_terms)
+          @people= @people.text_search(@search_terms)
         end
       end
 
@@ -36,9 +37,9 @@ class AppAdmin::PeopleController < AppAdmin::BaseController
       when :last_name_first_name
         @people = @people.reorder("last_name ASC, first_name ASC, pseudonym ASC")
       when :trgm_rank
-        raise "Search term must not be blank!" if search_terms.blank? 
+        raise "Search term must not be blank!" if @search_terms.blank? 
       when :text_rank
-        raise "Search term must not be blank!" if search_terms.blank?
+        raise "Search term must not be blank!" if @search_terms.blank?
       when :created_at
         @people = @people.reorder("created_at DESC")
       end

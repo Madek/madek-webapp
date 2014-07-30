@@ -4,7 +4,7 @@ module KeywordTermModules
 
     included do
 
-      scope :text_search, lambda{|search_term| basic_search({term: search_term},true)}
+      scope :text_search, lambda{|search_term| where(%Q{term ILIKE :term}, term: "%#{search_term}%")}
 
       scope :text_rank_search, lambda{|search_term| 
         rank= text_search_rank :term, search_term

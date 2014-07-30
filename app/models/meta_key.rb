@@ -44,7 +44,7 @@ class MetaKey < ActiveRecord::Base
 
   def self.search_with(term)
     joins("LEFT OUTER JOIN meta_key_definitions ON meta_keys.id = meta_key_definitions.meta_key_id") \
-      .where("meta_keys.id LIKE :label OR meta_key_definitions.label LIKE :label", label: "%#{term}%") \
+      .where("meta_keys.id ILIKE :label OR meta_key_definitions.label ILIKE :label", label: "%#{term}%") \
       .group("meta_keys.id")
   end
 

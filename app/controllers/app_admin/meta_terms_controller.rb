@@ -8,6 +8,7 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
       @search_terms = reset_params? ? nil : params.try(:[],:filter).try(:[],:search_terms)
 
       if !@search_terms.blank?
+        @search_terms = @search_terms.strip
         case params.try(:[], :sort_by) 
         when 'trgm_rank'
           @meta_terms= @meta_terms.trgm_rank_search(@search_terms)

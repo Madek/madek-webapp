@@ -33,7 +33,7 @@ class Group < ActiveRecord::Base
       .compact.sort.uniq.join(" ")
   end
 
-  scope :text_search, lambda{|search_term| basic_search({searchable: search_term},true)}
+  scope :text_search, lambda{|search_term| where("searchable ILIKE :term", term: "%#{search_term}%")}
 
   scope :text_rank_search, lambda{|search_term| 
     rank= text_search_rank :searchable, search_term
@@ -47,6 +47,4 @@ class Group < ActiveRecord::Base
       .where("#{rank} > 0.05") \
       .reorder("search_rank DESC") }
 
-
-  
 end

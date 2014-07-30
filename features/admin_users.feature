@@ -81,6 +81,19 @@ Feature: Managing Users and Logins
     And I see a table row with "# Media Sets"
     And I see a table row with "# Filter Sets"
 
+  Scenario: Searching users by term
+    When I visit "/app_admin/users"
+    And I set the input with the name "filter[search_terms]" to "ADAM"
+    And I submit
+    Then I can see only results containing "adam" term
+
+  Scenario: Searching users by term containing leading and trailing spaces
+    When I visit "/app_admin/users"
+    And I set the input with the name "filter[search_terms]" to " AdaM  "
+    And I submit
+    Then I can see only results containing "adam" term
+    And I can see the input with the name "filter[search_terms]" with value "AdaM"
+
   Scenario: Searching and ranking users by text search
     When I visit "/app_admin/users"
     And I set the input with the name "filter[search_terms]" to "ada"

@@ -7,8 +7,8 @@
   = form_tag app_admin_people_path, method: 'GET', class: 'form-inline'  do
 
     .form-group
-      = text_field :filter, :search_terms, class: "search-query, form-control", 
-          placeholder: 'Search term',  value: params.try(:[],:filter).try(:[],:search_terms)
+      = text_field :filter, :search_terms, class: "search-query form-control",
+        placeholder: 'Search term', value: @search_terms
 
 
     .form-group

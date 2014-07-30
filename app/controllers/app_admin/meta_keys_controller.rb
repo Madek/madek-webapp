@@ -3,6 +3,7 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
     @meta_keys = MetaKey.page(params[:page]).per(12)
 
     if (label = params.try(:[], :filter).try(:[], :label)).present?
+      label      = label.strip
       @meta_keys = @meta_keys.search_with(label)
     end
 

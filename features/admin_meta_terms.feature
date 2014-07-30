@@ -33,6 +33,15 @@ Feature: Admin Meta Terms
     When I visit "/app_admin/meta_terms"
     Then There is "ascending" sorting option selected
 
+  Scenario: Searching meta terms by term
+    When I visit "/app_admin/meta_terms"
+    And I set the input with the name "filter[search_terms]" to "zet"
+    And I submit
+    Then I can see only results containing "zett " term
+    When I set the input with the name "filter[search_terms]" to "ZeTT"
+    And I submit
+    Then I can see only results containing "zett " term
+
   @firefox
   Scenario: Searching and ranking meta terms by text search
     When I visit "/app_admin/meta_terms"

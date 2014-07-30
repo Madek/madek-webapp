@@ -52,3 +52,16 @@ Feature: Admin interface
     And I select "Date of creation" from the select node with the name "sort_by"
     And I submit
     Then There is "Pape" at the top of the list
+
+  Scenario: Searching people
+    When I visit "/app_admin/people"
+    And I set the input with the name "filter[search_terms]" to "ann"
+    And I submit
+    Then I can see only results containing "ann" term
+
+  Scenario: Searching people by term containing leading and trailing spaces
+    When I visit "/app_admin/people"
+    And I set the input with the name "filter[search_terms]" to "  ann "
+    And I submit
+    Then I can see only results containing "ann" term
+    And I can see the input with the name "filter[search_terms]" with value "ann"

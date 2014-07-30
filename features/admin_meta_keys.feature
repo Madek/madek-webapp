@@ -34,13 +34,19 @@ Feature: Admin Meta Keys
     And I submit
     Then I can see only results containing "identifier" term
     And I can see the input with the name "filter[label]" with value "identifier"
+    When I set the input with the name "filter[label]" to "IDenTiFIER"
+    And I submit
+    Then I can see only results containing "identifier" term
+    When I set the input with the name "filter[label]" to " IDenTiFIER  "
+    And I submit
+    Then I can see only results containing "identifier" term
 
   Scenario: Filtering meta keys by label related to a context
     When I visit "/app_admin/meta_keys"
-    And I set the input with the name "filter[label]" to "Titel"
+    And I set the input with the name "filter[label]" to "Untertitel"
     And I submit
-    Then I can see only results containing "Titel des Werks" term
-    And I can see only results containing "Titel" term 
+    Then I can see only results containing "Untertitel" term
+    And I can see only results containing "subtitle" term
 
   Scenario: Filtering meta keys by their types
     When I visit "/app_admin/meta_keys"

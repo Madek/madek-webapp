@@ -61,6 +61,17 @@ Feature: Managing Users and Logins
     And I see the "Group" type in the group list
     And I see the "MetaDepartment" type in the group list
 
+  @firefox
+  Scenario: Filtering groups
+    When I visit "/app_admin/groups"
+    And I set the input with the name "filter[search_terms]" to "admin"
+    And I submit
+    Then I can see only results containing "Admin" term
+    When I set the input with the name "filter[search_terms]" to " admin   "
+    And I submit
+    Then I can see only results containing "Admin" term
+    And I can see the input with the name "filter[search_terms]" with value "admin"
+
   Scenario: Filtering groups by their types
     When I visit "/app_admin/groups"
     Then I see a select input with "type" name

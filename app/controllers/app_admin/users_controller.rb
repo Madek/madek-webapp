@@ -13,18 +13,19 @@ class AppAdmin::UsersController < AppAdmin::BaseController
 
           @users = @users.page(params[:page])
 
-          search_terms = params.try(:[],:filter).try(:[],:search_terms)
+          @search_terms = params.try(:[],:filter).try(:[],:search_terms)
 
-          if ! search_terms.blank?
+          if ! @search_terms.blank?
+            @search_terms = @search_terms.strip
             case params.try(:[], :sort_by) 
             when 'trgm_rank'
-              @users= @users.trgm_rank_search(search_terms) \
+              @users= @users.trgm_rank_search(@search_terms) \
                 .joins(:person).order("people.last_name ASC, people.first_name ASC")
             when 'text_rank'
-              @users= @users.text_rank_search(search_terms) \
+              @users= @users.text_rank_search(@search_terms) \
                 .joins(:person).order("people.last_name ASC, people.first_name ASC")
             else
-              @users= @users.text_search(search_terms)
+              @users= @users.text_search(@search_terms)
             end
           end
 
@@ -42,10 +43,10 @@ class AppAdmin::UsersController < AppAdmin::BaseController
             @users = @users.reorder("login ASC")
           when 'trgm_rank'
             @sort_by = :trgm_rank
-            raise "Search term must not be blank!" if search_terms.blank? 
+            raise "Search term must not be blank!" if @search_terms.blank? 
           when 'text_rank'
             @sort_by = :text_rank
-            raise "Search term must not be blank!" if search_terms.blank? 
+            raise "Search term must not be blank!" if @search_terms.blank? 
           end
         rescue Exception => e
           @users = User.where("false = true").page(0)

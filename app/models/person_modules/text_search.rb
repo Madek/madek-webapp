@@ -18,7 +18,7 @@ module PersonModules
       end
 
       scope :text_search, lambda{|search_term| 
-        basic_search({searchable: search_term},true)}
+        where(%Q{searchable ILIKE :term}, term: "%#{search_term}%")}
 
       scope :text_rank_search, lambda{|search_term| 
         rank= text_search_rank :searchable, search_term

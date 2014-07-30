@@ -29,6 +29,15 @@ Feature: Admin Keywords
     Then I can see a success message
     And I can see the text "TERM"
 
+  Scenario: Searching keywords
+    When I visit "/app_admin/keywords"
+    And I set the input with the name "search_term" to "sq6"
+    And I submit
+    Then I can see only results containing "sq6" term
+    When I set the input with the name "search_term" to "SQ"
+    And I submit
+    Then I can see only results containing "sq6" term
+
   @firefox
   Scenario: Searching and ranking keywords by text search
     When I visit "/app_admin/keywords"

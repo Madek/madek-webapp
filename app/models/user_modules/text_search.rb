@@ -10,7 +10,8 @@ module UserModules
       after_save :update_searchable
       after_save :update_trgm_searchable
 
-      scope :text_search, lambda{|search_term| basic_search({searchable: search_term},true)}
+      scope :text_search, lambda{|search_term| 
+        where(%Q{users.searchable ILIKE :term}, term: "%#{search_term}%")}
 
       scope :text_rank_search, lambda{|search_term| 
         rank= text_search_rank :searchable, search_term
