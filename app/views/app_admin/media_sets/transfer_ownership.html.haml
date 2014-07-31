@@ -1,0 +1,11 @@
+%h1 Change ownership of set <em>#{@media_set.title}</em>
+
+= form_for @media_set, url: change_responsible_person_app_admin_media_set_path(@media_set) , method: "PUT", html: {class: "form-horizontal", role: "form"} do |f|
+
+  .form-group
+    %label.control-label.col-sm-2 User
+    .col-sm-4
+      = select_tag :user_id, options_for_select(User.all.collect{ |u| [u.name, u.id]}, @media_set.user.id)
+
+  = button_tag type: 'submit', class: "btn btn-success" do
+    Save

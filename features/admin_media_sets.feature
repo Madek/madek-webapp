@@ -33,6 +33,17 @@ Feature: Managing Media-Sets
     Then The media_resource with the previous_id "6" exists
 
   @jsbrowser
+  Scenario: Transfer ownership
+    Given The media_resource with the previous_id "38" exists
+    And I remember the owner of media_resource with previous_id "38"
+    When I visit "/app_admin/media_sets/38"
+    And I click on the link "Change responsible person"
+    When I select "Raktor, Beat" from the select node with the name "user_id"
+    And I submit
+    Then I can see a success message
+    And The media_resource with the previous_id "38" has owner "Raktor, Beat"
+
+  @jsbrowser
   Scenario: Transfer children
     Given The media_resource with the previous_id "6" exists
     And I remember the owner of media_resource with previous_id "38"

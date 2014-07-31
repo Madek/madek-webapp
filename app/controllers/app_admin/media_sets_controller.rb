@@ -95,6 +95,26 @@ class AppAdmin::MediaSetsController < AppAdmin::BaseController
     end
   end
 
+  def transfer_ownership
+   @media_set = MediaSet.find params[:id]
+  end
+
+  def change_responsible_person
+    begin
+      @media_set = MediaSet.find params[:id]
+      user = User.find(params[:user_id])
+      @media_set.update_attributes(user: user)
+      redirect_to app_admin_media_set_path,
+        flash: {success: "Successfuly changed responsible user for set"}
+    rescue Exception => e
+      if @media_set
+        redirect_to app_admin_media_set_path(@media_set), flash: {error: e.to_s}
+      else
+        redirect_to app_admin_media_sets_path, flash: {error: e.to_s}
+      end
+    end
+  end
+
   def manage_individual_contexts 
     @media_set= MediaSet.find params[:media_set_id]
     @individual_contexts = @media_set.individual_contexts.reorder(:position,:id)

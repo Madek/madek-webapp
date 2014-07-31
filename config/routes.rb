@@ -348,6 +348,8 @@ MAdeK::Application.routes.draw do
       member do
         delete 'delete_with_child_media_resources'
         get 'transfer_children'
+        get 'transfer_ownership'
+        put 'change_responsible_person'
         put 'change_children_owner'
       end
 

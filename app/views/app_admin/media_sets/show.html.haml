@@ -14,8 +14,10 @@
     =link_to manage_app_admin_media_set_individual_contexts_path(media_set), class: "btn btn-warning" do
       Manage individual contexts
   %li
+    =link_to transfer_ownership_app_admin_media_set_path(media_set), class: "btn btn-warning" do
+      Change responsible person
+  %li
     = link_to transfer_children_app_admin_media_set_path(media_set), class: "btn btn-warning" do
-      %i.fa.fa-pencil
       Transfer children
   %li
     = link_to edit_app_admin_media_set_path(media_set), class: "btn btn-warning" do
