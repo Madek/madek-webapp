@@ -1,5 +1,10 @@
 # -*- encoding : utf-8 -*-
 #
+
+Then(/^I wait for (\d+) seconds$/) do |seconds|
+  sleep seconds.to_i #AAARRRGGHHHHH
+end
+
 Then /^I wait for multi\-select\-tag with the text "(.*?)"$/ do |text|
   wait_until{all("li.multi-select-tag",text: text).size > 0}
 end

@@ -1,8 +1,8 @@
-%tr{id: custom_url.id, data: {url: custom_url.id}}
+%tr.custom-url{id: custom_url.id, data: {url: custom_url.id}}
   %td= link_to custom_url.id, custom_url_path(@media_resource,custom_url)
   %td= l custom_url.created_at, format: :long rescue "???"
   %td= custom_url.creator.canonical_name
-  %td
+  %td.type
     - if custom_url.is_primary 
       %strong Primäre Adresse
     - else

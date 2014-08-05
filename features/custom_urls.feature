@@ -135,4 +135,3 @@ Feature: Setting and using custom URLs for MediaResources
     And I submit
     Then I can see a success message
     Then I can see "a_second_url_for_testing"
-

@@ -53,7 +53,7 @@ end
 
 Given(/^I remember this media_resource$/) do
   uuid = current_path.match(/\/([\w-]+)$/)[1] 
-  @resource = @media_resource= MediaResource.find uuid
+  @resource = @media_resource= @media_entry= MediaResource.find uuid
 end
 
 Then /^I remove a set A from a set B from which set A is inheriting a context$/ do

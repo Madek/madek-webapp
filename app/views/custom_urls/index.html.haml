@@ -50,12 +50,12 @@
               %th Typ
               - if create_url_authorized?
                 %th Aktionen
-          %body
-            %tr{id: "_uuid"}
+          %tbody
+            %tr.custom-url{id: "_uuid"}
               %td= link_to @media_resource.id, custom_url_path(@media_resource,@media_resource.id)
               %td= l @media_resource.created_at, format: :long rescue "???"
               %td= @media_resource.user.canonical_name
-              %td 
+              %td.type
                 - if CustomUrl.find_by(media_resource: @media_resource, is_primary: true)
                   Weiterleitung
                 - else
@@ -66,7 +66,7 @@
                     = link_to set_primary_url_media_resource_path(@media_resource,@media_resource.id), method: 'POST' do
                       %button.button Als primäre Adresse setzen
 
-                  =render @custom_urls
+            =render @custom_urls
 
   .app-footer-push 
 = render :partial => "application/footer", :locals => {:clipboard => false}

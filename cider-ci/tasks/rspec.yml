@@ -123,12 +123,24 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/features/batch/update_metadata_spec.rb"
+- name: features custom_urls custom-urls_not-owner
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/features/custom_urls/custom-urls_not-owner_spec.rb"
 - name: features filter_set filter_set
   eager_trials: 2
   auto_trials: 6
   scripts:
     rspec:
       body: bundle exec rspec "spec/features/filter_set/filter_set_spec.rb"
+- name: features io_interfaces io_interfaces
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/features/io_interfaces/io_interfaces_spec.rb"
+- name: features io_mappings io_mappings
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/features/io_mappings/io_mappings_spec.rb"
 - name: features meta_data
   scripts:
     rspec:
@@ -145,14 +157,6 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/features/search/updated_meta_datum_spec.rb"
-- name: features io_mappings io_mappings
-  scripts:
-    rspec:
-      body: bundle exec rspec "spec/features/io_mappings/io_mappings_spec.rb"
-- name: features io_interfaces io_interfaces
-  scripts:
-    rspec:
-      body: bundle exec rspec "spec/features/io_interfaces/io_interfaces_spec.rb"
 - name: helpers app_admin media_sets_helper
   scripts:
     rspec:
