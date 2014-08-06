@@ -1,9 +1,0 @@
-# {{ansible_managed}}
-{{rails_env}}:
-  adapter: postgresql
-  database: {{database.database}}
-  encoding: unicode
-  port: {{database.port}}
-  pool: {{database.pool}}
-  username: {{database.username}}
-  password: {{database.password}}

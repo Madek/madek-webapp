@@ -1,2 +1,0 @@
-[madek]
-ubuntu64-test ansible_ssh_host=192.168.205.136 ansible_ssh_user=root

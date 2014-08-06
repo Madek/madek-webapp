@@ -8,7 +8,11 @@ on the archival expert.
 
 ## Documentation and installation
 
-The installation is covered in great detail on our wiki on GitHub:
+The recommended way to install Madek is via the [Madek
+Ansible-Setup Project](https://github.com/zhdk/madek-ansible-setup).
+
+More details about installing and configuring Madek can be found on our
+wiki on Github:
 
 http://github.com/zhdk/madek/wiki
 
