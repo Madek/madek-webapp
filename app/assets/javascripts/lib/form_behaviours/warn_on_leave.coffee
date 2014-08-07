@@ -12,18 +12,19 @@ class FormBehaviours.WarnOnLeave
     do @delegateEvents
 
   delegateEvents: =>
-    @el.on "change", "*", @setSomethingChanged
-    @el.on "submit", @setAcceptLeave
-    $(window).on "beforeunload", @checkLeave
+    # if any input changed, mark as dirty
+    @el.on "change", "*", ->
+      @somethingChanged = true
+    
+    # when submitting, don't call the check!
+    @el.on "submit", ->
+      $(window).off "beforeunload"
+    
+    # when otherwise trying to leave, check!
+    $(window).on "beforeunload", @checkBeforeLeaving
 
-  setSomethingChanged: =>
-    @somethingChanged = true
-
-  setAcceptLeave: =>
-    @acceptLeave = true
-
-  checkLeave: =>  
-    if @acceptLeave or not @somethingChanged
+  checkBeforeLeaving: =>
+    if @somethingChanged
       null
     else
       "Nicht gespeicherte Daten gehen verloren. Sind Sie sicher?"
