@@ -108,8 +108,13 @@ class AppAdmin::GroupsController < AppAdmin::BaseController
     begin
       @group = Group.find params[:id]
       @user  = find_user
-      @group.users << @user
-      redirect_to app_admin_group_path(@group), flash: {success: "The user <b>#{@user.login}</b> has been added".html_safe}
+      if @group.users.include?(@user)
+        flash = {error: "The user <b>#{@user.login}</b> already belongs to this group.".html_safe}
+      else
+        @group.users << @user
+        flash = {success: "The user <b>#{@user.login}</b> has been added.".html_safe}
+      end
+      redirect_to app_admin_group_path(@group), flash: flash
     rescue => e
       redirect_to app_admin_group_path(@group), flash: {error: e.to_s}
     end

@@ -107,7 +107,7 @@ Feature: Setting and using custom URLs for MediaResources
     When I click on "Adresse anlegen / übertragen"
     And I set the input with the name "url" to "a_second_url_for_testing"
     And I submit
-    Then I can see a error message
+    Then I can see an error message
     And The input with the id "url" has the value "a_second_url_for_testing"
 
   @jsbrowser

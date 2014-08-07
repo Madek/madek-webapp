@@ -130,8 +130,12 @@ Then /^I can not see "(.*?)"$/ do |text|
   expect(page).not_to have_content text
 end
 
-Then (/^I can see a error message$/) do
+Then (/^I can see an error message$/) do
   expect(all(".alert-error").size + all(".ui-alert.error").size) .to be > 0
+end
+
+Then /^I can see an error with message "(.*?)"$/ do |message|
+  expect{find(".alert-danger", text: message)}.to_not raise_error
 end
 
 Then(/^I can see a form for editing permissions$/) do

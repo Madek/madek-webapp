@@ -94,7 +94,7 @@ class AppAdmin::UsersController < AppAdmin::BaseController
   def create
     begin
       @user = User.create! user_params
-      redirect_to app_admin_user_path(@user), flash: {success: "A new user has been created"}
+      redirect_to app_admin_user_path(@user), flash: {success: "A new user has been created."}
     rescue => e
       redirect_to new_app_admin_user_path, flash: {error: e.to_s}
     end
@@ -122,12 +122,11 @@ class AppAdmin::UsersController < AppAdmin::BaseController
     end
   end
 
-
   def remove_user_from_group
     begin
       @group = Group.find params[:group_id]
       @group.users.delete User.find(params[:id])
-      redirect_to app_admin_group_path(@group), flash: {success: "The user has been removed"}
+      redirect_to app_admin_group_path(@group), flash: {success: "The user has been removed."}
     rescue => e
       redirect_to app_admin_group_path(@group), flash: {error: e.to_s}
     end

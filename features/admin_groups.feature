@@ -24,7 +24,7 @@ Feature: Managing Users and Logins
     And I cannot see "Expert"
 
   @jsbrowser
-  Scenario: Adding and removing user to a group
+  Scenario: Adding an user to a group
     When I visit "/app_admin/groups"
     Then I see the user count
     When I click on the details link of the first row
@@ -38,6 +38,16 @@ Feature: Managing Users and Logins
     Then I can see a success message
     When I visit "/app_admin/groups"
     Then I see incremented user count
+    When I click on the details link of the first row
+    When I click on "Add user"
+    And I set the input with the name "[query]" to "nor"
+    And I select first result from the autocomplete list
+    And I submit
+    Then I can see an error with message "The user normin already belongs to this group."
+
+  @jsbrowser
+  Scenario: Removing user from a group
+    When I visit "/app_admin/groups"
     When I click on the details link of the first row
     And I click on "Remove from group"
     When I visit "/app_admin/groups"

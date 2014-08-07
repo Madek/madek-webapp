@@ -3,9 +3,8 @@
   %td #{user.email}
   %td #{user.id}
   %td 
-    // see if @group and @user defined
-    = link_to  remove_user_from_group_app_admin_group_user_path(@group,user), method: 'DELETE', class: 'btn btn-warning btn-xs' do
+    = link_to remove_user_from_group_app_admin_group_user_path(@group,user), method: 'DELETE', 
+        data: {confirm: %Q{Are you user you want to remove "#{user.login}" from this group?}}, 
+        class: 'btn btn-warning btn-xs' do
       %i.icon-trash
       Remove from group
-
-
