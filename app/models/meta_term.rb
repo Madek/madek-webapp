@@ -29,6 +29,9 @@ class MetaTerm < ActiveRecord::Base
                       WHERE "meta_terms"."id" = "meta_keys_meta_terms"."meta_term_id") >)}
 
   after_create :set_position
+  before_validation :sanitize_term
+
+  validates :term, presence: true
 
   def to_s
     term
@@ -83,6 +86,10 @@ class MetaTerm < ActiveRecord::Base
       .reorder("search_rank DESC") }
 
   private
+
+  def sanitize_term
+    self.term = term.to_s.strip
+  end
 
   def set_position
     ActiveRecord::Base.transaction do

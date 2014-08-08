@@ -98,7 +98,7 @@ class AppAdmin::MetaKeysController < AppAdmin::BaseController
       ActiveRecord::Base.transaction do
         meta_key.update_attributes!(meta_datum_object_type: 'MetaDatumMetaTerms')
         meta_key.meta_data.each do |mt|
-          meta_term = MetaTerm.find_or_create_by!(term: mt.string)
+          meta_term = MetaTerm.find_or_create_by!(term: mt.string.strip)
           meta_key.meta_terms << meta_term unless meta_key.meta_terms.exists?(term: meta_term.term)
           mt.update_attributes!(type: 'MetaDatumMetaTerms', string: '')
           meta_term.meta_data << mt

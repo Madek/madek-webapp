@@ -277,6 +277,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/meta_department_spec.rb"
+- name: models meta_term
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/meta_term_spec.rb"
 - name: models permission_preset
   scripts:
     rspec:
