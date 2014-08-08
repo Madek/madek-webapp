@@ -17,10 +17,8 @@ describe ImportController do
 
     @dropbox_root_path = Rails.root.join("tmp","dropbox").to_s
     `mkdir #{@dropbox_root_path}`
-    @app_settings = AppSettings.create! \
-      id: 0, 
-      dropbox_root_dir: @dropbox_root_path,
-      ftp_dropbox_user: ENV['USER']
+    Settings.dropbox.root_dir= @dropbox_root_path
+    Settings.dropbox.user= ENV['USER']
 
   end
 
@@ -42,7 +40,7 @@ describe ImportController do
       it "doesn't raise an error, is successful and creates the Dropbox dir" do
         expect{post :dropbox_create,{},session}.not_to raise_error
         response.should be_success
-        Dir.exist?(@user.dropbox_dir_path(@app_settings)).should be true
+        Dir.exist?(@user.dropbox_dir_path).should be true
       end
     end
   end
@@ -51,7 +49,7 @@ describe ImportController do
 
     before :each do
       grumpy_cat_original= "#{Rails.root}/features/data/images/grumpy_cat.jpg"
-      users_drop_box_path= @user.dropbox_dir_path(@app_settings)
+      users_drop_box_path= @user.dropbox_dir_path
       `rm -rf #{users_drop_box_path}`
       `mkdir -p #{users_drop_box_path}`
       FileUtils.cp grumpy_cat_original, users_drop_box_path 

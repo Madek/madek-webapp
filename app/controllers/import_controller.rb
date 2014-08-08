@@ -11,11 +11,11 @@ class ImportController < ApplicationController
   end
 
   def start
-    @dropbox_files = current_user.dropbox_files(@app_settings)
+    @dropbox_files = current_user.dropbox_files
     respond_to do |format|
       format.html { 
         do_not_cache 
-        @user_dropbox_exists = !!current_user.dropbox_dir(@app_settings)
+        @user_dropbox_exists = !!current_user.dropbox_dir
         @dropbox_info = dropbox_info 
       }
       format.json { render :json => @dropbox_files }
@@ -47,10 +47,10 @@ class ImportController < ApplicationController
 
   def dropbox_import
     begin
-      current_user.dropbox_files(@app_settings).each do |f|
+      current_user.dropbox_files.each do |f|
         ExceptionHelper.log_and_reraise do
           ActiveRecord::Base.transaction do
-            path = File.join(current_user.dropbox_dir(@app_settings), f[:dirname], f[:filename])
+            path = File.join(current_user.dropbox_dir, f[:dirname], f[:filename])
             @media_entry_incomplete= 
               MediaEntryIncomplete.create_with_media_file_and_previews!  \
                 current_user, path
@@ -61,15 +61,15 @@ class ImportController < ApplicationController
         end
       end
       Rails.cache.delete "#{current_user.id}/media_entry_incompletes_partial"
-      render :json => current_user.dropbox_files(@app_settings).length
+      render :json => current_user.dropbox_files.length
     rescue  Exception => e
       render json: e, status: :unprocessable_entity
     end
   end
 
   def dropbox_create
-    if File.directory?(@app_settings.dropbox_root_dir) \
-        and (user_dropbox_root_dir = current_user.dropbox_dir_path(@app_settings))
+    if File.directory?(Settings.dropbox.root_dir) \
+        and (user_dropbox_root_dir = current_user.dropbox_dir_path)
       Dir.mkdir(user_dropbox_root_dir)
       File.new(user_dropbox_root_dir).chmod(0770)
     else
@@ -157,7 +157,7 @@ class ImportController < ApplicationController
               render :json => "MediaEntryIncomplete not found", :status => 500
             end
           elsif params[:dropbox_file]
-            user_dropbox_root_dir = File.join(@app_settings.dropbox_root_dir, current_user.dropbox_dir_name)
+            user_dropbox_root_dir = File.join(Settings.dropbox.root_dir, current_user.dropbox_dir_name)
             if (f = File.join(user_dropbox_root_dir, params[:dropbox_file][:dirname], params[:dropbox_file][:filename]))
               File.delete(f)
               Rails.cache.delete "#{current_user.id}/media_entry_incompletes_partial"
@@ -177,10 +177,10 @@ class ImportController < ApplicationController
   private
   
     def dropbox_info
-      if @app_settings.dropbox_root_dir and File.directory?(@app_settings.dropbox_root_dir)    
-        { server: @app_settings.ftp_dropbox_server,
-          login: @app_settings.ftp_dropbox_user,
-          password: @app_settings.ftp_dropbox_password,
+      if Settings.dropbox.root_dir and File.directory?(Settings.dropbox.root_dir)    
+        { server: Settings.dropbox.server,
+          login: Settings.dropbox.user,
+          password: Settings.dropbox.password,
           dir_name: current_user.dropbox_dir_name }
       end
     end

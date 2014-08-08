@@ -3,18 +3,18 @@ module UserModules
     extend ActiveSupport::Concern
 
     # returns the path as string or false if it doesn't exist
-    def dropbox_dir app_settings
-      _dropbox_dir = dropbox_dir_path(app_settings)
+    def dropbox_dir 
+      _dropbox_dir = dropbox_dir_path
       File.directory?(_dropbox_dir) and _dropbox_dir
     end
 
     # returns the path as string, even if it doesn't exist
-    def dropbox_dir_path app_settings
-      File.join(app_settings.dropbox_root_dir.to_s, dropbox_dir_name)
+    def dropbox_dir_path
+      File.join(Settings.dropbox.root_dir, dropbox_dir_name)
     end
 
-    def dropbox_files app_settings
-      if dd = dropbox_dir(app_settings)
+    def dropbox_files 
+      if dd = dropbox_dir
         Dir.glob(File.join(dd, '**', '*')).
           select {|x| not File.directory?(x) }.
           map {|f| {:dirname=> File.dirname(f).gsub(dd, ''),

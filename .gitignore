@@ -47,3 +47,6 @@ log/*.log
 log/searchd.development.pid
 log/searchd.test.pid
 rerun*.txt
+config/settings.local.yml
+config/settings/*.local.yml
+config/environments/*.local.yml

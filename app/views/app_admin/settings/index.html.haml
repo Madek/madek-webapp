@@ -88,23 +88,6 @@
               %i.fa.fa-pencil
               Edit
 
-%section
-  %h3 
-    %i.glyphicon.glyphicon-download-alt
-    Dropbox
-
-  %table.table.table-striped
-    - [:dropbox_root_dir,:ftp_dropbox_server,:ftp_dropbox_user,:ftp_dropbox_password].each do |attr|
-      %tr
-        %td.limit250
-          = attr.to_s.capitalize.split("_").join(" ")
-        %td.limit700
-          = @settings.send(attr)
-        %td
-          = link_to edit_app_admin_setting_path(attr), class: "btn btn-warning btn-xs" do
-            %i.fa.fa-pencil
-            Edit
-
 / --------------------------------
 
 %section

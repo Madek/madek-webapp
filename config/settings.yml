@@ -1,0 +1,5 @@
+dropbox:
+  root_dir: <%= Rails.root.join("tmp").to_s %>
+  server: ftp.dropbox.test
+  user: <%= ENV['USER'] %>
+  password: NOT CONFIGURED!

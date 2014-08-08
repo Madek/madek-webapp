@@ -61,13 +61,14 @@ gem 'pry', group: [:test, :development]
 gem 'pry-nav', group: [:test, :development]
 gem 'quiet_assets', group: [:development]
 gem 'rails_autolink', '~> 1.0'
+gem 'rails_config'
 gem 'rest-client', group: [:test, :development, :personas]
-gem 'rspec-rails', group: [:test, :development, :personas]
 gem 'rspec', '= 2.14.1'
+gem 'rspec-rails', group: [:test, :development, :personas]
 gem 'rubyzip'
 gem 'rvm-capistrano', group: [:development, :personas]
-gem 'sass-rails'
 gem 'sass', '3.2.12'
+gem 'sass-rails'
 gem 'selenium-webdriver', group: [:test]
 gem 'therubyracer', platform: :mri, group: [:development, :production, :test]
 gem 'therubyrhino', platform: :jruby, group: [:development, :production, :test]
@@ -76,6 +77,7 @@ gem 'uglifier'
 gem 'uuidtools'
 gem 'zencoder', '~> 2.4'
 gem 'zencoder-fetcher', group: [:development]
+
 
 
 # TEMPORARILY DISABLED

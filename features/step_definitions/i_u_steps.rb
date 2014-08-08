@@ -10,14 +10,14 @@ end
 
 Then /^I upload some files to my dropbox$/ do
   @dir = "/ftp_test"
-  dropbox_test_dir = File.join(@app_settings.dropbox_root_dir, @current_user.dropbox_dir_name, @dir)
+  dropbox_test_dir = File.join(Settings.dropbox.root_dir, @current_user.dropbox_dir_name, @dir)
   FileUtils.mkdir_p dropbox_test_dir
   @file_paths = Dir.glob("#{Rails.root}/features/data/images/*.jpg")
   FileUtils.cp_r(@file_paths, dropbox_test_dir)
 end
 
 Then (/^I upload the image "(.*?)" via dropbox$/) do |file_name|
-  `cp #{Rails.root.join 'features','data','images',file_name} #{@current_user.dropbox_dir(@app_settings)}`
+  `cp #{Rails.root.join 'features','data','images',file_name} #{@current_user.dropbox_dir}`
 end
 
 Then /^I use the highlight used vocabulary action$/ do

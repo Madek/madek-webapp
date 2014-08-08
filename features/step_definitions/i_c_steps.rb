@@ -186,9 +186,9 @@ end
 
 Then /^I can see instructions for an FTP import$/ do
   step %Q{I can see the text "#{@current_user.dropbox_dir_name}"}
-  step %Q{I can see the text "#{@app_settings.ftp_dropbox_server}"}
-  step %Q{I can see the text "#{@app_settings.ftp_dropbox_user}"}
-  step %Q{I can see the text "#{@app_settings.ftp_dropbox_password}"}
+  step %Q{I can see the text "#{Settings.dropbox_server}"}
+  step %Q{I can see the text "#{Settings.dropbox.user}"}
+  step %Q{I can see the text "#{Settings.dropbox.password}"}
 end
 
 Then /^I can see only results containing "(.*?)" term$/ do |term|

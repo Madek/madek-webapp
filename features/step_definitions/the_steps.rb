@@ -27,24 +27,22 @@ Then /^The current_path is equal to the remembered one$/  do
 end
  
 Then /^The current user doesn't have a dropbox$/  do
-  if _dir = @current_user.dropbox_dir(@app_settings)
+  if _dir = @current_user.dropbox_dir
     `rm -rf #{_dir}`
   end
 end
 
 Then /^the current user has a dropbox$/ do
   step 'The dropbox settings are set-up'
-  `rm -rf #{@current_user.dropbox_dir_path(@app_settings)}`
-  FileUtils.mkdir_p @current_user.dropbox_dir_path(@app_settings)
+  `rm -rf #{@current_user.dropbox_dir_path}`
+  FileUtils.mkdir_p @current_user.dropbox_dir_path
 end
 
 ### the d
 
 Then /^The dropbox settings are set\-up$/  do
-  @app_settings = AppSettings.first
-  @app_settings.update_attributes! \
-    dropbox_root_dir: Rails.root.join("tmp").to_s,
-    ftp_dropbox_user: ENV['USER']
+  expect(Settings.dropbox.root_dir).to be== Rails.root.join("tmp").to_s
+  expect(Settings.dropbox.user).to be== ENV['USER']
 end
 
 Then /^the dropbox was created for me$/ do
