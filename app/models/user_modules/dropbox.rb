@@ -25,8 +25,10 @@ module UserModules
 
     def dropbox_dir_name
       if persisted?
-        sha = Digest::SHA1.hexdigest("#{id}#{created_at}")
-        "#{id}_#{sha}"    
+        digest = OpenSSL::Digest.new('sha1'); 
+        message= password_digest
+        secret= Rails.configuration.secret_key_base
+        OpenSSL::HMAC.hexdigest(digest, secret, message)
       else
         raise "The user record has to be persisted."
       end
