@@ -52,7 +52,14 @@ module MediaFileModules
         meta_data.merge!(exif_hash)
       end
       # Use ImageMagick to get dimensions; exiftool turned out to be unreliable 
-      img_x, img_y= System.execute_cmd!("identify -format '%w %h' #{full_path_file}").split
+      # HACK: working around a bug where ImageMagick exits which error even if only warning were issued (issue reported upstream)
+      #original:# img_x, img_y= System.execute_cmd!("identify -format '%w %h' #{full_path_file}").split
+      output= `identify -format '%w %h' #{full_path_file}`
+      begin
+        img_x, img_y= output.split
+      rescue
+        raise "ImageMagick: No sizes found!"
+      end
       update_attributes(:width => img_x, :height => img_y)
     end
 
