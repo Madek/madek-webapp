@@ -31,6 +31,11 @@ class AppAdmin::ContextsController < AppAdmin::BaseController
     redirect_to app_admin_contexts_url, flash: {success: "The meta context has been deleted"}
   end
 
+  def media_sets
+    @context = Context.find(params[:id])
+    @media_sets = @context.media_sets
+  end
+
   private
 
   def context_params

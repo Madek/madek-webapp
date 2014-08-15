@@ -320,6 +320,10 @@ Then(/^I can see the following permissions\-state:$/) do |table|
   end
 end
 
+Then /^I can see the list of related media sets$/ do
+  expect(find("table tbody").all("tr.success, tr.danger").size).to be > 0
+end
+
 Then /^I can see the text "([^\"]*?)"$/ do |text|
   expect(page).to have_content text
 end
@@ -601,6 +605,10 @@ end
 
 Then /^I click on "(.*?)" inside the node with the id "(.*?)"$/  do |text, id|
   find("##{id} a",text: text).click
+end
+
+When(/^I click on the first "(.*?)" link in a table$/) do |text|
+  find("table a", text: text).click
 end
 
 Then /^I click on my first media entry$/ do

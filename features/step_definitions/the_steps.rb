@@ -132,6 +132,13 @@ Then (/^The link with the title "(.*?)" hash the class "(.*?)"$/) do |title, _cl
   expect(find("a[title='#{title}'].#{_class}")).to be
 end
 
+Then /^The list contains links to media sets$/ do
+  all("table tbody tr").each do |row|
+    expect{row.find('a')}.to_not raise_error
+    expect(row.find('a')[:href]).to match(/^\/sets\/.+$/)
+  end
+end
+
 Then /^the list shows only resources that have any value for that key$/ do
   all(".ui-resource[data-id]").each do |element|
     media_resource = MediaResource.find element["data-id"]

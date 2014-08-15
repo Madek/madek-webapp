@@ -11,6 +11,11 @@
       .col-sm-4
         = f.select :context_group_id, ContextGroup.all.collect { |mcg| [ mcg.name, mcg.id ] }, {include_blank: true}, { class: "form-control" }
 
+    .form-group
+      %label.control-label.col-sm-2 Description
+      .col-sm-4
+        = f.text_area :description, rows: 6, class: "form-control"
+
     - if f.object.persisted?
       %h3 Meta Key Definitions
       = link_to new_app_admin_context_meta_key_definition_path(@context), class: "btn btn-success" do

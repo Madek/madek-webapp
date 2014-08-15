@@ -52,7 +52,7 @@ When /^I set the input for a new meta term to "(.*?)"$/ do |value|
 end
 
 Then /^I set the input with the name "(.*?)" to "(.*?)"$/ do |name, value|
-  find("input[name='#{name}']").set(value)
+  find("input[name='#{name}'], textarea[name='#{name}']").set(value)
 end
 
 When(/^I set the input with the name "(.*?)" to persons last name$/) do |name|

@@ -29,3 +29,18 @@ Feature: Admin Meta Contexts
     And I click on "Edit"
     And I click on "Remove"
     Then I can see a success message
+
+  Scenario: Editing a context's description
+    When I visit "/app_admin/contexts"
+    And I click on "Edit"
+    And I set the input with the name "context[description]" to "DESCRIPTION"
+    And I submit
+    Then I can see a success message
+    And I can see "DESCRIPTION"
+
+  Scenario: Displaying media sets on a separate page
+    When I visit "/app_admin/contexts"
+    And I click on the first "Media Sets" link in a table
+    Then I am on a "/app_admin/contexts/.+/media_sets" page
+    And I can see the list of related media sets
+    And The list contains links to media sets

@@ -384,6 +384,7 @@ MAdeK::Application.routes.draw do
     resources :context_groups, only: [:index, :edit, :update, :new, :create]
     resources :contexts do
       resources :meta_key_definitions, only: [:edit, :update, :new, :create, :destroy]
+      get :media_sets, on: :member
     end
     resources :keywords, only: [:index, :edit, :update, :destroy] do
       member do
