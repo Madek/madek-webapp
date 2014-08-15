@@ -764,6 +764,14 @@ Then (/^I click on the first a tag in the class "(.*?)"$/) do |_class|
   all(".#{_class} a").first.click
 end
 
+When /^I click the first move down button$/ do
+  find("table tbody a.move-down").click
+end
+
+When /^I click the last move up button$/ do
+  all("table tbody a.move-up").last.click
+end
+
 Then (/^I click the "(.*?)" link$/) do |text|
   find("a", text: text).click
 end

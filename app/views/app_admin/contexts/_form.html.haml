@@ -16,6 +16,10 @@
       .col-sm-4
         = f.text_area :description, rows: 6, class: "form-control"
 
+    .form-group      
+      .col-sm-offset-2.col-sm-4    
+        = f.submit "Save", class: "btn btn-success"
+
     - if f.object.persisted?
       %h3 Meta Key Definitions
       = link_to new_app_admin_context_meta_key_definition_path(@context), class: "btn btn-success" do
@@ -26,52 +30,31 @@
         %thead
           %tr
             %th.no-wrap Meta Key
-            %th.no-wrap Key map
-            %th.no-wrap Key map type
             %th Label
             %th Hint
             %th Description
             %th.no-wrap Input type
             %th.no-wrap Is required?
             %th
-        %tbody#sortable
-          = f.fields_for :meta_key_definitions do |ff|
+        %tbody
+          - @context.meta_key_definitions.each_with_index do |meta_key_definition, index|
             %tr
-              %td
-                = ff.object.meta_key
-                = ff.hidden_field :position, class: "meta-key-definition-position"
-              %td= ff.object.label
-              %td= ff.object.hint
-              %td= ff.object.description
-              %td= ff.object.input_type.try(:humanize) || '-'
-              %td= ff.object.is_required ? "Yes" : "No"
+              %td= meta_key_definition.meta_key
+              %td= meta_key_definition.label
+              %td= meta_key_definition.hint
+              %td= meta_key_definition.description
+              %td= meta_key_definition.input_type.try(:humanize) || '-'
+              %td= meta_key_definition.is_required ? "Yes" : "No"
               %td.no-wrap
-                = link_to edit_app_admin_context_meta_key_definition_path(f.object, ff.object), class: "btn btn-warning btn-xs" do
+                = link_to edit_app_admin_context_meta_key_definition_path(f.object, meta_key_definition), class: "btn btn-warning btn-xs" do
                   %i.icon-pen
                   Edit
-                = link_to app_admin_context_meta_key_definition_path(f.object, ff.object), method: :delete, data: {confirm: "Are you sure you want to remove this meta key definition?"}, class: "btn btn-danger btn-xs" do
+                = link_to app_admin_context_meta_key_definition_path(f.object, meta_key_definition), method: :delete, data: {confirm: "Are you sure you want to remove this meta key definition?"}, class: "btn btn-danger btn-xs" do
                   %i.icon-trash
                   Remove
-
-    .form-group              
-      = f.submit "Save", class: "btn btn-success"
-
-:javascript
-  $(document).ready(function(){
-    function setPosition() {
-      var positions = [];
-      $('#sortable .meta-key-definition-position').each(function(index, el) {
-        $(this).val(index);
-      });
-    }
-
-    $("#sortable").sortable({
-      axis: 'y',
-      items: 'tr',
-      placeholder: 'placeholder',
-      forcePlaceholderSize: true,
-      stop: function(event, ui) {
-        setPosition();
-      }
-    });
-  });
+                = link_to move_up_app_admin_context_meta_key_definition_path(f.object, meta_key_definition), 
+                  method: :patch, class: "btn btn-xs btn-warning move-up", title: "Move up" do
+                  %i.icon-arrow-up
+                = link_to move_down_app_admin_context_meta_key_definition_path(f.object, meta_key_definition), 
+                  method: :patch, class: "btn btn-xs btn-warning move-down", title: "Move down" do
+                  %i.icon-arrow-down

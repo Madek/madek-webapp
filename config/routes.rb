@@ -383,8 +383,11 @@ MAdeK::Application.routes.draw do
     end
     resources :context_groups, only: [:index, :edit, :update, :new, :create]
     resources :contexts do
-      resources :meta_key_definitions, only: [:edit, :update, :new, :create, :destroy]
       get :media_sets, on: :member
+      resources :meta_key_definitions, only: [:edit, :update, :new, :create, :destroy] do
+        patch 'move_up',   on: :member
+        patch 'move_down', on: :member
+      end
     end
     resources :keywords, only: [:index, :edit, :update, :destroy] do
       member do

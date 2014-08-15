@@ -28,12 +28,44 @@ class AppAdmin::MetaKeyDefinitionsController < AppAdmin::BaseController
   end
 
   def destroy
-    @meta_key_definition = MetaKeyDefinition.find(params[:id])
+    find_meta_key_definition
     @context.meta_key_definitions.delete(@meta_key_definition)
 
-    redirect_to edit_app_admin_context_url(@context), flash: {success: "The meta key definition has been removed from the <strong>#{@context.id}</strong> meta context".html_safe}
+    redirect_to edit_app_admin_context_url(@context), flash: {
+      success: "The meta key definition has been removed from the <strong>#{@context.id}</strong> meta context".html_safe
+    }
   rescue => e
     redirect_to edit_app_admin_context_url(@context), flash: {error: e.message}
+  end
+
+  def move_up
+    find_context
+    find_meta_key_definition
+
+    @meta_key_definition.move_up
+
+    redirect_to edit_app_admin_context_url(@context), flash: {
+      success: "The position of meta key definition has been updated."
+    }
+  rescue => e
+    redirect_to edit_app_admin_context_url(@context), flash: {
+      error: e.to_s
+    }
+  end
+
+  def move_down
+    find_context
+    find_meta_key_definition
+
+    @meta_key_definition.move_down
+
+    redirect_to edit_app_admin_context_url(@context), flash: {
+      success: "The position of meta key definition has been updated."
+    }
+  rescue => e
+    redirect_to edit_app_admin_context_url(@context), flash: {
+      error: e.to_s
+    }
   end
 
   private
@@ -44,5 +76,9 @@ class AppAdmin::MetaKeyDefinitionsController < AppAdmin::BaseController
 
   def find_context
     @context = Context.find(params[:context_id])
+  end
+
+  def find_meta_key_definition
+    @meta_key_definition = MetaKeyDefinition.find(params[:id])
   end
 end

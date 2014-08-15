@@ -64,6 +64,12 @@ Then /^there is a entry with the title "(.*?)" in the new media_entries$/ do |ti
   expect(@new_media_entries.map(&:title)).to include title
 end
 
+Then /^There is a table with following meta key definitions:$/ do |table|
+  table.hashes.each_with_index do |row, index|
+    expect(all("table tbody tr")[index]).to have_content(row[:meta_key])
+  end
+end
+
 Then /^There is exactly one media\-entry with a filename matching "(.*?)"$/ do |name|
   expect(MediaEntry.all.select{|me| me.media_file.filename =~ /#{name}/}.size).to eq 1
 end

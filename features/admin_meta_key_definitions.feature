@@ -27,3 +27,34 @@ Feature: Admin Meta Key Definitions
     Then I can see a success message
     When I click on "Edit"
     Then I can see checked radio button with the name "meta_key_definition[input_type]" with the value "text_area"
+
+  Scenario: Changing position in scope of a context
+    When I visit "/app_admin/contexts/core/edit"
+    Then There is a table with following meta key definitions:
+      | meta_key               |
+      | title                  |
+      | author                 |
+      | portrayed object dates |
+      | keywords               |
+      | copyright notice       |
+      | owner                  |
+    When I click the first move down button
+    Then I can see a success message
+    And There is a table with following meta key definitions:
+      | meta_key               |
+      | author                 |
+      | title                  |
+      | portrayed object dates |
+      | keywords               |
+      | copyright notice       |
+      | owner                  |
+    When I click the last move up button
+    Then I can see a success message
+    And There is a table with following meta key definitions:
+      | meta_key               |
+      | author                 |
+      | title                  |
+      | portrayed object dates |
+      | keywords               |
+      | owner                  |
+      | copyright notice       |
