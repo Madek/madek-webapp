@@ -25,6 +25,10 @@
 .ui-body-title-label h1
   display: inline
   white-space: nowrap
+  i
+    font-size: 32px
+    position: relative
+    margin-right: $space-s
 
 // Page Title Actions
 
@@ -45,7 +49,15 @@
 
 .ui-body-title-actions .primary-button,
 .ui-body-title-actions .button
-  margin-left: $space-s
+  margin-left: $space-x
+
+.ui-body-title-actions .action-separator
+  margin: $space-x $space-s
+  border-left: 1px solid $mono-light
+  height: $line-height-l
+  width: 1px
+  position: relative
+  top: 2px
 
 // Media Queries
 

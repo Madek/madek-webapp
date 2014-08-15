@@ -5,11 +5,12 @@
 
 .ui-thumbnail.media-catalog
   +dimension(300px, auto)
-  background: transparent image-url("backgrounds/thumb-catalog-backg.png") 3px -4px no-repeat
   overflow: hidden
   margin: 0 5px 0 0
   padding: 15px
   position: relative
+  .ui-thumbnail-image-wrapper
+    +box-shadow(0 1px 2px 0px $darken, $space-x $space-x 0px 0px $white, $space-x $space-x 2px 0px $darken-strong)
   .ui-thumbnail-meta-subtitle
     height: 56px
   .ui-thumbnail-privacy
@@ -42,20 +43,13 @@
       +border-bottom-right-radius($border-radius-s)
       +dimension(auto, 21px)
       +position-top-right(192px, 16px)
-      background: $mono-brightest
+      background: $white
       border-color: $mono-mid
       border-style: solid
       border-width: 1px 0 0 1px
       font-size: $font-xs
       overflow: hidden
       padding: 0 5px
-
-// Media Queries
-
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
-  .ui-thumbnail.media-catalog
-    background: transparent image-url("backgrounds/thumb-catalog-backg@2x.png") 3px -4px no-repeat
-    background-size: 328px 236px
 
 /* Projection Styles
  *-----------------------------------------

@@ -118,15 +118,12 @@
   // Hover and active states styles (backgrounds, shadows and such)
   .ui-thumbnail:hover
     +box-shadow(0 0 3px $darken-more)
-    background: $mono-brightest
+    background: $white
   .ui-thumbnail.media-entry:hover,
   .ui-thumbnail.media-entry-incomplete:hover
     +border-radius($border-radius-m)
-  .ui-thumbnail.media-set:hover,
-  .ui-thumbnail.filter-set:hover
-    background: $mono-brightest image-url("backgrounds/thumb-set-backg.png") 0 0 no-repeat
   .ui-thumbnail.video .ui-thumbnail-image-wrapper
-    background: $mono-brightest image-url("backgrounds/thumb-video-backg.png") 0 0px no-repeat
+    background: $white image-url("backgrounds/thumb-video-backg.png") 0 0px no-repeat
   .ui-thumbnail .ui-thumbnail-privacy
     display: block
 
@@ -141,12 +138,8 @@
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
   .ui-resources.list.active
-    .ui-thumbnail.media-set:hover,
-    .ui-thumbnail.filter-set:hover
-      background: $mono-brightest image-url("backgrounds/thumb-set-backg@2x.png") 0 0 no-repeat
-      background-size: 168px 168px
     .ui-thumbnail.video .ui-thumbnail-image-wrapper
-      background: $mono-brightest image-url("backgrounds/thumb-video-backg@2x.png") 0 0px no-repeat
+      background: $white image-url("backgrounds/thumb-video-backg@2x.png") 0 0px no-repeat
       background-size: 138px 138px
 
 /* Projection Styles
@@ -155,8 +148,5 @@
 @if $projection
 
   .ui-resources.list.active
-    .ui-thumbnail.media-set:hover,
-    .ui-thumbnail.filter-set:hover
-      background: $mono-brightest image-url("backgrounds/thumb-set-backg-projct.png") 0 0 no-repeat
     .ui-thumbnail.video .ui-thumbnail-image-wrapper
-      background: $mono-brightest image-url("backgrounds/thumb-video-backg-projct.png") 0 0px no-repeat
+      background: $white image-url("backgrounds/thumb-video-backg-projct.png") 0 0px no-repeat

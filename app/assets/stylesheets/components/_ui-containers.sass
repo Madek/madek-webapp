@@ -19,7 +19,7 @@
 // Bright ui-containers
 
 .ui-container.bright
-  background-color: $mono-brightest
+  background-color: $white
 
 .transparent,
 .ui-container.transparent
@@ -43,7 +43,7 @@
     color: $mono-bright
   > a:hover,
   .dropdown > a:hover
-    color: $mono-brightest
+    color: $white
 
 .ui-container.inverted-transparent,
 .inverted-transparent
@@ -73,27 +73,34 @@
 
 .ui-container.bordered
   border: 1px solid $mono-light
-  margin-bottom: -1px
+  &.midtone-darker
+    border-color: $darken-less
 
 .ui-container.bordered-bottom
   border-bottom: 1px solid $mono-light
+  &.midtone-darker
+    border-bottom-color: $darken-less
 
 .ui-container.bordered-top
-  border-bottom: 1px solid $mono-light
-  margin-top: -1px
+  border-top: 1px solid $mono-light
+  &.midtone-darker
+    border-top-color: $darken-less
 
 .ui-container.bordered-right
   border-right: 1px solid $mono-light
-  margin-right: -1px
+  &.midtone-darker
+    border-right-color: $darken-less
 
 .ui-container.bordered-left
   border-left: 1px solid $mono-light
-  margin-left: -1px
+  &.midtone-darker
+    border-left-color: $darken-less
 
 // Rounded ui-containers
 
 .ui-container.rounded
   +border-radius($border-radius-m)
+  overflow: hidden
 
 .ui-container.rounded-top
   +border-top-radius($border-radius-m)

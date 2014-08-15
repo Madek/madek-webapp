@@ -47,7 +47,8 @@
 
 .ui-thumbnail.media-set,
 .ui-thumbnail.filter-set
-  background: transparent image-url("backgrounds/thumb-set-backg.png") 0 0 no-repeat
+  .ui-thumbnail-image-wrapper
+    +box-shadow(0 1px 2px 0px $darken, $space-x $space-x 0px 0px $white, $space-x $space-x 2px 0px $darken-strong)
   .ui-thumbnail-image-holder
     +dimension(130px, 130px)
     .ui-thumbnail-table-image-holder
@@ -74,7 +75,7 @@
     top: 21px
 
 .ui-thumbnail.video .ui-thumbnail-image-wrapper
-  background: $mono-brightest image-url("backgrounds/thumb-video-backg.png") 0 0px no-repeat
+  background: $white image-url("backgrounds/thumb-video-backg.png") 0 0px no-repeat
 
 /* Additional Set hover styles
  *-----------------------------------------
@@ -83,7 +84,9 @@
 .ui-thumbnail-level-down-items
   +micro-clearfix
   border-style: solid
-  background: $mono-dark
+  background-image: image-url("backgrounds/container-midtone-darker.png")
+  background-size: 29px 29px
+  border-color: $darken
   display: none
   left: 0
   padding: $space-s $space-x
@@ -91,24 +94,23 @@
   right: 0
   text-align: center
   z-index: 101
-  // overlay context actions
 
 .ui-thumbnail-level-up-items
   +border-top-radius($border-radius-m)
-  +box-shadow(0 -1px 2px $darken)
+  +box-shadow(0 -1px 2px $darken-more)
   bottom: 100%
   border-width: 0 0 1px
   padding-bottom: $space-s
 
 .ui-thumbnail-level-down-items
   +border-bottom-radius($border-radius-m)
-  +box-shadow(0 1px 2px $darken)
+  +box-shadow(0 1px 2px $darken-more)
   top: 100%
   border-width: 1px 0 0
   padding-top: $space-s
 
 .ui-thumbnail-level-notes
-  color: $mono-light
+  // color: $mono-light
   font-size: $font-s
   padding-bottom: $space-x
 
@@ -130,14 +132,14 @@
   padding: 8px
 
 .ui-thumbnail-level-item.media_set
-  background: transparent image-url("backgrounds/thumb-set-backg-small-alt.png") -3px -2px no-repeat
+  .ui-level-image-wrapper
+    +box-shadow(0 1px 2px 0px $darken, 3px 3px 0px 0px $white, 3px 3px 2px 0px $darken-more)
 
 .ui-level-image-wrapper
-  +border-radius($border-radius-m)
   +box-shadow(0 1px 3px $darken)
   +dimension(50px, 50px)
-  border: 1px solid $mono-strong
-  background: $mono-brightest
+  border: 1px solid $mono-mid
+  background: $white
   display: block
   line-height: 0
   padding: 4px
@@ -163,37 +165,42 @@
 
 // Set thumbs' extra elements - arrows
 
-.ui-thumbnail-level-up-items
-  &:after
-    bottom: -1px
+.ui-thumbnail-level-up-items,
+.ui-thumbnail-level-down-items
+  &:after,
+  &:before
     border: solid transparent
+    border-color: rgba(255, 255, 255, 0)
     content: " "
     height: 0
-    width: 0
-    position: absolute
-    pointer-events: none
-  &:after
-    border-color: rgba(255, 255, 255, 0)
-    border-bottom-color: #ffffff
-    border-width: 5px
     left: 50%
+    pointer-events: none
+    position: absolute
+    width: 0
+  &:after
+    border-width: 5px
     margin-left: -5px
+  &:before
+    border-width: 7px
+    margin-left: -7px
+
+.ui-thumbnail-level-up-items
+  &:after
+    border-bottom-color: #ffffff
+    bottom: -1px
+  &:before
+    border-color: rgba(255, 255, 255, 0)
+    border-bottom-color: $darken
+    bottom: -1px
 
 .ui-thumbnail-level-down-items
   &:after
-    top: -1px
-    border: solid transparent
-    content: " "
-    height: 0
-    width: 0
-    position: absolute
-    pointer-events: none
-  &:after
-    border-color: rgba(255, 255, 255, 0)
     border-top-color: #ffffff
-    border-width: 5px
-    left: 50%
-    margin-left: -5px
+    top: -1px
+  &:before
+    border-color: rgba(255, 255, 255, 0)
+    border-top-color: $darken
+    top: -1px
 
 // Set thumbs' extra elements - thumbnails
 
@@ -212,9 +219,8 @@
 
 .ui-thumbnail-filterset-flag
   +position-top-right(16px, 16px)
-  +border-top-right-radius($border-radius-m)
   +dimension(21px, 21px)
-  background-color: $mono-brightest
+  background-color: $white
   border-color: $mono-mid
   border-style: solid
   border-width: 0 0 1px 1px
@@ -230,30 +236,13 @@
 // Media Queries
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
-  .ui-thumbnail.media-set,
-  .ui-thumbnail.filter-set
-    background: transparent image-url("backgrounds/thumb-set-backg@2x.png") 0 0 no-repeat
-    background-size: 168px 168px
-
   .ui-thumbnail.video .ui-thumbnail-image-wrapper
-    background: $mono-brightest image-url("backgrounds/thumb-video-backg@2x.png") 0 0px no-repeat
+    background: $white image-url("backgrounds/thumb-video-backg@2x.png") 0 0px no-repeat
     background-size: 138px 138px
-
-  .ui-thumbnail-level-item.media_set
-    background: transparent image-url("backgrounds/thumb-set-backg-small-alt@2x.png") -3px -2px no-repeat
-    background-size: 82px 82px
 
 /* Projection Styles
  *-----------------------------------------
 
 @if $projection
-
-  .ui-thumbnail.media-set,
-  .ui-thumbnail.filter-set
-    background: transparent image-url("backgrounds/thumb-set-backg-projct.png") 0 0 no-repeat
-
   .ui-thumbnail.video .ui-thumbnail-image-wrapper
-    background: $mono-brightest image-url("backgrounds/thumb-video-backg-projct.png") 0 0px no-repeat
-
-  .ui-thumbnail-level-item.media_set
-    background: transparent image-url("backgrounds/thumb-set-backg-small-alt-projct.png") -3px -2px no-repeat
+    background: $white image-url("backgrounds/thumb-video-backg-projct.png") 0 0px no-repeat

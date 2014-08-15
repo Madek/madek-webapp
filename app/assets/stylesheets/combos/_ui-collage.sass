@@ -4,8 +4,7 @@
  * Styleguide 7.8.1
 
 .ui-collage
-  +border-top-right-radius($border-radius-m)
-  background: $mono-darkest
+  background: $black
   margin: -1px -1px 0 -1px
   overflow: hidden
   padding: 1px
@@ -22,7 +21,7 @@
 
 .ui-collage-item
   display: table-cell
-  border: 1px solid $mono-darkest
+  border: 1px solid $black
   line-height: 0
   position: relative
   vertical-align: middle
@@ -69,7 +68,7 @@
   text-indent: $space-s
   text-align: left
   &:after
-    +background(linear-gradient(right, $mono-brightest, rgba(255, 255, 255, 0)))
+    +background(linear-gradient(right, $white, rgba(255, 255, 255, 0)))
     +dimension(20%, 100%)
     +position-top-right(0, 0)
     display: block
@@ -132,7 +131,7 @@
 
 .ui-collage.crooked
   +border-radius(0)
-  border-color: $mono-darkest
+  border-color: $black
   border-style: solid
   border-width: 2px 0
   margin: 0

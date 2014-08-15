@@ -12,7 +12,7 @@
   +dimension(260px, 20px)
   +position-top-right(-30px, 50%)
   +position-left(50%)
-  color: $mono-brightest
+  color: $white
   margin-left: -135px
   padding: $space-x $space-x $space-x
   text-align: center
@@ -84,7 +84,8 @@
 .ui-clipboard .ui-resources.miniature
   .ui-thumbnail.media-set,
   .ui-thumbnail.filter-set
-    background: transparent image-url("backgrounds/thumb-set-backg-small-alt.png") -1px 0px no-repeat
+    .ui-thumbnail-image-wrapper
+      +box-shadow(0 1px 2px 0px $darken, 4px 4px 0px 0px $white, 4px 4px 2px 0px $darken-strong)
 
 // Remove Resource
 
@@ -126,21 +127,3 @@
   line-height: 1
   padding: $space-x
   text-align: center
-
-// Media Queries
-
-.ui-clipboard .ui-resources.miniature
-  .ui-thumbnail.media-set,
-  .ui-thumbnail.filter-set
-    background: transparent image-url("backgrounds/thumb-set-backg-small-alt@2x.png") -1px 0px no-repeat
-    background-size: 82px 82px
-
-/* Projection Styles
- *-----------------------------------------
-
-@if $projection
-
-  .ui-clipboard .ui-resources.miniature
-    .ui-thumbnail.media-set,
-    .ui-thumbnail.filter-set
-      background: transparent image-url("backgrounds/thumb-set-backg-small-alt-projct.png") -1px 0px no-repeat

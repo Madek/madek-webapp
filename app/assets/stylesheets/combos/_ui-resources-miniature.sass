@@ -36,7 +36,8 @@
   // Sets' stack effect
   .ui-thumbnail.media-set,
   .ui-thumbnail.filter-set
-    background: transparent image-url("backgrounds/thumb-set-backg-small.png") -1px 0px no-repeat
+    .ui-thumbnail-image-wrapper
+      +box-shadow(0 1px 2px 0px $darken, 4px 4px 0px 0px $white, 4px 4px 2px 0px $darken-strong)
     .ui-thumbnail-image-holder
       +dimension(50px, 50px)
       .ui-thumbnail-table-image-holder
@@ -68,7 +69,7 @@
             +max-dimension(50px, 36px)
   // Video entries get pellicola background
   .ui-thumbnail.video .ui-thumbnail-image-wrapper
-    background: $mono-brightest image-url("backgrounds/thumb-video-backg-small.png") 0 0px no-repeat
+    background: $white image-url("backgrounds/thumb-video-backg-small.png") 0 0px no-repeat
   // Hiding stuff unnecessary in Miniature view
   .ui-thumbnail-level-up-items,
   .ui-thumbnail-level-down-items,
@@ -99,7 +100,7 @@
   .ui-thumbnail.media-entry,
   .ui-thumbnail.media-entry-incomplete
     +border-radius($border-radius-m)
-    background: $mono-brightest
+    background: $white
 
 /*
  * Media queries
@@ -112,12 +113,8 @@
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
   .ui-resources.miniature
-    .ui-thumbnail.media-set,
-    .ui-thumbnail.filter-set
-      background: transparent image-url("backgrounds/thumb-set-backg-small@2x.png") -1px 0px no-repeat
-      background-size: 82px 82px
     .ui-thumbnail.video .ui-thumbnail-image-wrapper
-      background: $mono-brightest image-url("backgrounds/thumb-video-backg-small@2x.png") 0 0px no-repeat
+      background: $white image-url("backgrounds/thumb-video-backg-small@2x.png") 0 0px no-repeat
       background-size: 58px 58px
 
 /* Projection Styles
@@ -126,8 +123,5 @@
 @if $projection
 
   .ui-resources.miniature
-    .ui-thumbnail.media-set,
-    .ui-thumbnail.filter-set
-      background: transparent image-url("backgrounds/thumb-set-backg-small-projct.png") -1px 0px no-repeat
     .ui-thumbnail.video .ui-thumbnail-image-wrapper
-      background: $mono-brightest image-url("backgrounds/thumb-video-backg-small-projct.png") 0 0px no-repeat
+      background: $white image-url("backgrounds/thumb-video-backg-small-projct.png") 0 0px no-repeat

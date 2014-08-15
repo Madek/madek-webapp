@@ -6,6 +6,7 @@
  * Styleguide 7.9.1
 
 .ui-resources.grid
+  +micro-clearfix
   margin: -15px 0 0 -15px
   .ui-resource
     +float-left
@@ -39,6 +40,24 @@
     margin: 5px 0 0 5px
   .ui-resources-page-items
     margin-left: -5px
+
+/*
+ * Horizontal Variation
+ * -------------------------------------
+
+.ui-resources.grid.horizontal
+  +force-scrollbars
+  margin: 0
+  white-space: nowrap
+  overflow-y: visible
+  overflow-x: auto
+  padding: 0 25px $space-s
+  .ui-resource
+    display: inline-block
+    float: none
+    white-space: normal
+  .ui-thumbnail-privacy
+    display: block
 
 /*
  * Show permissions
@@ -75,30 +94,23 @@
   .ui-thumbnail.media-entry:hover,
   .ui-thumbnail.media-entry-incomplete:hover
     +border-radius($border-radius-m)
-    background: $mono-brightest
+    background: $white
   .ui-thumbnail.media-set:hover,
   .ui-thumbnail.filter-set:hover
     +box-shadow(0 0 3px $darken-more)
-    background: $mono-brightest image-url("backgrounds/thumb-set-backg.png") 0 0 no-repeat
+    background: $white
   .ui-thumbnail.media-catalog:hover
     +border-radius($border-radius-m)
-    background: $mono-brightest image-url("backgrounds/thumb-catalog-backg.png") 3px -4px no-repeat
+    background: $white
   .ui-thumbnail.video .ui-thumbnail-image-wrapper
-    background: $mono-brightest image-url("backgrounds/thumb-video-backg.png") 0 0px no-repeat
+    background: $white image-url("backgrounds/thumb-video-backg.png") 0 0px no-repeat
 
 // Media Queries
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
   .grid.active
-    .ui-thumbnail.media-set:hover,
-    .ui-thumbnail.filter-set:hover
-      background: $mono-brightest image-url("backgrounds/thumb-set-backg@2x.png") 0 0 no-repeat
-      background-size: 168px 168px
-    .ui-thumbnail.media-catalog:hover
-      background: $mono-brightest image-url("backgrounds/thumb-catalog-backg@2x.png") 3px -4px no-repeat
-      background-size: 328px 236px
     .ui-thumbnail.video .ui-thumbnail-image-wrapper
-      background: $mono-brightest image-url("backgrounds/thumb-video-backg@2x.png") 0 0px no-repeat
+      background: $white image-url("backgrounds/thumb-video-backg@2x.png") 0 0px no-repeat
       background-size: 138px 138px
 
 /* Projection Styles
@@ -107,10 +119,7 @@
 @if $projection
 
   .grid.active
-    .ui-thumbnail.media-set:hover,
-    .ui-thumbnail.filter-set:hover
-      background: $mono-brightest image-url("backgrounds/thumb-set-backg-projct.png") 0 0 no-repeat
     .ui-thumbnail.media-catalog:hover
-      background: $mono-brightest image-url("backgrounds/thumb-catalog-backg-projct.png") 3px -4px no-repeat
+      background: $white image-url("backgrounds/thumb-catalog-backg-projct.png") 3px -4px no-repeat
     .ui-thumbnail.video .ui-thumbnail-image-wrapper
-      background: $mono-brightest image-url("backgrounds/thumb-video-backg-projct.png") 0 0px no-repeat
+      background: $white image-url("backgrounds/thumb-video-backg-projct.png") 0 0px no-repeat

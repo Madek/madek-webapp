@@ -24,7 +24,7 @@
                   %h2.title-m.ui-resources-title
                     %strong.ui-resource-title-core= "#{meta_term[:meta_datum].meta_key.all_context_labels}: "
                     = meta_term[:meta_term]
-                    %span.ui-resource-title-counter
+                    %span.ui-counter
                       = "#{meta_term[:count]}"
                     - if meta_term[:count] > 20
                       %a.strong{:href => media_resources_path(:meta_data => {meta_term[:meta_datum].meta_key.label => {:ids => [meta_term[:meta_term].id]}})} Alle anzeigen
