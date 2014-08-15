@@ -124,8 +124,10 @@ class ImportController < ApplicationController
 
       # create_zencoder_jobs_if_applicable expects an ActiveRecord::Relation
       entries = MediaEntry.where(id: complete.map(&:id))
-      ZencoderJob.create_zencoder_jobs_if_applicable(entries).each{|job| job.submit}
-  
+      if Settings.zencoder.enabled?
+        ZencoderJob.create_zencoder_jobs_if_applicable(entries).each{|job| job.submit}
+      end
+
       flash[:notice] = "Import abgeschlossen."
       redirect_to my_dashboard_path
     else

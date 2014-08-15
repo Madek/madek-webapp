@@ -56,6 +56,7 @@ Feature: Importing
   @firefox
   Scenario: Importing a video creates a Zencoder.job and submits it
     Given I am signed-in as "Normin"
+    And The zencoder config is configured for test
     And I am going to import images
 
     And I click on the link "Medien importieren"

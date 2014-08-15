@@ -321,3 +321,11 @@ end
 Then /^The visualization test test_noupdate_positions is running$/ do
   wait_until(5){ all("#test_noupdate_positions_running").size > 0}
 end
+
+
+### the z
+
+Given /^The zencoder config is configured for test$/  do
+  Settings.add_source! (Rails.root.join "features","data","zencoder.yml").to_s
+  Settings.reload!
+end

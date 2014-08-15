@@ -19,18 +19,13 @@ class ZencoderJob < ActiveRecord::Base
   ################################################################
 
   def config
-    @config ||=  \
-      YAML.load_file(ENV['ZENCODER_CONFIG_FILE'] || \
-                     Rails.root.join("config","zencoder.yml")) rescue nil
+    Settings.zencoder
   end
 
-  def config_api_key
-    config.try(:[],'zencoder').try(:[],'api_key')
+  def self.config
+    Settings.zencoder
   end
 
-  def config_ftp
-    config.try(:[],'zencoder').try(:[],'ftp_base_url')
-  end
 
   ################################################################
   # submit and send to zencoder
@@ -51,26 +46,22 @@ class ZencoderJob < ActiveRecord::Base
 
       # send the request to zencoder
       case Rails.env
-      when "production", "development"
-        send_request_to_zencoder
       when "test" 
         update_attributes state: 'submitted', comment: "Running in test mode, job is not really submitted" 
       else
-        update_attributes state: 'failed', comment: "Running in unknown mode." 
+          send_request_to_zencoder
       end
-
     rescue => e
       update_attributes state: 'failed', error: (e.message.to_s + "\n\n" + e.backtrace.join("\n"))
     end
-
   end
 
 
   def send_request_to_zencoder
     begin
 
-      if config_api_key
-        Zencoder.api_key = config_api_key 
+      if config.api_key.present?
+        Zencoder.api_key = config.api_key
       else
         raise "Zencoder API key is mandatory for submitting to Zencoder.com"
       end
@@ -107,8 +98,8 @@ class ZencoderJob < ActiveRecord::Base
   end
 
   def build_zencoder_outputs_request
-    output_default={label: 'Default', base_url: config_ftp, quality: 4, speed: 2, width: width}
-    thumbnails = {interval: 60, width: width, base_url: config_ftp,prefix: self.id, format: "jpg"}
+    output_default={label: 'Default', base_url: config.ftp_base_url, quality: 4, speed: 2, width: width}
+    thumbnails = {interval: 60, width: width, base_url: config.ftp_base_url ,prefix: self.id, format: "jpg"}
 
     if media_file.content_type =~ /video/
       output_webm = output_default.merge(format: 'webm', filename: "#{self.id}.webm", label: "webm", thumbnails: thumbnails)
@@ -136,8 +127,8 @@ class ZencoderJob < ActiveRecord::Base
   ################################################################
 
   def progress_per_cent
-    if zencoder_id and config_api_key
-      Zencoder.api_key = config_api_key
+    if zencoder_id and config.api_key
+      Zencoder.api_key = config.api_key
       body= Zencoder::Job.progress(zencoder_id).body
       case body['state']
       when 'waiting'
@@ -278,10 +269,14 @@ class ZencoderJob < ActiveRecord::Base
 
   class << self
     def create_zencoder_jobs_if_applicable media_resources
-      media_resources.joins(:media_file) \
-        .where("media_files.content_type SIMILAR TO '%(video|audio)%' ").map do |mr| 
+      if Settings.zencoder.enabled?
+        media_resources.joins(:media_file) \
+          .where("media_files.content_type SIMILAR TO '%(video|audio)%' ").map do |mr| 
           ZencoderJob.create media_file:  mr.media_file
         end
+      else
+        raise "Zencoder is not enabled! Check your zencoder configuration!"
+      end
     end
   end
 

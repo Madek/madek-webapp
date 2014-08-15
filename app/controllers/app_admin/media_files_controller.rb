@@ -26,7 +26,11 @@ class AppAdmin::MediaFilesController < AppAdmin::BaseController
     begin 
       @media_file = MediaFile.find params[:id]
       @media_file.previews.destroy_all
-      ZencoderJob.create(media_file: @media_file).submit
+      if Settings.zencoder.enabled?
+        ZencoderJob.create(media_file: @media_file).submit
+      else
+        raise "Zencoder is not enabled. Check you configuration." 
+      end
       redirect_to app_admin_media_file_path(@media_file), flash: {success: "The Zencoder.job has been submitted"}
     rescue => e 
       redirect_to app_admin_media_file_path(@media_file), flash: {error: e}

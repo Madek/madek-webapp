@@ -23,6 +23,7 @@ config/environments/*.local.yml
 config/secrets.yml
 config/settings.local.yml
 config/dropbox.local.yml
+config/zencoder.local.yml
 config/settings/*.local.yml
 config/sphinx.yml
 config/sphinx.yml.tpo

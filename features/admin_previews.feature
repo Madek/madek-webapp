@@ -16,6 +16,7 @@ Feature: Managing Previews
 
   Scenario: Reencode previews for audio/video
     Given I am signed-in as "Adam"
+    And The zencoder config is configured for test
     And I have a media_entry of type video 
     And I go to the page of the media_entry
     And I click on the link "Weitere Aktionen"
