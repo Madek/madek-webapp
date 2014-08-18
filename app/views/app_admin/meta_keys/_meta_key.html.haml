@@ -10,7 +10,9 @@
   %td.limit250
     %ul
       - meta_key.contexts.each do |context|
-        %li #{context.label} (as <strong>#{context.label_for_meta_key(meta_key)}</strong>)
+        %li 
+          = link_to context.label, edit_app_admin_context_path(context), class: "context-link"
+          (as <strong>#{context.label_for_meta_key(meta_key)}</strong>)
   %td= meta_key.used? ? "Used" : "Not used"
   %td.no-wrap
     = link_to edit_app_admin_meta_key_path(meta_key), class: "btn btn-warning btn-xs" do

@@ -127,3 +127,9 @@ Feature: Admin Meta Keys
     And I can see a success message
     And I can see "Terms"
     And There is "alphabetical order" option selected in "meta_key[meta_terms_alphabetical_order]" select
+
+  Scenario: Displaying links to related contexts
+    When I visit "/app_admin/meta_keys"
+    Then I can see the links to related contexts in the list
+    When I click on the first context link
+    Then I am on the edit page related to the clicked context

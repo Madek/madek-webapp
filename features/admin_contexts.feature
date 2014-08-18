@@ -44,3 +44,10 @@ Feature: Admin Meta Contexts
     Then I am on a "/app_admin/contexts/.+/media_sets" page
     And I can see the list of related media sets
     And The list contains links to media sets
+
+  Scenario: Displaying links to related meta keys
+    When I visit "/app_admin/contexts"
+    And I click on "Edit"
+    Then I can see the links to related meta keys
+    When I click on the first meta key link
+    Then I am on the edit page related to the clicked meta key

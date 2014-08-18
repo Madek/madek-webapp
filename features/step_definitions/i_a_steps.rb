@@ -138,6 +138,14 @@ Then /^I am on the dashboard$/ do
   visit "/"
 end
 
+Then /^I am on the edit page related to the clicked context$/ do
+  expect(current_path).to eq(edit_app_admin_context_path(@context))
+end
+
+Then /^I am on the edit page related to the clicked meta key$/ do
+  expect(current_path).to eq(edit_app_admin_meta_key_path(@meta_key))
+end
+
 Then /^I am on a "(.*?)" page$/ do |path|
   expect(current_path).to match path
 end

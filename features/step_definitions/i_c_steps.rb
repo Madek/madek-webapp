@@ -324,6 +324,16 @@ Then /^I can see the list of related media sets$/ do
   expect(find("table tbody").all("tr.success, tr.danger").size).to be > 0
 end
 
+Then /^I can see the links to related contexts in the list$/ do
+  expect(all("table tbody tr .context-link").size).to be > 0
+end
+
+Then /^I can see the links to related meta keys$/ do
+  all('table tbody tr').each do |row|
+    expect{ row.find('.meta-key-link') }.to_not raise_error
+  end
+end
+
 Then /^I can see the text "([^\"]*?)"$/ do |text|
   expect(page).to have_content text
 end
@@ -579,6 +589,18 @@ end
 Then /^I click on "([^\"]*?)"$/ do |text|
   wait_until{ all("a, button", text: text, visible: true).size > 0}
   find("a, button",text: text).click
+end
+
+When(/^I click on the first context link$/) do
+  context_link = find(".context-link")
+  @context = Context.find_by(label: context_link.text)
+  context_link.click
+end
+
+When(/^I click on the first meta key link$/) do
+  meta_key_link = find(".meta-key-link")
+  @meta_key = MetaKey.find(meta_key_link.text)
+  meta_key_link.click
 end
 
 Then /^I click on the second Edit$/ do
