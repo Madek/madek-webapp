@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe ImportController do
+  include Controllers::Shared
   render_views
 
   before :all do
@@ -20,10 +21,6 @@ describe ImportController do
     truncate_tables
   end
 
-  let :session do
-    {:user_id => @user.id}
-  end
-
   describe "prerequisite MetaKey.meta_key_for " do
     it "returns an meta_key object" do
       expect(MetaKey.meta_key_for("XMP-madek:PortrayedObjectDates")).to be
@@ -35,7 +32,7 @@ describe ImportController do
     context "without providing a file" 
     it "fails" do
       expect{
-        post :upload,{} , session
+        post :upload,{} , valid_session(@user)
       }.to raise_exception
     end
 
@@ -51,7 +48,7 @@ describe ImportController do
       end
 
       it "is is successful" do 
-        expect{ post :upload,{file: @uploaded_file} , session }.not_to raise_error
+        expect{ post :upload,{file: @uploaded_file} , valid_session(@user) }.not_to raise_error
         expect(response).to be_success
       end
 
@@ -59,7 +56,7 @@ describe ImportController do
 
         before :each do
           @media_entry_incompletes_count_before= MediaEntryIncomplete.all.count
-          post :upload,{file: @uploaded_file} , session 
+          post :upload,{file: @uploaded_file} , valid_session(@user)
         end
 
         it "creates media_entry_incomplete " do
@@ -124,7 +121,7 @@ describe ImportController do
       end
 
       it "is is successful" do 
-        expect{ post :upload,{file: @uploaded_file} , session }.not_to raise_error
+        expect{ post :upload,{file: @uploaded_file} , valid_session(@user) }.not_to raise_error
         expect(response).to be_success
       end
 
@@ -132,7 +129,7 @@ describe ImportController do
 
         before :each do
           @media_entry_incompletes_count_before= MediaEntryIncomplete.all.count
-          post :upload,{file: @uploaded_file} , session 
+          post :upload,{file: @uploaded_file} , valid_session(@user) 
         end
 
         it "creates media_entry_incomplete " do

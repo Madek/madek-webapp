@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe ImportController do
+  include Controllers::Shared
   render_views
 
   before :all do
@@ -26,10 +27,6 @@ describe ImportController do
     truncate_tables
   end
 
-  let :session do
-    {:user_id => @user.id}
-  end
-
   context "the dropbox directory does not exist" do
 
     before :each do
@@ -38,7 +35,7 @@ describe ImportController do
 
     describe "dropbox_create" do
       it "doesn't raise an error, is successful and creates the Dropbox dir" do
-        expect{post :dropbox_create,{},session}.not_to raise_error
+        expect{post :dropbox_create,{},valid_session(@user)}.not_to raise_error
         response.should be_success
         Dir.exist?(@user.dropbox_dir_path).should be true
       end
@@ -58,7 +55,7 @@ describe ImportController do
     describe "dropbox_import" do
 
       it "is is successful" do 
-        expect{ post :dropbox_import,{} , session }.not_to raise_error
+        expect{ post :dropbox_import,{} , valid_session(@user) }.not_to raise_error
         expect(response).to be_success
       end
 
@@ -67,7 +64,7 @@ describe ImportController do
 
         before :each do
           @media_entry_incompletes_count_before= MediaEntryIncomplete.all.count
-          post :dropbox_import,{} , session
+          post :dropbox_import,{} , valid_session(@user)
         end
 
         it "creates media_entry_incomplete " do

@@ -7,6 +7,8 @@ class SessionsController < ActionController::Base
         raise "Password didn't match"
       else
         session[:user_id] = @user.id
+        session[:expires_at] = Time.now + 1.week
+        session[:pw_sig] = Digest::SHA1.base64digest(@user.password_digest)
         redirect_to my_dashboard_path, flash: {success: "Sie haben sich angemeldet."}
       end
     rescue Exception => e

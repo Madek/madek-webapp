@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe PeopleController do
+  include Controllers::Shared
   render_views
   
   before :each do
@@ -9,14 +10,10 @@ describe PeopleController do
     @user2= FactoryGirl.create :user, person: FactoryGirl.create(:person)
   end
 
-  let :session do
-    {user_id: @user1.id}
-  end
-
   describe "GET index" do
     context "as JSON" do
       it "should find all users" do
-        get :index, {format: :json}, session
+        get :index, {format: :json}, valid_session(@user1)
         json = JSON.parse(response.body)
         expected = Person.all.map {|x| 
           {
@@ -33,7 +30,7 @@ describe PeopleController do
       end
 
       it "should find matching people" do
-        get :index, {format: :json, query: @user2.person.first_name.downcase}, session
+        get :index, {format: :json, query: @user2.person.first_name.downcase}, valid_session(@user1)
         json = JSON.parse(response.body)
         expected = [@user2.person].map {|x| 
           {

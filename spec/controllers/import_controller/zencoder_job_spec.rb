@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe ImportController do
+  include Controllers::Shared
   render_views
 
   before :each do
@@ -18,19 +19,15 @@ describe ImportController do
     @media_entry_incomplete_for_movie= (FactoryGirl.create :media_entry_incomplete_for_movie, user: @user)
   end
 
-  let :session do
-    {:user_id => @user.id}
-  end
-
   it "is redirects to the dashboard" do
-    post :complete, {}, session
+    post :complete, {}, valid_session(@user)
     expect(response).to redirect_to(my_dashboard_path)
   end
 
   context "after the post action" do
 
     before :each do
-      post :complete, {}, session
+      post :complete, {}, valid_session(@user)
       @media_entry_for_movie =  MediaEntry.find_by_id(@media_entry_incomplete_for_movie.id)
       @media_entry_for_image = MediaEntry.find_by_id(@media_entry_incomplete_for_image.id)
     end

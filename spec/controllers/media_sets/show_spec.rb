@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe MediaSetsController do
+  include Controllers::Shared
   render_views
   
   before :each do
@@ -10,9 +11,6 @@ describe MediaSetsController do
     3.times { @media_set.child_media_resources << FactoryGirl.create(:media_entry_with_image_media_file, :user => @user) }
   end
   
-  let :session do
-    {:user_id => @user.id}
-  end
   
   context "fetch a media set with children" do
   
@@ -20,7 +18,7 @@ describe MediaSetsController do
     it "should return a media set with its children with nested images as base64"  do
       get :show, {:format => :json, :id => @media_set.id, :with => {:children => {:type => "media_entries",
                                                                                   :with => {:image => {:as => "base64"}}},
-                                                                    :image => {:as => "base64", :size => "small"}}}, session
+                                                                    :image => {:as => "base64", :size => "small"}}}, valid_session(@user)
       json = JSON.parse(response.body)
       json["id"].should == @media_set.id
       json["children"].keys.sort.should == ["media_resources", "pagination"]

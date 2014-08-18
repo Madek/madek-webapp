@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'pry'
 
 describe MediaSetsController do
+  include Controllers::Shared
   render_views
 
   before :each do
@@ -61,7 +62,7 @@ describe MediaSetsController do
 
           let :json_body do
             get_params= {id: @parent_media_set.id, format: :json, with: {media_set: {media_resources: {type: 1, image: {as: "base64", size: "small"}}}}} 
-            get :show, get_params, {user_id: @user.id}
+            get :show, get_params, valid_session(@user)
             JSON.parse(response.body)
           end
 

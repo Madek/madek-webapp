@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe MediaResourcesController, type: :controller do
+  include Controllers::Shared
   render_views
 
   before :each do
@@ -17,7 +18,7 @@ describe MediaResourcesController, type: :controller do
 
     context "by the owner" do
       it "should be successful and delete the media_resource" do
-        delete :destroy, {format: "json", id: @media_resource.id}, {user_id: @owner.id} 
+        delete :destroy, {format: "json", id: @media_resource.id}, valid_session(@owner) 
         expect(response).to be_success
         expect(MediaResource.where(id: @media_resource.id).first).to be_nil
       end
@@ -25,7 +26,7 @@ describe MediaResourcesController, type: :controller do
 
     context "on a none existing mr" do
       it "should be success" do
-        delete :destroy, {format: "json", id: SecureRandom.uuid}, {user_id: @owner.id} 
+        delete :destroy, {format: "json", id: SecureRandom.uuid}, valid_session(@owner) 
         expect(response).to be_success
       end
     end
@@ -34,7 +35,7 @@ describe MediaResourcesController, type: :controller do
     context "by some other user" do
 
       it "should not be successful, retain the media_resource and return forbidden" do
-        delete :destroy, {format: "json", id: @media_resource.id}, {user_id: @user.id} 
+        delete :destroy, {format: "json", id: @media_resource.id}, valid_session(@user) 
         expect(response).not_to be_success
         expect(MediaResource.where(id: @media_resource.id).first).not_to be_nil
         expect(response.status).to eq 403
@@ -45,7 +46,7 @@ describe MediaResourcesController, type: :controller do
           Userpermission.create media_resource: @media_resource, user: @user, view: true
         end
         it "should not be successful, retain the media_resource and return forbidden" do
-          delete :destroy, {format: "json", id: @media_resource.id}, {user_id: @user.id} 
+          delete :destroy, {format: "json", id: @media_resource.id}, valid_session(@user) 
           expect(response).not_to be_success
           expect(MediaResource.where(id: @media_resource.id).first).not_to be_nil
           expect(response.status).to eq 403
@@ -57,7 +58,7 @@ describe MediaResourcesController, type: :controller do
           Userpermission.create media_resource: @media_resource, user: @user, edit: true
         end
         it "should not be successful, retain the media_resource and return forbidden" do
-          delete :destroy, {format: "json", id: @media_resource.id}, {user_id: @user.id} 
+          delete :destroy, {format: "json", id: @media_resource.id}, valid_session(@user) 
           expect(response).not_to be_success
           expect(MediaResource.where(id: @media_resource.id).first).not_to be_nil
           expect(response.status).to eq 403
@@ -69,7 +70,7 @@ describe MediaResourcesController, type: :controller do
           Userpermission.create media_resource: @media_resource, user: @user, manage: true
         end
         it "should not be successful" do
-          delete :destroy, {format: "json", id: @media_resource.id}, {user_id: @user.id} 
+          delete :destroy, {format: "json", id: @media_resource.id}, valid_session(@user) 
           expect(response).not_to be_success
         end
       end

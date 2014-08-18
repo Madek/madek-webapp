@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe ApplicationController do
 
+  include ::Controllers::Shared
+
   before :each do
     AppSettings.create id: 0
   end
@@ -19,7 +21,7 @@ describe ApplicationController do
       @user = FactoryGirl.create :user
     end
     it "should redirect to my dashboard" do
-      get :root, {}, {user_id: @user.id}
+      get :root, {}, valid_session(@user)
       response.should redirect_to(my_dashboard_path)
     end
   end

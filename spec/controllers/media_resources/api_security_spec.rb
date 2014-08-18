@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe MediaResourcesController, type: :controller do
+  include Controllers::Shared
   render_views
 
   before :each do
@@ -21,7 +22,7 @@ describe MediaResourcesController, type: :controller do
 
 
     let :request do
-      get :index, {format: 'json', ids: [@set.id], with: {children: true}}, {user_id: @user_b.id}
+      get :index, {format: 'json', ids: [@set.id], with: {children: true}}, valid_session(@user_b)
     end
 
     let :resources do

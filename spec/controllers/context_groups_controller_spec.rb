@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe ContextGroupsController do
+  include Controllers::Shared
 
   render_views
 
@@ -11,15 +12,11 @@ describe ContextGroupsController do
     @context_groups = ContextGroup.all
   end
 
-  def valid_session
-    {user_id: @user.id}
-  end
-
 
   describe "GET index" do
 
     let :get_index do
-      get :index, {format: 'json'}, valid_session
+      get :index, {format: 'json'}, valid_session(@user)
     end
 
     it "should be successful" do

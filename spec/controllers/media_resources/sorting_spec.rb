@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe MediaResourcesController, type: :controller do
+  include Controllers::Shared
   render_views
 
   before :each do
@@ -8,11 +9,6 @@ describe MediaResourcesController, type: :controller do
     FactoryGirl.create :context_core
     @user = FactoryGirl.create :user
   end
-
-  let :session do
-    {:user_id => @user.id}
-  end
-
 
   describe "sorting resources" do
 
@@ -27,7 +23,7 @@ describe MediaResourcesController, type: :controller do
     describe "ordering by title" do
 
       before :each do
-        get :index, {format: "json", sort: "title"}, session
+        get :index, {format: "json", sort: "title"}, valid_session(@user)
       end
 
       it "should be successful" do
@@ -55,7 +51,7 @@ describe MediaResourcesController, type: :controller do
       end
 
       let :get_ordered_by_author do
-        get :index, {format: "json", sort: "author"}, session
+        get :index, {format: "json", sort: "author"}, valid_session(@user)
       end
 
       it "should be successful" do

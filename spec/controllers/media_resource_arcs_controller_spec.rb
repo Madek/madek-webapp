@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe MediaResourceArcsController do
+  include Controllers::Shared
   render_views
 
   before :each do
@@ -12,14 +13,11 @@ describe MediaResourceArcsController do
     @parent_set.child_media_resources << [@child1,@child2]
   end
 
-  def valid_session
-    {user_id: @user.id}
-  end
 
   describe "Getting the arcs by parent_id"  do
   
     before :each do
-      get :index, {parent_id: @parent_set.id, format: 'json'}, valid_session
+      get :index, {parent_id: @parent_set.id, format: 'json'}, valid_session(@user)
       @data = JSON.parse(response.body)["media_resource_arcs"]
     end
 
@@ -51,20 +49,20 @@ describe MediaResourceArcsController do
 
     it "should updated the highlight parameter to true" do
       arcs = [{ parent_id: @parent_set.id, child_id: @child1.id, highlight: true}]
-      put :update_arcs, {media_resource_arcs: arcs, format: 'json'}, valid_session
+      put :update_arcs, {media_resource_arcs: arcs, format: 'json'}, valid_session(@user)
       response.should be_success
       MediaResourceArc.where(parent_id: @parent_set.id, child_id: @child1.id).first.highlight.should be_true
     end
 
     it "should updated the cover parameter to true and be always unique" do
       arcs = [{ parent_id: @parent_set.id, child_id: @child1.id, cover: true}]
-      put :update_arcs, {media_resource_arcs: arcs, format: 'json'}, valid_session
+      put :update_arcs, {media_resource_arcs: arcs, format: 'json'}, valid_session(@user)
       response.should be_success
       MediaResourceArc.where(parent_id: @parent_set.id).count.should == 2
       MediaResourceArc.where(parent_id: @parent_set.id, child_id: @child1.id).first.cover.should be_true
 
       arcs = [{ parent_id: @parent_set.id, child_id: @child1.id, cover: false}, { parent_id: @parent_set.id, child_id: @child2.id, cover: true}]
-      put :update_arcs, {media_resource_arcs: arcs, format: 'json'}, valid_session
+      put :update_arcs, {media_resource_arcs: arcs, format: 'json'}, valid_session(@user)
       response.should be_success
       MediaResourceArc.where(parent_id: @parent_set.id).count.should == 2
       MediaResourceArc.where(parent_id: @parent_set.id, child_id: @child1.id).first.cover.should be_false

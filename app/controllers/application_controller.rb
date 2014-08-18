@@ -169,11 +169,25 @@ class ApplicationController < ActionController::Base
 
     if session[:user_id]
 
+
       begin
         self.current_user = user = User.find_by_id(session[:user_id])
       rescue Exception => e
         reset_session
         Rails.logger.error e
+      end
+
+      if (not (expires_at= session[:expires_at])) or (expires_at < Time.now)
+        reset_session
+        current_user = user = nil
+      end
+
+      # expire the session if the pw has been reset
+      # see also SessionsController/sign_in
+      if (not (pw_sig= session[:pw_sig])) \
+          or (pw_sig != Digest::SHA1.base64digest(user.password_digest))
+        reset_session
+        current_user = user = nil
       end
 
       return nil unless user

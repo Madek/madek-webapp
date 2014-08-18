@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe VisualizationController do
+  include Controllers::Shared
   render_views
 
   before :each do
@@ -34,24 +35,19 @@ describe VisualizationController do
 
   end
 
-  def valid_session
-    {user_id: @user.id}
-  end
-
-
   describe "GET 'my_sets'" do
 
     def get_request  
-      get 'my_component_with',{format: 'html',id: @child_of_set.id,insert_to_dom: true}, valid_session
+      get 'my_component_with',{format: 'html',id: @child_of_set.id,insert_to_dom: true}, valid_session(@user)
     end
 
     it "returns http success" do
-      get 'my_sets',{format: 'html', insert_to_dom: true}, valid_session
+      get 'my_sets',{format: 'html', insert_to_dom: true}, valid_session(@user)
       response.should be_success
     end
 
     it "assignes @resources, @arcs, @resource_identifier, @control_settings  and @layout " do
-      get 'my_sets',{format: 'html', insert_to_dom: true}, valid_session
+      get 'my_sets',{format: 'html', insert_to_dom: true}, valid_session(@user)
       expect(assigns(:resources)).to be
       expect(assigns(:arcs)).to be
       expect(assigns(:resource_identifier)).to be
@@ -93,7 +89,7 @@ describe VisualizationController do
   describe "GET 'my_component_with'" do
 
     def get_request  
-      get 'my_component_with',{format: 'html',id: @child_of_set.id,insert_to_dom: true}, valid_session
+      get 'my_component_with',{format: 'html',id: @child_of_set.id,insert_to_dom: true}, valid_session(@user)
     end
 
 
@@ -146,7 +142,7 @@ describe VisualizationController do
   describe "GET 'my_descendants_of'" do
 
     def get_request  
-      get 'my_descendants_of',{format: 'html',id: @set.id,insert_to_dom: true}, valid_session
+      get 'my_descendants_of',{format: 'html',id: @set.id,insert_to_dom: true}, valid_session(@user)
     end
 
     it "returns http success" do

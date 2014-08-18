@@ -1,16 +1,13 @@
 require 'spec_helper'
 
 describe MetaTermsController do
+  include Controllers::Shared
   render_views
 
   before :each do
     FactoryGirl.create :usage_term 
     @meta_key = FactoryGirl.create :meta_key, id: "Department", :meta_datum_object_type => "MetaDatumMetaTerms", :is_extensible_list => true
     @user = FactoryGirl.create :user
-  end
-
-  let :session do 
-    {:user_id => @user.id} 
   end
 
   describe "fetch meta terms providing a meta key id" do
@@ -23,7 +20,7 @@ describe MetaTermsController do
     end
 
     it "gets all meta terms associated to provided meta key id" do
-      get :index, {format: 'json', meta_key_id: @meta_key.id}, session
+      get :index, {format: 'json', meta_key_id: @meta_key.id}, valid_session(@user)
       response.should be_success
       json = JSON.parse(response.body)
       json.each {|meta_term| meta_term.keys.sort.should == ["id", "value"] }

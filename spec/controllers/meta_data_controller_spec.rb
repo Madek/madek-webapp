@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe MetaDataController do
+  include Controllers::Shared
   render_views
 
 
@@ -14,15 +15,11 @@ describe MetaDataController do
     @title_meta_datum =  @media_set.meta_data.joins(:meta_key).where(:meta_keys => {id: "title"}).first
   end
 
-  let :valid_session do
-    {:user_id => @user.id}
-  end
-
 
   describe "PUT" do
 
     it "should update a title value" do
-      put :update, {media_resource_id: @media_set.id, id: "title", value: "My new title", format: "json"}, valid_session
+      put :update, {media_resource_id: @media_set.id, id: "title", value: "My new title", format: "json"}, valid_session(@user)
       response.should be_success
       @media_set.title.should == "My new title"
     end

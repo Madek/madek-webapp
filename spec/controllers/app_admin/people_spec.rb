@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe AppAdmin::PeopleController do
+  include Controllers::Shared
 
   before :each do
     FactoryGirl.create :usage_term 
@@ -8,13 +9,9 @@ describe AppAdmin::PeopleController do
     Group.find_or_create_by(name: "Admin").users << @adam
   end
 
-  def valid_session
-    {user_id: @adam.id}
-  end
-
   describe "index" do
     it "should respond with success" do
-      get :index, {}, valid_session
+      get :index, {}, valid_session(@adam)
       response.should be_success
     end
   end
@@ -31,7 +28,7 @@ describe AppAdmin::PeopleController do
       describe "posting the transfer from person1 to person2 " do 
 
         before :each do
-          post :transfer_meta_data, {id: @person1.id, id_receiver: @person2.id}, valid_session
+          post :transfer_meta_data, {id: @person1.id, id_receiver: @person2.id}, valid_session(@adam)
         end
 
         describe "person1"  do
@@ -69,7 +66,7 @@ describe AppAdmin::PeopleController do
       describe "posting the transfer" do
 
         before :each do
-          post :transfer_meta_data, {id: @person1.id, id_receiver: @person2.id}, valid_session
+          post :transfer_meta_data, {id: @person1.id, id_receiver: @person2.id}, valid_session(@adam)
         end
 
         it "the response should be success" do
