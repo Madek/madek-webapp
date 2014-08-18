@@ -30,7 +30,8 @@ class MediaResourceArcsController < ApplicationController
         media_resource_arcs.each do |arc_params|
           parent = MediaSet.accessible_by_user(current_user, :edit).find(arc_params[:parent_id])
           arc = parent.out_arcs.where(child_id: arc_params[:child_id]).first
-          arc.update_attributes! arc_params.permit(:highlight,:cover)
+          parameters = ActionController::Parameters.new(arc_params)
+          arc.update_attributes! parameters.permit(:highlight,:cover)
         end
         render json: {}
       end
