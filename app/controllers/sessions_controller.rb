@@ -1,4 +1,5 @@
 class SessionsController < ActionController::Base
+  include Concerns::SetSession
 
   def sign_in
     begin 
@@ -6,9 +7,7 @@ class SessionsController < ActionController::Base
       unless @user.authenticate params[:password] 
         raise "Password didn't match"
       else
-        session[:user_id] = @user.id
-        session[:expires_at] = Time.now + 1.week
-        session[:pw_sig] = Digest::SHA1.base64digest(@user.password_digest)
+        set_madek_session @user
         redirect_to my_dashboard_path, flash: {success: "Sie haben sich angemeldet."}
       end
     rescue Exception => e

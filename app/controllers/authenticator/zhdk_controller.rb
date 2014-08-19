@@ -4,7 +4,8 @@ require 'net/https'
 require 'cgi'
 
 class Authenticator::ZhdkController < ApplicationController
-  
+  include Concerns::SetSession
+
   AUTHENTICATION_URL = 'http://www.zhdk.ch/?auth/madek'
   APPLICATION_IDENT = 'fc7228cdd9defd78b81532ac71967beb'
     
@@ -17,7 +18,7 @@ class Authenticator::ZhdkController < ApplicationController
     response = fetch("#{AUTHENTICATION_URL}/response&agw_sess_id=#{session_id}&app_ident=#{APPLICATION_IDENT}")
     if response.code.to_i == 200
       xml = Hash.from_xml(response.body)
-      session[:user_id] = create_or_update_user(xml["authresponse"]["person"]) # self.current_user =
+      set_madek_session create_or_update_user(xml["authresponse"]["person"])
       redirect_to root_path
     else
       render :text => "Authentication Failure. HTTP connection failed - response was #{response.code}" 
@@ -66,7 +67,7 @@ class Authenticator::ZhdkController < ApplicationController
       zhdk_group = Group.find_or_create_by(:name => "ZHdK (Zürcher Hochschule der Künste)")
       user.groups << zhdk_group unless user.groups.include?(zhdk_group) 
       
-      user.id
+      user
     end
   end
   
