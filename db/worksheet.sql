@@ -1,4 +1,21 @@
 
+
+
+SELECT meta_keys.id AS meta_key_id, 
+(SELECT count(*) FROM meta_key_definitions AS mkds WHERE mkds.meta_key_id = meta_keys.id) AS multiplicity,
+meta_key_definitions.label AS meta_key_definitions_label,
+contexts.label
+FROM meta_key_definitions
+JOIN meta_keys ON meta_keys.id = meta_key_definitions.meta_key_id
+JOIN contexts ON contexts.id = meta_key_definitions.context_id
+ORDER BY meta_keys.id, meta_key_definitions.label, contexts.label ;
+
+
+
+
+######################################################################################
+
+
 SELECT "meta_terms"."term",
        count(*) AS count
 FROM "meta_terms"
