@@ -25,15 +25,4 @@ class Preview < ActiveRecord::Base
     File.size(full_path)
   end
 
-  def create_symlink
-    link = (Rails.root.join("public","previews").to_s + '/') \
-      .gsub(/releases\/\d+/,"current") + filename
-    path = full_path.to_s.gsub(/releases\/\d+/,"current")
-    File.symlink(path,link) unless File.exists?(link)
-  end
-
-  def apache_url_for_symlink
-    "/previews/#{filename}"
-  end
-
 end
