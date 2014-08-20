@@ -28,7 +28,6 @@ config/settings/*.local.yml
 config/sphinx.yml
 config/sphinx.yml.tpo
 config/test.sphinx.conf.tpo
-config/zencoder.yml
 coverage/
 db/backups
 db/development_structure.sql
