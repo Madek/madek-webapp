@@ -119,6 +119,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/controllers/zencoder_jobs_spec.rb"
+- name: features admin users switch_to
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/features/admin/users/switch_to_spec.rb"
 - name: features batch update_metadata
   scripts:
     rspec:
@@ -128,8 +132,6 @@
     rspec:
       body: bundle exec rspec "spec/features/custom_urls/custom-urls_not-owner_spec.rb"
 - name: features filter_set filter_set
-  eager_trials: 2
-  auto_trials: 6
   scripts:
     rspec:
       body: bundle exec rspec "spec/features/filter_set/filter_set_spec.rb"

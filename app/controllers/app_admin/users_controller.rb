@@ -1,4 +1,5 @@
 class AppAdmin::UsersController < AppAdmin::BaseController
+  include Concerns::SetSession
 
   def index
     respond_to do |format|
@@ -134,7 +135,7 @@ class AppAdmin::UsersController < AppAdmin::BaseController
 
   def switch_to
     reset_session
-    self.current_user = User.find(params[:id])
+    set_madek_session(User.find(params[:id]))
     redirect_to root_path
   end
 

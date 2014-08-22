@@ -184,7 +184,7 @@ class ApplicationController < ActionController::Base
 
       # expire the session if the pw has been reset
       # see also SessionsController/sign_in
-      if (not (pw_sig= session[:pw_sig])) \
+      if (not user) or (not (pw_sig= session[:pw_sig])) \
           or (pw_sig != Digest::SHA1.base64digest(user.password_digest))
         reset_session
         current_user = user = nil
