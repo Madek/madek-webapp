@@ -53,6 +53,9 @@ class MediaSetsController.DisplaySettings
         layout: @savedLayout
         sorting: @savedSorting
       type: "POST"
+      success: ->
+        uri = URI(window.location.href).removeQuery("sort").removeQuery("layout")
+        window.history.replaceState uri._parts, document.title, uri.toString()
 
 window.App.MediaSetsController = {} unless window.App.MediaSetsController
 window.App.MediaSetsController.DisplaySettings = MediaSetsController.DisplaySettings
