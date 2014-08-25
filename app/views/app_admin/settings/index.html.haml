@@ -97,7 +97,7 @@
 
 = form_for [:app_admin, @settings], url: app_admin_settings_path, method: "PUT", html: {class: "form-horizontal settings", role: "form", id: "special-sets-form"} do |f|
   %table.table.table-striped
-    - [:featured_set_id, :splashscreen_slideshow_set_id, :catalog_set_id].each do |attr|
+    - [:featured_set_id, :teaser_set_id, :catalog_set_id].each do |attr|
       %tr
         %td.limit250
           = attr.to_s.capitalize.split("_").join(" ")

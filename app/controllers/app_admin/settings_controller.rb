@@ -40,7 +40,7 @@ class AppAdmin::SettingsController < AppAdmin::BaseController
   end
 
   def special_sets_params?
-    settings_params.keys == %w{featured_set_id splashscreen_slideshow_set_id catalog_set_id}
+    settings_params.keys == %w{featured_set_id teaser_set_id catalog_set_id}
   end
 
 end

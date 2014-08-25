@@ -100,8 +100,8 @@ class ApplicationController < ActionController::Base
         redirect_to my_dashboard_path
       end
     else
-      @splashscreen_set = MediaSet.find_by_id @app_settings.splashscreen_slideshow_set_id 
-      @splashscreen_set_included_resources = @splashscreen_set.child_media_resources.accessible_by_user(current_user,:view).shuffle if @splashscreen_set
+      @teaser_set = MediaSet.find_by_id @app_settings.teaser_set_id 
+      @teaser_set_included_resources = @teaser_set.child_media_resources.accessible_by_user(current_user,:view).shuffle if @teaser_set
       @featured_set = MediaSet.find_by_id @app_settings.featured_set_id 
       @featured_set_children = @featured_set.child_media_resources.accessible_by_user(current_user,:view).ordered_by(:updated_at).limit(6) if @featured_set
       @catalog_set = MediaSet.find_by_id @app_settings.catalog_set_id 

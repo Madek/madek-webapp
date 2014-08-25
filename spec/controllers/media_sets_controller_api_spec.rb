@@ -21,7 +21,7 @@ describe MediaSetsController do
 
       before :each do
         @media_set = FactoryGirl.create :media_set, view: true, user: @user
-        AppSettings.create id: 0, splashscreen_slideshow_set_id: @media_set.id
+        AppSettings.create id: 0, teaser_set_id: @media_set.id
       end
 
 

@@ -12,8 +12,8 @@ class ExploreController < ApplicationController
   end
 
   def index 
-    @splashscreen_set = MediaSet.find @app_settings.splashscreen_slideshow_set_id 
-    @splashscreen_set_included_resources = @splashscreen_set.included_resources_accessible_by_user(current_user,:view).reorder("created_at DESC") if @splashscreen_set
+    @teaser_set = MediaSet.find @app_settings.teaser_set_id 
+    @teaser_set_included_resources = @teaser_set.included_resources_accessible_by_user(current_user,:view).reorder("created_at DESC") if @teaser_set
     @catalog_set_categories = @catalog_set.categories.where(:view => true).limit(6) if @catalog_set
     @top_keywords = view_context.hash_for Keyword.with_count_for_accessible_media_resources(current_user).limit(12), {:count => true}
     @contexts = current_user.individual_contexts.limit(4)

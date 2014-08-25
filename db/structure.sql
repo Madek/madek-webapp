@@ -86,7 +86,7 @@ CREATE TABLE app_settings (
     third_displayed_context_id character varying(255),
     catalog_set_id uuid,
     featured_set_id uuid,
-    splashscreen_slideshow_set_id uuid,
+    teaser_set_id uuid,
     CONSTRAINT oneandonly CHECK ((id = 0))
 );
 
@@ -940,10 +940,10 @@ CREATE INDEX index_app_settings_on_featured_set_id ON app_settings USING btree (
 
 
 --
--- Name: index_app_settings_on_splashscreen_slideshow_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_app_settings_on_teaser_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_app_settings_on_splashscreen_slideshow_set_id ON app_settings USING btree (splashscreen_slideshow_set_id);
+CREATE INDEX index_app_settings_on_teaser_set_id ON app_settings USING btree (teaser_set_id);
 
 
 --
@@ -1620,7 +1620,7 @@ ALTER TABLE ONLY app_settings
 --
 
 ALTER TABLE ONLY app_settings
-    ADD CONSTRAINT app_settings_splashscreen_slideshow_set_id_fk FOREIGN KEY (splashscreen_slideshow_set_id) REFERENCES media_resources(id) ON DELETE SET NULL;
+    ADD CONSTRAINT app_settings_splashscreen_slideshow_set_id_fk FOREIGN KEY (teaser_set_id) REFERENCES media_resources(id) ON DELETE SET NULL;
 
 
 --
@@ -2196,6 +2196,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140721075956');
 INSERT INTO schema_migrations (version) VALUES ('20140722104558');
 
 INSERT INTO schema_migrations (version) VALUES ('20140808090502');
+
+INSERT INTO schema_migrations (version) VALUES ('20140822054042');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
