@@ -7,6 +7,7 @@ class CreateAdminUsers < ActiveRecord::Migration
       t.index :user_id
     end
     execute 'ALTER TABLE admin_users ADD PRIMARY KEY (id)'
+    add_foreign_key :admin_users, :users , dependent: :delete
   end
 
   def down

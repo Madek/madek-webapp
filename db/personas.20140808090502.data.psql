@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -11,70 +12,10 @@ SET client_min_messages = warning;
 SET search_path = public, pg_catalog;
 
 --
--- Data for Name: admin_users; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: people; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 SET SESSION AUTHORIZATION DEFAULT;
-
-ALTER TABLE admin_users DISABLE TRIGGER ALL;
-
-COPY admin_users (id, user_id) FROM stdin;
-d6a847fb-9881-4b4c-860d-07e4ff3b7f9a	927ba041-9464-4e74-9823-c02d03fdfa5c
-\.
-
-
-ALTER TABLE admin_users ENABLE TRIGGER ALL;
-
---
--- Data for Name: context_groups; Type: TABLE DATA; Schema: public; Owner: -
---
-
-ALTER TABLE context_groups DISABLE TRIGGER ALL;
-
-COPY context_groups (name, "position", id) FROM stdin;
-Metadaten	0	6216434e-55f6-4be2-97cd-1d852fd8023c
-Kontexte	3	b6321ccb-502c-4f87-a378-58472b477441
-\.
-
-
-ALTER TABLE context_groups ENABLE TRIGGER ALL;
-
---
--- Data for Name: contexts; Type: TABLE DATA; Schema: public; Owner: -
---
-
-ALTER TABLE contexts DISABLE TRIGGER ALL;
-
-COPY contexts ("position", id, context_group_id, label, description) FROM stdin;
-3	copyright	6216434e-55f6-4be2-97cd-1d852fd8023c	Credits	
-\N	media_set	\N	Set	
-\N	core	\N	Core	
-\N	upload	\N	Upload	
-1	media_content	6216434e-55f6-4be2-97cd-1d852fd8023c	Werk	
-2	media_object	6216434e-55f6-4be2-97cd-1d852fd8023c	Medium	
-4	zhdk_bereich	6216434e-55f6-4be2-97cd-1d852fd8023c	ZHdK	
-\N	Projekte ZHdK	\N	Projekte ZHdK	
-3	Columns	b6321ccb-502c-4f87-a378-58472b477441	Säulenordnungen	
-4	archhist	b6321ccb-502c-4f87-a378-58472b477441	Computergestützte Architekturgeschichte	
-5	VFO	b6321ccb-502c-4f87-a378-58472b477441	Lehrmittel Fotografie	
-6	Zett	b6321ccb-502c-4f87-a378-58472b477441	Produktion Zett	
-7	Toni	b6321ccb-502c-4f87-a378-58472b477441	Umbau Toni-Areal	
-8	Forschung ZHdK	b6321ccb-502c-4f87-a378-58472b477441	Forschung ZHdK	
-9	Performance-Artefakte	b6321ccb-502c-4f87-a378-58472b477441	Performance-Artefakte	
-\N	Games	\N	Games	
-\N	Nutzung	\N	Nutzung	
-\N	Institution	\N	Institution	
-2	SupplyLines	b6321ccb-502c-4f87-a378-58472b477441	Supply Lines	Visions of Global Resource Circulation. A Collaborative Art, Research and Exhibition Project
-1	Landschaftsvisualisierung	b6321ccb-502c-4f87-a378-58472b477441	Landschaftsvisualisierung	Visualisierungen in der Wissenschaftskommunikation – Der Bildeinsatz in der Landschafts- und Umweltplanung
-\N	sq6	b6321ccb-502c-4f87-a378-58472b477441	SQ6	
-\.
-
-
-ALTER TABLE contexts ENABLE TRIGGER ALL;
-
---
--- Data for Name: people; Type: TABLE DATA; Schema: public; Owner: -
---
 
 ALTER TABLE people DISABLE TRIGGER ALL;
 
@@ -135,6 +76,66 @@ COPY users (zhdkid, email, login, notes, usage_terms_accepted_at, created_at, up
 
 
 ALTER TABLE users ENABLE TRIGGER ALL;
+
+--
+-- Data for Name: admin_users; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+ALTER TABLE admin_users DISABLE TRIGGER ALL;
+
+COPY admin_users (id, user_id) FROM stdin;
+26724076-3004-43b2-979a-178e5339992a	927ba041-9464-4e74-9823-c02d03fdfa5c
+\.
+
+
+ALTER TABLE admin_users ENABLE TRIGGER ALL;
+
+--
+-- Data for Name: context_groups; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+ALTER TABLE context_groups DISABLE TRIGGER ALL;
+
+COPY context_groups (name, "position", id) FROM stdin;
+Metadaten	0	6216434e-55f6-4be2-97cd-1d852fd8023c
+Kontexte	3	b6321ccb-502c-4f87-a378-58472b477441
+\.
+
+
+ALTER TABLE context_groups ENABLE TRIGGER ALL;
+
+--
+-- Data for Name: contexts; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+ALTER TABLE contexts DISABLE TRIGGER ALL;
+
+COPY contexts ("position", id, context_group_id, label, description) FROM stdin;
+3	copyright	6216434e-55f6-4be2-97cd-1d852fd8023c	Credits	
+\N	media_set	\N	Set	
+\N	core	\N	Core	
+\N	upload	\N	Upload	
+1	media_content	6216434e-55f6-4be2-97cd-1d852fd8023c	Werk	
+2	media_object	6216434e-55f6-4be2-97cd-1d852fd8023c	Medium	
+4	zhdk_bereich	6216434e-55f6-4be2-97cd-1d852fd8023c	ZHdK	
+\N	Projekte ZHdK	\N	Projekte ZHdK	
+3	Columns	b6321ccb-502c-4f87-a378-58472b477441	Säulenordnungen	
+4	archhist	b6321ccb-502c-4f87-a378-58472b477441	Computergestützte Architekturgeschichte	
+5	VFO	b6321ccb-502c-4f87-a378-58472b477441	Lehrmittel Fotografie	
+6	Zett	b6321ccb-502c-4f87-a378-58472b477441	Produktion Zett	
+7	Toni	b6321ccb-502c-4f87-a378-58472b477441	Umbau Toni-Areal	
+8	Forschung ZHdK	b6321ccb-502c-4f87-a378-58472b477441	Forschung ZHdK	
+9	Performance-Artefakte	b6321ccb-502c-4f87-a378-58472b477441	Performance-Artefakte	
+\N	Games	\N	Games	
+\N	Nutzung	\N	Nutzung	
+\N	Institution	\N	Institution	
+2	SupplyLines	b6321ccb-502c-4f87-a378-58472b477441	Supply Lines	Visions of Global Resource Circulation. A Collaborative Art, Research and Exhibition Project
+1	Landschaftsvisualisierung	b6321ccb-502c-4f87-a378-58472b477441	Landschaftsvisualisierung	Visualisierungen in der Wissenschaftskommunikation – Der Bildeinsatz in der Landschafts- und Umweltplanung
+\N	sq6	b6321ccb-502c-4f87-a378-58472b477441	SQ6	
+\.
+
+
+ALTER TABLE contexts ENABLE TRIGGER ALL;
 
 --
 -- Data for Name: media_resources; Type: TABLE DATA; Schema: public; Owner: -
@@ -304,20 +305,20 @@ ALTER TABLE applicationpermissions ENABLE TRIGGER ALL;
 ALTER TABLE copyrights DISABLE TRIGGER ALL;
 
 COPY copyrights (is_default, is_custom, label, usage, url, id, parent_id, "position") FROM stdin;
-f	f	Unbekannt	\N	\N	39070fc9-00e9-4e1b-bc5f-ce2e0841bf82	\N	\N
-f	f	Urheberrechtlich geschützt (standardisierte Lizenz)	\N	\N	25413dc3-f85f-4a8c-b1f8-fe25f0fc1519	\N	\N
-f	t	Urheberrechtlich geschützt (individuelle Lizenz)			2263164a-be4e-4087-a75d-7e8c4e2f3e46	\N	\N
-f	f	Public Domain / Gemeinfrei	Freie Nutzung ohne Einschränkung.	http://de.wikipedia.org/wiki/Public_Domain	1d2f77a2-301a-4a32-92f9-1d2fd99cc3f3	\N	\N
-t	f	Alle Rechte vorbehalten	Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.	http://www.copyright.ch	04c644e1-965b-4b71-bc63-e0ab4f22dd51	25413dc3-f85f-4a8c-b1f8-fe25f0fc1519	\N
-f	f	Creative Commons Licence	\N	\N	333228a6-eee6-4700-868b-48705e1dac22	25413dc3-f85f-4a8c-b1f8-fe25f0fc1519	\N
-f	f	CC-By-CH: Attribution	Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.	http://creativecommons.org/licenses/by/2.5/ch/	c7ac19b4-1e41-491d-b9d5-b463a57189b6	333228a6-eee6-4700-868b-48705e1dac22	\N
-f	f	CC-By-SA-CH: Attribution Share Alike	Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.	http://creativecommons.org/licenses/by-sa/2.5/ch/	bc930304-b177-4b16-97b5-95de270e7e67	333228a6-eee6-4700-868b-48705e1dac22	\N
-f	f	CC-By-ND-CH: Attribution No Derivates	Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.	http://creativecommons.org/licenses/by-nd/2.5/ch/	ce4f7de9-b66d-4bcb-b904-552ac25ae120	333228a6-eee6-4700-868b-48705e1dac22	\N
-f	f	CC-By-NC-CH: Attribution Non-Commercial	Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.	http://creativecommons.org/licenses/by-nc/2.5/ch/	b19cb182-357a-4f61-a4ba-382b798eb393	333228a6-eee6-4700-868b-48705e1dac22	\N
-f	f	CC-By-NC-SA-CH: Attribution Non-Commercial Share Alike	Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.	http://creativecommons.org/licenses/by-nc-sa/2.5/ch/	5c6d2406-48cc-486c-b452-126fd4d2d66c	333228a6-eee6-4700-868b-48705e1dac22	\N
-f	f	CC-By-NC-ND-CH: Attribution Non-Commercial No Derivates	Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.	http://creativecommons.org/licenses/by-nc-nd/2.5/ch/	346f1940-76ba-444c-b3f5-c559bb661d37	333228a6-eee6-4700-868b-48705e1dac22	\N
-f	f	ZHdK-Lizenzen	\N	\N	df7a4ca8-d1b6-42f2-988e-8e8bcce88f3c	25413dc3-f85f-4a8c-b1f8-fe25f0fc1519	\N
-f	f	Studio Publikation	Alle Rechte dem Studio Publikation der ZHdK vorbehalten. Freie Verwendung im Rahmen von Ankündigung und Berichterstattung der ZHdK.	http://www.zhdk.ch/index.php?id=1033	44a07e58-eae5-49c7-8808-08d0fbbe7055	df7a4ca8-d1b6-42f2-988e-8e8bcce88f3c	\N
+f	f	Unbekannt	\N	\N	39070fc9-00e9-4e1b-bc5f-ce2e0841bf82	\N	1
+f	f	Urheberrechtlich geschützt (standardisierte Lizenz)	\N	\N	25413dc3-f85f-4a8c-b1f8-fe25f0fc1519	\N	2
+t	f	Alle Rechte vorbehalten	Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.	http://www.copyright.ch	04c644e1-965b-4b71-bc63-e0ab4f22dd51	25413dc3-f85f-4a8c-b1f8-fe25f0fc1519	1
+f	f	Creative Commons Licence	\N	\N	333228a6-eee6-4700-868b-48705e1dac22	25413dc3-f85f-4a8c-b1f8-fe25f0fc1519	2
+f	f	CC-By-CH: Attribution	Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.	http://creativecommons.org/licenses/by/2.5/ch/	c7ac19b4-1e41-491d-b9d5-b463a57189b6	333228a6-eee6-4700-868b-48705e1dac22	1
+f	f	CC-By-SA-CH: Attribution Share Alike	Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.	http://creativecommons.org/licenses/by-sa/2.5/ch/	bc930304-b177-4b16-97b5-95de270e7e67	333228a6-eee6-4700-868b-48705e1dac22	2
+f	f	CC-By-ND-CH: Attribution No Derivates	Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.	http://creativecommons.org/licenses/by-nd/2.5/ch/	ce4f7de9-b66d-4bcb-b904-552ac25ae120	333228a6-eee6-4700-868b-48705e1dac22	3
+f	f	CC-By-NC-CH: Attribution Non-Commercial	Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.	http://creativecommons.org/licenses/by-nc/2.5/ch/	b19cb182-357a-4f61-a4ba-382b798eb393	333228a6-eee6-4700-868b-48705e1dac22	4
+f	f	CC-By-NC-SA-CH: Attribution Non-Commercial Share Alike	Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.	http://creativecommons.org/licenses/by-nc-sa/2.5/ch/	5c6d2406-48cc-486c-b452-126fd4d2d66c	333228a6-eee6-4700-868b-48705e1dac22	5
+f	f	CC-By-NC-ND-CH: Attribution Non-Commercial No Derivates	Bitte jeweils die angegebenen Nutzungsmodifikationen beachten.	http://creativecommons.org/licenses/by-nc-nd/2.5/ch/	346f1940-76ba-444c-b3f5-c559bb661d37	333228a6-eee6-4700-868b-48705e1dac22	6
+f	f	ZHdK-Lizenzen	\N	\N	df7a4ca8-d1b6-42f2-988e-8e8bcce88f3c	25413dc3-f85f-4a8c-b1f8-fe25f0fc1519	3
+f	f	Studio Publikation	Alle Rechte dem Studio Publikation der ZHdK vorbehalten. Freie Verwendung im Rahmen von Ankündigung und Berichterstattung der ZHdK.	http://www.zhdk.ch/index.php?id=1033	44a07e58-eae5-49c7-8808-08d0fbbe7055	df7a4ca8-d1b6-42f2-988e-8e8bcce88f3c	1
+f	t	Urheberrechtlich geschützt (individuelle Lizenz)			2263164a-be4e-4087-a75d-7e8c4e2f3e46	\N	3
+f	f	Public Domain / Gemeinfrei	Freie Nutzung ohne Einschränkung.	http://de.wikipedia.org/wiki/Public_Domain	1d2f77a2-301a-4a32-92f9-1d2fd99cc3f3	\N	4
 \.
 
 
@@ -579,17 +580,26 @@ ALTER TABLE full_texts ENABLE TRIGGER ALL;
 ALTER TABLE groups DISABLE TRIGGER ALL;
 
 COPY groups (name, ldap_id, ldap_name, type, id, previous_id, searchable, users_count) FROM stdin;
+Vertiefung Cast	14669.alle	DDE_FDE_BDE_VCA.alle	MetaDepartment	9971d5a1-fe16-4ae9-b557-988506ede075	161	DDE_FDE_BDE_VCA.alle Vertiefung Cast	0
+Master Fine Arts	64989.mittelbau	DKM_FMK_MAF.mittelbau	MetaDepartment	7519a740-6f3d-45dd-98a1-c40b0d38ce2a	226	DKM_FMK_MAF.mittelbau Master Fine Arts	0
+Master Fine Arts	64989.dozierende	DKM_FMK_MAF.dozierende	MetaDepartment	599ea27c-ae35-4c92-b3d7-63c22a9a48d7	244	DKM_FMK_MAF.dozierende Master Fine Arts	0
+Z-Module	68794.alle	DKV_FTR_ZMO.alle	MetaDepartment	8d5ffc39-d156-45ab-b9c5-88c5f30e16dd	362	DKV_FTR_ZMO.alle Z-Module	0
+Bachelor Musik	15295.alle	DMU_FMU_BMU.alle	MetaDepartment	9c5e3c4f-b88b-475c-91c6-b613fc801795	400	Bachelor Musik DMU_FMU_BMU.alle	0
+MAS Szenografie	3652.alle	DDE_FDE_MASSZ.alle	MetaDepartment	4afd7176-aa52-45e0-89c5-116cfeb928e5	552	DDE_FDE_MASSZ.alle MAS Szenografie	0
+Blitzkurse	120209.alle	SER_ITZ_Blitzkurse.alle	MetaDepartment	2b9bad7e-3d9e-4318-b045-a8e95cc4f82a	767	Blitzkurse SER_ITZ_Blitzkurse.alle	0
+Rektorat	14673.dozierende	REK.dozierende	MetaDepartment	ef260d46-f954-4010-9ed6-69eb2e307b09	784	REK.dozierende Rektorat	0
+Bachelor Theater - Vertiefung Schauspiel	56657.studierende	DDK_FTH_BTH_VSC.studierende	MetaDepartment	4b60c5f0-50e8-46be-9e26-bd0979f271bc	814	Bachelor Theater - Vertiefung Schauspiel DDK_FTH_BTH_VSC.studierende	0
 Departement Musik	15284.studierende	DMU.studierende	MetaDepartment	9d78f9ee-4078-4daa-8e53-f4a3f56b1bb8	539	DMU.studierende Departement Musik	0
 Departement Kunst und Medien	5112.alle	DKM.alle	MetaDepartment	daf3c9f1-ab57-40dc-8295-d672642abd8c	755	DKM.alle Departement Kunst und Medien	0
 Services	14645.alle	SER.alle	MetaDepartment	b4ced8f3-9435-4976-b0b6-d1b64a02c0fb	282	SER.alle Services	0
 Profil Jazz und Pop	65629.alle	DMU_FMU_PJAPO.alle	MetaDepartment	c02b4c12-4851-4855-90e6-1c36f4f3ec1a	603	DMU_FMU_PJAPO.alle Profil Jazz und Pop	0
 Blitzkurse	120209.dozierende	SER_ITZ_Blitzkurse.dozierende	MetaDepartment	b317c8dd-5e89-4c5e-982a-257508281bf9	766	Blitzkurse SER_ITZ_Blitzkurse.dozierende	0
 ZHdK (Zürcher Hochschule der Künste)	\N	\N	Group	b9318f35-eb4d-4bc8-9220-64cf211e01ee	1	ZHdK (Zürcher Hochschule der Künste)	0
-ZHdK	\N	\N	Group	f7cc8c56-5b32-4f23-9a29-8e5c22f8cafc	3	ZHdK	0
-Diplomarbeitsgruppe	\N	\N	Group	d4004486-c336-4b31-98f3-fdf6ed296a81	4	Diplomarbeitsgruppe	0
-Expert	\N	\N	Group	ced82de3-7c6d-4d51-ab2b-55f4d063add0	5	Expert	0
+ZHdK	\N	\N	Group	f7cc8c56-5b32-4f23-9a29-8e5c22f8cafc	3	ZHdK	4
+Diplomarbeitsgruppe	\N	\N	Group	d4004486-c336-4b31-98f3-fdf6ed296a81	4	Diplomarbeitsgruppe	3
+Expert	\N	\N	Group	ced82de3-7c6d-4d51-ab2b-55f4d063add0	5	Expert	1
 MIZ-Archiv	\N	\N	Group	25cc5721-899b-4b4a-89de-5b4d9ee3ccd0	7	MIZ-Archiv	0
-Zett	\N	\N	Group	2cbf25a4-582f-47c0-97e4-62c6e6145242	8	Zett	0
+Zett	\N	\N	Group	2cbf25a4-582f-47c0-97e4-62c6e6145242	8	Zett	1
 Vertiefung Theorie - Studien zur Medien-, Kunst- und Designpraxis	56673.mittelbau	DKM_FMK_VTH.mittelbau	MetaDepartment	2b5160e7-4dfe-4454-bbec-524e38031809	9	DKM_FMK_VTH.mittelbau Vertiefung Theorie - Studien zur Medien-, Kunst- und Designpraxis	0
 MAS Szenografie	3652.studierende	DDE_FDE_MASSZ.studierende	MetaDepartment	680b61a1-d2e0-4f20-b4bc-31515852f8a2	10	DDE_FDE_MASSZ.studierende MAS Szenografie	0
 Z-Module	68794.mittelbau	DKV_FTR_ZMO.mittelbau	MetaDepartment	86c4aa78-a221-4def-8b47-37ec31f28679	11	DKV_FTR_ZMO.mittelbau Z-Module	0
@@ -659,7 +669,6 @@ Diplomstudium (DaP) Bühnentanz	15348.alle	DDK_FTA_GBT.alle	MetaDepartment	41de4
 Museum	14660.alle	DKV_Museum.alle	MetaDepartment	852a47ef-d286-4524-a29b-87bdc7a759a4	74	DKV_Museum.alle Museum	0
 MAS Curating HS 2011	107549.studierende	DKV_MASCUR_11H.studierende	MetaDepartment	46d34220-1c78-415a-9d1c-38956e15a0d7	75	DKV_MASCUR_11H.studierende MAS Curating HS 2011	0
 Master Design - Vertiefung Trends	121302.alle	DDE_FDE_MDE_VTR.alle	MetaDepartment	9f904ccd-5188-4c6f-b9d7-dddefe5eab96	76	DDE_FDE_MDE_VTR.alle Master Design - Vertiefung Trends	0
-Bachelor Theater	15302.alle	DDK_FTH_BTH.alle	MetaDepartment	464ba78e-5334-4810-8b30-4ff97f6bf0fa	112	Bachelor Theater DDK_FTH_BTH.alle	0
 Bachelor Theater - Vertiefung Dramaturgie	15347.dozierende	DDK_FTH_BTH_VDR.dozierende	MetaDepartment	5402110f-2b9a-4c61-a462-fdde7cdb367b	77	Bachelor Theater - Vertiefung Dramaturgie DDK_FTH_BTH_VDR.dozierende	0
 Personal ITZ, Gruppe Planung	125258.personal	SER_SUP_ITZ_Planung.personal	MetaDepartment	e3b5c4ac-7b44-4fad-bf91-174ff4d71935	257	Personal ITZ, Gruppe Planung SER_SUP_ITZ_Planung.personal	0
 Bachelor Musik - Instrument/Gesang - Jazz - HS 2010	90312.studierende	DMU_FMU_BMU_VIG_SJAZ_10H.studierende	MetaDepartment	3bd1afb9-d556-4c4a-a993-e5f768367497	78	Bachelor Musik - Instrument/Gesang - Jazz - HS 2010 DMU_FMU_BMU_VIG_SJAZ_10H.studierende	0
@@ -696,6 +705,7 @@ Leitung der Finanzabteilung	75902.	Verteilerliste.Leitung_Finanzen	MetaDepartmen
 Bachelor Theater	15302.studierende	DDK_FTH_BTH.studierende	MetaDepartment	8bb2c8cd-38c5-4cad-85da-08cb0df1665c	109	Bachelor Theater DDK_FTH_BTH.studierende	0
 Museum Au60	64181.alle	DKV_Museum_Au60.alle	MetaDepartment	01b41f5e-9131-455f-aa15-d2d8e3234892	110	DKV_Museum_Au60.alle Museum Au60	0
 Master Art Education - Vertiefung bilden & vermitteln - HS2008	68707.studierende	DKV_FAE_MAE_VBV_08H.studierende	MetaDepartment	9d2c6656-90ec-4163-b0d0-712f7a3898c2	111	DKV_FAE_MAE_VBV_08H.studierende Master Art Education - Vertiefung bilden & vermitteln - HS2008	0
+Bachelor Theater	15302.alle	DDK_FTH_BTH.alle	MetaDepartment	464ba78e-5334-4810-8b30-4ff97f6bf0fa	112	Bachelor Theater DDK_FTH_BTH.alle	0
 Personen, die die Applikation Intranet-News (inkl. Infobildschirme) pflegen.	75922.	Verteilerliste.App_Intranetnews_Admin	MetaDepartment	31abe50f-755f-4371-b086-49512701b55a	113	Personen, die die Applikation Intranet-News (inkl. Infobildschirme) pflegen. Verteilerliste.App_Intranetnews_Admin	0
 Bachelor Musik - Tonmeister - Jazz - HS 2010	90331.studierende	DMU_FMU_BMU_VTO_SJAZ_10H.studierende	MetaDepartment	8f398424-8b14-41da-9723-399d76de33c3	114	Bachelor Musik - Tonmeister - Jazz - HS 2010 DMU_FMU_BMU_VTO_SJAZ_10H.studierende	0
 Museum Au60	64181.personal	DKV_Museum_Au60.personal	MetaDepartment	c086d1cb-d7ea-4ddc-a739-226d5a00ba50	115	DKV_Museum_Au60.personal Museum Au60	0
@@ -721,6 +731,7 @@ Master Fine Arts	64989.alle	DKM_FMK_MAF.alle	MetaDepartment	5fe762b6-c748-4368-9
 Bachelor Musik und Bewegung HS 2011	102562.studierende	DMU_FMU_BMB_11H.studierende	MetaDepartment	2e884e5f-0263-4b35-a640-d92e457c91c3	134	Bachelor Musik und Bewegung HS 2011 DMU_FMU_BMB_11H.studierende	0
 Propädeutikum - Gestalterische Orientierungsstufe Vollzeit HS 2012	115597.studierende	DKV_XPP_XGO_V_12H.studierende	MetaDepartment	5969d3c5-7da1-41c3-b0a6-51023bcb2c62	135	DKV_XPP_XGO_V_12H.studierende Propädeutikum - Gestalterische Orientierungsstufe Vollzeit HS 2012	0
 Personen, die das Projektarchiv pflegen.	75928.	Verteilerliste.App_Projektarchiv_Admin	MetaDepartment	ef5148fd-5725-4681-852d-929c6d49003b	136	Personen, die das Projektarchiv pflegen. Verteilerliste.App_Projektarchiv_Admin	0
+Bachelor Film	4397.alle	DDK_FFI_BFI.alle	MetaDepartment	0f17a796-4da0-4422-ad49-a3d21d0c797e	205	Bachelor Film DDK_FFI_BFI.alle	0
 Leitung Studiengänge/Vertiefungen/Schwerpunkte/Profile - Dozierende mit Leitungsfunktionen	3876.	Verteilerliste.Leitung_Studiengaenge	MetaDepartment	5ce078e2-ce3a-4d28-82f5-e646a97948d6	137	Leitung Studiengänge/Vertiefungen/Schwerpunkte/Profile - Dozierende mit Leitungsfunktionen Verteilerliste.Leitung_Studiengaenge	0
 Dieser Gruppe gehören diejenigen Pseudobenutzer an, die standardmässig im Kioskbetrieb angemeldet werden.	75929.	Verteilerliste.App_Raumverwaltung_Kioskbetrieb	MetaDepartment	8fee30e9-849c-4d48-826d-7088ef7c7287	138	Dieser Gruppe gehören diejenigen Pseudobenutzer an, die standardmässig im Kioskbetrieb angemeldet werden. Verteilerliste.App_Raumverwaltung_Kioskbetrieb	0
 Leitung Vertiefung Neue Medien	14594.	Verteilerliste.Leitung_VNM	MetaDepartment	fecc1b99-5d01-484d-895c-a50f8de85493	139	Leitung Vertiefung Neue Medien Verteilerliste.Leitung_VNM	0
@@ -745,7 +756,6 @@ Bachelor Film HS 2009	78053.studierende	DDK_FFI_BFI_09H.studierende	MetaDepartme
 Bachelor Theater - Vertiefung Theaterpädagogik - HS 2010	90814.studierende	DDK_FTH_BTH_VTP_10H.studierende	MetaDepartment	1d81aced-6aca-4393-a734-605010ee310b	158	Bachelor Theater - Vertiefung Theaterpädagogik - HS 2010 DDK_FTH_BTH_VTP_10H.studierende	0
 Master Music Performance - instrumentale/vokale Performance - Orchester - FS 2013	120723.studierende	DMU_FMU_MPE_VIV_SOR_13F.studierende	MetaDepartment	5b02b25e-0e30-4792-b3e7-8d1bf3c06647	159	DMU_FMU_MPE_VIV_SOR_13F.studierende Master Music Performance - instrumentale/vokale Performance - Orchester - FS 2013	0
 DKM_Sekretariat	14652.	Verteilerliste.DKM_Sekretariat	MetaDepartment	a68ec1ec-f2f6-4a22-8ad2-3a6e476e9786	160	DKM_Sekretariat Verteilerliste.DKM_Sekretariat	0
-Vertiefung Cast	14669.alle	DDE_FDE_BDE_VCA.alle	MetaDepartment	9971d5a1-fe16-4ae9-b557-988506ede075	161	DDE_FDE_BDE_VCA.alle Vertiefung Cast	0
 Jungstudierende - Kunst- und Sportgymnasium - FS 2011	96922.studierende	DMU_FMU_XJST_VKS_11F.studierende	MetaDepartment	e7a62c4f-f8a3-493b-a6cf-d77abf78696e	162	DMU_FMU_XJST_VKS_11F.studierende Jungstudierende - Kunst- und Sportgymnasium - FS 2011	0
 Master Specialized Music Performance - Kammermusik - Klavierkammermusik/Lied - FS 2013	120720.studierende	DMU_FMU_MSP_VKAM_SKL_13F.studierende	MetaDepartment	71d07a92-f59c-4232-ba0b-9bc10b8e42fc	163	DMU_FMU_MSP_VKAM_SKL_13F.studierende Master Specialized Music Performance - Kammermusik - Klavierkammermusik/Lied - FS 2013	0
 Vertiefung Industrial Design	3037.dozierende	DDE_FDE_BDE_VID.dozierende	MetaDepartment	00b8122b-136c-401e-9679-c3a5ec98fa69	164	DDE_FDE_BDE_VID.dozierende Vertiefung Industrial Design	0
@@ -753,13 +763,13 @@ MAS in Type Design and Typography	83923.alle	DDE_FDE_MASTDT.alle	MetaDepartment	
 Bachelor Medien & Kunst - Vertiefung Bildende Kunst - HS 2009	78180.studierende	DKM_FMK_BMK_VBK_09H.studierende	MetaDepartment	eb7e66f6-00b5-47e5-95c2-cdbe46cc5fdf	166	Bachelor Medien & Kunst - Vertiefung Bildende Kunst - HS 2009 DKM_FMK_BMK_VBK_09H.studierende	0
 Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Jazz - HS 2010	90271.studierende	DMU_FMU_MMP_VIV_SJAZ_10H.studierende	MetaDepartment	85616085-e3bb-47cb-a247-b973ca53314f	167	DMU_FMU_MMP_VIV_SJAZ_10H.studierende Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Jazz - HS 2010	0
 Fachrichtung Film	3033.studierende	DDK_FFI.studierende	MetaDepartment	6815abd6-5bb2-4dca-9136-35e188475211	168	DDK_FFI.studierende Fachrichtung Film	0
+Services	14645.personal	SER.personal	MetaDepartment	1f915328-ae81-4281-bec7-4f425de3c5f0	273	SER.personal Services	0
 Bühnentanz EFZ HS 2011	101780.studierende	DDK_FTA_XBT_11H.studierende	MetaDepartment	38acd922-5e54-4e35-84fd-b6716ab200a9	169	Bühnentanz EFZ HS 2011 DDK_FTA_XBT_11H.studierende	0
 FSP Transdisziplinarität	107710.mittelbau	DKV_FSPTR.mittelbau	MetaDepartment	f262d61a-0dbd-43d2-bbae-e06f40741f3d	170	DKV_FSPTR.mittelbau FSP Transdisziplinarität	0
 Vertiefung Industrial Design	3037.mittelbau	DDE_FDE_BDE_VID.mittelbau	MetaDepartment	22f9301c-b8e0-44c2-a92e-c6a0877c3df7	171	DDE_FDE_BDE_VID.mittelbau Vertiefung Industrial Design	0
 Personen, die Admin-Zugang zu den Z-Modul-Applikationen benötigen.	75925.	Verteilerliste.DKV_Zmodule_Admin	MetaDepartment	89bd9a10-8bb2-4cf3-bc00-060da81e745a	172	Personen, die Admin-Zugang zu den Z-Modul-Applikationen benötigen. Verteilerliste.DKV_Zmodule_Admin	0
 Vertiefung Cast / Audiovisuelle Medien	56662.studierende	DDE_FDE_VCA.studierende	MetaDepartment	82747630-6c38-4e7f-afe4-2e9ac40a22e1	173	DDE_FDE_VCA.studierende Vertiefung Cast / Audiovisuelle Medien	0
 Vertiefung Theorie - Studien zur Medien-, Kunst- und Designpraxis	56673.alle	DKM_FMK_VTH.alle	MetaDepartment	107ee1e1-a5d2-4dff-96bb-871494837bd7	174	DKM_FMK_VTH.alle Vertiefung Theorie - Studien zur Medien-, Kunst- und Designpraxis	0
-PHD	115092.studierende	DKM_PHD_12F.studierende	MetaDepartment	502b20e8-1414-4877-9793-18e4c1948ac4	465	DKM_PHD_12F.studierende PHD	0
 Master Specialized Music Performance - Kammermusik - Klavierkammermusik/Lied - FS 2012	108243.studierende	DMU_FMU_MSP_VKAM_SKL_12F.studierende	MetaDepartment	9ba7e47a-6145-4b85-b3ad-6b565529370f	175	DMU_FMU_MSP_VKAM_SKL_12F.studierende Master Specialized Music Performance - Kammermusik - Klavierkammermusik/Lied - FS 2012	0
 Bachelor Musik - Instrument/Gesang - Jazz - HS 2012	114444.studierende	DMU_FMU_BMU_VIG_SJAZ_12H.studierende	MetaDepartment	7ace853d-2d79-46cf-a963-1599758c6798	176	Bachelor Musik - Instrument/Gesang - Jazz - HS 2012 DMU_FMU_BMU_VIG_SJAZ_12H.studierende	0
 Vertiefung Industrial Design	3037.personal	DDE_FDE_BDE_VID.personal	MetaDepartment	afa4a555-39c2-4f95-95c8-1d70372611a5	177	DDE_FDE_BDE_VID.personal Vertiefung Industrial Design	0
@@ -790,7 +800,6 @@ MAS erweiterte Musikpädagogik HS 2012	119605.studierende	DMU_FMU_MASEMP_12H.stu
 Senat	5956.	Verteilerliste.Senat	MetaDepartment	c2d0e94e-6acb-4a04-9fb4-22ffae1c3afc	202	Senat Verteilerliste.Senat	0
 Master in Art Education	68798.mittelbau	DKV_FAE_MAE.mittelbau	MetaDepartment	6d5fb5ce-da54-43b8-9079-9ac4dbe77a62	203	DKV_FAE_MAE.mittelbau Master in Art Education	0
 Departement Kulturanalysen und Vermittlung	14676.mittelbau	DKV.mittelbau	MetaDepartment	ea431710-ee5f-48e2-bcbe-4260750653d1	204	DKV.mittelbau Departement Kulturanalysen und Vermittlung	0
-Bachelor Film	4397.alle	DDK_FFI_BFI.alle	MetaDepartment	0f17a796-4da0-4422-ad49-a3d21d0c797e	205	Bachelor Film DDK_FFI_BFI.alle	0
 Personen, die für die Verwaltung der Freundeskreis-.Patenschaften zuständig sind. Auch externe Personen.	75912.	Verteilerliste.DMU_Freundeskreis_Admin	MetaDepartment	c8890024-d28b-419b-8264-0458edcd21fa	206	Personen, die für die Verwaltung der Freundeskreis-.Patenschaften zuständig sind. Auch externe Personen. Verteilerliste.DMU_Freundeskreis_Admin	0
 MAS Musikpraxis	15350.alle	DMU_MASMPX.alle	MetaDepartment	e049ff28-149a-4c94-9218-b50e51c5dcf2	207	DMU_MASMPX.alle MAS Musikpraxis	0
 Bachelor Musik - Komposition und Musiktheorie - Theorie - HS 2010	90428.studierende	DMU_FMU_BMU_VKOT_STH_10H.studierende	MetaDepartment	5519b4c2-26c7-4a39-85f5-6d4d725b1423	208	Bachelor Musik - Komposition und Musiktheorie - Theorie - HS 2010 DMU_FMU_BMU_VKOT_STH_10H.studierende	0
@@ -812,7 +821,6 @@ MAS in Type Design and Typography	83923.dozierende	DDE_FDE_MASTDT.dozierende	Met
 Teilnehmer des Symposiums Musiktherapie (Weiterbildung)	100505.	Verteilerliste.Teilnehmer_Symposium_Musiktherapie	MetaDepartment	3754a009-95c9-43c6-aacc-cb33b765ad20	223	Teilnehmer des Symposiums Musiktherapie (Weiterbildung) Verteilerliste.Teilnehmer_Symposium_Musiktherapie	0
 ProfilTheaterpädagogik	64575.mittelbau	DDK_FTH_MTH_VLK_PTP.mittelbau	MetaDepartment	8ba0519c-e856-4ba1-aa3c-96b3f25f9fba	224	DDK_FTH_MTH_VLK_PTP.mittelbau ProfilTheaterpädagogik	0
 MIZ Kommission	58311.	Verteilerliste.SER_SUP_MIZ_Kommission	MetaDepartment	4c9ce654-3faa-41c6-9f5f-ae961c0655d5	225	MIZ Kommission Verteilerliste.SER_SUP_MIZ_Kommission	0
-Master Fine Arts	64989.mittelbau	DKM_FMK_MAF.mittelbau	MetaDepartment	7519a740-6f3d-45dd-98a1-c40b0d38ce2a	226	DKM_FMK_MAF.mittelbau Master Fine Arts	0
 Bachelor Musik - Schulmusik - Klassik - HS 2010	90326.studierende	DMU_FMU_BMU_VSMU_SKLA_10H.studierende	MetaDepartment	09073ad1-af6c-4c0b-a26f-fb71dc9e163c	227	Bachelor Musik - Schulmusik - Klassik - HS 2010 DMU_FMU_BMU_VSMU_SKLA_10H.studierende	0
 Departement Kunst und Medien	5112.mittelbau	DKM.mittelbau	MetaDepartment	dff8f181-cbfb-4731-b2ff-8a5fc667a46a	228	DKM.mittelbau Departement Kunst und Medien	0
 Fachrichtung Transdisziplinarität	68796.alle	DKV_FTR.alle	MetaDepartment	d4e42dce-bd95-472f-9f47-6d8f65cbb543	229	DKV_FTR.alle Fachrichtung Transdisziplinarität	0
@@ -825,13 +833,13 @@ Verwaltung Support_Services	56677.	Verteilerliste.Support_Services	MetaDepartmen
 Fachrichtung Medien & Kunst	14668.mittelbau	DKM_FMK.mittelbau	MetaDepartment	d53ef0db-b22b-4343-adbf-17100bda7cb0	236	DKM_FMK.mittelbau Fachrichtung Medien & Kunst	0
 Master in Transdisziplinarität	68797.studierende	DKV_FTR_MTR.studierende	MetaDepartment	7a04ed49-11bc-44a9-ab0c-b2f1cc330ff0	237	DKV_FTR_MTR.studierende Master in Transdisziplinarität	0
 MAS Spatial Design	107592.alle	DDE_FDE_MASSD.alle	MetaDepartment	4f0e0ffa-e048-46fc-a18f-a0804828427f	292	DDE_FDE_MASSD.alle MAS Spatial Design	0
+Profil Klassik	65626.dozierende	DMU_FMU_PKLA.dozierende	MetaDepartment	4d72e443-a949-470c-b2f2-cecdc043b059	314	DMU_FMU_PKLA.dozierende Profil Klassik	0
 Master Specialized Music Performance - Kammermusik - Klavierkammermusik/Lied - FS 2011	96031.studierende	DMU_FMU_MSP_VKAM_SKL_11F.studierende	MetaDepartment	75aedbb7-b7f0-4d01-8b1a-f6e2530e79d4	238	DMU_FMU_MSP_VKAM_SKL_11F.studierende Master Specialized Music Performance - Kammermusik - Klavierkammermusik/Lied - FS 2011	0
 Vertiefung Schauspiel	64573.dozierende	DDK_FTH_MTH_VSC.dozierende	MetaDepartment	dac395bc-6485-42d7-a16f-07aa537e26dd	239	DDK_FTH_MTH_VSC.dozierende Vertiefung Schauspiel	0
 Master Film HS 2012	116062.studierende	DDK_FFI_MFI_12H.studierende	MetaDepartment	aafce948-4978-49af-bc00-5c74f7ec3135	240	DDK_FFI_MFI_12H.studierende Master Film HS 2012	0
 Gäste des DKM (sowohl Externe wie auch ZHdK-Angehörige)	108324.	Verteilerliste.DKM_Gaeste	MetaDepartment	cbe389a3-2f01-4057-9f8e-b5ca925c0460	241	Gäste des DKM (sowohl Externe wie auch ZHdK-Angehörige) Verteilerliste.DKM_Gaeste	0
 Theater der Künste	56698.	Verteilerliste.TheaterderKuenste	MetaDepartment	a5bf1df7-9cab-424f-a7a0-ef9f00df5e6d	242	Theater der Künste Verteilerliste.TheaterderKuenste	0
 Institute for the Performing Arts and Film	83401.personal	DDK_IPF.personal	MetaDepartment	fdf89ac5-381b-4df5-9c57-72d440c6fb9a	243	DDK_IPF.personal Institute for the Performing Arts and Film	0
-Master Fine Arts	64989.dozierende	DKM_FMK_MAF.dozierende	MetaDepartment	599ea27c-ae35-4c92-b3d7-63c22a9a48d7	244	DKM_FMK_MAF.dozierende Master Fine Arts	0
 Bachelor Musik - Tonmeister - Klassik - HS 2010	90332.studierende	DMU_FMU_BMU_VTO_SKLA_10H.studierende	MetaDepartment	eac5828f-edef-43ec-894f-46b72ec8f365	245	Bachelor Musik - Tonmeister - Klassik - HS 2010 DMU_FMU_BMU_VTO_SKLA_10H.studierende	0
 Vertiefung Bildende Kunst	56670.mittelbau	DKM_FMK_VBK.mittelbau	MetaDepartment	5b03f0b6-00b8-472b-b203-7580afd11b48	246	DKM_FMK_VBK.mittelbau Vertiefung Bildende Kunst	0
 Bachelor Film HS 2010	90794.studierende	DDK_FFI_BFI_10H.studierende	MetaDepartment	d8f80727-7000-45e3-81c3-b8446e8629d9	247	Bachelor Film HS 2010 DDK_FFI_BFI_10H.studierende	0
@@ -839,7 +847,6 @@ Master in Transdisziplinarität	68797.alle	DKV_FTR_MTR.alle	MetaDepartment	19ed6
 Jungstudierende - Klassik - HS 2011	103125.studierende	DMU_FMU_XJST_SKLA_11H.studierende	MetaDepartment	605a6d6a-a6b3-4aa6-8f87-a64111ad19f0	249	DMU_FMU_XJST_SKLA_11H.studierende Jungstudierende - Klassik - HS 2011	0
 Bachelor Musik und Bewegung HS 2010	90334.studierende	DMU_FMU_BMB_10H.studierende	MetaDepartment	a2645f7d-a798-4217-8e1a-b22cf9e207e1	250	Bachelor Musik und Bewegung HS 2010 DMU_FMU_BMB_10H.studierende	0
 Zugriff auf SAP BW Portal, KST-Auswertung	103106.	Verteilerliste.SAP_BW_Portal_KST	MetaDepartment	01d5b2c8-9e96-4591-964a-e2de330a9ac0	251	Verteilerliste.SAP_BW_Portal_KST Zugriff auf SAP BW Portal, KST-Auswertung	0
-Master Musik Performance	64307.alle	DMU_FMU_MPE.alle	MetaDepartment	320944f3-7bb4-4ca4-ba65-d68f1219d9ce	331	DMU_FMU_MPE.alle Master Musik Performance	0
 Bachelor Theater - Vertiefung Szenografie - HS 2010	90813.studierende	DDK_FTH_BTH_VSZ_10H.studierende	MetaDepartment	40987961-7b0e-4ea1-9b7b-422aa4cab35e	252	Bachelor Theater - Vertiefung Szenografie - HS 2010 DDK_FTH_BTH_VSZ_10H.studierende	0
 Vorlesungsverzeichnis	100581.	Verteilerliste.Vorlesungsverzeichnis	MetaDepartment	8869d3e3-0ae8-49a4-8e00-dd360b416cae	253	Verteilerliste.Vorlesungsverzeichnis Vorlesungsverzeichnis	0
 Master Specialized Music Performance - Solist/in - FS 2013	120721.studierende	DMU_FMU_MSP_VSO_13F.studierende	MetaDepartment	dd297a09-58c8-4a04-8d88-e292f8ebac71	254	DMU_FMU_MSP_VSO_13F.studierende Master Specialized Music Performance - Solist/in - FS 2013	0
@@ -861,7 +868,6 @@ Vertiefung Game Design	56666.alle	DDE_FDE_VGD.alle	MetaDepartment	e8010898-65fa-
 Master Composition and Theory - Komposition - Komposition für Film, Theater und Medien - HS 2012	114521.studierende	DMU_FMU_MKT_VKO_SFTM_12H.studierende	MetaDepartment	d0d89622-ced6-4131-86de-4fe07cfdc16a	270	DMU_FMU_MKT_VKO_SFTM_12H.studierende Master Composition and Theory - Komposition - Komposition für Film, Theater und Medien - HS 2012	0
 Bachelor Theater - Vertiefung Dramaturgie - HS 2012	115170.studierende	DDK_FTH_BTH_VDR_12H.studierende	MetaDepartment	6431188d-72e6-45b1-a377-bd60e9dfcd40	271	Bachelor Theater - Vertiefung Dramaturgie - HS 2012 DDK_FTH_BTH_VDR_12H.studierende	0
 MAS Spatial Design HS 2012	120140.studierende	DDE_FDE_MASSD_12H.studierende	MetaDepartment	e95b8623-804b-493f-b2da-248093432413	272	DDE_FDE_MASSD_12H.studierende MAS Spatial Design HS 2012	0
-Services	14645.personal	SER.personal	MetaDepartment	1f915328-ae81-4281-bec7-4f425de3c5f0	273	SER.personal Services	0
 Master Theater - Vertiefung Bühnenbild - HS 2010	91581.studierende	DDK_FTH_MTH_VBN_10H.studierende	MetaDepartment	39cc589c-4713-4c13-baf5-1a3a111fdb4a	274	DDK_FTH_MTH_VBN_10H.studierende Master Theater - Vertiefung Bühnenbild - HS 2010	0
 Master Composition and Theory - Komposition - Komposition - HS 2012	114791.studierende	DMU_FMU_MKT_VKO_SKO4_12H.studierende	MetaDepartment	e853d6c0-9857-42e2-8abf-27a7dd24a2fa	275	DMU_FMU_MKT_VKO_SKO4_12H.studierende Master Composition and Theory - Komposition - Komposition - HS 2012	0
 Bachelor Theater - Vertiefung Regie - HS 2012	115171.studierende	DDK_FTH_BTH_VRE_12H.studierende	MetaDepartment	e217f0a7-8b76-4976-af0a-d6cc51fe990e	276	Bachelor Theater - Vertiefung Regie - HS 2012 DDK_FTH_BTH_VRE_12H.studierende	0
@@ -898,7 +904,6 @@ Personal Sammlungen	64173.personal	personal.DKV_Sammlungen_detailliert.personal	
 Services, Abteilung Personalabteilung	14590.alle	SER_MAN_PER.alle	MetaDepartment	3591fe99-94ba-47d2-81cc-208bda79bf72	311	SER_MAN_PER.alle Services, Abteilung Personalabteilung	0
 Vertiefung Leitende Künstlerin / Leitender Künstler	121195.dozierende	DDK_FTH_MTH_VLK.dozierende	MetaDepartment	e3a4e0ff-177b-4554-b476-87e59bf5ea68	312	DDK_FTH_MTH_VLK.dozierende Vertiefung Leitende Künstlerin / Leitender Künstler	0
 MAS Bilden Künste Gesellschaft HS 2009	83918.studierende	DKV_MASBKG_09H.studierende	MetaDepartment	054fd0d9-8ea6-4937-b61b-e2fca510c815	313	DKV_MASBKG_09H.studierende MAS Bilden Künste Gesellschaft HS 2009	0
-Profil Klassik	65626.dozierende	DMU_FMU_PKLA.dozierende	MetaDepartment	4d72e443-a949-470c-b2f2-cecdc043b059	314	DMU_FMU_PKLA.dozierende Profil Klassik	0
 Bachelor Design - Vertiefung Interaction Design - HS 2010	90732.studierende	DDE_FDE_BDE_VIAD_10H.studierende	MetaDepartment	a7e0d0ac-1b45-4028-93ba-1954ea484f44	315	Bachelor Design - Vertiefung Interaction Design - HS 2010 DDE_FDE_BDE_VIAD_10H.studierende	0
 Bachelor Theater - Vertiefung Theaterpädagogik	15345.alle	DDK_FTH_BTH_VTP.alle	MetaDepartment	a3f506c9-9490-4167-975f-0efac37292e2	316	Bachelor Theater - Vertiefung Theaterpädagogik DDK_FTH_BTH_VTP.alle	0
 Vertiefung Leitende Künstlerin / Leitender Künstler	121195.alle	DDK_FTH_MTH_VLK.alle	MetaDepartment	b5fa7bd3-ba1e-4ed0-aa21-3765ec9def65	317	DDK_FTH_MTH_VLK.alle Vertiefung Leitende Künstlerin / Leitender Künstler	0
@@ -913,6 +918,7 @@ Master Music Pedagogy - Analyse und Vermittlung - HS 2012	114498.studierende	DMU
 Vertiefung Leitende Künstlerin / Leitender Künstler	121195.studierende	DDK_FTH_MTH_VLK.studierende	MetaDepartment	5bafb930-18fa-46bb-b12a-bb37e5afd896	328	DDK_FTH_MTH_VLK.studierende Vertiefung Leitende Künstlerin / Leitender Künstler	0
 Master Fine Arts	64989.personal	DKM_FMK_MAF.personal	MetaDepartment	a22c46fb-7a80-46aa-82a1-75ec541790a4	329	DKM_FMK_MAF.personal Master Fine Arts	0
 Departement Musik	15284.personal	DMU.personal	MetaDepartment	95213182-2e1e-4450-81ce-e50efbd1ac85	330	DMU.personal Departement Musik	0
+Master Musik Performance	64307.alle	DMU_FMU_MPE.alle	MetaDepartment	320944f3-7bb4-4ca4-ba65-d68f1219d9ce	331	DMU_FMU_MPE.alle Master Musik Performance	0
 Jungstudierende - Klassik - HS 2012	115506.studierende	DMU_FMU_XJST_SKLA_12H.studierende	MetaDepartment	8cde487e-5429-4a71-8d25-19cb7fb5eb04	332	DMU_FMU_XJST_SKLA_12H.studierende Jungstudierende - Klassik - HS 2012	0
 Master Composition and Theory - Theorie - HS 2012	114522.studierende	DMU_FMU_MKT_VTH_12H.studierende	MetaDepartment	75e89cae-e147-4e42-b67e-eeb1e951d861	333	DMU_FMU_MKT_VTH_12H.studierende Master Composition and Theory - Theorie - HS 2012	0
 Profil Dramaturgie	121194.studierende	DDK_FTH_MTH_VLK_PDR.studierende	MetaDepartment	a584641f-ac9b-4c9f-9bb2-1198458cb810	334	DDK_FTH_MTH_VLK_PDR.studierende Profil Dramaturgie	0
@@ -942,7 +948,6 @@ Vertiefung Style&Design	3040.studierende	DDE_FDE_BDE_VSD.studierende	MetaDepartm
 Personal ITZ, Gruppe Entwicklung	125257.personal	SER_SUP_ITZ_Entwicklung.personal	MetaDepartment	4bf9795b-7723-4669-988d-c06acb9a7472	359	Personal ITZ, Gruppe Entwicklung SER_SUP_ITZ_Entwicklung.personal	0
 Vertiefung Fotografie	56672.mittelbau	DKM_FMK_VFO.mittelbau	MetaDepartment	2afe92bf-b9c7-4b5e-99d1-b33be1c704d2	360	DKM_FMK_VFO.mittelbau Vertiefung Fotografie	0
 Bachelor Film	4397.dozierende	DDK_FFI_BFI.dozierende	MetaDepartment	7028e8e6-43a5-460d-8269-89cc81742954	361	Bachelor Film DDK_FFI_BFI.dozierende	0
-Z-Module	68794.alle	DKV_FTR_ZMO.alle	MetaDepartment	8d5ffc39-d156-45ab-b9c5-88c5f30e16dd	362	DKV_FTR_ZMO.alle Z-Module	0
 Personal ITZ, Gruppe Entwicklung	125257.alle	SER_SUP_ITZ_Entwicklung.alle	MetaDepartment	7ab85f98-e950-42c4-beb9-961f54f63898	363	Personal ITZ, Gruppe Entwicklung SER_SUP_ITZ_Entwicklung.alle	0
 Vertiefung Fotografie	56672.dozierende	DKM_FMK_VFO.dozierende	MetaDepartment	53318bb3-b799-484b-9c7a-c7441cf3d680	364	DKM_FMK_VFO.dozierende Vertiefung Fotografie	0
 Vertiefung Style&Design	3040.alle	DDE_FDE_BDE_VSD.alle	MetaDepartment	986c102f-6252-4b92-99e4-579bd0c71337	365	DDE_FDE_BDE_VSD.alle Vertiefung Style&Design	0
@@ -981,7 +986,6 @@ Bachelor Musik	15295.studierende	DMU_FMU_BMU.studierende	MetaDepartment	8d1708c6
 MAS Cultural Media Studies	69154.dozierende	DKV_MASCMS.dozierende	MetaDepartment	9c824fe9-3c9d-455b-957b-4006fde4aa2e	397	DKV_MASCMS.dozierende MAS Cultural Media Studies	0
 Departement Darstellende Künste und Film	14677.mittelbau	DDK.mittelbau	MetaDepartment	e9d31162-35ac-40e9-a4d0-250357e1a521	398	DDK.mittelbau Departement Darstellende Künste und Film	0
 Master Film	14663.studierende	DDK_FFI_MFI.studierende	MetaDepartment	8d2765e4-13cf-4990-a5bd-5cb3cc3b3969	399	DDK_FFI_MFI.studierende Master Film	0
-Bachelor Musik	15295.alle	DMU_FMU_BMU.alle	MetaDepartment	9c5e3c4f-b88b-475c-91c6-b613fc801795	400	Bachelor Musik DMU_FMU_BMU.alle	0
 NDK / CAS Komposition für Film, Theater und Medien (FTM)	76942.studierende	DMU_FMU_CASFTM.studierende	MetaDepartment	ce4bdbf2-628d-4a0b-95fe-17b7e809d3c9	401	DMU_FMU_CASFTM.studierende NDK / CAS Komposition für Film, Theater und Medien (FTM)	0
 Bachelor Theater - Vertiefung Schauspiel - HS 2011	102896.studierende	DDK_FTH_BTH_VSC_11H.studierende	MetaDepartment	f5a5eae5-8cc9-42c4-8a7f-6f1f8f4a57a3	402	Bachelor Theater - Vertiefung Schauspiel - HS 2011 DDK_FTH_BTH_VSC_11H.studierende	0
 Institute for Art Education	15276.mittelbau	DKV_IAE.mittelbau	MetaDepartment	cbc4f289-4e1e-40a2-ac78-a04cd4698a6a	403	DKV_IAE.mittelbau Institute for Art Education	0
@@ -1047,6 +1051,7 @@ Sammlungen	15427.mittelbau	DKV_Sammlungen.mittelbau	MetaDepartment	7f62ed5b-9b7c
 NDK / CAS Composing-Arranging	15408.studierende	DMU_FMU_CASCA.studierende	MetaDepartment	9e364105-55e1-4288-be97-7c23d480847a	462	DMU_FMU_CASCA.studierende NDK / CAS Composing-Arranging	0
 Bachelor Medien & Kunst - Vertiefung Bildende Kunst - HS 2010	90738.studierende	DKM_FMK_BMK_VBK_10H.studierende	MetaDepartment	72016ec7-8fb1-4cac-9f23-6dde78c77290	463	Bachelor Medien & Kunst - Vertiefung Bildende Kunst - HS 2010 DKM_FMK_BMK_VBK_10H.studierende	0
 Master Music Performance - Kirchenmusik - Chorleitung geistlich - HS 2011	102536.studierende	DMU_FMU_MPE_VKM_SCH_11H.studierende	MetaDepartment	457bac2e-52dd-4109-8e93-399c636c5ccc	464	DMU_FMU_MPE_VKM_SCH_11H.studierende Master Music Performance - Kirchenmusik - Chorleitung geistlich - HS 2011	0
+PHD	115092.studierende	DKM_PHD_12F.studierende	MetaDepartment	502b20e8-1414-4877-9793-18e4c1948ac4	465	DKM_PHD_12F.studierende PHD	0
 Bachelor Medien & Kunst - Vertiefung Bildende Kunst - HS 2012	115224.studierende	DKM_FMK_BMK_VBK_12H.studierende	MetaDepartment	cddfc0dc-2e22-4d65-86a3-9366e59f30b8	466	Bachelor Medien & Kunst - Vertiefung Bildende Kunst - HS 2012 DKM_FMK_BMK_VBK_12H.studierende	0
 Bachelor Design - Vertiefung Game Design - HS 2012	115221.studierende	DDE_FDE_BDE_VGD_12H.studierende	MetaDepartment	3b620091-d950-4165-813d-138d952d270b	467	Bachelor Design - Vertiefung Game Design - HS 2012 DDE_FDE_BDE_VGD_12H.studierende	0
 Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Dramaturgie - HS 2012	120366.studierende	DDK_FTH_MTH_VLK_PDR_12H.studierende	MetaDepartment	717f815b-5f1c-4701-a689-387480d79326	468	DDK_FTH_MTH_VLK_PDR_12H.studierende Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Dramaturgie - HS 2012	0
@@ -1114,7 +1119,6 @@ Master Composition and Theory - Komposition - Komposition für Film, Theater und
 Propädeutikum - Gestalterische Orientierungsstufe Vollzeit FS 2012	107587.studierende	DKV_XPP_XGO_V_12F.studierende	MetaDepartment	c16eb14a-9ced-4af8-979c-dc32e5def955	530	DKV_XPP_XGO_V_12F.studierende Propädeutikum - Gestalterische Orientierungsstufe Vollzeit FS 2012	0
 Master Composition and Theory - Tonmeister - HS 2011	102501.studierende	DMU_FMU_MKT_VTO_11H.studierende	MetaDepartment	2411c694-6659-4688-b4d7-6d6cec959b7c	531	DMU_FMU_MKT_VTO_11H.studierende Master Composition and Theory - Tonmeister - HS 2011	0
 Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Bühnenbild - HS 2011	102899.studierende	DDK_FTH_MTH_VLK_PBN_11H.studierende	MetaDepartment	9bfce6e7-5afd-4e37-87fd-a3a32e9e51e3	532	DDK_FTH_MTH_VLK_PBN_11H.studierende Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Bühnenbild - HS 2011	0
-Master in Transdisziplinarität	68797.personal	DKV_FTR_MTR.personal	MetaDepartment	b51a906c-a83b-4016-a855-d40575cdbc17	640	DKV_FTR_MTR.personal Master in Transdisziplinarität	0
 Master Music Performance - instrumentale/vokale Performance - Konzert - HS 2009	76767.studierende	DMU_FMU_MPE_VIV_SKT_09H.studierende	MetaDepartment	12600526-84e2-40c1-b01e-6a7c79196738	533	DMU_FMU_MPE_VIV_SKT_09H.studierende Master Music Performance - instrumentale/vokale Performance - Konzert - HS 2009	0
 Departement Kulturanalysen und Vermittlung	14676.studierende	DKV.studierende	MetaDepartment	d073ca1b-ef25-4ef4-8efb-f708cbd17d0a	534	DKV.studierende Departement Kulturanalysen und Vermittlung	0
 Master Composition and Theory - Komposition - Komposition - HS 2011	102502.studierende	DMU_FMU_MKT_VKO_SKO4_11H.studierende	MetaDepartment	f353de10-fef3-4219-84c9-4b0d3c86afe2	535	DMU_FMU_MKT_VKO_SKO4_11H.studierende Master Composition and Theory - Komposition - Komposition - HS 2011	0
@@ -1133,7 +1137,6 @@ MAS Cultural Media Studies	69154.studierende	DKV_MASCMS.studierende	MetaDepartme
 Master Musikpädagogik	64306.alle	DMU_FMU_MMP.alle	MetaDepartment	335c233a-9daf-43dc-aff9-01a1d0cc30d8	549	DMU_FMU_MMP.alle Master Musikpädagogik	0
 Propädeutikum - Gestalterische Orientierungsstufe	3043.studierende	DKV_XPP_XGO.studierende	MetaDepartment	513899cc-561e-4a0e-b513-87af35915982	550	DKV_XPP_XGO.studierende Propädeutikum - Gestalterische Orientierungsstufe	0
 Bachelor Design - Vertiefung Visuelle Kommunikation - HS 2012	115215.studierende	DDE_FDE_BDE_VVK_12H.studierende	MetaDepartment	dd09a9a5-021c-4039-b52c-47ee365d167c	551	Bachelor Design - Vertiefung Visuelle Kommunikation - HS 2012 DDE_FDE_BDE_VVK_12H.studierende	0
-MAS Szenografie	3652.alle	DDE_FDE_MASSZ.alle	MetaDepartment	4afd7176-aa52-45e0-89c5-116cfeb928e5	552	DDE_FDE_MASSZ.alle MAS Szenografie	0
 Fachrichtung Musik	14664.studierende	DMU_FMU.studierende	MetaDepartment	c1aa0441-6600-476e-9e60-22035a163677	553	DMU_FMU.studierende Fachrichtung Musik	0
 Bachelor Design - Vertiefung Style & Design - HS 2012	115217.studierende	DDE_FDE_BDE_VSD_12H.studierende	MetaDepartment	c7de984b-316e-48ae-a3f0-6bf3537a622b	554	Bachelor Design - Vertiefung Style & Design - HS 2012 DDE_FDE_BDE_VSD_12H.studierende	0
 MAS Cultural Media Studies	69154.alle	DKV_MASCMS.alle	MetaDepartment	a64f871a-de67-4d52-a254-aa1af1d66362	555	DKV_MASCMS.alle MAS Cultural Media Studies	0
@@ -1146,6 +1149,7 @@ Master Specialized Music Performance	64308.studierende	DMU_FMU_MSP.studierende	M
 Master Art Education - Vertiefung bilden & vermitteln - HS 2011	103810.studierende	DKV_FAE_MAE_VBV_11H.studierende	MetaDepartment	380afacb-270d-41d7-93d8-0c642e4cb178	563	DKV_FAE_MAE_VBV_11H.studierende Master Art Education - Vertiefung bilden & vermitteln - HS 2011	0
 Bachelor Design - Vertiefung Scientific Visualization - HS 2012	115216.studierende	DDE_FDE_BDE_VSV_12H.studierende	MetaDepartment	58ced6fc-45c6-41af-91b6-d095fc4a3ee0	564	Bachelor Design - Vertiefung Scientific Visualization - HS 2012 DDE_FDE_BDE_VSV_12H.studierende	0
 Bachelor Vermittlung von Kunst und Design	4396.mittelbau	DKV_FAE_BAE.mittelbau	MetaDepartment	67ac012e-7a9e-4a25-a61b-08451a6a43f0	565	Bachelor Vermittlung von Kunst und Design DKV_FAE_BAE.mittelbau	0
+Fachrichtung Transdisziplinarität	68796.personal	DKV_FTR.personal	MetaDepartment	de1dfc1a-5304-4ee7-902d-3508efd89531	637	DKV_FTR.personal Fachrichtung Transdisziplinarität	0
 Personen, die Zugriff auf die Daten der Jahresbericht-Formular im Intranet benötigen	96630.	Verteilerliste.Form_Jahresbericht	MetaDepartment	b2b8bbaa-8cb0-4466-b9da-8637045d2d53	566	Personen, die Zugriff auf die Daten der Jahresbericht-Formular im Intranet benötigen Verteilerliste.Form_Jahresbericht	0
 Master Art Education - Vertiefung publizieren & vermitteln - HS 2011	103830.studierende	DKV_FAE_MAE_VPV_11H.studierende	MetaDepartment	66168811-7650-480a-aa41-b2c1e1cc7199	567	DKV_FAE_MAE_VPV_11H.studierende Master Art Education - Vertiefung publizieren & vermitteln - HS 2011	0
 Musik Austausch HS 2012	114790.studierende	DMU_FMU_Austausch_12H.studierende	MetaDepartment	99bf5474-2a16-44b2-8522-a471b7ffefab	568	DMU_FMU_Austausch_12H.studierende Musik Austausch HS 2012	0
@@ -1216,9 +1220,9 @@ Departement Design	14667.studierende	DDE.studierende	MetaDepartment	6f215de2-03a
 Personen, die in die Verwaltung der Studiosessions im Dept. Musik involviert sind.	75913.	Verteilerliste.DMU_Studiosession_Admin	MetaDepartment	d6320274-b792-435f-bbb0-f8f2f4eee723	634	Personen, die in die Verwaltung der Studiosessions im Dept. Musik involviert sind. Verteilerliste.DMU_Studiosession_Admin	0
 Services, Abteilung Facility Management	15425.personal	SER_SUP_FM.personal	MetaDepartment	f379ed0a-d488-43e4-a449-09d7f5f29f91	635	SER_SUP_FM.personal Services, Abteilung Facility Management	0
 Vertiefung Style&Design	56675.mittelbau	DDE_FDE_VSD.mittelbau	MetaDepartment	b828051a-f59b-4e7a-8b24-3f1919a42d17	636	DDE_FDE_VSD.mittelbau Vertiefung Style&Design	0
-Fachrichtung Transdisziplinarität	68796.personal	DKV_FTR.personal	MetaDepartment	de1dfc1a-5304-4ee7-902d-3508efd89531	637	DKV_FTR.personal Fachrichtung Transdisziplinarität	0
 Fachrichtung Design	15281.studierende	DDE_FDE.studierende	MetaDepartment	75ce758c-21b7-40d0-8165-ab8e5f3dac70	638	DDE_FDE.studierende Fachrichtung Design	0
 MAS Theaterpädagogik HS 2010	95762.studierende	DDK_FTH_MASTP_10H.studierende	MetaDepartment	dbe19d8b-a428-4476-b92f-e76c5da7d941	639	DDK_FTH_MASTP_10H.studierende MAS Theaterpädagogik HS 2010	0
+Master in Transdisziplinarität	68797.personal	DKV_FTR_MTR.personal	MetaDepartment	b51a906c-a83b-4016-a855-d40575cdbc17	640	DKV_FTR_MTR.personal Master in Transdisziplinarität	0
 Master Music Performance - instrumentale/vokale Performance - Konzert - HS 2012	114479.studierende	DMU_FMU_MPE_VIV_SKT_12H.studierende	MetaDepartment	06b1a9ea-1e24-4307-9285-06221bf02a7f	641	DMU_FMU_MPE_VIV_SKT_12H.studierende Master Music Performance - instrumentale/vokale Performance - Konzert - HS 2012	0
 MAS in klinischer Musiktherapie Upgrade B FS 2008	63239.studierende	DMU_FMU_MASMTH_UP_B_08F.studierende	MetaDepartment	e8219577-f194-4c4c-a2de-0e66463631a4	642	DMU_FMU_MASMTH_UP_B_08F.studierende MAS in klinischer Musiktherapie Upgrade B FS 2008	0
 Z-Module	68794.personal	DKV_FTR_ZMO.personal	MetaDepartment	83120e4f-ef4f-4ac1-b1a4-abb6cafbdaa4	643	DKV_FTR_ZMO.personal Z-Module	0
@@ -1239,7 +1243,6 @@ Vertiefung Visuelle Kommunikation	3041.studierende	DDE_FDE_BDE_VVK.studierende	M
 Bachelor Musik - Kunst- und Sportgymnasium - Klassik - HS 2011	102571.studierende	DMU_FMU_BMU_VKS_SKLA_11H.studierende	MetaDepartment	a8d45a63-755f-4fec-977c-11ecb1c5ab46	658	Bachelor Musik - Kunst- und Sportgymnasium - Klassik - HS 2011 DMU_FMU_BMU_VKS_SKLA_11H.studierende	0
 MAS Spatial Design	107592.dozierende	DDE_FDE_MASSD.dozierende	MetaDepartment	d48f4bc1-ae19-43c6-8084-ad38288e2bda	659	DDE_FDE_MASSD.dozierende MAS Spatial Design	0
 Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Bühnenbild - HS 2012	116028.studierende	DDK_FTH_MTH_VLK_PBN_12H.studierende	MetaDepartment	6d460242-3404-42a0-a600-47e64c98aa68	660	DDK_FTH_MTH_VLK_PBN_12H.studierende Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Bühnenbild - HS 2012	0
-Fachrichtung Musik	14664.dozierende	DMU_FMU.dozierende	MetaDepartment	c3fffc40-55d9-479e-8bb8-73e0a96c01d6	692	DMU_FMU.dozierende Fachrichtung Musik	0
 Bachelor Musik - Schulmusik - Klassik - HS 2011	102574.studierende	DMU_FMU_BMU_VSMU_SKLA_11H.studierende	MetaDepartment	3f6f0c6c-05b8-4355-938e-77957ce6320b	661	Bachelor Musik - Schulmusik - Klassik - HS 2011 DMU_FMU_BMU_VSMU_SKLA_11H.studierende	0
 MAS Spatial Design	107592.mittelbau	DDE_FDE_MASSD.mittelbau	MetaDepartment	262015b4-a094-4ae9-83f6-dfe9b980bc05	662	DDE_FDE_MASSD.mittelbau MAS Spatial Design	0
 Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Regie - HS 2012	116036.studierende	DDK_FTH_MTH_VLK_PRE_12H.studierende	MetaDepartment	34a02b45-946b-4275-a539-a7d5c8b398d1	663	DDK_FTH_MTH_VLK_PRE_12H.studierende Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Regie - HS 2012	0
@@ -1273,6 +1276,7 @@ MAS Musikphysiologie	15353.studierende	DMU_MASMPH.studierende	MetaDepartment	94f
 Hauptfachdozierende Departement Musik 	84024.	Verteilerliste.DMU_HF_Dozierende	MetaDepartment	909eb332-7357-4241-af94-36cc097e4aa2	689	Hauptfachdozierende Departement Musik  Verteilerliste.DMU_HF_Dozierende	0
 Personen, die Zugang zu allen Pensenblättern benötigen.	75927.	Verteilerliste.App_Pensenblatt_Admin	MetaDepartment	347bd599-8edc-47ae-a53d-d40a0089587a	690	Personen, die Zugang zu allen Pensenblättern benötigen. Verteilerliste.App_Pensenblatt_Admin	0
 Bachelor Musik - Tonmeister - Pop - HS 2010	90327.studierende	DMU_FMU_BMU_VTO_SPOP_10H.studierende	MetaDepartment	9e8cf551-4717-466a-8464-7a8806d40ed1	691	Bachelor Musik - Tonmeister - Pop - HS 2010 DMU_FMU_BMU_VTO_SPOP_10H.studierende	0
+Fachrichtung Musik	14664.dozierende	DMU_FMU.dozierende	MetaDepartment	c3fffc40-55d9-479e-8bb8-73e0a96c01d6	692	DMU_FMU.dozierende Fachrichtung Musik	0
 Master Music Pedagogy - Schulmusik - Schulmusik II - HS 2011	102507.studierende	DMU_FMU_MMP_VSMU_SSII_11H.studierende	MetaDepartment	d786a88d-18dc-4683-8fdb-bad5358c7ba5	693	DMU_FMU_MMP_VSMU_SSII_11H.studierende Master Music Pedagogy - Schulmusik - Schulmusik II - HS 2011	0
 Bachelor Design - Vertiefung Industrial Design - HS 2011	102603.studierende	DDE_FDE_BDE_VID_11H.studierende	MetaDepartment	49f6e80e-271e-4e34-b6b9-a5c7f2b517b1	694	Bachelor Design - Vertiefung Industrial Design - HS 2011 DDE_FDE_BDE_VID_11H.studierende	0
 Bachelor Design - Vertiefung Style & Design - HS 2011	102604.studierende	DDE_FDE_BDE_VSD_11H.studierende	MetaDepartment	00ba4338-9d98-4cfb-9ba3-c5a8b808183e	695	Bachelor Design - Vertiefung Style & Design - HS 2011 DDE_FDE_BDE_VSD_11H.studierende	0
@@ -1283,7 +1287,6 @@ Vertiefungssekretariate	62706.	Verteilerliste.Vertiefungssekretariate	MetaDepart
 Bachelor Musik - Instrument/Gesang - Pop - HS 2010	90321.studierende	DMU_FMU_BMU_VIG_SPOP_10H.studierende	MetaDepartment	6ac0dcd3-eeb7-441e-b322-576a91ad719a	700	Bachelor Musik - Instrument/Gesang - Pop - HS 2010 DMU_FMU_BMU_VIG_SPOP_10H.studierende	0
 Fachrichtung Musik	14664.alle	DMU_FMU.alle	MetaDepartment	6b2aa15e-6230-4b4f-a1a3-ecfd381d0c3b	701	DMU_FMU.alle Fachrichtung Musik	0
 Master Theater - Vertiefung Schauspiel - HS 2010	91583.studierende	DDK_FTH_MTH_VSC_10H.studierende	MetaDepartment	db2b4325-66f7-478f-a7ef-5a212698af5c	702	DDK_FTH_MTH_VSC_10H.studierende Master Theater - Vertiefung Schauspiel - HS 2010	0
-Tanz - Grundstufe (12-15 Jahre)	15419.alle	DDK_FTA_XGR.alle	MetaDepartment	86f1686e-24a3-49dc-88d8-a00ce62169ab	740	DDK_FTA_XGR.alle Tanz - Grundstufe (12-15 Jahre)	0
 Personen, die die Konzertvermittlung im Dept. Musik betreiben.	75923.	Verteilerliste.DMU_Konzertvermittlung	MetaDepartment	b5aca2e2-0b1d-485a-a6b1-f40f25c1ad8d	705	Personen, die die Konzertvermittlung im Dept. Musik betreiben. Verteilerliste.DMU_Konzertvermittlung	0
 Bachelor Design - Vertiefung Visuelle Kommunikation - HS 2011	102606.studierende	DDE_FDE_BDE_VVK_11H.studierende	MetaDepartment	381d262c-80d9-430f-ad71-5f2d5e98a706	706	Bachelor Design - Vertiefung Visuelle Kommunikation - HS 2011 DDE_FDE_BDE_VVK_11H.studierende	0
 MAS Musiktheorie	15355.studierende	DMU_MASMTH.studierende	MetaDepartment	1db5600b-f71e-47c8-a32a-c25631fe3ba0	707	DMU_MASMTH.studierende MAS Musiktheorie	0
@@ -1310,7 +1313,6 @@ Mittelbau Museum Au60	64176.alle	mittelbau.DKV_Museum_Au60.alle	MetaDepartment	a
 Services, Support Services	75441.personal	SER_SUP.personal	MetaDepartment	45695ca8-02bc-4356-84b0-f3e047db4491	728	SER_SUP.personal Services, Support Services	0
 Tanz - Grundstufe (12-15 Jahre)	15419.studierende	DDK_FTA_XGR.studierende	MetaDepartment	16ffec49-2b45-430a-b47e-7bffd2d6df1a	729	DDK_FTA_XGR.studierende Tanz - Grundstufe (12-15 Jahre)	0
 Vertiefung Schauspiel	64573.alle	DDK_FTH_MTH_VSC.alle	MetaDepartment	dc368692-6d9b-450a-be36-bea5c098dea9	730	DDK_FTH_MTH_VSC.alle Vertiefung Schauspiel	0
-Departement Kunst und Medien	5112.studierende	DKM.studierende	MetaDepartment	a2ccf3b0-9aa9-41e5-a9e6-b896ad26cd17	770	DKM.studierende Departement Kunst und Medien	0
 Master Music Pedagogy - Musik und Bewegung - Elementare Musikerziehung - HS 2012	114495.studierende	DMU_FMU_MMP_VMB_SEM_12H.studierende	MetaDepartment	3386a13c-b794-46e0-aba9-903f333dd164	731	DMU_FMU_MMP_VMB_SEM_12H.studierende Master Music Pedagogy - Musik und Bewegung - Elementare Musikerziehung - HS 2012	0
 Personen, die bei Erfassung von Beurteilungen involviert sind. Diese Personen erhalten ausserdem Einsicht in Beurteilungen (Sensible Daten!)	75919.	Verteilerliste.DMU_Mentoren_Admin	MetaDepartment	8560c1b8-d549-48a1-b8aa-45bb66eb9986	732	Personen, die bei Erfassung von Beurteilungen involviert sind. Diese Personen erhalten ausserdem Einsicht in Beurteilungen (Sensible Daten!) Verteilerliste.DMU_Mentoren_Admin	0
 Master Art Education - Vertiefung ausstellen & vermitteln - HS 2008	66499.studierende	DKV_FAE_MAE_VAV_08H.studierende	MetaDepartment	216c2ee8-932b-4eb9-ba59-4443af1aa3c8	734	DKV_FAE_MAE_VAV_08H.studierende Master Art Education - Vertiefung ausstellen & vermitteln - HS 2008	0
@@ -1319,6 +1321,7 @@ Zeiterfassung	100920.	Verteilerliste.Zeiterfassung	MetaDepartment	04b30d63-a8c0-
 Master Music Pedagogy - Musik und Bewegung - Rhythmik - HS 2012	114496.studierende	DMU_FMU_MMP_VMB_SRH_12H.studierende	MetaDepartment	55d017d8-ff30-44e8-9698-d7541290b200	737	DMU_FMU_MMP_VMB_SRH_12H.studierende Master Music Pedagogy - Musik und Bewegung - Rhythmik - HS 2012	0
 Mittelbau Museum Bellerive	64177.mittelbau	mittelbau.DKV_Museum_Bellerive.mittelbau	MetaDepartment	f553adf6-0dd3-4269-ac15-94c0a6ed5fb0	738	Mittelbau Museum Bellerive mittelbau.DKV_Museum_Bellerive.mittelbau	0
 Services, Medien- und Informationszentrum	15279.personal	SER_SUP_MIZ.personal	MetaDepartment	a1c1d3e6-59bc-4c31-a402-dc629fafb29b	739	SER_SUP_MIZ.personal Services, Medien- und Informationszentrum	0
+Tanz - Grundstufe (12-15 Jahre)	15419.alle	DDK_FTA_XGR.alle	MetaDepartment	86f1686e-24a3-49dc-88d8-a00ce62169ab	740	DDK_FTA_XGR.alle Tanz - Grundstufe (12-15 Jahre)	0
 Master Music Performance - instrumentale/vokale Performance - Orchester - FS 2012	108236.studierende	DMU_FMU_MPE_VIV_SOR_12F.studierende	MetaDepartment	40d70c0b-a7ec-4c4e-8943-c32b0744ead7	741	DMU_FMU_MPE_VIV_SOR_12F.studierende Master Music Performance - instrumentale/vokale Performance - Orchester - FS 2012	0
 Administrative Modulverantwortliche Evento	108894.	Verteilerliste.Admin_Modulverantwortliche_Evento	MetaDepartment	f03cb062-3394-4cc1-beb0-7e19aaac767e	742	Administrative Modulverantwortliche Evento Verteilerliste.Admin_Modulverantwortliche_Evento	0
 Master Music Pedagogy - Schulmusik - Schulmusik I - HS 2012	114497.studierende	DMU_FMU_MMP_VSMU_SSI_12H.studierende	MetaDepartment	1d341192-65e5-4522-aa51-fd9907af8dda	743	DMU_FMU_MMP_VSMU_SSI_12H.studierende Master Music Pedagogy - Schulmusik - Schulmusik I - HS 2012	0
@@ -1341,9 +1344,9 @@ Personen in allen Sekretariaten des Dept. Musik	75914.	Verteilerliste.DMU_Sekret
 Fachrichtung Medien & Kunst	14668.alle	DKM_FMK.alle	MetaDepartment	40473e26-64a5-476b-af39-475cb9e68bf1	763	DKM_FMK.alle Fachrichtung Medien & Kunst	0
 Vertiefung Scientific Visualization / Wissenschaftliche Illustration	3042.alle	DDE_FDE_BDE_VSV.alle	MetaDepartment	234000ed-e241-47da-80c0-85e584767223	764	DDE_FDE_BDE_VSV.alle Vertiefung Scientific Visualization / Wissenschaftliche Illustration	0
 MAS Theaterpädagogik HS 2011	108010.studierende	DDK_FTH_MASTP_11H.studierende	MetaDepartment	1b625143-483e-404e-81de-3477935ce297	765	DDK_FTH_MASTP_11H.studierende MAS Theaterpädagogik HS 2011	0
-Blitzkurse	120209.alle	SER_ITZ_Blitzkurse.alle	MetaDepartment	2b9bad7e-3d9e-4318-b045-a8e95cc4f82a	767	Blitzkurse SER_ITZ_Blitzkurse.alle	0
 Departement Kunst und Medien	5112.personal	DKM.personal	MetaDepartment	d5f4495a-44c2-4dc9-9d02-f91823ef03d0	768	DKM.personal Departement Kunst und Medien	0
 Vertiefung Scientific Visualization	56669.studierende	DDE_FDE_VSV.studierende	MetaDepartment	1a14bb11-7152-473e-9c26-9f1712c2a479	769	DDE_FDE_VSV.studierende Vertiefung Scientific Visualization	0
+Departement Kunst und Medien	5112.studierende	DKM.studierende	MetaDepartment	a2ccf3b0-9aa9-41e5-a9e6-b896ad26cd17	770	DKM.studierende Departement Kunst und Medien	0
 Blitzkurse	120209.personal	SER_ITZ_Blitzkurse.personal	MetaDepartment	c989b7ae-c48b-4020-aae8-850b7e14164f	771	Blitzkurse SER_ITZ_Blitzkurse.personal	0
 Certificate of Advanced Studies, Zertifikatslehrgänge	3651.dozierende	CAS.dozierende	MetaDepartment	93e58932-fc1e-4104-ac50-b6b8105f14a2	772	CAS.dozierende Certificate of Advanced Studies, Zertifikatslehrgänge	0
 Master Composition and Theory - Komposition - Elektroakustische Komposition - HS 2009	76894.studierende	DMU_FMU_MKT_VKO_SEAK_09H.studierende	MetaDepartment	61592c23-2ace-4d70-a7dc-ef73215b8c9d	773	DMU_FMU_MKT_VKO_SEAK_09H.studierende Master Composition and Theory - Komposition - Elektroakustische Komposition - HS 2009	0
@@ -1356,7 +1359,6 @@ Fachrichtung Medien & Kunst	14668.personal	DKM_FMK.personal	MetaDepartment	c1826
 Bachelor Vermittlung von Kunst und Design - Bildnerisches Gestalten an Maturitätsschulen - HS 2010	90744.studierende	DKV_FAE_BAE_VBG_10H.studierende	MetaDepartment	980b21cf-dbc9-4a75-a9a1-0281ab690df7	780	Bachelor Vermittlung von Kunst und Design - Bildnerisches Gestalten an Maturitätsschulen - HS 2010 DKV_FAE_BAE_VBG_10H.studierende	0
 Fachrichtung Medien & Kunst	14668.studierende	DKM_FMK.studierende	MetaDepartment	aacffe72-fe58-452d-8b32-73349697eb0c	781	DKM_FMK.studierende Fachrichtung Medien & Kunst	0
 Master Music Performance - instrumentale/vokale Performance - Konzert - HS 2011	102533.studierende	DMU_FMU_MPE_VIV_SKT_11H.studierende	MetaDepartment	40a9c56b-0119-4c0d-b4ef-bccdc4e4f425	783	DMU_FMU_MPE_VIV_SKT_11H.studierende Master Music Performance - instrumentale/vokale Performance - Konzert - HS 2011	0
-Rektorat	14673.dozierende	REK.dozierende	MetaDepartment	ef260d46-f954-4010-9ed6-69eb2e307b09	784	REK.dozierende Rektorat	0
 Zugang zu den Formulardaten "Wettbewerbs-Anmeldungen"	76407.	Verteilerliste.Form_DMU_Wettbewerbe	MetaDepartment	f7fa92e1-5448-483e-af39-f6c6311b56ff	785	Verteilerliste.Form_DMU_Wettbewerbe Zugang zu den Formulardaten "Wettbewerbs-Anmeldungen"	0
 Fachbereich Museum Bellerive	64179.alle	DKV_Museum_Bellerive.alle	MetaDepartment	3447d7ac-406f-4526-bc25-1947b10dab98	786	DKV_Museum_Bellerive.alle Fachbereich Museum Bellerive	0
 Fachrichtung Tanz	14665.dozierende	DDK_FTA.dozierende	MetaDepartment	a5edc64f-6c36-4a74-8c3a-ed32ed99343d	787	DDK_FTA.dozierende Fachrichtung Tanz	0
@@ -1386,7 +1388,6 @@ Profil Theorie	89976.mittelbau	DMU_FMU_PTH.mittelbau	MetaDepartment	e44a5d45-4c7
 Master Music Pedagogy - Musik und Bewegung - Rhythmik - HS 2010	90275.studierende	DMU_FMU_MMP_VMB_SRH_10H.studierende	MetaDepartment	226ea9fe-7af4-4124-9bcc-9d489a336323	811	DMU_FMU_MMP_VMB_SRH_10H.studierende Master Music Pedagogy - Musik und Bewegung - Rhythmik - HS 2010	0
 Master Design - Vertiefung Interaktion - FS 2012	121247.studierende	DDE_FDE_MDE_VIA_12F.studierende	MetaDepartment	ad853956-9900-4522-8a21-7619a4c5560b	812	DDE_FDE_MDE_VIA_12F.studierende Master Design - Vertiefung Interaktion - FS 2012	0
 Institute for Computer Music and Sound Technology	15278.mittelbau	DMU_ICST.mittelbau	MetaDepartment	cfef5c45-4776-48b0-8748-26c823c9bab7	813	DMU_ICST.mittelbau Institute for Computer Music and Sound Technology	0
-Bachelor Theater - Vertiefung Schauspiel	56657.studierende	DDK_FTH_BTH_VSC.studierende	MetaDepartment	4b60c5f0-50e8-46be-9e26-bd0979f271bc	814	Bachelor Theater - Vertiefung Schauspiel DDK_FTH_BTH_VSC.studierende	0
 Master Design - Vertiefung Kommunikation - FS 2012	121245.studierende	DDE_FDE_MDE_VKK_12F.studierende	MetaDepartment	7a6c0061-80d0-4ab8-943a-0cf06e247e01	815	DDE_FDE_MDE_VKK_12F.studierende Master Design - Vertiefung Kommunikation - FS 2012	0
 Master Design - Vertiefung Produkt - FS 2012	121246.studierende	DDE_FDE_MDE_VPR_12F.studierende	MetaDepartment	1cd3058a-2189-496c-bd06-53c6c54c5141	816	DDE_FDE_MDE_VPR_12F.studierende Master Design - Vertiefung Produkt - FS 2012	0
 Institute for Computer Music and Sound Technology	15278.alle	DMU_ICST.alle	MetaDepartment	10ac21fa-b1d5-47ca-9455-577a1bff7818	817	DMU_ICST.alle Institute for Computer Music and Sound Technology	0

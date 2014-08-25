@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -556,7 +557,10 @@ CREATE TABLE usage_terms (
 --
 
 CREATE VIEW user_resources_counts AS
-    SELECT count(*) AS resouces_count, media_resources.user_id FROM media_resources GROUP BY media_resources.user_id;
+ SELECT count(*) AS resouces_count,
+    media_resources.user_id
+   FROM media_resources
+  GROUP BY media_resources.user_id;
 
 
 --
@@ -1577,6 +1581,14 @@ CREATE INDEX users_to_tsvector_idx ON users USING gin (to_tsvector('english'::re
 --
 
 CREATE INDEX users_trgm_searchable_idx ON users USING gin (trgm_searchable gin_trgm_ops);
+
+
+--
+-- Name: admin_users_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY admin_users
+    ADD CONSTRAINT admin_users_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 
 
 --

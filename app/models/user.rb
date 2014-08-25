@@ -82,7 +82,7 @@ class User < ActiveRecord::Base
   end
 
   def is_admin? 
-    @is_admin ||= !admin_user.nil?
+    !! admin_user
   end
 
 ### counters ###################################################
