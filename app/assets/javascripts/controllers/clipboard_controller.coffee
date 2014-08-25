@@ -228,9 +228,9 @@ class ClipboardController
 
   restoreVisibleResources: ->
     if sessionStorage.visibleResources?
-      @visibleResources = JSON.parse sessionStorage.visibleResources 
-      media_resources = for k,v of @visibleResources
-        new App.MediaResource _.extend v, {id: parseInt(k)}
+      @visibleResources = JSON.parse sessionStorage.visibleResources
+      media_resources = for key, item of @visibleResources
+        new App.MediaResource _.extend item, {id: key}
       @list_el.html App.render "clipboard/media_resource", media_resources
 
   add: (mr)->
