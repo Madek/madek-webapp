@@ -33,29 +33,40 @@ class MediaSetsController.DisplaySettings
     else
       do @setUnSavedButtonStatus
 
+  setSavingButtonStatus: ->
+    @saveDisplaySettings_el.find("i")
+      .removeClass("icon-eye").addClass("icon-cog icon-spin")
+    @button.addClass("disabled").attr "disabled", true
+    
   setSavedButtonStatus: ->
-    @saveDisplaySettings_el.find("i").removeClass("mid").addClass("bright")
+    @saveDisplaySettings_el.find("i")
+      .removeClass("icon-cog icon-spin").addClass("icon-eye")
+      .removeClass("mid").addClass("bright")
     @saveDisplaySettings_el.find(".text").text @saveDisplaySettings_el.data "text-saved"
     @button.addClass("disabled").attr "disabled", true
 
+  ""
   setUnSavedButtonStatus: ->
     @saveDisplaySettings_el.find("i").removeClass("bright").addClass("mid")
     @saveDisplaySettings_el.find(".text").text @saveDisplaySettings_el.data "text-unsaved"
     @button.removeClass("disabled").removeAttr "disabled"
 
   saveDisplaySettings: ->
-    do @setSavedButtonStatus
+    do @setSavingButtonStatus
     @savedLayout = @mediaResourcesController.getCurrentVisMode()
     @savedSorting = @mediaResourcesController.getCurrentSorting()
     $.ajax
       url: "/sets/#{@mediaSet.id}/settings"
-      data: 
+      data:
         layout: @savedLayout
         sorting: @savedSorting
       type: "POST"
-      success: ->
-        uri = URI(window.location.href).removeQuery("sort").removeQuery("layout")
+      success: =>
+        do @setSavedButtonStatus
+        uri= URI(window.location.href).removeQuery("sort").removeQuery("layout")
         window.history.replaceState uri._parts, document.title, uri.toString()
+      error: (jqXHR, textStatus, errorThrown)->
+        console.error('saveDisplaySettings: '+textStatus, errorThrown)
 
 window.App.MediaSetsController = {} unless window.App.MediaSetsController
 window.App.MediaSetsController.DisplaySettings = MediaSetsController.DisplaySettings
