@@ -1,6 +1,6 @@
 class DeleteAdminGroup < ActiveRecord::Migration
   def up
-    Group.find_by(name: 'Admin').destroy
+    Group.find_by(name: 'Admin').try(:destroy)
   end
 
   def down

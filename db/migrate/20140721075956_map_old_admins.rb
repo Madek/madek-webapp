@@ -1,6 +1,6 @@
 class MapOldAdmins < ActiveRecord::Migration
   def up
-    Group.find_by(name: 'Admin').users.each do |user|
+    (group= Group.find_by(name: 'Admin')) and group..users.each do |user|
       AdminUser.create!(user: user)
     end
   end
