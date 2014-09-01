@@ -78,9 +78,9 @@ Feature: Managing Users and Logins
     When I visit "/app_admin/groups"
     When I select "InstitutionalGroup" from the select node with the name "type"
     And I submit
-    Then I see the "InstitutionalGroup"  type in the group list
+    Then I see the "InstitutionalGroup" type in the group list
 
-  @firefox
+  @jsbrowser
   Scenario: Filtering groups
     When I visit "/app_admin/groups"
     And I set the input with the name "filter[search_terms]" to "admin"
