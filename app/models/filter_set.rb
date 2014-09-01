@@ -22,7 +22,9 @@ class FilterSet < MediaResourceCollection
   def get_media_file(user = nil)
     # we just provide the first public media_entry's image
     # we provide random image for filter sets
-    filtered_resources(user).media_entries.where(view: true).ordered_by(:random).first.try(:media_file)
+    resources = filtered_resources(user).media_entries.where(view: true)
+    c = resources.count
+    resources.ordered_by(:random).offset(rand(c)).first.try(:media_file)
   end
 
   def sections possible_filters
