@@ -40,6 +40,8 @@
 
 :coffeescript
   
+  window._visualization_layout_web_worker_path = #{asset_path("visualization_layout_web_worker.js").to_json}
+  
   jQuery -> Visualization.init
     nodes: #{vis_json(@resources).to_json}
     arcs: #{@arcs.to_json(only: [:child_id,:parent_id])}
