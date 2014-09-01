@@ -320,8 +320,8 @@ module Json
                %Q(keyword_terms.id)]
             when "MetaDatumDepartments"
               [%Q(groups.id, groups.name AS value),
-               %Q(INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id
-                  INNER JOIN groups ON meta_data_meta_departments.meta_department_id = groups.id),
+               %Q(INNER JOIN meta_data_institutional_groups ON meta_data_institutional_groups.meta_datum_id = meta_data.id
+                  INNER JOIN groups ON meta_data_institutional_groups.institutional_group_id = groups.id),
                %Q(groups.id)]
             else
               [%Q(meta_terms.id, meta_terms.term as value),

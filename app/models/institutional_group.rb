@@ -1,9 +1,9 @@
-class MetaDepartment < Group
+class InstitutionalGroup < Group
 
   has_and_belongs_to_many :meta_data, 
-    join_table: :meta_data_meta_departments,
+    join_table: :meta_data_institutional_groups,
     association_foreign_key: :meta_datum_id,
-    foreign_key: :meta_department_id
+    foreign_key: :institutional_group_id
  
 
   default_scope lambda{order(:name)}

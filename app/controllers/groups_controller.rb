@@ -14,7 +14,7 @@ class GroupsController < ApplicationController
         @groups = current_user.groups
         @private_groups = @groups.select{|g| g.type == "Group" and not g.is_readonly?}
         @system_groups = @groups.select{|g| g.type == "Group" and g.is_readonly?}
-        @department_groups = @groups.select{|g| g.type == "MetaDepartment"}
+        @department_groups = @groups.select{|g| g.type == "InstitutionalGroup"}
       }
       format.json {
         groups = Group.where("name ilike :query OR ldap_name ilike :query", {:query => "%#{query}%"})

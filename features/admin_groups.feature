@@ -76,9 +76,9 @@ Feature: Managing Users and Logins
     Then I see the column with a group type
     And I see the "Group" type in the group list
     When I visit "/app_admin/groups"
-    When I select "MetaDepartment" from the select node with the name "type"
+    When I select "InstitutionalGroup" from the select node with the name "type"
     And I submit
-    Then I see the "MetaDepartment" type in the group list
+    Then I see the "InstitutionalGroup"  type in the group list
 
   @firefox
   Scenario: Filtering groups
@@ -98,13 +98,12 @@ Feature: Managing Users and Logins
     When I select "Group" from the select node with the name "type"
     And I submit
     Then I see groups with "Group" type
-    And I don't see groups with "MetaDepartment" type
+    And I don't see groups with "InstitutionalGroup" type
     And There is "group" group type option selected
-    When I select "MetaDepartment" from the select node with the name "type"
+    When I select "InstitutionalGroup" from the select node with the name "type"
     And I submit
-    Then I see groups with "MetaDepartment" type
-    And I don't see groups with "Group" type
-    And There is "meta_department" group type option selected
+    Then I see groups with "InstitutionalGroup" type
+    And There is "institutional_group" group type option selected
 
   Scenario: Create a new group
     When I visit "/app_admin/groups"
@@ -126,10 +125,10 @@ Feature: Managing Users and Logins
 
   Scenario: Editing a meta department
     When I visit "/app_admin/groups"
-    And I select "MetaDepartment" from the select node with the name "type"
+    And I select "InstitutionalGroup" from the select node with the name "type"
     And I submit
     And I click on the second Edit
-    And I set the input with the name "meta_department[name]" to "AWESOME META DEPARTMENT"
+    And I set the input with the name "institutional_group[name]" to "AWESOME INSTITUTIONAL GROUP"
     And I submit
     Then I can see a success message
-    And I can see "AWESOME META DEPARTMENT"
+    And I can see "AWESOME INSTITUTIONAL GROUP"

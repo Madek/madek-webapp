@@ -10,7 +10,7 @@ module Json
       
       if with ||= nil
         if with[:users]
-          users = (group.type != "MetaDepartment" ?  group.users : [])
+          users = (group.type != "InstitutionalGroup" ?  group.users : [])
           # TODO call hash_for users
           h[:users] = users.map do |user|
             {
@@ -26,7 +26,7 @@ module Json
       h
     end
     
-    alias :hash_for_meta_department :hash_for_group 
+    alias :hash_for_institutional_group :hash_for_group 
 
   end
 end

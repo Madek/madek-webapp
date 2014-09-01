@@ -9,7 +9,7 @@ describe GroupsController do
     @normin = FactoryGirl.create :user, login: "normin"
     @adam= FactoryGirl.create :user, login: "adam"
 
-    @meta_dep = MetaDepartment.create name: "LDAP Group"
+    @meta_dep = InstitutionalGroup.create name: "LDAP Group"
     @meta_dep.users << @adam
     @meta_dep.users << @normin
 

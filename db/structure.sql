@@ -384,11 +384,11 @@ CREATE TABLE meta_data (
 
 
 --
--- Name: meta_data_meta_departments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: meta_data_institutional_groups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE TABLE meta_data_meta_departments (
-    meta_department_id uuid NOT NULL,
+CREATE TABLE meta_data_institutional_groups (
+    institutional_group_id uuid NOT NULL,
     meta_datum_id uuid NOT NULL
 );
 
@@ -1255,24 +1255,24 @@ CREATE INDEX index_media_sets_contexts_on_media_set_id ON media_sets_contexts US
 
 
 --
+-- Name: index_meta_data_institutional_groups_on_institutional_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_data_institutional_groups_on_institutional_group_id ON meta_data_institutional_groups USING btree (institutional_group_id);
+
+
+--
+-- Name: index_meta_data_institutional_groups_on_meta_datum_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_data_institutional_groups_on_meta_datum_id ON meta_data_institutional_groups USING btree (meta_datum_id);
+
+
+--
 -- Name: index_meta_data_meta_dep_on_meta_datum_id_and_meta_dep_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_meta_data_meta_dep_on_meta_datum_id_and_meta_dep_id ON meta_data_meta_departments USING btree (meta_datum_id, meta_department_id);
-
-
---
--- Name: index_meta_data_meta_departments_on_meta_datum_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_meta_data_meta_departments_on_meta_datum_id ON meta_data_meta_departments USING btree (meta_datum_id);
-
-
---
--- Name: index_meta_data_meta_departments_on_meta_department_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_meta_data_meta_departments_on_meta_department_id ON meta_data_meta_departments USING btree (meta_department_id);
+CREATE UNIQUE INDEX index_meta_data_meta_dep_on_meta_datum_id_and_meta_dep_id ON meta_data_institutional_groups USING btree (meta_datum_id, institutional_group_id);
 
 
 --
@@ -1875,7 +1875,7 @@ ALTER TABLE ONLY meta_data
 -- Name: meta_data_meta_departments_meta_datum_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY meta_data_meta_departments
+ALTER TABLE ONLY meta_data_institutional_groups
     ADD CONSTRAINT meta_data_meta_departments_meta_datum_id_fk FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
 
 
@@ -1883,8 +1883,8 @@ ALTER TABLE ONLY meta_data_meta_departments
 -- Name: meta_data_meta_departments_meta_department_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY meta_data_meta_departments
-    ADD CONSTRAINT meta_data_meta_departments_meta_department_id_fk FOREIGN KEY (meta_department_id) REFERENCES groups(id) ON DELETE CASCADE;
+ALTER TABLE ONLY meta_data_institutional_groups
+    ADD CONSTRAINT meta_data_meta_departments_meta_department_id_fk FOREIGN KEY (institutional_group_id) REFERENCES groups(id) ON DELETE CASCADE;
 
 
 --
@@ -2188,6 +2188,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140709085016');
 INSERT INTO schema_migrations (version) VALUES ('20140714140008');
 
 INSERT INTO schema_migrations (version) VALUES ('20140716154252');
+
+INSERT INTO schema_migrations (version) VALUES ('20140718095641');
 
 INSERT INTO schema_migrations (version) VALUES ('20140721075032');
 

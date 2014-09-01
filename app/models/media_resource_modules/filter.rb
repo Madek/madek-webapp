@@ -184,8 +184,8 @@ module MediaResourceModules
                 s
               when :"institutional affiliation"
                 s = unscoped.joins(:meta_data).
-                         joins("INNER JOIN meta_data_meta_departments ON meta_data_meta_departments.meta_datum_id = meta_data.id")
-                s = s.where(:meta_data_meta_departments => {:meta_department_id => id}) unless id == "any"
+                         joins("INNER JOIN meta_data_institutional_groups ON meta_data_institutional_groups.meta_datum_id = meta_data.id")
+                s = s.where(:meta_data_institutional_groups => {:institutional_group_id => id}) unless id == "any"
                 s
               when :"uploaded by"
                 s = unscoped.

@@ -9,7 +9,7 @@ class Group < ActiveRecord::Base
   validates_presence_of :name
   validates :name, uniqueness: { scope: :ldap_name }
 
-  scope :departments, ->{where(:type => "MetaDepartment")}
+  scope :departments, ->{where(:type => "InstitutionalGroup")}
 
   def to_s
     name

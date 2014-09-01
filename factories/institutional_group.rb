@@ -1,9 +1,8 @@
 FactoryGirl.define do
 
-  factory :meta_department do
+  factory :institutional_group do
     name {Faker::Name.last_name}
   end
 
 end
-
 

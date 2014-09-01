@@ -55,8 +55,8 @@ class AppAdmin::GroupsController < AppAdmin::BaseController
 
   def update
     begin
-      if params.has_key?(:meta_department)
-        params[:group] = params.delete(:meta_department)
+      if params.has_key?(:institutional_group)
+        params[:group] = params.delete(:institutional_group)
       end
       @group = Group.find(params[:id])
       @group.update_attributes!(group_params)
