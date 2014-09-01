@@ -1,14 +1,14 @@
 ###
 
-Edit Group
+Autocomplete Users
 
 ###
 
-GroupsController = {} unless GroupsController?
-class GroupsController.Edit
+UsersController = {} unless UsersController?
+class UsersController.Autocomplete
 
   constructor: (options)->
-    @form = $("#add-group-user")
+    @form = $("form.autocomplete")
     @textField = @form.find(".form-control")
     @userId = @form.find("[name='[user_id]']")
     @submitButton = @form.find("button")
@@ -58,5 +58,5 @@ class GroupsController.Edit
     @submitButton.prop("disabled", true)
 
 window.AppAdmin = {} unless window.AppAdmin
-window.AppAdmin.GroupsController = {} unless window.AppAdmin.GroupsController
-window.AppAdmin.GroupsController.Edit = GroupsController.Edit
+window.AppAdmin.UsersController = {} unless window.AppAdmin.UsersController
+window.AppAdmin.UsersController.Autocomplete = UsersController.Autocomplete

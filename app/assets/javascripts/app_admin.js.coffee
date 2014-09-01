@@ -8,7 +8,7 @@
 window.jQuery.curCSS = window.jQuery.css
 
 $(document).ready ->
-  groupsController = new AppAdmin.GroupsController.Edit
+  usersController = new AppAdmin.UsersController.Autocomplete
   $(".limit150, .limit250").tooltip(
     placement: "top"
   )

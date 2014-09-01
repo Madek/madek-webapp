@@ -1,6 +1,6 @@
 %h1 Add user
 
-= form_tag add_user_app_admin_group_path(@group), method: 'POST', class: "form-horizontal", role: "form", id: "add-group-user" do
+= form_tag add_user_app_admin_group_path(@group), method: "POST", class: "form-horizontal autocomplete", role: "form" do
 
   = hidden_field nil, :user_id 
 
@@ -11,5 +11,5 @@
 
   .form-group
     .col-sm-offset-1.col-sm-4
-      = button_tag type: 'submit', class: 'btn btn-success', disabled: true do
+      = button_tag type: "submit", class: "btn btn-success", disabled: true do
         Add user
