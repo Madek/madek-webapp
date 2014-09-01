@@ -64,3 +64,6 @@ Feature: Managing Media-Sets
   Then The context "Zett" is not included in the individual_contexts
   When I click on the link "Add" of the context "Zett"
   Then The context "Zett" is included in the individual_contexts
+  When I visit "/app_admin/media_sets/3"
+  And I click on the link "Manage individual contexts"
+  Then The context "Zett" is included in the individual_contexts

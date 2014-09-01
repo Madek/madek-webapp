@@ -137,7 +137,7 @@ class AppAdmin::MediaSetsController < AppAdmin::BaseController
   def add_individual_context
     @media_set = MediaSet.find params[:media_set_id]
     @context = Context.find params[:id]
-    @media_set.individual_contexts << @context
+    @media_set.add_individual_context(@context)
     redirect_to manage_app_admin_media_set_individual_contexts_path(@media_set), 
       flash: {success: "The context has been added to the media-set."}
   end

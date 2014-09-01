@@ -97,6 +97,16 @@ class MediaSet < MediaResourceCollection
   end
 
 ########################################################
+  
+  def add_individual_context(context)
+    self.individual_contexts << context
+    self.child_media_resources.each do |resource|
+      if resource.type == "MediaSet"
+        resource.individual_contexts << context
+      end
+    end
+  end
+########################################################
 
   # TODO dry with Context#abstract  
   def abstract(min_media_entries = nil, current_user = nil)
