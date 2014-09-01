@@ -10,6 +10,9 @@ Feature: Admin Meta Contexts
     And I click on "Edit"
     And I click on "Add Meta Key Definition"
     Then I can see a form with id "new_meta_key_definition"
+    And I cannot see "Length min"
+    And I cannot see "Length max"
+    And I cannot see "Input type"
     When I select "version" from the select node with the name "meta_key_definition[meta_key_id]"
     And I select "Games" from the select node with the name "meta_key_definition[context_id]"
     And I set the input with the name "meta_key_definition[label]" to "LABEL"
@@ -17,7 +20,32 @@ Feature: Admin Meta Contexts
     And I set the textarea with the name "meta_key_definition[description]" to "DESCRIPTION"
     And I submit
     Then I can see a success message
+    And I am on a "/app_admin/contexts/copyright/meta_key_definitions/.+/edit" page
+    And I can see "Length min"
+    And I can see "Length max"
+    And I can see "Input type"
+    When I submit
+    Then I can see a success message
     And I can see a row with values "version,LABEL,HINT,DESCRIPTION,No"
+
+  Scenario: Editing meta key definition with a meta key of the same type
+    When I visit "/app_admin/contexts/copyright/edit"
+    And I click on "Edit"
+    And I select "version" from the select node with the name "meta_key_definition[meta_key_id]"
+    And I submit
+    Then I can see a success message
+    And I am on a "/app_admin/contexts/copyright/meta_key_definitions/.+/edit" page
+    When I submit
+    Then I can see a success message
+    And I am on the "/app_admin/contexts/copyright/edit" page
+
+  Scenario: Editing meta key definition with a different type's meta key
+    When I visit "/app_admin/contexts/copyright/edit"
+    And I click on "Edit"
+    And I select "author" from the select node with the name "meta_key_definition[meta_key_id]"
+    And I submit
+    Then I can see a success message
+    And I am on the "/app_admin/contexts/copyright/edit" page
 
   Scenario: Deleting a context
     When I visit "/app_admin/contexts"

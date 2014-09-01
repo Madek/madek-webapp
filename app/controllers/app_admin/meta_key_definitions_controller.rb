@@ -7,9 +7,15 @@ class AppAdmin::MetaKeyDefinitionsController < AppAdmin::BaseController
 
   def update
     @meta_key_definition = @context.meta_key_definitions.find(params[:id])
-    @meta_key_definition.update(meta_key_definition_params)
+    @meta_key_definition.update!(meta_key_definition_params)
 
-    redirect_to edit_app_admin_context_url(@context), flash: {success: 'The meta key definition has been updated'}
+    if @meta_key_definition.additional_fields?
+      redirect_to edit_app_admin_context_meta_key_definition_url(@context, @meta_key_definition), flash: {
+        success: "The meta key definition has been updated. Update additional fields as well."
+      }
+    else
+      redirect_to edit_app_admin_context_url(@context), flash: {success: "The meta key definition has been updated"}
+    end
   rescue => e
     redirect_to edit_app_admin_context_url(@context), flash: {error: e.message}
   end
@@ -20,9 +26,16 @@ class AppAdmin::MetaKeyDefinitionsController < AppAdmin::BaseController
   end
 
   def create
-    @context.meta_key_definitions << MetaKeyDefinition.create(meta_key_definition_params)
+    @meta_key_definition = MetaKeyDefinition.create!(meta_key_definition_params)
+    @context.meta_key_definitions << @meta_key_definition
 
-    redirect_to edit_app_admin_context_url(@context), flash: {success: "A new meta key definition has been created"}
+    if @meta_key_definition.meta_key_string?
+      redirect_to edit_app_admin_context_meta_key_definition_url(@context, @meta_key_definition), flash: {
+        success: "A new meta key definition has been created. Update additional fields."
+      }
+    else
+      redirect_to edit_app_admin_context_url(@context), flash: {success: "A new meta key definition has been created"}
+    end
   rescue => e
     redirect_to edit_app_admin_context_url(@context), flash: {error: e.message}
   end

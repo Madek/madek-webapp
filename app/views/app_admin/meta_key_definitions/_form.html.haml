@@ -26,7 +26,7 @@
       .col-sm-6
         = f.text_area :description, class: 'form-control', rows: 6
 
-    - if @meta_key_definition.new_record? || @meta_key_definition.meta_key.meta_datum_object_type == 'MetaDatumString'
+    - if @meta_key_definition.persisted? && @meta_key_definition.meta_key.meta_datum_object_type == 'MetaDatumString'
       .form-group
         %label.control-label.col-sm-2 Length min
         .col-sm-2

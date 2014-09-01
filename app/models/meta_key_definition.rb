@@ -40,6 +40,14 @@ class MetaKeyDefinition < ActiveRecord::Base
     end
   end
 
+  def additional_fields?
+    previous_changes.has_key?('meta_key_id') && meta_key_string?
+  end
+
+  def meta_key_string?
+    meta_key.meta_datum_object_type == 'MetaDatumString'
+  end
+
   private
 
   def regenerate_positions
