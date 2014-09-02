@@ -4,7 +4,7 @@ source 'http://gems.github.com'
 # ruby '2.1.1'
 
 # RAILS
-gem 'rails', '4.1.1'
+gem 'rails', '4.1.5'
 
 # DATABASE
 gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
@@ -64,7 +64,7 @@ gem 'rails_autolink', '~> 1.0'
 gem 'rails_config'
 gem 'rest-client', group: [:test, :development, :personas]
 gem 'rspec', '= 2.14.1'
-gem 'rspec-rails', group: [:test, :development, :personas]
+gem 'rspec-rails', group: [:test, :development]
 gem 'rubyzip'
 gem 'rvm-capistrano', group: [:development, :personas]
 gem 'sass', '3.2.12'
