@@ -19,7 +19,7 @@ class MediaResourceArcsController.InArcs
     do @fetch
 
   delegateEvents: ->
-    $(@paginator).on "completlyLoaded", (e, resources...)=> 
+    $(@paginator).on "completlyLoaded", (e, resources...)=>
       @mediaSet.setChildren resources
       do @render
       do @enableSubmit

@@ -24,14 +24,11 @@ module MediaResourceModules
       # returns a chainable collection of media_resources
       # when current_user argument is not provided, the permissions are not considered
       def filter(current_user, filter_opts)
-
         filter_opts = filter_opts.delete_if {|k,v| v.blank?}.deep_symbolize_keys
         raise "invalid option" unless filter_opts.is_a?(Hash) 
 
         ############################################################
-
         filter_opts[:ids] = by_collection(filter_opts[:collection_id]) if current_user and filter_opts[:collection_id]
-
         ############################################################
         
         resources = if current_user and filter_opts[:favorites] == "true"

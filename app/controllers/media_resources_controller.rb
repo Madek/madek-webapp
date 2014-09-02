@@ -52,7 +52,7 @@ class MediaResourcesController < ApplicationController
                       .merge({:filter => view_context.hash_for_filter(resources)})
 
             when "only"
-            {:filter => view_context.hash_for_filter(resources)}
+              {:filter => view_context.hash_for_filter(resources)}
           
             else
               view_context.hash_for_media_resources_with_pagination(resources, \

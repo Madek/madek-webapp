@@ -57,6 +57,8 @@ class MediaSet extends App.MediaResource
   isHighlight: (mr)-> _.find(@arcs, (arc)-> arc.child_id == mr.id).highlight
 
   isCover: (mr)-> _.find(@arcs, (arc)-> arc.child_id == mr.id).cover
+  
+  hasArcs: (mr)-> true if @arcs.length > 0
 
   persistArcs: (callback)->
     $.ajax
