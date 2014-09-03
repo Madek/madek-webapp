@@ -98,10 +98,10 @@ end
 
 When /^I select first result from the autocomplete list$/ do
   page.execute_script %Q{ $('[name="[query]"]').trigger('keydown') }
-  selector = %Q{ul.ui-autocomplete li.ui-menu-item a:first }
+  selector = %Q{ul.ui-autocomplete li.ui-menu-item:first }
 
-  page.should have_selector('ul.ui-autocomplete li.ui-menu-item a')
+  page.should have_selector('ul.ui-autocomplete li.ui-menu-item')
   page.execute_script %Q{ $('#{selector}').trigger('mouseenter').click() }
 
-  page.execute_script("$('.ui-menu-item a:first').trigger('mouseenter').click() ")
+  page.execute_script("$('.ui-menu-item:first').trigger('mouseenter').click() ")
 end

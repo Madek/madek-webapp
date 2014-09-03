@@ -622,7 +622,7 @@ end
 
 Then /^I click on "(.*?)" inside the autocomplete list$/ do |text|
   wait_until{  all("ul.ui-autocomplete li").size > 0 }
-  find("ul.ui-autocomplete li a",text: text).click
+  find("ul.ui-autocomplete li",text: text).click
 end
 
 Then /^I click on "(.*?)" inside the node with the id "(.*?)"$/  do |text, id|
