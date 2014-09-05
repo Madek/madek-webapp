@@ -19,11 +19,14 @@
       Z&uuml;rcher Hochschule der K&uuml;nste and contributors
 
     %p.ui-footer-version
+      Semver
+      %a.weak{href: "https://github.com/zhdk/madek/releases/tag/#{semver}", style: "font-family: monospace"}
+        =semver 
       Aufgespielter Commit 
       %a.weak{href: "https://github.com/zhdk/madek/commit/#{CurrentCommit.get}", style: "font-family: monospace"}
         #{CurrentCommit.get.to_s[0..5]} 
       vom 
-      -#  TODO remove rescue; it was added because there seems a bug with the git gem and ruby 2.1.0
+      -# rescue was added because there seems a bug with the git gem and ruby 2.x
       = l CurrentCommit.get.committer_date, format: :short rescue "Unknown"
 
 - if clipboard
