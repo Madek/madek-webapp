@@ -75,7 +75,7 @@ Feature: Managing Users and Logins
 
   Scenario: Listing detailed information about user's resources
     When I visit "/app_admin/users"
-    And I click on the link "Details"
+    And I click on the last "Details" link
     Then I am on a "/app_admin/users/\w+" page
     And I see a table row with "# Media Entries"
     And I see a table row with "# Media Sets"
@@ -118,6 +118,6 @@ Feature: Managing Users and Logins
     Then I can see "Knacknuss, Karen"
     When I click on the link "Add to admins"
     Then I can see a success message
-    And I cannot see "Knacknuss, Karen"
+    And I can see "Knacknuss, Karen"
     When I visit "/app_admin/admin_users"
     Then I can see "Knacknuss, Karen"

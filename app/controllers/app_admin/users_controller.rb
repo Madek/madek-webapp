@@ -10,7 +10,7 @@ class AppAdmin::UsersController < AppAdmin::BaseController
       format.html {
 
           begin
-          @users = User.with_resources_amount.ordinary_users
+          @users = User.with_resources_amount
 
           @users = @users.page(params[:page])
 

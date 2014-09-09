@@ -28,10 +28,6 @@ class User < ActiveRecord::Base
   scope :order_by_last_name_first_name, ->{
     joins(:person).reorder("people.last_name, people.first_name, people.pseudonym") }
 
-  scope :ordinary_users, ->{
-    where(%Q{NOT EXISTS (SELECT NULL FROM "admin_users" WHERE "admin_users"."user_id" = "users"."id")})
-  }
-
   scope :admin_users, ->{
     joins(:admin_user)
   }
