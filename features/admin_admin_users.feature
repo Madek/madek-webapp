@@ -104,3 +104,10 @@ Feature: Managing Admin Users and Logins
     And I select "Trigram search ranking" option from Sort by select
     And I submit
     Then I can see "Adam"
+
+  @jsbrowser
+  Scenario: Switching to another admin user
+    When I make "karen" as an admin user
+    And I visit "/app_admin/admin_users"
+    And I click on the last "Switch to" link
+    Then I am logged in as "Karen"

@@ -136,7 +136,7 @@ class AppAdmin::UsersController < AppAdmin::BaseController
   def switch_to
     reset_session
     set_madek_session(User.find(params[:id]))
-    redirect_to root_path
+    redirect_to root_url
   end
 
   def reset_usage_terms

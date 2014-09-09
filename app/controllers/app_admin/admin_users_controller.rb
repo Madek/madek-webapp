@@ -1,4 +1,6 @@
 class AppAdmin::AdminUsersController < AppAdmin::BaseController
+  include Concerns::SetSession
+
   def index
     begin
       @admin_users = User.with_resources_amount.admin_users
@@ -117,8 +119,8 @@ class AppAdmin::AdminUsersController < AppAdmin::BaseController
 
   def switch_to
     reset_session
-    self.current_user = User.find(params[:id])
-    redirect_to root_path
+    set_madek_session(User.find(params[:id]))
+    redirect_to root_url
   end
 
   def reset_usage_terms

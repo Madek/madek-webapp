@@ -6,6 +6,11 @@ Then /^I make the group name empty$/ do
   find("input#group-name").set ""
 end
 
+When /^I make "(.*?)" as an admin user$/ do |login|
+  user = User.find_by(login: login)
+  AdminUser.create!(user: user)
+end
+
 When /^I merge "(.*?)" meta term to "(.*?)"$/ do |from, to|
   originator    = find("ul.meta-terms input[value='#{from}']")
   originator_li = originator.find(:xpath, "ancestor::li")
