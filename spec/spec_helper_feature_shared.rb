@@ -22,7 +22,6 @@ end
 
 def sign_in_as login, password= 'password'
   visit "/"
-  find("a#database-user-login-tab").click
   find("input[name='login']").set(login)
   find("input[name='password']").set(password)
   find("button[type='submit']").click

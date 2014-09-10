@@ -1,18 +1,7 @@
-:ruby
-
-  primary = (!!defined?(primary) and !primary.nil?) ? primary : true
-
+- primary = (!!defined?(primary) and !primary.nil?) ? primary : true
 - if current_user.is_guest?
   .dropdown.ui-dropdown.stick-right
-    %a.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#", :class => primary ? "primary-button" : "button"}
-      %i.icon-man_silhouette{:class => primary ? "" : ""}
+    %a.dropdown-toggle{:href => root_path, :class => primary ? "primary-button" : "button"}
+      %i.icon-man_silhouette
       = _("Log in")
-    %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
-      - if @app_settings.authentication_systems.include? :zhdk_agw
-        %li.ui-drop-item
-          %a{:href => login_and_return_here_path}
-            = _("ZHdK login")
-      - if @app_settings.authentication_systems.include? :local_database
-        %li.ui-drop-item
-          %a{:href => root_path(:external_user_login => true)}
-            = _("External users")
+

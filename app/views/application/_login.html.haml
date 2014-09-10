@@ -1,11 +1,3 @@
-:ruby
-
-  active_login = if params[:external_user_login] or !@app_settings.authentication_systems.include?(:zhdk_agw)
-    :external
-  else
-    :zhdk_agw
-  end
-
 .ui-home-claim.ui-container
   .col2of3
     .pitch-claim
@@ -23,33 +15,24 @@
   .col1of3
     .pitch-login
       %ul.ui-tabs.ui-container
-        -if @app_settings.authentication_systems.size > 1
-          - if @app_settings.authentication_systems.include? :zhdk_agw
-            %li.ui-tabs-item.left{:class => active_login == :zhdk_agw ? "active" : ""}
-              %a#zhdk-user-login-tab{"data-toggle" => "tab", :href => "#internal-user"}
-                = _("ZHdK login")
-          - if @app_settings.authentication_systems.include? :local_database
-            %li.ui-tabs-item.right{:class => active_login == :external ? "active" : ""}
-              %a#database-user-login-tab{"data-toggle" => "tab", :href => "#external-user"}
-                = _("External users")
+        - if zhdk_login? 
+          %li.ui-tabs-item.left.active
+            %a#zhdk-user-login-tab{"data-toggle" => "tab", :href => "#zhdk-user"}
+              = _("ZHdK login")
+          %li.ui-tabs-item.right
+            %a#database-user-login-tab{"data-toggle" => "tab", :href => "#database-user"}
+              = _("External users")
 
-      .tab-content.pitch-login-tab{class: ( @app_settings.authentication_systems.size < 2 ? "round mts pts" : "")}
-        - if @app_settings.authentication_systems.include? :zhdk_agw
-          #internal-user.tab-pane{:class => active_login == :zhdk_agw ? "active" : ""}
-            %form
-              .form-body
-                .ui-form-group.rowed
-                  %p.mbm Alle Funktionen nutzen und auf <br/> mehr Inhalte zugreifen.
-                  %a#internal-login-link.primary-button.block.large{href: login_path}
-                    = _("Log in")
-        - if @app_settings.authentication_systems.include? :local_database
-          #external-user.tab-pane{:class => active_login == :external ? "active" : ""}
-            = form_tag sign_in_session_path do
-              .form-body
-                .ui-form-group.rowed.compact
-                  %input.block.large{:placeholder => _("Username"), :type => "text", :name => :login, :autofocus => params[:external_user_login] ? "autofocus" : "false"}/
-                .ui-form-group.rowed.compact
-                  %input.block.large{:placeholder => _("Password"), :type => "password", :name => :password}/
-                .ui-form-group.rowed.compact
-                  %button.primary-button.block.large{:type => :submit}
-                    = _("Log in")
+      .tab-content.pitch-login-tab{class: zhdk_login? ? "" : "round mts pts"}
+        - if zhdk_login?
+          = render "zhdk_login_form"
+        #database-user.tab-pane{class: zhdk_login? ? "" : "active"}
+          = form_tag sign_in_session_path do
+            .form-body
+              .ui-form-group.rowed.compact
+                %input.block.large{:placeholder => _("Username"), :type => "text", :name => :login, :autofocus => params[:database_user_login] ? "autofocus" : "false"}/
+              .ui-form-group.rowed.compact
+                %input.block.large{:placeholder => _("Password"), :type => "password", :name => :password}/
+              .ui-form-group.rowed.compact
+                %button.primary-button.block.large{:type => :submit}
+                  = _("Log in")

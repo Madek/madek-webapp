@@ -9,7 +9,7 @@ class CreateIoInterfaces < ActiveRecord::Migration
 
     reversible do |dir|
       dir.up do 
-        execute 'ALTER TABLE io_interfaces ADD PRIMARY KEY (id)'
+        # execute 'ALTER TABLE io_interfaces ADD PRIMARY KEY (id)'
       end
     end
 

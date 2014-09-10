@@ -40,7 +40,6 @@ Feature: Managing Admin Users and Logins
     And I submit 
     Then I can see a success message
     When I logout
-    And I click on the database login tab
     And I set the input with the name "login" to "fritzli"
     And I set the input with the name "password" to "new_password"
     And I click the submit button

@@ -11,6 +11,13 @@ GIT
     textacular (3.2.0)
       activerecord (>= 3.0, < 4.2)
 
+GIT
+  remote: https://github.com/zhdk/madek-zhdk-integration.git
+  revision: 4f32b488a407a7c29e0f38e3fd2d63e96a9520a8
+  specs:
+    madek_zhdk_integration (0.0.1)
+      rails (~> 4.1.5)
+
 GEM
   remote: http://rubygems.org/
   remote: http://gems.github.com/
@@ -393,6 +400,7 @@ DEPENDENCIES
   json
   kaminari
   kramdown
+  madek_zhdk_integration!
   memcache-client
   meta_request
   net-ldap!

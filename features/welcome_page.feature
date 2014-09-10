@@ -6,7 +6,6 @@ Feature: Welcome Page
     And I see at most three elements of the catalog
     And I see sets of the featured sets
     And I see new content
-    And I see a ZHdK-Login
     And I see a database login
     And I see an explore tab
     And I see an help tab

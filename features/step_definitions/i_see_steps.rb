@@ -26,7 +26,7 @@ Then /^I see a confirmation alert$/ do
 end
 
 Then /^I see a database login$/ do
-  expect(find "#external-user" ).to be
+  expect(find "#database-user" ).to be
 end
 
 Then /^I see a "(.*?)" modal$/ do |title|

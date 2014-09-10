@@ -221,7 +221,6 @@ end
 
 Then /^I am signed\-in as "(.*?)"$/ do |login|
   visit "/"
-  find("a#database-user-login-tab").click
   find("input[name='login']").set(login)
   find("input[name='password']").set('password')
   find("button[type='submit']").click

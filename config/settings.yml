@@ -6,3 +6,5 @@ release:
   version_patch: 13
   version_pre: ""
   version_build: ""
+
+zhdk_integration: false

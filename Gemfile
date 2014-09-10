@@ -79,6 +79,12 @@ gem 'zencoder', '~> 2.4'
 gem 'zencoder-fetcher', group: [:development]
 
 
+# ZHDK-INTEGRATION 
+#gem "madek_zhdk_integration", path: "../zhdk_integration"
+gem "madek_zhdk_integration", git: 'https://github.com/zhdk/madek-zhdk-integration.git' 
+
+
 
 # TEMPORARILY DISABLED
 # gem 'rack-mini-profiler', group: [:development]
+#

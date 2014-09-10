@@ -44,14 +44,26 @@ module DBHelper
   
     def dump_data options= {}
       options = options.symbolize_keys
-      path = options[:path] || dump_file_path(options.merge({extension: 'pqsql'}))
+      path = options[:path] || dump_file_path(options.merge({extension: 'pgsql'}))
       set_pg_env (options[:config] || 
                   Rails.configuration.database_configuration[Rails.env])
-      cmd = "pg_dump -x -T schema_migrations --disable-triggers -E utf-8 -a -O --no-acl -f #{path}"
+      cmd = "pg_dump -x -T schema_migrations -E utf-8 -a --no-acl -f #{path}"
       system cmd
       raise "#{cmd} failed" unless $?.exitstatus == 0
       {path: path, return_value: $?}
     end
+
+    def dump options= {}
+      options = options.symbolize_keys
+      path = options[:path] || dump_file_path(options.merge({extension: 'pgbin'}))
+      set_pg_env (options[:config] || 
+                  Rails.configuration.database_configuration[Rails.env])
+      cmd = "pg_dump -x -E utf-8 -F c -f #{path}"
+      system cmd
+      raise "#{cmd} failed" unless $?.exitstatus == 0
+      {path: path, return_value: $?}
+    end
+
 
     def load_data path, options = {} 
       config = options[:config] || Rails.configuration.database_configuration[Rails.env]
