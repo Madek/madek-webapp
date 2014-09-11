@@ -126,7 +126,3 @@ PER_PAGE = [36,100]
 LANGUAGES = [:de_ch, :en_gb]
 DEFAULT_LANGUAGE = :de_ch
 
-ENCODING_BASE_URL = "http://test:MAdeK@test.madek.zhdk.ch"
-ENCODING_TEST_MODE = 1 # 1 for true, 0 for false
-
-RELEASE_VERSION = "0.8.0.1"

@@ -88,7 +88,7 @@ class ZencoderJob < ActiveRecord::Base
    
   def build_zencoder_request
     { input: "#{ENV['URL_HOST_PART']}/media_files/#{media_file.id}?access_hash=#{media_file.access_hash}",
-      test: (ENCODING_TEST_MODE == 1) ?  true : false,
+      test: Settings.zencoder.test_mode?,
       notifications: [notification_url]
     }.merge(build_zencoder_outputs_request)
   end
