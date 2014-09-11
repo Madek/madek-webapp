@@ -36,7 +36,7 @@ class MediaEntry < MediaResource
     require 'active_support/builder' unless defined?(::Builder)
     xml = ::Builder::XmlMarkup.new
     xml.instruct!
-    xml.madek(:version => RELEASE_VERSION) do
+    xml.madek(:version => MadekSemver.semver) do
       Array(resources).each do |resource|
         resource.to_tms(xml, io_interface)
       end
