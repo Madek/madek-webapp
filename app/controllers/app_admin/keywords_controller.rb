@@ -2,16 +2,26 @@ class AppAdmin::KeywordsController < AppAdmin::BaseController
   before_action :set_filters, only: :index
 
   def index
-    @keyword_terms = KeywordTerm.with_count.with_date_of_creation.page(params[:page]).per(12)
+    @keyword_terms = KeywordTerm \
+      .with_count \
+      .with_users_count \
+      .with_date_of_creation \
+      .page(params[:page]).per(12)
+
+    @search_by = params[:search_by] == 'creator' ? :creator : :term
 
     if @search_term.present?
-      case params.try(:[], :sort_by) 
-      when 'trgm_rank'
-        @keyword_terms = @keyword_terms.trgm_rank_search(@search_term)
-      when 'text_rank'
-        @keyword_terms = @keyword_terms.text_rank_search(@search_term)
+      if @search_by == :term
+        case params.try(:[], :sort_by) 
+        when 'trgm_rank'
+          @keyword_terms = @keyword_terms.trgm_rank_search(@search_term)
+        when 'text_rank'
+          @keyword_terms = @keyword_terms.text_rank_search(@search_term)
+        else
+          @keyword_terms = @keyword_terms.text_search(@search_term)
+        end
       else
-        @keyword_terms = @keyword_terms.text_search(@search_term)
+        @keyword_terms = @keyword_terms.with_creators(@search_term)
       end
     end
 
@@ -80,10 +90,16 @@ class AppAdmin::KeywordsController < AppAdmin::BaseController
     end
   end
 
+  def users
+    @keyword_term = KeywordTerm.find(params[:id])
+    @users = User.where(%<users.id IN (#{@keyword_term.keywords.select('"keywords"."user_id"').to_sql})>)
+  end
+
   def default_url_options(options={})
     {
       :search_term => params.try(:[], :search_term),
-      :sort_by     => params.try(:[], :sort_by).try(&:to_sym)
+      :sort_by     => params.try(:[], :sort_by).try(&:to_sym),
+      :search_by   => params.try(:[], :search_by).try(&:to_sym)
     }
   end
 

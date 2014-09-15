@@ -10,7 +10,7 @@ describe KeywordTerm do
       FactoryGirl.create :keyword, user: creator_user, keyword_term: keyword_term
       FactoryGirl.create :keyword, user: common_user,  keyword_term: keyword_term
 
-      expect(keyword_term.creator).to eq(creator_user)
+      expect(keyword_term.reload.creator).to eq(creator_user)
     end
   end
 end

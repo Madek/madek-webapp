@@ -29,7 +29,7 @@ Feature: Admin Keywords
     Then I can see a success message
     And I can see the text "TERM"
 
-  Scenario: Searching keywords
+  Scenario: Searching keywords by term
     When I visit "/app_admin/keywords"
     And I set the input with the name "search_term" to "sq6"
     And I submit
@@ -37,6 +37,13 @@ Feature: Admin Keywords
     When I set the input with the name "search_term" to "SQ"
     And I submit
     Then I can see only results containing "sq6" term
+
+  Scenario: Searching keywords by creator
+    When I visit "/app_admin/keywords"
+    And I set the input with the name "search_term" to "liselotte"
+    And I select "Creator" from the select node with the name "search_by"
+    And I submit
+    Then I can see only results containing "Liselotte" term
 
   @firefox
   Scenario: Searching and ranking keywords by text search

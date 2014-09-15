@@ -393,6 +393,7 @@ MAdeK::Application.routes.draw do
       member do
         get  :form_transfer_resources
         post :transfer_resources
+        get  :users
       end
     end
 

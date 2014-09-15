@@ -5,7 +5,12 @@
   = form_tag app_admin_keywords_path, method: 'GET', class: 'form-inline' do
 
     .form-group
-      = text_field_tag :search_term, @search_term, placeholder: "Term", class: "form-control"
+      = text_field_tag :search_term, @search_term, placeholder: "Search term", class: "form-control"
+
+    .form-group
+      %label Search by:
+      %select.form-control.search-by{name: :search_by}
+        = options_for_select [["Term", :term], ["Creator", :creator]], @search_by
 
     .form-group
       %label Sort by:
@@ -23,7 +28,7 @@
         %i.icon-filter
         Apply
 
-    = link_to "Reset", app_admin_keywords_path(search_term: nil, sort_by: nil)
+    = link_to "Reset", app_admin_keywords_path(search_term: nil, sort_by: nil, search_by: nil)
 
 .pull-left
   = "Number of keyword terms found:"

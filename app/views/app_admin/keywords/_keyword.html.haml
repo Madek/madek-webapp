@@ -2,7 +2,7 @@
   %td= keyword.id
   %td= keyword.term
   %td= keyword.keywords_count.zero? ? "Not used" : keyword.keywords_count
-  %td= keyword.creator
+  %td= keyword.creator || "<em>not available</em>".html_safe
   %td= keyword.formatted_created_at
   %td.no-wrap
     = link_to edit_app_admin_keyword_path(keyword), class: "btn btn-warning btn-xs" do
@@ -19,6 +19,10 @@
       = link_to result_search_path(terms: keyword.term), target: "_blank" do
         %i.icon-vis-graph
         Show resources
+      %br
+      = link_to users_app_admin_keyword_path(keyword) do
+        %i.icon-user
+        Used by #{keyword.users_count} user(s)
     - else
       = link_to app_admin_keyword_path(keyword), class: "btn btn-danger btn-xs", method: :delete, data: {confirm: "Are you sure you want to delete this keyword?"} do
         %i.icon-trash

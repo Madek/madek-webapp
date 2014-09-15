@@ -1,0 +1,15 @@
+%h1
+  Keyword <strong>#{@keyword_term.term}</strong> is used by:
+
+%ul.list-inline
+  %li
+    = link_to app_admin_keywords_path, class: 'btn btn-default' do
+      %i.icon-arrow-left
+      Go back to the keywords list
+
+%table.table.table-striped
+  %thead
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td= user
