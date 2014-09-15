@@ -13,6 +13,7 @@ class PdfPreviewController
 
   constructor: (data)->
     @el = $(@el)
+    @el.addClass("ui-preloader")
     PDFJS.workerSrc = data.worker_path
     @document_path = data.document_path
     @canvas = @el.find("#ui-document-preview")[0]
@@ -88,7 +89,8 @@ class PdfPreviewController
         canvasContext: context
         viewport: viewport
 
-      page.render renderContext
+      page.render(renderContext).promise.then ->
+        $(".ui-preloader").removeClass("ui-preloader")
 
 window.App.PdfPreviewController = PdfPreviewController
 
