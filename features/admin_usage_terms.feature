@@ -15,6 +15,6 @@
 
   @jsbrowser
   Scenario: Resetting usage terms acceptance of a user
-    When I visit "/app_admin/admin_users"
+    When I visit "/app_admin/users"
     And I click on "Reset usage terms"
     Then I see the Akzeptieren button

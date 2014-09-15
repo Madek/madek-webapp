@@ -32,10 +32,16 @@
           ["Trigram search ranking", :trgm_rank],
           ], @sort_by
 
+    .checkbox
+      %label
+        = check_box_tag 'filter[admins]', 'true', @admins_filter
+        Admins?
+
     .form-group
       = button_tag type: 'submit', class: 'btn btn-sm' do
         %i.icon-filter
         Apply
+      = link_to "Reset", app_admin_users_path
 
 .row
   = "Number of users found:"

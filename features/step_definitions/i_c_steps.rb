@@ -92,6 +92,13 @@ Then /^I can not delete that person$/ do
   expect{ find("tr#person_#{@person_without_meta_data.id} a",text: 'Delete')}.to raise_error
 end
 
+Then /^I can only see admins in the list$/ do
+  all('table tbody tr').each do |row|
+    login = row.find('td').text
+    expect(User.find_by(login: login).is_admin?).to be_true
+  end
+end
+
 Then /^I can select "(.*?)" to grant group permissions$/ do |group|
   #wait_until{ all("#addGroup a", text: "Gruppe hinz").size > 0 }
   # find("#addGroup a",text: "Gruppe hinz").click
@@ -417,6 +424,10 @@ end
 
 Then /^I cannot see "(.*?)"$/ do |text|
   expect(page).not_to have_content text
+end
+
+Then /^I check a checkbox with name "(.*?)"$/ do |name|
+  check("#{name}")
 end
 
 When /^I check the first remove checkbox$/ do
@@ -854,8 +865,4 @@ end
 
 Then /^I create a dropbox$/ do
   step 'I click on the link "Dropbox erstellen" inside of the dialog'
-end
-
-Then /^I check a checkbox with name "(.*?)"$/ do |name|
-  check("#{name}")
 end

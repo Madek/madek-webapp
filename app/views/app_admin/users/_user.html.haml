@@ -9,17 +9,23 @@
   %td
     %ul.list-inline
       %li
-        = link_to generate_user_path(:app_admin_user, user), class: "btn btn-xs" do
+        = link_to app_admin_user_path(user), class: "btn btn-xs" do
           %i.fa.fa-eye-open
           Details
       %li
-        = link_to generate_user_path(:switch_to_app_admin_user, user), method: 'POST', class: "btn btn-xs btn-warning" do
+        = link_to switch_to_app_admin_user_path(user), method: :post, class: "btn btn-xs btn-warning" do
           Switch to
       %li
-        = link_to generate_user_path(:reset_usage_terms_app_admin_user, user), method: 'PUT', class: "btn btn-xs btn-warning" do
+        = link_to reset_usage_terms_app_admin_user_path(user), method: :put, class: "btn btn-xs btn-warning" do
           Reset usage terms
-      - unless user.is_admin?
+      - if user.is_admin?
         %li
-          = link_to add_to_admins_app_admin_user_path(user), method: 'POST', class: "btn btn-xs btn-warning" do
+          = link_to remove_from_admins_app_admin_user_path(user), method: :delete, class: "btn btn-xs btn-danger",
+            data: {confirm: "Are you sure you want to remove the user from admins?"} do
+            %i.icon-trash
+            Remove from admins
+      - else
+        %li
+          = link_to add_to_admins_app_admin_user_path(user), method: :post, class: "btn btn-xs btn-warning" do
             %i.icon-plus
             Add to admins

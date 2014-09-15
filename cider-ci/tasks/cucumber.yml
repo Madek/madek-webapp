@@ -1,8 +1,4 @@
 ---
-- name: admin_admin_users
-  scripts:
-    cucumber:
-      body: bundle exec cucumber --strict "features/admin_admin_users.feature"
 - name: admin_context_groups
   scripts:
     cucumber:

@@ -8,26 +8,31 @@ class AppAdmin::UsersController < AppAdmin::BaseController
         render :json => view_context.json_for(users)
       }
       format.html {
-
-          begin
+        begin
           @users = User.with_resources_amount
 
           @users = @users.page(params[:page])
 
-          @search_terms = params.try(:[],:filter).try(:[],:search_terms)
+          @search_terms  = params.try(:[], :filter).try(:[], :search_terms)
+          @admins_filter = params.try(:[], :filter).try(:[], :admins) == 'true'
 
           if ! @search_terms.blank?
             @search_terms = @search_terms.strip
             case params.try(:[], :sort_by) 
             when 'trgm_rank'
-              @users= @users.trgm_rank_search(@search_terms) \
+              @users = @users.trgm_rank_search(@search_terms) \
                 .joins(:person).order("people.last_name ASC, people.first_name ASC")
             when 'text_rank'
-              @users= @users.text_rank_search(@search_terms) \
+              @users = @users.text_rank_search(@search_terms) \
                 .joins(:person).order("people.last_name ASC, people.first_name ASC")
             else
-              @users= @users.text_search(@search_terms)
+              @users = @users.text_search(@search_terms)
             end
+          end
+
+          if @admins_filter
+            @admins_filter = true
+            @users = @users.admin_users
           end
 
           # reorder has to come after text-search; 
@@ -35,10 +40,10 @@ class AppAdmin::UsersController < AppAdmin::BaseController
           case params.try(:[], :sort_by) || 'last_name_first_name'
           when 'resources_amount'
             @sort_by = :resources_amount
-            @users= @users.sort_by_resouces_amount
+            @users = @users.sort_by_resouces_amount
           when 'last_name_first_name'
             @sort_by= :last_name_first_name
-            @users= @users.joins(:person).reorder("people.last_name ASC, people.first_name ASC")
+            @users = @users.joins(:person).reorder("people.last_name ASC, people.first_name ASC")
           when 'login'
             @sort_by = :login
             @users = @users.reorder("login ASC")
@@ -58,12 +63,12 @@ class AppAdmin::UsersController < AppAdmin::BaseController
   end
 
   def autocomplete_search 
-    @users= User.reorder(:autocomplete).where("autocomplete ilike ?","#{params[:search_term]}%").limit(50)
+    @users = User.reorder(:autocomplete).where("autocomplete ilike ?","#{params[:search_term]}%").limit(50)
     render json: @users.map(&:autocomplete)
   end
 
   def search 
-    @users= User.text_search(params[:search_term]).limit(50).order_by_last_name_first_name
+    @users = User.text_search(params[:search_term]).limit(50).order_by_last_name_first_name
     render json: @users.map{|u| {name: u.name, login: u.login}}
   end
 
@@ -85,9 +90,9 @@ class AppAdmin::UsersController < AppAdmin::BaseController
     begin
       @user = User.find(params[:id])
       @user.update_attributes! user_params
-      redirect_to app_admin_user_path(@user), flash: {success: "The user has been updated."}
+      redirect_to app_admin_user_url(@user), flash: {success: "The user has been updated."}
     rescue => e
-      redirect_to edit_app_admin_user_path(@user), flash: {error: e.to_s}
+      redirect_to edit_app_admin_user_url(@user), flash: {error: e.to_s}
     end
   end
 
@@ -95,9 +100,9 @@ class AppAdmin::UsersController < AppAdmin::BaseController
   def create
     begin
       @user = User.create! user_params
-      redirect_to app_admin_user_path(@user), flash: {success: "A new user has been created."}
+      redirect_to app_admin_user_url(@user), flash: {success: "A new user has been created."}
     rescue => e
-      redirect_to new_app_admin_user_path, flash: {error: e.to_s}
+      redirect_to new_app_admin_user_url, flash: {error: e.to_s}
     end
   end
 
@@ -107,19 +112,19 @@ class AppAdmin::UsersController < AppAdmin::BaseController
       ActiveRecord::Base.transaction do
         @person = Person.create! person_params
         @user = User.create! user_params.merge({person: @person}) 
-        redirect_to app_admin_users_path, flash: {success: "A new user with person has been created!"}
+        redirect_to app_admin_users_url, flash: {success: "A new user with person has been created!"}
       end
     rescue => e
-      redirect_to app_admin_users_path, flash: {error: e.to_s}
+      redirect_to app_admin_users_url, flash: {error: e.to_s}
     end
   end
 
   def destroy 
     begin 
       User.destroy(params[:id])
-      redirect_to app_admin_users_path, flash: {success: "The user has been destroyed!"}
+      redirect_to app_admin_users_url, flash: {success: "The user has been destroyed!"}
     rescue => e
-      redirect_to app_admin_users_path, flash: {error: e.to_s}
+      redirect_to app_admin_users_url, flash: {error: e.to_s}
     end
   end
 
@@ -127,9 +132,9 @@ class AppAdmin::UsersController < AppAdmin::BaseController
     begin
       @group = Group.find params[:group_id]
       @group.users.delete User.find(params[:id])
-      redirect_to app_admin_group_path(@group), flash: {success: "The user has been removed."}
+      redirect_to app_admin_group_url(@group), flash: {success: "The user has been removed."}
     rescue => e
-      redirect_to app_admin_group_path(@group), flash: {error: e.to_s}
+      redirect_to app_admin_group_url(@group), flash: {error: e.to_s}
     end
   end
 
@@ -143,16 +148,24 @@ class AppAdmin::UsersController < AppAdmin::BaseController
     @user = User.find(params[:id])
     @user.reset_usage_terms
 
-    redirect_to app_admin_users_path
+    redirect_to app_admin_users_url
   end
 
   def add_to_admins
     user = User.find(params[:id])
     AdminUser.create!(user: user)
 
-    redirect_to app_admin_users_path, flash: {success: "The user has become an admin."}
+    redirect_to app_admin_users_url, flash: {success: "The user has become an admin."}
   rescue => e
-    redirect_to app_admin_users_path, flash: {error: e.message}
+    redirect_to app_admin_users_url, flash: {error: e.message}
+  end
+
+  def remove_from_admins
+    AdminUser.find_by(user_id: params[:id]).destroy!
+
+    redirect_to app_admin_users_url, flash: {success: "The user has been removed from admins."}
+  rescue => e
+    redirect_to app_admin_users_url, flash: {error: e.to_s}
   end
 
   private

@@ -111,12 +111,41 @@ Feature: Managing Users and Logins
     And I submit
     Then I can see "Karen"
 
+  Scenario: Filtering admin users
+    When I visit "/app_admin/users"
+    And I check a checkbox with name "filter[admins]"
+    And I submit
+    Then I can only see admins in the list
+
   @jsbrowser
   Scenario: Adding an user to admins
     When I visit "/app_admin/users"
     Then I can see "Knacknuss, Karen"
     When I click on the link "Add to admins"
     Then I can see a success message
-    And I can see "Knacknuss, Karen"
-    When I visit "/app_admin/admin_users"
+    When I check a checkbox with name "filter[admins]"
+    And I submit
     Then I can see "Knacknuss, Karen"
+
+  @jsbrowser
+  Scenario: Removing an user from admins
+    When I visit "/app_admin/users"
+    Then I click on the link "Add to admins"
+    When I visit "/app_admin/users?filter[admins]=true"
+    Then I can see "Karen"
+    When I click on the last "Details" link
+    And I click on "Remove from admins"
+    Then I can see a success message
+    When I visit "/app_admin/users?filter[admins]=true"
+    Then I cannot see "Karen"
+
+  @jsbrowser
+  Scenario: Switching to another admin user
+    When I make "karen" as an admin user
+    And I visit "/app_admin/users"
+    And I check a checkbox with name "filter[admins]"
+    And I submit
+    And I click on the last "Switch to" link
+    Then I am logged in as "Karen"
+    When I visit "/app_admin"
+    And I can see "Madek Admin"

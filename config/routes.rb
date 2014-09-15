@@ -417,19 +417,6 @@ MAdeK::Application.routes.draw do
         post :transfer_meta_data
       end
     end
-    resources :admin_users do
-      collection do
-        get :form_create_with_user
-        get :search
-        get :autocomplete_search
-        post :create_with_user
-      end
-      member do
-        delete :remove_from_admins
-        post :switch_to
-        put :reset_usage_terms
-      end
-    end
     resources :users do
       collection do
         get :form_create_with_user
@@ -440,6 +427,7 @@ MAdeK::Application.routes.draw do
       member do
         post :switch_to
         post :add_to_admins
+        delete :remove_from_admins
         put :reset_usage_terms
       end
     end
