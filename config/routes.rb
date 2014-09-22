@@ -453,10 +453,16 @@ MAdeK::Application.routes.draw do
   ####################################################################################
   get '/media_entries/:id' => redirect("/entries/%{id}")
   get '/media_entries/:id/context_group/:name' => redirect("/entries/%{id}/vocabulary")
+  get '/media_entries/:id/image' => redirect("/entries/%{id}/image")
+  get '/media_entries/:id/map' => redirect("/entries/%{id}/map")
+  get '/media_entries/:id/document' => redirect("/entries/%{id}/document")
+  get '/media_entries/:id/more_data' => redirect("/entries/%{id}/more_data")
+  get '/media_entries/:id/parents' => redirect("/entries/%{id}/parents")
   
   get '/media_sets/:id' => redirect("/sets/%{id}")
   get '/media_sets/:id/media_entries/:entry_id' => redirect("/sets/%{id}/entries/%{entry_id}")
-
+  get '/media_sets/:id/category' => redirect("/sets/%{id}/category")
+  get '/media_sets/:id/parents' => redirect("/sets/%{id}/parents")
 
   get '/contexts/:id' => redirect("/vocabulary/%{id}")
   get '/contexts/:id/entries' => redirect("/vocabulary/%{id}/entries")
