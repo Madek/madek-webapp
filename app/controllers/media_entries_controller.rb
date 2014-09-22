@@ -4,6 +4,8 @@ class MediaEntriesController < ApplicationController
   include Concerns::PreviousIdRedirect
   include Concerns::CustomUrls
 
+  skip_before_filter :login_required, :only => [:document]
+
   before_action :the_messy_before_filter, except: [:show, :document] 
   before_action :set_instance_vars, :only => [:map, :more_data, :parents, :contexts]
 
@@ -82,8 +84,8 @@ class MediaEntriesController < ApplicationController
 
   def set_instance_vars
     @main_context_group = ContextGroup.sorted_by_position.first
-    @can_download = current_user.authorized?(:download, @media_entry)
-    @can_edit = current_user.authorized?(:edit, @media_entry)
+    @can_download = current_user.try(:authorized?, :download, @media_entry)
+    @can_edit = current_user.try(:authorized?, :edit, @media_entry)
     @original_file = @media_entry.media_file
     @original_file_available = (@original_file and File.exist?(@original_file.file_storage_location)) # NOTE it could be a zip file
     @format_original_file = view_context.file_format_for(@original_file)
@@ -95,7 +97,7 @@ class MediaEntriesController < ApplicationController
   def check_and_initialize_for_view
     @media_entry = find_media_resource 
     raise "Wrong type" unless @media_entry.is_a? MediaEntry
-    raise UserForbiddenError unless current_user.authorized?(:view,@media_entry)
+    raise UserForbiddenError unless current_user.try(:authorized?, :view, @media_entry) || @media_entry.view == true
   end
 
   def show
