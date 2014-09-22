@@ -42,10 +42,9 @@ class DownloadController < ApplicationController
       end
   end 
   
-  
   def send_preview
-    # This isn't video or audio, it's a plain old image
-    preview = @media_entry.media_file.get_preview(@size)
+    preview_type = @media_entry.media_file.video_type? ? "video/mp4" : nil
+    preview = @media_entry.media_file.get_preview(@size, preview_type)
     @content_type = preview.content_type
     @filename = [@filename.split('.', 2).first, preview.filename.gsub(@media_entry.media_file.guid, '')].join
     path = preview.full_path

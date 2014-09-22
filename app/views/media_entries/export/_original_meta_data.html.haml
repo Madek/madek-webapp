@@ -22,7 +22,7 @@
 
         - if @x_large_file
           %li.ui-drop-item.by-right
-            %a{:href => "/download?id=#{@media_entry.id}&size=x_large"}
+            %a{:href => "/download?id=#{@media_entry.id}&size=#{@preview_size}"}
               = number_to_human_size(@x_large_file.size)
               = "(#{dimensions_for(@x_large_file)})" if dimensions_for(@x_large_file)
               %strong= @format_original_file

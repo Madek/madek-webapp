@@ -89,7 +89,8 @@ class MediaEntriesController < ApplicationController
     @original_file = @media_entry.media_file
     @original_file_available = (@original_file and File.exist?(@original_file.file_storage_location)) # NOTE it could be a zip file
     @format_original_file = view_context.file_format_for(@original_file)
-    @x_large_file = @media_entry.media_file.get_preview(:x_large)
+    @preview_size = @media_entry.media_file.video_type? ? :large : :x_large
+    @x_large_file = @media_entry.media_file.get_preview(@preview_size)
     @x_large_file_available = (@x_large_file and File.exist?(@x_large_file.full_path))
   end 
 

@@ -76,7 +76,10 @@ class MediaFile < ActiveRecord::Base
         "other"
       end
     end
-
   end
-  
+
+  def video_type?
+    media_type == 'video'
+  end
+
 end
