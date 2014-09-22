@@ -42,8 +42,8 @@ class ClipboardController
     @clear_el.on "click", => do @clear
     @selectAll_el.bind "click", => do @selectAll unless @selectAll_el.hasClass(".disabled")
     $("[data-clipboard-toggle]").live "click", (e)=> @toggleSelection $(e.currentTarget)
-    $(".ui-thumbnail-action-checkbox:visible").live "inview", (e)=> @checkClipboardState $(e.currentTarget)
-    $(".active.ui-resources .ui-resource").live "mouseenter", (e)=> @checkClipboardState $(e.currentTarget).find(".ui-thumbnail-action-checkbox")
+    $("[data-clipboard-toggle]:visible").live "inview", (e)=> @checkClipboardState $(e.currentTarget)
+    $(".active.ui-resources .ui-resource").live "mouseenter", (e)=> @checkClipboardState $(e.currentTarget).find("[data-clipboard-toggle]")
     $(@collection).bind "refresh", => do @saveCollection and do @updateCount and do @updateMainCollectionButtons
     $(@editableMediaEntriesCollection).bind "refresh", => do @saveEditableMediaEntriesCollection and do @updateEditableButtons
     $(@manageableCollection).bind "refresh", => do @saveManageableCollection and do @updateManageableButtons
@@ -214,16 +214,16 @@ class ClipboardController
   clearToggleAnimation: -> clearTimeout @toggleAnimationTimer if @toggleAnimationTimer?
 
   toggleSelection: (element)->
-    element = element.find(".ui-thumbnail-action-checkbox") unless element.is ".ui-thumbnail-action-checkbox"
-    container = element.closest "[data-id]"
+    element = element.find("[data-clipboard-toggle]") unless element.is "[data-clipboard-toggle]"
+    container = element.parents "[data-id]"
     mr = new App.MediaResource container.data()
     if element.is ".active"
       element.removeClass "active"
-      container.find(".ui-thumbnail-action-checkbox").removeClass "active"
+      container.find("[data-clipboard-toggle]").removeClass "active"
       @remove mr
     else
       element.addClass "active"
-      container.find(".ui-thumbnail-action-checkbox").addClass "active"
+      container.find("[data-clipboard-toggle]").addClass "active"
       @add mr
 
   restoreVisibleResources: ->
@@ -254,7 +254,7 @@ class ClipboardController
     @deactivateCheckbox mr
     do @deActivateSelectAll
 
-  deactivateCheckbox: (mr)-> $("[data-id='#{mr.id}'] .ui-thumbnail-action-checkbox").removeClass "active"
+  deactivateCheckbox: (mr)-> $("[data-id='#{mr.id}'] [data-clipboard-toggle]").removeClass "active"
 
   clear: ->
     do @resetVisibleResources

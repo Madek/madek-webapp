@@ -43,6 +43,8 @@
   height: 35px
   padding: $space-s ($space-l + $space-s) $space-s $space-s
   z-index: 50
+  &, &:hover
+    text-decoration: none
 
 .ui-tile__flags
   +dimension(20px, 36px)
@@ -51,6 +53,8 @@
   padding-left: $space-x
   color: $mono-light
   text-align: center
+  .ui-thumbnail-privacy
+    border: none
 
 .ui-tile__flag
   float: right
@@ -60,7 +64,9 @@
  *  Head elements
  *-----------------------------------------
 
-.ui-tile__actions
+.ui-tile__actions, .ui-tile__status
+  &.left
+    position: absolute
 
 .ui-tile__action
   display: inline-block
@@ -83,6 +89,10 @@
   padding: $space-x
   text-align: center
   text-decoration: none !important
+  .ui-tile__status &
+    background: none
+    box-shadow: none
+    +text-shadow( 1px  0px  1px $lighten-more, 0px  1px  1px $lighten-more, -1px  0px  1px $lighten-more, 0px -1px  1px $lighten-more)
 
 .ui-tile__action-link i
   position: relative
@@ -146,10 +156,20 @@
  *-----------------------------------------
 
 .ui-tile
-  .ui-tile__head
+  .ui-tile__head ul
     +transition
     opacity: 0
-    z-index: 999999
-  &:hover
-    .ui-tile__head
+    &.ui-tile__status
       opacity: 1
+  &:hover
+    .ui-tile__head ul
+      opacity: 1
+      &.ui-tile__status
+        opacity: 0
+  
+  .ui-tile__head
+    .ui-tile__status
+      .ui-tile__action-link
+        display: none
+        &.active
+          display: inherit

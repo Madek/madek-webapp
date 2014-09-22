@@ -62,7 +62,7 @@
     .ui-tile__foot
       +transition
       opacity: 0
-      z-index: 999999
+      z-index: 1000
     &:hover
       .ui-tile__foot
         opacity: 1
@@ -104,3 +104,25 @@
     .ui-tile
       .ui-tile__image
         +dimension(auto, 300px)
+/* Layout switching
+ *-----------------------------------------
+
+// - hide extra tile-markup when layout!==tile
+.ui-resources
+  .ui-tile
+    display: none
+  
+// - un-hide it when layout===tile, but hide the rest!
+.ui-resources.tiles
+  .ui-tile
+    display: inline-block
+  .ui-resource-head, .ui-resource-body
+    display: none
+
+// hide certain actions when the user is guest (not logged in)
+.ui-resources
+  .no-guest
+    display: none
+  &.active
+    .no-guest
+      display: initial

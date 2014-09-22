@@ -33,7 +33,9 @@ class MediaResourcesController.Index
     do @initalFetch
 
   delegateEvents: ->
-    @layoutSwitcher.on "click", "[data-vis-mode]", (e) => @switchLayout $(e.currentTarget).data("vis-mode")
+    @layoutSwitcher.on "click", "[data-vis-mode]", (e)=>
+      btn= $(e.currentTarget)
+      @switchLayout btn.data("vis-mode"), btn.data("vis-mode-extra-classes")
     @el.on "inview", ".not-loaded.ui-resources-page", (e)=> @loadPage $(e.currentTarget)
     @el.on "inview", "[data-group-of-ten-page]", (e)=> @enfoldGroupOfPages $(e.currentTarget)
     @sorting.on "click", "[data-sort]", (e) => @changeSorting $(e.currentTarget)
@@ -45,7 +47,8 @@ class MediaResourcesController.Index
     unless @getCurrentVisMode()?
       if sessionStorage.currentLayout?
         layout = JSON.parse sessionStorage.currentLayout
-        @switchLayout layout
+        extraClasses= $("[data-vis-mode='#{layout}']").data("vis-mode-extra-classes")
+        @switchLayout(layout, extraClasses)
       else
         @layoutSwitcher.find("[data-default]").addClass "active"
     unless @getCurrentSorting()?
@@ -128,12 +131,12 @@ class MediaResourcesController.Index
   resetForLoading: -> 
     @list.html App.render "media_resources/loading_list"
 
-  switchLayout: (visMode)->
+  switchLayout: (visMode, extraClasses)->
     return true if visMode == @getCurrentVisMode()
     @layoutSwitcher.find("[data-vis-mode]").removeClass "active"
     @layoutSwitcher.find("[data-vis-mode='#{visMode}']").addClass "active"
-    @list.removeClass "miniature grid list"
-    @list.addClass visMode
+    @list.removeClass "miniature grid list tiles"
+    @list.addClass "#{visMode} #{extraClasses ||''}"
     do @switchContextInview
     uri = URI(window.location.href).removeQuery("layout").addQuery("layout", visMode)
     window.history.replaceState uri._parts, document.title, uri.toString()
@@ -233,10 +236,12 @@ class MediaResourcesController.Index
   @PAGESIZE_ARRAY = [1..@PAGESIZE]
 
   @toggleFavor: (toggle_el)->
-    toggle_el = toggle_el.find(".ui-thumbnail-action-favorite") unless toggle_el.is ".ui-thumbnail-action-favorite"
-    container = toggle_el.closest("[data-id]")
+    container = toggle_el.parents("[data-id]").first()
     mr = new App.MediaResource {id: container.data("id")}
+    indicator = container.find("[data-favor-indicator]")
+    console.log container, indicator
     toggle_el.toggleClass "active"
+    indicator.toggleClass "active" if indicator?
     if toggle_el.hasClass "active"
       container.find(".ui-thumbnail-action-favorite").addClass "active"
       mr.favor()

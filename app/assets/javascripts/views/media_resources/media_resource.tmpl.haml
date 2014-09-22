@@ -40,3 +40,69 @@
       {{/if}}
     .ui-resource-description{:"data-context" => "second_displayed_context_id"}
     .ui-resource-extension{:"data-context" => "third_displayed_context_id"}
+
+  -# TODO:
+  -# * icons for set, permissions
+  
+  -# Markup for tile view
+  %div{:class => "ui-tile{{if type.match(\"set\")}} ui-tile--set{{/if}}"}
+
+    -# head (shown on hover)
+    .ui-tile__head
+
+      -# left side status bar (only show on hover)
+      %ul.ui-tile__status.left.by-left.no-guest
+        %li.ui-tile__action
+          
+          %div{:class => "ui-tile__action-link {{if is_favorite}}active{{/if}}", :"data-favor-indicator" => true}
+            %i.icon-star
+      
+      -# left side action buttons 
+      %ul.ui-tile__actions.left.by-left.no-guest
+        %li.ui-tile__action
+          %a{:class => "ui-tile__action-link {{if is_favorite}}active{{/if}}", :"data-favor-toggle" => true, :title => "{{if is_favorite}}${_jed('Remove from favorites')}{{else}}${_jed('Add to favorites')}{{/if}}"}
+            %i.icon-star-empty
+            
+        %li.ui-tile__action
+          %a.ui-tile__action-link{:"data-clipboard-toggle" => true, :title => "${_jed('Add to/remove from clipboard')}"}
+            %i.icon-checkbox
+            
+      -# right side action buttons
+      %ul.ui-tile__actions.right.by-right
+        {{if type.match("entry")}}
+        %li.ui-tile__action
+          %a.ui-tile__action-link{:title => "${_jed('Browse')}", :href => "/media_resources/${id}/browse"}
+            %i.icon-eye
+        {{/if}}
+        
+        {{if is_editable}}
+        %li.ui-tile__action
+          %a.ui-tile__action-link{:title => "${_jed('Edit metadata')}", :href => "/media_resources/${id}/edit"}
+            %i.icon-pen
+        {{/if}}
+        
+        {{if is_deletable}}
+        %li.ui-tile__action
+          %a.ui-tile__action-link{:"data-delete-action" => true, :title => "${_jed('Delete')}"}
+            %i.icon-trash
+        {{/if}}
+
+    -# TODO: bg color?
+    .ui-tile__body{style:"background-color: #E5E5E5;"}
+      .ui-tile__thumbnail
+        {{if image}}
+        %img.ui-tile__image{:class => "ui-thumbnail-image", :src => "${image}"}
+        {{else}}
+        %img.ui-tile__image{:class => "ui-thumbnail-image", :src => "/media_resources/${id}/image"}
+        {{/if}}
+        
+    %a.ui-tile__foot{:href => "/media_resources/${id}"}
+      %h3.ui-tile__title
+        {{if title}}${title}{{else}}(Kein Titel){{/if}}
+      %h4.ui-tile__meta
+        ${author}
+      %span.ui-tile__flags
+        {{tmpl App.renderPath("media_resources/privacy")}}
+        {{if type.match("filter_set") || media_type.match("filterset")}}
+        %i.icon-filter.ui-tile__flag.ui-tile__flag--type{title: "Filter Set"}
+        {{/if}}

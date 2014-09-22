@@ -33,7 +33,7 @@ class MediaSet < MediaResourceCollection
   store :settings
 
   ACCEPTED_SETTINGS = {
-    :layout => {:possible_values => [:miniature, :grid, :list], :default => :grid},
+    :layout => {:possible_values => [:miniature, :grid, :list, :tiles], :default => :grid},
     :sorting => {:possible_values => [:created_at, :updated_at, :title, :author], :default => :updated_at}
   }
 

@@ -3,7 +3,7 @@
     %h2.ui-toolbar-header
       = _("Highlighted content")
 
-  .ui-featured-entries
-    %ul.ui-featured-entries-list.pal
+  .ui-featured-entries.ptl.phm
+    %ul.ui-featured-entries-list.ui-resources.tiles.horizontal.large
 
       = render :partial => "media_sets/highlights/highlight", :collection => @highlights, :as => :highlight

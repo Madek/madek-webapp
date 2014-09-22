@@ -1,7 +1,6 @@
-.ui-thumbnail-privacy
-  - if media_resource.is_public?
-    %i.icon-privacy-open{:title => _("These items are publicly accessible")}
-  - elsif media_resource.is_private? current_user
-    %i.icon-privacy-private{:title => _("These items are only accesible to you")}
-  - elsif media_resource.is_shared? current_user
-    %i.icon-privacy-group{:title => "Diese Inhalte werden mit Anderen geteilt"}
+- if media_resource.is_public?
+  %i.icon-privacy-open{:title => _("These items are publicly accessible")}
+- elsif media_resource.is_private? current_user
+  %i.icon-privacy-private{:title => _("These items are only accesible to you")}
+- elsif media_resource.is_shared? current_user
+  %i.icon-privacy-group{:title => "Diese Inhalte werden mit Anderen geteilt"}

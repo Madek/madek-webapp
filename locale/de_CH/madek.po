@@ -755,6 +755,9 @@ msgstr "Systemgruppen"
 msgid "Edit group"
 msgstr "Editieren"
 
+msgid "Tile view"
+msgstr "Kachel-Ansicht"
+
 msgid "TMS XML document"
 msgstr "TMS XML-Dokument"
 

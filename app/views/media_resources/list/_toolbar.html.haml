@@ -29,6 +29,8 @@
       = actions
   .ui-toolbar-controls.by-right
     #ui-resources-layout-switcher.button-group.tertiary.small.right.mls
+      %a#tile-view.button.small.ui-toolbar-vis-button{:class => active_layout == "tiles" ? "active" : "", :title => _("Tile view"), :"data-vis-mode" => "tiles", :"data-vis-mode-extra-classes" => "vertical"}
+        %i.icon-vis-pins{:title => _("Tile view")}
       %a#miniature-view.button.small.ui-toolbar-vis-button{:class => active_layout == "miniature" ? "active" : "", :title => _("Miniature view"), :"data-vis-mode" => "miniature"}
         %i.icon-vis-miniature{:title => _("Miniature view")}
       %a#grid-view.button.small.ui-toolbar-vis-button{:class => active_layout == "grid" ? "active" : "", :title => _("Grid view"), :"data-vis-mode" => "grid", :"data-default" => true}

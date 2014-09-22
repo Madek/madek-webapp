@@ -26,13 +26,14 @@
     .ui-resource-thumbnail
       %div{:class => "ui-thumbnail #{type} #{media_type}"}
         = render :partial => "media_sets/thumbnail_level_up" if media_resource.type.match("Set")
-        = render :partial => "media_resources/privacy", :locals => {:media_resource => media_resource}
+        .ui-thumbnail-privacy
+          = render :partial => "media_resources/privacy", :locals => {:media_resource => media_resource}
         %a.ui-thumbnail-image-wrapper{:href => type != "media-entry-incomplete" ? link : nil}
           .ui-thumbnail-image-holder 
             .ui-thumbnail-table-image-holder
               .ui-thumbnail-cell-image-holder
                 .ui-thumbnail-inner-image-holder
-                  %img.ui-thumbnail-image{:src => "/media_resources/#{media_resource.id}/image?size=medium"}          
+                  %img.ui-thumbnail-image{:src => "/media_resources/#{media_resource.id}/image?size=medium"}
         - unless type == "media-entry-incomplete"
           .ui-thumbnail-meta
             %h3.ui-thumbnail-meta-title= media_resource.title

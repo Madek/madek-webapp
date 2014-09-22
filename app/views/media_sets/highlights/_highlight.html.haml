@@ -1,8 +1,13 @@
-%li.ui-featured-entries-item
-  %a.ui-featured-entry{:href => media_resource_path(highlight)}
-    .ui-featured-entry-preview
-      %span
-        %img{:src => image_media_resource_path(highlight, :size => :large)}
-    .ui-featured-entry-metadata
-      %h3.title-s.ui-thumbnail-name= highlight.title
-      %h4.title-xs-alt.ui-thumbnail-author= highlight.author
+%div{:class => "ui-tile#{highlight.type.match('set') ? " ui-tile--set" : ""}"}
+
+  .ui-tile__body
+    %a.ui-tile__thumbnail{:href => media_resource_path(highlight)}
+      %img{:class => "ui-tile__image", :src => image_media_resource_path(highlight, :size => :large)}
+      
+  .ui-tile__foot
+    %h3.ui-tile__title= highlight.title
+    %h4.ui-tile__meta= highlight.author
+    %span.ui-tile__flags
+      = render :partial => "media_resources/privacy", :locals => {:media_resource => highlight}
+      - if highlight.type.match("filter_set") || highlight.media_type.match("filterset")
+        %i.icon-filter{title: "Filter Set"}

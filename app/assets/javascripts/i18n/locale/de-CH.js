@@ -1029,6 +1029,10 @@ window.i18n.locale_data = {
          null,
          "Editieren"
       ],
+      "Tile view": [
+         null,
+         "Kachel-Ansicht"
+      ],
       "TMS XML document": [
          null,
          "TMS XML-Dokument"

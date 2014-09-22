@@ -1,6 +1,7 @@
 %li.ui-resource
   .ui-thumbnail.media-catalog
-    = render :partial => "media_resources/privacy", :locals => {:media_resource => category}
+    .ui-thumbnail-privacy
+      = render :partial => "media_resources/privacy", :locals => {:media_resource => category}
     %a.ui-thumbnail-image-wrapper{:href => explore_category_path(category.id)}
       .ui-thumbnail-image-holder
         .ui-thumbnail-table-image-holder

@@ -7,6 +7,8 @@ module ActiveLayoutHelper
       "list"
     elsif params[:layout] == "grid"
       "grid"
+    elsif params[:layout] == "tiles"
+      "tiles"
     elsif @media_set and @media_set.settings[:layout]
       @media_set.settings[:layout].to_s
     else 

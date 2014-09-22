@@ -4,7 +4,8 @@
 
     %li.ui-resource.mrl
       .ui-thumbnail{:class => "#{@media_resource.type.underscore.dasherize} #{@media_resource.media_type.downcase}"}
-        = render :partial => "media_resources/privacy", :locals => {:media_resource => @media_resource}
+        .ui-thumbnail-privacy
+          = render :partial => "media_resources/privacy", :locals => {:media_resource => @media_resource}
         .ui-thumbnail-image-wrapper
           .ui-has-magnifier
             .ui-thumbnail-image-holder 

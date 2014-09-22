@@ -52,7 +52,7 @@ end
 
 ### the e ###########################################
 
-Then (/^The element with the id "(.*?)" hash the class "(.*?)"$/) do |id, _class|
+Then (/^The element with the id "(.*?)" has the class "(.*?)"$/) do |id, _class|
   expect(find("##{id}.#{_class}")).to be
 end
 
@@ -128,7 +128,7 @@ Then /^the label option "(.*?)" is selected$/ do |option|
   expect(find("form select.show_labels option[value='#{option}']").selected?).to be_true
 end
 
-Then (/^The link with the title "(.*?)" hash the class "(.*?)"$/) do |title, _class|
+Then (/^The link with the title "(.*?)" has the class "(.*?)"$/) do |title, _class|
   expect(find("a[title='#{title}'].#{_class}")).to be
 end
 
