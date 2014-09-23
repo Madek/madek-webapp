@@ -3,7 +3,6 @@
 --
 
 SET statement_timeout = 0;
-SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -558,10 +557,7 @@ CREATE TABLE usage_terms (
 --
 
 CREATE VIEW user_resources_counts AS
- SELECT count(*) AS resouces_count,
-    media_resources.user_id
-   FROM media_resources
-  GROUP BY media_resources.user_id;
+    SELECT count(*) AS resouces_count, media_resources.user_id FROM media_resources GROUP BY media_resources.user_id;
 
 
 --
@@ -2205,6 +2201,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140822054042');
 INSERT INTO schema_migrations (version) VALUES ('20140915103141');
 
 INSERT INTO schema_migrations (version) VALUES ('20140917074821');
+
+INSERT INTO schema_migrations (version) VALUES ('20140923093912');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

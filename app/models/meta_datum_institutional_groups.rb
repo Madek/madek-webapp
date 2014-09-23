@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 
-class MetaDatumDepartments < MetaDatum
+class MetaDatumInstitutionalGroups < MetaDatum
   has_and_belongs_to_many :institutional_groups, 
     join_table: :meta_data_institutional_groups,
     foreign_key: :meta_datum_id,

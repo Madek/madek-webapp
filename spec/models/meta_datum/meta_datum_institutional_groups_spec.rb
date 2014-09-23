@@ -1,19 +1,19 @@
 require 'spec_helper'
 
-describe MetaDatumDepartments do
+describe MetaDatumInstitutionalGroups do
 
   describe "Creation" do
 
     it "should not raise an error " do
-      expect {FactoryGirl.create :meta_datum_departments}.not_to raise_error
+      expect {FactoryGirl.create :meta_datum_institutional_groups}.not_to raise_error
     end
 
     it "should not be nil" do
-      (FactoryGirl.create :meta_datum_departments).should_not == nil
+      (FactoryGirl.create :meta_datum_institutional_groups).should_not == nil
     end
 
     it "should be persisted" do
-      (FactoryGirl.create :meta_datum_departments).should be_persisted
+      (FactoryGirl.create :meta_datum_institutional_groups).should be_persisted
     end
 
   end
@@ -21,7 +21,7 @@ describe MetaDatumDepartments do
   describe "Linking with InstitutionalGroups" do
 
     before :each do
-      @mdd = FactoryGirl.create :meta_datum_departments
+      @mdd = FactoryGirl.create :meta_datum_institutional_groups
       @institutional_group1 = FactoryGirl.create :institutional_group
       @institutional_group2 = FactoryGirl.create :institutional_group
     end
@@ -42,14 +42,14 @@ describe MetaDatumDepartments do
       end
 
       it "should have persist added relations" do
-        MetaDatumDepartments.find(@mdd.id).institutional_groups.should include @institutional_group1
-        MetaDatumDepartments.find(@mdd.id).institutional_groups.should include @institutional_group2
+        MetaDatumInstitutionalGroups.find(@mdd.id).institutional_groups.should include @institutional_group1
+        MetaDatumInstitutionalGroups.find(@mdd.id).institutional_groups.should include @institutional_group2
       end
 
       describe "value interface" do
         it "should be an alias for people" do
-          MetaDatumDepartments.find(@mdd.id).value.should include @institutional_group1
-          MetaDatumDepartments.find(@mdd.id).value.should include @institutional_group2
+          MetaDatumInstitutionalGroups.find(@mdd.id).value.should include @institutional_group1
+          MetaDatumInstitutionalGroups.find(@mdd.id).value.should include @institutional_group2
         end
 
       end
@@ -59,4 +59,3 @@ describe MetaDatumDepartments do
   end
 
 end
-

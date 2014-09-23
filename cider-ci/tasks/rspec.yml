@@ -259,10 +259,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/meta_datum/meta_datum_keywords_spec.rb"
-- name: models meta_datum meta_datum_meta_departments
+- name: models meta_datum meta_datum_institutional_groups
   scripts:
     rspec:
-      body: bundle exec rspec "spec/models/meta_datum/meta_datum_meta_departments_spec.rb"
+      body: bundle exec rspec "spec/models/meta_datum/meta_datum_institutional_groups_spec.rb"
 - name: models meta_datum meta_datum_meta_terms
   scripts:
     rspec:

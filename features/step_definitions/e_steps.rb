@@ -31,9 +31,9 @@ Then /^each meta\-data value should be equal to the one set previously$/ do
       else
         expect(field_set.all("input", type: 'checkbox', visible: true,checked: true).first.find(:xpath,".//..").text).to eq @meta_data[i][:value]
       end
-    when 'meta_datum_departments' 
-      expect( stable_part_of_meta_datum_departement(field_set.first("ul.multi-select-holder li.meta-term").text)).to \
-        eq stable_part_of_meta_datum_departement(@meta_data[i][:value])
+    when 'meta_datum_institutional_groups' 
+      expect( stable_part_of_meta_datum_institutional_group(field_set.first("ul.multi-select-holder li.meta-term").text)).to \
+        eq stable_part_of_meta_datum_institutional_group(@meta_data[i][:value])
     else
       raise "Implement this case"
     end

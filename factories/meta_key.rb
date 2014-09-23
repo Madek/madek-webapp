@@ -43,7 +43,7 @@ FactoryGirl.define do
 
   factory :meta_key_institutional_affiliation, class: MetaKey do
     id 'institutional affiliation'
-    meta_datum_object_type 'MetaDatumDepartments'
+    meta_datum_object_type 'MetaDatumInstitutionalGroups'
   end
 
   factory :meta_key_public_caption, class: MetaKey do

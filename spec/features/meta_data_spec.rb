@@ -128,7 +128,7 @@ feature "MetaData" do
             type: type) 
         end
 
-      when 'meta_datum_departments' 
+      when 'meta_datum_institutional_groups' 
         field_set.all(".multi-select li a.multi-select-tag-remove").each{|a| a.click}
         field_set.find("input",visible: true).click
         directly_chooseable= field_set.all("ul.ui-autocomplete li:not(.has-navigator) a",visible: true)
@@ -150,8 +150,8 @@ feature "MetaData" do
         meta_data.each do |md|
           value= md[:value]
           case md[:type]
-          when 'meta_datum_departments'
-            expect(page).to have_content stable_part_of_meta_datum_departement(value)
+          when 'meta_datum_institutional_groups'
+            expect(page).to have_content stable_part_of_meta_datum_institutional_group(value)
           else
             expect(page).to have_content value
           end
@@ -159,8 +159,8 @@ feature "MetaData" do
       end
     end
 
-    def stable_part_of_meta_datum_departement dep_name
-      dep_name.match(/^(.*)\(/).captures.first
+    def stable_part_of_meta_datum_institutional_group group_name
+      group_name.match(/^(.*)\(/).captures.first
     end
 
     def each_meta_data_value_in_each_context_is_equal_to_the_one_set_previously 
@@ -203,9 +203,9 @@ feature "MetaData" do
           else
             expect(field_set.all("input", type: 'checkbox', visible: true,checked: true).first.find(:xpath,".//..").text).to eq @meta_data[i][:value]
           end
-        when 'meta_datum_departments' 
-          expect( stable_part_of_meta_datum_departement(field_set.first("ul.multi-select-holder li.meta-term").text)).to \
-            eq stable_part_of_meta_datum_departement(@meta_data[i][:value])
+        when 'meta_datum_institutional_groups' 
+          expect( stable_part_of_meta_datum_institutional_group(field_set.first("ul.multi-select-holder li.meta-term").text)).to \
+            eq stable_part_of_meta_datum_institutional_group(@meta_data[i][:value])
         else
           raise "Implement this case"
         end

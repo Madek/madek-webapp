@@ -310,7 +310,7 @@ module Json
       end
 
       if filter_types.include? :meta_data
-        meta_datum_object_types = ["MetaDatumMetaTerms", "MetaDatumKeywords", "MetaDatumDepartments"]
+        meta_datum_object_types = ["MetaDatumMetaTerms", "MetaDatumKeywords", "MetaDatumInstitutionalGroups"]
         queries = meta_datum_object_types.map do |meta_datum_object_type|
           sql_select, sql_join, sql_group = case meta_datum_object_type
             when "MetaDatumKeywords"
@@ -318,7 +318,7 @@ module Json
                %Q(INNER JOIN keywords ON keywords.meta_datum_id = meta_data.id
                   INNER JOIN keyword_terms ON keywords.keyword_term_id = keyword_terms.id),
                %Q(keyword_terms.id)]
-            when "MetaDatumDepartments"
+            when "MetaDatumInstitutionalGroups"
               [%Q(groups.id, groups.name AS value),
                %Q(INNER JOIN meta_data_institutional_groups ON meta_data_institutional_groups.meta_datum_id = meta_data.id
                   INNER JOIN groups ON meta_data_institutional_groups.institutional_group_id = groups.id),

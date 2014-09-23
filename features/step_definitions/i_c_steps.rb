@@ -178,8 +178,8 @@ Then /^I can see every meta\-data\-value somewhere on the page$/ do
     meta_data.each do |md|
       value= md[:value]
       case md[:type]
-      when 'meta_datum_departments'
-        expect(page).to have_content stable_part_of_meta_datum_departement(value)
+      when 'meta_datum_institutional_groups'
+        expect(page).to have_content stable_part_of_meta_datum_institutional_group(value)
       else
         expect(page).to have_content value
       end
@@ -576,7 +576,7 @@ Then /^I change the value of each visible meta\-data field$/ do
           type: type) 
       end
 
-    when 'meta_datum_departments' 
+    when 'meta_datum_institutional_groups' 
       field_set.all(".multi-select li a.multi-select-tag-remove").each{|a| a.click}
       field_set.find("input",visible: true).click
       directly_chooseable= field_set.all("ul.ui-autocomplete li:not(.has-navigator) a",visible: true)
@@ -586,7 +586,7 @@ Then /^I change the value of each visible meta\-data field$/ do
         type: type,
         meta_key: meta_key) 
     else
-      rais "Implement this case" 
+      raise "Implement this case" 
     end
 
     Rails.logger.info ["setting metadata filed value", field_set[:'data-meta-key'], @meta_data[i] ]

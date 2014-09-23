@@ -125,7 +125,7 @@ class MetaKey < ActiveRecord::Base
     # FIXME
     if Rails.env.development? || Rails.env.test?
       # Dir.glob(File.join(Rails.root, "app/models/meta_datum_*.rb")).each {|model_file| require model_file } if Rails.env == "development"
-      ["MetaDatumCopyright", "MetaDatumDate", "MetaDatumDepartments", "MetaDatumKeywords",
+      ["MetaDatumCopyright", "MetaDatumDate", "MetaDatumInstitutionalGroups", "MetaDatumKeywords",
        "MetaDatumMetaTerms", "MetaDatumPeople", "MetaDatumString", "MetaDatumUsers"]
     else
       MetaDatum.descendants.map(&:name).sort

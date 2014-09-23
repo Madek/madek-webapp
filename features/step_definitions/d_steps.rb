@@ -1,6 +1,6 @@
 
-def stable_part_of_meta_datum_departement dep_name
-  dep_name.match(/^(.*)\(/).captures.first
+def stable_part_of_meta_datum_institutional_group group_name
+  group_name.match(/^(.*)\(/).captures.first
 end
 
 When /^Delete unused meta term$/ do

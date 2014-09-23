@@ -65,7 +65,7 @@ module MediaResourceModules
 
             case meta_key.meta_datum_object_type
             when "MetaDatumKeywords", "MetaDatumPeople", 
-              "MetaDatumUsers", "MetaDatumDepartments", "MetaDatumMetaTerms" 
+              "MetaDatumUsers", "MetaDatumInstitutionalGroups", "MetaDatumMetaTerms" 
               Array[entry_value]
             else
               Array(entry_value)
