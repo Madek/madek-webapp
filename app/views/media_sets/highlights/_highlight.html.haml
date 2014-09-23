@@ -1,7 +1,8 @@
-%div{:class => "ui-tile#{highlight.type.match('set') ? " ui-tile--set" : ""}"}
+%a{:class => "ui-tile#{highlight.type.match('set') ? " ui-tile--set" : ""}",
+   :href => media_resource_path(highlight)}
 
   .ui-tile__body
-    %a.ui-tile__thumbnail{:href => media_resource_path(highlight)}
+    .ui-tile__thumbnail
       %img{:class => "ui-tile__image", :src => image_media_resource_path(highlight, :size => :large)}
       
   .ui-tile__foot
