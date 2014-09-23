@@ -87,9 +87,8 @@
             %i.icon-trash
         {{/if}}
 
-    -# TODO: bg color?
-    .ui-tile__body{style:"background-color: #E5E5E5;"}
-      .ui-tile__thumbnail
+    .ui-tile__body
+      %a.ui-tile__thumbnail{:href => "/media_resources/${id}"}
         {{if image}}
         %img.ui-tile__image{:class => "ui-thumbnail-image", :src => "${image}"}
         {{else}}
