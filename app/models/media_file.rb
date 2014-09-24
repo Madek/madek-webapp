@@ -39,17 +39,10 @@ class MediaFile < ActiveRecord::Base
    
   scope :incomplete_encoded_videos, lambda{
     where(media_type: 'video').where %{
-
-        NOT EXISTS  (SELECT true FROM media_files as mf
-                        INNER JOIN previews ON previews.media_file_id = mf.id
-                        WHERE mf.id = media_files.id
-                        AND previews.content_type  = 'video/mp4')
-      OR 
-
-        NOT EXISTS  (SELECT true FROM media_files as mf
-                      INNER JOIN previews ON previews.media_file_id = mf.id
-                      WHERE mf.id = media_files.id
-                      AND previews.content_type  = 'video/webm')
+      NOT EXISTS (SELECT NULL FROM media_files as mf
+                  INNER JOIN previews ON previews.media_file_id = mf.id
+                  WHERE mf.id = media_files.id
+                  AND previews.media_type = 'video')
     }
   }
 

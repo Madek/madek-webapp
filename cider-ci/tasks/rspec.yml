@@ -207,6 +207,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/keyword_term_spec.rb"
+- name: models media_file
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/media_file_spec.rb"
 - name: models media_resource class search
   scripts:
     rspec:
