@@ -1,6 +1,15 @@
 
 
 
+SELECT media_resource_arcs.* from media_resource_arcs 
+INNER JOIN media_resources ON media_resources.id = child_id
+WHERE cover = true
+AND media_resources.type = 'MediaSet'
+;
+
+
+
+
 SELECT meta_keys.id AS meta_key_id, 
 (SELECT count(*) FROM meta_key_definitions AS mkds WHERE mkds.meta_key_id = meta_keys.id) AS multiplicity,
 meta_key_definitions.label AS meta_key_definitions_label,

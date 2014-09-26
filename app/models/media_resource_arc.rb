@@ -3,7 +3,6 @@ class MediaResourceArc < ActiveRecord::Base
   validate :no_self_reference, :only_set_as_parent, :only_media_entry_as_cover
   validates_uniqueness_of :child_id, :scope => :parent_id
   validates_uniqueness_of :cover, :scope => :parent_id, :if => Proc.new {|x| x.cover }
-  before_save :new_exclusive_arc_becomes_cover
   before_validation :reset_old_cover
 
   belongs_to  :child, :class_name => "MediaResource",  :foreign_key => :child_id
@@ -31,12 +30,6 @@ class MediaResourceArc < ActiveRecord::Base
   def only_media_entry_as_cover
     if cover and child.class != MediaEntry
       errors[:base] << "only media_entries can be covers"
-    end
-  end
-
-  def new_exclusive_arc_becomes_cover
-    if not parent.out_arcs.exists? or not parent.out_arcs.where(cover:true).exists?
-      self.cover = true 
     end
   end
 
