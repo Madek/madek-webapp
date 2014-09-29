@@ -1,6 +1,6 @@
 class ZencoderJob < ActiveRecord::Base
 
-  default_scope { reorder(:created_at) }
+  default_scope { order(:created_at) }
 
   self.primary_key= 'id'
   belongs_to :media_file
@@ -12,7 +12,14 @@ class ZencoderJob < ActiveRecord::Base
     model.id ||= SecureRandom.uuid 
   end
 
-  default_scope lambda{order("zencoder_jobs.created_at ASC")}
+  scope :only_latest_states, -> {
+    where(%Q{
+      zencoder_jobs.created_at = (
+        SELECT MAX(created_at) from zencoder_jobs AS z_j
+        WHERE z_j.media_file_id = zencoder_jobs.media_file_id
+      )
+    }).reorder("zencoder_jobs.created_at DESC")
+  }
 
   ################################################################
   # config

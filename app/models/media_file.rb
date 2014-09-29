@@ -50,8 +50,8 @@ class MediaFile < ActiveRecord::Base
                       INNER JOIN previews ON previews.media_file_id = mf.id
                       WHERE mf.id = media_files.id
                       AND previews.content_type  = 'video/webm')
-    }}
-
+    }
+  }
 
   def to_s
     "MediaFile[#{id}]"

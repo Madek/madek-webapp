@@ -3,12 +3,12 @@
   MediaFile
   = @media_file.id
 
--if @media_file.media_entry
+- if @media_file.media_entry
   %p
     = link_to media_entry_path(@media_file.media_entry), target: "_blank"  do
       %i.icon-vis-graph
       Show media file
--else 
+- else 
   %p.text-danger
     This MediaFile is not related to a MediaEntry. 
 
@@ -36,8 +36,6 @@
 
   = link_to "Reencode", reencode_app_admin_media_file_path(@media_file), class: 'btn btn-inverse', method: 'post', data: {confirm: "Let previes reencode by zencoder.com? This action is liable to pay costs."}
 
-
-  - @zencoder_jobs = @media_file.zencoder_jobs.reorder("created_at DESC")
   = render 'app_admin/zencoder_jobs/zencoder_jobs_table'
     
 %h3 

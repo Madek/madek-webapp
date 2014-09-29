@@ -20,6 +20,7 @@ class AppAdmin::MediaFilesController < AppAdmin::BaseController
 
   def show
     @media_file = MediaFile.find params[:id]
+    @zencoder_jobs = @media_file.zencoder_jobs.reorder("created_at DESC")
   end
 
   def reencode
