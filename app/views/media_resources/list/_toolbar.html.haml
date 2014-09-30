@@ -13,7 +13,7 @@
   elsif @media_set and @media_set.settings[:sorting]
     @media_set.settings[:sorting].to_s
   else
-    nil
+    "created_at" # the default
   end
 
   actions = (defined? actions and actions)
@@ -49,8 +49,6 @@
               = _("Order by title")
             - when "author"
               = _("Filter and order by author")
-            - else
-              = _("Order by creation date")
         %i.icon-arrow-down.bright.small
       %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
         %li.ui-drop-item{:class => (active_sorting == "created_at") ? "hidden active" : "", :"data-default" => true}
