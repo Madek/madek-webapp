@@ -239,13 +239,17 @@ class ZencoderJob < ActiveRecord::Base
 
   def get_ftp_file uri,preview
     require 'net/ftp'
-    ftp = Net::FTP.new(uri.host)
-    if uri.user and uri.password
-      ftp.login(uri.user, uri.password)
-    else
-      ftp.login
+    begin 
+      ftp = Net::FTP.new(uri.host)
+      if uri.user and uri.password
+        ftp.login(uri.user, uri.password)
+      else
+        ftp.login
+      end
+      ftp.getbinaryfile(uri.path, preview.full_path, 1024)
+    ensure 
+      ftp.close() unless ftp.closed?()
     end
-    ftp.getbinaryfile(uri.path, preview.full_path, 1024)
   end
 
 
