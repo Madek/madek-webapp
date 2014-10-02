@@ -70,6 +70,7 @@ gem 'rvm-capistrano', group: [:development, :personas]
 gem 'sass', '3.2.12'
 gem 'sass-rails'
 gem 'selenium-webdriver', group: [:test]
+gem 'simplecov', require: false, group: 'test'
 gem 'therubyracer', platform: :mri, group: [:development, :production, :test]
 gem 'therubyrhino', platform: :jruby, group: [:development, :production, :test]
 gem 'thin', :platform => :mri, group: [:development, :personas] # web server (Webrick do not support keep-alive connections)
