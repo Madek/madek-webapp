@@ -82,7 +82,7 @@ gem 'zencoder-fetcher', group: [:development]
 
 # ZHDK-INTEGRATION 
 #gem "madek_zhdk_integration", path: "../zhdk_integration"
-gem "madek_zhdk_integration", git: 'https://github.com/zhdk/madek-zhdk-integration.git' 
+gem "madek_zhdk_integration", git: 'https://github.com/zhdk/madek-zhdk-integration.git', ref: '0de0956aace9a01ee04ff8f801243942f6b6c753'
 
 
 
