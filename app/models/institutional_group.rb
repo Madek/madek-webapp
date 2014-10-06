@@ -10,22 +10,22 @@ class InstitutionalGroup < Group
 
   scope :by_string, lambda {|s|
     a = /(.*) \((.*)\)/.match(s)
-    name, ldap_name = [a[1], a[2]]
-    where(:name => name, :ldap_name => ldap_name)
+    name, institutional_group_name = [a[1], a[2]]
+    where(:name => name, :institutional_group_name => institutional_group_name)
   }
 
-  scope :without_semesters, lambda{where("ldap_name NOT SIMILAR TO '%_[0-9]{2}[A-Za-z]\.studierende'")}
-  scope :without_verteilerlisten, lambda{where("ldap_name NOT SIMILAR TO 'Verteilerliste\.%'")}
-  scope :without_rek, lambda{where("ldap_name NOT SIMILAR TO 'REK\.%'")}
-  scope :without_personal, lambda{where("ldap_name NOT SIMILAR TO 'Personal\.%'")}
-  scope :without_berechtigung, lambda{where("ldap_name NOT SIMILAR TO '%\.berechtigung\.%'")}
+  scope :without_semesters, lambda{where("institutional_group_name NOT SIMILAR TO '%_[0-9]{2}[A-Za-z]\.studierende'")}
+  scope :without_verteilerlisten, lambda{where("institutional_group_name NOT SIMILAR TO 'Verteilerliste\.%'")}
+  scope :without_rek, lambda{where("institutional_group_name NOT SIMILAR TO 'REK\.%'")}
+  scope :without_personal, lambda{where("institutional_group_name NOT SIMILAR TO 'Personal\.%'")}
+  scope :without_berechtigung, lambda{where("institutional_group_name NOT SIMILAR TO '%\.berechtigung\.%'")}
   
   def self.relevant
     self.without_semesters.without_personal.without_rek.without_verteilerlisten.without_berechtigung
   end
 
   def to_s
-    "#{name} (#{ldap_name})"
+    "#{name} (#{institutional_group_name})"
   end
 
   def to_limited_s(n = 80)

@@ -12,8 +12,8 @@ end
 
 Then /^I have set up some departments with ldap references$/ do
   InstitutionalGroup.create([
-   {:ldap_id => "4396.studierende", :ldap_name => "DKV_FAE_BAE.studierende", :name => "Bachelor Vermittlung von Kunst und Design"},
-   {:ldap_id => "56663.dozierende", :ldap_name => "DDE_FDE_VID.dozierende", :name => "Vertiefung Industrial Design"} 
+   {:institutional_group_id => "4396.studierende", :institutional_group_name => "DKV_FAE_BAE.studierende", :name => "Bachelor Vermittlung von Kunst und Design"},
+   {:institutional_group_id => "56663.dozierende", :institutional_group_name => "DDE_FDE_VID.dozierende", :name => "Vertiefung Industrial Design"} 
   ]) 
 end
 

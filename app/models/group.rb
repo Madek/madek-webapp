@@ -7,7 +7,7 @@ class Group < ActiveRecord::Base
   after_save :update_searchable
 
   validates_presence_of :name
-  validates :name, uniqueness: { scope: :ldap_name }
+  validates :name, uniqueness: { scope: :institutional_group_name }
 
   scope :departments, ->{where(:type => "InstitutionalGroup")}
 
@@ -30,7 +30,7 @@ class Group < ActiveRecord::Base
 ### text search ######################################## 
   
   def update_searchable
-    update_columns searchable: [name,ldap_name,].flatten \
+    update_columns searchable: [name,institutional_group_name,].flatten \
       .compact.sort.uniq.join(" ")
   end
 

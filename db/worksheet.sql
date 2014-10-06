@@ -1,12 +1,20 @@
 
 
+### Clean Institutional Groups ################################################
+
+
+SELECT * FROM groups; 
+
+
+
+######################################################################################
+
 
 SELECT media_resource_arcs.* from media_resource_arcs 
 INNER JOIN media_resources ON media_resources.id = child_id
 WHERE cover = true
 AND media_resources.type = 'MediaSet'
 ;
-
 
 
 
@@ -18,8 +26,6 @@ FROM meta_key_definitions
 JOIN meta_keys ON meta_keys.id = meta_key_definitions.meta_key_id
 JOIN contexts ON contexts.id = meta_key_definitions.context_id
 ORDER BY meta_keys.id, meta_key_definitions.label, contexts.label ;
-
-
 
 
 ######################################################################################

@@ -18,10 +18,10 @@ class AppAdmin::GroupsController < AppAdmin::BaseController
         case params.try(:[], :sort_by) 
         when 'text_rank'
           @groups= @groups.text_rank_search(@search_terms) \
-            .order("name ASC, ldap_name ASC")
+            .order("name ASC, institutional_group_name ASC")
         when 'trgm_rank'
           @groups= @groups.trgm_rank_search(@search_terms) \
-            .order("name ASC, ldap_name ASC")
+            .order("name ASC, institutional_group_name ASC")
         else
           @groups= @groups.text_search(@search_terms)
         end
@@ -30,10 +30,10 @@ class AppAdmin::GroupsController < AppAdmin::BaseController
       case params.try(:[], :sort_by) || 'name'
       when 'name'
         @sort_by= :name
-        @groups= @groups.reorder("name ASC, ldap_name ASC")
+        @groups= @groups.reorder("name ASC, institutional_group_name ASC")
       when 'amount'
         @sort_by = :amount
-        @groups = @groups.reorder("users_count DESC, name ASC, ldap_name ASC")
+        @groups = @groups.reorder("users_count DESC, name ASC, institutional_group_name ASC")
       when 'trgm_rank'
         @sort_by = :trgm_rank
         raise "Search term must not be blank!" if @search_terms.blank? 

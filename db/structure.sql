@@ -232,8 +232,8 @@ CREATE TABLE grouppermissions (
 
 CREATE TABLE groups (
     name character varying(255),
-    ldap_id character varying(255),
-    ldap_name character varying(255),
+    institutional_group_id character varying(255),
+    institutional_group_name character varying(255),
     type character varying(255) DEFAULT 'Group'::character varying NOT NULL,
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     previous_id integer,
@@ -1095,17 +1095,17 @@ CREATE INDEX index_grouppermissions_on_media_resource_id ON grouppermissions USI
 
 
 --
--- Name: index_groups_on_ldap_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_groups_on_institutional_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_groups_on_ldap_id ON groups USING btree (ldap_id);
+CREATE INDEX index_groups_on_institutional_group_id ON groups USING btree (institutional_group_id);
 
 
 --
--- Name: index_groups_on_ldap_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_groups_on_institutional_group_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_groups_on_ldap_name ON groups USING btree (ldap_name);
+CREATE INDEX index_groups_on_institutional_group_name ON groups USING btree (institutional_group_name);
 
 
 --
@@ -2211,6 +2211,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140923093912');
 INSERT INTO schema_migrations (version) VALUES ('20140926064805');
 
 INSERT INTO schema_migrations (version) VALUES ('20140926101701');
+
+INSERT INTO schema_migrations (version) VALUES ('20141006074635');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

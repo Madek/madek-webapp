@@ -6,7 +6,7 @@
 
       %li.multi-select-tag.meta-term
         %input{:name => "resource[meta_data_attributes][#{@i}][value][]", :type => "hidden", :value => value.id}
-        = "#{value.name} (#{value.ldap_name})"
+        = "#{value.name} (#{value.institutional_group_name})"
         %a.multi-select-tag-remove
           .icon-close
 

@@ -17,7 +17,7 @@ class GroupsController < ApplicationController
         @department_groups = @groups.select{|g| g.type == "InstitutionalGroup"}
       }
       format.json {
-        groups = Group.where("name ilike :query OR ldap_name ilike :query", {:query => "%#{query}%"})
+        groups = Group.where("name ilike :query OR institutional_group_name ilike :query", {:query => "%#{query}%"})
         render :json => view_context.json_for(groups)
       }
     end
