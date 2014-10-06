@@ -18,7 +18,7 @@ class AppAdmin::SettingsController < AppAdmin::BaseController
         footer_links = YAML.load yaml_footer_links
         @settings.update_attribute(:footer_links, footer_links)
       else
-        @settings.assign_attributes(settings_params)
+        @settings.assign_attributes(sanitized_params)
         if special_sets_params? && !@settings.changed?
           flash_message = {notice: "The special sets have not been updated."}
         end
@@ -31,6 +31,11 @@ class AppAdmin::SettingsController < AppAdmin::BaseController
   end
 
   private
+
+  def sanitized_params
+    settings_params.each { |_, value| value.strip! }
+  end
+
   def settings
     @settings = @app_settings
   end

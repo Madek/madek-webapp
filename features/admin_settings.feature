@@ -5,37 +5,38 @@ Feature: Managing Users and Logins
   Background: 
     Given I am signed-in as "Adam"
 
-  @firefox
   Scenario: Setting a featured set
     When I visit "/app_admin/settings"
-    And I set the autocomplete-input with the name "featured_set_id" to "bei"
-    And I click on "Beispiele1" inside the autocomplete list
+    Then I set the input with the name "app_settings[featured_set_id]" to "434c473e-c685-4ea8-83f1-ceebff16c843"
     And I submit the form with id "special-sets-form"
     Then I can see a success message
-    And There is the input with name "featured_set_id" set to "Beispiele1"
+    And There is the input with name "app_settings[featured_set_id]" set to "434c473e-c685-4ea8-83f1-ceebff16c843"
 
-  @firefox
   Scenario: Setting a teater set
     When I visit "/app_admin/settings"
-    And I set the autocomplete-input with the name "teaser_set_id" to "ben"
-    And I click on "Abgaben" inside the autocomplete list
+    Then I set the input with the name "app_settings[teaser_set_id]" to "e499b452-ed3a-483a-9102-ff6fdb6fb6a5"
     And I submit the form with id "special-sets-form"
     Then I can see a success message
-    And There is the input with name "teaser_set_id" set to "Abgaben"
+    And There is the input with name "app_settings[teaser_set_id]" set to "e499b452-ed3a-483a-9102-ff6fdb6fb6a5"
 
-  @firefox
-  Scenario: Setting a special set
+  Scenario: Setting a catalog set
     When I visit "/app_admin/settings"
-    And I set the autocomplete-input with the name "catalog_set_id" to "ipl"
-    And I click on "Diplomarbeiten" inside the autocomplete list
+    Then I set the input with the name "app_settings[catalog_set_id]" to "d2582be1-9180-46f1-93c6-4798de15f615"
     And I submit the form with id "special-sets-form"
     Then I can see a success message
-    And There is the input with name "catalog_set_id" set to "Diplomarbeiten"
+    And There is the input with name "app_settings[catalog_set_id]" set to "d2582be1-9180-46f1-93c6-4798de15f615"
 
   Scenario: Setting a special set with empty value
     When I visit "/app_admin/settings"
-    Then There is the input with name "featured_set_id" set to "Beispielhafte-Sets"
-    When I set the input with the name "featured_set_id" to ""
-    And I submit
+    Then There is the input with name "app_settings[featured_set_id]" set to "d2582be1-9180-46f1-93c6-4798de15f615"
+    When I set the input with the name "app_settings[featured_set_id]" to ""
+    And I submit the form with id "special-sets-form"
+    Then I can see an error message
+    And There is the input with name "app_settings[featured_set_id]" set to "d2582be1-9180-46f1-93c6-4798de15f615"
+
+  Scenario: Setting a special set with the same id
+    When I visit "/app_admin/settings"
+    Then There is the input with name "app_settings[featured_set_id]" set to "d2582be1-9180-46f1-93c6-4798de15f615"
+    And I submit the form with id "special-sets-form"
     Then I can see a notice with message "The special sets have not been updated."
-    And There is the input with name "featured_set_id" set to "Beispielhafte-Sets"
+    And There is the input with name "app_settings[featured_set_id]" set to "d2582be1-9180-46f1-93c6-4798de15f615"

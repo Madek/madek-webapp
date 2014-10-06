@@ -138,7 +138,7 @@ Then /^I can not see "(.*?)"$/ do |text|
 end
 
 Then (/^I can see an error message$/) do
-  expect(all(".alert-error").size + all(".ui-alert.error").size) .to be > 0
+  expect(all(".alert-error, .ui-alert.error, .alert-danger").size).to be > 0
 end
 
 Then /^I can see an error with message "(.*?)"$/ do |message|

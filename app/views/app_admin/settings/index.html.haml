@@ -102,8 +102,7 @@
         %td.limit250
           = attr.to_s.capitalize.split("_").join(" ")
         %td.limit700
-          = f.hidden_field attr
-          = text_field_tag attr, MediaSet.find(f.object.send(attr)).title, class: "form-control autocomplete"
+          = f.text_field attr, class: "form-control"
         %td
           %ul.list-inline
             %li
@@ -114,14 +113,3 @@
               = link_to app_admin_media_set_path(@settings.send(attr)), class: "btn btn-info btn-xs" do
                 %i.fa.fa-eye
                 Details
-
-:javascript
-  $(function() {
-    $('.autocomplete').autocomplete({
-      source: "/app_admin/media_sets",
-      minLength: 2,
-      select: function( event, ui ) {
-        $("input[name='app_settings[" + $(event.target).attr('name') + "]']").val(ui.item.id);
-      }
-    });
-  });
