@@ -445,9 +445,10 @@ Then /^I change some input field$/ do
 end
 
 Then /^I change the group name$/ do
-  find("#show-edit-name").click
+  sleep 1 # AAARRGHHHHH
+  page.find('.modal.ui-shown').find("#show-edit-name").click
   @name = Faker::Name.last_name
-  find("input#group-name").set @name
+  page.find('.modal.ui-shown').find("input#group-name").set @name
 end
 
 Then /^I change the settings for that filter set$/ do

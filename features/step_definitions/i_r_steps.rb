@@ -11,8 +11,9 @@ end
 Then /^I remove all members of a specific group except myself$/ do
   all_users_expect_myself = @group.users.where(User.arel_table[:id].not_eq(@current_user.id))
   all_users_expect_myself.each do |user|
-    find("#user-list tr", :text => user.to_s).find(".button[data-remove-user]").click
-    wait_until {all("#user-list tr", :text => user.to_s).size == 0}
+    while all("#user-list tr", :text => user.to_s).size != 0
+      find("#user-list tr", :text => user.to_s).find(".button[data-remove-user]").click
+    end
   end
   wait_until(6){all("#user-list tr").size == 1}
   step 'I click the primary action of this dialog'

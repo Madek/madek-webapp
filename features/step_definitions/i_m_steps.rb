@@ -2,7 +2,7 @@
 #
  
 Then /^I make the group name empty$/ do
-  find("#show-edit-name").click
+  page.find('.modal.ui-shown').find("#show-edit-name").click
   find("input#group-name").set ""
 end
 

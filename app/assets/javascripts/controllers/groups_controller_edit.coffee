@@ -13,7 +13,6 @@ class GroupsController.Edit
     @group.fetch =>
       @el = App.render "groups/edit", @group
       @form = @el.find "form"
-      console.log @form
       @userList = @el.find "#user-list"
       @editNameContainer = @el.find "#edit-name-container"
       @groupNameInput = @editNameContainer.find "#group-name"

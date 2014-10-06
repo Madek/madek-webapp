@@ -154,7 +154,7 @@ class PermissionsController
           return false
       input.autocomplete("widget").addClass("narrow")
     # setup if dialog is visible (possible time shift because the bootstrap modal)
-    if @el.is ":visible" then do setup else @el.one "shown", => do setup
+    if @el.is ":visible" then do setup else @el.one "shown.bs.modal", => do setup
 
   setupAddGroup: ->
     setup = =>
@@ -181,7 +181,7 @@ class PermissionsController
         return listItem
 
     # setup if dialog is visible (possible time shift because the bootstrap modal)
-    if @el.is ":visible" then do setup else @el.one "shown", => do setup
+    if @el.is ":visible" then do setup else @el.one "shown.bs.modal", => do setup
 
 
   setupAddAPIApp: ->
@@ -209,7 +209,7 @@ class PermissionsController
         return listItem
 
     # setup if dialog is visible (possible time shift because the bootstrap modal)
-    if @el.is ":visible" then do setup else @el.one "shown", => do setup
+    if @el.is ":visible" then do setup else @el.one "shown.bs.modal", => do setup
 
 
   addPermissionForSubject: (subject) =>

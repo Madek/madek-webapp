@@ -10,10 +10,10 @@
 #= require jquery-tmpl
 #= require mousewheel/jquery.mousewheel
 
-#= require bootstrap/bootstrap-transition
-#= require bootstrap/bootstrap-modal
-#= require bootstrap/bootstrap-dropdown
-#= require bootstrap/bootstrap-tab
+#= require bootstrap32/transition
+#= require bootstrap32/modal
+#= require bootstrap32/dropdown
+#= require bootstrap32/tab
 #= require bootstrap32/tooltip
 #= require bootstrap32/popover
 

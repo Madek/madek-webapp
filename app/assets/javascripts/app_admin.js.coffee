@@ -1,7 +1,14 @@
 #= require jquery
 #= require jquery_ujs
 #= require jquery-ui
-#= require bootstrap
+
+#= require bootstrap32/transition
+#= require bootstrap32/modal
+#= require bootstrap32/dropdown
+#= require bootstrap32/tab
+#= require bootstrap32/tooltip
+#= require bootstrap32/popover
+
 #= require_tree ./app_admin
 
 window.jQuery.curCSS = window.jQuery.css

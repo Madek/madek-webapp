@@ -239,7 +239,6 @@ class MediaResourcesController.Index
     container = toggle_el.parents("[data-id]").first()
     mr = new App.MediaResource {id: container.data("id")}
     indicator = container.find("[data-favor-indicator]")
-    console.log container, indicator
     toggle_el.toggleClass "active"
     indicator.toggleClass "active" if indicator?
     if toggle_el.hasClass "active"

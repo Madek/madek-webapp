@@ -17,8 +17,8 @@ class Modal
     @el.modal @el
 
   delegateEvents: ->
-    @el.on "hidden", @onHide
-    @el.on "shown", @onShown
+    @el.on "hidden.bs.modal", @onHide
+    @el.on "shown.bs.modal", @onShown
     $(window).on "resize", @setModalBodyMaxHeight
     
   setModalBodyMaxHeight: =>
@@ -34,8 +34,8 @@ class Modal
     $(window).off "resize", @setModalBodyMaxHeight
 
   onShown: =>
-    @el.addClass "ui-shown"
-    @el.find("[autofocus=autofocus]").focus()
     do @setModalBodyMaxHeight
+    @el.find("[autofocus=autofocus]").focus()
+    @el.addClass "ui-shown"
 
 window.App.Modal = Modal

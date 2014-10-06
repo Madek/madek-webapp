@@ -263,7 +263,6 @@ Then /^I am on the featured sets set page$/ do
 end
 
 Then /^I am on the help page$/ do
-  binding.pry
 end
 
 Then /^I am on the page of my first media_entry$/ do
