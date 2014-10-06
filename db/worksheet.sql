@@ -3,8 +3,23 @@
 ### Clean Institutional Groups ################################################
 
 
-SELECT * FROM groups; 
+SELECT id, institutional_group_name FROM groups
+WHERE institutional_group_name !~* '\.alle';
 
+BEGIN;
+
+DELETE FROM meta_data_institutional_groups
+USING groups
+WHERE groups.id = meta_data_institutional_groups.institutional_group_id
+AND ( institutional_group_name !~* '\.alle'
+  OR institutional_group_name ~* '^Verteilerliste'
+  OR institutional_group_name ~* '^mittelbau'
+  OR institutional_group_name ~* '^studirende'
+  OR institutional_group_name ~* '^dozierende' ) ;
+
+ROLLBACK;
+
+SELECT * from meta_data_institutional_groups;
 
 
 ######################################################################################
