@@ -1,5 +1,17 @@
 
 
+### Refactoring meta_key_definitions -> meta_keys #############################
+
+SELECT meta_key_definitions.label AS meta_key_definition_label, 
+  meta_keys.id AS meta_key_id, 
+  contexts.label AS context_label 
+FROM meta_key_definitions 
+LEFT OUTER JOIN meta_keys ON meta_key_definitions.meta_key_id = meta_keys.id
+LEFT OUTER JOIN contexts ON meta_key_definitions.context_id = contexts.id
+ORDER BY meta_key_id
+;
+
+
 ### Clean Institutional Groups ################################################
 
 
