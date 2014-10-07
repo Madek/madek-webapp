@@ -6,21 +6,49 @@
 # *
 #
 
-FormAutocompletes = {} unless FormAutocompletes?
-class FormAutocompletes.Departments
+# TODO: load this from zhdk-gem config
+ldapFilterConfig =
+  blackList: [             # always removed, even if whiteList matches!
+    /^Verteilerliste.*/,
+    /^mittelbau.*/,
+    /^personal.*/,
+    /^studierende.*/,
+    /^dozierende.*/
+  ]
+  whiteList: [/.*\.alle$/]
+
+class FormAutocompletesDepartments
 
   constructor: (options)->
     @el = options.el
     @currentSearchResults = []
     @currentSearchTerm = undefined
-    @ignoreList = ["verteilerliste", "Verteilerliste"] # ldap prefixes case insensetive e.g. verteilerliste will remove ldap groups like "Verteilerliste.123"
+    
+    # apply black- and whitelisting
+    list= @el.find(".institutional_affiliation_autocomplete_search")
+    if list? and list.data("values")?
+      list.data("values", @filterList(list.data("values")))
+
     do @delegateEvents
 
   delegateEvents: ->
     $(@el).on "focus", ".institutional_affiliation_autocomplete_search", (e)=> @setupAutocomplete($(e.currentTarget)) unless $(e.currentTarget).hasClass "ui-autocomplete-input"
     @el.on "click", ".department-autocomplete .ui-navigator", @navigateDeeper
     @el.on "click", ".department-autocomplete .ui-menu-item-department.opened + .ui-navigator", @navigateHigher
-
+  
+  filterList: (list)->
+    $.map list, (el)->
+      ldap_name= el.label.match(/.*\((.*)\)/)[1]
+      shouldKeep= false
+      
+      ldapFilterConfig.whiteList.forEach (white)->
+        if ldap_name.match(white)
+          shouldKeep = true
+          ldapFilterConfig.blackList.forEach (black)->
+            if ldap_name.match(black) then shouldKeep = false
+      
+      return el if shouldKeep
+  
   setupAutocomplete: (input)->
     @input_el = input
     @input_el.on "focus", @openOnFocus
@@ -353,4 +381,4 @@ class FormAutocompletes.Departments
         @recursiveSearch child
 
 window.App.FormAutocompletes = {} unless window.App.FormAutocompletes
-window.App.FormAutocompletes.Departments = FormAutocompletes.Departments
+window.App.FormAutocompletes.Departments = FormAutocompletesDepartments
