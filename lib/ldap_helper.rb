@@ -3,7 +3,7 @@ module LdapHelper
   class << self 
 
     def fetch_from_ldap
-      ldap_config ||= YAML::load_file("#{Rails.root}/config/LDAP.yml")
+      ldap_config ||= YAML::load_file("#{Rails.root}/tmp/ldap.yml")
 
       ldap = Net::LDAP.new :host => ldap_config[Rails.env]["host"],
         :port => ldap_config[Rails.env]["port"].to_i,

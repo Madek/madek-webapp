@@ -51,7 +51,7 @@ gem 'jruby-openssl', :platform => :jruby
 gem 'json'
 gem 'kaminari'
 gem 'meta_request', group: [:development]
-gem 'net-ldap', :require => 'net/ldap', :git => 'git://github.com/justcfx2u/ruby-net-ldap.git'
+gem 'net-ldap', :require => 'net/ldap'
 gem 'newrelic_rpm', group: [:production, :development]
 gem 'nokogiri'
 gem 'poltergeist', group: [:test, :development, :personas]
