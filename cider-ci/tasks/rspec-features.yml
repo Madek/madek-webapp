@@ -24,6 +24,10 @@ tasks:
   scripts:
     rspec:
       body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/explore/catalog_categories_spec.rb"
+- name: features error_handling error_handling
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/error_handling/error_handling_spec.rb"
 - name: features explore explore
   scripts:
     rspec:

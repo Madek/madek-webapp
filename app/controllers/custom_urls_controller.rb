@@ -54,15 +54,15 @@ class CustomUrlsController < ApplicationController
       CustomUrl.create id: params[:url], media_resource: @media_resource, 
         creator: current_user, updator: current_user
       redirect_to custom_urls_path(@media_resource), flash: {success: "Die Adresse wurde angelegt."}
-    rescue NotAuthorized => e
-      redirect_to custom_urls_path(@media_resource,url: params[:url]), 
-        flash: {http_code: 403, error:  "Sie haben nicht die notwendige Berechtigung."} 
     rescue EagerCustomURLCreation => e
       redirect_to new_custom_url_path(@media_resource,url: params[:url]), 
         flash: {http_code: 422, 
-                error:  "Es kann maximal eine Adresse im Zeitraum von 3 Minuten für einen Inhalt erzeugt werden. Bitte warten Sie."} 
+                error:  "Es kann maximal eine Adresse im Zeitraum von 3 Minuten für einen Inhalt erzeugt werden. Bitte warten Sie."}
     rescue ActiveRecord::RecordNotUnique => e
       redirect_to confirm_url_transfer_media_resource_path(@media_resource,url: params[:url]) 
+    rescue NotAuthorized => e
+      redirect_to custom_urls_path(@media_resource,url: params[:url]),
+        flash: {http_code: 403, error:  "Sie haben nicht die notwendige Berechtigung."} 
     rescue ActiveRecord::StatementInvalid => e
       case e.original_exception
       when PG::CheckViolation

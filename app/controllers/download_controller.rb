@@ -8,36 +8,35 @@ class DownloadController < ApplicationController
   # WE SHOULD NEVER UPDATE AN UPLOADED FILE WITH MADEK METADATA.
   def download
       unless params[:id].blank? 
-        @media_entry = MediaEntry.accessible_by_user(current_user,:view).find_by_id(params[:id])
-        if @media_entry.nil?
+        begin
+          @media_entry = MediaEntry.accessible_by_user(current_user,:view).find(params[:id])
+        rescue @media_entry.nil?
           raise UserForbiddenError
-        else
-          @filename = @media_entry.media_file.filename
+        end
+        @filename = @media_entry.media_file.filename
 
-          @size = params[:size].try(:to_sym)           
-          @content_type = @media_entry.media_file.content_type
+        @size = params[:size].try(:to_sym)           
+        @content_type = @media_entry.media_file.content_type
 
-          if params[:type] == "tms"
-            send_tms
-          elsif params[:type] == "xml"
-            send_xml
-          elsif !params[:update].blank?
-            # An updated file - updated with the current set of madek meta-data  
-            path, content_type = @media_entry.updated_resource_file(false, @size) # false means we don't want to blank all the tags
-            send_file_with_correct_extension(path, @filename, content_type)
+        if params[:type] == "tms"
+          send_tms
+        elsif params[:type] == "xml"
+          send_xml
+        elsif !params[:update].blank?
+          # An updated file - updated with the current set of madek meta-data  
+          path, content_type = @media_entry.updated_resource_file(false, @size) # false means we don't want to blank all the tags
+          send_file_with_correct_extension(path, @filename, content_type)
 
-          elsif !params[:naked].blank?
-            # A bare file - as little meta-data as can be allowed without breaking the file.  
-            path, content_type = @media_entry.updated_resource_file(true, @size) # true means we do want to blank all the tags
-            send_file_with_correct_extension(path, @filename, content_type)
-            
-          # We use @size to find out if we have to send a resized preview -- this is pretty bad
-          elsif !@size.blank?
-            send_preview
-          else
-            send_original_file
-          end
+        elsif !params[:naked].blank?
+          # A bare file - as little meta-data as can be allowed without breaking the file.  
+          path, content_type = @media_entry.updated_resource_file(true, @size) # true means we do want to blank all the tags
+          send_file_with_correct_extension(path, @filename, content_type)
           
+        # We use @size to find out if we have to send a resized preview -- this is pretty bad
+        elsif !@size.blank?
+          send_preview
+        else
+          send_original_file
         end
       end
   end 

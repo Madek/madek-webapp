@@ -62,8 +62,8 @@ class ImportController < ApplicationController
       end
       Rails.cache.delete "#{current_user.id}/media_entry_incompletes_partial"
       render :json => current_user.dropbox_files.length
-    rescue  Exception => e
-      render json: e, status: :unprocessable_entity
+    rescue
+      raise UnprocessableEntityError
     end
   end
 

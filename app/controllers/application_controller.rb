@@ -18,7 +18,15 @@ class ApplicationController < ActionController::Base
   class UserForbiddenError < Error # User has insufficent right (403 Forbidden)
   end
   rescue_from UserForbiddenError, with: :error_user_forbidden
-  
+
+  class UnprocessableEntityError < Error # Unprocessable entity(422)
+  end
+  rescue_from UnprocessableEntityError, with: :error_unprocessable_entity
+
+  class NotAllowedError < Error # Not allowed(405)
+  end
+  rescue_from NotAllowedError, with: :error_not_allowed
+
   ################
   
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -135,6 +143,7 @@ class ApplicationController < ActionController::Base
   end
   
   def error_user_unauthorized # handles 'UserUnauthorizedError'
+    store_location
     msg = "Bitte melden Sie sich an." 
     respond_to do |format|
       format.html { flash[:error] = msg ; redirect_back_or_root }
@@ -147,6 +156,22 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html { flash[:error] = msg ; redirect_back_or_root }
       format.json { render :json => {error: msg}, status: :not_authorized}
+    end
+  end
+
+  def error_unprocessable_entity # handles 'UnprocessableEntityError'
+    msg = "Unprocessable entity error message." 
+    respond_to do |format|
+      format.html { flash[:error] = msg ; redirect_back_or_root }
+      format.json { render :json => {error: msg}, status: :unprocessable_entity}
+    end
+  end
+
+  def error_not_allowed # handles 'NotAllowedError'
+    msg = "Not allowed error message." 
+    respond_to do |format|
+      format.html { flash[:error] = msg ; redirect_back_or_root }
+      format.json { render :json => {error: msg}, status: :not_allowed}
     end
   end
   
@@ -214,10 +239,12 @@ class ApplicationController < ActionController::Base
           (request[:controller] == "application" and request[:action] == "root") or 
           (request[:controller] == "media_entries" and request[:action] == "show") or
           (request[:controller] == "media_entries" and request[:action] == "parents") or
+          (request[:controller] == "media_entries" and request[:action] == "relations") or
           (request[:controller] == "media_entries" and request[:action] == "context_group") or
           (request[:controller] == "media_entries" and request[:action] == "more_data") or
           (request[:controller] == "media_sets" and request[:action] == "show") or 
           (request[:controller] == "media_sets" and request[:action] == "parents") or
+          (request[:controller] == "media_sets" and request[:action] == "relations") or
           (request[:controller] == "media_sets" and request[:action] == "vocabulary") or
           (request[:controller] == "filter_sets" and request[:action] == "show") or
           (request[:controller] == "keywords" and request[:action] == "index") or

@@ -9,22 +9,23 @@ class MediaResourcesController < ApplicationController
   include Concerns::CustomUrls
 
   before_filter :except => [:index, :collection, :destroy] do
-    begin
-      unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids] || params[:collection_id]).blank?
-        action = case request[:action].to_sym
-          when :edit
-            :edit
-          else
-            :view
-        end
+    unless (params[:media_resource_id] ||= params[:id] || params[:media_resource_ids] || params[:collection_id]).blank?
+      action = case request[:action].to_sym
+        when :edit
+          :edit
+        else
+          :view
+      end
+      begin
         @media_resource = if params[:collection_id]
-          MediaResource.accessible_by_user(current_user, action).where(:id => MediaResource.by_collection(params[:collection_id]))
+          MediaResource.accessible_by_user(current_user, action).find(MediaResource.by_collection(params[:collection_id]))
         else
           MediaResource.accessible_by_user(current_user, action).find(params[:media_resource_id])
         end
+      rescue
+        raise UserForbiddenError unless current_user.login.nil?
+        raise UserUnauthorizedError
       end
-    rescue
-      raise UserForbiddenError
     end
   end
 
@@ -180,7 +181,7 @@ class MediaResourcesController < ApplicationController
   def parents()
 
     parent_media_set_ids = params[:parent_media_set_ids]
-    parent_media_sets = MediaSet.accessible_by_user(current_user, :edit).where(:id => parent_media_set_ids)
+    parent_media_sets = MediaSet.accessible_by_user(current_user, :edit).find(parent_media_set_ids)
     child_resources = Array(@media_resource)
 
     child_resources.each do |resource|

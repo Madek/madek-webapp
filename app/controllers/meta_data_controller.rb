@@ -3,12 +3,16 @@ class MetaDataController < ApplicationController
 
   def update
 
-    if @media_resource = MediaResource.accessible_by_user(current_user, :edit) \
-      .where(id: params[:media_resource_id]).first
+    begin
+      @media_resource = MediaResource.accessible_by_user(current_user, :edit) \
+      .find(params[:media_resource_id])
+    rescue ActiveRecord::RecordNotFound
+      raise UserForbiddenError
+    end
+    attributes = {meta_data_attributes: { '0' => 
+      { meta_key_label: params[:id], value: params[:value]} }}
 
-      attributes = {meta_data_attributes: { '0' => 
-        { meta_key_label: params[:id], value: params[:value]} }}
-
+    begin
       ActiveRecord::Base.transaction do
         if @media_resource.set_meta_data attributes
           @media_resource.editors << current_user
@@ -18,15 +22,15 @@ class MetaDataController < ApplicationController
           render json: {}, status: :unprocessable_entity 
         end
       end
-    else
-      render json: {}, status: :not_allowed
+    rescue
+      raise NotAllowedError
     end
   end
 
   def update_multiple
-    # TODO swap if/unless or just raise and no if
-    if @media_resource = MediaResource.accessible_by_user(current_user, :edit) \
-      .where(id: params[:media_resource][:id]).first
+    begin 
+      @media_resource = MediaResource.accessible_by_user(current_user, :edit) \
+      .find(params[:media_resource][:id])
       ActiveRecord::Base.transaction do
         if @media_resource.set_meta_data params[:resource]
           @media_resource.editors << current_user
@@ -37,7 +41,7 @@ class MetaDataController < ApplicationController
         end
       end
       redirect_to @media_resource
-    else
+    rescue ActiveRecord::RecordNotFound 
       raise UserForbiddenError
     end
   end
@@ -63,13 +67,13 @@ class MetaDataController < ApplicationController
             end
           end
         end
-      rescue => e
-        render(json: {}, status: :unprocessable_entity) and return
+      rescue
+        raise UnprocessableEntityError
       end
 
       render json: {}, status: :ok
     else
-      render json: {}, status: :not_allowed
+      raise NotAllowedError
     end
   end
 

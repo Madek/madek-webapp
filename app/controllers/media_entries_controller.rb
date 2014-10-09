@@ -41,6 +41,7 @@ class MediaEntriesController < ApplicationController
           redirect_to :back
         end
       rescue
+        raise UserUnauthorizedError if current_user.login.nil?
         raise UserForbiddenError
       end
 
@@ -72,6 +73,7 @@ class MediaEntriesController < ApplicationController
                             MediaResource.media_entries_or_media_entry_incompletes.accessible_by_user(current_user, action).find(params[:media_entry_id])
                           end
         rescue
+          raise UserUnauthorizedError if current_user.login.nil?
           raise UserForbiddenError
         end
       end
@@ -96,8 +98,9 @@ class MediaEntriesController < ApplicationController
 
 
   def check_and_initialize_for_view
-    @media_entry = find_media_resource 
+    @media_entry = find_media_resource
     raise "Wrong type" unless @media_entry.is_a? MediaEntry
+    raise UserUnauthorizedError if current_user.login.nil? && @media_entry.view == false
     raise UserForbiddenError unless current_user.try(:authorized?, :view, @media_entry) || @media_entry.view == true
 
     # here, everything is initialized that we need everywhere (Tabs!)

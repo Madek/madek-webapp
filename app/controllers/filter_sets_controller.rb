@@ -12,21 +12,18 @@ class FilterSetsController < ApplicationController
   def check_and_initialize_for_view
     @filter_set = find_media_resource 
     raise "Wrong type" unless @filter_set.is_a? FilterSet
+    raise UserUnauthorizedError unless current_user.login.present? || current_user.authorized?(:view, @filter_set)
     raise UserForbiddenError unless current_user.authorized?(:view,@filter_set)
   end
 
   def create
     begin
-      unless current_user
-        render json: {}, status: :unauthorized
-      else
-        ActiveRecord::Base.transaction do
-          @filter_set = FilterSet.create! user: current_user
-          @filter_set.update_attributes params["filter_set"].slice("settings").permit!
-          @filter_set.set_meta_data  params["filter_set"].slice("meta_data_attributes").permit!
-          raise @filter_set.errors.full_messages.join(", ") unless @filter_set.valid?
-          render json: @filter_set, status: :created
-        end
+      ActiveRecord::Base.transaction do
+        @filter_set = FilterSet.create! user: current_user
+        @filter_set.update_attributes params["filter_set"].slice("settings").permit!
+        @filter_set.set_meta_data  params["filter_set"].slice("meta_data_attributes").permit!
+        raise @filter_set.errors.full_messages.join(", ") unless @filter_set.valid?
+        render json: @filter_set, status: :created
       end
     rescue => e
       logger.error e

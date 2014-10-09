@@ -7,8 +7,9 @@ class MediaSetsController < ApplicationController
   def check_and_initialize_for_view
     # here, everything is initialized that we need everywhere (Tabs!)
     @media_set = find_media_resource 
-    raise "Wrong type" unless @media_set.is_a? MediaSet
+    raise UserUnauthorizedError unless current_user.login.present? || current_user.authorized?(:view, @media_set)
     raise UserForbiddenError unless current_user.authorized?(:view,@media_set)
+    raise "Wrong type" unless @media_set.is_a? MediaSet
     @parents_count = @media_set.parent_sets.accessible_by_user(current_user,:view).count
     @can_edit = current_user.authorized?(:edit, @media_set)
     
