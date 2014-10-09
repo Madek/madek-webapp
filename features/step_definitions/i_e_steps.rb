@@ -21,3 +21,6 @@ Then /^I edit one group$/ do
   step 'I wait for the dialog to appear'
 end
 
+Then(/^I execute JavaScript "(.*?)"$/) do |code|
+  page.execute_script "#{code}"
+end

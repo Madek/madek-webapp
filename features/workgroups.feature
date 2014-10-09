@@ -25,13 +25,14 @@ Feature: Workgroups
      And I click the primary action of this dialog
     Then I see an error that I have to provide a name for that group
 
-  @firefox
+  @jsbrowser
   Scenario: Edit group members
     When I go to my groups
      And I edit one group
      And I wait for 2 seconds
     Then I can add a new member to the group
      And I can delete an existing member from the group
+     And I execute JavaScript "$('.modal.in').find('.ui-modal-body').css('max-height', 0)"
     When I click the primary action of this dialog
     Then the group members are updated
 
@@ -58,6 +59,7 @@ Feature: Workgroups
      And I wait for 2 seconds
      And I change the group name
      And I wait for 2 seconds
+     And I execute JavaScript "$('.modal.in').find('.ui-modal-body').css('max-height', 0)"
      And I click the primary action of this dialog
     Then the group name is changed
 
@@ -67,6 +69,7 @@ Feature: Workgroups
      And I edit one group
      And I wait for 2 seconds
      And I make the group name empty
+     And I execute JavaScript "$('.modal.in').find('.ui-modal-body').css('max-height', 0)"
      And I click the primary action of this dialog
     Then I see an error message that the group name has to be present
      And the group name is not changed
