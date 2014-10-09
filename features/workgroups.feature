@@ -11,6 +11,7 @@ Feature: Workgroups
   Scenario: Create a new group
     When I go to my groups
      And I try to create a new group by using the context primary action
+     And I wait for 2 seconds
      And I provide a name
      And I click the primary action of this dialog
     Then the group is created
@@ -19,6 +20,7 @@ Feature: Workgroups
   Scenario: Requiring name during group creation
     When I go to my groups
      And I try to create a new group by using the context primary action
+     And I wait for 2 seconds
      And I don't provide a name
      And I click the primary action of this dialog
     Then I see an error that I have to provide a name for that group
@@ -27,6 +29,7 @@ Feature: Workgroups
   Scenario: Edit group members
     When I go to my groups
      And I edit one group
+     And I wait for 2 seconds
     Then I can add a new member to the group
      And I can delete an existing member from the group
     When I click the primary action of this dialog
@@ -37,6 +40,7 @@ Feature: Workgroups
     When I go to my groups
      And I edit one group
      And I remove all members of a specific group except myself
+     And I wait for 2 seconds
      And I delete that group
     Then the group is deleted
 
@@ -51,7 +55,9 @@ Feature: Workgroups
   Scenario: Successfully edit group name
     When I go to my groups
      And I edit one group
+     And I wait for 2 seconds
      And I change the group name
+     And I wait for 2 seconds
      And I click the primary action of this dialog
     Then the group name is changed
 
@@ -59,6 +65,7 @@ Feature: Workgroups
   Scenario: Error providing empty group name during edit
     When I go to my groups
      And I edit one group
+     And I wait for 2 seconds
      And I make the group name empty
      And I click the primary action of this dialog
     Then I see an error message that the group name has to be present

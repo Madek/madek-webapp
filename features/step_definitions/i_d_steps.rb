@@ -24,8 +24,10 @@ end
 
 Then /^I delete that group$/ do
   find(".ui-workgroups tr[data-id='#{@group.id}'] .button.delete-workgroup").click
+  sleep 1
   step 'I wait for the dialog to appear'
   step 'I click the primary action of this dialog'
+  sleep 1
   step 'I wait for the dialog to disappear'
 end
 
