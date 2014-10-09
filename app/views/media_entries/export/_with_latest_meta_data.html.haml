@@ -25,4 +25,4 @@
             %a{:href => "/download?id=#{@media_entry.id}&update=1&size=x_large"}
               = number_to_human_size(@x_large_file.size)
               = "(#{dimensions_for(@x_large_file)})" if dimensions_for(@x_large_file)
-              %strong= @format_original_file
+              %strong= file_format_for(@x_large_file)
