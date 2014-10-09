@@ -37,7 +37,7 @@ module Concerns
       end
 
       def accessible_to_public(action)
-          if action.to_sym == :manage
+          if [:manage, :delete].include?(action.to_sym)
             where('FALSE') 
           else
             where("media_resources.#{action.to_s} = true")
@@ -63,20 +63,20 @@ module Concerns
       end
 
       def accessible_by_signedin_user(user,action)
-          case action
-          when :transfer
-            where("media_resources.user_id = ?", user.id)
-          else
-            where %[
-                    media_resources.user_id = ?
-                    OR
-                    media_resources.#{action.to_s} = true
-                    OR
-                    EXISTS ( #{userpermission_query(user,action).select("'true'").to_sql} ) 
-                    OR
-                    EXISTS ( #{grouppermission_by_user_query(user,action).select("'true'").to_sql} ) 
-                    ], user.id
-          end
+        case action
+        when :transfer, :delete
+          where("media_resources.user_id = ?", user.id)
+        else
+          where %[
+                  media_resources.user_id = ?
+                  OR
+                  media_resources.#{action.to_s} = true
+                  OR
+                  EXISTS ( #{userpermission_query(user,action).select("'true'").to_sql} ) 
+                  OR
+                  EXISTS ( #{grouppermission_by_user_query(user,action).select("'true'").to_sql} ) 
+                  ], user.id
+        end
       end
 
 

@@ -13,7 +13,7 @@
 
 def click_on_text text
   wait_until{ all("a, button", text: text, visible: true).size > 0}
-  find("a, button",text: text).click
+  find("a, button", text: text).click
 end
 
 def find_input_with_name name
@@ -31,4 +31,3 @@ end
 def submit_form
   find("form *[type='submit']").click
 end
-

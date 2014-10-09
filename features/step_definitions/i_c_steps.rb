@@ -638,6 +638,10 @@ Then /^I click on "(.*?)" inside the autocomplete list$/ do |text|
   find("ul.ui-autocomplete li",text: text).click
 end
 
+When(/^I click on "(.*?)" inside the dropdown menu$/) do |text|
+  find(".dropdown-menu", visible: true).find("a", text: text).click
+end
+
 Then /^I click on "(.*?)" inside the node with the id "(.*?)"$/  do |text, id|
   find("##{id} a",text: text).click
 end

@@ -132,13 +132,8 @@ class User < ActiveRecord::Base
 
   def authorized?(action, resource_or_resources)
     Array(resource_or_resources).all? do |resource|
-      case action.to_sym
-      when :delete
-        resource.user == self
-      else
-        MediaResource.where(id: resource).
-          accessible_by_user(self,action).count > 0
-      end
+      MediaResource.where(id: resource).
+        accessible_by_user(self,action).count > 0
     end
   end
 

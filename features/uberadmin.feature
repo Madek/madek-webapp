@@ -1,9 +1,11 @@
 Feature: Acting as an Uberadmin
 
-  @jsbrowser
-  Scenario: Becoming an Uberadmin, viewing things, and leaving Ueberadmin-Mode
+  Background: 
     Given I am signed-in as "Adam"
-    And I visit "/media_resources?filterpanel=true"
+
+  @jsbrowser
+  Scenario: Becoming an Uberadmin, viewing things, and leaving Uberadmin-Mode
+    When I visit "/media_resources?filterpanel=true"
     And I remember the number of resources
     And I click on "Adam Admin"
     And I click on "In Admin-Modus wechseln" 
@@ -15,8 +17,7 @@ Feature: Acting as an Uberadmin
 
   @jsbrowser
   Scenario: Viewing and editing a private entry as Überadmin
-    Given I am signed-in as "Adam"
-    And I remember a media_entry that doesn't belong to me, has no public, nor other permissions
+    When I remember a media_entry that doesn't belong to me, has no public, nor other permissions
     And I visit the media_entry
     Then I am on the "/my" page
     And I can see "Sie haben nicht die notwendige Zugriffsberechtigung."
@@ -37,4 +38,17 @@ Feature: Acting as an Uberadmin
     Then I am on the "/my" page
     And I can see "Sie haben nicht die notwendige Zugriffsberechtigung."
 
-
+  @jsbrowser
+  Scenario: Deleting a private media entry in admin mode
+    When I remember a media_entry that doesn't belong to me, has no public, nor other permissions
+    And I visit the media_entry
+    Then I am on the "/my" page
+    And I can see "Sie haben nicht die notwendige Zugriffsberechtigung."
+    When I click on "Adam Admin"
+    And I click on "In Admin-Modus wechseln"
+    And I visit the media_entry
+    Then I am on the page of the resource
+    When I click on "Weitere Aktionen"
+    And I click on "Löschen" inside the dropdown menu
+    And I confirm the modal
+    Then The media_entry doesn't exist anymore

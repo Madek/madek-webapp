@@ -74,7 +74,7 @@ end
 ### the g
  
 Then /^the group is created$/ do
-  wait_until {all(".modal-backdrop").size == 0}
+  step 'I wait for the dialog to disappear'
   expect{ @current_user.groups.find_by_name("@name") }.to be
 end
 

@@ -73,5 +73,3 @@ Feature: Workgroups
      And I click the primary action of this dialog
     Then I see an error message that the group name has to be present
      And the group name is not changed
-
-
