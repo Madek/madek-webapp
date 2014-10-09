@@ -6,12 +6,12 @@
 
   .col1of2.by-right
 
-    .dropdown.ui-dropdown.stick-right
-      %a.button.dropdown-toggle.ui-drop-toggle{:"data-toggle" => "dropdown"}
+    .dropdown.ui-dropdown.ui-export-drop-button.stick-right
+      %a.button
         = _("File containing its original metadata")
         %i.icon-arrow-down
 
-      %ul.dropdown-menu.ui-drop-menu.absolute{"aria-labelledby" => "dLabel", :role => "menu"}
+      %ul.download.dropdown-menu.ui-drop-menu.ui-export-dropdown
         
         - if @can_download
           %li.ui-drop-item.by-right

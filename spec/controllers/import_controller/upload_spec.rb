@@ -83,7 +83,7 @@ describe ImportController do
           expect(@media_entry_incomplete = MediaEntryIncomplete.reorder(created_at: :desc).first).to be
           expect(@media_file= @media_entry_incomplete.media_file).to be
 
-          expect(@media_file.previews.count).to be>= 6
+          expect(@media_file.previews.count).to be>= 4
           @media_file.previews.each do |preview|
             expect(File.exist? preview.full_path).to be
             expect(File.new(preview.full_path).size).to be> 0

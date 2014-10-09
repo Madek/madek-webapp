@@ -6,12 +6,12 @@
 
   .col1of2.by-right
 
-    .dropdown.ui-dropdown.stick-right
-      %a.button.dropdown-toggle.ui-drop-toggle{:"data-toggle" => "dropdown"}
+    .dropdown.ui-dropdown.ui-export-drop-button.stick-right
+      %a.button
         = _("File without metadata")
         %i.icon-arrow-down
 
-      %ul.download.dropdown-menu.ui-drop-menu.absolute{"aria-labelledby" => "dLabel", :role => "menu"}
+      %ul.download.dropdown-menu.ui-drop-menu.ui-export-dropdown
         
         - if @can_download
           %li.ui-drop-item.by-right
@@ -20,7 +20,7 @@
               = "(#{dimensions_for(@original_file)})" if dimensions_for(@original_file)
               %strong= @format_original_file
 
-        - if @x_large_file
+        - if @x_large_file_available
           %li.ui-drop-item.by-right
             %a{:href => "/download?id=#{@media_entry.id}&naked=1&size=x_large"}
               = number_to_human_size(@x_large_file.size)
