@@ -97,7 +97,7 @@
 
           - unless @user_contexts_count.zero?
             = render :partial => "contexts/wrapper",
-                     :locals => {:contexts => @user_contexts.limit(3),
+                     :locals => {:contexts => @user_contexts.first(3),
                                  :title => _("Vokabulare"),
                                  :link => my_contexts_path,
                                  :id => "my_contexts_block"}

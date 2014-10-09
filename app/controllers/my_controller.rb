@@ -9,7 +9,11 @@ class MyController < ApplicationController
     @user_groups_count = current_user.groups.count
     @user_keywords_count = current_user.keywords.count
     @user_favorite_resources_count = MediaResource.filter(current_user, {:favorites => "true"}).count
-    @user_contexts_count = current_user.individual_contexts.count
+    # filter contexts that the current user has any resources for
+    @user_contexts= current_user.individual_contexts.map { |context|
+      context unless MediaResource.filter(current_user, {:context_ids => [context.id]}).empty?
+    }.reject(&:nil?)
+    @user_contexts_count = @user_contexts.count
   end
 
   def dashboard
@@ -19,7 +23,6 @@ class MyController < ApplicationController
     @user_groups = current_user.groups.limit(4)
     @user_keywords = view_context.hash_for current_user.keywords.with_count.limit(6), {:count => true}
     @user_favorite_resources = MediaResource.filter(current_user, {:favorites => "true"}).ordered_by(:updated_at).limit(12)
-    @user_contexts = current_user.individual_contexts
   end
 
   def media_resources
@@ -48,7 +51,6 @@ class MyController < ApplicationController
   end
   
   def contexts
-    @contexts = current_user.individual_contexts
   end
 
 

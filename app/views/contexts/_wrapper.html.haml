@@ -1,9 +1,3 @@
-:ruby
-  # filter contexts that the current user has any resources for
-  user_contexts= contexts.map { |context|
-    context unless MediaResource.filter(current_user, {:context_ids => [context.id]}).empty?
-  }.reject(&:nil?)
-
 .ui-resources-holder.pal
   - if defined? title
     .ui-resources-header
@@ -14,7 +8,7 @@
             = _("Show all")
 
   .ui-contexts
-    - user_contexts.in_groups_of(3, false).each_with_index do |contextrow, index|
+    - contexts.in_groups_of(3, false).each_with_index do |contextrow, index|
       .row
         - contextrow.each do |context|
           .col1of3

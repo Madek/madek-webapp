@@ -1,11 +1,9 @@
 #context_vocabulary
 
-  .ui-container.midtone.bordered.rounded-bottom
-    
-    .ui-container.inverted.ui-toolbar.pvx
-      %h2.ui-toolbar-header.pls
-        -# TODO: = _("Vokabular bezieht sich auf %d Medieneinträge. Davon sind %d beschlagwortet.") % [@entries_count, @entries_with_terms_count]
-        = _("Vokabular bezieht sich auf %d Medieneinträge") % [@entries_count]
+  .ui-container.inverted.ui-toolbar.pvx
+    %h2.ui-toolbar-header.pls
+      -# TODO: = _("Vokabular bezieht sich auf %d Medieneinträge. Davon sind %d beschlagwortet.") % [@entries_count, @entries_with_terms_count]
+      = _("Vokabular bezieht sich auf %d Medieneinträge") % [@entries_count]
 
   .ui-container.midtone.rounded-bottom
 
