@@ -21,14 +21,14 @@ describe ContextGroupsController do
 
     it "should be successful" do
       get_index
-      response.should be_success
+      expect(response).to be_success
     end
 
     it "should set the correct json content" do
       get_index
       json = JSON.parse(response.body)
       expected = @context_groups.as_json
-      json.eql?(expected).should be_true
+      expect( json.eql?(expected) ).to be true
     end
 
   end

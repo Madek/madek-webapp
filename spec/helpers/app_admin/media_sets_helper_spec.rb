@@ -12,13 +12,13 @@ describe AppAdmin::MediaSetsHelper do
       it "returns true" do
         @media_set.individual_contexts << @context
 
-        expect(helper.active_context_for_media_set?(@media_set, @context)).to be_true
+        expect(helper.active_context_for_media_set?(@media_set, @context)).to be true
       end
     end
 
     context "the context is not an individual context" do
       it "returns false" do
-        expect(helper.active_context_for_media_set?(@media_set, @context)).to be_false
+        expect(helper.active_context_for_media_set?(@media_set, @context)).to be false
       end
     end
   end

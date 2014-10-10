@@ -42,12 +42,12 @@ html#visualization
 
   &:not(.show_labels_all):not(.show_labels_sets_having_descendants)
     .node_label
-      opacity: 0.0
+      display: none
       pointer-events: none
 
   &.show_labels_sets_having_descendants
     .node_label[data-size='0']
-      opacity: 0.0
+      display: none
       pointer-events: none
 
   #overlay

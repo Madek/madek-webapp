@@ -4,7 +4,7 @@ describe MetaTerm do
   describe ".create" do
     it "should not accept an empty term" do
       meta_term = MetaTerm.create(term: '')
-      expect(meta_term.persisted?).to be_false
+      expect(meta_term.persisted?).to be false
     end
 
     it "removes all leading & tailing whitespaces from a term" do

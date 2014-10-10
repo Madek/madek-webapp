@@ -22,23 +22,23 @@ describe MediaResourceArcsController do
     end
 
     it "should succeed" do
-      response.should be_success
+      expect(response).to be_success
     end
 
     it "should return non empty json" do
-       @data.should_not be_nil
-       @data.should_not be_empty
+       expect(@data).not_to be_nil
+       expect(@data).not_to be_empty
     end
 
     it "should put children into the response" do
-       @data.map{|x| x["child_id"] }.should include @child1.id
-       @data.map{|x| x["child_id"] }.should include @child2.id
+      expect(@data.map{|x| x["child_id"] }).to include @child1.id
+      expect(@data.map{|x| x["child_id"] }).to include @child2.id
     end
 
     describe "The response" do
       it "should include two children" do
-        MediaResourceArc.where(parent_id: @parent_set.id).count.should == 2
-        @data.size.should == 2
+        expect(MediaResourceArc.where(parent_id: @parent_set.id).count).to be== 2
+        expect(@data.size).to be== 2
       end
     end 
 
@@ -50,23 +50,31 @@ describe MediaResourceArcsController do
     it "should updated the highlight parameter to true" do
       arcs = [{ parent_id: @parent_set.id, child_id: @child1.id, highlight: true}]
       put :update_arcs, {media_resource_arcs: arcs, format: 'json'}, valid_session(@user)
-      response.should be_success
-      MediaResourceArc.where(parent_id: @parent_set.id, child_id: @child1.id).first.highlight.should be_true
+      expect(response).to be_success
+      expect(
+        MediaResourceArc.where(parent_id: @parent_set.id, child_id: @child1.id).first.highlight
+      ).to be true
     end
 
     it "should updated the cover parameter to true and be always unique" do
       arcs = [{ parent_id: @parent_set.id, child_id: @child1.id, cover: true}]
       put :update_arcs, {media_resource_arcs: arcs, format: 'json'}, valid_session(@user)
-      response.should be_success
-      MediaResourceArc.where(parent_id: @parent_set.id).count.should == 2
-      MediaResourceArc.where(parent_id: @parent_set.id, child_id: @child1.id).first.cover.should be_true
+      expect(response).to be_success
+      expect(MediaResourceArc.where(parent_id: @parent_set.id).count).to be== 2
+      expect(
+        MediaResourceArc.where(parent_id: @parent_set.id, child_id: @child1.id).first.cover
+      ).to be true
 
       arcs = [{ parent_id: @parent_set.id, child_id: @child1.id, cover: false}, { parent_id: @parent_set.id, child_id: @child2.id, cover: true}]
       put :update_arcs, {media_resource_arcs: arcs, format: 'json'}, valid_session(@user)
-      response.should be_success
-      MediaResourceArc.where(parent_id: @parent_set.id).count.should == 2
-      MediaResourceArc.where(parent_id: @parent_set.id, child_id: @child1.id).first.cover.should be_false
-      MediaResourceArc.where(parent_id: @parent_set.id, child_id: @child2.id).first.cover.should be_true
+      expect(response).to be_success
+      expect(MediaResourceArc.where(parent_id: @parent_set.id).count).to be== 2
+      expect(
+        MediaResourceArc.where(parent_id: @parent_set.id, child_id: @child1.id).first.cover
+      ).to be false
+      expect(
+        MediaResourceArc.where(parent_id: @parent_set.id, child_id: @child2.id).first.cover
+      ).to be true
     end
 
   end

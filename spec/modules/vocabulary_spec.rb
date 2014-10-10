@@ -66,7 +66,6 @@ describe ::Vocabulary do
       end
     end
 
-
     describe "building the vocabulary for context, set  and user," do
 
       context "the set_for_contex_character " do
@@ -76,7 +75,7 @@ describe ::Vocabulary do
         end
 
         it "exists" do 
-          expect{@set}.to be 
+          expect(@set).to be
         end
 
         it "is the character set" do
@@ -148,4 +147,3 @@ describe ::Vocabulary do
   end
 
 end
-

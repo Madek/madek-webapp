@@ -11,7 +11,7 @@ describe ApplicationController do
   describe "as guest user" do
     it "should respond with success" do
       get :root, {}, {}
-      response.should be_success
+      expect(response).to be_success
     end
   end
 
@@ -22,7 +22,7 @@ describe ApplicationController do
     end
     it "should redirect to my dashboard" do
       get :root, {}, valid_session(@user)
-      response.should redirect_to(my_dashboard_path)
+      expect(response).to redirect_to(my_dashboard_path)
     end
   end
   

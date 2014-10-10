@@ -33,12 +33,12 @@ describe MediaResourcesController, type: :controller do
 
     it "should be successful" do
       request
-      response.should be_success
+      expect(response).to be_success
     end
 
 
     it "should not contain any media_resources" do
-      resources.should be_empty
+      expect(resources).to be_empty
     end
 
     context "The requester has view permission on the set" do
@@ -59,13 +59,13 @@ describe MediaResourcesController, type: :controller do
 
 
         it "should contain the set" do
-          extract_set.should_not be_empty
+          expect(extract_set).not_to be_empty
         end
 
         describe "the children of the set" do
 
           it "should be empty" do
-            children['media_resources'].should be_empty
+            expect(children['media_resources']).to be_empty
           end
 
         end
@@ -78,8 +78,10 @@ describe MediaResourcesController, type: :controller do
         end
         describe "the response" do
           it "should exactly contain this child" do
-            children['media_resources'].detect{|res| res['id']==@entry_1.id}.should_not be_empty
-            children['media_resources'].size.should == 1
+            expect(
+              children['media_resources'].detect { |res| res['id'] == @entry_1.id }
+            ).not_to be_empty
+            expect(children['media_resources'].size).to be== 1
           end
         end
       end
@@ -92,8 +94,10 @@ describe MediaResourcesController, type: :controller do
         end
         describe "the response" do
           it "should exactly contain this child" do
-            children['media_resources'].detect{|res| res['id']==@entry_1.id}.should_not be_empty
-            children['media_resources'].size.should == 1
+            expect(
+              children['media_resources'].detect { |res| res['id'] == @entry_1.id }
+            ).not_to be_empty
+            expect(children['media_resources'].size).to be== 1
           end
         end
       end
@@ -103,5 +107,3 @@ describe MediaResourcesController, type: :controller do
   end
 
 end
- 
-

@@ -6,7 +6,7 @@ describe ImportController do
 
   before :all do
     truncate_tables
-    ENV['ZENCODER_CONFIG_FILE']= (Rails.root.join "features","data","zencoder.yml").to_s
+    ENV['ZENCODER_CONFIG_FILE']= (Rails.root.join "spec","data","zencoder.yml").to_s
     FactoryGirl.create :usage_term
     FactoryGirl.create :meta_key, id: "copyright status", :meta_datum_object_type => "MetaDatumCopyright"
     FactoryGirl.create :meta_key, id: "description author", :meta_datum_object_type => "MetaDatumPeople"
@@ -39,7 +39,7 @@ describe ImportController do
     context "with a jpg file"  do
       
       before :each do
-        f = "#{Rails.root}/features/data/images/grumpy_cat.jpg"
+        f = "#{Rails.root}/spec/data/images/grumpy_cat.jpg"
         f_temp = "#{Rails.root}/tmp/#{File.basename(f)}"
         FileUtils.cp(f, f_temp)
         @uploaded_file= ActionDispatch::Http::UploadedFile.new(type: Rack::Mime.mime_type(File.extname(f_temp)),
@@ -70,13 +70,13 @@ describe ImportController do
           expect(File.exist? @media_file.file_storage_location).to be
           expect(File.new(@media_file.file_storage_location).size).to be> 0
         
-          @media_file.filename.should be== "grumpy_cat.jpg"
-          @media_file.content_type.should be== "image/jpeg"
-          @media_file.size.should be== 54335
-          @media_file.width.should be== 480 
-          @media_file.height.should be== 360
-          @media_file.extension.should be== "jpg" 
-          @media_file.media_type.should be== "image"
+          expect(@media_file.filename).to be== "grumpy_cat.jpg"
+          expect(@media_file.content_type).to be== "image/jpeg"
+          expect(@media_file.size).to be== 54335
+          expect(@media_file.width).to be== 480 
+          expect(@media_file.height).to be== 360
+          expect(@media_file.extension).to be== "jpg" 
+          expect(@media_file.media_type).to be== "image"
         end
 
         it "creates previews with actual files" do
@@ -94,14 +94,14 @@ describe ImportController do
           expect(@media_entry_incomplete = MediaEntryIncomplete.reorder(created_at: :desc).first).to be
           expect(@meta_data = @media_entry_incomplete.meta_data).to be
 
-          @meta_data.get("author").value.first.to_s.should be==  "Cahenzli, Ramon"
-          @meta_data.get("marked").value.should be== "t"
-          @meta_data.get("portrayed object dates").value.should be== "30.05.2011"
-          @meta_data.get("rights").value.should be==  "Ramón Cahenzli"
-          @meta_data.get("title").value.should be== "Grumpy Cat"
-          @meta_data.get("uploaded by").value.first.should be== @user
-          @meta_data.get("usage terms").value.should be== "Bitte jeweils die angegebenen Nutzungsmodifikationen beachten."
-          @meta_data.get("web statement").value.should be== "http://creativecommons.org/licenses/by/2.5/ch/"
+          expect(@meta_data.get("author").value.first.to_s).to be==  "Cahenzli, Ramon"
+          expect(@meta_data.get("marked").value).to be== "t"
+          expect(@meta_data.get("portrayed object dates").value).to be== "30.05.2011"
+          expect(@meta_data.get("rights").value).to be==  "Ramón Cahenzli"
+          expect(@meta_data.get("title").value).to be== "Grumpy Cat"
+          expect(@meta_data.get("uploaded by").value.first).to be== @user
+          expect(@meta_data.get("usage terms").value).to be== "Bitte jeweils die angegebenen Nutzungsmodifikationen beachten."
+          expect(@meta_data.get("web statement").value).to be== "http://creativecommons.org/licenses/by/2.5/ch/"
 
         end
 
@@ -112,7 +112,7 @@ describe ImportController do
     context "with a pdf file"  do
       
       before :each do
-        f = "#{Rails.root}/features/data/files/test_pdf_for_metadata.pdf"
+        f = "#{Rails.root}/spec/data/files/test_pdf_for_metadata.pdf"
         f_temp = "#{Rails.root}/tmp/#{File.basename(f)}"
         FileUtils.cp(f, f_temp)
         @uploaded_file= ActionDispatch::Http::UploadedFile.new(type: Rack::Mime.mime_type(File.extname(f_temp)),
@@ -143,13 +143,13 @@ describe ImportController do
           expect(File.exist? @media_file.file_storage_location).to be
           expect(File.new(@media_file.file_storage_location).size).to be> 0
         
-          @media_file.filename.should be== "test_pdf_for_metadata.pdf"
-          @media_file.content_type.should be== "application/pdf"
-          @media_file.size.should be== 24469
-          @media_file.width.should be== nil
-          @media_file.height.should be== nil
-          @media_file.extension.should be== "pdf" 
-          @media_file.media_type.should be== "document"
+          expect(@media_file.filename).to be== "test_pdf_for_metadata.pdf"
+          expect(@media_file.content_type).to be== "application/pdf"
+          expect(@media_file.size).to be== 24469
+          expect(@media_file.width).to be== nil
+          expect(@media_file.height).to be== nil
+          expect(@media_file.extension).to be== "pdf"
+          expect(@media_file.media_type).to be== "document"
         end
 
         it "creates previews with actual files" do
@@ -166,7 +166,7 @@ describe ImportController do
         it "uploaded by meta-datum" do
           expect(@media_entry_incomplete = MediaEntryIncomplete.reorder(created_at: :desc).first).to be
           expect(@meta_data = @media_entry_incomplete.meta_data).to be
-          @meta_data.get("uploaded by").value.first.should be== @user
+          expect(@meta_data.get("uploaded by").value.first).to be== @user
         end
 
       end

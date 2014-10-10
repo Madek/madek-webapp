@@ -17,7 +17,7 @@ describe CustomUrlsController do
 
     it "is successful for the owner" do
       get :index, {id: @media_set1.id}, valid_session(@user1)
-      response.should be_success
+      expect(response).to be_success
     end
 
     it "raises UserForbiddenError if the requester doesn't have view permission" do
@@ -37,7 +37,7 @@ describe CustomUrlsController do
     describe "get index" do
       it "is now successful for the user2" do
         get :index, {id: @media_set1.id}, valid_session(@user2)
-        response.should be_success
+        expect(response).to be_success
       end
     end
 

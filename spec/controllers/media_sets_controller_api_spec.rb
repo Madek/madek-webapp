@@ -33,15 +33,15 @@ describe MediaSetsController do
 
         it  "should not redirect" do
           get :show, get_params
-          response.body.should_not match /redirected/
+          expect(response.body).not_to match /redirected/
         end
 
         it  "should set the json response data correctly" do
           get :show, get_params
           json = JSON.parse(response.body)
-          json["id"].should == @media_set.id
-          json["type"].should == "media_set"
-          json["children"].should be
+          expect(json["id"]).to be== @media_set.id
+          expect(json["type"]).to be== "media_set"
+          expect(json["children"]).to be
         end
       end
     end
@@ -67,20 +67,20 @@ describe MediaSetsController do
           end
 
           it "should contain the correct id" do
-            json_body["id"].should == @parent_media_set.id
+            expect(json_body["id"]).to be== @parent_media_set.id
           end
 
           it  "should have the right sum of contained resources"  do
             summed_sizes = @parent_media_set.child_media_resources.media_entries.size + @parent_media_set.child_media_resources.media_sets.size
-            @parent_media_set.child_media_resources.size.should == summed_sizes
-            json_body["media_resources"].size.should == summed_sizes
+            expect(@parent_media_set.child_media_resources.size).to be== summed_sizes
+            expect(json_body["media_resources"].size).to be== summed_sizes
           end
 
           it  "should contain the internal properties of the resource" do 
             json_body["media_resources"].each do |entry|
-              entry["id"].blank?.should_not == true
-              entry["image"].blank?.should_not == true
-              entry["type"].blank?.should_not == true
+              expect(entry["id"]).not_to be_blank
+              expect(entry["image"]).not_to be_blank
+              expect(entry["type"]).not_to be_blank
             end
           end
         end

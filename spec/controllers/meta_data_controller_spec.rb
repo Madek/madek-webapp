@@ -20,13 +20,13 @@ describe MetaDataController do
 
     it "should update a title value" do
       put :update, {media_resource_id: @media_set.id, id: "title", value: "My new title", format: "json"}, valid_session(@user)
-      response.should be_success
-      @media_set.title.should == "My new title"
+      expect(response).to be_success
+      expect(@media_set.title).to be== "My new title"
     end
 
     it "should not update meta_data if the user doesn't have edit permissions" do
       put :update, {media_resource_id: @media_set.id, id: "title", value: "My new title", format: "json"}, {user_id: @other_user_id}
-      response.should_not be_success
+      expect(response).not_to be_success
     end
 
   end

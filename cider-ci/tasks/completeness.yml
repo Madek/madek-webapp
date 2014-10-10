@@ -1,10 +1,5 @@
 tasks:
 
-- name: Check all cucumber-features are tested
-  scripts:
-    main: 
-      body: cider-ci/bin/check_cucumber-features_tested.rb
-
 - name: Check all respec-features are tested
   scripts:
     main: 
@@ -14,7 +9,3 @@ tasks:
   scripts:
     main: 
       body: cider-ci/bin/check_rspec-plain_tested.rb
-
-
-
-

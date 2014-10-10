@@ -1,4 +1,4 @@
-require 'spec_helper_feature'
+require 'rails_helper'
 require 'spec_helper_feature_shared'
 
 feature 'Admin - Media Sets' do
@@ -12,6 +12,21 @@ feature 'Admin - Media Sets' do
     select_entry_from_autocomplete_list
     click_button 'Transfer'
     expect_notice_with_text 'Choose at least one of transfer option.'
+  end
+
+  scenario 'Transfering ownership', browser: :firefox do
+    expect { @owner = MediaResource.find_by! previous_id: 38 }.not_to raise_error
+    visit '/app_admin/media_sets/38'
+    click_link 'Change Ownership of set and its children'
+    expect(find('button', text: 'Transfer', visible: false)[:disabled]).to eq 'true'
+    fill_in '[query]', with: 'akt'
+    select_entry_from_autocomplete_list
+    expect(find('#_user_id', visible: false)[:value]).not_to eq ''
+    expect(find_button('Transfer')[:disabled]).to be_nil
+    check 'transfer_ownership'
+    click_button 'Transfer'
+    assert_success_message
+    expect(MediaResource.find_by(previous_id: 38).reload.user.name).to eq 'Raktor, Beat'
   end
 
   scenario 'Changing ownership of a set and deleting all permissions for the current owner', browser: :firefox do
@@ -191,19 +206,5 @@ feature 'Admin - Media Sets' do
         }.not_to raise_error
       end
     end
-  end
-
-  def select_entry_from_autocomplete_list(index_or_text = 0, input_name = '[query]')
-    page.execute_script %Q{ $('[name="#{input_name}"]').trigger('keydown') }
-    selector = if index_or_text.is_a?(Integer)
-      %Q{ ul.ui-autocomplete li.ui-menu-item:eq(#{index_or_text}) }
-    else
-      %Q{ ul.ui-autocomplete li.ui-menu-item:contains(\'#{index_or_text}\') }
-    end
-
-    expect(page).to have_selector('ul.ui-autocomplete li.ui-menu-item')
-    page.execute_script %Q{ $("#{selector}").trigger('mouseenter').click() }
-
-    page.execute_script %Q{ $('.ui-menu-item:first').trigger('mouseenter').click() }
   end
 end

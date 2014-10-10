@@ -1,5 +1,4 @@
-require "spec_helper"
-require "spec_helper_feature"
+require 'rails_helper'
 require 'spec_helper_feature_shared'
 
 feature "Batch edit metadata" do
@@ -7,8 +6,8 @@ feature "Batch edit metadata" do
   def add_to_the_clipboard media_resource
     visit media_resource_path(media_resource)
     find("a[data-clipboard-toggle]").click
-    wait_until{page.evaluate_script(%<$.active>) == 0}
-    wait_until{find(".ui-clipboard li.ui-resource[data-id='#{media_resource.id}']",visible: false)}
+    wait_for_ajax
+    find(".ui-clipboard li.ui-resource[data-id='#{media_resource.id}']", visible: false)
   end
 
   def create_media_entries
@@ -39,7 +38,7 @@ feature "Batch edit metadata" do
   end
 
   scenario "Updating an unset title meta-datum", browser: :headless do
-    @current_user= sign_in_as 'normin'
+    @current_user = sign_in_as 'normin'
 
     create_media_entries
     place_entries_in_clipboard_and_open_batch_edit
@@ -56,7 +55,7 @@ feature "Batch edit metadata" do
   end
 
   scenario "Updating a mixed title meta-datum", browser: :headless do
-    @current_user= sign_in_as 'normin'
+    @current_user = sign_in_as 'normin'
 
     create_media_entries
     @media_entry1.meta_data \
@@ -77,7 +76,7 @@ feature "Batch edit metadata" do
 
 
   scenario "Deleting a non mixed title meta-datum", browser: :jsbrowser do
-    @current_user= sign_in_as 'normin'
+    @current_user = sign_in_as 'normin'
 
     create_media_entries
     @media_entry1.meta_data \

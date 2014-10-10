@@ -26,7 +26,7 @@ describe PeopleController do
             pseudonym: x.pseudonym           
           }
         }
-        json.to_json.eql?(expected.to_json).should be_true
+        expect(json.to_json).to eql(expected.to_json)
       end
 
       it "should find matching people" do
@@ -43,7 +43,7 @@ describe PeopleController do
             pseudonym: x.pseudonym           
           }
         }
-        json.to_json.eql?(expected.to_json).should be_true
+        expect(json.to_json).to eql(expected.to_json)
       end
     end
   end

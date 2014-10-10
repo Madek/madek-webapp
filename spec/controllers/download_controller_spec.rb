@@ -52,8 +52,8 @@ describe DownloadController do
     end
 
     after :each do
-      response.should be_success
-      response.header.has_key?("Content-Disposition").should be_true
+      expect(response).to be_success
+      expect( response.header.has_key?("Content-Disposition") ).to be true
     end    
   end
 

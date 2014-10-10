@@ -57,11 +57,11 @@ describe "requests of the typo madek player plugin" do
       children = ms["children"]["media_resources"]
       expect(children.size).to be > 0
       children.each do |child|
-        expect(@media_set.child_media_resources.map(&:id).include? child["id"]).to be_true
+        expect(@media_set.child_media_resources.map(&:id).include? child["id"]).to be true
         expect(child.has_key? "type").to eq true
         expect(child.has_key? "meta_data").to eq true
         meta_key_ids.each do |mkid|
-          expect(child["meta_data"].find{|md| md["name"] == mkid}.nil?).to be_false
+          expect(child["meta_data"].find{|md| md["name"] == mkid}.nil?).to be false
         end
       end
     end

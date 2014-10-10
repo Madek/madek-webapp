@@ -5,7 +5,7 @@ describe ImportController do
   render_views
 
   before :each do
-    Settings.add_source! (Rails.root.join "features","data","zencoder.yml").to_s
+    Settings.add_source! (Rails.root.join "spec","data","zencoder.yml").to_s
     Settings.reload!
     FactoryGirl.create :usage_term
     FactoryGirl.create :meta_key, id: "copyright status", :meta_datum_object_type => "MetaDatumCopyright"

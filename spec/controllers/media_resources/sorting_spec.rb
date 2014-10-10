@@ -27,11 +27,11 @@ describe MediaResourcesController, type: :controller do
       end
 
       it "should be successful" do
-        response.should  be_success
+        expect(response).to be_success
       end
 
       it "should assign @media_resources" do
-        JSON.parse(response.body)["media_resources"].should be
+        expect(JSON.parse(response.body)["media_resources"]).to be
       end
 
       it "should be ordered by title" do
@@ -40,7 +40,7 @@ describe MediaResourcesController, type: :controller do
         # ["at dolor minima tempore", "at dolorem rerum impedit"]
         # not reproducible on my macbook
         resources = extract_resources 
-        resources.map(&:title).sort.should ==  resources.map(&:title)
+        expect(resources.map(&:title).sort).to be== resources.map(&:title)
       end
 
     end
@@ -56,7 +56,7 @@ describe MediaResourcesController, type: :controller do
 
       it "should be successful" do
         get_ordered_by_author
-        response.should  be_success
+        expect(response).to be_success
       end
 
 
@@ -75,7 +75,7 @@ describe MediaResourcesController, type: :controller do
           @media_sets[0].set_meta_data({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => [@bb,@aa]}}})
           get_ordered_by_author
           resources = extract_resources
-          resources.size.should == 2
+          expect(resources.size).to be== 2
         end
 
         it "should use the consider the first name" do
@@ -83,8 +83,8 @@ describe MediaResourcesController, type: :controller do
           @media_sets[1].set_meta_data({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @aa}}})
           get_ordered_by_author
           resources = extract_resources
-          resources[0].should == @media_sets[1]
-          resources[1].should == @media_sets[0]
+          expect(resources[0]).to be== @media_sets[1]
+          expect(resources[1]).to be== @media_sets[0]
         end
 
         it "should order them" do
@@ -94,10 +94,10 @@ describe MediaResourcesController, type: :controller do
           @media_sets[3].set_meta_data({:meta_data_attributes => {"0" => {:meta_key_label => "author", :value => @bb}}})
           get_ordered_by_author
           resources = extract_resources
-          resources[0].should == @media_sets[1]
-          resources[1].should == @media_sets[3]
-          resources[2].should == @media_sets[2]
-          resources[3].should == @media_sets[0]
+          expect(resources[0]).to be== @media_sets[1]
+          expect(resources[1]).to be== @media_sets[3]
+          expect(resources[2]).to be== @media_sets[2]
+          expect(resources[3]).to be== @media_sets[0]
         end
 
       end

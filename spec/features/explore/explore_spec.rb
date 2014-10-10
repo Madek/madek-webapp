@@ -1,6 +1,5 @@
-require "spec_helper"
-require "spec_helper_feature"
-require "spec_helper_feature_shared"
+require 'rails_helper'
+require 'spec_helper_feature_shared'
 
 
 feature "Visiting explore main page" do

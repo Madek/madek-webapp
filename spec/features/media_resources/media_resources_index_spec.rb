@@ -1,5 +1,4 @@
-require 'spec_helper'
-require 'spec_helper_feature'
+require 'rails_helper'
 require 'spec_helper_feature_shared'
 
 feature 'MediaResource' do
@@ -12,7 +11,7 @@ feature 'MediaResource' do
     visit my_dashboard_path
 
     # I can see a Media Resources Container, containing some resources
-    container = find('.ui-resources.grid.active')
+    container = find('.ui-resources.grid.active', match: :first)
     expect(container).to be
     resources = container.all('li.ui-resource')
     expect(resources.length).to be > 0
@@ -23,7 +22,7 @@ feature 'MediaResource' do
     check_hover_overlay(media_set, 'bottom')
 
     # There is a Media Entry, with a working overlay on top
-    media_entry = container.find('[data-type="media-entry"]')
+    media_entry = container.find("[data-type='media-entry']", match: :first)
     check_hover_overlay(media_entry, 'top')
   end
 

@@ -9,7 +9,7 @@ describe Exiftool do
   end
 
   it "should return fiels with files of asked for" do
-    res = Exiftool.parse_metadata "features/data/images/berlin_wall_01.jpg" ,["File"]
+    res = Exiftool.parse_metadata "spec/data/images/berlin_wall_01.jpg", ["File"]
     res.flatten.grep(/File/).should_not be_empty
   end
 
@@ -18,7 +18,7 @@ describe Exiftool do
   end
 
   it "should extract madek subjective metadata" do
-    res = Exiftool.extract_madek_subjective_metadata "features/data/images/date_should_be_from_to_may.jpg", "image"
+    res = Exiftool.extract_madek_subjective_metadata "spec/data/images/date_should_be_from_to_may.jpg", "image"
     res[0][0][0].match(/Author/).should be
     res[0][0][1].match(/Buser/).should be
   end
@@ -45,7 +45,7 @@ describe Exiftool do
   end
 
   it "should extract metadata from PDF files" do
-    res = Exiftool.parse_metadata "features/data/files/test_pdf_for_metadata.pdf", ["PDF"]
+    res = Exiftool.parse_metadata "spec/data/files/test_pdf_for_metadata.pdf", ["PDF"]
     fields_that_should_exist = ["PDF:Creator", "PDF:Keywords", "PDF:Title"]
     fields_that_should_exist.each do |f|
       res.flatten.grep(f).should_not be_empty

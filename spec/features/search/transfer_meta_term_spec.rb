@@ -1,5 +1,4 @@
-require "spec_helper"
-require "spec_helper_feature"
+require 'rails_helper'
 require 'spec_helper_feature_shared'
 
 feature "Transferring resources between terms and searching for those terms."  do

@@ -21,9 +21,9 @@ describe MetaTermsController do
 
     it "gets all meta terms associated to provided meta key id" do
       get :index, {format: 'json', meta_key_id: @meta_key.id}, valid_session(@user)
-      response.should be_success
+      expect(response).to be_success
       json = JSON.parse(response.body)
-      json.each {|meta_term| meta_term.keys.sort.should == ["id", "value"] }
+      json.each {|meta_term| expect(meta_term.keys.sort).to eq ["id", "value"] }
     end
 
   end

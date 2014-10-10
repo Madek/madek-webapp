@@ -29,7 +29,7 @@ describe MediaEntryIncomplete do
       end
 
       it "sets the uploader" do
-        @media_entry_incomplete.meta_data.map(&:meta_key).map(&:label).include?("uploaded by").should be_true
+        @media_entry_incomplete.meta_data.map(&:meta_key).map(&:label).include?("uploaded by").should be true
         @media_entry_incomplete.meta_data.get_value_for("uploaded by").should == @uploader.to_s
       end
 

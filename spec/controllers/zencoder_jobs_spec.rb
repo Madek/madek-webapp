@@ -4,7 +4,7 @@ describe ZencoderJobsController do
   render_views
 
   before :each do
-    ENV['ZENCODER_CONFIG_FILE']= (Rails.root.join "features","data","zencoder.yml").to_s
+    ENV['ZENCODER_CONFIG_FILE']= (Rails.root.join "spec","data","zencoder.yml").to_s
     FactoryGirl.create :usage_term
     FactoryGirl.create :meta_key, id: "copyright status", :meta_datum_object_type => "MetaDatumCopyright"
     FactoryGirl.create :meta_key, id: "description author", :meta_datum_object_type => "MetaDatumPeople"

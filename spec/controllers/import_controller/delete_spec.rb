@@ -17,12 +17,12 @@ describe ImportController do
     describe "canceling the import process" do
       it "should respond with error to delete with json request" do
         delete :destroy, {format: 'json'}, valid_session(@user)
-        response.should_not  be_success
+        expect(response).not_to be_success
       end
 
       it "should redirect to my dashboard on cancel" do
         get :destroy, {format: 'html'}, valid_session(@user)
-        response.should redirect_to(my_dashboard_path)
+        expect(response).to redirect_to(my_dashboard_path)
       end
     end
 
@@ -32,11 +32,11 @@ describe ImportController do
       end
 
       it "should delete and respond with success" do
-        @user.incomplete_media_entries.count.should == 1
+        expect(@user.incomplete_media_entries.count).to eq 1
         delete :destroy, {format: 'json', media_entry_incomplete: {id: @mei.id}}, valid_session(@user)
-        @user.incomplete_media_entries.count.should == 0
+        expect(@user.incomplete_media_entries.count).to eq 0
         expect(MediaEntryIncomplete.exists?(@mei.id)).not_to be
-        response.should  be_success
+        expect(response).to be_success
       end
     end
 

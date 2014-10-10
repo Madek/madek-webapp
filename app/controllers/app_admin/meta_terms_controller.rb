@@ -66,8 +66,8 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
 
   def destroy
     begin
-      @meta_term = MetaTerm.find params[:id]
-      unless @meta_term.is_used?
+      @meta_term = MetaTerm.find(params[:id])
+      unless @meta_term.used?
         @meta_term.destroy
         flash = {success: "The Meta Term has been deleted."}
       else
@@ -80,13 +80,13 @@ class AppAdmin::MetaTermsController < AppAdmin::BaseController
   end
 
   def form_transfer_resources
-    @meta_term = MetaTerm.find  params[:id]
+    @meta_term = MetaTerm.find(params[:id])
   end
 
   def transfer_resources
     begin
-      @meta_term_originator = MetaTerm.find sanitize_id(params[:id])
-      @meta_term_receiver   = MetaTerm.find sanitize_id(params[:id_receiver])
+      @meta_term_originator = MetaTerm.find(sanitize_id(params[:id]))
+      @meta_term_receiver   = MetaTerm.find(sanitize_id(params[:id_receiver]))
       ActiveRecord::Base.transaction do
         @meta_term_originator.transfer_meta_data_meta_terms_to @meta_term_receiver
         @meta_term_receiver.reload.meta_data.reload.map(&:media_resource).each(&:reindex)

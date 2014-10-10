@@ -27,7 +27,7 @@ describe FilterSet do
         @filter_set.should respond_to(:settings)
         f = {"public" => "true", "search" => "zhdk"}
         @filter_set.settings[:filter] = f
-        @filter_set.save.should be_true
+        @filter_set.save.should be true
         @filter_set.reload
         @filter_set.settings[:filter].should == f 
       end

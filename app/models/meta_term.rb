@@ -48,28 +48,27 @@ class MetaTerm < ActiveRecord::Base
 
   ######################################################
 
-    def is_used?
-      meta_key_meta_terms.exists? or
-      meta_data.exists?
-    end
+  def used?
+    meta_key_meta_terms.exists? or
+    meta_data.exists?
+  end
   
   ######################################################
 
-    def used_times
-      meta_key_meta_terms.count +
-      meta_data.count
-    end
+  def used_times
+    meta_data.count
+  end
 
   ######################################################
 
-    def used_as?(type)
-      case type
-      when :term
-        meta_data.exists?
-      else
-        false
-      end
+  def used_as?(type)
+    case type
+    when :term
+      meta_data.exists?
+    else
+      false
     end
+  end
 
   scope :text_search, lambda{|search_term| where(%Q{term ILIKE :term}, term: "%#{search_term}%")}
 

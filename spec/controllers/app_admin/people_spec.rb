@@ -12,7 +12,7 @@ describe AppAdmin::PeopleController do
   describe "index" do
     it "should respond with success" do
       get :index, {}, valid_session(@admin)
-      response.should be_success
+      expect(response).to be_success
     end
   end
 

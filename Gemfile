@@ -24,13 +24,11 @@ gem 'animation'
 gem 'bcrypt-ruby'
 gem 'better_errors', group: [:development]
 gem 'binding_of_caller', platform: :mri, group: [:development]
-gem 'bootstrap-sass' 
-gem 'capybara', '= 1.1.2', group: [:test]
+gem 'bootstrap-sass'
+gem 'capybara', '~> 2.4.3', group: [:test]
 gem 'coffee-rails'
 gem 'coffee-script'
 gem 'compass-rails'
-gem 'cucumber', '~> 1.2', group: [:test]
-gem 'cucumber-rails', '~> 1.3', :require => false, group: [:test]
 gem 'dalli'
 gem 'execjs'
 gem 'factory_girl', group: [:test, :development, :personas]
@@ -62,7 +60,7 @@ gem 'quiet_assets', group: [:development]
 gem 'rails_autolink', '~> 1.0'
 gem 'rails_config', git: 'https://github.com/DrTom/rails_config.git', ref: '84d0259b20bf3439bb7d5e2e2e48e4fe262af18b'  
 gem 'rest-client', group: [:test, :development, :personas]
-gem 'rspec', '= 2.14.1'
+gem 'rspec', '~> 3.1.0'
 gem 'rspec-rails', group: [:test, :development]
 gem 'rubyzip'
 gem 'rvm-capistrano', group: [:development, :personas]

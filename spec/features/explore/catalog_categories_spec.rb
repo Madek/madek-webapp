@@ -1,6 +1,5 @@
-require "spec_helper"
-require "spec_helper_feature"
-require "spec_helper_feature_shared"
+require 'rails_helper'
+require 'spec_helper_feature_shared'
 
 
 sektion_klang = '#a290eeeb-cc34-4487-9149-a897b5830d49'

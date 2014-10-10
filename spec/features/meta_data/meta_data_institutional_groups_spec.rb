@@ -1,5 +1,4 @@
-require "spec_helper"
-require "spec_helper_feature"
+require 'rails_helper'
 require 'spec_helper_feature_shared'
 
 feature "Meta Data - Instititutional Groups" do
@@ -70,7 +69,7 @@ feature "Meta Data - Instititutional Groups" do
     
     # Back on the MediaEntry page, I find the metadata heading 'Bereich ZHdK'
     # and remember the box around it
-    mdata= find('.media-data-title', text: 'Bereich ZHdK').find(:xpath, './/..')
+    mdata= find('.media-data-title', text: 'Bereich ZHdK').find(:xpath, './/..', match: :first)
     
     # The content of it is *exactly* 'Departement Design (DDE.alle)'.
     expect(mdata.find('.media-data-content').text)

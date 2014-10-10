@@ -38,13 +38,3 @@ subcontexts:
             order: 6
             timeout: 300
       _cider-ci_include: 'cider-ci/tasks/rspec-features.yml'
-
-    - name: Cucumber Features
-      task_defaults:
-        scripts: 
-          cucumber:
-            order: 6
-            timeout: 300
-      _cider-ci_include: 'cider-ci/tasks/cucumber-features.yml'
-
-

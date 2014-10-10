@@ -1,5 +1,4 @@
-require "spec_helper"
-require "spec_helper_feature"
+require 'rails_helper'
 require 'spec_helper_feature_shared'
 
 feature "View and manage custom urls for users not being the owner " do 

@@ -15,20 +15,20 @@ describe GroupsController do
       group = FactoryGirl.create :group
       group.users << @user1
       delete :destroy, {:format => :json, :id => group.id}, valid_session(@user1)
-      response.success?.should be_true
+      expect(response).to be_success
     end
 
     it "should not delete the group if I'm not a member and there is only one member left" do
       group = FactoryGirl.create :group
       group.users << [@user2]
-      lambda {delete :destroy, {:format => :json, :id => group.id}, valid_session(@user1)}.should raise_error
+      expect { delete :destroy, {:format => :json, :id => group.id}, valid_session(@user1) }.to raise_error
     end
 
     it "should not delete the group if I'm a member but not the only one" do
       group = FactoryGirl.create :group
       group.users << [@user1, @user2]
       delete :destroy, {:format => :json, :id => group.id}, valid_session(@user1)
-      response.success?.should be_false
+      expect(response).not_to be_success
     end
   end
 end

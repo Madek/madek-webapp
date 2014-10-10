@@ -60,8 +60,8 @@ describe MediaResource do
       
       it "exports person meta_data as string for exiftool, not as ruby object" do
         s = @media_entry.send :to_metadata_tags
-        s.include?("-XMP-madek:Author='Picasso, Pablo'").should be_true
-        s.include?("#<").should be_false
+        s.include?("-XMP-madek:Author='Picasso, Pablo'").should be true
+        s.include?("#<").should be false
       end
       
     end

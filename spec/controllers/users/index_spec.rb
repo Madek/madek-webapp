@@ -23,14 +23,14 @@ describe UsersController do
         get :index, {format: :json}, valid_session(@normin)
         json = JSON.parse(response.body)
         expected = User.all.map {|x| {"id" => x.id, "name" => x.to_s, "login" => x.login}}
-        (json | expected).eql?(json & expected).should be_true
+        expect(json | expected).to eql(json & expected)
       end
 
       it "should find matching users" do
         get :index, {format: :json, query: "adam"}, valid_session(@normin)
         json = JSON.parse(response.body)
         expected = [{"id" => @adam.id, "name" => @adam.to_s, "login" => @adam.login}]
-        (json | expected).eql?(json & expected).should be_true
+        expect(json | expected).to eql(json & expected)
       end
 
     end

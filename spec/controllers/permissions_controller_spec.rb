@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe PermissionsController do
   include Controllers::Shared
@@ -17,7 +17,7 @@ describe PermissionsController do
 
     it "should respond with success, only with public and you keys" do
       get :index, {format: 'json', media_resource_ids: [@media_resource.id] }, valid_session(@user)
-      response.should be_success
+      expect(response).to be_success
       json = JSON.parse(response.body).deep_symbolize_keys
       expected = {public:{view:[], edit:[], download:[]},
                   you:{id: @user.id, name:"#{@user.to_s}",
@@ -27,7 +27,6 @@ describe PermissionsController do
                        manage:[@media_resource.id]}
       }
       expect(json[:public].deep_symbolize_keys).to be== expected[:public]
-      #json.eql?(expected).should be_true
     end
 
   end
@@ -50,7 +49,7 @@ describe PermissionsController do
     it "should respond with success and contain the proper data" do
       media_resource_ids = @media_resources.map(&:id)
       get :index, {format: 'json', media_resource_ids: media_resource_ids, with: {users: true, groups: true} }, valid_session(@user)
-      response.should be_success
+      expect(response).to be_success
       response_data = JSON.parse(response.body).deep_symbolize_keys
       expected = {public:{view:[], edit:[], download:[]},
                   you: {id: @user.id, name:"#{@user.to_s}",
@@ -103,17 +102,25 @@ describe PermissionsController do
         Userpermission.create user: @user_b, media_resource: @mr1
       end
       it "should delete the up of @user_a" do
-        Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_a.id).size.should >= 1
+        expect(
+          Userpermission.where("media_resource_id = ?", @mr1.id).where("user_id = ?", @user_a.id).size
+        ).to be >= 1
         put :update, {format: 'json',media_resource_ids: [@mr1.id],users: [{id: @user_b.id,view: nil, download: true, manage:false  }]}, valid_session(@user_a)
-        Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_a.id).size.should == 0
+        expect(
+          Userpermission.where("media_resource_id = ?", @mr1.id).where("user_id = ?", @user_a.id).size
+        ).to be== 0
       end
     end
 
     describe "creating a new userpermissions " do
       it "should create a new userpermission if none exists" do
-        Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_b.id).size.should == 0
+        expect(
+          Userpermission.where("media_resource_id = ?", @mr1.id).where("user_id = ?", @user_b.id).size
+        ).to be== 0
         put :update, {format: 'json',media_resource_ids: [@mr1.id],users: [{id: @user_b.id,view: nil, download: true, manage:false  }]}, valid_session(@user_a)
-        Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_b.id).size.should >= 1
+        expect(
+          Userpermission.where("media_resource_id = ?", @mr1.id).where("user_id = ?", @user_b.id).size
+        ).to be >= 1
       end
     end
 
@@ -122,11 +129,19 @@ describe PermissionsController do
         Userpermission.create user: @user_b, media_resource: @mr1
       end
       it "should update a userpermission " do
-        Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_b.id).size.should == 1
-        Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_b.id).first.view.should == false
+        expect(
+          Userpermission.where("media_resource_id = ?", @mr1.id).where("user_id = ?", @user_b.id).size
+        ).to be== 1
+        expect(
+          Userpermission.where("media_resource_id = ?", @mr1.id).where("user_id = ?", @user_b.id).first.view
+        ).to be false
         put :update, {format: 'json',media_resource_ids: [@mr1.id],users: [{id: @user_b.id, view: true, download: nil, manage:""}]}, valid_session(@user_a)
-        Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_b.id).size.should == 1
-        Userpermission.where("media_resource_id = ?",@mr1.id).where("user_id = ?",@user_b.id).first.view.should == true
+        expect(
+          Userpermission.where("media_resource_id = ?", @mr1.id).where("user_id = ?", @user_b.id).size
+        ).to be== 1
+        expect(
+          Userpermission.where("media_resource_id = ?", @mr1.id).where("user_id = ?", @user_b.id).first.view
+        ).to be true
       end
     end
 
@@ -138,18 +153,27 @@ describe PermissionsController do
       end
 
       it "should not update the userpermission" do
-        Userpermission.where("media_resource_id = ?",@mr1.id) \
-          .where("user_id = ?",@user_b.id).size.should == 1
-        Userpermission.where("media_resource_id = ?",@mr1.id) \
-          .where("user_id = ?",@user_b.id).first.download.should == true
+        expect(
+          Userpermission.where("media_resource_id = ?", @mr1.id).where("user_id = ?", @user_b.id).size
+        ).to be== 1
+        expect(
+          Userpermission.
+            where("media_resource_id = ?", @mr1.id).
+            where("user_id = ?", @user_b.id).
+            first.download
+        ).to be true
         put :update, {format: 'json', \
           media_resource_ids: [@mr1.id], \
           users: [{id: @user_b.id, download: false}]}, \
           valid_session(@user_a)
-        Userpermission.where("media_resource_id = ?",@mr1.id) \
-          .where("user_id = ?",@user_b.id).size.should == 1
-        Userpermission.where("media_resource_id = ?",@mr1.id) \
-          .where("user_id = ?",@user_b.id).first.download.should == false
+        expect(
+          Userpermission.where("media_resource_id = ?", @mr1.id).
+            where("user_id = ?", @user_b.id).size
+        ).to be== 1
+        expect(
+          Userpermission.where("media_resource_id = ?", @mr1.id).
+            where("user_id = ?", @user_b.id).first.download
+        ).to be false
       end
     end
 
@@ -160,18 +184,26 @@ describe PermissionsController do
         Grouppermission.create group: @group_b, media_resource: @mr1
       end
       it "should delete the gouppermission of @group_a" do
-        Grouppermission.where("media_resource_id = ?",@mr1.id).where("group_id = ?",@group_a.id).size.should >= 1
+        expect(
+          Grouppermission.where("media_resource_id = ?", @mr1.id).where("group_id = ?", @group_a.id).size
+        ).to be >= 1
         put :update, {format: 'json',media_resource_ids: [@mr1.id],groups: [{id: @group_b.id}]}, valid_session(@user_a)
-        Grouppermission.where("media_resource_id = ?",@mr1.id).where("group_id = ?",@group_a.id).size.should == 0
+        expect(
+          Grouppermission.where("media_resource_id = ?", @mr1.id).where("group_id = ?", @group_a.id).size
+        ).to be== 0
       end
     end
 
 
     describe "creating a new grouppermission" do
       it "should create a new grouppermission if none exists" do
-        Grouppermission.where("media_resource_id = ?",@mr1.id).where("group_id = ?",@group_b.id).size.should == 0
+        expect(
+          Grouppermission.where("media_resource_id = ?", @mr1.id).where("group_id = ?", @group_b.id).size
+        ).to be== 0
         put :update, {format: 'json',media_resource_ids: [@mr1.id],groups: [{id: @group_b.id,view: nil, download: true, manage:false  }]}, valid_session(@user_a)
-        Grouppermission.where("media_resource_id = ?",@mr1.id).where("group_id = ?",@group_b.id).size.should >= 1
+        expect(
+          Grouppermission.where("media_resource_id = ?", @mr1.id).where("group_id = ?", @group_b.id).size
+        ).to be >= 1
       end
     end
 
@@ -181,16 +213,24 @@ describe PermissionsController do
         Grouppermission.create group: @group_b, media_resource: @mr1
       end
       it "should update a grouppermission " do
-        Grouppermission.where("media_resource_id = ?",@mr1.id).where("group_id = ?",@group_b.id).size.should == 1
-        Grouppermission.where("media_resource_id = ?",@mr1.id).where("group_id = ?",@group_b.id).first.view.should == false
+        expect(
+          Grouppermission.where("media_resource_id = ?", @mr1.id).where("group_id = ?", @group_b.id).size
+        ).to be== 1
+        expect(
+          Grouppermission.where("media_resource_id = ?", @mr1.id).where("group_id = ?", @group_b.id).first.view
+        ).to be false
         put :update, {format: 'json',media_resource_ids: [@mr1.id],groups: [{id: @group_b.id, view: true, download: nil, manage:""}]}, valid_session(@user_a)
-        Grouppermission.where("media_resource_id = ?",@mr1.id).where("group_id = ?",@group_b.id).size.should == 1
-        Grouppermission.where("media_resource_id = ?",@mr1.id).where("group_id = ?",@group_b.id).first.view.should == true
+        expect(
+          Grouppermission.where("media_resource_id = ?", @mr1.id).where("group_id = ?", @group_b.id).size
+        ).to be== 1
+        expect(
+          Grouppermission.where("media_resource_id = ?", @mr1.id).where("group_id = ?", @group_b.id).first.view
+        ).to be true
       end
     end
 
 
-    describe API::Applicationpermission do
+    describe 'API::Applicationpermission' do
 
       before :each do
         @app_a= FactoryGirl.create :application, user: @user_a
@@ -207,21 +247,21 @@ describe PermissionsController do
              media_resource_ids: [@mr1.id],
              applications: [{id: @app_a.id, view: true, download: nil, manage:""}]}, 
             valid_session(@user_a)
-          response.should be_success
-          @app_perm.reload.view.should be== true
+          expect(response).to be_success
+          expect(@app_perm.reload.view).to be true
         end
       end
 
       describe "creating a new application-permission" do
         it "should be successful and create" do
-          @mr1.applicationpermissions.count.should be== 0
+          expect(@mr1.applicationpermissions.count).to be== 0
           put :update, 
             {format: 'json', 
              media_resource_ids: [@mr1.id],
              applications: [{id: @app_a.id, view: true, download: nil, manage:""}]}, 
             valid_session(@user_a)
-          response.should be_success
-          @mr1.applicationpermissions.reload.first.view.should be== true
+          expect(response).to be_success
+          expect(@mr1.applicationpermissions.reload.first.view).to be true
         end
       end
 
@@ -230,9 +270,9 @@ describe PermissionsController do
 
     describe "updating public permissions with put" do
       it "should update the view view permission to true" do
-        MediaResource.find(@mr1.id).view.should == false
+        expect(MediaResource.find(@mr1.id).view).to be false
         put :update, {format: 'json',media_resource_ids: [@mr1.id],public: {view: true, download: nil, manage:""}}, valid_session(@user_a)
-        MediaResource.find(@mr1.id).view.should == true
+        expect(MediaResource.find(@mr1.id).view).to be true
       end
     end
 

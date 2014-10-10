@@ -43,7 +43,7 @@ describe VisualizationController do
 
     it "returns http success" do
       get 'my_sets',{format: 'html', insert_to_dom: true}, valid_session(@user)
-      response.should be_success
+      expect(response).to be_success
     end
 
     it "assignes @resources, @arcs, @resource_identifier, @control_settings  and @layout " do
@@ -95,7 +95,7 @@ describe VisualizationController do
 
     it "returns http success" do
       get_request
-      response.should be_success
+      expect(response).to be_success
     end
 
     it "assignes @resources, @arcs, @resource_identifier, @control_settings  and @layout " do
@@ -147,7 +147,7 @@ describe VisualizationController do
 
     it "returns http success" do
       get_request
-      response.should be_success
+      expect(response).to be_success
     end
 
     it "assignes @resources, @arcs, @resource_identifier, @control_settings  and @layout " do

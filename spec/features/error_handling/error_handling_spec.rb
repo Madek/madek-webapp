@@ -1,6 +1,5 @@
-require "spec_helper"
-require "spec_helper_feature"
-require "spec_helper_feature_shared"
+require 'rails_helper'
+require 'spec_helper_feature_shared'
 
 feature "Error handling", browser: :headless do
   context "user login" do
