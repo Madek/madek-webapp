@@ -163,6 +163,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/features/groups/search_group_related_media_spec.rb"
+- name: features explore catalog_categories
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/features/explore/catalog_categories_spec.rb"
 - name: helpers app_admin media_sets_helper
   scripts:
     rspec:
