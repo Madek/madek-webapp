@@ -25,8 +25,6 @@ gem 'bcrypt-ruby'
 gem 'better_errors', group: [:development]
 gem 'binding_of_caller', platform: :mri, group: [:development]
 gem 'bootstrap-sass' 
-gem 'capistrano', group: [:development, :personas]
-gem 'capistrano-ext', group: [:development, :personas]
 gem 'capybara', '= 1.1.2', group: [:test]
 gem 'coffee-rails'
 gem 'coffee-script'
