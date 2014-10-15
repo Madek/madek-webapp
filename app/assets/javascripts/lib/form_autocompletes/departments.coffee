@@ -164,7 +164,8 @@ class FormAutocompletesDepartments
         current_element["_info"]["_titles"] = []  if current_element["_info"]["_titles"] is `undefined`
         current_element["_info"]["_titles"].push elements["_info"]["title"]
 
-    
+    ###
+    REMOVED: No recursive selection of all children! [#80452336] on Pivotal
     # push ids
     unless current_element["_info"] is `undefined`
       $.each current_element, (index, elements) ->
@@ -172,7 +173,7 @@ class FormAutocompletesDepartments
           current_element["_info"]["_ids"] = []  if current_element["_info"]["_ids"] is `undefined`
           $.each elements["_info"]["_ids"], (index, id) ->
             current_element["_info"]["_ids"].push id
-
+    ###
 
     
     # compute one single title of list of childrens titles
