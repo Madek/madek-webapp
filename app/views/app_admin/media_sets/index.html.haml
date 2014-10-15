@@ -14,7 +14,7 @@
     = form_tag app_admin_media_sets_path, method: 'GET' do
 
       %label 
-        = text_field nil, :fuzzy_search, class: "search-query", value: params[:fuzzy_search] 
+        = text_field nil, :fuzzy_search, class: "search-query", value: params[:fuzzy_search]
 
       = button_tag type: 'submit', class: 'btn btn-sm' do
         Filter

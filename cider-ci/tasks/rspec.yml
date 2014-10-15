@@ -119,6 +119,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/controllers/zencoder_jobs_spec.rb"
+- name: features admin filter_sets removing_filter_set
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/features/admin/filter_sets/removing_filter_set_spec.rb"
 - name: features admin users switch_to
   scripts:
     rspec:

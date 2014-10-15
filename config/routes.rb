@@ -364,6 +364,8 @@ MAdeK::Application.routes.draw do
       end
     end
 
+    resources :filter_sets, only: [:index, :destroy]
+
     resources :media_entries, only: [:index, :show] do
     end
 

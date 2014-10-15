@@ -1,0 +1,16 @@
+%h1.text-center
+  %i.icon-filter
+  Filter Sets
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Id
+      %th Owner
+      %th Title
+      %th.no-wrap # User-permissions
+      %th.no-wrap # Group-permissions
+      %th.no-wrap Created at
+      %th
+  %tbody
+    = render @filter_sets
