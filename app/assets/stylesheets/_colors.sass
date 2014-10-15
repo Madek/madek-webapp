@@ -31,27 +31,25 @@ $main-color-light   : lighten($main-color, 10%)
   @if $scheme-green
     @debug "$scheme-green is #{$scheme-green}"
     $main-color         : $green
-    $main-color-dark    : darken($main-color, 10%)
-    $main-color-light   : lighten($main-color, 10%)
   @if $scheme-red
     @debug "$scheme-red is #{$scheme-red}"
     $main-color         : $red
-    $main-color-dark    : darken($main-color, 10%)
-    $main-color-light   : lighten($main-color, 10%)
   @if $scheme-blue
     @debug "$scheme-blue is #{$scheme-blue}"
     $main-color         : $blue
-    $main-color-dark    : darken($main-color, 10%)
-    $main-color-light   : lighten($main-color, 10%)
   @if $scheme-mono
     @debug "$scheme-mono is #{$scheme-mono}"
     $mono-dark          : #595959
     $mono-strong        : #666666
-
     $main-color         : #171717
-    $main-color-dark    : darken($main-color, 10%)
-    $main-color-light   : lighten($main-color, 10%)
+    
+  @if $custom-color
+    $main-color         : $custom-color
 
+  $main-color-dark      : darken($main-color, 10%)
+  $main-color-light     : lighten($main-color, 10%)
+
+  
 /* Transparency Values
  *-----------------------------------------
 
