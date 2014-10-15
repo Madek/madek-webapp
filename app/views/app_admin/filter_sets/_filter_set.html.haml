@@ -1,5 +1,7 @@
 %tr
-  %td= filter_set.id
+  %td
+    = link_to filter_set_path(filter_set) do 
+      #{filter_set.id}
   %td
     = link_to app_admin_user_path(filter_set.user) do
       = filter_set.user.to_s
