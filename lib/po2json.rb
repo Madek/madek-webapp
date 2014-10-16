@@ -4,7 +4,7 @@ class Po2json
       lang = path.reverse.split("/")[1].reverse
       outputPath = Rails.root.join "app/assets/javascripts/i18n/locale/#{lang.gsub(/_/, "-")}.js"
       basePath = Rails.root.join "app/assets/javascripts/i18n/formats/#{lang.gsub(/_/, "-")}.js"
-      puts "node #{Rails.root.join 'app/node/po2json.js'} #{path} #{outputPath} #{basePath}"
+      Rails.logger.debug "node #{Rails.root.join 'app/node/po2json.js'} #{path} #{outputPath} #{basePath}"
       `node app/node/po2json.js #{path} #{outputPath} #{basePath}`
     end
   end

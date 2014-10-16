@@ -62,7 +62,10 @@ module MAdeK
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
-    config.log_tags = [:port, :remote_ip, lambda{|req| Time.now.strftime("%T")} ]
+    config.log_level= ENV["RAILS_LOG_LEVEL"] if ENV["RAILS_LOG_LEVEL"].present? 
+  # config.log_level = :debug
+
+    config.log_tags = [lambda{|req| Time.now.strftime("%T")}, :port, :remote_ip]
 
     # Enable the asset pipeline
     config.assets.enabled = true

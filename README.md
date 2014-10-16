@@ -17,14 +17,6 @@ wiki on Github:
 http://github.com/zhdk/madek/wiki
 
 
-## Virtual appliance for development
-
-If you want to help us develop Madek, there is a Debian GNU/Linux-based
-virtual appliance ready for download:
-
-https://github.com/zhdk/madek/downloads
-
-
 ## Contributors
 
 The following people have contributed to this project:
