@@ -1,0 +1,15 @@
+{
+  "name": "madek-scripts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "''",
+  "scripts": {
+    "test": "node test/ldap-tree.js",
+    "ldap_tree": "node ldap-tree.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^2.4.1"
+  }
+}

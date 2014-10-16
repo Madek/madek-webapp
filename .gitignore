@@ -41,6 +41,7 @@ db/schema.rb
 db/sphinx/
 db/test_structure.sql
 deb/seeds.rb
+dev/node_modules/
 doc/api/yard
 log/*.log
 log/searchd.development.pid

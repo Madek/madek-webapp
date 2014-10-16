@@ -1,0 +1,782 @@
+{
+  "CAS": {
+    "institutional_group_id": "3651.alle",
+    "name": "Certificate of Advanced Studies, Zertifikatslehrg�nge",
+    "institutional_group_name": "CAS.alle"
+  },
+  "DDE": {
+    "institutional_group_id": "14667.alle",
+    "name": "Departement Design",
+    "institutional_group_name": "DDE.alle",
+    "FDE": {
+      "institutional_group_id": "15281.alle",
+      "name": "Fachrichtung Design",
+      "institutional_group_name": "DDE_FDE.alle",
+      "BDE": {
+        "institutional_group_id": "15289.alle",
+        "name": "Bachelor Design",
+        "institutional_group_name": "DDE_FDE_BDE.alle",
+        "VCA": {
+          "institutional_group_id": "14669.alle",
+          "name": "Bachelor Design - Vertiefung Cast",
+          "institutional_group_name": "DDE_FDE_BDE_VCA.alle"
+        },
+        "VGD": {
+          "institutional_group_id": "3047.alle",
+          "name": "Bachelor Design - Vertiefung Game Design",
+          "institutional_group_name": "DDE_FDE_BDE_VGD.alle"
+        },
+        "VIAD": {
+          "institutional_group_id": "15304.alle",
+          "name": "Bachelor Design - Vertiefung Interaction Design",
+          "institutional_group_name": "DDE_FDE_BDE_VIAD.alle"
+        },
+        "VID": {
+          "institutional_group_id": "3037.alle",
+          "name": "Bachelor - Vertiefung Industrial Design",
+          "institutional_group_name": "DDE_FDE_BDE_VID.alle"
+        },
+        "VSD": {
+          "institutional_group_id": "3040.alle",
+          "name": "Bachelor Design - Vertiefung Style&Design",
+          "institutional_group_name": "DDE_FDE_BDE_VSD.alle"
+        },
+        "VSV": {
+          "institutional_group_id": "3042.alle",
+          "name": "Bachelor Design - Vertiefung Scientific Visualization / Wissenschaftliche Illustration",
+          "institutional_group_name": "DDE_FDE_BDE_VSV.alle"
+        },
+        "VVK": {
+          "institutional_group_id": "3041.alle",
+          "name": "Bachelor Design - Vertiefung Visuelle Kommunikation",
+          "institutional_group_name": "DDE_FDE_BDE_VVK.alle"
+        }
+      },
+      "MASDEC": {
+        "institutional_group_id": "4187.alle",
+        "name": "MAS Design Culture",
+        "institutional_group_name": "DDE_FDE_MASDEC.alle"
+      },
+      "MASSZ": {
+        "institutional_group_id": "3652.alle",
+        "name": "MAS Szenografie",
+        "institutional_group_name": "DDE_FDE_MASSZ.alle"
+      },
+      "MASTDT": {
+        "institutional_group_id": "83923.alle",
+        "name": "MAS in Type Design and Typography",
+        "institutional_group_name": "DDE_FDE_MASTDT.alle"
+      },
+      "MDE": {
+        "institutional_group_id": "74626.alle",
+        "name": "Master Design",
+        "institutional_group_name": "DDE_FDE_MDE.alle",
+        "VER": {
+          "institutional_group_id": "121298.alle",
+          "name": "Master Design - Vertiefung Ereignis",
+          "institutional_group_name": "DDE_FDE_MDE_VER.alle"
+        },
+        "VIA": {
+          "institutional_group_id": "121299.alle",
+          "name": "Master Design - Vertiefung Interaktion",
+          "institutional_group_name": "DDE_FDE_MDE_VIA.alle"
+        },
+        "VKK": {
+          "institutional_group_id": "121300.alle",
+          "name": "Master Design - Vertiefung Kommunikation",
+          "institutional_group_name": "DDE_FDE_MDE_VKK.alle"
+        },
+        "VPR": {
+          "institutional_group_id": "121301.alle",
+          "name": "Master Design - Vertiefung Produkt",
+          "institutional_group_name": "DDE_FDE_MDE_VPR.alle"
+        },
+        "VTR": {
+          "institutional_group_id": "121302.alle",
+          "name": "Master Design - Vertiefung Trends",
+          "institutional_group_name": "DDE_FDE_MDE_VTR.alle"
+        }
+      },
+      "VCA": {
+        "institutional_group_id": "56662.alle",
+        "name": "Vertiefung Cast / Audiovisuelle Medien",
+        "institutional_group_name": "DDE_FDE_VCA.alle"
+      },
+      "VGD": {
+        "institutional_group_id": "56666.alle",
+        "name": "Vertiefung Game Design",
+        "institutional_group_name": "DDE_FDE_VGD.alle"
+      },
+      "VIAD": {
+        "institutional_group_id": "56664.alle",
+        "name": "Vertiefung Interaction Design",
+        "institutional_group_name": "DDE_FDE_VIAD.alle"
+      },
+      "VID": {
+        "institutional_group_id": "56663.alle",
+        "name": "Vertiefung Industrial Design",
+        "institutional_group_name": "DDE_FDE_VID.alle"
+      },
+      "VSD": {
+        "institutional_group_id": "56675.alle",
+        "name": "Vertiefung Style&Design",
+        "institutional_group_name": "DDE_FDE_VSD.alle"
+      },
+      "VSV": {
+        "institutional_group_id": "56669.alle",
+        "name": "Vertiefung Scientific Visualization",
+        "institutional_group_name": "DDE_FDE_VSV.alle"
+      },
+      "VVK": {
+        "institutional_group_id": "56668.alle",
+        "name": "Vertiefung Visuelle Kommunikation",
+        "institutional_group_name": "DDE_FDE_VVK.alle"
+      }
+    },
+    "IDE": {
+      "institutional_group_id": "14674.alle",
+      "name": "Institut f�r Designforschung",
+      "institutional_group_name": "DDE_IDE.alle"
+    },
+    "MASSD": {
+      "institutional_group_id": "107592.alle",
+      "name": "MAS Spatial Design",
+      "institutional_group_name": "DDE_MASSD.alle"
+    }
+  },
+  "DDK": {
+    "institutional_group_id": "14677.alle",
+    "name": "Departement Darstellende K�nste und Film",
+    "institutional_group_name": "DDK.alle",
+    "FFI": {
+      "institutional_group_id": "3033.alle",
+      "name": "Fachrichtung Film",
+      "institutional_group_name": "DDK_FFI.alle",
+      "BFI": {
+        "institutional_group_id": "4397.alle",
+        "name": "Bachelor Film",
+        "institutional_group_name": "DDK_FFI_BFI.alle"
+      },
+      "MFI": {
+        "institutional_group_id": "14663.alle",
+        "name": "Master Film",
+        "institutional_group_name": "DDK_FFI_MFI.alle"
+      }
+    },
+    "FTA": {
+      "institutional_group_id": "14665.alle",
+      "name": "Fachrichtung Tanz",
+      "institutional_group_name": "DDK_FTA.alle",
+      "BCD": {
+        "institutional_group_id": "138451.alle",
+        "name": "Bachelor Contemporary Dance",
+        "institutional_group_name": "DDK_FTA_BCD.alle"
+      },
+      "XBT": {
+        "institutional_group_id": "77742.alle",
+        "name": "B�hnentanz EFZ",
+        "institutional_group_name": "DDK_FTA_XBT.alle"
+      },
+      "XGR": {
+        "institutional_group_id": "15419.alle",
+        "name": "Tanz - Grundstufe (12-15 Jahre)",
+        "institutional_group_name": "DDK_FTA_XGR.alle"
+      },
+      "XVO": {
+        "institutional_group_id": "15418.alle",
+        "name": "Tanz - Vorstufe (9 - 11 Jahre)",
+        "institutional_group_name": "DDK_FTA_XVO.alle"
+      }
+    },
+    "FTH": {
+      "institutional_group_id": "14666.alle",
+      "name": "Fachrichtung Theater",
+      "institutional_group_name": "DDK_FTH.alle",
+      "BTH": {
+        "institutional_group_id": "15302.alle",
+        "name": "Bachelor Theater",
+        "institutional_group_name": "DDK_FTH_BTH.alle",
+        "VDR": {
+          "institutional_group_id": "15347.alle",
+          "name": "Bachelor Theater - Vertiefung Dramaturgie",
+          "institutional_group_name": "DDK_FTH_BTH_VDR.alle"
+        },
+        "VRE": {
+          "institutional_group_id": "15344.alle",
+          "name": "Bachelor Theater - Vertiefung Regie",
+          "institutional_group_name": "DDK_FTH_BTH_VRE.alle"
+        },
+        "VSC": {
+          "institutional_group_id": "56657.alle",
+          "name": "Bachelor Theater - Vertiefung Schauspiel",
+          "institutional_group_name": "DDK_FTH_BTH_VSC.alle"
+        },
+        "VSZ": {
+          "institutional_group_id": "15346.alle",
+          "name": "Bachelor Theater - Vertiefung Szenografie",
+          "institutional_group_name": "DDK_FTH_BTH_VSZ.alle"
+        },
+        "VTP": {
+          "institutional_group_id": "15345.alle",
+          "name": "Bachelor Theater - Vertiefung Theaterp�dagogik",
+          "institutional_group_name": "DDK_FTH_BTH_VTP.alle"
+        }
+      },
+      "CASTP": {
+        "institutional_group_id": "15417.alle",
+        "name": "NDK / CAS Theaterp�dagogik",
+        "institutional_group_name": "DDK_FTH_CASTP.alle"
+      },
+      "MASTP": {
+        "institutional_group_id": "15356.alle",
+        "name": "MAS Theaterp�dagogik",
+        "institutional_group_name": "DDK_FTH_MASTP.alle"
+      },
+      "MTH": {
+        "institutional_group_id": "64570.alle",
+        "name": "Master Theater",
+        "institutional_group_name": "DDK_FTH_MTH.alle",
+        "VLK": {
+          "institutional_group_id": "121195.alle",
+          "name": "Master Theater - Vertiefung Leitende K�nstlerin / Leitender K�nstler",
+          "institutional_group_name": "DDK_FTH_MTH_VLK.alle",
+          "PBN": {
+            "institutional_group_id": "64577.alle",
+            "name": "Master Theater - Profil B�hnenbild",
+            "institutional_group_name": "DDK_FTH_MTH_VLK_PBN.alle"
+          },
+          "PDR": {
+            "institutional_group_id": "121194.alle",
+            "name": "Master Theater - Profil Dramaturgie",
+            "institutional_group_name": "DDK_FTH_MTH_VLK_PDR.alle"
+          },
+          "PRE": {
+            "institutional_group_id": "64571.alle",
+            "name": "Master Theater - Profil Regie",
+            "institutional_group_name": "DDK_FTH_MTH_VLK_PRE.alle"
+          },
+          "PTP": {
+            "institutional_group_id": "64575.alle",
+            "name": "Master Theater - ProfilTheaterp�dagogik",
+            "institutional_group_name": "DDK_FTH_MTH_VLK_PTP.alle"
+          }
+        },
+        "VSC": {
+          "institutional_group_id": "64573.alle",
+          "name": "Master Theater - Vertiefung Schauspiel",
+          "institutional_group_name": "DDK_FTH_MTH_VSC.alle"
+        }
+      },
+      "VDR": {
+        "institutional_group_id": "121196.alle",
+        "name": "Dramaturgie",
+        "institutional_group_name": "DDK_FTH_VDR.alle"
+      },
+      "VRE": {
+        "institutional_group_id": "64572.alle",
+        "name": "Regie",
+        "institutional_group_name": "DDK_FTH_VRE.alle"
+      },
+      "VSC": {
+        "institutional_group_id": "64574.alle",
+        "name": "Schauspiel",
+        "institutional_group_name": "DDK_FTH_VSC.alle"
+      },
+      "VTP": {
+        "institutional_group_id": "64576.alle",
+        "name": "Theaterp�dagogik",
+        "institutional_group_name": "DDK_FTH_VTP.alle"
+      }
+    },
+    "IPF": {
+      "institutional_group_id": "83401.alle",
+      "name": "Institute for the Performing Arts and Film",
+      "institutional_group_name": "DDK_IPF.alle"
+    }
+  },
+  "DKM": {
+    "institutional_group_id": "5112.alle",
+    "name": "Departement Kunst und Medien",
+    "institutional_group_name": "DKM.alle",
+    "FMK": {
+      "institutional_group_id": "14668.alle",
+      "name": "Fachrichtung Medien & Kunst",
+      "institutional_group_name": "DKM_FMK.alle",
+      "BMK": {
+        "institutional_group_id": "15291.alle",
+        "name": "Bachelor Medien & Kunst",
+        "institutional_group_name": "DKM_FMK_BMK.alle",
+        "VBK": {
+          "institutional_group_id": "3035.alle",
+          "name": "Bachelor Medien & Kunst - Vertiefung Bildende Kunst",
+          "institutional_group_name": "DKM_FMK_BMK_VBK.alle"
+        },
+        "VFO": {
+          "institutional_group_id": "3032.alle",
+          "name": "Bachelor Medien & Kunst - Vertiefung Fotografie",
+          "institutional_group_name": "DKM_FMK_BMK_VFO.alle"
+        },
+        "VMK": {
+          "institutional_group_id": "3034.alle",
+          "name": "Bachelor Medien & Kunst - Vertiefung Mediale K�nste",
+          "institutional_group_name": "DKM_FMK_BMK_VMK.alle"
+        },
+        "VTH": {
+          "institutional_group_id": "3036.alle",
+          "name": "Bachelor Medien & Kunst - Vertiefung Theorie - Studien zur Medien-, Kunst- und Designpraxis",
+          "institutional_group_name": "DKM_FMK_BMK_VTH.alle"
+        }
+      },
+      "MAF": {
+        "institutional_group_id": "64989.alle",
+        "name": "Master Fine Arts",
+        "institutional_group_name": "DKM_FMK_MAF.alle"
+      },
+      "VBK": {
+        "institutional_group_id": "56670.alle",
+        "name": "Vertiefung Bildende Kunst",
+        "institutional_group_name": "DKM_FMK_VBK.alle"
+      },
+      "VFO": {
+        "institutional_group_id": "56672.alle",
+        "name": "Vertiefung Fotografie",
+        "institutional_group_name": "DKM_FMK_VFO.alle"
+      },
+      "VMK": {
+        "institutional_group_id": "56671.alle",
+        "name": "Vertiefung Mediale K�nste",
+        "institutional_group_name": "DKM_FMK_VMK.alle"
+      },
+      "VTH": {
+        "institutional_group_id": "56673.alle",
+        "name": "Vertiefung Theorie - Studien zur Medien-, Kunst- und Designpraxis",
+        "institutional_group_name": "DKM_FMK_VTH.alle"
+      }
+    },
+    "IFCAR": {
+      "institutional_group_id": "66212.alle",
+      "name": "Institut f�r Gegenwartskunst",
+      "institutional_group_name": "DKM_IFCAR.alle"
+    },
+    "PHD": {
+      "institutional_group_id": "132344.alle",
+      "name": "PHD im DKM",
+      "institutional_group_name": "DKM_PHD.alle"
+    }
+  },
+  "DKV": {
+    "institutional_group_id": "14676.alle",
+    "name": "Departement Kulturanalysen und Vermittlung",
+    "institutional_group_name": "DKV.alle",
+    "FAE": {
+      "institutional_group_id": "3048.alle",
+      "name": "Fachrichtung Art Education",
+      "institutional_group_name": "DKV_FAE.alle",
+      "BAE": {
+        "institutional_group_id": "4396.alle",
+        "name": "Bachelor Vermittlung von Kunst und Design",
+        "institutional_group_name": "DKV_FAE_BAE.alle",
+        "VAS": {
+          "institutional_group_id": "126659.alle",
+          "name": "Bachelor Vermittlung von Kunst und Design - Vertiefung �sthetische Bildung und Soziokultur",
+          "institutional_group_name": "DKV_FAE_BAE_VAS.alle"
+        },
+        "VBG": {
+          "institutional_group_id": "126658.alle",
+          "name": "Bachelor Vermittlung von Kunst und Design - Vertiefung Bildnerisches Gestalten an Maturit�tsschulen",
+          "institutional_group_name": "DKV_FAE_BAE_VBG.alle"
+        }
+      },
+      "MAE": {
+        "institutional_group_id": "68798.alle",
+        "name": "Master in Art Education",
+        "institutional_group_name": "DKV_FAE_MAE.alle",
+        "VAV": {
+          "institutional_group_id": "144651.alle",
+          "name": "Master Art Education - Vertiefung ausstellen & vermitteln",
+          "institutional_group_name": "DKV_FAE_MAE_VAV.alle"
+        },
+        "VBV": {
+          "institutional_group_id": "144652.alle",
+          "name": "Master Art Education - Vertiefung bilden & vermitteln",
+          "institutional_group_name": "DKV_FAE_MAE_VBV.alle"
+        },
+        "VPV": {
+          "institutional_group_id": "144653.alle",
+          "name": "Master Art Education - Vertiefung publizieren & vermitteln",
+          "institutional_group_name": "DKV_FAE_MAE_VPV.alle"
+        }
+      }
+    },
+    "FSPTR": {
+      "institutional_group_id": "107710.alle",
+      "name": "FSP Transdisziplinarit�t",
+      "institutional_group_name": "DKV_FSPTR.alle"
+    },
+    "FTR": {
+      "institutional_group_id": "68796.alle",
+      "name": "Fachrichtung Transdisziplinarit�t",
+      "institutional_group_name": "DKV_FTR.alle",
+      "MTR": {
+        "institutional_group_id": "68797.alle",
+        "name": "Master in Transdisziplinarit�t",
+        "institutional_group_name": "DKV_FTR_MTR.alle"
+      },
+      "ZMO": {
+        "institutional_group_id": "68794.alle",
+        "name": "Z-Module",
+        "institutional_group_name": "DKV_FTR_ZMO.alle"
+      }
+    },
+    "IAE": {
+      "institutional_group_id": "15276.alle",
+      "name": "Institute for Art Education",
+      "institutional_group_name": "DKV_IAE.alle"
+    },
+    "ICS": {
+      "institutional_group_id": "14675.alle",
+      "name": "Institute for Cultural Studies in the Arts",
+      "institutional_group_name": "DKV_ICS.alle"
+    },
+    "ITH": {
+      "institutional_group_id": "57158.alle",
+      "name": "Institut f�r Theorie",
+      "institutional_group_name": "DKV_ITH.alle"
+    },
+    "MASBKG": {
+      "institutional_group_id": "83919.alle",
+      "name": "MAS Bilden K�nste Gesellschaft",
+      "institutional_group_name": "DKV_MASBKG.alle"
+    },
+    "MASCMS": {
+      "institutional_group_id": "69154.alle",
+      "name": "MAS Cultural Media Studies",
+      "institutional_group_name": "DKV_MASCMS.alle"
+    },
+    "MASCUR": {
+      "institutional_group_id": "8406.alle",
+      "name": "MAS Curating",
+      "institutional_group_name": "DKV_MASCUR.alle"
+    },
+    "Museum": {
+      "institutional_group_id": "14660.alle",
+      "name": "Museum",
+      "institutional_group_name": "DKV_Museum.alle",
+      "Au60": {
+        "institutional_group_id": "64181.alle",
+        "name": "Museum Au60",
+        "institutional_group_name": "DKV_Museum_Au60.alle"
+      },
+      "Bellerive": {
+        "institutional_group_id": "64179.alle",
+        "name": "Fachbereich Museum Bellerive",
+        "institutional_group_name": "DKV_Museum_Bellerive.alle"
+      }
+    },
+    "PHD": {
+      "institutional_group_id": "132347.alle",
+      "name": "Z-Node im DKV",
+      "institutional_group_name": "DKV_PHD.alle"
+    },
+    "Sammlungen": {
+      "institutional_group_id": "15427.alle",
+      "name": "Sammlungen",
+      "institutional_group_name": "DKV_Sammlungen.alle"
+    },
+    "XAPM": {
+      "institutional_group_id": "139074.alle",
+      "name": "Atelierprogramm Migros Herdern im DKV",
+      "institutional_group_name": "DKV_XAPM.alle"
+    },
+    "XPP": {
+      "XGO": {
+        "institutional_group_id": "3043.alle",
+        "name": "Prop�deutikum - Gestalterische Orientierungsstufe",
+        "institutional_group_name": "DKV_XPP_XGO.alle"
+      }
+    }
+  },
+  "DMU": {
+    "institutional_group_id": "15284.alle",
+    "name": "Departement Musik",
+    "institutional_group_name": "DMU.alle",
+    "CASTON": {
+      "institutional_group_id": "144413.alle",
+      "name": "CAS Tontechnik",
+      "institutional_group_name": "DMU_CASTON.alle"
+    },
+    "FMU": {
+      "institutional_group_id": "14664.alle",
+      "name": "Fachrichtung Musik",
+      "institutional_group_name": "DMU_FMU.alle",
+      "BMB": {
+        "institutional_group_id": "15296.alle",
+        "name": "Bachelor Musik und Bewegung",
+        "institutional_group_name": "DMU_FMU_BMB.alle"
+      },
+      "BMU": {
+        "institutional_group_id": "15295.alle",
+        "name": "Bachelor Musik",
+        "institutional_group_name": "DMU_FMU_BMU.alle"
+      },
+      "CASCA": {
+        "institutional_group_id": "15408.alle",
+        "name": "NDK / CAS Composing-Arranging",
+        "institutional_group_name": "DMU_FMU_CASCA.alle"
+      },
+      "CASFTM": {
+        "institutional_group_id": "76942.alle",
+        "name": "NDK / CAS Komposition f�r Film, Theater und Medien (FTM)",
+        "institutional_group_name": "DMU_FMU_CASFTM.alle"
+      },
+      "MKT": {
+        "institutional_group_id": "64309.alle",
+        "name": "Master Komposition/Theorie",
+        "institutional_group_name": "DMU_FMU_MKT.alle"
+      },
+      "MMP": {
+        "institutional_group_id": "64306.alle",
+        "name": "Master Musikp�dagogik",
+        "institutional_group_name": "DMU_FMU_MMP.alle"
+      },
+      "MPE": {
+        "institutional_group_id": "64307.alle",
+        "name": "Master Musik Performance",
+        "institutional_group_name": "DMU_FMU_MPE.alle"
+      },
+      "MSP": {
+        "institutional_group_id": "64308.alle",
+        "name": "Master Specialized Music Performance",
+        "institutional_group_name": "DMU_FMU_MSP.alle"
+      },
+      "PJAPO": {
+        "institutional_group_id": "65629.alle",
+        "name": "Profil Jazz und Pop",
+        "institutional_group_name": "DMU_FMU_PJAPO.alle"
+      },
+      "PKLA": {
+        "institutional_group_id": "65626.alle",
+        "name": "Profil Klassik",
+        "institutional_group_name": "DMU_FMU_PKLA.alle"
+      },
+      "PKM": {
+        "institutional_group_id": "65627.alle",
+        "name": "Profil Kirchenmusik",
+        "institutional_group_name": "DMU_FMU_PKM.alle"
+      },
+      "PMB": {
+        "institutional_group_id": "65628.alle",
+        "name": "Profil Musik und Bewegung",
+        "institutional_group_name": "DMU_FMU_PMB.alle"
+      },
+      "PTH": {
+        "institutional_group_id": "89976.alle",
+        "name": "Profil Theorie",
+        "institutional_group_name": "DMU_FMU_PTH.alle"
+      },
+      "PTO": {
+        "institutional_group_id": "144376.alle",
+        "name": "Profil Tonmeister",
+        "institutional_group_name": "DMU_FMU_PTO.alle"
+      },
+      "SEAK": {
+        "institutional_group_id": "144527.alle",
+        "name": "Schwerpunkt Elektroakustische Komposition",
+        "institutional_group_name": "DMU_FMU_SEAK.alle"
+      },
+      "SJAZ": {
+        "institutional_group_id": "144315.alle",
+        "name": "Schwerpunkt Jazz",
+        "institutional_group_name": "DMU_FMU_SJAZ.alle"
+      },
+      "SPOP": {
+        "institutional_group_id": "144314.alle",
+        "name": "Schwerpunkt Pop",
+        "institutional_group_name": "DMU_FMU_SPOP.alle"
+      },
+      "VTO": {
+        "institutional_group_id": "144065.alle",
+        "name": "Vertiefung Tonmeister",
+        "institutional_group_name": "DMU_FMU_VTO.alle"
+      },
+      "XPC": {
+        "institutional_group_id": "144402.alle",
+        "name": "PreCollege",
+        "institutional_group_name": "DMU_FMU_XPC.alle"
+      }
+    },
+    "FSPMI": {
+      "institutional_group_id": "126223.alle",
+      "name": "FSP Musikalische Interpretation",
+      "institutional_group_name": "DMU_FSPMI.alle"
+    },
+    "ICST": {
+      "institutional_group_id": "15278.alle",
+      "name": "Institute for Computer Music and Sound Technology",
+      "institutional_group_name": "DMU_ICST.alle"
+    },
+    "MASEMP": {
+      "institutional_group_id": "15351.alle",
+      "name": "MAS erweiterte Musikpraxis",
+      "institutional_group_name": "DMU_MASEMP.alle"
+    },
+    "MASMK": {
+      "institutional_group_id": "15352.alle",
+      "name": "MAS musikalische Kreation",
+      "institutional_group_name": "DMU_MASMK.alle"
+    },
+    "MASMPH": {
+      "institutional_group_id": "15353.alle",
+      "name": "MAS Musikphysiologie",
+      "institutional_group_name": "DMU_MASMPH.alle"
+    },
+    "MASMPX": {
+      "institutional_group_id": "15350.alle",
+      "name": "MAS Musikpraxis",
+      "institutional_group_name": "DMU_MASMPX.alle"
+    },
+    "MASMTH": {
+      "institutional_group_id": "15355.alle",
+      "name": "MAS Musiktheorie",
+      "institutional_group_name": "DMU_MASMTH.alle"
+    },
+    "MASMV": {
+      "institutional_group_id": "74923.alle",
+      "name": "MAS Musikvermittlung und Konzertp�dagogik",
+      "institutional_group_name": "DMU_MASMV.alle"
+    },
+    "PHD": {
+      "institutional_group_id": "139073.alle",
+      "name": "PHD im DMU",
+      "institutional_group_name": "DMU_PHD.alle"
+    }
+  },
+  "F": {
+    "E": {
+      "institutional_group_id": "14644.alle",
+      "name": "Forschung und Entwicklung",
+      "institutional_group_name": "F_E.alle"
+    }
+  },
+  "MIZ": {
+    "Archiv": {
+      "institutional_group_id": "144945.alle",
+      "name": "Achiv ZHdK",
+      "institutional_group_name": "MIZ_Archiv.alle"
+    }
+  },
+  "REK": {
+    "institutional_group_id": "14673.alle",
+    "name": "Rektorat",
+    "institutional_group_name": "REK.alle",
+    "HSK": {
+      "institutional_group_id": "120623.alle",
+      "name": "Hochschulkommunikation",
+      "institutional_group_name": "REK_HSK.alle"
+    }
+  },
+  "SER": {
+    "institutional_group_id": "14645.alle",
+    "name": "Services",
+    "institutional_group_name": "SER.alle",
+    "ITZ": {
+      "Blitzkurse": {
+        "institutional_group_id": "120209.alle",
+        "name": "Blitzkurse",
+        "institutional_group_name": "SER_ITZ_Blitzkurse.alle"
+      },
+      "itpool": {
+        "institutional_group_id": "66239.alle",
+        "name": "IT-Pool",
+        "institutional_group_name": "SER_ITZ_itpool.alle"
+      }
+    },
+    "MAN": {
+      "institutional_group_id": "75440.alle",
+      "name": "Services, Management Services",
+      "institutional_group_name": "SER_MAN.alle",
+      "BAP": {
+        "institutional_group_id": "15426.alle",
+        "name": "Services, Abteilung Business Applications",
+        "institutional_group_name": "SER_MAN_BAP.alle"
+      },
+      "FIN": {
+        "institutional_group_id": "12544.alle",
+        "name": "Services, Abteilung Finanzen",
+        "institutional_group_name": "SER_MAN_FIN.alle"
+      },
+      "HAD": {
+        "institutional_group_id": "15424.alle",
+        "name": "Services, Abteilung Hochschuladministration",
+        "institutional_group_name": "SER_MAN_HAD.alle"
+      },
+      "PER": {
+        "institutional_group_id": "14590.alle",
+        "name": "Services, Abteilung Human Ressources Management",
+        "institutional_group_name": "SER_MAN_PER.alle"
+      }
+    },
+    "SUP": {
+      "institutional_group_id": "75441.alle",
+      "name": "Services, Support Services",
+      "institutional_group_name": "SER_SUP.alle",
+      "FM": {
+        "institutional_group_id": "15425.alle",
+        "name": "Services, Abteilung Facility Management",
+        "institutional_group_name": "SER_SUP_FM.alle"
+      },
+      "ITZ": {
+        "institutional_group_id": "14647.alle",
+        "name": "Services, Informationstechnologie-Zentrum (ITZ)",
+        "institutional_group_name": "SER_SUP_ITZ.alle",
+        "Betrieb": {
+          "I": {
+            "institutional_group_id": "125256.alle",
+            "name": "Personal ITZ, Gruppe Betrieb I",
+            "institutional_group_name": "SER_SUP_ITZ_Betrieb_I.alle"
+          },
+          "II": {
+            "institutional_group_id": "144577.alle",
+            "name": "Personal ITZ, Gruppe Betrieb II",
+            "institutional_group_name": "SER_SUP_ITZ_Betrieb_II.alle"
+          }
+        },
+        "Entwicklung": {
+          "institutional_group_id": "125257.alle",
+          "name": "Personal ITZ, Gruppe Entwicklung",
+          "institutional_group_name": "SER_SUP_ITZ_Entwicklung.alle"
+        },
+        "Planung": {
+          "institutional_group_id": "125258.alle",
+          "name": "Personal ITZ, Gruppe Planung",
+          "institutional_group_name": "SER_SUP_ITZ_Planung.alle"
+        }
+      },
+      "MIZ": {
+        "institutional_group_id": "15279.alle",
+        "name": "Services, Medien- und Informationszentrum",
+        "institutional_group_name": "SER_SUP_MIZ.alle"
+      },
+      "PZ": {
+        "institutional_group_id": "15280.alle",
+        "name": "Services, Produktionszentrum",
+        "institutional_group_name": "SER_SUP_PZ.alle"
+      }
+    },
+    "VD": {
+      "institutional_group_id": "56699.alle",
+      "name": "Services, Verwaltungsdirektion",
+      "institutional_group_name": "SER_VD.alle",
+      "HSC": {
+        "institutional_group_id": "75444.alle",
+        "name": "Services, Hochschulcontrolling",
+        "institutional_group_name": "SER_VD_HSC.alle"
+      }
+    }
+  },
+  "XINK": {
+    "institutional_group_id": "139075.alle",
+    "name": "Inkubator",
+    "institutional_group_name": "XINK.alle"
+  }
+}
