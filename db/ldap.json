@@ -1,22 +1,22 @@
 [
    {
       "institutional_group_id" : "3651.alle",
-      "name" : "Certificate of Advanced Studies, Zertifikatslehrgänge",
+      "name" : "Certificate of Advanced Studies, ZertifikatslehrgÃ¤nge",
       "institutional_group_name" : "CAS.alle"
    },
    {
       "institutional_group_id" : "3651.alle_angestellte",
-      "name" : "Certificate of Advanced Studies, Zertifikatslehrgänge",
+      "name" : "Certificate of Advanced Studies, ZertifikatslehrgÃ¤nge",
       "institutional_group_name" : "CAS.alle_angestellte"
    },
    {
       "institutional_group_id" : "3651.dozierende",
-      "name" : "Certificate of Advanced Studies, Zertifikatslehrgänge",
+      "name" : "Certificate of Advanced Studies, ZertifikatslehrgÃ¤nge",
       "institutional_group_name" : "CAS.dozierende"
    },
    {
       "institutional_group_id" : "3651.mittelbau",
-      "name" : "Certificate of Advanced Studies, Zertifikatslehrgänge",
+      "name" : "Certificate of Advanced Studies, ZertifikatslehrgÃ¤nge",
       "institutional_group_name" : "CAS.mittelbau"
    },
    {
@@ -896,27 +896,27 @@
    },
    {
       "institutional_group_id" : "14674.alle",
-      "name" : "Institut für Designforschung",
+      "name" : "Institut fÃ¼r Designforschung",
       "institutional_group_name" : "DDE_IDE.alle"
    },
    {
       "institutional_group_id" : "14674.alle_angestellte",
-      "name" : "Institut für Designforschung",
+      "name" : "Institut fÃ¼r Designforschung",
       "institutional_group_name" : "DDE_IDE.alle_angestellte"
    },
    {
       "institutional_group_id" : "14674.dozierende",
-      "name" : "Institut für Designforschung",
+      "name" : "Institut fÃ¼r Designforschung",
       "institutional_group_name" : "DDE_IDE.dozierende"
    },
    {
       "institutional_group_id" : "14674.mittelbau",
-      "name" : "Institut für Designforschung",
+      "name" : "Institut fÃ¼r Designforschung",
       "institutional_group_name" : "DDE_IDE.mittelbau"
    },
    {
       "institutional_group_id" : "14674.personal",
-      "name" : "Institut für Designforschung",
+      "name" : "Institut fÃ¼r Designforschung",
       "institutional_group_name" : "DDE_IDE.personal"
    },
    {
@@ -946,32 +946,32 @@
    },
    {
       "institutional_group_id" : "14677.alle",
-      "name" : "Departement Darstellende Künste und Film",
+      "name" : "Departement Darstellende KÃ¼nste und Film",
       "institutional_group_name" : "DDK.alle"
    },
    {
       "institutional_group_id" : "14677.alle_angestellte",
-      "name" : "Departement Darstellende Künste und Film",
+      "name" : "Departement Darstellende KÃ¼nste und Film",
       "institutional_group_name" : "DDK.alle_angestellte"
    },
    {
       "institutional_group_id" : "14677.dozierende",
-      "name" : "Departement Darstellende Künste und Film",
+      "name" : "Departement Darstellende KÃ¼nste und Film",
       "institutional_group_name" : "DDK.dozierende"
    },
    {
       "institutional_group_id" : "14677.mittelbau",
-      "name" : "Departement Darstellende Künste und Film",
+      "name" : "Departement Darstellende KÃ¼nste und Film",
       "institutional_group_name" : "DDK.mittelbau"
    },
    {
       "institutional_group_id" : "14677.personal",
-      "name" : "Departement Darstellende Künste und Film",
+      "name" : "Departement Darstellende KÃ¼nste und Film",
       "institutional_group_name" : "DDK.personal"
    },
    {
       "institutional_group_id" : "14677.studierende",
-      "name" : "Departement Darstellende Künste und Film",
+      "name" : "Departement Darstellende KÃ¼nste und Film",
       "institutional_group_name" : "DDK.studierende"
    },
    {
@@ -1166,42 +1166,42 @@
    },
    {
       "institutional_group_id" : "77742.alle",
-      "name" : "Bühnentanz EFZ",
+      "name" : "BÃ¼hnentanz EFZ",
       "institutional_group_name" : "DDK_FTA_XBT.alle"
    },
    {
       "institutional_group_id" : "77742.alle_angestellte",
-      "name" : "Bühnentanz EFZ",
+      "name" : "BÃ¼hnentanz EFZ",
       "institutional_group_name" : "DDK_FTA_XBT.alle_angestellte"
    },
    {
       "institutional_group_id" : "77742.studierende",
-      "name" : "Bühnentanz EFZ",
+      "name" : "BÃ¼hnentanz EFZ",
       "institutional_group_name" : "DDK_FTA_XBT.studierende"
    },
    {
       "institutional_group_id" : "89313.studierende",
-      "name" : "Bühnentanz EFZ HS 2010",
+      "name" : "BÃ¼hnentanz EFZ HS 2010",
       "institutional_group_name" : "DDK_FTA_XBT_10H.studierende"
    },
    {
       "institutional_group_id" : "101780.studierende",
-      "name" : "Bühnentanz EFZ HS 2011",
+      "name" : "BÃ¼hnentanz EFZ HS 2011",
       "institutional_group_name" : "DDK_FTA_XBT_11H.studierende"
    },
    {
       "institutional_group_id" : "115982.studierende",
-      "name" : "Bühnentanz EFZ HS 2012",
+      "name" : "BÃ¼hnentanz EFZ HS 2012",
       "institutional_group_name" : "DDK_FTA_XBT_12H.studierende"
    },
    {
       "institutional_group_id" : "132178.studierende",
-      "name" : "Bühnentanz EFZ HS 2013",
+      "name" : "BÃ¼hnentanz EFZ HS 2013",
       "institutional_group_name" : "DDK_FTA_XBT_13H.studierende"
    },
    {
       "institutional_group_id" : "138489.studierende",
-      "name" : "Bühnentanz EFZ HS 2014",
+      "name" : "BÃ¼hnentanz EFZ HS 2014",
       "institutional_group_name" : "DDK_FTA_XBT_14H.studierende"
    },
    {
@@ -1561,67 +1561,67 @@
    },
    {
       "institutional_group_id" : "15345.alle",
-      "name" : "Bachelor Theater - Vertiefung Theaterpädagogik",
+      "name" : "Bachelor Theater - Vertiefung TheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_BTH_VTP.alle"
    },
    {
       "institutional_group_id" : "15345.alle_angestellte",
-      "name" : "Bachelor Theater - Vertiefung Theaterpädagogik",
+      "name" : "Bachelor Theater - Vertiefung TheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_BTH_VTP.alle_angestellte"
    },
    {
       "institutional_group_id" : "15345.dozierende",
-      "name" : "Bachelor Theater - Vertiefung Theaterpädagogik",
+      "name" : "Bachelor Theater - Vertiefung TheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_BTH_VTP.dozierende"
    },
    {
       "institutional_group_id" : "15345.mittelbau",
-      "name" : "Bachelor Theater - Vertiefung Theaterpädagogik",
+      "name" : "Bachelor Theater - Vertiefung TheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_BTH_VTP.mittelbau"
    },
    {
       "institutional_group_id" : "15345.studierende",
-      "name" : "Bachelor Theater - Vertiefung Theaterpädagogik",
+      "name" : "Bachelor Theater - Vertiefung TheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_BTH_VTP.studierende"
    },
    {
       "institutional_group_id" : "90814.studierende",
-      "name" : "Bachelor Theater - Vertiefung Theaterpädagogik - HS 2010",
+      "name" : "Bachelor Theater - Vertiefung TheaterpÃ¤dagogik - HS 2010",
       "institutional_group_name" : "DDK_FTH_BTH_VTP_10H.studierende"
    },
    {
       "institutional_group_id" : "102764.studierende",
-      "name" : "Bachelor Theater - Vertiefung Theaterpädagogik - HS 2011",
+      "name" : "Bachelor Theater - Vertiefung TheaterpÃ¤dagogik - HS 2011",
       "institutional_group_name" : "DDK_FTH_BTH_VTP_11H.studierende"
    },
    {
       "institutional_group_id" : "115174.studierende",
-      "name" : "Bachelor Theater - Vertiefung Theaterpädagogik - HS 2012",
+      "name" : "Bachelor Theater - Vertiefung TheaterpÃ¤dagogik - HS 2012",
       "institutional_group_name" : "DDK_FTH_BTH_VTP_12H.studierende"
    },
    {
       "institutional_group_id" : "131204.studierende",
-      "name" : "Bachelor Theater - Vertiefung Theaterpädagogik - HS 2013",
+      "name" : "Bachelor Theater - Vertiefung TheaterpÃ¤dagogik - HS 2013",
       "institutional_group_name" : "DDK_FTH_BTH_VTP_13H.studierende"
    },
    {
       "institutional_group_id" : "139787.studierende",
-      "name" : "Bachelor Theater - Vertiefung Theaterpädagogik - HS 2014",
+      "name" : "Bachelor Theater - Vertiefung TheaterpÃ¤dagogik - HS 2014",
       "institutional_group_name" : "DDK_FTH_BTH_VTP_14H.studierende"
    },
    {
       "institutional_group_id" : "15417.alle",
-      "name" : "NDK / CAS Theaterpädagogik",
+      "name" : "NDK / CAS TheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_CASTP.alle"
    },
    {
       "institutional_group_id" : "15417.alle_angestellte",
-      "name" : "NDK / CAS Theaterpädagogik",
+      "name" : "NDK / CAS TheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_CASTP.alle_angestellte"
    },
    {
       "institutional_group_id" : "15417.studierende",
-      "name" : "NDK / CAS Theaterpädagogik",
+      "name" : "NDK / CAS TheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_CASTP.studierende"
    },
    {
@@ -1631,27 +1631,27 @@
    },
    {
       "institutional_group_id" : "15356.alle",
-      "name" : "MAS Theaterpädagogik",
+      "name" : "MAS TheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_MASTP.alle"
    },
    {
       "institutional_group_id" : "15356.alle_angestellte",
-      "name" : "MAS Theaterpädagogik",
+      "name" : "MAS TheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_MASTP.alle_angestellte"
    },
    {
       "institutional_group_id" : "15356.studierende",
-      "name" : "MAS Theaterpädagogik",
+      "name" : "MAS TheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_MASTP.studierende"
    },
    {
       "institutional_group_id" : "120442.studierende",
-      "name" : "MAS Theaterpädagogik HS 2012",
+      "name" : "MAS TheaterpÃ¤dagogik HS 2012",
       "institutional_group_name" : "DDK_FTH_MASTP_12H.studierende"
    },
    {
       "institutional_group_id" : "132207.studierende",
-      "name" : "MAS Theaterpädagogik HS 2013",
+      "name" : "MAS TheaterpÃ¤dagogik HS 2013",
       "institutional_group_name" : "DDK_FTH_MASTP_13H.studierende"
    },
    {
@@ -1686,77 +1686,77 @@
    },
    {
       "institutional_group_id" : "91581.studierende",
-      "name" : "Master Theater - Vertiefung Bühnenbild - HS 2010",
+      "name" : "Master Theater - Vertiefung BÃ¼hnenbild - HS 2010",
       "institutional_group_name" : "DDK_FTH_MTH_VBN_10H.studierende"
    },
    {
       "institutional_group_id" : "121195.alle",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler",
       "institutional_group_name" : "DDK_FTH_MTH_VLK.alle"
    },
    {
       "institutional_group_id" : "121195.alle_angestellte",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler",
       "institutional_group_name" : "DDK_FTH_MTH_VLK.alle_angestellte"
    },
    {
       "institutional_group_id" : "121195.dozierende",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler",
       "institutional_group_name" : "DDK_FTH_MTH_VLK.dozierende"
    },
    {
       "institutional_group_id" : "121195.mittelbau",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler",
       "institutional_group_name" : "DDK_FTH_MTH_VLK.mittelbau"
    },
    {
       "institutional_group_id" : "121195.studierende",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler",
       "institutional_group_name" : "DDK_FTH_MTH_VLK.studierende"
    },
    {
       "institutional_group_id" : "64577.alle",
-      "name" : "Master Theater - Profil Bühnenbild",
+      "name" : "Master Theater - Profil BÃ¼hnenbild",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PBN.alle"
    },
    {
       "institutional_group_id" : "64577.alle_angestellte",
-      "name" : "Master Theater - Profil Bühnenbild",
+      "name" : "Master Theater - Profil BÃ¼hnenbild",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PBN.alle_angestellte"
    },
    {
       "institutional_group_id" : "64577.dozierende",
-      "name" : "Master Theater - Profil Bühnenbild",
+      "name" : "Master Theater - Profil BÃ¼hnenbild",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PBN.dozierende"
    },
    {
       "institutional_group_id" : "64577.mittelbau",
-      "name" : "Master Theater - Profil Bühnenbild",
+      "name" : "Master Theater - Profil BÃ¼hnenbild",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PBN.mittelbau"
    },
    {
       "institutional_group_id" : "64577.studierende",
-      "name" : "Master Theater - Profil Bühnenbild",
+      "name" : "Master Theater - Profil BÃ¼hnenbild",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PBN.studierende"
    },
    {
       "institutional_group_id" : "102899.studierende",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Bühnenbild - HS 2011",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler - Profil BÃ¼hnenbild - HS 2011",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PBN_11H.studierende"
    },
    {
       "institutional_group_id" : "116028.studierende",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Bühnenbild - HS 2012",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler - Profil BÃ¼hnenbild - HS 2012",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PBN_12H.studierende"
    },
    {
       "institutional_group_id" : "127551.studierende",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Bühnenbild - HS 2013",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler - Profil BÃ¼hnenbild - HS 2013",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PBN_13H.studierende"
    },
    {
       "institutional_group_id" : "140088.studierende",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Bühnenbild - HS 2014",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler - Profil BÃ¼hnenbild - HS 2014",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PBN_14H.studierende"
    },
    {
@@ -1776,22 +1776,22 @@
    },
    {
       "institutional_group_id" : "103896.studierende",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Dramaturgie - HS 2011",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler - Profil Dramaturgie - HS 2011",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PDR_11H.studierende"
    },
    {
       "institutional_group_id" : "120366.studierende",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Dramaturgie - HS 2012",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler - Profil Dramaturgie - HS 2012",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PDR_12H.studierende"
    },
    {
       "institutional_group_id" : "127552.studierende",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Dramaturgie - HS 2013",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler - Profil Dramaturgie - HS 2013",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PDR_13H.studierende"
    },
    {
       "institutional_group_id" : "140090.studierende",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Dramaturgie - HS 2014",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler - Profil Dramaturgie - HS 2014",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PDR_14H.studierende"
    },
    {
@@ -1816,67 +1816,67 @@
    },
    {
       "institutional_group_id" : "102901.studierende",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Regie - HS 2011",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler - Profil Regie - HS 2011",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PRE_11H.studierende"
    },
    {
       "institutional_group_id" : "116036.studierende",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Regie - HS 2012",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler - Profil Regie - HS 2012",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PRE_12H.studierende"
    },
    {
       "institutional_group_id" : "127570.studierende",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Regie - HS 2013",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler - Profil Regie - HS 2013",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PRE_13H.studierende"
    },
    {
       "institutional_group_id" : "140380.studierende",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Regie - HS 2014",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler - Profil Regie - HS 2014",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PRE_14H.studierende"
    },
    {
       "institutional_group_id" : "64575.alle",
-      "name" : "Master Theater - ProfilTheaterpädagogik",
+      "name" : "Master Theater - ProfilTheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PTP.alle"
    },
    {
       "institutional_group_id" : "64575.alle_angestellte",
-      "name" : "Master Theater - ProfilTheaterpädagogik",
+      "name" : "Master Theater - ProfilTheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PTP.alle_angestellte"
    },
    {
       "institutional_group_id" : "64575.dozierende",
-      "name" : "Master Theater - ProfilTheaterpädagogik",
+      "name" : "Master Theater - ProfilTheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PTP.dozierende"
    },
    {
       "institutional_group_id" : "64575.mittelbau",
-      "name" : "ProfilTheaterpädagogik",
+      "name" : "ProfilTheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PTP.mittelbau"
    },
    {
       "institutional_group_id" : "64575.studierende",
-      "name" : "Master Theater - ProfilTheaterpädagogik",
+      "name" : "Master Theater - ProfilTheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PTP.studierende"
    },
    {
       "institutional_group_id" : "103791.studierende",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Theaterpädagogik - HS 2011",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler - Profil TheaterpÃ¤dagogik - HS 2011",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PTP_11H.studierende"
    },
    {
       "institutional_group_id" : "116029.studierende",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Theaterpädagogik - HS 2012",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler - Profil TheaterpÃ¤dagogik - HS 2012",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PTP_12H.studierende"
    },
    {
       "institutional_group_id" : "127569.studierende",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Theaterpädagogik - HS 2013",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler - Profil TheaterpÃ¤dagogik - HS 2013",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PTP_13H.studierende"
    },
    {
       "institutional_group_id" : "140089.studierende",
-      "name" : "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler - Profil Theaterpädagogik - HS 2014",
+      "name" : "Master Theater - Vertiefung Leitende KÃ¼nstlerin / Leitender KÃ¼nstler - Profil TheaterpÃ¤dagogik - HS 2014",
       "institutional_group_name" : "DDK_FTH_MTH_VLK_PTP_14H.studierende"
    },
    {
@@ -1976,17 +1976,17 @@
    },
    {
       "institutional_group_id" : "64576.alle",
-      "name" : "Theaterpädagogik",
+      "name" : "TheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_VTP.alle"
    },
    {
       "institutional_group_id" : "64576.alle_angestellte",
-      "name" : "Theaterpädagogik",
+      "name" : "TheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_VTP.alle_angestellte"
    },
    {
       "institutional_group_id" : "64576.studierende",
-      "name" : "Theaterpädagogik",
+      "name" : "TheaterpÃ¤dagogik",
       "institutional_group_name" : "DDK_FTH_VTP.studierende"
    },
    {
@@ -2231,57 +2231,57 @@
    },
    {
       "institutional_group_id" : "3034.alle",
-      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale Künste",
+      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale KÃ¼nste",
       "institutional_group_name" : "DKM_FMK_BMK_VMK.alle"
    },
    {
       "institutional_group_id" : "3034.alle_angestellte",
-      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale Künste",
+      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale KÃ¼nste",
       "institutional_group_name" : "DKM_FMK_BMK_VMK.alle_angestellte"
    },
    {
       "institutional_group_id" : "3034.dozierende",
-      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale Künste",
+      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale KÃ¼nste",
       "institutional_group_name" : "DKM_FMK_BMK_VMK.dozierende"
    },
    {
       "institutional_group_id" : "3034.mittelbau",
-      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale Künste",
+      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale KÃ¼nste",
       "institutional_group_name" : "DKM_FMK_BMK_VMK.mittelbau"
    },
    {
       "institutional_group_id" : "3034.personal",
-      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale Künste",
+      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale KÃ¼nste",
       "institutional_group_name" : "DKM_FMK_BMK_VMK.personal"
    },
    {
       "institutional_group_id" : "3034.studierende",
-      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale Künste",
+      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale KÃ¼nste",
       "institutional_group_name" : "DKM_FMK_BMK_VMK.studierende"
    },
    {
       "institutional_group_id" : "90740.studierende",
-      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale Künste - HS 2010",
+      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale KÃ¼nste - HS 2010",
       "institutional_group_name" : "DKM_FMK_BMK_VMK_10H.studierende"
    },
    {
       "institutional_group_id" : "102657.studierende",
-      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale Künste - HS 2011",
+      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale KÃ¼nste - HS 2011",
       "institutional_group_name" : "DKM_FMK_BMK_VMK_11H.studierende"
    },
    {
       "institutional_group_id" : "115226.studierende",
-      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale Künste - HS 2012",
+      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale KÃ¼nste - HS 2012",
       "institutional_group_name" : "DKM_FMK_BMK_VMK_12H.studierende"
    },
    {
       "institutional_group_id" : "126519.studierende",
-      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale Künste - HS 2013",
+      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale KÃ¼nste - HS 2013",
       "institutional_group_name" : "DKM_FMK_BMK_VMK_13H.studierende"
    },
    {
       "institutional_group_id" : "138740.studierende",
-      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale Künste - HS 2014",
+      "name" : "Bachelor Medien & Kunst - Vertiefung Mediale KÃ¼nste - HS 2014",
       "institutional_group_name" : "DKM_FMK_BMK_VMK_14H.studierende"
    },
    {
@@ -2451,32 +2451,32 @@
    },
    {
       "institutional_group_id" : "56671.alle",
-      "name" : "Vertiefung Mediale Künste",
+      "name" : "Vertiefung Mediale KÃ¼nste",
       "institutional_group_name" : "DKM_FMK_VMK.alle"
    },
    {
       "institutional_group_id" : "56671.alle_angestellte",
-      "name" : "Vertiefung Mediale Künste",
+      "name" : "Vertiefung Mediale KÃ¼nste",
       "institutional_group_name" : "DKM_FMK_VMK.alle_angestellte"
    },
    {
       "institutional_group_id" : "56671.dozierende",
-      "name" : "Vertiefung Mediale Künste",
+      "name" : "Vertiefung Mediale KÃ¼nste",
       "institutional_group_name" : "DKM_FMK_VMK.dozierende"
    },
    {
       "institutional_group_id" : "56671.mittelbau",
-      "name" : "Vertiefung Mediale Künste",
+      "name" : "Vertiefung Mediale KÃ¼nste",
       "institutional_group_name" : "DKM_FMK_VMK.mittelbau"
    },
    {
       "institutional_group_id" : "56671.personal",
-      "name" : "Vertiefung Mediale Künste",
+      "name" : "Vertiefung Mediale KÃ¼nste",
       "institutional_group_name" : "DKM_FMK_VMK.personal"
    },
    {
       "institutional_group_id" : "56671.studierende",
-      "name" : "Vertiefung Mediale Künste",
+      "name" : "Vertiefung Mediale KÃ¼nste",
       "institutional_group_name" : "DKM_FMK_VMK.studierende"
    },
    {
@@ -2511,27 +2511,27 @@
    },
    {
       "institutional_group_id" : "66212.alle",
-      "name" : "Institut für Gegenwartskunst",
+      "name" : "Institut fÃ¼r Gegenwartskunst",
       "institutional_group_name" : "DKM_IFCAR.alle"
    },
    {
       "institutional_group_id" : "66212.alle_angestellte",
-      "name" : "Institut für Gegenwartskunst",
+      "name" : "Institut fÃ¼r Gegenwartskunst",
       "institutional_group_name" : "DKM_IFCAR.alle_angestellte"
    },
    {
       "institutional_group_id" : "66212.dozierende",
-      "name" : "Institut für Gegenwartskunst",
+      "name" : "Institut fÃ¼r Gegenwartskunst",
       "institutional_group_name" : "DKM_IFCAR.dozierende"
    },
    {
       "institutional_group_id" : "66212.mittelbau",
-      "name" : "Institut für Gegenwartskunst",
+      "name" : "Institut fÃ¼r Gegenwartskunst",
       "institutional_group_name" : "DKM_IFCAR.mittelbau"
    },
    {
       "institutional_group_id" : "66212.personal",
-      "name" : "Institut für Gegenwartskunst",
+      "name" : "Institut fÃ¼r Gegenwartskunst",
       "institutional_group_name" : "DKM_IFCAR.personal"
    },
    {
@@ -2586,7 +2586,7 @@
    },
    {
       "institutional_group_id" : "125630.studierende",
-      "name" : "CAS Forschung zu künstlerischen Bildungsprojekten BKG HS 2013",
+      "name" : "CAS Forschung zu kÃ¼nstlerischen Bildungsprojekten BKG HS 2013",
       "institutional_group_name" : "DKV_CASBKGa_13H.studierende"
    },
    {
@@ -2661,92 +2661,92 @@
    },
    {
       "institutional_group_id" : "126659.alle",
-      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Ästhetische Bildung und Soziokultur",
+      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Ã„sthetische Bildung und Soziokultur",
       "institutional_group_name" : "DKV_FAE_BAE_VAS.alle"
    },
    {
       "institutional_group_id" : "126659.alle_angestellte",
-      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Ästhetische Bildung und Soziokultur",
+      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Ã„sthetische Bildung und Soziokultur",
       "institutional_group_name" : "DKV_FAE_BAE_VAS.alle_angestellte"
    },
    {
       "institutional_group_id" : "126659.dozierende",
-      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Ästhetische Bildung und Soziokultur",
+      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Ã„sthetische Bildung und Soziokultur",
       "institutional_group_name" : "DKV_FAE_BAE_VAS.dozierende"
    },
    {
       "institutional_group_id" : "126659.mittelbau",
-      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Ästhetische Bildung und Soziokultur",
+      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Ã„sthetische Bildung und Soziokultur",
       "institutional_group_name" : "DKV_FAE_BAE_VAS.mittelbau"
    },
    {
       "institutional_group_id" : "126659.studierende",
-      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Ästhetische Bildung und Soziokultur",
+      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Ã„sthetische Bildung und Soziokultur",
       "institutional_group_name" : "DKV_FAE_BAE_VAS.studierende"
    },
    {
       "institutional_group_id" : "102661.studierende",
-      "name" : "Bachelor Vermittlung von Kunst und Design -  Ästhetische Bildung und Soziokultur - HS 2011",
+      "name" : "Bachelor Vermittlung von Kunst und Design -  Ã„sthetische Bildung und Soziokultur - HS 2011",
       "institutional_group_name" : "DKV_FAE_BAE_VAS_11H.studierende"
    },
    {
       "institutional_group_id" : "115228.studierende",
-      "name" : "Bachelor Vermittlung von Kunst und Design -  Ästhetische Bildung und Soziokultur - HS 2012",
+      "name" : "Bachelor Vermittlung von Kunst und Design -  Ã„sthetische Bildung und Soziokultur - HS 2012",
       "institutional_group_name" : "DKV_FAE_BAE_VAS_12H.studierende"
    },
    {
       "institutional_group_id" : "126506.studierende",
-      "name" : "Bachelor Vermittlung von Kunst und Design -  Ästhetische Bildung und Soziokultur - HS 2013",
+      "name" : "Bachelor Vermittlung von Kunst und Design -  Ã„sthetische Bildung und Soziokultur - HS 2013",
       "institutional_group_name" : "DKV_FAE_BAE_VAS_13H.studierende"
    },
    {
       "institutional_group_id" : "139338.studierende",
-      "name" : "Bachelor Vermittlung von Kunst und Design -  Ästhetische Bildung und Soziokultur - HS 2014",
+      "name" : "Bachelor Vermittlung von Kunst und Design -  Ã„sthetische Bildung und Soziokultur - HS 2014",
       "institutional_group_name" : "DKV_FAE_BAE_VAS_14H.studierende"
    },
    {
       "institutional_group_id" : "126658.alle",
-      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Bildnerisches Gestalten an Maturitätsschulen",
+      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Bildnerisches Gestalten an MaturitÃ¤tsschulen",
       "institutional_group_name" : "DKV_FAE_BAE_VBG.alle"
    },
    {
       "institutional_group_id" : "126658.alle_angestellte",
-      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Bildnerisches Gestalten an Maturitätsschulen",
+      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Bildnerisches Gestalten an MaturitÃ¤tsschulen",
       "institutional_group_name" : "DKV_FAE_BAE_VBG.alle_angestellte"
    },
    {
       "institutional_group_id" : "126658.dozierende",
-      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Bildnerisches Gestalten an Maturitätsschulen",
+      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Bildnerisches Gestalten an MaturitÃ¤tsschulen",
       "institutional_group_name" : "DKV_FAE_BAE_VBG.dozierende"
    },
    {
       "institutional_group_id" : "126658.mittelbau",
-      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Bildnerisches Gestalten an Maturitätsschulen",
+      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Bildnerisches Gestalten an MaturitÃ¤tsschulen",
       "institutional_group_name" : "DKV_FAE_BAE_VBG.mittelbau"
    },
    {
       "institutional_group_id" : "126658.studierende",
-      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Bildnerisches Gestalten an Maturitätsschulen",
+      "name" : "Bachelor Vermittlung von Kunst und Design - Vertiefung Bildnerisches Gestalten an MaturitÃ¤tsschulen",
       "institutional_group_name" : "DKV_FAE_BAE_VBG.studierende"
    },
    {
       "institutional_group_id" : "102660.studierende",
-      "name" : "Bachelor Vermittlung von Kunst und Design - Bildnerisches Gestalten an Maturitätsschulen - HS 2011",
+      "name" : "Bachelor Vermittlung von Kunst und Design - Bildnerisches Gestalten an MaturitÃ¤tsschulen - HS 2011",
       "institutional_group_name" : "DKV_FAE_BAE_VBG_11H.studierende"
    },
    {
       "institutional_group_id" : "115229.studierende",
-      "name" : "Bachelor Vermittlung von Kunst und Design - Bildnerisches Gestalten an Maturitätsschulen - HS 2012",
+      "name" : "Bachelor Vermittlung von Kunst und Design - Bildnerisches Gestalten an MaturitÃ¤tsschulen - HS 2012",
       "institutional_group_name" : "DKV_FAE_BAE_VBG_12H.studierende"
    },
    {
       "institutional_group_id" : "126507.studierende",
-      "name" : "Bachelor Vermittlung von Kunst und Design - Bildnerisches Gestalten an Maturitätsschulen - HS 2013",
+      "name" : "Bachelor Vermittlung von Kunst und Design - Bildnerisches Gestalten an MaturitÃ¤tsschulen - HS 2013",
       "institutional_group_name" : "DKV_FAE_BAE_VBG_13H.studierende"
    },
    {
       "institutional_group_id" : "139339.studierende",
-      "name" : "Bachelor Vermittlung von Kunst und Design - Bildnerisches Gestalten an Maturitätsschulen - HS 2014",
+      "name" : "Bachelor Vermittlung von Kunst und Design - Bildnerisches Gestalten an MaturitÃ¤tsschulen - HS 2014",
       "institutional_group_name" : "DKV_FAE_BAE_VBG_14H.studierende"
    },
    {
@@ -2931,107 +2931,107 @@
    },
    {
       "institutional_group_id" : "107710.alle",
-      "name" : "FSP Transdisziplinarität",
+      "name" : "FSP TransdisziplinaritÃ¤t",
       "institutional_group_name" : "DKV_FSPTR.alle"
    },
    {
       "institutional_group_id" : "107710.alle_angestellte",
-      "name" : "FSP Transdisziplinarität",
+      "name" : "FSP TransdisziplinaritÃ¤t",
       "institutional_group_name" : "DKV_FSPTR.alle_angestellte"
    },
    {
       "institutional_group_id" : "107710.dozierende",
-      "name" : "FSP Transdisziplinarität",
+      "name" : "FSP TransdisziplinaritÃ¤t",
       "institutional_group_name" : "DKV_FSPTR.dozierende"
    },
    {
       "institutional_group_id" : "107710.mittelbau",
-      "name" : "FSP Transdisziplinarität",
+      "name" : "FSP TransdisziplinaritÃ¤t",
       "institutional_group_name" : "DKV_FSPTR.mittelbau"
    },
    {
       "institutional_group_id" : "68796.alle",
-      "name" : "Fachrichtung Transdisziplinarität",
+      "name" : "Fachrichtung TransdisziplinaritÃ¤t",
       "institutional_group_name" : "DKV_FTR.alle"
    },
    {
       "institutional_group_id" : "68796.alle_angestellte",
-      "name" : "Fachrichtung Transdisziplinarität",
+      "name" : "Fachrichtung TransdisziplinaritÃ¤t",
       "institutional_group_name" : "DKV_FTR.alle_angestellte"
    },
    {
       "institutional_group_id" : "68796.dozierende",
-      "name" : "Fachrichtung Transdisziplinarität",
+      "name" : "Fachrichtung TransdisziplinaritÃ¤t",
       "institutional_group_name" : "DKV_FTR.dozierende"
    },
    {
       "institutional_group_id" : "68796.mittelbau",
-      "name" : "Fachrichtung Transdisziplinarität",
+      "name" : "Fachrichtung TransdisziplinaritÃ¤t",
       "institutional_group_name" : "DKV_FTR.mittelbau"
    },
    {
       "institutional_group_id" : "68796.personal",
-      "name" : "Fachrichtung Transdisziplinarität",
+      "name" : "Fachrichtung TransdisziplinaritÃ¤t",
       "institutional_group_name" : "DKV_FTR.personal"
    },
    {
       "institutional_group_id" : "68796.studierende",
-      "name" : "Fachrichtung Transdisziplinarität",
+      "name" : "Fachrichtung TransdisziplinaritÃ¤t",
       "institutional_group_name" : "DKV_FTR.studierende"
    },
    {
       "institutional_group_id" : "68797.alle",
-      "name" : "Master in Transdisziplinarität",
+      "name" : "Master in TransdisziplinaritÃ¤t",
       "institutional_group_name" : "DKV_FTR_MTR.alle"
    },
    {
       "institutional_group_id" : "68797.alle_angestellte",
-      "name" : "Master in Transdisziplinarität",
+      "name" : "Master in TransdisziplinaritÃ¤t",
       "institutional_group_name" : "DKV_FTR_MTR.alle_angestellte"
    },
    {
       "institutional_group_id" : "68797.dozierende",
-      "name" : "Master in Transdisziplinarität",
+      "name" : "Master in TransdisziplinaritÃ¤t",
       "institutional_group_name" : "DKV_FTR_MTR.dozierende"
    },
    {
       "institutional_group_id" : "68797.mittelbau",
-      "name" : "Master in Transdisziplinarität",
+      "name" : "Master in TransdisziplinaritÃ¤t",
       "institutional_group_name" : "DKV_FTR_MTR.mittelbau"
    },
    {
       "institutional_group_id" : "68797.personal",
-      "name" : "Master in Transdisziplinarität",
+      "name" : "Master in TransdisziplinaritÃ¤t",
       "institutional_group_name" : "DKV_FTR_MTR.personal"
    },
    {
       "institutional_group_id" : "68797.studierende",
-      "name" : "Master in Transdisziplinarität",
+      "name" : "Master in TransdisziplinaritÃ¤t",
       "institutional_group_name" : "DKV_FTR_MTR.studierende"
    },
    {
       "institutional_group_id" : "94672.studierende",
-      "name" : "Master of Arts in Transdisziplinarität HS 2010",
+      "name" : "Master of Arts in TransdisziplinaritÃ¤t HS 2010",
       "institutional_group_name" : "DKV_FTR_MTR_10H.studierende"
    },
    {
       "institutional_group_id" : "112040.studierende",
-      "name" : "Master of Arts in Transdisziplinarität FS 2012",
+      "name" : "Master of Arts in TransdisziplinaritÃ¤t FS 2012",
       "institutional_group_name" : "DKV_FTR_MTR_12F.studierende"
    },
    {
       "institutional_group_id" : "119730.studierende",
-      "name" : "Master of Arts in Transdisziplinarität HS 2012",
+      "name" : "Master of Arts in TransdisziplinaritÃ¤t HS 2012",
       "institutional_group_name" : "DKV_FTR_MTR_12H.studierende"
    },
    {
       "institutional_group_id" : "127823.studierende",
-      "name" : "Master of Arts in Transdisziplinarität HS 2013",
+      "name" : "Master of Arts in TransdisziplinaritÃ¤t HS 2013",
       "institutional_group_name" : "DKV_FTR_MTR_13H.studierende"
    },
    {
       "institutional_group_id" : "139781.studierende",
-      "name" : "Master of Arts in Transdisziplinarität HS 2014",
+      "name" : "Master of Arts in TransdisziplinaritÃ¤t HS 2014",
       "institutional_group_name" : "DKV_FTR_MTR_14H.studierende"
    },
    {
@@ -3106,47 +3106,47 @@
    },
    {
       "institutional_group_id" : "57158.alle",
-      "name" : "Institut für Theorie",
+      "name" : "Institut fÃ¼r Theorie",
       "institutional_group_name" : "DKV_ITH.alle"
    },
    {
       "institutional_group_id" : "57158.alle_angestellte",
-      "name" : "Institut für Theorie",
+      "name" : "Institut fÃ¼r Theorie",
       "institutional_group_name" : "DKV_ITH.alle_angestellte"
    },
    {
       "institutional_group_id" : "57158.dozierende",
-      "name" : "Institut für Theorie",
+      "name" : "Institut fÃ¼r Theorie",
       "institutional_group_name" : "DKV_ITH.dozierende"
    },
    {
       "institutional_group_id" : "57158.mittelbau",
-      "name" : "Institut für Theorie",
+      "name" : "Institut fÃ¼r Theorie",
       "institutional_group_name" : "DKV_ITH.mittelbau"
    },
    {
       "institutional_group_id" : "57158.personal",
-      "name" : "Institut für Theorie",
+      "name" : "Institut fÃ¼r Theorie",
       "institutional_group_name" : "DKV_ITH.personal"
    },
    {
       "institutional_group_id" : "83919.alle",
-      "name" : "MAS Bilden Künste Gesellschaft",
+      "name" : "MAS Bilden KÃ¼nste Gesellschaft",
       "institutional_group_name" : "DKV_MASBKG.alle"
    },
    {
       "institutional_group_id" : "83919.alle_angestellte",
-      "name" : "MAS Bilden Künste Gesellschaft",
+      "name" : "MAS Bilden KÃ¼nste Gesellschaft",
       "institutional_group_name" : "DKV_MASBKG.alle_angestellte"
    },
    {
       "institutional_group_id" : "83919.studierende",
-      "name" : "MAS Bilden Künste Gesellschaft",
+      "name" : "MAS Bilden KÃ¼nste Gesellschaft",
       "institutional_group_name" : "DKV_MASBKG.studierende"
    },
    {
       "institutional_group_id" : "132068.studierende",
-      "name" : "MAS Bilden Künste Gesellschaft HS 2013",
+      "name" : "MAS Bilden KÃ¼nste Gesellschaft HS 2013",
       "institutional_group_name" : "DKV_MASBKG_13H.studierende"
    },
    {
@@ -3336,62 +3336,62 @@
    },
    {
       "institutional_group_id" : "3043.alle",
-      "name" : "Propädeutikum - Gestalterische Orientierungsstufe",
+      "name" : "PropÃ¤deutikum - Gestalterische Orientierungsstufe",
       "institutional_group_name" : "DKV_XPP_XGO.alle"
    },
    {
       "institutional_group_id" : "3043.alle_angestellte",
-      "name" : "Propädeutikum - Gestalterische Orientierungsstufe",
+      "name" : "PropÃ¤deutikum - Gestalterische Orientierungsstufe",
       "institutional_group_name" : "DKV_XPP_XGO.alle_angestellte"
    },
    {
       "institutional_group_id" : "3043.dozierende",
-      "name" : "Propädeutikum - Gestalterische Orientierungsstufe",
+      "name" : "PropÃ¤deutikum - Gestalterische Orientierungsstufe",
       "institutional_group_name" : "DKV_XPP_XGO.dozierende"
    },
    {
       "institutional_group_id" : "3043.personal",
-      "name" : "Propädeutikum - Gestalterische Orientierungsstufe",
+      "name" : "PropÃ¤deutikum - Gestalterische Orientierungsstufe",
       "institutional_group_name" : "DKV_XPP_XGO.personal"
    },
    {
       "institutional_group_id" : "3043.studierende",
-      "name" : "Propädeutikum - Gestalterische Orientierungsstufe",
+      "name" : "PropÃ¤deutikum - Gestalterische Orientierungsstufe",
       "institutional_group_name" : "DKV_XPP_XGO.studierende"
    },
    {
       "institutional_group_id" : "115598.studierende",
-      "name" : "Propädeutikum - Gestalterische Orientierungsstufe Teilzeit HS 2012",
+      "name" : "PropÃ¤deutikum - Gestalterische Orientierungsstufe Teilzeit HS 2012",
       "institutional_group_name" : "DKV_XPP_XGO_T_12H.studierende"
    },
    {
       "institutional_group_id" : "125214.studierende",
-      "name" : "Propädeutikum - Gestalterische Orientierungsstufe Teilzeit HS 2013",
+      "name" : "PropÃ¤deutikum - Gestalterische Orientierungsstufe Teilzeit HS 2013",
       "institutional_group_name" : "DKV_XPP_XGO_T_13H.studierende"
    },
    {
       "institutional_group_id" : "138521.studierende",
-      "name" : "Propädeutikum - Gestalterische Orientierungsstufe Teilzeit HS 2014",
+      "name" : "PropÃ¤deutikum - Gestalterische Orientierungsstufe Teilzeit HS 2014",
       "institutional_group_name" : "DKV_XPP_XGO_T_14H.studierende"
    },
    {
       "institutional_group_id" : "120102.studierende",
-      "name" : "Propädeutikum - Gestalterische Orientierungsstufe Vollzeit FS 2013",
+      "name" : "PropÃ¤deutikum - Gestalterische Orientierungsstufe Vollzeit FS 2013",
       "institutional_group_name" : "DKV_XPP_XGO_V_13F.studierende"
    },
    {
       "institutional_group_id" : "125216.studierende",
-      "name" : "Propädeutikum - Gestalterische Orientierungsstufe Vollzeit HS 2013",
+      "name" : "PropÃ¤deutikum - Gestalterische Orientierungsstufe Vollzeit HS 2013",
       "institutional_group_name" : "DKV_XPP_XGO_V_13H.studierende"
    },
    {
       "institutional_group_id" : "132857.studierende",
-      "name" : "Propädeutikum - Gestalterische Orientierungsstufe Vollzeit FS 2014",
+      "name" : "PropÃ¤deutikum - Gestalterische Orientierungsstufe Vollzeit FS 2014",
       "institutional_group_name" : "DKV_XPP_XGO_V_14F.studierende"
    },
    {
       "institutional_group_id" : "138520.studierende",
-      "name" : "Propädeutikum - Gestalterische Orientierungsstufe Vollzeit HS 2014",
+      "name" : "PropÃ¤deutikum - Gestalterische Orientierungsstufe Vollzeit HS 2014",
       "institutional_group_name" : "DKV_XPP_XGO_V_14H.studierende"
    },
    {
@@ -3636,37 +3636,37 @@
    },
    {
       "institutional_group_id" : "90323.studierende",
-      "name" : "Bachelor Musik - Komposition und Musiktheorie - Komposition für Film, Theater und Medien - HS 2010",
+      "name" : "Bachelor Musik - Komposition und Musiktheorie - Komposition fÃ¼r Film, Theater und Medien - HS 2010",
       "institutional_group_name" : "DMU_FMU_BMU_VKOT_SFTM_10H.studierende"
    },
    {
       "institutional_group_id" : "102569.studierende",
-      "name" : "Bachelor Musik - Komposition und Musiktheorie - Komposition für Film, Theater und Medien - HS 2011",
+      "name" : "Bachelor Musik - Komposition und Musiktheorie - Komposition fÃ¼r Film, Theater und Medien - HS 2011",
       "institutional_group_name" : "DMU_FMU_BMU_VKOT_SFTM_11H.studierende"
    },
    {
       "institutional_group_id" : "114454.studierende",
-      "name" : "Bachelor Musik - Komposition und Musiktheorie - Komposition für Film, Theater und Medien - HS 2012",
+      "name" : "Bachelor Musik - Komposition und Musiktheorie - Komposition fÃ¼r Film, Theater und Medien - HS 2012",
       "institutional_group_name" : "DMU_FMU_BMU_VKOT_SFTM_12H.studierende"
    },
    {
       "institutional_group_id" : "126963.studierende",
-      "name" : "Bachelor Musik - Komposition und Musiktheorie - Komposition für Film, Theater und Medien - HS 2013",
+      "name" : "Bachelor Musik - Komposition und Musiktheorie - Komposition fÃ¼r Film, Theater und Medien - HS 2013",
       "institutional_group_name" : "DMU_FMU_BMU_VKOT_SFTM_13H.studierende"
    },
    {
       "institutional_group_id" : "139427.studierende",
-      "name" : "Bachelor Musik - Komposition und Musiktheorie - Komposition für Film, Theater und Medien - HS 2014",
+      "name" : "Bachelor Musik - Komposition und Musiktheorie - Komposition fÃ¼r Film, Theater und Medien - HS 2014",
       "institutional_group_name" : "DMU_FMU_BMU_VKOT_SFTM_14H.studierende"
    },
    {
       "institutional_group_id" : "126968.studierende",
-      "name" : "Bachelor Musik - Komposition und Musiktheorie - Zeitgenössische Komposition - HS 2013",
+      "name" : "Bachelor Musik - Komposition und Musiktheorie - ZeitgenÃ¶ssische Komposition - HS 2013",
       "institutional_group_name" : "DMU_FMU_BMU_VKOT_SKO_13H.studierende"
    },
    {
       "institutional_group_id" : "139428.studierende",
-      "name" : "Bachelor Musik - Komposition und Musiktheorie - Zeitgenössische Komposition - HS 2014",
+      "name" : "Bachelor Musik - Komposition und Musiktheorie - ZeitgenÃ¶ssische Komposition - HS 2014",
       "institutional_group_name" : "DMU_FMU_BMU_VKOT_SKO_14H.studierende"
    },
    {
@@ -3846,37 +3846,37 @@
    },
    {
       "institutional_group_id" : "76942.alle",
-      "name" : "NDK / CAS Komposition für Film, Theater und Medien (FTM)",
+      "name" : "NDK / CAS Komposition fÃ¼r Film, Theater und Medien (FTM)",
       "institutional_group_name" : "DMU_FMU_CASFTM.alle"
    },
    {
       "institutional_group_id" : "76942.alle_angestellte",
-      "name" : "NDK / CAS Komposition für Film, Theater und Medien (FTM)",
+      "name" : "NDK / CAS Komposition fÃ¼r Film, Theater und Medien (FTM)",
       "institutional_group_name" : "DMU_FMU_CASFTM.alle_angestellte"
    },
    {
       "institutional_group_id" : "76942.studierende",
-      "name" : "NDK / CAS Komposition für Film, Theater und Medien (FTM)",
+      "name" : "NDK / CAS Komposition fÃ¼r Film, Theater und Medien (FTM)",
       "institutional_group_name" : "DMU_FMU_CASFTM.studierende"
    },
    {
       "institutional_group_id" : "127239.studierende",
-      "name" : "CAS Komposition für Film, Theater und Medien (FTM) HS 2013",
+      "name" : "CAS Komposition fÃ¼r Film, Theater und Medien (FTM) HS 2013",
       "institutional_group_name" : "DMU_FMU_CASFTM_13H.studierende"
    },
    {
       "institutional_group_id" : "140201.studierende",
-      "name" : "CAS Komposition für Film, Theater und Medien (FTM) HS 2014",
+      "name" : "CAS Komposition fÃ¼r Film, Theater und Medien (FTM) HS 2014",
       "institutional_group_name" : "DMU_FMU_CASFTM_14H.studierende"
    },
    {
       "institutional_group_id" : "125751.studierende",
-      "name" : "CAS Heilpädagogische Bildung in Musik und Gestaltung HS 2013",
+      "name" : "CAS HeilpÃ¤dagogische Bildung in Musik und Gestaltung HS 2013",
       "institutional_group_name" : "DMU_FMU_CASGIH_13H.studierende"
    },
    {
       "institutional_group_id" : "143789.studierende",
-      "name" : "CAS Heilpädagogische Bildung in Musik und Gestaltung HS 2014",
+      "name" : "CAS HeilpÃ¤dagogische Bildung in Musik und Gestaltung HS 2014",
       "institutional_group_name" : "DMU_FMU_CASGIH_14H.studierende"
    },
    {
@@ -3911,7 +3911,7 @@
    },
    {
       "institutional_group_id" : "143788.studierende",
-      "name" : "CAS Klassenmusizieren m.Bläserklassen",
+      "name" : "CAS Klassenmusizieren m.BlÃ¤serklassen",
       "institutional_group_name" : "DMU_FMU_CASKLM_14H.studierende"
    },
    {
@@ -3936,7 +3936,7 @@
    },
    {
       "institutional_group_id" : "131844.studierende",
-      "name" : "CAS Vertiefung Musikpädagogik MGA FS 2014 ",
+      "name" : "CAS Vertiefung MusikpÃ¤dagogik MGA FS 2014 ",
       "institutional_group_name" : "DMU_FMU_CASMGA_14Ff.studierende"
    },
    {
@@ -3971,27 +3971,27 @@
    },
    {
       "institutional_group_id" : "140256.studierende",
-      "name" : "CAS Musikpädagogik Plus HS2014",
+      "name" : "CAS MusikpÃ¤dagogik Plus HS2014",
       "institutional_group_name" : "DMU_FMU_CASMPL_HS14.studierende"
    },
    {
       "institutional_group_id" : "143758.studierende",
-      "name" : "CAS Praxis Musikpädagogik HS 2014",
+      "name" : "CAS Praxis MusikpÃ¤dagogik HS 2014",
       "institutional_group_name" : "DMU_FMU_CASMPP_14H.studierende"
    },
    {
       "institutional_group_id" : "128182.studierende",
-      "name" : "CAS Vertiefung Musikpädagogik HS 2013",
+      "name" : "CAS Vertiefung MusikpÃ¤dagogik HS 2013",
       "institutional_group_name" : "DMU_FMU_CASMPT_13H.studierende"
    },
    {
       "institutional_group_id" : "136817.studierende",
-      "name" : "CAS Vertiefung Musikpädagogik FS 2014",
+      "name" : "CAS Vertiefung MusikpÃ¤dagogik FS 2014",
       "institutional_group_name" : "DMU_FMU_CASMPT_14F.studierende"
    },
    {
       "institutional_group_id" : "143756.studierende",
-      "name" : "CAS Vertiefung Musikpädagogik HS 2014",
+      "name" : "CAS Vertiefung MusikpÃ¤dagogik HS 2014",
       "institutional_group_name" : "DMU_FMU_CASMPT_14H.studierende"
    },
    {
@@ -4076,17 +4076,17 @@
    },
    {
       "institutional_group_id" : "125678.studierende",
-      "name" : "MAS erweiterte Musikpädagogik FS 2013",
+      "name" : "MAS erweiterte MusikpÃ¤dagogik FS 2013",
       "institutional_group_name" : "DMU_FMU_MASEMP_13F.studierende"
    },
    {
       "institutional_group_id" : "131582.studierende",
-      "name" : "MAS erweiterte Musikpädagogik HS 2013",
+      "name" : "MAS erweiterte MusikpÃ¤dagogik HS 2013",
       "institutional_group_name" : "DMU_FMU_MASEMP_13H.studierende"
    },
    {
       "institutional_group_id" : "144164.studierende",
-      "name" : "MAS erweiterte Musikpädagogik HS 2014",
+      "name" : "MAS erweiterte MusikpÃ¤dagogik HS 2014",
       "institutional_group_name" : "DMU_FMU_MASEMP_14H.studierende"
    },
    {
@@ -4171,27 +4171,27 @@
    },
    {
       "institutional_group_id" : "90309.studierende",
-      "name" : "Master Composition and Theory - Komposition - Komposition für Film, Theater und Medien - HS 2010",
+      "name" : "Master Composition and Theory - Komposition - Komposition fÃ¼r Film, Theater und Medien - HS 2010",
       "institutional_group_name" : "DMU_FMU_MKT_VKO_SFTM_10H.studierende"
    },
    {
       "institutional_group_id" : "102500.studierende",
-      "name" : "Master Composition and Theory - Komposition - Komposition für Film, Theater und Medien - HS 2011",
+      "name" : "Master Composition and Theory - Komposition - Komposition fÃ¼r Film, Theater und Medien - HS 2011",
       "institutional_group_name" : "DMU_FMU_MKT_VKO_SFTM_11H.studierende"
    },
    {
       "institutional_group_id" : "114521.studierende",
-      "name" : "Master Composition and Theory - Komposition - Komposition für Film, Theater und Medien - HS 2012",
+      "name" : "Master Composition and Theory - Komposition - Komposition fÃ¼r Film, Theater und Medien - HS 2012",
       "institutional_group_name" : "DMU_FMU_MKT_VKO_SFTM_12H.studierende"
    },
    {
       "institutional_group_id" : "126657.studierende",
-      "name" : "Master Composition and Theory - Komposition - Komposition für Film, Theater und Medien - HS 2013",
+      "name" : "Master Composition and Theory - Komposition - Komposition fÃ¼r Film, Theater und Medien - HS 2013",
       "institutional_group_name" : "DMU_FMU_MKT_VKO_SFTM_13H.studierende"
    },
    {
       "institutional_group_id" : "139411.studierende",
-      "name" : "Master Composition and Theory - Komposition - Komposition für Film, Theater und Medien - HS 2014",
+      "name" : "Master Composition and Theory - Komposition - Komposition fÃ¼r Film, Theater und Medien - HS 2014",
       "institutional_group_name" : "DMU_FMU_MKT_VKO_SFTM_14H.studierende"
    },
    {
@@ -4256,17 +4256,17 @@
    },
    {
       "institutional_group_id" : "64306.alle",
-      "name" : "Master Musikpädagogik",
+      "name" : "Master MusikpÃ¤dagogik",
       "institutional_group_name" : "DMU_FMU_MMP.alle"
    },
    {
       "institutional_group_id" : "64306.alle_angestellte",
-      "name" : "Master Musikpädagogik",
+      "name" : "Master MusikpÃ¤dagogik",
       "institutional_group_name" : "DMU_FMU_MMP.alle_angestellte"
    },
    {
       "institutional_group_id" : "64306.studierende",
-      "name" : "Master Musikpädagogik",
+      "name" : "Master MusikpÃ¤dagogik",
       "institutional_group_name" : "DMU_FMU_MMP.studierende"
    },
    {
@@ -4286,92 +4286,92 @@
    },
    {
       "institutional_group_id" : "90271.studierende",
-      "name" : "Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Jazz - HS 2010",
+      "name" : "Master Music Pedagogy - instrumentale/vokale MusikpÃ¤dagogik - Jazz - HS 2010",
       "institutional_group_name" : "DMU_FMU_MMP_VIV_SJAZ_10H.studierende"
    },
    {
       "institutional_group_id" : "102508.studierende",
-      "name" : "Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Jazz - HS 2011",
+      "name" : "Master Music Pedagogy - instrumentale/vokale MusikpÃ¤dagogik - Jazz - HS 2011",
       "institutional_group_name" : "DMU_FMU_MMP_VIV_SJAZ_11H.studierende"
    },
    {
       "institutional_group_id" : "114491.studierende",
-      "name" : "Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Jazz - HS 2012",
+      "name" : "Master Music Pedagogy - instrumentale/vokale MusikpÃ¤dagogik - Jazz - HS 2012",
       "institutional_group_name" : "DMU_FMU_MMP_VIV_SJAZ_12H.studierende"
    },
    {
       "institutional_group_id" : "126588.studierende",
-      "name" : "Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Jazz - HS 2013",
+      "name" : "Master Music Pedagogy - instrumentale/vokale MusikpÃ¤dagogik - Jazz - HS 2013",
       "institutional_group_name" : "DMU_FMU_MMP_VIV_SJAZ_13H.studierende"
    },
    {
       "institutional_group_id" : "139390.studierende",
-      "name" : "Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Jazz - HS 2014",
+      "name" : "Master Music Pedagogy - instrumentale/vokale MusikpÃ¤dagogik - Jazz - HS 2014",
       "institutional_group_name" : "DMU_FMU_MMP_VIV_SJAZ_14H.studierende"
    },
    {
       "institutional_group_id" : "96027.studierende",
-      "name" : "Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Klassik - FS 2011",
+      "name" : "Master Music Pedagogy - instrumentale/vokale MusikpÃ¤dagogik - Klassik - FS 2011",
       "institutional_group_name" : "DMU_FMU_MMP_VIV_SKLA_11F.studierende"
    },
    {
       "institutional_group_id" : "102509.studierende",
-      "name" : "Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Klassik - HS 2011",
+      "name" : "Master Music Pedagogy - instrumentale/vokale MusikpÃ¤dagogik - Klassik - HS 2011",
       "institutional_group_name" : "DMU_FMU_MMP_VIV_SKLA_11H.studierende"
    },
    {
       "institutional_group_id" : "108218.studierende",
-      "name" : "Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Klassik - FS 2012",
+      "name" : "Master Music Pedagogy - instrumentale/vokale MusikpÃ¤dagogik - Klassik - FS 2012",
       "institutional_group_name" : "DMU_FMU_MMP_VIV_SKLA_12F.studierende"
    },
    {
       "institutional_group_id" : "114492.studierende",
-      "name" : "Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Klassik - HS 2012",
+      "name" : "Master Music Pedagogy - instrumentale/vokale MusikpÃ¤dagogik - Klassik - HS 2012",
       "institutional_group_name" : "DMU_FMU_MMP_VIV_SKLA_12H.studierende"
    },
    {
       "institutional_group_id" : "120724.studierende",
-      "name" : "Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Klassik - FS 2013",
+      "name" : "Master Music Pedagogy - instrumentale/vokale MusikpÃ¤dagogik - Klassik - FS 2013",
       "institutional_group_name" : "DMU_FMU_MMP_VIV_SKLA_13F.studierende"
    },
    {
       "institutional_group_id" : "126625.studierende",
-      "name" : "Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Klassik - HS 2013",
+      "name" : "Master Music Pedagogy - instrumentale/vokale MusikpÃ¤dagogik - Klassik - HS 2013",
       "institutional_group_name" : "DMU_FMU_MMP_VIV_SKLA_13H.studierende"
    },
    {
       "institutional_group_id" : "132608.studierende",
-      "name" : "Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Klassik - FS 2014",
+      "name" : "Master Music Pedagogy - instrumentale/vokale MusikpÃ¤dagogik - Klassik - FS 2014",
       "institutional_group_name" : "DMU_FMU_MMP_VIV_SKLA_14F.studierende"
    },
    {
       "institutional_group_id" : "139391.studierende",
-      "name" : "Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Klassik - HS 2014",
+      "name" : "Master Music Pedagogy - instrumentale/vokale MusikpÃ¤dagogik - Klassik - HS 2014",
       "institutional_group_name" : "DMU_FMU_MMP_VIV_SKLA_14H.studierende"
    },
    {
       "institutional_group_id" : "144820.studierende",
-      "name" : "Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Klassik - FS 2015",
+      "name" : "Master Music Pedagogy - instrumentale/vokale MusikpÃ¤dagogik - Klassik - FS 2015",
       "institutional_group_name" : "DMU_FMU_MMP_VIV_SKLA_15F.studierende"
    },
    {
       "institutional_group_id" : "126626.studierende",
-      "name" : "Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Klassik - HS 2013",
+      "name" : "Master Music Pedagogy - instrumentale/vokale MusikpÃ¤dagogik - Klassik - HS 2013",
       "institutional_group_name" : "DMU_FMU_MMP_VIV_SKLA_O_13H.studierende"
    },
    {
       "institutional_group_id" : "114494.studierende",
-      "name" : "Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Pop - HS 2012",
+      "name" : "Master Music Pedagogy - instrumentale/vokale MusikpÃ¤dagogik - Pop - HS 2012",
       "institutional_group_name" : "DMU_FMU_MMP_VIV_SPOP_12H.studierende"
    },
    {
       "institutional_group_id" : "126633.studierende",
-      "name" : "Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Pop - HS 2013",
+      "name" : "Master Music Pedagogy - instrumentale/vokale MusikpÃ¤dagogik - Pop - HS 2013",
       "institutional_group_name" : "DMU_FMU_MMP_VIV_SPOP_13H.studierende"
    },
    {
       "institutional_group_id" : "139393.studierende",
-      "name" : "Master Music Pedagogy - instrumentale/vokale Musikpädagogik - Pop - HS 2014",
+      "name" : "Master Music Pedagogy - instrumentale/vokale MusikpÃ¤dagogik - Pop - HS 2014",
       "institutional_group_name" : "DMU_FMU_MMP_VIV_SPOP_14H.studierende"
    },
    {
@@ -4451,7 +4451,7 @@
    },
    {
       "institutional_group_id" : "144585.studierende",
-      "name" : "Master Music Pedagogy - Schulmusik - Schulmusik II - Pädagogik - HS 2014",
+      "name" : "Master Music Pedagogy - Schulmusik - Schulmusik II - PÃ¤dagogik - HS 2014",
       "institutional_group_name" : "DMU_FMU_MMP_VSMU_SSII_PAE_14H.studierende"
    },
    {
@@ -5126,12 +5126,12 @@
    },
    {
       "institutional_group_id" : "74923.alle",
-      "name" : "MAS Musikvermittlung und Konzertpädagogik",
+      "name" : "MAS Musikvermittlung und KonzertpÃ¤dagogik",
       "institutional_group_name" : "DMU_MASMV.alle"
    },
    {
       "institutional_group_id" : "74923.studierende",
-      "name" : "MAS Musikvermittlung und Konzertpädagogik",
+      "name" : "MAS Musikvermittlung und KonzertpÃ¤dagogik",
       "institutional_group_name" : "DMU_MASMV.studierende"
    },
    {
@@ -5571,7 +5571,7 @@
    },
    {
       "institutional_group_id" : "76400.",
-      "name" : "Personen, die Low-Level-Zugang zu wichtigen Datenbanken (z.B. Evento) benötigen.",
+      "name" : "Personen, die Low-Level-Zugang zu wichtigen Datenbanken (z.B. Evento) benÃ¶tigen.",
       "institutional_group_name" : "Verteilerliste.App_DB_Admins"
    },
    {
@@ -5591,7 +5591,7 @@
    },
    {
       "institutional_group_id" : "144470.",
-      "name" : "Personen, die News (auf Infoscreen) für Konservatorium und Musikschule Winterthur verwalten",
+      "name" : "Personen, die News (auf Infoscreen) fÃ¼r Konservatorium und Musikschule Winterthur verwalten",
       "institutional_group_name" : "Verteilerliste.App_Konsi_Winterthur_News_Admin"
    },
    {
@@ -5601,7 +5601,7 @@
    },
    {
       "institutional_group_id" : "139385.",
-      "name" : "News-Admins für den Musikkanal",
+      "name" : "News-Admins fÃ¼r den Musikkanal",
       "institutional_group_name" : "Verteilerliste.App_Musiknews_Admin"
    },
    {
@@ -5611,7 +5611,7 @@
    },
    {
       "institutional_group_id" : "75927.",
-      "name" : "Personen, die Zugang zu allen Pensenblättern benötigen.",
+      "name" : "Personen, die Zugang zu allen PensenblÃ¤ttern benÃ¶tigen.",
       "institutional_group_name" : "Verteilerliste.App_Pensenblatt_Admin"
    },
    {
@@ -5621,7 +5621,7 @@
    },
    {
       "institutional_group_id" : "102553.",
-      "name" : "Personen, die erweiterten Zugang in der Personensuche benötigen ",
+      "name" : "Personen, die erweiterten Zugang in der Personensuche benÃ¶tigen ",
       "institutional_group_name" : "Verteilerliste.App_Personensuche_Adressen"
    },
    {
@@ -5641,7 +5641,7 @@
    },
    {
       "institutional_group_id" : "138468.",
-      "name" : "Raumadministratoren der Webapplikation RaumRes Theorie-Poolräume",
+      "name" : "Raumadministratoren der Webapplikation RaumRes Theorie-PoolrÃ¤ume",
       "institutional_group_name" : "Verteilerliste.App_RaumRes_Raumadministratoren_Theoriepoolraeume"
    },
    {
@@ -5656,7 +5656,7 @@
    },
    {
       "institutional_group_id" : "75929.",
-      "name" : "Dieser Gruppe gehören diejenigen Pseudobenutzer an, die standardmässig im Kioskbetrieb angemeldet werden.",
+      "name" : "Dieser Gruppe gehÃ¶ren diejenigen Pseudobenutzer an, die standardmÃ¤ssig im Kioskbetrieb angemeldet werden.",
       "institutional_group_name" : "Verteilerliste.App_Raumverwaltung_Kioskbetrieb"
    },
    {
@@ -5666,7 +5666,7 @@
    },
    {
       "institutional_group_id" : "75931.",
-      "name" : "Personen, die die Tonträger-Datenbank des MIZ pflegen",
+      "name" : "Personen, die die TontrÃ¤ger-Datenbank des MIZ pflegen",
       "institutional_group_name" : "Verteilerliste.App_Tontraeger_Admin"
    },
    {
@@ -5681,7 +5681,7 @@
    },
    {
       "institutional_group_id" : "90037.",
-      "name" : "Leitung und Assistenz für den Bachelor Design",
+      "name" : "Leitung und Assistenz fÃ¼r den Bachelor Design",
       "institutional_group_name" : "Verteilerliste.BDE_Leitung"
    },
    {
@@ -5731,7 +5731,7 @@
    },
    {
       "institutional_group_id" : "108324.",
-      "name" : "Gäste des DKM (sowohl Externe wie auch ZHdK-Angehörige)",
+      "name" : "GÃ¤ste des DKM (sowohl Externe wie auch ZHdK-AngehÃ¶rige)",
       "institutional_group_name" : "Verteilerliste.DKM_Gaeste"
    },
    {
@@ -5756,12 +5756,12 @@
    },
    {
       "institutional_group_id" : "75925.",
-      "name" : "Personen, die Admin-Zugang zu den Z-Modul-Applikationen benötigen.",
+      "name" : "Personen, die Admin-Zugang zu den Z-Modul-Applikationen benÃ¶tigen.",
       "institutional_group_name" : "Verteilerliste.DKV_Zmodule_Admin"
    },
    {
       "institutional_group_id" : "75924.",
-      "name" : "Mitglieder der Z-Modul-Konferenz und Personen, die Zugang zu den Daten der Z-Modul-Anmeldung benötigen.",
+      "name" : "Mitglieder der Z-Modul-Konferenz und Personen, die Zugang zu den Daten der Z-Modul-Anmeldung benÃ¶tigen.",
       "institutional_group_name" : "Verteilerliste.DKV_Zmodulkonferenz"
    },
    {
@@ -5781,7 +5781,7 @@
    },
    {
       "institutional_group_id" : "75912.",
-      "name" : "Personen, die für die Verwaltung der Freundeskreis-.Patenschaften zuständig sind. Auch externe Personen.",
+      "name" : "Personen, die fÃ¼r die Verwaltung der Freundeskreis-.Patenschaften zustÃ¤ndig sind. Auch externe Personen.",
       "institutional_group_name" : "Verteilerliste.DMU_Freundeskreis_Admin"
    },
    {
@@ -5816,7 +5816,7 @@
    },
    {
       "institutional_group_id" : "132014.",
-      "name" : "Mitarbeiter der Studiengänge MPE und MSP Klassik",
+      "name" : "Mitarbeiter der StudiengÃ¤nge MPE und MSP Klassik",
       "institutional_group_name" : "Verteilerliste.DMU_Mitarbeiter_MPE_MSP_Klassik"
    },
    {
@@ -5856,22 +5856,22 @@
    },
    {
       "institutional_group_id" : "75911.",
-      "name" : "Personen, die Stammdaten des Veranstaltungskalenders bearbeiten und Event-Teaser auf die Startseite setzen können.",
+      "name" : "Personen, die Stammdaten des Veranstaltungskalenders bearbeiten und Event-Teaser auf die Startseite setzen kÃ¶nnen.",
       "institutional_group_name" : "Verteilerliste.Events_Superadmin"
    },
    {
       "institutional_group_id" : "126257.",
-      "name" : "Dozierende FTM > Komposition für Film, Theater und Medien",
+      "name" : "Dozierende FTM > Komposition fÃ¼r Film, Theater und Medien",
       "institutional_group_name" : "Verteilerliste.FTM_Dozierende"
    },
    {
       "institutional_group_id" : "65228.",
-      "name" : "Studierende FTM (auch von HKB) > Komposition für Film, Theater und Medien",
+      "name" : "Studierende FTM (auch von HKB) > Komposition fÃ¼r Film, Theater und Medien",
       "institutional_group_name" : "Verteilerliste.FTM_Studierende"
    },
    {
       "institutional_group_id" : "83628.",
-      "name" : "Administratoren der Studiosession-Applikation für Film-/Theater- und Medienstudis (FTM)",
+      "name" : "Administratoren der Studiosession-Applikation fÃ¼r Film-/Theater- und Medienstudis (FTM)",
       "institutional_group_name" : "Verteilerliste.FTM_Studiosession_Superadmin"
    },
    {
@@ -5921,7 +5921,7 @@
    },
    {
       "institutional_group_id" : "96630.",
-      "name" : "Personen, die Zugriff auf die Daten der Jahresbericht-Formular im Intranet benötigen",
+      "name" : "Personen, die Zugriff auf die Daten der Jahresbericht-Formular im Intranet benÃ¶tigen",
       "institutional_group_name" : "Verteilerliste.Form_Jahresbericht"
    },
    {
@@ -5936,7 +5936,7 @@
    },
    {
       "institutional_group_id" : "132232.",
-      "name" : "Applikation Fotoüberprüfer",
+      "name" : "Applikation FotoÃ¼berprÃ¼fer",
       "institutional_group_name" : "Verteilerliste.Fotoueberpruefer"
    },
    {
@@ -5991,7 +5991,7 @@
    },
    {
       "institutional_group_id" : "75904.",
-      "name" : "Personen im Bereich der Öffentlichkeitsarbeit",
+      "name" : "Personen im Bereich der Ã–ffentlichkeitsarbeit",
       "institutional_group_name" : "Verteilerliste.Kommunikation"
    },
    {
@@ -6001,17 +6001,17 @@
    },
    {
       "institutional_group_id" : "88541.",
-      "name" : "Mitarbeiter des Konservatorium Winterthurs, die die ZHdK-Intranetzugänge des Konservatoriums verwalten",
+      "name" : "Mitarbeiter des Konservatorium Winterthurs, die die ZHdK-IntranetzugÃ¤nge des Konservatoriums verwalten",
       "institutional_group_name" : "Verteilerliste.Konsi_Winterthur_Intranet_Admins"
    },
    {
       "institutional_group_id" : "144504.",
-      "name" : "Dozierende Konservatorium / Musikschule Zürich",
+      "name" : "Dozierende Konservatorium / Musikschule ZÃ¼rich",
       "institutional_group_name" : "Verteilerliste.Konsi_Zuerich_Dozierende"
    },
    {
       "institutional_group_id" : "144505.",
-      "name" : "Mitarbeiter des Konservatorium/Musikschule Zürich, die die ZHdK-Intranetzugänge verwalten",
+      "name" : "Mitarbeiter des Konservatorium/Musikschule ZÃ¼rich, die die ZHdK-IntranetzugÃ¤nge verwalten",
       "institutional_group_name" : "Verteilerliste.Konsi_Zuerich_Intranet_Admins"
    },
    {
@@ -6026,7 +6026,7 @@
    },
    {
       "institutional_group_id" : "3876.",
-      "name" : "Leitung Studiengänge/Vertiefungen/Schwerpunkte/Profile - Dozierende mit Leitungsfunktionen",
+      "name" : "Leitung StudiengÃ¤nge/Vertiefungen/Schwerpunkte/Profile - Dozierende mit Leitungsfunktionen",
       "institutional_group_name" : "Verteilerliste.Leitung_Studiengaenge"
    },
    {
@@ -6091,27 +6091,27 @@
    },
    {
       "institutional_group_id" : "144451.",
-      "name" : "Produktionszentrum Ton/Film-Cluster Schnittplätze Policy DMU",
+      "name" : "Produktionszentrum Ton/Film-Cluster SchnittplÃ¤tze Policy DMU",
       "institutional_group_name" : "Verteilerliste.PZ_AVS_Schnittplaetze_DMU"
    },
    {
       "institutional_group_id" : "144453.",
-      "name" : "Produktionszentrum Ton/Film-Cluster Schnittplätze Policy DMU temporär",
+      "name" : "Produktionszentrum Ton/Film-Cluster SchnittplÃ¤tze Policy DMU temporÃ¤r",
       "institutional_group_name" : "Verteilerliste.PZ_AVS_Schnittplaetze_DMU_Temp"
    },
    {
       "institutional_group_id" : "144450.",
-      "name" : "Produktionszentrum Ton/Film-Cluster Schnittplätze Policy FFI",
+      "name" : "Produktionszentrum Ton/Film-Cluster SchnittplÃ¤tze Policy FFI",
       "institutional_group_name" : "Verteilerliste.PZ_AVS_Schnittplaetze_FFI"
    },
    {
       "institutional_group_id" : "144521.",
-      "name" : "Produktionszentrum Ton/Film-Cluster Schnittplätze Policy FFI temporär",
+      "name" : "Produktionszentrum Ton/Film-Cluster SchnittplÃ¤tze Policy FFI temporÃ¤r",
       "institutional_group_name" : "Verteilerliste.PZ_AVS_Schnittplaetze_FFI_Temp"
    },
    {
       "institutional_group_id" : "144452.",
-      "name" : "Produktionszentrum Ton/Film-Cluster Schnittplätze Z-Tech",
+      "name" : "Produktionszentrum Ton/Film-Cluster SchnittplÃ¤tze Z-Tech",
       "institutional_group_name" : "Verteilerliste.PZ_AVS_Schnittplaetze_Z_Tech"
    },
    {
@@ -6141,7 +6141,7 @@
    },
    {
       "institutional_group_id" : "77386.",
-      "name" : "Qualitätsmanagement",
+      "name" : "QualitÃ¤tsmanagement",
       "institutional_group_name" : "Verteilerliste.QM"
    },
    {
@@ -6171,7 +6171,7 @@
    },
    {
       "institutional_group_id" : "95140.",
-      "name" : "Linienvorgesetzte der ZHdK (Führungsstufen 0 bis 3)",
+      "name" : "Linienvorgesetzte der ZHdK (FÃ¼hrungsstufen 0 bis 3)",
       "institutional_group_name" : "Verteilerliste.SER_PER_Vorgesetzte"
    },
    {
@@ -6246,7 +6246,7 @@
    },
    {
       "institutional_group_id" : "56698.",
-      "name" : "Theater der Künste",
+      "name" : "Theater der KÃ¼nste",
       "institutional_group_name" : "Verteilerliste.TheaterderKuenste"
    },
    {
