@@ -1,7 +1,7 @@
 {
   "CAS": {
     "institutional_group_id": "3651.alle",
-    "name": "Certificate of Advanced Studies, Zertifikatslehrg�nge",
+    "name": "Certificate of Advanced Studies, Zertifikatslehrgänge",
     "institutional_group_name": "CAS.alle"
   },
   "DDE": {
@@ -135,7 +135,7 @@
     },
     "IDE": {
       "institutional_group_id": "14674.alle",
-      "name": "Institut f�r Designforschung",
+      "name": "Institut für Designforschung",
       "institutional_group_name": "DDE_IDE.alle"
     },
     "MASSD": {
@@ -146,7 +146,7 @@
   },
   "DDK": {
     "institutional_group_id": "14677.alle",
-    "name": "Departement Darstellende K�nste und Film",
+    "name": "Departement Darstellende Künste und Film",
     "institutional_group_name": "DDK.alle",
     "FFI": {
       "institutional_group_id": "3033.alle",
@@ -174,7 +174,7 @@
       },
       "XBT": {
         "institutional_group_id": "77742.alle",
-        "name": "B�hnentanz EFZ",
+        "name": "Bühnentanz EFZ",
         "institutional_group_name": "DDK_FTA_XBT.alle"
       },
       "XGR": {
@@ -218,18 +218,18 @@
         },
         "VTP": {
           "institutional_group_id": "15345.alle",
-          "name": "Bachelor Theater - Vertiefung Theaterp�dagogik",
+          "name": "Bachelor Theater - Vertiefung Theaterpädagogik",
           "institutional_group_name": "DDK_FTH_BTH_VTP.alle"
         }
       },
       "CASTP": {
         "institutional_group_id": "15417.alle",
-        "name": "NDK / CAS Theaterp�dagogik",
+        "name": "NDK / CAS Theaterpädagogik",
         "institutional_group_name": "DDK_FTH_CASTP.alle"
       },
       "MASTP": {
         "institutional_group_id": "15356.alle",
-        "name": "MAS Theaterp�dagogik",
+        "name": "MAS Theaterpädagogik",
         "institutional_group_name": "DDK_FTH_MASTP.alle"
       },
       "MTH": {
@@ -238,11 +238,11 @@
         "institutional_group_name": "DDK_FTH_MTH.alle",
         "VLK": {
           "institutional_group_id": "121195.alle",
-          "name": "Master Theater - Vertiefung Leitende K�nstlerin / Leitender K�nstler",
+          "name": "Master Theater - Vertiefung Leitende Künstlerin / Leitender Künstler",
           "institutional_group_name": "DDK_FTH_MTH_VLK.alle",
           "PBN": {
             "institutional_group_id": "64577.alle",
-            "name": "Master Theater - Profil B�hnenbild",
+            "name": "Master Theater - Profil Bühnenbild",
             "institutional_group_name": "DDK_FTH_MTH_VLK_PBN.alle"
           },
           "PDR": {
@@ -257,7 +257,7 @@
           },
           "PTP": {
             "institutional_group_id": "64575.alle",
-            "name": "Master Theater - ProfilTheaterp�dagogik",
+            "name": "Master Theater - ProfilTheaterpädagogik",
             "institutional_group_name": "DDK_FTH_MTH_VLK_PTP.alle"
           }
         },
@@ -284,7 +284,7 @@
       },
       "VTP": {
         "institutional_group_id": "64576.alle",
-        "name": "Theaterp�dagogik",
+        "name": "Theaterpädagogik",
         "institutional_group_name": "DDK_FTH_VTP.alle"
       }
     },
@@ -318,7 +318,7 @@
         },
         "VMK": {
           "institutional_group_id": "3034.alle",
-          "name": "Bachelor Medien & Kunst - Vertiefung Mediale K�nste",
+          "name": "Bachelor Medien & Kunst - Vertiefung Mediale Künste",
           "institutional_group_name": "DKM_FMK_BMK_VMK.alle"
         },
         "VTH": {
@@ -344,7 +344,7 @@
       },
       "VMK": {
         "institutional_group_id": "56671.alle",
-        "name": "Vertiefung Mediale K�nste",
+        "name": "Vertiefung Mediale Künste",
         "institutional_group_name": "DKM_FMK_VMK.alle"
       },
       "VTH": {
@@ -355,7 +355,7 @@
     },
     "IFCAR": {
       "institutional_group_id": "66212.alle",
-      "name": "Institut f�r Gegenwartskunst",
+      "name": "Institut für Gegenwartskunst",
       "institutional_group_name": "DKM_IFCAR.alle"
     },
     "PHD": {
@@ -378,12 +378,12 @@
         "institutional_group_name": "DKV_FAE_BAE.alle",
         "VAS": {
           "institutional_group_id": "126659.alle",
-          "name": "Bachelor Vermittlung von Kunst und Design - Vertiefung �sthetische Bildung und Soziokultur",
+          "name": "Bachelor Vermittlung von Kunst und Design - Vertiefung Ästhetische Bildung und Soziokultur",
           "institutional_group_name": "DKV_FAE_BAE_VAS.alle"
         },
         "VBG": {
           "institutional_group_id": "126658.alle",
-          "name": "Bachelor Vermittlung von Kunst und Design - Vertiefung Bildnerisches Gestalten an Maturit�tsschulen",
+          "name": "Bachelor Vermittlung von Kunst und Design - Vertiefung Bildnerisches Gestalten an Maturitätsschulen",
           "institutional_group_name": "DKV_FAE_BAE_VBG.alle"
         }
       },
@@ -410,16 +410,16 @@
     },
     "FSPTR": {
       "institutional_group_id": "107710.alle",
-      "name": "FSP Transdisziplinarit�t",
+      "name": "FSP Transdisziplinarität",
       "institutional_group_name": "DKV_FSPTR.alle"
     },
     "FTR": {
       "institutional_group_id": "68796.alle",
-      "name": "Fachrichtung Transdisziplinarit�t",
+      "name": "Fachrichtung Transdisziplinarität",
       "institutional_group_name": "DKV_FTR.alle",
       "MTR": {
         "institutional_group_id": "68797.alle",
-        "name": "Master in Transdisziplinarit�t",
+        "name": "Master in Transdisziplinarität",
         "institutional_group_name": "DKV_FTR_MTR.alle"
       },
       "ZMO": {
@@ -440,12 +440,12 @@
     },
     "ITH": {
       "institutional_group_id": "57158.alle",
-      "name": "Institut f�r Theorie",
+      "name": "Institut für Theorie",
       "institutional_group_name": "DKV_ITH.alle"
     },
     "MASBKG": {
       "institutional_group_id": "83919.alle",
-      "name": "MAS Bilden K�nste Gesellschaft",
+      "name": "MAS Bilden Künste Gesellschaft",
       "institutional_group_name": "DKV_MASBKG.alle"
     },
     "MASCMS": {
@@ -491,7 +491,7 @@
     "XPP": {
       "XGO": {
         "institutional_group_id": "3043.alle",
-        "name": "Prop�deutikum - Gestalterische Orientierungsstufe",
+        "name": "Propädeutikum - Gestalterische Orientierungsstufe",
         "institutional_group_name": "DKV_XPP_XGO.alle"
       }
     }
@@ -526,7 +526,7 @@
       },
       "CASFTM": {
         "institutional_group_id": "76942.alle",
-        "name": "NDK / CAS Komposition f�r Film, Theater und Medien (FTM)",
+        "name": "NDK / CAS Komposition für Film, Theater und Medien (FTM)",
         "institutional_group_name": "DMU_FMU_CASFTM.alle"
       },
       "MKT": {
@@ -536,7 +536,7 @@
       },
       "MMP": {
         "institutional_group_id": "64306.alle",
-        "name": "Master Musikp�dagogik",
+        "name": "Master Musikpädagogik",
         "institutional_group_name": "DMU_FMU_MMP.alle"
       },
       "MPE": {
@@ -642,7 +642,7 @@
     },
     "MASMV": {
       "institutional_group_id": "74923.alle",
-      "name": "MAS Musikvermittlung und Konzertp�dagogik",
+      "name": "MAS Musikvermittlung und Konzertpädagogik",
       "institutional_group_name": "DMU_MASMV.alle"
     },
     "PHD": {
