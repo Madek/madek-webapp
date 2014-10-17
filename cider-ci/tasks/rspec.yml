@@ -150,7 +150,11 @@
 - name: features meta_data
   scripts:
     rspec:
-      body: bundle exec rspec "spec/features/meta_data_spec.rb"
+      body: bundle exec rspec "spec/features/meta_data/meta_data_spec.rb"
+- name: features meta_data_institutional_groups
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/features/meta_data/meta_data_institutional_groups_spec.rb"
 - name: features search transfer_meta_datum_people
   scripts:
     rspec:
