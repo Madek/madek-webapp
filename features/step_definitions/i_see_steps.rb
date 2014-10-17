@@ -192,7 +192,7 @@ Then /^I see new content$/ do
 end
 
 Then /^I see page for the resource$/ do
-  expect(find(".app-body-title h1").text).to eq @resource.title
+  expect(find(".app-body-title h1", text: @resource.title)).to be
 end
 
 ### I see the ###########

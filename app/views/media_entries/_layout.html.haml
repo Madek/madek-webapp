@@ -7,7 +7,9 @@
     .app-body-title
       .ui-body-title
         .ui-body-title-label
-          %h1.title-xl= @media_entry.title
+          %h1.title-xl
+            %i.icon-media-entry
+            = @media_entry.title
         
         = render :partial => "media_entries/actions"
         = render :partial => "media_entries/export"

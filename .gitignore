@@ -42,6 +42,7 @@ db/sphinx/
 db/test_structure.sql
 deb/seeds.rb
 dev/node_modules/
+design/icon-font-sources/*.svg
 doc/api/yard
 log/*.log
 log/searchd.development.pid

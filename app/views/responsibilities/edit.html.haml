@@ -8,6 +8,7 @@
       .ui-body-title
         .ui-body-title-label
           %h1.title-xl
+            %i.icon-lock
             #{_"Transfer responsibility of"} 
             - if @media_resources.count == 1
               "#{@media_resources.first.title}" 

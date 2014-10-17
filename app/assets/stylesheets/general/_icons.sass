@@ -12,7 +12,7 @@
   -moz-osx-font-smoothing: grayscale
 
 // match our icons as well as generic font-awesome
-[class*="icon-"], .fa[class*="fa-"]
+[class*="icon-"], [class*="fa-"]
   font-size: 16px
 
   &.bright
@@ -38,6 +38,10 @@
 .active > .icon-star-empty:before,
 .icon-star:before
   content: "\e614"
+
+// Icon Aliases
+.icon-filter-set
+  @extend .icon-filter
 
 // Goodies from font awesome
 .icon-fixed-width 
