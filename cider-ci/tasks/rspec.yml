@@ -179,6 +179,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/features/explore/catalog_categories_spec.rb"
+- name: features explore explore
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/features/explore/explore_spec.rb"
 - name: helpers app_admin media_sets_helper
   scripts:
     rspec:

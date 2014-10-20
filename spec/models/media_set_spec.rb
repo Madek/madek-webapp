@@ -110,6 +110,20 @@ describe MediaSet do
       end
     end
 
+    context "special media sets" do
+      it "should return randomized image for it's categories" do
+        srand 123
+        MediaSet.all.each do |ms|
+          if ms.try(:category).present?
+            @file1 = ms.categories.first.get_media_file 
+            @file2 = ms.categories.first.get_media_file
+            @file1.should_not == @file2
+          end
+        end
+      end
+    end
+
+
   end
   
   describe "the size of a media set" do
@@ -135,5 +149,5 @@ describe MediaSet do
     end
 
   end
-
+  
 end
