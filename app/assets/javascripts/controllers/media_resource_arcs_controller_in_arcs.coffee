@@ -27,9 +27,13 @@ class MediaResourceArcsController.InArcs
     @form.on "change", "input", @change
 
   fetch: -> @mediaSet.fetchArcs (data)=>
-    @paginator.start {ids: _.map @mediaSet.arcs, (arc)-> arc.child_id},
-      meta_data:
-        context_ids: ["core"]
+    if @mediaSet.arcs.length > 0
+      @paginator.start {ids: _.map @mediaSet.arcs, (arc)-> arc.child_id},
+        meta_data:
+          context_ids: ["core"]
+    else
+      @mediaSet.setChildren ["",""]
+      do @render
 
   render: ->
     template = App.render "media_resource_arcs/selection", 
