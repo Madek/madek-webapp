@@ -25,7 +25,7 @@ class InstitutionalGroup < Group
   end
 
   def to_s
-    "#{name} (#{institutional_group_name})"
+    "#{name} (#{attributes})"
   end
 
   def to_limited_s(n = 80)
