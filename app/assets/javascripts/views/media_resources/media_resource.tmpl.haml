@@ -12,9 +12,7 @@
   .ui-resource-body
     .ui-resource-thumbnail
       %div{:class => "ui-thumbnail ${type} ${media_type}"}
-        {{if type.match("set")}}
-        {{tmpl App.renderPath("media_sets/thumbnail_level_up")}}
-        {{/if}}
+        {{tmpl App.renderPath("media_resources/thumbnail_level_up")}}
         {{tmpl App.renderPath("media_resources/privacy")}}
         %a.ui-thumbnail-image-wrapper{:href => "/media_resources/${id}"}
           .ui-thumbnail-image-holder

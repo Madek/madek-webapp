@@ -147,6 +147,10 @@
   scripts:
     rspec:
       body: bundle exec rspec "spec/features/io_mappings/io_mappings_spec.rb"
+- name: features media_resources_index
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/features/media_resources/media_resources_index_spec.rb"
 - name: features meta_data
   scripts:
     rspec:

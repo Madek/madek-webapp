@@ -20,6 +20,13 @@ def find_input_with_name name
   find("textarea,input[name='#{name}']")
 end
 
+# firefox only! - needs browser driver to support it
+def move_mouse_over element
+  page.driver.browser.action.move_to(element.native).perform
+  # it's gonna be easier in capybara < 2.1
+  # element.hover
+end
+
 def sign_in_as login, password= 'password'
   visit "/"
   find("input[name='login']").set(login)

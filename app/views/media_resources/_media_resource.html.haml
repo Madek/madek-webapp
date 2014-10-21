@@ -25,7 +25,7 @@
   .ui-resource-body
     .ui-resource-thumbnail
       %div{:class => "ui-thumbnail #{type} #{media_type}"}
-        = render :partial => "media_sets/thumbnail_level_up" if media_resource.type.match("Set")
+        = render :partial => "media_resources/thumbnail_level_up"
         .ui-thumbnail-privacy
           = render :partial => "media_resources/privacy", :locals => {:media_resource => media_resource}
         %a.ui-thumbnail-image-wrapper{:href => type != "media-entry-incomplete" ? link : nil}

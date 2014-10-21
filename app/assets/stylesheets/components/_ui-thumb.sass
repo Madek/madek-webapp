@@ -83,11 +83,11 @@
 .ui-thumbnail-level-up-items,
 .ui-thumbnail-level-down-items
   +micro-clearfix
+  display: none
   border-style: solid
   background-image: image-url("backgrounds/container-midtone-darker.png")
   background-size: 29px 29px
   border-color: $darken
-  display: none
   left: 0
   padding: $space-s $space-x
   position: absolute
@@ -188,6 +188,7 @@
   &:after
     border-bottom-color: #ffffff
     bottom: -1px
+    box-shadow: 0 1px 0 white
   &:before
     border-color: rgba(255, 255, 255, 0)
     border-bottom-color: $darken
@@ -200,6 +201,7 @@
   &:before
     border-color: rgba(255, 255, 255, 0)
     border-top-color: $darken
+    box-shadow: 0 -1px 0 white
     top: -1px
 
 // Set thumbs' extra elements - thumbnails

@@ -1,7 +1,7 @@
 /**
  * ## Media Resources Grid Mode `.ui-resources.grid`
  *
- * .active    - To be interacted with
+ * .active - To be interacted with
  *
  * Styleguide 7.9.1
 
@@ -74,36 +74,31 @@
 .grid.active
   .ui-thumbnail-privacy
     display: block
+  .ui-thumbnail.video .ui-thumbnail-image-wrapper
+    background: $white image-url("backgrounds/thumb-video-backg.png") 0 0px no-repeat
+  
   // Show / Hide on hover
-  .ui-thumbnail.media-set:hover,
-  .ui-thumbnail.filter-set:hover,
-  .ui-thumbnail.media-entry-incomplete:hover,
-  .ui-thumbnail.media-entry:hover
+  .ui-thumbnail:hover
     .ui-thumbnail-actions
       display: block
     .ui-thumbnail-meta-subtitle
       display: none
-  .ui-thumbnail.media-set:hover .ui-thumbnail-level-up-items,
-  .ui-thumbnail.media-set:hover .ui-thumbnail-level-down-items,
-  .ui-thumbnail.filter-set:hover .ui-thumbnail-level-up-items,
-  .ui-thumbnail.filter-set:hover .ui-thumbnail-level-down-items
-    display: block
+    .ui-thumbnail-level-up-items,
+    .ui-thumbnail-level-down-items
+      display: block
+      
   // Hover and active states styles (backgrounds, shadows and such)
+  // most have background, shadow, no border-radius:
   .ui-thumbnail:hover
+    background: $white
     +box-shadow(0 0 3px $darken-more)
-  .ui-thumbnail.media-entry:hover,
+  // only has level-up-top, so it gets border-radius on bottom:
+  .ui-thumbnail.media-entry:hover
+    +border-bottom-radius($border-radius-m)
+  // has NO level-up, so it gets border-radius all around:
   .ui-thumbnail.media-entry-incomplete:hover
+    background: $white
     +border-radius($border-radius-m)
-    background: $white
-  .ui-thumbnail.media-set:hover,
-  .ui-thumbnail.filter-set:hover
-    +box-shadow(0 0 3px $darken-more)
-    background: $white
-  .ui-thumbnail.media-catalog:hover
-    +border-radius($border-radius-m)
-    background: $white
-  .ui-thumbnail.video .ui-thumbnail-image-wrapper
-    background: $white image-url("backgrounds/thumb-video-backg.png") 0 0px no-repeat
 
 // Media Queries
 
