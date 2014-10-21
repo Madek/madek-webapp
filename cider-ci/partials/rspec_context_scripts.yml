@@ -12,10 +12,18 @@ setup_database:
 setup_madek:
   order: 4
   body: bundle exec rake madek:setup:dirs 
-rspec:
+startx:
   order: 5
+  body: tightvncserver ":$XVNC_PORT"  -geometry 1024x768 -rfbport "$XVNC_PORT" -interface 127.0.0.1
+rspec:
+  order: 6
+  body: export DISPLAY=":$XVNC_PORT"
 drop_test_db: 
   order: 8
   type: post_process
   body: bundle exec rake db:drop
+stopx: 
+  order: 9
+  type: post_process
+  body: tightvncserver -kill ":$XVNC_PORT" -clean
 
