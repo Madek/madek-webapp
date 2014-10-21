@@ -44,12 +44,12 @@ feature 'MediaResource' do
     expect(resources.length).to be > 0
 
     # There is a Media Set, with a working overlay on top and bottom
-    media_set = list.find('[data-type="media-set"]')
+    media_set = list.all('[data-type="media-set"]').last
     check_hover_overlay(media_set, 'top')
     check_hover_overlay(media_set, 'bottom')
 
     # There is a Media Entry, with a working overlay on top
-    media_entry = list.find('[data-type="media-entry"]')
+    media_entry = list.all('[data-type="media-entry"]').last
     check_hover_overlay(media_entry, 'top')
   end
 
@@ -57,13 +57,15 @@ feature 'MediaResource' do
   def check_hover_overlay(resource, placement = 'top')
     level = placement == 'top' ? 'up' : 'down'
     heading_str = placement == 'top' ? 'Übergeordnete Sets' : 'Set enthält'
-    # Hover over resource.
+    # Hover over resource, give time to render
     move_mouse_over resource
+    sleep 1
     # Overlay is visible,
     overlay = resource.find(".ui-thumbnail-level-#{level}-items", visible: true)
     expect(overlay).to be
     # and has the correct (dynamically rendered) heading inside
-    heading = overlay.find('h3.ui-thumbnail-level-notes', visible: true).text
+    # binding.pry
+    heading = overlay.find('h3.ui-thumbnail-level-notes').text
     expect(heading).to eq heading_str
   end
 
