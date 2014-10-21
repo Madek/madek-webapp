@@ -70,13 +70,7 @@
   // Video entries get pellicola background
   .ui-thumbnail.video .ui-thumbnail-image-wrapper
     background: $white image-url("backgrounds/thumb-video-backg-small.png") 0 0px no-repeat
-  // Hiding stuff unnecessary in Miniature view
-  .ui-thumbnail-level-up-items,
-  .ui-thumbnail-level-down-items,
-  .ui-thumbnail-meta,
-  .ui-thumbnail-actions
-    display: none
-
+    
   // Some nasty layouting adjustments
   .ui-resources-page
     margin: 5px 0 0 0
@@ -97,10 +91,6 @@
   position: absolute
   top: 0
   z-index: 1000
-  .ui-thumbnail.media-entry,
-  .ui-thumbnail.media-entry-incomplete
-    +border-radius($border-radius-m)
-    background: $white
 
 /*
  * Media queries
