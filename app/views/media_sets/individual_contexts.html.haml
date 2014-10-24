@@ -1,54 +1,53 @@
 - content_for :content do
+
+  .ui-container.bright.rounded-right.rounded-bottom.pal
   
-  .ui-container.rounded-right.rounded-bottom.tab-content.bordered
-    .ui-container.bright.pal.rounded-top
-    
-      %p.mbm
-        = n_("Für dieses Set ist %d Vokabular verfügbar.", "Für dieses Set sind %d Vokabulare verfügbar.", @individual_contexts.count) % [@individual_contexts.count]
-        = n_("Davon ist %d aktiviert.", "Davon sind %d aktiviert.", @count_enabled_contexts) % [@count_enabled_contexts]
+    %p.mbm
+      = n_("Für dieses Set ist %d Vokabular verfügbar.", "Für dieses Set sind %d Vokabulare verfügbar.", @individual_contexts.count) % [@individual_contexts.count]
+      = n_("Davon ist %d aktiviert.", "Davon sind %d aktiviert.", @count_enabled_contexts) % [@count_enabled_contexts]
 
-      .row
+    .row
 
-        .col2of3
-          - if @individual_contexts.count === 1 # no dropdown if just 1 thing
-            -#                                                                 FIXME: inline > css
-            %h2.dropdown-toggle.ui-drop-toggle.title-l.separated.light.link.mbm{"style" => "text-decoration:none"}
+      .col2of3
+        - if @individual_contexts.count === 1 # no dropdown if just 1 thing
+          -#                                                                 FIXME: inline > css
+          %h2.dropdown-toggle.ui-drop-toggle.title-l.separated.light.link.mbm{"style" => "text-decoration:none"}
+            =(@context.label || @context.id)
+        - else
+          .dropdown.ui-dropdown
+            %h2.dropdown-toggle.ui-drop-toggle.title-l.separated.light.mbm{"data-toggle" => "dropdown", 
+                                                                class: @context.enabled ? 'link' : 'weak'}
               =(@context.label || @context.id)
-          - else
-            .dropdown.ui-dropdown
-              %h2.dropdown-toggle.ui-drop-toggle.title-l.separated.light.mbm{"data-toggle" => "dropdown", 
-                                                                  class: @context.enabled ? 'link' : 'weak'}
-                =(@context.label || @context.id)
-                %i.icon-arrow-down
-              %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", role: "menu", style: "top: 100%; bottom: auto;"}
-                - (@individual_contexts-[@context]).each do |context|
-                  %li.ui-drop-item
-                    %a{class: context.enabled ? '' : 'disabled', href: context_media_set_path(@media_set.id, context.id)}
-                      = (context.label || context.id)
-          
-          %p.paragraph-l= @context.description
-
-        .col1of3.by-right
-          - if @can_edit
-            - if @context.enabled
-              - if @context.inherited
-                =link_to disable_context_media_set_path(@media_set, @context), method: :put, class: 'button' do
-                  %i.icon-close
-                  =_('Deaktivieren')
-              - else
-                %button.button{:'data-toggle' => "modal", :'data-target' => ".modal[data-confirm-delete=\"#{@context.id}\"]"}
-                  %i.icon-trash
-                  =_('Entfernen')
-            - else
-              =link_to enable_context_media_set_path(@media_set, @context), method: :put, class: 'button' do
-                %i.icon-checkmark
-                =_('Aktivieren')
+              %i.icon-arrow-down
+            %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", role: "menu", style: "top: 100%; bottom: auto;"}
+              - (@individual_contexts-[@context]).each do |context|
+                %li.ui-drop-item
+                  %a{class: context.enabled ? '' : 'disabled', href: context_media_set_path(@media_set.id, context.id)}
+                    = (context.label || context.id)
         
-          %a.button.mls{href: context_path(@context.id)}
-            %i.icon-eye
-            Vokabular anzeigen
-    
-    = render :partial => "vocabulary/vocabulary"
+        %p.paragraph-l= @context.description
+
+      .col1of3.by-right
+        - if @can_edit
+          - if @context.enabled
+            - if @context.inherited
+              =link_to disable_context_media_set_path(@media_set, @context), method: :put, class: 'button' do
+                %i.icon-close
+                =_('Deaktivieren')
+            - else
+              %button.button{:'data-toggle' => "modal", :'data-target' => ".modal[data-confirm-delete=\"#{@context.id}\"]"}
+                %i.icon-trash
+                =_('Entfernen')
+          - else
+            =link_to enable_context_media_set_path(@media_set, @context), method: :put, class: 'button' do
+              %i.icon-checkmark
+              =_('Aktivieren')
+      
+        %a.button.mls{href: context_path(@context.id)}
+          %i.icon-eye
+          Vokabular anzeigen
+  
+  = render :partial => "vocabulary/vocabulary"
 
 = render :partial => "media_sets/layout"
 

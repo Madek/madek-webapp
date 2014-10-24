@@ -1,27 +1,6 @@
-.app.view-media-entry
+- content_for :content do
 
-  = render "application/header"
+  .ui-container.bright.pal.rounded-right.rounded-bottom
+    = render :partial => "media_entries/contexts", :locals => {:contexts => @contexts}
 
-  .app-body
-
-    .app-body-title
-      .ui-body-title
-        .ui-body-title-label
-          %h1.title-xl
-            %i.icon-media-entry
-            = @media_entry.title
-        
-        = render :partial => "media_entries/actions"
-
-    .app-body-ui-container
-
-      = render :partial => "media_entries/tabs"
-
-      .ui-container.rounded-right.rounded-bottom.bordered.tab-content
-
-        .bright.ui-container.pal.rounded-bottom
-
-          = render :partial => "media_entries/contexts", :locals => {:contexts => @contexts}
-
-  .app-footer-push
-= render :partial => "application/footer"
+= render "media_entries/layout"

@@ -43,13 +43,14 @@
           .mts.by-right= render :partial => "login_action"
 
     .app-body-ui-container
-      .bordered.midtone.ui-container.rounded
+      .bordered.midtone.ui-container.rounded-right.rounded-bottom
 
         #ui-resources-list-container.app-body-content
 
           = render :partial => "media_resources/list/toolbar",
-                   :locals => {:title => _("Search result"),
-                               :subtitle => _(%Q[<span id="result_count">%d</span> content elements] % @result_count_for_term)}
+                   :locals => {title: _("Search result"),
+                               subtitle: _(%Q[<span id="result_count">%d</span> content elements] % @result_count_for_term),
+                               extra_class: 'rounded-top-right'}
 
           = render :partial => "media_resources/list/filterbar",
                    :locals => {:show_filterbar => true}
@@ -59,7 +60,7 @@
             .ui-container.table.auto
 
               = render :partial => "media_resources/list/filter",
-                   :locals => {:show_filterbar => true}
+                   :locals => {show_filterbar: true}
 
               .ui-container.table-cell.table-substance
 

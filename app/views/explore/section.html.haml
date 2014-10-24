@@ -16,15 +16,16 @@
         .ui-body-title-actions= render :partial => "login_action"
 
     .app-body-ui-container
-      .bordered.ui-container.midtone.rounded.table
+      .bordered.ui-container.midtone.table.rounded-right.rounded-bottom
 
         = render :partial => "application/sidebar/explore"
 
         #ui-resources-list-container.app-body-content.table-cell.table-substance.ui-container
 
           = render :partial => "media_resources/list/toolbar", 
-                   :locals => {:title => _("Section contains"),
-                               :subtitle => _("%d content elements") % [@current_section[:count]]}
+                   :locals => {title: _("Section contains"),
+                               subtitle: _("%d content elements") % [@current_section[:count]],
+                               extra_class: 'rounded-top-right'}
 
           = render :partial => "media_resources/list/filterbar"
 

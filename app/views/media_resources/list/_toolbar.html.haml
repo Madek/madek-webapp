@@ -18,9 +18,9 @@
 
   actions = (defined? actions and actions)
 
-  additional_class ||= nil
+  extra_class ||= nil
 
-.ui-container.inverted.ui-toolbar.pvx{:class => additional_class}
+.ui-container.inverted.ui-toolbar.pvx{:class => extra_class}
   %h2.ui-toolbar-header.pls
     = title if title
     != subtitle if subtitle

@@ -25,79 +25,77 @@
         = render :partial => "media_resources/selection",
                  :locals => {:media_resources => @media_resources.limit(100)}
 
-      .ui-container.bordered.bright.rounded
+      .ui-container.bordered.bright.rounded-right.rounded-bottom.pal
 
-        .pal
+        =form_tag transfer_responsibilities_path, id: "responsibility" ,method: 'POST' do
 
-          =form_tag transfer_responsibilities_path, id: "responsibility" ,method: 'POST' do
+          =hidden_field_tag :media_resource_id, params[:media_resource_id]
+          =hidden_field_tag :collection_id, params[:collection_id]
 
-            =hidden_field_tag :media_resource_id, params[:media_resource_id]
-            =hidden_field_tag :collection_id, params[:collection_id]
+          .form-body
+            .ui-form-group.rowed.minimal
+              %fieldset
+                %label{for: "autocomplete_user", class: "form-label title-l mbs"}
+                  .title-l.pbm Verantwortlichkeit auf folgende Person übertragen
+                  -#=text_field_tag :user, nil, class: "block", placeholder: "Id des Benutzers"
+                .form-item
+                  =text_field_tag :user, nil, class: "col1of2", placeholder: "Nachname, Vorname [login]"
+            .ui-form-group.rowed.minimal.mtm
+              %fieldset.userpermission
+                .ui-rights-management.compact
+                  .ui-rights-body
+                    %table.ui-rights-group
+                      %caption Die vorherige verantwortliche Person erhält folgende Berechtigungen
+                      %tbody
+                        %td.ui-rights-role
+                          -# TODO how to make custom select element work here?
+                          =select :premission, :presets, PermissionPreset.all.collect{|p| [p.name, Hash[%w(view download edit manage).map{|perm|["userpermission_#{perm}",p[perm]]}]]} << [_("Custom"),'custom'], {}, class: 'hidden'
+                        %td.ui-rights-check.view
+                          %label
+                            =check_box :userpermission, :view, {checked: true}
+                            =_"View"
+                        %td.ui-rights-check.download
+                          %label
+                            =check_box :userpermission, :download, {checked: true}
+                            =_"Download"
+                        %td.ui-rights-check.edit
+                          %label
+                            =check_box :userpermission, :edit, {checked: true}
+                            =_"Edit"
+                        %td.ui-rights-check.manage
+                          %label
+                            =check_box :userpermission, :manage, {checked: true}
+                            =_"Manage"
 
-            .form-body
-              .ui-form-group.rowed.minimal
-                %fieldset
-                  %label{for: "autocomplete_user", class: "form-label title-l mbs"}
-                    .title-l.pbm Verantwortlichkeit auf folgende Person übertragen
-                    -#=text_field_tag :user, nil, class: "block", placeholder: "Id des Benutzers"
-                  .form-item
-                    =text_field_tag :user, nil, class: "col1of2", placeholder: "Nachname, Vorname [login]"
-              .ui-form-group.rowed.minimal.mtm
-                %fieldset.userpermission
-                  .ui-rights-management.compact
-                    .ui-rights-body
-                      %table.ui-rights-group
-                        %caption Die vorherige verantwortliche Person erhält folgende Berechtigungen
-                        %tbody
-                          %td.ui-rights-role
-                            -# TODO how to make custom select element work here?
-                            =select :premission, :presets, PermissionPreset.all.collect{|p| [p.name, Hash[%w(view download edit manage).map{|perm|["userpermission_#{perm}",p[perm]]}]]} << [_("Custom"),'custom'], {}, class: 'hidden'
-                          %td.ui-rights-check.view
-                            %label
-                              =check_box :userpermission, :view, {checked: true}
-                              =_"View"
-                          %td.ui-rights-check.download
-                            %label
-                              =check_box :userpermission, :download, {checked: true}
-                              =_"Download"
-                          %td.ui-rights-check.edit
-                            %label
-                              =check_box :userpermission, :edit, {checked: true}
-                              =_"Edit"
-                          %td.ui-rights-check.manage
-                            %label
-                              =check_box :userpermission, :manage, {checked: true}
-                              =_"Manage"
+            / %p.title-s-alt Sie erhalten die folgende Zugriffsberechtigungen
 
-              / %p.title-s-alt Sie erhalten die folgende Zugriffsberechtigungen
+            / %label
+            /   =select :premission, :presets, PermissionPreset.all.collect{|p| [p.name, Hash[%w(view download edit manage).map{|perm|["userpermission_#{perm}",p[perm]]}]]} << [_("Custom"),'custom'], {}, class: 'hidden'
 
-              / %label
-              /   =select :premission, :presets, PermissionPreset.all.collect{|p| [p.name, Hash[%w(view download edit manage).map{|perm|["userpermission_#{perm}",p[perm]]}]]} << [_("Custom"),'custom'], {}, class: 'hidden'
+            / %label
+            /   =check_box :userpermission, :view, {checked: true}
+            /   =_"View"
 
-              / %label
-              /   =check_box :userpermission, :view, {checked: true}
-              /   =_"View"
+            / %label
+            /   =check_box :userpermission, :download, {checked: true}
+            /   =_"Download"
 
-              / %label
-              /   =check_box :userpermission, :download, {checked: true}
-              /   =_"Download"
+            / %label
+            /   =check_box :userpermission, :edit, {checked: true}
+            /   =_"Edit"
 
-              / %label
-              /   =check_box :userpermission, :edit, {checked: true}
-              /   =_"Edit"
+            / %label
+            /   =check_box :userpermission, :manage, {checked: true}
+            /   =_"Manage"
 
-              / %label
-              /   =check_box :userpermission, :manage, {checked: true}
-              /   =_"Manage"
+          .form-footer
+            .ui-actions
 
-            .form-footer
-              .ui-actions
+              = link_to @back_link, class: "link weak", title: _("Cancel") do
+                = _("Cancel")
 
-                = link_to @back_link, class: "link weak", title: _("Cancel") do
-                  = _("Cancel")
-
-                = button_tag type: 'submit' , class: "primary-button large" do
-                  Übertragen
+              = button_tag type: 'submit' , class: "primary-button large" do
+                Übertragen
 
   .app-footer-push
 = render :partial => "application/footer", :locals => {:clipboard => false}

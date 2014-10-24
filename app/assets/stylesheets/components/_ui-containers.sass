@@ -98,20 +98,34 @@
 
 // Rounded ui-containers
 
-.ui-container.rounded
-  +border-radius($border-radius-m)
+.ui-container
+  &.rounded
+    +border-radius($border-radius-m)
 
-.ui-container.rounded-top
-  +border-top-radius($border-radius-m)
+  &.rounded-top
+    +border-top-radius($border-radius-m)
 
-.ui-container.rounded-bottom
-  +border-bottom-radius($border-radius-m)
+  &.rounded-bottom
+    +border-bottom-radius($border-radius-m)
 
-.ui-container.rounded-left
-  +border-left-radius($border-radius-m)
+  &.rounded-left
+    +border-left-radius($border-radius-m)
 
-.ui-container.rounded-right
-  +border-right-radius($border-radius-m)
+  &.rounded-right
+    +border-right-radius($border-radius-m)
+
+  &.rounded-top-left
+    +border-top-left-radius($border-radius-m)
+
+  &.rounded-top-right
+    +border-top-right-radius($border-radius-m)
+
+  &.rounded-bottom-left
+    +border-bottom-left-radius($border-radius-m)
+
+  &.rounded-bottom-right
+    +border-bottom-right-radius($border-radius-m)
+
 
 // Table-layout ui-containers
 

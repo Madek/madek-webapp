@@ -39,14 +39,15 @@
                   = _("Show connections")
 
     .app-body-ui-container
-      .bordered.ui-container.midtone.rounded.table
+      .bordered.ui-container.midtone.table.rounded-right.rounded-bottom
 
         = render :partial => "application/sidebar/my_archive"
 
         #ui-resources-list-container.app-body-content.table-cell.table-substance.ui-container
 
           = render :partial => "media_resources/list/toolbar",
-                   :locals => {:subtitle => subtitle}
+                   :locals => {subtitle: subtitle,
+                               extra_class: 'rounded-top-right'}
 
           = render :partial => "media_resources/list/filterbar"
 

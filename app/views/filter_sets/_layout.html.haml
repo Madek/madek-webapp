@@ -17,7 +17,8 @@
 
       = render "filter_sets/tabs"
 
-      = yield :content
+      .ui-container.tab-content.bordered.rounded-right.rounded-bottom
+        = yield :content
 
   .app-footer-push
 = render :partial => "application/footer"

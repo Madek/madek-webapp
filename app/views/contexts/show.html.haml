@@ -1,14 +1,13 @@
 - content_for :content do
   
-  .ui-container.rounded-right.rounded-bottom.tab-content
-    .ui-container.bright.bordered.pal
-      - if @context.description
-        .row
-          .col2of3
-            %p.paragraph-l= @context.description
-  
-    .ui-container.midtone.bordered.rounded-bottom
-      = render :partial => "vocabulary/vocabulary"
+  .ui-container.bright.pal.rounded-top-right
+    - if @context.description
+      .row
+        .col2of3
+          %p.paragraph-l= @context.description
+
+  .ui-container.midtone.rounded-bottom
+    = render :partial => "vocabulary/vocabulary"
 
 = render :partial => "contexts/layout"
 

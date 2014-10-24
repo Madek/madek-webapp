@@ -13,7 +13,7 @@
 
     .app-body-ui-container
 
-      .bordered.ui-container.midtone.rounded.mbm
+      .bordered.ui-container.midtone.rounded-right.rounded-bottom.mbm
 
         = render :partial => "media_resources/selection",
                  :locals => {:media_resources => @media_entries}
@@ -24,18 +24,16 @@
 
         = render :partial => "media_resources/edit/tabs"
 
-        .bordered.ui-container.tab-content.bright.rounded-bottom.rounded-right
+        .ui-container.tab-content.bordered.bright.rounded-right.rounded-bottom
 
-          .phl.ptl
-            .ui-container.table
+          .ui-container.phl.ptl
 
-              .app-body-content.table-cell.ui-container.table-substance.ui-container
-                .prl
-                  = render :partial => "media_resources/edit/contexts"
+            .app-body-content.table-cell.ui-container.table-substance.ui-container
+              = render :partial => "media_resources/edit/contexts"
 
-              .app-body-sidebar.table-cell.ui-container.table-side
-                .ui-container.bordered.rounded
-                  = render :partial => "media_entries/edit_multiple/legend"
+            .app-body-sidebar.table-cell.ui-container.table-side.pll
+              .ui-container.bordered.rounded
+                = render :partial => "media_entries/edit_multiple/legend"
 
           .ui-actions.phl.pbl.mtl
             %a.link.weak{:href => root_path}

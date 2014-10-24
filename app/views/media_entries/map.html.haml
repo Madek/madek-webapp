@@ -1,25 +1,28 @@
-.app.view-media-entry
+- content_for :content do
 
-  = render "application/header"
+  .ui-container.bright.pal.rounded-right.rounded-bottom
 
-  .app-body
+    #ui-map-canvas.ui-map
 
-    .app-body-title
-      .ui-body-title
-        .ui-body-title-label
-          %h1.title-xl
-            %i.icon-media-entry
-            = @media_entry.title
-        
-        = render :partial => "media_entries/actions"
+  :coffeescript
 
-    .app-body-ui-container
+    window._initalize_map = ->
+      latlng = new google.maps.LatLng "#{@lat}", "#{@lng}"
+      myOptions =
+        zoom: 14
+        center: latlng
+        mapTypeId: google.maps.MapTypeId.HYBRID
 
-      = render :partial => "media_entries/tabs"
+      map = new google.maps.Map(document.getElementById("ui-map-canvas"), myOptions)
+      marker = new google.maps.Marker
+        position: latlng
+        map: map
+        title: "#{@media_entry.to_s}"
 
-      .ui-container.rounded-right.rounded-bottom.bordered.tab-content
+    $(document).ready ->
+      script = document.createElement("script")
+      script.type = "text/javascript"
+      script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=_initalize_map"
+      document.body.appendChild script
 
-        = render :partial => "media_entries/map"
-
-  .app-footer-push
-= render :partial => "application/footer"
+= render "media_entries/layout"

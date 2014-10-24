@@ -2,7 +2,7 @@
 
   .tab-pane{:class => i == 0 ? "active" : "", :id => context.id}
 
-    - if context.description
+    - if context.description && context.description.length > 0
       %h2.title-s.pbs.limited-width-l= context.description
       .separator
 
