@@ -243,6 +243,7 @@ class ApplicationController < ActionController::Base
           (request[:controller] == "media_entries" and request[:action] == "relations") or
           (request[:controller] == "media_entries" and request[:action] == "context_group") or
           (request[:controller] == "media_entries" and request[:action] == "more_data") or
+          (request[:controller] == "custom_urls" and request[:action] == "index") or
           (request[:controller] == "media_sets" and request[:action] == "show") or 
           (request[:controller] == "media_sets" and request[:action] == "parents") or
           (request[:controller] == "media_sets" and request[:action] == "relations") or

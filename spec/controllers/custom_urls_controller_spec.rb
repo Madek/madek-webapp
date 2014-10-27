@@ -20,10 +20,10 @@ describe CustomUrlsController do
       response.should be_success
     end
 
-    it "raises NotAuthorized if the requester doesn't have view permission" do
+    it "raises UserForbiddenError if the requester doesn't have view permission" do
       expect {
         get :index, {id: @media_set1.id}, valid_session(@user2)
-      }.to raise_exception(NotAuthorized)
+      }.to raise_error
     end
 
   end
