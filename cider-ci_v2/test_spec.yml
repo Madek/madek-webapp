@@ -1,0 +1,50 @@
+name: Madek Tests 
+
+task_defaults: 
+  eager_trials: 1
+  auto_trials: 2
+  traits:
+    linux: true
+
+subcontexts: 
+
+- name: Meta
+  _cider-ci_include: 'cider-ci_v2/tasks/meta.yml'
+
+- name: Completeness 
+  _cider-ci_include: 'cider-ci_v2/tasks/completeness.yml'
+
+- name: Rails
+  _cider-ci_include: 'cider-ci_v2/partials/rails_task_defaults.yml'
+
+  subcontexts:
+
+  - name: Rspec Plain
+    task_defaults:
+      scripts: 
+        rspec:
+          order: 6
+    _cider-ci_include: 'cider-ci_v2/tasks/rspec-plain.yml'
+
+  - name: Integration 
+    _cider-ci_include: 'cider-ci_v2/partials/rails_integration_task_defaults.yml'
+
+    subcontexts: 
+
+    - name: Rspec Features
+      task_defaults:
+        scripts: 
+          rspec:
+            order: 6
+            timeout: 300
+      _cider-ci_include: 'cider-ci_v2/tasks/rspec-features.yml'
+
+    - name: Cucumber Features
+      task_defaults:
+        scripts: 
+          cucumber:
+            order: 6
+            timeout: 300
+      _cider-ci_include: 'cider-ci_v2/tasks/cucumber-features.yml'
+
+

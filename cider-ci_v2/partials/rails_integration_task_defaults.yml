@@ -1,0 +1,27 @@
+task_defaults: 
+
+  traits:
+    firefox: true
+    phantomjs: true
+    tightvnc: true
+
+  trial_attachments:
+    screenshots: 
+      glob: 'tmp/capybara/*.png'
+      content-type: image/png
+
+  ports: 
+    xvnc_port: 
+      inet_address: "localhost"
+      min: 5900
+      max: 5999
+
+  scripts: 
+    startx:
+      order: 5
+      body: tightvncserver ":$XVNC_PORT"  -geometry 1024x768 -rfbport "$XVNC_PORT"  -interface '127.0.0.1'
+    stopx: 
+      order: 9
+      type: post_process
+      body: tightvncserver -kill ":$XVNC_PORT" -clean
+

@@ -1,0 +1,66 @@
+---
+tasks:
+- name: features admin filter_sets removing_filter_set
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/admin/filter_sets/removing_filter_set_spec.rb"
+- name: features admin users switch_to
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/admin/users/switch_to_spec.rb"
+- name: features batch update_metadata
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/batch/update_metadata_spec.rb"
+- name: features custom_urls custom-urls_not-owner
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/custom_urls/custom-urls_not-owner_spec.rb"
+- name: features explore catalog_categories
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/explore/catalog_categories_spec.rb"
+- name: features explore explore
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/explore/explore_spec.rb"
+- name: features filter_set filter_set
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/filter_set/filter_set_spec.rb"
+- name: features groups search_group_related_media
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/groups/search_group_related_media_spec.rb"
+- name: features io_interfaces io_interfaces
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/io_interfaces/io_interfaces_spec.rb"
+- name: features io_mappings io_mappings
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/io_mappings/io_mappings_spec.rb"
+- name: features media_resources media_resources_index
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/media_resources/media_resources_index_spec.rb"
+- name: features meta_data meta_data_institutional_groups
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/meta_data/meta_data_institutional_groups_spec.rb"
+- name: features meta_data meta_data
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/meta_data/meta_data_spec.rb"
+- name: features search transfer_meta_datum_people
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/search/transfer_meta_datum_people_spec.rb"
+- name: features search transfer_meta_term
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/search/transfer_meta_term_spec.rb"
+- name: features search updated_meta_datum
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/search/updated_meta_datum_spec.rb"
