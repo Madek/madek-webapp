@@ -5,10 +5,11 @@
   catalog_set = (defined? catalog_set and catalog_set)
   category_set = (defined? category_set and category_set)
   layout = (defined? layout and layout) || "grid"
+  res_link_type = (defined? res_link_type and res_link_type)
 
 %ul.ui-resources{:class => with_actions ? "active #{layout}" : "#{layout}"}
   - if media_resources.length <= 0
-    %li.ui-resource.mal= _("Keine Einträge gefunden")
+    %li.ui-resource.mal= _("(Keine Inhalte gefunden)")
   - else 
     - media_resources.each do |mr|
       - case as
@@ -21,4 +22,4 @@
                    :locals => {:media_resource => mr, :with_actions => with_actions, :link => media_resource_path(mr.id)}
         - else
           = render :partial => "media_resources/media_resource",
-                   :locals => {:media_resource => mr, :with_actions => with_actions}
+                   :locals => {:media_resource => mr, :with_actions => with_actions, :res_link_type=> res_link_type}

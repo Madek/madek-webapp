@@ -3,10 +3,10 @@
   %li.ui-tabs-item{:class => media_set_show_page? ? "active" : ""}
     %a{:href => media_set_path(@media_set)} Set
 
-  - unless @parents_count.zero?
-    %li.ui-tabs-item{:class => media_set_parents_page? ? "active" : ""}
-      %a{:href => parents_media_set_path(@media_set)}
-        = _("Parent sets")
+  - if @has_any_relations
+    %li.ui-tabs-item{:class => media_set_relations_page? ? "active" : ""}
+      %a{:href => relations_media_set_path(@media_set)}
+        = _("Zusammenhänge")
 
   - unless @individual_contexts.blank?
 

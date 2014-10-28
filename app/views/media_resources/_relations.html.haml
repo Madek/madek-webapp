@@ -1,0 +1,78 @@
+.ui-container.bright.rounded-right.rounded-bottom.pal
+  .row
+    .col4of6
+      %h2.title-m
+        = find_and_preserve @description.split("\n").join('<br>')
+
+    .col2of6
+      %a.primary-button.right
+        %i.icon-vis-graph
+        = _("Visualisierung anzeigen")
+
+-# Parent Sets
+.ui-container.midtone-darker.bordered-bottom.bordered-top.relationships-wrapper
+  .ui-resources-holder{id: "set-relations-parents"}
+    .ui-resources-header.mbn
+      %h2.title-l.ui-resource-title.mtl.mll
+        = _("Übergeordnete Sets")
+        %span.ui-counter= _("(#{@parents[:total]})")
+        %a.strong{:href => 'http://example.com'} 
+          = _("Show all")
+
+    = render :partial => "media_resources/list",
+             :locals => {:media_resources => @parents[:sets],
+                         :layout => 'grid horizontal',
+                         :res_link_type => 'relations',
+                         :with_actions => false}
+  
+-# Self & Sibblings
+.ui-container.relationships-wrapper.relationships-this-wrapper{ class: @is_set ? 'pointing-bottom' : '' }
+
+  -# Self
+  .ui-container.bright.pointing-right.relationships-this.bordered-right{ class: @is_set ? '' : 'rounded-bottom-left' }
+    .pointing-top
+      #set-relations-self.ui-resources-holder
+        .ui-resources-header.mbn
+          %h2.title-l.ui-resource-title.mtl.mll
+            - if @is_set
+              = _("Aktuelles Set")
+            - else
+              = _("Aktueller Eintrag")
+
+        = render :partial => "media_resources/list",
+                 :locals => {:media_resources => [@self],
+                             :layout => 'grid horizontal',
+                             :with_actions => false}
+
+  -# Siblings
+  .ui-container.midtone.relationships-siblings{ class: @is_set ? '' : 'rounded-bottom-right' }
+    .ui-resources-holder{id: "set-relations-siblings"}
+      .ui-resources-header.mbn
+        %h2.title-l.ui-resource-title.mtl.mll
+          = _("Benachbarte Sets")
+          %span.ui-counter= _("(#{@siblings[:total]})")
+          %a.strong{:href => 'http://example.com'} 
+            = _("Show all")
+
+      = render :partial => "media_resources/list",
+               :locals => {:media_resources => @siblings[:sets],
+                           :layout => 'grid horizontal',
+                           :res_link_type => 'relations',
+                           :with_actions => false}
+
+-# Children Sets
+- if @is_set
+  .ui-container.midtone-darker.relationships-wrapper.bordered-top
+    .ui-resources-holder{id: "set-relations-children"}
+      .ui-resources-header.mbn
+        %h2.title-l.ui-resource-title.mtl.mll
+          = _("Untergeordnete Sets")
+          %span.ui-counter= _("(#{@children[:total]})")
+          %a.strong{:href => "/my/media_resources?sort=updated_at"}
+            = _("Alle anzeigen")
+
+      = render :partial => "media_resources/list",
+               :locals => {:media_resources => @children[:sets],
+                           :layout => 'grid horizontal',
+                           :res_link_type => 'relations',
+                           :with_actions => false}

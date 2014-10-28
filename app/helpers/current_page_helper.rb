@@ -105,8 +105,8 @@ module CurrentPageHelper
     current_page? :controller => :media_entries, :action => :more_data
   end
 
-  def media_entry_parents_page?
-    current_page? :controller => :media_entries, :action => :parents
+  def media_entry_relations_page?
+    current_page? :controller => :media_entries, :action => :relations
   end
 
   def media_entry_contexts_page?
@@ -119,8 +119,8 @@ module CurrentPageHelper
     current_page? :controller => :media_sets, :action => :show
   end
 
-  def media_set_parents_page?
-    current_page? :controller => :media_sets, :action => :parents
+  def media_set_relations_page?
+    current_page? :controller => :media_sets, :action => :relations
   end
 
   def media_set_context_page?

@@ -7,7 +7,7 @@ class MediaEntriesController < ApplicationController
   skip_before_filter :login_required, :only => [:document]
 
   before_action :the_messy_before_filter, except: [:show, :document] 
-  before_action :set_instance_vars, :only => [:map, :more_data, :parents, :contexts]
+  before_action :set_instance_vars, :only => [:map, :more_data, :relations, :contexts]
 
   # TODO, what a MESS, this has to go!  
   def the_messy_before_filter 
@@ -99,6 +99,33 @@ class MediaEntriesController < ApplicationController
     @media_entry = find_media_resource 
     raise "Wrong type" unless @media_entry.is_a? MediaEntry
     raise UserForbiddenError unless current_user.try(:authorized?, :view, @media_entry) || @media_entry.view == true
+
+    # here, everything is initialized that we need everywhere (Tabs!)
+
+    # relations stuff – TODO: remove duplication with MediaEntries
+    parent_sets = @media_entry.parent_sets
+      .accessible_by_user(current_user, :view)
+    
+    # siblings: all children of all my parents, excluding myself
+    sibling_sets = parent_sets.map { |parent|
+      parent.child_media_resources
+        .accessible_by_user(current_user, :view)
+        .select { |child|
+          (child.is_a? MediaSet) && (child != @media_entry)
+        }
+    }.flatten
+
+    @parents= {
+      sets: parent_sets.first(12),
+      total: parent_sets.count
+    }
+    @siblings = {
+      sets: sibling_sets.first(12),
+      total: sibling_sets.count
+    }
+    @has_any_relations = [@parents, @siblings].any? { |list|
+      list[:total] > 0
+    }
   end
 
   def show
@@ -133,8 +160,8 @@ class MediaEntriesController < ApplicationController
     @objective_meta_data = [["Filename", @media_entry.media_file.filename]] + @media_entry.media_file.meta_data_without_binary.sort
   end
 
-  def parents
-    @parents = @media_entry.parents.accessible_by_user(current_user,:view)
+  def relations # TODO: some duplication with MediaSets#relations
+    check_and_initialize_for_view
   end
 
   def contexts

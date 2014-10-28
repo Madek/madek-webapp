@@ -4,7 +4,24 @@
   media_type = media_resource.media_type.downcase
   is_editable = current_user.authorized?(:edit, media_resource).to_json
   is_manageable = current_user.authorized?(:manage, media_resource).to_json
-  link = link ? link : media_resource_path(media_resource.id)
+
+  link = (defined? link and link)
+  res_link_type = (defined? res_link_type and res_link_type)
+  
+  unless link
+    link = case res_link_type
+    when 'relations'
+      if media_resource.is_a?(MediaEntry)
+        then relations_media_entry_path(media_resource.id)
+        else relations_media_set_path(media_resource.id)
+      end
+    when 'nolink'
+      nil
+    else
+      media_resource_path(media_resource.id)
+    end
+  end
+  
 
 %li.ui-resource.not-loaded-contexts{:data => {:id => media_resource.id, 
                                               :title => (type == "media-entry-incomplete") ? nil : media_resource.title,
@@ -12,7 +29,7 @@
                                               :media_type => media_type,
                                               :is_editable => is_editable, 
                                               :is_manageable => is_manageable}}
-                                              
+
   - unless type == "media-entry-incomplete"
     .ui-resource-head
       %ul.ui-resource-actions
@@ -22,24 +39,28 @@
           %a.ui-thumbnail-action-favorite{:"data-favor-toggle" => true, :title => _("Add to/remove from favorites")} Favorite
       %h3.ui-resource-title
         = media_resource.title
+
   .ui-resource-body
     .ui-resource-thumbnail
       %div{:class => "ui-thumbnail #{type} #{media_type}"}
         = render :partial => "media_resources/thumbnail_level_up"
         .ui-thumbnail-privacy
           = render :partial => "media_resources/privacy", :locals => {:media_resource => media_resource}
-        %a.ui-thumbnail-image-wrapper{:href => type != "media-entry-incomplete" ? link : nil}
-          .ui-thumbnail-image-holder 
-            .ui-thumbnail-table-image-holder
-              .ui-thumbnail-cell-image-holder
-                .ui-thumbnail-inner-image-holder
-                  %img.ui-thumbnail-image{:src => "/media_resources/#{media_resource.id}/image?size=medium"}
+
+        - if link and type != "media-entry-incomplete"
+          %a.ui-thumbnail-image-wrapper{:href => link}
+            = render partial: 'media_resources/mr_thumbnail', locals: { media_resource: media_resource }
+        - else
+          .ui-thumbnail-image-wrapper
+            = render partial: 'media_resources/mr_thumbnail', locals: { media_resource: media_resource }
+
         - unless type == "media-entry-incomplete"
           .ui-thumbnail-meta
             %h3.ui-thumbnail-meta-title= media_resource.title
             %h4.ui-thumbnail-meta-subtitle= media_resource.author
           = render :partial => "media_resources/actions", :locals => {:media_resource => media_resource} if with_actions
           = render :partial => "media_sets/thumbnail_level_down" if media_resource.type.match("Set")
+
     - unless type == "media-entry-incomplete"
       .ui-resource-meta
         %table.borderless.block

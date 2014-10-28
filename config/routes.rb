@@ -199,7 +199,7 @@ MAdeK::Application.routes.draw do
       get :document
       get :more_data
       get :browse
-      get :parents
+      get :relations
       get 'vocabulary', :to => 'media_entries#contexts', :as => "contexts"
     end
   end
@@ -212,7 +212,7 @@ MAdeK::Application.routes.draw do
     member do
       post :settings
       get :category
-      get :parents
+      get :relations
       get :browse    
       get 'vocabulary/:context_id', controller: 'media_sets', action: 'individual_contexts', as: 'context'
       put 'vocabulary/:context_id/enable', to: 'media_sets#enable_individual_context', as: 'enable_context'
@@ -465,6 +465,9 @@ MAdeK::Application.routes.draw do
   get '/media_sets/:id/media_entries/:entry_id' => redirect("/sets/%{id}/entries/%{entry_id}")
   get '/media_sets/:id/category' => redirect("/sets/%{id}/category")
   get '/media_sets/:id/parents' => redirect("/sets/%{id}/parents")
+  
+  get '/entries/:id/parents' => redirect("/entries/%{id}/relations")
+  get '/sets/:id/parents' => redirect("/sets/%{id}/relations")
 
   get '/contexts/:id' => redirect("/vocabulary/%{id}")
   get '/contexts/:id/entries' => redirect("/vocabulary/%{id}/entries")

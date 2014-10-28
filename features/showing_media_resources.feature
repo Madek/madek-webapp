@@ -31,6 +31,6 @@ Feature: Showing resources in the archive
   Scenario: Displaying parent sets 
     Given I am signed-in as "Normin"
     And I visit "/media_resources/93"
-    And I click on "Übergeordnete Sets"
+    And I click on "Zusammenhänge"
     Then I can see "Public Set including"
 

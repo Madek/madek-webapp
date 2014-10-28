@@ -5,6 +5,6 @@
       = _("Filter set")
 
   - unless @filter_set.parent_sets.count.zero?
-    %li.ui-tabs-item{class: media_set_parents_page? ? "active" : ""}
-      %a{:href => parents_media_set_path(@filter_set)}
+    %li.ui-tabs-item{class: media_set_relations_page? ? "active" : ""}
+      %a{:href => relations_media_set_path(@filter_set)}
         = _("Parent sets")

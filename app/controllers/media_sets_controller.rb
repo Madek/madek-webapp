@@ -5,6 +5,7 @@ class MediaSetsController < ApplicationController
   include Concerns::CustomUrls
 
   def check_and_initialize_for_view
+    # here, everything is initialized that we need everywhere (Tabs!)
     @media_set = find_media_resource 
     raise "Wrong type" unless @media_set.is_a? MediaSet
     raise UserForbiddenError unless current_user.authorized?(:view,@media_set)
@@ -23,7 +24,41 @@ class MediaSetsController < ApplicationController
     # TODO: queries
     # @entries_with_terms_count = 2342
     # @entries_total_count = 1337
+    
+    # relations stuff – TODO: remove duplication with MediaEntries
+    parent_sets = @media_set.parent_sets
+      .accessible_by_user(current_user, :view)
 
+    children_sets = @media_set.child_media_resources
+      .accessible_by_user(current_user, :view)
+      .select { |child|
+        (child.is_a? MediaSet)
+      }
+
+    # siblings: all children of all my parents, excluding myself
+    sibling_sets = parent_sets.map { |parent|
+      parent.child_media_resources
+        .accessible_by_user(current_user,:view)
+        .select { |child|
+          (child.is_a? MediaSet) && (child != @media_set)
+        }
+    }.flatten
+
+    @parents= {
+      sets: parent_sets.first(12),
+      total: parent_sets.count
+    }
+    @siblings = {
+      sets: sibling_sets.first(12),
+      total: sibling_sets.count
+    }
+    @children = {
+      sets: children_sets.first(12),
+      total: children_sets.count
+    }
+    @has_any_relations = [@parents, @siblings, @children].any? { |list|
+      list[:total] > 0
+    }
   end
 
   def check_and_initialize_for_edit
@@ -58,6 +93,12 @@ class MediaSetsController < ApplicationController
     respond_to do |format|
       format.html
       format.js { render :layout => false }
+    end
+  end
+
+  def relations
+    unless check_for_old_id_and_in_case_redirect_to :parents_media_set 
+      check_and_initialize_for_view
     end
   end
 
@@ -185,14 +226,6 @@ class MediaSetsController < ApplicationController
       render :nothing => true, :status => :ok
     rescue
       render :nothing => true, :status => :bad_request
-    end
-  end
-
-
-  def parents 
-    unless check_for_old_id_and_in_case_redirect_to :parents_media_set 
-      check_and_initialize_for_view 
-      @parents = @media_set.parent_sets.accessible_by_user(current_user,:view) 
     end
   end
 
