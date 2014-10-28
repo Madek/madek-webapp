@@ -16,8 +16,9 @@
       %h2.title-l.ui-resource-title.mtl.mll
         = _("Übergeordnete Sets")
         %span.ui-counter= _("(#{@parents[:total]})")
-        %a.strong{:href => 'http://example.com'} 
-          = _("Show all")
+        -# TMP DISABLED TILL WE HAVE THE VIEWS WE NEED
+        -# %a.strong{:href => 'http://example.com'} 
+        -#   = _("Show all")
 
     = render :partial => "media_resources/list",
              :locals => {:media_resources => @parents[:sets],
@@ -51,8 +52,9 @@
         %h2.title-l.ui-resource-title.mtl.mll
           = _("Benachbarte Sets")
           %span.ui-counter= _("(#{@siblings[:total]})")
-          %a.strong{:href => 'http://example.com'} 
-            = _("Show all")
+          -# TMP DISABLED TILL WE HAVE THE VIEWS WE NEED
+          -# %a.strong{:href => 'http://example.com'} 
+          -#   = _("Show all")
 
       = render :partial => "media_resources/list",
                :locals => {:media_resources => @siblings[:sets],
@@ -68,8 +70,9 @@
         %h2.title-l.ui-resource-title.mtl.mll
           = _("Untergeordnete Sets")
           %span.ui-counter= _("(#{@children[:total]})")
-          %a.strong{:href => "/my/media_resources?sort=updated_at"}
-            = _("Alle anzeigen")
+          -# TMP DISABLED TILL WE HAVE THE VIEWS WE NEED
+          -# %a.strong{:href => "/my/media_resources?sort=updated_at"}
+          -#   = _("Alle anzeigen")
 
       = render :partial => "media_resources/list",
                :locals => {:media_resources => @children[:sets],
