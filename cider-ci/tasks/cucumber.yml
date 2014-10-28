@@ -152,6 +152,7 @@
     cucumber:
       body: bundle exec cucumber --strict "features/import_via_dropbox.feature"
 - name: inheritance_of_contexts
+  eager_trials: 6
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/inheritance_of_contexts.feature"
@@ -168,6 +169,7 @@
     cucumber:
       body: bundle exec cucumber --strict "features/permissions_01.feature"
 - name: permissions_02
+  eager_trials: 6
   scripts:
     cucumber:
       body: bundle exec cucumber --strict "features/permissions_02.feature"
