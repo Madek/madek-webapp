@@ -1,4 +1,4 @@
-- if keywords.any?
+- unless keywords.blank?
   %ul.ui-tag-cloud.small.ellipsed
     - keywords.each do |keyword|
       %li.ui-tag-cloud-item
