@@ -16,12 +16,10 @@ class InstitutionalGroup < Group
 
   scope :without_semesters, lambda{where("institutional_group_name NOT SIMILAR TO '%_[0-9]{2}[A-Za-z]\.studierende'")}
   scope :without_verteilerlisten, lambda{where("institutional_group_name NOT SIMILAR TO 'Verteilerliste\.%'")}
-  scope :without_rek, lambda{where("institutional_group_name NOT SIMILAR TO 'REK\.%'")}
   scope :without_personal, lambda{where("institutional_group_name NOT SIMILAR TO 'Personal\.%'")}
-  scope :without_berechtigung, lambda{where("institutional_group_name NOT SIMILAR TO '%\.berechtigung\.%'")}
   
   def self.relevant
-    self.without_semesters.without_personal.without_rek.without_verteilerlisten.without_berechtigung
+    self.without_semesters.without_personal.without_verteilerlisten
   end
 
   def to_s
