@@ -2,7 +2,7 @@ use_x_sendfile: false
 
 release: 
   version_major: 2
-  version_minor: 3  
+  version_minor: 4  
   version_patch: 0
   version_pre: ""
   version_build: ""
