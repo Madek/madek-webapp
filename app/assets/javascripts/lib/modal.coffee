@@ -2,8 +2,7 @@
 
 App.modal
 
-This script provides functionalities for client side rendered modal dialogs,
-it also keeps track to avoid multiple instances of the same dialog in the dom.
+This script provides functionalities for client side rendered modal dialogs.
 
 It also autofocus fields that have the autofocus attribute
 

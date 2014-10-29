@@ -96,7 +96,7 @@ class MediaResourceArcsController.OutArcs
     @searchInput = @dialog.find("input.ui-search-input")
     @searchForm = @dialog.find(".ui-search form")
     @searchInput.delayedChange(delay: 400)
-    new App.Modal @dialog
+    @modal = new App.Modal @dialog
 
   search: ->
     return true if @searchInput.val() is @currentSearch
@@ -106,6 +106,7 @@ class MediaResourceArcsController.OutArcs
       @dialog.find(".refine-search-hint").hide()
       @dialog.find(".try-search-hint").hide()
       @dialog.find(".ui-modal-body").html App.render("media_resource_arcs/organize/loading")
+      do @modal.setModalBodyMaxHeight
       @searchAjax.abort() if @searchAjax?
       @searchAjax = App.MediaResource.fetch 
         search: @searchInput.val()
@@ -125,10 +126,13 @@ class MediaResourceArcsController.OutArcs
           mediaResources = _.sortBy mediaResources, (mr)-> mr.is_parent
           @dialog.find(".refine-search-hint").show() if response.pagination.total_pages > 1
           @dialog.find(".ui-modal-body").html App.render("media_resource_arcs/organize/list" , {mediaResources: mediaResources})
+          do @modal.setModalBodyMaxHeight
         else
           @dialog.find(".ui-modal-body").html App.render "media_resource_arcs/organize/empty_results"
+          do @modal.setModalBodyMaxHeight
     else
       @dialog.find(".ui-modal-body").html App.render "media_resource_arcs/organize/list" , {mediaResources: @outArcResources}
+      do @modal.setModalBodyMaxHeight
 
   createNewSet: ->
     @searchAjax.abort() if @searchAjax?
@@ -145,6 +149,7 @@ class MediaResourceArcsController.OutArcs
       @searchInput.val ""
       @currentSearch = ""
       @dialog.find(".ui-modal-body").html App.render "media_resource_arcs/organize/list" , {mediaResources: @outArcResources}
+      do @modal.setModalBodyMaxHeight
 
   loadOutArcResources: (ids)=>
     if ids.length
@@ -157,6 +162,7 @@ class MediaResourceArcsController.OutArcs
         App.MediaResourceArcsController.OutArcs.DEFAULT_WITH
     else
       @dialog.find(".ui-modal-body").html App.render "media_resource_arcs/organize/no_arcs_yet"
+      do @modal.setModalBodyMaxHeight
 
   renderOutArcResources: (e, mediaResources...)=>
     @outArcResources = _.sortBy mediaResources, (mr) -> mr.getMetaDatumByMetaKeyName("title")
@@ -164,6 +170,7 @@ class MediaResourceArcsController.OutArcs
       mr.is_incomplete_arc = _.include @incompleteArcParentIds, mr.id
       mr.is_parent = true
     @dialog.find(".ui-modal-body").html App.render "media_resource_arcs/organize/list" , {mediaResources: @outArcResources}
+    do @modal.setModalBodyMaxHeight
 
   onSubmit: (e)=>
     do e.preventDefault
