@@ -1,16 +1,17 @@
 # -*- encoding : utf-8 -*-
 class CreateMetaKeysMetaTerms < ActiveRecord::Migration
 
-  def up
+  def change
 
-    create_table :meta_keys_meta_terms do |t|
-      t.belongs_to :meta_key, null: false
-      t.belongs_to :meta_term, null: false
-      t.integer :position, default: 0, null: false
-    end
+    create_table :meta_keys_meta_terms, id: :uuid  do |t|
+      t.string :meta_key_id, null: false
+      t.index :meta_key_id
 
-    change_table :meta_keys_meta_terms do |t|
+      t.uuid :meta_term_id, null: false
+
       t.index [:meta_key_id, :meta_term_id], :unique => true
+
+      t.integer :position, default: 0, null: false
       t.index :position
     end
 
@@ -19,7 +20,4 @@ class CreateMetaKeysMetaTerms < ActiveRecord::Migration
 
   end
 
-  def down
-    drop_table :meta_keys_meta_terms
-  end
 end

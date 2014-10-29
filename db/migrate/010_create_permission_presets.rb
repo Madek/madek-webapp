@@ -1,10 +1,12 @@
 class CreatePermissionPresets < ActiveRecord::Migration
   include Constants
+  include MigrationHelper
 
   def change
 
-    create_table :permission_presets do |t|
+    create_table :permission_presets, id: :uuid do |t|
       t.string :name
+      t.float :position
       Actions.each do |action|
         t.boolean action, null: false, default: false
       end

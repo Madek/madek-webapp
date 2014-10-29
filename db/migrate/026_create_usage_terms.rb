@@ -1,16 +1,21 @@
 class CreateUsageTerms < ActiveRecord::Migration
-  def self.up
-    create_table :usage_terms do |t|
+  include MigrationHelper
+
+  def change
+
+    create_table :usage_terms, id: :uuid  do |t|
       t.string :title
       t.string :version
       t.text :intro
       t.text :body
-      t.datetime :updated_at
+      t.timestamps
+    end
+
+    reversible do |dir|
+      dir.up do 
+        set_timestamps_defaults :usage_terms
+      end
     end
   
-  end
-
-  def self.down
-    drop_table :usage_terms
   end
 end

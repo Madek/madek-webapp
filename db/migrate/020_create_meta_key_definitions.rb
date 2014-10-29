@@ -1,35 +1,39 @@
 class CreateMetaKeyDefinitions < ActiveRecord::Migration
-  def up
-    create_table :meta_key_definitions do |t|
+  include MigrationHelper
 
-      t.integer :description_id  
-      t.integer :hint_id         
-      t.integer :label_id        
+  def change
+    create_table :meta_key_definitions, id: :uuid do |t|
 
-      t.integer :meta_context_id, null: false
-      t.integer :meta_key_id, null: false     
+      t.text :description, null: false, default: ''
+      t.text :hint, null: false, default: ''
+      t.text :label, null: false, default: ''
+
+      t.string :context_id, null: false
+      t.index :context_id 
+
+      t.string :meta_key_id, null: false     
+      t.index :meta_key_id
 
       t.boolean :is_required , default: false 
       t.integer :length_max      
       t.integer :length_min            
       t.integer :position , null: false
-      t.string  :key_map           
-      t.string  :key_map_type          
+    
+      t.integer :input_type
 
-      t.timestamps
+      t.timestamps null: false
     end
 
-    add_index :meta_key_definitions, [:meta_context_id,:position], unique: true
-    add_index :meta_key_definitions, :meta_key_id
+    reversible do |dir|
+      dir.up do 
+        set_timestamps_defaults :meta_key_definitions
+      end
+    end
+
 
     add_foreign_key :meta_key_definitions, :meta_keys
-    add_foreign_key :meta_key_definitions, :meta_terms, column: :description_id
-    add_foreign_key :meta_key_definitions, :meta_terms, column: :hint_id
-    add_foreign_key :meta_key_definitions, :meta_terms, column: :label_id
+    add_foreign_key :meta_key_definitions, :contexts
 
   end
 
-  def down
-    drop_table :meta_key_definitions
-  end
 end

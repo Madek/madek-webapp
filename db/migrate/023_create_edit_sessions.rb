@@ -1,19 +1,26 @@
 class CreateEditSessions < ActiveRecord::Migration
+  include MigrationHelper
 
-  def up
-    create_table :edit_sessions do |t|
-      t.integer :user_id, null: false
-      t.integer :media_resource_id, null: false
-      t.timestamps
+  def change
+    create_table :edit_sessions, id: :uuid do |t|
+      t.uuid :user_id, null: false
+      t.index :user_id
+
+      t.uuid :media_resource_id, null: false
+      t.index :media_resource_id
+
+      t.timestamps null: false
     end
-    add_index :edit_sessions, :media_resource_id
-    add_index :edit_sessions, :user_id
+
+    reversible do |dir|
+      dir.up do 
+        set_timestamps_defaults :edit_sessions
+      end
+    end
+
     add_foreign_key :edit_sessions, :media_resources, dependent: :delete
     add_foreign_key :edit_sessions, :users, dependent: :delete
 
   end
 
-  def down
-    drop_table :edit_sessions
-  end
 end

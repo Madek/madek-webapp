@@ -1,24 +1,31 @@
-# -*- encoding : utf-8 -*-
 class CreatePeople < ActiveRecord::Migration
+  include MigrationHelper
 
   def change
 
-    create_table    :people do |t|
+    create_table    :people, id: :uuid  do |t|
       t.boolean     :is_group, :default => false
-      t.date        :birthdate
-      t.date        :deathdate
-      t.string      :firstname
-      t.string      :lastname
-      t.string      :nationality
+      t.date        :date_of_birth
+      t.date        :date_of_death
+      t.string      :first_name
+      t.string      :last_name
       t.string      :pseudonym
-      t.text        :wiki_links
+      t.text        :searchable, null: false, default: ''
 
-      t.timestamps
+      t.timestamps null: false, default: 'now'
     end
 
-    add_index :people, :firstname
+    add_index :people, :first_name
+    add_index :people, :last_name
     add_index :people, :is_group
-    add_index :people, :lastname
+
+    reversible do |dir|
+      dir.up do 
+        set_timestamps_defaults :people
+        create_trgm_index :people, :searchable
+        create_text_index :people, :searchable
+      end
+    end
 
   end
 

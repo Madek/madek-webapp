@@ -1,29 +1,35 @@
 class CreateGrouppermissions < ActiveRecord::Migration
+  include MigrationHelper
   include Constants
 
-  def up
+  def change
 
-    create_table :grouppermissions do |t|
-      t.belongs_to  :media_resource, :null => false
-      t.references :group, :null => false
+    create_table :grouppermissions, id: :uuid do |t|
+
+      t.uuid :media_resource_id, :null => false
+      t.index :media_resource_id 
+
+      t.uuid :group_id, :null => false
+      t.index :group_id
+
+      t.index [:group_id,:media_resource_id], unique: true
+
       Actions.each do |action|
         t.boolean action, null: false, default: false, index: true
       end
 
     end
 
-    change_table :grouppermissions do |t|
-      t.index :group_id
-      t.index :media_resource_id
-      t.index [:group_id,:media_resource_id], unique: true
+    reversible do |dir|
+      dir.up do 
+        execute "ALTER TABLE grouppermissions ADD CONSTRAINT manage_on_grouppermissions_is_false CHECK (manage = false); "
+      end
     end
-      
+
+
     add_foreign_key :grouppermissions, :groups, dependent: :delete
     add_foreign_key :grouppermissions, :media_resources, dependent: :delete
 
   end
 
-  def down
-    drop_table :grouppermissions
-  end
 end

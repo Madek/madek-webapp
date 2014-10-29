@@ -1,32 +1,29 @@
 # -*- encoding : utf-8 -*-
 class CreateCopyrights < ActiveRecord::Migration
-  def up
+  include MigrationHelper
 
-    create_table :copyrights do |t|
-      t.boolean :is_default, :default => false
-      t.boolean :is_custom, :default => false
+  def change
+
+    create_table :copyrights, id: :uuid  do |t|
+
+      t.boolean :is_default, default: false
+      t.boolean :is_custom, default: false
+
       t.string :label
+      t.index :label, unique: true
 
-      t.belongs_to :parent  
-      t.integer :lft        
-      t.integer :rgt        
-
+      t.uuid :parent_id
       t.string    :usage
       t.string    :url
+
+      t.float :position
     end
 
-    change_table :copyrights do |t|
-      t.index :is_default
-      t.index :is_custom
-      t.index :label, :unique => true
-      t.index :parent_id
-      t.index [:lft, :rgt]
+    reversible do |dir|
+      dir.up do 
+        execute "ALTER TABLE copyrights ADD CONSTRAINT parent_id_fkey FOREIGN KEY (parent_id) REFERENCES copyrights (id)"
+      end
     end
 
   end
-
-  def down
-    drop_table :copyrights
-  end
-
 end

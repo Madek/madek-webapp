@@ -1,38 +1,46 @@
 # -*- encoding : utf-8 -*-
 class CreateMediaResources < ActiveRecord::Migration
+  include MigrationHelper
 
-  def up
-    create_table :media_resources do |t|
+
+  def change
+    create_table :media_resources, id: :uuid do |t|
+
+      t.integer :previous_id 
+      t.index :previous_id
 
       t.boolean :download ,null: false, default: false
       t.boolean :edit     ,null: false, default: false
       t.boolean :manage   ,null: false, default: false
       t.boolean :view     ,null: false, default: false
 
-      t.integer :media_entry_id 
-      t.integer :media_file_id  
-      t.integer :user_id, null: false
 
-      t.string  :settings  
+      t.uuid :user_id, null: false
+      t.index :user_id
+
+      t.text :settings  
+
       t.string  :type
+      t.index :type
 
-      t.timestamps
+      t.timestamps null: false
     end
 
-    add_index :media_resources, [:media_entry_id, :created_at]
-    add_index :media_resources, :media_file_id
-    add_index :media_resources, :type
+    reversible do |dir|
+      dir.up do 
+        set_timestamps_defaults :media_resources
+        execute "ALTER TABLE media_resources ADD CONSTRAINT edit_on_publicpermissions_is_false CHECK (edit = false); "
+        execute "ALTER TABLE media_resources ADD CONSTRAINT manage_on_publicpermissions_is_false CHECK (manage = false); "
+      end
+    end
+
     add_index :media_resources, :updated_at
-    add_index :media_resources, :user_id
+    add_index :media_resources, :created_at
 
     add_foreign_key :media_resources, :users 
-    add_foreign_key :media_resources, :media_files, dependent: :delete
-    add_foreign_key :media_resources, :media_resources, column: :media_entry_id, dependent: :delete
 
-  end
+    add_foreign_key :media_files, :media_resources, column: :media_entry_id
 
-  def down
-    drop_table :media_resources
   end
 
 end

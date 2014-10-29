@@ -1,29 +1,26 @@
 class CreateUserpermissions < ActiveRecord::Migration
   include Constants
 
-  def up 
+  def change
 
-    create_table :userpermissions do |t|
-      t.references :media_resource, null: false
-      t.references :user, null: false
+    create_table :userpermissions, id: :uuid do |t|
+
       Actions.each do |action|
         t.boolean action, null: false, default: false, index: true
       end
-    end
 
-    change_table :userpermissions do |t|
+      t.uuid :media_resource_id, null: false
       t.index :media_resource_id
+
+      t.uuid :user_id, null: false
       t.index :user_id
+
       t.index [:media_resource_id,:user_id], unique: true
+
     end
 
     add_foreign_key :userpermissions, :users, dependent: :delete
     add_foreign_key :userpermissions, :media_resources, dependent: :delete 
-  end
-
-
-  def down
-    drop_table :userpermissions
   end
 
 end

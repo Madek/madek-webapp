@@ -8,6 +8,7 @@ module MetaContextTermTestFactory
     MetaTerm.destroy_all
     Context.where("id NOT in ('core','upload','media_set','media_object','copyright')").destroy_all
     MetaKey.where("NOT EXISTS (SELECT 1 FROM meta_key_definitions WHERE meta_key_id = meta_keys.id)").destroy_all
+    AppSettings.first.update_attributes! catalog_set_id: nil, featured_set_id: nil, teaser_set_id: nil
     MediaResource.destroy_all
 
 

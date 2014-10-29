@@ -1,26 +1,48 @@
 class CreateKeywords < ActiveRecord::Migration
-  def up
+  include MigrationHelper
 
-    create_table :keywords do |t|
-      t.integer  :meta_term_id, null: false
-      t.integer  :user_id
-      t.integer  :meta_datum_id, null: false      
 
-      t.timestamp :created_at
+  def change
+
+    create_table :keyword_terms, id: :uuid do |t|
+      t.string :term, default: "", null: false
+      t.timestamps null: false
+      t.uuid :creator_id
     end
 
-    add_index :keywords, :created_at
-    add_index :keywords, :meta_datum_id
-    add_index :keywords, :user_id
-    add_index :keywords, [:meta_term_id,:user_id]
+    reversible do |dir|
+      dir.up do 
+        set_timestamps_defaults :keyword_terms
+        create_trgm_index :keyword_terms, :term
+        create_text_index :keyword_terms, :term
+      end
+    end
 
+
+    create_table :keywords, id: :uuid do |t|
+      t.uuid :user_id
+      t.index :user_id
+
+      t.uuid :meta_datum_id
+      t.index :meta_datum_id
+
+      t.uuid :keyword_term_id
+      t.index :keyword_term_id
+
+      t.timestamps null: false
+      t.index :created_at
+    end
+
+    reversible do |dir|
+      dir.up do 
+        set_timestamps_defaults :keywords
+      end
+    end
+
+    add_foreign_key :keywords, :keyword_terms
     add_foreign_key :keywords, :users
-    add_foreign_key :keywords, :meta_terms
     add_foreign_key :keywords, :meta_data, dependent: :delete
 
   end
 
-  def down
-    drop_table :keywords
-  end
 end
