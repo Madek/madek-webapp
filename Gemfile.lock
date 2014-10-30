@@ -7,8 +7,8 @@ GIT
 
 GIT
   remote: https://github.com/zhdk/madek-zhdk-integration.git
-  revision: 0de0956aace9a01ee04ff8f801243942f6b6c753
-  ref: 0de0956aace9a01ee04ff8f801243942f6b6c753
+  revision: 6264eeb4789b3b411bfa13e4222857963dddaae2
+  ref: 6264eeb4789b3b411bfa13e4222857963dddaae2
   specs:
     madek_zhdk_integration (0.0.1)
       rails (~> 4.1.5)
@@ -316,10 +316,10 @@ GEM
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sprockets-rails (2.1.4)
+    sprockets-rails (2.2.0)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
-      sprockets (~> 2.8)
+      sprockets (>= 2.8, < 4.0)
     test_xml (0.1.6)
       nokogiri (>= 1.3.2)
     therubyracer (0.12.1)

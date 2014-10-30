@@ -13,6 +13,6 @@
     %li.multi-select-input-holder.mbs
       %input.multi-select-input.institutional_affiliation_autocomplete_search{:id => "resource[meta_data_attributes][#{@i}][value]",
                                 :type => "text", 
-                                :"data-values" => InstitutionalGroup.relevant.collect {|group| {:label => group.to_s, :id => group.id}}.to_json}
+                                :"data-values" => InstitutionalGroup.selectable.collect {|group| {:label => group.to_s, :id => group.id}}.to_json}
         %a.multi-select-input-toggle
           %i.icon-arrow-down

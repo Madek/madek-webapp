@@ -14,13 +14,10 @@ class InstitutionalGroup < Group
     where(:name => name, :institutional_group_name => institutional_group_name)
   }
 
-  scope :without_semesters, lambda{where("institutional_group_name NOT SIMILAR TO '%_[0-9]{2}[A-Za-z]\.studierende'")}
-  scope :without_verteilerlisten, lambda{where("institutional_group_name NOT SIMILAR TO 'Verteilerliste\.%'")}
-  scope :without_personal, lambda{where("institutional_group_name NOT SIMILAR TO 'Personal\.%'")}
-  
-  def self.relevant
-    self.without_semesters.without_personal.without_verteilerlisten
-  end
+  # the scope :selectable is meant to be overwritten, i.e. monkey patched, on a
+  # per instance basis, to provide filtered list when adding
+  # InstitutionalGroups as metadata to a resource
+  scope :selectable, lambda{}
 
   def to_s
     "#{name} (#{institutional_group_name})"
