@@ -9,13 +9,13 @@ task_defaults:
 subcontexts: 
 
 - name: Meta
-  _cider-ci_include: 'cider-ci_v2/tasks/meta.yml'
+  _cider-ci_include: 'cider-ci/tasks/meta.yml'
 
 - name: Completeness 
-  _cider-ci_include: 'cider-ci_v2/tasks/completeness.yml'
+  _cider-ci_include: 'cider-ci/tasks/completeness.yml'
 
 - name: Rails
-  _cider-ci_include: 'cider-ci_v2/partials/rails_task_defaults.yml'
+  _cider-ci_include: 'cider-ci/partials/rails_task_defaults.yml'
 
   subcontexts:
 
@@ -24,10 +24,10 @@ subcontexts:
       scripts: 
         rspec:
           order: 6
-    _cider-ci_include: 'cider-ci_v2/tasks/rspec-plain.yml'
+    _cider-ci_include: 'cider-ci/tasks/rspec-plain.yml'
 
   - name: Integration 
-    _cider-ci_include: 'cider-ci_v2/partials/rails_integration_task_defaults.yml'
+    _cider-ci_include: 'cider-ci/partials/rails_integration_task_defaults.yml'
 
     subcontexts: 
 
@@ -37,7 +37,7 @@ subcontexts:
           rspec:
             order: 6
             timeout: 300
-      _cider-ci_include: 'cider-ci_v2/tasks/rspec-features.yml'
+      _cider-ci_include: 'cider-ci/tasks/rspec-features.yml'
 
     - name: Cucumber Features
       task_defaults:
@@ -45,6 +45,6 @@ subcontexts:
           cucumber:
             order: 6
             timeout: 300
-      _cider-ci_include: 'cider-ci_v2/tasks/cucumber-features.yml'
+      _cider-ci_include: 'cider-ci/tasks/cucumber-features.yml'
 
 

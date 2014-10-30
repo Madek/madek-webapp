@@ -3,7 +3,7 @@ require 'yaml'
 require 'set'
 #require 'pry'
 
-feature_tasks = YAML.load_file("cider-ci_v2/tasks/cucumber-features.yml")["tasks"]
+feature_tasks = YAML.load_file("cider-ci/tasks/cucumber-features.yml")["tasks"]
 
 matcher= /.*cucumber.*\"(.*)\".*$/
 

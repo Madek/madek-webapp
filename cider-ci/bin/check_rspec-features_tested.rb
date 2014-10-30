@@ -2,14 +2,15 @@
 require 'yaml'
 require 'set'
 
-rspec_tasks = YAML.load_file "cider-ci/tasks/rspec.yml"
+rspec_tasks = YAML.load_file("cider-ci/tasks/rspec-features.yml")["tasks"]
 
 matcher= /.*rspec\s+\"(.*)\".*$/
 
 tested_spec_files = Set.new rspec_tasks.map{|t| t['scripts']} \
   .map{|s| s['rspec']}.map{|s| s['body']}.map{|s|matcher.match(s)[1]}
 
-existing_spec_files = Set.new Dir.glob("spec/**/*_spec.rb") 
+existing_spec_files = Set.new(
+  Dir.glob("spec/**/*_spec.rb").select{|name| name =~ /spec\/feature/})
 
 
 if existing_spec_files == tested_spec_files
