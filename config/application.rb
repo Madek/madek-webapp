@@ -13,6 +13,8 @@ module MAdeK
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
      
+    config.active_record.timestamped_migrations = false
+     
     config.active_record.disable_implicit_join_references = true
 
     # Custom directories with classes and modules you want to be autoloadable.
