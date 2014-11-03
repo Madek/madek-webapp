@@ -47,7 +47,8 @@ tasks:
 - name: features meta_data meta_data_institutional_groups
   scripts:
     rspec:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/meta_data/meta_data_institutional_groups_spec.rb"
+      body: >
+        echo 'zhdk_integration: true' > 'config/settings.local.yml' && DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/meta_data/meta_data_institutional_groups_spec.rb"
 - name: features meta_data meta_data
   scripts:
     rspec:

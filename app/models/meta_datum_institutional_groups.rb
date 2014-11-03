@@ -11,7 +11,7 @@ class MetaDatumInstitutionalGroups < MetaDatum
   end
 
   def value
-    institutional_groups
+    institutional_groups.sort_by(&:institutional_group_name)
   end
 
   def value=(new_value)

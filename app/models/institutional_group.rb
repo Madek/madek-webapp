@@ -18,7 +18,8 @@ class InstitutionalGroup < Group
   # per instance basis, to provide filtered list when adding
   # InstitutionalGroups as metadata to a resource
   scope :selectable, lambda{}
-
+  
+  # this is also to be overwritten!
   def to_s
     "#{name} (#{institutional_group_name})"
   end

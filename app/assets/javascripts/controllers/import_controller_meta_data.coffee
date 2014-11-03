@@ -50,7 +50,6 @@ class ImportController.MetaData
     new App.FormAutocompletes.ExtensibleList {el: @el}
     new App.FormBehaviours.Collapse {el: @el}
     new App.FormBehaviours.Copyrights {el: @el}
-    new App.FormAutocompletes.Departments {el: @el}
 
   delegateEvents: ->
     $(document).on "click", ".ui-next-entry:not(.disabled)", @setupNextResource

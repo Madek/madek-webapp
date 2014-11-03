@@ -29,6 +29,10 @@ end
 
 def sign_in_as login, password= 'password'
   visit "/"
+  # if ldap login is ON, first switch to correct form tab
+  if db_user_tab = first('a#database-user-login-tab')
+    db_user_tab.click
+  end
   find("input[name='login']").set(login)
   find("input[name='password']").set(password)
   find("button[type='submit']").click
