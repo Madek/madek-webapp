@@ -196,12 +196,48 @@ CREATE TABLE edit_sessions (
 
 
 --
+-- Name: entry_set_arcs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE entry_set_arcs (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    media_entry_id uuid NOT NULL,
+    media_set_id uuid NOT NULL,
+    highlight boolean DEFAULT false,
+    cover boolean
+);
+
+
+--
 -- Name: favorites; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE favorites (
     user_id uuid NOT NULL,
     media_resource_id uuid NOT NULL
+);
+
+
+--
+-- Name: filter_set_set_arcs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE filter_set_set_arcs (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    filter_set_id uuid NOT NULL,
+    media_set_id uuid NOT NULL
+);
+
+
+--
+-- Name: filter_sets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE filter_sets (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    filter json DEFAULT '{}'::json NOT NULL
 );
 
 
@@ -311,6 +347,18 @@ CREATE TABLE keywords (
 
 
 --
+-- Name: media_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE media_entries (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    type character varying(255) DEFAULT 'MediaEntry'::character varying
+);
+
+
+--
 -- Name: media_files; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -333,20 +381,6 @@ CREATE TABLE media_files (
 
 
 --
--- Name: media_resource_arcs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE media_resource_arcs (
-    id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    parent_id uuid NOT NULL,
-    child_id uuid NOT NULL,
-    highlight boolean DEFAULT false,
-    cover boolean,
-    CONSTRAINT media_resource_arcs_check CHECK ((parent_id <> child_id))
-);
-
-
---
 -- Name: media_resources; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -358,12 +392,23 @@ CREATE TABLE media_resources (
     manage boolean DEFAULT false NOT NULL,
     view boolean DEFAULT false NOT NULL,
     user_id uuid NOT NULL,
-    settings text,
     type character varying(255),
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     CONSTRAINT edit_on_publicpermissions_is_false CHECK ((edit = false)),
-    CONSTRAINT manage_on_publicpermissions_is_false CHECK ((manage = false))
+    CONSTRAINT manage_on_publicpermissions_is_false CHECK ((manage = false)),
+    CONSTRAINT valid_media_resource_type CHECK (((type)::text = ANY ((ARRAY['MediaResourceEntry'::character varying, 'MediaResourceEntryIncomplete'::character varying, 'MediaResourceSet'::character varying, 'MediaResourceFilterSet'::character varying])::text[])))
+);
+
+
+--
+-- Name: media_sets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE media_sets (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -547,6 +592,17 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: set_set_arcs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE set_set_arcs (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    child_id uuid NOT NULL,
+    parent_id uuid NOT NULL
+);
+
+
+--
 -- Name: usage_terms; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -716,6 +772,30 @@ ALTER TABLE ONLY edit_sessions
 
 
 --
+-- Name: entry_set_arcs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY entry_set_arcs
+    ADD CONSTRAINT entry_set_arcs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: filter_set_set_arcs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY filter_set_set_arcs
+    ADD CONSTRAINT filter_set_set_arcs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: filter_sets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY filter_sets
+    ADD CONSTRAINT filter_sets_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: full_texts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -772,6 +852,14 @@ ALTER TABLE ONLY keywords
 
 
 --
+-- Name: media_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY media_entries
+    ADD CONSTRAINT media_entries_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: media_files_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -780,19 +868,19 @@ ALTER TABLE ONLY media_files
 
 
 --
--- Name: media_resource_arcs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY media_resource_arcs
-    ADD CONSTRAINT media_resource_arcs_pkey PRIMARY KEY (id);
-
-
---
 -- Name: media_resources_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY media_resources
     ADD CONSTRAINT media_resources_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: media_sets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY media_sets
+    ADD CONSTRAINT media_sets_pkey PRIMARY KEY (id);
 
 
 --
@@ -857,6 +945,14 @@ ALTER TABLE ONLY permission_presets
 
 ALTER TABLE ONLY previews
     ADD CONSTRAINT previews_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: set_set_arcs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY set_set_arcs
+    ADD CONSTRAINT set_set_arcs_pkey PRIMARY KEY (id);
 
 
 --
@@ -1040,6 +1136,34 @@ CREATE INDEX index_edit_sessions_on_user_id ON edit_sessions USING btree (user_i
 
 
 --
+-- Name: index_entry_set_arcs_on_media_entry_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_entry_set_arcs_on_media_entry_id ON entry_set_arcs USING btree (media_entry_id);
+
+
+--
+-- Name: index_entry_set_arcs_on_media_entry_id_and_media_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_entry_set_arcs_on_media_entry_id_and_media_set_id ON entry_set_arcs USING btree (media_entry_id, media_set_id);
+
+
+--
+-- Name: index_entry_set_arcs_on_media_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_entry_set_arcs_on_media_set_id ON entry_set_arcs USING btree (media_set_id);
+
+
+--
+-- Name: index_entry_set_arcs_on_media_set_id_and_media_entry_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_entry_set_arcs_on_media_set_id_and_media_entry_id ON entry_set_arcs USING btree (media_set_id, media_entry_id);
+
+
+--
 -- Name: index_favorites_on_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1058,6 +1182,34 @@ CREATE INDEX index_favorites_on_user_id ON favorites USING btree (user_id);
 --
 
 CREATE UNIQUE INDEX index_favorites_on_user_id_and_media_resource_id ON favorites USING btree (user_id, media_resource_id);
+
+
+--
+-- Name: index_filter_set_set_arcs_on_filter_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_filter_set_set_arcs_on_filter_set_id ON filter_set_set_arcs USING btree (filter_set_id);
+
+
+--
+-- Name: index_filter_set_set_arcs_on_filter_set_id_and_media_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_filter_set_set_arcs_on_filter_set_id_and_media_set_id ON filter_set_set_arcs USING btree (filter_set_id, media_set_id);
+
+
+--
+-- Name: index_filter_set_set_arcs_on_media_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_filter_set_set_arcs_on_media_set_id ON filter_set_set_arcs USING btree (media_set_id);
+
+
+--
+-- Name: index_filter_set_set_arcs_on_media_set_id_and_filter_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_filter_set_set_arcs_on_media_set_id_and_filter_set_id ON filter_set_set_arcs USING btree (media_set_id, filter_set_id);
 
 
 --
@@ -1170,41 +1322,6 @@ CREATE INDEX index_media_files_on_media_entry_id ON media_files USING btree (med
 --
 
 CREATE INDEX index_media_files_on_media_type ON media_files USING btree (media_type);
-
-
---
--- Name: index_media_resource_arcs_on_child_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_media_resource_arcs_on_child_id ON media_resource_arcs USING btree (child_id);
-
-
---
--- Name: index_media_resource_arcs_on_child_id_and_parent_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_media_resource_arcs_on_child_id_and_parent_id ON media_resource_arcs USING btree (child_id, parent_id);
-
-
---
--- Name: index_media_resource_arcs_on_cover; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_media_resource_arcs_on_cover ON media_resource_arcs USING btree (cover);
-
-
---
--- Name: index_media_resource_arcs_on_parent_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_media_resource_arcs_on_parent_id ON media_resource_arcs USING btree (parent_id);
-
-
---
--- Name: index_media_resource_arcs_on_parent_id_and_child_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_media_resource_arcs_on_parent_id_and_child_id ON media_resource_arcs USING btree (parent_id, child_id);
 
 
 --
@@ -1387,6 +1504,34 @@ CREATE INDEX index_previews_on_media_file_id ON previews USING btree (media_file
 --
 
 CREATE INDEX index_previews_on_media_type ON previews USING btree (media_type);
+
+
+--
+-- Name: index_set_set_arcs_on_child_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_set_set_arcs_on_child_id ON set_set_arcs USING btree (child_id);
+
+
+--
+-- Name: index_set_set_arcs_on_child_id_and_parent_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_set_set_arcs_on_child_id_and_parent_id ON set_set_arcs USING btree (child_id, parent_id);
+
+
+--
+-- Name: index_set_set_arcs_on_parent_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_set_set_arcs_on_parent_id ON set_set_arcs USING btree (parent_id);
+
+
+--
+-- Name: index_set_set_arcs_on_parent_id_and_child_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_set_set_arcs_on_parent_id_and_child_id ON set_set_arcs USING btree (parent_id, child_id);
 
 
 --
@@ -1636,6 +1781,22 @@ ALTER TABLE ONLY edit_sessions
 
 
 --
+-- Name: entry_set_arcs_media_entry_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY entry_set_arcs
+    ADD CONSTRAINT entry_set_arcs_media_entry_id_fk FOREIGN KEY (media_entry_id) REFERENCES media_entries(id) ON DELETE CASCADE;
+
+
+--
+-- Name: entry_set_arcs_media_set_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY entry_set_arcs
+    ADD CONSTRAINT entry_set_arcs_media_set_id_fk FOREIGN KEY (media_set_id) REFERENCES media_sets(id) ON DELETE CASCADE;
+
+
+--
 -- Name: favorites_media_resource_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1649,6 +1810,30 @@ ALTER TABLE ONLY favorites
 
 ALTER TABLE ONLY favorites
     ADD CONSTRAINT favorites_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: filter_set_set_arcs_filter_set_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_set_arcs
+    ADD CONSTRAINT filter_set_set_arcs_filter_set_id_fk FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id) ON DELETE CASCADE;
+
+
+--
+-- Name: filter_set_set_arcs_media_set_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_set_arcs
+    ADD CONSTRAINT filter_set_set_arcs_media_set_id_fk FOREIGN KEY (media_set_id) REFERENCES media_sets(id) ON DELETE CASCADE;
+
+
+--
+-- Name: filter_sets_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_sets
+    ADD CONSTRAINT filter_sets_id_fk FOREIGN KEY (id) REFERENCES media_resources(id);
 
 
 --
@@ -1732,27 +1917,19 @@ ALTER TABLE ONLY keywords
 
 
 --
+-- Name: media_entries_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entries
+    ADD CONSTRAINT media_entries_id_fk FOREIGN KEY (id) REFERENCES media_resources(id);
+
+
+--
 -- Name: media_files_media_entry_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY media_files
-    ADD CONSTRAINT media_files_media_entry_id_fk FOREIGN KEY (media_entry_id) REFERENCES media_resources(id);
-
-
---
--- Name: media_resource_arcs_child_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_resource_arcs
-    ADD CONSTRAINT media_resource_arcs_child_id_fk FOREIGN KEY (child_id) REFERENCES media_resources(id) ON DELETE CASCADE;
-
-
---
--- Name: media_resource_arcs_parent_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_resource_arcs
-    ADD CONSTRAINT media_resource_arcs_parent_id_fk FOREIGN KEY (parent_id) REFERENCES media_resources(id) ON DELETE CASCADE;
+    ADD CONSTRAINT media_files_media_entry_id_fk FOREIGN KEY (media_entry_id) REFERENCES media_entries(id);
 
 
 --
@@ -1777,6 +1954,14 @@ ALTER TABLE ONLY media_sets_contexts
 
 ALTER TABLE ONLY media_sets_contexts
     ADD CONSTRAINT media_sets_contexts_media_set_id_fk FOREIGN KEY (media_set_id) REFERENCES media_resources(id) ON DELETE CASCADE;
+
+
+--
+-- Name: media_sets_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_sets
+    ADD CONSTRAINT media_sets_id_fk FOREIGN KEY (id) REFERENCES media_resources(id);
 
 
 --
@@ -1913,6 +2098,22 @@ ALTER TABLE ONLY copyrights
 
 ALTER TABLE ONLY previews
     ADD CONSTRAINT previews_media_file_id_fk FOREIGN KEY (media_file_id) REFERENCES media_files(id) ON DELETE CASCADE;
+
+
+--
+-- Name: set_set_arcs_child_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY set_set_arcs
+    ADD CONSTRAINT set_set_arcs_child_id_fk FOREIGN KEY (child_id) REFERENCES media_sets(id) ON DELETE CASCADE;
+
+
+--
+-- Name: set_set_arcs_parent_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY set_set_arcs
+    ADD CONSTRAINT set_set_arcs_parent_id_fk FOREIGN KEY (parent_id) REFERENCES media_sets(id) ON DELETE CASCADE;
 
 
 --
