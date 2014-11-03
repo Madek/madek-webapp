@@ -5,9 +5,10 @@
         = find_and_preserve @description.split("\n").join('<br>')
 
     .col2of6
-      %a.primary-button.right
-        %i.icon-vis-graph
-        = _("Visualisierung anzeigen")
+      - if @self.user == current_user
+        %a.primary-button.right{:title => _("Visualize relationship between items as a graph"), :href => "/visualization/my_component_with/#{@self.id}" }
+          %i.icon-vis-graph.mid
+          = _("Show connections")
 
 -# Parent Sets
 .ui-container.midtone-darker.bordered-bottom.bordered-top.relationships-wrapper
@@ -15,19 +16,20 @@
     .ui-resources-header.mbn
       %h2.title-l.ui-resource-title.mtl.mll
         = _("Übergeordnete Sets")
-        %span.ui-counter= _("(#{@parents[:total]})")
-        -# TMP DISABLED TILL WE HAVE THE VIEWS WE NEED
-        -# %a.strong{:href => 'http://example.com'} 
-        -#   = _("Show all")
+        %span.ui-counter= _("(#{@parents.count})")
+        - if @parents.count > 0
+          %a.strong{:href => '?type=parents'} 
+            = _("Show all")
 
     = render :partial => "media_resources/list",
-             :locals => {:media_resources => @parents[:sets],
+             :locals => {:media_resources => @parents.first(12),
                          :layout => 'grid horizontal',
                          :res_link_type => 'relations',
+                         :no_content_msg => "Keine übergeordneten Sets",
                          :with_actions => false}
   
 -# Self & Sibblings
-.ui-container.relationships-wrapper.relationships-this-wrapper{ class: @is_set ? 'pointing-bottom' : '' }
+.ui-container.bright.relationships-wrapper.relationships-this-wrapper{ class: @is_set ? 'pointing-bottom' : 'rounded-bottom' }
 
   -# Self
   .ui-container.bright.pointing-right.relationships-this.bordered-right{ class: @is_set ? '' : 'rounded-bottom-left' }
@@ -51,15 +53,16 @@
       .ui-resources-header.mbn
         %h2.title-l.ui-resource-title.mtl.mll
           = _("Benachbarte Sets")
-          %span.ui-counter= _("(#{@siblings[:total]})")
-          -# TMP DISABLED TILL WE HAVE THE VIEWS WE NEED
-          -# %a.strong{:href => 'http://example.com'} 
-          -#   = _("Show all")
+          %span.ui-counter= _("(#{@siblings.count})")
+          - if @siblings.count > 0
+            %a.strong{:href => '?type=siblings'} 
+              = _("Show all")
 
       = render :partial => "media_resources/list",
-               :locals => {:media_resources => @siblings[:sets],
+               :locals => {:media_resources => @siblings.first(12),
                            :layout => 'grid horizontal',
                            :res_link_type => 'relations',
+                           :no_content_msg => "Keine benachbarten Sets",
                            :with_actions => false}
 
 -# Children Sets
@@ -69,13 +72,14 @@
       .ui-resources-header.mbn
         %h2.title-l.ui-resource-title.mtl.mll
           = _("Untergeordnete Sets")
-          %span.ui-counter= _("(#{@children[:total]})")
-          -# TMP DISABLED TILL WE HAVE THE VIEWS WE NEED
-          -# %a.strong{:href => "/my/media_resources?sort=updated_at"}
-          -#   = _("Alle anzeigen")
+          %span.ui-counter= _("(#{@children.count})")
+          - if @children.count > 0
+            %a.strong{:href => "?type=children"}
+              = _("Alle anzeigen")
 
       = render :partial => "media_resources/list",
-               :locals => {:media_resources => @children[:sets],
+               :locals => {:media_resources => @children.first(12),
                            :layout => 'grid horizontal',
                            :res_link_type => 'relations',
+                           :no_content_msg => "Keine untergeordneten Sets",
                            :with_actions => false}

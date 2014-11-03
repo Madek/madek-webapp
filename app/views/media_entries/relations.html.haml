@@ -4,6 +4,18 @@
   @description = "Der ausgewählte Eintrag ist mit anderen Sets verknüpft. Diese Zusammenhänge wurden aktiv festgelegt als übergeordnet oder benachbart. \nSie sehen hier sowohl eigene Sets, als auch solche, die andere Nutzer/innen mit Ihnen teilen."
 
 - content_for :content do
-  = render "media_resources/relations"
+  
+  - case params[:type]
+  - when 'parents'
+    = render partial: "media_resources/relations/by_type",
+              locals: { title: _("Übergeordnete Sets."),
+                        media_resources: @parents }
+
+  - when 'siblings'
+    = render partial: "media_resources/relations/by_type",
+              locals: { title: _("Benachbarte Sets."),
+                        media_resources: @siblings }
+  - else
+    = render "media_resources/relations"
 
 = render "media_entries/layout"

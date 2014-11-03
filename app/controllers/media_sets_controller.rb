@@ -26,17 +26,17 @@ class MediaSetsController < ApplicationController
     # @entries_total_count = 1337
     
     # relations stuff – TODO: remove duplication with MediaEntries
-    parent_sets = @media_set.parent_sets
+    @parents = @media_set.parent_sets
       .accessible_by_user(current_user, :view)
 
-    children_sets = @media_set.child_media_resources
+    @children = @media_set.child_media_resources
       .accessible_by_user(current_user, :view)
       .select { |child|
         (child.is_a? MediaSet)
       }
 
     # siblings: all children of all my parents, excluding myself
-    sibling_sets = parent_sets.map { |parent|
+    @siblings = @parents.map { |parent|
       parent.child_media_resources
         .accessible_by_user(current_user,:view)
         .select { |child|
@@ -44,20 +44,8 @@ class MediaSetsController < ApplicationController
         }
     }.flatten
 
-    @parents= {
-      sets: parent_sets.first(12),
-      total: parent_sets.count
-    }
-    @siblings = {
-      sets: sibling_sets.first(12),
-      total: sibling_sets.count
-    }
-    @children = {
-      sets: children_sets.first(12),
-      total: children_sets.count
-    }
     @has_any_relations = [@parents, @siblings, @children].any? { |list|
-      list[:total] > 0
+      list && list.count > 0
     }
   end
 

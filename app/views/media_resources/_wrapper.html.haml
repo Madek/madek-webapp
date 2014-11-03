@@ -4,6 +4,7 @@
   catalog_set = (defined? catalog_set and catalog_set)
   category_set = (defined? category_set and category_set)
   layout = (defined? layout and layout) || "grid"
+  no_content_msg = (defined? no_content_msg and no_content_msg)
   id ||= nil
 
 .ui-resources-holder.pal{id: id}
@@ -20,4 +21,5 @@
                        :as => as,
                        :catalog_set => @catalog_set,
                        :category_set => @category_set,
+                       :no_content_msg => no_content_msg,
                        :with_actions => with_actions}

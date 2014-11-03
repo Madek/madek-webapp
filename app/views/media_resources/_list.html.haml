@@ -6,11 +6,10 @@
   category_set = (defined? category_set and category_set)
   layout = (defined? layout and layout) || "grid"
   res_link_type = (defined? res_link_type and res_link_type)
+  no_content_msg = (defined? no_content_msg and no_content_msg)
 
 %ul.ui-resources{:class => with_actions ? "active #{layout}" : "#{layout}"}
-  - if media_resources.length <= 0
-    %li.ui-resource.mal= _("(Keine Inhalte gefunden)")
-  - else 
+  - if media_resources.count > 0
     - media_resources.each do |mr|
       - case as
         - when :category
@@ -23,3 +22,6 @@
         - else
           = render :partial => "media_resources/media_resource",
                    :locals => {:media_resource => mr, :with_actions => with_actions, :res_link_type=> res_link_type}
+  - else 
+    .ui-container.ptm.pbh
+      .title-m.by-center= no_content_msg || _("Keine Inhalte.")

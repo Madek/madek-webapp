@@ -102,29 +102,21 @@ class MediaEntriesController < ApplicationController
 
     # here, everything is initialized that we need everywhere (Tabs!)
 
-    # relations stuff – TODO: remove duplication with MediaEntries
-    parent_sets = @media_entry.parent_sets
+    # relations stuff - TODO: remove duplication with MediaSets
+    @parents = @media_entry.parent_sets
       .accessible_by_user(current_user, :view)
-    
+
     # siblings: all children of all my parents, excluding myself
-    sibling_sets = parent_sets.map { |parent|
+    @siblings = @parents.map { |parent|
       parent.child_media_resources
         .accessible_by_user(current_user, :view)
         .select { |child|
-          (child.is_a? MediaSet) && (child != @media_entry)
+          (child.is_a? MediaSet) && (child != @media_set)
         }
     }.flatten
 
-    @parents= {
-      sets: parent_sets.first(12),
-      total: parent_sets.count
-    }
-    @siblings = {
-      sets: sibling_sets.first(12),
-      total: sibling_sets.count
-    }
     @has_any_relations = [@parents, @siblings].any? { |list|
-      list[:total] > 0
+      list && list.count > 0
     }
   end
 
