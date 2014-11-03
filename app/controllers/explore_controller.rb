@@ -37,7 +37,7 @@ class ExploreController < ApplicationController
     @catalog_set_categories = @catalog_set.categories.where(:view => true).limit(6) if @catalog_set
     @category_set = MediaResource.accessible_by_user(current_user,:view).find(params[:category])
     @category_sections = @category_set.sections view_context.hash_for_filter(@category_set.included_resources_accessible_by_user(current_user,:view), [:meta_data]) if @category_set
-    @current_section = @category_sections.detect{|s| s[:name] == params[:section]}
+    @current_section = @category_sections.detect{|s| s[:id] == params[:section]}
   end
 
   def featured_set
