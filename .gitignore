@@ -52,3 +52,5 @@ public/previews/
 rerun*.txt
 tmp/
 vendor/bundle/
+Gemfile.local
+Gemfile.local.lock
