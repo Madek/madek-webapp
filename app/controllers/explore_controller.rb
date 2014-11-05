@@ -15,8 +15,13 @@ class ExploreController < ApplicationController
     @teaser_set = MediaSet.find @app_settings.teaser_set_id
     if @teaser_set
       resources = @teaser_set.included_resources_accessible_by_user(current_user, :view)
-      c = resources.count
-      @teaser_set_included_resources = resources.reorder("created_at DESC").offset(rand(c))
+      @ids = resources.pluck(:id)
+      @ids = @ids.shuffle
+      @teaser_set_included_resources = []
+      10.times do |i|
+        @teaser_set_included_resources += resources.where(id: @ids[i])
+      end
+      #@teaser_set_included_resources = resources.where(id: @ids)
     end
     @catalog_set_categories = @catalog_set.categories.where(:view => true).limit(6) if @catalog_set
     @top_keywords = view_context.hash_for Keyword.with_count_for_accessible_media_resources(current_user).limit(12), {:count => true}
