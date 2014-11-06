@@ -13,7 +13,7 @@ class FormBehaviours.WarnOnLeave
 
   delegateEvents: =>
     # if any input changed, mark as dirty
-    @el.on "change", "*", ->
+    @el.on "change", "*", =>
       @somethingChanged = true
     
     # when submitting, don't call the check!
@@ -23,11 +23,14 @@ class FormBehaviours.WarnOnLeave
     # when otherwise trying to leave, check!
     $(window).on "beforeunload", @checkBeforeLeaving
 
-  checkBeforeLeaving: =>
+  checkBeforeLeaving: (event)=>
+    msg = "Nicht gespeicherte Daten gehen verloren. Sind Sie sicher?"
+    
     if @somethingChanged
-      null
-    else
-      "Nicht gespeicherte Daten gehen verloren. Sind Sie sicher?"
-      
+      (event || window.event).preventDefault()     # Fallback
+      (event || window.event).returnValue = msg    # Gecko + IE
+      return msg                                   # Webkit, Safari, Chrome etc.
+
+
 window.App.FormBehaviours = {} unless window.App.FormBehaviours
 window.App.FormBehaviours.WarnOnLeave = FormBehaviours.WarnOnLeave
