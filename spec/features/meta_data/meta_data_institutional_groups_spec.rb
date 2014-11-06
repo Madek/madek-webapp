@@ -63,7 +63,7 @@ feature "Meta Data - Instititutional Groups" do
     # and I type 'Departement Design' in the multiselect inside.
     input.set('Departement Design'); sleep 1
     
-    # The first Result is 'Departement Design (DDE)', I select it and save.
+    # Then I select the first result and save.
     line= field.find('ul.ui-autocomplete').all('li').first
     line.click
     submit_form
@@ -74,7 +74,7 @@ feature "Meta Data - Instititutional Groups" do
     
     # The content of it is *exactly* 'Departement Design (DDE.alle)'.
     expect(mdata.find('.media-data-content').text)
-      .to eq 'Departement Design (DDE)'
+      .to eq 'Departement Design (DDE.alle)'
     
   end
 end
