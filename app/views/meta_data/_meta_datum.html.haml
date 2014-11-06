@@ -18,8 +18,12 @@
       if meta_datum.meta_key.label == "parent media_resources"
         render :partial => "meta_data/parents", :locals => {:count => meta_datum.media_resource.parent_sets.accessible_by_user(current_user,:view).count}
       else
-        s = meta_datum.to_s
-        auto_link(html_escape(s), :html => {:target => '_blank', :rel => "nofollow"})
+        result = meta_datum.to_s
+        if "text_area" === meta_datum.meta_key.meta_key_definitions.for_context(context).input_type
+          # preserve line breaks
+          result = find_and_preserve result.split("\n").join('<br>')
+        end
+        auto_link(html_escape(result), :html => {:target => '_blank', :rel => "nofollow"})
       end
   end
 
