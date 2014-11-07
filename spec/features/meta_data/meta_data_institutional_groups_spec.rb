@@ -21,7 +21,7 @@ feature "Meta Data - Instititutional Groups" do
     # I edit the entry
     visit media_entry_path(@media_entry)
     click_on_text "Weitere Aktionen"
-    click_on_text "Metadaten editieren"
+    click_on_button "Metadaten editieren"
     # and switch to the 'ZHdK' tab.
     find('[data-context-id="zhdk_bereich"] a').click
     sleep 0.1
@@ -52,7 +52,7 @@ feature "Meta Data - Instititutional Groups" do
     # I edit the entry
     visit media_entry_path(@media_entry)
     click_on_text "Weitere Aktionen"
-    click_on_text "Metadaten editieren"
+    click_on_button "Metadaten editieren"
     # and switch to the 'ZHdK' tab.
     find('[data-context-id="zhdk_bereich"] a').click
     sleep 0.1

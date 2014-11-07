@@ -24,6 +24,10 @@ tasks:
   scripts:
     rspec:
       body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/custom_urls/custom-urls_not-owner_spec.rb"
+- name: features download download access
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/download/download_access_spec.rb"
 - name: features explore catalog_categories
   scripts:
     rspec:

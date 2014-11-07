@@ -236,6 +236,7 @@ class ApplicationController < ActionController::Base
           (request[:controller] == "media_resources" and request[:action] == "index") or
           (request[:controller] == "media_resources" and request[:action] == "browse") or
           (request[:controller] == "explore") or 
+          (request[:controller] == "download") or 
           (request[:controller] == "application" and request[:action] == "root") or 
           (request[:controller] == "media_entries" and request[:action] == "show") or
           (request[:controller] == "media_entries" and request[:action] == "parents") or

@@ -25,7 +25,6 @@ Feature: Acting as an Uberadmin
     And I click on "In Admin-Modus wechseln" 
     And I visit the media_entry
     Then I am on the page of the resource
-    And I pry
     And I click on the button with title "Metadaten editieren" 
     Then I am on the edit page of the resource
     When I set the input in the fieldset with "title" as meta-key to "XYZ Titel"
@@ -48,7 +47,6 @@ Feature: Acting as an Uberadmin
     And I click on "In Admin-Modus wechseln"
     And I visit the media_entry
     Then I am on the page of the resource
-    When I click on "Weitere Aktionen"
-    And I click on "Löschen" inside the dropdown menu
+    When I click on the button with title "Löschen" 
     And I confirm the modal
     Then The media_entry doesn't exist anymore

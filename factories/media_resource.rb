@@ -25,6 +25,13 @@ FactoryGirl.define do
     end
   end
 
+  factory :media_entry_with_large_image_media_file, class: "MediaEntry"  do
+    user {User.find_random || (FactoryGirl.create :user)}
+    after(:create) do |me|
+      FactoryGirl.create :media_file_for_large_image, media_entry: me
+    end
+  end
+
   factory :media_entry_with_title, class: "MediaEntry" do
     user {User.find_random || (FactoryGirl.create :user)}
     after(:create) do |me| 

@@ -10,7 +10,8 @@ class DownloadController < ApplicationController
       unless params[:id].blank? 
         begin
           @media_entry = MediaEntry.accessible_by_user(current_user,:view).find(params[:id])
-        rescue @media_entry.nil?
+        rescue
+          raise UserUnauthorizedError unless current_user.login.present?
           raise UserForbiddenError
         end
         @filename = @media_entry.media_file.filename
@@ -38,6 +39,7 @@ class DownloadController < ApplicationController
         else
           send_original_file
         end
+        
       end
   end 
   

@@ -126,4 +126,83 @@ FactoryGirl.define do
       QuickTime:TimeScale: 600 }
   end
 
+  factory :media_file_for_large_image, class: MediaFile do
+
+    before :create do
+      unless File.exist?(Rails.root.join("db/media_files",Rails.env,'attachments/b/b8bf2eb322e04a29a52fbb06d4866af8'))
+        System.execute_cmd! "tar xf #{Rails.root.join "features/data/grumpy-cat_files.tar.gz"} -C #{Rails.root.join  "db/media_files/", Rails.env}"
+      end
+    end
+
+    extension 'jpg'
+    media_type 'image'
+    height 360
+    size 5433500
+    width 480
+    content_type 'image/jpeg'
+    filename 'grumpy_cat.jpg'
+    guid 'b8bf2eb322e04a29a52fbb06d4866af8'
+    access_hash 'edbf86ef-8bb5-40c2-8737-368bbf7f75dd'
+    meta_data YAML.load %q{
+      File:BitsPerSample: 8
+      File:ColorComponents: 3
+      File:EncodingProcess: Baseline DCT, Huffman coding
+      File:FileType: JPEG
+      File:ImageHeight: 360
+      File:ImageWidth: 480
+      File:MIMEType: image/jpeg
+      File:YCbCrSubSampling: YCbCr4:2:0 (2 2)
+      Composite:ImageSize: 480x360
+      JFIF:JFIFVersion: 1.01
+      JFIF:ResolutionUnit: inches
+      JFIF:XResolution: 72
+      JFIF:YResolution: 72 }
+
+    after :create do |mf|
+      previews_data= YAML.load %q{
+      -
+        height: 75
+        width: 100
+        content_type: image/jpeg
+        filename: b8bf2eb322e04a29a52fbb06d4866af8_small.jpg
+        thumbnail: small
+      -
+        height: 94
+        width: 125
+        content_type: image/jpeg
+        filename: b8bf2eb322e04a29a52fbb06d4866af8_small_125.jpg
+        thumbnail: small_125
+      - 
+        height: 225
+        width: 300
+        content_type: image/jpeg
+        filename: b8bf2eb322e04a29a52fbb06d4866af8_medium.jpg
+        thumbnail: medium
+      -
+        height: 360
+        width: 480
+        content_type: image/jpeg
+        filename: b8bf2eb322e04a29a52fbb06d4866af8_large.jpg
+        thumbnail: large
+      -
+        height: 360
+        width: 480
+        content_type: image/jpeg
+        filename: b8bf2eb322e04a29a52fbb06d4866af8_x_large.jpg
+        thumbnail: x_large
+      -
+        height: 360
+        width: 480
+        content_type: image/jpeg
+        filename: b8bf2eb322e04a29a52fbb06d4866af8_maximum.jpg
+        thumbnail: maximum
+      }
+
+      previews_data.each do |pd| 
+        Preview.create! pd.merge({media_file: mf})
+      end
+
+    end
+  end
+
 end
