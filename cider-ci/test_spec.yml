@@ -2,7 +2,7 @@ name: Madek Tests
 
 task_defaults: 
   eager_trials: 1
-  auto_trials: 2
+  auto_trials: 3
   traits:
     linux: true
 
