@@ -18,7 +18,7 @@ if existing_files == tested_files
   exit 0
 else
   warn "existing_files and the tested_files are not equivalent: "
-  warn "exiting but not tested: #{(existing_files - tested_files).map(&:to_s)}"
+  warn "existing but not tested: #{(existing_files - tested_files).map(&:to_s)}"
   warn "tested but not existing: #{(tested_files - existing_files).map(&:to_s)}"
   exit -1
 end
