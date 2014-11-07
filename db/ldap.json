@@ -20,6 +20,11 @@
       "institutional_group_name" : "CAS.mittelbau"
    },
    {
+      "institutional_group_id" : "143845.studierende",
+      "name" : "DAS Spatial Design HS 2014",
+      "institutional_group_name" : "DDE-DASSD_14H.studierende"
+   },
+   {
       "institutional_group_id" : "14667.alle",
       "name" : "Departement Design",
       "institutional_group_name" : "DDE.alle"
@@ -2881,12 +2886,12 @@
    },
    {
       "institutional_group_id" : "144653.alle",
-      "name" : "Master Art Education - Vertiefung publizieren & vermitteln",
+      "name" : "Master Art Education - Vertiefung Kulturpublizistik",
       "institutional_group_name" : "DKV_FAE_MAE_VPV.alle"
    },
    {
       "institutional_group_id" : "144653.alle_angestellte",
-      "name" : "Master Art Education - Vertiefung publizieren & vermitteln",
+      "name" : "Master Art Education - Vertiefung Kulturpublizistik",
       "institutional_group_name" : "DKV_FAE_MAE_VPV.alle_angestellte"
    },
    {
@@ -2901,7 +2906,7 @@
    },
    {
       "institutional_group_id" : "144653.studierende",
-      "name" : "Master Art Education - Vertiefung publizieren & vermitteln",
+      "name" : "Master Art Education - Vertiefung Kulturpublizistik",
       "institutional_group_name" : "DKV_FAE_MAE_VPV.studierende"
    },
    {
@@ -3423,6 +3428,21 @@
       "institutional_group_id" : "15284.studierende",
       "name" : "Departement Musik",
       "institutional_group_name" : "DMU.studierende"
+   },
+   {
+      "institutional_group_id" : "15407.alle",
+      "name" : "CAS Computermusik",
+      "institutional_group_name" : "DMU_CASCOM.alle"
+   },
+   {
+      "institutional_group_id" : "15407.alle_angestellte",
+      "name" : "CAS Computermusik",
+      "institutional_group_name" : "DMU_CASCOM.alle_angestellte"
+   },
+   {
+      "institutional_group_id" : "15407.studierende",
+      "name" : "CAS Computermusik",
+      "institutional_group_name" : "DMU_CASCOM.studierende"
    },
    {
       "institutional_group_id" : "144413.alle",
@@ -4850,6 +4870,11 @@
       "institutional_group_name" : "DMU_FMU_PTH.mittelbau"
    },
    {
+      "institutional_group_id" : "89976.studierende",
+      "name" : "Profil Theorie",
+      "institutional_group_name" : "DMU_FMU_PTH.studierende"
+   },
+   {
       "institutional_group_id" : "144376.alle",
       "name" : "Profil Tonmeister",
       "institutional_group_name" : "DMU_FMU_PTO.alle"
@@ -5198,6 +5223,36 @@
       "institutional_group_id" : "144945.personal",
       "name" : "Achiv ZHdK",
       "institutional_group_name" : "MIZ_Archiv.personal"
+   },
+   {
+      "institutional_group_id" : "145138.alle",
+      "name" : "Personal Materialarchiv ZHdK",
+      "institutional_group_name" : "MIZ_Materialarchiv.alle"
+   },
+   {
+      "institutional_group_id" : "145138.alle_angestellte",
+      "name" : "Personal Materialarchiv ZHdK",
+      "institutional_group_name" : "MIZ_Materialarchiv.alle_angestellte"
+   },
+   {
+      "institutional_group_id" : "145138.personal",
+      "name" : "Personal Materialarchiv ZHdK",
+      "institutional_group_name" : "MIZ_Materialarchiv.personal"
+   },
+   {
+      "institutional_group_id" : "145137.alle",
+      "name" : "Personal Medienarchiv der Künste ZHdK",
+      "institutional_group_name" : "MIZ_Medienarchiv_der_Kuenste.alle"
+   },
+   {
+      "institutional_group_id" : "145137.alle_angestellte",
+      "name" : "Personal Medienarchiv der Künste ZHdK",
+      "institutional_group_name" : "MIZ_Medienarchiv_der_Kuenste.alle_angestellte"
+   },
+   {
+      "institutional_group_id" : "145137.personal",
+      "name" : "Personal Medienarchiv der Künste ZHdK",
+      "institutional_group_name" : "MIZ_Medienarchiv_der_Kuenste.personal"
    },
    {
       "institutional_group_id" : "12781.personal",
@@ -5818,6 +5873,11 @@
       "institutional_group_id" : "132014.",
       "name" : "Mitarbeiter der Studiengänge MPE und MSP Klassik",
       "institutional_group_name" : "Verteilerliste.DMU_Mitarbeiter_MPE_MSP_Klassik"
+   },
+   {
+      "institutional_group_id" : "145070.",
+      "name" : "Mitarbeiter der Studiengänge PreCollege",
+      "institutional_group_name" : "Verteilerliste.DMU_Mitarbeiter_XPC"
    },
    {
       "institutional_group_id" : "75901.",
