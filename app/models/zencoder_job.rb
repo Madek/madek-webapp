@@ -21,6 +21,10 @@ class ZencoderJob < ActiveRecord::Base
     }).reorder("zencoder_jobs.created_at DESC")
   }
 
+  scope :failed, -> {
+    where(state: 'failed')
+  }
+
   ################################################################
   # config
   ################################################################

@@ -8,6 +8,10 @@ tasks:
   scripts:
     rspec:
       body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/admin/users/switch_to_spec.rb"
+- name: features admin zencoder_jobs
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/admin/zencoder_jobs_spec.rb"
 - name: features batch update_metadata
   scripts:
     rspec:

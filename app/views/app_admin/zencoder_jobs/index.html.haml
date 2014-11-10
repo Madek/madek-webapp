@@ -14,10 +14,13 @@
     = form_tag app_admin_zencoder_jobs_path, method: 'GET' do
 
       %label 
-        = text_field nil, :fuzzy_search, class: "search-query", value: params[:fuzzy_search] 
+        = text_field nil, :fuzzy_search, class: "search-query", value: params[:fuzzy_search]
 
-      = button_tag type: 'submit', class: 'btn btn-sm' do
-        Filter
+      %label.checkbox 
+        = check_box_tag 'failed', 1, !params[:failed].blank? 
+        Failed zencoder jobs
+
+      = submit_tag 'Filter', class: 'btn btn-sm'
     .row
       = "Number of zencoder jobs found:"
       %span#counter #{@zencoder_jobs.total_count}

@@ -6,6 +6,10 @@ class AppAdmin::ZencoderJobsController < AppAdmin::BaseController
     if !params[:fuzzy_search].blank?
       @zencoder_jobs = @zencoder_jobs.fuzzy_search(params[:fuzzy_search])
     end
+
+    if !params[:failed].blank?
+      @zencoder_jobs = @zencoder_jobs.failed
+    end
   end
 
   def show
