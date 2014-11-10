@@ -1,5 +1,16 @@
 
 
+   SELECT count(collections.id) + count(media_entries.id) + count(filter_sets.id)
+   FROM resources
+   LEFT OUTER JOIN media_entries ON resources.id = media_entries.id
+   LEFT OUTER JOIN collections ON resources.id = collections.id
+   LEFT OUTER JOIN filter_sets ON resources.id = filter_sets.id
+   WHERE resources.id = 'cab70673-74e3-4281-908d-f2f04272e933'
+   GROUP BY resources.id, collections.id, media_entries.id, filter_sets.id ;
+
+
+  SELECT sum(SELECT 1 FROM  filter_sets WHERE id = '1517e31b-588a-4c36-9589-0f4dce1fcefc');
+
 ### Refactoring meta_key_definitions -> meta_keys #############################
 
 SELECT meta_key_definitions.label AS meta_key_definition_label, 

@@ -1,5 +1,0 @@
-zencoder:
-  enabled?: true
-  test_mode?: true
-  api_key: test_bogus_key
-  ftp_base_url: ftp://example.com/encoded

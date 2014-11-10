@@ -4,7 +4,7 @@ source 'http://gems.github.com'
 # ruby '2.1.1'
 
 # RAILS
-gem 'rails', '4.1.5'
+gem 'rails', '4.1.6'
 
 # DATABASE
 gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby

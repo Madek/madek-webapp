@@ -1,1 +1,0 @@
-$.fn.position = function( options ) {};
