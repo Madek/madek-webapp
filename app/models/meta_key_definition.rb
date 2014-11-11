@@ -47,6 +47,22 @@ class MetaKeyDefinition < ActiveRecord::Base
   def meta_key_string?
     meta_key.meta_datum_object_type == 'MetaDatumString'
   end
+  
+  def is_multiline?
+    return nil unless self.meta_key_string?
+    definition = self
+    case
+      # explicit config:
+      when !definition.input_type.nil?
+        if definition.input_type != 'text_area' then false else true end
+      # otherwise implicit config:
+      when !definition.length_max.nil?
+        if definition.length_max >= 255 then true else false end
+      # default
+      else 
+        true
+      end
+  end
 
   private
 

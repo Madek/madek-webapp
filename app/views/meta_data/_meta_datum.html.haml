@@ -19,7 +19,7 @@
         render :partial => "meta_data/parents", :locals => {:count => meta_datum.media_resource.parent_sets.accessible_by_user(current_user,:view).count}
       else
         result = meta_datum.to_s
-        if "text_area" === meta_datum.meta_key.meta_key_definitions.for_context(context).input_type
+        if meta_datum.meta_key.meta_key_definitions.for_context(context).is_multiline?
           # preserve line breaks
           result = find_and_preserve result.split("\n").join('<br>')
         end

@@ -122,14 +122,6 @@ Then /^The input with name "(.*?)" is empty$/ do |name|
   expect(find("input[name='#{name}']").value).to be_nil
 end
 
-Then /^the input within the fieldset "(.*?)" is empty$/ do |meta_key|
-  expect(find("fieldset[data-meta-key='#{meta_key}'] input").value.strip).to eq ""
-end
-
-Then /^the input within the fieldset "(.*?)" is not empty$/ do |meta_key|
-  expect(find("fieldset[data-meta-key='#{meta_key}'] input").value.strip).not_to eq ""
-end
-
 ### the l ##############################################
  
 Then /^the label option "(.*?)" is selected$/ do |option|
@@ -314,6 +306,16 @@ end
 
 Then /^The set has no children$/ do
   @set.child_media_resources.clear
+end
+
+### the t
+
+Then /^the textarea within the fieldset "(.*?)" is empty$/ do |meta_key|
+  expect(find("fieldset[data-meta-key='#{meta_key}'] textarea").value.strip).to eq ""
+end
+
+Then /^the textarea within the fieldset "(.*?)" is not empty$/ do |meta_key|
+  expect(find("fieldset[data-meta-key='#{meta_key}'] textarea").value.strip).not_to eq ""
 end
 
 ### the u

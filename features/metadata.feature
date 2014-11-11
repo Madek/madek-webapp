@@ -37,11 +37,11 @@ Feature: Editing keywords, people, controlled vocabularies...
     And I click on the link "Credits"
     And I click on the link "Weitere Angaben"
     And I select "Public Domain" from "copyright-roots"
-    Then the input within the fieldset "copyright usage" is not empty
-    And the input within the fieldset "copyright url" is not empty
+    Then the textarea within the fieldset "copyright usage" is not empty
+    And the textarea within the fieldset "copyright url" is not empty
     And I select "individuelle Lizenz" from "copyright-roots"
-    Then the input within the fieldset "copyright usage" is empty
-    Then the input within the fieldset "copyright url" is empty
+    Then the textarea within the fieldset "copyright usage" is empty
+    Then the textarea within the fieldset "copyright url" is empty
     When I try to leave the page
     Then I have to confirm
 
