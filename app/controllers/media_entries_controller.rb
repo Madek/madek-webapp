@@ -134,6 +134,7 @@ class MediaEntriesController < ApplicationController
   end
   
   def map
+    check_and_initialize_for_view
     meta_data = @media_entry.media_file.meta_data
     @lat = meta_data["GPS:GPSLatitude"]
     @lng = meta_data["GPS:GPSLongitude"]
@@ -148,6 +149,7 @@ class MediaEntriesController < ApplicationController
   end
 
   def more_data
+    check_and_initialize_for_view
     @edit_sessions = @media_entry.edit_sessions.limit(5)
     @objective_meta_data = [["Filename", @media_entry.media_file.filename]] + @media_entry.media_file.meta_data_without_binary.sort
   end
@@ -157,6 +159,7 @@ class MediaEntriesController < ApplicationController
   end
 
   def contexts
+    check_and_initialize_for_view
     @contexts= @media_entry.individual_contexts
   end
   

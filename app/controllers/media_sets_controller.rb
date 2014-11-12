@@ -85,7 +85,7 @@ class MediaSetsController < ApplicationController
   end
 
   def relations
-    unless check_for_old_id_and_in_case_redirect_to :parents_media_set 
+    unless check_for_old_id_and_in_case_redirect_to :relations_media_set_path
       check_and_initialize_for_view
     end
   end
