@@ -16,7 +16,6 @@ module Concerns
       if (id = params[:id]) and (not id.blank?) and (id =~ /^\d+$/)
         if mr = MediaResource.find_by(previous_id: id)
           path= self.send method_name, mr.id
-          binding.pry
           redirect_to path, status: 301
         end
       end
