@@ -45,8 +45,6 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
 
     reversible{|d|d.up{ set_timestamps_defaults :media_entries}}
 
-    add_foreign_key :media_entries, :resources, column: 'id'
-
 
     ### create a media_entry for each media_resource of type MediaEntryResource #########
   
@@ -93,8 +91,6 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
       end
     end
 
-    add_foreign_key :collections, :resources, column: 'id'
-
 
     ###########################################################################
     ### filter_sets ###########################################################
@@ -118,8 +114,6 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
         end
       end
     end
-
-    add_foreign_key :filter_sets, :resources, column: 'id'
 
 
 ###############################################################################

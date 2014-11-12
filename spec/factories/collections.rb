@@ -2,8 +2,6 @@ FactoryGirl.define do
 
   factory :collection do
     before(:create) do |collection|
-      collection.resource= FactoryGirl.create :collection_resource
-      collection.id= collection.resource.id
     end
   end
 

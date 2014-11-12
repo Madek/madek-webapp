@@ -53,185 +53,6 @@ COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UU
 
 SET search_path = public, pg_catalog;
 
---
--- Name: check_collections_sibbling(); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION check_collections_sibbling() RETURNS trigger
-    LANGUAGE plpgsql
-    AS $$
-            DECLARE
-              resources_sibblings_count int;
-            BEGIN
-                IF (TG_OP = 'DELETE') THEN
-                
-                  IF (SELECT count(*) FROM resources WHERE id = OLD.id ) <> 0 THEN
-                    RAISE EXCEPTION 'The resource with % should have been deleted with its sibling row in collections ', OLD.id ;
-                  END IF; 
-
-                ELSE
-
-                  IF (SELECT count(*) FROM collections
-                    JOIN resources ON resources.id = collections.id
-                    WHERE resources.id = NEW.id
-                    ) <> 1 THEN
-                    RAISE EXCEPTION 'Every row in collections with id % must have exactly one and only one resource sibbling.', NEW.id ;
-                  END IF; 
-
-                  resources_sibblings_count := (SELECT count(collections.id) + count(media_entries.id) + count(filter_sets.id)
-                       FROM resources
-                       LEFT OUTER JOIN media_entries ON resources.id = media_entries.id
-                       LEFT OUTER JOIN collections ON resources.id = collections.id
-                       LEFT OUTER JOIN filter_sets ON resources.id = filter_sets.id
-                       WHERE resources.id = NEW.id
-                       GROUP BY resources.id, collections.id, media_entries.id, filter_sets.id ); 
-
-                  IF  resources_sibblings_count <> 1 THEN
-                    RAISE EXCEPTION 'Every row in resources with id % must have exactly one sibbling but this has %.', NEW.id, resources_sibblings_count;
-                  END IF; 
-
-                END IF;
-                  
-                RETURN NEW;
-
-            END;
-            $$;
-
-
---
--- Name: check_filter_sets_sibbling(); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION check_filter_sets_sibbling() RETURNS trigger
-    LANGUAGE plpgsql
-    AS $$
-            DECLARE
-              resources_sibblings_count int;
-            BEGIN
-                IF (TG_OP = 'DELETE') THEN
-                
-                  IF (SELECT count(*) FROM resources WHERE id = OLD.id ) <> 0 THEN
-                    RAISE EXCEPTION 'The resource with % should have been deleted with its sibling row in filter_sets ', OLD.id ;
-                  END IF; 
-
-                ELSE
-
-                  IF (SELECT count(*) FROM filter_sets
-                    JOIN resources ON resources.id = filter_sets.id
-                    WHERE resources.id = NEW.id
-                    ) <> 1 THEN
-                    RAISE EXCEPTION 'Every row in filter_sets with id % must have exactly one and only one resource sibbling.', NEW.id ;
-                  END IF; 
-
-                  resources_sibblings_count := (SELECT count(collections.id) + count(media_entries.id) + count(filter_sets.id)
-                       FROM resources
-                       LEFT OUTER JOIN media_entries ON resources.id = media_entries.id
-                       LEFT OUTER JOIN collections ON resources.id = collections.id
-                       LEFT OUTER JOIN filter_sets ON resources.id = filter_sets.id
-                       WHERE resources.id = NEW.id
-                       GROUP BY resources.id, collections.id, media_entries.id, filter_sets.id ); 
-
-                  IF  resources_sibblings_count <> 1 THEN
-                    RAISE EXCEPTION 'Every row in resources with id % must have exactly one sibbling but this has %.', NEW.id, resources_sibblings_count;
-                  END IF; 
-
-                END IF;
-                  
-                RETURN NEW;
-
-            END;
-            $$;
-
-
---
--- Name: check_media_entries_sibbling(); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION check_media_entries_sibbling() RETURNS trigger
-    LANGUAGE plpgsql
-    AS $$
-            DECLARE
-              resources_sibblings_count int;
-            BEGIN
-                IF (TG_OP = 'DELETE') THEN
-                
-                  IF (SELECT count(*) FROM resources WHERE id = OLD.id ) <> 0 THEN
-                    RAISE EXCEPTION 'The resource with % should have been deleted with its sibling row in media_entries ', OLD.id ;
-                  END IF; 
-
-                ELSE
-
-                  IF (SELECT count(*) FROM media_entries
-                    JOIN resources ON resources.id = media_entries.id
-                    WHERE resources.id = NEW.id
-                    ) <> 1 THEN
-                    RAISE EXCEPTION 'Every row in media_entries with id % must have exactly one and only one resource sibbling.', NEW.id ;
-                  END IF; 
-
-                  resources_sibblings_count := (SELECT count(collections.id) + count(media_entries.id) + count(filter_sets.id)
-                       FROM resources
-                       LEFT OUTER JOIN media_entries ON resources.id = media_entries.id
-                       LEFT OUTER JOIN collections ON resources.id = collections.id
-                       LEFT OUTER JOIN filter_sets ON resources.id = filter_sets.id
-                       WHERE resources.id = NEW.id
-                       GROUP BY resources.id, collections.id, media_entries.id, filter_sets.id ); 
-
-                  IF  resources_sibblings_count <> 1 THEN
-                    RAISE EXCEPTION 'Every row in resources with id % must have exactly one sibbling but this has %.', NEW.id, resources_sibblings_count;
-                  END IF; 
-
-                END IF;
-                  
-                RETURN NEW;
-
-            END;
-            $$;
-
-
---
--- Name: check_resources_sibbling(); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION check_resources_sibbling() RETURNS trigger
-    LANGUAGE plpgsql
-    AS $$
-          DECLARE
-            resources_sibblings_count int;
-          BEGIN
-              IF (TG_OP = 'DELETE') THEN
-
-                 IF (SELECT count(*) FROM media_entries WHERE id = OLD.id ) <> 0 THEN 
-                 RAISE EXCEPTION 'The sibling in media_entries of the resource with % should have been deleted too', OLD.id ;
-             END IF; 
- IF (SELECT count(*) FROM collections WHERE id = OLD.id ) <> 0 THEN 
-                 RAISE EXCEPTION 'The sibling in collections of the resource with % should have been deleted too', OLD.id ;
-             END IF; 
- IF (SELECT count(*) FROM filter_sets WHERE id = OLD.id ) <> 0 THEN 
-                 RAISE EXCEPTION 'The sibling in filter_sets of the resource with % should have been deleted too', OLD.id ;
-             END IF;  
-                 
-              ELSE
-
-                resources_sibblings_count := (SELECT count(collections.id) + count(media_entries.id) + count(filter_sets.id)
-                     FROM resources
-                     LEFT OUTER JOIN media_entries ON resources.id = media_entries.id
-                     LEFT OUTER JOIN collections ON resources.id = collections.id
-                     LEFT OUTER JOIN filter_sets ON resources.id = filter_sets.id
-                     WHERE resources.id = NEW.id
-                     GROUP BY resources.id, collections.id, media_entries.id, filter_sets.id ); 
-
-                IF  resources_sibblings_count <> 1 THEN
-                  RAISE EXCEPTION 'Every row in resources with id % must have exactly one sibbling but this has %.', NEW.id, resources_sibblings_count;
-                END IF; 
-
-              END IF;
-
-              RETURN NEW;
-
-          END;
-          $$;
-
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -1842,34 +1663,6 @@ CREATE INDEX users_trgm_searchable_idx ON users USING gin (trgm_searchable gin_t
 
 
 --
--- Name: check_collections_sibbling; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE CONSTRAINT TRIGGER check_collections_sibbling AFTER INSERT OR DELETE OR UPDATE ON collections DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_collections_sibbling();
-
-
---
--- Name: check_filter_sets_sibbling; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE CONSTRAINT TRIGGER check_filter_sets_sibbling AFTER INSERT OR DELETE OR UPDATE ON filter_sets DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_filter_sets_sibbling();
-
-
---
--- Name: check_media_entries_sibbling; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE CONSTRAINT TRIGGER check_media_entries_sibbling AFTER INSERT OR DELETE OR UPDATE ON media_entries DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_media_entries_sibbling();
-
-
---
--- Name: check_resources_sibbling; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE CONSTRAINT TRIGGER check_resources_sibbling AFTER INSERT OR DELETE OR UPDATE ON resources DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_resources_sibbling();
-
-
---
 -- Name: admin_users_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1990,14 +1783,6 @@ ALTER TABLE ONLY collection_media_entry_arcs
 
 
 --
--- Name: collections_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY collections
-    ADD CONSTRAINT collections_id_fk FOREIGN KEY (id) REFERENCES resources(id);
-
-
---
 -- Name: contexts_context_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2059,14 +1844,6 @@ ALTER TABLE ONLY favorites
 
 ALTER TABLE ONLY favorites
     ADD CONSTRAINT favorites_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
-
-
---
--- Name: filter_sets_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY filter_sets
-    ADD CONSTRAINT filter_sets_id_fk FOREIGN KEY (id) REFERENCES resources(id);
 
 
 --
@@ -2147,14 +1924,6 @@ ALTER TABLE ONLY keywords
 
 ALTER TABLE ONLY keywords
     ADD CONSTRAINT keywords_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id);
-
-
---
--- Name: media_entries_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_entries
-    ADD CONSTRAINT media_entries_id_fk FOREIGN KEY (id) REFERENCES resources(id);
 
 
 --

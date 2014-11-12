@@ -1,17 +1,9 @@
 ---
 tasks:
-- name: models collection_resource
-  scripts:
-    rspec:
-      body: bundle exec rspec "spec/models/collection_resource_spec.rb"
 - name: models collection
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/collection_spec.rb"
-- name: models media_entry_resource
-  scripts:
-    rspec:
-      body: bundle exec rspec "spec/models/media_entry_resource_spec.rb"
 - name: models media_entry
   scripts:
     rspec:
@@ -24,7 +16,3 @@ tasks:
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/relations/resource_media_entry_arc_spec.rb"
-- name: models_no_tx resource_relation_consitency
-  scripts:
-    rspec:
-      body: bundle exec rspec "spec/models_no_tx/resource_relation_consitency_spec.rb"

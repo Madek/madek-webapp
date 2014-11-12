@@ -2,8 +2,6 @@ FactoryGirl.define do
 
   factory :media_entry do
     before(:create) do |me|
-      me.resource= FactoryGirl.create :media_entry_resource
-      me.id = me.resource.id
     end
   end
 

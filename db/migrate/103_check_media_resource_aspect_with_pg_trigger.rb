@@ -2,7 +2,15 @@ class CheckMediaResourceAspectWithPgTrigger < ActiveRecord::Migration
   def change
 
     reversible do |dir|
+
+      #
+      # These triggers and checks are disabled; the new plan is to remove the resource table entirely 
+      #
+
+      return ### DISABLED 
+
       dir.up do 
+
 
         %w( media_entries collections filter_sets).each do |table_name|
 
