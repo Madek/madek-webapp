@@ -25,7 +25,6 @@ module MAdeK
       Rails.root.join("app","lib"),
       Rails.root.join("app","models","concerns"),
       Rails.root.join("app","modules"),
-      Rails.root.join("lib")
     ]
 
     # this should be in environments/test ; but that doesn't work (???)
