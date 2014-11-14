@@ -1,3 +1,7 @@
+# holy guacamole, this is a mess and has to be cleaned 
+# no time to care about this as part of madek-v3 ;-O
+# TODO TODO TODO
+#
 # Note: git blame, most if not all of this was copied over
 module MediaFileModules
   module Previews

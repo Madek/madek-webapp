@@ -1,3 +1,8 @@
+# not as bad as the preview module, needs cleanup however 
+# no time to care about this as part of madek-v3 ;-O
+# TODO TODO TODO
+#
+#
 # Note: git blame, most if not all of this was copied over
 #
 # this module is used to extract meta_data from an imported
