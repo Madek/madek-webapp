@@ -1,7 +1,7 @@
 module MediaResourceMigrationModels
 
-  class ::MigrationResource < ActiveRecord::Base
-    self.table_name= 'resources'
+  class ::MigrationMediaResource < ActiveRecord::Base
+    self.table_name= 'media_resources'
     self.inheritance_column= nil
     store :settings
 
@@ -12,10 +12,10 @@ module MediaResourceMigrationModels
       association_foreign_key: 'user_id'
   end
 
-  class ::MigrationResourceArc < ActiveRecord::Base
+  class ::MigrationMediaResourceArc < ActiveRecord::Base
     self.table_name= 'media_resource_arcs'
-    belongs_to  :child, :class_name => "MigrationResource",  :foreign_key => :child_id
-    belongs_to  :parent, :class_name => "MigrationResource",  :foreign_key => :parent_id
+    belongs_to  :child, :class_name => "MigrationMediaResource",  :foreign_key => :child_id
+    belongs_to  :parent, :class_name => "MigrationMediaResource",  :foreign_key => :parent_id
   end
 
   class ::MigrationMediaEntry < ActiveRecord::Base
@@ -44,6 +44,13 @@ module MediaResourceMigrationModels
 
   class ::MigrationFilterSetSetArc < ActiveRecord::Base
     self.table_name= 'collection_filter_set_arcs'
+  end
+
+  class ::MigrationMetaDatum < ActiveRecord::Base
+    self.table_name= 'meta_data'
+    belongs_to :media_resource, 
+      class_name: "::MigrationMediaResource", 
+      foreign_key: :media_resource_id
   end
 
 

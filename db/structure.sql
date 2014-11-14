@@ -100,7 +100,7 @@ CREATE TABLE app_settings (
 
 CREATE TABLE applicationpermissions (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    resource_id uuid NOT NULL,
+    media_resource_id uuid NOT NULL,
     application_id character varying(255) NOT NULL,
     download boolean DEFAULT false NOT NULL,
     edit boolean DEFAULT false NOT NULL,
@@ -167,7 +167,9 @@ CREATE TABLE collection_media_entry_arcs (
 CREATE TABLE collections (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp without time zone DEFAULT now() NOT NULL
+    updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    responsible_user_id uuid NOT NULL,
+    creator_id uuid
 );
 
 
@@ -235,7 +237,7 @@ CREATE TABLE custom_urls (
 CREATE TABLE edit_sessions (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     user_id uuid NOT NULL,
-    resource_id uuid NOT NULL,
+    media_resource_id uuid NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL
 );
@@ -247,7 +249,7 @@ CREATE TABLE edit_sessions (
 
 CREATE TABLE favorites (
     user_id uuid NOT NULL,
-    resource_id uuid NOT NULL
+    media_resource_id uuid NOT NULL
 );
 
 
@@ -259,7 +261,9 @@ CREATE TABLE filter_sets (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    filter json DEFAULT '{}'::json NOT NULL
+    filter json DEFAULT '{}'::json NOT NULL,
+    responsible_user_id uuid NOT NULL,
+    creator_id uuid
 );
 
 
@@ -279,7 +283,7 @@ CREATE TABLE full_texts (
 
 CREATE TABLE grouppermissions (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    resource_id uuid NOT NULL,
+    media_resource_id uuid NOT NULL,
     group_id uuid NOT NULL,
     download boolean DEFAULT false NOT NULL,
     edit boolean DEFAULT false NOT NULL,
@@ -376,7 +380,9 @@ CREATE TABLE media_entries (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    type character varying(255) DEFAULT 'MediaEntry'::character varying
+    type character varying(255) DEFAULT 'MediaEntry'::character varying,
+    responsible_user_id uuid NOT NULL,
+    creator_id uuid
 );
 
 
@@ -403,6 +409,25 @@ CREATE TABLE media_files (
 
 
 --
+-- Name: media_resources; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE media_resources (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    previous_id integer,
+    download boolean DEFAULT false NOT NULL,
+    edit boolean DEFAULT false NOT NULL,
+    manage boolean DEFAULT false NOT NULL,
+    view boolean DEFAULT false NOT NULL,
+    type character varying(255),
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    CONSTRAINT edit_on_publicpermissions_is_false CHECK ((edit = false)),
+    CONSTRAINT manage_on_publicpermissions_is_false CHECK ((manage = false))
+);
+
+
+--
 -- Name: media_sets_contexts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -418,11 +443,14 @@ CREATE TABLE media_sets_contexts (
 
 CREATE TABLE meta_data (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    media_resource_id uuid NOT NULL,
     meta_key_id character varying(255) NOT NULL,
     type character varying(255),
     string text,
-    copyright_id uuid
+    copyright_id uuid,
+    media_entry_id uuid,
+    collection_id uuid,
+    filter_set_id uuid,
+    CONSTRAINT meta_data_is_related CHECK ((((((media_entry_id IS NULL) AND (collection_id IS NULL)) AND (filter_set_id IS NOT NULL)) OR (((media_entry_id IS NULL) AND (collection_id IS NOT NULL)) AND (filter_set_id IS NULL))) OR (((media_entry_id IS NOT NULL) AND (collection_id IS NULL)) AND (filter_set_id IS NULL))))
 );
 
 
@@ -573,29 +601,6 @@ CREATE TABLE previews (
 
 
 --
--- Name: resources; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE resources (
-    id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    previous_id integer,
-    download boolean DEFAULT false NOT NULL,
-    edit boolean DEFAULT false NOT NULL,
-    manage boolean DEFAULT false NOT NULL,
-    view boolean DEFAULT false NOT NULL,
-    responsible_user_id uuid NOT NULL,
-    type character varying(255),
-    created_at timestamp without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    creator_id uuid NOT NULL,
-    updator_id uuid NOT NULL,
-    CONSTRAINT edit_on_publicpermissions_is_false CHECK ((edit = false)),
-    CONSTRAINT manage_on_publicpermissions_is_false CHECK ((manage = false)),
-    CONSTRAINT valid_media_resource_type CHECK (((type)::text = ANY ((ARRAY['MediaEntryResource'::character varying, 'MediaEntryIncompleteResource'::character varying, 'CollectionResource'::character varying, 'FilterSetResource'::character varying])::text[])))
-);
-
-
---
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -620,17 +625,6 @@ CREATE TABLE usage_terms (
 
 
 --
--- Name: user_resources_counts; Type: VIEW; Schema: public; Owner: -
---
-
-CREATE VIEW user_resources_counts AS
- SELECT count(*) AS resouces_count,
-    resources.responsible_user_id AS user_id
-   FROM resources
-  GROUP BY resources.responsible_user_id;
-
-
---
 -- Name: userpermissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -640,7 +634,7 @@ CREATE TABLE userpermissions (
     edit boolean DEFAULT false NOT NULL,
     manage boolean DEFAULT false NOT NULL,
     view boolean DEFAULT false NOT NULL,
-    resource_id uuid NOT NULL,
+    media_resource_id uuid NOT NULL,
     user_id uuid NOT NULL
 );
 
@@ -889,7 +883,7 @@ ALTER TABLE ONLY media_files
 -- Name: media_resources_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY resources
+ALTER TABLE ONLY media_resources
     ADD CONSTRAINT media_resources_pkey PRIMARY KEY (id);
 
 
@@ -1054,17 +1048,17 @@ CREATE INDEX index_applicationpermissions_on_application_id ON applicationpermis
 
 
 --
+-- Name: index_applicationpermissions_on_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_applicationpermissions_on_media_resource_id ON applicationpermissions USING btree (media_resource_id);
+
+
+--
 -- Name: index_applicationpermissions_on_mr_id_and_app_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_applicationpermissions_on_mr_id_and_app_id ON applicationpermissions USING btree (resource_id, application_id);
-
-
---
--- Name: index_applicationpermissions_on_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_applicationpermissions_on_resource_id ON applicationpermissions USING btree (resource_id);
+CREATE UNIQUE INDEX index_applicationpermissions_on_mr_id_and_app_id ON applicationpermissions USING btree (media_resource_id, application_id);
 
 
 --
@@ -1152,6 +1146,20 @@ CREATE INDEX index_collection_media_entry_arcs_on_media_entry_id_and_collect ON 
 
 
 --
+-- Name: index_collections_on_creator_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_collections_on_creator_id ON collections USING btree (creator_id);
+
+
+--
+-- Name: index_collections_on_responsible_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_collections_on_responsible_user_id ON collections USING btree (responsible_user_id);
+
+
+--
 -- Name: index_context_groups_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1208,10 +1216,10 @@ CREATE INDEX index_custom_urls_on_updator_id ON custom_urls USING btree (updator
 
 
 --
--- Name: index_edit_sessions_on_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_edit_sessions_on_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_edit_sessions_on_resource_id ON edit_sessions USING btree (resource_id);
+CREATE INDEX index_edit_sessions_on_media_resource_id ON edit_sessions USING btree (media_resource_id);
 
 
 --
@@ -1222,10 +1230,10 @@ CREATE INDEX index_edit_sessions_on_user_id ON edit_sessions USING btree (user_i
 
 
 --
--- Name: index_favorites_on_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_favorites_on_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_favorites_on_resource_id ON favorites USING btree (resource_id);
+CREATE INDEX index_favorites_on_media_resource_id ON favorites USING btree (media_resource_id);
 
 
 --
@@ -1236,10 +1244,24 @@ CREATE INDEX index_favorites_on_user_id ON favorites USING btree (user_id);
 
 
 --
--- Name: index_favorites_on_user_id_and_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_favorites_on_user_id_and_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_favorites_on_user_id_and_resource_id ON favorites USING btree (user_id, resource_id);
+CREATE UNIQUE INDEX index_favorites_on_user_id_and_media_resource_id ON favorites USING btree (user_id, media_resource_id);
+
+
+--
+-- Name: index_filter_sets_on_creator_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_filter_sets_on_creator_id ON filter_sets USING btree (creator_id);
+
+
+--
+-- Name: index_filter_sets_on_responsible_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_filter_sets_on_responsible_user_id ON filter_sets USING btree (responsible_user_id);
 
 
 --
@@ -1250,17 +1272,17 @@ CREATE INDEX index_grouppermissions_on_group_id ON grouppermissions USING btree 
 
 
 --
--- Name: index_grouppermissions_on_group_id_and_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_grouppermissions_on_group_id_and_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_grouppermissions_on_group_id_and_resource_id ON grouppermissions USING btree (group_id, resource_id);
+CREATE UNIQUE INDEX index_grouppermissions_on_group_id_and_media_resource_id ON grouppermissions USING btree (group_id, media_resource_id);
 
 
 --
--- Name: index_grouppermissions_on_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_grouppermissions_on_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_grouppermissions_on_resource_id ON grouppermissions USING btree (resource_id);
+CREATE INDEX index_grouppermissions_on_media_resource_id ON grouppermissions USING btree (media_resource_id);
 
 
 --
@@ -1334,6 +1356,20 @@ CREATE INDEX index_keywords_on_user_id ON keywords USING btree (user_id);
 
 
 --
+-- Name: index_media_entries_on_creator_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_entries_on_creator_id ON media_entries USING btree (creator_id);
+
+
+--
+-- Name: index_media_entries_on_responsible_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_entries_on_responsible_user_id ON media_entries USING btree (responsible_user_id);
+
+
+--
 -- Name: index_media_files_on_extension; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1352,6 +1388,34 @@ CREATE INDEX index_media_files_on_media_entry_id ON media_files USING btree (med
 --
 
 CREATE INDEX index_media_files_on_media_type ON media_files USING btree (media_type);
+
+
+--
+-- Name: index_media_resources_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_resources_on_created_at ON media_resources USING btree (created_at);
+
+
+--
+-- Name: index_media_resources_on_previous_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_resources_on_previous_id ON media_resources USING btree (previous_id);
+
+
+--
+-- Name: index_media_resources_on_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_resources_on_type ON media_resources USING btree (type);
+
+
+--
+-- Name: index_media_resources_on_updated_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_resources_on_updated_at ON media_resources USING btree (updated_at);
 
 
 --
@@ -1376,17 +1440,24 @@ CREATE UNIQUE INDEX index_meta_data_meta_terms_on_meta_datum_id_and_meta_term_id
 
 
 --
--- Name: index_meta_data_on_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_meta_data_on_collection_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_meta_data_on_media_resource_id ON meta_data USING btree (media_resource_id);
+CREATE INDEX index_meta_data_on_collection_id ON meta_data USING btree (collection_id);
 
 
 --
--- Name: index_meta_data_on_media_resource_id_and_meta_key_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_meta_data_on_filter_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_meta_data_on_media_resource_id_and_meta_key_id ON meta_data USING btree (media_resource_id, meta_key_id);
+CREATE INDEX index_meta_data_on_filter_set_id ON meta_data USING btree (filter_set_id);
+
+
+--
+-- Name: index_meta_data_on_media_entry_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_data_on_media_entry_id ON meta_data USING btree (media_entry_id);
 
 
 --
@@ -1502,52 +1573,17 @@ CREATE INDEX index_previews_on_media_type ON previews USING btree (media_type);
 
 
 --
--- Name: index_resources_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_userpermissions_on_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_resources_on_created_at ON resources USING btree (created_at);
-
-
---
--- Name: index_resources_on_previous_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_resources_on_previous_id ON resources USING btree (previous_id);
+CREATE INDEX index_userpermissions_on_media_resource_id ON userpermissions USING btree (media_resource_id);
 
 
 --
--- Name: index_resources_on_responsible_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_userpermissions_on_media_resource_id_and_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_resources_on_responsible_user_id ON resources USING btree (responsible_user_id);
-
-
---
--- Name: index_resources_on_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_resources_on_type ON resources USING btree (type);
-
-
---
--- Name: index_resources_on_updated_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_resources_on_updated_at ON resources USING btree (updated_at);
-
-
---
--- Name: index_userpermissions_on_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_userpermissions_on_resource_id ON userpermissions USING btree (resource_id);
-
-
---
--- Name: index_userpermissions_on_resource_id_and_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_userpermissions_on_resource_id_and_user_id ON userpermissions USING btree (resource_id, user_id);
+CREATE UNIQUE INDEX index_userpermissions_on_media_resource_id_and_user_id ON userpermissions USING btree (media_resource_id, user_id);
 
 
 --
@@ -1675,7 +1711,7 @@ ALTER TABLE ONLY admin_users
 --
 
 ALTER TABLE ONLY app_settings
-    ADD CONSTRAINT app_settings_catalog_set_id_fk FOREIGN KEY (catalog_set_id) REFERENCES resources(id);
+    ADD CONSTRAINT app_settings_catalog_set_id_fk FOREIGN KEY (catalog_set_id) REFERENCES media_resources(id);
 
 
 --
@@ -1683,7 +1719,7 @@ ALTER TABLE ONLY app_settings
 --
 
 ALTER TABLE ONLY app_settings
-    ADD CONSTRAINT app_settings_featured_set_id_fk FOREIGN KEY (featured_set_id) REFERENCES resources(id);
+    ADD CONSTRAINT app_settings_featured_set_id_fk FOREIGN KEY (featured_set_id) REFERENCES media_resources(id);
 
 
 --
@@ -1699,7 +1735,7 @@ ALTER TABLE ONLY app_settings
 --
 
 ALTER TABLE ONLY app_settings
-    ADD CONSTRAINT app_settings_splashscreen_slideshow_set_id_fk FOREIGN KEY (splashscreen_slideshow_set_id) REFERENCES resources(id);
+    ADD CONSTRAINT app_settings_splashscreen_slideshow_set_id_fk FOREIGN KEY (splashscreen_slideshow_set_id) REFERENCES media_resources(id);
 
 
 --
@@ -1723,7 +1759,7 @@ ALTER TABLE ONLY applicationpermissions
 --
 
 ALTER TABLE ONLY applicationpermissions
-    ADD CONSTRAINT applicationpermissions_media_resource_id_fk FOREIGN KEY (resource_id) REFERENCES resources(id) ON DELETE CASCADE;
+    ADD CONSTRAINT applicationpermissions_media_resource_id_fk FOREIGN KEY (media_resource_id) REFERENCES media_resources(id) ON DELETE CASCADE;
 
 
 --
@@ -1783,6 +1819,22 @@ ALTER TABLE ONLY collection_media_entry_arcs
 
 
 --
+-- Name: collections_creator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collections
+    ADD CONSTRAINT collections_creator_id_fk FOREIGN KEY (creator_id) REFERENCES users(id);
+
+
+--
+-- Name: collections_responsible_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collections
+    ADD CONSTRAINT collections_responsible_user_id_fk FOREIGN KEY (responsible_user_id) REFERENCES users(id);
+
+
+--
 -- Name: contexts_context_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1803,7 +1855,7 @@ ALTER TABLE ONLY custom_urls
 --
 
 ALTER TABLE ONLY custom_urls
-    ADD CONSTRAINT custom_urls_media_resource_id_fk FOREIGN KEY (media_resource_id) REFERENCES resources(id) ON DELETE CASCADE;
+    ADD CONSTRAINT custom_urls_media_resource_id_fk FOREIGN KEY (media_resource_id) REFERENCES media_resources(id) ON DELETE CASCADE;
 
 
 --
@@ -1819,7 +1871,7 @@ ALTER TABLE ONLY custom_urls
 --
 
 ALTER TABLE ONLY edit_sessions
-    ADD CONSTRAINT edit_sessions_media_resource_id_fk FOREIGN KEY (resource_id) REFERENCES resources(id) ON DELETE CASCADE;
+    ADD CONSTRAINT edit_sessions_media_resource_id_fk FOREIGN KEY (media_resource_id) REFERENCES media_resources(id) ON DELETE CASCADE;
 
 
 --
@@ -1835,7 +1887,7 @@ ALTER TABLE ONLY edit_sessions
 --
 
 ALTER TABLE ONLY favorites
-    ADD CONSTRAINT favorites_media_resource_id_fk FOREIGN KEY (resource_id) REFERENCES resources(id) ON DELETE CASCADE;
+    ADD CONSTRAINT favorites_media_resource_id_fk FOREIGN KEY (media_resource_id) REFERENCES media_resources(id) ON DELETE CASCADE;
 
 
 --
@@ -1847,11 +1899,27 @@ ALTER TABLE ONLY favorites
 
 
 --
+-- Name: filter_sets_creator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_sets
+    ADD CONSTRAINT filter_sets_creator_id_fk FOREIGN KEY (creator_id) REFERENCES users(id);
+
+
+--
+-- Name: filter_sets_responsible_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_sets
+    ADD CONSTRAINT filter_sets_responsible_user_id_fk FOREIGN KEY (responsible_user_id) REFERENCES users(id);
+
+
+--
 -- Name: full_texts_media_resource_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY full_texts
-    ADD CONSTRAINT full_texts_media_resource_id_fk FOREIGN KEY (media_resource_id) REFERENCES resources(id) ON DELETE CASCADE;
+    ADD CONSTRAINT full_texts_media_resource_id_fk FOREIGN KEY (media_resource_id) REFERENCES media_resources(id) ON DELETE CASCADE;
 
 
 --
@@ -1867,7 +1935,7 @@ ALTER TABLE ONLY grouppermissions
 --
 
 ALTER TABLE ONLY grouppermissions
-    ADD CONSTRAINT grouppermissions_media_resource_id_fk FOREIGN KEY (resource_id) REFERENCES resources(id) ON DELETE CASCADE;
+    ADD CONSTRAINT grouppermissions_media_resource_id_fk FOREIGN KEY (media_resource_id) REFERENCES media_resources(id) ON DELETE CASCADE;
 
 
 --
@@ -1927,19 +1995,27 @@ ALTER TABLE ONLY keywords
 
 
 --
+-- Name: media_entries_creator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entries
+    ADD CONSTRAINT media_entries_creator_id_fk FOREIGN KEY (creator_id) REFERENCES users(id);
+
+
+--
+-- Name: media_entries_responsible_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entries
+    ADD CONSTRAINT media_entries_responsible_user_id_fk FOREIGN KEY (responsible_user_id) REFERENCES users(id);
+
+
+--
 -- Name: media_files_media_entry_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY media_files
     ADD CONSTRAINT media_files_media_entry_id_fk FOREIGN KEY (media_entry_id) REFERENCES media_entries(id);
-
-
---
--- Name: media_resources_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY resources
-    ADD CONSTRAINT media_resources_user_id_fk FOREIGN KEY (responsible_user_id) REFERENCES users(id);
 
 
 --
@@ -1955,7 +2031,15 @@ ALTER TABLE ONLY media_sets_contexts
 --
 
 ALTER TABLE ONLY media_sets_contexts
-    ADD CONSTRAINT media_sets_contexts_media_set_id_fk FOREIGN KEY (media_set_id) REFERENCES resources(id) ON DELETE CASCADE;
+    ADD CONSTRAINT media_sets_contexts_media_set_id_fk FOREIGN KEY (media_set_id) REFERENCES media_resources(id) ON DELETE CASCADE;
+
+
+--
+-- Name: meta_data_collection_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meta_data
+    ADD CONSTRAINT meta_data_collection_id_fk FOREIGN KEY (collection_id) REFERENCES collections(id);
 
 
 --
@@ -1964,6 +2048,14 @@ ALTER TABLE ONLY media_sets_contexts
 
 ALTER TABLE ONLY meta_data
     ADD CONSTRAINT meta_data_copyright_id_fk FOREIGN KEY (copyright_id) REFERENCES copyrights(id);
+
+
+--
+-- Name: meta_data_filter_set_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meta_data
+    ADD CONSTRAINT meta_data_filter_set_id_fk FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id);
 
 
 --
@@ -1983,11 +2075,11 @@ ALTER TABLE ONLY meta_data_institutional_groups
 
 
 --
--- Name: meta_data_media_resource_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: meta_data_media_entry_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY meta_data
-    ADD CONSTRAINT meta_data_media_resource_id_fk FOREIGN KEY (media_resource_id) REFERENCES resources(id) ON DELETE CASCADE;
+    ADD CONSTRAINT meta_data_media_entry_id_fk FOREIGN KEY (media_entry_id) REFERENCES media_entries(id);
 
 
 --
@@ -2095,27 +2187,11 @@ ALTER TABLE ONLY previews
 
 
 --
--- Name: resources_creator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY resources
-    ADD CONSTRAINT resources_creator_id_fk FOREIGN KEY (creator_id) REFERENCES users(id);
-
-
---
--- Name: resources_updator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY resources
-    ADD CONSTRAINT resources_updator_id_fk FOREIGN KEY (updator_id) REFERENCES users(id);
-
-
---
 -- Name: userpermissions_media_resource_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY userpermissions
-    ADD CONSTRAINT userpermissions_media_resource_id_fk FOREIGN KEY (resource_id) REFERENCES resources(id) ON DELETE CASCADE;
+    ADD CONSTRAINT userpermissions_media_resource_id_fk FOREIGN KEY (media_resource_id) REFERENCES media_resources(id) ON DELETE CASCADE;
 
 
 --
@@ -2168,7 +2244,9 @@ INSERT INTO schema_migrations (version) VALUES ('101');
 
 INSERT INTO schema_migrations (version) VALUES ('102');
 
-INSERT INTO schema_migrations (version) VALUES ('103');
+INSERT INTO schema_migrations (version) VALUES ('104');
+
+INSERT INTO schema_migrations (version) VALUES ('105');
 
 INSERT INTO schema_migrations (version) VALUES ('11');
 

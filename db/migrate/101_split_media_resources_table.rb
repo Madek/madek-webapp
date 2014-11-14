@@ -7,33 +7,6 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
 
   def change
 
-    ### change types on resources #######################################
-    
-    rename_table :media_resources, :resources
-    rename_column :edit_sessions, :media_resource_id, :resource_id
-    rename_column :favorites, :media_resource_id, :resource_id
-    rename_column :userpermissions, :media_resource_id, :resource_id
-    rename_column :grouppermissions, :media_resource_id, :resource_id
-    rename_column :applicationpermissions, :media_resource_id, :resource_id
-
-
-    reversible do |dir|
-      dir.up do 
-        execute "UPDATE resources SET type = 'MediaEntryResource' WHERE type = 'MediaEntry'"
-        execute "UPDATE resources SET type = 'MediaEntryIncompleteResource' WHERE type = 'MediaEntryIncomplete'"
-        execute "UPDATE resources SET type = 'CollectionResource' WHERE type = 'MediaSet'"
-        execute "UPDATE resources SET type = 'FilterSetResource' WHERE type = 'FilterSet'"
-        
-        valid_types_string= %w(MediaEntryResource MediaEntryIncompleteResource CollectionResource FilterSetResource).map{|s|"'#{s}'"}.join(', ') 
-        execute %[ALTER TABLE resources ADD CONSTRAINT valid_media_resource_type CHECK 
-            ( type IN (#{ valid_types_string }));]
-
-      end
-      dir.down do
-        execute %[ ALTER TABLE resources DROP CONSTRAINT valid_media_resource_type ]
-      end
-    end
-
     ###########################################################################
     ### media_entries #########################################################
     ###########################################################################
@@ -46,11 +19,11 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
     reversible{|d|d.up{ set_timestamps_defaults :media_entries}}
 
 
-    ### create a media_entry for each media_resource of type MediaEntryResource #########
+    ### create a media_entry for each media_resource of type MediaEntry #########
   
     reversible do |dir|
       dir.up do 
-        ::MigrationResource.where(type: 'MediaEntryResource').find_each do |mre|
+        ::MigrationMediaResource.where(type: 'MediaEntry').find_each do |mre|
           ::MigrationMediaEntry.create! id: mre.id, 
             created_at: mre.created_at,
             updated_at: mre.updated_at
@@ -67,7 +40,7 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
       end
       dir.down do 
         remove_foreign_key :media_files, :media_entries
-        add_foreign_key :media_files, :resources, column: :media_entry_id
+        add_foreign_key :media_files, :media_resources, column: :media_entry_id
       end
     end
 
@@ -83,7 +56,7 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
 
     reversible do |dir|
       dir.up do 
-        ::MigrationResource.where(type: 'CollectionResource').find_each do |mrs|
+        ::MigrationMediaResource.where(type: 'MediaSet').find_each do |mrs|
           ::MigrationCollection.create! id: mrs.id, 
             created_at: mrs.created_at,
             updated_at: mrs.updated_at
@@ -106,7 +79,7 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
 
     reversible do |dir|
       dir.up do 
-        ::MigrationResource.where(type: 'FilterSetResource').find_each do |mrfs|
+        ::MigrationMediaResource.where(type: 'FilterSet').find_each do |mrfs|
           ::MigrationFilterSet.create! id: mrfs.id, 
             created_at: mrfs.created_at,
             updated_at: mrfs.updated_at,
@@ -183,13 +156,13 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
 
     reversible do |dir|
       dir.up do 
-        MigrationResourceArc.find_each do |arc|
-          if arc.child.type == 'MediaEntryResource' and arc.parent.type == 'CollectionResource'
+        MigrationMediaResourceArc.find_each do |arc|
+          if arc.child.type == 'MediaEntry' and arc.parent.type == 'MediaSet'
             MigrationEntrySetArc.create! collection_id: arc.parent_id, 
               media_entry_id:  arc.child_id, highlight: arc.highlight, cover: arc.cover
-          elsif arc.child.type == 'CollectionResource' and arc.parent.type == 'CollectionResource'
+          elsif arc.child.type == 'MediaSet' and arc.parent.type == 'MediaSet'
             MigrationSetSetArc.create! parent_id: arc.parent_id, child_id: arc.child_id
-          elsif arc.child.type == 'FilterSetResource' and arc.parent.type == 'CollectionResource'
+          elsif arc.child.type == 'FilterSet' and arc.parent.type == 'MediaSet'
             MigrationFilterSetSetArc.create! collection_id: arc.parent_id, filter_set_id: arc.child_id
           else
             raise ["Unknown Arc Type", arc.attributes]
@@ -215,14 +188,14 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
         add_index :media_resource_arcs, :cover
         add_index :media_resource_arcs, :parent_id
         add_index :media_resource_arcs, :child_id
-        add_foreign_key :media_resource_arcs, :resources, column: :child_id, dependent: :delete
-        add_foreign_key :media_resource_arcs, :resources, column: :parent_id, dependent: :delete
+        add_foreign_key :media_resource_arcs, :media_resources, column: :child_id, dependent: :delete
+        add_foreign_key :media_resource_arcs, :media_resources, column: :parent_id, dependent: :delete
         execute "ALTER TABLE media_resource_arcs  ADD CHECK (parent_id <> child_id);"
       end
     end
 
 
-    remove_column :resources, :settings, :text
+    remove_column :media_resources, :settings, :text
 
   end
 end
