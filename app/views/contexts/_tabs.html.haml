@@ -1,9 +1,0 @@
-%ul.ui-tabs.large
-
-  %li.ui-tabs-item{:class => context_show_page? ? "active" : ""}
-    %a{:href => context_path(@context)}
-      = _("Vocabulary")
-
-  %li.ui-tabs-item{:class => context_entries_page? ? "active" : ""}
-    %a{:href => context_entries_path(@context)}
-      = _("Inhalte")

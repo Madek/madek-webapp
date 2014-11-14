@@ -1,7 +1,0 @@
-- unless keywords.blank?
-  %ul.ui-tag-cloud.small.ellipsed
-    - keywords.each do |keyword|
-      %li.ui-tag-cloud-item
-        = link_to(media_resources_path(:meta_data => {:keywords => {:ids => [keyword.keyword_term.id]}}), :class => "ui-tag-button", :title => keyword) do
-          %i.icon-tag-mini.ui-tag-icon
-          = keyword

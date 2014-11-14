@@ -1,8 +1,0 @@
-%li{:class => "ui-side-filter-lvl3-item resources_filter {{if !value.length}}unknown{{/if}}", :"data-value" => "${id}"}
-  %a.weak
-    {{if value.length}}
-    ${value}
-    {{else}}
-    = "${_jed('unknown')}"
-    {{/if}}
-    %span.ui-lvl3-item-count.resources_count ${(count>9999) ? ">9999" : count} 

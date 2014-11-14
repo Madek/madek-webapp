@@ -1,7 +1,0 @@
-- unless people.blank?
-  %ul.ui-tag-cloud.small.ellipsed
-    - people.each do |person|
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button.person-tag{:href => media_resources_path(:search => person.fullname), :title => person}
-          %i.icon-user-mini.ui-tag-icon
-          = person

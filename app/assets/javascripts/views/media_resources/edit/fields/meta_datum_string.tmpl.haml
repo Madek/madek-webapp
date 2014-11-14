@@ -1,6 +1,0 @@
-{{if definition.settings.length_max <= 255}}
-%input.block{:id => "resource[meta_data_attributes][${index}][value]", :type => "text", :value => "${meta_datum.value}", :name => "resource[meta_data_attributes][${index}][value]", :maxlength => "${definition.settings.length_max}"}
-{{else}}
-%textarea.block{:id => "resource[meta_data_attributes][${index}][value]", :name => "resource[meta_data_attributes][${index}][value]"}
-  ${meta_datum.value}
-{{/if}}

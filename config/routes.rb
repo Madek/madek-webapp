@@ -141,8 +141,6 @@ MAdeK::Application.routes.draw do
   # TODO this is to unspecific; I wonder that it works at all
   get '/download', :controller => 'download', :action => 'download'
 
-  get '/nagiosstat', :to => Nagiosstat
-
 
   ### media_resource_arcs ###############################
 

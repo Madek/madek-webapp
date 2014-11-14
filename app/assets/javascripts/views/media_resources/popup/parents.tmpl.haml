@@ -1,7 +1,0 @@
-%h3.ui-thumbnail-level-notes ${_jed('Parent sets')}
-%ul.ui-thumbnail-level-items
-  {{each(i,media_resource) parents.resources}}
-  {{tmpl(media_resource,{i:i}) App.renderPath("media_resources/popup/item")}}
-  {{/each}}
-%span.ui-thumbnail-level-notes
-  ${_jed('%d sets', parents.pagination.total)}

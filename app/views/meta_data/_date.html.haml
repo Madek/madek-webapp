@@ -1,5 +1,0 @@
-- if meta_datum.value
-  - if meta_datum.value.is_a? String
-    = meta_datum.value
-  - else
-    = _("%s o'clock") % meta_datum.value.to_formatted_s(:date_time)

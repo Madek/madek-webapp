@@ -1,2 +1,0 @@
-module AppAdmin::GroupsHelper
-end
