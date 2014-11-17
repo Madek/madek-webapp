@@ -1,6 +1,7 @@
 FactoryGirl.define do
 
   factory :media_entry do
+    title {Faker::Name.title}
     before(:create) do |me|
       me.responsible_user_id= (User.find_random || FactoryGirl.create(:user)).id
       me.creator_id= (User.find_random || FactoryGirl.create(:user)).id

@@ -1,6 +1,7 @@
 FactoryGirl.define do
 
   factory :collection do
+    title {Faker::Name.title}
     before(:create) do |collection|
       collection.responsible_user_id= (User.find_random || FactoryGirl.create(:user)).id
       collection.creator_id= (User.find_random || FactoryGirl.create(:user)).id
