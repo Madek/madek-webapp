@@ -12,6 +12,10 @@ tasks:
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/media_file_spec.rb"
+- name: models meta_datum text
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/meta_datum/text_spec.rb"
 - name: models relations resource_media_entry_arc
   scripts:
     rspec:

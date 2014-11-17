@@ -2244,6 +2244,8 @@ INSERT INTO schema_migrations (version) VALUES ('101');
 
 INSERT INTO schema_migrations (version) VALUES ('102');
 
+INSERT INTO schema_migrations (version) VALUES ('103');
+
 INSERT INTO schema_migrations (version) VALUES ('104');
 
 INSERT INTO schema_migrations (version) VALUES ('105');
