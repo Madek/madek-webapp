@@ -6,24 +6,6 @@ Feature: Managing Users and Logins
     Given I am signed-in as "Adam"
 
   @jsbrowser
-  Scenario: Deleting groups
-    When I visit "/app_admin/groups"
-    And I set the input with the name "filter[search_terms]" to "Expert"
-    And I select "Group" from the select node with the name "type"
-    And I submit
-    Then I can see "Expert"
-    When I remember the id of the first group-row
-    And I click on the details link of the first row
-    Then I can see the "Delete" link
-    When I click on "Delete"
-    And I confirm the browser dialog
-    Then I can see a success message
-    When I set the input with the name "filter[search_terms]" to "Expert"
-    And I select "Group" from the select node with the name "type"
-    And I submit
-    And I cannot see "Expert"
-
-  @jsbrowser
   Scenario: Adding an user to a group
     When I visit "/app_admin/groups"
     Then I see the user count

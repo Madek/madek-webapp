@@ -4,18 +4,24 @@
 
 %ul.list-inline
   %li
-    =link_to form_add_user_app_admin_group_path(@group), class: 'btn btn-success' do
+    = link_to form_add_user_app_admin_group_path(@group), class: 'btn btn-success' do
       %i.icon-plus
       Add user
 
   %li
-    =link_to edit_app_admin_group_path(@group), class: "btn btn-warning" do
+    = link_to edit_app_admin_group_path(@group), class: 'btn btn-warning' do
       %i.icon-pen
       Edit
 
+  - if @group.type == 'InstitutionalGroup'
+    %li
+      = link_to form_merge_to_app_admin_group_path(@group), class: 'btn btn-primary' do
+        %i.fa.fa-random
+        Merge to
+
   %li
-    =link_to app_admin_group_path(@group), method: :delete, class: "btn btn-danger", data: {confirm: "Are you really want to delete this group?"} do
-      %i.icon-trash-o
+    = link_to app_admin_group_path(@group), method: :delete, class: 'btn btn-danger', data: {confirm: 'Are you really want to delete this group?'} do
+      %i.icon-trash
       Delete
 
 %table.table.table-striped

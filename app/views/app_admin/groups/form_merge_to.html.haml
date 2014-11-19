@@ -1,0 +1,16 @@
+%h1 Merge <em>#{@group}</em> group to:
+
+%p Transfer all users and grouppermissions associated with this group to an other group.
+%p After merge the group will be deleted.
+
+= form_tag merge_to_app_admin_group_path(@group), method: :post, class: 'form-horizontal', role: 'form' do
+
+  .form-group
+    %label.control-label.col-sm-3 ID of the receiving group:
+    .col-sm-4
+      = text_field nil, :id_receiver, id: 'id_receiver', class: 'form-control'
+
+  .form-group
+    .col-sm-offset-3.col-sm-4
+      = submit_tag 'Merge', class: 'btn btn-warning', data: {confirm: 'Are you really want to perform a merge?'}
+

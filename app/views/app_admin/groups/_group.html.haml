@@ -6,10 +6,10 @@
   %td
     %span #{group.type}
 
-  %td.user_count
+  %td.users-count
     #{group.users_count}
 
-  %td.search-rank= group.respond_to?(:search_rank) ?  group.search_rank : ''
+  %td.search-rank= group.respond_to?(:search_rank) ? group.search_rank : ''
 
   %td.no-wrap
     %ul.list-inline
@@ -33,4 +33,7 @@
         = link_to edit_app_admin_group_path(group), class: "btn btn-warning btn-xs edit" do
           %i.icon-pen
           Edit
-
+      %li
+        = link_to app_admin_group_path(group), method: :delete, data: { confirm: 'Are you really want to delete this group?' }, class: 'btn btn-danger btn-xs' do
+          %i.icon-trash
+          Delete

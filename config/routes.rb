@@ -405,6 +405,8 @@ MAdeK::Application.routes.draw do
       member do
         get 'form_add_user'
         post 'add_user'
+        get 'form_merge_to'
+        post 'merge_to'
         get 'show_media_sets'
         get 'show_media_entries'
       end

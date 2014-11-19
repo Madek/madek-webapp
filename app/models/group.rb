@@ -19,6 +19,13 @@ class Group < ActiveRecord::Base
     ["Admin", "ZHdK (Zürcher Hochschule der Künste)"].include?(name) # FIXME remove zhdk
   end
 
+  def merge_to(receiver)
+    Group.transaction do
+      merge_users_to(receiver)
+      merge_grouppermissions_to(receiver)
+    end
+  end
+
 ### use in case counters get broken ####################
 
   def self.reset_users_count
@@ -48,4 +55,26 @@ class Group < ActiveRecord::Base
       .where("#{rank} > 0.05") \
       .reorder("search_rank DESC") }
 
+  private
+
+  def merge_grouppermissions_to(receiver)
+    grouppermissions.each do |grouppermission|
+      if receiver_permission = receiver.grouppermissions.find_by(media_resource_id: grouppermission.media_resource_id)
+        grouppermission.active_permissions.each do |permission|
+          receiver_permission.send("#{permission}=", true)
+        end
+        receiver_permission.save!
+      else
+        receiver.grouppermissions << grouppermission
+      end
+    end
+    delete
+  end
+
+  def merge_users_to(receiver)
+    users.each do |user|
+      receiver.users << user unless receiver.users.exists?(id: user.id)
+    end
+    users.clear
+  end
 end

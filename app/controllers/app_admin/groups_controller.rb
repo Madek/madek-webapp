@@ -92,9 +92,16 @@ class AppAdmin::GroupsController < AppAdmin::BaseController
 
   def destroy
     begin
-      @group = Group.find params[:id]
-      @group.destroy
-      redirect_to app_admin_groups_path, flash: {success: "The Group has been deleted."}
+      @group = Group.find(params[:id])
+      if @group.users.empty?
+        @group.destroy!
+        redirect_path = app_admin_groups_path
+        flash_message = {success: 'The group has been deleted.'}
+      else
+        redirect_path = :back
+        flash_message = {error: 'The group contains users and cannot be deleted.'}
+      end
+      redirect_to redirect_path, flash: flash_message
     rescue => e
       redirect_to :back, flash: {error: e.to_s}
     end
@@ -128,6 +135,21 @@ class AppAdmin::GroupsController < AppAdmin::BaseController
   def show_media_entries
     @group = Group.find(params[:id])
     @permission_presets = PermissionPreset.where.not(name: "Gesperrt")
+  end
+
+  def form_merge_to
+    @group = Group.departments.find(params[:id])
+  end
+
+  def merge_to
+    originator = Group.departments.find(params[:id])
+    receiver = Group.departments.find(params[:id_receiver].strip)
+
+    originator.merge_to(receiver)
+
+    redirect_to app_admin_group_url(receiver), flash: {success: 'The group has been merged.'}
+  rescue => e
+    redirect_to app_admin_group_url(originator), flash: {error: e.to_s}
   end
 
   private

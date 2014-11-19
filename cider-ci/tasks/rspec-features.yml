@@ -4,6 +4,10 @@ tasks:
   scripts:
     rspec:
       body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/admin/filter_sets/removing_filter_set_spec.rb"
+- name: features admin groups
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/admin/groups_spec.rb"
 - name: features admin users switch_to
   scripts:
     rspec:
