@@ -56,6 +56,14 @@ tasks:
   scripts:
     rspec:
       body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/media_resources/media_resources_relations_spec.rb"
+- name: features media_resources media_set_display_mode
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/media_resources/media_set_display_mode_spec.rb"
+- name: features media_resources media_set_actions
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/media_resources/media_set_actions_spec.rb"
 - name: features meta_data meta_data_institutional_groups
   scripts:
     rspec:
