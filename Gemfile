@@ -85,11 +85,8 @@ gem 'thin', :platform => :mri, group: [:development, :personas] # web server (We
 gem 'zencoder-fetcher', group: [:development]
 
 
-
-#gem 'json_roa-client', group: [:test, :development], path: "/Users/thomas/Programming/ROA/ruby_json-roa_client"
-gem 'json_roa-client', group: [:test, :development], git: 'https://github.com/json-roa/json-roa_ruby-client.git'
-gem 'thread', group: [:test, :development]
-
+gem 'cider_ci-rails', '~> 0.0.3'
+# gem "cider_ci-rails", path: "/Users/thomas/Programming/CIDER-CI/rails-support"
 
 
 
