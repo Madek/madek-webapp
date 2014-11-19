@@ -27,6 +27,7 @@ gem 'roar-rails'
 gem "madek_zhdk_integration", git: 'https://github.com/zhdk/madek-zhdk-integration.git', ref: '11434aeea50795c0a8e5663b4350746232744319'
 
 
+
 # The rest
 gem 'bcrypt-ruby'
 gem 'bootstrap-sass' 
@@ -85,6 +86,13 @@ gem 'zencoder-fetcher', group: [:development]
 
 
 
+#gem 'json_roa-client', group: [:test, :development], path: "/Users/thomas/Programming/ROA/ruby_json-roa_client"
+gem 'json_roa-client', group: [:test, :development], git: 'https://github.com/json-roa/json-roa_ruby-client.git'
+gem 'thread', group: [:test, :development]
+
+
+
 
 # TEMPORARILY DISABLED
 # gem 'rack-mini-profiler', group: [:development]
+#
