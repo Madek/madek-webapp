@@ -1,40 +1,51 @@
+:ruby
+  @is_guest= current_user.is_guest?
+  @is_owner= @media_entry.user == current_user
+  @is_admin= current_user.is_admin?
+  @can_manage= current_user.authorized?(:manage, @media_entry)
+  @can_delete= current_user.authorized?(:delete, @media_entry)
+
+
 .ui-body-title-actions
-  - unless current_user.is_guest?
-    = render :partial => "media_resources/actions/clipboard_toggle"
-    = render :partial => "media_resources/actions/favor_toggle", :locals => {mr: @media_entry}
-
-    %a#ui-export-button.button
-      %i.icon-dload
-      = _("Export")
-
-    .dropdown.ui-dropdown.stick-right
-      %a#resource-action-button.primary-button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown", href: "#"}
-        = _("Further actions")
-        %i.icon-arrow-down.bright.stand-alone
-
-      %ul.dropdown-menu.dropdown-menu-progressive.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
-
-        - if @can_edit
-          = render :partial => "media_resources/actions/edit", :locals => {mr: @media_entry}
-
-        = render "media_resources/actions/permissions", media_resource: @media_entry
-
-        = render :partial => "media_resources/actions/organize"
-
-        = render :partial => "media_resources/actions/browse"
-
-        -if @media_entry.user == current_user
-          = render :partial => "media_resources/actions/visualize_my_component_with", :locals => {mr: @media_entry}
-
-        = render "media_resources/actions/urls", media_resource: @media_entry
-
-        - if current_user.authorized?(:delete, @media_entry)
-          = render :partial => "media_resources/actions/delete"
-
-        - if current_user.is_admin? 
-          %li.separator
-          = render "media_entries/actions/admin"
-        
-  - else
   
-    = render :partial => "login_action"
+  - unless @is_guest
+    = render "media_resources/actions/clipboard_toggle"
+    = render "media_resources/actions/favor_toggle", media_resource: @media_entry
+    %span.action-separator
+
+  = render "media_resources/actions/browse"
+  
+  - if @can_edit
+    = render "media_resources/actions/edit", media_resource: @media_entry
+
+  - if @can_delete
+    = render "media_resources/actions/delete"
+
+  .dropdown.ui-dropdown.stick-right
+    %a#resource-action-button.button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown", href: "#"}
+      = _("Further actions")
+      %i.icon-arrow-down.stand-alone
+
+    %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", role: "menu"}
+
+      - unless @is_guest
+        = render "media_resources/actions/permissions", media_resource: @media_entry
+        = render "media_resources/actions/organize"
+        %li.separator
+
+      %li.ui-drop-item
+        %a#ui-export-button
+          %i.icon-dload.mid
+          = _("Export")
+
+      - if @is_owner
+        = render "media_resources/actions/visualize_my_component_with", media_resource: @media_entry
+
+      = render "media_resources/actions/urls", media_resource: @media_entry
+
+      - if @is_admin
+        %li.separator
+        %li.ui-drop-item
+          %a{:href => app_admin_media_entry_path(@media_entry)}
+            %i.icon-admin.mid
+            = _("MediaEntry in the Admin Interface")

@@ -14,8 +14,7 @@ feature "MetaData" do
     @current_user= sign_in_as 'normin'
     @media_entry= FactoryGirl.create :media_entry_with_image_media_file, user: @current_user
     visit media_entry_path(@media_entry)
-    click_on_text "Weitere Aktionen" 
-    click_on_text "Metadaten editieren"
+    click_on_button "Metadaten editieren"
 
 
     # change the value of each meta-data field of each context
@@ -33,8 +32,7 @@ feature "MetaData" do
 
     every_meta_data_value_is_visible_on_the_page
 
-    click_on_text "Weitere Aktionen" 
-    click_on_text "Metadaten editieren"
+    click_on_button "Metadaten editieren"
 
 
     each_meta_data_value_in_each_context_is_equal_to_the_one_set_previously

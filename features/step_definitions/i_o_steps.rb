@@ -75,8 +75,8 @@ end
 
 
 Then /^I open the view-permissions page/ do
-  find(".primary-button",text: "Weitere Aktionen").click
-  find("a#view_permissions_of_resource").click
+  find(".ui-drop-toggle", text: "Weitere Aktionen").click
+  find("a", text: "Berechtigungen").click
 end
 
 
@@ -88,7 +88,7 @@ end
 
 Then /^I open the organize dialog$/ do
   wait_until {all(".app[data-id]").size > 0}
-  find(".ui-body-title-actions .primary-button").click
+  find(".ui-drop-toggle", text: "Weitere Aktionen").click
   wait_until {all(".ui-drop-item a[data-organize-arcs]", :visible => true).size > 0}
   all(".ui-drop-item a[data-organize-arcs]", :visible => true).first.click
   step 'I wait for the dialog to appear'

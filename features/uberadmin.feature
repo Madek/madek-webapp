@@ -15,7 +15,7 @@ Feature: Acting as an Uberadmin
     And I click on "Admin-Modus verlassen"
     Then I see exactly the same number of resources as before
 
-  @jsbrowser
+  @firefox
   Scenario: Viewing and editing a private entry as Überadmin
     When I remember a media_entry that doesn't belong to me, has no public, nor other permissions
     And I visit the media_entry
@@ -25,8 +25,8 @@ Feature: Acting as an Uberadmin
     And I click on "In Admin-Modus wechseln" 
     And I visit the media_entry
     Then I am on the page of the resource
-    When I click on "Weitere Aktionen"
-    And I click on "Metadaten editieren" 
+    And I pry
+    And I click on the button with title "Metadaten editieren" 
     Then I am on the edit page of the resource
     When I set the input in the fieldset with "title" as meta-key to "XYZ Titel"
     And I submit

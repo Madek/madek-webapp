@@ -301,7 +301,6 @@ Then /^I can see the delete action for media resources where I am responsible fo
 end
 
 Then /^I can see the delete action for this resource$/ do
-  find(".ui-body-title-actions .primary-button").click
   find("[data-delete-action]")
 end
 
@@ -602,6 +601,10 @@ end
 Then /^I click on "([^\"]*?)"$/ do |text|
   wait_until{ all("a, button", text: text, visible: true).size > 0}
   find("a, button",text: text).click
+end
+
+Then /^I click on the button with title "([^\"]*?)"$/ do |text|
+  find(".button[title=\"#{text}\"]").click
 end
 
 When(/^I click on the first context link$/) do

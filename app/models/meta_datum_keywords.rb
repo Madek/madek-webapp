@@ -28,7 +28,6 @@ class MetaDatumKeywords < MetaDatum
         Keyword.new(keyword_term: term, user: user)
       end
       rescue Exception => e
-        binding.pry
       end
     end
     Keyword.delete(self.keywords - new_keywords)

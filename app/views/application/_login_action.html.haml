@@ -1,7 +1,6 @@
-- primary = (!!defined?(primary) and !primary.nil?) ? primary : true
 - if current_user.is_guest?
   .dropdown.ui-dropdown.stick-right
-    %a.dropdown-toggle{:href => root_path, :class => primary ? "primary-button" : "button"}
+    %a.button.tertiary-button{:href => root_path}
       %i.icon-man_silhouette
       = _("Log in")
 

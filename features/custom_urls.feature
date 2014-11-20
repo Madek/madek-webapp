@@ -7,7 +7,7 @@ Feature: Setting and using custom URLs for MediaResources
     Given I am signed-in as "Normin"
     When I visit my first media_entry 
     And I click on "Weitere Aktionen"
-    And I click on "Adressen verwalten"
+    And I click on "Adressen"
     Then I can see "Adressen für"
     When I click on "Adresse anlegen / übertragen"
     And I set the input with the name "url" to "the_new_url_for_testing"
@@ -23,7 +23,7 @@ Feature: Setting and using custom URLs for MediaResources
     When I visit my first media_entry 
     And I remember the path 
     And I click on "Weitere Aktionen"
-    And I click on "Adressen verwalten"
+    And I click on "Adressen"
 
     When I click on "Adresse anlegen / übertragen"
     And I set the input with the name "url" to "the_new_url_for_testing"
@@ -34,7 +34,7 @@ Feature: Setting and using custom URLs for MediaResources
     And The current_path is equal to the remembered one
 
     When I click on "Weitere Aktionen"
-    And I click on "Adressen verwalten"
+    And I click on "Adressen"
     And I can see the text "Weiterleitung" inside the node with the id "the_new_url_for_testing"
     And I click on "Als primäre Adresse setzen" inside the node with the id "the_new_url_for_testing"
     Then I can see a success message
@@ -44,7 +44,7 @@ Feature: Setting and using custom URLs for MediaResources
     And The current_path matches "the_new_url_for_testing"
 
     When I click on "Weitere Aktionen"
-    And I click on "Adressen verwalten"
+    And I click on "Adressen"
     And I click on the first link inside the node with the id "_uuid"
     And The current_path matches "the_new_url_for_testing"
 
@@ -59,7 +59,7 @@ Feature: Setting and using custom URLs for MediaResources
     When I visit my first media_entry 
     And I remember the path 
     And I click on "Weitere Aktionen"
-    And I click on "Adressen verwalten"
+    And I click on "Adressen"
     And I click on "Adresse anlegen / übertragen"
     And I set the input with the name "url" to "the_new_url_for_testing"
     And I submit
@@ -76,7 +76,7 @@ Feature: Setting and using custom URLs for MediaResources
 
     When I visit my first media_set
     And I click on "Weitere Aktionen"
-    And I click on "Adressen verwalten"
+    And I click on "Adressen"
     And I click on "Adresse anlegen / übertragen"
     And I set the input with the name "url" to "the_new_url_for_testing"
     And I submit
@@ -96,7 +96,7 @@ Feature: Setting and using custom URLs for MediaResources
     Given I am signed-in as "Normin"
     When I visit my first media_entry 
     And I click on "Weitere Aktionen"
-    And I click on "Adressen verwalten"
+    And I click on "Adressen"
     Then I can see "Adressen für"
     When I click on "Adresse anlegen / übertragen"
     And I set the input with the name "url" to "the_new_url_for_testing"
@@ -118,7 +118,7 @@ Feature: Setting and using custom URLs for MediaResources
     And I click on "In Admin-Modus wechseln" 
     And I visit the media_entry
     And I click on "Weitere Aktionen"
-    And I click on "Adressen verwalten"
+    And I click on "Adressen"
     Then I can see "Adressen für"
     When I click on "Adresse anlegen / übertragen"
     And I set the input with the name "url" to "the_new_url_for_testing"
@@ -129,7 +129,7 @@ Feature: Setting and using custom URLs for MediaResources
     Then I am on a "entries" page
 
     When I click on "Weitere Aktionen"
-    And I click on "Adressen verwalten"
+    And I click on "Adressen"
     When I click on "Adresse anlegen / übertragen"
     And I set the input with the name "url" to "a_second_url_for_testing"
     And I submit

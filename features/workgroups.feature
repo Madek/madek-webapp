@@ -10,7 +10,7 @@ Feature: Workgroups
   @firefox
   Scenario: Create a new group
     When I go to my groups
-     And I try to create a new group by using the context primary action
+     And I click on "Neue Arbeitsgruppe"
      And I wait for 2 seconds
      And I provide a name
      And I click the primary action of this dialog
@@ -19,7 +19,7 @@ Feature: Workgroups
   @firefox
   Scenario: Requiring name during group creation
     When I go to my groups
-     And I try to create a new group by using the context primary action
+     And I click on "Neue Arbeitsgruppe"
      And I wait for 2 seconds
      And I don't provide a name
      And I click the primary action of this dialog

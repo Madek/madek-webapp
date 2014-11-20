@@ -62,8 +62,7 @@ Feature: Delete
     And The media_file does exist
     And The actual_file does exist 
 
-    And I click on the link "Weitere Aktionen"
-    And I click on "Löschen"
+    And I click on the button with title "Löschen"
     And I click on "Löschen"
 
     Then The media_entry doesn't exist anymore

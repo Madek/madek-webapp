@@ -13,8 +13,7 @@ feature "Searching for an updated meta datum" do
     set_media_resource_title @media_entry, "THE NEW ENTRY" 
     visit media_entry_path(@media_entry)
     expect(page).to have_content "THE NEW ENTRY"
-    click_on_text "Weitere Aktionen"
-    click_on_text "Metadaten editieren" 
+    click_on_button "Metadaten editieren" 
     find_input_for_meta_key("subtitle").set("jabberwocky")
     click_on_text "Speichern"
     click_on_text "Suche"

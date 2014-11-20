@@ -19,7 +19,6 @@ class ContextsController < ApplicationController
   def show
     initialize_for_view
     @vocabulary = ::Vocabulary.build_for_context_and_user(@context, @current_user)
-    # binding.pry
     @max_usage_count = @vocabulary.map{|key|
       # guard against empty keys
       key[:meta_terms].empty? ? 0 : key[:meta_terms].map{|term|term[:usage_count]}.max

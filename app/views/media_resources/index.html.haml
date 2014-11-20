@@ -13,9 +13,7 @@
             // TODO TABIFIZIERUNG
 
         .ui-body-title-actions
-          - if current_user.is_guest?
-            = render :partial => "login_action"
-          - else
+          - if !current_user.is_guest?
 
             = render :partial => "create_relations"
               

@@ -21,7 +21,7 @@ feature "View and manage custom urls for users not being the owner " do
 
     click_on_text "Weitere Aktionen"
 
-    click_on_text "Adressen verwalten"
+    click_on_text "Adressen"
 
     expect(page).to have_content "the-custom-url"
 
@@ -44,7 +44,7 @@ feature "View and manage custom urls for users not being the owner " do
 
     click_on_text "Weitere Aktionen"
 
-    click_on_text "Adressen verwalten"
+    click_on_text "Adressen"
 
     expect(page).to have_content "the-custom-url"
 
@@ -76,7 +76,7 @@ feature "View and manage custom urls for users not being the owner " do
 
     click_on_text "Weitere Aktionen"
 
-    click_on_text "Adressen verwalten"
+    click_on_text "Adressen"
 
     click_on_text "Adresse anlegen"
 

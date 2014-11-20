@@ -11,6 +11,7 @@ Feature: Permissions
     And A media_entry with file, not owned by normin, and with no permissions whatsoever 
     When There are "view" user-permissions added for me to the resource
     And I visit the path of the resource
+    And I click on "Weitere Aktionen"
     And I click on the link "Exportieren" 
     And I click on the link "Datei ohne Metadaten" inside of the dialog 
     Then There is no link with class "original" in the list with class "download"
@@ -22,6 +23,7 @@ Feature: Permissions
     When There are "view" user-permissions added for me to the resource
     When There are "download" user-permissions added for me to the resource
     And I visit the path of the resource
+    And I click on "Weitere Aktionen"
     And I click on the link "Exportieren" 
     And I click on the link "Datei ohne Metadaten" inside of the dialog 
     Then There is a link with class "original" in the list with class "download"
@@ -33,6 +35,7 @@ Feature: Permissions
     When There are "view" group-permissions added for me to the resource
     When There are "download" group-permissions added for me to the resource
     And I visit the path of the resource
+    And I click on "Weitere Aktionen"
     And I click on the link "Exportieren" 
     And I click on the link "Datei ohne Metadaten" inside of the dialog 
     Then There is a link with class "original" in the list with class "download"

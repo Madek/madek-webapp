@@ -142,8 +142,7 @@ Feature: Permissions
     When There are "view" user-permissions added for me to the resource
     When There are "edit" user-permissions added for me to the resource
     And I visit the path of the resource
-    And I click on the link "Weitere Aktionen"
-    And I click on the link "Metadaten editieren"
+    And I click on the button with title "Metadaten editieren"
     And I am on the edit page of the resource
     When I click the submit button
     Then I am on the page of the resource
