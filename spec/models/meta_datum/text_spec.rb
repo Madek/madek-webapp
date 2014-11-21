@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MetaDatum::String do
+describe MetaDatum::Text do
 
   describe "Creation" do
 

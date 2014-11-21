@@ -390,6 +390,24 @@ CREATE TABLE media_entries (
 
 
 --
+-- Name: media_entry_userpermissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE media_entry_userpermissions (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    view boolean DEFAULT false NOT NULL,
+    download boolean DEFAULT false NOT NULL,
+    edit boolean DEFAULT false NOT NULL,
+    manage boolean DEFAULT false NOT NULL,
+    media_entry_id uuid NOT NULL,
+    user_id uuid NOT NULL,
+    updator_id uuid,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+--
 -- Name: media_files; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -872,6 +890,14 @@ ALTER TABLE ONLY keywords
 
 ALTER TABLE ONLY media_entries
     ADD CONSTRAINT media_entries_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: media_entry_userpermissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY media_entry_userpermissions
+    ADD CONSTRAINT media_entry_userpermissions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1370,6 +1396,34 @@ CREATE INDEX index_media_entries_on_creator_id ON media_entries USING btree (cre
 --
 
 CREATE INDEX index_media_entries_on_responsible_user_id ON media_entries USING btree (responsible_user_id);
+
+
+--
+-- Name: index_media_entry_userpermissions_on_media_entry_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_entry_userpermissions_on_media_entry_id ON media_entry_userpermissions USING btree (media_entry_id);
+
+
+--
+-- Name: index_media_entry_userpermissions_on_media_entry_id_and_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_media_entry_userpermissions_on_media_entry_id_and_user_id ON media_entry_userpermissions USING btree (media_entry_id, user_id);
+
+
+--
+-- Name: index_media_entry_userpermissions_on_updator_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_entry_userpermissions_on_updator_id ON media_entry_userpermissions USING btree (updator_id);
+
+
+--
+-- Name: index_media_entry_userpermissions_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_entry_userpermissions_on_user_id ON media_entry_userpermissions USING btree (user_id);
 
 
 --
@@ -2014,6 +2068,30 @@ ALTER TABLE ONLY media_entries
 
 
 --
+-- Name: media_entry_userpermissions_media_entry_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entry_userpermissions
+    ADD CONSTRAINT media_entry_userpermissions_media_entry_id_fk FOREIGN KEY (media_entry_id) REFERENCES media_entries(id) ON DELETE CASCADE;
+
+
+--
+-- Name: media_entry_userpermissions_updator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entry_userpermissions
+    ADD CONSTRAINT media_entry_userpermissions_updator_id_fk FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
+-- Name: media_entry_userpermissions_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entry_userpermissions
+    ADD CONSTRAINT media_entry_userpermissions_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: media_files_media_entry_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2254,6 +2332,8 @@ INSERT INTO schema_migrations (version) VALUES ('104');
 INSERT INTO schema_migrations (version) VALUES ('105');
 
 INSERT INTO schema_migrations (version) VALUES ('106');
+
+INSERT INTO schema_migrations (version) VALUES ('107');
 
 INSERT INTO schema_migrations (version) VALUES ('11');
 
