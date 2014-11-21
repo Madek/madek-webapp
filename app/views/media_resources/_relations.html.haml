@@ -24,7 +24,6 @@
     = render :partial => "media_resources/list",
              :locals => {:media_resources => @parents.first(12),
                          :layout => 'grid horizontal',
-                         :res_link_type => 'relations',
                          :no_content_msg => "Keine übergeordneten Sets",
                          :with_actions => false}
   
@@ -61,7 +60,6 @@
       = render :partial => "media_resources/list",
                :locals => {:media_resources => @siblings.first(12),
                            :layout => 'grid horizontal',
-                           :res_link_type => 'relations',
                            :no_content_msg => "Keine benachbarten Sets",
                            :with_actions => false}
 
@@ -80,6 +78,5 @@
       = render :partial => "media_resources/list",
                :locals => {:media_resources => @children.first(12),
                            :layout => 'grid horizontal',
-                           :res_link_type => 'relations',
                            :no_content_msg => "Keine untergeordneten Sets",
                            :with_actions => false}

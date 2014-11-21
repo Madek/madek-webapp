@@ -25,9 +25,6 @@ feature 'MediaResource' do
     expect(parents.find('.ui-counter').text).to eq "(1)"
     expect(siblings.find('.ui-counter').text).to eq "(3)"
 
-    # The link on any Set should point to it's 'Relations' page
-    all_links_are_correct(related)
-
     # All 3 sections have working sub views
     all_subviews_working(related)
 
@@ -62,23 +59,9 @@ feature 'MediaResource' do
     expect(siblings.find('.ui-counter').text).to eq "(1)"
     expect(children.find('.ui-counter').text).to eq "(3)"
 
-    # The link on any Set should point to it's 'Relations' page
-    all_links_are_correct(related)
-
     # All 3 sections have working sub views
     all_subviews_working(related)
 
-  end
-
-  def all_links_are_correct(sections)
-    sections.each do |section|
-      section.all('li.ui-resource').each do |set|
-        id = set['data-id']
-        link = set.find('a')[:href]
-        link_exp = relations_media_set_path MediaSet.find_by(id: id)
-        expect(link).to end_with link_exp
-      end
-    end
   end
 
   def all_subviews_working(sections)
