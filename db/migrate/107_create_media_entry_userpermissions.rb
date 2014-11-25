@@ -9,15 +9,21 @@ class CreateMediaEntryUserpermissions < ActiveRecord::Migration
     self.table_name= :media_entry_userpermissions
   end
 
+  USERPERMISSION_KEYS_MAP= {
+    "view" => "get_metadata_and_previews",
+    "edit" => "edit_metadata",
+    "download" => "get_full_size",
+    "manage" => "edit_permissions", }
+
 
   def change
 
     create_table :media_entry_userpermissions, id: :uuid do |t|
 
-      t.boolean :view, null: false, default: false, index: true
-      t.boolean :download, null: false, default: false, index: true
-      t.boolean :edit, null: false, default: false, index: true
-      t.boolean :manage, null: false, default: false, index: true
+      t.boolean :get_metadata_and_previews, null: false, default: false, index: true
+      t.boolean :get_full_size, null: false, default: false, index: true
+      t.boolean :edit_metadata, null: false, default: false, index: true
+      t.boolean :edit_permissions, null: false, default: false, index: true
 
       t.uuid :media_entry_id, null: false
       t.index :media_entry_id
@@ -47,6 +53,7 @@ class CreateMediaEntryUserpermissions < ActiveRecord::Migration
           .find_each do |up|
           ::MigrationMediaEntryUserpermission.create! up.attributes \
             .map{|k,v| k == "media_resource_id" ? ["media_entry_id",v] : [k,v]} \
+            .map{|k,v| [ (USERPERMISSION_KEYS_MAP[k] || k), v]} \
             .instance_eval{Hash[self]}
 
         end

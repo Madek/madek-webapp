@@ -2,10 +2,10 @@ FactoryGirl.define do
 
   factory :media_entry_userpermission, class: Permissions::MediaEntryUserpermission do
 
-    view {FactoryHelper.rand_bool 1/4.0}
-    download { view and FactoryHelper.rand_bool}
-    edit {FactoryHelper.rand_bool 1/4.0}
-    manage {edit and FactoryHelper.rand_bool}
+    get_metadata_and_previews {FactoryHelper.rand_bool 1/4.0}
+    get_full_size{get_metadata_and_previews and FactoryHelper.rand_bool}
+    edit_metadata {FactoryHelper.rand_bool 1/4.0}
+    edit_permissions {edit_metadata and FactoryHelper.rand_bool}
 
     user {User.find_random || (FactoryGirl.create :user)} 
     updator {User.find_random || (FactoryGirl.create :user)}

@@ -21,7 +21,7 @@ describe Permissions::MediaEntryUserpermission do
       context " for permissions where the user is the reponsible_user" do
         before :each do 
           @permission= FactoryGirl.create(:media_entry_userpermission, 
-                                          download: true,
+                                          get_full_size: true,
                                           user: @media_entry.responsible_user)
         end
 
@@ -37,10 +37,10 @@ describe Permissions::MediaEntryUserpermission do
       context "for permission where all permission values are false and user is not the responsible_user" do
         before :each do 
           @permission= FactoryGirl.create(:media_entry_userpermission, 
-                                          view: false,
-                                          download: false,
-                                          edit: false,
-                                          manage: false,
+                                          get_metadata_and_previews: false,
+                                          get_full_size: false,
+                                          edit_metadata: false,
+                                          edit_permissions: false,
                                           user: (FactoryGirl.create :user),
                                           media_entry: @media_entry)
         end

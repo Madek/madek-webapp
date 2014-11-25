@@ -398,10 +398,10 @@ CREATE TABLE media_entries (
 
 CREATE TABLE media_entry_userpermissions (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    view boolean DEFAULT false NOT NULL,
-    download boolean DEFAULT false NOT NULL,
-    edit boolean DEFAULT false NOT NULL,
-    manage boolean DEFAULT false NOT NULL,
+    get_metadata_and_previews boolean DEFAULT false NOT NULL,
+    get_full_size boolean DEFAULT false NOT NULL,
+    edit_metadata boolean DEFAULT false NOT NULL,
+    edit_permissions boolean DEFAULT false NOT NULL,
     media_entry_id uuid NOT NULL,
     user_id uuid NOT NULL,
     updator_id uuid,
