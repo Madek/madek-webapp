@@ -1,12 +1,12 @@
-class CreateMediaEntryUserpermissions < ActiveRecord::Migration
+class CreateMediaEntryUserPermissions < ActiveRecord::Migration
   include MigrationHelper
 
-  class ::MigrationUserpermission < ActiveRecord::Base
+  class ::MigrationUserPermission < ActiveRecord::Base
     self.table_name= :userpermissions
   end
 
-  class ::MigrationMediaEntryUserpermission < ActiveRecord::Base
-    self.table_name= :media_entry_userpermissions
+  class ::MigrationMediaEntryUserPermission < ActiveRecord::Base
+    self.table_name= :media_entry_user_permissions
   end
 
   USERPERMISSION_KEYS_MAP= {
@@ -18,7 +18,7 @@ class CreateMediaEntryUserpermissions < ActiveRecord::Migration
 
   def change
 
-    create_table :media_entry_userpermissions, id: :uuid do |t|
+    create_table :media_entry_user_permissions, id: :uuid do |t|
 
       t.boolean :get_metadata_and_previews, null: false, default: false, index: true
       t.boolean :get_full_size, null: false, default: false, index: true
@@ -34,24 +34,25 @@ class CreateMediaEntryUserpermissions < ActiveRecord::Migration
       t.uuid :updator_id
       t.index :updator_id 
 
-      t.index [:media_entry_id,:user_id], unique: true
+      t.index [:media_entry_id,:user_id], unique: true , name: 'idx_media_entry_user_permission'
+
 
       t.timestamps null: false
     end
 
-    add_foreign_key :media_entry_userpermissions, :users, dependent: :delete
-    add_foreign_key :media_entry_userpermissions, :media_entries, dependent: :delete 
-    add_foreign_key :media_entry_userpermissions, :users, column: 'updator_id'
+    add_foreign_key :media_entry_user_permissions, :users, dependent: :delete
+    add_foreign_key :media_entry_user_permissions, :media_entries, dependent: :delete 
+    add_foreign_key :media_entry_user_permissions, :users, column: 'updator_id'
 
     reversible do |dir|
       dir.up do
 
-        set_timestamps_defaults :media_entry_userpermissions
+        set_timestamps_defaults :media_entry_user_permissions
 
-        ::MigrationUserpermission \
+        ::MigrationUserPermission \
           .joins("JOIN media_entries ON media_entries.id = userpermissions.media_resource_id")\
           .find_each do |up|
-          ::MigrationMediaEntryUserpermission.create! up.attributes \
+          ::MigrationMediaEntryUserPermission.create! up.attributes \
             .map{|k,v| k == "media_resource_id" ? ["media_entry_id",v] : [k,v]} \
             .map{|k,v| [ (USERPERMISSION_KEYS_MAP[k] || k), v]} \
             .instance_eval{Hash[self]}

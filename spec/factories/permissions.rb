@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
-  factory :media_entry_userpermission, class: Permissions::MediaEntryUserpermission do
+  factory :media_entry_user_permission, class: Permissions::MediaEntryUserPermission do
 
     get_metadata_and_previews {FactoryHelper.rand_bool 1/4.0}
     get_full_size{get_metadata_and_previews and FactoryHelper.rand_bool}
