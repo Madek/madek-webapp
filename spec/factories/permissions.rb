@@ -13,4 +13,21 @@ FactoryGirl.define do
 
   end
 
+
+  factory :media_entry_grouppermission, class: Permissions::MediaEntryGrouppermission do
+
+    get_metadata_and_previews {FactoryHelper.rand_bool 1/4.0}
+    get_full_size{get_metadata_and_previews and FactoryHelper.rand_bool}
+    edit_metadata {FactoryHelper.rand_bool 1/4.0}
+
+    group {Group.find_random || (FactoryGirl.create :group)} 
+    updator {User.find_random || (FactoryGirl.create :user)}
+    media_entry {MediaEntry.find_random || (FactoryGirl.create :media_entry)}
+
+  end
+
+
+
+
+
 end

@@ -393,6 +393,23 @@ CREATE TABLE media_entries (
 
 
 --
+-- Name: media_entry_grouppermissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE media_entry_grouppermissions (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    get_metadata_and_previews boolean DEFAULT false NOT NULL,
+    get_full_size boolean DEFAULT false NOT NULL,
+    edit_metadata boolean DEFAULT false NOT NULL,
+    media_entry_id uuid NOT NULL,
+    group_id uuid NOT NULL,
+    updator_id uuid,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+--
 -- Name: media_entry_userpermissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -896,6 +913,14 @@ ALTER TABLE ONLY media_entries
 
 
 --
+-- Name: media_entry_grouppermissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY media_entry_grouppermissions
+    ADD CONSTRAINT media_entry_grouppermissions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: media_entry_userpermissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1056,6 +1081,13 @@ CREATE INDEX groups_to_tsvector_idx ON groups USING gin (to_tsvector('english'::
 --
 
 CREATE UNIQUE INDEX idx_bools_unique ON permission_presets USING btree (view, edit, download, manage);
+
+
+--
+-- Name: idx_megrpp_on_media_entry_id_and_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX idx_megrpp_on_media_entry_id_and_group_id ON media_entry_grouppermissions USING btree (media_entry_id, group_id);
 
 
 --
@@ -1392,6 +1424,27 @@ CREATE INDEX index_media_entries_on_creator_id ON media_entries USING btree (cre
 --
 
 CREATE INDEX index_media_entries_on_responsible_user_id ON media_entries USING btree (responsible_user_id);
+
+
+--
+-- Name: index_media_entry_grouppermissions_on_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_entry_grouppermissions_on_group_id ON media_entry_grouppermissions USING btree (group_id);
+
+
+--
+-- Name: index_media_entry_grouppermissions_on_media_entry_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_entry_grouppermissions_on_media_entry_id ON media_entry_grouppermissions USING btree (media_entry_id);
+
+
+--
+-- Name: index_media_entry_grouppermissions_on_updator_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_entry_grouppermissions_on_updator_id ON media_entry_grouppermissions USING btree (updator_id);
 
 
 --
@@ -2080,6 +2133,30 @@ ALTER TABLE ONLY media_entries
 
 
 --
+-- Name: media_entry_grouppermissions_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entry_grouppermissions
+    ADD CONSTRAINT media_entry_grouppermissions_group_id_fk FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
+
+
+--
+-- Name: media_entry_grouppermissions_media_entry_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entry_grouppermissions
+    ADD CONSTRAINT media_entry_grouppermissions_media_entry_id_fk FOREIGN KEY (media_entry_id) REFERENCES media_entries(id) ON DELETE CASCADE;
+
+
+--
+-- Name: media_entry_grouppermissions_updator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entry_grouppermissions
+    ADD CONSTRAINT media_entry_grouppermissions_updator_id_fk FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
 -- Name: media_entry_userpermissions_media_entry_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2348,6 +2425,8 @@ INSERT INTO schema_migrations (version) VALUES ('106');
 INSERT INTO schema_migrations (version) VALUES ('107');
 
 INSERT INTO schema_migrations (version) VALUES ('108');
+
+INSERT INTO schema_migrations (version) VALUES ('109');
 
 INSERT INTO schema_migrations (version) VALUES ('11');
 
