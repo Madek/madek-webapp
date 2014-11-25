@@ -16,12 +16,13 @@
 
 [TODO]
 
-#### Person
+#### `Person`
 
 [TODO]
 
-- a generic Person
-- *can* be linked to a [`User`](#user)
+- a generic `Person`
+- *can* be linked to (equal to) a [`User`](#user)
+- *can* be linked to `MetaDatum` of type `MetaDatumPerson`  (i.e. "Author")
 
 #### `User`
 
@@ -39,6 +40,14 @@
 ### Secondary
 
 #### Permissions
+
+Almost like [UNIX](https://en.wikipedia.org/wiki/File_system_permissions#Classes).
+Notable Differences:
+
+- 'owner' is not a 'Class' (it's more like *root*, for this thing)
+- there is no 'execute', but 'fullsize'
+- there is no 'write', but distinct 'edit_data' and 'edit_permissions'
+
 
 ##### Owner
 
