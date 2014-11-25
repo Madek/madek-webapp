@@ -28,6 +28,17 @@ FactoryGirl.define do
 
 
 
+  factory :media_entry_api_client_permission, class: Permissions::MediaEntryApiClientPermission do
+
+    get_metadata_and_previews {FactoryHelper.rand_bool 1/4.0}
+    get_full_size{get_metadata_and_previews and FactoryHelper.rand_bool}
+
+    api_client {ApiClient.find_random || (FactoryGirl.create :api_client)} 
+    updator {User.find_random || (FactoryGirl.create :user)}
+    media_entry {MediaEntry.find_random || (FactoryGirl.create :media_entry)}
+
+  end
+
 
 
 end

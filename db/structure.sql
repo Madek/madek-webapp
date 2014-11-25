@@ -393,6 +393,22 @@ CREATE TABLE media_entries (
 
 
 --
+-- Name: media_entry_api_client_permissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE media_entry_api_client_permissions (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    get_metadata_and_previews boolean DEFAULT false NOT NULL,
+    get_full_size boolean DEFAULT false NOT NULL,
+    media_entry_id uuid NOT NULL,
+    api_client_id character varying(255) NOT NULL,
+    updator_id uuid,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+--
 -- Name: media_entry_grouppermissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -913,6 +929,14 @@ ALTER TABLE ONLY media_entries
 
 
 --
+-- Name: media_entry_api_client_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY media_entry_api_client_permissions
+    ADD CONSTRAINT media_entry_api_client_permissions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: media_entry_grouppermissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1081,6 +1105,13 @@ CREATE INDEX groups_to_tsvector_idx ON groups USING gin (to_tsvector('english'::
 --
 
 CREATE UNIQUE INDEX idx_bools_unique ON permission_presets USING btree (view, edit, download, manage);
+
+
+--
+-- Name: idx_megrpp_on_media_entry_id_and_api_client_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX idx_megrpp_on_media_entry_id_and_api_client_id ON media_entry_api_client_permissions USING btree (media_entry_id, api_client_id);
 
 
 --
@@ -1424,6 +1455,27 @@ CREATE INDEX index_media_entries_on_creator_id ON media_entries USING btree (cre
 --
 
 CREATE INDEX index_media_entries_on_responsible_user_id ON media_entries USING btree (responsible_user_id);
+
+
+--
+-- Name: index_media_entry_api_client_permissions_on_api_client_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_entry_api_client_permissions_on_api_client_id ON media_entry_api_client_permissions USING btree (api_client_id);
+
+
+--
+-- Name: index_media_entry_api_client_permissions_on_media_entry_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_entry_api_client_permissions_on_media_entry_id ON media_entry_api_client_permissions USING btree (media_entry_id);
+
+
+--
+-- Name: index_media_entry_api_client_permissions_on_updator_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_entry_api_client_permissions_on_updator_id ON media_entry_api_client_permissions USING btree (updator_id);
 
 
 --
@@ -2133,6 +2185,30 @@ ALTER TABLE ONLY media_entries
 
 
 --
+-- Name: media_entry_api_client_permissions_api_client_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entry_api_client_permissions
+    ADD CONSTRAINT media_entry_api_client_permissions_api_client_id_fk FOREIGN KEY (api_client_id) REFERENCES api_clients(id) ON DELETE CASCADE;
+
+
+--
+-- Name: media_entry_api_client_permissions_media_entry_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entry_api_client_permissions
+    ADD CONSTRAINT media_entry_api_client_permissions_media_entry_id_fk FOREIGN KEY (media_entry_id) REFERENCES media_entries(id) ON DELETE CASCADE;
+
+
+--
+-- Name: media_entry_api_client_permissions_updator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entry_api_client_permissions
+    ADD CONSTRAINT media_entry_api_client_permissions_updator_id_fk FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
 -- Name: media_entry_grouppermissions_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2431,6 +2507,8 @@ INSERT INTO schema_migrations (version) VALUES ('109');
 INSERT INTO schema_migrations (version) VALUES ('11');
 
 INSERT INTO schema_migrations (version) VALUES ('110');
+
+INSERT INTO schema_migrations (version) VALUES ('111');
 
 INSERT INTO schema_migrations (version) VALUES ('12');
 
