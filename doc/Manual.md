@@ -8,7 +8,9 @@
 
 [TODO]
 
-#### `MediaSet`
+#### `Collection`
+
+Also known as `Set`. 
 
 [TODO]
 
@@ -24,10 +26,18 @@
 - *can* be linked to (equal to) a [`User`](#user)
 - *can* be linked to `MetaDatum` of type `MetaDatumPerson`  (i.e. "Author")
 
+##### Relations 
+
+* [`user`](#user), rails-type: `has_one`, effectively enforced by unique constraint on index
+
 #### `User`
 
 - User with account/login
-- *can* be linked to a `Person`
+
+##### Relations 
+
+* [`person`](#person), rails-type: `belongs_to`, null: `false`
+
 
 #### `Group`
 
@@ -37,7 +47,21 @@
 - is manually defined by a `User`
 - not to be confused with `InstitutionalGroup`
 
+##### Relations
+
+* [`users`](#user), rails-type: `has_many`
+
+##### Notes 
+
+* Supertype of [`InstitutionalGroup`](#institutionalgroup), implemented as `STI`-table
+
 ### Secondary
+
+#### `InstitutionalGroup`
+
+##### Notes 
+
+* Subtype of [`Group`](#group), implemented as STI in the `groups` table
 
 #### Permissions
 
