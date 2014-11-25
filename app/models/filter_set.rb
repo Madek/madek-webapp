@@ -2,6 +2,8 @@
 class FilterSet < MediaResourceCollection
   store :settings
 
+  has_many :keywords
+
   def media_type
     self.type.gsub(/Media/, '')
   end

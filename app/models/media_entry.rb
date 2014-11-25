@@ -4,6 +4,8 @@ class MediaEntry < ActiveRecord::Base
   has_many :collection_media_entry_arcs
   has_many :collections, through: :collection_media_entry_arcs
 
+  has_many :keywords
+
   belongs_to :responsible_user, class: User
 
   default_scope { reorder(:created_at,:id) }
