@@ -2,12 +2,12 @@ class CreateMediaEntryGrouppermission < ActiveRecord::Migration
 
   include MigrationHelper
 
-  class ::MigrationGrouppermission < ActiveRecord::Base
+  class ::MigrationGroupPermission < ActiveRecord::Base
     self.table_name= :grouppermissions
   end
 
-  class ::MigrationMediaEntryGrouppermission < ActiveRecord::Base
-    self.table_name= :media_entry_grouppermissions
+  class ::MigrationMediaEntryGroupPermission < ActiveRecord::Base
+    self.table_name= :media_entry_group_permissions
   end
 
   GROUPPERMISSION_KEYS_MAP= {
@@ -18,7 +18,7 @@ class CreateMediaEntryGrouppermission < ActiveRecord::Migration
 
   def change
 
-    create_table :media_entry_grouppermissions, id: :uuid do |t|
+    create_table :media_entry_group_permissions, id: :uuid do |t|
 
       t.boolean :get_metadata_and_previews, null: false, default: false, index: true
       t.boolean :get_full_size, null: false, default: false, index: true
@@ -38,19 +38,19 @@ class CreateMediaEntryGrouppermission < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_foreign_key :media_entry_grouppermissions, :groups, dependent: :delete
-    add_foreign_key :media_entry_grouppermissions, :media_entries, dependent: :delete 
-    add_foreign_key :media_entry_grouppermissions, :users, column: 'updator_id'
+    add_foreign_key :media_entry_group_permissions, :groups, dependent: :delete
+    add_foreign_key :media_entry_group_permissions, :media_entries, dependent: :delete 
+    add_foreign_key :media_entry_group_permissions, :users, column: 'updator_id'
 
     reversible do |dir|
       dir.up do
 
-        set_timestamps_defaults :media_entry_grouppermissions
+        set_timestamps_defaults :media_entry_group_permissions
 
-        ::MigrationGrouppermission \
+        ::MigrationGroupPermission \
           .joins("JOIN media_entries ON media_entries.id = grouppermissions.media_resource_id")\
           .find_each do |up|
-          ::MigrationMediaEntryGrouppermission.create! up.attributes \
+          ::MigrationMediaEntryGroupPermission.create! up.attributes \
             .map{|k,v| k == "media_resource_id" ? ["media_entry_id",v] : [k,v]} \
             .map{|k,v| [ (GROUPPERMISSION_KEYS_MAP[k] || k), v]} \
             .reject{|k,v| k == "manage"} \

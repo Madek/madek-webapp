@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe Permissions::MediaEntryGrouppermission do
+describe Permissions::MediaEntryGroupPermission do
 
   it "is creatable via a factory" do
-    expect{ FactoryGirl.create :media_entry_grouppermission}.not_to raise_error
+    expect{ FactoryGirl.create :media_entry_group_permission}.not_to raise_error
   end
 
 
@@ -20,7 +20,7 @@ describe Permissions::MediaEntryGrouppermission do
 
       context "for permission where all permission values are false and group is not the responsible_group" do
         before :each do 
-          @permission= FactoryGirl.create(:media_entry_grouppermission, 
+          @permission= FactoryGirl.create(:media_entry_group_permission, 
                                           get_metadata_and_previews: false,
                                           get_full_size: false,
                                           edit_metadata: false,
@@ -29,9 +29,9 @@ describe Permissions::MediaEntryGrouppermission do
         end
 
         it "removes" do
-          expect(Permissions::MediaEntryGrouppermission.find_by id: @permission.id).to be
-          Permissions::MediaEntryGrouppermission.destroy_ineffective
-          expect(Permissions::MediaEntryGrouppermission.find_by id: @permission.id).not_to be
+          expect(Permissions::MediaEntryGroupPermission.find_by id: @permission.id).to be
+          Permissions::MediaEntryGroupPermission.destroy_ineffective
+          expect(Permissions::MediaEntryGroupPermission.find_by id: @permission.id).not_to be
         end
 
       end

@@ -14,7 +14,7 @@ FactoryGirl.define do
   end
 
 
-  factory :media_entry_grouppermission, class: Permissions::MediaEntryGrouppermission do
+  factory :media_entry_group_permission, class: Permissions::MediaEntryGroupPermission do
 
     get_metadata_and_previews {FactoryHelper.rand_bool 1/4.0}
     get_full_size{get_metadata_and_previews and FactoryHelper.rand_bool}
