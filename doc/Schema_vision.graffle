@@ -783,7 +783,7 @@
 
 \f0\fs16 \cf0 MediaEntry- / Collection- /\
 FilterSet-\
-Grouppermission}</string>
+GroupPermission}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -851,7 +851,7 @@ Grouppermission}</string>
 
 \f0\fs16 \cf0 MediaEntry- / Collection- /\
 FilterSet-\
-Applicationpermission}</string>
+ApiClientPermission}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -2054,7 +2054,7 @@ public permissions}</string>
 
 \f0\fs16 \cf0 MediaEntry- / Collection- /\
 FilterSet-\
-Userpermission}</string>
+UserPermission}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -6625,7 +6625,7 @@ belongs_to}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2014-11-25 16:56:22 +0000</string>
+	<string>2014-11-25 18:26:42 +0000</string>
 	<key>Modifier</key>
 	<string>DrTom</string>
 	<key>NotesVisible</key>
