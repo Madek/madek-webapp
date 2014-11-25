@@ -70,6 +70,20 @@ CREATE TABLE admin_users (
 
 
 --
+-- Name: api_clients; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE api_clients (
+    user_id uuid NOT NULL,
+    id character varying(255) NOT NULL,
+    description text,
+    secret uuid DEFAULT uuid_generate_v4(),
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+--
 -- Name: app_settings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -108,20 +122,6 @@ CREATE TABLE applicationpermissions (
     view boolean DEFAULT false NOT NULL,
     CONSTRAINT edit_on_applicationpermissions_is_false CHECK ((edit = false)),
     CONSTRAINT manage_on_applicationpermissions_is_false CHECK ((manage = false))
-);
-
-
---
--- Name: applications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE applications (
-    user_id uuid NOT NULL,
-    id character varying(255) NOT NULL,
-    description text,
-    secret uuid DEFAULT uuid_generate_v4(),
-    created_at timestamp without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -764,7 +764,7 @@ ALTER TABLE ONLY applicationpermissions
 -- Name: applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY applications
+ALTER TABLE ONLY api_clients
     ADD CONSTRAINT applications_pkey PRIMARY KEY (id);
 
 
@@ -1857,7 +1857,7 @@ ALTER TABLE ONLY app_settings
 --
 
 ALTER TABLE ONLY applicationpermissions
-    ADD CONSTRAINT applicationpermissions_application_id_fk FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE;
+    ADD CONSTRAINT applicationpermissions_application_id_fk FOREIGN KEY (application_id) REFERENCES api_clients(id) ON DELETE CASCADE;
 
 
 --
@@ -1872,7 +1872,7 @@ ALTER TABLE ONLY applicationpermissions
 -- Name: applications_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY applications
+ALTER TABLE ONLY api_clients
     ADD CONSTRAINT applications_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id);
 
 
@@ -2429,6 +2429,8 @@ INSERT INTO schema_migrations (version) VALUES ('108');
 INSERT INTO schema_migrations (version) VALUES ('109');
 
 INSERT INTO schema_migrations (version) VALUES ('11');
+
+INSERT INTO schema_migrations (version) VALUES ('110');
 
 INSERT INTO schema_migrations (version) VALUES ('12');
 
