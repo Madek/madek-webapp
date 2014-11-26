@@ -12,7 +12,7 @@ SET client_min_messages = warning;
 SET search_path = public, pg_catalog;
 
 --
--- Data for Name: people; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: people; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY people (is_group, date_of_birth, date_of_death, first_name, last_name, pseudonym, created_at, updated_at, id, searchable) FROM stdin;
@@ -53,7 +53,7 @@ f	\N	\N	Sebastian	Pape	\N	2013-03-12 10:32:15.585262	2013-03-12 10:32:15.585262	
 
 
 --
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY users (zhdkid, email, login, notes, usage_terms_accepted_at, created_at, updated_at, password_digest, id, previous_id, person_id, searchable, trgm_searchable, autocomplete, contrast_mode) FROM stdin;
@@ -68,7 +68,7 @@ COPY users (zhdkid, email, login, notes, usage_terms_accepted_at, created_at, up
 
 
 --
--- Data for Name: admin_users; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: admin_users; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY admin_users (id, user_id) FROM stdin;
@@ -77,7 +77,7 @@ eca674df-07c7-4842-9169-95b38b991cd7	927ba041-9464-4e74-9823-c02d03fdfa5c
 
 
 --
--- Data for Name: context_groups; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: context_groups; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY context_groups (name, "position", id) FROM stdin;
@@ -87,7 +87,7 @@ Kontexte	3	b6321ccb-502c-4f87-a378-58472b477441
 
 
 --
--- Data for Name: contexts; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: contexts; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY contexts ("position", id, context_group_id, label, description) FROM stdin;
@@ -116,7 +116,7 @@ COPY contexts ("position", id, context_group_id, label, description) FROM stdin;
 
 
 --
--- Data for Name: media_resources; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: media_resources; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY media_resources (previous_id, download, edit, manage, view, settings, type, created_at, updated_at, id, user_id) FROM stdin;
@@ -235,7 +235,7 @@ COPY media_resources (previous_id, download, edit, manage, view, settings, type,
 
 
 --
--- Data for Name: app_settings; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: app_settings; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY app_settings (id, title, support_url, welcome_title, welcome_subtitle, created_at, updated_at, logo_url, brand, footer_links, second_displayed_context_id, third_displayed_context_id, catalog_set_id, featured_set_id, teaser_set_id) FROM stdin;
@@ -244,7 +244,7 @@ COPY app_settings (id, title, support_url, welcome_title, welcome_subtitle, crea
 
 
 --
--- Data for Name: applications; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: applications; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY applications (user_id, id, description, secret) FROM stdin;
@@ -253,7 +253,7 @@ COPY applications (user_id, id, description, secret) FROM stdin;
 
 
 --
--- Data for Name: applicationpermissions; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: applicationpermissions; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY applicationpermissions (id, media_resource_id, application_id, download, edit, manage, view) FROM stdin;
@@ -261,7 +261,7 @@ COPY applicationpermissions (id, media_resource_id, application_id, download, ed
 
 
 --
--- Data for Name: copyrights; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: copyrights; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY copyrights (is_default, is_custom, label, usage, url, id, parent_id, "position") FROM stdin;
@@ -283,7 +283,7 @@ f	f	Public Domain / Gemeinfrei	Freie Nutzung ohne Einschränkung.	http://de.wiki
 
 
 --
--- Data for Name: custom_urls; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: custom_urls; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY custom_urls (id, is_primary, media_resource_id, creator_id, updator_id, created_at, updated_at) FROM stdin;
@@ -291,7 +291,7 @@ COPY custom_urls (id, is_primary, media_resource_id, creator_id, updator_id, cre
 
 
 --
--- Data for Name: edit_sessions; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: edit_sessions; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY edit_sessions (created_at, updated_at, media_resource_id, user_id, id) FROM stdin;
@@ -387,17 +387,21 @@ COPY edit_sessions (created_at, updated_at, media_resource_id, user_id, id) FROM
 
 
 --
--- Data for Name: favorites; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: favorites; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY favorites (media_resource_id, user_id) FROM stdin;
 5ea71900-3379-4ad7-85c6-ea4c31d6d06c	08ba1f4f-0522-4a77-b087-4f3d1dd94532
 fc66605c-64c9-4d8b-96fb-5210bc4addd0	08ba1f4f-0522-4a77-b087-4f3d1dd94532
+f54098a8-6ca1-492b-a2a0-b2330e5eb4bc	08ba1f4f-0522-4a77-b087-4f3d1dd94532
+1717e608-9c99-4ae9-af77-e964b617a00c	08ba1f4f-0522-4a77-b087-4f3d1dd94532
+d2582be1-9180-46f1-93c6-4798de15f615	927ba041-9464-4e74-9823-c02d03fdfa5c
+fc66605c-64c9-4d8b-96fb-5210bc4addd0	927ba041-9464-4e74-9823-c02d03fdfa5c
 \.
 
 
 --
--- Data for Name: full_texts; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: full_texts; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY full_texts (text, media_resource_id) FROM stdin;
@@ -452,6 +456,7 @@ Urheberrechtlich geschützt (individuelle Lizenz); Knacknuss, Karen; http://www.
 Urheberrechtlich geschützt (individuelle Lizenz); Knacknuss, Karen; http://www.ige.ch; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; stribog_13_meets_electra; Videoinstallation; ZHdK DKM VMK; 18:13 Min.; 2012; image/tiff; 2012:06:06 11:41:53.059; Kistler, Melanie M.; Kunst; RGB Knacknuss, Karen	2a4cdd11-2a7d-4664-8c21-749a42add454
 Alle Rechte vorbehalten; unbekannt; Dunkelheit vorne; Durchgang; Farbigkeit vorne; Figur Grund; Helligkeit hinten; Kontrast vorne; Schaerfe vorne; Strukturreichtum vorne; 1470/1500; Memling, Hans; Virgin and Child with Saints Catherine and Barbara; Landschaft, Liselotte Landschaft, Liselotte	2e1ce2b1-d40f-4c44-94db-893bba56877e
 Urheberrechtlich geschützt (individuelle Lizenz); Knacknuss, Karen; http://www.ige.ch; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; Vertiefung Mediale Künste, Sihlquai 131, 8005 Zürich; RGB; Kunst; Arbeitsraum mit unbestimmten Ausgängen; Installation; ZHdK DKM VMK; 2012; image/tiff; 2012; Asa, Shima; Clavadetscher, Jann; Filiz, Aylin; Müller, Manuela; Schaffner, Lea; Stemmle, Joris Knacknuss, Karen	36b18184-8a7c-4447-a972-4529a0245236
+2012:05:30 23:57:41.005; image/jpeg; Die Gartenküche canorta erlaubt spontane Öffentlichkeit.; Reto Togni und Dominique Schmutz ; Canorta; RGB; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; http://www.ige.ch; Knacknuss, Karen; Urheberrechtlich geschützt (individuelle Lizenz) Knacknuss, Karen	be038599-4c7e-4727-a3f7-ad5a67bf036b
 Urheberrechtlich geschützt (individuelle Lizenz); Knacknuss, Karen; http://www.ige.ch; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; Vertiefung Mediale Künste, Sihlquai 131, 8005 Zürich; RGB; Kunst; Arbeitsraum mit unbestimmten Ausgängen; Installation; ZHdK DKM VMK; 2012; image/tiff; 2012; Asa, Shima; Clavadetscher, Jann; Filiz, Aylin; Müller, Manuela; Schaffner, Lea; Stemmle, Joris Knacknuss, Karen	3bef7d31-e018-4785-9194-0531c0459fce
 Urheberrechtlich geschützt (individuelle Lizenz); Knacknuss, Karen; http://www.ige.ch; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; landjäger2_zett 11_3; Flurina Gradin Knacknuss, Karen	3dea7254-b480-437b-9789-448e9543772e
 Urheberrechtlich geschützt (individuelle Lizenz); Knacknuss, Karen; Jungo, Felix; http://www.ige.ch; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; Zürcher Hochschule der Künste Vertiefung Fotografie; Jungo, Felix; Letten it be; Fotografie; Zürcher Hochschule der Künste ZHdK; Caraco, Françoise; 1995; Caraco, Françoise Knacknuss, Karen	47cda58f-1ebf-4e57-9414-398cc3770871
@@ -468,6 +473,8 @@ Set in SQ6 Context; Admin, Adam; sq6; Set im Kontext SQ6  Admin, Adam	9b8e0320-6
 ; Urheberrechtlich geschützt (individuelle Lizenz); Knacknuss, Karen; Jungo, Felix; http://www.ige.ch; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; Zürcher Hochschule der Künste Vertiefung Fotografie; Jungo, Felix; Fotografie; Diplom; Inszenierung; Landschaft; Natur; Fotografie; Diplomarbeit; Sport; Sportbekleidung; Outdoor; Mode; Freizeit; Zürcher Hochschule der Künste ZHdK; Bangerter, Andrea; Die Künstlerin hat ihren Namen gewechselt. Zur Zeit ihres Studiums hiess sie Andrea Bangerter, heute nennt sie sich Andrea Thal. Da sie unter dem letzten Namen als Künstlerin bekannt ist, werden hier beide Namen aufgeführt.; Abschlussarbeit; Original: Kleinbilddia Farbe; Digitalisat: TIFF; 1999; 1999; Bangerter, Andrea; Thal, Andrea; Hauptstudium Diplom Knacknuss, Karen	06622f9c-8f41-43eb-a4a4-fd3b8444de64
 ; Urheberrechtlich geschützt (individuelle Lizenz); Knacknuss, Karen; Jungo, Felix; http://www.ige.ch; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; Zürcher Hochschule der Künste Vertiefung Fotografie; Jungo, Felix; Fotografie; Diplom; Inszenierung; Landschaft; Natur; Fotografie; Diplomarbeit; Sport; Sportbekleidung; Outdoor; Mode; Freizeit; Zürcher Hochschule der Künste ZHdK; Bangerter, Andrea; Die Künstlerin hat ihren Namen gewechselt. Zur Zeit ihres Studiums hiess sie Andrea Bangerter, heute nennt sie sich Andrea Thal. Da sie unter dem letzten Namen als Künstlerin bekannt ist, werden hier beide Namen aufgeführt.; Abschlussarbeit; Original: Kleinbilddia Farbe; Digitalisat: TIFF; 1999; 1999; Bangerter, Andrea; Thal, Andrea; Hauptstudium Diplom Knacknuss, Karen	0d32d1e5-c667-409e-acc8-dd6cd18d85c0
 ; Urheberrechtlich geschützt (individuelle Lizenz); Knacknuss, Karen; Jungo, Felix; http://www.ige.ch; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; Zürcher Hochschule der Künste Vertiefung Fotografie; Jungo, Felix; Kunst; Diplom; Inszenierung; Landschaft; Natur; Fotografie; Diplomarbeit; Sport; Sportbekleidung; Outdoor; Mode; Freizeit; Zürcher Hochschule der Künste ZHdK; Bangerter, Andrea; Die Künstlerin hat ihren Namen gewechselt. Zur Zeit ihres Studiums hiess sie Andrea Bangerter, heute nennt sie sich Andrea Thal. Da sie unter dem letzten Namen als Künstlerin bekannt ist, werden hier beide Namen aufgeführt.; Abschlussarbeit; Original: Kleinbilddia Farbe; Digitalisat: TIFF; 1999; 1999; Bangerter, Andrea; Thal, Andrea; Hauptstudium Diplom Knacknuss, Karen	104768d8-9a36-4d00-bbd7-bcca12bbec6e
+ZHdK; Design Artikel, Michael Krohn; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; http://www.ige.ch; Knacknuss, Karen; Urheberrechtlich geschützt (individuelle Lizenz) Knacknuss, Karen	bfd15f23-853b-4dc5-9232-084c80110f67
+Knacknuss, Karen; Plan; unbekannt; Alle Rechte vorbehalten Knacknuss, Karen	c50bc33d-626b-43ac-b297-8725ac8a152b
 ; Urheberrechtlich geschützt (individuelle Lizenz); Knacknuss, Karen; http://www.ige.ch; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; Vertiefung Mediale Künste, Sihlquai 131, 8005 Zürich; RGB; Kunst; stimme-sprach-raum-teil3; 8-Kanal Audio; 5 Min., Loop; 2012; image/tiff; 2012; Treier, Max; Bachelor; Klanginstallation; Audio; Audioinstallation; Klang; ZHdK DKM VMK; Ausstellung; Etter, Jon Knacknuss, Karen	1cda2f1e-38f2-4005-85dd-156d3cd21af7
 ; Urheberrechtlich geschützt (individuelle Lizenz); Knacknuss, Karen; Jungo, Felix; http://www.ige.ch; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; Diplomarbeit; Zürcher Hochschule der Künste Vertiefung Fotografie; Jungo, Felix; Fotografie; Spaziergang; Konzeptkunst; Stadt; Fotografie; Diplomarbeit; Zürich; Hefte; Beobachtung; Bild-Text; Konsumkultur; Persiflage; Bildserie; Zürcher Hochschule der Künste ZHdK; Tillessen, Peter; es erscheint die Publikation:\r\nPeter Tillessen - Gold, [Text: Ulf Erdmann Ziegler] Baden, Lars Müller, 2000 ; Abschlussarbeit; Original: Kleinbilddia Farbe; Digitalisat: TIFF; 1998; 1998; Tillessen, Peter; Hauptstudium Diplom Knacknuss, Karen	232a15dd-f6e8-4814-9f8f-02c2fd6044db
 ; Urheberrechtlich geschützt (individuelle Lizenz); Knacknuss, Karen; http://www.ige.ch; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; Vertiefung Mediale Künste, Sihlquai 131, 8005 Zürich; RGB; Kunst; stimme-sprach-raum-teil3; Klanginstallation; Audio; Audioinstallation; Klang; ZHdK DKM VMK; Etter, Jon; Ausstellung; 8-Kanal Audio; 5 Min., Loop; 2012; image/tiff; 2012; Treier, Max; Bachelor Knacknuss, Karen	3754fd64-032d-4887-ab5c-87eada4a3fd4
@@ -478,6 +485,8 @@ Set in SQ6 Context; Admin, Adam; sq6; Set im Kontext SQ6  Admin, Adam	9b8e0320-6
 ; Urheberrechtlich geschützt (individuelle Lizenz); Knacknuss, Karen; Jungo, Felix; http://www.ige.ch; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; Zürcher Hochschule der Künste Vertiefung Fotografie; Jungo, Felix; Fotografie; Diplom; Inszenierung; Landschaft; Natur; Fotografie; Diplomarbeit; Sport; Sportbekleidung; Outdoor; Mode; Freizeit; Zürcher Hochschule der Künste ZHdK; Bangerter, Andrea; Die Künstlerin hat ihren Namen gewechselt. Zur Zeit ihres Studiums hiess sie Andrea Bangerter, heute nennt sie sich Andrea Thal. Da sie unter dem letzten Namen als Künstlerin bekannt ist, werden hier beide Namen aufgeführt.; Abschlussarbeit; Original: Kleinbilddia Farbe; Digitalisat: TIFF; 1999; 1999; Bangerter, Andrea; Thal, Andrea; Hauptstudium Diplom Knacknuss, Karen	794661e6-fa94-44c0-909a-c5b052b5c092
 ; Urheberrechtlich geschützt (individuelle Lizenz); Knacknuss, Karen; Jungo, Felix; http://www.ige.ch; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; Zürcher Hochschule der Künste Vertiefung Fotografie; Jungo, Felix; Fotografie; Diplom; Inszenierung; Landschaft; Natur; Fotografie; Diplomarbeit; Sport; Sportbekleidung; Outdoor; Mode; Freizeit; Zürcher Hochschule der Künste ZHdK; Bangerter, Andrea; Die Künstlerin hat ihren Namen gewechselt. Zur Zeit ihres Studiums hiess sie Andrea Bangerter, heute nennt sie sich Andrea Thal. Da sie unter dem letzten Namen als Künstlerin bekannt ist, werden hier beide Namen aufgeführt.; Abschlussarbeit; Original: Kleinbilddia Farbe; Digitalisat: TIFF; 1999; 1999; Bangerter, Andrea; Thal, Andrea; Hauptstudium Diplom Knacknuss, Karen	86801cfa-9705-4323-8272-1d39e4d157ff
 Inszenierung; Landschaft; Natur; Fotografie; Diplomarbeit; Sport; Sportbekleidung; Outdoor; Mode; Freizeit; Fotografie; Diplom; Hauptstudium Diplom; Bangerter, Andrea; Thal, Andrea; 1999; 1999; Original: Kleinbilddia Farbe; Digitalisat: TIFF; Abschlussarbeit; Die Künstlerin hat ihren Namen gewechselt. Zur Zeit ihres Studiums hiess sie Andrea Bangerter, heute nennt sie sich Andrea Thal. Da sie unter dem letzten Namen als Künstlerin bekannt ist, werden hier beide Namen aufgeführt.; Bangerter, Andrea; Zürcher Hochschule der Künste ZHdK; Jungo, Felix; Zürcher Hochschule der Künste Vertiefung Fotografie; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; http://www.ige.ch; Jungo, Felix; Knacknuss, Karen; Urheberrechtlich geschützt (individuelle Lizenz);  Knacknuss, Karen	8833ee2e-efa7-409b-b3c4-981f181217c1
+Kistler, Melanie M.; 2012:06:06 11:41:53.059; image/tiff; 2012; 18:13 Min.; ZHdK DKM VMK; Videoinstallation; stribog_13_meets_electra; Kunst; RGB; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; http://www.ige.ch; Knacknuss, Karen; Urheberrechtlich geschützt (individuelle Lizenz) Knacknuss, Karen	c8be5b85-d481-4a57-bc38-81200aeb979e
+Birkhäuser, Peter; image/jpeg; 1934; Zürcher Hochschule der Künste, ZHdK; PKZ; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; http://www.ige.ch; Knacknuss, Karen; Urheberrechtlich geschützt (individuelle Lizenz) Knacknuss, Karen	c92a4a0a-76cf-4dc9-9107-a509b198430f
 Osodi, George; 22.12.2005; http://www.georgeosodi.co.uk/portfolio/permalink/75935/16dfab77b9dcf9; 22.12.2005; XGO105; Osodi, George; villagers who are evaquating drive pass smoke and flames from a burning oil pipeline belonging to Shell Petroleum Development Company across the Opobo Channel in Asagba Okwan Asarama about 50km south-west of Port Harcourt, Nigeria, Thursday, Dec. 22 2005.( Photo/George Osodi); Osodi, George; oil; niger delta; Oil Rich Niger Delta; Fotografie; Photographer; Schumacher, Susanne; I; ASAGBA OKWAN; Nigeria; Forschungsprojekt "Supply Lines"; Niger Delta; AP; Nigerdelta; NG; Nigeria / GB; www.georgeosodi.co.uk; Schumacher, Susanne; Knacknuss, Karen; Agglomeration; Gebirgslandschaft; Landwirtschaft; Parklandschaft; Siedlungsgebiet; Stadtlandschaft; Ausstellung; Kunst; Frühling; Sommer; Herbst; Morgen; Nachmittag; unbestimmte Jahreszeit; Abendrot; Bewölkung/wolkig; Gewitter; Morgenrot; braun; hellblau; Blautöne; Oker; Grüntöne; Weisstöne; Violetttöne; Rosa; mittig; Vogelperspektive; Zentralperspektive; Froschperspektive; Verblauung; schematisch; Wolken; Fluss; Hecken; Bäume; Zäune; Palmen; Berge; Weg; Büsche; Reiter; abstrakt; farbig; ländlich; kühl; distanziert; Stille; Erhabenheit; Einsamkeit; unwirtlich; technisch; utopisch; fantastisch; futuristisch; ruhig; naturnah; Selbstporträt; Inszenierte Fotografie; Kriegsfotografie; Dokumentarfotografie; Strassenfotografie; FSA; Family of Man; Stadt; Landschaft; Objekt; Punk Rock; Konzeptkunst; Reine Fotografie; 20. Jahrhundert; Urheberrechtlich geschützt (individuelle Lizenz) Knacknuss, Karen	89dabb6a-ef39-433b-a5e7-90e2a05e078f
 Hauptstudium Diplom; Bangerter, Andrea; Thal, Andrea; 1999; 1999; Original: Kleinbilddia Farbe; Digitalisat: TIFF; Abschlussarbeit; Die Künstlerin hat ihren Namen gewechselt. Zur Zeit ihres Studiums hiess sie Andrea Bangerter, heute nennt sie sich Andrea Thal. Da sie unter dem letzten Namen als Künstlerin bekannt ist, werden hier beide Namen aufgeführt.; Bangerter, Andrea; Zürcher Hochschule der Künste ZHdK; Inszenierung; Landschaft; Natur; Fotografie; Diplomarbeit; Sport; Sportbekleidung; Outdoor; Mode; Freizeit; Diplom; Fotografie; Jungo, Felix; Zürcher Hochschule der Künste Vertiefung Fotografie; Jungo, Felix; Knacknuss, Karen; Erholungszone; Naturlandschaft; Parklandschaft; Stadtlandschaft; Tourismusgebiet; Ausstellung; Kunst; Architekturbild; Illustration; Computerspiel; Wettbewerb; Frühling; Sommer; Herbst; Winter; Mittag; Nacht; Bewölkung/wolkig; Morgenrot; Nebel; Schnee; Wind; weiss; hellblau; Gelb; Blautöne; Oker; Grüntöne; Gelbtöne; unten; Vogelperspektive; Zentralperspektive; Froschperspektive; Texturgradient; abstrakt; Bucht; Blumen; Wolken; idyllisch; friedlich; kühl; modern; Erhabenheit; Einsamkeit; technisch; unfreundlich; utopisch; fantastisch; ruhig; naturnah; technologisch; verspielt; künstlich; dramatisch; düster; clean; Landschaft; Konzeptkunst; Subjektive Fotografie; Futurismus; 20. Jahrhundert; Urheberrechtlich geschützt (individuelle Lizenz) Knacknuss, Karen	8b5050fe-280d-4712-9acb-fe8323e5c33e
 Hauptstudium Diplom; Tillessen, Peter; 1998; 1998; Original: Kleinbilddia Farbe; Digitalisat: TIFF; Abschlussarbeit; es erscheint die Publikation:\r\nPeter Tillessen - Gold, [Text: Ulf Erdmann Ziegler] Baden, Lars Müller, 2000 ; Tillessen, Peter; Zürcher Hochschule der Künste ZHdK; Konzeptkunst; Stadt; Fotografie; Diplomarbeit; Zürich; Hefte; Beobachtung; Bild-Text; Konsumkultur; Persiflage; Bildserie; Spaziergang; Fotografie; Jungo, Felix; Zürcher Hochschule der Künste Vertiefung Fotografie; Diplomarbeit; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; http://www.ige.ch; Jungo, Felix; Knacknuss, Karen; Urheberrechtlich geschützt (individuelle Lizenz);  Knacknuss, Karen	8f36eeca-d079-486d-b200-381d0060fb71
@@ -489,11 +498,6 @@ Hauptstudium Diplom; Bangerter, Andrea; Thal, Andrea; 1999; 1999; Original: Klei
 Bachelor; 2012; image/tiff; 2012; Ausstellung; Etter, Jon; ZHdK DKM VMK; Leerschlag [ ]; Kunst; RGB; Vernissage; Vertiefung Mediale Künste, Sihlquai 131, 8005 Zürich; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; http://www.ige.ch; Knacknuss, Karen; Urheberrechtlich geschützt (individuelle Lizenz);  Knacknuss, Karen	ac5f52d3-53e3-4c51-8f82-d2de8504f550
 Flurina Gradin; landjäger1_zett 11_3; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; http://www.ige.ch; Knacknuss, Karen; Urheberrechtlich geschützt (individuelle Lizenz) Knacknuss, Karen	b77832a0-68f6-413a-abf9-940249accdab
 2012:09:26 11:49:27.032; image/jpeg; ZHdK; Z+; RGB; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; http://www.ige.ch; Knacknuss, Karen; Urheberrechtlich geschützt (individuelle Lizenz) Knacknuss, Karen	ba415873-0760-4a5b-af98-14b79ea8f7a6
-2012:05:30 23:57:41.005; image/jpeg; Die Gartenküche canorta erlaubt spontane Öffentlichkeit.; Reto Togni und Dominique Schmutz ; Canorta; RGB; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; http://www.ige.ch; Knacknuss, Karen; Urheberrechtlich geschützt (individuelle Lizenz) Knacknuss, Karen	be038599-4c7e-4727-a3f7-ad5a67bf036b
-ZHdK; Design Artikel, Michael Krohn; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; http://www.ige.ch; Knacknuss, Karen; Urheberrechtlich geschützt (individuelle Lizenz) Knacknuss, Karen	bfd15f23-853b-4dc5-9232-084c80110f67
-Knacknuss, Karen; Plan; unbekannt; Alle Rechte vorbehalten Knacknuss, Karen	c50bc33d-626b-43ac-b297-8725ac8a152b
-Kistler, Melanie M.; 2012:06:06 11:41:53.059; image/tiff; 2012; 18:13 Min.; ZHdK DKM VMK; Videoinstallation; stribog_13_meets_electra; Kunst; RGB; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; http://www.ige.ch; Knacknuss, Karen; Urheberrechtlich geschützt (individuelle Lizenz) Knacknuss, Karen	c8be5b85-d481-4a57-bc38-81200aeb979e
-Birkhäuser, Peter; image/jpeg; 1934; Zürcher Hochschule der Künste, ZHdK; PKZ; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; http://www.ige.ch; Knacknuss, Karen; Urheberrechtlich geschützt (individuelle Lizenz) Knacknuss, Karen	c92a4a0a-76cf-4dc9-9107-a509b198430f
 http://www.ige.ch; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; Knacknuss, Karen; Flurina Gradin; landjäger2_zett 11_3; Urheberrechtlich geschützt (individuelle Lizenz) Knacknuss, Karen	c9c81ff5-836f-4e74-94f1-49d92dbcf907
 17.5 kHz; CBR; 3; Joint Stereo; 4; 1; On; t; 44100; 2052; Shit in my Head; Bit-Tuner and Kurt Kuene; //wipking.krungkuene.org and; Punk Rock; Shit in my Head; 1; 2007; 2007; 0:02:54 (approx); Landschaft, Liselotte; 128 kbps; 3; Joint Stereo; None; LAME3.96r; Off; 128 kbps; ???; Audioinstallation; Klang; Musik; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; http://www.copyright.ch; Vorbildung; Alle Rechte vorbehalten Landschaft, Liselotte	cb655264-6fa5-4a7e-bfbe-8f1404ee6323
 Flurina Gradin; landjäger1_zett 11_3; Das Werk darf nur mit Einwilligung des Autors/Rechteinhabers weiter verwendet werden.; http://www.ige.ch; Knacknuss, Karen; Urheberrechtlich geschützt (individuelle Lizenz) Knacknuss, Karen	cbc0b48f-af78-40fe-931d-461e21930e7f
@@ -516,7 +520,7 @@ Forschungsprojekt "Supply Lines"; Normalo, Normin; Osodi, George; 31.10.2006; im
 
 
 --
--- Data for Name: groups; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: groups; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY groups (name, institutional_group_id, institutional_group_name, type, id, previous_id, searchable, users_count) FROM stdin;
@@ -1369,7 +1373,7 @@ Services, Abteilung Hochschuladministration	15424.personal	SER_MAN_HAD.personal	
 
 
 --
--- Data for Name: grouppermissions; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: grouppermissions; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY grouppermissions (download, edit, manage, view, media_resource_id, group_id, id) FROM stdin;
@@ -1412,7 +1416,7 @@ f	f	f	t	cbc0b48f-af78-40fe-931d-461e21930e7f	2cbf25a4-582f-47c0-97e4-62c6e614524
 
 
 --
--- Data for Name: groups_users; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: groups_users; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY groups_users (group_id, user_id) FROM stdin;
@@ -1429,7 +1433,7 @@ ced82de3-7c6d-4d51-ab2b-55f4d063add0	4858d197-61d8-47fa-888d-de4cc4b4f25e
 
 
 --
--- Data for Name: io_interfaces; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: io_interfaces; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY io_interfaces (id, description, created_at, updated_at) FROM stdin;
@@ -1439,7 +1443,7 @@ tms		2014-06-18 17:07:23.732899	2014-06-18 17:07:23.732899
 
 
 --
--- Data for Name: meta_keys; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: meta_keys; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY meta_keys (is_extensible_list, id, meta_datum_object_type, meta_terms_alphabetical_order) FROM stdin;
@@ -1806,7 +1810,7 @@ t	PA_ArtefakttypDifferenzierung	MetaDatumMetaTerms	t
 
 
 --
--- Data for Name: io_mappings; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: io_mappings; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY io_mappings (io_interface_id, meta_key_id, key_map, key_map_type, created_at, updated_at) FROM stdin;
@@ -2138,7 +2142,7 @@ tms	description author before import	textentries textart="Erfasser/in vor dem Ho
 
 
 --
--- Data for Name: keyword_terms; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: keyword_terms; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY keyword_terms (id, term, created_at, updated_at, creator_id) FROM stdin;
@@ -2189,7 +2193,7 @@ bfd548c2-6e70-4126-8c1f-cf9048bf8e9d	Wolken	2014-04-29 08:58:12.18801	2014-09-15
 
 
 --
--- Data for Name: meta_data; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: meta_data; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY meta_data (type, string, meta_key_id, media_resource_id, id, copyright_id) FROM stdin;
@@ -3376,7 +3380,7 @@ MetaDatumInstitutionalGroups	\N	institutional affiliation	5702528a-ac3f-4c8f-a65
 
 
 --
--- Data for Name: keywords; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: keywords; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY keywords (created_at, user_id, meta_datum_id, id, keyword_term_id) FROM stdin;
@@ -3623,7 +3627,7 @@ COPY keywords (created_at, user_id, meta_datum_id, id, keyword_term_id) FROM std
 
 
 --
--- Data for Name: media_files; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: media_files; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY media_files (height, size, width, content_type, filename, guid, access_hash, meta_data, created_at, updated_at, extension, media_type, media_entry_id, id) FROM stdin;
@@ -3712,7 +3716,7 @@ COPY media_files (height, size, width, content_type, filename, guid, access_hash
 
 
 --
--- Data for Name: media_resource_arcs; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: media_resource_arcs; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY media_resource_arcs (highlight, cover, child_id, parent_id, id) FROM stdin;
@@ -3772,7 +3776,7 @@ f	f	3952f552-7540-4cbd-a851-f7c39c800fde	d2582be1-9180-46f1-93c6-4798de15f615	3a
 
 
 --
--- Data for Name: media_sets_contexts; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: media_sets_contexts; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY media_sets_contexts (context_id, media_set_id) FROM stdin;
@@ -3786,7 +3790,7 @@ Landschaftsvisualisierung	18578499-3a97-42be-b099-7d98c395d657
 
 
 --
--- Data for Name: meta_data_institutional_groups; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: meta_data_institutional_groups; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY meta_data_institutional_groups (institutional_group_id, meta_datum_id) FROM stdin;
@@ -3794,7 +3798,7 @@ COPY meta_data_institutional_groups (institutional_group_id, meta_datum_id) FROM
 
 
 --
--- Data for Name: meta_terms; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: meta_terms; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY meta_terms (id, term) FROM stdin;
@@ -4317,7 +4321,7 @@ d2794153-5011-46a6-8782-cd6e0b3c1584	zett 11-2012
 
 
 --
--- Data for Name: meta_data_meta_terms; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: meta_data_meta_terms; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY meta_data_meta_terms (meta_datum_id, meta_term_id) FROM stdin;
@@ -4588,7 +4592,7 @@ d5dff022-fa85-449a-a9e8-751917cfe74b	19368259-607a-43ca-b866-f8831982afe0
 
 
 --
--- Data for Name: meta_data_people; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: meta_data_people; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY meta_data_people (person_id, meta_datum_id) FROM stdin;
@@ -4749,7 +4753,7 @@ ef62dea1-8a78-4ffe-be1b-ff4282eec631	a28c40ea-1ade-488f-a685-dadc54850134
 
 
 --
--- Data for Name: meta_data_users; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: meta_data_users; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY meta_data_users (user_id, meta_datum_id) FROM stdin;
@@ -4822,7 +4826,7 @@ COPY meta_data_users (user_id, meta_datum_id) FROM stdin;
 
 
 --
--- Data for Name: meta_key_definitions; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: meta_key_definitions; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY meta_key_definitions (is_required, length_max, length_min, "position", created_at, updated_at, meta_key_id, context_id, id, label, hint, description, input_type) FROM stdin;
@@ -4967,7 +4971,7 @@ f	\N	\N	0	2012-04-20 12:01:53	2012-04-20 12:01:53	LV_Ra?umliche Wahrnehmung	Proj
 
 
 --
--- Data for Name: meta_keys_meta_terms; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: meta_keys_meta_terms; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY meta_keys_meta_terms ("position", meta_key_id, id, meta_term_id) FROM stdin;
@@ -5509,7 +5513,7 @@ COPY meta_keys_meta_terms ("position", meta_key_id, id, meta_term_id) FROM stdin
 
 
 --
--- Data for Name: permission_presets; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: permission_presets; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY permission_presets (name, download, edit, manage, view, id, "position") FROM stdin;
@@ -5522,7 +5526,7 @@ Redakteur/in	t	t	f	t	f5884609-687d-4cd8-969f-c33899250df7	5
 
 
 --
--- Data for Name: previews; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: previews; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY previews (height, width, content_type, filename, thumbnail, created_at, updated_at, media_file_id, id, media_type) FROM stdin;
@@ -5925,7 +5929,7 @@ COPY previews (height, width, content_type, filename, thumbnail, created_at, upd
 
 
 --
--- Data for Name: usage_terms; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: usage_terms; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY usage_terms (title, version, intro, body, updated_at, id) FROM stdin;
@@ -5934,7 +5938,7 @@ Nutzungsbedingungen	vom 29. September 2010	Bitte lesen, akzeptieren und halten S
 
 
 --
--- Data for Name: userpermissions; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: userpermissions; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY userpermissions (download, edit, manage, view, media_resource_id, user_id, id) FROM stdin;
@@ -5947,7 +5951,7 @@ f	f	f	t	5097b6da-4785-4373-a1c7-7b939f56bb2c	08ba1f4f-0522-4a77-b087-4f3d1dd9453
 
 
 --
--- Data for Name: visualizations; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: visualizations; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY visualizations (resource_identifier, control_settings, layout, user_id, id) FROM stdin;
@@ -5955,7 +5959,7 @@ COPY visualizations (resource_identifier, control_settings, layout, user_id, id)
 
 
 --
--- Data for Name: zencoder_jobs; Type: TABLE DATA; Schema: public; Owner: thomas
+-- Data for Name: zencoder_jobs; Type: TABLE DATA; Schema: public; Owner: nimaai
 --
 
 COPY zencoder_jobs (id, zencoder_id, comment, state, error, notification, request, response, created_at, updated_at, media_file_id) FROM stdin;

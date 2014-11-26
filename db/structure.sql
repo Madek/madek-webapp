@@ -245,12 +245,22 @@ CREATE TABLE edit_sessions (
 
 
 --
--- Name: favorites; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: favorite_collections; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE TABLE favorites (
+CREATE TABLE favorite_collections (
     user_id uuid NOT NULL,
-    media_resource_id uuid NOT NULL
+    collection_id uuid NOT NULL
+);
+
+
+--
+-- Name: favorite_media_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE favorite_media_entries (
+    user_id uuid NOT NULL,
+    media_entry_id uuid NOT NULL
 );
 
 
@@ -1332,24 +1342,45 @@ CREATE INDEX index_edit_sessions_on_user_id ON edit_sessions USING btree (user_i
 
 
 --
--- Name: index_favorites_on_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_favorite_collections_on_collection_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_favorites_on_media_resource_id ON favorites USING btree (media_resource_id);
-
-
---
--- Name: index_favorites_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_favorites_on_user_id ON favorites USING btree (user_id);
+CREATE INDEX index_favorite_collections_on_collection_id ON favorite_collections USING btree (collection_id);
 
 
 --
--- Name: index_favorites_on_user_id_and_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_favorite_collections_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_favorites_on_user_id_and_media_resource_id ON favorites USING btree (user_id, media_resource_id);
+CREATE INDEX index_favorite_collections_on_user_id ON favorite_collections USING btree (user_id);
+
+
+--
+-- Name: index_favorite_collections_on_user_id_and_collection_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_favorite_collections_on_user_id_and_collection_id ON favorite_collections USING btree (user_id, collection_id);
+
+
+--
+-- Name: index_favorite_media_entries_on_media_entry_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_favorite_media_entries_on_media_entry_id ON favorite_media_entries USING btree (media_entry_id);
+
+
+--
+-- Name: index_favorite_media_entries_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_favorite_media_entries_on_user_id ON favorite_media_entries USING btree (user_id);
+
+
+--
+-- Name: index_favorite_media_entries_on_user_id_and_media_entry_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_favorite_media_entries_on_user_id_and_media_entry_id ON favorite_media_entries USING btree (user_id, media_entry_id);
 
 
 --
@@ -2041,19 +2072,35 @@ ALTER TABLE ONLY edit_sessions
 
 
 --
--- Name: favorites_media_resource_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: favorite_collections_collection_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY favorites
-    ADD CONSTRAINT favorites_media_resource_id_fk FOREIGN KEY (media_resource_id) REFERENCES media_resources(id) ON DELETE CASCADE;
+ALTER TABLE ONLY favorite_collections
+    ADD CONSTRAINT favorite_collections_collection_id_fk FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE;
 
 
 --
--- Name: favorites_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: favorite_collections_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY favorites
-    ADD CONSTRAINT favorites_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+ALTER TABLE ONLY favorite_collections
+    ADD CONSTRAINT favorite_collections_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: favorite_media_entries_media_entry_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY favorite_media_entries
+    ADD CONSTRAINT favorite_media_entries_media_entry_id_fk FOREIGN KEY (media_entry_id) REFERENCES media_entries(id) ON DELETE CASCADE;
+
+
+--
+-- Name: favorite_media_entries_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY favorite_media_entries
+    ADD CONSTRAINT favorite_media_entries_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 
 
 --
@@ -2509,6 +2556,16 @@ INSERT INTO schema_migrations (version) VALUES ('11');
 INSERT INTO schema_migrations (version) VALUES ('110');
 
 INSERT INTO schema_migrations (version) VALUES ('111');
+
+INSERT INTO schema_migrations (version) VALUES ('112');
+
+INSERT INTO schema_migrations (version) VALUES ('113');
+
+INSERT INTO schema_migrations (version) VALUES ('114');
+
+INSERT INTO schema_migrations (version) VALUES ('115');
+
+INSERT INTO schema_migrations (version) VALUES ('116');
 
 INSERT INTO schema_migrations (version) VALUES ('12');
 

@@ -1,4 +1,5 @@
 require 'spec_helper'
+require Rails.root.join "spec", "models", "shared", "favoritable_spec.rb"
 
 describe Collection do
 
@@ -12,11 +13,11 @@ describe Collection do
 
   context "an existing Collection" do
 
-    before :each do 
-      @collection = FactoryGirl.create :collection
+    it_behaves_like "a favoritable" do
+
+      let(:resource) { FactoryGirl.create :collection }
+
     end
 
-
   end
-
 end

@@ -49,24 +49,8 @@ class User < ActiveRecord::Base
   has_many :created_custom_urls, class_name: 'CustomUrl', foreign_key: :creator_id
   has_many :updated_custom_urls, class_name: 'CustomUrl', foreign_key: :updator_id
 
-
-  has_and_belongs_to_many :favorites, :class_name => "MediaResource", :join_table => "favorites" do
-    def toggle(media_resource)
-      if exists?(media_resource)
-        self.delete(media_resource)
-      else
-        self << media_resource
-      end
-    end
-    def favor(media_resource)
-      self << media_resource
-    end
-    def disfavor(media_resource)
-      self.delete(media_resource) if exists?(media_resource)
-    end
-  end
-  
-
+  has_and_belongs_to_many :favorite_media_entries, join_table: "favorite_media_entries", class_name: "MediaEntry"
+  has_and_belongs_to_many :favorite_collections, join_table: "favorite_collections", class_name: "Collection"
 
   has_and_belongs_to_many :groups,
                           after_add: :increment_user_counter, 

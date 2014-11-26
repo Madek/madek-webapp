@@ -1,4 +1,5 @@
 require 'spec_helper'
+require Rails.root.join "spec", "models", "shared", "favoritable_spec.rb"
 
 describe MediaEntry do
 
@@ -12,11 +13,11 @@ describe MediaEntry do
 
   context "an existing MediaEntry" do
 
-    before :each do 
-      @media_entry = FactoryGirl.create :media_entry
+    it_behaves_like "a favoritable" do
+
+      let(:resource) { FactoryGirl.create :media_entry }
+
     end
 
-
   end
-
 end
