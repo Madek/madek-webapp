@@ -238,9 +238,12 @@ CREATE TABLE custom_urls (
 CREATE TABLE edit_sessions (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     user_id uuid NOT NULL,
-    media_resource_id uuid NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp without time zone DEFAULT now() NOT NULL
+    updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    media_entry_id uuid,
+    collection_id uuid,
+    filter_set_id uuid,
+    CONSTRAINT edit_sessions_is_related CHECK ((((((media_entry_id IS NULL) AND (collection_id IS NULL)) AND (filter_set_id IS NOT NULL)) OR (((media_entry_id IS NULL) AND (collection_id IS NOT NULL)) AND (filter_set_id IS NULL))) OR (((media_entry_id IS NOT NULL) AND (collection_id IS NULL)) AND (filter_set_id IS NULL))))
 );
 
 
@@ -1328,13 +1331,6 @@ CREATE INDEX index_custom_urls_on_updator_id ON custom_urls USING btree (updator
 
 
 --
--- Name: index_edit_sessions_on_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_edit_sessions_on_media_resource_id ON edit_sessions USING btree (media_resource_id);
-
-
---
 -- Name: index_edit_sessions_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2056,11 +2052,27 @@ ALTER TABLE ONLY custom_urls
 
 
 --
--- Name: edit_sessions_media_resource_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: edit_sessions_collection_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY edit_sessions
-    ADD CONSTRAINT edit_sessions_media_resource_id_fk FOREIGN KEY (media_resource_id) REFERENCES media_resources(id) ON DELETE CASCADE;
+    ADD CONSTRAINT edit_sessions_collection_id_fk FOREIGN KEY (collection_id) REFERENCES collections(id);
+
+
+--
+-- Name: edit_sessions_filter_set_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY edit_sessions
+    ADD CONSTRAINT edit_sessions_filter_set_id_fk FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id);
+
+
+--
+-- Name: edit_sessions_media_entry_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY edit_sessions
+    ADD CONSTRAINT edit_sessions_media_entry_id_fk FOREIGN KEY (media_entry_id) REFERENCES media_entries(id);
 
 
 --
@@ -2566,6 +2578,12 @@ INSERT INTO schema_migrations (version) VALUES ('114');
 INSERT INTO schema_migrations (version) VALUES ('115');
 
 INSERT INTO schema_migrations (version) VALUES ('116');
+
+INSERT INTO schema_migrations (version) VALUES ('117');
+
+INSERT INTO schema_migrations (version) VALUES ('118');
+
+INSERT INTO schema_migrations (version) VALUES ('119');
 
 INSERT INTO schema_migrations (version) VALUES ('12');
 

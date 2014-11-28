@@ -15,4 +15,7 @@ class MediaEntry < ActiveRecord::Base
 
   has_and_belongs_to_many :users_who_favored, join_table: "favorite_media_entries", class_name: "User"
 
+  has_many :edit_sessions, dependent: :destroy
+  has_many :editors, through: :edit_sessions, source: :user
+
 end

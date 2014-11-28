@@ -1,5 +1,6 @@
 require 'spec_helper'
 require Rails.root.join "spec", "models", "shared", "favoritable_spec.rb"
+require Rails.root.join "spec", "models", "shared", "edit_sessions_spec.rb"
 
 describe MediaEntry do
 
@@ -16,6 +17,12 @@ describe MediaEntry do
     it_behaves_like "a favoritable" do
 
       let(:resource) { FactoryGirl.create :media_entry }
+
+    end
+
+    it_has "edit sessions" do
+
+      let(:resource_type) { :media_entry }
 
     end
 
