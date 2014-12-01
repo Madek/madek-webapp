@@ -1,5 +1,19 @@
 FactoryGirl.define do
 
+
+  factory :collection_group_permission, class: Permissions::CollectionGroupPermission do
+
+    get_metadata_and_previews {FactoryHelper.rand_bool 1/4.0}
+    edit_metadata_and_relations {FactoryHelper.rand_bool 1/4.0}
+
+    group {Group.find_random || (FactoryGirl.create :group)} 
+    updator {User.find_random || (FactoryGirl.create :user)}
+    collection {Collection.find_random || (FactoryGirl.create :collection)}
+
+  end
+
+
+
   factory :media_entry_user_permission, class: Permissions::MediaEntryUserPermission do
 
     get_metadata_and_previews {FactoryHelper.rand_bool 1/4.0}

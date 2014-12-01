@@ -148,6 +148,22 @@ CREATE TABLE collection_filter_set_arcs (
 
 
 --
+-- Name: collection_group_permissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE collection_group_permissions (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    get_metadata_and_previews boolean DEFAULT false NOT NULL,
+    edit_metadata_and_relations boolean DEFAULT false NOT NULL,
+    collection_id uuid NOT NULL,
+    group_id uuid NOT NULL,
+    updator_id uuid,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+--
 -- Name: collection_media_entry_arcs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -814,6 +830,14 @@ ALTER TABLE ONLY collection_filter_set_arcs
 
 
 --
+-- Name: collection_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY collection_group_permissions
+    ADD CONSTRAINT collection_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: collection_media_entry_arcs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1128,6 +1152,13 @@ CREATE UNIQUE INDEX idx_media_entry_user_permission ON media_entry_user_permissi
 
 
 --
+-- Name: idx_megrpp_on_collection_id_and_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX idx_megrpp_on_collection_id_and_group_id ON collection_group_permissions USING btree (collection_id, group_id);
+
+
+--
 -- Name: idx_megrpp_on_media_entry_id_and_api_client_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1230,6 +1261,27 @@ CREATE INDEX index_collection_filter_set_arcs_on_filter_set_id ON collection_fil
 --
 
 CREATE INDEX index_collection_filter_set_arcs_on_filter_set_id_and_collectio ON collection_filter_set_arcs USING btree (filter_set_id, collection_id);
+
+
+--
+-- Name: index_collection_group_permissions_on_collection_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_collection_group_permissions_on_collection_id ON collection_group_permissions USING btree (collection_id);
+
+
+--
+-- Name: index_collection_group_permissions_on_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_collection_group_permissions_on_group_id ON collection_group_permissions USING btree (group_id);
+
+
+--
+-- Name: index_collection_group_permissions_on_updator_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_collection_group_permissions_on_updator_id ON collection_group_permissions USING btree (updator_id);
 
 
 --
@@ -1988,6 +2040,30 @@ ALTER TABLE ONLY collection_filter_set_arcs
 
 
 --
+-- Name: collection_group_permissions_collection_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_group_permissions
+    ADD CONSTRAINT collection_group_permissions_collection_id_fk FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE;
+
+
+--
+-- Name: collection_group_permissions_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_group_permissions
+    ADD CONSTRAINT collection_group_permissions_group_id_fk FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
+
+
+--
+-- Name: collection_group_permissions_updator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_group_permissions
+    ADD CONSTRAINT collection_group_permissions_updator_id_fk FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
 -- Name: collection_media_entry_arcs_collection_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2586,6 +2662,8 @@ INSERT INTO schema_migrations (version) VALUES ('118');
 INSERT INTO schema_migrations (version) VALUES ('119');
 
 INSERT INTO schema_migrations (version) VALUES ('12');
+
+INSERT INTO schema_migrations (version) VALUES ('120');
 
 INSERT INTO schema_migrations (version) VALUES ('13');
 
