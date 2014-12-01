@@ -7,7 +7,10 @@ module Permissions
     belongs_to :updator, class_name: "User"
 
     def self.destroy_ineffective
-      MediaEntryUserPermission.where(get_metadata_and_previews: false, get_full_size: false, edit_metadata: false, edit_permissions: false).delete_all
+      MediaEntryUserPermission.where(get_metadata_and_previews: false, 
+                                     get_full_size: false, 
+                                     edit_metadata: false, 
+                                     edit_permissions: false).delete_all
       MediaEntryUserPermission.connection.execute <<-SQL
         DELETE
           FROM "media_entry_user_permissions"

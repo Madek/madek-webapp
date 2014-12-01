@@ -48,6 +48,10 @@ tasks:
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/permissions/filter_set_api_client_permission_spec.rb"
+- name: models permissions filter_set_user_permission
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/permissions/filter_set_user_permission_spec.rb"
 - name: models permissions media_entry_api_client_permission
   scripts:
     rspec:

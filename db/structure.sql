@@ -316,6 +316,23 @@ CREATE TABLE filter_set_api_client_permissions (
 
 
 --
+-- Name: filter_set_user_permissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE filter_set_user_permissions (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    get_metadata_and_previews boolean DEFAULT false NOT NULL,
+    edit_metadata_and_filter boolean DEFAULT false NOT NULL,
+    edit_permissions boolean DEFAULT false NOT NULL,
+    filter_set_id uuid NOT NULL,
+    user_id uuid NOT NULL,
+    updator_id uuid,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+--
 -- Name: filter_sets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -942,6 +959,14 @@ ALTER TABLE ONLY filter_set_api_client_permissions
 
 
 --
+-- Name: filter_set_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY filter_set_user_permissions
+    ADD CONSTRAINT filter_set_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: filter_sets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1211,6 +1236,13 @@ CREATE UNIQUE INDEX idx_collapiclp_on_collection_id_and_api_client_id ON collect
 --
 
 CREATE UNIQUE INDEX idx_fsetapiclp_on_filter_set_id_and_api_client_id ON filter_set_api_client_permissions USING btree (filter_set_id, api_client_id);
+
+
+--
+-- Name: idx_fsetusrp_on_filter_set_id_and_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX idx_fsetusrp_on_filter_set_id_and_user_id ON filter_set_user_permissions USING btree (filter_set_id, user_id);
 
 
 --
@@ -1533,6 +1565,27 @@ CREATE INDEX index_filter_set_api_client_permissions_on_filter_set_id ON filter_
 --
 
 CREATE INDEX index_filter_set_api_client_permissions_on_updator_id ON filter_set_api_client_permissions USING btree (updator_id);
+
+
+--
+-- Name: index_filter_set_user_permissions_on_filter_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_filter_set_user_permissions_on_filter_set_id ON filter_set_user_permissions USING btree (filter_set_id);
+
+
+--
+-- Name: index_filter_set_user_permissions_on_updator_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_filter_set_user_permissions_on_updator_id ON filter_set_user_permissions USING btree (updator_id);
+
+
+--
+-- Name: index_filter_set_user_permissions_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_filter_set_user_permissions_on_user_id ON filter_set_user_permissions USING btree (user_id);
 
 
 --
@@ -2344,6 +2397,30 @@ ALTER TABLE ONLY filter_set_api_client_permissions
 
 
 --
+-- Name: filter_set_user_permissions_filter_set_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_user_permissions
+    ADD CONSTRAINT filter_set_user_permissions_filter_set_id_fk FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id) ON DELETE CASCADE;
+
+
+--
+-- Name: filter_set_user_permissions_updator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_user_permissions
+    ADD CONSTRAINT filter_set_user_permissions_updator_id_fk FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
+-- Name: filter_set_user_permissions_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_user_permissions
+    ADD CONSTRAINT filter_set_user_permissions_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: filter_sets_creator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2820,6 +2897,8 @@ INSERT INTO schema_migrations (version) VALUES ('120');
 INSERT INTO schema_migrations (version) VALUES ('121');
 
 INSERT INTO schema_migrations (version) VALUES ('122');
+
+INSERT INTO schema_migrations (version) VALUES ('123');
 
 INSERT INTO schema_migrations (version) VALUES ('13');
 
