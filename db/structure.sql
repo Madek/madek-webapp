@@ -126,6 +126,22 @@ CREATE TABLE applicationpermissions (
 
 
 --
+-- Name: collection_api_client_permissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE collection_api_client_permissions (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    get_metadata_and_previews boolean DEFAULT false NOT NULL,
+    edit_metadata_and_relations boolean DEFAULT false NOT NULL,
+    collection_id uuid NOT NULL,
+    api_client_id character varying(255) NOT NULL,
+    updator_id uuid,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+--
 -- Name: collection_collection_arcs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -814,6 +830,14 @@ ALTER TABLE ONLY api_clients
 
 
 --
+-- Name: collection_api_client_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY collection_api_client_permissions
+    ADD CONSTRAINT collection_api_client_permissions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: collection_collection_arcs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1145,17 +1169,24 @@ CREATE UNIQUE INDEX idx_bools_unique ON permission_presets USING btree (view, ed
 
 
 --
+-- Name: idx_colgrpp_on_collection_id_and_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX idx_colgrpp_on_collection_id_and_group_id ON collection_group_permissions USING btree (collection_id, group_id);
+
+
+--
+-- Name: idx_collapiclp_on_collection_id_and_api_client_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX idx_collapiclp_on_collection_id_and_api_client_id ON collection_api_client_permissions USING btree (collection_id, api_client_id);
+
+
+--
 -- Name: idx_media_entry_user_permission; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX idx_media_entry_user_permission ON media_entry_user_permissions USING btree (media_entry_id, user_id);
-
-
---
--- Name: idx_megrpp_on_collection_id_and_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX idx_megrpp_on_collection_id_and_group_id ON collection_group_permissions USING btree (collection_id, group_id);
 
 
 --
@@ -1205,6 +1236,27 @@ CREATE INDEX index_applicationpermissions_on_media_resource_id ON applicationper
 --
 
 CREATE UNIQUE INDEX index_applicationpermissions_on_mr_id_and_app_id ON applicationpermissions USING btree (media_resource_id, application_id);
+
+
+--
+-- Name: index_collection_api_client_permissions_on_api_client_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_collection_api_client_permissions_on_api_client_id ON collection_api_client_permissions USING btree (api_client_id);
+
+
+--
+-- Name: index_collection_api_client_permissions_on_collection_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_collection_api_client_permissions_on_collection_id ON collection_api_client_permissions USING btree (collection_id);
+
+
+--
+-- Name: index_collection_api_client_permissions_on_updator_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_collection_api_client_permissions_on_updator_id ON collection_api_client_permissions USING btree (updator_id);
 
 
 --
@@ -2008,6 +2060,30 @@ ALTER TABLE ONLY api_clients
 
 
 --
+-- Name: collection_api_client_permissions_api_client_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_api_client_permissions
+    ADD CONSTRAINT collection_api_client_permissions_api_client_id_fk FOREIGN KEY (api_client_id) REFERENCES api_clients(id) ON DELETE CASCADE;
+
+
+--
+-- Name: collection_api_client_permissions_collection_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_api_client_permissions
+    ADD CONSTRAINT collection_api_client_permissions_collection_id_fk FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE;
+
+
+--
+-- Name: collection_api_client_permissions_updator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_api_client_permissions
+    ADD CONSTRAINT collection_api_client_permissions_updator_id_fk FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
 -- Name: collection_collection_arcs_child_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2664,6 +2740,8 @@ INSERT INTO schema_migrations (version) VALUES ('119');
 INSERT INTO schema_migrations (version) VALUES ('12');
 
 INSERT INTO schema_migrations (version) VALUES ('120');
+
+INSERT INTO schema_migrations (version) VALUES ('121');
 
 INSERT INTO schema_migrations (version) VALUES ('13');
 

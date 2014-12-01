@@ -1,4 +1,4 @@
-class CreateCollectionGrouppermission < ActiveRecord::Migration
+class CreateCollectionGroupPermission < ActiveRecord::Migration
 
   include MigrationHelper
 
@@ -31,7 +31,7 @@ class CreateCollectionGrouppermission < ActiveRecord::Migration
       t.uuid :updator_id
       t.index :updator_id 
 
-      t.index [:collection_id,:group_id], unique: true, name: 'idx_megrpp_on_collection_id_and_group_id'
+      t.index [:collection_id,:group_id], unique: true, name: 'idx_colgrpp_on_collection_id_and_group_id'
 
       t.timestamps null: false
     end

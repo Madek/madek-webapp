@@ -1,5 +1,17 @@
 FactoryGirl.define do
 
+  factory :collection_api_client_permission, class: Permissions::CollectionApiClientPermission do
+
+    get_metadata_and_previews {FactoryHelper.rand_bool 1/4.0}
+    edit_metadata_and_relations {FactoryHelper.rand_bool 1/4.0}
+
+    api_client {ApiClient.find_random || (FactoryGirl.create :api_client)} 
+    updator {User.find_random || (FactoryGirl.create :user)}
+    collection {Collection.find_random || (FactoryGirl.create :collection)}
+
+  end
+
+
 
   factory :collection_group_permission, class: Permissions::CollectionGroupPermission do
 
