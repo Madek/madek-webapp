@@ -1,9 +1,29 @@
 ---
 tasks:
+- name: models api_client
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/api_client_spec.rb"
 - name: models collection
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/collection_spec.rb"
+- name: models edit_session
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/edit_session_spec.rb"
+- name: models filter
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/filter_spec.rb"
+- name: models keyword class search
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/keyword/class/search_spec.rb"
+- name: models keyword_term
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/keyword_term_spec.rb"
 - name: models media_entry
   scripts:
     rspec:
@@ -16,7 +36,27 @@ tasks:
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/meta_datum/text_spec.rb"
+- name: models permissions media_entry_api_client_permission
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/permissions/media_entry_api_client_permission_spec.rb"
+- name: models permissions media_entry_group_permission
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/permissions/media_entry_group_permission_spec.rb"
+- name: models permissions media_entry_user_permission
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/permissions/media_entry_user_permission_spec.rb"
 - name: models relations resource_media_entry_arc
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/relations/resource_media_entry_arc_spec.rb"
+- name: models shared edit_sessions
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/shared/edit_sessions_spec.rb"
+- name: models shared favoritable
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/shared/favoritable_spec.rb"
