@@ -300,6 +300,22 @@ CREATE TABLE favorite_media_entries (
 
 
 --
+-- Name: filter_set_api_client_permissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE filter_set_api_client_permissions (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    get_metadata_and_previews boolean DEFAULT false NOT NULL,
+    edit_metadata_and_relations boolean DEFAULT false NOT NULL,
+    filter_set_id uuid NOT NULL,
+    api_client_id character varying(255) NOT NULL,
+    updator_id uuid,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+--
 -- Name: filter_sets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -918,6 +934,14 @@ ALTER TABLE ONLY edit_sessions
 
 
 --
+-- Name: filter_set_api_client_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY filter_set_api_client_permissions
+    ADD CONSTRAINT filter_set_api_client_permissions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: filter_sets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1180,6 +1204,13 @@ CREATE UNIQUE INDEX idx_colgrpp_on_collection_id_and_group_id ON collection_grou
 --
 
 CREATE UNIQUE INDEX idx_collapiclp_on_collection_id_and_api_client_id ON collection_api_client_permissions USING btree (collection_id, api_client_id);
+
+
+--
+-- Name: idx_fsetapiclp_on_filter_set_id_and_api_client_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX idx_fsetapiclp_on_filter_set_id_and_api_client_id ON filter_set_api_client_permissions USING btree (filter_set_id, api_client_id);
 
 
 --
@@ -1481,6 +1512,27 @@ CREATE INDEX index_favorite_media_entries_on_user_id ON favorite_media_entries U
 --
 
 CREATE UNIQUE INDEX index_favorite_media_entries_on_user_id_and_media_entry_id ON favorite_media_entries USING btree (user_id, media_entry_id);
+
+
+--
+-- Name: index_filter_set_api_client_permissions_on_api_client_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_filter_set_api_client_permissions_on_api_client_id ON filter_set_api_client_permissions USING btree (api_client_id);
+
+
+--
+-- Name: index_filter_set_api_client_permissions_on_filter_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_filter_set_api_client_permissions_on_filter_set_id ON filter_set_api_client_permissions USING btree (filter_set_id);
+
+
+--
+-- Name: index_filter_set_api_client_permissions_on_updator_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_filter_set_api_client_permissions_on_updator_id ON filter_set_api_client_permissions USING btree (updator_id);
 
 
 --
@@ -2268,6 +2320,30 @@ ALTER TABLE ONLY favorite_media_entries
 
 
 --
+-- Name: filter_set_api_client_permissions_api_client_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_api_client_permissions
+    ADD CONSTRAINT filter_set_api_client_permissions_api_client_id_fk FOREIGN KEY (api_client_id) REFERENCES api_clients(id) ON DELETE CASCADE;
+
+
+--
+-- Name: filter_set_api_client_permissions_filter_set_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_api_client_permissions
+    ADD CONSTRAINT filter_set_api_client_permissions_filter_set_id_fk FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id) ON DELETE CASCADE;
+
+
+--
+-- Name: filter_set_api_client_permissions_updator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_api_client_permissions
+    ADD CONSTRAINT filter_set_api_client_permissions_updator_id_fk FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
 -- Name: filter_sets_creator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2742,6 +2818,8 @@ INSERT INTO schema_migrations (version) VALUES ('12');
 INSERT INTO schema_migrations (version) VALUES ('120');
 
 INSERT INTO schema_migrations (version) VALUES ('121');
+
+INSERT INTO schema_migrations (version) VALUES ('122');
 
 INSERT INTO schema_migrations (version) VALUES ('13');
 
