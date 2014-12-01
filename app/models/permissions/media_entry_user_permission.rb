@@ -11,13 +11,9 @@ module Permissions
                                      get_full_size: false, 
                                      edit_metadata: false, 
                                      edit_permissions: false).delete_all
-      MediaEntryUserPermission.connection.execute <<-SQL
-        DELETE
-          FROM "media_entry_user_permissions"
-            USING "media_entries"
-          WHERE "media_entries"."id" = "media_entry_user_permissions"."media_entry_id"
-          AND media_entry_user_permissions.user_id = media_entries.responsible_user_id 
-      SQL
+      MediaEntryUserPermission.joins(:media_entry).where(
+        "media_entries.responsible_user_id = media_entry_user_permissions.user_id") \
+        .delete_all
     end
 
   end

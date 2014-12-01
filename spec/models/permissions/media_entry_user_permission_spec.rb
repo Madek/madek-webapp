@@ -22,7 +22,8 @@ describe Permissions::MediaEntryUserPermission do
         before :each do 
           @permission= FactoryGirl.create(:media_entry_user_permission, 
                                           get_full_size: true,
-                                          user: @media_entry.responsible_user)
+                                          user: @media_entry.responsible_user,
+                                          media_entry: @media_entry)
         end
 
         it "removes" do
