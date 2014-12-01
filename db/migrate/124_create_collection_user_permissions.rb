@@ -5,9 +5,7 @@ class CreateCollectionUserPermissions < ActiveRecord::Migration
     create_table :collection_user_permissions, id: :uuid do |t|
 
       t.boolean :get_metadata_and_previews, null: false, default: false, index: true
-      t.boolean :get_full_size, null: false, default: false, index: true
-      t.boolean :edit_metadata, null: false, default: false, index: true
-      t.boolean :edit_permissions, null: false, default: false, index: true
+      t.boolean :edit_metadata_and_relations, null: false, default: false, index: true
 
       t.uuid :collection_id, null: false
       t.index :collection_id

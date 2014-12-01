@@ -22,7 +22,7 @@ describe Permissions::CollectionUserPermission do
       context " for permissions where the user is the reponsible_user" do
         before :each do 
           @permission= FactoryGirl.create(:collection_user_permission, 
-                                          get_full_size: true,
+                                          get_metadata_and_previews: true,
                                           user: @collection.responsible_user,
                                           collection: @collection)
         end
@@ -37,9 +37,7 @@ describe Permissions::CollectionUserPermission do
         before :each do 
           @permission= FactoryGirl.create(:collection_user_permission, 
                                           get_metadata_and_previews: false,
-                                          get_full_size: false,
-                                          edit_metadata: false,
-                                          edit_permissions: false,
+                                          edit_metadata_and_relations: false,
                                           user: (FactoryGirl.create :user),
                                           collection: @collection)
         end
