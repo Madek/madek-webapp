@@ -22,7 +22,7 @@ describe Permissions::FilterSetApiClientPermission do
         before :each do 
           @permission= FactoryGirl.create(:filter_set_api_client_permission, 
                                           get_metadata_and_previews: false,
-                                          edit_metadata_and_relations: false,
+                                          edit_metadata_and_filter: false,
                                           api_client: (FactoryGirl.create :api_client),
                                           filter_set: @filter_set)
         end

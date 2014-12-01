@@ -306,7 +306,7 @@ CREATE TABLE favorite_media_entries (
 CREATE TABLE filter_set_api_client_permissions (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     get_metadata_and_previews boolean DEFAULT false NOT NULL,
-    edit_metadata_and_relations boolean DEFAULT false NOT NULL,
+    edit_metadata_and_filter boolean DEFAULT false NOT NULL,
     filter_set_id uuid NOT NULL,
     api_client_id character varying(255) NOT NULL,
     updator_id uuid,
