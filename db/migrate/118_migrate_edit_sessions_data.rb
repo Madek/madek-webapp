@@ -2,9 +2,9 @@ class MigrateEditSessionsData < ActiveRecord::Migration
 
   private
 
-  def copy_ids for_type:, to_column:
+  def copy_ids for_type, to_column
 
-    execute %Q(
+    execute "
       UPDATE edit_sessions
       SET #{to_column} = r.id
       FROM (
@@ -12,7 +12,7 @@ class MigrateEditSessionsData < ActiveRecord::Migration
         FROM media_resources
         WHERE type = '#{for_type}' ) AS r
       WHERE media_resource_id = r.id
-    )
+    "
 
   end
 
@@ -23,9 +23,9 @@ class MigrateEditSessionsData < ActiveRecord::Migration
     reversible do |dir|
       dir.up do
 
-        copy_ids for_type: "MediaEntry", to_column: "media_entry_id"
-        copy_ids for_type: "MediaSet", to_column: "collection_id"
-        copy_ids for_type: "FilterSet", to_column: "filter_set_id"
+        copy_ids "MediaEntry", "media_entry_id"
+        copy_ids "MediaSet",  "collection_id"
+        copy_ids "FilterSet", "filter_set_id"
 
       end
     end
