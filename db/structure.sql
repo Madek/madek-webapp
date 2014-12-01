@@ -193,6 +193,24 @@ CREATE TABLE collection_media_entry_arcs (
 
 
 --
+-- Name: collection_user_permissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE collection_user_permissions (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    get_metadata_and_previews boolean DEFAULT false NOT NULL,
+    get_full_size boolean DEFAULT false NOT NULL,
+    edit_metadata boolean DEFAULT false NOT NULL,
+    edit_permissions boolean DEFAULT false NOT NULL,
+    collection_id uuid NOT NULL,
+    user_id uuid NOT NULL,
+    updator_id uuid,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+--
 -- Name: collections; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -903,6 +921,14 @@ ALTER TABLE ONLY collection_media_entry_arcs
 
 
 --
+-- Name: collection_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY collection_user_permissions
+    ADD CONSTRAINT collection_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: collections_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1232,6 +1258,13 @@ CREATE UNIQUE INDEX idx_collapiclp_on_collection_id_and_api_client_id ON collect
 
 
 --
+-- Name: idx_collection_user_permission; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX idx_collection_user_permission ON collection_user_permissions USING btree (collection_id, user_id);
+
+
+--
 -- Name: idx_fsetapiclp_on_filter_set_id_and_api_client_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1425,6 +1458,27 @@ CREATE INDEX index_collection_media_entry_arcs_on_media_entry_id ON collection_m
 --
 
 CREATE INDEX index_collection_media_entry_arcs_on_media_entry_id_and_collect ON collection_media_entry_arcs USING btree (media_entry_id, collection_id);
+
+
+--
+-- Name: index_collection_user_permissions_on_collection_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_collection_user_permissions_on_collection_id ON collection_user_permissions USING btree (collection_id);
+
+
+--
+-- Name: index_collection_user_permissions_on_updator_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_collection_user_permissions_on_updator_id ON collection_user_permissions USING btree (updator_id);
+
+
+--
+-- Name: index_collection_user_permissions_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_collection_user_permissions_on_user_id ON collection_user_permissions USING btree (user_id);
 
 
 --
@@ -2261,6 +2315,30 @@ ALTER TABLE ONLY collection_media_entry_arcs
 
 
 --
+-- Name: collection_user_permissions_collection_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_user_permissions
+    ADD CONSTRAINT collection_user_permissions_collection_id_fk FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE;
+
+
+--
+-- Name: collection_user_permissions_updator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_user_permissions
+    ADD CONSTRAINT collection_user_permissions_updator_id_fk FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
+-- Name: collection_user_permissions_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_user_permissions
+    ADD CONSTRAINT collection_user_permissions_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: collections_creator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2899,6 +2977,12 @@ INSERT INTO schema_migrations (version) VALUES ('121');
 INSERT INTO schema_migrations (version) VALUES ('122');
 
 INSERT INTO schema_migrations (version) VALUES ('123');
+
+INSERT INTO schema_migrations (version) VALUES ('124');
+
+INSERT INTO schema_migrations (version) VALUES ('125');
+
+INSERT INTO schema_migrations (version) VALUES ('126');
 
 INSERT INTO schema_migrations (version) VALUES ('13');
 

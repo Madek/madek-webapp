@@ -2,6 +2,9 @@ class Collection < ActiveRecord::Base
 
   include Concerns::Favoritable
 
+  belongs_to :responsible_user, class_name: "User"
+  belongs_to :creator, class_name: "User"
+
   has_many :collection_media_entry_arcs
 
   has_many :media_entries, through: :collection_media_entry_arcs

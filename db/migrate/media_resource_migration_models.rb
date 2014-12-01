@@ -46,13 +46,15 @@ module MediaResourceMigrationModels
     self.table_name= 'collection_filter_set_arcs'
   end
 
+  class ::MigrationUserPermission < ActiveRecord::Base
+    self.table_name= :userpermissions
+  end
+
   class ::MigrationMetaDatum < ActiveRecord::Base
     self.table_name= 'meta_data'
     belongs_to :media_resource, 
       class_name: "::MigrationMediaResource", 
       foreign_key: :media_resource_id
   end
-
-
 
 end

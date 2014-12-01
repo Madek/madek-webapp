@@ -1,20 +1,14 @@
+require Rails.root.join "db","migrate","media_resource_migration_models"
+require Rails.root.join "db","migrate","user_permission_keys_definition"
+
 class CreateMediaEntryUserPermissions < ActiveRecord::Migration
   include MigrationHelper
-
-  class ::MigrationUserPermission < ActiveRecord::Base
-    self.table_name= :userpermissions
-  end
+  include MediaResourceMigrationModels
+  include UserPermissionKeysDefinition
 
   class ::MigrationMediaEntryUserPermission < ActiveRecord::Base
     self.table_name= :media_entry_user_permissions
   end
-
-  USERPERMISSION_KEYS_MAP= {
-    "view" => "get_metadata_and_previews",
-    "edit" => "edit_metadata",
-    "download" => "get_full_size",
-    "manage" => "edit_permissions", }
-
 
   def change
 

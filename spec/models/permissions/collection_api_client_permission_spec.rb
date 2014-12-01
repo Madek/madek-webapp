@@ -1,4 +1,5 @@
 require 'spec_helper'
+require Rails.root.join "spec", "models", "shared", "destroy_ineffective_permissions_spec.rb"
 
 describe Permissions::CollectionApiClientPermission do
 
@@ -27,10 +28,8 @@ describe Permissions::CollectionApiClientPermission do
                                           collection: @collection)
         end
 
-        it "removes" do
-          expect(Permissions::CollectionApiClientPermission.find_by id: @permission.id).to be
-          Permissions::CollectionApiClientPermission.destroy_ineffective
-          expect(Permissions::CollectionApiClientPermission.find_by id: @permission.id).not_to be
+        it_destroys "ineffective permissions" do
+          let(:permission) { @permission }
         end
 
       end

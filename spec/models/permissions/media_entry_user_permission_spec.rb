@@ -1,4 +1,5 @@
 require 'spec_helper'
+require Rails.root.join "spec", "models", "shared", "destroy_ineffective_permissions_spec.rb"
 
 describe Permissions::MediaEntryUserPermission do
 
@@ -26,12 +27,9 @@ describe Permissions::MediaEntryUserPermission do
                                           media_entry: @media_entry)
         end
 
-        it "removes" do
-          expect(Permissions::MediaEntryUserPermission.find_by id: @permission.id).to be
-          Permissions::MediaEntryUserPermission.destroy_ineffective
-          expect(Permissions::MediaEntryUserPermission.find_by id: @permission.id).not_to be
+        it_destroys "ineffective permissions" do
+          let(:permission) { @permission }
         end
-
 
       end
 
@@ -46,10 +44,8 @@ describe Permissions::MediaEntryUserPermission do
                                           media_entry: @media_entry)
         end
 
-        it "removes" do
-          expect(Permissions::MediaEntryUserPermission.find_by id: @permission.id).to be
-          Permissions::MediaEntryUserPermission.destroy_ineffective
-          expect(Permissions::MediaEntryUserPermission.find_by id: @permission.id).not_to be
+        it_destroys "ineffective permissions" do
+          let(:permission) { @permission }
         end
 
       end

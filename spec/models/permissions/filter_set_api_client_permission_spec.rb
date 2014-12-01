@@ -1,4 +1,5 @@
 require 'spec_helper'
+require Rails.root.join "spec", "models", "shared", "destroy_ineffective_permissions_spec.rb"
 
 describe Permissions::FilterSetApiClientPermission do
 
@@ -27,10 +28,8 @@ describe Permissions::FilterSetApiClientPermission do
                                           filter_set: @filter_set)
         end
 
-        it "removes" do
-          expect(Permissions::FilterSetApiClientPermission.find_by id: @permission.id).to be
-          Permissions::FilterSetApiClientPermission.destroy_ineffective
-          expect(Permissions::FilterSetApiClientPermission.find_by id: @permission.id).not_to be
+        it_destroys "ineffective permissions" do
+          let(:permission) { @permission }
         end
 
       end

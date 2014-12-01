@@ -1,4 +1,5 @@
 require 'spec_helper'
+require Rails.root.join "spec", "models", "shared", "destroy_ineffective_permissions_spec.rb"
 
 describe Permissions::CollectionGroupPermission do
 
@@ -27,10 +28,8 @@ describe Permissions::CollectionGroupPermission do
                                           collection: @collection)
         end
 
-        it "removes" do
-          expect(Permissions::CollectionGroupPermission.find_by id: @permission.id).to be
-          Permissions::CollectionGroupPermission.destroy_ineffective
-          expect(Permissions::CollectionGroupPermission.find_by id: @permission.id).not_to be
+        it_destroys "ineffective permissions" do
+          let(:permission) { @permission }
         end
 
       end

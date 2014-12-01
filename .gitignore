@@ -44,13 +44,14 @@ deb/seeds.rb
 dev/node_modules/
 design/icon-font-sources/*.svg
 doc/api/yard
+Gemfile.local
+Gemfile.local.lock
 log/*.log
 log/searchd.development.pid
 log/searchd.test.pid
 public/assets/
 public/previews/
 rerun*.txt
+tags
 tmp/
 vendor/bundle/
-Gemfile.local
-Gemfile.local.lock

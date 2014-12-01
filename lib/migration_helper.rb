@@ -1,5 +1,5 @@
 module MigrationHelper
-    extend ActiveSupport::Concern
+  extend ActiveSupport::Concern
 
   def create_trgm_index t,c
     execute "CREATE INDEX ON #{t.to_s} USING gin(#{c.to_s} gin_trgm_ops);"

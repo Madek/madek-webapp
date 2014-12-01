@@ -65,6 +65,20 @@ FactoryGirl.define do
   end
 
 
+  factory :collection_user_permission, class: Permissions::CollectionUserPermission do
+
+    get_metadata_and_previews {FactoryHelper.rand_bool 1/4.0}
+    get_full_size{get_metadata_and_previews and FactoryHelper.rand_bool}
+    edit_metadata {FactoryHelper.rand_bool 1/4.0}
+    edit_permissions {edit_metadata and FactoryHelper.rand_bool}
+
+    user {User.find_random || (FactoryGirl.create :user)}
+    updator {User.find_random || (FactoryGirl.create :user)}
+    collection {Collection.find_random || (FactoryGirl.create :collection)}
+
+  end
+
+
   factory :media_entry_group_permission, class: Permissions::MediaEntryGroupPermission do
 
     get_metadata_and_previews {FactoryHelper.rand_bool 1/4.0}

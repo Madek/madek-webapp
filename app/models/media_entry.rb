@@ -9,7 +9,8 @@ class MediaEntry < ActiveRecord::Base
 
   has_many :keywords
 
-  belongs_to :responsible_user, class: User
+  belongs_to :responsible_user, class_name: "User"
+  belongs_to :creator, class_name: "User"
 
   default_scope { reorder(:created_at,:id) }
 

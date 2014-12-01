@@ -1,19 +1,19 @@
 require 'spec_helper'
 require Rails.root.join "spec", "models", "shared", "destroy_ineffective_permissions_spec.rb"
 
-describe Permissions::FilterSetUserPermission do
+describe Permissions::CollectionUserPermission do
 
   it "is creatable via a factory" do
-    expect{ FactoryGirl.create :filter_set_user_permission}.not_to raise_error
+    expect{ FactoryGirl.create :collection_user_permission}.not_to raise_error
   end
 
 
-  context "User and FilterSet " do 
+  context "User and MediaEntry " do 
 
     before :each do 
       @user = FactoryGirl.create :user
       @creator = FactoryGirl.create :user
-      @filter_set = FactoryGirl.create :filter_set
+      @collection = FactoryGirl.create :collection
     end
 
 
@@ -21,10 +21,10 @@ describe Permissions::FilterSetUserPermission do
 
       context " for permissions where the user is the reponsible_user" do
         before :each do 
-          @permission= FactoryGirl.create(:filter_set_user_permission, 
-                                          get_metadata_and_previews: true,
-                                          user: @filter_set.responsible_user,
-                                          filter_set: @filter_set)
+          @permission= FactoryGirl.create(:collection_user_permission, 
+                                          get_full_size: true,
+                                          user: @collection.responsible_user,
+                                          collection: @collection)
         end
 
         it_destroys "ineffective permissions" do
@@ -35,12 +35,13 @@ describe Permissions::FilterSetUserPermission do
 
       context "for permission where all permission values are false and user is not the responsible_user" do
         before :each do 
-          @permission= FactoryGirl.create(:filter_set_user_permission, 
+          @permission= FactoryGirl.create(:collection_user_permission, 
                                           get_metadata_and_previews: false,
-                                          edit_metadata_and_filter: false,
+                                          get_full_size: false,
+                                          edit_metadata: false,
                                           edit_permissions: false,
                                           user: (FactoryGirl.create :user),
-                                          filter_set: @filter_set)
+                                          collection: @collection)
         end
 
         it_destroys "ineffective permissions" do
