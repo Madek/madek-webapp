@@ -84,7 +84,7 @@ gem 'zencoder-fetcher', group: [:development]
 gem "madek_zhdk_integration", git: 'https://github.com/zhdk/madek-zhdk-integration.git', ref: '11434aeea50795c0a8e5663b4350746232744319'
 
 
-gem 'cider_ci-rails', '~> 0.0.3'
+gem 'cider_ci-support', '= 1.0.0.pre.beta.1', group: [:development,:test]
 
 
 # TEMPORARILY DISABLED
