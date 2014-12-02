@@ -85,9 +85,8 @@ gem 'thin', :platform => :mri, group: [:development, :personas] # web server (We
 gem 'zencoder-fetcher', group: [:development]
 
 
-gem 'cider_ci-rails', '~> 0.0.3'
-# gem "cider_ci-rails", path: "/Users/thomas/Programming/CIDER-CI/rails-support"
 
+gem 'cider_ci-support', '= 1.0.0.pre.beta.0', group: [:development,:test]
 
 
 # TEMPORARILY DISABLED
