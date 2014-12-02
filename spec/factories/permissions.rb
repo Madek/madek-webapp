@@ -24,6 +24,17 @@ FactoryGirl.define do
 
   end
 
+  factory :filter_set_group_permission, class: Permissions::FilterSetGroupPermission do
+
+    get_metadata_and_previews {FactoryHelper.rand_bool 1/2.0}
+    edit_metadata_and_filter {FactoryHelper.rand_bool 1/4.0}
+
+    group {Group.find_random || (FactoryGirl.create :group)} 
+    updator {User.find_random || (FactoryGirl.create :user)}
+    filter_set {Collection.find_random || (FactoryGirl.create :filter_set)}
+
+  end
+
 
   factory :filter_set_api_client_permission, class: Permissions::FilterSetApiClientPermission do
 

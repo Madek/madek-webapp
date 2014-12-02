@@ -332,6 +332,22 @@ CREATE TABLE filter_set_api_client_permissions (
 
 
 --
+-- Name: filter_set_group_permissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE filter_set_group_permissions (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    get_metadata_and_previews boolean DEFAULT false NOT NULL,
+    edit_metadata_and_filter boolean DEFAULT false NOT NULL,
+    filter_set_id uuid NOT NULL,
+    group_id uuid NOT NULL,
+    updator_id uuid,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+--
 -- Name: filter_set_user_permissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -983,6 +999,14 @@ ALTER TABLE ONLY filter_set_api_client_permissions
 
 
 --
+-- Name: filter_set_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY filter_set_group_permissions
+    ADD CONSTRAINT filter_set_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: filter_set_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1246,6 +1270,13 @@ CREATE UNIQUE INDEX idx_bools_unique ON permission_presets USING btree (view, ed
 --
 
 CREATE UNIQUE INDEX idx_colgrpp_on_collection_id_and_group_id ON collection_group_permissions USING btree (collection_id, group_id);
+
+
+--
+-- Name: idx_colgrpp_on_filter_set_id_and_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX idx_colgrpp_on_filter_set_id_and_group_id ON filter_set_group_permissions USING btree (filter_set_id, group_id);
 
 
 --
@@ -1617,6 +1648,27 @@ CREATE INDEX index_filter_set_api_client_permissions_on_filter_set_id ON filter_
 --
 
 CREATE INDEX index_filter_set_api_client_permissions_on_updator_id ON filter_set_api_client_permissions USING btree (updator_id);
+
+
+--
+-- Name: index_filter_set_group_permissions_on_filter_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_filter_set_group_permissions_on_filter_set_id ON filter_set_group_permissions USING btree (filter_set_id);
+
+
+--
+-- Name: index_filter_set_group_permissions_on_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_filter_set_group_permissions_on_group_id ON filter_set_group_permissions USING btree (group_id);
+
+
+--
+-- Name: index_filter_set_group_permissions_on_updator_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_filter_set_group_permissions_on_updator_id ON filter_set_group_permissions USING btree (updator_id);
 
 
 --
@@ -2473,6 +2525,30 @@ ALTER TABLE ONLY filter_set_api_client_permissions
 
 
 --
+-- Name: filter_set_group_permissions_filter_set_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_group_permissions
+    ADD CONSTRAINT filter_set_group_permissions_filter_set_id_fk FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id) ON DELETE CASCADE;
+
+
+--
+-- Name: filter_set_group_permissions_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_group_permissions
+    ADD CONSTRAINT filter_set_group_permissions_group_id_fk FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
+
+
+--
+-- Name: filter_set_group_permissions_updator_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_group_permissions
+    ADD CONSTRAINT filter_set_group_permissions_updator_id_fk FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
 -- Name: filter_set_user_permissions_filter_set_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2981,6 +3057,12 @@ INSERT INTO schema_migrations (version) VALUES ('124');
 INSERT INTO schema_migrations (version) VALUES ('125');
 
 INSERT INTO schema_migrations (version) VALUES ('126');
+
+INSERT INTO schema_migrations (version) VALUES ('127');
+
+INSERT INTO schema_migrations (version) VALUES ('128');
+
+INSERT INTO schema_migrations (version) VALUES ('129');
 
 INSERT INTO schema_migrations (version) VALUES ('13');
 

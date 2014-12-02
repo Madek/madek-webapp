@@ -14,7 +14,6 @@ class CreateCollectionGroupPermission < ActiveRecord::Migration
     "view" => "get_metadata_and_previews",
     "edit" => "edit_metadata_and_relations", }
 
-
   def change
 
     create_table :collection_group_permissions, id: :uuid do |t|
