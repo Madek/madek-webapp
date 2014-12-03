@@ -1,0 +1,57 @@
+%h1 Change ownership of the set <em>#{@media_set.title}</em> and/or its children
+
+= form_tag change_ownership_app_admin_media_set_path(@media_set), method: 'PUT', class: 'form-horizontal autocomplete', role: 'form' do
+
+  = hidden_field nil, :user_id
+
+  .form-group
+    %label.control-label.col-sm-1 User
+    .col-sm-4
+      = text_field nil, :query, class: 'form-control', placeholder: 'Nachname, Vorname [login]'
+
+  .form-group
+    .col-sm-offset-1.col-sm-4
+      .checkbox
+        %label
+          = check_box_tag :transfer_ownership
+          transfer ownership of the set
+
+  .form-group
+    .col-sm-offset-2.col-sm-4
+      .checkbox
+        %label
+          = check_box_tag :delete_permissions
+          delete all permissions for the current owner
+
+  .form-group
+    .col-sm-offset-1.col-sm-4
+      .checkbox
+        %label
+          = check_box_tag :transfer_children_media_entries
+          transfer ownership for children media entries
+
+  .form-group
+    .col-sm-offset-2.col-sm-4
+      .checkbox
+        %label
+          = check_box_tag :delete_permissions_for_media_entries
+          delete all permissions for the current owner
+
+  .form-group
+    .col-sm-offset-1.col-sm-4
+      .checkbox
+        %label
+          = check_box_tag :transfer_children_sets
+          transfer ownership for children sets
+
+  .form-group
+    .col-sm-offset-2.col-sm-4
+      .checkbox
+        %label
+          = check_box_tag :delete_permissions_for_sets
+          delete all permissions for the current owner
+
+  .form-group
+    .col-sm-offset-1.col-sm-4
+      = button_tag type: 'submit', class: 'btn btn-success', disabled: true do
+        Transfer

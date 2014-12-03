@@ -8,6 +8,10 @@ tasks:
   scripts:
     rspec:
       body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/admin/groups_spec.rb"
+- name: features admin media_sets transfer_ownership
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/admin/media_sets/transfer_ownership_spec.rb"
 - name: features admin users switch_to
   scripts:
     rspec:

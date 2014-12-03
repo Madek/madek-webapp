@@ -1,40 +1,36 @@
-- media_set ||= @media_set
-%h1 Media-Set "#{media_set.title}"
+%h1 Media-Set '#{@media_set.title}"
 
 %ul.list-inline
   %li
-    =link_to delete_with_child_media_resources_app_admin_media_set_path(media_set), method: 'DELETE', data: {confirm: "Do you really want to delete this media-set including all children? "}, class: "btn btn-danger" do
+    = link_to delete_with_child_media_resources_app_admin_media_set_path(@media_set), method: 'DELETE', data: {confirm: 'Do you really want to delete this media-set including all children? '}, class: 'btn btn-danger' do
       %i.icon-trash
       Delete with all children
   %li
-    =link_to app_admin_media_set_path(media_set), method: 'DELETE', data: {confirm: "Do you really want to delete this meda set, without related resources?"}, class: "btn btn-danger" do
+    = link_to app_admin_media_set_path(@media_set), method: 'DELETE', data: {confirm: 'Do you really want to delete this meda set, without related resources?'}, class: 'btn btn-danger' do
       %i.icon-trash
       Delete without children
   %li
-    =link_to manage_app_admin_media_set_individual_contexts_path(media_set), class: "btn btn-warning" do
+    = link_to manage_app_admin_media_set_individual_contexts_path(@media_set), class: 'btn btn-warning' do
       Manage individual contexts
   %li
-    =link_to transfer_ownership_app_admin_media_set_path(media_set), class: "btn btn-warning" do
-      Change responsible person
+    = link_to change_ownership_form_app_admin_media_set_path(@media_set), class: 'btn btn-warning' do
+      Change Ownership of set and its children
   %li
-    = link_to transfer_children_app_admin_media_set_path(media_set), class: "btn btn-warning" do
-      Transfer children
-  %li
-    = link_to edit_app_admin_media_set_path(media_set), class: "btn btn-warning" do
+    = link_to edit_app_admin_media_set_path(@media_set), class: 'btn btn-warning' do
       %i.fa.fa-pencil
       Edit
 
 %p
-  =link_to media_set, target: "_blank" do 
+  = link_to @media_set, target: '_blank' do
     %i.icon-vis-graph
-    Show #{media_set}
+    Show #{@media_set}
 
 %table.table.table-striped
   %thead
   %tbody
-  - media_set.attributes.each do |name,value|
+  - @media_set.attributes.each do |name,value|
     %tr
-      %td= name.capitalize.split("_").join(" ")
+      %td= name.capitalize.split('_').join(' ')
       - case name
       - when nil
       - else
@@ -44,7 +40,7 @@
     %td= @media_set.full_text.try(:text)
 
 
-- if (media_set.individual_contexts.count > 0) 
+- if (@media_set.individual_contexts.count > 0)
 
   %h2
     %i.fa.fa-contexts
@@ -53,16 +49,16 @@
   %table.table.table-striped
     %thead
     %tbody
-      = render partial: 'context_row', collection: media_set.individual_contexts, as: :context
+      = render partial: 'context_row', collection: @media_set.individual_contexts, as: :context
 
 
-- if (media_set.userpermissions.count > 0) or (media_set.grouppermissions.count > 0)
+- if (@media_set.userpermissions.count > 0) or (@media_set.grouppermissions.count > 0)
 
   %h2 
     %i.fa.fa-permissions
     Permissions
 
-  - if media_set.userpermissions.count > 0 
+  - if @media_set.userpermissions.count > 0
 
     %h3 Userpermissions
 
@@ -74,10 +70,10 @@
         %th Edit
         %th Manage
       %tbody
-        = render partial: 'userpermission_row', collection: media_set.userpermissions, as: :userpermission
+        = render partial: 'userpermission_row', collection: @media_set.userpermissions, as: :userpermission
 
 
-  - if  media_set.grouppermissions.count > 0
+  - if @media_set.grouppermissions.count > 0
 
     %h3 Grouppermissions
 
@@ -89,9 +85,4 @@
         %th Edit
         %th Manage
       %tbody
-        = render partial: 'grouppermission_row', collection: media_set.grouppermissions, as: :grouppermission
-
-
-
-
-
+        = render partial: 'grouppermission_row', collection: @media_set.grouppermissions, as: :grouppermission

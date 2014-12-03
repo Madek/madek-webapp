@@ -73,45 +73,42 @@ class AppAdmin::MediaSetsController < AppAdmin::BaseController
     end
   end
 
-  def transfer_children
-    @media_set = MediaSet.find params[:id]
+  def change_ownership_form
+    @media_set = MediaSet.find(params[:id])
   end
 
-  def change_children_owner
-    begin
-      ActiveRecord::Base.transaction do
-        @media_set = MediaSet.find params[:id]
-        user = User.find(params[:user_id])
-        @media_set.child_media_resources.each{|mr| mr.update_attributes(user: user) unless mr.type == "MediaSet"}
-        redirect_to app_admin_media_set_path,
-          flash: {success: "Successfuly changed responsible user for children"}
-      end
-    rescue Exception => e
-      if @media_set
-        redirect_to app_admin_media_set_path(@media_set), flash: {error: e.to_s}
-      else
-        redirect_to app_admin_media_sets_path, flash: {error: e.to_s}
-      end
+  def change_ownership
+    unless transfer_option_available?
+      redirect_to :back, flash: { notice: 'Choose at least one of transfer option.' } and return
     end
-  end
 
-  def transfer_ownership
-   @media_set = MediaSet.find params[:id]
-  end
-
-  def change_responsible_person
-    begin
-      @media_set = MediaSet.find params[:id]
+    ActiveRecord::Base.transaction do
+      @media_set = MediaSet.find(params[:id])
       user = User.find(params[:user_id])
-      @media_set.update_attributes(user: user)
-      redirect_to app_admin_media_set_path,
-        flash: {success: "Successfuly changed responsible user for set"}
-    rescue Exception => e
-      if @media_set
-        redirect_to app_admin_media_set_path(@media_set), flash: {error: e.to_s}
-      else
-        redirect_to app_admin_media_sets_path, flash: {error: e.to_s}
+      @success_messages = []
+
+      if params[:transfer_ownership].present?
+        delete_permissions_for(@media_set.user, @media_set) if params[:delete_permissions].present?
+        @media_set.update_attributes(user: user)
+
+        @success_messages << 'Successfuly changed responsible user for the set'
       end
+
+      @media_set.child_media_resources.each do |mr|
+        transfer_children_media_entries(mr, user)
+        transfer_children_sets(mr, user)
+      end
+
+      @success_messages = @success_messages.uniq.join('<br>')
+
+      redirect_to app_admin_media_set_path,
+        flash: {success: @success_messages.html_safe}
+    end
+  rescue Exception => e
+    if @media_set
+      redirect_to app_admin_media_set_path(@media_set), flash: {error: e.to_s}
+    else
+      redirect_to app_admin_media_sets_path, flash: {error: e.to_s}
     end
   end
 
@@ -153,5 +150,32 @@ class AppAdmin::MediaSetsController < AppAdmin::BaseController
       .map do |media_set|
        {id: media_set.id, label: media_set.title, value: media_set.title}
       end.sort_by { |hash| hash[:label] }
+  end
+
+  def delete_permissions_for(user, resource)
+    userpermissions = user.userpermissions.find_by(media_resource_id: resource.id)
+    userpermissions.delete if userpermissions.present?
+  end
+
+  def transfer_option_available?
+    params[:transfer_ownership].present? ||
+      params[:transfer_children_sets].present? ||
+      params[:transfer_children_media_entries].present?
+  end
+
+  def transfer_children_media_entries(resource, new_owner)
+    if params[:transfer_children_media_entries].present? && resource.type == 'MediaEntry'
+      delete_permissions_for(resource.user, resource) if params[:delete_permissions_for_media_entries].present?
+      resource.update_attributes(user: new_owner)
+      @success_messages << 'Successfuly changed responsible user for children media entries'
+    end
+  end
+
+  def transfer_children_sets(resource, new_owner)
+    if params[:transfer_children_sets].present? && resource.type == 'MediaSet'
+      delete_permissions_for(resource.user, resource) if params[:delete_permissions_for_sets].present?
+      resource.update_attributes(user: new_owner)
+      @success_messages << 'Successfuly changed responsible user for children sets'
+    end
   end
 end

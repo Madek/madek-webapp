@@ -347,10 +347,8 @@ MAdeK::Application.routes.draw do
     resources :media_sets, only: [:index, :show, :edit, :update, :destroy] do
       member do
         delete 'delete_with_child_media_resources'
-        get 'transfer_children'
-        get 'transfer_ownership'
-        put 'change_responsible_person'
-        put 'change_children_owner'
+        get 'change_ownership_form'
+        put 'change_ownership'
       end
 
       resources 'individual_contexts', only: [] do
