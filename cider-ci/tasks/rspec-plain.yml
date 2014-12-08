@@ -1,5 +1,9 @@
 ---
 tasks:
+- name: controllers sessions_controller
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/controllers/sessions_controller_spec.rb"
 - name: models api_client
   scripts:
     rspec:
@@ -36,10 +40,50 @@ tasks:
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/meta_datum/text_spec.rb"
+- name: models permissions collection_api_client_permission
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/permissions/collection_api_client_permission_spec.rb"
+- name: models permissions collection_group_permission
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/permissions/collection_group_permission_spec.rb"
+- name: models permissions collection_user_permission
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/permissions/collection_user_permission_spec.rb"
+- name: models permissions filter_set_api_client_permission
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/permissions/filter_set_api_client_permission_spec.rb"
+- name: models permissions filter_set_group_permission
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/permissions/filter_set_group_permission_spec.rb"
+- name: models permissions filter_set_user_permission
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/permissions/filter_set_user_permission_spec.rb"
+- name: models permissions media_entry_api_client_permission
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/permissions/media_entry_api_client_permission_spec.rb"
+- name: models permissions media_entry_group_permission
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/permissions/media_entry_group_permission_spec.rb"
+- name: models permissions media_entry_user_permission
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/permissions/media_entry_user_permission_spec.rb"
 - name: models relations resource_media_entry_arc
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/relations/resource_media_entry_arc_spec.rb"
+- name: models shared destroy_ineffective_permissions
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/shared/destroy_ineffective_permissions_spec.rb"
 - name: models shared edit_sessions
   scripts:
     rspec:
