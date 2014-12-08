@@ -35,4 +35,8 @@ RSpec.configure do |config|
   # infer spec type from file location (like in RSpec 2.x)
   config.infer_spec_type_from_file_location!
 
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
+  end
+
 end

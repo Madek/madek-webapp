@@ -13,13 +13,12 @@ describe Keyword do
     context "search" do
       it "finds existing resources" do
         string = Keyword.first.to_s
-        Keyword.search(string).count("*").should >= 1
+        expect(Keyword.search(string).count("*")).to be>= 1
       end
       
       it "prevents sql injection" do
         string = "string ' with quotes"
-        lambda {Keyword.search(string)}.should_not raise_error
-        # Keyword.search(string).count.should == 0
+        expect{Keyword.search(string)}.not_to raise_error
       end
     end
 

@@ -9,11 +9,11 @@ describe MetaDatum::Text do
     end
 
     it "should not be nil" do
-      (FactoryGirl.create :meta_datum_text).should_not == nil
+      expect(FactoryGirl.create :meta_datum_text).to be
     end
 
     it "should be persisted" do
-      (FactoryGirl.create :meta_datum_text).should be_persisted
+      expect(FactoryGirl.create :meta_datum_text).to be_persisted
     end
 
   end
@@ -34,7 +34,7 @@ describe MetaDatum::Text do
       it "should be persisted " do
         @mds.string = "new string value" 
         @mds.save
-        @mds.reload.string.should == "new string value"
+        expect(@mds.reload.string).to be== "new string value"
       end
 
       describe "the value alias" do
@@ -46,13 +46,13 @@ describe MetaDatum::Text do
         it "should be setable and persited" do
           @mds.value = "new string value" 
           @mds.save
-          @mds.reload.value.should == "new string value"
+          expect(@mds.reload.value).to be== "new string value"
         end
 
         it "should alias string" do
           @mds.string = "Blah"
           @mds.save
-          @mds.reload.value.should == "Blah"
+          expect(@mds.reload.value).to be== "Blah"
         end
 
       end
@@ -62,7 +62,7 @@ describe MetaDatum::Text do
     describe "the to_s method" do
 
       it "should return the string value" do
-        @mds.to_s.should == "original value"
+        expect(@mds.to_s).to be== "original value"
       end
 
     end
