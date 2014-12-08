@@ -217,8 +217,7 @@ CREATE TABLE collections (
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     responsible_user_id uuid NOT NULL,
-    creator_id uuid,
-    title text NOT NULL
+    creator_id uuid
 );
 
 
@@ -374,8 +373,7 @@ CREATE TABLE filter_sets (
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     filter json DEFAULT '{}'::json NOT NULL,
     responsible_user_id uuid NOT NULL,
-    creator_id uuid,
-    title text NOT NULL
+    creator_id uuid
 );
 
 
@@ -497,8 +495,7 @@ CREATE TABLE media_entries (
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     type character varying(255) DEFAULT 'MediaEntry'::character varying,
     responsible_user_id uuid NOT NULL,
-    creator_id uuid,
-    title text NOT NULL
+    creator_id uuid
 );
 
 
@@ -3011,8 +3008,6 @@ INSERT INTO schema_migrations (version) VALUES ('103');
 INSERT INTO schema_migrations (version) VALUES ('104');
 
 INSERT INTO schema_migrations (version) VALUES ('105');
-
-INSERT INTO schema_migrations (version) VALUES ('106');
 
 INSERT INTO schema_migrations (version) VALUES ('107');
 
