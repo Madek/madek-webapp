@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
 
   has_many :media_resources
   has_many :media_sets
-  has_many :media_entries
+  has_many :media_entries, foreign_key: :responsible_user_id
   has_many :incomplete_media_entries, :class_name => "MediaEntryIncomplete", :dependent => :destroy
   has_many :keywords 
   has_and_belongs_to_many :meta_data
