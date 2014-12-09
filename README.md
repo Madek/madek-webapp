@@ -16,6 +16,15 @@ wiki on Github:
 
 http://github.com/zhdk/madek/wiki
 
+## State 
+
+
+<a href="http://localhost:8880/cider-ci/ui/public/executions/Cider-CI%20Bash%20Demo%20Project/master/test">
+  <img src="http://localhost:8880/cider-ci/ui/public/badges/medium/Cider-CI%20Bash%20Demo%20Project/master/test.svg">
+  </img>
+</a>
+
+
 
 ## Contributors
 
