@@ -7,6 +7,4 @@ MAdeK::Application.routes.draw do
 
   get "my", to: "my#dashboard", as: "my_dashboard"
 
-  resources :media_entries
-
 end
