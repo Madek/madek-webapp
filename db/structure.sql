@@ -53,6 +53,32 @@ COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UU
 
 SET search_path = public, pg_catalog;
 
+--
+-- Name: check_madek_core_meta_key_immutability(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION check_madek_core_meta_key_immutability() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+          BEGIN 
+            IF (TG_OP = 'DELETE') THEN
+              IF (OLD.id ilike 'madek:core:%') THEN
+                RAISE EXCEPTION 'The madek:core meta_key % may not be deleted', OLD.id;
+              END IF;
+            ELSIF  (TG_OP = 'UPDATE') THEN
+              IF (OLD.id ilike 'madek:core:%') THEN
+                RAISE EXCEPTION 'The madek:core meta_key % may not be modified', OLD.id;
+              END IF;
+            ELSIF  (TG_OP = 'INSERT') THEN
+              IF (NEW.id ilike 'madek:core:%') THEN
+                RAISE EXCEPTION 'The madek:core meta_key namespace may not be extended by %', NEW.id;
+              END IF;
+            END IF;
+            RETURN NEW;
+          END;
+          $$;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -2194,6 +2220,13 @@ CREATE INDEX users_trgm_searchable_idx ON users USING gin (trgm_searchable gin_t
 
 
 --
+-- Name: trigger_madek_core_meta_key_immutability; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_madek_core_meta_key_immutability AFTER INSERT OR DELETE OR UPDATE ON meta_keys DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_madek_core_meta_key_immutability();
+
+
+--
 -- Name: admin_users_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3060,6 +3093,8 @@ INSERT INTO schema_migrations (version) VALUES ('128');
 INSERT INTO schema_migrations (version) VALUES ('129');
 
 INSERT INTO schema_migrations (version) VALUES ('13');
+
+INSERT INTO schema_migrations (version) VALUES ('130');
 
 INSERT INTO schema_migrations (version) VALUES ('14');
 
