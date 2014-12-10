@@ -3,23 +3,23 @@
 
 class MediaFile < ActiveRecord::Base
 
-  include MediaFileModules::FileStorageManagement
-  include MediaFileModules::Previews
-  include MediaFileModules::MetaDataExtraction
+  # include MediaFileModules::FileStorageManagement
+  # include MediaFileModules::Previews
+  # include MediaFileModules::MetaDataExtraction
 
   belongs_to :media_entry, foreign_key: :media_entry_id
   has_many :zencoder_jobs, dependent: :destroy
-
-  def most_recent_zencoder_job
-    zencoder_jobs.reorder("zencoder_jobs.created_at DESC").limit(1).first
-  end
 
   before_create do
     self.guid ||= UUIDTools::UUID.random_create.hexdigest
     self.access_hash ||= SecureRandom.uuid 
   end
-  
+
+
   after_commit :delete_files, on: :destroy
+
+  serialize     :meta_data, Hash
+
 
   def delete_files
     begin 
@@ -29,13 +29,10 @@ class MediaFile < ActiveRecord::Base
     end
   end
 
-#########################################################
 
-  serialize     :meta_data, Hash
+  
+  has_many :previews, lambda{order(:created_at, :id)}, dependent: :destroy 
 
-  has_many :previews, lambda{order(created_at: :asc)}, :dependent => :destroy 
-
-#########################################################
    
   scope :incomplete_encoded_videos, lambda{
     where(media_type: 'video').where %{
@@ -46,33 +43,5 @@ class MediaFile < ActiveRecord::Base
     }
   }
 
-  def to_s
-    "MediaFile[#{id}]"
-  end
-
-  def self.media_type(content_type)
-    unless content_type
-      "other"
-    else
-      case content_type
-      when /^image/
-        "image"
-      when /^video/
-        "video"
-      when /^audio/
-        "audio"
-      when /^text/
-        "document"
-      when /^application/
-        "document"
-      else
-        "other"
-      end
-    end
-  end
-
-  def video_type?
-    media_type == 'video'
-  end
-
 end
+

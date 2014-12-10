@@ -22,14 +22,6 @@ class MetaDatum < ActiveRecord::Base
     end
     alias_method_chain :new, :cast
 
-    def value_type_name klass_or_string
-      if klass_or_string.is_a? String
-        klass_or_string
-      else
-        klass_or_string.name
-      end 
-      .gsub(/^MetaDatum/,"").underscore
-    end
   end
 
 
@@ -41,11 +33,6 @@ class MetaDatum < ActiveRecord::Base
   belongs_to :collection
   belongs_to :filter_set
 
-
-  ########################################
-
-  
-########################################
 
 end
 
