@@ -85,8 +85,9 @@ gem 'thin', :platform => :mri, group: [:development, :personas] # web server (We
 gem 'zencoder-fetcher', group: [:development]
 
 
+gem 'cider_ci-support', '= 1.0.0.pre.beta.2', group: [:development,:test]
+# gem 'cider_ci-support', path: '/Users/thomas/Programming/CIDER-CI/ruby_support'
 
-gem 'cider_ci-support', '= 1.0.0.pre.beta.0', group: [:development,:test]
 
 
 # TEMPORARILY DISABLED
