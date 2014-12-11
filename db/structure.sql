@@ -135,23 +135,6 @@ CREATE TABLE app_settings (
 
 
 --
--- Name: applicationpermissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE applicationpermissions (
-    id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    media_resource_id uuid NOT NULL,
-    application_id character varying(255) NOT NULL,
-    download boolean DEFAULT false NOT NULL,
-    edit boolean DEFAULT false NOT NULL,
-    manage boolean DEFAULT false NOT NULL,
-    view boolean DEFAULT false NOT NULL,
-    CONSTRAINT edit_on_applicationpermissions_is_false CHECK ((edit = false)),
-    CONSTRAINT manage_on_applicationpermissions_is_false CHECK ((manage = false))
-);
-
-
---
 -- Name: collection_api_client_permissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -410,22 +393,6 @@ CREATE TABLE filter_sets (
 CREATE TABLE full_texts (
     media_resource_id uuid NOT NULL,
     text text
-);
-
-
---
--- Name: grouppermissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE grouppermissions (
-    id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    media_resource_id uuid NOT NULL,
-    group_id uuid NOT NULL,
-    download boolean DEFAULT false NOT NULL,
-    edit boolean DEFAULT false NOT NULL,
-    manage boolean DEFAULT false NOT NULL,
-    view boolean DEFAULT false NOT NULL,
-    CONSTRAINT manage_on_grouppermissions_is_false CHECK ((manage = false))
 );
 
 
@@ -758,21 +725,6 @@ CREATE TABLE people (
 
 
 --
--- Name: permission_presets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE permission_presets (
-    id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    name character varying(255),
-    "position" double precision,
-    download boolean DEFAULT false NOT NULL,
-    edit boolean DEFAULT false NOT NULL,
-    manage boolean DEFAULT false NOT NULL,
-    view boolean DEFAULT false NOT NULL
-);
-
-
---
 -- Name: previews; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -811,21 +763,6 @@ CREATE TABLE usage_terms (
     body text,
     created_at timestamp without time zone DEFAULT now(),
     updated_at timestamp without time zone DEFAULT now()
-);
-
-
---
--- Name: userpermissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE userpermissions (
-    id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    download boolean DEFAULT false NOT NULL,
-    edit boolean DEFAULT false NOT NULL,
-    manage boolean DEFAULT false NOT NULL,
-    view boolean DEFAULT false NOT NULL,
-    media_resource_id uuid NOT NULL,
-    user_id uuid NOT NULL
 );
 
 
@@ -899,14 +836,6 @@ ALTER TABLE ONLY admin_users
 
 ALTER TABLE ONLY app_settings
     ADD CONSTRAINT app_settings_pkey PRIMARY KEY (id);
-
-
---
--- Name: applicationpermissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY applicationpermissions
-    ADD CONSTRAINT applicationpermissions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1054,14 +983,6 @@ ALTER TABLE ONLY full_texts
 
 
 --
--- Name: grouppermissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY grouppermissions
-    ADD CONSTRAINT grouppermissions_pkey PRIMARY KEY (id);
-
-
---
 -- Name: groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1198,14 +1119,6 @@ ALTER TABLE ONLY people
 
 
 --
--- Name: permission_presets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY permission_presets
-    ADD CONSTRAINT permission_presets_pkey PRIMARY KEY (id);
-
-
---
 -- Name: previews_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1219,14 +1132,6 @@ ALTER TABLE ONLY previews
 
 ALTER TABLE ONLY usage_terms
     ADD CONSTRAINT usage_terms_pkey PRIMARY KEY (id);
-
-
---
--- Name: userpermissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY userpermissions
-    ADD CONSTRAINT userpermissions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1279,13 +1184,6 @@ CREATE INDEX groups_searchable_idx ON groups USING gin (searchable gin_trgm_ops)
 --
 
 CREATE INDEX groups_to_tsvector_idx ON groups USING gin (to_tsvector('english'::regconfig, searchable));
-
-
---
--- Name: idx_bools_unique; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX idx_bools_unique ON permission_presets USING btree (view, edit, download, manage);
 
 
 --
@@ -1352,38 +1250,10 @@ CREATE UNIQUE INDEX idx_megrpp_on_media_entry_id_and_group_id ON media_entry_gro
 
 
 --
--- Name: idx_name_unique; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX idx_name_unique ON permission_presets USING btree (name);
-
-
---
 -- Name: index_admin_users_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_admin_users_on_user_id ON admin_users USING btree (user_id);
-
-
---
--- Name: index_applicationpermissions_on_application_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_applicationpermissions_on_application_id ON applicationpermissions USING btree (application_id);
-
-
---
--- Name: index_applicationpermissions_on_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_applicationpermissions_on_media_resource_id ON applicationpermissions USING btree (media_resource_id);
-
-
---
--- Name: index_applicationpermissions_on_mr_id_and_app_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_applicationpermissions_on_mr_id_and_app_id ON applicationpermissions USING btree (media_resource_id, application_id);
 
 
 --
@@ -1730,27 +1600,6 @@ CREATE INDEX index_filter_sets_on_responsible_user_id ON filter_sets USING btree
 
 
 --
--- Name: index_grouppermissions_on_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_grouppermissions_on_group_id ON grouppermissions USING btree (group_id);
-
-
---
--- Name: index_grouppermissions_on_group_id_and_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_grouppermissions_on_group_id_and_media_resource_id ON grouppermissions USING btree (group_id, media_resource_id);
-
-
---
--- Name: index_grouppermissions_on_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_grouppermissions_on_media_resource_id ON grouppermissions USING btree (media_resource_id);
-
-
---
 -- Name: index_groups_on_institutional_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2094,27 +1943,6 @@ CREATE INDEX index_previews_on_media_type ON previews USING btree (media_type);
 
 
 --
--- Name: index_userpermissions_on_media_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_userpermissions_on_media_resource_id ON userpermissions USING btree (media_resource_id);
-
-
---
--- Name: index_userpermissions_on_media_resource_id_and_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_userpermissions_on_media_resource_id_and_user_id ON userpermissions USING btree (media_resource_id, user_id);
-
-
---
--- Name: index_userpermissions_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_userpermissions_on_user_id ON userpermissions USING btree (user_id);
-
-
---
 -- Name: index_users_on_autocomplete; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2272,22 +2100,6 @@ ALTER TABLE ONLY app_settings
 
 ALTER TABLE ONLY app_settings
     ADD CONSTRAINT app_settings_third_displayed_context_id_fk FOREIGN KEY (third_displayed_context_id) REFERENCES contexts(id);
-
-
---
--- Name: applicationpermissions_application_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY applicationpermissions
-    ADD CONSTRAINT applicationpermissions_application_id_fk FOREIGN KEY (application_id) REFERENCES api_clients(id) ON DELETE CASCADE;
-
-
---
--- Name: applicationpermissions_media_resource_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY applicationpermissions
-    ADD CONSTRAINT applicationpermissions_media_resource_id_fk FOREIGN KEY (media_resource_id) REFERENCES media_resources(id) ON DELETE CASCADE;
 
 
 --
@@ -2627,22 +2439,6 @@ ALTER TABLE ONLY full_texts
 
 
 --
--- Name: grouppermissions_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY grouppermissions
-    ADD CONSTRAINT grouppermissions_group_id_fk FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
-
-
---
--- Name: grouppermissions_media_resource_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY grouppermissions
-    ADD CONSTRAINT grouppermissions_media_resource_id_fk FOREIGN KEY (media_resource_id) REFERENCES media_resources(id) ON DELETE CASCADE;
-
-
---
 -- Name: groups_users_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2979,22 +2775,6 @@ ALTER TABLE ONLY previews
 
 
 --
--- Name: userpermissions_media_resource_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY userpermissions
-    ADD CONSTRAINT userpermissions_media_resource_id_fk FOREIGN KEY (media_resource_id) REFERENCES media_resources(id) ON DELETE CASCADE;
-
-
---
--- Name: userpermissions_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY userpermissions
-    ADD CONSTRAINT userpermissions_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
-
-
---
 -- Name: users_person_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3095,6 +2875,8 @@ INSERT INTO schema_migrations (version) VALUES ('129');
 INSERT INTO schema_migrations (version) VALUES ('13');
 
 INSERT INTO schema_migrations (version) VALUES ('130');
+
+INSERT INTO schema_migrations (version) VALUES ('131');
 
 INSERT INTO schema_migrations (version) VALUES ('14');
 
