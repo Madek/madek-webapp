@@ -3,6 +3,36 @@ require "spec_helper_feature"
 require "spec_helper_feature_shared"
 
 feature "Error handling", browser: :headless do
+  context "user login" do
+    before(:each) do
+      @user = FactoryGirl
+        .create :user
+    end
+
+    scenario "Login with correct credentials should be successful" do
+      login_with(@user.login, @user.password)
+      expect(current_path).to eq "/my"
+    end
+
+    scenario "Login with incorrect login should inform of wrong username/password" do
+      login_with("asdqwea", @user.password)
+      error = first(".ui-alert").text
+      expect(error).to eq "Falscher Benutzername/Passwort."
+    end
+    
+    scenario "Login with incorrect password should inform of wrong username/password" do
+      login_with(@user.login, "asdqwea")
+      error = first(".ui-alert").text
+      expect(error).to eq "Falscher Benutzername/Passwort."
+    end
+
+    scenario "Login with both incorrect login and password should inform of wrong username/password" do
+      login_with("asdqwea", "asdqwea")
+      error = first(".ui-alert").text
+      expect(error).to eq "Falscher Benutzername/Passwort."
+    end
+  end
+
   context "media entry" do
     before(:each) do
       @media_entry = FactoryGirl
@@ -97,5 +127,15 @@ feature "Error handling", browser: :headless do
       visit media_entry_path(@media_entry)  
       @current_user = sign_in_as @user.login 
       expect(current_path).to eq media_entry_path(@media_entry)
+  end
+
+  def login_with(username, password)
+    visit "/"
+    if db_user_tab = first('a#database-user-login-tab')
+      db_user_tab.click
+    end
+    find("input[name='login']").set(username)
+    find("input[name='password']").set(password)
+    find("button[type='submit']").click
   end
 end

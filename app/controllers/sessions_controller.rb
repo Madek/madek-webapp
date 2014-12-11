@@ -1,10 +1,13 @@
 class SessionsController < ActionController::Base
   include Concerns::SetSession
+  
+  class PasswordMismatch < Exception
+  end
 
   def sign_in
     begin 
       @user = User.find_by login: params[:login].try(&:downcase)
-      unless @user.authenticate params[:password] 
+      unless @user.try(:authenticate, params[:password])
         raise PasswordMismatch
       else
         set_madek_session @user
