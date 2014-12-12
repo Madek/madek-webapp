@@ -14,7 +14,7 @@ MAdeK::Application.configure do
   # Specifies the header that your server uses for sending files
   ### NOTE doesn't work with passenger! ### config.action_dispatch.x_sendfile_header = "X-Sendfile"
   # Yes it DOES work with passenger!
-  config.action_dispatch.x_sendfile_header = "X-Sendfile"
+  config.action_dispatch.x_sendfile_header = 'X-Sendfile'
 
   # For nginx:
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
@@ -43,7 +43,6 @@ MAdeK::Application.configure do
 
   # Generate digests for assets URLs
   config.assets.digest = true
-
 
   # Enable serving of images, stylesheets, and javascripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"

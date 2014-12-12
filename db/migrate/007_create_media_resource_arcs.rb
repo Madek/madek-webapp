@@ -12,8 +12,8 @@ class CreateMediaResourceArcs < ActiveRecord::Migration
 
     end
 
-    add_index :media_resource_arcs, [:parent_id,:child_id], unique: true
-    add_index :media_resource_arcs, [:child_id,:parent_id], unique: true
+    add_index :media_resource_arcs, [:parent_id, :child_id], unique: true
+    add_index :media_resource_arcs, [:child_id, :parent_id], unique: true
     add_index :media_resource_arcs, :cover
     add_index :media_resource_arcs, :parent_id
     add_index :media_resource_arcs, :child_id
@@ -22,11 +22,9 @@ class CreateMediaResourceArcs < ActiveRecord::Migration
     add_foreign_key :media_resource_arcs, :media_resources, column: :parent_id, dependent: :delete
 
     reversible do |dir|
-      dir.up do 
-      execute "ALTER TABLE media_resource_arcs  ADD CHECK (parent_id <> child_id);"
+      dir.up do
+        execute 'ALTER TABLE media_resource_arcs  ADD CHECK (parent_id <> child_id);'
       end
     end
-
   end
 end
-

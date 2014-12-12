@@ -3,14 +3,13 @@ class CreateUsers < ActiveRecord::Migration
   include MigrationHelper
 
   def change
-
     create_table :users, id: :uuid do |t|
 
       t.integer :previous_id
 
       t.string :email
 
-      t.text  :login
+      t.text :login
       t.index :login
 
       t.text :notes
@@ -19,7 +18,7 @@ class CreateUsers < ActiveRecord::Migration
 
       t.string :password_digest
 
-      t.uuid  :person_id, null: false
+      t.uuid :person_id, null: false
       t.index :person_id, unique: true
 
       t.integer :zhdkid
@@ -27,10 +26,10 @@ class CreateUsers < ActiveRecord::Migration
 
       t.timestamp :usage_terms_accepted_at
 
-      t.text :searchable, default: "", null: false
-      t.text :trgm_searchable, default: "", null: false 
+      t.text :searchable, default: '', null: false
+      t.text :trgm_searchable, default: '', null: false
 
-      t.text :autocomplete, null: false, default: ""
+      t.text :autocomplete, null: false, default: ''
       t.index :autocomplete
 
       t.boolean :contrast_mode, null: false, default: false
@@ -38,7 +37,7 @@ class CreateUsers < ActiveRecord::Migration
     end
 
     reversible do |dir|
-      dir.up do 
+      dir.up do
         execute %q< ALTER TABLE users ADD CONSTRAINT users_login_simple CHECK (login ~* '^[a-z0-9\.\-\_]+$'); >
         set_timestamps_defaults :users
         create_trgm_index :users, :trgm_searchable
@@ -46,9 +45,7 @@ class CreateUsers < ActiveRecord::Migration
       end
     end
 
-
     add_foreign_key :users, :people
-
   end
 
 end

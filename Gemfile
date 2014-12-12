@@ -1,9 +1,8 @@
 source 'http://rubygems.org'
 source 'http://gems.github.com'
 
-
 ####################################################################
-# required in production PRODUCTION 
+# required in production PRODUCTION
 #####################################################################
 
 # RAILS
@@ -13,24 +12,22 @@ gem 'rails', '4.1.8'
 gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
 gem 'foreigner'
 gem 'jdbc-postgres', platform: :jruby
-gem 'memcache-client' 
+gem 'memcache-client'
 gem 'pg', platform: :mri
 gem 'textacular', git: 'https://github.com/DrTom/textacular.git'
 
-# API 
+# API
 gem 'kramdown'
 gem 'roar'
 gem 'roar-rails'
 
-# ZHDK-INTEGRATION 
-#gem "madek_zhdk_integration", path: "../zhdk_integration"
-gem "madek_zhdk_integration", git: 'https://github.com/zhdk/madek-zhdk-integration.git', ref: '11434aeea50795c0a8e5663b4350746232744319'
-
-
+# ZHDK-INTEGRATION
+# gem "madek_zhdk_integration", path: "../zhdk_integration"
+gem 'madek_zhdk_integration', git: 'https://github.com/zhdk/madek-zhdk-integration.git', ref: '11434aeea50795c0a8e5663b4350746232744319'
 
 # The rest
 gem 'bcrypt-ruby'
-gem 'bootstrap-sass' 
+gem 'bootstrap-sass'
 gem 'coffee-rails'
 gem 'coffee-script'
 gem 'dalli'
@@ -45,7 +42,7 @@ gem 'haml_coffee_assets'
 gem 'jquery-rails'
 gem 'jquery-tmpl-rails'
 gem 'jquery-ui-rails'
-gem 'jruby-openssl', :platform => :jruby
+gem 'jruby-openssl', platform: :jruby
 gem 'json'
 gem 'kaminari'
 gem 'newrelic_rpm', group: [:production, :development]
@@ -60,7 +57,6 @@ gem 'therubyrhino', platform: :jruby
 gem 'uglifier'
 gem 'uuidtools'
 gem 'zencoder', '~> 2.4'
-
 
 ####################################################################
 # TEST or DEVELOPMENT only
@@ -79,16 +75,14 @@ gem 'pry-nav', group: [:test, :development]
 gem 'quiet_assets', group: [:development]
 gem 'rest-client', group: [:test, :development, :personas]
 gem 'rspec-rails', '~> 3.1', group: [:test, :development]
+gem 'rubocop', require: false
 gem 'selenium-webdriver', group: [:test]
 gem 'simplecov', require: false, group: ['test']
-gem 'thin', :platform => :mri, group: [:development, :personas] # web server (Webrick do not support keep-alive connections)
+gem 'thin', platform: :mri, group: [:development, :personas] # web server (Webrick do not support keep-alive connections)
 gem 'zencoder-fetcher', group: [:development]
 
-
-gem 'cider_ci-support', '= 1.0.0.pre.beta.2', group: [:development,:test]
+gem 'cider_ci-support', '= 1.0.0.pre.beta.2', group: [:development, :test]
 # gem 'cider_ci-support', path: '/Users/thomas/Programming/CIDER-CI/ruby_support'
-
-
 
 # TEMPORARILY DISABLED
 # gem 'rack-mini-profiler', group: [:development]

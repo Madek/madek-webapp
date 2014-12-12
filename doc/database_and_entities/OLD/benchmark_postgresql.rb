@@ -15,11 +15,11 @@ class PsqlBenchmark
       next if (query.blank? or query == "\n")
       runtimes = []
       10.times do
-        runtimes << Benchmark.ms {
+        runtimes << Benchmark.ms do
           ActiveRecord::Base.connection.select_value(query)
-        }
+        end
       end
-      @logfile.puts(query + "\n" + runtimes.join(",") + "\n")
+      @logfile.puts(query + "\n" + runtimes.join(',') + "\n")
       i += 1
       puts "Query #{i}/#{queries.count} done"
     end
@@ -27,9 +27,9 @@ class PsqlBenchmark
 
 end
 
-queries = File.read("#{Rails.root}/doc/benchmark_postgresql_queries.sql").split(";")
+queries = File.read("#{Rails.root}/doc/benchmark_postgresql_queries.sql").split(';')
 
-logfile = File.open("/tmp/benchmark_result.txt", "w+")
+logfile = File.open('/tmp/benchmark_result.txt', 'w+')
 bm = PsqlBenchmark.new(queries, logfile)
 bm.run
 logfile.close

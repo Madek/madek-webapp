@@ -8,17 +8,17 @@ describe Keyword do
     end
   end
 
-  describe "class methods" do
+  describe 'class methods' do
 
-    context "search" do
-      it "finds existing resources" do
+    context 'search' do
+      it 'finds existing resources' do
         string = Keyword.first.to_s
-        expect(Keyword.search(string).count("*")).to be>= 1
+        expect(Keyword.search(string).count('*')).to be >= 1
       end
-      
-      it "prevents sql injection" do
+
+      it 'prevents sql injection' do
         string = "string ' with quotes"
-        expect{Keyword.search(string)}.not_to raise_error
+        expect { Keyword.search(string) }.not_to raise_error
       end
     end
 

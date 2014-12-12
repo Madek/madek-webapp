@@ -1,7 +1,5 @@
-module Constants 
+module Constants
 
-  extend self
-
-  Actions = [:download, :edit, :manage, :view]
+  ACTIONS = [:download, :edit, :manage, :view]
 
 end

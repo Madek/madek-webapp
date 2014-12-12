@@ -1,7 +1,7 @@
 class FilterSet < ActiveRecord::Base
 
-  belongs_to :responsible_user, class_name: "User"
-  belongs_to :creator, class_name: "User"
+  belongs_to :responsible_user, class_name: 'User'
+  belongs_to :creator, class_name: 'User'
 
   has_many :keywords
 

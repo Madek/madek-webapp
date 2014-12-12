@@ -1,23 +1,20 @@
 class CreateKeywords < ActiveRecord::Migration
   include MigrationHelper
 
-
   def change
-
     create_table :keyword_terms, id: :uuid do |t|
-      t.string :term, default: "", null: false
+      t.string :term, default: '', null: false
       t.timestamps null: false
       t.uuid :creator_id
     end
 
     reversible do |dir|
-      dir.up do 
+      dir.up do
         set_timestamps_defaults :keyword_terms
         create_trgm_index :keyword_terms, :term
         create_text_index :keyword_terms, :term
       end
     end
-
 
     create_table :keywords, id: :uuid do |t|
       t.uuid :user_id
@@ -34,7 +31,7 @@ class CreateKeywords < ActiveRecord::Migration
     end
 
     reversible do |dir|
-      dir.up do 
+      dir.up do
         set_timestamps_defaults :keywords
       end
     end
@@ -42,7 +39,6 @@ class CreateKeywords < ActiveRecord::Migration
     add_foreign_key :keywords, :keyword_terms
     add_foreign_key :keywords, :users
     add_foreign_key :keywords, :meta_data, dependent: :delete
-
   end
 
 end

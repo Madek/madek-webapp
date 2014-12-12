@@ -12,28 +12,23 @@ class MediaFile < ActiveRecord::Base
 
   before_create do
     self.guid ||= UUIDTools::UUID.random_create.hexdigest
-    self.access_hash ||= SecureRandom.uuid 
+    self.access_hash ||= SecureRandom.uuid
   end
-
 
   after_commit :delete_files, on: :destroy
 
-  serialize     :meta_data, Hash
-
+  serialize :meta_data, Hash
 
   def delete_files
-    begin 
+    begin
       File.delete(file_storage_location)
     rescue Exception => e
       Rails.logger.warn Formatter.exception_to_log_s(e)
     end
   end
 
+  has_many :previews, -> { order(:created_at, :id) }, dependent: :destroy
 
-  
-  has_many :previews, lambda{order(:created_at, :id)}, dependent: :destroy 
-
-   
   scope :incomplete_encoded_videos, lambda{
     where(media_type: 'video').where %{
       NOT EXISTS (SELECT NULL FROM media_files as mf
@@ -44,4 +39,3 @@ class MediaFile < ActiveRecord::Base
   }
 
 end
-

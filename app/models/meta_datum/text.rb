@@ -2,13 +2,11 @@
 
 class MetaDatum::Text < MetaDatum
 
-  def to_s
-    value.to_s
-  end
-
-  def value(user=nil)
+  def value
     string
   end
+
+  alias_method :to_s, :value
 
   def value=(new_value)
     self.string = new_value

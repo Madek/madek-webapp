@@ -3,13 +3,13 @@ class CreateFullTexts < ActiveRecord::Migration
   include MigrationHelper
 
   def change
-    create_table :full_texts, id: false do |t| 
+    create_table :full_texts, id: false do |t|
       t.uuid :media_resource_id, null: false, primary_key: true
-      t.text  :text
+      t.text :text
     end
 
     reversible do |dir|
-      dir.up do 
+      dir.up do
         create_trgm_index :full_texts, :text
         create_text_index :full_texts, :text
       end

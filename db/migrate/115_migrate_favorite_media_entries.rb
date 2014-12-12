@@ -1,7 +1,6 @@
 class MigrateFavoriteMediaEntries < ActiveRecord::Migration
 
   def change
-
     reversible do |dir|
       dir.up do
 
@@ -18,7 +17,6 @@ class MigrateFavoriteMediaEntries < ActiveRecord::Migration
 
       end
     end
-
   end
 
 end

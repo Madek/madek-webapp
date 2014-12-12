@@ -2,7 +2,6 @@ class CreateApplications < ActiveRecord::Migration
   include MigrationHelper
 
   def change
-
     create_table :applications, id: false do |t|
       t.uuid :user_id, null: false
       t.string :id, null: false, primary_key: true
@@ -14,11 +13,10 @@ class CreateApplications < ActiveRecord::Migration
     add_foreign_key :applications, :users
 
     reversible do |dir|
-      dir.up do 
+      dir.up do
         set_timestamps_defaults :applications
       end
     end
-
   end
 
 end

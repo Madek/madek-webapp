@@ -3,21 +3,19 @@ class CreateMediaEntryGrouppermission < ActiveRecord::Migration
   include MigrationHelper
 
   class ::MigrationGroupPermission < ActiveRecord::Base
-    self.table_name= :grouppermissions
+    self.table_name = :grouppermissions
   end
 
   class ::MigrationMediaEntryGroupPermission < ActiveRecord::Base
-    self.table_name= :media_entry_group_permissions
+    self.table_name = :media_entry_group_permissions
   end
 
-  GROUPPERMISSION_KEYS_MAP= {
-    "view" => "get_metadata_and_previews",
-    "edit" => "edit_metadata",
-    "download" => "get_full_size", }
-
+  GROUPPERMISSION_KEYS_MAP = {
+    'view' => 'get_metadata_and_previews',
+    'edit' => 'edit_metadata',
+    'download' => 'get_full_size' }
 
   def change
-
     create_table :media_entry_group_permissions, id: :uuid do |t|
 
       t.boolean :get_metadata_and_previews, null: false, default: false, index: true
@@ -31,15 +29,15 @@ class CreateMediaEntryGrouppermission < ActiveRecord::Migration
       t.index :group_id
 
       t.uuid :updator_id
-      t.index :updator_id 
+      t.index :updator_id
 
-      t.index [:media_entry_id,:group_id], unique: true, name: 'idx_megrpp_on_media_entry_id_and_group_id'
+      t.index [:media_entry_id, :group_id], unique: true, name: 'idx_megrpp_on_media_entry_id_and_group_id'
 
       t.timestamps null: false
     end
 
     add_foreign_key :media_entry_group_permissions, :groups, dependent: :delete
-    add_foreign_key :media_entry_group_permissions, :media_entries, dependent: :delete 
+    add_foreign_key :media_entry_group_permissions, :media_entries, dependent: :delete
     add_foreign_key :media_entry_group_permissions, :users, column: 'updator_id'
 
     reversible do |dir|
@@ -48,19 +46,17 @@ class CreateMediaEntryGrouppermission < ActiveRecord::Migration
         set_timestamps_defaults :media_entry_group_permissions
 
         ::MigrationGroupPermission \
-          .joins("JOIN media_entries ON media_entries.id = grouppermissions.media_resource_id")\
+          .joins('JOIN media_entries ON media_entries.id = grouppermissions.media_resource_id')\
           .find_each do |up|
           ::MigrationMediaEntryGroupPermission.create! up.attributes \
-            .map{|k,v| k == "media_resource_id" ? ["media_entry_id",v] : [k,v]} \
-            .map{|k,v| [ (GROUPPERMISSION_KEYS_MAP[k] || k), v]} \
-            .reject{|k,v| k == "manage"} \
-            .instance_eval{Hash[self]}
+            .map { |k, v| k == 'media_resource_id' ? ['media_entry_id', v] : [k, v] } \
+            .map { |k, v| [(GROUPPERMISSION_KEYS_MAP[k] || k), v] } \
+            .reject { |k, v| k == 'manage' } \
+            .instance_eval { Hash[self] }
 
         end
       end
     end
-
   end
-
 
 end

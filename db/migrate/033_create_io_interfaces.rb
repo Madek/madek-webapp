@@ -2,7 +2,6 @@ class CreateIoInterfaces < ActiveRecord::Migration
   include MigrationHelper
 
   def change
-
     create_table :io_interfaces, id: false  do |t|
       t.string :id, null: false, primary_key: true
       t.string :description
@@ -10,11 +9,9 @@ class CreateIoInterfaces < ActiveRecord::Migration
     end
 
     reversible do |dir|
-      dir.up do 
+      dir.up do
         set_timestamps_defaults :io_interfaces
       end
     end
-
-
   end
 end

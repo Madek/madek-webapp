@@ -1,18 +1,18 @@
 FactoryGirl.define do
 
   factory :media_file  do
-    meta_data { {:key => :value} }
+    meta_data { { key: :value } }
     height { 640 }
     width { 429 }
-    content_type "image/jpeg"
-    media_type "image"
+    content_type 'image/jpeg'
+    media_type 'image'
   end
 
   factory :media_file_for_image, class: MediaFile do
 
     before :create do
-      unless File.exist?(Rails.root.join("db/media_files",Rails.env,'attachments/b/b8bf2eb322e04a29a52fbb06d4866af8'))
-        System.execute_cmd! "tar xf #{Rails.root.join "features/data/grumpy-cat_files.tar.gz"} -C #{Rails.root.join  "db/media_files/", Rails.env}"
+      unless File.exist?(Rails.root.join('db/media_files', Rails.env, 'attachments/b/b8bf2eb322e04a29a52fbb06d4866af8'))
+        System.execute_cmd! "tar xf #{Rails.root.join 'features/data/grumpy-cat_files.tar.gz'} -C #{Rails.root.join 'db/media_files/', Rails.env}"
       end
     end
 
@@ -25,7 +25,7 @@ FactoryGirl.define do
     filename 'grumpy_cat.jpg'
     guid 'b8bf2eb322e04a29a52fbb06d4866af8'
     access_hash 'edbf86ef-8bb5-40c2-8737-368bbf7f75dd'
-    meta_data YAML.load %q{
+    meta_data YAML.load '
       File:BitsPerSample: 8
       File:ColorComponents: 3
       File:EncodingProcess: Baseline DCT, Huffman coding
@@ -38,10 +38,10 @@ FactoryGirl.define do
       JFIF:JFIFVersion: 1.01
       JFIF:ResolutionUnit: inches
       JFIF:XResolution: 72
-      JFIF:YResolution: 72 }
+      JFIF:YResolution: 72 '
 
     after :create do |mf|
-      previews_data= YAML.load %q{
+      previews_data = YAML.load '
       -
         height: 75
         width: 100
@@ -54,7 +54,7 @@ FactoryGirl.define do
         content_type: image/jpeg
         filename: b8bf2eb322e04a29a52fbb06d4866af8_small_125.jpg
         thumbnail: small_125
-      - 
+      -
         height: 225
         width: 300
         content_type: image/jpeg
@@ -78,26 +78,26 @@ FactoryGirl.define do
         content_type: image/jpeg
         filename: b8bf2eb322e04a29a52fbb06d4866af8_maximum.jpg
         thumbnail: maximum
-      }
+            '
 
-      previews_data.each do |pd| 
-        Preview.create! pd.merge({media_file: mf})
+      previews_data.each do |pd|
+        Preview.create! pd.merge(media_file: mf)
       end
 
     end
   end
 
   factory :media_file_for_movie, class: MediaFile do
-    extension "mov"
-    media_type "video"
+    extension 'mov'
+    media_type 'video'
     height 720
     size 922621
     width 1280
-    content_type  'video/quicktime'
-    filename  'zencoder_test.mov'
-    guid  '66b1ef50186645438c047179f54ec6e6'
+    content_type 'video/quicktime'
+    filename 'zencoder_test.mov'
+    guid '66b1ef50186645438c047179f54ec6e6'
     access_hash '4eb0ffec-58a1-4e9b-9056-b4f6fd4729ae'
-    meta_data YAML.load %q{
+    meta_data YAML.load '
       File:FileType: MP4
       File:MIMEType: video/mp4
       Composite:AvgBitrate: 1.45 Mbps
@@ -123,7 +123,7 @@ FactoryGirl.define do
       QuickTime:PreviewTime: 0 s
       QuickTime:SelectionDuration: 0 s
       QuickTime:SelectionTime: 0 s
-      QuickTime:TimeScale: 600 }
+      QuickTime:TimeScale: 600 '
   end
 
 end

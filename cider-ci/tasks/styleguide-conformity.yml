@@ -1,0 +1,6 @@
+tasks:
+
+- name: Lint/Stylecheck with Rubocop
+  scripts:
+    main:
+      body: bundle exec rubocop -R

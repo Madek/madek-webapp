@@ -13,13 +13,11 @@ class CreateIoMappings < ActiveRecord::Migration
     add_foreign_key :io_mappings, :io_interfaces, dependent: :delete
 
     reversible do |dir|
-      dir.up do 
+      dir.up do
         execute 'ALTER TABLE io_mappings ADD PRIMARY KEY (io_interface_id,meta_key_id)'
         set_timestamps_defaults :io_mappings
       end
     end
-
   end
-
 
 end

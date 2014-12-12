@@ -1,10 +1,10 @@
 RSpec.configure do |c|
-  c.alias_it_should_behave_like_to :it_has, "has"
+  c.alias_it_should_behave_like_to :it_has, 'has'
 end
 
-RSpec.shared_examples "edit sessions" do
+RSpec.shared_examples 'edit sessions' do
 
-  it "has editors" do
+  it 'has editors' do
 
     resource = FactoryGirl.create resource_type
 
@@ -14,9 +14,9 @@ RSpec.shared_examples "edit sessions" do
       edit_session.save
     end
 
-    users_set = Set.new ( EditSession.where(media_entry_id: resource.id).map &:user )
+    users_set = Set.new EditSession.where(media_entry_id: resource.id).map(&:user)
 
-    expect( Set.new resource.editors ).to eq users_set
+    expect(Set.new resource.editors).to eq users_set
 
   end
 

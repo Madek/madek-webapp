@@ -13,14 +13,13 @@ class CreateEditSessions < ActiveRecord::Migration
     end
 
     reversible do |dir|
-      dir.up do 
+      dir.up do
         set_timestamps_defaults :edit_sessions
       end
     end
 
     add_foreign_key :edit_sessions, :media_resources, dependent: :delete
     add_foreign_key :edit_sessions, :users, dependent: :delete
-
   end
 
 end

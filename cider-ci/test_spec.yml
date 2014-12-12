@@ -14,6 +14,9 @@ subcontexts:
 - name: Completeness 
   _cider-ci_include: 'cider-ci/tasks/completeness.yml'
 
+- name: Styleguide Conformity
+  _cider-ci_include: 'cider-ci/tasks/styleguide-conformity.yml'
+
 - name: Rails
   _cider-ci_include: 'cider-ci/partials/rails_task_defaults.yml'
 

@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
-  before_filter :authenticated?, except: :root
+  before_action :authenticated?, except: :root
 
   def root
   end

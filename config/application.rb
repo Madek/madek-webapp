@@ -12,31 +12,31 @@ module MAdeK
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
-     
+
     config.active_record.timestamped_migrations = false
-     
+
     config.active_record.disable_implicit_join_references = true
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
 
     config.autoload_paths += [
-      Rails.root.join("app","api"),
-      Rails.root.join("app","lib"),
-      Rails.root.join("app","models","concerns"),
-      Rails.root.join("app","modules"),
-      Rails.root.join("lib"),
+      Rails.root.join('app', 'api'),
+      Rails.root.join('app', 'lib'),
+      Rails.root.join('app', 'models', 'concerns'),
+      Rails.root.join('app', 'modules'),
+      Rails.root.join('lib')
     ]
 
     # this should be in environments/test ; but that doesn't work (???)
     if Rails.env.test?
       config.autoload_paths += [
-        Rails.root.join("spec","lib")
+        Rails.root.join('spec', 'lib')
       ]
     end
 
     config.i18n.enforce_available_locales = false
-    config.i18n.available_locales = ['de','de-CH','en','en-GB']
+    config.i18n.available_locales = ['de', 'de-CH', 'en', 'en-GB']
     config.i18n.default_locale = 'de-CH'
 
     # Only load the plugins named here, in the order given (default is alphabetical).
@@ -54,20 +54,20 @@ module MAdeK
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
-     
+
     # get rid of annoying warning; have a look at this again when dealing with i18n
     config.i18n.enforce_available_locales = false
 
     # Configure the default encoding used in templates for Ruby 1.9.
-    config.encoding = "utf-8"
+    config.encoding = 'utf-8'
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
-    config.log_level= ENV["RAILS_LOG_LEVEL"] if ENV["RAILS_LOG_LEVEL"].present? 
-  # config.log_level = :debug
+    config.log_level = ENV['RAILS_LOG_LEVEL'] if ENV['RAILS_LOG_LEVEL'].present?
+    # config.log_level = :debug
 
-    config.log_tags = [lambda{|req| Time.now.strftime("%T")}, :port, :remote_ip]
+    config.log_tags = [->(req) { Time.now.strftime('%T') }, :port, :remote_ip]
 
     # Enable the asset pipeline
     config.assets.enabled = true
@@ -76,43 +76,41 @@ module MAdeK
     config.assets.initialize_on_precompile = false
 
     # Please add any files you need precompiled here, otherwise it breaks production
-    config.assets.precompile += %w( 
-                                    *.png
-                                    api_docs.css
-                                    api_docs.js
-                                    app_admin.css
-                                    app_admin.js
-                                    application.css
-                                    application-contrasted.css
-                                    application.js
-                                    i18n/locale/* 
-                                    plupload/*
-                                    pdf-viewer.css
-                                    pdf.js
-                                    styleguide.css
-                                    test.js
-                                    upload.js
-                                    video.css
-                                    video.js
-                                    visualization.css
-                                    visualization.js
-                                    visualization_layout_web_worker.js
+    config.assets.precompile += %w(
+      *.png
+      api_docs.css
+      api_docs.js
+      app_admin.css
+      app_admin.js
+      application.css
+      application-contrasted.css
+      application.js
+      i18n/locale/*
+      plupload/*
+      pdf-viewer.css
+      pdf.js
+      styleguide.css
+      test.js
+      upload.js
+      video.css
+      video.js
+      visualization.css
+      visualization.js
+      visualization_layout_web_worker.js
     )
 
   end
 end
 
-
 # Config files here.
 METADATA_CONFIG_DIR = "#{Rails.root}/config/definitions/metadata"
 
 # Directory config is externalized so it can be accessed from not only within rails
-load  Rails.root.join("config/directories_config.rb")
-DOWNLOAD_STORAGE_DIR  = DirectoriesConfig::DOWNLOAD_STORAGE_DIR 
+load Rails.root.join('config/directories_config.rb')
+DOWNLOAD_STORAGE_DIR  = DirectoriesConfig::DOWNLOAD_STORAGE_DIR
 FILE_STORAGE_DIR      = DirectoriesConfig::FILE_STORAGE_DIR
 THUMBNAIL_STORAGE_DIR = DirectoriesConfig::THUMBNAIL_STORAGE_DIR
-ZIP_STORAGE_DIR       = DirectoriesConfig::ZIP_STORAGE_DIR 
-
+ZIP_STORAGE_DIR       = DirectoriesConfig::ZIP_STORAGE_DIR
 
 # symbolic links, to ultimately break your installation :-/
 # $ sudo ln -s /usr/bin/exiftool /usr/local/bin/exiftool
@@ -123,11 +121,10 @@ EXIFTOOL_PATH = "exiftool -config #{EXIFTOOL_CONFIG}"
 # Under passenger, it has no idea. Maybe substitute as part of the Capistrano deploy?
 # EXIFTOOL_PATH = `/usr/bin/which exiftool`.gsub(/\n/,"")
 
-FILE_UTIL_PATH = "/usr/bin/file -b --mime-type"
+FILE_UTIL_PATH = '/usr/bin/file -b --mime-type'
 
-THUMBNAILS = {maximum: nil, x_large: '1024x768', large: '620x500', medium: '300x300', small_125: '125x125', small:  '100x100'}
-PER_PAGE = [36,100]
+THUMBNAILS = { maximum: nil, x_large: '1024x768', large: '620x500', medium: '300x300', small_125: '125x125', small:  '100x100' }
+PER_PAGE = [36, 100]
 
 LANGUAGES = [:de_ch, :en_gb]
 DEFAULT_LANGUAGE = :de_ch
-

@@ -1,9 +1,8 @@
 # -*- encoding : utf-8 -*-
-class CreateMediaFiles< ActiveRecord::Migration
+class CreateMediaFiles < ActiveRecord::Migration
   include MigrationHelper
 
-  def change 
-
+  def change
     create_table :media_files, id: :uuid do |t|
       t.integer :height
       t.integer :size
@@ -14,7 +13,7 @@ class CreateMediaFiles< ActiveRecord::Migration
 
       t.string :content_type, null: false
 
-      t.string :filename   
+      t.string :filename
       t.string :guid
 
       t.string :extension
@@ -31,14 +30,11 @@ class CreateMediaFiles< ActiveRecord::Migration
     end
 
     reversible do |dir|
-      dir.up do 
+      dir.up do
         change_column :media_files, :size, :bigint
         set_timestamps_defaults :media_files
       end
     end
-
-
   end
-
 
 end

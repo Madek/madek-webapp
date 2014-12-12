@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe KeywordTerm do
-  describe "#creator" do
-    it "returns an user who created a keyword term" do
+  describe '#creator' do
+    it 'returns an user who created a keyword term' do
       keyword_term = FactoryGirl.create :keyword_term
       creator_user = FactoryGirl.create :user
       common_user  = FactoryGirl.create :user

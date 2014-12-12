@@ -9,31 +9,29 @@ class CreateMetaKeyDefinitions < ActiveRecord::Migration
       t.text :label, null: false, default: ''
 
       t.string :context_id, null: false
-      t.index :context_id 
+      t.index :context_id
 
-      t.string :meta_key_id, null: false     
+      t.string :meta_key_id, null: false
       t.index :meta_key_id
 
-      t.boolean :is_required , default: false 
-      t.integer :length_max      
-      t.integer :length_min            
-      t.integer :position , null: false
-    
+      t.boolean :is_required, default: false
+      t.integer :length_max
+      t.integer :length_min
+      t.integer :position, null: false
+
       t.integer :input_type
 
       t.timestamps null: false
     end
 
     reversible do |dir|
-      dir.up do 
+      dir.up do
         set_timestamps_defaults :meta_key_definitions
       end
     end
 
-
     add_foreign_key :meta_key_definitions, :meta_keys
     add_foreign_key :meta_key_definitions, :contexts
-
   end
 
 end

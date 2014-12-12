@@ -7,8 +7,8 @@ describe MyController do
     5.times { FactoryGirl.create :media_entry, responsible_user: @user }
   end
 
-  it "dashboard" do
-    get :dashboard, nil, { user_id: @user.id }
+  it 'dashboard' do
+    get :dashboard, nil,  user_id: @user.id
     assert_template :dashboard
     assert_response :success
     latest_media_entries = assigns(:latest_media_entries)

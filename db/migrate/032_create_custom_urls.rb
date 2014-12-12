@@ -2,7 +2,6 @@ class CreateCustomUrls < ActiveRecord::Migration
   include MigrationHelper
 
   def change
-
     create_table :custom_urls, id: false  do |t|
       t.string :id
       t.boolean :is_primary, default: false, null: false
@@ -20,11 +19,11 @@ class CreateCustomUrls < ActiveRecord::Migration
     add_foreign_key :custom_urls, :users, column: :updator_id
 
     reversible do |dir|
-      dir.up do 
+      dir.up do
         set_timestamps_defaults :custom_urls
         execute %q< ALTER TABLE custom_urls ADD CONSTRAINT custom_urls_id_format CHECK (id ~ '^[a-z][a-z0-9\-\_]+$'); >
-        execute %q< ALTER TABLE custom_urls ADD CONSTRAINT custom_urls_id_is_not_uuid  CHECK (NOT id ~* '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'); >
-        execute "ALTER TABLE custom_urls ADD PRIMARY KEY (id)"
+        execute " ALTER TABLE custom_urls ADD CONSTRAINT custom_urls_id_is_not_uuid  CHECK (NOT id ~* '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'); "
+        execute 'ALTER TABLE custom_urls ADD PRIMARY KEY (id)'
       end
     end
   end

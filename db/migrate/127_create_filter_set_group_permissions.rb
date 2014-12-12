@@ -1,7 +1,6 @@
 class CreateFilterSetGroupPermissions < ActiveRecord::Migration
 
   def change
-
     create_table :filter_set_group_permissions, id: :uuid do |t|
 
       t.boolean :get_metadata_and_previews, null: false, default: false, index: true
@@ -21,7 +20,6 @@ class CreateFilterSetGroupPermissions < ActiveRecord::Migration
       t.timestamps null: false
 
     end
-
   end
 
 end

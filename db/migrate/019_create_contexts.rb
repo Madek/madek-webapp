@@ -11,11 +11,9 @@ class CreateContexts < ActiveRecord::Migration
       t.integer :position
       t.index :position
 
-
     end
 
     add_foreign_key :contexts, :context_groups
-
   end
- 
+
 end
