@@ -60,7 +60,7 @@ SET search_path = public, pg_catalog;
 CREATE FUNCTION check_madek_core_meta_key_immutability() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
-          BEGIN 
+          BEGIN
             IF (TG_OP = 'DELETE') THEN
               IF (OLD.id ilike 'madek:core:%') THEN
                 RAISE EXCEPTION 'The madek:core meta_key % may not be deleted', OLD.id;
@@ -310,6 +310,16 @@ CREATE TABLE edit_sessions (
 CREATE TABLE favorite_collections (
     user_id uuid NOT NULL,
     collection_id uuid NOT NULL
+);
+
+
+--
+-- Name: favorite_filter_sets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE favorite_filter_sets (
+    user_id uuid NOT NULL,
+    filter_set_id uuid NOT NULL
 );
 
 
@@ -1502,6 +1512,27 @@ CREATE UNIQUE INDEX index_favorite_collections_on_user_id_and_collection_id ON f
 
 
 --
+-- Name: index_favorite_filter_sets_on_filter_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_favorite_filter_sets_on_filter_set_id ON favorite_filter_sets USING btree (filter_set_id);
+
+
+--
+-- Name: index_favorite_filter_sets_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_favorite_filter_sets_on_user_id ON favorite_filter_sets USING btree (user_id);
+
+
+--
+-- Name: index_favorite_filter_sets_on_user_id_and_filter_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_favorite_filter_sets_on_user_id_and_filter_set_id ON favorite_filter_sets USING btree (user_id, filter_set_id);
+
+
+--
 -- Name: index_favorite_media_entries_on_media_entry_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2327,6 +2358,22 @@ ALTER TABLE ONLY favorite_collections
 
 
 --
+-- Name: favorite_filter_sets_filter_set_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY favorite_filter_sets
+    ADD CONSTRAINT favorite_filter_sets_filter_set_id_fk FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id) ON DELETE CASCADE;
+
+
+--
+-- Name: favorite_filter_sets_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY favorite_filter_sets
+    ADD CONSTRAINT favorite_filter_sets_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: favorite_media_entries_media_entry_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2842,8 +2889,6 @@ INSERT INTO schema_migrations (version) VALUES ('114');
 
 INSERT INTO schema_migrations (version) VALUES ('115');
 
-INSERT INTO schema_migrations (version) VALUES ('116');
-
 INSERT INTO schema_migrations (version) VALUES ('117');
 
 INSERT INTO schema_migrations (version) VALUES ('118');
@@ -2877,6 +2922,12 @@ INSERT INTO schema_migrations (version) VALUES ('13');
 INSERT INTO schema_migrations (version) VALUES ('130');
 
 INSERT INTO schema_migrations (version) VALUES ('131');
+
+INSERT INTO schema_migrations (version) VALUES ('132');
+
+INSERT INTO schema_migrations (version) VALUES ('133');
+
+INSERT INTO schema_migrations (version) VALUES ('134');
 
 INSERT INTO schema_migrations (version) VALUES ('14');
 
