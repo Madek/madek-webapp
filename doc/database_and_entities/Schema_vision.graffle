@@ -71,6 +71,112 @@
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
+				<integer>834</integer>
+				<key>Info</key>
+				<integer>36</integer>
+			</dict>
+			<key>ID</key>
+			<integer>979</integer>
+			<key>Layer</key>
+			<integer>0</integer>
+			<key>Points</key>
+			<array>
+				<string>{366.93295234691567, 434.0670476530845}</string>
+				<string>{937.36499000000026, 546}</string>
+			</array>
+			<key>Style</key>
+			<dict>
+				<key>stroke</key>
+				<dict>
+					<key>HeadArrow</key>
+					<string>DoubleArrow</string>
+					<key>Legacy</key>
+					<true/>
+					<key>LineType</key>
+					<integer>1</integer>
+					<key>TailArrow</key>
+					<string>FilledBall</string>
+				</dict>
+			</dict>
+			<key>Tail</key>
+			<dict>
+				<key>ID</key>
+				<integer>764</integer>
+				<key>Info</key>
+				<integer>2</integer>
+			</dict>
+		</dict>
+		<dict>
+			<key>Class</key>
+			<string>LineGraphic</string>
+			<key>FontInfo</key>
+			<dict>
+				<key>Color</key>
+				<dict>
+					<key>w</key>
+					<string>0</string>
+				</dict>
+				<key>Font</key>
+				<string>Helvetica</string>
+				<key>Size</key>
+				<real>12</real>
+			</dict>
+			<key>Head</key>
+			<dict>
+				<key>ID</key>
+				<integer>621</integer>
+				<key>Info</key>
+				<integer>40</integer>
+			</dict>
+			<key>ID</key>
+			<integer>978</integer>
+			<key>Layer</key>
+			<integer>0</integer>
+			<key>Points</key>
+			<array>
+				<string>{356.71647617345775, 444.28352382654219}</string>
+				<string>{711, 576.81580438966967}</string>
+			</array>
+			<key>Style</key>
+			<dict>
+				<key>stroke</key>
+				<dict>
+					<key>HeadArrow</key>
+					<string>DoubleArrow</string>
+					<key>Legacy</key>
+					<true/>
+					<key>LineType</key>
+					<integer>1</integer>
+					<key>TailArrow</key>
+					<string>FilledBall</string>
+				</dict>
+			</dict>
+			<key>Tail</key>
+			<dict>
+				<key>ID</key>
+				<integer>764</integer>
+				<key>Info</key>
+				<integer>7</integer>
+			</dict>
+		</dict>
+		<dict>
+			<key>Class</key>
+			<string>LineGraphic</string>
+			<key>FontInfo</key>
+			<dict>
+				<key>Color</key>
+				<dict>
+					<key>w</key>
+					<string>0</string>
+				</dict>
+				<key>Font</key>
+				<string>Helvetica</string>
+				<key>Size</key>
+				<real>12</real>
+			</dict>
+			<key>Head</key>
+			<dict>
+				<key>ID</key>
 				<integer>746</integer>
 			</dict>
 			<key>ID</key>
@@ -499,173 +605,6 @@ UserPermission}</string>
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
-				<integer>621</integer>
-				<key>Info</key>
-				<integer>40</integer>
-			</dict>
-			<key>ID</key>
-			<integer>968</integer>
-			<key>Layer</key>
-			<integer>0</integer>
-			<key>Points</key>
-			<array>
-				<string>{403.44023266258728, 446.3765828071289}</string>
-				<string>{711, 576.81580438966967}</string>
-			</array>
-			<key>Style</key>
-			<dict>
-				<key>stroke</key>
-				<dict>
-					<key>HeadArrow</key>
-					<string>DoubleArrow</string>
-					<key>Legacy</key>
-					<true/>
-					<key>LineType</key>
-					<integer>1</integer>
-					<key>TailArrow</key>
-					<string>FilledBall</string>
-				</dict>
-			</dict>
-			<key>Tail</key>
-			<dict>
-				<key>ID</key>
-				<integer>966</integer>
-				<key>Info</key>
-				<integer>7</integer>
-			</dict>
-		</dict>
-		<dict>
-			<key>Class</key>
-			<string>LineGraphic</string>
-			<key>FontInfo</key>
-			<dict>
-				<key>Color</key>
-				<dict>
-					<key>w</key>
-					<string>0</string>
-				</dict>
-				<key>Font</key>
-				<string>Helvetica</string>
-				<key>Size</key>
-				<real>12</real>
-			</dict>
-			<key>Head</key>
-			<dict>
-				<key>ID</key>
-				<integer>41</integer>
-				<key>Info</key>
-				<integer>10</integer>
-			</dict>
-			<key>ID</key>
-			<integer>967</integer>
-			<key>Layer</key>
-			<integer>0</integer>
-			<key>Points</key>
-			<array>
-				<string>{298.55976733741272, 341.49611748195434}</string>
-				<string>{365.23203386320552, 153.56768649577822}</string>
-			</array>
-			<key>Style</key>
-			<dict>
-				<key>stroke</key>
-				<dict>
-					<key>HeadArrow</key>
-					<string>DoubleArrow</string>
-					<key>Legacy</key>
-					<true/>
-					<key>LineType</key>
-					<integer>1</integer>
-					<key>TailArrow</key>
-					<string>FilledBall</string>
-				</dict>
-			</dict>
-			<key>Tail</key>
-			<dict>
-				<key>ID</key>
-				<integer>966</integer>
-				<key>Info</key>
-				<integer>8</integer>
-			</dict>
-		</dict>
-		<dict>
-			<key>Bounds</key>
-			<string>{{276.83831175456851, 382.29673983775223}, {148.32337649086298, 23.27922061357873}}</string>
-			<key>Class</key>
-			<string>ShapedGraphic</string>
-			<key>FitText</key>
-			<string>Clip</string>
-			<key>Flow</key>
-			<string>Clip</string>
-			<key>FontInfo</key>
-			<dict>
-				<key>Size</key>
-				<real>12</real>
-			</dict>
-			<key>ID</key>
-			<integer>966</integer>
-			<key>Layer</key>
-			<integer>0</integer>
-			<key>Magnets</key>
-			<array>
-				<string>{1, 1}</string>
-				<string>{1, -1}</string>
-				<string>{-1, -1}</string>
-				<string>{-1, 1}</string>
-				<string>{0, 1}</string>
-				<string>{0, -1}</string>
-				<string>{1, 0}</string>
-				<string>{-1, 0}</string>
-			</array>
-			<key>Rotation</key>
-			<real>45</real>
-			<key>Shape</key>
-			<string>Rectangle</string>
-			<key>Style</key>
-			<dict>
-				<key>fill</key>
-				<dict>
-					<key>Color</key>
-					<dict>
-						<key>b</key>
-						<string>0.901961</string>
-						<key>g</key>
-						<string>0.901961</string>
-						<key>r</key>
-						<string>0.901961</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>Text</key>
-			<dict>
-				<key>Text</key>
-				<string>{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
-
-\f0\fs24 \cf0 favorite_collections}</string>
-			</dict>
-			<key>TextPlacement</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>Class</key>
-			<string>LineGraphic</string>
-			<key>FontInfo</key>
-			<dict>
-				<key>Color</key>
-				<dict>
-					<key>w</key>
-					<string>0</string>
-				</dict>
-				<key>Font</key>
-				<string>Helvetica</string>
-				<key>Size</key>
-				<real>12</real>
-			</dict>
-			<key>Head</key>
-			<dict>
-				<key>ID</key>
 				<integer>834</integer>
 				<key>Info</key>
 				<integer>39</integer>
@@ -676,7 +615,7 @@ UserPermission}</string>
 			<integer>0</integer>
 			<key>Points</key>
 			<array>
-				<string>{430.88416318849841, 415.32781400239435}</string>
+				<string>{419.09115027967971, 401.8427309078653}</string>
 				<string>{937.36499000000026, 531}</string>
 			</array>
 			<key>Style</key>
@@ -727,7 +666,7 @@ UserPermission}</string>
 			<integer>0</integer>
 			<key>Points</key>
 			<array>
-				<string>{423.10598859544638, 423.10598859544638}</string>
+				<string>{412.46690129892039, 407.86091270347401}</string>
 				<string>{711, 566.79191576987853}</string>
 			</array>
 			<key>Style</key>
@@ -780,7 +719,7 @@ UserPermission}</string>
 			<integer>0</integer>
 			<key>Points</key>
 			<array>
-				<string>{415.53918220437714, 431.33728953201734}</string>
+				<string>{406.54198318056427, 414.45180921097534}</string>
 				<string>{476.81753611680966, 562.70443078002745}</string>
 			</array>
 			<key>Style</key>
@@ -831,7 +770,7 @@ UserPermission}</string>
 			<integer>0</integer>
 			<key>Points</key>
 			<array>
-				<string>{383.11091270347418, 466.7059027662421}</string>
+				<string>{346.50000000000006, 454.50000000000006}</string>
 				<string>{478.56696451352281, 560.95500238331419}</string>
 			</array>
 			<key>Style</key>
@@ -853,7 +792,7 @@ UserPermission}</string>
 				<key>ID</key>
 				<integer>764</integer>
 				<key>Info</key>
-				<integer>7</integer>
+				<integer>1</integer>
 			</dict>
 		</dict>
 		<dict>
@@ -4700,7 +4639,7 @@ Entities and Database-Relations\
 			<integer>1</integer>
 			<key>Points</key>
 			<array>
-				<string>{278.23044737829957, 361.82543744106749}</string>
+				<string>{276.24441858314145, 363.8114662362259}</string>
 				<string>{343.55886384145515, 147.3582944767125}</string>
 			</array>
 			<key>Style</key>
@@ -4727,7 +4666,7 @@ Entities and Database-Relations\
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{256.50899179545536, 402.62605979686543}, {148.32337649086298, 23.27922061357873}}</string>
+			<string>{{259.57810976015259, 389.5992158672185}, {113.80467523629412, 28.896558328331139}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -4737,7 +4676,7 @@ Entities and Database-Relations\
 			<key>FontInfo</key>
 			<dict>
 				<key>Size</key>
-				<real>12</real>
+				<real>8</real>
 			</dict>
 			<key>ID</key>
 			<integer>764</integer>
@@ -4772,6 +4711,13 @@ Entities and Database-Relations\
 						<string>0.901961</string>
 					</dict>
 				</dict>
+				<key>stroke</key>
+				<dict>
+					<key>GapRatio</key>
+					<real>0.5</real>
+					<key>Width</key>
+					<real>4</real>
+				</dict>
 			</dict>
 			<key>Text</key>
 			<dict>
@@ -4781,7 +4727,8 @@ Entities and Database-Relations\
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf0 favorite_media_entries}</string>
+\f0\fs16 \cf0 favorite -media_entries |\
+-collections | -filter_sets}</string>
 			</dict>
 			<key>TextPlacement</key>
 			<integer>0</integer>
@@ -4814,7 +4761,7 @@ Entities and Database-Relations\
 			<integer>1</integer>
 			<key>Points</key>
 			<array>
-				<string>{358.77817459305203, 358.77817459305203}</string>
+				<string>{348.13908729652599, 343.53309870107967}</string>
 				<string>{365.23203386320552, 153.56768649577822}</string>
 			</array>
 			<key>Style</key>
@@ -4841,13 +4788,13 @@ Entities and Database-Relations\
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{345.45544809424922, 379.9420815942492}, {90.973267000000007, 22}}</string>
+			<string>{{334.81636079772318, 367.01502518693735}, {90.973267000000007, 17.363961030678922}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
 			<dict>
 				<key>Size</key>
-				<real>12</real>
+				<real>8</real>
 			</dict>
 			<key>ID</key>
 			<integer>752</integer>
@@ -4891,7 +4838,7 @@ Entities and Database-Relations\
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs24 \cf0 EditSession}</string>
+\f0\fs16 \cf0 EditSession}</string>
 			</dict>
 			<key>TextPlacement</key>
 			<integer>0</integer>
@@ -6775,7 +6722,7 @@ belongs_to}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2014-12-15 08:25:01 +0000</string>
+	<string>2014-12-15 11:43:21 +0000</string>
 	<key>Modifier</key>
 	<string>DrTom</string>
 	<key>NotesVisible</key>
@@ -6875,7 +6822,7 @@ belongs_to}</string>
 		<key>SidebarWidth</key>
 		<integer>0</integer>
 		<key>VisibleRegion</key>
-		<string>{{-189.00000000000003, 0}, {1381.3301886792456, 783.00000000000011}}</string>
+		<string>{{-189, 0}, {1381.3301886792453, 783}}</string>
 		<key>Zoom</key>
 		<real>1.6245210727969348</real>
 		<key>ZoomValues</key>
