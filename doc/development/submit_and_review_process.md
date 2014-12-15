@@ -62,7 +62,8 @@ Merging
 If the summited work is accepted the reviewer must merge the work in a single
 squashed commit on top to the current working branch. The author of the commit must
 refer to the original author who submitted the work and the committer must
-refer to the person who reviewed and merged the commit. 
+refer to the person(s) who reviewed and merged the commit with one or more 
+`Signed-off-by: Name <email>` Tags as the last lines of the commit message.
 
 
 
