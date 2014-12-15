@@ -23,13 +23,18 @@ branch is called `next`. In addition there is currently a branch called
 Submitting
 ----------
 
-An entity of work can be either submitted via a ticket on pivotal or by a pull
-request on github. It must adhere to the following rules. 
+An entity of work muste be submitted via a a pull request on github. 
+If it is connected to a ticket on pivotal, it's number has to be included.
 
-1. All changes must be contained in one single commit.
+It must adhere to the following rules. 
 
-2. This single commit must be directly related to the current working
-  branch (either `next` oder `madek-v3`). 
+1. All changes must be contained in one single commit.  
+   If work on the branch is done over a long time, single commits can be submitted
+   for review by starting the title of the pull request with `[WIP]`.
+
+2. The commits must be directly related to the current working
+  branch (either `next` oder `madek-v3`), 
+  i.e. "the merge button has to be green".
 
 3. The submit comment must contain the three following:
 
@@ -55,7 +60,7 @@ Merging
 -------
 
 If the summited work is accepted the reviewer must merge the work in a single
-commit on top to the current working branch. The author of the commit must
+squashed commit on top to the current working branch. The author of the commit must
 refer to the original author who submitted the work and the committer must
 refer to the person who reviewed and merged the commit. 
 
