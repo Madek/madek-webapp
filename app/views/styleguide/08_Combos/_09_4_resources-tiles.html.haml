@@ -1,0 +1,252 @@
+:ruby
+  element = {
+    name: 'Media Resources Tiles Mode',
+    description: 'Tile View comes in size (small, normal, large) and orientation variations (horizontal, vertical). Vertical variation is to replace legacy featured-items styles displaying items highlighted by user within a set.',
+    cssFile: 'filename',
+    cssSelector: 'selector',
+    section: '8.9.4',
+    mods: {
+      nil => 'Default',
+      'active' => 'To be interacted with',
+      'vertical' => 'Vertical Tiles',
+      'vertical small' => 'Vertical Small Tiles',
+      'vertical large' => 'Vertical Large Tiles',
+      'horizontal' => 'Horizontal Tiles',
+      'horizontal small' => 'Horizontal Small Tiles',
+      'horizontal large' => 'Horizontal Large Tiles'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      %ul.ui-resources.tiles{:class => name}
+        %li.ui-resources-page
+          %ul.ui-resources-page-items
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__head
+                  %ul.ui-tile__actions.left.by-left
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                        %i.icon-star-empty
+                  %ul.ui-tile__actions.right.by-right
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{:title => "Stöbern"}
+                        %i.icon-eye
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{:title => "Metadaten editieren"}
+                        %i.icon-pen
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-delete-action" => "", :title => "Löschen"}
+                        %i.icon-trash
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-1", :src => asset_path('styleguide/media-entry-2.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__head
+                  %ul.ui-tile__actions.left.by-left
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                        %i.icon-star-empty
+                  %ul.ui-tile__actions.right.by-right
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{:title => "Stöbern"}
+                        %i.icon-eye
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{:title => "Metadaten editieren"}
+                        %i.icon-pen
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-delete-action" => "", :title => "Löschen"}
+                        %i.icon-trash
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-1", :src => asset_path('styleguide/media-entry-1.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__head
+                  %ul.ui-tile__actions.left.by-left
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                        %i.icon-star-empty
+                  %ul.ui-tile__actions.right.by-right
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{:title => "Stöbern"}
+                        %i.icon-eye
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{:title => "Metadaten editieren"}
+                        %i.icon-pen
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-delete-action" => "", :title => "Löschen"}
+                        %i.icon-trash
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-3.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__head
+                  %ul.ui-tile__actions.left.by-left
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                        %i.icon-star-empty
+                  %ul.ui-tile__actions.right.by-right
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{:title => "Stöbern"}
+                        %i.icon-eye
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{:title => "Metadaten editieren"}
+                        %i.icon-pen
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-delete-action" => "", :title => "Löschen"}
+                        %i.icon-trash
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-4.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-group.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__head
+                  %ul.ui-tile__actions.left.by-left
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                        %i.icon-star-empty
+                  %ul.ui-tile__actions.right.by-right
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{:title => "Stöbern"}
+                        %i.icon-eye
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{:title => "Metadaten editieren"}
+                        %i.icon-pen
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-delete-action" => "", :title => "Löschen"}
+                        %i.icon-trash
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-5.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__head
+                  %ul.ui-tile__actions.left.by-left
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                        %i.icon-star-empty
+                  %ul.ui-tile__actions.right.by-right
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{:title => "Stöbern"}
+                        %i.icon-eye
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{:title => "Metadaten editieren"}
+                        %i.icon-pen
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-delete-action" => "", :title => "Löschen"}
+                        %i.icon-trash
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__head
+                  %ul.ui-tile__actions.left.by-left
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                        %i.icon-star-empty
+                  %ul.ui-tile__actions.right.by-right
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{:title => "Stöbern"}
+                        %i.icon-eye
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{:title => "Metadaten editieren"}
+                        %i.icon-pen
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-delete-action" => "", :title => "Löschen"}
+                        %i.icon-trash
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-8.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__head
+                  %ul.ui-tile__actions.left.by-left
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                        %i.icon-star-empty
+                  %ul.ui-tile__actions.right.by-right
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{:title => "Stöbern"}
+                        %i.icon-eye
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{:title => "Metadaten editieren"}
+                        %i.icon-pen
+                    %li.ui-tile__action
+                      %a.ui-tile__action-link{"data-delete-action" => "", :title => "Löschen"}
+                        %i.icon-trash
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-9.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}

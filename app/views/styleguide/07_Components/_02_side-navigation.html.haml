@@ -1,0 +1,29 @@
+:ruby
+  element = {
+    name: 'Side Navigation',
+    cssSelector: '.ui-side-navigation',
+    cssFile: '_ui-side-navigation.scss',
+    section: '7.2'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    %div{:style => ""}
+      %ul.ui-side-navigation
+        %li.ui-side-navigation-item
+          %a.strong{:href => "###explore/catalog"} Katalog
+          %ul.ui-side-navigation-lvl2
+            %li.ui-side-navigation-lvl2-item
+              %a.weak{:href => "###explore/catalog/#"} Schlagworte
+          %ul.ui-side-navigation-lvl2
+            %li.ui-side-navigation-lvl2-item
+              %a.weak{:href => "###explore/catalog/#"} Gattung
+        %li.separator.mini
+        %li.ui-side-navigation-item
+          %a.strong{:href => "###explore/featured_set"} Beispielhafte-Sets
+        %li.separator.mini
+        %li.ui-side-navigation-item
+          %a.strong{:href => "###explore/keywords"} Häufige Schlagworte
+        %li.separator.mini
+        %li.ui-side-navigation-item
+          %a.strong{:href => "###explore/contexts"} Kontexte

@@ -1,0 +1,17 @@
+:ruby
+  element = {
+    name: 'Separation',
+    cssSelector: '.separated',
+    cssFile: '_grid.scss',
+    section: '1.4',
+    description: 'Elements with bottom border and some extra bottom spacing',
+    mods: {
+      nil => 'Default',
+      'light' => 'Light separator'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      %h2.separated{:class => name}= "Title separated with a bottom border"

@@ -1,0 +1,44 @@
+:ruby
+  element = {
+    name: '"Content Type" Icons in Page Headers',
+    cssFile: '_icons.scss',
+    cssSelector: '.icon-',
+    description: 'Icons are used in Page Headers to indicate the type of content presented. \nBelow is a list of all such pages and their corresponding icons.',
+    section: '6.8'
+  }
+  
+  list = [
+    ['icon-media-entry', 'Title of an Entry'],
+    ['icon-set', 'Title of a Set'],
+    ['icon-filter-set', 'Title of a Filter-Set'],
+    ['icon-home', 'Mein Archiv'],
+    ['icon-privacy-private-alt', 'Inhalte, für die ich verantwortlich bin'],
+    ['icon-upload', 'Meine letzten Importe'],
+    ['icon-star', 'Meine Favoriten'],
+    ['icon-tag', 'Meine Schlagworte'],
+    ['icon-privacy-group-alt', 'Mir anvertraute Inhalte'],
+    ['icon-privacy-group', 'Meine Arbeitsgruppen'],
+    ['icon-tags', 'Vokabulare'],
+    ['icon-catalog', 'Erkunden'],
+    ['icon-catalog', 'Erkunden / Katalog'],
+    ['icon-set', 'Erkunden / Beispielhafte-Sets'],
+    ['icon-tag', 'Erkunden / Häufige Schlagworte'],
+    ['icon-lens', 'Suche'],
+    ['icon-library', 'Medienarchiv'],
+    ['icon-pen', 'Metadaten editieren'],
+    ['icon-lock', 'Berechtigungen von "Foobar"'],
+    ['icon-link', 'Adressen für "Foobar"'],
+    ['icon-vis-graph', 'Visualisiertes Set'],
+    ['icon-eye', 'Nach vergleichbaren Inhalten stöbern'],
+    ['icon-upload', 'Import Media']
+  ]
+  
+
+= partial('element', element) do
+  - list.each do |name, text| 
+    = partial('example') do
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl
+            %i{class: name}
+            = text

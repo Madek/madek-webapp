@@ -1,0 +1,27 @@
+:ruby
+  element = {
+    name: 'Stepline',
+    cssSelector: '.ui-stepline',
+    cssFile: '_ui-stepline.scss',
+    section: '7.16'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    .ui-stepline
+      .ui-stepline-item
+        %h3.title-s.ui-stepline-item-title
+          %small 1 of 4
+          Medien übertragen
+      .ui-stepline-item
+        %h3.title-s.ui-stepline-item-title
+          %small 2 of 4
+          Berechtigungen setzen
+      .ui-stepline-item.active
+        %h3.title-s.ui-stepline-item-title
+          %small 3 of 4
+          Metadaten ergänzen
+      .ui-stepline-item
+        %h3.title-s.ui-stepline-item-title
+          %small 4 of 4
+          Medien zusammenstellen

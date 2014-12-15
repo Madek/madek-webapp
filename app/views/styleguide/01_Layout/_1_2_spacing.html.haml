@@ -1,0 +1,30 @@
+:ruby
+  element = {
+    name: 'Spacing',
+    cssFile: '_space.scss',
+    section: '1.2',
+    description: 'Spaces can be used to modify the spacing between objects. The class names have the format (type)(sides)(space), resulting in classes like .pvs (padding, vertical, small), .mhl (margin, horizontal, large), etc. \np, m = padding, margin a, t, r, b, l, h, v = all, top, right, bottom, left, horizontal, vertical x, s, m, l = spaces',
+    mods: {
+      'n' => 'No space',
+      'x' => 'Extra small space',
+      's' => 'Small space', 
+      'm' => 'Medium space',
+      'l' => 'Large space',
+      'h' => 'Huge space'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { name: name }) do
+      %div{style:"background: #f8c489; width: 40px; overflow: hidden; display: inline-block; margin-right: 20px;"}
+        %div{class: "pv#{name}", style:"background: #b5c974;"}
+          %div{style:"background: #79a5b3; padding: 4px; text-align: center;"} Box
+      
+      %div{style:"background: #f8c489; width: 40px; overflow: hidden; display: inline-block; margin-right: 20px;"}
+        %div{class: "mv#{name}", style:"background: #b5c974;"}
+          %div{style:"background: #79a5b3; padding: 4px; text-align: center;"} Box
+      
+      %div{style:"background: #f8c489; width: 40px; overflow: hidden; display: inline-block; margin-right: 20px;"}
+        %div{class: "pv#{name} mt#{name}", style:"background: #b5c974;"}
+          %div{style:"background: #79a5b3; padding: 4px; text-align: center;"} Box

@@ -42,13 +42,13 @@ RSpec.configure do |config|
     end
   end
 
-  config.before(:each) do
+  config.before(:each) do |example|
     truncate_tables
     DBHelper.load_data Rails.root.join('db', 'personas.data.psql')
     set_browser(example)
   end
 
-  config.after(:each) do
+  config.after(:each) do |example|
     unless example.exception.nil?
       take_screenshot
     end

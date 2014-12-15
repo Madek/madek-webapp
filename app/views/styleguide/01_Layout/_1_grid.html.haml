@@ -1,0 +1,26 @@
+:ruby
+  element = {
+    name: 'Grid',
+    cssFile: '_grid.scss',
+    section: '1.1',
+    description: 'The grid is based on the OOCSS grid (http://oocss.org) by Nicole Sullivan. It provides several grid classes that can be mixed and matched and if necessary can be wrapped in a row class to prevent columns from bumping into each other.',
+    mods: {
+      'col1of1' => 'Full width',
+      'col1of2' => 'Half width',
+      'col1of3' => 'Third width',
+      'col2of3' => 'Two thirds width',
+      'col1of4' => 'Fourth width',
+      'col3of4' => 'Three fourths width',
+      'col1of5' => 'Fifth width',
+      'col2of5' => 'Two fifths width',
+      'col3of5' => 'Three fifths width',
+      'col4of5' => 'Four fifths width'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      .row
+        %div{:class => name, :style => "background: #ddd; line-height: 2em;"}
+          = name

@@ -1,0 +1,12 @@
+:ruby
+  element = {
+    name: 'Tooltip',
+    cssSelector: '.ui-ttip-toggle',
+    cssFile: '_ui-tooltip.scss',
+    section: '7.21'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    %div{:style => "padding-top: 50px;margin: 0 auto;padding-right: 50px;padding-bottom: 50px;padding-left: 50px"}
+      %a.ui-ttip-toggle{:title => "Tooltip Text"} Tooltip toggle

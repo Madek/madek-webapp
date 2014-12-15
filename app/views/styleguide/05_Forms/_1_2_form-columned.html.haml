@@ -1,0 +1,93 @@
+:ruby
+  element = { # TODO: is just a mod of previous!!!
+    name: 'Sample columned form',
+    cssFile: '_forms.scss',
+    cssSelector: 'form',
+    section: '5.1.2'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    %form
+      .form-head
+        .ui-alerts
+          .ui-alert.success Success message for this form has been provided.
+      .form-body
+        .ui-form-group.columned
+          %label.form-label
+            Checkboxes
+            %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Text", "data-placement" => "left", :rel => "tooltip"}
+              %i.icon-question
+            %small Comment if needed
+          .form-item
+            %label.col2of6
+              %input{:type => "checkbox"}/
+              Checkbox
+            %label.col2of6
+              %input{:type => "checkbox"}/
+              Checkbox
+            %label.col2of6
+              %input{:type => "checkbox"}/
+              Checkbox
+        .ui-form-group.columned
+          %label.form-label
+            Radios
+            %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Text", "data-placement" => "left", :rel => "tooltip"}
+              %i.icon-question
+            %small Comment if needed
+          .form-item
+            %label.col2of6
+              %input{:type => "radio"}/
+              Radio button
+            %label.col2of6
+              %input{:type => "radio"}/
+              Radio button
+            %label.col2of6
+              %input{:type => "radio"}/
+              Radio button
+        .ui-form-group.columned
+          %label.form-label
+            Date
+            %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Text", "data-placement" => "left", :rel => "tooltip"}
+              %i.icon-question
+            %small Comment if needed
+          .form-item
+            %input.block.ui-datepicker{:type => "text"}/
+        .ui-form-group.columned
+          %label.form-label
+            Text
+            %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Text", "data-placement" => "left", :rel => "tooltip"}
+              %i.icon-question
+            %small Comment if needed
+          .form-item
+            %input.block{:type => "text"}/
+        .ui-form-group.columned
+          %label.form-label
+            Textarea
+            %small Comment if needed
+            %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Personen, die zum Werk beigetragen haben, z.B. Bühnenbildner oder die Regieassistenz. Die entsprechende Funktion sollte ebenfalls genannt werden.", "data-placement" => "left", :rel => "tooltip"}
+              %i.icon-question
+          .form-item
+            %textarea.block
+        .ui-form-group.columned
+          %label.form-label
+            Select
+            %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Text", "data-placement" => "left", :rel => "tooltip"}
+              %i.icon-question
+            %small Comment if needed
+          .form-item
+            %select.block
+              %option Option 1
+              %option Option 2
+        .ui-form-group.columned
+          %label.form-label
+            Text
+            %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Text", "data-placement" => "left", :rel => "tooltip"}
+              %i.icon-question
+            %small Comment if needed
+          .form-item
+            %input.block{:type => "text"}/
+      .form-footer
+        .ui-actions
+          %a.link.weak Secondary Action
+          %button.primary-button Primary Action

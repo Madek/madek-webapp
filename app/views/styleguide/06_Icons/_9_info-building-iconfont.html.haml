@@ -1,0 +1,68 @@
+-# just some info text
+%section.sg-body
+  .sg-intro
+    %h2.sg-intro-title Extending Madek Icon Font
+    %p
+      Icons rely on an icon font located in the
+      %code assets/fonts/madek-icon-font
+      folder. Madek Icon Font has been built using
+      = succeed "." do
+        %a{:href => "http://icomoon.io"} IcoMoon App
+    %ol
+      %li
+        Launch IcoMoon font creator app located on this
+        %a{:href => "http://icomoon.io/app/"} URL
+        at the time of writing these instructions.
+      %li
+        Create a New Project from the top left menu.
+        %figure.sg-figure
+          %img{:src => asset_path("styleguide/icomoon1.png")}/
+      %li
+        Import Icons from
+        %code selection.json
+        file located in the above mentioned folder.
+        %figure.sg-figure
+          %img{:src => asset_path("styleguide/icomoon2.png")}/
+      %li
+        Import
+        %code .svg
+        file containing your new icon. Ideal measurements of a that SVG item to use are: 512px × 512px. Icon graphics look sharpest and will scale best when they are overlaid on and its edges align to a 16 × 16 module grid system.
+        %figure.sg-figure
+          %img{:src => asset_path("styleguide/icomoon3.png")}/
+      %li
+        Once your new icon is loaded to the set, select it by using the
+        %strong Selection
+        tool accessible from the top menu.
+        %figure.sg-figure
+          %img{:src => asset_path("styleguide/icomoon4.png")}/
+      %li
+        Move to the
+        %strong Font
+        screen accessible from the bottom menu.
+        %figure.sg-figure
+          %img{:src => asset_path("styleguide/icomoon6.png")}/
+      %li
+        Hit
+        %strong Preferences
+        button and set: Font Name to
+        = succeed "," do
+          %code madek-icon-font
+        %code icon-
+        and check 'Encode and Embed Font in CSS' option.
+        %figure.sg-figure
+          %img{:src => asset_path("styleguide/icomoon6.png")}/
+      %li
+        Next to the newly added icon, specify class suffixes that it will be called by (i.e.
+        %code user
+        to create
+        %code .icon-user
+        selector).
+        %figure.sg-figure
+          %img{:src => asset_path("styleguide/icomoon7.png")}/
+      %li
+        Download the package.
+        %figure.sg-figure
+          %img{:src => asset_path("styleguide/icomoon8.png")}/
+      %li
+        Replace all files in the madek-icon-font folder with the contents of the downloaded package.
+      %li Document your new icon character in this section of the styleguide.

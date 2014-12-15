@@ -1,0 +1,550 @@
+:ruby
+  element = {
+    name: 'Featured entries',
+    cssFile: '_ui-featured-entries.scss',
+    cssSelector: '.ui-featured-entries',
+    section: '8.10',
+    mods: {
+      nil => 'Default',
+      'small' => 'Small thumbnails variation',
+      'active' => 'Large active variation showing actions on thumbnails',
+      'small active' => 'Small active variation showing actions on thumbnails'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      TODO: Example!!!
+      
+      %ul.ui-resources.tiles.vertical
+        %li.ui-resources-page
+          %ul.ui-resources-page-items.vertical
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-1", :src => asset_path('styleguide/media-entry-2.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-1", :src => asset_path('styleguide/media-entry-1.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-3.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-4.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-group.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-5.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-8.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-9.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+  .align-left.bg-light.sg-canvas
+    %span.sg-modifier-name .vertical.small
+    %div{:style => ""}
+      %ul.ui-resources.tiles.vertical.small
+        %li.ui-resources-page
+          %ul.ui-resources-page-items.vertical
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-1", :src => asset_path('styleguide/media-entry-2.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-1", :src => asset_path('styleguide/media-entry-1.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-3.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-4.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-group.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-5.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-8.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-9.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+  .align-left.bg-light.sg-canvas
+    %span.sg-modifier-name .vertical.large
+    %div{:style => ""}
+      %ul.ui-resources.tiles.vertical.large
+        %li.ui-resources-page
+          %ul.ui-resources-page-items.vertical
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-1", :src => asset_path('styleguide/media-entry-2.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-1", :src => asset_path('styleguide/media-entry-1.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-3.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-4.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-group.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-5.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-8.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-9.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+  .align-left.bg-light.sg-canvas
+    %span.sg-modifier-name .horizontal
+    %div{:style => ""}
+      %ul.ui-resources.tiles.horizontal
+        %li.ui-resources-page
+          %ul.ui-resources-page-items
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-1", :src => asset_path('styleguide/media-entry-2.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-1", :src => asset_path('styleguide/media-entry-1.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-3.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-4.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-group.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-5.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-8.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-9.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+  .align-left.bg-light.sg-canvas
+    %span.sg-modifier-name .horizontal.small
+    %div{:style => ""}
+      %ul.ui-resources.tiles.horizontal.small
+        %li.ui-resources-page
+          %ul.ui-resources-page-items
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-1", :src => asset_path('styleguide/media-entry-2.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-1", :src => asset_path('styleguide/media-entry-1.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-3.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-4.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-group.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-5.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-8.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-9.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+  .align-left.bg-light.sg-canvas
+    %span.sg-modifier-name .horizontal.large
+    %div{:style => ""}
+      %ul.ui-resources.tiles.horizontal.large
+        %li.ui-resources-page
+          %ul.ui-resources-page-items
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-1", :src => asset_path('styleguide/media-entry-2.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-1", :src => asset_path('styleguide/media-entry-1.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-3.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-4.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-group.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-5.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-open.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+                    %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+            %li.ui-resource
+              .ui-tile.ui-tile--set
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-8.jpeg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
+            %li.ui-resource
+              .ui-tile
+                .ui-tile__body
+                  %a.ui-tile__thumbnail{:href => "http://example.com"}
+                    %img.ui-tile__image{:alt => "Media-entry-3", :src => asset_path('styleguide/media-entry-9.jpg')}/
+                .ui-tile__foot
+                  %h3.ui-tile__title Name that can easily go onto 2 lines
+                  %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
+                  %span.ui-tile__flags
+                    %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}

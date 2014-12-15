@@ -7,4 +7,9 @@ MAdeK::Application.routes.draw do
 
   get 'my', to: 'my#dashboard', as: 'my_dashboard'
 
+  ##### STYLEGUIDE (resourceful-ish)
+  get 'styleguide', to: 'styleguide#index', as: 'styleguide'
+  get 'styleguide/:section', to: 'styleguide#show', as: 'styleguide_section'
+  get 'styleguide/:section/:element', to: 'styleguide#element', as: 'styleguide_element'
+
 end

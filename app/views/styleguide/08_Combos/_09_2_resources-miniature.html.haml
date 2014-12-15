@@ -1,0 +1,1183 @@
+:ruby
+  element = {
+    name: 'Media Resources Miniature Mode',
+    cssFile: '_ui-resources-miniature.scs',
+    cssSelector: '.ui-resources.miniature',
+    section: '8.9.2',
+    mods: {
+      nil => 'Default',
+      'active' => 'To be interacted with'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      %ul.ui-resources.miniature{class: name}
+        %li.ui-resource
+          .ui-resource-head
+            .ui-resource-actions
+              %ul.ui-resource-actions-list
+                %li.ui-resource-action
+                  %a.ui-thumbnail-action-checkbox{:href => "#"} Select
+                %li.ui-resource-action
+                  %a.ui-thumbnail-action-favorite{:href => "#"} Favorite
+            %h3.ui-resource-title Resource Title
+          .ui-resource-body
+            .ui-resource-thumbnail
+              .ui-thumbnail.media-set
+                .ui-thumbnail-level-up-items
+                  %h3.ui-thumbnail-level-notes Set enthalt
+                  %ul.ui-thumbnail-level-items
+                    %li.ui-thumbnail-level-item.odd
+                      %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                        .ui-thumbnail-level-image-holder
+                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                    %li.ui-thumbnail-level-item.even
+                      %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                        .ui-thumbnail-level-image-holder
+                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                  %span.ui-thumbnail-level-notes 5 Inhalte
+                .ui-thumbnail-privacy
+                  %i.icon-privacy-group{:title => "This media is shared with a group"}
+                %a.ui-thumbnail-image-wrapper
+                  .ui-thumbnail-image-holder
+                    .ui-thumbnail-table-image-holder
+                      .ui-thumbnail-cell-image-holder
+                        .ui-thumbnail-inner-image-holder
+                          %img.ui-thumbnail-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                .ui-thumbnail-meta
+                  %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
+                  %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
+                .ui-thumbnail-actions
+                  %ul.left.by-left
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-checkbox.active{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-thumbnail-action
+                      %a.active.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                        %i.icon-star-empty
+                  %ul.right.by-right
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
+                        %i.icon-eye
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-edit{:href => "#", :title => "Metadaten editieren"}
+                        %i.icon-pen
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                        %i.icon-trash
+                .ui-thumbnail-dropdown
+                  .dropdown.ui-dropdown
+                    %a.dropdown-toggle.ui-drop-toggle.button.block{"data-toggle" => "dropdown", :href => "#"} Aktionen
+                    %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 1
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 2
+                      %li.separator
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 3
+                .ui-thumbnail-level-down-items
+                  %h3.ui-thumbnail-level-notes Set enthalt
+                  %ul.ui-thumbnail-level-items
+                    %li.ui-thumbnail-level-item.odd
+                      %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                        .ui-thumbnail-level-image-holder
+                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                    %li.ui-thumbnail-level-item.even
+                      %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
+                        .ui-thumbnail-level-image-holder
+                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                  %span.ui-thumbnail-level-notes 5 Inhalte
+            .ui-resource-meta
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+            .ui-resource-description
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+            .ui-resource-extension
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+        %li.ui-resource
+          .ui-resource-head
+            .ui-resource-actions
+              %ul.ui-resource-actions-list
+                %li.ui-resource-action
+                  %a.ui-thumbnail-action-checkbox{:href => "#"} Select
+                %li.ui-resource-action
+                  %a.ui-thumbnail-action-favorite{:href => "#"} Favorite
+            %h3.ui-resource-title Resource Title
+          .ui-resource-body
+            .ui-resource-thumbnail
+              .ui-thumbnail.media-entry.video
+                .ui-thumbnail-privacy
+                  %i.icon-privacy-private{:title => "This media is private"}
+                %a.ui-thumbnail-image-wrapper
+                  .ui-thumbnail-image-holder
+                    .ui-thumbnail-table-image-holder
+                      .ui-thumbnail-cell-image-holder
+                        .ui-thumbnail-inner-image-holder
+                          %img.ui-thumbnail-image{:alt => "Media-entry-4", :src => asset_path('styleguide/media-entry-4.jpeg')}/
+                .ui-thumbnail-meta
+                  %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
+                  %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
+                .ui-thumbnail-actions
+                  %ul.left.by-left
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-checkbox.active{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-thumbnail-action
+                      %a.active.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                        %i.icon-star-empty
+                  %ul.right.by-right
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
+                        %i.icon-eye
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-edit{:href => "#", :title => "Metadaten editieren"}
+                        %i.icon-pen
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                        %i.icon-trash
+                .ui-thumbnail-dropdown
+                  .dropdown.ui-dropdown
+                    %a.dropdown-toggle.ui-drop-toggle.button.block{"data-toggle" => "dropdown", :href => "#"} Aktionen
+                    %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 1
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 2
+                      %li.separator
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 3
+            .ui-resource-meta
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+            .ui-resource-description
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+            .ui-resource-extension
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+        %li.ui-resource
+          .ui-resource-head
+            .ui-resource-actions
+              %ul.ui-resource-actions-list
+                %li.ui-resource-action
+                  %a.ui-thumbnail-action-checkbox{:href => "#"} Select
+                %li.ui-resource-action
+                  %a.ui-thumbnail-action-favorite{:href => "#"} Favorite
+            %h3.ui-resource-title Resource Title
+          .ui-resource-body
+            .ui-resource-thumbnail
+              .ui-thumbnail.media-entry.image
+                .ui-thumbnail-privacy
+                  %i.icon-privacy-open{:title => "This media is Public"}
+                %a.ui-thumbnail-image-wrapper
+                  .ui-thumbnail-image-holder
+                    .ui-thumbnail-table-image-holder
+                      .ui-thumbnail-cell-image-holder
+                        .ui-thumbnail-inner-image-holder
+                          %img.ui-thumbnail-image{:alt => "Media-entry-5", :src => asset_path('styleguide/media-entry-5.jpeg')}/
+                .ui-thumbnail-meta
+                  %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
+                  %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
+                .ui-thumbnail-actions
+                  %ul.left.by-left
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-checkbox.active{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-thumbnail-action
+                      %a.active.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                        %i.icon-star-empty
+                  %ul.right.by-right
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
+                        %i.icon-eye
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-edit{:href => "#", :title => "Metadaten editieren"}
+                        %i.icon-pen
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                        %i.icon-trash
+                .ui-thumbnail-dropdown
+                  .dropdown.ui-dropdown
+                    %a.dropdown-toggle.ui-drop-toggle.button.block{"data-toggle" => "dropdown", :href => "#"} Aktionen
+                    %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 1
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 2
+                      %li.separator
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 3
+            .ui-resource-meta
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+            .ui-resource-description
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+            .ui-resource-extension
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+        %li.ui-resource
+          .ui-resource-head
+            .ui-resource-actions
+              %ul.ui-resource-actions-list
+                %li.ui-resource-action
+                  %a.ui-thumbnail-action-checkbox{:href => "#"} Select
+                %li.ui-resource-action
+                  %a.ui-thumbnail-action-favorite{:href => "#"} Favorite
+            %h3.ui-resource-title Resource Title
+          .ui-resource-body
+            .ui-resource-thumbnail
+              .ui-thumbnail.media-entry.image
+                .ui-thumbnail-privacy
+                  %i.icon-privacy-private{:title => "This media is private"}
+                %a.ui-thumbnail-image-wrapper
+                  .ui-thumbnail-image-holder
+                    .ui-thumbnail-table-image-holder
+                      .ui-thumbnail-cell-image-holder
+                        .ui-thumbnail-inner-image-holder
+                          %img.ui-thumbnail-image{:alt => "Document.png", :src => "/assets/thumbnails/document.png.png"}/
+                .ui-thumbnail-meta
+                  %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
+                  %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
+                .ui-thumbnail-actions
+                  %ul.left.by-left
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-checkbox.active{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-thumbnail-action
+                      %a.active.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                        %i.icon-star-empty
+                  %ul.right.by-right
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
+                        %i.icon-eye
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-edit{:href => "#", :title => "Metadaten editieren"}
+                        %i.icon-pen
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                        %i.icon-trash
+                .ui-thumbnail-dropdown
+                  .dropdown.ui-dropdown
+                    %a.dropdown-toggle.ui-drop-toggle.button.block{"data-toggle" => "dropdown", :href => "#"} Aktionen
+                    %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 1
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 2
+                      %li.separator
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 3
+            .ui-resource-meta
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+            .ui-resource-description
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+            .ui-resource-extension
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+        %li.ui-resource
+          .ui-resource-head
+            .ui-resource-actions
+              %ul.ui-resource-actions-list
+                %li.ui-resource-action
+                  %a.ui-thumbnail-action-checkbox{:href => "#"} Select
+                %li.ui-resource-action
+                  %a.ui-thumbnail-action-favorite{:href => "#"} Favorite
+            %h3.ui-resource-title Resource Title
+          .ui-resource-body
+            .ui-resource-thumbnail
+              .ui-thumbnail.media-set
+                .ui-thumbnail-privacy
+                  %i.icon-privacy-private{:title => "This media is private"}
+                %a.ui-thumbnail-image-wrapper
+                  .ui-thumbnail-image-holder
+                    .ui-thumbnail-table-image-holder
+                      .ui-thumbnail-cell-image-holder
+                        .ui-thumbnail-inner-image-holder
+                          %img.ui-thumbnail-image{:alt => "Document.png", :src => "/assets/thumbnails/document.png.png"}/
+                .ui-thumbnail-meta
+                  %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
+                  %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
+                .ui-thumbnail-actions
+                  %ul.left.by-left
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-checkbox.active{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-thumbnail-action
+                      %a.active.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                        %i.icon-star-empty
+                  %ul.right.by-right
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
+                        %i.icon-eye
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-edit{:href => "#", :title => "Metadaten editieren"}
+                        %i.icon-pen
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                        %i.icon-trash
+                .ui-thumbnail-dropdown
+                  .dropdown.ui-dropdown
+                    %a.dropdown-toggle.ui-drop-toggle.button.block{"data-toggle" => "dropdown", :href => "#"} Aktionen
+                    %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 1
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 2
+                      %li.separator
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 3
+            .ui-resource-meta
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+            .ui-resource-description
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+            .ui-resource-extension
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+        %li.ui-resource
+          .ui-resource-head
+            .ui-resource-actions
+              %ul.ui-resource-actions-list
+                %li.ui-resource-action
+                  %a.ui-thumbnail-action-checkbox{:href => "#"} Select
+                %li.ui-resource-action
+                  %a.ui-thumbnail-action-favorite{:href => "#"} Favorite
+            %h3.ui-resource-title Resource Title
+          .ui-resource-body
+            .ui-resource-thumbnail
+              .ui-thumbnail.media-entry.image
+                .ui-thumbnail-privacy
+                  %i.icon-privacy-private{:title => "This media is private"}
+                %a.ui-thumbnail-image-wrapper
+                  .ui-thumbnail-image-holder
+                    .ui-thumbnail-table-image-holder
+                      .ui-thumbnail-cell-image-holder
+                        .ui-thumbnail-inner-image-holder
+                          %img.ui-thumbnail-image{:alt => "Media-entry-10", :src => asset_path('styleguide/media-entry-10.jpg')}/
+                .ui-thumbnail-meta
+                  %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
+                  %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
+                .ui-thumbnail-actions
+                  %ul.left.by-left
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-checkbox.active{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-thumbnail-action
+                      %a.active.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                        %i.icon-star-empty
+                  %ul.right.by-right
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
+                        %i.icon-eye
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-edit{:href => "#", :title => "Metadaten editieren"}
+                        %i.icon-pen
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                        %i.icon-trash
+                .ui-thumbnail-dropdown
+                  .dropdown.ui-dropdown
+                    %a.dropdown-toggle.ui-drop-toggle.button.block{"data-toggle" => "dropdown", :href => "#"} Aktionen
+                    %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 1
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 2
+                      %li.separator
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 3
+            .ui-resource-meta
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+            .ui-resource-description
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+            .ui-resource-extension
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+        %li.ui-resource
+          .ui-resource-head
+            .ui-resource-actions
+              %ul.ui-resource-actions-list
+                %li.ui-resource-action
+                  %a.ui-thumbnail-action-checkbox{:href => "#"} Select
+                %li.ui-resource-action
+                  %a.ui-thumbnail-action-favorite{:href => "#"} Favorite
+            %h3.ui-resource-title Resource Title
+          .ui-resource-body
+            .ui-resource-thumbnail
+              .ui-thumbnail.media-entry.image
+                .ui-thumbnail-privacy
+                  %i.icon-privacy-private{:title => "This media is private"}
+                %a.ui-thumbnail-image-wrapper
+                  .ui-thumbnail-image-holder
+                    .ui-thumbnail-table-image-holder
+                      .ui-thumbnail-cell-image-holder
+                        .ui-thumbnail-inner-image-holder
+                          %img.ui-thumbnail-image{:alt => "Media-entry-11", :src => asset_path('styleguide/media-entry-11.jpg')}/
+                .ui-thumbnail-meta
+                  %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
+                  %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
+                .ui-thumbnail-actions
+                  %ul.left.by-left
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-checkbox.active{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-thumbnail-action
+                      %a.active.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                        %i.icon-star-empty
+                  %ul.right.by-right
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
+                        %i.icon-eye
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-edit{:href => "#", :title => "Metadaten editieren"}
+                        %i.icon-pen
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                        %i.icon-trash
+                .ui-thumbnail-dropdown
+                  .dropdown.ui-dropdown
+                    %a.dropdown-toggle.ui-drop-toggle.button.block{"data-toggle" => "dropdown", :href => "#"} Aktionen
+                    %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 1
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 2
+                      %li.separator
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 3
+            .ui-resource-meta
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+            .ui-resource-description
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+            .ui-resource-extension
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+        %li.ui-resource
+          .ui-resource-head
+            .ui-resource-actions
+              %ul.ui-resource-actions-list
+                %li.ui-resource-action
+                  %a.ui-thumbnail-action-checkbox{:href => "#"} Select
+                %li.ui-resource-action
+                  %a.ui-thumbnail-action-favorite{:href => "#"} Favorite
+            %h3.ui-resource-title Resource Title
+          .ui-resource-body
+            .ui-resource-thumbnail
+              .ui-thumbnail.media-set
+                .ui-thumbnail-privacy
+                  %i.icon-privacy-private{:title => "This media is private"}
+                %a.ui-thumbnail-image-wrapper
+                  .ui-thumbnail-image-holder
+                    .ui-thumbnail-table-image-holder
+                      .ui-thumbnail-cell-image-holder
+                        .ui-thumbnail-inner-image-holder
+                          %img.ui-thumbnail-image{:alt => "Media-entry-10", :src => asset_path('styleguide/media-entry-10.jpg')}/
+                .ui-thumbnail-meta
+                  %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
+                  %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
+                .ui-thumbnail-actions
+                  %ul.left.by-left
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-checkbox.active{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-thumbnail-action
+                      %a.active.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                        %i.icon-star-empty
+                  %ul.right.by-right
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
+                        %i.icon-eye
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-edit{:href => "#", :title => "Metadaten editieren"}
+                        %i.icon-pen
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                        %i.icon-trash
+                .ui-thumbnail-dropdown
+                  .dropdown.ui-dropdown
+                    %a.dropdown-toggle.ui-drop-toggle.button.block{"data-toggle" => "dropdown", :href => "#"} Aktionen
+                    %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 1
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 2
+                      %li.separator
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 3
+            .ui-resource-meta
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+            .ui-resource-description
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+            .ui-resource-extension
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+        %li.ui-resource
+          .ui-resource-head
+            .ui-resource-actions
+              %ul.ui-resource-actions-list
+                %li.ui-resource-action
+                  %a.ui-thumbnail-action-checkbox{:href => "#"} Select
+                %li.ui-resource-action
+                  %a.ui-thumbnail-action-favorite{:href => "#"} Favorite
+            %h3.ui-resource-title Resource Title
+          .ui-resource-body
+            .ui-resource-thumbnail
+              .ui-thumbnail.media-set
+                .ui-thumbnail-privacy
+                  %i.icon-privacy-private{:title => "This media is private"}
+                %a.ui-thumbnail-image-wrapper
+                  .ui-thumbnail-image-holder
+                    .ui-thumbnail-table-image-holder
+                      .ui-thumbnail-cell-image-holder
+                        .ui-thumbnail-inner-image-holder
+                          %img.ui-thumbnail-image{:alt => "Media-entry-11", :src => asset_path('styleguide/media-entry-11.jpg')}/
+                .ui-thumbnail-meta
+                  %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
+                  %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
+                .ui-thumbnail-actions
+                  %ul.left.by-left
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-checkbox.active{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-thumbnail-action
+                      %a.active.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                        %i.icon-star-empty
+                  %ul.right.by-right
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
+                        %i.icon-eye
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-edit{:href => "#", :title => "Metadaten editieren"}
+                        %i.icon-pen
+                    %li.ui-thumbnail-action
+                      %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                        %i.icon-trash
+                .ui-thumbnail-dropdown
+                  .dropdown.ui-dropdown
+                    %a.dropdown-toggle.ui-drop-toggle.button.block{"data-toggle" => "dropdown", :href => "#"} Aktionen
+                    %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 1
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 2
+                      %li.separator
+                      %li.ui-drop-item
+                        %a{:href => "#"} Item 3
+            .ui-resource-meta
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+            .ui-resource-description
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt
+            .ui-resource-extension
+              %table.borderless.block
+                %tbody
+                  %tr
+                    %td.ui-resource-meta-label Autor/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Datierung
+                    %td.ui-resource-meta-content 1470/1500
+                  %tr
+                    %td.ui-resource-meta-label Schlagworte
+                    %td.ui-resource-meta-content
+                      %ul.ui-tag-cloud.small
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 1
+                        %li.ui-tag-cloud-item
+                          %a.ui-tag-button{:href => "#"} Tag 2
+                  %tr
+                    %td.ui-resource-meta-label Eigentumer/in
+                    %td.ui-resource-meta-content
+                      %a{:href => "#"} Federico C.
+                  %tr
+                    %td.ui-resource-meta-label Rechte
+                    %td.ui-resource-meta-content unbekannt

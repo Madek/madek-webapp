@@ -1,0 +1,22 @@
+:ruby
+  element = {
+    name: 'Multi-select form element',
+    cssFile: '_multi-select.scss',
+    cssSelector: '.multi-select',
+    section: '5.4'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    .multi-select{:class => "$modifier-class"}
+      %ul.multi-select-holder
+        %li.multi-select-tag
+          Tusche und Airbrush auf Karton
+          %a.multi-select-tag-remove{:href => "#"}
+        %li.multi-select-tag
+          Rendering
+          %a.multi-select-tag-remove{:href => "#"}
+        %li.multi-select-input-holder
+          %input.multi-select-input{:type => "text"}/
+          %a.multi-select-input-toggle{:href => "#"}
+            %i.icon-arrow-down

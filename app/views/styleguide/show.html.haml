@@ -1,0 +1,31 @@
+-# The styleguide 'show' by default shows:
+-# - body: the selected section, with all elements
+-# - toc: table of contents (link: ./section#element)
+
+= render 'section', { section: @section }
+
+- content_for :toc do
+  = render 'toc', sections: @sections
+
+
+- content_for :scripts do
+  :javascript
+    console.log('Javascript works');
+    
+    // TMP disabled
+    // $(document).ready(function () {
+    //   // initially hide all code examples - TODO: css
+    //   $('section.sg-example').find('.sg-html').hide();
+    //   // show them on click on corresponding button
+    //   $('section.sg-example').each(function() {
+    //     var $section = $(this);
+    //     $section
+    //       .find('[data-hook="sg-view-code"]')
+    //       .on('click', function() {
+    //         $section.find('.sg-html').slideToggle();
+    //       });
+    //   });
+    // });
+    
+  :coffeescript
+    console.log 'Coffeescript works'

@@ -1,0 +1,29 @@
+:ruby
+  element = {
+    name: 'Form group',
+    cssFile: '_ui-form-group.scss',
+    cssSelector: '.ui-form-group',
+    section: '5.2',
+    mods: {
+      'rowed' => 'Rowed form group',
+      'columned' => 'Columned',
+      'rowed highlight' => 'Highlight variation',
+      'rowed error' => 'Error variation',
+      'rowed compact' => 'Compact mode',
+      'columned highlight' => 'Highlight variation',
+      'columned error' => 'Error variation',
+      'columned compact' => 'Compact mode'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      .ui-form-group{class: name}
+        %label.form-label
+          Form label
+          %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Text", "data-placement" => "left", :rel => "tooltip"}
+            %i.icon-question
+          %small Comment if needed
+        .form-item
+          %input.block{:type => "text"}

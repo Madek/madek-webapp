@@ -1,0 +1,20 @@
+:ruby
+  element = {
+    name: 'Resources header',
+    cssSelector: '.ui-resources-header',
+    cssFile: '_ui-resources-head.scss',
+    section: '7.5'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    .ui-resources-header
+      %h2.title-l.ui-resources-title
+        A filter
+      .button-group.small
+        %button.button.active Alle
+        %button.button Medienträge
+        %button.button Sets
+      %a.strong{:href => "#"} Alle anzeigen
+      %p.paragraph-l.ui-resources-intro
+        Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet arcu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.

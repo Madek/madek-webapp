@@ -1,0 +1,1729 @@
+:ruby
+  element = {
+    name: 'Übergeordnete Sets',
+    cssFile: '???',
+    cssSelector: '???',
+    section: '12.1'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    .app-body-title
+      .ui-body-title
+        .ui-body-title-label
+          %h1.title-xl
+            %i.icon-set>
+            Ein Set
+        .ui-body-title-actions
+          %a.button{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+            %i.icon-checkbox.ui-thumbnail-action-checkbox
+          %a.button{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+            %i.icon-star-empty.ui-thumbnail-action-favorite
+          %span.action-separator
+          %a.button{:title => "Nach vergleichbaren Inhalten stöbern"}
+            %i.icon-eye
+          %a.button
+            %i.icon-pen
+          %a.button{"data-delete-action" => "", :title => "Löschen"}
+            %i.icon-trash
+          .dropdown.ui-dropdown.stick-right
+            %a#resource-action-button.button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#"}
+              Weitere Aktionen
+              %i.icon-arrow-down.stand-alone
+            %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+              %li.ui-drop-item
+                %a#view_permissions_of_resource
+                  %i.icon-lock.mid
+                  Berechtigungen und Verantwortlichkeit editieren
+              %li.ui-drop-item
+                %a{"data-organize-arcs" => ""}
+                  %i.icon-move.mid
+                  Zu Set hinzufügen/entfernen
+              %li.separator
+              %li.ui-drop-item
+                %a#view_permissions_of_resource
+                  %i.icon-dload.mid
+                  Exportieren
+              %li.ui-drop-item
+                %a#manage_custom_urls{:title => "Adresse des Inhalts anlegen oder übertragen"}
+                  %i.fa.fa-link.mid>
+                  Adressen verwalten
+    .app-body-ui-container
+      %ul.ui-tabs.large
+        %li.ui-tabs-item
+          %a{:href => "###entries/4b2ad543-39d9-4738-87eb-cdfbc60414ca"} Set
+        %li.ui-tabs-item.active
+          %a{:href => "###entries/4b2ad543-39d9-4738-87eb-cdfbc60414ca/more_data"} Zusammenhänge
+      .ui-container.rounded-right.rounded-bottom.bordered.tab-content
+        .bright.ui-container.pal
+          .row
+            .col4of6
+              %h2.title-l
+                Das ist ein Beschrieb, damit der Benutzer diese Ansicht besser versteht
+            .col2of6
+              %a.primary-button.right
+                %i.icon-vis-graph
+                Visualisierung anzeigen
+        .ui-container.midtone-darker.bordered-bottom.bordered-top.relationships-wrapper
+          #latest_user_resources_block.ui-resources-holder
+            .ui-resources-header.mbn
+              %h2.title-l.ui-resource-title.mtl.mll
+                Übergeordnete Sets
+                %span.ui-counter (3)
+                %a.strong{:href => "###my/media_resources?sort=updated_at"}
+                  Alle anzeigen
+            %ul.grid.horizontal.ui-resources
+              %li.ui-resource.not-loaded-contexts
+                .ui-resource-head
+                  %ul.ui-resource-actions
+                    %li.ui-resource-action
+                      %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-resource-action
+                      %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                        %i.icon-star-empty
+                  %h3.ui-resource-title FilterSet including all public accessible resources
+                .ui-resource-body
+                  .ui-resource-thumbnail
+                    .ui-thumbnail.filter-set.filterset
+                      .ui-thumbnail-level-up-items
+                        %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                        %ul.ui-thumbnail-level-items
+                          %li.ui-thumbnail-level-item.media_set.set.odd
+                            %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-1.jpg')}/
+                        %span.ui-thumbnail-level-notes 1 sets
+                      .ui-thumbnail-privacy
+                        %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                      %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                        .ui-thumbnail-image-holder
+                          .ui-thumbnail-table-image-holder
+                            .ui-thumbnail-cell-image-holder
+                              .ui-thumbnail-inner-image-holder
+                                %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-1.jpg')}/
+                      .ui-thumbnail-meta
+                        %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                        %h4.ui-thumbnail-meta-subtitle An author
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                              %i.icon-checkbox
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                              %i.icon-star-empty
+                        %ul.right.by-right
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                              %i.icon-pen
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                              %i.icon-trash
+                      .ui-thumbnail-level-down-items
+                        %h3.ui-thumbnail-level-notes Set enthält
+                        %ul.ui-thumbnail-level-items
+                          %li.ui-thumbnail-level-item.media_set.set.odd
+                            %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-1.jpg')}/
+                          %li.ui-thumbnail-level-item.media_entry.image.even
+                            %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-1.jpg')}/
+                        %span.ui-thumbnail-level-notes 82 Inhalte
+                      .ui-thumbnail-dropdown
+                        .dropdown.ui-dropdown
+                  .ui-resource-meta
+                    %div{"data-context-id" => ""}
+                      %table.borderless.block
+                        %tbody
+                          %tr
+                            %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                            %td.ui-resource-meta-content
+                              %ul.ui-tag-cloud.small.ellipsed.compact
+                                %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                  %i.icon-user-mini.ui-tag-icon
+                                  Normalo, Normin
+                  .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                  .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+              %li.ui-resource.not-loaded-contexts
+                .ui-resource-head
+                  %ul.ui-resource-actions
+                    %li.ui-resource-action
+                      %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-resource-action
+                      %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                        %i.icon-star-empty
+                  %h3.ui-resource-title FilterSet including all public accessible resources
+                .ui-resource-body
+                  .ui-resource-thumbnail
+                    .ui-thumbnail.filter-set.filterset
+                      .ui-thumbnail-level-up-items
+                        %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                        %ul.ui-thumbnail-level-items
+                          %li.ui-thumbnail-level-item.media_set.set.odd
+                            %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-1.jpg')}/
+                        %span.ui-thumbnail-level-notes 1 sets
+                      .ui-thumbnail-privacy
+                        %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                      %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                        .ui-thumbnail-image-holder
+                          .ui-thumbnail-table-image-holder
+                            .ui-thumbnail-cell-image-holder
+                              .ui-thumbnail-inner-image-holder
+                                %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                      .ui-thumbnail-meta
+                        %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                        %h4.ui-thumbnail-meta-subtitle An author
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                              %i.icon-checkbox
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                              %i.icon-star-empty
+                        %ul.right.by-right
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                              %i.icon-pen
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                              %i.icon-trash
+                      .ui-thumbnail-level-down-items
+                        %h3.ui-thumbnail-level-notes Set enthält
+                        %ul.ui-thumbnail-level-items
+                          %li.ui-thumbnail-level-item.media_set.set.odd
+                            %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-10.jpg')}/
+                          %li.ui-thumbnail-level-item.media_entry.image.even
+                            %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-10.jpg')}/
+                        %span.ui-thumbnail-level-notes 82 Inhalte
+                      .ui-thumbnail-dropdown
+                        .dropdown.ui-dropdown
+                  .ui-resource-meta
+                    %div{"data-context-id" => ""}
+                      %table.borderless.block
+                        %tbody
+                          %tr
+                            %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                            %td.ui-resource-meta-content
+                              %ul.ui-tag-cloud.small.ellipsed.compact
+                                %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                  %i.icon-user-mini.ui-tag-icon
+                                  Normalo, Normin
+                  .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                  .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+              %li.ui-resource.not-loaded-contexts
+                .ui-resource-head
+                  %ul.ui-resource-actions
+                    %li.ui-resource-action
+                      %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-resource-action
+                      %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                        %i.icon-star-empty
+                  %h3.ui-resource-title FilterSet including all public accessible resources
+                .ui-resource-body
+                  .ui-resource-thumbnail
+                    .ui-thumbnail.filter-set.filterset
+                      .ui-thumbnail-level-up-items
+                        %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                        %ul.ui-thumbnail-level-items
+                          %li.ui-thumbnail-level-item.media_set.set.odd
+                            %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-10.jpg')}/
+                        %span.ui-thumbnail-level-notes 1 sets
+                      .ui-thumbnail-privacy
+                        %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                      %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                        .ui-thumbnail-image-holder
+                          .ui-thumbnail-table-image-holder
+                            .ui-thumbnail-cell-image-holder
+                              .ui-thumbnail-inner-image-holder
+                                %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-10.jpg')}/
+                      .ui-thumbnail-meta
+                        %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                        %h4.ui-thumbnail-meta-subtitle An author
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                              %i.icon-checkbox
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                              %i.icon-star-empty
+                        %ul.right.by-right
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                              %i.icon-pen
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                              %i.icon-trash
+                      .ui-thumbnail-level-down-items
+                        %h3.ui-thumbnail-level-notes Set enthält
+                        %ul.ui-thumbnail-level-items
+                          %li.ui-thumbnail-level-item.media_set.set.odd
+                            %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-10.jpg')}/
+                          %li.ui-thumbnail-level-item.media_entry.image.even
+                            %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-10.jpg')}/
+                        %span.ui-thumbnail-level-notes 82 Inhalte
+                      .ui-thumbnail-dropdown
+                        .dropdown.ui-dropdown
+                  .ui-resource-meta
+                    %div{"data-context-id" => ""}
+                      %table.borderless.block
+                        %tbody
+                          %tr
+                            %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                            %td.ui-resource-meta-content
+                              %ul.ui-tag-cloud.small.ellipsed.compact
+                                %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                  %i.icon-user-mini.ui-tag-icon
+                                  Normalo, Normin
+                  .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                  .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+        .ui-container.bright.relationships-wrapper.relationships-this-wrapper.pointing-bottom
+          .ui-container.bright.pointing-right.relationships-this.bordered-right
+            .pointing-top
+              #latest_user_resources_block.ui-resources-holder
+                .ui-resources-header.mbn
+                  %h2.title-l.ui-resource-title.mtl.mll
+                    Aktuelles Set
+                %ul.grid.horizontal.ui-resources
+                  %li.ui-resource.not-loaded-contexts
+                    .ui-resource-head
+                      %ul.ui-resource-actions
+                        %li.ui-resource-action
+                          %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                            %i.icon-checkbox
+                        %li.ui-resource-action
+                          %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                            %i.icon-star-empty
+                      %h3.ui-resource-title FilterSet including all public accessible resources
+                    .ui-resource-body
+                      .ui-resource-thumbnail
+                        .ui-thumbnail.filter-set.filterset
+                          .ui-thumbnail-level-up-items
+                            %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                            %ul.ui-thumbnail-level-items
+                              %li.ui-thumbnail-level-item.media_set.set.odd
+                                %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                                  .ui-thumbnail-level-image-holder
+                                    %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-2.jpg')}/
+                            %span.ui-thumbnail-level-notes 1 sets
+                          .ui-thumbnail-privacy
+                            %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                          %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                            .ui-thumbnail-image-holder
+                              .ui-thumbnail-table-image-holder
+                                .ui-thumbnail-cell-image-holder
+                                  .ui-thumbnail-inner-image-holder
+                                    %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          .ui-thumbnail-meta
+                            %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                            %h4.ui-thumbnail-meta-subtitle An author
+                          .ui-thumbnail-actions
+                            %ul.left.by-left
+                              %li.ui-thumbnail-action
+                                %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                                  %i.icon-checkbox
+                              %li.ui-thumbnail-action
+                                %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                                  %i.icon-star-empty
+                            %ul.right.by-right
+                              %li.ui-thumbnail-action
+                                %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                                  %i.icon-pen
+                              %li.ui-thumbnail-action
+                                %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                                  %i.icon-trash
+                          .ui-thumbnail-level-down-items
+                            %h3.ui-thumbnail-level-notes Set enthält
+                            %ul.ui-thumbnail-level-items
+                              %li.ui-thumbnail-level-item.media_set.set.odd
+                                %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                                  .ui-thumbnail-level-image-holder
+                                    %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                              %li.ui-thumbnail-level-item.media_entry.image.even
+                                %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                                  .ui-thumbnail-level-image-holder
+                                    %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                            %span.ui-thumbnail-level-notes 82 Inhalte
+                          .ui-thumbnail-dropdown
+                            .dropdown.ui-dropdown
+                      .ui-resource-meta
+                        %div{"data-context-id" => ""}
+                          %table.borderless.block
+                            %tbody
+                              %tr
+                                %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                                %td.ui-resource-meta-content
+                                  %ul.ui-tag-cloud.small.ellipsed.compact
+                                    %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                      %i.icon-user-mini.ui-tag-icon
+                                      Normalo, Normin
+                      .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                      .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+          .ui-container.midtone.relationships-siblings
+            #latest_user_resources_block.ui-resources-holder
+              .ui-resources-header.mbn
+                %h2.title-l.ui-resource-title.mtl.mll
+                  Benachbarte Sets
+                  %span.ui-counter (60)
+                  %a.strong{:href => "###my/media_resources?sort=updated_at"}
+                    Alle anzeigen
+              %ul.grid.horizontal.ui-resources
+                %li.ui-resource.not-loaded-contexts
+                  .ui-resource-head
+                    %ul.ui-resource-actions
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                          %i.icon-checkbox
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                          %i.icon-star-empty
+                    %h3.ui-resource-title FilterSet including all public accessible resources
+                  .ui-resource-body
+                    .ui-resource-thumbnail
+                      .ui-thumbnail.filter-set.filterset
+                        .ui-thumbnail-level-up-items
+                          %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-4.jpeg')}/
+                          %span.ui-thumbnail-level-notes 1 sets
+                        .ui-thumbnail-privacy
+                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                          .ui-thumbnail-image-holder
+                            .ui-thumbnail-table-image-holder
+                              .ui-thumbnail-cell-image-holder
+                                .ui-thumbnail-inner-image-holder
+                                  %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-4.jpeg')}/
+                        .ui-thumbnail-meta
+                          %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                          %h4.ui-thumbnail-meta-subtitle An author
+                        .ui-thumbnail-actions
+                          %ul.left.by-left
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                                %i.icon-checkbox
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                                %i.icon-star-empty
+                          %ul.right.by-right
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                                %i.icon-pen
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                                %i.icon-trash
+                        .ui-thumbnail-level-down-items
+                          %h3.ui-thumbnail-level-notes Set enthält
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-1.jpg')}/
+                            %li.ui-thumbnail-level-item.media_entry.image.even
+                              %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-1.jpg')}/
+                          %span.ui-thumbnail-level-notes 82 Inhalte
+                        .ui-thumbnail-dropdown
+                          .dropdown.ui-dropdown
+                    .ui-resource-meta
+                      %div{"data-context-id" => ""}
+                        %table.borderless.block
+                          %tbody
+                            %tr
+                              %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                              %td.ui-resource-meta-content
+                                %ul.ui-tag-cloud.small.ellipsed.compact
+                                  %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                    %i.icon-user-mini.ui-tag-icon
+                                    Normalo, Normin
+                    .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                    .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+                %li.ui-resource.not-loaded-contexts
+                  .ui-resource-head
+                    %ul.ui-resource-actions
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                          %i.icon-checkbox
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                          %i.icon-star-empty
+                    %h3.ui-resource-title FilterSet including all public accessible resources
+                  .ui-resource-body
+                    .ui-resource-thumbnail
+                      .ui-thumbnail.filter-set.filterset
+                        .ui-thumbnail-level-up-items
+                          %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-4.jpeg')}/
+                          %span.ui-thumbnail-level-notes 1 sets
+                        .ui-thumbnail-privacy
+                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                          .ui-thumbnail-image-holder
+                            .ui-thumbnail-table-image-holder
+                              .ui-thumbnail-cell-image-holder
+                                .ui-thumbnail-inner-image-holder
+                                  %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-1.jpg')}/
+                        .ui-thumbnail-meta
+                          %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                          %h4.ui-thumbnail-meta-subtitle An author
+                        .ui-thumbnail-actions
+                          %ul.left.by-left
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                                %i.icon-checkbox
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                                %i.icon-star-empty
+                          %ul.right.by-right
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                                %i.icon-pen
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                                %i.icon-trash
+                        .ui-thumbnail-level-down-items
+                          %h3.ui-thumbnail-level-notes Set enthält
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-4.jpeg')}/
+                            %li.ui-thumbnail-level-item.media_entry.image.even
+                              %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %span.ui-thumbnail-level-notes 82 Inhalte
+                        .ui-thumbnail-dropdown
+                          .dropdown.ui-dropdown
+                    .ui-resource-meta
+                      %div{"data-context-id" => ""}
+                        %table.borderless.block
+                          %tbody
+                            %tr
+                              %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                              %td.ui-resource-meta-content
+                                %ul.ui-tag-cloud.small.ellipsed.compact
+                                  %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                    %i.icon-user-mini.ui-tag-icon
+                                    Normalo, Normin
+                    .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                    .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+                %li.ui-resource.not-loaded-contexts
+                  .ui-resource-head
+                    %ul.ui-resource-actions
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                          %i.icon-checkbox
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                          %i.icon-star-empty
+                    %h3.ui-resource-title FilterSet including all public accessible resources
+                  .ui-resource-body
+                    .ui-resource-thumbnail
+                      .ui-thumbnail.filter-set.filterset
+                        .ui-thumbnail-level-up-items
+                          %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %span.ui-thumbnail-level-notes 1 sets
+                        .ui-thumbnail-privacy
+                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                          .ui-thumbnail-image-holder
+                            .ui-thumbnail-table-image-holder
+                              .ui-thumbnail-cell-image-holder
+                                .ui-thumbnail-inner-image-holder
+                                  %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                        .ui-thumbnail-meta
+                          %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                          %h4.ui-thumbnail-meta-subtitle An author
+                        .ui-thumbnail-actions
+                          %ul.left.by-left
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                                %i.icon-checkbox
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                                %i.icon-star-empty
+                          %ul.right.by-right
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                                %i.icon-pen
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                                %i.icon-trash
+                        .ui-thumbnail-level-down-items
+                          %h3.ui-thumbnail-level-notes Set enthält
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                            %li.ui-thumbnail-level-item.media_entry.image.even
+                              %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %span.ui-thumbnail-level-notes 82 Inhalte
+                        .ui-thumbnail-dropdown
+                          .dropdown.ui-dropdown
+                    .ui-resource-meta
+                      %div{"data-context-id" => ""}
+                        %table.borderless.block
+                          %tbody
+                            %tr
+                              %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                              %td.ui-resource-meta-content
+                                %ul.ui-tag-cloud.small.ellipsed.compact
+                                  %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                    %i.icon-user-mini.ui-tag-icon
+                                    Normalo, Normin
+                    .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                    .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+                %li.ui-resource.not-loaded-contexts
+                  .ui-resource-head
+                    %ul.ui-resource-actions
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                          %i.icon-checkbox
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                          %i.icon-star-empty
+                    %h3.ui-resource-title FilterSet including all public accessible resources
+                  .ui-resource-body
+                    .ui-resource-thumbnail
+                      .ui-thumbnail.filter-set.filterset
+                        .ui-thumbnail-level-up-items
+                          %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %span.ui-thumbnail-level-notes 1 sets
+                        .ui-thumbnail-privacy
+                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                          .ui-thumbnail-image-holder
+                            .ui-thumbnail-table-image-holder
+                              .ui-thumbnail-cell-image-holder
+                                .ui-thumbnail-inner-image-holder
+                                  %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-7.jpeg')}/
+                        .ui-thumbnail-meta
+                          %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                          %h4.ui-thumbnail-meta-subtitle An author
+                        .ui-thumbnail-actions
+                          %ul.left.by-left
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                                %i.icon-checkbox
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                                %i.icon-star-empty
+                          %ul.right.by-right
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                                %i.icon-pen
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                                %i.icon-trash
+                        .ui-thumbnail-level-down-items
+                          %h3.ui-thumbnail-level-notes Set enthält
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-7.jpeg')}/
+                            %li.ui-thumbnail-level-item.media_entry.image.even
+                              %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-7.jpeg')}/
+                          %span.ui-thumbnail-level-notes 82 Inhalte
+                        .ui-thumbnail-dropdown
+                          .dropdown.ui-dropdown
+                    .ui-resource-meta
+                      %div{"data-context-id" => ""}
+                        %table.borderless.block
+                          %tbody
+                            %tr
+                              %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                              %td.ui-resource-meta-content
+                                %ul.ui-tag-cloud.small.ellipsed.compact
+                                  %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                    %i.icon-user-mini.ui-tag-icon
+                                    Normalo, Normin
+                    .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                    .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+                %li.ui-resource.not-loaded-contexts
+                  .ui-resource-head
+                    %ul.ui-resource-actions
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                          %i.icon-checkbox
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                          %i.icon-star-empty
+                    %h3.ui-resource-title FilterSet including all public accessible resources
+                  .ui-resource-body
+                    .ui-resource-thumbnail
+                      .ui-thumbnail.filter-set.filterset
+                        .ui-thumbnail-level-up-items
+                          %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-7.jpeg')}/
+                          %span.ui-thumbnail-level-notes 1 sets
+                        .ui-thumbnail-privacy
+                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                          .ui-thumbnail-image-holder
+                            .ui-thumbnail-table-image-holder
+                              .ui-thumbnail-cell-image-holder
+                                .ui-thumbnail-inner-image-holder
+                                  %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-8.jpeg')}/
+                        .ui-thumbnail-meta
+                          %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                          %h4.ui-thumbnail-meta-subtitle An author
+                        .ui-thumbnail-actions
+                          %ul.left.by-left
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                                %i.icon-checkbox
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                                %i.icon-star-empty
+                          %ul.right.by-right
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                                %i.icon-pen
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                                %i.icon-trash
+                        .ui-thumbnail-level-down-items
+                          %h3.ui-thumbnail-level-notes Set enthält
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-8.jpeg')}/
+                            %li.ui-thumbnail-level-item.media_entry.image.even
+                              %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-8.jpeg')}/
+                          %span.ui-thumbnail-level-notes 82 Inhalte
+                        .ui-thumbnail-dropdown
+                          .dropdown.ui-dropdown
+                    .ui-resource-meta
+                      %div{"data-context-id" => ""}
+                        %table.borderless.block
+                          %tbody
+                            %tr
+                              %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                              %td.ui-resource-meta-content
+                                %ul.ui-tag-cloud.small.ellipsed.compact
+                                  %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                    %i.icon-user-mini.ui-tag-icon
+                                    Normalo, Normin
+                    .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                    .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+                %li.ui-resource.not-loaded-contexts
+                  .ui-resource-head
+                    %ul.ui-resource-actions
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                          %i.icon-checkbox
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                          %i.icon-star-empty
+                    %h3.ui-resource-title FilterSet including all public accessible resources
+                  .ui-resource-body
+                    .ui-resource-thumbnail
+                      .ui-thumbnail.filter-set.filterset
+                        .ui-thumbnail-level-up-items
+                          %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-8.jpeg')}/
+                          %span.ui-thumbnail-level-notes 1 sets
+                        .ui-thumbnail-privacy
+                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                          .ui-thumbnail-image-holder
+                            .ui-thumbnail-table-image-holder
+                              .ui-thumbnail-cell-image-holder
+                                .ui-thumbnail-inner-image-holder
+                                  %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-8.jpeg')}/
+                        .ui-thumbnail-meta
+                          %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                          %h4.ui-thumbnail-meta-subtitle An author
+                        .ui-thumbnail-actions
+                          %ul.left.by-left
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                                %i.icon-checkbox
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                                %i.icon-star-empty
+                          %ul.right.by-right
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                                %i.icon-pen
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                                %i.icon-trash
+                        .ui-thumbnail-level-down-items
+                          %h3.ui-thumbnail-level-notes Set enthält
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-9.jpg')}/
+                            %li.ui-thumbnail-level-item.media_entry.image.even
+                              %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-9.jpg')}/
+                          %span.ui-thumbnail-level-notes 82 Inhalte
+                        .ui-thumbnail-dropdown
+                          .dropdown.ui-dropdown
+                    .ui-resource-meta
+                      %div{"data-context-id" => ""}
+                        %table.borderless.block
+                          %tbody
+                            %tr
+                              %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                              %td.ui-resource-meta-content
+                                %ul.ui-tag-cloud.small.ellipsed.compact
+                                  %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                    %i.icon-user-mini.ui-tag-icon
+                                    Normalo, Normin
+                    .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                    .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+                %li.ui-resource.not-loaded-contexts
+                  .ui-resource-head
+                    %ul.ui-resource-actions
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                          %i.icon-checkbox
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                          %i.icon-star-empty
+                    %h3.ui-resource-title FilterSet including all public accessible resources
+                  .ui-resource-body
+                    .ui-resource-thumbnail
+                      .ui-thumbnail.filter-set.filterset
+                        .ui-thumbnail-level-up-items
+                          %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-4.jpeg')}/
+                          %span.ui-thumbnail-level-notes 1 sets
+                        .ui-thumbnail-privacy
+                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                          .ui-thumbnail-image-holder
+                            .ui-thumbnail-table-image-holder
+                              .ui-thumbnail-cell-image-holder
+                                .ui-thumbnail-inner-image-holder
+                                  %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-4.jpeg')}/
+                        .ui-thumbnail-meta
+                          %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                          %h4.ui-thumbnail-meta-subtitle An author
+                        .ui-thumbnail-actions
+                          %ul.left.by-left
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                                %i.icon-checkbox
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                                %i.icon-star-empty
+                          %ul.right.by-right
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                                %i.icon-pen
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                                %i.icon-trash
+                        .ui-thumbnail-level-down-items
+                          %h3.ui-thumbnail-level-notes Set enthält
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-1.jpg')}/
+                            %li.ui-thumbnail-level-item.media_entry.image.even
+                              %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-1.jpg')}/
+                          %span.ui-thumbnail-level-notes 82 Inhalte
+                        .ui-thumbnail-dropdown
+                          .dropdown.ui-dropdown
+                    .ui-resource-meta
+                      %div{"data-context-id" => ""}
+                        %table.borderless.block
+                          %tbody
+                            %tr
+                              %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                              %td.ui-resource-meta-content
+                                %ul.ui-tag-cloud.small.ellipsed.compact
+                                  %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                    %i.icon-user-mini.ui-tag-icon
+                                    Normalo, Normin
+                    .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                    .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+                %li.ui-resource.not-loaded-contexts
+                  .ui-resource-head
+                    %ul.ui-resource-actions
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                          %i.icon-checkbox
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                          %i.icon-star-empty
+                    %h3.ui-resource-title FilterSet including all public accessible resources
+                  .ui-resource-body
+                    .ui-resource-thumbnail
+                      .ui-thumbnail.filter-set.filterset
+                        .ui-thumbnail-level-up-items
+                          %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-4.jpeg')}/
+                          %span.ui-thumbnail-level-notes 1 sets
+                        .ui-thumbnail-privacy
+                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                          .ui-thumbnail-image-holder
+                            .ui-thumbnail-table-image-holder
+                              .ui-thumbnail-cell-image-holder
+                                .ui-thumbnail-inner-image-holder
+                                  %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-1.jpg')}/
+                        .ui-thumbnail-meta
+                          %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                          %h4.ui-thumbnail-meta-subtitle An author
+                        .ui-thumbnail-actions
+                          %ul.left.by-left
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                                %i.icon-checkbox
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                                %i.icon-star-empty
+                          %ul.right.by-right
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                                %i.icon-pen
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                                %i.icon-trash
+                        .ui-thumbnail-level-down-items
+                          %h3.ui-thumbnail-level-notes Set enthält
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-4.jpeg')}/
+                            %li.ui-thumbnail-level-item.media_entry.image.even
+                              %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %span.ui-thumbnail-level-notes 82 Inhalte
+                        .ui-thumbnail-dropdown
+                          .dropdown.ui-dropdown
+                    .ui-resource-meta
+                      %div{"data-context-id" => ""}
+                        %table.borderless.block
+                          %tbody
+                            %tr
+                              %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                              %td.ui-resource-meta-content
+                                %ul.ui-tag-cloud.small.ellipsed.compact
+                                  %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                    %i.icon-user-mini.ui-tag-icon
+                                    Normalo, Normin
+                    .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                    .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+                %li.ui-resource.not-loaded-contexts
+                  .ui-resource-head
+                    %ul.ui-resource-actions
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                          %i.icon-checkbox
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                          %i.icon-star-empty
+                    %h3.ui-resource-title FilterSet including all public accessible resources
+                  .ui-resource-body
+                    .ui-resource-thumbnail
+                      .ui-thumbnail.filter-set.filterset
+                        .ui-thumbnail-level-up-items
+                          %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %span.ui-thumbnail-level-notes 1 sets
+                        .ui-thumbnail-privacy
+                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                          .ui-thumbnail-image-holder
+                            .ui-thumbnail-table-image-holder
+                              .ui-thumbnail-cell-image-holder
+                                .ui-thumbnail-inner-image-holder
+                                  %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                        .ui-thumbnail-meta
+                          %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                          %h4.ui-thumbnail-meta-subtitle An author
+                        .ui-thumbnail-actions
+                          %ul.left.by-left
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                                %i.icon-checkbox
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                                %i.icon-star-empty
+                          %ul.right.by-right
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                                %i.icon-pen
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                                %i.icon-trash
+                        .ui-thumbnail-level-down-items
+                          %h3.ui-thumbnail-level-notes Set enthält
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                            %li.ui-thumbnail-level-item.media_entry.image.even
+                              %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %span.ui-thumbnail-level-notes 82 Inhalte
+                        .ui-thumbnail-dropdown
+                          .dropdown.ui-dropdown
+                    .ui-resource-meta
+                      %div{"data-context-id" => ""}
+                        %table.borderless.block
+                          %tbody
+                            %tr
+                              %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                              %td.ui-resource-meta-content
+                                %ul.ui-tag-cloud.small.ellipsed.compact
+                                  %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                    %i.icon-user-mini.ui-tag-icon
+                                    Normalo, Normin
+                    .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                    .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+                %li.ui-resource.not-loaded-contexts
+                  .ui-resource-head
+                    %ul.ui-resource-actions
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                          %i.icon-checkbox
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                          %i.icon-star-empty
+                    %h3.ui-resource-title FilterSet including all public accessible resources
+                  .ui-resource-body
+                    .ui-resource-thumbnail
+                      .ui-thumbnail.filter-set.filterset
+                        .ui-thumbnail-level-up-items
+                          %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %span.ui-thumbnail-level-notes 1 sets
+                        .ui-thumbnail-privacy
+                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                          .ui-thumbnail-image-holder
+                            .ui-thumbnail-table-image-holder
+                              .ui-thumbnail-cell-image-holder
+                                .ui-thumbnail-inner-image-holder
+                                  %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-7.jpeg')}/
+                        .ui-thumbnail-meta
+                          %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                          %h4.ui-thumbnail-meta-subtitle An author
+                        .ui-thumbnail-actions
+                          %ul.left.by-left
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                                %i.icon-checkbox
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                                %i.icon-star-empty
+                          %ul.right.by-right
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                                %i.icon-pen
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                                %i.icon-trash
+                        .ui-thumbnail-level-down-items
+                          %h3.ui-thumbnail-level-notes Set enthält
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-7.jpeg')}/
+                            %li.ui-thumbnail-level-item.media_entry.image.even
+                              %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-7.jpeg')}/
+                          %span.ui-thumbnail-level-notes 82 Inhalte
+                        .ui-thumbnail-dropdown
+                          .dropdown.ui-dropdown
+                    .ui-resource-meta
+                      %div{"data-context-id" => ""}
+                        %table.borderless.block
+                          %tbody
+                            %tr
+                              %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                              %td.ui-resource-meta-content
+                                %ul.ui-tag-cloud.small.ellipsed.compact
+                                  %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                    %i.icon-user-mini.ui-tag-icon
+                                    Normalo, Normin
+                    .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                    .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+                %li.ui-resource.not-loaded-contexts
+                  .ui-resource-head
+                    %ul.ui-resource-actions
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                          %i.icon-checkbox
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                          %i.icon-star-empty
+                    %h3.ui-resource-title FilterSet including all public accessible resources
+                  .ui-resource-body
+                    .ui-resource-thumbnail
+                      .ui-thumbnail.filter-set.filterset
+                        .ui-thumbnail-level-up-items
+                          %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-7.jpeg')}/
+                          %span.ui-thumbnail-level-notes 1 sets
+                        .ui-thumbnail-privacy
+                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                          .ui-thumbnail-image-holder
+                            .ui-thumbnail-table-image-holder
+                              .ui-thumbnail-cell-image-holder
+                                .ui-thumbnail-inner-image-holder
+                                  %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-8.jpeg')}/
+                        .ui-thumbnail-meta
+                          %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                          %h4.ui-thumbnail-meta-subtitle An author
+                        .ui-thumbnail-actions
+                          %ul.left.by-left
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                                %i.icon-checkbox
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                                %i.icon-star-empty
+                          %ul.right.by-right
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                                %i.icon-pen
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                                %i.icon-trash
+                        .ui-thumbnail-level-down-items
+                          %h3.ui-thumbnail-level-notes Set enthält
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-8.jpeg')}/
+                            %li.ui-thumbnail-level-item.media_entry.image.even
+                              %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-8.jpeg')}/
+                          %span.ui-thumbnail-level-notes 82 Inhalte
+                        .ui-thumbnail-dropdown
+                          .dropdown.ui-dropdown
+                    .ui-resource-meta
+                      %div{"data-context-id" => ""}
+                        %table.borderless.block
+                          %tbody
+                            %tr
+                              %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                              %td.ui-resource-meta-content
+                                %ul.ui-tag-cloud.small.ellipsed.compact
+                                  %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                    %i.icon-user-mini.ui-tag-icon
+                                    Normalo, Normin
+                    .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                    .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+                %li.ui-resource.not-loaded-contexts
+                  .ui-resource-head
+                    %ul.ui-resource-actions
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                          %i.icon-checkbox
+                      %li.ui-resource-action
+                        %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                          %i.icon-star-empty
+                    %h3.ui-resource-title FilterSet including all public accessible resources
+                  .ui-resource-body
+                    .ui-resource-thumbnail
+                      .ui-thumbnail.filter-set.filterset
+                        .ui-thumbnail-level-up-items
+                          %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-8.jpeg')}/
+                          %span.ui-thumbnail-level-notes 1 sets
+                        .ui-thumbnail-privacy
+                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                          .ui-thumbnail-image-holder
+                            .ui-thumbnail-table-image-holder
+                              .ui-thumbnail-cell-image-holder
+                                .ui-thumbnail-inner-image-holder
+                                  %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-8.jpeg')}/
+                        .ui-thumbnail-meta
+                          %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                          %h4.ui-thumbnail-meta-subtitle An author
+                        .ui-thumbnail-actions
+                          %ul.left.by-left
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                                %i.icon-checkbox
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                                %i.icon-star-empty
+                          %ul.right.by-right
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                                %i.icon-pen
+                            %li.ui-thumbnail-action
+                              %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                                %i.icon-trash
+                        .ui-thumbnail-level-down-items
+                          %h3.ui-thumbnail-level-notes Set enthält
+                          %ul.ui-thumbnail-level-items
+                            %li.ui-thumbnail-level-item.media_set.set.odd
+                              %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-9.jpg')}/
+                            %li.ui-thumbnail-level-item.media_entry.image.even
+                              %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                                .ui-thumbnail-level-image-holder
+                                  %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-9.jpg')}/
+                          %span.ui-thumbnail-level-notes 82 Inhalte
+                        .ui-thumbnail-dropdown
+                          .dropdown.ui-dropdown
+                    .ui-resource-meta
+                      %div{"data-context-id" => ""}
+                        %table.borderless.block
+                          %tbody
+                            %tr
+                              %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                              %td.ui-resource-meta-content
+                                %ul.ui-tag-cloud.small.ellipsed.compact
+                                  %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                    %i.icon-user-mini.ui-tag-icon
+                                    Normalo, Normin
+                    .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                    .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+        .ui-container.midtone-darker.relationships-wrapper.bordered-top
+          #latest_user_resources_block.ui-resources-holder
+            .ui-resources-header.mbn
+              %h2.title-l.ui-resource-title.mtl.mll
+                Untergeordnete Sets
+                %span.ui-counter (6)
+                %a.strong{:href => "###my/media_resources?sort=updated_at"}
+                  Alle anzeigen
+            %ul.grid.horizontal.ui-resources
+              %li.ui-resource.not-loaded-contexts
+                .ui-resource-head
+                  %ul.ui-resource-actions
+                    %li.ui-resource-action
+                      %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-resource-action
+                      %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                        %i.icon-star-empty
+                  %h3.ui-resource-title FilterSet including all public accessible resources
+                .ui-resource-body
+                  .ui-resource-thumbnail
+                    .ui-thumbnail.filter-set.filterset
+                      .ui-thumbnail-level-up-items
+                        %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                        %ul.ui-thumbnail-level-items
+                          %li.ui-thumbnail-level-item.media_set.set.odd
+                            %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-9.jpg')}/
+                        %span.ui-thumbnail-level-notes 1 sets
+                      .ui-thumbnail-privacy
+                        %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                      %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                        .ui-thumbnail-image-holder
+                          .ui-thumbnail-table-image-holder
+                            .ui-thumbnail-cell-image-holder
+                              .ui-thumbnail-inner-image-holder
+                                %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-9.jpg')}/
+                      .ui-thumbnail-meta
+                        %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                        %h4.ui-thumbnail-meta-subtitle An author
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                              %i.icon-checkbox
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                              %i.icon-star-empty
+                        %ul.right.by-right
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                              %i.icon-pen
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                              %i.icon-trash
+                      .ui-thumbnail-level-down-items
+                        %h3.ui-thumbnail-level-notes Set enthält
+                        %ul.ui-thumbnail-level-items
+                          %li.ui-thumbnail-level-item.media_set.set.odd
+                            %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-7.jpeg')}/
+                          %li.ui-thumbnail-level-item.media_entry.image.even
+                            %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-7.jpeg')}/
+                        %span.ui-thumbnail-level-notes 82 Inhalte
+                      .ui-thumbnail-dropdown
+                        .dropdown.ui-dropdown
+                  .ui-resource-meta
+                    %div{"data-context-id" => ""}
+                      %table.borderless.block
+                        %tbody
+                          %tr
+                            %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                            %td.ui-resource-meta-content
+                              %ul.ui-tag-cloud.small.ellipsed.compact
+                                %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                  %i.icon-user-mini.ui-tag-icon
+                                  Normalo, Normin
+                  .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                  .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+              %li.ui-resource.not-loaded-contexts
+                .ui-resource-head
+                  %ul.ui-resource-actions
+                    %li.ui-resource-action
+                      %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-resource-action
+                      %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                        %i.icon-star-empty
+                  %h3.ui-resource-title FilterSet including all public accessible resources
+                .ui-resource-body
+                  .ui-resource-thumbnail
+                    .ui-thumbnail.filter-set.filterset
+                      .ui-thumbnail-level-up-items
+                        %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                        %ul.ui-thumbnail-level-items
+                          %li.ui-thumbnail-level-item.media_set.set.odd
+                            %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-7.jpeg')}/
+                        %span.ui-thumbnail-level-notes 1 sets
+                      .ui-thumbnail-privacy
+                        %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                      %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                        .ui-thumbnail-image-holder
+                          .ui-thumbnail-table-image-holder
+                            .ui-thumbnail-cell-image-holder
+                              .ui-thumbnail-inner-image-holder
+                                %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-7.jpeg')}/
+                      .ui-thumbnail-meta
+                        %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                        %h4.ui-thumbnail-meta-subtitle An author
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                              %i.icon-checkbox
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                              %i.icon-star-empty
+                        %ul.right.by-right
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                              %i.icon-pen
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                              %i.icon-trash
+                      .ui-thumbnail-level-down-items
+                        %h3.ui-thumbnail-level-notes Set enthält
+                        %ul.ui-thumbnail-level-items
+                          %li.ui-thumbnail-level-item.media_set.set.odd
+                            %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-7.jpeg')}/
+                          %li.ui-thumbnail-level-item.media_entry.image.even
+                            %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-7.jpeg')}/
+                        %span.ui-thumbnail-level-notes 82 Inhalte
+                      .ui-thumbnail-dropdown
+                        .dropdown.ui-dropdown
+                  .ui-resource-meta
+                    %div{"data-context-id" => ""}
+                      %table.borderless.block
+                        %tbody
+                          %tr
+                            %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                            %td.ui-resource-meta-content
+                              %ul.ui-tag-cloud.small.ellipsed.compact
+                                %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                  %i.icon-user-mini.ui-tag-icon
+                                  Normalo, Normin
+                  .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                  .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+              %li.ui-resource.not-loaded-contexts
+                .ui-resource-head
+                  %ul.ui-resource-actions
+                    %li.ui-resource-action
+                      %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-resource-action
+                      %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                        %i.icon-star-empty
+                  %h3.ui-resource-title FilterSet including all public accessible resources
+                .ui-resource-body
+                  .ui-resource-thumbnail
+                    .ui-thumbnail.filter-set.filterset
+                      .ui-thumbnail-level-up-items
+                        %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                        %ul.ui-thumbnail-level-items
+                          %li.ui-thumbnail-level-item.media_set.set.odd
+                            %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-8.jpeg')}/
+                        %span.ui-thumbnail-level-notes 1 sets
+                      .ui-thumbnail-privacy
+                        %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                      %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                        .ui-thumbnail-image-holder
+                          .ui-thumbnail-table-image-holder
+                            .ui-thumbnail-cell-image-holder
+                              .ui-thumbnail-inner-image-holder
+                                %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-8.jpeg')}/
+                      .ui-thumbnail-meta
+                        %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                        %h4.ui-thumbnail-meta-subtitle An author
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                              %i.icon-checkbox
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                              %i.icon-star-empty
+                        %ul.right.by-right
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                              %i.icon-pen
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                              %i.icon-trash
+                      .ui-thumbnail-level-down-items
+                        %h3.ui-thumbnail-level-notes Set enthält
+                        %ul.ui-thumbnail-level-items
+                          %li.ui-thumbnail-level-item.media_set.set.odd
+                            %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-8.jpeg')}/
+                          %li.ui-thumbnail-level-item.media_entry.image.even
+                            %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-8.jpeg')}/
+                        %span.ui-thumbnail-level-notes 82 Inhalte
+                      .ui-thumbnail-dropdown
+                        .dropdown.ui-dropdown
+                  .ui-resource-meta
+                    %div{"data-context-id" => ""}
+                      %table.borderless.block
+                        %tbody
+                          %tr
+                            %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                            %td.ui-resource-meta-content
+                              %ul.ui-tag-cloud.small.ellipsed.compact
+                                %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                  %i.icon-user-mini.ui-tag-icon
+                                  Normalo, Normin
+                  .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                  .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+              %li.ui-resource.not-loaded-contexts
+                .ui-resource-head
+                  %ul.ui-resource-actions
+                    %li.ui-resource-action
+                      %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-resource-action
+                      %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                        %i.icon-star-empty
+                  %h3.ui-resource-title FilterSet including all public accessible resources
+                .ui-resource-body
+                  .ui-resource-thumbnail
+                    .ui-thumbnail.filter-set.filterset
+                      .ui-thumbnail-level-up-items
+                        %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                        %ul.ui-thumbnail-level-items
+                          %li.ui-thumbnail-level-item.media_set.set.odd
+                            %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-9.jpg')}/
+                        %span.ui-thumbnail-level-notes 1 sets
+                      .ui-thumbnail-privacy
+                        %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                      %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                        .ui-thumbnail-image-holder
+                          .ui-thumbnail-table-image-holder
+                            .ui-thumbnail-cell-image-holder
+                              .ui-thumbnail-inner-image-holder
+                                %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-9.jpg')}/
+                      .ui-thumbnail-meta
+                        %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                        %h4.ui-thumbnail-meta-subtitle An author
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                              %i.icon-checkbox
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                              %i.icon-star-empty
+                        %ul.right.by-right
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                              %i.icon-pen
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                              %i.icon-trash
+                      .ui-thumbnail-level-down-items
+                        %h3.ui-thumbnail-level-notes Set enthält
+                        %ul.ui-thumbnail-level-items
+                          %li.ui-thumbnail-level-item.media_set.set.odd
+                            %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-9.jpg')}/
+                          %li.ui-thumbnail-level-item.media_entry.image.even
+                            %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-9.jpg')}/
+                        %span.ui-thumbnail-level-notes 82 Inhalte
+                      .ui-thumbnail-dropdown
+                        .dropdown.ui-dropdown
+                  .ui-resource-meta
+                    %div{"data-context-id" => ""}
+                      %table.borderless.block
+                        %tbody
+                          %tr
+                            %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                            %td.ui-resource-meta-content
+                              %ul.ui-tag-cloud.small.ellipsed.compact
+                                %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                  %i.icon-user-mini.ui-tag-icon
+                                  Normalo, Normin
+                  .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                  .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+              %li.ui-resource.not-loaded-contexts
+                .ui-resource-head
+                  %ul.ui-resource-actions
+                    %li.ui-resource-action
+                      %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-resource-action
+                      %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                        %i.icon-star-empty
+                  %h3.ui-resource-title FilterSet including all public accessible resources
+                .ui-resource-body
+                  .ui-resource-thumbnail
+                    .ui-thumbnail.filter-set.filterset
+                      .ui-thumbnail-level-up-items
+                        %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                        %ul.ui-thumbnail-level-items
+                          %li.ui-thumbnail-level-item.media_set.set.odd
+                            %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-9.jpg')}/
+                        %span.ui-thumbnail-level-notes 1 sets
+                      .ui-thumbnail-privacy
+                        %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                      %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                        .ui-thumbnail-image-holder
+                          .ui-thumbnail-table-image-holder
+                            .ui-thumbnail-cell-image-holder
+                              .ui-thumbnail-inner-image-holder
+                                %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                      .ui-thumbnail-meta
+                        %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                        %h4.ui-thumbnail-meta-subtitle An author
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                              %i.icon-checkbox
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                              %i.icon-star-empty
+                        %ul.right.by-right
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                              %i.icon-pen
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                              %i.icon-trash
+                      .ui-thumbnail-level-down-items
+                        %h3.ui-thumbnail-level-notes Set enthält
+                        %ul.ui-thumbnail-level-items
+                          %li.ui-thumbnail-level-item.media_set.set.odd
+                            %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %li.ui-thumbnail-level-item.media_entry.image.even
+                            %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                        %span.ui-thumbnail-level-notes 82 Inhalte
+                      .ui-thumbnail-dropdown
+                        .dropdown.ui-dropdown
+                  .ui-resource-meta
+                    %div{"data-context-id" => ""}
+                      %table.borderless.block
+                        %tbody
+                          %tr
+                            %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                            %td.ui-resource-meta-content
+                              %ul.ui-tag-cloud.small.ellipsed.compact
+                                %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                  %i.icon-user-mini.ui-tag-icon
+                                  Normalo, Normin
+                  .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                  .ui-resource-extension{"data-context" => "third_displayed_context_id"}
+              %li.ui-resource.not-loaded-contexts
+                .ui-resource-head
+                  %ul.ui-resource-actions
+                    %li.ui-resource-action
+                      %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                        %i.icon-checkbox
+                    %li.ui-resource-action
+                      %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
+                        %i.icon-star-empty
+                  %h3.ui-resource-title FilterSet including all public accessible resources
+                .ui-resource-body
+                  .ui-resource-thumbnail
+                    .ui-thumbnail.filter-set.filterset
+                      .ui-thumbnail-level-up-items
+                        %h3.ui-thumbnail-level-notes Übergeordnete Sets
+                        %ul.ui-thumbnail-level-items
+                          %li.ui-thumbnail-level-item.media_set.set.odd
+                            %a.ui-level-image-wrapper{:href => "###media_resources/f54098a8-6ca1-492b-a2a0-b2330e5eb4bc"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                        %span.ui-thumbnail-level-notes 1 sets
+                      .ui-thumbnail-privacy
+                        %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                      %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
+                        .ui-thumbnail-image-holder
+                          .ui-thumbnail-table-image-holder
+                            .ui-thumbnail-cell-image-holder
+                              .ui-thumbnail-inner-image-holder
+                                %img.ui-thumbnail-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                      .ui-thumbnail-meta
+                        %h3.ui-thumbnail-meta-title FilterSet including all public accessible resources
+                        %h4.ui-thumbnail-meta-subtitle An author
+                      .ui-thumbnail-actions
+                        %ul.left.by-left
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+                              %i.icon-checkbox
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+                              %i.icon-star-empty
+                        %ul.right.by-right
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
+                              %i.icon-pen
+                          %li.ui-thumbnail-action
+                            %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+                              %i.icon-trash
+                      .ui-thumbnail-level-down-items
+                        %h3.ui-thumbnail-level-notes Set enthält
+                        %ul.ui-thumbnail-level-items
+                          %li.ui-thumbnail-level-item.media_set.set.odd
+                            %a.ui-level-image-wrapper{:href => "###media_resources/b23c6f19-4fdd-4e7d-b48e-697953fe5f12"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %li.ui-thumbnail-level-item.media_entry.image.even
+                            %a.ui-level-image-wrapper{:href => "###media_resources/0f144311-b782-4f24-b6ab-2b3ad654bf7a"}
+                              .ui-thumbnail-level-image-holder
+                                %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
+                        %span.ui-thumbnail-level-notes 82 Inhalte
+                      .ui-thumbnail-dropdown
+                        .dropdown.ui-dropdown
+                  .ui-resource-meta
+                    %div{"data-context-id" => ""}
+                      %table.borderless.block
+                        %tbody
+                          %tr
+                            %td.ui-resource-meta-label Eigentümer/in im Medienarchiv
+                            %td.ui-resource-meta-content
+                              %ul.ui-tag-cloud.small.ellipsed.compact
+                                %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
+                                  %i.icon-user-mini.ui-tag-icon
+                                  Normalo, Normin
+                  .ui-resource-description{"data-context" => "second_displayed_context_id"}
+                  .ui-resource-extension{"data-context" => "third_displayed_context_id"}

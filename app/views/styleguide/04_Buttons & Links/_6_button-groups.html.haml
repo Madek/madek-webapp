@@ -1,0 +1,23 @@
+:ruby
+  element = {
+    name: 'Button group',
+    description: 'groups several buttons into one element',
+    cssFile: '_button-groups.scss',
+    cssSelector: '.button-group',
+    section: '4.6',
+    mods: {
+      nil => 'Default',
+      'primary' => 'Primary button group',
+      'tertiary' => 'Secondary button group',
+      'small' => 'Small button group',
+      'large' => 'Large button group'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      .button-group{class: name}
+        %button.button.active{class: name} Alle
+        %button.button{class: name} Medienträge
+        %button.button{class: name} Sets

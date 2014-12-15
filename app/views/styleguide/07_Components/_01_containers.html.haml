@@ -1,0 +1,25 @@
+:ruby
+  element = {
+    name: 'ui-containers',
+    cssSelector: '.ui-container',
+    cssFile: '_ui-containers.scss',
+    section: '7.1',
+    mods: {
+      nil => 'Default',
+      'bright' => 'Bright ui-container',
+      'transparent' => 'Semi-transparent bright box: home page elevator pitch',
+      'inverted' => 'Dark gradient boxes: top-nav, footer and filter bar ui-containers',
+      'inverted-transparent' => 'Semi-transparent dark box: clipboard',
+      'midtone' => 'Light grey box: thumb grid ui-containers',
+      'bordered' => 'Box with border. Possible extensions: .bordered-bottom, .bordered-top, .bordered-right',
+      'rounded' => 'Rounded corners equal to medium border radius value. Possible extensions:; .rounded-bottom, .rounded-top, .rounded-right, .rounded-left',
+      'overlaid' => 'ui-containers needing a layer on top of them (such as home page collage)',
+      'well' => 'ui-container with and inside shadow'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      .ui-container{class: name}
+        .dummy{:style => "height:80px"}

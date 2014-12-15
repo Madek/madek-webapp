@@ -1,0 +1,24 @@
+:ruby
+  element = {
+    name: 'Tertiary Buttons',
+    cssFile: '_buttons.scss',
+    cssSelector: '.tertiary-button',
+    section: '4.4',
+    mods: {
+      nil => 'Default',
+      ':hover' => 'Hovered tag button',
+      'active' => 'Active tag button',
+      'block' => 'Tertiary button that takes the whole width',
+      'small' => 'Small tertiary button',
+      'large' => 'Large tertiary button'
+      # TODO: '.disabled'?
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      %a.tertiary-button{class:name}= "Tertiary Button"
+      %a.tertiary-button{class:name}
+        %i.icon-tag
+        = "Tertiary Button"

@@ -1,0 +1,24 @@
+:ruby
+  element = {
+    name: 'Primary Button',
+    cssFile: 'Primary Button',
+    cssSelector: '.primary-button',
+    section: '4.3',
+    mods: {
+      nil => 'Default',
+      ':hover' => 'Hovered primary button',
+      'active' => 'Active primary button',
+      'block' => 'Primary button that takes the whole width',
+      'small' => 'Small primary button',
+      'large' => 'Large primary button',
+      'disabled' => 'Disabled link'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      %a.primary-button{class:name}= "Primary Button"
+      %a.primary-button{class:name}
+        %i.icon-tag
+        = "Primary Button"

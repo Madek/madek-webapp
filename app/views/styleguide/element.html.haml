@@ -1,0 +1,5 @@
+%a(href='.')= "‹ #{@section[:name]}"
+
+%hr.separator.mts.mbm
+
+= render template: "styleguide/#{@section[:path]}/#{@element[:path]}"

@@ -1,0 +1,64 @@
+:ruby
+  element = {
+    name: 'Media resources table',
+    cssFile: '_ui-resources-table.scss',
+    cssSelector: '.ui-resources-table',
+    section: '8.16'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    .ui-resources-table
+      %table.block
+        %thead
+          %tr
+            %td Auswahl
+            %td Title
+            %td Autor/in
+            %td Datierung
+            %td Schlagw...nd Motiv
+            %td Rechte
+            %td Eigentü...enarchiv
+        %tbody
+          %tr
+            %td.ui-resources-table-selection
+              %label
+                %input{:type => "checkbox"}/
+                %img.ui-thumbnail.micro{:alt => "ZHdK", :src => asset_path('styleguide/media-entry-1.jpg')}/
+            %td File Title
+            %td Pinco Pallino
+            %td 20.02.2010
+            %td
+              %ul.inline
+                %li tag 1
+                %li tag 2
+            %td ZHdK
+            %td Pinco Pallino
+          %tr
+            %td.ui-resources-table-selection
+              %label
+                %input{:type => "checkbox"}/
+                %img.ui-thumbnail.micro{:alt => "ZHdK", :src => asset_path('styleguide/media-entry-2.jpg')}/
+            %td File Title
+            %td Pinco Pallino
+            %td 20.02.2010
+            %td
+              %ul.inline
+                %li tag 1
+                %li tag 2
+            %td ZHdK
+            %td Pinco Pallino
+          %tr
+            %td.ui-resources-table-selection
+              %label
+                %input{:type => "checkbox"}/
+                %img.ui-thumbnail.micro{:alt => "ZHdK", :src => asset_path('styleguide/media-entry-3.jpeg')}/
+            %td File Title
+            %td Pinco Pallino
+            %td 20.02.2010
+            %td
+              %ul.inline
+                %li tag 1
+                %li tag 2
+            %td ZHdK
+            %td Pinco Pallino

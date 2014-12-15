@@ -1,2 +1,6 @@
 ---
-tasks: []
+tasks:
+- name: features styleguide
+  scripts:
+    rspec:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "spec/features/styleguide_spec.rb"

@@ -1,0 +1,49 @@
+-# TODO: merge with metadata-box ul
+
+:ruby
+  element = {
+    name: 'Metadata box, definition list variation',
+    cssSelector: '.ui-metadata-box',
+    cssFile: '_ui-metadata-box.scss',
+    section: '7.14'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    %dl.ui-media-overview-metadata.ui-metadata-box
+      %dt.media-data-title.title-xs-alt
+        Titel
+      %dd.media-data-content.title-l
+        Die Eismalerin
+      %dt.media-data-title.title-xs-alt
+        Untertitel
+      %dd.media-data-content
+        Installationsansicht
+      %dt.media-data-title.title-xs-alt
+        Autor/in
+      %dd.media-data-content
+        %a{:href => "#"} Stemmle, Janka
+      %dt.media-data-title.title-xs-alt
+        Datierrung
+      %dd.media-data-content
+        2012
+      %dt.media-data-title.title-xs-alt
+        Schlagworte zu Inhalt und Motiv
+      %dd.media-data-content
+        %ul.ui-tag-cloud.small
+          %li.ui-tag-cloud-item
+            %a.ui-tag-button{:href => "#"} Tag 1
+          %li.ui-tag-cloud-item
+            %a.ui-tag-button{:href => "#"} Tag 2
+      %dt.media-data-title.title-xs-alt
+        Rechte am geistigen Eigentum
+      %dd.media-data-content
+        ZHdK DKM VMK
+      %dt.media-data-title.title-xs-alt
+        Privacy
+      %dd.media-data-content
+        This entry is public
+      %dt.media-data-title.title-xs-alt
+        Eigentumer/in im Medienarchiv
+      %dd.media-data-content
+        %a{:href => "#"} Rüegger, Romy

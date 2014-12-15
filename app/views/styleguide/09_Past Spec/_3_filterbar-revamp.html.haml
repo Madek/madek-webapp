@@ -1,0 +1,2713 @@
+:ruby
+  element = {
+    name: 'Filterbar in view of Filterset creation revamp.',
+    description: "The button linking to the filterset creation wizard is to be moved from search results page to the filterbar (so it will now be present in all views displaying thumbnails). \nThe \'Save as Filterset\' button will open the modal window where user will be asked to enter filterset\'s desired name and either confirm or cancel the process. \nThe \'Rewind\' button with the round arrow icon stands for resetting the filter set on the currently viewed batch of media—it will become active only after have applied at least one filter (as shown on the 2nd example). \nWhen user is viewing a filterset that he previously created, and has editing permissions to, he will be able to save filterset settings he just altered (as shown on the 3rd example). \nUsers viewing a filterset, but not having permissions to edit it, will be presented with the option to duplicate currently set filterset settings as their own filterset—in other words—create a filterset on top of a filterset (as shown on the 4th example).",
+    cssFile: '???',
+    cssSelector: '???',
+    section: '9.3'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    #ui-side-filter.filter-panel.ui-side-filter
+      .ui-side-filter-filterset
+        .col4of5
+          %a.button.ui-filterset-new
+            %i.icon-plus
+            Save as Filterset
+        .col1of5
+          %a.button.ui-filterset-reset.disabled
+            %i.icon-undo
+      #ui-side-filter-search.ui-side-filter-search.filter-search
+        %form#filter_search_form
+          %input#search_term.block.ui-filter-search-input{:name => "search", :placeholder => "Eingrenzen mit Suchwort", :type => "text"}/
+      %ul.top-filter-list.ui-side-filter-list
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "media_resources", "data-filter-type" => "media_resources"}
+          %a.strong.ui-accordion-toggle
+            Inhalte
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "type"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Typ
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "MediaEntry"}
+                  %a.weak
+                    Medieneinträge
+                    %span.ui-lvl3-item-count.resources_count 20
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "media_files", "data-filter-type" => "media_files"}
+          %a.strong.ui-accordion-toggle
+            Datei
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "media_type"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Medientyp
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "image"}
+                  %a.weak
+                    image
+                    %span.ui-lvl3-item-count.resources_count 20
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "extension"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Dokumenttyp
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "tif"}
+                  %a.weak
+                    tif
+                    %span.ui-lvl3-item-count.resources_count 20
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "permissions", "data-filter-type" => "permissions"}
+          %a.strong.ui-accordion-toggle
+            Berechtigung
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "owner"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Verantwortliche Person
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "7"}
+                  %a.weak
+                    Knacknuss, Karen
+                    %span.ui-lvl3-item-count.resources_count 20
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "scope"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Zugriff
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "public"}
+                  %a.weak
+                    Öffentliche Inhalte
+                    %span.ui-lvl3-item-count.resources_count 20
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "Landschaftsvisualisierung", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            Landschaftsvisualisierung
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Landschaftstyp"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Landschaftstyp
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1065"}
+                  %a.weak
+                    Erholungszone
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1087"}
+                  %a.weak
+                    Naturlandschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1089"}
+                  %a.weak
+                    Parklandschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1093"}
+                  %a.weak
+                    Stadtlandschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1095"}
+                  %a.weak
+                    Tourismusgebiet
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Verwendungszweck"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Verwendungszweck
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1067"}
+                  %a.weak
+                    Architekturbild
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1017"}
+                  %a.weak
+                    Ausstellung
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1071"}
+                  %a.weak
+                    Computerspiel
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1069"}
+                  %a.weak
+                    Illustration
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "79"}
+                  %a.weak
+                    Kunst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1115"}
+                  %a.weak
+                    Wettbewerb
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Bildzeit"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Bildzeit
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1033"}
+                  %a.weak
+                    Frühling
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1037"}
+                  %a.weak
+                    Herbst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1047"}
+                  %a.weak
+                    Mittag
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1053"}
+                  %a.weak
+                    Nacht
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1035"}
+                  %a.weak
+                    Sommer
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1039"}
+                  %a.weak
+                    Winter
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Wetter/Klima"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Wetter/Klima
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1119"}
+                  %a.weak
+                    Bewölkung/wolkig
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1125"}
+                  %a.weak
+                    Morgenrot
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1127"}
+                  %a.weak
+                    Nebel
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1131"}
+                  %a.weak
+                    Schnee
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1139"}
+                  %a.weak
+                    Wind
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Farbe"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Farbe
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1241"}
+                  %a.weak
+                    Blautöne
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1231"}
+                  %a.weak
+                    Gelb
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1267"}
+                  %a.weak
+                    Gelbtöne
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1255"}
+                  %a.weak
+                    Grüntöne
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1245"}
+                  %a.weak
+                    Oker
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1213"}
+                  %a.weak
+                    hellblau
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1211"}
+                  %a.weak
+                    weiss
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Horizontlinie"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Horizontlinie
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1061"}
+                  %a.weak
+                    unten
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Ra?umliche Wahrnehmung"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Räumliche Wahrnehmung
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1103"}
+                  %a.weak
+                    Froschperspektive
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1109"}
+                  %a.weak
+                    Texturgradient
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1099"}
+                  %a.weak
+                    Vogelperspektive
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1101"}
+                  %a.weak
+                    Zentralperspektive
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Abstraktionsgrad"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Abstraktionsgrad
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1021"}
+                  %a.weak
+                    abstrakt
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Landschaftselemente"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Landschaftselemente
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "431"}
+                  %a.weak
+                    Blumen
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "443"}
+                  %a.weak
+                    Bucht
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "435"}
+                  %a.weak
+                    Wolken
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Bildwirkung"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Bildwirkung
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1253"}
+                  %a.weak
+                    Einsamkeit
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1251"}
+                  %a.weak
+                    Erhabenheit
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1425"}
+                  %a.weak
+                    clean
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1401"}
+                  %a.weak
+                    dramatisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1403"}
+                  %a.weak
+                    düster
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1313"}
+                  %a.weak
+                    fantastisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1165"}
+                  %a.weak
+                    friedlich
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1161"}
+                  %a.weak
+                    idyllisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1205"}
+                  %a.weak
+                    kühl
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1399"}
+                  %a.weak
+                    künstlich
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1209"}
+                  %a.weak
+                    modern
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1361"}
+                  %a.weak
+                    naturnah
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1335"}
+                  %a.weak
+                    ruhig
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1287"}
+                  %a.weak
+                    technisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1371"}
+                  %a.weak
+                    technologisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1289"}
+                  %a.weak
+                    unfreundlich
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1311"}
+                  %a.weak
+                    utopisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1393"}
+                  %a.weak
+                    verspielt
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "genre"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Genre
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "447"}
+                  %a.weak
+                    Landschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "style"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Stil- und Kunstrichtungen
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1995"}
+                  %a.weak
+                    Futurismus
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "655"}
+                  %a.weak
+                    Konzeptkunst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1839"}
+                  %a.weak
+                    Subjektive Fotografie
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "epoch"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Epoche
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "667"}
+                  %a.weak
+                    20. Jahrhundert
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "media_content", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            Werk
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "keywords"}
+              %a.ui-accordion-toggle.weak.open
+                %i.ui-side-filter-lvl2-marker
+                Schlagworte zu Inhalt und Motiv
+              %ul.ui-side-filter-lvl3.ui-accordion-body.open
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "76"}
+                  %a.weak
+                    Fotografie
+                    %span.ui-lvl3-item-count.resources_count 20
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "405"}
+                  %a.weak
+                    Diplomarbeit
+                    %span.ui-lvl3-item-count.resources_count 18
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4608"}
+                  %a.weak
+                    Freizeit
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "2665"}
+                  %a.weak
+                    Inszenierung
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "447"}
+                  %a.weak
+                    Landschaft
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4607"}
+                  %a.weak
+                    Mode
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1353"}
+                  %a.weak
+                    Natur
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4606"}
+                  %a.weak
+                    Outdoor
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4604"}
+                  %a.weak
+                    Sport
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4605"}
+                  %a.weak
+                    Sportbekleidung
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4599"}
+                  %a.weak
+                    Beobachtung
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4600"}
+                  %a.weak
+                    Bild-Text
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4603"}
+                  %a.weak
+                    Bildserie
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4598"}
+                  %a.weak
+                    Hefte
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4601"}
+                  %a.weak
+                    Konsumkultur
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "655"}
+                  %a.weak
+                    Konzeptkunst
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4602"}
+                  %a.weak
+                    Persiflage
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "35"}
+                  %a.weak
+                    Stadt
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "2411"}
+                  %a.weak
+                    Zürich
+                    %span.ui-lvl3-item-count.resources_count 6
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "type"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Gattung
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "76"}
+                  %a.weak
+                    Fotografie
+                    %span.ui-lvl3-item-count.resources_count 17
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "79"}
+                  %a.weak
+                    Kunst
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "media_object", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            Medium
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "portrayed object materials"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Material/Format
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "2197"}
+                  %a.weak
+                    Original: Kleinbilddia Farbe; Digitalisat: TIFF
+                    %span.ui-lvl3-item-count.resources_count 18
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "Columns", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            Säulenordnungen
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "genre"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Genre
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "447"}
+                  %a.weak
+                    Landschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "style"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Stil- und Kunstrichtungen
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1995"}
+                  %a.weak
+                    Futurismus
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "655"}
+                  %a.weak
+                    Konzeptkunst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1839"}
+                  %a.weak
+                    Subjektive Fotografie
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "epoch"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Epoche
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "667"}
+                  %a.weak
+                    20. Jahrhundert
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "zhdk_bereich", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            ZHdK
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "project type"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                ZHdK-Projekttyp
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "85"}
+                  %a.weak
+                    Abschlussarbeit
+                    %span.ui-lvl3-item-count.resources_count 18
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "academic year"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Studienabschnitt
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "341"}
+                  %a.weak
+                    Hauptstudium Diplom
+                    %span.ui-lvl3-item-count.resources_count 18
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "VFO", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            Lehrmittel Fotografie
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "genre"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Genre
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "447"}
+                  %a.weak
+                    Landschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "style"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Stil- und Kunstrichtungen
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1995"}
+                  %a.weak
+                    Futurismus
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "655"}
+                  %a.weak
+                    Konzeptkunst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1839"}
+                  %a.weak
+                    Subjektive Fotografie
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "epoch"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Epoche
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "667"}
+                  %a.weak
+                    20. Jahrhundert
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+  
+  = partial('example') do
+    #ui-side-filter.filter-panel.ui-side-filter
+      .ui-side-filter-filterset
+        .col4of5
+          %a.button.ui-filterset-new
+            %i.icon-plus
+            Save as Filterset
+        .col1of5
+          %a.button.ui-filterset-reset
+            %i.icon-undo
+      #ui-side-filter-search.ui-side-filter-search.filter-search
+        %form#filter_search_form
+          %input#search_term.block.ui-filter-search-input{:name => "search", :placeholder => "Eingrenzen mit Suchwort", :type => "text"}/
+      %ul.top-filter-list.ui-side-filter-list
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "media_resources", "data-filter-type" => "media_resources"}
+          %a.strong.ui-accordion-toggle.open
+            Inhalte
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body.open
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "type"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Typ
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "MediaEntry"}
+                  %a.weak
+                    Medieneinträge
+                    %span.ui-lvl3-item-count.resources_count 18
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "media_files", "data-filter-type" => "media_files"}
+          %a.strong.ui-accordion-toggle.open
+            Datei
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body.open
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "media_type"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Medientyp
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "image"}
+                  %a.weak
+                    image
+                    %span.ui-lvl3-item-count.resources_count 18
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "extension"}
+              %a.ui-accordion-toggle.weak.open
+                %i.ui-side-filter-lvl2-marker
+                Dokumenttyp
+              %ul.ui-side-filter-lvl3.ui-accordion-body.open
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "tif"}
+                  %a.weak
+                    tif
+                    %span.ui-lvl3-item-count.resources_count 18
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "permissions", "data-filter-type" => "permissions"}
+          %a.strong.ui-accordion-toggle
+            Berechtigung
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "owner"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Verantwortliche Person
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "7"}
+                  %a.weak
+                    Knacknuss, Karen
+                    %span.ui-lvl3-item-count.resources_count 18
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "scope"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Zugriff
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "public"}
+                  %a.weak
+                    Öffentliche Inhalte
+                    %span.ui-lvl3-item-count.resources_count 18
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "Landschaftsvisualisierung", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            Landschaftsvisualisierung
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Landschaftstyp"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Landschaftstyp
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1065"}
+                  %a.weak
+                    Erholungszone
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1087"}
+                  %a.weak
+                    Naturlandschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1089"}
+                  %a.weak
+                    Parklandschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1093"}
+                  %a.weak
+                    Stadtlandschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1095"}
+                  %a.weak
+                    Tourismusgebiet
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Verwendungszweck"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Verwendungszweck
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1067"}
+                  %a.weak
+                    Architekturbild
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1017"}
+                  %a.weak
+                    Ausstellung
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1071"}
+                  %a.weak
+                    Computerspiel
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1069"}
+                  %a.weak
+                    Illustration
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "79"}
+                  %a.weak
+                    Kunst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1115"}
+                  %a.weak
+                    Wettbewerb
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Bildzeit"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Bildzeit
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1033"}
+                  %a.weak
+                    Frühling
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1037"}
+                  %a.weak
+                    Herbst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1047"}
+                  %a.weak
+                    Mittag
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1053"}
+                  %a.weak
+                    Nacht
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1035"}
+                  %a.weak
+                    Sommer
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1039"}
+                  %a.weak
+                    Winter
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Wetter/Klima"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Wetter/Klima
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1119"}
+                  %a.weak
+                    Bewölkung/wolkig
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1125"}
+                  %a.weak
+                    Morgenrot
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1127"}
+                  %a.weak
+                    Nebel
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1131"}
+                  %a.weak
+                    Schnee
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1139"}
+                  %a.weak
+                    Wind
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Farbe"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Farbe
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1241"}
+                  %a.weak
+                    Blautöne
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1231"}
+                  %a.weak
+                    Gelb
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1267"}
+                  %a.weak
+                    Gelbtöne
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1255"}
+                  %a.weak
+                    Grüntöne
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1245"}
+                  %a.weak
+                    Oker
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1213"}
+                  %a.weak
+                    hellblau
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1211"}
+                  %a.weak
+                    weiss
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Horizontlinie"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Horizontlinie
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1061"}
+                  %a.weak
+                    unten
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Ra?umliche Wahrnehmung"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Räumliche Wahrnehmung
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1103"}
+                  %a.weak
+                    Froschperspektive
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1109"}
+                  %a.weak
+                    Texturgradient
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1099"}
+                  %a.weak
+                    Vogelperspektive
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1101"}
+                  %a.weak
+                    Zentralperspektive
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Abstraktionsgrad"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Abstraktionsgrad
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1021"}
+                  %a.weak
+                    abstrakt
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Landschaftselemente"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Landschaftselemente
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "431"}
+                  %a.weak
+                    Blumen
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "443"}
+                  %a.weak
+                    Bucht
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "435"}
+                  %a.weak
+                    Wolken
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Bildwirkung"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Bildwirkung
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1253"}
+                  %a.weak
+                    Einsamkeit
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1251"}
+                  %a.weak
+                    Erhabenheit
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1425"}
+                  %a.weak
+                    clean
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1401"}
+                  %a.weak
+                    dramatisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1403"}
+                  %a.weak
+                    düster
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1313"}
+                  %a.weak
+                    fantastisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1165"}
+                  %a.weak
+                    friedlich
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1161"}
+                  %a.weak
+                    idyllisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1205"}
+                  %a.weak
+                    kühl
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1399"}
+                  %a.weak
+                    künstlich
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1209"}
+                  %a.weak
+                    modern
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1361"}
+                  %a.weak
+                    naturnah
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1335"}
+                  %a.weak
+                    ruhig
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1287"}
+                  %a.weak
+                    technisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1371"}
+                  %a.weak
+                    technologisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1289"}
+                  %a.weak
+                    unfreundlich
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1311"}
+                  %a.weak
+                    utopisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1393"}
+                  %a.weak
+                    verspielt
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "genre"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Genre
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "447"}
+                  %a.weak
+                    Landschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "style"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Stil- und Kunstrichtungen
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1995"}
+                  %a.weak
+                    Futurismus
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "655"}
+                  %a.weak
+                    Konzeptkunst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1839"}
+                  %a.weak
+                    Subjektive Fotografie
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "epoch"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Epoche
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "667"}
+                  %a.weak
+                    20. Jahrhundert
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "media_content", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            Werk
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "keywords"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Schlagworte zu Inhalt und Motiv
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "405"}
+                  %a.weak
+                    Diplomarbeit
+                    %span.ui-lvl3-item-count.resources_count 18
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "76"}
+                  %a.weak
+                    Fotografie
+                    %span.ui-lvl3-item-count.resources_count 18
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4608"}
+                  %a.weak
+                    Freizeit
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "2665"}
+                  %a.weak
+                    Inszenierung
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "447"}
+                  %a.weak
+                    Landschaft
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4607"}
+                  %a.weak
+                    Mode
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1353"}
+                  %a.weak
+                    Natur
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4606"}
+                  %a.weak
+                    Outdoor
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4604"}
+                  %a.weak
+                    Sport
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4605"}
+                  %a.weak
+                    Sportbekleidung
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4599"}
+                  %a.weak
+                    Beobachtung
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4600"}
+                  %a.weak
+                    Bild-Text
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4603"}
+                  %a.weak
+                    Bildserie
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4598"}
+                  %a.weak
+                    Hefte
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4601"}
+                  %a.weak
+                    Konsumkultur
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "655"}
+                  %a.weak
+                    Konzeptkunst
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4602"}
+                  %a.weak
+                    Persiflage
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "35"}
+                  %a.weak
+                    Stadt
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "2411"}
+                  %a.weak
+                    Zürich
+                    %span.ui-lvl3-item-count.resources_count 6
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "type"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Gattung
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "76"}
+                  %a.weak
+                    Fotografie
+                    %span.ui-lvl3-item-count.resources_count 17
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "79"}
+                  %a.weak
+                    Kunst
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item.has-active{"data-context-id" => "media_object", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle.open
+            Medium
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body.open
+            %li.ui-side-filter-lvl2-item.has-active{"data-key-name" => "portrayed object materials"}
+              %a.ui-accordion-toggle.weak.open
+                %i.ui-side-filter-lvl2-marker
+                Material/Format
+              %ul.ui-side-filter-lvl3.ui-accordion-body.open
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "2197"}
+                  %a.weak
+                    Original: Kleinbilddia Farbe; Digitalisat: TIFF
+                    %span.ui-lvl3-item-count.resources_count 18
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:checked => "checked", :type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "Columns", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            Säulenordnungen
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "genre"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Genre
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "447"}
+                  %a.weak
+                    Landschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "style"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Stil- und Kunstrichtungen
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1995"}
+                  %a.weak
+                    Futurismus
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "655"}
+                  %a.weak
+                    Konzeptkunst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1839"}
+                  %a.weak
+                    Subjektive Fotografie
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "epoch"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Epoche
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "667"}
+                  %a.weak
+                    20. Jahrhundert
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "zhdk_bereich", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            ZHdK
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "project type"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                ZHdK-Projekttyp
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "85"}
+                  %a.weak
+                    Abschlussarbeit
+                    %span.ui-lvl3-item-count.resources_count 18
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "academic year"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Studienabschnitt
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "341"}
+                  %a.weak
+                    Hauptstudium Diplom
+                    %span.ui-lvl3-item-count.resources_count 18
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "VFO", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            Lehrmittel Fotografie
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "genre"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Genre
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "447"}
+                  %a.weak
+                    Landschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "style"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Stil- und Kunstrichtungen
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1995"}
+                  %a.weak
+                    Futurismus
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "655"}
+                  %a.weak
+                    Konzeptkunst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1839"}
+                  %a.weak
+                    Subjektive Fotografie
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "epoch"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Epoche
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "667"}
+                  %a.weak
+                    20. Jahrhundert
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+  
+  = partial('example') do
+    #ui-side-filter.filter-panel.ui-side-filter
+      .ui-side-filter-filterset
+        .col4of5
+          %a.button.ui-filterset-new
+            %i.icon-checkmark
+            Update this filterset
+        .col1of5
+          %a.button.ui-filterset-reset
+            %i.icon-undo
+      #ui-side-filter-search.ui-side-filter-search.filter-search
+        %form#filter_search_form
+          %input#search_term.block.ui-filter-search-input{:name => "search", :placeholder => "Eingrenzen mit Suchwort", :type => "text"}/
+      %ul.top-filter-list.ui-side-filter-list
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "media_resources", "data-filter-type" => "media_resources"}
+          %a.strong.ui-accordion-toggle.open
+            Inhalte
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body.open
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "type"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Typ
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "MediaEntry"}
+                  %a.weak
+                    Medieneinträge
+                    %span.ui-lvl3-item-count.resources_count 18
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "media_files", "data-filter-type" => "media_files"}
+          %a.strong.ui-accordion-toggle.open
+            Datei
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body.open
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "media_type"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Medientyp
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "image"}
+                  %a.weak
+                    image
+                    %span.ui-lvl3-item-count.resources_count 18
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "extension"}
+              %a.ui-accordion-toggle.weak.open
+                %i.ui-side-filter-lvl2-marker
+                Dokumenttyp
+              %ul.ui-side-filter-lvl3.ui-accordion-body.open
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "tif"}
+                  %a.weak
+                    tif
+                    %span.ui-lvl3-item-count.resources_count 18
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "permissions", "data-filter-type" => "permissions"}
+          %a.strong.ui-accordion-toggle
+            Berechtigung
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "owner"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Verantwortliche Person
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "7"}
+                  %a.weak
+                    Knacknuss, Karen
+                    %span.ui-lvl3-item-count.resources_count 18
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "scope"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Zugriff
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "public"}
+                  %a.weak
+                    Öffentliche Inhalte
+                    %span.ui-lvl3-item-count.resources_count 18
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "Landschaftsvisualisierung", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            Landschaftsvisualisierung
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Landschaftstyp"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Landschaftstyp
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1065"}
+                  %a.weak
+                    Erholungszone
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1087"}
+                  %a.weak
+                    Naturlandschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1089"}
+                  %a.weak
+                    Parklandschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1093"}
+                  %a.weak
+                    Stadtlandschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1095"}
+                  %a.weak
+                    Tourismusgebiet
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Verwendungszweck"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Verwendungszweck
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1067"}
+                  %a.weak
+                    Architekturbild
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1017"}
+                  %a.weak
+                    Ausstellung
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1071"}
+                  %a.weak
+                    Computerspiel
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1069"}
+                  %a.weak
+                    Illustration
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "79"}
+                  %a.weak
+                    Kunst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1115"}
+                  %a.weak
+                    Wettbewerb
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Bildzeit"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Bildzeit
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1033"}
+                  %a.weak
+                    Frühling
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1037"}
+                  %a.weak
+                    Herbst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1047"}
+                  %a.weak
+                    Mittag
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1053"}
+                  %a.weak
+                    Nacht
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1035"}
+                  %a.weak
+                    Sommer
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1039"}
+                  %a.weak
+                    Winter
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Wetter/Klima"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Wetter/Klima
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1119"}
+                  %a.weak
+                    Bewölkung/wolkig
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1125"}
+                  %a.weak
+                    Morgenrot
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1127"}
+                  %a.weak
+                    Nebel
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1131"}
+                  %a.weak
+                    Schnee
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1139"}
+                  %a.weak
+                    Wind
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Farbe"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Farbe
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1241"}
+                  %a.weak
+                    Blautöne
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1231"}
+                  %a.weak
+                    Gelb
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1267"}
+                  %a.weak
+                    Gelbtöne
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1255"}
+                  %a.weak
+                    Grüntöne
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1245"}
+                  %a.weak
+                    Oker
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1213"}
+                  %a.weak
+                    hellblau
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1211"}
+                  %a.weak
+                    weiss
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Horizontlinie"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Horizontlinie
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1061"}
+                  %a.weak
+                    unten
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Ra?umliche Wahrnehmung"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Räumliche Wahrnehmung
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1103"}
+                  %a.weak
+                    Froschperspektive
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1109"}
+                  %a.weak
+                    Texturgradient
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1099"}
+                  %a.weak
+                    Vogelperspektive
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1101"}
+                  %a.weak
+                    Zentralperspektive
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Abstraktionsgrad"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Abstraktionsgrad
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1021"}
+                  %a.weak
+                    abstrakt
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Landschaftselemente"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Landschaftselemente
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "431"}
+                  %a.weak
+                    Blumen
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "443"}
+                  %a.weak
+                    Bucht
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "435"}
+                  %a.weak
+                    Wolken
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Bildwirkung"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Bildwirkung
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1253"}
+                  %a.weak
+                    Einsamkeit
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1251"}
+                  %a.weak
+                    Erhabenheit
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1425"}
+                  %a.weak
+                    clean
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1401"}
+                  %a.weak
+                    dramatisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1403"}
+                  %a.weak
+                    düster
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1313"}
+                  %a.weak
+                    fantastisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1165"}
+                  %a.weak
+                    friedlich
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1161"}
+                  %a.weak
+                    idyllisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1205"}
+                  %a.weak
+                    kühl
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1399"}
+                  %a.weak
+                    künstlich
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1209"}
+                  %a.weak
+                    modern
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1361"}
+                  %a.weak
+                    naturnah
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1335"}
+                  %a.weak
+                    ruhig
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1287"}
+                  %a.weak
+                    technisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1371"}
+                  %a.weak
+                    technologisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1289"}
+                  %a.weak
+                    unfreundlich
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1311"}
+                  %a.weak
+                    utopisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1393"}
+                  %a.weak
+                    verspielt
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "genre"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Genre
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "447"}
+                  %a.weak
+                    Landschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "style"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Stil- und Kunstrichtungen
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1995"}
+                  %a.weak
+                    Futurismus
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "655"}
+                  %a.weak
+                    Konzeptkunst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1839"}
+                  %a.weak
+                    Subjektive Fotografie
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "epoch"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Epoche
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "667"}
+                  %a.weak
+                    20. Jahrhundert
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "media_content", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            Werk
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "keywords"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Schlagworte zu Inhalt und Motiv
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "405"}
+                  %a.weak
+                    Diplomarbeit
+                    %span.ui-lvl3-item-count.resources_count 18
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "76"}
+                  %a.weak
+                    Fotografie
+                    %span.ui-lvl3-item-count.resources_count 18
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4608"}
+                  %a.weak
+                    Freizeit
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "2665"}
+                  %a.weak
+                    Inszenierung
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "447"}
+                  %a.weak
+                    Landschaft
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4607"}
+                  %a.weak
+                    Mode
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1353"}
+                  %a.weak
+                    Natur
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4606"}
+                  %a.weak
+                    Outdoor
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4604"}
+                  %a.weak
+                    Sport
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4605"}
+                  %a.weak
+                    Sportbekleidung
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4599"}
+                  %a.weak
+                    Beobachtung
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4600"}
+                  %a.weak
+                    Bild-Text
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4603"}
+                  %a.weak
+                    Bildserie
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4598"}
+                  %a.weak
+                    Hefte
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4601"}
+                  %a.weak
+                    Konsumkultur
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "655"}
+                  %a.weak
+                    Konzeptkunst
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4602"}
+                  %a.weak
+                    Persiflage
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "35"}
+                  %a.weak
+                    Stadt
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "2411"}
+                  %a.weak
+                    Zürich
+                    %span.ui-lvl3-item-count.resources_count 6
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "type"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Gattung
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "76"}
+                  %a.weak
+                    Fotografie
+                    %span.ui-lvl3-item-count.resources_count 17
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "79"}
+                  %a.weak
+                    Kunst
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item.has-active{"data-context-id" => "media_object", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle.open
+            Medium
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body.open
+            %li.ui-side-filter-lvl2-item.has-active{"data-key-name" => "portrayed object materials"}
+              %a.ui-accordion-toggle.weak.open
+                %i.ui-side-filter-lvl2-marker
+                Material/Format
+              %ul.ui-side-filter-lvl3.ui-accordion-body.open
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "2197"}
+                  %a.weak
+                    Original: Kleinbilddia Farbe; Digitalisat: TIFF
+                    %span.ui-lvl3-item-count.resources_count 18
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:checked => "checked", :type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "Columns", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            Säulenordnungen
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "genre"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Genre
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "447"}
+                  %a.weak
+                    Landschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "style"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Stil- und Kunstrichtungen
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1995"}
+                  %a.weak
+                    Futurismus
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "655"}
+                  %a.weak
+                    Konzeptkunst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1839"}
+                  %a.weak
+                    Subjektive Fotografie
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "epoch"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Epoche
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "667"}
+                  %a.weak
+                    20. Jahrhundert
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "zhdk_bereich", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            ZHdK
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "project type"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                ZHdK-Projekttyp
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "85"}
+                  %a.weak
+                    Abschlussarbeit
+                    %span.ui-lvl3-item-count.resources_count 18
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "academic year"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Studienabschnitt
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "341"}
+                  %a.weak
+                    Hauptstudium Diplom
+                    %span.ui-lvl3-item-count.resources_count 18
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "VFO", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            Lehrmittel Fotografie
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "genre"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Genre
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "447"}
+                  %a.weak
+                    Landschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "style"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Stil- und Kunstrichtungen
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1995"}
+                  %a.weak
+                    Futurismus
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "655"}
+                  %a.weak
+                    Konzeptkunst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1839"}
+                  %a.weak
+                    Subjektive Fotografie
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "epoch"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Epoche
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "667"}
+                  %a.weak
+                    20. Jahrhundert
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+  
+  = partial('example') do
+    #ui-side-filter.filter-panel.ui-side-filter
+      .ui-side-filter-filterset
+        %a.button.ui-filterset-new
+          %i.icon-plus
+          Save as a new filterset
+      #ui-side-filter-search.ui-side-filter-search.filter-search
+        %form#filter_search_form
+          %input#search_term.block.ui-filter-search-input{:name => "search", :placeholder => "Eingrenzen mit Suchwort", :type => "text"}/
+      %ul.top-filter-list.ui-side-filter-list
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "media_resources", "data-filter-type" => "media_resources"}
+          %a.strong.ui-accordion-toggle.open
+            Inhalte
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body.open
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "type"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Typ
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "MediaEntry"}
+                  %a.weak
+                    Medieneinträge
+                    %span.ui-lvl3-item-count.resources_count 18
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "media_files", "data-filter-type" => "media_files"}
+          %a.strong.ui-accordion-toggle.open
+            Datei
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body.open
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "media_type"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Medientyp
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "image"}
+                  %a.weak
+                    image
+                    %span.ui-lvl3-item-count.resources_count 18
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "extension"}
+              %a.ui-accordion-toggle.weak.open
+                %i.ui-side-filter-lvl2-marker
+                Dokumenttyp
+              %ul.ui-side-filter-lvl3.ui-accordion-body.open
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "tif"}
+                  %a.weak
+                    tif
+                    %span.ui-lvl3-item-count.resources_count 18
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "permissions", "data-filter-type" => "permissions"}
+          %a.strong.ui-accordion-toggle
+            Berechtigung
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "owner"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Verantwortliche Person
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "7"}
+                  %a.weak
+                    Knacknuss, Karen
+                    %span.ui-lvl3-item-count.resources_count 18
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "scope"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Zugriff
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "public"}
+                  %a.weak
+                    Öffentliche Inhalte
+                    %span.ui-lvl3-item-count.resources_count 18
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "Landschaftsvisualisierung", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            Landschaftsvisualisierung
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Landschaftstyp"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Landschaftstyp
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1065"}
+                  %a.weak
+                    Erholungszone
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1087"}
+                  %a.weak
+                    Naturlandschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1089"}
+                  %a.weak
+                    Parklandschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1093"}
+                  %a.weak
+                    Stadtlandschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1095"}
+                  %a.weak
+                    Tourismusgebiet
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Verwendungszweck"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Verwendungszweck
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1067"}
+                  %a.weak
+                    Architekturbild
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1017"}
+                  %a.weak
+                    Ausstellung
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1071"}
+                  %a.weak
+                    Computerspiel
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1069"}
+                  %a.weak
+                    Illustration
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "79"}
+                  %a.weak
+                    Kunst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1115"}
+                  %a.weak
+                    Wettbewerb
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Bildzeit"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Bildzeit
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1033"}
+                  %a.weak
+                    Frühling
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1037"}
+                  %a.weak
+                    Herbst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1047"}
+                  %a.weak
+                    Mittag
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1053"}
+                  %a.weak
+                    Nacht
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1035"}
+                  %a.weak
+                    Sommer
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1039"}
+                  %a.weak
+                    Winter
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Wetter/Klima"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Wetter/Klima
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1119"}
+                  %a.weak
+                    Bewölkung/wolkig
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1125"}
+                  %a.weak
+                    Morgenrot
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1127"}
+                  %a.weak
+                    Nebel
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1131"}
+                  %a.weak
+                    Schnee
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1139"}
+                  %a.weak
+                    Wind
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Farbe"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Farbe
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1241"}
+                  %a.weak
+                    Blautöne
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1231"}
+                  %a.weak
+                    Gelb
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1267"}
+                  %a.weak
+                    Gelbtöne
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1255"}
+                  %a.weak
+                    Grüntöne
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1245"}
+                  %a.weak
+                    Oker
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1213"}
+                  %a.weak
+                    hellblau
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1211"}
+                  %a.weak
+                    weiss
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Horizontlinie"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Horizontlinie
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1061"}
+                  %a.weak
+                    unten
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Ra?umliche Wahrnehmung"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Räumliche Wahrnehmung
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1103"}
+                  %a.weak
+                    Froschperspektive
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1109"}
+                  %a.weak
+                    Texturgradient
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1099"}
+                  %a.weak
+                    Vogelperspektive
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1101"}
+                  %a.weak
+                    Zentralperspektive
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Abstraktionsgrad"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Abstraktionsgrad
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1021"}
+                  %a.weak
+                    abstrakt
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Landschaftselemente"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Landschaftselemente
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "431"}
+                  %a.weak
+                    Blumen
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "443"}
+                  %a.weak
+                    Bucht
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "435"}
+                  %a.weak
+                    Wolken
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "LV_Bildwirkung"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Bildwirkung
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1253"}
+                  %a.weak
+                    Einsamkeit
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1251"}
+                  %a.weak
+                    Erhabenheit
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1425"}
+                  %a.weak
+                    clean
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1401"}
+                  %a.weak
+                    dramatisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1403"}
+                  %a.weak
+                    düster
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1313"}
+                  %a.weak
+                    fantastisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1165"}
+                  %a.weak
+                    friedlich
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1161"}
+                  %a.weak
+                    idyllisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1205"}
+                  %a.weak
+                    kühl
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1399"}
+                  %a.weak
+                    künstlich
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1209"}
+                  %a.weak
+                    modern
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1361"}
+                  %a.weak
+                    naturnah
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1335"}
+                  %a.weak
+                    ruhig
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1287"}
+                  %a.weak
+                    technisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1371"}
+                  %a.weak
+                    technologisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1289"}
+                  %a.weak
+                    unfreundlich
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1311"}
+                  %a.weak
+                    utopisch
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1393"}
+                  %a.weak
+                    verspielt
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "genre"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Genre
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "447"}
+                  %a.weak
+                    Landschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "style"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Stil- und Kunstrichtungen
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1995"}
+                  %a.weak
+                    Futurismus
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "655"}
+                  %a.weak
+                    Konzeptkunst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1839"}
+                  %a.weak
+                    Subjektive Fotografie
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "epoch"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Epoche
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "667"}
+                  %a.weak
+                    20. Jahrhundert
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "media_content", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            Werk
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "keywords"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Schlagworte zu Inhalt und Motiv
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "405"}
+                  %a.weak
+                    Diplomarbeit
+                    %span.ui-lvl3-item-count.resources_count 18
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "76"}
+                  %a.weak
+                    Fotografie
+                    %span.ui-lvl3-item-count.resources_count 18
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4608"}
+                  %a.weak
+                    Freizeit
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "2665"}
+                  %a.weak
+                    Inszenierung
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "447"}
+                  %a.weak
+                    Landschaft
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4607"}
+                  %a.weak
+                    Mode
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1353"}
+                  %a.weak
+                    Natur
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4606"}
+                  %a.weak
+                    Outdoor
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4604"}
+                  %a.weak
+                    Sport
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4605"}
+                  %a.weak
+                    Sportbekleidung
+                    %span.ui-lvl3-item-count.resources_count 12
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4599"}
+                  %a.weak
+                    Beobachtung
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4600"}
+                  %a.weak
+                    Bild-Text
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4603"}
+                  %a.weak
+                    Bildserie
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4598"}
+                  %a.weak
+                    Hefte
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4601"}
+                  %a.weak
+                    Konsumkultur
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "655"}
+                  %a.weak
+                    Konzeptkunst
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "4602"}
+                  %a.weak
+                    Persiflage
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "35"}
+                  %a.weak
+                    Stadt
+                    %span.ui-lvl3-item-count.resources_count 6
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "2411"}
+                  %a.weak
+                    Zürich
+                    %span.ui-lvl3-item-count.resources_count 6
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "type"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Gattung
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "76"}
+                  %a.weak
+                    Fotografie
+                    %span.ui-lvl3-item-count.resources_count 17
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "79"}
+                  %a.weak
+                    Kunst
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item.has-active{"data-context-id" => "media_object", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle.open
+            Medium
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body.open
+            %li.ui-side-filter-lvl2-item.has-active{"data-key-name" => "portrayed object materials"}
+              %a.ui-accordion-toggle.weak.open
+                %i.ui-side-filter-lvl2-marker
+                Material/Format
+              %ul.ui-side-filter-lvl3.ui-accordion-body.open
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "2197"}
+                  %a.weak
+                    Original: Kleinbilddia Farbe; Digitalisat: TIFF
+                    %span.ui-lvl3-item-count.resources_count 18
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:checked => "checked", :type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "Columns", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            Säulenordnungen
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "genre"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Genre
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "447"}
+                  %a.weak
+                    Landschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "style"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Stil- und Kunstrichtungen
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1995"}
+                  %a.weak
+                    Futurismus
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "655"}
+                  %a.weak
+                    Konzeptkunst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1839"}
+                  %a.weak
+                    Subjektive Fotografie
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "epoch"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Epoche
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "667"}
+                  %a.weak
+                    20. Jahrhundert
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "zhdk_bereich", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            ZHdK
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "project type"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                ZHdK-Projekttyp
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "85"}
+                  %a.weak
+                    Abschlussarbeit
+                    %span.ui-lvl3-item-count.resources_count 18
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "academic year"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Studienabschnitt
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "341"}
+                  %a.weak
+                    Hauptstudium Diplom
+                    %span.ui-lvl3-item-count.resources_count 18
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+        %li.ui-side-filter-lvl1-item.ui-side-filter-item{"data-context-id" => "VFO", "data-filter-type" => "meta_data"}
+          %a.strong.ui-accordion-toggle
+            Lehrmittel Fotografie
+            %i.ui-side-filter-lvl1-marker
+          %ul.ui-side-filter-lvl2.ui-accordion-body
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "genre"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Genre
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "447"}
+                  %a.weak
+                    Landschaft
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "style"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Stil- und Kunstrichtungen
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1995"}
+                  %a.weak
+                    Futurismus
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "655"}
+                  %a.weak
+                    Konzeptkunst
+                    %span.ui-lvl3-item-count.resources_count 1
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "1839"}
+                  %a.weak
+                    Subjektive Fotografie
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox
+            %li.ui-side-filter-lvl2-item{"data-key-name" => "epoch"}
+              %a.ui-accordion-toggle.weak
+                %i.ui-side-filter-lvl2-marker
+                Epoche
+              %ul.ui-side-filter-lvl3.ui-accordion-body
+                %li.ui-side-filter-lvl3-item.resources_filter{"data-value" => "667"}
+                  %a.weak
+                    20. Jahrhundert
+                    %span.ui-lvl3-item-count.resources_count 1
+              %label.ui-any-value{:title => "Jegliche Werte"}
+                %input.any-value.hidden{:type => "checkbox"}/
+                %i.icon-checkbox

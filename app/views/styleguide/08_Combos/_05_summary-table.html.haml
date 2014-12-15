@@ -1,0 +1,35 @@
+:ruby
+  element = {
+    name: 'Metadata summary',
+    cssFile: '_ui-summary-table.scss',
+    cssSelector: '.ui-summary-table',
+    section: '8.5'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    .ui-metadata-box.ui-summary-table
+      %table.borderless
+        %tbody
+          %tr
+            %td.ui-summary-label Titel
+            %td.ui-summary-content.title-l Black hot drink
+          %tr
+            %td.ui-summary-label Beschreibung
+            %td.ui-summary-content Die Medieneinträge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden können. Die Medieneinträge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden können. Die Medieneinträge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden können. Die Medieneinträge in diesem Set dienen als Beispiele, wie die Metadatenfelder zur Verschlagwortung genutzt werden können.
+          %tr
+            %td.ui-summary-label Autor/in
+            %td.ui-summary-content
+              %a{:href => "#"} Federico C.
+          %tr
+            %td.ui-summary-label Eigentumer/in
+            %td.ui-summary-content
+              %a{:href => "#"} Federico C.
+          %tr
+            %td.ui-summary-label Schlagworte
+            %td.ui-summary-content
+              %ul.ui-tag-cloud.small
+                %li.ui-tag-cloud-item
+                  %a.ui-tag-button{:href => "#"} Tag 1
+                %li.ui-tag-cloud-item
+                  %a.ui-tag-button{:href => "#"} Tag 2

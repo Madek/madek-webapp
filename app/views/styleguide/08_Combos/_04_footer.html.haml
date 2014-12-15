@@ -1,0 +1,37 @@
+:ruby
+  element = {
+    name: 'Footer',
+    cssFile: '_ui-footer.scss',
+    cssSelector: '.ui-footer',
+    section: '8.4'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    %footer.ui-footer.ui-container.inverted
+      %ul.ui-footer-menu
+        %li
+          %a{:href => "http://www.zhdk.ch/?madek"}
+            About the project
+        %li
+          %a{:href => "http://www.zhdk.ch/index.php?id=12970"}
+            Impressum
+        %li
+          %a{:href => "http://www.zhdk.ch/index.php?id=49591"}
+            Contact
+        %li
+          %a{:href => "http://wiki.zhdk.ch/madek-hilfe"}
+            Help
+        %li
+          %a{:href => "https://wiki.zhdk.ch/madek-hilfe/doku.php?id=terms"}
+            Terms of Use
+        %li
+          %a{:href => "http://www.zhdk.ch/?archivierung"}
+            Archivierungsrichtlinien ZHdK
+      %p.ui-footer-copy
+        %a{:href => "http://madek.zhdk.ch"}
+          %i.icon-madek.ui-footer-logo
+        Zürcher Hochschule der Künste and contributors
+      %p.ui-footer-version
+        Last deployment:
+        %a.weak{:href => "#"} Fri, 22 Nov 2013

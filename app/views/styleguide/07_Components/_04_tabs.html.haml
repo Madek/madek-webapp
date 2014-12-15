@@ -1,0 +1,24 @@
+:ruby
+  element = {
+    name: 'Tabs',
+    cssSelector: '.ui-tabs',
+    cssFile: '_ui-tabs.scss',
+    section: '7.4',
+    mods: {
+      nil => 'Default',
+      'primary' => 'Primary tab navigation',
+      'small' => 'Small tab navigation',
+      'large' => 'Large tab navigation',
+      'by-right' => 'Aligned right',
+      'by-center' => 'Centered'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      %ul.ui-tabs{class: name}
+        %li.ui-tabs-item
+          %a{:href => "#"} Item 1
+        %li.ui-tabs-item.active
+          %a{:href => "#"} Item 2

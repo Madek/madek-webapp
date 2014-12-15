@@ -179,3 +179,35 @@ authenticated access to the raw file.
     - if pdf height/width-ratio is known, apply it to the preview area
 
 
+----
+
+## UI Components
+
+From small to bigger
+
+1. plain HAML - HTML tags and content. only very simple things.
+2. partials - combos, no nesting, supports config and data
+3. ui helpers - combos, nestable, supports config and block(s)
+    - how to build something like `FormBuilder`?
+      ```
+      = ui_sidenav(config) do |nav|
+        nav.item do
+          %a.foobar
+      
+      ```
+    - some links regarding this syntax/api:
+        - "Rails Builders" - formbuilder, jbuilder, xmlbuilder, …
+        - [rails' `form_helper.rb`](https://github.com/rails/rails/blob/f9d4b50944e09273e299ff1b3cec5638320b7ae9/actionview/lib/action_view/helpers/form_helper.rb)
+        - [`multiblock` gem](https://github.com/monterail/multiblock)
+        - [`rails-multi_block_helpers` gem](https://github.com/Selleo/rails-multi_block_helpers)
+        - [haml blocks and capture](https://www.ruby-forum.com/topic/2174513)
+        - [manual haml engine](http://stackoverflow.com/questions/9623020/rendering-haml-from-rails-helper-inside-a-loop-iteration?rq=1)
+    - more interesting ideas:
+        - [`haml_user_tags` gem](http://cgamesplay.github.io/haml_user_tags/tutorial.html)
+4. Rails Layouts => rails views, clear definition of sections
+
+### Styleguide TODO
+
+- use application layout
+- info-only-section should contain 1 markdown doc instead of 1 haml doc
+- <http://pathfindersoftware.com/2008/07/pretty-blocks-in-rails-views/>

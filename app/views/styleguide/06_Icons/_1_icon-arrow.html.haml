@@ -1,0 +1,24 @@
+:ruby
+  element = {
+    name: 'Arrow Icons',
+    cssFile: '_icons.scss',
+    cssSelector: '.icon-arrow-',
+    section: '6.1',
+    description: 'By default, icons inherit font colour from their parent. A few modifier classes are provided to alter icon\'s colour when needed. Arrow icons come also with small size variation.',
+    mods: {
+      nil => 'Default',
+      'bright' => 'White variation',
+      'mid' => 'Grey variation',
+      'branded' => 'Branded variation',
+      'small' => 'Small variation',
+      # 'branded small' => 'Small Branded Variation'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      %i.icon-arrow-up{class: name}
+      %i.icon-arrow-right{class: name}
+      %i.icon-arrow-down{class: name}
+      %i.icon-arrow-left{class: name}

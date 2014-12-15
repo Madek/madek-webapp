@@ -1,0 +1,21 @@
+:ruby
+  element = {
+    name: 'Alert messages',
+    cssSelector: '.ui-alert',
+    cssFile: '_ui-alerts.scss',
+    section: '7.7',
+    mods: {
+      nil => 'Default',
+      'success' => 'Success messages',
+      'warning' => 'Warning messages',
+      'error' => 'Error messages',
+      'confirmation' => 'Confirmation messages'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      .ui-alerts
+        .ui-alert{class: name}
+          Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere.

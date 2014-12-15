@@ -1,0 +1,18 @@
+:ruby
+  element = {
+    name: 'Search Form',
+    cssFile: '_ui-search-form.scss',
+    cssSelector: '.ui-search-form',
+    section: '8.18'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    .ui-search-form
+      %form{"accept-charset" => "UTF-8", :action => "/search", :method => "post"}
+        %div{:style => "margin:0;padding:0;display:inline"}
+          %input{:name => "utf8", :type => "hidden", :value => "✓"}/
+          %input{:name => "authenticity_token", :type => "hidden", :value => "J2zGT/GbRydo5RJ9ogojTO79rSF5U+wWOPTfufkMmcU="}/
+        .ui-search.large.mts
+          %input#search.block.ui-search-input{:name => "search", :placeholder => "z.B. Bild-Text", :type => "text"}/
+          %button.primary-button.ui-search-button{:type => "submit"} Suche

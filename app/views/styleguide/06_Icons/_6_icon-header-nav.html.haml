@@ -1,0 +1,18 @@
+:ruby
+  element = {
+    name: 'Header Nav Icons',
+    cssFile: '_icons.scss',
+    cssSelector: '.icon-',
+    section: '6.6',
+    mods: {
+      nil => 'Default',
+      'dark' => 'Midtone variation'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      %i.icon-nav-help{class: name}
+      %i.icon-nav-search{class: name}
+

@@ -1,0 +1,52 @@
+:ruby
+  element = {
+    name: 'Clipboard',
+    description: 'Description',
+    cssFile: '_ui-clipboard.scss',
+    cssSelector: '.ui-clipboard',
+    section: '8.6'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    .ui-clipboard
+      %a#clipboard-toggle.block.ui-clipboard-toggle.inverted-transparent
+        Zwischenablage
+        %span.ui-clipboard-counter.hidden{:style => "display: inline;"} 1
+      .ui-container.inverted-transparent.ui-clipboard-content{:style => "display: block;"}
+        .col5of6
+          %ul.ui-resources.miniature.ui-clipboard-resources-list.hidden{:style => "display: block;"}
+            %li.ui-resource{"data-id" => "71", :title => ""}
+              .ui-resource-body
+                .ui-resource-thumbnail
+                  .ui-thumbnail.media-entry.doc
+                    %a.ui-thumbnail-image-wrapper{:href => "#"}
+                    .ui-thumbnail-image-holder
+                      .ui-thumbnail-table-image-holder
+                        .ui-thumbnail-cell-image-holder
+                          .ui-thumbnail-inner-image-holder
+                            %img.ui-thumbnail-image{:src => asset_path("styleguide/media-entry-6.jpeg")}/
+              .ui-resource-clipboard-remove{:title => "Aus der Zwischenablage entfernen"}
+                .icon-remove.bright
+          %p.ui-clipboard-alert.ui-clipboard-empty-alert{:style => "display: none;"}
+            %span.text.title-l Keine Inhalte ausgewählt
+          %p.ui-clipboard-alert.ui-clipboard-size-alert.title-l.hidden{:style => "display: none;"}
+            Mehr als 99 Elemente ausgewählt
+        .col1of6
+          .ui-clipboard-actions
+            .ui-dropup.dropup.stick-right
+              %a.primary-button.block.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"} Aktionen
+              %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+                %li.ui-drop-item
+                  %a Zu Set hinzufügen/entfernen
+                %li.ui-drop-item
+                  %a Zugriffsberechtigungen anzeigen
+                %li.ui-drop-item.ui-clipboard-manage-button{:style => ""}
+                  %a
+                    %span.ui-count 37
+                    Zugriffsberechtigungen editieren
+                %li.ui-drop-item.ui-clipboard-edit-button{:style => ""}
+                  %a
+                    %span.ui-count 36
+                    MetaDaten von Medieneinträgen bearbeiten
+            %a.tertiary-button.small.block.ui-clipboard-clear Zwischenablage Leeren

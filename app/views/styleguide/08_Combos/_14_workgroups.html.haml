@@ -1,0 +1,30 @@
+:ruby
+  element = {
+    name: 'Workgroups tables',
+    cssFile: '_ui-workgroups.scss',
+    cssSelector: '.ui-workgroups',
+    section: '8.14'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    %table.ui-workgroups.bordered.block
+      %tbody
+        %tr{"data-id" => "4"}
+          %td.ui-workgroup-name Diplomarbeitsgruppe
+          %td.ui-workgroup-items
+            %a{:href => "###media_resources?permissions%5Bgroup%5D%5Bids%5D%5B%5D=4", :title => "Inhalte dieser Gruppe anzeigen"} 2 Inhalte
+          %td.ui-workgroup-actions
+            %a.button.delete-workgroup
+              %i.icon-trash.dark
+            %a.button.edit-workgroup
+              %i.icon-pen.dark
+        %tr{"data-id" => "3"}
+          %td.ui-workgroup-name ZHdK
+          %td.ui-workgroup-items
+            %a{:href => "###media_resources?permissions%5Bgroup%5D%5Bids%5D%5B%5D=3", :title => "Inhalte dieser Gruppe anzeigen"} 3 Inhalte
+          %td.ui-workgroup-actions
+            %a.button.delete-workgroup
+              %i.icon-trash.dark
+            %a.button.edit-workgroup
+              %i.icon-pen.dark

@@ -1,0 +1,34 @@
+:ruby
+  element = {
+    name: 'ui-modals',
+    cssSelector: '.ui-modal',
+    cssFile: '_ui-modals.scss',
+    section: '7.10',
+    mods: {
+      nil => 'Default',
+      'narrow' => 'Narrow variation',
+      'wide' => 'Wide variation',
+      'extrawide' => 'Extra-Wide variation',
+      'crucial' => 'Is scrollable, should be used instead of `.app-body`'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      .ui-modal{:class => name}
+        .ui-modal-head
+          %h3.title-l
+            ui-modal Title
+          %a.modal-close.ui-modal-close{"aria-hidden" => "true", "data-dismiss" => "modal", :title => "Close"}
+            %i.icon-close
+        .ui-modal-toolbar.top
+          ui-toolbar content if any
+        .ui-modal-body
+          ui-modal Body
+        .ui-modal-toolbar.bottom
+          ui-toolbar content if any
+        .ui-modal-footer
+          .ui-actions
+            %a.link.weak Secondary Action
+            %a.primary-button Primary Action

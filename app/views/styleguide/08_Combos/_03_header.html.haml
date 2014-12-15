@@ -1,0 +1,37 @@
+:ruby
+  element = {
+    name: 'Header',
+    cssFile: '_ui-header.scss',
+    cssSelector: '.ui-header',
+    section: '8.3'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    %header.ui-header.ui-container.inverted
+      .ui-header-brand
+        %img.ui-header-logo{:alt => "ZHdK", :src => asset_path("logo-zhdk.png")}/
+        %h1.ui-header-brand-name Zürcher Hochschule der Künste
+        %h2.ui-header-instance-name Medienarchiv der Künste
+      .ui-header-menu
+        %ul.large.primary.ui-tabs
+          %li.ui-tabs-item.active
+            %a{:href => "#"} Mein Archiv
+          %li.ui-tabs-item
+            %a{:href => "#"} Erkunden
+          %li.ui-tabs-item
+            %a{:href => "#"}
+              %i.icon-lens.bright
+              Suchen
+          %li.ui-tabs-item
+            %a{:href => "#"}
+              %i.icon-nav-help
+      .ui-header-user
+        .dropdown.ui-dropdown.stick-right
+          %a#user-action-button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
+            Normin Normalo
+            %i.icon-arrow-down.stand-alone.small
+          %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu", :style => "top: 100%; bottom: auto;"}
+            %li.ui-drop-item
+              %a.strong{:href => ""}
+                Dropdown

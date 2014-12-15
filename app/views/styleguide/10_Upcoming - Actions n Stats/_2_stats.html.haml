@@ -1,0 +1,130 @@
+:ruby
+  element = {
+    name: 'Stats module',
+    description: 'Present in the home page, on logged in dashboard and Erkunden page.',
+    cssFile: '???',
+    cssSelector: '.ui-stats',
+    section: '11.2'
+  }
+
+= partial('element', element) do
+  
+  = partial('example', { mod: 'Home Page Variation'}) do
+    %aside.ui-stats.mtl.bordered.ui-container
+      .row
+        .col1of5
+          .ui-stats__module.ui-container.pam
+            %i.icon-media-entry.ui-stats__icon
+            %a.ui-stats__value
+              32048
+            %br/
+            %span.ui-stats__unit
+              Medienenträge
+        .col1of5
+          .ui-stats__module.ui-container.bordered-left.pam
+            %i.icon-set.ui-stats__icon
+            %a.ui-stats__value
+              1765
+              %br/
+            %span.ui-stats__unit
+              Sets
+        .col1of5
+          .ui-stats__module.ui-container.bordered-left.pam
+            %i.icon-tag.ui-stats__icon
+            %a.ui-stats__value
+              54763
+            %br/
+            %span.ui-stats__unit
+              Schlagworte
+        .col1of5
+          .ui-stats__module.ui-container.bordered-left.pam
+            %i.icon-privacy-private.ui-stats__icon
+            %span.ui-stats__value
+              1023
+            %br/
+            %span.ui-stats__unit
+              Nutzerinnen
+        .col1of5
+          .ui-stats__module.ui-container.bordered-left.pam
+            %i.icon-privacy-group.ui-stats__icon
+            %span.ui-stats__value
+              809
+            %br/
+            %span.ui-stats__unit
+              Arbeitsgruppen
+  
+  = partial('example', { mod: 'Erkunden Variation'}) do
+    %aside.ui-stats
+      .row
+        .col1of5
+          .ui-stats__module.ui-container.pam
+            %i.icon-media-entry.ui-stats__icon
+            %a.ui-stats__value
+              32048
+            %br/
+            %span.ui-stats__unit
+              Medienenträge
+        .col1of5
+          .ui-stats__module.ui-container.bordered-left.pam
+            %i.icon-set.ui-stats__icon
+            %a.ui-stats__value
+              1765
+              %br/
+            %span.ui-stats__unit
+              Sets
+        .col1of5
+          .ui-stats__module.ui-container.bordered-left.pam
+            %i.icon-tag.ui-stats__icon
+            %a.ui-stats__value
+              54763
+            %br/
+            %span.ui-stats__unit
+              Schlagworte
+        .col1of5
+          .ui-stats__module.ui-container.bordered-left.pam
+            %i.icon-privacy-private.ui-stats__icon
+            %span.ui-stats__value
+              1023
+            %br/
+            %span.ui-stats__unit
+              Nutzerinnen
+        .col1of5
+          .ui-stats__module.ui-container.bordered-left.pam
+            %i.icon-privacy-group.ui-stats__icon
+            %span.ui-stats__value
+              809
+            %br/
+            %span.ui-stats__unit
+              Arbeitsgruppen
+  
+  = partial('example', { mod: 'Dashboard Variation'}) do
+    %aside.ui-stats
+      .row
+        .col1of4
+          .ui-stats__module.ui-container.pam
+            %i.ui-stats__icon.icon-media-entry
+            %a.ui-stats__value
+              324
+            %span.ui-stats__unit
+              Medienenträge
+        .col1of4
+          .ui-stats__module.ui-container.bordered-left.pam
+            %i.ui-stats__icon.icon-set
+            %a.ui-stats__value
+              123
+            %span.ui-stats__unit
+              Sets
+        .col1of4
+          .ui-stats__module.ui-container.bordered-left.pam
+            %i.ui-stats__icon.icon-filter
+            %a.ui-stats__value
+              2
+            %span.ui-stats__unit
+              Filtersets
+        .col1of4
+          .ui-stats__module.ui-container.bordered-left.pam
+            %i.ui-stats__icon.icon-user
+            %a.ui-stats__value
+              32
+            %span.ui-stats__unit
+              Personen

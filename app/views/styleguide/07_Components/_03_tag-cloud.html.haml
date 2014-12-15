@@ -1,0 +1,231 @@
+:ruby
+  element = {
+    name: 'Tag cloud',
+    cssSelector: '.ui-tag-cloud',
+    cssFile: '_ui-tag-cloud.scss',
+    section: '7.3',
+    mods: {
+      nil => 'Default',
+      'small' => 'Small variation',
+      'large' => 'Large variation',
+      'ellipsed' => 'Variation with a fixed width and ellipsis effect applied',
+      'compact' => 'Variation with a counters being hidden via CSS even if they’re in the HTML output'
+    }
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    %ul.ui-tag-cloud
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Kunst
+          %span.ui-tag-counter 12
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Fotografie
+          %span.ui-tag-counter 34
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Design
+          %span.ui-tag-counter 56
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Fotografie
+          %span.ui-tag-counter 78
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Art
+          %span.ui-tag-counter 90
+  = partial('example', { mod: 'small'}) do
+    %ul.ui-tag-cloud.small
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Kunst
+          %span.ui-tag-counter 12
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Fotografie
+          %span.ui-tag-counter 34
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Design
+          %span.ui-tag-counter 56
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Fotografie
+          %span.ui-tag-counter 78
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Art
+          %span.ui-tag-counter 90
+  = partial('example', { mod: 'large'}) do
+    %ul.ui-tag-cloud.large
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Kunst
+          %span.ui-tag-counter 12
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Fotografie
+          %span.ui-tag-counter 34
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Design
+          %span.ui-tag-counter 56
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Fotografie
+          %span.ui-tag-counter 78
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Art
+          %span.ui-tag-counter 90
+
+  = partial('example') do
+    %ul.ui-tag-cloud
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Freizeit
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Mode
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Outdoor
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Sport
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#"}
+          %i.icon-tag-mini.ui-tag-icon
+          Natur
+  = partial('example') do
+    %ul.ui-tag-cloud
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button.person-tag{:href => "#"}
+          %i.icon-user-mini.ui-tag-icon
+          Name, Surname
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button.person-tag{:href => "#"}
+          %i.icon-user-mini.ui-tag-icon
+          Name, Surname
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button.person-tag{:href => "#"}
+          %i.icon-user-mini.ui-tag-icon
+          Name, Surname
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button.person-tag{:href => "#"}
+          %i.icon-user-mini.ui-tag-icon
+          Name, Surname
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button.person-tag{:href => "#"}
+          %i.icon-user-mini.ui-tag-icon
+          Name, Surname
+  = partial('example') do
+    %ul.ui-tag-cloud
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button.person-tag{:href => "#"}
+          %i.icon-group-mini.ui-tag-icon
+          Group 1
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button.person-tag{:href => "#"}
+          %i.icon-group-mini.ui-tag-icon
+          Group 2
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button.person-tag{:href => "#"}
+          %i.icon-group-mini.ui-tag-icon
+          Group 3
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button.person-tag{:href => "#"}
+          %i.icon-group-mini.ui-tag-icon
+          Group 4
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button.person-tag{:href => "#"}
+          %i.icon-group-mini.ui-tag-icon
+          Group 5
+  = partial('example') do
+    %ul.ui-tag-cloud
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button.person-tag{:href => "#"} Term 1
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button.person-tag{:href => "#"} Term 2
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button.person-tag{:href => "#"} Term 3
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button.person-tag{:href => "#"} Term 4
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button.person-tag{:href => "#"} Term 5
+
+  = partial('example', { mod: 'ellipsed'}) do
+    %ul.ui-tag-cloud.ellipsed
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
+          %i.icon-tag-mini.ui-tag-icon
+          A rather long tag name to test ellipsed tag clouds
+          %span.ui-tag-counter 12
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
+          %i.icon-tag-mini.ui-tag-icon
+          A rather long tag name to test ellipsed tag clouds
+          %span.ui-tag-counter 34
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
+          %i.icon-tag-mini.ui-tag-icon
+          A rather long tag name to test ellipsed tag clouds
+          %span.ui-tag-counter 56
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
+          %i.icon-tag-mini.ui-tag-icon
+          A rather long tag name to test ellipsed tag clouds
+          %span.ui-tag-counter 78
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
+          %i.icon-tag-mini.ui-tag-icon
+          A rather long tag name to test ellipsed tag clouds
+          %span.ui-tag-counter 90
+  = partial('example', { mod: 'compact'}) do
+    %ul.ui-tag-cloud.compact
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
+          %i.icon-group-mini.ui-tag-icon
+          Group Name
+          %span.ui-tag-counter 12
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
+          %i.icon-group-mini.ui-tag-icon
+          Group Name
+          %span.ui-tag-counter 34
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
+          %i.icon-group-mini.ui-tag-icon
+          Group Name
+          %span.ui-tag-counter 56
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
+          %i.icon-group-mini.ui-tag-icon
+          Group Name
+          %span.ui-tag-counter 78
+      %li.ui-tag-cloud-item
+        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
+          %i.icon-group-mini.ui-tag-icon
+          Group Name
+          %span.ui-tag-counter 90

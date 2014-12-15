@@ -1,0 +1,24 @@
+:ruby
+  element = {
+    name: 'Titles',
+    cssFile: '_typography.scss',
+    cssSelector: 'h1-h6',
+    section: '3.1',
+    mods: {
+      nil => 'Default',
+      'title-xxl' => 'Hero title, ideally this style would apply only to home page elevator pitch title',
+      'title-xl' => 'Page titles',
+      'title-l' => 'Section titles, used for bold titles marking sections and subtitles accompanying Hero title',
+      'title-m' => 'Subsection titles, katalog thumb titles',
+      'title-s' => 'Thumb name titles',
+      'title-xs' => 'Mini titles, used for Weitere Daten and similar labels',
+      'title-xs-alt' => 'Mini titles, used for media entry authors',
+      'separated' => 'Separated with a bottom border',
+      'separated light' => 'Separated with a light bottom border'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      %h1{:class => name} This is a rather long title that might go onto two lines

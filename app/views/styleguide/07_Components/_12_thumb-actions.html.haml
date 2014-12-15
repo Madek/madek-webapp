@@ -1,0 +1,28 @@
+:ruby
+  element = {
+    name: 'Thumbnail Actions',
+    cssSelector: '.ui-thumbnail-actions',
+    cssFile: '_ui-thumb-actions.scss',
+    section: '7.12'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    .ui-thumbnail-actions
+      %ul.left.by-left
+        %li.ui-thumbnail-action
+          %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
+            %i.icon-checkbox
+        %li.ui-thumbnail-action
+          %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
+            %i.icon-star-empty
+      %ul.right.by-right
+        %li.ui-thumbnail-action
+          %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
+            %i.icon-eye
+        %li.ui-thumbnail-action
+          %a.ui-thumbnail-action-edit{:href => "#/edit", :title => "Metadaten editieren"}
+            %i.icon-pen
+        %li.ui-thumbnail-action
+          %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
+            %i.icon-trash

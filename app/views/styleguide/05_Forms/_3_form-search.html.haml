@@ -1,0 +1,18 @@
+:ruby
+  element = {
+    name: 'Search input',
+    cssFile: '_ui-search-field.scss',
+    cssSelector: '.ui-search',
+    section: '5.3',
+    mods: {
+      nil => 'Default',
+      'large' => 'Large variation'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      .ui-search{class: name}
+        %input.block.ui-search-input{:type => "text"}/
+        %button.primary-button.ui-search-button Search

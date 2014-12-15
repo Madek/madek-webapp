@@ -1,0 +1,51 @@
+-# The styleguide 'index' by default shows:
+-# - body: basic information and a table of contents
+-# - toc: table of contents (link: ./section#element)
+-# and with the parameter 'expand=true' shows:
+-# - body: all sections together
+-# - toc: table of contents (link: ./section/element)
+
+-# TODO:
+-# - support :pseudo selectors (display of name, also fake the state w/ js)
+
+
+- if params[:expand] && params[:expand] === 'true' 
+  -# render ALL sections
+  - @sections.each do |section|
+    = render 'section', { section: section}
+    
+  - content_for :toc do
+    = render 'toc', { sections: @sections, depth: 2 }
+
+- else
+  -# default content
+  %ul
+    %li= "(Work in progress)"
+    
+    %li
+      %a{href: '?expand=true'}= "Show all on 1 page"
+    
+    %li
+      = 'Contents:'
+      = render 'toc', { sections: @sections, depth: 2 }
+
+  - content_for :toc do
+    = render 'toc', sections: @sections
+
+
+- content_for :scripts do
+  :javascript
+    // TMP diabled
+    // $(document).ready(function () {
+    //   // initially hide all code examples - TODO: css
+    //   $('section.sg-example').find('.sg-html').hide();
+    //   // show them on click on corresponding button
+    //   $('section.sg-example').each(function() {
+    //     var $section = $(this);
+    //     $section
+    //       .find('[data-hook="sg-view-code"]')
+    //       .on('click', function() {
+    //         $section.find('.sg-html').slideToggle();
+    //       });
+    //   });
+    // });

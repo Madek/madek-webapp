@@ -1,0 +1,56 @@
+-# No elements here, just some info text
+
+%section.sg-body
+  .sg-intro
+    %h2.sg-intro-title Contrast Variations
+    %p Madek comes with an extra, high-contrast variation accessible on-demand via user menu.
+    %h3 Default vs. Contrasted Variation.
+    %p
+      There are 2
+      %code application
+      stylesheets in the
+      %code /app/assets/stylesheets/
+      folder. The first one,
+      = succeed "," do
+        %code application.sass
+      = succeed "," do
+        %code application-contrasted.sass
+    %p
+      %code application.sass
+      uses
+      %code _colors.sass
+      to define default UI color palette whereas
+      %code appliaction-contrasted.sass
+      makes use of
+      %code _colors-contrasted.sass
+      where high contrast color variables are defined. When expanding color schemes in the future (for example to add another color to replace default green Madek instance), make sure to add new color variables to both
+      %code color
+      files located in
+      %code /app/assets/stylesheets/
+      folder.
+  .sg-intro
+    %h2.sg-intro-title Color Variations
+    %p Madek comes with 4 default color schemes:
+    %ul
+      %li Green
+      %li Blue
+      %li Red
+      %li Monochrome
+    %p
+      Swithing between color schemes is as simple as altering scheme variables in the
+      %code _config
+      stylesheet located in the
+      %code /app/assets/stylesheets
+      folder: 'true' to any other
+      %code $scheme-%
+      variable and disable the currently set one by changing its value to
+      = succeed "." do
+        %code false
+    %p
+      Color schemes are defined in both
+      %code _colors-all
+      and
+      %code _colors-projection
+      placed in the
+      %code /app/assets/stylesheets/
+      folder. The first one defines the default color palette whereas the latter defines the contrasted variation accessible via the user menu (documented above).

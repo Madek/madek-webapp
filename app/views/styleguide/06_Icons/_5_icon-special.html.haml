@@ -1,0 +1,21 @@
+:ruby
+  element = {
+    name: 'Special Icons',
+    cssFile: '_icons.scss',
+    cssSelector: '.icon-',
+    section: '6.5',
+    mods: {
+      nil => 'Default',
+      'hover' => 'Hover variation', # TODO: :hover pseudo selector!
+      'disabled' => 'Disabled variation',
+      'active' => 'Pressed variation'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      %i.icon-checkbox{class: name}
+      %i.icon-checkbox-bright{class: name}
+      %i.icon-star-empty{class: name}
+

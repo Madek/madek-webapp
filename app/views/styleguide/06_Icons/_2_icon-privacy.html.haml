@@ -1,0 +1,23 @@
+:ruby
+  element = {
+    name: 'Privacy Icons',
+    cssFile: '_icons.scss',
+    cssSelector: '.icon-privacy-',
+    description: 'By default, icons inherit font colour from their parent. A few modifier classes are provided to alter icon\'s colour when needed.',
+    section: '6.2',
+    mods: {
+      nil => 'Default',
+      'bright' => 'White variation',
+      'mid' => 'Grey variation',
+      'branded' => 'Branded variation'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      %i.icon-privacy-open{class: name}
+      %i.icon-privacy-private{class: name}
+      %i.icon-privacy-private-alt{class: name}
+      %i.icon-privacy-group{class: name}
+      %i.icon-privacy-group-alt{class: name}

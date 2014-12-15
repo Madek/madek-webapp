@@ -1,0 +1,42 @@
+:ruby
+  element = {
+    name: 'Filterbar',
+    description: 'Filterbar comes in two variations: the one appearing right above the media entry thumbnails (top example) or the one above the vocabulary terms (lower example).',
+    cssFile: '_ui-filterbar.scss',
+    cssSelector: '.ui-filterbar',
+    section: '8.2'
+  }
+
+= partial('element', element) do
+    
+  = partial('example') do
+    .ui-filterbar.separated.ui-container
+      .left.col2of6
+        %a#ui-side-filter-toggle.button
+          %i.icon-filter.small
+          Filtern
+        %a#ui-side-filter-reset.mlx.hidden
+          Filter zurücksetzen
+      .col2of6.by-center
+        #ui-resources-type-filter.button-group
+          %a.active.button
+            Alle
+          %a.button{"data-type" => "media_entries"}
+            Medieneinträge
+          %a.button{"data-type" => "media_sets"}
+            Sets
+      .col2of6.by-right
+        %label#ui-clipboard-select-all.weak.ui-filterbar-select
+          %span.active
+            Alle abwählen
+          %span.inactive
+            Alle auswählen
+          %i.icon-checkbox
+  
+  = partial('example') do
+    .ui-filterbar.separated.ui-container
+      .by-center
+        #ui-resources-type-filter.button-group
+          %a.active.button Alle Begriffe
+          %a.button{"data-type" => "media_entries"} Vergebene
+          %a.button{"data-type" => "media_sets"} Häufigste

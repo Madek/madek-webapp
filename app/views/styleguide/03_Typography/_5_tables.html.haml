@@ -1,0 +1,32 @@
+:ruby
+  element = {
+    name: 'Tables',
+    cssFile: '_tables.scss',
+    cssSelector: 'table',
+    section: '3.5',
+    mods: {
+      nil => 'Default',
+      'borderless' => 'Borderless tables',
+      'block' => 'Full width table'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      %table{class: name}
+        %thead
+          %tr
+            %td Column Head 1
+            %td Column Head 2
+        %tfoot
+          %tr
+            %td Tfoot 1
+            %td Tfoot 2
+        %tbody
+          %tr
+            %td Cell 1 Row 1
+            %td Cell 2 Row 1
+          %tr
+            %td Cell 1 Row 2
+            %td Cell 2 Row 2

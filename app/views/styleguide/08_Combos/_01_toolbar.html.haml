@@ -1,0 +1,46 @@
+:ruby
+  element = {
+    name: 'Toolbar',
+    description: 'Toolbar comes in two variations: the one appearing right above the media entry thumbnails (top example) or the one above the vocabulary terms (lower example).',
+    cssFile: '_ui-toolbar.scss',
+    cssSelector: '.ui-toolbar',
+    section: '8.1'
+  }
+
+= partial('element', element) do
+  
+  = partial('example') do
+    .ui-container.inverted.ui-toolbar.pvx
+      %h2.ui-toolbar-header.pls
+        Sektion enthält 13 Inhalte
+      .ui-toolbar-controls.by-right
+        #ui-resources-layout-switcher.button-group.tertiary.small.right.mls
+          %a.button.small.ui-toolbar-vis-button{"data-vis-mode" => "miniature", :title => "Miniatur-Ansicht"}
+            %i.icon-vis-miniature{:title => "Miniatur-Ansicht"}
+          %a.button.small.ui-toolbar-vis-button.active{"data-default" => "", "data-vis-mode" => "grid", :title => "Raster-Ansicht"}
+            %i.icon-vis-grid{:title => "Raster-Ansicht"}
+          %a.button.small.ui-toolbar-vis-button{"data-vis-mode" => "list", :title => "Listen-Ansicht"}
+            %i.icon-vis-list{:title => "Listen-Ansicht"}
+        #ui-resources-sorting.dropdown.ui-dropdown.stick-right
+          %a.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
+            %span.ui-text
+              Sortieren nach Erstelldatum
+          %i.icon-arrow-down.bright.small
+          %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+            %li.ui-drop-item.active{"data-default" => ""}
+              %a{"data-sort" => "created_at"}
+                Sortieren nach Importdatum
+            %li.ui-drop-item
+              %a{"data-sort" => "updated_at"}
+                Sortieren nach Änderungsdatum
+            %li.ui-drop-item
+              %a{"data-sort" => "title"}
+                Sortieren nach Titel
+            %li.ui-drop-item
+              %a{"data-sort" => "author"}
+                Filtern und sortieren nach Autor/in
+  
+  = partial('example') do
+    .ui-container.inverted.ui-toolbar.pvx
+      %h2.ui-toolbar-header.pls
+        Vokabular bezieht sich auf [number] Medieneinträge. Davon sind [number] beschlagwortet.

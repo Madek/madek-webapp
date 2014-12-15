@@ -1,0 +1,12 @@
+:ruby
+  element = {
+    name: 'Counters',
+    cssSelector: '.ui-counter',
+    cssFile: '???',
+    section: '7.24',
+    description: 'Counters that usually support section titles, display number of items within a media entry or catalog.'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    %span.ui-counter (6)

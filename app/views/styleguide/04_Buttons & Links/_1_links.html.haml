@@ -1,0 +1,19 @@
+:ruby
+  element = {
+    name: 'Links',
+    cssFile: '_buttons.scss',
+    cssSelector: 'a',
+    section: '4.1',
+    mods: {
+      nil => 'Default',
+      ':hover' => 'Hovered link',
+      ':active' => 'Active link',
+      'strong' => 'Enhanced link',
+      'weak' => 'Secondary link'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      %a{:class => name} Link

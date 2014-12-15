@@ -1,0 +1,30 @@
+:ruby
+  element = {
+    name: 'Metadata box, ordered list variation',
+    cssSelector: '.ui-metadata-box',
+    cssFile: '_ui-metadata-box.scss',
+    section: '7.13'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    .ui-metadata-box
+      %h3.title-m.separated.light.mbs.pbs
+        Horizontlinie
+      %ol
+        %li.odd
+          Agglomeration
+        %li.even
+          Bucht
+        %li.odd
+          Ebene
+        %li.even
+          Erholungszone
+        %li.odd
+          Something very very long that could break
+        %li.even
+          Short
+        %li.odd
+          Landwirtschaft
+        %li.even
+          Naturlandschaft

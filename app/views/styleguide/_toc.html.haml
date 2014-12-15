@@ -1,0 +1,24 @@
+-# build table of contents from all sections
+-# config:
+:ruby
+  depth ||= 1
+
+%ol.styleguide-nav
+  - sections.each do |section| 
+    - is_active = @current_section === section
+    - section_link = styleguide_section_path(section[:name])
+
+    %li
+      %a{:href => section_link, class: is_active ? 'strong' : nil}
+        %span.nr= section[:nr]
+        = section[:name]
+
+      - if section[:elements] and (is_active or depth > 1)
+        %ol
+          - section[:elements].each do |element| 
+            - element_link = section_link + '#' + element[:nr]
+
+            %li
+              %a{:href => element_link}
+                %span.nr= section[:nr] + '.' + element[:nr]
+                = element[:name]

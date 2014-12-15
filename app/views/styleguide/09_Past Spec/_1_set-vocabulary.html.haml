@@ -1,0 +1,691 @@
+:ruby
+  element = {
+    name: 'Set Vocabulary',
+    description: "Auszug, Vokabular and Kontexte tabs, according to the newst concepts, are to be simplified and merged within one single view as shown below. \nThe top container will accommodate items related to a vocabulary management. From here you can switch between vocabularies (by clicking on the dropdown) and selecting other items (not that active vocabularies are differentiated by slightly more contrasted font colour), you can enable/disable and view a currently selected vocabulary by clicking on the right-hand-side buttons. \nThe bottom container will accommodate words associated to currently selected vocabulary. User will be able to switch between All, Assigned and Most popular (old Auszug-like visualisation). \n\nNote variations of link meta links’ style when switching between the views:\n\n- in Vergebene view, terms with media assigned to them are active and others become inactive.\n- in Häufigste view, additional slider (same as the one we had before in Auszug view) appears to filter through the terms listed below.",
+    cssFile: '???',
+    cssSelector: '???',
+    section: '9.1'
+  }
+
+= partial('element', element) do
+
+  = partial('example') do
+    .app-body-ui-container
+      %ul.ui-tabs.large
+        %li.ui-tabs-item
+          %a{:href => ""} Set
+        %li.ui-tabs-item
+          %a{:href => ""} Übergeordnete Sets
+        %li.active.ui-tabs-item
+          %a{:href => ""} Vokabular
+      .ui-container.rounded-right.rounded-bottom.tab-content.bordered
+        .bright.ui-container.pal.rounded-top
+          .row
+            .col2of3
+              .dropdown.ui-dropdown{:class => "$modifier-class"}
+                %h2.dropdown-toggle.ui-drop-toggle.title-l.link.separated.light.mbm{"data-toggle" => "dropdown"}
+                  An inactive vocabulary name
+                  %i.icon-arrow-down
+                %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu", :style => "top: 100%; bottom: auto;"}
+                  %li.ui-drop-item
+                    %a An active vocabulary
+                  %li.ui-drop-item
+                    %a.disabled An inactive vocabulary
+                  %li.ui-drop-item
+                    %a.disabled Yet another inactive vocabulary
+              %p Set vocabulary description. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquipcia deserunt mollit anim id est laborum.
+            .col1of3.by-right
+              %a.button
+                %i.icon-checkmark
+                Enable
+              %a.button.mls
+                %i.icon-eye
+                View
+        .ui-container.inverted.ui-toolbar.pvx
+          %h2.ui-toolbar-header.pls
+            Vokabular bezieht sich auf [number] Medieneinträge. Davon sind [number] beschlagwortet.
+        .ui-container.midtone.rounded-bottom
+          .ui-filterbar.separated.ui-container.by-center
+            .button-group
+              %a.button.active Alle Begriffe
+              %a.button Vergebene
+              %a.button Häufigste
+          .ui-terms-filter.separated.mhm{:style => "display: none"}
+            .ui-terms-filter-label-holder.left.by-center
+              %span.title-s
+                Häufigkeit auswerten
+                %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Content.", "data-placement" => "bottom", :rel => "tooltip"}
+                  %i.icon-question.mid
+            .ui-terms-filter-slider-holder.ptx
+              .ui-slider
+                %a.ui-slider-handle
+                  %span.ui-slider-info.ui-container.inverted min. 2 x vergeben
+            .ui-terms-filter-note-holder.by-center.right
+              Max. 140
+          .ui-resources-holder.pam
+            .col1of4
+              .ui-metadata-box.prl.mbm
+                %h3.title-s-alt.separated.light.mbx
+                  Landschaftstyp
+                  %span.title-xs-alt.mlx (a-z)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Naturlandschaft"}
+                      Naturlandschaft
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Erholungszone"}
+                      Erholungszone
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Parklandschaft"}
+                      Parklandschaft
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Stadtlandschaft"}
+                      Stadtlandschaft
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Tourismusgebiet"}
+                      Tourismusgebiet
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Agglomeration"}
+                      Agglomeration
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Gebirgslandschaft"}
+                      Gebirgslandschaft
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Landwirtschaft"}
+                      Landwirtschaft
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Siedlungsgebiet"}
+                      Siedlungsgebiet
+              .ui-metadata-box.prl
+                %h3.title-s-alt.separated.light.mbx
+                  Farbe
+                  %span.title-xs-alt.mlx (a-z)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Oker"}
+                      Oker
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Grüntöne"}
+                      Grüntöne
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Gelbtöne"}
+                      Gelbtöne
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "hellblau"}
+                      hellblau
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "weiss"}
+                      weiss
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Gelb"}
+                      Gelb
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Blautöne"}
+                      Blautöne
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "braun"}
+                      braun
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Weisstöne"}
+                      Weisstöne
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Violetttöne"}
+                      Violetttöne
+            .col1of4
+              .ui-metadata-box.prl.mbm
+                .h3.title-s-alt.separated.light.mbx
+                  Verwendungszweck
+                  %span.title-xs-alt.mlx (a-z)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Ausstellung"}
+                      Ausstellung
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Kunst"}
+                      Kunst
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Architekturbild"}
+                      Architekturbild
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Computerspiel"}
+                      Computerspiel
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Illustration"}
+                      Illustration
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Wettbewerb"}
+                      Wettbewerb
+              .ui-metadata-box.prl
+                %h3.title-s-alt.separated.light.mbx
+                  Wetter/Klima
+                  %span.title-xs-alt.mlx (a-z)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Bewölkung/wolkig"}
+                      Bewölkung/wolkig
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Nebel"}
+                      Nebel
+            .col1of4
+              .ui-metadata-box.prl.mbm
+                %h3.title-s-alt.separated.light.mbx
+                  Bildzeit
+                  %span.title-xs-alt.mlx (a-z)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Frühling"}
+                      Frühling
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Sommer"}
+                      Sommer
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Herbst"}
+                      Herbst
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Winter"}
+                      Winter
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Mittag"}
+                      Mittag
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Nacht"}
+                      Nacht
+              .ui-metadata-box.prl
+                %h3.title-s-alt.separated.light.mbx
+                  Bildwirkung
+                  %span.title-xs-alt.mlx (a-z)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "idyllisch"}
+                      idyllisch
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "friedlich"}
+                      friedlich
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "kühl"}
+                      kühl
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "modern"}
+                      modern
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Erhabenheit"}
+                      Erhabenheit
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Einsamkeit"}
+                      Einsamkeit
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "technisch"}
+                      technisch
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "unfreundlich"}
+                      unfreundlich
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "utopisch"}
+                      utopisch
+            .col1of4
+              .ui-metadata-box.prl.mbm
+                %h3.title-s-alt.separated.light.mbx
+                  Farbe
+                  %span.title-xs-alt.mlx (a-z)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Oker"}
+                      Oker
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Grüntöne"}
+                      Grüntöne
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Gelbtöne"}
+                      Gelbtöne
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "hellblau"}
+                      hellblau
+              .ui-metadata-box.prl
+                %h3.title-s-alt.separated.light.mbx
+                  Genre
+                  %span.title-xs-alt.mlx (a-z)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Objekt"}
+                      Objekt
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Porträt"}
+                      Porträt
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Punk Rock"}
+                      Punk Rock
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Landschaft"}
+                      Landschaft
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Stadt"}
+                      Stadt
+  
+  = partial('example') do
+    .app-body-ui-container
+      %ul.ui-tabs.large
+        %li.ui-tabs-item
+          %a{:href => ""} Set
+        %li.ui-tabs-item
+          %a{:href => ""} Übergeordnete Sets
+        %li.active.ui-tabs-item
+          %a{:href => ""} Vokabular
+      .ui-container.rounded-right.rounded-bottom.tab-content.bordered
+        .bright.ui-container.pal.rounded-top
+          .row
+            .col2of3
+              .dropdown.ui-dropdown{:class => "$modifier-class"}
+                %h2.dropdown-toggle.ui-drop-toggle.title-l.link.separated.light.mbm{"data-toggle" => "dropdown"}
+                  An active vocabulary name
+                  %i.icon-arrow-down
+                %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu", :style => "top: 100%; bottom: auto;"}
+                  %li.ui-drop-item
+                    %a An active vocabulary
+                  %li.ui-drop-item
+                    %a.disabled An inactive vocabulary
+                  %li.ui-drop-item
+                    %a.disabled Yet another inactive vocabulary
+              %p Set vocabulary description. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquipcia deserunt mollit anim id est laborum.
+            .col1of3.by-right
+              %a.button
+                %i.icon-close
+                Disable
+              %a.button.mls
+                %i.icon-eye
+                View
+        .ui-container.inverted.ui-toolbar.pvx
+          %h2.ui-toolbar-header.pls
+            Vokabular bezieht sich auf [number] Medieneinträge. Davon sind [number] beschlagwortet.
+        .ui-container.midtone.rounded-bottom
+          .ui-filterbar.separated.ui-container.by-center
+            .button-group
+              %a.button Alle Begriffe
+              %a.button.active Vergebene
+              %a.button Häufigste
+          .ui-terms-filter.separated.mhm{:style => "display: none"}
+            .ui-terms-filter-label-holder.left.by-center
+              %span.title-s
+                Häufigkeit auswerten
+                %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Content.", "data-placement" => "bottom", :rel => "tooltip"}
+                  %i.icon-question.mid
+            .ui-terms-filter-slider-holder.ptx
+              .ui-slider
+                %a.ui-slider-handle
+                  %span.ui-slider-info.ui-container.inverted min. 2 x vergeben
+            .ui-terms-filter-note-holder.by-center.right
+              Max. 140
+          .ui-resources-holder.pam
+            .col1of4
+              .ui-metadata-box.prl.mbm
+                %h3.title-s-alt.separated.light.mbx
+                  Landschaftstyp
+                  %span.title-xs-alt.mlx (a-z)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Naturlandschaft"}
+                      Naturlandschaft
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button.disabled{:title => "Erholungszone"}
+                      Erholungszone
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Parklandschaft"}
+                      Parklandschaft
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button.disabled{:title => "Stadtlandschaft"}
+                      Stadtlandschaft
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Tourismusgebiet"}
+                      Tourismusgebiet
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button.disabled{:title => "Agglomeration"}
+                      Agglomeration
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Gebirgslandschaft"}
+                      Gebirgslandschaft
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Landwirtschaft"}
+                      Landwirtschaft
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Siedlungsgebiet"}
+                      Siedlungsgebiet
+              .ui-metadata-box.prl
+                %h3.title-s-alt.separated.light.mbx
+                  Farbe
+                  %span.title-xs-alt.mlx (a-z)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Oker"}
+                      Oker
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Grüntöne"}
+                      Grüntöne
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Gelbtöne"}
+                      Gelbtöne
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "hellblau"}
+                      hellblau
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button.disabled{:title => "weiss"}
+                      weiss
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Gelb"}
+                      Gelb
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Blautöne"}
+                      Blautöne
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button.disabled{:title => "braun"}
+                      braun
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Weisstöne"}
+                      Weisstöne
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Violetttöne"}
+                      Violetttöne
+            .col1of4
+              .ui-metadata-box.prl.mbm
+                .h3.title-s-alt.separated.light.mbx
+                  Verwendungszweck
+                  %span.title-xs-alt.mlx (a-z)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Ausstellung"}
+                      Ausstellung
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Kunst"}
+                      Kunst
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button.disabled{:title => "Architekturbild"}
+                      Architekturbild
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button.disabled{:title => "Computerspiel"}
+                      Computerspiel
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button.disabled{:title => "Illustration"}
+                      Illustration
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Wettbewerb"}
+                      Wettbewerb
+              .ui-metadata-box.prl
+                %h3.title-s-alt.separated.light.mbx
+                  Wetter/Klima
+                  %span.title-xs-alt.mlx (a-z)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Bewölkung/wolkig"}
+                      Bewölkung/wolkig
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Nebel"}
+                      Nebel
+            .col1of4
+              .ui-metadata-box.prl.mbm
+                %h3.title-s-alt.separated.light.mbx
+                  Bildzeit
+                  %span.title-xs-alt.mlx (a-z)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Frühling"}
+                      Frühling
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Sommer"}
+                      Sommer
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Herbst"}
+                      Herbst
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Winter"}
+                      Winter
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Mittag"}
+                      Mittag
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Nacht"}
+                      Nacht
+              .ui-metadata-box.prl
+                %h3.title-s-alt.separated.light.mbx
+                  Bildwirkung
+                  %span.title-xs-alt.mlx (a-z)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "idyllisch"}
+                      idyllisch
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "friedlich"}
+                      friedlich
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button.disabled{:title => "kühl"}
+                      kühl
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "modern"}
+                      modern
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button.disabled{:title => "Erhabenheit"}
+                      Erhabenheit
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Einsamkeit"}
+                      Einsamkeit
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button.disabled{:title => "technisch"}
+                      technisch
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "unfreundlich"}
+                      unfreundlich
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "utopisch"}
+                      utopisch
+            .col1of4
+              .ui-metadata-box.prl.mbm
+                %h3.title-s-alt.separated.light.mbx
+                  Farbe
+                  %span.title-xs-alt.mlx (a-z)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Oker"}
+                      Oker
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Grüntöne"}
+                      Grüntöne
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Gelbtöne"}
+                      Gelbtöne
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "hellblau"}
+                      hellblau
+              .ui-metadata-box.prl
+                %h3.title-s-alt.separated.light.mbx
+                  Genre
+                  %span.title-xs-alt.mlx (a-z)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Objekt"}
+                      Objekt
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Porträt"}
+                      Porträt
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Punk Rock"}
+                      Punk Rock
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Landschaft"}
+                      Landschaft
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Stadt"}
+                      Stadt
+  
+  = partial('example') do
+    .app-body-ui-container
+      %ul.ui-tabs.large
+        %li.ui-tabs-item
+          %a{:href => ""} Set
+        %li.ui-tabs-item
+          %a{:href => ""} Übergeordnete Sets
+        %li.active.ui-tabs-item
+          %a{:href => ""} Vokabular
+      .ui-container.rounded-right.rounded-bottom.tab-content.bordered
+        .bright.ui-container.pal.rounded-top
+          .row
+            .col2of3
+              .dropdown.ui-dropdown{:class => "$modifier-class"}
+                %h2.dropdown-toggle.ui-drop-toggle.title-l.link.separated.light.mbm{"data-toggle" => "dropdown"}
+                  An active vocabulary name
+                  %i.icon-arrow-down
+                %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu", :style => "top: 100%; bottom: auto;"}
+                  %li.ui-drop-item
+                    %a An active vocabulary
+                  %li.ui-drop-item
+                    %a.disabled An inactive vocabulary
+                  %li.ui-drop-item
+                    %a.disabled Yet another inactive vocabulary
+              %p Set vocabulary description. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquipcia deserunt mollit anim id est laborum.
+            .col1of3.by-right
+              %a.button
+                %i.icon-close
+                Disable
+              %a.button.mls
+                %i.icon-eye
+                View
+        .ui-container.inverted.ui-toolbar.pvx
+          %h2.ui-toolbar-header.pls
+            Vokabular bezieht sich auf [number] Medieneinträge. Davon sind [number] beschlagwortet.
+        .ui-container.midtone.rounded-bottom
+          .ui-filterbar.separated.ui-container.by-center
+            .button-group
+              %a.button Alle Begriffe
+              %a.button Vergebene
+              %a.button.active Häufigste
+          .ui-terms-filter.separated.mhm
+            .ui-terms-filter-label-holder.left.by-center
+              %span.title-s
+                Häufigkeit auswerten
+                %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Content.", "data-placement" => "bottom", :rel => "tooltip"}
+                  %i.icon-question.mid
+            .ui-terms-filter-slider-holder.ptx
+              .ui-slider
+                %a.ui-slider-handle
+                  %span.ui-slider-info.ui-container.inverted min. 2 x vergeben
+            .ui-terms-filter-note-holder.by-center.right
+              Max. 140
+          .ui-resources-holder.pam
+            .col1of4
+              .ui-metadata-box.prl.mbm
+                %h3.title-s-alt.separated.light.mbx
+                  Landschaftstyp
+                  %span.title-xs-alt.mlx (rank)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Naturlandschaft"}
+                      Naturlandschaft
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Erholungszone"}
+                      Erholungszone
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Parklandschaft"}
+                      Parklandschaft
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Landwirtschaft"}
+                      Landwirtschaft
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Siedlungsgebiet"}
+                      Siedlungsgebiet
+              .ui-metadata-box.prl
+                %h3.title-s-alt.separated.light.mbx
+                  Farbe
+                  %span.title-xs-alt.mlx (rank)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Oker"}
+                      Oker
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Grüntöne"}
+                      Grüntöne
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Gelbtöne"}
+                      Gelbtöne
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "hellblau"}
+                      hellblau
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "weiss"}
+                      weiss
+            .col1of4
+              .ui-metadata-box.prl.mbm
+                .h3.title-s-alt.separated.light.mbx
+                  Verwendungszweck
+                  %span.title-xs-alt.mlx (rank)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Ausstellung"}
+                      Ausstellung
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Illustration"}
+                      Illustration
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Wettbewerb"}
+                      Wettbewerb
+              .ui-metadata-box.prl
+                %h3.title-s-alt.separated.light.mbx
+                  Wetter/Klima
+                  %span.title-xs-alt.mlx (rank)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Bewölkung/wolkig"}
+                      Bewölkung/wolkig
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Nebel"}
+                      Nebel
+            .col1of4
+              .ui-metadata-box.prl.mbm
+                %h3.title-s-alt.separated.light.mbx
+                  Bildzeit
+                  %span.title-xs-alt.mlx (rank)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Frühling"}
+                      Frühling
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Sommer"}
+                      Sommer
+              .ui-metadata-box.prl
+                %h3.title-s-alt.separated.light.mbx
+                  Bildwirkung
+                  %span.title-xs-alt.mlx (rank)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "idyllisch"}
+                      idyllisch
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "friedlich"}
+                      friedlich
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "kühl"}
+                      kühl
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "utopisch"}
+                      utopisch
+            .col1of4
+              .ui-metadata-box.prl.mbm
+                %h3.title-s-alt.separated.light.mbx
+                  Farbe
+                  %span.title-xs-alt.mlx (rank)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Oker"}
+                      Oker
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Grüntöne"}
+                      Grüntöne
+              .ui-metadata-box.prl
+                %h3.title-s-alt.separated.light.mbx
+                  Genre
+                  %span.title-xs-alt.mlx (rank)
+                %ul.ui-tag-cloud.small.ellipsed.compact
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Objekt"}
+                      Objekt
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Landschaft"}
+                      Landschaft
+                  %li.ui-tag-cloud-item
+                    %a.ui-tag-button{:title => "Stadt"}
+                      Stadt

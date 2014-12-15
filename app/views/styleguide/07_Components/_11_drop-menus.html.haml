@@ -1,0 +1,36 @@
+:ruby
+  element = {
+    name: 'Dropdowns',
+    cssSelector: '.ui-dropdown',
+    cssFile: '_ui-drop-menus.scss',
+    section: '7.11',
+    mods: {
+      nil => 'Default',
+      'stick-right' => 'Right-positioned ui-drop-menu'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      -# TODO: fix it!
+      .sg-spacer{:style => "padding-top: 100px;margin: 0 auto;padding-right: 150px;padding-bottom: 100px;padding-left: 150px"}
+        .dropdown.ui-dropdown{class: name}
+          %a.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#"} Drop-down Toggle
+          %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+            %li.ui-drop-item
+              %a{:href => "#"} Item 1
+            %li.ui-drop-item
+              %a{:href => "#"} Item 2
+            %li.ui-drop-item
+              %a{:href => "#"} Item 3
+
+        .dropdown.ui-dropup{class: name}
+          %a.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#"} Drop-up Toggle
+          %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
+            %li.ui-drop-item
+              %a{:href => "#"} Item 1
+            %li.ui-drop-item
+              %a{:href => "#"} Item 2
+            %li.ui-drop-item
+              %a{:href => "#"} Item 3

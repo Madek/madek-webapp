@@ -1,0 +1,15 @@
+:ruby
+  element = {
+    name: 'Mini icons',
+    cssFile: '_icons.scss',
+    cssSelector: '.icon-',
+    section: '6.7',
+    description: 'Destined to live within only tag cloud buttons, mini icons are small variations on some of the above icons that need to use another character and grid size to be perfectly crips.'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    %i.icon-group-mini
+    %i.icon-user-mini
+    %i.icon-tag-mini
+

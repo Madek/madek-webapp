@@ -1,0 +1,23 @@
+:ruby
+  element = {
+    name: 'Pager',
+    cssSelector: '.ui-pager',
+    cssFile: '_ui-pager.scss',
+    section: '7.22',
+    mods: {
+      nil => 'Default',
+      'small' => 'small',
+      'large' => 'large',
+      'light' => 'light'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      %h3.ui-pager{:class => name}
+        %span#resources_counter 20
+        Inhalte, Seite
+        %span#pages_counter 1
+        von
+        %span#total_pages_counter 1

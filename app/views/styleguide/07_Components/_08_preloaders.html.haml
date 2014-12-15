@@ -1,0 +1,19 @@
+:ruby
+  element = {
+    name: 'Preloaders',
+    cssSelector: '.ui-preloader',
+    cssFile: '_ui-preloaders.scss',
+    section: '7.8',
+    mods: {
+      nil => 'Default',
+      'small' => 'Small variation',
+      'dark' => 'Dark variation',
+      'dark small' => 'Dark small variation'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      .ui-preloader{class: name}
+        Loading in progress

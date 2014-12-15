@@ -1,0 +1,34 @@
+:ruby
+  element = {
+    name: 'Catalogue Thumbnail',
+    cssSelector: '.ui-thumbnail.media-catalog',
+    cssFile: '_ui-thumb-catalog.scss',
+    section: '7.17'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    .ui-thumbnail.media-catalog
+      .ui-thumbnail-privacy{:title => "This media is public"}
+      %a.ui-thumbnail-image-wrapper
+        .ui-thumbnail-image-holder
+          .ui-thumbnail-table-image-holder
+            .ui-thumbnail-cell-image-holder
+              .ui-thumbnail-inner-image-holder
+                %img.ui-thumbnail-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-7.jpeg')}/
+      .ui-thumbnail-meta
+        %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines so lets try make it so shall we.
+        %p.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well so how about seeing how it works then?
+        %span.ui-thumbnail-meta-extension 500
+    .ui-thumbnail.media-catalog
+      .ui-thumbnail-privacy{:title => "This media is public"}
+      %a.ui-thumbnail-image-wrapper
+        .ui-thumbnail-image-holder
+          .ui-thumbnail-table-image-holder
+            .ui-thumbnail-cell-image-holder
+              .ui-thumbnail-inner-image-holder
+                %img.ui-thumbnail-image{:alt => "Document.png", :src => "/assets/thumbnails/document.png.png"}/
+      .ui-thumbnail-meta
+        %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines so lets try make it so shall we.
+        %p.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well so how about seeing how it works then?
+        %span.ui-thumbnail-meta-extension 500

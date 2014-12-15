@@ -1,0 +1,17 @@
+:ruby
+  element = {
+    name: 'Stand-alone horizontal separators',
+    cssSelector: '.separator',
+    cssFile: '_grid.scss',
+    section: '1.3',
+    mods: {
+      nil => 'Default',
+      'mini' => 'Short separator',
+      'light' => 'Light separator'
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      %hr.separator{:class => name}

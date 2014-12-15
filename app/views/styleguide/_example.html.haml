@@ -1,0 +1,17 @@
+:ruby
+  name = local_assigns[:name].nil? ? nil : name
+  mod = local_assigns[:mod].nil? ? nil : mod
+
+.align-left.bg-light.sg-canvas.sg-modifier{'data-sgcanvas' => true}
+  - if name or mod
+    %span.sg-modifier-name
+      = name
+      - if mod
+        = css_class_to_haml(mod)
+  %div{'data-sgcanvas-example' => true}
+    - example_code = capture {yield} if block_given?
+    = example_code
+
+.sg-html
+  %pre.prettyprint.lang-html
+    = '' + raw(example_code) # force escaped HTML output

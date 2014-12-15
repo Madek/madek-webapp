@@ -1,0 +1,30 @@
+:ruby
+  element = {
+    name: 'Extended Buttons',
+    cssFile: '_buttons.scss',
+    cssSelector: '.button',
+    section: '4.5',
+    mods: {
+      nil => 'Default',
+      'small' => 'Small extended button',
+      'large' => 'Large extended button',
+      'block' => 'Block extended button',
+      'block small' => 'Block extended button',
+      'block large' => 'Block extended button'
+      # TODO: '.disabled'?
+    }
+  }
+
+= partial('element', element) do
+  - element[:mods].each do |name, description|
+    = partial('example', { mod: name}) do
+      %a.button{class: name}
+        Dropdown Button
+        %i.icon-arrow-down.stand-alone
+      %a.primary-button{class: name}
+        Dropdown Button
+        %i.icon-arrow-down.stand-alone
+      %a.tertiary-button{class: name}
+        Dropdown Button
+        %i.icon-arrow-down.stand-alone
+

@@ -1,0 +1,17 @@
+:ruby
+  element = {
+    name: 'Page header',
+    cssSelector: '.ui-body-title',
+    cssFile: '_ui-body-title.scss',
+    section: '7.6'
+  }
+
+= partial('element', element) do
+  = partial('example') do
+    .ui-body-title
+      .ui-body-title-label
+        %h1.title-xl
+          Page header that could possibly go onto two lines but will not because of the overlay.
+      .ui-body-title-actions
+        %a.primary-button{:href => "#"} Primary button
+        %a.button{:href => "#"} Secondary button

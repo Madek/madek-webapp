@@ -1,0 +1,50 @@
+:ruby
+  # needs this data (as locals). only mods is optional
+  example_data = {
+    name: 'My Component',
+    description: "Description (*Markdown* supported)",
+    cssSelector: 'selector',
+    cssFile: 'filename',
+    section: '1',
+    mods: {
+      nil => 'Default',
+      'mod' => 'description'
+    }
+  }
+  
+  # check it
+  optional_keys = [:description, :cssSelector, :mods]
+  required_keys = example_data.keys - optional_keys
+  required_keys.each do |key| 
+    throw "missing required key '#{key}'!" if local_assigns[key].nil?
+  end
+
+
+%section.sg-example{:id => section}
+  %h3
+    %a{:href => "##{section}"}= section
+
+  -# %button.sg-button{data:{hook:'sg-view-code'}}
+  -#   HTML
+
+  .sg-description
+    %span.sg-filename= cssFile
+    %h2
+      = name
+      - if defined? cssSelector
+        %code= cssSelector
+    - if defined? description
+      = markdown(description)
+      
+    - if defined? mods
+      .sg-modifiers
+        %h4.title-m= 'Modifiers:'
+        %ul
+          - mods.each do |mod, description|
+            - unless mod.nil?
+              %li
+                %strong= css_class_to_haml(mod)
+                = "– #{description}"
+
+  .sg-canvases
+    = yield local_assigns if block_given?
