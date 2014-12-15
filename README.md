@@ -6,15 +6,22 @@ retrieving and assigning metadata to the users themselves instead of putting all
 on the archival expert.
 
 
-## Documentation and installation
+## Installation
 
 The recommended way to install Madek is via the [Madek
 Ansible-Setup Project](https://github.com/zhdk/madek-ansible-setup).
 
-More details about installing and configuring Madek can be found on our
-wiki on Github:
 
-http://github.com/zhdk/madek/wiki
+## Documentation
+
+Browse the [doc](./doc) folder for documentation. 
+
+The entities diagrams [current](http://rawgit.com/zhdk/madek/madek-v3/doc/database_and_entities/Schema.svg)
+and [v3](http://rawgit.com/zhdk/madek/madek-v3/doc/database_and_entities/Schema_vision.svg) are notable. 
+
+The old [Madek-Wiki](http://github.com/zhdk/madek/wiki) is outdated and
+contains mostly wrong information. 
+
 
 ## State 
 
