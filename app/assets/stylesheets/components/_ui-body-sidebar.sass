@@ -1,0 +1,22 @@
+/**
+ * ## Sidebar `.app-body`-sidebar
+
+
+.app-body-sidebar
+  position: relative
+  overflow: hidden
+
+  // clip meta-data in the sidebar (no overflow when to big)
+  .ui-metadata-box dl,
+  .ui-metadata-box dl > *
+    width: 170px   /* TODO: variables */
+    overflow: hidden
+
+  .ui-fadeout-right
+    position: absolute
+    top: 0
+    right: 0
+    height: 100%
+    width: 30px
+    background-image: transparent /* fallback */
+    +background-image(linear-gradient(left, hsla(0,100%,100%,0), hsla(0,100%,100%,1) 90%))

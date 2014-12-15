@@ -1,0 +1,109 @@
+/**
+ * ## Media Resources Grid Mode `.ui-resources.grid`
+ *
+ * .active - To be interacted with
+ *
+ * Styleguide 7.9.1
+
+.ui-resources.grid
+  +micro-clearfix
+  margin: -15px 0 0 -15px
+  .ui-resource
+    +float-left
+    display: inline-block
+  .ui-resource-title,
+  .ui-resource-actions,
+  .ui-resource-meta,
+  .ui-resource-extension,
+  .ui-resource-description
+    display: none
+  .ui-thumbnail.media-entry,
+  .ui-thumbnail.media-set,
+  .ui-thumbnail.filter-set
+    +dimension(140px, 220px)
+    margin: 0
+    padding: 15px
+    position: relative
+  .ui-thumbnail.media-entry-incomplete
+    +dimension(140px, 140px)
+    margin: 0
+    padding: 15px
+    position: relative
+  .ui-thumbnail-privacy
+    display: none
+  .ui-thumbnail-meta
+    display: block
+    margin: 10px 0 0
+
+  // Some nasty layouting adjustments
+  .ui-resources-page
+    margin: 5px 0 0 5px
+  .ui-resources-page-items
+    margin-left: -5px
+
+/*
+ * Horizontal Variation
+ * -------------------------------------
+
+.ui-resources.grid.horizontal
+  +force-scrollbars
+  margin: 0
+  white-space: nowrap
+  overflow-y: visible
+  overflow-x: auto
+  padding: 0 25px $space-s
+  .ui-resource
+    display: inline-block
+    float: none
+    white-space: normal
+  .ui-thumbnail-privacy
+    display: block
+
+/*
+ * Show permissions
+ * -------------------------------------
+
+.grid.show_permissions
+  .ui-thumbnail-privacy
+    display: block
+
+/*
+ * Active Mode
+ * -------------------------------------
+
+.grid.active
+  .ui-thumbnail-privacy
+    display: block
+  .ui-thumbnail.video .ui-thumbnail-image-wrapper
+    background: $white image-url("backgrounds/thumb-video-backg.png") 0 0px no-repeat
+  
+  // Show / Hide on hover
+  .ui-thumbnail:hover
+    .ui-thumbnail-actions
+      display: block
+    .ui-thumbnail-meta-subtitle
+      display: none
+    .ui-thumbnail-level-up-items,
+    .ui-thumbnail-level-down-items
+      display: block
+      
+  // Hover and active states styles (backgrounds, shadows and such)
+  // most have background, shadow, no border-radius:
+  .ui-thumbnail:hover
+    background: $white
+    +box-shadow(0 0 3px $darken-more)
+  // only has level-up-top, so it gets border-radius on bottom:
+  .ui-thumbnail.media-entry:hover
+    +border-bottom-radius($border-radius-m)
+  // has NO level-up, so it gets border-radius all around:
+  .ui-thumbnail.media-entry-incomplete:hover
+    background: $white
+    +border-radius($border-radius-m)
+
+// Media Queries
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
+  .grid.active
+    .ui-thumbnail.video .ui-thumbnail-image-wrapper
+      background: $white image-url("backgrounds/thumb-video-backg@2x.png") 0 0px no-repeat
+      background-size: 138px 138px

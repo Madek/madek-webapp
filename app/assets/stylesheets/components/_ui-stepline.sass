@@ -1,0 +1,54 @@
+/**
+ * ## ui-stepline `.ui-stepline`
+ *
+ * Styleguide 6.16
+
+// ui-stepline
+
+.ui-stepline
+  +border-top-radius($border-radius-m)
+  +micro-clearfix
+  background-image: image-url("backgrounds/container-midtone.png")
+  display: table
+  width: 100%
+
+.ui-stepline-item
+  border-color: $mono-light
+  border-style: solid
+  border-width: 0 0 1px
+  display: table-cell
+  padding: $space-m 0
+  text-align: center
+  vertical-align: top
+  width: 25%
+
+.ui-stepline-item-title
+  +single-text-shadow(false, 1px, 0, false, $lighten-more)
+  color: $mono-mid
+  padding: 0 $space-m
+
+.ui-stepline-item-title small
+  clear: both
+  display: block
+  font-size: $font-xs
+
+.ui-stepline-item.active
+  border-color: $white $mono-light
+  border-width: 0 1px 1px
+  background: $white
+  .ui-stepline-item-title,
+  .ui-stepline-item-description
+    color: $mono-dark
+  &:first-child
+    +border-top-left-radius($border-radius-m)
+    border-left: none
+  &:last-child
+    +border-top-right-radius($border-radius-m)
+    border-right: none
+
+// Media Queries
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
+  .ui-stepline
+    background-image: image-url("backgrounds/container-midtone.png")
+    background-size: 29px 29px

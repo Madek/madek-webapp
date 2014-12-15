@@ -1,0 +1,34 @@
+/**
+ * ## Media resources table `.ui-resources-table`
+ *
+ * Styleguide 7.17
+
+.ui-resources-table
+  .ui-thumbnail.micro
+    margin: $space-x $space-x $space-x $space-s
+  table
+    table-layout: fixed
+    width: 100%
+    td, th
+      vertical-align: middle
+      border-bottom: 1px solid $mono-light
+    tr:last-child td
+      border: none
+      padding-bottom: 1.5em
+  tbody
+    color: $mono-mid
+    font-size: $font-s
+    tr td[data-name='title']
+      color: $mono-heavy
+  .ui-resources-table-selection
+    width: 75px
+    input,
+    img
+      display: inline-block
+      vertical-align: middle
+  .ui-resources-table-cell-content
+    display: block
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+    width: 90%

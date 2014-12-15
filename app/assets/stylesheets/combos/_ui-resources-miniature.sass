@@ -1,0 +1,117 @@
+/**
+ * ## Media Resources Miniature Mode `.ui-resources.miniature`
+ *
+ * .active    - To be interacted with
+ *
+ * Styleguide 7.9.2
+
+.ui-resources.miniature
+  margin: -15px 0 0 -10px
+  .ui-resource
+    +float-left
+    display: inline-block
+  .ui-resource-title,
+  .ui-resource-actions,
+  .ui-resource-meta,
+  .ui-resource-extension,
+  .ui-resource-description
+    display: none
+  .ui-thumbnail.media-entry,
+  .ui-thumbnail.media-entry-incomplete,
+  .ui-thumbnail.media-set,
+  .ui-thumbnail.filter-set
+    +dimension(60px, 60px)
+    margin: 0
+    padding: 10px
+    position: relative
+    .ui-thumbnail-privacy
+      display: none
+    .ui-thumbnail-meta
+      margin: 10px 0 0
+    .ui-thumbnail-meta-title,
+    .ui-thumbnail-meta-subtitle
+      height: 35px
+    .ui-thumbnail-dropdown
+      display: none
+  // Sets' stack effect
+  .ui-thumbnail.media-set,
+  .ui-thumbnail.filter-set
+    .ui-thumbnail-image-wrapper
+      +box-shadow(0 1px 2px 0px $darken, 4px 4px 0px 0px $white, 4px 4px 2px 0px $darken-strong)
+    .ui-thumbnail-image-holder
+      +dimension(50px, 50px)
+      .ui-thumbnail-table-image-holder
+        height: 200px
+        left: -75px
+        position: relative
+        top: -75px
+        width: 200px
+        .ui-thumbnail-cell-image-holder
+          +dimension(50px, 50px)
+          .ui-thumbnail-inner-image-holder
+            .ui-thumbnail-image
+              +min-dimension(auto, auto)
+              +max-dimension(160px, 160px)
+  // Media entries' properties
+  .ui-thumbnail.media-entry,
+  .ui-thumbnail.media-entry-incomplete
+    .ui-thumbnail-image-wrapper
+      +dimension(50px, 50px)
+    .ui-thumbnail-image-holder
+      +dimension(50px, 36px)
+      position: relative
+      top: 7px
+      .ui-thumbnail-table-image-holder
+        .ui-thumbnail-cell-image-holder
+          +dimension(50px, 36px)
+          .ui-thumbnail-image
+            +min-dimension(auto, auto)
+            +max-dimension(50px, 36px)
+  // Video entries get pellicola background
+  .ui-thumbnail.video .ui-thumbnail-image-wrapper
+    background: $white image-url("backgrounds/thumb-video-backg-small.png") 0 0px no-repeat
+    
+  // Some nasty layouting adjustments
+  .ui-resources-page
+    margin: 5px 0 0 0
+  .ui-resources-page-items
+    margin-left: 0
+    margin-top: 10px
+
+/*
+ * Active Mode
+ * -------------------------------------
+
+.ui-resources.miniature.active
+
+// Hover
+
+.ui-resources.miniature-popup
+  left: 0
+  position: absolute
+  top: 0
+  z-index: 1000
+
+/*
+ * Media queries
+ * -------------------------------------
+
+@media #{$screen-size-xs-s}
+  // Hiding extension on smaller screens
+  .ui-resources.list .ui-resource-extension
+    display: none
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
+  .ui-resources.miniature
+    .ui-thumbnail.video .ui-thumbnail-image-wrapper
+      background: $white image-url("backgrounds/thumb-video-backg-small@2x.png") 0 0px no-repeat
+      background-size: 58px 58px
+
+/* Projection Styles
+ *-----------------------------------------
+
+@if $projection
+
+  .ui-resources.miniature
+    .ui-thumbnail.video .ui-thumbnail-image-wrapper
+      background: $white image-url("backgrounds/thumb-video-backg-small-projct.png") 0 0px no-repeat

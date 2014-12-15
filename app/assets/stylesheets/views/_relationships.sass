@@ -1,0 +1,78 @@
+.relationships-wrapper
+  position: relative
+.relationships-this
+  position: relative
+  float: left
+  width: 220px
+  z-index: 500
+.relationships-siblings
+  position: relative
+  margin-left: 220px
+.relationships-this-wrapper.pointing-bottom
+  &:after,
+  &:before
+    border: solid transparent
+    content: ""
+    height: 0
+    pointer-events: none
+    position: absolute
+    width: 0
+    z-index: 9999
+    top: 100%
+    left: 109px
+  &:before
+    border-width: 12px
+    border-top-color: $darken-less
+    margin-left: -7px
+  &:after
+    border: solid transparent
+    border-width: 10px
+    border-top-color: $white
+    margin-left: -5px
+
+.relationships-wrapper
+  .pointing-top,
+  .pointing-right,
+  .pointing-bottom
+    height: 335px
+    position: relative
+    &:after,
+    &:before
+      border: solid transparent
+      content: ""
+      height: 0
+      pointer-events: none
+      position: absolute
+      width: 0
+      z-index: 9999
+    &:before
+      border-width: 12px
+    &:after
+      border: solid transparent
+      border-width: 10px
+
+  .pointing-top
+    &:before,
+    &:after
+      bottom: 100%
+      left: 50%
+    &:before
+      border-bottom-color: $darken-less
+      margin-left: -7px
+    &:after
+      border-bottom-color: $white
+      margin-left: -5px
+
+  .pointing-right
+    &:before,
+    &:after
+      top: 50%
+      left: 100%
+    &:before
+      border-left-color: $darken-less
+      margin-top: -7px
+    &:after
+      border-left-color: $white
+      margin-top: -5px
+
+  .pointing-bottom

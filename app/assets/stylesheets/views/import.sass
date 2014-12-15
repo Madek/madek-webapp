@@ -1,0 +1,29 @@
+.view-import
+
+  #uploader_browse
+    z-index: 1001 !important
+
+  .plupload.html5
+    top: -100px !important
+    z-index: 1002 !important
+    input[type=file]
+      z-index: 1002 !important
+
+  .ui-resource .ui-thumbnail-image-wrapper
+    cursor: default
+
+  &.view-import-meta-data .ui-resource .ui-thumbnail-image-wrapper
+    cursor: pointer
+
+  .ui-invalid-resources-only
+
+    .ui-resource:not(.ui-invalid):not(.ui-selected)
+      display: none
+
+.view-import-organize
+  
+  .ui-resources
+    text-align: center
+
+  .ui-resource
+    float: none !important

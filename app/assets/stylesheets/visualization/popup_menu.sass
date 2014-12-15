@@ -1,0 +1,64 @@
+html#visualization 
+
+  // resetting qtip css
+
+  .ui-tooltip.qtip.popup_menu
+    .ui-tooltip-content
+      padding: 0 
+      border: 0 
+      margin: 0 
+    .ui-tooltip-tip
+
+  .ui-tooltip-default .ui-tooltip-titlebar, .ui-tooltip-default .ui-tooltip-content
+    background: white
+      
+
+
+  .popup_menu
+    .popover-inner
+      //background: white
+
+    min-height: 100px
+    width: 260px
+
+    .inner
+      cursor: default
+      display: block
+      position: relative
+      width: 242px
+
+    .resource
+      .ui-thumbnail
+        height: auto
+      .ui-thumbnail-meta
+        display: none 
+
+    h2
+      font-size: 1.4em
+      line-height: 1.1em
+      padding-bottom: 8px
+
+    .contains_info
+      .icon 
+        vertical-align: text-top
+
+    .links
+      font-size: 1.2em
+      line-height: 1.3em
+
+      a
+        border-top: 1px solid rgb(220,220,220)
+        color: grey
+        display: block
+        padding: 10px 0 10px
+        text-decoration: none
+
+        &[id]
+          display: none
+        &.shown
+          display: block !important
+
+      a:hover
+        color: black
+
+

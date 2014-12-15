@@ -1,0 +1,124 @@
+/**
+ * ## Media Resources List Mode `.ui-resources.list`
+ *
+ * .active    - To be interacted with
+ *
+ * Styleguide 7.9.3
+
+/* General styles
+ *-----------------------------------------
+
+.ui-resources.list
+  .ui-resource
+    border-bottom: 1px solid $mono-light
+    margin: 0 $space-s $space-s
+    padding-bottom: 15px
+    &:last-child
+      border-bottom: none
+
+  .ui-resources-page-items
+    margin-top: 9px
+  .ui-resources-page
+    margin: -10px 0 0 -10px
+  .ui-resources-page-items
+    margin-left: 0
+    margin-top: 14px
+
+/* Head
+ *-----------------------------------------
+
+.ui-resources.list
+  .ui-resource-head
+    display: block
+    margin-left: 160px
+    padding: $space-x 0
+  .ui-resource-title
+    font-weight: 700
+  .ui-resource-actions
+    +float-left
+    display: none
+    margin-right: $space-x
+    position: relative
+    left: 2px
+    top: 1px
+    .ui-resource-action
+      display: inline-block
+      list-style: none
+      margin-right: $space-x
+      a
+        color: $mono-heavy
+        text-decoration: none !important
+        &:hover
+          color: $mono-dark
+
+/* Body
+ *-----------------------------------------
+
+.ui-resources.list
+  .ui-resource-body
+    display: table
+    table-layout: fixed
+    width: 100%
+  // Columns
+  .ui-resource-thumbnail,
+  .ui-resource-meta,
+  .ui-resource-description,
+  .ui-resource-extension
+    display: table-cell
+    vertical-align: top
+  .ui-resource-thumbnail
+    width: 153px
+    .ui-thumbnail
+      margin-top: -40px
+      margin-right: -1px
+  .ui-resource-meta,
+  .ui-resource-description,
+  .ui-resource-extension
+    padding: 0 $space-s
+  // Deeper elements within those columns
+  .ui-resource-meta-label,
+  .ui-resource-meta-content
+    font-size: $font-xs
+    line-height: $line-height-s
+  .ui-resource-meta-label
+    color: $mono-mid
+    padding-right: $space-s
+  // Borders
+  .ui-resource-description,
+  .ui-resource-extension
+    border-left: 1px solid $mono-light
+  .ui-resource-meta-content,
+  .ui-resource-meta-label
+    border: none
+  .ui-resource-meta
+    position: relative
+    table
+      table-layout: fixed
+    .ui-resource-meta-label
+      width: 30%
+    .ui-resource-meta-content
+      width: 70%
+
+/*
+ * Media queries
+ * -------------------------------------
+
+@media #{$screen-size-xs-s}
+  // Hiding extension on smaller screens
+  .ui-resources.list .ui-resource-extension
+    display: none
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
+  .ui-resources.list.active
+    .ui-thumbnail.video .ui-thumbnail-image-wrapper
+      background: $white image-url("backgrounds/thumb-video-backg@2x.png") 0 0px no-repeat
+      background-size: 138px 138px
+
+/* Projection Styles
+ *-----------------------------------------
+
+@if $projection
+
+  .ui-resources.list.active
+    .ui-thumbnail.video .ui-thumbnail-image-wrapper
+      background: $white image-url("backgrounds/thumb-video-backg-projct.png") 0 0px no-repeat

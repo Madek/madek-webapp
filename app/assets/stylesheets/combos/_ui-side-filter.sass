@@ -1,0 +1,178 @@
+/**
+ * ## Side filter `.ui-side-filter`
+ *
+ * Styleguide 7.18
+ */
+
+/* Class naming convention:
+ *
+ * ui-side-filter-lvl1 - top level filter
+ * ui-side-filter-lvl2 - second level filter
+ * ui-side-filter-lvl3 - third level filter
+ */
+
+.ui-side-filter
+  +box-shadow(1px 0 0 $white)
+  +micro-clearfix
+  border-right: 1px solid $mono-light
+  margin-right: $space-m
+  min-width: 220px
+  padding-right: $space-m
+  position: relative
+
+.ui-side-filter-filterset,
+.ui-side-filter-search
+  +clearfix
+  +box-shadow(0 1px 0 $lighten-more)
+  border-bottom: 1px solid $mono-light
+  margin-bottom: $space-m
+  padding-bottom: $space-m
+  .ui-filterset-new,
+  .ui-filterset-reset
+    display: block
+  .ui-filterset-new
+    margin-right: $space-s
+
+.ui-side-filter li
+  clear: both
+  list-style: none
+
+.ui-side-filter-list
+  position: relative
+
+.ui-side-filter-list a
+  +border-radius($border-radius-m)
+  display: block
+  line-height: 1.5
+  padding: $space-x
+  position: relative
+  &:hover
+    background: $lighten-more
+    text-decoration: none
+  &:active
+    background: $darken-subtle
+    +box-shadow(inset 0 1px 2px $darken)
+
+.ui-side-filter-search
+  font-size: $font-xs
+  font-weight: 700
+  margin-bottom: $space-s
+  .ui-filter-search-input
+    margin: $space-x 0 0
+  input.unstyled
+    background: transparent
+    border: none
+    color: $mono-dark
+    font-family: $default-font-family
+    font-size: $font-s
+    font-weight: bold
+    margin: 0
+    padding: 0
+
+.ui-side-filter-item
+  padding: $space-s 0
+  &:first-child
+    padding-top: 0
+
+.ui-side-filter-lvl2-item > a
+  font-size: $font-s
+  font-weight: 600
+  padding-left: $space-m
+  padding-right: $space-m
+
+.ui-side-filter-lvl3-item
+  padding-left: 18px
+  &:first-child
+    padding-top: $space-x
+  &:last-child
+    padding-bottom: $space-x
+  .ui-lvl3-item-count
+    +border-radius(50px)
+    +min-dimension(12px, auto)
+    +position-top-right(2px, 0)
+    color: $mono-mid
+    font-size: 10px
+    font-weight: 700
+    line-height: 1
+    padding: $space-x
+    text-align: center
+
+.ui-side-filter-lvl3-item > a
+  font-size: $font-xs
+  font-weight: 600
+  padding-right: 30px
+
+.ui-side-filter-lvl3-item.unknown
+  color: $mono-mid
+  font-style: italic
+
+.ui-side-filter-item
+  +box-shadow(0 1px 0 $lighten-more)
+  border-bottom: 1px solid $mono-light
+  &:last-child
+    +box-shadow(0 0 0 $white)
+    border-bottom: none
+
+.ui-accordion-body
+  & > .ui-side-filter-lvl3-item:not(.active),
+  & > .ui-side-filter-lvl2-item:not(.has-active)
+    display: none
+
+.ui-accordion-body.open
+  & > .ui-side-filter-lvl3-item,
+  & > .ui-side-filter-lvl2-item
+    display: block
+
+.ui-side-filter-lvl1-marker
+  @extend .icon-extend
+  +position-top-right(9px, $space-x)
+  &:before
+    content: "\e603"
+
+.open > .ui-side-filter-lvl1-marker
+  &:before
+    content: "\e604"
+
+.ui-side-filter-lvl2-marker
+  @extend .icon-extend
+  +position-top-left(7px, 3px)
+  color: $mono-mid
+  &:hover
+    color: $mono-dark
+  &:before
+    content: "\e605"
+
+.open > .ui-side-filter-lvl2-marker
+  &:before
+    content: "\e603"
+
+.ui-side-filter-lvl3-item.active > a
+  +box-shadow(inset 0 1px 2px $darken)
+  background: $darken-subtle
+  .ui-lvl3-item-count
+    color: $mono-heavy
+
+.ui-side-filter #ui-side-filter-blocking-layer
+  background: $darken-subtle
+  display: block
+  height: 100%
+  position: absolute
+  top: 0
+  width: 100%
+  +border-radius($border-radius-m)
+
+.ui-side-filter-lvl2-item
+  position: relative
+
+.ui-any-value
+  position: absolute
+  right: 3px
+  top: 6px
+  .icon-checkbox
+    color: $mono-mid
+  &:hover
+    .icon-checkbox
+      color: $mono-dark
+
+input.any-value:checked+.icon-checkbox
+  @extend .icon-checkbox.active

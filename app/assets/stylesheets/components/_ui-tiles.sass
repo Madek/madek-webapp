@@ -1,0 +1,177 @@
+/**
+ * Tiles
+ *
+
+.ui-tile
+  +box-shadow(0 1px 5px $darken)
+  background: $white
+  display: inline-block
+  min-width: 200px
+  position: relative
+  padding-bottom: 55px
+  &:after
+    +position-top-right(0,0)
+    +position-bottom-left(0,0)
+    border: 1px solid $darken
+    content: ""
+    display: block
+    z-index: 30
+    pointer-events: none
+
+/**
+ *  Sum or parts
+ *-----------------------------------------
+
+.ui-tile__head,
+.ui-tile__foot
+  z-index: 50
+
+.ui-tile__body
+  line-height: 0
+  background-color: rgba(0, 0, 0, 0.3)
+
+.ui-tile__head
+  +position-top-left(0,0)
+  +position-top-right(0,0)
+  padding: $space-s
+
+.ui-tile__foot
+  +position-bottom-left(0,0)
+  +position-bottom-right(0,0)
+  border-width: 0 1px 1px
+  border-style: solid
+  border-color: $darken
+  background: $white
+  height: 35px
+  padding: $space-s ($space-l + $space-s) $space-s $space-s
+  z-index: 50
+  &, &:hover
+    text-decoration: none
+
+.ui-tile__flags
+  +dimension(20px, 36px)
+  +position-top-right($space-s,$space-s)
+  border-left: 1px solid $mono-weak
+  padding-left: $space-x
+  color: $mono-light
+  text-align: center
+  .ui-thumbnail-privacy
+    border: none
+
+.ui-tile__flag
+  float: right
+  margin-bottom: 4px
+
+/**
+ *  Head elements
+ *-----------------------------------------
+
+.ui-tile__actions, .ui-tile__status
+  &.left
+    position: absolute
+
+.ui-tile__action
+  display: inline-block
+  list-style: none
+.ui-tile__actions.by-right .ui-tile__action
+  margin-left: 1px
+.ui-tile__actions.by-left .ui-tile__action
+  margin-right: 1px
+
+.ui-tile__action-link
+  +backface-visibility(hidden)
+  +border-radius($border-radius-s)
+  +box-shadow(0 0 2px $darken-more)
+  +dimension(20px,20px)
+  +opacify
+  background: $lighten-strong
+  color: $mono-dark
+  display: inline-block
+  line-height: 20px
+  padding: $space-x
+  text-align: center
+  text-decoration: none !important
+  .ui-tile__status &
+    background: none
+    box-shadow: none
+    +text-shadow( 1px  0px  1px $lighten-more, 0px  1px  1px $lighten-more, -1px  0px  1px $lighten-more, 0px -1px  1px $lighten-more)
+
+.ui-tile__action-link i
+  position: relative
+  top: 2px
+
+/**
+ *  Body elements
+ *-----------------------------------------
+
+.ui-tile__thumbnail
+  display: block
+
+.ui-tile__image
+  height: 400px
+  display: inline-block
+  min-width: 100%
+
+/**
+ *  Foot elements
+ *-----------------------------------------
+
+.ui-tile__title,
+.ui-tile__meta
+  +truncate
+
+.ui-tile__title
+  @extend .title-s
+  padding-right: $space-m
+
+.ui-tile__meta
+  @extend .title-xs-alt
+
+.ui-tile__type
+  +position-top-right(($space-x + 2px), $space-s)
+
+/**
+ *  (f)set variation
+ *-----------------------------------------
+
+.ui-tile--set
+  +box-shadow(0 1px 2px 0px $darken, $space-x $space-x 0px 0px $white, $space-x $space-x 2px 0px $darken-strong)
+
+/**
+ *  --$size variation
+ *-----------------------------------------
+
+.ui-tile--large
+  .ui-tile__image
+    +dimension(auto, 100px)
+
+.ui-tile--mid
+  .ui-tile__image
+    +dimension(auto, 125px)
+
+.ui-tile--small
+  .ui-tile__image
+    +dimension(auto, 300px)
+
+/**
+ *  States
+ *-----------------------------------------
+
+.ui-tile
+  .ui-tile__head ul
+    +transition
+    opacity: 0
+    &.ui-tile__status
+      opacity: 1
+  &:hover
+    .ui-tile__head ul
+      opacity: 1
+      &.ui-tile__status
+        opacity: 0
+  
+  .ui-tile__head
+    .ui-tile__status
+      .ui-tile__action-link
+        display: none
+        &.active
+          display: inherit

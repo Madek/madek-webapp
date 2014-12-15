@@ -1,0 +1,65 @@
+$projection         : false
+
+/* Color Definitions
+ *-----------------------------------------
+
+// Grey Shades
+$black              : black
+$mono-dark          : #4c4c4c
+$mono-strong        : #666666
+$mono-heavy         : grey
+$mono-mid           : #9a9a9a
+$mono-light         : #cccccc
+$mono-weak          : #e7e7e7
+$mono-bright        : #f3f3f3
+$white              : white
+
+// Rainbow Shades
+$green              : #7a9d29
+$red                : #B81A1F
+$blue               : #3a91b6
+$yellow             : #e5b100
+
+$main-color         : #171717
+$main-color-dark    : darken($main-color, 10%)
+$main-color-light   : lighten($main-color, 10%)
+
+/* Create Instance Colour Variables
+ *-----------------------------------------
+
+=colour-palette
+  @if $scheme-green
+    @debug "$scheme-green is #{$scheme-green}"
+    $main-color         : $green
+  @if $scheme-red
+    @debug "$scheme-red is #{$scheme-red}"
+    $main-color         : $red
+  @if $scheme-blue
+    @debug "$scheme-blue is #{$scheme-blue}"
+    $main-color         : $blue
+  @if $scheme-mono
+    @debug "$scheme-mono is #{$scheme-mono}"
+    $mono-dark          : #595959
+    $mono-strong        : #666666
+    $main-color         : #171717
+    
+  @if $custom-color
+    $main-color         : $custom-color
+
+  $main-color-dark      : darken($main-color, 10%)
+  $main-color-light     : lighten($main-color, 10%)
+
+  
+/* Transparency Values
+ *-----------------------------------------
+
+$opacity-strong     : 0.85
+$opacity-heavy      : 0.5
+$opacity-medium     : 0.25
+$opacity-light      : 0.15
+$opacity-weak       : 0.05
+
+/* Body
+ *-----------------------------------------
+
+$body-background: image-url("backgrounds/body-background.png")
