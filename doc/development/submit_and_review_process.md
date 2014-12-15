@@ -73,5 +73,6 @@ Relaxed Process for the Madek Core-Team
 This section describes a relaxed process applicable to the core Madek-Team to
 the end of avoiding exzessive effort during development and in particular with
 respect of merging commits. Developers will commit a unit of work them self and
-immediately when the work is finished. Reviews will be added afterwards.
-
+immediately when the work is finished. Reviews will be added afterwards. 
+To explicitly state this, these commits should include a `Signed-off-by` with 
+their own name.
