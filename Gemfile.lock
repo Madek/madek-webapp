@@ -132,10 +132,6 @@ GEM
     haml_assets (0.2.2)
       haml
       tilt
-    haml_coffee_assets (1.16.0)
-      coffee-script (~> 2.0)
-      sprockets (~> 2.0)
-      tilt (~> 1.1)
     hike (1.2.3)
     hpricot (0.8.6)
     hpricot (0.8.6-java)
@@ -373,7 +369,6 @@ DEPENDENCIES
   haml
   haml-rails
   haml_assets
-  haml_coffee_assets
   jdbc-postgres
   jquery-rails
   jquery-tmpl-rails
