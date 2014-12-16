@@ -81,7 +81,7 @@ gem 'simplecov', require: false, group: ['test']
 gem 'thin', platform: :mri, group: [:development, :personas] # web server (Webrick do not support keep-alive connections)
 gem 'zencoder-fetcher', group: [:development]
 
-gem 'cider_ci-support', '= 1.0.0.pre.beta.2', group: [:development, :test]
+gem 'cider_ci-support', '= 1.0.0.pre.beta.3', group: [:development, :test]
 # gem 'cider_ci-support', path: '/Users/thomas/Programming/CIDER-CI/ruby_support'
 
 # TEMPORARILY DISABLED

@@ -77,8 +77,8 @@ GEM
       xpath (~> 2.0)
     childprocess (0.5.5)
       ffi (~> 1.0, >= 1.0.11)
-    cider_ci-support (1.0.0.pre.beta.2)
-      json_roa-client (= 1.0.0.pre.beta.1)
+    cider_ci-support (1.0.0.pre.beta.3)
+      json_roa-client (>= 1.0.0.pre.beta.2)
       mime-types
       simplecov (~> 0.9)
       thread (= 0.1.4)
@@ -159,7 +159,7 @@ GEM
     jruby-openssl (0.9.5-java)
     json (1.8.1)
     json (1.8.1-java)
-    json_roa-client (1.0.0.pre.beta.1)
+    json_roa-client (1.0.0.pre.beta.2)
       addressable (~> 2)
       faraday (~> 0.9)
       faraday_middleware (~> 0.9)
@@ -358,7 +358,7 @@ DEPENDENCIES
   binding_of_caller
   bootstrap-sass
   capybara (~> 2.4)
-  cider_ci-support (= 1.0.0.pre.beta.2)
+  cider_ci-support (= 1.0.0.pre.beta.3)
   coffee-rails
   coffee-script
   dalli
