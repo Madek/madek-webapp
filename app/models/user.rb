@@ -16,10 +16,17 @@ class User < ActiveRecord::Base
   belongs_to :person
 
   has_many :media_resources
-  has_many :media_sets
+
+  has_many :collections, foreign_key: :responsible_user_id
   has_many :media_entries, foreign_key: :responsible_user_id
+  has_many :filter_sets, foreign_key: :responsible_user_id
+
   has_many :incomplete_media_entries, class_name: 'MediaEntryIncomplete', dependent: :destroy
+
+  has_many :created_media_entries, class_name: 'MediaEntry', foreign_key: :creator_id
+
   has_many :keywords
+
   has_and_belongs_to_many :meta_data
 
   has_many :created_custom_urls, class_name: 'CustomUrl', foreign_key: :creator_id
@@ -27,6 +34,7 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :favorite_media_entries, join_table: 'favorite_media_entries', class_name: 'MediaEntry'
   has_and_belongs_to_many :favorite_collections, join_table: 'favorite_collections', class_name: 'Collection'
+  has_and_belongs_to_many :favorite_filter_sets, join_table: 'favorite_filter_sets', class_name: 'FilterSet'
 
   has_and_belongs_to_many :groups,
                           after_add: :increment_user_counter,
