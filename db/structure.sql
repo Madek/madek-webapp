@@ -498,7 +498,7 @@ CREATE TABLE media_entries (
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     type character varying(255) DEFAULT 'MediaEntry'::character varying,
     responsible_user_id uuid NOT NULL,
-    creator_id uuid
+    creator_id uuid NOT NULL
 );
 
 
@@ -571,7 +571,8 @@ CREATE TABLE media_files (
     media_type character varying(255),
     media_entry_id uuid,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp without time zone DEFAULT now() NOT NULL
+    updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    uploader_id uuid NOT NULL
 );
 
 
@@ -2654,6 +2655,14 @@ ALTER TABLE ONLY media_files
 
 
 --
+-- Name: media_files_uploader_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_files
+    ADD CONSTRAINT media_files_uploader_id_fk FOREIGN KEY (uploader_id) REFERENCES users(id);
+
+
+--
 -- Name: media_sets_contexts_context_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2929,7 +2938,19 @@ INSERT INTO schema_migrations (version) VALUES ('133');
 
 INSERT INTO schema_migrations (version) VALUES ('134');
 
+INSERT INTO schema_migrations (version) VALUES ('135');
+
+INSERT INTO schema_migrations (version) VALUES ('136');
+
+INSERT INTO schema_migrations (version) VALUES ('137');
+
+INSERT INTO schema_migrations (version) VALUES ('138');
+
+INSERT INTO schema_migrations (version) VALUES ('139');
+
 INSERT INTO schema_migrations (version) VALUES ('14');
+
+INSERT INTO schema_migrations (version) VALUES ('140');
 
 INSERT INTO schema_migrations (version) VALUES ('15');
 

@@ -6,6 +6,8 @@ FactoryGirl.define do
     width { 429 }
     content_type 'image/jpeg'
     media_type 'image'
+    association :media_entry
+    association :uploader, factory: :user
   end
 
   factory :media_file_for_image, class: MediaFile do
@@ -39,6 +41,8 @@ FactoryGirl.define do
       JFIF:ResolutionUnit: inches
       JFIF:XResolution: 72
       JFIF:YResolution: 72 '
+    association :media_entry
+    association :uploader, factory: :user
 
     after :create do |mf|
       previews_data = YAML.load '
@@ -124,6 +128,8 @@ FactoryGirl.define do
       QuickTime:SelectionDuration: 0 s
       QuickTime:SelectionTime: 0 s
       QuickTime:TimeScale: 600 '
+    association :media_entry
+    association :uploader, factory: :user
   end
 
 end

@@ -9,6 +9,9 @@ class MediaFile < ActiveRecord::Base
 
   belongs_to :media_entry, foreign_key: :media_entry_id
   has_many :zencoder_jobs, dependent: :destroy
+  belongs_to :uploader, class_name: 'User'
+
+  validates_presence_of :uploader
 
   before_create do
     self.guid ||= UUIDTools::UUID.random_create.hexdigest
