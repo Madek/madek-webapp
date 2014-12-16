@@ -25,16 +25,11 @@ gem 'roar-rails'
 # gem "madek_zhdk_integration", path: "../zhdk_integration"
 gem 'madek_zhdk_integration', git: 'https://github.com/zhdk/madek-zhdk-integration.git', ref: '11434aeea50795c0a8e5663b4350746232744319'
 
-# The rest
-gem 'bcrypt-ruby'
+# FRONTEND
 gem 'bootstrap-sass'
 gem 'coffee-rails'
 gem 'coffee-script'
-gem 'dalli'
-gem 'execjs'
 gem 'font-awesome-sass'
-gem 'gettext_i18n_rails'
-gem 'git'
 gem 'haml'
 gem 'haml-rails'
 gem 'haml_assets'
@@ -42,6 +37,15 @@ gem 'haml_coffee_assets'
 gem 'jquery-rails'
 gem 'jquery-tmpl-rails'
 gem 'jquery-ui-rails'
+gem 'sass'
+gem 'sass-rails'
+
+# The rest
+gem 'bcrypt-ruby'
+gem 'dalli'
+gem 'execjs'
+gem 'gettext_i18n_rails'
+gem 'git'
 gem 'jruby-openssl', platform: :jruby
 gem 'json'
 gem 'kaminari'
@@ -50,8 +54,6 @@ gem 'nokogiri'
 gem 'rails_autolink', '~> 1.0'
 gem 'rails_config'
 gem 'rubyzip'
-gem 'sass'
-gem 'sass-rails'
 gem 'therubyracer', platform: :mri
 gem 'therubyrhino', platform: :jruby
 gem 'uglifier'
