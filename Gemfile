@@ -29,6 +29,7 @@ gem 'madek_zhdk_integration', git: 'https://github.com/zhdk/madek-zhdk-integrati
 gem 'bootstrap-sass'
 gem 'coffee-rails'
 gem 'coffee-script'
+gem 'compass-rails', '~> 2.0'
 gem 'font-awesome-sass'
 gem 'haml'
 gem 'haml-rails'
