@@ -309,7 +309,8 @@ CREATE TABLE edit_sessions (
 
 CREATE TABLE favorite_collections (
     user_id uuid NOT NULL,
-    collection_id uuid NOT NULL
+    collection_id uuid NOT NULL,
+    created_at timestamp without time zone NOT NULL
 );
 
 
@@ -319,7 +320,8 @@ CREATE TABLE favorite_collections (
 
 CREATE TABLE favorite_filter_sets (
     user_id uuid NOT NULL,
-    filter_set_id uuid NOT NULL
+    filter_set_id uuid NOT NULL,
+    created_at timestamp without time zone NOT NULL
 );
 
 
@@ -329,7 +331,8 @@ CREATE TABLE favorite_filter_sets (
 
 CREATE TABLE favorite_media_entries (
     user_id uuid NOT NULL,
-    media_entry_id uuid NOT NULL
+    media_entry_id uuid NOT NULL,
+    created_at timestamp without time zone NOT NULL
 );
 
 
@@ -2951,6 +2954,8 @@ INSERT INTO schema_migrations (version) VALUES ('139');
 INSERT INTO schema_migrations (version) VALUES ('14');
 
 INSERT INTO schema_migrations (version) VALUES ('140');
+
+INSERT INTO schema_migrations (version) VALUES ('141');
 
 INSERT INTO schema_migrations (version) VALUES ('15');
 
