@@ -1,3 +1,8 @@
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
+
 Lint/AmbiguousOperator:
   Enabled: false
 
