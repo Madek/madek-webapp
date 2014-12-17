@@ -11,7 +11,6 @@ class MetaDatum::People < MetaDatum
   alias_method :value, :people
 
   def value=(people)
-    # raise ArgumentError, "only enumerable of class person accepted " unless
     self.people.clear
     self.people = people
   end

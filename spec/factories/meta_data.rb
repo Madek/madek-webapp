@@ -10,4 +10,8 @@ FactoryGirl.define do
     people { (1..3).map { FactoryGirl.create :person } }
   end
 
+  factory :meta_datum_users, class: MetaDatum::Users do
+    users { (1..3).map { FactoryGirl.create :user } }
+  end
+
 end

@@ -52,6 +52,10 @@ tasks:
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/meta_datum/text_spec.rb"
+- name: models meta_datum users
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/meta_datum/users_spec.rb"
 - name: models meta_key immutability
   scripts:
     rspec:
