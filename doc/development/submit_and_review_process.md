@@ -73,5 +73,5 @@ People belonging to the core Madek-Team:
 
   * Matus Kmit <matus.kmit@zhdk.ch>
   * Max F. Albrecht <max.albrecht@zhdk.ch>
-  * Thomas Schank <DrTom@schank.ch>
+  * Thomas Schank <thomas.schank@zhdk.ch>
 
