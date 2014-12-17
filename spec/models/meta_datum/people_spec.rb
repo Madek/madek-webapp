@@ -43,12 +43,20 @@ describe MetaDatum::People do
           expect(@meta_datum_people.people.count).to be >= 3
         end
 
+        describe 'to_s' do
+          it 'includes the stringified people' do
+            @meta_datum_people.people.each do |person|
+              expect(@meta_datum_people.to_s).to include person.to_s
+            end
+          end
+        end
+
         describe 'value=' do
 
           it 'resets the associated people' do
             expect(@meta_datum_people.people).not_to be == [@person1, @person2]
             expect do
-              @meta_datum_people.people = [@person1, @person2]
+              @meta_datum_people.value = [@person1, @person2]
             end.not_to raise_error
             expect(@meta_datum_people.people).to be == [@person1, @person2]
           end
