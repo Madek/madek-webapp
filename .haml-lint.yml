@@ -1,0 +1,15 @@
+skip_frontmatter: true
+
+linters:
+  ImplicitDiv:
+    enabled: false
+
+  UnnecessaryStringOutput:
+    enabled: false
+
+  SpaceInsideHashAttributes:
+    enabled: true
+    style: no_space
+
+  LineLength:
+    max: 100

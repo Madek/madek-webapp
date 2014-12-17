@@ -3,4 +3,9 @@ tasks:
 - name: Lint/Stylecheck with Rubocop
   scripts:
     main:
-      body: bundle install && bundle exec rubocop -R
+      body: bundle exec rubocop -R
+
+- name: Lint/Stylecheck with HAML-Lint
+  scripts:
+    main:
+      body: bundle exec haml-lint app/views/{a*,m*}/* # tmp exclude styleguide…
