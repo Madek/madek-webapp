@@ -100,7 +100,7 @@ class MediaEntriesController < ApplicationController
   def check_and_initialize_for_view
     @media_entry = find_media_resource
     raise "Wrong type" unless @media_entry.is_a? MediaEntry
-    raise UserUnauthorizedError if current_user.login.nil? && @media_entry.view == false
+    raise UserUnauthorizedError if (logged_in? && current_user.login.nil?) && @media_entry.view == false
     raise UserForbiddenError unless current_user.try(:authorized?, :view, @media_entry) || @media_entry.view == true
 
     # here, everything is initialized that we need everywhere (Tabs!)
