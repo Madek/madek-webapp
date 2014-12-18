@@ -2,6 +2,7 @@ AllCops:
   Exclude:
     - 'db/**/*'
     - 'config/**/*'
+  RunRailsCops: true
 
 Lint/AmbiguousOperator:
   Enabled: false

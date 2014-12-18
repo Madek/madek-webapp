@@ -3,7 +3,7 @@ tasks:
 - name: Lint/Stylecheck with Rubocop
   scripts:
     main:
-      body: bundle exec rubocop -R
+      body: bundle exec rubocop
 
 - name: Lint/Stylecheck with HAML-Lint
   scripts:
