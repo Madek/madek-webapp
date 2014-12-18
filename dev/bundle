@@ -1,0 +1,8 @@
+#!/bin/sh
+set -x
+
+# Keep track of all the things to install/update here
+
+git submodule update --init --recursive
+bundle install
+npm install

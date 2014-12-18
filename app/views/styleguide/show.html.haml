@@ -10,8 +10,7 @@
 
 - content_for :scripts do
   :javascript
-    console.log('Javascript works');
-
+    console.log('Inline Javascript works');
     // TMP disabled
     // $(document).ready(function () {
     //   // initially hide all code examples - TODO: css
@@ -28,4 +27,5 @@
     // });
 
   :coffeescript
-    console.log 'Coffeescript works'
+    # make sure it works, if this threw an error the test would fail:
+    console.log 'Inline Coffeescript works. The DOM is now ready.'

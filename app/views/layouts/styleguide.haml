@@ -34,6 +34,6 @@
 
   -# TMP: styleguide only tests "enhanced" elements, so fake the ujs for now
   = javascript_include_tag 'madek-ujs'
-  = content_for(:scripts) if content_for?(:scripts)
+  -# = content_for(:scripts) do
 
 = render template: 'layouts/_base'
