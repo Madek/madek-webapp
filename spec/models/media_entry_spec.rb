@@ -1,6 +1,7 @@
 require 'spec_helper'
 require Rails.root.join 'spec', 'models', 'shared', 'favoritable_spec.rb'
 require Rails.root.join 'spec', 'models', 'shared', 'edit_sessions_spec.rb'
+require Rails.root.join 'spec', 'models', 'shared', 'entrusted_to_user_spec.rb'
 
 describe MediaEntry do
 
@@ -41,4 +42,7 @@ describe MediaEntry do
     end
 
   end
+
+  it_provides_scope 'entrusted to user'
+
 end

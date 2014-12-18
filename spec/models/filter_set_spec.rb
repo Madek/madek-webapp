@@ -1,6 +1,7 @@
 require 'spec_helper'
 require Rails.root.join 'spec', 'models', 'shared', 'favoritable_spec.rb'
 require Rails.root.join 'spec', 'models', 'shared', 'edit_sessions_spec.rb'
+require Rails.root.join 'spec', 'models', 'shared', 'entrusted_to_user_spec.rb'
 
 describe Collection do
 
@@ -25,6 +26,8 @@ describe Collection do
       let(:resource) { FactoryGirl.create :filter_set }
 
     end
-
   end
+
+  it_provides_scope 'entrusted to user'
+
 end

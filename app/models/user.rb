@@ -25,6 +25,8 @@ class User < ActiveRecord::Base
 
   has_many :created_media_entries, class_name: 'MediaEntry', foreign_key: :creator_id
 
+  #############################################################
+
   has_many :keywords
 
   has_and_belongs_to_many :meta_data
@@ -36,14 +38,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :favorite_collections, join_table: 'favorite_collections', class_name: 'Collection'
   has_and_belongs_to_many :favorite_filter_sets, join_table: 'favorite_filter_sets', class_name: 'FilterSet'
 
-  has_and_belongs_to_many :groups,
-                          after_add: :increment_user_counter,
-                          after_remove: :decrement_user_counter do
-    def member?(group)
-      group = Group.find_by_name(group) if group.is_a? String
-      group ? include?(group) : false
-    end
-  end
+  has_and_belongs_to_many :groups
 
   #############################################################
 
