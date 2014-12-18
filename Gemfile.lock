@@ -73,6 +73,8 @@ GEM
       debug_inspector (>= 0.0.1)
     bootstrap-sass (3.3.1.0)
       sass (~> 3.2)
+    browserify-rails (0.5.1)
+      sprockets (~> 2.0)
     builder (3.2.2)
     callsite (0.0.11)
     capybara (2.4.4)
@@ -388,6 +390,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-sass
+  browserify-rails (~> 0.5)
   capybara (~> 2.4)
   cider_ci-rspec_support (>= 1.0.3, < 2.0.0)
   cider_ci-support (= 1.1.0)

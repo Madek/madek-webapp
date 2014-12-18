@@ -53,6 +53,7 @@ doc/api/yard
 log/*.log
 log/searchd.development.pid
 log/searchd.test.pid
+/node_modules/
 public/assets/
 public/previews/
 rerun*.txt

@@ -70,11 +70,35 @@ module Madek
 
     config.log_tags = [->(req) { Time.now.strftime('%T') }, :port, :remote_ip]
 
+    # Assets
+
     # Enable the asset pipeline
     config.assets.enabled = true
     config.assets.version = '1.0.0'
 
     config.assets.initialize_on_precompile = false
+
+    # Paths, that should be browserified. We browserify everything, that
+    # matches (===) one of the paths. So you will most likely put lambdas
+    # regexes in here.
+    #
+    # By default only files in /app and /node_modules are browserified,
+    # vendor stuff is normally not made for browserification and may stop
+    # working.
+    config.browserify_rails.paths << %r{vendor/assets/javascripts/module.js}
+
+    # Environments, in which to generate source maps
+    # The default is `["development"]`.
+    config.browserify_rails.source_map_environments << 'production'
+
+    # Command line options used when running browserify
+    config.browserify_rails.commandline_options = [
+      '-t browserify-shim', '--fast'
+    ]
+
+    # browserify coffeescript support
+    config.browserify_rails
+      .commandline_options = '-t coffeeify --extension=".js.coffee"'
 
     # Please add any files you need precompiled here, otherwise it breaks production
     config.assets.precompile += %w(

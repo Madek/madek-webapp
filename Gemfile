@@ -28,6 +28,7 @@ gem 'madek_zhdk_integration', git: 'https://github.com/zhdk/madek-zhdk-integrati
 
 # FRONTEND
 gem 'bootstrap-sass'
+gem 'browserify-rails', '~> 0.5'
 gem 'coffee-rails'
 gem 'coffee-script'
 gem 'compass-rails', '~> 2.0'
