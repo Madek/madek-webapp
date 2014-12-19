@@ -7,7 +7,9 @@ class Person < ActiveRecord::Base
   has_and_belongs_to_many :meta_data, join_table: :meta_data_people
 
   validate do
-    errors.add(:base, 'Name cannot be blank') if [first_name, last_name, pseudonym].all?(&:blank?)
+    if [first_name, last_name, pseudonym].all?(&:blank?)
+      errors.add(:base, 'Name cannot be blank')
+    end
   end
 
 end

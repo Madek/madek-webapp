@@ -1,7 +1,10 @@
 namespace :madek do
   namespace :setup do
     task dirs: :environment do
-      [FILE_STORAGE_DIR, THUMBNAIL_STORAGE_DIR, DOWNLOAD_STORAGE_DIR, ZIP_STORAGE_DIR].each do |dir|
+      [FILE_STORAGE_DIR,
+       THUMBNAIL_STORAGE_DIR,
+       DOWNLOAD_STORAGE_DIR,
+       ZIP_STORAGE_DIR].each do |dir|
         ::System.execute_cmd! %(mkdir -p #{dir})
       end
       [FILE_STORAGE_DIR, THUMBNAIL_STORAGE_DIR].each do |dir|

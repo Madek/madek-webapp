@@ -57,14 +57,19 @@ RSpec.configure do |config|
   def take_screenshot
     @screenshot_dir ||= Rails.root.join('tmp', 'capybara')
     Dir.mkdir @screenshot_dir rescue nil
-    path = @screenshot_dir.join("screenshot_#{Time.zone.now.iso8601.gsub(/:/, '-')}.png")
+    path = \
+      @screenshot_dir
+        .join("screenshot_#{Time.zone.now.iso8601.gsub(/:/, '-')}.png")
     case Capybara.current_driver
     when :selenium, :selenium_chrome
       page.driver.browser.save_screenshot(path) rescue nil
     when :poltergeist
       page.driver.render(path, full: true) rescue nil
     else
-      Rails.logger.warn "Taking screenshots is not implemented for #{Capybara.current_driver}."
+      Rails
+        .logger
+        .warn "Taking screenshots is not implemented for \
+              #{Capybara.current_driver}."
     end
   end
 

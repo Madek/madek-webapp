@@ -10,7 +10,9 @@ class FilterSet < ActiveRecord::Base
   has_many :edit_sessions, dependent: :destroy
   has_many :editors, through: :edit_sessions, source: :user
 
-  has_and_belongs_to_many :users_who_favored, join_table: 'favorite_filter_sets', class_name: 'User'
+  has_and_belongs_to_many :users_who_favored,
+                          join_table: 'favorite_filter_sets',
+                          class_name: 'User'
 
   #############################################################################
 
@@ -35,8 +37,14 @@ class FilterSet < ActiveRecord::Base
     scope1 = entrusted_to_user_directly(user)
     scope2 = entrusted_to_user_through_groups(user)
     sql = "((#{scope1.to_sql}) UNION ALL (#{scope2.to_sql})) AS filter_sets"
-    # DISTINCT ON in conjunction with UNION ALL due to missing json equality operator in PG 9.3
-    # ON (filter_sets.id, filter_sets.updated_at) due to 'SELECT DISTINCT ON expressions must match initial ORDER BY expressions'
-    select('DISTINCT ON (filter_sets.id, filter_sets.updated_at) filter_sets.*').from(sql)
+
+    # DISTINCT ON in conjunction with UNION ALL
+    # due to missing json equality operator in PG 9.3
+    #
+    # ON (filter_sets.id, filter_sets.updated_at)
+    # due to 'SELECT DISTINCT ON expressions must match
+    # initial ORDER BY expressions'
+    select('DISTINCT ON (filter_sets.id, filter_sets.updated_at) filter_sets.*')
+      .from(sql)
   end
 end

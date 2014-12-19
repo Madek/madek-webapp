@@ -11,8 +11,9 @@ module Permissions
                                      get_full_size: false,
                                      edit_metadata: false,
                                      edit_permissions: false).delete_all
-      MediaEntryUserPermission.joins(:media_entry).where(
-        'media_entries.responsible_user_id = media_entry_user_permissions.user_id') \
+      MediaEntryUserPermission.joins(:media_entry)
+        .where(%(media_entries.responsible_user_id \
+                 = media_entry_user_permissions.user_id)) \
         .delete_all
     end
 

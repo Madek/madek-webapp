@@ -1,5 +1,8 @@
 require 'spec_helper'
-require Rails.root.join 'spec', 'models', 'shared', 'destroy_ineffective_permissions_spec.rb'
+require Rails.root.join 'spec',
+                        'models',
+                        'shared',
+                        'destroy_ineffective_permissions_spec.rb'
 
 describe Permissions::FilterSetUserPermission do
 
@@ -17,7 +20,7 @@ describe Permissions::FilterSetUserPermission do
 
     describe 'destroy_ineffective' do
 
-      context ' for permissions where the user is the reponsible_user' do
+      context 'for permissions where the user is the reponsible_user' do
         before :each do
           @permission = FactoryGirl.create(:filter_set_user_permission,
                                            get_metadata_and_previews: true,
@@ -31,7 +34,8 @@ describe Permissions::FilterSetUserPermission do
 
       end
 
-      context 'for permission where all permission values are false and user is not the responsible_user' do
+      context %(for permission where all permission values are false \
+                and user is not the responsible_user) do
         before :each do
           @permission = FactoryGirl.create(:filter_set_user_permission,
                                            get_metadata_and_previews: false,

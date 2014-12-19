@@ -7,7 +7,8 @@ class SessionsController < ActionController::Base
 
     if @user.authenticate params[:password]
       set_madek_session @user
-      redirect_back_or_default my_dashboard_path, flash: { success: 'Sie haben sich angemeldet.' }
+      redirect_back_or_default my_dashboard_path,
+                               flash: { success: 'Sie haben sich angemeldet.' }
     else
       redirect_to root_path, flash: { error: 'Falscher Benutzername/Passwort.' }
     end

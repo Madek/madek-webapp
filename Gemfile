@@ -23,7 +23,9 @@ gem 'roar-rails'
 
 # ZHDK-INTEGRATION
 # gem "madek_zhdk_integration", path: "../zhdk_integration"
-gem 'madek_zhdk_integration', git: 'https://github.com/zhdk/madek-zhdk-integration.git', ref: '11434aeea50795c0a8e5663b4350746232744319'
+gem 'madek_zhdk_integration',
+    git: 'https://github.com/zhdk/madek-zhdk-integration.git',
+    ref: '11434aeea50795c0a8e5663b4350746232744319'
 
 # FRONTEND
 gem 'bootstrap-sass'
@@ -81,7 +83,8 @@ gem 'rspec-rails', '~> 3.1', group: [:test, :development]
 gem 'rubocop', require: false
 gem 'selenium-webdriver', group: [:test]
 gem 'simplecov', require: false, group: ['test']
-gem 'thin', platform: :mri, group: [:development, :personas] # web server (Webrick do not support keep-alive connections)
+# web server (Webrick do not support keep-alive connections)
+gem 'thin', platform: :mri, group: [:development, :personas]
 gem 'zencoder-fetcher', group: [:development]
 
 gem 'cider_ci-support', '= 1.0.0.pre.beta.3', group: [:development, :test]

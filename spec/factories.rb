@@ -2,7 +2,11 @@
 
 class ActiveRecord::Base
   def self.find_random
-    find_by_sql(%[ SELECT * FROM  #{table_name} OFFSET floor(random() * (select count(*) from users))  LIMIT 1 ]).first
+    find_by_sql(%( SELECT \
+                   * FROM #{table_name} \
+                   OFFSET floor(random() * (select count(*) from users)) \
+                   LIMIT 1 ))
+      .first
   end
 end
 

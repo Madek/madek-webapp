@@ -16,7 +16,8 @@ class Group < ActiveRecord::Base
   end
 
   def readonly?
-    ['Admin', 'ZHdK (Zürcher Hochschule der Künste)'].include?(name) # FIXME: remove zhdk
+    # FIXME: remove zhdk
+    ['Admin', 'ZHdK (Zürcher Hochschule der Künste)'].include?(name)
   end
 
   ### use in case counters get broken ####################
@@ -34,7 +35,10 @@ class Group < ActiveRecord::Base
       .compact.sort.uniq.join(' ')
   end
 
-  scope :text_search, ->(search_term) { where('searchable ILIKE :term', term: "%#{search_term}%") }
+  scope :text_search,
+        lambda { |search_term|
+          where('searchable ILIKE :term', term: "%#{search_term}%")
+        }
 
   scope :text_rank_search, lambda{|search_term|
     rank = text_search_rank :searchable, search_term

@@ -1,5 +1,8 @@
 require 'spec_helper'
-require Rails.root.join 'spec', 'models', 'shared', 'destroy_ineffective_permissions_spec.rb'
+require Rails.root.join 'spec',
+                        'models',
+                        'shared',
+                        'destroy_ineffective_permissions_spec.rb'
 
 describe Permissions::MediaEntryGroupPermission do
 
@@ -17,7 +20,8 @@ describe Permissions::MediaEntryGroupPermission do
 
     describe 'destroy_ineffective' do
 
-      context 'for permission where all permission values are false and group is not the responsible_group' do
+      context %(for permission where all permission values are false \
+                and group is not the responsible_group) do
         before :each do
           @permission = FactoryGirl.create(:media_entry_group_permission,
                                            get_metadata_and_previews: false,

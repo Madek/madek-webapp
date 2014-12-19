@@ -1,6 +1,7 @@
 FactoryGirl.define do
 
-  factory :collection_api_client_permission, class: Permissions::CollectionApiClientPermission do
+  factory :collection_api_client_permission,
+          class: Permissions::CollectionApiClientPermission do
 
     get_metadata_and_previews { FactoryHelper.rand_bool 1 / 2.0 }
     edit_metadata_and_relations { FactoryHelper.rand_bool 1 / 4.0 }
@@ -11,7 +12,8 @@ FactoryGirl.define do
 
   end
 
-  factory :collection_group_permission, class: Permissions::CollectionGroupPermission do
+  factory :collection_group_permission,
+          class: Permissions::CollectionGroupPermission do
 
     get_metadata_and_previews { FactoryHelper.rand_bool 1 / 2.0 }
     edit_metadata_and_relations { FactoryHelper.rand_bool 1 / 4.0 }
@@ -22,7 +24,8 @@ FactoryGirl.define do
 
   end
 
-  factory :filter_set_group_permission, class: Permissions::FilterSetGroupPermission do
+  factory :filter_set_group_permission,
+          class: Permissions::FilterSetGroupPermission do
 
     get_metadata_and_previews { FactoryHelper.rand_bool 1 / 2.0 }
     edit_metadata_and_filter { FactoryHelper.rand_bool 1 / 4.0 }
@@ -33,7 +36,8 @@ FactoryGirl.define do
 
   end
 
-  factory :filter_set_api_client_permission, class: Permissions::FilterSetApiClientPermission do
+  factory :filter_set_api_client_permission,
+          class: Permissions::FilterSetApiClientPermission do
 
     get_metadata_and_previews { FactoryHelper.rand_bool 1 / 2.0 }
     edit_metadata_and_filter { FactoryHelper.rand_bool 1 / 4.0 }
@@ -44,7 +48,8 @@ FactoryGirl.define do
 
   end
 
-  factory :filter_set_user_permission, class: Permissions::FilterSetUserPermission do
+  factory :filter_set_user_permission,
+          class: Permissions::FilterSetUserPermission do
 
     get_metadata_and_previews { FactoryHelper.rand_bool }
     edit_metadata_and_filter { FactoryHelper.rand_bool 1 / 2.0 }
@@ -56,7 +61,8 @@ FactoryGirl.define do
 
   end
 
-  factory :media_entry_user_permission, class: Permissions::MediaEntryUserPermission do
+  factory :media_entry_user_permission,
+          class: Permissions::MediaEntryUserPermission do
 
     get_metadata_and_previews { FactoryHelper.rand_bool 1 / 4.0 }
     get_full_size { get_metadata_and_previews and FactoryHelper.rand_bool }
@@ -69,7 +75,8 @@ FactoryGirl.define do
 
   end
 
-  factory :collection_user_permission, class: Permissions::CollectionUserPermission do
+  factory :collection_user_permission,
+          class: Permissions::CollectionUserPermission do
 
     get_metadata_and_previews { FactoryHelper.rand_bool 1 / 4.0 }
     edit_metadata_and_relations { FactoryHelper.rand_bool 1 / 4.0 }
@@ -80,7 +87,8 @@ FactoryGirl.define do
 
   end
 
-  factory :media_entry_group_permission, class: Permissions::MediaEntryGroupPermission do
+  factory :media_entry_group_permission,
+          class: Permissions::MediaEntryGroupPermission do
 
     get_metadata_and_previews { FactoryHelper.rand_bool 1 / 4.0 }
     get_full_size { get_metadata_and_previews and FactoryHelper.rand_bool }
@@ -92,7 +100,8 @@ FactoryGirl.define do
 
   end
 
-  factory :media_entry_api_client_permission, class: Permissions::MediaEntryApiClientPermission do
+  factory :media_entry_api_client_permission,
+          class: Permissions::MediaEntryApiClientPermission do
 
     get_metadata_and_previews { FactoryHelper.rand_bool 1 / 4.0 }
     get_full_size { get_metadata_and_previews and FactoryHelper.rand_bool }

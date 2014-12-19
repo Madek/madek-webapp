@@ -12,10 +12,15 @@ describe CollectionMediaEntryArc do
     describe CollectionMediaEntryArc do
 
       it 'is producible by a factory ' do
-        expect { FactoryGirl.create :collection_media_entry_arc, media_entry: @media_entry, collection: @collection }.not_to raise_error
+        expect do
+          FactoryGirl.create :collection_media_entry_arc,
+                             media_entry: @media_entry,
+                             collection: @collection
+        end.not_to raise_error
       end
 
-      context 'a CollectionMediaEntryArc connects the media_entry with the collection ' do
+      context %(a CollectionMediaEntryArc connects the media_entry \
+                with the collection ) do
 
         before :each do
           @arc = FactoryGirl.create :collection_media_entry_arc,

@@ -5,7 +5,8 @@ require 'rubygems'
 require 'yaml'
 
 # require 'zencoder'  # This doesn't work? What the?
-require '/usr/lib/ruby/gems/1.8/gems/zencoder-2.3.1/lib/zencoder' # This works. What the?
+# This works. What the?
+require '/usr/lib/ruby/gems/1.8/gems/zencoder-2.3.1/lib/zencoder'
 
 # documentation: https://github.com/zencoder/zencoder-rb
 
@@ -13,7 +14,8 @@ require '/usr/lib/ruby/gems/1.8/gems/zencoder-2.3.1/lib/zencoder' # This works. 
 
 class EncodeJob
 
-  attr_accessor :job_id # Unique job ID that the encoder system (e.g. Zencoder) should assign to us
+  # Unique job ID that the encoder system (e.g. Zencoder) should assign to us
+  attr_accessor :job_id
   attr_accessor :base_url # Output location where finished encodes should be stored
   # (FTP or SFTP URL including username/password)
   def initialize
@@ -29,8 +31,14 @@ class EncodeJob
   def start_by_url(url)
     # This example encodes two copies, one in VP8/WebM, one in H.264
     settings = { input: url,
-                 outputs: [{ base_url: @base_url, video_codec: 'vp8', quality: 4, speed: 2 },
-                           { base_url: @base_url, video_codec: 'h264', quality: 4, speed: 2 }]
+                 outputs: [{ base_url: @base_url,
+                             video_codec: 'vp8',
+                             quality: 4,
+                             speed: 2 },
+                           { base_url: @base_url,
+                             video_codec: 'h264',
+                             quality: 4,
+                             speed: 2 }]
                }
 
     response = Zencoder::Job.create(settings)

@@ -5,11 +5,14 @@ class MetaDatum < ActiveRecord::Base
 
   class << self
     def new_with_cast(*args, &block)
-      if (h = args.first.try(:symbolize_keys)).is_a?(Hash) and
-          (meta_key = h[:meta_key] || (h[:meta_key_id] ? MetaKey.find_by_id(h[:meta_key_id]) : nil)) and
-          (klass = meta_key.meta_datum_object_type.constantize)
-        # raise "#{klass.name} must be a subclass of #{self.name}" unless klass < self
-        # NOTE the value setter has to be invoked after the instantiation (not during)
+      h = args.first.try(:symbolize_keys)
+      meta_key = h[:meta_key] || MetaKey.find_by_id(h[:meta_key_id]) if h
+      klass = meta_key.meta_datum_object_type.constantize if meta_key
+
+      if h.is_a?(Hash) and meta_key and klass
+        # must be a subclass of #{self.name}" unless klass < self
+        # raise "#{klass.name}
+        # NOTE value setter has to be invoked after the instantiation (not during)
         value = args.first.delete('value') || args.first.delete(:value)
         r = klass.new_without_cast(*args, &block)
         r.value = value if value

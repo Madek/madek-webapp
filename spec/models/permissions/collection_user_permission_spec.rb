@@ -1,5 +1,8 @@
 require 'spec_helper'
-require Rails.root.join 'spec', 'models', 'shared', 'destroy_ineffective_permissions_spec.rb'
+require Rails.root.join 'spec',
+                        'models',
+                        'shared',
+                        'destroy_ineffective_permissions_spec.rb'
 
 describe Permissions::CollectionUserPermission do
 
@@ -31,7 +34,8 @@ describe Permissions::CollectionUserPermission do
 
       end
 
-      context 'for permission where all permission values are false and user is not the responsible_user' do
+      context %(for permission where all permission values are false \
+               and user is not the responsible_user) do
         before :each do
           @permission = FactoryGirl.create(:collection_user_permission,
                                            get_metadata_and_previews: false,

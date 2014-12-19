@@ -5,9 +5,17 @@ class ApiClient < ActiveRecord::Base
 
   default_scope { reorder(id: :asc) }
 
-  validates :id, format: { with: /\A[a-z][a-z0-9_-]+\z/,
-                           message: %(only alpha-numeric ascii characters as well as dashes and underscores are allowed,
-                                    first character must be a letter, all letters must be lowercase) }
+  validates :id,
+            format: {
+              with: /\A[a-z][a-z0-9_-]+\z/,
+              message: %(
+                only alpha-numeric ascii characters as well \
+                as dashes and underscores are allowed, \
+                first character must be a letter, \
+                all letters must be lowercase
+              )
+            }
+
   validates :id, length: { in: 3..20 }
 
   def authorization_header_value

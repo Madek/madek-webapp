@@ -12,8 +12,10 @@ describe ApiClient do
       @api_client = FactoryGirl.create :api_client
     end
 
-    it 'responds_to authorization_header and returns something that looks like basic auth header ' do
-      expect(@api_client.authorization_header).to match /^Authorization:\s+Basic/
+    it %(responds_to authorization_header and \
+         returns something that looks like basic auth header) do
+      expect(@api_client.authorization_header)
+        .to match(/^Authorization:\s+Basic/)
     end
 
   end

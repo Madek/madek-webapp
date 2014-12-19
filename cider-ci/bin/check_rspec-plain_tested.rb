@@ -17,7 +17,9 @@ if existing_spec_files == tested_spec_files
   exit 0
 else
   warn 'existing_spec_files and the tested_spec_files are not equivalent: '
-  warn "existing but not tested: #{(existing_spec_files - tested_spec_files).map(&:to_s)}"
-  warn "tested but not existing: #{(tested_spec_files - existing_spec_files).map(&:to_s)}"
-  exit -1
+  warn "existing but not tested: \
+        #{(existing_spec_files - tested_spec_files).map(&:to_s)}"
+  warn "tested but not existing: \
+        #{(tested_spec_files - existing_spec_files).map(&:to_s)}"
+  exit(-1)
 end

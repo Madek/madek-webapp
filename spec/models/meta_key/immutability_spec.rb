@@ -8,7 +8,8 @@ describe 'the namespace madek:core' do
     ActiveRecord::Base.connection.execute  \
       'SET session_replication_role = REPLICA;'
 
-    MetaKey.create id: 'madek:core:title', meta_datum_object_type: 'MetaDatum::Text'
+    MetaKey.create id: 'madek:core:title',
+                   meta_datum_object_type: 'MetaDatum::Text'
 
     ActiveRecord::Base.connection.execute  \
       'SET session_replication_role = DEFAULT;'
@@ -21,9 +22,10 @@ describe 'the namespace madek:core' do
       expect do
         MetaKey.transaction do
           MetaKey.connection.execute \
-            "INSERT INTO meta_keys (id, meta_datum_object_type) VALUES ('madek:core:description','MetaDatum::Text')"
+            %(INSERT INTO meta_keys (id, meta_datum_object_type) \
+              VALUES ('madek:core:description','MetaDatum::Text'))
         end
-      end.to raise_error /may not be extended/
+      end.to raise_error(/may not be extended/)
     end
 
   end
@@ -41,7 +43,7 @@ describe 'the namespace madek:core' do
             MetaKey.connection.execute \
               "DELETE FROM meta_keys WHERE id = 'madek:core:title'"
           end
-        end.to raise_error /may not be deleted/
+        end.to raise_error(/may not be deleted/)
       end
     end
 
@@ -50,9 +52,10 @@ describe 'the namespace madek:core' do
         expect do
           MetaKey.transaction do
             MetaKey.connection.execute \
-              "UPDATE meta_keys SET meta_datum_object_type = 'MetaDatum::People' WHERE id = 'madek:core:title'"
+              %(UPDATE meta_keys SET meta_datum_object_type = 'MetaDatum::People' \
+                WHERE id = 'madek:core:title')
           end
-        end.to raise_error /may not be modified/
+        end.to raise_error(/may not be modified/)
       end
     end
 

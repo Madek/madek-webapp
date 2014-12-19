@@ -13,8 +13,13 @@ FactoryGirl.define do
   factory :media_file_for_image, class: MediaFile do
 
     before :create do
-      unless File.exist?(Rails.root.join('db/media_files', Rails.env, 'attachments/b/b8bf2eb322e04a29a52fbb06d4866af8'))
-        System.execute_cmd! "tar xf #{Rails.root.join 'features/data/grumpy-cat_files.tar.gz'} -C #{Rails.root.join 'db/media_files/', Rails.env}"
+      unless File.exist?
+        (Rails.root.join('db/media_files',
+                         Rails.env,
+                         'attachments/b/b8bf2eb322e04a29a52fbb06d4866af8'))
+        System.execute_cmd! \
+          %(tar xf #{Rails.root.join 'features/data/grumpy-cat_files.tar.gz'} \
+            -C #{Rails.root.join 'db/media_files/', Rails.env})
       end
     end
 

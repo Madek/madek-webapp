@@ -64,7 +64,9 @@ module DBHelper
     end
 
     def load_data(path, options = {})
-      config = options[:config] || Rails.configuration.database_configuration[Rails.env]
+      config = \
+        options[:config] \
+        || Rails.configuration.database_configuration[Rails.env]
       set_pg_env config
       cond_unzip_pipe = case path.to_s
                         when /\.gz$/
@@ -80,8 +82,12 @@ module DBHelper
 
     def truncate_tables
       ActiveRecord::Base.connection.tap do |connection|
-        connection.tables.reject { |tn|tn == 'schema_migrations' }.join(', ').tap do |tables|
-          connection.execute " TRUNCATE TABLE #{tables} CASCADE; "
+        connection
+          .tables
+          .reject { |tn|tn == 'schema_migrations' }
+          .join(', ')
+          .tap do |tables|
+            connection.execute " TRUNCATE TABLE #{tables} CASCADE; "
         end
       end
     end

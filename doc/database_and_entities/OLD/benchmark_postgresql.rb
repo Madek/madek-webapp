@@ -27,7 +27,10 @@ class PsqlBenchmark
 
 end
 
-queries = File.read("#{Rails.root}/doc/benchmark_postgresql_queries.sql").split(';')
+queries = \
+  File
+    .read("#{Rails.root}/doc/benchmark_postgresql_queries.sql")
+    .split(';')
 
 logfile = File.open('/tmp/benchmark_result.txt', 'w+')
 bm = PsqlBenchmark.new(queries, logfile)

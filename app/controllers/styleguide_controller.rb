@@ -43,8 +43,9 @@ class StyleguideController < ActionController::Base
   end
 
   def section_per_directory(dir)
+    # TODO: File.directory?(".")
     Dir.entries(dir)                    # all files in dir
-      .reject { |i| i.match(/\./) }     # all entries without a dot (folders) TODO: File.directory?(".")
+      .reject { |i| i.match(/\./) }     # all entries without a dot (folders)
       .sort { |a, b| a <=> b }          # sort by name (starts with number)
       .map do |section|                 # build object
         {
