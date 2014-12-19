@@ -268,7 +268,7 @@ CREATE TABLE collections (
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     responsible_user_id uuid NOT NULL,
-    creator_id uuid
+    creator_id uuid NOT NULL
 );
 
 
@@ -437,7 +437,7 @@ CREATE TABLE filter_sets (
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     filter json DEFAULT '{}'::json NOT NULL,
     responsible_user_id uuid NOT NULL,
-    creator_id uuid
+    creator_id uuid NOT NULL
 );
 
 
@@ -3016,6 +3016,8 @@ INSERT INTO schema_migrations (version) VALUES ('141');
 INSERT INTO schema_migrations (version) VALUES ('142');
 
 INSERT INTO schema_migrations (version) VALUES ('143');
+
+INSERT INTO schema_migrations (version) VALUES ('144');
 
 INSERT INTO schema_migrations (version) VALUES ('15');
 

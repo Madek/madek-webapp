@@ -2,8 +2,9 @@ require 'spec_helper'
 require Rails.root.join 'spec', 'models', 'shared', 'favoritable_spec.rb'
 require Rails.root.join 'spec', 'models', 'shared', 'edit_sessions_spec.rb'
 require Rails.root.join 'spec', 'models', 'shared', 'entrusted_to_user_spec.rb'
+require Rails.root.join 'spec', 'models', 'shared', 'validates_spec.rb'
 
-describe Collection do
+describe FilterSet do
 
   describe 'Creation' do
 
@@ -13,18 +14,21 @@ describe Collection do
 
   end
 
-  context 'an existing Collection' do
+  describe 'Update' do
+
+    it_validates 'presence of', :responsible_user_id
+    it_validates 'presence of', :creator_id
+
+  end
+
+  context 'an existing filter set' do
 
     it_has 'edit sessions' do
-
-      let(:resource_type) { :media_entry }
-
+      let(:resource_type) { :filter_set }
     end
 
     it_behaves_like 'a favoritable' do
-
       let(:resource) { FactoryGirl.create :filter_set }
-
     end
   end
 

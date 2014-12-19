@@ -2,6 +2,7 @@ require 'spec_helper'
 require Rails.root.join 'spec', 'models', 'shared', 'favoritable_spec.rb'
 require Rails.root.join 'spec', 'models', 'shared', 'edit_sessions_spec.rb'
 require Rails.root.join 'spec', 'models', 'shared', 'entrusted_to_user_spec.rb'
+require Rails.root.join 'spec', 'models', 'shared', 'validates_spec.rb'
 
 describe MediaEntry do
 
@@ -13,21 +14,10 @@ describe MediaEntry do
 
   end
 
-  context 'Update' do
+  describe 'Update' do
 
-    before :example do
-      @media_entry = FactoryGirl.create :media_entry
-    end
-
-    it 'validates presence of responsible user' do
-      @media_entry.responsible_user = nil
-      expect { @media_entry.save! }.to raise_error
-    end
-
-    it 'validates presence of creator' do
-      @media_entry.creator = nil
-      expect { @media_entry.save! }.to raise_error
-    end
+    it_validates 'presence of', :responsible_user_id
+    it_validates 'presence of', :creator_id
 
   end
 

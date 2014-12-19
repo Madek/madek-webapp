@@ -14,7 +14,11 @@ RSpec.shared_examples 'edit sessions' do
       edit_session.save
     end
 
-    users_set = Set.new EditSession.where(media_entry_id: resource.id).map(&:user)
+    users_set = \
+      Set.new \
+        EditSession
+          .where(Hash[resource_type, resource.id])
+          .map(&:user)
 
     expect(Set.new resource.editors).to eq users_set
 

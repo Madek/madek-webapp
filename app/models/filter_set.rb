@@ -14,6 +14,8 @@ class FilterSet < ActiveRecord::Base
                           join_table: 'favorite_filter_sets',
                           class_name: 'User'
 
+  validates_presence_of :responsible_user, :creator
+
   #############################################################################
 
   has_many :user_permissions, class_name: 'Permissions::FilterSetUserPermission'

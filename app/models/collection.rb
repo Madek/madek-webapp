@@ -20,6 +20,8 @@ class Collection < ActiveRecord::Base
   has_many :edit_sessions, dependent: :destroy
   has_many :editors, through: :edit_sessions, source: :user
 
+  validates_presence_of :responsible_user, :creator
+
   #############################################################################
 
   has_many :user_permissions, class_name: 'Permissions::CollectionUserPermission'

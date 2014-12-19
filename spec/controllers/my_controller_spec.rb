@@ -97,7 +97,7 @@ describe MyController do
 
     entrusted_filter_sets = assigns(:entrusted_filter_sets)
     # using Array#size because of bug in ActiveRecord (https://github.com/rails/rails/issues/11824)
-    expect(entrusted_filter_sets.size).to be == @limit
+    expect(entrusted_filter_sets.to_a.size).to be == @limit
     expect(entrusted_filter_sets.first)
       .to eq FilterSet.entrusted_to_user(@user).reorder('updated_at DESC').first
   end
