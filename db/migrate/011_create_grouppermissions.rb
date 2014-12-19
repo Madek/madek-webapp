@@ -13,7 +13,7 @@ class CreateGrouppermissions < ActiveRecord::Migration
 
       t.index [:group_id, :media_resource_id], unique: true
 
-      ACTIONS.each do |action|
+      MADEK_V2_PERMISSION_ACTIONS.each do |action|
         t.boolean action, null: false, default: false, index: true
       end
 

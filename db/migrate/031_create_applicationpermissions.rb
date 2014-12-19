@@ -12,7 +12,7 @@ class CreateApplicationpermissions < ActiveRecord::Migration
 
       t.index [:media_resource_id, :application_id], name: 'index_applicationpermissions_on_mr_id_and_app_id', unique: true
 
-      ACTIONS.each do |action|
+      MADEK_V2_PERMISSION_ACTIONS.each do |action|
         t.boolean action, null: false, default: false, index: true
       end
 

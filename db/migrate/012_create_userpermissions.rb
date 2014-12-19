@@ -4,7 +4,7 @@ class CreateUserpermissions < ActiveRecord::Migration
   def change
     create_table :userpermissions, id: :uuid do |t|
 
-      ACTIONS.each do |action|
+      MADEK_V2_PERMISSION_ACTIONS.each do |action|
         t.boolean action, null: false, default: false, index: true
       end
 

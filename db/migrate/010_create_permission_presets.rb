@@ -6,7 +6,7 @@ class CreatePermissionPresets < ActiveRecord::Migration
     create_table :permission_presets, id: :uuid do |t|
       t.string :name
       t.float :position
-      ACTIONS.each do |action|
+      MADEK_V2_PERMISSION_ACTIONS.each do |action|
         t.boolean action, null: false, default: false
       end
     end

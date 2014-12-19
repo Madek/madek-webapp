@@ -79,6 +79,48 @@ CREATE FUNCTION check_madek_core_meta_key_immutability() RETURNS trigger
           $$;
 
 
+--
+-- Name: check_meta_data_meta_key_type_consistency(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION check_meta_data_meta_key_type_consistency() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+          BEGIN
+
+            IF EXISTS (SELECT 1 FROM meta_keys 
+              JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
+              WHERE meta_data.id = NEW.id
+              AND meta_keys.meta_datum_object_type <> meta_data.type) THEN
+                RAISE EXCEPTION 'The types of related meta_data and meta_keys must be identical';
+            END IF;
+
+            RETURN NEW;
+          END;
+          $$;
+
+
+--
+-- Name: check_meta_key_meta_data_type_consistency(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION check_meta_key_meta_data_type_consistency() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+          BEGIN
+
+            IF EXISTS (SELECT 1 FROM meta_keys 
+              JOIN meta_data ON meta_data.meta_key_id = meta_keys.id
+              WHERE meta_keys.id = NEW.id
+              AND meta_keys.meta_datum_object_type <> meta_data.type) THEN
+                RAISE EXCEPTION 'The types of related meta_data and meta_keys must be identical';
+            END IF;
+
+            RETURN NEW;
+          END;
+          $$;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -626,12 +668,12 @@ CREATE TABLE meta_data (
 
 
 --
--- Name: meta_data_institutional_groups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: meta_data_groups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE TABLE meta_data_institutional_groups (
+CREATE TABLE meta_data_groups (
     meta_datum_id uuid NOT NULL,
-    institutional_group_id uuid NOT NULL
+    group_id uuid NOT NULL
 );
 
 
@@ -1834,7 +1876,7 @@ CREATE UNIQUE INDEX index_media_sets_contexts ON media_sets_contexts USING btree
 -- Name: index_meta_data_institutional_groups; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_meta_data_institutional_groups ON meta_data_institutional_groups USING btree (meta_datum_id, institutional_group_id);
+CREATE UNIQUE INDEX index_meta_data_institutional_groups ON meta_data_groups USING btree (meta_datum_id, group_id);
 
 
 --
@@ -2087,6 +2129,20 @@ CREATE INDEX users_trgm_searchable_idx ON users USING gin (trgm_searchable gin_t
 --
 
 CREATE CONSTRAINT TRIGGER trigger_madek_core_meta_key_immutability AFTER INSERT OR DELETE OR UPDATE ON meta_keys DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_madek_core_meta_key_immutability();
+
+
+--
+-- Name: trigger_meta_data_meta_key_type_consistency; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_meta_data_meta_key_type_consistency AFTER INSERT OR UPDATE ON meta_data DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_meta_data_meta_key_type_consistency();
+
+
+--
+-- Name: trigger_meta_key_meta_data_type_consistency; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_meta_key_meta_data_type_consistency AFTER INSERT OR UPDATE ON meta_keys DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_meta_key_meta_data_type_consistency();
 
 
 --
@@ -2706,19 +2762,19 @@ ALTER TABLE ONLY meta_data
 
 
 --
--- Name: meta_data_institutional_groups_institutional_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: meta_data_groups_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY meta_data_institutional_groups
-    ADD CONSTRAINT meta_data_institutional_groups_institutional_group_id_fk FOREIGN KEY (institutional_group_id) REFERENCES groups(id) ON DELETE CASCADE;
+ALTER TABLE ONLY meta_data_groups
+    ADD CONSTRAINT meta_data_groups_group_id_fk FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
 
 
 --
--- Name: meta_data_institutional_groups_meta_datum_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: meta_data_groups_meta_datum_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY meta_data_institutional_groups
-    ADD CONSTRAINT meta_data_institutional_groups_meta_datum_id_fk FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
+ALTER TABLE ONLY meta_data_groups
+    ADD CONSTRAINT meta_data_groups_meta_datum_id_fk FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
 
 
 --
@@ -2956,6 +3012,10 @@ INSERT INTO schema_migrations (version) VALUES ('14');
 INSERT INTO schema_migrations (version) VALUES ('140');
 
 INSERT INTO schema_migrations (version) VALUES ('141');
+
+INSERT INTO schema_migrations (version) VALUES ('142');
+
+INSERT INTO schema_migrations (version) VALUES ('143');
 
 INSERT INTO schema_migrations (version) VALUES ('15');
 

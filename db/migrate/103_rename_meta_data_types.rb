@@ -1,37 +1,38 @@
 class RenameMetaDataTypes < ActiveRecord::Migration
-  def change
-    reversible do |dir|
-      dir.up do
 
-        execute "UPDATE meta_keys
-                  SET meta_datum_object_type = 'MetaDatum::Text'
-                  WHERE meta_datum_object_type = 'MetaDatumString'"
+  TYPE_MAP={
+    'MetaDatumCopyright' => 'MetaDatum::Copyright',
+    'MetaDatumCountry' => 'MetaDatum::Text',
+    'MetaDatumDate' => 'MetaDatum::TextDate',
+    'MetaDatumInstitutionalGroups' => 'MetaDatum::Groups',
+    'MetaDatumKeywords' => 'MetaDatum::Keywords',
+    'MetaDatumMetaTerms' => 'MetaDatum::Vocables',
+    'MetaDatumPeople' => 'MetaDatum::People',
+    'MetaDatumString' => 'MetaDatum::Text',
+    'MetaDatumUsers' => 'MetaDatum::Users',
+  }
 
-        execute "UPDATE meta_data
-                  SET type = 'MetaDatum::Text'
-                  WHERE type = 'MetaDatumString'"
+  def up
 
-        ### #################################################
+    TYPE_MAP.each do |old_type,new_type|
 
-        execute "UPDATE meta_keys
-                  SET meta_datum_object_type = 'MetaDatum::People'
-                  WHERE meta_datum_object_type = 'MetaDatumPeople'"
+      execute "UPDATE meta_keys
+                  SET meta_datum_object_type = '#{new_type}'
+                  WHERE meta_datum_object_type = '#{old_type}'"
 
-        execute "UPDATE meta_data
-                  SET type = 'MetaDatum::People'
-                  WHERE type = 'MetaDatumPeople'"
+      execute "UPDATE meta_data
+                  SET type = '#{new_type}'
+                  WHERE type = '#{old_type}'"
 
-        ### #################################################
-
-        execute "UPDATE meta_keys
-                  SET meta_datum_object_type = 'MetaDatum::Keywords'
-                  WHERE meta_datum_object_type = 'MetaDatumKeywords'"
-
-        execute "UPDATE meta_data
-                  SET type = 'MetaDatum::Keywords'
-                  WHERE type = 'MetaDatumKeywords'"
-
-      end
     end
+
+    return
+  
+    execute %[ALTER TABLE meta_data ADD CONSTRAINT check_valid_type CHECK 
+          (type IN (#{TYPE_MAP.values.uniq.map{|s|"'#{s}'"}.join(', ')}));]
+
+    execute %[ALTER TABLE meta_keys ADD CONSTRAINT check_valid_type meta_datum_object_type CHECK 
+          (meta_datum_object_type IN (#{TYPE_MAP.values.uniq.map{|s|"'#{s}'"}.join(', ')}));]
+
   end
 end
