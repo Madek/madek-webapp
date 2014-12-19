@@ -30,11 +30,15 @@ task_defaults:
 
 
   scripts:
-
-    bundle: 
+    bundle:
       timeout: 500
       order: 1
-      body: bundle
+      body: bundle install
+
+    npm:
+      timeout: 500
+      order: 1
+      body: npm install
 
     configer_db:
       order: 2
