@@ -1,0 +1,26 @@
+name: Madek Coverage
+
+task_defaults:
+  eager_trials: 1
+  auto_trials: 1
+  traits:
+    linux: true
+    rbenv: true
+    ruby: true
+  scripts:
+    bundle: 
+      timeout: 500
+      order: 1
+      body: bundle
+    coverage: 
+      timeout: 500
+      order: 2
+
+
+tasks: 
+
+- name: Coverage
+  scripts:
+    coverage:
+      body: cider-ci_coverage --upload --limit 80
+

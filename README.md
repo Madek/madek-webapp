@@ -28,11 +28,14 @@ contains mostly wrong information.
 ### `madek-v3` branch 
 
 <a href="http://ci2.zhdk.ch/cider-ci/ui/public/executions/madek/madek-v3/tests">
-  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/medium/madek/madek-v3/tests.svg">
+  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/small/madek/madek-v3/tests.svg">
   </img>
 </a>
 
-[Coverage](http://ci2.zhdk.ch/cider-ci/ui/public/attachments/madek/madek-v3/tests/coverage/index.html)
+<a href="http://ci2.zhdk.ch/cider-ci/ui/public/attachments/madek/madek-v3/tests/coverage/index.html">
+  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/small/madek/madek-v3/coverage.svg">
+  </img>
+</a>
 
 [Code Climate](https://codeclimate.com/github/zhdk/madek/compare/madek-v3)
 
@@ -40,7 +43,7 @@ contains mostly wrong information.
 #### `next` branch
 
 <a href="http://ci2.zhdk.ch/cider-ci/ui/public/executions/madek/next/tests">
-  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/medium/madek/next/tests.svg">
+  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/small/madek/next/tests.svg">
   </img>
 </a>
 
