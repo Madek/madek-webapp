@@ -43,13 +43,13 @@ class FilterSet < ActiveRecord::Base
     # NOTE: DISTINCT ON in conjunction with UNION ALL
     # due to missing json equality operator in PG 9.3
     #
-    # ON (filter_sets.id, filter_sets.updated_at)
+    # ON (filter_sets.id, filter_sets.created_at)
     # due to 'SELECT DISTINCT ON expressions must match
     # initial ORDER BY expressions'
     #
     # take care!! ActiveRecord.count does not work with sub_queries
     # see bug https://github.com/rails/rails/issues/11824
-    select('DISTINCT ON (filter_sets.id, filter_sets.updated_at) filter_sets.*')
+    select('DISTINCT ON (filter_sets.id, filter_sets.created_at) filter_sets.*')
       .from(sql)
   end
 end

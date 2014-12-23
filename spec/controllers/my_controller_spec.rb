@@ -68,17 +68,17 @@ describe MyController do
     latest_media_entries = assigns(:latest_media_entries)
     expect(latest_media_entries.count).to be == @limit
     expect(latest_media_entries.first)
-      .to eq @user.media_entries.reorder('updated_at DESC').first
+      .to eq @user.media_entries.reorder('created_at DESC').first
 
     latest_collections = assigns(:latest_collections)
     expect(latest_collections.count).to be == @limit
     expect(latest_collections.first)
-      .to eq @user.collections.reorder('updated_at DESC').first
+      .to eq @user.collections.reorder('created_at DESC').first
 
     latest_filter_sets = assigns(:latest_filter_sets)
     expect(latest_filter_sets.count).to be == @limit
     expect(latest_filter_sets.first)
-      .to eq @user.filter_sets.reorder('updated_at DESC').first
+      .to eq @user.filter_sets.reorder('created_at DESC').first
 
     latest_imports = assigns(:latest_imports)
     expect(latest_imports.count).to be == @limit
@@ -88,18 +88,18 @@ describe MyController do
     entrusted_media_entries = assigns(:entrusted_media_entries)
     expect(entrusted_media_entries.count).to be == @limit
     expect(entrusted_media_entries.first)
-      .to eq MediaEntry.entrusted_to_user(@user).reorder('updated_at DESC').first
+      .to eq MediaEntry.entrusted_to_user(@user).reorder('created_at DESC').first
 
     entrusted_collections = assigns(:entrusted_collections)
     expect(entrusted_collections.count).to be == @limit
     expect(entrusted_collections.first)
-      .to eq Collection.entrusted_to_user(@user).reorder('updated_at DESC').first
+      .to eq Collection.entrusted_to_user(@user).reorder('created_at DESC').first
 
     entrusted_filter_sets = assigns(:entrusted_filter_sets)
     # using Array#size because of bug in ActiveRecord (https://github.com/rails/rails/issues/11824)
     expect(entrusted_filter_sets.to_a.size).to be == @limit
     expect(entrusted_filter_sets.first)
-      .to eq FilterSet.entrusted_to_user(@user).reorder('updated_at DESC').first
+      .to eq FilterSet.entrusted_to_user(@user).reorder('created_at DESC').first
   end
 
 end
