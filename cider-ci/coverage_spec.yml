@@ -19,7 +19,9 @@ task_defaults:
 tasks: 
 
 - name: Coverage
+  environment_variables:
+    SIMPLECOV_INLINE_ASSETS: 1
   scripts:
     coverage:
-      body: cider-ci_coverage --upload
 
+      body: bundle exec cider-ci_coverage --upload

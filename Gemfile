@@ -82,6 +82,10 @@ gem 'rspec-rails', '~> 3.1', group: [:test, :development]
 gem 'rubocop', require: false
 gem 'selenium-webdriver', group: [:test]
 gem 'simplecov', require: false, group: ['test']
+gem 'simplecov-html', require: false, group: ['test'],
+                      git: 'https://github.com/eins78/simplecov-html.git',
+                      ref: '3fac7b20bbe3967d1f9d55c3166f348d620a2005'
+                      # path: '/Users/ma/CODE/simplecov-html'
 # web server (Webrick do not support keep-alive connections)
 gem 'thin', platform: :mri, group: [:development, :personas]
 gem 'zencoder-fetcher', group: [:development]

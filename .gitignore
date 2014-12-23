@@ -16,6 +16,7 @@
 .yardoc
 /db/data.pgbin
 /db/structure_and_data.pgbin
+/result.json
 Gemfile.local
 Gemfile.local.lock
 app/assets/stylesheets/config/local/
