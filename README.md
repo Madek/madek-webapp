@@ -28,12 +28,17 @@ contains mostly wrong information.
 ### `madek-v3` branch 
 
 <a href="http://ci2.zhdk.ch/cider-ci/ui/public/executions/madek/madek-v3/tests">
-  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/small/madek/madek-v3/tests.svg">
+  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/small/madek/madek-v3/tests.svg?respond_width_200">
+  </img>
+</a>
+
+<a href="http://ci2.zhdk.ch/cider-ci/ui/public/attachments/madek/madek-v3/tests/style-check/index.html">
+  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/small/madek/madek-v3/style-check.svg?respond_with_200">
   </img>
 </a>
 
 <a href="http://ci2.zhdk.ch/cider-ci/ui/public/attachments/madek/madek-v3/tests/coverage/index.html">
-  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/small/madek/madek-v3/coverage.svg">
+  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/small/madek/madek-v3/coverage.svg?respond_with_200">
   </img>
 </a>
 
@@ -43,11 +48,11 @@ contains mostly wrong information.
 #### `next` branch
 
 <a href="http://ci2.zhdk.ch/cider-ci/ui/public/executions/madek/next/tests">
-  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/small/madek/next/tests.svg">
+  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/small/madek/next/tests.svg?respond_with_200">
   </img>
 </a>
 
-[Coverage](http://ci2.zhdk.ch/cider-ci/ui/public/attachments/madek/next/tests/coverage/index.html)
+
 
 [Code Climate](https://codeclimate.com/github/zhdk/madek/compare/next)
 
@@ -55,13 +60,13 @@ contains mostly wrong information.
 #### `master` branch
 
 <a href="http://ci2.zhdk.ch/cider-ci/ui/public/executions/madek/master/tests">
-  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/medium/madek/master/tests.svg">
+  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/small/madek/master/tests.svg?respond_with_200">
   </img>
 </a>
 
+
 [![Code Climate](https://codeclimate.com/github/zhdk/madek/badges/gpa.svg)](https://codeclimate.com/github/zhdk/madek)
 
-[Coverage](http://ci2.zhdk.ch/cider-ci/ui/public/attachments/madek/master/tests/coverage/index.html)
 
 
 

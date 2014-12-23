@@ -1,0 +1,6 @@
+name: Madek Styleguide Conformity
+
+_cider-ci_include: 
+  - 'cider-ci/partials/styleguide-conformity_defaults.yml'
+  - 'cider-ci/tasks/styleguide-conformity.yml'
+

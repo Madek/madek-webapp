@@ -41,12 +41,12 @@ We do not excessively specify rules to ensure quality respectively architecture
 and code. We rely on a review process, see the [Madek Submit and Review Process
 Documentation][].
 
-We use two tools which complement the manual review process. There is a static
-code format analyzer integrated into the test suite. It will fail upon
-violation. Any changes of the configuration of this tool must be coordinated
-with the architect, respectively brought up in team meetings. Further static
-code analysis is done via an external service. This is documented in the [Madek
-Submit and Review Process Documentation][].
+We use some tools which complement the manual review process. There is a static
+code format analyzer. It will fail upon violation. Any changes of the
+configuration of this tool must be coordinated with the architect, respectively
+brought up in team meetings. Further static code analysis is done via an
+external service. This is documented in the [Madek Submit and Review Process
+Documentation][].
 
 
   [Madek Submit and Review Process Documentation]: ./submit_and_review_process.md
