@@ -9,3 +9,8 @@ tasks:
   scripts:
     main:
       body: bundle exec haml-lint app/views/{a*,m*}/* # tmp exclude styleguide…
+
+- name: Static code analysis with flog
+  scripts: 
+    main: 
+      body: bundle exec cider-ci_flog --limit 30 app/
