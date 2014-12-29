@@ -1,16 +1,22 @@
 tasks:
 
-- name: Lint/Stylecheck with Rubocop
-  scripts:
-    main:
-      body: bundle exec rubocop
+- name: Code complexity with flog
+  scripts: 
+    main: 
+      body: bundle exec cider-ci_flog app/
+
+- name: Code similarity with flay
+  scripts: 
+    main: 
+      body: bundle exec cider-ci_flay app/
 
 - name: Lint/Stylecheck with HAML-Lint
   scripts:
     main:
       body: bundle exec haml-lint app/views/{a*,m*}/* # tmp exclude styleguide…
 
-- name: Static code analysis with flog
-  scripts: 
-    main: 
-      body: bundle exec cider-ci_flog --limit 30 app/
+- name: Lint/Stylecheck with Rubocop
+  scripts:
+    main:
+      body: bundle exec rubocop
+

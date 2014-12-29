@@ -27,18 +27,8 @@ contains mostly wrong information.
 
 ### `madek-v3` branch 
 
-<a href="http://ci2.zhdk.ch/cider-ci/ui/public/executions/madek/madek-v3/tests">
-  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/small/madek/madek-v3/tests.svg?respond_width_200">
-  </img>
-</a>
-
-<a href="http://ci2.zhdk.ch/cider-ci/ui/public/attachments/madek/madek-v3/tests/style-check/index.html">
-  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/small/madek/madek-v3/style-check.svg?respond_with_200">
-  </img>
-</a>
-
-<a href="http://ci2.zhdk.ch/cider-ci/ui/public/attachments/madek/madek-v3/tests/coverage/index.html">
-  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/small/madek/madek-v3/coverage.svg?respond_with_200">
+<a href="http://ci2.zhdk.ch/cider-ci/ui/public/madek/madek-v3/tests,code-check,coverage/summary.html">
+  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/madek/madek-v3/tests,code-check,coverage/summary.svg?respond_width_200">
   </img>
 </a>
 
@@ -47,11 +37,10 @@ contains mostly wrong information.
 
 #### `next` branch
 
-<a href="http://ci2.zhdk.ch/cider-ci/ui/public/executions/madek/next/tests">
-  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/small/madek/next/tests.svg?respond_with_200">
+<a href="http://ci2.zhdk.ch/cider-ci/ui/public/madek/next/tests,code-check,coverage/summary.html">
+  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/madek/next/tests,code-check,coverage/summary.svg?respond_width_200">
   </img>
 </a>
-
 
 
 [Code Climate](https://codeclimate.com/github/zhdk/madek/compare/next)
@@ -59,8 +48,8 @@ contains mostly wrong information.
 
 #### `master` branch
 
-<a href="http://ci2.zhdk.ch/cider-ci/ui/public/executions/madek/master/tests">
-  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/badges/small/madek/master/tests.svg?respond_with_200">
+<a href="http://ci2.zhdk.ch/cider-ci/ui/public/madek/master/tests,code-check,coverage/summary.html">
+  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/madek/master/tests,code-check,coverage/summary.svg?respond_width_200">
   </img>
 </a>
 

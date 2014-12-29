@@ -16,11 +16,10 @@ task_defaults:
       timeout: 500
       order: 2
 
-
 tasks: 
 
 - name: Coverage
   scripts:
     coverage:
-      body: cider-ci_coverage --upload --limit 80
+      body: cider-ci_coverage --upload
 
