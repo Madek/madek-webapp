@@ -11,10 +11,36 @@ on the archival expert.
 The recommended way to install Madek is via the [Madek
 Ansible-Setup Project](https://github.com/zhdk/madek-ansible-setup).
 
-More details about installing and configuring Madek can be found on our
-wiki on Github:
 
-http://github.com/zhdk/madek/wiki
+## State 
+
+
+#### `master` branch
+
+<a href="http://ci2.zhdk.ch/cider-ci/ui/public/madek/master/tests,code-check,coverage/summary.html">
+  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/madek/master/tests/summary.svg?respond_width_200">
+  </img>
+</a>
+
+
+#### `next` branch
+
+<a href="http://ci2.zhdk.ch/cider-ci/ui/public/madek/next/tests,code-check,coverage/summary.html">
+  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/madek/next/tests/summary.svg?respond_width_200">
+  </img>
+</a>
+
+
+[![Code Climate](https://codeclimate.com/github/zhdk/madek/badges/gpa.svg)](https://codeclimate.com/github/zhdk/madek)
+
+
+### `madek-v3` branch 
+
+<a href="http://ci2.zhdk.ch/cider-ci/ui/public/madek/madek-v3/tests,code-check,coverage/summary.html">
+  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/madek/madek-v3/tests,code-check,coverage/summary.svg?respond_width_200">
+  </img>
+</a>
+
 
 
 ## Contributors

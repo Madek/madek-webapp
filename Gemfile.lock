@@ -7,11 +7,11 @@ GIT
 
 GIT
   remote: https://github.com/zhdk/madek-zhdk-integration.git
-  revision: 11434aeea50795c0a8e5663b4350746232744319
-  ref: 11434aeea50795c0a8e5663b4350746232744319
+  revision: 40139ba1dd65f5ea7aa3d2e1ef3cbeb22f1c6d4c
+  ref: 40139ba1dd65f5ea7aa3d2e1ef3cbeb22f1c6d4c
   specs:
-    madek_zhdk_integration (0.0.1)
-      rails (~> 4.1.5)
+    madek_zhdk_integration (1.0.0)
+      rails (~> 4.1)
 
 GEM
   remote: http://rubygems.org/
@@ -85,7 +85,9 @@ GEM
     childprocess (0.5.5)
       ffi (~> 1.0, >= 1.0.11)
     chunky_png (1.3.3)
-    cider_ci-support (1.0.0.pre.beta.3)
+    cider_ci-support (1.1.0)
+      flay (~> 2.5.0)
+      flog (~> 4.3.0)
       json_roa-client (>= 1.0.0.pre.beta.2)
       mime-types
       simplecov (~> 0.9)
@@ -144,6 +146,12 @@ GEM
       eventmachine (>= 0.12.0)
     ffi (1.9.6)
     ffi (1.9.6-java)
+    flay (2.5.0)
+      ruby_parser (~> 3.0)
+      sexp_processor (~> 4.0)
+    flog (4.3.0)
+      ruby_parser (~> 3.1, > 3.1.0)
+      sexp_processor (~> 4.4)
     font-awesome-sass (4.2.2)
       sass (~> 3.2)
     foreigner (1.7.1)
@@ -307,6 +315,8 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
+    ruby_parser (3.6.3)
+      sexp_processor (~> 4.1)
     rubyzip (1.1.6)
     rvm-capistrano (1.5.5)
       capistrano (~> 2.15.4)
@@ -321,6 +331,7 @@ GEM
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
+    sexp_processor (4.4.4)
     simplecov (0.9.1)
       docile (~> 1.1.0)
       multi_json (~> 1.0)
@@ -391,7 +402,7 @@ DEPENDENCIES
   binding_of_caller
   bootstrap-sass
   capybara (= 1.1.2)
-  cider_ci-support (= 1.0.0.pre.beta.3)
+  cider_ci-support (= 1.1.0)
   coffee-rails
   coffee-script
   compass-rails

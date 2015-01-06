@@ -10,9 +10,9 @@ module InstitutionalGroupsImporter
       Rails.root.join(__FILE__)
     end
 
-    def import!
+    def import! data = nil
       ActiveRecord::Base.transaction do
-        import_igroups = JSON.load ENV['FILE'] || Rails.root.join("db","ldap.json")
+        import_igroups = data || JSON.load(File.new(ENV['FILE']))
         import_ids = Set.new(import_igroups.map{|ig| ig["institutional_group_id"]})
         InstitutionalGroup.find_in_batches do |db_igroups| 
           db_igroups.each do |db_igroup|
