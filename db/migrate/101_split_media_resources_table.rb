@@ -67,7 +67,7 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
     create_table :filter_sets, id: :uuid do |t|
       t.timestamps null: false
 
-      t.json :filter, null: false, default: '{}'
+      t.column :filter, :jsonb, null: false, default: '{}'
     end
     reversible { |d|d.up { set_timestamps_defaults :filter_sets } }
 
@@ -77,7 +77,7 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
           ::MigrationFilterSet.create! id: mrfs.id,
                                        created_at: mrfs.created_at,
                                        updated_at: mrfs.updated_at,
-                                       filter: mrfs.settings['filter'] || {}
+                                       filter: mrfs.settings['filter'].to_json || {}
         end
       end
     end
