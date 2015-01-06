@@ -3,5 +3,9 @@
 if ENV['RAILS_ENV'] == 'test'
   require 'simplecov'
   SimpleCov.start 'rails'
+
+  Dir[Rails.root.join('app/**/*.rb')].each { |f| require f }
+
   puts 'required simplecov'
+
 end
