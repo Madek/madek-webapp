@@ -3,11 +3,12 @@ module Permissions
     module DefineDestroyIneffective
       extend ActiveSupport::Concern
       included do |base|
-        def self.define_destroy_ineffective(destroy_where_conditions)
+        def self.define_destroy_ineffective(dw_conditions = nil)
           define_singleton_method 'destroy_ineffective' do
-            destroy_where_conditions.each do |where_condition|
+            dw_conditions && dw_conditions.each do |where_condition|
               where(where_condition).destroy_all
             end
+            yield if block_given?
           end
         end
       end

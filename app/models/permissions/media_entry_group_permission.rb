@@ -1,17 +1,10 @@
 module Permissions
-
   class MediaEntryGroupPermission < ActiveRecord::Base
-
-    belongs_to :media_entry
+    include ::Permissions::Modules::MediaEntry
     belongs_to :group
-    belongs_to :updator, class_name: 'User'
 
-    def self.destroy_ineffective
-      where(get_metadata_and_previews: false,
-            get_full_size: false,
-            edit_metadata: false).delete_all
-    end
-
+    define_destroy_ineffective(
+      [{ get_metadata_and_previews: false,
+         get_full_size: false, edit_metadata: false }])
   end
-
 end
