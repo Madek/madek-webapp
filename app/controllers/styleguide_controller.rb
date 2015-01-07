@@ -58,8 +58,9 @@ class StyleguideController < ActionController::Base
 
   def elements_per_section(dir, suffix, sections)
     sections.map do |section|
-      elements = Dir.entries(dir.join(section[:path]))
-      .select { |i| i.match(/#{suffix}$/) }
+      elements = \
+        Dir.entries(dir.join(section[:path]))
+          .select { |i| i.match(/#{suffix}$/) }
 
       if elements.length <= 1 # no sub-sections, just 1 info doc:
         section[:subpath] = elements.first
@@ -67,20 +68,26 @@ class StyleguideController < ActionController::Base
       else # has sub-sections:
         elements.map! do |element|
           # last part is name, rest is numbering
-          strings = element.split('_').select { |i| !i.empty? }
-          name = strings.pop
-          number = strings.join('.')
-          {
-            path: element,
-            nr: number,
-            name: name.chomp(suffix).underscore
-          }
+          get_path_nr_name_hash(element, suffix)
         end
         elements.sort! { |a, b| a[:nr] <=> b[:nr] }
       end
       section[:elements] = elements
       section
     end
+  end
+
+  private
+
+  def get_path_nr_name_hash(element, suffix)
+    strings = element.split('_').select { |i| !i.empty? }
+    name = strings.pop
+    number = strings.join('.')
+    {
+      path: element,
+      nr: number,
+      name: name.chomp(suffix).underscore
+    }
   end
 
 end
