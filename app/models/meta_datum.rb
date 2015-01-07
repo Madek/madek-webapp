@@ -1,23 +1,8 @@
-# -*- encoding : utf-8 -*-
 class MetaDatum < ActiveRecord::Base
-
-  UUID_V4_REGEXP = /^\w{8}-\w{4}-4\w{3}-\w{4}-\w{12}$/
 
   class << self
     def new_with_cast(*args, &block)
-      h = args.first.try(:symbolize_keys)
-      meta_key = h[:meta_key] || MetaKey.find_by_id(h[:meta_key_id]) if h
-      klass = meta_key.meta_datum_object_type.constantize if meta_key
-
-      if h.is_a?(Hash) and meta_key and klass
-        # must be a subclass of #{self.name}" unless klass < self
-        # raise "#{klass.name}
-        # NOTE value setter has to be invoked after the instantiation (not during)
-        value = args.first.delete('value') || args.first.delete(:value)
-        r = klass.new_without_cast(*args, &block)
-        r.value = value if value
-        r
-      elsif self < MetaDatum
+      if self < MetaDatum
         new_without_cast(*args, &block)
       else
         raise 'MetaDatum is abstract; instatiate a subclass'
@@ -34,5 +19,4 @@ class MetaDatum < ActiveRecord::Base
   belongs_to :media_entry
   belongs_to :collection
   belongs_to :filter_set
-
 end
