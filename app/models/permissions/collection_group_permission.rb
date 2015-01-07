@@ -1,17 +1,8 @@
 module Permissions
-
   class CollectionGroupPermission < ActiveRecord::Base
-
-    belongs_to :collection
+    include ::Permissions::Modules::Collection
     belongs_to :group
-    belongs_to :updator, class_name: 'User'
-
-    def self.destroy_ineffective
-      CollectionGroupPermission.where(get_metadata_and_previews: false,
-                                      edit_metadata_and_relations: false)
-        .delete_all
-    end
-
+    define_destroy_ineffective [{ get_metadata_and_previews: false,
+                                  edit_metadata_and_relations: false }]
   end
-
 end
