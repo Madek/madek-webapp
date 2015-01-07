@@ -1,5 +1,6 @@
 class FilterSet < ActiveRecord::Base
 
+  include Concerns::Entrust
   include Concerns::Favoritable
 
   serialize :filter, JSON
@@ -22,26 +23,4 @@ class FilterSet < ActiveRecord::Base
 
   has_many :user_permissions, class_name: 'Permissions::FilterSetUserPermission'
   has_many :group_permissions, class_name: 'Permissions::FilterSetGroupPermission'
-
-  #############################################################################
-
-  scope :entrusted_to_user_directly, lambda { |user|
-    joins(:user_permissions)
-      .where(filter_set_user_permissions: { user_id: user.id,
-                                            get_metadata_and_previews: true })
-  }
-
-  scope :entrusted_to_user_through_groups, lambda { |user|
-    joins(:group_permissions)
-      .where(filter_set_group_permissions: { group_id: user.groups.map(&:id),
-                                             get_metadata_and_previews: true })
-  }
-
-  def self.entrusted_to_user(user)
-    scope1 = entrusted_to_user_directly(user)
-    scope2 = entrusted_to_user_through_groups(user)
-    sql = "((#{scope1.to_sql}) UNION (#{scope2.to_sql})) AS filter_sets"
-
-    from(sql)
-  end
 end
