@@ -462,8 +462,7 @@ CREATE TABLE groups (
     institutional_group_id character varying(255),
     institutional_group_name character varying(255),
     type character varying(255) DEFAULT 'Group'::character varying NOT NULL,
-    searchable text DEFAULT ''::text NOT NULL,
-    users_count integer DEFAULT 0
+    searchable text DEFAULT ''::text NOT NULL
 );
 
 
@@ -3018,6 +3017,8 @@ INSERT INTO schema_migrations (version) VALUES ('142');
 INSERT INTO schema_migrations (version) VALUES ('143');
 
 INSERT INTO schema_migrations (version) VALUES ('144');
+
+INSERT INTO schema_migrations (version) VALUES ('145');
 
 INSERT INTO schema_migrations (version) VALUES ('15');
 
