@@ -46,10 +46,8 @@ RSpec.shared_examples 'entrusted to user' do
     result_union = \
       (entrusted_to_user_directly + entrusted_to_user_through_groups).uniq
 
-    # using Array#size because of bug in ActiveRecord
-    # https://github.com/rails/rails/issues/11824
     expect(result_union.count)
-      .to be == described_class.entrusted_to_user(@user).to_a.size
+      .to be == described_class.entrusted_to_user(@user).count
     expect(result_union.count).to be 3
   end
 

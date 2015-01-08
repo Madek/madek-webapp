@@ -6,6 +6,7 @@ class MyController < ApplicationController
     set_latest
     set_favorites
     set_entrusted
+    set_groups
   end
 
   def set_latest
@@ -38,6 +39,10 @@ class MyController < ApplicationController
     @entrusted_filter_sets = \
       FilterSet.entrusted_to_user(current_user)
         .reorder('created_at DESC').limit(LIMIT)
+  end
+
+  def set_groups
+    @groups = current_user.groups.limit(4)
   end
 
 end
