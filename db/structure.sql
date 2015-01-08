@@ -126,10 +126,10 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: admin_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: admins; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE TABLE admin_users (
+CREATE TABLE admins (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     user_id uuid NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
@@ -881,7 +881,7 @@ CREATE TABLE zencoder_jobs (
 -- Name: admin_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY admin_users
+ALTER TABLE ONLY admins
     ADD CONSTRAINT admin_users_pkey PRIMARY KEY (id);
 
 
@@ -1305,10 +1305,10 @@ CREATE UNIQUE INDEX idx_megrpp_on_media_entry_id_and_group_id ON media_entry_gro
 
 
 --
--- Name: index_admin_users_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_admins_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_admin_users_on_user_id ON admin_users USING btree (user_id);
+CREATE INDEX index_admins_on_user_id ON admins USING btree (user_id);
 
 
 --
@@ -2148,7 +2148,7 @@ CREATE CONSTRAINT TRIGGER trigger_meta_key_meta_data_type_consistency AFTER INSE
 -- Name: admin_users_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY admin_users
+ALTER TABLE ONLY admins
     ADD CONSTRAINT admin_users_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 
 
@@ -3019,6 +3019,8 @@ INSERT INTO schema_migrations (version) VALUES ('143');
 INSERT INTO schema_migrations (version) VALUES ('144');
 
 INSERT INTO schema_migrations (version) VALUES ('145');
+
+INSERT INTO schema_migrations (version) VALUES ('146');
 
 INSERT INTO schema_migrations (version) VALUES ('15');
 

@@ -49,6 +49,7 @@ class User < ActiveRecord::Base
                           class_name: 'FilterSet'
 
   has_and_belongs_to_many :groups
+  has_one :admin, dependent: :destroy
 
   #############################################################
 
@@ -65,5 +66,9 @@ class User < ActiveRecord::Base
   end
 
   #############################################################
+
+  def admin?
+    !admin.nil?
+  end
 
 end

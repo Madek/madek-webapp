@@ -124,3 +124,7 @@ tasks:
   scripts:
     rspec:
       body: bundle exec rspec "spec/controllers/application_controller_spec.rb"
+- name: controllers admin dashboard_controller
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/controllers/admin/dashboard_controller_spec.rb"

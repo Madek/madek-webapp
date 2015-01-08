@@ -1,0 +1,28 @@
+!!!
+%html
+
+  %head
+    %title= "MAdeK Admin"
+    = stylesheet_link_tag "admin"
+    = javascript_include_tag "admin"
+    = csrf_meta_tag
+
+  %body
+    .container
+      .navbar.navbar-inverse.navbar-collapse
+        .navbar-header
+          .navbar-brand
+            Madek Admin
+        %ul.nav.navbar-nav.navbar-right
+          %li.dropdown
+            %a.dropdown-toggle{href: "#", data: {toggle: 'dropdown'}} 
+              %i.fa.icon-duplicate
+              User
+              %b.caret
+            %ul.dropdown-menu
+              %li
+                = link_to my_dashboard_path do
+                  %i.fa.fa-file
+                  Home/My
+
+      = yield
