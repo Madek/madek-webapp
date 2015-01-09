@@ -10,7 +10,7 @@ require 'rspec/rails'
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 def truncate_tables
-  DBHelper.truncate_tables
+  PgDbTasks.truncate_tables
 end
 
 RSpec.configure do |config|

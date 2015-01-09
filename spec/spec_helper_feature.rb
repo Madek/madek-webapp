@@ -9,7 +9,7 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 def truncate_tables
-  DBHelper.truncate_tables
+  PgDbTasks.truncate_tables
 end
 
 RSpec.configure do |config|
@@ -44,7 +44,7 @@ RSpec.configure do |config|
 
   config.before(:each) do |example|
     truncate_tables
-    DBHelper.load_data Rails.root.join('db', 'personas.data.psql')
+    PgDbTasks.data_restore Rails.root.join('db', 'personas.pgbing')
     set_browser(example)
   end
 

@@ -5,7 +5,7 @@ describe MetaDatum::People do
   context 'existing meta key madek:test:people, collection, some people' do
 
     before :all do
-      DBHelper.truncate_tables
+      PgDbTasks.truncate_tables
       @meta_key_people = \
         MetaKey.create id: 'madek:test:people',
                        meta_datum_object_type: 'MetaDatum::People'
@@ -16,7 +16,7 @@ describe MetaDatum::People do
     end
 
     after :all do
-      DBHelper.truncate_tables
+      PgDbTasks.truncate_tables
     end
 
     it 'truly exists' do
