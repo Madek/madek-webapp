@@ -5,15 +5,6 @@ module ApplicationHelper
     Kramdown::Document.new(source).to_html.html_safe
   end
 
-  def semver
-    # TODO: fix
-    MadekSemver.semver
-  end
-
-  def zhdk_login?
-    Settings.zhdk_integration
-  end
-
   # layout render shortcut
   def partial(name, config = nil, &block)
     if block_given?

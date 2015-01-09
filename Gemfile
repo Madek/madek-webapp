@@ -14,6 +14,7 @@ gem 'foreigner'
 gem 'jdbc-postgres', platform: :jruby
 gem 'memcache-client'
 gem 'pg', platform: :mri
+gem 'pg_tasks', '>= 1.0.0', '< 2.0.0'
 gem 'textacular', git: 'https://github.com/DrTom/textacular.git'
 
 # API
@@ -23,9 +24,7 @@ gem 'roar-rails'
 
 # ZHDK-INTEGRATION
 # gem "madek_zhdk_integration", path: "../zhdk_integration"
-gem 'madek_zhdk_integration',
-    git: 'https://github.com/zhdk/madek-zhdk-integration.git',
-    ref: '11434aeea50795c0a8e5663b4350746232744319'
+gem 'madek_zhdk_integration', git: 'https://github.com/zhdk/madek-zhdk-integration.git', ref: '11434aeea50795c0a8e5663b4350746232744319'
 
 # FRONTEND
 gem 'bootstrap-sass'

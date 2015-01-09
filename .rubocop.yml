@@ -2,6 +2,7 @@ AllCops:
   Exclude:
     - 'db/**/*'
     - 'config/**/*'
+    - 'Gemfile'
   RunRailsCops: true
 
 Lint/AmbiguousOperator:
@@ -91,6 +92,9 @@ Style/EmptyLinesAroundModuleBody:
 Style/FileName:
   Enabled: false
 
+Style/GuardClause:
+  Enabled: false
+
 # Configuration parameters: MaxLineLength.
 Style/IfUnlessModifier:
   Enabled: false
@@ -98,6 +102,9 @@ Style/IfUnlessModifier:
 # Cop supports --auto-correct.
 # Configuration parameters: Width.
 Style/IndentationWidth:
+  Enabled: false
+
+Style/MultilineBlockChain:
   Enabled: false
 
 # Cop supports --auto-correct.

@@ -10,12 +10,12 @@ class StyleguideController < ActionController::Base
     @section = find_section_by_param(@sections, :section)
   end
 
-  def element # single element view, mostly needed for testing
-    @sections = build_content
-    @section = find_section_by_param @sections
-    return if @section.nil? || @section[:elements].nil? # no info pages needed
-    @element = @section[:elements].find { |e| e[:name] == params[:element] }
-  end
+  #  def element # single element view, mostly needed for testing
+  #    @sections = build_content
+  #    @section = find_section_by_param @sections
+  #    return if @section.nil? || @section[:elements].nil? # no info pages needed
+  #    @element = @section[:elements].find { |e| e[:name] == params[:element] }
+  #  end
 
   private
 
