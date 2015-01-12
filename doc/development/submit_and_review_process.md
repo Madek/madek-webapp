@@ -31,13 +31,11 @@ request on github. It must adhere to the following rules.
 2. This single commit must be directly related to the current working
   branch (either `next` oder `madek-v3`). 
 
-3. The submit comment must contain the four following items:
+3.  The submit comment must contain a link pointing to the executions ci2.zhdk.ch which must contain:
 
-    1. a link pointing to the test result on ci2.zhdk.ch,
-    2. a link pointing to the style-check result on ci2.zhdk.ch,
-    3. a link pointing to the coverage result on ci2.zhdk.ch, and
-    4. a link pointing to the corresponding code analytics on code climate. 
-
+    1. a _Tests_ result, 
+    2. a _Code-Check_ result, and 
+    3. a _Coverage_ result.
 
 Reviewing 
 ---------
