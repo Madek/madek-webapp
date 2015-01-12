@@ -60,7 +60,7 @@ gem 'pry-nav', group: [:test, :development]
 gem 'pry-rails', group: [:test, :development]
 gem 'quiet_assets', group: [:development]
 gem 'rails_autolink', '~> 1.0'
-gem 'rails_config'
+gem 'rails_config', git: 'https://github.com/DrTom/rails_config.git', ref: '84d0259b20bf3439bb7d5e2e2e48e4fe262af18b'  
 gem 'rest-client', group: [:test, :development, :personas]
 gem 'rspec', '= 2.14.1'
 gem 'rspec-rails', group: [:test, :development]
@@ -81,8 +81,7 @@ gem 'zencoder-fetcher', group: [:development]
 
 # ZHDK-INTEGRATION 
 #gem "madek_zhdk_integration", path: "../zhdk_integration"
-gem "madek_zhdk_integration", git: 'https://github.com/zhdk/madek-zhdk-integration.git', 
-  ref: '40139ba1dd65f5ea7aa3d2e1ef3cbeb22f1c6d4c'
+gem "madek_zhdk_integration", git: 'https://github.com/zhdk/madek-zhdk-integration.git', ref: '40139ba1dd65f5ea7aa3d2e1ef3cbeb22f1c6d4c'
 
 
 gem 'cider_ci-support', '= 1.1.0', group: [:development, :test]

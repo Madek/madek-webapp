@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/DrTom/rails_config.git
+  revision: 84d0259b20bf3439bb7d5e2e2e48e4fe262af18b
+  ref: 84d0259b20bf3439bb7d5e2e2e48e4fe262af18b
+  specs:
+    rails_config (0.5.0.beta1)
+      activesupport (>= 3.0)
+
+GIT
   remote: https://github.com/DrTom/textacular.git
   revision: ab1f5677539b1014f238dc2c644c2e4ef9c56c12
   specs:
@@ -275,8 +283,6 @@ GEM
       sprockets-rails (~> 2.0)
     rails_autolink (1.1.6)
       rails (> 3.1)
-    rails_config (0.4.2)
-      activesupport (>= 3.0)
     railties (4.1.5)
       actionpack (= 4.1.5)
       activesupport (= 4.1.5)
@@ -444,7 +450,7 @@ DEPENDENCIES
   quiet_assets
   rails (= 4.1.5)
   rails_autolink (~> 1.0)
-  rails_config
+  rails_config!
   rest-client
   roar
   roar-rails
