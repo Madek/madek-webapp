@@ -8,3 +8,5 @@ hello('jQuery version ' + $().jquery)
 # test coffescript
 kafi = require('./test-module-cs')
 console.log "Coffescript says: #{kafi}"
+
+console.log(require('bootstrap'));
