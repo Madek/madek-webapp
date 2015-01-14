@@ -1,6 +1,9 @@
-require 'rubygems'
-require 'pry'
 require 'cucumber/rails'
+require 'rubygems'
+
+require 'simplecov'
+SimpleCov.start 'rails'
+Dir[Rails.root.join('app/**/*.rb')].each { |f| require f }
 
 ActionController::Base.allow_rescue = false
 
