@@ -9,20 +9,27 @@
 
   %body
     .container
-      .navbar.navbar-inverse.navbar-collapse
-        .navbar-header
-          .navbar-brand
-            Madek Admin
-        %ul.nav.navbar-nav.navbar-right
-          %li.dropdown
-            %a.dropdown-toggle{href: "#", data: {toggle: 'dropdown'}} 
-              %i.fa.icon-duplicate
-              User
-              %b.caret
-            %ul.dropdown-menu
-              %li
-                = link_to my_dashboard_path do
-                  %i.fa.fa-file
-                  Home/My
+      .navbar.navbar-default
+        .container-fluid
+          .navbar-header
+            %button.navbar-toggle.collapsed{"data-target" => "#main-navbar-collapse", "data-toggle" => "collapse", :type => "button"}
+              %span.sr-only Toggle navigation
+              %span.icon-bar
+              %span.icon-bar
+              %span.icon-bar
+            .navbar-brand
+              Madek Admin
+          #main-navbar-collapse.navbar-collapse.collapse
+            %ul.nav.navbar-nav.navbar-right
+              %li.dropdown
+                %a.dropdown-toggle{href: "#", data: {toggle: 'dropdown'}}
+                  %i.glyphicon.glyphicon-user
+                  User
+                  %b.caret
+                %ul.dropdown-menu
+                  %li
+                    = link_to my_dashboard_path do
+                      %i.glyphicon.glyphicon-file
+                      Home/My
 
       = yield
