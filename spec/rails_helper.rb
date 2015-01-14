@@ -1,7 +1,13 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
+require 'simplecov'
+SimpleCov.start 'rails'
+Dir[Rails.root.join('app/**/*.rb')].each { |f| require f }
+puts "required simplecov from #{__FILE__}"
 require 'rspec/rails'
+
+
 require 'capybara/poltergeist'
 # Add additional requires below this line. Rails is not loaded until this point!
 

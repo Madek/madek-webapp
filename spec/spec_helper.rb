@@ -1,9 +1,11 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
+require 'simplecov'
+SimpleCov.start 'rails'
+Dir[Rails.root.join('app/**/*.rb')].each { |f| require f }
+puts "required simplecov from #{__FILE__}"
 require 'rspec/rails'
 
-require 'simplecov'
-Dir[Rails.root.join('app/**/*.rb')].each { |f| require f }
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
