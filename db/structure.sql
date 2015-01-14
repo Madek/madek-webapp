@@ -1308,7 +1308,7 @@ CREATE UNIQUE INDEX idx_megrpp_on_media_entry_id_and_group_id ON media_entry_gro
 -- Name: index_admins_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_admins_on_user_id ON admins USING btree (user_id);
+CREATE UNIQUE INDEX index_admins_on_user_id ON admins USING btree (user_id);
 
 
 --

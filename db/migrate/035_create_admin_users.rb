@@ -5,7 +5,7 @@ class CreateAdminUsers < ActiveRecord::Migration
     create_table :admin_users, id: :uuid do |t|
 
       t.uuid :user_id, null: false
-      t.index :user_id
+      t.index :user_id, unique: true
 
       t.timestamps null: false
     end
