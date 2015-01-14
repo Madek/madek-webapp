@@ -6,11 +6,11 @@
     description: 'By default, icons inherit font colour from their parent. A few modifier classes are provided to alter icon\'s colour when needed.',
     section: '6.4',
     # TODO: find pattern for this:
-    subElements: [ 'madek', 'pen', 'cog', 'filter', 'plus', 'plus-small', 
-      'upload', 'dload', 'checkmark', 'lock', 'eye', 'move', 'cover', 'set', 
-      'media-entry', 'tag', 'tags', 'trash', 'user', 'add-user', 'add-group', 
-      'admin', 'home', 'power-off', 'lens', 'magnifier', 'highlight', 'star', 
-      'clipboard', 'question-mark', 'question', 'bang', 'close', 'copy', 
+    subElements: [ 'madek', 'pen', 'cog', 'filter', 'plus', 'plus-small',
+      'upload', 'dload', 'checkmark', 'lock', 'eye', 'move', 'cover', 'set',
+      'media-entry', 'tag', 'tags', 'trash', 'user', 'add-user', 'add-group',
+      'admin', 'home', 'power-off', 'lens', 'magnifier', 'highlight', 'star',
+      'clipboard', 'question-mark', 'question', 'bang', 'close', 'copy',
       'contrast', 'undo', 'catalog', 'link', 'api', 'library'
     ],
     mods: {
@@ -23,8 +23,8 @@
 
 = partial('element', element) do
   - element[:mods].each do |name, description|
-    = partial('example', { mod: name}) do 
+    = partial('example', { mod: name}) do
       - mod = name
-      - element[:subElements].each do |sub| 
+      - element[:subElements].each do |sub|
         %i{class: element[:cssSelector] + sub + ' ' + mod.to_s}
 

@@ -6,7 +6,7 @@
     description: 'Icons are used in Page Headers to indicate the type of content presented. \nBelow is a list of all such pages and their corresponding icons.',
     section: '6.8'
   }
-  
+
   list = [
     ['icon-media-entry', 'Title of an Entry'],
     ['icon-set', 'Title of a Set'],
@@ -32,10 +32,10 @@
     ['icon-eye', 'Nach vergleichbaren Inhalten stöbern'],
     ['icon-upload', 'Import Media']
   ]
-  
+
 
 = partial('element', element) do
-  - list.each do |name, text| 
+  - list.each do |name, text|
     = partial('example') do
       .ui-body-title
         .ui-body-title-label

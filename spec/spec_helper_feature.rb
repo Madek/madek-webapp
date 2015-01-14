@@ -54,12 +54,11 @@ RSpec.configure do |config|
     end
   end
 
-  def take_screenshot
-    @screenshot_dir ||= Rails.root.join('tmp', 'capybara')
-    Dir.mkdir @screenshot_dir rescue nil
-    path = \
-      @screenshot_dir
-        .join("screenshot_#{Time.zone.now.iso8601.gsub(/:/, '-')}.png")
+  def take_screenshot(screenshot_dir = nil, name = nil)
+    screenshot_dir ||= Rails.root.join('tmp', 'capybara')
+    name ||= "screenshot_#{Time.zone.now.iso8601.gsub(/:/, '-')}.png"
+    Dir.mkdir screenshot_dir rescue nil
+    path = screenshot_dir.join(name)
     case Capybara.current_driver
     when :selenium, :selenium_chrome
       page.driver.browser.save_screenshot(path) rescue nil
@@ -72,6 +71,13 @@ RSpec.configure do |config|
               #{Capybara.current_driver}."
     end
   end
+
+  # useful for debugging tests:
+  # config.after(:each) do |example|
+  #   unless example.exception.nil?
+  #     binding.pry
+  #   end
+  # end
 
 end
 

@@ -4,16 +4,16 @@
   raise 'no section given!' unless defined? section
 
 %section.sg-body
-  
+
   .sg-example.pbl
     %h3.title-l
       %a{href: styleguide_section_path(section[:name])}= section[:nr]
       = section[:name]
-        
+
 
   - unless section[:elements] # just render 1 info file
     = render template: "styleguide/#{section[:path]}/#{section[:subpath]}"
 
   - else # render all the section's elements
-    - section[:elements].each do |element| 
+    - section[:elements].each do |element|
       = render template: "styleguide/#{section[:path]}/#{element[:path]}"

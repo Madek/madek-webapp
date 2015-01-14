@@ -112,6 +112,10 @@ tasks:
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/keyword/class/search_spec.rb"
+- name: modules living styleguide
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/modules/living_styleguide_spec.rb"
 - name: controllers my_controller
   scripts:
     rspec:

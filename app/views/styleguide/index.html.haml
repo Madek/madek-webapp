@@ -9,11 +9,11 @@
 -# - support :pseudo selectors (display of name, also fake the state w/ js)
 
 
-- if params[:expand] && params[:expand] === 'true' 
+- if params[:expand] && params[:expand] === 'true'
   -# render ALL sections
   - @sections.each do |section|
     = render 'section', { section: section}
-    
+
   - content_for :toc do
     = render 'toc', { sections: @sections, depth: 2 }
 
@@ -21,10 +21,10 @@
   -# default content
   %ul
     %li= "(Work in progress)"
-    
+
     %li
       %a{href: '?expand=true'}= "Show all on 1 page"
-    
+
     %li
       = 'Contents:'
       = render 'toc', { sections: @sections, depth: 2 }

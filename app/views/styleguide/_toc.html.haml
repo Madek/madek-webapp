@@ -4,7 +4,7 @@
   depth ||= 1
 
 %ol.styleguide-nav
-  - sections.each do |section| 
+  - sections.each do |section|
     - is_active = @current_section === section
     - section_link = styleguide_section_path(section[:name])
 
@@ -15,7 +15,7 @@
 
       - if section[:elements] and (is_active or depth > 1)
         %ol
-          - section[:elements].each do |element| 
+          - section[:elements].each do |element|
             - element_link = section_link + '#' + element[:nr]
 
             %li

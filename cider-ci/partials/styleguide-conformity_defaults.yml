@@ -1,0 +1,14 @@
+task_defaults:
+
+  traits:
+    rbenv: true
+    ruby: true
+
+  environment_variables:
+    RAILS_ENV: test
+
+  scripts:
+    bundle:
+      timeout: 500
+      order: 0
+      body: bundle install
