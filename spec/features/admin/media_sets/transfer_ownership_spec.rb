@@ -180,31 +180,5 @@ feature 'Admin - Media Sets' do
   def find_not_owned_media_set_with_owner_userpermissions(userpermissions_for_children = false)
     @media_set = MediaSet.where.not(user_id: @current_user.id).first
     @former_owner = @media_set.user
-    @media_set.userpermissions.create(
-      user: @former_owner,
-      download: true,
-      edit: true,
-      manage: true,
-      view: true
-    )
-    expect {
-      Userpermission.find_by!(user_id: @former_owner.id, media_resource_id: @media_set.id)
-    }.not_to raise_error
-
-    if userpermissions_for_children
-      @media_set.child_media_resources.each do |child|
-        child.userpermissions.create(
-          user: @former_owner,
-          download: true,
-          edit: true,
-          manage: true,
-          view: true
-        )
-
-        expect {
-          Userpermission.find_by!(user_id: @former_owner.id, media_resource_id: child.id)
-        }.not_to raise_error
-      end
-    end
   end
 end

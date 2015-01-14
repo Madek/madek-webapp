@@ -87,12 +87,7 @@ class AppAdmin::MediaSetsController < AppAdmin::BaseController
       user = User.find(params[:user_id])
       @success_messages = []
 
-      if params[:transfer_ownership].present?
-        delete_permissions_for(@media_set.user, @media_set) if params[:delete_permissions].present?
-        @media_set.update_attributes(user: user)
-
-        @success_messages << 'Successfuly changed responsible user for the set'
-      end
+      transfer_ownership_of_media_set(@media_set, user)
 
       @media_set.child_media_resources.each do |mr|
         transfer_children_media_entries(mr, user)
@@ -157,6 +152,16 @@ class AppAdmin::MediaSetsController < AppAdmin::BaseController
     userpermissions.delete if userpermissions.present?
   end
 
+  def grant_all_permissions_for(user, resource)
+    permission_keys = Userpermission::ALLOWED_PERMISSIONS
+    permissions_hash = Hash[permission_keys.map { |key| [key, true] }]
+
+    Userpermission.find_or_create_by(
+      media_resource_id: resource.id,
+      user_id: user.id
+    ).update_attributes!(permissions_hash)
+  end
+
   def transfer_option_available?
     params[:transfer_ownership].present? ||
       params[:transfer_children_sets].present? ||
@@ -165,7 +170,11 @@ class AppAdmin::MediaSetsController < AppAdmin::BaseController
 
   def transfer_children_media_entries(resource, new_owner)
     if params[:transfer_children_media_entries].present? && resource.type == 'MediaEntry'
-      delete_permissions_for(resource.user, resource) if params[:delete_permissions_for_media_entries].present?
+      if params[:delete_permissions_for_media_entries].present?
+        delete_permissions_for(resource.user, resource)
+      else
+        grant_all_permissions_for(resource.user, resource)
+      end
       resource.update_attributes(user: new_owner)
       @success_messages << 'Successfuly changed responsible user for children media entries'
     end
@@ -173,9 +182,26 @@ class AppAdmin::MediaSetsController < AppAdmin::BaseController
 
   def transfer_children_sets(resource, new_owner)
     if params[:transfer_children_sets].present? && resource.type == 'MediaSet'
-      delete_permissions_for(resource.user, resource) if params[:delete_permissions_for_sets].present?
+      if params[:delete_permissions_for_sets].present?
+        delete_permissions_for(resource.user, resource)
+      else
+        grant_all_permissions_for(resource.user, resource)
+      end
       resource.update_attributes(user: new_owner)
       @success_messages << 'Successfuly changed responsible user for children sets'
+    end
+  end
+
+  def transfer_ownership_of_media_set(resource, new_owner)
+    if params[:transfer_ownership].present?
+      if params[:delete_permissions].present?
+        delete_permissions_for(resource.user, resource)
+      else
+        grant_all_permissions_for(resource.user, resource)
+      end
+      resource.update_attributes(user: new_owner)
+
+      @success_messages << 'Successfuly changed responsible user for the set'
     end
   end
 end
