@@ -37,7 +37,7 @@ d69047ca3a93cb2bd3bfa5c9998dac44fa82536e ?tmp/styleguide-ref/Components/containe
 9887b3203bae49dc30fd92422cff4f3378df3a6a ?tmp/styleguide-ref/Components/metadata_box.png
 20e536ea85fc520422aef76a669e283124df8876 ?tmp/styleguide-ref/Components/modals.png
 0fde03bd1d9392062de7d686b3faddd739cca2fa ?tmp/styleguide-ref/Components/pager.png
-027213ae2f888a9e954be8cfec26bcd9387d8778 ?tmp/styleguide-ref/Components/preloaders.png
+#027213ae2f888a9e954be8cfec26bcd9387d8778 ?tmp/styleguide-ref/Components/preloaders.png
 dc9c256c433e71bacb2ba9b45654f4aa8236ad49 ?tmp/styleguide-ref/Components/resources_head.png
 da9b2054fc97875c11e043cfab9be2d5480d6261 ?tmp/styleguide-ref/Components/side_navigation.png
 1043035a35c01b146e68c093debd9c499e4fcecf ?tmp/styleguide-ref/Components/slider.png
