@@ -42,14 +42,17 @@ $main-color-light   : lighten($main-color, 10%)
     $mono-dark          : #595959
     $mono-strong        : #666666
     $main-color         : #171717
-    
+
   @if $custom-color
     $main-color         : $custom-color
+
+  // TMP: adjust main color so v3 looks distinct while refactoring
+  $main-color: hsla(174, 59%, 39%, 1)
+  // END TMP
 
   $main-color-dark      : darken($main-color, 10%)
   $main-color-light     : lighten($main-color, 10%)
 
-  
 /* Transparency Values
  *-----------------------------------------
 
