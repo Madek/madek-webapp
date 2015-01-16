@@ -12,12 +12,14 @@ gem 'foreigner'
 gem 'jdbc-postgres', platform: :jruby
 gem 'memcache-client' 
 gem 'pg', platform: :mri
+gem 'pg_tasks', '>= 1.0.0', '< 2.0.0'
 gem 'textacular', git: 'https://github.com/DrTom/textacular.git'
 
 # API 
 gem 'kramdown'
-gem 'roar'
-gem 'roar-rails'
+gem 'roar', '= 0.12.9'
+gem 'roar-rails', '= 0.1.6'
+
 
 # THE REST
 gem 'animation'

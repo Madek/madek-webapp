@@ -216,6 +216,8 @@ GEM
     nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
     pg (0.17.1)
+    pg_tasks (1.0.1)
+      rails (>= 4.1.0, < 5.0.0)
     poltergeist (1.5.1)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -405,6 +407,7 @@ DEPENDENCIES
   newrelic_rpm
   nokogiri
   pg
+  pg_tasks (>= 1.0.0, < 2.0.0)
   poltergeist
   pry
   pry-nav
@@ -414,8 +417,8 @@ DEPENDENCIES
   rails_autolink (~> 1.0)
   rails_config!
   rest-client
-  roar
-  roar-rails
+  roar (= 0.12.9)
+  roar-rails (= 0.1.6)
   rspec (~> 3.1.0)
   rspec-rails
   rubyzip
