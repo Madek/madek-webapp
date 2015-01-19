@@ -7,6 +7,8 @@ MAdeK::Application.routes.draw do
 
   get 'my', to: 'my#dashboard', as: 'my_dashboard'
 
+  get 'media_entries', to: 'media_entries#index'
+
   ##### Admin namespace
   namespace :admin do
     root to: 'dashboard#index' 

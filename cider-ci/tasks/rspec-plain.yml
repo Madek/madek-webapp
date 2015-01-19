@@ -68,10 +68,18 @@ tasks:
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/edit_session_spec.rb"
+- name: models shared in_responsibility_of_user
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/shared/in_responsibility_of_user_spec.rb"
 - name: models shared validates
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/shared/validates_spec.rb"
+- name: models shared created_by_user
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/shared/created_by_user_spec.rb"
 - name: models shared favoritable
   scripts:
     rspec:
@@ -80,6 +88,10 @@ tasks:
   scripts:
     rspec:
       body: bundle exec rspec "spec/models/shared/entrusted_to_user_spec.rb"
+- name: models shared favored_by_user
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/models/shared/favored_by_user_spec.rb"
 - name: models shared destroy_ineffective_permissions
   scripts:
     rspec:
@@ -124,6 +136,10 @@ tasks:
   scripts:
     rspec:
       body: bundle exec rspec "spec/controllers/sessions_controller_spec.rb"
+- name: controllers media_entries_controller
+  scripts:
+    rspec:
+      body: bundle exec rspec "spec/controllers/media_entries_controller_spec.rb"
 - name: controllers application_controller
   scripts:
     rspec:
