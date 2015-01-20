@@ -1,0 +1,18 @@
+#!/bin/sh
+set -e
+
+printf 'rubocop... '
+bundle exec rubocop . >/dev/null
+echo OK
+
+printf 'flog... '
+bundle exec cider-ci_flog app/
+
+printf 'flay... '
+bundle exec cider-ci_flay app/
+
+printf 'haml-lint... '
+./dev/test/haml-lint >/dev/null # tmp refactor
+echo OK
+
+echo;echo 'yay \o/'

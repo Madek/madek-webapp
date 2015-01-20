@@ -1,3 +1,4 @@
+# NOTE: please keep in sync with ./dev/check for local usage
 tasks:
 
   code_complexity: 
@@ -16,7 +17,7 @@ tasks:
     name: Lint/Stylecheck with HAML-Lint
     scripts:
       main:
-        body: bundle exec haml-lint app/views/{a*,m*}/* # tmp exclude styleguide…
+        body: ./dev/test/haml-lint
 
   lint_ruby:
     name: Lint/Stylecheck with Rubocop

@@ -1,0 +1,5 @@
+#!/bin/sh
+set -e
+
+# lint all view dirs expect styleguide (for now, most components are still auto-converted)
+find app/views/* -type d -not -path 'app/views/styleguide' -not -path 'app/views/styleguide/**' -exec sh -c 'bundle exec haml-lint {}' \;
