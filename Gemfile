@@ -92,6 +92,9 @@ gem 'zencoder-fetcher', group: [:development]
 
 gem 'cider_ci-support', '= 1.1.0', group: [:development, :test]
 # gem 'cider_ci-support', path: '/Users/thomas/Programming/CIDER-CI/ruby_support'
+gem 'cider_ci-rspec_support', '>= 1.0.2', '< 2.0.0', group: [:development, :test]
+# gem 'cider_ci-rspec_support', path: '/Users/thomas/Programming/CIDER-CI/ruby-rspec-support'
+
 
 # TEMPORARILY DISABLED
 # gem 'rack-mini-profiler', group: [:development]

@@ -1,0 +1,26 @@
+tasks:
+
+  code_complexity: 
+    name: Code complexity with flog
+    scripts: 
+      main: 
+        body: bundle exec cider-ci_flog app/
+
+  code_similarity:
+    name: Code similarity with flay
+    scripts: 
+      main: 
+        body: bundle exec cider-ci_flay app/
+
+  lint_haml:
+    name: Lint/Stylecheck with HAML-Lint
+    scripts:
+      main:
+        body: bundle exec haml-lint app/views/{a*,m*}/* # tmp exclude styleguide…
+
+  lint_ruby:
+    name: Lint/Stylecheck with Rubocop
+    scripts:
+      main:
+        body: bundle exec rubocop
+

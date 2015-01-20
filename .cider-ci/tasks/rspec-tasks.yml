@@ -1,0 +1,186 @@
+---
+"./spec/controllers/admin/dashboard_controller_spec.rb":
+  name: authorization
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/admin/dashboard_controller_spec.rb"
+"./spec/controllers/application_controller_spec.rb":
+  name: ApplicationController
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/application_controller_spec.rb"
+"./spec/controllers/media_entries_controller_spec.rb":
+  name: assigns media entries
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/media_entries_controller_spec.rb"
+"./spec/controllers/my_controller_spec.rb":
+  name: MyController
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/my_controller_spec.rb"
+"./spec/controllers/sessions_controller_spec.rb":
+  name: 'POST #sign in'
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/sessions_controller_spec.rb"
+"./spec/models/api_client_spec.rb":
+  name: ApiClient
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/api_client_spec.rb"
+"./spec/models/collection_spec.rb":
+  name: Creation
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/collection_spec.rb"
+"./spec/models/edit_session_spec.rb":
+  name: Creation
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/edit_session_spec.rb"
+"./spec/models/filter_set_spec.rb":
+  name: Creation
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/filter_set_spec.rb"
+"./spec/models/keyword/class/search_spec.rb":
+  name: search
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/keyword/class/search_spec.rb"
+"./spec/models/keyword_term_spec.rb":
+  name: "#creator"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/keyword_term_spec.rb"
+"./spec/models/media_entry_spec.rb":
+  name: Creation
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/media_entry_spec.rb"
+"./spec/models/media_file_spec.rb":
+  name: Creation
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/media_file_spec.rb"
+"./spec/models/meta_datum/meta_key_consitency_spec.rb":
+  name: changing the type to be incomaptible
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/meta_datum/meta_key_consitency_spec.rb"
+"./spec/models/meta_datum/people_spec.rb":
+  name: existing meta key madek:test:people, collection, some people
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/meta_datum/people_spec.rb"
+"./spec/models/meta_datum/text_spec.rb":
+  name: Creation
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/meta_datum/text_spec.rb"
+"./spec/models/meta_datum/users_spec.rb":
+  name: existing meta key madek:test:users, collection, some users
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/meta_datum/users_spec.rb"
+"./spec/models/meta_key/immutability_spec.rb":
+  name: adding new meta_keys to it
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/meta_key/immutability_spec.rb"
+"./spec/models/permissions/collection_api_client_permission_spec.rb":
+  name: Permissions::CollectionApiClientPermission
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/permissions/collection_api_client_permission_spec.rb"
+"./spec/models/permissions/collection_group_permission_spec.rb":
+  name: Permissions::CollectionGroupPermission
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/permissions/collection_group_permission_spec.rb"
+"./spec/models/permissions/collection_user_permission_spec.rb":
+  name: Permissions::CollectionUserPermission
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/permissions/collection_user_permission_spec.rb"
+"./spec/models/permissions/filter_set_api_client_permission_spec.rb":
+  name: Permissions::FilterSetApiClientPermission
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/permissions/filter_set_api_client_permission_spec.rb"
+"./spec/models/permissions/filter_set_group_permission_spec.rb":
+  name: Permissions::FilterSetGroupPermission
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/permissions/filter_set_group_permission_spec.rb"
+"./spec/models/permissions/filter_set_user_permission_spec.rb":
+  name: Permissions::FilterSetUserPermission
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/permissions/filter_set_user_permission_spec.rb"
+"./spec/models/permissions/media_entry_api_client_permission_spec.rb":
+  name: Permissions::MediaEntryApiClientPermission
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/permissions/media_entry_api_client_permission_spec.rb"
+"./spec/models/permissions/media_entry_group_permission_spec.rb":
+  name: Permissions::MediaEntryGroupPermission
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/permissions/media_entry_group_permission_spec.rb"
+"./spec/models/permissions/media_entry_user_permission_spec.rb":
+  name: Permissions::MediaEntryUserPermission
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/permissions/media_entry_user_permission_spec.rb"
+"./spec/models/relations/resource_media_entry_arc_spec.rb":
+  name: CollectionMediaEntryArc
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/relations/resource_media_entry_arc_spec.rb"
+"./spec/models/shared/created_by_user_spec.rb":
+  name: it provides scope created by user
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/shared/created_by_user_spec.rb"
+"./spec/models/shared/destroy_ineffective_permissions_spec.rb":
+  name: it destroys ineffective permissions
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/shared/destroy_ineffective_permissions_spec.rb"
+"./spec/models/shared/edit_sessions_spec.rb":
+  name: has edit sessions
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/shared/edit_sessions_spec.rb"
+"./spec/models/shared/entrusted_to_user_spec.rb":
+  name: it provides scope entrusted to user
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/shared/entrusted_to_user_spec.rb"
+"./spec/models/shared/favored_by_user_spec.rb":
+  name: it provides scope favored by user
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/shared/favored_by_user_spec.rb"
+"./spec/models/shared/favoritable_spec.rb":
+  name: behaves like a favoritable
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/shared/favoritable_spec.rb"
+"./spec/models/shared/in_responsibility_of_user_spec.rb":
+  name: it provides scope in responsibility of user
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/shared/in_responsibility_of_user_spec.rb"
+"./spec/models/shared/validates_spec.rb":
+  name: validates presence of
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/shared/validates_spec.rb"
+"./spec/modules/living_styleguide_spec.rb":
+  name: LivingStyleguide
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/modules/living_styleguide_spec.rb"

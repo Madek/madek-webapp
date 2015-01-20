@@ -1,0 +1,11 @@
+executions:
+  Tests: 
+    default: true
+    specification: 
+      _cider-ci_include: /.cider-ci/test_spec.yml
+  Coverage: 
+    specification: 
+      _cider-ci_include: /.cider-ci/coverage_spec.yml
+  Code-Check: 
+    specification: 
+      _cider-ci_include: /.cider-ci/code-check_spec.yml
