@@ -5,6 +5,8 @@ task_defaults:
   auto_trials: 2
   traits:
     linux: true
+  environment_variables:
+    LANG: "en_US.UTF-8"
 
 subcontexts:
 

@@ -6,6 +6,7 @@ task_defaults:
 
   environment_variables:
     RAILS_ENV: test
+    LANG: "en_US.UTF-8"
 
   scripts:
     bundle:
