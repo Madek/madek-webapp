@@ -17,14 +17,14 @@
 
 = partial('element', element) do
   - element[:mods].each do |name, description|
-    = partial('example', { mod: name}) do
-      %a.button{class: name}
-        Dropdown Button
-        %i.icon-arrow-down.stand-alone
-      %a.primary-button{class: name}
-        Dropdown Button
-        %i.icon-arrow-down.stand-alone
-      %a.tertiary-button{class: name}
-        Dropdown Button
-        %i.icon-arrow-down.stand-alone
+    = partial('example', mod: name) do
 
+      = component('button', mods: name, href: '#nothing') do
+        Dropdown Button
+        = component('icon.arrow-down', 'stand-alone')
+      = component('button.primary', mods: name, href: '#nothing') do
+        Dropdown Button
+        = component('icon.arrow-down', 'stand-alone')
+      = component('button.tertiary', mods: name, href: '#nothing') do
+        Dropdown Button
+        = component('icon.arrow-down', 'stand-alone')

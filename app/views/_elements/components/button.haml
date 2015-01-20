@@ -1,0 +1,13 @@
+:ruby
+  html_tag = link ? 'a' : 'button'
+  button_class = \
+    case
+    when classes.include?('button-primary') then 'primary-button'
+    when classes.include?('button-tertiary') then 'tertiary-button'
+    else 'button'
+    end
+  classes.delete(button_class)
+  classes.push(button_class) if button_class
+
+- haml_tag(html_tag, { class: classes }.merge(link.to_h)) do
+  = block_content if defined?(block_content)

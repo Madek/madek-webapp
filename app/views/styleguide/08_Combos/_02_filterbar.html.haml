@@ -13,7 +13,7 @@
     .ui-filterbar.separated.ui-container
       .left.col2of6
         %a#ui-side-filter-toggle.button
-          %i.icon-filter.small
+          = component('icon.filter', 'small')
           Filtern
         %a#ui-side-filter-reset.mlx.hidden
           Filter zurücksetzen
@@ -31,7 +31,7 @@
             Alle abwählen
           %span.inactive
             Alle auswählen
-          %i.icon-checkbox
+          = component('icon.checkbox')
 
   = partial('example') do
     .ui-filterbar.separated.ui-container

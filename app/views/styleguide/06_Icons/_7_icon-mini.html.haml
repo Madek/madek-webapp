@@ -9,7 +9,7 @@
 
 = partial('element', element) do
   = partial('example') do
-    %i.icon-group-mini
-    %i.icon-user-mini
-    %i.icon-tag-mini
+    = component('icon.group-mini')
+    = component('icon', 'icon-user-mini')
+    = component('icon', 'icon-tag-mini')
 

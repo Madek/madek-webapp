@@ -1,37 +1,53 @@
 :ruby
   element = {
     name: 'Header',
+    section: '8.3',
     cssFile: '_ui-header.scss',
     cssSelector: '.ui-header',
-    section: '8.3'
+    # example
+    locals: {
+      brand: {
+        logo: {
+          alt: 'ZHdK',
+          src: asset_path('logo-zhdk.png')
+        },
+        name: 'Zürcher Hochschule der Künste',
+        instance_name: 'Medienarchiv der Künste'
+      },
+      menu: component('tabs', {
+        id: 'example_tabs', mods: ['primary', 'large'],
+        list: {
+          my: {
+           active: true,
+           text: 'Mein Archiv', href: '#'
+          },
+          explore: {
+            text: 'Erkunden', href: '#'
+          },
+          search: {
+            icon: 'icon-lens.bright',
+            text: 'Suchen', href: '#'
+          },
+          help: {
+            icon: 'icon-nav-help', href: '#'
+          }
+        }
+      }),
+      user: component('dropdown', {
+        id: 'user_menu',
+        mods: 'stick-right',
+        text: 'Normin Normalo',
+        list: {
+          example_dropdown_item: {
+            href: '#',
+            text: 'Dropdown'
+          }
+        }
+      })
+    }
   }
 
-= partial('element', element) do
+= partial('element', element) do |example|
   = partial('example') do
-    %header.ui-header.ui-container.inverted
-      .ui-header-brand
-        %img.ui-header-logo{:alt => "ZHdK", :src => asset_path("logo-zhdk.png")}/
-        %h1.ui-header-brand-name Zürcher Hochschule der Künste
-        %h2.ui-header-instance-name Medienarchiv der Künste
-      .ui-header-menu
-        %ul.large.primary.ui-tabs
-          %li.ui-tabs-item.active
-            %a{:href => "#"} Mein Archiv
-          %li.ui-tabs-item
-            %a{:href => "#"} Erkunden
-          %li.ui-tabs-item
-            %a{:href => "#"}
-              %i.icon-lens.bright
-              Suchen
-          %li.ui-tabs-item
-            %a{:href => "#"}
-              %i.icon-nav-help
-      .ui-header-user
-        .dropdown.ui-dropdown.stick-right
-          %a#user-action-button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
-            Normin Normalo
-            %i.icon-arrow-down.stand-alone.small
-          %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu", :style => "top: 100%; bottom: auto;"}
-            %li.ui-drop-item
-              %a.strong{:href => ""}
-                Dropdown
+
+    = combo('header', example[:locals])

@@ -11,5 +11,8 @@ linters:
     enabled: true
     style: no_space
 
+  ClassesBeforeIds:
+    enabled: false
+
   LineLength:
     max: 100

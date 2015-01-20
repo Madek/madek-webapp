@@ -1,0 +1,17 @@
+:ruby
+  unless list.is_a?(Enumerable) && list.first(1)
+    Rails.logger.warn('View: No tabs given!')
+  end
+  id = "tab-#{id}"
+
+%ul.ui-tabs{class: classes, id: id}
+  - list.each do |tab_id, tab|
+    - link = link_from_item(tab)
+    - classes = tab[:active] ? 'active' : ''
+
+    %li.ui-tabs-item{class: classes, id: "#{id}-#{tab_id}"}
+
+      - if (link && (tab[:text] || tab[:icon]))
+        - haml_tag('a', link) do
+          = component('icon', tab[:icon])
+          = tab[:text]

@@ -17,10 +17,9 @@
 
 = partial('element', element) do
   - element[:mods].each do |name, description|
-    = partial('example', { mod: name}) do
-      %a.button{class:name}
+    = partial('example', mod: name) do
+      = component('button', mods: name, href: '#nothing') do
         = "Button"
-      %a.button{class:name}
-        %i.icon-tag
+      = component('button', mods: name, href: '#nothing') do
+        = component('icon.tag')
         = "Button"
-

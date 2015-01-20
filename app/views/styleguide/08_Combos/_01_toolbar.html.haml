@@ -16,16 +16,16 @@
       .ui-toolbar-controls.by-right
         #ui-resources-layout-switcher.button-group.tertiary.small.right.mls
           %a.button.small.ui-toolbar-vis-button{"data-vis-mode" => "miniature", :title => "Miniatur-Ansicht"}
-            %i.icon-vis-miniature{:title => "Miniatur-Ansicht"}
+            = component('icon.vis-miniature', title: 'Miniatur-Ansicht')
           %a.button.small.ui-toolbar-vis-button.active{"data-default" => "", "data-vis-mode" => "grid", :title => "Raster-Ansicht"}
-            %i.icon-vis-grid{:title => "Raster-Ansicht"}
+            = component('icon.vis-grid', title: 'Raster-Ansicht')
           %a.button.small.ui-toolbar-vis-button{"data-vis-mode" => "list", :title => "Listen-Ansicht"}
-            %i.icon-vis-list{:title => "Listen-Ansicht"}
+            = component('icon.vis-list', title: 'Listen-Ansicht')
         #ui-resources-sorting.dropdown.ui-dropdown.stick-right
           %a.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown"}
             %span.ui-text
               Sortieren nach Erstelldatum
-          %i.icon-arrow-down.bright.small
+          = component('icon.arrow-down', 'bright.small')
           %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
             %li.ui-drop-item.active{"data-default" => ""}
               %a{"data-sort" => "created_at"}

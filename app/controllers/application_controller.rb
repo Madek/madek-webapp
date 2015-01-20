@@ -1,5 +1,8 @@
 class ApplicationController < ActionController::Base
 
+  # Give views access to these methods:
+  helper_method :current_user
+
   protect_from_forgery
 
   class AuthorizationError < StandardError # 401 - Not Authorized
@@ -15,12 +18,16 @@ class ApplicationController < ActionController::Base
   def root
   end
 
+  # private # <- would be nice but breaks test
+
   def current_user
     User.find_by_id session[:user_id]
   end
 
   def authenticated?
-    current_user or redirect_to :root
+    current_user or redirect_to :root, flash: {
+      error: 'Bitte loggen Sie sich ein!'
+    }
   end
 
   private

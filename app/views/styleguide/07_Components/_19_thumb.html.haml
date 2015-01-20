@@ -11,7 +11,7 @@
     .ui-resource-thumbnail
       .ui-thumbnail.media-entry.video
         .ui-thumbnail-privacy{:title => "This media is private"}
-          %i.icon-privacy-private
+          = component('icon.privacy-private')
         %a.ui-thumbnail-image-wrapper
           .ui-thumbnail-image-holder
             .ui-thumbnail-table-image-holder
@@ -25,20 +25,20 @@
           %ul.left.by-left
             %li.ui-thumbnail-action
               %a.ui-thumbnail-action-checkbox.active{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                %i.icon-checkbox
+                = component('icon.checkbox')
             %li.ui-thumbnail-action
               %a.active.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                %i.icon-star-empty
+                = component('icon.star-empty')
           %ul.right.by-right
             %li.ui-thumbnail-action
               %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
-                %i.icon-eye
+                = component('icon.eye')
             %li.ui-thumbnail-action
               %a.ui-thumbnail-action-edit{:href => "#", :title => "Metadaten editieren"}
-                %i.icon-pen
+                = component('icon.pen')
             %li.ui-thumbnail-action
               %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                %i.icon-trash
+                = component('icon.trash')
         .ui-thumbnail-dropdown
           .dropdown.ui-dropdown
             %a.dropdown-toggle.button.block.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#"} Aktionen
@@ -56,9 +56,9 @@
       .ui-thumbnail-level-up-items
         %span.ui-thumbnail-level-notes Keine übergeordneten Sets
       .ui-thumbnail-privacy{:title => "This media is shared with a group"}
-        %i.icon-privacy-group
+        = component('icon.privacy-group')
       .ui-thumbnail-filterset-flag{:title => "This is a Filterset"}
-        %i.icon-filter
+        = component('icon.filter')
       %a.ui-thumbnail-image-wrapper
         .ui-thumbnail-image-holder
           .ui-thumbnail-table-image-holder
@@ -72,20 +72,20 @@
         %ul.left.by-left
           %li.ui-thumbnail-action
             %a.ui-thumbnail-action-checkbox.active{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-              %i.icon-checkbox
+              = component('icon.checkbox')
           %li.ui-thumbnail-action
             %a.active.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-              %i.icon-star-empty
+              = component('icon.star-empty')
         %ul.right.by-right
           %li.ui-thumbnail-action
             %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
-              %i.icon-eye
+              = component('icon.eye')
           %li.ui-thumbnail-action
             %a.ui-thumbnail-action-edit{:href => "#", :title => "Metadaten editieren"}
-              %i.icon-pen
+              = component('icon.pen')
           %li.ui-thumbnail-action
             %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-              %i.icon-trash
+              = component('icon.trash')
       .ui-thumbnail-dropdown
         .dropdown.ui-dropdown
           %a.dropdown-toggle.button.block.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#"} Aktionen
@@ -115,7 +115,7 @@
       .ui-thumbnail-level-up-items
         %span.ui-thumbnail-level-notes Keine übergeordneten Sets
       .ui-thumbnail-privacy{:title => "This media is shared with a group"}
-        %i.icon-privacy-group
+        = component('icon.privacy-group')
       %a.ui-thumbnail-image-wrapper
         .ui-thumbnail-image-holder
           .ui-thumbnail-table-image-holder
@@ -129,20 +129,20 @@
         %ul.left.by-left
           %li.ui-thumbnail-action
             %a.ui-thumbnail-action-checkbox.active{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-              %i.icon-checkbox
+              = component('icon.checkbox')
           %li.ui-thumbnail-action
             %a.active.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-              %i.icon-star-empty
+              = component('icon.star-empty')
         %ul.right.by-right
           %li.ui-thumbnail-action
             %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
-              %i.icon-eye
+              = component('icon.eye')
           %li.ui-thumbnail-action
             %a.ui-thumbnail-action-edit{:href => "#", :title => "Metadaten editieren"}
-              %i.icon-pen
+              = component('icon.pen')
           %li.ui-thumbnail-action
             %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-              %i.icon-trash
+              = component('icon.trash')
       .ui-thumbnail-dropdown
         .dropdown.ui-dropdown
           %a.dropdown-toggle.button.block.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#"} Aktionen
@@ -171,7 +171,7 @@
     .ui-resource-thumbnail
       .ui-thumbnail.media-entry.video
         .ui-thumbnail-privacy{:title => "This media is public"}
-          %i.icon-privacy-open
+          = component('icon.privacy-open')
         %a.ui-thumbnail-image-wrapper
           .ui-thumbnail-image-holder
             .ui-thumbnail-table-image-holder
@@ -190,7 +190,7 @@
           %ul.right.by-right
             %li.ui-thumbnail-action
               %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
-                %i.icon-eye
+                = component('icon.eye')
             %li.ui-thumbnail-action
               %a.ui-thumbnail-action-edit Edit
             %li.ui-thumbnail-action

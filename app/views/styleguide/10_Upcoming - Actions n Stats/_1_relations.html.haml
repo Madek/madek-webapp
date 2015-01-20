@@ -18,33 +18,33 @@
               i7te
           .ui-body-title-actions
             %a.button{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-              %i.icon-checkbox.ui-thumbnail-action-checkbox
+              = component('icon.checkbox', 'ui-thumbnail-action-checkbox')
             %a.button{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-              %i.icon-star-empty.ui-thumbnail-action-favorite
+              = component('icon.star-empty', 'ui-thumbnail-action-favorite')
             %span.action-separator
             %a.button{:title => "Nach vergleichbaren Inhalten stöbern"}
-              %i.icon-eye
+              = component('icon.eye')
             %a.button
-              %i.icon-pen
+              = component('icon.pen')
             %a.button{"data-delete-action" => "", :title => "Löschen"}
-              %i.icon-trash
+              = component('icon.trash')
             .dropdown.ui-dropdown.stick-right
               %a#resource-action-button.button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#"}
                 Weitere Aktionen
-                %i.icon-arrow-down.stand-alone
+                = component('icon.arrow-down', 'stand-alone')
               %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
                 %li.ui-drop-item
                   %a#view_permissions_of_resource
-                    %i.icon-lock.mid
+                    = component('icon.lock', 'mid')
                     Berechtigungen und Verantwortlichkeit editieren
                 %li.ui-drop-item
                   %a{"data-organize-arcs" => ""}
-                    %i.icon-move.mid
+                    = component('icon.move', 'mid')
                     Zu Set hinzufügen/entfernen
                 %li.separator
                 %li.ui-drop-item
                   %a#view_permissions_of_resource
-                    %i.icon-dload.mid
+                    = component('icon.dload', 'mid')
                     Exportieren
                 %li.ui-drop-item
                   %a#manage_custom_urls{:title => "Adresse des Inhalts anlegen oder übertragen"}
@@ -58,7 +58,7 @@
             %a{:href => "###entries/4b2ad543-39d9-4738-87eb-cdfbc60414ca/more_data"} Weitere Daten
           %li.ui-tabs-item
             %a{:href => "###entries/4b2ad543-39d9-4738-87eb-cdfbc60414ca/more_data"}
-              %i.icon-privacy-open
+              = component('icon.privacy-open')
               Offentlichkeit
 
   = partial('example', { mod: 'Logged Out Variation'}) do
@@ -71,16 +71,16 @@
               i7te
           .ui-body-title-actions
             %a.button{:title => "Nach vergleichbaren Inhalten stöbern"}
-              %i.icon-eye
+              = component('icon.eye')
               Stöbern
             .dropdown.ui-dropdown.stick-right
               %a#resource-action-button.button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#"}
                 Weitere Aktionen
-                %i.icon-arrow-down.stand-alone
+                = component('icon.arrow-down', 'stand-alone')
               %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
                 %li.ui-drop-item
                   %a#view_permissions_of_resource
-                    %i.icon-dload.mid
+                    = component('icon.dload', 'mid')
                     Exportieren
                 %li.ui-drop-item
                   %a#manage_custom_urls{:title => "Adresse des Inhalts anlegen oder übertragen"}
@@ -94,5 +94,5 @@
             %a{:href => "###entries/4b2ad543-39d9-4738-87eb-cdfbc60414ca/more_data"} Weitere Daten
           %li.ui-tabs-item
             %a{:href => "###entries/4b2ad543-39d9-4738-87eb-cdfbc60414ca/more_data"}
-              %i.icon-privacy-open
+              = component('icon.privacy-open')
               Offentlichkeit

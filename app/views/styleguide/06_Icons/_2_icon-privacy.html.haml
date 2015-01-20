@@ -16,8 +16,8 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
-      %i.icon-privacy-open{class: name}
-      %i.icon-privacy-private{class: name}
-      %i.icon-privacy-private-alt{class: name}
-      %i.icon-privacy-group{class: name}
-      %i.icon-privacy-group-alt{class: name}
+      = component('icon.privacy-open', name)
+      = component('icon.privacy-private', name)
+      = component('icon.privacy-private-alt', name)
+      = component('icon.privacy-group', name)
+      = component('icon.privacy-group-alt', name)

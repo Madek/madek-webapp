@@ -1,0 +1,37 @@
+!!!
+%html{lang: 'de-CH'}
+  %head
+    %meta{charset: 'utf-8'}
+
+    - if content_for?(:title_head)
+      = content_for(:title_head)
+    - else
+      -# TODO: raise this
+      - Rails.logger.warn('View did not give content_for(:title_head)!')
+      %title= 'Madek'
+
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = content_for(:style_head)
+
+    -# = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    -# = content_for(:script_head)
+
+    -# TODO: favicon(s)
+    %link{href: '/favicon.ico', rel: 'shortcut icon', type: 'image/x-icon'}
+
+    -# TODO: re-enable
+    -# The application_controller makes sure that I18n.locale is set to something valid, so we
+    -# can safely use it here.
+    -# = javascript_include_tag 'i18n/locale/#{I18n.locale.to_s.dasherize}'
+    -# = javascript_include_tag 'application'
+
+    = csrf_meta_tag
+
+    -# optional extra tags for head:
+    = content_for(:head)
+
+  = content_for(:body)
+  = content_for(:scripts) if content_for?(:scripts)
+
+  -# Implicit *yield*, don't put one here or it double-renders!
+  -# Also, when in doubt use `content_for(:body)` in views.

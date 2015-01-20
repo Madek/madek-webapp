@@ -11,14 +11,25 @@
       'large' => 'Large tab navigation',
       'by-right' => 'Aligned right',
       'by-center' => 'Centered'
+    },
+    # example:
+    locals: {
+      id: 'example_tabs',
+      list: {
+        example_tab: {
+         text: 'Item 1', href: '#'
+        },
+        another_example_tab: {
+         active: true,
+          text: 'Item 2', href: '#'
+        }
+      }
     }
   }
 
-= partial('element', element) do
+= partial('element', element) do |example|
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
-      %ul.ui-tabs{class: name}
-        %li.ui-tabs-item
-          %a{:href => "#"} Item 1
-        %li.ui-tabs-item.active
-          %a{:href => "#"} Item 2
+      - example[:locals][:mods] = [name]
+
+      = component('tabs', example[:locals])

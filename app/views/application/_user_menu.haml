@@ -1,0 +1,17 @@
+-# Will show the full user menu later as js-dropdown
+  , for now only a non-js logout button
+
+  :ruby
+    dropdown = {
+      id: 'user_menu',
+      mods: 'stick-right',
+      text: user.login, # FIXME: user.fullname ???,
+      # list: [] # TODO: js
+    }
+
+  = component('dropdown', dropdown) # TODO: (see component)
+
+= form_tag 'session/sign_out' do
+  = component('button', 'tertiary') do
+    = component('icon.power-off')
+    = 'Log Out'

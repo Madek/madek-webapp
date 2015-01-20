@@ -13,8 +13,9 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
-      -# TODO: fix it!
+      -# TODO: component
       .sg-spacer{:style => "padding-top: 100px;margin: 0 auto;padding-right: 150px;padding-bottom: 100px;padding-left: 150px"}
+        -# = component('dropdown')
         .dropdown.ui-dropdown{class: name}
           %a.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#"} Drop-down Toggle
           %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}

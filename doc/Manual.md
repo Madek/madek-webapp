@@ -113,3 +113,64 @@ More granular permissions can be granted
 | ↳ "public"      |   ✔                       |   ✔           |   -           |   -              |
 | *Beschreibung*   | betrachten | Metadaten editieren & Filtereinstellungen ändern | - | Zugriffsberechtigungen ändern |
 
+
+## Views
+
+aka "Frontend"
+aka "the Website"
+aka "the Application", since this is how Madek is exposed to the end user.
+
+The following is 1 Chapter per view, with 1 sub-section per action (`index`, `show`, etc for resources and custom ones )
+
+(when in doubt where an URL goes, see [`routes.rb`](http://github.com/zhdk/madek/blob/master/config/routes.rb))
+
+
+### `/` (application#root)
+
+The "home page" (no sub-sections, obviously).
+
+Non-resourceful.
+
+**Content:**
+- Login Form
+
+### `my`
+
+The user's "My Archive" section.
+
+Non-resourceful.
+
+**Content:**
+- Latest (sorted by updated_at)
+    - MediaEntries
+    - Collections
+    - FilterSets
+- LatestImported (sorted by created_at)
+    - MediaEntries
+- Favorite
+    - MediaEntries
+    - Collections
+    - FilterSets
+
+
+
+
+
+
+
+## Glossary
+
+A few terms that are used in this document wich may sound general but
+have actually a very clear distinct technical meaning, thus they are
+defined here for clarity.
+**NOT** a dictionary (use Wikipedia).
+
+# Resource
+
+- distinct kind of thing (noun)
+- *not* the "R" in "REST", but [REST is all about Resources](https://en.wikipedia.org/wiki/Representational_state_transfer#Software_architecture)
+- it's also what ["MVC"](https://en.wikipedia.org/wiki/Model-View-Controller) and ["CRUD"](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) are about: 
+- most standardized part of the app
+    - "resourceful" routes
+    - "resourceful" model/view/controllers
+    

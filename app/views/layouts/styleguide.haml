@@ -1,0 +1,36 @@
+:ruby
+  git_hash = '' # CurrentCommit.get.to_s[0..5] # FIXME: restore this helper
+  full_layout = content_for? :toc
+  content = capture { yield } if block_given?
+
+- content_for(:style_head) do
+  = stylesheet_link_tag 'styleguide', media: 'all'
+
+- content_for(:title_head) do
+  %title= 'Styleguide'
+
+- content_for(:body) do
+  %body.pbl
+    .wrapper
+      - if full_layout
+        %h1.sg-page-title.man
+          %a{href: styleguide_path}= 'Madek UI Elements'
+          %strong{style: 'width:6em;font-size: 0.5em;line-height: 2;'}
+            %a.weak{href: styleguide_path}
+              = git_hash
+
+        .bordered.ui-container.midtone.rounded.table.mbl
+
+          .app-body-sidebar.table-cell.bright.ui-container.bordered-right.rounded-left.table-side
+
+            .ui-container.rounded-left.phm.pvl
+              = content_for :toc if content_for? :toc
+
+          .app-body-content.table-cell.table-substance.ui-container.pvl.pll.prm
+            = content
+
+      - else # unless full_layout -> plain layout
+        = content
+        = content_for(:scripts) if content_for?(:scripts)
+
+= render template: 'layouts/_base'

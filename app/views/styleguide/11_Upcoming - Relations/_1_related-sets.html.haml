@@ -16,33 +16,33 @@
             Ein Set
         .ui-body-title-actions
           %a.button{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-            %i.icon-checkbox.ui-thumbnail-action-checkbox
+            = component('icon.checkbox', 'ui-thumbnail-action-checkbox')
           %a.button{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-            %i.icon-star-empty.ui-thumbnail-action-favorite
+            = component('icon.star-empty', 'ui-thumbnail-action-favorite')
           %span.action-separator
           %a.button{:title => "Nach vergleichbaren Inhalten stöbern"}
-            %i.icon-eye
+            = component('icon.eye')
           %a.button
-            %i.icon-pen
+            = component('icon.pen')
           %a.button{"data-delete-action" => "", :title => "Löschen"}
-            %i.icon-trash
+            = component('icon.trash')
           .dropdown.ui-dropdown.stick-right
             %a#resource-action-button.button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#"}
               Weitere Aktionen
-              %i.icon-arrow-down.stand-alone
+              = component('icon.arrow-down', 'stand-alone')
             %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
               %li.ui-drop-item
                 %a#view_permissions_of_resource
-                  %i.icon-lock.mid
+                  = component('icon.lock', 'mid')
                   Berechtigungen und Verantwortlichkeit editieren
               %li.ui-drop-item
                 %a{"data-organize-arcs" => ""}
-                  %i.icon-move.mid
+                  = component('icon.move', 'mid')
                   Zu Set hinzufügen/entfernen
               %li.separator
               %li.ui-drop-item
                 %a#view_permissions_of_resource
-                  %i.icon-dload.mid
+                  = component('icon.dload', 'mid')
                   Exportieren
               %li.ui-drop-item
                 %a#manage_custom_urls{:title => "Adresse des Inhalts anlegen oder übertragen"}
@@ -62,7 +62,7 @@
                 Das ist ein Beschrieb, damit der Benutzer diese Ansicht besser versteht
             .col2of6
               %a.primary-button.right
-                %i.icon-vis-graph
+                = component('icon.vis-graph')
                 Visualisierung anzeigen
         .ui-container.midtone-darker.bordered-bottom.bordered-top.relationships-wrapper
           #latest_user_resources_block.ui-resources-holder
@@ -78,10 +78,10 @@
                   %ul.ui-resource-actions
                     %li.ui-resource-action
                       %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                        %i.icon-checkbox
+                        = component('icon.checkbox')
                     %li.ui-resource-action
                       %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                        %i.icon-star-empty
+                        = component('icon.star-empty')
                   %h3.ui-resource-title FilterSet including all public accessible resources
                 .ui-resource-body
                   .ui-resource-thumbnail
@@ -95,7 +95,7 @@
                                 %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-1.jpg')}/
                         %span.ui-thumbnail-level-notes 1 sets
                       .ui-thumbnail-privacy
-                        %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                       %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                         .ui-thumbnail-image-holder
                           .ui-thumbnail-table-image-holder
@@ -109,17 +109,17 @@
                         %ul.left.by-left
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                              %i.icon-checkbox
+                              = component('icon.checkbox')
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                              %i.icon-star-empty
+                              = component('icon.star-empty')
                         %ul.right.by-right
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                              %i.icon-pen
+                              = component('icon.pen')
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                              %i.icon-trash
+                              = component('icon.trash')
                       .ui-thumbnail-level-down-items
                         %h3.ui-thumbnail-level-notes Set enthält
                         %ul.ui-thumbnail-level-items
@@ -143,7 +143,7 @@
                             %td.ui-resource-meta-content
                               %ul.ui-tag-cloud.small.ellipsed.compact
                                 %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                  %i.icon-user-mini.ui-tag-icon
+                                  = component('icon.user-mini', 'ui-tag-icon')
                                   Normalo, Normin
                   .ui-resource-description{"data-context" => "second_displayed_context_id"}
                   .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -152,10 +152,10 @@
                   %ul.ui-resource-actions
                     %li.ui-resource-action
                       %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                        %i.icon-checkbox
+                        = component('icon.checkbox')
                     %li.ui-resource-action
                       %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                        %i.icon-star-empty
+                        = component('icon.star-empty')
                   %h3.ui-resource-title FilterSet including all public accessible resources
                 .ui-resource-body
                   .ui-resource-thumbnail
@@ -169,7 +169,7 @@
                                 %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-1.jpg')}/
                         %span.ui-thumbnail-level-notes 1 sets
                       .ui-thumbnail-privacy
-                        %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                       %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                         .ui-thumbnail-image-holder
                           .ui-thumbnail-table-image-holder
@@ -183,17 +183,17 @@
                         %ul.left.by-left
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                              %i.icon-checkbox
+                              = component('icon.checkbox')
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                              %i.icon-star-empty
+                              = component('icon.star-empty')
                         %ul.right.by-right
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                              %i.icon-pen
+                              = component('icon.pen')
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                              %i.icon-trash
+                              = component('icon.trash')
                       .ui-thumbnail-level-down-items
                         %h3.ui-thumbnail-level-notes Set enthält
                         %ul.ui-thumbnail-level-items
@@ -217,7 +217,7 @@
                             %td.ui-resource-meta-content
                               %ul.ui-tag-cloud.small.ellipsed.compact
                                 %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                  %i.icon-user-mini.ui-tag-icon
+                                  = component('icon.user-mini', 'ui-tag-icon')
                                   Normalo, Normin
                   .ui-resource-description{"data-context" => "second_displayed_context_id"}
                   .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -226,10 +226,10 @@
                   %ul.ui-resource-actions
                     %li.ui-resource-action
                       %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                        %i.icon-checkbox
+                        = component('icon.checkbox')
                     %li.ui-resource-action
                       %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                        %i.icon-star-empty
+                        = component('icon.star-empty')
                   %h3.ui-resource-title FilterSet including all public accessible resources
                 .ui-resource-body
                   .ui-resource-thumbnail
@@ -243,7 +243,7 @@
                                 %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-10.jpg')}/
                         %span.ui-thumbnail-level-notes 1 sets
                       .ui-thumbnail-privacy
-                        %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                       %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                         .ui-thumbnail-image-holder
                           .ui-thumbnail-table-image-holder
@@ -257,17 +257,17 @@
                         %ul.left.by-left
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                              %i.icon-checkbox
+                              = component('icon.checkbox')
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                              %i.icon-star-empty
+                              = component('icon.star-empty')
                         %ul.right.by-right
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                              %i.icon-pen
+                              = component('icon.pen')
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                              %i.icon-trash
+                              = component('icon.trash')
                       .ui-thumbnail-level-down-items
                         %h3.ui-thumbnail-level-notes Set enthält
                         %ul.ui-thumbnail-level-items
@@ -291,7 +291,7 @@
                             %td.ui-resource-meta-content
                               %ul.ui-tag-cloud.small.ellipsed.compact
                                 %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                  %i.icon-user-mini.ui-tag-icon
+                                  = component('icon.user-mini', 'ui-tag-icon')
                                   Normalo, Normin
                   .ui-resource-description{"data-context" => "second_displayed_context_id"}
                   .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -308,10 +308,10 @@
                       %ul.ui-resource-actions
                         %li.ui-resource-action
                           %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                            %i.icon-checkbox
+                            = component('icon.checkbox')
                         %li.ui-resource-action
                           %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                            %i.icon-star-empty
+                            = component('icon.star-empty')
                       %h3.ui-resource-title FilterSet including all public accessible resources
                     .ui-resource-body
                       .ui-resource-thumbnail
@@ -325,7 +325,7 @@
                                     %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-2.jpg')}/
                             %span.ui-thumbnail-level-notes 1 sets
                           .ui-thumbnail-privacy
-                            %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                            = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                           %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                             .ui-thumbnail-image-holder
                               .ui-thumbnail-table-image-holder
@@ -339,17 +339,17 @@
                             %ul.left.by-left
                               %li.ui-thumbnail-action
                                 %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                                  %i.icon-checkbox
+                                  = component('icon.checkbox')
                               %li.ui-thumbnail-action
                                 %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                                  %i.icon-star-empty
+                                  = component('icon.star-empty')
                             %ul.right.by-right
                               %li.ui-thumbnail-action
                                 %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                                  %i.icon-pen
+                                  = component('icon.pen')
                               %li.ui-thumbnail-action
                                 %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                                  %i.icon-trash
+                                  = component('icon.trash')
                           .ui-thumbnail-level-down-items
                             %h3.ui-thumbnail-level-notes Set enthält
                             %ul.ui-thumbnail-level-items
@@ -373,7 +373,7 @@
                                 %td.ui-resource-meta-content
                                   %ul.ui-tag-cloud.small.ellipsed.compact
                                     %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                      %i.icon-user-mini.ui-tag-icon
+                                      = component('icon.user-mini', 'ui-tag-icon')
                                       Normalo, Normin
                       .ui-resource-description{"data-context" => "second_displayed_context_id"}
                       .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -391,10 +391,10 @@
                     %ul.ui-resource-actions
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                          %i.icon-checkbox
+                          = component('icon.checkbox')
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                          %i.icon-star-empty
+                          = component('icon.star-empty')
                     %h3.ui-resource-title FilterSet including all public accessible resources
                   .ui-resource-body
                     .ui-resource-thumbnail
@@ -408,7 +408,7 @@
                                   %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-4.jpeg')}/
                           %span.ui-thumbnail-level-notes 1 sets
                         .ui-thumbnail-privacy
-                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                          = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                         %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                           .ui-thumbnail-image-holder
                             .ui-thumbnail-table-image-holder
@@ -422,17 +422,17 @@
                           %ul.left.by-left
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                                %i.icon-checkbox
+                                = component('icon.checkbox')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                                %i.icon-star-empty
+                                = component('icon.star-empty')
                           %ul.right.by-right
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                                %i.icon-pen
+                                = component('icon.pen')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                                %i.icon-trash
+                                = component('icon.trash')
                         .ui-thumbnail-level-down-items
                           %h3.ui-thumbnail-level-notes Set enthält
                           %ul.ui-thumbnail-level-items
@@ -456,7 +456,7 @@
                               %td.ui-resource-meta-content
                                 %ul.ui-tag-cloud.small.ellipsed.compact
                                   %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                    %i.icon-user-mini.ui-tag-icon
+                                    = component('icon.user-mini', 'ui-tag-icon')
                                     Normalo, Normin
                     .ui-resource-description{"data-context" => "second_displayed_context_id"}
                     .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -465,10 +465,10 @@
                     %ul.ui-resource-actions
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                          %i.icon-checkbox
+                          = component('icon.checkbox')
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                          %i.icon-star-empty
+                          = component('icon.star-empty')
                     %h3.ui-resource-title FilterSet including all public accessible resources
                   .ui-resource-body
                     .ui-resource-thumbnail
@@ -482,7 +482,7 @@
                                   %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-4.jpeg')}/
                           %span.ui-thumbnail-level-notes 1 sets
                         .ui-thumbnail-privacy
-                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                          = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                         %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                           .ui-thumbnail-image-holder
                             .ui-thumbnail-table-image-holder
@@ -496,17 +496,17 @@
                           %ul.left.by-left
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                                %i.icon-checkbox
+                                = component('icon.checkbox')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                                %i.icon-star-empty
+                                = component('icon.star-empty')
                           %ul.right.by-right
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                                %i.icon-pen
+                                = component('icon.pen')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                                %i.icon-trash
+                                = component('icon.trash')
                         .ui-thumbnail-level-down-items
                           %h3.ui-thumbnail-level-notes Set enthält
                           %ul.ui-thumbnail-level-items
@@ -530,7 +530,7 @@
                               %td.ui-resource-meta-content
                                 %ul.ui-tag-cloud.small.ellipsed.compact
                                   %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                    %i.icon-user-mini.ui-tag-icon
+                                    = component('icon.user-mini', 'ui-tag-icon')
                                     Normalo, Normin
                     .ui-resource-description{"data-context" => "second_displayed_context_id"}
                     .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -539,10 +539,10 @@
                     %ul.ui-resource-actions
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                          %i.icon-checkbox
+                          = component('icon.checkbox')
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                          %i.icon-star-empty
+                          = component('icon.star-empty')
                     %h3.ui-resource-title FilterSet including all public accessible resources
                   .ui-resource-body
                     .ui-resource-thumbnail
@@ -556,7 +556,7 @@
                                   %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
                           %span.ui-thumbnail-level-notes 1 sets
                         .ui-thumbnail-privacy
-                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                          = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                         %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                           .ui-thumbnail-image-holder
                             .ui-thumbnail-table-image-holder
@@ -570,17 +570,17 @@
                           %ul.left.by-left
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                                %i.icon-checkbox
+                                = component('icon.checkbox')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                                %i.icon-star-empty
+                                = component('icon.star-empty')
                           %ul.right.by-right
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                                %i.icon-pen
+                                = component('icon.pen')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                                %i.icon-trash
+                                = component('icon.trash')
                         .ui-thumbnail-level-down-items
                           %h3.ui-thumbnail-level-notes Set enthält
                           %ul.ui-thumbnail-level-items
@@ -604,7 +604,7 @@
                               %td.ui-resource-meta-content
                                 %ul.ui-tag-cloud.small.ellipsed.compact
                                   %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                    %i.icon-user-mini.ui-tag-icon
+                                    = component('icon.user-mini', 'ui-tag-icon')
                                     Normalo, Normin
                     .ui-resource-description{"data-context" => "second_displayed_context_id"}
                     .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -613,10 +613,10 @@
                     %ul.ui-resource-actions
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                          %i.icon-checkbox
+                          = component('icon.checkbox')
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                          %i.icon-star-empty
+                          = component('icon.star-empty')
                     %h3.ui-resource-title FilterSet including all public accessible resources
                   .ui-resource-body
                     .ui-resource-thumbnail
@@ -630,7 +630,7 @@
                                   %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
                           %span.ui-thumbnail-level-notes 1 sets
                         .ui-thumbnail-privacy
-                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                          = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                         %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                           .ui-thumbnail-image-holder
                             .ui-thumbnail-table-image-holder
@@ -644,17 +644,17 @@
                           %ul.left.by-left
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                                %i.icon-checkbox
+                                = component('icon.checkbox')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                                %i.icon-star-empty
+                                = component('icon.star-empty')
                           %ul.right.by-right
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                                %i.icon-pen
+                                = component('icon.pen')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                                %i.icon-trash
+                                = component('icon.trash')
                         .ui-thumbnail-level-down-items
                           %h3.ui-thumbnail-level-notes Set enthält
                           %ul.ui-thumbnail-level-items
@@ -678,7 +678,7 @@
                               %td.ui-resource-meta-content
                                 %ul.ui-tag-cloud.small.ellipsed.compact
                                   %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                    %i.icon-user-mini.ui-tag-icon
+                                    = component('icon.user-mini', 'ui-tag-icon')
                                     Normalo, Normin
                     .ui-resource-description{"data-context" => "second_displayed_context_id"}
                     .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -687,10 +687,10 @@
                     %ul.ui-resource-actions
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                          %i.icon-checkbox
+                          = component('icon.checkbox')
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                          %i.icon-star-empty
+                          = component('icon.star-empty')
                     %h3.ui-resource-title FilterSet including all public accessible resources
                   .ui-resource-body
                     .ui-resource-thumbnail
@@ -704,7 +704,7 @@
                                   %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-7.jpeg')}/
                           %span.ui-thumbnail-level-notes 1 sets
                         .ui-thumbnail-privacy
-                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                          = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                         %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                           .ui-thumbnail-image-holder
                             .ui-thumbnail-table-image-holder
@@ -718,17 +718,17 @@
                           %ul.left.by-left
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                                %i.icon-checkbox
+                                = component('icon.checkbox')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                                %i.icon-star-empty
+                                = component('icon.star-empty')
                           %ul.right.by-right
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                                %i.icon-pen
+                                = component('icon.pen')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                                %i.icon-trash
+                                = component('icon.trash')
                         .ui-thumbnail-level-down-items
                           %h3.ui-thumbnail-level-notes Set enthält
                           %ul.ui-thumbnail-level-items
@@ -752,7 +752,7 @@
                               %td.ui-resource-meta-content
                                 %ul.ui-tag-cloud.small.ellipsed.compact
                                   %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                    %i.icon-user-mini.ui-tag-icon
+                                    = component('icon.user-mini', 'ui-tag-icon')
                                     Normalo, Normin
                     .ui-resource-description{"data-context" => "second_displayed_context_id"}
                     .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -761,10 +761,10 @@
                     %ul.ui-resource-actions
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                          %i.icon-checkbox
+                          = component('icon.checkbox')
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                          %i.icon-star-empty
+                          = component('icon.star-empty')
                     %h3.ui-resource-title FilterSet including all public accessible resources
                   .ui-resource-body
                     .ui-resource-thumbnail
@@ -778,7 +778,7 @@
                                   %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-8.jpeg')}/
                           %span.ui-thumbnail-level-notes 1 sets
                         .ui-thumbnail-privacy
-                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                          = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                         %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                           .ui-thumbnail-image-holder
                             .ui-thumbnail-table-image-holder
@@ -792,17 +792,17 @@
                           %ul.left.by-left
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                                %i.icon-checkbox
+                                = component('icon.checkbox')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                                %i.icon-star-empty
+                                = component('icon.star-empty')
                           %ul.right.by-right
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                                %i.icon-pen
+                                = component('icon.pen')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                                %i.icon-trash
+                                = component('icon.trash')
                         .ui-thumbnail-level-down-items
                           %h3.ui-thumbnail-level-notes Set enthält
                           %ul.ui-thumbnail-level-items
@@ -826,7 +826,7 @@
                               %td.ui-resource-meta-content
                                 %ul.ui-tag-cloud.small.ellipsed.compact
                                   %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                    %i.icon-user-mini.ui-tag-icon
+                                    = component('icon.user-mini', 'ui-tag-icon')
                                     Normalo, Normin
                     .ui-resource-description{"data-context" => "second_displayed_context_id"}
                     .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -835,10 +835,10 @@
                     %ul.ui-resource-actions
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                          %i.icon-checkbox
+                          = component('icon.checkbox')
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                          %i.icon-star-empty
+                          = component('icon.star-empty')
                     %h3.ui-resource-title FilterSet including all public accessible resources
                   .ui-resource-body
                     .ui-resource-thumbnail
@@ -852,7 +852,7 @@
                                   %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-4.jpeg')}/
                           %span.ui-thumbnail-level-notes 1 sets
                         .ui-thumbnail-privacy
-                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                          = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                         %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                           .ui-thumbnail-image-holder
                             .ui-thumbnail-table-image-holder
@@ -866,17 +866,17 @@
                           %ul.left.by-left
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                                %i.icon-checkbox
+                                = component('icon.checkbox')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                                %i.icon-star-empty
+                                = component('icon.star-empty')
                           %ul.right.by-right
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                                %i.icon-pen
+                                = component('icon.pen')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                                %i.icon-trash
+                                = component('icon.trash')
                         .ui-thumbnail-level-down-items
                           %h3.ui-thumbnail-level-notes Set enthält
                           %ul.ui-thumbnail-level-items
@@ -900,7 +900,7 @@
                               %td.ui-resource-meta-content
                                 %ul.ui-tag-cloud.small.ellipsed.compact
                                   %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                    %i.icon-user-mini.ui-tag-icon
+                                    = component('icon.user-mini', 'ui-tag-icon')
                                     Normalo, Normin
                     .ui-resource-description{"data-context" => "second_displayed_context_id"}
                     .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -909,10 +909,10 @@
                     %ul.ui-resource-actions
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                          %i.icon-checkbox
+                          = component('icon.checkbox')
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                          %i.icon-star-empty
+                          = component('icon.star-empty')
                     %h3.ui-resource-title FilterSet including all public accessible resources
                   .ui-resource-body
                     .ui-resource-thumbnail
@@ -926,7 +926,7 @@
                                   %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-4.jpeg')}/
                           %span.ui-thumbnail-level-notes 1 sets
                         .ui-thumbnail-privacy
-                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                          = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                         %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                           .ui-thumbnail-image-holder
                             .ui-thumbnail-table-image-holder
@@ -940,17 +940,17 @@
                           %ul.left.by-left
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                                %i.icon-checkbox
+                                = component('icon.checkbox')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                                %i.icon-star-empty
+                                = component('icon.star-empty')
                           %ul.right.by-right
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                                %i.icon-pen
+                                = component('icon.pen')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                                %i.icon-trash
+                                = component('icon.trash')
                         .ui-thumbnail-level-down-items
                           %h3.ui-thumbnail-level-notes Set enthält
                           %ul.ui-thumbnail-level-items
@@ -974,7 +974,7 @@
                               %td.ui-resource-meta-content
                                 %ul.ui-tag-cloud.small.ellipsed.compact
                                   %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                    %i.icon-user-mini.ui-tag-icon
+                                    = component('icon.user-mini', 'ui-tag-icon')
                                     Normalo, Normin
                     .ui-resource-description{"data-context" => "second_displayed_context_id"}
                     .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -983,10 +983,10 @@
                     %ul.ui-resource-actions
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                          %i.icon-checkbox
+                          = component('icon.checkbox')
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                          %i.icon-star-empty
+                          = component('icon.star-empty')
                     %h3.ui-resource-title FilterSet including all public accessible resources
                   .ui-resource-body
                     .ui-resource-thumbnail
@@ -1000,7 +1000,7 @@
                                   %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
                           %span.ui-thumbnail-level-notes 1 sets
                         .ui-thumbnail-privacy
-                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                          = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                         %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                           .ui-thumbnail-image-holder
                             .ui-thumbnail-table-image-holder
@@ -1014,17 +1014,17 @@
                           %ul.left.by-left
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                                %i.icon-checkbox
+                                = component('icon.checkbox')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                                %i.icon-star-empty
+                                = component('icon.star-empty')
                           %ul.right.by-right
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                                %i.icon-pen
+                                = component('icon.pen')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                                %i.icon-trash
+                                = component('icon.trash')
                         .ui-thumbnail-level-down-items
                           %h3.ui-thumbnail-level-notes Set enthält
                           %ul.ui-thumbnail-level-items
@@ -1048,7 +1048,7 @@
                               %td.ui-resource-meta-content
                                 %ul.ui-tag-cloud.small.ellipsed.compact
                                   %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                    %i.icon-user-mini.ui-tag-icon
+                                    = component('icon.user-mini', 'ui-tag-icon')
                                     Normalo, Normin
                     .ui-resource-description{"data-context" => "second_displayed_context_id"}
                     .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -1057,10 +1057,10 @@
                     %ul.ui-resource-actions
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                          %i.icon-checkbox
+                          = component('icon.checkbox')
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                          %i.icon-star-empty
+                          = component('icon.star-empty')
                     %h3.ui-resource-title FilterSet including all public accessible resources
                   .ui-resource-body
                     .ui-resource-thumbnail
@@ -1074,7 +1074,7 @@
                                   %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
                           %span.ui-thumbnail-level-notes 1 sets
                         .ui-thumbnail-privacy
-                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                          = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                         %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                           .ui-thumbnail-image-holder
                             .ui-thumbnail-table-image-holder
@@ -1088,17 +1088,17 @@
                           %ul.left.by-left
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                                %i.icon-checkbox
+                                = component('icon.checkbox')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                                %i.icon-star-empty
+                                = component('icon.star-empty')
                           %ul.right.by-right
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                                %i.icon-pen
+                                = component('icon.pen')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                                %i.icon-trash
+                                = component('icon.trash')
                         .ui-thumbnail-level-down-items
                           %h3.ui-thumbnail-level-notes Set enthält
                           %ul.ui-thumbnail-level-items
@@ -1122,7 +1122,7 @@
                               %td.ui-resource-meta-content
                                 %ul.ui-tag-cloud.small.ellipsed.compact
                                   %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                    %i.icon-user-mini.ui-tag-icon
+                                    = component('icon.user-mini', 'ui-tag-icon')
                                     Normalo, Normin
                     .ui-resource-description{"data-context" => "second_displayed_context_id"}
                     .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -1131,10 +1131,10 @@
                     %ul.ui-resource-actions
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                          %i.icon-checkbox
+                          = component('icon.checkbox')
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                          %i.icon-star-empty
+                          = component('icon.star-empty')
                     %h3.ui-resource-title FilterSet including all public accessible resources
                   .ui-resource-body
                     .ui-resource-thumbnail
@@ -1148,7 +1148,7 @@
                                   %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-7.jpeg')}/
                           %span.ui-thumbnail-level-notes 1 sets
                         .ui-thumbnail-privacy
-                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                          = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                         %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                           .ui-thumbnail-image-holder
                             .ui-thumbnail-table-image-holder
@@ -1162,17 +1162,17 @@
                           %ul.left.by-left
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                                %i.icon-checkbox
+                                = component('icon.checkbox')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                                %i.icon-star-empty
+                                = component('icon.star-empty')
                           %ul.right.by-right
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                                %i.icon-pen
+                                = component('icon.pen')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                                %i.icon-trash
+                                = component('icon.trash')
                         .ui-thumbnail-level-down-items
                           %h3.ui-thumbnail-level-notes Set enthält
                           %ul.ui-thumbnail-level-items
@@ -1196,7 +1196,7 @@
                               %td.ui-resource-meta-content
                                 %ul.ui-tag-cloud.small.ellipsed.compact
                                   %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                    %i.icon-user-mini.ui-tag-icon
+                                    = component('icon.user-mini', 'ui-tag-icon')
                                     Normalo, Normin
                     .ui-resource-description{"data-context" => "second_displayed_context_id"}
                     .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -1205,10 +1205,10 @@
                     %ul.ui-resource-actions
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                          %i.icon-checkbox
+                          = component('icon.checkbox')
                       %li.ui-resource-action
                         %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                          %i.icon-star-empty
+                          = component('icon.star-empty')
                     %h3.ui-resource-title FilterSet including all public accessible resources
                   .ui-resource-body
                     .ui-resource-thumbnail
@@ -1222,7 +1222,7 @@
                                   %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-8.jpeg')}/
                           %span.ui-thumbnail-level-notes 1 sets
                         .ui-thumbnail-privacy
-                          %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                          = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                         %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                           .ui-thumbnail-image-holder
                             .ui-thumbnail-table-image-holder
@@ -1236,17 +1236,17 @@
                           %ul.left.by-left
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                                %i.icon-checkbox
+                                = component('icon.checkbox')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                                %i.icon-star-empty
+                                = component('icon.star-empty')
                           %ul.right.by-right
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                                %i.icon-pen
+                                = component('icon.pen')
                             %li.ui-thumbnail-action
                               %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                                %i.icon-trash
+                                = component('icon.trash')
                         .ui-thumbnail-level-down-items
                           %h3.ui-thumbnail-level-notes Set enthält
                           %ul.ui-thumbnail-level-items
@@ -1270,7 +1270,7 @@
                               %td.ui-resource-meta-content
                                 %ul.ui-tag-cloud.small.ellipsed.compact
                                   %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                    %i.icon-user-mini.ui-tag-icon
+                                    = component('icon.user-mini', 'ui-tag-icon')
                                     Normalo, Normin
                     .ui-resource-description{"data-context" => "second_displayed_context_id"}
                     .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -1288,10 +1288,10 @@
                   %ul.ui-resource-actions
                     %li.ui-resource-action
                       %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                        %i.icon-checkbox
+                        = component('icon.checkbox')
                     %li.ui-resource-action
                       %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                        %i.icon-star-empty
+                        = component('icon.star-empty')
                   %h3.ui-resource-title FilterSet including all public accessible resources
                 .ui-resource-body
                   .ui-resource-thumbnail
@@ -1305,7 +1305,7 @@
                                 %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-9.jpg')}/
                         %span.ui-thumbnail-level-notes 1 sets
                       .ui-thumbnail-privacy
-                        %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                       %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                         .ui-thumbnail-image-holder
                           .ui-thumbnail-table-image-holder
@@ -1319,17 +1319,17 @@
                         %ul.left.by-left
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                              %i.icon-checkbox
+                              = component('icon.checkbox')
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                              %i.icon-star-empty
+                              = component('icon.star-empty')
                         %ul.right.by-right
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                              %i.icon-pen
+                              = component('icon.pen')
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                              %i.icon-trash
+                              = component('icon.trash')
                       .ui-thumbnail-level-down-items
                         %h3.ui-thumbnail-level-notes Set enthält
                         %ul.ui-thumbnail-level-items
@@ -1353,7 +1353,7 @@
                             %td.ui-resource-meta-content
                               %ul.ui-tag-cloud.small.ellipsed.compact
                                 %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                  %i.icon-user-mini.ui-tag-icon
+                                  = component('icon.user-mini', 'ui-tag-icon')
                                   Normalo, Normin
                   .ui-resource-description{"data-context" => "second_displayed_context_id"}
                   .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -1362,10 +1362,10 @@
                   %ul.ui-resource-actions
                     %li.ui-resource-action
                       %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                        %i.icon-checkbox
+                        = component('icon.checkbox')
                     %li.ui-resource-action
                       %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                        %i.icon-star-empty
+                        = component('icon.star-empty')
                   %h3.ui-resource-title FilterSet including all public accessible resources
                 .ui-resource-body
                   .ui-resource-thumbnail
@@ -1379,7 +1379,7 @@
                                 %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-7.jpeg')}/
                         %span.ui-thumbnail-level-notes 1 sets
                       .ui-thumbnail-privacy
-                        %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                       %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                         .ui-thumbnail-image-holder
                           .ui-thumbnail-table-image-holder
@@ -1393,17 +1393,17 @@
                         %ul.left.by-left
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                              %i.icon-checkbox
+                              = component('icon.checkbox')
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                              %i.icon-star-empty
+                              = component('icon.star-empty')
                         %ul.right.by-right
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                              %i.icon-pen
+                              = component('icon.pen')
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                              %i.icon-trash
+                              = component('icon.trash')
                       .ui-thumbnail-level-down-items
                         %h3.ui-thumbnail-level-notes Set enthält
                         %ul.ui-thumbnail-level-items
@@ -1427,7 +1427,7 @@
                             %td.ui-resource-meta-content
                               %ul.ui-tag-cloud.small.ellipsed.compact
                                 %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                  %i.icon-user-mini.ui-tag-icon
+                                  = component('icon.user-mini', 'ui-tag-icon')
                                   Normalo, Normin
                   .ui-resource-description{"data-context" => "second_displayed_context_id"}
                   .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -1436,10 +1436,10 @@
                   %ul.ui-resource-actions
                     %li.ui-resource-action
                       %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                        %i.icon-checkbox
+                        = component('icon.checkbox')
                     %li.ui-resource-action
                       %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                        %i.icon-star-empty
+                        = component('icon.star-empty')
                   %h3.ui-resource-title FilterSet including all public accessible resources
                 .ui-resource-body
                   .ui-resource-thumbnail
@@ -1453,7 +1453,7 @@
                                 %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-8.jpeg')}/
                         %span.ui-thumbnail-level-notes 1 sets
                       .ui-thumbnail-privacy
-                        %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                       %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                         .ui-thumbnail-image-holder
                           .ui-thumbnail-table-image-holder
@@ -1467,17 +1467,17 @@
                         %ul.left.by-left
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                              %i.icon-checkbox
+                              = component('icon.checkbox')
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                              %i.icon-star-empty
+                              = component('icon.star-empty')
                         %ul.right.by-right
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                              %i.icon-pen
+                              = component('icon.pen')
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                              %i.icon-trash
+                              = component('icon.trash')
                       .ui-thumbnail-level-down-items
                         %h3.ui-thumbnail-level-notes Set enthält
                         %ul.ui-thumbnail-level-items
@@ -1501,7 +1501,7 @@
                             %td.ui-resource-meta-content
                               %ul.ui-tag-cloud.small.ellipsed.compact
                                 %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                  %i.icon-user-mini.ui-tag-icon
+                                  = component('icon.user-mini', 'ui-tag-icon')
                                   Normalo, Normin
                   .ui-resource-description{"data-context" => "second_displayed_context_id"}
                   .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -1510,10 +1510,10 @@
                   %ul.ui-resource-actions
                     %li.ui-resource-action
                       %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                        %i.icon-checkbox
+                        = component('icon.checkbox')
                     %li.ui-resource-action
                       %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                        %i.icon-star-empty
+                        = component('icon.star-empty')
                   %h3.ui-resource-title FilterSet including all public accessible resources
                 .ui-resource-body
                   .ui-resource-thumbnail
@@ -1527,7 +1527,7 @@
                                 %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-9.jpg')}/
                         %span.ui-thumbnail-level-notes 1 sets
                       .ui-thumbnail-privacy
-                        %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                       %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                         .ui-thumbnail-image-holder
                           .ui-thumbnail-table-image-holder
@@ -1541,17 +1541,17 @@
                         %ul.left.by-left
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                              %i.icon-checkbox
+                              = component('icon.checkbox')
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                              %i.icon-star-empty
+                              = component('icon.star-empty')
                         %ul.right.by-right
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                              %i.icon-pen
+                              = component('icon.pen')
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                              %i.icon-trash
+                              = component('icon.trash')
                       .ui-thumbnail-level-down-items
                         %h3.ui-thumbnail-level-notes Set enthält
                         %ul.ui-thumbnail-level-items
@@ -1575,7 +1575,7 @@
                             %td.ui-resource-meta-content
                               %ul.ui-tag-cloud.small.ellipsed.compact
                                 %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                  %i.icon-user-mini.ui-tag-icon
+                                  = component('icon.user-mini', 'ui-tag-icon')
                                   Normalo, Normin
                   .ui-resource-description{"data-context" => "second_displayed_context_id"}
                   .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -1584,10 +1584,10 @@
                   %ul.ui-resource-actions
                     %li.ui-resource-action
                       %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                        %i.icon-checkbox
+                        = component('icon.checkbox')
                     %li.ui-resource-action
                       %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                        %i.icon-star-empty
+                        = component('icon.star-empty')
                   %h3.ui-resource-title FilterSet including all public accessible resources
                 .ui-resource-body
                   .ui-resource-thumbnail
@@ -1601,7 +1601,7 @@
                                 %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-9.jpg')}/
                         %span.ui-thumbnail-level-notes 1 sets
                       .ui-thumbnail-privacy
-                        %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                       %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                         .ui-thumbnail-image-holder
                           .ui-thumbnail-table-image-holder
@@ -1615,17 +1615,17 @@
                         %ul.left.by-left
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                              %i.icon-checkbox
+                              = component('icon.checkbox')
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                              %i.icon-star-empty
+                              = component('icon.star-empty')
                         %ul.right.by-right
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                              %i.icon-pen
+                              = component('icon.pen')
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                              %i.icon-trash
+                              = component('icon.trash')
                       .ui-thumbnail-level-down-items
                         %h3.ui-thumbnail-level-notes Set enthält
                         %ul.ui-thumbnail-level-items
@@ -1649,7 +1649,7 @@
                             %td.ui-resource-meta-content
                               %ul.ui-tag-cloud.small.ellipsed.compact
                                 %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                  %i.icon-user-mini.ui-tag-icon
+                                  = component('icon.user-mini', 'ui-tag-icon')
                                   Normalo, Normin
                   .ui-resource-description{"data-context" => "second_displayed_context_id"}
                   .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -1658,10 +1658,10 @@
                   %ul.ui-resource-actions
                     %li.ui-resource-action
                       %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                        %i.icon-checkbox
+                        = component('icon.checkbox')
                     %li.ui-resource-action
                       %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                        %i.icon-star-empty
+                        = component('icon.star-empty')
                   %h3.ui-resource-title FilterSet including all public accessible resources
                 .ui-resource-body
                   .ui-resource-thumbnail
@@ -1675,7 +1675,7 @@
                                 %img.ui-thumbnail-level-image{:src => asset_path('styleguide/media-entry-6.jpeg')}/
                         %span.ui-thumbnail-level-notes 1 sets
                       .ui-thumbnail-privacy
-                        %i.icon-privacy-private{:title => "Diese Inhalte sind nur für Sie zugänglich"}
+                        = component('icon.privacy-private', title: 'Diese Inhalte sind nur für Sie zugänglich')
                       %a.ui-thumbnail-image-wrapper{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c"}
                         .ui-thumbnail-image-holder
                           .ui-thumbnail-table-image-holder
@@ -1689,17 +1689,17 @@
                         %ul.left.by-left
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                              %i.icon-checkbox
+                              = component('icon.checkbox')
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-                              %i.icon-star-empty
+                              = component('icon.star-empty')
                         %ul.right.by-right
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-edit{:href => "###media_resources/1717e608-9c99-4ae9-af77-e964b617a00c/edit", :title => "Metadaten editieren"}
-                              %i.icon-pen
+                              = component('icon.pen')
                           %li.ui-thumbnail-action
                             %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                              %i.icon-trash
+                              = component('icon.trash')
                       .ui-thumbnail-level-down-items
                         %h3.ui-thumbnail-level-notes Set enthält
                         %ul.ui-thumbnail-level-items
@@ -1723,7 +1723,7 @@
                             %td.ui-resource-meta-content
                               %ul.ui-tag-cloud.small.ellipsed.compact
                                 %a.ui-tag-button.person-tag{:href => "###media_resources?search=Normalo, Normin"}
-                                  %i.icon-user-mini.ui-tag-icon
+                                  = component('icon.user-mini', 'ui-tag-icon')
                                   Normalo, Normin
                   .ui-resource-description{"data-context" => "second_displayed_context_id"}
                   .ui-resource-extension{"data-context" => "third_displayed_context_id"}

@@ -19,20 +19,20 @@
         %ul.ui-tile__actions.left.by-left
           %li.ui-tile__action
             %a.ui-tile__action-link{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-              %i.icon-checkbox
+              = component('icon.checkbox')
           %li.ui-tile__action
             %a.ui-tile__action-link{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-              %i.icon-star-empty
+              = component('icon.star-empty')
         %ul.ui-tile__actions.right.by-right
           %li.ui-tile__action
             %a.ui-tile__action-link{:title => "Stöbern"}
-              %i.icon-eye
+              = component('icon.eye')
           %li.ui-tile__action
             %a.ui-tile__action-link{:title => "Metadaten editieren"}
-              %i.icon-pen
+              = component('icon.pen')
           %li.ui-tile__action
             %a.ui-tile__action-link{"data-delete-action" => "", :title => "Löschen"}
-              %i.icon-trash
+              = component('icon.trash')
       .ui-tile__body
         %a.ui-tile__thumbnail{:href => "http://example.com"}
           %img.ui-tile__image{:alt => "Media-entry-1", :src => asset_path('styleguide/media-entry-2.jpg')}/
@@ -40,8 +40,8 @@
         %h3.ui-tile__title Name that can easily go onto 2 lines
         %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
         %span.ui-tile__flags
-          %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
-          %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+          = component('icon.privacy-private', mods: 'ui-tile__flag.ui-tile__flag--privac', title: 'This entry is Private')
+          = component('icon.filter', mods: 'ui-tile__flag.ui-tile__flag--typ', title: 'This entry is a Set')
 
   = partial('example') do
     .ui-tile.ui-tile--small.ui-tile--set
@@ -49,20 +49,20 @@
         %ul.ui-tile__actions.left.by-left
           %li.ui-tile__action
             %a.ui-tile__action-link{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-              %i.icon-checkbox
+              = component('icon.checkbox')
           %li.ui-tile__action
             %a.ui-tile__action-link{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-              %i.icon-star-empty
+              = component('icon.star-empty')
         %ul.ui-tile__actions.right.by-right
           %li.ui-tile__action
             %a.ui-tile__action-link{:title => "Stöbern"}
-              %i.icon-eye
+              = component('icon.eye')
           %li.ui-tile__action
             %a.ui-tile__action-link{:title => "Metadaten editieren"}
-              %i.icon-pen
+              = component('icon.pen')
           %li.ui-tile__action
             %a.ui-tile__action-link{"data-delete-action" => "", :title => "Löschen"}
-              %i.icon-trash
+              = component('icon.trash')
       .ui-tile__body
         %a.ui-tile__thumbnail{:href => "http://example.com"}
           %img.ui-tile__image{:alt => "Document.png", :src => "/assets/thumbnails/document.png.png"}/
@@ -70,8 +70,8 @@
         %h3.ui-tile__title Name that can easily go onto 2 lines
         %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
         %span.ui-tile__flags
-          %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
-          %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+          = component('icon.privacy-private', mods: 'ui-tile__flag.ui-tile__flag--privac', title: 'This entry is Private')
+          = component('icon.filter', mods: 'ui-tile__flag.ui-tile__flag--typ', title: 'This entry is a Set')
 
   = partial('example') do
     .ui-tile.ui-tile--large.ui-tile--set
@@ -79,20 +79,20 @@
         %ul.ui-tile__actions.left.by-left
           %li.ui-tile__action
             %a.ui-tile__action-link{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-              %i.icon-checkbox
+              = component('icon.checkbox')
           %li.ui-tile__action
             %a.ui-tile__action-link{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-              %i.icon-star-empty
+              = component('icon.star-empty')
         %ul.ui-tile__actions.right.by-right
           %li.ui-tile__action
             %a.ui-tile__action-link{:title => "Stöbern"}
-              %i.icon-eye
+              = component('icon.eye')
           %li.ui-tile__action
             %a.ui-tile__action-link{:title => "Metadaten editieren"}
-              %i.icon-pen
+              = component('icon.pen')
           %li.ui-tile__action
             %a.ui-tile__action-link{"data-delete-action" => "", :title => "Löschen"}
-              %i.icon-trash
+              = component('icon.trash')
       .ui-tile__body
         %a.ui-tile__thumbnail{:href => "http://example.com"}
           %img.ui-tile__image{:alt => "Media-entry-1", :src => asset_path('styleguide/media-entry-2.jpg')}/
@@ -100,5 +100,5 @@
         %h3.ui-tile__title Name that can easily go onto 2 lines
         %h4.ui-tile__meta Author that can easily go onto 2 lines as asily go onto 2 lines fadoiu sdaifu siadofisdaofu oisaduf osais as well
         %span.ui-tile__flags
-          %i.icon-privacy-private.ui-tile__flag.ui-tile__flag--privacy{:title => "This entry is Private"}
-          %i.icon-filter.ui-tile__flag.ui-tile__flag--type{:title => "This entry is a Set"}
+          = component('icon.privacy-private', mods: 'ui-tile__flag.ui-tile__flag--privac', title: 'This entry is Private')
+          = component('icon.filter', mods: 'ui-tile__flag.ui-tile__flag--typ', title: 'This entry is a Set')

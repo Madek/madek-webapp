@@ -1,0 +1,54 @@
+:ruby
+  header = {
+
+    # responsive brand section on the left
+    # TODO: data from app.config
+    brand: {
+      logo: {
+        alt: 'ZHdK',
+        src: asset_path('logo-zhdk.png')
+      },
+      name: 'Zürcher Hochschule der Künste',
+      instance_name: 'Medienarchiv der Künste',
+      href: '/'
+    },
+
+    # main site menu section, middle
+    menu: component('tabs',
+      id: 'example_tabs',
+      mods: ['primary', 'large'],
+      list: {
+        my: {
+          text: 'Mein Archiv',
+          href: my_dashboard_path,
+          active: link_active?(my_dashboard_path)
+        },
+
+        # TMP: disabled
+        # explore: {
+        #   text: 'Erkunden', href: '#/explore'
+        # },
+        # search: {
+        #   icon: 'icon-lens.bright',
+        #   text: 'Suchen', href: '#/search'
+        # },
+        # help: {
+        #   icon: 'icon-nav-help', href: '#/help'
+        # }
+
+        # TMP: extra
+        dev: {
+          icon: 'icon-bang',
+          text: 'v3',
+          href: 'https://github.com/zhdk/madek/tree/madek-v3#documentation',
+          href_target: '_blank'
+        }
+
+      }
+    ),
+
+    # user/login section, right
+    user: render(current_user ? 'user_menu' : 'login_menu')
+  }
+
+= combo('header', header)

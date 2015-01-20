@@ -2,9 +2,9 @@
 %html
 
   %head
-    %title= "MAdeK Admin"
-    = stylesheet_link_tag "admin"
-    = javascript_include_tag "admin"
+    %title= 'MAdeK Admin'
+    = stylesheet_link_tag 'admin'
+    = javascript_include_tag 'admin'
     = csrf_meta_tag
 
   %body
@@ -12,7 +12,9 @@
       .navbar.navbar-default
         .container-fluid
           .navbar-header
-            %button.navbar-toggle.collapsed{"data-target" => "#main-navbar-collapse", "data-toggle" => "collapse", :type => "button"}
+            %button.navbar-toggle.collapsed{type: 'button',
+                                            data: { toggle: 'collapse',
+                                              target: '#main-navbar-collapse' }}
               %span.sr-only Toggle navigation
               %span.icon-bar
               %span.icon-bar
@@ -22,7 +24,7 @@
           #main-navbar-collapse.navbar-collapse.collapse
             %ul.nav.navbar-nav.navbar-right
               %li.dropdown
-                %a.dropdown-toggle{href: "#", data: {toggle: 'dropdown'}}
+                %a.dropdown-toggle{href: '#', data: { toggle: 'dropdown' }}
                   %i.glyphicon.glyphicon-user
                   User
                   %b.caret

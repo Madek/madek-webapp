@@ -1,9 +1,9 @@
-= form_tag 'session/sign_in' do
+.ui-container.pal
+  = form_tag 'session/sign_in', id: 'login_form' do
+    = label_tag :login
+    = text_field_tag :login
 
-  = label_tag :login
-  = text_field_tag :login
+    = label_tag :password
+    = password_field_tag :password
 
-  = label_tag :password
-  = password_field_tag :password
-
-  = submit_tag 'submit'
+    = submit_tag 'submit'

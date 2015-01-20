@@ -12,17 +12,17 @@
       %ul.left.by-left
         %li.ui-thumbnail-action
           %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-            %i.icon-checkbox
+            = component('icon.checkbox')
         %li.ui-thumbnail-action
           %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zu Favoriten hinzufügen"}
-            %i.icon-star-empty
+            = component('icon.star-empty')
       %ul.right.by-right
         %li.ui-thumbnail-action
           %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
-            %i.icon-eye
+            = component('icon.eye')
         %li.ui-thumbnail-action
           %a.ui-thumbnail-action-edit{:href => "#/edit", :title => "Metadaten editieren"}
-            %i.icon-pen
+            = component('icon.pen')
         %li.ui-thumbnail-action
           %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-            %i.icon-trash
+            = component('icon.trash')

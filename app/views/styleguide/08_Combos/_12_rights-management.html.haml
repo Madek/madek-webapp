@@ -39,7 +39,7 @@
         %table.ui-rights-group.bordered
           %caption
             Gruppen
-            %i.icon-privacy-group
+            = component('icon.privacy-group')
           %tbody
             %tr
               %td.ui-rights-user Interactive Things
@@ -78,14 +78,14 @@
               %td.ui-rights-check
                 %input{:type => "checkbox"}/
         %a.button.small{:href => "#"}
-          %i.icon-plus
+          = component('icon.plus')
           Gruppe hinzufugen
       %h3.title-l.mbs Andere
       .ui-rights-body
         %table.ui-rights-group.bordered
           %caption
             Personen
-            %i.icon-privacy-private-alt
+            = component('icon.privacy-private-alt')
           %tbody
             %tr
               %td.ui-rights-user
@@ -130,13 +130,13 @@
               %td.ui-rights-check
                 %input{:type => "checkbox"}/
         %a.button.small{:href => "#"}
-          %i.icon-plus
+          = component('icon.plus')
           Person hinzufugen
       .ui-rights-body
         %table.ui-rights-group.bordered
           %caption
             Gruppen
-            %i.icon-privacy-group-alt
+            = component('icon.privacy-group-alt')
           %tbody
             %tr
               %td.ui-rights-user Interactive Things
@@ -175,13 +175,13 @@
               %td.ui-rights-check
                 %input{:type => "checkbox"}/
         %a.button.small{:href => "#"}
-          %i.icon-plus
+          = component('icon.plus')
           Gruppe hinzufugen
       .ui-rights-body
         %table.ui-rights-group.bordered
           %caption
             Öffentlichkeit
-            %i.icon-privacy-open
+            = component('icon.privacy-open')
           %tbody
             %tr
               %td.ui-rights-user Öffentlichkeit

@@ -1,0 +1,22 @@
+-# TODO: js!
+  TODO: separators
+  TODO: component
+.dropdown.ui-dropdown{class: classes}
+  %a.dropdown-toggle.ui-drop-toggle{data: { toggle: 'dropdown' }}
+    = text
+    - if defined?(list)
+      = component('icon.arrow-down', 'stand-alone.small')
+
+  - if defined?(list)
+    %ul.dropdown-menu.ui-drop-menu{aria: { labelledby: 'dLabel' }, role: 'menu'}
+
+      - list.each do |content_or_key, item|
+        - if content_or_key.is_a? ActiveSupport::SafeBuffer
+          = content_or_key
+        - else
+          - link = link_from_item(item)
+          - if link
+            %li.ui-drop-item
+              %a.strong{href: item[:href]}
+                = component('icon', item[:icon])
+                = item[:text]

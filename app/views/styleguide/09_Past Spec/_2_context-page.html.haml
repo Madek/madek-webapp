@@ -36,7 +36,7 @@
                 %span.title-s
                   Häufigkeit auswerten
                   %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Content.", "data-placement" => "bottom", :rel => "tooltip"}
-                    %i.icon-question.mid
+                    = component('icon.question', 'mid')
               .ui-terms-filter-slider-holder.ptx
                 .ui-slider
                   %a.ui-slider-handle
@@ -262,16 +262,16 @@
             .ui-toolbar-controls.by-right
               .button-group.tertiary.small.right.mls
                 %a.button.small.ui-toolbar-vis-button{"data-vis-mode" => "miniature", :title => "Miniatur-Ansicht"}
-                  %i.icon-vis-miniature{:title => "Miniatur-Ansicht"}
+                  = component('icon.vis-miniature', title: 'Miniatur-Ansicht')
                 %a.button.small.ui-toolbar-vis-button.active{:title => "Raster-Ansicht"}
-                  %i.icon-vis-grid{:title => "Raster-Ansicht"}
+                  = component('icon.vis-grid', title: 'Raster-Ansicht')
                 %a.button.small.ui-toolbar-vis-button
-                  %i.icon-vis-list{:title => "Listen-Ansicht"}
+                  = component('icon.vis-list', title: 'Listen-Ansicht')
               .dropdown.ui-dropdown.stick-right
                 %a.dropdown-toggle.ui-drop-toggle
                   %span.ui-text
                     Sortieren nach Änderungsdatum
-                  %i.icon-arrow-down.bright.small
+                  = component('icon.arrow-down', 'bright.small')
                 %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
                   %li.ui-drop-item.active{"data-default" => ""}
                     %a
@@ -288,10 +288,10 @@
           .ui-filterbar.separated.ui-container
             .left.col2of6
               %a.button
-                %i.icon-filter.small
+                = component('icon.filter', 'small')
                 Filtern
               %a.mlx.hidden.weak
-                %i.icon-undo
+                = component('icon.undo')
                 Filter zurücksetzen
             .col2of6.by-center
               .button-group
@@ -307,7 +307,7 @@
                   Alle abwählen
                 %span.inactive
                   Alle auswählen
-                %i.icon-checkbox
+                = component('icon.checkbox')
           .ui-resources-holder.pam
             .ui-container.table.auto
               .filter-panel.hidden.ui-side-filter
@@ -335,16 +335,16 @@
                           %ul.ui-resource-actions
                             %li.ui-resource-action
                               %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                                %i.icon-checkbox
+                                = component('icon.checkbox')
                             %li.ui-resource-action
                               %a.ui-thumbnail-action-favorite{:title => "Zur Favoriten hinzufügen/entfernen"}
-                                %i.icon-star-empty
+                                = component('icon.star-empty')
                           %h3.ui-resource-title Oil Rich Niger Delta
                         .ui-resource-body
                           .ui-resource-thumbnail
                             .ui-thumbnail.media-entry.image
                               .ui-thumbnail-privacy
-                                %i.icon-privacy-open{:title => "Diese Inhalte sind öffentlich zugänglich"}
+                                = component('icon.privacy-open', title: 'Diese Inhalte sind öffentlich zugänglich')
                               %a.ui-thumbnail-image-wrapper{:href => "###media_resources/b53cd515-37a7-42b8-b8e1-107a44b50de4"}
                                 .ui-thumbnail-image-holder
                                   .ui-thumbnail-table-image-holder
@@ -358,36 +358,36 @@
                                 %ul.left.by-left
                                   %li.ui-thumbnail-action
                                     %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                                      %i.icon-checkbox
+                                      = component('icon.checkbox')
                                   %li.ui-thumbnail-action
                                     %a.ui-thumbnail-action-favorite{:title => "Zu Favoriten hinzufügen"}
-                                      %i.icon-star-empty
+                                      = component('icon.star-empty')
                                 %ul.right.by-right
                                   %li.ui-thumbnail-action
                                     %a.ui-thumbnail-action-browse{:href => "###media_resources/b53cd515-37a7-42b8-b8e1-107a44b50de4/browse", :title => "Stöbern"}
-                                      %i.icon-eye
+                                      = component('icon.eye')
                                   %li.ui-thumbnail-action
                                     %a.ui-thumbnail-action-edit{:href => "###media_resources/b53cd515-37a7-42b8-b8e1-107a44b50de4/edit", :title => "Metadaten editieren"}
-                                      %i.icon-pen
+                                      = component('icon.pen')
                               .ui-thumbnail-dropdown
                                 .dropdown.ui-dropdown
                                   %a.dropdown-toggle.button.block.ui-drop-toggle{"data-toggle" => "dropdown"} Aktionen
                                   %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
                                     %li.ui-drop-item
                                       %a{:href => "###media_resources/b53cd515-37a7-42b8-b8e1-107a44b50de4/edit", :title => "Metadaten editieren"}
-                                        %i.icon-pen.mid
+                                        = component('icon.pen', 'mid')
                                         Metadaten editieren
                                     %li.ui-drop-item
                                       %a{:href => "###media_entries/b53cd515-37a7-42b8-b8e1-107a44b50de4/browse", :title => "Nach vergleichbaren Inhalten stöbern"}
-                                        %i.icon-eye.mid
+                                        = component('icon.eye', 'mid')
                                         Stöbern
                                     %li.ui-drop-item
                                       %a{:title => "Berechtigungen verwalten"}
-                                        %i.icon-lock.mid
+                                        = component('icon.lock', 'mid')
                                         Berechtigungen
                                     %li.ui-drop-item
                                       %a{"data-organize-arcs" => "", :title => "Zu Set hinzufügen/entfernen"}
-                                        %i.icon-move.mid
+                                        = component('icon.move', 'mid')
                                         Zu Set hinzufügen/entfernen
                           .ui-resource-meta
                             %div{"data-context-id" => ""}
@@ -399,7 +399,7 @@
                                       %ul.ui-tag-cloud.small.ellipsed.compact
                                         %li.ui-tag-cloud-item
                                           %a.ui-tag-button.person-tag{:href => "###media_resources?search=Osodi, George"}
-                                            %i.icon-user-mini.ui-tag-icon
+                                            = component('icon.user-mini', 'ui-tag-icon')
                                             Osodi, George
                                   %tr
                                     %td.ui-resource-meta-label Datierung
@@ -410,11 +410,11 @@
                                       %ul.ui-tag-cloud.small.ellipsed.compact
                                         %li.ui-tag-cloud-item.ellipsed.compact
                                           %a.ui-tag-button{:href => "###media_resources?meta_data[keywords][ids][]=1475"}
-                                            %i.icon-tag-mini.ui-tag-icon
+                                            = component('icon.tag-mini', 'ui-tag-icon')
                                             oil
                                         %li.ui-tag-cloud-item.ellipsed.compact
                                           %a.ui-tag-button{:href => "###media_resources?meta_data[keywords][ids][]=1477"}
-                                            %i.icon-tag-mini.ui-tag-icon
+                                            = component('icon.tag-mini', 'ui-tag-icon')
                                             niger delta
                                   %tr
                                     %td.ui-resource-meta-label Rechte
@@ -424,7 +424,7 @@
                                     %td.ui-resource-meta-content
                                       %ul.ui-tag-cloud.small.ellipsed.compact
                                         %a.ui-tag-button.person-tag{:href => "###media_resources?search=Knacknuss, Karen"}
-                                          %i.icon-user-mini.ui-tag-icon
+                                          = component('icon.user-mini', 'ui-tag-icon')
                                           Knacknuss, Karen
                           .ui-resource-description{"data-context" => "second_displayed_context_id"}
                           .ui-resource-extension{"data-context" => "third_displayed_context_id"}
@@ -433,16 +433,16 @@
                           %ul.ui-resource-actions
                             %li.ui-resource-action
                               %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                                %i.icon-checkbox
+                                = component('icon.checkbox')
                             %li.ui-resource-action
                               %a.ui-thumbnail-action-favorite{:title => "Zur Favoriten hinzufügen/entfernen"}
-                                %i.icon-star-empty
+                                = component('icon.star-empty')
                           %h3.ui-resource-title Diplom
                         .ui-resource-body
                           .ui-resource-thumbnail
                             .ui-thumbnail.media-entry.image
                               .ui-thumbnail-privacy
-                                %i.icon-privacy-open{:title => "Diese Inhalte sind öffentlich zugänglich"}
+                                = component('icon.privacy-open', title: 'Diese Inhalte sind öffentlich zugänglich')
                               %a.ui-thumbnail-image-wrapper{:href => "###media_resources/e5cf6724-c252-40ca-b4b4-6a634ca42c0b"}
                                 .ui-thumbnail-image-holder
                                   .ui-thumbnail-table-image-holder
@@ -456,36 +456,36 @@
                                 %ul.left.by-left
                                   %li.ui-thumbnail-action
                                     %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                                      %i.icon-checkbox
+                                      = component('icon.checkbox')
                                   %li.ui-thumbnail-action
                                     %a.ui-thumbnail-action-favorite{:title => "Zu Favoriten hinzufügen"}
-                                      %i.icon-star-empty
+                                      = component('icon.star-empty')
                                 %ul.right.by-right
                                   %li.ui-thumbnail-action
                                     %a.ui-thumbnail-action-browse{:href => "###media_resources/e5cf6724-c252-40ca-b4b4-6a634ca42c0b/browse", :title => "Stöbern"}
-                                      %i.icon-eye
+                                      = component('icon.eye')
                                   %li.ui-thumbnail-action
                                     %a.ui-thumbnail-action-edit{:href => "###media_resources/e5cf6724-c252-40ca-b4b4-6a634ca42c0b/edit", :title => "Metadaten editieren"}
-                                      %i.icon-pen
+                                      = component('icon.pen')
                               .ui-thumbnail-dropdown
                                 .dropdown.ui-dropdown
                                   %a.dropdown-toggle.button.block.ui-drop-toggle{"data-toggle" => "dropdown"} Aktionen
                                   %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
                                     %li.ui-drop-item
                                       %a{:href => "###media_resources/e5cf6724-c252-40ca-b4b4-6a634ca42c0b/edit", :title => "Metadaten editieren"}
-                                        %i.icon-pen.mid
+                                        = component('icon.pen', 'mid')
                                         Metadaten editieren
                                     %li.ui-drop-item
                                       %a{:href => "###media_entries/e5cf6724-c252-40ca-b4b4-6a634ca42c0b/browse", :title => "Nach vergleichbaren Inhalten stöbern"}
-                                        %i.icon-eye.mid
+                                        = component('icon.eye', 'mid')
                                         Stöbern
                                     %li.ui-drop-item
                                       %a{"data-manageable" => "true", "data-media-resource-id" => "e5cf6724-c252-40ca-b4b4-6a634ca42c0b", "data-open-permissions" => "", "data-title" => "Diplom", :title => "Berechtigungen verwalten"}
-                                        %i.icon-lock.mid
+                                        = component('icon.lock', 'mid')
                                         Berechtigungen
                                     %li.ui-drop-item
                                       %a{"data-organize-arcs" => "", :title => "Zu Set hinzufügen/entfernen"}
-                                        %i.icon-move.mid
+                                        = component('icon.move', 'mid')
                                         Zu Set hinzufügen/entfernen
                           .ui-resource-meta
                             %div{"data-context-id" => ""}
@@ -497,11 +497,11 @@
                                       %ul.ui-tag-cloud.small.ellipsed.compact
                                         %li.ui-tag-cloud-item
                                           %a.ui-tag-button.person-tag{:href => "###media_resources?search=Bangerter, Andrea"}
-                                            %i.icon-user-mini.ui-tag-icon
+                                            = component('icon.user-mini', 'ui-tag-icon')
                                             Bangerter, Andrea
                                         %li.ui-tag-cloud-item
                                           %a.ui-tag-button.person-tag{:href => "###media_resources?search=Thal, Andrea"}
-                                            %i.icon-user-mini.ui-tag-icon
+                                            = component('icon.user-mini', 'ui-tag-icon')
                                             Thal, Andrea
                                   %tr
                                     %td.ui-resource-meta-label Datierung
@@ -512,43 +512,43 @@
                                       %ul.ui-tag-cloud.small.ellipsed.compact
                                         %li.ui-tag-cloud-item.ellipsed.compact
                                           %a.ui-tag-button{:href => "###media_resources?meta_data[keywords][ids][]=4608"}
-                                            %i.icon-tag-mini.ui-tag-icon
+                                            = component('icon.tag-mini', 'ui-tag-icon')
                                             Freizeit
                                         %li.ui-tag-cloud-item.ellipsed.compact
                                           %a.ui-tag-button{:href => "###media_resources?meta_data[keywords][ids][]=4607"}
-                                            %i.icon-tag-mini.ui-tag-icon
+                                            = component('icon.tag-mini', 'ui-tag-icon')
                                             Mode
                                         %li.ui-tag-cloud-item.ellipsed.compact
                                           %a.ui-tag-button{:href => "###media_resources?meta_data[keywords][ids][]=4606"}
-                                            %i.icon-tag-mini.ui-tag-icon
+                                            = component('icon.tag-mini', 'ui-tag-icon')
                                             Outdoor
                                         %li.ui-tag-cloud-item.ellipsed.compact
                                           %a.ui-tag-button{:href => "###media_resources?meta_data[keywords][ids][]=4605"}
-                                            %i.icon-tag-mini.ui-tag-icon
+                                            = component('icon.tag-mini', 'ui-tag-icon')
                                             Sportbekleidung
                                         %li.ui-tag-cloud-item.ellipsed.compact
                                           %a.ui-tag-button{:href => "###media_resources?meta_data[keywords][ids][]=4604"}
-                                            %i.icon-tag-mini.ui-tag-icon
+                                            = component('icon.tag-mini', 'ui-tag-icon')
                                             Sport
                                         %li.ui-tag-cloud-item.ellipsed.compact
                                           %a.ui-tag-button{:href => "###media_resources?meta_data[keywords][ids][]=405"}
-                                            %i.icon-tag-mini.ui-tag-icon
+                                            = component('icon.tag-mini', 'ui-tag-icon')
                                             Diplomarbeit
                                         %li.ui-tag-cloud-item.ellipsed.compact
                                           %a.ui-tag-button{:href => "###media_resources?meta_data[keywords][ids][]=76"}
-                                            %i.icon-tag-mini.ui-tag-icon
+                                            = component('icon.tag-mini', 'ui-tag-icon')
                                             Fotografie
                                         %li.ui-tag-cloud-item.ellipsed.compact
                                           %a.ui-tag-button{:href => "###media_resources?meta_data[keywords][ids][]=1353"}
-                                            %i.icon-tag-mini.ui-tag-icon
+                                            = component('icon.tag-mini', 'ui-tag-icon')
                                             Natur
                                         %li.ui-tag-cloud-item.ellipsed.compact
                                           %a.ui-tag-button{:href => "###media_resources?meta_data[keywords][ids][]=447"}
-                                            %i.icon-tag-mini.ui-tag-icon
+                                            = component('icon.tag-mini', 'ui-tag-icon')
                                             Landschaft
                                         %li.ui-tag-cloud-item.ellipsed.compact
                                           %a.ui-tag-button{:href => "###media_resources?meta_data[keywords][ids][]=2665"}
-                                            %i.icon-tag-mini.ui-tag-icon
+                                            = component('icon.tag-mini', 'ui-tag-icon')
                                             Inszenierung
                                   %tr
                                     %td.ui-resource-meta-label Rechte
@@ -558,7 +558,7 @@
                                     %td.ui-resource-meta-content
                                       %ul.ui-tag-cloud.small.ellipsed.compact
                                         %a.ui-tag-button.person-tag{:href => "###media_resources?search=Knacknuss, Karen"}
-                                          %i.icon-user-mini.ui-tag-icon
+                                          = component('icon.user-mini', 'ui-tag-icon')
                                           Knacknuss, Karen
                           .ui-resource-description{"data-context" => "second_displayed_context_id"}
                           .ui-resource-extension{"data-context" => "third_displayed_context_id"}

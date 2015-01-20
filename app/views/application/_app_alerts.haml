@@ -1,0 +1,19 @@
+:ruby
+  # use flashHash for `alerts`, if not given in locals
+  alerts ||= flash.to_hash
+
+  def alert_level_class(level)
+    level_map = { notice: 'confirmation' } # alert, success, warning = same
+    level_map[level.to_sym] || level
+  end
+
+
+
+#app-alerts.ui-alerts.mtm.mhm
+  - unless alerts.blank?
+    - alerts.each do |level, message|
+      .ui-alert{class: alert_level_class(level)}
+        = message
+
+  -# alerts from child views:
+  = content_for(:app_alerts)

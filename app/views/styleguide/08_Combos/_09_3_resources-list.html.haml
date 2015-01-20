@@ -20,10 +20,10 @@
             %ul.ui-resource-actions
               %li.ui-resource-action
                 %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                  %i.icon-checkbox
+                  = component('icon.checkbox')
               %li.ui-resource-action
                 %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                  %i.icon-star-empty
+                  = component('icon.star-empty')
             %h3.ui-resource-title FilterSet including all public accessible resources
           .ui-resource-body
             .ui-resource-thumbnail
@@ -41,7 +41,7 @@
                           %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpeg')}/
                   %span.ui-thumbnail-level-notes 5 Inhalte
                 .ui-thumbnail-privacy
-                  %i.icon-privacy-group{:title => "This media is shared with a group"}
+                  = component('icon.privacy-group', title: 'This media is shared with a group')
                 %a.ui-thumbnail-image-wrapper
                   .ui-thumbnail-image-holder
                     .ui-thumbnail-table-image-holder
@@ -55,20 +55,20 @@
                   %ul.left.by-left
                     %li.ui-thumbnail-action
                       %a.ui-thumbnail-action-checkbox.active{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                        %i.icon-checkbox
+                        = component('icon.checkbox')
                     %li.ui-thumbnail-action
                       %a.active.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                        %i.icon-star-empty
+                        = component('icon.star-empty')
                   %ul.right.by-right
                     %li.ui-thumbnail-action
                       %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
-                        %i.icon-eye
+                        = component('icon.eye')
                     %li.ui-thumbnail-action
                       %a.ui-thumbnail-action-edit{:href => "#", :title => "Metadaten editieren"}
-                        %i.icon-pen
+                        = component('icon.pen')
                     %li.ui-thumbnail-action
                       %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                        %i.icon-trash
+                        = component('icon.trash')
                 .ui-thumbnail-dropdown
                   .dropdown.ui-dropdown
                     %a.dropdown-toggle.ui-drop-toggle.button.block{"data-toggle" => "dropdown", :href => "#"} Aktionen
@@ -172,16 +172,16 @@
             %ul.ui-resource-actions
               %li.ui-resource-action
                 %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                  %i.icon-checkbox
+                  = component('icon.checkbox')
               %li.ui-resource-action
                 %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                  %i.icon-star-empty
+                  = component('icon.star-empty')
             %h3.ui-resource-title FilterSet including all public accessible resources
           .ui-resource-body
             .ui-resource-thumbnail
               .ui-thumbnail.media-entry.video
                 .ui-thumbnail-privacy
-                  %i.icon-privacy-private{:title => "This media is private"}
+                  = component('icon.privacy-private', title: 'This media is private')
                 %a.ui-thumbnail-image-wrapper
                   .ui-thumbnail-image-holder
                     .ui-thumbnail-table-image-holder
@@ -195,20 +195,20 @@
                   %ul.left.by-left
                     %li.ui-thumbnail-action
                       %a.ui-thumbnail-action-checkbox.active{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                        %i.icon-checkbox
+                        = component('icon.checkbox')
                     %li.ui-thumbnail-action
                       %a.active.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                        %i.icon-star-empty
+                        = component('icon.star-empty')
                   %ul.right.by-right
                     %li.ui-thumbnail-action
                       %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
-                        %i.icon-eye
+                        = component('icon.eye')
                     %li.ui-thumbnail-action
                       %a.ui-thumbnail-action-edit{:href => "#", :title => "Metadaten editieren"}
-                        %i.icon-pen
+                        = component('icon.pen')
                     %li.ui-thumbnail-action
                       %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                        %i.icon-trash
+                        = component('icon.trash')
                 .ui-thumbnail-dropdown
                   .dropdown.ui-dropdown
                     %a.dropdown-toggle.ui-drop-toggle.button.block{"data-toggle" => "dropdown", :href => "#"} Aktionen
@@ -300,16 +300,16 @@
             %ul.ui-resource-actions
               %li.ui-resource-action
                 %a.ui-thumbnail-action-checkbox{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                  %i.icon-checkbox
+                  = component('icon.checkbox')
               %li.ui-resource-action
                 %a.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                  %i.icon-star-empty
+                  = component('icon.star-empty')
             %h3.ui-resource-title FilterSet including all public accessible resources
           .ui-resource-body
             .ui-resource-thumbnail
               .ui-thumbnail.media-entry.image
                 .ui-thumbnail-privacy
-                  %i.icon-privacy-open{:title => "This media is Public"}
+                  = component('icon.privacy-open', title: 'This media is Public')
                 %a.ui-thumbnail-image-wrapper
                   .ui-thumbnail-image-holder
                     .ui-thumbnail-table-image-holder
@@ -323,20 +323,20 @@
                   %ul.left.by-left
                     %li.ui-thumbnail-action
                       %a.ui-thumbnail-action-checkbox.active{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                        %i.icon-checkbox
+                        = component('icon.checkbox')
                     %li.ui-thumbnail-action
                       %a.active.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                        %i.icon-star-empty
+                        = component('icon.star-empty')
                   %ul.right.by-right
                     %li.ui-thumbnail-action
                       %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
-                        %i.icon-eye
+                        = component('icon.eye')
                     %li.ui-thumbnail-action
                       %a.ui-thumbnail-action-edit{:href => "#", :title => "Metadaten editieren"}
-                        %i.icon-pen
+                        = component('icon.pen')
                     %li.ui-thumbnail-action
                       %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                        %i.icon-trash
+                        = component('icon.trash')
                 .ui-thumbnail-dropdown
                   .dropdown.ui-dropdown
                     %a.dropdown-toggle.ui-drop-toggle.button.block{"data-toggle" => "dropdown", :href => "#"} Aktionen

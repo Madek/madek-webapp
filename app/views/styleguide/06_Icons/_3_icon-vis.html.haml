@@ -16,9 +16,9 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
-      %i.icon-vis-list{class: name}
-      %i.icon-vis-graph{class: name}
-      %i.icon-vis-miniature{class: name}
-      %i.icon-vis-grid{class: name}
-      %i.icon-vis-pins{class: name}
+      = component('icon.vis-list', name)
+      = component('icon.vis-graph', name)
+      = component('icon.vis-miniature', name)
+      = component('icon.vis-grid', name)
+      = component('icon.vis-pins', name)
 
