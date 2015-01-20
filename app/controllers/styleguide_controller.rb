@@ -3,27 +3,34 @@ class StyleguideController < ActionController::Base
 
   include LivingStyleguide # builds tree from static files (table of contents)
 
+  before_action :set_sections
+
   def index
-    @sections = build_styleguide_tree
   end
 
   def show
-    @sections = build_styleguide_tree
     @section = find_section_by_param(@sections, :section)
   end
 
   def element # single element view, mostly needed for testing
-    @sections = build_styleguide_tree
     @section = find_section_by_param(@sections, :section)
-    return if @section.nil? || @section[:elements].nil? # no info pages needed
-    @element = @section[:elements].find { |e| e[:name] == params[:element] }
+    return if @section[:elements].nil?
+    @element = find_element_by_param(@section[:elements], :element)
   end
 
   private
 
+  def set_sections
+    @sections = build_styleguide_tree
+  end
+
   # helpers:
   def find_section_by_param(sections, param)
     sections.find { |s| s[:name] == params[param] }
+  end
+
+  def find_element_by_param(elements, param)
+    elements.find { |e| e[:name] == params[param] }
   end
 
 end
