@@ -1,5 +1,5 @@
 module Concerns
-  module Permissions
+  module PermissionsAssociations
     extend ActiveSupport::Concern
 
     included do

@@ -3,7 +3,7 @@ class MediaEntry < ActiveRecord::Base
   include Concerns::Entrust
   include Concerns::Favoritable
   include Concerns::EditSessions
-  include Concerns::Permissions
+  include Concerns::PermissionsAssociations
   include Concerns::Users::Responsible
   include Concerns::Users::Creator
   include Concerns::Keywords
