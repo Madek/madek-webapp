@@ -2,8 +2,11 @@ class MediaEntry < ActiveRecord::Base
 
   include Concerns::Entrust
   include Concerns::Favoritable
-  include Concerns::Associations
-  include Concerns::Scopes
+  include Concerns::EditSessions
+  include Concerns::Permissions
+  include Concerns::Users::Responsible
+  include Concerns::Users::Creator
+  include Concerns::Keywords
 
   has_one :media_file, dependent: :destroy
 
@@ -11,10 +14,4 @@ class MediaEntry < ActiveRecord::Base
   has_many :collections, through: :collection_media_entry_arcs
 
   default_scope { reorder(:created_at, :id) }
-
-  has_and_belongs_to_many :users_who_favored,
-                          join_table: 'favorite_media_entries',
-                          class_name: 'User'
-
-  validates_presence_of :responsible_user, :creator
 end

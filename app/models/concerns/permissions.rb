@@ -1,0 +1,13 @@
+module Concerns
+  module Permissions
+    extend ActiveSupport::Concern
+
+    included do
+      %w(api_client group user).each do |assoc_name|
+        has_many \
+          "#{assoc_name}_permissions".to_sym,
+          class_name: "Permissions::#{name}#{assoc_name.camelize}Permission"
+      end
+    end
+  end
+end
