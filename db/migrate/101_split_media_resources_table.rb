@@ -17,6 +17,18 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
     reversible { |d|d.up { set_timestamps_defaults :media_entries } }
 
     ### create a media_entry for each media_resource of type MediaEntry #########
+     
+    reversible do |dir|
+      dir.up do
+        ::MigrationMediaResource.where(type: 'MediaEntryIncomplete') \
+          .find_each do |mre|
+          mme = ::MigrationMediaEntry.create! id: mre.id,
+            created_at: mre.created_at,
+            updated_at: mre.updated_at
+          mme.update_column(:type, 'MediaEntryIncomplete')
+        end
+      end
+    end
 
     reversible do |dir|
       dir.up do
@@ -27,6 +39,7 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
         end
       end
     end
+
 
     ### repoint the media_entry_id of media_file ##############################
     # we just need to recreate the key
@@ -146,7 +159,7 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
     reversible do |dir|
       dir.up do
         MigrationMediaResourceArc.find_each do |arc|
-          if arc.child.type == 'MediaEntry' and arc.parent.type == 'MediaSet'
+          if %w(MediaEntry MediaEntryIncomplete).include?(arc.child.type) and arc.parent.type == 'MediaSet'
             MigrationEntrySetArc.create! collection_id: arc.parent_id,
                                          media_entry_id: arc.child_id,
                                          highlight: arc.highlight,
