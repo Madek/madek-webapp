@@ -19,7 +19,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :password_digest
 
       t.uuid :person_id, null: false
-      t.index :person_id, unique: true
+      # t.index :person_id, unique: true
 
       t.integer :zhdkid
       t.index :zhdkid, unique: true
