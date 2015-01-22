@@ -27,6 +27,10 @@ RSpec.configure do |config|
 
   Capybara.current_driver = :selenium
 
+  if ENV['FIREFOX_ESR_PATH'].present?
+    Selenium::WebDriver::Firefox.path = ENV['FIREFOX_ESR_PATH']
+  end
+
   def set_browser(example)
     case example.metadata[:browser]
     when :chrome
