@@ -1,0 +1,4 @@
+- if defined?(list) && list.is_a?(Enumerable) && !list.empty?
+  .button-group{class: classes}
+    - list.each do |btn|
+      = component('button', btn)

@@ -1,20 +1,44 @@
+-# TODO: js
+
 :ruby
   element = {
     name: 'Resources header',
     cssSelector: '.ui-resources-header',
     cssFile: '_ui-resources-head.scss',
-    section: '7.5'
+    section: '7.5',
+    # example
+    locals: {
+      title: 'A filter',
+      filter_bar: combo('button-group', {
+        mods: 'small',
+        list: [
+          {
+            text: 'Alle',
+            active: true,
+            hook: 'all'
+          },
+          {
+            text: 'Medienträge',
+            hook: 'entries'
+          },
+          {
+            text: 'Sets',
+            hook: 'collections'
+          },
+        ]
+      }),
+      link: {
+        text: 'Alle anzeigen',
+        href: '#'
+      },
+      text: 'Curabitur vulputate, ligula lacinia scelerisque tempor, lacus
+              lacus ornare ante, ac egestas est urna sit amet arcu.
+              Class aptent taciti sociosqu ad litora torquent per conubia
+              nostra, per inceptos himenaeos.'
+    }
   }
 
-= partial('element', element) do
+= partial('element', element) do |example|
   = partial('example') do
-    .ui-resources-header
-      %h2.title-l.ui-resources-title
-        A filter
-      .button-group.small
-        %button.button.active Alle
-        %button.button Medienträge
-        %button.button Sets
-      %a.strong{:href => "#"} Alle anzeigen
-      %p.paragraph-l.ui-resources-intro
-        Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet arcu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+
+    = combo('resources-header', example[:locals])

@@ -1,0 +1,14 @@
+:ruby
+  text ||= nil
+  actions ||= nil
+
+.ui-body-title
+
+  .ui-body-title-label
+    %h1.title-xl
+      = text
+
+  - if actions && actions.is_a?(Enumerable)
+    .ui-body-title-actions
+      - actions.each do |btn|
+        = btn

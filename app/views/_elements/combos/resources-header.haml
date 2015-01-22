@@ -1,0 +1,18 @@
+:ruby
+  filter_bar ||= nil
+  text ||= nil
+  text = nil if text && text.empty?
+
+.ui-resources-header
+
+  %h2.title-l.ui-resources-title
+    = title
+
+  = filter_bar
+
+  - if link
+    %a.strong{:href => link[:href]}= link[:text]
+
+  - if text
+    %p.paragraph-l.ui-resources-intro
+      = text

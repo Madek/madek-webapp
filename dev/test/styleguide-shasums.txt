@@ -29,7 +29,7 @@ cfcea96bb0e99102fe232b9f9175e96faa049063 ?tmp/styleguide-ref/Combos/toolbar.png
 e44c64e52d453222f424f6223b205d547957387c ?tmp/styleguide-ref/Combos/workgroups.png
 be320998a04da8ba6006bda5fc534d3da3fb0630 ?tmp/styleguide-ref/Components/actions.png
 d4c730b43254b80db27f230e23028c70718bfcfc ?tmp/styleguide-ref/Components/alerts.png
-1b97ccc6b3f47b09094b43aaa4edf098120bda43 ?tmp/styleguide-ref/Components/body_title.png
+1b97ccc6b3f47b09094b43aaa4edf098120bda43 ?tmp/styleguide-ref/Components/page_header.png
 0a5238a6a6da6f68a7f9fd542823df029ef462ee ?tmp/styleguide-ref/Components/containers.png
 9e20f5356df46e656333dd7da8eea6ac594b870e ?tmp/styleguide-ref/Components/contexts.png
 f392f4f62ba99f187595074d008ba40d1bc5d089 ?tmp/styleguide-ref/Components/counter.png

@@ -1,0 +1,20 @@
+:ruby
+  element = {
+    name: 'Page header',
+    cssSelector: '.ui-body-title',
+    cssFile: '_ui-body-title.scss',
+    section: '7.6',
+    # example
+    locals: {
+      text: 'Page header that could possibly go onto two lines but will not because of the overlay.',
+      actions: [
+        component('button.primary', {text: 'Primary button', href: '#'}),
+        component('button', {text: 'Secondary button', href: '#'})
+      ]
+    }
+  }
+
+= partial('element', element) do |example|
+  = partial('example') do
+
+    = component('page-header', example[:locals])

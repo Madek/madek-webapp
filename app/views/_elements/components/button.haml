@@ -1,4 +1,5 @@
 :ruby
+  text ||= nil
   html_tag = link ? 'a' : 'button'
   button_class = \
     case
@@ -7,7 +8,16 @@
     else 'button'
     end
   classes.delete(button_class)
-  classes.push(button_class) if button_class
 
-- haml_tag(html_tag, { class: classes }.merge(link.to_h)) do
+  classes.push(button_class) if button_class
+  classes.push('active') if defined?(active) && active == true
+
+  props = {
+    class: classes,
+    data: { hook: defined?(hook) ? hook : nil }
+  }.merge(link.to_h)
+
+
+- haml_tag(html_tag, props) do
+  = text
   = block_content if defined?(block_content)
