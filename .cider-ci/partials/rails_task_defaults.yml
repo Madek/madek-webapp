@@ -6,7 +6,7 @@ task_defaults:
     rbenv: true
     ruby: true
     nodejs: true
-    pg93: true
+    postgresql: true
 
   environment_variables:
     RAILS_ENV: test
