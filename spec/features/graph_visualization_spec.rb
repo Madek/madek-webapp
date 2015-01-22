@@ -32,6 +32,7 @@ feature 'Visualization / Graph' do
     clean_up_visualizations
     expect_browser
     visit '/visualization/my_media_resources#test_noupdate_positions'
+    sleep 3
     expect_running_visualization_test
     expect(page).to have_css('#loading')
     wait_for_graph

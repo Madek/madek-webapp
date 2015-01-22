@@ -1,17 +1,12 @@
 executions:
 
-  Tests:
+  Tests: 
     default: true
-    specification:
-      _cider-ci_include: /cider-ci/test_spec.yml
-    description: >
-      Runs all tests. 
-      Includes the specification from the file `./cider-ci/test_spec.yml`.
+    specification: 
+      _cider-ci_include: /.cider-ci/test_spec.yml
 
-  Coverage:
-    default: false
-    specification:
-      _cider-ci_include: /cider-ci/coverage_spec.yml
-    description: >
-      Coverage computation. Needs to be run afer "Tests" is finished!
-      Includes the specification from the file `./cider-ci/coverage_spec.yml`.
+  Coverage: 
+    specification: 
+      _cider-ci_include: /.cider-ci/coverage_spec.yml
+
+

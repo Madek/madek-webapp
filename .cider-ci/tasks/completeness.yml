@@ -1,0 +1,10 @@
+tasks:
+
+  rspec_coverage:
+    name: Check all rspec specs are covered
+    scripts:
+      main: 
+        body: bundle exec cider-ci_rspec-support check spec/
+
+
+

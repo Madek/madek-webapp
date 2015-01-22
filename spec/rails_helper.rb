@@ -66,6 +66,10 @@ RSpec.configure do |config|
     Capybara::Poltergeist::Driver.new(app, :inspector => true)
   end
 
+  if ENV['FIREFOX_ESR_PATH'].present? 
+    Selenium::WebDriver::Firefox.path = ENV['FIREFOX_ESR_PATH']
+  end
+
   Capybara.current_driver = :selenium
   Capybara.default_wait_time = 5
 

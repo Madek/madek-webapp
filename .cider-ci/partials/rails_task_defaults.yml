@@ -1,0 +1,51 @@
+task_defaults:
+
+  traits:
+    imagemagick: true
+    libimage-exiftool-perl: true
+    rbenv: true
+    ruby: true
+    nodejs: true
+    postgresql: true
+
+  environment_variables:
+    RAILS_ENV: test
+
+  trial_attachments:
+    logs: 
+      glob: 'log/*.log'
+      content-type: text/plain
+    coverage_resultset:
+      glob: 'coverage/.resultset.json'
+      content-type: application/json
+    coverage_last_run:
+      glob: 'coverage/.last_run.json'
+      content-type: application/json
+
+
+  scripts:
+
+    bundle: 
+      timeout: 500
+      order: 1
+      body: bundle
+
+    configer_db:
+      order: 2
+      body: .cider-ci/bin/create_db_config_file.rb
+
+    setup_database:
+      order: 3
+      body: bundle exec rake db:reset 
+
+    setup_madek:
+      order: 4
+      body: bundle exec rake madek:setup:dirs 
+
+    main: 
+      order: 6
+
+    drop_test_db: 
+      order: 8
+      type: post_process
+      body: bundle exec rake db:drop

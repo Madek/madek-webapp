@@ -1,0 +1,39 @@
+name: Madek Tests
+
+task_defaults:
+  eager_trials: 1
+  auto_trials: 2
+  traits:
+    linux: true
+  environment_variables:
+    LANG: "en_US.UTF-8"
+
+subcontexts:
+
+- name: Meta
+  _cider-ci_include: /.cider-ci/tasks/meta.yml
+
+
+- name: Rails
+  _cider-ci_include: /.cider-ci/partials/rails_task_defaults.yml
+
+  subcontexts:
+
+  - name: Rspec coverage
+    _cider-ci_include: /.cider-ci/tasks/completeness.yml
+
+  - name: Standard
+    task_defaults:
+      scripts:
+        main:
+          order: 5
+    tasks:
+      _cider-ci_include: /.cider-ci/tasks/rspec-tasks.yml
+
+  - name: Integration
+
+    _cider-ci_include: /.cider-ci/partials/rails_integration_task_defaults.yml
+
+    tasks:
+      _cider-ci_include: /.cider-ci/tasks/rspec-feature-tasks.yml
+
