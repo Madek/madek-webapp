@@ -139,46 +139,6 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/models/relations/resource_media_entry_arc_spec.rb"
-"./spec/models/shared/created_by_user_spec.rb":
-  name: it provides scope created by user
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/models/shared/created_by_user_spec.rb"
-"./spec/models/shared/destroy_ineffective_permissions_spec.rb":
-  name: it destroys ineffective permissions
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/models/shared/destroy_ineffective_permissions_spec.rb"
-"./spec/models/shared/edit_sessions_spec.rb":
-  name: has edit sessions
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/models/shared/edit_sessions_spec.rb"
-"./spec/models/shared/entrusted_to_user_spec.rb":
-  name: it provides scope entrusted to user
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/models/shared/entrusted_to_user_spec.rb"
-"./spec/models/shared/favored_by_user_spec.rb":
-  name: it provides scope favored by user
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/models/shared/favored_by_user_spec.rb"
-"./spec/models/shared/favoritable_spec.rb":
-  name: behaves like a favoritable
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/models/shared/favoritable_spec.rb"
-"./spec/models/shared/in_responsibility_of_user_spec.rb":
-  name: it provides scope in responsibility of user
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/models/shared/in_responsibility_of_user_spec.rb"
-"./spec/models/shared/validates_spec.rb":
-  name: validates presence of
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/models/shared/validates_spec.rb"
 "./spec/modules/living_styleguide_spec.rb":
   name: LivingStyleguide
   scripts:

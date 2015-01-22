@@ -1,11 +1,6 @@
 ---
-"./spec/features/styleguide_spec.rb:22":
-  name: Styleguide has working index, all-in-one and sections
+"./spec/features/styleguide_spec.rb":
+  name: "./spec/features/styleguide_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/styleguide_spec.rb:22"
-"./spec/features/styleguide_spec.rb:37":
-  name: Styleguide Elements screenshots match the reference
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/styleguide_spec.rb:37"
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/styleguide_spec.rb"
