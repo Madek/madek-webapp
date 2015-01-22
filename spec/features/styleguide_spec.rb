@@ -8,18 +8,20 @@ include LivingStyleguide # builds table of contents so we know what to expect
 
 # screenshots are *really* slow, only run in CI or if 'MADEK_TEST_SCREENSHOTS=1'
 def screenshots_enabled_in_environment?
-  Rails.env == 'test' || (!ENV['MADEK_TEST_SCREENSHOTS'] == 1)
+  ENV['MADEK_TEST_SCREENSHOTS'] != 1
 end
 
 def regenerate?
-  false  # for frontend owner only
+  false  # for frontend owner only!
 end
 
 # END CONFIG
 
 describe 'Styleguide' do
 
-  it 'has working index, all-in-one and sections', browser: :headless  do
+  it 'is rendered without error (index, all-in-one and sections)',
+     browser: :headless do
+
     paths = [
       '/',           # index
       '/Layout',     # a section
@@ -32,10 +34,8 @@ describe 'Styleguide' do
     end
   end
 
-  if screenshots_enabled_in_environment?
-
-    describe 'screenshots of all elements' do
-
+  it 'Elements screenshots match the reference', browser: :firefox do
+    if screenshots_enabled_in_environment?
       # preparation…
       puts 'styleguide screenshots are enabled, cleaning tmp dir'
       filenname = 'styleguide-shasums.txt'
@@ -43,43 +43,47 @@ describe 'Styleguide' do
       screenshot_dir = Rails.root.join('tmp', 'styleguide-ref')
       FileUtils.rm_r(screenshot_dir, secure: true) if Dir.exists? screenshot_dir
 
-      it 'matches the reference', browser: :firefox do
-
-        styleguide_elements = build_styleguide_tree
-        .select { |section| !section[:elements].nil? }
-        .flat_map do |section|
-          section[:elements].map do |element|
-            element[:section_name] = section[:name]
-            element[:section_path] = section[:path]
-            element
-          end
+      styleguide_elements = build_styleguide_tree
+      .select { |section| !section[:elements].nil? }
+      .flat_map do |section|
+        section[:elements].map do |element|
+          element[:section_name] = section[:name]
+          element[:section_path] = section[:path]
+          element
         end
-
-        styleguide_elements.map do |element|
-          section = element[:section_name]
-          element_dir = screenshot_dir.join(section)
-          FileUtils.mkdir_p(element_dir) unless Dir.exists? element_dir
-
-          visit styleguide_element_path(section, element[:name])
-          move_mouse_over(first 'body a') # for consistent hovering
-          take_screenshot(element_dir, "#{element[:name]}.png")
-        end
-
-        # regenerate reference hashes
-        if regenerate?
-          system "shasum --portable tmp/styleguide-ref/**/* > #{reference_hashes}"
-        end
-
-        # compare hashes to references
-        check = system "shasum --portable -c #{reference_hashes}"
-        expect(check).to eq true
       end
 
-      it 'catches false-positive (in CI!) if we are regenerating…' do
-        expect(regenerate?).to eq false
+      styleguide_elements.map do |element|
+        section = element[:section_name]
+        element_dir = screenshot_dir.join(section)
+        FileUtils.mkdir_p(element_dir) unless Dir.exists? element_dir
+
+        visit styleguide_element_path(section, element[:name])
+        move_mouse_over(first 'body a') # for consistent hovering
+        take_screenshot(element_dir, "#{element[:name]}.png")
       end
+
+      # regenerate reference hashes
+      if regenerate?
+        system "shasum --portable tmp/styleguide-ref/**/* > #{reference_hashes}"
+      end
+
+      # compare hashes to references
+      check = system "shasum --portable -c #{reference_hashes}"
+
+      # attach tar.gz of screenshots if regenerating (reference) or it failed
+      if !check || regenerate?
+        puts 'Attaching artefacts…'
+        system 'cd tmp && tar -cvzf styleguide-ref.tar.gz styleguide-ref/'
+      end
+
+      # expect successful hash matches
+      expect(check).to eq true
 
     end
+
+    # catches false-positive (in CI!) if we are regenerating…
+    expect(regenerate?).to eq false
 
   end
 

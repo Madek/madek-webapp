@@ -4,14 +4,8 @@
   scripts:
     main:
       body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/styleguide_spec.rb:22"
-"./spec/features/styleguide_spec.rb:46":
-  name: Styleguide screenshots of all elements matches the reference
+"./spec/features/styleguide_spec.rb:37":
+  name: Styleguide Elements screenshots match the reference
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/styleguide_spec.rb:46"
-"./spec/features/styleguide_spec.rb:78":
-  name: Styleguide screenshots of all elements catches false-positive (in CI!) if
-    we are regenerating…
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/styleguide_spec.rb:78"
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/styleguide_spec.rb:37"

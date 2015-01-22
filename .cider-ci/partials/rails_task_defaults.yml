@@ -21,6 +21,12 @@ task_defaults:
     coverage_last_run:
       glob: 'coverage/.last_run.json'
       content-type: application/json
+    styleguide_artefacts:
+      glob: 'tmp/styleguide-ref.tar.gz'
+      content-type: application/x-compressed
+    styleguide_hashes:
+      glob: 'dev/test/styleguide-shasums.txt'
+      content-type: text/plain
 
 
   scripts:
