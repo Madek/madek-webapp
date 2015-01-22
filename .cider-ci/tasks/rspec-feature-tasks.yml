@@ -1011,6 +1011,8 @@
       body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/graph_visualization_spec.rb:20"
 "./spec/features/graph_visualization_spec.rb:31":
   name: Visualization / Graph Browser switcher
+  eager_trials: 2
+  auto_trials: 6
   scripts:
     main:
       body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/graph_visualization_spec.rb:31"
@@ -1583,7 +1585,7 @@
 "./spec/features/workgroups_spec.rb:56":
   name: Workgroups Delete a group
   eager_trials: 2
-  auto_trials: 6
+  auto_trials: 10
   scripts:
     main:
       body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/workgroups_spec.rb:56"
