@@ -1,4 +1,10 @@
-- if defined?(list) && list.is_a?(Enumerable) && !list.empty?
+:ruby
+  any_content = list || block_content
+
+- if any_content
   .button-group{class: classes}
-    - list.each do |btn|
-      = component('button', btn)
+    - if list
+      - list.each do |btn|
+        = component('button', btn)
+    - else
+      = block_content

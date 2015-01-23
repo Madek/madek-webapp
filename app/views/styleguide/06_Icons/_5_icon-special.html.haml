@@ -1,12 +1,12 @@
 :ruby
   element = {
-    name: 'Special Icons', todo: true,
+    name: 'Special Icons',
     cssFile: '_icons.scss',
-    cssSelector: '.icon-',
+    cssSelector: '.icon-{name}',
     section: '6.5',
     mods: {
       nil => 'Default',
-      'hover' => 'Hover variation', # TODO: :hover pseudo selector!
+      'hover' => 'Hover variation',
       'disabled' => 'Disabled variation',
       'active' => 'Pressed variation'
     }

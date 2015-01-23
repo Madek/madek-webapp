@@ -59,11 +59,15 @@ module UiHelper
 
   protected
 
-  def render_element(type, name, config = {}, &_block)
+  def render_element(type, name, config = {}, children = nil, &_block)
     return if name.nil?
     locals = build_locals_from_element(name, config)
     name = name_without_mod(name)
+    locals[:list] = build_list(locals[:list])
     locals[:block_content] = capture { yield } if block_given?
+    if !locals[:block_content].nil? && !children.nil?
+      throw 'ui: give children either as last arg *or* block'
+    end
     render template: "_elements/#{type}s/#{name}", locals: locals
   end
 
@@ -71,7 +75,8 @@ module UiHelper
     locals = {
       classes: (classes_from_element(config).push(mod_from_name(name))
                 .flatten.compact),
-      link: link_from_item(config)
+      link: link_from_item(config),
+      block_content: nil
     }
     locals = locals.merge(config) if config.is_a? Hash
     locals.delete([:mods])
@@ -104,5 +109,9 @@ module UiHelper
 
   def name_without_mod(name)
     (name || '').split('.').first
+  end
+
+  def build_list(list = nil)
+    list if list.is_a?(Enumerable) && !list.empty?
   end
 end

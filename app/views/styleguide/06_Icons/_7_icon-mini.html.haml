@@ -1,8 +1,8 @@
 :ruby
   element = {
-    name: 'Mini icons', todo: true,
+    name: 'Mini icons',
     cssFile: '_icons.scss',
-    cssSelector: '.icon-',
+    cssSelector: '.icon-{name}',
     section: '6.7',
     description: 'Destined to live within only tag cloud buttons, mini icons are small variations on some of the above icons that need to use another character and grid size to be perfectly crips.'
   }
@@ -11,5 +11,5 @@
   = partial('example') do
 
     = component('icon.group-mini')
-    = component('icon', 'icon-user-mini')
-    = component('icon', 'icon-tag-mini')
+    = component('icon.user-mini')
+    = component('icon.tag-mini')
