@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Tiles',
+    name: 'Tiles', todo: true,
     cssSelector: '.ui-tile',
     cssFile: '???',
     section: '7.20',
@@ -14,6 +14,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     .ui-tile.ui-tile--set
       .ui-tile__head
         %ul.ui-tile__actions.left.by-left

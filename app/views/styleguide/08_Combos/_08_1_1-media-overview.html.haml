@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Media overview',
+    name: 'Media overview', todo: true,
     cssFile: '_ui-media-overview.scss',
     cssSelector: '.ui-media-overview',
     section: '8.8.1'
@@ -8,6 +8,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     -# TODO: fix image size/layout
     .ui-media-overview
       %dl.ui-media-overview-metadata.ui-metadata-box

@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Straight Collage',
+    name: 'Straight Collage', todo: true,
     cssFile: '_ui-collage.scss',
     cssSelector: '.ui-collage',
     section: '8.8.1'
@@ -8,6 +8,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     #teaser-set.ui-collage
       .ui-collage-row
         %a.ui-collage-item{:href => "###media_resources/16"}

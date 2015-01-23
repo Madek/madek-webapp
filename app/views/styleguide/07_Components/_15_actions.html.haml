@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Actions Bar',
+    name: 'Actions Bar', todo: true,
     cssSelector: '.ui-actions',
     cssFile: '_ui-actions.scss',
     section: '7.15'
@@ -8,6 +8,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     .ui-actions
       %a.link.weak Secondary Action
       %a.primary-button Primary Action

@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Alert messages',
+    name: 'Alert messages', todo: true,
     cssSelector: '.ui-alert',
     cssFile: '_ui-alerts.scss',
     section: '7.7',
@@ -16,6 +16,7 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
+
       .ui-alerts
         .ui-alert{class: name}
           Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere.

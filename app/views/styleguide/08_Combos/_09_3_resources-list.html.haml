@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Media Resources List Mode',
+    name: 'Media Resources List Mode', todo: true,
     description: 'Description',
     cssFile: '_ui-resources-list.scss',
     cssSelector: '.ui-resources.list',
@@ -14,6 +14,7 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
+
       %ul.ui-resources.list{:class => name}
         %li.ui-resource
           .ui-resource-head

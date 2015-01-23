@@ -2,7 +2,7 @@
 
 :ruby
   element = {
-    name: 'Metadata box, definition list variation',
+    name: 'Metadata box, definition list variation', todo: true,
     cssSelector: '.ui-metadata-box',
     cssFile: '_ui-metadata-box.scss',
     section: '7.14'
@@ -10,6 +10,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     %dl.ui-media-overview-metadata.ui-metadata-box
       %dt.media-data-title.title-xs-alt
         Titel

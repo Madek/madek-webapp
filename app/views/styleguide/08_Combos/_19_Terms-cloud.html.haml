@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Terms cloud',
+    name: 'Terms cloud', todo: true,
     description: 'Term clouds are used on the Vocabulary pages to display list of terms that a particular vocabulary contains.',
     cssFile: 'filename',
     cssSelector: 'selector',
@@ -10,6 +10,7 @@
 = partial('element', element) do
 
   = partial('example') do
+  
     .ui-metadata-box.prl.mbm
       .h3.title-s-alt.light.mbx
         Farbe

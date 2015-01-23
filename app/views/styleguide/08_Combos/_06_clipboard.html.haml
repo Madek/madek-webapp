@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Clipboard',
+    name: 'Clipboard', todo: true,
     description: 'Description',
     cssFile: '_ui-clipboard.scss',
     cssSelector: '.ui-clipboard',
@@ -9,6 +9,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     .ui-clipboard
       %a#clipboard-toggle.block.ui-clipboard-toggle.inverted-transparent
         Zwischenablage

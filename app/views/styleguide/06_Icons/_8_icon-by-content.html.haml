@@ -1,10 +1,10 @@
 :ruby
   element = {
-    name: '"Content Type" Icons in Page Headers',
+    name: '"Content Type" Icons in Page Headers', todo: true,
     cssFile: '_icons.scss',
     cssSelector: '.icon-',
     description: 'Icons are used in Page Headers to indicate the type of content presented. \nBelow is a list of all such pages and their corresponding icons.',
-    section: '6.8'
+    section: '6.8',
   }
 
   list = [
@@ -37,6 +37,7 @@
 = partial('element', element) do
   - list.each do |name, text|
     = partial('example') do
+
       .ui-body-title
         .ui-body-title-label
           %h1.title-xl

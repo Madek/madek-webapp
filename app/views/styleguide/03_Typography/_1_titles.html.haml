@@ -21,4 +21,5 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
+
       %h1{:class => name} This is a rather long title that might go onto two lines

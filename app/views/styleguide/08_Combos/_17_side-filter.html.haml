@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Side filter',
+    name: 'Side filter', todo: true,
     cssFile: '_ui-side-filter.sass',
     cssSelector: '.ui-side-filter',
     section: '8.17'
@@ -8,6 +8,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     #ui-side-filter.filter-panel.ui-side-filter
       #ui-side-filter-search.ui-side-filter-search.filter-search
         %form#filter_search_form

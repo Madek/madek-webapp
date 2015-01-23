@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Catalogue Thumbnail',
+    name: 'Catalogue Thumbnail', todo: true,
     cssSelector: '.ui-thumbnail.media-catalog',
     cssFile: '_ui-thumb-catalog.scss',
     section: '7.17'
@@ -8,6 +8,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     .ui-thumbnail.media-catalog
       .ui-thumbnail-privacy{:title => "This media is public"}
       %a.ui-thumbnail-image-wrapper

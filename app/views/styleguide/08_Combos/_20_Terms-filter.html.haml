@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Terms filter',
+    name: 'Terms filter', todo: true,
     cssFile: '???',
     cssSelector: '.ui-terms-filter',
     section: '8.20'
@@ -8,6 +8,7 @@
 
 = partial('element', element) do
   = partial('example') do
+  
     .ui-terms-filter.separated.mhm
       .ui-terms-filter-label-holder.left.by-center
         %span.title-s

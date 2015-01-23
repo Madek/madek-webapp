@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Thumbnail Actions',
+    name: 'Thumbnail Actions', todo: true,
     cssSelector: '.ui-thumbnail-actions',
     cssFile: '_ui-thumb-actions.scss',
     section: '7.12'
@@ -8,6 +8,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     .ui-thumbnail-actions
       %ul.left.by-left
         %li.ui-thumbnail-action

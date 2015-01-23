@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Counters',
+    name: 'Counters', todo: true,
     cssSelector: '.ui-counter',
     cssFile: '???',
     section: '7.24',
@@ -9,4 +9,5 @@
 
 = partial('element', element) do
   = partial('example') do
+
     %span.ui-counter (6)

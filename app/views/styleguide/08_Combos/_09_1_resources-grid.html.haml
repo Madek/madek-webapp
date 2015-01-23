@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Media Resources Grid Mode',
+    name: 'Media Resources Grid Mode', todo: true,
     cssFile: '_ui-resources-grid.scss',
     cssSelector: '.ui-resources.grid',
     section: '8.9.1',
@@ -13,6 +13,7 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
+
       %ul.ui-resources.grid{class: name}
         %li.ui-resource
           .ui-resource-head

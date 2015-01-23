@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Form group',
+    name: 'Form group', todo: true,
     cssFile: '_ui-form-group.scss',
     cssSelector: '.ui-form-group',
     section: '5.2',
@@ -19,6 +19,7 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
+
       .ui-form-group{class: name}
         %label.form-label
           Form label

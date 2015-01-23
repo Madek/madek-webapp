@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Metadata summary',
+    name: 'Metadata summary', todo: true,
     cssFile: '_ui-summary-table.scss',
     cssSelector: '.ui-summary-table',
     section: '8.5'
@@ -8,6 +8,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     .ui-metadata-box.ui-summary-table
       %table.borderless
         %tbody

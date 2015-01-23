@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Visualization Mode Icons',
+    name: 'Visualization Mode Icons', todo: true,
     cssFile: '_icons.scss',
     cssSelector: '.icon-vis-',
     description: 'By default, icons inherit font colour from their parent. A few modifier classes are provided to alter icon\'s colour when needed.',
@@ -16,9 +16,9 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
+
       = component('icon.vis-list', name)
       = component('icon.vis-graph', name)
       = component('icon.vis-miniature', name)
       = component('icon.vis-grid', name)
       = component('icon.vis-pins', name)
-

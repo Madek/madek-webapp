@@ -14,4 +14,5 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
+
       %h2.separated{:class => name}= "Title separated with a bottom border"

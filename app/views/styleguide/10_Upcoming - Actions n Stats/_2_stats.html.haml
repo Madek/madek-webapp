@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Stats module',
+    name: 'Stats module', todo: true,
     description: 'Present in the home page, on logged in dashboard and Erkunden page.',
     cssFile: '???',
     cssSelector: '.ui-stats',
@@ -10,6 +10,7 @@
 = partial('element', element) do
 
   = partial('example', { mod: 'Home Page Variation'}) do
+
     %aside.ui-stats.mtl.bordered.ui-container
       .row
         .col1of5
@@ -54,6 +55,7 @@
               Arbeitsgruppen
 
   = partial('example', { mod: 'Erkunden Variation'}) do
+
     %aside.ui-stats
       .row
         .col1of5
@@ -97,7 +99,9 @@
             %span.ui-stats__unit
               Arbeitsgruppen
 
+
   = partial('example', { mod: 'Dashboard Variation'}) do
+
     %aside.ui-stats
       .row
         .col1of4

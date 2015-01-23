@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Set overview combo',
+    name: 'Set overview combo', todo: true,
     cssFile: '_ui-set-overview.scss',
     cssSelector: '.ui-set-overview',
     section: '8.8.2'
@@ -8,6 +8,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     .ui-set-overview
       .ui-set-preview
         .ui-thumbnail.filter-set

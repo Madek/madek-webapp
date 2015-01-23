@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Multi-select form element',
+    name: 'Multi-select form element', todo: true,
     cssFile: '_multi-select.scss',
     cssSelector: '.multi-select',
     section: '5.4'
@@ -8,6 +8,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     .multi-select{:class => "$modifier-class"}
       %ul.multi-select-holder
         %li.multi-select-tag

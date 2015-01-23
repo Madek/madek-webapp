@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Pager',
+    name: 'Pager', todo: true,
     cssSelector: '.ui-pager',
     cssFile: '_ui-pager.scss',
     section: '7.22',
@@ -15,6 +15,7 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
+
       %h3.ui-pager{:class => name}
         %span#resources_counter 20
         Inhalte, Seite

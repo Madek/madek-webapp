@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Mini icons',
+    name: 'Mini icons', todo: true,
     cssFile: '_icons.scss',
     cssSelector: '.icon-',
     section: '6.7',
@@ -9,7 +9,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     = component('icon.group-mini')
     = component('icon', 'icon-user-mini')
     = component('icon', 'icon-tag-mini')
-

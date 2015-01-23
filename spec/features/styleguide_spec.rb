@@ -12,7 +12,7 @@ def screenshots_enabled_in_environment?
 end
 
 def regenerate?
-  false  # for frontend owner only!
+  false # for frontend owner only!
 end
 
 # END CONFIG

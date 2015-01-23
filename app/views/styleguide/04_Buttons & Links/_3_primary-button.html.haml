@@ -18,6 +18,7 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
+
       = component('button.primary', mods: name, href: '#nothing') do
         = "Primary Button"
       = component('button.primary', mods: name, href: '#nothing') do

@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Workgroups tables',
+    name: 'Workgroups tables', todo: true,
     cssFile: '_ui-workgroups.scss',
     cssSelector: '.ui-workgroups',
     section: '8.14'
@@ -8,6 +8,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     %table.ui-workgroups.bordered.block
       %tbody
         %tr{"data-id" => "4"}

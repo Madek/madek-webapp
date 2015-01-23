@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Toolbar',
+    name: 'Toolbar', todo: true,
     description: 'Toolbar comes in two variations: the one appearing right above the media entry thumbnails (top example) or the one above the vocabulary terms (lower example).',
     cssFile: '_ui-toolbar.scss',
     cssSelector: '.ui-toolbar',
@@ -8,8 +8,8 @@
   }
 
 = partial('element', element) do
-
   = partial('example') do
+  
     .ui-container.inverted.ui-toolbar.pvx
       %h2.ui-toolbar-header.pls
         Sektion enthält 13 Inhalte

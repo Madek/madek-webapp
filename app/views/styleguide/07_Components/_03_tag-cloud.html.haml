@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Tag cloud',
+    name: 'Tag cloud', todo: true,
     cssSelector: '.ui-tag-cloud',
     cssFile: '_ui-tag-cloud.scss',
     section: '7.3',
@@ -15,6 +15,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     %ul.ui-tag-cloud
       %li.ui-tag-cloud-item
         %a.ui-tag-button{:href => "#"}

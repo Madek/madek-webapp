@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'ui-slider',
+    name: 'ui-slider', todo: true,
     cssSelector: '.ui-slider',
     cssFile: '_ui-slider.scss',
     section: '7.9'
@@ -9,6 +9,7 @@
 = partial('element', element) do
   = partial('example') do
     -# TODO: spacing
+
     .ui-slider
       %a.ui-slider-handle
         %span.ui-slider-info.ui-container.inverted 8 von 14

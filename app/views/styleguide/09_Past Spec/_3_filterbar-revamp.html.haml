@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Filterbar in view of Filterset creation revamp.',
+    name: 'Filterbar in view of Filterset creation revamp.', todo: true,
     description: "The button linking to the filterset creation wizard is to be moved from search results page to the filterbar (so it will now be present in all views displaying thumbnails). \nThe \'Save as Filterset\' button will open the modal window where user will be asked to enter filterset\'s desired name and either confirm or cancel the process. \nThe \'Rewind\' button with the round arrow icon stands for resetting the filter set on the currently viewed batch of media—it will become active only after have applied at least one filter (as shown on the 2nd example). \nWhen user is viewing a filterset that he previously created, and has editing permissions to, he will be able to save filterset settings he just altered (as shown on the 3rd example). \nUsers viewing a filterset, but not having permissions to edit it, will be presented with the option to duplicate currently set filterset settings as their own filterset—in other words—create a filterset on top of a filterset (as shown on the 4th example).",
     cssFile: '???',
     cssSelector: '???',
@@ -9,6 +9,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     #ui-side-filter.filter-panel.ui-side-filter
       .ui-side-filter-filterset
         .col4of5

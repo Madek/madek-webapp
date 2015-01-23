@@ -17,6 +17,7 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { name: name }) do
+    
       %div{style:"background: #f8c489; width: 40px; overflow: hidden; display: inline-block; margin-right: 20px;"}
         %div{class: "pv#{name}", style:"background: #b5c974;"}
           %div{style:"background: #79a5b3; padding: 4px; text-align: center;"} Box

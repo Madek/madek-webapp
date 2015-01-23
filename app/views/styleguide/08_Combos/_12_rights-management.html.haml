@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Rights management table',
+    name: 'Rights management table', todo: true,
     cssFile: '_ui-rights-management.scss',
     cssSelector: '.ui-rights-management',
     section: '8.12'
@@ -8,6 +8,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     .ui-rights-management
       %h3.title-l.mbs Ich
       .ui-rights-body

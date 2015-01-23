@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Elevator Pitch',
+    name: 'Elevator Pitch', todo: true,
     cssFile: '_ui-home-claim.scss',
     cssSelector: '.ui-home-claim',
     section: '8.11'
@@ -8,6 +8,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     .ui-home-claim.ui-container
       .col2of3
         .pitch-claim

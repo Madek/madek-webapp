@@ -37,7 +37,6 @@ f392f4f62ba99f187595074d008ba40d1bc5d089 ?tmp/styleguide-ref/Components/counter.
 4ea68ceda76088fc41c81efafd9f96ec76a676aa ?tmp/styleguide-ref/Components/metadata_box.png
 15b6a63326e81224912381dcc3dd9647e0ef7c92 ?tmp/styleguide-ref/Components/modals.png
 4c776834d866970fca10bd73a2bf7b5967d8b7ea ?tmp/styleguide-ref/Components/pager.png
-d41363c2c7a3803e1438821c6ddd7b3049888e5e ?tmp/styleguide-ref/Components/preloaders.png
 a81e25a11464eff30da1cb310cf0a654d5080f41 ?tmp/styleguide-ref/Components/resources_head.png
 c6b82488ef3b1b237c984a7ed95f6d3c9294245b ?tmp/styleguide-ref/Components/side_navigation.png
 664c6a59a9e0b6e12d3d63108c76c84b2bf69e7f ?tmp/styleguide-ref/Components/slider.png

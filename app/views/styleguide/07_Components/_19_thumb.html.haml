@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Default thumbnail style, independent from visualization mode',
+    name: 'Default thumbnail style, independent from visualization mode', todo: true,
     cssSelector: '.ui-thumbnail',
     cssFile: '_ui-thumb.scss',
     section: '7.19'
@@ -8,6 +8,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     .ui-resource-thumbnail
       .ui-thumbnail.media-entry.video
         .ui-thumbnail-privacy{:title => "This media is private"}

@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Stepline',
+    name: 'Stepline', todo: true,
     cssSelector: '.ui-stepline',
     cssFile: '_ui-stepline.scss',
     section: '7.16'
@@ -8,6 +8,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     .ui-stepline
       .ui-stepline-item
         %h3.title-s.ui-stepline-item-title

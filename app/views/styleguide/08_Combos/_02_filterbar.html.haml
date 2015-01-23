@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Filterbar',
+    name: 'Filterbar', todo: true,
     description: 'Filterbar comes in two variations: the one appearing right above the media entry thumbnails (top example) or the one above the vocabulary terms (lower example).',
     cssFile: '_ui-filterbar.scss',
     cssSelector: '.ui-filterbar',
@@ -8,8 +8,8 @@
   }
 
 = partial('element', element) do
-
   = partial('example') do
+
     .ui-filterbar.separated.ui-container
       .left.col2of6
         %a#ui-side-filter-toggle.button

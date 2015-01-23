@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Other Icons',
+    name: 'Other Icons', todo: true,
     cssFile: '_icons.scss',
     cssSelector: 'icon-',
     description: 'By default, icons inherit font colour from their parent. A few modifier classes are provided to alter icon\'s colour when needed.',
@@ -22,9 +22,8 @@
   }
 
 = partial('element', element) do
-  - element[:mods].each do |name, description|
-    = partial('example', { mod: name}) do
-      - mod = name
-      - element[:subElements].each do |sub|
-        %i{class: element[:cssSelector] + sub + ' ' + mod.to_s}
+  - element[:mods].each do |mod, description|
+    = partial('example', { mod: mod}) do
 
+      - element[:subElements].each do |sub|
+        %i{class: "icon-#{sub} #{mod.to_s}"}

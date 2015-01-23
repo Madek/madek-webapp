@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Dropdowns',
+    name: 'Dropdowns', todo: true,
     cssSelector: '.ui-dropdown',
     cssFile: '_ui-drop-menus.scss',
     section: '7.11',
@@ -13,8 +13,8 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
-      -# TODO: component
       .sg-spacer{:style => "padding-top: 100px;margin: 0 auto;padding-right: 150px;padding-bottom: 100px;padding-left: 150px"}
+
         -# = component('dropdown')
         .dropdown.ui-dropdown{class: name}
           %a.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#"} Drop-down Toggle

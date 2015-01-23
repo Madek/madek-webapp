@@ -1,6 +1,6 @@
 :ruby
   element = { # TODO: is just a mod of previous!!!
-    name: 'Sample columned form',
+    name: 'Sample columned form', todo: true,
     cssFile: '_forms.scss',
     cssSelector: 'form',
     section: '5.1.2'
@@ -8,6 +8,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     %form
       .form-head
         .ui-alerts

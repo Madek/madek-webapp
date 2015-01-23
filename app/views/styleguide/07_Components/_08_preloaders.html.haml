@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Preloaders',
+    name: 'Preloaders', todo: true,
     cssSelector: '.ui-preloader',
     cssFile: '_ui-preloaders.scss',
     section: '7.8',
@@ -15,5 +15,6 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
+
       .ui-preloader{class: name}
         Loading in progress

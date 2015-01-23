@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Special Icons',
+    name: 'Special Icons', todo: true,
     cssFile: '_icons.scss',
     cssSelector: '.icon-',
     section: '6.5',
@@ -15,7 +15,7 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
+
       = component('icon.checkbox', name)
       = component('icon.checkbox-bright', name)
       = component('icon.star-empty', name)
-

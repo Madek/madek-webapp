@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Set Vocabulary',
+    name: 'Set Vocabulary', todo: true,
     description: "Auszug, Vokabular and Kontexte tabs, according to the newst concepts, are to be simplified and merged within one single view as shown below. \nThe top container will accommodate items related to a vocabulary management. From here you can switch between vocabularies (by clicking on the dropdown) and selecting other items (not that active vocabularies are differentiated by slightly more contrasted font colour), you can enable/disable and view a currently selected vocabulary by clicking on the right-hand-side buttons. \nThe bottom container will accommodate words associated to currently selected vocabulary. User will be able to switch between All, Assigned and Most popular (old Auszug-like visualisation). \n\nNote variations of link meta links’ style when switching between the views:\n\n- in Vergebene view, terms with media assigned to them are active and others become inactive.\n- in Häufigste view, additional slider (same as the one we had before in Auszug view) appears to filter through the terms listed below.",
     cssFile: '???',
     cssSelector: '???',
@@ -8,8 +8,8 @@
   }
 
 = partial('element', element) do
-
   = partial('example') do
+
     .app-body-ui-container
       %ul.ui-tabs.large
         %li.ui-tabs-item

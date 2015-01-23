@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Media Resources Miniature Mode',
+    name: 'Media Resources Miniature Mode', todo: true,
     cssFile: '_ui-resources-miniature.scs',
     cssSelector: '.ui-resources.miniature',
     section: '8.9.2',
@@ -13,6 +13,7 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
+
       %ul.ui-resources.miniature{class: name}
         %li.ui-resource
           .ui-resource-head

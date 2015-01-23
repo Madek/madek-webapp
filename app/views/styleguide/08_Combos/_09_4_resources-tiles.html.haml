@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Media Resources Tiles Mode',
+    name: 'Media Resources Tiles Mode', todo: true,
     description: 'Tile View comes in size (small, normal, large) and orientation variations (horizontal, vertical). Vertical variation is to replace legacy featured-items styles displaying items highlighted by user within a set.',
     cssFile: 'filename',
     cssSelector: 'selector',
@@ -20,6 +20,7 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
+
       %ul.ui-resources.tiles{:class => name}
         %li.ui-resources-page
           %ul.ui-resources-page-items

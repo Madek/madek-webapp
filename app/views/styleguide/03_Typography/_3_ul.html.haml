@@ -13,6 +13,7 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
+
       %ul{:class => name}
         %li Item 1
         %li Item 2

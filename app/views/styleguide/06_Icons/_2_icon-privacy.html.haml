@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Privacy Icons',
+    name: 'Privacy Icons', todo: true,
     cssFile: '_icons.scss',
     cssSelector: '.icon-privacy-',
     description: 'By default, icons inherit font colour from their parent. A few modifier classes are provided to alter icon\'s colour when needed.',
@@ -16,6 +16,7 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
+
       = component('icon.privacy-open', name)
       = component('icon.privacy-private', name)
       = component('icon.privacy-private-alt', name)

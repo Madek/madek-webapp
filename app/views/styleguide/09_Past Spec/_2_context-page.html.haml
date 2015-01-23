@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Context page',
+    name: 'Context page', todo: true,
     description: "Context view it the ones accessible while clicking on the **View** button in the Vocabulary view documented in [Section 9.1](#9.1).\n\n- **Vokabular**: features a brief Vocabulary description (limited to 256 characters) and terms in that vocabulary with 3 display modes same as in the Set Vocabulary view.\n- **Inhalte**: in place of list of terms contained in currently viewed vocabulary, it features media associated to that vocabulary.",
     cssFile: '???',
     cssSelector: '???',
@@ -8,8 +8,8 @@
   }
 
 = partial('element', element) do
-
   = partial('example') do
+
     .app-body-ui-container
       %ul.ui-tabs.large
         %li.ui-tabs-item.active

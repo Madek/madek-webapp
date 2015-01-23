@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'Metadata box, ordered list variation',
+    name: 'Metadata box, ordered list variation', todo: true,
     cssSelector: '.ui-metadata-box',
     cssFile: '_ui-metadata-box.scss',
     section: '7.13'
@@ -8,6 +8,7 @@
 
 = partial('element', element) do
   = partial('example') do
+
     .ui-metadata-box
       %h3.title-m.separated.light.mbs.pbs
         Horizontlinie

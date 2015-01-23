@@ -21,6 +21,7 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
+
       .row
         %div{:class => name, :style => "background: #ddd; line-height: 2em;"}
           = name

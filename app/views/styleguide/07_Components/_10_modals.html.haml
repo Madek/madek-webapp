@@ -1,6 +1,6 @@
 :ruby
   element = {
-    name: 'ui-modals',
+    name: 'ui-modals', todo: true,
     cssSelector: '.ui-modal',
     cssFile: '_ui-modals.scss',
     section: '7.10',
@@ -16,6 +16,7 @@
 = partial('element', element) do
   - element[:mods].each do |name, description|
     = partial('example', { mod: name}) do
+
       .ui-modal{:class => name}
         .ui-modal-head
           %h3.title-l
