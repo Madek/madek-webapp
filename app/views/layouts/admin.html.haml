@@ -23,6 +23,8 @@
               Madek Admin
           #main-navbar-collapse.navbar-collapse.collapse
             %ul.nav.navbar-nav.navbar-right
+              = navbar_item 'Dashboard', admin_root_path
+              = navbar_item 'Users', admin_users_path
               %li.dropdown
                 %a.dropdown-toggle{href: '#', data: { toggle: 'dropdown' }}
                   %i.glyphicon.glyphicon-user

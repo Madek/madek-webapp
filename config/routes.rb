@@ -16,7 +16,18 @@ MAdeK::Application.routes.draw do
 
   ##### Admin namespace
   namespace :admin do
-    root to: 'dashboard#index' 
+    root to: 'dashboard#index'
+    resources :users do
+      member do
+        post :switch_to
+        patch :reset_usage_terms
+        patch :grant_admin_role
+        delete :remove_admin_role
+      end
+      collection do
+        get :new_with_person
+      end
+    end
   end
 
   ##### STYLEGUIDE (resourceful-ish)

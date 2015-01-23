@@ -33,10 +33,10 @@ def sign_in_as(login, password = 'password')
   if db_user_tab = first('a#database-user-login-tab')
     db_user_tab.click
   end
-  find("input[name='login']").set(login)
-  find("input[name='password']").set(password)
-  find("button[type='submit']").click
-  User.find_by_login login
+  fill_in 'login', with: login
+  fill_in 'password', with: password
+  find("[type='submit']").click
+  User.find_by(login: login)
 end
 
 def submit_form

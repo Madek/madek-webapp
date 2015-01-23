@@ -1,0 +1,34 @@
+= form_for [:admin, @user], as: :user, html: { class: 'form-horizontal', role: 'form' } do |f|
+
+  %fieldset
+    .form-group
+      %label.control-label.col-sm-2 Login
+      .col-sm-4
+        = f.text_field :login, class: 'form-control'
+
+    .form-group
+      %label.control-label.col-sm-2 E-mail
+      .col-sm-4
+        = f.text_field :email, type: 'email', class: 'form-control'
+
+    .form-group
+      %label.control-label.col-sm-2 Person ID
+      .col-sm-4
+        = f.text_field :person_id, class: 'form-control'
+
+    .form-group
+      %label.control-label.col-sm-2 Password
+      .col-sm-4
+        = f.text_field :password, class: 'form-control'
+
+    .form-group
+      %label.control-label.col-sm-2 Notes
+      .col-sm-4
+        = f.text_area :notes, class: 'form-control'
+
+    .form-group
+      .col-sm-offset-2.col-sm-4
+        = button_tag type: 'submit', class: 'btn btn-success' do
+          %span.glyphicon.glyphicon-ok
+          Save
+        = link_to 'Go back', @user.persisted? ? admin_user_path(@user) : admin_users_path, class: 'btn btn-link'

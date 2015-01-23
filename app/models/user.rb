@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   # include UserModules::Dropbox
   # include UserModules::TextSearch
   # include UserModules::AutoCompletion
+  include Concerns::Users::Filters
 
   has_secure_password validations: false
 
@@ -14,6 +15,7 @@ class User < ActiveRecord::Base
   default_scope { reorder(:login) }
 
   belongs_to :person
+  accepts_nested_attributes_for :person
 
   has_many :media_resources
 
@@ -22,7 +24,9 @@ class User < ActiveRecord::Base
   has_many :filter_sets, foreign_key: :responsible_user_id
 
   has_many :incomplete_media_entries,
-           class_name: 'MediaEntryIncomplete',
+           -> { where(type: 'MediaEntryIncomplete') },
+           foreign_key: :creator_id,
+           class_name: 'MediaEntry',
            dependent: :destroy
 
   has_many :created_media_entries,
@@ -53,7 +57,7 @@ class User < ActiveRecord::Base
 
   #############################################################
 
-  validates_format_of :email,  with: /@/, message: "Email must contain a '@' sign."
+  validates_format_of :email, with: /@/, message: "Email must contain a '@' sign."
 
   #############################################################
 
@@ -69,6 +73,12 @@ class User < ActiveRecord::Base
 
   def admin?
     !admin.nil?
+  end
+
+  #############################################################
+
+  def reset_usage_terms
+    update!(usage_terms_accepted_at: nil)
   end
 
 end

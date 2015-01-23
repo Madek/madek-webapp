@@ -1,0 +1,16 @@
+= link_to 'Switch to...', switch_to_admin_user_path(user), method: :post, class: "btn btn-default #{size}"
+= link_to 'Reset usage terms', reset_usage_terms_admin_user_path(user), method: :patch, class: "btn btn-default #{size}"
+- if editable
+  = link_to edit_admin_user_path(user), class: "btn btn-info #{size}" do
+    %span.glyphicon.glyphicon-edit
+    Edit
+- if user.admin?
+  = link_to 'Remove admin role', remove_admin_role_admin_user_path(user), method: :delete,
+    data: { confirm: 'The admin role will be removed. Do you want to proceed?' }, class: "btn btn-danger #{size}"
+- else
+  = link_to 'Grant admin role', grant_admin_role_admin_user_path(user), method: :patch, class: "btn btn-success #{size}"
+- if deletable
+  = link_to admin_user_path(user), method: :delete, data: { confirm: 'The user will be deleted. Do you want to proceed?' },
+      class: "btn btn-danger #{size}" do
+    %span.glyphicon.glyphicon-trash
+    Delete user

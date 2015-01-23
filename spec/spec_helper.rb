@@ -38,4 +38,6 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
+  config.include FactoryGirl::Syntax::Methods
+
 end
