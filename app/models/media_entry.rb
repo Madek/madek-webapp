@@ -191,4 +191,35 @@ class MediaEntry < MediaResource
 
 
 
+  def self.original_exifcreated_duplicates
+
+    seen_timestamps = Set.new
+    duplicate_ids = Set.new
+
+    all.each do |me|
+      file = me.media_file
+      file_path= file.file_storage_location
+      unless File.file?(file_path)
+        Rails.logger.warn "Original file for MediaEntry #{me.id} does not exist"
+      else
+        timestamp = `exiftool -T -createdate #{file_path}`.squish
+        if timestamp.present? and timestamp != "-" 
+          unless seen_timestamps.include?(timestamp)
+            seen_timestamps.add timestamp
+          else
+            duplicate_ids.add(me.id)
+          end
+        else
+          Rails.logger.warn "No Exif-Timestap for MediaEntry #{me.id} "
+        end
+      end
+    end
+
+    where(id: duplicate_ids.to_a)
+
+  end
+
+
+
+
 end
