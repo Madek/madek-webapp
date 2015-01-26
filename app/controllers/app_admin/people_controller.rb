@@ -41,7 +41,7 @@ class AppAdmin::PeopleController < AppAdmin::BaseController
       when :text_rank
         raise "Search term must not be blank!" if @search_terms.blank?
       when :created_at
-        @people = @people.reorder("created_at DESC")
+        @people = @people.reorder(created_at: :desc, id: :asc)
       end
 
     rescue Exception => e

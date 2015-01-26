@@ -4,7 +4,7 @@ class Copyright < ActiveRecord::Base
   before_create :set_position
   after_destroy :regeerate_position
 
-  default_scope { reorder(:position) }
+  default_scope { reorder(:position, :id) }
 
   has_many :meta_datum_copyrights
 

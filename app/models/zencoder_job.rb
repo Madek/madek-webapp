@@ -18,7 +18,7 @@ class ZencoderJob < ActiveRecord::Base
         SELECT MAX(created_at) from zencoder_jobs AS z_j
         WHERE z_j.media_file_id = zencoder_jobs.media_file_id
       )
-    }).reorder("zencoder_jobs.created_at DESC")
+    }).reorder("zencoder_jobs.created_at DESC").order(:id)
   }
 
   scope :failed, -> {

@@ -6,6 +6,6 @@ class EditSession < ActiveRecord::Base
 
   validates_presence_of :user
 
-  default_scope lambda{order("edit_sessions.created_at DESC")}
+  default_scope lambda{order(created_at: :desc, id: :asc)}
 
 end

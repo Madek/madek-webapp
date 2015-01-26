@@ -43,7 +43,7 @@ class MediaResource < ActiveRecord::Base
 ########################################################
 
 
-  default_scope { reorder(:created_at) }
+  default_scope { reorder(:created_at,:id) }
 
   def reindex
     ft = full_text || build_full_text
@@ -78,7 +78,7 @@ class MediaResource < ActiveRecord::Base
       reorder(arel_table[x.to_sym].desc)
     else
       reorder("media_resources.updated_at DESC")
-    end
+    end.order(:id)
   }
 
   ################################################################

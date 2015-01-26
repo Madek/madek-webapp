@@ -14,7 +14,7 @@ class AppAdmin::MediaSetsController < AppAdmin::BaseController
     if params[:term].present?
       render json: autocomplete_for(params[:term])
     else
-      @media_sets = MediaSet.reorder("created_at DESC").page(params[:page]).per(16)
+      @media_sets = MediaSet.reorder(created_at: :desc, id: :asc).page(params[:page]).per(16)
 
       if !params[:fuzzy_search].blank? && fuzzy_query=params[:fuzzy_search]
         @media_sets= @media_sets.joins(user: :person, meta_data: :meta_key) \

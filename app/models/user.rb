@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
     select("users.*, COALESCE(user_resources_counts.resouces_count,0) as resources_amount").
     joins("LEFT OUTER JOIN user_resources_counts ON user_resources_counts.user_id = users.id") }
 
-  scope :sort_by_resouces_amount, ->{ reorder("resources_amount desc")}
+  scope :sort_by_resouces_amount, ->{ reorder("resources_amount desc").order(:id)}
 
   scope :order_by_last_name_first_name, ->{
     joins(:person).reorder("people.last_name, people.first_name, people.pseudonym") }

@@ -58,8 +58,8 @@ feature "Acting as an Uberadmin" do
 
     expect(page).to have_content "XYZ Titel"
 
-    # I am the last editor of the remembered resource
-    expect(MediaEntry.find(media_entry.id).editors.reorder(created_at: :desc, id: :asc).first).to be == @current_user
+    # I am the editor of the remembered resource
+    expect(media_entry.reload.edit_sessions.first.user).to be == @current_user
 
     click_on_text "Adam Admin"
     click_on_text "Admin-Modus verlassen"

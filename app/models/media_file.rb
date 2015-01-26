@@ -11,7 +11,7 @@ class MediaFile < ActiveRecord::Base
   has_many :zencoder_jobs, dependent: :destroy
 
   def most_recent_zencoder_job
-    zencoder_jobs.reorder("zencoder_jobs.created_at DESC").limit(1).first
+    zencoder_jobs.reorder(created_at: :desc,id: :asc).limit(1).first
   end
 
   before_create do
