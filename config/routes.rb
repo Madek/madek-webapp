@@ -8,6 +8,8 @@ MAdeK::Application.routes.draw do
   get 'my', to: 'my#dashboard', as: 'my_dashboard'
 
   get 'media_entries', to: 'media_entries#index'
+  get 'collections', to: 'collections#index'
+  get 'filter_sets', to: 'filter_sets#index'
 
   ##### Admin namespace
   namespace :admin do
