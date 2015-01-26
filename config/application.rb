@@ -63,7 +63,7 @@ module MAdeK
     config.filter_parameters += [:password]
 
     config.log_level= ENV["RAILS_LOG_LEVEL"] if ENV["RAILS_LOG_LEVEL"].present? 
-  # config.log_level = :debug
+    config.log_level = :info
 
     config.log_tags = [lambda{|req| Time.now.strftime("%T")}, :port, :remote_ip]
 

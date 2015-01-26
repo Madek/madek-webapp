@@ -136,4 +136,31 @@ class MediaEntry < MediaResource
   def self.uuid?(id)
     id =~ /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
   end
+
+
+  ########################################################
+
+  def self.originalfile_duplicates
+
+    files_md5 = Set.new
+    duplicate_ids = Set.new
+
+    all.each do |me|
+      file = me.media_file.file_storage_location
+      unless File.file?(file)
+        Rails.logger.warn "Original file for MediaEntry #{me.id} does not exist"
+      else
+        md5= Digest::MD5.file(file).hexdigest
+        unless files_md5.include?(md5)
+          files_md5.add(md5)
+        else
+          duplicate_ids.add(me.id)
+        end
+      end
+    end
+
+    where(id: duplicate_ids.to_a)
+
+  end
+
 end
