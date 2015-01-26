@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CollectionMediaEntryArc do
+describe Arcs::CollectionMediaEntryArc do
 
   context 'A MediaEntry and a Collection' do
 
@@ -9,7 +9,7 @@ describe CollectionMediaEntryArc do
       @collection = FactoryGirl.create :collection
     end
 
-    describe CollectionMediaEntryArc do
+    describe Arcs::CollectionMediaEntryArc do
 
       it 'is producible by a factory ' do
         expect do

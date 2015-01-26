@@ -6,7 +6,12 @@ FactoryGirl.define do
       MetaKey.find_by_id('test:text') \
                || FactoryGirl.create(:meta_key_text)
     end
-    media_entry { FactoryGirl.create :media_entry }
+
+    after :build do |mdt|
+      unless mdt.media_entry or mdt.collection or mdt.filter_set
+        mdt.media_entry = FactoryGirl.create :media_entry
+      end
+    end
   end
 
   factory :meta_datum_keywords, class: MetaDatum::Keywords do
