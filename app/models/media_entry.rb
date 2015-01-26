@@ -140,7 +140,7 @@ class MediaEntry < MediaResource
 
   ########################################################
 
-  def self.originalfile_duplicates
+  def self.original_md5file_duplicates
 
     files_md5 = Set.new
     duplicate_ids = Set.new
@@ -162,5 +162,33 @@ class MediaEntry < MediaResource
     where(id: duplicate_ids.to_a)
 
   end
+
+
+
+  def self.original_filename_duplicates
+
+    files_md5 = Set.new
+    duplicate_ids = Set.new
+
+    all.each do |me|
+      file = me.media_file
+      file_path= file.file_storage_location
+      unless File.file?(file_path)
+        Rails.logger.warn "Original file for MediaEntry #{me.id} does not exist"
+      else
+        filename= file.filename
+        unless files_md5.include?(filename)
+          files_md5.add(filename)
+        else
+          duplicate_ids.add(me.id)
+        end
+      end
+    end
+
+    where(id: duplicate_ids.to_a)
+
+  end
+
+
 
 end
