@@ -1,1606 +1,372 @@
 ---
-"./spec/features/admin/context_groups_spec.rb:5":
-  name: Admin Context Groups Removing a meta context
+"./spec/features/admin/context_groups_spec.rb":
+  name: "./spec/features/admin/context_groups_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/context_groups_spec.rb:5"
-"./spec/features/admin/contexts/adding_meta_key_spec.rb:6":
-  name: Admin Contexts Adding a meta key to a context
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/context_groups_spec.rb"
+"./spec/features/admin/contexts/adding_meta_key_spec.rb":
+  name: "./spec/features/admin/contexts/adding_meta_key_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/contexts/adding_meta_key_spec.rb:6"
-"./spec/features/admin/contexts/editing_meta_key_definition_spec.rb:10":
-  name: Admin Contexts Editing a meta key definition when the meta key is of the same
-    type
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/contexts/adding_meta_key_spec.rb"
+"./spec/features/admin/contexts/editing_meta_key_definition_spec.rb":
+  name: "./spec/features/admin/contexts/editing_meta_key_definition_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/contexts/editing_meta_key_definition_spec.rb:10"
-"./spec/features/admin/contexts/editing_meta_key_definition_spec.rb:26":
-  name: Admin Contexts Editing a meta key definition when the meta key is different
-    type
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/contexts/editing_meta_key_definition_spec.rb"
+"./spec/features/admin/contexts_spec.rb":
+  name: "./spec/features/admin/contexts_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/contexts/editing_meta_key_definition_spec.rb:26"
-"./spec/features/admin/contexts_spec.rb:10":
-  name: Admin Contexts Deleting a context
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/contexts_spec.rb"
+"./spec/features/admin/copyrights_spec.rb":
+  name: "./spec/features/admin/copyrights_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/contexts_spec.rb:10"
-"./spec/features/admin/contexts_spec.rb:16":
-  name: Admin Contexts Editing a context's description
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/copyrights_spec.rb"
+"./spec/features/admin/filter_sets/removing_filter_set_spec.rb":
+  name: "./spec/features/admin/filter_sets/removing_filter_set_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/contexts_spec.rb:16"
-"./spec/features/admin/contexts_spec.rb:29":
-  name: Admin Contexts Removing a meta key from a context
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/filter_sets/removing_filter_set_spec.rb"
+"./spec/features/admin/groups_spec.rb":
+  name: "./spec/features/admin/groups_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/contexts_spec.rb:29"
-"./spec/features/admin/contexts_spec.rb:42":
-  name: Admin Contexts Displaying media sets on a separate page
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/groups_spec.rb"
+"./spec/features/admin/interface_spec.rb":
+  name: "./spec/features/admin/interface_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/contexts_spec.rb:42"
-"./spec/features/admin/contexts_spec.rb:55":
-  name: Admin Contexts Displaying links to related meta keys
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/interface_spec.rb"
+"./spec/features/admin/keywords_spec.rb":
+  name: "./spec/features/admin/keywords_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/contexts_spec.rb:55"
-"./spec/features/admin/copyrights_spec.rb:10":
-  name: Admin Copyrights Editing a copyright
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/keywords_spec.rb"
+"./spec/features/admin/media_entries_spec.rb":
+  name: "./spec/features/admin/media_entries_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/copyrights_spec.rb:10"
-"./spec/features/admin/copyrights_spec.rb:20":
-  name: Admin Copyrights Creating a new copyright
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_entries_spec.rb"
+"./spec/features/admin/media_sets/transfer_ownership_spec.rb":
+  name: "./spec/features/admin/media_sets/transfer_ownership_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/copyrights_spec.rb:20"
-"./spec/features/admin/filter_sets/removing_filter_set_spec.rb:6":
-  name: Admin - Filter Sets Deleting a filter set
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_sets/transfer_ownership_spec.rb"
+"./spec/features/admin/media_sets_spec.rb":
+  name: "./spec/features/admin/media_sets_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/filter_sets/removing_filter_set_spec.rb:6"
-"./spec/features/admin/groups_spec.rb:104":
-  name: Admin Groups Adding user to a group by login
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_sets_spec.rb"
+"./spec/features/admin/meta_key_definitions_spec.rb":
+  name: "./spec/features/admin/meta_key_definitions_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/groups_spec.rb:104"
-"./spec/features/admin/groups_spec.rb:118":
-  name: Admin Groups Adding duplicated user to a group
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_key_definitions_spec.rb"
+"./spec/features/admin/meta_keys_spec.rb":
+  name: "./spec/features/admin/meta_keys_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/groups_spec.rb:118"
-"./spec/features/admin/groups_spec.rb:131":
-  name: Admin Groups Removing user from a group
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_keys_spec.rb"
+"./spec/features/admin/meta_terms_spec.rb":
+  name: "./spec/features/admin/meta_terms_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/groups_spec.rb:131"
-"./spec/features/admin/groups_spec.rb:143":
-  name: Admin Groups Listing all groups with their types
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_terms_spec.rb"
+"./spec/features/admin/people_spec.rb":
+  name: "./spec/features/admin/people_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/groups_spec.rb:143"
-"./spec/features/admin/groups_spec.rb:158":
-  name: Admin Groups Filtering groups by a search term
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/people_spec.rb"
+"./spec/features/admin/permission_presets_spec.rb":
+  name: "./spec/features/admin/permission_presets_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/groups_spec.rb:158"
-"./spec/features/admin/groups_spec.rb:177":
-  name: Admin Groups Filtering groups by their types
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/permission_presets_spec.rb"
+"./spec/features/admin/previews_spec.rb":
+  name: "./spec/features/admin/previews_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/groups_spec.rb:177"
-"./spec/features/admin/groups_spec.rb:198":
-  name: Admin Groups Creating a new group
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/previews_spec.rb"
+"./spec/features/admin/settings_spec.rb":
+  name: "./spec/features/admin/settings_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/groups_spec.rb:198"
-"./spec/features/admin/groups_spec.rb:209":
-  name: Admin Groups Editing a group
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/settings_spec.rb"
+"./spec/features/admin/specify_links_and_logo_spec.rb":
+  name: "./spec/features/admin/specify_links_and_logo_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/groups_spec.rb:209"
-"./spec/features/admin/groups_spec.rb:22":
-  name: Admin Groups Deleting a group with no users
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/specify_links_and_logo_spec.rb"
+"./spec/features/admin/statistics_spec.rb":
+  name: "./spec/features/admin/statistics_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/groups_spec.rb:22"
-"./spec/features/admin/groups_spec.rb:222":
-  name: Admin Groups Editing an institutional group
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/statistics_spec.rb"
+"./spec/features/admin/usage_terms_spec.rb":
+  name: "./spec/features/admin/usage_terms_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/groups_spec.rb:222"
-"./spec/features/admin/groups_spec.rb:33":
-  name: Admin Groups Merging an institutional group to another one
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/usage_terms_spec.rb"
+"./spec/features/admin/users_spec.rb":
+  name: "./spec/features/admin/users_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/groups_spec.rb:33"
-"./spec/features/admin/groups_spec.rb:50":
-  name: Admin Groups Merging an institutional group to an ordinary group
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb"
+"./spec/features/admin/zencoder_jobs_spec.rb":
+  name: "./spec/features/admin/zencoder_jobs_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/groups_spec.rb:50"
-"./spec/features/admin/groups_spec.rb:62":
-  name: Admin Groups Deleting groups
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/zencoder_jobs_spec.rb"
+"./spec/features/batch/update_metadata_spec.rb":
+  name: "./spec/features/batch/update_metadata_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/groups_spec.rb:62"
-"./spec/features/admin/groups_spec.rb:7":
-  name: Admin Groups Deleting a group containing users
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/batch/update_metadata_spec.rb"
+"./spec/features/contexts/configurable_contexts_in_lists_spec.rb":
+  name: "./spec/features/contexts/configurable_contexts_in_lists_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/groups_spec.rb:7"
-"./spec/features/admin/groups_spec.rb:82":
-  name: Admin Groups Adding an user to a group
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/contexts/configurable_contexts_in_lists_spec.rb"
+"./spec/features/contexts/context_spec.rb":
+  name: "./spec/features/contexts/context_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/groups_spec.rb:82"
-"./spec/features/admin/interface_spec.rb:5":
-  name: Admin Interface Going back to media archive
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/contexts/context_spec.rb"
+"./spec/features/contexts/inheritance_contexts_spec.rb":
+  name: "./spec/features/contexts/inheritance_contexts_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/interface_spec.rb:5"
-"./spec/features/admin/keywords_spec.rb:24":
-  name: Admin Keywords Transferring media entries to another keyword
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/contexts/inheritance_contexts_spec.rb"
+"./spec/features/custom_urls/custom-urls_not-owner_spec.rb":
+  name: "./spec/features/custom_urls/custom-urls_not-owner_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/keywords_spec.rb:24"
-"./spec/features/admin/keywords_spec.rb:41":
-  name: Admin Keywords Editing keyword term
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/custom_urls/custom-urls_not-owner_spec.rb"
+"./spec/features/custom_urls/custom_urls_spec.rb":
+  name: "./spec/features/custom_urls/custom_urls_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/keywords_spec.rb:41"
-"./spec/features/admin/keywords_spec.rb:55":
-  name: Admin Keywords Searching keywords by term
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/custom_urls/custom_urls_spec.rb"
+"./spec/features/dashboard_spec.rb":
+  name: "./spec/features/dashboard_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/keywords_spec.rb:55"
-"./spec/features/admin/keywords_spec.rb:67":
-  name: Admin Keywords Searching keywords by creator
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/dashboard_spec.rb"
+"./spec/features/delete_spec.rb":
+  name: "./spec/features/delete_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/keywords_spec.rb:67"
-"./spec/features/admin/keywords_spec.rb:76":
-  name: Admin Keywords Searching and ranking keywords by text search
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/delete_spec.rb"
+"./spec/features/download/download_access_spec.rb":
+  name: "./spec/features/download/download_access_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/keywords_spec.rb:76"
-"./spec/features/admin/keywords_spec.rb:9":
-  name: Admin Keywords Listing keywords
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/download/download_access_spec.rb"
+"./spec/features/error_handling/error_handling_spec.rb":
+  name: "./spec/features/error_handling/error_handling_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/keywords_spec.rb:9"
-"./spec/features/admin/keywords_spec.rb:90":
-  name: Admin Keywords Searching and ranking keywords by trigram search
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/error_handling/error_handling_spec.rb"
+"./spec/features/explore/catalog_categories_spec.rb":
+  name: "./spec/features/explore/catalog_categories_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/keywords_spec.rb:90"
-"./spec/features/admin/keywords_spec.rb:99":
-  name: Admin Keywords Reseting searching, filtering and sorting
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/explore/catalog_categories_spec.rb"
+"./spec/features/explore/explore_spec.rb":
+  name: "./spec/features/explore/explore_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/keywords_spec.rb:99"
-"./spec/features/admin/media_entries_spec.rb:19":
-  name: Admin Media Entries Filtering by id
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/explore/explore_spec.rb"
+"./spec/features/explore_page_spec.rb":
+  name: "./spec/features/explore_page_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_entries_spec.rb:19"
-"./spec/features/admin/media_entries_spec.rb:29":
-  name: Admin Media Entries Filtering by custom url
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/explore_page_spec.rb"
+"./spec/features/filter/filter_media_resource_types_spec.rb":
+  name: "./spec/features/filter/filter_media_resource_types_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_entries_spec.rb:29"
-"./spec/features/admin/media_entries_spec.rb:39":
-  name: Admin Media Entries Filtering by title
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_media_resource_types_spec.rb"
+"./spec/features/filter/filter_panel_spec.rb":
+  name: "./spec/features/filter/filter_panel_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_entries_spec.rb:39"
-"./spec/features/admin/media_entries_spec.rb:7":
-  name: Admin Media Entries Listing media sets
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_panel_spec.rb"
+"./spec/features/filter/filter_set_spec.rb":
+  name: "./spec/features/filter/filter_set_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_entries_spec.rb:7"
-"./spec/features/admin/media_sets/transfer_ownership_spec.rb:102":
-  name: |-
-    Admin - Media Sets Changing ownership of set's children sets
-        without deleting permissions for the current owner
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_sets/transfer_ownership_spec.rb:102"
-"./spec/features/admin/media_sets/transfer_ownership_spec.rb:17":
-  name: Admin - Media Sets Transfering ownership
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_sets/transfer_ownership_spec.rb:17"
-"./spec/features/admin/media_sets/transfer_ownership_spec.rb:32":
-  name: Admin - Media Sets Changing ownership of a set and deleting all permissions
-    for the current owner
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_sets/transfer_ownership_spec.rb:32"
-"./spec/features/admin/media_sets/transfer_ownership_spec.rb:45":
-  name: Admin - Media Sets Changing ownership of a set without deleting permissions
-    for the current owner
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_sets/transfer_ownership_spec.rb:45"
-"./spec/features/admin/media_sets/transfer_ownership_spec.rb:57":
-  name: |-
-    Admin - Media Sets Changing ownership of set's children media entries
-        and deleting all permissions for the current owner
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_sets/transfer_ownership_spec.rb:57"
-"./spec/features/admin/media_sets/transfer_ownership_spec.rb:7":
-  name: Admin - Media Sets Sending request to change ownership with not checked any
-    option
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_sets/transfer_ownership_spec.rb:7"
-"./spec/features/admin/media_sets/transfer_ownership_spec.rb:72":
-  name: |-
-    Admin - Media Sets Changing ownership of set's children media entries
-        without deleting permissions for the current owner
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_sets/transfer_ownership_spec.rb:72"
-"./spec/features/admin/media_sets/transfer_ownership_spec.rb:86":
-  name: |-
-    Admin - Media Sets Changing ownership of set's children sets
-        and deleting all permissions for the current owner
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_sets/transfer_ownership_spec.rb:86"
-"./spec/features/admin/media_sets_spec.rb:21":
-  name: Admin Media Sets Showing details of a media set
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_sets_spec.rb:21"
-"./spec/features/admin/media_sets_spec.rb:28":
-  name: Admin Media Sets Delete a set with all children
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_sets_spec.rb:28"
-"./spec/features/admin/media_sets_spec.rb:38":
-  name: Admin Media Sets Delete a set without all children
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_sets_spec.rb:38"
-"./spec/features/admin/media_sets_spec.rb:48":
-  name: Admin Media Sets Managing individual context
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_sets_spec.rb:48"
-"./spec/features/admin/media_sets_spec.rb:7":
-  name: Admin Media Sets Showing media sets
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_sets_spec.rb:7"
-"./spec/features/admin/meta_key_definitions_spec.rb:10":
-  name: Admin Meta Key Definitions Setting min & max length
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_key_definitions_spec.rb:10"
-"./spec/features/admin/meta_key_definitions_spec.rb:25":
-  name: Admin Meta Key Definitions Setting input type
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_key_definitions_spec.rb:25"
-"./spec/features/admin/meta_key_definitions_spec.rb:39":
-  name: Admin Meta Key Definitions Changing position in scope of a context
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_key_definitions_spec.rb:39"
-"./spec/features/admin/meta_keys_spec.rb:106":
-  name: Admin Meta Keys Adding a meta term with thematic order
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_keys_spec.rb:106"
-"./spec/features/admin/meta_keys_spec.rb:118":
-  name: Admin Meta Keys Applying alphabetical order to meta terms
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_keys_spec.rb:118"
-"./spec/features/admin/meta_keys_spec.rb:133":
-  name: Admin Meta Keys Merging a meta term to another one
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_keys_spec.rb:133"
-"./spec/features/admin/meta_keys_spec.rb:155":
-  name: Admin Meta Keys Merging a meta term by giving an id with whitespaces
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_keys_spec.rb:155"
-"./spec/features/admin/meta_keys_spec.rb:163":
-  name: Admin Meta Keys Changing type from MetaDatumString to MetaDatumMetaTerms
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_keys_spec.rb:163"
-"./spec/features/admin/meta_keys_spec.rb:200":
-  name: Admin Meta Keys Displaying links to related contexts
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_keys_spec.rb:200"
-"./spec/features/admin/meta_keys_spec.rb:21":
-  name: Admin Meta Keys Listing meta keys with proper details
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_keys_spec.rb:21"
-"./spec/features/admin/meta_keys_spec.rb:29":
-  name: Admin Meta Keys Filtering meta keys by label
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_keys_spec.rb:29"
-"./spec/features/admin/meta_keys_spec.rb:47":
-  name: Admin Meta Keys Filtering meta keys by label related to a context
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_keys_spec.rb:47"
-"./spec/features/admin/meta_keys_spec.rb:56":
-  name: Admin Meta Keys Filtering meta keys by their types
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_keys_spec.rb:56"
-"./spec/features/admin/meta_keys_spec.rb:66":
-  name: Admin Meta Keys Filtering meta keys by context
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_keys_spec.rb:66"
-"./spec/features/admin/meta_keys_spec.rb:7":
-  name: Admin Meta Keys Creating a new meta key
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_keys_spec.rb:7"
-"./spec/features/admin/meta_keys_spec.rb:76":
-  name: Admin Meta Keys Filtering meta keys by used (not used) status
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_keys_spec.rb:76"
-"./spec/features/admin/meta_keys_spec.rb:86":
-  name: Admin Meta Keys Deleting not used meta key
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_keys_spec.rb:86"
-"./spec/features/admin/meta_keys_spec.rb:94":
-  name: Admin Meta Keys Adding a meta term with aplhabetical order
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_keys_spec.rb:94"
-"./spec/features/admin/meta_terms_spec.rb:107":
-  name: Admin Meta Terms Deleting unused meta term
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_terms_spec.rb:107"
-"./spec/features/admin/meta_terms_spec.rb:22":
-  name: Admin Meta Terms Transferring resources to another meta term
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_terms_spec.rb:22"
-"./spec/features/admin/meta_terms_spec.rb:37":
-  name: Admin Meta Terms Editing term value
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_terms_spec.rb:37"
-"./spec/features/admin/meta_terms_spec.rb:51":
-  name: Admin Meta Terms Sorting by term in ascending order by default
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_terms_spec.rb:51"
-"./spec/features/admin/meta_terms_spec.rb:57":
-  name: Admin Meta Terms Searching meta terms by term
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_terms_spec.rb:57"
-"./spec/features/admin/meta_terms_spec.rb:69":
-  name: Admin Meta Terms Searching and ranking meta terms by text search
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_terms_spec.rb:69"
-"./spec/features/admin/meta_terms_spec.rb:7":
-  name: Admin Meta Terms Listing meta terms
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_terms_spec.rb:7"
-"./spec/features/admin/meta_terms_spec.rb:83":
-  name: Admin Meta Terms Searching and ranking meta terms by trigram search
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_terms_spec.rb:83"
-"./spec/features/admin/meta_terms_spec.rb:93":
-  name: Admin Meta Terms Reseting searching, filtering and sorting
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_terms_spec.rb:93"
-"./spec/features/admin/people_spec.rb:23":
-  name: Admin People Deleting a person
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/people_spec.rb:23"
-"./spec/features/admin/people_spec.rb:42":
-  name: Admin People Preventing delete people that have metadata
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/people_spec.rb:42"
-"./spec/features/admin/people_spec.rb:54":
-  name: Admin People Editing person
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/people_spec.rb:54"
-"./spec/features/admin/people_spec.rb:7":
-  name: Admin People Changing MetaData to a person
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/people_spec.rb:7"
-"./spec/features/admin/people_spec.rb:71":
-  name: Admin People Default sorting
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/people_spec.rb:71"
-"./spec/features/admin/people_spec.rb:78":
-  name: Admin People Sorting by date of creation
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/people_spec.rb:78"
-"./spec/features/admin/people_spec.rb:86":
-  name: Admin People Searching people
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/people_spec.rb:86"
-"./spec/features/admin/people_spec.rb:96":
-  name: Admin People Searching people by term containing leading and trailing spaces
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/people_spec.rb:96"
-"./spec/features/admin/permission_presets_spec.rb:10":
-  name: Admin Permission Presets Creating new permission preset
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/permission_presets_spec.rb:10"
-"./spec/features/admin/permission_presets_spec.rb:21":
-  name: Admin Permission Presets Editing a permission preset
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/permission_presets_spec.rb:21"
-"./spec/features/admin/permission_presets_spec.rb:30":
-  name: Admin Permission Presets Changing permission preset position
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/permission_presets_spec.rb:30"
-"./spec/features/admin/previews_spec.rb:23":
-  name: Admin Previews Reencode previews for audio/video
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/previews_spec.rb:23"
-"./spec/features/admin/previews_spec.rb:7":
-  name: Admin Previews Regenerating previews for still images (JPEG, TIFF...)
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/previews_spec.rb:7"
-"./spec/features/admin/settings_spec.rb:10":
-  name: Admin Settings Setting a featured set
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/settings_spec.rb:10"
-"./spec/features/admin/settings_spec.rb:20":
-  name: Admin Settings Setting a teaser set
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/settings_spec.rb:20"
-"./spec/features/admin/settings_spec.rb:30":
-  name: Admin Settings Setting a catalog set
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/settings_spec.rb:30"
-"./spec/features/admin/settings_spec.rb:40":
-  name: Admin Settings Setting a special set with empty value
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/settings_spec.rb:40"
-"./spec/features/admin/settings_spec.rb:52":
-  name: Admin Settings Setting a special set with the same ID
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/settings_spec.rb:52"
-"./spec/features/admin/specify_links_and_logo_spec.rb:14":
-  name: Admin - Configure footer and logo Specifying a logo for the instance
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/specify_links_and_logo_spec.rb:14"
-"./spec/features/admin/specify_links_and_logo_spec.rb:7":
-  name: Admin - Configure footer and logo Configuring footer links
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/specify_links_and_logo_spec.rb:7"
-"./spec/features/admin/statistics_spec.rb:14":
-  name: Admin Statistics Listing amounts of all categories
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/statistics_spec.rb:14"
-"./spec/features/admin/statistics_spec.rb:7":
-  name: Admin Statistics Visiting the page with statistics
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/statistics_spec.rb:7"
-"./spec/features/admin/usage_terms_spec.rb:18":
-  name: Admin Usage Terms Resetting usage terms acceptance of a user
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/usage_terms_spec.rb:18"
-"./spec/features/admin/usage_terms_spec.rb:7":
-  name: Admin Usage Terms Updating Usage Terms
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/usage_terms_spec.rb:7"
-"./spec/features/admin/users_spec.rb:10":
-  name: Admin Users Creating a new user with person
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb:10"
-"./spec/features/admin/users_spec.rb:101":
-  name: Admin Users Searching users by term containing leading and trailing spaces
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb:101"
-"./spec/features/admin/users_spec.rb:108":
-  name: Admin Users Searching and ranking users by text search
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb:108"
-"./spec/features/admin/users_spec.rb:120":
-  name: Admin Users Searching and ranking users by trigram search
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb:120"
-"./spec/features/admin/users_spec.rb:127":
-  name: Admin Users Filtering admin users
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb:127"
-"./spec/features/admin/users_spec.rb:136":
-  name: Admin Users Adding an user to admins
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb:136"
-"./spec/features/admin/users_spec.rb:145":
-  name: Admin Users Removing an user from admins
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb:145"
-"./spec/features/admin/users_spec.rb:156":
-  name: Admin Users Switching to another admin user
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb:156"
-"./spec/features/admin/users_spec.rb:170":
-  name: Admin Users Switching to another user
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb:170"
-"./spec/features/admin/users_spec.rb:23":
-  name: Admin Users Creating a new user for an existing person
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb:23"
-"./spec/features/admin/users_spec.rb:36":
-  name: Admin Users Loging-in as a newly created user
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb:36"
-"./spec/features/admin/users_spec.rb:55":
-  name: Admin Users Deleting a user
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb:55"
-"./spec/features/admin/users_spec.rb:64":
-  name: Admin Users Editing a user
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb:64"
-"./spec/features/admin/users_spec.rb:74":
-  name: Admin Users Listing users with amount of resources
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb:74"
-"./spec/features/admin/users_spec.rb:78":
-  name: Admin Users Sorting users by amount of resources
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb:78"
-"./spec/features/admin/users_spec.rb:86":
-  name: Admin Users Listing detailed information about user's resources
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb:86"
-"./spec/features/admin/users_spec.rb:95":
-  name: Admin Users Searching users by term
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb:95"
-"./spec/features/admin/zencoder_jobs_spec.rb:7":
-  name: Zencoder Jobs Filtering by failed state
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/zencoder_jobs_spec.rb:7"
-"./spec/features/batch/update_metadata_spec.rb:40":
-  name: Batch edit metadata Updating an unset title meta-datum
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/batch/update_metadata_spec.rb:40"
-"./spec/features/batch/update_metadata_spec.rb:57":
-  name: Batch edit metadata Updating a mixed title meta-datum
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/batch/update_metadata_spec.rb:57"
-"./spec/features/batch/update_metadata_spec.rb:78":
-  name: Batch edit metadata Deleting a non mixed title meta-datum
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/batch/update_metadata_spec.rb:78"
-"./spec/features/contexts/configurable_contexts_in_lists_spec.rb:6":
-  name: Setting and displaying configurable contexts in list views Setting and displaying
-    configurable contexts in list views
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/contexts/configurable_contexts_in_lists_spec.rb:6"
-"./spec/features/contexts/context_spec.rb:10":
-  name: Context See a list of contexts
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/contexts/context_spec.rb:10"
-"./spec/features/contexts/context_spec.rb:41":
-  name: Context Open a specific context
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/contexts/context_spec.rb:41"
-"./spec/features/contexts/context_spec.rb:55":
-  name: Context Highlight used vocabulary
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/contexts/context_spec.rb:55"
-"./spec/features/contexts/context_spec.rb:68":
-  name: Context Interact with the abstract slider of a context
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/contexts/context_spec.rb:68"
-"./spec/features/contexts/inheritance_contexts_spec.rb:10":
-  name: Inheritance of contexts Inherit contexts from another set
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/contexts/inheritance_contexts_spec.rb:10"
-"./spec/features/contexts/inheritance_contexts_spec.rb:36":
-  name: Inheritance of contexts Remove contexts from a set while disconnecting from
-    inheriting set
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/contexts/inheritance_contexts_spec.rb:36"
-"./spec/features/contexts/inheritance_contexts_spec.rb:74":
-  name: Inheritance of contexts Disconnect contexts from a set
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/contexts/inheritance_contexts_spec.rb:74"
-"./spec/features/custom_urls/custom-urls_not-owner_spec.rb:29":
-  name: View and manage custom urls for users not being the owner  A user with manage
-    permission can set a custom url as primary
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/custom_urls/custom-urls_not-owner_spec.rb:29"
-"./spec/features/custom_urls/custom-urls_not-owner_spec.rb:6":
-  name: View and manage custom urls for users not being the owner  A user with view
-    permission can see custom urls
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/custom_urls/custom-urls_not-owner_spec.rb:6"
-"./spec/features/custom_urls/custom-urls_not-owner_spec.rb:63":
-  name: View and manage custom urls for users not being the owner  A user with manage
-    permission can add a custom url
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/custom_urls/custom-urls_not-owner_spec.rb:63"
-"./spec/features/custom_urls/custom_urls_spec.rb:118":
-  name: Setting and using custom URLs for MediaResources Creating URLs too quickly
-    for one media_resource is not allowed
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/custom_urls/custom_urls_spec.rb:118"
-"./spec/features/custom_urls/custom_urls_spec.rb:141":
-  name: Setting and using custom URLs for MediaResources Creating URLs quickly as
-    a Ueberadmin
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/custom_urls/custom_urls_spec.rb:141"
-"./spec/features/custom_urls/custom_urls_spec.rb:34":
-  name: Setting and using custom URLs for MediaResources Defining and redirection
-    to the primary url
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/custom_urls/custom_urls_spec.rb:34"
-"./spec/features/custom_urls/custom_urls_spec.rb:71":
-  name: Setting and using custom URLs for MediaResources Transfering URL and redirection
-    from '/media_resources/...'
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/custom_urls/custom_urls_spec.rb:71"
-"./spec/features/custom_urls/custom_urls_spec.rb:9":
-  name: Setting and using custom URLs for MediaResources Creating a URL
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/custom_urls/custom_urls_spec.rb:9"
-"./spec/features/dashboard_spec.rb:11":
-  name: Dashboard My resources
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/dashboard_spec.rb:11"
-"./spec/features/dashboard_spec.rb:19":
-  name: Dashboard Showing last imports
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/dashboard_spec.rb:19"
-"./spec/features/dashboard_spec.rb:25":
-  name: Dashboard Favorites
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/dashboard_spec.rb:25"
-"./spec/features/dashboard_spec.rb:33":
-  name: Dashboard My keywords
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/dashboard_spec.rb:33"
-"./spec/features/dashboard_spec.rb:41":
-  name: Dashboard My entrusted resources
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/dashboard_spec.rb:41"
-"./spec/features/dashboard_spec.rb:49":
-  name: Dashboard My groups
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/dashboard_spec.rb:49"
-"./spec/features/delete_spec.rb:12":
-  name: Delete Access delete action for media resources on my dashboard
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/delete_spec.rb:12"
-"./spec/features/delete_spec.rb:21":
-  name: Delete Access delete action for media resources on a media resources list
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/delete_spec.rb:21"
-"./spec/features/delete_spec.rb:31":
-  name: Delete Access delete action for media entry on media entry page
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/delete_spec.rb:31"
-"./spec/features/delete_spec.rb:40":
-  name: Delete Access delete action for media set on media set page
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/delete_spec.rb:40"
-"./spec/features/delete_spec.rb:57":
-  name: Delete Importing and deleting an image
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/delete_spec.rb:57"
-"./spec/features/download/download_access_spec.rb:108":
-  name: Download - Access Guest Download of the original file should be accessible
-    for entries with download permission
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/download/download_access_spec.rb:108"
-"./spec/features/download/download_access_spec.rb:123":
-  name: Download - Access Guest Download of the original file should be inaccessible
-    for entries without permissions
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/download/download_access_spec.rb:123"
-"./spec/features/download/download_access_spec.rb:15":
-  name: Download - Access Owner Download should be accessible for owner
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/download/download_access_spec.rb:15"
-"./spec/features/download/download_access_spec.rb:28":
-  name: Download - Access Owner Download of the original file should be accessible
-    for owner
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/download/download_access_spec.rb:28"
-"./spec/features/download/download_access_spec.rb:52":
-  name: Download - Access User Download should be accessible for entries with view
-    userpermission
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/download/download_access_spec.rb:52"
-"./spec/features/download/download_access_spec.rb:66":
-  name: Download - Access User Download of the original file should be accessible
-    for entries with download userpermission
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/download/download_access_spec.rb:66"
-"./spec/features/download/download_access_spec.rb:80":
-  name: Download - Access User Download of the original file should be inaccessible
-    for entries without permissions
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/download/download_access_spec.rb:80"
-"./spec/features/download/download_access_spec.rb:94":
-  name: Download - Access Guest Download should be accessible for entries with view
-    permission
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/download/download_access_spec.rb:94"
-"./spec/features/error_handling/error_handling_spec.rb:101":
-  name: Error handling media set Accessing non-accessible media set with being logged
-    in should inform of missing access rights
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/error_handling/error_handling_spec.rb:101"
-"./spec/features/error_handling/error_handling_spec.rb:11":
-  name: Error handling user login Login with correct credentials should be successful
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/error_handling/error_handling_spec.rb:11"
-"./spec/features/error_handling/error_handling_spec.rb:113":
-  name: Error handling media set Accessing accessible media set should be successful
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/error_handling/error_handling_spec.rb:113"
-"./spec/features/error_handling/error_handling_spec.rb:122":
-  name: Error handling After signing in after being prompted to do so, user should
-    be redirected to the resource they were trying to access
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/error_handling/error_handling_spec.rb:122"
-"./spec/features/error_handling/error_handling_spec.rb:16":
-  name: Error handling user login Login with incorrect login should inform of wrong
-    username/password
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/error_handling/error_handling_spec.rb:16"
-"./spec/features/error_handling/error_handling_spec.rb:22":
-  name: Error handling user login Login with incorrect password should inform of wrong
-    username/password
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/error_handling/error_handling_spec.rb:22"
-"./spec/features/error_handling/error_handling_spec.rb:28":
-  name: Error handling user login Login with both incorrect login and password should
-    inform of wrong username/password
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/error_handling/error_handling_spec.rb:28"
-"./spec/features/error_handling/error_handling_spec.rb:41":
-  name: Error handling media entry Accessing non exisitng media entry should give
-    404 error
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/error_handling/error_handling_spec.rb:41"
-"./spec/features/error_handling/error_handling_spec.rb:47":
-  name: Error handling media entry Accessing non-accessible media entry without being
-    logged in should prompt for login
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/error_handling/error_handling_spec.rb:47"
-"./spec/features/error_handling/error_handling_spec.rb:56":
-  name: Error handling media entry Accessing non-accessible media entry with being
-    logged in should inform of missing access rights
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/error_handling/error_handling_spec.rb:56"
-"./spec/features/error_handling/error_handling_spec.rb:68":
-  name: Error handling media entry Accessing accessible media entry should be successful
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/error_handling/error_handling_spec.rb:68"
-"./spec/features/error_handling/error_handling_spec.rb:83":
-  name: Error handling media set Accessing non exisitng media set should give 404
-    error
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/error_handling/error_handling_spec.rb:83"
-"./spec/features/error_handling/error_handling_spec.rb:92":
-  name: Error handling media set Accessing non-accessible media set without being
-    logged in should prompt for login
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/error_handling/error_handling_spec.rb:92"
-"./spec/features/explore/catalog_categories_spec.rb:9":
-  name: Visiting catalog categories Preview image for category should be randomized
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/explore/catalog_categories_spec.rb:9"
-"./spec/features/explore/explore_spec.rb:6":
-  name: Visiting explore main page Teaser set images should be randomized
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/explore/explore_spec.rb:6"
-"./spec/features/explore_page_spec.rb:5":
-  name: Explore Page Elements of welcome page
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/explore_page_spec.rb:5"
-"./spec/features/filter/filter_media_resource_types_spec.rb:9":
-  name: Filter MediaResource Types Filter a list of resources by type
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_media_resource_types_spec.rb:9"
-"./spec/features/filter/filter_panel_spec.rb:111":
-  name: Filter panel Filter by "Landschaftsvisualisierung" with multiple field filter
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_panel_spec.rb:111"
-"./spec/features/filter/filter_panel_spec.rb:127":
-  name: Filter panel Filter by Medium
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_panel_spec.rb:127"
-"./spec/features/filter/filter_panel_spec.rb:141":
-  name: Filter panel Filter by "Säulenordnungen"
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_panel_spec.rb:141"
-"./spec/features/filter/filter_panel_spec.rb:155":
-  name: Filter panel Filter by "ZHdK"
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_panel_spec.rb:155"
-"./spec/features/filter/filter_panel_spec.rb:169":
-  name: Filter panel Filter by "Lehrmittel Fotografie"
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_panel_spec.rb:169"
-"./spec/features/filter/filter_panel_spec.rb:183":
-  name: 'Filter panel Combining multiple filter from multiple groups: "Datei" and
-    "Berechtigung"'
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_panel_spec.rb:183"
-"./spec/features/filter/filter_panel_spec.rb:203":
-  name: Filter panel Resetting all filters
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_panel_spec.rb:203"
-"./spec/features/filter/filter_panel_spec.rb:21":
-  name: Filter panel Existence of the filter-panel and searching for an empty term
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_panel_spec.rb:21"
-"./spec/features/filter/filter_panel_spec.rb:233":
-  name: Filter panel Resetting single filters
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_panel_spec.rb:233"
-"./spec/features/filter/filter_panel_spec.rb:49":
-  name: Filter panel Filter by free text search term
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_panel_spec.rb:49"
-"./spec/features/filter/filter_panel_spec.rb:65":
-  name: Filter panel Filter by file
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_panel_spec.rb:65"
-"./spec/features/filter/filter_panel_spec.rb:79":
-  name: Filter panel Filter by permissions with multiple filters
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_panel_spec.rb:79"
-"./spec/features/filter/filter_panel_spec.rb:9":
-  name: Filter panel Filter by 'any' value
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_panel_spec.rb:9"
-"./spec/features/filter/filter_panel_spec.rb:97":
-  name: Filter panel Filter by work
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_panel_spec.rb:97"
-"./spec/features/filter/filter_set_spec.rb:42":
-  name: Filter Set  Updating Filter Set
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_set_spec.rb:42"
-"./spec/features/filter/filter_set_spec.rb:6":
-  name: Filter Set  Creating a FilterSet
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_set_spec.rb:6"
-"./spec/features/graph_visualization_spec.rb:20":
-  name: Visualization / Graph Calculating graph on the media entry view
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/graph_visualization_spec.rb:20"
-"./spec/features/graph_visualization_spec.rb:31":
-  name: Visualization / Graph Browser switcher
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/filter/filter_set_spec.rb"
+"./spec/features/graph_visualization_spec.rb":
+  name: "./spec/features/graph_visualization_spec.rb"
   eager_trials: 2
   auto_trials: 6
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/graph_visualization_spec.rb:31"
-"./spec/features/graph_visualization_spec.rb:42":
-  name: Visualization / Graph Popup for a set
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/graph_visualization_spec.rb"
+"./spec/features/groups/search_group_related_media_spec.rb":
+  name: "./spec/features/groups/search_group_related_media_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/graph_visualization_spec.rb:42"
-"./spec/features/graph_visualization_spec.rb:53":
-  name: Visualization / Graph Popup for a media entry
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/groups/search_group_related_media_spec.rb"
+"./spec/features/guest_user_spec.rb":
+  name: "./spec/features/guest_user_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/graph_visualization_spec.rb:53"
-"./spec/features/graph_visualization_spec.rb:65":
-  name: Visualization / Graph Origin highlight
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/guest_user_spec.rb"
+"./spec/features/import/import_metadata_spec.rb":
+  name: "./spec/features/import/import_metadata_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/graph_visualization_spec.rb:65"
-"./spec/features/graph_visualization_spec.rb:75":
-  name: Visualization / Graph Default labels
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_metadata_spec.rb"
+"./spec/features/import/import_spec.rb":
+  name: "./spec/features/import/import_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/graph_visualization_spec.rb:75"
-"./spec/features/graph_visualization_spec.rb:82":
-  name: Visualization / Graph Selecting option all labels
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_spec.rb"
+"./spec/features/import/import_via_dropbox_spec.rb":
+  name: "./spec/features/import/import_via_dropbox_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/graph_visualization_spec.rb:82"
-"./spec/features/graph_visualization_spec.rb:89":
-  name: Visualization / Graph Selecting non labels
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_via_dropbox_spec.rb"
+"./spec/features/io_interfaces/io_interfaces_spec.rb":
+  name: "./spec/features/io_interfaces/io_interfaces_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/graph_visualization_spec.rb:89"
-"./spec/features/graph_visualization_spec.rb:9":
-  name: Visualization / Graph Calculating graph on the media set view
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/io_interfaces/io_interfaces_spec.rb"
+"./spec/features/io_mappings/io_mappings_spec.rb":
+  name: "./spec/features/io_mappings/io_mappings_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/graph_visualization_spec.rb:9"
-"./spec/features/groups/search_group_related_media_spec.rb:23":
-  name: Search for group related media Number of related media entries displayed in
-    app_admin is the same as number of found media entries in the search engine
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/io_mappings/io_mappings_spec.rb"
+"./spec/features/login_spec.rb":
+  name: "./spec/features/login_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/groups/search_group_related_media_spec.rb:23"
-"./spec/features/groups/search_group_related_media_spec.rb:6":
-  name: Search for group related media Number of related media sets displayed in app_admin
-    is the same as number of found media in the search engine
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/login_spec.rb"
+"./spec/features/media_entries_spec.rb":
+  name: "./spec/features/media_entries_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/groups/search_group_related_media_spec.rb:6"
-"./spec/features/guest_user_spec.rb:13":
-  name: Guest/Not logged in user Search page
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_entries_spec.rb"
+"./spec/features/media_resources/media_resources_index_spec.rb":
+  name: "./spec/features/media_resources/media_resources_index_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/guest_user_spec.rb:13"
-"./spec/features/guest_user_spec.rb:28":
-  name: Guest/Not logged in user All resources I do see have public view permission
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_resources/media_resources_index_spec.rb"
+"./spec/features/media_resources/media_resources_relations_spec.rb":
+  name: "./spec/features/media_resources/media_resources_relations_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/guest_user_spec.rb:28"
-"./spec/features/guest_user_spec.rb:5":
-  name: Guest/Not logged in user Erkunden
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_resources/media_resources_relations_spec.rb"
+"./spec/features/media_resources/media_set_actions_spec.rb":
+  name: "./spec/features/media_resources/media_set_actions_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/guest_user_spec.rb:5"
-"./spec/features/import/import_metadata_spec.rb:120":
-  name: Importing files with metadata and setting metadata Importing an image that
-    has MAdeK title and date information (specific date) in its EXIF/IPTC metadata
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_resources/media_set_actions_spec.rb"
+"./spec/features/media_resources/media_set_display_mode_spec.rb":
+  name: "./spec/features/media_resources/media_set_display_mode_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_metadata_spec.rb:120"
-"./spec/features/import/import_metadata_spec.rb:146":
-  name: Importing files with metadata and setting metadata Importing images and setting
-    some metadata
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_resources/media_set_display_mode_spec.rb"
+"./spec/features/media_resources/showing_media_resources_spec.rb":
+  name: "./spec/features/media_resources/showing_media_resources_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_metadata_spec.rb:146"
-"./spec/features/import/import_metadata_spec.rb:16":
-  name: Importing files with metadata and setting metadata Using the sequential metadata
-    editor
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_resources/showing_media_resources_spec.rb"
+"./spec/features/meta_data/apply_to_all_spec.rb":
+  name: "./spec/features/meta_data/apply_to_all_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_metadata_spec.rb:16"
-"./spec/features/import/import_metadata_spec.rb:168":
-  name: Importing files with metadata and setting metadata Highlighting and enforcing
-    required meta fields
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_metadata_spec.rb:168"
-"./spec/features/import/import_metadata_spec.rb:40":
-  name: Importing files with metadata and setting metadata Filtering entries with
-    missing metadata in the sequential metadata editor
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_metadata_spec.rb:40"
-"./spec/features/import/import_metadata_spec.rb:70":
-  name: Importing files with metadata and setting metadata Importing an image that
-    has MAdeK title and date information (specific date) in its EXIF/IPTC metadata
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_metadata_spec.rb:70"
-"./spec/features/import/import_metadata_spec.rb:92":
-  name: Importing files with metadata and setting metadata Importing an image that
-    has MAdeK title and date information (specific date) in its EXIF/IPTC metadata
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_metadata_spec.rb:92"
-"./spec/features/import/import_spec.rb:12":
-  name: Import Canceling import preservers import files
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_spec.rb:12"
-"./spec/features/import/import_spec.rb:126":
-  name: Import Adding imports to a new set
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_spec.rb:126"
-"./spec/features/import/import_spec.rb:26":
-  name: Import Deleting files during the import
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_spec.rb:26"
-"./spec/features/import/import_spec.rb:61":
-  name: Import Importing a video creates a Zencoder job and submits it
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_spec.rb:61"
-"./spec/features/import/import_spec.rb:88":
-  name: Import Importing a file with 0 bytes
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_spec.rb:88"
-"./spec/features/import/import_spec.rb:95":
-  name: Import Setting permissions during the import
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_spec.rb:95"
-"./spec/features/import/import_via_dropbox_spec.rb:12":
-  name: Import via Dropbox Creating my dropbox
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_via_dropbox_spec.rb:12"
-"./spec/features/import/import_via_dropbox_spec.rb:23":
-  name: Import via Dropbox Importing large files
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_via_dropbox_spec.rb:23"
-"./spec/features/import/import_via_dropbox_spec.rb:30":
-  name: Import via Dropbox Importing via dropbox
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_via_dropbox_spec.rb:30"
-"./spec/features/import/import_via_dropbox_spec.rb:36":
-  name: Import via Dropbox Deleting files during the import via dropbox
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/import/import_via_dropbox_spec.rb:36"
-"./spec/features/io_interfaces/io_interfaces_spec.rb:10":
-  name: Io Interfaces Creating an Io Interface
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/io_interfaces/io_interfaces_spec.rb:10"
-"./spec/features/io_interfaces/io_interfaces_spec.rb:26":
-  name: Io Interfaces Deleting an existing Io Interface
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/io_interfaces/io_interfaces_spec.rb:26"
-"./spec/features/io_interfaces/io_interfaces_spec.rb:42":
-  name: Io Interfaces Using io mappings link
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/io_interfaces/io_interfaces_spec.rb:42"
-"./spec/features/io_mappings/io_mappings_spec.rb:10":
-  name: Io Mappings Creating an Io Mapping
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/io_mappings/io_mappings_spec.rb:10"
-"./spec/features/io_mappings/io_mappings_spec.rb:28":
-  name: Io Mappings Update an existing Io Mapping
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/io_mappings/io_mappings_spec.rb:28"
-"./spec/features/io_mappings/io_mappings_spec.rb:46":
-  name: Io Mappings Deleting an existing Io Mapping
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/io_mappings/io_mappings_spec.rb:46"
-"./spec/features/io_mappings/io_mappings_spec.rb:58":
-  name: Io Mappings Filtering index results
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/io_mappings/io_mappings_spec.rb:58"
-"./spec/features/login_spec.rb:14":
-  name: Login Accepting usage terms after fresh login
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/login_spec.rb:14"
-"./spec/features/login_spec.rb:29":
-  name: Login Rejecting usage terms after fresh login
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/login_spec.rb:29"
-"./spec/features/login_spec.rb:6":
-  name: Login Login with database authentication
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/login_spec.rb:6"
-"./spec/features/media_entries_spec.rb:5":
-  name: Media Entries Browsing similar media entries
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_entries_spec.rb:5"
-"./spec/features/media_resources/media_resources_index_spec.rb:29":
-  name: MediaResource index Resources in List and check overlays
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_resources/media_resources_index_spec.rb:29"
-"./spec/features/media_resources/media_resources_index_spec.rb:6":
-  name: MediaResource index Resources plainly and check overlays
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_resources/media_resources_index_spec.rb:6"
-"./spec/features/media_resources/media_resources_relations_spec.rb:32":
-  name: MediaResource show relations of a set
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_resources/media_resources_relations_spec.rb:32"
-"./spec/features/media_resources/media_resources_relations_spec.rb:6":
-  name: MediaResource show relations of an entry
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_resources/media_resources_relations_spec.rb:6"
-"./spec/features/media_resources/media_set_actions_spec.rb:11":
-  name: MediaResource setting cover picture for a media set
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_resources/media_set_actions_spec.rb:11"
-"./spec/features/media_resources/media_set_actions_spec.rb:26":
-  name: MediaResource setting highlights for a media set
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_resources/media_set_actions_spec.rb:26"
-"./spec/features/media_resources/media_set_display_mode_spec.rb:5":
-  name: MediaResource switching display mode should be saved
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_resources/media_set_display_mode_spec.rb:5"
-"./spec/features/media_resources/showing_media_resources_spec.rb:25":
-  name: Showing resources in the archive Displaying resources in a MediaSet that inclues
-    a Set, FilterSet and an Entry
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_resources/showing_media_resources_spec.rb:25"
-"./spec/features/media_resources/showing_media_resources_spec.rb:45":
-  name: Showing resources in the archive Watching a movie as a guest
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_resources/showing_media_resources_spec.rb:45"
-"./spec/features/media_resources/showing_media_resources_spec.rb:6":
-  name: Showing resources in the archive Displaying resources in a FilterSet that
-    includes all public entries
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_resources/showing_media_resources_spec.rb:6"
-"./spec/features/media_resources/showing_media_resources_spec.rb:66":
-  name: Showing resources in the archive Displaying parent sets
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_resources/showing_media_resources_spec.rb:66"
-"./spec/features/meta_data/apply_to_all_spec.rb:10":
-  name: Applying meta data to other media entries Possibility to apply meta data to
-    other media entries
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/meta_data/apply_to_all_spec.rb:10"
-"./spec/features/meta_data/apply_to_all_spec.rb:20":
-  name: Applying meta data to other media entries Overwriting meta data during apply
-    all during import
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/meta_data/apply_to_all_spec.rb:20"
-"./spec/features/meta_data/apply_to_all_spec.rb:29":
-  name: Applying meta data to other media entries Applying only on empty meta data
-    fields during import
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/meta_data/apply_to_all_spec.rb:29"
-"./spec/features/meta_data/meta_data_institutional_groups_spec.rb:13":
-  name: Meta Data - Instititutional Groups LDAP-Groups are filtered in backend
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/meta_data/apply_to_all_spec.rb"
+"./spec/features/meta_data/meta_data_institutional_groups_spec.rb":
+  name: "./spec/features/meta_data/meta_data_institutional_groups_spec.rb"
   scripts:
     main:
       body: "echo 'zhdk_integration: true' > 'config/settings.local.yml' && DISPLAY=\":$XVNC_PORT\"
-        bundle exec rspec \"./spec/features/meta_data/meta_data_institutional_groups_spec.rb:13\"
+        bundle exec rspec \"./spec/features/meta_data/meta_data_institutional_groups_spec.rb\"
         \n"
-"./spec/features/meta_data/meta_data_institutional_groups_spec.rb:44":
-  name: Meta Data - Instititutional Groups Selecting Groups doesn't select Children
+"./spec/features/meta_data/meta_data_spec.rb":
+  name: "./spec/features/meta_data/meta_data_spec.rb"
   scripts:
     main:
-      body: "echo 'zhdk_integration: true' > 'config/settings.local.yml' && DISPLAY=\":$XVNC_PORT\"
-        bundle exec rspec \"./spec/features/meta_data/meta_data_institutional_groups_spec.rb:44\"
-        \n"
-"./spec/features/meta_data/meta_data_spec.rb:102":
-  name: 'MetaData License: selecting a child of a license'
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/meta_data/meta_data_spec.rb"
+"./spec/features/permissions/batch_edit_permissions_spec.rb":
+  name: "./spec/features/permissions/batch_edit_permissions_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/meta_data/meta_data_spec.rb:102"
-"./spec/features/meta_data/meta_data_spec.rb:118":
-  name: 'MetaData License: editing license shows current (sub) selection'
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/batch_edit_permissions_spec.rb"
+"./spec/features/permissions/download_permission_spec.rb":
+  name: "./spec/features/permissions/download_permission_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/meta_data/meta_data_spec.rb:118"
-"./spec/features/meta_data/meta_data_spec.rb:137":
-  name: MetaData Show warning before leaving media entry edit page and losing unsaved
-    data
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/download_permission_spec.rb"
+"./spec/features/permissions/edit_permission_spec.rb":
+  name: "./spec/features/permissions/edit_permission_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/meta_data/meta_data_spec.rb:137"
-"./spec/features/meta_data/meta_data_spec.rb:15":
-  name: MetaData Changing all meta-data fields of a media entry
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/edit_permission_spec.rb"
+"./spec/features/permissions/manage_permission_spec.rb":
+  name: "./spec/features/permissions/manage_permission_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/meta_data/meta_data_spec.rb:15"
-"./spec/features/meta_data/meta_data_spec.rb:151":
-  name: MetaData Show warning before leaving media entry multiple edit page (batch)
-    and losing unsaved data
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/manage_permission_spec.rb"
+"./spec/features/permissions/permissions_spec.rb":
+  name: "./spec/features/permissions/permissions_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/meta_data/meta_data_spec.rb:151"
-"./spec/features/meta_data/meta_data_spec.rb:43":
-  name: MetaData Adding a new person as the author
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/permissions_spec.rb"
+"./spec/features/permissions/view_permission_spec.rb":
+  name: "./spec/features/permissions/view_permission_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/meta_data/meta_data_spec.rb:43"
-"./spec/features/meta_data/meta_data_spec.rb:64":
-  name: MetaData Adding a new group as the author
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/view_permission_spec.rb"
+"./spec/features/preview_spec.rb":
+  name: "./spec/features/preview_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/meta_data/meta_data_spec.rb:64"
-"./spec/features/meta_data/meta_data_spec.rb:81":
-  name: 'MetaData License: selecting an individual license clears presets'
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/preview_spec.rb"
+"./spec/features/search/search_spec.rb":
+  name: "./spec/features/search/search_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/meta_data/meta_data_spec.rb:81"
-"./spec/features/permissions/batch_edit_permissions_spec.rb:100":
-  name: Edit the permissions through batch-edit Disabling a manage permission
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/search/search_spec.rb"
+"./spec/features/search/transfer_meta_datum_people_spec.rb":
+  name: "./spec/features/search/transfer_meta_datum_people_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/batch_edit_permissions_spec.rb:100"
-"./spec/features/permissions/batch_edit_permissions_spec.rb:131":
-  name: Edit the permissions through batch-edit Enabling a manage permission
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/search/transfer_meta_datum_people_spec.rb"
+"./spec/features/search/transfer_meta_term_spec.rb":
+  name: "./spec/features/search/transfer_meta_term_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/batch_edit_permissions_spec.rb:131"
-"./spec/features/permissions/batch_edit_permissions_spec.rb:162":
-  name: Edit the permissions through batch-edit Keeping mixed state
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/search/transfer_meta_term_spec.rb"
+"./spec/features/search/updated_meta_datum_spec.rb":
+  name: "./spec/features/search/updated_meta_datum_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/batch_edit_permissions_spec.rb:162"
-"./spec/features/permissions/batch_edit_permissions_spec.rb:193":
-  name: Edit the permissions through batch-edit Creating a new user permission
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/search/updated_meta_datum_spec.rb"
+"./spec/features/transfer_responsibility_spec.rb":
+  name: "./spec/features/transfer_responsibility_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/batch_edit_permissions_spec.rb:193"
-"./spec/features/permissions/batch_edit_permissions_spec.rb:226":
-  name: Edit the permissions through batch-edit Changing public view permission does
-    not change userpermission
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/transfer_responsibility_spec.rb"
+"./spec/features/uberadmin_spec.rb":
+  name: "./spec/features/uberadmin_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/batch_edit_permissions_spec.rb:226"
-"./spec/features/permissions/batch_edit_permissions_spec.rb:257":
-  name: Edit the permissions through batch-edit Changing public download permission
-    does not change userpermission
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/uberadmin_spec.rb"
+"./spec/features/welcome_page_spec.rb":
+  name: "./spec/features/welcome_page_spec.rb"
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/batch_edit_permissions_spec.rb:257"
-"./spec/features/permissions/batch_edit_permissions_spec.rb:49":
-  name: Edit the permissions through batch-edit Looking at the permission page
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/batch_edit_permissions_spec.rb:49"
-"./spec/features/permissions/batch_edit_permissions_spec.rb:54":
-  name: Edit the permissions through batch-edit Looking at the permission properties
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/batch_edit_permissions_spec.rb:54"
-"./spec/features/permissions/batch_edit_permissions_spec.rb:71":
-  name: Edit the permissions through batch-edit Saving without changing anything
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/batch_edit_permissions_spec.rb:71"
-"./spec/features/permissions/download_permission_spec.rb:12":
-  name: Download permission Without download user-permission I can't download the
-    resource
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/download_permission_spec.rb:12"
-"./spec/features/permissions/download_permission_spec.rb:30":
-  name: Download permission With download user-permission I can download the resource
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/download_permission_spec.rb:30"
-"./spec/features/permissions/edit_permission_spec.rb:12":
-  name: Edit permission Without edit user-permission I cannot edit meta data
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/edit_permission_spec.rb:12"
-"./spec/features/permissions/edit_permission_spec.rb:20":
-  name: Edit permission With edit user-permission I can edit meta data
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/edit_permission_spec.rb:20"
-"./spec/features/permissions/manage_permission_spec.rb:12":
-  name: Manage permission Without manage user-permission I can't edit permissions
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/manage_permission_spec.rb:12"
-"./spec/features/permissions/manage_permission_spec.rb:23":
-  name: Manage permission With manage user-permission I can edit permissions
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/manage_permission_spec.rb:23"
-"./spec/features/permissions/permissions_spec.rb:102":
-  name: Permissions Limiting what other users' permissions I can see
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/permissions_spec.rb:102"
-"./spec/features/permissions/permissions_spec.rb:12":
-  name: Permissions Assigning and removing user permissions
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/permissions_spec.rb:12"
-"./spec/features/permissions/permissions_spec.rb:34":
-  name: Permissions Assigning and removing group permissions
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/permissions_spec.rb:34"
-"./spec/features/permissions/permissions_spec.rb:60":
-  name: Permissions Display the complete LDAP name on the selection dropdown
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/permissions_spec.rb:60"
-"./spec/features/permissions/permissions_spec.rb:77":
-  name: Permissions Permissions for adding a resource to a set
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/permissions_spec.rb:77"
-"./spec/features/permissions/permissions_spec.rb:93":
-  name: Permissions Permission presets
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/permissions_spec.rb:93"
-"./spec/features/permissions/view_permission_spec.rb:12":
-  name: View permission Without permissions I cannot view a resource
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/view_permission_spec.rb:12"
-"./spec/features/permissions/view_permission_spec.rb:18":
-  name: View permission With view user-permission I can view the resource
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/view_permission_spec.rb:18"
-"./spec/features/permissions/view_permission_spec.rb:27":
-  name: View permission With view user-permission I can't edit permissions
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/permissions/view_permission_spec.rb:27"
-"./spec/features/preview_spec.rb:5":
-  name: Showing previews Switching between, minature, grid and list
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/preview_spec.rb:5"
-"./spec/features/search/search_spec.rb:13":
-  name: Search Suggested search terms
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/search/search_spec.rb:13"
-"./spec/features/search/search_spec.rb:30":
-  name: Search Searching for two words
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/search/search_spec.rb:30"
-"./spec/features/search/search_spec.rb:42":
-  name: Search Searching from the secondary window
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/search/search_spec.rb:42"
-"./spec/features/search/transfer_meta_datum_people_spec.rb:7":
-  name: "Transfering PersonMetaData and search Searching for a Person X name shows
-    related media entries. \n          Transfering all PersonMetaData from person
-    X to person Y.\n          Searching for Person X doesn't show the media entries
-    as before.\n          Searching for Person Y does show the media entries as before."
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/search/transfer_meta_datum_people_spec.rb:7"
-"./spec/features/search/transfer_meta_term_spec.rb:6":
-  name: |-
-    Transferring resources between terms and searching for those terms. After transferring all media_resources from one term to an other
-                the text search does reflect this transfer.
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/search/transfer_meta_term_spec.rb:6"
-"./spec/features/search/updated_meta_datum_spec.rb:7":
-  name: "Searching for an updated meta datum setting the subtitle and searching for
-    it \n    should yield the media resource"
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/search/updated_meta_datum_spec.rb:7"
-"./spec/features/transfer_responsibility_spec.rb:27":
-  name: Transfer responsibility Transferring a media resource where I am not the owner
-    should not be possible
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/transfer_responsibility_spec.rb:27"
-"./spec/features/transfer_responsibility_spec.rb:49":
-  name: Transfer responsibility Setting custom permissions for owner while transfering
-    to other person
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/transfer_responsibility_spec.rb:49"
-"./spec/features/transfer_responsibility_spec.rb:73":
-  name: Transfer responsibility Transfering responsibility as uberadmin
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/transfer_responsibility_spec.rb:73"
-"./spec/features/transfer_responsibility_spec.rb:9":
-  name: Transfer responsibility Transferring one media resource as an owner
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/transfer_responsibility_spec.rb:9"
-"./spec/features/uberadmin_spec.rb:13":
-  name: Acting as an Uberadmin My resources
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/uberadmin_spec.rb:13"
-"./spec/features/uberadmin_spec.rb:36":
-  name: Acting as an Uberadmin Viewing and editing a private entry as Überadmin
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/uberadmin_spec.rb:36"
-"./spec/features/uberadmin_spec.rb:74":
-  name: Acting as an Uberadmin Deleting a private media entry in admin mode
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/uberadmin_spec.rb:74"
-"./spec/features/welcome_page_spec.rb:30":
-  name: Welcome page Catalog feauture
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/welcome_page_spec.rb:30"
-"./spec/features/welcome_page_spec.rb:5":
-  name: Welcome page Elements of weclome page
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/welcome_page_spec.rb:5"
-"./spec/features/workgroups_spec.rb:10":
-  name: Workgroups Create a new group
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/workgroups_spec.rb:10"
-"./spec/features/workgroups_spec.rb:26":
-  name: Workgroups Requiring name during group creation
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/workgroups_spec.rb:26"
-"./spec/features/workgroups_spec.rb:38":
-  name: Workgroups Edit group members
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/workgroups_spec.rb:38"
-"./spec/features/workgroups_spec.rb:56":
-  name: Workgroups Delete a group
-  eager_trials: 2
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/welcome_page_spec.rb"
+"./spec/features/workgroups_spec.rb":
+  name: "./spec/features/workgroups_spec.rb"
+  eager_trials: 3
   auto_trials: 10
   scripts:
     main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/workgroups_spec.rb:56"
-"./spec/features/workgroups_spec.rb:70":
-  name: Workgroups Error during group deletion
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/workgroups_spec.rb:70"
-"./spec/features/workgroups_spec.rb:82":
-  name: Workgroups Successfully edit group name
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/workgroups_spec.rb:82"
-"./spec/features/workgroups_spec.rb:99":
-  name: Workgroups Error providing empty group name during edit
-  scripts:
-    main:
-      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/workgroups_spec.rb:99"
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/workgroups_spec.rb"

@@ -14,6 +14,8 @@
 .rvmrc
 .sass-cache/
 .yardoc
+Gemfile.local
+Gemfile.local.lock
 app/assets/stylesheets/config/local/
 config/*.conf
 config/*.conf_with_pipe
@@ -41,8 +43,8 @@ db/schema.rb
 db/sphinx/
 db/test_structure.sql
 deb/seeds.rb
-dev/node_modules/
 design/icon-font-sources/*.svg
+dev/node_modules/
 doc/api/yard
 log/*.log
 log/searchd.development.pid
@@ -50,7 +52,6 @@ log/searchd.test.pid
 public/assets/
 public/previews/
 rerun*.txt
+result.json
 tmp/
 vendor/bundle/
-Gemfile.local
-Gemfile.local.lock

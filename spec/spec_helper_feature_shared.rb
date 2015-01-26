@@ -40,12 +40,12 @@ def assert_exact_url_path(path)
 end
 
 def assert_modal_not_visible
-  expect(page).not_to have_selector '.modal-backdrop'
+  expect(page).not_to have_selector('.modal-backdrop', visible: false)
 end
 
 def assert_modal_visible(title = nil)
-  expect(page).to have_selector('.modal')
-  expect(page).to have_selector('.modal-backdrop')
+  find('.modal')
+  find('.modal-backdrop')
   within('.modal .ui-modal-head') do
     expect(page).to have_selector('*', text: title) if title
   end

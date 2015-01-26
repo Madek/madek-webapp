@@ -16,7 +16,7 @@ MAdeK::Application.configure do
   config.serve_static_assets = true
   config.static_cache_control = "public, max-age=3600"
 
-  #config.log_level = :debug
+  config.log_level = :warn
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
