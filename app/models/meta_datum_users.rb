@@ -19,22 +19,6 @@ class MetaDatumUsers < MetaDatum
     end
   end
 
-
-  def serializable_hash_with_relations options
-    if options[:include] == :meta_key 
-      opts= options.deep_dup
-      opts[:include] = [:meta_key,{users: {except: [:password_digest]}}]
-      serializable_hash_without_relations(opts)
-    else
-      serializable_hash_without_relations(options)
-    end
-  end
-
-  alias_method :serializable_hash_without_relations , :serializable_hash
-  alias_method :serializable_hash, :serializable_hash_with_relations
-
-
-
 end
 
 

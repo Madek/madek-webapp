@@ -74,7 +74,7 @@ class DownloadController < ApplicationController
 
   # Export a media entry xml file
   def send_xml
-    data = @media_entry.as_json(:include => {:meta_data => {:include => :meta_key}}).to_xml
+    data = @media_entry.to_xml(:include => {:meta_data => {:include => :meta_key}})
     send_data(data, { :filename => "#{@filename}.xml",
                       :type => :xml,
                       :disposition => 'attachment'})
