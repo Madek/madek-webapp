@@ -21,6 +21,7 @@ class MigrateEditSessionsData < ActiveRecord::Migration
       dir.up do
 
         copy_ids 'MediaEntry', 'media_entry_id'
+        copy_ids 'MediaEntryIncomplete', 'media_entry_id'
         copy_ids 'MediaSet',  'collection_id'
         copy_ids 'FilterSet', 'filter_set_id'
 

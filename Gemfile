@@ -14,7 +14,7 @@ gem 'foreigner'
 gem 'jdbc-postgres', platform: :jruby
 gem 'memcache-client'
 gem 'pg', platform: :mri
-gem 'pg_tasks', '>= 1.0.0', '< 2.0.0'
+gem 'pg_tasks', '>= 1.1.0', '< 2.0.0'
 gem 'textacular', git: 'https://github.com/DrTom/textacular.git'
 
 # API

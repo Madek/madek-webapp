@@ -53,7 +53,6 @@ class CreateFilterSetUserPermission < ActiveRecord::Migration
               .reject { |k, v| %w(download).include? k } \
               .map { |k, v| [(USER_PERMISSION_KEYS_MAP[k] || k), v] } \
               .instance_eval { Hash[self] }
-            puts "MIGRATING #{user_permission.attributes} to #{attributes}"
             ::MigrationFilterSetUserPermission.create! attributes
         end
       end

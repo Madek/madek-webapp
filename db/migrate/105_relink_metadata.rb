@@ -25,7 +25,7 @@ class RelinkMetadata < ActiveRecord::Migration
                   SET media_entry_id = media_resources.id
                   FROM media_resources
                   WHERE media_resources.id = meta_data.media_resource_id
-                  AND media_resources.type = 'MediaEntry'"
+                  AND media_resources.type IN ('MediaEntry', 'MediaEntryIncomplete')"
 
         execute "UPDATE meta_data
                   SET collection_id = media_resources.id

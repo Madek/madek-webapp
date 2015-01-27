@@ -52,7 +52,6 @@ class CreateFilterSetApiClientPermission < ActiveRecord::Migration
               .reject { |k, v| %w(download manage).include? k } \
               .map { |k, v| [(API_CLIENT_PERMISSION_KEYS_MAP[k] || k), v] } \
               .instance_eval { Hash[self] }
-            puts "MIGRATING #{api_client_permission.attributes} to #{attributes}"
             ::MigrationFilterSetApiClientPermission.create! attributes
         end
       end
