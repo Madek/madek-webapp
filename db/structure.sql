@@ -522,13 +522,10 @@ CREATE TABLE keyword_terms (
 CREATE TABLE keywords (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     user_id uuid,
-    keyword_term_id uuid,
+    meta_datum_id uuid NOT NULL,
+    keyword_term_id uuid NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    media_entry_id uuid,
-    collection_id uuid,
-    filter_set_id uuid,
-    CONSTRAINT keywords_is_related CHECK ((((((media_entry_id IS NULL) AND (collection_id IS NULL)) AND (filter_set_id IS NOT NULL)) OR (((media_entry_id IS NULL) AND (collection_id IS NOT NULL)) AND (filter_set_id IS NULL))) OR (((media_entry_id IS NOT NULL) AND (collection_id IS NULL)) AND (filter_set_id IS NULL))))
+    updated_at timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -1732,6 +1729,13 @@ CREATE INDEX index_keywords_on_keyword_term_id ON keywords USING btree (keyword_
 
 
 --
+-- Name: index_keywords_on_meta_datum_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_keywords_on_meta_datum_id ON keywords USING btree (meta_datum_id);
+
+
+--
 -- Name: index_keywords_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2030,13 +2034,6 @@ CREATE INDEX index_users_on_autocomplete ON users USING btree (autocomplete);
 --
 
 CREATE INDEX index_users_on_login ON users USING btree (login);
-
-
---
--- Name: index_users_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_users_on_person_id ON users USING btree (person_id);
 
 
 --
@@ -2577,22 +2574,6 @@ ALTER TABLE ONLY io_mappings
 
 
 --
--- Name: keywords_collection_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY keywords
-    ADD CONSTRAINT keywords_collection_id_fk FOREIGN KEY (collection_id) REFERENCES collections(id);
-
-
---
--- Name: keywords_filter_set_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY keywords
-    ADD CONSTRAINT keywords_filter_set_id_fk FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id);
-
-
---
 -- Name: keywords_keyword_term_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2601,11 +2582,11 @@ ALTER TABLE ONLY keywords
 
 
 --
--- Name: keywords_media_entry_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: keywords_meta_datum_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY keywords
-    ADD CONSTRAINT keywords_media_entry_id_fk FOREIGN KEY (media_entry_id) REFERENCES media_entries(id);
+    ADD CONSTRAINT keywords_meta_datum_id_fk FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
 
 
 --

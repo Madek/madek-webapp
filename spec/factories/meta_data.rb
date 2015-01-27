@@ -2,7 +2,18 @@ FactoryGirl.define do
 
   factory :meta_datum_text, class: MetaDatum::Text do
     value { Faker::Lorem.words.join(' ') }
-    meta_key { MetaKey.find_by_id('text') || FactoryGirl.create(:meta_key_text) }
+    meta_key do
+      MetaKey.find_by_id('test:text') \
+               || FactoryGirl.create(:meta_key_text)
+    end
+    media_entry { FactoryGirl.create :media_entry }
+  end
+
+  factory :meta_datum_keywords, class: MetaDatum::Keywords do
+    meta_key do
+      MetaKey.find_by_id('test:keywords') \
+               || FactoryGirl.create(:meta_key_keywords)
+    end
     media_entry { FactoryGirl.create :media_entry }
   end
 
