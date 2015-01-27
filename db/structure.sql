@@ -1305,6 +1305,13 @@ CREATE INDEX index_meta_data_on_media_resource_id ON meta_data USING btree (medi
 
 
 --
+-- Name: index_meta_data_on_media_resource_id_and_meta_key_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_meta_data_on_media_resource_id_and_meta_key_id ON meta_data USING btree (media_resource_id, meta_key_id);
+
+
+--
 -- Name: index_meta_data_on_meta_key_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2221,6 +2228,8 @@ INSERT INTO schema_migrations (version) VALUES ('20141006113152');
 INSERT INTO schema_migrations (version) VALUES ('20141014083457');
 
 INSERT INTO schema_migrations (version) VALUES ('20141014090348');
+
+INSERT INTO schema_migrations (version) VALUES ('20150127134935');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
