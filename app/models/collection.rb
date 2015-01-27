@@ -6,8 +6,8 @@ class Collection < ActiveRecord::Base
   include Concerns::Keywords
   include Concerns::MetaData
   include Concerns::PermissionsAssociations
-  include Concerns::Users::Responsible
   include Concerns::Users::Creator
+  include Concerns::Users::Responsible
 
   #################################################################################
 

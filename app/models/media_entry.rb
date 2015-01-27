@@ -1,12 +1,13 @@
 class MediaEntry < ActiveRecord::Base
 
+  include Concerns::EditSessions
   include Concerns::Entrust
   include Concerns::Favoritable
-  include Concerns::EditSessions
-  include Concerns::PermissionsAssociations
-  include Concerns::Users::Responsible
-  include Concerns::Users::Creator
   include Concerns::Keywords
+  include Concerns::MetaData
+  include Concerns::PermissionsAssociations
+  include Concerns::Users::Creator
+  include Concerns::Users::Responsible
 
   has_one :media_file, dependent: :destroy
 

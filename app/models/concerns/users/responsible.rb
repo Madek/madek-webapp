@@ -4,8 +4,7 @@ module Concerns
       extend ActiveSupport::Concern
 
       included do
-        belongs_to :responsible_user, class_name: 'User'
-        validates_presence_of :responsible_user, :creator
+        define_user_related_data(:responsible_user)
         scope :in_responsibility_of, ->(user) { where(responsible_user: user) }
       end
     end

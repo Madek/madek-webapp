@@ -7,8 +7,8 @@ RSpec.shared_examples 'created by user' do
   before :example do
     @user = FactoryGirl.create(:user)
     2.times do
-      @user.send("created_#{described_class.table_name}") << \
-        FactoryGirl.create(described_class.model_name.singular)
+      FactoryGirl.create(described_class.model_name.singular,
+                         creator: @user)
     end
   end
 
@@ -18,7 +18,7 @@ RSpec.shared_examples 'created by user' do
         described_class.created_by(@user)
     set2 = \
       Set.new \
-        @user.send("created_#{described_class.table_name}")
+        described_class.where(creator: @user)
 
     expect(set1).to be == set2
   end

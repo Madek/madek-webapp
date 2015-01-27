@@ -1,13 +1,14 @@
 require 'spec_helper'
 
 [
-  'favoritable_spec.rb',
+  'created_by_user_spec.rb',
   'edit_sessions_spec.rb',
   'entrusted_to_user_spec.rb',
-  'validates_spec.rb',
   'favored_by_user_spec.rb',
+  'favoritable_spec.rb',
   'in_responsibility_of_user_spec.rb',
-  'created_by_user_spec.rb'
+  'meta_data_spec.rb',
+  'validates_spec.rb'
 ]
   .each do |file|
   require Rails.root.join 'spec', 'models', 'shared', file
@@ -44,9 +45,15 @@ describe MediaEntry do
 
   end
 
+  it_provides_scope 'created by user'
   it_provides_scope 'entrusted to user'
   it_provides_scope 'favored by user'
   it_provides_scope 'in responsibility of user'
-  it_provides_scope 'created by user'
 
+  context 'reader methods for meta_data' do
+
+    it_provides_reader_method_for 'meta_datum', 'title'
+    it_provides_reader_method_for 'meta_datum', 'description'
+
+  end
 end
