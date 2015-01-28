@@ -1,3 +1,0 @@
-[submodule "public/api-browser"]
-	path = public/api-browser
-	url = https://github.com/zhdk/madek-api-browser.git
