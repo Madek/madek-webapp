@@ -24,8 +24,8 @@ task_defaults:
     styleguide_artefacts:
       glob: 'tmp/styleguide-ref.tar.gz'
       content-type: application/x-compressed
-    styleguide_hashes:
-      glob: 'dev/test/styleguide-shasums.txt'
+    styleguide_hashes_new:
+      glob: 'tmp/styleguide-shasums.txt'
       content-type: text/plain
 
 

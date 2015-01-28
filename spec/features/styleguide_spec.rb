@@ -11,10 +11,6 @@ def screenshots_enabled_in_environment?
   ENV['MADEK_TEST_SCREENSHOTS'] != 1
 end
 
-def regenerate?
-  false # for frontend owner only!
-end
-
 # END CONFIG
 
 describe 'Styleguide' do
@@ -40,6 +36,7 @@ describe 'Styleguide' do
       puts 'styleguide screenshots are enabled, cleaning tmp dir'
       filenname = 'styleguide-shasums.txt'
       reference_hashes = Rails.root.join('dev', 'test', filenname)
+      new_hashes = Rails.root.join('tmp', filenname)
       screenshot_dir = Rails.root.join('tmp', 'styleguide-ref')
       FileUtils.rm_r(screenshot_dir, secure: true) if Dir.exists? screenshot_dir
 
@@ -63,27 +60,22 @@ describe 'Styleguide' do
         take_screenshot(element_dir, "#{element[:name]}.png")
       end
 
-      # regenerate reference hashes
-      if regenerate?
-        system "shasum --portable tmp/styleguide-ref/**/* > #{reference_hashes}"
-      end
-
-      # compare hashes to references
+      # ACTUAL TEST: compare hashes to references
       check = system "shasum --portable -c #{reference_hashes}"
 
-      # attach tar.gz of screenshots if regenerating (reference) or it failed
-      if !check || regenerate?
+      # IF IT FAILED:
+      if !check
         puts 'Attaching artefacts…'
+        # generate NEW reference hashes
+        system "shasum --portable tmp/styleguide-ref/**/* > #{new_hashes}"
+        # attach tar.gz of screenshots if regenerating (reference)
         system 'cd tmp && tar -cvzf styleguide-ref.tar.gz styleguide-ref/'
       end
 
-      # expect successful hash matches
+      # expect actual test to pass
       expect(check).to eq true
 
     end
-
-    # catches false-positive (in CI!) if we are regenerating…
-    expect(regenerate?).to eq false
 
   end
 
