@@ -9,3 +9,7 @@ executions:
   Code-Check: 
     specification: 
       _cider-ci_include: /.cider-ci/code-check_spec.yml
+  Deploy-Test:
+    specification: 
+      _cider-ci_include: /.cider-ci/deploy_test_spec.yml
+
