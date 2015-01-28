@@ -6,6 +6,8 @@ module UiHelper
   #   elements on 1 page to catch broken components early
   #
   # Notable patterns:
+  # - all elements only use their given args, no @vars, no side effects
+  # - all the data is given as hash, no AR stuff!
   # - elements render nothing if no data is given (less `= icon if icon`)
   # - some elements pass through all "extra" config keys to HAML/HTML
   #   (where it make sense, ie. it is closely related to a HTML tag, like icon)
@@ -46,8 +48,7 @@ module UiHelper
 
   # generic partial-with-block helper
   def partial(name, locals = {}, &block)
-    raise 'missing block!' unless block_given?
-    render layout: name, locals: locals, &block
+    render layout: name, locals: locals, &block if block_given?
   end
 
   def link_from_item(item)
@@ -59,26 +60,24 @@ module UiHelper
 
   protected
 
-  def render_element(type, name, config = {}, children = nil, &_block)
+  def render_element(type, name, config = {}, &_block)
     return if name.nil?
     locals = build_locals_from_element(name, config)
-    name = name_without_mod(name)
-    locals[:list] = build_list(locals[:list])
+    name = name_without_mods(name)
+    # locals[:list] = build_list(locals[:list])
     locals[:block_content] = capture { yield } if block_given?
-    if !locals[:block_content].nil? && !children.nil?
-      throw 'ui: give children either as last arg *or* block'
-    end
     render template: "_elements/#{type}s/#{name}", locals: locals
   end
 
   def build_locals_from_element(name, config)
     locals = {
-      classes: (classes_from_element(config).push(mod_from_name(name))
-                .flatten.compact),
-      link: link_from_item(config),
-      block_content: nil
+      classes: (classes_from_element(config).push(mods_from_name(name)))
+                .flatten.compact,
+      link: link_from_item(config)
     }
-    locals = locals.merge(config) if config.is_a? Hash
+    if config.is_a? Hash
+      locals = locals.merge(config)
+    end
     locals.delete([:mods])
     locals
   end
@@ -86,6 +85,7 @@ module UiHelper
   def classes_from_element(config)
     # can be given as String or Hash[:mods] (String or Array)
     config ||= ''
+
     case
     when config.is_a?(String) then [config.split('.')]
     when config[:mods].is_a?(String) then [config[:mods].split('.')].flatten
@@ -94,8 +94,8 @@ module UiHelper
     end
   end
 
-  def mod_from_name(name)
-    supported_elements = ['icon', 'button']
+  def mods_from_name(name)
+    supported_elements = ['icon', 'button', 'tag-cloud']
     mods = name.split('.')
     element = mods.shift(1).first
     return unless mods
@@ -107,11 +107,11 @@ module UiHelper
     classes.flatten.compact
   end
 
-  def name_without_mod(name)
+  def name_without_mods(name)
     (name || '').split('.').first
   end
 
-  def build_list(list = nil)
-    list if list.is_a?(Enumerable) && !list.empty?
-  end
+  # def build_list(list = nil)
+  #   list if list.is_a?(Enumerable) && !list.empty?
+  # end
 end

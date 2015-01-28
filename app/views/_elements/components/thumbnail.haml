@@ -1,0 +1,29 @@
+:ruby
+  text ||= {}
+  # actual image shown inside thumb
+  picture = {
+    mods: 'ui-thumbnail-image',
+    href: picture,
+    text: text
+  }
+  link ||= nil
+  badge_top_left ||= nil
+  badge_top_right ||= nil
+  return unless picture[:href]
+
+.ui-thumbnail{class: classes}
+
+  - if badge_top_left
+    .ui-thumbnail-privacy
+      = badge_top_left
+
+  - if badge_top_right
+    .ui-thumbnail-filterset-flag
+      = badge_top_right
+
+  = component('link', link: link, mods: 'ui-thumbnail-image-wrapper') do
+    .ui-thumbnail-image-holder
+      .ui-thumbnail-table-image-holder
+        .ui-thumbnail-cell-image-holder
+          .ui-thumbnail-inner-image-holder
+            = component('picture', picture)

@@ -1,0 +1,33 @@
+:ruby
+  return unless list
+  icon_type =
+    case
+    when classes.delete('tag-cloud-label') then 'tag'
+    when classes.delete('tag-cloud-person') then 'user'
+    when classes.delete('tag-cloud-group') then 'group'
+    else false
+    end
+
+  # TODO: decide what is correct
+  icon_size = '-mini'
+  # icon_size =
+  #   case
+  #   when classes.include?('large') then nil
+  #   else '-mini'
+
+%ul.ui-tag-cloud{class: classes}
+  - list.each do |item|
+
+    %li.ui-tag-cloud-item
+      - html_tag_type = if item[:href].nil? then 'button' else 'a' end
+      - props = {class: 'ui-tag-button', href: item[:href], title: item[:title]}
+      - haml_tag(html_tag_type, props) do
+
+        - if icon_type
+          = component("icon.#{icon_type}#{icon_size}", 'ui-tag-icon')
+
+        = item[:text]
+
+        - if item[:count]
+          %span.ui-tag-counter
+            = item[:count]

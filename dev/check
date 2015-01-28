@@ -2,7 +2,7 @@
 set -e
 
 printf 'rubocop... '
-bundle exec rubocop . >/dev/null
+bundle exec rubocop .
 echo OK
 
 printf 'flog... '

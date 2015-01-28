@@ -1,0 +1,9 @@
+:ruby
+  props = {
+    src: href,
+    alt: text,
+    class: classes
+  }
+  return unless props[:src]
+
+- haml_tag('img', props)

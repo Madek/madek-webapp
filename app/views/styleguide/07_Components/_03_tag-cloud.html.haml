@@ -10,223 +10,123 @@
       'large' => 'Large variation',
       'ellipsed' => 'Variation with a fixed width and ellipsis effect applied',
       'compact' => 'Variation with a counters being hidden via CSS even if they’re in the HTML output'
+    },
+    # example tag_count
+    locals_tag_count: {
+      list: [
+        { text: 'Kunst', count: 12, href: '#' },
+        { text: 'Fotografie', count: 34, href: '#' },
+        { text: 'Design', count: 56, href: '#' },
+        { text: 'Fotografie', count: 78, href: '#' },
+        { text: 'Art', count: 90, href: '#' }
+      ]
+    },
+    # example tag_nocount
+    locals_tag_nocount: {
+      list: [
+        { text: 'Freizeit', href: '#' },
+        { text: 'Mode', href: '#' },
+        { text: 'Outdoor', href: '#' },
+        { text: 'Sport', href: '#' },
+        { text: 'Natur', href: '#' }
+      ]
+    },
+    # example people
+    locals_people: {
+      list: [
+        { text: 'Name, Surname', href: '#' },
+        { text: 'Name, Surname', href: '#' },
+        { text: 'Name, Surname', href: '#' },
+        { text: 'Name, Surname', href: '#' },
+        { text: 'Name, Surname', href: '#' }
+      ]
+    },
+    # example groups
+    locals_groups: {
+      list: [
+        { text: 'Group 1', href: '#' },
+        { text: 'Group 2', href: '#' },
+        { text: 'Group 3', href: '#' },
+        { text: 'Group 4', href: '#' },
+        { text: 'Group 5', href: '#' }
+      ]
+    },
+    # example terms
+    locals_terms: {
+      list: [
+        { text: 'Term 1', href: '#' },
+        { text: 'Term 2', href: '#' },
+        { text: 'Term 3', href: '#' },
+        { text: 'Term 4', href: '#' },
+        { text: 'Term 5', href: '#' }
+      ]
+    },
+    # example long_names_for_elipsed_mod
+    locals_long_label_names: {
+      list: [
+        {
+          text: 'A rather long tag name to test ellipsed tag clouds',
+          title: 'Title of a long tag', count: 12, href: '#'
+        },
+        {
+          text: 'A rather long tag name to test ellipsed tag clouds',
+          title: 'Title of a long tag', count: 34, href: '#'
+        },
+        {
+          text: 'A rather long tag name to test ellipsed tag clouds',
+          title: 'Title of a long tag', count: 56, href: '#'
+        },
+        {
+          text: 'A rather long tag name to test ellipsed tag clouds',
+          title: 'Title of a long tag', count: 78, href: '#'
+        },
+        {
+          text: 'A rather long tag name to test ellipsed tag clouds',
+          title: 'Title of a long tag', count: 90, href: '#'
+        }
+      ]
+    },
+    # example groups_for_compact_mod
+    locals_group_names: {
+      list: [
+        { text: 'Group Name', count: 12, href: '#' },
+        { text: 'Group Name', count: 34, href: '#' },
+        { text: 'Group Name', count: 56, href: '#' },
+        { text: 'Group Name', count: 78, href: '#' },
+        { text: 'Group Name', count: 90, href: '#' }
+      ]
     }
   }
 
+-# NOTE: here the examples have different forms, so we list them separately
+
 = partial('element', element) do
-  = partial('example') do
 
-    %ul.ui-tag-cloud
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Kunst
-          %span.ui-tag-counter 12
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Fotografie
-          %span.ui-tag-counter 34
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Design
-          %span.ui-tag-counter 56
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Fotografie
-          %span.ui-tag-counter 78
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Art
-          %span.ui-tag-counter 90
+  = partial('example') do
+    = component('tag-cloud.label', element[:locals_tag_count])
+
   = partial('example', { mod: 'small'}) do
-    %ul.ui-tag-cloud.small
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Kunst
-          %span.ui-tag-counter 12
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Fotografie
-          %span.ui-tag-counter 34
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Design
-          %span.ui-tag-counter 56
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Fotografie
-          %span.ui-tag-counter 78
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Art
-          %span.ui-tag-counter 90
+    = component('tag-cloud.label', element[:locals_tag_count].merge(mods: 'small'))
+
   = partial('example', { mod: 'large'}) do
-    %ul.ui-tag-cloud.large
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Kunst
-          %span.ui-tag-counter 12
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Fotografie
-          %span.ui-tag-counter 34
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Design
-          %span.ui-tag-counter 56
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Fotografie
-          %span.ui-tag-counter 78
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Art
-          %span.ui-tag-counter 90
+    = component('tag-cloud.label', element[:locals_tag_count].merge(mods: 'large'))
 
   = partial('example') do
-    %ul.ui-tag-cloud
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Freizeit
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Mode
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Outdoor
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Sport
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          Natur
+    = component('tag-cloud.label', element[:locals_tag_nocount])
+
   = partial('example') do
-    %ul.ui-tag-cloud
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button.person-tag{:href => "#"}
-          = component('icon.user-mini', 'ui-tag-icon')
-          Name, Surname
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button.person-tag{:href => "#"}
-          = component('icon.user-mini', 'ui-tag-icon')
-          Name, Surname
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button.person-tag{:href => "#"}
-          = component('icon.user-mini', 'ui-tag-icon')
-          Name, Surname
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button.person-tag{:href => "#"}
-          = component('icon.user-mini', 'ui-tag-icon')
-          Name, Surname
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button.person-tag{:href => "#"}
-          = component('icon.user-mini', 'ui-tag-icon')
-          Name, Surname
+    = component('tag-cloud.person', element[:locals_people])
+
   = partial('example') do
-    %ul.ui-tag-cloud
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button.person-tag{:href => "#"}
-          = component('icon.group-mini', 'ui-tag-icon')
-          Group 1
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button.person-tag{:href => "#"}
-          = component('icon.group-mini', 'ui-tag-icon')
-          Group 2
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button.person-tag{:href => "#"}
-          = component('icon.group-mini', 'ui-tag-icon')
-          Group 3
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button.person-tag{:href => "#"}
-          = component('icon.group-mini', 'ui-tag-icon')
-          Group 4
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button.person-tag{:href => "#"}
-          = component('icon.group-mini', 'ui-tag-icon')
-          Group 5
+    = component('tag-cloud.group', element[:locals_groups])
+
   = partial('example') do
-    %ul.ui-tag-cloud
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button.person-tag{:href => "#"} Term 1
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button.person-tag{:href => "#"} Term 2
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button.person-tag{:href => "#"} Term 3
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button.person-tag{:href => "#"} Term 4
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button.person-tag{:href => "#"} Term 5
+    = component('tag-cloud', element[:locals_terms])
 
   = partial('example', { mod: 'ellipsed'}) do
-    %ul.ui-tag-cloud.ellipsed
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          A rather long tag name to test ellipsed tag clouds
-          %span.ui-tag-counter 12
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          A rather long tag name to test ellipsed tag clouds
-          %span.ui-tag-counter 34
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          A rather long tag name to test ellipsed tag clouds
-          %span.ui-tag-counter 56
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          A rather long tag name to test ellipsed tag clouds
-          %span.ui-tag-counter 78
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
-          = component('icon.tag-mini', 'ui-tag-icon')
-          A rather long tag name to test ellipsed tag clouds
-          %span.ui-tag-counter 90
+    - locals = element[:locals_long_label_names].merge(mods: 'ellipsed')
+    = component('tag-cloud.label', locals)
+
   = partial('example', { mod: 'compact'}) do
-    %ul.ui-tag-cloud.compact
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
-          = component('icon.group-mini', 'ui-tag-icon')
-          Group Name
-          %span.ui-tag-counter 12
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
-          = component('icon.group-mini', 'ui-tag-icon')
-          Group Name
-          %span.ui-tag-counter 34
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
-          = component('icon.group-mini', 'ui-tag-icon')
-          Group Name
-          %span.ui-tag-counter 56
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
-          = component('icon.group-mini', 'ui-tag-icon')
-          Group Name
-          %span.ui-tag-counter 78
-      %li.ui-tag-cloud-item
-        %a.ui-tag-button{:href => "#", :title => "Title of a long tag"}
-          = component('icon.group-mini', 'ui-tag-icon')
-          Group Name
-          %span.ui-tag-counter 90
+    - locals = element[:locals_group_names].merge(mods: 'compact')
+    = component('tag-cloud.group', locals)

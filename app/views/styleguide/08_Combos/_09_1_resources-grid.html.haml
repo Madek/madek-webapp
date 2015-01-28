@@ -7,8 +7,89 @@
     mods: {
       nil => 'Default',
       'active' => 'To be interacted with'
-    }
+    },
+    # examples - NOT USED YET
+    examples: [
+      {
+        locals: {
+          id: "cccccccc-0000-0000-0000-000000000001",
+          mods: ['media-set'],
+          picture: asset_path('styleguide/media-entry-6.jpeg'),
+          text: {
+            title: 'Name that can easily go onto 2 lines',
+            sub: 'Author that can easily go onto 2 lines as well'
+          },
+          badge_top_left: component('icon.privacy-group',
+                            text: 'This media is shared with a group'),
+          level_up: "Keine übergeordneten Sets",
+          level_down: {
+            text: "Set enthalt",
+            note: "5 Inhalte",
+            list: [
+              {
+                href: '#',
+                text: 'Media-entry-6',
+                picture: asset_path('styleguide/media-entry-6.jpeg')
+              },
+              {
+                href: '#',
+                text: 'Media-entry-6',
+                picture: asset_path('styleguide/media-entry-6.jpeg')
+              }
+            ]
+          }
+        }
+      },
+      {
+        locals: {
+          id: "00000000-0000-0000-0000-000000000004",
+          mods: ['media-entry', 'video'],
+          text: {
+            title: 'Name that can easily go onto 2 lines',
+            sub: 'Author that can easily go onto 2 lines as well'
+          },
+          picture: asset_path('styleguide/media-entry-4.jpeg'),
+          badge_top_left: component('icon.privacy-private',
+                            text: 'This media is private'),
+          badge_top_right: nil,
+          level_up: nil,
+          level_down: nil
+        }
+      },
+      {
+        locals: {
+          id: "ffffffff-0000-0000-0000-000000000001",
+          mods: ['filter-set'],
+          text: {
+            title: 'Name that can easily go onto 2 lines',
+            sub: 'Author that can easily go onto 2 lines as well'
+          },
+          picture: asset_path('thumbnails/set.png'),
+          badge_top_right: component('icon.filter',
+                            text: 'This is a Filterset'),
+          level_up: "Keine übergeordneten Sets"
+        }
+      }
+    ]
   }
+
+-# TODO: use component
+  = partial('element', element) do
+    - element[:mods].each do |name, description|
+      = partial('example', { mod: name}) do
+  = partial('element', element) do |example|
+    -# - element[:mods].each do |name, description|
+    = partial('example') do
+
+      .spacer{style: 'padding:100px 0;'}
+
+        %ul.ui-resources.grid.active
+
+          - example[:examples].each do |example|
+            %li.ui-resource
+              .ui-resource-body
+                = component('thumbnail', example[:locals])
+
 
 = partial('element', element) do
   - element[:mods].each do |name, description|

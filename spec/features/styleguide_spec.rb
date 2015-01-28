@@ -64,7 +64,7 @@ describe 'Styleguide' do
       check = system "shasum --portable -c #{reference_hashes}"
 
       # IF IT FAILED:
-      if !check
+      unless check
         puts 'Attaching artefacts…'
         # generate NEW reference hashes
         system "shasum --portable tmp/styleguide-ref/**/* > #{new_hashes}"

@@ -1,6 +1,6 @@
 # Developer Guide
 
-This is a *work in progress*. 
+This is a *work in progress*.
 It is **far from complete**, content is added as needed.
 
 
@@ -18,7 +18,7 @@ It is **far from complete**, content is added as needed.
 
 * **"Individual Contexts" (IC)** can be ***assigned to*** and ***activated on*** (Media-)`Sets`
 * The assignment is inherited to it's Children `Set`s, from the *inital `Set`* down
-* An assigned `Set` can be *activated* and *deactivated* for these child Sets (by User) 
+* An assigned `Set` can be *activated* and *deactivated* for these child Sets (by User)
 
 #### Implementaion
 
@@ -74,11 +74,11 @@ We currently have the following image sizes (aka thumbails):
 
 TODO: module
 
-If something goes wrong in a controller (or view?), 
+If something goes wrong in a controller (or view?),
 we `raise` the appropriate error class.
 
-All error classes are defined in `ApplicationController`. 
-For convenience, the classes and their names are 
+All error classes are defined in `ApplicationController`.
+For convenience, the classes and their names are
 based on HTTP error codes (4xx/5xx).
 Look there for the complete list with some explanations.
 
@@ -96,14 +96,14 @@ TODO: @DrTom (just a very general guideline)
 
 ### `jQuery.fixed-table-headers`
 
-- it is a [magic plugin](http://fixedheadertable.com) that takes care of fixed 
+- it is a [magic plugin](http://fixedheadertable.com) that takes care of fixed
   headers on tables
 - it only works correctly if the table is actually visible
 - our js never inits a (somehow) hidden table, so:
-- if we ever `.show()` the table (or parent), 
+- if we ever `.show()` the table (or parent),
   **we need to initialize it ourselves!**
     - reason: `jQuery` does not have an `.on('show')` event we could hook into
-    - for convienice, the correct function call is attached to the DOM element, 
+    - for convienice, the correct function call is attached to the DOM element,
       use it like this:  
       ````js
       // find the table
@@ -119,10 +119,10 @@ There are two ways PDFs are shown inside madek's HTML:
 1. Converted to and embedded as JPG file ("preview", "thumbnail")
 2. Embedded as PDF, displayed using `pdf.js` ("document")
 
-Note that there are the usual (per-Entry) **Permissions** at play here, 
-but they might be confusing: 
+Note that there are the usual (per-Entry) **Permissions** at play here,
+but they might be confusing:
 A User with the *"view"* Permission can only see the
-JPG version. **To display the PDF itself the *"download original"* Permission is 
+JPG version. **To display the PDF itself the *"download original"* Permission is
 needed!**
 
 ### `pdf.js`
@@ -130,7 +130,7 @@ needed!**
 To display PDFs, [Mozilla's `pdf.js` library](https://mozilla.github.io/pdf.js/)
 is used.
 
-There are two places in the UI where PDFs are embedded, with some notable 
+There are two places in the UI where PDFs are embedded, with some notable
 differences.
 
 - `MediaEntry#show` - `pdf.js/view` is embedded just as an image would be
@@ -140,7 +140,7 @@ differences.
 - `MediaEntry#document` - only the `pdf.js/view` is loaded
     * full pdf.js "Viewer" including UI (toolbars, etc.)
 
-In both cases, an `access_hash` is added to the query in order to provide 
+In both cases, an `access_hash` is added to the query in order to provide
 authenticated access to the raw file.
 
 #### Upgrading
@@ -157,12 +157,12 @@ authenticated access to the raw file.
 - read [API docs and or source](https://mozilla.github.io/pdf.js/api/)
 - port over custom controls in `#show`
 
-##### Hints 
+##### Hints
 
 - the architecture of the library has changed, as laid out in their overview
     - for `#show`, embed the `Display` and use it's API.
     - for `#document`, embed the complete `Viewer`
-    - this is mostly abstracted away anyhow in the existing js/coffee, 
+    - this is mostly abstracted away anyhow in the existing js/coffee,
       so the views shouldn't change to much.
 - When including `js` and `css`, use the (new) pre-built versions.
   This affects (at least) the following sources:
@@ -193,7 +193,7 @@ From small to bigger
       = ui_sidenav(config) do |nav|
         nav.item do
           %a.foobar
-      
+
       ```
     - some links regarding this syntax/api:
         - "Rails Builders" - formbuilder, jbuilder, xmlbuilder, …
@@ -206,8 +206,21 @@ From small to bigger
         - [`haml_user_tags` gem](http://cgamesplay.github.io/haml_user_tags/tutorial.html)
 4. Rails Layouts => rails views, clear definition of sections
 
+### Why?
+
+- implement each element only once: less room for errors, total consistency
+    - no arbitrary nesting of CSS classes (which might work or not)
+    - identical DOM structure everywhere, less JavaScript bug
+    - easier refactoring of CSS architecture later on
+
+
+### Rules
+
+- all layouts inherit from _base, no further sub-layouts (get to messy)
+- no `@variables` outside of top-level views (directly called from controller)
+
+
 ### Styleguide TODO
 
-- use application layout
 - info-only-section should contain 1 markdown doc instead of 1 haml doc
 - <http://pathfindersoftware.com/2008/07/pretty-blocks-in-rails-views/>

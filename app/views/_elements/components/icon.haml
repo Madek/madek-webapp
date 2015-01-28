@@ -1,9 +1,12 @@
 :ruby
+  props = {
+    class: classes.join(' '),
+    title: defined?(text) && text
+  }
+
   if classes.select { |name| name.start_with?('icon-') }.empty?
     Rails.logger.warn('ui: no icon given!')
     return
   end
-  # passing through all of the config, taking care of classes
-  local_assigns[:class] = (local_assigns.delete(:classes)).join(' ')
 
-  haml_tag('i', local_assigns)
+  haml_tag('i', props)

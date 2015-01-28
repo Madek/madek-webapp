@@ -1,209 +1,66 @@
+-# TODO: js; hover
+
 :ruby
   element = {
-    name: 'Default thumbnail style, independent from visualization mode', todo: true,
+    name: 'Default thumbnail style, independent from visualization mode',
+    todo: true,
     cssSelector: '.ui-thumbnail',
     cssFile: '_ui-thumb.scss',
-    section: '7.19'
+    section: '7.19',
+    # example
+    examples: [
+      {
+        locals: {
+          picture: asset_path('styleguide/media-entry-4.jpeg'),
+          href: nil, # optional
+          # NOTE: last 2 classes not really needed, but present before
+          mods: ['media-entry', 'video', 'ui-resource-thumbnail', 'pan'],
+          text: 'Name that can easily go onto 2 lines',
+          # not actually shown, but was present in old styleguide:
+          badge_top_left: component('icon.privacy-private',
+                            text: 'This media is private'),
+          badge_top_right: nil
+        }
+      },
+      {
+        locals: {
+          mods: ['filter-set'],
+          href: '#',
+          text: 'Name that can easily go onto 2 lines',
+          picture: asset_path('thumbnails/set.png'),
+          badge_top_right: component('icon.filter',
+                            text: 'This is a Filterset'),
+        }
+      },
+      {
+        locals: {
+          mods: ['media-set'],
+          picture: asset_path('thumbnails/document.png.png'),
+          text: 'Name that can easily go onto 2 lines',
+          # not actually shown, but was present in old styleguide:
+          badge_top_left: component('icon.privacy-group',
+                            text: 'This media is shared with a group')
+        }
+      },
+      {
+        locals: {
+          href: '#',
+          # NOTE: last 2 classes not really needed, but present before
+          mods: ['media-entry', 'video', 'ui-resource-thumbnail', 'pan'],
+          picture: asset_path('thumbnails/document.pdf.png'),
+          text: 'Name that can easily go onto 2 lines',
+          # not actually shown, but was present in old styleguide:
+          badge_top_left: component('icon.privacy-open',
+                            text: 'This media is public')
+        }
+      }
+    ]
   }
 
-= partial('element', element) do
-  = partial('example') do
+= partial('element', element) do |element|
 
-    .ui-resource-thumbnail
-      .ui-thumbnail.media-entry.video
-        .ui-thumbnail-privacy{:title => "This media is private"}
-          = component('icon.privacy-private')
-        %a.ui-thumbnail-image-wrapper
-          .ui-thumbnail-image-holder
-            .ui-thumbnail-table-image-holder
-              .ui-thumbnail-cell-image-holder
-                .ui-thumbnail-inner-image-holder
-                  %img.ui-thumbnail-image{:alt => "Media-entry-4", :src => asset_path('styleguide/media-entry-4.jpeg')}/
-        .ui-thumbnail-meta
-          %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
-          %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
-        .ui-thumbnail-actions
-          %ul.left.by-left
-            %li.ui-thumbnail-action
-              %a.ui-thumbnail-action-checkbox.active{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-                = component('icon.checkbox')
-            %li.ui-thumbnail-action
-              %a.active.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-                = component('icon.star-empty')
-          %ul.right.by-right
-            %li.ui-thumbnail-action
-              %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
-                = component('icon.eye')
-            %li.ui-thumbnail-action
-              %a.ui-thumbnail-action-edit{:href => "#", :title => "Metadaten editieren"}
-                = component('icon.pen')
-            %li.ui-thumbnail-action
-              %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-                = component('icon.trash')
-        .ui-thumbnail-dropdown
-          .dropdown.ui-dropdown
-            %a.dropdown-toggle.button.block.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#"} Aktionen
-            %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
-              %li.ui-drop-item
-                %a{:href => "#"} Item 1
-              %li.ui-drop-item
-                %a{:href => "#"} Item 2
-              %li.separator
-              %li.ui-drop-item
-                %a{:href => "#"} Item 3
+  - element[:examples].each do |example|
 
-  = partial('example') do
-    .ui-thumbnail.filter-set
-      .ui-thumbnail-level-up-items
-        %span.ui-thumbnail-level-notes Keine übergeordneten Sets
-      .ui-thumbnail-privacy{:title => "This media is shared with a group"}
-        = component('icon.privacy-group')
-      .ui-thumbnail-filterset-flag{:title => "This is a Filterset"}
-        = component('icon.filter')
-      %a.ui-thumbnail-image-wrapper
-        .ui-thumbnail-image-holder
-          .ui-thumbnail-table-image-holder
-            .ui-thumbnail-cell-image-holder
-              .ui-thumbnail-inner-image-holder
-                %img.ui-thumbnail-image{:alt => "Media-entry-6", :src => "/assets/thumbnails/set.png"}/
-      .ui-thumbnail-meta
-        %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
-        %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
-      .ui-thumbnail-actions
-        %ul.left.by-left
-          %li.ui-thumbnail-action
-            %a.ui-thumbnail-action-checkbox.active{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-              = component('icon.checkbox')
-          %li.ui-thumbnail-action
-            %a.active.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-              = component('icon.star-empty')
-        %ul.right.by-right
-          %li.ui-thumbnail-action
-            %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
-              = component('icon.eye')
-          %li.ui-thumbnail-action
-            %a.ui-thumbnail-action-edit{:href => "#", :title => "Metadaten editieren"}
-              = component('icon.pen')
-          %li.ui-thumbnail-action
-            %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-              = component('icon.trash')
-      .ui-thumbnail-dropdown
-        .dropdown.ui-dropdown
-          %a.dropdown-toggle.button.block.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#"} Aktionen
-          %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
-            %li.ui-drop-item
-              %a{:href => "#"} Item 1
-            %li.ui-drop-item
-              %a{:href => "#"} Item 2
-            %li.separator
-            %li.ui-drop-item
-              %a{:href => "#"} Item 3
-      .ui-thumbnail-level-down-items
-        %h3.ui-thumbnail-level-notes Set enthalt
-        %ul.ui-thumbnail-level-items
-          %li.ui-thumbnail-level-item.odd
-            %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
-              .ui-thumbnail-level-image-holder
-                %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpeg')}/
-          %li.ui-thumbnail-level-item.even
-            %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
-              .ui-thumbnail-level-image-holder
-                %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-7.jpeg')}/
-        %span.ui-thumbnail-level-notes 5 Inhalte
+    = partial('example') do
 
-  = partial('example') do
-    .ui-thumbnail.media-set
-      .ui-thumbnail-level-up-items
-        %span.ui-thumbnail-level-notes Keine übergeordneten Sets
-      .ui-thumbnail-privacy{:title => "This media is shared with a group"}
-        = component('icon.privacy-group')
-      %a.ui-thumbnail-image-wrapper
-        .ui-thumbnail-image-holder
-          .ui-thumbnail-table-image-holder
-            .ui-thumbnail-cell-image-holder
-              .ui-thumbnail-inner-image-holder
-                %img.ui-thumbnail-image{:alt => "Document.png", :src => "/assets/thumbnails/document.png.png"}/
-      .ui-thumbnail-meta
-        %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
-        %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
-      .ui-thumbnail-actions
-        %ul.left.by-left
-          %li.ui-thumbnail-action
-            %a.ui-thumbnail-action-checkbox.active{"data-clipboard-toggle" => "", :title => "Zur Zwischenablage hinzufügen/entfernen"}
-              = component('icon.checkbox')
-          %li.ui-thumbnail-action
-            %a.active.ui-thumbnail-action-favorite{"data-favor-toggle" => "", :title => "Zur Favoriten hinzufügen/entfernen"}
-              = component('icon.star-empty')
-        %ul.right.by-right
-          %li.ui-thumbnail-action
-            %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
-              = component('icon.eye')
-          %li.ui-thumbnail-action
-            %a.ui-thumbnail-action-edit{:href => "#", :title => "Metadaten editieren"}
-              = component('icon.pen')
-          %li.ui-thumbnail-action
-            %a.ui-thumbnail-action-delete{"data-delete-action" => "", :title => "Löschen"}
-              = component('icon.trash')
-      .ui-thumbnail-dropdown
-        .dropdown.ui-dropdown
-          %a.dropdown-toggle.button.block.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#"} Aktionen
-          %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
-            %li.ui-drop-item
-              %a{:href => "#"} Item 1
-            %li.ui-drop-item
-              %a{:href => "#"} Item 2
-            %li.separator
-            %li.ui-drop-item
-              %a{:href => "#"} Item 3
-      .ui-thumbnail-level-down-items
-        %h3.ui-thumbnail-level-notes Set enthalt
-        %ul.ui-thumbnail-level-items
-          %li.ui-thumbnail-level-item.odd
-            %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
-              .ui-thumbnail-level-image-holder
-                %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-7.jpeg')}/
-          %li.ui-thumbnail-level-item.even
-            %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
-              .ui-thumbnail-level-image-holder
-                %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-7.jpeg')}/
-        %span.ui-thumbnail-level-notes 5 Inhalte
-
-  = partial('example') do
-    .ui-resource-thumbnail
-      .ui-thumbnail.media-entry.video
-        .ui-thumbnail-privacy{:title => "This media is public"}
-          = component('icon.privacy-open')
-        %a.ui-thumbnail-image-wrapper
-          .ui-thumbnail-image-holder
-            .ui-thumbnail-table-image-holder
-              .ui-thumbnail-cell-image-holder
-                .ui-thumbnail-inner-image-holder
-                  %img.ui-thumbnail-image{:alt => "Document.pdf", :src => "/assets/thumbnails/document.pdf.png"}/
-        .ui-thumbnail-meta
-          %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
-          %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
-        .ui-thumbnail-actions
-          %ul.left.by-left
-            %li.ui-thumbnail-action
-              %a.ui-thumbnail-action-checkbox Select
-            %li.ui-thumbnail-action
-              %a.ui-thumbnail-action-favorite Favorite
-          %ul.right.by-right
-            %li.ui-thumbnail-action
-              %a.ui-thumbnail-action-browse{:href => "#", :title => "Stöbern"}
-                = component('icon.eye')
-            %li.ui-thumbnail-action
-              %a.ui-thumbnail-action-edit Edit
-            %li.ui-thumbnail-action
-              %a.ui-thumbnail-action-delete Delete
-        .ui-thumbnail-dropdown
-          .dropdown.ui-dropdown
-            %a.dropdown-toggle.button.block.ui-drop-toggle{"data-toggle" => "dropdown", :href => "#"} Aktionen
-            %ul.dropdown-menu.ui-drop-menu{"aria-labelledby" => "dLabel", :role => "menu"}
-              %li.ui-drop-item
-                %a{:href => "#"} Item 1
-              %li.ui-drop-item
-                %a{:href => "#"} Item 2
-              %li.separator
-              %li.ui-drop-item
-                %a{:href => "#"} Item 3
+      = component('thumbnail', example[:locals])
