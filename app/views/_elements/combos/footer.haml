@@ -1,0 +1,12 @@
+%footer.app-footer.ui-footer.ui-container.inverted
+
+  - if defined?(copy)
+    .ui-footer-copy
+      - if copy[:logo].is_a?(Hash)
+        = component('link', href: copy[:logo][:link]) do
+          = copy[:logo][:content]
+      = copy[:text]
+
+  - if defined?(version)
+    .ui-footer-version
+      = version

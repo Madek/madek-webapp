@@ -1,7 +1,7 @@
 :ruby
   return unless block_content
   link_or_span = link ? 'a' : 'span'
-  props = (link || {}).merge(class: mods)
+  props = (link || {}).merge(class: classes)
 
 - haml_tag(link_or_span, props) do
   = block_content
