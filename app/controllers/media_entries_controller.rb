@@ -8,6 +8,15 @@ class MediaEntriesController < ApplicationController
     get_preview_and_send_image(media_entry, params[:size])
   end
 
+  def image
+    media_entry = MediaEntry.find(params[:id])
+    preview = media_entry.media_file.preview(params[:size])
+
+    send_file preview.file_path,
+              type: preview.content_type,
+              disposition: 'inline'
+  end
+
   def index
     @media_entries = \
       filter_by_entrusted \

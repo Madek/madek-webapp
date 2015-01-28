@@ -8,6 +8,10 @@ class Preview < ActiveRecord::Base
     self.media_type = Concerns::MediaType.map_to_media_type(self.content_type)
   end
 
+  def file_path
+    "#{::THUMBNAIL_STORAGE_DIR}/#{filename.first}/#{filename}"
+  end
+
   after_destroy do
     begin
       File.delete(full_path)

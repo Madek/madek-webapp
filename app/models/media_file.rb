@@ -41,4 +41,10 @@ class MediaFile < ActiveRecord::Base
     }
   }
 
+  ################################################################################
+
+  def preview(size)
+    previews.find_by(thumbnail: size)
+  end
+
 end

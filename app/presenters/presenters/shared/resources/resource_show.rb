@@ -1,7 +1,7 @@
 module Presenters
   module Shared
     module Resources
-      class ResourcesShow < Presenter
+      class ResourceShow < Presenter
 
         def initialize(resource)
           @resource = resource

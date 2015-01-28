@@ -25,6 +25,7 @@ module MAdeK
       Rails.root.join('app', 'lib'),
       Rails.root.join('app', 'models', 'concerns'),
       Rails.root.join('app', 'modules'),
+      Rails.root.join('app', 'views'),
       Rails.root.join('lib')
     ]
 
