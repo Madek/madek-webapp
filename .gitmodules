@@ -1,0 +1,3 @@
+[submodule "deploy/ansible"]
+	path = deploy/ansible
+	url = https://github.com/zhdk/madek-ansible-setup.git
