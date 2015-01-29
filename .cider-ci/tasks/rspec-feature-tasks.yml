@@ -1,4 +1,9 @@
 ---
+"./spec/features/admin/groups_spec.rb":
+  name: "./spec/features/admin/groups_spec.rb"
+  scripts:
+    main:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/groups_spec.rb"
 "./spec/features/admin/users_spec.rb":
   name: "./spec/features/admin/users_spec.rb"
   scripts:

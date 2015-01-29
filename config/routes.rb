@@ -18,7 +18,6 @@ MAdeK::Application.routes.draw do
 
   ##### Admin namespace
   namespace :admin do
-    root to: 'dashboard#index'
     resources :users do
       member do
         post :switch_to
@@ -30,6 +29,18 @@ MAdeK::Application.routes.draw do
         get :new_with_person
       end
     end
+    resources :groups do
+      member do
+        get 'form_add_user'
+        post 'add_user'
+        get 'form_merge_to'
+        post 'merge_to'
+      end
+      resources :users, only: '' do
+        delete 'remove_user_from_group'
+      end
+    end
+    root to: 'dashboard#index' 
   end
 
   ##### STYLEGUIDE (resourceful-ish)

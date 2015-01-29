@@ -25,6 +25,8 @@
             %ul.nav.navbar-nav.navbar-right
               = navbar_item 'Dashboard', admin_root_path
               = navbar_item 'Users', admin_users_path
+              = navbar_item 'Groups', admin_groups_path
+              %li
               %li.dropdown
                 %a.dropdown-toggle{href: '#', data: { toggle: 'dropdown' }}
                   %i.glyphicon.glyphicon-user
@@ -35,5 +37,17 @@
                     = link_to my_dashboard_path do
                       %i.glyphicon.glyphicon-file
                       Home/My
-
+      #messages
+        - if success_message= flash[:success]
+          .alert.alert-success
+            %button.close{type:"button", 'data-dismiss'=>'alert'} &#215
+            = success_message
+        - if notice_message= flash[:notice]
+          .alert.alert-info
+            %button.close{type:"button", 'data-dismiss'=>"alert"} &#215
+            = notice_message
+        - if error_message= flash[:error]
+          .alert.alert-danger
+            %button.close{type:"button", 'data-dismiss'=>"alert"} &#215
+            = error_message
       = yield

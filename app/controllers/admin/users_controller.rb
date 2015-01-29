@@ -1,6 +1,6 @@
 class Admin::UsersController < AdminController
   before_action :find_user, except: [
-    :index, :new, :new_with_person, :create
+    :index, :new, :new_with_person, :create, :remove_user_from_group
   ]
   before_action :initialize_user, only: [:new, :new_with_person]
 
@@ -91,6 +91,16 @@ class Admin::UsersController < AdminController
     redirect_to :back, flash: {
       success: 'The admin role has been removed from the user.'
     }
+  end
+
+  def remove_user_from_group
+    @group = Group.find params[:group_id]
+    @group.users.delete User.find(params[:user_id])
+    redirect_to admin_group_path(@group), flash: {
+      success: 'The user has been removed.'
+    }
+  rescue => e
+    redirect_to admin_group_path(@group), flash: { error: e.to_s }
   end
 
   private

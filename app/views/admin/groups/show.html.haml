@@ -1,0 +1,62 @@
+.page-header
+  %h1
+    %i.icon-user 
+    #{@group.name}
+
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-body
+        .btn-group
+          = link_to form_add_user_admin_group_path(@group), class: 'btn btn-default' do
+            %i.glyphicon.glyphicon-plus
+            Add user
+
+          - if @group.type == 'InstitutionalGroup'
+            = link_to form_merge_to_admin_group_path(@group), class: 'btn btn-default' do
+              %i.glyphicon.glyphicon-random
+              Merge to
+          = render partial: 'action_buttons', locals: {group: @group, size: nil}
+
+.row
+  .col-xs-12
+    .table-responsive
+      %table.table.table-striped
+        %thead
+        %tbody
+        - @group.attributes.each do |name,value|
+          %tr
+            %td= name.capitalize.split("_").join(" ")
+            - case name
+            - when nil
+            - else
+              %td= value
+
+.row
+  .col-xs-4
+    %h3
+      %i.glyphicon.glyphicon-filter
+      Filters
+  
+    = form_tag admin_group_path(@group), method: 'GET', class: 'form-inline' do
+  
+      .form-group
+        = text_field nil, :fuzzy_search, class: "search-query", value: params[:fuzzy_search]
+      .form-group 
+        = button_tag type: 'submit', class: 'btn btn-sm' do
+          Filter
+
+  .col-xs-8
+    %h2.text-center
+      Users 
+    %table#group-users.table.table-striped
+      %thead
+        %tr
+          %th Login
+          %th E-mail
+          %th Id
+      %tbody
+        = render partial: 'admin/groups/user', collection: @users 
+    
+= paginate @users, theme: 'admin'
+

@@ -1,0 +1,10 @@
+%tr
+  %td #{user.login}
+  %td #{user.email}
+  %td #{user.id}
+  %td 
+    = link_to admin_group_user_remove_user_from_group_path(@group, user), method: 'DELETE', 
+        data: {confirm: %Q{Are you user you want to remove "#{user.login}" from this group?}}, 
+        class: 'btn btn-warning btn-xs' do
+      %i.glyphicon.glyphicon-trash
+      Remove from group

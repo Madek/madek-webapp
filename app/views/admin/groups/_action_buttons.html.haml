@@ -1,0 +1,8 @@
+= link_to edit_admin_group_path(group), class: "btn btn-info #{size} #{group.readonly? ? 'disabled' : ''}" do
+  %i.glyphicon.glyphicon-edit
+  Edit
+= link_to admin_group_path(group), method: :delete,
+    data: { confirm: 'Do you really want to delete this group?' },
+    class: "btn btn-danger #{size}" do
+  %i.glyphicon.glyphicon-trash
+  Delete
