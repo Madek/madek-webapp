@@ -1,42 +1,42 @@
 %h3= 'Latest media entries'
 %div= link_to 'show all', media_entries_path(latest: true)
-%div= @latest_media_entries.to_json
+%div= @get.latest[:media_entries].to_json
 
 %h3= 'Latest collections'
 %div= link_to 'show all', collections_path(latest: true)
-= @latest_collections.to_json
+= @get.latest[:collections].to_json
 
 %h3= 'Latest filter sets'
 %div= link_to 'show all', filter_sets_path(latest: true)
-= @latest_filter_sets.to_json
+= @get.latest[:filter_sets].to_json
 
 %h3= 'Latest imports'
 %div= link_to 'show all', media_entries_path(imported: true)
-= @latest_imports.to_json
+= @get.latest[:imports].to_json
 
 %h3= 'Favorite media entries'
 %div= link_to 'show all', media_entries_path(favorite: true)
-= @favorite_media_entries.to_json
+= @get.favorites[:media_entries].to_json
 
 %h3= 'Favorite collections'
 %div= link_to 'show all', collections_path(favorite: true)
-= @favorite_collections.to_json
+= @get.favorites[:collections].to_json
 
 %h3= 'Favorite filter sets'
 %div= link_to 'show all', filter_sets_path(favorite: true)
-= @favorite_filter_sets.to_json
+= @get.favorites[:filter_sets].to_json
 
 %h3= 'Entrusted media entries'
 %div= link_to 'show all', media_entries_path(entrusted: true)
-= @entrusted_media_entries.to_json
+= @get.entrusted[:media_entries].to_json
 
 %h3= 'Entrusted collections'
 %div= link_to 'show all', collections_path(entrusted: true)
-= @entrusted_collections.to_json
+= @get.entrusted[:collections].to_json
 
 %h3= 'Entrusted filter sets'
 %div= link_to 'show all', filter_sets_path(entrusted: true)
-= @entrusted_filter_sets.to_json
+= @get.entrusted[:filter_sets].to_json
 
 %h3= 'Groups'
-= @groups.to_json
+= @get.groups.to_json

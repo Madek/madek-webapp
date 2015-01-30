@@ -1,19 +1,8 @@
+
 module UiHelper
-  # # UI Element helpers
+  # UI Element helpers
   #
-  # - the reference for all elements is in views/styleguide
-  # - in testing, the styleguide is rendered (headless) once with everything
-  #   elements on 1 page to catch broken components early
-  #
-  # Notable patterns:
-  # - all elements only use their given args, no @vars, no side effects
-  # - all the data is given as hash, no AR stuff!
-  # - elements render nothing if no data is given (less `= icon if icon`)
-  # - some elements pass through all "extra" config keys to HAML/HTML
-  #   (where it make sense, ie. it is closely related to a HTML tag, like icon)
-  # - log warnings for things that are strange (possibly broken)
-  #
-  # ## API
+  # API:
   #
   # ```rb
   # element('name', 'class')
@@ -25,10 +14,9 @@ module UiHelper
   # - `mods` - elements modificator (class names), see styleguide for options
   # - `link` - special shortcut key for links, supports icons etc.
   #
-  # List of Elements:
+  # Elements:
 
-  # 1. Atoms:
-  #     - are just classes, no helpers needed
+  # 1. "Atoms": HAML
 
   # 2. Components:
   def component(name, config = {}, &block)
@@ -40,9 +28,14 @@ module UiHelper
     render_element('combo', name, config, &block)
   end
 
-  # 4. Layouts:
-  #     - are in views/layout, 'helpers' already built into rails
-  #     - "API": use `content_for` to fill different parts of the layout
+  # 4. Decorators:
+  def deco(name, config = {})
+    locals = build_locals_from_element(name, config)
+    name = name_without_mods(name)
+    render template: "_elements/decorators/#{name}", locals: locals
+  end
+
+  # 5. Layouts: views/layout
 
   # # misc UI helpers
 
@@ -60,11 +53,11 @@ module UiHelper
 
   protected
 
-  def render_element(type, name, config = {}, &_block)
+  def render_element(type, name, config, &_block)
     return if name.nil?
     locals = build_locals_from_element(name, config)
     name = name_without_mods(name)
-    # locals[:list] = build_list(locals[:list])
+    locals[:list] = build_list(locals[:list])
     locals[:block_content] = capture { yield } if block_given?
     render template: "_elements/#{type}s/#{name}", locals: locals
   end
@@ -73,7 +66,8 @@ module UiHelper
     locals = {
       classes: (classes_from_element(config).push(mods_from_name(name)))
                 .flatten.compact,
-      link: link_from_item(config)
+      link: link_from_item(config),
+      block_content: nil
     }
     if config.is_a? Hash
       locals = locals.merge(config)
@@ -111,7 +105,7 @@ module UiHelper
     (name || '').split('.').first
   end
 
-  # def build_list(list = nil)
-  #   list if list.is_a?(Enumerable) && !list.empty?
-  # end
+  def build_list(list = nil)
+    list if list.is_a?(Enumerable) && !list.empty?
+  end
 end

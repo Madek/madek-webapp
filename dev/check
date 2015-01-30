@@ -1,18 +1,23 @@
 #!/bin/sh
-set -e
+RES=1
 
 printf 'rubocop... '
-bundle exec rubocop .
-echo OK
+bundle exec rubocop . \
+  && RES=0
 
-printf 'flog... '
-bundle exec cider-ci_flog app/
+echo ''; printf 'flog... '
+bundle exec cider-ci_flog app/ \
+  || RES=1
 
-printf 'flay... '
-bundle exec cider-ci_flay app/
+echo ''; printf 'flay... '
+bundle exec cider-ci_flay app/ \
+  || RES=1
 
-printf 'haml-lint... '
-./dev/test/haml-lint >/dev/null # tmp refactor
-echo OK
+echo ''; printf 'haml-lint... '
+# tmp refactor
+./dev/test/haml-lint \
+  && echo OK || RES=1
 
-echo;echo 'yay \o/'
+echo ''
+test $RES = 0 && echo 'yay \o/' || echo 'FAIL m('
+exit $RES

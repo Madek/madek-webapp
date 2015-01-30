@@ -38,4 +38,4 @@
   - list.each do |name, text|
     = partial('example') do
 
-      = component('page-header', text: text, icon: name)
+      = component('page-header', text: text, icon: component("icon.#{name}"))

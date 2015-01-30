@@ -1,0 +1,77 @@
+:ruby
+  # This is an presenter-specific application partial
+  return unless @get
+  # It expects at least one of the following 3 arrays of resources
+  return unless @get.media_entries_thumbs \
+                || @get.collections_thumbs \
+                || @get.media_entries_thumbs
+
+  # for each type of resource, build the list of polythumbs
+  resource_types = {
+    media_entries: @get.media_entries_thumbs.map do |get|
+      deco('polythumb',
+        title: get.title,
+        thumb: component('thumbnail',
+          mods: ['media-entry'], # TODO : type of entry ('video')
+          text: get.title,
+          picture: get.image_url('small'), # asset_path('dev_todo.png')
+          # yes this is *inside* the thumb… workaround hacky CSS :/
+          meta: {
+            title: 'TODO',
+            subtitle: 'TODO'
+          }
+        )
+      )
+    end,
+    collections: @get.collections_thumbs.map do |get|
+      deco('polythumb',
+        title: get.title,
+        thumb: component('thumbnail',
+          mods: ['media-set'],
+          text: get.title,
+          picture: asset_path('dev_todo.png'), # get.image_url('small')
+          meta: {
+            title: get.title,
+            subtitle: 'TODO'
+          }
+        )
+      )
+    end,
+    filter_sets: @get.filter_sets_thumbs.map do |get|
+      deco('polythumb',
+        title: get.title,
+        thumb: component('thumbnail',
+          mods: ['filter-set'], # TODO : type of entry ('video')
+          text: get.title,
+          picture: asset_path('dev_todo.png'), # get.image_url('small')
+          meta: {
+            title: get.title,
+            subtitle: 'TODO'
+          }
+        )
+      )
+    end
+  }
+
+
+-# a list for each kind of resource.
+  - skips empty lists
+  - rendered as consective units
+  - re-uses pagination elements
+  - TODO: ujs: use filterbar ui + tab logic
+
+%ul.POLYBOX.ui-resources{class: classes}
+
+  -# a unit for each type of resource
+  - resource_types.each do |type, resources_list|
+    - unless resources_list.empty?
+      %li.ui-resources-page
+
+        -# a small heading TODO: txt()
+        %span.ui-resources-page-counter.ui-pager.small
+          = type
+
+        -# the actual box of items
+        %ul.ui-resources-page-items
+          - resources_list.each do |item|
+            = item

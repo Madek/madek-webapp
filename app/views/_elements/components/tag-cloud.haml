@@ -15,10 +15,11 @@
   #   when classes.include?('large') then nil
   #   else '-mini'
 
+
 %ul.ui-tag-cloud{class: classes}
   - list.each do |item|
-
     %li.ui-tag-cloud-item
+
       - html_tag_type = if item[:href].nil? then 'button' else 'a' end
       - props = {class: 'ui-tag-button', href: item[:href], title: item[:title]}
       - haml_tag(html_tag_type, props) do

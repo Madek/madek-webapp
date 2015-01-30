@@ -10,7 +10,7 @@
 
 #### `Collection`
 
-Also known as `Set`. 
+Also known as `Set`.
 
 [TODO]
 
@@ -26,7 +26,7 @@ Also known as `Set`.
 - *can* be linked to (equal to) a [`User`](#user)
 - *can* be linked to `MetaDatum` of type `MetaDatumPerson`  (i.e. "Author")
 
-##### Relations 
+##### Relations
 
 * [`user`](#user), rails-type: `has_one`, effectively enforced by unique constraint on index
 
@@ -34,7 +34,7 @@ Also known as `Set`.
 
 - User with account/login
 
-##### Relations 
+##### Relations
 
 * [`person`](#person), rails-type: `belongs_to`, null: `false`
 
@@ -51,15 +51,16 @@ Also known as `Set`.
 
 * [`users`](#user), rails-type: `has_many`
 
-##### Notes 
+##### Notes
 
 * Supertype of [`InstitutionalGroup`](#institutionalgroup), implemented as `STI`-table
+
 
 ### Secondary
 
 #### `InstitutionalGroup`
 
-##### Notes 
+##### Notes
 
 * Subtype of [`Group`](#group), implemented as STI in the `groups` table
 
@@ -81,7 +82,7 @@ Notable Differences:
 
 ##### Per-Subject
 
-More granular permissions can be granted 
+More granular permissions can be granted
 **on** `MediaEntry`s, `MediaSet`s and `FilterSet`s,
 **for** `User`s, `Group`s, `APIClient`s, as well as *"public"*.
 
@@ -113,6 +114,15 @@ More granular permissions can be granted
 | ↳ "public"      |   ✔                       |   ✔           |   -           |   -              |
 | *Beschreibung*   | betrachten | Metadaten editieren & Filtereinstellungen ändern | - | Zugriffsberechtigungen ändern |
 
+### Special
+
+#### MediaResources
+
+List of `MediaEntry`s and/or `Collection`s and/or `FilterSet`s (polymorphic).
+
+Formerly a "real" Model, now just a convention between [Presenters][] and [Decorators][] (so they only exist in the UI).
+
+---
 
 ## Views
 
@@ -154,9 +164,53 @@ Non-resourceful.
 
 
 
+---
+
+## UI Framework
+
+It's kind of inspired by: [Brad Frost's "Atomic Web Design"](http://bradfrost.com/blog/p/atomic-web-design/),
+so it might be helpful to read it.
+
+- custom helpers are all in one module ([source](https://github.com/zhdk/madek/blob/madek-v3/app/helpers/ui_helper.rb#L2))
+- the reference for all (custom) elements is in views/styleguide
+- in testing, the styleguide is rendered (headless) once with everything
+elements on 1 page to catch broken components early
+
+Notable patterns:
+- all elements only use their given args, no @vars (except one for decorators)
+- all the data is given as hash, no AR stuff!
+- elements render nothing if no data is given (less `= icon if icon`)
+- some elements pass through all "extra" config keys to HAML/HTML
+(where it make sense, ie. it is closely related to a HTML tag, like icon)
+- log warnings for things that are strange (possibly broken)
+
+### Elements
+
+#### "Atoms":
+- are just HTML nodes w/ CSS styles, no helpers needed – HAML
+
+#### Components:
+- `component(name, config = {}, &block)`
+- Basic visual "Molecules".
+
+#### Combos:
+- `combo(name, config = {}, &block)`
+- "Organisms" composed of several Components.
+
+#### Decorators:
+- `deco(name, config = {})`
+- partials for specific presenters, which they receive via the @get var.
+
+#### Layouts:
+- are in `views/layout`, 'helpers' already built into rails
+- "API": use `content_for` to fill different parts of the layout. If important content is missed, a warning is logged.
 
 
+---
 
+---
+
+---
 
 ## Glossary
 
@@ -165,12 +219,29 @@ have actually a very clear distinct technical meaning, thus they are
 defined here for clarity.
 **NOT** a dictionary (use Wikipedia).
 
-# Resource
+
+### Resource
 
 - distinct kind of thing (noun)
 - *not* the "R" in "REST", but [REST is all about Resources](https://en.wikipedia.org/wiki/Representational_state_transfer#Software_architecture)
-- it's also what ["MVC"](https://en.wikipedia.org/wiki/Model-View-Controller) and ["CRUD"](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) are about: 
+- it's also what ["MVC"](https://en.wikipedia.org/wiki/Model-View-Controller) and ["CRUD"](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) are about:
 - most standardized part of the app
     - "resourceful" routes
     - "resourceful" model/view/controllers
-    
+
+
+### Polymorph
+
+> "Apples and Oranges can not be compared"
+
+A set is *polymorph* if it contains more than one kind of thing.
+
+Try to avoid polymorph sets as much as possible, because great care has to be
+taken with them. Normally easy things like sorting tend to get very hard.
+
+Note: There *are* `PolyThings` in the Application and they are called `Poly`
+to clearly mark them as such.
+
+
+[Presenters]: #presenters
+[Decorators]: #decorators

@@ -1,1 +1,30 @@
-%pre= JSON.pretty_generate @collection.attributes
+:ruby
+
+.app-body
+  = component('page-header', text: @get.title, icon: component('icon.set'))
+
+  .app-body-ui-container
+    #big_box.ui-container.tab-content.bordered.rounded-right.rounded-bottom.mbh
+
+      #top_box.ui-container.bright.pal.rounded-right.rounded-bottom
+        .ui-set-overview
+          .ui-set-preview
+            = component('thumbnail', mods: ['media-set'],
+                          text: @get.title,
+                          picture: asset_path('dev_todo.png'))
+
+          = combo('metadata-box',
+              mods: 'ui-summary-table.ui-set-summary.compact',
+              list: [['Title', @get.title, 'title-l'],
+                     ['Responsible', component('tag-cloud.person',
+                        mods: ['small','ellipsed'],
+                        list: [{ text: @get.responsible, href: '#' }])]])
+
+      #ui-resources-list-container.ui-container.midtone.rounded-bottom
+        .ui-container.inverted.ui-toolbar.pvx
+          .ui-toolbar-header.pls
+            TODO
+        .ui-resources-holder.pam
+          .ui-container.table.auto
+            .ui-container.table-cell.table-substance
+              = deco('polybox', mods: ['grid', 'active'])

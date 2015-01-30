@@ -1,10 +1,9 @@
 :ruby
-  text ||= {}
+  text ||= nil
   # actual image shown inside thumb
   picture = {
     mods: 'ui-thumbnail-image',
-    href: picture,
-    text: text
+    href: picture
   }
   link ||= nil
   badge_top_left ||= nil
@@ -21,9 +20,18 @@
     .ui-thumbnail-filterset-flag
       = badge_top_right
 
-  = component('link', link: link, mods: 'ui-thumbnail-image-wrapper') do
+  = component('link', link: link, text: text, mods: 'ui-thumbnail-image-wrapper') do
     .ui-thumbnail-image-holder
       .ui-thumbnail-table-image-holder
         .ui-thumbnail-cell-image-holder
           .ui-thumbnail-inner-image-holder
             = component('picture', picture)
+  - if defined?(meta)
+    - meta = meta.is_a?(String) ? { title: meta } : meta
+    .ui-thumbnail-meta
+      - if meta[:title]
+        .ui-thumbnail-meta-title
+          = meta[:title]
+      - if meta[:subtitle]
+        .ui-thumbnail-meta-subtitle
+          = meta[:subtitle]

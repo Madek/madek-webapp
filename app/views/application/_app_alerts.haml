@@ -9,7 +9,7 @@
 
 
 
-#app-alerts.ui-alerts.mtm.mhm
+#app-alerts.ui-alerts
   - unless alerts.blank?
     - alerts.each do |level, message|
       .ui-alert{class: alert_level_class(level)}
