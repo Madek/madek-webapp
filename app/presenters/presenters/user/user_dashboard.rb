@@ -7,17 +7,26 @@ module Presenters
         @limit = limit
       end
 
-      def latest
+      def my_content
         {
           media_entries:
-            @user.media_entries.reorder('created_at DESC').limit(@limit),
+            @user.media_entries.reorder('created_at DESC').limit(@limit)
+              .map { |me| Presenters::MediaEntries::MediaEntryThumb.new(me) },
           collections:
-            @user.collections.reorder('created_at DESC').limit(@limit),
+            @user.collections.reorder('created_at DESC').limit(@limit)
+              .map { |me| Presenters::Collections::CollectionThumb.new(me) },
           filter_sets:
-            @user.filter_sets.reorder('created_at DESC').limit(@limit),
+            @user.filter_sets.reorder('created_at DESC').limit(@limit)
+              .map { |me| Presenters::FilterSets::FilterSetThumb.new(me) },
           imports:
             @user.created_media_entries.reorder('created_at DESC').limit(@limit)
+              .map { |me| Presenters::MediaEntries::MediaEntryThumb.new(me) }
         }
+      end
+
+      def latest_imports
+        @user.created_media_entries.reorder('created_at DESC').limit(@limit)
+          .map { |me| Presenters::MediaEntries::MediaEntryThumb.new(me) }
       end
 
       def favorites

@@ -1,18 +1,18 @@
-%h3= 'Latest media entries'
+%h3= 'My media entries'
 %div= link_to 'show all', media_entries_path(latest: true)
-%div= @get.latest[:media_entries].to_json
+%div= @get.my_content[:media_entries].to_json
 
-%h3= 'Latest collections'
+%h3= 'My collections'
 %div= link_to 'show all', collections_path(latest: true)
-= @get.latest[:collections].to_json
+= @get.my_content[:collections].to_json
 
-%h3= 'Latest filter sets'
+%h3= 'My filter sets'
 %div= link_to 'show all', filter_sets_path(latest: true)
-= @get.latest[:filter_sets].to_json
+= @get.my_content[:filter_sets].to_json
 
 %h3= 'Latest imports'
 %div= link_to 'show all', media_entries_path(imported: true)
-= @get.latest[:imports].to_json
+= @get.latest_imports.to_json
 
 %h3= 'Favorite media entries'
 %div= link_to 'show all', media_entries_path(favorite: true)

@@ -29,11 +29,21 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/media_entries_controller_spec.rb"
+"./spec/controllers/my_controller_spec.rb":
+  name: "./spec/controllers/my_controller_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/my_controller_spec.rb"
 "./spec/controllers/sessions_controller_spec.rb":
   name: 'POST #sign in'
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/sessions_controller_spec.rb"
+"./spec/lib/system_execute_cmd_spec.rb":
+  name: "./spec/lib/system_execute_cmd_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/lib/system_execute_cmd_spec.rb"
 "./spec/models/api_client_spec.rb":
   name: ApiClient
   scripts:

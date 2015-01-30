@@ -11,8 +11,8 @@ class Presenter
       .flatten
   end
 
-  def dump
-    # TODO: recursion
-    Hash[self.api.map { |m| [m, self.method(m).call] }]
-  end
+  # def dump
+  #   # TODO: recursion
+  #   Hash[self.api.map { |m| [m, self.method(m).call] }]
+  # end
 end
