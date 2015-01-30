@@ -498,7 +498,8 @@ CREATE TABLE io_mappings (
     key_map character varying(255),
     key_map_type character varying(255),
     created_at timestamp without time zone DEFAULT now(),
-    updated_at timestamp without time zone DEFAULT now()
+    updated_at timestamp without time zone DEFAULT now(),
+    id uuid DEFAULT uuid_generate_v4() NOT NULL
 );
 
 
@@ -732,7 +733,12 @@ CREATE TABLE meta_keys (
     id character varying(255) NOT NULL,
     is_extensible_list boolean,
     meta_datum_object_type character varying(255) DEFAULT 'MetaDatumString'::character varying NOT NULL,
-    meta_terms_alphabetical_order boolean DEFAULT true
+    meta_terms_alphabetical_order boolean DEFAULT true,
+    label text,
+    description text,
+    enabled_for_media_entries boolean DEFAULT false NOT NULL,
+    enabled_for_collections boolean DEFAULT false NOT NULL,
+    enabled_for_filters_sets boolean DEFAULT false NOT NULL
 );
 
 
@@ -1055,7 +1061,7 @@ ALTER TABLE ONLY io_interfaces
 --
 
 ALTER TABLE ONLY io_mappings
-    ADD CONSTRAINT io_mappings_pkey PRIMARY KEY (io_interface_id, meta_key_id);
+    ADD CONSTRAINT io_mappings_pkey PRIMARY KEY (id);
 
 
 --
@@ -3003,7 +3009,13 @@ INSERT INTO schema_migrations (version) VALUES ('145');
 
 INSERT INTO schema_migrations (version) VALUES ('146');
 
+INSERT INTO schema_migrations (version) VALUES ('147');
+
+INSERT INTO schema_migrations (version) VALUES ('148');
+
 INSERT INTO schema_migrations (version) VALUES ('15');
+
+INSERT INTO schema_migrations (version) VALUES ('150');
 
 INSERT INTO schema_migrations (version) VALUES ('16');
 

@@ -1,5 +1,29 @@
 
 
+SELECT meta_keys.id, meta_key_definitions.label, meta_key_definitions.description FROM meta_keys
+JOIN meta_key_definitions ON meta_key_definitions.meta_key_id  = meta_keys.id
+JOIN contexts ON meta_key_definitions.context_id = contexts.id
+AND contexts.id = 'core'
+; 
+
+
+Connection: T(PGSQL)  H(localhost)  S(localhost)  D(madek_v3_development)  U(thomas)   at 09:59
+           id           |     label     | description 
+------------------------+---------------+-------------
+ portrayed object dates | Datierung     | 
+ keywords               | Schlagworte   | 
+ author                 | Autor/in      | 
+ title                  | Titel         | 
+ subtitle               | Untertitel    | 
+ copyright notice       | Rechteinhaber | 
+(6 rows)
+
+
+
+
+
+### 
+
    SELECT count(collections.id) + count(media_entries.id) + count(filter_sets.id)
    FROM resources
    LEFT OUTER JOIN media_entries ON resources.id = media_entries.id
