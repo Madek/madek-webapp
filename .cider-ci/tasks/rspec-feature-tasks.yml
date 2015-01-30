@@ -4,6 +4,11 @@
   scripts:
     main:
       body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/users_spec.rb"
+"./spec/features/collections_spec.rb":
+  name: "./spec/features/collections_spec.rb"
+  scripts:
+    main:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/collections_spec.rb"
 "./spec/features/styleguide_spec.rb":
   name: "./spec/features/styleguide_spec.rb"
   scripts:
