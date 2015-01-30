@@ -265,6 +265,7 @@ CREATE TABLE collection_user_permissions (
 
 CREATE TABLE collections (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    get_metadata_and_previews boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     responsible_user_id uuid NOT NULL,
@@ -433,6 +434,7 @@ CREATE TABLE filter_set_user_permissions (
 
 CREATE TABLE filter_sets (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    get_metadata_and_previews boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     filter jsonb DEFAULT '{}'::jsonb NOT NULL,
@@ -538,6 +540,8 @@ CREATE TABLE media_entries (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    get_metadata_and_previews boolean DEFAULT false NOT NULL,
+    get_full_size boolean DEFAULT false NOT NULL,
     type character varying(255) DEFAULT 'MediaEntry'::character varying,
     responsible_user_id uuid NOT NULL,
     creator_id uuid NOT NULL

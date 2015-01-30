@@ -89,30 +89,30 @@ More granular permissions can be granted
 "public" permissions apply to any request, logged in or not.
 
 
-|subject/permission| data_and_preview          |  edit_data    |  fullsize     | edit_permissions |
-|:---------------- |:-------------------------:|:-------------:|:-------------:|:----------------:|
-| **`MediaEntry`** | get metadata and previews | edit metadata | get full size | edit permissions |
-| ↳ `User`        |   ✔                       |   ✔           |   ✔           |   ✔             |
-| ↳ `Group`       |   ✔                       |   ✔           |   ✔           |   -             |
-| ↳ `APIClient`   |   ✔                       |   -           |   ✔           |   -              |
-| ↳ "public"      |   ✔                       |   -           |   ✔           |   -              |
-| *Beschreibung*   | betrachten | Metadaten editieren | Original exportieren und in PDF blättern | Zugriffsberechtigungen ändern |
-| | | | | |
-| | | | | |
-| **`MediaSet`**   | get metadata and previews | edit metadata **and relations** | - | edit permissions |
-| ↳ `User`        |   ✔                       |   ✔           |   -           |   ✔              |
-| ↳ `Group`       |   ✔                       |   ✔           |   -           |   -              |
-| ↳ `APIClient`   |   ✔                       |   ✔           |   -           |   -              |
-| ↳ "public"      |   ✔                       |   ✔           |   -           |   -              |
-| *Beschreibung*   | betrachten | Metadaten editieren & Inhalte hinzufügen| - | Zugriffsberechtigungen ändern |
-| | | | | |
-| | | | | |
-| **`FilterSet`**   | get metadata and previews | edit metadata **and filter** | - | edit permissions |
-| ↳ `User`        |   ✔                       |   ✔           |   -           |   ✔              |
-| ↳ `Group`       |   ✔                       |   ✔           |   -           |   -              |
-| ↳ `APIClient`   |   ✔                       |   ✔           |   -           |   -              |
-| ↳ "public"      |   ✔                       |   ✔           |   -           |   -              |
-| *Beschreibung*   | betrachten | Metadaten editieren & Filtereinstellungen ändern | - | Zugriffsberechtigungen ändern |
+| subject/permission | data_and_preview            | edit_data                                        | fullsize                                 | edit_permissions              |
+| :----------------  | :-------------------------: | :-------------:                                  | :-------------:                          | :----------------:            |
+| **`MediaEntry`**   | get metadata and previews   | edit metadata                                    | get full size                            | edit permissions              |
+| ↳ `User`           | ✔                           | ✔                                                | ✔                                        | ✔                             |
+| ↳ `Group`          | ✔                           | ✔                                                | ✔                                        | -                             |
+| ↳ `APIClient`      | ✔                           | -                                                | ✔                                        | -                             |
+| ↳ "public"         | ✔                           | -                                                | ✔                                        | -                             |
+| *Beschreibung*     | betrachten                  | Metadaten editieren                              | Original exportieren und in PDF blättern | Zugriffsberechtigungen ändern |
+|                    |                             |                                                  |                                          |                               |
+|                    |                             |                                                  |                                          |                               |
+| **`MediaSet`**     | get metadata and previews   | edit metadata **and relations**                  | -                                        | edit permissions              |
+| ↳ `User`           | ✔                           | ✔                                                | -                                        | ✔                             |
+| ↳ `Group`          | ✔                           | ✔                                                | -                                        | -                             |
+| ↳ `APIClient`      | ✔                           | ✔                                                | -                                        | -                             |
+| ↳ "public"         | ✔                           | -                                                | -                                        | -                             |
+| *Beschreibung*     | betrachten                  | Metadaten editieren & Inhalte hinzufügen         | -                                        | Zugriffsberechtigungen ändern |
+|                    |                             |                                                  |                                          |                               |
+|                    |                             |                                                  |                                          |                               |
+| **`FilterSet`**    | get metadata and previews   | edit metadata **and filter**                     | -                                        | edit permissions              |
+| ↳ `User`           | ✔                           | ✔                                                | -                                        | ✔                             |
+| ↳ `Group`          | ✔                           | -                                                | -                                        | -                             |
+| ↳ `APIClient`      | ✔                           | ✔                                                | -                                        | -                             |
+| ↳ "public"         | ✔                           | -                                                | -                                        | -                             |
+| *Beschreibung*     | betrachten                  | Metadaten editieren & Filtereinstellungen ändern | -                                        | Zugriffsberechtigungen ändern |
 
 ### Special
 

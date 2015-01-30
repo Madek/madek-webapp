@@ -11,6 +11,8 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
 
     create_table :media_entries, id: :uuid do |t|
       t.timestamps null: false
+      t.boolean :get_metadata_and_previews, null: false, default: false
+      t.boolean :get_full_size, null: false, default: false
       t.string :type, default: 'MediaEntry'
     end
 
@@ -19,25 +21,24 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
     ### create a media_entry for each media_resource of type MediaEntry #########
      
     reversible do |dir|
+
       dir.up do
-        ::MigrationMediaResource.where(type: 'MediaEntryIncomplete') \
+        ::MigrationMediaResource.where(type: ['MediaEntry','MediaEntryIncomplete'] ) \
           .find_each do |mre|
-          mme = ::MigrationMediaEntry.create! id: mre.id,
+          ::MigrationMediaEntry.create! id: mre.id,
+            get_metadata_and_previews: mre.view,
+            get_full_size: mre.download,
             created_at: mre.created_at,
             updated_at: mre.updated_at
-          mme.update_column(:type, 'MediaEntryIncomplete')
         end
       end
-    end
 
-    reversible do |dir|
-      dir.up do
-        ::MigrationMediaResource.where(type: 'MediaEntry').find_each do |mre|
-          ::MigrationMediaEntry.create! id: mre.id,
-                                        created_at: mre.created_at,
-                                        updated_at: mre.updated_at
+        ::MigrationMediaResource.where(type: 'MediaEntryIncomplete') \
+          .find_each do |mre|
+          ::MigrationMediaEntry.find(mre.id) \
+            .update_column(:type, 'MediaEntryIncomplete')
         end
-      end
+
     end
 
 
@@ -59,6 +60,7 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
     ###########################################################################
 
     create_table :collections, id: :uuid do |t|
+      t.boolean :get_metadata_and_previews, null: false, default: false
       t.timestamps null: false
     end
     reversible { |d|d.up { set_timestamps_defaults :collections } }
@@ -67,8 +69,9 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
       dir.up do
         ::MigrationMediaResource.where(type: 'MediaSet').find_each do |mrs|
           ::MigrationCollection.create! id: mrs.id,
-                                        created_at: mrs.created_at,
-                                        updated_at: mrs.updated_at
+            get_metadata_and_previews: mrs.view,
+            created_at: mrs.created_at,
+            updated_at: mrs.updated_at
         end
       end
     end
@@ -78,8 +81,8 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
     ###########################################################################
 
     create_table :filter_sets, id: :uuid do |t|
+      t.boolean :get_metadata_and_previews, null: false, default: false
       t.timestamps null: false
-
       t.column :filter, :jsonb, null: false, default: '{}'
     end
     reversible { |d|d.up { set_timestamps_defaults :filter_sets } }
@@ -88,9 +91,10 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
       dir.up do
         ::MigrationMediaResource.where(type: 'FilterSet').find_each do |mrfs|
           ::MigrationFilterSet.create! id: mrfs.id,
-                                       created_at: mrfs.created_at,
-                                       updated_at: mrfs.updated_at,
-                                       filter: mrfs.settings['filter'].to_json || {}
+            get_metadata_and_previews: mrfs.view,
+            created_at: mrfs.created_at,
+            updated_at: mrfs.updated_at,
+            filter: mrfs.settings['filter'].to_json || {}
         end
       end
     end
