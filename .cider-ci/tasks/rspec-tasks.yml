@@ -24,11 +24,6 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/media_entries_controller_spec.rb"
-"./spec/controllers/my_controller_spec.rb":
-  name: MyController
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/controllers/my_controller_spec.rb"
 "./spec/controllers/sessions_controller_spec.rb":
   name: 'POST #sign in'
   scripts:

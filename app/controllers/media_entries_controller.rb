@@ -1,6 +1,12 @@
 class MediaEntriesController < ApplicationController
 
   include Concerns::Filters
+  include Concerns::Image
+
+  def image
+    media_entry = MediaEntry.find(params[:id])
+    get_preview_and_send_image(media_entry, params[:size])
+  end
 
   def index
     @media_entries = \

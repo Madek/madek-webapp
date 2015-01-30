@@ -1,6 +1,15 @@
 class CollectionsController < ApplicationController
 
   include Concerns::Filters
+  include Concerns::Image
+
+  def image
+    collection = Collection.find(params[:id])
+    media_entry = \
+      collection.media_entries.cover \
+        or collection.media_entries.first
+    get_preview_and_send_image(media_entry, params[:size])
+  end
 
   def index
     @collections = \
@@ -11,6 +20,7 @@ class CollectionsController < ApplicationController
   end
 
   def show
-    @collection = Collection.find(params[:id])
+    collection = Collection.find(params[:id])
+    @get = ::Presenters::Collections::CollectionShow.new(collection)
   end
 end
