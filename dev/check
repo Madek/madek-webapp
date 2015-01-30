@@ -15,8 +15,12 @@ bundle exec cider-ci_flay app/ \
 
 echo ''; printf 'haml-lint... '
 # tmp refactor
-./dev/test/haml-lint \
+./dev/test/haml-lint >/dev/null \
   && echo OK || RES=1
+
+echo ''; printf 'cider-rspec... '
+cider-ci_rspec-support check spec/ >/dev/null \
+  && echo OK || bundle exec cider-ci_rspec-support update spec/
 
 echo ''
 test $RES = 0 && echo 'yay \o/' || echo 'FAIL m('
