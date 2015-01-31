@@ -1,53 +1,8 @@
-# Developer Guide
+This is a collection of small tips and guides that don't fit anywhere else.
+Use it as a 'staging' area to quickly write down stuff.
+It should be regularly checked if sections from here should go e.g. to the Manual.
 
-This is a *work in progress*.
-It is **far from complete**, content is added as needed.
-
-
-## Data Modell
-
-### (Individual) Contexts
-
-* All metadata in MAdeK is contained in "contexts"
-* Some are built-in ("Core", etc), some are defined by (admin) user
-* Contexts that are user-defined are called **"Individual Contexts"**
-    * In the UI, they are always called "Vocabulary" (in German "Vokabular")!
-* **"Individual Contexts"** form a **Vocabulary**, consisting of **Keys** (i.e. "color") and **Terms** (i.e. "green")
-
-#### Assignment
-
-* **"Individual Contexts" (IC)** can be ***assigned to*** and ***activated on*** (Media-)`Sets`
-* The assignment is inherited to it's Children `Set`s, from the *inital `Set`* down
-* An assigned `Set` can be *activated* and *deactivated* for these child Sets (by User)
-
-#### Implementaion
-
-aka "tricky consequences of this system that we have to take care of"
-
-* When an IC is assigned to a `Set`, it should be *activated* for all the Children!
-* ??? — When a `Set` is no longer Child of an *initial Set*, it should retain the IC (by assigning it directly)
-
-
-#### Queries
-
-(These exist all over the place right now, cleaning that up is TBD)
-
-* `media_set.contexts`: List of all ICs *assigned* to the `Set`
-    * `context.inherited`: True if the `Set` has inherited the IC (it is not the *initial Set*)
-    * `context.active`: True if the IC is *activated* for the `Set` (can only be true and is only relevant if `inherited` is also true)
-
-* `context.media_entries`: all `MediaResources` which are contained in a Set (or it's children) for which the IC is *active*
-    * `.count`: count of these `Resources`
-
-* `context.vocabulary`: List of the `key`s in a context, containg each a list of `term`s
-    * `key.alphabetical_order`: True if the `term`s in this `key` are sorted alphabetically (as opposed to manually)
-    * `term.usage_count`: how many of the `context.media_entries` are using this term?
-    * `.totalcount`: Highest `term.usage_count` for this `context`
-
-
-## Media Files
-
-### Images
+# Images/Thumbnails
 
 We currently have the following image sizes (aka thumbails):
 
@@ -61,16 +16,16 @@ We currently have the following image sizes (aka thumbails):
 | `maximum`   | (original)           |
 
 
-## Routes
+# Routes
 
 - Generate a condensed routing table with following command:
 
     DOC='doc/Routes.md' && echo '|Name|Method|Route|Controller|' > $DOC && echo '|---|---|---|---|' >> $DOC && rake routes | tail -n +2 | grep 'GET' | grep -v 'app_admin' | sed -E 's/[ ]+/|/g' | sed -E 's/$/ |/' | sed -E 's/^\|GET/| |GET/' >> $DOC
 
 
-## Rails
+# Rails
 
-### Error Handling
+# Error Handling
 
 TODO: module
 
@@ -83,7 +38,7 @@ based on HTTP error codes (4xx/5xx).
 Look there for the complete list with some explanations.
 
 
-### Hooks
+# Hooks
 
 TODO: @DrTom (just a very general guideline)
 
@@ -92,9 +47,9 @@ TODO: @DrTom (just a very general guideline)
 - point to good examples in repo
 
 
-## Frontend
+# v2: Frontend
 
-### `jQuery.fixed-table-headers`
+## `jQuery.fixed-table-headers`
 
 - it is a [magic plugin](http://fixedheadertable.com) that takes care of fixed
   headers on tables
@@ -112,7 +67,7 @@ TODO: @DrTom (just a very general guideline)
       thetable.get(0)._initTable(thetable);
       ````
 
-### PDF Display
+## PDF Display
 
 There are two ways PDFs are shown inside madek's HTML:
 
@@ -125,7 +80,7 @@ A User with the *"view"* Permission can only see the
 JPG version. **To display the PDF itself the *"download original"* Permission is
 needed!**
 
-### `pdf.js`
+## `pdf.js`
 
 To display PDFs, [Mozilla's `pdf.js` library](https://mozilla.github.io/pdf.js/)
 is used.
@@ -143,21 +98,21 @@ differences.
 In both cases, an `access_hash` is added to the query in order to provide
 authenticated access to the raw file.
 
-#### Upgrading
+### Upgrading
 
 - currently used version is years behind
 - mayor improvements since then (performance, stability)
 - also mayor API changes
 - might be faster to almost start from scratch
 
-##### Recommended Workflow:
+#### Recommended Workflow:
 
 - read the [overview](https://mozilla.github.io/pdf.js/getting_started/)
 - get the `#document` to work
 - read [API docs and or source](https://mozilla.github.io/pdf.js/api/)
 - port over custom controls in `#show`
 
-##### Hints
+#### Hints
 
 - the architecture of the library has changed, as laid out in their overview
     - for `#show`, embed the `Display` and use it's API.
@@ -172,55 +127,8 @@ authenticated access to the raw file.
     - `app/views/media_entries/previews/document/_full_document.html.haml`
 
 
-#### etc
+### etc
 
 - `#show`: better UX before pdf has loaded
     - grey background, display `.ui-preloader`
     - if pdf height/width-ratio is known, apply it to the preview area
-
-
-----
-
-## UI Components
-
-From small to bigger
-
-1. plain HAML - HTML tags and content. only very simple things.
-2. partials - combos, no nesting, supports config and data
-3. ui helpers - combos, nestable, supports config and block(s)
-    - how to build something like `FormBuilder`?
-      ```
-      = ui_sidenav(config) do |nav|
-        nav.item do
-          %a.foobar
-
-      ```
-    - some links regarding this syntax/api:
-        - "Rails Builders" - formbuilder, jbuilder, xmlbuilder, …
-        - [rails' `form_helper.rb`](https://github.com/rails/rails/blob/f9d4b50944e09273e299ff1b3cec5638320b7ae9/actionview/lib/action_view/helpers/form_helper.rb)
-        - [`multiblock` gem](https://github.com/monterail/multiblock)
-        - [`rails-multi_block_helpers` gem](https://github.com/Selleo/rails-multi_block_helpers)
-        - [haml blocks and capture](https://www.ruby-forum.com/topic/2174513)
-        - [manual haml engine](http://stackoverflow.com/questions/9623020/rendering-haml-from-rails-helper-inside-a-loop-iteration?rq=1)
-    - more interesting ideas:
-        - [`haml_user_tags` gem](http://cgamesplay.github.io/haml_user_tags/tutorial.html)
-4. Rails Layouts => rails views, clear definition of sections
-
-### Why?
-
-- implement each element only once: less room for errors, total consistency
-    - no arbitrary nesting of CSS classes (which might work or not)
-    - identical DOM structure everywhere, less JavaScript bug
-    - easier refactoring of CSS architecture later on
-
-
-### Rules
-
-- all layouts inherit from _base, no further sub-layouts (get to messy)
-- no `@variables` outside of top-level views (directly called from controller)
-
-
-### Styleguide TODO
-
-- info-only-section should contain 1 markdown doc instead of 1 haml doc
-- <http://pathfindersoftware.com/2008/07/pretty-blocks-in-rails-views/>

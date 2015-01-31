@@ -1,24 +1,22 @@
-# MAdeK Manual
+**Models**, aka Entities, aka Resources.
 
-## Data Models
+# Primary
 
-### Primary
-
-#### `MediaEntry`
+## `MediaEntry`
 
 [TODO]
 
-#### `Collection`
+## `Collection`
 
 Also known as `Set`.
 
 [TODO]
 
-#### `FilterSet`
+## `FilterSet`
 
 [TODO]
 
-#### `Person`
+## `Person`
 
 [TODO]
 
@@ -26,20 +24,20 @@ Also known as `Set`.
 - *can* be linked to (equal to) a [`User`](#user)
 - *can* be linked to `MetaDatum` of type `MetaDatumPerson`  (i.e. "Author")
 
-##### Relations
+### Relations
 
 * [`user`](#user), rails-type: `has_one`, effectively enforced by unique constraint on index
 
-#### `User`
+## `User`
 
 - User with account/login
 
-##### Relations
+### Relations
 
 * [`person`](#person), rails-type: `belongs_to`, null: `false`
 
 
-#### `Group`
+## `Group`
 
 [TODO]
 
@@ -47,24 +45,24 @@ Also known as `Set`.
 - is manually defined by a `User`
 - not to be confused with `InstitutionalGroup`
 
-##### Relations
+### Relations
 
 * [`users`](#user), rails-type: `has_many`
 
-##### Notes
+### Notes
 
 * Supertype of [`InstitutionalGroup`](#institutionalgroup), implemented as `STI`-table
 
 
-### Secondary
+# Secondary
 
-#### `InstitutionalGroup`
+## `InstitutionalGroup`
 
-##### Notes
+### Notes
 
 * Subtype of [`Group`](#group), implemented as STI in the `groups` table
 
-#### Permissions
+## Permissions
 
 Almost like [UNIX](https://en.wikipedia.org/wiki/File_system_permissions#Classes).
 Notable Differences:
@@ -74,13 +72,13 @@ Notable Differences:
 - there is no 'write', but distinct 'edit_data' and 'edit_permissions'
 
 
-##### Owner
+### Owner
 
 - for `MediaEntry`, `MediaSet`, `FilterSet`, there is always exactly 1 **owner**
 - has super-permission **"Delete and Change owner"** (Löschen und Verantwortlichkeit übertragen)
 - implicitly has all the granular permissions listed below (if applicable)
 
-##### Per-Subject
+### Per-Subject
 
 More granular permissions can be granted
 **on** `MediaEntry`s, `MediaSet`s and `FilterSet`s,
@@ -114,92 +112,10 @@ More granular permissions can be granted
 | ↳ "public"         | ✔                           | -                                                | -                                        | -                             |
 | *Beschreibung*     | betrachten                  | Metadaten editieren & Filtereinstellungen ändern | -                                        | Zugriffsberechtigungen ändern |
 
-### Special
+# Special
 
-#### MediaResources
+## MediaResources
 
 List of `MediaEntry`s and/or `Collection`s and/or `FilterSet`s (polymorphic).
 
 Formerly a "real" Model, now just a convention between [Presenters][] and [Decorators][] (so they only exist in the UI).
-
----
-
-## Views
-
-aka "Frontend"
-aka "the Website"
-aka "the Application", since this is how Madek is exposed to the end user.
-
-The following is 1 Chapter per view, with 1 sub-section per action (`index`, `show`, etc for resources and custom ones )
-
-(when in doubt where an URL goes, see [`routes.rb`](http://github.com/zhdk/madek/blob/master/config/routes.rb))
-
-
-### `/` (application#root)
-
-The "home page" (no sub-sections, obviously).
-
-Non-resourceful.
-
-**Content:**
-- Login Form
-
-### `my`
-
-The user's "My Archive" section.
-
-Non-resourceful.
-
-**Content:**
-- Latest (sorted by updated_at)
-    - MediaEntries
-    - Collections
-    - FilterSets
-- LatestImported (sorted by created_at)
-    - MediaEntries
-- Favorite
-    - MediaEntries
-    - Collections
-    - FilterSets
-
-
-
----
-
----
-
----
-
-## Glossary
-
-A few terms that are used in this document wich may sound general but
-have actually a very clear distinct technical meaning, thus they are
-defined here for clarity.
-**NOT** a dictionary (use Wikipedia).
-
-
-### Resource
-
-- distinct kind of thing (noun)
-- *not* the "R" in "REST", but [REST is all about Resources](https://en.wikipedia.org/wiki/Representational_state_transfer#Software_architecture)
-- it's also what ["MVC"](https://en.wikipedia.org/wiki/Model-View-Controller) and ["CRUD"](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) are about:
-- most standardized part of the app
-    - "resourceful" routes
-    - "resourceful" model/view/controllers
-
-
-### Polymorph
-
-> "Apples and Oranges can not be compared"
-
-A set is *polymorph* if it contains more than one kind of thing.
-
-Try to avoid polymorph sets as much as possible, because great care has to be
-taken with them. Normally easy things like sorting tend to get very hard.
-
-Note: There *are* `PolyThings` in the Application and they are called `Poly`
-to clearly mark them as such.
-
-
-[Presenters]: #presenters
-[Decorators]: #decorators
