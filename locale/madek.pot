@@ -183,7 +183,7 @@ msgstr ""
 msgid "Conversion is %f%% complete"
 msgstr ""
 
-msgid "Cover image"
+msgid "Set Cover image"
 msgstr ""
 
 msgid "Create filter set"

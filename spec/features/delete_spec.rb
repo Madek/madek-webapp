@@ -87,11 +87,13 @@ feature "Delete" do
     # The media_resource does exist
     expect(MediaEntry.where(id: @media_entry.id).count).to be > 0
     # The media_file does exist
-    expect(MediaFile.where(id: @media_file.id).count).to be > 0 
+    expect(MediaFile.where(id: @media_file.id).count).to be > 0
     # The actual_file does exist
     expect(File.exists? @file).to be true
 
+    open_resource_actions
     find('[data-delete-action]').click
+    assert_modal_visible
     click_on_text 'Löschen'
     wait_for_ajax
 
@@ -105,11 +107,12 @@ feature "Delete" do
   end
 
   def assert_not_visible_delete_action_for_current_resource
-    expect(page).not_to have_selector ".ui-body-title-actions [data-delete-action]"
+    expect(page).not_to have_selector "[data-delete-action]"
   end
 
   def assert_visible_delete_action_for_current_resource
-    expect(page).to have_selector ".ui-body-title-actions [data-delete-action]"
+    open_resource_actions
+    expect(page).to have_selector "[data-delete-action]"
   end
 
   def assert_visible_delete_action_for_media_resources_where_user_responsible

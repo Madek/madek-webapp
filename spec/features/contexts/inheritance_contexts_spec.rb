@@ -106,9 +106,8 @@ feature "Inheritance of contexts" do
 
   def open_organize_dialog
     expect(page).to have_selector '.app[data-id]'
-    click_link 'resource-action-button'
-    expect(page).to have_selector '.ui-drop-item a[data-organize-arcs]'
-    find('.ui-drop-item a[data-organize-arcs]', match: :first).click
+    expect(page).to have_selector 'a[data-organize-arcs]'
+    find('a[data-organize-arcs]', match: :first).click
     assert_modal_visible
   end
 

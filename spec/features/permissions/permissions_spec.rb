@@ -85,7 +85,7 @@ feature 'Permissions' do
     visit media_resource_path(@resource)
 
     click_link 'Weitere Aktionen'
-    find('a', text: 'Zu Set hinzufügen/entfernen').click
+    find('a[data-organize-arcs]').click
     add_resource_to_group
     expect_set_to_include_resource
   end

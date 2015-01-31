@@ -1,19 +1,19 @@
-# A few global functions shared between all rspec feature tests. 
+# A few global functions shared between all rspec feature tests.
 #
 # * Keep this file lexically sorted.
-# 
-# * Keep this file small and simple.  
+#
+# * Keep this file small and simple.
 #
 # * Only simple functions shall be included.
-#   
+#
 # * Only general functions shall be included.
-#   
+#
 # Favor clearness, and simplicity instead of dryness!
 #
 
 def accept_alert_dialog
   unless Capybara.current_driver == :poltergeist
-    page.driver.browser.switch_to.alert.accept 
+    page.driver.browser.switch_to.alert.accept
   end
 end
 
@@ -105,6 +105,11 @@ def move_mouse_over(element)
   page.driver.browser.action.move_to(element.native).perform
   # it's gonna be easier in capybara < 2.1
   # element.hover
+end
+
+def open_resource_actions
+  expect(page).to have_selector('#resource-action-button')
+  find("#resource-action-button").click
 end
 
 def scroll_to_bottom

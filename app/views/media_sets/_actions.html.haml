@@ -7,19 +7,18 @@
 
 
 .ui-body-title-actions
-  
+
   - unless @is_guest
     = render "media_resources/actions/clipboard_toggle"
     = render "media_resources/actions/favor_toggle", media_resource: @media_set
     %span.action-separator
 
   -# = render "media_resources/actions/browse"
-  
+
   - if @can_edit
     = render "media_resources/actions/edit", media_resource: @media_set
-
-  - if @can_delete
-    = render "media_resources/actions/delete"
+  - unless @is_guest
+    = render "media_resources/actions/organize"
 
   .dropdown.ui-dropdown.stick-right
     %a#resource-action-button.button.dropdown-toggle.ui-drop-toggle{"data-toggle" => "dropdown", href: "#"}
@@ -30,7 +29,6 @@
 
       - unless @is_guest
         = render "media_resources/actions/permissions", media_resource: @media_set
-        = render "media_resources/actions/organize"
         - if @can_edit
           = render "media_sets/actions/highlight"
           = render "media_sets/actions/cover"
@@ -40,6 +38,10 @@
         = render "media_resources/actions/visualize_my_component_with", media_resource: @media_set
 
       = render "media_resources/actions/urls", media_resource: @media_set
+
+      - if @can_delete
+        %li.separator
+          = render :partial => "media_resources/actions/delete"
 
       - if @is_admin
         %li.separator

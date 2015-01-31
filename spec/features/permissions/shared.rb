@@ -69,14 +69,14 @@ module Features
       def expect_no_permissions_for_group(name)
         group = Group.find_by!(name: name)
         expect(
-          @my_first_media_entry.grouppermissions.joins(:group).where("groups.name = ?", name).count 
+          @my_first_media_entry.grouppermissions.joins(:group).where("groups.name = ?", name).count
         ).to be_zero
       end
 
       def expect_no_permissions_for_user(login)
         user = User.find_by!(login: login)
         expect(
-          @my_first_media_entry.userpermissions.joins(:user).where("users.login = ?", login).count 
+          @my_first_media_entry.userpermissions.joins(:user).where("users.login = ?", login).count
         ).to be_zero
       end
 
@@ -155,7 +155,7 @@ module Features
       end
 
       def open_view_permissions_page
-        find('#resource-action-button').click
+        open_resource_actions
         click_link 'view_permissions_of_resource'
       end
 

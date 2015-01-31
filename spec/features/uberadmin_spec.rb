@@ -17,7 +17,7 @@ feature "Acting as an Uberadmin" do
     resources_counter = find("#resources_counter", match: :first).text.to_i
 
     click_on_text "Adam Admin"
-    click_on_text "In Admin-Modus wechseln" 
+    click_on_text "In Admin-Modus wechseln"
 
     # I can see more resources than before
     expect(find("#resources_counter", match: :first).text.to_i).to be > resources_counter
@@ -43,7 +43,7 @@ feature "Acting as an Uberadmin" do
     expect(page).to have_content "Sie haben nicht die notwendige Zugriffsberechtigung."
 
     click_on_text "Adam Admin"
-    click_on_text "In Admin-Modus wechseln" 
+    click_on_text "In Admin-Modus wechseln"
 
     visit media_resource_path media_entry
 
@@ -82,10 +82,11 @@ feature "Acting as an Uberadmin" do
     expect(page).to have_content "Sie haben nicht die notwendige Zugriffsberechtigung."
 
     click_on_text "Adam Admin"
-    click_on_text "In Admin-Modus wechseln" 
+    click_on_text "In Admin-Modus wechseln"
 
     visit media_resource_path media_entry
 
+    open_resource_actions
     find("a[title='Löschen']").click
     # I confirm the modal
     find('.modal.in .primary-button').click

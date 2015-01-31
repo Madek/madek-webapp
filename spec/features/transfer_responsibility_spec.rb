@@ -107,7 +107,7 @@ feature "Transfer responsibility" do
   end
 
   def open_the_transfer_responsibility_page
-    find("#resource-action-button").click
+    open_resource_actions
     find("#view_permissions_of_resource").click
     find("#transfer-responsibilities").click
   end
@@ -132,7 +132,7 @@ feature "Transfer responsibility" do
 
     begin
       input_element.click
-      done = 
+      done =
         case pvalue
         when "false"
           not input_element.checked?

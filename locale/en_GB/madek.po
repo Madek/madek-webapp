@@ -182,8 +182,8 @@ msgstr "Conversion failed"
 msgid "Conversion is %f%% complete"
 msgstr "Conversion is %f%% complete"
 
-msgid "Cover image"
-msgstr "Cover image"
+msgid "Set Cover image"
+msgstr "Set Cover image"
 
 msgid "Create filter set"
 msgstr "Create filter set"

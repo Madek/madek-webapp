@@ -297,9 +297,9 @@ window.i18n.locale_data = {
          null,
          "Konvertierung zu %f%% abgeschlossen"
       ],
-      "Cover image": [
+      "Set Cover image": [
          null,
-         "Titelbild"
+         "Titelbild setzen"
       ],
       "Create filter set": [
          null,
