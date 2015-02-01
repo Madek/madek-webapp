@@ -52,7 +52,7 @@ class MediaResourcesController.Index
       else
         @layoutSwitcher.find("[data-default]").addClass "active"
     unless @getCurrentSorting()?
-      @sorting.find("[data-default]").addClass "active" 
+      @sorting.find("[data-default]").addClass "active"
 
   resetAll: ->
     @changeTypeFilter @typeFilter.find(".button:not([data-type])")
@@ -92,16 +92,16 @@ class MediaResourcesController.Index
       do (context_el)->
         context_el = $(context_el)
         if (context = AppSettings[context_el.data("context")])?
-          data = 
-            ids: [media_resource_id] 
-            with: 
-              meta_data: 
+          data =
+            ids: [media_resource_id]
+            with:
+              meta_data:
                 context_ids: [context]
-          App.MediaResource.fetch data, (media_resources)=> 
-            context_el.html App.render "media_resources/meta_data_list_block", 
+          App.MediaResource.fetch data, (media_resources)=>
+            context_el.html App.render "media_resources/meta_data_list_block",
               {meta_data: media_resources[0].meta_data},
               {context: context}
-    
+
   changeSorting: (target_el)->
     sort = target_el.data "sort"
     return true if sort == @getCurrentSorting()
@@ -121,14 +121,14 @@ class MediaResourcesController.Index
     type = target_el.data("type")
     if type?
       uri = URI(window.location.href).removeQuery("type").addQuery("type", type)
-      window.history.replaceState uri._parts, document.title, uri.toString()  
+      window.history.replaceState uri._parts, document.title, uri.toString()
     else
       uri = URI(window.location.href).removeQuery("type")
       window.history.replaceState uri._parts, document.title, uri.toString()
     do @resetForLoading
     do @initalFetch
 
-  resetForLoading: -> 
+  resetForLoading: ->
     @list.html App.render "media_resources/loading_list"
 
   switchLayout: (visMode, extraClasses)->
@@ -142,7 +142,7 @@ class MediaResourcesController.Index
     window.history.replaceState uri._parts, document.title, uri.toString()
     @list.trigger "layout-changed", visMode
     sessionStorage.currentLayout = JSON.stringify visMode
-    
+
   switchContextInview: ->
     if @getCurrentVisMode() is "list"
       @el.on "inview", ".not-loaded-contexts.ui-resource", @loadContexts
@@ -168,7 +168,7 @@ class MediaResourcesController.Index
         @totalPages = response.pagination.total_pages
         @total = response.pagination.total
         do @setupPlaceholdersPages if @totalPages > 1
-      @filterPanel.update response.filter 
+      @filterPanel.update response.filter
       @list.trigger "render-inital-fetch"
 
   setupPlaceholdersPages: ->
@@ -187,7 +187,7 @@ class MediaResourcesController.Index
     data = @getRequestData true
     $.extend true, data, {with_filter: "only"}
     @fetchFilterAjax.abort() if @fetchFilterAjax?
-    @fetchFilterAjax = App.MediaResource.fetch data, (media_resources, response)=> 
+    @fetchFilterAjax = App.MediaResource.fetch data, (media_resources, response)=>
       @filterPanel.update response.filter, response.current_filter
 
   getRequestData: (withoutDefault)->
@@ -207,7 +207,7 @@ class MediaResourcesController.Index
     $.extend true, filter, @baseFilter
     # merge basefilter search term with filter panel search term
     if @baseFilter.search? and @filterPanel.getSelectedFilter().search?
-      $.extend true, filter, {search: @baseFilter.search + " " + @filterPanel.getSelectedFilter().search} 
+      $.extend true, filter, {search: @baseFilter.search + " " + @filterPanel.getSelectedFilter().search}
     filter
 
   getCurrentSorting: -> @sorting.find(".ui-drop-item.active [data-sort]").data "sort"
@@ -220,8 +220,8 @@ class MediaResourcesController.Index
     !!@getCurrentTypeFilter() or
     @filterPanel.anyActiveFilter()
 
-  @DEFAULT_WITH: 
-    with: 
+  @DEFAULT_WITH:
+    with:
       media_type: true
       is_public: true
       is_private: true
@@ -232,27 +232,49 @@ class MediaResourcesController.Index
       meta_data:
         context_ids: ["core"]
 
-  @PAGESIZE= 36 
+  @PAGESIZE= 36
   @PAGESIZE_ARRAY = [1..@PAGESIZE]
 
   @toggleFavor: (toggle_el)->
-    container = toggle_el.parents("[data-id]").first()
-    mr = new App.MediaResource {id: container.data("id")}
-    indicator = container.find("[data-favor-indicator]")
-    toggle_el.toggleClass "active"
-    indicator.toggleClass "active" if indicator?
-    if toggle_el.hasClass "active"
-      container.find(".ui-thumbnail-action-favorite").addClass "active"
-      mr.favor()
+    is_fav = toggle_el.data("is-fav")
+    toggled_status = !is_fav
+    is_tile_toggle = toggle_el.hasClass("ui-tile__action-link")
+    block_ui_class = if is_tile_toggle then 'diabled' else 'active'
+    indicator = toggle_el.find("i")
+
+    # abort if UI is "locked"
+    # return if toggle_el.hasClass(block_ui_class)
+
+    unless is_tile_toggle
+      container = toggle_el.closest("[data-id]")
     else
-      container.find(".ui-thumbnail-action-favorite").removeClass "active"
-      mr.disfavor()
+      container = toggle_el.parents("[data-id]").first()
+      indicator = toggle_el.add container.find("[data-favor-indicator]")
+
+    mr = new App.MediaResource {id: container.data("id")}
+
+    # disable toggle UI
+    toggle_el.addClass(block_ui_class)
+
+    mr.setFavorite toggled_status, (err, res)->
+      # not really handle the error for the user apart from not onlocking UI
+      # but at least this is collected by newrelic
+      return console.log(err) if err?
+      # if there was no error, we update the UI:
+      # set the visual indicator
+      if indicator?
+        indicator[if toggled_status then 'addClass' else 'removeClass']("active")
+      # update data prop
+      toggle_el.data("is-fav", toggled_status)
+      # re-enable toggle UI
+      toggle_el.removeClass(block_ui_class)
+
 
   @delete: (container)->
     container = $(container)
     mr = new App.MediaResource {id: container.data("id"), title: container.data("title")}
     dialog = App.render "media_resources/delete_dialog", {media_resource: mr}
-    dialog.find(".primary-button").bind "click", (e)-> 
+    dialog.find(".primary-button").bind "click", (e)->
       e.preventDefault()
       mr.delete ->
         if container.data("redirect-on-delete")?

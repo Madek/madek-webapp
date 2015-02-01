@@ -1,2 +1,7 @@
-%a.button{:"data-favor-toggle" => true, :title => _("Add to/remove from favorites")}
-  %i.icon-star-empty.ui-thumbnail-action-favorite{:class => current_user.favorites.include?(media_resource) ? "active" : ""}
+:ruby
+  is_favorite = current_user.favorite_ids.include?(media_resource.id)
+
+%a.button{:"data-favor-toggle" => true,
+          :"data-is-fav" => is_favorite ? "true" : "false",
+          :title => _("Add to/remove from favorites")}
+  %i.icon-star-empty.ui-thumbnail-action-favorite{class: is_favorite ? "active" : ""}

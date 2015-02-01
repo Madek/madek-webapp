@@ -1,4 +1,5 @@
 %a{:"data-favor-toggle" => true,
+    :"data-is-fav" => "{{if is_favorite}}true{{else}}false{{/if}}",
      :title => "{{if is_favorite}}${_jed('Remove from favorites')}{{else}}${_jed('Add to favorites')}{{/if}}",
      :class => "ui-thumbnail-action-favorite{{if is_favorite}} active{{/if}}"}
   %i.icon-star-empty

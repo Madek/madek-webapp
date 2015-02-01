@@ -16,15 +16,25 @@ class MediaResource
       type: "DELETE"
       success: -> callback() if callback?
 
-  favor: ->
-    $.ajax
-      url: "/media_resources/#{@id}/favor.json"
-      type: "PUT"
+  # old API: proxy old internal function names
+  favor: (callback)->
+    @setFavorite(true)
+  disfavor: (callback)->
+    @setFavorite(false)
 
-  disfavor: ->
+  # new old API :/
+  setFavorite: (status, callback)->
+    apiCall = if status is true then 'favor' else 'disfavor'
+    callback = if typeof callback is 'function' then callback else null
+    return unless apiCall?
     $.ajax
-      url: "/media_resources/#{@id}/disfavor.json"
+      url: "/media_resources/#{@id}/#{apiCall}"
       type: "PUT"
+      dataType: "text"
+      success: (data, textStatus, jqXHR )->
+        callback(null, data) if callback?
+      error: (jqXHR, textStatus, errorThrown)->
+        callback(errorThrown, null) if callback?
 
   totalChildren: -> @children.pagination.total
   totalChildEntries: -> @children.pagination.total_media_entries

@@ -5,7 +5,7 @@
         %a.ui-thumbnail-action-checkbox{:"data-clipboard-toggle" => true, :title => "${_jed('Add to/remove from clipboard')}"}
           %i.icon-checkbox
       %li.ui-resource-action
-        %a.ui-thumbnail-action-favorite{:"data-favor-toggle" => true, :title => "${_jed('Add to/remove from favorites')}"}
+        %a.ui-thumbnail-action-favorite{:"data-favor-toggle" => true, :"data-is-fav" => "{{if is_favorite}}true{{else}}false{{/if}}", :title => "${_jed('Add to/remove from favorites')}"}
           %i.icon-star-empty
     %h3.ui-resource-title
       ${title}
@@ -58,7 +58,7 @@
       -# left side action buttons 
       %ul.ui-tile__actions.left.by-left.no-guest
         %li.ui-tile__action
-          %a{:class => "ui-tile__action-link {{if is_favorite}}active{{/if}}", :"data-favor-toggle" => true, :title => "{{if is_favorite}}${_jed('Remove from favorites')}{{else}}${_jed('Add to favorites')}{{/if}}"}
+          %a{:class => "ui-tile__action-link {{if is_favorite}}active{{/if}}", :"data-favor-toggle" => true, :"data-is-fav" => "${is_favorite}", :title => "{{if is_favorite}}${_jed('Remove from favorites')}{{else}}${_jed('Add to favorites')}{{/if}}"}
             %i.icon-star-empty
             
         %li.ui-tile__action

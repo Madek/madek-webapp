@@ -163,17 +163,22 @@ class MediaResourcesController < ApplicationController
     end
   end
 
+  # NOTE: "204 No content" with not body would be correct,
+  # but it triggers a bug in firefox.
+  # workaorund: always include dummy json so we can send '200'
+  # https://bugzilla.mozilla.org/show_bug.cgi?id=521301
+  # (Also, disfavor should be DELETE but the bug would be same)
   def favor
     current_user.favorites.favor(@media_resource)
     respond_to do |format|
-      format.json { render :nothing => true, :status => :no_content }
+      format.json { render :json => {ok: true}, :status => 200 }
     end
   end
 
   def disfavor
     current_user.favorites.disfavor(@media_resource)
     respond_to do |format|
-      format.json { render :nothing => true, :status => :no_content }
+      format.json { render :json => {ok: true}, :status => 200 }
     end
   end
 

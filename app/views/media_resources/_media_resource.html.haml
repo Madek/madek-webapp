@@ -4,6 +4,7 @@
   media_type = media_resource.media_type.downcase
   is_editable = current_user.authorized?(:edit, media_resource).to_json
   is_manageable = current_user.authorized?(:manage, media_resource).to_json
+  is_favorite = current_user.favorite_ids.include?(media_resource.id)
 
   link = (defined? link and link)
   res_link_type = (defined? res_link_type and res_link_type)
@@ -36,7 +37,9 @@
         %li.ui-resource-action
           %a.ui-thumbnail-action-checkbox{:"data-clipboard-toggle" => true, :title => _("Add to/remove from clipboard")} Select
         %li.ui-resource-action
-          %a.ui-thumbnail-action-favorite{:"data-favor-toggle" => true, :title => _("Add to/remove from favorites")} Favorite
+          %a.ui-thumbnail-action-favorite{:"data-favor-toggle" => true,
+              :"data-is-fav" => is_favorite ? "true" : "false",
+              :title => _("Add to/remove from favorites")} Favorite
       %h3.ui-resource-title
         = media_resource.title
 
