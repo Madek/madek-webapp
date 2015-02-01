@@ -27,6 +27,8 @@ class Modal
     elBodyHeight = @el.find(".ui-modal-body").height()
     height =  windowHeight - rim - elHeight  + elBodyHeight 
     @el.find(".ui-modal-body").css "max-height", height
+    # since this is an ongoing problem we leave this in prod for faster debugging
+    console.log "debug: ModalBodyMaxHeight was set to #{height}"
 
   onHide: =>
     @el.remove()
