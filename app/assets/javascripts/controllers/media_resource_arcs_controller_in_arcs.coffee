@@ -8,6 +8,7 @@ MediaResourceArcsController = {} unless MediaResourceArcsController?
 class MediaResourceArcsController.InArcs
 
   constructor: (options)->
+    @modal = $(options.modal)
     @el = $(options.el)
     @table = @el.find(".ui-resources-table")
     @mediaSet = options.mediaSet
@@ -43,6 +44,7 @@ class MediaResourceArcsController.InArcs
       changeTarget: @changeTarget
     template.find("input:checked").closest("tr").prependTo template.find("tbody")
     @table.html template
+    do @modal.setModalBodyMaxHeight if @modal?.setModalBodyMaxHeight?
 
   enableSubmit: ->
     @submitButton.removeAttr("disabled").removeClass "disabled"
