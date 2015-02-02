@@ -6,6 +6,9 @@ task_defaults:
     deploy-madek-test: true
     linux: true
 
+  exclusive_global_resources:
+    "test.madek.zhdk.ch": true
+
   git_options: 
     submodules: 
       clone: true 
