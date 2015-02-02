@@ -81,8 +81,8 @@ module MAdeK
       *.png
       api_docs.css
       api_docs.js
-      app_admin.css
-      app_admin.js
+      admin.css
+      admin.js
       application.css
       application-contrasted.css
       application.js
