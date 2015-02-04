@@ -1,4 +1,14 @@
 
+SELECT DISTINCT meta_terms.term, meta_keys.id, meta_key_definitions.label,  contexts.id 
+FROM meta_terms, meta_keys_meta_terms, meta_keys, meta_key_definitions, contexts
+WHERE true 
+AND meta_keys_meta_terms.meta_term_id = meta_terms.id
+AND meta_keys_meta_terms.meta_key_id = meta_keys.id
+AND meta_key_definitions.meta_key_id = meta_keys.id
+AND meta_key_definitions.context_id = contexts.id
+ORDER BY contexts.id, meta_keys.id
+;
+
 
 SELECT meta_keys.id, meta_key_definitions.label, meta_key_definitions.description FROM meta_keys
 JOIN meta_key_definitions ON meta_key_definitions.meta_key_id  = meta_keys.id

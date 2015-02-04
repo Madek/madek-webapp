@@ -69,8 +69,9 @@ class MigrateCoreKeys < ActiveRecord::Migration
     ].each do |update_data| 
 
 
-      MetaKey.find(update_data[:id]) \
-        .update_columns(update_data[:attributes])
+      MetaKey.where(id: update_data[:id]).find_each do |mk|
+        mk.update_columns(update_data[:attributes])
+      end
 
       [IoMapping,MetaData,MetaKeyDefinitions].each do |klass| 
         klass.where(meta_key_id: update_data[:id]).find_each do |model|

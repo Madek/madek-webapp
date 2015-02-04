@@ -709,6 +709,16 @@ CREATE TABLE meta_data_users (
 
 
 --
+-- Name: meta_data_vocables; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE meta_data_vocables (
+    meta_datum_id uuid,
+    vocable_id uuid
+);
+
+
+--
 -- Name: meta_key_definitions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -742,29 +752,9 @@ CREATE TABLE meta_keys (
     description text,
     enabled_for_media_entries boolean DEFAULT false NOT NULL,
     enabled_for_collections boolean DEFAULT false NOT NULL,
-    enabled_for_filters_sets boolean DEFAULT false NOT NULL
-);
-
-
---
--- Name: meta_keys_meta_terms; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE meta_keys_meta_terms (
-    id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    meta_key_id character varying(255) NOT NULL,
-    meta_term_id uuid NOT NULL,
-    "position" integer DEFAULT 0 NOT NULL
-);
-
-
---
--- Name: meta_terms; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE meta_terms (
-    id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    term text DEFAULT ''::text NOT NULL
+    enabled_for_filters_sets boolean DEFAULT false NOT NULL,
+    vocabulary_id character varying(255),
+    vocables_are_user_extensible boolean DEFAULT false NOT NULL
 );
 
 
@@ -862,6 +852,28 @@ CREATE TABLE visualizations (
     resource_identifier character varying(255) NOT NULL,
     control_settings text,
     layout text
+);
+
+
+--
+-- Name: vocables; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vocables (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    meta_key_id character varying(255),
+    term text
+);
+
+
+--
+-- Name: vocabularies; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vocabularies (
+    id character varying(255) NOT NULL,
+    label text,
+    description text
 );
 
 
@@ -1149,27 +1161,11 @@ ALTER TABLE ONLY meta_key_definitions
 
 
 --
--- Name: meta_keys_meta_terms_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY meta_keys_meta_terms
-    ADD CONSTRAINT meta_keys_meta_terms_pkey PRIMARY KEY (id);
-
-
---
 -- Name: meta_keys_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY meta_keys
     ADD CONSTRAINT meta_keys_pkey PRIMARY KEY (id);
-
-
---
--- Name: meta_terms_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY meta_terms
-    ADD CONSTRAINT meta_terms_pkey PRIMARY KEY (id);
 
 
 --
@@ -1210,6 +1206,22 @@ ALTER TABLE ONLY users
 
 ALTER TABLE ONLY visualizations
     ADD CONSTRAINT visualizations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vocables_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vocables
+    ADD CONSTRAINT vocables_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vocabularies_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vocabularies
+    ADD CONSTRAINT vocabularies_pkey PRIMARY KEY (id);
 
 
 --
@@ -1949,6 +1961,20 @@ CREATE UNIQUE INDEX index_meta_data_users_on_meta_datum_id_and_user_id ON meta_d
 
 
 --
+-- Name: index_meta_data_vocables_on_meta_datum_id_and_vocable_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_meta_data_vocables_on_meta_datum_id_and_vocable_id ON meta_data_vocables USING btree (meta_datum_id, vocable_id);
+
+
+--
+-- Name: index_meta_data_vocables_on_vocable_id_and_meta_datum_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meta_data_vocables_on_vocable_id_and_meta_datum_id ON meta_data_vocables USING btree (vocable_id, meta_datum_id);
+
+
+--
 -- Name: index_meta_key_definitions_on_context_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1960,34 +1986,6 @@ CREATE INDEX index_meta_key_definitions_on_context_id ON meta_key_definitions US
 --
 
 CREATE INDEX index_meta_key_definitions_on_meta_key_id ON meta_key_definitions USING btree (meta_key_id);
-
-
---
--- Name: index_meta_keys_meta_terms_on_meta_key_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_meta_keys_meta_terms_on_meta_key_id ON meta_keys_meta_terms USING btree (meta_key_id);
-
-
---
--- Name: index_meta_keys_meta_terms_on_meta_key_id_and_meta_term_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_meta_keys_meta_terms_on_meta_key_id_and_meta_term_id ON meta_keys_meta_terms USING btree (meta_key_id, meta_term_id);
-
-
---
--- Name: index_meta_keys_meta_terms_on_position; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_meta_keys_meta_terms_on_position ON meta_keys_meta_terms USING btree ("position");
-
-
---
--- Name: index_meta_terms_on_term; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_meta_terms_on_term ON meta_terms USING btree (term);
 
 
 --
@@ -2054,6 +2052,13 @@ CREATE UNIQUE INDEX index_users_on_zhdkid ON users USING btree (zhdkid);
 
 
 --
+-- Name: index_vocables_on_meta_key_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_vocables_on_meta_key_id ON vocables USING btree (meta_key_id);
+
+
+--
 -- Name: index_zencoder_jobs_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2079,20 +2084,6 @@ CREATE INDEX keyword_terms_term_idx ON keyword_terms USING gin (term gin_trgm_op
 --
 
 CREATE INDEX keyword_terms_to_tsvector_idx ON keyword_terms USING gin (to_tsvector('english'::regconfig, (term)::text));
-
-
---
--- Name: meta_terms_term_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX meta_terms_term_idx ON meta_terms USING gin (term gin_trgm_ops);
-
-
---
--- Name: meta_terms_to_tsvector_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX meta_terms_to_tsvector_idx ON meta_terms USING gin (to_tsvector('english'::regconfig, term));
 
 
 --
@@ -2780,7 +2771,7 @@ ALTER TABLE ONLY meta_data
 --
 
 ALTER TABLE ONLY meta_data
-    ADD CONSTRAINT meta_data_meta_key_id_fk FOREIGN KEY (meta_key_id) REFERENCES meta_keys(id);
+    ADD CONSTRAINT meta_data_meta_key_id_fk FOREIGN KEY (meta_key_id) REFERENCES meta_keys(id) ON DELETE CASCADE;
 
 
 --
@@ -2789,14 +2780,6 @@ ALTER TABLE ONLY meta_data
 
 ALTER TABLE ONLY meta_data_meta_terms
     ADD CONSTRAINT meta_data_meta_terms_meta_datum_id_fk FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
-
-
---
--- Name: meta_data_meta_terms_meta_term_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_data_meta_terms
-    ADD CONSTRAINT meta_data_meta_terms_meta_term_id_fk FOREIGN KEY (meta_term_id) REFERENCES meta_terms(id) ON DELETE CASCADE;
 
 
 --
@@ -2832,6 +2815,22 @@ ALTER TABLE ONLY meta_data_users
 
 
 --
+-- Name: meta_data_vocables_meta_datum_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meta_data_vocables
+    ADD CONSTRAINT meta_data_vocables_meta_datum_id_fk FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
+
+
+--
+-- Name: meta_data_vocables_vocable_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meta_data_vocables
+    ADD CONSTRAINT meta_data_vocables_vocable_id_fk FOREIGN KEY (vocable_id) REFERENCES vocables(id) ON DELETE CASCADE;
+
+
+--
 -- Name: meta_key_definitions_context_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2844,23 +2843,15 @@ ALTER TABLE ONLY meta_key_definitions
 --
 
 ALTER TABLE ONLY meta_key_definitions
-    ADD CONSTRAINT meta_key_definitions_meta_key_id_fk FOREIGN KEY (meta_key_id) REFERENCES meta_keys(id);
+    ADD CONSTRAINT meta_key_definitions_meta_key_id_fk FOREIGN KEY (meta_key_id) REFERENCES meta_keys(id) ON DELETE CASCADE;
 
 
 --
--- Name: meta_keys_meta_terms_meta_key_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: meta_keys_vocabulary_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY meta_keys_meta_terms
-    ADD CONSTRAINT meta_keys_meta_terms_meta_key_id_fk FOREIGN KEY (meta_key_id) REFERENCES meta_keys(id) ON DELETE CASCADE;
-
-
---
--- Name: meta_keys_meta_terms_meta_term_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_keys_meta_terms
-    ADD CONSTRAINT meta_keys_meta_terms_meta_term_id_fk FOREIGN KEY (meta_term_id) REFERENCES meta_terms(id) ON DELETE CASCADE;
+ALTER TABLE ONLY meta_keys
+    ADD CONSTRAINT meta_keys_vocabulary_id_fk FOREIGN KEY (vocabulary_id) REFERENCES vocabularies(id) ON DELETE CASCADE;
 
 
 --
@@ -2893,6 +2884,14 @@ ALTER TABLE ONLY users
 
 ALTER TABLE ONLY visualizations
     ADD CONSTRAINT visualizations_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: vocables_meta_key_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vocables
+    ADD CONSTRAINT vocables_meta_key_id_fk FOREIGN KEY (meta_key_id) REFERENCES meta_keys(id) ON DELETE CASCADE;
 
 
 --
@@ -3020,6 +3019,12 @@ INSERT INTO schema_migrations (version) VALUES ('148');
 INSERT INTO schema_migrations (version) VALUES ('15');
 
 INSERT INTO schema_migrations (version) VALUES ('150');
+
+INSERT INTO schema_migrations (version) VALUES ('152');
+
+INSERT INTO schema_migrations (version) VALUES ('153');
+
+INSERT INTO schema_migrations (version) VALUES ('154');
 
 INSERT INTO schema_migrations (version) VALUES ('16');
 

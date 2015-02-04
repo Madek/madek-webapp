@@ -1,9 +1,7 @@
 executions:
   Tests: 
     description: >
-      This executions runs several bash scripts. Some of them sleep for a
-      while. Some of them fail with a certain probability.  One of them
-      combines both by using the `timeout` directive of a script.
+      This execution runs all the tests.
     specification: 
       _cider-ci_include: /.cider-ci/test_spec.yml
   Coverage: 
