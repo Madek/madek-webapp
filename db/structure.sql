@@ -754,7 +754,7 @@ CREATE TABLE meta_keys (
     enabled_for_collections boolean DEFAULT false NOT NULL,
     enabled_for_filters_sets boolean DEFAULT false NOT NULL,
     vocabulary_id character varying(255),
-    vocables_are_user_extensible boolean DEFAULT false NOT NULL
+    vocables_are_user_extensible boolean DEFAULT false
 );
 
 

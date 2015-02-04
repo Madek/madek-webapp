@@ -17,6 +17,7 @@ task_defaults:
 tasks:
   deploy: 
     name: Deploy
+    auto_trials: 1
 
     scripts: 
       set_git_ref: 
@@ -27,5 +28,5 @@ tasks:
       deploy: 
         order: 2
         body: cd deploy/ansible && ansible-playbook -i hosts_zhdk-test play_setup-and-deploy.yml
-        timeout: 1500
+        timeout: 3600
 

@@ -1,4 +1,4 @@
-bundle exec rake db:drop db:create db:migrate VERSION=100 \
+bundle exec rake db:pg:terminate_connections db:drop db:create db:migrate VERSION=100 \
 && bundle exec rake db:pg:truncate_tables db:pg:data:restore FILE=db/personas.100.pgbin \
 && bundle exec rake db:migrate \
 && rm -f db/personas.pgbin \
