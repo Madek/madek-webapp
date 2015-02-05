@@ -2,19 +2,19 @@ MAdeK::Application.routes.draw do
 
   root to: 'application#root'
 
-  post 'session/sign_in', to: 'sessions#sign_in'
-  post 'session/sign_out', to: 'sessions#sign_out'
-
-  get 'my', to: 'my#dashboard', as: 'my_dashboard'
-
-  get 'media_entries', to: 'media_entries#index'
-  get 'media_entries/:id/images/:size', to: 'media_entries#image', as: 'media_entry_image'
-
   get 'collections', to: 'collections#index'
   get 'collections/:id', to: 'collections#show'
   get 'collections/:id/images/:size', to: 'collections#image', as: 'collection_image'
 
   get 'filter_sets', to: 'filter_sets#index'
+
+  get 'media_entries', to: 'media_entries#index'
+  get 'media_entries/:id/images/:size', to: 'media_entries#image', as: 'media_entry_image'
+
+  get 'my', to: 'my#dashboard', as: 'my_dashboard'
+
+  post 'session/sign_in', to: 'sessions#sign_in'
+  post 'session/sign_out', to: 'sessions#sign_out'
 
   ##### Admin namespace
   namespace :admin do

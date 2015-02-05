@@ -13,9 +13,10 @@ class ApplicationController < ActionController::Base
   end
   rescue_from ForbiddenError, with: :user_forbidden_error
 
-  before_action :authenticated?, except: :root
+  before_action :authenticate, except: [:root, :login, :login_successful]
 
   def root
+    redirect_to(my_dashboard_path) if authenticated?
   end
 
   # private # <- would be nice but breaks test
@@ -25,9 +26,14 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticated?
-    current_user or redirect_to :root, flash: {
-      error: 'Bitte loggen Sie sich ein!'
-    }
+    not current_user.nil?
+  end
+
+  def authenticate
+    authenticated? \
+      or redirect_to :root, flash: {
+        error: 'Bitte loggen Sie sich ein!'
+      }
   end
 
   private
