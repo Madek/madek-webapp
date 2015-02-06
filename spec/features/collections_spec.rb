@@ -17,8 +17,6 @@ feature 'Collections#show' do
     # TODO: visit collections_path(@collection)
     visit "/collections/#{@collection.id}"
     expect(page).to have_content 'Normin Normalo'
-
-    pending('re-implement title')
     expect(page).to have_content 'Konzepte'
   end
 

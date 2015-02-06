@@ -3,7 +3,6 @@ class Collection < ActiveRecord::Base
   include Concerns::EditSessions
   include Concerns::Entrust
   include Concerns::Favoritable
-  include Concerns::Keywords
   include Concerns::MetaData
   include Concerns::PermissionsAssociations
   include Concerns::Users::Creator

@@ -4,20 +4,64 @@ RSpec.configure do |c|
     'it provides reader method for'
 end
 
-RSpec.shared_examples 'meta_datum' do |attr|
+RSpec.shared_examples 'title' do
 
-  it attr do
+  it 'title' do
     model_name_singular = described_class.model_name.singular.to_sym
     resource = FactoryGirl.create(model_name_singular)
+
     meta_key = \
-      (MetaKey.find_by_id(attr) \
-       || FactoryGirl.create(:meta_key_text, id: attr))
+      (MetaKey.find_by_id('madek:core:title') \
+        || FactoryGirl.create(:meta_key_text, id: 'madek:core:title'))
 
     FactoryGirl.create \
       :meta_datum_text,
       Hash[:meta_key, meta_key,
            model_name_singular, resource]
 
-    expect(resource.send(attr)).not_to be_empty
+    expect(resource.title).not_to be_empty
   end
+
+end
+
+RSpec.shared_examples 'description' do
+
+  it 'description' do
+    model_name_singular = described_class.model_name.singular.to_sym
+    resource = FactoryGirl.create(model_name_singular)
+
+    meta_key = \
+      (MetaKey.find_by_id('description') \
+        || FactoryGirl.create(:meta_key_text, id: 'description'))
+
+    FactoryGirl.create \
+      :meta_datum_text,
+      Hash[:meta_key, meta_key,
+           model_name_singular, resource]
+
+    expect(resource.description).not_to be_empty
+  end
+
+end
+
+RSpec.shared_examples 'keywords' do
+
+  it 'keywords' do
+    model_name_singular = described_class.model_name.singular.to_sym
+    resource = FactoryGirl.create(model_name_singular)
+
+    meta_key = \
+      (MetaKey.find_by_id('madek:core:keywords') \
+        || FactoryGirl.create(:meta_key_keywords, id: 'madek:core:keywords'))
+
+    meta_datum = \
+      FactoryGirl.create :meta_datum_keywords,
+                         Hash[:meta_key, meta_key,
+                              model_name_singular, resource]
+
+    FactoryGirl.create(:keyword, meta_datum: meta_datum)
+
+    expect(resource.keywords).not_to be_empty
+  end
+
 end
