@@ -57,6 +57,9 @@ Madek::Application.routes.draw do
     end
     resources :zencoder_jobs, only: :show
     resources :filter_sets, only: [:index, :show]
+    resources :vocabularies do
+      resources :vocables
+    end
     root to: 'dashboard#index' 
   end
 

@@ -1,0 +1,36 @@
+.page-header
+  %h1
+    %i.icon-media-entry
+    Vocabularies (#{@vocabularies.total_count})
+
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-heading
+        .panel-title Filters
+      .panel-body
+        = form_tag admin_vocabularies_path, method: :get, class: 'form-inline' do
+          .form-group
+            = text_field_tag :search_term, params[:search_term], size: 50,
+              class: 'form-control', placeholder: 'ID or label'
+
+          = submit_tag 'Apply', class: 'btn btn-primary'
+          = link_to 'Reset', admin_vocabularies_path, class: 'btn btn-default'
+    .btn-group
+      = link_to new_admin_vocabulary_path, class: 'btn btn-default' do
+        %i.glyphicon.glyphicon-plus
+        Create vocabulary
+
+.row
+  .col-xs-12
+    %table.table.table-striped
+      %thead
+        %tr
+          %th ID
+          %th Label
+          %th Description
+          %th
+      %tbody
+        = render @vocabularies
+
+= paginate @vocabularies

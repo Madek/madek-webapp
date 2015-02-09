@@ -1,0 +1,44 @@
+.page-header
+  %h1 Vocabulary: #{@vocabulary}
+
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-body
+        .btn-group
+          = render partial: 'action_buttons', locals: { vocabulary: @vocabulary, size: nil }
+          = link_to "Vocables: #{@vocabulary.vocables.count}", admin_vocabulary_vocables_path(@vocabulary),
+            class: 'btn btn-default'
+
+.row
+  .col-xs-12
+    %table.table.table-striped
+      %thead
+      %tbody
+        - @vocabulary.attributes.each do |attr|
+          %tr
+            %td
+              %strong= attr.first.humanize
+            %td= attr.last
+
+.page-header
+  %h2 Meta Keys
+
+.row
+  .col-xs-12
+    %table.table.table-striped
+      %thead
+        %tr
+          %th ID
+          %th Vocables count
+          %th
+      %tbody
+        - @vocabulary.meta_keys.find_each do |meta_key|
+          %tr
+            %td= meta_key.id
+            %td= meta_key.vocables.count
+            %td.active.col-xs-1
+              = link_to admin_vocabulary_vocables_path(@vocabulary, search_term: meta_key.id),
+                class: 'btn btn-default' do
+                %i.glyphicon.glyphicon-eye-open
+                Show vocables

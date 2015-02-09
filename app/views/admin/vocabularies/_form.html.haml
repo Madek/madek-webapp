@@ -1,0 +1,22 @@
+= form_for [:admin, @vocabulary], as: :vocabulary, html: { class: 'form-horizontal', role: 'form' } do |f| 
+  .form-group
+    .col-xs-1
+      = f.label :id, 'ID', class: 'control-label'
+    .col-xs-6
+      = f.text_field :id, class: 'form-control', disabled: @vocabulary.persisted?
+  .form-group
+    .col-xs-1
+      = f.label :label, 'Label', class: 'control-label'
+    .col-xs-6
+      = f.text_field :label, class: 'form-control'
+  .form-group
+    .col-xs-1
+      = f.label :description, 'Description', class: 'control-label'
+    .col-xs-6
+      = f.text_area :description, class: 'form-control', rows: 4
+  .form-group
+    .col-xs-offset-1.col-xs-3
+      = button_tag type: 'submit', class: 'btn btn-success' do
+        %span.glyphicon.glyphicon-ok
+        Save
+      = link_to 'Go back', admin_vocabularies_path, class: 'btn btn-link'

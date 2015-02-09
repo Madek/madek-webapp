@@ -1,0 +1,6 @@
+%tr
+  %td= vocable.id
+  %td= vocable.meta_key.id
+  %td= vocable
+  %td.active.col-xs-2
+    = render partial: 'action_buttons', locals: { vocable: vocable, size: 'btn-sm' }

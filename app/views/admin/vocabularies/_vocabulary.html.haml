@@ -1,0 +1,12 @@
+%tr
+  %td= vocabulary
+  %td= vocabulary.label
+  %td= vocabulary.description
+  %td.active.col-xs-5
+    .btn-group
+      = link_to admin_vocabulary_path(vocabulary), class: 'btn btn-default btn-sm' do
+        %i.glyphicon.glyphicon-eye-open
+      = render partial: 'action_buttons', locals: { vocabulary: vocabulary, size: 'btn-sm' }
+      = link_to "MetaKeys: #{vocabulary.meta_keys_count}", '#', class: 'btn btn-default btn-sm'
+      = link_to "Vocables: #{vocabulary.vocables.count}", admin_vocabulary_vocables_path(vocabulary),
+        class: 'btn btn-default btn-sm'
