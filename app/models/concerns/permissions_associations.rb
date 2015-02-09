@@ -9,5 +9,10 @@ module Concerns
           class_name: "Permissions::#{name}#{assoc_name.camelize}Permission"
       end
     end
+
+    def public?
+      get_metadata_and_previews
+    end
+
   end
 end

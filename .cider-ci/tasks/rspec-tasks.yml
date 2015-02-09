@@ -1,6 +1,6 @@
 ---
 "./spec/controllers/admin/dashboard_controller_spec.rb":
-  name: authorization
+  name: "./spec/controllers/admin/dashboard_controller_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/admin/dashboard_controller_spec.rb"
@@ -15,7 +15,7 @@
     main:
       body: bundle exec rspec "./spec/controllers/admin/users_controller_spec.rb"
 "./spec/controllers/application_controller_spec.rb":
-  name: ApplicationController
+  name: "./spec/controllers/application_controller_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/application_controller_spec.rb"
@@ -40,7 +40,7 @@
     main:
       body: bundle exec rspec "./spec/controllers/my_controller_spec.rb"
 "./spec/controllers/sessions_controller_spec.rb":
-  name: 'POST #sign in'
+  name: "./spec/controllers/sessions_controller_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/sessions_controller_spec.rb"
@@ -50,122 +50,142 @@
     main:
       body: bundle exec rspec "./spec/lib/system_execute_cmd_spec.rb"
 "./spec/models/api_client_spec.rb":
-  name: ApiClient
+  name: "./spec/models/api_client_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/api_client_spec.rb"
 "./spec/models/collection_spec.rb":
-  name: Creation
+  name: "./spec/models/collection_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/collection_spec.rb"
 "./spec/models/edit_session_spec.rb":
-  name: Creation
+  name: "./spec/models/edit_session_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/edit_session_spec.rb"
 "./spec/models/filter_set_spec.rb":
-  name: Creation
+  name: "./spec/models/filter_set_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/filter_set_spec.rb"
 "./spec/models/keyword/class/search_spec.rb":
-  name: search
+  name: "./spec/models/keyword/class/search_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/keyword/class/search_spec.rb"
 "./spec/models/keyword_term_spec.rb":
-  name: "#creator"
+  name: "./spec/models/keyword_term_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/keyword_term_spec.rb"
 "./spec/models/media_entry_spec.rb":
-  name: Creation
+  name: "./spec/models/media_entry_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/media_entry_spec.rb"
 "./spec/models/media_file_spec.rb":
-  name: Creation
+  name: "./spec/models/media_file_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/media_file_spec.rb"
 "./spec/models/meta_datum/meta_key_consitency_spec.rb":
-  name: changing the type to be incomaptible
+  name: "./spec/models/meta_datum/meta_key_consitency_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/meta_datum/meta_key_consitency_spec.rb"
 "./spec/models/meta_datum/people_spec.rb":
-  name: existing meta key madek:test:people, collection, some people
+  name: "./spec/models/meta_datum/people_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/meta_datum/people_spec.rb"
 "./spec/models/meta_datum/text_spec.rb":
-  name: Creation
+  name: "./spec/models/meta_datum/text_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/meta_datum/text_spec.rb"
 "./spec/models/meta_datum/users_spec.rb":
-  name: existing meta key madek:test:users, collection, some users
+  name: "./spec/models/meta_datum/users_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/meta_datum/users_spec.rb"
 "./spec/models/meta_key/immutability_spec.rb":
-  name: adding new meta_keys to it
+  name: "./spec/models/meta_key/immutability_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/meta_key/immutability_spec.rb"
 "./spec/models/permissions/collection_api_client_permission_spec.rb":
-  name: Permissions::CollectionApiClientPermission
+  name: "./spec/models/permissions/collection_api_client_permission_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/permissions/collection_api_client_permission_spec.rb"
 "./spec/models/permissions/collection_group_permission_spec.rb":
-  name: Permissions::CollectionGroupPermission
+  name: "./spec/models/permissions/collection_group_permission_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/permissions/collection_group_permission_spec.rb"
 "./spec/models/permissions/collection_user_permission_spec.rb":
-  name: Permissions::CollectionUserPermission
+  name: "./spec/models/permissions/collection_user_permission_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/permissions/collection_user_permission_spec.rb"
 "./spec/models/permissions/filter_set_api_client_permission_spec.rb":
-  name: Permissions::FilterSetApiClientPermission
+  name: "./spec/models/permissions/filter_set_api_client_permission_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/permissions/filter_set_api_client_permission_spec.rb"
 "./spec/models/permissions/filter_set_group_permission_spec.rb":
-  name: Permissions::FilterSetGroupPermission
+  name: "./spec/models/permissions/filter_set_group_permission_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/permissions/filter_set_group_permission_spec.rb"
 "./spec/models/permissions/filter_set_user_permission_spec.rb":
-  name: Permissions::FilterSetUserPermission
+  name: "./spec/models/permissions/filter_set_user_permission_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/permissions/filter_set_user_permission_spec.rb"
 "./spec/models/permissions/media_entry_api_client_permission_spec.rb":
-  name: Permissions::MediaEntryApiClientPermission
+  name: "./spec/models/permissions/media_entry_api_client_permission_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/permissions/media_entry_api_client_permission_spec.rb"
 "./spec/models/permissions/media_entry_group_permission_spec.rb":
-  name: Permissions::MediaEntryGroupPermission
+  name: "./spec/models/permissions/media_entry_group_permission_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/permissions/media_entry_group_permission_spec.rb"
 "./spec/models/permissions/media_entry_user_permission_spec.rb":
-  name: Permissions::MediaEntryUserPermission
+  name: "./spec/models/permissions/media_entry_user_permission_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/permissions/media_entry_user_permission_spec.rb"
 "./spec/models/relations/resource_media_entry_arc_spec.rb":
-  name: CollectionMediaEntryArc
+  name: "./spec/models/relations/resource_media_entry_arc_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/models/relations/resource_media_entry_arc_spec.rb"
 "./spec/modules/living_styleguide_spec.rb":
-  name: LivingStyleguide
+  name: "./spec/modules/living_styleguide_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/modules/living_styleguide_spec.rb"
+"./spec/presenters/collections/collection_thumb_spec.rb":
+  name: "./spec/presenters/collections/collection_thumb_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/presenters/collections/collection_thumb_spec.rb"
+"./spec/presenters/filter_sets/filter_set_thumb_spec.rb":
+  name: "./spec/presenters/filter_sets/filter_set_thumb_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/presenters/filter_sets/filter_set_thumb_spec.rb"
+"./spec/presenters/media_entries/media_entry_thumb_spec.rb":
+  name: "./spec/presenters/media_entries/media_entry_thumb_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/presenters/media_entries/media_entry_thumb_spec.rb"
+"./spec/presenters/shared/privacy_status_spec.rb":
+  name: "./spec/presenters/shared/privacy_status_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/presenters/shared/privacy_status_spec.rb"

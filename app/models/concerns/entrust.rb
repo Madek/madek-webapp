@@ -32,5 +32,12 @@ module Concerns
         from(sql)
       end
     end
+
+    def entrusted_to_user?(user)
+      self.class
+        .entrusted_to_user(user)
+        .where(id: id)
+        .exists?
+    end
   end
 end
