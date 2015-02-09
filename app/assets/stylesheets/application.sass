@@ -1,3 +1,30 @@
 @import colors
 @import config
 @import loader
+
+// ujs helpers
+
+.no-js
+  // default shown
+  html.has-js
+  // hide if has js
+  html.has-js &
+    @extend .hidden
+
+.js-only
+  // default hidden
+  @extend .hidden
+  // show if has js
+  html.has-js &
+    display: inherit !important
+
+
+// ujs fixes
+
+.tab-content
+  // show non-active tabs by default
+  html.no-js
+    // display: 
+  // with js tabs no padding is needed
+  html.has-js &
+    padding-bottom: 0

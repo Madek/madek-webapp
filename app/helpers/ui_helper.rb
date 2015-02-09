@@ -76,12 +76,11 @@ module UiHelper
     locals
   end
 
-  def classes_from_element(config)
+  def classes_from_element(config = {})
     # can be given as String or Hash[:mods] (String or Array)
-    config ||= ''
-
+    return [config.split('.')] if config.is_a?(String)
+    return [] unless config.is_a?(Hash) && config[:mods]
     case
-    when config.is_a?(String) then [config.split('.')]
     when config[:mods].is_a?(String) then [config[:mods].split('.')].flatten
     when config[:mods].is_a?(Enumerable) then config[:mods]
     else []
@@ -105,7 +104,9 @@ module UiHelper
     (name || '').split('.').first
   end
 
-  def build_list(list = nil)
-    list if list.is_a?(Enumerable) && !list.empty?
+  def build_list(list = [])
+    # only transform Hashes
+    return list unless list.is_a?(Hash)
+    Hash[list.map { |id, itm| [id, build_locals_from_element("#{id}", itm)] }]
   end
 end

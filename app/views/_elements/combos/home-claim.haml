@@ -1,0 +1,14 @@
+:ruby
+  throw 'ui: missing title!' unless claim && claim[:title]
+  throw 'ui: missing login!' unless login
+
+.ui-home-claim.ui-container
+  .col2of3
+    .pitch-claim
+      %h1.title-xxl
+        = claim[:title]
+      %h2.title-l
+        = claim[:subtitle]
+
+  .col1of3
+    = login

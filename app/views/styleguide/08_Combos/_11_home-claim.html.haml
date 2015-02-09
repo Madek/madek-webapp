@@ -3,46 +3,63 @@
     name: 'Elevator Pitch', todo: true,
     cssFile: '_ui-home-claim.scss',
     cssSelector: '.ui-home-claim',
-    section: '8.11'
+    section: '8.11',
+    locals: {
+      claim: {
+        title: 'Bilder, Videos, Audio-Dateien und Dokumente',
+        subtitle: 'Diese Plattform dient dem gemeinschaftlichen Arbeiten mit Medien und dem Teilen von Inhalten.'
+      },
+      login: nil # see below
+    }
   }
 
-= partial('element', element) do
+
+-# TODO: elements
+- external_login_form = capture_haml do
+  %form
+    .form-body
+      .ui-form-group.rowed
+        %p.mbm
+          Alle Funktionen nutzen und auf
+          %br/
+          mehr Inhalte zugreifen.
+        %a#internal-login-link.primary-button.block.large{:href => "###login"}
+          Anmelden
+
+- internal_login_form = capture_haml do
+  %form{:action => "db/login", :method => "post"}
+    .form-body
+      .ui-form-group.rowed.compact
+        %input.block.large{:autofocus => "false", :name => "login", :placeholder => "Benutzername", :type => "text"}/
+      .ui-form-group.rowed.compact
+        %input.block.large{:name => "password", :placeholder => "Passwort", :type => "password"}/
+      .ui-form-group.rowed.compact
+        %button.primary-button.block.large{:type => "submit"}
+          Anmelden
+
+:ruby
+  element[:locals][:login] = combo('tabbed-sections', {
+    mods: 'pitch-login',
+    list: {
+      external_login: {
+        active: true,
+        nav: {
+          mod: 'left',
+          text: 'ZHdK-Login'
+        },
+        content: external_login_form,
+      },
+      internal_login: {
+        nav: {
+          mod: 'right',
+          text: 'Externe'
+        },
+        content: internal_login_form,
+        }
+      }
+    })
+
+= partial('element', element) do |example|
   = partial('example') do
 
-    .ui-home-claim.ui-container
-      .col2of3
-        .pitch-claim
-          %h1.title-xxl
-            Bilder, Videos, Audio-Dateien und Dokumente
-          %h2.title-l
-            Diese Plattform dient dem gemeinschaftlichen Arbeiten mit Medien und dem Teilen von Inhalten.
-      .col1of3
-        .pitch-login
-          %ul.ui-tabs.ui-container
-            %li.active.left.ui-tabs-item
-              %a#zhdk-user-login-tab{"data-toggle" => "tab", :href => "#zhdk-user"}
-                ZHdK-Login
-            %li.right.ui-tabs-item
-              %a#database-user-login-tab{"data-toggle" => "tab", :href => "#database-user"}
-                Externe
-          .pitch-login-tab.tab-content
-            #zhdk-user.active.tab-pane
-              %form
-                .form-body
-                  .ui-form-group.rowed
-                    %p.mbm
-                      Alle Funktionen nutzen und auf
-                      %br/
-                      mehr Inhalte zugreifen.
-                    %a#internal-login-link.primary-button.block.large{:href => "###login"}
-                      Anmelden
-            #database-user.tab-pane
-              %form{:action => "db/login", :method => "post"}
-                .form-body
-                  .ui-form-group.rowed.compact
-                    %input.block.large{:autofocus => "false", :name => "login", :placeholder => "Benutzername", :type => "text"}/
-                  .ui-form-group.rowed.compact
-                    %input.block.large{:name => "password", :placeholder => "Passwort", :type => "password"}/
-                  .ui-form-group.rowed.compact
-                    %button.primary-button.block.large{:type => "submit"}
-                      Anmelden
+    = combo('home-claim', example[:locals])

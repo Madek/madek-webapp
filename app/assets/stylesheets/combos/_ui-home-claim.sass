@@ -20,25 +20,26 @@
 .pitch-login
   position: relative
 
-.pitch-login .ui-tabs-item
-  width: 48%
+  .ui-tabs
+    @extend .ui-container
 
-.pitch-login .ui-tabs-item a
-  display: block
+  .ui-tabs-item
+    width: 48%
 
-.pitch-login-tab
-  +border-bottom-radius($border-radius-m)
-  border: 1px solid $mono-light
-  background: $white
-  min-height: 180px
-  padding: $space-s $space-m 0
+  .ui-tabs-item a
+    display: block
 
-.pitch-login-tab.round
-  +border-radius($border-radius-m)
+  .tab-content
+    +border-bottom-radius($border-radius-m)
+    border: 1px solid $mono-light
+    background: $white
+    min-height: 180px
+    padding: $space-s $space-m $space-m
 
-// Override form styles forced by context
+  &.round
+    +border-radius($border-radius-m)
 
-.pitch-login
+  // Override form styles forced by context
   .ui-form-group,
   .ui-form-group
     padding-right: $space-s

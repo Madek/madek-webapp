@@ -1,0 +1,28 @@
+-# TODO: js
+  @UJS: uses tab plugin from bootstrap
+  <http://getbootstrap.com/javascript/#tabs>
+  some unavoidable duplication: headings/tab titles
+
+%div{class: classes, role: 'tabpanel'}
+
+  -# Nav tabs - js only!
+  -# TODO: use element
+  %ul.ui-tabs.nav.nav-tabs.js-only{role: 'tablist'}
+    - list.each do |id, tab|
+      -# Tab pane - actual tab content
+      - indicator = tab[:active] ? 'active' : nil
+      - classes = [].push(tab[:nav][:mod]).push(indicator)
+      %li.ui-tabs-item{role: 'presentation', class: classes}
+        %a{role: 'tab', data: { toggle: 'tab' },
+                        aria: { controls: id }}
+          = tab[:nav][:text]
+
+  -# Tab panes container
+  .tab-content
+    - list.each do |id, tab|
+      -# Tab pane - actual tab content
+      - indicator = tab[:active] ? 'active' : nil
+      %section.tab-pane{id: id, class: indicator, role: 'tabpanel'}
+        -# tab heading - nojs only!
+        %h1.no-js.title-m.separated= tab[:nav][:text]
+        = tab[:content] if tab[:content]
