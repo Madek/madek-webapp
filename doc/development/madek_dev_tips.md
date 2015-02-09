@@ -69,7 +69,7 @@ TODO: @DrTom (just a very general guideline)
 
 ## PDF Display
 
-There are two ways PDFs are shown inside madek's HTML:
+There are two ways PDFs are shown inside Madek's HTML:
 
 1. Converted to and embedded as JPG file ("preview", "thumbnail")
 2. Embedded as PDF, displayed using `pdf.js` ("document")
