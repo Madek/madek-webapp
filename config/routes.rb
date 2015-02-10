@@ -40,6 +40,13 @@ MAdeK::Application.routes.draw do
         delete 'remove_user_from_group'
       end
     end
+    resources :collections, only: [:index, :show] do
+      member do
+        get :media_entries
+        get :collections
+        get :filter_sets
+      end
+    end
     root to: 'dashboard#index' 
   end
 

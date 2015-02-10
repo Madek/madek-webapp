@@ -1,0 +1,5 @@
+%tr
+  %td= media_entry.id
+  %td
+    = link_to admin_user_path(media_entry.responsible_user) do
+      #{media_entry.responsible_user.person}

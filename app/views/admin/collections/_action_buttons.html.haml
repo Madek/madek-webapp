@@ -1,0 +1,6 @@
+= link_to media_entries_admin_collection_path(collection), class: "btn btn-info #{size}" do
+  = "Media entries: #{collection.media_entries.count}"
+= link_to collections_admin_collection_path(collection), class: "btn btn-info #{size}" do
+  = "Sets : #{collection.collections.count}"
+= link_to filter_sets_admin_collection_path(collection), class: "btn btn-info #{size}" do
+  = "Filter sets: #{collection.filter_sets.count}"

@@ -37,5 +37,10 @@ class Collection < ActiveRecord::Base
 
   #################################################################################
 
+  scope :by_title, lambda{ |title|
+    joins(:meta_data).where(meta_data: { meta_key_id: 'madek:core:title' })
+    .where('string ILIKE :title', title: "%#{title}%").order(:created_at, :id)
+  }
+
   default_scope { reorder(:created_at, :id) }
 end

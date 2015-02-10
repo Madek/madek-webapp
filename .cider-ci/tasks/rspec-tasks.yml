@@ -1,4 +1,9 @@
 ---
+"./spec/controllers/admin/collections_controller_spec.rb":
+  name: "./spec/controllers/admin/collections_controller_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/admin/collections_controller_spec.rb"
 "./spec/controllers/admin/dashboard_controller_spec.rb":
   name: "./spec/controllers/admin/dashboard_controller_spec.rb"
   scripts:

@@ -1,0 +1,30 @@
+.page-header
+  %h1
+    %i.icon-group
+    Sets (#{@collections.total_count})
+
+.row
+  .col-md-12
+    .panel.panel-default
+      .panel-heading
+        .panel-title Search by title
+      .panel-body
+        = form_tag admin_collections_path, method: 'GET', class: 'form-inline'  do
+          .form-group
+            = text_field_tag :search_terms, params[:search_terms],
+              class: 'form-control', placeholder: 'Title'
+            = submit_tag 'Apply', class: 'btn btn-primary'
+            = link_to 'Reset', admin_collections_path, class: 'btn btn-default'
+.row
+  .col-md-12
+    .table-responsive
+      %table.table.table-striped
+        %thead
+          %tr
+            %th Title
+            %th Responsible user
+            %th
+        %tbody
+          = render partial: 'collection', collection: @collections
+
+= paginate @collections, theme: 'admin'

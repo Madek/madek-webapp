@@ -1,0 +1,5 @@
+%tr
+  %td= filter_set.id
+  %td
+    = link_to admin_user_path(filter_set.responsible_user) do
+      #{filter_set.responsible_user.person}

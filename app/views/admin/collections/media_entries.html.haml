@@ -1,0 +1,19 @@
+.page-header
+  %h1
+    %i.glyphicon.glyphicon-folder-open
+    #{@collection.title} - Media entries(#{@media_entries.total_count})
+
+= render partial: 'action_panel', locals: { collection: @collection, user: @user }
+
+.row
+  .col-xs-12
+    .table-responsive
+      %table.table.table-striped
+        %thead
+          %tr
+            %th Id
+            %th User
+        %tbody
+          = render partial: 'media_entry', collection: @media_entries
+
+= paginate @media_entries, theme: 'admin'
