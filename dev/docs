@@ -1,0 +1,51 @@
+#!/usr/bin/env coffee
+
+WAIT=30
+BRANCH='madek-v3'
+
+f = require('lodash')
+
+curl= (method, url, callback)->
+  require('request')[method] url, (err, res, status)->
+    if err or status >= 400 then return callback(err or status)
+    data = null
+    data = try
+      JSON.parse(res.body)
+    catch error
+
+    callback(null, data)
+
+# ---
+
+triggerBuild= (callback)->
+  curl 'post', 'http://readthedocs.org/build/madek', callback
+
+getBuildsForBranch= (branch, callback)->
+  offset = 0
+  do recurse= (offset, callback)->
+    curl 'get', "http://readthedocs.org/api/v1/version/madek/?format=json&offset=#{offset}", (err, res)->
+      if err then return callback(err)
+      list= f.where(res?.objects, { identifier: "origin/#{branch}"})
+      unless list?.length > 0
+        unless res?.meta?.total_count? and res.meta.limit?
+          return callback('no data')
+        next_offset = offset + res.meta.limit + 1
+        return callback('not found') if next_offset > res.meta.total_count
+        recurse(next_offset, callback)
+      else
+        callback(null, list)
+
+checkLatestBuild= (branch, callback)->
+  getBuildsForBranch branch, (err, builds)->
+    build = f(builds).first()
+    err = 'build not found' unless build?
+    err = new Error(err) unless !err? typeof err is 'Error'
+    throw err if err?
+    [msg, status] = if build.built is true then ['OK', 0] else ['NO', 1]
+    console.log(msg)
+    process.exit(status)
+
+triggerBuild ->
+  delay= WAIT*1000
+  console.log "Waiting (#{WAIT} seconds) for build…"
+  setTimeout f.curry(checkLatestBuild)(BRANCH), delay

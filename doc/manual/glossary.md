@@ -22,6 +22,3 @@ A set is *polymorph* if it contains more than one kind of thing.
 
 Try to avoid polymorph sets as much as possible, because great care has to be
 taken with them. Normally easy things like sorting tend to get very hard.
-
-Note: There *are* `PolyThings` in the Application and they are called `Poly`
-to clearly mark them as such.

@@ -17,3 +17,17 @@ tasks:
     scripts:
       main:
         body: git log -n 3
+
+  # TODO: https://github.com/cider-ci/cider-ci_executor/issues/3
+  # build_docs:
+  #   name: Build the docs with `mkdocs`
+  #   scripts:
+  #     main:
+  #       body: mkdocs build --clean
+
+  trigger_readthedocs:
+    name: Triggers docs compilation on readthedocs.org
+    scripts:
+      main:
+        body: >
+          for BRANCH in madek-v3 ts_madek-v3 mk_madek-v3 mfa_madek-v3 mfa_madek-v3_docs; do curl -X POST -d "version_slug=$BRANCH" http://readthedocs.org/build/madek; done; exit 0

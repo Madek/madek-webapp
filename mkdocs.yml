@@ -2,17 +2,18 @@ site_name: Madek Docs
 docs_dir: doc
 site_dir: _docs_html
 markdown_extensions: [tables, fenced_code]
+theme: readthedocs
 
 # The Table of contents, files relative to ./doc
 # - [ file, main-section, sub-section name/heading ]
 pages:
   - ['index.md']
-  - ['manual/_index.md', 'Manual', 'Overview']
+  - ['manual/index.md', 'Manual', 'Overview']
   - ['manual/models.md', 'Manual', 'Models']
   - ['manual/views.md', 'Manual', 'Views']
   - ['manual/glossary.md', 'Manual', 'Glossary']
 
-  - ['development/_index.md', 'Developer', 'Overview']
+  - ['development/index.md', 'Developer', 'Overview']
   - ['development/developer_rules.md', 'Developer', 'Developers Rules']
   - ['development/developer_rules_admin_interface.md',  'Developer', 'Developers Rules (Admin Interface)']
   - ['development/submit_and_review_process.md', 'Developer', 'Code Submit and Review']
