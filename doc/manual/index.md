@@ -3,12 +3,16 @@ business logic of the application.
 
 See menu for large sub-sections, below is some yet-unsorted stuff.
 
+---
+
 ## Branches
 
 - `master`: on production
 - `staging`: on staging
 - `next`: collect for staging
 - *(currently):* `madek-v3`: "next" and "staging" for v3
+
+---
 
 # External Contributors
 
@@ -17,6 +21,7 @@ See menu for large sub-sections, below is some yet-unsorted stuff.
 - Contributions from external people can be send via pull requests
 - Because of our workflow regarding git and continuous testing,
   we can't use the big green merge button
+
 
 ## How to merge
 
@@ -36,3 +41,21 @@ git checkout ${TARGET}
 git merge ${USER_SHORT}_${TARGET}
 git push origin ${TARGET}
 ```
+
+---
+
+# "Entrusted Resources"
+
+A Resource is "entrusted" to a User if they have "view" Permissions on the
+Resource, either directly or via their membership in a Group.
+Therefore, a Resource with "view" Permissions for "Public" can
+never be "entrusted" because it is already public.
+
+# "Privacy Status"
+
+- `public`: "Public" has "view" Permission
+- `private`: No Person or Group has "view" Permission
+- `shared`:
+    - if User is the owner and any Person or Group has "view" Permission
+    - if User is not the owner and has "view" Permission
+      (directly or via Group membership)
