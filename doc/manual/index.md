@@ -1,7 +1,18 @@
 The [Manual](#) aims to be a complete description of the (non-standard, non-obvious)
 business logic of the application.
 
-See menu for large sub-sections, below is some yet-unsorted stuff.
+See menu for sub-sections.
+
+Below is the designated area for some yet-unsorted stuff,
+should be cleaned up before a release.
+
+---
+
+## Featurescape
+
+[in PDF Form here](manual/Featurescape_2.pdf)
+
+(Maintained by S. Schumacher)
 
 ---
 

@@ -1,4 +1,10 @@
-**Models**, aka Entities, aka Resources.
+**Entities** are all things that exist in the App.  
+Rails calls them "Models".  
+*Some* of the Entities are "Resources".
+
+# Schema/Database Overview
+
+[![Schema.svg](manual/entities/entities_database_schemata/Schema.svg)](manual/entities/entities_database_schemata/Schema.svg)
 
 # Primary
 
