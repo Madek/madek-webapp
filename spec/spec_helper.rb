@@ -13,6 +13,14 @@ def truncate_tables
   PgTasks.truncate_tables
 end
 
+def with_disabled_triggers
+  ActiveRecord::Base.connection.execute  \
+    'SET session_replication_role = REPLICA;'
+  yield
+  ActiveRecord::Base.connection.execute  \
+    'SET session_replication_role = DEFAULT;'
+end
+
 RSpec.configure do |config|
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your

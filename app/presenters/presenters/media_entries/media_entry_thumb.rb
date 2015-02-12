@@ -2,7 +2,7 @@ module Presenters
   module MediaEntries
     class MediaEntryThumb < Presenters::Shared::Resources::ResourcesThumb
 
-      def image_url(size)
+      def image_url(size = :small)
         media_entry_image_path(@resource, size)
       end
 
