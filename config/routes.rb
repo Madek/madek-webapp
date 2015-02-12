@@ -2,21 +2,27 @@ MAdeK::Application.routes.draw do
 
   root to: 'application#root'
 
-  get 'collections', to: 'collections#index'
-  get 'collections/:id', to: 'collections#show'
-  get 'collections/:id/images/:size', to: 'collections#image', as: 'collection_image'
+  # RESTful Routes #############################################################
+  # NOTE: ALL Models are 'resources', don't confuse with "MediaResources"!
 
-  get 'filter_sets', to: 'filter_sets#index'
+  ## Concerns - used with several Resources ####################################
+  concern :previewable do
+    get 'preview/:size', action: :preview, as: 'preview', on: :member
+  end
 
-  get 'media_entries', to: 'media_entries#index'
-  get 'media_entries/:id/images/:size', to: 'media_entries#image', as: 'media_entry_image'
+  ## The resources we internally call "MediaResources":
+  resources :media_entries, path: 'entries', only: [:index, :show], concerns: :previewable
+  resources :collections, only: [:index, :show], concerns: :previewable
+  resources :filter_sets, only: [:index, :show], concerns: :previewable
 
+  # Other App routes ###########################################################
+  # TODO: resource 'users'?
   get 'my', to: 'my#dashboard', as: 'my_dashboard'
 
   post 'session/sign_in', to: 'sessions#sign_in'
   post 'session/sign_out', to: 'sessions#sign_out'
 
-  ##### Admin namespace
+  # Admin routes ###############################################################
   namespace :admin do
     resources :users do
       member do
@@ -47,10 +53,10 @@ MAdeK::Application.routes.draw do
         get :filter_sets
       end
     end
-    root to: 'dashboard#index' 
+    root to: 'dashboard#index'
   end
 
-  ##### STYLEGUIDE (resourceful-ish)
+  # STYLEGUIDE #################################################################
   get 'styleguide', to: 'styleguide#index', as: 'styleguide'
   get 'styleguide/:section', to: 'styleguide#show', as: 'styleguide_section'
   get 'styleguide/:section/:element', to: 'styleguide#element', as: 'styleguide_element'
