@@ -7,6 +7,7 @@ class MediaEntry < ActiveRecord::Base
   include Concerns::PermissionsAssociations
   include Concerns::Users::Creator
   include Concerns::Users::Responsible
+  include Concerns::MediaEntries::Filters
 
   has_one :media_file, dependent: :destroy
 

@@ -53,7 +53,11 @@ MAdeK::Application.routes.draw do
         get :filter_sets
       end
     end
-    root to: 'dashboard#index'
+    resources :media_entries, only: [:index, :show]
+    resources :media_files, only: :show
+    resources :previews, only: [:show, :destroy]
+    resources :zencoder_jobs, only: :show
+    root to: 'dashboard#index' 
   end
 
   # STYLEGUIDE #################################################################

@@ -14,11 +14,31 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/admin/groups_controller_spec.rb"
+"./spec/controllers/admin/media_entries_controller_spec.rb":
+  name: "./spec/controllers/admin/media_entries_controller_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/admin/media_entries_controller_spec.rb"
+"./spec/controllers/admin/media_files_controller_spec.rb":
+  name: "./spec/controllers/admin/media_files_controller_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/admin/media_files_controller_spec.rb"
+"./spec/controllers/admin/previews_controller_spec.rb":
+  name: "./spec/controllers/admin/previews_controller_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/admin/previews_controller_spec.rb"
 "./spec/controllers/admin/users_controller_spec.rb":
   name: "./spec/controllers/admin/users_controller_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/admin/users_controller_spec.rb"
+"./spec/controllers/admin/zencoder_jobs_controller_spec.rb":
+  name: "./spec/controllers/admin/zencoder_jobs_controller_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/admin/zencoder_jobs_controller_spec.rb"
 "./spec/controllers/application_controller_spec.rb":
   name: "./spec/controllers/application_controller_spec.rb"
   scripts:

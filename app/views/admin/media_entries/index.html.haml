@@ -1,0 +1,35 @@
+.page-header
+  %h1
+    %i.icon-media-entry
+    Media Entries (#{@media_entries.total_count})
+
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-heading
+        .panel-title Filters
+      .panel-body
+        = form_tag admin_media_entries_path, method: :get, class: 'form-inline' do
+          .form-group
+            = text_field_tag :search_term, params[:search_term], size: 50,
+              class: 'form-control', placeholder: 'ID, custom url or title'
+
+          = submit_tag 'Apply', class: 'btn btn-primary'
+          = link_to 'Reset', admin_media_entries_path, class: 'btn btn-default'
+
+.row
+  .col-xs-12
+    .table-responsive
+      %table.table.table-striped
+        %thead
+          %tr
+            %th Title
+            %th Responsible person
+            %th Media File
+            %th ID
+            %th Created at
+            %th
+        %tbody
+          = render @media_entries
+
+= paginate @media_entries

@@ -1,0 +1,29 @@
+.page-header
+  %h1 Preview: #{@preview.id}
+
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-body
+        .btn-group
+          = link_to admin_preview_path(@preview), method: :delete, class: 'btn btn-danger',
+            data: { confirm: 'Preview will be deleted. Do you want to proceed?' } do
+            %i.glyphicon.glyphicon-trash
+            Delete
+
+.row
+  .col-xs-4
+    .thumbnail
+      = image_tag @preview.file_path
+
+.row
+  .col-xs-12
+    .table-responsive
+      %table.table.table-striped
+        %thead
+        %tbody
+          - @preview.attributes.each do |attr|
+            %tr
+              %td
+                %strong= attr.first.humanize
+              %td= attr.last

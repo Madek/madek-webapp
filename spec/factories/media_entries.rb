@@ -5,6 +5,21 @@ FactoryGirl.define do
       me.responsible_user_id ||= (User.find_random || FactoryGirl.create(:user)).id
       me.creator_id ||= (User.find_random || FactoryGirl.create(:user)).id
     end
+
+    factory :media_entry_with_title do
+      transient do
+        title { Faker::Lorem.words.join(' ') }
+      end
+
+      after(:create) do |media_entry, evaluator|
+        create_list(
+          :meta_datum_title,
+          1,
+          media_entry: media_entry,
+          string: evaluator.title
+        )
+      end
+    end
   end
 
   factory :media_entry_with_image_media_file, class: 'MediaEntry'  do

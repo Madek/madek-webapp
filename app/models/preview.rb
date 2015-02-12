@@ -14,10 +14,10 @@ class Preview < ActiveRecord::Base
 
   after_destroy do
     begin
-      File.delete(full_path)
+      File.delete(file_path)
     rescue Errno::ENOENT => e
       # might not be an error in some cases
-      Rails.logger.warn Formatter.exception_to_log_s(e)
+      Rails.logger.warn e
     end
   end
 

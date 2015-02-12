@@ -1,0 +1,13 @@
+.row
+  .col-xs-12
+    .page-header
+      %h2 ZencoderJobs
+
+    .panel.panel-default
+      .panel-body
+        .btn-group
+          = link_to 'Reencode', '#', class: 'btn btn-info disabled',
+            data: { confirm: 'Let previes reencode by zencoder.com? |
+            This action is liable to pay costs.' }                  |
+
+    = render 'admin/zencoder_jobs/zencoder_jobs_table'

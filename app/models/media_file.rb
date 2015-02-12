@@ -47,4 +47,8 @@ class MediaFile < ActiveRecord::Base
     previews.find_by(thumbnail: size)
   end
 
+  def audio_video?
+    media_type =~ /video|audio/
+  end
+
 end

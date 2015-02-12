@@ -1,0 +1,38 @@
+.page-header
+  %h1
+    %span.glyphicon.glyphicon-file
+    Media File: #{@media_file.id}
+
+.row
+  .col-xs-12
+    .table-responsive
+      %table.table.table-striped
+        %thead
+        %tbody
+          - @media_file.attributes.each do |attr|
+            %tr
+              %td.col-xs-2
+                %strong= attr.first.humanize
+              %td= attr.last
+
+= render 'zencoder_jobs' if @zencoder_jobs
+
+.row
+  .col-xs-12
+    .page-header
+      %h2 Previews
+
+    .panel.panel-default
+      .panel-body
+        .btn-group
+          = link_to 'Recreate Thumbnails', '#', class: 'btn btn-info disabled'
+
+    %table.previews.table.table-striped
+      %thead
+        %tr
+          %th Content type
+          %th Thumbnail
+          %th Created at
+          %th
+      %tbody
+        = render @media_file.previews.reorder("created_at DESC")

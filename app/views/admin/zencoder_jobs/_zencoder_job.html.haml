@@ -1,0 +1,10 @@
+%tr
+  %td.state= zencoder_job.state
+  %td
+    = link_to admin_media_file_path(zencoder_job.media_file) do
+      Media File #{zencoder_job.media_file.id}
+  %td= zencoder_job.created_at
+  %td
+    .btn-group
+      = link_to admin_zencoder_job_path(zencoder_job), class: 'btn btn-default btn-sm' do
+        %span.glyphicon.glyphicon-eye-open
