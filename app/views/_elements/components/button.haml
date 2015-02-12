@@ -1,5 +1,6 @@
 :ruby
   text ||= nil
+  type ||= nil
   html_tag = link ? 'a' : 'button'
   button_class = \
     case
@@ -14,7 +15,8 @@
 
   props = {
     class: classes,
-    data: { hook: defined?(hook) ? hook : nil }
+    type: type
+    # data: { hook: defined?(hook) ? hook : nil }
   }.merge(link.to_h)
 
 
