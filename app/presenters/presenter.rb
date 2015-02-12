@@ -28,7 +28,7 @@ class Presenter
 
   def self.dump_recur(obj)
     if obj.is_a?(Presenter)
-      dump(obj)
+      obj.dump
     elsif obj.is_a?(Array)
       obj.map { |elt| dump_recur(elt) }
     elsif obj.is_a?(Hash)
