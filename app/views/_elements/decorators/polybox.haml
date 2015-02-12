@@ -1,57 +1,87 @@
 :ruby
   # This is an presenter-specific application partial
-  return unless @get
-  # It expects at least one of the following 3 arrays of resources
-  return unless @get.media_entries_thumbs \
-                || @get.collections_thumbs \
-                || @get.media_entries_thumbs
+  return unless poly_resources and poly_resources.is_a?(Hash)
+  res = {
+    media_entries: poly_resources[:media_entries] || [],
+    collections: poly_resources[:collections] || [],
+    filter_sets: poly_resources[:filter_sets] || []
+  }
+
+  title ||= title
+
+  # there are several "view modes", default is grid
+  view_modes = [:grid, :tiles]
+  classes.push :grid unless view_modes.any? {|mode| classes.include? mode }
+
 
   # for each type of resource, build the list of polythumbs
   resource_types = {
-    media_entries: @get.media_entries_thumbs.map do |get|
+    media_entries: res[:media_entries].map do |get|
       deco('polythumb',
         title: get.title,
         thumb: component('thumbnail',
           mods: ['media-entry'], # TODO : type of entry ('video')
           text: get.title,
-          picture: get.image_url('small'), # asset_path('dev_todo.png')
+          picture: get.image_url('small'),
+          href: get.url,
           # yes this is *inside* the thumb… workaround hacky CSS :/
           meta: {
-            title: 'TODO',
-            subtitle: 'TODO'
+            title: get.title,
+            subtitle: get.authors
           }
         )
       )
     end,
-    collections: @get.collections_thumbs.map do |get|
+    collections: res[:collections].map do |get|
       deco('polythumb',
         title: get.title,
         thumb: component('thumbnail',
           mods: ['media-set'],
           text: get.title,
-          picture: asset_path('dev_todo.png'), # get.image_url('small')
+          href: get.url,
+          picture: get.image_url('small'),
           meta: {
-            title: get.title,
-            subtitle: 'TODO'
+            title: get.title#,
+            # subtitle: 'TODO'
           }
         )
       )
     end,
-    filter_sets: @get.filter_sets_thumbs.map do |get|
+    filter_sets: res[:filter_sets].map do |get|
       deco('polythumb',
         title: get.title,
         thumb: component('thumbnail',
-          mods: ['filter-set'], # TODO : type of entry ('video')
+          mods: ['filter-set'],
           text: get.title,
-          picture: asset_path('dev_todo.png'), # get.image_url('small')
+          href: get.url,
+          picture: get.image_url('small'),
           meta: {
-            title: get.title,
-            subtitle: 'TODO'
+            title: get.title#,
+            # subtitle: 'TODO'
           }
         )
       )
     end
   }
+
+  # also build an appropriate filter_bar
+  filter_bar = combo('button-group', {
+    mods: ['js-only', 'small'],
+    list: [
+      (res[:media_entries].empty? ? nil : {
+        text: 'Entries',
+        hook: 'entries'
+      }),
+      (res[:collections].empty? ? nil : {
+        text: 'Collections',
+        hook: 'collections'
+      }),
+      (res[:filter_sets].empty? ? nil : {
+        text: 'FilterSets',
+        hook: 'filter_sets'
+      })
+    ]
+  })
 
 
 -# a list for each kind of resource.
@@ -60,18 +90,20 @@
   - re-uses pagination elements
   - TODO: ujs: use filterbar ui + tab logic
 
-%ul.POLYBOX.ui-resources{class: classes}
+.POLYBOX
+  = combo('resources-header', title: title, filter_bar: filter_bar)
+  %ul.ui-resources{class: classes}
 
-  -# a unit for each type of resource
-  - resource_types.each do |type, resources_list|
-    - unless resources_list.empty?
-      %li.ui-resources-page
+    -# a unit for each type of resource
+    - resource_types.each do |type, resources_list|
+      - unless resources_list.empty?
+        %li.ui-resources-page
 
-        -# a small heading TODO: txt()
-        %span.ui-resources-page-counter.ui-pager.small
-          = type
+          -# a small heading TODO: txt()
+          %span.ui-resources-page-counter.ui-pager.small
+            = type
 
-        -# the actual box of items
-        %ul.ui-resources-page-items
-          - resources_list.each do |item|
-            = item
+          -# the actual box of items
+          %ul.ui-resources-page-items
+            - resources_list.each do |item|
+              = item

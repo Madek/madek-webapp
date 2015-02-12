@@ -8,7 +8,8 @@
   link ||= nil
   badge_top_left ||= nil
   badge_top_right ||= nil
-  return unless picture[:href]
+
+  throw 'ui: no picture given!' unless picture[:href]
 
 .ui-thumbnail{class: classes}
 

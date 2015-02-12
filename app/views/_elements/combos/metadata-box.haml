@@ -8,6 +8,7 @@
         - key = item[0]
         - value = item[1]
         - mod = item[2]
-        %tr
-          %td.ui-summary-label= key
-          %td.ui-summary-content{class: mod}= value
+        - unless key.nil? or value.nil? or value.empty?
+          %tr
+            %td.ui-summary-label= key
+            %td.ui-summary-content{class: mod}= value

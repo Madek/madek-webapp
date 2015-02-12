@@ -8,6 +8,7 @@ module Presenters
       end
 
       def my_content
+        # TODO: PolyRePresent
         {
           media_entries:
             @user.media_entries.reorder('created_at DESC').limit(@limit)
@@ -17,9 +18,6 @@ module Presenters
               .map { |r| thumbify(r) },
           filter_sets:
             @user.filter_sets.reorder('created_at DESC').limit(@limit)
-              .map { |r| thumbify(r) },
-          imports:
-            @user.created_media_entries.reorder('created_at DESC').limit(@limit)
               .map { |r| thumbify(r) }
         }
       end
@@ -30,14 +28,22 @@ module Presenters
       end
 
       def favorites
+        # TODO: PolyRePresent
         {
-          media_entries: @user.favorite_media_entries.limit(@limit),
-          collections: @user.favorite_collections.limit(@limit),
-          filter_sets: @user.favorite_filter_sets.limit(@limit)
+          media_entries:
+            @user.favorite_media_entries.limit(@limit)
+              .map { |r| thumbify(r) },
+          collections:
+            @user.favorite_collections.limit(@limit)
+              .map { |r| thumbify(r) },
+          filter_sets:
+            @user.favorite_filter_sets.limit(@limit)
+              .map { |r| thumbify(r) }
         }
       end
 
       def entrusted
+        # TODO: PolyRePresent
         {
           media_entries:
             MediaEntry.entrusted_to_user(@user)
@@ -55,7 +61,13 @@ module Presenters
       end
 
       def groups
-        @user.groups.limit(4)
+        # TODO: GroupsPresenter?
+        @user.groups.limit(4).map do |group|
+          {
+            id: group.id,
+            name: group.name
+          }
+        end
       end
 
       private

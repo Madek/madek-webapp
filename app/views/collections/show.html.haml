@@ -1,5 +1,3 @@
-:ruby
-
 .app-body
   = component('page-header', text: @get.title, icon: component('icon.set'))
 
@@ -13,12 +11,19 @@
                           text: @get.title,
                           picture: asset_path('dev_todo.png'))
 
+          - tag_cloud_mods = ['small','ellipsed']
+          -# TODO: build this list in a presenter?
+            @get.metadata => [ [key, value], [key, value] ]
           = combo('metadata-box',
               mods: 'ui-summary-table.ui-set-summary.compact',
               list: [['Title', @get.title, 'title-l'],
+                     ['Description', @get.description],
+                     ['Keywords', component('tag-cloud.label',
+                        mods: tag_cloud_mods,
+                        list: @get.keywords)],
                      ['Responsible', component('tag-cloud.person',
-                        mods: ['small','ellipsed'],
-                        list: [{ text: @get.responsible, href: '#' }])]])
+                        mods: tag_cloud_mods,
+                        list: [@get.responsible])]])
 
       #ui-resources-list-container.ui-container.midtone.rounded-bottom
         .ui-container.inverted.ui-toolbar.pvx
@@ -27,4 +32,5 @@
         .ui-resources-holder.pam
           .ui-container.table.auto
             .ui-container.table-cell.table-substance
-              = deco('polybox', mods: ['grid', 'active'])
+              = deco('polybox', mods: ['active'],
+                      poly_resources: @get.poly_resources)
