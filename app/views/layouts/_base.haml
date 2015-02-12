@@ -1,8 +1,7 @@
 !!!
--# TODO: set 'has-js' with js.
-  its like this for now to not break the styleguide
-  while we don't use js.
-%html.has-js{lang: 'de-CH'}
+-# NOTE: class 'has-js' is set dynamically with — suprise! — JavaScript.
+-# for dev just add ", class: 'has-js'":
+%html{lang: 'de-CH'}
   %head
     %meta{charset: 'utf-8'}
 
@@ -34,6 +33,8 @@
     = content_for(:head)
 
   = content_for(:body)
+  -# init js that needs DOM here:
+  -# TODO: = javascript_include_tag 'madek-ujs'
   = content_for(:scripts) if content_for?(:scripts)
 
   -# Implicit *yield*, don't put one here or it double-renders!

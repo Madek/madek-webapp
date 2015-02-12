@@ -31,6 +31,9 @@
 
       - else # unless full_layout -> plain layout
         = content
-        = content_for(:scripts) if content_for?(:scripts)
+
+  -# TMP: styleguide only tests "enhanced" elements, so fake the ujs for now
+  = javascript_include_tag 'madek-ujs'
+  = content_for(:scripts) if content_for?(:scripts)
 
 = render template: 'layouts/_base'
