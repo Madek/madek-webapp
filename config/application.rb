@@ -103,31 +103,42 @@ module MAdeK
   end
 end
 
-# Config files here.
-METADATA_CONFIG_DIR = "#{Rails.root}/config/definitions/metadata"
+# some constants externalized so they can be accessed from outside of rails
 
-# Directory config is externalized so it can be accessed from not only within rails
+# Directory config
 load Rails.root.join('config/directories_config.rb')
 DOWNLOAD_STORAGE_DIR  = DirectoriesConfig::DOWNLOAD_STORAGE_DIR
 FILE_STORAGE_DIR      = DirectoriesConfig::FILE_STORAGE_DIR
 THUMBNAIL_STORAGE_DIR = DirectoriesConfig::THUMBNAIL_STORAGE_DIR
 ZIP_STORAGE_DIR       = DirectoriesConfig::ZIP_STORAGE_DIR
 
-GENERIC_THUMBNAIL_IMAGE_ASSET = "thumbnails/document_unknown.png"
+# UI constants
+UI_GENERIC_PREVIEW = {
+  # relative to `app/assets/images`
+  collection: 'thumbnails/set.png',
+  filter_set: 'dev_todo.png',
+  incomplete: 'dev_todo.png',
+  document: 'thumbnails/document_unknown.png'
+}
 
-# symbolic links, to ultimately break your installation :-/
-# $ sudo ln -s /usr/bin/exiftool /usr/local/bin/exiftool
-# $ sudo ln -s /usr/bin/lib /usr/local/bin/lib
-EXIFTOOL_CONFIG = "#{METADATA_CONFIG_DIR}/ExifTool_config.pl"
-EXIFTOOL_PATH = "exiftool -config #{EXIFTOOL_CONFIG}"
-# Ideally, this would work under script/server AND passenger, but it doesn't.
-# Under passenger, it has no idea. Maybe substitute as part of the Capistrano deploy?
-# EXIFTOOL_PATH = `/usr/bin/which exiftool`.gsub(/\n/,"")
 
-FILE_UTIL_PATH = '/usr/bin/file -b --mime-type'
-
-THUMBNAILS = { maximum: nil, x_large: '1024x768', large: '620x500', medium: '300x300', small_125: '125x125', small:  '100x100' }
-PER_PAGE = [36, 100]
-
-LANGUAGES = [:de_ch, :en_gb]
-DEFAULT_LANGUAGE = :de_ch
+# From v2, unused but kept here for reference:
+# # Config files here.
+# METADATA_CONFIG_DIR = "#{Rails.root}/config/definitions/metadata"
+#
+# # symbolic links, to ultimately break your installation :-/
+# # $ sudo ln -s /usr/bin/exiftool /usr/local/bin/exiftool
+# # $ sudo ln -s /usr/bin/lib /usr/local/bin/lib
+# EXIFTOOL_CONFIG = "#{METADATA_CONFIG_DIR}/ExifTool_config.pl"
+# EXIFTOOL_PATH = "exiftool -config #{EXIFTOOL_CONFIG}"
+# # Ideally, this would work under script/server AND passenger, but it doesn't.
+# # Under passenger, it has no idea. Maybe substitute as part of the Capistrano deploy?
+# # EXIFTOOL_PATH = `/usr/bin/which exiftool`.gsub(/\n/,"")
+#
+# FILE_UTIL_PATH = '/usr/bin/file -b --mime-type'
+#
+# THUMBNAILS = { maximum: nil, x_large: '1024x768', large: '620x500', medium: '300x300', small_125: '125x125', small:  '100x100' }
+# PER_PAGE = [36, 100]
+#
+# LANGUAGES = [:de_ch, :en_gb]
+# DEFAULT_LANGUAGE = :de_ch

@@ -9,7 +9,7 @@
           .ui-set-preview
             = component('thumbnail', mods: ['media-set'],
                           text: @get.title,
-                          picture: asset_path('dev_todo.png'))
+                          picture: @get.preview_thumb_url)
 
           - tag_cloud_mods = ['small','ellipsed']
           -# TODO: build this list in a presenter?

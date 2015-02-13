@@ -7,7 +7,8 @@ module Presenters
       end
 
       def image_url(_size = :small)
-        ActionController::Base.helpers.image_path 'dev_todo.png'
+        ActionController::Base.helpers.image_path \
+        ::UI_GENERIC_PREVIEW[:filter_set]
         # TODO: implement
         #   - get a list of all entries matching the filter
         #   - select the first one that has an image, use that image

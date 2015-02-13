@@ -18,7 +18,7 @@ module Presenters
 
         def generic_thumbnail_url
           ActionController::Base.helpers.image_path \
-            ::GENERIC_THUMBNAIL_IMAGE_ASSET
+            ::UI_GENERIC_PREVIEW[:document]
         end
 
         private

@@ -2,6 +2,11 @@ module Presenters
   module Collections
     class CollectionShow < Presenters::Shared::Resources::ResourceShow
 
+      def preview_thumb_url
+        ActionController::Base.helpers.image_path \
+        ::UI_GENERIC_PREVIEW[:collection]
+      end
+
       def highlights_thumbs
         @resource \
           .media_entries
