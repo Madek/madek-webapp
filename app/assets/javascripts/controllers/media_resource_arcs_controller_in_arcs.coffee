@@ -8,8 +8,8 @@ MediaResourceArcsController = {} unless MediaResourceArcsController?
 class MediaResourceArcsController.InArcs
 
   constructor: (options)->
-    @modal = $(options.modal)
     @el = $(options.el)
+    @modal = options.modal
     @table = @el.find(".ui-resources-table")
     @mediaSet = options.mediaSet
     @paginator = new App.MediaResourcesPaginator
