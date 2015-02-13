@@ -13,7 +13,7 @@ RSpec.shared_examples 'image_url' do |response_type|
           .preview_media_entry_path(media_entry, :small)
     when 'with generic image'
       expect(presenter.image_url).to be == \
-        ActionController::Base.helpers.image_path(UI_GENERIC_PREVIEW[:document])
+        ActionController::Base.helpers.image_path(UI_GENERIC_THUMBNAIL[:unknown])
     end
   end
 end

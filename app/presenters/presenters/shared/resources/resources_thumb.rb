@@ -18,7 +18,13 @@ module Presenters
 
         def generic_thumbnail_url
           ActionController::Base.helpers.image_path \
-            ::UI_GENERIC_PREVIEW[:document]
+            ::UI_GENERIC_THUMBNAIL[:unknown]
+        end
+
+        # TODO: review
+        def incomplete_thumbnail_url
+          ActionController::Base.helpers.image_path \
+            ::UI_GENERIC_THUMBNAIL[:incomplete]
         end
 
         private

@@ -9,12 +9,8 @@ module Presenters
       def image_url
         media_entry = choose_media_entry_for_preview
 
-        if media_entry and media_entry.media_file.represantable_as_image?
-          # TODO: (check in db ) if it exists…
+        if media_entry and media_entry.media_file.representable_as_image?
           preview_media_entry_path(media_entry, :small)
-          # else
-          # ActionController::Base.helpers.image_path \
-          #     ::UI_GENERIC_PREVIEW[:incomplete]
         else
           generic_thumbnail_url
         end
@@ -33,6 +29,7 @@ module Presenters
       end
 
       def cover_or_first_media_entry(collection)
+        return unless collection.media_entries # collection can be empty!
         collection.media_entries.cover \
           || collection.media_entries.first
       end

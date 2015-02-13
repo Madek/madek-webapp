@@ -77,12 +77,15 @@ module Presenters
           case resource.class.name
           when 'MediaEntry'
             Presenters::MediaEntries::MediaEntryThumb
+          # quick fix:
+          when 'MediaEntryIncomplete'
+            Presenters::MediaEntries::MediaEntryThumb
           when 'Collection'
             Presenters::Collections::CollectionThumb
           when 'FilterSet'
             Presenters::FilterSets::FilterSetThumb
           else
-            raise 'Missing presenter'
+            raise "Missing presenter: #{resource.class.name}"
           end
 
         presenter.new(resource, @user)

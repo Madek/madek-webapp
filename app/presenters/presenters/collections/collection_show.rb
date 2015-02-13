@@ -4,7 +4,7 @@ module Presenters
 
       def preview_thumb_url
         ActionController::Base.helpers.image_path \
-          ::UI_GENERIC_PREVIEW[:collection]
+          ::UI_GENERIC_THUMBNAIL[:collection]
       end
 
       def highlights_thumbs

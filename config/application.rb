@@ -112,13 +112,15 @@ FILE_STORAGE_DIR      = DirectoriesConfig::FILE_STORAGE_DIR
 THUMBNAIL_STORAGE_DIR = DirectoriesConfig::THUMBNAIL_STORAGE_DIR
 ZIP_STORAGE_DIR       = DirectoriesConfig::ZIP_STORAGE_DIR
 
+FILE_UTIL_PATH = '/usr/bin/file -b --mime-type'
+
 # UI constants
-UI_GENERIC_PREVIEW = {
+UI_GENERIC_THUMBNAIL = {
   # relative to `app/assets/images`
   collection: 'thumbnails/set.png',
   filter_set: 'dev_todo.png',
   incomplete: 'dev_todo.png',
-  document: 'thumbnails/document_unknown.png'
+  unknown: 'thumbnails/document_unknown.png'
 }
 
 
@@ -134,8 +136,6 @@ UI_GENERIC_PREVIEW = {
 # # Ideally, this would work under script/server AND passenger, but it doesn't.
 # # Under passenger, it has no idea. Maybe substitute as part of the Capistrano deploy?
 # # EXIFTOOL_PATH = `/usr/bin/which exiftool`.gsub(/\n/,"")
-#
-# FILE_UTIL_PATH = '/usr/bin/file -b --mime-type'
 #
 # THUMBNAILS = { maximum: nil, x_large: '1024x768', large: '620x500', medium: '300x300', small_125: '125x125', small:  '100x100' }
 # PER_PAGE = [36, 100]
