@@ -214,8 +214,8 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/presenters/media_entries/media_entry_thumb_spec.rb"
-"./spec/presenters/shared/privacy_status_spec.rb":
-  name: "./spec/presenters/shared/privacy_status_spec.rb"
+"./spec/presenters/shared/thumb_api_spec.rb":
+  name: "./spec/presenters/shared/thumb_api_spec.rb"
   scripts:
     main:
-      body: bundle exec rspec "./spec/presenters/shared/privacy_status_spec.rb"
+      body: bundle exec rspec "./spec/presenters/shared/thumb_api_spec.rb"

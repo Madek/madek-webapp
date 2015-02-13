@@ -1,15 +1,6 @@
 class CollectionsController < ApplicationController
 
   include Concerns::Filters
-  include Concerns::Image
-
-  def preview
-    collection = Collection.find(params[:id])
-    media_entry = \
-      collection.media_entries.cover \
-        or collection.media_entries.first
-    get_preview_and_send_image(media_entry, params[:size])
-  end
 
   def index
     @collections = \

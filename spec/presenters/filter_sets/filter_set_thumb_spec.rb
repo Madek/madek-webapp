@@ -1,5 +1,5 @@
 require 'spec_helper'
-require Rails.root.join 'spec', 'presenters', 'shared', 'privacy_status_spec'
+require Rails.root.join 'spec', 'presenters', 'shared', 'thumb_api_spec'
 require Rails.root.join 'spec', 'presenters', 'shared', 'dump_spec'
 
 describe Presenters::FilterSets::FilterSetThumb do

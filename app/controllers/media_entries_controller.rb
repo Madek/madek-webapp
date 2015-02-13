@@ -1,11 +1,20 @@
 class MediaEntriesController < ApplicationController
 
   include Concerns::Filters
-  include Concerns::Image
 
   def preview
+    # TODO: review/cleanup
     media_entry = MediaEntry.find(params[:id])
-    get_preview_and_send_image(media_entry, params[:size])
+
+    begin
+      preview = media_entry.media_file.preview(size)
+      send_file preview.file_path,
+                type: preview.content_type,
+                disposition: 'inline'
+    rescue
+      Rails.logger.warn 'image not found!'
+      render nothing: true, status: 404
+    end
   end
 
   def index

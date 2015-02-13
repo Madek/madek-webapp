@@ -6,8 +6,12 @@ module Presenters
         media_entry_path @resource
       end
 
-      def image_url(size = :small)
-        preview_media_entry_path(@resource, size)
+      def image_url
+        if @resource.media_file.represantable_as_image?
+          preview_media_entry_path(@resource, :small)
+        else
+          generic_thumbnail_url
+        end
       end
 
       def authors

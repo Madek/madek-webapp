@@ -16,6 +16,11 @@ module Presenters
           public_status or shared_status or private_status
         end
 
+        def generic_thumbnail_url
+          ActionController::Base.helpers.image_path \
+            ::GENERIC_THUMBNAIL_IMAGE_ASSET
+        end
+
         private
 
         def public_status

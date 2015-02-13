@@ -13,12 +13,12 @@ FactoryGirl.define do
   factory :media_file_for_image, class: MediaFile do
 
     before :create do
-      unless File.exist?
+      unless File.exist? \
         (Rails.root.join('db/media_files',
                          Rails.env,
                          'attachments/b/b8bf2eb322e04a29a52fbb06d4866af8'))
         System.execute_cmd! \
-          %(tar xf #{Rails.root.join 'features/data/grumpy-cat_files.tar.gz'} \
+          %(tar xf #{Rails.root.join 'spec/data/grumpy-cat_files.tar.gz'} \
             -C #{Rails.root.join 'db/media_files/', Rails.env})
       end
     end
@@ -137,4 +137,15 @@ FactoryGirl.define do
     association :uploader, factory: :user
   end
 
+  factory :media_file_for_audio, class: MediaFile do
+    extension 'mp3'
+    media_type 'audio'
+    size 2_793_600
+    content_type 'audio/mpeg'
+    filename 'audio.mp3'
+    guid { UUIDTools::UUID.random_create.hexdigest }
+    access_hash { UUIDTools::UUID.random_create.to_s }
+    association :media_entry
+    association :uploader, factory: :user
+  end
 end
