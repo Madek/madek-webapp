@@ -2,32 +2,32 @@
 
   %fieldset
     .form-group
-      %label.control-label.col-sm-2 Login
-      .col-sm-4
+      %label.control-label.col-xs-2 Login
+      .col-xs-4
         = f.text_field :login, class: 'form-control'
 
     .form-group
-      %label.control-label.col-sm-2 E-mail
-      .col-sm-4
+      %label.control-label.col-xs-2 E-mail
+      .col-xs-4
         = f.text_field :email, type: 'email', class: 'form-control'
 
     .form-group
-      %label.control-label.col-sm-2 Person ID
-      .col-sm-4
+      %label.control-label.col-xs-2 Person ID
+      .col-xs-4
         = f.text_field :person_id, class: 'form-control'
 
     .form-group
-      %label.control-label.col-sm-2 Password
-      .col-sm-4
+      %label.control-label.col-xs-2 Password
+      .col-xs-4
         = f.text_field :password, class: 'form-control'
 
     .form-group
-      %label.control-label.col-sm-2 Notes
-      .col-sm-4
+      %label.control-label.col-xs-2 Notes
+      .col-xs-4
         = f.text_area :notes, class: 'form-control'
 
     .form-group
-      .col-sm-offset-2.col-sm-4
+      .col-xs-offset-2.col-xs-4
         = button_tag type: 'submit', class: 'btn btn-success' do
           %span.glyphicon.glyphicon-ok
           Save

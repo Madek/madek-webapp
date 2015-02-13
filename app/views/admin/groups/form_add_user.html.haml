@@ -6,11 +6,11 @@
     = form_tag add_user_admin_group_path(@group), method: 'POST', class: 'form-horizontal', role: "form" do
     
       .form-group
-        .col-sm-1
+        .col-xs-1
           = label_tag :user_id, 'User', class: 'control-label'
-        .col-sm-4
+        .col-xs-4
           = select_tag :user_id, options_for_select(User.all.collect{ |u| ["#{u.person.last_name}, #{u.person.first_name} [#{u.login}]", u.id]}), class: 'form-control'
     
       .form-group
-        .col-sm-offset-1.col-sm-2
+        .col-xs-offset-1.col-xs-2
           = button_tag 'Add user', type: 'submit', class: 'btn btn-success'

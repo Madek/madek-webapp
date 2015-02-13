@@ -1,11 +1,13 @@
 = form_for [:admin, @group], as: :group, html: { class: 'form-horizontal', role: 'form' } do |f| 
   .form-group
-    .col-sm-1
+    .col-xs-1
       = f.label :name, 'Name', class: 'control-label'
-    .col-sm-4
+    .col-xs-4
       = f.text_field :name, class: 'form-control'
   .form-group
-    .col-sm-offset-1.col-sm-2
-      = button_tag 'Submit', type: 'submit', class: "btn btn-success"
+    .col-xs-offset-1.col-xs-2
+      = button_tag type: 'submit', class: 'btn btn-success' do
+        %span.glyphicon.glyphicon-ok
+        Save
 
-  = link_to 'Go back', @group.persisted? ? admin_group_path(@group) : admin_groups_path, class: 'btn btn-default'
+    = link_to 'Go back', @group.persisted? ? admin_group_path(@group) : admin_groups_path, class: 'btn btn-link'

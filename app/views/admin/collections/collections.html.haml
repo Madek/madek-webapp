@@ -7,14 +7,13 @@
 
 .row
   .col-xs-12
-    .table-responsive
-      %table.table.table-striped
-        %thead
-          %tr
-            %th Title
-            %th User
-            %th
-        %tbody
-          = render partial: 'collection', collection: @collections
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Title
+          %th User
+          %th
+      %tbody
+        = render partial: 'collection', collection: @collections
 
-= paginate @collections, theme: 'admin'
+= paginate @collections

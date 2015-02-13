@@ -14,16 +14,15 @@
 
 .row
   .col-xs-12
-    .table-responsive
-      %table.table.table-striped
-        %thead
-        %tbody
-        - @filter_set.attributes.each do |name, value|
-          %tr
-            %td= name.humanize
-            - case name
-            - when 'filter'
-              %td
-                %pre= value.to_yaml
-            - else
-              %td= value
+    %table.table.table-striped
+      %thead
+      %tbody
+      - @filter_set.attributes.each do |name, value|
+        %tr
+          %td= name.humanize
+          - case name
+          - when 'filter'
+            %td
+              %pre= value.to_yaml
+          - else
+            %td= value

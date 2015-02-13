@@ -4,11 +4,7 @@
     Groups (#{@groups.total_count})
 
 .row
-  .col-xs-2
-    = link_to new_admin_group_path, class: 'btn btn-default' do
-      %i.glyphicon.glyphicon-plus
-      %span.hidden-xs New group
-  .col-xs-10
+  .col-xs-12
     .panel.panel-default
       .panel-heading
         .panel-title Filters
@@ -36,18 +32,20 @@
             = button_tag type: 'submit', class: 'btn btn-sm' do
               %i.icon-filter
               Apply
+    = link_to new_admin_group_path, class: 'btn btn-default' do
+      %i.glyphicon.glyphicon-plus
+      New group
 .row
   .col-xs-12
-    .table-responsive
-      %table.table.table-striped
-        %thead
-          %tr
-            %th Name
-            %th Ldap name
-            %th Type
-            %th Search rank
-            %th
-        %tbody
-          = render partial: 'group', collection: @groups
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Name
+          %th Ldap name
+          %th Type
+          %th Search rank
+          %th
+      %tbody
+        = render partial: 'group', collection: @groups
 
-= paginate @groups, theme: 'admin'
+= paginate @groups

@@ -8,15 +8,14 @@
     .btn-group
       = render partial: 'action_buttons', locals: { user: @user, size: nil, editable: true, deletable: true }
 
-.table-responsive
-  %table.table.table-striped
+%table.table.table-striped
+  %tr
+    %td
+      %strong Admin?
+    %td{ class: (@user.admin? ? 'success' : 'danger') }
+      = @user.admin? ? 'Yes' : 'No'
+  - @user.attributes.each do |attr|
     %tr
       %td
-        %strong Admin?
-      %td{ class: (@user.admin? ? 'success' : 'danger') }
-        = @user.admin? ? 'Yes' : 'No'
-    - @user.attributes.each do |attr|
-      %tr
-        %td
-          %strong #{attr.first.humanize}
-        %td= attr.last
+        %strong #{attr.first.humanize}
+      %td= attr.last

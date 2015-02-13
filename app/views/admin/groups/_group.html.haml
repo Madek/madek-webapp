@@ -1,11 +1,11 @@
 %tr.group{id: group.id}
-  %td= group.name
+  %td.col-xs-3= group.name
   %td= group.institutional_group_name
   %td= group.type
 
-  %td.search-rank= group.respond_to?(:search_rank) ? group.search_rank : ''
+  %td.col-xs-2.search-rank= group.respond_to?(:search_rank) ? group.search_rank : ''
 
-  %td.active.col-md-2
+  %td.active.col-xs-3
     .btn-group
       = link_to admin_group_path(group), class: "btn btn-default btn-sm" do
         %i.glyphicon.glyphicon-eye-open

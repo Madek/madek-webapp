@@ -5,7 +5,9 @@
   %td= user.media_entries.count
   %td{ class: (user.admin? ? 'success' : 'danger') }
     = user.admin? ? 'Yes' : 'No'
-  %td.active
-    = link_to '<i class="glyphicon glyphicon-eye-open"></i>'.html_safe, admin_user_path(user),
-      class: 'btn btn-default btn-sm', title: 'Details'
-    = render partial: 'action_buttons', locals: { user: user, size: 'btn-sm', editable: false, deletable: false }
+  %td.active.col-xs-7
+    .btn-group
+      = link_to admin_user_path(user),
+        class: 'btn btn-default btn-sm', title: 'Details' do
+        %i.glyphicon.glyphicon-eye-open
+      = render partial: 'action_buttons', locals: { user: user, size: 'btn-sm', editable: false, deletable: false }

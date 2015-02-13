@@ -20,17 +20,16 @@
 
 .row
   .col-xs-12
-    .table-responsive
-      %table.table.table-striped
-        %thead
-        %tbody
-        - @group.attributes.each do |name,value|
-          %tr
-            %td= name.capitalize.split("_").join(" ")
-            - case name
-            - when nil
-            - else
-              %td= value
+    %table.table.table-striped
+      %thead
+      %tbody
+      - @group.attributes.each do |name,value|
+        %tr
+          %td= name.capitalize.split("_").join(" ")
+          - case name
+          - when nil
+          - else
+            %td= value
 
 .row
   .col-xs-4
@@ -58,5 +57,5 @@
       %tbody
         = render partial: 'admin/groups/user', collection: @users 
     
-= paginate @users, theme: 'admin'
+= paginate @users
 

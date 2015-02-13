@@ -4,18 +4,17 @@
 
 .row
   .col-xs-12
-    .table-responsive
-      %table.table.table-striped
-        %thead
-        %tbody
-          - @zencoder_job.attributes.each do |attr|
-            %tr
-              %td.col-xs-4
-                %strong= attr.first.humanize
-              - case attr.first
-              - when 'zencoder_id'
-                %td
-                  - link = "https://app.zencoder.com/jobs/#{attr.last}"
-                  = link_to link, link
-              - else
-                %td= attr.last
+    %table.table.table-striped
+      %thead
+      %tbody
+        - @zencoder_job.attributes.each do |attr|
+          %tr
+            %td.col-xs-4
+              %strong= attr.first.humanize
+            - case attr.first
+            - when 'zencoder_id'
+              %td
+                - link = "https://app.zencoder.com/jobs/#{attr.last}"
+                = link_to link, link
+            - else
+              %td= attr.last

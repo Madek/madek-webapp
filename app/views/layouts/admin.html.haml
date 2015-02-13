@@ -12,34 +12,25 @@
       .navbar.navbar-default
         .container-fluid
           .navbar-header
-            %button.navbar-toggle.collapsed{type: 'button',
-                                            data: { toggle: 'collapse',
-                                              target: '#main-navbar-collapse' }}
-              %span.sr-only Toggle navigation
-              %span.icon-bar
-              %span.icon-bar
-              %span.icon-bar
             .navbar-brand
               Madek Admin
-          #main-navbar-collapse.navbar-collapse.collapse
-            %ul.nav.navbar-nav.navbar-right
-              = navbar_item 'Dashboard', admin_root_path
-              = navbar_item 'Sets', admin_collections_path
-              = navbar_item 'Filter Sets', admin_filter_sets_path
-              = navbar_item 'Users', admin_users_path
-              = navbar_item 'Groups', admin_groups_path
-              = navbar_item 'Media Entries', admin_media_entries_path
-              %li
-              %li.dropdown
-                %a.dropdown-toggle{href: '#', data: { toggle: 'dropdown' }}
-                  %i.glyphicon.glyphicon-user
-                  User
-                  %b.caret
-                %ul.dropdown-menu
-                  %li
-                    = link_to my_dashboard_path do
-                      %i.glyphicon.glyphicon-file
-                      Home/My
+          %ul.nav.navbar-nav.navbar-right
+            = navbar_item 'Dashboard', admin_root_path
+            = navbar_item 'Sets', admin_collections_path
+            = navbar_item 'Filter Sets', admin_filter_sets_path
+            = navbar_item 'Users', admin_users_path
+            = navbar_item 'Groups', admin_groups_path
+            = navbar_item 'Media Entries', admin_media_entries_path
+            %li.dropdown
+              %a.dropdown-toggle{href: '#', data: { toggle: 'dropdown' }}
+                %i.glyphicon.glyphicon-user
+                User
+                %b.caret
+              %ul.dropdown-menu
+                %li
+                  = link_to my_dashboard_path do
+                    %i.glyphicon.glyphicon-file
+                    Home/My
       #messages
         - if success_message= flash[:success]
           .alert.alert-success

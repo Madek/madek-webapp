@@ -60,7 +60,7 @@ feature 'Admin Groups' do
     visit admin_group_path(@group)
     click_link('Edit')
     fill_in 'group[name]', with: 'AWESOME GROUP'
-    click_button 'Submit'
+    click_button 'Save'
     expect(page).to have_css('.alert-success')
     expect(page).to have_content('AWESOME GROUP')
   end
@@ -69,10 +69,10 @@ feature 'Admin Groups' do
     visit '/admin/groups'
     click_link('New group')
     fill_in 'group[name]', with: ''
-    click_button 'Submit'
+    click_button 'Save'
     expect(page).to have_css('.alert-danger')
     fill_in 'group[name]', with: 'NEW AWESOME GROUP'
-    click_button 'Submit'
+    click_button 'Save'
     expect(page).to have_css('.alert-success')
     expect(page).to have_content('NEW AWESOME GROUP')
   end

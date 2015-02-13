@@ -10,12 +10,12 @@
 = form_tag merge_to_admin_group_path(@group), method: :post, class: 'form-horizontal', role: 'form' do
 
   .form-group
-    .col-sm-3
+    .col-xs-3
       = label_tag :id_receiver, 'Id of the receiving group:', class: 'form-label'
-    .col-sm-4
+    .col-xs-4
       = text_field_tag :id_receiver, nil, id: 'id_receiver', class: 'form-control'
 
   .form-group
-    .col-sm-offset-3.col-sm-4
+    .col-xs-offset-3.col-xs-4
       = submit_tag 'Merge', class: 'btn btn-warning', data: {confirm: 'Are you really want to perform a merge?'}
 

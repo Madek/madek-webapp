@@ -5,15 +5,14 @@
 
 .row
   .col-xs-12
-    .table-responsive
-      %table.table.table-striped
-        %thead
-        %tbody
-          - @media_file.attributes.each do |attr|
-            %tr
-              %td.col-xs-2
-                %strong= attr.first.humanize
-              %td= attr.last
+    %table.table.table-striped
+      %thead
+      %tbody
+        - @media_file.attributes.each do |attr|
+          %tr
+            %td.col-xs-2
+              %strong= attr.first.humanize
+            %td= attr.last
 
 = render 'zencoder_jobs' if @zencoder_jobs
 

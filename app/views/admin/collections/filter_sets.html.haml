@@ -7,14 +7,13 @@
 
 .row
   .col-xs-12
-    .table-responsive
-      %table.table.table-striped
-        %thead
-          %tr
-            %th Id
-            %th User
-            %th
-        %tbody
-          = render partial: 'filter_set', collection: @filter_sets
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Id
+          %th User
+          %th
+      %tbody
+        = render partial: 'filter_set', collection: @filter_sets
 
-= paginate @filter_sets, theme: 'admin'
+= paginate @filter_sets

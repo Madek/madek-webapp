@@ -1,7 +1,30 @@
 .page-header
   %h1
     Users (#{User.count})
-    .btn-group.pull-right
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-heading
+        .panel-title Filters
+      .panel-body
+        = form_tag admin_users_path, method: :get, class: 'form-inline' do
+          .form-group
+            = text_field_tag :search_term, params[:search_term], class: 'form-control', placeholder: 'Search term'
+          .form-group
+            = label_tag :sort_by, 'Sort by'
+            = select_tag :sort_by, options_for_select([ |
+              ['Login', 'login'],                       |
+              ['Email', 'email'],                       |
+              ['First/last name', 'first_name_last_name']],
+              params[:sort_by]), { class: 'form-control' }
+          .checkbox
+            %label
+              = check_box_tag :admins_only, '1', params[:admins_only].present?
+              Show admins only
+    
+          = submit_tag 'Apply', class: 'btn btn-primary'
+          = link_to 'Reset', admin_users_path, class: 'btn btn-default'
+    .btn-group
       = link_to new_with_person_admin_users_path, class: 'btn btn-default' do
         %span.glyphicon.glyphicon-plus
         Create user with person
@@ -9,39 +32,18 @@
         %span.glyphicon.glyphicon-plus
         Create user for existing person
 
-.panel.panel-default
-  .panel-heading
-    .panel-title Filters
-  .panel-body
-    = form_tag admin_users_path, method: :get, class: 'form-inline' do
-      .form-group
-        = text_field_tag :search_term, params[:search_term], class: 'form-control', placeholder: 'Search term'
-      .form-group
-        = label_tag :sort_by, 'Sort by'
-        = select_tag :sort_by, options_for_select([ |
-          ['Login', 'login'],                       |
-          ['Email', 'email'],                       |
-          ['First/last name', 'first_name_last_name']],
-          params[:sort_by]), { class: 'form-control' }
-      .checkbox
-        %label
-          = check_box_tag :admins_only, '1', params[:admins_only].present?
-          Show admins only
-
-      = submit_tag 'Apply', class: 'btn btn-primary'
-      = link_to 'Reset', admin_users_path, class: 'btn btn-default'
-
-.table-responsive
-  %table.table.table-striped
-    %thead
-      %tr
-        %th Login
-        %th E-mail
-        %th Person
-        %th Resources
-        %th Admin?
-        %th Actions
-    %tbody
-      = render @users
-
+.row
+  .col-xs-12
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Login
+          %th E-mail
+          %th Person
+          %th Resources
+          %th Admin?
+          %th Actions
+      %tbody
+        = render @users
+    
 = paginate @users

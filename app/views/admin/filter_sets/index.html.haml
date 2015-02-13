@@ -4,15 +4,14 @@
     Filter sets (#{@filter_sets.total_count})
 
 .row
-  .col-md-12
-    .table-responsive
-      %table.table.table-striped
-        %thead
-          %tr
-            %th Id
-            %th Responsible user
-            %th
-        %tbody
-          = render @filter_sets
+  .col-xs-12
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Id
+          %th Responsible user
+          %th
+      %tbody
+        = render @filter_sets
 
-= paginate @filter_sets, theme: 'admin'
+= paginate @filter_sets

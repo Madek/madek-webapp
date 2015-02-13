@@ -7,13 +7,12 @@
 
 .row
   .col-xs-12
-    .table-responsive
-      %table.table.table-striped
-        %thead
-          %tr
-            %th Id
-            %th User
-        %tbody
-          = render partial: 'media_entry', collection: @media_entries
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Id
+          %th User
+      %tbody
+        = render partial: 'media_entry', collection: @media_entries
 
-= paginate @media_entries, theme: 'admin'
+= paginate @media_entries

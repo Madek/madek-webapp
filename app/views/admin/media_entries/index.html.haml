@@ -19,17 +19,16 @@
 
 .row
   .col-xs-12
-    .table-responsive
-      %table.table.table-striped
-        %thead
-          %tr
-            %th Title
-            %th Responsible person
-            %th Media File
-            %th ID
-            %th Created at
-            %th
-        %tbody
-          = render @media_entries
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Title
+          %th Responsible person
+          %th Media File
+          %th ID
+          %th Created at
+          %th
+      %tbody
+        = render @media_entries
 
 = paginate @media_entries

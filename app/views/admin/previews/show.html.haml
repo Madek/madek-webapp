@@ -18,12 +18,11 @@
 
 .row
   .col-xs-12
-    .table-responsive
-      %table.table.table-striped
-        %thead
-        %tbody
-          - @preview.attributes.each do |attr|
-            %tr
-              %td
-                %strong= attr.first.humanize
-              %td= attr.last
+    %table.table.table-striped
+      %thead
+      %tbody
+        - @preview.attributes.each do |attr|
+          %tr
+            %td
+              %strong= attr.first.humanize
+            %td= attr.last

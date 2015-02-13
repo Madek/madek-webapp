@@ -5,18 +5,17 @@
 
 .row
   .col-xs-12
-    .table-responsive
-      %table.table.table-striped
-        %thead
-        %tbody
-          - @media_entry.attributes.each do |attr|
-            %tr
-              %td
-                %strong= attr.first.humanize
-              %td= attr.last
+    %table.table.table-striped
+      %thead
+      %tbody
+        - @media_entry.attributes.each do |attr|
           %tr
             %td
-              %strong Media-File
-            %td
-              = link_to admin_media_file_path(@media_entry.media_file) do
-                Media-File: #{@media_entry.media_file.id}
+              %strong= attr.first.humanize
+            %td= attr.last
+        %tr
+          %td
+            %strong Media-File
+          %td
+            = link_to admin_media_file_path(@media_entry.media_file) do
+              Media-File: #{@media_entry.media_file.id}

@@ -4,7 +4,7 @@
     Sets (#{@collections.total_count})
 
 .row
-  .col-md-12
+  .col-xs-12
     .panel.panel-default
       .panel-heading
         .panel-title Search by title
@@ -16,15 +16,14 @@
             = submit_tag 'Apply', class: 'btn btn-primary'
             = link_to 'Reset', admin_collections_path, class: 'btn btn-default'
 .row
-  .col-md-12
-    .table-responsive
-      %table.table.table-striped
-        %thead
-          %tr
-            %th Title
-            %th Responsible user
-            %th
-        %tbody
-          = render partial: 'collection', collection: @collections
+  .col-xs-12
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Title
+          %th Responsible user
+          %th
+      %tbody
+        = render partial: 'collection', collection: @collections
 
-= paginate @collections, theme: 'admin'
+= paginate @collections
