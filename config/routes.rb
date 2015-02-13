@@ -57,6 +57,7 @@ MAdeK::Application.routes.draw do
     resources :media_files, only: :show
     resources :previews, only: [:show, :destroy]
     resources :zencoder_jobs, only: :show
+    resources :filter_sets, only: [:index, :show]
     root to: 'dashboard#index' 
   end
 

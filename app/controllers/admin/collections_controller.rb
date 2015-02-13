@@ -5,7 +5,6 @@ class Admin::CollectionsController < AdminController
     @collections = Collection.page(params[:page]).per(16)
     @collections = @collections.by_title(params[:search_terms]) \
       if params[:search_terms].present?
-    @collections.all
   end
 
   def show

@@ -1,0 +1,29 @@
+.page-header
+  %h1
+    %i.glyphicon.glyphicon-filter
+    #{@filter_set}
+
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-body
+        .btn-group
+          = link_to admin_user_path(@user), class: 'btn btn-default' do
+            %i.glyphicon.glyphicon-user
+            User: #{@user.person}
+
+.row
+  .col-xs-12
+    .table-responsive
+      %table.table.table-striped
+        %thead
+        %tbody
+        - @filter_set.attributes.each do |name, value|
+          %tr
+            %td= name.humanize
+            - case name
+            - when 'filter'
+              %td
+                %pre= value.to_yaml
+            - else
+              %td= value

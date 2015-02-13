@@ -9,6 +9,11 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/admin/dashboard_controller_spec.rb"
+"./spec/controllers/admin/filter_sets_controller_spec.rb":
+  name: "./spec/controllers/admin/filter_sets_controller_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/admin/filter_sets_controller_spec.rb"
 "./spec/controllers/admin/groups_controller_spec.rb":
   name: "./spec/controllers/admin/groups_controller_spec.rb"
   scripts:
