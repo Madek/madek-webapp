@@ -1,1 +1,4 @@
-%pre= JSON.pretty_generate @collections.map &:attributes
+.ui-container.mam.pam
+  %pre.ui-container.bright.phm.title-m
+    -# = JSON.pretty_generate @collections.map &:attributes
+    = JSON.pretty_generate @collections.as_json(root: true)
