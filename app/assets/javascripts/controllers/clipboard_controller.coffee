@@ -14,7 +14,7 @@ class ClipboardController
   collection: new App.Collection
   editableMediaEntriesCollection: new App.Collection
   manageableCollection: new App.Collection
-  
+
   constructor: (options)->
     @el = if options? and options.el? then $(options.el) else $(@el)
     @ui_el = @el.find ".ui-clipboard"
@@ -127,7 +127,7 @@ class ClipboardController
       do @showList
       do @counter_el.show
     if count > 99
-      do @showSizeAlert 
+      do @showSizeAlert
       do @clearList
     else if count != 0
       do @renderVisibleItems
@@ -135,10 +135,10 @@ class ClipboardController
   renderVisibleItems: ->
     if (_.any (@collection.ids), (id)=> not @visibleResources[id]?)
       App.MediaResource.fetch
-        pagination: 
+        pagination:
           per_page: 100
         ids: @collection.ids
-        with: 
+        with:
           media_type: true
           type: true
           title: true
@@ -149,7 +149,7 @@ class ClipboardController
       media_resources = for k,v of @visibleResources
         new App.MediaResource _.extend v, {id: k}
       @list_el.html App.render "clipboard/media_resource", media_resources
-      
+
   showSizeAlert: ->
     do @sizeAlert_el.siblings().hide
     do @sizeAlert_el.show
@@ -164,7 +164,7 @@ class ClipboardController
 
   clearList: -> @list_el.html ""
 
-  saveCollections: -> 
+  saveCollections: ->
     do @saveCollection
     do @saveEditableMediaEntriesCollection
     do @saveManageableCollection
@@ -217,13 +217,11 @@ class ClipboardController
     element = element.find("[data-clipboard-toggle]") unless element.is "[data-clipboard-toggle]"
     container = element.parents "[data-id]"
     mr = new App.MediaResource container.data()
-    if element.is ".active"
-      element.removeClass "active"
-      container.find("[data-clipboard-toggle]").removeClass "active"
+    if element.data('selected') is on
+      @setSelectedStatus(element, off)
       @remove mr
     else
-      element.addClass "active"
-      container.find("[data-clipboard-toggle]").addClass "active"
+      @setSelectedStatus(element, on)
       @add mr
 
   restoreVisibleResources: ->
@@ -238,8 +236,8 @@ class ClipboardController
     @addToCollections {ids: [mr.id]}
     @addToVisibleResources mr
 
-  openClose: -> 
-    do @toggle  
+  openClose: ->
+    do @toggle
     @toggleAnimationTimer = setTimeout (=> do @toggle), 1500
 
   removeElement: (element)-> @remove new App.MediaResource $(element).closest(".ui-resource").data()
@@ -254,7 +252,9 @@ class ClipboardController
     @deactivateCheckbox mr
     do @deActivateSelectAll
 
-  deactivateCheckbox: (mr)-> $("[data-id='#{mr.id}'] [data-clipboard-toggle]").removeClass "active"
+  deactivateCheckbox: (mr)->
+    el = $("[data-id='#{mr.id}'] [data-clipboard-toggle]")
+    @setSelectedStatus(el, off)
 
   clear: ->
     do @resetVisibleResources
@@ -272,7 +272,7 @@ class ClipboardController
   addToVisibleResources: (mr)->
     template = App.render "clipboard/media_resource", mr
     @list_el.append template
-    @visibleResources[mr.id] = 
+    @visibleResources[mr.id] =
       title: mr.title
       type: mr.type
       media_type: mr.media_type
@@ -283,7 +283,7 @@ class ClipboardController
       delete @visibleResources[id]
     do @saveVisibleResources
 
-  saveVisibleResources: -> 
+  saveVisibleResources: ->
     if @collection.count > 0
       sessionStorage.visibleResources = JSON.stringify @visibleResources
     else
@@ -313,8 +313,18 @@ class ClipboardController
     mr_el = $(target_el[0]).closest "[data-id]"
     id = mr_el.data "id"
     if @visibleResources[id]? or _.contains @collection.ids, id
-      target_el.addClass "active"
+      @setSelectedStatus(target_el, on)
     else
-      target_el.removeClass "active"
+      @setSelectedStatus(target_el, off)
+
+  setSelectedStatus: (el, status)->
+    el.data('selected', status)
+    indicator = el.find('i') or el
+    indicator.add(el) if el.hasClass('ui-thumbnail-action-checkbox')
+    if indicator?
+      if status is on
+        indicator.addClass('active')
+      else
+        indicator.removeClass('active')
 
 window.App.ClipboardController = ClipboardController
