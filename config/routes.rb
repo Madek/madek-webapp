@@ -2,20 +2,17 @@ MAdeK::Application.routes.draw do
 
   root to: 'application#root'
 
-  # RESTful Routes #############################################################
-  # NOTE: ALL Models are 'resources', don't confuse with "MediaResources"!
-
-  ## Concerns - used with several Resources ####################################
-  concern :previewable do
-    get 'preview/:size', action: :preview, as: 'preview', on: :member
-  end
+  # RESTful App Routes #########################################################
+  # NOTE: they are all 'resources' here, don't confuse with "MediaResources"!
 
   ## The resources we internally call "MediaResources":
-  resources :media_entries, path: 'entries', only: [:index, :show], concerns: :previewable
-  resources :collections, only: [:index, :show], concerns: :previewable
-  resources :filter_sets, only: [:index, :show], concerns: :previewable
+  resources :media_entries, path: 'entries', only: [:index, :show] do
+    get 'preview/:size', action: :preview, as: 'preview', on: :member
+  end
+  resources :collections, only: [:index, :show]
+  resources :filter_sets, only: [:index, :show]
 
-  # Other App routes ###########################################################
+  # Static App routes ##########################################################
   # TODO: resource 'users'?
   get 'my', to: 'my#dashboard', as: 'my_dashboard'
 

@@ -20,6 +20,20 @@ Rails calls them "Models".
 - [MetaData][]
 - [Permission][]s
 
+### [Preview][]
+
+Every [MediaEntry][] is "previewable" (in the UI) as an image.
+The image can come from several sources:
+
+- either by a compiled preview from the associated [MediaFile][]
+    - images are compiled locally using `imagemagick`
+    - videos are processed with [zencoder][], a framegrab is used as image
+    -
+- or a generic image, possibly representing the mime-type of the [MediaFile][]
+
+The `Presenter::ResourceThumbnail`
+
+
 ## [MediaFile][]
 
 [TODO]
