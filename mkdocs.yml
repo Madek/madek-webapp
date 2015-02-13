@@ -21,5 +21,6 @@ pages:
   - ['development/developer_rules.md', 'Developer', 'Developers Rules']
   - ['development/developer_rules_admin_interface.md',  'Developer', 'Developers Rules (Admin Interface)']
   - ['development/submit_and_review_process.md', 'Developer', 'Code Submit and Review']
+  - ['development/git-reflow.md', 'Developer', 'Git Re-Flow']
   - ['development/ui/framework.md', 'Developer', 'UI Framework']
   - ['development/madek_dev_tips.md', 'Developer', 'Dev Tips']

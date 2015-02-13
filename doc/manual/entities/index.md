@@ -8,25 +8,53 @@ Rails calls them "Models".
 
 # Primary
 
-## `MediaEntry`
+## [MediaEntry][]
+
+- most important [Resource][] in the App
+- has 1 [MediaFile][]
+    - has 1 [Preview][]
+- has [MetaData][]
+
+### Concerns:
+
+- [MetaData][]
+- [Permission][]s
+
+## [MediaFile][]
 
 [TODO]
 
-## `Collection`
+## [Collection][]
 
-Also known as `Set`.
+Formerly known as `Set`.
 
-[TODO]
+- is a [Resource][]
+- is a [MediaResource][]
+- has a list of [MediaEntries][]
+- belongs to `creator`=[User][]
 
-## `FilterSet`
+### Concerns:
 
-[TODO]
+- [MetaData][]
+- [Permission][]s
 
-## `Person`
 
-[TODO]
 
-- a generic `Person`
+## [FilterSet][]
+
+A saved `filter`.
+
+- has many [MediaEntries][], **NOT** through "normal" Relations,
+  but because they `filter` matches them!
+
+### Concerns:
+
+- [Permission][]s
+
+
+## [Person][]
+
+- a generic (real-world) `Person` (German: "Juristische Person")
 - *can* be linked to (equal to) a [`User`](#user)
 - *can* be linked to `MetaDatum` of type `MetaDatumPerson`  (i.e. "Author")
 
@@ -34,7 +62,8 @@ Also known as `Set`.
 
 * [`user`](#user), rails-type: `has_one`, effectively enforced by unique constraint on index
 
-## `User`
+
+## [User][]
 
 - User with account/login
 
@@ -43,17 +72,15 @@ Also known as `Set`.
 * [`person`](#person), rails-type: `belongs_to`, null: `false`
 
 
-## `Group`
+## [Group][]
 
-[TODO]
-
-- list of `Users`s
-- is manually defined by a `User`
-- not to be confused with `InstitutionalGroup`
+- list of [Users][]s
+- is manually defined by a [Users][]
+- not to be confused with [InstitutionalGroup][]
 
 ### Relations
 
-* [`users`](#user), rails-type: `has_many`
+* `users`: list of [Users][]s, rails-type: `has_many`
 
 ### Notes
 
@@ -62,13 +89,23 @@ Also known as `Set`.
 
 # Secondary
 
-## `InstitutionalGroup`
+## [InstitutionalGroup][]
+
+An externally-defined Group, synced with an `LDAP`-Directory.
+
+- has a list of [User][]s ("Members"),
+  which by definition must have User-ID from the same Directory.
 
 ### Notes
 
 * Subtype of [`Group`](#group), implemented as STI in the `groups` table
 
-## Permissions
+# Concerns
+
+Entities that have similar Relations to several [Resources][]s
+are called Concerns.
+
+## [Permission][]s
 
 Almost like [UNIX](https://en.wikipedia.org/wiki/File_system_permissions#Classes).
 Notable Differences:
@@ -78,7 +115,7 @@ Notable Differences:
 - there is no 'write', but distinct 'edit_data' and 'edit_permissions'
 
 
-### Owner
+### [Owner][]
 
 - for `MediaEntry`, `MediaSet`, `FilterSet`, there is always exactly 1 **owner**
 - has super-permission **"Delete and Change owner"** (Löschen und Verantwortlichkeit übertragen)
@@ -118,7 +155,7 @@ More granular permissions can be granted
 | ↳ "public"         | ✔                           | -                                                | -                                        | -                             |
 | *Beschreibung*     | betrachten                  | Metadaten editieren & Filtereinstellungen ändern | -                                        | Zugriffsberechtigungen ändern |
 
-## Copyright
+## [Copyright][]
 
 *This is a generic description which applies to all countries which have
 signed and implemented the ??? Copyright Treaty.*  
@@ -234,11 +271,12 @@ but for the ZHdK-Works mentioned above it is often:
 
 # Special
 
-## MediaResources
+## [MediaResource][]
 
-List of `MediaEntry`s and/or `Collection`s and/or `FilterSet`s (polymorphic).
+Either a [MediaEntry][] or a [Collection][] or a [FilterSet] (polymorphic).
 
-Formerly a "real" Model, now just a convention between [Presenters][] and [Decorators][] (so they only exist in the UI).
+Formerly a "real" Model, now just a convention between
+[Presenter][]s and [Decorator][]s (so they only exist in the UI).
 
 
 ---
@@ -253,7 +291,7 @@ defined here for clarity.
 **NOT** a dictionary (use Wikipedia).
 
 
-### Resource
+### [Resource][]
 
 - distinct kind of thing (noun)
 - *not* the "R" in "REST", but [REST is all about Resources](https://en.wikipedia.org/wiki/Representational_state_transfer#Software_architecture)
@@ -263,7 +301,7 @@ defined here for clarity.
     - "resourceful" model/view/controllers
 
 
-### Polymorph
+### [Polymorph][]
 
 > "Apples and Oranges can not be compared"
 
@@ -276,6 +314,21 @@ Note: There *are* `PolyThings` in the Application and they are called `Poly`
 to clearly mark them as such.
 
 
-[Presenters]: ../development/ui-framework/#presenters
-[Decorators]: ../development/ui-framework/#decorators
-[MediaFile]: #mediafile
+[Collection]: #Collection
+[Concern]: #Concern
+[Decorator]: ../development/ui-framework/#decorators
+[FilterSet]: #FilterSet
+[Group]: #Group
+[InstitutionalGroup]: #InstitutionalGroup
+[MediaEntries]: #MediaEntry
+[MediaEntry]: #MediaEntry
+[MediaFile]: #MediaFile
+[MediaResource]: #MediaResource
+[People]: #Person
+[Permission]: #Permission
+[Person]: #Person
+[polymorph]: #Polymorph
+[Presenter]: ../development/ui-framework/#presenters
+[Preview]: #Preview
+[Resource]: #Resource
+[User]: #User
