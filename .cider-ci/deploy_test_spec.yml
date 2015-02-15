@@ -6,7 +6,7 @@ task_defaults:
     deploy-madek-test: true
     linux: true
 
-  exclusive_global_resources:
+  exclusive_resources:
     "test.madek.zhdk.ch": true
 
   git_options: 
