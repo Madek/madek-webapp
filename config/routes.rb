@@ -1,4 +1,4 @@
-MAdeK::Application.routes.draw do
+Madek::Application.routes.draw do
 
   root to: 'application#root'
 

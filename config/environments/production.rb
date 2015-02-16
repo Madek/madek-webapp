@@ -1,4 +1,4 @@
-MAdeK::Application.configure do
+Madek::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
   config.eager_load = true

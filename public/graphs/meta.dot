@@ -1,4 +1,4 @@
-digraph "MAdeK keymapping" {
+digraph "Madek keymapping" {
     label = "Key Mapping Graph\n20.02.2013, 13:27"
     labeljust = l
     labelloc = t

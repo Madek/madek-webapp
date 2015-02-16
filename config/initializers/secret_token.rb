@@ -11,4 +11,4 @@
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
 
-MAdeK::Application.config.secret_key_base = 'cec2092059d551522a6a66663ab333d53800e7788af7b416f93fd9f6b34e2958af160d3aaa7e068e88f3c535423d3a84667424b0c7a3e1323f9c5811bc219e1b'
+Madek::Application.config.secret_key_base = 'cec2092059d551522a6a66663ab333d53800e7788af7b416f93fd9f6b34e2958af160d3aaa7e068e88f3c535423d3a84667424b0c7a3e1323f9c5811bc219e1b'
