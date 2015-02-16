@@ -2,9 +2,11 @@
 
   - if defined?(copy)
     .ui-footer-copy
-      - if copy[:logo].is_a?(Hash)
-        = component('link', href: copy[:logo][:link]) do
-          = copy[:logo][:content]
+      -# - if copy[:logo].is_a?(Hash)
+      -#   = component('link', href: copy[:logo][:link]) do
+      -#     = copy[:logo][:content]
+      %b{style: "font-weight: 600;font-family: \"Open Sans\";font-size: 16px;"}
+        = "Madek"
       = copy[:text]
 
   - if defined?(version)
