@@ -120,12 +120,11 @@ module MediaResourceModules
 
       def filter_permission_presets(resources, filter)
         id = filter[:ids]
-        filter[:category].each_pair do |k,v|
-          if v == "true"
-            resources = resources.accessible_by_group(id, k)
-          end
-        end
-        resources
+        view = filter[:category][:view] || false
+        download = filter[:category][:download] || false
+        edit = filter[:category][:edit] || false
+        manage = filter[:category][:manage] || false
+        resources.accessible_by_group_with_permissions(id, [view, download, edit, manage])
       end
 
       def filter_permissions(resources, current_user, filter)

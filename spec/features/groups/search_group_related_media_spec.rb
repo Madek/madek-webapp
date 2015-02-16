@@ -1,40 +1,47 @@
 require 'rails_helper'
 require 'spec_helper_feature_shared'
 
-feature "Search for group related media" do
+feature 'Search for group related media resources' do
   
-  scenario "Number of related media sets displayed in app_admin is the same as number of found media in the search engine", browser: :headless do
+  scenario 'Should find media sets related to a group, with appropriate permissions', browser: :headless do
     @current_user = sign_in_as 'adam'
+    group = FactoryGirl.create :group
+    media_set = FactoryGirl.create :media_set
+    FactoryGirl.create :grouppermission, view: true, download: true, edit: false, media_resource: media_set, group: group
+    media_set = FactoryGirl.create :media_set
+    @group_permission = FactoryGirl.create :grouppermission, view: true, download: false, edit: false, media_resource: media_set, group: group
     visit '/app_admin/groups'
-    find_input_with_name("filter[search_terms]").set("zhdk")
-    click_on_text "Apply"
-    within("tr#f7cc8c56-5b32-4f23-9a29-8e5c22f8cafc") do
-      @count = find(".sets-count").text
-      click_on_text "Media sets"
+    find_input_with_name('filter[search_terms]').set(group.name)
+    click_on_text 'Apply'
+    within("tr##{group.name[0] + group.id}") do
+      @count = find('.sets-count').text
     end
-    #new tab - click_on_text "Betrachter/in:"
-    visit media_resources_path(permission_presets: {ids: "f7cc8c56-5b32-4f23-9a29-8e5c22f8cafc", category: {view: true, download: false, manage: false, edit: false}}, type: "sets")
-    find("#user-action-button").click
-    click_on_text "In Admin-Modus wechseln"
-    count = find("#resources_counter").text
-    expect(count).to eq @count
-  end
- 
-  scenario "Number of related media entries displayed in app_admin is the same as number of found media entries in the search engine", browser: :headless do
-    @current_user = sign_in_as 'adam'
-    visit '/app_admin/groups'
-    find_input_with_name("filter[search_terms]").set("zhdk")
-    click_on_text "Apply"
-    within("tr#b9318f35-eb4d-4bc8-9220-64cf211e01ee") do
-      @count = find(".entries-count").text
-      click_on_text "Media entries"
-    end
-    #new tab - click_on_text "Betrachter/in & Original:"
-    visit media_resources_path(permission_presets: {ids: "b9318f35-eb4d-4bc8-9220-64cf211e01ee", category: {view: true, download: true, manage: false, edit: false}}, type: "media_entries")
-    count = find("#resources_counter").text
-    expect(count).to eq @count
+    visit media_resources_path(permission_presets: { ids: group.id, category: { view: true, download: false, manage: false, edit: false } }, type: 'sets')
+    find('#user-action-button').click
+    click_on_text 'In Admin-Modus wechseln'
+    count = find('#resources_counter').text
+    expect(count).to eq '1'
+    expect(@count).to eq '2'
   end
 
-  require Rails.root.join "spec","features","search","shared.rb"
-  include Features::Search::Shared
+  scenario 'Should find media entries related to a group, with appropriate permissions', browser: :headless do
+    @current_user = sign_in_as 'adam'
+    group = FactoryGirl.create :group
+    media_entry = FactoryGirl.create :media_entry_with_image_media_file
+    FactoryGirl.create :grouppermission, view: true, download: true, edit: false, media_resource: media_entry, group: group
+    media_entry = FactoryGirl.create :media_entry_with_image_media_file
+    @group_permission = FactoryGirl.create :grouppermission, view: true, download: false, edit: false, media_resource: media_entry, group: group
+    visit '/app_admin/groups'
+    find_input_with_name('filter[search_terms]').set(group.name)
+    click_on_text 'Apply'
+    within("tr##{group.name[0] + group.id}") do
+      @count = find('.entries-count').text
+    end
+    visit media_resources_path(permission_presets: { ids: group.id, category: { view: true, download: false, manage: false, edit: false } }, type: 'media_entries')
+    find('#user-action-button').click
+    click_on_text 'In Admin-Modus wechseln'
+    count = find('#resources_counter').text
+    expect(count).to eq '1'
+    expect(@count).to eq '2'
+  end
 end
