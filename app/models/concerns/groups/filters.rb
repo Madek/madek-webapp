@@ -8,14 +8,14 @@ module Concerns
           case filter
           when 'trgm_rank'
             if search_term.blank?
-              raise 'Search term must not be blank!'
+              raise ArgumentError, 'Search term must not be blank!'
             else
               trgm_rank_search(search_term) \
                 .order('name ASC, institutional_group_name ASC')
             end
           when 'text_rank'
             if search_term.blank?
-              raise 'Search term must not be blank!'
+              raise ArgumentError, 'Search term must not be blank!'
             else
               text_rank_search(search_term) \
                 .order('name ASC, institutional_group_name ASC')

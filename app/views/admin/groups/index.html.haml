@@ -29,9 +29,8 @@
             params[:type]), {class: 'form-control'}
       
           .form-group
-            = button_tag type: 'submit', class: 'btn btn-sm' do
-              %i.icon-filter
-              Apply
+            = submit_tag 'Apply', class: 'btn btn-primary'
+            = link_to 'Reset', admin_groups_path, class: 'btn btn-default'
     = link_to new_admin_group_path, class: 'btn btn-default' do
       %i.glyphicon.glyphicon-plus
       New group

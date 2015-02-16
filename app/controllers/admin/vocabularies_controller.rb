@@ -28,14 +28,11 @@ class Admin::VocabulariesController < AdminController
 
   def create
     @vocabulary = Vocabulary.new(new_vocabulary_params)
-    @vocabulary.save
+    @vocabulary.save!
 
     redirect_to admin_vocabularies_path, flash: {
-      success: 'The vocabulary has been created.'
+      success: ['The vocabulary has been created.']
     }
-  rescue => e
-    flash.now[:error] = e.to_s
-    render 'new'
   end
 
   def destroy
@@ -43,11 +40,7 @@ class Admin::VocabulariesController < AdminController
     @vocabulary.destroy!
 
     redirect_to admin_vocabularies_path, flash: {
-      success: 'The vocabulary has been deleted.'
-    }
-  rescue => e
-    redirect_to admin_vocabularies_path, flash: {
-      error: e.to_s
+      success: ['The vocabulary has been deleted.']
     }
   end
 

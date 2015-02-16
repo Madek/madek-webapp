@@ -15,6 +15,8 @@ class Vocabulary < ActiveRecord::Base
       .group('vocabularies.id')
   }
 
+  validates :id, presence: true
+
   def to_s
     id
   end

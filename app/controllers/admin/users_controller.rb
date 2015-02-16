@@ -20,7 +20,7 @@ class Admin::UsersController < AdminController
     @user.reset_usage_terms
 
     redirect_to admin_users_url, flash: {
-      success: 'The usage terms have been reset.'
+      success: ['The usage terms have been reset.']
     }
   end
 
@@ -41,10 +41,8 @@ class Admin::UsersController < AdminController
     @user.update!(user_params)
 
     redirect_to admin_user_path(@user), flash: {
-      success: 'The user has been updated.'
+      success: ['The user has been updated.']
     }
-  rescue => e
-    redirect_to edit_admin_user_path(@user), flash: { error: e.to_s }
   end
 
   def create
@@ -52,21 +50,16 @@ class Admin::UsersController < AdminController
     @user.save!
 
     redirect_to admin_users_path, flash: {
-      success: success_message_after_create
+      success: [success_message_after_create]
     }
-  rescue => e
-    flash.now[:error] = e.to_s
-    render (person_attributes? ? :new_with_person : :new)
   end
 
   def destroy
     @user.destroy
 
     redirect_to admin_users_path, flash: {
-      success: 'The user has been deleted.'
+      success: ['The user has been deleted.']
     }
-  rescue => e
-    redirect_to admin_user_path(@user), flash: { error: e.to_s }
   end
 
   def switch_to
@@ -78,18 +71,16 @@ class Admin::UsersController < AdminController
   def grant_admin_role
     Admin.create!(user: @user)
 
-    redirect_to :back, flash: {
-      success: 'The admin role has been granted to the user.'
+    redirect_to params[:redirect_path], flash: {
+      success: ['The admin role has been granted to the user.']
     }
-  rescue => e
-    redirect_to :back, flash: { error: e.to_s }
   end
 
   def remove_admin_role
     Admin.find_by(user_id: @user.id).destroy!
 
-    redirect_to :back, flash: {
-      success: 'The admin role has been removed from the user.'
+    redirect_to params[:redirect_path], flash: {
+      success: ['The admin role has been removed from the user.']
     }
   end
 
@@ -97,10 +88,8 @@ class Admin::UsersController < AdminController
     @group = Group.find params[:group_id]
     @group.users.delete User.find(params[:user_id])
     redirect_to admin_group_path(@group), flash: {
-      success: 'The user has been removed.'
+      success: ['The user has been removed.']
     }
-  rescue => e
-    redirect_to admin_group_path(@group), flash: { error: e.to_s }
   end
 
   private

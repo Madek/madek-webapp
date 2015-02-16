@@ -30,18 +30,20 @@ describe Admin::PreviewsController do
         delete :destroy, { id: @preview.id }, user_id: admin_user.id
 
         expect(response).to redirect_to(admin_media_file_path(@preview.media_file))
-        expect(flash[:success]).to eq 'The preview has been deleted.'
+        expect(flash[:success]).to eq ['The preview has been deleted.']
       end
     end
 
-    context 'when any error occured' do
+    context 'when preview does not exist' do
       it 'redirects to admin media file path with error message' do
-        allow_any_instance_of(Preview).to receive(:destroy!).and_raise('error')
+        delete(
+          :destroy,
+          { id: UUIDTools::UUID.random_create },
+          user_id: admin_user.id
+        )
 
-        delete :destroy, { id: @preview.id }, user_id: admin_user.id
-
-        expect(response).to redirect_to(admin_media_file_path(@preview.media_file))
-        expect(flash[:error]).to eq 'error'
+        expect(response).to have_http_status(:not_found)
+        expect(response).to render_template 'admin/errors/404'
       end
     end
   end

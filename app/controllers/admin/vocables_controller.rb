@@ -19,7 +19,7 @@ class Admin::VocablesController < AdminController
     @vocable.update!(vocable_params)
 
     redirect_to admin_vocabulary_vocables_path(@vocabulary), flash: {
-      success: 'The vocable has been updated.'
+      success: ['The vocable has been updated.']
     }
   end
 
@@ -33,11 +33,7 @@ class Admin::VocablesController < AdminController
     @vocable = Vocable.create(vocable_params)
 
     redirect_to admin_vocabulary_vocables_path(@vocabulary), flash: {
-      success: 'A vocable has been created.'
-    }
-  rescue => e
-    redirect_to admin_vocabulary_vocables_path(@vocabulary), flash: {
-      error: e.to_s
+      success: ['A vocable has been created.']
     }
   end
 
@@ -47,11 +43,7 @@ class Admin::VocablesController < AdminController
 
     @vocable.destroy!
     redirect_to admin_vocabulary_vocables_path(@vocabulary), flash: {
-      success: 'The vocable has been deleted.'
-    }
-  rescue => e
-    redirect_to admin_vocabulary_vocables_path(@vocabulary), flash: {
-      error: e.to_s
+      success: ['The vocable has been deleted.']
     }
   end
 

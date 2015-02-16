@@ -128,17 +128,29 @@ describe Admin::VocabulariesController do
       expect(flash[:success]).not_to be_empty
     end
 
-    context 'when vocabulary with ID exists' do
+    context 'when vocabulary with ID already exists' do
       let!(:vocabulary) { create :vocabulary, id: vocabulary_params[:id] }
 
-      it 'renders new template with error message' do
+      it 'renders error template' do
         post :create, { vocabulary: vocabulary_params }, user_id: admin_user.id
 
-        expect(response).to render_template :new
-        vocabulary_params.each_pair do |key, value|
-          expect(assigns[:vocabulary].send(key)).to eq value
-        end
-        expect(flash[:error]).to be_present
+        expect(response).to have_http_status(500)
+        expect(response).to render_template 'admin/errors/500'
+      end
+    end
+
+    context 'when no params were sent' do
+      it 'renders error template' do
+        post(
+          :create,
+          {
+            vocabulary: { id: nil, label: nil, description: nil }
+          },
+          user_id: admin_user.id
+        )
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to render_template 'admin/errors/422'
       end
     end
   end
@@ -164,20 +176,18 @@ describe Admin::VocabulariesController do
       end
     end
 
-    context "when delete wasn't successful" do
+    context "when vocabulary doesn't exist" do
       before do
-        allow_any_instance_of(Vocabulary).to receive(:destroy!).and_raise('error')
-        delete :destroy, { id: vocabulary.id }, user_id: admin_user.id
+        delete(
+          :destroy,
+          { id: UUIDTools::UUID.random_create },
+          user_id: admin_user.id
+        )
       end
 
-      it 'redirects to admin vocabularies path' do
-        expect(response).to have_http_status(302)
-        expect(response).to redirect_to(admin_vocabularies_path)
-      end
-
-      it 'displays error message' do
-        expect(flash[:success]).not_to be_present
-        expect(flash[:error]).to eq 'error'
+      it 'renders error template' do
+        expect(response).to have_http_status(404)
+        expect(response).to render_template 'admin/errors/404'
       end
     end
   end

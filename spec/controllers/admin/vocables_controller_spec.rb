@@ -178,24 +178,19 @@ describe Admin::VocablesController do
       end
     end
 
-    context 'when delete raised an error' do
-      before do
-        allow_any_instance_of(Vocable).to receive(:destroy!).and_raise('error')
+    context 'when vocables does not exist' do
+      it 'renders error template' do
         delete(
           :destroy,
-          { vocabulary_id: vocabulary.id, id: vocable.id },
+          {
+            vocabulary_id: vocabulary.id,
+            id: UUIDTools::UUID.random_create
+          },
           user_id: admin_user.id
         )
-      end
 
-      it 'redirects to admin vocabularies path' do
-        expect(response).to have_http_status(302)
-        expect(response).to redirect_to(admin_vocabulary_vocables_path(vocabulary))
-      end
-
-      it 'displays error message' do
-        expect(flash[:success]).not_to be_present
-        expect(flash[:error]).to eq 'error'
+        expect(response).to have_http_status(:not_found)
+        expect(response).to render_template 'admin/errors/404'
       end
     end
   end

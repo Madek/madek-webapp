@@ -8,11 +8,7 @@ class Admin::PreviewsController < AdminController
     preview.destroy!
 
     redirect_to admin_media_file_path(preview.media_file), flash: {
-      success: 'The preview has been deleted.'
-    }
-  rescue => e
-    redirect_to admin_media_file_path(preview.media_file), flash: {
-      error: e.to_s
+      success: ['The preview has been deleted.']
     }
   end
 

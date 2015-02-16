@@ -67,7 +67,7 @@ describe Admin::GroupsController do
             { search_terms: '', sort_by: 'text_rank' },
             user_id: admin_user.id
           )
-          expect(flash[:error]).to eq 'Search term must not be blank!'
+          expect(assigns[:alerts][:error]).to eq ['Search term must not be blank!']
         end
       end
 
@@ -92,7 +92,7 @@ describe Admin::GroupsController do
             { search_terms: '', sort_by: 'trgm_rank' },
             user_id: admin_user.id
           )
-          expect(flash[:error]).to eq 'Search term must not be blank!'
+          expect(assigns[:alerts][:error]).to eq ['Search term must not be blank!']
         end
       end
     end
@@ -139,11 +139,11 @@ describe Admin::GroupsController do
         user_id: admin_user.id
       )
 
-      expect(flash[:success]).to eq 'The group has been updated.'
+      expect(flash[:success]).to eq ['The group has been updated.']
       expect(group.reload.name).to eq 'NEW NAME'
     end
 
-    context 'failed valdations' do
+    context 'failed validations' do
       it 'displays error messages and redirects' do
         patch(
           :update,
@@ -151,9 +151,8 @@ describe Admin::GroupsController do
           user_id: admin_user.id
         )
 
-        expect(response).to have_http_status(302)
-        expect(response).to redirect_to edit_admin_group_path(assigns(:group))
-        expect(flash[:error]).not_to be_nil
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to render_template 'admin/errors/422'
       end
     end
   end
@@ -163,7 +162,7 @@ describe Admin::GroupsController do
       post :create, { group: attributes_for(:group) }, user_id: admin_user.id
 
       expect(response).to redirect_to admin_group_path(assigns(:group))
-      expect(flash[:success]).to eq 'A new group has been created.'
+      expect(flash[:success]).to eq ['A new group has been created.']
     end
 
     it 'creates a group' do
@@ -173,12 +172,11 @@ describe Admin::GroupsController do
     end
 
     context 'failed validation' do
-      it 'displays errors and redirects' do
-        post :create, nil, user_id: admin_user.id
+      it 'renders error template' do
+        post :create, { group: { name: '' } }, user_id: admin_user.id
 
-        expect(response).to have_http_status(302)
-        expect(response).to redirect_to new_admin_group_path(assigns(:group))
-        expect(flash[:error]).not_to be_nil
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to render_template 'admin/errors/422'
       end
     end
   end
@@ -186,17 +184,34 @@ describe Admin::GroupsController do
   describe '#destroy' do
     let!(:group) { create :group }
 
-    it 'redirects to admin groups path after a successful destroy' do
-      delete :destroy, { id: group.id }, user_id: admin_user.id
+    context 'when group does not have any users' do
+      it 'redirects to admin groups path after a successful destroy' do
+        delete :destroy, { id: group.id }, user_id: admin_user.id
 
-      expect(response).to redirect_to(admin_groups_path)
-      expect(flash[:success]).to eq 'The group has been deleted.'
+        expect(response).to redirect_to(admin_groups_path)
+        expect(flash[:success]).to eq ['The group has been deleted.']
+      end
+
+      it 'destroys the group' do
+        expect do
+          delete :destroy, { id: group.id }, user_id: admin_user.id
+        end.to change { Group.count }.by(-1)
+      end
     end
 
-    it 'destroys the group' do
-      expect do
-        delete :destroy, { id: group.id }, user_id: admin_user.id
-      end.to change { Group.count }.by(-1)
+    context 'when group has some users' do
+      before { group.users << [create(:user), create(:user)] }
+
+      it 'redirects to a correct path depending on referrer param' do
+        delete(
+          :destroy,
+          { id: group.id, redirect_path: admin_group_path(group) },
+          user_id: admin_user.id
+        )
+
+        expect(response).to have_http_status(302)
+        expect(response).to redirect_to admin_group_path(group)
+      end
     end
   end
 
@@ -208,7 +223,9 @@ describe Admin::GroupsController do
       post :add_user, { id: group.id, user_id: user.id }, user_id: admin_user.id
 
       expect(response).to redirect_to(admin_group_path(group))
-      expect(flash[:success]).to eq "The user <b>#{user.login}</b> has been added."
+      expect(flash[:success]).to eq [
+        "The user <b>#{user.login}</b> has been added."
+      ]
     end
 
     it 'adds user to selected group' do
@@ -222,13 +239,14 @@ describe Admin::GroupsController do
       post :add_user, { id: group.id, user_id: user.id }, user_id: admin_user.id
       expect(response).to redirect_to(admin_group_path(group))
       expect(flash[:error]) \
-        .to eq "The user <b>#{user.login}</b> already belongs to this group."
+        .to eq ["The user <b>#{user.login}</b> already belongs to this group."]
     end
 
-    it 'displays error messages if something goes wrong' do
-      post :add_user, { id: group.id, user_id: '123' }, user_id: admin_user.id
-      expect(response).to redirect_to(admin_group_path(group))
-      expect(flash[:error]).to_not be_nil
+    it 'displays error template if something goes wrong' do
+      post :add_user, { id: group.id, user_id: '' }, user_id: admin_user.id
+
+      expect(response).to have_http_status(500)
+      expect(response).to render_template 'admin/errors/500'
     end
   end
 
@@ -252,17 +270,18 @@ describe Admin::GroupsController do
         user_id: admin_user.id
       )
       expect(response).to redirect_to(admin_group_path(department2))
-      expect(flash[:success]).to eq 'The group has been merged.'
+      expect(flash[:success]).to eq ['The group has been merged.']
     end
 
-    it "displays error messages if target group isn't istitutional group" do
+    it "displays error template if target group isn't institutional group" do
       post(
         :merge_to,
         { id: department1.id, id_receiver: group.id },
         user_id: admin_user.id
       )
-      expect(response).to redirect_to(admin_group_path(department1))
-      expect(flash[:error]).not_to be_nil
+
+      expect(response).to have_http_status(:not_found)
+      expect(response).to render_template 'admin/errors/404'
     end
   end
 end

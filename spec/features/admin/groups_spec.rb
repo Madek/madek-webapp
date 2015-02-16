@@ -70,7 +70,9 @@ feature 'Admin Groups' do
     click_link('New group')
     fill_in 'group[name]', with: ''
     click_button 'Save'
-    expect(page).to have_css('.alert-danger')
+    expect(page).to have_content 'An error occured'
+    expect(page).to have_content 'code: 422'
+    click_link 'Go back'
     fill_in 'group[name]', with: 'NEW AWESOME GROUP'
     click_button 'Save'
     expect(page).to have_css('.alert-success')
@@ -130,7 +132,8 @@ feature 'Admin Groups' do
     click_link 'Merge to'
     fill_in 'id_receiver', with: @merge_to.id
     click_button 'Merge'
-    expect(page).to have_css('.alert-danger')
+    expect(page).to have_content 'An error occured'
+    expect(page).to have_content 'code: 404'
   end
 
   scenario 'Merging institutional groups' do
