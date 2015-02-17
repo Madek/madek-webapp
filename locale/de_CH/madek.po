@@ -289,8 +289,8 @@ msgstr "Inhalte erkunden"
 msgid "Export"
 msgstr "Exportieren"
 
-msgid "Export original"
-msgstr "Original exportieren"
+msgid "Get full size"
+msgstr "Original exportieren und in PDF blättern"
 
 msgid "External users"
 msgstr "Externe"
@@ -449,14 +449,17 @@ msgstr "Bilder, Videos, Audio-Dateien oder Dokumente  bereitstellen:"
 msgid "Manage"
 msgstr "Verwalten"
 
-msgid "Manage permissions"
-msgstr "Berechtigungen verwalten"
+msgid "Edit permissions"
+msgstr "Zugriffsberechtigungen ändern"
 
 msgid "Manage newly uploaded content using sets (optional):"
 msgstr "Die neuen Inhalte in Sets verwalten (optional):"
 
 msgid "Me"
 msgstr "Ich"
+
+msgid "Get metadata and previews"
+msgstr "Betrachten"
 
 msgid "Media entries"
 msgstr "Medieneinträge"

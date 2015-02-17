@@ -429,9 +429,9 @@ window.i18n.locale_data = {
          null,
          "Exportieren"
       ],
-      "Export original": [
+      "Get full size": [
          null,
-         "Original exportieren"
+         "Original exportieren und in PDF blättern"
       ],
       "External users": [
          null,
@@ -629,9 +629,9 @@ window.i18n.locale_data = {
          null,
          "Verwalten"
       ],
-      "Manage permissions": [
+      "Edit permissions": [
          null,
-         "Berechtigungen verwalten"
+         "Zugriffsberechtigungen ändern"
       ],
       "Manage newly uploaded content using sets (optional):": [
          null,
@@ -640,6 +640,10 @@ window.i18n.locale_data = {
       "Me": [
          null,
          "Ich"
+      ],
+      "Get metadata and previews": [
+         null,
+         "Betrachten"
       ],
       "Media entries": [
          null,

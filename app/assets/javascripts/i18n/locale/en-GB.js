@@ -380,10 +380,6 @@ window.i18n.locale_data = {
          null,
          "Edit metadata of these media entries"
       ],
-      "Edit permissions": [
-         null,
-         "Edit permissions"
-      ],
       "Empty": [
          null,
          "Empty"
@@ -612,9 +608,9 @@ window.i18n.locale_data = {
          null,
          "Manage"
       ],
-      "Manage permissions": [
+      "Edit permissions": [
          null,
-         "Manage permissions"
+         "Edit permissions"
       ],
       "Manage newly uploaded content using sets (optional):": [
          null,

@@ -248,9 +248,6 @@ msgstr ""
 msgid "Edit metadata of these media entries"
 msgstr ""
 
-msgid "Edit permissions"
-msgstr ""
-
 msgid "Empty"
 msgstr ""
 
@@ -435,7 +432,7 @@ msgstr ""
 msgid "Manage" 
 msgstr ""
 
-msgid "Manage permissions"
+msgid "Edit permissions"
 msgstr ""
 
 msgid "Manage newly uploaded content using sets (optional):"

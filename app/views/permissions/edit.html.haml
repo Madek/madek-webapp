@@ -23,10 +23,10 @@
           %h1.title-xl
             %i.icon-lock
             - case @action
-            - when :view 
+            - when :view
               =_"Permissions"
             - when :edit
-              =_"Manage permissions"
+              =_"Edit permissions"
             = _"of"
             - if @media_resources.count == 1
               "#{@media_resources.first.title}"
@@ -46,7 +46,7 @@
               
             - if some_can_be_managed
               =link_to edit_permissions_path(params.slice(:media_resource_id,:collection_id).merge({_action: "edit"})), id: "edit-permissions",data: {manageable: true}, class: "primary-button" do
-                =_("Manage permissions")
+                =_("Edit permissions")
 
     .app-body-ui-container
 
@@ -77,10 +77,10 @@
                   - if @responsible_users.count <= 3
                     - @responsible_users.sort.each do |user|
                       - case @action
-                      - when :edit 
+                      - when :edit
                         %li.person-tag= user
-                      - when :view 
-                        %li 
+                      - when :view
+                        %li
                           =link_to media_resources_path(search: user.person.fullname), class: "person-tag" do
                             = user
                         
@@ -89,7 +89,7 @@
               %h2.title-l.ui-info-box-title Ihre Berechtigungen
               %p.ui-info-box-intro Sie, #{current_user}, haben gegenwärtig als Person oder als Mitglied einer Gruppe folgende Berechtigungen
               %ul.inline
-                - action_map= {view: "View", download: "Export original", edit: "Edit metadata" , manage: "Manage permissions"}
+                - action_map= {view: "Get metadata and previews", download: "Get full size", edit: "Edit metadata" , manage: "Edit permissions"}
                 - [:view, :download, :edit, :manage].each do |action|
                   - if @media_resources.accessible_by_user(current_user,action).count == @media_resources.count
                     %li<>

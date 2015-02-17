@@ -13,10 +13,10 @@
               ${_jed('People')}
               %i.icon-privacy-private-alt
             %td.ui-rights-role-title  ${_jed('Permission')}
-            %td.ui-rights-check-title ${_jed('View')}
-            %td.ui-rights-check-title ${_jed('Export original')}
+            %td.ui-rights-check-title ${_jed('Get metadata and previews')}
+            %td.ui-rights-check-title ${_jed('Get full size')}
             %td.ui-rights-check-title ${_jed('Edit metadata')}
-            %td.ui-rights-check-title ${_jed('Manage permissions')}
+            %td.ui-rights-check-title ${_jed('Edit permissions')}
 
         %tbody
           {{tmpl(users, {presets: presets, manageable: $item.manageable}) App.renderPath("permissions/line")}}
