@@ -9,12 +9,26 @@ require 'spec_helper'
   'in_responsibility_of_user_spec.rb',
   'meta_data_spec.rb',
   'validates_spec.rb'
-]
-  .each do |file|
+].each do |file|
   require Rails.root.join 'spec', 'models', 'shared', file
 end
 
 ##########################################################
+
+describe MediaEntryIncomplete do
+
+  describe 'Creation' do
+
+    it 'should be producible by a factory' do
+      expect do
+        @mei = FactoryGirl.create :media_entry_incomplete
+      end.not_to raise_error
+      expect(@mei.persisted?).to be true
+    end
+
+  end
+
+end
 
 describe MediaEntry do
 

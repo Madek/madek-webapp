@@ -37,9 +37,9 @@ describe Admin::GroupsController do
           group3 = create :group, name: 'test3'
 
           get(
-              :index,
-              { search_terms: 'test', sort_by: 'name' },
-              user_id: admin_user.id
+            :index,
+            { search_terms: 'test', sort_by: 'name' },
+            user_id: admin_user.id
           )
 
           expect(assigns(:groups)).to match_array [group1, group2, group3]

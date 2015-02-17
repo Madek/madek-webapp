@@ -4,7 +4,7 @@ def clean_db
   ActiveRecord::Base.connection.tap do |connection|
     connection
       .tables
-      .reject { |tn|tn == 'schema_migrations' }
+      .reject { |tn| tn == 'schema_migrations' }
       .join(', ')
       .tap do |tables|
         connection.execute " TRUNCATE TABLE #{tables} CASCADE; "

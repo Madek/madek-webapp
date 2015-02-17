@@ -55,7 +55,7 @@ module LivingStyleguide
 
   def build_elements(section)
     section[:elements] = section[:elements]
-      .map { | element | build_element_obj(element) }
+      .map { |element| build_element_obj(element) }
       .sort { |a, b| a[:nr] <=> b[:nr] }
     section
   end

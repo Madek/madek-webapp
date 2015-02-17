@@ -5,9 +5,9 @@ class CollectionsController < ApplicationController
   def index
     @collections = \
       filter_by_entrusted \
-      filter_by_favorite \
-      filter_by_responsible \
-      Collection.all
+        filter_by_favorite \
+          filter_by_responsible \
+            Collection.all
   end
 
   def show

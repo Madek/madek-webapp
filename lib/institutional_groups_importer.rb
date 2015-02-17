@@ -36,7 +36,7 @@ module InstitutionalGroupsImporter
     def update_and_log!(igroup)
       db_igroup = \
         InstitutionalGroup.find_or_initialize_by \
-        institutional_group_id: igroup['institutional_group_id']
+          institutional_group_id: igroup['institutional_group_id']
 
       db_igroup_relevant_attributes = \
         db_igroup.slice('institutional_group_id',

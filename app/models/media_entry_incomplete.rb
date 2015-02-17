@@ -1,0 +1,3 @@
+class MediaEntryIncomplete  < MediaEntry
+
+end
