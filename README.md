@@ -16,19 +16,16 @@ Ansible-Setup Project](https://github.com/zhdk/madek-ansible-setup).
 
 Browse the [doc](./doc) folder for documentation. 
 
-The entities diagrams [current](http://rawgit.com/zhdk/madek/madek-v3/doc/database_and_entities/Schema.svg)
-and [v3](http://rawgit.com/zhdk/madek/madek-v3/doc/database_and_entities/Schema_vision.svg) are notable. 
-
-The old [Madek-Wiki](http://github.com/zhdk/madek/wiki) is outdated and
-contains mostly wrong information. 
+The entities diagrams [current](http://rawgit.com/zhdk/madek/madek-v3/doc/manual/entities/entities_database_schemata/Schema.svg)
+and [v3](http://rawgit.com/zhdk/madek/madek-v3/doc/manual/entities/entities_database_schemata/Schema_vision.svg) are notable. 
 
 
 ## State 
 
 ### `madek-v3` branch 
 
-<a href="http://ci2.zhdk.ch/cider-ci/ui/public/madek/madek-v3/tests,code-check,coverage/summary.html">
-  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/madek/madek-v3/tests,code-check,coverage/summary.svg?respond_width_200">
+<a href="http://ci2.zhdk.ch/cider-ci/ui/public/madek/madek-v3/tests,code-check,coverage,deploy-test/summary.html">
+  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/madek/madek-v3/tests,code-check,coverage,deploy-test/summary.svg?respond_width_200&orientation=vertical">
   </img>
 </a>
 
@@ -38,7 +35,7 @@ contains mostly wrong information.
 #### `next` branch
 
 <a href="http://ci2.zhdk.ch/cider-ci/ui/public/madek/next/tests,code-check,coverage/summary.html">
-  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/madek/next/tests,code-check,coverage/summary.svg?respond_width_200">
+  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/madek/next/tests,code-check,coverage/summary.svg?respond_width_200&orientation=vertical">
   </img>
 </a>
 
@@ -49,7 +46,7 @@ contains mostly wrong information.
 #### `master` branch
 
 <a href="http://ci2.zhdk.ch/cider-ci/ui/public/madek/master/tests,code-check,coverage/summary.html">
-  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/madek/master/tests,code-check,coverage/summary.svg?respond_width_200">
+  <img src="http://ci2.zhdk.ch/cider-ci/ui/public/madek/master/tests,code-check,coverage/summary.svg?respond_width_200&orientation=vertical">
   </img>
 </a>
 
