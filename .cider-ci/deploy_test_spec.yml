@@ -2,31 +2,24 @@ name: Deploy Madek V3 to Test
 
 task_defaults:
 
-  traits: 
+  traits:
     deploy-madek-test: true
     linux: true
 
   exclusive_resources:
     "test.madek.zhdk.ch": true
 
-  git_options: 
-    submodules: 
-      clone: true 
+  git_options:
+    submodules:
+      clone: true
       timeout: 30
 
 tasks:
-  deploy: 
+  deploy:
     name: Deploy
     auto_trials: 1
 
-    scripts: 
-      set_git_ref: 
-        order: 1
-        body: >
-          echo "madek_git_ref: $(git log -n 1 --pretty='%H')" >> deploy/ansible/host_vars/zhdk-test
-
-      deploy: 
-        order: 2
-        body: cd deploy/ansible && ansible-playbook -i hosts_zhdk-test play_setup-and-deploy.yml
+    scripts:
+      deploy:
+        body: REF=$(git log -n 1 --pretty='%H') && cd deploy/ansible && ansible-playbook -i hosts_zhdk-test play_setup-and-deploy.yml -e madek_git_ref=$REF
         timeout: 3600
-
