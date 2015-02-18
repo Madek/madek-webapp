@@ -2,6 +2,16 @@ This is a collection of small tips and guides that don't fit anywhere else.
 Use it as a 'staging' area to quickly write down stuff.
 It should be regularly checked if sections from here should go e.g. to the Manual.
 
+
+# Ajax: use callbacks
+
+```js
+$.ajax({ success: fn, error: fn });
+```
+
+<iframe src="//giphy.com/embed/yoJC2w7g94RPFYc0mI" width="480" height="313" frameBorder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
+
 # Images/Thumbnails
 
 We currently have the following image sizes (aka thumbails):

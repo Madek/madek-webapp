@@ -1,5 +1,14 @@
 # Git Workflow
 
+Work in Progress.  
+
+A much detailed description of a very similar process is [here](http://doc.gitlab.com/ee/workflow/gitlab_flow.html).  
+This guide focuses on the concrete steps/commands a developer has to do,
+and breaking it down into small concrete steps.
+
+<mark>TODO: init, release flow</mark>
+
+
 ## Config
 
 First of all: Avoid non-fast-forward (aka ugly) merges:
@@ -59,9 +68,7 @@ git push --force $origin $personal_branch
 
 - Simplest form is a "private next",
 as a staging area for merges, linting, CI, ….  
-  ```bash
-  private_next=nn_next
-  ```
+  `private_next=nn_next`
 
 - It might also relate to a feature or directly to a ticket  
   `nn_next_fix-the-buggy-bug`
