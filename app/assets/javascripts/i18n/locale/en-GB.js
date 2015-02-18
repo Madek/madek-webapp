@@ -374,7 +374,7 @@ window.i18n.locale_data = {
       ],
       "Edit metadata": [
          null,
-         "Edit metadata"
+         "Edit metadata and add to Set"
       ],
       "Edit metadata of these media entries": [
          null,

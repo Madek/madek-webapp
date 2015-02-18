@@ -253,6 +253,9 @@ msgstr "Filterset editieren"
 msgid "Edit metadata"
 msgstr "Metadaten editieren"
 
+msgid "Edit metadata and add to Set"
+msgstr "Metadaten editieren & Inhalte zu Set hinzufügen"
+
 msgid "Edit metadata of these media entries"
 msgstr "Metadaten von Medieneinträgen editieren"
 
@@ -290,7 +293,7 @@ msgid "Export"
 msgstr "Exportieren"
 
 msgid "Get full size"
-msgstr "Original exportieren und in PDF blättern"
+msgstr "Original exportieren & in PDF blättern"
 
 msgid "External users"
 msgstr "Externe"

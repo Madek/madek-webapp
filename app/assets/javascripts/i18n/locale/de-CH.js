@@ -381,6 +381,10 @@ window.i18n.locale_data = {
          null,
          "Metadaten editieren"
       ],
+      "Edit metadata and add to Set": [
+         null,
+         "Metadaten editieren & Inhalte zu Set hinzufügen"
+      ],
       "Edit metadata of these media entries": [
          null,
          "Metadaten von Medieneinträgen editieren"
@@ -431,7 +435,7 @@ window.i18n.locale_data = {
       ],
       "Get full size": [
          null,
-         "Original exportieren und in PDF blättern"
+         "Original exportieren & in PDF blättern"
       ],
       "External users": [
          null,

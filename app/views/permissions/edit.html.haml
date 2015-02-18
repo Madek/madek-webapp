@@ -89,7 +89,7 @@
               %h2.title-l.ui-info-box-title Ihre Berechtigungen
               %p.ui-info-box-intro Sie, #{current_user}, haben gegenwärtig als Person oder als Mitglied einer Gruppe folgende Berechtigungen
               %ul.inline
-                - action_map= {view: "Get metadata and previews", download: "Get full size", edit: "Edit metadata" , manage: "Edit permissions"}
+                - action_map= {view: "Get metadata and previews", download: "Get full size", edit: "Edit metadata and add to Set", manage: "Edit permissions"}
                 - [:view, :download, :edit, :manage].each do |action|
                   - if @media_resources.accessible_by_user(current_user,action).count == @media_resources.count
                     %li<>

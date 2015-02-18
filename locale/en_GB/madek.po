@@ -246,6 +246,9 @@ msgstr "Edit filter set"
 msgid "Edit metadata"
 msgstr "Edit metadata"
 
+msgid "Edit metadata"
+msgstr "Edit metadata and add to Set"
+
 msgid "Edit metadata of these media entries"
 msgstr "Edit metadata of these media entries"
 
