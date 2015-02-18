@@ -11,13 +11,13 @@ theme: readthedocs
 # The Table of contents, files relative to ./doc
 # - [ file, main-section, sub-section name/heading ]
 pages:
-  - ['index.md']
-  - ['manual/index.md', 'Manual', 'Overview']
-  - ['manual/entities/index.md', 'Manual', 'Entities']
+  - ['docs-overview.md']
+  - ['manual/manual.md', 'Manual', 'Overview']
+  - ['manual/entities/entities.md', 'Manual', 'Entities']
   - ['manual/views.md', 'Manual', 'Views']
   - ['manual/glossary.md', 'Manual', 'Glossary']
 
-  - ['development/index.md', 'Developer', 'Overview']
+  - ['development/development-overview.md', 'Developer', 'Overview']
   - ['development/developer_rules.md', 'Developer', 'Developers Rules']
   - ['development/developer_rules_admin_interface.md',  'Developer', 'Developers Rules (Admin Interface)']
   - ['development/submit_and_review_process.md', 'Developer', 'Code Submit and Review']
