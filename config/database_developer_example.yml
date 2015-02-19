@@ -3,7 +3,6 @@ pg: &pg
   host: localhost
   encoding: unicode
   username: postgres
-  host: localhost
   password:
   pool: 5
  
