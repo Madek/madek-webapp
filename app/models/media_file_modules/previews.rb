@@ -43,7 +43,7 @@ module MediaFileModules
         cmd= %Q<convert "#{file}"[0] -auto-orient -thumbnail "#{value}" -flatten -unsharp 0x.5 "#{outfile}">
         Rails.logger.info "CREATING THUMBNAIL `#{cmd}`"
         `#{cmd}`
-        if File.exists?(outfile) && (File.size(file) > File.size(outfile))
+        if File.exists?(outfile) 
           x,y = `identify -format "%wx%h" "#{outfile}"`.split('x')
           if x and y
             previews.create(:content_type => 'image/jpeg', :filename => outfile.split('/').last, :height => y, :width => x, :thumbnail => thumb_size.to_s )
