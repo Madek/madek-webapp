@@ -1,4 +1,5 @@
 class RecreatePreviewsFixJgSizeConstraint < ActiveRecord::Migration
+  disable_ddl_transaction!
   def change
     MediaFile.where("created_at > '2014-10-01'::date").find_each do |mf|
       if mf.previews_creatable?
