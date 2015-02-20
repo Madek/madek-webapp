@@ -23,7 +23,7 @@ this principle in general. There are no exceptions.
 
 
 
-Specific Asspects
+Specific Buttpects
 -----------------
 
 * The base url of the new admin-interface is `/admin/`.
