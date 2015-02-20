@@ -14,7 +14,7 @@ $.ajax({ success: fn, error: fn });
 
 # Images/Thumbnails
 
-We currently have the following image sizes (aka thumbails):
+We currently have the following image sizes (aka thumbnails):
 
 | Name        | Size  (longest Side) |
 |-------------|----------------------|
@@ -68,7 +68,7 @@ TODO: @DrTom (just a very general guideline)
 - if we ever `.show()` the table (or parent),
   **we need to initialize it ourselves!**
     - reason: `jQuery` does not have an `.on('show')` event we could hook into
-    - for convienice, the correct function call is attached to the DOM element,
+    - for convenience, the correct function call is attached to the DOM element,
       use it like this:  
       ````js
       // find the table

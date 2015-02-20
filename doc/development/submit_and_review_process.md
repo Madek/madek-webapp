@@ -24,12 +24,12 @@ Submitting
 ----------
 
 An entity of work can be either submitted via a ticket on pivotal or by a pull
-request on github. It must adhere to the following rules. 
+request on Github. It must adhere to the following rules. 
 
 1. All changes must be contained in one single commit.
 
 2. This single commit must be directly related to the current working
-  branch (either `next` oder `madek-v3`). 
+  branch (either `next` or `madek-v3`). 
 
 3.  The submit comment must contain a link pointing to the executions ci2.zhdk.ch which must contain:
 
@@ -42,18 +42,18 @@ Reviewing
 
 A submitted entity of work must be reviewed by the architect
 (Thomas.Schank@zhdk.ch) or by a person designated by the architect. In the case
-of a work related to a ticket on privotal the ticked might specify the
+of a work related to a ticket on Pivotal the ticked might specify the
 designated reviewer in advance. 
 
 The review must conclude with a summary comment on the pivotal ticket or the
-github commit. This comment must contain information if the request is accepted
+Github commit. This comment must contain information if the request is accepted
 or rejected.
 
 
 Merging
 -------
 
-If the summited work is accepted the reviewer must merge the work in a single
+If the submitted work is accepted the reviewer must merge the work in a single
 commit on top to the current working branch. The author of the commit must
 refer to the original author who submitted the work and the committer must
 refer to the person who reviewed and merged the commit. 
@@ -63,7 +63,7 @@ Relaxed Process for the Madek Core-Team
 ---------------------------------------
 
 This section describes a relaxed process applicable to the core Madek-Team.
-This process is applied the end of avoiding exzessive effort during development
+This process is applied the end of avoiding excessive effort during development
 and in particular with respect of merging commits. Developers will commit
 a unit of work them self and immediately when the work is finished. Reviews
 will be added afterwards.

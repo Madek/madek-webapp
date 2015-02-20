@@ -8,7 +8,7 @@ Basics
 ---------
 
 A large part of Madek version 2 was created with the mind of providing the
-snapiest user interface with no much regard towards maintainability and
+snappiest user interface with no much regard towards maintainability and
 stability. The development of Madek version 3 focuses on simplicity, stability
 and maintainability. 
 

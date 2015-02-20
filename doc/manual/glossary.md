@@ -1,4 +1,4 @@
-A few terms that are used in this document wich may sound general but
+A few terms that are used in this document which may sound general but
 have actually a very clear distinct technical meaning, thus they are
 defined here for clarity.
 **NOT** a dictionary (use Wikipedia).

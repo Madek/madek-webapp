@@ -14,7 +14,7 @@ admin-interface of Madek version 3. This includes visual appearance and user
 experience.
 
 
-Priciples
+Principles
 ---------
 
 The [Development Guide for Madek Version 3][] introduces the [Resource-oriented
@@ -23,10 +23,10 @@ this principle in general. There are no exceptions.
 
 
 
-Specific Asspects
+Specific Aspects
 -----------------
 
-* The base url of the new admin-interface is `/admin/`.
+* The base URL of the new admin-interface is `/admin/`.
 * Links never open new tabs (yet windows) by default.
 
 

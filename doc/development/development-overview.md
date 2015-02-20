@@ -1,6 +1,6 @@
 - [Developers Rules](developer_rules.md)
 - [Developers Rules (Admin Interface)](developer_rules_admin_interface.md)
-- [Code Review and Submittal](submit_and_review_process.md) – how to submit your code changes
+- [Code Review and Submitting](submit_and_review_process.md) – how to submit your code changes
 - [Git Re-flow](git-reflow.md) - How to use git without headaches while adhering to those rules.
 - [UI Framework](ui_framework/) - info about how the Frontend is built, which conventions we use, where we differ from vanilla Rails
 - [Dev Tips](madek_dev_tips.md) – *GoodToKnow™* things about how we implement the business logic
