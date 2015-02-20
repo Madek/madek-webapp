@@ -23,8 +23,8 @@ this principle in general. There are no exceptions.
 
 
 
-Specific Asspects
------------------
+Specific Aspects
+----------------
 
 * The base url of the new admin-interface is `/admin/`.
 * Links never open new tabs (yet windows) by default.
