@@ -384,16 +384,16 @@ CREATE TABLE app_settings (
     featured_set_id uuid,
     splashscreen_slideshow_set_id uuid,
     catalog_set_id uuid,
-    title character varying,
+    site_title character varying,
     support_url character varying,
-    welcome_title character varying,
-    welcome_subtitle character varying,
+    title character varying,
+    subtitle character varying,
     teaser_set_id uuid,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    logo_url character varying DEFAULT '/assets/inserts/image-logo-zhdk.png'::character varying NOT NULL,
-    brand character varying DEFAULT 'Zürcher Hochschule der Künste'::character varying NOT NULL,
-    footer_links text,
+    brand_url character varying DEFAULT '/assets/inserts/image-logo-zhdk.png'::character varying NOT NULL,
+    brand_text character varying DEFAULT 'Zürcher Hochschule der Künste'::character varying NOT NULL,
+    sitemap text,
     CONSTRAINT oneandonly CHECK ((id = 0))
 );
 
@@ -3723,6 +3723,8 @@ INSERT INTO schema_migrations (version) VALUES ('151');
 INSERT INTO schema_migrations (version) VALUES ('153');
 
 INSERT INTO schema_migrations (version) VALUES ('154');
+
+INSERT INTO schema_migrations (version) VALUES ('156');
 
 INSERT INTO schema_migrations (version) VALUES ('16');
 

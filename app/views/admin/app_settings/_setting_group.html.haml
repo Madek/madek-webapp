@@ -1,0 +1,26 @@
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-heading
+        .panel-title= setting_group 
+      .panel-body
+        %table.table.table-striped
+          %tbody
+            - if setting_group == 'Other'
+              %tr#sitemap
+                %td.col-xs-2 Sitemap
+                %td
+                  %pre= @app_settings.sitemap.to_yaml
+                %td.col-xs-1
+                  = link_to edit_admin_app_setting_path(:sitemap), class: 'btn btn-info btn-sm' do
+                    %span.glyphicon.glyphicon-edit
+                    Edit
+            - else
+              - settings.each do |attr|
+                %tr{id: attr}
+                  %td.col-xs-2= attr.to_s.humanize
+                  %td= @app_settings.send(attr)
+                  %td.col-xs-1
+                    = link_to edit_admin_app_setting_path(attr), class: 'btn btn-info btn-sm' do
+                      %span.glyphicon.glyphicon-edit
+                      Edit
