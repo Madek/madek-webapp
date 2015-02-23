@@ -3,9 +3,9 @@ class SessionsController < ActionController::Base
   include Concerns::SetSession
 
   def sign_in
-    @user = User.find_by login: params[:login].try(&:downcase)
+    @user = User.find_by(login: params[:login].try(&:downcase))
 
-    if @user.authenticate params[:password]
+    if @user and @user.authenticate params[:password]
       set_madek_session @user
       redirect_back_or_default my_dashboard_path,
                                flash: { success: 'Sie haben sich angemeldet.' }

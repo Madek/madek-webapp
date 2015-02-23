@@ -29,6 +29,29 @@ describe SessionsController do
 
     end
 
+    context 'unsuccessful login' do
+      after :example do
+        assert_redirected_to root_path
+        expect(flash[:error]).to eq 'Falscher Benutzername/Passwort.'
+      end
+
+      it 'missing username' do
+        post :sign_in, password: @user.password
+      end
+
+      it 'wrong username' do
+        post :sign_in, login: Faker::Internet.user_name, password: @user.password
+      end
+
+      it 'missing password' do
+        post :sign_in, login: @user.login
+      end
+
+      it 'wrong password' do
+        post :sign_in, login: @user.login, password: Faker::Internet.password
+      end
+    end
+
   end
 
 end
