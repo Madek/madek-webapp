@@ -12,7 +12,7 @@ gem 'foreigner'
 gem 'jdbc-postgres', platform: :jruby
 gem 'memcache-client' 
 gem 'pg', platform: :mri
-gem 'pg_tasks', '>= 1.0.0', '< 2.0.0'
+gem 'pg_tasks', '>= 1.3.0', '< 2.0.0'
 gem 'textacular', git: 'https://github.com/DrTom/textacular.git'
 
 # API 
@@ -81,7 +81,7 @@ gem 'zencoder-fetcher', group: [:development]
 
 # ZHDK-INTEGRATION 
 #gem "madek_zhdk_integration", path: "../zhdk_integration"
-gem "madek_zhdk_integration", git: 'https://github.com/zhdk/madek-zhdk-integration.git', ref: '1c774fff5c9e32539341342ff470d95fbbd620bc'
+gem "madek_zhdk_integration", git: 'https://github.com/zhdk/madek-zhdk-integration.git', ref: '6cfd0438c793583b3f0ae85e666b0dd1af9fe4ee'
 
 
 gem 'cider_ci-support', '= 1.2.0', group: [:development, :test]
