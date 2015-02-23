@@ -3,8 +3,8 @@ class MediaEntriesController < ApplicationController
   include Concerns::Filters
 
   def preview
-    # TODO: review/cleanup
     media_entry = MediaEntry.find(params[:id])
+    size = params[:size] || 'small'
 
     begin
       preview = media_entry.media_file.preview(size)
@@ -12,7 +12,7 @@ class MediaEntriesController < ApplicationController
                 type: preview.content_type,
                 disposition: 'inline'
     rescue
-      Rails.logger.warn 'image not found!'
+      Rails.logger.warn "Preview not found! Entry##{params[:id]}"
       render nothing: true, status: 404
     end
   end
