@@ -15,4 +15,12 @@ class Admin::PreviewsController < AdminController
       error: e.to_s
     }
   end
+
+  def raw_file
+    file_path = Preview.find(params[:preview_id]).file_path
+    return unless file_path
+    send_file file_path,
+              type: 'image',
+              disposition: 'inline'
+  end
 end

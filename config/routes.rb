@@ -52,7 +52,9 @@ Madek::Application.routes.draw do
     end
     resources :media_entries, only: [:index, :show]
     resources :media_files, only: :show
-    resources :previews, only: [:show, :destroy]
+    resources :previews, only: [:show, :destroy] do
+      get :raw_file
+    end
     resources :zencoder_jobs, only: :show
     resources :filter_sets, only: [:index, :show]
     root to: 'dashboard#index' 
