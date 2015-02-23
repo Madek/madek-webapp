@@ -27,16 +27,21 @@ The image can come from several sources:
 
 - either by a compiled preview from the associated [MediaFile][]
     - images are compiled locally using `imagemagick`
-    - videos are processed with [zencoder][], a framegrab is used as image
-    -
+    - videos are processed with [zencoder](https://zencoder.com/), a framegrab is used as image
+    - <mark>sounds can be "converted" to waveform image, ala soundcloud (AsAService: [auphonic](https://auphonic.com))
 - or a generic image, possibly representing the mime-type of the [MediaFile][]
 
-The `Presenter::ResourceThumbnail`
+A presenter like `Presenter::ResourceThumbnail` makes the decision which image is used.
+The `MediaEntryController#preview` action is **only** tasked with serving the
+specific compiled Previews (the generic thumbnail is )
+
+<mark>TODO: sizes! (not Previews are not just used for thumbs; how to handle small
+  originals)</mark>
 
 
 ## [MediaFile][]
 
-[TODO]
+<mark>[TODO]</mark>
 
 ## [Collection][]
 
@@ -68,13 +73,13 @@ A saved `filter`.
 
 ## [Person][]
 
-- a generic (real-world) `Person` (German: "Juristische Person")
-- *can* be linked to (equal to) a [`User`](#user)
-- *can* be linked to `MetaDatum` of type `MetaDatumPerson`  (i.e. "Author")
+- a generic (real-world) [Person][] (German: "Juristische Person")
+- *can* be linked to (equal to) a [User][]
+- *can* be linked to [MetaDatum][] of type `MetaDatumPerson`  (i.e. "Author")
 
 ### Relations
 
-* [`user`](#user), rails-type: `has_one`, effectively enforced by unique constraint on index
+* [User][], rails-type: `has_one`, effectively enforced by unique constraint on index
 
 
 ## [User][]
@@ -88,13 +93,13 @@ A saved `filter`.
 
 ## [Group][]
 
-- list of [Users][]s
-- is manually defined by a [Users][]
+- list of [User][]s
+- is manually defined by a [User][]
 - not to be confused with [InstitutionalGroup][]
 
 ### Relations
 
-* `users`: list of [Users][]s, rails-type: `has_many`
+* `users`: list of [User][]s, rails-type: `has_many`
 
 ### Notes
 
@@ -105,14 +110,14 @@ A saved `filter`.
 
 ## [InstitutionalGroup][]
 
-An externally-defined Group, synced with an `LDAP`-Directory.
+An externally-defined [Group][], synced with an `LDAP`-Directory.
 
 - has a list of [User][]s ("Members"),
   which by definition must have User-ID from the same Directory.
 
 ### Notes
 
-* Subtype of [`Group`](#group), implemented as STI in the `groups` table
+* Subtype of [Group], implemented as `STI` in the `groups` table
 
 # Concerns
 
@@ -151,7 +156,7 @@ More granular permissions can be granted
 | ↳ `Group`          | ✔                           | ✔                                                | ✔                                        | -                             |
 | ↳ `APIClient`      | ✔                           | -                                                | ✔                                        | -                             |
 | ↳ "public"         | ✔                           | -                                                | ✔                                        | -                             |
-| *Beschreibung*     | betrachten                  | Metadaten editieren                              | Original exportieren und in PDF blättern | Zugriffsberechtigungen ändern |
+| *Beschreibung*     | betrachten                  | Metadaten editieren                              | Original exportieren & in PDF blättern   | Zugriffsberechtigungen ändern |
 |                    |                             |                                                  |                                          |                               |
 |                    |                             |                                                  |                                          |                               |
 | **`MediaSet`**     | get metadata and previews   | edit metadata **and relations**                  | -                                        | edit permissions              |
@@ -317,7 +322,11 @@ defined here for clarity.
 
 ### [Polymorph][]
 
-> "Apples and Oranges can not be compared"
+> "Apples and Oranges can not be compared!" — Folk wisdom
+
+> "So much complexity in software comes from
+> trying to make one thing do two things."
+> — [Ryan Singer](https://twitter.com/rjs/status/13444262645)
 
 A set is *polymorph* if it contains more than one kind of thing.
 
@@ -328,21 +337,25 @@ Note: There *are* `PolyThings` in the Application and they are called `Poly`
 to clearly mark them as such.
 
 
-[Collection]: #Collection
-[Concern]: #Concern
+[Collection]: #collection
+[Concern]: #concern
+[Copyright]: #copyright
 [Decorator]: ../development/ui-framework/#decorators
-[FilterSet]: #FilterSet
-[Group]: #Group
-[InstitutionalGroup]: #InstitutionalGroup
-[MediaEntries]: #MediaEntry
-[MediaEntry]: #MediaEntry
-[MediaFile]: #MediaFile
-[MediaResource]: #MediaResource
-[People]: #Person
-[Permission]: #Permission
-[Person]: #Person
-[polymorph]: #Polymorph
+[FilterSet]: #filterset
+[Group]: #group
+[InstitutionalGroup]: #institutionalgroup
+[MediaEntries]: #mediaentry
+[MediaEntry]: #mediaentry
+[MediaFile]: #mediafile
+[MediaResource]: #mediaresource
+[MetaData]: #metadatum
+[MetaDatum]: #metadatum
+[Owner]: #owner
+[People]: #person
+[Permission]: #permissions
+[Person]: #person
 [Presenter]: ../development/ui-framework/#presenters
-[Preview]: #Preview
-[Resource]: #Resource
-[User]: #User
+[Preview]: #preview
+[Resource]: #resource
+[User]: #user
+[polymorph]: #polymorph
