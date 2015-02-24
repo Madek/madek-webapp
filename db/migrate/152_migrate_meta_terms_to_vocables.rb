@@ -94,7 +94,7 @@ class MigrateMetaTermsToVocables < ActiveRecord::Migration
                                                    vocabulary: vocabulary})
           meta_datum.update_column :meta_key_id, new_meta_key_id
           meta_datum.meta_terms.each do |meta_term|
-            vocable= Vocable.find_or_create_by(term: meta_term, meta_key: new_meta_key)
+            vocable= Vocable.find_or_create_by(term: meta_term.term, meta_key: new_meta_key)
             meta_datum.vocables << vocable unless meta_datum.vocables.include? vocable
           end
         end
