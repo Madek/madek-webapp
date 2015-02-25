@@ -1,6 +1,6 @@
 require 'spec_helper'
-require Rails.root.join 'spec', 'presenters', 'shared', 'thumb_api_spec'
-require Rails.root.join 'spec', 'presenters', 'shared', 'dump_spec'
+require Rails.root.join 'spec', 'presenters', 'shared', 'thumb_api'
+require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
 
 describe Presenters::MediaEntries::MediaEntryThumb do
   it 'dummy' do

@@ -1,5 +1,5 @@
 require 'spec_helper'
-require Rails.root.join 'spec', 'controllers', 'shared', 'filters_spec.rb'
+require Rails.root.join 'spec', 'controllers', 'shared', 'filters.rb'
 
 describe MediaEntriesController do
 

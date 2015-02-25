@@ -2,7 +2,7 @@ require 'spec_helper'
 require Rails.root.join 'spec',
                         'models',
                         'shared',
-                        'destroy_ineffective_permissions_spec.rb'
+                        'destroy_ineffective_permissions.rb'
 
 describe Permissions::MediaEntryApiClientPermission do
 

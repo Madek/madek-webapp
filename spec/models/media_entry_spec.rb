@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 [
-  'created_by_user_spec.rb',
-  'edit_sessions_spec.rb',
-  'entrusted_to_user_spec.rb',
-  'favored_by_user_spec.rb',
-  'favoritable_spec.rb',
-  'in_responsibility_of_user_spec.rb',
-  'meta_data_spec.rb',
-  'validates_spec.rb'
+  'created_by_user.rb',
+  'edit_sessions.rb',
+  'entrusted_to_user.rb',
+  'favored_by_user.rb',
+  'favoritable.rb',
+  'in_responsibility_of_user.rb',
+  'meta_data.rb',
+  'validates.rb'
 ].each do |file|
   require Rails.root.join 'spec', 'models', 'shared', file
 end
