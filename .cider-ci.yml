@@ -1,23 +1,42 @@
 executions:
+
   Tests: 
     description: >
       This execution runs all the tests.
     specification: 
       _cider-ci_include: /.cider-ci/test_spec.yml
+    trigger:
+      branch: '^.*madek-v3.*$'
+
   Coverage: 
     description: >
       Determine and validate the coverage of the tests. Needs to be run
       **after** the `Tests` have passed. 
     specification: 
       _cider-ci_include: /.cider-ci/coverage_spec.yml
+    depends:
+      executions:
+        Tests: passed
+    trigger:
+      branch: '^.*madek-v3.*$'
+
   Code-Check: 
     description: >
       Ensure code-style, complexity, and (the absence) of duplications are up
       to standards. 
     specification: 
       _cider-ci_include: /.cider-ci/code-check_spec.yml
+    trigger:
+      branch: '^.*madek-v3.*$'
+
   Deploy-Test:
     description: >
        Deploy this commit to test.madek.zhdk.ch. 
     specification: 
       _cider-ci_include: /.cider-ci/deploy_test_spec.yml
+    depends:
+      executions:
+        Tests: passed
+        Code-Check: passed
+        Coverage: passed
+
