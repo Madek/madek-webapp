@@ -764,7 +764,7 @@ CREATE TABLE meta_keys (
 
 CREATE TABLE people (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    is_group boolean DEFAULT false,
+    is_bunch boolean DEFAULT false,
     date_of_birth date,
     date_of_death date,
     first_name character varying(255),
@@ -1996,10 +1996,10 @@ CREATE INDEX index_people_on_first_name ON people USING btree (first_name);
 
 
 --
--- Name: index_people_on_is_group; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_people_on_is_bunch; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_people_on_is_group ON people USING btree (is_group);
+CREATE INDEX index_people_on_is_bunch ON people USING btree (is_bunch);
 
 
 --
@@ -3025,6 +3025,8 @@ INSERT INTO schema_migrations (version) VALUES ('152');
 INSERT INTO schema_migrations (version) VALUES ('153');
 
 INSERT INTO schema_migrations (version) VALUES ('154');
+
+INSERT INTO schema_migrations (version) VALUES ('155');
 
 INSERT INTO schema_migrations (version) VALUES ('16');
 
