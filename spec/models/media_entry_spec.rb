@@ -8,6 +8,7 @@ require 'spec_helper'
   'favoritable.rb',
   'in_responsibility_of_user.rb',
   'meta_data.rb',
+  'relations.rb',
   'validates.rb'
 ].each do |file|
   require Rails.root.join 'spec', 'models', 'shared', file
@@ -70,5 +71,13 @@ describe MediaEntry do
     it_provides_reader_method_for 'description'
     it_provides_reader_method_for 'keywords'
 
+  end
+
+  it_responds_to 'sibling_collections_entrusted_to_user' do
+    let(:resource_type) { :media_entry }
+  end
+
+  it_responds_to 'parent_collections_entrusted_to_user' do
+    let(:resource_type) { :media_entry }
   end
 end

@@ -219,6 +219,11 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/presenters/filter_sets/filter_set_thumb_spec.rb"
+"./spec/presenters/media_entries/media_entry_show_spec.rb":
+  name: "./spec/presenters/media_entries/media_entry_show_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/presenters/media_entries/media_entry_show_spec.rb"
 "./spec/presenters/media_entries/media_entry_thumb_spec.rb":
   name: "./spec/presenters/media_entries/media_entry_thumb_spec.rb"
   scripts:

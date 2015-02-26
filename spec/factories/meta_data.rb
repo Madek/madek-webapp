@@ -42,4 +42,11 @@ FactoryGirl.define do
     users { (1..3).map { FactoryGirl.create :user } }
   end
 
+  factory :meta_datum_text_date, class: MetaDatum::TextDate do
+    value { Faker::Lorem.words.join(' ') }
+    meta_key do
+      MetaKey.find_by(id: 'test:text') \
+        || FactoryGirl.create(:meta_key_text_date)
+    end
+  end
 end

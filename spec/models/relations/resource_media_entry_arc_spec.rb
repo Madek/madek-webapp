@@ -56,7 +56,7 @@ describe Arcs::CollectionMediaEntryArc do
 
         describe 'the media_entry.collections ' do
           it 'includes the collection' do
-            expect(@media_entry.collections).to include @collection
+            expect(@media_entry.parent_collections).to include @collection
           end
         end
 

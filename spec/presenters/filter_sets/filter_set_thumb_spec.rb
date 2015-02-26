@@ -24,7 +24,8 @@ describe Presenters::FilterSets::FilterSetThumb do
                        meta_key: meta_key,
                        filter_set: filter_set
 
-    let(:object) { filter_set }
+    let(:presenter) \
+      { described_class.new(filter_set, filter_set.responsible_user) }
   end
 
   it_responds_to 'privacy_status' do

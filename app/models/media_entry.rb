@@ -1,18 +1,15 @@
 class MediaEntry < ActiveRecord::Base
 
-  include Concerns::EditSessions
-  include Concerns::Entrust
-  include Concerns::Favoritable
-  include Concerns::MetaData
-  include Concerns::PermissionsAssociations
-  include Concerns::Users::Creator
-  include Concerns::Users::Responsible
+  include Concerns::Collections::Siblings
   include Concerns::MediaEntries::Filters
+  include Concerns::Resources
 
   has_one :media_file, dependent: :destroy
 
   has_many :collection_media_entry_arcs, class_name: Arcs::CollectionMediaEntryArc
-  has_many :collections, through: :collection_media_entry_arcs
+  has_many :parent_collections,
+           through: :collection_media_entry_arcs,
+           source: :collection
 
   default_scope { reorder(:created_at, :id) }
 end

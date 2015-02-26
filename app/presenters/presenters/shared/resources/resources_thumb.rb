@@ -2,6 +2,7 @@ module Presenters
   module Shared
     module Resources
       class ResourcesThumb < Presenter
+        include Presenters::Shared::Resources::Modules::URLHelpers
 
         def initialize(resource, user)
           @resource = resource
@@ -14,17 +15,6 @@ module Presenters
 
         def privacy_status
           public_status or shared_status or private_status
-        end
-
-        def generic_thumbnail_url
-          ActionController::Base.helpers.image_path \
-            ::UI_GENERIC_THUMBNAIL[:unknown]
-        end
-
-        # TODO: review
-        def incomplete_thumbnail_url
-          ActionController::Base.helpers.image_path \
-            ::UI_GENERIC_THUMBNAIL[:incomplete]
         end
 
         private

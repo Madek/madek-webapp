@@ -12,6 +12,6 @@ class CollectionsController < ApplicationController
 
   def show
     collection = Collection.find(params[:id])
-    @get = ::Presenters::Collections::CollectionShow.new(collection)
+    @get = ::Presenters::Collections::CollectionShow.new(collection, current_user)
   end
 end

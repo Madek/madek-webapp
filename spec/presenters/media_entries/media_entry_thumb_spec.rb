@@ -24,7 +24,8 @@ describe Presenters::MediaEntries::MediaEntryThumb do
                        meta_key: meta_key,
                        media_entry: media_entry
 
-    let(:object) { media_entry }
+    let(:presenter) \
+      { described_class.new(media_entry, media_entry.responsible_user) }
   end
 
   it_responds_to 'privacy_status' do

@@ -12,18 +12,17 @@ RSpec.shared_examples 'dumped' do
   end
 
   it 'dump' do
-    p = described_class.new(object, object.responsible_user)
-    d = p.dump
+    dump = presenter.dump
 
     expect(
-      all_values(d)
+      all_values(dump)
         .all? { |v| not v.nil? }
     )
       .to be true
 
     expect(
-      all_values(d)
-        .all? { |v| not v.match(/ActiveRecord/) }
+      all_values(dump)
+        .all? { |v| not v.match(/active.*record/i) }
     )
       .to be true
   end

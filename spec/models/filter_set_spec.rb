@@ -8,6 +8,7 @@ require 'spec_helper'
   'favoritable.rb',
   'in_responsibility_of_user.rb',
   'meta_data.rb',
+  'relations.rb',
   'validates.rb'
 ]
   .each do |file|

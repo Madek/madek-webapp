@@ -37,6 +37,8 @@ class Presenter
         .to_h
     elsif obj.class.name.match(/ActiveRecord/)
       "!!!ACTIVE_RECORD!!! <##{obj.class}>"
+    elsif obj.class.superclass.name.match(/ActiveRecord/)
+      "!!!ACTIVE_RECORD!!! #{obj}"
     else
       obj
     end

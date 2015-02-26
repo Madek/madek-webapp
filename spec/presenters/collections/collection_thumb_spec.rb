@@ -24,7 +24,8 @@ describe Presenters::Collections::CollectionThumb do
                        meta_key: meta_key,
                        collection: collection
 
-    let(:object) { collection }
+    let(:presenter) \
+      { described_class.new(collection, collection.responsible_user) }
   end
 
   it_responds_to 'privacy_status' do

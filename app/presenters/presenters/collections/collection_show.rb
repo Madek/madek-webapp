@@ -1,6 +1,13 @@
 module Presenters
   module Collections
     class CollectionShow < Presenters::Shared::Resources::ResourceShow
+      include Presenters::Shared::Resources::Modules::Responsible
+
+      def initialize(resource, user)
+        super(resource, user)
+        @relations = \
+          Presenters::Collections::Relations.new(@resource, @user)
+      end
 
       def preview_thumb_url
         ActionController::Base.helpers.image_path \
@@ -38,7 +45,6 @@ module Presenters
               end
         }
       end
-
     end
   end
 end

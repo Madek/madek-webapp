@@ -2,9 +2,13 @@ module Presenters
   module Shared
     module Resources
       class ResourceShow < Presenter
+        include Presenters::Shared::Resources::Modules::URLHelpers
 
-        def initialize(resource)
+        attr_reader :relations
+
+        def initialize(resource, user)
           @resource = resource
+          @user = user
         end
 
         def title
@@ -18,11 +22,6 @@ module Presenters
         def keywords
           @resource.keywords.map(&:to_s)
         end
-
-        def responsible
-          @resource.responsible_user.person.to_s
-        end
-
       end
     end
   end
