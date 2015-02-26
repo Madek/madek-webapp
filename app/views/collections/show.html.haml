@@ -8,25 +8,25 @@
       ),
       actions: nil # TODO
     },
-    info: {
-      left: component('thumbnail', mods: ['media-set'],
-              text: @get.title,
-              picture: @get.preview_thumb_url
-      ),
-      main: combo('metadata-box',
-          mods: 'ui-summary-table.ui-set-summary.compact',
-          # TODO: build this list in a presenter?
-          # @get.metadata => [ [key, value], [key, value] ]
-          list: [['Title', @get.title, 'title-l'],
-                 ['Description', @get.description],
-                 ['Keywords', component('tag-cloud.label',
-                    mods: tag_cloud_mods,
-                    list: @get.keywords)],
-                 ['Responsible', component('tag-cloud.person',
-                    mods: tag_cloud_mods,
-                    list: [@get.responsible])]]),
-      right: nil
-    },
+    overview: deco('resource_show_overview',
+      mods: 'ui-set-overview',
+      preview: component('thumbnail', mods: ['media-set'],
+                  text: @get.title,
+                  picture: @get.preview_thumb_url),
+      content: combo('metadata-box',
+              mods: 'ui-summary-table.ui-set-summary.compact',
+              # TODO: build this list in a presenter?
+              # @get.metadata => [ [key, value], [key, value] ]
+              list: [['Title', @get.title, 'title-l'],
+                     ['Description', @get.description],
+                     ['Keywords', component('tag-cloud.label',
+                        mods: tag_cloud_mods,
+                        list: @get.keywords)],
+                     ['Responsible', component('tag-cloud.person',
+                        mods: tag_cloud_mods,
+                        list: [@get.responsible])]
+                    ])
+    ),
     more_info: nil # captured below
   }
 

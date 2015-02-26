@@ -1,11 +1,9 @@
 :ruby
   # TODO: info left/right could also be preview_small and _large…
-  unless head.is_a?(Hash) && info.is_a?(Hash) \
-    && head[:title] && info[:main] \
-    && !(info[:left] && info[:right]) # we can't show info left AND right!
-      throw 'ui: invalid data'
-  end
+  throw 'ui: invalid data' unless overview && head.is_a?(Hash)
+
   more_info ||= nil
+  box_rounding_top = more_info ? 'rounded-top-right' : 'rounded-bottom'
 
 = head[:title]
 
@@ -14,20 +12,9 @@
   .ui-container.tab-content.bordered.rounded-right.rounded-bottom.mbh
 
     -# top part of the box:
-    .ui-container.bright.pal.rounded-right.rounded-bottom
+    .ui-container.bright.pal{class: box_rounding_top}
 
-      -# TODO: rename CSS classes to be (more general)
-      .ui-set-overview
-        -# top box, left side (often shows a small thumb)
-        - if info[:left]
-          .ui-set-preview
-            = info[:left]
-
-        -# top box, main content (like listed of data about the resource)
-        = info[:main]
-
-        -# TODO: right side info, for resources with large previews (Entry)
-          either deal with the CSS/layout here or make 2 decos.x
+      = overview
 
     -# bottom part of the box:
     .ui-container.rounded-bottom

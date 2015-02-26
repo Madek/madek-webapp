@@ -1,0 +1,20 @@
+:ruby
+  throw 'ui: missing data!' unless content
+  preview ||= nil
+  preview_large ||= nil
+  throw 'ui: invalid data!' if preview and preview_large
+
+-# TODO: refactor CSS class names…
+.ui-resource-overview{class: mods}
+  -# left side: the small preview (e.g. Sets)
+  - if preview
+    .ui-set-preview
+      = preview
+
+  -# top box, main content (e.g. list of data about the resource)
+  = content
+
+  -# and on the right: the large preview (e.g. for Entry)
+  - if preview_large
+    .ui-media-overview-preview
+      = preview_large
