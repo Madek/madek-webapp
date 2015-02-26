@@ -16,6 +16,14 @@ should be cleaned up before a release.
 
 ---
 
+## Preview of Set
+
+> “Das Preview eines Sets kommt vom ‘Cover’, User-gewählter Entry (aus dem Set) der das Set visuell repräsentiert.
+> Wenn kein ‘Cover' vorhanden ist, nehmen wir aus der Liste der Einträge, die direkt im Set liegen, sortiert nach der (mögl. gespeicherten) Sortierung des Sets, den ersten von dem wir eine visuelle Darstellung haben.
+> Wenn so kein ‘Cover’ gefunden wird, nehmen wir das generische Preview für ein Set.”
+
+---
+
 ## Branches
 
 - `master`: on production
