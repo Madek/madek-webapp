@@ -83,6 +83,11 @@
     ]
   })
 
+  # check if we got any non-empty list
+  all_lists_are_empty = resource_types
+                .map { |_k, v| v.empty?}
+                .reduce { |a, b| a && b}
+
 
 -# a list for each kind of resource.
   - skips empty lists
@@ -92,6 +97,9 @@
 
 .POLYBOX
   = combo('resources-header', title: title, filter_bar: filter_bar)
+
+  - return "(No content.)" if all_lists_are_empty
+
   %ul.ui-resources{class: classes}
 
     -# a unit for each type of resource
