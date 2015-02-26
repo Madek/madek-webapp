@@ -1,14 +1,17 @@
 :ruby
   return unless list
+  def no_content?(key, value)
+    key.nil? || value.nil? || (defined?(value.empty?) && value.empty?)
+  end
 
-.ui-metadata-box.ui-summary-table.ui-set-summary.compact
+.ui-metadata-box
   %table.borderless
     %tbody
       - list.each do |item|
         - key = item[0]
         - value = item[1]
         - mod = item[2]
-        - unless key.nil? or value.nil? or value.empty?
+        - unless no_content?(key, value)
           %tr
             %td.ui-summary-label= key
             %td.ui-summary-content{class: mod}= value

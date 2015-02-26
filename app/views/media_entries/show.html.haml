@@ -1,3 +1,62 @@
-.ui-container.mam.pam
-  %pre.ui-container.bright.phm.title-m
-    = JSON.pretty_generate @media_entry.as_json(root: true)
+:ruby
+  tag_cloud_mods = ['small','ellipsed']
+  entry_show_data = {
+    head: {
+      title: component('page-header',
+               icon: component('icon.media-entry'),
+               text: @get.title
+      ),
+      actions: nil # TODO
+    },
+    overview: deco('resource_show_overview',
+      mods: 'ui-media-overview',
+      # TODO: element?
+      preview_large: component('picture', mods: ['media-set'],
+                  text: @get.title,
+                  href: @get.image_url),
+      content: combo('metadata-box',
+                  mods: 'ui-summary-table.ui-set-summary.compact',
+                  # TODO: build this list in a presenter?
+                  # @get.metadata => [ [key, value], [key, value] ]
+                  list: [['Title', @get.title, 'title-l'],
+                         ['Description', @get.description],
+                         ['Copyright Notice', @get.copyright_notice],
+                         ['Date', @get.portrayed_object_date],
+                         ['Keywords', component('tag-cloud.label',
+                            mods: tag_cloud_mods,
+                            list: @get.keywords)]
+                        ]
+                )
+    ),
+    more_info: nil # captured below
+  }
+
+- entry_show_data[:more_info] = capture_haml do
+  -# TMP: always show this sections!
+  .ui-container.midtone.rounded-bottom.pal.well
+    %h3.title-l.separated.mbm
+      = "Relations"
+    -# - throw 1
+    - unless @get.relations.has_any
+      = "No relations found."
+
+    .ui-separator.mbl
+
+    %h3.title-l.separated.mbm
+      = "More Data"
+    -# TMP: just list (almost) everything
+    - list = (@get.more_data.api - [:file_information]).map { |prop| [prop, @get.more_data.send(prop)] }
+    = combo('metadata-box',
+        mods: 'ui-summary-table', list: list)
+
+    .ui-separator.mbl
+
+    %h3.title-l.separated.mbm
+      = "File Information"
+    = combo('metadata-box',
+        mods: 'ui-summary-table', list: @get.more_data.file_information)
+
+
+
+
+= deco('resource_show', entry_show_data)

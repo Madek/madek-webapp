@@ -27,7 +27,8 @@ class MediaEntriesController < ApplicationController
   end
 
   def show
-    @media_entry = MediaEntry.find(params[:id])
+    entry = MediaEntry.find(params[:id])
+    @get = ::Presenters::MediaEntries::MediaEntryShow.new(entry, current_user)
   end
 
   private
