@@ -42,7 +42,7 @@ describe Presenters::Collections::CollectionThumb do
       let(:media_entry) { media_entry }
     end
 
-    it_responds_to 'image_url', 'with generic image' do
+    it_responds_to 'image_url', 'with collection image' do
       collection = FactoryGirl.create(:collection)
       media_entry = FactoryGirl.create(:media_entry_with_audio_media_file)
       collection.media_entries << media_entry

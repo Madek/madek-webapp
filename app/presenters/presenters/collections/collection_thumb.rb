@@ -18,6 +18,12 @@ module Presenters
 
       private
 
+      # TODO: shared CollectionPresenter?
+      def generic_thumbnail_url
+        ActionController::Base.helpers.image_path \
+          ::UI_GENERIC_THUMBNAIL[:collection]
+      end
+
       def choose_media_entry_for_preview
         if @resource.media_entries.exists?
           cover_or_first_media_entry(@resource)
