@@ -1,35 +1,45 @@
-= component('page-header', text: @get.title, icon: component('icon.set'))
+:ruby
+  tag_cloud_mods = ['small','ellipsed']
+  res_show_data = {
+    head: {
+      title: component('page-header',
+               icon: component('icon.set'),
+               text: @get.title
+      ),
+      actions: nil # TODO
+    },
+    info: {
+      left: component('thumbnail', mods: ['media-set'],
+              text: @get.title,
+              picture: @get.preview_thumb_url
+      ),
+      main: combo('metadata-box',
+          mods: 'ui-summary-table.ui-set-summary.compact',
+          # TODO: build this list in a presenter?
+          # @get.metadata => [ [key, value], [key, value] ]
+          list: [['Title', @get.title, 'title-l'],
+                 ['Description', @get.description],
+                 ['Keywords', component('tag-cloud.label',
+                    mods: tag_cloud_mods,
+                    list: @get.keywords)],
+                 ['Responsible', component('tag-cloud.person',
+                    mods: tag_cloud_mods,
+                    list: [@get.responsible])]]),
+      right: nil
+    },
+    more_info: nil # captured below
+  }
 
-.app-body-ui-container
-  #big_box.ui-container.tab-content.bordered.rounded-right.rounded-bottom.mbh
+- res_show_data[:more_info] = capture_haml do
+  -# TODO: component
+  #ui-resources-list-container.ui-container.midtone.rounded-bottom
+    .ui-container.inverted.ui-toolbar.pvx
+      .ui-toolbar-header.pls
+        TODO
+    .ui-resources-holder.pam
+      .ui-container.table.auto
+        .ui-container.table-cell.table-substance
+          = deco('polybox', mods: ['active'],
+                  poly_resources: @get.poly_resources)
 
-    #top_box.ui-container.bright.pal.rounded-right.rounded-bottom
-      .ui-set-overview
-        .ui-set-preview
-          = component('thumbnail', mods: ['media-set'],
-                        text: @get.title,
-                        picture: @get.preview_thumb_url)
-
-        - tag_cloud_mods = ['small','ellipsed']
-        -# TODO: build this list in a presenter?
-          @get.metadata => [ [key, value], [key, value] ]
-        = combo('metadata-box',
-            mods: 'ui-summary-table.ui-set-summary.compact',
-            list: [['Title', @get.title, 'title-l'],
-                   ['Description', @get.description],
-                   ['Keywords', component('tag-cloud.label',
-                      mods: tag_cloud_mods,
-                      list: @get.keywords)],
-                   ['Responsible', component('tag-cloud.person',
-                      mods: tag_cloud_mods,
-                      list: [@get.responsible])]])
-
-    #ui-resources-list-container.ui-container.midtone.rounded-bottom
-      .ui-container.inverted.ui-toolbar.pvx
-        .ui-toolbar-header.pls
-          TODO
-      .ui-resources-holder.pam
-        .ui-container.table.auto
-          .ui-container.table-cell.table-substance
-            = deco('polybox', mods: ['active'],
-                    poly_resources: @get.poly_resources)
+= deco('resource_show', res_show_data)
