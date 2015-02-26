@@ -224,3 +224,8 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/presenters/media_entries/media_entry_thumb_spec.rb"
+"./spec/presenters/people/person_show_spec.rb":
+  name: "./spec/presenters/people/person_show_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/presenters/people/person_show_spec.rb"

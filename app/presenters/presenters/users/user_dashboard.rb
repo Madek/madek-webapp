@@ -1,5 +1,5 @@
 module Presenters
-  module User
+  module Users
     class UserDashboard < Presenter
 
       def initialize(user, limit)
