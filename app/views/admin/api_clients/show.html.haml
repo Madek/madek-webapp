@@ -1,0 +1,24 @@
+.page-header
+  %h1
+    %i.icon-user 
+    #{@api_client.login}
+
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-body
+        .btn-group
+          = link_to admin_user_path(@user), class: 'btn btn-default' do
+            %i.glyphicon.glyphicon-user
+            #{@user.person}
+          = render partial: 'action_buttons', locals: {api_client: @api_client, size: nil}
+
+.row
+  .col-xs-12
+    %table.table.table-striped
+      %thead
+      %tbody
+      - @api_client.attributes.each do |name,value|
+        %tr
+          %td= name.capitalize.split("_").join(" ")
+          %td= value

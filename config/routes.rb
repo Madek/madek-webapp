@@ -75,6 +75,7 @@ Madek::Application.routes.draw do
 
   # Admin routes ###############################################################
   namespace :admin do
+    resources :api_clients
     resources :users do
       member do
         post :switch_to

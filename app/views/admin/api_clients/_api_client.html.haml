@@ -1,0 +1,14 @@
+%tr.active
+  %td.col-xs-3= api_client.id
+  %td.col-xs-2= api_client.login
+  %td
+    - if api_client.user
+      = link_to admin_user_path(api_client.user) do
+        = api_client.user.person
+  %td= api_client.description
+
+  %td.active.col-xs-3
+    .btn-group
+      = link_to admin_api_client_path(api_client), class: "btn btn-default btn-sm" do
+        %i.glyphicon.glyphicon-eye-open
+      = render partial: 'action_buttons', locals: {api_client: api_client, size: 'btn-sm' }
