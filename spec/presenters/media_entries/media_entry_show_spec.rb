@@ -2,10 +2,6 @@ require 'spec_helper'
 require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
 
 describe Presenters::MediaEntries::MediaEntryShow do
-  it 'dummy' do
-    # for the rspec updator
-  end
-
   # TODO: fix CI bug and finish the test (relations, media_file)
   # it_can_be 'dumped' do
 

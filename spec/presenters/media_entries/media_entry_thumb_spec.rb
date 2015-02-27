@@ -3,10 +3,6 @@ require Rails.root.join 'spec', 'presenters', 'shared', 'thumb_api'
 require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
 
 describe Presenters::MediaEntries::MediaEntryThumb do
-  it 'dummy' do
-    # for the rspec updator
-  end
-
   it_can_be 'dumped' do
     media_entry = FactoryGirl.create(:media_entry)
 

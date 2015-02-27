@@ -3,9 +3,6 @@ require Rails.root.join 'spec', 'presenters', 'shared', 'thumb_api'
 require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
 
 describe Presenters::Collections::CollectionThumb do
-  it 'dummy' do
-    # for the rspec updator
-  end
 
   it_can_be 'dumped' do
     collection = FactoryGirl.create(:collection)
