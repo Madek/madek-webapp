@@ -4,7 +4,7 @@ require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
 
 describe Presenters::MediaEntries::MediaEntryThumb do
   it_can_be 'dumped' do
-    media_entry = FactoryGirl.create(:media_entry)
+    media_entry = FactoryGirl.create(:media_entry_with_image_media_file)
 
     unless MetaKey.find_by_id('madek:core:title')
       with_disabled_triggers do

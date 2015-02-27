@@ -1,10 +1,6 @@
 module Presenters
   module People
-    class PersonShow < Presenter
-      def initialize(person)
-        @person = person
-      end
-
+    class PersonShow < PersonCommon
       %w(is_bunch
          date_of_birth
          date_of_death

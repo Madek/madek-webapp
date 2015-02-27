@@ -12,6 +12,8 @@ Madek::Application.routes.draw do
   resources :collections, only: [:index, :show]
   resources :filter_sets, only: [:index, :show]
 
+  resources :people, only: :show
+
   # Static App routes ##########################################################
   # TODO: resource 'users'?
   get 'my', to: 'my#dashboard', as: 'my_dashboard'

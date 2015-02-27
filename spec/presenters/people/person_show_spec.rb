@@ -7,7 +7,7 @@ describe Presenters::People::PersonShow do
   end
 
   it_can_be 'dumped' do
-    person = Person.first
-    let(:presenter) { described_class.new(person) }
+    user = FactoryGirl.create(:user)
+    let(:presenter) { described_class.new(user.person) }
   end
 end

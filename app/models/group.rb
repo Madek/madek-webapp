@@ -33,4 +33,8 @@ class Group < ActiveRecord::Base
     update_columns searchable: [name, institutional_group_name].flatten \
       .compact.sort.uniq.join(' ')
   end
+
+  def institutional?
+    type == 'InstitutionalGroup'
+  end
 end
