@@ -29,6 +29,11 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/admin/media_files_controller_spec.rb"
+"./spec/controllers/admin/meta_keys_controller_spec.rb":
+  name: "./spec/controllers/admin/meta_keys_controller_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/admin/meta_keys_controller_spec.rb"
 "./spec/controllers/admin/previews_controller_spec.rb":
   name: "./spec/controllers/admin/previews_controller_spec.rb"
   scripts:
@@ -154,6 +159,11 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/models/meta_key/immutability_spec.rb"
+"./spec/models/meta_key_spec.rb":
+  name: "./spec/models/meta_key_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/meta_key_spec.rb"
 "./spec/models/permissions/collection_api_client_permission_spec.rb":
   name: "./spec/models/permissions/collection_api_client_permission_spec.rb"
   scripts:

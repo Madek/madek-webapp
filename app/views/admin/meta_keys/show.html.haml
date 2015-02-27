@@ -1,0 +1,38 @@
+.page-header
+  %h1 Meta Key: #{@meta_key.id}
+
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-body
+        .btn-group
+          = render partial: 'action_buttons', locals: { meta_key: @meta_key, size: nil }
+
+.row
+  .col-xs-12
+    %table.table.table-striped
+      %thead
+      %tbody
+        - @meta_key.attributes.each do |attr|
+          %tr
+            %td
+              %strong= attr.first.humanize
+            %td= attr.last
+
+- if @meta_key.can_have_vocables?
+
+  .page-header
+    %h2 Vocables
+
+  .row
+    .col-xs-12
+      %table.table.table-striped
+        %thead
+          %tr
+            %th ID
+            %th Term
+        %tbody
+          - @meta_key.vocables.find_each do |vocable|
+            %tr
+              %td= vocable.id
+              %td= vocable

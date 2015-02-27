@@ -1,6 +1,6 @@
 %tr
   %td= vocable.id
-  %td= vocable.meta_key.id
+  %td= link_to vocable.meta_key.id, admin_meta_key_path(vocable.meta_key)
   %td= vocable
   %td.active.col-xs-2
     = render partial: 'action_buttons', locals: { vocable: vocable, size: 'btn-sm' }

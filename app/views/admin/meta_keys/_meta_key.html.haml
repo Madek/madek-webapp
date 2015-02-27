@@ -1,0 +1,12 @@
+%tr
+  %td= meta_key.id
+  %td= meta_key.label
+  %td
+    - if meta_key.vocabulary
+      = link_to meta_key.vocabulary.id, admin_vocabulary_path(meta_key.vocabulary)
+  %td= meta_key.meta_datum_object_type
+  %td.active.col-xs-4
+    .btn-group
+      = link_to admin_meta_key_path(meta_key), class: 'btn btn-default btn-sm' do
+        %span.glyphicon.glyphicon-eye-open
+      = render partial: 'action_buttons', locals: { meta_key: meta_key, size: 'btn-sm' }

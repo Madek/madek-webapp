@@ -12,7 +12,8 @@ describe Admin::VocabulariesController do
     end
 
     it 'assigns @vocabularies correctly' do
-      expect(assigns[:vocabularies]).to match_array(Vocabulary.all)
+      expect(assigns[:vocabularies])
+        .to match_array(Vocabulary.with_meta_keys_count.limit(16))
     end
 
     describe 'filtering' do
@@ -51,6 +52,10 @@ describe Admin::VocabulariesController do
 
     it 'assigns @vocabulary correctly' do
       expect(assigns[:vocabulary]).to eq vocabulary
+    end
+
+    it 'assigns @meta_keys correctly' do
+      expect(assigns[:meta_keys]).not_to be_nil
     end
   end
 

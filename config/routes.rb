@@ -69,6 +69,7 @@ Madek::Application.routes.draw do
     resources :vocabularies do
       resources :vocables
     end
+    resources :meta_keys
     root to: 'dashboard#index'
   end
 
