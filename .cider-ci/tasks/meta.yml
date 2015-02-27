@@ -18,6 +18,25 @@ tasks:
       main:
         body: git log -n 3
 
+  grep_todos:
+    name: Collect TODOs
+    description: >
+      Greps, in selected parts of the repo, for `TODO` followed by `:`.
+    environment_variables:
+      TODOS_FILE: TODOS.txt
+    tree_attachments:
+      TODOs:
+        glob: TODOS.txt
+        content-type: text/plain
+    scripts:
+      collect:
+        order: 1
+        body: >
+          grep -Hrn 'TODO:' Gemfile README.md .cider-ci* app config* deploy dev doc script spec > $TODOS_FILE
+      count:
+        order: 2
+        body: wc -l $TODOS_FILE
+
   # TODO: https://github.com/cider-ci/cider-ci_executor/issues/3
   # build_docs:
   #   name: Build the docs with `mkdocs`
