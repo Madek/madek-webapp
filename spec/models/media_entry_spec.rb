@@ -73,11 +73,11 @@ describe MediaEntry do
 
   end
 
-  it_responds_to 'sibling_collections_entrusted_to_user' do
+  it_responds_to 'sibling_collections_viewable_by_user' do
     let(:resource_type) { :media_entry }
   end
 
-  it_responds_to 'parent_collections_entrusted_to_user' do
+  it_responds_to 'parent_collections_viewable_by_user' do
     let(:resource_type) { :media_entry }
   end
 end

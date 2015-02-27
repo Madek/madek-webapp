@@ -2,9 +2,9 @@ RSpec.configure do |c|
   c.alias_it_should_behave_like_to :it_responds_to, 'it responds to'
 end
 
-RSpec.shared_examples 'sibling_collections_entrusted_to_user' do
+RSpec.shared_examples 'sibling_collections_viewable_by_user' do
 
-  it 'sibling_collections_entrusted_to_user' do
+  it 'sibling_collections_viewable_by_user' do
     resource = FactoryGirl.create(resource_type)
     parent_collection = FactoryGirl.create(:collection)
     FactoryGirl.create("collection_#{resource_type}_arc",
@@ -20,15 +20,15 @@ RSpec.shared_examples 'sibling_collections_entrusted_to_user' do
                        user: user,
                        get_metadata_and_previews: true)
 
-    expect(resource.sibling_collections_entrusted_to_user(user))
+    expect(resource.sibling_collections_viewable_by_user(user))
       .to include sibling_collection
   end
 
 end
 
-RSpec.shared_examples 'parent_collections_entrusted_to_user' do
+RSpec.shared_examples 'parent_collections_viewable_by_user' do
 
-  it 'parent_collections_entrusted_to_user' do
+  it 'parent_collections_viewable_by_user' do
     resource = FactoryGirl.create(resource_type)
     parent_collection = FactoryGirl.create(:collection)
     FactoryGirl.create("collection_#{resource_type}_arc",
@@ -40,7 +40,7 @@ RSpec.shared_examples 'parent_collections_entrusted_to_user' do
                        user: user,
                        get_metadata_and_previews: true)
 
-    expect(resource.parent_collections_entrusted_to_user(user))
+    expect(resource.parent_collections_viewable_by_user(user))
       .to include parent_collection
   end
 

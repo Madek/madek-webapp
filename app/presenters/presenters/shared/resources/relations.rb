@@ -28,7 +28,7 @@ module Presenters
           instance_variable_get(var) \
             or instance_variable_set \
               var,
-              @resource.send("#{kind}_collections_entrusted_to_user", @user)
+              @resource.send("#{kind}_collections_viewable_by_user", @user)
                 .map { |c| Presenters::Collections::CollectionThumb.new(c, @user) }
         end
       end

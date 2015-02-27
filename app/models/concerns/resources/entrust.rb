@@ -26,10 +26,12 @@ module Concerns
 
         private
 
-        def collections_entrusted_to_user(kind, user)
-          scope1 = send("#{kind}_collections")
+        def collections_viewable_by_user(kind, user)
+          scope1 = Collection.viewable_by_public
           scope2 = Collection.entrusted_to_user(user)
-          sql = "((#{scope1.to_sql}) INTERSECT (#{scope2.to_sql})) AS collections"
+          scope3 = send("#{kind}_collections")
+          sql = "(((#{scope1.to_sql}) UNION (#{scope2.to_sql})) "\
+                 "INTERSECT (#{scope3.to_sql})) AS collections"
           Collection.from(sql)
         end
       end
@@ -50,12 +52,12 @@ module Concerns
           .exists?
       end
 
-      def parent_collections_entrusted_to_user(user)
-        collections_entrusted_to_user(:parent, user)
+      def parent_collections_viewable_by_user(user)
+        collections_viewable_by_user(:parent, user)
       end
 
-      def sibling_collections_entrusted_to_user(user)
-        collections_entrusted_to_user(:sibling, user)
+      def sibling_collections_viewable_by_user(user)
+        collections_viewable_by_user(:sibling, user)
       end
     end
   end
