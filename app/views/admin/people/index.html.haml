@@ -1,0 +1,37 @@
+.page-header
+  %h1
+    People (#{@people.total_count})
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-heading
+        .panel-title Filters
+      .panel-body
+        = form_tag admin_people_path, method: :get, class: 'form-inline' do
+          .form-group
+            = text_field_tag :search_term, params[:search_term], class: 'form-control', placeholder: 'Search term'
+          .checkbox
+            %label
+              = check_box_tag :with_user, '1', params[:with_user].present?
+              Show only with user
+    
+          = submit_tag 'Apply', class: 'btn btn-primary'
+          = link_to 'Reset', admin_people_path, class: 'btn btn-default'
+    .btn-group
+      = link_to new_admin_person_path, class: 'btn btn-default' do
+        %span.glyphicon.glyphicon-plus
+        Create person
+
+.row
+  .col-xs-12
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Full name
+          %th User
+          %th Pseudonym
+          %th Actions
+      %tbody
+        = render @people
+    
+= paginate @people

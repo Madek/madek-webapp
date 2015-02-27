@@ -1,0 +1,13 @@
+%tr
+  %td= person
+  %td
+    - if person.user
+      = link_to admin_user_path(person.user) do
+        = person.user.login
+  %td= person.pseudonym
+  %td.active.col-xs-3
+    .btn-group
+      = link_to admin_person_path(person),
+        class: 'btn btn-default btn-sm', title: 'Details' do
+        %i.glyphicon.glyphicon-eye-open
+      = render partial: 'action_buttons', locals: { person: person, size: 'btn-sm', user: false}

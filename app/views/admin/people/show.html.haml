@@ -1,0 +1,16 @@
+.page-header
+  %h1
+    %i.glyphicon.glyphicon-person
+    = @person
+
+.panel.panel-default
+  .panel-body
+    .btn-group
+      = render partial: 'action_buttons', locals: { person: @person, size: nil, user: @person.user ? true : false }
+
+%table.table.table-striped
+  - @person.attributes.each do |attr|
+    %tr
+      %td
+        %strong #{attr.first.humanize}
+      %td= attr.last

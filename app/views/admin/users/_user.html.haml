@@ -1,7 +1,9 @@
 %tr{ class: ('success' if user.admin?) }
   %td= user.login
   %td= user.email
-  %td= "#{user.person.first_name} #{user.person.last_name}"
+  %td
+    = link_to admin_person_path(user.person) do
+      = "#{user.person.first_name} #{user.person.last_name}"
   %td= user.media_entries.count
   %td{ class: (user.admin? ? 'success' : 'danger') }
     = user.admin? ? 'Yes' : 'No'

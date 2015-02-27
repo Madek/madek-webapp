@@ -115,6 +115,9 @@ Madek::Application.routes.draw do
     resources :io_mappings
     resources :io_interfaces, except: [:edit, :update]
     resources :app_settings, only: [:index, :edit, :update]
+
+    resources :people
+
     root to: 'dashboard#index'
   end
 
