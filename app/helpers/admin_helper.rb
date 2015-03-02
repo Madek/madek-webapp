@@ -6,10 +6,11 @@ module AdminHelper
   end
 
   def alerts
-    @alerts.each_pair do |message_type, messages|
+    @alerts.each_pair do |level, level_content|
+      messages = level_content.is_a?(Array) ? level_content : [level_content]
       messages.each do |message|
-        alert_type = message_type == :error ? :danger : message_type
-        yield message_type, message, alert_type
+        bootstrap_level = (level == :error) ? :danger : level
+        yield level, message, bootstrap_level if message
       end
     end
     nil
