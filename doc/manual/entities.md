@@ -117,11 +117,11 @@ An externally-defined [Group][], synced with an `LDAP`-Directory.
 
 ### Notes
 
-* Subtype of [Group], implemented as `STI` in the `groups` table
+* Subtype of [Group][], implemented as `STI` in the `groups` table
 
 # Concerns
 
-Entities that have similar Relations to several [Resources][]s
+Entities that have similar relations to several [Resources][]s
 are called Concerns.
 
 ## [Permission][]s
@@ -134,49 +134,51 @@ Notable Differences:
 - there is no 'write', but distinct 'edit_data' and 'edit_permissions'
 
 
-### [Owner][]
+### [Responsible][]
 
-- for `MediaEntry`, `MediaSet`, `FilterSet`, there is always exactly 1 **owner**
+- for [MediaEntry][], [MediaSet][], [FilterSet][], there is always exactly 1 **owner**
+    - => **`responsible_user`**: [User][]
 - has super-permission **"Delete and Change owner"** (Löschen und Verantwortlichkeit übertragen)
-- implicitly has all the granular permissions listed below (if applicable)
+- **implicitly has all the granular permissions** listed below (if applicable)
 
 ### Per-Subject
 
 More granular permissions can be granted
-**on** `MediaEntry`s, `MediaSet`s and `FilterSet`s,
-**for** `User`s, `Group`s, `APIClient`s, as well as *"public"*.
+**on** [MediaEntry][]s, [MediaSet][]s and [FilterSet][]s,
+**for** [User][], [Group][]s, [APIClient][], as well as *"public"*.
 
-"public" permissions apply to any request, logged in or not.
+"Public" permissions apply to any request, logged in or not.
 
-Example: When checking if a MediaResource is visible to the User, we'll need to
+Example: When checking if a [MediaResource][] is visible to the [User][], we'll need to
 combine (`UNION`) the permissions of the following subjects:
-- the **Public**; and, if the User is logged in (there is a `current_user`), also
+- the **Public**; and, if the [User][] is logged in (there is a `current_user`), also
 - the **User** itself
 - *all* **Groups** the User is member of
+- <mark>TODO: The implicit Permissions of the [Responsible][] are already handled by the [Permissions][] module (?)</mark>
 
 
 | subject/permission | data_and_preview            | edit_data                                        | fullsize                                 | edit_permissions              |
 | :----------------  | :-------------------------: | :-------------:                                  | :-------------:                          | :----------------:            |
-| **`MediaEntry`**   | get metadata and previews   | edit metadata                                    | get full size                            | edit permissions              |
-| ↳ `User`           | ✔                           | ✔                                                | ✔                                        | ✔                             |
-| ↳ `Group`          | ✔                           | ✔                                                | ✔                                        | -                             |
-| ↳ `APIClient`      | ✔                           | -                                                | ✔                                        | -                             |
+| **[MediaEntry][]**   | get metadata and previews   | edit metadata                                    | get full size                            | edit permissions              |
+| ↳ [User][]           | ✔                           | ✔                                                | ✔                                        | ✔                             |
+| ↳ [Group][]          | ✔                           | ✔                                                | ✔                                        | -                             |
+| ↳ [APIClient][]      | ✔                           | -                                                | ✔                                        | -                             |
 | ↳ "public"         | ✔                           | -                                                | ✔                                        | -                             |
 | *Beschreibung*     | betrachten                  | Metadaten editieren                              | Original exportieren & in PDF blättern   | Zugriffsberechtigungen ändern |
 |                    |                             |                                                  |                                          |                               |
 |                    |                             |                                                  |                                          |                               |
-| **`MediaSet`**     | get metadata and previews   | edit metadata **and relations**                  | -                                        | edit permissions              |
-| ↳ `User`           | ✔                           | ✔                                                | -                                        | ✔                             |
-| ↳ `Group`          | ✔                           | ✔                                                | -                                        | -                             |
-| ↳ `APIClient`      | ✔                           | ✔                                                | -                                        | -                             |
+| **[MediaSet][]**     | get metadata and previews   | edit metadata **and relations**                  | -                                        | edit permissions              |
+| ↳ [User][]           | ✔                           | ✔                                                | -                                        | ✔                             |
+| ↳ [Group][]          | ✔                           | ✔                                                | -                                        | -                             |
+| ↳ [APIClient][]      | ✔                           | ✔                                                | -                                        | -                             |
 | ↳ "public"         | ✔                           | -                                                | -                                        | -                             |
 | *Beschreibung*     | betrachten                  | Metadaten editieren & Inhalte hinzufügen         | -                                        | Zugriffsberechtigungen ändern |
 |                    |                             |                                                  |                                          |                               |
 |                    |                             |                                                  |                                          |                               |
-| **`FilterSet`**    | get metadata and previews   | edit metadata **and filter**                     | -                                        | edit permissions              |
-| ↳ `User`           | ✔                           | ✔                                                | -                                        | ✔                             |
-| ↳ `Group`          | ✔                           | -                                                | -                                        | -                             |
-| ↳ `APIClient`      | ✔                           | ✔                                                | -                                        | -                             |
+| **[FilterSet][]**    | get metadata and previews   | edit metadata **and filter**                     | -                                        | edit permissions              |
+| ↳ [User][]           | ✔                           | ✔                                                | -                                        | ✔                             |
+| ↳ [Group][]          | ✔                           | -                                                | -                                        | -                             |
+| ↳ [APIClient][]      | ✔                           | ✔                                                | -                                        | -                             |
 | ↳ "public"         | ✔                           | -                                                | -                                        | -                             |
 | *Beschreibung*     | betrachten                  | Metadaten editieren & Filtereinstellungen ändern | -                                        | Zugriffsberechtigungen ändern |
 
@@ -280,7 +282,7 @@ TL;DR:
 There is no Model "Copyright", but a 'copyrighted' attribute on MediaFiles.
 A Model "License" would be enough to represent all the ways to transfer rights.
 
-For the User, the UI could stay roughly the same but allow more options.
+For the user, the UI could stay roughly the same but allow more options.
 There can be some specific hints if we know about the context from Metadata
 about the File or the User (e.g. Link to the official University explanation
 about the above situation when the User is a student or employee).
@@ -298,10 +300,13 @@ but for the ZHdK-Works mentioned above it is often:
 
 ## [MediaResource][]
 
-Either a [MediaEntry][] or a [Collection][] or a [FilterSet] (polymorphic).
+Either a [MediaEntry][] or a [Collection][] or a [FilterSet][] (polymorphic).
 
 Formerly a "real" Model, now just a convention between
 [Presenter][]s and [Decorator][]s (so they only exist in the UI).
+
+A more technical definition: Anything that can be put in a [Collection][],
+i.e. every Model for which there is a `collection_$something_arcs` table.
 
 
 ---
