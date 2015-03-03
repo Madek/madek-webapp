@@ -8,11 +8,26 @@ should be cleaned up before a release.
 
 ---
 
+
+---
+
+## TMP
+
+Der media_resources presenter
+- hat immer 3 methoden für die 3 media_resources types
+- jede methode gibt jeweils ein array aus spezifisches Presentern
+
 ## Featurescape
 
 [in PDF Form here](manual/Featurescape_2.pdf)
 
 (Maintained by S. Schumacher)
+
+---
+
+## Relations
+
+<https://wiki.zhdk.ch/madek-hilfe/doku.php?id=relationship>
 
 ---
 

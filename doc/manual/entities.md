@@ -148,6 +148,12 @@ More granular permissions can be granted
 
 "public" permissions apply to any request, logged in or not.
 
+Example: When checking if a MediaResource is visible to the User, we'll need to
+combine (`UNION`) the permissions of the following subjects:
+- the **Public**; and, if the User is logged in (there is a `current_user`), also
+- the **User** itself
+- *all* **Groups** the User is member of
+
 
 | subject/permission | data_and_preview            | edit_data                                        | fullsize                                 | edit_permissions              |
 | :----------------  | :-------------------------: | :-------------:                                  | :-------------:                          | :----------------:            |
