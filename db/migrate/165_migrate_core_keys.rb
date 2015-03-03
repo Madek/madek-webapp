@@ -4,74 +4,72 @@ class MigrateCoreKeys < ActiveRecord::Migration
   class IoMapping < ActiveRecord::Base ; end
   class MetaData < ActiveRecord::Base ; end
   class MetaKeyDefinitions < ActiveRecord::Base ; end
+  class Vocabulary < ActiveRecord::Base; end
 
 
   def change
 
+
+    Vocabulary.find_or_create_by id: "madek:core", label: "Madek Core", 
+      description: "This is the predefined and immutable Madek core vocabulary."
+
     execute "SET session_replication_role = REPLICA;"
 
-
-    [{id: 'title',
+    [{id: 'core:title',
       attributes: {
         id: 'madek:core:title',
         label: 'Title',
         enabled_for_media_entries: true,
         enabled_for_collections: true,
         enabled_for_filters_sets: true, 
+        vocabulary_id: 'madek::core'
     }},
     
-    {id: 'subtitle',
-      attributes: {
-        id: 'madek:core:subtitle',
-        label: 'Untertitel',
-        enabled_for_media_entries: true,
-        enabled_for_collections: true,
-        enabled_for_filters_sets: true, 
-    }},
-
-    {id: 'keywords',
+    {id: 'core:keywords',
       attributes: {
         id: 'madek:core:keywords',
         label: 'Schlagworte',
         enabled_for_media_entries: true,
         enabled_for_collections: true,
         enabled_for_filters_sets: true, 
+        vocabulary_id: 'madek::core'
     }}, 
 
-    {id: 'author',
+    {id: 'core:author',
       attributes: {
         id: 'madek:core:authors',
         label: 'Autoren',
         enabled_for_media_entries: true,
         enabled_for_collections: false,
         enabled_for_filters_sets: false, 
+        vocabulary_id: 'madek::core'
     }},
 
-    {id: 'portrayed object dates',
+    {id: 'core:portrayed_object_dates',
       attributes: {
         id: 'madek:core:portrayed_object_date',
         label: 'Datierung',
         enabled_for_media_entries: true,
         enabled_for_collections: false,
         enabled_for_filters_sets: false, 
+        vocabulary_id: 'madek::core'
     }},
 
-    {id: 'copyright notice',
+    {id: 'core:copyright_notice',
       attributes: {
         id: 'madek:core:copyright_notice',
         label: 'Rechteinhaber',
         enabled_for_media_entries: true,
         enabled_for_collections: false,
         enabled_for_filters_sets: false, 
+        vocabulary_id: 'madek::core'
     }},
 
 
     ].each do |update_data| 
 
-
-      MetaKey.where(id: update_data[:id]).find_each do |mk|
-        mk.update_columns(update_data[:attributes])
-      end
+      MetaKey.find_or_create_by(id: update_data[:id]) \
+        .update_columns update_data[:attributes]
 
       [IoMapping,MetaData,MetaKeyDefinitions].each do |klass| 
         klass.where(meta_key_id: update_data[:id]).find_each do |model|
@@ -79,13 +77,7 @@ class MigrateCoreKeys < ActiveRecord::Migration
         end
       end
 
-      MetaKeyDefinitions.where(meta_key_id: update_data[:id]).delete_all
-
     end
-
-
-    execute "DELETE FROM contexts WHERE id = 'core'"
-    
 
     execute "SET session_replication_role = DEFAULT;"
 

@@ -2,13 +2,11 @@ require 'spec_helper'
 
 describe MetaDatum::People do
 
-  context 'existing meta key madek:test:people, collection, some people' do
+  context 'existing meta key test:people, collection, some people' do
 
     before :all do
       PgTasks.truncate_tables
-      @meta_key_people = \
-        MetaKey.create id: 'madek:test:people',
-                       meta_datum_object_type: 'MetaDatum::People'
+      @meta_key_people = FactoryGirl.create :meta_key_people
       @person1 = FactoryGirl.create :person
       @person2 = FactoryGirl.create :person
       @person3 = FactoryGirl.create :person
@@ -20,7 +18,7 @@ describe MetaDatum::People do
     end
 
     it 'truly exists' do
-      expect { MetaKey.find('madek:test:people') }.not_to raise_error
+      expect { MetaKey.find('test:people') }.not_to raise_error
       expect { Collection.find(@collection.id) }.not_to raise_error
     end
 

@@ -30,7 +30,7 @@ class CreateMetaKeyDefinitions < ActiveRecord::Migration
       end
     end
 
-    add_foreign_key :meta_key_definitions, :meta_keys
+    add_foreign_key :meta_key_definitions, :meta_keys, dependent: :delete
     add_foreign_key :meta_key_definitions, :contexts
   end
 

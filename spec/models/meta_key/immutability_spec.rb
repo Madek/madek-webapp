@@ -8,8 +8,7 @@ describe 'the namespace madek:core' do
     ActiveRecord::Base.connection.execute  \
       'SET session_replication_role = REPLICA;'
 
-    MetaKey.create id: 'madek:core:title',
-                   meta_datum_object_type: 'MetaDatum::Text'
+    FactoryGirl.create :meta_key_core_title
 
     ActiveRecord::Base.connection.execute  \
       'SET session_replication_role = DEFAULT;'
@@ -22,8 +21,8 @@ describe 'the namespace madek:core' do
       expect do
         MetaKey.transaction do
           MetaKey.connection.execute \
-            %(INSERT INTO meta_keys (id, meta_datum_object_type) \
-              VALUES ('madek:core:description','MetaDatum::Text'))
+            %(INSERT INTO meta_keys (id, meta_datum_object_type, vocabulary_id) \
+              VALUES ('madek:core:description','MetaDatum::Text','madek:core'))
         end
       end.to raise_error(/may not be extended/)
     end

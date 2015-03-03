@@ -55,7 +55,7 @@
 	<array>
 		<dict>
 			<key>Bounds</key>
-			<string>{{738, 95.91452693939209}, {90.973267000000007, 12.08547306060791}}</string>
+			<string>{{764.02673300000004, 95.91452693939209}, {90.973267000000007, 12.08547306060791}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -127,8 +127,8 @@ public permissions}</string>
 			<integer>0</integer>
 			<key>Points</key>
 			<array>
-				<string>{630.49941966336212, 94.475916814011214}</string>
-				<string>{723.31773986092196, 89.999999999999986}</string>
+				<string>{621, 112.50000000000006}</string>
+				<string>{759.31773986092185, 105.75}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -176,8 +176,8 @@ public permissions}</string>
 			<integer>0</integer>
 			<key>Points</key>
 			<array>
-				<string>{589.5, 108}</string>
-				<string>{547.22590678561244, 250.19686533750948}</string>
+				<string>{580.5, 126}</string>
+				<string>{546.81215554850678, 249.79111904046832}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -206,7 +206,7 @@ public permissions}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{549, 81}, {81, 27}}</string>
+			<string>{{540, 99}, {81, 27}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -499,7 +499,7 @@ GroupPermission}</string>
 			<integer>0</integer>
 			<key>Points</key>
 			<array>
-				<string>{724.91347391416548, 247.91347391416545}</string>
+				<string>{721.26705747416804, 232.73294252583204}</string>
 				<string>{828, 295.95960049999991}</string>
 			</array>
 			<key>Style</key>
@@ -1333,7 +1333,7 @@ GroupPermission}</string>
 			<integer>0</integer>
 			<key>Points</key>
 			<array>
-				<string>{289.90500993723191, 449.4720575903163}</string>
+				<string>{296.99999999999994, 447.56704765308444}</string>
 				<string>{937.36499000000003, 558.195652173913}</string>
 			</array>
 			<key>Style</key>
@@ -1386,7 +1386,7 @@ GroupPermission}</string>
 			<integer>0</integer>
 			<key>Points</key>
 			<array>
-				<string>{279.68853376377405, 459.68853376377405}</string>
+				<string>{286.78352382654219, 457.78352382654225}</string>
 				<string>{711, 576.81580438966967}</string>
 			</array>
 			<key>Style</key>
@@ -1619,8 +1619,8 @@ GroupPermission}</string>
 			<integer>0</integer>
 			<key>Points</key>
 			<array>
-				<string>{603.49965065834886, 49.518687418540075}</string>
-				<string>{723.31773986092196, 54.000000000000014}</string>
+				<string>{622.63878999999997, 76.500000000000057}</string>
+				<string>{759.31773986092185, 83.25}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1645,6 +1645,8 @@ GroupPermission}</string>
 			<dict>
 				<key>ID</key>
 				<integer>971</integer>
+				<key>Info</key>
+				<integer>5</integer>
 			</dict>
 		</dict>
 		<dict>
@@ -1668,7 +1670,7 @@ GroupPermission}</string>
 			<integer>0</integer>
 			<key>Points</key>
 			<array>
-				<string>{520.36121000000014, 49.5}</string>
+				<string>{540, 76.5}</string>
 				<string>{423.76796613679448, 119.33831623237006}</string>
 			</array>
 			<key>Style</key>
@@ -1700,7 +1702,7 @@ GroupPermission}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{520.36121000000003, 36}, {82.638789999999972, 27}}</string>
+			<string>{{540, 63}, {82.638789999999972, 27}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -1782,8 +1784,8 @@ UserPermission}</string>
 			<integer>0</integer>
 			<key>Points</key>
 			<array>
-				<string>{907.80309160744173, 125.6721530258808}</string>
-				<string>{846, 72.000000000000043}</string>
+				<string>{908.18060500000001, 126}</string>
+				<string>{863.99999999999989, 94.500000000000028}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1812,7 +1814,7 @@ UserPermission}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{723.31773986092185, 36}, {122.68226013907815, 72}}</string>
+			<string>{{759.31773986092185, 72}, {104.68226013907815, 45}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -1867,8 +1869,7 @@ UserPermission}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\fs28 \cf0 Vocabulary / Context /\
-Nosebear}</string>
+\f0\fs28 \cf0 Vocabulary}</string>
 			</dict>
 			<key>TextPlacement</key>
 			<integer>0</integer>
@@ -2033,20 +2034,13 @@ Nosebear}</string>
 				<key>Size</key>
 				<real>12</real>
 			</dict>
-			<key>Head</key>
-			<dict>
-				<key>ID</key>
-				<integer>1005</integer>
-				<key>Info</key>
-				<integer>4</integer>
-			</dict>
 			<key>ID</key>
 			<integer>1016</integer>
 			<key>Layer</key>
 			<integer>0</integer>
 			<key>Points</key>
 			<array>
-				<string>{269.47205759031635, 469.90500993723197}</string>
+				<string>{276.56704765308444, 468.00000000000011}</string>
 				<string>{478.56696451352281, 560.95500238331419}</string>
 			</array>
 			<key>Style</key>
@@ -3281,7 +3275,7 @@ public permissions}</string>
 			<key>Text</key>
 			<dict>
 				<key>Text</key>
-				<string>{\rtf1\ansi\ansicpg1252\cocoartf1343\cocoasubrtf160
+				<string>{\rtf1\ansi\ansicpg1252\cocoartf1344\cocoasubrtf720
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
@@ -3527,7 +3521,7 @@ UserPermission}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{185.10157389088357, 542.11034163530223}, {50, 23}}</string>
+			<string>{{185.2236539156433, 542.11034065676699}, {50, 23}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -3553,7 +3547,7 @@ UserPermission}</string>
 				<integer>2</integer>
 			</dict>
 			<key>Rotation</key>
-			<real>28.22358644481659</real>
+			<real>28.304511914735826</real>
 			<key>Style</key>
 			<dict>
 				<key>shadow</key>
@@ -3570,7 +3564,7 @@ UserPermission}</string>
 			<key>Text</key>
 			<dict>
 				<key>Text</key>
-				<string>{\rtf1\ansi\ansicpg1252\cocoartf1343\cocoasubrtf160
+				<string>{\rtf1\ansi\ansicpg1252\cocoartf1344\cocoasubrtf720
 {\fonttbl\f0\fnil\fcharset0 HelveticaNeue;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
@@ -4286,7 +4280,7 @@ UserPermission}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{677.24482026271949, 160.19577782157208}, {105.03800483141674, 20.080798999999999}}</string>
+			<string>{{685.54763586049796, 155.76103518400598}, {92.494658464056329, 20.080798999999999}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -4939,7 +4933,7 @@ UserPermission}</string>
 \fs36 \cf0 \
 Entities and Database-Relations\
 
-\fs18 Version 2015-02-25 Th.Schank}</string>
+\fs18 Version 2015-03-03 Th.Schank}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -5360,7 +5354,7 @@ Entities and Database-Relations\
 			<integer>1</integer>
 			<key>Points</key>
 			<array>
-				<string>{199.21647617345775, 379.21647617345775}</string>
+				<string>{206.31146623622581, 377.3114662362259}</string>
 				<string>{343.55886384145515, 147.3582944767125}</string>
 			</array>
 			<key>Style</key>
@@ -5392,7 +5386,7 @@ Entities and Database-Relations\
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{182.55016735046888, 405.00422580445036}, {113.80467523629412, 28.896558328331139}}</string>
+			<string>{{189.64515741323697, 403.0992158672185}, {113.80467523629412, 28.896558328331139}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -5451,7 +5445,7 @@ Entities and Database-Relations\
 			<key>Text</key>
 			<dict>
 				<key>Text</key>
-				<string>{\rtf1\ansi\ansicpg1252\cocoartf1343\cocoasubrtf160
+				<string>{\rtf1\ansi\ansicpg1252\cocoartf1344\cocoasubrtf720
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
@@ -5596,7 +5590,7 @@ Entities and Database-Relations\
 			<integer>1</integer>
 			<key>Points</key>
 			<array>
-				<string>{648.54594154601841, 171.54594154601844}</string>
+				<string>{660.08005649435427, 171.54594154601827}</string>
 				<string>{452.0420917302784, 143.33240966248633}</string>
 			</array>
 			<key>Style</key>
@@ -5647,8 +5641,8 @@ Entities and Database-Relations\
 			<integer>1</integer>
 			<key>Points</key>
 			<array>
-				<string>{696.64835571884657, 199.8504646576101}</string>
-				<string>{721.89522479651248, 177.2728565534004}</string>
+				<string>{700.60074856592826, 192.27000642455499}</string>
+				<string>{723.73224335692657, 172.64272619395103}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -5677,7 +5671,7 @@ Entities and Database-Relations\
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{632.72970773009195, 196.22970773009195}, {108, 27}}</string>
+			<string>{{647.4078136709669, 188.63944203592516}, {86.531486626588503, 27}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -6513,7 +6507,7 @@ public permissions}</string>
 			<key>Text</key>
 			<dict>
 				<key>Text</key>
-				<string>{\rtf1\ansi\ansicpg1252\cocoartf1343\cocoasubrtf160
+				<string>{\rtf1\ansi\ansicpg1252\cocoartf1344\cocoasubrtf720
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
@@ -6958,7 +6952,7 @@ public permissions}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2015-02-25 15:17:38 +0000</string>
+	<string>2015-03-03 07:32:24 +0000</string>
 	<key>Modifier</key>
 	<string>DrTom</string>
 	<key>NotesVisible</key>
@@ -6994,7 +6988,7 @@ public permissions}</string>
 		<key>NSPaperName</key>
 		<array>
 			<string>string</string>
-			<string>AB501538-9846-483C-97B6-186D4210B713</string>
+			<string>184811F6-A0D3-400A-A15F-1A751264F089</string>
 		</array>
 		<key>NSPaperSize</key>
 		<array>
@@ -7046,7 +7040,7 @@ public permissions}</string>
 		<key>FitInWindow</key>
 		<true/>
 		<key>Frame</key>
-		<string>{{9, 4}, {1911, 1053}}</string>
+		<string>{{17, 4}, {2164, 1328}}</string>
 		<key>ShowInfo</key>
 		<false/>
 		<key>ShowRuler</key>
@@ -7058,9 +7052,9 @@ public permissions}</string>
 		<key>TopSlabHeight</key>
 		<real>250</real>
 		<key>VisibleRegion</key>
-		<string>{{-316, 0}, {1634.1244493392071, 783}}</string>
+		<string>{{-209.00000000000003, 0}, {1421.7109044801355, 783}}</string>
 		<key>Zoom</key>
-		<real>1.1596424010217115</real>
+		<real>1.5108556832694764</real>
 		<key>ZoomValues</key>
 		<array>
 			<array>

@@ -20,7 +20,7 @@ class CreateMetaData < ActiveRecord::Migration
     end
 
     add_foreign_key :meta_data, :media_resources, dependent: :delete
-    add_foreign_key :meta_data, :meta_keys
+    add_foreign_key :meta_data, :meta_keys, dependent: :delete
 
     add_foreign_key :meta_data, :copyrights
   end

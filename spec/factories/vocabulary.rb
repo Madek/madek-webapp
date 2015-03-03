@@ -1,4 +1,5 @@
 FactoryGirl.define do
+
   factory :vocabulary do
     id { Faker::Internet.slug }
     label { Faker::Lorem.word }
@@ -10,4 +11,5 @@ FactoryGirl.define do
       end
     end
   end
+
 end

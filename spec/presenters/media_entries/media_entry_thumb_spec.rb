@@ -9,8 +9,7 @@ describe Presenters::MediaEntries::MediaEntryThumb do
     unless MetaKey.find_by_id('madek:core:title')
       with_disabled_triggers do
         # TODO: remove as soon as the madek:core meta data is part of the test db
-        MetaKey.create id: 'madek:core:title',
-                       meta_datum_object_type: 'MetaDatum::Text'
+        FactoryGirl.create :meta_key_core_title
       end
     end
 

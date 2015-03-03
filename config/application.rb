@@ -65,8 +65,8 @@ module Madek
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
+    config.log_level = :info
     config.log_level = ENV['RAILS_LOG_LEVEL'] if ENV['RAILS_LOG_LEVEL'].present?
-    # config.log_level = :debug
 
     config.log_tags = [->(req) { Time.now.strftime('%T') }, :port, :remote_ip]
 

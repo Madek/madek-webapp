@@ -170,8 +170,6 @@ CREATE TABLE app_settings (
     logo_url character varying(255) DEFAULT '/assets/inserts/image-logo-zhdk.png'::character varying NOT NULL,
     brand character varying(255) DEFAULT 'Zürcher Hochschule der Künste'::character varying NOT NULL,
     footer_links text,
-    second_displayed_context_id character varying(255),
-    third_displayed_context_id character varying(255),
     CONSTRAINT oneandonly CHECK ((id = 0))
 );
 
@@ -270,30 +268,6 @@ CREATE TABLE collections (
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     responsible_user_id uuid NOT NULL,
     creator_id uuid NOT NULL
-);
-
-
---
--- Name: context_groups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE context_groups (
-    id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    name character varying(255),
-    "position" integer NOT NULL
-);
-
-
---
--- Name: contexts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE contexts (
-    id character varying(255) NOT NULL,
-    label character varying(255) DEFAULT ''::character varying NOT NULL,
-    description text DEFAULT ''::text NOT NULL,
-    context_group_id uuid,
-    "position" integer
 );
 
 
@@ -642,16 +616,6 @@ CREATE TABLE media_resources (
 
 
 --
--- Name: media_sets_contexts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE media_sets_contexts (
-    media_set_id uuid NOT NULL,
-    context_id character varying(255) NOT NULL
-);
-
-
---
 -- Name: meta_data; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -719,27 +683,6 @@ CREATE TABLE meta_data_vocables (
 
 
 --
--- Name: meta_key_definitions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE meta_key_definitions (
-    id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    description text DEFAULT ''::text NOT NULL,
-    hint text DEFAULT ''::text NOT NULL,
-    label text DEFAULT ''::text NOT NULL,
-    context_id character varying(255) NOT NULL,
-    meta_key_id character varying(255) NOT NULL,
-    is_required boolean DEFAULT false,
-    length_max integer,
-    length_min integer,
-    "position" integer NOT NULL,
-    input_type integer,
-    created_at timestamp without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp without time zone DEFAULT now() NOT NULL
-);
-
-
---
 -- Name: meta_keys; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -747,13 +690,19 @@ CREATE TABLE meta_keys (
     id character varying(255) NOT NULL,
     is_extensible_list boolean,
     meta_datum_object_type character varying(255) DEFAULT 'MetaDatumString'::character varying NOT NULL,
-    meta_terms_alphabetical_order boolean DEFAULT true,
+    vocables_alphabetical_order boolean DEFAULT true,
     label text,
     description text,
+    hint text,
+    is_required boolean DEFAULT false,
+    length_max integer,
+    length_min integer,
+    "position" integer,
+    input_type integer,
     enabled_for_media_entries boolean DEFAULT false NOT NULL,
     enabled_for_collections boolean DEFAULT false NOT NULL,
     enabled_for_filters_sets boolean DEFAULT false NOT NULL,
-    vocabulary_id character varying(255),
+    vocabulary_id character varying(255) NOT NULL,
     vocables_are_user_extensible boolean DEFAULT false
 );
 
@@ -873,7 +822,8 @@ CREATE TABLE vocables (
 CREATE TABLE vocabularies (
     id character varying(255) NOT NULL,
     label text,
-    description text
+    description text,
+    CONSTRAINT id_chars CHECK (((id)::text ~* '^[a-z0-9\-\_\:]+$'::text))
 );
 
 
@@ -974,22 +924,6 @@ ALTER TABLE ONLY collection_user_permissions
 
 ALTER TABLE ONLY collections
     ADD CONSTRAINT collections_pkey PRIMARY KEY (id);
-
-
---
--- Name: context_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY context_groups
-    ADD CONSTRAINT context_groups_pkey PRIMARY KEY (id);
-
-
---
--- Name: contexts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY contexts
-    ADD CONSTRAINT contexts_pkey PRIMARY KEY (id);
 
 
 --
@@ -1150,14 +1084,6 @@ ALTER TABLE ONLY media_resources
 
 ALTER TABLE ONLY meta_data
     ADD CONSTRAINT meta_data_pkey PRIMARY KEY (id);
-
-
---
--- Name: meta_key_definitions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY meta_key_definitions
-    ADD CONSTRAINT meta_key_definitions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1489,34 +1415,6 @@ CREATE INDEX index_collections_on_creator_id ON collections USING btree (creator
 --
 
 CREATE INDEX index_collections_on_responsible_user_id ON collections USING btree (responsible_user_id);
-
-
---
--- Name: index_context_groups_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_context_groups_on_name ON context_groups USING btree (name);
-
-
---
--- Name: index_context_groups_on_position; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_context_groups_on_position ON context_groups USING btree ("position");
-
-
---
--- Name: index_contexts_on_context_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_contexts_on_context_group_id ON contexts USING btree (context_group_id);
-
-
---
--- Name: index_contexts_on_position; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_contexts_on_position ON contexts USING btree ("position");
 
 
 --
@@ -1891,13 +1789,6 @@ CREATE INDEX index_media_resources_on_updated_at ON media_resources USING btree 
 
 
 --
--- Name: index_media_sets_contexts; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_media_sets_contexts ON media_sets_contexts USING btree (media_set_id, context_id);
-
-
---
 -- Name: index_meta_data_institutional_groups; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1972,20 +1863,6 @@ CREATE UNIQUE INDEX index_meta_data_vocables_on_meta_datum_id_and_vocable_id ON 
 --
 
 CREATE INDEX index_meta_data_vocables_on_vocable_id_and_meta_datum_id ON meta_data_vocables USING btree (vocable_id, meta_datum_id);
-
-
---
--- Name: index_meta_key_definitions_on_context_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_meta_key_definitions_on_context_id ON meta_key_definitions USING btree (context_id);
-
-
---
--- Name: index_meta_key_definitions_on_meta_key_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_meta_key_definitions_on_meta_key_id ON meta_key_definitions USING btree (meta_key_id);
 
 
 --
@@ -2167,27 +2044,11 @@ ALTER TABLE ONLY app_settings
 
 
 --
--- Name: app_settings_second_displayed_context_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY app_settings
-    ADD CONSTRAINT app_settings_second_displayed_context_id_fk FOREIGN KEY (second_displayed_context_id) REFERENCES contexts(id);
-
-
---
 -- Name: app_settings_splashscreen_slideshow_set_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY app_settings
     ADD CONSTRAINT app_settings_splashscreen_slideshow_set_id_fk FOREIGN KEY (splashscreen_slideshow_set_id) REFERENCES media_resources(id);
-
-
---
--- Name: app_settings_third_displayed_context_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY app_settings
-    ADD CONSTRAINT app_settings_third_displayed_context_id_fk FOREIGN KEY (third_displayed_context_id) REFERENCES contexts(id);
 
 
 --
@@ -2332,14 +2193,6 @@ ALTER TABLE ONLY collections
 
 ALTER TABLE ONLY collections
     ADD CONSTRAINT collections_responsible_user_id_fk FOREIGN KEY (responsible_user_id) REFERENCES users(id);
-
-
---
--- Name: contexts_context_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY contexts
-    ADD CONSTRAINT contexts_context_group_id_fk FOREIGN KEY (context_group_id) REFERENCES context_groups(id);
 
 
 --
@@ -2703,22 +2556,6 @@ ALTER TABLE ONLY media_files
 
 
 --
--- Name: media_sets_contexts_context_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_sets_contexts
-    ADD CONSTRAINT media_sets_contexts_context_id_fk FOREIGN KEY (context_id) REFERENCES contexts(id) ON DELETE CASCADE;
-
-
---
--- Name: media_sets_contexts_media_set_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_sets_contexts
-    ADD CONSTRAINT media_sets_contexts_media_set_id_fk FOREIGN KEY (media_set_id) REFERENCES media_resources(id) ON DELETE CASCADE;
-
-
---
 -- Name: meta_data_collection_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2828,22 +2665,6 @@ ALTER TABLE ONLY meta_data_vocables
 
 ALTER TABLE ONLY meta_data_vocables
     ADD CONSTRAINT meta_data_vocables_vocable_id_fk FOREIGN KEY (vocable_id) REFERENCES vocables(id) ON DELETE CASCADE;
-
-
---
--- Name: meta_key_definitions_context_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_key_definitions
-    ADD CONSTRAINT meta_key_definitions_context_id_fk FOREIGN KEY (context_id) REFERENCES contexts(id);
-
-
---
--- Name: meta_key_definitions_meta_key_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_key_definitions
-    ADD CONSTRAINT meta_key_definitions_meta_key_id_fk FOREIGN KEY (meta_key_id) REFERENCES meta_keys(id) ON DELETE CASCADE;
 
 
 --
@@ -3012,23 +2833,25 @@ INSERT INTO schema_migrations (version) VALUES ('145');
 
 INSERT INTO schema_migrations (version) VALUES ('146');
 
-INSERT INTO schema_migrations (version) VALUES ('147');
-
 INSERT INTO schema_migrations (version) VALUES ('148');
+
+INSERT INTO schema_migrations (version) VALUES ('149');
 
 INSERT INTO schema_migrations (version) VALUES ('15');
 
 INSERT INTO schema_migrations (version) VALUES ('150');
 
-INSERT INTO schema_migrations (version) VALUES ('152');
+INSERT INTO schema_migrations (version) VALUES ('151');
 
 INSERT INTO schema_migrations (version) VALUES ('153');
 
 INSERT INTO schema_migrations (version) VALUES ('154');
 
-INSERT INTO schema_migrations (version) VALUES ('155');
-
 INSERT INTO schema_migrations (version) VALUES ('16');
+
+INSERT INTO schema_migrations (version) VALUES ('165');
+
+INSERT INTO schema_migrations (version) VALUES ('166');
 
 INSERT INTO schema_migrations (version) VALUES ('17');
 

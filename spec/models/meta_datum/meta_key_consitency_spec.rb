@@ -5,12 +5,11 @@ describe 'relations between meta_data and meta_keys' do
 
   before :all do
     @collection = FactoryGirl.create :collection
-    MetaKey.create id: 'madek:test:title',
-                   meta_datum_object_type: 'MetaDatum::Text'
+    FactoryGirl.create :meta_key_title
     MetaDatum::Text.create \
       collection: @collection,
       value: 'Blah',
-      meta_key_id: 'madek:test:title'
+      meta_key_id: 'test:title'
   end
 
   describe MetaDatum do
@@ -34,7 +33,7 @@ describe 'relations between meta_data and meta_keys' do
           MetaDatum::TextDate.transaction do
             ActiveRecord::Base.connection.execute \
               "INSERT INTO meta_data (type,meta_key_id,collection_id)
-            VALUES ('MetaDatum::TextDate','madek:test:title','#{@collection.id}')"
+            VALUES ('MetaDatum::TextDate','test:title','#{@collection.id}')"
           end
         end.to raise_error \
           /types of related meta_data and meta_keys must be identical/

@@ -9,8 +9,8 @@ RSpec.shared_examples 'title' do
   before :example do
     # TODO: remove as soon as the madek:core meta data is part of the test db
     with_disabled_triggers do
-      MetaKey.create id: 'madek:core:title',
-                     meta_datum_object_type: 'MetaDatum::Text'
+      MetaKey.find_by(id: 'madek:core:title') \
+        || FactoryGirl.create(:meta_key_core_title)
     end
   end
 
@@ -58,8 +58,8 @@ RSpec.shared_examples 'keywords' do
   before :example do
     # TODO: remove as soon as the madek:core meta data is part of the test db
     with_disabled_triggers do
-      MetaKey.create id: 'madek:core:keywords',
-                     meta_datum_object_type: 'MetaDatum::Keyword'
+      MetaKey.find_by(id: 'madek:core:keywords') \
+        || FactoryGirl.create(:meta_key_core_keywords)
     end
   end
 
