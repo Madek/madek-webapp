@@ -2,7 +2,7 @@ require 'spec_helper'
 require Rails.root.join 'spec', 'presenters', 'shared', 'thumb_api'
 require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
 
-describe Presenters::Collections::CollectionThumb do
+describe Presenters::Collections::CollectionIndex do
 
   it_can_be 'dumped' do
     collection = FactoryGirl.create(:collection)

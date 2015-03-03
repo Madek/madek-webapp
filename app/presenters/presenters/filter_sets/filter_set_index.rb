@@ -1,6 +1,8 @@
 module Presenters
   module FilterSets
-    class FilterSetThumb < Presenters::Shared::Resources::ResourcesThumb
+    class FilterSetIndex < Presenters::Shared::MediaResources::MediaResourceIndex
+
+      include Presenters::FilterSets::Modules::FilterSetCommon
 
       def url
         filter_set_path @resource
@@ -12,6 +14,15 @@ module Presenters
         # TODO: implement
         #   - get a list of all entries matching the filter
         #   - select the first one that has an image, use that image
+      end
+
+      # TODO: relations
+      def parent_collections
+        nil
+      end
+
+      def sibling_collections
+        nil
       end
     end
   end

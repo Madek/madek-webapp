@@ -1,14 +1,15 @@
 module Presenters
   module MediaEntries
-    class MediaEntryShow < Presenters::Shared::Resources::ResourceShow
-      include Presenters::MediaEntries::MediaEntryHelpers
+    class MediaEntryShow < Presenters::Shared::MediaResources::MediaResourceShow
+
+      include Presenters::MediaEntries::Modules::MediaEntryCommon
 
       attr_reader :more_data
 
       def initialize(resource, user)
         super(resource, user)
         @relations = \
-          Presenters::MediaEntries::Relations.new(@resource, @user)
+          Presenters::MediaEntries::MediaEntryRelations.new(@resource, @user)
         @more_data = Presenters::MediaEntries::MoreData.new(@resource)
       end
 

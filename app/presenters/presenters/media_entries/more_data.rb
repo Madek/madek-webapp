@@ -1,7 +1,7 @@
 module Presenters
   module MediaEntries
     class MoreData < Presenter
-      include Presenters::Shared::Resources::Modules::Responsible
+      include Presenters::Shared::MediaResources::Modules::Responsible
 
       def initialize(resource)
         @resource = resource

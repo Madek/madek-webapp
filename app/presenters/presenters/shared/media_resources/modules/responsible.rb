@@ -1,6 +1,6 @@
 module Presenters
   module Shared
-    module Resources
+    module MediaResources
       module Modules
         module Responsible
           def responsible

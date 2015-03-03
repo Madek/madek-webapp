@@ -1,6 +1,6 @@
 module Presenters
   module People
-    class PersonThumb < PersonCommon
+    class PersonIndex < PersonCommon
       def url
         person_path(@person)
       end

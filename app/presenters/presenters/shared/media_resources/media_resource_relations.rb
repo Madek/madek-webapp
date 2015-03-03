@@ -1,8 +1,7 @@
 module Presenters
   module Shared
-    module Resources
-      class Relations < Presenter
-        attr_reader :has_any
+    module MediaResources
+      class MediaResourceRelations < Presenter
 
         def initialize(resource, user)
           @resource = resource
@@ -21,6 +20,8 @@ module Presenters
           collections(:sibling)
         end
 
+        attr_reader :has_any
+
         private
 
         def collections(kind)
@@ -29,8 +30,9 @@ module Presenters
             or instance_variable_set \
               var,
               @resource.send("#{kind}_collections_viewable_by_user", @user)
-                .map { |c| Presenters::Collections::CollectionThumb.new(c, @user) }
+                .map { |c| Presenters::Collections::CollectionIndex.new(c, @user) }
         end
+
       end
     end
   end

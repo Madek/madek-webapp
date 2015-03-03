@@ -1,12 +1,12 @@
 module Presenters
   module Collections
-    class CollectionShow < Presenters::Shared::Resources::ResourceShow
-      include Presenters::Shared::Resources::Modules::Responsible
+    class CollectionShow < Presenters::Shared::MediaResources::MediaResourceShow
+      include Presenters::Collections::Modules::CollectionCommon
 
       def initialize(resource, user)
         super(resource, user)
         @relations = \
-          Presenters::Collections::Relations.new(@resource, @user)
+          Presenters::Collections::CollectionRelations.new(@resource, @user)
       end
 
       def preview_thumb_url
@@ -18,30 +18,32 @@ module Presenters
         @resource \
           .media_entries
           .highlights
-          .map { |me| Presenters::MediaEntries::MediaEntryThumb.new(me, @user) }
+          .map { |me| Presenters::MediaEntries::MediaEntryIndex.new(me, @user) }
       end
 
-      def poly_resources
+      # These are the MediaResources that are "inside" the Collection:
+      # TODO: MediaResourcesPresenter
+      def child_media_resources
         {
           media_entries:
             @resource \
               .media_entries
               .map do |me|
-                Presenters::MediaEntries::MediaEntryThumb.new(me, @user)
+                Presenters::MediaEntries::MediaEntryIndex.new(me, @user)
               end,
 
           collections:
             @resource \
               .collections
               .map do |c|
-                Presenters::Collections::CollectionThumb.new(c, @user)
+                Presenters::Collections::CollectionIndex.new(c, @user)
               end,
 
           filter_sets:
             @resource \
               .filter_sets
               .map do |fs|
-                Presenters::FilterSets::FilterSetThumb.new(fs, @user)
+                Presenters::FilterSets::FilterSetIndex.new(fs, @user)
               end
         }
       end

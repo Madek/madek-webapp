@@ -2,7 +2,7 @@ require 'spec_helper'
 require Rails.root.join 'spec', 'presenters', 'shared', 'thumb_api'
 require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
 
-describe Presenters::MediaEntries::MediaEntryThumb do
+describe Presenters::MediaEntries::MediaEntryIndex do
   it_can_be 'dumped' do
     media_entry = FactoryGirl.create(:media_entry_with_image_media_file)
 

@@ -1,6 +1,8 @@
 module Presenters
   module Collections
-    class CollectionThumb < Presenters::Shared::Resources::ResourcesThumb
+    class CollectionIndex < Presenters::Shared::MediaResources::MediaResourceIndex
+
+      include Presenters::Collections::Modules::CollectionCommon
 
       def url
         collection_path @resource

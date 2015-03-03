@@ -43,7 +43,7 @@ module Presenters
       end
 
       def entrusted
-        # TODO: PolyRePresent
+        # TODO: MediaResourcesPresenter
         {
           media_entries:
             MediaEntry.entrusted_to_user(@user)
@@ -76,14 +76,14 @@ module Presenters
         presenter = \
           case resource.class.name
           when 'MediaEntry'
-            Presenters::MediaEntries::MediaEntryThumb
+            Presenters::MediaEntries::MediaEntryIndex
           # quick fix:
           when 'MediaEntryIncomplete'
-            Presenters::MediaEntries::MediaEntryThumb
+            Presenters::MediaEntries::MediaEntryIndex
           when 'Collection'
-            Presenters::Collections::CollectionThumb
+            Presenters::Collections::CollectionIndex
           when 'FilterSet'
-            Presenters::FilterSets::FilterSetThumb
+            Presenters::FilterSets::FilterSetIndex
           else
             raise "Missing presenter: #{resource.class.name}"
           end

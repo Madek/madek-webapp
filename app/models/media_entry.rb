@@ -2,7 +2,7 @@ class MediaEntry < ActiveRecord::Base
 
   include Concerns::Collections::Siblings
   include Concerns::MediaEntries::Filters
-  include Concerns::Resources
+  include Concerns::MediaResources
 
   has_one :media_file, dependent: :destroy
 

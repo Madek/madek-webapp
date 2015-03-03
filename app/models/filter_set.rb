@@ -1,6 +1,6 @@
 class FilterSet < ActiveRecord::Base
 
-  include Concerns::Resources
+  include Concerns::MediaResources
 
   serialize :filter, JSON
 end

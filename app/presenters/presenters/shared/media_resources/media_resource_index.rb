@@ -1,17 +1,7 @@
 module Presenters
   module Shared
-    module Resources
-      class ResourcesThumb < Presenter
-        include Presenters::Shared::Resources::Modules::URLHelpers
-
-        def initialize(resource, user)
-          @resource = resource
-          @user = user
-        end
-
-        def title
-          @resource.title
-        end
+    module MediaResources
+      class MediaResourceIndex < Presenter
 
         def privacy_status
           public_status or shared_status or private_status

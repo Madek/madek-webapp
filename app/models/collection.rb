@@ -1,7 +1,7 @@
 class Collection < ActiveRecord::Base
 
   include Concerns::Collections::Siblings
-  include Concerns::Resources
+  include Concerns::MediaResources
 
   #################################################################################
 

@@ -1,7 +1,8 @@
 module Presenters
   module MediaEntries
-    class MediaEntryThumb < Presenters::Shared::Resources::ResourcesThumb
-      include Presenters::MediaEntries::MediaEntryHelpers
+    class MediaEntryIndex < Presenters::Shared::MediaResources::MediaResourceIndex
+
+      include Presenters::MediaEntries::Modules::MediaEntryCommon
 
       def url
         media_entry_path @resource

@@ -1,5 +1,5 @@
 module Concerns
-  module Resources
+  module MediaResources
     module PermissionsAssociations
       extend ActiveSupport::Concern
 

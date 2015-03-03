@@ -13,7 +13,7 @@ module Presenters
           .users
           .includes(:person)
           .map(&:person)
-          .map { |p| Presenters::People::PersonThumb.new(p) }
+          .map { |p| Presenters::People::PersonIndex.new(p) }
       end
     end
   end
