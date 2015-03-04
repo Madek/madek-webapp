@@ -48,7 +48,5 @@ class Collection < ActiveRecord::Base
       .order(:created_at, :id)
   }
 
-  scope :viewable_by_public, -> { where(get_metadata_and_previews: true) }
-
   default_scope { reorder(:created_at, :id) }
 end
