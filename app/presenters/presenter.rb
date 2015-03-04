@@ -9,6 +9,7 @@ class Presenter
       .select { |a| a.to_s.match(/^Presenters/) }
       .map { |a| a.instance_methods(false) }
       .flatten
+      .uniq
   end
 
   def dump

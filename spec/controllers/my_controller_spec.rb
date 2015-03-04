@@ -78,19 +78,19 @@ describe MyController do
 
     # "Meine Inhalte"
     my_content = get.my_content
-    expect(my_content[:media_entries].count).to be == @limit_for_resources
-    expect(my_content[:media_entries].first.is_a?(Presenter)).to be true
-    expect(presented_entity my_content[:media_entries].first)
+    expect(my_content.media_entries.count).to be == @limit_for_resources
+    expect(my_content.media_entries.first.is_a?(Presenter)).to be true
+    expect(presented_entity my_content.media_entries.first)
       .to eq @user.media_entries.reorder('created_at DESC').first
 
-    expect(my_content[:collections].count).to be == @limit_for_resources
-    expect(my_content[:collections].first.is_a?(Presenter)).to be true
-    expect(presented_entity my_content[:collections].first)
+    expect(my_content.collections.count).to be == @limit_for_resources
+    expect(my_content.collections.first.is_a?(Presenter)).to be true
+    expect(presented_entity my_content.collections.first)
       .to eq @user.collections.reorder('created_at DESC').first
 
-    expect(my_content[:filter_sets].count).to be == @limit_for_resources
-    expect(my_content[:filter_sets].first.is_a?(Presenter)).to be true
-    expect(presented_entity my_content[:filter_sets].first)
+    expect(my_content.filter_sets.count).to be == @limit_for_resources
+    expect(my_content.filter_sets.first.is_a?(Presenter)).to be true
+    expect(presented_entity my_content.filter_sets.first)
       .to eq @user.filter_sets.reorder('created_at DESC').first
 
     # "Meine letzten Importe"
@@ -102,19 +102,19 @@ describe MyController do
 
     # "Mir anvertraute Inhalte"
     entrusted = get.entrusted
-    expect(entrusted[:media_entries].count).to be == @limit_for_resources
-    expect(entrusted[:media_entries].first.is_a?(Presenter)).to be true
-    expect(presented_entity entrusted[:media_entries].first)
+    expect(entrusted.media_entries.count).to be == @limit_for_resources
+    expect(entrusted.media_entries.first.is_a?(Presenter)).to be true
+    expect(presented_entity entrusted.media_entries.first)
       .to eq MediaEntry.entrusted_to_user(@user).reorder('created_at DESC').first
 
-    expect(entrusted[:collections].count).to be == @limit_for_resources
-    expect(entrusted[:collections].first.is_a?(Presenter)).to be true
-    expect(presented_entity entrusted[:collections].first)
+    expect(entrusted.collections.count).to be == @limit_for_resources
+    expect(entrusted.collections.first.is_a?(Presenter)).to be true
+    expect(presented_entity entrusted.collections.first)
       .to eq Collection.entrusted_to_user(@user).reorder('created_at DESC').first
 
-    expect(entrusted[:filter_sets].count).to be == @limit_for_resources
-    expect(entrusted[:filter_sets].first.is_a?(Presenter)).to be true
-    expect(presented_entity entrusted[:filter_sets].first)
+    expect(entrusted.filter_sets.count).to be == @limit_for_resources
+    expect(entrusted.filter_sets.first.is_a?(Presenter)).to be true
+    expect(presented_entity entrusted.filter_sets.first)
       .to eq FilterSet.entrusted_to_user(@user).reorder('created_at DESC').first
 
     # "Meine Gruppen"

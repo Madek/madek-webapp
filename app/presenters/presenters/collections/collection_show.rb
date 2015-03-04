@@ -20,33 +20,6 @@ module Presenters
           .highlights
           .map { |me| Presenters::MediaEntries::MediaEntryIndex.new(me, @user) }
       end
-
-      # These are the MediaResources that are "inside" the Collection:
-      # TODO: MediaResourcesPresenter
-      def child_media_resources
-        {
-          media_entries:
-            @resource \
-              .media_entries
-              .map do |me|
-                Presenters::MediaEntries::MediaEntryIndex.new(me, @user)
-              end,
-
-          collections:
-            @resource \
-              .collections
-              .map do |c|
-                Presenters::Collections::CollectionIndex.new(c, @user)
-              end,
-
-          filter_sets:
-            @resource \
-              .filter_sets
-              .map do |fs|
-                Presenters::FilterSets::FilterSetIndex.new(fs, @user)
-              end
-        }
-      end
     end
   end
 end

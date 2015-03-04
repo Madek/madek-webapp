@@ -37,7 +37,7 @@
     %h3.title-l.separated.mbm
       = "Relations"
     -# - throw 1
-    - unless @get.relations.has_any
+    - unless @get.relations.any?
       = "No relations found."
 
     .ui-separator.mbl
