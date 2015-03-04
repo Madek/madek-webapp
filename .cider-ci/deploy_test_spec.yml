@@ -22,4 +22,4 @@ tasks:
     scripts:
       deploy:
         body: REF=$(git log -n 1 --pretty='%H') && cd deploy/ansible && ansible-playbook -i hosts_zhdk-test play_setup-and-deploy.yml -e madek_git_ref=$REF
-        timeout: 3600
+        timeout: 10000
