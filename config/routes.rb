@@ -1,3 +1,6 @@
+# TODO: allow formats yaml, json ONLY for presenter-enabled resources!
+# TODO: redirect format html to base-URI (without format, it's the default!)
+
 Madek::Application.routes.draw do
 
   root to: 'application#root'
