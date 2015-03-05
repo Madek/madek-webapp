@@ -18,23 +18,23 @@
     = deco('polybox', title: 'My content',
                       link: { text: 'show all',
                               href: media_entries_path(latest: true)},
-                      poly_resources: @get.my_content)
+                      media_resources: @get.my_content)
 
     = deco('polybox', title: 'My latest imports',
                     link: { text: 'show all',
                             href: media_entries_path(imported: true)},
-                      poly_resources: { media_entries: @get.latest_imports })
+                      media_resources: @get.latest_imports)
 
 
     = deco('polybox', title: 'My favorites',
                     link: { text: 'show all',
                             href: media_entries_path(favorite: true)},
-                      poly_resources: @get.favorites)
+                      media_resources: @get.favorites)
 
     = deco('polybox', title: 'My entrusted content',
                     link: { text: 'show all',
                             href: media_entries_path(entrusted: true)},
-                      poly_resources: @get.entrusted)
+                      media_resources: @get.entrusted)
 
 
     = combo('resources-header', title: 'Groups')

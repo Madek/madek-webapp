@@ -21,8 +21,10 @@ module Presenters
       end
 
       def latest_imports
-        @user.created_media_entries.reorder('created_at DESC').limit(@limit)
-          .map { |r| thumbify(r) }
+        Presenters::Shared::MediaResources::MediaResources.new \
+          media_entries:
+            @user.created_media_entries.reorder('created_at DESC').limit(@limit)
+              .map { |r| thumbify(r) }
       end
 
       def favorites

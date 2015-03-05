@@ -1,11 +1,10 @@
 :ruby
-  # This is an presenter-specific application partial
-  return unless poly_resources and poly_resources.is_a?(Hash)
-  res = {
-    media_entries: poly_resources[:media_entries] || [],
-    collections: poly_resources[:collections] || [],
-    filter_sets: poly_resources[:filter_sets] || []
-  }
+  # This is a presenter-spezific decorator for MediaResources!
+
+  pres = media_resources # shortcut
+  unless pres and pres.is_a?(Presenters::Shared::MediaResources::MediaResources)
+    throw 'ui! need a MediaResourcesIndex Presenter!'
+  end
 
   title ||= title
 
@@ -16,7 +15,7 @@
 
   # for each type of resource, build the list of polythumbs
   resource_types = {
-    media_entries: res[:media_entries].map do |get|
+    media_entries: pres.media_entries.map do |get|
       deco('polythumb',
         title: get.title,
         thumb: component('thumbnail',
@@ -32,7 +31,7 @@
         )
       )
     end,
-    collections: res[:collections].map do |get|
+    collections: pres.collections.map do |get|
       deco('polythumb',
         title: get.title,
         thumb: component('thumbnail',
@@ -47,7 +46,7 @@
         )
       )
     end,
-    filter_sets: res[:filter_sets].map do |get|
+    filter_sets: pres.filter_sets.map do |get|
       deco('polythumb',
         title: get.title,
         thumb: component('thumbnail',
@@ -68,15 +67,15 @@
   filter_bar = combo('button-group', {
     mods: ['js-only', 'small'],
     list: [
-      (res[:media_entries].empty? ? nil : {
+      (pres.media_entries.empty? ? nil : {
         text: 'Entries',
         hook: 'entries'
       }),
-      (res[:collections].empty? ? nil : {
+      (pres.collections.empty? ? nil : {
         text: 'Collections',
         hook: 'collections'
       }),
-      (res[:filter_sets].empty? ? nil : {
+      (pres.filter_sets.empty? ? nil : {
         text: 'FilterSets',
         hook: 'filter_sets'
       })
