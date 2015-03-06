@@ -28,7 +28,6 @@ FactoryGirl.define do
           class: Permissions::FilterSetGroupPermission do
 
     get_metadata_and_previews { FactoryHelper.rand_bool 1 / 2.0 }
-    edit_metadata_and_filter { FactoryHelper.rand_bool 1 / 4.0 }
 
     group { Group.find_random || (FactoryGirl.create :group) }
     updator { User.find_random || (FactoryGirl.create :user) }

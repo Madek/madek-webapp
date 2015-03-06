@@ -6,8 +6,7 @@ module Permissions
       included do
         belongs_to :updator, class_name: 'User'
         belongs_to :filter_set
-        define_destroy_ineffective [{ get_metadata_and_previews: false,
-                                      edit_metadata_and_filter: false }]
+        define_destroy_ineffective [{ get_metadata_and_previews: false }]
       end
     end
   end

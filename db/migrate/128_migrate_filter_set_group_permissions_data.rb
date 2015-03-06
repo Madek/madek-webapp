@@ -10,8 +10,7 @@ class MigrateFilterSetGroupPermissionsData < ActiveRecord::Migration
   end
 
   GROUPPERMISSION_KEYS_MAP = {
-    'view' => 'get_metadata_and_previews',
-    'edit' => 'edit_metadata_and_filter'
+    'view' => 'get_metadata_and_previews'
   }
 
   def change
@@ -25,7 +24,7 @@ class MigrateFilterSetGroupPermissionsData < ActiveRecord::Migration
           .find_each do |group_permission|
             attributes = group_permission.attributes \
               .map { |k, v| k == 'media_resource_id' ? ['filter_set_id', v] : [k, v] } \
-              .reject { |k, v| %w(download manage).include? k } \
+              .reject { |k, v| %w(edit download manage).include? k } \
               .map { |k, v| [(GROUPPERMISSION_KEYS_MAP[k] || k), v] } \
               .instance_eval { Hash[self] }
             ::MigrationFilterSetGroupPermission.create! attributes
