@@ -1,12 +1,11 @@
 source 'http://rubygems.org'
-source 'http://gems.github.com'
 
 ####################################################################
 # required in production PRODUCTION
 #####################################################################
 
 # RAILS
-gem 'rails', '4.1.8'
+gem 'rails', '4.1.9'
 
 # DATABASE
 gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
