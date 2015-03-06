@@ -3,9 +3,15 @@
 
 @import "config/defaults/*"
 
-@import "config/local/*" 
+@import "config/local/*"
 
+
+// TMP: Workaround - config is broken so set it to what the styleguide expects
+$main-color: hsla(174, 59%, 39%, 1)
 +colour-palette
+$main-color-dark    : darken($main-color, 10%)
+$main-color-light   : lighten($main-color, 10%)
+
 
 /* Typography
  *-----------------------------------------
