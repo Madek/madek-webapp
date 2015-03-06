@@ -12,7 +12,8 @@ class MigrateUserCollectionPermissionsData < ActiveRecord::Migration
   USERPERMISSION_KEYS_MAP = {
 
     'view' => 'get_metadata_and_previews',
-    'edit' => 'edit_metadata_and_relations'
+    'edit' => 'edit_metadata_and_relations',
+    'manage' => 'edit_permissions'
 
   }
 
@@ -29,7 +30,6 @@ class MigrateUserCollectionPermissionsData < ActiveRecord::Migration
             .map { |k, v| k == 'media_resource_id' ? ['collection_id', v] : [k, v] } \
             .map { |k, v| [(USERPERMISSION_KEYS_MAP[k] || k), v] } \
             .reject { |k, v| k == 'download' } \
-            .reject { |k, v| k == 'manage' } \
             .instance_eval { Hash[self] }
 
         end

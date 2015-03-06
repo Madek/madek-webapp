@@ -249,6 +249,7 @@ CREATE TABLE collection_user_permissions (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     get_metadata_and_previews boolean DEFAULT false NOT NULL,
     edit_metadata_and_relations boolean DEFAULT false NOT NULL,
+    edit_permissions boolean DEFAULT false NOT NULL,
     collection_id uuid NOT NULL,
     user_id uuid NOT NULL,
     updator_id uuid,
