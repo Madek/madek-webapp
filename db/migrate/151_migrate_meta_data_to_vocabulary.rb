@@ -66,6 +66,7 @@ class MigrateMetaDataToVocabulary < ActiveRecord::Migration
   end
 
   def change
+    @meta_data_count = 0
     begin 
       Vocable.reset_column_information
       Vocabulary.reset_column_information
@@ -74,7 +75,7 @@ class MigrateMetaDataToVocabulary < ActiveRecord::Migration
       MetaTerm.reset_column_information
       MetaKeyDefinition.reset_column_information
 
-      MetaKey.find_each do |meta_key|
+      MetaKey.order(:id).each do |meta_key|
         if meta_key.meta_key_definitions.count == 0
 
           orphan_vocabulary = Vocabulary.find_or_create_by id: 'orphans', label: 'Orphans',
@@ -90,6 +91,8 @@ class MigrateMetaDataToVocabulary < ActiveRecord::Migration
           Rails.logger.info "CREATED NEW META_KEY: #{new_meta_key.attributes}"
 
           clone_meta_key_data(meta_key, new_meta_key)
+
+          new_meta_key.meta_data.reset
 
         else
 
@@ -123,20 +126,25 @@ class MigrateMetaDataToVocabulary < ActiveRecord::Migration
 
             clone_meta_key_data meta_key, new_meta_key
 
+            meta_key_definition.destroy
+            new_meta_key.meta_data.reset
+
           end
         end
+        meta_key.meta_data.reset
         meta_key.delete
       end
     rescue Exception => e
-      Rails.logger.info "#{e.class} #{e.message} #{e.backtrace.join(', ')}"
+      Rails.logger.warn "#{e.class} #{e.message} #{e.backtrace.join(', ')}"
       raise e
     end
   end
 
   def clone_meta_key_data(meta_key, new_meta_key)
-    meta_key.meta_data.find_each do |meta_datum|
+    meta_key.meta_data.each do |meta_datum|
 
-      Rails.logger.info "MIGRATING META_DATUM: #{meta_datum.attributes}"
+      @meta_data_count+=1
+      Rails.logger.info("#meta-datum: #{@meta_data_count} for #{new_meta_key.id}") if ((@meta_data_count % 1000) == 0)
 
       shared_attributes = meta_datum.slice(:string, :copyright_id, :media_entry_id, :collection_id, :filter_set_id, :type)
       new_meta_datum = MetaDatum.create! shared_attributes.merge(meta_key: new_meta_key)
@@ -149,24 +157,34 @@ class MigrateMetaDataToVocabulary < ActiveRecord::Migration
       when 'MetaDatum::People'
         new_meta_datum.people = meta_datum.people
         new_meta_datum.save!
+        new_meta_datum.people.reset
+        meta_datum.people.reset
 
       when 'MetaDatum::Keywords'
         new_meta_datum.keywords = meta_datum.keywords
         new_meta_datum.save!
+        new_meta_datum.keywords.reset
+        meta_datum.keywords.reset
 
       when 'MetaDatum::Vocables'
         meta_datum.meta_terms.each do |meta_term|
           vocable = Vocable.find_or_create_by(term: meta_term.term, meta_key_id: new_meta_key.id)
           new_meta_datum.vocables << vocable unless meta_datum.vocables.include? vocable
         end
+        meta_datum.meta_terms.reset 
+        new_meta_datum.vocables.reset
 
       when 'MetaDatum::Groups'
         new_meta_datum.groups = meta_datum.groups
         new_meta_datum.save!
+        new_meta_datum.groups.reset
+        meta_datum.groups.reset
 
       when 'MetaDatum::Users'
         new_meta_datum.users = meta_datum.users
         new_meta_datum.save!
+        new_meta_datum.users.reset
+        meta_datum.users.reset
 
       else
         raise "MIGRATING meta_datum_object_type #{object_type} is pending"
