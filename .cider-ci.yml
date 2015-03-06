@@ -40,3 +40,14 @@ executions:
         Code-Check: passed
         Coverage: passed
 
+  Deploy-Test-With-DataReset:
+    description: >
+       Deploy this commit to test.madek.zhdk.ch. 
+    specification: 
+      _cider-ci_include: /.cider-ci/deploy_test_with_data_reset_spec.yml
+    depends:
+      executions:
+        Tests: passed
+        Code-Check: passed
+        Coverage: passed
+

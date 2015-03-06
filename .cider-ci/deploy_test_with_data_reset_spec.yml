@@ -1,4 +1,4 @@
-name: Deploy Madek V3 to Test
+name: Deploy Madek V3 to Test with DataReset
 
 task_defaults:
 
@@ -23,5 +23,5 @@ tasks:
       deploy:
         body: |
           cd deploy/ansible && \
-          ansible-playbook -i hosts_zhdk-test play_setup-and-deploy.yml
-        timeout: 600
+          ansible-playbook -i hosts_zhdk-test play_setup-and-deploy.yml -e 'reset_data=True'
+        timeout: 12000
