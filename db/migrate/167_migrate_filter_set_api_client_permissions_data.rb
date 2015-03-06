@@ -5,6 +5,10 @@ class MigrateFilterSetApiClientPermissionsData < ActiveRecord::Migration
   include MigrationHelper
   include MediaResourceMigrationModels
 
+  class ::MigrationApiClientpermission < ActiveRecord::Base
+    self.table_name = :applicationpermissions
+  end
+
   class ::MigrationFilterSetApiClientPermission < ActiveRecord::Base
     self.table_name = :filter_set_api_client_permissions
   end
