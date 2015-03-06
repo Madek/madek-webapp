@@ -36,9 +36,13 @@
   .ui-container.midtone.rounded-bottom.pal.well
     %h3.title-l.separated.mbm
       = "Relations"
-    -# - throw 1
     - unless @get.relations.any?
       = "No relations found."
+    - else
+      %h4.title-m.mbm= "Parents"
+      = deco('polybox', media_resources: @get.relations.parent_media_resources)
+      %h4.title-m.mbm= "Siblings"
+      = deco('polybox', media_resources: @get.relations.sibling_media_resources)
 
     .ui-separator.mbl
 

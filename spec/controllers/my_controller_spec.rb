@@ -94,7 +94,7 @@ describe MyController do
       .to eq @user.filter_sets.reorder('created_at DESC').first
 
     # "Meine letzten Importe"
-    imports = get.latest_imports
+    imports = get.latest_imports.media_entries
     expect(imports.count).to be == @limit_for_resources
     expect(imports.first.is_a?(Presenter)).to be true
     expect(presented_entity imports.first)

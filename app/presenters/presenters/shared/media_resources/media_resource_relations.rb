@@ -8,14 +8,16 @@ module Presenters
         end
 
         def any?
-          parent_collections.any? or
+          # parents can only be collections anyway
+          parent_media_resources.collections.any? or
             sibling_media_resources.media_entries.any? or
             sibling_media_resources.collections.any? or
             sibling_media_resources.filter_sets.any?
         end
 
-        def parent_collections
-          relational_collections(:parent)
+        def parent_media_resources
+          Presenters::Shared::MediaResources::MediaResources.new \
+            collections: relational_collections(:parent)
         end
 
         def sibling_media_resources

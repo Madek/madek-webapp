@@ -23,6 +23,7 @@ module Concerns
           scope2 = send("#{relation_kind}_collections")
           sql = "((#{scope1.to_sql}) INTERSECT (#{scope2.to_sql})) "\
                  'AS collections'
+          #  TODO: exclude self!
           Collection.from(sql)
         end
       end
