@@ -8,6 +8,7 @@ require 'spec_helper'
   'favoritable.rb',
   'in_responsibility_of_user.rb',
   'meta_data.rb',
+  'permission_types_for_user.rb',
   'relations.rb',
   'validates.rb'
 ]
@@ -56,5 +57,10 @@ describe FilterSet do
     it_provides_reader_method_for 'description'
     it_provides_reader_method_for 'keywords'
 
+  end
+
+  it_responds_to 'permission_types_for_user' do
+    let(:irrelevant_group_perm_types) \
+      { [:edit_metadata_and_filter, :edit_permissions] }
   end
 end

@@ -14,4 +14,11 @@ class CollectionsController < ApplicationController
     collection = Collection.find(params[:id])
     @get = ::Presenters::Collections::CollectionShow.new(collection, current_user)
   end
+
+  def permissions_show
+    collection = Collection.find(params[:id])
+    @get = \
+      ::Presenters::Collections::CollectionPermissionsShow
+        .new(collection, current_user)
+  end
 end

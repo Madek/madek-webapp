@@ -8,6 +8,7 @@ require 'spec_helper'
   'favoritable.rb',
   'in_responsibility_of_user.rb',
   'meta_data.rb',
+  'permission_types_for_user.rb',
   'relations.rb',
   'validates.rb'
 ].each do |file|
@@ -79,5 +80,9 @@ describe MediaEntry do
 
   it_responds_to 'parent_collections_viewable_by_user' do
     let(:resource_type) { :media_entry }
+  end
+
+  it_responds_to 'permission_types_for_user' do
+    let(:irrelevant_group_perm_types) { [:edit_permissions] }
   end
 end

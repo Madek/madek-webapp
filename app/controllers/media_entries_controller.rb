@@ -31,6 +31,13 @@ class MediaEntriesController < ApplicationController
     @get = ::Presenters::MediaEntries::MediaEntryShow.new(entry, current_user)
   end
 
+  def permissions_show
+    entry = MediaEntry.find(params[:id])
+    @get = \
+      ::Presenters::MediaEntries::MediaEntryPermissionsShow.new(entry,
+                                                                current_user)
+  end
+
   private
 
   def filter_by_imported(media_entries)

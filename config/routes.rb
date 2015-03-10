@@ -2,15 +2,18 @@ Madek::Application.routes.draw do
 
   root to: 'application#root'
 
-  # RESTful App Routes #########################################################
-  # NOTE: they are all 'resources' here, don't confuse with "MediaResources"!
+  concern :permissions do
+    get 'permissions', action: :permissions_show, as: 'permissions', on: :member
+  end
 
-  ## The resources we internally call "MediaResources":
-  resources :media_entries, path: 'entries', only: [:index, :show] do
+  resources :media_entries,
+            path: 'entries',
+            only: [:index, :show],
+            concerns: :permissions do
     get 'preview/:size', action: :preview, as: 'preview', on: :member
   end
-  resources :collections, only: [:index, :show]
-  resources :filter_sets, only: [:index, :show]
+  resources :collections, only: [:index, :show], concerns: :permissions
+  resources :filter_sets, only: [:index, :show], concerns: :permissions
 
   resources :people, only: :show
 

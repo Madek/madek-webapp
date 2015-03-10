@@ -8,6 +8,11 @@ module Permissions
         belongs_to :filter_set
         define_destroy_ineffective [{ get_metadata_and_previews: false }]
       end
+
+      PERMISSION_TYPES = \
+        [:get_metadata_and_previews,
+         :edit_metadata_and_filter,
+         :edit_permissions]
     end
   end
 end

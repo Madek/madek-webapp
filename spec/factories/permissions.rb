@@ -31,7 +31,7 @@ FactoryGirl.define do
 
     group { Group.find_random || (FactoryGirl.create :group) }
     updator { User.find_random || (FactoryGirl.create :user) }
-    filter_set { Collection.find_random || (FactoryGirl.create :filter_set) }
+    filter_set { FilterSet.find_random || (FactoryGirl.create :filter_set) }
 
   end
 
@@ -79,6 +79,7 @@ FactoryGirl.define do
 
     get_metadata_and_previews { FactoryHelper.rand_bool 1 / 4.0 }
     edit_metadata_and_relations { FactoryHelper.rand_bool 1 / 4.0 }
+    edit_permissions { FactoryHelper.rand_bool 1 / 4.0 }
 
     user { User.find_random || (FactoryGirl.create :user) }
     updator { User.find_random || (FactoryGirl.create :user) }
