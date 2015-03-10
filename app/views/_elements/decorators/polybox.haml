@@ -27,7 +27,8 @@
           meta: {
             title: get.title,
             subtitle: get.authors
-          }
+          },
+          badge_top_left: component('privacy-icon', status: get.privacy_status)
         )
       )
     end,
@@ -42,7 +43,8 @@
           meta: {
             title: get.title#,
             # subtitle: 'TODO'
-          }
+          },
+          badge_top_left: component('privacy-icon', status: get.privacy_status)
         )
       )
     end,
@@ -57,7 +59,9 @@
           meta: {
             title: get.title#,
             # subtitle: 'TODO'
-          }
+          },
+          badge_top_left: component('privacy-icon', status: get.privacy_status),
+          badge_top_right: component('icon.filter')
         )
       )
     end

@@ -1,0 +1,9 @@
+:ruby
+  throw 'ui: no privacy status!' unless defined?(status) and status
+  icon_map = {
+    public: 'open',
+    shared: 'group',
+    private: 'private'
+  }
+
+= component('icon', "icon-privacy-#{icon_map[status]}")
