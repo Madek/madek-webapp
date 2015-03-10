@@ -1,12 +1,10 @@
 :ruby
+  # TODO: throw 'ui: unknown <icon>!' unless available_icons.include(icon)
   props = {
     class: classes.join(' '),
     title: defined?(text) && text
   }
 
-  if classes.select { |name| name.start_with?('icon-') }.empty?
-    Rails.logger.warn('ui: no icon given!')
-    return
-  end
+  return if classes.select { |name| name.start_with?('icon-') }.empty?
 
   haml_tag('i', props)

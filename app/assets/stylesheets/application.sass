@@ -9,7 +9,8 @@
 
 .no-js
   // default shown
-  html.has-js
+  html &
+    @extend .shown
   // hide if has js
   html.has-js &
     @extend .hidden
