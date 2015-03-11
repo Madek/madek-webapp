@@ -1,18 +1,22 @@
 :ruby
   # TODO: info left/right could also be preview_small and _large…
-  throw 'ui: invalid data' unless overview && head.is_a?(Hash)
-
+  overview ||= nil
+  header ||= nil
   more_info ||= nil
-  box_rounding_top = more_info ? 'rounded-top-right' : 'rounded-bottom'
+  throw 'ui: invalid data' unless overview && header
 
-= head[:title]
+  top_box_mods = ['rounded-top-right']
+  top_box_mods << 'rounded-bottom' unless more_info
+
 
 .app-body-ui-container
+  = header
+  
   -# complete box (under the title):
   .ui-container.tab-content.bordered.rounded-right.rounded-bottom.mbh
 
     -# top part of the box:
-    .ui-container.bright.pal{class: box_rounding_top}
+    .ui-container.bright.pal{class: top_box_mods}
 
       = overview
 

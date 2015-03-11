@@ -1,13 +1,11 @@
 :ruby
   tag_cloud_mods = ['small','ellipsed']
   res_show_data = {
-    head: {
-      title: component('page-header',
-               icon: component('icon.set'),
-               text: @get.title
-      ),
-      actions: nil # TODO
-    },
+    header: component('page-header',
+              icon: component('icon.set'),
+              text: @get.title,
+              actions: nil # TODO: actions
+            ),
     overview: deco('resource_show_overview',
       mods: 'ui-set-overview',
       preview: component('thumbnail', mods: ['media-set'],
