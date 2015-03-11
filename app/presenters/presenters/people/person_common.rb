@@ -1,12 +1,8 @@
 module Presenters
   module People
-    class PersonCommon < Presenter
-      def initialize(person)
-        @person = person
-      end
-
+    class PersonCommon < Presenters::Shared::AppResource
       def name
-        @person.to_s
+        @resource.to_s
       end
     end
   end

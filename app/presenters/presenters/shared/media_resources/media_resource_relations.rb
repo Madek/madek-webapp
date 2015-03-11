@@ -1,9 +1,9 @@
 module Presenters
   module Shared
     module MediaResources
-      class MediaResourceRelations < Presenter
+      class MediaResourceRelations < Presenters::Shared::AppResource
         def initialize(resource, user)
-          @resource = resource
+          super(resource)
           @user = user
         end
 

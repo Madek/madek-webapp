@@ -1,7 +1,7 @@
 module Presenters
   module Shared
     module MediaResources
-      class MediaResourceIndex < Presenter
+      class MediaResourceIndex < Presenters::Shared::AppResource
 
         def privacy_status
           public_status or shared_status or private_status

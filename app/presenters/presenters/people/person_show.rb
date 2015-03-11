@@ -7,7 +7,7 @@ module Presenters
          first_name
          last_name
          pseudonym
-         searchable).each { |m| delegate m.to_sym, to: :@person }
+         searchable).each { |m| delegate m.to_sym, to: :@resource }
     end
   end
 end

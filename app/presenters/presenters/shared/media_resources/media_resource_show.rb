@@ -1,7 +1,7 @@
 module Presenters
   module Shared
     module MediaResources
-      class MediaResourceShow < Presenter
+      class MediaResourceShow < Presenters::Shared::AppResource
 
         def description
           @resource.description

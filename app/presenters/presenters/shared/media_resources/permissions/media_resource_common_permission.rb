@@ -2,11 +2,7 @@ module Presenters
   module Shared
     module MediaResources
       module Permissions
-        class MediaResourceCommonPermission < Presenter
-          def initialize(resource)
-            @resource = resource
-          end
-
+        class MediaResourceCommonPermission < Presenters::Shared::AppResource
           delegate :get_metadata_and_previews, to: :@resource
         end
       end

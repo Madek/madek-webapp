@@ -10,6 +10,7 @@ class Presenter
       .map { |a| a.instance_methods(false) }
       .flatten
       .uniq
+      .reject { |m| m == :inspect }
   end
 
   def dump

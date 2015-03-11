@@ -74,7 +74,7 @@ describe MyController do
     get = assigns(:get)
     expect(get.is_a?(Presenter)).to be true
     expect(get.api)
-      .to eq [:my_content, :latest_imports, :favorites, :entrusted, :groups]
+      .to eq [:my_content, :latest_imports, :favorites, :entrusted, :groups, :uuid]
 
     # "Meine Inhalte"
     my_content = get.my_content

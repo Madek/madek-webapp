@@ -1,15 +1,11 @@
 module Presenters
   module Groups
-    class GroupShow < Presenter
-      def initialize(group)
-        @group = group
-      end
-
+    class GroupShow < Presenters::Shared::AppResource
       [:name, :institutional?, :institutional_group_name] \
-        .each { |m| delegate m, to: :@group }
+        .each { |m| delegate m, to: :@resource }
 
       def members
-        @group
+        @resource
           .users
           .includes(:person)
           .map(&:person)
