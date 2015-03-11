@@ -21,7 +21,7 @@
     %li.ui-tag-cloud-item
       :ruby
         item = { text: item } if item.is_a?(String)
-        next unless item.is_a?(Hash)
+        next unless item.is_a?(Hash) && item[:text] && item[:text].is_a?(String)
 
         html_tag_type = 'a'
         props = {

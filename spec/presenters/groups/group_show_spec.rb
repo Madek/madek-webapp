@@ -7,8 +7,9 @@ describe Presenters::Groups::GroupShow do
   end
 
   it_can_be 'dumped' do
+    user = FactoryGirl.create(:user)
     group = FactoryGirl.create(:group)
     3.times { group.users << FactoryGirl.create(:user) }
-    let(:presenter) { described_class.new(group) }
+    let(:presenter) { described_class.new(group, user) }
   end
 end

@@ -54,12 +54,9 @@ module Presenters
       end
 
       def groups
-        # TODO: GroupsPresenter?
         @app_resource.groups.limit(4).map do |group|
-          {
-            id: group.id,
-            name: group.name
-          }
+          Presenters::Groups::GroupShow
+            .new(group, @user)
         end
       end
     end

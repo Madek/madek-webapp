@@ -19,6 +19,7 @@ Madek::Application.routes.draw do
   resources :filter_sets, only: [:index, :show], concerns: :permissions
 
   resources :people, only: :show
+  resources :groups, only: :show
 
   # Static App routes ##########################################################
   # TODO: resource 'users'?

@@ -1,20 +1,7 @@
 .ui-container.bright.rounded.bordered.pam
 
   .ui-container
-
-    -# TODO: how to handle the 3 headings/links inside a polybox???
-      it sounds like a tabbed section…
-
-    -# old:
-      %h3= 'My media entries'
-      %div= link_to 'show all', media_entries_path(latest: true)
-
-      %h3= 'My collections'
-      %div= link_to 'show all', collections_path(latest: true)
-
-      %h3= 'My filter sets'
-      %div= link_to 'show all', filter_sets_path(latest: true)
-
+  
     = deco('polybox', title: 'My content',
                       link: { text: 'show all',
                               href: media_entries_path(latest: true)},
@@ -38,6 +25,7 @@
 
 
     = combo('resources-header', title: 'Groups')
-    -# TODO: group list decorator
+    -# TODO: GroupIndexPresenter…
     = component('tag-cloud.group', mods: 'compact',
-        list: @get.groups.map {|g| { text: g[:name] } })
+        list: @get.groups.map {|get| { text: get.name,
+                                       href: "/groups/#{get.uuid}" } })
