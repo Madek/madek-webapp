@@ -1,4 +1,7 @@
 :ruby
+  # TODO: i18n
+  default_fallback = "(No content.)"
+
   # This is a presenter-spezific decorator for MediaResources!
 
   pres = media_resources # shortcut
@@ -7,6 +10,9 @@
   end
 
   title ||= title
+  # fallback can be a string or just 'true', in which case we use default string
+  fallback ||= fallback
+  fallback = default_fallback if fallback and not fallback.is_a?(String)
 
   # there are several "view modes", default is grid
   view_modes = [:grid, :tiles]
@@ -101,7 +107,7 @@
 .POLYBOX
   = combo('resources-header', title: title, filter_bar: filter_bar)
 
-  - return "(No content.)" if all_lists_are_empty
+  - return fallback if all_lists_are_empty
 
   %ul.ui-resources{class: classes}
 
