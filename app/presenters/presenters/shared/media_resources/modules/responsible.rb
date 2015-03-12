@@ -4,7 +4,8 @@ module Presenters
       module Modules
         module Responsible
           def responsible
-            @app_resource.responsible_user.person.to_s
+            ::Presenters::People::PersonIndex.new \
+              @app_resource.responsible_user.person
           end
         end
       end

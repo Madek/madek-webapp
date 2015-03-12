@@ -8,7 +8,7 @@ module Presenters
           end
 
           def person_name
-            @app_resource.user.person.to_s
+            ::Presenters::People::PersonIndex.new(@app_resource.user.person)
           end
 
           delegate :edit_permissions, to: :@app_resource

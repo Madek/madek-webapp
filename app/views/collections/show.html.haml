@@ -20,9 +20,15 @@
                      ['Keywords', component('tag-cloud.label',
                         mods: tag_cloud_mods,
                         list: @get.keywords)],
+                      # TODO: personDecorator?
                      ['Responsible', component('tag-cloud.person',
                         mods: tag_cloud_mods,
-                        list: [@get.responsible])]
+                        list: [{
+                                text:@get.responsible.name,
+                                href: @get.responsible.url
+                              }]
+                        )
+                      ]
                     ])
     ),
     more_info: nil # captured below

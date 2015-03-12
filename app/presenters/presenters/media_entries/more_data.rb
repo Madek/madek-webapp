@@ -16,7 +16,8 @@ module Presenters
       end
 
       def importer
-        @app_resource.media_file.uploader.person.to_s
+        ::Presenters::People::PersonIndex.new \
+          @app_resource.media_file.uploader.person
       end
 
       def import_date
@@ -33,7 +34,10 @@ module Presenters
       private
 
       def format_edit_session(es)
-        "#{es.user.person} / #{es.created_at.strftime('%d.%m.%Y, %H:%M')}"
+        [
+          es.created_at.strftime('%d.%m.%Y, %H:%M'),
+          ::Presenters::People::PersonIndex.new(es.user.person)
+        ]
       end
 
       def filename
