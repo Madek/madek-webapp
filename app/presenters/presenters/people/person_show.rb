@@ -1,13 +1,17 @@
 module Presenters
   module People
     class PersonShow < PersonCommon
-      %w(is_bunch
-         date_of_birth
-         date_of_death
-         first_name
+      # TODO: show person.searchable? (it's supposed to be internal…)
+      %w(first_name
          last_name
          pseudonym
-         searchable).each { |m| delegate m.to_sym, to: :@app_resource }
+         date_of_birth
+         date_of_death).each { |m| delegate m.to_sym, to: :@app_resource }
+
+      def bunch?
+        @app_resource.is_bunch
+      end
+
     end
   end
 end

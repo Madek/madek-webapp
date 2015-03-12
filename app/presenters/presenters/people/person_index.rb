@@ -2,12 +2,9 @@ module Presenters
   module People
     class PersonIndex < PersonCommon
       def url
-        person_path(@person)
+        person_path(@app_resource)
       end
 
-      def generic_thumbnail_url
-        'TODO'
-      end
     end
   end
 end
