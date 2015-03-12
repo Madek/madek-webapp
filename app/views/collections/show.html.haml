@@ -1,5 +1,5 @@
 :ruby
-  tag_cloud_mods = ['small','ellipsed']
+  tag_mods = ['small','ellipsed']
   res_show_data = {
     header: component('page-header',
               icon: component('icon.set'),
@@ -18,17 +18,11 @@
               list: [['Title', @get.title, 'title-l'],
                      ['Description', @get.description],
                      ['Keywords', component('tag-cloud.label',
-                        mods: tag_cloud_mods,
+                        mods: tag_mods,
                         list: @get.keywords)],
-                      # TODO: personDecorator?
-                     ['Responsible', component('tag-cloud.person',
-                        mods: tag_cloud_mods,
-                        list: [{
-                                text:@get.responsible.name,
-                                href: @get.responsible.url
-                              }]
-                        )
-                      ]
+                     ['Responsible',
+                      deco('person-tag', person: @get.responsible,
+                                         mods: tag_mods)]
                     ])
     ),
     more_info: nil # captured below

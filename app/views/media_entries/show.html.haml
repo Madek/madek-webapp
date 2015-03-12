@@ -1,5 +1,5 @@
 :ruby
-  tag_cloud_mods = ['small','ellipsed']
+  tag_mods = ['small','ellipsed']
   entry_show_data = {
     header: component('page-header',
               icon: component('icon.media-entry'),
@@ -21,13 +21,30 @@
                          ['Copyright Notice', @get.copyright_notice],
                          ['Date', @get.portrayed_object_date],
                          ['Keywords', component('tag-cloud.label',
-                            mods: tag_cloud_mods,
+                            mods: tag_mods,
                             list: @get.keywords)]
                         ]
                 )
     ),
     more_info: nil # captured below
   }
+
+  more_meta_data_list = [
+    ['responsible', deco('person-tag', person: @get.more_data.responsible,
+                                       mods: tag_mods)
+    ],
+    ['importer', deco('person-tag', person: @get.more_data.importer,
+                                    mods: tag_mods)
+    ],
+    ['import_date', @get.more_data.import_date],
+    ['activity_log',
+     combo('ordered-list', mods: 'inline',
+            list: Hash[@get.more_data.activity_log].map do |time, person|
+              "#{person.name} / #{time}"
+            end
+     )
+    ]
+  ]
 
 - entry_show_data[:more_info] = capture_haml do
   -# TMP: always show this sections!
@@ -46,10 +63,7 @@
 
     %h3.title-l.separated.mbm
       = "More Data"
-    -# TMP: just list (almost) everything
-    - list = (@get.more_data.api - [:file_information]).map { |prop| [prop, @get.more_data.send(prop)] }
-    = combo('metadata-box',
-        mods: 'ui-summary-table', list: list)
+    = combo('metadata-box', mods: 'ui-summary-table', list: more_meta_data_list)
 
     .ui-separator.mbl
 
