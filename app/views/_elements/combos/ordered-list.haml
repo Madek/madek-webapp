@@ -1,0 +1,6 @@
+:ruby
+  return unless list.any?
+
+%ol{class: classes}
+  - list.each do |item|
+    %li= item
