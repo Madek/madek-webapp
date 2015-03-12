@@ -1,0 +1,18 @@
+:ruby
+  # decorate a (list of) Person(s) (Index)
+  person ||= nil
+  mods ||= nil
+  person_list = if person.is_a?(Array) then person else [person] end
+  throw 'ui: invalid data!' unless person_list.all? do |person|
+    person.is_a?(Presenters::People::PersonIndex )
+  end
+
+  person_list = person_list.map do |get|
+    {
+      text: get.name,
+      href: get.url
+    }
+  end
+
+
+= component('tag-cloud.person', mods: mods, list: person_list)
