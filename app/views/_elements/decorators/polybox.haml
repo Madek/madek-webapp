@@ -9,7 +9,8 @@
     throw 'ui! need a MediaResourcesIndex Presenter!'
   end
 
-  title ||= title
+  title ||= nil
+  link ||= nil
   # fallback can be a string or just 'true', in which case we use default string
   fallback ||= fallback
   fallback = default_fallback if fallback and not fallback.is_a?(String)
@@ -105,7 +106,8 @@
   - TODO: ujs: use filterbar ui + tab logic
 
 .POLYBOX
-  = combo('resources-header', title: title, filter_bar: filter_bar)
+  - if title
+    = combo('resources-header', title: title, link: link, filter_bar: filter_bar)
 
   - return fallback if all_lists_are_empty
 

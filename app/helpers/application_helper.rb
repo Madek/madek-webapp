@@ -4,6 +4,6 @@ module ApplicationHelper
   end
 
   def link_active?(link)
-    request.path == link
+    request.path.index(link) == 0
   end
 end

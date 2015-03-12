@@ -22,8 +22,8 @@ Madek::Application.routes.draw do
   resources :groups, only: :show
 
   # Static App routes ##########################################################
-  # TODO: resource 'users'?
-  get 'my', to: 'my#dashboard', as: 'my_dashboard'
+  get 'my/', to: 'my#dashboard', as: 'my_dashboard'
+  get 'my/:section', to: 'my#dashboard_section', as: 'my_dashboard_section'
 
   post 'session/sign_in', to: 'sessions#sign_in'
   post 'session/sign_out', to: 'sessions#sign_out'

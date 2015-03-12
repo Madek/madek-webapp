@@ -7,7 +7,7 @@ module Presenters
         @limit = limit
       end
 
-      def my_content
+      def content
         Presenters::Shared::MediaResources::MediaResources.new \
           @app_resource,
           media_entries:
@@ -39,7 +39,7 @@ module Presenters
             @app_resource.favorite_filter_sets.limit(@limit)
       end
 
-      def entrusted
+      def entrusted_content
         Presenters::Shared::MediaResources::MediaResources.new \
           @app_resource,
           media_entries:

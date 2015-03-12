@@ -1,30 +1,36 @@
+= component('page-header',
+         icon: component('icon.home'),
+         text: 'My Archive')
+
 .ui-container.bright.rounded.bordered.pam
 
   .ui-container
-  
-    = deco('polybox', title: 'My content',
-                      link: { text: 'show all',
-                              href: media_entries_path(latest: true)},
-                      media_resources: @get.my_content)
 
-    = deco('polybox', title: 'My latest imports',
-                    link: { text: 'show all',
-                            href: media_entries_path(imported: true)},
-                      media_resources: @get.latest_imports)
+    = deco('polybox', title: 'My content', mods: 'active',
+        link: { text: 'show all',
+                href: my_dashboard_section_path(:content)},
+        media_resources: @get.content)
 
-
-    = deco('polybox', title: 'My favorites',
-                    link: { text: 'show all',
-                            href: media_entries_path(favorite: true)},
-                      media_resources: @get.favorites)
-
-    = deco('polybox', title: 'My entrusted content',
-                    link: { text: 'show all',
-                            href: media_entries_path(entrusted: true)},
-                      media_resources: @get.entrusted)
+    = deco('polybox', title: 'My latest imports', mods: 'active',
+        link: { text: 'show all',
+                href: my_dashboard_section_path(:latest_imports)},
+        media_resources: @get.latest_imports)
 
 
-    = combo('resources-header', title: 'Groups')
+    = deco('polybox', title: 'My favorites', mods: 'active',
+        link: { text: 'show all',
+                href: my_dashboard_section_path(:favorites)},
+        media_resources: @get.favorites)
+
+    = deco('polybox', title: 'My entrusted content', mods: 'active',
+        link: { text: 'show all',
+                href: my_dashboard_section_path(:entrusted_content)},
+        media_resources: @get.entrusted_content)
+
+
+    = combo('resources-header', title: 'Groups',
+              link: { text: 'show all',
+                      href: my_dashboard_section_path(:groups)})
     -# TODO: GroupIndexPresenter…
     = component('tag-cloud.group', mods: 'compact',
         list: @get.groups.map {|get| { text: get.name,

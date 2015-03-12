@@ -1,7 +1,9 @@
 :ruby
   filter_bar ||= nil
+  link ||= nil
   text ||= nil
   text = nil if text && text.empty?
+  throw 'ui: missing title!' unless title
 
 .ui-resources-header
 

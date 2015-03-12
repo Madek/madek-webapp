@@ -74,10 +74,11 @@ describe MyController do
     get = assigns(:get)
     expect(get.is_a?(Presenter)).to be true
     expect(get.api)
-      .to eq [:my_content, :latest_imports, :favorites, :entrusted, :groups, :uuid]
+      .to eq [:content, :latest_imports, :favorites,
+              :entrusted_content, :groups, :uuid]
 
     # "Meine Inhalte"
-    my_content = get.my_content
+    my_content = get.content
     expect(my_content.media_entries.count).to be == @limit_for_resources
     expect(my_content.media_entries.first.is_a?(Presenter)).to be true
     expect(presented_entity my_content.media_entries.first)
@@ -101,7 +102,7 @@ describe MyController do
       .to eq @user.created_media_entries.reorder('created_at DESC').first
 
     # "Mir anvertraute Inhalte"
-    entrusted = get.entrusted
+    entrusted = get.entrusted_content
     expect(entrusted.media_entries.count).to be == @limit_for_resources
     expect(entrusted.media_entries.first.is_a?(Presenter)).to be true
     expect(presented_entity entrusted.media_entries.first)
