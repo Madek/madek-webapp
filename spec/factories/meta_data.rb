@@ -18,6 +18,14 @@ FactoryGirl.define do
         MetaKey.find_by(id: 'madek:core:title') \
           || FactoryGirl.create(:meta_key_text, id: 'madek:core:title')
       end
+
+      factory :meta_datum_title_with_collection do
+        collection { FactoryGirl.create(:collection) }
+      end
+
+      factory :meta_datum_title_with_filter_set do
+        filter_set { FactoryGirl.create(:filter_set) }
+      end
     end
   end
 

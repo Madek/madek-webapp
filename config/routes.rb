@@ -70,6 +70,7 @@ Madek::Application.routes.draw do
       resources :vocables
     end
     resources :meta_keys
+    resources :meta_datums, only: :index
     root to: 'dashboard#index'
   end
 

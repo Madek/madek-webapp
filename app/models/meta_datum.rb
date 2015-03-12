@@ -1,5 +1,7 @@
 class MetaDatum < ActiveRecord::Base
 
+  include Concerns::MetaDatums::Filters
+
   class << self
     def new_with_cast(*args, &block)
       if self < MetaDatum

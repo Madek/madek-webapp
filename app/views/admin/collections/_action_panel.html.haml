@@ -7,3 +7,5 @@
             %i.glyphicon.glyphicon-user
             = "User: #{user.person}"
           = render partial: 'action_buttons', locals: { collection: collection, size: nil }
+          = link_to admin_meta_datums_path(search_term: @collection.id, search_by: :collection_id), class: 'btn btn-default' do
+            Meta Datums: #{@collection.meta_data.count}

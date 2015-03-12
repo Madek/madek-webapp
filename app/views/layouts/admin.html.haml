@@ -22,7 +22,13 @@
             = navbar_item 'Groups', admin_groups_path
             = navbar_item 'Media Entries', admin_media_entries_path
             = navbar_item 'Vocabularies', admin_vocabularies_path
-            = navbar_item 'Meta Keys', admin_meta_keys_path
+            %li.dropdown
+              %a.dropdown-toggle{href: '#', data: { toggle: 'dropdown' }}
+                Meta
+                %b.caret
+              %ul.dropdown-menu
+                = navbar_item 'Meta Datums', admin_meta_datums_path
+                = navbar_item 'Meta Keys', admin_meta_keys_path
             %li.dropdown
               %a.dropdown-toggle{href: '#', data: { toggle: 'dropdown' }}
                 %i.glyphicon.glyphicon-user

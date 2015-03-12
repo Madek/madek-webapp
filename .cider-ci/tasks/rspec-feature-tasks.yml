@@ -4,11 +4,26 @@
   scripts:
     main:
       body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/collections_spec.rb"
+"./spec/features/admin/filter_sets_spec.rb":
+  name: "./spec/features/admin/filter_sets_spec.rb"
+  scripts:
+    main:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/filter_sets_spec.rb"
 "./spec/features/admin/groups_spec.rb":
   name: "./spec/features/admin/groups_spec.rb"
   scripts:
     main:
       body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/groups_spec.rb"
+"./spec/features/admin/media_entries_spec.rb":
+  name: "./spec/features/admin/media_entries_spec.rb"
+  scripts:
+    main:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/media_entries_spec.rb"
+"./spec/features/admin/meta_datums_spec.rb":
+  name: "./spec/features/admin/meta_datums_spec.rb"
+  scripts:
+    main:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/admin/meta_datums_spec.rb"
 "./spec/features/admin/meta_keys_spec.rb":
   name: "./spec/features/admin/meta_keys_spec.rb"
   scripts:
