@@ -2,8 +2,8 @@ module Presenters
   module Shared
     module MediaResources
       class MediaResourceRelations < Presenters::Shared::AppResource
-        def initialize(resource, user)
-          super(resource)
+        def initialize(app_resource, user)
+          super(app_resource)
           @user = user
         end
 
@@ -32,7 +32,7 @@ module Presenters
           instance_variable_get(var) \
             or instance_variable_set \
               var,
-              @resource.send("#{kind}_collections_viewable_by_user", @user)
+              @app_resource.send("#{kind}_collections_viewable_by_user", @user)
                 .map { |c| Presenters::Collections::CollectionIndex.new(c, @user) }
         end
       end

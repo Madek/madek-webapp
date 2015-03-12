@@ -7,8 +7,8 @@ module Presenters
         included do
           attr_reader :relations
         end
-        def initialize(resource, user)
-          @resource = resource
+        def initialize(app_resource, user)
+          @app_resource = app_resource
           @user = user
         end
       end

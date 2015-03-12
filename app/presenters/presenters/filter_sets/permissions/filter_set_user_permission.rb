@@ -6,7 +6,7 @@ module Presenters
           MediaResourceUserPermission
 
         [:edit_metadata_and_filter]
-          .each { |m| delegate m, to: :@resource }
+          .each { |m| delegate m, to: :@app_resource }
       end
     end
   end

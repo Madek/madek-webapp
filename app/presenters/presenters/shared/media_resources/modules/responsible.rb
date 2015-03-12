@@ -4,7 +4,7 @@ module Presenters
       module Modules
         module Responsible
           def responsible
-            @resource.responsible_user.person.to_s
+            @app_resource.responsible_user.person.to_s
           end
         end
       end

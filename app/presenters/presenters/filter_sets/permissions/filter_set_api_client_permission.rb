@@ -5,7 +5,7 @@ module Presenters
         Presenters::Shared::MediaResources::Permissions::\
           MediaResourceApiClientPermission
 
-        delegate :edit_metadata_and_filter, to: :@resource
+        delegate :edit_metadata_and_filter, to: :@app_resource
       end
     end
   end

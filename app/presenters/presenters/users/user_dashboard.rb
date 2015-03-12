@@ -10,20 +10,20 @@ module Presenters
       def my_content
         Presenters::Shared::MediaResources::MediaResources.new \
           media_entries:
-            @resource.media_entries.reorder('created_at DESC').limit(@limit)
+            @app_resource.media_entries.reorder('created_at DESC').limit(@limit)
               .map { |r| thumbify(r) },
           collections:
-            @resource.collections.reorder('created_at DESC').limit(@limit)
+            @app_resource.collections.reorder('created_at DESC').limit(@limit)
               .map { |r| thumbify(r) },
           filter_sets:
-            @resource.filter_sets.reorder('created_at DESC').limit(@limit)
+            @app_resource.filter_sets.reorder('created_at DESC').limit(@limit)
               .map { |r| thumbify(r) }
       end
 
       def latest_imports
         Presenters::Shared::MediaResources::MediaResources.new \
           media_entries:
-            @resource
+            @app_resource
               .created_media_entries
               .reorder('created_at DESC')
               .limit(@limit)
@@ -33,35 +33,35 @@ module Presenters
       def favorites
         Presenters::Shared::MediaResources::MediaResources.new \
           media_entries:
-            @resource.favorite_media_entries.limit(@limit)
+            @app_resource.favorite_media_entries.limit(@limit)
               .map { |r| thumbify(r) },
           collections:
-            @resource.favorite_collections.limit(@limit)
+            @app_resource.favorite_collections.limit(@limit)
               .map { |r| thumbify(r) },
           filter_sets:
-            @resource.favorite_filter_sets.limit(@limit)
+            @app_resource.favorite_filter_sets.limit(@limit)
               .map { |r| thumbify(r) }
       end
 
       def entrusted
         Presenters::Shared::MediaResources::MediaResources.new \
           media_entries:
-            MediaEntry.entrusted_to_user(@resource)
+            MediaEntry.entrusted_to_user(@app_resource)
               .reorder('created_at DESC').limit(@limit)
               .map { |r| thumbify(r) },
           collections:
-            Collection.entrusted_to_user(@resource)
+            Collection.entrusted_to_user(@app_resource)
               .reorder('created_at DESC').limit(@limit)
               .map { |r| thumbify(r) },
           filter_sets:
-            FilterSet.entrusted_to_user(@resource)
+            FilterSet.entrusted_to_user(@app_resource)
               .reorder('created_at DESC').limit(@limit)
               .map { |r| thumbify(r) }
       end
 
       def groups
         # TODO: GroupsPresenter?
-        @resource.groups.limit(4).map do |group|
+        @app_resource.groups.limit(4).map do |group|
           {
             id: group.id,
             name: group.name
@@ -71,9 +71,9 @@ module Presenters
 
       private
 
-      def thumbify(resource)
+      def thumbify(media_resource)
         presenter = \
-          case resource.class.name
+          case media_resource.class.name
           when 'MediaEntry'
             Presenters::MediaEntries::MediaEntryIndex
           # quick fix:
@@ -84,10 +84,10 @@ module Presenters
           when 'FilterSet'
             Presenters::FilterSets::FilterSetIndex
           else
-            raise "Missing presenter: #{resource.class.name}"
+            raise "Missing presenter: #{media_resource.class.name}"
           end
 
-        presenter.new(resource, @resource)
+        presenter.new(media_resource, @app_resource)
       end
 
     end

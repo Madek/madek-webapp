@@ -1,7 +1,7 @@
 module Presenters
   module Shared
     module MediaResources
-      class MediaResources < Presenters::Shared::AppResource
+      class MediaResources < Presenter
         attr_reader :media_entries, :collections, :filter_sets
 
         def initialize(media_entries: [], collections: [], filter_sets: [])

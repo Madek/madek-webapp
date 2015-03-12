@@ -4,7 +4,7 @@ module Presenters
       module Modules
         module CommonMetaData
           def title
-            @resource.title
+            @app_resource.title
           end
         end
       end

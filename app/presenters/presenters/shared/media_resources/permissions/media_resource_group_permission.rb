@@ -4,7 +4,7 @@ module Presenters
       module Permissions
         class MediaResourceGroupPermission < MediaResourceCommonPermission
           def group_name
-            @resource.group.name
+            @app_resource.group.name
           end
         end
       end

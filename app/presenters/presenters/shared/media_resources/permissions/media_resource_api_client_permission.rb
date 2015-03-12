@@ -4,7 +4,7 @@ module Presenters
       module Permissions
         class MediaResourceApiClientPermission < MediaResourceCommonPermission
           def id
-            @resource.api_client.id
+            @app_resource.api_client.id
           end
         end
       end

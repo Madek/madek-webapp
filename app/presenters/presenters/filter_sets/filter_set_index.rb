@@ -5,7 +5,7 @@ module Presenters
       include Presenters::FilterSets::Modules::FilterSetCommon
 
       def url
-        filter_set_path @resource
+        filter_set_path @app_resource
       end
 
       def image_url(_size = :small)

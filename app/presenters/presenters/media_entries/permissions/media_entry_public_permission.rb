@@ -5,7 +5,7 @@ module Presenters
         Presenters::Shared::MediaResources::Permissions::\
           MediaResourcePublicPermission
 
-        delegate :get_full_size, to: :@resource
+        delegate :get_full_size, to: :@app_resource
       end
     end
   end

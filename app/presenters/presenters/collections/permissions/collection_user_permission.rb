@@ -5,7 +5,7 @@ module Presenters
         Presenters::Shared::MediaResources::Permissions::\
           MediaResourceUserPermission
 
-        delegate :edit_metadata_and_relations, to: :@resource
+        delegate :edit_metadata_and_relations, to: :@app_resource
       end
     end
   end

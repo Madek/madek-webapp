@@ -13,13 +13,13 @@ module Presenters
       def child_media_resources
         Presenters::Shared::MediaResources::MediaResources.new \
           media_entries:
-            @resource.media_entries
+            @app_resource.media_entries
               .map { |c| Presenters::MediaEntries::MediaEntryIndex.new(c, @user) },
           collections:
-            @resource.collections
+            @app_resource.collections
               .map { |c| Presenters::Collections::CollectionIndex.new(c, @user) },
           filter_sets: \
-            @resource.filter_sets
+            @app_resource.filter_sets
               .map { |c| Presenters::FilterSets::FilterSetIndex.new(c, @user) }
       end
     end

@@ -5,7 +5,7 @@ module Presenters
       include Presenters::Collections::Modules::CollectionCommon
 
       def url
-        collection_path @resource
+        collection_path @app_resource
       end
 
       def image_url
@@ -27,11 +27,11 @@ module Presenters
       end
 
       def choose_media_entry_for_preview
-        if @resource.media_entries.exists?
-          cover_or_first_media_entry(@resource)
-        elsif @resource.collections.exists?
+        if @app_resource.media_entries.exists?
+          cover_or_first_media_entry(@app_resource)
+        elsif @app_resource.collections.exists?
           collection_with_preview_media_entry = \
-            @resource.collections.find { |c| cover_or_first_media_entry(c) }
+            @app_resource.collections.find { |c| cover_or_first_media_entry(c) }
           cover_or_first_media_entry(collection_with_preview_media_entry)
         end
       end

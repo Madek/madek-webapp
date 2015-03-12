@@ -2,6 +2,10 @@ module Presenters
   module Shared
     module MediaResources
       class MediaResourceIndex < Presenters::Shared::AppResource
+        def initialize(app_resource, user)
+          super(app_resource)
+          @user = user
+        end
 
         def privacy_status
           public_status or shared_status or private_status
@@ -10,17 +14,17 @@ module Presenters
         private
 
         def public_status
-          :public if @resource.public?
+          :public if @app_resource.public?
         end
 
         def shared_status
-          model_name = @resource.class.model_name
+          model_name = @app_resource.class.model_name
           :shared if \
             @user.send("entrusted_#{model_name.singular}_to_users?",
-                       @resource) \
+                       @app_resource) \
             or @user.send("entrusted_#{model_name.singular}_to_groups?",
-                          @resource) \
-            or @resource.entrusted_to_user?(@user)
+                          @app_resource) \
+            or @app_resource.entrusted_to_user?(@user)
         end
 
         def private_status

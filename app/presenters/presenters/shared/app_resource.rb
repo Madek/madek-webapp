@@ -1,16 +1,12 @@
 module Presenters
   module Shared
     class AppResource < Presenter
-      def initialize(resource)
-        @resource = resource
+      def initialize(app_resource)
+        @app_resource = app_resource
       end
 
       def uuid
-        @resource.id
-      end
-
-      def inspect
-        "#<#{self.class} resource_id: \"#{id}\">"
+        @app_resource.id
       end
     end
   end

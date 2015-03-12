@@ -2,10 +2,10 @@ module Presenters
   module Groups
     class GroupShow < Presenters::Shared::AppResource
       [:name, :institutional?, :institutional_group_name] \
-        .each { |m| delegate m, to: :@resource }
+        .each { |m| delegate m, to: :@app_resource }
 
       def members
-        @resource
+        @app_resource
           .users
           .includes(:person)
           .map(&:person)

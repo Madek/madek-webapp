@@ -45,4 +45,9 @@ class Presenter
       obj
     end
   end
+
+  def inspect
+    app_resource_id = " app_resource_id: \"#{@app_resource.id}\"" if @app_resource
+    "#<#{self.class}#{app_resource_id}>"
+  end
 end

@@ -6,22 +6,22 @@ module Presenters
 
       attr_reader :more_data
 
-      def initialize(resource, user)
-        super(resource, user)
+      def initialize(app_resource, user)
+        super(app_resource, user)
         @relations = \
-          Presenters::MediaEntries::MediaEntryRelations.new(@resource, @user)
-        @more_data = Presenters::MediaEntries::MoreData.new(@resource)
+          Presenters::MediaEntries::MediaEntryRelations.new(@app_resource, @user)
+        @more_data = Presenters::MediaEntries::MoreData.new(@app_resource)
       end
 
       def copyright_notice
-        @resource
+        @app_resource
           .meta_data
           .find_by(meta_key_id: 'madek:core:copyright_notice')
           .try(:value)
       end
 
       def portrayed_object_date
-        @resource
+        @app_resource
           .meta_data
           .find_by(meta_key_id: 'madek:core:portrayed_object_date')
           .try(:value)

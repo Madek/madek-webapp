@@ -4,11 +4,11 @@ module Presenters
       class MediaResourceShow < Presenters::Shared::AppResource
 
         def description
-          @resource.description
+          @app_resource.description
         end
 
         def keywords
-          @resource.keywords.map(&:to_s)
+          @app_resource.keywords.map(&:to_s)
         end
       end
     end
