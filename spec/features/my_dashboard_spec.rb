@@ -10,20 +10,24 @@ feature 'My Dashboard' do
 
   # TODO: dashboard integration test
 
-  scenario 'main dashboard is rendered' do
+  it 'is rendered' do
     visit '/my/'
   end
 
-  [
-    :content,
-    :latest_imports,
-    :favorites,
-    :entrusted_content,
-    :groups
-  ].each do |section|
-    scenario "dashboard section #{section} is rendered" do
-      visit "/my/#{section}"
+  describe 'My Dashboard Sections' do
+
+    [
+      :content,
+      :latest_imports,
+      :favorites,
+      :entrusted_content,
+      :groups
+    ].each do |section|
+      it "renders section #{section}" do
+        visit "/my/#{section}"
+      end
     end
+
   end
 
 end

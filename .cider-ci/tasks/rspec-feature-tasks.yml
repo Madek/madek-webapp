@@ -19,6 +19,26 @@
   scripts:
     main:
       body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/collections_spec.rb"
+"./spec/features/group_show_spec.rb":
+  name: "./spec/features/group_show_spec.rb"
+  scripts:
+    main:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/group_show_spec.rb"
+"./spec/features/media_entry_show_spec.rb":
+  name: "./spec/features/media_entry_show_spec.rb"
+  scripts:
+    main:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/media_entry_show_spec.rb"
+"./spec/features/my_dashboard_spec.rb":
+  name: "./spec/features/my_dashboard_spec.rb"
+  scripts:
+    main:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/my_dashboard_spec.rb"
+"./spec/features/person_show_spec.rb":
+  name: "./spec/features/person_show_spec.rb"
+  scripts:
+    main:
+      body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/person_show_spec.rb"
 "./spec/features/styleguide_spec.rb":
   name: "./spec/features/styleguide_spec.rb"
   scripts:

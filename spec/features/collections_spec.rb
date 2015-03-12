@@ -8,14 +8,15 @@ feature 'Collections#show' do
     sign_in_as @user.login
   end
 
-  scenario 'is rendered with title and responsible user' do
-    # TODO: dynamically get it?
-    id = 'd316b369-6d20-4eb8-b76a-c83f1a4c2682'
-    @collection = Collection.find(id)
-    expect(@collection.id).to be
+  # TODO: Collections#show integration test
+  the_collection = '/collections/d316b369-6d20-4eb8-b76a-c83f1a4c2682'
 
-    # TODO: visit collections_path(@collection)
-    visit "/collections/#{@collection.id}"
+  it 'is rendered' do
+    visit the_collection
+  end
+
+  it 'shows title and responsible user' do
+    visit the_collection
     expect(page).to have_content 'Normin Normalo'
     expect(page).to have_content 'Konzepte'
   end
