@@ -13,7 +13,14 @@ class Person < ActiveRecord::Base
   end
 
   def to_s
-    [first_name, last_name].join(' ')
+    case
+    when ((first_name or last_name) and pseudonym)
+      "#{first_name} #{last_name} (#{pseudonym})"
+    when (first_name or last_name)
+      "#{first_name} #{last_name}"
+    else
+      "#{pseudonym}"
+    end
   end
 
 end
