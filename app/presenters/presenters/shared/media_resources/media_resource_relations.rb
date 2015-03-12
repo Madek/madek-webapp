@@ -17,11 +17,13 @@ module Presenters
 
         def parent_media_resources
           Presenters::Shared::MediaResources::MediaResources.new \
+            @user,
             collections: relational_collections(:parent)
         end
 
         def sibling_media_resources
           Presenters::Shared::MediaResources::MediaResources.new \
+            @user,
             collections: relational_collections(:sibling)
         end
 
@@ -33,7 +35,6 @@ module Presenters
             or instance_variable_set \
               var,
               @app_resource.send("#{kind}_collections_viewable_by_user", @user)
-                .map { |c| Presenters::Collections::CollectionIndex.new(c, @user) }
         end
       end
     end

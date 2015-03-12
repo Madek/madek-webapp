@@ -1,7 +1,6 @@
 module Presenters
   module Collections
     class CollectionIndex < Presenters::Shared::MediaResources::MediaResourceIndex
-
       include Presenters::Collections::Modules::CollectionCommon
 
       def url
