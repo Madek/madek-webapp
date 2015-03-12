@@ -21,7 +21,7 @@ class StyleguideController < ActionController::Base
   private
 
   def set_sections
-    @sections = build_styleguide_tree
+    @sections = LivingStyleguide::build_styleguide_tree
   end
 
   # helpers:

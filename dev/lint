@@ -2,7 +2,7 @@
 RES=1
 
 printf 'rubocop... '
-bundle exec rubocop . \
+bundle exec rubocop . --auto-correct \
   && RES=0
 
 echo ''; printf 'flog... '
@@ -19,7 +19,7 @@ echo ''; printf 'haml-lint... '
   && echo OK || RES=1
 
 echo ''; printf 'cider-rspec... '
-cider-ci_rspec-support check spec/ >/dev/null \
+cider-ci_rspec-support update spec/ >/dev/null \
   && echo OK || bundle exec cider-ci_rspec-support update spec/
 
 echo ''
