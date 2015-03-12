@@ -4,25 +4,29 @@ module Concerns
       extend ActiveSupport::Concern
 
       included do
-        s_name = model_name.singular
+        scope :entrusted_to_group, lambda { |group|
+          entrusted_to_subject(:group, group.id)
+        }
 
         scope :entrusted_to_user_directly, lambda { |user|
-          joins(:user_permissions)
-            .where(
-              "#{s_name}_user_permissions.user_id = ? " \
-              "AND #{s_name}_user_permissions.get_metadata_and_previews IS TRUE",
-              user.id
-            )
+          entrusted_to_subject(:user, user.id)
         }
 
         scope :entrusted_to_user_through_groups, lambda { |user|
-          joins(:group_permissions)
-            .where(
-              "#{s_name}_group_permissions.group_id IN (?) "\
-              "AND #{s_name}_group_permissions.get_metadata_and_previews IS TRUE",
-              user.groups.map(&:id)
-            )
+          entrusted_to_subject(:group, user.groups.map(&:id))
         }
+
+        def self.entrusted_to_subject(type, ids)
+          ids = [ids] unless ids.is_a?(Array)
+          s_name = model_name.singular
+
+          joins("#{type}_permissions".to_sym)
+            .where("#{s_name}_#{type}_permissions.#{type}_id IN (?)", ids)
+            .where("#{s_name}_#{type}_permissions" \
+                   '.get_metadata_and_previews IS TRUE')
+        end
+
+        private_class_method :entrusted_to_subject
       end
 
       module ClassMethods
