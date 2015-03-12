@@ -12,6 +12,15 @@ module Presenters
         @app_resource.is_bunch
       end
 
+      def related_via_meta_data_media_resources
+        # TODO: ANY [mediaResource*] WHERE ANY MetaDatum::Person IS @app_resource
+        # - decide if the query is here or in Model
+        Presenters::Shared::MediaResources::MediaResources.new \
+          media_entries: [],
+          collections: [],
+          filter_sets: []
+      end
+
     end
   end
 end

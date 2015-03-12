@@ -1,0 +1,33 @@
+:ruby
+  person_show_data = {
+    header: component('page-header',
+              icon: component('icon',
+                "icon-privacy-#{@get.bunch? ? 'group' : 'private'}-alt"),
+              text: @get.name
+    ),
+    overview: deco('resource_show_overview',
+                content: combo('metadata-box',
+                            mods: 'ui-summary-table.ui-set-summary.compact',
+                            list: ['first_name', 'last_name',
+                                   'pseudonym', 'date_of_birth', 'date_of_death'
+                                 ].map { |prop| [prop, @get.send(prop)] }
+                          )
+    ),
+    more_info: nil # captured below
+  }
+
+- person_show_data[:more_info] = capture_haml do
+  -# TODO: component
+  #ui-resources-list-container.ui-container.midtone.rounded-bottom
+    .ui-container.inverted.ui-toolbar.pvx
+      .ui-toolbar-header.pls
+        TODO
+    .ui-resources-holder.pam
+      .ui-container.table.auto
+        .ui-container.table-cell.table-substance
+          = deco('polybox', mods: ['active'],
+                  fallback: 'TODO: related_via_meta_data_media_resources',
+                  media_resources: @get.related_via_meta_data_media_resources)
+
+
+= deco('resource_show', person_show_data)
