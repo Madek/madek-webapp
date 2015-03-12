@@ -50,4 +50,8 @@ class Presenter
     app_resource_id = " app_resource_id: \"#{@app_resource.id}\"" if @app_resource
     "#<#{self.class}#{app_resource_id}>"
   end
+
+  def to_s # in case it ends up undecorated in a view, .to_s is called!
+    inspect
+  end
 end
