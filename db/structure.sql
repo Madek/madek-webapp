@@ -516,9 +516,9 @@ CREATE TABLE media_entries (
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     get_metadata_and_previews boolean DEFAULT false NOT NULL,
     get_full_size boolean DEFAULT false NOT NULL,
-    type character varying(255) DEFAULT 'MediaEntry'::character varying,
     responsible_user_id uuid NOT NULL,
-    creator_id uuid NOT NULL
+    creator_id uuid NOT NULL,
+    "published?" boolean DEFAULT false
 );
 
 
@@ -2856,6 +2856,8 @@ INSERT INTO schema_migrations (version) VALUES ('166');
 INSERT INTO schema_migrations (version) VALUES ('167');
 
 INSERT INTO schema_migrations (version) VALUES ('168');
+
+INSERT INTO schema_migrations (version) VALUES ('169');
 
 INSERT INTO schema_migrations (version) VALUES ('17');
 

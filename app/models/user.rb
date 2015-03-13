@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   has_many :filter_sets, foreign_key: :responsible_user_id
 
   has_many :incomplete_media_entries,
-           -> { where(type: 'MediaEntryIncomplete') },
+           -> { where(published?: false) },
            foreign_key: :creator_id,
            class_name: 'MediaEntry',
            dependent: :destroy
