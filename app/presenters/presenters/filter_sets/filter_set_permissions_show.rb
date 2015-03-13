@@ -3,7 +3,10 @@ module Presenters
     class FilterSetPermissionsShow < \
       Presenters::Shared::MediaResources::MediaResourcePermissionsShow
 
-      define_permissions_api FilterSet
+      TYPES_MAP = \
+        { edit_metadata_and_filter: :edit_data }.merge(SHARED_TYPES_MAP)
+
+      setup FilterSet, TYPES_MAP
     end
   end
 end
