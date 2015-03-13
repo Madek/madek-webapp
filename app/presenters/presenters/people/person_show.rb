@@ -1,6 +1,15 @@
 module Presenters
   module People
     class PersonShow < PersonCommon
+
+      include Presenters::Shared::MediaResources::Modules::\
+              MediaResourcesHelpers
+
+      def initialize(app_resource, user)
+        super(app_resource)
+        @user = user
+      end
+
       # TODO: show person.searchable? (it's supposed to be internal…)
       %w(first_name
          last_name
@@ -12,15 +21,8 @@ module Presenters
         @app_resource.is_bunch
       end
 
-      def related_via_meta_data_media_resources
-        # TODO: ANY [mediaResource*] WHERE ANY MetaDatum::Person IS @app_resource
-        # - decide if the query is here or in Model
-        Presenters::Shared::MediaResources::MediaResources.new \
-          media_entries: [],
-          collections: [],
-          filter_sets: []
-      end
-
+      alias_method :related_media_resources_via_meta_data,
+                   :standard_media_resources
     end
   end
 end

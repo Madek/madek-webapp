@@ -26,8 +26,8 @@
       .ui-container.table.auto
         .ui-container.table-cell.table-substance
           = deco('polybox', mods: ['active'],
-                  fallback: 'TODO: related_via_meta_data_media_resources',
-                  media_resources: @get.related_via_meta_data_media_resources)
+                  fallback: true,
+                  media_resources: @get.related_media_resources_via_meta_data)
 
 
 = deco('resource_show', person_show_data)

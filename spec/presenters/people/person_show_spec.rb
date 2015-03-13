@@ -8,6 +8,9 @@ describe Presenters::People::PersonShow do
 
   it_can_be 'dumped' do
     user = FactoryGirl.create(:user)
-    let(:presenter) { described_class.new(user.person) }
+    let(:presenter) do
+      described_class.new(user.person,
+                          User.where('RANDOM()').limit(1))
+    end
   end
 end
