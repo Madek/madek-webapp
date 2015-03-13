@@ -1,5 +1,14 @@
 class MyController < ApplicationController
+  layout 'app_with_sidebar'
 
+  before_action do
+    @sections = SECTIONS # we need this everywhere to build the sidebar
+  end
+
+  LIMIT_INDEX = 12 # TODO: limits per section?
+  LIMIT_SHOW = 4096 # TMP: TODO: pagination!
+
+  # TODO: is this the best place to define the sections?
   SECTIONS = {
     content: {
       title: 'My content',
@@ -28,27 +37,24 @@ class MyController < ApplicationController
     }
   }
 
+  # "index" action
   def dashboard
-    @get = Presenters::Users::UserDashboard.new(current_user, 6)
+    @get = Presenters::Users::UserDashboard.new(current_user, LIMIT_INDEX)
     respond_with_presenter_formats
   end
 
+  # "show" actions
   def dashboard_section
-    locals = section_locals(SECTIONS, params[:section].to_sym)
-    raise ActionController::RoutingError.new(404), 'no such section' unless locals
-    render 'my/_section', locals: locals
-  end
-
-  private
-
-  def section_locals(sections, section_name)
-    locals = sections[section_name]
-    return nil unless locals
-    locals[:get] = Presenters::Users::UserDashboard.new(current_user, nil)
-    if locals[:partial] == :media_resources
-      locals[:media_resources] = locals[:get].send(section_name)
+    section_name = params[:section].to_sym
+    unless SECTIONS[section_name]
+      raise ActionController::RoutingError.new(404), 'Section Not Found!'
     end
-    locals
+    render 'my/dashboard_section',
+           locals: {
+             sections: SECTIONS,
+             section_name: section_name,
+             get: Presenters::Users::UserDashboard.new(current_user, LIMIT_SHOW)
+           }
   end
 
 end

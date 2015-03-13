@@ -54,7 +54,7 @@ module Presenters
       end
 
       def groups
-        @app_resource.groups.limit(4).map do |group|
+        @app_resource.groups.limit(@limit).map do |group|
           Presenters::Groups::GroupShow
             .new(group, @user)
         end

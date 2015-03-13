@@ -107,7 +107,9 @@
 
 .POLYBOX
   - if title
-    = combo('resources-header', title: title, link: link, filter_bar: filter_bar)
+    = title
+    -# TODO: cleanup
+    -# = combo('resources-header', title: title, link: link, filter_bar: filter_bar)
 
   - return fallback if all_lists_are_empty
 

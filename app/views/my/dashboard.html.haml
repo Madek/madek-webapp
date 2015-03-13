@@ -1,37 +1,18 @@
-= component('page-header',
-         icon: component('icon.home'),
-         text: 'My Archive')
+-# template for the main dashboard (#index-ish)
 
-.ui-container.bright.rounded.bordered.pam
+- content_for(:page_header) do
+  = component('page-header',
+           icon: component('icon.home'),
+           text: 'My Archive')
 
-  .ui-container
+- content_for(:page_sidebar) do
+  = render partial: 'sidebar'
 
-    = deco('polybox', title: 'My content', mods: 'active',
-        link: { text: 'show all',
-                href: my_dashboard_section_path(:content)},
-        media_resources: @get.content)
-
-    = deco('polybox', title: 'My latest imports', mods: 'active',
-        link: { text: 'show all',
-                href: my_dashboard_section_path(:latest_imports)},
-        media_resources: @get.latest_imports)
-
-
-    = deco('polybox', title: 'My favorites', mods: 'active',
-        link: { text: 'show all',
-                href: my_dashboard_section_path(:favorites)},
-        media_resources: @get.favorites)
-
-    = deco('polybox', title: 'My entrusted content', mods: 'active',
-        link: { text: 'show all',
-                href: my_dashboard_section_path(:entrusted_content)},
-        media_resources: @get.entrusted_content)
-
-
-    = combo('resources-header', title: 'Groups',
+- content_for(:page_content) do
+  -# each section: build a title and render the partial
+  - @sections.each do |section_id, section|
+    = combo('resources-header', title: section[:title],
               link: { text: 'show all',
-                      href: my_dashboard_section_path(:groups)})
-    -# TODO: GroupIndexPresenter…
-    = component('tag-cloud.group', mods: 'compact',
-        list: @get.groups.map {|get| { text: get.name,
-                                       href: "/groups/#{get.uuid}" } })
+                      href: my_dashboard_section_path(section_id)})
+    = render partial: "my/section_#{section[:partial]}",
+             locals: { sections: @sections, section_name: section_id, get: @get}
