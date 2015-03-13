@@ -26,7 +26,10 @@
       = render('application/app_alerts')
 
       .app-body
-        = yield
+        - if content_for?(:app_body)
+          = content_for(:app_body)
+        - elsif block_given?
+          = yield
 
       .app-footer-push
   = combo('footer', footer)

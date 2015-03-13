@@ -1,0 +1,19 @@
+-# App Layout for Content with left sidebar (e.g. MyDashboard)
+
+:ruby
+  throw 'layout: missing page sidebar!' unless content_for?(:page_sidebar)
+  throw 'layout: missing page content!' unless content_for?(:page_content)
+
+- content_for(:app_body) do
+  = content_for(:page_header) if content_for?(:page_header)
+
+  .ui-container.midtone.bordered.rounded-right.rounded-bottom.table
+
+    .ui-container.app-body-sidebar.table-cell.bright.bordered-right.rounded-bottom-left.table-side
+      .ui-container.rounded-bottom-left.phm.pvl
+        = content_for(:page_sidebar)
+
+    .ui-container.app-body-content.table-cell.table-substance.context-fix.pal
+      = content_for(:page_content)s
+
+= render template: 'layouts/application'

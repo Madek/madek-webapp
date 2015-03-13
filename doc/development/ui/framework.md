@@ -117,9 +117,11 @@ a distinction in vanilla Rails and are just "partials".
 ### **Layout** *(Rails)*
 
 Everything is wrapped in it.  
-`layouts/_base` has a very basic HTML structure and is not used directly.  
-`layouts/application` and more specific ones inherit directly from it.  
-No further nesting allowed, it gets too messy with the blocks.  
+- `layouts/_base` has a very basic HTML structure and is not used directly.  
+- `layouts/application` and more specific ones inherit directly from it.  
+- Even more sub-layouts can inherit from `application` for better consistency,  
+for example 'app_with_sidebar', which takes `content_for?(:page_sidebar)`, etc..
+
 ```haml
 -# simple non-nesting app layout:
 %head
