@@ -39,6 +39,8 @@ executions:
         Tests: passed
         Code-Check: passed
         Coverage: passed
+    trigger:
+      branch: madek-v3
 
   Deploy-Test-With-DataReset:
     description: >
