@@ -6,9 +6,9 @@
     section: '11.1'
   }
 
-= partial('element', element) do
+= render_partial('element', element) do
 
-  = partial('example', { mod: 'Logged In Variation'}) do
+  = render_partial('example', { mod: 'Logged In Variation'}) do
 
     .sg-spacer{:style => "min-height: 200px;"}
       .app-body-title
@@ -62,7 +62,7 @@
               = component('icon.privacy-open')
               Offentlichkeit
 
-  = partial('example', { mod: 'Logged Out Variation'}) do
+  = render_partial('example', { mod: 'Logged Out Variation'}) do
     .sg-spacer{:style => "min-height: 200px;"}
       .app-body-title
         .ui-body-title

@@ -5,8 +5,8 @@
     section: '1.1'
   }
 
-= partial('element', element) do
-  = partial('example') do
+= render_partial('element', element) do
+  = render_partial('example') do
     %div{:style => "background: #ddd; height: 2em;"}
     
       .clearfix= 'clearfix'

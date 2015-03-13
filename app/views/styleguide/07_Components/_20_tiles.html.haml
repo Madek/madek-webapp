@@ -12,8 +12,8 @@
     }
   }
 
-= partial('element', element) do
-  = partial('example') do
+= render_partial('element', element) do
+  = render_partial('example') do
 
     .ui-tile.ui-tile--set
       .ui-tile__head
@@ -44,7 +44,7 @@
           = component('icon.privacy-private', mods: 'ui-tile__flag.ui-tile__flag--privac', title: 'This entry is Private')
           = component('icon.filter', mods: 'ui-tile__flag.ui-tile__flag--typ', title: 'This entry is a Set')
 
-  = partial('example') do
+  = render_partial('example') do
     .ui-tile.ui-tile--small.ui-tile--set
       .ui-tile__head
         %ul.ui-tile__actions.left.by-left
@@ -74,7 +74,7 @@
           = component('icon.privacy-private', mods: 'ui-tile__flag.ui-tile__flag--privac', title: 'This entry is Private')
           = component('icon.filter', mods: 'ui-tile__flag.ui-tile__flag--typ', title: 'This entry is a Set')
 
-  = partial('example') do
+  = render_partial('example') do
     .ui-tile.ui-tile--large.ui-tile--set
       .ui-tile__head
         %ul.ui-tile__actions.left.by-left

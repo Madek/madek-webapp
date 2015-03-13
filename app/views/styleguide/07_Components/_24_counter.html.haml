@@ -7,7 +7,7 @@
     description: 'Counters that usually support section titles, display number of items within a media entry or catalog.'
   }
 
-= partial('element', element) do
-  = partial('example') do
+= render_partial('element', element) do
+  = render_partial('example') do
 
     %span.ui-counter (6)

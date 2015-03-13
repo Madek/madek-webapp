@@ -2,6 +2,7 @@
 module UiHelper
   # UI Element helpers
   #
+  #
   # API:
   #
   # ```rb
@@ -32,7 +33,7 @@ module UiHelper
   def deco(name, config = {})
     locals = build_locals_from_element(name, config)
     name = name_without_mods(name)
-    render template: "_elements/decorators/#{name}", locals: locals
+    render template: "decorators/#{name}", locals: locals
   end
 
   # 5. Layouts: views/layout
@@ -40,7 +41,7 @@ module UiHelper
   # # misc UI helpers
 
   # generic partial-with-block helper
-  def partial(name, locals = {}, &block)
+  def render_partial(name, locals = {}, &block)
     render layout: name, locals: locals, &block if block_given?
   end
 
@@ -59,7 +60,7 @@ module UiHelper
     name = name_without_mods(name)
     locals[:list] = build_list(locals[:list])
     locals[:block_content] = capture { yield } if block_given?
-    render template: "_elements/#{type}s/#{name}", locals: locals
+    render template: "#{type}s/#{name}", locals: locals
   end
 
   def build_locals_from_element(name, config)

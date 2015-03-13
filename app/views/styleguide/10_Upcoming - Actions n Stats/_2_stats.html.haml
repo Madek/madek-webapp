@@ -7,9 +7,9 @@
     section: '11.2'
   }
 
-= partial('element', element) do
+= render_partial('element', element) do
 
-  = partial('example', { mod: 'Home Page Variation'}) do
+  = render_partial('example', { mod: 'Home Page Variation'}) do
 
     %aside.ui-stats.mtl.bordered.ui-container
       .row
@@ -54,7 +54,7 @@
             %span.ui-stats__unit
               Arbeitsgruppen
 
-  = partial('example', { mod: 'Erkunden Variation'}) do
+  = render_partial('example', { mod: 'Erkunden Variation'}) do
 
     %aside.ui-stats
       .row
@@ -100,7 +100,7 @@
               Arbeitsgruppen
 
 
-  = partial('example', { mod: 'Dashboard Variation'}) do
+  = render_partial('example', { mod: 'Dashboard Variation'}) do
 
     %aside.ui-stats
       .row

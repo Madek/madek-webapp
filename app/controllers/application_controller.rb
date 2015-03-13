@@ -3,6 +3,9 @@ class ApplicationController < ActionController::Base
   # Give views access to these methods:
   helper_method :current_user
 
+  # UI Elements
+  append_view_path(Rails.root.join('app', 'ui_elements'))
+
   protect_from_forgery
 
   class AuthorizationError < StandardError # 401 - Not Authorized

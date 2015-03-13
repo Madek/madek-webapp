@@ -6,8 +6,8 @@
     section: '7.9'
   }
 
-= partial('element', element) do
-  = partial('example') do
+= render_partial('element', element) do
+  = render_partial('example') do
     -# TODO: spacing
 
     .ui-slider

@@ -27,9 +27,9 @@
     }
   }
 
-= partial('element', element) do |example|
+= render_partial('element', element) do |example|
   - element[:mods].each do |name, description|
-    = partial('example', { mod: name}) do
+    = render_partial('example', { mod: name}) do
       - example[:locals][:mods] = [name]
 
       = component('tabs', example[:locals])

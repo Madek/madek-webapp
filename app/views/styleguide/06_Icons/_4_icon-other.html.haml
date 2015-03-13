@@ -21,9 +21,9 @@
     'contrast', 'undo', 'catalog', 'link', 'api', 'library'
   ]
 
-= partial('element', element) do
+= render_partial('element', element) do
   - element[:mods].each do |mod, description|
-    = partial('example', { mod: mod}) do
+    = render_partial('example', { mod: mod}) do
 
       - list.each do |sub_element|
         = component("icon.#{sub_element}", mod)

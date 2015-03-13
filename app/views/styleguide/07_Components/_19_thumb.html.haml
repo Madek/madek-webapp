@@ -57,10 +57,10 @@
     ]
   }
 
-= partial('element', element) do |element|
+= render_partial('element', element) do |element|
 
   - element[:examples].each do |example|
 
-    = partial('example') do
+    = render_partial('example') do
 
       = component('thumbnail', example[:locals])

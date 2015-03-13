@@ -7,8 +7,8 @@
     section: '9.3'
   }
 
-= partial('element', element) do
-  = partial('example') do
+= render_partial('element', element) do
+  = render_partial('example') do
 
     #ui-side-filter.filter-panel.ui-side-filter
       .ui-side-filter-filterset
@@ -686,7 +686,7 @@
                 %input.any-value.hidden{:type => "checkbox"}/
                 = component('icon.checkbox')
 
-  = partial('example') do
+  = render_partial('example') do
     #ui-side-filter.filter-panel.ui-side-filter
       .ui-side-filter-filterset
         .col4of5
@@ -1363,7 +1363,7 @@
                 %input.any-value.hidden{:type => "checkbox"}/
                 = component('icon.checkbox')
 
-  = partial('example') do
+  = render_partial('example') do
     #ui-side-filter.filter-panel.ui-side-filter
       .ui-side-filter-filterset
         .col4of5
@@ -2040,7 +2040,7 @@
                 %input.any-value.hidden{:type => "checkbox"}/
                 = component('icon.checkbox')
 
-  = partial('example') do
+  = render_partial('example') do
     #ui-side-filter.filter-panel.ui-side-filter
       .ui-side-filter-filterset
         %a.button.ui-filterset-new

@@ -6,8 +6,8 @@
     section: '7.18'
   }
 
-= partial('element', element) do
-  = partial('example') do
+= render_partial('element', element) do
+  = render_partial('example') do
 
     %img.ui-thumbnail.micro{:alt => "ZHdK", :src => asset_path('styleguide/media-entry-1.jpg')}/
     %img.ui-thumbnail.micro{:alt => "wav", :src => "/assets/thumbnails/audio_small.wav.png"}/

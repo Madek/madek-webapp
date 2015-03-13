@@ -10,9 +10,9 @@
     }
   }
 
-= partial('element', element) do
+= render_partial('element', element) do
   - element[:mods].each do |name, description|
-    = partial('example', { mod: name}) do
+    = render_partial('example', { mod: name}) do
 
       .ui-search{class: name}
         %input.block.ui-search-input{:type => "text"}/

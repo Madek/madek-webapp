@@ -15,7 +15,7 @@
     }
   }
 
-= partial('element', element) do |example|
-  = partial('example') do
+= render_partial('element', element) do |example|
+  = render_partial('example') do
 
     = component('page-header', example[:locals])

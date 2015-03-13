@@ -74,12 +74,12 @@
   }
 
 -# TODO: use component
-  = partial('element', element) do
+  = render_partial('element', element) do
     - element[:mods].each do |name, description|
-      = partial('example', { mod: name}) do
-  = partial('element', element) do |example|
+      = render_partial('example', { mod: name}) do
+  = render_partial('element', element) do |example|
     -# - element[:mods].each do |name, description|
-    = partial('example') do
+    = render_partial('example') do
 
       .spacer{style: 'padding:100px 0;'}
 
@@ -91,9 +91,9 @@
                 = component('thumbnail', example[:locals])
 
 
-= partial('element', element) do
+= render_partial('element', element) do
   - element[:mods].each do |name, description|
-    = partial('example', { mod: name}) do
+    = render_partial('example', { mod: name}) do
 
       %ul.ui-resources.grid{class: name}
         %li.ui-resource

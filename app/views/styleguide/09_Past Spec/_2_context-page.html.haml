@@ -7,8 +7,8 @@
     section: '9.2'
   }
 
-= partial('element', element) do
-  = partial('example') do
+= render_partial('element', element) do
+  = render_partial('example') do
 
     .app-body-ui-container
       %ul.ui-tabs.large
@@ -242,7 +242,7 @@
                       %a.ui-tag-button{:title => "Stadt"}
                         Stadt
 
-  = partial('example') do
+  = render_partial('example') do
     .app-body-ui-container
       %ul.ui-tabs.large
         %li.ui-tabs-item

@@ -30,18 +30,18 @@
   }
 
 <<<<<<< HEAD
-= partial('element', element) do
+= render_partial('element', element) do
   - element[:mods].each do |name, description|
-    = partial('example', { mod: name}) do
+    = render_partial('example', { mod: name}) do
 
       .button-group{class: name}
         %button.button.active{class: name} Alle
         %button.button{class: name} Medienträge
         %button.button{class: name} Sets
 =======
-= partial('element', element) do |example|
+= render_partial('element', element) do |example|
   - element[:mods].each do |mod, description|
-    = partial('example', { mod: mod}) do
+    = render_partial('example', { mod: mod}) do
       - example_locals = example[:locals].merge(mods: mod)
 
       = combo('button-group', example_locals)

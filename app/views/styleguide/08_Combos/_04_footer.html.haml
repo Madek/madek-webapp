@@ -6,8 +6,8 @@
     section: '8.4'
   }
 
-= partial('element', element) do
-  = partial('example') do
+= render_partial('element', element) do
+  = render_partial('example') do
 
     %footer.ui-footer.ui-container.inverted
       %ul.ui-footer-menu
