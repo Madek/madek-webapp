@@ -1,7 +1,7 @@
 task_defaults: 
 
   traits:
-    firefox: true
+    firefox-esr: true
     phantomjs: true
     tightvnc: true
 

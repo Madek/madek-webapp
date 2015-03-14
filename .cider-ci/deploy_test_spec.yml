@@ -5,6 +5,7 @@ task_defaults:
   traits:
     deploy-madek-test: true
     linux: true
+    ansible: true
 
   exclusive_resources:
     "test.madek.zhdk.ch": true
