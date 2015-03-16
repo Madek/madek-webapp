@@ -86,7 +86,7 @@ class MigrateMetaDataToVocabulary < ActiveRecord::Migration
 
           new_meta_key = MetaKey.find_or_create_by(id: new_meta_key_id,
                                                    meta_datum_object_type:  meta_key.meta_datum_object_type,
-                                                   vocables_are_user_extensible: meta_key.is_extensible_list,
+                                                   extensible?: meta_key.is_extensible_list,
                                                    vocabulary: orphan_vocabulary)
           Rails.logger.info "CREATED NEW META_KEY: #{new_meta_key.attributes}"
 
@@ -107,19 +107,20 @@ class MigrateMetaDataToVocabulary < ActiveRecord::Migration
             new_id_meta_key_part = meta_key.id.downcase.gsub(/\s+/, '_').gsub(/-/, '_').gsub(/_+/, '_')
             new_meta_key_id = "#{vocabulary_id}:#{new_id_meta_key_part}"
 
-            new_meta_key_attributes = { id: new_meta_key_id,
-                                        meta_datum_object_type:  meta_key.meta_datum_object_type,
-                                        label: meta_key_definition.label,
-                                        description: meta_key_definition.description,
+            new_meta_key_attributes = { description: meta_key_definition.description,
+                                        enabled_for_collections?: enabled_for_collections?(meta_key_definition),
+                                        enabled_for_media_entries?: true,
                                         hint: meta_key_definition.hint,
-                                        is_required: meta_key_definition.is_required,
+                                        id: new_meta_key_id,
+                                        input_type: meta_key_definition.input_type,
+                                        required?: meta_key_definition.is_required,
+                                        label: meta_key_definition.label,
                                         length_max: meta_key_definition.length_max,
                                         length_min: meta_key_definition.length_min,
+                                        meta_datum_object_type:  meta_key.meta_datum_object_type,
                                         position: meta_key_definition.position,
-                                        input_type: meta_key_definition.input_type,
-                                        vocables_are_user_extensible: meta_key.is_extensible_list,
-                                        vocabulary: vocabulary }
-
+                                        extensible?: meta_key.is_extensible_list,
+                                        vocabulary: vocabulary, } 
             Rails.logger.info "CREATING NEW META_KEY: #{new_meta_key_attributes}"
 
             new_meta_key = MetaKey.find_or_create_by(new_meta_key_attributes)
@@ -138,6 +139,10 @@ class MigrateMetaDataToVocabulary < ActiveRecord::Migration
       Rails.logger.warn "#{e.class} #{e.message} #{e.backtrace.join(', ')}"
       raise e
     end
+  end
+
+  def enabled_for_collections? meta_key_definition
+    !!(meta_key_definition.context_id =~ /media_set/)
   end
 
   def clone_meta_key_data(meta_key, new_meta_key)

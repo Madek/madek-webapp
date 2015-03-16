@@ -294,7 +294,7 @@ CREATE TABLE copyrights (
 
 CREATE TABLE custom_urls (
     id character varying(255) NOT NULL,
-    is_primary boolean DEFAULT false NOT NULL,
+    "primary?" boolean DEFAULT false NOT NULL,
     media_resource_id uuid NOT NULL,
     creator_id uuid NOT NULL,
     updator_id uuid NOT NULL,
@@ -694,16 +694,16 @@ CREATE TABLE meta_keys (
     label text,
     description text,
     hint text,
-    is_required boolean DEFAULT false,
+    "required?" boolean DEFAULT false,
     length_max integer,
     length_min integer,
     "position" integer,
     input_type integer,
-    enabled_for_media_entries boolean DEFAULT false NOT NULL,
-    enabled_for_collections boolean DEFAULT false NOT NULL,
-    enabled_for_filters_sets boolean DEFAULT false NOT NULL,
+    "enabled_for_media_entries?" boolean DEFAULT false NOT NULL,
+    "enabled_for_collections?" boolean DEFAULT false NOT NULL,
+    "enabled_for_filters_sets?" boolean DEFAULT false NOT NULL,
     vocabulary_id character varying(255) NOT NULL,
-    vocables_are_user_extensible boolean DEFAULT false
+    "extensible?" boolean DEFAULT false
 );
 
 
@@ -713,7 +713,7 @@ CREATE TABLE meta_keys (
 
 CREATE TABLE people (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    is_bunch boolean DEFAULT false,
+    "bunch?" boolean DEFAULT false,
     date_of_birth date,
     date_of_death date,
     first_name character varying(255),
@@ -1866,17 +1866,17 @@ CREATE INDEX index_meta_data_vocables_on_vocable_id_and_meta_datum_id ON meta_da
 
 
 --
+-- Name: index_people_on_bunch?; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX "index_people_on_bunch?" ON people USING btree ("bunch?");
+
+
+--
 -- Name: index_people_on_first_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_people_on_first_name ON people USING btree (first_name);
-
-
---
--- Name: index_people_on_is_bunch; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_people_on_is_bunch ON people USING btree (is_bunch);
 
 
 --
@@ -2860,6 +2860,8 @@ INSERT INTO schema_migrations (version) VALUES ('168');
 INSERT INTO schema_migrations (version) VALUES ('169');
 
 INSERT INTO schema_migrations (version) VALUES ('17');
+
+INSERT INTO schema_migrations (version) VALUES ('170');
 
 INSERT INTO schema_migrations (version) VALUES ('18');
 
