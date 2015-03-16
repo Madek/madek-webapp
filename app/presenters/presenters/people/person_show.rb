@@ -18,7 +18,7 @@ module Presenters
          date_of_death).each { |m| delegate m.to_sym, to: :@app_resource }
 
       def bunch?
-        @app_resource.is_bunch
+        @app_resource.bunch?
       end
 
       alias_method :related_media_resources_via_meta_data,
