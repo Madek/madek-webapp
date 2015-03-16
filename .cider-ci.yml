@@ -4,6 +4,8 @@ executions:
     default: true
     specification: 
       _cider-ci_include: /.cider-ci/test_spec.yml
+    trigger: 
+      branch: next
 
   Coverage: 
     specification: 
