@@ -19,12 +19,9 @@ module Concerns
         private
 
         def relational_collections_viewable_by_user(relation_kind, user)
-          scope1 = Collection.viewable_by_user(user)
-          scope2 = send("#{relation_kind}_collections")
-          sql = "((#{scope1.to_sql}) INTERSECT (#{scope2.to_sql})) "\
-                 'AS collections'
           #  TODO: exclude self!
-          Collection.from(sql)
+          send("#{relation_kind}_collections")
+            .merge(Collection.viewable_by_user(user))
         end
       end
 

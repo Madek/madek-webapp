@@ -48,6 +48,9 @@ Metrics/LineLength:
 Metrics/MethodLength:
   Max: 20
 
+Metrics/ParameterLists:
+  Max: 12
+
 Metrics/PerceivedComplexity:
   Max: 11
 

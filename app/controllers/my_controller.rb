@@ -39,7 +39,9 @@ class MyController < ApplicationController
 
   # "index" action
   def dashboard
-    @get = Presenters::Users::UserDashboard.new(current_user, LIMIT_INDEX)
+    @get = Presenters::Users::UserDashboard.new(current_user,
+                                                order: 'created_at DESC',
+                                                limit: LIMIT_INDEX)
     respond_with_presenter_formats
   end
 
@@ -53,7 +55,8 @@ class MyController < ApplicationController
            locals: {
              sections: SECTIONS,
              section_name: section_name,
-             get: Presenters::Users::UserDashboard.new(current_user, LIMIT_SHOW)
+             get: Presenters::Users::UserDashboard.new(current_user,
+                                                       limit: LIMIT_SHOW)
            }
   end
 

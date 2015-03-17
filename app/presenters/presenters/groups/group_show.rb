@@ -11,17 +11,11 @@ module Presenters
 
       def entrusted_media_resources
         Presenters::Shared::MediaResources::MediaResources.new \
-          media_entries:
-            MediaEntry.entrusted_to_group(@app_resource)
-              .map { |r| MediaEntries::MediaEntryIndex.new(r, @user) },
-          collections:
-            Collection.entrusted_to_group(@app_resource)
-              .map { |r| Collections::CollectionIndex.new(r, @user) },
-          filter_sets:
-            FilterSet.entrusted_to_group(@app_resource)
-              .map { |r| FilterSets::FilterSetIndex.new(r, @user) }
+          @user,
+          media_entries: MediaEntry.entrusted_to_group(@app_resource),
+          collections: Collection.entrusted_to_group(@app_resource),
+          filter_sets: FilterSet.entrusted_to_group(@app_resource)
       end
-
     end
   end
 end

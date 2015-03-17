@@ -10,7 +10,7 @@ describe Presenters::People::PersonShow do
     user = FactoryGirl.create(:user)
     let(:presenter) do
       described_class.new(user.person,
-                          User.where('RANDOM()').limit(1))
+                          User.all.sample)
     end
   end
 end

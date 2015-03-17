@@ -18,23 +18,13 @@ module Presenters
         def parent_media_resources
           Presenters::Shared::MediaResources::MediaResources.new \
             @user,
-            collections: relational_collections(:parent)
+            collections: @app_resource.parent_collections
         end
 
         def sibling_media_resources
           Presenters::Shared::MediaResources::MediaResources.new \
             @user,
-            collections: relational_collections(:sibling)
-        end
-
-        private
-
-        def relational_collections(kind)
-          var = "@#{kind.to_s.pluralize}"
-          instance_variable_get(var) \
-            or instance_variable_set \
-              var,
-              @app_resource.send("#{kind}_collections_viewable_by_user", @user)
+            collections: @app_resource.sibling_collections
         end
       end
     end

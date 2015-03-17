@@ -1,7 +1,7 @@
 FactoryGirl.define do
 
   factory :group do
-    name { Faker::Name.last_name }
+    name { Faker::Lorem.words(3).join(' ') }
 
     trait :with_user do
       after(:create) do |group|

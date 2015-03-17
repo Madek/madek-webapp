@@ -14,7 +14,8 @@ describe MyController do
     fake_many.times { FactoryGirl.create :collection, responsible_user: @user }
     fake_many.times { FactoryGirl.create :filter_set, responsible_user: @user }
 
-    fake_many.times { FactoryGirl.create :media_entry, creator: @user }
+    fake_many.times \
+      { FactoryGirl.create :media_entry, creator: @user, responsible_user: @user }
 
     arg_hash = { get_metadata_and_previews: true }
     4.times do
