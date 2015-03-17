@@ -22,7 +22,7 @@ class MigrateCoreKeys < ActiveRecord::Migration
         enabled_for_media_entries?: true,
         enabled_for_collections?: true,
         enabled_for_filters_sets?: true, 
-        vocabulary_id: 'madek::core'
+        vocabulary_id: 'madek:core'
     }},
     
     {id: 'core:keywords',
@@ -32,7 +32,7 @@ class MigrateCoreKeys < ActiveRecord::Migration
         enabled_for_media_entries?: true,
         enabled_for_collections?: true,
         enabled_for_filters_sets?: true, 
-        vocabulary_id: 'madek::core'
+        vocabulary_id: 'madek:core'
     }}, 
 
     {id: 'core:author',
@@ -42,7 +42,7 @@ class MigrateCoreKeys < ActiveRecord::Migration
         enabled_for_media_entries?: true,
         enabled_for_collections?: false,
         enabled_for_filters_sets?: false, 
-        vocabulary_id: 'madek::core'
+        vocabulary_id: 'madek:core'
     }},
 
     {id: 'core:portrayed_object_dates',
@@ -52,7 +52,7 @@ class MigrateCoreKeys < ActiveRecord::Migration
         enabled_for_media_entries?: true,
         enabled_for_collections?: false,
         enabled_for_filters_sets?: false, 
-        vocabulary_id: 'madek::core'
+        vocabulary_id: 'madek:core'
     }},
 
     {id: 'core:copyright_notice',
@@ -62,7 +62,7 @@ class MigrateCoreKeys < ActiveRecord::Migration
         enabled_for_media_entries?: true,
         enabled_for_collections?: false,
         enabled_for_filters_sets?: false, 
-        vocabulary_id: 'madek::core'
+        vocabulary_id: 'madek:core'
     }},
 
 
