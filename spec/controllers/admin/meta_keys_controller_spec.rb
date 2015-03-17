@@ -61,7 +61,7 @@ describe Admin::MetaKeysController do
 
         get(
           :index,
-          { search_term: "vocabulary_id:#{vocabulary.id}" },
+          { vocabulary_id: vocabulary.id },
           user_id: admin_user.id
         )
 

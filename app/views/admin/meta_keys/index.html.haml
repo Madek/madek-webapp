@@ -11,8 +11,13 @@
       .panel-body
         = form_tag admin_meta_keys_path, method: :get, class: 'form-inline' do
           .form-group
-            = text_field_tag :search_term, params[:search_term], size: 50,
-              class: 'form-control', placeholder: 'ID, label or VocabularyID'
+            = text_field_tag :search_term, params[:search_term], size: 34,
+              class: 'form-control', placeholder: 'ID or label'
+          .form-group
+            = label_tag :vocabulary_id, 'Vocabulary', class: 'form-label'
+            = select_tag :vocabulary_id,
+                options_for_select(['', Vocabulary.ids_for_filter].flatten, params[:vocabulary_id]),
+                class: 'form-control'
           .form-group
             = label_tag :type, 'Type', class: 'form-label'
             = select_tag :type,

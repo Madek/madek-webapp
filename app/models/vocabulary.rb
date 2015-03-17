@@ -14,6 +14,7 @@ class Vocabulary < ActiveRecord::Base
       .select('vocabularies.*, count(meta_keys.id) AS meta_keys_count')
       .group('vocabularies.id')
   }
+  scope :ids_for_filter, -> { order(:id).pluck(:id) }
 
   validates :id, presence: true
 

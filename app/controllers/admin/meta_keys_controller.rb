@@ -51,22 +51,24 @@ class Admin::MetaKeysController < AdminController
     if (search_term = params[:search_term]).present?
       filter_by_term(search_term)
     end
+    if (vocabulary_id = params[:vocabulary_id]).present?
+      filter_by_vocabulary(vocabulary_id)
+    end
     if (type = params[:type]).present?
       filter_by_type(type)
     end
   end
 
   def filter_by_term(term)
-    @meta_keys =
-      if term =~ /\Avocabulary_id:/
-        @meta_keys.of_vocabulary(term.split('vocabulary_id:').last)
-      else
-        @meta_keys.filter_by(term)
-      end
+    @meta_keys = @meta_keys.filter_by(term)
   end
 
   def filter_by_type(type)
     @meta_keys = @meta_keys.with_type(type)
+  end
+
+  def filter_by_vocabulary(id)
+    @meta_keys = @meta_keys.of_vocabulary(id)
   end
 
   def meta_key_params
