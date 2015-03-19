@@ -24,7 +24,10 @@ module Presenters
         def sibling_media_resources
           Presenters::Shared::MediaResources::MediaResources.new \
             @user,
-            collections: @app_resource.sibling_collections
+            collections: \
+              @app_resource
+                .sibling_collections
+                .where.not(collections: { id: @app_resource.id })
         end
       end
     end

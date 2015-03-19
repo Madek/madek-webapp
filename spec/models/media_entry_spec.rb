@@ -9,7 +9,6 @@ require 'spec_helper'
   'in_responsibility_of_user.rb',
   'meta_data.rb',
   'permission_types_for_user.rb',
-  'relations.rb',
   'validates.rb'
 ].each do |file|
   require Rails.root.join 'spec', 'models', 'shared', file
@@ -57,14 +56,6 @@ describe MediaEntry do
     it_provides_reader_method_for 'description'
     it_provides_reader_method_for 'keywords'
 
-  end
-
-  it_responds_to 'sibling_collections_viewable_by_user' do
-    let(:resource_type) { :media_entry }
-  end
-
-  it_responds_to 'parent_collections_viewable_by_user' do
-    let(:resource_type) { :media_entry }
   end
 
   it_responds_to 'permission_types_for_user' do

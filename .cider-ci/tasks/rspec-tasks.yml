@@ -224,6 +224,11 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/presenters/collections/collection_permissions_show_spec.rb"
+"./spec/presenters/collections/collection_relations_spec.rb":
+  name: "./spec/presenters/collections/collection_relations_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/presenters/collections/collection_relations_spec.rb"
 "./spec/presenters/collections/collection_thumb_spec.rb":
   name: "./spec/presenters/collections/collection_thumb_spec.rb"
   scripts:
@@ -249,11 +254,21 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/presenters/media_entries/media_entry_permissions_show_spec.rb"
+"./spec/presenters/media_entries/media_entry_relations_spec.rb":
+  name: "./spec/presenters/media_entries/media_entry_relations_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/presenters/media_entries/media_entry_relations_spec.rb"
 "./spec/presenters/media_entries/media_entry_thumb_spec.rb":
   name: "./spec/presenters/media_entries/media_entry_thumb_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/presenters/media_entries/media_entry_thumb_spec.rb"
+"./spec/presenters/media_resources/media_resources_spec.rb":
+  name: "./spec/presenters/media_resources/media_resources_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/presenters/media_resources/media_resources_spec.rb"
 "./spec/presenters/people/person_show_spec.rb":
   name: "./spec/presenters/people/person_show_spec.rb"
   scripts:

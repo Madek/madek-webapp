@@ -9,7 +9,6 @@ require 'spec_helper'
   'in_responsibility_of_user.rb',
   'meta_data.rb',
   'permission_types_for_user.rb',
-  'relations.rb',
   'validates.rb'
 ]
   .each do |file|
