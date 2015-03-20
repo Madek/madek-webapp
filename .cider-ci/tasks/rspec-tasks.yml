@@ -209,6 +209,21 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/models/permissions/media_entry_user_permission_spec.rb"
+"./spec/models/permissions/vocabulary_api_client_permission_spec.rb":
+  name: "./spec/models/permissions/vocabulary_api_client_permission_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/permissions/vocabulary_api_client_permission_spec.rb"
+"./spec/models/permissions/vocabulary_group_permission_spec.rb":
+  name: "./spec/models/permissions/vocabulary_group_permission_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/permissions/vocabulary_group_permission_spec.rb"
+"./spec/models/permissions/vocabulary_user_permission_spec.rb":
+  name: "./spec/models/permissions/vocabulary_user_permission_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/permissions/vocabulary_user_permission_spec.rb"
 "./spec/models/relations/resource_media_entry_arc_spec.rb":
   name: "./spec/models/relations/resource_media_entry_arc_spec.rb"
   scripts:

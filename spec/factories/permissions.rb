@@ -112,4 +112,27 @@ FactoryGirl.define do
 
   end
 
+  factory :vocabulary_permission do
+
+    use { FactoryHelper.rand_bool 1 / 4.0 }
+    view { FactoryHelper.rand_bool 1 / 2.0 }
+    vocabulary { Vocabulary.find_random || (FactoryGirl.create :vocabulary) }
+
+    factory :vocabulary_api_client_permission,
+            class: Permissions::VocabularyApiClientPermission do
+      api_client { ApiClient.find_random || (FactoryGirl.create :api_client) }
+    end
+
+    factory :vocabulary_group_permission,
+            class: Permissions::VocabularyGroupPermission do
+      group { Group.find_random || (FactoryGirl.create :group) }
+    end
+
+    factory :vocabulary_user_permission,
+            class: Permissions::VocabularyUserPermission do
+      user { User.find_random || (FactoryGirl.create :user) }
+    end
+
+  end
+
 end

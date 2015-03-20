@@ -5,7 +5,7 @@ class ApiClient < ActiveRecord::Base
 
   default_scope { reorder(id: :asc) }
 
-  validates :id,
+  validates :name,
             format: {
               with: /\A[a-z][a-z0-9_-]+\z/,
               message: %(
@@ -16,7 +16,7 @@ class ApiClient < ActiveRecord::Base
               )
             }
 
-  validates :id, length: { in: 3..20 }
+  validates :name, length: { in: 3..20 }
 
   def authorization_header_value
     "Basic #{::Base64.strict_encode64("#{id}:#{secret}")}"

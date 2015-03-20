@@ -24,7 +24,7 @@ class CreateCollectionApiClientPermission < ActiveRecord::Migration
       t.uuid :collection_id, null: false
       t.index :collection_id
 
-      t.string :api_client_id, null: false
+      t.uuid :api_client_id, null: false
       t.index :api_client_id
 
       t.uuid :updator_id

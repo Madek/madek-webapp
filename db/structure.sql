@@ -142,12 +142,14 @@ CREATE TABLE admins (
 --
 
 CREATE TABLE api_clients (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
     user_id uuid NOT NULL,
-    id character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
     description text,
     secret uuid DEFAULT uuid_generate_v4(),
-    created_at timestamp without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp without time zone DEFAULT now() NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    CONSTRAINT name_format CHECK (((name)::text ~ '^[a-z][a-z0-9\-\_]+$'::text))
 );
 
 
@@ -183,7 +185,7 @@ CREATE TABLE collection_api_client_permissions (
     get_metadata_and_previews boolean DEFAULT false NOT NULL,
     edit_metadata_and_relations boolean DEFAULT false NOT NULL,
     collection_id uuid NOT NULL,
-    api_client_id character varying(255) NOT NULL,
+    api_client_id uuid NOT NULL,
     updator_id uuid,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL
@@ -363,7 +365,7 @@ CREATE TABLE filter_set_api_client_permissions (
     get_metadata_and_previews boolean DEFAULT false NOT NULL,
     edit_metadata_and_filter boolean DEFAULT false NOT NULL,
     filter_set_id uuid NOT NULL,
-    api_client_id character varying(255) NOT NULL,
+    api_client_id uuid NOT NULL,
     updator_id uuid,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL
@@ -531,7 +533,7 @@ CREATE TABLE media_entry_api_client_permissions (
     get_metadata_and_previews boolean DEFAULT false NOT NULL,
     get_full_size boolean DEFAULT false NOT NULL,
     media_entry_id uuid NOT NULL,
-    api_client_id character varying(255) NOT NULL,
+    api_client_id uuid NOT NULL,
     updator_id uuid,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL
@@ -823,7 +825,48 @@ CREATE TABLE vocabularies (
     id character varying(255) NOT NULL,
     label text,
     description text,
+    "public_view?" boolean DEFAULT true NOT NULL,
+    "public_use?" boolean DEFAULT true NOT NULL,
     CONSTRAINT id_chars CHECK (((id)::text ~* '^[a-z0-9\-\_\:]+$'::text))
+);
+
+
+--
+-- Name: vocabulary_api_client_permissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vocabulary_api_client_permissions (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    api_client_id uuid NOT NULL,
+    vocabulary_id character varying(255) NOT NULL,
+    use boolean DEFAULT false NOT NULL,
+    view boolean DEFAULT true NOT NULL
+);
+
+
+--
+-- Name: vocabulary_group_permissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vocabulary_group_permissions (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    group_id uuid NOT NULL,
+    vocabulary_id character varying(255) NOT NULL,
+    use boolean DEFAULT false NOT NULL,
+    view boolean DEFAULT true NOT NULL
+);
+
+
+--
+-- Name: vocabulary_user_permissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vocabulary_user_permissions (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    user_id uuid NOT NULL,
+    vocabulary_id character varying(255) NOT NULL,
+    use boolean DEFAULT false NOT NULL,
+    view boolean DEFAULT true NOT NULL
 );
 
 
@@ -855,19 +898,19 @@ ALTER TABLE ONLY admins
 
 
 --
+-- Name: api_clients_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY api_clients
+    ADD CONSTRAINT api_clients_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: app_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY app_settings
     ADD CONSTRAINT app_settings_pkey PRIMARY KEY (id);
-
-
---
--- Name: applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY api_clients
-    ADD CONSTRAINT applications_pkey PRIMARY KEY (id);
 
 
 --
@@ -1151,6 +1194,30 @@ ALTER TABLE ONLY vocabularies
 
 
 --
+-- Name: vocabulary_api_client_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vocabulary_api_client_permissions
+    ADD CONSTRAINT vocabulary_api_client_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vocabulary_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vocabulary_group_permissions
+    ADD CONSTRAINT vocabulary_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vocabulary_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vocabulary_user_permissions
+    ADD CONSTRAINT vocabulary_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: zencoder_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1250,10 +1317,38 @@ CREATE UNIQUE INDEX idx_megrpp_on_media_entry_id_and_group_id ON media_entry_gro
 
 
 --
+-- Name: idx_vocabulary_api_client; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX idx_vocabulary_api_client ON vocabulary_api_client_permissions USING btree (api_client_id, vocabulary_id);
+
+
+--
+-- Name: idx_vocabulary_group; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX idx_vocabulary_group ON vocabulary_group_permissions USING btree (group_id, vocabulary_id);
+
+
+--
+-- Name: idx_vocabulary_user; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX idx_vocabulary_user ON vocabulary_user_permissions USING btree (user_id, vocabulary_id);
+
+
+--
 -- Name: index_admins_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_admins_on_user_id ON admins USING btree (user_id);
+
+
+--
+-- Name: index_api_clients_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_api_clients_on_name ON api_clients USING btree (name);
 
 
 --
@@ -2052,14 +2147,6 @@ ALTER TABLE ONLY app_settings
 
 
 --
--- Name: applications_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY api_clients
-    ADD CONSTRAINT applications_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id);
-
-
---
 -- Name: collection_api_client_permissions_api_client_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2716,6 +2803,54 @@ ALTER TABLE ONLY vocables
 
 
 --
+-- Name: vocabulary_api_client_permissions_api_client_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vocabulary_api_client_permissions
+    ADD CONSTRAINT vocabulary_api_client_permissions_api_client_id_fk FOREIGN KEY (api_client_id) REFERENCES api_clients(id) ON DELETE CASCADE;
+
+
+--
+-- Name: vocabulary_api_client_permissions_vocabulary_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vocabulary_api_client_permissions
+    ADD CONSTRAINT vocabulary_api_client_permissions_vocabulary_id_fk FOREIGN KEY (vocabulary_id) REFERENCES vocabularies(id) ON DELETE CASCADE;
+
+
+--
+-- Name: vocabulary_group_permissions_group_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vocabulary_group_permissions
+    ADD CONSTRAINT vocabulary_group_permissions_group_id_fk FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
+
+
+--
+-- Name: vocabulary_group_permissions_vocabulary_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vocabulary_group_permissions
+    ADD CONSTRAINT vocabulary_group_permissions_vocabulary_id_fk FOREIGN KEY (vocabulary_id) REFERENCES vocabularies(id) ON DELETE CASCADE;
+
+
+--
+-- Name: vocabulary_user_permissions_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vocabulary_user_permissions
+    ADD CONSTRAINT vocabulary_user_permissions_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: vocabulary_user_permissions_vocabulary_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vocabulary_user_permissions
+    ADD CONSTRAINT vocabulary_user_permissions_vocabulary_id_fk FOREIGN KEY (vocabulary_id) REFERENCES vocabularies(id) ON DELETE CASCADE;
+
+
+--
 -- Name: zencoder_jobs_media_file_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2862,6 +2997,8 @@ INSERT INTO schema_migrations (version) VALUES ('169');
 INSERT INTO schema_migrations (version) VALUES ('17');
 
 INSERT INTO schema_migrations (version) VALUES ('170');
+
+INSERT INTO schema_migrations (version) VALUES ('171');
 
 INSERT INTO schema_migrations (version) VALUES ('18');
 

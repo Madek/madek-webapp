@@ -22,7 +22,7 @@ class MediaEntryApiClientPremission < ActiveRecord::Migration
       t.uuid :media_entry_id, null: false
       t.index :media_entry_id
 
-      t.string :api_client_id, null: false
+      t.uuid :api_client_id, null: false
       t.index :api_client_id
 
       t.uuid :updator_id
