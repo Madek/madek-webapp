@@ -68,7 +68,7 @@ describe MyController do
   end
 
   it 'dashboard' do
-    get :dashboard, nil,  user_id: @user.id
+    get :dashboard, { page: 1 },  user_id: @user.id
     assert_template :dashboard
     assert_response :success
 

@@ -1,6 +1,7 @@
 class MediaEntriesController < ApplicationController
 
   include Concerns::Filters
+  include Concerns::Pagination
 
   def preview
     media_entry = MediaEntry.find(params[:id])
@@ -19,11 +20,12 @@ class MediaEntriesController < ApplicationController
 
   def index
     @media_entries = \
-      filter_by_entrusted \
-        filter_by_favorite \
-          filter_by_imported \
-            filter_by_responsible \
-              MediaEntry.all
+      paginate \
+        filter_by_entrusted \
+          filter_by_favorite \
+            filter_by_imported \
+              filter_by_responsible \
+                MediaEntry.all
   end
 
   def show

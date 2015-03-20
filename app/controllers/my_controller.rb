@@ -1,11 +1,12 @@
 class MyController < ApplicationController
+  include Concerns::Pagination
+
   layout 'app_with_sidebar'
 
   before_action do
     @sections = SECTIONS # we need this everywhere to build the sidebar
   end
 
-  LIMIT_INDEX = 12 # TODO: limits per section?
   LIMIT_SHOW = 4096 # TMP: TODO: pagination!
 
   # TODO: is this the best place to define the sections?
@@ -39,9 +40,12 @@ class MyController < ApplicationController
 
   # "index" action
   def dashboard
-    @get = Presenters::Users::UserDashboard.new(current_user,
-                                                order: 'created_at DESC',
-                                                limit: LIMIT_INDEX)
+    @get = \
+      Presenters::Users::UserDashboard.new \
+        current_user,
+        order: 'created_at DESC',
+        page: params[:page]
+
     respond_with_presenter_formats
   end
 
@@ -55,8 +59,10 @@ class MyController < ApplicationController
            locals: {
              sections: SECTIONS,
              section_name: section_name,
-             get: Presenters::Users::UserDashboard.new(current_user,
-                                                       limit: LIMIT_SHOW)
+             get: \
+               Presenters::Users::UserDashboard.new(
+                 current_user,
+                 page: params[:page])
            }
   end
 

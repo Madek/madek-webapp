@@ -1,10 +1,9 @@
 module Presenters
   module Users
     class UserDashboard < Presenters::Shared::AppResource
-
-      def initialize(user, order: nil, limit: nil)
+      def initialize(user, order: nil, page: nil)
         super(user)
-        @limit = limit
+        @page = page.to_i
         @order = order
       end
 
@@ -15,7 +14,7 @@ module Presenters
           collections: @app_resource.collections,
           filter_sets: @app_resource.filter_sets,
           order: @order,
-          limit: @limit
+          page: @page
       end
 
       def latest_imports
@@ -23,7 +22,7 @@ module Presenters
           @app_resource,
           media_entries: @app_resource.created_media_entries,
           order: @order,
-          limit: @limit
+          page: @page
       end
 
       def favorites
@@ -32,7 +31,7 @@ module Presenters
           media_entries: @app_resource.favorite_media_entries,
           collections: @app_resource.favorite_collections,
           filter_sets: @app_resource.favorite_filter_sets,
-          limit: @limit
+          page: @page
       end
 
       def entrusted_content
@@ -42,14 +41,15 @@ module Presenters
           collections: Collection.entrusted_to_user(@app_resource),
           filter_sets: FilterSet.entrusted_to_user(@app_resource),
           order: @order,
-          limit: @limit
+          page: @page
       end
 
       def groups
-        @app_resource.groups.limit(@limit).map do |group|
-          Presenters::Groups::GroupShow
-            .new(group, @user)
-        end
+        paginate(@app_resource.groups, @page)
+          .map do |group|
+            Presenters::Groups::GroupShow
+              .new(group, @user)
+          end
       end
     end
   end
