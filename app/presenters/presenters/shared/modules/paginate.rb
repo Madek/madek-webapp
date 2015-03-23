@@ -8,8 +8,8 @@ module Presenters
 
           private
 
-          def paginate(resources, page)
-            page > 0 ? resources.page(page) : resources
+          def paginate(resources, page, per)
+            page > 0 ? resources.page(page).per(per) : resources
           end
         end
       end

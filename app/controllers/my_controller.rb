@@ -7,6 +7,7 @@ class MyController < ApplicationController
     @sections = SECTIONS # we need this everywhere to build the sidebar
   end
 
+  PER_PAGE = 12
   LIMIT_SHOW = 4096 # TMP: TODO: pagination!
 
   # TODO: is this the best place to define the sections?
@@ -44,7 +45,8 @@ class MyController < ApplicationController
       Presenters::Users::UserDashboard.new \
         current_user,
         order: 'created_at DESC',
-        page: params[:page]
+        page: params[:page],
+        per: PER_PAGE
 
     respond_with_presenter_formats
   end
@@ -62,7 +64,8 @@ class MyController < ApplicationController
              get: \
                Presenters::Users::UserDashboard.new(
                  current_user,
-                 page: params[:page])
+                 page: params[:page],
+                 per: PER_PAGE)
            }
   end
 

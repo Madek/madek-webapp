@@ -11,10 +11,12 @@ module Presenters
                        collections: nil,
                        filter_sets: nil,
                        order: nil,
-                       page: nil)
+                       page: nil,
+                       per: nil)
           @user = user
           @order = order
           @page = page.to_i
+          @per = per
           initialize_media_entries(media_entries)
           initialize_collections(collections)
           initialize_filter_sets(filter_sets)
@@ -57,7 +59,8 @@ module Presenters
             resources
               .merge(resource_type.viewable_by_user(@user))
               .reorder(@order),
-            @page
+            @page,
+            @per
           ).map { |r| index_presenter.new(r, @user) }
         end
       end
