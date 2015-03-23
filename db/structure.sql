@@ -144,7 +144,7 @@ CREATE TABLE admins (
 CREATE TABLE api_clients (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     user_id uuid NOT NULL,
-    name character varying(255) NOT NULL,
+    name character varying NOT NULL,
     description text,
     secret uuid DEFAULT uuid_generate_v4(),
     created_at timestamp without time zone NOT NULL,
@@ -162,15 +162,15 @@ CREATE TABLE app_settings (
     featured_set_id uuid,
     splashscreen_slideshow_set_id uuid,
     catalog_set_id uuid,
-    title character varying(255),
-    support_url character varying(255),
-    welcome_title character varying(255),
-    welcome_subtitle character varying(255),
+    title character varying,
+    support_url character varying,
+    welcome_title character varying,
+    welcome_subtitle character varying,
     teaser_set_id uuid,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    logo_url character varying(255) DEFAULT '/assets/inserts/image-logo-zhdk.png'::character varying NOT NULL,
-    brand character varying(255) DEFAULT 'Zürcher Hochschule der Künste'::character varying NOT NULL,
+    logo_url character varying DEFAULT '/assets/inserts/image-logo-zhdk.png'::character varying NOT NULL,
+    brand character varying DEFAULT 'Zürcher Hochschule der Künste'::character varying NOT NULL,
     footer_links text,
     CONSTRAINT oneandonly CHECK ((id = 0))
 );
@@ -282,10 +282,10 @@ CREATE TABLE copyrights (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     is_default boolean DEFAULT false,
     is_custom boolean DEFAULT false,
-    label character varying(255),
+    label character varying,
     parent_id uuid,
-    usage character varying(255),
-    url character varying(255),
+    usage character varying,
+    url character varying,
     "position" double precision
 );
 
@@ -295,7 +295,7 @@ CREATE TABLE copyrights (
 --
 
 CREATE TABLE custom_urls (
-    id character varying(255) NOT NULL,
+    id character varying NOT NULL,
     "primary?" boolean DEFAULT false NOT NULL,
     media_resource_id uuid NOT NULL,
     creator_id uuid NOT NULL,
@@ -436,10 +436,10 @@ CREATE TABLE full_texts (
 CREATE TABLE groups (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     previous_id integer,
-    name character varying(255),
-    institutional_group_id character varying(255),
-    institutional_group_name character varying(255),
-    type character varying(255) DEFAULT 'Group'::character varying NOT NULL,
+    name character varying,
+    institutional_group_id character varying,
+    institutional_group_name character varying,
+    type character varying DEFAULT 'Group'::character varying NOT NULL,
     searchable text DEFAULT ''::text NOT NULL
 );
 
@@ -459,8 +459,8 @@ CREATE TABLE groups_users (
 --
 
 CREATE TABLE io_interfaces (
-    id character varying(255) NOT NULL,
-    description character varying(255),
+    id character varying NOT NULL,
+    description character varying,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL
 );
@@ -471,10 +471,10 @@ CREATE TABLE io_interfaces (
 --
 
 CREATE TABLE io_mappings (
-    io_interface_id character varying(255) NOT NULL,
-    meta_key_id character varying(255) NOT NULL,
-    key_map character varying(255),
-    key_map_type character varying(255),
+    io_interface_id character varying NOT NULL,
+    meta_key_id character varying NOT NULL,
+    key_map character varying,
+    key_map_type character varying,
     created_at timestamp without time zone DEFAULT now(),
     updated_at timestamp without time zone DEFAULT now(),
     id uuid DEFAULT uuid_generate_v4() NOT NULL
@@ -487,7 +487,7 @@ CREATE TABLE io_mappings (
 
 CREATE TABLE keyword_terms (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    term character varying(255) DEFAULT ''::character varying NOT NULL,
+    term character varying DEFAULT ''::character varying NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     creator_id uuid
@@ -586,11 +586,11 @@ CREATE TABLE media_files (
     width integer,
     access_hash text,
     meta_data text,
-    content_type character varying(255) NOT NULL,
-    filename character varying(255),
-    guid character varying(255),
-    extension character varying(255),
-    media_type character varying(255),
+    content_type character varying NOT NULL,
+    filename character varying,
+    guid character varying,
+    extension character varying,
+    media_type character varying,
     media_entry_id uuid,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
@@ -609,7 +609,7 @@ CREATE TABLE media_resources (
     edit boolean DEFAULT false NOT NULL,
     manage boolean DEFAULT false NOT NULL,
     view boolean DEFAULT false NOT NULL,
-    type character varying(255),
+    type character varying,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     CONSTRAINT edit_on_publicpermissions_is_false CHECK ((edit = false)),
@@ -623,8 +623,8 @@ CREATE TABLE media_resources (
 
 CREATE TABLE meta_data (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    meta_key_id character varying(255) NOT NULL,
-    type character varying(255),
+    meta_key_id character varying NOT NULL,
+    type character varying,
     string text,
     copyright_id uuid,
     media_entry_id uuid,
@@ -689,9 +689,9 @@ CREATE TABLE meta_data_vocables (
 --
 
 CREATE TABLE meta_keys (
-    id character varying(255) NOT NULL,
+    id character varying NOT NULL,
     is_extensible_list boolean,
-    meta_datum_object_type character varying(255) DEFAULT 'MetaDatumString'::character varying NOT NULL,
+    meta_datum_object_type character varying DEFAULT 'MetaDatumString'::character varying NOT NULL,
     vocables_alphabetical_order boolean DEFAULT true,
     label text,
     description text,
@@ -704,7 +704,7 @@ CREATE TABLE meta_keys (
     "enabled_for_media_entries?" boolean DEFAULT false NOT NULL,
     "enabled_for_collections?" boolean DEFAULT false NOT NULL,
     "enabled_for_filters_sets?" boolean DEFAULT false NOT NULL,
-    vocabulary_id character varying(255) NOT NULL,
+    vocabulary_id character varying NOT NULL,
     "extensible?" boolean DEFAULT false
 );
 
@@ -718,9 +718,9 @@ CREATE TABLE people (
     "bunch?" boolean DEFAULT false,
     date_of_birth date,
     date_of_death date,
-    first_name character varying(255),
-    last_name character varying(255),
-    pseudonym character varying(255),
+    first_name character varying,
+    last_name character varying,
+    pseudonym character varying,
     searchable text DEFAULT ''::text NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL
@@ -736,12 +736,12 @@ CREATE TABLE previews (
     media_file_id uuid NOT NULL,
     height integer,
     width integer,
-    content_type character varying(255),
-    filename character varying(255),
-    thumbnail character varying(255),
+    content_type character varying,
+    filename character varying,
+    thumbnail character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    media_type character varying(255) NOT NULL
+    media_type character varying NOT NULL
 );
 
 
@@ -750,7 +750,7 @@ CREATE TABLE previews (
 --
 
 CREATE TABLE schema_migrations (
-    version character varying(255) NOT NULL
+    version character varying NOT NULL
 );
 
 
@@ -760,8 +760,8 @@ CREATE TABLE schema_migrations (
 
 CREATE TABLE usage_terms (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    title character varying(255),
-    version character varying(255),
+    title character varying,
+    version character varying,
     intro text,
     body text,
     created_at timestamp without time zone DEFAULT now(),
@@ -776,12 +776,12 @@ CREATE TABLE usage_terms (
 CREATE TABLE users (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     previous_id integer,
-    email character varying(255),
+    email character varying,
     login text,
     notes text,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    password_digest character varying(255),
+    password_digest character varying,
     person_id uuid NOT NULL,
     zhdkid integer,
     usage_terms_accepted_at timestamp without time zone,
@@ -800,7 +800,7 @@ CREATE TABLE users (
 CREATE TABLE visualizations (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     user_id uuid NOT NULL,
-    resource_identifier character varying(255) NOT NULL,
+    resource_identifier character varying NOT NULL,
     control_settings text,
     layout text
 );
@@ -812,7 +812,7 @@ CREATE TABLE visualizations (
 
 CREATE TABLE vocables (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    meta_key_id character varying(255),
+    meta_key_id character varying,
     term text
 );
 
@@ -822,7 +822,7 @@ CREATE TABLE vocables (
 --
 
 CREATE TABLE vocabularies (
-    id character varying(255) NOT NULL,
+    id character varying NOT NULL,
     label text,
     description text,
     "public_view?" boolean DEFAULT true NOT NULL,
@@ -838,7 +838,7 @@ CREATE TABLE vocabularies (
 CREATE TABLE vocabulary_api_client_permissions (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     api_client_id uuid NOT NULL,
-    vocabulary_id character varying(255) NOT NULL,
+    vocabulary_id character varying NOT NULL,
     use boolean DEFAULT false NOT NULL,
     view boolean DEFAULT true NOT NULL
 );
@@ -851,7 +851,7 @@ CREATE TABLE vocabulary_api_client_permissions (
 CREATE TABLE vocabulary_group_permissions (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     group_id uuid NOT NULL,
-    vocabulary_id character varying(255) NOT NULL,
+    vocabulary_id character varying NOT NULL,
     use boolean DEFAULT false NOT NULL,
     view boolean DEFAULT true NOT NULL
 );
@@ -864,7 +864,7 @@ CREATE TABLE vocabulary_group_permissions (
 CREATE TABLE vocabulary_user_permissions (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     user_id uuid NOT NULL,
-    vocabulary_id character varying(255) NOT NULL,
+    vocabulary_id character varying NOT NULL,
     use boolean DEFAULT false NOT NULL,
     view boolean DEFAULT true NOT NULL
 );
@@ -879,7 +879,7 @@ CREATE TABLE zencoder_jobs (
     media_file_id uuid NOT NULL,
     zencoder_id integer,
     comment text,
-    state character varying(255) DEFAULT 'initialized'::character varying NOT NULL,
+    state character varying DEFAULT 'initialized'::character varying NOT NULL,
     error text,
     notification text,
     request text,
@@ -1254,6 +1254,20 @@ CREATE INDEX groups_to_tsvector_idx ON groups USING gin (to_tsvector('english'::
 
 
 --
+-- Name: idx_colgrpp_edit_mdata_and_relations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX idx_colgrpp_edit_mdata_and_relations ON collection_group_permissions USING btree (edit_metadata_and_relations);
+
+
+--
+-- Name: idx_colgrpp_get_mdata_and_previews; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX idx_colgrpp_get_mdata_and_previews ON collection_group_permissions USING btree (get_metadata_and_previews);
+
+
+--
 -- Name: idx_colgrpp_on_collection_id_and_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1265,6 +1279,20 @@ CREATE UNIQUE INDEX idx_colgrpp_on_collection_id_and_group_id ON collection_grou
 --
 
 CREATE UNIQUE INDEX idx_colgrpp_on_filter_set_id_and_group_id ON filter_set_group_permissions USING btree (filter_set_id, group_id);
+
+
+--
+-- Name: idx_collapiclp_edit_mdata_and_relations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX idx_collapiclp_edit_mdata_and_relations ON collection_api_client_permissions USING btree (edit_metadata_and_relations);
+
+
+--
+-- Name: idx_collapiclp_get_mdata_and_previews; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX idx_collapiclp_get_mdata_and_previews ON collection_api_client_permissions USING btree (get_metadata_and_previews);
 
 
 --
@@ -1282,6 +1310,41 @@ CREATE UNIQUE INDEX idx_collection_user_permission ON collection_user_permission
 
 
 --
+-- Name: idx_colluserperm_edit_metadata_and_relations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX idx_colluserperm_edit_metadata_and_relations ON collection_user_permissions USING btree (edit_metadata_and_relations);
+
+
+--
+-- Name: idx_colluserperm_edit_permissions; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX idx_colluserperm_edit_permissions ON collection_user_permissions USING btree (edit_permissions);
+
+
+--
+-- Name: idx_colluserperm_get_metadata_and_previews; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX idx_colluserperm_get_metadata_and_previews ON collection_user_permissions USING btree (get_metadata_and_previews);
+
+
+--
+-- Name: idx_fsetapiclp_edit_mdata_and_filter; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX idx_fsetapiclp_edit_mdata_and_filter ON filter_set_api_client_permissions USING btree (edit_metadata_and_filter);
+
+
+--
+-- Name: idx_fsetapiclp_get_mdata_and_previews; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX idx_fsetapiclp_get_mdata_and_previews ON filter_set_api_client_permissions USING btree (get_metadata_and_previews);
+
+
+--
 -- Name: idx_fsetapiclp_on_filter_set_id_and_api_client_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1296,10 +1359,31 @@ CREATE UNIQUE INDEX idx_fsetusrp_on_filter_set_id_and_user_id ON filter_set_user
 
 
 --
+-- Name: idx_me_apicl_get_mdata_and_previews; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX idx_me_apicl_get_mdata_and_previews ON media_entry_api_client_permissions USING btree (get_metadata_and_previews);
+
+
+--
 -- Name: idx_media_entry_user_permission; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX idx_media_entry_user_permission ON media_entry_user_permissions USING btree (media_entry_id, user_id);
+
+
+--
+-- Name: idx_megrpp_get_full_size; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX idx_megrpp_get_full_size ON media_entry_api_client_permissions USING btree (get_full_size);
+
+
+--
+-- Name: idx_megrpp_get_mdata_and_previews; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX idx_megrpp_get_mdata_and_previews ON media_entry_group_permissions USING btree (get_metadata_and_previews);
 
 
 --
@@ -1639,6 +1723,13 @@ CREATE INDEX index_filter_set_group_permissions_on_filter_set_id ON filter_set_g
 
 
 --
+-- Name: index_filter_set_group_permissions_on_get_metadata_and_previews; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_filter_set_group_permissions_on_get_metadata_and_previews ON filter_set_group_permissions USING btree (get_metadata_and_previews);
+
+
+--
 -- Name: index_filter_set_group_permissions_on_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1653,10 +1744,31 @@ CREATE INDEX index_filter_set_group_permissions_on_updator_id ON filter_set_grou
 
 
 --
+-- Name: index_filter_set_user_permissions_on_edit_metadata_and_filter; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_filter_set_user_permissions_on_edit_metadata_and_filter ON filter_set_user_permissions USING btree (edit_metadata_and_filter);
+
+
+--
+-- Name: index_filter_set_user_permissions_on_edit_permissions; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_filter_set_user_permissions_on_edit_permissions ON filter_set_user_permissions USING btree (edit_permissions);
+
+
+--
 -- Name: index_filter_set_user_permissions_on_filter_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_filter_set_user_permissions_on_filter_set_id ON filter_set_user_permissions USING btree (filter_set_id);
+
+
+--
+-- Name: index_filter_set_user_permissions_on_get_metadata_and_previews; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_filter_set_user_permissions_on_get_metadata_and_previews ON filter_set_user_permissions USING btree (get_metadata_and_previews);
 
 
 --
@@ -1779,6 +1891,13 @@ CREATE INDEX index_media_entry_api_client_permissions_on_api_client_id ON media_
 
 
 --
+-- Name: index_media_entry_api_client_permissions_on_get_full_size; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_entry_api_client_permissions_on_get_full_size ON media_entry_api_client_permissions USING btree (get_full_size);
+
+
+--
 -- Name: index_media_entry_api_client_permissions_on_media_entry_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1790,6 +1909,20 @@ CREATE INDEX index_media_entry_api_client_permissions_on_media_entry_id ON media
 --
 
 CREATE INDEX index_media_entry_api_client_permissions_on_updator_id ON media_entry_api_client_permissions USING btree (updator_id);
+
+
+--
+-- Name: index_media_entry_group_permissions_on_edit_metadata; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_entry_group_permissions_on_edit_metadata ON media_entry_group_permissions USING btree (edit_metadata);
+
+
+--
+-- Name: index_media_entry_group_permissions_on_get_full_size; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_entry_group_permissions_on_get_full_size ON media_entry_group_permissions USING btree (get_full_size);
 
 
 --
@@ -1811,6 +1944,34 @@ CREATE INDEX index_media_entry_group_permissions_on_media_entry_id ON media_entr
 --
 
 CREATE INDEX index_media_entry_group_permissions_on_updator_id ON media_entry_group_permissions USING btree (updator_id);
+
+
+--
+-- Name: index_media_entry_user_permissions_on_edit_metadata; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_entry_user_permissions_on_edit_metadata ON media_entry_user_permissions USING btree (edit_metadata);
+
+
+--
+-- Name: index_media_entry_user_permissions_on_edit_permissions; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_entry_user_permissions_on_edit_permissions ON media_entry_user_permissions USING btree (edit_permissions);
+
+
+--
+-- Name: index_media_entry_user_permissions_on_get_full_size; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_entry_user_permissions_on_get_full_size ON media_entry_user_permissions USING btree (get_full_size);
+
+
+--
+-- Name: index_media_entry_user_permissions_on_get_metadata_and_previews; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_media_entry_user_permissions_on_get_metadata_and_previews ON media_entry_user_permissions USING btree (get_metadata_and_previews);
 
 
 --

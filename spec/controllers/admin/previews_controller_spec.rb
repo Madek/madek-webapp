@@ -1,8 +1,10 @@
 require 'spec_helper'
 
 describe Admin::PreviewsController do
+  # binding.pry
+
   let(:admin_user) { create :admin_user }
-  let(:preview) { create :preview, media_file_id: create(:media_file) }
+  let(:preview) { create :preview, media_file_id: create(:media_file).id }
 
   describe '#show' do
     before { get :show, { id: preview.id }, user_id: admin_user.id }
@@ -18,7 +20,7 @@ describe Admin::PreviewsController do
   end
 
   describe '#destroy' do
-    before { @preview = create :preview, media_file_id: create(:media_file) }
+    before { @preview = create :preview, media_file_id: create(:media_file).id }
 
     it 'destroys preview' do
       expect { delete :destroy, { id: @preview.id }, user_id: admin_user.id }

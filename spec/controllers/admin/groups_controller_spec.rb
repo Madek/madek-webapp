@@ -245,8 +245,8 @@ describe Admin::GroupsController do
     it 'displays error template if something goes wrong' do
       post :add_user, { id: group.id, user_id: '' }, user_id: admin_user.id
 
-      expect(response).to have_http_status(500)
-      expect(response).to render_template 'admin/errors/500'
+      expect(response).to have_http_status(404)
+      expect(response).to render_template 'admin/errors/404'
     end
   end
 

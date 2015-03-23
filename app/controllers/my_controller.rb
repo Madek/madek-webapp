@@ -59,7 +59,7 @@ class MyController < ApplicationController
     end
     render 'my/dashboard_section',
            locals: {
-             sections: SECTIONS,
+             sections: @sections,
              section_name: section_name,
              get: \
                Presenters::Users::UserDashboard.new(

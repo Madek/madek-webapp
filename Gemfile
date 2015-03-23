@@ -5,7 +5,10 @@ source 'http://rubygems.org'
 #####################################################################
 
 # RAILS
-gem 'rails', '4.1.10'
+gem 'rails', '4.2'
+
+# TMP: version 1.7.4 is referenced by Rails but was yanked
+gem 'ruby-progressbar', '= 1.7.1'
 
 # DATABASE
 gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
@@ -53,7 +56,7 @@ gem 'kaminari'
 gem 'newrelic_rpm', group: [:production, :development]
 gem 'nokogiri'
 gem 'rails_autolink', '~> 1.0'
-gem 'rails_config', git: 'https://github.com/DrTom/rails_config.git', ref: 'master'  
+gem 'rails_config', git: 'https://github.com/DrTom/rails_config.git', ref: 'master'
 gem 'rubyzip'
 gem 'therubyracer', platform: :mri
 gem 'therubyrhino', platform: :jruby

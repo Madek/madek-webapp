@@ -18,8 +18,10 @@ class CreateFilterSetApiClientPermission < ActiveRecord::Migration
   def change
     create_table :filter_set_api_client_permissions, id: :uuid do |t|
 
-      t.boolean :get_metadata_and_previews, null: false, default: false, index: true
-      t.boolean :edit_metadata_and_filter, null: false, default: false, index: true
+      t.boolean :get_metadata_and_previews, null: false, default: false
+      t.index :get_metadata_and_previews, name: 'idx_fsetapiclp_get_mdata_and_previews'
+      t.boolean :edit_metadata_and_filter, null: false, default: false
+      t.index :edit_metadata_and_filter, name: 'idx_fsetapiclp_edit_mdata_and_filter'
 
       t.uuid :filter_set_id, null: false
       t.index :filter_set_id

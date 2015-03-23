@@ -16,8 +16,10 @@ class MediaEntryApiClientPremission < ActiveRecord::Migration
   def change
     create_table :media_entry_api_client_permissions, id: :uuid do |t|
 
-      t.boolean :get_metadata_and_previews, null: false, default: false, index: true
+      t.boolean :get_metadata_and_previews, null: false, default: false
+      t.index :get_metadata_and_previews, name: 'idx_me_apicl_get_mdata_and_previews'
       t.boolean :get_full_size, null: false, default: false, index: true
+      t.index :get_full_size, name: 'idx_megrpp_get_full_size'
 
       t.uuid :media_entry_id, null: false
       t.index :media_entry_id

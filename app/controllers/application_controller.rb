@@ -55,10 +55,10 @@ class ApplicationController < ActionController::Base
   private
 
   def user_unauthorized_error
-    render 'public/401.html', status: 401, layout: false
+    render file: 'public/401.html', status: 401, layout: false
   end
 
   def user_forbidden_error
-    render 'public/403.html', status: 403, layout: false
+    render file: 'public/403.html', status: 403, layout: false
   end
 end
