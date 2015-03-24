@@ -5,7 +5,7 @@ class CreateJoinTables < ActiveRecord::Migration
       t.uuid :media_set_id, null: false
       t.string :context_id, null: false
     end
-    add_index :media_sets_contexts, [:media_set_id, :context_id], name: :index_media_sets_contexts, unique: true
+    add_index :media_sets_contexts, [:media_set_id, :context_id], name: :index_media_sets_contexts
     add_foreign_key :media_sets_contexts, :media_resources, column: :media_set_id, on_delete: :cascade
     add_foreign_key :media_sets_contexts, :contexts, on_delete: :cascade
 
