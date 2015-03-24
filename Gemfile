@@ -5,14 +5,10 @@ source 'http://rubygems.org'
 #####################################################################
 
 # RAILS
-gem 'rails', '4.2'
-
-# TMP: version 1.7.4 is referenced by Rails but was yanked
-gem 'ruby-progressbar', '= 1.7.1'
+gem 'rails', '~> 4.2'
 
 # DATABASE
 gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
-gem 'foreigner'
 gem 'jdbc-postgres', platform: :jruby
 gem 'memcache-client'
 gem 'pg', platform: :mri

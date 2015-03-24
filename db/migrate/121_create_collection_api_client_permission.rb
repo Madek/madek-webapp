@@ -37,8 +37,8 @@ class CreateCollectionApiClientPermission < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_foreign_key :collection_api_client_permissions, :api_clients, dependent: :delete
-    add_foreign_key :collection_api_client_permissions, :collections, dependent: :delete
+    add_foreign_key :collection_api_client_permissions, :api_clients, on_delete: :cascade
+    add_foreign_key :collection_api_client_permissions, :collections, on_delete: :cascade
     add_foreign_key :collection_api_client_permissions, :users, column: 'updator_id'
 
     reversible do |dir|

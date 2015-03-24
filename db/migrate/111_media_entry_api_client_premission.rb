@@ -35,8 +35,8 @@ class MediaEntryApiClientPremission < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_foreign_key :media_entry_api_client_permissions, :api_clients, dependent: :delete
-    add_foreign_key :media_entry_api_client_permissions, :media_entries, dependent: :delete
+    add_foreign_key :media_entry_api_client_permissions, :api_clients, on_delete: :cascade
+    add_foreign_key :media_entry_api_client_permissions, :media_entries, on_delete: :cascade
     add_foreign_key :media_entry_api_client_permissions, :users, column: 'updator_id'
 
     reversible do |dir|

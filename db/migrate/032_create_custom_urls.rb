@@ -14,7 +14,7 @@ class CreateCustomUrls < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_foreign_key :custom_urls, :media_resources, dependent: :delete
+    add_foreign_key :custom_urls, :media_resources, on_delete: :cascade
     add_foreign_key :custom_urls, :users, column: :creator_id
     add_foreign_key :custom_urls, :users, column: :updator_id
 

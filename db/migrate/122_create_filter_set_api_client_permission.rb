@@ -37,8 +37,8 @@ class CreateFilterSetApiClientPermission < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_foreign_key :filter_set_api_client_permissions, :api_clients, dependent: :delete
-    add_foreign_key :filter_set_api_client_permissions, :filter_sets, dependent: :delete
+    add_foreign_key :filter_set_api_client_permissions, :api_clients, on_delete: :cascade
+    add_foreign_key :filter_set_api_client_permissions, :filter_sets, on_delete: :cascade
     add_foreign_key :filter_set_api_client_permissions, :users, column: 'updator_id'
 
     reversible do |dir|

@@ -9,8 +9,8 @@ class CreateIoMappings < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_foreign_key :io_mappings, :meta_keys, dependent: :delete
-    add_foreign_key :io_mappings, :io_interfaces, dependent: :delete
+    add_foreign_key :io_mappings, :meta_keys, on_delete: :cascade
+    add_foreign_key :io_mappings, :io_interfaces, on_delete: :cascade
 
     reversible do |dir|
       dir.up do

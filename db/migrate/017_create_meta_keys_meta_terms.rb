@@ -14,8 +14,8 @@ class CreateMetaKeysMetaTerms < ActiveRecord::Migration
       t.index :position
     end
 
-    add_foreign_key :meta_keys_meta_terms, :meta_keys, dependent: :delete
-    add_foreign_key :meta_keys_meta_terms, :meta_terms, dependent: :delete
+    add_foreign_key :meta_keys_meta_terms, :meta_keys, on_delete: :cascade
+    add_foreign_key :meta_keys_meta_terms, :meta_terms, on_delete: :cascade
   end
 
 end

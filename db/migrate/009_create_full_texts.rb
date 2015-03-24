@@ -15,7 +15,7 @@ class CreateFullTexts < ActiveRecord::Migration
       end
     end
 
-    add_foreign_key :full_texts, :media_resources, dependent: :delete
+    add_foreign_key :full_texts, :media_resources, on_delete: :cascade
   end
 
 end

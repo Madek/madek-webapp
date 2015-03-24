@@ -11,8 +11,8 @@ class CreateGroupsUsers < ActiveRecord::Migration
     add_index :groups_users, [:user_id, :group_id], unique: true
     add_index :groups_users, [:group_id, :user_id]
 
-    add_foreign_key :groups_users, :users, dependent: :delete
-    add_foreign_key :groups_users, :groups, dependent: :delete
+    add_foreign_key :groups_users, :users, on_delete: :cascade
+    add_foreign_key :groups_users, :groups, on_delete: :cascade
   end
 
 end

@@ -15,8 +15,8 @@ class CreateVocabularyPermissions < ActiveRecord::Migration
         t.boolean :view, default: true, null: false
       end
 
-      add_foreign_key "vocabulary_#{entity}_permissions", "#{entity.pluralize}", dependent: :delete
-      add_foreign_key "vocabulary_#{entity}_permissions", :vocabularies, dependent: :delete
+      add_foreign_key "vocabulary_#{entity}_permissions", "#{entity.pluralize}", on_delete: :cascade
+      add_foreign_key "vocabulary_#{entity}_permissions", :vocabularies, on_delete: :cascade
     end
 
 

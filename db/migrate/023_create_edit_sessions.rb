@@ -18,8 +18,8 @@ class CreateEditSessions < ActiveRecord::Migration
       end
     end
 
-    add_foreign_key :edit_sessions, :media_resources, dependent: :delete
-    add_foreign_key :edit_sessions, :users, dependent: :delete
+    add_foreign_key :edit_sessions, :media_resources, on_delete: :cascade
+    add_foreign_key :edit_sessions, :users, on_delete: :cascade
   end
 
 end

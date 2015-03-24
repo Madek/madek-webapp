@@ -36,8 +36,8 @@ class CreateCollectionGroupPermission < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_foreign_key :collection_group_permissions, :groups, dependent: :delete
-    add_foreign_key :collection_group_permissions, :collections, dependent: :delete
+    add_foreign_key :collection_group_permissions, :groups, on_delete: :cascade
+    add_foreign_key :collection_group_permissions, :collections, on_delete: :cascade
     add_foreign_key :collection_group_permissions, :users, column: 'updator_id'
 
     reversible do |dir|

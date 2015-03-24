@@ -10,7 +10,7 @@ class CreateAdminUsers < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_foreign_key :admin_users, :users, dependent: :delete
+    add_foreign_key :admin_users, :users, on_delete: :cascade
 
     reversible do |dir|
       dir.up do

@@ -18,8 +18,8 @@ class CreateMediaResourceArcs < ActiveRecord::Migration
     add_index :media_resource_arcs, :parent_id
     add_index :media_resource_arcs, :child_id
 
-    add_foreign_key :media_resource_arcs, :media_resources, column: :child_id, dependent: :delete
-    add_foreign_key :media_resource_arcs, :media_resources, column: :parent_id, dependent: :delete
+    add_foreign_key :media_resource_arcs, :media_resources, column: :child_id, on_delete: :cascade
+    add_foreign_key :media_resource_arcs, :media_resources, column: :parent_id, on_delete: :cascade
 
     reversible do |dir|
       dir.up do

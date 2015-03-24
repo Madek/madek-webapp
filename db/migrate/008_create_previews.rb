@@ -29,6 +29,6 @@ class CreatePreviews < ActiveRecord::Migration
       end
     end
 
-    add_foreign_key :previews, :media_files, dependent: :delete
+    add_foreign_key :previews, :media_files, on_delete: :cascade
   end
 end

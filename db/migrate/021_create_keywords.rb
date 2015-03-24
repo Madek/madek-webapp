@@ -38,7 +38,7 @@ class CreateKeywords < ActiveRecord::Migration
 
     add_foreign_key :keywords, :keyword_terms
     add_foreign_key :keywords, :users
-    add_foreign_key :keywords, :meta_data, dependent: :delete
+    add_foreign_key :keywords, :meta_data, on_delete: :cascade
   end
 
 end

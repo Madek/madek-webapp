@@ -10,8 +10,8 @@ class CreateFavoriteCollections < ActiveRecord::Migration
     end
 
     add_index :favorite_collections, [:user_id, :collection_id], unique: true
-    add_foreign_key :favorite_collections, :users, dependent: :delete
-    add_foreign_key :favorite_collections, :collections, dependent: :delete
+    add_foreign_key :favorite_collections, :users, on_delete: :cascade
+    add_foreign_key :favorite_collections, :collections, on_delete: :cascade
   end
 
 end

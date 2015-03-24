@@ -10,8 +10,8 @@ class CreateFavoriteFilterSets < ActiveRecord::Migration
     end
 
     add_index :favorite_filter_sets, [:user_id, :filter_set_id], unique: true
-    add_foreign_key :favorite_filter_sets, :users, dependent: :delete
-    add_foreign_key :favorite_filter_sets, :filter_sets, dependent: :delete
+    add_foreign_key :favorite_filter_sets, :users, on_delete: :cascade
+    add_foreign_key :favorite_filter_sets, :filter_sets, on_delete: :cascade
   end
 
 end

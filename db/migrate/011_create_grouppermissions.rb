@@ -25,8 +25,8 @@ class CreateGrouppermissions < ActiveRecord::Migration
       end
     end
 
-    add_foreign_key :grouppermissions, :groups, dependent: :delete
-    add_foreign_key :grouppermissions, :media_resources, dependent: :delete
+    add_foreign_key :grouppermissions, :groups, on_delete: :cascade
+    add_foreign_key :grouppermissions, :media_resources, on_delete: :cascade
   end
 
 end

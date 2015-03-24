@@ -46,7 +46,7 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
     # we just need to recreate the key
     reversible do |dir|
       dir.up do
-        remove_foreign_key :media_files, name: 'media_files_media_entry_id_fk'
+        remove_foreign_key :media_files, :media_entries
         add_foreign_key :media_files, :media_entries
       end
       dir.down do
@@ -121,8 +121,8 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
       t.boolean :cover
     end
 
-    add_foreign_key :collection_media_entry_arcs, :media_entries, dependent: :delete
-    add_foreign_key :collection_media_entry_arcs, :collections, dependent: :delete
+    add_foreign_key :collection_media_entry_arcs, :media_entries, on_delete: :cascade
+    add_foreign_key :collection_media_entry_arcs, :collections, on_delete: :cascade
 
     ###########################################################################
     ### collection_filter_set_arcs ############################################
@@ -139,8 +139,8 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
       t.index [:filter_set_id, :collection_id], name: 'index_collection_filter_set_arcs_on_filter_set_id_and_collection_id'[0..62]
     end
 
-    add_foreign_key :collection_filter_set_arcs, :filter_sets, dependent: :delete
-    add_foreign_key :collection_filter_set_arcs, :collections, dependent: :delete
+    add_foreign_key :collection_filter_set_arcs, :filter_sets, on_delete: :cascade
+    add_foreign_key :collection_filter_set_arcs, :collections, on_delete: :cascade
 
     ###########################################################################
     ### collection_collection_arcs ############################################
@@ -157,8 +157,8 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
       t.index [:child_id, :parent_id]
     end
 
-    add_foreign_key :collection_collection_arcs, :collections, column: 'child_id', dependent: :delete
-    add_foreign_key :collection_collection_arcs, :collections, column: 'parent_id', dependent: :delete
+    add_foreign_key :collection_collection_arcs, :collections, column: 'child_id', on_delete: :cascade
+    add_foreign_key :collection_collection_arcs, :collections, column: 'parent_id', on_delete: :cascade
 
     reversible do |dir|
       dir.up do
@@ -195,8 +195,8 @@ class SplitMediaResourcesTable < ActiveRecord::Migration
         add_index :media_resource_arcs, :cover
         add_index :media_resource_arcs, :parent_id
         add_index :media_resource_arcs, :child_id
-        add_foreign_key :media_resource_arcs, :media_resources, column: :child_id, dependent: :delete
-        add_foreign_key :media_resource_arcs, :media_resources, column: :parent_id, dependent: :delete
+        add_foreign_key :media_resource_arcs, :media_resources, column: :child_id, on_delete: :cascade
+        add_foreign_key :media_resource_arcs, :media_resources, column: :parent_id, on_delete: :cascade
         execute 'ALTER TABLE media_resource_arcs  ADD CHECK (parent_id <> child_id);'
       end
     end

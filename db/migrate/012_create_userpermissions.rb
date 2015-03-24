@@ -18,8 +18,8 @@ class CreateUserpermissions < ActiveRecord::Migration
 
     end
 
-    add_foreign_key :userpermissions, :users, dependent: :delete
-    add_foreign_key :userpermissions, :media_resources, dependent: :delete
+    add_foreign_key :userpermissions, :users, on_delete: :cascade
+    add_foreign_key :userpermissions, :media_resources, on_delete: :cascade
   end
 
 end

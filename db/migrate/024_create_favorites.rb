@@ -9,8 +9,8 @@ class CreateFavorites < ActiveRecord::Migration
     end
 
     add_index :favorites, [:user_id, :media_resource_id], unique: true
-    add_foreign_key :favorites, :users, dependent: :delete
-    add_foreign_key :favorites, :media_resources, dependent: :delete
+    add_foreign_key :favorites, :users, on_delete: :cascade
+    add_foreign_key :favorites, :media_resources, on_delete: :cascade
   end
 
 end

@@ -19,8 +19,8 @@ class CreateMetaData < ActiveRecord::Migration
       t.uuid :copyright_id
     end
 
-    add_foreign_key :meta_data, :media_resources, dependent: :delete
-    add_foreign_key :meta_data, :meta_keys, dependent: :delete
+    add_foreign_key :meta_data, :media_resources, on_delete: :cascade
+    add_foreign_key :meta_data, :meta_keys, on_delete: :cascade
 
     add_foreign_key :meta_data, :copyrights
   end

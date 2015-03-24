@@ -39,8 +39,8 @@ class CreateMediaEntryUserPermissions < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_foreign_key :media_entry_user_permissions, :users, dependent: :delete
-    add_foreign_key :media_entry_user_permissions, :media_entries, dependent: :delete
+    add_foreign_key :media_entry_user_permissions, :users, on_delete: :cascade
+    add_foreign_key :media_entry_user_permissions, :media_entries, on_delete: :cascade
     add_foreign_key :media_entry_user_permissions, :users, column: 'updator_id'
 
     reversible do |dir|
