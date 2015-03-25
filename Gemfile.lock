@@ -217,7 +217,6 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
-    memcache-client (1.8.5)
     meta_request (0.3.4)
       callsite (~> 0.0, >= 0.0.11)
       rack-contrib (~> 1.1)
@@ -337,6 +336,7 @@ GEM
       powerpack (~> 0.1)
       rainbow (>= 1.99.1, < 3.0)
       ruby-progressbar (~> 1.4)
+    ruby-prof (0.15.6)
     ruby-progressbar (1.7.1)
     ruby_parser (3.6.5)
       sexp_processor (~> 4.1)
@@ -445,7 +445,6 @@ DEPENDENCIES
   kaminari
   kramdown
   madek_zhdk_integration!
-  memcache-client
   meta_request
   newrelic_rpm
   nokogiri
@@ -464,6 +463,7 @@ DEPENDENCIES
   roar-rails
   rspec-rails (~> 3.1)
   rubocop
+  ruby-prof
   rubyzip
   sass
   sass-rails

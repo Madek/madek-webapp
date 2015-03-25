@@ -1,7 +1,8 @@
 Madek::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
-  config.cache_store = :memory_store
+  # With this cache store, all fetch and read operations will result in a miss.
+  config.cache_store = :null_store
 
   config.eager_load = false
 
@@ -12,7 +13,7 @@ Madek::Application.configure do
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
-  config.action_controller.perform_caching = false
+  config.action_controller.perform_caching = true
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false

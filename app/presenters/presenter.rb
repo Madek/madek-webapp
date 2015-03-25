@@ -48,7 +48,10 @@ class Presenter
 
   def inspect
     app_resource_id = " app_resource_id: \"#{@app_resource.id}\"" if @app_resource
-    "#<#{self.class}#{app_resource_id}>"
+    # object_id returns half the object's memory address, so we need to multiply
+    # by 2 to get the actual address and then convert to hex representation
+    # https://stackoverflow.com/questions/4010547/object-address-in-ruby
+    "#<#{self.class}:#{format('%#x', object_id * 2)}#{app_resource_id}>"
   end
 
   def to_s # in case it ends up undecorated in a view, .to_s is called!

@@ -99,7 +99,6 @@ module Madek
       visualization.js
       visualization_layout_web_worker.js
     )
-
   end
 end
 

@@ -10,7 +10,6 @@ gem 'rails', '~> 4.2'
 # DATABASE
 gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
 gem 'jdbc-postgres', platform: :jruby
-gem 'memcache-client'
 gem 'pg', platform: :mri
 gem 'pg_tasks', '>= 1.3.0', '< 2.0.0'
 gem 'textacular', git: 'https://github.com/DrTom/textacular.git'
@@ -79,6 +78,7 @@ gem 'quiet_assets', group: [:development]
 gem 'rest-client', group: [:test, :development, :personas]
 gem 'rspec-rails', '~> 3.1', group: [:test, :development]
 gem 'rubocop', require: false
+gem 'ruby-prof', group: [:development]
 gem 'selenium-webdriver', group: [:test]
 gem 'simplecov', require: false, group: ['test']
 gem 'simplecov-html', require: false, group: ['test'],
