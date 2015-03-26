@@ -2,8 +2,6 @@ module Presenters
   module Shared
     module MediaResources
       class MediaResources < Presenter
-        include Presenters::Shared::Modules::Paginate
-
         attr_reader :media_entries, :collections, :filter_sets
 
         def initialize(user,
@@ -11,11 +9,11 @@ module Presenters
                        collections: nil,
                        filter_sets: nil,
                        order: nil,
-                       page: nil,
+                       page: 1,
                        per: nil)
           @user = user
           @order = order
-          @page = page.to_i
+          @page = page
           @per = per
           initialize_media_entries(media_entries)
           initialize_collections(collections)
@@ -55,13 +53,12 @@ module Presenters
         end
 
         def handle_resources(resources, resource_type, index_presenter)
-          paginate(
-            resources
-              .merge(resource_type.viewable_by_user(@user))
-              .reorder(@order),
-            @page,
-            @per
-          ).map { |r| index_presenter.new(r, @user) }
+          resources
+            .merge(resource_type.viewable_by_user(@user))
+            .reorder(@order)
+            .page(@page)
+            .per(@per)
+            .map { |r| index_presenter.new(r, @user) }
         end
       end
     end

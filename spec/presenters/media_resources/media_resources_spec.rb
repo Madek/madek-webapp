@@ -11,6 +11,16 @@ describe Presenters::Shared::MediaResources::MediaResources do
     end
   end
 
+  it 'page 1 per default' do
+    p = described_class.new(FactoryGirl.create(:user),
+                            media_entries: MediaEntry.unscoped,
+                            collections: Collection.unscoped,
+                            filter_sets: FilterSet.unscoped)
+    expect(p.media_entries.count).to be <= 12
+    expect(p.collections.count).to be <= 12
+    expect(p.filter_sets.count).to be <= 12
+  end
+
   context 'visibility' do
     it 'public permission' do
       user = FactoryGirl.create(:user)

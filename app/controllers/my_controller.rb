@@ -7,8 +7,6 @@ class MyController < ApplicationController
     @sections = SECTIONS # we need this everywhere to build the sidebar
   end
 
-  PER_PAGE = 12
-
   # TODO: is this the best place to define the sections?
   SECTIONS = {
     content: {
@@ -44,8 +42,7 @@ class MyController < ApplicationController
       Presenters::Users::UserDashboard.new \
         current_user,
         order: 'created_at DESC',
-        page: params[:page] || 1, # TODO: to presenter
-        per: PER_PAGE
+        page: params[:page]
 
     respond_with_presenter_formats
   end
@@ -63,9 +60,7 @@ class MyController < ApplicationController
              get: \
                Presenters::Users::UserDashboard.new(
                  current_user,
-                 page: params[:page] || 1, # TODO: to presenter
-                 per: PER_PAGE)
+                 page: params[:page])
            }
   end
-
 end

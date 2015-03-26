@@ -1,10 +1,10 @@
 module Presenters
   module Users
     class UserDashboard < Presenters::Shared::AppResource
-      def initialize(user, order: nil, page: nil, per: nil)
+      def initialize(user, order: nil, page: 1, per: nil)
         super(user)
         @order = order
-        @page = page.to_i
+        @page = page
         @per = per
       end
 
@@ -50,10 +50,9 @@ module Presenters
       end
 
       def groups
-        paginate(@app_resource.groups, @page, @per)
+        @app_resource.groups.page(@page).per(@per)
           .map do |group|
-            Presenters::Groups::GroupShow
-              .new(group, @user)
+            Presenters::Groups::GroupShow.new(group, @user)
           end
       end
     end
