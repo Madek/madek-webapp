@@ -275,22 +275,6 @@ CREATE TABLE collections (
 
 
 --
--- Name: copyrights; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE copyrights (
-    id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    is_default boolean DEFAULT false,
-    is_custom boolean DEFAULT false,
-    label character varying,
-    parent_id uuid,
-    usage character varying,
-    url character varying,
-    "position" double precision
-);
-
-
---
 -- Name: custom_urls; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -505,6 +489,48 @@ CREATE TABLE keywords (
     keyword_term_id uuid NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: license_groups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE license_groups (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    name text NOT NULL,
+    description text,
+    "position" double precision,
+    parent_id uuid,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: licenses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE licenses (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    is_default boolean DEFAULT false,
+    is_custom boolean DEFAULT false,
+    label character varying,
+    usage character varying,
+    url character varying,
+    "position" double precision
+);
+
+
+--
+-- Name: licenses_license_groups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE licenses_license_groups (
+    license_id uuid,
+    license_group_id uuid,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -973,7 +999,7 @@ ALTER TABLE ONLY collections
 -- Name: copyrights_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY copyrights
+ALTER TABLE ONLY licenses
     ADD CONSTRAINT copyrights_pkey PRIMARY KEY (id);
 
 
@@ -1071,6 +1097,14 @@ ALTER TABLE ONLY keyword_terms
 
 ALTER TABLE ONLY keywords
     ADD CONSTRAINT keywords_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: license_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY license_groups
+    ADD CONSTRAINT license_groups_pkey PRIMARY KEY (id);
 
 
 --
@@ -1597,13 +1631,6 @@ CREATE INDEX index_collections_on_responsible_user_id ON collections USING btree
 
 
 --
--- Name: index_copyrights_on_label; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_copyrights_on_label ON copyrights USING btree (label);
-
-
---
 -- Name: index_custom_urls_on_creator_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1867,6 +1894,13 @@ CREATE INDEX index_keywords_on_meta_datum_id ON keywords USING btree (meta_datum
 --
 
 CREATE INDEX index_keywords_on_user_id ON keywords USING btree (user_id);
+
+
+--
+-- Name: index_licenses_on_label; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_licenses_on_label ON licenses USING btree (label);
 
 
 --
@@ -2660,6 +2694,14 @@ ALTER TABLE ONLY collection_user_permissions
 
 
 --
+-- Name: fk_rails_8f99b491cc; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY licenses_license_groups
+    ADD CONSTRAINT fk_rails_8f99b491cc FOREIGN KEY (license_id) REFERENCES licenses(id);
+
+
+--
 -- Name: fk_rails_9108dab9f9; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2820,6 +2862,14 @@ ALTER TABLE ONLY keywords
 
 
 --
+-- Name: fk_rails_c316f79bb2; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY licenses_license_groups
+    ADD CONSTRAINT fk_rails_c316f79bb2 FOREIGN KEY (license_group_id) REFERENCES license_groups(id);
+
+
+--
 -- Name: fk_rails_c40753f126; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2944,7 +2994,7 @@ ALTER TABLE ONLY meta_data_meta_terms
 --
 
 ALTER TABLE ONLY meta_data
-    ADD CONSTRAINT fk_rails_f0283cbd2e FOREIGN KEY (copyright_id) REFERENCES copyrights(id);
+    ADD CONSTRAINT fk_rails_f0283cbd2e FOREIGN KEY (copyright_id) REFERENCES licenses(id);
 
 
 --
@@ -3015,8 +3065,8 @@ ALTER TABLE ONLY filter_set_user_permissions
 -- Name: parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY copyrights
-    ADD CONSTRAINT parent_id_fkey FOREIGN KEY (parent_id) REFERENCES copyrights(id);
+ALTER TABLE ONLY license_groups
+    ADD CONSTRAINT parent_id_fkey FOREIGN KEY (parent_id) REFERENCES license_groups(id);
 
 
 --
@@ -3160,6 +3210,8 @@ INSERT INTO schema_migrations (version) VALUES ('17');
 INSERT INTO schema_migrations (version) VALUES ('170');
 
 INSERT INTO schema_migrations (version) VALUES ('171');
+
+INSERT INTO schema_migrations (version) VALUES ('172');
 
 INSERT INTO schema_migrations (version) VALUES ('18');
 
