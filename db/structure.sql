@@ -652,7 +652,7 @@ CREATE TABLE meta_data (
     meta_key_id character varying NOT NULL,
     type character varying,
     string text,
-    copyright_id uuid,
+    license_id uuid,
     media_entry_id uuid,
     collection_id uuid,
     filter_set_id uuid,
@@ -2994,7 +2994,7 @@ ALTER TABLE ONLY meta_data_meta_terms
 --
 
 ALTER TABLE ONLY meta_data
-    ADD CONSTRAINT fk_rails_f0283cbd2e FOREIGN KEY (copyright_id) REFERENCES licenses(id);
+    ADD CONSTRAINT fk_rails_f0283cbd2e FOREIGN KEY (license_id) REFERENCES licenses(id);
 
 
 --
@@ -3179,6 +3179,8 @@ INSERT INTO schema_migrations (version) VALUES ('145');
 
 INSERT INTO schema_migrations (version) VALUES ('146');
 
+INSERT INTO schema_migrations (version) VALUES ('147');
+
 INSERT INTO schema_migrations (version) VALUES ('148');
 
 INSERT INTO schema_migrations (version) VALUES ('149');
@@ -3210,8 +3212,6 @@ INSERT INTO schema_migrations (version) VALUES ('17');
 INSERT INTO schema_migrations (version) VALUES ('170');
 
 INSERT INTO schema_migrations (version) VALUES ('171');
-
-INSERT INTO schema_migrations (version) VALUES ('172');
 
 INSERT INTO schema_migrations (version) VALUES ('18');
 

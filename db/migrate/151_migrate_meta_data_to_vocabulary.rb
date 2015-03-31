@@ -151,13 +151,13 @@ class MigrateMetaDataToVocabulary < ActiveRecord::Migration
       @meta_data_count+=1
       Rails.logger.info("#meta-datum: #{@meta_data_count} for #{new_meta_key.id}") if ((@meta_data_count % 1000) == 0)
 
-      shared_attributes = meta_datum.slice(:string, :copyright_id, :media_entry_id, :collection_id, :filter_set_id, :type)
+      shared_attributes = meta_datum.slice(:string, :license_id, :media_entry_id, :collection_id, :filter_set_id, :type)
       new_meta_datum = MetaDatum.create! shared_attributes.merge(meta_key: new_meta_key)
 
       object_type = meta_key.meta_datum_object_type
       case meta_key.meta_datum_object_type
 
-      when 'MetaDatum::Copyright', 'MetaDatum::Text', 'MetaDatum::TextDate'
+      when 'MetaDatum::License', 'MetaDatum::Text', 'MetaDatum::TextDate'
 
       when 'MetaDatum::People'
         new_meta_datum.people = meta_datum.people
