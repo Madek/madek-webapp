@@ -8,7 +8,7 @@ class CreateVocabularyAndAddOtherMetaDataFields < ActiveRecord::Migration
     add_column :meta_keys, :label, :text
     add_column :meta_keys, :description, :text
     add_column :meta_keys, :hint, :text
-    add_column :meta_keys, :required?, :boolean, default: false
+    add_column :meta_keys, :is_required, :boolean, default: false
 
     add_column :meta_keys, :length_max, :integer
     add_column :meta_keys, :length_min, :integer
@@ -16,9 +16,9 @@ class CreateVocabularyAndAddOtherMetaDataFields < ActiveRecord::Migration
     add_column :meta_keys, :input_type, :integer
 
     # Scope
-    add_column :meta_keys, :enabled_for_media_entries?, :bool, null: false, default: false
-    add_column :meta_keys, :enabled_for_collections?, :bool, null: false, default: false
-    add_column :meta_keys, :enabled_for_filters_sets?, :bool, null: false, default: false
+    add_column :meta_keys, :is_enabled_for_media_entries, :bool, null: false, default: false
+    add_column :meta_keys, :is_enabled_for_collections, :bool, null: false, default: false
+    add_column :meta_keys, :is_enabled_for_filter_sets, :bool, null: false, default: false
 
     # Vocabulary
     create_table :vocabularies, id: :string do |t|
@@ -45,7 +45,7 @@ class CreateVocabularyAndAddOtherMetaDataFields < ActiveRecord::Migration
     add_column :keyword_terms, :meta_key_id, :string
     add_index :keyword_terms, :meta_key_id
 
-    add_column :meta_keys, :extensible?, :bool, default: false
+    add_column :meta_keys, :is_extensible, :bool, default: false
   end
 
 end

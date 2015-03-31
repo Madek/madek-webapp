@@ -93,7 +93,7 @@ class MigrateMetaDataToVocabulary < ActiveRecord::Migration
 
           new_meta_key = MetaKey.find_or_create_by(id: new_meta_key_id,
                                                    meta_datum_object_type:  meta_key.meta_datum_object_type,
-                                                   extensible?: meta_key.is_extensible_list,
+                                                   is_extensible: meta_key.is_extensible_list,
                                                    vocabulary: orphan_vocabulary)
           Rails.logger.info "CREATED NEW META_KEY: #{new_meta_key.attributes}"
 
@@ -115,18 +115,18 @@ class MigrateMetaDataToVocabulary < ActiveRecord::Migration
             new_meta_key_id = "#{vocabulary_id}:#{new_id_meta_key_part}"
 
             new_meta_key_attributes = { description: meta_key_definition.description,
-                                        enabled_for_collections?: enabled_for_collections?(meta_key_definition),
-                                        enabled_for_media_entries?: true,
+                                        is_enabled_for_collections: enabled_for_collections?(meta_key_definition),
+                                        is_enabled_for_media_entries: true,
                                         hint: meta_key_definition.hint,
                                         id: new_meta_key_id,
                                         input_type: meta_key_definition.input_type,
-                                        required?: meta_key_definition.is_required,
+                                        is_required: meta_key_definition.is_required,
                                         label: meta_key_definition.label,
                                         length_max: meta_key_definition.length_max,
                                         length_min: meta_key_definition.length_min,
                                         meta_datum_object_type:  meta_key.meta_datum_object_type,
                                         position: meta_key_definition.position,
-                                        extensible?: meta_key.is_extensible_list,
+                                        is_extensible: meta_key.is_extensible_list,
                                         vocabulary: vocabulary, } 
             Rails.logger.info "CREATING NEW META_KEY: #{new_meta_key_attributes}"
 

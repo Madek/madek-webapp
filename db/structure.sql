@@ -298,7 +298,7 @@ CREATE TABLE collections (
 
 CREATE TABLE custom_urls (
     id character varying NOT NULL,
-    "primary?" boolean DEFAULT false NOT NULL,
+    is_primary boolean DEFAULT false NOT NULL,
     media_resource_id uuid NOT NULL,
     creator_id uuid NOT NULL,
     updator_id uuid NOT NULL,
@@ -565,7 +565,7 @@ CREATE TABLE media_entries (
     get_full_size boolean DEFAULT false NOT NULL,
     responsible_user_id uuid NOT NULL,
     creator_id uuid NOT NULL,
-    "published?" boolean DEFAULT false
+    is_published boolean DEFAULT false
 );
 
 
@@ -731,16 +731,16 @@ CREATE TABLE meta_keys (
     label text,
     description text,
     hint text,
-    "required?" boolean DEFAULT false,
+    is_required boolean DEFAULT false,
     length_max integer,
     length_min integer,
     "position" integer,
     input_type integer,
-    "enabled_for_media_entries?" boolean DEFAULT false NOT NULL,
-    "enabled_for_collections?" boolean DEFAULT false NOT NULL,
-    "enabled_for_filters_sets?" boolean DEFAULT false NOT NULL,
+    is_enabled_for_media_entries boolean DEFAULT false NOT NULL,
+    is_enabled_for_collections boolean DEFAULT false NOT NULL,
+    is_enabled_for_filter_sets boolean DEFAULT false NOT NULL,
     vocabulary_id character varying NOT NULL,
-    "extensible?" boolean DEFAULT false,
+    is_extensible boolean DEFAULT false,
     CONSTRAINT meta_key_id_chars CHECK (((id)::text ~* '^[a-z0-9\-\_\:]+$'::text)),
     CONSTRAINT start_id_like_vocabulary_id CHECK (((id)::text ~~ ((vocabulary_id)::text || ':%'::text)))
 );
@@ -752,7 +752,7 @@ CREATE TABLE meta_keys (
 
 CREATE TABLE people (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    "bunch?" boolean DEFAULT false,
+    is_bunch boolean DEFAULT false,
     date_of_birth date,
     date_of_death date,
     first_name character varying,
@@ -851,8 +851,8 @@ CREATE TABLE vocabularies (
     id character varying NOT NULL,
     label text,
     description text,
-    "public_view?" boolean DEFAULT true NOT NULL,
-    "public_use?" boolean DEFAULT true NOT NULL,
+    enabled_for_public_view boolean DEFAULT true NOT NULL,
+    enabled_for_public_use boolean DEFAULT true NOT NULL,
     CONSTRAINT vocabulary_id_chars CHECK (((id)::text ~* '^[a-z0-9\-\_]+$'::text))
 );
 
@@ -2141,17 +2141,17 @@ CREATE UNIQUE INDEX index_meta_data_users_on_meta_datum_id_and_user_id ON meta_d
 
 
 --
--- Name: index_people_on_bunch?; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX "index_people_on_bunch?" ON people USING btree ("bunch?");
-
-
---
 -- Name: index_people_on_first_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_people_on_first_name ON people USING btree (first_name);
+
+
+--
+-- Name: index_people_on_is_bunch; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_people_on_is_bunch ON people USING btree (is_bunch);
 
 
 --
@@ -3184,8 +3184,6 @@ INSERT INTO schema_migrations (version) VALUES ('168');
 INSERT INTO schema_migrations (version) VALUES ('169');
 
 INSERT INTO schema_migrations (version) VALUES ('17');
-
-INSERT INTO schema_migrations (version) VALUES ('170');
 
 INSERT INTO schema_migrations (version) VALUES ('171');
 

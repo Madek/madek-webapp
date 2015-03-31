@@ -19,9 +19,9 @@ class MigrateCoreKeys < ActiveRecord::Migration
       attributes: {
         id: 'madek_core:title',
         label: 'Title',
-        enabled_for_media_entries?: true,
-        enabled_for_collections?: true,
-        enabled_for_filters_sets?: true, 
+        is_enabled_for_media_entries: true,
+        is_enabled_for_collections: true,
+        is_enabled_for_filter_sets: true,  
         vocabulary_id: 'madek_core'
     }},
 
@@ -29,9 +29,9 @@ class MigrateCoreKeys < ActiveRecord::Migration
       attributes: {
         id: 'madek_core:subtitle',
         label: 'Subtitle',
-        enabled_for_media_entries?: true,
-        enabled_for_collections?: true,
-        enabled_for_filters_sets?: true, 
+        is_enabled_for_media_entries: true,
+        is_enabled_for_collections: true,
+        is_enabled_for_filter_sets: true,
         vocabulary_id: 'madek_core'
     }},
     
@@ -39,9 +39,9 @@ class MigrateCoreKeys < ActiveRecord::Migration
       attributes: {
         id: 'madek_core:keywords',
         label: 'Schlagworte',
-        enabled_for_media_entries?: true,
-        enabled_for_collections?: true,
-        enabled_for_filters_sets?: true, 
+        is_enabled_for_media_entries: true,
+        is_enabled_for_collections: true,
+        is_enabled_for_filter_sets: true, 
         vocabulary_id: 'madek_core'
     }}, 
 
@@ -49,9 +49,9 @@ class MigrateCoreKeys < ActiveRecord::Migration
       attributes: {
         id: 'madek_core:authors',
         label: 'Autoren',
-        enabled_for_media_entries?: true,
-        enabled_for_collections?: false,
-        enabled_for_filters_sets?: false, 
+        is_enabled_for_media_entries: true,
+        is_enabled_for_collections: false,
+        is_enabled_for_filter_sets: false,
         vocabulary_id: 'madek_core'
     }},
 
@@ -59,9 +59,9 @@ class MigrateCoreKeys < ActiveRecord::Migration
       attributes: {
         id: 'madek_core:portrayed_object_date',
         label: 'Datierung',
-        enabled_for_media_entries?: true,
-        enabled_for_collections?: false,
-        enabled_for_filters_sets?: false, 
+        is_enabled_for_media_entries: true,
+        is_enabled_for_collections: false,
+        is_enabled_for_filter_sets: false,
         vocabulary_id: 'madek_core'
     }},
 
@@ -69,9 +69,9 @@ class MigrateCoreKeys < ActiveRecord::Migration
       attributes: {
         id: 'madek_core:copyright_notice',
         label: 'Rechteinhaber',
-        enabled_for_media_entries?: true,
-        enabled_for_collections?: false,
-        enabled_for_filters_sets?: false, 
+        is_enabled_for_media_entries: true,
+        is_enabled_for_collections: false,
+        is_enabled_for_filter_sets: false, 
         vocabulary_id: 'madek_core'
     }},
 

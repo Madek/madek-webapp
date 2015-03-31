@@ -2,8 +2,8 @@ class CreateVocabularyPermissions < ActiveRecord::Migration
   def change
 
     change_table :vocabularies do |t|
-      t.boolean :public_view?, default: true, null: false 
-      t.boolean :public_use?, default: true, null: false 
+      t.boolean :enabled_for_public_view, default: true, null: false 
+      t.boolean :enabled_for_public_use, default: true, null: false 
     end
 
     %w(user api_client group).each do |entity| 
