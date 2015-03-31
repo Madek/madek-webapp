@@ -7,7 +7,7 @@
 	<key>ApplicationVersion</key>
 	<array>
 		<string>com.omnigroup.OmniGraffle6</string>
-		<string>159.11.0.228015</string>
+		<string>161.2.0.229575</string>
 	</array>
 	<key>AutoAdjust</key>
 	<true/>
@@ -5117,7 +5117,7 @@ UserPermission}</string>
 \fs36 \cf0 \
 Entities and Database-Relations\
 
-\fs18 Version 2015-03-30 Th.Schank}</string>
+\fs18 Version 2015-03-31 Th.Schank}</string>
 			</dict>
 		</dict>
 		<dict>
@@ -5166,8 +5166,8 @@ Entities and Database-Relations\
 			<integer>1</integer>
 			<key>Points</key>
 			<array>
-				<string>{424.12121203302758, 153.9215392349623}</string>
-				<string>{498.88608208048231, 228.81410094726883}</string>
+				<string>{424.12120363778689, 153.92154761558712}</string>
+				<string>{498.88429840641709, 228.81588459645474}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -5731,6 +5731,8 @@ Entities and Database-Relations\
 			<dict>
 				<key>ID</key>
 				<integer>41</integer>
+				<key>Info</key>
+				<integer>3</integer>
 			</dict>
 			<key>ID</key>
 			<integer>734</integer>
@@ -5739,7 +5741,7 @@ Entities and Database-Relations\
 			<key>Points</key>
 			<array>
 				<string>{747, 177.58079900000001}</string>
-				<string>{452.0420917302784, 143.33240966248633}</string>
+				<string>{456.00003074999984, 136.45300136407414}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -6963,7 +6965,7 @@ public permissions}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2015-03-30 12:17:01 +0000</string>
+	<string>2015-03-31 13:38:50 +0000</string>
 	<key>Modifier</key>
 	<string>DrTom</string>
 	<key>NotesVisible</key>
@@ -6999,7 +7001,7 @@ public permissions}</string>
 		<key>NSPaperName</key>
 		<array>
 			<string>string</string>
-			<string>5A70AD70-942D-432E-B58F-FA80C71A89AF</string>
+			<string>0B3619FF-D4B8-46C4-A7DC-248F906A5EB2</string>
 		</array>
 		<key>NSPaperSize</key>
 		<array>
@@ -7051,9 +7053,9 @@ public permissions}</string>
 		<key>FitInWindow</key>
 		<true/>
 		<key>Frame</key>
-		<string>{{77, 4}, {2483, 1326}}</string>
+		<string>{{43, 177}, {2384, 1240}}</string>
 		<key>ShowInfo</key>
-		<true/>
+		<false/>
 		<key>ShowRuler</key>
 		<true/>
 		<key>Sidebar</key>
@@ -7063,9 +7065,9 @@ public permissions}</string>
 		<key>TopSlabHeight</key>
 		<real>250</real>
 		<key>VisibleRegion</key>
-		<string>{{-218.00000000000003, 0}, {1438.7044877222695, 783.00000000000011}}</string>
+		<string>{{-345, 0}, {1693.2821917808219, 783}}</string>
 		<key>Zoom</key>
-		<real>1.5083014048531289</real>
+		<real>1.3984674329501916</real>
 		<key>ZoomValues</key>
 		<array>
 			<array>

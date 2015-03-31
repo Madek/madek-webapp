@@ -1,7 +1,7 @@
 class CreateVocabularyAndAddOtherMetaDataFields < ActiveRecord::Migration
 
   def change
-    rename_column :meta_keys, :meta_terms_alphabetical_order, :vocables_alphabetical_order
+    rename_column :meta_keys, :meta_terms_alphabetical_order, :keywords_alphabetical_order
 
     # from meta_keys_definitions
     #
@@ -28,19 +28,22 @@ class CreateVocabularyAndAddOtherMetaDataFields < ActiveRecord::Migration
 
     add_column :meta_keys, :vocabulary_id, :string
 
-    create_table :vocables, id: :uuid do |t|
-      t.string :meta_key_id
-      t.index :meta_key_id
-
-      t.text :term
-    end
-
-    create_table :meta_data_vocables, id: false do |t|
-      t.uuid :meta_datum_id
-      t.uuid :vocable_id
-      t.index [:meta_datum_id, :vocable_id], unique: true
-      t.index [:vocable_id, :meta_datum_id]
-    end
+#    create_table :vocables, id: :uuid do |t|
+#      t.string :meta_key_id
+#      t.index :meta_key_id
+#
+#      t.text :term
+#    end
+#
+#    create_table :meta_data_vocables, id: false do |t|
+#      t.uuid :meta_datum_id
+#      t.uuid :vocable_id
+#      t.index [:meta_datum_id, :vocable_id], unique: true
+#      t.index [:vocable_id, :meta_datum_id]
+#    end
+ 
+    add_column :keyword_terms, :meta_key_id, :string
+    add_index :keyword_terms, :meta_key_id
 
     add_column :meta_keys, :extensible?, :bool, default: false
   end

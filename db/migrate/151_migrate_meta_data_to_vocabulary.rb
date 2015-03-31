@@ -62,13 +62,20 @@ class MigrateMetaDataToVocabulary < ActiveRecord::Migration
     has_many :vocables, through: :meta_keys
   end
 
-  class Vocable < ActiveRecord::Base
+  class Keyword < ActiveRecord::Base
+    belongs_to :keyword_term
+    belongs_to :meta_datum_keywords
   end
+
+  class KeywordTerm < ActiveRecord::Base
+    has_many :keyword_terms
+  end
+
 
   def change
     @meta_data_count = 0
     begin 
-      Vocable.reset_column_information
+      KeywordTerm.reset_column_information
       Vocabulary.reset_column_information
       MetaKey.reset_column_information
       MetaDatum.reset_column_information
@@ -173,11 +180,11 @@ class MigrateMetaDataToVocabulary < ActiveRecord::Migration
 
       when 'MetaDatum::Vocables'
         meta_datum.meta_terms.each do |meta_term|
-          vocable = Vocable.find_or_create_by(term: meta_term.term, meta_key_id: new_meta_key.id)
-          new_meta_datum.vocables << vocable unless meta_datum.vocables.include? vocable
+          keyword_term = KeywordTerm.find_or_create_by(term: meta_term.term, meta_key_id: new_meta_key.id)
+          Keyword.find_or_create_by meta_datum_id: new_meta_datum.id, keyword_term_id: keyword_term.id
         end
         meta_datum.meta_terms.reset 
-        new_meta_datum.vocables.reset
+        new_meta_datum.keywords.reset
 
       when 'MetaDatum::Groups'
         new_meta_datum.groups = meta_datum.groups

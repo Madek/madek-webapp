@@ -474,7 +474,8 @@ CREATE TABLE keyword_terms (
     term character varying DEFAULT ''::character varying NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    creator_id uuid
+    creator_id uuid,
+    meta_key_id character varying NOT NULL
 );
 
 
@@ -701,16 +702,6 @@ CREATE TABLE meta_data_users (
 
 
 --
--- Name: meta_data_vocables; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE meta_data_vocables (
-    meta_datum_id uuid,
-    vocable_id uuid
-);
-
-
---
 -- Name: meta_keys; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -718,7 +709,7 @@ CREATE TABLE meta_keys (
     id character varying NOT NULL,
     is_extensible_list boolean,
     meta_datum_object_type character varying DEFAULT 'MetaDatumString'::character varying NOT NULL,
-    vocables_alphabetical_order boolean DEFAULT true,
+    keywords_alphabetical_order boolean DEFAULT true,
     label text,
     description text,
     hint text,
@@ -829,17 +820,6 @@ CREATE TABLE visualizations (
     resource_identifier character varying NOT NULL,
     control_settings text,
     layout text
-);
-
-
---
--- Name: vocables; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE vocables (
-    id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    meta_key_id character varying,
-    term text
 );
 
 
@@ -1209,14 +1189,6 @@ ALTER TABLE ONLY users
 
 ALTER TABLE ONLY visualizations
     ADD CONSTRAINT visualizations_pkey PRIMARY KEY (id);
-
-
---
--- Name: vocables_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY vocables
-    ADD CONSTRAINT vocables_pkey PRIMARY KEY (id);
 
 
 --
@@ -1869,6 +1841,13 @@ CREATE UNIQUE INDEX index_groups_users_on_user_id_and_group_id ON groups_users U
 
 
 --
+-- Name: index_keyword_terms_on_meta_key_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_keyword_terms_on_meta_key_id ON keyword_terms USING btree (meta_key_id);
+
+
+--
 -- Name: index_keywords_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2142,20 +2121,6 @@ CREATE UNIQUE INDEX index_meta_data_users_on_meta_datum_id_and_user_id ON meta_d
 
 
 --
--- Name: index_meta_data_vocables_on_meta_datum_id_and_vocable_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_meta_data_vocables_on_meta_datum_id_and_vocable_id ON meta_data_vocables USING btree (meta_datum_id, vocable_id);
-
-
---
--- Name: index_meta_data_vocables_on_vocable_id_and_meta_datum_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_meta_data_vocables_on_vocable_id_and_meta_datum_id ON meta_data_vocables USING btree (vocable_id, meta_datum_id);
-
-
---
 -- Name: index_people_on_bunch?; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2216,13 +2181,6 @@ CREATE INDEX index_users_on_login ON users USING btree (login);
 --
 
 CREATE UNIQUE INDEX index_users_on_zhdkid ON users USING btree (zhdkid);
-
-
---
--- Name: index_vocables_on_meta_key_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_vocables_on_meta_key_id ON vocables USING btree (meta_key_id);
 
 
 --
@@ -2326,11 +2284,11 @@ ALTER TABLE ONLY media_entry_api_client_permissions
 
 
 --
--- Name: fk_rails_09d340ddf4; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: fk_rails_127959ee4a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY vocables
-    ADD CONSTRAINT fk_rails_09d340ddf4 FOREIGN KEY (meta_key_id) REFERENCES meta_keys(id) ON DELETE CASCADE;
+ALTER TABLE ONLY keyword_terms
+    ADD CONSTRAINT fk_rails_127959ee4a FOREIGN KEY (meta_key_id) REFERENCES meta_keys(id) ON DELETE CASCADE;
 
 
 --
@@ -2347,14 +2305,6 @@ ALTER TABLE ONLY edit_sessions
 
 ALTER TABLE ONLY vocabulary_group_permissions
     ADD CONSTRAINT fk_rails_1c12af797a FOREIGN KEY (vocabulary_id) REFERENCES vocabularies(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_1c3d9422fe; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_data_vocables
-    ADD CONSTRAINT fk_rails_1c3d9422fe FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
 
 
 --
@@ -2571,14 +2521,6 @@ ALTER TABLE ONLY meta_data_people
 
 ALTER TABLE ONLY vocabulary_user_permissions
     ADD CONSTRAINT fk_rails_6ad9b754cf FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_7096ea001b; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_data_vocables
-    ADD CONSTRAINT fk_rails_7096ea001b FOREIGN KEY (vocable_id) REFERENCES vocables(id) ON DELETE CASCADE;
 
 
 --
