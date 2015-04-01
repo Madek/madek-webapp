@@ -14,7 +14,7 @@ class Person < ActiveRecord::Base
 
   def to_s
     case
-    when ((first_name or last_name) and pseudonym)
+    when ((first_name or last_name) and (pseudonym and !pseudonym.try(:empty?)))
       "#{first_name} #{last_name} (#{pseudonym})"
     when (first_name or last_name)
       "#{first_name} #{last_name}"
