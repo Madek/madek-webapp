@@ -1,9 +1,6 @@
 module Presenters
   module Groups
-    class GroupShow < Presenters::Shared::AppResource
-      [:name, :institutional?, :institutional_group_name] \
-        .each { |m| delegate m, to: :@app_resource }
-
+    class GroupShow < GroupCommon
       def initialize(app_resource, user)
         @user = user
         super(app_resource)

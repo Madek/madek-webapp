@@ -11,11 +11,11 @@ module Presenters
       end
 
       # TODO: show person.searchable? (it's supposed to be internal…)
-      %w(first_name
-         last_name
-         pseudonym
-         date_of_birth
-         date_of_death).each { |m| delegate m.to_sym, to: :@app_resource }
+      delegate_to_app_resource :first_name,
+                               :last_name,
+                               :pseudonym,
+                               :date_of_birth,
+                               :date_of_death
 
       def bunch?
         @app_resource.bunch?
