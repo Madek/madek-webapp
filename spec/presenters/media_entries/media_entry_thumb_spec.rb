@@ -6,14 +6,14 @@ describe Presenters::MediaEntries::MediaEntryIndex do
   it_can_be 'dumped' do
     media_entry = FactoryGirl.create(:media_entry_with_image_media_file)
 
-    unless MetaKey.find_by_id('madek:core:title')
+    unless MetaKey.find_by_id('madek_core:title')
       with_disabled_triggers do
-        # TODO: remove as soon as the madek:core meta data is part of the test db
+        # TODO: remove as soon as the madek_core meta data is part of the test db
         FactoryGirl.create :meta_key_core_title
       end
     end
 
-    meta_key = MetaKey.find_by_id('madek:core:title')
+    meta_key = MetaKey.find_by_id('madek_core:title')
 
     FactoryGirl.create :meta_datum_text,
                        meta_key: meta_key,

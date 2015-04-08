@@ -7,14 +7,14 @@ describe Presenters::MediaEntries::MediaEntryShow do
 
   #   media_entry = FactoryGirl.create(:media_entry_with_image_media_file)
 
-  #   unless MetaKey.find_by_id('madek:core:title')
+  #   unless MetaKey.find_by_id('madek_core:title')
   #     with_disabled_triggers do
-  #       # TODO: remove as soon as the madek:core meta data is part of the test db
-  #       MetaKey.create id: 'madek:core:title',
+  #       # TODO: remove as soon as the madek_core meta data is part of the test db
+  #       MetaKey.create id: 'madek_core:title',
   #                      meta_datum_object_type: 'MetaDatum::Text'
-  #       MetaKey.create id: 'madek:core:copyright_notice',
+  #       MetaKey.create id: 'madek_core:copyright_notice',
   #                      meta_datum_object_type: 'MetaDatum::Text'
-  #       MetaKey.create id: 'madek:core:portrayed_object_date',
+  #       MetaKey.create id: 'madek_core:portrayed_object_date',
   #                      meta_datum_object_type: 'MetaDatum::TextDate'
   #     end
   #   end
@@ -23,8 +23,8 @@ describe Presenters::MediaEntries::MediaEntryShow do
   #   # different meta data for meta_datum_text
 
   #   meta_keys = []
-  #   meta_keys << MetaKey.find_by_id('madek:core:title')
-  #   meta_keys << MetaKey.find_by_id('madek:core:copyright_notice')
+  #   meta_keys << MetaKey.find_by_id('madek_core:title')
+  #   meta_keys << MetaKey.find_by_id('madek_core:copyright_notice')
   #   meta_keys << \
   #     (MetaKey.find_by_id('description') \
   #       || FactoryGirl.create(:meta_key_text, id: 'description'))
@@ -37,14 +37,14 @@ describe Presenters::MediaEntries::MediaEntryShow do
 
   #   #############################################
 
-  #   meta_key = MetaKey.find_by_id('madek:core:portrayed_object_date')
+  #   meta_key = MetaKey.find_by_id('madek_core:portrayed_object_date')
   #   FactoryGirl.create :meta_datum_text_date,
   #                      meta_key: meta_key,
   #                      media_entry: media_entry
 
   #   #############################################
 
-  #   meta_key = MetaKey.find_by_id('madek:core:keywords')
+  #   meta_key = MetaKey.find_by_id('madek_core:keywords')
   #   meta_datum = \
   #     FactoryGirl.create :meta_datum_keywords,
   #                        meta_key: meta_key,

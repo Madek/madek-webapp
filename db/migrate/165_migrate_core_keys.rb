@@ -10,59 +10,69 @@ class MigrateCoreKeys < ActiveRecord::Migration
   def change
 
 
-    Vocabulary.find_or_create_by id: "madek:core", label: "Madek Core", 
+    Vocabulary.find_or_create_by id: "madek_core", label: "Madek Core", 
       description: "This is the predefined and immutable Madek core vocabulary."
 
     execute "SET session_replication_role = REPLICA;"
 
     [{id: 'core:title',
       attributes: {
-        id: 'madek:core:title',
+        id: 'madek_core:title',
         label: 'Title',
         enabled_for_media_entries?: true,
         enabled_for_collections?: true,
         enabled_for_filters_sets?: true, 
-        vocabulary_id: 'madek:core'
+        vocabulary_id: 'madek_core'
+    }},
+
+    {id: 'media_content:subtitle',
+      attributes: {
+        id: 'madek_core:subtitle',
+        label: 'Subtitle',
+        enabled_for_media_entries?: true,
+        enabled_for_collections?: true,
+        enabled_for_filters_sets?: true, 
+        vocabulary_id: 'madek_core'
     }},
     
     {id: 'core:keywords',
       attributes: {
-        id: 'madek:core:keywords',
+        id: 'madek_core:keywords',
         label: 'Schlagworte',
         enabled_for_media_entries?: true,
         enabled_for_collections?: true,
         enabled_for_filters_sets?: true, 
-        vocabulary_id: 'madek:core'
+        vocabulary_id: 'madek_core'
     }}, 
 
     {id: 'core:author',
       attributes: {
-        id: 'madek:core:authors',
+        id: 'madek_core:authors',
         label: 'Autoren',
         enabled_for_media_entries?: true,
         enabled_for_collections?: false,
         enabled_for_filters_sets?: false, 
-        vocabulary_id: 'madek:core'
+        vocabulary_id: 'madek_core'
     }},
 
     {id: 'core:portrayed_object_dates',
       attributes: {
-        id: 'madek:core:portrayed_object_date',
+        id: 'madek_core:portrayed_object_date',
         label: 'Datierung',
         enabled_for_media_entries?: true,
         enabled_for_collections?: false,
         enabled_for_filters_sets?: false, 
-        vocabulary_id: 'madek:core'
+        vocabulary_id: 'madek_core'
     }},
 
     {id: 'core:copyright_notice',
       attributes: {
-        id: 'madek:core:copyright_notice',
+        id: 'madek_core:copyright_notice',
         label: 'Rechteinhaber',
         enabled_for_media_entries?: true,
         enabled_for_collections?: false,
         enabled_for_filters_sets?: false, 
-        vocabulary_id: 'madek:core'
+        vocabulary_id: 'madek_core'
     }},
 
 

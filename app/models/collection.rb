@@ -43,7 +43,7 @@ class Collection < ActiveRecord::Base
 
   scope :by_title, lambda{ |title|
     joins(:meta_data)
-      .where(meta_data: { meta_key_id: 'madek:core:title' })
+      .where(meta_data: { meta_key_id: 'madek_core:title' })
       .where('string ILIKE :title', title: "%#{title}%")
       .order(:created_at, :id)
   }

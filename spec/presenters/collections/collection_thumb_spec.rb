@@ -7,15 +7,15 @@ describe Presenters::Collections::CollectionIndex do
   it_can_be 'dumped' do
     collection = FactoryGirl.create(:collection)
 
-    unless MetaKey.find_by_id('madek:core:title')
+    unless MetaKey.find_by_id('madek_core:title')
       with_disabled_triggers do
-        # TODO: remove as soon as the madek:core meta data is part of the test db
-        MetaKey.find_by(id: 'madek:core:title') \
+        # TODO: remove as soon as the madek_core meta data is part of the test db
+        MetaKey.find_by(id: 'madek_core:title') \
           || FactoryGirl.create(:meta_key_core_title)
       end
     end
 
-    meta_key = MetaKey.find_by_id('madek:core:title')
+    meta_key = MetaKey.find_by_id('madek_core:title')
 
     FactoryGirl.create :meta_datum_text,
                        meta_key: meta_key,

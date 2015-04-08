@@ -42,17 +42,22 @@ FactoryGirl.define do
   factory :meta_key_core, class: MetaKey do
 
     vocabulary do
-      Vocabulary.find_by(id: 'madek:core') \
-        ||  FactoryGirl.create(:vocabulary, id: 'madek:core')
+      Vocabulary.find_by(id: 'madek_core') \
+        ||  FactoryGirl.create(:vocabulary, id: 'madek_core')
+    end
+
+    factory :meta_key_core_description, class: MetaKey do
+      id 'madek_core:description'
+      meta_datum_object_type 'MetaDatum::Text'
     end
 
     factory :meta_key_core_keywords, class: MetaKey do
-      id 'madek:core:keywords'
+      id 'madek_core:keywords'
       meta_datum_object_type 'MetaDatum::Keywords'
     end
 
     factory :meta_key_core_title, class: MetaKey do
-      id 'madek:core:title'
+      id 'madek_core:title'
       meta_datum_object_type 'MetaDatum::Text'
     end
 

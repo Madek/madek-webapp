@@ -111,7 +111,7 @@ class MigrateMetaDataToVocabulary < ActiveRecord::Migration
             vocabulary = Vocabulary.find_or_create_by(id: vocabulary_id)
             vocabulary.update_attributes label: context.label, description: context.description
 
-            new_id_meta_key_part = meta_key.id.downcase.gsub(/\s+/, '_').gsub(/-/, '_').gsub(/_+/, '_')
+            new_id_meta_key_part = meta_key.id.downcase.gsub(/\s+/, '_').gsub(/[^a-z0-9\-\_]/,'_').gsub(/-/, '_').gsub(/_+/, '_')
             new_meta_key_id = "#{vocabulary_id}:#{new_id_meta_key_part}"
 
             new_meta_key_attributes = { description: meta_key_definition.description,

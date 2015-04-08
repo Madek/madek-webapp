@@ -62,16 +62,16 @@ CREATE FUNCTION check_madek_core_meta_key_immutability() RETURNS trigger
     AS $$
           BEGIN
             IF (TG_OP = 'DELETE') THEN
-              IF (OLD.id ilike 'madek:core:%') THEN
-                RAISE EXCEPTION 'The madek:core meta_key % may not be deleted', OLD.id;
+              IF (OLD.id ilike 'madek_core:%') THEN
+                RAISE EXCEPTION 'The madek_core meta_key % may not be deleted', OLD.id;
               END IF;
             ELSIF  (TG_OP = 'UPDATE') THEN
-              IF (OLD.id ilike 'madek:core:%') THEN
-                RAISE EXCEPTION 'The madek:core meta_key % may not be modified', OLD.id;
+              IF (OLD.id ilike 'madek_core:%') THEN
+                RAISE EXCEPTION 'The madek_core meta_key % may not be modified', OLD.id;
               END IF;
             ELSIF  (TG_OP = 'INSERT') THEN
-              IF (NEW.id ilike 'madek:core:%') THEN
-                RAISE EXCEPTION 'The madek:core meta_key namespace may not be extended by %', NEW.id;
+              IF (NEW.id ilike 'madek_core:%') THEN
+                RAISE EXCEPTION 'The madek_core meta_key namespace may not be extended by %', NEW.id;
               END IF;
             END IF;
             RETURN NEW;
@@ -740,7 +740,9 @@ CREATE TABLE meta_keys (
     "enabled_for_collections?" boolean DEFAULT false NOT NULL,
     "enabled_for_filters_sets?" boolean DEFAULT false NOT NULL,
     vocabulary_id character varying NOT NULL,
-    "extensible?" boolean DEFAULT false
+    "extensible?" boolean DEFAULT false,
+    CONSTRAINT meta_key_id_chars CHECK (((id)::text ~* '^[a-z0-9\-\_\:]+$'::text)),
+    CONSTRAINT start_id_like_vocabulary_id CHECK (((id)::text ~~ ((vocabulary_id)::text || ':%'::text)))
 );
 
 
@@ -851,7 +853,7 @@ CREATE TABLE vocabularies (
     description text,
     "public_view?" boolean DEFAULT true NOT NULL,
     "public_use?" boolean DEFAULT true NOT NULL,
-    CONSTRAINT id_chars CHECK (((id)::text ~* '^[a-z0-9\-\_\:]+$'::text))
+    CONSTRAINT vocabulary_id_chars CHECK (((id)::text ~* '^[a-z0-9\-\_]+$'::text))
 );
 
 

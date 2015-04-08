@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'spec_helper_no_tx'
 
-describe 'the namespace madek:core' do
+describe 'the namespace madek_core' do
 
   before :all do
 
@@ -22,17 +22,17 @@ describe 'the namespace madek:core' do
         MetaKey.transaction do
           MetaKey.connection.execute \
             %(INSERT INTO meta_keys (id, meta_datum_object_type, vocabulary_id) \
-              VALUES ('madek:core:description','MetaDatum::Text','madek:core'))
+              VALUES ('madek_core:description','MetaDatum::Text','madek_core'))
         end
       end.to raise_error(/may not be extended/)
     end
 
   end
 
-  context 'with the MetaKey madek:core:title' do
+  context 'with the MetaKey madek_core:title' do
 
-    it 'madek:core:title exists' do
-      expect(MetaKey.find('madek:core:title')).to be
+    it 'madek_core:title exists' do
+      expect(MetaKey.find('madek_core:title')).to be
     end
 
     describe 'deleting it' do
@@ -40,7 +40,7 @@ describe 'the namespace madek:core' do
         expect do
           MetaKey.transaction do
             MetaKey.connection.execute \
-              "DELETE FROM meta_keys WHERE id = 'madek:core:title'"
+              "DELETE FROM meta_keys WHERE id = 'madek_core:title'"
           end
         end.to raise_error(/may not be deleted/)
       end
@@ -52,7 +52,7 @@ describe 'the namespace madek:core' do
           MetaKey.transaction do
             MetaKey.connection.execute \
               %(UPDATE meta_keys SET meta_datum_object_type = 'MetaDatum::People' \
-                WHERE id = 'madek:core:title')
+                WHERE id = 'madek_core:title')
           end
         end.to raise_error(/may not be modified/)
       end
