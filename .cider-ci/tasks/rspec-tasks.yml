@@ -89,11 +89,6 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/my_controller_spec.rb"
-"./spec/controllers/sessions_controller_spec.rb":
-  name: "./spec/controllers/sessions_controller_spec.rb"
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/controllers/sessions_controller_spec.rb"
 "./spec/lib/system_execute_cmd_spec.rb":
   name: "./spec/lib/system_execute_cmd_spec.rb"
   scripts:

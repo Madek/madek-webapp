@@ -124,11 +124,6 @@ describe Admin::UsersController do
       expect(response).to have_http_status(302)
     end
 
-    it 'sets the session user properly' do
-      post :switch_to, { id: user.id }, user_id: admin_user.id
-
-      expect(session[:user_id]).to eq user.id
-    end
   end
 
   describe '#reset_usage_terms' do

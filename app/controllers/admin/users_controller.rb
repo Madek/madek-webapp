@@ -1,10 +1,10 @@
 class Admin::UsersController < AdminController
+  include Concerns::MadekSession
+
   before_action :find_user, except: [
     :index, :new, :new_with_person, :create, :remove_user_from_group
   ]
   before_action :initialize_user, only: [:new, :new_with_person]
-
-  include Concerns::SetSession
 
   def index
     @users = User.page(params[:page]).per(16)
@@ -64,6 +64,7 @@ class Admin::UsersController < AdminController
 
   def switch_to
     reset_session
+    destroy_madek_session
     set_madek_session(@user)
     redirect_to root_url
   end

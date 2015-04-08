@@ -48,4 +48,18 @@ RSpec.configure do |config|
 
   config.include FactoryGirl::Syntax::Methods
 
+  # Note: rails test provides some sort of mock for for cookies and sessions;
+  # we patch the controller instance with a
+  # validate_services_session_cookie_and_get_user, it extracts the user from
+  # the pseudo session
+  config.before :each do |example|
+    if example.metadata[:type] == :controller
+      @controller.instance_eval do
+        def validate_services_session_cookie_and_get_user
+          User.find_by id: session[:user_id]
+        end
+      end
+    end
+  end
+
 end

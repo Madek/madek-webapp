@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include Concerns::MadekSession
 
   # Give views access to these methods:
   helper_method :current_user
@@ -38,7 +39,7 @@ class ApplicationController < ActionController::Base
   # private # <- would be nice but breaks test
 
   def current_user
-    User.find_by_id session[:user_id]
+    validate_services_session_cookie_and_get_user
   end
 
   def authenticated?
