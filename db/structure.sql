@@ -121,6 +121,24 @@ CREATE FUNCTION check_meta_key_meta_data_type_consistency() RETURNS trigger
           $$;
 
 
+--
+-- Name: check_users_apiclients_login_uniqueness(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION check_users_apiclients_login_uniqueness() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF (EXISTS (SELECT 1 FROM users, api_clients 
+              WHERE api_clients.login = users.login
+              AND api_clients.login = NEW.login)) THEN
+          RAISE EXCEPTION 'The login % over users and api_clients must be unique.', NEW.login;
+        END IF;
+        RETURN NEW;
+      END;
+      $$;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -144,12 +162,12 @@ CREATE TABLE admins (
 CREATE TABLE api_clients (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     user_id uuid NOT NULL,
-    name character varying NOT NULL,
+    login character varying NOT NULL,
     description text,
-    secret uuid DEFAULT uuid_generate_v4(),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    CONSTRAINT name_format CHECK (((name)::text ~ '^[a-z][a-z0-9\-\_]+$'::text))
+    password_digest character varying,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    CONSTRAINT name_format CHECK (((login)::text ~ '^[a-z][a-z0-9\-\_]+$'::text))
 );
 
 
@@ -1435,10 +1453,10 @@ CREATE UNIQUE INDEX index_admins_on_user_id ON admins USING btree (user_id);
 
 
 --
--- Name: index_api_clients_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_api_clients_on_login; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_api_clients_on_name ON api_clients USING btree (name);
+CREATE UNIQUE INDEX index_api_clients_on_login ON api_clients USING btree (login);
 
 
 --
@@ -2244,6 +2262,20 @@ CREATE INDEX users_to_tsvector_idx ON users USING gin (to_tsvector('english'::re
 --
 
 CREATE INDEX users_trgm_searchable_idx ON users USING gin (trgm_searchable gin_trgm_ops);
+
+
+--
+-- Name: trigger_check_users_apiclients_login_uniqueness_on_apiclients; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_check_users_apiclients_login_uniqueness_on_apiclients AFTER INSERT OR UPDATE ON api_clients DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_users_apiclients_login_uniqueness();
+
+
+--
+-- Name: trigger_check_users_apiclients_login_uniqueness_on_users; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_check_users_apiclients_login_uniqueness_on_users AFTER INSERT OR UPDATE ON users DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_users_apiclients_login_uniqueness();
 
 
 --

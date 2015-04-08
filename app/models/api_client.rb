@@ -3,9 +3,11 @@ class ApiClient < ActiveRecord::Base
 
   attr_accessor :authorization_header
 
+  has_secure_password validations: false
+
   default_scope { reorder(id: :asc) }
 
-  validates :name,
+  validates :login,
             format: {
               with: /\A[a-z][a-z0-9_-]+\z/,
               message: %(
@@ -16,18 +18,6 @@ class ApiClient < ActiveRecord::Base
               )
             }
 
-  validates :name, length: { in: 3..20 }
-
-  def authorization_header_value
-    "Basic #{::Base64.strict_encode64("#{id}:#{secret}")}"
-  end
-
-  def authorization_header
-    %(Authorization: #{authorization_header_value})
-  end
-
-  def attributes_with_authorization_header
-    attributes.merge('authorization_header' => authorization_header)
-  end
+  validates :login, length: { in: 3..20 }
 
 end

@@ -99,6 +99,11 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/models/api_client_spec.rb"
+"./spec/models/api_clients_and_users_spec.rb":
+  name: "./spec/models/api_clients_and_users_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/api_clients_and_users_spec.rb"
 "./spec/models/collection_spec.rb":
   name: "./spec/models/collection_spec.rb"
   scripts:
