@@ -4,13 +4,14 @@ class MigrateCoreKeys < ActiveRecord::Migration
   class IoMapping < ActiveRecord::Base ; end
   class MetaData < ActiveRecord::Base ; end
   class MetaKeyDefinitions < ActiveRecord::Base ; end
+  class KeywordTerm < ActiveRecord::Base ; end
   class Vocabulary < ActiveRecord::Base; end
 
 
   def change
 
 
-    Vocabulary.find_or_create_by id: "madek_core", label: "Madek Core", 
+    Vocabulary.find_or_create_by id: "madek_core", label: "Madek Core",
       description: "This is the predefined and immutable Madek core vocabulary."
 
     execute "SET session_replication_role = REPLICA;"
@@ -21,7 +22,7 @@ class MigrateCoreKeys < ActiveRecord::Migration
         label: 'Title',
         is_enabled_for_media_entries: true,
         is_enabled_for_collections: true,
-        is_enabled_for_filter_sets: true,  
+        is_enabled_for_filter_sets: true,
         vocabulary_id: 'madek_core'
     }},
 
@@ -41,7 +42,7 @@ class MigrateCoreKeys < ActiveRecord::Migration
         label: 'Schlagworte',
         is_enabled_for_media_entries: true,
         is_enabled_for_collections: true,
-        is_enabled_for_filter_sets: true, 
+        is_enabled_for_filter_sets: true,
         vocabulary_id: 'madek_core'
     }}, 
 
@@ -71,19 +72,20 @@ class MigrateCoreKeys < ActiveRecord::Migration
         label: 'Rechteinhaber',
         is_enabled_for_media_entries: true,
         is_enabled_for_collections: false,
-        is_enabled_for_filter_sets: false, 
+        is_enabled_for_filter_sets: false,
         vocabulary_id: 'madek_core'
     }},
 
 
-    ].each do |update_data| 
+    ].each do |update_data|
 
       MetaKey.find_or_create_by(id: update_data[:id]) \
         .update_columns update_data[:attributes]
 
-      [IoMapping,MetaData,MetaKeyDefinitions].each do |klass| 
+      [IoMapping,MetaData,MetaKeyDefinitions,KeywordTerm].each do |klass|
         klass.where(meta_key_id: update_data[:id]).find_each do |model|
           model.update_columns(meta_key_id: update_data[:attributes][:id])
+          puts "* #{klass} * #{model.reload.meta_key_id}"
         end
       end
 

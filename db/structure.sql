@@ -2302,619 +2302,363 @@ CREATE CONSTRAINT TRIGGER trigger_meta_key_meta_data_type_consistency AFTER INSE
 
 
 --
--- Name: fk_rails_021108619d; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY collection_collection_arcs
-    ADD CONSTRAINT fk_rails_021108619d FOREIGN KEY (parent_id) REFERENCES collections(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_083aa47d74; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_entry_api_client_permissions
-    ADD CONSTRAINT fk_rails_083aa47d74 FOREIGN KEY (updator_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_127959ee4a; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY keyword_terms
-    ADD CONSTRAINT fk_rails_127959ee4a FOREIGN KEY (meta_key_id) REFERENCES meta_keys(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_1a7b964354; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY edit_sessions
-    ADD CONSTRAINT fk_rails_1a7b964354 FOREIGN KEY (collection_id) REFERENCES collections(id);
-
-
---
--- Name: fk_rails_1c12af797a; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY vocabulary_group_permissions
-    ADD CONSTRAINT fk_rails_1c12af797a FOREIGN KEY (vocabulary_id) REFERENCES vocabularies(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_2243e0b445; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY custom_urls
-    ADD CONSTRAINT fk_rails_2243e0b445 FOREIGN KEY (media_resource_id) REFERENCES media_resources(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_2e91ac581d; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY custom_urls
-    ADD CONSTRAINT fk_rails_2e91ac581d FOREIGN KEY (creator_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_2f39d2f50b; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_data_users
-    ADD CONSTRAINT fk_rails_2f39d2f50b FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_2fd2dfae2a; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_entry_group_permissions
-    ADD CONSTRAINT fk_rails_2fd2dfae2a FOREIGN KEY (media_entry_id) REFERENCES media_entries(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_34917dcbdc; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY collection_api_client_permissions
-    ADD CONSTRAINT fk_rails_34917dcbdc FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_3871e81126; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY collection_media_entry_arcs
-    ADD CONSTRAINT fk_rails_3871e81126 FOREIGN KEY (media_entry_id) REFERENCES media_entries(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_3a2226a59b; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY filter_sets
-    ADD CONSTRAINT fk_rails_3a2226a59b FOREIGN KEY (responsible_user_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_3ea68635ea; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY filter_set_user_permissions
-    ADD CONSTRAINT fk_rails_3ea68635ea FOREIGN KEY (updator_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_433bbdf822; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY collection_group_permissions
-    ADD CONSTRAINT fk_rails_433bbdf822 FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_4645b13096; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_data
-    ADD CONSTRAINT fk_rails_4645b13096 FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id);
-
-
---
--- Name: fk_rails_46467a43dc; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY zencoder_jobs
-    ADD CONSTRAINT fk_rails_46467a43dc FOREIGN KEY (media_file_id) REFERENCES media_files(id);
-
-
---
--- Name: fk_rails_46992e4997; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY collection_collection_arcs
-    ADD CONSTRAINT fk_rails_46992e4997 FOREIGN KEY (child_id) REFERENCES collections(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_49ee113f49; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY favorite_filter_sets
-    ADD CONSTRAINT fk_rails_49ee113f49 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_4ad83bee2d; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY collection_group_permissions
-    ADD CONSTRAINT fk_rails_4ad83bee2d FOREIGN KEY (updator_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_4e63edbd27; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY groups_users
-    ADD CONSTRAINT fk_rails_4e63edbd27 FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_4fd8dafc83; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY vocabulary_api_client_permissions
-    ADD CONSTRAINT fk_rails_4fd8dafc83 FOREIGN KEY (api_client_id) REFERENCES api_clients(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_524339166d; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_entry_api_client_permissions
-    ADD CONSTRAINT fk_rails_524339166d FOREIGN KEY (media_entry_id) REFERENCES media_entries(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_531b44ea0a; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY collection_user_permissions
-    ADD CONSTRAINT fk_rails_531b44ea0a FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_58d285f632; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_files
-    ADD CONSTRAINT fk_rails_58d285f632 FOREIGN KEY (uploader_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_595a6061d7; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY favorite_media_entries
-    ADD CONSTRAINT fk_rails_595a6061d7 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_5ad0794348; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY vocabulary_api_client_permissions
-    ADD CONSTRAINT fk_rails_5ad0794348 FOREIGN KEY (vocabulary_id) REFERENCES vocabularies(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_5b1ae50915; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY collection_filter_set_arcs
-    ADD CONSTRAINT fk_rails_5b1ae50915 FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_64d68dff28; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY filter_set_api_client_permissions
-    ADD CONSTRAINT fk_rails_64d68dff28 FOREIGN KEY (api_client_id) REFERENCES api_clients(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_685b83c003; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY favorite_collections
-    ADD CONSTRAINT fk_rails_685b83c003 FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_6946aceec2; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_data_users
-    ADD CONSTRAINT fk_rails_6946aceec2 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_6a03c000b5; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_data_people
-    ADD CONSTRAINT fk_rails_6a03c000b5 FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_6ad9b754cf; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY vocabulary_user_permissions
-    ADD CONSTRAINT fk_rails_6ad9b754cf FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_71939571b2; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY filter_set_group_permissions
-    ADD CONSTRAINT fk_rails_71939571b2 FOREIGN KEY (updator_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_7318531d65; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_entry_user_permissions
-    ADD CONSTRAINT fk_rails_7318531d65 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_74807b1b58; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY custom_urls
-    ADD CONSTRAINT fk_rails_74807b1b58 FOREIGN KEY (updator_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_7c05d4af6f; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY filter_set_api_client_permissions
-    ADD CONSTRAINT fk_rails_7c05d4af6f FOREIGN KEY (updator_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_7e222bf0d7; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_data_groups
-    ADD CONSTRAINT fk_rails_7e222bf0d7 FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_7fe28f5997; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY favorite_collections
-    ADD CONSTRAINT fk_rails_7fe28f5997 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_8125d6f8b2; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY collection_user_permissions
-    ADD CONSTRAINT fk_rails_8125d6f8b2 FOREIGN KEY (updator_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_8546c71994; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY groups_users
-    ADD CONSTRAINT fk_rails_8546c71994 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_8550647b84; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY vocabulary_group_permissions
-    ADD CONSTRAINT fk_rails_8550647b84 FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_8612581b4b; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_data
-    ADD CONSTRAINT fk_rails_8612581b4b FOREIGN KEY (collection_id) REFERENCES collections(id);
-
-
---
--- Name: fk_rails_8b2fc8e9de; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY collection_filter_set_arcs
-    ADD CONSTRAINT fk_rails_8b2fc8e9de FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_8c14de08ae; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY collection_api_client_permissions
-    ADD CONSTRAINT fk_rails_8c14de08ae FOREIGN KEY (updator_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_8f6c176911; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY full_texts
-    ADD CONSTRAINT fk_rails_8f6c176911 FOREIGN KEY (media_resource_id) REFERENCES media_resources(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_8f830fb7e7; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY collection_user_permissions
-    ADD CONSTRAINT fk_rails_8f830fb7e7 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_8f99b491cc; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY licenses_license_groups
-    ADD CONSTRAINT fk_rails_8f99b491cc FOREIGN KEY (license_id) REFERENCES licenses(id);
-
-
---
--- Name: fk_rails_9108dab9f9; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY app_settings
-    ADD CONSTRAINT fk_rails_9108dab9f9 FOREIGN KEY (catalog_set_id) REFERENCES media_resources(id);
-
-
---
--- Name: fk_rails_930a52954c; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_entries
-    ADD CONSTRAINT fk_rails_930a52954c FOREIGN KEY (creator_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_9913a1efdb; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY edit_sessions
-    ADD CONSTRAINT fk_rails_9913a1efdb FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_99d0e1d0c1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_entries
-    ADD CONSTRAINT fk_rails_99d0e1d0c1 FOREIGN KEY (responsible_user_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_9c891d2878; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_entry_group_permissions
-    ADD CONSTRAINT fk_rails_9c891d2878 FOREIGN KEY (updator_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_9cf683b9d3; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY filter_set_group_permissions
-    ADD CONSTRAINT fk_rails_9cf683b9d3 FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_9cf968d59e; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY filter_set_api_client_permissions
-    ADD CONSTRAINT fk_rails_9cf968d59e FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_9f34e90b35; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY app_settings
-    ADD CONSTRAINT fk_rails_9f34e90b35 FOREIGN KEY (splashscreen_slideshow_set_id) REFERENCES media_resources(id);
-
-
---
--- Name: fk_rails_a322627641; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_keys
-    ADD CONSTRAINT fk_rails_a322627641 FOREIGN KEY (vocabulary_id) REFERENCES vocabularies(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_a3de285f9a; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY visualizations
-    ADD CONSTRAINT fk_rails_a3de285f9a FOREIGN KEY (user_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_a6a8d89e10; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY previews
-    ADD CONSTRAINT fk_rails_a6a8d89e10 FOREIGN KEY (media_file_id) REFERENCES media_files(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_aa0acbbdd1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_entry_api_client_permissions
-    ADD CONSTRAINT fk_rails_aa0acbbdd1 FOREIGN KEY (api_client_id) REFERENCES api_clients(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_ab2fec83b3; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY collections
-    ADD CONSTRAINT fk_rails_ab2fec83b3 FOREIGN KEY (creator_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_abdcca9411; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_data_people
-    ADD CONSTRAINT fk_rails_abdcca9411 FOREIGN KEY (person_id) REFERENCES people(id);
-
-
---
--- Name: fk_rails_ad6ea85fe1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY collection_media_entry_arcs
-    ADD CONSTRAINT fk_rails_ad6ea85fe1 FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_ad94405e98; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_data_groups
-    ADD CONSTRAINT fk_rails_ad94405e98 FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_b11487c786; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_files
-    ADD CONSTRAINT fk_rails_b11487c786 FOREIGN KEY (media_entry_id) REFERENCES media_entries(id);
-
-
---
--- Name: fk_rails_b33ac1a17a; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_entry_user_permissions
-    ADD CONSTRAINT fk_rails_b33ac1a17a FOREIGN KEY (updator_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_b88fcbe505; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY collection_group_permissions
-    ADD CONSTRAINT fk_rails_b88fcbe505 FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_c2f0aa5d1d; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY keywords
-    ADD CONSTRAINT fk_rails_c2f0aa5d1d FOREIGN KEY (keyword_term_id) REFERENCES keyword_terms(id);
-
-
---
--- Name: fk_rails_c316f79bb2; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY licenses_license_groups
-    ADD CONSTRAINT fk_rails_c316f79bb2 FOREIGN KEY (license_group_id) REFERENCES license_groups(id);
-
-
---
--- Name: fk_rails_c40753f126; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY app_settings
-    ADD CONSTRAINT fk_rails_c40753f126 FOREIGN KEY (featured_set_id) REFERENCES media_resources(id);
-
-
---
--- Name: fk_rails_c4f75db4e4; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: admins_users_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY admins
-    ADD CONSTRAINT fk_rails_c4f75db4e4 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+    ADD CONSTRAINT admins_users_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
--- Name: fk_rails_c5e91a50bb; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: app-settings_catalog-sets_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY media_entry_group_permissions
-    ADD CONSTRAINT fk_rails_c5e91a50bb FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_c851051238; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY filter_set_user_permissions
-    ADD CONSTRAINT fk_rails_c851051238 FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id) ON DELETE CASCADE;
+ALTER TABLE ONLY app_settings
+    ADD CONSTRAINT "app-settings_catalog-sets_fkey" FOREIGN KEY (catalog_set_id) REFERENCES media_resources(id);
 
 
 --
--- Name: fk_rails_cfa3a95f8a; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: app-settings_featured-sets_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY keywords
-    ADD CONSTRAINT fk_rails_cfa3a95f8a FOREIGN KEY (user_id) REFERENCES users(id);
+ALTER TABLE ONLY app_settings
+    ADD CONSTRAINT "app-settings_featured-sets_fkey" FOREIGN KEY (featured_set_id) REFERENCES media_resources(id);
 
 
 --
--- Name: fk_rails_d1a462521d; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: app-settings_splashscreen-slideshow-sets_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY app_settings
+    ADD CONSTRAINT "app-settings_splashscreen-slideshow-sets_fkey" FOREIGN KEY (splashscreen_slideshow_set_id) REFERENCES media_resources(id);
+
+
+--
+-- Name: collection-api-client-permissions_api-clients_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY collection_api_client_permissions
-    ADD CONSTRAINT fk_rails_d1a462521d FOREIGN KEY (api_client_id) REFERENCES api_clients(id) ON DELETE CASCADE;
+    ADD CONSTRAINT "collection-api-client-permissions_api-clients_fkey" FOREIGN KEY (api_client_id) REFERENCES api_clients(id) ON DELETE CASCADE;
 
 
 --
--- Name: fk_rails_d5fff4f64b; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: collection-api-client-permissions_collections_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY vocabulary_user_permissions
-    ADD CONSTRAINT fk_rails_d5fff4f64b FOREIGN KEY (vocabulary_id) REFERENCES vocabularies(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_d61bb0f3a0; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY filter_sets
-    ADD CONSTRAINT fk_rails_d61bb0f3a0 FOREIGN KEY (creator_id) REFERENCES users(id);
+ALTER TABLE ONLY collection_api_client_permissions
+    ADD CONSTRAINT "collection-api-client-permissions_collections_fkey" FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE;
 
 
 --
--- Name: fk_rails_d8ad23759a; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: collection-api-client-permissions_updators_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_api_client_permissions
+    ADD CONSTRAINT "collection-api-client-permissions_updators_fkey" FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
+-- Name: collection-collection-arcs_children_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_collection_arcs
+    ADD CONSTRAINT "collection-collection-arcs_children_fkey" FOREIGN KEY (child_id) REFERENCES collections(id) ON DELETE CASCADE;
+
+
+--
+-- Name: collection-collection-arcs_parents_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_collection_arcs
+    ADD CONSTRAINT "collection-collection-arcs_parents_fkey" FOREIGN KEY (parent_id) REFERENCES collections(id) ON DELETE CASCADE;
+
+
+--
+-- Name: collection-filter-set-arcs_collections_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_filter_set_arcs
+    ADD CONSTRAINT "collection-filter-set-arcs_collections_fkey" FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE;
+
+
+--
+-- Name: collection-filter-set-arcs_filter-sets_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_filter_set_arcs
+    ADD CONSTRAINT "collection-filter-set-arcs_filter-sets_fkey" FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id) ON DELETE CASCADE;
+
+
+--
+-- Name: collection-group-permissions_collections_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_group_permissions
+    ADD CONSTRAINT "collection-group-permissions_collections_fkey" FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE;
+
+
+--
+-- Name: collection-group-permissions_groups_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_group_permissions
+    ADD CONSTRAINT "collection-group-permissions_groups_fkey" FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
+
+
+--
+-- Name: collection-group-permissions_updators_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_group_permissions
+    ADD CONSTRAINT "collection-group-permissions_updators_fkey" FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
+-- Name: collection-media-entry-arcs_collections_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_media_entry_arcs
+    ADD CONSTRAINT "collection-media-entry-arcs_collections_fkey" FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE;
+
+
+--
+-- Name: collection-media-entry-arcs_media-entries_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_media_entry_arcs
+    ADD CONSTRAINT "collection-media-entry-arcs_media-entries_fkey" FOREIGN KEY (media_entry_id) REFERENCES media_entries(id) ON DELETE CASCADE;
+
+
+--
+-- Name: collection-user-permissions-updators_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_user_permissions
+    ADD CONSTRAINT "collection-user-permissions-updators_fkey" FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
+-- Name: collection-user-permissions_collections_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_user_permissions
+    ADD CONSTRAINT "collection-user-permissions_collections_fkey" FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE;
+
+
+--
+-- Name: collection-user-permissions_users_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collection_user_permissions
+    ADD CONSTRAINT "collection-user-permissions_users_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: collections_creators_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collections
+    ADD CONSTRAINT collections_creators_fkey FOREIGN KEY (creator_id) REFERENCES users(id);
+
+
+--
+-- Name: collections_responsible-users_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collections
+    ADD CONSTRAINT "collections_responsible-users_fkey" FOREIGN KEY (responsible_user_id) REFERENCES users(id);
+
+
+--
+-- Name: custom-urls_creators_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY custom_urls
+    ADD CONSTRAINT "custom-urls_creators_fkey" FOREIGN KEY (creator_id) REFERENCES users(id);
+
+
+--
+-- Name: custom-urls_media-resources_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY custom_urls
+    ADD CONSTRAINT "custom-urls_media-resources_fkey" FOREIGN KEY (media_resource_id) REFERENCES media_resources(id) ON DELETE CASCADE;
+
+
+--
+-- Name: custom-urls_updators_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY custom_urls
+    ADD CONSTRAINT "custom-urls_updators_fkey" FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
+-- Name: edit-sessions_collections_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY edit_sessions
-    ADD CONSTRAINT fk_rails_d8ad23759a FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id);
+    ADD CONSTRAINT "edit-sessions_collections_fkey" FOREIGN KEY (collection_id) REFERENCES collections(id);
+
+
+--
+-- Name: edit-sessions_filter-sets_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY edit_sessions
+    ADD CONSTRAINT "edit-sessions_filter-sets_fkey" FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id);
+
+
+--
+-- Name: edit-sessions_media-entries_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY edit_sessions
+    ADD CONSTRAINT "edit-sessions_media-entries_fkey" FOREIGN KEY (media_entry_id) REFERENCES media_entries(id);
+
+
+--
+-- Name: edit-sessions_users_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY edit_sessions
+    ADD CONSTRAINT "edit-sessions_users_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: favorite-collections_collections_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY favorite_collections
+    ADD CONSTRAINT "favorite-collections_collections_fkey" FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE;
+
+
+--
+-- Name: favorite-collections_users_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY favorite_collections
+    ADD CONSTRAINT "favorite-collections_users_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: favorite-filter-sets_filter-sets_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY favorite_filter_sets
+    ADD CONSTRAINT "favorite-filter-sets_filter-sets_fkey" FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id) ON DELETE CASCADE;
+
+
+--
+-- Name: favorite-filter-sets_users_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY favorite_filter_sets
+    ADD CONSTRAINT "favorite-filter-sets_users_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: favorite-media-entries_media-entries_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY favorite_media_entries
+    ADD CONSTRAINT "favorite-media-entries_media-entries_fkey" FOREIGN KEY (media_entry_id) REFERENCES media_entries(id) ON DELETE CASCADE;
+
+
+--
+-- Name: favorite-media-entries_users_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY favorite_media_entries
+    ADD CONSTRAINT "favorite-media-entries_users_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: filter-set-api-client-permissions-updators_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_api_client_permissions
+    ADD CONSTRAINT "filter-set-api-client-permissions-updators_fkey" FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
+-- Name: filter-set-api-client-permissions_api-clients_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_api_client_permissions
+    ADD CONSTRAINT "filter-set-api-client-permissions_api-clients_fkey" FOREIGN KEY (api_client_id) REFERENCES api_clients(id) ON DELETE CASCADE;
+
+
+--
+-- Name: filter-set-api-client-permissions_filter-sets_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_api_client_permissions
+    ADD CONSTRAINT "filter-set-api-client-permissions_filter-sets_fkey" FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id) ON DELETE CASCADE;
+
+
+--
+-- Name: filter-set-group-permissions_filter-sets_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_group_permissions
+    ADD CONSTRAINT "filter-set-group-permissions_filter-sets_fkey" FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id) ON DELETE CASCADE;
+
+
+--
+-- Name: filter-set-group-permissions_groups_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_group_permissions
+    ADD CONSTRAINT "filter-set-group-permissions_groups_fkey" FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
+
+
+--
+-- Name: filter-set-group-permissions_updators_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_group_permissions
+    ADD CONSTRAINT "filter-set-group-permissions_updators_fkey" FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
+-- Name: filter-set-user-permissions_filter-sets_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_user_permissions
+    ADD CONSTRAINT "filter-set-user-permissions_filter-sets_fkey" FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id) ON DELETE CASCADE;
+
+
+--
+-- Name: filter-set-user-permissions_updators_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_user_permissions
+    ADD CONSTRAINT "filter-set-user-permissions_updators_fkey" FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
+-- Name: filter-set-user-permissions_users_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_set_user_permissions
+    ADD CONSTRAINT "filter-set-user-permissions_users_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: filter-sets_creators_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_sets
+    ADD CONSTRAINT "filter-sets_creators_fkey" FOREIGN KEY (creator_id) REFERENCES users(id);
+
+
+--
+-- Name: filter-sets_responsible-users_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY filter_sets
+    ADD CONSTRAINT "filter-sets_responsible-users_fkey" FOREIGN KEY (responsible_user_id) REFERENCES users(id);
 
 
 --
@@ -2926,46 +2670,6 @@ ALTER TABLE ONLY io_mappings
 
 
 --
--- Name: fk_rails_dcd8dcb691; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY edit_sessions
-    ADD CONSTRAINT fk_rails_dcd8dcb691 FOREIGN KEY (media_entry_id) REFERENCES media_entries(id);
-
-
---
--- Name: fk_rails_e8716e273a; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_data
-    ADD CONSTRAINT fk_rails_e8716e273a FOREIGN KEY (media_entry_id) REFERENCES media_entries(id);
-
-
---
--- Name: fk_rails_ec0e750894; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY media_entry_user_permissions
-    ADD CONSTRAINT fk_rails_ec0e750894 FOREIGN KEY (media_entry_id) REFERENCES media_entries(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_ee76aad01f; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_data
-    ADD CONSTRAINT fk_rails_ee76aad01f FOREIGN KEY (meta_key_id) REFERENCES meta_keys(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_ef9a87f15d; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY meta_data_meta_terms
-    ADD CONSTRAINT fk_rails_ef9a87f15d FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
-
-
---
 -- Name: fk_rails_f0283cbd2e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2974,67 +2678,283 @@ ALTER TABLE ONLY meta_data
 
 
 --
--- Name: fk_rails_f4bde348c0; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: full-texts_media-resources_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY full_texts
+    ADD CONSTRAINT "full-texts_media-resources_fkey" FOREIGN KEY (media_resource_id) REFERENCES media_resources(id) ON DELETE CASCADE;
+
+
+--
+-- Name: groups-users_groups_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY groups_users
+    ADD CONSTRAINT "groups-users_groups_fkey" FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
+
+
+--
+-- Name: groups-users_users_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY groups_users
+    ADD CONSTRAINT "groups-users_users_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: io-mappings_io-interfaces_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY io_mappings
-    ADD CONSTRAINT fk_rails_f4bde348c0 FOREIGN KEY (io_interface_id) REFERENCES io_interfaces(id) ON DELETE CASCADE;
+    ADD CONSTRAINT "io-mappings_io-interfaces_fkey" FOREIGN KEY (io_interface_id) REFERENCES io_interfaces(id) ON DELETE CASCADE;
 
 
 --
--- Name: fk_rails_f9e38c9615; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: keyword-terms_meta-keys_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY favorite_filter_sets
-    ADD CONSTRAINT fk_rails_f9e38c9615 FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_fa67535741; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY users
-    ADD CONSTRAINT fk_rails_fa67535741 FOREIGN KEY (person_id) REFERENCES people(id);
+ALTER TABLE ONLY keyword_terms
+    ADD CONSTRAINT "keyword-terms_meta-keys_fkey" FOREIGN KEY (meta_key_id) REFERENCES meta_keys(id) ON DELETE CASCADE;
 
 
 --
--- Name: fk_rails_fa9caa5c0a; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY favorite_media_entries
-    ADD CONSTRAINT fk_rails_fa9caa5c0a FOREIGN KEY (media_entry_id) REFERENCES media_entries(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_fbfc88b929; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: keywords_keywords-terms_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY keywords
-    ADD CONSTRAINT fk_rails_fbfc88b929 FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
+    ADD CONSTRAINT "keywords_keywords-terms_fkey" FOREIGN KEY (keyword_term_id) REFERENCES keyword_terms(id);
 
 
 --
--- Name: fk_rails_fc47629db9; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: keywords_meta-data_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY filter_set_group_permissions
-    ADD CONSTRAINT fk_rails_fc47629db9 FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_rails_fce65666e9; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY collections
-    ADD CONSTRAINT fk_rails_fce65666e9 FOREIGN KEY (responsible_user_id) REFERENCES users(id);
+ALTER TABLE ONLY keywords
+    ADD CONSTRAINT "keywords_meta-data_fkey" FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
 
 
 --
--- Name: fk_rails_fe38b294ce; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: keywords_users_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY filter_set_user_permissions
-    ADD CONSTRAINT fk_rails_fe38b294ce FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+ALTER TABLE ONLY keywords
+    ADD CONSTRAINT keywords_users_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: licenses-license-groups_license-groups_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY licenses_license_groups
+    ADD CONSTRAINT "licenses-license-groups_license-groups_fkey" FOREIGN KEY (license_group_id) REFERENCES license_groups(id);
+
+
+--
+-- Name: licenses-license-groups_licenses_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY licenses_license_groups
+    ADD CONSTRAINT "licenses-license-groups_licenses_fkey" FOREIGN KEY (license_id) REFERENCES licenses(id);
+
+
+--
+-- Name: media-entries_creators_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entries
+    ADD CONSTRAINT "media-entries_creators_fkey" FOREIGN KEY (creator_id) REFERENCES users(id);
+
+
+--
+-- Name: media-entries_responsible-users_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entries
+    ADD CONSTRAINT "media-entries_responsible-users_fkey" FOREIGN KEY (responsible_user_id) REFERENCES users(id);
+
+
+--
+-- Name: media-entry-api-client-permissions_api-clients_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entry_api_client_permissions
+    ADD CONSTRAINT "media-entry-api-client-permissions_api-clients_fkey" FOREIGN KEY (api_client_id) REFERENCES api_clients(id) ON DELETE CASCADE;
+
+
+--
+-- Name: media-entry-api-client-permissions_media-entries_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entry_api_client_permissions
+    ADD CONSTRAINT "media-entry-api-client-permissions_media-entries_fkey" FOREIGN KEY (media_entry_id) REFERENCES media_entries(id) ON DELETE CASCADE;
+
+
+--
+-- Name: media-entry-api-client-permissions_updators_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entry_api_client_permissions
+    ADD CONSTRAINT "media-entry-api-client-permissions_updators_fkey" FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
+-- Name: media-entry-group-permissions_groups_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entry_group_permissions
+    ADD CONSTRAINT "media-entry-group-permissions_groups_fkey" FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
+
+
+--
+-- Name: media-entry-group-permissions_media-entries_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entry_group_permissions
+    ADD CONSTRAINT "media-entry-group-permissions_media-entries_fkey" FOREIGN KEY (media_entry_id) REFERENCES media_entries(id) ON DELETE CASCADE;
+
+
+--
+-- Name: media-entry-group-permissions_updators_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entry_group_permissions
+    ADD CONSTRAINT "media-entry-group-permissions_updators_fkey" FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
+-- Name: media-entry-user-permissions_media-entries_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entry_user_permissions
+    ADD CONSTRAINT "media-entry-user-permissions_media-entries_fkey" FOREIGN KEY (media_entry_id) REFERENCES media_entries(id) ON DELETE CASCADE;
+
+
+--
+-- Name: media-entry-user-permissions_updators_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entry_user_permissions
+    ADD CONSTRAINT "media-entry-user-permissions_updators_fkey" FOREIGN KEY (updator_id) REFERENCES users(id);
+
+
+--
+-- Name: media-entry-user-permissions_users_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_entry_user_permissions
+    ADD CONSTRAINT "media-entry-user-permissions_users_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: media-files_media-entries_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_files
+    ADD CONSTRAINT "media-files_media-entries_fkey" FOREIGN KEY (media_entry_id) REFERENCES media_entries(id);
+
+
+--
+-- Name: media-files_uploaders_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY media_files
+    ADD CONSTRAINT "media-files_uploaders_fkey" FOREIGN KEY (uploader_id) REFERENCES users(id);
+
+
+--
+-- Name: meta-data-groups_groups_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meta_data_groups
+    ADD CONSTRAINT "meta-data-groups_groups_fkey" FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
+
+
+--
+-- Name: meta-data-groups_meta-data_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meta_data_groups
+    ADD CONSTRAINT "meta-data-groups_meta-data_fkey" FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
+
+
+--
+-- Name: meta-data-meta-terms_meta-data_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meta_data_meta_terms
+    ADD CONSTRAINT "meta-data-meta-terms_meta-data_fkey" FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
+
+
+--
+-- Name: meta-data-people_meta-data_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meta_data_people
+    ADD CONSTRAINT "meta-data-people_meta-data_fkey" FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
+
+
+--
+-- Name: meta-data-people_people_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meta_data_people
+    ADD CONSTRAINT "meta-data-people_people_fkey" FOREIGN KEY (person_id) REFERENCES people(id);
+
+
+--
+-- Name: meta-data-users_meta-data_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meta_data_users
+    ADD CONSTRAINT "meta-data-users_meta-data_fkey" FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
+
+
+--
+-- Name: meta-data-users_users_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meta_data_users
+    ADD CONSTRAINT "meta-data-users_users_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: meta-data_collections_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meta_data
+    ADD CONSTRAINT "meta-data_collections_fkey" FOREIGN KEY (collection_id) REFERENCES collections(id);
+
+
+--
+-- Name: meta-data_filter-sets_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meta_data
+    ADD CONSTRAINT "meta-data_filter-sets_fkey" FOREIGN KEY (filter_set_id) REFERENCES filter_sets(id);
+
+
+--
+-- Name: meta-data_media-entries_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meta_data
+    ADD CONSTRAINT "meta-data_media-entries_fkey" FOREIGN KEY (media_entry_id) REFERENCES media_entries(id);
+
+
+--
+-- Name: meta-data_meta-keys_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meta_data
+    ADD CONSTRAINT "meta-data_meta-keys_fkey" FOREIGN KEY (meta_key_id) REFERENCES meta_keys(id) ON DELETE CASCADE;
+
+
+--
+-- Name: meta-keys_vocabularies_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meta_keys
+    ADD CONSTRAINT "meta-keys_vocabularies_fkey" FOREIGN KEY (vocabulary_id) REFERENCES vocabularies(id) ON DELETE CASCADE;
 
 
 --
@@ -3043,6 +2963,86 @@ ALTER TABLE ONLY filter_set_user_permissions
 
 ALTER TABLE ONLY license_groups
     ADD CONSTRAINT parent_id_fkey FOREIGN KEY (parent_id) REFERENCES license_groups(id);
+
+
+--
+-- Name: previews_media-files_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY previews
+    ADD CONSTRAINT "previews_media-files_fkey" FOREIGN KEY (media_file_id) REFERENCES media_files(id) ON DELETE CASCADE;
+
+
+--
+-- Name: users_people_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_people_fkey FOREIGN KEY (person_id) REFERENCES people(id);
+
+
+--
+-- Name: visualizations_users_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY visualizations
+    ADD CONSTRAINT visualizations_users_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: vocabulary-api-client-permissions_api-clients_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vocabulary_api_client_permissions
+    ADD CONSTRAINT "vocabulary-api-client-permissions_api-clients_fkey" FOREIGN KEY (api_client_id) REFERENCES api_clients(id) ON DELETE CASCADE;
+
+
+--
+-- Name: vocabulary-api-client-permissions_vocabularies_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vocabulary_api_client_permissions
+    ADD CONSTRAINT "vocabulary-api-client-permissions_vocabularies_fkey" FOREIGN KEY (vocabulary_id) REFERENCES vocabularies(id) ON DELETE CASCADE;
+
+
+--
+-- Name: vocabulary-group-permissions_groups_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vocabulary_group_permissions
+    ADD CONSTRAINT "vocabulary-group-permissions_groups_fkey" FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
+
+
+--
+-- Name: vocabulary-group-permissions_vocabularies_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vocabulary_group_permissions
+    ADD CONSTRAINT "vocabulary-group-permissions_vocabularies_fkey" FOREIGN KEY (vocabulary_id) REFERENCES vocabularies(id) ON DELETE CASCADE;
+
+
+--
+-- Name: vocabulary-user-permissions_users_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vocabulary_user_permissions
+    ADD CONSTRAINT "vocabulary-user-permissions_users_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: vocabulary-user-permissions_vocabularies_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vocabulary_user_permissions
+    ADD CONSTRAINT "vocabulary-user-permissions_vocabularies_fkey" FOREIGN KEY (vocabulary_id) REFERENCES vocabularies(id) ON DELETE CASCADE;
+
+
+--
+-- Name: zencoder-jobs_media-files_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY zencoder_jobs
+    ADD CONSTRAINT "zencoder-jobs_media-files_fkey" FOREIGN KEY (media_file_id) REFERENCES media_files(id);
 
 
 --
@@ -3186,6 +3186,8 @@ INSERT INTO schema_migrations (version) VALUES ('169');
 INSERT INTO schema_migrations (version) VALUES ('17');
 
 INSERT INTO schema_migrations (version) VALUES ('171');
+
+INSERT INTO schema_migrations (version) VALUES ('172');
 
 INSERT INTO schema_migrations (version) VALUES ('18');
 
