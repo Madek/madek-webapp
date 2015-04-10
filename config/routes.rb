@@ -22,6 +22,8 @@ Madek::Application.routes.draw do
   resources :groups, only: :show
 
   # Static App routes ##########################################################
+  get 'id/:uuid', to: 'uuid#redirect_to_canonical_url'
+
   get 'my/', to: 'my#dashboard', as: 'my_dashboard'
   get 'my/:section', to: 'my#dashboard_section', as: 'my_dashboard_section'
 
