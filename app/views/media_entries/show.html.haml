@@ -47,8 +47,14 @@
   ]
 
 - entry_show_data[:more_info] = capture_haml do
-  -# TMP: always show this sections!
+  -# TMP: always show this sections! (till we have js, thus tabs)
   .ui-container.midtone.rounded-bottom.pal.well
+
+    -# Demo: Render all the available Vocabularies as rows
+    = deco('meta_data_by_vocabulary', get: @get)
+
+    .ui-separator.mbl
+
     %h3.title-l.separated.mbm
       = "Relations"
     - unless @get.relations.any?
