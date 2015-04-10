@@ -9,17 +9,17 @@ task_defaults:
     ruby: true
     cider-ci_api-access: true
   scripts:
-    bundle: 
+    bundle:
       timeout: 500
       order: 1
       body: bundle
-    coverage: 
+    coverage:
       timeout: 500
       order: 2
   environment_variables:
     LANG: "en_US.UTF-8"
 
-tasks: 
+tasks:
 
 - name: Coverage
   environment_variables:
@@ -27,4 +27,4 @@ tasks:
   scripts:
     coverage:
 
-      body: bundle exec cider-ci_coverage --upload
+      body: bundle exec cider-ci_coverage --upload -l 90

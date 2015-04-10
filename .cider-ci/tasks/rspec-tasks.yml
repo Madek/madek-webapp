@@ -19,26 +19,11 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/admin/groups_controller_spec.rb"
-"./spec/controllers/admin/media_entries_controller_spec.rb":
-  name: "./spec/controllers/admin/media_entries_controller_spec.rb"
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/controllers/admin/media_entries_controller_spec.rb"
 "./spec/controllers/admin/media_files_controller_spec.rb":
   name: "./spec/controllers/admin/media_files_controller_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/admin/media_files_controller_spec.rb"
-"./spec/controllers/admin/meta_datums_controller_spec.rb":
-  name: "./spec/controllers/admin/meta_datums_controller_spec.rb"
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/controllers/admin/meta_datums_controller_spec.rb"
-"./spec/controllers/admin/meta_keys_controller_spec.rb":
-  name: "./spec/controllers/admin/meta_keys_controller_spec.rb"
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/controllers/admin/meta_keys_controller_spec.rb"
 "./spec/controllers/admin/previews_controller_spec.rb":
   name: "./spec/controllers/admin/previews_controller_spec.rb"
   scripts:
@@ -49,11 +34,6 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/admin/users_controller_spec.rb"
-"./spec/controllers/admin/vocables_controller_spec.rb":
-  name: "./spec/controllers/admin/vocables_controller_spec.rb"
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/controllers/admin/vocables_controller_spec.rb"
 "./spec/controllers/admin/vocabularies_controller_spec.rb":
   name: "./spec/controllers/admin/vocabularies_controller_spec.rb"
   scripts:
