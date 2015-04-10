@@ -93,6 +93,7 @@ class MigrateCoreKeys < ActiveRecord::Migration
 
     execute "SET session_replication_role = DEFAULT;"
 
+
   end
 
 end

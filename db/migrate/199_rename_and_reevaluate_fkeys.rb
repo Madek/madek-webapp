@@ -1,4 +1,4 @@
-class RenameForeignKeyNames < ActiveRecord::Migration
+class RenameAndReevaluateFkeys < ActiveRecord::Migration
   def change
     remove_foreign_key :users, :people
     add_foreign_key :users, :people, name: :users_people_fkey
@@ -66,6 +66,8 @@ class RenameForeignKeyNames < ActiveRecord::Migration
 
     remove_foreign_key :io_mappings, :io_interfaces
     add_foreign_key :io_mappings, :io_interfaces, on_delete: :cascade, name: 'io-mappings_io-interfaces_fkey'
+    remove_foreign_key :io_mappings, :meta_keys
+    add_foreign_key :io_mappings, :meta_keys, on_delete: :cascade, name: 'io-mappings_meta-keys_fkey'
 
     remove_foreign_key :admins, :users
     add_foreign_key :admins, :users, name: :admins_users_fkey

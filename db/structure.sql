@@ -2662,14 +2662,6 @@ ALTER TABLE ONLY filter_sets
 
 
 --
--- Name: fk_rails_dbf6e7c067; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY io_mappings
-    ADD CONSTRAINT fk_rails_dbf6e7c067 FOREIGN KEY (meta_key_id) REFERENCES meta_keys(id) ON DELETE CASCADE;
-
-
---
 -- Name: fk_rails_f0283cbd2e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2707,6 +2699,14 @@ ALTER TABLE ONLY groups_users
 
 ALTER TABLE ONLY io_mappings
     ADD CONSTRAINT "io-mappings_io-interfaces_fkey" FOREIGN KEY (io_interface_id) REFERENCES io_interfaces(id) ON DELETE CASCADE;
+
+
+--
+-- Name: io-mappings_meta-keys_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY io_mappings
+    ADD CONSTRAINT "io-mappings_meta-keys_fkey" FOREIGN KEY (meta_key_id) REFERENCES meta_keys(id) ON DELETE CASCADE;
 
 
 --
@@ -3187,11 +3187,13 @@ INSERT INTO schema_migrations (version) VALUES ('17');
 
 INSERT INTO schema_migrations (version) VALUES ('171');
 
-INSERT INTO schema_migrations (version) VALUES ('172');
+INSERT INTO schema_migrations (version) VALUES ('173');
 
 INSERT INTO schema_migrations (version) VALUES ('18');
 
 INSERT INTO schema_migrations (version) VALUES ('19');
+
+INSERT INTO schema_migrations (version) VALUES ('199');
 
 INSERT INTO schema_migrations (version) VALUES ('2');
 
