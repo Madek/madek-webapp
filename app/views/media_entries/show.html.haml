@@ -30,10 +30,10 @@
   }
 
   more_meta_data_list = [
-    ['responsible', deco('person-tag', person: @get.more_data.responsible,
+    ['responsible', deco('person-tag-list', person: @get.more_data.responsible,
                                        mods: tag_mods)
     ],
-    ['importer', deco('person-tag', person: @get.more_data.importer,
+    ['importer', deco('person-tag-list', person: @get.more_data.importer,
                                     mods: tag_mods)
     ],
     ['import_date', @get.more_data.import_date],

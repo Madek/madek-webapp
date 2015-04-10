@@ -1,0 +1,31 @@
+:ruby
+  unless @get.meta_data.is_a?(Presenters::MetaData::MetaDataPresenter)
+    fail 'ui: not a MetaDataPresenter!'
+  end
+  meta_data = @get.meta_data
+
+  # TODO: app config, partial arguments
+  summary_vocab = 'madek_core'
+  configured_vocabs = ['media_content', 'copyright', 'zhdk'] # people???
+  # TODO: (after move) show up to 4 vocabularies in this part of the layout
+  # ^^^^ configured_vocabs = configured_vocabs.first(4)
+
+%h3.title-l.separated.mbm
+  = 'MetaData by Vocabulary'
+
+-# build the summary box from core vocab. TODO: move to top of layout after demo
+.meta-data-summary.mbl
+  = deco('vocabulary_meta_data_table', data: meta_data.by_vocabulary[summary_vocab])
+
+-# build the 4 vocabulary boxes with meta_data lists:
+-# TMP: build all the vocabs, 4 per row
+- available_vocabs = meta_data.vocabularies_with_meta_data - [summary_vocab.to_sym]
+- vocab_rows = available_vocabs.in_groups_of(4)
+- vocab_rows.each do |configured_vocabs|
+  .ui-container.media-entry-metadata.mbm
+    - configured_vocabs.each do |vocab_id|
+      - if (vocab_id && vocabulary = meta_data.by_vocabulary[vocab_id])
+        .col1of4
+          = deco('vocabulary_meta_data_table', data: vocabulary)
+  - unless vocab_rows.last == configured_vocabs
+    %hr.separator.mini.mbl

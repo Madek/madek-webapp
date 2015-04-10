@@ -1,0 +1,21 @@
+:ruby
+  data ||= nil
+  unless data && data._vocabulary && data._meta_data
+    fail 'ui: missing data!'
+  end
+  vocabulary = data._vocabulary
+  meta_data = data._meta_data
+
+%h3.separated.mbm.title-l= vocabulary.label
+-# TODO: vocabulary description, privacy_status
+%table.ui-metadata-table.borderless
+  %tbody
+    - meta_data.each do |meta_datum|
+      - key = meta_datum._key
+      - values = meta_datum._values
+      %tr
+        %td.ui-summary-label{data: { meta_key: key[:id]}}
+          = key[:label]
+        %td.ui-summary-content
+          -# decorate value by type (ex.: /decorators/meta_datum/text.haml)
+          = deco(key[:type].underscore, values: values)

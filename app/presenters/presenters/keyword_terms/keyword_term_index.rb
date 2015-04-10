@@ -8,7 +8,7 @@ module Presenters
         term = @app_resource
         meta_key = @app_resource.meta_key
         vocabulary = meta_key.vocabulary
-        "/[not_implemented]/vocabularies/#{vocabulary.id}/#{meta_key.id}/#{term.id}"
+        "/[NOTIMPLEMENTED]/#{vocabulary.id}/#{meta_key.id}/#{term.id}"
       end
     end
   end

@@ -1,0 +1,9 @@
+:ruby
+  terms = values.map do |term|
+    {
+      text: term.term,
+      href: term.url
+    }
+  end
+
+= component('tag-cloud.label', mods: 'small.ellipsed', list: terms)
