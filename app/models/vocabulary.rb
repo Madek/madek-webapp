@@ -25,7 +25,7 @@ class Vocabulary < ActiveRecord::Base
       .group('vocabularies.id')
   }
   scope :ids_for_filter, -> { order(:id).pluck(:id) }
-  scope :viewable_by_public, -> { where(public_view?: true) }
+  scope :viewable_by_public, -> { where(enabled_for_public_view: true) }
 
   validates :id, presence: true
 
