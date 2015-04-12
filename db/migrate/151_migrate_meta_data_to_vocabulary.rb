@@ -88,7 +88,9 @@ class MigrateMetaDataToVocabulary < ActiveRecord::Migration
           orphan_vocabulary = Vocabulary.find_or_create_by id: 'orphans', label: 'Orphans',
             description: 'The related meta_keys in this vocabulary were not related to any context before the migration.'
 
-          new_id_meta_key_part = meta_key.id.downcase.gsub(/\s+/, '_').gsub(/-/, '_').gsub(/_+/, '_')
+          new_id_meta_key_part = meta_key.id.downcase.gsub(/\s+/, '_').gsub(/-/, '_') \
+            .gsub(/_+/, '_').gsub(/[^a-z0-9\_\-]/, '')
+
           new_meta_key_id = "#{orphan_vocabulary.id}:#{new_id_meta_key_part}"
 
           new_meta_key = MetaKey.find_or_create_by(id: new_meta_key_id,
