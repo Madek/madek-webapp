@@ -26,7 +26,6 @@ module Presenters
           if media_entries
             @media_entries = \
               handle_resources(media_entries,
-                               MediaEntry,
                                Presenters::MediaEntries::MediaEntryIndex)
           end
           @media_entries ||= []
@@ -36,7 +35,6 @@ module Presenters
           if collections
             @collections = \
               handle_resources(collections,
-                               Collection,
                                Presenters::Collections::CollectionIndex)
           end
           @collections ||= []
@@ -46,15 +44,14 @@ module Presenters
           if filter_sets
             @filter_sets = \
               handle_resources(filter_sets,
-                               FilterSet,
                                Presenters::FilterSets::FilterSetIndex)
           end
           @filter_sets ||= []
         end
 
-        def handle_resources(resources, resource_type, index_presenter)
+        def handle_resources(resources, index_presenter)
           resources
-            .merge(resource_type.viewable_by_user(@user))
+            .viewable_by_user(@user)
             .reorder(@order)
             .page(@page)
             .per(@per)

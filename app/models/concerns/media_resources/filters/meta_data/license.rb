@@ -1,0 +1,18 @@
+module Concerns
+  module MediaResources
+    module Filters
+      module MetaData
+        module License
+          extend ActiveSupport::Concern
+          include Concerns::MediaResources::Filters::MetaData::Helpers
+
+          included do
+            scope :filter_by_meta_datum_type_license, lambda { |meta_key_id, id|
+              filter_by_meta_key(meta_key_id).where(meta_data: { license_id: id })
+            }
+          end
+        end
+      end
+    end
+  end
+end

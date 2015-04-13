@@ -1,0 +1,82 @@
+:ruby
+  # fake:
+  # entries = MediaEntry
+  #   .filter_by_meta_data({value:'ZHdK',key:'copyright:copyright_notice'})
+
+  examples_urls = {
+    'copyright:ZHdK' => '/my/filter_demo?utf8=%E2%9C%93&num=1&meta_key0=madek_core%3Acopyright_notice&meta_value0=ZHdK',
+    'copyright:ZHdK; title:Z+' => '/my/filter_demo?utf8=%E2%9C%93&num=2&meta_key0=madek_core%3Acopyright_notice&meta_value0=ZHdK&meta_key1=madek_core%3Atitle&meta_value1=Z%2B',
+    'title:Oil Rich; author:George' => '/my/filter_demo?utf8=%E2%9C%93&num=2&meta_key0=madek_core%3Atitle&meta_value0=Oil+Rich+Niger+Delta&meta_key1=madek_core%3Aauthors&meta_value1=ef62dea1-8a78-4ffe-be1b-ff4282eec631',
+    'keyword:oil' => '/my/filter_demo?utf8=%E2%9C%93&num=1&meta_key0=madek_core%3Akeywords&meta_value0=1e01f70f-4beb-4581-93bd-acc20b1c940d',
+    'license:copyrighted' => '/my/filter_demo?utf8=%E2%9C%93&num=1&meta_key0=upload%3Alicense&meta_value0=04c644e1-965b-4b71-bc63-e0ab4f22dd51'
+  }
+
+  # get params
+  number_of_filters_in_ui = (params[:num] || 1).to_i
+
+  if params[:commit] == 'add filter' # ¯\_(ツ)_/¯
+    number_of_filters_in_ui += 1
+  end
+
+  filters = number_of_filters_in_ui.times.map do |index|
+    f = { key: params["meta_key#{index}"], value: params["meta_value#{index}"]}
+    f unless f[:key].blank? || f[:value].blank?
+  end.reject(&:blank?)
+
+  # dynamic from params:
+  entries = unless filters.blank?
+    MediaEntry.filter_by_meta_data(*filters)
+  end
+
+  the_presenter = \
+      Presenters::Shared::MediaResources::MediaResources.new \
+        current_user,
+        media_entries: entries
+
+-# the form
+= form_tag("filter_demo", method: "get") do
+
+  %h3.title-l
+    Filter by MetaData Demo
+
+  %blockquote.mvm
+    = "Examples"
+    %ul
+      - examples_urls.each do |ex|
+        %li
+          %a{href: ex[1]}= ex[0]
+  %hr.separator.mini.mvm
+
+  = label_tag(:q, "Number of Filters (chained with AND)")
+  = text_field_tag(:num, number_of_filters_in_ui, type: 'number')
+  = submit_tag("add filter", class: 'button small')
+  %hr.separator.mini.mvm
+
+  %p.title-s= "FILTER (media_entries, collections, filter_sets)"
+  %br
+
+  -# form row for each filter:
+  - number_of_filters_in_ui.times.map do |index|
+    - given_key = filters[index] && filters[index][:key] || nil
+    - given_value = filters[index] && filters[index][:value] || nil
+    = label_tag(:q, " KEY ", class: 'title-s')
+    = text_field_tag("meta_key#{index}", given_key)
+    = label_tag(:q, " VALUE ", class: 'title-s')
+    = text_field_tag("meta_value#{index}", given_value)
+    %hr.separator.mini.mvs
+
+  -# %hr.separator.mini.mvm
+  = submit_tag("Evaluate!", class: 'primary-button')
+
+%hr.separator.mvm
+
+%h4.title-l= "Result"
+
+-# the list of entries:
+- case
+- when filters.blank?
+  %p.title-s= "Enter one or two filters (key/value) and click the button"
+- when entries.blank?
+  %p.title-s= "The result of the Filter is empty!"
+- else
+  = deco('polybox', media_resources: the_presenter)

@@ -33,6 +33,11 @@ class MyController < ApplicationController
       title: 'My Groups',
       icon: 'icon-privacy-group',
       partial: :groups
+    },
+    filter_demo: {
+      title: 'Filter demo',
+      icon: 'icon-api',
+      partial: :filter_demo
     }
   }
 

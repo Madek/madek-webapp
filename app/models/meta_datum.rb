@@ -16,6 +16,7 @@ class MetaDatum < ActiveRecord::Base
 
   ########################################
 
+  belongs_to :license
   belongs_to :meta_key
   has_one :vocabulary, through: :meta_key
 

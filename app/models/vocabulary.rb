@@ -33,6 +33,7 @@ class Vocabulary < ActiveRecord::Base
     id
   end
 
+  # TODO: refactor similar to app/models/concerns/media_resources/visibility.rb ?
   def self.viewable_by_user(user)
     scope1 = viewable_by_public
     scope2 = entrusted_to_user(user)
