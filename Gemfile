@@ -78,7 +78,7 @@ gem 'pry-rails', group: [:development]
 gem 'quiet_assets', group: [:development]
 gem 'rest-client', group: [:test, :development, :personas]
 gem 'rspec-rails', '~> 3.1', group: [:test, :development]
-gem 'rubocop', require: false
+gem 'rubocop', '= 0.29.1', require: false
 gem 'ruby-prof', group: [:development]
 gem 'selenium-webdriver', group: [:test]
 gem 'simplecov', require: false, group: ['test']
