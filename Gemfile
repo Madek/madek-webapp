@@ -21,7 +21,7 @@ gem 'roar-rails'
 
 # ZHDK-INTEGRATION
 # gem "madek_zhdk_integration", path: "../zhdk_integration"
-gem 'madek_zhdk_integration', git: 'https://github.com/zhdk/madek-zhdk-integration.git'
+gem 'madek_zhdk_integration', git: 'https://github.com/madek/madek-zhdk-integration.git', :ref => '50af2e3391e49cad7ad19b5cc5887d465aa42b97'
 
 # FRONTEND
 gem 'bootstrap-sass'
