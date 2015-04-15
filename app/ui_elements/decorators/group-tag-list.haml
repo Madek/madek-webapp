@@ -1,0 +1,14 @@
+:ruby
+  # decorate a Group (Index)
+  group ||= nil
+  list ||= nil
+
+  groups = list.map do |get|
+    throw 'ui: invalid data!' unless get.is_a?(Presenters::Groups::GroupIndex)
+    {
+      text: get.name,
+      href: get.url
+    }
+  end
+
+= component('tag-cloud.group', mods: mods, list: groups)
