@@ -4,40 +4,74 @@
   #   .filter_by_meta_data({value:'ZHdK',key:'copyright:copyright_notice'})
 
   examples_urls = {
-    'copyright:ZHdK' => '/my/filter_demo?utf8=%E2%9C%93&num=1&meta_key0=madek_core%3Acopyright_notice&meta_value0=ZHdK',
-    'copyright:ZHdK; title:Z+' => '/my/filter_demo?utf8=%E2%9C%93&num=2&meta_key0=madek_core%3Acopyright_notice&meta_value0=ZHdK&meta_key1=madek_core%3Atitle&meta_value1=Z%2B',
-    'title:Oil Rich; author:George' => '/my/filter_demo?utf8=%E2%9C%93&num=2&meta_key0=madek_core%3Atitle&meta_value0=Oil+Rich+Niger+Delta&meta_key1=madek_core%3Aauthors&meta_value1=ef62dea1-8a78-4ffe-be1b-ff4282eec631',
-    'keyword:oil' => '/my/filter_demo?utf8=%E2%9C%93&num=1&meta_key0=madek_core%3Akeywords&meta_value0=1e01f70f-4beb-4581-93bd-acc20b1c940d',
-    'license:copyrighted' => '/my/filter_demo?utf8=%E2%9C%93&num=1&meta_key0=upload%3Alicense&meta_value0=04c644e1-965b-4b71-bc63-e0ab4f22dd51'
+    'copyright:ZHdK' => '/my/filter_demo?utf8=%E2%9C%93&num=1&meta_key0=madek_core%3Acopyright_notice&meta_value0=ZHdK&include_media_entries=true',
+    'copyright:ZHdK; title:Z+' => '/my/filter_demo?utf8=%E2%9C%93&num=2&meta_key0=madek_core%3Acopyright_notice&meta_value0=ZHdK&meta_key1=madek_core%3Atitle&meta_value1=Z%2B&include_media_entries=true',
+    'title:Oil Rich; author:George' => '/my/filter_demo?utf8=%E2%9C%93&num=2&meta_key0=madek_core%3Atitle&meta_value0=Oil+Rich+Niger+Delta&meta_key1=madek_core%3Aauthors&meta_value1=ef62dea1-8a78-4ffe-be1b-ff4282eec631&include_media_entries=true',
+    'keyword:oil' => '/my/filter_demo?utf8=%E2%9C%93&num=1&meta_key0=madek_core%3Akeywords&meta_value0=1e01f70f-4beb-4581-93bd-acc20b1c940d&include_media_entries=true',
+    'license:copyrighted' => '/my/filter_demo?utf8=%E2%9C%93&num=1&meta_key0=upload%3Alicense&meta_value0=04c644e1-965b-4b71-bc63-e0ab4f22dd51&include_media_entries=true',
+    'Foto-Bachelors 2010 (7 Filters, Production)' => '/my/filter_demo?utf8=✓&num=7&meta_key0=zhdk_bereich%3Ainstitutional_affiliation&meta_value0=3f50a785-eccc-4cd6-bcb1-bd2f15a42903&meta_key1=madek_core%3Akeywords&meta_value1=26c43e2c-497d-4a2f-be05-e87563ecc26f&meta_key2=institution%3Aproject_type&meta_value2=c349593b-4218-44c1-97ab-84dc27315a27&meta_key3=media_content%3Atype&meta_value3=f31e1862-fc64-416e-85c0-de30731ebd67&meta_key4=media_content%3Aportrayed_object_dates&meta_value4=2010&meta_key5=zhdk_bereich%3Aacademic_year&meta_value5=7ec8099a-0b1d-4d15-8d62-ccd5c6bb8735&meta_key6=copyright%3Alicense&meta_value6=bc1934f6-b580-4c84-b680-c73b82c93caf&include_media_entries=true'
   }
 
   # get params
-  number_of_filters_in_ui = (params[:num] || 1).to_i
+  number_of_mdata_filters_in_ui = (params[:num] || 1).to_i
 
   if params[:commit] == 'add filter' # ¯\_(ツ)_/¯
-    number_of_filters_in_ui += 1
+    number_of_mdata_filters_in_ui += 1
   end
 
-  filters = number_of_filters_in_ui.times.map do |index|
+  mdata_filters = number_of_mdata_filters_in_ui.times.map do |index|
     f = { key: params["meta_key#{index}"], value: params["meta_value#{index}"]}
     f unless f[:key].blank? || f[:value].blank?
   end.reject(&:blank?)
 
+  media_file_filters = 5.times.map do |index|
+    f = { key: params["media_file_key#{index}"], value: params["media_file_value#{index}"]}
+    f unless f[:key].blank? || f[:value].blank?
+  end.reject(&:blank?)
+
+  permissions_filters = 5.times.map do |index|
+    f = { key: params["permission_key#{index}"], value: params["permission_value#{index}"]}
+    f unless f[:key].blank? || f[:value].blank?
+  end.reject(&:blank?)
+
+  the_filter_hash = {
+    meta_data: mdata_filters,
+    media_file_specs: media_file_filters,
+    permission_specs: permissions_filters
+  }
+
   # dynamic from params:
-  entries = unless filters.blank?
-    MediaEntry.filter_by_meta_data(*filters)
+  unless the_filter_hash.blank?
+    if params[:include_media_entries] == 'true'
+      entries = MediaEntry.filter(the_filter_hash)
+    end
+
+    if params[:include_collections] == 'true' and not the_filter_hash[:media_file_specs]
+      collections = Collection.filter(the_filter_hash)
+    end
+
+    if params[:include_filter_sets] == 'true' and not the_filter_hash[:media_file_specs]
+      filter_sets = FilterSet.filter(the_filter_hash)
+    end
   end
 
   the_presenter = \
-      Presenters::Shared::MediaResources::MediaResources.new \
-        current_user,
-        media_entries: entries
+    Presenters::Shared::MediaResources::MediaResources.new \
+      current_user,
+      media_entries: entries,
+      collections: collections,
+      filter_sets: filter_sets,
+      page: params[:page],
+      per: params[:per_page]
 
 -# the form
 = form_tag("filter_demo", method: "get") do
 
+  - add_filter_button = capture_haml do
+    = submit_tag("add filter", class: 'button small')
+
   %h3.title-l
-    Filter by MetaData Demo
+    Filter Demo
 
   %blockquote.mvm
     = "Examples"
@@ -48,25 +82,84 @@
   %hr.separator.mini.mvm
 
   = label_tag(:q, "Number of Filters (chained with AND)")
-  = text_field_tag(:num, number_of_filters_in_ui, type: 'number')
-  = submit_tag("add filter", class: 'button small')
+  = text_field_tag(:num, number_of_mdata_filters_in_ui, type: 'number')
+  = add_filter_button
   %hr.separator.mini.mvm
 
   %p.title-s= "FILTER (media_entries, collections, filter_sets)"
   %br
 
-  -# form row for each filter:
-  - number_of_filters_in_ui.times.map do |index|
-    - given_key = filters[index] && filters[index][:key] || nil
-    - given_value = filters[index] && filters[index][:value] || nil
+  %h4.title-m
+    Filter by MediaResource type
+
+  = label_tag :include_media_entries
+  = check_box_tag :include_media_entries, true, params[:include_media_entries]
+
+  = label_tag :include_collections
+  = check_box_tag :include_collections, true, params[:include_collections]
+
+  = label_tag :include_filter_sets
+  = check_box_tag :include_filter_sets, true, params[:include_filter_sets]
+
+  %hr.separator.mini.mvm
+
+  %h4.title-m
+    Filter by (associated) MediaFile
+  %p
+    Possible filter keys:
+  %p
+    'media_type' -> 'image'/'video'/etc.
+  %p
+    'extension'-> 'jpg'/'tiff'/etc.
+
+  -# form row for each media_file_filter:
+  - 5.times.map do |index|
+    - given_key = media_file_filters[index] && media_file_filters[index][:key] || nil
+    - given_value = media_file_filters[index] && media_file_filters[index][:value] || nil
+    = label_tag(:q, " KEY ", class: 'title-s')
+    = text_field_tag("media_file_key#{index}", given_key)
+    = label_tag(:q, " VALUE ", class: 'title-s')
+    = text_field_tag("media_file_value#{index}", given_value)
+    %hr.separator.mini.mvs
+
+  %h4.title-m
+    Filter by Permission Status
+  %p
+    Possible filter keys:
+  %p
+    'entrusted_to_user' -> uuid
+  %p
+    'entrusted_to_group'-> uuid
+  %p
+    'responsible_user' -> uuid
+  %p
+    'public'-> true/false
+
+  -# form row for each permissions_filters_filter:
+  - 5.times.map do |index|
+    - given_key = permissions_filters[index] && permissions_filters[index][:key] || nil
+    - given_value = permissions_filters[index] && permissions_filters[index][:value] || nil
+    = label_tag(:q, " KEY ", class: 'title-s')
+    = text_field_tag("permission_key#{index}", given_key)
+    = label_tag(:q, " VALUE ", class: 'title-s')
+    = text_field_tag("permission_value#{index}", given_value)
+    %hr.separator.mini.mvs
+
+  %h4.title-m
+    Filter by MetaData
+
+  -# form row for each meta_data_filter:
+  - number_of_mdata_filters_in_ui.times.map do |index|
+    - given_key = mdata_filters[index] && mdata_filters[index][:key] || nil
+    - given_value = mdata_filters[index] && mdata_filters[index][:value] || nil
     = label_tag(:q, " KEY ", class: 'title-s')
     = text_field_tag("meta_key#{index}", given_key)
     = label_tag(:q, " VALUE ", class: 'title-s')
     = text_field_tag("meta_value#{index}", given_value)
     %hr.separator.mini.mvs
 
-  -# %hr.separator.mini.mvm
   = submit_tag("Evaluate!", class: 'primary-button')
+  = add_filter_button
 
 %hr.separator.mvm
 
@@ -74,9 +167,9 @@
 
 -# the list of entries:
 - case
-- when filters.blank?
+- when mdata_filters.blank?
   %p.title-s= "Enter one or two filters (key/value) and click the button"
-- when entries.blank?
-  %p.title-s= "The result of the Filter is empty!"
 - else
-  = deco('polybox', media_resources: the_presenter)
+  = deco('polybox',
+         media_resources: the_presenter,
+         fallback: "The result of the Filter is empty!")

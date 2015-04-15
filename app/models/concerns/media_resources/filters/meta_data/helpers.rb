@@ -11,6 +11,11 @@ module Concerns
                 .where(meta_data: { meta_key_id: meta_key_id })
             }
 
+            scope :filter_by_not_meta_key, lambda { |meta_key_id|
+              joins(:meta_data)
+                .where.not(meta_data: { meta_key_id: meta_key_id })
+            }
+
             # actors: user, person, group
             scope :filter_by_meta_datum_actor_type,
                   lambda { |meta_key_id, id, actor_type|
@@ -23,6 +28,8 @@ module Concerns
                       .where("meta_data_#{actor_type_plural}.#{actor_type}_id = ?",
                              id)
                   }
+
+            private_class_method :filter_by_meta_datum_actor_type
           end
         end
       end

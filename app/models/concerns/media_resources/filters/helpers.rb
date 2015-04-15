@@ -4,31 +4,7 @@ module Concerns
       module Helpers
         extend ActiveSupport::Concern
 
-        include Concerns::MediaResources::Filters::MetaData::Actors
-        include Concerns::MediaResources::Filters::MetaData::Keywords
-        include Concerns::MediaResources::Filters::MetaData::License
-
-        included do
-          scope :filter_by_meta_datum, lambda { |meta_key, type, value|
-            case type
-            when 'MetaDatum::Keywords'
-              filter_by_meta_datum_type_keywords(meta_key, value)
-            when 'MetaDatum::People'
-              filter_by_meta_datum_type_people(meta_key, value)
-            when 'MetaDatum::Users'
-              filter_by_meta_datum_type_users(meta_key, value)
-            when 'MetaDatum::Groups'
-              filter_by_meta_datum_type_groups(meta_key, value)
-            when 'MetaDatum::License'
-              filter_by_meta_datum_type_license(meta_key, value)
-            when 'MetaDatum::Text', 'MetaDatum::TextDate'
-              filter_by_meta_key(meta_key)
-                .where(meta_data: { string: value })
-            else
-              raise 'Unknown meta data type'
-            end
-          }
-        end
+        include Concerns::MediaResources::Filters::MetaDataTypes
 
         module ClassMethods
           def join_query_strings_with_intersect(*query_strings)
@@ -43,6 +19,22 @@ module Concerns
           def wrap_string_in_round_brackets(string)
             '(' + string + ')'
           end
+        end
+
+        included do
+          scope :filter_by_meta_datum, lambda { |meta_key, type, value|
+            case value
+            when 'any'
+              filter_by_meta_key(meta_key)
+            when 'none'
+              filter_by_not_meta_key(meta_key)
+            else
+              filter_by_meta_datum_type(meta_key, type, value)
+            end
+          }
+
+          private_class_method :join_query_strings_with_intersect,
+                               :wrap_string_in_round_brackets
         end
       end
     end
