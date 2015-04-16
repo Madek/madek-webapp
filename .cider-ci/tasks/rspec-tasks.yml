@@ -49,21 +49,6 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/application_controller_spec.rb"
-"./spec/controllers/collections_controller_spec.rb":
-  name: "./spec/controllers/collections_controller_spec.rb"
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/controllers/collections_controller_spec.rb"
-"./spec/controllers/filter_sets_controller_spec.rb":
-  name: "./spec/controllers/filter_sets_controller_spec.rb"
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/controllers/filter_sets_controller_spec.rb"
-"./spec/controllers/media_entries_controller_spec.rb":
-  name: "./spec/controllers/media_entries_controller_spec.rb"
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/controllers/media_entries_controller_spec.rb"
 "./spec/controllers/my_controller_spec.rb":
   name: "./spec/controllers/my_controller_spec.rb"
   scripts:
