@@ -70,9 +70,6 @@
 -# the form
 = form_tag("filter_demo", method: "get") do
 
-  - add_filter_button = capture_haml do
-    = submit_tag("add filter", class: 'button small')
-
   %h3.title-l
     Filter Demo
 
@@ -84,25 +81,25 @@
           %a{href: ex[1]}= ex[0]
   %hr.separator.mini.mvm
 
-  = label_tag(:q, "Number of Filters (chained with AND)")
-  = text_field_tag(:num, number_of_mdata_filters_in_ui, type: 'number')
-  = add_filter_button
-  %hr.separator.mini.mvm
-
   %p.title-s= "FILTER (media_entries, collections, filter_sets)"
   %br
 
   %h4.title-m
     Filter by MediaResource type
 
-  = label_tag :include_media_entries
-  = check_box_tag :include_media_entries, true, params[:include_media_entries]
+  = label_tag 'Include:'
 
-  = label_tag :include_collections
-  = check_box_tag :include_collections, true, params[:include_collections]
+  .row
+    = check_box_tag :include_media_entries, true, params[:include_media_entries]
+    = label_tag :include_media_entries, 'MediaEntries'
 
-  = label_tag :include_filter_sets
-  = check_box_tag :include_filter_sets, true, params[:include_filter_sets]
+  .row
+    = check_box_tag :include_collections, true, params[:include_collections]
+    = label_tag :include_collections, 'Sets'
+
+  .row
+    = check_box_tag :include_filter_sets, true, params[:include_filter_sets]
+    = label_tag :include_filter_sets, 'FilterSets'
 
   %hr.separator.mini.mvm
 
@@ -110,10 +107,11 @@
     Filter by (associated) MediaFile
   %p
     Possible filter keys:
-  %p
-    'media_type' -> 'image'/'video'/etc.
-  %p
-    'extension'-> 'jpg'/'tiff'/etc.
+    %ul
+      %li
+        'media_type' -> 'image'/'video'/etc.
+      %li
+        'extension'-> 'jpg'/'tiff'/etc.
 
   -# form row for each media_file_filter:
   - 5.times.map do |index|
@@ -127,22 +125,26 @@
 
   %h4.title-m
     Filter by Permission Status
+  -# - possible_filter_keys = [:public, :responsible_user,
+                            :entrusted_to_user, :entrusted_to_group]
   %p
     Possible filter keys:
-  %p
-    'entrusted_to_user' -> uuid
-  %p
-    'entrusted_to_group'-> uuid
-  %p
-    'responsible_user' -> uuid
-  %p
-    'public'-> true/false
+    %ul
+      %li
+        'public'-> true/false
+      %li
+        'responsible_user' -> uuid
+      %li
+        'entrusted_to_user' -> uuid
+      %li
+        'entrusted_to_group'-> uuid
 
   -# form row for each permissions_filters_filter:
   - 5.times.map do |index|
     - given_key = permissions_filters[index] && permissions_filters[index][:key] || nil
     - given_value = permissions_filters[index] && permissions_filters[index][:value] || nil
     = label_tag(:q, " KEY ", class: 'title-s')
+    -# = select("permissions_filter", index, possible_filter_keys)
     = text_field_tag("permission_key#{index}", given_key)
     = label_tag(:q, " VALUE ", class: 'title-s')
     = text_field_tag("permission_value#{index}", given_value)
@@ -150,6 +152,11 @@
 
   %h4.title-m
     Filter by MetaData
+
+  = label_tag(:q, "Number of MetaData Filters (chained with AND)")
+  = text_field_tag(:num, number_of_mdata_filters_in_ui, type: 'number')
+  = submit_tag("add filter", class: 'button small')
+  %hr.separator.mini.mvm
 
   -# form row for each meta_data_filter:
   - number_of_mdata_filters_in_ui.times.map do |index|
@@ -162,7 +169,6 @@
     %hr.separator.mini.mvs
 
   = submit_tag("Evaluate!", class: 'primary-button')
-  = add_filter_button
 
 %hr.separator.mvm
 
