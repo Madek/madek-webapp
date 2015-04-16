@@ -20,6 +20,12 @@ module Presenters
           initialize_filter_sets(filter_sets)
         end
 
+        def any?
+          media_entries.try(:any?) \
+          or collections.try(:any?) \
+          or filter_sets.try(:any?)
+        end
+
         private
 
         def initialize_media_entries(media_entries)
