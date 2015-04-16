@@ -1,15 +1,13 @@
 class CollectionsController < ApplicationController
 
   include Concerns::Filters
-  include Concerns::Pagination
 
   def index
     @collections = \
-      paginate \
-        filter_by_entrusted \
-          filter_by_favorite \
-            filter_by_responsible \
-              Collection.all
+      filter_by_entrusted \
+        filter_by_favorite \
+          filter_by_responsible \
+            Collection.all
   end
 
   def show

@@ -1,6 +1,4 @@
 class MyController < ApplicationController
-  include Concerns::Pagination
-
   layout 'app_with_sidebar'
 
   before_action do
