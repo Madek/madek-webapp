@@ -1,3 +1,6 @@
+- unless params[:section] == 'filter_demo'
+  - return nil # don't show on main dashboard (index)
+
 :ruby
   # fake:
   # entries = MediaEntry

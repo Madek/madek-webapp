@@ -9,10 +9,16 @@
   = render partial: 'sidebar'
 
 - content_for(:page_content) do
-  -# each section: build a title and render the partial
-  - @sections.each do |section_id, section|
-    = combo('resources-header', title: section[:title],
-              link: { text: 'show all',
-                      href: my_dashboard_section_path(section_id)})
-    = render partial: "my/section_#{section[:partial]}",
-             locals: { sections: @sections, section_name: section_id, get: @get}
+  - dashboard_content = capture_haml do
+    -# each section: build a title and render the partial
+    - @sections.each do |section_id, section|
+      - if section[:partial] == :media_resources and @get.send(section_id).any?
+        = combo('resources-header', title: section[:title],
+                  link: { text: 'show all',
+                          href: my_dashboard_section_path(section_id)})
+        = render partial: "my/section_#{section[:partial]}",
+                 locals: { sections: @sections, section_name: section_id, get: @get}
+  - if dashboard_content
+    = dashboard_content
+  - else
+    = "Welcome to Madek!"
