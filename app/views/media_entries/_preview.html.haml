@@ -1,19 +1,19 @@
 :ruby
-
   content = case @media_entry.media_type
-
     when "image"
       render :partial => "media_entries/previews/image"
 
     when "audio"
       render :partial => "media_entries/previews/audio"
-      
+
     when "video"
       render :partial => "media_entries/previews/video"
-
-    else
-      render :partial => "media_entries/previews/document"
-
+    when "document"
+      if @media_entry.content_type === 'application/pdf'
+        render :partial => "media_entries/previews/document"
+      end
+    # returns nil if not a known type - no preview then!
   end
-
-= content
+  
+- if content
+  = content

@@ -1,11 +1,16 @@
+- preview_content = capture_haml do
+  = render :partial => "media_entries/preview"
+- preview_content = nil if preview_content == "\n" # thanks obam^H^H^H^H haml
+
 - content_for :content do
   .ui-container.bright.pal.rounded-top-right
 
     .ui-media-overview
       %dl.ui-media-overview-metadata.ui-metadata-box
         = render :partial => "meta_data/meta_datum", :collection => @media_entry.meta_data.for_context(::Context.find("core")), :locals => {:context => ::Context.find("core")}
-      .ui-media-overview-preview
-        = render :partial => "media_entries/preview"
+      - if preview_content
+        .ui-media-overview-preview
+          = preview_content
 
   .midtone.ui-container.pal.rounded-bottom.well
 
