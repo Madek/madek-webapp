@@ -48,6 +48,7 @@
 
   .ui-tile__image
     +dimension(100%,auto)
+    background-color: white // for images with transparency
 
   &.large
     .ui-resources-page-items
@@ -92,18 +93,21 @@
   .ui-tile
     .ui-tile__image
       +dimension(auto, 200px)
+      min-width: auto
 
   &.small
     height: 210px
     .ui-tile
       .ui-tile__image
         +dimension(auto, 125px)
+        min-width: auto
 
   &.large
     height: 385px
     .ui-tile
       .ui-tile__image
         +dimension(auto, 300px)
+        min-width: auto
 /* Layout switching
  *-----------------------------------------
 
