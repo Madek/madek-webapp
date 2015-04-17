@@ -93,6 +93,7 @@ Madek::Application.routes.draw do
         delete :remove_user_from_group
       end
     end
+    resources :api_clients, only: :index
     resources :collections, only: [:index, :show] do
       member do
         get :media_entries
@@ -109,6 +110,9 @@ Madek::Application.routes.draw do
     resources :filter_sets, only: [:index, :show]
     resources :vocabularies do
       resources :keywords
+      resources :vocabulary_user_permissions, path: 'user_permissions'
+      resources :vocabulary_group_permissions, path: 'group_permissions'
+      resources :vocabulary_api_client_permissions, path: 'api_client_permissions'
     end
     resources :meta_keys
     resources :meta_datums, only: :index

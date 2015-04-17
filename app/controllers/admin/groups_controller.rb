@@ -1,6 +1,8 @@
 class Admin::GroupsController < AdminController
   def index
     @groups = sort_and_filter(params)
+
+    remember_vocabulary_url_params
   rescue ArgumentError => e
     @groups = Group.all.page(params[:page])
     flash[:error] = e.to_s

@@ -1,0 +1,6 @@
+%tr
+  %td= group_permission.group.name
+  %td= group_permission.use
+  %td= group_permission.view
+  %td.active.col-xs-2
+    = render partial: 'action_buttons', locals: { group_permission: group_permission, size: 'btn-sm' }

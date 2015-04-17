@@ -7,9 +7,16 @@
   %td= user.media_entries.count
   %td{ class: (user.admin? ? 'success' : 'danger') }
     = user.admin? ? 'Yes' : 'No'
-  %td.active.col-xs-7
+  %td.active
     .btn-group
-      = link_to admin_user_path(user),
-        class: 'btn btn-default btn-sm', title: 'Details' do
-        %i.glyphicon.glyphicon-eye-open
-      = render partial: 'action_buttons', locals: { user: user, size: 'btn-sm', editable: false, deletable: false }
+      - if session[:vocabulary_id].present?
+        = link_to path_to_vocabulary_permission_form(user), class: 'btn btn-success btn-sm' do
+          Grant Vocabulary Permission
+        = link_to admin_users_path(reset_vocabulary_params: true),
+                  class: 'btn btn-default btn-sm' do
+          Cancel
+      - else
+        = link_to admin_user_path(user),
+          class: 'btn btn-default btn-sm', title: 'Details' do
+          %i.glyphicon.glyphicon-eye-open
+        = render partial: 'action_buttons', locals: { user: user, size: 'btn-sm', editable: false, deletable: false }

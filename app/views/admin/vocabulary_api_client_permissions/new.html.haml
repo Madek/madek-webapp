@@ -1,0 +1,13 @@
+.page-header
+  %h1
+    New API Client Permission
+    %small Vocabulary: #{@vocabulary}
+
+.row
+  .col-xs-12
+    = form_for [:admin, @vocabulary, @permission],
+        method: :post,
+        as: :vocabulary_api_client_permission,
+        url: admin_vocabulary_vocabulary_api_client_permissions_path(@vocabulary, reset_vocabulary_params: true),
+        html: { class: 'form-horizontal', role: 'form' } do |f|
+      = render partial: 'form_fields', locals: { f: f }

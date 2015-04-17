@@ -1,0 +1,6 @@
+%tr
+  %td= user_permission.user.login
+  %td= user_permission.use
+  %td= user_permission.view
+  %td.active.col-xs-2
+    = render partial: 'action_buttons', locals: { user_permission: user_permission, size: 'btn-sm' }

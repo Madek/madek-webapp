@@ -12,3 +12,9 @@
       = link_to admin_api_client_path(api_client), class: "btn btn-default btn-sm" do
         %i.glyphicon.glyphicon-eye-open
       = render partial: 'action_buttons', locals: {api_client: api_client, size: 'btn-sm' }
+      - if session[:vocabulary_id].present?
+        = link_to path_to_vocabulary_permission_form(api_client), class: 'btn btn-success btn-sm' do
+          Grant Vocabulary Permission
+        = link_to admin_api_clients_path(reset_vocabulary_params: true),
+                  class: 'btn btn-default btn-sm' do
+          Cancel

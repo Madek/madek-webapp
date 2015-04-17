@@ -13,6 +13,7 @@ class AdminController < ApplicationController
   end
 
   include Concerns::Admin::ActionMethods
+  before_action :forget_vocabulary_url_params_if_requested
 
   private
 
@@ -29,5 +30,27 @@ class AdminController < ApplicationController
       else
         raise Errors::UnauthorizedError, 'Please log in!'
       end
+  end
+
+  def forget_vocabulary_url_params_if_requested
+    if params[:reset_vocabulary_params]
+      vocabulary_url_params.each do |key|
+        session[key] = nil
+      end
+    end
+  end
+
+  def remember_vocabulary_url_params
+    vocabulary_url_params.each do |key|
+      session[key] = params[key] if params[key].present?
+    end
+  end
+
+  def vocabulary_url_params
+    %i(
+      vocabulary_id
+      permission_id
+      is_persisted
+    )
   end
 end

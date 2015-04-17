@@ -1,0 +1,26 @@
+.page-header
+  %h1
+    Vocabulary Group Permissions
+    %small Vocabulary: #{@vocabulary.id}
+
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-body
+        .btn-group
+          = link_to new_admin_vocabulary_vocabulary_group_permission_path(@vocabulary),
+              class: 'btn btn-default' do
+            %i.glyphicon.glyphicon-plus
+            Create Group Permission
+
+.row
+  .col-xs-12
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Group
+          %th Can use?
+          %th Can view?
+          %th
+      %tbody
+        = render partial: 'group_permission', collection: @group_permissions, as: :group_permission

@@ -14,6 +14,8 @@ class Admin::UsersController < AdminController
     end
     @users = @users.admin_users if params[:admins_only] == '1'
     @users = @users.sort_by(params[:sort_by]) if params[:sort_by].present?
+
+    remember_vocabulary_url_params
   end
 
   def reset_usage_terms

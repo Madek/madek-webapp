@@ -7,6 +7,13 @@
 
   %td.active.col-xs-3
     .btn-group
-      = link_to admin_group_path(group), class: "btn btn-default btn-sm" do
-        %i.glyphicon.glyphicon-eye-open
-      = render partial: 'action_buttons', locals: {group: group, size: 'btn-sm' }
+      - if session[:vocabulary_id].present?
+        = link_to path_to_vocabulary_permission_form(group), class: 'btn btn-success btn-sm' do
+          Grant Vocabulary Permission
+        = link_to admin_groups_path(reset_vocabulary_params: true),
+                  class: 'btn btn-default btn-sm' do
+          Cancel
+      - else
+        = link_to admin_group_path(group), class: "btn btn-default btn-sm" do
+          %i.glyphicon.glyphicon-eye-open
+        = render partial: 'action_buttons', locals: {group: group, size: 'btn-sm' }

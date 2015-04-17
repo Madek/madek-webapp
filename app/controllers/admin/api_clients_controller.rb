@@ -2,6 +2,7 @@ class Admin::ApiClientsController < AdminController
 
   def index
     @api_clients = ApiClient.page(params[:page]).per(16)
+    remember_vocabulary_url_params
   end
 
   def show

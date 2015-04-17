@@ -18,6 +18,15 @@ describe Admin::UsersController do
       expect(assigns(:users)).to eq User.first(16)
     end
 
+    it 'remembers in session ids of values related to permission' do
+      get(:index,
+          { permission_id: 123, vocabulary_id: 321 },
+          user_id: admin_user.id)
+
+      expect(session[:permission_id]).to eq '123'
+      expect(session[:vocabulary_id]).to eq '321'
+    end
+
     describe 'filtering users' do
       context 'by login' do
         it "returns users containing 'xxx' in login" do

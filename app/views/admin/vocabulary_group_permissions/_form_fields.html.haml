@@ -1,0 +1,35 @@
+= f.hidden_field :group_id
+.form-group
+  .col-xs-2
+    = f.label :vocabulary_id, 'Vocabulary ID', class: 'control-label'
+  .col-xs-6
+    = f.text_field :vocabulary_id, disabled: true, class: 'form-control', value: @vocabulary.id
+.form-group
+  .col-xs-2
+    = label_tag :group, 'Group', class: 'control-label'
+  .col-xs-6
+    = text_field_tag :group, (Group.find(f.object.group_id).name rescue ''), class: 'form-control',
+        disabled: true
+  .col-xs-2
+    = link_to admin_groups_path(vocabulary_id: @vocabulary.id, permission_id: @permission.id, is_persisted: f.object.persisted?), class: 'btn btn-warning' do
+      %span.glyphicon.glyphicon-user
+      Choose group
+- if f.object.group_id.present?
+  .form-group
+    .col-xs-2
+      %label.control-label Permissions
+    .col-xs-6
+      .checkbox
+        %label
+          = f.check_box :use
+          Can use?
+      .checkbox
+        %label
+          = f.check_box :view
+          Can view?
+  .form-group
+    .col-xs-offset-2.col-xs-3
+      = button_tag type: 'submit', class: 'btn btn-success' do
+        %span.glyphicon.glyphicon-ok
+        Save
+      = link_to 'Go back', admin_vocabulary_vocabulary_group_permissions_path(@vocabulary), class: 'btn btn-link'
