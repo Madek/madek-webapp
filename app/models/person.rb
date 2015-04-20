@@ -22,25 +22,4 @@ class Person < ActiveRecord::Base
       "#{pseudonym}"
     end
   end
-
-  # NOTE: disable this cop as we are defining a method according
-  # to standard rails naming convention
-  # rubocop:disable Style/PredicateName
-  def self.has_many_through_meta_data(specific_media_resources)
-    define_method specific_media_resources do
-      specific_media_resources.to_s.singularize.camelize.constantize
-        .joins(:meta_data)
-        .joins('INNER JOIN meta_data_people ' \
-               'ON meta_data.id = meta_data_people.meta_datum_id')
-        .where(meta_data_people: { person_id: id })
-        .uniq
-    end
-  end
-  # rubocop:enable Style/PredicateName
-
-  private_class_method :has_many_through_meta_data
-
-  has_many_through_meta_data :media_entries
-  has_many_through_meta_data :collections
-  has_many_through_meta_data :filter_sets
 end

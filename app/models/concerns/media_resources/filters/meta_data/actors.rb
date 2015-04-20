@@ -11,10 +11,9 @@ module Concerns
             %w(user group person).each do |actor_type|
               method_name =  "filter_by_meta_datum_#{actor_type.pluralize}".to_sym
               scope method_name,
-                    lambda { |meta_key_id, id|
-                      filter_by_meta_datum_actor_type(meta_key_id, id, actor_type)
+                    lambda { |id|
+                      filter_by_meta_datum_actor_type(id, actor_type)
                     }
-              private_class_method method_name
             end
           end
         end

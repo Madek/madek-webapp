@@ -8,10 +8,12 @@ module Presenters
                        media_entries: nil,
                        collections: nil,
                        filter_sets: nil,
+                       filter: {},
                        order: nil,
                        page: 1,
                        per: nil)
           @user = user
+          @filter = filter
           @order = order
           @page = page
           @per = per
@@ -58,6 +60,7 @@ module Presenters
         def handle_resources(resources, index_presenter)
           resources
             .viewable_by_user(@user)
+            .filter(@filter)
             .reorder(@order)
             .page(@page)
             .per(@per)

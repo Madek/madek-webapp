@@ -23,7 +23,9 @@
   end
 
   mdata_filters = number_of_mdata_filters_in_ui.times.map do |index|
-    f = { key: params["meta_key#{index}"], value: params["meta_value#{index}"]}
+    f = { key: params["meta_key#{index}"],
+          value: params["meta_value#{index}"],
+          type: params["meta_type#{index}"] }
     f unless f[:key].blank? || f[:value].blank?
   end.reject(&:blank?)
 
@@ -152,6 +154,15 @@
 
   %h4.title-m
     Filter by MetaData
+  %p
+    Possible filter possibilities:
+    %ul
+      %li
+        KEY and VALUE are obligatory.
+      %li
+        One can specify 'any' or 'none' as VALUE, but KEY has to be specific.
+      %li
+        One can also specify 'any' as KEY, but VALUE has to be specific and one has to also specify the TYPE, e.g. 'MetaDatum::People'.
 
   = label_tag(:q, "Number of MetaData Filters (chained with AND)")
   = text_field_tag(:num, number_of_mdata_filters_in_ui, type: 'number')
@@ -162,10 +173,13 @@
   - number_of_mdata_filters_in_ui.times.map do |index|
     - given_key = mdata_filters[index] && mdata_filters[index][:key] || nil
     - given_value = mdata_filters[index] && mdata_filters[index][:value] || nil
+    - given_type = mdata_filters[index] && mdata_filters[index][:type] || nil
     = label_tag(:q, " KEY ", class: 'title-s')
     = text_field_tag("meta_key#{index}", given_key)
     = label_tag(:q, " VALUE ", class: 'title-s')
     = text_field_tag("meta_value#{index}", given_value)
+    = label_tag(:q, " TYPE ", class: 'title-s')
+    = text_field_tag("meta_type#{index}", given_type)
     %hr.separator.mini.mvs
 
   = submit_tag("Evaluate!", class: 'primary-button')

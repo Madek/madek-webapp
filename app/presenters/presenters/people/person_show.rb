@@ -1,10 +1,6 @@
 module Presenters
   module People
     class PersonShow < PersonCommon
-
-      include Presenters::Shared::MediaResources::Modules::\
-              MediaResourcesHelpers
-
       def initialize(app_resource, user)
         super(app_resource)
         @user = user
@@ -21,8 +17,17 @@ module Presenters
         @app_resource.is_bunch
       end
 
-      alias_method :related_media_resources_via_meta_data,
-                   :standard_media_resources
+      def related_media_resources_via_meta_data
+        Presenters::Shared::MediaResources::MediaResources.new \
+          @user,
+          media_entries: MediaEntry.all,
+          collections: Collection.all,
+          filter_sets: FilterSet.all,
+          filter: { meta_data:
+                    [{ key: 'any',
+                       value: uuid,
+                       type: 'MetaDatum::People' }] }
+      end
     end
   end
 end

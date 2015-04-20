@@ -3,9 +3,6 @@ module Presenters
     class CollectionRelations < \
       Presenters::Shared::MediaResources::MediaResourceRelations
 
-      include Presenters::Shared::MediaResources::Modules::\
-              MediaResourcesHelpers
-
       def any?
         super or
           child_media_resources.media_entries.any? or
@@ -13,8 +10,13 @@ module Presenters
           child_media_resources.filter_sets.any?
       end
 
-      alias_method :child_media_resources,
-                   :standard_media_resources
+      def child_media_resources
+        Presenters::Shared::MediaResources::MediaResources.new \
+          @user,
+          media_entries: @app_resource.media_entries,
+          collections: @app_resource.collections,
+          filter_sets: @app_resource.filter_sets
+      end
     end
   end
 end

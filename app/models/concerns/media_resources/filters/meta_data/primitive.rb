@@ -11,11 +11,10 @@ module Concerns
             %w(text text_date).each do |primitive_type|
               method_name =  "filter_by_meta_datum_#{primitive_type}".to_sym
               scope method_name,
-                    lambda { |meta_key_id, value|
-                      filter_by_meta_key(meta_key_id)
+                    lambda { |value|
+                      joins(:meta_data)
                         .where(meta_data: { string: value })
                     }
-              private_class_method method_name
             end
           end
         end
