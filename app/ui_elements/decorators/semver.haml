@@ -6,37 +6,55 @@
   # TODO: move this to shared components
 
   example_locals = {
-    version: {
+    semver: {
+      # required:
       major: 1,
-      minor: 1,
-      patch: 1,
-      pre: 'beta.3',
-      build: 'abcd1234'
+      minor: 2,
+      patch: 3,
+      # optional, but must be array
+      prerelease: ['beta', '3'],
+      build: ['gabcd1234', 'somethingelse42']
     },
     prefix: 'v'
   }
-  version ||= version
+
+  version ||= semver
   prefix ||= prefix
-  unless (version.is_a? Hash \
-    and version[:major] and version[:minor] and version[:patch])
-    throw 'ui: semver: bad version config!'
+  unless (version.is_a?(Hash) \
+    && (version = OpenStruct.new(semver)) \
+    && version.major && version.minor && version.patch \
+    && (version.prerelease || version.prerelease.is_a?(Array)) \
+    && (version.build || version.build.is_a?(Array)))
+    throw 'ui: semver: invalid config hash!'
   end
 
 %span.semantic-version<>
+
   = prefix
+
   %span.major<>
-    =Settings.release.version_major.to_s
+    = version.major
+
   %span.minor<>
     %span.divider<>='.'
-    =Settings.release.version_minor.to_s
+    = version.minor
+
   %span.minor<>
     %span.divider<>='.'
-    =Settings.release.version_patch.to_s
-  - if Settings.release.version_pre.present?
+    = version.patch.to_s
+
+  - if version.prerelease
     %span.version<>
       %span.divider<>='-'
-      =Settings.release.version_pre.to_s
-  - if Settings.release.version_build.present?
+      - (fields = version.prerelease).each do |field|
+        %span.field<>= field
+        - unless field === fields.last
+          %span.divider<>='.'
+
+  - if version.build
     %span.build<>
       %span.divider<>='+'
-      =Settings.release.version_build.to_s
+      - (fields = version.build).each do |field|
+        %span.field<>= field
+        - unless field === fields.last
+          %span.divider<>='.'

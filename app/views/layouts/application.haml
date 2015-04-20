@@ -7,13 +7,7 @@
       },
       text: 'Zürcher Hochschule der Künste and contributors'
     },
-    version: deco('semver', prefix: 'v', version: {
-      major: Settings.release.version_major,
-      minor: Settings.release.version_minor,
-      patch: Settings.release.version_patch,
-      pre: Settings.release.version_pre,
-      build: Settings.release.version_build
-    })
+    version: deco('semver', prefix: 'v', semver: MADEK_SEMVER)
   }
 
 - content_for(:body) do

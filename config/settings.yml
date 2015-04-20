@@ -1,10 +1,2 @@
 use_x_sendfile: false
-
-release:
-  version_major: 3
-  version_minor: 0
-  version_patch: 0
-  version_pre: "alpha"
-  version_build: ""
-
 zhdk_integration: false

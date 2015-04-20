@@ -104,6 +104,9 @@ end
 
 # some constants externalized so they can be accessed from outside of rails
 
+# semantic version as a parsed object
+MADEK_SEMVER = JSON.parse(`./bin/current-semver.sh`)
+
 # Directory config
 load Rails.root.join('config/directories_config.rb')
 DOWNLOAD_STORAGE_DIR  = DirectoriesConfig::DOWNLOAD_STORAGE_DIR

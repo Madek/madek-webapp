@@ -1,5 +1,9 @@
 task_defaults:
 
+  git_options:
+    submodules:
+      clone: true
+
   traits:
     imagemagick: true
     exiftool: true
@@ -12,7 +16,7 @@ task_defaults:
     RAILS_ENV: test
 
   trial_attachments:
-    logs: 
+    logs:
       glob: 'log/*.log'
       content-type: text/plain
     coverage_resultset:
@@ -31,7 +35,7 @@ task_defaults:
 
   scripts:
 
-    bundle: 
+    bundle:
       timeout: 500
       order: 1
       body: bundle
@@ -42,16 +46,16 @@ task_defaults:
 
     setup_database:
       order: 3
-      body: bundle exec rake db:reset 
+      body: bundle exec rake db:reset
 
     setup_madek:
       order: 4
-      body: bundle exec rake madek:setup:dirs 
+      body: bundle exec rake madek:setup:dirs
 
-    main: 
+    main:
       order: 6
 
-    drop_test_db: 
+    drop_test_db:
       order: 8
       type: post_process
       body: bundle exec rake db:drop

@@ -1,4 +1,8 @@
-task_defaults: 
+task_defaults:
+
+  git_options:
+    submodules:
+      clone: true
 
   traits:
     firefox-esr: true
@@ -6,17 +10,17 @@ task_defaults:
     tightvnc: true
 
   trial_attachments:
-    screenshots: 
+    screenshots:
       glob: 'tmp/capybara/*.png'
       content-type: image/png
 
-  ports: 
-    xvnc_port: 
+  ports:
+    xvnc_port:
       inet_address: "localhost"
       min: 5900
       max: 5999
 
-  scripts: 
+  scripts:
 
     startx:
       order: 5
@@ -26,8 +30,7 @@ task_defaults:
       order: 6
       timeout: 300
 
-    stopx: 
+    stopx:
       order: 9
       type: post_process
       body: tightvncserver -kill ":$XVNC_PORT" -clean
-
