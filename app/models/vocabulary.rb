@@ -4,7 +4,8 @@ class Vocabulary < ActiveRecord::Base
   include Concerns::Entrust
 
   has_many :meta_keys, -> { order(:id) }
-  has_many :vocables, through: :meta_keys
+  has_many :keyword_terms,
+           through: :meta_keys
 
   has_many :user_permissions,
            class_name: 'Permissions::VocabularyUserPermission'

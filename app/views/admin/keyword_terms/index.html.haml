@@ -1,6 +1,6 @@
 .page-header
   %h1
-    Vocables
+    Keyword Terms
     %small Vocabulary: #{@vocabulary.id}
 
 .row
@@ -9,17 +9,17 @@
       .panel-heading
         .panel-title Filters
       .panel-body
-        = form_tag admin_vocabulary_vocables_path(@vocabulary), method: :get, class: 'form-inline' do
+        = form_tag admin_vocabulary_keyword_terms_path(@vocabulary), method: :get, class: 'form-inline' do
           .form-group
             = text_field_tag :search_term, params[:search_term], size: 50,
               class: 'form-control', placeholder: 'ID, term or MetaKey'
 
           = submit_tag 'Apply', class: 'btn btn-primary'
-          = link_to 'Reset', admin_vocabulary_vocables_path(@vocabulary), class: 'btn btn-default'
+          = link_to 'Reset', admin_vocabulary_keyword_terms_path(@vocabulary), class: 'btn btn-default'
     .btn-group
-      = link_to new_admin_vocabulary_vocable_path(@vocabulary), class: 'btn btn-default' do
+      = link_to new_admin_vocabulary_keyword_term_path(@vocabulary), class: 'btn btn-default' do
         %i.glyphicon.glyphicon-plus
-        Create vocable
+        Create Keyword Term
 
 .row
   .col-xs-12
@@ -31,6 +31,6 @@
           %th Term
           %th
       %tbody
-        = render @vocables
+        = render @keyword_terms
 
-= paginate @vocables
+= paginate @keyword_terms

@@ -31,8 +31,8 @@ describe Admin::MetaKeysController do
 
     context 'filtering by ID' do
       it 'returns correct collection of meta keys' do
-        meta_key_1 = create :meta_key_title, id: 'bar:foo'
-        meta_key_2 = create :meta_key_title, id: 'foo:bar'
+        meta_key_1 = create :meta_key_title, id: 'test:bar_foo'
+        meta_key_2 = create :meta_key_title, id: 'test:foo_bar'
 
         get :index, { search_term: 'foo' }, user_id: admin_user.id
 
@@ -43,7 +43,7 @@ describe Admin::MetaKeysController do
     context 'filtering by label' do
       it 'returns correct collection of meta keys' do
         meta_key_1 = create :meta_key_title, label: 'foo:bar'
-        meta_key_2 = create :meta_key_vocables, label: 'bar:foo'
+        meta_key_2 = create :meta_key_keywords, label: 'bar:foo'
 
         get :index, { search_term: 'bar' }, user_id: admin_user.id
 
@@ -54,10 +54,13 @@ describe Admin::MetaKeysController do
     context 'filtering by vocabulary' do
       it 'returns correct collection of meta keys' do
         vocabulary = create :vocabulary
-        meta_key_1 = create :meta_key_vocables, vocabulary: vocabulary
-        meta_key_2 = create(:meta_key_vocables,
-                            id: 'test:vocables_2',
+        meta_key_1 = create(:meta_key_keywords,
+                            id: "#{vocabulary}:meta_key_1",
                             vocabulary: vocabulary)
+        meta_key_2 = create(:meta_key_keywords,
+                            id: "#{vocabulary}:meta_key_2",
+                            vocabulary: vocabulary)
+        create :meta_key_keywords
 
         get(
           :index,
@@ -91,7 +94,12 @@ describe Admin::MetaKeysController do
         label: 'NEW_LABEL',
         description: 'NEW_DESCRIPTION',
         hint: 'NEW_HINT',
-        meta_datum_object_type: 'MetaDatum::TestValue'
+        meta_datum_object_type: 'MetaDatum::TestValue',
+        is_extensible: true,
+        is_enabled_for_media_entries: true,
+        is_enabled_for_collections: true,
+        is_enabled_for_filter_sets: true,
+        keywords_alphabetical_order: true
       }
     end
     before do
@@ -116,6 +124,11 @@ describe Admin::MetaKeysController do
       expect(meta_key.description).to eq 'NEW_DESCRIPTION'
       expect(meta_key.hint).to eq 'NEW_HINT'
       expect(meta_key.meta_datum_object_type).to eq 'MetaDatum::TestValue'
+      expect(meta_key.is_extensible).to be true
+      expect(meta_key.is_enabled_for_media_entries).to be true
+      expect(meta_key.is_enabled_for_collections).to be true
+      expect(meta_key.is_enabled_for_filter_sets).to be true
+      expect(meta_key.keywords_alphabetical_order).to be true
     end
   end
 
@@ -185,12 +198,15 @@ describe Admin::MetaKeysController do
     let(:vocabulary) { create :vocabulary }
     let(:meta_key_params) do
       {
-        id: 'test:id',
+        id: "#{vocabulary}:test",
         label: 'NEW_LABEL',
         description: 'NEW_DESCRIPTION',
         hint: 'NEW_HINT',
-        is_extensible_list: true,
-        vocabulary_id: vocabulary.id
+        vocabulary_id: vocabulary.id,
+        is_extensible: true,
+        is_enabled_for_media_entries: true,
+        is_enabled_for_collections: true,
+        is_enabled_for_filter_sets: true
       }
     end
 
@@ -212,6 +228,18 @@ describe Admin::MetaKeysController do
       post :create, { meta_key: meta_key_params }, user_id: admin_user.id
 
       expect(flash[:success]).to eq 'The meta key has been created.'
+    end
+
+    it 'sets boolean fields correctly' do
+      post :create, { meta_key: meta_key_params }, user_id: admin_user.id
+
+      meta_key = MetaKey.find(meta_key_params[:id])
+
+      expect(meta_key.is_extensible).to be true
+      expect(meta_key.is_enabled_for_media_entries).to be true
+      expect(meta_key.is_enabled_for_collections).to be true
+      expect(meta_key.is_enabled_for_filter_sets).to be true
+      expect(meta_key.keywords_alphabetical_order).to be true
     end
   end
 end

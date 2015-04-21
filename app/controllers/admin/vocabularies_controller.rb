@@ -10,7 +10,7 @@ class Admin::VocabulariesController < AdminController
   def show
     @vocabulary = Vocabulary.find(params[:id])
     @meta_keys =
-      @vocabulary.meta_keys.with_vocables_count.page(params[:page]).per(16)
+      @vocabulary.meta_keys.with_keyword_terms_count.page(params[:page]).per(16)
   end
 
   def edit

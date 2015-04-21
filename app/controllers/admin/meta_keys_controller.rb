@@ -1,6 +1,6 @@
 class Admin::MetaKeysController < AdminController
   def index
-    @meta_keys = MetaKey.with_vocables_count
+    @meta_keys = MetaKey.with_keyword_terms_count
                         .page(params[:page])
                         .per(16)
 
@@ -77,9 +77,11 @@ class Admin::MetaKeysController < AdminController
                                      :label,
                                      :description,
                                      :hint,
-                                     :is_extensible_list,
-                                     :vocables_are_user_extensible,
-                                     :vocables_alphabetical_order,
-                                     :vocabulary_id)
+                                     :is_extensible,
+                                     :keywords_alphabetical_order,
+                                     :vocabulary_id,
+                                     :is_enabled_for_media_entries,
+                                     :is_enabled_for_collections,
+                                     :is_enabled_for_filter_sets)
   end
 end

@@ -19,10 +19,10 @@
               %strong= attr.first.humanize
             %td= attr.last
 
-- if @meta_key.can_have_vocables?
+- if @meta_key.can_have_keywords?
 
   .page-header
-    %h2 Vocables
+    %h2 Keyword Terms
 
   .row
     .col-xs-12
@@ -32,7 +32,7 @@
             %th ID
             %th Term
         %tbody
-          - @meta_key.vocables.find_each do |vocable|
+          - @meta_key.keyword_terms.find_each do |keyword_term|
             %tr
-              %td= vocable.id
-              %td= vocable
+              %td= keyword_term.id
+              %td= keyword_term

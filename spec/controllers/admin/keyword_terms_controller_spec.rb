@@ -1,9 +1,10 @@
 require 'spec_helper'
 
-describe Admin::VocablesController do
+describe Admin::KeywordTermsController do
   let(:admin_user) { create :admin_user }
-  let(:vocabulary) { create :vocabulary_for_vocables }
-  let(:vocable) { create :vocable, meta_key: vocabulary.meta_keys.first }
+  let(:meta_key) { create :meta_key_keywords }
+  let(:vocabulary) { meta_key.vocabulary }
+  let(:keyword_term) { create :keyword_term, meta_key: meta_key }
 
   describe '#index' do
     before { get :index, { vocabulary_id: vocabulary.id }, user_id: admin_user.id }
@@ -13,62 +14,62 @@ describe Admin::VocablesController do
       expect(response).to have_http_status(200)
     end
 
-    it 'assigns @vocables correctly' do
-      expect(assigns[:vocables]).to eq [vocable]
+    it 'assigns @keyword_terms correctly' do
+      expect(assigns[:keyword_terms]).to eq [keyword_term]
     end
 
     describe 'filtering' do
       context 'by id' do
-        it 'returns a proper vocable' do
+        it 'returns a proper keyword_term' do
           get(
             :index,
-            { vocabulary_id: vocabulary.id, search_term: vocable.id },
+            { vocabulary_id: vocabulary.id, search_term: keyword_term.id },
             user_id: admin_user.id
           )
 
-          expect(assigns[:vocables]).to eq [vocable]
+          expect(assigns[:keyword_terms]).to eq [keyword_term]
         end
       end
 
       context 'by term' do
-        it 'returns a proper vocable' do
+        it 'returns a proper keyword_term' do
           get(
             :index,
-            { vocabulary_id: vocabulary.id, search_term: vocable.term[0, 2] },
+            { vocabulary_id: vocabulary.id, search_term: keyword_term.term[0, 2] },
             user_id: admin_user.id
           )
 
-          expect(assigns[:vocables]).to eq [vocable]
+          expect(assigns[:keyword_terms]).to eq [keyword_term]
         end
       end
 
       context 'by meta key' do
-        it 'returns a proper vocable' do
+        it 'returns a proper keyword_term' do
           get(
             :index,
             {
               vocabulary_id: vocabulary.id,
-              search_term: vocable.meta_key.id[0, 3]
+              search_term: keyword_term.meta_key.id[0, 3]
             },
             user_id: admin_user.id
           )
 
-          expect(assigns[:vocables]).to eq [vocable]
+          expect(assigns[:keyword_terms]).to eq [keyword_term]
         end
       end
     end
   end
 
   describe '#edit' do
-    it 'assigns @vocabulary and @vocable correctly' do
+    it 'assigns @vocabulary and @keyword_term correctly' do
       get(
         :edit,
-        { vocabulary_id: vocabulary.id, id: vocable.id },
+        { vocabulary_id: vocabulary.id, id: keyword_term.id },
         user_id: admin_user.id
       )
 
       expect(assigns[:vocabulary]).to eq vocabulary
-      expect(assigns[:vocable]).to eq vocable
+      expect(assigns[:keyword_term]).to eq keyword_term
       expect(response).to render_template :edit
     end
   end
@@ -77,24 +78,26 @@ describe Admin::VocablesController do
     let(:params) do
       {
         vocabulary_id: vocabulary.id,
-        id: vocable.id,
-        vocable: {
+        id: keyword_term.id,
+        keyword_term: {
           term: 'updated term'
         }
       }
     end
 
-    it "updates the vocable's term" do
+    it "updates the keyword_term's term" do
       put :update, params, user_id: admin_user.id
 
-      expect(vocable.reload.term).to eq 'updated term'
+      expect(keyword_term.reload.term).to eq 'updated term'
     end
 
-    it 'redirects to admin vocable path' do
+    it 'redirects to admin keyword_term path' do
       put :update, params, user_id: admin_user.id
 
       expect(response).to have_http_status(302)
-      expect(response).to redirect_to(admin_vocabulary_vocables_path(vocabulary))
+      expect(response).to redirect_to(
+        admin_vocabulary_keyword_terms_path(vocabulary)
+      )
     end
   end
 
@@ -105,9 +108,9 @@ describe Admin::VocablesController do
       expect(assigns[:vocabulary]).to eq vocabulary
     end
 
-    it 'assigns @vocable correctly' do
-      expect(assigns[:vocable]).to be_an_instance_of(Vocable)
-      expect(assigns[:vocable]).to be_new_record
+    it 'assigns @keyword_term correctly' do
+      expect(assigns[:keyword_term]).to be_an_instance_of(KeywordTerm)
+      expect(assigns[:keyword_term]).to be_new_record
     end
 
     it 'renders new template' do
@@ -116,61 +119,65 @@ describe Admin::VocablesController do
   end
 
   describe '#create' do
-    let(:vocable_params) do
+    let(:keyword_term_params) do
       {
         vocabulary_id: vocabulary.id,
-        vocable: {
-          term: 'new vocable',
-          meta_key_id: vocabulary.meta_keys.first.id
+        keyword_term: {
+          term: 'new keyword_term',
+          meta_key_id: meta_key.id
         }
       }
     end
 
-    it 'creates a new vocable' do
-      expect { post :create, vocable_params, user_id: admin_user.id }
-        .to change { Vocable.count }.by(1)
+    it 'creates a new keyword_term' do
+      expect { post :create, keyword_term_params, user_id: admin_user.id }
+        .to change { KeywordTerm.count }.by(1)
     end
 
-    it 'redirects to admin vocables path' do
-      post :create, vocable_params, user_id: admin_user.id
+    it 'redirects to admin keyword_terms path' do
+      post :create, keyword_term_params, user_id: admin_user.id
 
       expect(response).to have_http_status(302)
-      expect(response).to redirect_to(admin_vocabulary_vocables_path(vocabulary))
+      expect(response).to redirect_to(
+        admin_vocabulary_keyword_terms_path(vocabulary)
+      )
       expect(flash[:success]).not_to be_empty
     end
 
     it 'displays success message' do
-      post :create, vocable_params, user_id: admin_user.id
+      post :create, keyword_term_params, user_id: admin_user.id
 
       expect(flash[:success]).not_to be_empty
     end
   end
 
   describe '#destroy' do
-    it 'destroys the vocable' do
-      vocabulary and vocable
+    it 'destroys the keyword_term' do
+      vocabulary and keyword_term
 
       expect do
         delete(
           :destroy,
-          { vocabulary_id: vocabulary.id, id: vocable.id },
+          { vocabulary_id: vocabulary.id, id: keyword_term.id },
           user_id: admin_user.id
         )
-      end.to change { Vocable.count }.by(-1)
+      end.to change { KeywordTerm.count }.by(-1)
     end
 
     context 'when delete was successful' do
       before do
         delete(
           :destroy,
-          { vocabulary_id: vocabulary.id, id: vocable.id },
+          { vocabulary_id: vocabulary.id, id: keyword_term.id },
           user_id: admin_user.id
         )
       end
 
-      it 'redirects to admin vocables path' do
+      it 'redirects to admin keyword_terms path' do
         expect(response).to have_http_status(302)
-        expect(response).to redirect_to(admin_vocabulary_vocables_path(vocabulary))
+        expect(response).to redirect_to(
+          admin_vocabulary_keyword_terms_path(vocabulary)
+        )
       end
 
       it 'displays success message' do
@@ -178,7 +185,7 @@ describe Admin::VocablesController do
       end
     end
 
-    context 'when vocables does not exist' do
+    context 'when keyword_terms does not exist' do
       it 'renders error template' do
         delete(
           :destroy,

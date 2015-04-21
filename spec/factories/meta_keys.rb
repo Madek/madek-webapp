@@ -3,8 +3,9 @@ FactoryGirl.define do
   factory :meta_key do
 
     vocabulary do
-      Vocabulary.find_by(id: 'test') \
-        ||  FactoryGirl.create(:vocabulary, id: 'test')
+      vocabulary_id = id.split(':').first
+      Vocabulary.find_by(id: vocabulary_id) \
+        || FactoryGirl.create(:vocabulary, id: vocabulary_id)
     end
 
     factory :meta_key_text, class: MetaKey do
@@ -30,11 +31,6 @@ FactoryGirl.define do
     factory :meta_key_users, class: MetaKey do
       id 'test:users'
       meta_datum_object_type 'MetaDatum::Users'
-    end
-
-    factory :meta_key_vocables, class: MetaKey do
-      id 'test:vocables'
-      meta_datum_object_type 'MetaDatum::Vocables'
     end
 
   end

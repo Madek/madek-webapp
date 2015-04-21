@@ -2718,11 +2718,11 @@ ALTER TABLE ONLY keyword_terms
 
 
 --
--- Name: keywords_keywords-terms_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: keywords_keyword-terms_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY keywords
-    ADD CONSTRAINT "keywords_keywords-terms_fkey" FOREIGN KEY (keyword_term_id) REFERENCES keyword_terms(id);
+    ADD CONSTRAINT "keywords_keyword-terms_fkey" FOREIGN KEY (keyword_term_id) REFERENCES keyword_terms(id) ON DELETE CASCADE;
 
 
 --

@@ -69,7 +69,7 @@ Madek::Application.routes.draw do
     resources :zencoder_jobs, only: :show
     resources :filter_sets, only: [:index, :show]
     resources :vocabularies do
-      resources :vocables
+      resources :keyword_terms
     end
     resources :meta_keys
     resources :meta_datums, only: :index

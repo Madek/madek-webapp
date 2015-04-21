@@ -1,7 +1,7 @@
 FactoryGirl.define do
 
   factory :meta_datum_text, class: MetaDatum::Text do
-    value { Faker::Lorem.words.join(' ') }
+    string { Faker::Lorem.words.join(' ') }
     meta_key do
       MetaKey.find_by(id: 'test:text') \
                || FactoryGirl.create(:meta_key_text)

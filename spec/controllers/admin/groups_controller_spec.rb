@@ -14,15 +14,14 @@ describe Admin::GroupsController do
     describe 'filtering/sorting groups' do
       context 'by type' do
         it "returns groups with 'Group' type" do
-          get :index, { type: 'group' }, user_id: admin_user.id
+          get :index, { type: 'Group' }, user_id: admin_user.id
 
           expect(assigns(:groups)) \
             .to match_array(Group.page(1).per(25).where(type: 'Group'))
         end
 
         it "returns groups with 'InstitutionalGroup' type" do
-
-          get :index, { type: 'institutional_group' }, user_id: admin_user.id
+          get :index, { type: 'InstitutionalGroup' }, user_id: admin_user.id
 
           expect(assigns(:groups)).to match_array(Group.page(1).per(25) \
             .where(type: 'InstitutionalGroup'))

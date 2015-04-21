@@ -92,7 +92,7 @@ class Admin::GroupsController < AdminController
   end
 
   def sort_and_filter(params)
-    groups = Group.page(params[:page])
+    groups = Group.page(params[:page]).per(25)
     groups = groups.by_type(params[:type]) \
       if params[:type].present?
     search_terms = params[:search_terms].strip \

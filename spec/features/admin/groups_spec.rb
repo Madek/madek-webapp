@@ -52,7 +52,7 @@ feature 'Admin Groups' do
     all('table tbody tr').each do |tr|
       expect(tr.all('td')[2].text).to eq 'Group'
     end
-    expect(find_field('type')[:value]).to eq 'group'
+    expect(find_field('type')[:value]).to eq 'Group'
   end
 
   scenario 'Editing a group' do

@@ -10,10 +10,15 @@ class Group < ActiveRecord::Base
   validates :name, uniqueness: { scope: :institutional_group_name }
 
   scope :departments, -> { where(type: 'InstitutionalGroup') }
+  scope :by_type, -> (type) { where(type: type) }
 
-  scope :by_type, lambda { |type|
-    where(type: type.classify)
-  }
+  def self.types
+    unscoped \
+      .select(:type)
+      .distinct
+      .order(:type)
+      .map(&:type)
+  end
 
   def merge_to(receiver)
     Group.transaction do

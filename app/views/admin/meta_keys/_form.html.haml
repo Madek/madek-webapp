@@ -18,17 +18,12 @@
       = f.select :meta_datum_object_type,
           options_for_select(['', MetaKey.object_types].flatten, f.object.meta_datum_object_type),
           {}, class: 'form-control'
-  - if @meta_key.persisted? && @meta_key.can_have_vocables?
+  - if @meta_key.persisted? && @meta_key.can_have_keywords?
     .form-group
       .col-xs-3
-        = f.label :vocables_alphabetical_order
+        = f.label :keywords_alphabetical_order
       .col-xs-6
-        = f.select :vocables_alphabetical_order, [['Yes', true], ['No', false]], {}, class: 'form-control'
-    .form-group
-      .col-xs-3
-        = f.label :vocables_are_user_extensible
-      .col-xs-6
-        = f.select :vocables_are_user_extensible, [['Yes', true], ['No', false]], {}, class: 'form-control'
+        = f.select :keywords_alphabetical_order, [['Yes', true], ['No', false]], {}, class: 'form-control'
   .form-group
     .col-xs-3
       = f.label :label, 'Label', class: 'control-label'
@@ -48,8 +43,15 @@
     .col-xs-offset-3.col-sm-4
       .checkbox
         %label
-          = f.check_box :is_extensible_list
-          Extensible list?
+          = f.check_box :is_extensible
+          Extensible?
+  - %w(media_entries collections filter_sets).each do |resource_type|
+    .form-group
+      .col-xs-offset-3.col-sm-4
+        .checkbox
+          %label
+            = f.check_box "is_enabled_for_#{resource_type}"
+            Enabled for #{resource_type.humanize(capitalize: false)}?
   .form-group
     .col-xs-offset-3.col-xs-3
       = button_tag type: :submit, class: 'btn btn-success' do
