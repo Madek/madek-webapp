@@ -1,9 +1,8 @@
 # Madek
 
-Madek is a media archival, management and sharing system that can archive
-video, audio and image files along with their metadata. The system crowdsources the chore of
-retrieving and assigning metadata to the users themselves instead of putting all the burden
-on the archival expert.
+This is the main component of [Madek](https://github.com/madek). See the
+super project [Madek/madek](https://github.com/Madek/madek) for more
+information. 
 
 
 ## Installation
