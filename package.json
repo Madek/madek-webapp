@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^3.3.1",
+    "git-describe-semver": "git+https://git@github.com/eins78/git-describe-semver#7df5522f",
     "jquery": "^2.1.3",
     "lodash": "^2.4.1",
     "moment": "^2.8.4",
@@ -35,7 +36,8 @@
   },
   "scripts": {
     "test": "cd app/assets/javascripts/test && istanbul cover tape *.js",
-    "build": "browserify app/assets/application.js.coffee"
+    "build": "browserify app/assets/application.js.coffee",
+    "git-semver": "git-describe-semver"
   },
   "author": "Max Albrecht <max.albrecht@zhdk.ch>",
   "repository": "https://github.com/Madek/madek-webapp.git",

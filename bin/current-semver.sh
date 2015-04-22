@@ -1,17 +1,14 @@
 #!/bin/sh
 set -e
+# This is just a shell script so it can be run standalone, also because ruby.
 
-# CONFIG:
-BUMP="major" # we are refactoring here…
+# config: what kind of changes were made in this branch?
+CHANGE="breaking" # true while refactoring…
 
-# how to use node scripts w/o a package.json… -.-
-MYDIR="${PWD}/$(dirname $0)"
+# TODO: enable when ci has current npm
+# npm run -s git-semver -- \
+  # --json --change=${CHANGE} $(git describe --tag --always --long)
 
-cd "${MYDIR}/../lib/git-describe-semver"
-npm install >/dev/null
-
-cd "${MYDIR}"
-node "${MYDIR}/../lib/git-describe-semver/git-describe-semver.js" \
-  --describe="$(git describe --tag --always --long)" \
-  --bump=${BUMP} \
-  --json # give answer as JSON object…
+# TMP:
+node ./node_modules/git-describe-semver/git-describe-semver.js \
+  --json --change=${CHANGE} $(git describe --tag --always --long)

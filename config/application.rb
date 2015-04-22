@@ -122,7 +122,7 @@ end
 
 # some constants externalized so they can be accessed from outside of rails
 
-# semantic version as a parsed object
+# Semver: get semantic version as a parsed object # see script for config.
 MADEK_SEMVER = JSON.parse(`./bin/current-semver.sh`)
 
 # Directory config
