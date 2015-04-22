@@ -37,3 +37,17 @@ subcontexts:
     tasks:
       _cider-ci_include: /.cider-ci/tasks/rspec-feature-tasks.yml
 
+- name: Javascripts
+  traits:
+    nodejs: true
+  tasks:
+    "npm test":
+      scripts:
+        npm_install:
+          timeout: 500
+          order: 1
+          body: npm install
+
+        npm_test:
+          order: 2
+          body: npm test
