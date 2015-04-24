@@ -1,8 +1,15 @@
 #!/usr/bin/env node
 
+// catch anything that goes wrong here.
+// if nothing is installed the main check doesn't work anyway.
+process.on('uncaughtException', function () {
+  console.log("dependencies error!\nTry running `./dev/bundle`.");
+  process.exit(1)
+})
+
 require("check-dependencies")(function(res){
-  if (res && !res.depsWereOk) {
+  if (!res || !res.depsWereOk) {
     console.log(res.error.join("\n"))
-    process.exit(2)
+    process.exit(1)
   }
 })
