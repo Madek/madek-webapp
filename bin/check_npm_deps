@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+
+require("check-dependencies")(function(res){
+  if (res && !res.depsWereOk) {
+    console.log(res.error.join("\n"))
+    process.exit(2)
+  }
+})

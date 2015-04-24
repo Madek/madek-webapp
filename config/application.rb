@@ -1,11 +1,13 @@
 # -*- encoding : utf-8 -*-
 require File.expand_path('../boot', __FILE__)
 
+# Dependencies:
 require 'rails/all'
-
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env)
+# Check npm (javascript) dependencies (behaves like `bundler`)
+exit(1) unless system('./bin/check_npm_deps')
 
 module Madek
   class Application < Rails::Application
