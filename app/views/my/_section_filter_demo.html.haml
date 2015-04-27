@@ -193,6 +193,6 @@
 - when mdata_filters.blank?
   %p.title-s= "Enter one or two filters (key/value) and click the button"
 - else
-  = deco('polybox',
+  = deco('polybox', mods: ['paginated', 'ptm'],
          media_resources: the_presenter,
          fallback: "The result of the Filter is empty!")

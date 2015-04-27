@@ -45,7 +45,7 @@ class MyController < ApplicationController
       Presenters::Users::UserDashboard.new \
         current_user,
         order: 'created_at DESC',
-        page: params[:page]
+        page: 1 # always shows only the items from the first page!
 
     respond_with_presenter_formats
   end

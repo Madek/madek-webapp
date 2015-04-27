@@ -1,9 +1,12 @@
 :ruby
+  # NOTE: only 1 is allowed per view/page!
+  # If that need ever to be changed, pagination needs to be addressed.
+
   # TODO: i18n
   default_fallback = "(No content.)"
+  elm_anchor = 'resources-page'
 
   # This is a presenter-spezific decorator for MediaResources!
-
   pres = media_resources # shortcut
   unless pres and pres.is_a?(Presenters::Shared::MediaResources::MediaResources)
     throw 'ui! need a MediaResourcesIndex Presenter!'
@@ -24,89 +27,89 @@
   # check if we got any non-empty list
   all_lists_are_empty = pres.empty?
 
-  unless all_lists_are_empty
-    # for each type of resource, build the list of polythumbs
-    resource_types = {
-      media_entries: pres.media_entries.map do |get|
-        deco('polythumb',
-          title: get.title,
-          thumb: component('thumbnail',
-            mods: ['media-entry'], # TODO : type of entry ('video')
-            text: get.title,
-            picture: get.image_url,
-            href: get.url,
-            # yes this is *inside* the thumb… workaround hacky CSS :/
-            meta: {
-              title: get.title,
-              subtitle: get.authors
-            },
-            badge_top_left: component('privacy-icon', status: get.privacy_status)
-          )
+  # for each type of resource, build the list of polythumbs
+  resource_types = {
+    media_entries: pres.media_entries.map do |get|
+      deco('polythumb',
+        title: get.title,
+        thumb: component('thumbnail',
+          mods: ['media-entry'], # TODO : type of entry ('video')
+          text: get.title,
+          picture: get.image_url,
+          href: get.url,
+          # yes this is *inside* the thumb… workaround hacky CSS :/
+          meta: {
+            title: get.title,
+            subtitle: get.authors
+          },
+          badge_top_left: component('privacy-icon', status: get.privacy_status)
         )
-      end,
-      collections: pres.collections.map do |get|
-        deco('polythumb',
-          title: get.title,
-          thumb: component('thumbnail',
-            mods: ['media-set'],
-            text: get.title,
-            href: get.url,
-            picture: get.image_url,
-            meta: {
-              title: get.title#,
-              # subtitle: 'TODO'
-            },
-            badge_top_left: component('privacy-icon', status: get.privacy_status)
-          )
+      )
+    end,
+    collections: pres.collections.map do |get|
+      deco('polythumb',
+        title: get.title,
+        thumb: component('thumbnail',
+          mods: ['media-set'],
+          text: get.title,
+          href: get.url,
+          picture: get.image_url,
+          meta: {
+            title: get.title#,
+            # subtitle: 'TODO'
+          },
+          badge_top_left: component('privacy-icon', status: get.privacy_status)
         )
-      end,
-      filter_sets: pres.filter_sets.map do |get|
-        deco('polythumb',
-          title: get.title,
-          thumb: component('thumbnail',
-            mods: ['filter-set'],
-            text: get.title,
-            href: get.url,
-            picture: get.image_url,
-            meta: {
-              title: get.title#,
-              # subtitle: 'TODO'
-            },
-            badge_top_left: component('privacy-icon', status: get.privacy_status),
-            badge_top_right: component('icon.filter')
-          )
+      )
+    end,
+    filter_sets: pres.filter_sets.map do |get|
+      deco('polythumb',
+        title: get.title,
+        thumb: component('thumbnail',
+          mods: ['filter-set'],
+          text: get.title,
+          href: get.url,
+          picture: get.image_url,
+          meta: {
+            title: get.title#,
+            # subtitle: 'TODO'
+          },
+          badge_top_left: component('privacy-icon', status: get.privacy_status),
+          badge_top_right: component('icon.filter')
         )
+      )
+    end
+  }
+
+  # also build an appropriate filter_bar
+  filter_bar = combo('button-group', {
+    mods: ['js-only', 'small'],
+    list: [
+      (pres.media_entries.empty? ? nil : {
+        text: 'Entries',
+        hook: 'entries'
+      }),
+      (pres.collections.empty? ? nil : {
+        text: 'Collections',
+        hook: 'collections'
+      }),
+      (pres.filter_sets.empty? ? nil : {
+        text: 'FilterSets',
+        hook: 'filter_sets'
+      })
+    ]
+  })
+
+  # build pagination navigation. TODO: combo
+  # get nav info
+  pagination = pres.pagination_info
+  # build nav links links (conserves any other parameters)
+  pagination.nav = ['previous_page', 'next_page'].map.with_object({}) do |id, res|
+      if pagination[id]
+        res[id] = url_for(params.merge(page: pagination[id], anchor: elm_anchor))
       end
-    }
+    end
 
-    # also build an appropriate filter_bar
-    filter_bar = combo('button-group', {
-      mods: ['js-only', 'small'],
-      list: [
-        (pres.media_entries.empty? ? nil : {
-          text: 'Entries',
-          hook: 'entries'
-        }),
-        (pres.collections.empty? ? nil : {
-          text: 'Collections',
-          hook: 'collections'
-        }),
-        (pres.filter_sets.empty? ? nil : {
-          text: 'FilterSets',
-          hook: 'filter_sets'
-        })
-      ]
-    })
-
-    # build pagination navigation. TODO: combo
-    # get nav info
-    pagination = pres.pagination_info
-    # build nav links links (conserves any other parameters)
-    pagination.nav = ['previous_page', 'next_page'].map.with_object({}) do |id, res|
-        res[id] = url_for(params.merge(page: pagination[id])) if pagination[id]
-      end
-
-  end
 
 -# a list for each kind of resource.
   - skips empty lists
@@ -125,18 +128,18 @@
     - if show_pagination_nav && pagination.total_pages > 1
       .no-js
         %span.ui-resources-page-counter.ui-pager
-          = "page #{pagination.current_page} of #{pagination.total_pages}"
+          = "Page #{pagination.current_page} of #{pagination.total_pages}"
 
     -# a unit for each type of resource
     - resource_types.each do |type, resources_list|
       - unless resources_list.empty?
-        %li.ui-resources-page.mhn.mtn
+        %li.ui-resources-page.mhn.mtn.pbm
 
           -# a small heading TODO: txt(), count
           %span.ui-resources-page-counter.ui-pager.small
             - count = pres.total_counts[type]
             - name = count > 1 ? type : type.to_s.singularize
-            = "#{count} #{name}"
+            = "#{count} #{name.to_s.camelize}"
 
           -# the actual box of items
           %ul.ui-resources-page-items
@@ -146,5 +149,5 @@
     - if show_pagination_nav && pagination.nav.any?
       .row
         - pagination.nav.each do |id, link|
-          = component('button', text: id,
+          = component('button', text: id.to_s.humanize,
                                href: link)
