@@ -17,7 +17,10 @@
                   link: { text: 'show all',
                           href: my_dashboard_section_path(section_id)})
         = render partial: "my/section_#{section[:partial]}",
-                 locals: { sections: @sections, section_name: section_id, get: @get}
+                 locals: { sections: @sections,
+                           section_name: section_id,
+                           get: @get,
+                           use_pagination: false }
   - if dashboard_content
     = dashboard_content
   - else
