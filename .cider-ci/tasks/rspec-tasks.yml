@@ -124,11 +124,11 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/models/media_file_spec.rb"
-"./spec/models/meta_datum/meta_key_consitency_spec.rb":
-  name: "./spec/models/meta_datum/meta_key_consitency_spec.rb"
+"./spec/models/meta_datum/meta_key_consistency_spec.rb":
+  name: "./spec/models/meta_datum/meta_key_consistency_spec.rb"
   scripts:
     main:
-      body: bundle exec rspec "./spec/models/meta_datum/meta_key_consitency_spec.rb"
+      body: bundle exec rspec "./spec/models/meta_datum/meta_key_consistency_spec.rb"
 "./spec/models/meta_datum/people_spec.rb":
   name: "./spec/models/meta_datum/people_spec.rb"
   scripts:

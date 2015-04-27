@@ -671,7 +671,6 @@ CREATE TABLE meta_data (
     meta_key_id character varying NOT NULL,
     type character varying,
     string text,
-    license_id uuid,
     media_entry_id uuid,
     collection_id uuid,
     filter_set_id uuid,
@@ -686,6 +685,16 @@ CREATE TABLE meta_data (
 CREATE TABLE meta_data_groups (
     meta_datum_id uuid NOT NULL,
     group_id uuid NOT NULL
+);
+
+
+--
+-- Name: meta_data_licenses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE meta_data_licenses (
+    meta_datum_id uuid NOT NULL,
+    license_id uuid NOT NULL
 );
 
 
@@ -2085,6 +2094,13 @@ CREATE UNIQUE INDEX index_meta_data_institutional_groups ON meta_data_groups USI
 
 
 --
+-- Name: index_meta_data_licenses_on_meta_datum_id_and_license_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_meta_data_licenses_on_meta_datum_id_and_license_id ON meta_data_licenses USING btree (meta_datum_id, license_id);
+
+
+--
 -- Name: index_meta_data_meta_terms_on_meta_datum_id_and_meta_term_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2099,6 +2115,13 @@ CREATE INDEX index_meta_data_on_collection_id ON meta_data USING btree (collecti
 
 
 --
+-- Name: index_meta_data_on_collection_id_and_meta_key_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_meta_data_on_collection_id_and_meta_key_id ON meta_data USING btree (collection_id, meta_key_id);
+
+
+--
 -- Name: index_meta_data_on_filter_set_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2106,10 +2129,24 @@ CREATE INDEX index_meta_data_on_filter_set_id ON meta_data USING btree (filter_s
 
 
 --
+-- Name: index_meta_data_on_filter_set_id_and_meta_key_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_meta_data_on_filter_set_id_and_meta_key_id ON meta_data USING btree (filter_set_id, meta_key_id);
+
+
+--
 -- Name: index_meta_data_on_media_entry_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_meta_data_on_media_entry_id ON meta_data USING btree (media_entry_id);
+
+
+--
+-- Name: index_meta_data_on_media_entry_id_and_meta_key_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_meta_data_on_media_entry_id_and_meta_key_id ON meta_data USING btree (media_entry_id, meta_key_id);
 
 
 --
@@ -2662,11 +2699,19 @@ ALTER TABLE ONLY filter_sets
 
 
 --
--- Name: fk_rails_f0283cbd2e; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: fk_rails_67eb3c60e8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY meta_data
-    ADD CONSTRAINT fk_rails_f0283cbd2e FOREIGN KEY (license_id) REFERENCES licenses(id);
+ALTER TABLE ONLY meta_data_licenses
+    ADD CONSTRAINT fk_rails_67eb3c60e8 FOREIGN KEY (license_id) REFERENCES licenses(id);
+
+
+--
+-- Name: fk_rails_6f33d95dfc; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meta_data_licenses
+    ADD CONSTRAINT fk_rails_6f33d95dfc FOREIGN KEY (meta_datum_id) REFERENCES meta_data(id) ON DELETE CASCADE;
 
 
 --
@@ -3198,6 +3243,12 @@ INSERT INTO schema_migrations (version) VALUES ('199');
 INSERT INTO schema_migrations (version) VALUES ('2');
 
 INSERT INTO schema_migrations (version) VALUES ('20');
+
+INSERT INTO schema_migrations (version) VALUES ('200');
+
+INSERT INTO schema_migrations (version) VALUES ('201');
+
+INSERT INTO schema_migrations (version) VALUES ('202');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

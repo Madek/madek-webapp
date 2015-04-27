@@ -6,7 +6,6 @@ module Concerns
 
         include Concerns::MediaResources::Filters::MetaData::Actors
         include Concerns::MediaResources::Filters::MetaData::Keywords
-        include Concerns::MediaResources::Filters::MetaData::License
         include Concerns::MediaResources::Filters::MetaData::Primitive
 
         included do

@@ -96,9 +96,9 @@ module Presenters
         when 'MetaDatum::Groups'
           meta_datum.groups.map \
             { |g| Presenters::Groups::GroupIndex.new(g) }
-        when 'MetaDatum::License'
-          Presenters::Licenses::LicenseIndex.new \
-            License.find(meta_datum.license_id) # WTF? TODO: associations?
+        when 'MetaDatum::Licenses'
+          meta_datum.licenses.map \
+            { |l| Presenters::Licenses::LicenseIndex.new(l) }
         when 'MetaDatum::Keywords'
           meta_datum.keywords.map \
             { |k| Presenters::KeywordTerms::KeywordTermIndex.new(k.keyword_term) }

@@ -55,4 +55,15 @@ module MediaResourceMigrationModels
     belongs_to :media_resource, class_name: '::MigrationMediaResource', foreign_key: :media_resource_id
   end
 
+  class ::MigrationMetaDatumLicense < ActiveRecord::Base
+    self.table_name = 'meta_data'
+    self.inheritance_column = nil
+    belongs_to :license
+
+    default_scope { where.not(license_id: nil) }
+  end
+
+  class ::MigrationMetaDataLicenses < ActiveRecord::Base
+    self.table_name = 'meta_data_licenses'
+  end
 end
