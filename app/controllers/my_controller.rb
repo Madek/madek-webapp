@@ -1,11 +1,10 @@
 class MyController < ApplicationController
   layout 'app_with_sidebar'
 
-  before_action do
-    @sections = SECTIONS # we need this everywhere to build the sidebar
-  end
+  # NOTE: conventions for sections:
+  # - if it has resources: UserDashboardPresenter has a method with name of section
+  # - `partial: :foobar` → `section_partial_foobar.haml`, used for index and show
 
-  # TODO: is this the best place to define the sections?
   SECTIONS = {
     content: {
       title: 'My content',
@@ -47,6 +46,8 @@ class MyController < ApplicationController
         order: 'created_at DESC',
         page: 1 # always shows only the items from the first page!
 
+    # for indexing on dashboard and sidebar nav:
+    @sections = prepare_sections_with_presenter(@get)
     respond_with_presenter_formats
   end
 
@@ -56,14 +57,40 @@ class MyController < ApplicationController
     unless SECTIONS[section_name]
       raise ActionController::RoutingError.new(404), 'Section Not Found!'
     end
+    get = Presenters::Users::UserDashboard.new(current_user, page: params[:page])
+    # just for the sidebar nav:
+    @sections = prepare_sections_with_presenter(get)
     render 'my/dashboard_section',
            locals: {
-             sections: @sections,
-             section_name: section_name,
-             get: \
-               Presenters::Users::UserDashboard.new(
-                 current_user,
-                 page: params[:page])
+             section: @sections[section_name],
+             get: get
            }
+  end
+
+  private
+
+  # we need this everywhere to build the sidebar
+  def prepare_sections_with_presenter(presenter)
+    sections = Hash[SECTIONS.map do |id, section|
+      [id, prepare_section(id, SECTIONS, presenter)]
+    end]
+    # we currently skip "emtpy" sections everywhere (dashboard and sidebar nav)
+    # move this to partials if needed:
+    sections.reject do |i, s| # ignore section if its an empty object or presenter
+      true if s[:resources].try(:empty?)
+    end
+  end
+
+  def prepare_section(id, sections, presenter)
+    section = sections[id]
+    section[:id] = id
+    section[:resources] = \
+      case section[:partial]
+      when :media_resources
+        presenter.send(id)
+      when :groups
+        presenter.groups
+      end
+    section
   end
 end
