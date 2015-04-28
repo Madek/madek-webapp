@@ -15,9 +15,9 @@ Ansible-Setup Project](https://github.com/zhdk/madek-ansible-setup).
 
 Browse the [doc](./doc) folder for documentation. 
 
-The entities diagrams [current](http://rawgit.com/zhdk/madek/madek-v3/doc/manual/entities/entities_database_schemata/Schema.svg)
-and [v3](http://rawgit.com/zhdk/madek/madek-v3/doc/manual/entities/entities_database_schemata/Schema_vision.svg) are notable. 
+The [Database: Entities and Relations][] diagram is notable.
 
+  [Database: Entities and Relations]: http://rawgit.com/madek/madek-documentation/master/source/architecture/database/entities_and_relations.svg
 
 ## State 
 
