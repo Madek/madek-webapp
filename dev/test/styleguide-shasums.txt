@@ -8,7 +8,7 @@ ebb585b957beb087549fb7d79e535d2c704b378e ?tmp/styleguide-ref/Buttons & Links/ter
 3de336c2875ba856865a838ed9afc42f6d0627b3 ?tmp/styleguide-ref/Combos/clipboard.png
 ad38c86c37580898ea40a949366784ce9a596d0a ?tmp/styleguide-ref/Combos/collage.png
 50108fbc6f011ef2063c67f530a2c6b465d1701b ?tmp/styleguide-ref/Combos/confirmation_dialog.png
-6807d3d2e0381a76d8080de0e0131a94e2b7a45a ?tmp/styleguide-ref/Combos/featured_entries.png
+a2a8a36e79b72be113b2d613fbf16adbd2673686 ?tmp/styleguide-ref/Combos/featured_entries.png
 4993a30c81c39b61a68bf0222e489bd19ee74367 ?tmp/styleguide-ref/Combos/filterbar.png
 ed1eee11d11e6ee1f65f19365af1f91c70e6999e ?tmp/styleguide-ref/Combos/footer.png
 842927f1ec4f83ae30ed2776a539636518c76b28 ?tmp/styleguide-ref/Combos/header.png
@@ -17,7 +17,7 @@ c5902b48166d6ec0c44397654d38f2562b2ac57c ?tmp/styleguide-ref/Combos/resources_gr
 a1628afdd7607a8c490fe2b01d718f14eda08432 ?tmp/styleguide-ref/Combos/resources_list.png
 1cc4a5fdc0fffe8b63e07fa81e0ec961cc86be31 ?tmp/styleguide-ref/Combos/resources_miniature.png
 37b9b92bc54e8b648e6ea7b194d75ebdf820fba5 ?tmp/styleguide-ref/Combos/resources_table.png
-0b464d5dd7f58d55f448a76dc43040fd2fdc741a ?tmp/styleguide-ref/Combos/resources_tiles.png
+4c0b9e4ce84c18eb1ec5e4ac3b06f03e63b873e3 ?tmp/styleguide-ref/Combos/resources_tiles.png
 2dc6a2be872068c73deafee9db0b64daed8d9014 ?tmp/styleguide-ref/Combos/rights_management.png
 1bfd68022b6facaa99ce8afd739bb56559fbe5be ?tmp/styleguide-ref/Combos/search_form.png
 c211331d6c70242e20857533ced2544bc016062e ?tmp/styleguide-ref/Combos/set_overview.png
@@ -42,12 +42,12 @@ c6b82488ef3b1b237c984a7ed95f6d3c9294245b ?tmp/styleguide-ref/Components/side_nav
 664c6a59a9e0b6e12d3d63108c76c84b2bf69e7f ?tmp/styleguide-ref/Components/slider.png
 8bdc679210aee5d9686131490220c0da8002e698 ?tmp/styleguide-ref/Components/stepline.png
 eb35c704e6a20d4c4b2ca4b43e7644a39413f847 ?tmp/styleguide-ref/Components/tabs.png
-add61449baa7d8ea1da3318586649fdfe2f35331 ?tmp/styleguide-ref/Components/tag_cloud.png
+2041fa398534b677fe61c8442c7f2dc3c1b3f0c0 ?tmp/styleguide-ref/Components/tag_cloud.png
 5761b0de0430fa0193c7307ed8ccbd622edd593f ?tmp/styleguide-ref/Components/thumb.png
 07c4b7819aea666f966a17ccb08313aa8f149b28 ?tmp/styleguide-ref/Components/thumb_actions.png
 eab4d2bdca80324f68cfcae7b40a2b75452cd8d6 ?tmp/styleguide-ref/Components/thumb_catalog.png
 af372a0f3d893a0db339a7cdbe29e938d7fc3e14 ?tmp/styleguide-ref/Components/thumb_micro.png
-b118a72c5c9f86b3157051c2f50adef4201f9f6b ?tmp/styleguide-ref/Components/tiles.png
+58b074d22b8d107fb1ae149496dc65345b8cefa3 ?tmp/styleguide-ref/Components/tiles.png
 494146dac8eeb522d1e58ac1de476fbb83a21e8e ?tmp/styleguide-ref/Components/tooltip.png
 2f50c4bfcf10ae34ade801274f5b8aad6d379162 ?tmp/styleguide-ref/Forms/form_columned.png
 6fc44b483722f9f58499b064f998608b4ebdab73 ?tmp/styleguide-ref/Forms/form_group.png
