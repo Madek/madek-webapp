@@ -7,8 +7,10 @@ class MetaDatum::Licenses < MetaDatum
   alias_method :value, :licenses
 
   def value=(licenses)
-    self.licenses.clear
-    self.licenses = licenses
+    with_sanitized licenses do |licenses|
+      self.licenses.clear
+      self.licenses = licenses
+    end
   end
 
 end

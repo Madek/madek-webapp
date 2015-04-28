@@ -7,8 +7,10 @@ class MetaDatum::Groups < MetaDatum
   alias_method :value, :groups
 
   def value=(groups)
-    self.groups.clear
-    self.groups = groups
+    with_sanitized groups do |groups|
+      self.groups.clear
+      self.groups = groups
+    end
   end
 
 end

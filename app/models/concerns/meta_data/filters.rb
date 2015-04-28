@@ -1,5 +1,5 @@
 module Concerns
-  module MetaDatums
+  module MetaData
     module Filters
       extend ActiveSupport::Concern
 

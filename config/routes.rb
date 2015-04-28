@@ -9,14 +9,19 @@ Madek::Application.routes.draw do
     get 'permissions', action: :permissions_show, as: 'permissions', on: :member
   end
 
+  concern :meta_data do
+    resources :meta_data, only: [:new, :create]
+  end
+
   resources :media_entries,
             path: 'entries',
             only: [:index, :show],
-            concerns: :permissions do
+            concerns: [:permissions, :meta_data] do
     get 'preview/:size', action: :preview, as: 'preview', on: :member
   end
-  resources :collections, only: [:index, :show], concerns: :permissions
-  resources :filter_sets, only: [:index, :show], concerns: :permissions
+
+  resources :collections, only: [:index, :show], concerns: [:permissions, :meta_data]
+  resources :filter_sets, only: [:index, :show], concerns: [:permissions, :meta_data]
 
   resources :people, only: :show
   resources :groups, only: :show

@@ -1,6 +1,7 @@
 class MetaDatum < ActiveRecord::Base
 
-  include Concerns::MetaDatums::Filters
+  include Concerns::MetaData::Filters
+  include Concerns::MetaData::SanitizeValue
 
   class << self
     def new_with_cast(*args, &block)

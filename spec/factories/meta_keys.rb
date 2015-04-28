@@ -13,9 +13,19 @@ FactoryGirl.define do
       meta_datum_object_type 'MetaDatum::Text'
     end
 
+    factory :meta_key_text_date, class: MetaKey do
+      id 'test:string'
+      meta_datum_object_type 'MetaDatum::TextDate'
+    end
+
     factory :meta_key_title, class: MetaKey do
       id 'test:title'
       meta_datum_object_type 'MetaDatum::Text'
+    end
+
+    factory :meta_key_licenses, class: MetaKey do
+      id 'test:license'
+      meta_datum_object_type 'MetaDatum::Licenses'
     end
 
     factory :meta_key_keywords, class: MetaKey do
@@ -26,6 +36,11 @@ FactoryGirl.define do
     factory :meta_key_people, class: MetaKey do
       id 'test:people'
       meta_datum_object_type 'MetaDatum::People'
+    end
+
+    factory :meta_key_groups, class: MetaKey do
+      id 'test:groups'
+      meta_datum_object_type 'MetaDatum::Groups'
     end
 
     factory :meta_key_users, class: MetaKey do

@@ -2,12 +2,7 @@ class UuidController < ApplicationController
   # Entity PURLs aka Permalinks:
   # find a model by uuid and redirects to canonical urls
 
-  SUPPORTED_REDIRECTION_CLASSES = [
-    MediaEntry,
-    Collection,
-    FilterSet,
-    Person
-  ]
+  include UuidHelper
 
   def redirect_to_canonical_url
     current_url = url_for
@@ -17,14 +12,5 @@ class UuidController < ApplicationController
     else
       raise(ActionController::RoutingError.new('Not Found'), 'No Resource found')
     end
-  end
-
-  private
-
-  def find_resource_by_uuid(resource_uuid)
-    SUPPORTED_REDIRECTION_CLASSES
-      .map { |klass| begin klass.send(:find, resource_uuid) rescue nil end }
-      .reject(&:nil?)
-      .first # just take it, there can not be more than one because UUIDs
   end
 end

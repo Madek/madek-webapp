@@ -42,8 +42,16 @@ FactoryGirl.define do
     end
   end
 
+  factory :meta_datum_licenses, class: MetaDatum::Licenses do
+    licenses { (1..3).map { FactoryGirl.create :license } }
+  end
+
   factory :meta_datum_people, class: MetaDatum::People do
     people { (1..3).map { FactoryGirl.create :person } }
+  end
+
+  factory :meta_datum_groups, class: MetaDatum::Groups do
+    groups { (1..3).map { FactoryGirl.create :group } }
   end
 
   factory :meta_datum_users, class: MetaDatum::Users do

@@ -11,8 +11,10 @@ class MetaDatum::Users < MetaDatum
   alias_method :value, :users
 
   def value=(users)
-    self.users.clear
-    self.users = users
+    with_sanitized users do |users|
+      self.users.clear
+      self.users = users
+    end
   end
 
 end

@@ -9,7 +9,9 @@ class MetaDatum::Text < MetaDatum
   alias_method :to_s, :value
 
   def value=(new_value)
-    self.string = new_value
+    with_sanitized new_value do |new_value|
+      self.string = new_value
+    end
   end
 
 end
