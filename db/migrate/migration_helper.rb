@@ -14,10 +14,8 @@ module MigrationHelper
   end
 
   def add_auto_timestamps(table_name)
-    reversible do |dir| 
+    reversible do |dir|
       dir.up do 
-        add_timestamps table_name, null: false
-
         execute "ALTER TABLE #{table_name} ALTER COLUMN created_at SET DEFAULT now()"
         execute "ALTER TABLE #{table_name} ALTER COLUMN updated_at SET DEFAULT now()"
         execute "ALTER TABLE #{table_name} ALTER COLUMN created_at SET NOT NULL"
@@ -27,7 +25,7 @@ module MigrationHelper
           CREATE OR REPLACE FUNCTION update_updated_at_column()
           RETURNS TRIGGER AS $$
           BEGIN
-             NEW.updated_at = now(); 
+             NEW.updated_at = now();
              RETURN NEW;
           END;
           $$ language 'plpgsql';
@@ -44,7 +42,6 @@ module MigrationHelper
 
       dir.down do
         execute " DROP TRIGGER update_updated_at_column_of_#{table_name} ON #{table_name} "
-        remove_timestamps table_name
       end
     end
   end

@@ -16,6 +16,7 @@ module Madek
     # -- all .rb files in that directory are automatically loaded.
 
     config.active_record.timestamped_migrations = false
+    config.active_record.record_timestamps = false
 
     config.active_record.disable_implicit_join_references = true
 
