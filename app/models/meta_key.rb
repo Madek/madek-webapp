@@ -7,6 +7,9 @@ class MetaKey < ActiveRecord::Base
   belongs_to :vocabulary
 
   default_scope { order(:id) }
+  scope :order_by_name_part, lambda {
+    reorder("substring(meta_keys.id FROM ':(.*)$') ASC, meta_keys.id")
+  }
   scope :with_keyword_terms_count, lambda {
     joins(
       'LEFT OUTER JOIN keyword_terms ON

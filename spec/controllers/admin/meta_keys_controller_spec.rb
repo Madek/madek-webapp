@@ -71,6 +71,28 @@ describe Admin::MetaKeysController do
         expect(assigns[:meta_keys]).to match_array([meta_key_1, meta_key_2])
       end
     end
+
+    context 'filtering by ID' do
+      it 'returns correctly sorted collection of meta keys' do
+        meta_key_1 = create :meta_key_title, label: 'foo:bar'
+        meta_key_2 = create :meta_key_keywords, label: 'bar:foo'
+
+        get :index, { search_term: 'foo' }, user_id: admin_user.id
+
+        expect(assigns[:meta_keys]).to eq [meta_key_2, meta_key_1]
+      end
+    end
+
+    context 'filtering by Name part' do
+      it 'returns correctly sorted collection of meta keys' do
+        meta_key_1 = create :meta_key_title, label: 'foo:project_type'
+        meta_key_2 = create :meta_key_keywords, label: 'bar:academic_year'
+
+        get :index, nil, user_id: admin_user.id
+
+        expect(assigns[:meta_keys]).to match_array [meta_key_2, meta_key_1]
+      end
+    end
   end
 
   describe '#edit' do

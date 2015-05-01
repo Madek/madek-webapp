@@ -23,6 +23,11 @@
             = select_tag :type,
                 options_for_select(['', MetaKey.object_types].flatten, params[:type]),
                 class: 'form-control'
+          .form-group
+            = label_tag :sort_by, 'Sort by', class: 'form-label'
+            = select_tag :sort_by,
+                options_for_select([['ID', :id], ['Name part', :name_part]], params[:sort_by]),
+                class: 'form-control'
 
           = submit_tag 'Apply', class: 'btn btn-primary'
           = link_to 'Reset', admin_meta_keys_path, class: 'btn btn-default'

@@ -8,13 +8,18 @@ feature 'Admin Meta Keys' do
     sign_in_as @admin_user.login
   end
 
-  scenario 'Sorting meta keys by ID by default', browser: :firefox do
-    visit '/admin/meta_keys'
+  scenario 'Sorting meta keys by ID by default' do
+    visit admin_meta_keys_path
 
-    ids = all('table tbody tr').map do |row|
-      row.find('td', match: :first).text
-    end
+    expect(find_field('sort_by')[:value]).to eq 'id'
+  end
 
-    expect(ids).to eq(ids.sort)
+  scenario 'Sorting meta keys by Name part' do
+    visit admin_meta_keys_path
+
+    select 'Name part', from: 'Sort by'
+    click_button 'Apply'
+
+    expect(page).to have_select('sort_by', selected: 'Name part')
   end
 end

@@ -4,7 +4,7 @@ class Admin::MetaKeysController < AdminController
                         .page(params[:page])
                         .per(16)
 
-    filter
+    filter_and_sort
   end
 
   def show
@@ -47,7 +47,7 @@ class Admin::MetaKeysController < AdminController
 
   private
 
-  def filter
+  def filter_and_sort
     if (search_term = params[:search_term]).present?
       filter_by_term(search_term)
     end
@@ -57,6 +57,7 @@ class Admin::MetaKeysController < AdminController
     if (type = params[:type]).present?
       filter_by_type(type)
     end
+    sort
   end
 
   def filter_by_term(term)
@@ -83,5 +84,11 @@ class Admin::MetaKeysController < AdminController
                                      :is_enabled_for_media_entries,
                                      :is_enabled_for_collections,
                                      :is_enabled_for_filter_sets)
+  end
+
+  def sort
+    if params[:sort_by] == 'name_part'
+      @meta_keys = @meta_keys.order_by_name_part
+    end
   end
 end
