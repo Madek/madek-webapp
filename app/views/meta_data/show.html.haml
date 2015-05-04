@@ -32,5 +32,10 @@
     = label_tag(:q, " FILTER_SET_ID ", class: 'title-s')
     = text_field_tag("filter_set_id", @get.filter_set_id, disabled: true)
 
-= component('button', mods: nil, href: edit_meta_datum_path(@get.uuid)) do
-  = "Edit"
+%hr.separator.mini.mvs
+
+= link_to('Edit', edit_meta_datum_path(@get.uuid), class: 'button')
+
+%hr.separator.mini.mvs
+
+= button_to("Delete", meta_datum_path(@get.uuid), method: :delete, class: 'button')

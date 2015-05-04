@@ -36,6 +36,17 @@ class MetaDataController < ApplicationController
     end
   end
 
+  def destroy
+    meta_datum = MetaDatum.find(id_param)
+
+    begin
+      meta_datum.destroy!
+      render text: 'Meta datum destroyed successfully', status: :ok
+    rescue => e
+      render text: e.message, status: :internal_server_error
+    end
+  end
+
   private
 
   def id_param
