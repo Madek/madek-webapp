@@ -12,12 +12,4 @@ module UuidHelper
       .reject(&:nil?)
       .first # just take it, there can not be more than one because UUIDs
   end
-
-  def get_single_uuid(*uuids)
-    if uuids.all?(&:nil?) or uuids.reject(&:nil?).count > 1
-      raise 'Invalid list of uuids'
-    else
-      uuids.find { |uuid| not uuid.nil? }
-    end
-  end
 end

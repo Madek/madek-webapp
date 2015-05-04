@@ -9,22 +9,20 @@ Madek::Application.routes.draw do
     get 'permissions', action: :permissions_show, as: 'permissions', on: :member
   end
 
-  concern :meta_data do
-    resources :meta_data, only: [:new, :create]
-  end
-
   resources :media_entries,
             path: 'entries',
             only: [:index, :show],
-            concerns: [:permissions, :meta_data] do
+            concerns: :permissions do
     get 'preview/:size', action: :preview, as: 'preview', on: :member
   end
 
-  resources :collections, only: [:index, :show], concerns: [:permissions, :meta_data]
-  resources :filter_sets, only: [:index, :show], concerns: [:permissions, :meta_data]
+  resources :collections, only: [:index, :show], concerns: :permissions
+  resources :filter_sets, only: [:index, :show], concerns: :permissions
 
   resources :people, only: :show
   resources :groups, only: :show
+
+  resources :meta_data
 
   # Static App routes ##########################################################
   get 'id/:uuid', to: 'uuid#redirect_to_canonical_url'

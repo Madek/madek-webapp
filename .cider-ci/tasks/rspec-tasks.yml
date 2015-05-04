@@ -79,6 +79,11 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/integration/meta_data/create_meta_datum_spec.rb"
+"./spec/integration/meta_data/update_meta_datum_spec.rb":
+  name: "./spec/integration/meta_data/update_meta_datum_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/integration/meta_data/update_meta_datum_spec.rb"
 "./spec/lib/system_execute_cmd_spec.rb":
   name: "./spec/lib/system_execute_cmd_spec.rb"
   scripts:

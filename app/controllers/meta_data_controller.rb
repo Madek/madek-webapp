@@ -1,37 +1,81 @@
 class MetaDataController < ApplicationController
-  include UuidHelper
+
+  def show
+    meta_datum = MetaDatum.find(params[:id])
+    @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
+  end
 
   def new
   end
 
   def create
-    media_entry_id, collection_id, filter_set_id, \
-      meta_key_id, value, type = params_list
+    begin
+      meta_datum_klass = type_param.constantize
+      meta_datum = meta_datum_klass.create!(create_params)
+      @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
+      render :show, status: :created
+    rescue => e
+      render text: e.message, status: :internal_server_error
+    end
+  end
+
+  def edit
+    meta_datum = MetaDatum.find(id_param)
+    @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
+  end
+
+  def update
+    meta_datum = MetaDatum.find(id_param)
 
     begin
-      meta_datum_klass = type.constantize
-      meta_datum_klass.create!(media_entry_id: media_entry_id,
-                               collection_id: collection_id,
-                               filter_set_id: filter_set_id,
-                               meta_key_id: meta_key_id,
-                               value: value)
-      redirect_to \
-        find_resource_by_uuid \
-          get_single_uuid(media_entry_id, collection_id, filter_set_id)
+      meta_datum.update!(update_params)
+      @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
+      render :show, status: :ok
     rescue => e
-      render(text: e.message, status: :internal_server_error)
-      return
+      render text: e.message, status: :internal_server_error
     end
   end
 
   private
 
-  def params_list
-    [params[:media_entry_id],
-     params[:collection_id],
-     params[:filter_set_id],
-     params[:_key],
-     params[:_value][:content],
-     params[:_value][:type]]
+  def id_param
+    params.require(:id)
+  end
+
+  def meta_key_id_param
+    params.require(:_key)
+  end
+
+  def type_param
+    params.require(:_value).require(:type)
+  end
+
+  def value_param
+    params.require(:_value).require(:content)
+  end
+
+  def media_entry_id_param
+    params[:media_entry_id]
+  end
+
+  def collection_id_param
+    params[:collection_id]
+  end
+
+  def filter_set_id_param
+    params[:filter_set_id]
+  end
+
+  def update_params
+    { value: value_param }
+  end
+
+  def create_params
+    { media_entry_id: media_entry_id_param,
+      collection_id: collection_id_param,
+      filter_set_id: filter_set_id_param,
+      meta_key_id: meta_key_id_param,
+      type: type_param,
+      value: value_param }
   end
 end

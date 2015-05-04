@@ -22,7 +22,7 @@ module Concerns
       end
 
       def modelify_if_necessary(val)
-        if value_is_a_collection_proxy?
+        if ApplicationHelper.ar_collection_proxy?(self.value)
           self.value.klass.find(val)
         else
           val
@@ -34,11 +34,7 @@ module Concerns
       end
 
       def need_to_extract_from_array?
-        not value_is_a_collection_proxy?
-      end
-
-      def value_is_a_collection_proxy?
-        self.value.class < ActiveRecord::Associations::CollectionProxy
+        not ApplicationHelper.ar_collection_proxy?(self.value)
       end
     end
   end

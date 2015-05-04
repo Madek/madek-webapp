@@ -1,14 +1,34 @@
-= form_tag(media_entry_meta_data_path, method: "post") do
+= form_tag(meta_data_path) do
   %div
     = label_tag(:q, " KEY ", class: 'title-s')
     = text_field_tag("_key")
+
   %hr.separator.mini.mvs
+
   %div
     = label_tag(:q, " TYPE ", class: 'title-s')
     = text_field_tag("_value[type]")
+
   %hr.separator.mini.mvs
-  - 5.times do
+
+  - 3.times do
     = label_tag(:q, " VALUE ", class: 'title-s')
     = text_field_tag("_value[content][]")
+
   %hr.separator.mini.mvs
-  = submit_tag("Send", class: 'primary-button')
+  %div
+    = label_tag(:q, " MEDIA_ENTRY_ID ", class: 'title-s')
+    = text_field_tag("media_entry_id")
+
+  %hr.separator.mini.mvs
+  %div
+    = label_tag(:q, " COLLECTION_ID ", class: 'title-s')
+    = text_field_tag("collection_id")
+
+  %hr.separator.mini.mvs
+  %div
+    = label_tag(:q, " FILTER_SET_ID ", class: 'title-s')
+    = text_field_tag("filter_set_id")
+
+  %hr.separator.mini.mvs
+  = submit_tag("Submit")

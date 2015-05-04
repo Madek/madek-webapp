@@ -1,0 +1,41 @@
+= form_tag(meta_datum_path, method: "patch") do
+  %div
+    = label_tag(:q, " KEY ", class: 'title-s')
+    = text_field_tag("_key", @get.meta_key_id, disabled: true)
+
+  %hr.separator.mini.mvs
+
+  %div
+    = label_tag(:q, " TYPE ", class: 'title-s')
+    = text_field_tag("_value[type]", @get.type, disabled: true)
+
+  %hr.separator.mini.mvs
+
+  - @get.values.each do |v|
+    = label_tag(:q, " VALUE ", class: 'title-s')
+    = text_field_tag("_value[content][]", v)
+  = label_tag(:q, " VALUE ", class: 'title-s')
+  = text_field_tag("_value[content][]")
+  = label_tag(:q, " VALUE ", class: 'title-s')
+  = text_field_tag("_value[content][]")
+
+  - if @get.media_entry_id
+    %hr.separator.mini.mvs
+    %div
+      = label_tag(:q, " MEDIA_ENTRY_ID ", class: 'title-s')
+      = text_field_tag("media_entry_id", @get.media_entry_id, disabled: true)
+
+  - if @get.collection_id
+    %hr.separator.mini.mvs
+    %div
+      = label_tag(:q, " COLLECTION_ID ", class: 'title-s')
+      = text_field_tag("collection_id", @get.collection_id, disabled: true)
+
+  - if @get.filter_set_id
+    %hr.separator.mini.mvs
+    %div
+      = label_tag(:q, " FILTER_SET_ID ", class: 'title-s')
+      = text_field_tag("filter_set_id", @get.filter_set_id, disabled: true)
+
+  = component('button', mods: nil) do
+    = "Submit"
