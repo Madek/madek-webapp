@@ -61,6 +61,7 @@
       body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/person_show_spec.rb"
 "./spec/features/styleguide_spec.rb":
   name: "./spec/features/styleguide_spec.rb"
+  priority: 2
   scripts:
     main:
       body: DISPLAY=":$XVNC_PORT" bundle exec rspec "./spec/features/styleguide_spec.rb"
