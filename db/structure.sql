@@ -3482,7 +3482,17 @@ INSERT INTO schema_migrations (version) VALUES ('171');
 
 INSERT INTO schema_migrations (version) VALUES ('173');
 
+INSERT INTO schema_migrations (version) VALUES ('175');
+
+INSERT INTO schema_migrations (version) VALUES ('176');
+
+INSERT INTO schema_migrations (version) VALUES ('177');
+
+INSERT INTO schema_migrations (version) VALUES ('178');
+
 INSERT INTO schema_migrations (version) VALUES ('18');
+
+INSERT INTO schema_migrations (version) VALUES ('180');
 
 INSERT INTO schema_migrations (version) VALUES ('19');
 
@@ -3491,16 +3501,6 @@ INSERT INTO schema_migrations (version) VALUES ('199');
 INSERT INTO schema_migrations (version) VALUES ('2');
 
 INSERT INTO schema_migrations (version) VALUES ('20');
-
-INSERT INTO schema_migrations (version) VALUES ('200');
-
-INSERT INTO schema_migrations (version) VALUES ('201');
-
-INSERT INTO schema_migrations (version) VALUES ('202');
-
-INSERT INTO schema_migrations (version) VALUES ('203');
-
-INSERT INTO schema_migrations (version) VALUES ('204');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
