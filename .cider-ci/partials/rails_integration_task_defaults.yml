@@ -2,10 +2,6 @@ task_defaults:
 
   priority: 1
 
-  git_options:
-    submodules:
-      clone: true
-
   traits:
     firefox-esr: true
     phantomjs: true

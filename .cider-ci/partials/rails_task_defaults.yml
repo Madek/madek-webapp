@@ -1,9 +1,5 @@
 task_defaults:
 
-  git_options:
-    submodules:
-      clone: true
-
   traits:
     imagemagick: true
     exiftool: true
