@@ -140,6 +140,196 @@ CREATE FUNCTION check_users_apiclients_login_uniqueness() RETURNS trigger
 
 
 --
+-- Name: delete_empty_keywords_after_delete_join(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION delete_empty_keywords_after_delete_join() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+                    BEGIN
+                      IF (EXISTS (SELECT 1 FROM meta_data WHERE meta_data.id = OLD.meta_datum_id)
+                          AND NOT EXISTS ( SELECT 1 FROM meta_data
+                                            JOIN  keywords ON meta_data.id = keywords.meta_datum_id
+                                            WHERE meta_data.id = OLD.meta_datum_id)
+                            ) THEN
+                        DELETE FROM meta_data WHERE meta_data.id = OLD.meta_datum_id;
+                      END IF;
+                      RETURN NEW;
+                    END;
+                    $$;
+
+
+--
+-- Name: delete_empty_keywords_after_insert(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION delete_empty_keywords_after_insert() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+                    BEGIN
+                      IF ( NOT EXISTS ( SELECT 1 FROM meta_data
+                                            JOIN keywords ON meta_data.id = keywords.meta_datum_id
+                                            WHERE meta_data.id = NEW.id)) THEN
+                        DELETE FROM meta_data WHERE meta_data.id = NEW.id;
+                      END IF;
+                      RETURN NEW;
+                    END;
+                    $$;
+
+
+--
+-- Name: delete_empty_meta_data_groups_after_delete_join(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION delete_empty_meta_data_groups_after_delete_join() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+                    BEGIN
+                      IF (EXISTS (SELECT 1 FROM meta_data WHERE meta_data.id = OLD.meta_datum_id)
+                          AND NOT EXISTS ( SELECT 1 FROM meta_data
+                                            JOIN  meta_data_groups ON meta_data.id = meta_data_groups.meta_datum_id
+                                            WHERE meta_data.id = OLD.meta_datum_id)
+                            ) THEN
+                        DELETE FROM meta_data WHERE meta_data.id = OLD.meta_datum_id;
+                      END IF;
+                      RETURN NEW;
+                    END;
+                    $$;
+
+
+--
+-- Name: delete_empty_meta_data_groups_after_insert(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION delete_empty_meta_data_groups_after_insert() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+                    BEGIN
+                      IF ( NOT EXISTS ( SELECT 1 FROM meta_data
+                                            JOIN meta_data_groups ON meta_data.id = meta_data_groups.meta_datum_id
+                                            WHERE meta_data.id = NEW.id)) THEN
+                        DELETE FROM meta_data WHERE meta_data.id = NEW.id;
+                      END IF;
+                      RETURN NEW;
+                    END;
+                    $$;
+
+
+--
+-- Name: delete_empty_meta_data_licenses_after_delete_join(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION delete_empty_meta_data_licenses_after_delete_join() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+                    BEGIN
+                      IF (EXISTS (SELECT 1 FROM meta_data WHERE meta_data.id = OLD.meta_datum_id)
+                          AND NOT EXISTS ( SELECT 1 FROM meta_data
+                                            JOIN  meta_data_licenses ON meta_data.id = meta_data_licenses.meta_datum_id
+                                            WHERE meta_data.id = OLD.meta_datum_id)
+                            ) THEN
+                        DELETE FROM meta_data WHERE meta_data.id = OLD.meta_datum_id;
+                      END IF;
+                      RETURN NEW;
+                    END;
+                    $$;
+
+
+--
+-- Name: delete_empty_meta_data_licenses_after_insert(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION delete_empty_meta_data_licenses_after_insert() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+                    BEGIN
+                      IF ( NOT EXISTS ( SELECT 1 FROM meta_data
+                                            JOIN meta_data_licenses ON meta_data.id = meta_data_licenses.meta_datum_id
+                                            WHERE meta_data.id = NEW.id)) THEN
+                        DELETE FROM meta_data WHERE meta_data.id = NEW.id;
+                      END IF;
+                      RETURN NEW;
+                    END;
+                    $$;
+
+
+--
+-- Name: delete_empty_meta_data_people_after_delete_join(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION delete_empty_meta_data_people_after_delete_join() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+                    BEGIN
+                      IF (EXISTS (SELECT 1 FROM meta_data WHERE meta_data.id = OLD.meta_datum_id)
+                          AND NOT EXISTS ( SELECT 1 FROM meta_data
+                                            JOIN  meta_data_people ON meta_data.id = meta_data_people.meta_datum_id
+                                            WHERE meta_data.id = OLD.meta_datum_id)
+                            ) THEN
+                        DELETE FROM meta_data WHERE meta_data.id = OLD.meta_datum_id;
+                      END IF;
+                      RETURN NEW;
+                    END;
+                    $$;
+
+
+--
+-- Name: delete_empty_meta_data_people_after_insert(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION delete_empty_meta_data_people_after_insert() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+                    BEGIN
+                      IF ( NOT EXISTS ( SELECT 1 FROM meta_data
+                                            JOIN meta_data_people ON meta_data.id = meta_data_people.meta_datum_id
+                                            WHERE meta_data.id = NEW.id)) THEN
+                        DELETE FROM meta_data WHERE meta_data.id = NEW.id;
+                      END IF;
+                      RETURN NEW;
+                    END;
+                    $$;
+
+
+--
+-- Name: delete_empty_meta_data_users_after_delete_join(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION delete_empty_meta_data_users_after_delete_join() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+                    BEGIN
+                      IF (EXISTS (SELECT 1 FROM meta_data WHERE meta_data.id = OLD.meta_datum_id)
+                          AND NOT EXISTS ( SELECT 1 FROM meta_data
+                                            JOIN  meta_data_users ON meta_data.id = meta_data_users.meta_datum_id
+                                            WHERE meta_data.id = OLD.meta_datum_id)
+                            ) THEN
+                        DELETE FROM meta_data WHERE meta_data.id = OLD.meta_datum_id;
+                      END IF;
+                      RETURN NEW;
+                    END;
+                    $$;
+
+
+--
+-- Name: delete_empty_meta_data_users_after_insert(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION delete_empty_meta_data_users_after_insert() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+                    BEGIN
+                      IF ( NOT EXISTS ( SELECT 1 FROM meta_data
+                                            JOIN meta_data_users ON meta_data.id = meta_data_users.meta_datum_id
+                                            WHERE meta_data.id = NEW.id)) THEN
+                        DELETE FROM meta_data WHERE meta_data.id = NEW.id;
+                      END IF;
+                      RETURN NEW;
+                    END;
+                    $$;
+
+
+--
 -- Name: update_updated_at_column(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2335,6 +2525,76 @@ CREATE CONSTRAINT TRIGGER trigger_check_users_apiclients_login_uniqueness_on_use
 
 
 --
+-- Name: trigger_delete_empty_keywords_after_delete_join; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_delete_empty_keywords_after_delete_join AFTER DELETE ON keywords DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE delete_empty_keywords_after_delete_join();
+
+
+--
+-- Name: trigger_delete_empty_keywords_after_insert; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_delete_empty_keywords_after_insert AFTER INSERT ON meta_data DEFERRABLE INITIALLY DEFERRED FOR EACH ROW WHEN (((new.type)::text = 'MetaDatum::Keywords'::text)) EXECUTE PROCEDURE delete_empty_keywords_after_insert();
+
+
+--
+-- Name: trigger_delete_empty_meta_data_groups_after_delete_join; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_delete_empty_meta_data_groups_after_delete_join AFTER DELETE ON meta_data_groups DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE delete_empty_meta_data_groups_after_delete_join();
+
+
+--
+-- Name: trigger_delete_empty_meta_data_groups_after_insert; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_delete_empty_meta_data_groups_after_insert AFTER INSERT ON meta_data DEFERRABLE INITIALLY DEFERRED FOR EACH ROW WHEN (((new.type)::text = 'MetaDatum::Groups'::text)) EXECUTE PROCEDURE delete_empty_meta_data_groups_after_insert();
+
+
+--
+-- Name: trigger_delete_empty_meta_data_licenses_after_delete_join; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_delete_empty_meta_data_licenses_after_delete_join AFTER DELETE ON meta_data_licenses DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE delete_empty_meta_data_licenses_after_delete_join();
+
+
+--
+-- Name: trigger_delete_empty_meta_data_licenses_after_insert; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_delete_empty_meta_data_licenses_after_insert AFTER INSERT ON meta_data DEFERRABLE INITIALLY DEFERRED FOR EACH ROW WHEN (((new.type)::text = 'MetaDatum::Licenses'::text)) EXECUTE PROCEDURE delete_empty_meta_data_licenses_after_insert();
+
+
+--
+-- Name: trigger_delete_empty_meta_data_people_after_delete_join; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_delete_empty_meta_data_people_after_delete_join AFTER DELETE ON meta_data_people DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE delete_empty_meta_data_people_after_delete_join();
+
+
+--
+-- Name: trigger_delete_empty_meta_data_people_after_insert; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_delete_empty_meta_data_people_after_insert AFTER INSERT ON meta_data DEFERRABLE INITIALLY DEFERRED FOR EACH ROW WHEN (((new.type)::text = 'MetaDatum::People'::text)) EXECUTE PROCEDURE delete_empty_meta_data_people_after_insert();
+
+
+--
+-- Name: trigger_delete_empty_meta_data_users_after_delete_join; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_delete_empty_meta_data_users_after_delete_join AFTER DELETE ON meta_data_users DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE delete_empty_meta_data_users_after_delete_join();
+
+
+--
+-- Name: trigger_delete_empty_meta_data_users_after_insert; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_delete_empty_meta_data_users_after_insert AFTER INSERT ON meta_data DEFERRABLE INITIALLY DEFERRED FOR EACH ROW WHEN (((new.type)::text = 'MetaDatum::Users'::text)) EXECUTE PROCEDURE delete_empty_meta_data_users_after_insert();
+
+
+--
 -- Name: trigger_madek_core_meta_key_immutability; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -3493,6 +3753,8 @@ INSERT INTO schema_migrations (version) VALUES ('178');
 INSERT INTO schema_migrations (version) VALUES ('18');
 
 INSERT INTO schema_migrations (version) VALUES ('180');
+
+INSERT INTO schema_migrations (version) VALUES ('181');
 
 INSERT INTO schema_migrations (version) VALUES ('19');
 

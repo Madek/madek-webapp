@@ -139,6 +139,31 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/models/media_file_spec.rb"
+"./spec/models/meta_datum/delete_unrelated/meta_datum_groups_spec.rb":
+  name: "./spec/models/meta_datum/delete_unrelated/meta_datum_groups_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/meta_datum/delete_unrelated/meta_datum_groups_spec.rb"
+"./spec/models/meta_datum/delete_unrelated/meta_datum_keywords_spec.rb":
+  name: "./spec/models/meta_datum/delete_unrelated/meta_datum_keywords_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/meta_datum/delete_unrelated/meta_datum_keywords_spec.rb"
+"./spec/models/meta_datum/delete_unrelated/meta_datum_licenses_spec.rb":
+  name: "./spec/models/meta_datum/delete_unrelated/meta_datum_licenses_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/meta_datum/delete_unrelated/meta_datum_licenses_spec.rb"
+"./spec/models/meta_datum/delete_unrelated/meta_datum_people_spec.rb":
+  name: "./spec/models/meta_datum/delete_unrelated/meta_datum_people_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/meta_datum/delete_unrelated/meta_datum_people_spec.rb"
+"./spec/models/meta_datum/delete_unrelated/meta_datum_users_spec.rb":
+  name: "./spec/models/meta_datum/delete_unrelated/meta_datum_users_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/models/meta_datum/delete_unrelated/meta_datum_users_spec.rb"
 "./spec/models/meta_datum/meta_key_consistency_spec.rb":
   name: "./spec/models/meta_datum/meta_key_consistency_spec.rb"
   scripts:
