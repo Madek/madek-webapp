@@ -13,9 +13,10 @@
     - meta_data.each do |meta_datum|
       - key = meta_datum._key
       - values = meta_datum._values
+      - url = meta_datum._url
       %tr
-        %td.ui-summary-label{data: { meta_key: key[:id]}}
-          = key[:label]
+        %td.ui-summary-label{data: { meta_key: key.id}}
+          = link_to key.label, url, class: 'weak'
         %td.ui-summary-content
           -# decorate value by type (ex.: /decorators/meta_datum/text.haml)
-          = deco(key[:type].underscore, values: values)
+          = deco(key.type.underscore, values: values)

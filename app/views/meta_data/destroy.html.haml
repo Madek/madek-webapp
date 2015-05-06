@@ -1,0 +1,19 @@
+= text
+
+- if media_entry_id
+  %hr.separator.mini.mvs
+  %div
+    = label_tag(:q, " MEDIA_ENTRY_ID ", class: 'title-s')
+    = link_to(media_entry_id, media_entry_path(media_entry_id))
+
+- if collection_id
+  %hr.separator.mini.mvs
+  %div
+    = label_tag(:q, " COLLECTION_ID ", class: 'title-s')
+    = link_to(collection_id, collection_path(collection_id))
+
+- if filter_set_id
+  %hr.separator.mini.mvs
+  %div
+    = label_tag(:q, " FILTER_SET_ID ", class: 'title-s')
+    = link_to(filter_set_id, filter_set_path(filter_set_id))

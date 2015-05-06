@@ -29,20 +29,32 @@ class Presenter
   end
 
   def self.dump_recur(obj)
+    deal_with_obj_type(obj) \
+      or deal_with_obj_class(obj) \
+      or obj
+  end
+
+  def self.deal_with_obj_type(obj)
     if obj.is_a?(Presenter)
       obj.dump
+    elsif obj.is_a?(OpenStruct)
+      obj.marshal_dump
+        .map { |k, v| [k, dump_recur(v)] }
+        .to_h
     elsif obj.is_a?(Array)
       obj.map { |elt| dump_recur(elt) }
     elsif obj.is_a?(Hash)
       obj
         .map { |k, v| [k, dump_recur(v)] }
         .to_h
-    elsif obj.class.name.match(/ActiveRecord/)
+    end
+  end
+
+  def self.deal_with_obj_class(obj)
+    if obj.class.name.match(/ActiveRecord/)
       "!!!ACTIVE_RECORD!!! <##{obj.class}>"
     elsif obj.class.superclass.name.match(/ActiveRecord/)
       "!!!ACTIVE_RECORD!!! #{obj}"
-    else
-      obj
     end
   end
 

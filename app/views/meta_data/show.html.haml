@@ -10,7 +10,7 @@
 
 %hr.separator.mini.mvs
 
-- @get.values.each do |v|
+- @get.literal_values.each do |v|
   = label_tag(:q, " VALUE ", class: 'title-s')
   = text_field_tag("_value[content][]", v, disabled: true)
 
@@ -18,19 +18,19 @@
   %hr.separator.mini.mvs
   %div
     = label_tag(:q, " MEDIA_ENTRY_ID ", class: 'title-s')
-    = text_field_tag("media_entry_id", @get.media_entry_id, disabled: true)
+    = link_to(@get.media_entry_id, media_entry_path(@get.media_entry_id))
 
 - if @get.collection_id
   %hr.separator.mini.mvs
   %div
     = label_tag(:q, " COLLECTION_ID ", class: 'title-s')
-    = text_field_tag("collection_id", @get.collection_id, disabled: true)
+    = link_to(@get.collection_id, collection_path(@get.collection_id))
 
 - if @get.filter_set_id
   %hr.separator.mini.mvs
   %div
     = label_tag(:q, " FILTER_SET_ID ", class: 'title-s')
-    = text_field_tag("filter_set_id", @get.filter_set_id, disabled: true)
+    = link_to(@get.filter_set_id, filter_set_path(@get.filter_set_id))
 
 %hr.separator.mini.mvs
 

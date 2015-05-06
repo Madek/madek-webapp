@@ -41,7 +41,14 @@ class MetaDataController < ApplicationController
 
     begin
       meta_datum.destroy!
-      render text: 'Meta datum destroyed successfully', status: :ok
+      # TODO: enable simple text and remove template rendering
+      # render text: 'Meta datum destroyed successfully', status: :ok
+      render template: 'meta_data/destroy',
+             status: :ok,
+             locals: { text: 'Meta datum destroyed successfully',
+                       media_entry_id: meta_datum.media_entry_id,
+                       collection_id: meta_datum.collection_id,
+                       filter_set_id: meta_datum.filter_set_id }
     rescue => e
       render text: e.message, status: :internal_server_error
     end
