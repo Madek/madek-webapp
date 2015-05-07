@@ -15,7 +15,7 @@ class MetaDataController < ApplicationController
       @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
       render :show, status: :created
     rescue => e
-      render text: e.message, status: :internal_server_error
+      render text: e.message, status: :bad_request
     end
   end
 
@@ -32,7 +32,7 @@ class MetaDataController < ApplicationController
       @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
       render :show, status: :ok
     rescue => e
-      render text: e.message, status: :internal_server_error
+      render text: e.message, status: :bad_request
     end
   end
 
@@ -50,7 +50,7 @@ class MetaDataController < ApplicationController
                        collection_id: meta_datum.collection_id,
                        filter_set_id: meta_datum.filter_set_id }
     rescue => e
-      render text: e.message, status: :internal_server_error
+      render text: e.message, status: :bad_request
     end
   end
 
@@ -69,7 +69,7 @@ class MetaDataController < ApplicationController
   end
 
   def value_param
-    params.require(:_value).require(:content)
+    params.require(:_value).fetch(:content)
   end
 
   def media_entry_id_param
@@ -94,6 +94,13 @@ class MetaDataController < ApplicationController
       filter_set_id: filter_set_id_param,
       meta_key_id: meta_key_id_param,
       type: type_param,
-      value: value_param }
+      value: raise_if_all_blanks_or_return_unchanged(value_param) }
+  end
+
+  def raise_if_all_blanks_or_return_unchanged(array)
+    array
+      .tap do |vals|
+        raise 'All values are blank!' if vals.all?(&:blank?)
+      end
   end
 end

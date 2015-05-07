@@ -69,26 +69,26 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/application_controller_spec.rb"
+"./spec/controllers/meta_data/create_meta_datum_spec.rb":
+  name: "./spec/controllers/meta_data/create_meta_datum_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/meta_data/create_meta_datum_spec.rb"
+"./spec/controllers/meta_data/delete_meta_datum_spec.rb":
+  name: "./spec/controllers/meta_data/delete_meta_datum_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/meta_data/delete_meta_datum_spec.rb"
+"./spec/controllers/meta_data/update_meta_datum_spec.rb":
+  name: "./spec/controllers/meta_data/update_meta_datum_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/meta_data/update_meta_datum_spec.rb"
 "./spec/controllers/my_controller_spec.rb":
   name: "./spec/controllers/my_controller_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/my_controller_spec.rb"
-"./spec/integration/meta_data/create_meta_datum_spec.rb":
-  name: "./spec/integration/meta_data/create_meta_datum_spec.rb"
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/integration/meta_data/create_meta_datum_spec.rb"
-"./spec/integration/meta_data/delete_meta_datum_spec.rb":
-  name: "./spec/integration/meta_data/delete_meta_datum_spec.rb"
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/integration/meta_data/delete_meta_datum_spec.rb"
-"./spec/integration/meta_data/update_meta_datum_spec.rb":
-  name: "./spec/integration/meta_data/update_meta_datum_spec.rb"
-  scripts:
-    main:
-      body: bundle exec rspec "./spec/integration/meta_data/update_meta_datum_spec.rb"
 "./spec/lib/system_execute_cmd_spec.rb":
   name: "./spec/lib/system_execute_cmd_spec.rb"
   scripts:

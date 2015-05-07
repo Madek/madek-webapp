@@ -1,19 +1,15 @@
 require 'spec_helper'
-require 'spec_helper_integration'
 
 def delete_and_assert_success(meta_datum)
-  delete meta_datum_path(meta_datum)
+  delete :destroy, { id: meta_datum.id }, user_id: @user.id
   assert_response :ok
   expect { MetaDatum.find(meta_datum.id) }.to raise_error
 end
 
-describe 'DeleteMetaDatum' do
+describe MetaDataController do
   before :each do
     @user = FactoryGirl.create :user
     @media_entry = FactoryGirl.create :media_entry
-    post session_sign_in_path,
-         login: @user.login,
-         password: @user.password
   end
 
   context 'success' do

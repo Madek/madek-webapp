@@ -1,23 +1,21 @@
 require 'spec_helper'
-require 'spec_helper_integration'
 
-describe 'CreateMetaDatum' do
+describe MetaDataController do
   before :each do
     @user = FactoryGirl.create :user
     @media_entry = FactoryGirl.create :media_entry
-    post session_sign_in_path,
-         login: @user.login,
-         password: @user.password
   end
 
   context 'success' do
     it 'MetaDatum::People' do
       meta_key = FactoryGirl.create(:meta_key_people)
       ids = Person.take(2).map(&:id)
-      post meta_data_path(@media_entry),
-           media_entry_id: @media_entry.id,
-           _key: meta_key.id,
-           _value: { type: 'MetaDatum::People', content: ids }
+      post :create,
+           { media_entry_id: @media_entry.id,
+             _key: meta_key.id,
+             _value: { type: 'MetaDatum::People', content: ids } },
+           user_id: @user.id
+
       assert_response :created
       md = @media_entry.meta_data.find_by_meta_key_id(meta_key.id)
       expect(md).to be
@@ -26,11 +24,14 @@ describe 'CreateMetaDatum' do
 
     it 'MetaDatum::Groups' do
       meta_key = FactoryGirl.create(:meta_key_groups)
+      2.times { FactoryGirl.create :group }
       ids = Group.take(2).map(&:id)
-      post meta_data_path(@media_entry),
-           media_entry_id: @media_entry.id,
-           _key: meta_key.id,
-           _value: { type: 'MetaDatum::Groups', content: ids }
+      post :create,
+           { media_entry_id: @media_entry.id,
+             _key: meta_key.id,
+             _value: { type: 'MetaDatum::Groups', content: ids } },
+           user_id: @user.id
+
       assert_response :created
       md = @media_entry.meta_data.find_by_meta_key_id(meta_key.id)
       expect(md).to be
@@ -40,10 +41,12 @@ describe 'CreateMetaDatum' do
     it 'MetaDatum::Users' do
       meta_key = FactoryGirl.create(:meta_key_users)
       ids = User.take(2).map(&:id)
-      post meta_data_path(@media_entry),
-           media_entry_id: @media_entry.id,
-           _key: meta_key.id,
-           _value: { type: 'MetaDatum::Users', content: ids }
+      post :create,
+           { media_entry_id: @media_entry.id,
+             _key: meta_key.id,
+             _value: { type: 'MetaDatum::Users', content: ids } },
+           user_id: @user.id
+
       assert_response :created
       md = @media_entry.meta_data.find_by_meta_key_id(meta_key.id)
       expect(md).to be
@@ -52,11 +55,14 @@ describe 'CreateMetaDatum' do
 
     it 'MetaDatum::Licenses' do
       meta_key = FactoryGirl.create(:meta_key_licenses)
+      2.times { FactoryGirl.create :license }
       ids = License.take(2).map(&:id)
-      post meta_data_path(@media_entry),
-           media_entry_id: @media_entry.id,
-           _key: meta_key.id,
-           _value: { type: 'MetaDatum::Licenses', content: ids }
+      post :create,
+           { media_entry_id: @media_entry.id,
+             _key: meta_key.id,
+             _value: { type: 'MetaDatum::Licenses', content: ids } },
+           user_id: @user.id
+
       assert_response :created
       md = @media_entry.meta_data.find_by_meta_key_id(meta_key.id)
       expect(md).to be
@@ -65,11 +71,14 @@ describe 'CreateMetaDatum' do
 
     it 'MetaDatum::Keywords' do
       meta_key = FactoryGirl.create(:meta_key_keywords)
+      2.times { FactoryGirl.create :keyword_term }
       ids = KeywordTerm.take(2).map(&:id)
-      post meta_data_path(@media_entry),
-           media_entry_id: @media_entry.id,
-           _key: meta_key.id,
-           _value: { type: 'MetaDatum::Keywords', content: ids }
+      post :create,
+           { media_entry_id: @media_entry.id,
+             _key: meta_key.id,
+             _value: { type: 'MetaDatum::Keywords', content: ids } },
+           user_id: @user.id
+
       assert_response :created
       md = @media_entry.meta_data.find_by_meta_key_id(meta_key.id)
       expect(md).to be
@@ -80,10 +89,12 @@ describe 'CreateMetaDatum' do
     it 'MetaDatum::Text' do
       meta_key = FactoryGirl.create(:meta_key_text)
       text = Faker::Lorem.word
-      post meta_data_path(@media_entry),
-           media_entry_id: @media_entry.id,
-           _key: meta_key.id,
-           _value: { type: 'MetaDatum::Text', content: text }
+      post :create,
+           { media_entry_id: @media_entry.id,
+             _key: meta_key.id,
+             _value: { type: 'MetaDatum::Text', content: [text] } },
+           user_id: @user.id
+
       assert_response :created
       md = @media_entry.meta_data.find_by_meta_key_id(meta_key.id)
       expect(md).to be
@@ -93,10 +104,12 @@ describe 'CreateMetaDatum' do
     it 'MetaDatum::TextDate' do
       meta_key = FactoryGirl.create(:meta_key_text_date)
       text = Faker::Lorem.word
-      post meta_data_path(@media_entry),
-           media_entry_id: @media_entry.id,
-           _key: meta_key.id,
-           _value: { type: 'MetaDatum::TextDate', content: text }
+      post :create,
+           { media_entry_id: @media_entry.id,
+             _key: meta_key.id,
+             _value: { type: 'MetaDatum::TextDate', content: [text] } },
+           user_id: @user.id
+
       assert_response :created
       md = @media_entry.meta_data.find_by_meta_key_id(meta_key.id)
       expect(md).to be
@@ -108,10 +121,12 @@ describe 'CreateMetaDatum' do
         meta_key = FactoryGirl.create(:meta_key_text)
         text = Faker::Lorem.word
         collection = FactoryGirl.create :collection
-        post meta_data_path(collection),
-             collection_id: collection.id,
-             _key: meta_key.id,
-             _value: { type: 'MetaDatum::Text', content: text }
+        post :create,
+             { collection_id: collection.id,
+               _key: meta_key.id,
+               _value: { type: 'MetaDatum::Text', content: [text] } },
+             user_id: @user.id
+
         assert_response :created
         md = collection.meta_data.find_by_meta_key_id(meta_key.id)
         expect(md).to be
@@ -122,17 +137,19 @@ describe 'CreateMetaDatum' do
 
   context 'failure' do
     it 'meta_key_id & media_entry_id uniqueness' do
-      pending 'TODO'
+      # example: meta_key_id & media_entry_id uniqueness
       meta_key = FactoryGirl.create(:meta_key_keywords)
       FactoryGirl.create(:meta_datum_keywords,
                          meta_key: meta_key,
                          media_entry: @media_entry)
       ids = KeywordTerm.take(2).map(&:id)
-      post meta_data_path(@media_entry),
-           media_entry_id: @media_entry.id,
-           _key: meta_key.id,
-           _value: { type: 'MetaDatum::Keywords', content: ids }
-      assert_response :internal_server_error
+      post :create,
+           { media_entry_id: @media_entry.id,
+             _key: meta_key.id,
+             _value: { type: 'MetaDatum::Keywords', content: ids } },
+           user_id: @user.id
+
+      assert_response :bad_request
       md = @media_entry.meta_data.where(meta_key_id: meta_key.id)
       expect(md.count).to be == 1
     end
@@ -142,36 +159,41 @@ describe 'CreateMetaDatum' do
         FactoryGirl.create(:meta_key,
                            id: "test:#{Faker::Lorem.word}",
                            meta_datum_object_type: 'NonSense')
-      post meta_data_path(@media_entry),
-           media_entry_id: @media_entry.id,
-           _key: meta_key.id,
-           _value: { type: 'MetaDatum::Keywords', content: Faker::Lorem.word }
-      assert_response :internal_server_error
+      post :create,
+           { media_entry_id: @media_entry.id,
+             _key: meta_key.id,
+             _value: { type: 'MetaDatum::Keywords', content: Faker::Lorem.word } },
+           user_id: @user.id
+
+      assert_response :bad_request
       md = @media_entry.meta_data.where(meta_key_id: meta_key.id)
       expect(md.count).to be == 0
     end
 
-    # TODO: should an empty value array be possible to persist?
-    # it 'empty value array' do
-    #   meta_key = FactoryGirl.create(:meta_key_people)
-    #   post meta_data_path(@media_entry),
-    #        media_entry_id: @media_entry.id,
-    #        _key: meta_key.id,
-    #        _value: { type: 'MetaDatum::People', content: [] }
-    #   assert_response :internal_server_error
-    #   md = @media_entry.meta_data.where(meta_key_id: meta_key.id)
-    #   expect(md.count).to be == 0
-    # end
+    it 'empty value array' do
+      meta_key = FactoryGirl.create(:meta_key_people)
+      post :create,
+           { media_entry_id: @media_entry.id,
+             _key: meta_key.id,
+             _value: { type: 'MetaDatum::People', content: [] } },
+           user_id: @user.id
 
-    # it 'value array with empty values' do
-    #   meta_key = FactoryGirl.create(:meta_key_people)
-    #   post meta_data_path(@media_entry),
-    #        media_entry_id: @media_entry.id,
-    #        _key: meta_key.id,
-    #        _value: { type: 'MetaDatum::People', content: ['', ''] }
-    #   assert_response :internal_server_error
-    #   md = @media_entry.meta_data.where(meta_key_id: meta_key.id)
-    #   expect(md.count).to be == 0
-    # end
+      assert_response :bad_request
+      md = @media_entry.meta_data.where(meta_key_id: meta_key.id)
+      expect(md.count).to be == 0
+    end
+
+    it 'value array with empty values' do
+      meta_key = FactoryGirl.create(:meta_key_people)
+      post :create,
+           { media_entry_id: @media_entry.id,
+             _key: meta_key.id,
+             _value: { type: 'MetaDatum::People', content: ['', ''] } },
+           user_id: @user.id
+
+      assert_response :bad_request
+      md = @media_entry.meta_data.where(meta_key_id: meta_key.id)
+      expect(md.count).to be == 0
+    end
   end
 end
