@@ -29,11 +29,9 @@
           .app-body-content.table-cell.table-substance.ui-container.pvl.pll.prm
             = content
 
-      - else # unless full_layout -> plain layout
+      - else # not full_layout -> plain layout
         = content
 
-  -# TMP: styleguide only tests "enhanced" elements, so fake the ujs for now
-  = javascript_include_tag 'madek-ujs'
   -# = content_for(:scripts) do
 
 = render template: 'layouts/_base'

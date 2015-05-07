@@ -34,12 +34,11 @@
 
   = content_for(:body)
   -# init js that needs DOM here:
-    - first the ujs because later scripts may depend on it
-  -# TODO: = javascript_include_tag 'madek-ujs'
+    - first app (dependencies) + ujs because later scripts may depend on it
   = javascript_include_tag 'application'
+  = javascript_include_tag 'madek-ujs'
   -# - now all the per-template scripts, which
       MUST be self-contained and not depending on load order:
-
   = content_for(:scripts) if content_for?(:scripts)
 
   -# Implicit *yield*, don't put one here or it double-renders!

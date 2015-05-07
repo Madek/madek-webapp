@@ -1,28 +1,58 @@
--# TODO: js
-  @UJS: uses tab plugin from bootstrap
-  <http://getbootstrap.com/javascript/#tabs>
-  some unavoidable duplication: headings/tab titles
+:ruby
+  return unless list
+  component_id = defined?(id) ? id : local_assigns.to_h.hash.to_s.underscore
 
+  tabs_bar_list = []
+  content_panes_list = []
+  list.each do |section_id, section|
+    # unique id for this section to wire up tab and pane:
+    section_target_id = "tab-pane-#{section_id}--#{component_id}"
+
+    # build tab nav item for section
+    tabs_bar_list.push [section_id, section[:nav].merge(
+      toggles: section_target_id,
+      active: section[:active]
+    )]
+
+    # content pane for section
+    content_panes_list.push [section_id, {
+      pane_conf: {
+        id: section_target_id,
+        class: section[:active] ? 'active' : nil
+      },
+      #  nojs only! section heading, uses same content as in nav tab
+      header: {
+        icon: section[:nav].try(:[], :icon),
+        text: section[:nav].try(:[], :text)
+      },
+      content: section[:content]
+    }]
+  end
+
+  tabs_bar = {
+    mods: 'js-only',
+    list: Hash[tabs_bar_list],
+    interactive: interactive
+  }
+  content_panes = Hash[content_panes_list]
+
+
+-# wrapper for nav + sections:
 %div{class: classes, role: 'tabpanel'}
 
-  -# Nav tabs - js only!
-  -# TODO: use element
-  %ul.ui-tabs.nav.nav-tabs.js-only{role: 'tablist'}
-    - list.each do |id, tab|
-      -# Tab pane - actual tab content
-      - indicator = tab[:active] ? 'active' : nil
-      - classes = [].push(tab[:nav][:mod]).push(indicator)
-      %li.ui-tabs-item{role: 'presentation', class: classes}
-        %a{role: 'tab', data: { toggle: 'tab' },
-                        aria: { controls: id }}
-          = tab[:nav][:text]
+  -# Nav tabs - JS only!
+  = component('tabs-bar', tabs_bar)
 
-  -# Tab panes container
-  .tab-content
-    - list.each do |id, tab|
+  -# Tab content panes
+  .tab-content.ui-container
+    - content_panes.each do |_key, section|
+
       -# Tab pane - actual tab content
-      - indicator = tab[:active] ? 'active' : nil
-      %section.tab-pane{id: id, class: indicator, role: 'tabpanel'}
-        -# tab heading - nojs only!
-        %h1.no-js.title-m.separated= tab[:nav][:text]
-        = tab[:content] if tab[:content]
+      %section.tab-pane.ui-container{section[:pane_conf], role: 'tabpanel'}
+
+        -# Tab headings - NOJS only!
+        %h1.no-js.title-m.separated
+          = component('icon', section[:header][:icon])
+          = section[:header][:text]
+
+        = section[:content]

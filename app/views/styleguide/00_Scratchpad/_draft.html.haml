@@ -1,0 +1,34 @@
+:ruby
+  tabbed_sections = {
+      id: 'test',
+      mods: 'foo-bar-tab-blubb',
+      list: {
+        home:  {
+          active: true,
+          nav: {
+            text: 'Home'
+          },
+          content: "home content!"
+        },
+        profile:  {
+          nav: {
+            text: 'Profile'
+          },
+          content: "your profile!"
+        },
+        messages:  {
+          nav: {
+            text: 'Messages'
+          },
+          content: "some messages!"
+        },
+        settings:  {
+          nav: {
+            text: 'Settings'
+          },
+          content: "and the settings!"
+        }
+      }
+    }
+
+= combo('tabbed-sections', tabbed_sections)

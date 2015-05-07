@@ -38,18 +38,20 @@
       },
       login: combo('tabbed-sections', {
         mods: 'pitch-login',
+        style: 'min-height: 200px',
+        interactive: true,
         list: {
           external_login: {
             active: true,
             nav: {
-              mod: 'left',
+              align: 'left',
               text: 'ZHdK-Login'
             },
             content: external_login_form,
           },
           internal_login: {
             nav: {
-              mod: 'right',
+              align: 'right',
               text: 'Externe'
             },
             content: internal_login_form,

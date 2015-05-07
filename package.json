@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "bootstrap": "^3.3.1",
+    "bootstrap": "^3.3.4",
     "check-dependencies": "^0.9.2",
     "git-describe-semver": "git+https://git@github.com/eins78/git-describe-semver#7df5522f",
     "jquery": "^2.1.3",

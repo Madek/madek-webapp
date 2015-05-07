@@ -1,0 +1,33 @@
+:ruby
+  unless list.is_a?(Enumerable) && list.first(1)
+    fail('View: No tabs given!')
+  end
+  id ||= nil
+
+  navprops = {}
+
+- navprops = { role: 'tablist' } if interactive
+%ul.ui-tabs{navprops, class: classes, id: id}
+  - list.each do |tab_id, tab|
+    :ruby
+      tabclasses = [tab[:active] ? 'active' : nil].push(tab[:align])
+      link_props = {
+        id: "#{id || 'tab'}-#{tab_id}",
+        class: tab[:classes] || [],
+        href: tab[:href]
+      }
+      if interactive
+        link_props.merge!(
+          aria: { controls: tab[:toggles] },
+          # for bootstrap plugin:
+          href: link_props[:href] || "##{tab[:toggles]}",
+          data: { toggle: 'tab' }
+        )
+      end
+
+    - navprops = { role: 'presentation' } if interactive
+    %li.ui-tabs-item{navprops, class: tabclasses}
+      %a{link_props}
+        = component('icon', tab[:icon])
+        = tab[:text]
+        = ' ' unless (tab[:text] || tab[:icon]) # enforce some kind of click target

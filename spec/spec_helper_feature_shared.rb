@@ -30,7 +30,7 @@ end
 def sign_in_as(login, password = 'password')
   visit '/'
   # if ldap login is ON, first switch to correct form tab
-  if db_user_tab = first('a#database-user-login-tab')
+  if db_user_tab = first('a#tab-internal_login')
     db_user_tab.click
   end
   fill_in 'login', with: login

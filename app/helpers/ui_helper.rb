@@ -80,13 +80,14 @@ module UiHelper
       classes: (classes_from_element(config).push(mods_from_name(name)))
                 .flatten.compact,
       link: link_from_item(config),
+      interactive: config.try(:interactive) || false,
       block_content: nil
     }
     if config.is_a? Hash
-      locals = locals.merge(config)
+      locals.merge(config.except([:mods]))
+    else
+      locals
     end
-    locals.delete([:mods])
-    locals
   end
 
   def classes_from_element(config = {})

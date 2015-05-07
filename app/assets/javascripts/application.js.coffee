@@ -1,11 +1,11 @@
-# global requires
-window.jQuery = require('jquery')
-window.$ = window.jQuery
-
-# test js
-hello = require('./test-module-js')
-hello('jQuery version ' + $().jquery)
+# global requires. needed for bootstrap.
+window.jQuery = window.$ = require('jquery')
+window.bootstrap = require('bootstrap')
 
 # test coffescript
 kafi = require('./test-module-cs')
 console.log "Coffescript says: #{kafi}"
+
+# test js
+hello = require('./test-module-js')
+hello('jQuery version ' + $().jquery)

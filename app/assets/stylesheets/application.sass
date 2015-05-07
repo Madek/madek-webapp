@@ -2,25 +2,26 @@
 @import config
 @import loader
 
-// ujs helpers
-
-.shown
-  display: inherit !important
+// ujs helpers (sass placeholder declarations):
+%ujs_hidden
+  display: none
+%ujs_shown
+  display: inherit
 
 .no-js
   // default shown
-  html &
-    @extend .shown
+  // html &
+    // @extend %ujs_shown
   // hide if has js
   html.has-js &
-    @extend .hidden
+    @extend %ujs_hidden
 
 .js-only
   // default hidden
-  @extend .hidden
+  @extend %ujs_hidden
   // show if has js
   html.has-js &
-    @extend .shown
+    @extend %ujs_shown
 
 
 // ujs fixes — TODO: move to elements
@@ -28,13 +29,18 @@
 .tab-pane
   // show non-active tabs by default
   html &
-    @extend .shown
+    @extend %ujs_shown
   html.has-js &
-    @extend .hidden
+    @extend %ujs_hidden
     &.active
-      @extend .shown
+      @extend %ujs_shown
 
 .tab-content
-  // with js tabs no padding is needed
   html.has-js &
+    // with js tabs no extra padding is needed
     padding-bottom: 0
+
+// home: login: adjust for max. height of tab contents
+[data-view="application"][data-action="root"]
+  .tab-content
+    min-height: 200px
