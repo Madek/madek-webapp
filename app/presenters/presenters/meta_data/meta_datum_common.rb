@@ -37,6 +37,8 @@ module Presenters
           Presenters::People::PersonIndex.new(value.person)
         when 'Group'
           Presenters::Groups::GroupIndex.new(value)
+        when 'InstitutionalGroup'
+          Presenters::Groups::GroupIndex.new(value)
         when 'License'
           Presenters::Licenses::LicenseIndex.new(value)
         when 'KeywordTerm'
