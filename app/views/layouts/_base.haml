@@ -1,6 +1,5 @@
 !!!
 -# NOTE: class 'has-js' is set dynamically with — suprise! — JavaScript.
--# for dev just add ", class: 'has-js'":
 %html{lang: 'de-CH'}
   %head
     %meta{charset: 'utf-8'}
@@ -15,17 +14,11 @@
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = content_for(:style_head)
 
-    -# = javascript_include_tag 'application', 'data-turbolinks-track' => true
-    -# = content_for(:script_head)
+    -# js lib/dependencies
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
 
     -# TODO: favicon(s)
-    %link{href: '/favicon.ico', rel: 'shortcut icon', type: 'image/x-icon'}
-
-    -# TODO: re-enable
-    -# The application_controller makes sure that I18n.locale is set to something valid, so we
-    -# can safely use it here.
-    -# = javascript_include_tag 'i18n/locale/#{I18n.locale.to_s.dasherize}'
-    -# = javascript_include_tag 'application'
+    -# %link{href: '/favicon.ico', rel: 'shortcut icon', type: 'image/x-icon'}
 
     = csrf_meta_tag
 
@@ -33,10 +26,11 @@
     = content_for(:head)
 
   = content_for(:body)
-  -# init js that needs DOM here:
-    - first app (dependencies) + ujs because later scripts may depend on it
-  = javascript_include_tag 'application'
-  = javascript_include_tag 'madek-ujs'
+  -# init ujs (inlined since it is short and should not cause extra request).
+    Sets a class on the root so the styles are correct:
+  :javascript
+    document.getElementsByTagName('html')[0].classList.add('has-js')
+
   -# - now all the per-template scripts, which
       MUST be self-contained and not depending on load order:
   = content_for(:scripts) if content_for?(:scripts)
