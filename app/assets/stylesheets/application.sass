@@ -168,6 +168,14 @@
 /* App custumizations
  *-----------------------------------------
 
+#app-alerts.ui-alerts
+  margin: 0 !important
+  .ui-alert
+    +border-radius(0)
+    +box-shadow(inset 0 1px 0 $lighten-less, inset 0 -1px 0 $darken)
+    padding: $space-s
+    margin-botom: 0
+
 // Home/root: login: adjust for max. height of tab contents
 [data-view="application"][data-action="root"]
   .tab-content
