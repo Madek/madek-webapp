@@ -1,63 +1,11 @@
 .ui-container.pal
-
-  - internal_login_form = capture_haml do
-    = form_tag 'session/sign_in', id: 'login_form' do
-      .form-body
-        .ui-form-group.rowed.compact
-          = text_field_tag :login, nil,
-            { placeholder: 'login', class: 'block large' }
-        .ui-form-group.rowed.compact
-          = text_field_tag :password, nil,
-            { placeholder: 'password',
-              type: 'password',
-              class: 'block large' }
-        .ui-form-group.rowed.compact
-          = check_box_tag 'remember_me', 'remember_me'
-          remember me
-        .ui-form-group.rowed.compact
-          = component('button.primary', mods: ['large', 'block'],
-                                        type: 'submit') do
-            = "Anmelden"
-
-  - external_login_form = capture_haml do
-    %form
-      .form-body
-        .ui-form-group.rowed
-          %p.mbm
-            Alle Funktionen nutzen und auf
-            %br/
-            mehr Inhalte zugreifen.
-          = component('button.primary', mods: ['large', 'block'], href: '/login') do
-            = "Anmelden"
-
   :ruby
     home_claim = {
       claim: {
         title: 'powerful global information system',
         subtitle: 'academic information should be freely available to anyone.'
       },
-      login: combo('tabbed-sections', {
-        mods: 'pitch-login',
-        style: 'min-height: 200px',
-        interactive: true,
-        list: {
-          external_login: {
-            active: true,
-            nav: {
-              align: 'left',
-              text: 'ZHdK-Login'
-            },
-            content: external_login_form,
-          },
-          internal_login: {
-            nav: {
-              align: 'right',
-              text: 'Externe'
-            },
-            content: internal_login_form,
-            }
-          }
-        })
+      login: render(partial: 'login_box')
       }
 
   = combo('home-claim', home_claim)

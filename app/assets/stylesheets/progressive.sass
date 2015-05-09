@@ -1,3 +1,41 @@
-ul.dropdown-menu.dropdown-menu-progressive 
-  display: block !important
-  
+// ul.dropdown-menu.dropdown-menu-progressive
+//   display: block !important
+//
+
+// ujs helpers (sass placeholder declarations):
+%ujs_hidden
+  display: none
+%ujs_shown
+  display: inherit
+
+.no-js
+  // default shown
+  // html &
+    // @extend %ujs_shown
+  // hide if has js
+  html.has-js &
+    @extend %ujs_hidden
+
+.js-only
+  // default hidden
+  @extend %ujs_hidden
+  // show if has js
+  html.has-js &
+    @extend %ujs_shown
+
+
+// ujs fixes — TODO: move to elements
+
+.tab-pane
+  // show non-active tabs by default
+  html &
+    @extend %ujs_shown
+  html.has-js &
+    @extend %ujs_hidden
+    &.active
+      @extend %ujs_shown
+
+.tab-content
+  html.has-js &
+    // TODO: fix: with js tabs no extra padding is needed
+    padding-bottom: 0

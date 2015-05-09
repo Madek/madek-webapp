@@ -3,16 +3,21 @@
 %html{lang: 'de-CH'}
   %head
     %meta{charset: 'utf-8'}
+    %title
+      - if content_for?(:title_head)
+        = strip_tags(content_for(:title_head))
+      - else
+        -# TODO: raise this
+        - Rails.logger.warn('View did not give content_for(:title_head)!')
+        = 'Madek'
 
-    - if content_for?(:title_head)
-      = content_for(:title_head)
-    - else
-      -# TODO: raise this
-      - Rails.logger.warn('View did not give content_for(:title_head)!')
-      %title= 'Madek'
+    -# init ujs as early as possible (just sets a class so correct styles are used):
+    :javascript
+      document.getElementsByTagName('html')[0].classList.add('has-js')
 
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = content_for(:style_head)
+
 
     -# js lib/dependencies
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
@@ -26,10 +31,6 @@
     = content_for(:head)
 
   = content_for(:body)
-  -# init ujs (inlined since it is short and should not cause extra request).
-    Sets a class on the root so the styles are correct:
-  :javascript
-    document.getElementsByTagName('html')[0].classList.add('has-js')
 
   -# - now all the per-template scripts, which
       MUST be self-contained and not depending on load order:

@@ -1,46 +1,174 @@
 @import colors
 @import config
-@import loader
 
-// ujs helpers (sass placeholder declarations):
-%ujs_hidden
-  display: none
-%ujs_shown
-  display: inherit
+/* Mixins and other global libraries
+ *-----------------------------------------
 
-.no-js
-  // default shown
-  // html &
-    // @extend %ujs_shown
-  // hide if has js
-  html.has-js &
-    @extend %ujs_hidden
+// Mixins
+@import compass
+@import library/dimension
+@import library/force-scrollbars
+@import library/ixt-reset
+@import library/micro-clearfix
+@import library/opacify
+@import library/position
+@import library/replacement
+@import library/reset-last
+@import library/sticky-footer
+@import library/space
+@import library/truncate
 
-.js-only
-  // default hidden
-  @extend %ujs_hidden
-  // show if has js
-  html.has-js &
-    @extend %ujs_shown
+// Mixin extensions
+@import library/grid
+
+// IXT Reset
++ixt-reset
+
+/* Load fonts
+ *-----------------------------------------
+
+@import ../fonts/madek-icon-font/style
+
+/* Basic elements
+ *-----------------------------------------
+
+@import general/buttons
+@import general/button-groups
+@import general/forms
+@import general/icons
+@import general/tables
+@import general/typography
+@import general/focus
+@import general/labels
+
+/* Vendor styles
+ *-----------------------------------------
+
+// Vendor overrides
+@import overrides/bootstrap
+@import overrides/bootstrap.modal
+@import overrides/bootstrap.popover
+@import overrides/bootstrap.tooltip
+@import overrides/bootstrap.typeahead
+
+/* Components
+ *-----------------------------------------
+
+@import components/ui-actions
+@import components/ui-alerts
+@import components/ui-body-title
+@import components/ui-containers
+@import components/ui-counters
+@import components/ui-drop-menus
+@import components/ui-form-group
+@import components/ui-info-box
+@import components/ui-metadata-box
+@import components/ui-modals
+@import components/ui-pager
+@import components/ui-preloaders
+@import components/ui-resources-head
+@import components/ui-search-field
+@import components/ui-set-list
+@import components/ui-side-navigation
+@import components/ui-slider
+@import components/ui-stats
+@import components/ui-stepline
+@import components/ui-tabs
+@import components/ui-tag-cloud
+@import components/ui-thumb
+@import components/ui-thumb-actions
+@import components/ui-thumb-catalog
+@import components/ui-thumb-micro
+@import components/ui-tiles
+@import components/ui-tooltip
+
+// To be revamped
+@import components/multi-select
+@import combos/upload
+
+// Undocumented ITZ additions
+@import components/ui-body-sidebar
+@import components/ui-document-preview
+@import components/ui-export-blocks
+@import components/ui-image-zoom
+@import components/ui-magnifier
+@import components/ui-maps
+@import components/ui-context-selection
+@import components/ui-media-set-vocabulary
+@import components/ui-toolbar-additional-actions
+@import components/form-widgets
+@import components/ui-autocomplete
+@import components/ui-datepicker
+@import components/fixed-table-header
+@import components/ui-resources-selection
+@import components/tristate-checkbox
+@import components/ui-custom-select
+@import components/ui-selected-entry-control
+@import components/ui-selected-resource
+@import components/ui-meta-context
+
+/* Combos
+ *-----------------------------------------
+
+@import combos/ui-clipboard
+@import combos/ui-collage
+@import combos/ui-confirmation-dialog
+@import combos/ui-featured-entries
+@import combos/ui-filterbar
+@import combos/ui-footer
+@import combos/ui-header
+@import combos/ui-home-claim
+@import combos/ui-media-overview
+@import combos/ui-resources-table
+@import combos/ui-rights-management
+@import combos/ui-search-form
+@import combos/ui-set-overview
+@import combos/ui-side-filter
+@import combos/ui-summary-table
+@import combos/ui-terms-filter
+@import combos/ui-toolbar
+@import combos/ui-workgroups
+
+// Separating the following for their complexity
+@import combos/ui-resources-common
+@import combos/ui-resources-page
+@import combos/ui-resources-grid
+@import combos/ui-resources-list
+@import combos/ui-resources-miniature
+@import combos/ui-resources-tiles
+
+/* Layout
+ *-----------------------------------------
+
+@import layout/layout
+@import layout/layout-responsive
+
+/* View-based styles
+ *-----------------------------------------
+
+@import views/import
+@import views/my_latest_imports
+@import views/edit_media_resource
+@import views/edit_multiple_media_entries
+@import views/home
+@import views/relationships
+@import views/export
+
+/* Extra
+ *-----------------------------------------
+
+@import progressive
+@import previews
+@import uberadmin
+
+/*-----------------------------------------
+ *-----------------------------------------
 
 
-// ujs fixes — TODO: move to elements
+/* App custumizations
+ *-----------------------------------------
 
-.tab-pane
-  // show non-active tabs by default
-  html &
-    @extend %ujs_shown
-  html.has-js &
-    @extend %ujs_hidden
-    &.active
-      @extend %ujs_shown
-
-.tab-content
-  html.has-js &
-    // with js tabs no extra padding is needed
-    padding-bottom: 0
-
-// home: login: adjust for max. height of tab contents
+// Home/root: login: adjust for max. height of tab contents
 [data-view="application"][data-action="root"]
   .tab-content
     min-height: 220px
