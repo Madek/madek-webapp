@@ -10,7 +10,7 @@ class Admin::UsersController < AdminController
     @users = User.page(params[:page]).per(16)
 
     if params[:search_term].present?
-      @users = @users.search_by_term(params[:search_term])
+      @users = @users.filter_by(params[:search_term])
     end
     @users = @users.admin_users if params[:admins_only] == '1'
     @users = @users.sort_by(params[:sort_by]) if params[:sort_by].present?

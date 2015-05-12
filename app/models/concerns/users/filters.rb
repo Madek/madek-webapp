@@ -2,11 +2,12 @@ module Concerns
   module Users
     module Filters
       extend ActiveSupport::Concern
+      include Concerns::FilterBySearchTerm
 
       included do
         scope :admin_users, -> { joins(:admin) }
-        scope :search_by_term, lambda { |term|
-          where('login ILIKE :t OR email ILIKE :t', t: "%#{term}%")
+        scope :filter_by, lambda { |term|
+          filter_by_term_using_attributes(term, :login, :email)
         }
         scope :sort_by, lambda { |attribute|
           case attribute.to_sym

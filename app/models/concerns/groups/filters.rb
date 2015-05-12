@@ -4,7 +4,7 @@ module Concerns
       extend ActiveSupport::Concern
 
       included do
-        scope :filter_by, lambda{ |search_term, filter|
+        scope :filter_by, lambda{ |search_term, filter = nil|
           case filter
           when 'trgm_rank'
             if search_term.blank?

@@ -1,6 +1,5 @@
 class Person < ActiveRecord::Base
-
-  # include PersonModules::TextSearch
+  include Concerns::People::Filters
 
   has_one :user
 

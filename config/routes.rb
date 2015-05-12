@@ -19,8 +19,13 @@ Madek::Application.routes.draw do
   resources :collections, only: [:index, :show], concerns: :permissions
   resources :filter_sets, only: [:index, :show], concerns: :permissions
 
-  resources :people, only: :show
-  resources :groups, only: :show
+  resources :people, only: [:index, :show]
+  resources :groups, only: [:index, :show]
+  resources :users, only: :index
+
+  resources :licenses, only: :index
+
+  resources :keyword_terms, only: :index
 
   resources :meta_data
 
