@@ -15,7 +15,7 @@ describe ApplicationController do
 
   context 'authentication', type: :request do
 
-    it 'redirects to root if not logged in' do
+    it 'error 401 if not logged in' do
       get my_dashboard_path
       assert_response 401
     end

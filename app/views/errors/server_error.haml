@@ -1,0 +1,29 @@
+- title = "Error #{code} — #{message}"
+
+- content_for(:title_head) do
+  = title
+
+- content_for(:body) do
+  %body
+    #app-server-error.modal.ui-modal.crucial.wide
+      .ui-modal-head
+        %h3.title-l
+          = title
+
+      .ui-modal-body.by-center
+        .error-message
+          %p.paragraph-l
+            = details.first
+          %p.title-xs-alt
+            = details.second
+          %p.title-xs-alt
+            - details.drop(2).flatten.uniq.each do |line|
+              = line
+              %br/
+
+      .ui-modal-footer
+        .ui-actions
+          .title-xs= Time.now.getutc.to_s
+          .span.hidden= '  (╯°□°）╯︵ ┻━┻'
+
+    .modal-backdrop.fade.in

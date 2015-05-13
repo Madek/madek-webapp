@@ -23,8 +23,12 @@ class ErrorsController < ApplicationController
                exception.try(:backtrace).try(:first, 3)]
     details = clean_up_trace(details.flatten.uniq)
 
-    render('errors', status: status, # <- sets HTTP status!
-                     locals: { code: status, message: message, details: details })
+    # select template (show server errors as plain page, client error in app)
+    type = (status < 500) ? 'client_error' : 'server_error'
+    layout = (status < 500) ? 'application' : '_base'
+
+    render(type, layout: layout, status: status, # <- sets HTTP status!
+                 locals: { code: status, message: message, details: details })
   end
 
   private

@@ -1,0 +1,32 @@
+- title = "Error #{code} — #{message}"
+
+- content_for(:title_head) do
+  = title
+
+- content_for(:app_body) do
+  .app-body.pan.man
+    #app-client-error.modal.ui-modal.crucial.wide
+      .ui-modal-head
+        %h3.title-l
+          = title
+
+      .ui-modal-body.by-center
+        -# TODO: separate templates for 401/405, 404, …
+        - if (code == 401) or (code == 405)
+          .ui-container{style: 'max-width: 440px;margin:0 auto;'}
+            = render(partial: 'login_box')
+
+        - else
+          .error-message
+            %p.paragraph-l
+              = details.first
+            %p.title-xs-alt
+              = details.second
+            %p.title-xs-alt.hidden
+              - details.drop(2).flatten.uniq.each do |line|
+                = line
+                %br/
+
+      .ui-modal-footer
+        .ui-actions
+          .title-xs= Time.now.getutc.to_s
