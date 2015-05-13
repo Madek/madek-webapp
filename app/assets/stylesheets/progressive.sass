@@ -9,10 +9,9 @@
   display: inherit
 
 .no-js
-  // default shown
-  // html &
-    // @extend %ujs_shown
-  // hide if has js
+  // - default shown:
+  //   (nothing to do)
+  // - hide if has js:
   html.has-js &
     @extend %ujs_hidden
 
@@ -24,7 +23,7 @@
     @extend %ujs_shown
 
 
-// ujs fixes — TODO: move to elements
+// ujs fixes per element:
 
 .tab-pane
   // show non-active tabs by default
@@ -34,8 +33,3 @@
     @extend %ujs_hidden
     &.active
       @extend %ujs_shown
-
-.tab-content
-  html.has-js &
-    // TODO: fix: with js tabs no extra padding is needed
-    padding-bottom: 0

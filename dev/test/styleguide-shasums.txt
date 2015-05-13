@@ -12,7 +12,7 @@ a2a8a36e79b72be113b2d613fbf16adbd2673686 ?tmp/styleguide-ref/Combos/featured_ent
 4993a30c81c39b61a68bf0222e489bd19ee74367 ?tmp/styleguide-ref/Combos/filterbar.png
 ed1eee11d11e6ee1f65f19365af1f91c70e6999e ?tmp/styleguide-ref/Combos/footer.png
 842927f1ec4f83ae30ed2776a539636518c76b28 ?tmp/styleguide-ref/Combos/header.png
-518ee27919141d43f8c8a2bdb4c1eb7356355e29 ?tmp/styleguide-ref/Combos/home_claim.png
+44a341ee14d52687e71cbf1a4f1777ce3aa8f572 ?tmp/styleguide-ref/Combos/home_claim.png
 c5902b48166d6ec0c44397654d38f2562b2ac57c ?tmp/styleguide-ref/Combos/resources_grid.png
 a1628afdd7607a8c490fe2b01d718f14eda08432 ?tmp/styleguide-ref/Combos/resources_list.png
 1cc4a5fdc0fffe8b63e07fa81e0ec961cc86be31 ?tmp/styleguide-ref/Combos/resources_miniature.png
