@@ -11,21 +11,29 @@
           = title
 
       .ui-modal-body.by-center
-        -# TODO: separate templates for 401/405, 404, …
-        - if (code == 401) or (code == 405)
-          .ui-container{style: 'max-width: 440px;margin:0 auto;'}
-            = render(partial: 'login_box')
+        .row
+          -# TODO: separate templates for 401/405, 404, …
+          - if (code == 401) or (code == 405)
+            .ui-container{style: 'max-width: 440px;margin:0 auto;'}
+              = render(partial: 'login_box')
 
-        - else
-          .error-message
-            %p.paragraph-l
-              = details.first
-            %p.title-xs-alt
-              = details.second
-            %p.title-xs-alt.hidden
-              - details.drop(2).flatten.uniq.each do |line|
-                = line
-                %br/
+          - else
+            .bang.col1of6
+              = component('icon.bang')
+
+            .error-message.col4of6{data: { hashviz_target: 'errvis' }}
+              %p.paragraph-l
+                = details.first
+              %p.title-xs-alt
+                = details.second
+              %p.title-xs-alt.hidden
+                - details.drop(2).flatten.uniq.each do |line|
+                  = line
+                  %br/
+
+            .col1of6
+              .errvis.ui-container.rounded{ data: { hashviz_container: 'errvis' } }
+                %span.no-js= '?'
 
       .ui-modal-footer
         .ui-actions
