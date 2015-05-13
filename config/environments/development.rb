@@ -11,8 +11,10 @@ Madek::Application.configure do
   # since you don't have to restart the webserver when you make code changes.
   config.cache_classes = false
 
-  # Show full error reports and disable caching
-  config.consider_all_requests_local       = true
+  # Always show the developer-friendly error pages in DEV, even from non-localhost:
+  config.consider_all_requests_local = true
+  #       ^ set to 'false' to force showing of custom error pages in DEV
+
   config.action_controller.perform_caching = true
 
   # Don't care if the mailer can't send

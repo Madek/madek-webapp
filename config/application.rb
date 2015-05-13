@@ -39,6 +39,12 @@ module Madek
       ]
     end
 
+    # handle all error pages inside the app:
+    config.show_execptions = true
+    config.exceptions_app = ->(env) { ErrorsController.action(:show).call(env) }
+    # to develop/debug error pages, set this to false in dev env as well:
+    config.consider_all_requests_local = false
+
     config.i18n.enforce_available_locales = false
     config.i18n.available_locales = ['de', 'de-CH', 'en', 'en-GB']
     config.i18n.default_locale = 'de-CH'

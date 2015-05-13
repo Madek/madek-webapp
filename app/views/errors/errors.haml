@@ -1,0 +1,26 @@
+- content_for(:body) do
+  %body
+
+    .modal.ui-modal.crucial
+      .ui-modal-head
+        %h3.title-l
+          = "Error #{code} — #{message}"
+
+      .ui-modal-body.by-center
+
+        %p.paragraph-l
+          = details.first
+          = details.second
+
+        %p.paragraph-s
+          - details.drop(2).flatten.each do |line|
+            = line
+            %br/
+
+
+      .ui-modal-footer
+        .ui-actions
+          %code= '(╯°□°）╯︵ ┻━┻'
+          -# %a.primary-button Go Back
+
+    .modal-backdrop.fade.in

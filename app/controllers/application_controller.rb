@@ -12,9 +12,6 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!, except: [:root, :login, :login_successful]
 
-  rescue_from UnauthorizedError, with: :user_unauthorized_error
-  rescue_from ForbiddenError, with: :user_forbidden_error
-
   def root
     redirect_to(my_dashboard_path) if authenticated?
   end
@@ -49,13 +46,5 @@ class ApplicationController < ActionController::Base
       flash[:error] = 'Bitte loggen Sie sich ein!'
       raise Errors::UnauthorizedError, 'Not logged in'
     end
-  end
-
-  def user_unauthorized_error
-    render file: 'public/401.html', status: 401, layout: false
-  end
-
-  def user_forbidden_error
-    render file: 'public/403.html', status: 403, layout: false
   end
 end
