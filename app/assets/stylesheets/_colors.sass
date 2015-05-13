@@ -4,21 +4,21 @@ $projection         : false
  *-----------------------------------------
 
 // Grey Shades
-$black              : black
-$mono-dark          : #4c4c4c
-$mono-strong        : #666666
-$mono-heavy         : grey
-$mono-mid           : #9a9a9a
-$mono-light         : #cccccc
-$mono-weak          : #e7e7e7
-$mono-bright        : #f3f3f3
-$white              : white
+$black              : black !default
+$mono-dark          : #4c4c4c !default
+$mono-strong        : #666666 !default
+$mono-heavy         : grey !default
+$mono-mid           : #9a9a9a !default
+$mono-light         : #cccccc !default
+$mono-weak          : #e7e7e7 !default
+$mono-bright        : #f3f3f3 !default
+$white              : white !default
 
 // Rainbow Shades
-$green              : #7a9d29
-$red                : #B81A1F
-$blue               : #3a91b6
-$yellow             : #e5b100
+$green              : #7a9d29 !default
+$red                : #B81A1F !default
+$blue               : #3a91b6 !default
+$yellow             : #e5b100 !default
 
 
 /* Create Instance Colour Variables
@@ -26,39 +26,39 @@ $yellow             : #e5b100
 =colour-palette
   @if $scheme-green
     @debug "$scheme-green is #{$scheme-green}"
-    $main-color         : $green
+    $main-color         : $green !default
   @if $scheme-red
     @debug "$scheme-red is #{$scheme-red}"
-    $main-color         : $red
+    $main-color         : $red !default
   @if $scheme-blue
     @debug "$scheme-blue is #{$scheme-blue}"
-    $main-color         : $blue
+    $main-color         : $blue !default
   @if $scheme-mono
     @debug "$scheme-mono is #{$scheme-mono}"
-    $mono-dark          : #595959
-    $mono-strong        : #666666
-    $main-color         : #171717
+    $mono-dark          : #595959 !default
+    $mono-strong        : #666666 !default
+    $main-color         : #171717 !default
 
   @if $custom-color
-    $main-color         : $custom-color
+    $main-color         : $custom-color !default
 
   // TMP: adjust main color so v3 looks distinct while refactoring
-  $main-color: hsla(174, 59%, 39%, 1)
+  $main-color: hsla(174, 59%, 39%, 1) !default
   // END TMP
 
-  $main-color-dark      : darken($main-color, 10%)
-  $main-color-light     : lighten($main-color, 10%)
+  $main-color-dark      : darken($main-color, 10%) !default
+  $main-color-light     : lighten($main-color, 10%) !default
 
 /* Transparency Values
  *-----------------------------------------
 
-$opacity-strong     : 0.85
-$opacity-heavy      : 0.5
-$opacity-medium     : 0.25
-$opacity-light      : 0.15
-$opacity-weak       : 0.05
+$opacity-strong     : 0.85 !default
+$opacity-heavy      : 0.5 !default
+$opacity-medium     : 0.25 !default
+$opacity-light      : 0.15 !default
+$opacity-weak       : 0.05 !default
 
 /* Body
  *-----------------------------------------
 
-$body-background: image-url("backgrounds/body-background.png")
+$body-background: image-url("backgrounds/body-background.png") !default
