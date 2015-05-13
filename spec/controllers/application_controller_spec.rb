@@ -17,7 +17,7 @@ describe ApplicationController do
 
     it 'redirects to root if not logged in' do
       get my_dashboard_path
-      assert_redirected_to root_path
+      assert_response 401
     end
 
   end

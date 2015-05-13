@@ -55,7 +55,7 @@ class MyController < ApplicationController
   def dashboard_section
     section_name = params[:section].to_sym
     unless SECTIONS[section_name]
-      raise ActionController::RoutingError.new(404), 'Section Not Found!'
+      raise ActionController::RoutingError.new(404), 'No such dashboard section!'
     end
     get = Presenters::Users::UserDashboard.new(current_user, page: params[:page])
     # just for the sidebar nav:

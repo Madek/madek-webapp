@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Concerns::MadekSession
+  include Errors
 
   # Give views access to these methods:
   helper_method :current_user
@@ -9,15 +10,10 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
-  class AuthorizationError < StandardError # 401 - Not Authorized
-  end
-  rescue_from AuthorizationError, with: :user_unauthorized_error
+  before_action :authenticate_user!, except: [:root, :login, :login_successful]
 
-  class ForbiddenError < StandardError # 403 - Forbidden
-  end
+  rescue_from UnauthorizedError, with: :user_unauthorized_error
   rescue_from ForbiddenError, with: :user_forbidden_error
-
-  before_action :authenticate, except: [:root, :login, :login_successful]
 
   def root
     redirect_to(my_dashboard_path) if authenticated?
@@ -46,14 +42,14 @@ class ApplicationController < ActionController::Base
     not current_user.nil?
   end
 
-  def authenticate
-    authenticated? \
-      or redirect_to :root, flash: {
-        error: 'Bitte loggen Sie sich ein!'
-      }
-  end
-
   private
+
+  def authenticate_user!
+    unless authenticated?
+      flash[:error] = 'Bitte loggen Sie sich ein!'
+      raise Errors::UnauthorizedError, 'Not logged in'
+    end
+  end
 
   def user_unauthorized_error
     render file: 'public/401.html', status: 401, layout: false
