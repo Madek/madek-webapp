@@ -8,9 +8,14 @@ module Errors
     # If user is logged in, but access is not denied.
   end
 
+  class InvalidParameterValue < StandardError
+    # If a value for a request parameter has is invalid
+  end
+
   # map custom errors to HTTP status codes:
   def self.rescue_responses
     {
+      'Errors::InvalidParameterValue' => :bad_request, # 400
       'Errors::UnauthorizedError' => :unauthorized, # 401
       'Errors::ForbiddenError' => :forbidden # 403
     }

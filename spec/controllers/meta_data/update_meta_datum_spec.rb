@@ -68,22 +68,4 @@ describe MetaDataController do
       end
     end
   end
-
-  context 'failure' do
-    it 'unknown meta_datum type' do
-      meta_key = \
-        FactoryGirl.create(:meta_key,
-                           id: "test:#{Faker::Lorem.word}",
-                           meta_datum_object_type: 'NonSense')
-      post :create,
-           { media_entry_id: @media_entry.id,
-             _key: meta_key.id,
-             _value: { type: 'MetaDatum::Keywords', content: Faker::Lorem.word } },
-           user_id: @user.id
-
-      assert_response :bad_request
-      md = @media_entry.meta_data.where(meta_key_id: meta_key.id)
-      expect(md.count).to be == 0
-    end
-  end
 end

@@ -9,14 +9,10 @@ class MetaDataController < ApplicationController
   end
 
   def create
-    begin
-      meta_datum_klass = type_param.constantize
-      meta_datum = meta_datum_klass.create!(create_params)
-      @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
-      render :show, status: :created
-    rescue => e
-      render text: e.message, status: :bad_request
-    end
+    meta_datum_klass = constantize_type_param(type_param)
+    meta_datum = meta_datum_klass.create!(create_params)
+    @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
+    render :show, status: :created
   end
 
   def edit
@@ -26,32 +22,22 @@ class MetaDataController < ApplicationController
 
   def update
     meta_datum = MetaDatum.find(id_param)
-
-    begin
-      meta_datum.update!(update_params)
-      @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
-      render :show, status: :ok
-    rescue => e
-      render text: e.message, status: :bad_request
-    end
+    meta_datum.update!(update_params)
+    @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
+    render :show, status: :ok
   end
 
   def destroy
     meta_datum = MetaDatum.find(id_param)
-
-    begin
-      meta_datum.destroy!
-      # TODO: enable simple text and remove template rendering
-      # render text: 'Meta datum destroyed successfully', status: :ok
-      render template: 'meta_data/destroy',
-             status: :ok,
-             locals: { text: 'Meta datum destroyed successfully',
-                       media_entry_id: meta_datum.media_entry_id,
-                       collection_id: meta_datum.collection_id,
-                       filter_set_id: meta_datum.filter_set_id }
-    rescue => e
-      render text: e.message, status: :bad_request
-    end
+    meta_datum.destroy!
+    # TODO: enable simple text and remove template rendering
+    # render text: 'Meta datum destroyed successfully', status: :ok
+    render template: 'meta_data/destroy',
+           status: :ok,
+           locals: { text: 'Meta datum destroyed successfully',
+                     media_entry_id: meta_datum.media_entry_id,
+                     collection_id: meta_datum.collection_id,
+                     filter_set_id: meta_datum.filter_set_id }
   end
 
   private
@@ -100,7 +86,16 @@ class MetaDataController < ApplicationController
   def raise_if_all_blanks_or_return_unchanged(array)
     array
       .tap do |vals|
-        raise 'All values are blank!' if vals.all?(&:blank?)
+        raise ActionController::ParameterMissing, 'All values are blank!' \
+          if vals.all?(&:blank?)
       end
+  end
+
+  def constantize_type_param(meta_datum_type)
+    begin
+      meta_datum_type.constantize
+    rescue NameError
+      raise Errors::InvalidParameterValue
+    end
   end
 end
