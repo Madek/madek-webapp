@@ -11,21 +11,19 @@
   }
 
 - content_for(:body) do
-  %body
+  #app.app{data: { view: request[:controller], action: request[:action] }}
 
-    #app.app{data: { view: request[:controller], action: request[:action] }}
+    = render('application/app_header')
 
-      = render('application/app_header')
+    = render('application/app_alerts')
 
-      = render('application/app_alerts')
+    .app-body
+      - if content_for?(:app_body)
+        = content_for(:app_body)
+      - elsif block_given?
+        = yield
 
-      .app-body
-        - if content_for?(:app_body)
-          = content_for(:app_body)
-        - elsif block_given?
-          = yield
-
-      .app-footer-push
+    .app-footer-push
   = combo('footer', footer)
 
 = render template: 'layouts/_base'
