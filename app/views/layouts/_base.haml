@@ -18,10 +18,6 @@
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = content_for(:style_head)
 
-
-    -# js lib/dependencies
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
-
     -# TODO: favicon(s)
     -# %link{href: '/favicon.ico', rel: 'shortcut icon', type: 'image/x-icon'}
 
@@ -31,6 +27,8 @@
     = content_for(:head)
   %body
     = content_for(:body)
+    -# js: app lib/dependencies. can't use async/defer (would require sep. DOM ops)
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
     -# - now all the per-template scripts, which
         MUST be self-contained and not depending on load order:
     = content_for(:scripts) if content_for?(:scripts)
