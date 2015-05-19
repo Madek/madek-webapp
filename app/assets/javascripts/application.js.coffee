@@ -1,27 +1,30 @@
-# global requires. needed for bootstrap.
+# global requires. needed for bootstrap, easier for plugins.
 window.jQuery = window.$ = require('jquery')
-window.bootstrap = require('bootstrap')
+require('bootstrap')
+# `$#typeahead` (provides autocompletion)
+require('typeahead.js/dist/typeahead.jquery.js')
 
-f =
-  each: require('lodash/collection/each')
+# local requires
+each = require('lodash/collection/each')
 
+# TODO: remove this when first real js test is set up
 # test coffescript
 kafi = require('./test-module-cs')
-console.log "Coffescript says: #{kafi}"
-
+# console.log "Coffescript says: #{kafi}"
 # test js
 hello = require('./test-module-js')
-hello('jQuery version ' + $().jquery)
+# hello('jQuery version ' + $().jquery)
 
-# init UJS #########################################################
+# init UJS #############################################################
 
 # already in global boostrap:
 # - tabs
 
-# our library
+# our library:
 ujs = [
-  require('./lib/ujs/hashviz.coffee')
+  require('./lib/ujs/hashviz.coffee'),
+  require('./lib/ujs/autocomplete.js')
 ]
 
-# initialize them all when DOM is ready
-$(document).ready -> f.each ujs, (init)-> do init
+# initialize them all when DOM is ready:
+$(document).ready -> each ujs, (init)-> do init

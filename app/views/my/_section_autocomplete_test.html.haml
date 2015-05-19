@@ -1,0 +1,52 @@
+#autocomplete_demo
+  .form-body
+    %fieldset.columned.prh.ui-form-group
+      %label.form-label{:for => "autocomplete_person_test"}
+        = 'Person'
+        %small= 'Type to search'
+
+      .form-item
+        .multi-select
+          .multi-select-holder
+
+            .multi-select-input-holder.mbs
+              = text_field_tag('person', nil,
+                  class: 'multi-select-input',
+                  data: { 'autocomplete' => 'person' })
+              -# %a.multi-select-input-toggle
+              -#   %i.icon-arrow-down
+
+%hr.separator.mini.mvs
+
+-# css hacks
+
+:css
+
+  /*.ui-autocomplete a {*/
+  #autocomplete_demo .ui-autocomplete .ui-menu-item {
+    clear: both;
+    color: hsl(0, 0%, 20%);
+    border-bottom: 1px solid hsl(0, 0%, 95%);
+    display: block;
+    font-weight: normal;
+    line-height: 20px;
+    padding: 3px 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /*.ui-autocomplete a.ui-state-focus, .ui-autocomplete a.ui-state-hover, .ui-autocomplete a:hover {*/
+  #autocomplete_demo .ui-autocomplete .ui-menu-item.ui-autocomplete-cursor,
+  #autocomplete_demo .ui-autocomplete .ui-menu-item:hover {
+    background-color: hsl(200, 100%, 38%);
+    background-image: linear-gradient(to bottom, hsl(200, 100%, 40%), hsl(200, 100%, 35%));
+    background-repeat: repeat-x;
+    color: hsl(0, 0%, 100%);
+    outline: 0px none;
+    text-decoration: none;
+  }
+
+  #autocomplete_demo .multi-select-visual-list {
+    height: 22px;
+  }

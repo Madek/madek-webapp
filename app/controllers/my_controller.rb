@@ -35,6 +35,11 @@ class MyController < ApplicationController
       title: 'Filter demo',
       icon: 'icon-api',
       partial: :filter_demo
+    },
+    autocomplete_test: {
+      title: 'Autocomplete test',
+      icon: 'icon-api',
+      partial: :autocomplete_test
     }
   }
 

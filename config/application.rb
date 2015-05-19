@@ -108,6 +108,12 @@ module Madek
       '-t browserify-shim', '--fast'
     ]
 
+    # Should the node_modules directory be evaluated for changes on page load
+    #
+    # The default is `false`
+    config.browserify_rails.evaluate_node_modules = true
+
+
     # browserify coffeescript support
     config.browserify_rails
       .commandline_options = '-t coffeeify --extension=".js.coffee"'
