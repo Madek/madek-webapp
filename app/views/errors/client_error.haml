@@ -1,4 +1,4 @@
-- title = "Error #{code} — #{message}"
+- title = "Error #{@get.status_code} — #{@get.message}"
 
 - content_for(:title_head) do
   = title
@@ -13,7 +13,7 @@
       .ui-modal-body.by-center
         .row
           -# TODO: separate templates for 401/405, 404, …
-          - if (code == 401) or (code == 405)
+          - if (@get.status_code == 401) or (@get.status_code == 405)
             .ui-container{style: 'max-width: 440px;margin:0 auto;'}
               = render(partial: 'login_box')
 
@@ -23,11 +23,11 @@
 
             .error-message.col4of6{data: { hashviz_target: 'errvis' }}
               %p.paragraph-l
-                = details.first
+                = @get.details.first
               %p.title-xs-alt
-                = details.second
+                = @get.details.second
               %p.title-xs-alt.hidden
-                - details.drop(2).flatten.uniq.each do |line|
+                - @get.details.drop(2).flatten.uniq.each do |line|
                   = line
                   %br/
 

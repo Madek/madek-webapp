@@ -11,7 +11,7 @@ describe PeopleController do
 
     assert_response :success
     expect(response.content_type).to be == 'application/json'
-    result = JSON.parse(response.body)['result']
+    result = JSON.parse(response.body)
     expect(result.size).to be == 1
     expect(result.first['name']).to match /#{person.first_name}/
   end

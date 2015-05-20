@@ -48,7 +48,7 @@ class MyController < ApplicationController
 
     # for indexing on dashboard and sidebar nav:
     @sections = prepare_sections_with_presenter(@get)
-    respond_with_presenter_formats
+    respond_with @get
   end
 
   # "show" actions

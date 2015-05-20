@@ -19,7 +19,7 @@ class MediaEntriesController < ApplicationController
     @get = ::Presenters::MediaEntries::MediaEntryShow.new(
       MediaEntry.find(params[:id]), current_user
     )
-    respond_with_presenter_formats
+    respond_with @get
   end
 
   def permissions_show

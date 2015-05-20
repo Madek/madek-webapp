@@ -192,6 +192,6 @@ feature 'Admin Users' do
     expect(page).to have_content 'Log Out'
     visit '/admin'
     expect(current_path).to eq admin_root_path
-    expect(page).to have_content 'Forbidden'
+    expect(page).to have_content 'Admin access denied'
   end
 end

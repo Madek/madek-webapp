@@ -4,7 +4,7 @@ class CollectionsController < ApplicationController
     @get = ::Presenters::Collections::CollectionShow.new(
       Collection.find(params[:id]), current_user
     )
-    respond_with_presenter_formats
+    respond_with @get
   end
 
   def permissions_show

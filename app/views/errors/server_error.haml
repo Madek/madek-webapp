@@ -1,4 +1,4 @@
-- title = "Error #{code} — #{message}"
+- title = "Error #{@get.code} — #{@get.message}"
 
 - content_for(:title_head) do
   = title
@@ -17,11 +17,11 @@
 
           .error-message.col4of6{data: { hashviz_target: 'errvis' }}
             %p.paragraph-l
-              = details.first
+              = @get.details.first
             %p.title-xs-alt
-              = details.second
+              = @get.details.second
             %p.title-xs-alt
-              - details.drop(2).flatten.uniq.each do |line|
+              - @get.details.drop(2).flatten.uniq.each do |line|
                 = line
                 %br/
 

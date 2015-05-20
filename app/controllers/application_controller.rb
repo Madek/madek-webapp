@@ -1,4 +1,9 @@
+require 'application_responder'
+
 class ApplicationController < ActionController::Base
+  self.responder = ApplicationResponder
+  respond_to :html, :json, :yaml # TODO: is this safe for all controllers?
+
   include Concerns::MadekSession
   include Errors
 
@@ -14,19 +19,6 @@ class ApplicationController < ActionController::Base
 
   def root
     redirect_to(my_dashboard_path) if authenticated?
-  end
-
-  # NOTE: This is just a simple way to 'dump' any Presenter as JSON/YAML.
-  # For now, it's internal use only;
-  # if this gets more serious or complicate, use the 'responders' gem.
-  def respond_with_presenter_formats
-    if defined?(@get) and @get.is_a?(Presenter)
-      respond_to do |format|
-        format.html # implicit, picks the right view etc.
-        format.json { render json: JSON.pretty_generate(@get.dump) }
-        format.yaml { render plain: @get.dump.as_json.to_yaml(line_width: -1) }
-      end
-    end
   end
 
   # private # <- would be nice but breaks test

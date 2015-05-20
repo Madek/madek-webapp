@@ -457,6 +457,7 @@ DEPENDENCIES
   rails (~> 4.2)
   rails_autolink (~> 1.0)
   rails_config!
+  responders
   rest-client
   roar
   roar-rails

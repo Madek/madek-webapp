@@ -11,9 +11,7 @@ module Concerns
 
       ar_collection = search_or_return_unchanged(ar_model.all)
       get = ar_collection.map { |kt| presenter.new(kt).dump }
-      respond_to do |format|
-        format.json { render json: { result: get } }
-      end
+      respond_with get
     end
 
     def search_or_return_unchanged(ar_collection)
