@@ -9,7 +9,7 @@
       = f.label :vocabulary_id
     .col-xs-6
       = f.select :vocabulary_id,
-          options_from_collection_for_select(Vocabulary.all, 'id', 'id'),
+          options_from_collection_for_select(Vocabulary.sorted, :id, :id, f.object.vocabulary_id),
           {}, class: 'form-control'
   .form-group
     .col-xs-3
