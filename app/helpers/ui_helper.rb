@@ -47,10 +47,18 @@ module UiHelper
     render layout: name, locals: locals, &block if block_given?
   end
 
-  def link_from_item(item)
-    return unless item.is_a? Hash
-    if item[:href]
-      { href: item[:href], target: item[:href_target] }
+  def link_from_item(config) # normalize `link` option
+    return unless config.is_a?(Hash)
+    link = config[:link]
+    case
+    when link.is_a?(String) # support string shortcut
+      { href: link }
+    when link.is_a?(Hash) && link[:href].is_a?(String) # full form, just validate
+      link
+    when config[:href] # also support normal (haml) usage
+      { href: config[:href], target: config[:href_target] }
+    else
+      false
     end
   end
 
@@ -80,11 +88,12 @@ module UiHelper
       classes: (classes_from_element(config).push(mods_from_name(name)))
                 .flatten.compact,
       link: link_from_item(config),
-      interactive: config.try(:interactive) || false,
+      interactive: config.try(:to_h).try(:[], :interactive).presence || false,
       block_content: nil
     }
+
     if config.is_a? Hash
-      locals.merge(config.except([:mods]))
+      config.except([:mods]).merge(locals)
     else
       locals
     end
@@ -118,9 +127,8 @@ module UiHelper
     (name || '').split('.').first
   end
 
-  def build_list(list = [])
-    # only transform Hashes
-    return list unless list.is_a?(Hash)
+  def build_list(list = nil)
+    return list unless list.is_a?(Hash) # only transform Hashes
     Hash[list.map { |id, itm| [id, build_locals_from_element("#{id}", itm)] }]
   end
 end

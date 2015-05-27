@@ -1,6 +1,7 @@
 :ruby
   text ||= nil
   type ||= nil
+  html_tag = link ? 'a' : 'button'
   button_class = \
     case
     when classes.include?('button-primary') then 'primary-button'
@@ -17,14 +18,8 @@
     type: type
     # data: { hook: defined?(hook) ? hook : nil }
   }
+  props = props.merge(link) if link
 
-  ##################################################
-
-  html_tag, props = if link
-                      ['a', props.merge(href: link)]
-                    else
-                      ['button', props]
-                    end
 
 - haml_tag(html_tag, props) do
   = text
