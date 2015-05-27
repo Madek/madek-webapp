@@ -1,4 +1,9 @@
-- title = "Error #{@get.code} — #{@get.message}"
+:ruby
+  # TODO: fetch generic text for status code and show message only in body
+  status_code = @get.try(:status_code).presence || 500
+  message = @get.try(:message).presence || 'Internal Server Error'
+
+  title = "Error #{status_code} — #{message}"
 
 - content_for(:title_head) do
   = title
