@@ -17,8 +17,6 @@ class User < ActiveRecord::Base
   belongs_to :person
   accepts_nested_attributes_for :person
 
-  has_many :media_resources
-
   has_many :collections, foreign_key: :responsible_user_id
   has_many :media_entries, foreign_key: :responsible_user_id
   has_many :filter_sets, foreign_key: :responsible_user_id

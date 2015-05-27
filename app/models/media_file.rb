@@ -54,4 +54,8 @@ class MediaFile < ActiveRecord::Base
   def audio_video?
     media_type =~ /video|audio/
   end
+
+  def store_location
+    File.join(FILE_STORAGE_DIR, guid.first, guid)
+  end
 end

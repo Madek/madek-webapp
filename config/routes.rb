@@ -11,7 +11,7 @@ Madek::Application.routes.draw do
 
   resources :media_entries,
             path: 'entries',
-            only: [:index, :show],
+            only: [:index, :show, :new, :create],
             concerns: :permissions do
     get 'preview/:size', action: :preview, as: 'preview', on: :member
   end

@@ -4,8 +4,12 @@
 
 - content_for(:page_header) do
   = component('page-header',
-           icon: component('icon.home'),
-           text: 'My Archive')
+              icon: component('icon.home'),
+              text: 'My Archive',
+              actions: [component('button',
+                                  link: new_media_entry_path,
+                                  mods: 'primary-button',
+                                  text: 'Create media entry')])
 
 - content_for(:page_sidebar) do
   = render partial: 'sidebar'

@@ -1,0 +1,46 @@
+= form_for :media_entry, url: media_entries_path do |me_form|
+
+  = me_form.label :responsible_user_id, class: 'title-s'
+  = me_form.text_field :responsible_user_id, value: current_user.id
+
+  %hr.separator.mini.mvs
+
+  = me_form.label :creator_id, class: 'title-s'
+  = me_form.text_field :creator_id, value: current_user.id
+
+  %hr.separator.mini.mvs
+
+  = me_form.fields_for :media_file do |mf_form|
+
+    = mf_form.label :file, class: 'title-s'
+    = mf_form.file_field :file
+
+    %hr.separator.mini.mvs
+
+    = mf_form.label :uploader_id, class: 'title-s'
+    = mf_form.text_field :uploader_id, value: current_user.id
+
+  %hr.separator.mini.mvs
+
+    = label_tag('key', 'KEY', class: 'title-s')
+    = text_field_tag('media_entry[meta_data][][_key]', 'madek_core:title')
+
+  %hr.separator.mini.mvs
+
+    = label_tag('type', 'TYPE', class: 'title-s')
+    = text_field_tag('media_entry[meta_data][][_value][type]', 'MetaDatum::Text')
+
+  %hr.separator.mini.mvs
+
+    = label_tag('value', 'VALUE', class: 'title-s')
+    = text_field_tag('media_entry[meta_data][][_value][content][]', 'test')
+
+    = label_tag('value', 'VALUE', class: 'title-s')
+    = text_field_tag('media_entry[meta_data][][_value][content][]')
+
+    = label_tag('value', 'VALUE', class: 'title-s')
+    = text_field_tag('media_entry[meta_data][][_value][content][]')
+
+  %hr.separator.mini.mvs
+
+  = me_form.submit :submit

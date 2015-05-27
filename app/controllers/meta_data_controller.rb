@@ -1,4 +1,5 @@
 class MetaDataController < ApplicationController
+  include Concerns::MetaData
 
   def show
     meta_datum = MetaDatum.find(params[:id])
@@ -46,18 +47,6 @@ class MetaDataController < ApplicationController
     params.require(:id)
   end
 
-  def meta_key_id_param
-    params.require(:_key)
-  end
-
-  def type_param
-    params.require(:_value).require(:type)
-  end
-
-  def value_param
-    params.require(:_value).fetch(:content)
-  end
-
   def media_entry_id_param
     params[:media_entry_id]
   end
@@ -81,21 +70,5 @@ class MetaDataController < ApplicationController
       meta_key_id: meta_key_id_param,
       type: type_param,
       value: raise_if_all_blanks_or_return_unchanged(value_param) }
-  end
-
-  def raise_if_all_blanks_or_return_unchanged(array)
-    array
-      .tap do |vals|
-        raise ActionController::ParameterMissing, 'All values are blank!' \
-          if vals.all?(&:blank?)
-      end
-  end
-
-  def constantize_type_param(meta_datum_type)
-    begin
-      meta_datum_type.constantize
-    rescue NameError
-      raise Errors::InvalidParameterValue
-    end
   end
 end
