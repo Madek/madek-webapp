@@ -5,7 +5,7 @@ module Errors
   end
 
   class ForbiddenError < StandardError
-    # If user is logged in, but access is not denied.
+    # If user is logged in, but access is denied.
   end
 
   class InvalidParameterValue < StandardError

@@ -4,17 +4,17 @@ module Presenters
       attr_reader :status_code, :message, :details
 
       def initialize(exception)
-        # get the expection and corresponding status code and response from Rails:
-        @status_code = \
-          ActionDispatch::ExceptionWrapper.new(Rails.env, exception).status_code
-        # these fall back to 500/'Internal Server Error' if nothing is specified:
-        status_message = ActionDispatch::ExceptionWrapper
-          .rescue_responses[exception.class.name]
-          .to_s.titleize # e.g.
+        error_class = exception.class.name
+
+        # get status code and corresponding message from Rails
+        # (these fall back to 500/'Internal Server Error' if nothing is specified):
+        @status_code = ActionDispatch::ExceptionWrapper
+                        .new(Rails.env, exception).status_code
+        @message = ActionDispatch::ExceptionWrapper
+                    .rescue_responses[error_class].to_s.titleize
 
         # get some details about the exception, with cleaned up backtrace paths:
-        @message = exception.try(:message) || status_message
-        @details = [@message,
+        @details = ["#{error_class}:\n#{exception.try(:message)}",
                     exception.try(:cause),
                     exception.try(:backtrace).try(:first, 3)]
         @details = clean_up_trace(details.flatten.uniq)

@@ -28,9 +28,9 @@ class ErrorsController < ApplicationController
     respond_with(@get) do |format|
       format.html { render(type, layout: layout, status: @get.status_code) }
       format.json \
-        { render(plain: wrap_error(@get).to_json, status: @get.status_code) }
+        { render(plain: wrap_error(@get.dump).to_json, status: @get.status_code) }
       format.json \
-        { render(plain: wrap_error(@get).to_yaml, status: @get.status_code) }
+        { render(plain: wrap_error(@get.dump).to_yaml, status: @get.status_code) }
     end
   end
 
@@ -39,7 +39,7 @@ class ErrorsController < ApplicationController
     @get = OpenStruct.new(
       status_code: 502,
       message: 'Bad Gateway',
-      details: ['Application down']
+      details: ['Application down!']
     )
     respond_with(@get) do |format|
       format.html \
@@ -53,7 +53,7 @@ class ErrorsController < ApplicationController
 
   private
 
-  def wrap_error(presenter)
-    Hash(error: presenter.dump.to_h)
+  def wrap_error(obj)
+    Hash(error: obj.to_h)
   end
 end
