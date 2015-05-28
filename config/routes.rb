@@ -446,6 +446,11 @@ MAdeK::Application.routes.draw do
 
     resources :applications
 
+    with_options only: [:new, :create, :destroy] do |o|
+      o.resources :userpermissions
+      o.resources :grouppermissions
+    end
+
     root to: "dashboard#index"
 
   end

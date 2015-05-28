@@ -1,6 +1,6 @@
 %h1 Change ownership of the set <em>#{@media_set.title}</em> and/or its children
 
-= form_tag change_ownership_app_admin_media_set_path(@media_set), method: 'PUT', class: 'form-horizontal autocomplete', role: 'form' do
+= form_tag change_ownership_app_admin_media_set_path(@media_set), method: 'PUT', class: 'form-horizontal user-autocomplete', role: 'form' do
 
   = hidden_field nil, :user_id
 

@@ -8,7 +8,7 @@ UsersController = {} unless UsersController?
 class UsersController.Autocomplete
 
   constructor: (options)->
-    @form = $("form.autocomplete")
+    @form = $("form.user-autocomplete")
     @textField = @form.find(".form-control")
     @userId = @form.find("[name='[user_id]']")
     @submitButton = @form.find("button")

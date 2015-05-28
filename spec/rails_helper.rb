@@ -116,4 +116,5 @@ RSpec.configure do |config|
 
   config.include UIHelpers
   config.include WaitForAjax
+  config.include FactoryGirl::Syntax::Methods
 end

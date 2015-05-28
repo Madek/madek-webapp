@@ -1,0 +1,34 @@
+%h1 Add group permission to the <em>#{@media_set.title}</em> and its children
+
+= form_for [:app_admin, @grouppermission], html: { class: 'form-horizontal group-autocomplete', role: 'form' } do |f|
+
+  = hidden_field nil, :group_id
+  = hidden_field nil, :media_resource_id, value: params[:media_set_id]
+
+  .form-group
+    .col-sm-2
+      %label.control-label Group
+    .col-sm-4
+      = text_field nil, :query, class: 'form-control', placeholder: 'Group name'
+
+  .form-group
+    .col-sm-2
+      Add group permission to the set with the right:
+    .col-sm-8
+      = render 'permissions', f: f
+
+  .form-group
+    .col-sm-2
+      Add group permission to the children media entries with the right:
+    .col-sm-8
+      = render 'children_permissions', scope: :media_entries
+
+  .form-group
+    .col-sm-2
+      Add group permission to the children sets with the right:
+    .col-sm-8
+      = render 'children_permissions', scope: :media_sets
+
+  .form-group
+    .col-sm-offset-2.col-sm-4
+      = f.submit 'Create', class: 'btn btn-success'

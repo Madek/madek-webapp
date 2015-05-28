@@ -4,3 +4,6 @@
   %td= grouppermission.download
   %td= grouppermission.edit
   %td= grouppermission.manage
+  %td.col-sm-1
+    = link_to app_admin_grouppermission_path(grouppermission), method: :delete, data: { confirm: 'The grouppermission will be deleted. Do you want to proceed?' }, class: 'btn btn-danger btn-xs' do
+      Destroy

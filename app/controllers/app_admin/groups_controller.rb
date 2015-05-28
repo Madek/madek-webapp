@@ -1,52 +1,58 @@
 class AppAdmin::GroupsController < AppAdmin::BaseController
   def index
-
-    begin 
-
-      @groups = Group.page(params[:page])
-
-      @type = :all
-      if !params[:type].blank? && params[:type] != "all"
-        @groups = @groups.where(type: type_parameter)
-        @type = params[:type]
+    respond_to do |format|
+      format.json do
+        groups = Group.where('name ilike :query OR institutional_group_name ilike :query',
+                              {:query => "%#{params[:query]}%"})
+        render :json => view_context.json_for(groups)
       end
+      format.html do
+        begin
+          @groups = Group.page(params[:page])
 
-      @search_terms = params.try(:[],:filter).try(:[],:search_terms)
+          @type = :all
+          if !params[:type].blank? && params[:type] != "all"
+            @groups = @groups.where(type: type_parameter)
+            @type = params[:type]
+          end
 
-      if ! @search_terms.blank?
-        @search_terms = @search_terms.strip
-        case params.try(:[], :sort_by) 
-        when 'text_rank'
-          @groups= @groups.text_rank_search(@search_terms) \
-            .order("name ASC, institutional_group_name ASC")
-        when 'trgm_rank'
-          @groups= @groups.trgm_rank_search(@search_terms) \
-            .order("name ASC, institutional_group_name ASC")
-        else
-          @groups= @groups.text_search(@search_terms)
+          @search_terms = params.try(:[],:filter).try(:[],:search_terms)
+
+          if ! @search_terms.blank?
+            @search_terms = @search_terms.strip
+            case params.try(:[], :sort_by) 
+            when 'text_rank'
+              @groups= @groups.text_rank_search(@search_terms) \
+                .order("name ASC, institutional_group_name ASC")
+            when 'trgm_rank'
+              @groups= @groups.trgm_rank_search(@search_terms) \
+                .order("name ASC, institutional_group_name ASC")
+            else
+              @groups= @groups.text_search(@search_terms)
+            end
+          end
+
+          case params.try(:[], :sort_by) || 'name'
+          when 'name'
+            @sort_by= :name
+            @groups= @groups.reorder("name ASC, institutional_group_name ASC")
+          when 'amount'
+            @sort_by = :amount
+            @groups = @groups.reorder("users_count DESC, name ASC, institutional_group_name ASC")
+          when 'trgm_rank'
+            @sort_by = :trgm_rank
+            raise "Search term must not be blank!" if @search_terms.blank? 
+          when 'text_rank'
+            @sort_by = :text_rank
+            raise "Search term must not be blank!" if @search_terms.blank? 
+          end
+
+        rescue Exception => e
+          @groups = Group.where("true = false").page(params[:page])
+          @error_message= e.to_s
         end
       end
-
-      case params.try(:[], :sort_by) || 'name'
-      when 'name'
-        @sort_by= :name
-        @groups= @groups.reorder("name ASC, institutional_group_name ASC")
-      when 'amount'
-        @sort_by = :amount
-        @groups = @groups.reorder("users_count DESC, name ASC, institutional_group_name ASC")
-      when 'trgm_rank'
-        @sort_by = :trgm_rank
-        raise "Search term must not be blank!" if @search_terms.blank? 
-      when 'text_rank'
-        @sort_by = :text_rank
-        raise "Search term must not be blank!" if @search_terms.blank? 
-      end
-
-    rescue Exception => e
-      @groups = Group.where("true = false").page(params[:page])
-      @error_message= e.to_s
     end
-
   end
 
   def new

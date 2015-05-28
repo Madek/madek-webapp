@@ -1,24 +1,24 @@
 %h1 Media-Set '#{@media_set.title}"
 
-%ul.list-inline
-  %li
-    = link_to delete_with_child_media_resources_app_admin_media_set_path(@media_set), method: 'DELETE', data: {confirm: 'Do you really want to delete this media-set including all children? '}, class: 'btn btn-danger' do
-      %i.icon-trash
-      Delete with all children
-  %li
-    = link_to app_admin_media_set_path(@media_set), method: 'DELETE', data: {confirm: 'Do you really want to delete this meda set, without related resources?'}, class: 'btn btn-danger' do
-      %i.icon-trash
-      Delete without children
-  %li
-    = link_to manage_app_admin_media_set_individual_contexts_path(@media_set), class: 'btn btn-warning' do
-      Manage individual contexts
-  %li
-    = link_to change_ownership_form_app_admin_media_set_path(@media_set), class: 'btn btn-warning' do
-      Change Ownership of set and its children
-  %li
-    = link_to edit_app_admin_media_set_path(@media_set), class: 'btn btn-warning' do
-      %i.fa.fa-pencil
-      Edit
+= link_to delete_with_child_media_resources_app_admin_media_set_path(@media_set), method: 'DELETE', data: {confirm: 'Do you really want to delete this media-set including all children? '}, class: 'btn btn-danger' do
+  %i.icon-trash
+  Delete with all children
+= link_to app_admin_media_set_path(@media_set), method: 'DELETE', data: {confirm: 'Do you really want to delete this meda set, without related resources?'}, class: 'btn btn-danger' do
+  %i.icon-trash
+  Delete without children
+= link_to manage_app_admin_media_set_individual_contexts_path(@media_set), class: 'btn btn-warning' do
+  Manage individual contexts
+= link_to change_ownership_form_app_admin_media_set_path(@media_set), class: 'btn btn-warning' do
+  Change Ownership of set and its children
+= link_to new_app_admin_userpermission_path(media_set_id: @media_set), class: 'btn btn-warning' do
+  %i.icon-user
+  Add person permission to a set and its children
+= link_to new_app_admin_grouppermission_path(media_set_id: @media_set), class: 'btn btn-warning' do
+  %i.icon-privacy-group
+  Add group permission to a set and its children
+= link_to edit_app_admin_media_set_path(@media_set), class: 'btn btn-warning' do
+  %i.fa.fa-pencil
+  Edit
 
 %p
   = link_to @media_set, target: '_blank' do
@@ -62,13 +62,14 @@
 
     %h3 Userpermissions
 
-    %table.table.table-striped
+    %table.table.table-striped.userpermissions
       %thead
         %th Person
         %th View 
         %th Download
         %th Edit
         %th Manage
+        %th
       %tbody
         = render partial: 'userpermission_row', collection: @media_set.userpermissions, as: :userpermission
 

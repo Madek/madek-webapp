@@ -77,6 +77,19 @@ FactoryGirl.define do
         ms.meta_data.create meta_key: meta_key, value: Faker::Lorem.words[0]
         ms.reindex
       end
+
+      factory :media_set_with_children do
+        transient do
+          children_count 3
+        end
+
+        after(:create) do |media_set, evaluator|
+          evaluator.children_count.times do
+            media_set.child_media_resources << FactoryGirl.create(:media_set_with_title)
+            media_set.child_media_resources << FactoryGirl.create(:media_entry_with_title)
+          end
+        end
+      end
     end
   end
 

@@ -4,3 +4,6 @@
   %td= userpermission.download
   %td= userpermission.edit
   %td= userpermission.manage
+  %td.col-sm-1
+    = link_to app_admin_userpermission_path(userpermission), method: :delete, data: { confirm: 'The userpermission will be deleted. Do you want to proceed?' }, class: 'btn btn-danger btn-xs' do
+      Destroy

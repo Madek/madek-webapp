@@ -1,0 +1,34 @@
+%h1 Add user permission to the <em>#{@media_set.title}</em> and its children
+
+= form_for [:app_admin, @userpermission], html: { class: 'form-horizontal user-autocomplete', role: 'form' } do |f|
+
+  = hidden_field nil, :user_id
+  = hidden_field nil, :media_resource_id, value: params[:media_set_id]
+
+  .form-group
+    .col-sm-2
+      %label.control-label User
+    .col-sm-4
+      = text_field nil, :query, class: 'form-control', placeholder: 'Nachname, Vorname [login]'
+
+  .form-group
+    .col-sm-2
+      Add user permission to the set with the right:
+    .col-sm-8
+      = render 'permissions', f: f
+
+  .form-group
+    .col-sm-2
+      Add user permission to the children media entries with the right:
+    .col-sm-8
+      = render 'children_permissions', scope: :media_entries
+
+  .form-group
+    .col-sm-2
+      Add user permission to the children sets with the right:
+    .col-sm-8
+      = render 'children_permissions', scope: :media_sets
+
+  .form-group
+    .col-sm-offset-2.col-sm-4
+      = f.submit 'Create', class: 'btn btn-success'

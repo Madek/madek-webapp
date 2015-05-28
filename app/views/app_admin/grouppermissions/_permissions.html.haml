@@ -1,0 +1,5 @@
+- (Userpermission::ALLOWED_PERMISSIONS - [:manage]).each do |permission|
+  .checkbox
+    %label
+      = f.check_box permission
+      #{permission}

@@ -15,6 +15,7 @@ window.jQuery.curCSS = window.jQuery.css
 
 $(document).ready ->
   usersController = new AppAdmin.UsersController.Autocomplete
+  groupsController = new AppAdmin.GroupsController.Autocomplete
   $(".limit150, .limit250").tooltip(
     placement: "top"
   )

@@ -1,7 +1,15 @@
 # -*- encoding : utf-8 -*-
 class MediaSet < MediaResourceCollection
 
-  has_many :child_media_resources, :through => :out_arcs, :source => :child
+  has_many :child_media_resources, :through => :out_arcs, :source => :child do
+    def media_entries
+      where(type: 'MediaEntry')
+    end
+
+    def media_sets
+      where(type: 'MediaSet')
+    end
+  end
   has_many :highlights,->{where('media_resource_arcs.highlight = ?',true)}, :through => :out_arcs, :source => :child
 
   def included_resources_accessible_by_user  user, action
