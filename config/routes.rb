@@ -89,4 +89,7 @@ Madek::Application.routes.draw do
   get 'styleguide/:section', to: 'styleguide#show', as: 'styleguide_section'
   get 'styleguide/:section/:element', to: 'styleguide#element', as: 'styleguide_element'
 
+  # Error page to be rendered as static page for the proxy
+  get '/proxy_error', to: 'errors#proxy_error', :constraints => {:ip => /127.0.0.1/}
+
 end
