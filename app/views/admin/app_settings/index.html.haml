@@ -3,9 +3,6 @@
     %i.glyphicon.glyphicon-cog
     Settings
 
-= render partial: 'setting_group', locals: { setting_group: 'Header', settings: [:site_title, :brand_text, :brand_url] }
-
-= render partial: 'setting_group', locals: { setting_group: 'Home', settings: [:title, :subtitle] }
-
-= render partial: 'setting_group', locals: { setting_group: 'Other', settings: [:title, :subtitle] }
-
+- @settings_groups.each do |title, settings|
+  = render partial: 'setting_group', locals: { setting_group: title,
+    settings: settings }

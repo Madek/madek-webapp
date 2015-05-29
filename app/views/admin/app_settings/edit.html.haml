@@ -1,6 +1,6 @@
 .page-header
   %h1
-    Edit "#{@field.humanize}" Setting
+    Edit "#{@field.titleize}" Setting
 
 .row
   .col-xs-12
@@ -8,8 +8,10 @@
 
       .form-group
         .col-xs-6
-          - if @field == 'sitemap'
-            = f.text_area  :sitemap, value: @app_settings.sitemap.to_yaml, rows: 12, class: 'form-control'
+          - type = ::AppSettings.columns_hash[@field.try(:to_s)].try(:sql_type)
+          - if type === 'jsonb'
+            = f.text_area @field, value: @app_settings.send(@field).to_yaml,
+              rows: 12, class: 'form-control'
           - else
             = f.text_field @field, class: 'form-control'
       .form-group

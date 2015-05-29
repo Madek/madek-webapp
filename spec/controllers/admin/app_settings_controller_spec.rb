@@ -49,22 +49,22 @@ describe Admin::AppSettingsController do
     it 'updates a setting' do
       patch(
         :update,
-        { id: app_settings.id, app_setting: { title: 'NEW TITLE' } },
+        { id: app_settings.id, app_setting: { site_title: 'NEW TITLE' } },
         user_id: admin_user.id
       )
 
       expect(flash[:success]).to eq 'Setting has been updated.'
-      expect(app_settings.reload.title).to eq 'NEW TITLE'
+      expect(app_settings.reload.site_title).to eq 'NEW TITLE'
     end
 
     it 'updates a yaml setting' do
       yaml = "---\n" \
-        "About the project: http://www.test.ch/?test\n" \
-        "Impressum: http://www.test.ch/index.php?id=12970\n" \
-        "Contact: http://www.test.ch/index.php?id=49591\n" \
-        "Help: http://wiki.test.ch/test-hilfe\n" \
-        "Terms of Use: https://wiki.test.ch/test-hilfe/doku.php?id=terms\n" \
-        "Archivierungsrichtlinien ZHdK: http://www.test.ch/?archivierung\n"
+        "- About the project: http://www.test.ch/?test\n" \
+        "- Impressum: http://www.test.ch/index.php?id=12970\n" \
+        "- Contact: http://www.test.ch/index.php?id=49591\n" \
+        "- Help: http://wiki.test.ch/test-hilfe\n" \
+        "- Terms of Use: https://wiki.test.ch/test-hilfe/doku.php?id=terms\n" \
+        "- Archivierungsrichtlinien ZHdK: http://www.test.ch/?archivierung\n"
 
       patch(
         :update,

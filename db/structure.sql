@@ -384,16 +384,16 @@ CREATE TABLE app_settings (
     featured_set_id uuid,
     splashscreen_slideshow_set_id uuid,
     catalog_set_id uuid,
-    site_title character varying,
+    site_title character varying DEFAULT 'Media Archive'::character varying,
     support_url character varying,
-    title character varying,
-    subtitle character varying,
+    welcome_title character varying DEFAULT 'Powerful Global Information System'::character varying,
+    welcome_subtitle character varying DEFAULT '“Academic information should be freely available to anyone” — Tim Berners-Lee'::character varying,
     teaser_set_id uuid,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    brand_url character varying DEFAULT '/assets/inserts/image-logo-zhdk.png'::character varying NOT NULL,
-    brand_text character varying DEFAULT 'Zürcher Hochschule der Künste'::character varying NOT NULL,
-    sitemap text,
+    brand_logo_url character varying DEFAULT '/assets/inserts/image-logo-zhdk.png'::character varying NOT NULL,
+    brand_text character varying DEFAULT 'ACME, Inc.'::character varying NOT NULL,
+    sitemap jsonb DEFAULT '{"Medienarchiv ZHdK": "http://medienarchiv.zhdk.ch", "Madek Project on Github": "https://github.com/Madek"}'::jsonb,
     CONSTRAINT oneandonly CHECK ((id = 0))
 );
 
