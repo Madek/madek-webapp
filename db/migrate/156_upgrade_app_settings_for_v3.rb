@@ -46,21 +46,29 @@ class UpgradeAppSettingsForV3 < ActiveRecord::Migration
     change_column_null :app_settings, :welcome_subtitle, false
 
     rename_column :app_settings, :footer_links, :sitemap
-    # old JSON needs to be tranformed like this:
-    old_json_value = JSON.parse(app_setting.footer_links)
+    AppSetting.reset_column_information
+    app_setting.reload
+
     sitemap_default = '[{ "Medienarchiv ZHdK": "http://medienarchiv.zhdk.ch" }, '\
                        '{ "Madek Project on Github": "https://github.com/Madek" }]'
+
+    # old JSON needs to be tranformed like this:
+    old_value = app_setting.sitemap
+    old_json_value = JSON.parse(old_value) if old_value.present?
+
+    # either the transformed JSON or the default:
+    new_json_value = if old_json_value
+      old_json_value.map {|k,v| {k=>v} }.to_json
+    else
+      sitemap_default
+    end
+
+    app_setting.update_attribute :sitemap, new_json_value
+
     change_column :app_settings, :sitemap,
                   'jsonb USING CAST(sitemap AS jsonb)',
                   default: sitemap_default,
                   null: false
-    new_json_value = old_json_value.map {|k,v| {k=>v} }.to_json
-    AppSetting.reset_column_information
-    app_setting.reload
-    if app_setting.sitemap
-      app_setting.update_attribute :sitemap, new_json_value
-    else
-      app_setting.update_attribute :sitemap, sitemap_default
-    end
+
   end
 end
