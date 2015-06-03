@@ -23,4 +23,9 @@ class MetaDatum < ActiveRecord::Base
   belongs_to :media_entry
   belongs_to :collection
   belongs_to :filter_set
+
+  # needed for Pundit#authorize in controllers
+  def self.policy_class
+    MetaDatumPolicy
+  end
 end

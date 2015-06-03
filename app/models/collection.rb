@@ -1,7 +1,11 @@
 class Collection < ActiveRecord::Base
 
+  VIEW_PERMISSION_NAME = :get_metadata_and_previews
+  EDIT_PERMISSION_NAME = :edit_metadata_and_relations
+
   include Concerns::Collections::Siblings
   include Concerns::MediaResources
+  include Concerns::MediaResources::Editability
 
   #################################################################################
 

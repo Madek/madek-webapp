@@ -14,7 +14,7 @@ module Presenters
         private
 
         def public_status
-          :public if @app_resource.public?
+          :public if @app_resource.public_view?
         end
 
         def shared_status

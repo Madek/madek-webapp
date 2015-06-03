@@ -1,14 +1,27 @@
 require 'spec_helper'
 
+def create_vocabulary_permissions(vocab)
+  vocab.user_permissions << \
+    FactoryGirl.create(:vocabulary_user_permission,
+                       user: @user,
+                       view: true,
+                       use: true)
+end
+
 describe MetaDataController do
   before :each do
     @user = FactoryGirl.create :user
     @media_entry = FactoryGirl.create :media_entry
+    @media_entry.user_permissions << \
+      FactoryGirl.create(:media_entry_user_permission,
+                         user: @user,
+                         edit_metadata: true)
   end
 
   context 'success' do
     it 'example of one meta datum type' do
       meta_key = FactoryGirl.create(:meta_key_people)
+      create_vocabulary_permissions(meta_key.vocabulary)
       original_ids = Person.all.sample(2).map(&:id)
       meta_datum = \
         MetaDatum::People.create!(media_entry_id: @media_entry.id,
@@ -31,6 +44,7 @@ describe MetaDataController do
     context 'update leads to delete of meta_datum' do
       it 'empty value array' do
         meta_key = FactoryGirl.create(:meta_key_people)
+        create_vocabulary_permissions(meta_key.vocabulary)
         original_ids = Person.all.sample(2).map(&:id)
         meta_datum = \
           MetaDatum::People.create!(media_entry_id: @media_entry.id,
@@ -50,6 +64,7 @@ describe MetaDataController do
 
       it 'value array with empty values' do
         meta_key = FactoryGirl.create(:meta_key_people)
+        create_vocabulary_permissions(meta_key.vocabulary)
         original_ids = Person.all.sample(2).map(&:id)
         meta_datum = \
           MetaDatum::People.create!(media_entry_id: @media_entry.id,

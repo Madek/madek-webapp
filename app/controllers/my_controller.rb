@@ -1,6 +1,10 @@
 class MyController < ApplicationController
   layout 'app_with_sidebar'
 
+  before_action do
+    authorize :dashboard, :logged_in?
+  end
+
   # NOTE: conventions for sections:
   # - if it has resources: UserDashboardPresenter has a method with name of section
   # - `partial: :foobar` → `section_partial_foobar.haml`, used for index and show

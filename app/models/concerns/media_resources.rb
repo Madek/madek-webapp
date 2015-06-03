@@ -11,11 +11,5 @@ module Concerns
     include Concerns::MediaResources::Visibility
     include Concerns::Users::Creator
     include Concerns::Users::Responsible
-
-    def self.included(base)
-      unless base.const_defined?(:ENTRUSTED_PERMISSION)
-        base.const_set(:ENTRUSTED_PERMISSION, :get_metadata_and_previews)
-      end
-    end
   end
 end

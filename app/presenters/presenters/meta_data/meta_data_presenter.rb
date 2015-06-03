@@ -40,7 +40,8 @@ module Presenters
         data = @app_resource
           .meta_data
           .joins(:vocabulary)
-          .where(vocabularies: { id: Vocabulary.viewable_by_user(@user) })
+          .where(vocabularies: \
+                  { id: Vocabulary.viewable_by_user_or_public(@user) })
           .map { |md| Presenters::MetaData::MetaDatumCommon.new(md) }
           .map { |md_p| build_key_values_tuple(md_p) }
           .group_by { |tuple| tuple._key.vocabulary_id }

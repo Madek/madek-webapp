@@ -6,6 +6,11 @@ class ApplicationController < ActionController::Base
 
   include Concerns::MadekSession
   include Errors
+  include Pundit
+
+  # this Pundit error is generic and means basically 'access denied'
+  rescue_from Pundit::NotAuthorizedError,
+              with: :reraise_according_to_login_state
 
   # Give views access to these methods:
   helper_method :current_user
@@ -14,8 +19,6 @@ class ApplicationController < ActionController::Base
   append_view_path(Rails.root.join('app', 'ui_elements'))
 
   protect_from_forgery
-
-  before_action :authenticate_user!, except: [:root, :login, :login_successful]
 
   def root
     redirect_to(my_dashboard_path) if authenticated?
@@ -31,12 +34,7 @@ class ApplicationController < ActionController::Base
     not current_user.nil?
   end
 
-  private
-
-  def authenticate_user!
-    unless authenticated?
-      flash[:error] = 'Bitte loggen Sie sich ein!'
-      raise Errors::UnauthorizedError, 'Not logged in'
-    end
+  def reraise_according_to_login_state
+    raise (current_user ? Errors::ForbiddenError : Errors::UnauthorizedError)
   end
 end

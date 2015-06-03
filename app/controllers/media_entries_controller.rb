@@ -1,4 +1,5 @@
 class MediaEntriesController < ApplicationController
+  include Concerns::MediaResourcesShowActions
   include Modules::FileStorage
   include Modules::MetaDataStorage
 
@@ -15,20 +16,6 @@ class MediaEntriesController < ApplicationController
       Rails.logger.warn "Preview not found! Entry##{params[:id]}"
       render nothing: true, status: 404
     end
-  end
-
-  def show
-    @get = \
-      ::Presenters::MediaEntries::MediaEntryShow.new(MediaEntry.find(params[:id]),
-                                                     current_user)
-    respond_with @get
-  end
-
-  def permissions_show
-    entry = MediaEntry.find(params[:id])
-    @get = \
-      ::Presenters::MediaEntries::MediaEntryPermissionsShow.new(entry,
-                                                                current_user)
   end
 
   def new

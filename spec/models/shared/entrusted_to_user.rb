@@ -40,9 +40,11 @@ RSpec.shared_examples 'entrusted to user' do
 
   it 'union of entrusted_to_user_directly and entrusted_to_user_through_groups' do
     entrusted_to_user_directly = \
-      described_class.entrusted_to_user_directly(@user)
+      described_class.by_user_directly(@user,
+                                       described_class::VIEW_PERMISSION_NAME)
     entrusted_to_user_through_groups = \
-      described_class.entrusted_to_user_through_groups(@user)
+      described_class.by_user_through_groups(@user,
+                                             described_class::VIEW_PERMISSION_NAME)
     result_union = \
       (entrusted_to_user_directly + entrusted_to_user_through_groups).uniq
 

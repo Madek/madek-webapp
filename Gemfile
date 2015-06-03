@@ -49,6 +49,7 @@ gem 'json'
 gem 'kaminari'
 gem 'newrelic_rpm', group: [:production, :development]
 gem 'nokogiri'
+gem 'pundit'
 gem 'rails_autolink', '~> 1.0'
 gem 'rails_config', git: 'https://github.com/DrTom/rails_config.git', ref: 'master'
 gem 'responders'

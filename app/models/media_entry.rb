@@ -1,8 +1,12 @@
 class MediaEntry < ActiveRecord::Base
 
+  VIEW_PERMISSION_NAME = :get_metadata_and_previews
+  EDIT_PERMISSION_NAME = :edit_metadata
+
   include Concerns::Collections::Siblings
   include Concerns::MediaEntries::Filters
   include Concerns::MediaResources
+  include Concerns::MediaResources::Editability
 
   has_one :media_file, dependent: :destroy
 

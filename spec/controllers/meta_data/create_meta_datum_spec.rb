@@ -1,14 +1,27 @@
 require 'spec_helper'
 
+def create_vocabulary_permissions(vocab)
+  vocab.user_permissions << \
+    FactoryGirl.create(:vocabulary_user_permission,
+                       user: @user,
+                       view: true,
+                       use: true)
+end
+
 describe MetaDataController do
   before :each do
     @user = FactoryGirl.create :user
     @media_entry = FactoryGirl.create :media_entry
+    @media_entry.user_permissions << \
+      FactoryGirl.create(:media_entry_user_permission,
+                         user: @user,
+                         edit_metadata: true)
   end
 
   context 'success' do
     it 'MetaDatum::People' do
       meta_key = FactoryGirl.create(:meta_key_people)
+      create_vocabulary_permissions(meta_key.vocabulary)
       ids = Person.take(2).map(&:id)
       post :create,
            { media_entry_id: @media_entry.id,
@@ -24,6 +37,7 @@ describe MetaDataController do
 
     it 'MetaDatum::Groups' do
       meta_key = FactoryGirl.create(:meta_key_groups)
+      create_vocabulary_permissions(meta_key.vocabulary)
       2.times { FactoryGirl.create :group }
       ids = Group.take(2).map(&:id)
       post :create,
@@ -40,6 +54,7 @@ describe MetaDataController do
 
     it 'MetaDatum::Users' do
       meta_key = FactoryGirl.create(:meta_key_users)
+      create_vocabulary_permissions(meta_key.vocabulary)
       ids = User.take(2).map(&:id)
       post :create,
            { media_entry_id: @media_entry.id,
@@ -55,6 +70,7 @@ describe MetaDataController do
 
     it 'MetaDatum::Licenses' do
       meta_key = FactoryGirl.create(:meta_key_licenses)
+      create_vocabulary_permissions(meta_key.vocabulary)
       2.times { FactoryGirl.create :license }
       ids = License.take(2).map(&:id)
       post :create,
@@ -71,6 +87,7 @@ describe MetaDataController do
 
     it 'MetaDatum::Keywords' do
       meta_key = FactoryGirl.create(:meta_key_keywords)
+      create_vocabulary_permissions(meta_key.vocabulary)
       2.times { FactoryGirl.create :keyword_term }
       ids = KeywordTerm.take(2).map(&:id)
       post :create,
@@ -88,6 +105,7 @@ describe MetaDataController do
 
     it 'MetaDatum::Text' do
       meta_key = FactoryGirl.create(:meta_key_text)
+      create_vocabulary_permissions(meta_key.vocabulary)
       text = Faker::Lorem.word
       post :create,
            { media_entry_id: @media_entry.id,
@@ -103,6 +121,7 @@ describe MetaDataController do
 
     it 'MetaDatum::TextDate' do
       meta_key = FactoryGirl.create(:meta_key_text_date)
+      create_vocabulary_permissions(meta_key.vocabulary)
       text = Faker::Lorem.word
       post :create,
            { media_entry_id: @media_entry.id,
@@ -119,8 +138,13 @@ describe MetaDataController do
     context 'collection' do
       it 'MetaDatum::Text' do
         meta_key = FactoryGirl.create(:meta_key_text)
+        create_vocabulary_permissions(meta_key.vocabulary)
         text = Faker::Lorem.word
         collection = FactoryGirl.create :collection
+        collection.user_permissions << \
+          FactoryGirl.create(:collection_user_permission,
+                             user: @user,
+                             edit_metadata_and_relations: true)
         post :create,
              { collection_id: collection.id,
                _key: meta_key.id,
@@ -139,6 +163,7 @@ describe MetaDataController do
     it 'meta_key_id & media_entry_id uniqueness' do
       # example: meta_key_id & media_entry_id uniqueness
       meta_key = FactoryGirl.create(:meta_key_keywords)
+      create_vocabulary_permissions(meta_key.vocabulary)
       meta_datum = FactoryGirl.create(:meta_datum_keywords,
                                       meta_key: meta_key,
                                       media_entry: @media_entry)
@@ -162,6 +187,7 @@ describe MetaDataController do
         FactoryGirl.create(:meta_key,
                            id: "test:#{Faker::Lorem.word}",
                            meta_datum_object_type: 'NonSense')
+      create_vocabulary_permissions(meta_key.vocabulary)
 
       expect do
         post :create,
@@ -178,6 +204,7 @@ describe MetaDataController do
 
     it 'empty value array' do
       meta_key = FactoryGirl.create(:meta_key_people)
+      create_vocabulary_permissions(meta_key.vocabulary)
 
       expect do
         post :create,
@@ -193,6 +220,7 @@ describe MetaDataController do
 
     it 'value array with empty values' do
       meta_key = FactoryGirl.create(:meta_key_people)
+      create_vocabulary_permissions(meta_key.vocabulary)
 
       expect do
         post :create,

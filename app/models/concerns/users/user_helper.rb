@@ -3,7 +3,7 @@ module Concerns
     module UserHelper
       extend ActiveSupport::Concern
 
-      included do |base|
+      included do
 
         def self.define_user_related_data(user_type)
           belongs_to user_type, class_name: 'User'

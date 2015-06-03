@@ -4,7 +4,7 @@ module Concerns
       module Helpers
         extend ActiveSupport::Concern
 
-        include Concerns::QueryIntersect
+        include Concerns::QueryHelpers
         include Concerns::MediaResources::Filters::MetaDataTypes
         include Concerns::MediaResources::Filters::MetaKeys
 

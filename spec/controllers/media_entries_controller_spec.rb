@@ -1,17 +1,26 @@
 require 'spec_helper'
+require Rails.root.join 'spec',
+                        'controllers',
+                        'shared',
+                        'media_resources',
+                        'authorization.rb'
 
 describe MediaEntriesController do
+
+  before :example do
+    @user = FactoryGirl.create :user
+  end
+
   it 'create' do
-    user = FactoryGirl.create :user
     meta_key = FactoryGirl.create(:meta_key_text)
     image_path = 'spec/images/test.png'
     post_params = \
       { media_entry: \
-        { responsible_user_id: user.id,
-          creator_id: user.id,
+        { responsible_user_id: @user.id,
+          creator_id: @user.id,
           media_file: {
             file: fixture_file_upload(image_path, 'image/png'),
-            uploader_id: user.id
+            uploader_id: @user.id
           },
           meta_data: [
             { _key: meta_key.id,
@@ -22,10 +31,10 @@ describe MediaEntriesController do
         }
       }
 
-    post :create, post_params, user_id: user.id
+    post :create, post_params, user_id: @user.id
     expect(response.redirect?).to be true
-    expect(user.media_entries.count).to be 1
-    media_entry = user.media_entries.first
+    expect(@user.media_entries.count).to be 1
+    media_entry = @user.media_entries.first
     media_file = media_entry.media_file
     expect(media_file).to be
     expect(
@@ -35,4 +44,6 @@ describe MediaEntriesController do
     ).to be true
     expect(media_entry.meta_data.exists?).to be true
   end
+
+  it_performs 'authorization'
 end

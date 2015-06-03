@@ -71,7 +71,7 @@ module Presenters
 
         def select_resources(resources)
           resources
-            .viewable_by_user(@user)
+            .viewable_by_user_or_public(@user)
             .filter(@filter)
             .reorder(@order)
             .page(@page)

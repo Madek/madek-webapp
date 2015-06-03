@@ -3,26 +3,31 @@ class MetaDataController < ApplicationController
 
   def show
     meta_datum = MetaDatum.find(params[:id])
+    authorize meta_datum
     @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
   end
 
   def new
+    authorize :meta_datum
   end
 
   def create
     meta_datum_klass = constantize_type_param(type_param)
     meta_datum = meta_datum_klass.create!(create_params)
+    authorize meta_datum
     @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
     render :show, status: :created
   end
 
   def edit
     meta_datum = MetaDatum.find(id_param)
+    authorize meta_datum
     @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
   end
 
   def update
     meta_datum = MetaDatum.find(id_param)
+    authorize meta_datum
     meta_datum.update!(update_params)
     @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
     render :show, status: :ok
@@ -30,6 +35,7 @@ class MetaDataController < ApplicationController
 
   def destroy
     meta_datum = MetaDatum.find(id_param)
+    authorize meta_datum
     meta_datum.destroy!
     # TODO: enable simple text and remove template rendering
     # render text: 'Meta datum destroyed successfully', status: :ok

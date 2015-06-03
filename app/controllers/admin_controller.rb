@@ -4,16 +4,13 @@ class AdminController < ApplicationController
   rescue_from ActiveRecord::ActiveRecordError,
               with: :render_error
 
-  before_action :authenticate_admin_user!
+  before_action do
+    authorize :admin, :logged_in_and_admin?
+  end
+
   before_action :set_alerts
 
   private
-
-  def authenticate_admin_user!
-    unless current_user.admin?
-      raise Errors::ForbiddenError, 'Admin access denied!'
-    end
-  end
 
   def render_error(error)
     @error = error
@@ -27,5 +24,13 @@ class AdminController < ApplicationController
                   info: (flash[:info] || []),
                   success: (flash[:success] || []),
                   warning: (flash[:warning] || []) }
+  end
+
+  def reraise_according_to_login_state
+    if current_user
+      raise Errors::ForbiddenError, 'Admin access denied!'
+    else
+      raise Errors::UnauthorizedError
+    end
   end
 end

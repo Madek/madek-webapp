@@ -74,11 +74,26 @@
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/application_controller_spec.rb"
+"./spec/controllers/collections_controller_spec.rb":
+  name: "./spec/controllers/collections_controller_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/collections_controller_spec.rb"
+"./spec/controllers/filter_sets_controller_spec.rb":
+  name: "./spec/controllers/filter_sets_controller_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/filter_sets_controller_spec.rb"
 "./spec/controllers/media_entries_controller_spec.rb":
   name: "./spec/controllers/media_entries_controller_spec.rb"
   scripts:
     main:
       body: bundle exec rspec "./spec/controllers/media_entries_controller_spec.rb"
+"./spec/controllers/meta_data/authorization_spec.rb":
+  name: "./spec/controllers/meta_data/authorization_spec.rb"
+  scripts:
+    main:
+      body: bundle exec rspec "./spec/controllers/meta_data/authorization_spec.rb"
 "./spec/controllers/meta_data/create_meta_datum_spec.rb":
   name: "./spec/controllers/meta_data/create_meta_datum_spec.rb"
   scripts:
