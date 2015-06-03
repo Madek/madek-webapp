@@ -380,20 +380,20 @@ CREATE TABLE api_clients (
 --
 
 CREATE TABLE app_settings (
-    id integer NOT NULL,
+    id integer DEFAULT 0 NOT NULL,
     featured_set_id uuid,
     splashscreen_slideshow_set_id uuid,
     catalog_set_id uuid,
-    site_title character varying DEFAULT 'Media Archive'::character varying,
+    site_title character varying DEFAULT 'Media Archive'::character varying NOT NULL,
     support_url character varying,
-    welcome_title character varying DEFAULT 'Powerful Global Information System'::character varying,
-    welcome_subtitle character varying DEFAULT '“Academic information should be freely available to anyone” — Tim Berners-Lee'::character varying,
+    welcome_title character varying DEFAULT 'Powerful Global Information System'::character varying NOT NULL,
+    welcome_subtitle character varying DEFAULT '“Academic information should be freely available to anyone” — Tim Berners-Lee'::character varying NOT NULL,
     teaser_set_id uuid,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     brand_logo_url character varying DEFAULT '/assets/inserts/image-logo-zhdk.png'::character varying NOT NULL,
     brand_text character varying DEFAULT 'ACME, Inc.'::character varying NOT NULL,
-    sitemap jsonb DEFAULT '{"Medienarchiv ZHdK": "http://medienarchiv.zhdk.ch", "Madek Project on Github": "https://github.com/Madek"}'::jsonb,
+    sitemap jsonb DEFAULT '[{"Medienarchiv ZHdK": "http://medienarchiv.zhdk.ch"}, {"Madek Project on Github": "https://github.com/Madek"}]'::jsonb NOT NULL,
     CONSTRAINT oneandonly CHECK ((id = 0))
 );
 
