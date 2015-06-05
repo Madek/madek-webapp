@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :reraise_according_to_login_state
 
   # Give views access to these methods:
-  helper_method :current_user
+  helper_method :current_user, :settings
 
   # UI Elements
   append_view_path(Rails.root.join('app', 'ui_elements'))
@@ -21,6 +21,10 @@ class ApplicationController < ActionController::Base
 
   def root
     redirect_to(my_dashboard_path) if authenticated?
+  end
+
+  def settings
+    AppSettings.first
   end
 
   def current_user
