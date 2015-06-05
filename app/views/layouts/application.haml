@@ -5,9 +5,10 @@
         href: 'http://madek.zhdk.ch',
         content: component('icon.madek', 'ui-footer-logo')
       },
-      text: 'Zürcher Hochschule der Künste and contributors'
+      text: settings.brand_text
     },
-    version: deco('semver', prefix: 'v', semver: MADEK_SEMVER)
+    version: deco('semver', prefix: 'v', semver: MADEK_SEMVER),
+    menu: settings.sitemap
   }
 
 - content_for(:body) do

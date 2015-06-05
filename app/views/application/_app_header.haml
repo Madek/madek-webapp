@@ -1,25 +1,26 @@
 :ruby
   header = {
 
-    # responsive brand section on the left
-    # TODO: data from app.config
+    # - responsive brand section on the left:
     brand: {
+      instance_name: settings.site_title,
+      name: settings.brand_text,
       logo: {
-        alt: 'ZHdK',
-        src: asset_path('logo-zhdk.png')
+        src: settings.brand_logo_url,
+        # logo is just the visual representation of the
+        # (already present) 'name', so it can be ignored:
+        alt: ''
       },
-      name: 'Zürcher Hochschule der Künste',
-      instance_name: 'Medienarchiv der Künste',
-      href: '/'
+      href: root_path
     },
 
-    # main site menu section, middle
+    # - main site menu section, middle
     menu: component('tabs-bar',
       id: 'example_tabs',
       mods: ['primary', 'large'],
       list: {
         my: {
-          text: 'Mein Archiv',
+          text: 'My Archive',
           href: my_dashboard_path,
           active: link_active?(my_dashboard_path)
         },
@@ -36,14 +37,13 @@
         #   icon: 'icon-nav-help', href: '#/help'
         # }
 
-        # TMP: extra
-        dev: {
+        admin: !current_user.try(:admin) ? nil : {
+          text: 'Admin',
           icon: 'icon-bang',
-          text: 'v3',
-          href: 'https://github.com/zhdk/madek/tree/madek-v3#documentation',
-          href_target: '_blank'
-        }
+          href: admin_root_path
+        },
 
+        help: { icon: 'icon-nav-help', href: settings.support_url }
       }
     ),
 

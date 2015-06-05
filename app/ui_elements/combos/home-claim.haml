@@ -7,8 +7,8 @@
     .pitch-claim
       %h1.title-xxl
         = claim[:title]
-      %h2.title-l
-        = claim[:subtitle]
+      .ptm
+        = claim[:subtitle] # markdowned, will have `<p>`s etc.
 
   .col1of3
     = login

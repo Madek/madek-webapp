@@ -9,9 +9,13 @@
       .form-group
         .col-xs-6
           - type = ::AppSettings.columns_hash[@field.try(:to_s)].try(:sql_type)
-          - if type === 'jsonb'
+          - markdowned = ['welcome_subtitle']
+          - case
+          - when type === 'jsonb'
             = f.text_area @field, value: @app_settings.send(@field).to_yaml,
               rows: 12, class: 'form-control'
+          - when markdowned.include?(@field.to_s)
+            = f.text_area @field, rows: 12, class: 'form-control'
           - else
             = f.text_field @field, class: 'form-control'
       .form-group

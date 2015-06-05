@@ -11,7 +11,7 @@ class Admin::AppSettingsController < AdminController
     },
     'Welcome message (on home page)' => {
       welcome_title: 'Title of welcome box',
-      welcome_subtitle: 'Text of welcome box'
+      welcome_subtitle: 'Markdown text of welcome box'
     },
     'Other' => {
       sitemap: 'Links for footer menu'

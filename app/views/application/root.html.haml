@@ -2,8 +2,8 @@
   :ruby
     home_claim = {
       claim: {
-        title: 'powerful global information system',
-        subtitle: 'academic information should be freely available to anyone.'
+        title: settings.welcome_title,
+        subtitle: markdown(settings.welcome_text)
       },
       login: render(partial: 'login_box')
       }

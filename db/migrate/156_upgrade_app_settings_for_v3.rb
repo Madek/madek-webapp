@@ -36,14 +36,15 @@ class UpgradeAppSettingsForV3 < ActiveRecord::Migration
     end
     change_column_null :app_settings, :welcome_title, false
 
-    welcome_subtitle_default = \
-      '“Academic information should be freely available to anyone” — Tim Berners-Lee'
-    change_column_default :app_settings, :welcome_subtitle, welcome_subtitle_default
+    rename_column :app_settings, :welcome_subtitle, :welcome_text
+    welcome_text_default = \
+      '**“Academic information should be freely available to anyone”** — Tim Berners-Lee'
+    change_column_default :app_settings, :welcome_text, welcome_text_default
     AppSetting.reset_column_information
-    unless app_setting.reload.welcome_subtitle
-      app_setting.update_attribute :welcome_subtitle, welcome_subtitle_default
+    unless app_setting.reload.welcome_text
+      app_setting.update_attribute :welcome_text, welcome_text_default
     end
-    change_column_null :app_settings, :welcome_subtitle, false
+    change_column_null :app_settings, :welcome_text, false
 
     rename_column :app_settings, :footer_links, :sitemap
     AppSetting.reset_column_information

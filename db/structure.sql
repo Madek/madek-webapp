@@ -387,7 +387,7 @@ CREATE TABLE app_settings (
     site_title character varying DEFAULT 'Media Archive'::character varying NOT NULL,
     support_url character varying,
     welcome_title character varying DEFAULT 'Powerful Global Information System'::character varying NOT NULL,
-    welcome_subtitle character varying DEFAULT '“Academic information should be freely available to anyone” — Tim Berners-Lee'::character varying NOT NULL,
+    welcome_text character varying DEFAULT '**“Academic information should be freely available to anyone”** — Tim Berners-Lee'::character varying NOT NULL,
     teaser_set_id uuid,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
