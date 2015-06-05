@@ -1,19 +1,14 @@
-class CreateCollectionApiClientPermission < ActiveRecord::Migration
+class MigrateCollectionApiClientPermission < ActiveRecord::Migration
 
   include MigrationHelper
 
+  class ::MigrationApiClient < ActiveRecord::Base
+    self.table_name = :api_clients
+  end
+
   class ::MigrationApiClientPermission < ActiveRecord::Base
     self.table_name = :applicationpermissions
-
   end
-
-  class ::MigrationCollectionApiClientPermission < ActiveRecord::Base
-    self.table_name = :collection_api_client_permissions
-  end
-
-  API_CLIENT_PERMISSION_KEYS_MAP = {
-    'view' => 'get_metadata_and_previews',
-    'edit' => 'edit_metadata_and_relations' }
 
   def change
     create_table :collection_api_client_permissions, id: :uuid do |t|
@@ -48,13 +43,16 @@ class CreateCollectionApiClientPermission < ActiveRecord::Migration
 
         ::MigrationApiClientPermission \
           .joins('JOIN collections ON collections.id = applicationpermissions.media_resource_id')\
-          .find_each do |api_client_permission|
-            attributes = api_client_permission.attributes \
-              .map { |k, v| k == 'media_resource_id' ? ['collection_id', v] : [k, v] } \
-              .reject { |k, v| %w(download manage).include? k } \
-              .map { |k, v| [(API_CLIENT_PERMISSION_KEYS_MAP[k] || k), v] } \
-              .instance_eval { Hash[self] }
-            ::MigrationCollectionApiClientPermission.create! attributes
+          .find_each do |old|
+            new_id = (::MigrationApiClient.find_by login: old.application_id).id
+
+            execute \
+              "INSERT INTO collection_api_client_permissions " \
+              "(collection_id, api_client_id, " \
+              "get_metadata_and_previews, edit_metadata_and_relations)" \
+              "VALUES ('#{old.media_resource_id}', '#{new_id}', " \
+              "'#{old.view}', '#{old.edit}')"
+
         end
       end
     end

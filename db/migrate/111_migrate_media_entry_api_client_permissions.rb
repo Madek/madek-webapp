@@ -1,17 +1,13 @@
-class MediaEntryApiClientPremission < ActiveRecord::Migration
+class MigrateMediaEntryApiClientPermissions < ActiveRecord::Migration
   include MigrationHelper
 
   class ::MigrationApiClientpermission < ActiveRecord::Base
     self.table_name = :applicationpermissions
   end
 
-  class ::MigrationMediaEntryApiClientpermission < ActiveRecord::Base
-    self.table_name = :media_entry_api_client_permissions
+  class ::MigrationApiClient < ActiveRecord::Base
+    self.table_name = :api_clients
   end
-
-  API_CLIENTPERMISSION_KEYS_MAP = {
-    'view' => 'get_metadata_and_previews',
-    'download' => 'get_full_size' }
 
   def change
     create_table :media_entry_api_client_permissions, id: :uuid do |t|
@@ -46,12 +42,15 @@ class MediaEntryApiClientPremission < ActiveRecord::Migration
 
         ::MigrationApiClientpermission \
           .joins('JOIN media_entries ON media_entries.id = applicationpermissions.media_resource_id')\
-          .find_each do |up|
-          ::MigrationMediaEntryApiClientpermission.create! up.attributes \
-            .map { |k, v| k == 'media_resource_id' ? ['media_entry_id', v] : [k, v] } \
-            .map { |k, v| [(API_CLIENTPERMISSION_KEYS_MAP[k] || k), v] } \
-            .reject { |k, v| %w(manage edit).include? k } \
-            .instance_eval { Hash[self] }
+          .find_each do |old|
+            new_id = (::MigrationApiClient.find_by login: old.application_id).id
+
+            execute \
+              "INSERT INTO media_entry_api_client_permissions " \
+              "(media_entry_id, api_client_id, " \
+              "get_metadata_and_previews, get_full_size)" \
+              "VALUES ('#{old.media_resource_id}', '#{new_id}', " \
+              "'#{old.view}', '#{old.download}')"
 
         end
       end

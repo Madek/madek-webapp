@@ -9,6 +9,10 @@ class MigrateFilterSetGroupPermissionsData < ActiveRecord::Migration
     self.table_name = :filter_set_group_permissions
   end
 
+  class ::MigrationGroupPermission < ActiveRecord::Base
+    self.table_name = :grouppermissions
+  end
+
   GROUPPERMISSION_KEYS_MAP = {
     'view' => 'get_metadata_and_previews'
   }

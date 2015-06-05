@@ -129,7 +129,7 @@ CREATE FUNCTION check_users_apiclients_login_uniqueness() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
       BEGIN
-        IF (EXISTS (SELECT 1 FROM users, api_clients 
+        IF (EXISTS (SELECT 1 FROM users, api_clients
               WHERE api_clients.login = users.login
               AND api_clients.login = NEW.login)) THEN
           RAISE EXCEPTION 'The login % over users and api_clients must be unique.', NEW.login;
@@ -3207,6 +3207,14 @@ ALTER TABLE ONLY filter_sets
 
 
 --
+-- Name: fk_rails_45043d2037; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY api_clients
+    ADD CONSTRAINT fk_rails_45043d2037 FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
 -- Name: fk_rails_67eb3c60e8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3732,8 +3740,6 @@ INSERT INTO schema_migrations (version) VALUES ('165');
 
 INSERT INTO schema_migrations (version) VALUES ('166');
 
-INSERT INTO schema_migrations (version) VALUES ('167');
-
 INSERT INTO schema_migrations (version) VALUES ('168');
 
 INSERT INTO schema_migrations (version) VALUES ('169');
@@ -3765,6 +3771,8 @@ INSERT INTO schema_migrations (version) VALUES ('199');
 INSERT INTO schema_migrations (version) VALUES ('2');
 
 INSERT INTO schema_migrations (version) VALUES ('20');
+
+INSERT INTO schema_migrations (version) VALUES ('200');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
