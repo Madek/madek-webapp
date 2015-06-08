@@ -25,4 +25,4 @@ tasks:
         body: |
           cd deploy/ansible && \
           ansible-playbook -i hosts_zhdk-test play_setup-and-deploy.yml -e 'reset_data=True'
-        timeout: 18000
+        timeout: 28800 # 8 hours
