@@ -881,6 +881,7 @@ CREATE TABLE meta_data (
     media_entry_id uuid,
     collection_id uuid,
     filter_set_id uuid,
+    CONSTRAINT check_valid_type CHECK (((type)::text = ANY ((ARRAY['MetaDatum::Licenses'::character varying, 'MetaDatum::Text'::character varying, 'MetaDatum::TextDate'::character varying, 'MetaDatum::Groups'::character varying, 'MetaDatum::Keywords'::character varying, 'MetaDatum::Vocables'::character varying, 'MetaDatum::People'::character varying, 'MetaDatum::Users'::character varying])::text[]))),
     CONSTRAINT meta_data_is_related CHECK ((((((media_entry_id IS NULL) AND (collection_id IS NULL)) AND (filter_set_id IS NOT NULL)) OR (((media_entry_id IS NULL) AND (collection_id IS NOT NULL)) AND (filter_set_id IS NULL))) OR (((media_entry_id IS NOT NULL) AND (collection_id IS NULL)) AND (filter_set_id IS NULL))))
 );
 
@@ -942,7 +943,7 @@ CREATE TABLE meta_data_users (
 CREATE TABLE meta_keys (
     id character varying NOT NULL,
     is_extensible_list boolean,
-    meta_datum_object_type character varying DEFAULT 'MetaDatumString'::character varying NOT NULL,
+    meta_datum_object_type text DEFAULT 'MetaDatum::Text'::text NOT NULL,
     keywords_alphabetical_order boolean DEFAULT true,
     label text,
     description text,
@@ -957,6 +958,7 @@ CREATE TABLE meta_keys (
     is_enabled_for_filter_sets boolean DEFAULT false NOT NULL,
     vocabulary_id character varying NOT NULL,
     is_extensible boolean DEFAULT false,
+    CONSTRAINT check_valid_meta_datum_object_type CHECK ((meta_datum_object_type = ANY (ARRAY['MetaDatum::Licenses'::text, 'MetaDatum::Text'::text, 'MetaDatum::TextDate'::text, 'MetaDatum::Groups'::text, 'MetaDatum::Keywords'::text, 'MetaDatum::Vocables'::text, 'MetaDatum::People'::text, 'MetaDatum::Users'::text]))),
     CONSTRAINT meta_key_id_chars CHECK (((id)::text ~* '^[a-z0-9\-\_\:]+$'::text)),
     CONSTRAINT start_id_like_vocabulary_id CHECK (((id)::text ~~ ((vocabulary_id)::text || ':%'::text)))
 );

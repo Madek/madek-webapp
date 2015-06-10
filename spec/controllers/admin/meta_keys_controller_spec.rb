@@ -116,7 +116,7 @@ describe Admin::MetaKeysController do
         label: 'NEW_LABEL',
         description: 'NEW_DESCRIPTION',
         hint: 'NEW_HINT',
-        meta_datum_object_type: 'MetaDatum::TestValue',
+        meta_datum_object_type: 'MetaDatum::Text',
         is_extensible: true,
         is_enabled_for_media_entries: true,
         is_enabled_for_collections: true,
@@ -145,7 +145,7 @@ describe Admin::MetaKeysController do
       expect(meta_key.label).to eq 'NEW_LABEL'
       expect(meta_key.description).to eq 'NEW_DESCRIPTION'
       expect(meta_key.hint).to eq 'NEW_HINT'
-      expect(meta_key.meta_datum_object_type).to eq 'MetaDatum::TestValue'
+      expect(meta_key.meta_datum_object_type).to eq 'MetaDatum::Text'
       expect(meta_key.is_extensible).to be true
       expect(meta_key.is_enabled_for_media_entries).to be true
       expect(meta_key.is_enabled_for_collections).to be true

@@ -183,23 +183,12 @@ describe MetaDataController do
     end
 
     it 'unknown meta_datum type' do
-      meta_key = \
+      expect do
         FactoryGirl.create(:meta_key,
                            id: "test:#{Faker::Lorem.word}",
                            meta_datum_object_type: 'NonSense')
-      create_vocabulary_permissions(meta_key.vocabulary)
-
-      expect do
-        post :create,
-             { media_entry_id: @media_entry.id,
-               _key: meta_key.id,
-               _value: { type: meta_key.meta_datum_object_type,
-                         content: Faker::Lorem.word } },
-             user_id: @user.id
-      end.to raise_error Errors::InvalidParameterValue
-
-      md = @media_entry.meta_data.where(meta_key_id: meta_key.id)
-      expect(md.count).to be == 0
+        create_vocabulary_permissions(meta_key.vocabulary)
+      end.to raise_error /CheckViolation/
     end
 
     it 'empty value array' do

@@ -11,7 +11,14 @@ class CopyrightsToLicenses < ActiveRecord::Migration
   end
 
 
-  def change
+  def up
+
+
+    execute %[ALTER TABLE meta_data DROP CONSTRAINT check_valid_type]
+
+    execute %[ALTER TABLE meta_keys DROP CONSTRAINT check_valid_meta_datum_object_type]
+
+
     #remove_foreign_key :meta_data, :copyrights
     remove_column :copyrights, :parent_id
     rename_table :copyrights, :licenses 
@@ -63,9 +70,26 @@ class CopyrightsToLicenses < ActiveRecord::Migration
       end
 
       execute "SET session_replication_role = DEFAULT"
+
     end
 
-    # raise "NOT YET"
+
+    types = [ 'MetaDatum::License',
+              'MetaDatum::Text',
+              'MetaDatum::TextDate',
+              'MetaDatum::Groups',
+              'MetaDatum::Keywords',
+              'MetaDatum::Vocables',
+              'MetaDatum::People',
+              'MetaDatum::Text',
+              'MetaDatum::Users']
+
+    execute %[ALTER TABLE meta_data ADD CONSTRAINT check_valid_type CHECK 
+          (type IN (#{types.uniq.map{|s|"'#{s}'"}.join(', ')}));]
+
+    execute %[ALTER TABLE meta_keys ADD CONSTRAINT check_valid_meta_datum_object_type CHECK 
+          (meta_datum_object_type IN (#{types.uniq.map{|s|"'#{s}'"}.join(', ')}));]
 
   end
+
 end
