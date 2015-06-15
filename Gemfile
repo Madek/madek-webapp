@@ -15,9 +15,7 @@ gem 'pg_tasks', '>= 1.3.0', '< 2.0.0'
 gem 'textacular', git: 'https://github.com/DrTom/textacular.git'
 
 # API
-gem 'kramdown'
-gem 'roar'
-gem 'roar-rails'
+gem 'responders'
 
 # ZHDK-INTEGRATION
 # gem "madek_zhdk_integration", path: "../zhdk_integration"
@@ -34,6 +32,7 @@ gem 'haml-lint', '~> 0.10.0'
 gem 'haml-rails'
 gem 'haml_assets'
 gem 'jquery-rails'
+gem 'kramdown'
 gem 'sass'
 gem 'sass-rails'
 
@@ -52,7 +51,6 @@ gem 'nokogiri'
 gem 'pundit'
 gem 'rails_autolink', '~> 1.0'
 gem 'rails_config', git: 'https://github.com/DrTom/rails_config.git', ref: 'master'
-gem 'responders'
 gem 'rubyzip'
 gem 'therubyracer', platform: :mri
 gem 'therubyrhino', platform: :jruby
