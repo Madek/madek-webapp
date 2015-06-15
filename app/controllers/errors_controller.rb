@@ -36,7 +36,7 @@ class ErrorsController < ApplicationController
 
   def proxy_error
     # Only shown on localhost, rendered once per deploy as a static page for proxy.
-    @get = OpenStruct.new(
+    @get = Pojo.new(
       status_code: 502,
       message: 'Bad Gateway',
       details: ['Application down!']

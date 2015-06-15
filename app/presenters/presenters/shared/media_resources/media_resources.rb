@@ -46,14 +46,13 @@ module Presenters
 
         def total_counts
           counts = @total_counts.values.reject(&:nil?)
-          OpenStruct.new(@total_counts
-            .merge(highest: counts.max, total: counts.sum))
+          Pojo.new(@total_counts.merge(highest: counts.max, total: counts.sum))
         end
 
         def pagination_info
           # do this manually because we're paginating multiple collections:
           total_pages = (total_counts.highest.to_f / @per_page.to_f).ceil
-          OpenStruct.new(
+          Pojo.new(
             current_page: @page,
             total_pages: total_pages,
             previous_page: (@page > 1) ? (@page - 1) : false,

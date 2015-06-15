@@ -21,7 +21,7 @@
   version ||= semver
   prefix ||= prefix
   unless (version.is_a?(Hash) \
-    && (version = OpenStruct.new(semver)) \
+    && (version = Pojo.new(semver)) \
     && version.major && version.minor && version.patch \
     && (version.prerelease || version.prerelease.is_a?(Array)) \
     && (version.build || version.build.is_a?(Array)))

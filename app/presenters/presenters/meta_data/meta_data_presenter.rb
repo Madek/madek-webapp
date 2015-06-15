@@ -47,7 +47,7 @@ module Presenters
           .group_by { |tuple| tuple._key.vocabulary_id }
 
         data = build_vocabulary_tuples(data)
-        OpenStruct.new(data)
+        Pojo.new(data)
       end
 
       def vocabularies_with_meta_data
@@ -57,7 +57,7 @@ module Presenters
       private
 
       def build_key_values_tuple(md_presenter)
-        OpenStruct.new(Hash[
+        Pojo.new(Hash[
           '_url', md_presenter.url,
           '_key', md_presenter.meta_key,
           '_values', md_presenter.values
@@ -71,7 +71,7 @@ module Presenters
             Presenters::Vocabularies::VocabularyCommon.new \
               Vocabulary.find(vocab_id)
           meta_data = vocab[1]
-          results[vocab_id] = OpenStruct.new(Hash[
+          results[vocab_id] = Pojo.new(Hash[
             '_vocabulary', vocabulary,
             '_meta_data', meta_data
           ])

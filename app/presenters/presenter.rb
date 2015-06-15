@@ -37,16 +37,12 @@ class Presenter
   def self.deal_with_obj_type(obj)
     if obj.is_a?(Presenter)
       obj.dump
-    elsif obj.is_a?(OpenStruct)
-      obj.marshal_dump
-        .map { |k, v| [k, dump_recur(v)] }
-        .to_h
     elsif obj.is_a?(Array)
       obj.map { |elt| dump_recur(elt) }
-    elsif obj.is_a?(Hash)
-      obj
-        .map { |k, v| [k, dump_recur(v)] }
-        .to_h
+    elsif (obj.is_a?(Pojo) or obj.is_a?(Hash))
+      obj.to_h
+         .map { |k, v| [k, dump_recur(v)] }
+         .to_h
     end
   end
 
