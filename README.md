@@ -1,5 +1,7 @@
 # Madek
 
+[![semver: 3.0.0-alpha.0](https://img.shields.io/badge/semver-3.0.0--alpha.0-orange.svg)](http://semver.org)
+
 This is the main component of [Madek](https://github.com/madek). See the
 super project [Madek/madek](https://github.com/Madek/madek) for more
 information.

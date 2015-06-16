@@ -1,0 +1,8 @@
+---
+  semver:
+    major: 3
+    minor: 0
+    patch: 0
+    prere: [alpha, 0]
+  notes: |
+    Nothing to announce *yet*…

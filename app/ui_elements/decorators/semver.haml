@@ -12,7 +12,7 @@
       minor: 2,
       patch: 3,
       # optional, but must be array
-      prerelease: ['beta', '3'],
+      prere: ['beta', '3'],
       build: ['gabcd1234', 'somethingelse42']
     },
     prefix: 'v'
@@ -23,7 +23,7 @@
   unless (version.is_a?(Hash) \
     && (version = Pojo.new(semver)) \
     && version.major && version.minor && version.patch \
-    && (version.prerelease || version.prerelease.is_a?(Array)) \
+    && (version.prere || version.prere.is_a?(Array)) \
     && (version.build || version.build.is_a?(Array)))
     throw 'ui: semver: invalid config hash!'
   end
@@ -43,10 +43,10 @@
     %span.divider<>='.'
     = version.patch.to_s
 
-  - if version.prerelease
+  - if version.prere
     %span.version<>
       %span.divider<>='-'
-      - (fields = version.prerelease).each do |field|
+      - (fields = version.prere).each do |field|
         %span.field<>= field
         - unless field === fields.last
           %span.divider<>='.'
