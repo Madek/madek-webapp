@@ -188,7 +188,7 @@ describe MetaDataController do
                            id: "test:#{Faker::Lorem.word}",
                            meta_datum_object_type: 'NonSense')
         create_vocabulary_permissions(meta_key.vocabulary)
-      end.to raise_error /CheckViolation/
+      end.to raise_error /check_valid_meta_datum_object_type/
     end
 
     it 'empty value array' do

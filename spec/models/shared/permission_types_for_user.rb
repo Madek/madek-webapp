@@ -44,10 +44,7 @@ RSpec.shared_examples 'permission_types_for_user' do
     perm_types = \
       "Permissions::Modules::#{model_name.name}::PERMISSION_TYPES"
         .constantize
-    perm_attributes = \
-      perm_types
-        .zip(Array.new(perm_types.length, false))
-        .to_h
+    perm_attributes = Hash[perm_types.zip(Array.new(perm_types.length, false))]
     user_perm_type = perm_types.sample
     perm_attributes[user_perm_type] = true
 

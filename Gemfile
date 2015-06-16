@@ -11,7 +11,8 @@ gem 'rails', '~> 4.2'
 gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
 gem 'jdbc-postgres', platform: :jruby
 gem 'pg', platform: :mri
-gem 'pg_tasks', '>= 1.3.0', '< 2.0.0'
+gem 'pg_tasks', '>= 1.3.1', '< 2.0.0'
+#gem "pg_tasks", path: "/Users/thomas/Programming/ROR/pg_tasks"
 gem 'textacular', git: 'https://github.com/DrTom/textacular.git'
 
 # API
@@ -23,7 +24,8 @@ gem 'madek_zhdk_integration', git: 'https://github.com/madek/madek-zhdk-integrat
 
 # FRONTEND
 gem 'bootstrap-sass'
-gem 'browserify-rails', '~> 0.7'
+gem 'browserify-rails', '= 1.0.1'
+#gem 'browserify-rails', path: "/Users/thomas/Programming/ROR/browserify-rails"
 gem 'coffee-rails'
 gem 'compass-rails', '~> 2.0'
 gem 'font-awesome-sass'
@@ -77,20 +79,18 @@ gem 'quiet_assets', group: [:development]
 gem 'rest-client', group: [:test, :development, :personas]
 gem 'rspec-rails', '~> 3.1', group: [:test, :development]
 gem 'rubocop', '= 0.29.1', require: false
-gem 'ruby-prof', group: [:development]
+gem 'ruby-prof', group: [:development], platform: :mri
 gem 'selenium-webdriver', group: [:test]
-gem 'simplecov', require: false, group: ['test']
-gem 'simplecov-html', require: false, group: ['test'],
-                      git: 'https://github.com/eins78/simplecov-html.git',
-                      ref: '3fac7b20bbe3967d1f9d55c3166f348d620a2005'
+gem 'simplecov', '>= 0.10',  require: false, group: ['test']
+#gem 'simplecov-html', require: false, group: ['test'], git: 'https://github.com/eins78/simplecov-html.git', ref: '3fac7b20bbe3967d1f9d55c3166f348d620a2005'
                       # path: '/Users/ma/CODE/simplecov-html'
 # web server (Webrick do not support keep-alive connections)
 gem 'thin', platform: :mri, group: [:development, :personas]
 gem 'zencoder-fetcher', group: [:development]
 
-gem 'cider_ci-support', '= 1.3.0', group: [:development, :test]
+ gem 'cider_ci-support', '= 2.0.0.pre.beta.1', group: [:development, :test]
 # gem 'cider_ci-support', path: '/Users/thomas/Programming/CIDER-CI/ruby_support'
-gem 'cider_ci-rspec_support', '>= 1.0.4', '< 2.0.0', group: [:development, :test]
+# gem 'cider_ci-rspec_support', '>= 1.0.4', '< 2.0.0', group: [:development, :test]
 # gem 'cider_ci-rspec_support', path: '/Users/thomas/Programming/CIDER-CI/ruby-rspec-support'
 
 

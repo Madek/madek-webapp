@@ -9,8 +9,7 @@ describe [ApiClient, Users] do
             FactoryGirl.create :user, login: 'hans'
             FactoryGirl.create :api_client, login: 'hans'
           end
-        end.to raise_exception \
-          ActiveRecord::StatementInvalid, /login .* must be unique/
+        end.to raise_exception /login .* must be unique/
       end
     end
   end
@@ -22,8 +21,7 @@ describe [ApiClient, Users] do
             FactoryGirl.create :user, login: 'hans'
             FactoryGirl.create :api_client, login: 'hans'
           end
-        end.to raise_exception \
-          ActiveRecord::StatementInvalid, /login .* must be unique/
+        end.to raise_exception /login .* must be unique/
       end
     end
   end
