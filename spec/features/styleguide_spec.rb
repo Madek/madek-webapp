@@ -16,7 +16,7 @@ end
 describe 'Styleguide' do
 
   it 'is rendered without error (index, all-in-one and sections)',
-     browser: :headless do
+     browser: :firefox do
 
     paths = [
       '/',           # index
