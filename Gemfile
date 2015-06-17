@@ -88,8 +88,9 @@ gem 'simplecov', '>= 0.10',  require: false, group: ['test']
 gem 'thin', platform: :mri, group: [:development, :personas]
 gem 'zencoder-fetcher', group: [:development]
 
- gem 'cider_ci-support', '= 2.0.0.pre.beta.1', group: [:development, :test]
+gem 'cider_ci-support', '= 2.0.0.pre.beta.2', group: [:development, :test]
 # gem 'cider_ci-support', path: '/Users/thomas/Programming/CIDER-CI/ruby_support'
+ 
 # gem 'cider_ci-rspec_support', '>= 1.0.4', '< 2.0.0', group: [:development, :test]
 # gem 'cider_ci-rspec_support', path: '/Users/thomas/Programming/CIDER-CI/ruby-rspec-support'
 

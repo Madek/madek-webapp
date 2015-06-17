@@ -5,7 +5,7 @@ script-defaults:
 
 task-defaults:
   eager-trials: 1
-  max-auto-trials: 1
+  max-auto-trials: 3
 
   environment-variables:
     RAILS_ENV: test
@@ -108,7 +108,8 @@ task-defaults:
       body: |
         export DISPLAY=":$XVNC_PORT" \
         && rm -rf coverage \
-        &&  bundle exec rspec $CIDER_CI_TASK_FILE
+        && ruby -v \
+        && bundle exec rspec $CIDER_CI_TASK_FILE
       start-when: 
       - script: start-vnc
       - script: create-database
