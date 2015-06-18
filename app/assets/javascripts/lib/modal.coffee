@@ -21,17 +21,41 @@ class Modal
     $(window).on "resize", @setModalBodyMaxHeight
 
   setModalBodyMaxHeight: =>
+
+    # ╔════════▲═════════════════════════════╗ ▲
+    # ║        │  modalMargin                ║ │
+    # ║        ▼ ╔════════════════╗ ▲        ║ │
+    # ║          ╠════════════════╣ │        ║ │
+    # ║          ║................║ │        ║ │
+    # ║          ║................║ │        ║ │
+    # ║          ║................║ │        ║ │
+    # ║          ║.. modalBody  ..║ │        ║ │
+    # ║          ║................║ │        ║ │
+    # ║          ║................║ │        ║ │
+    # ║          ║................║ │ modal  ║ │
+    # ║          ╠════════════════╣ │ Height ║ │
+    # ║          ╚════════════════╝ ▼        ║ │
+    # ║                                      ║ │ windowHeight
+    # ╚══════════════════════════════════════╝ ▼
+
+
     # add a delay to not be quicker than the DOM reflow :(
     setTimeout =>
-        windowHeight = $(window).height()
-        rim =  ( @el.position().top - $(document).scrollTop() )*2
-        elHeight = @el.outerHeight()
-        elBodyHeight = @el.find(".ui-modal-body").height()
-        height =  windowHeight - rim - elHeight  + elBodyHeight
-        @el.find(".ui-modal-body").css "max-height", height
-        # since this is an ongoing problem we leave this in prod for faster debugging
-        console.log "debug: ModalBodyMaxHeight was set to #{height}"
-      , 250
+
+      windowHeight = $(window).height()
+      modalMargin = @el.position().top # the margin on top of the modal
+      modalHeight = @el.outerHeight()
+      modalBodyHeight = @el.find(".ui-modal-body").height()
+
+      # complete modal minus modal-body plus 2 margins is space we cant use:
+      extraNeededHeight = (modalHeight-modalBodyHeight)+(modalMargin*2)
+      # subtract that from the window e presto:
+      maximumModalBodyHeight = windowHeight - extraNeededHeight
+
+      # now set it:
+      @el.find(".ui-modal-body").css "max-height", maximumModalBodyHeight
+
+    , 125
 
   onHide: =>
     @el.remove()
