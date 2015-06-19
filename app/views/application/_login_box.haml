@@ -17,40 +17,45 @@
                                       type: 'submit') do
           = "Anmelden"
 
-- external_login_form = capture_haml do
-  %form
-    .form-body
-      .ui-form-group.rowed
-        %p.mbm
-          Alle Funktionen nutzen und auf
-          %br/
-          mehr Inhalte zugreifen.
-        = component('button.primary', mods: ['large', 'block'], href: '/login') do
-          = "Anmelden"
+- unless settings.zhdk_integration
+  .pitch-login
+    .tab-content.ui-container
+      = internal_login_form
+- else
+  - zhdk_login_form = capture_haml do
+    %form
+      .form-body
+        .ui-form-group.rowed
+          %p.mbm
+            Alle Funktionen nutzen und auf
+            %br/
+            mehr Inhalte zugreifen.
+          = component('button.primary', mods: ['large', 'block'], href: '/login') do
+            = "Anmelden"
 
-:ruby
-  login_box = combo('tabbed-sections', {
-    mods: 'pitch-login',
-    style: 'min-height: 200px',
-    interactive: true,
-    list: {
-      external_login: {
-        active: true,
-        nav: {
-          align: 'left',
-          text: 'ZHdK-Login'
+  :ruby
+    login_box = combo('tabbed-sections', {
+      mods: 'pitch-login',
+      style: 'min-height: 200px',
+      interactive: true,
+      list: {
+        external_login: {
+          active: true,
+          nav: {
+            align: 'left',
+            text: 'ZHdK-Login'
+          },
+          content: zhdk_login_form,
         },
-        content: external_login_form,
-      },
-      internal_login: {
-        nav: {
-          align: 'right',
-          text: 'Externe'
-        },
-        content: internal_login_form,
+        internal_login: {
+          nav: {
+            align: 'right',
+            text: 'Externe'
+          },
+          content: internal_login_form,
+          }
         }
-      }
-    })
+      })
 
-.ui-container{style: 'min-height:220px'}
-  = login_box
+  .ui-container{style: 'min-height:220px'}
+    = login_box
