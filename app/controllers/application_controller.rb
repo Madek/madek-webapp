@@ -24,7 +24,9 @@ class ApplicationController < ActionController::Base
   end
 
   def settings
-    AppSettings.first
+    Pojo.new(
+      Settings.to_h # from static files
+      .merge(AppSettings.first.attributes)) # from DB
   end
 
   def current_user
