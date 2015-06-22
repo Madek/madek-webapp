@@ -10,7 +10,7 @@ task-defaults:
     linux: true
     ansible: true
 
-  exclusive-resources:
+  exclusive-global-resources:
     "test.madek.zhdk.ch": true
 
   git-options:
