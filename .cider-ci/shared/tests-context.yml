@@ -128,7 +128,18 @@ subcontexts:
   _cider-ci_generate-tasks:
     include-match: spec/features.*_spec.rb
 
-#  tasks:
-#    spec/features/my_dashboard_spec.rb:
-#      environment-variables:
-#        CIDER_CI_TASK_FILE: spec/models/person/person_spec.rb
+
+  tasks:
+    spec/features/meta_data/meta_data_institutional_groups_spec.rb:
+      environment-variables:
+        CIDER_CI_TASK_FILE: spec/features/meta_data/meta_data_institutional_groups_spec.rb
+      scripts:
+        setup-config:
+          body: |
+            echo 'zhdk_integration: true' > 'config/settings.local.yml'
+        main:
+          start-when:
+          - script: create-database
+          - script: setup-config
+          - script: setup-madek
+          - script: start-vnc
