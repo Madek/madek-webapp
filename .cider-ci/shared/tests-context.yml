@@ -1,8 +1,5 @@
 name: Madek Tests
 
-script-defaults:
-  timeout: 600
-
 task-defaults:
   eager-trials: 1
   max-auto-trials: 3

@@ -1,0 +1,43 @@
+jobs:
+  deploy-test:
+    name: Deploy Test
+    description: |
+      Deploy this commit to test.madek.zhdk.ch.
+
+    depends-on: 
+    - type: job
+      job: tests-mri
+      states: [passed]
+
+    start-on: 
+    - type: branch.updated
+      include-match: ^madek-v3$
+
+    context:
+      _cider-ci_include: .cider-ci/shared/deploy-context.yml
+      tasks:
+        deploy:
+          name: Deploy
+
+  deploy-test-with-data-reset:
+    name: Deploy Test With Data Reset
+    description: |
+       Deploy this commit to test.madek.zhdk.ch and reapply the
+       migrations on the data from production.
+
+    depends-on: 
+    - type: job
+      job: tests-mri
+      states: [passed]
+
+    context:
+      _cider-ci_include: .cider-ci/shared/deploy-context.yml
+      tasks:
+        deploy:
+          name: Deploy
+          scripts:
+            deploy:
+              body: |
+                cd deploy/ansible && \
+                ansible-playbook -i hosts_zhdk-test play_setup-and-deploy.yml -e 'reset_data=True'
+              timeout: 28800

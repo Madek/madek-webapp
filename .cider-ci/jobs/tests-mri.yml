@@ -7,6 +7,8 @@ jobs:
     description: |
       Run all specs under MRI 2.1.
 
+    priority: 1
+
     start-on: 
     - type: branch.updated
       include-match: ^.*$
