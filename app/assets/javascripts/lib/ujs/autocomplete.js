@@ -5,20 +5,13 @@ window.log=[];
 Bloodhound = require('@eins78/typeahead.js/dist/bloodhound.js').noConflict()
 
 var peopleApi = new Bloodhound({
-  // FIXME: datumTokenizer
-  // - 'sch' has results but doesnt show)
-  // - also the function is never called o_O
-  datumTokenizer: function(d) {
-    console.log(d);
-    throw 'wtf';
-    return Bloodhound.tokenizers.whitespace(d.name)
-  },
+  datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.name) },
   queryTokenizer: Bloodhound.tokenizers.whitespace,
   // FIXME: also never called o_O
-  identify: function (d) {
-    console.log(d);
-    return d.uuid
-  },
+  // identify: function (d) {
+  //   console.log(d);
+  //   return d.uuid
+  // },
   remote: {
     url: '/people.json?search_term=%QUERY',
     wildcard: '%QUERY',
