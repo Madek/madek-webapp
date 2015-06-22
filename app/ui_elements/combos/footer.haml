@@ -1,6 +1,6 @@
 %footer.app-footer.ui-footer.ui-container.inverted
 
-  - if defined?(menu)
+  - if defined?(menu) && menu.is_a?(Array)
     -# strange but JSON-safe format: `[{"Example Link" => "http://example.com"}]`
     - menu = Hash[menu.map {|item| item.to_a.first}]
 
