@@ -2,7 +2,7 @@
 window.log=[];
 
 // multi-source searching adapter lib:
-Bloodhound = require('typeahead.js/dist/bloodhound.js').noConflict()
+Bloodhound = require('@eins78/typeahead.js/dist/bloodhound.js').noConflict()
 
 var peopleApi = new Bloodhound({
   // FIXME: datumTokenizer

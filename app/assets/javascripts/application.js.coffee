@@ -2,7 +2,7 @@
 window.jQuery = window.$ = require('jquery')
 require('bootstrap')
 # `$#typeahead` (provides autocompletion)
-require('typeahead.js/dist/typeahead.jquery.js')
+require('@eins78/typeahead.js/dist/typeahead.jquery.js')
 
 # local requires
 each = require('lodash/collection/each')
