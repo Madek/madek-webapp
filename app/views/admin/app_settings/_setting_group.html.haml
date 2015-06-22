@@ -12,7 +12,7 @@
 
             %td.col-xs-9
               - type = AppSettings.columns_hash[attr.try(:to_s)].try(:sql_type)
-              - markdowned = ['welcome_subtitle']
+              - markdowned = ['welcome_text']
               - case
               - when type === 'jsonb'
                 %pre.col-xs-9= @app_settings.send(attr).to_yaml
