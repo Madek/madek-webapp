@@ -1,14 +1,4 @@
-executions:
-
-  Tests: 
-    default: true
-    specification: 
-      _cider-ci_include: /.cider-ci/test_spec.yml
-    trigger: 
-      branch: next
-
-  Coverage: 
-    specification: 
-      _cider-ci_include: /.cider-ci/coverage_spec.yml
-
-
+_cider-ci_include:
+  - .cider-ci/jobs/tests-mri.yml
+  - .cider-ci/jobs/tests-jruby.yml
+  - .cider-ci/jobs/code-check.yml

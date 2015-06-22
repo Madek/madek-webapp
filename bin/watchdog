@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+
+`curl -I localhost:80` 
