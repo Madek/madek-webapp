@@ -27,8 +27,11 @@ class MediaEntriesController < ApplicationController
 
     ActiveRecord::Base.transaction do
       media_entry.save!
-      store_file!(file.tempfile.path,
-                  media_entry.media_file.store_location)
+      store_file_and_create_previews!(file, media_entry.media_file)
+      # TODO: extract and store metadata
+      # this includes 'real' meta data as well as 'meta data' for the media file
+      # and media file attributes like width and height.
+      # extract_and_store_metadata!
       store_meta_data!(media_entry.id, meta_data_params)
     end
 
@@ -38,6 +41,11 @@ class MediaEntriesController < ApplicationController
   ###############################################################
 
   private
+
+  def store_file_and_create_previews!(file, media_file)
+    store_file!(file.tempfile.path, media_file.store_location)
+    media_file.create_previews! if media_file.needs_previews?
+  end
 
   def media_file_attributes
     { content_type: file.content_type,

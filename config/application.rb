@@ -176,7 +176,12 @@ UI_GENERIC_THUMBNAIL = {
 # # Under passenger, it has no idea. Maybe substitute as part of the Capistrano deploy?
 # # EXIFTOOL_PATH = `/usr/bin/which exiftool`.gsub(/\n/,"")
 #
-# THUMBNAILS = { maximum: nil, x_large: '1024x768', large: '620x500', medium: '300x300', small_125: '125x125', small:  '100x100' }
+THUMBNAILS = { maximum: nil,
+               x_large: { width: 1024, height: 768 },
+               large: { width: 620, height: 500 },
+               medium: { width: 300, height: 300 },
+               small_125: { width: 125, height: 125 },
+               small: { width: 100, height: 100 } }
 # PER_PAGE = [36, 100]
 #
 # LANGUAGES = [:de_ch, :en_gb]

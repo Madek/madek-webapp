@@ -37,11 +37,18 @@ describe MediaEntriesController do
     media_entry = @user.media_entries.first
     media_file = media_entry.media_file
     expect(media_file).to be
-    expect(
-      File.exist? "#{Rails.root}" \
-                  '/db/media_files/test/attachments/' \
-                  "#{media_file.guid.first}/#{media_file.guid}"
-    ).to be true
+
+    folder_path = \
+      "#{Rails.root}/db/media_files/test/attachments/#{media_file.guid.first}/"
+    expect(File.exist? "#{folder_path}#{media_file.guid}").to be true
+
+    THUMBNAILS.keys.each do |thumb_size|
+      next if thumb_size == :maximum
+      expect(File.exist? "#{folder_path}#{media_file.guid}_#{thumb_size}.jpg")
+        .to be true
+    end
+    expect(media_file.previews.size).to be == THUMBNAILS.size
+
     expect(media_entry.meta_data.exists?).to be true
   end
 

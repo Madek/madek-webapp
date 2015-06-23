@@ -7,9 +7,9 @@ module Concerns
       case content_type
       when /^image/
         'image'
+      when /^video/
+        'video'
       # TODO: other media types
-      # when /^video/
-      #   'video'
       # when /^audio/
       #   'audio'
       # when /^text/
@@ -19,6 +19,10 @@ module Concerns
       else
         'other'
       end
+    end
+
+    def set_media_type
+      self.media_type = Concerns::MediaType.map_to_media_type(self.content_type)
     end
   end
 end
