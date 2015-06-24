@@ -29,6 +29,9 @@ task-defaults:
     styleguide_hashes_new:
       glob: 'tmp/styleguide-shasums.txt'
       content-type: text/plain
+    json_ld_dump:
+      glob: 'tmp/ld_dump.json'
+      content-type: application/json
 
   traits:
     firefox-esr: true
@@ -145,6 +148,13 @@ subcontexts:
   tasks:
     "spec/features/styleguide_spec.rb":
       priority: 3
+    "json_ld_integration":
+      name: 'JSON-LD Dump & Integration'
+      environment-variables:
+        RAILS_DUMP_LIMIT: 1000
+      scripts:
+        test:
+          body: "bundle exec rails runner ./bin/lodz_dump.rb > ./tmp/ld_dump.json"
 
   _cider-ci_generate-tasks:
     include-match: spec/features.*_spec.rb
