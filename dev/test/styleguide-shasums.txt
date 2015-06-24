@@ -1,15 +1,15 @@
-c06b0e97f5ad19853261bef4b93bfd7a973d78c7 ?tmp/styleguide-ref/Buttons & Links/button.png
-efd9812181119b4fd6c64dd3b4230d527917bd9f ?tmp/styleguide-ref/Buttons & Links/button_groups.png
+6ff34b91c9b33d5d2cac5f4b7cfe37c3d66b5d08 ?tmp/styleguide-ref/Buttons & Links/button.png
+29ae90182ec1a31bbe2ece2420be1defef245a82 ?tmp/styleguide-ref/Buttons & Links/button_groups.png
 10d1ff46b2c226b1a76f5050ba55354adce72017 ?tmp/styleguide-ref/Buttons & Links/extended_buttons.png
 9c3976389806cfb986ae7a45be96548c73cc7a64 ?tmp/styleguide-ref/Buttons & Links/links.png
-6a7a5d64eb69ad6d3131965a9337886e39306f68 ?tmp/styleguide-ref/Buttons & Links/primary_button.png
+10874ea0ff45d8e07cd8a45eda4a1934a9e0b921 ?tmp/styleguide-ref/Buttons & Links/primary_button.png
 0caa505f9bedab7d94a543987ee3add29b2c3ab8 ?tmp/styleguide-ref/Buttons & Links/tertiary_buttons.png
 51eec6fa0297335dc67805d71a59df760682eac9 ?tmp/styleguide-ref/Combos/1_media_overview.png
 041eaca229d089919ac72cc1f8b27dd2870bf122 ?tmp/styleguide-ref/Combos/clipboard.png
 4d2aea5a0214762df40714d952292970565fd157 ?tmp/styleguide-ref/Combos/collage.png
 97c17426b1b7629fe9739c5016d4c91b6594fbf1 ?tmp/styleguide-ref/Combos/confirmation_dialog.png
 0a5ef2686ed5ed55b3f889e6deedd42d5f0eeabe ?tmp/styleguide-ref/Combos/featured_entries.png
-b45a4576506a6e92834ff740f661ace04179a78c ?tmp/styleguide-ref/Combos/filterbar.png
+39bd3b537884daa5a3eb22c427b990e4c44aaf5f ?tmp/styleguide-ref/Combos/filterbar.png
 f11638ea5e12ec0491a5039c7c0beec7ec46c9e8 ?tmp/styleguide-ref/Combos/footer.png
 55aacea5cec99146b9e3cc95c69772bbb6bc2d3d ?tmp/styleguide-ref/Combos/header.png
 805b2c8d120fa204ded0fefeb5b63cab80518547 ?tmp/styleguide-ref/Combos/home_claim.png
@@ -37,7 +37,7 @@ bc49e425e06572357caf417ce1bef88baf6baac1 ?tmp/styleguide-ref/Components/contexts
 5c1fcb362a49f990dc7d0afb718efb655c300735 ?tmp/styleguide-ref/Components/modals.png
 b1de04626f2c7f4498315af3df3c22fb6e148df6 ?tmp/styleguide-ref/Components/page_header.png
 c97382ca5751e9be6690e9917d6a243180a60a8c ?tmp/styleguide-ref/Components/pager.png
-7a68b1724159cb6ad98c582f82f6c3609abd1ba3 ?tmp/styleguide-ref/Components/resources_head.png
+ba7bf86db65fbfb65f9da435270748f02d3c581f ?tmp/styleguide-ref/Components/resources_head.png
 bbc93b0c7e9c9664ab083f21e33e345af4b11b8b ?tmp/styleguide-ref/Components/side_navigation.png
 39de781ab871b187a7df46f5cdbe19fb3ff61607 ?tmp/styleguide-ref/Components/slider.png
 27d305c74880e7ff74854a96f500a2a316942d93 ?tmp/styleguide-ref/Components/stepline.png
@@ -68,9 +68,9 @@ f1add12b4a11220b42ab2ce287ccbacea096ef09 ?tmp/styleguide-ref/Layout/grid.png
 c03e535041350105e349ef20c0f5edb6ce1b5bd4 ?tmp/styleguide-ref/Layout/separation.png
 b85b74765002739c64cf032734eaa34e3021b4fd ?tmp/styleguide-ref/Layout/separator.png
 2cc3d99544212cd85d3944b585bb6ddb5490ef43 ?tmp/styleguide-ref/Layout/spacing.png
-23242d96d67895b7886fffe923a889dafc052548 ?tmp/styleguide-ref/Past Spec/context_page.png
-7a01219641b60b2c8f5be54eea455d4ab0255c80 ?tmp/styleguide-ref/Past Spec/filterbar_revamp.png
-91dd9a9cb3d87adcefaee7f35f97e681c076c99f ?tmp/styleguide-ref/Past Spec/set_vocabulary.png
+eb73cb28df34912877091a8fe140a293ac297f58 ?tmp/styleguide-ref/Past Spec/context_page.png
+8c00c2ff86cd1893d86cd7a4e44e9394b3834b0b ?tmp/styleguide-ref/Past Spec/filterbar_revamp.png
+e901cf55447f51483df309d928cb9338511d739e ?tmp/styleguide-ref/Past Spec/set_vocabulary.png
 f3b8b4e68b8c0bf66e826f31aae000d2ef748650 ?tmp/styleguide-ref/Typography/ol.png
 b3664a99eb8760d0ea392dc6339e44b4559d3381 ?tmp/styleguide-ref/Typography/paragraphs.png
 5df02ee25c0b6c27104769e26fa56ec9f6a63062 ?tmp/styleguide-ref/Typography/tables.png
