@@ -8,9 +8,9 @@ task-defaults:
     RAILS_ENV: test
     LANG: "en_US.UTF-8"
 
-  git-options: 
-    submodules: 
-      clone: True 
+  git-options:
+    submodules:
+      clone: True
       timeout: 60
 
   trial-attachments:
@@ -42,7 +42,7 @@ task-defaults:
     ruby: true
     tightvnc: true
 
-  ports: 
+  ports:
     XVNC_PORT:
       inet_address: "localhost"
       min: 5900
@@ -50,12 +50,12 @@ task-defaults:
 
   scripts:
 
-    configure-database: 
+    configure-database:
       body: |
         #!/usr/bin/env ruby
         require 'yaml'
         config = \
-          { 'test' => 
+          { 'test' =>
             { 'adapter' => 'postgresql',
               'encoding' => 'unicode',
               'host' => 'localhost',
@@ -68,17 +68,17 @@ task-defaults:
     bundle-mri:
       exclusive-executor-resource: bundler_2.2
       body: bundle
-    
+
     bundle-jruby:
       environment-variables:
         RBENV_VERSION: jruby-9000
       exclusive-executor-resource: bundler_jruby-9000
       body: bundle
-    
+
 
     npm:
       exclusive-executor-resource: npm-modules
-      body: | 
+      body: |
         #!/usr/bin/env bash
         mkdir -p "/tmp/MADEK_node_modules_${CIDER_CI_TREE_ID}/node_modules"
         ln -s "/tmp/MADEK_node_modules_${CIDER_CI_TREE_ID}/node_modules" "node_modules" \
@@ -107,49 +107,51 @@ task-defaults:
         && rm -rf coverage \
         && ruby -v \
         && bundle exec rspec $CIDER_CI_TASK_FILE
-      start-when: 
+      start-when:
       - script: start-vnc
       - script: create-database
       - script: npm
       - script: setup-madek
       - script: bundle-jruby
 
-    delete-database: 
+    delete-database:
       body:  bundle exec rake db:pg:terminate_connections db:drop
       ignore-state: true
-      start-when: 
+      start-when:
       - script: test
         states: [aborted, passed, failed, skipped]
 
     stop-vnc:
       body: tightvncserver -kill ":$XVNC_PORT" -clean
       ignore-state: true
-      start-when: 
+      start-when:
       - script: test
         states: [aborted, passed, failed, skipped]
 
 
 subcontexts:
 
-- name: Plain 
-  _cider-ci_generate-tasks: 
+- name: Plain
+  _cider-ci_generate-tasks:
     include-match: spec/.*_spec.rb
     exclude-match: spec/features.*_spec.rb
 
 
 - name: Features
 
-  task-defaults: 
+  task-defaults:
     priority: 2
 
   tasks:
     "spec/features/styleguide_spec.rb":
-      priority: 2
+      priority: 3
 
-  _cider-ci_generate-tasks: 
+  _cider-ci_generate-tasks:
     include-match: spec/features.*_spec.rb
 
+# Just one task, use for prototyping and debuging `.cider-ci.yml`
+#
 #  tasks:
-#    spec/features/my_dashboard_spec.rb: 
+#    spec/features/my_dashboard_spec.rb:
 #      environment-variables:
 #        CIDER_CI_TASK_FILE: spec/features/my_dashboard_spec.rb

@@ -4,13 +4,16 @@ jobs:
     description: |
       Deploy this commit to test.madek.zhdk.ch.
 
-    depends-on: 
+    depends-on:
     - type: job
       job: tests-mri
       states: [passed]
+    - type: job
+      job: code-checks
+      states: [passed]
 
-    start-on: 
-    - type: branch.updated
+    run-on:
+    - type: branch
       include-match: ^madek-v3$
 
     context:
@@ -25,7 +28,7 @@ jobs:
        Deploy this commit to test.madek.zhdk.ch and reapply the
        migrations on the data from production.
 
-    depends-on: 
+    depends-on:
     - type: job
       job: tests-mri
       states: [passed]

@@ -1,20 +1,20 @@
-jobs: 
+jobs:
 
-  code-check: 
+  code-checks:
 
-    name: Code Check
+    name: Code Checks
 
     description: |
-      Run static checks and metrics: complexity, duplicaiont, code format. 
+      Run static checks and metrics: complexity, duplicaiont, code format.
 
-    start-on: 
-    - type: branch.updated
-      include-match: ^.*$
+    run-on:
+    - type: branch
+      include-match: ^.*madek-v3.*$
 
     context:
 
       task-defaults:
-        
+
         eager-trials: 1
         max-auto-trials: 2
         traits:
@@ -31,29 +31,29 @@ jobs:
           bundle-mri:
             exclusive-executor-resource: bundler_2.2
             body: bundle
-          test: 
+          test:
             start-when:
             - script: bundle-mri
 
       tasks:
 
-        code_complexity: 
+        code_complexity:
           name: Code complexity with flog
-          scripts: 
-            test: 
+          scripts:
+            test:
               body: bundle exec cider-ci_flog app/
 
         code_similarity:
           name: Code similarity with flay
-          scripts: 
-            test: 
+          scripts:
+            test:
               body: bundle exec cider-ci_flay app/
 
         lint_haml:
           name: Lint/Stylecheck with HAML-Lint
           scripts:
             test:
-              body: | 
+              body: |
                 #!/bin/sh
                 set -e
                 # lint all view dirs expect styleguide (for now, most components are still auto-converted)

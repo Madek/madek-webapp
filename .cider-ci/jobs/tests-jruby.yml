@@ -1,23 +1,18 @@
-jobs: 
+jobs:
 
-  tests-jruby: 
+  tests-jruby:
 
     name: Tests JRuby-9000
 
     description: >
       Run all specs under JRuby 9000.
 
-#    depends-on: 
-#    - type: job
-#      job: tests-mri
-#      states: [passed]
+    run-on:
+    - type: branch
+      include-match: ^.*madek-v3.*$
 
-    start-on: 
-    - type: branch.updated
-      include-match: ^.*$
-
-    context: 
-      _cider-ci_include: 
+    context:
+      _cider-ci_include:
         - .cider-ci/shared/tests-context.yml
 
       task-defaults:

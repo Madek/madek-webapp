@@ -1,6 +1,0 @@
-name: Madek Styleguide Conformity
-
-_cider-ci_include: 
-  - '/.cider-ci/partials/code-check_defaults.yml'
-  - '/.cider-ci/tasks/code-check.yml'
-
