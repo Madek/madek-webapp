@@ -32,6 +32,9 @@ jobs:
     - type: job
       job: tests-mri
       states: [passed]
+    - type: job
+      job: code-checks
+      states: [passed]
 
     context:
       _cider-ci_include: .cider-ci/shared/deploy-context.yml
