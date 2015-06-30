@@ -9,9 +9,7 @@ module Presenters
       def entrusted_media_resources
         Presenters::Shared::MediaResources::MediaResources.new \
           @user,
-          media_entries: MediaEntry.entrusted_to_group(@app_resource),
-          collections: Collection.entrusted_to_group(@app_resource),
-          filter_sets: FilterSet.entrusted_to_group(@app_resource)
+          media_resources: MediaResource.entrusted_to_group(@app_resource)
       end
     end
   end

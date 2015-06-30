@@ -5,27 +5,35 @@ require Rails.root.join 'spec',
                         'shared',
                         'media_resources',
                         'relations_setup'
+require Rails.root.join 'spec',
+                        'presenters',
+                        'shared',
+                        'media_resources',
+                        'select_media_resources'
 
 describe Presenters::MediaEntries::MediaEntryRelations do
   include_context 'relations'
+  include_context 'select media resources'
 
-  context 'dumps' do
-    it_can_be 'dumped' do
-      let(:presenter) { described_class.new(@media_entry_1, @user) }
-    end
-    it_can_be 'dumped' do
-      let(:presenter) { described_class.new(@media_entry_2, @user) }
-    end
-    it_can_be 'dumped' do
-      let(:presenter) { described_class.new(@media_entry_3, @user) }
-    end
-    it_can_be 'dumped' do
-      let(:presenter) { described_class.new(@media_entry_4, @user) }
-    end
-    it_can_be 'dumped' do
-      let(:presenter) { described_class.new(@media_entry_5, @user) }
-    end
-  end
+  # TODO: using shared example together with shared context does
+  # not work here. All the included instance variables are nil.
+  # context 'dumps' do
+  #   it_can_be 'dumped' do
+  #     let(:presenter) { described_class.new(@media_entry_1, @user) }
+  #   end
+  #   it_can_be 'dumped' do
+  #     let(:presenter) { described_class.new(@media_entry_2, @user) }
+  #   end
+  #   it_can_be 'dumped' do
+  #     let(:presenter) { described_class.new(@media_entry_3, @user) }
+  #   end
+  #   it_can_be 'dumped' do
+  #     let(:presenter) { described_class.new(@media_entry_4, @user) }
+  #   end
+  #   it_can_be 'dumped' do
+  #     let(:presenter) { described_class.new(@media_entry_5, @user) }
+  #   end
+  # end
 
   context 'relations' do
     after :example do
@@ -35,9 +43,9 @@ describe Presenters::MediaEntries::MediaEntryRelations do
 
       ########### SIBLINGS ######################################
       # NOTE: for now we are ignoring siblings other then collections
-      expect(@p.sibling_media_resources.media_entries.size)
+      expect(select_media_entries(@p.sibling_media_resources.media_resources).size)
         .to be 0
-      expect(@p.sibling_media_resources.filter_sets.size)
+      expect(select_filter_sets(@p.sibling_media_resources.media_resources).size)
         .to be 0
     end
 
@@ -45,22 +53,27 @@ describe Presenters::MediaEntries::MediaEntryRelations do
       @p = described_class.new(@media_entry_1, @user)
 
       ########### PARENTS #######################################
-      expect(@p.parent_media_resources.collections.size)
+      expect(select_collections(@p.parent_media_resources.media_resources).size)
         .to be 3
-      expect(@p.parent_media_resources.collections.map(&:uuid))
+      expect(select_collections(@p.parent_media_resources.media_resources)
+        .map(&:uuid))
         .to include @collection_A.id
-      expect(@p.parent_media_resources.collections.map(&:uuid))
+      expect(select_collections(@p.parent_media_resources.media_resources)
+        .map(&:uuid))
         .to include @collection_B.id
-      expect(@p.parent_media_resources.collections.map(&:uuid))
+      expect(select_collections(@p.parent_media_resources.media_resources)
+        .map(&:uuid))
         .to include @collection_C.id
 
       ########### SIBLINGS ######################################
       # NOTE: for now we are ignoring siblings other then collections
-      expect(@p.sibling_media_resources.collections.size)
+      expect(select_collections(@p.sibling_media_resources.media_resources).size)
         .to be 2
-      expect(@p.parent_media_resources.collections.map(&:uuid))
+      expect(select_collections(@p.parent_media_resources.media_resources)
+        .map(&:uuid))
         .to include @collection_B.id
-      expect(@p.parent_media_resources.collections.map(&:uuid))
+      expect(select_collections(@p.parent_media_resources.media_resources)
+        .map(&:uuid))
         .to include @collection_C.id
     end
 
@@ -68,13 +81,14 @@ describe Presenters::MediaEntries::MediaEntryRelations do
       @p = described_class.new(@media_entry_3, @user)
 
       ########### PARENTS #######################################
-      expect(@p.parent_media_resources.collections.size)
+      expect(select_collections(@p.parent_media_resources.media_resources).size)
         .to be 1
-      expect(@p.parent_media_resources.collections.map(&:uuid))
+      expect(select_collections(@p.parent_media_resources.media_resources)
+        .map(&:uuid))
         .to include @collection_B.id
 
       ########### SIBLINGS ######################################
-      expect(@p.sibling_media_resources.collections.size)
+      expect(select_collections(@p.sibling_media_resources.media_resources).size)
         .to be 0
     end
 
@@ -82,13 +96,14 @@ describe Presenters::MediaEntries::MediaEntryRelations do
       @p = described_class.new(@media_entry_4, @user)
 
       ########### PARENTS #######################################
-      expect(@p.parent_media_resources.collections.size)
+      expect(select_collections(@p.parent_media_resources.media_resources).size)
         .to be 1
-      expect(@p.parent_media_resources.collections.map(&:uuid))
+      expect(select_collections(@p.parent_media_resources.media_resources)
+        .map(&:uuid))
         .to include @collection_C.id
 
       ########### SIBLINGS ######################################
-      expect(@p.sibling_media_resources.collections.size)
+      expect(select_collections(@p.sibling_media_resources.media_resources).size)
         .to be 0
     end
 
@@ -96,11 +111,11 @@ describe Presenters::MediaEntries::MediaEntryRelations do
       @p = described_class.new(@media_entry_5, @user)
 
       ########### PARENTS #######################################
-      expect(@p.parent_media_resources.collections.size)
+      expect(select_collections(@p.parent_media_resources.media_resources).size)
         .to be 0
 
       ########### SIBLINGS ######################################
-      expect(@p.sibling_media_resources.collections.size)
+      expect(select_collections(@p.sibling_media_resources.media_resources).size)
         .to be 0
     end
   end

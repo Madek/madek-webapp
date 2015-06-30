@@ -8,23 +8,20 @@ module Presenters
         end
 
         def any?
-          # parents can only be collections anyway
-          parent_media_resources.collections.any? or
-            sibling_media_resources.media_entries.any? or
-            sibling_media_resources.collections.any? or
-            sibling_media_resources.filter_sets.any?
+          parent_media_resources.media_resources.any? or
+            sibling_media_resources.media_resources.any?
         end
 
         def parent_media_resources
           Presenters::Shared::MediaResources::MediaResources.new \
             @user,
-            collections: @app_resource.parent_collections
+            media_resources: @app_resource.parent_collections
         end
 
         def sibling_media_resources
           Presenters::Shared::MediaResources::MediaResources.new \
             @user,
-            collections: \
+            media_resources: \
               @app_resource
                 .sibling_collections
                 .where.not(collections: { id: @app_resource.id })

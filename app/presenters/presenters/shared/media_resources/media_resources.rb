@@ -5,71 +5,50 @@ module Presenters
 
         # NOTE: for pagination conf, see </config/initializers/kaminari_config.rb>
         def initialize(user,
-                       media_entries: nil, collections: nil, filter_sets: nil,
+                       media_resources: MediaResource.all,
                        filter: {},
                        order: nil,
-                       page: 1, per_page: 12)
+                       page: 1,      # <- `nil` always means 'first page'
+                       per_page: 12) # <- default for this presenter
 
           @user = user
           @filter = filter
           @order = order
-          @page = (page || 1).to_i # nil always means 'first page'
-          @per_page = (per_page || 12).to_i # default for this presenter
+          @page = page.to_i
+          @per_page = per_page.to_i
 
-          @total_counts = {}
-          @highest_total_count = 0
-          @media_resources = {
-            media_entries: init_by_type(:media_entries, media_entries,
-                                        Presenters::MediaEntries::MediaEntryIndex),
-            collections:   init_by_type(:collections, collections,
-                                        Presenters::Collections::CollectionIndex),
-            filter_sets:   init_by_type(:filter_sets, filter_sets,
-                                        Presenters::FilterSets::FilterSetIndex)
-          }
+          @media_resources = select_and_paginate_media_resources(media_resources)
         end
 
-        def media_entries
-          @media_resources[:media_entries]
+        def media_resources
+          @media_resources.map { |r| indexify r }
         end
 
-        def collections
-          @media_resources[:collections]
-        end
-
-        def filter_sets
-          @media_resources[:filter_sets]
+        def any? # this is about the collection, does not regard pagination!
+          @media_resources.total_count > 0
         end
 
         def empty?
-          !@total_counts.values.any?
-        end
-
-        def total_counts
-          counts = @total_counts.values.reject(&:nil?)
-          Pojo.new(@total_counts.merge(highest: counts.max, total: counts.sum))
+          !self.any?
         end
 
         def pagination_info
-          # do this manually because we're paginating multiple collections:
-          total_pages = (total_counts.highest.to_f / @per_page.to_f).ceil
+          # Just proxy methods from the paginated collection.
+          # This is done to avoid handing any AR to the views
+          # (and sadly `Kaminari.paginate_array` does NOT scale)…
           Pojo.new(
-            current_page: @page,
-            total_pages: total_pages,
-            previous_page: (@page > 1) ? (@page - 1) : false,
-            next_page:     (@page < total_pages) ? (@page + 1) : false
+            total_count:   @media_resources.total_count,
+            current_page:  @media_resources.current_page,
+            total_pages:   @media_resources.total_pages,
+            previous_page: @media_resources.prev_page,
+            next_page:     @media_resources.next_page
           )
         end
 
         private
 
-        def init_by_type(type, media_resources, index_presenter)
-          resources = media_resources ? select_resources(media_resources) : []
-          update_counts(type, resources) # just for the side-effects
-          resources.map { |r| index_presenter.new(r, @user) }
-        end
-
-        def select_resources(resources)
-          resources
+        def select_and_paginate_media_resources(media_resources)
+          media_resources
             .viewable_by_user_or_public(@user)
             .filter(@filter)
             .reorder(@order)
@@ -77,9 +56,23 @@ module Presenters
             .per(@per_page)
         end
 
-        def update_counts(type, ar_collection)
-          count = ar_collection.try(:total_count)
-          @total_counts[type] = count if count && count > 0
+        def indexify(resource)
+          case resource.class.name
+          when 'MediaEntry'
+            Presenters::MediaEntries::MediaEntryIndex.new \
+              MediaEntry.find(resource.id),
+              @user
+          when 'Collection'
+            Presenters::Collections::CollectionIndex.new \
+              Collection.find(resource.id),
+              @user
+          when 'FilterSet'
+            Presenters::FilterSets::FilterSetIndex.new \
+              FilterSet.find(resource.id),
+              @user
+          else
+            raise 'Unknown resource type!'
+          end
         end
       end
     end

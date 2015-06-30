@@ -9,44 +9,19 @@ module Presenters
       end
 
       def content
-        Presenters::Shared::MediaResources::MediaResources.new \
-          @app_resource,
-          media_entries: @app_resource.media_entries,
-          collections: @app_resource.collections,
-          filter_sets: @app_resource.filter_sets,
-          order: @order,
-          page: @page,
-          per_page: @per_page
+        mr_presenter_for @app_resource.media_resources
       end
 
       def latest_imports
-        Presenters::Shared::MediaResources::MediaResources.new \
-          @app_resource,
-          media_entries: @app_resource.created_media_entries,
-          order: @order,
-          page: @page,
-          per_page: @per_page
+        mr_presenter_for @app_resource.created_media_entries
       end
 
       def favorites
-        Presenters::Shared::MediaResources::MediaResources.new \
-          @app_resource,
-          media_entries: @app_resource.favorite_media_entries,
-          collections: @app_resource.favorite_collections,
-          filter_sets: @app_resource.favorite_filter_sets,
-          page: @page,
-          per_page: @per_page
+        mr_presenter_for @app_resource.favorite_media_resources
       end
 
       def entrusted_content
-        Presenters::Shared::MediaResources::MediaResources.new \
-          @app_resource,
-          media_entries: MediaEntry.entrusted_to_user(@app_resource),
-          collections: Collection.entrusted_to_user(@app_resource),
-          filter_sets: FilterSet.entrusted_to_user(@app_resource),
-          order: @order,
-          page: @page,
-          per_page: @per_page
+        mr_presenter_for MediaResource.entrusted_to_user(@app_resource)
       end
 
       def groups
@@ -54,6 +29,17 @@ module Presenters
           .map do |group|
             Presenters::Groups::GroupShow.new(group, @user)
           end
+      end
+
+      private
+
+      def mr_presenter_for(media_resources)
+        Presenters::Shared::MediaResources::MediaResources.new \
+          @app_resource,
+          media_resources: media_resources,
+          order: @order,
+          page: @page,
+          per_page: @per_page
       end
     end
   end

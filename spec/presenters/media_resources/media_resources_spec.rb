@@ -1,24 +1,23 @@
 require 'spec_helper'
 require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
+require Rails.root.join 'spec',
+                        'presenters',
+                        'shared',
+                        'media_resources',
+                        'select_media_resources'
 
 describe Presenters::Shared::MediaResources::MediaResources do
+  include_context 'select media resources'
+
   it_can_be 'dumped' do
     let(:presenter) do
-      described_class.new(FactoryGirl.create(:user),
-                          media_entries: MediaEntry.unscoped,
-                          collections: Collection.unscoped,
-                          filter_sets: FilterSet.unscoped)
+      described_class.new(FactoryGirl.create(:user))
     end
   end
 
   it 'page 1 per default' do
-    p = described_class.new(FactoryGirl.create(:user),
-                            media_entries: MediaEntry.unscoped,
-                            collections: Collection.unscoped,
-                            filter_sets: FilterSet.unscoped)
-    expect(p.media_entries.count).to be <= 12
-    expect(p.collections.count).to be <= 12
-    expect(p.filter_sets.count).to be <= 12
+    p = described_class.new(FactoryGirl.create(:user))
+    expect(p.media_resources.count).to be <= 12
   end
 
   context 'visibility' do
@@ -53,22 +52,23 @@ describe Presenters::Shared::MediaResources::MediaResources do
                            get_metadata_and_previews: false)
 
       p = described_class.new(user,
-                              media_entries: \
-                                MediaEntry.where(id: [media_entry_1.id,
-                                                      media_entry_2.id]),
-                              collections: \
-                                Collection.where(id: [collection_1.id,
-                                                      collection_2.id]),
-                              filter_sets: \
-                                FilterSet.where(id: [filter_set_1.id,
-                                                     filter_set_2.id]))
+                              media_resources: \
+                                MediaResource.where(id: [media_entry_1.id,
+                                                         media_entry_2.id,
+                                                         collection_1.id,
+                                                         collection_2.id,
+                                                         filter_set_1.id,
+                                                         filter_set_2.id]))
 
-      expect(p.media_entries.size).to be == 1
-      expect(p.media_entries.map(&:uuid)).to include media_entry_1.id
-      expect(p.collections.size).to be == 1
-      expect(p.collections.map(&:uuid)).to include collection_1.id
-      expect(p.filter_sets.size).to be == 1
-      expect(p.filter_sets.map(&:uuid)).to include filter_set_1.id
+      expect(select_media_entries(p.media_resources).size).to be == 1
+      expect(select_media_entries(p.media_resources).map(&:uuid))
+        .to include media_entry_1.id
+      expect(select_collections(p.media_resources).size).to be == 1
+      expect(select_collections(p.media_resources).map(&:uuid))
+        .to include collection_1.id
+      expect(select_filter_sets(p.media_resources).size).to be == 1
+      expect(select_filter_sets(p.media_resources).map(&:uuid))
+        .to include filter_set_1.id
     end
 
     it 'user permission' do
@@ -115,22 +115,23 @@ describe Presenters::Shared::MediaResources::MediaResources do
                          get_metadata_and_previews: true)
 
       p = described_class.new(user,
-                              media_entries: \
-                                MediaEntry.where(id: [media_entry_1.id,
-                                                      media_entry_2.id]),
-                              collections: \
-                                Collection.where(id: [collection_1.id,
-                                                      collection_2.id]),
-                              filter_sets: \
-                                FilterSet.where(id: [filter_set_1.id,
-                                                     filter_set_2.id]))
+                              media_resources: \
+                                MediaResource.where(id: [media_entry_1.id,
+                                                         media_entry_2.id,
+                                                         collection_1.id,
+                                                         collection_2.id,
+                                                         filter_set_1.id,
+                                                         filter_set_2.id]))
 
-      expect(p.media_entries.size).to be == 1
-      expect(p.media_entries.map(&:uuid)).to include media_entry_1.id
-      expect(p.collections.size).to be == 1
-      expect(p.collections.map(&:uuid)).to include collection_1.id
-      expect(p.filter_sets.size).to be == 1
-      expect(p.filter_sets.map(&:uuid)).to include filter_set_1.id
+      expect(select_media_entries(p.media_resources).size).to be == 1
+      expect(select_media_entries(p.media_resources).map(&:uuid))
+        .to include media_entry_1.id
+      expect(select_collections(p.media_resources).size).to be == 1
+      expect(select_collections(p.media_resources).map(&:uuid))
+        .to include collection_1.id
+      expect(select_filter_sets(p.media_resources).size).to be == 1
+      expect(select_filter_sets(p.media_resources).map(&:uuid))
+        .to include filter_set_1.id
     end
 
     it 'group permission' do
@@ -180,24 +181,24 @@ describe Presenters::Shared::MediaResources::MediaResources do
                          get_metadata_and_previews: true)
 
       p = described_class.new(user,
-                              media_entries: \
-                                MediaEntry.where(id: [media_entry_1.id,
-                                                      media_entry_2.id]),
-                              collections: \
-                                Collection.where(id: [collection_1.id,
-                                                      collection_2.id]),
-                              filter_sets: \
-                                FilterSet.where(id: [filter_set_1.id,
-                                                     filter_set_2.id]))
+                              media_resources: \
+                                MediaResource.where(id: [media_entry_1.id,
+                                                         media_entry_2.id,
+                                                         collection_1.id,
+                                                         collection_2.id,
+                                                         filter_set_1.id,
+                                                         filter_set_2.id]))
 
-      expect(p.media_entries.size).to be == 1
-      expect(p.media_entries.map(&:uuid)).to include media_entry_1.id
-      expect(p.collections.size).to be == 1
-      expect(p.collections.map(&:uuid)).to include collection_1.id
-      expect(p.filter_sets.size).to be == 1
-      expect(p.filter_sets.map(&:uuid)).to include filter_set_1.id
+      expect(select_media_entries(p.media_resources).size).to be == 1
+      expect(select_media_entries(p.media_resources).map(&:uuid))
+        .to include media_entry_1.id
+      expect(select_collections(p.media_resources).size).to be == 1
+      expect(select_collections(p.media_resources).map(&:uuid))
+        .to include collection_1.id
+      expect(select_filter_sets(p.media_resources).size).to be == 1
+      expect(select_filter_sets(p.media_resources).map(&:uuid))
+        .to include filter_set_1.id
     end
-
     it 'responsible user' do
       user = FactoryGirl.create(:user)
 
@@ -229,22 +230,23 @@ describe Presenters::Shared::MediaResources::MediaResources do
                            get_metadata_and_previews: false)
 
       p = described_class.new(user,
-                              media_entries: \
-                                MediaEntry.where(id: [media_entry_1.id,
-                                                      media_entry_2.id]),
-                              collections: \
-                                Collection.where(id: [collection_1.id,
-                                                      collection_2.id]),
-                              filter_sets: \
-                                FilterSet.where(id: [filter_set_1.id,
-                                                     filter_set_2.id]))
+                              media_resources: \
+                                MediaResource.where(id: [media_entry_1.id,
+                                                         media_entry_2.id,
+                                                         collection_1.id,
+                                                         collection_2.id,
+                                                         filter_set_1.id,
+                                                         filter_set_2.id]))
 
-      expect(p.media_entries.size).to be == 1
-      expect(p.media_entries.map(&:uuid)).to include media_entry_1.id
-      expect(p.collections.size).to be == 1
-      expect(p.collections.map(&:uuid)).to include collection_1.id
-      expect(p.filter_sets.size).to be == 1
-      expect(p.filter_sets.map(&:uuid)).to include filter_set_1.id
+      expect(select_media_entries(p.media_resources).size).to be == 1
+      expect(select_media_entries(p.media_resources).map(&:uuid))
+        .to include media_entry_1.id
+      expect(select_collections(p.media_resources).size).to be == 1
+      expect(select_collections(p.media_resources).map(&:uuid))
+        .to include collection_1.id
+      expect(select_filter_sets(p.media_resources).size).to be == 1
+      expect(select_filter_sets(p.media_resources).map(&:uuid))
+        .to include filter_set_1.id
     end
   end
 end

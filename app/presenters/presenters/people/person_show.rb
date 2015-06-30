@@ -20,9 +20,6 @@ module Presenters
       def related_media_resources_via_meta_data
         Presenters::Shared::MediaResources::MediaResources.new \
           @user,
-          media_entries: MediaEntry.all,
-          collections: Collection.all,
-          filter_sets: FilterSet.all,
           filter: { meta_data:
                     [{ key: 'any',
                        value: uuid,
