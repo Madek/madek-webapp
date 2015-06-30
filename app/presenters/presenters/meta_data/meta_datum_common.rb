@@ -26,7 +26,11 @@ module Presenters
       private
 
       def wrap_in_array(value)
-        ApplicationHelper.ar_collection_proxy?(value) ? value : [value]
+        if value.class < ActiveRecord::Associations::CollectionProxy
+          value
+        else
+          [value]
+        end
       end
 
       def indexify_if_necessary(value)

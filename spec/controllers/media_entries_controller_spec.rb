@@ -13,7 +13,8 @@ describe MediaEntriesController do
 
   it 'create' do
     meta_key = FactoryGirl.create(:meta_key_text)
-    image_path = 'spec/images/test.png'
+    image_path = Rails.root.join('engines', 'datalayer',
+                                 'spec', 'images', 'test.png')
     post_params = \
       { media_entry: \
         { responsible_user_id: @user.id,

@@ -7,9 +7,4 @@ module ApplicationHelper
     request.path.index(link) == 0
   end
 
-  def ar_collection_proxy?(val)
-    val.class < ActiveRecord::Associations::CollectionProxy
-  end
-
-  module_function :ar_collection_proxy?
 end

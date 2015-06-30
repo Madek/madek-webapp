@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 require File.expand_path('../boot', __FILE__)
+$:.push File.expand_path('../../engines/datalayer/lib', __FILE__)
 
 # Dependencies:
 require 'rails/all'
@@ -34,6 +35,12 @@ module Madek
       Rails.root.join('app', 'modules'),
       Rails.root.join('app', 'views'),
       Rails.root.join('lib')
+    ]
+
+    config.autoload_paths += [
+      Rails.root.join('engines', 'datalayer', 'lib'),
+      Rails.root.join('engines', 'datalayer', 'app', 'models'),
+      Rails.root.join('engines', 'datalayer', 'app', 'lib'),
     ]
 
     # this should be in environments/test ; but that doesn't work (???)
@@ -144,12 +151,15 @@ end
 # Semver: get semantic version as a parsed object # see script for config.
 MADEK_SEMVER = JSON.parse(`./bin/current-semver.sh`)
 
+require 'madek/constants'
+
+# TODO remove resp. namespace all these global things
+
 # Directory config
-load Rails.root.join('config/directories_config.rb')
-DOWNLOAD_STORAGE_DIR  = DirectoriesConfig::DOWNLOAD_STORAGE_DIR
-FILE_STORAGE_DIR      = DirectoriesConfig::FILE_STORAGE_DIR
-THUMBNAIL_STORAGE_DIR = DirectoriesConfig::THUMBNAIL_STORAGE_DIR
-ZIP_STORAGE_DIR       = DirectoriesConfig::ZIP_STORAGE_DIR
+DOWNLOAD_STORAGE_DIR  = Madek::Constants::DOWNLOAD_STORAGE_DIR
+FILE_STORAGE_DIR      = Madek::Constants::FILE_STORAGE_DIR
+THUMBNAIL_STORAGE_DIR = Madek::Constants::THUMBNAIL_STORAGE_DIR
+ZIP_STORAGE_DIR       = Madek::Constants::ZIP_STORAGE_DIR
 
 FILE_UTIL_PATH = '/usr/bin/file -b --mime-type'
 

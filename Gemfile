@@ -7,13 +7,15 @@ source 'http://rubygems.org'
 # RAILS
 gem 'rails', '~> 4.2'
 
+# Engines
+# gem 'madek_datalayer', path: 'engines/datalayer'
+
 # DATABASE
 gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
 gem 'jdbc-postgres', platform: :jruby
 gem 'pg', platform: :mri
 gem 'pg_tasks', '>= 1.3.1', '< 2.0.0'
 #gem "pg_tasks", path: "/Users/thomas/Programming/ROR/pg_tasks"
-gem 'textacular', git: 'https://github.com/DrTom/textacular.git'
 
 # API
 gem 'responders'
@@ -21,6 +23,7 @@ gem 'responders'
 # ZHDK-INTEGRATION
 # gem "madek_zhdk_integration", path: "../zhdk_integration"
 gem 'madek_zhdk_integration', git: 'https://github.com/madek/madek-zhdk-integration.git', :ref => '945e477f50c4bb5b21c3d7f00bff0d9a2fd58e39'
+gem 'textacular', git: 'https://github.com/DrTom/textacular.git'
 
 # FRONTEND
 gem 'bootstrap-sass'
@@ -90,7 +93,7 @@ gem 'zencoder-fetcher', group: [:development]
 
 gem 'cider_ci-support', '= 2.0.0.pre.beta.2', group: [:development, :test]
 # gem 'cider_ci-support', path: '/Users/thomas/Programming/CIDER-CI/ruby_support'
- 
+
 # gem 'cider_ci-rspec_support', '>= 1.0.4', '< 2.0.0', group: [:development, :test]
 # gem 'cider_ci-rspec_support', path: '/Users/thomas/Programming/CIDER-CI/ruby-rspec-support'
 
