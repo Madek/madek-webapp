@@ -37,6 +37,8 @@ module Madek
       Rails.root.join('lib')
     ]
 
+    config.paths["db/migrate"] << Rails.root.join('engines', 'datalayer', 'db', 'migrate')
+
     config.autoload_paths += [
       Rails.root.join('engines', 'datalayer', 'lib'),
       Rails.root.join('engines', 'datalayer', 'app', 'models'),
