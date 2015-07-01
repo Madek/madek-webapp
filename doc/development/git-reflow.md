@@ -2,7 +2,9 @@
 
 Work in Progress.  
 
-A much detailed description of a very similar process is [here](http://doc.gitlab.com/ee/workflow/gitlab_flow.html).  
+NOTE: A very similar process is
+[Gitlab Flow](http://doc.gitlab.com/ee/workflow/gitlab_flow.html).
+
 This guide focuses on the concrete steps/commands a developer has to do,
 and breaking it down into small concrete steps.
 
