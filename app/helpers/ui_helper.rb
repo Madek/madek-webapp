@@ -111,7 +111,7 @@ module UiHelper
   end
 
   def mods_from_name(name)
-    supported_elements = ['icon', 'button', 'tag-cloud']
+    supported_elements = ['icon', 'button', 'tag-cloud', 'tag-button']
     mods = name.split('.')
     element = mods.shift(1).first
     return unless mods

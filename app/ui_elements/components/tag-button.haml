@@ -1,0 +1,49 @@
+:ruby
+  return nil unless button # TODO: remove/fail, use list.compact in callers
+
+  button =
+    case # Allow String or Hash with String
+    when button.is_a?(String)                 then { text: button }
+    when button.try(:[], :text).is_a?(String) then button
+    else throw 'ui: invalid data!'
+    end
+
+  icon_type =
+    case
+    when classes.delete('tag-button-label')  then 'tag'
+    when classes.delete('tag-button-person') then 'user'
+    when classes.delete('tag-button-group')  then 'group'
+    else false
+    end
+
+    # TODO: find out or decide what is correct
+    icon_size = '-mini'
+    # icon_size =
+    #   case
+    #   when classes.include?('large') then nil
+    #   else '-mini'
+
+  html_tag_type = 'span'
+
+  props = {
+    class: ['ui-tag-button'].push(classes),
+    title: button[:title]
+  }
+
+  if button[:href].present?
+    html_tag_type = 'a'
+    props[:href] = button[:href]
+  else
+    props[:class].push('disabled')
+  end
+
+- haml_tag(html_tag_type, props) do
+  - if icon_type
+    = component("icon.#{icon_type}#{icon_size}", 'ui-tag-icon')
+
+  = button[:text]
+  = button[:block_content]
+
+  - if button[:count].present?
+    %span.ui-tag-counter
+      = button[:count]

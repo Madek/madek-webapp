@@ -103,30 +103,30 @@
 = render_partial('element', element) do
 
   = render_partial('example') do
-    = component('tag-cloud.label', element[:locals_tag_count])
+    = combo('tag-cloud.label', element[:locals_tag_count])
 
   = render_partial('example', { mod: 'small'}) do
-    = component('tag-cloud.label', element[:locals_tag_count].merge(mods: 'small'))
+    = combo('tag-cloud.label', element[:locals_tag_count].merge(mods: 'small'))
 
   = render_partial('example', { mod: 'large'}) do
-    = component('tag-cloud.label', element[:locals_tag_count].merge(mods: 'large'))
+    = combo('tag-cloud.label', element[:locals_tag_count].merge(mods: 'large'))
 
   = render_partial('example') do
-    = component('tag-cloud.label', element[:locals_tag_nocount])
+    = combo('tag-cloud.label', element[:locals_tag_nocount])
 
   = render_partial('example') do
-    = component('tag-cloud.person', element[:locals_people])
+    = combo('tag-cloud.person', element[:locals_people])
 
   = render_partial('example') do
-    = component('tag-cloud.group', element[:locals_groups])
+    = combo('tag-cloud.group', element[:locals_groups])
 
   = render_partial('example') do
-    = component('tag-cloud', element[:locals_terms])
+    = combo('tag-cloud', element[:locals_terms])
 
   = render_partial('example', { mod: 'ellipsed'}) do
     - locals = element[:locals_long_label_names].merge(mods: 'ellipsed')
-    = component('tag-cloud.label', locals)
+    = combo('tag-cloud.label', locals)
 
   = render_partial('example', { mod: 'compact'}) do
     - locals = element[:locals_group_names].merge(mods: 'compact')
-    = component('tag-cloud.group', locals)
+    = combo('tag-cloud.group', locals)

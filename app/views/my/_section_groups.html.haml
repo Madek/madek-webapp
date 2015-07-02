@@ -1,4 +1,4 @@
 -# TODO: GroupIndexPresenter…
-= component('tag-cloud.group', mods: 'compact',
+= combo('tag-cloud.group', mods: 'compact',
     list: get.groups.map {|get| { text: get.name,
                                    href: "/groups/#{get.uuid}" } })

@@ -1,0 +1,14 @@
+:ruby
+  throw 'ui: list is not Array!' unless list && list.is_a?(Array)
+
+-# NOTE: since this is a very common combo,
+  we expect a list of data instead of nested components:
+-
+- tags_from_list = capture_haml do
+  - list.each do |item|
+    - mods = classes.map {|c| c.gsub(/tag-cloud-/, 'tag-button-') }
+    %li.ui-tag-cloud-item
+      = component('tag-button', button: item, mods: mods)
+
+%ul.ui-tag-cloud{class: classes}
+  = tags_from_list

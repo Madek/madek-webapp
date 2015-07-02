@@ -17,7 +17,7 @@
               # @get.metadata => [ [key, value], [key, value] ]
               list: [['Title', @get.title, 'title-l'],
                      ['Description', @get.description],
-                     ['Keywords', component('tag-cloud.label',
+                     ['Keywords', combo('tag-cloud.label',
                         mods: tag_mods,
                         list: @get.keywords)],
                      ['Responsible',
