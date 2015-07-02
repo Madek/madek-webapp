@@ -1,16 +1,16 @@
 #!/bin/sh
 
 echo "This does a complete reset/setup of the local dev and test environments"
-echo "If it fails, you most likely have open connections to the db."
-echo ""; echo ""; echo ""
-sleep 5
+printf "Waiting 5 seconds";
+for N in $(seq 5); do printf '.' && sleep 1; done; echo ""
 
-set -ex
+set -ex # be verbose and fail on any error
 
 for ENV in test development; do
+  RAILS_ENV=$ENV bundle exec rake db:pg:terminate_connections
   RAILS_ENV=$ENV bundle exec rake db:drop db:create db:migrate
   RAILS_ENV=$ENV ./bin/rerun_personas_migrations
 done
 
-
+echo ""
 echo "Now run a clean test!"
