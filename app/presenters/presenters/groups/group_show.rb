@@ -7,9 +7,17 @@ module Presenters
       end
 
       def entrusted_media_resources
-        Presenters::Shared::MediaResources::MediaResources.new \
-          @user,
-          media_resources: MediaResource.entrusted_to_group(@app_resource)
+        Pojo.new(
+          media_entries: \
+            Presenters::MediaEntries::MediaEntries \
+              .new(nil, MediaEntry.entrusted_to_group(@app_resource)),
+          collections: \
+            Presenters::Collections::Collections \
+              .new(nil, Collection.entrusted_to_group(@app_resource)),
+          filter_sets: \
+            Presenters::FilterSets::FilterSets \
+              .new(nil, FilterSet.entrusted_to_group(@app_resource))
+        )
       end
     end
   end

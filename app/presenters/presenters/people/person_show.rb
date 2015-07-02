@@ -4,6 +4,10 @@ module Presenters
       def initialize(app_resource, user)
         super(app_resource)
         @user = user
+        @filter = { meta_data:
+                    [{ key: 'any',
+                       value: uuid,
+                       type: 'MetaDatum::People' }] }
       end
 
       # TODO: show person.searchable? (it's supposed to be internal…)
@@ -18,12 +22,17 @@ module Presenters
       end
 
       def related_media_resources_via_meta_data
-        Presenters::Shared::MediaResources::MediaResources.new \
-          @user,
-          filter: { meta_data:
-                    [{ key: 'any',
-                       value: uuid,
-                       type: 'MetaDatum::People' }] }
+        Pojo.new(
+          media_entries: \
+            Presenters::MediaEntries::MediaEntries
+              .new(@user, MediaEntry.all, filter: @filter),
+          collections: \
+            Presenters::Collections::Collections
+              .new(@user, Collection.all, filter: @filter),
+          filter_sets: \
+            Presenters::FilterSets::FilterSets
+              .new(@user, FilterSet.all, filter: @filter)
+        )
       end
     end
   end

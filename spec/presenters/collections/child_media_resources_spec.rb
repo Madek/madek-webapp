@@ -6,7 +6,7 @@ require Rails.root.join 'spec',
                         'media_resources',
                         'select_media_resources'
 
-describe Presenters::Shared::MediaResources::MediaResources do
+describe Presenters::Collections::ChildMediaResources do
   include_context 'select media resources'
 
   it_can_be 'dumped' do

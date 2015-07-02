@@ -54,6 +54,10 @@ class Presenter
     end
   end
 
+  def self.delegate_to(inst_var, *args)
+    args.each { |m| delegate m, to: inst_var }
+  end
+
   def inspect
     app_resource_id = " app_resource_id: \"#{@app_resource.id}\"" if @app_resource
     # object_id returns half the object's memory address, so we need to multiply

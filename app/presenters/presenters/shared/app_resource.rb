@@ -15,7 +15,7 @@ module Presenters
       # end
 
       def self.delegate_to_app_resource(*args)
-        args.each { |m| delegate m, to: :@app_resource }
+        delegate_to :@app_resource, *args
       end
     end
   end
