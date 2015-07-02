@@ -1,4 +1,4 @@
-- (Userpermission::ALLOWED_PERMISSIONS - [:manage]).each do |permission|
+- Userpermission::ALLOWED_PERMISSIONS.each do |permission|
   .checkbox
     %label
       = check_box_tag "children_#{scope}[#{permission}]"

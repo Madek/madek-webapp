@@ -21,9 +21,10 @@ class AppAdmin::UserpermissionsController < AppAdmin::BaseController
   private
 
   def userpermission_params
-    params.permit(userpermission: [ :view, :download, :edit ],
-                  children_media_entries: [ :view, :download, :edit ],
-                  children_media_sets: [ :view, :download, :edit ]
+    permissions = [ :view, :download, :edit, :manage ]
+    params.permit(userpermission: permissions,
+                  children_media_entries: permissions,
+                  children_media_sets: permissions
                  )
   end
 end

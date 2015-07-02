@@ -32,17 +32,20 @@ describe AppAdmin::UserpermissionsController do
         userpermission: {
           view: '1',
           edit: '0',
-          download: '0'
+          download: '0',
+          manage: '1'
         },
         children_media_entries: {
           view: '1',
           edit: '0',
-          download: '0'
+          download: '0',
+          manage: '1'
         },
         children_media_sets: {
           view: '1',
           edit: '0',
-          download: '0'
+          download: '0',
+          manage: '1'
         }
       }
     end

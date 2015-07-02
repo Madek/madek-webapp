@@ -18,14 +18,17 @@ feature 'Admin Userpermissions' do
     check 'userpermission[view]'
     check 'userpermission[download]'
     check 'userpermission[edit]'
+    check 'userpermission[manage]'
 
     check 'children_media_entries[view]'
     check 'children_media_entries[download]'
     check 'children_media_entries[edit]'
+    check 'children_media_entries[manage]'
 
     check 'children_media_sets[view]'
     check 'children_media_sets[download]'
     check 'children_media_sets[edit]'
+    check 'children_media_sets[manage]'
 
     click_button 'Create'
 
@@ -43,7 +46,8 @@ feature 'Admin Userpermissions' do
                              user_id: owner.id,
                              view: true,
                              download: true,
-                             edit: true)
+                             edit: true,
+                             manage: true)
     ).not_to be_nil
   end
 end

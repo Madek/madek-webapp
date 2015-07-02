@@ -16,7 +16,8 @@ describe PermissionMaker do
           userpermission: {
             view: '1',
             edit: '0',
-            download: '0'
+            download: '0',
+            manage: '1'
           }
         }
       end
@@ -34,7 +35,8 @@ describe PermissionMaker do
                                  media_resource_id: media_set.id,
                                  view: true,
                                  edit: false,
-                                 download: false)
+                                 download: false,
+                                 manage: true)
         ).to be
 
         media_set.child_media_resources.find_each do |child_resource|
@@ -49,7 +51,8 @@ describe PermissionMaker do
           children_media_sets: {
             view: '1',
             edit: '1',
-            download: '1'
+            download: '1',
+            manage: '1'
           }
         }
       end
@@ -66,7 +69,8 @@ describe PermissionMaker do
                                    media_resource_id: ms.id,
                                    view: true,
                                    edit: true,
-                                   download: true)
+                                   download: true,
+                                   manage: true)
           ).to be
         end
 
@@ -82,7 +86,8 @@ describe PermissionMaker do
           children_media_entries: {
             view: '1',
             edit: '1',
-            download: '1'
+            download: '1',
+            manage: '1'
           }
         }
       end
@@ -99,7 +104,8 @@ describe PermissionMaker do
                                    media_resource_id: me.id,
                                    view: true,
                                    edit: true,
-                                   download: true)
+                                   download: true,
+                                   manage: true)
           ).to be
         end
 
@@ -117,9 +123,9 @@ describe PermissionMaker do
       let(:permission_params) do
         {
           grouppermission: {
-            view: '1',
-            edit: '0',
-            download: '0'
+            view: '0',
+            edit: '1',
+            download: '1'
           }
         }
       end
@@ -135,9 +141,9 @@ describe PermissionMaker do
         expect(
           Grouppermission.find_by(group_id: group.id,
                                   media_resource_id: media_set.id,
-                                  view: true,
-                                  edit: false,
-                                  download: false)
+                                  view: false,
+                                  edit: true,
+                                  download: true)
         ).to be
 
         media_set.child_media_resources.find_each do |child_resource|
@@ -209,6 +215,21 @@ describe PermissionMaker do
         media_set.child_media_resources.media_sets.find_each do |ms|
           expect_no_grouppermission_for(ms, group)
         end
+      end
+    end
+
+    context 'when manage permission is given' do
+      let(:permission_params) do
+        {
+          grouppermission: {
+            manage: '1'
+          }
+        }
+      end
+      subject { PermissionMaker.new(media_set, group, permission_params) }
+
+      it 'raises error' do
+        expect { subject.call }.to raise_error(ActiveRecord::StatementInvalid)
       end
     end
   end

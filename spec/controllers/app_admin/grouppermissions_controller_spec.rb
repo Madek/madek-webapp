@@ -32,6 +32,28 @@ describe AppAdmin::GrouppermissionsController do
         grouppermission: {
           view: '1',
           edit: '0',
+          download: '0',
+          manage: '1'
+        },
+        children_media_entries: {
+          view: '1',
+          edit: '0',
+          download: '0',
+          manage: '1'
+        },
+        children_media_sets: {
+          view: '1',
+          edit: '0',
+          download: '0',
+          manage: '1'
+        }
+      }
+    end
+    let(:permitted_grouppermission_params) do
+      {
+        grouppermission: {
+          view: '1',
+          edit: '0',
           download: '0'
         },
         children_media_entries: {
@@ -66,7 +88,7 @@ describe AppAdmin::GrouppermissionsController do
 
     it 'calls PermissionMaker service' do
       expect(PermissionMaker).to receive(:new)
-                                 .with(media_set, group, grouppermission_params)
+                                 .with(media_set, group, permitted_grouppermission_params)
                                  .and_call_original
       expect_any_instance_of(PermissionMaker).to receive(:call)
 
