@@ -1,0 +1,45 @@
+-# NOTE: possible confusion because of scoping/namespacing:
+  for the dashboard section this is the 'show' action,
+  but for the resource 'Groups' it is the 'index'!
+
+- content_for(:page_header) do
+  = component('page-header',
+              icon: component('icon', 'icon-privacy-group'),
+              text: @sections[:groups][:title])
+  -# # TODO: actions
+  -# actions: [component('button.primary',
+  -#                     link: '/[NOT_IMPLEMENTED: new_my_group_path]',
+  -#                     text: 'Neue Arbeitsgruppe')])
+
+- content_for(:page_content) do
+  :ruby
+    my_groups = {
+      my_internal_groups: {
+        title: 'Arbeitsgruppen',
+        list: @get.groups.internal
+      },
+      my_external_groups: {
+        title: 'Abteilungsgruppen',
+        list: @get.groups.external
+      }
+    }.map do |id, group|
+      group[:list] = group[:list].map do |group|
+        [group.uuid, {
+          name: component('tag-button.group',
+              button: { text: group.name, href: group.url }
+          ),
+          resources: {
+            count: group.entrusted_media_resources_count,
+            link: group.url
+          },
+          actions: nil# [:delete, :edit] # TODO: actions
+        }]
+      end.to_h
+      [id, group]
+    end.to_h
+
+  - my_groups.each do |id, group|
+    - if (group[:list].presence)
+      .ui-resources-holder.pal
+        = combo('resources-header', title: group[:title])
+        = combo('workgroups', list: group[:list])

@@ -20,7 +20,6 @@ Madek::Application.routes.draw do
   resources :filter_sets, only: [:index, :show], concerns: :permissions
 
   resources :people, only: [:index, :show]
-  resources :groups, only: [:index, :show]
   resources :users, only: :index
 
   resources :licenses, only: :index
@@ -32,8 +31,13 @@ Madek::Application.routes.draw do
   # Static App routes ##########################################################
   get 'id/:uuid', to: 'uuid#redirect_to_canonical_url'
 
-  get 'my/', to: 'my#dashboard', as: 'my_dashboard'
-  get 'my/:section', to: 'my#dashboard_section', as: 'my_dashboard_section'
+  namespace :my do
+    root to: 'dashboard#dashboard', as: 'dashboard'
+    # scope some resources here. order is important, they override 'plain' sections
+    resources :groups, only: [:index, :show]
+    # non-resourceful sections are just plain views:
+    get ':section', to: 'dashboard#dashboard_section', as: 'dashboard_section'
+  end
 
   post 'session/sign_in', to: 'sessions#sign_in'
   post 'session/sign_out', to: 'sessions#sign_out'
@@ -82,7 +86,7 @@ Madek::Application.routes.draw do
     resources :meta_keys
     resources :meta_datums, only: :index
     resources :app_settings, only: [:index, :edit, :update]
-    root to: 'dashboard#index' 
+    root to: 'dashboard#index'
   end
 
   # STYLEGUIDE #################################################################

@@ -4,8 +4,7 @@
   = component('page-header',
               icon: component('icon', section[:icon]), text: section[:title])
 
-- content_for(:page_sidebar) do
-  = render partial: 'sidebar'
-
 - content_for(:page_content) do
-  = render partial: "section_#{section[:partial]}", locals: local_assigns # proxy locals
+  .ui-container.pal
+    -                                                         # proxy locals:
+    = render partial: "section_#{section[:partial]}", locals: local_assigns
