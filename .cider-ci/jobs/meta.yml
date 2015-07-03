@@ -1,0 +1,35 @@
+jobs:
+
+  meta:
+
+    name: Meta
+    description: |
+      Tasks that rely on external (out-of-repository) state.
+      Their state is not as fixed as in the other Jobs,
+      so it might change over time.
+
+    run-on:
+    - type: branch
+      include-match: ^.*madek-v3.*$
+
+    context:
+      task-defaults:
+        max-auto-trials: 1
+        traits:
+          linux: true
+
+      tasks:
+        git_log:
+          scripts:
+            main:
+              body: "git log -n5"
+        git_branch_current:
+          name: "git tree contains latest commit from origin/HEAD"
+          scripts:
+            main:
+              body: "./dev/test/check-if-branch-current.sh"
+        git_submodules:
+          name: "git submodules trees all contain latest commit from origin/HEAD"
+          scripts:
+            main:
+              body: "./dev/test/check-if-submodules-current.sh"
