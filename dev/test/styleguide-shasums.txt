@@ -42,7 +42,7 @@ bbc93b0c7e9c9664ab083f21e33e345af4b11b8b ?tmp/styleguide-ref/Components/side_nav
 39de781ab871b187a7df46f5cdbe19fb3ff61607 ?tmp/styleguide-ref/Components/slider.png
 27d305c74880e7ff74854a96f500a2a316942d93 ?tmp/styleguide-ref/Components/stepline.png
 0220fc496024320bb6da0e066e6ba3395ad11494 ?tmp/styleguide-ref/Components/tabs.png
-53fdff94527a8e71e42c43af359f59f5719248b3 ?tmp/styleguide-ref/Components/tag_cloud.png
+88ffe59d4e1ea75ae4332b0fd4df0db05f89765f ?tmp/styleguide-ref/Components/tag_cloud.png
 b59013a7c50ff7c9040586b24326cbd844d1b261 ?tmp/styleguide-ref/Components/thumb.png
 00c7b19a2d9eaa3f02485be6ee5bcd1db4f18742 ?tmp/styleguide-ref/Components/thumb_actions.png
 3f7cb8fc1839dead2b4bc7fdb776057eb40ad9bb ?tmp/styleguide-ref/Components/thumb_catalog.png

@@ -16,12 +16,10 @@
     else false
     end
 
-    # TODO: find out or decide what is correct
-    icon_size = '-mini'
-    # icon_size =
-    #   case
-    #   when classes.include?('large') then nil
-    #   else '-mini'
+    icon_size = if classes.include?('large') then nil
+      else
+        '-mini'
+      end
 
   html_tag_type = 'span'
 
