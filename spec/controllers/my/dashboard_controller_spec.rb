@@ -80,41 +80,48 @@ describe My::DashboardController do
 
     # "Meine Inhalte"
     my_content = get.content
-    expect(my_content.media_entries.total_count).to be == @limit_for_app_resources
+    expect(my_content.media_entries.resources.length)
+      .to be == @limit_for_app_resources
     expect(my_content.media_entries.resources.first.is_a?(Presenter)).to be true
     expect(presented_entity my_content.media_entries.resources.first)
       .to eq @user.media_entries.reorder('created_at DESC').first
 
-    expect(my_content.collections.total_count).to be == @limit_for_app_resources
+    expect(my_content.collections.resources.length)
+      .to be == @limit_for_app_resources
     expect(my_content.collections.resources.first.is_a?(Presenter)).to be true
     expect(presented_entity my_content.collections.resources.first)
       .to eq @user.collections.reorder('created_at DESC').first
 
-    expect(my_content.filter_sets.total_count).to be == @limit_for_app_resources
+    expect(my_content.filter_sets.resources.length)
+      .to be == @limit_for_app_resources
     expect(my_content.filter_sets.resources.first.is_a?(Presenter)).to be true
     expect(presented_entity my_content.filter_sets.resources.first)
       .to eq @user.filter_sets.reorder('created_at DESC').first
 
     # "Meine letzten Importe"
     imports = get.latest_imports.media_entries
-    expect(imports.total_count).to be == @limit_for_app_resources
+    expect(imports.resources.length)
+      .to be == @limit_for_app_resources
     expect(imports.resources.first.is_a?(Presenter)).to be true
     expect(presented_entity imports.resources.first)
       .to eq @user.created_media_entries.reorder('created_at DESC').first
 
     # "Mir anvertraute Inhalte"
     entrusted = get.entrusted_content
-    expect(entrusted.media_entries.total_count).to be == @limit_for_app_resources
+    expect(entrusted.media_entries.resources.length)
+      .to be == @limit_for_app_resources
     expect(entrusted.media_entries.resources.first.is_a?(Presenter)).to be true
     expect(presented_entity entrusted.media_entries.resources.first)
       .to eq MediaEntry.entrusted_to_user(@user).reorder('created_at DESC').first
 
-    expect(entrusted.collections.total_count).to be == @limit_for_app_resources
+    expect(entrusted.collections.resources.length)
+      .to be == @limit_for_app_resources
     expect(entrusted.collections.resources.first.is_a?(Presenter)).to be true
     expect(presented_entity entrusted.collections.resources.first)
       .to eq Collection.entrusted_to_user(@user).reorder('created_at DESC').first
 
-    expect(entrusted.filter_sets.total_count).to be == @limit_for_app_resources
+    expect(entrusted.filter_sets.resources.length)
+      .to be == @limit_for_app_resources
     expect(entrusted.filter_sets.resources.first.is_a?(Presenter)).to be true
     expect(presented_entity entrusted.filter_sets.resources.first)
       .to eq FilterSet.entrusted_to_user(@user).reorder('created_at DESC').first

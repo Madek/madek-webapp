@@ -8,7 +8,7 @@ module Presenters
 
         # NOTE: for pagination conf, see </config/initializers/kaminari_config.rb>
         def initialize(user,
-                       resources = [],
+                       resources,
                        filter: {},
                        order: nil,
                        page: 1, per_page: 12)
@@ -19,11 +19,13 @@ module Presenters
           @page = page.to_i # nil always means 'first page'
           @per_page = per_page.to_i # default for this presenter
 
-          selected_resources = select(resources)
-          @total_count = selected_resources.count
-          @pagination_info = pojo_pagination_info(selected_resources)
+          @selected_resources = select(resources)
+          @pagination_info = pojo_pagination_info(@selected_resources)
+          @resources = indexify(@selected_resources)
+        end
 
-          @resources = indexify(selected_resources)
+        def total_count
+          @selected_resources.total_count
         end
 
         def empty?

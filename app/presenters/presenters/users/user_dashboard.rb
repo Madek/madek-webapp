@@ -10,29 +10,11 @@ module Presenters
       end
 
       def content
-        Pojo.new(
-          media_entries: \
-            Presenters::MediaEntries::MediaEntries
-              .new(@app_resource,
-                   @app_resource.media_entries,
-                   order: @order,
-                   page: @page,
-                   per_page: @per_page),
-          collections: \
-            Presenters::Collections::Collections
-              .new(@app_resource,
-                   @app_resource.collections,
-                   order: @order,
-                   page: @page,
-                   per_page: @per_page),
-          filter_sets: \
-            Presenters::FilterSets::FilterSets
-              .new(@app_resource,
-                   @app_resource.filter_sets,
-                   order: @order,
-                   page: @page,
-                   per_page: @per_page)
-        )
+        wrap_in_presenters_pojo([
+          @app_resource.media_entries,
+          @app_resource.collections,
+          @app_resource.filter_sets
+        ])
       end
 
       def latest_imports
@@ -41,62 +23,24 @@ module Presenters
             Presenters::MediaEntries::MediaEntries
               .new(@app_resource,
                    @app_resource.created_media_entries,
-                   order: @order,
-                   page: @page,
-                   per_page: @per_page)
+                   order: @order, page: @page, per_page: @per_page)
         )
       end
 
       def favorites
-        Pojo.new(
-          media_entries: \
-            Presenters::MediaEntries::MediaEntries
-              .new(@app_resource,
-                   @app_resource.favorite_media_entries,
-                   order: @order,
-                   page: @page,
-                   per_page: @per_page),
-          collections: \
-            Presenters::Collections::Collections
-              .new(@app_resource,
-                   @app_resource.favorite_collections,
-                   order: @order,
-                   page: @page,
-                   per_page: @per_page),
-          filter_sets: \
-            Presenters::FilterSets::FilterSets
-              .new(@app_resource,
-                   @app_resource.favorite_filter_sets,
-                   order: @order,
-                   page: @page,
-                   per_page: @per_page)
-        )
+        wrap_in_presenters_pojo([
+          @app_resource.favorite_media_entries,
+          @app_resource.favorite_collections,
+          @app_resource.favorite_filter_sets
+        ])
       end
 
       def entrusted_content
-        Pojo.new(
-          media_entries: \
-            Presenters::MediaEntries::MediaEntries
-              .new(@app_resource,
-                   MediaEntry.entrusted_to_user(@app_resource),
-                   order: @order,
-                   page: @page,
-                   per_page: @per_page),
-          collections: \
-            Presenters::Collections::Collections
-              .new(@app_resource,
-                   Collection.entrusted_to_user(@app_resource),
-                   order: @order,
-                   page: @page,
-                   per_page: @per_page),
-          filter_sets: \
-            Presenters::FilterSets::FilterSets
-              .new(@app_resource,
-                   FilterSet.entrusted_to_user(@app_resource),
-                   order: @order,
-                   page: @page,
-                   per_page: @per_page)
-        )
+        wrap_in_presenters_pojo([
+          MediaEntry.entrusted_to_user(@app_resource),
+          Collection.entrusted_to_user(@app_resource),
+          FilterSet.entrusted_to_user(@app_resource)
+        ])
       end
 
       def groups
@@ -115,6 +59,26 @@ module Presenters
           empty?: !(groups[:internal].any? and groups[:external].any?),
           internal: groups[:internal],
           external: groups[:external]
+        )
+      end
+
+      private
+
+      def wrap_in_presenters_pojo(resources)
+        user = @app_resource
+        Pojo.new(
+          media_entries: \
+            Presenters::MediaEntries::MediaEntries
+              .new(user, resources.first,
+                   order: @order, page: @page, per_page: @per_page),
+          collections: \
+            Presenters::Collections::Collections
+              .new(user, resources.second,
+                   order: @order, page: @page, per_page: @per_page),
+          filter_sets: \
+            Presenters::FilterSets::FilterSets
+              .new(user, resources.third,
+                   order: @order, page: @page, per_page: @per_page)
         )
       end
     end

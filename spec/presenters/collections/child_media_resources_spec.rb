@@ -11,13 +11,8 @@ describe Presenters::Collections::ChildMediaResources do
 
   it_can_be 'dumped' do
     let(:presenter) do
-      described_class.new(FactoryGirl.create(:user))
+      described_class.new(FactoryGirl.create(:user), MediaResource.limit(36))
     end
-  end
-
-  it 'page 1 per default' do
-    p = described_class.new(FactoryGirl.create(:user))
-    expect(p.media_resources.count).to be <= 12
   end
 
   context 'visibility' do
@@ -52,22 +47,21 @@ describe Presenters::Collections::ChildMediaResources do
                            get_metadata_and_previews: false)
 
       p = described_class.new(user,
-                              media_resources: \
-                                MediaResource.where(id: [media_entry_1.id,
-                                                         media_entry_2.id,
-                                                         collection_1.id,
-                                                         collection_2.id,
-                                                         filter_set_1.id,
-                                                         filter_set_2.id]))
+                              MediaResource.where(id: [media_entry_1.id,
+                                                       media_entry_2.id,
+                                                       collection_1.id,
+                                                       collection_2.id,
+                                                       filter_set_1.id,
+                                                       filter_set_2.id]))
 
-      expect(select_media_entries(p.media_resources).size).to be == 1
-      expect(select_media_entries(p.media_resources).map(&:uuid))
+      expect(select_media_entries(p.resources).length).to be == 1
+      expect(select_media_entries(p.resources).map(&:uuid))
         .to include media_entry_1.id
-      expect(select_collections(p.media_resources).size).to be == 1
-      expect(select_collections(p.media_resources).map(&:uuid))
+      expect(select_collections(p.resources).length).to be == 1
+      expect(select_collections(p.resources).map(&:uuid))
         .to include collection_1.id
-      expect(select_filter_sets(p.media_resources).size).to be == 1
-      expect(select_filter_sets(p.media_resources).map(&:uuid))
+      expect(select_filter_sets(p.resources).length).to be == 1
+      expect(select_filter_sets(p.resources).map(&:uuid))
         .to include filter_set_1.id
     end
 
@@ -115,22 +109,21 @@ describe Presenters::Collections::ChildMediaResources do
                          get_metadata_and_previews: true)
 
       p = described_class.new(user,
-                              media_resources: \
-                                MediaResource.where(id: [media_entry_1.id,
-                                                         media_entry_2.id,
-                                                         collection_1.id,
-                                                         collection_2.id,
-                                                         filter_set_1.id,
-                                                         filter_set_2.id]))
+                              MediaResource.where(id: [media_entry_1.id,
+                                                       media_entry_2.id,
+                                                       collection_1.id,
+                                                       collection_2.id,
+                                                       filter_set_1.id,
+                                                       filter_set_2.id]))
 
-      expect(select_media_entries(p.media_resources).size).to be == 1
-      expect(select_media_entries(p.media_resources).map(&:uuid))
+      expect(select_media_entries(p.resources).length).to be == 1
+      expect(select_media_entries(p.resources).map(&:uuid))
         .to include media_entry_1.id
-      expect(select_collections(p.media_resources).size).to be == 1
-      expect(select_collections(p.media_resources).map(&:uuid))
+      expect(select_collections(p.resources).length).to be == 1
+      expect(select_collections(p.resources).map(&:uuid))
         .to include collection_1.id
-      expect(select_filter_sets(p.media_resources).size).to be == 1
-      expect(select_filter_sets(p.media_resources).map(&:uuid))
+      expect(select_filter_sets(p.resources).length).to be == 1
+      expect(select_filter_sets(p.resources).map(&:uuid))
         .to include filter_set_1.id
     end
 
@@ -181,22 +174,21 @@ describe Presenters::Collections::ChildMediaResources do
                          get_metadata_and_previews: true)
 
       p = described_class.new(user,
-                              media_resources: \
-                                MediaResource.where(id: [media_entry_1.id,
-                                                         media_entry_2.id,
-                                                         collection_1.id,
-                                                         collection_2.id,
-                                                         filter_set_1.id,
-                                                         filter_set_2.id]))
+                              MediaResource.where(id: [media_entry_1.id,
+                                                       media_entry_2.id,
+                                                       collection_1.id,
+                                                       collection_2.id,
+                                                       filter_set_1.id,
+                                                       filter_set_2.id]))
 
-      expect(select_media_entries(p.media_resources).size).to be == 1
-      expect(select_media_entries(p.media_resources).map(&:uuid))
+      expect(select_media_entries(p.resources).length).to be == 1
+      expect(select_media_entries(p.resources).map(&:uuid))
         .to include media_entry_1.id
-      expect(select_collections(p.media_resources).size).to be == 1
-      expect(select_collections(p.media_resources).map(&:uuid))
+      expect(select_collections(p.resources).length).to be == 1
+      expect(select_collections(p.resources).map(&:uuid))
         .to include collection_1.id
-      expect(select_filter_sets(p.media_resources).size).to be == 1
-      expect(select_filter_sets(p.media_resources).map(&:uuid))
+      expect(select_filter_sets(p.resources).length).to be == 1
+      expect(select_filter_sets(p.resources).map(&:uuid))
         .to include filter_set_1.id
     end
     it 'responsible user' do
@@ -230,22 +222,21 @@ describe Presenters::Collections::ChildMediaResources do
                            get_metadata_and_previews: false)
 
       p = described_class.new(user,
-                              media_resources: \
-                                MediaResource.where(id: [media_entry_1.id,
-                                                         media_entry_2.id,
-                                                         collection_1.id,
-                                                         collection_2.id,
-                                                         filter_set_1.id,
-                                                         filter_set_2.id]))
+                              MediaResource.where(id: [media_entry_1.id,
+                                                       media_entry_2.id,
+                                                       collection_1.id,
+                                                       collection_2.id,
+                                                       filter_set_1.id,
+                                                       filter_set_2.id]))
 
-      expect(select_media_entries(p.media_resources).size).to be == 1
-      expect(select_media_entries(p.media_resources).map(&:uuid))
+      expect(select_media_entries(p.resources).length).to be == 1
+      expect(select_media_entries(p.resources).map(&:uuid))
         .to include media_entry_1.id
-      expect(select_collections(p.media_resources).size).to be == 1
-      expect(select_collections(p.media_resources).map(&:uuid))
+      expect(select_collections(p.resources).length).to be == 1
+      expect(select_collections(p.resources).map(&:uuid))
         .to include collection_1.id
-      expect(select_filter_sets(p.media_resources).size).to be == 1
-      expect(select_filter_sets(p.media_resources).map(&:uuid))
+      expect(select_filter_sets(p.resources).length).to be == 1
+      expect(select_filter_sets(p.resources).map(&:uuid))
         .to include filter_set_1.id
     end
   end

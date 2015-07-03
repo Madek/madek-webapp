@@ -6,11 +6,15 @@
   default_fallback = "(No content.)"
   elm_anchor = 'resources-page'
 
-  # This is a presenter-spezific decorator for MediaResources!
-  pres = media_resources # shortcut
-  unless pres and pres.is_a?(Presenters::Shared::MediaResources::MediaResources)
-    throw 'ui! need a MediaResourcesIndex Presenter!'
-  end
+  # This is a presenter-spezific decorator for any MediaResource:
+  pres = media_resources
+  # sanity check:
+    unless \
+      pres.media_entries.is_a?(Presenters::MediaEntries::MediaEntries) \
+      or pres.collections.is_a?(Presenters::Collections::Collections) \
+      or pres.filter_sets.is_a?(Presenters::FilterSets::FilterSets)
+      throw 'ui: polybox: need a `MediaResources` Presenter!'
+    end
 
   title ||= nil
   link ||= nil
@@ -29,7 +33,7 @@
 
   # for each type of resource, build the list of polythumbs
   resource_types = {
-    media_entries: pres.media_entries.map do |get|
+    media_entries: (pres.media_entries.try(:resources) || []).map do |get|
       deco('polythumb',
         title: get.title,
         thumb: component('thumbnail',
@@ -46,7 +50,7 @@
         )
       )
     end,
-    collections: pres.collections.map do |get|
+    collections: (pres.collections.try(:resources) || []).map do |get|
       deco('polythumb',
         title: get.title,
         thumb: component('thumbnail',
@@ -62,7 +66,7 @@
         )
       )
     end,
-    filter_sets: pres.filter_sets.map do |get|
+    filter_sets: (pres.filter_sets.try(:resources) || []).map do |get|
       deco('polythumb',
         title: get.title,
         thumb: component('thumbnail',
@@ -81,40 +85,43 @@
     end
   }
 
-  # also build an appropriate filter_bar
-  filter_bar = combo('button-group', {
-    mods: ['js-only', 'small'],
-    list: [
-      (pres.media_entries.empty? ? nil : {
-        text: 'Entries',
-        hook: 'entries'
-      }),
-      (pres.collections.empty? ? nil : {
-        text: 'Collections',
-        hook: 'collections'
-      }),
-      (pres.filter_sets.empty? ? nil : {
-        text: 'FilterSets',
-        hook: 'filter_sets'
-      })
-    ]
-  })
+  # TODO: also build an appropriate filter_bar
+  # filter_bar = combo('button-group', {
+  #   mods: ['js-only', 'small'],
+  #   list: [
+  #     (!pres.media_entries.any? ? nil : {
+  #       text: 'Entries',
+  #       hook: 'entries'
+  #     }),
+  #     (!pres.collections.any? ? nil : {
+  #       text: 'Collections',
+  #       hook: 'collections'
+  #     }),
+  #     (!pres.filter_sets.any? ? nil : {
+  #       text: 'FilterSets',
+  #       hook: 'filter_sets'
+  #     })
+  #   ]
+  # })
 
   # build pagination navigation. TODO: combo
   # get nav info
-  pagination = pres.pagination_info
+  # pagination = pres.pagination_info
+  # TMP: fake multiple collection handling, just take biggest one:
+  pagination = [:media_entries, :collections, :filter_sets]
+                .map {|type| pres.send(type).try(:pagination_info) }
+                .compact
+                .sort_by {|p| p.total_pages}
+                .last
+
   # build nav links links (conserves any other parameters)
-  pagination.nav = ['previous_page', 'next_page'].map.with_object({}) do |id, res|
-      if pagination[id]
-        res[id] = url_for(params.merge(page: pagination[id], anchor: elm_anchor))
-      end
+  pagination.nav = ['previous_page', 'next_page'].map do |id|
+    if pagination[id]
+      [id, url_for(params.merge(page: pagination[id], anchor: elm_anchor))]
     end
+  end.compact.to_h
 
-
--# a list for each kind of resource.
-  - skips empty lists
-  - rendered as consective units
-  - re-uses pagination elements
+-# a list of media_resources.
   - TODO: ujs: use filterbar ui + tab logic
 
 .POLYBOX.pbl{id: elm_anchor}
@@ -137,7 +144,7 @@
 
           -# a small heading TODO: txt(), count
           %span.ui-resources-page-counter.ui-pager.small
-            - count = pres.total_counts[type]
+            - count = pres[type].pagination_info.total_count
             - name = count > 1 ? type : type.to_s.singularize
             = "#{count} #{name.to_s.camelize}"
 
