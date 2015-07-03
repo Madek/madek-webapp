@@ -1,7 +1,4 @@
 # Madek
-
-[![semver: 3.0.0-alpha.0](https://img.shields.io/badge/semver-3.0.0--alpha.0-orange.svg)](http://semver.org)
-
 This is the main component of [Madek](https://github.com/madek). See the
 super project [Madek/madek](https://github.com/Madek/madek) for more
 information.
@@ -25,31 +22,14 @@ The [Database: Entities and Relations][] diagram is notable.
 
 ### `madek-v3` branch
 
-<a href="http://ci3.zhdk.ch/cider-ci/ui/public/madek/madek-v3/tests,code-check,coverage,deploy-test/summary.html">
-  <img src="http://ci3.zhdk.ch/cider-ci/ui/public/madek/madek-v3/tests,code-check,coverage,deploy-test/summary.svg?respond_width_200&orientation=vertical">
+
+[![semver: 3.0.0-alpha.0](https://img.shields.io/badge/semver-3.0.0--alpha.0-orange.svg)](http://semver.org)
+
+<a href="http://ci3.zhdk.ch/cider-ci/ui/public/Madek%20Webapp/madek-v3/Tests%20MRI-2.1,Tests%20JRuby-9000,Code%20Checks,Deploy%20Test/summary.html">
+  <img src="http://ci3.zhdk.ch/cider-ci/ui/public/Madek%20Webapp/madek-v3/Tests%20MRI-2.1,Tests%20JRuby-9000,Code%20Checks,Deploy%20Test/summary.svg?respond_width_200&orientation=vertical">
   </img>
 </a>
 
-[Code Climate](https://codeclimate.com/github/zhdk/madek/compare/madek-v3)
-
-
-#### `next` branch
-
-<a href="http://ci3.zhdk.ch/cider-ci/ui/public/madek/next/tests,code-check,coverage/summary.html">
-  <img src="http://ci3.zhdk.ch/cider-ci/ui/public/madek/next/tests,code-check,coverage/summary.svg?respond_width_200&orientation=vertical">
-  </img>
-</a>
-
-
-[Code Climate](https://codeclimate.com/github/zhdk/madek/compare/next)
-
-
-#### `master` branch
-
-<a href="http://ci3.zhdk.ch/cider-ci/ui/public/madek/master/tests,code-check,coverage/summary.html">
-  <img src="http://ci3.zhdk.ch/cider-ci/ui/public/madek/master/tests,code-check,coverage/summary.svg?respond_width_200&orientation=vertical">
-  </img>
-</a>
 
 
 
