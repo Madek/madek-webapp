@@ -1,4 +1,4 @@
-- unless params[:section] == 'filter_demo'
+- unless params[:section].present?
   - return nil # don't show on main dashboard (index)
 
 :ruby
@@ -47,25 +47,23 @@
 
   # dynamic from params:
   unless the_filter_hash.blank?
-    if params[:include_media_entries] == 'true'
-      entries = MediaEntry.filter(the_filter_hash)
-    end
+    # if params[:include_media_entries] == 'true'
+      mr = MediaResource.filter(the_filter_hash)
+    # end
 
-    if params[:include_collections] == 'true' and not the_filter_hash[:media_file_specs]
-      collections = Collection.filter(the_filter_hash)
-    end
-
-    if params[:include_filter_sets] == 'true' and not the_filter_hash[:media_file_specs]
-      filter_sets = FilterSet.filter(the_filter_hash)
-    end
+    # if params[:include_collections] == 'true' and not the_filter_hash[:media_file_specs]
+    #   collections = Collection.filter(the_filter_hash)
+    # end
+    #
+    # if params[:include_filter_sets] == 'true' and not the_filter_hash[:media_file_specs]
+    #   filter_sets = FilterSet.filter(the_filter_hash)
+    # end
   end
 
   the_presenter = \
     Presenters::Shared::MediaResources::MediaResources.new \
       current_user,
-      media_entries: entries,
-      collections: collections,
-      filter_sets: filter_sets,
+      media_resources: mr,
       page: params[:page],
       per_page: params[:per_page]
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MyController do
+describe My::DashboardController do
 
   before :example do
     @user = FactoryGirl.create :user
@@ -101,7 +101,9 @@ describe MyController do
 
     # "Meine Gruppen"
     groups = get.groups
-    expect(groups.count).to be == @resources_limit_dashboard
+    expect((groups[:internal] + groups[:external])
+            .count)
+            .to be == @resources_limit_dashboard
   end
 
 end

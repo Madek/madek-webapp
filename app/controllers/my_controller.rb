@@ -1,9 +1,5 @@
 class MyController < ApplicationController
-  layout 'app_with_sidebar'
-
-  before_action do
-    authorize :dashboard, :logged_in?
-  end
+  layout 'my'
 
   # NOTE: conventions for sections:
   # - if it has resources: UserDashboardPresenter has a method with name of section
@@ -47,8 +43,9 @@ class MyController < ApplicationController
     }
   }
 
-  # "index" action
-  def dashboard
+  before_action do
+    authorize :dashboard, :logged_in?
+    # just for the sidebar nav, also needed in controllers that inherit from us:
     @get = \
       Presenters::Users::UserDashboard.new \
         current_user,
@@ -56,25 +53,7 @@ class MyController < ApplicationController
         page: 1,    # always shows only the items from the first page!
         per_page: 6 # only show 6 per section in dashboard index
 
-    # for indexing on dashboard and sidebar nav:
     @sections = prepare_sections_with_presenter(@get)
-    respond_with @get
-  end
-
-  # "show" actions
-  def dashboard_section
-    section_name = params[:section].to_sym
-    unless SECTIONS[section_name]
-      raise ActionController::RoutingError.new(404), 'No such dashboard section!'
-    end
-    get = Presenters::Users::UserDashboard.new(current_user, page: params[:page])
-    # just for the sidebar nav:
-    @sections = prepare_sections_with_presenter(get)
-    render 'my/dashboard_section',
-           locals: {
-             section: @sections[section_name],
-             get: get
-           }
   end
 
   private

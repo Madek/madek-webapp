@@ -1,4 +1,19 @@
--# TODO: GroupIndexPresenter…
-= combo('tag-cloud.group', mods: 'compact',
-    list: get.groups.map {|get| { text: get.name,
-                                   href: "/groups/#{get.uuid}" } })
+- # Only shown on the dashboard "index"! This is NOT the 'Groups' index!!!
+:ruby
+  group_types = {
+    internal: "Arbeitsgruppen",
+    external: "Abteilungsgruppen"
+  }
+
+.ui-container.pbl
+  - group_types.each do |type, label|
+    :ruby
+      groups = get.groups.send(type).map do |get|
+        { text: get.name, href: get.url }
+      end
+      next unless groups.presence
+
+    .ui-form-group.columned.phn
+      .form-label= label
+      .form-item
+        = combo('tag-cloud.group', mods: 'compact', list: groups)

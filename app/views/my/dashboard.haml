@@ -10,9 +10,9 @@
                                   link: new_media_entry_path,
                                   text: 'Create media entry')])
 
-- content_for(:page_sidebar) do
-  = render partial: 'sidebar'
-
+-# - content_for(:page_sidebar) do
+-#   = render partial: 'sidebar'
+-#
 - content_for(:page_content) do
   - dashboard_content = capture_haml do
     -# each section: build a title and render the partial
@@ -22,7 +22,9 @@
                         href: my_dashboard_section_path(section[:id])})
       = render partial: "my/section_#{section[:partial]}",
                locals: { get: @get, section: section, show_pagination_nav: false }
-  - if dashboard_content
-    = dashboard_content
-  - else
-    = "Welcome to Madek!"
+
+  .ui-container.pal
+    - if dashboard_content
+      = dashboard_content
+    - else
+      = "Welcome to Madek!"

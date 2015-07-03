@@ -3,29 +3,29 @@
     name: 'Workgroups tables', todo: true,
     cssFile: '_ui-workgroups.scss',
     cssSelector: '.ui-workgroups',
-    section: '8.14'
+    section: '8.14',
+    locals: {
+      list: {
+        '4' => {
+          name: 'Diplomarbeitsgruppe',
+          resources: {
+            count: 2,
+            link: '###media_resources?permissions%5Bgroup%5D%5Bids%5D%5B%5D=4'
+          },
+          actions: [:delete, :edit]
+        },
+        '3' => {
+          name: 'ZHdK',
+          resources: {
+            count: 3,
+            link: '###media_resources?permissions%5Bgroup%5D%5Bids%5D%5B%5D=3'
+          },
+          actions: [:delete, :edit]
+        }
+      }
+    }
   }
 
 = render_partial('element', element) do
   = render_partial('example') do
-
-    %table.ui-workgroups.bordered.block
-      %tbody
-        %tr{"data-id" => "4"}
-          %td.ui-workgroup-name Diplomarbeitsgruppe
-          %td.ui-workgroup-items
-            %a{:href => "###media_resources?permissions%5Bgroup%5D%5Bids%5D%5B%5D=4", :title => "Inhalte dieser Gruppe anzeigen"} 2 Inhalte
-          %td.ui-workgroup-actions
-            %a.button.delete-workgroup
-              = component('icon.trash', 'dark')
-            %a.button.edit-workgroup
-              = component('icon.pen', 'dark')
-        %tr{"data-id" => "3"}
-          %td.ui-workgroup-name ZHdK
-          %td.ui-workgroup-items
-            %a{:href => "###media_resources?permissions%5Bgroup%5D%5Bids%5D%5B%5D=3", :title => "Inhalte dieser Gruppe anzeigen"} 3 Inhalte
-          %td.ui-workgroup-actions
-            %a.button.delete-workgroup
-              = component('icon.trash', 'dark')
-            %a.button.edit-workgroup
-              = component('icon.pen', 'dark')
+    = combo('workgroups', element[:locals])

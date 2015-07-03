@@ -2,6 +2,7 @@ module Presenters
   module Users
     class UserDashboard < Presenters::Shared::AppResource
       def initialize(user, order: nil, page: 1, per_page: nil)
+        @user = user
         super(user)
         @order = order
         @page = page
@@ -25,10 +26,22 @@ module Presenters
       end
 
       def groups
-        @app_resource.groups.page(@page).per(@per_page)
-          .map do |group|
-            Presenters::Groups::GroupShow.new(group, @user)
-          end
+        groups = {
+          internal: @app_resource.groups
+            .where(type: :Group)
+            .page(@page).per(@per_page),
+          external: @app_resource.groups
+            .where(type: :InstitutionalGroup)
+            .page(@page).per(@per_page)
+        }.map do |key, groups|
+          [key, groups.map { |group| Presenters::Groups::GroupIndex.new(group) }]
+        end.to_h
+
+        Pojo.new(
+          empty?: !(groups[:internal].any? and groups[:external].any?),
+          internal: groups[:internal],
+          external: groups[:external]
+        )
       end
 
       private

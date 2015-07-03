@@ -1,0 +1,20 @@
+:ruby
+  return unless list
+
+%table.ui-workgroups.bordered.block
+  %tbody
+    - list.each do |id, group|
+      %tr{"data-id" => id}
+        %td.ui-workgroup-name= group[:name]
+        %td.ui-workgroup-items
+          - if (res = group[:resources]).present?
+            = component('link', :link => res[:link], :title => "Inhalte dieser Gruppe anzeigen") do
+              = "#{res[:count]} Inhalte"
+        - if (actions = group[:actions]).present?
+          %td.ui-workgroup-actions
+            - if actions.include?(:delete)
+              %a.button.delete-workgroup
+                = component('icon.trash', 'dark')
+            - if actions.include?(:edit)
+              %a.button.edit-workgroup
+                = component('icon.pen', 'dark')

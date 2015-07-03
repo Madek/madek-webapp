@@ -1,0 +1,6 @@
+-# just prepare the sidebar, all other content_for's come from the views
+
+- content_for(:page_sidebar) do
+  = render 'sidebar'
+
+= render template: 'layouts/app_with_sidebar'

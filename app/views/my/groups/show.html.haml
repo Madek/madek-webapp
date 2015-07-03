@@ -1,0 +1,37 @@
+- content_for(:page_header) do
+  = component('page-header',
+              icon: component('icon', 'icon-privacy-group'), text: @get.name)
+
+- content_for(:page_content) do
+  :ruby
+      overview = deco('resource_show_overview',
+                  content: combo('metadata-box',
+                              mods: 'ui-summary-table.ui-set-summary.compact',
+                              list: [['name', @get.name],
+                                     ['institutional_group_name',
+                                      @get.institutional_group_name]
+                                    ]
+                            )
+      )
+
+  -# TODO: components…
+
+  -# complete box (under the title):
+  .ui-container.tab-content.bordered-top.rounded-right.rounded-bottom
+
+    -# top part of the box:
+    .ui-container.bright.pal.rounded-top-right.rounded-bottom
+
+      = overview
+
+    -# bottom part of the box:
+    .ui-container.rounded-bottom
+      #ui-resources-list-container.ui-container.midtone.rounded-bottom
+        .ui-container.inverted.ui-toolbar.pvx
+          .ui-toolbar-header.pls
+            Entrusted MediaResources:
+        .ui-resources-holder.pal
+          .ui-container.table.auto
+            .ui-container.table-cell.table-substance
+              = deco('polybox', mods: ['active'], fallback: true,
+                      media_resources: @get.entrusted_media_resources)
