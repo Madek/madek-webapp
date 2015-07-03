@@ -1,0 +1,29 @@
+jobs:
+
+  coverage:
+
+    name: Meta
+
+    run-on:
+    - type: branch
+      include-match: ^.*madek-v3.*$
+
+    context:
+      task-defaults:
+        max-auto-trials: 1
+        traits:
+          linux: true
+
+      tasks:
+        git_log:
+          scripts:
+            main:
+              body: "git log -n5"
+        git_branch_current:
+          scripts:
+            main:
+              body: "./dev/test/check-if-branch-current.sh"
+        git_submodules:
+          scripts:
+            main:
+              body: "./dev/test/check-submodules.sh"
