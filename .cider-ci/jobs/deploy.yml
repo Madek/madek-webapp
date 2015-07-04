@@ -1,6 +1,6 @@
 jobs:
   deploy-test:
-    name: Deploy Test
+    name: Deploy to test
     description: |
       Deploy this commit to test.madek.zhdk.ch.
 
@@ -23,7 +23,7 @@ jobs:
           name: Deploy
 
   deploy-test-with-data-reset:
-    name: Deploy Test With Data Reset
+    name: Deploy to test with Data-Reset
     description: |
        Deploy this commit to test.madek.zhdk.ch and reapply the
        migrations on the data from production.
