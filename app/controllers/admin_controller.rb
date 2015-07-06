@@ -1,4 +1,6 @@
 class AdminController < ApplicationController
+  responders :flash
+  respond_to :html
   layout 'admin'
 
   rescue_from ActiveRecord::ActiveRecordError,
@@ -10,7 +12,7 @@ class AdminController < ApplicationController
     authorize :admin, :logged_in_and_admin?
   end
 
-  before_action :set_alerts
+  include Concerns::Admin::ActionMethods
 
   private
 
@@ -19,13 +21,6 @@ class AdminController < ApplicationController
     wrapper = ActionDispatch::ExceptionWrapper.new(Rails.env, @error)
     @status_code = wrapper.status_code
     render "/admin/errors/#{@status_code}", status: @status_code
-  end
-
-  def set_alerts
-    @alerts ||= { error: (flash[:error] || []),
-                  info: (flash[:info] || []),
-                  success: (flash[:success] || []),
-                  warning: (flash[:warning] || []) }
   end
 
   def error_according_to_login_state

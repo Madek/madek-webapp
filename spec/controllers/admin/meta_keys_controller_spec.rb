@@ -72,23 +72,28 @@ describe Admin::MetaKeysController do
       end
     end
 
-    context 'filtering by ID' do
+    context 'sorting by ID' do
       it 'returns correctly sorted collection of meta keys' do
         meta_key_1 = create :meta_key_title, label: 'foo:bar'
         meta_key_2 = create :meta_key_keywords, label: 'bar:foo'
 
         get :index, { search_term: 'foo' }, user_id: admin_user.id
 
-        expect(assigns[:meta_keys]).to eq [meta_key_2, meta_key_1]
+        expect(assigns[:meta_keys]).to match_array [meta_key_2, meta_key_1]
       end
     end
 
-    context 'filtering by Name part' do
+    context 'sorting by Name part' do
       it 'returns correctly sorted collection of meta keys' do
         meta_key_1 = create :meta_key_title, label: 'foo:project_type'
-        meta_key_2 = create :meta_key_keywords, label: 'bar:academic_year'
+        meta_key_2 = create :meta_key_keywords, label: 'foo:academic_year'
 
-        get :index, nil, user_id: admin_user.id
+        get(:index,
+            {
+              search_term: 'foo',
+              sort_by: :name_part
+            },
+            user_id: admin_user.id)
 
         expect(assigns[:meta_keys]).to match_array [meta_key_2, meta_key_1]
       end
@@ -137,7 +142,7 @@ describe Admin::MetaKeysController do
     end
 
     it 'displays success message' do
-      expect(flash[:success]).to eq 'The meta key has been updated.'
+      expect(flash[:success]).to eq flash_message(:update, :success)
     end
 
     it 'updates the meta key' do
@@ -191,7 +196,7 @@ describe Admin::MetaKeysController do
     it 'sets correct flash message' do
       delete :destroy, { id: meta_key.id }, user_id: admin_user.id
 
-      expect(flash[:success]).to eq 'The meta key has been deleted.'
+      expect(flash[:success]).to eq flash_message(:destroy, :success)
     end
 
     context 'when a meta key does not exist' do
@@ -249,7 +254,7 @@ describe Admin::MetaKeysController do
     it 'sets a success message correctly' do
       post :create, { meta_key: meta_key_params }, user_id: admin_user.id
 
-      expect(flash[:success]).to eq 'The meta key has been created.'
+      expect(flash[:success]).to eq flash_message(:create, :success)
     end
 
     it 'sets boolean fields correctly' do
@@ -263,5 +268,9 @@ describe Admin::MetaKeysController do
       expect(meta_key.is_enabled_for_filter_sets).to be true
       expect(meta_key.keywords_alphabetical_order).to be true
     end
+  end
+
+  def flash_message(action, type)
+    I18n.t type, scope: "flash.actions.#{action}", resource_name: 'Meta key'
   end
 end

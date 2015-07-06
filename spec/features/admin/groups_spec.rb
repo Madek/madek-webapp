@@ -93,6 +93,14 @@ feature 'Admin Groups' do
     expect(page).to have_css('.alert-success')
   end
 
+  scenario 'Deleting a group with users' do
+    group = create :group, :with_user
+    visit admin_group_path(group)
+    expect(group_user_count).to eq 1
+    click_link 'Delete'
+    expect(page).to have_css('.alert-danger')
+  end
+
   scenario 'Adding a user to a group' do
     @group = create :group
     visit admin_group_path(@group)

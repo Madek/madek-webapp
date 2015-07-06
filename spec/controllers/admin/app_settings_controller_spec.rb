@@ -53,7 +53,7 @@ describe Admin::AppSettingsController do
         user_id: admin_user.id
       )
 
-      expect(flash[:success]).to eq 'Setting has been updated.'
+      expect(flash[:success]).to eq flash_message(:update, :success)
       expect(app_settings.reload.site_title).to eq 'NEW TITLE'
     end
 
@@ -72,8 +72,12 @@ describe Admin::AppSettingsController do
         user_id: admin_user.id
       )
 
-      expect(flash[:success]).to eq 'Setting has been updated.'
+      expect(flash[:success]).to eq flash_message(:update, :success)
       expect(app_settings.reload.sitemap.to_yaml).to eq yaml
     end
+  end
+
+  def flash_message(action, type)
+    I18n.t type, scope: "flash.actions.#{action}", resource_name: 'App setting'
   end
 end

@@ -7,9 +7,9 @@ class Admin::PreviewsController < AdminController
     preview = Preview.find(params[:id])
     preview.destroy!
 
-    redirect_to admin_media_file_path(preview.media_file), flash: {
-      success: ['The preview has been deleted.']
-    }
+    respond_with preview, location: (lambda do
+      admin_media_file_path(preview.media_file)
+    end)
   end
 
   def raw_file

@@ -19,9 +19,9 @@ class Admin::UsersController < AdminController
   def reset_usage_terms
     @user.reset_usage_terms
 
-    redirect_to admin_users_url, flash: {
-      success: ['The usage terms have been reset.']
-    }
+    respond_with @user,
+                 location: -> { admin_users_path },
+                 notice: 'The usage terms have been reset.'
   end
 
   def show
@@ -40,26 +40,20 @@ class Admin::UsersController < AdminController
   def update
     @user.update!(user_params)
 
-    redirect_to admin_user_path(@user), flash: {
-      success: ['The user has been updated.']
-    }
+    respond_with @user, location: -> { admin_user_path(@user) }
   end
 
   def create
     @user = User.new(user_params)
     @user.save!
 
-    redirect_to admin_users_path, flash: {
-      success: [success_message_after_create]
-    }
+    respond_with @user, location: -> { admin_users_path }
   end
 
   def destroy
     @user.destroy
 
-    redirect_to admin_users_path, flash: {
-      success: ['The user has been deleted.']
-    }
+    respond_with @user, location: -> { admin_users_path }
   end
 
   def switch_to
@@ -72,25 +66,26 @@ class Admin::UsersController < AdminController
   def grant_admin_role
     Admin.create!(user: @user)
 
-    redirect_to params[:redirect_path], flash: {
-      success: ['The admin role has been granted to the user.']
-    }
+    respond_with @user,
+                 location: -> { params[:redirect_path] },
+                 notice: 'The admin role has been granted to the user.'
   end
 
   def remove_admin_role
     Admin.find_by(user_id: @user.id).destroy!
 
-    redirect_to params[:redirect_path], flash: {
-      success: ['The admin role has been removed from the user.']
-    }
+    respond_with @user,
+                 location: -> { params[:redirect_path] },
+                 notice: 'The admin role has been removed from the user.'
   end
 
   def remove_user_from_group
-    @group = Group.find params[:group_id]
-    @group.users.delete User.find(params[:user_id])
-    redirect_to admin_group_path(@group), flash: {
-      success: ['The user has been removed.']
-    }
+    group = Group.find params[:group_id]
+    group.users.delete(User.find(params[:user_id]))
+
+    respond_with group,
+                 location: -> { admin_group_path(group) },
+                 notice: 'The user has been removed.'
   end
 
   private
@@ -105,14 +100,6 @@ class Admin::UsersController < AdminController
 
   def person_attributes?
     params[:user][:person_attributes] rescue false
-  end
-
-  def success_message_after_create
-    if person_attributes?
-      'The user with person has been created.'
-    else
-      'The user for existing person has been created.'
-    end
   end
 
   def user_params

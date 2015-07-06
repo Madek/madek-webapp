@@ -18,9 +18,9 @@ class Admin::KeywordTermsController < AdminController
     @keyword_term = KeywordTerm.find(params[:id])
     @keyword_term.update!(keyword_term_params)
 
-    redirect_to admin_vocabulary_keyword_terms_path(@vocabulary), flash: {
-      success: ['The keyword term has been updated.']
-    }
+    respond_with @keyword_term, location: (lambda do
+      admin_vocabulary_keyword_terms_path(@vocabulary)
+    end)
   end
 
   def new
@@ -32,19 +32,19 @@ class Admin::KeywordTermsController < AdminController
     @vocabulary = Vocabulary.find(params[:vocabulary_id])
     @keyword_term = KeywordTerm.create(keyword_term_params)
 
-    redirect_to admin_vocabulary_keyword_terms_path(@vocabulary), flash: {
-      success: ['A keyword term has been created.']
-    }
+    respond_with @keyword_term, location: (lambda do
+      admin_vocabulary_keyword_terms_path(@vocabulary)
+    end)
   end
 
   def destroy
     @vocabulary = Vocabulary.find(params[:vocabulary_id])
     @keyword_term = KeywordTerm.find(params[:id])
-
     @keyword_term.destroy!
-    redirect_to admin_vocabulary_keyword_terms_path(@vocabulary), flash: {
-      success: ['The keyword term has been deleted.']
-    }
+
+    respond_with @keyword_term, location: (lambda do
+      admin_vocabulary_keyword_terms_path(@vocabulary)
+    end)
   end
 
   private

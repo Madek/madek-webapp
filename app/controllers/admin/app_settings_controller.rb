@@ -35,9 +35,10 @@ class Admin::AppSettingsController < AdminController
 
     @app_settings.assign_attributes(app_setting_params)
     @app_settings.save
-    redirect_to admin_app_settings_path, flash: {
-      success: 'Setting has been updated.'
-    }
+
+    respond_with @app_settings, location: (lambda do
+      admin_app_settings_path
+    end)
   rescue => e
     redirect_to admin_app_settings_path, flash: { error: e.to_s }
   end

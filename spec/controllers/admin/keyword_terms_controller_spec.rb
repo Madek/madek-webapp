@@ -89,6 +89,7 @@ describe Admin::KeywordTermsController do
       put :update, params, user_id: admin_user.id
 
       expect(keyword_term.reload.term).to eq 'updated term'
+      expect(flash[:success]).to eq flash_message(:update, :success)
     end
 
     it 'redirects to admin keyword_term path' do
@@ -200,5 +201,9 @@ describe Admin::KeywordTermsController do
         expect(response).to render_template 'admin/errors/404'
       end
     end
+  end
+
+  def flash_message(action, type)
+    I18n.t type, scope: "flash.actions.#{action}", resource_name: 'Keyword term'
   end
 end

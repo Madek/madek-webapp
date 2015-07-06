@@ -134,7 +134,7 @@ describe Admin::UsersController do
 
       expect(response).to redirect_to(admin_users_path)
       expect(response).to have_http_status(302)
-      expect(flash[:success]).to eq ['The usage terms have been reset.']
+      expect(flash[:success]).to eq 'The usage terms have been reset.'
     end
 
     it 'resets usage terms for the user' do
@@ -156,9 +156,8 @@ describe Admin::UsersController do
 
       expect(response).to redirect_to(admin_user_path(user))
       expect(response).to have_http_status(302)
-      expect(flash[:success]).to eq [
-        'The admin role has been granted to the user.'
-      ]
+      expect(flash[:success]).to eq(
+        'The admin role has been granted to the user.')
     end
 
     it 'grants the admin role to the user' do
@@ -200,7 +199,7 @@ describe Admin::UsersController do
       expect(response).to redirect_to(admin_users_path)
       expect(response).to have_http_status(302)
       expect(flash[:success]).to eq(
-        ['The admin role has been removed from the user.'])
+        'The admin role has been removed from the user.')
     end
 
     it 'removes the admin role from the user' do
@@ -253,7 +252,7 @@ describe Admin::UsersController do
         user_id: admin_user.id
       )
 
-      expect(flash[:success]).to eq ['The user has been updated.']
+      expect(flash[:success]).to eq flash_message(:update, :success)
       expect(user.reload.login).to eq 'george'
     end
 
@@ -272,8 +271,7 @@ describe Admin::UsersController do
 
         expect(response).to have_http_status(302)
         expect(response).to redirect_to(admin_users_path)
-        expect(flash[:success]).to eq(
-          ['The user for existing person has been created.'])
+        expect(flash[:success]).to eq flash_message(:create, :success)
       end
 
       it 'creates an user' do
@@ -307,7 +305,7 @@ describe Admin::UsersController do
 
         expect(response).to have_http_status(302)
         expect(response).to redirect_to(admin_users_path)
-        expect(flash[:success]).to eq ['The user with person has been created.']
+        expect(flash[:success]).to eq flash_message(:create, :success)
       end
 
       it 'creates an user' do
@@ -351,7 +349,7 @@ describe Admin::UsersController do
       delete :destroy, { id: user.id }, user_id: admin_user.id
 
       expect(response).to redirect_to(admin_users_path)
-      expect(flash[:success]).to eq ['The user has been deleted.']
+      expect(flash[:success]).to eq flash_message(:destroy, :success)
     end
 
     it 'destroys the user' do
@@ -359,5 +357,9 @@ describe Admin::UsersController do
         delete :destroy, { id: user.id }, user_id: admin_user.id
       end.to change { User.count }.by(-1)
     end
+  end
+
+  def flash_message(action, type)
+    I18n.t type, scope: "flash.actions.#{action}", resource_name: 'User'
   end
 end

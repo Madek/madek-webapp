@@ -6,12 +6,9 @@ module AdminHelper
   end
 
   def alerts
-    @alerts.each_pair do |level, level_content|
-      messages = level_content.is_a?(Array) ? level_content : [level_content]
-      messages.each do |message|
-        bootstrap_level = (level == :error) ? :danger : level
-        yield level, message, bootstrap_level if message
-      end
+    flash.each do |level, message|
+      bootstrap_level = (level.to_sym == :error) ? :danger : level
+      yield level, message, bootstrap_level if message
     end
     nil
   end

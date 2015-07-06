@@ -18,9 +18,9 @@ class Admin::MetaKeysController < AdminController
   def create
     meta_key = MetaKey.create!(meta_key_params)
 
-    redirect_to edit_admin_meta_key_path(meta_key), flash: {
-      success: 'The meta key has been created.'
-    }
+    respond_with meta_key, location: (lambda do
+      edit_admin_meta_key_path(meta_key)
+    end)
   end
 
   def edit
@@ -31,18 +31,18 @@ class Admin::MetaKeysController < AdminController
     meta_key = MetaKey.find(params[:id])
     meta_key.update!(meta_key_params)
 
-    redirect_to edit_admin_meta_key_path(meta_key), flash: {
-      success: 'The meta key has been updated.'
-    }
+    respond_with meta_key, location: (lambda do
+      edit_admin_meta_key_path(meta_key)
+    end)
   end
 
   def destroy
     meta_key = MetaKey.find(params[:id])
     meta_key.destroy!
 
-    redirect_to admin_meta_keys_path, flash: {
-      success: 'The meta key has been deleted.'
-    }
+    respond_with meta_key, location: (lambda do
+      admin_meta_keys_path
+    end)
   end
 
   private

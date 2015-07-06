@@ -17,12 +17,7 @@ class Admin::VocabulariesController < AdminController
     @vocabulary = Vocabulary.find(params[:id])
   end
 
-  def update
-    @vocabulary = Vocabulary.find(params[:id])
-    @vocabulary.update(update_vocabulary_params)
-
-    redirect_to admin_vocabulary_path(@vocabulary)
-  end
+  define_update_action_for(Vocabulary)
 
   def new
     @vocabulary = Vocabulary.new
@@ -32,18 +27,18 @@ class Admin::VocabulariesController < AdminController
     @vocabulary = Vocabulary.new(new_vocabulary_params)
     @vocabulary.save!
 
-    redirect_to admin_vocabularies_path, flash: {
-      success: ['The vocabulary has been created.']
-    }
+    respond_with @vocabulary, location: (lambda do
+      admin_vocabularies_path
+    end)
   end
 
   def destroy
     @vocabulary = Vocabulary.find(params[:id])
     @vocabulary.destroy!
 
-    redirect_to admin_vocabularies_path, flash: {
-      success: ['The vocabulary has been deleted.']
-    }
+    respond_with @vocabulary, location: (lambda do
+      admin_vocabularies_path
+    end)
   end
 
   private

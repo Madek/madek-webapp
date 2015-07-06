@@ -63,7 +63,7 @@ Madek::Application.routes.draw do
         post 'merge_to'
       end
       resources :users, only: '' do
-        delete 'remove_user_from_group'
+        delete :remove_user_from_group
       end
     end
     resources :collections, only: [:index, :show] do

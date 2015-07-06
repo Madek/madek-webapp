@@ -66,7 +66,7 @@ describe Admin::GroupsController do
             { search_terms: '', sort_by: 'text_rank' },
             user_id: admin_user.id
           )
-          expect(assigns[:alerts][:error]).to eq ['Search term must not be blank!']
+          expect(flash[:error]).to eq 'Search term must not be blank!'
         end
       end
 
@@ -91,7 +91,7 @@ describe Admin::GroupsController do
             { search_terms: '', sort_by: 'trgm_rank' },
             user_id: admin_user.id
           )
-          expect(assigns[:alerts][:error]).to eq ['Search term must not be blank!']
+          expect(flash[:error]).to eq 'Search term must not be blank!'
         end
       end
     end
@@ -128,7 +128,7 @@ describe Admin::GroupsController do
       )
 
       expect(response).to have_http_status(302)
-      expect(response).to redirect_to admin_group_path(assigns(:group))
+      expect(response).to redirect_to admin_group_path(assigns(:instance))
     end
 
     it 'updates the group' do
@@ -138,7 +138,7 @@ describe Admin::GroupsController do
         user_id: admin_user.id
       )
 
-      expect(flash[:success]).to eq ['The group has been updated.']
+      expect(flash[:success]).to eq flash_message(:update, :success)
       expect(group.reload.name).to eq 'NEW NAME'
     end
 
@@ -161,7 +161,7 @@ describe Admin::GroupsController do
       post :create, { group: attributes_for(:group) }, user_id: admin_user.id
 
       expect(response).to redirect_to admin_group_path(assigns(:group))
-      expect(flash[:success]).to eq ['A new group has been created.']
+      expect(flash[:success]).to eq flash_message(:create, :success)
     end
 
     it 'creates a group' do
@@ -188,7 +188,7 @@ describe Admin::GroupsController do
         delete :destroy, { id: group.id }, user_id: admin_user.id
 
         expect(response).to redirect_to(admin_groups_path)
-        expect(flash[:success]).to eq ['The group has been deleted.']
+        expect(flash[:success]).to eq flash_message(:destroy, :success)
       end
 
       it 'destroys the group' do
@@ -222,9 +222,8 @@ describe Admin::GroupsController do
       post :add_user, { id: group.id, user_id: user.id }, user_id: admin_user.id
 
       expect(response).to redirect_to(admin_group_path(group))
-      expect(flash[:success]).to eq [
-        "The user <b>#{user.login}</b> has been added."
-      ]
+      expect(flash[:success]).to eq(
+        "The user <b>#{user.login}</b> has been added.")
     end
 
     it 'adds user to selected group' do
@@ -237,8 +236,8 @@ describe Admin::GroupsController do
       post :add_user, { id: group.id, user_id: user.id }, user_id: admin_user.id
       post :add_user, { id: group.id, user_id: user.id }, user_id: admin_user.id
       expect(response).to redirect_to(admin_group_path(group))
-      expect(flash[:error]) \
-        .to eq ["The user <b>#{user.login}</b> already belongs to this group."]
+      expect(flash[:error]).to eq(
+        "The user <b>#{user.login}</b> already belongs to this group.")
     end
 
     it 'displays error template if something goes wrong' do
@@ -269,7 +268,7 @@ describe Admin::GroupsController do
         user_id: admin_user.id
       )
       expect(response).to redirect_to(admin_group_path(department2))
-      expect(flash[:success]).to eq ['The group has been merged.']
+      expect(flash[:success]).to eq 'The group has been merged.'
     end
 
     it "displays error template if target group isn't institutional group" do
@@ -282,5 +281,9 @@ describe Admin::GroupsController do
       expect(response).to have_http_status(:not_found)
       expect(response).to render_template 'admin/errors/404'
     end
+  end
+
+  def flash_message(action, type)
+    I18n.t type, scope: "flash.actions.#{action}", resource_name: 'Group'
   end
 end

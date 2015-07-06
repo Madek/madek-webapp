@@ -3,24 +3,19 @@ class Admin::GroupsController < AdminController
     @groups = sort_and_filter(params)
   rescue ArgumentError => e
     @groups = Group.all.page(params[:page])
-    @alerts[:error] << e.to_s
+    flash[:error] = e.to_s
   end
 
   def new
     @group = Group.new params[:group]
   end
 
-  def update
-    @group = Group.find(params[:id])
-    @group.update_attributes!(group_params)
-    redirect_to admin_group_path(@group), flash: { success: ['The group '\
-                                                            'has been updated.'] }
-  end
+  define_update_action_for(Group)
 
   def create
     @group = Group.create!(group_params)
-    redirect_to admin_group_path(@group), flash: { success: ['A new group '\
-                                                           'has been created.'] }
+
+    respond_with @group, location: -> { admin_group_path(@group) }
   end
 
   def show
@@ -40,17 +35,15 @@ class Admin::GroupsController < AdminController
 
   def destroy
     @group = Group.find(params[:id])
+
     if @group.users.empty?
       @group.destroy!
-      redirect_path = admin_groups_path
-      flash_message =
-        { success: ['The group has been deleted.'] }
+      respond_with @group, location: -> { admin_groups_path }
     else
-      redirect_path = params[:redirect_path]
-      flash_message = { error: ['The group contains users '\
-                               'and cannot be deleted.'] }
+      redirect_to params[:redirect_path], flash: {
+        error: 'The group contains users and cannot be destroyed.'
+      }
     end
-    redirect_to redirect_path, flash: flash_message
   end
 
   def form_add_user
@@ -61,13 +54,14 @@ class Admin::GroupsController < AdminController
     @group = Group.find params[:id]
     @user  = User.find params[:user_id]
     if @group.users.include?(@user)
-      flash = { error: ["The user <b>#{@user.login}</b> "\
-                       'already belongs to this group.'.html_safe] }
+      flash = { error: "The user <b>#{@user.login}</b> "\
+                       'already belongs to this group.'.html_safe }
     else
       @group.users << @user
-      flash = { success: ["The user <b>#{@user.login}</b> "\
-                         'has been added.'.html_safe] }
+      flash = { success: "The user <b>#{@user.login}</b> "\
+                         'has been added.'.html_safe }
     end
+
     redirect_to admin_group_path(@group), flash: flash
   end
 
@@ -81,8 +75,8 @@ class Admin::GroupsController < AdminController
 
     originator.merge_to(receiver)
 
-    redirect_to admin_group_url(receiver), flash: { success: ['The group '\
-                                                             'has been merged.'] }
+    redirect_to admin_group_url(receiver), flash: { success: 'The group '\
+                                                             'has been merged.' }
   end
 
   private
@@ -90,6 +84,7 @@ class Admin::GroupsController < AdminController
   def group_params
     params.require(:group).permit(:name)
   end
+  alias_method :update_group_params, :group_params
 
   def sort_and_filter(params)
     groups = Group.page(params[:page]).per(25)

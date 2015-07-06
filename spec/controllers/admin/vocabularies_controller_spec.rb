@@ -85,6 +85,7 @@ describe Admin::VocabulariesController do
 
       expect(vocabulary.reload.label).to eq 'updated label'
       expect(vocabulary.reload.description).to eq 'updated description'
+      expect(flash[:success]).to eq flash_message(:update, :success)
     end
 
     it 'does not update the id' do
@@ -130,7 +131,7 @@ describe Admin::VocabulariesController do
 
       expect(response).to have_http_status(302)
       expect(response).to redirect_to(admin_vocabularies_path)
-      expect(flash[:success]).not_to be_empty
+      expect(flash[:success]).to eq flash_message(:create, :success)
     end
 
     context 'when vocabulary with ID already exists' do
@@ -176,8 +177,8 @@ describe Admin::VocabulariesController do
         expect(response).to redirect_to(admin_vocabularies_path)
       end
 
-      it 'displays success message' do
-        expect(flash[:success]).to be_present
+      it 'sets a correct flash message' do
+        expect(flash[:success]).to eq flash_message(:destroy, :success)
       end
     end
 
@@ -195,5 +196,9 @@ describe Admin::VocabulariesController do
         expect(response).to render_template 'admin/errors/404'
       end
     end
+  end
+
+  def flash_message(action, type)
+    I18n.t type, scope: "flash.actions.#{action}", resource_name: 'Vocabulary'
   end
 end

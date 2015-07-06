@@ -32,7 +32,7 @@ describe Admin::PreviewsController do
         delete :destroy, { id: @preview.id }, user_id: admin_user.id
 
         expect(response).to redirect_to(admin_media_file_path(@preview.media_file))
-        expect(flash[:success]).to eq ['The preview has been deleted.']
+        expect(flash[:success]).to eq flash_message(:destroy, :success)
       end
     end
 
@@ -48,5 +48,9 @@ describe Admin::PreviewsController do
         expect(response).to render_template 'admin/errors/404'
       end
     end
+  end
+
+  def flash_message(action, type)
+    I18n.t type, scope: "flash.actions.#{action}", resource_name: 'Preview'
   end
 end
