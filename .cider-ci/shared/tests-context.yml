@@ -146,8 +146,10 @@ subcontexts:
     priority: 2
 
   tasks:
+
     "spec/features/styleguide_spec.rb":
       priority: 3
+
     "json_ld_integration":
       name: 'JSON-LD Dump & Integration'
       environment-variables:
@@ -156,8 +158,13 @@ subcontexts:
         test:
           body: "bundle exec rails runner ./bin/lodz_dump.rb > ./tmp/ld_dump.json"
 
+    "spec/features/custom_root-url_spec.rb":
+      environment-variables:
+        RAILS_RELATIVE_URL_ROOT: /my-test
+
   _cider-ci_generate-tasks:
     include-match: spec/features.*_spec.rb
+
 
 # Just one task, use for prototyping and debuging `.cider-ci.yml`
 #

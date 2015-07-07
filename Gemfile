@@ -20,6 +20,12 @@ gem 'pg_tasks', '>= 1.3.1', '< 2.0.0'
 # API
 gem 'responders'
 
+
+# Webserver
+gem 'puma'
+# gem 'thin', platform: :mri, group: [:development, :personas]
+
+
 # ZHDK-INTEGRATION
 # gem "madek_zhdk_integration", path: "../zhdk_integration"
 gem 'madek_zhdk_integration', git: 'https://github.com/madek/madek-zhdk-integration.git', :ref => '945e477f50c4bb5b21c3d7f00bff0d9a2fd58e39'
@@ -87,8 +93,6 @@ gem 'selenium-webdriver', group: [:test]
 gem 'simplecov', '>= 0.10',  require: false, group: ['test']
 #gem 'simplecov-html', require: false, group: ['test'], git: 'https://github.com/eins78/simplecov-html.git', ref: '3fac7b20bbe3967d1f9d55c3166f348d620a2005'
                       # path: '/Users/ma/CODE/simplecov-html'
-# web server (Webrick do not support keep-alive connections)
-gem 'thin', platform: :mri, group: [:development, :personas]
 gem 'zencoder-fetcher', group: [:development]
 
 gem 'cider_ci-support', '= 2.0.0.pre.beta.2', group: [:development, :test]

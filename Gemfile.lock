@@ -133,7 +133,6 @@ GEM
       compass (~> 1.0.0)
       sass-rails (<= 5.0.1)
       sprockets (< 2.13)
-    daemons (1.2.2)
     dalli (2.7.4)
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
@@ -141,7 +140,6 @@ GEM
     domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
-    eventmachine (1.0.7)
     execjs (2.5.2)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -258,6 +256,10 @@ GEM
       pry (>= 0.9.10, < 0.11.0)
     pry-rails (0.3.4)
       pry (>= 0.9.10)
+    puma (2.11.3)
+      rack (>= 1.1, < 2.0)
+    puma (2.11.3-java)
+      rack (>= 1.1, < 2.0)
     pundit (1.0.1)
       activesupport (>= 3.0.0)
     quiet_assets (1.1.0)
@@ -370,10 +372,6 @@ GEM
     therubyrhino (2.0.4)
       therubyrhino_jar (>= 1.7.3)
     therubyrhino_jar (1.7.6)
-    thin (1.6.3)
-      daemons (~> 1.0, >= 1.0.9)
-      eventmachine (~> 1.0)
-      rack (~> 1.0)
     thor (0.19.1)
     thread (0.1.5)
     thread_safe (0.3.5)
@@ -451,6 +449,7 @@ DEPENDENCIES
   pry
   pry-nav
   pry-rails
+  puma
   pundit
   quiet_assets
   rails (~> 4.2)
@@ -469,7 +468,6 @@ DEPENDENCIES
   textacular!
   therubyracer
   therubyrhino
-  thin
   uglifier
   uuidtools
   zencoder (~> 2.4)
