@@ -57,7 +57,6 @@ gem 'git'
 gem 'jruby-openssl', platform: :jruby
 gem 'json'
 gem 'kaminari'
-gem 'newrelic_rpm', group: [:production, :development]
 gem 'nokogiri'
 gem 'pundit'
 gem 'rails_autolink', '~> 1.0'
