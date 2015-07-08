@@ -22,25 +22,4 @@
 
   %hr.separator.mini.mvs
 
-    = label_tag('key', 'KEY', class: 'title-s')
-    = text_field_tag('media_entry[meta_data][][_key]', 'madek_core:title')
-
-  %hr.separator.mini.mvs
-
-    = label_tag('type', 'TYPE', class: 'title-s')
-    = text_field_tag('media_entry[meta_data][][_value][type]', 'MetaDatum::Text')
-
-  %hr.separator.mini.mvs
-
-    = label_tag('value', 'VALUE', class: 'title-s')
-    = text_field_tag('media_entry[meta_data][][_value][content][]', 'test')
-
-    = label_tag('value', 'VALUE', class: 'title-s')
-    = text_field_tag('media_entry[meta_data][][_value][content][]')
-
-    = label_tag('value', 'VALUE', class: 'title-s')
-    = text_field_tag('media_entry[meta_data][][_value][content][]')
-
-  %hr.separator.mini.mvs
-
   = me_form.submit :submit

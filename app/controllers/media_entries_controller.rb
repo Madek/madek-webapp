@@ -28,11 +28,7 @@ class MediaEntriesController < ApplicationController
     ActiveRecord::Base.transaction do
       media_entry.save!
       store_file_and_create_previews!(file, media_entry.media_file)
-      # TODO: extract and store metadata
-      # this includes 'real' meta data as well as 'meta data' for the media file
-      # and media file attributes like width and height.
-      # extract_and_store_metadata!
-      store_meta_data!(media_entry.id, meta_data_params)
+      extract_and_store_metadata!(media_entry.media_file)
     end
 
     respond_with media_entry
@@ -71,11 +67,5 @@ class MediaEntriesController < ApplicationController
       .require(:media_entry)
       .permit(:responsible_user_id,
               :creator_id)
-  end
-
-  def meta_data_params
-    params
-      .require(:media_entry)
-      .require(:meta_data)
   end
 end
