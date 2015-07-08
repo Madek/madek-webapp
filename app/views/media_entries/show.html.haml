@@ -1,12 +1,17 @@
 :ruby
   tag_mods = ['small','ellipsed']
-  entry_show_data = {
-    header: component('page-header',
-              icon: component('icon.media-entry'),
-              text: @get.title,
-              actions: nil # TODO: actions
-    ),
-    overview: deco('resource_show_overview',
+
+  entry_show = {}
+
+  entry_show[:header] = \
+    component('page-header',
+      icon: component('icon.media-entry'),
+      text: @get.title,
+      actions: nil
+    )
+
+  entry_show[:overview] = \
+    deco('resource_show_overview',
       mods: 'ui-media-overview',
       # TODO: element?
       preview_large: component('picture', mods: ['media-set'],
@@ -25,28 +30,9 @@
                             list: @get.keywords)]
                         ]
                 )
-    ),
-    more_info: nil # captured below
-  }
+    )
 
-  more_meta_data_list = [
-    ['responsible', deco('person-tag-list', person: @get.more_data.responsible,
-                                       mods: tag_mods)
-    ],
-    ['importer', deco('person-tag-list', person: @get.more_data.importer,
-                                    mods: tag_mods)
-    ],
-    ['import_date', @get.more_data.import_date],
-    ['activity_log',
-     combo('ordered-list', mods: 'inline',
-            list: Hash[@get.more_data.activity_log].map do |time, person|
-              "#{person.name} / #{time}"
-            end
-     )
-    ]
-  ]
-
-- entry_show_data[:more_info] = capture_haml do
+- entry_show[:more_info] = capture_haml do
   -# TMP: always show this sections! (till we have js, thus tabs)
   .ui-container.midtone.rounded-bottom.pal.well
 
@@ -69,6 +55,21 @@
 
     %h3.title-l.separated.mbm
       = "More Data"
+    :ruby
+      more_meta_data_list = [
+        ['responsible', deco('person-tag-list',
+                          person: @get.more_data.responsible,
+                          mods: tag_mods)],
+        ['importer', deco('person-tag-list',
+                      person: @get.more_data.importer,
+                      mods: tag_mods)],
+        ['import_date', @get.more_data.import_date],
+        ['activity_log',
+         combo('ordered-list', mods: 'inline',
+                list: Hash[@get.more_data.activity_log].map do |time, person|
+                  "#{person.name} / #{time}"
+                end)]
+      ]
     = combo('metadata-box', mods: 'ui-summary-table', list: more_meta_data_list)
 
     .ui-separator.mbl
@@ -79,6 +80,4 @@
         mods: 'ui-summary-table', list: @get.more_data.file_information)
 
 
-
-
-= deco('resource_show', entry_show_data)
+= deco('resource_show', entry_show)

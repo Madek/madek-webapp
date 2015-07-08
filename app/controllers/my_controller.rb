@@ -74,10 +74,8 @@ class MyController < ApplicationController
     section[:id] = id
     section[:resources] = \
       case section[:partial]
-      when :media_resources
+      when :media_resources, :groups
         presenter.send(id)
-      when :groups
-        presenter.groups
       end
     section
   end

@@ -16,9 +16,10 @@
       - if section[:elements] and (is_active or depth > 1)
         %ol
           - section[:elements].each do |element|
-            - element_link = section_link + '#' + element[:nr]
 
             %li
-              %a{:href => element_link}
+              %a{href: section_link + '#' + section[:nr] + '.' + element[:nr]}
                 %span.nr= section[:nr] + '.' + element[:nr]
                 = element[:name]
+              %a.title-xs-alt{href: styleguide_element_path(section[:name], element[:name])}
+                = '⤻'

@@ -1,34 +1,37 @@
 :ruby
   tag_mods = ['small','ellipsed']
-  res_show_data = {
-    header: component('page-header',
-              icon: component('icon.set'),
-              text: @get.title,
-              actions: nil # TODO: actions
-            ),
-    overview: deco('resource_show_overview',
-      mods: 'ui-set-overview',
-      preview: component('thumbnail', mods: ['media-set'],
-                  text: @get.title,
-                  picture: @get.preview_thumb_url),
-      content: combo('metadata-box',
-              mods: 'ui-summary-table.ui-set-summary.compact',
-              # TODO: build this list in a presenter?
-              # @get.metadata => [ [key, value], [key, value] ]
-              list: [['Title', @get.title, 'title-l'],
-                     ['Description', @get.description],
-                     ['Keywords', combo('tag-cloud.label',
-                        mods: tag_mods,
-                        list: @get.keywords)],
-                     ['Responsible',
-                      deco('person-tag-list', person: @get.responsible,
-                                         mods: tag_mods)]
-                    ])
-    ),
-    more_info: nil # captured below
-  }
+  collection_show = {}
 
-- res_show_data[:more_info] = capture_haml do
+  collection_show[:header] = \
+    component('page-header',
+      icon: component('icon.set'),
+      text: @get.title,
+      actions: nil # TODO: actions
+    )
+
+  collection_show[:overview] = \
+    deco('resource_show_overview',
+      mods: 'ui-set-overview',
+      preview: \
+        component('thumbnail', mods: ['media-set'],
+          text: @get.title,
+          picture: @get.preview_thumb_url),
+      content: \
+        combo('metadata-box',
+          mods: 'ui-summary-table.ui-set-summary.compact',
+          # TODO: build this list in a presenter?
+          # @get.metadata => [ [key, value], [key, value] ]
+          list: [['Title', @get.title, 'title-l'],
+                 ['Description', @get.description],
+                 ['Keywords', combo('tag-cloud.label', list: @get.keywords,
+                                                       mods: tag_mods)],
+                 ['Responsible',
+                  deco('person-tag-list', person: @get.responsible,
+                                          mods: tag_mods)]
+                ])
+    )
+
+- collection_show[:more_info] = capture_haml do
   .ui-container.midtone.rounded-bottom.pal.well
     %h3.title-l.separated.mbm
       = "Relations"
@@ -53,4 +56,4 @@
           = deco('polybox_medres', mods: ['active'],
                   media_resources: @get.relations.child_media_resources)
 
-= deco('resource_show', res_show_data)
+= deco('resource_show', collection_show)

@@ -22,7 +22,7 @@
 
 %section.sg-example{:id => section}
   %h3
-    %a{:href => "##{section}"}= section
+    %a{:href => styleguide_section_path(@section[:name]) + '#' + section}= section
 
   -# %button.sg-button{data:{hook:'sg-view-code'}}
   -#   HTML

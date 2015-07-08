@@ -18,13 +18,11 @@ module Presenters
       end
 
       def latest_imports
-        Pojo.new(
-          media_entries: \
-            Presenters::MediaEntries::MediaEntries
-              .new(@app_resource,
-                   @app_resource.created_media_entries,
-                   order: @order, page: @page, per_page: @per_page)
-        )
+        wrap_in_presenters_pojo([
+          @app_resource.created_media_entries,
+          nil,
+          nil
+        ])
       end
 
       def favorites
@@ -66,19 +64,24 @@ module Presenters
 
       def wrap_in_presenters_pojo(resources)
         user = @app_resource
+
+        media_entries, collections, filter_sets = [
+          [resources.first, Presenters::MediaEntries::MediaEntries],
+          [resources.second, Presenters::Collections::Collections],
+          [resources.third, Presenters::FilterSets::FilterSets]
+        ].map do |collection, presenter|
+          collection.presence && presenter.new(
+            user, collection,
+            order: @order, page: @page, per_page: @per_page
+          )
+        end
+
         Pojo.new(
-          media_entries: \
-            Presenters::MediaEntries::MediaEntries
-              .new(user, resources.first,
-                   order: @order, page: @page, per_page: @per_page),
-          collections: \
-            Presenters::Collections::Collections
-              .new(user, resources.second,
-                   order: @order, page: @page, per_page: @per_page),
-          filter_sets: \
-            Presenters::FilterSets::FilterSets
-              .new(user, resources.third,
-                   order: @order, page: @page, per_page: @per_page)
+          media_entries: media_entries,
+          collections: collections,
+          filter_sets: filter_sets,
+          empty?: !([media_entries, collections, filter_sets]
+                      .map { |c| c.try(:any?) }.reduce { |a, e| a or e })
         )
       end
     end
