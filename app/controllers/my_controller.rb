@@ -50,8 +50,8 @@ class MyController < ApplicationController
       Presenters::Users::UserDashboard.new \
         current_user,
         order: 'created_at DESC',
-        page: 1 # always shows only the items from the first page!
-
+        page: 1,
+        per_page: 6
     @sections = prepare_sections_with_presenter(@get)
   end
 
