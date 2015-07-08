@@ -3,6 +3,8 @@ class AdminController < ApplicationController
 
   rescue_from ActiveRecord::ActiveRecordError,
               with: :render_error
+  rescue_from Pundit::NotAuthorizedError,
+              with: :error_according_to_login_state
 
   before_action do
     authorize :admin, :logged_in_and_admin?
@@ -26,11 +28,11 @@ class AdminController < ApplicationController
                   warning: (flash[:warning] || []) }
   end
 
-  def reraise_according_to_login_state
-    if current_user
-      raise Errors::ForbiddenError, 'Admin access denied!'
-    else
-      raise Errors::UnauthorizedError
-    end
+  def error_according_to_login_state
+      if current_user
+        raise Errors::ForbiddenError, 'Admin access denied!'
+      else
+        raise Errors::UnauthorizedError, 'Please log in!'
+      end
   end
 end

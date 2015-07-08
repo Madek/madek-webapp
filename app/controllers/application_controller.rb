@@ -9,7 +9,8 @@ class ApplicationController < ActionController::Base
   include Pundit
 
   # this Pundit error is generic and means basically 'access denied'
-  rescue_from Pundit::NotAuthorizedError, with: :reraise_according_to_login_state
+  rescue_from Pundit::NotAuthorizedError, with: :error_according_to_login_state
+  rescue_from Errors::UnauthorizedError, with: :error_according_to_login_state
 
   # Give views access to these methods:
   helper_method :current_user, :settings
@@ -39,9 +40,11 @@ class ApplicationController < ActionController::Base
     not current_user.nil?
   end
 
-  def reraise_according_to_login_state
-    raise (if authenticated? then Errors::ForbiddenError
-           else Errors::UnauthorizedError
-           end)
+  def error_according_to_login_state
+    if authenticated?
+      raise Errors::ForbiddenError, 'Acces Denied!'
+    else
+      raise Errors::UnauthorizedError, 'Please log in!'
+    end
   end
 end
