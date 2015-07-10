@@ -8,7 +8,7 @@ source 'http://rubygems.org'
 gem 'rails', '~> 4.2'
 
 # Engines
-# gem 'madek_datalayer', path: 'engines/datalayer'
+gem 'configuration_management_backdoor', '>= 1.0.0', '< 2.0'
 
 # DATABASE
 gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
