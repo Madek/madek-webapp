@@ -1,0 +1,17 @@
+:ruby
+  supported_levels = [nil, 'success', 'warning', 'error', 'confirmation']
+  level ||= nil
+  text ||= nil
+
+  unless supported_levels.include?(level)
+    throw 'ui: alert level unknown!'
+  end
+
+  unless text.present? || block_content.present?
+    throw 'ui: no content!'
+  end
+
+
+.ui-alert{class: level}
+  = text
+  = block_content

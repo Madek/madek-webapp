@@ -3,92 +3,86 @@
     name: 'Sample columned form', todo: true,
     cssFile: '_forms.scss',
     cssSelector: 'form',
-    section: '5.1.2'
+    section: '5.1.2',
+    example_locals: {
+      head: combo('alerts',
+        list: [['success', 'Success message for this form has been provided.']]),
+      body: nil, # captured below
+      footer: nil # captured below
+    }
   }
+
+- element[:example_locals][:body] = capture_haml do
+  = combo('form-group', mods: 'columned', label: { text: 'Checkboxes',
+        comment: 'Comment if needed',
+        hint: 'Tooltip Text' }) do
+    %label.col2of6
+      %input{:type => 'checkbox'}/
+      Checkbox
+    %label.col2of6
+      %input{:type => 'checkbox'}/
+      Checkbox
+    %label.col2of6
+      %input{:type => 'checkbox'}/
+      Checkbox
+
+  = combo('form-group', mods: 'columned', label: { text: 'Radios',
+        comment: 'Comment if needed',
+        hint: 'Tooltip Text' }) do
+    %label.col2of6
+      %input{:type => 'radio'}/
+      Radio button
+    %label.col2of6
+      %input{:type => 'radio'}/
+      Radio button
+    %label.col2of6
+      %input{:type => 'radio'}/
+      Radio button
+
+  = combo('form-group', mods: 'columned', label: { text: 'Date',
+        comment: 'Comment if needed',
+        hint: 'Tooltip Text' }) do
+    %input.block.ui-datepicker{:type => 'text'}/
+
+  = combo('form-group', mods: 'columned', label: { text: 'Text',
+        comment: 'Comment if needed',
+        hint: 'Tooltip Text' }) do
+    %input.block{:type => 'text'}/
+
+  -# TODO: use correct version (updates styleguide refs…)
+  -# = combo('form-group', mods: 'columned', label: { text: 'Textarea',
+  -#       comment: 'Comment if needed',
+  -#       hint: 'Tooltip Text' }) do
+  -#   %textarea.block
+  .ui-form-group.columned
+    %label.form-label
+      Textarea
+      %small Comment if needed
+      %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Text", "data-placement" => "left", :rel => "tooltip"}
+        = component('icon.question')
+    .form-item
+      %textarea.block
+
+
+  = combo('form-group', mods: 'columned', label: { text: 'Select',
+        comment: 'Comment if needed',
+        hint: 'Tooltip Text' }) do
+    %select.block
+      %option Option 1
+      %option Option 2
+
+  = combo('form-group', mods: 'columned', label: { text: 'Text',
+        comment: 'Comment if needed',
+        hint: 'Tooltip Text' }) do
+    %input.block{:type => 'text'}/
+
+- element[:example_locals][:footer] = capture_haml do
+  .ui-actions
+    %a.link.weak Secondary Action
+    %button.primary-button Primary Action
+
 
 = render_partial('element', element) do
   = render_partial('example') do
 
-    %form
-      .form-head
-        .ui-alerts
-          .ui-alert.success Success message for this form has been provided.
-      .form-body
-        .ui-form-group.columned
-          %label.form-label
-            Checkboxes
-            %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Text", "data-placement" => "left", :rel => "tooltip"}
-              = component('icon.question')
-            %small Comment if needed
-          .form-item
-            %label.col2of6
-              %input{:type => "checkbox"}/
-              Checkbox
-            %label.col2of6
-              %input{:type => "checkbox"}/
-              Checkbox
-            %label.col2of6
-              %input{:type => "checkbox"}/
-              Checkbox
-        .ui-form-group.columned
-          %label.form-label
-            Radios
-            %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Text", "data-placement" => "left", :rel => "tooltip"}
-              = component('icon.question')
-            %small Comment if needed
-          .form-item
-            %label.col2of6
-              %input{:type => "radio"}/
-              Radio button
-            %label.col2of6
-              %input{:type => "radio"}/
-              Radio button
-            %label.col2of6
-              %input{:type => "radio"}/
-              Radio button
-        .ui-form-group.columned
-          %label.form-label
-            Date
-            %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Text", "data-placement" => "left", :rel => "tooltip"}
-              = component('icon.question')
-            %small Comment if needed
-          .form-item
-            %input.block.ui-datepicker{:type => "text"}/
-        .ui-form-group.columned
-          %label.form-label
-            Text
-            %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Text", "data-placement" => "left", :rel => "tooltip"}
-              = component('icon.question')
-            %small Comment if needed
-          .form-item
-            %input.block{:type => "text"}/
-        .ui-form-group.columned
-          %label.form-label
-            Textarea
-            %small Comment if needed
-            %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Personen, die zum Werk beigetragen haben, z.B. Bühnenbildner oder die Regieassistenz. Die entsprechende Funktion sollte ebenfalls genannt werden.", "data-placement" => "left", :rel => "tooltip"}
-              = component('icon.question')
-          .form-item
-            %textarea.block
-        .ui-form-group.columned
-          %label.form-label
-            Select
-            %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Text", "data-placement" => "left", :rel => "tooltip"}
-              = component('icon.question')
-            %small Comment if needed
-          .form-item
-            %select.block
-              %option Option 1
-              %option Option 2
-        .ui-form-group.columned
-          %label.form-label
-            Text
-            %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Text", "data-placement" => "left", :rel => "tooltip"}
-              = component('icon.question')
-            %small Comment if needed
-          .form-item
-            %input.block{:type => "text"}/
-      .form-footer
-        .ui-actions
-          %a.link.weak Secondary Action
-          %button.primary-button Primary Action
+    = combo('form', element[:example_locals])

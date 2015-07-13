@@ -3,21 +3,19 @@
     name: 'Multi-select form element', todo: true,
     cssFile: '_multi-select.scss',
     cssSelector: '.multi-select',
-    section: '5.4'
+    section: '5.4',
+    example_locals: {
+      list: [{
+        text: 'Tusche und Airbrush auf Karton',
+        url: '/term/tusche-und-airbrush-auf-karton'
+      }, {
+        text: 'Rendering',
+        url: '/term/rendering'
+      }]
+    }
   }
 
 = render_partial('element', element) do
   = render_partial('example') do
 
-    .multi-select{:class => "$modifier-class"}
-      %ul.multi-select-holder
-        %li.multi-select-tag
-          Tusche und Airbrush auf Karton
-          %a.multi-select-tag-remove{:href => "#"}
-        %li.multi-select-tag
-          Rendering
-          %a.multi-select-tag-remove{:href => "#"}
-        %li.multi-select-input-holder
-          %input.multi-select-input{:type => "text"}/
-          %a.multi-select-input-toggle{:href => "#"}
-            = component('icon.arrow-down')
+    = combo('multi-select', element[:example_locals])

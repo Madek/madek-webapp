@@ -13,6 +13,13 @@
       'columned highlight' => 'Highlight variation',
       'columned error' => 'Error variation',
       'columned compact' => 'Compact mode'
+    },
+    example_locals: {
+      label: {
+        text: 'Form label',
+        hint: 'Tooltip Text',
+        comment: 'Comment if needed'
+      }
     }
   }
 
@@ -20,11 +27,5 @@
   - element[:mods].each do |name, description|
     = render_partial('example', { mod: name}) do
 
-      .ui-form-group{class: name}
-        %label.form-label
-          Form label
-          %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Text", "data-placement" => "left", :rel => "tooltip"}
-            = component('icon.question')
-          %small Comment if needed
-        .form-item
-          %input.block{:type => "text"}
+      = combo('form-group', element[:example_locals].merge({ mods: name })) do
+        %input.block{:type => "text"}

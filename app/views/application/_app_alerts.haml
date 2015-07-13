@@ -2,18 +2,14 @@
   # use flashHash for `alerts`, if not given in locals
   alerts ||= flash.to_hash
 
-  def alert_level_class(level)
-    level_map = { notice: 'confirmation' } # alert, success, warning = same
-    level_map[level.to_sym] || level
+  levels_map = { notice: 'confirmation' } # alert, success, warning = same
+
+  alerts = alerts.map do |level, text|
+    { level: levels_map[level.to_sym] || level, text: text}
   end
 
 
-
-#app-alerts.ui-alerts
-  - unless alerts.blank?
-    - alerts.each do |level, message|
-      .ui-alert{class: alert_level_class(level)}
-        = message
-
-  -# alerts from child views:
-  = content_for(:app_alerts)
+- if alerts.present?
+  = combo('alerts', props: { id: 'app-alerts' }, list: alerts) do
+    -# alerts from child views:
+    = content_for(:app_alerts)

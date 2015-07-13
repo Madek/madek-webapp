@@ -1,0 +1,19 @@
+-# TODO: js
+:ruby
+  list ||= []
+
+.multi-select{props, class: classes}
+
+  %ul.multi-select-holder
+    - list.each do |tag|
+      %li.multi-select-tag{data: {url: tag[:link] }}
+        = tag[:text]
+        %a.multi-select-tag-remove{href: "#_remove"}
+
+    %li.multi-select-input-holder
+      - if block_content
+        = block_content
+      - else
+        %input.multi-select-input{type: "text"}/
+        %a.multi-select-input-toggle{href: "#_toggle"}
+          = component('icon.arrow-down')

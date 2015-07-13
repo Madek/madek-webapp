@@ -1,0 +1,18 @@
+:ruby
+  fail 'ui: no content!' unless list.present?
+
+  list = list.map do |alert|
+    case
+    when alert.is_a?(String) then { text: alert[1] }
+    when alert.is_a?(Array) then { level: alert[0], text: alert[1] }
+    when alert.is_a?(Hash) then alert
+    else
+      fail 'ui: invalid content!'
+    end
+  end
+
+
+.ui-alerts{props}
+  - list.each do |alert|
+    = component('alert', alert)
+  = block_content

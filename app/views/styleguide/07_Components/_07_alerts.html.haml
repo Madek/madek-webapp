@@ -13,10 +13,26 @@
     }
   }
 
+  lorem_ipsum = "Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere."
+
+  # # not used here but shows usage:
+  # element[:example_locals] = {
+  #   list: [
+  #     lorem_ipsum,
+  #     { level: 'success', text: lorem_ipsum },
+  #     ['warning', lorem_ipsum],
+  #     ['error', lorem_ipsum],
+  #     ['confirmation', lorem_ipsum],
+  #   ]
+  # }
+
+  # just use this and do it for all mods
+  element[:example_locals] = { list: [{ level: 'success', text: lorem_ipsum }] }
+
 = render_partial('element', element) do
+
   - element[:mods].each do |name, description|
     = render_partial('example', { mod: name}) do
 
-      .ui-alerts
-        .ui-alert{class: name}
-          Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere.
+      - element[:example_locals][:list].first[:level] = name
+      = combo('alerts', list: element[:example_locals][:list])

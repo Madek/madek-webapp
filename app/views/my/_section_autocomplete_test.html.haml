@@ -1,20 +1,17 @@
-#autocomplete_demo
-  .form-body
-    %fieldset.columned.prh.ui-form-group
-      %label.form-label{:for => "autocomplete_person_test"}
-        = 'Person'
-        %small= 'Type to search'
+:ruby
+  person_select = combo('form-group',
+    mods: 'columned',
+    label: { for: 'autocomplete_person_test',
+             text: 'Person',
+             comment: 'Type to search' }
+  ) do
+    combo('multi-select') do
+      text_field_tag('person', nil, class: 'multi-select-input',
+        data: { 'autocomplete' => 'person' })
+    end
+  end
 
-      .form-item
-        .multi-select
-          .multi-select-holder
-
-            .multi-select-input-holder.mbs
-              = text_field_tag('person', nil,
-                  class: 'multi-select-input',
-                  data: { 'autocomplete' => 'person' })
-              -# %a.multi-select-input-toggle
-              -#   %i.icon-arrow-down
+= combo('form', props: { id: 'autocomplete_demo' }, body: person_select)
 
 %hr.separator.mini.mvs
 

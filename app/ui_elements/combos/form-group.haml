@@ -1,0 +1,32 @@
+:ruby
+  layout_mods = ['rowed', 'columned']
+
+  label ||= label.is_a?(Hash) ? label : {}
+  if (comment = label[:comment]).present?
+    comment = { text: comment } unless comment.is_a?(Hash)
+  end
+
+  unless block_content.present?
+    fail 'ui: missing content!'
+  end
+  unless layout_mods.select {|mod| classes.include?(mod)}.length == 1
+    fail 'ui: layout needs one of: ' + layout_mods.join(', ')
+  end
+
+
+.ui-form-group{class: classes}
+
+  - if label.present?
+    %label.form-label{ for: label[:for] }
+      = label[:text]
+
+      - if (hint = label[:hint])
+        %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{rel: 'tooltip',
+          title: hint}
+          %i.icon-question
+
+      - if comment
+        %small{class: comment[:mods]}= comment[:text]
+
+  .form-item
+    = block_content

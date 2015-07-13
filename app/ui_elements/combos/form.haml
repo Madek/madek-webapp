@@ -1,0 +1,21 @@
+:ruby
+  body ||= body.presence || block_content.presence || nil
+  head ||= head.presence
+  footer ||= footer.presence
+
+  unless body
+    fail 'ui: missing content!'
+  end
+
+
+%form{props}
+  - if head
+    .form-head
+      = head
+
+  .form-body
+    = body
+
+  - if footer
+    .form-footer
+      = footer

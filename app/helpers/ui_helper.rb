@@ -88,6 +88,7 @@ module UiHelper
       classes: (classes_from_element(config).push(mods_from_name(name)))
                 .flatten.compact,
       link: link_from_item(config),
+      props: props_from_element(config),
       interactive: config.try(:to_h).try(:[], :interactive).presence || false,
       block_content: nil
     }
@@ -100,12 +101,13 @@ module UiHelper
   end
 
   def classes_from_element(config = {})
-    # can be given as String or Hash[:mods] (String or Array)
-    return [config.split('.')] if config.is_a?(String)
-    return [] unless config.is_a?(Hash) && config[:mods]
+    # can be given as String…
+    return classes_from_string(config) if config.is_a?(String)
+    # or Hash[:mods] (String or Array)
+    return [] unless config.is_a?(Hash) && config[:mods].present?
     case
-    when config[:mods].is_a?(String) then [config[:mods].split('.')].flatten
-    when config[:mods].is_a?(Enumerable) then config[:mods]
+    when config[:mods].is_a?(String) then classes_from_string(config[:mods])
+    when config[:mods].is_a?(Array) then config[:mods]
     else []
     end
   end
@@ -123,13 +125,23 @@ module UiHelper
     classes.flatten.compact
   end
 
-  def name_without_mods(name)
-    (name || '').split('.').first
-  end
-
   def build_list(list = nil)
     return list unless list.is_a?(Hash) # only transform Hashes
     list = list.compact
     Hash[list.map { |id, itm| [id, build_locals_from_element("#{id}", itm)] }]
   end
+
+  def props_from_element(config)
+    return {} unless config.is_a?(Hash) && config[:props].is_a?(Hash)
+    config[:props]
+  end
+
+  def name_without_mods(name)
+    classes_from_string(name || '').first
+  end
+
+  def classes_from_string(string) # split by dot and spaces, always returns Array
+    [string.split(/\.|\s/)].flatten.compact
+  end
+
 end

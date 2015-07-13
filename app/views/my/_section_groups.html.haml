@@ -1,19 +1,15 @@
 - # Only shown on the dashboard "index"! This is NOT the 'Groups' index!!!
 :ruby
-  group_types = {
+  group_types = { # config:
     internal: "Arbeitsgruppen",
     external: "Abteilungsgruppen"
-  }
+  }.map do |type, label|
+    groups = get.groups.send(type).map {|get| { text: get.name, href: get.url } }
+    # skip empties:
+    [type, { label: label, list: groups }] if groups.present?
+  end.to_h
 
 .ui-container.pbl
-  - group_types.each do |type, label|
-    :ruby
-      groups = get.groups.send(type).map do |get|
-        { text: get.name, href: get.url }
-      end
-      next unless groups.presence
-
-    .ui-form-group.columned.phn
-      .form-label= label
-      .form-item
-        = combo('tag-cloud.group', mods: 'compact', list: groups)
+  - group_types.each do |type, groups|
+    = combo('form-group', mods: 'columned phn', label: { text: groups[:label] }) do
+      = combo('tag-cloud.group', mods: 'compact', list: groups[:list])

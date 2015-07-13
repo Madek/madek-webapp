@@ -15,27 +15,23 @@
 
 
 -# TODO: elements
-- external_login_form = capture_haml do
-  %form
-    .form-body
-      .ui-form-group.rowed
-        %p.mbm
-          Alle Funktionen nutzen und auf
-          %br/
-          mehr Inhalte zugreifen.
-        %a#internal-login-link.primary-button.block.large{:href => "###login"}
-          Anmelden
+- external_login = combo('form') do
+  = combo('form-group', mods: 'rowed') do
+    %p.mbm
+      Alle Funktionen nutzen und auf
+      %br/
+      mehr Inhalte zugreifen.
+    %a#internal-login-link.primary-button.block.large{:href => "###login"}
+      Anmelden
 
-- internal_login_form = capture_haml do
-  %form{:action => "db/login", :method => "post"}
-    .form-body
-      .ui-form-group.rowed.compact
-        %input.block.large{:autofocus => "false", :name => "login", :placeholder => "Benutzername", :type => "text"}/
-      .ui-form-group.rowed.compact
-        %input.block.large{:name => "password", :placeholder => "Passwort", :type => "password"}/
-      .ui-form-group.rowed.compact
-        %button.primary-button.block.large{:type => "submit"}
-          Anmelden
+- internal_login = combo('form', props: { action: 'db/login', method:'post'}) do
+  = combo('form-group', mods: 'rowed.compact') do
+    %input.block.large{:autofocus => "false", :name => "login", :placeholder => "Benutzername", :type => "text"}/
+  = combo('form-group', mods: 'rowed.compact') do
+    %input.block.large{:name => "password", :placeholder => "Passwort", :type => "password"}/
+  = combo('form-group', mods: 'rowed.compact') do
+    %button.primary-button.block.large{:type => "submit"}
+      Anmelden
 
 :ruby
   element[:locals][:login] = combo('tabbed-sections', {
@@ -48,14 +44,14 @@
           align: 'left',
           text: 'ZHdK-Login'
         },
-        content: external_login_form,
+        content: external_login,
       },
       internal_login: {
         nav: {
           align: 'right',
           text: 'Externe'
         },
-        content: internal_login_form,
+        content: internal_login,
         }
       }
     })
