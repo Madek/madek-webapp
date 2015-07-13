@@ -39,8 +39,8 @@ Madek::Application.routes.draw do
     get ':section', to: 'dashboard#dashboard_section', as: 'dashboard_section'
   end
 
-  post 'session/sign_in', to: 'sessions#sign_in'
-  post 'session/sign_out', to: 'sessions#sign_out'
+  post 'session/sign_in', to: 'sessions#sign_in', as: 'sign_in'
+  post 'session/sign_out', to: 'sessions#sign_out', as: 'sign_out'
 
   # Admin routes ###############################################################
   namespace :admin do

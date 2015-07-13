@@ -1,5 +1,5 @@
 - internal_login_form = capture_haml do
-  = form_tag '/session/sign_in', id: 'login_form' do
+  = form_tag sign_in_path, id: 'login_form' do
     .form-body
       .ui-form-group.rowed.compact
         = text_field_tag :login, nil,
