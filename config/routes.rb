@@ -6,14 +6,14 @@ Madek::Application.routes.draw do
   root to: 'application#root'
 
   concern :permissions do
-    get 'permissions', action: :permissions_show, as: 'permissions', on: :member
+    get '/permissions', action: :permissions_show, as: 'permissions', on: :member
   end
 
   resources :media_entries,
             path: 'entries',
             only: [:index, :show, :new, :create],
             concerns: :permissions do
-    get 'preview/:size', action: :preview, as: 'preview', on: :member
+    get '/preview/:size', action: :preview, as: 'preview', on: :member
   end
 
   resources :collections, only: [:index, :show], concerns: :permissions
@@ -29,7 +29,7 @@ Madek::Application.routes.draw do
   resources :meta_data
 
   # Static App routes ##########################################################
-  get 'id/:uuid', to: 'uuid#redirect_to_canonical_url'
+  get '/id/:uuid', to: 'uuid#redirect_to_canonical_url'
 
   namespace :my do
     root to: 'dashboard#dashboard', as: 'dashboard'
@@ -39,8 +39,8 @@ Madek::Application.routes.draw do
     get ':section', to: 'dashboard#dashboard_section', as: 'dashboard_section'
   end
 
-  post 'session/sign_in', to: 'sessions#sign_in', as: 'sign_in'
-  post 'session/sign_out', to: 'sessions#sign_out', as: 'sign_out'
+  post '/session/sign_in', to: 'sessions#sign_in', as: 'sign_in'
+  post '/session/sign_out', to: 'sessions#sign_out', as: 'sign_out'
 
   # Admin routes ###############################################################
   namespace :admin do
@@ -90,9 +90,9 @@ Madek::Application.routes.draw do
   end
 
   # STYLEGUIDE #################################################################
-  get 'styleguide', to: 'styleguide#index', as: 'styleguide'
-  get 'styleguide/:section', to: 'styleguide#show', as: 'styleguide_section'
-  get 'styleguide/:section/:element', to: 'styleguide#element', as: 'styleguide_element'
+  get '/styleguide', to: 'styleguide#index', as: 'styleguide'
+  get '/styleguide/:section', to: 'styleguide#show', as: 'styleguide_section'
+  get '/styleguide/:section/:element', to: 'styleguide#element', as: 'styleguide_element'
 
   # Error page to be rendered as static page for the proxy
   get '/proxy_error', to: 'errors#proxy_error', :constraints => {:ip => /127.0.0.1/}
