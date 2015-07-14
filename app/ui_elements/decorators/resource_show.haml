@@ -1,5 +1,4 @@
 :ruby
-  # TODO: info left/right could also be preview_small and _large…
   overview ||= nil
   header ||= nil
   more_info ||= nil
@@ -20,6 +19,7 @@
 
       = overview
 
-    -# bottom part of the box:
-    .ui-container.rounded-bottom
-      = more_info
+    -# optional bottom part of the box:
+    - if more_info
+      .ui-container.rounded-bottom
+        = more_info

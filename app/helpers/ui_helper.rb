@@ -126,9 +126,15 @@ module UiHelper
   end
 
   def build_list(list = nil)
-    return list unless list.is_a?(Hash) # only transform Hashes
-    list = list.compact
-    Hash[list.map { |id, itm| [id, build_locals_from_element("#{id}", itm)] }]
+    case
+    when list.is_a?(Array)
+      list.compact
+    when list.is_a?(Hash) # only transform Hashes
+      list = list.compact
+      Hash[list.map { |id, itm| [id, build_locals_from_element("#{id}", itm)] }]
+    else
+      list
+    end
   end
 
   def props_from_element(config)
