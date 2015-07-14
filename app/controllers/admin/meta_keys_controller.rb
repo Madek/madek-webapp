@@ -36,14 +36,7 @@ class Admin::MetaKeysController < AdminController
     end)
   end
 
-  def destroy
-    meta_key = MetaKey.find(params[:id])
-    meta_key.destroy!
-
-    respond_with meta_key, location: (lambda do
-      admin_meta_keys_path
-    end)
-  end
+  define_destroy_action_for(MetaKey)
 
   private
 

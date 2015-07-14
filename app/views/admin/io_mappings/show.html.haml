@@ -1,0 +1,27 @@
+.page-header
+  %h1 IO Mapping: #{@io_mapping.id}
+
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-body
+        .btn-group
+          = link_to edit_admin_io_mapping_path(@io_mapping), class: "btn btn-info" do
+            %span.glyphicon.glyphicon-edit
+            Edit
+          = link_to admin_io_mapping_path(@io_mapping), method: :delete,
+              data: { confirm: 'The meta key will be deleted. Do you want to proceed?' },
+              class: "btn btn-danger" do
+            %i.glyphicon.glyphicon-trash
+            Delete
+
+.row
+  .col-xs-12
+    %table.table.table-striped
+      %thead
+      %tbody
+        - @io_mapping.attributes.each do |attr|
+          %tr
+            %td
+              %strong= attr.first.humanize
+            %td= attr.last

@@ -33,6 +33,12 @@
                 = navbar_item 'Meta Keys', admin_meta_keys_path
             %li.dropdown
               %a.dropdown-toggle{href: '#', data: { toggle: 'dropdown' }}
+                IO
+                %b.caret
+              %ul.dropdown-menu
+                = navbar_item 'IO Mappings', admin_io_mappings_path
+            %li.dropdown
+              %a.dropdown-toggle{href: '#', data: { toggle: 'dropdown' }}
                 %i.glyphicon.glyphicon-user
                 User
                 %b.caret

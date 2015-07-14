@@ -15,6 +15,17 @@ module Concerns
             end)
           end
         end
+
+        def define_destroy_action_for(model)
+          define_method :destroy do
+            @instance = model.find(params[:id])
+            @instance.destroy!
+
+            respond_with @instance, location: (lambda do
+              send("admin_#{model.model_name.plural}_path")
+            end)
+          end
+        end
       end
     end
   end

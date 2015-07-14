@@ -1,0 +1,17 @@
+%tr
+  %td= io_mapping.io_interface_id
+  %td= io_mapping.meta_key_id
+  %td= io_mapping.key_map
+  %td= io_mapping.key_map_type
+  %td.active.col-xs-4
+    .btn-group
+      = link_to admin_io_mapping_path(io_mapping), class: 'btn btn-default btn-sm' do
+        %span.glyphicon.glyphicon-eye-open
+      = link_to edit_admin_io_mapping_path(io_mapping), class: "btn btn-info btn-sm" do
+        %span.glyphicon.glyphicon-edit
+        Edit
+      = link_to admin_io_mapping_path(io_mapping), method: :delete,
+          data: { confirm: 'The IO mapping will be deleted. Do you want to proceed?' },
+          class: "btn btn-danger btn-sm" do
+        %i.glyphicon.glyphicon-trash
+        Delete
