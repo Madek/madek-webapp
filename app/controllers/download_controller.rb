@@ -8,15 +8,20 @@ class DownloadController < ApplicationController
   # WE SHOULD NEVER UPDATE AN UPLOADED FILE WITH MADEK METADATA.
   def download
       unless params[:id].blank? 
+        @size = params[:size].try(:to_sym)
+
+        # determine correct permission and get media_entry or fail:
         begin
-          @media_entry = MediaEntry.accessible_by_user(current_user,:view).find(params[:id])
+          # NOTE: does same check as below - blank 'size' params means download!
+          needs_permission = if @size.blank? then :download else :view end
+          @media_entry = MediaEntry
+                          .accessible_by_user(current_user, needs_permission)
+                          .find(params[:id])
         rescue
           raise UserUnauthorizedError unless current_user.login.present?
           raise UserForbiddenError
         end
         @filename = @media_entry.media_file.filename
-
-        @size = params[:size].try(:to_sym)           
         @content_type = @media_entry.media_file.content_type
 
         if params[:type] == "tms"
