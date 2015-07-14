@@ -13,11 +13,13 @@
     fail 'ui: layout needs one of: ' + layout_mods.join(', ')
   end
 
+  tag_type = if label.present? then :label else :div end
 
-.ui-form-group{class: classes}
+
+- haml_tag(tag_type, {class: ['ui-form-group'].concat(classes)}) do
 
   - if label.present?
-    %label.form-label{ for: label[:for] }
+    .form-label{ for: label[:for] }
       = label[:text]
 
       - if (hint = label[:hint])
