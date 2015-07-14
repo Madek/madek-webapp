@@ -19,12 +19,12 @@ module Concerns
         respond_with @get
       end
 
-      def get_authorized_presenter
-        determine_presenter.new(get_authorized_resource, current_user)
+      def get_authorized_presenter(resource = nil)
+        determine_presenter.new(get_authorized_resource(resource), current_user)
       end
 
-      def get_authorized_resource
-        resource = model_klass.find(params[:id])
+      def get_authorized_resource(resource = nil)
+        resource ||= model_klass.find(params[:id])
         authorize resource
         resource
       end

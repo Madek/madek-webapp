@@ -8,21 +8,24 @@
 
   # This is a presenter-spezific decorator for any MediaResource:
   pres = media_resources
-  # sanity check:
-    unless \
-      pres.media_entries.is_a?(Presenters::MediaEntries::MediaEntries) \
-      or pres.collections.is_a?(Presenters::Collections::Collections) \
-      or pres.filter_sets.is_a?(Presenters::FilterSets::FilterSets)
-      throw 'ui: polybox: need a `MediaResources` Presenter!'
-    end
 
   title ||= nil
   link ||= nil
+  fallback ||= nil
   # fallback can be a string or just 'true', in which case we use default string
-  fallback ||= fallback
   fallback = default_fallback if fallback and not fallback.is_a?(String)
   # mod 'unpaginated' omits all pagination elements (shown by default)
   show_pagination_nav = !classes.map(&:to_s).include?('unpaginated')
+
+  # sanity check:
+    unless pres.empty? and fallback.present?
+      unless \
+        pres.media_entries.is_a?(Presenters::MediaEntries::MediaEntries) \
+        or pres.collections.is_a?(Presenters::Collections::Collections) \
+        or pres.filter_sets.is_a?(Presenters::FilterSets::FilterSets)
+        throw 'ui: polybox: need a `MediaResources` Presenter!'
+      end
+    end
 
   # there are several "view modes", default is grid
   view_modes = [:grid, :tiles]
@@ -108,18 +111,24 @@
   # get nav info
   # pagination = pres.pagination_info
   # TMP: fake multiple collection handling, just take biggest one:
-  pagination = [:media_entries, :collections, :filter_sets]
-                .map {|type| pres.send(type).try(:pagination_info) }
-                .compact
-                .sort_by {|p| p.total_pages}
-                .last
+  pagination = if
+    pag = [:media_entries, :collections, :filter_sets]
+      .map {|type| pres.send(type).try(:pagination_info) }
+      .compact
+      .sort_by {|p| p.total_pages}
+      .last
 
-  # build nav links links (conserves any other parameters)
-  pagination.nav = ['previous_page', 'next_page'].map do |id|
-    if pagination[id]
-      [id, url_for(params.merge(page: pagination[id], anchor: elm_anchor))]
-    end
-  end.compact.to_h
+    # build nav links links (conserves any other parameters)
+    nav = ['previous_page', 'next_page'].map do |id|
+      if pag[id]
+        [id, url_for(params.merge(page: pag[id], anchor: elm_anchor))]
+      end
+    end.compact.to_h
+
+    return unless pag && nav
+    pag.nav = nav
+    pag
+  end
 
 -# a list of media_resources.
   - TODO: ujs: use filterbar ui + tab logic
@@ -132,7 +141,7 @@
 
   %ul.ui-resources{class: classes}
 
-    - if show_pagination_nav && pagination.total_pages > 1
+    - if pagination && show_pagination_nav && pagination.total_pages > 1
       .no-js
         %span.ui-resources-page-counter.ui-pager
           = "Page #{pagination.current_page} of #{pagination.total_pages}"

@@ -14,6 +14,7 @@ Madek::Application.routes.draw do
             only: [:index, :show, :new, :create],
             concerns: :permissions do
     get '/preview/:size', action: :preview, as: 'preview', on: :member
+    post :publish, on: :member
   end
 
   resources :collections, only: [:index, :show], concerns: :permissions

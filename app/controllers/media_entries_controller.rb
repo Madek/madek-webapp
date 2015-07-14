@@ -3,6 +3,10 @@ class MediaEntriesController < ApplicationController
   include Modules::FileStorage
   include Modules::MetaDataStorage
 
+  def show
+    @get = get_authorized_presenter(MediaEntry.unscoped.find(params[:id]))
+  end
+
   def preview
     media_entry = MediaEntry.find(params[:id])
     size = params[:size] || 'small'
@@ -22,16 +26,32 @@ class MediaEntriesController < ApplicationController
   end
 
   def create
-    media_entry = MediaEntry.new(media_entry_params)
-    media_entry.media_file = MediaFile.new(media_file_attributes)
-
     ActiveRecord::Base.transaction do
+      media_entry = MediaEntry.new(
+        media_file: MediaFile.new(media_file_attributes),
+        responsible_user: current_user,
+        creator: current_user,
+        is_published: false
+      )
       media_entry.save!
       store_file_and_create_previews!(file, media_entry.media_file)
       extract_and_store_metadata!(media_entry)
+
+      respond_with media_entry
     end
 
-    respond_with media_entry
+    # TODO: `rescue` here? what happens if the transaction fails?
+  end
+
+  def publish
+    media_entry = MediaEntry.unscoped.where(is_published: false).find(params[:id])
+    ActiveRecord::Base.transaction do
+      # TODO: validation etc
+      media_entry.is_published = true
+      media_entry.save!
+    end
+    redirect_to media_entry_path,
+                flash: { success: 'Entry was published!' }
   end
 
   ###############################################################
@@ -44,28 +64,21 @@ class MediaEntriesController < ApplicationController
   end
 
   def media_file_attributes
-    { content_type: file.content_type,
+    {
+      uploader: current_user,
+      content_type: file.content_type,
       filename: file.original_filename,
       extension: extension(file.original_filename),
-      size: file.size,
-      uploader_id: media_file_params[:uploader_id] }
-  end
-
-  def file
-    media_file_params.require(:file)
-  end
-
-  def media_file_params
-    params
-      .require(:media_entry)
-      .require(:media_file)
-      .permit(:file, :uploader_id)
+      size: file.size
+    }
   end
 
   def media_entry_params
-    params
-      .require(:media_entry)
-      .permit(:responsible_user_id,
-              :creator_id)
+    params.require(:media_entry)
   end
+
+  def file
+    media_entry_params.require(:media_file)
+  end
+
 end

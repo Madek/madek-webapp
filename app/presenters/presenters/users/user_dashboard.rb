@@ -9,9 +9,17 @@ module Presenters
         @per_page = per_page
       end
 
+      def unpublished
+        wrap_in_presenters_pojo([
+          @app_resource.unpublished_media_entries,
+          nil,
+          nil
+        ])
+      end
+
       def content
         wrap_in_presenters_pojo([
-          @app_resource.media_entries,
+          @app_resource.published_media_entries,
           @app_resource.collections,
           @app_resource.filter_sets
         ])
@@ -19,7 +27,7 @@ module Presenters
 
       def latest_imports
         wrap_in_presenters_pojo([
-          @app_resource.created_media_entries,
+          @app_resource.published_media_entries,
           nil,
           nil
         ])

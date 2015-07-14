@@ -12,30 +12,10 @@ describe MediaEntriesController do
   end
 
   it 'create' do
-    unless MetaKey.where(id: 'madek_core:title').exists?
-      FactoryGirl.create(:meta_key_text, id: 'madek_core:title')
-    end
-    image_path = Rails.root.join('spec', 'data', 'images', 'grumpy_cat.jpg')
-    IoInterface.find_or_create_by(id: 'default')
-    IoMapping.create(io_interface_id: 'default',
-                     meta_key_id: 'madek_core:title',
-                     key_map: 'XMP-dc:Title')
-
-    post_params = \
-      { media_entry: \
-        { responsible_user_id: @user.id,
-          creator_id: @user.id,
-          media_file: {
-            file: fixture_file_upload(image_path, 'image/jpg'),
-            uploader_id: @user.id
-          }
-        }
-      }
-
-    post :create, post_params, user_id: @user.id
+    upload_file_create_and_media_entry
     expect(response.redirect?).to be true
-    expect(@user.media_entries.count).to be 1
-    media_entry = @user.media_entries.first
+    expect(@user.unpublished_media_entries.count).to be 1
+    media_entry = @user.unpublished_media_entries.first
 
     # media file #################################################################
     media_file = media_entry.media_file
@@ -62,5 +42,39 @@ describe MediaEntriesController do
     expect(meta_datum).to be
   end
 
+  it 'publish' do
+    upload_file_create_and_media_entry
+    media_entry = @user.unpublished_media_entries.first
+    expect(media_entry.is_published).to be false
+
+    post :publish, { id: media_entry.id }, user_id: @user.id
+    expect(response.redirect?).to be true
+    expect(flash[:success]).to eq 'Entry was published!'
+
+    media_entry.reload
+    expect(media_entry.is_published).to be true
+    expect(@user.published_media_entries.count).to be 1
+    expect(@user.unpublished_media_entries.count).to be 0
+  end
+
   it_performs 'authorization'
+
+  private
+
+  def upload_file_create_and_media_entry
+    unless MetaKey.where(id: 'madek_core:title').exists?
+      FactoryGirl.create(:meta_key_text, id: 'madek_core:title')
+    end
+    image_path = Rails.root.join('spec', 'data', 'images', 'grumpy_cat.jpg')
+    IoInterface.find_or_create_by(id: 'default')
+    IoMapping.create(io_interface_id: 'default',
+                     meta_key_id: 'madek_core:title',
+                     key_map: 'XMP-dc:Title')
+
+    post_params = {
+      media_entry: { media_file: fixture_file_upload(image_path, 'image/jpg') }
+    }
+
+    post :create, post_params, user_id: @user.id
+  end
 end

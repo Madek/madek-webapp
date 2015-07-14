@@ -6,6 +6,11 @@ class MyController < ApplicationController
   # - `partial: :foobar` → `section_partial_foobar.haml`, used for index and show
 
   SECTIONS = {
+    unpublished: {
+      title: 'Unpublished Entries',
+      icon: 'icon-privacy-private',
+      partial: :media_resources
+    },
     content: {
       title: 'My content',
       icon: 'icon-privacy-private',

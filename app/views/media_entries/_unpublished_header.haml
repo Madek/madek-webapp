@@ -1,0 +1,16 @@
+.ui-container.bright.bordered-bottom.mbm{style: 'margin: -20px -20px 0;' }
+
+  .ui-container.pal
+    .title-l
+      = "TODO: Set Selection"
+
+    .title-l
+      = "TODO: Permissions Summary"
+
+    .ui-separator.mbl
+
+    .ui-actions
+      = component('button.primary',
+                link: publish_media_entry_path,
+                method: :post,
+                text: 'Publish!')

@@ -11,9 +11,25 @@ describe My::DashboardController do
 
     fake_many.times { @user.groups << FactoryGirl.create(:group) }
 
-    fake_many.times { FactoryGirl.create :media_entry, responsible_user: @user }
-    fake_many.times { FactoryGirl.create :collection, responsible_user: @user }
-    fake_many.times { FactoryGirl.create :filter_set, responsible_user: @user }
+    # Unfinished Uploads:
+    fake_many.times do
+      FactoryGirl.create :media_entry, is_published: false,
+                                       responsible_user: @user, creator: @user
+    end
+
+    # Regular Content
+    fake_many.times do
+      FactoryGirl.create :media_entry,
+                         responsible_user: @user, creator: @user
+    end
+    fake_many.times do
+      FactoryGirl.create :collection,
+                         responsible_user: @user, creator: @user
+    end
+    fake_many.times do
+      FactoryGirl.create :filter_set,
+                         responsible_user: @user, creator: @user
+    end
 
     fake_many.times \
       { FactoryGirl.create :media_entry, creator: @user, responsible_user: @user }
@@ -81,11 +97,21 @@ describe My::DashboardController do
   it 'has correct presenter' do
     expect(@get.is_a?(Presenter)).to be true
     expect(@get.api.sort)
-      .to eq [:content, :latest_imports, :favorites,
+      .to eq [:unpublished, :content, :latest_imports, :favorites,
               :entrusted_content, :groups, :used_keywords, :uuid].sort
   end
 
   describe 'sections' do
+
+    it 'Unpublished Entries' do
+      unpublished = @get.unpublished.media_entries
+      expect(unpublished.resources.length)
+        .to be == @limit_for_dashboard
+      expect(unpublished.resources.first.is_a?(Presenter)).to be true
+      expect(presented_entity unpublished.resources.first)
+        .to eq @user.unpublished_media_entries.reorder('created_at DESC').first
+
+    end
 
     it 'Meine Inhalte' do
       my_content = @get.content
@@ -110,11 +136,10 @@ describe My::DashboardController do
 
     it 'Meine letzten Importe' do
       imports = @get.latest_imports.media_entries
-      expect(imports.resources.length)
-        .to be == @limit_for_dashboard
+      expect(imports.resources.length).to be == @limit_for_dashboard
       expect(imports.resources.first.is_a?(Presenter)).to be true
       expect(presented_entity imports.resources.first)
-        .to eq @user.created_media_entries.reorder('created_at DESC').first
+        .to eq @user.published_media_entries.reorder('created_at DESC').first
     end
 
     it 'Mir anvertraute Inhalte' do

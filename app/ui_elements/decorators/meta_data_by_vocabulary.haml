@@ -1,8 +1,7 @@
 :ruby
-  unless @get.meta_data.is_a?(Presenters::MetaData::MetaDataPresenter)
+  unless meta_data.is_a?(Presenters::MetaData::MetaDataPresenter)
     fail 'ui: not a MetaDataPresenter!'
   end
-  meta_data = @get.meta_data
 
   # TODO: app config, partial arguments
   summary_vocab = 'madek_core'

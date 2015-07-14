@@ -13,6 +13,14 @@ module Presenters
         included do
           attr_reader :relations
 
+          def title
+            super.presence or "(Upload from #{@app_resource.created_at.iso8601})"
+          end
+
+          def published?
+            @app_resource.is_published
+          end
+
           private
 
           def image_url_helper(size)

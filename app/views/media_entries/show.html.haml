@@ -3,41 +3,46 @@
 
   entry_show = {}
 
+  action_menu = [] # TODO: edit actions etc
+
+- unless @get.published?
+  - flash[:warning] = 'Entry is not published yet!'
+  = render('unpublished_header')
+
+:ruby
   entry_show[:header] = \
     component('page-header',
       icon: component('icon.media-entry'),
       text: @get.title,
-      actions: nil
+      actions: action_menu
     )
 
-  entry_show[:overview] = \
-    deco('resource_show_overview',
-      mods: 'ui-media-overview',
-      # TODO: element?
-      preview_large: component('picture', mods: ['media-set'],
-                  text: @get.title,
-                  href: @get.image_url),
-      content: combo('metadata-box',
-                  mods: 'ui-summary-table.ui-set-summary.compact',
-                  # TODO: build this list in a presenter?
-                  # @get.metadata => [ [key, value], [key, value] ]
-                  list: [['Title', @get.title, 'title-l'],
-                         ['Description', @get.description],
-                         ['Copyright Notice', @get.copyright_notice],
-                         ['Date', @get.portrayed_object_date],
-                         ['Keywords', combo('tag-cloud.label',
-                            mods: tag_mods,
-                            list: @get.keywords)]
-                        ]
-                )
-    )
+  entry_show[:overview] = deco('resource_show_overview',
+    mods: 'ui-media-overview',
+    # TODO: element?
+    preview_large: component('picture', mods: ['media-set'],
+                text: @get.title,
+                href: @get.image_url),
+    content: combo('metadata-box',
+                mods: 'ui-summary-table.ui-set-summary.compact',
+                # TODO: build this list in a presenter?
+                # @get.metadata => [ [key, value], [key, value] ]
+                list: [['Title', @get.title, 'title-l'],
+                       ['Description', @get.description],
+                       ['Copyright Notice', @get.copyright_notice],
+                       ['Date', @get.portrayed_object_date],
+                       @get.keywords.any? ? ['Keywords', combo('tag-cloud.label',
+                          mods: tag_mods,
+                          list: @get.keywords)] : nil
+                      ]))
 
 - entry_show[:more_info] = capture_haml do
   -# TMP: always show this sections! (till we have js, thus tabs)
   .ui-container.midtone.rounded-bottom.pal.well
 
     -# Demo: Render all the available Vocabularies as rows
-    = deco('meta_data_by_vocabulary', get: @get)
+    - if (@get.meta_data.vocabularies_with_meta_data).any?
+      = deco('meta_data_by_vocabulary', meta_data: @get.meta_data)
 
     .ui-separator.mbl
 
