@@ -1,7 +1,7 @@
 class Admin::IoMappingsController < AdminController
 
   def index
-    @io_mappings = IoMapping.page(params[:page]).per(16)
+    @io_mappings = paginate filter IoMapping.all
   end
 
   def show
@@ -28,6 +28,32 @@ class Admin::IoMappingsController < AdminController
   define_destroy_action_for(IoMapping)
 
   private
+
+  def paginate(io_mappings)
+    io_mappings.page(params[:page]).per(16)
+  end
+
+  def filter(io_mappings)
+    filter_by_io_interface_id \
+      filter_by_search_term \
+        io_mappings
+  end
+
+  def filter_by_search_term(io_mappings)
+    if params[:search_term]
+      io_mappings.filter_by(params[:search_term])
+    else
+      io_mappings
+    end
+  end
+
+  def filter_by_io_interface_id(io_mappings)
+    if params[:io_interface_id]
+      io_mappings.where(io_interface_id: params[:io_interface_id])
+    else
+      io_mappings
+    end
+  end
 
   def io_mapping_params
     params.require(:io_mapping).permit(:io_interface_id,

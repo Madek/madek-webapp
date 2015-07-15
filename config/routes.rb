@@ -86,6 +86,7 @@ Madek::Application.routes.draw do
     resources :meta_keys
     resources :meta_datums, only: :index
     resources :io_mappings
+    resources :io_interfaces, except: [:edit, :update]
     resources :app_settings, only: [:index, :edit, :update]
     root to: 'dashboard#index'
   end

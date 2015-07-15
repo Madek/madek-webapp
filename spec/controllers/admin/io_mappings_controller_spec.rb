@@ -18,6 +18,7 @@ describe Admin::IoMappingsController do
 
     context 'filtering by key map' do
       it 'returns correct collection of meta keys' do
+        create(:io_mapping, meta_key: @meta_key, io_interface: @io_interface)
         io_mapping_1 = create(:io_mapping,
                               key_map: 'foo_bar',
                               meta_key: @meta_key,
@@ -35,6 +36,7 @@ describe Admin::IoMappingsController do
 
     context 'filtering by meta key ID' do
       it 'returns correct collection of meta keys' do
+        create(:io_mapping, meta_key: @meta_key, io_interface: @io_interface)
         @meta_key = create(:meta_key_text, id: 'test:foo_bar')
         io_mapping_1 = create(:io_mapping,
                               meta_key: @meta_key,
