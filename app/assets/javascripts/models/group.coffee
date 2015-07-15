@@ -41,6 +41,9 @@ class Group
       success: (data)=>
         @refreshData data
         callback(data) if callback?
+      error: (xhr, status)=>
+        err = xhr?.responseJSON?.error || 'Error'
+        callback({error: err}) if callback?
 
   delete: (callback)->
     $.ajax

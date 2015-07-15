@@ -7,20 +7,26 @@ feature "Workgroups" do
     @current_user = sign_in_as "normin"
   end
 
-  scenario "Create a new group", browser: :firefox do
+  feature "Create a new group", browser: :firefox do
+    it "is OK with new name" do
+      name = Faker::Name.last_name
+      visit my_groups_path
 
-    visit my_groups_path
+      create_group(name)
+      
+      assert_modal_not_visible
+      expect(@current_user.groups.find_by_name(name)).to be
+    end
+    it "FAILS when name already exists" do
+      name = Faker::Name.last_name
+      visit my_groups_path
 
-    create_new_group_with_context_primary_action
+      create_group(name)
+      assert_modal_not_visible
 
-    name = Faker::Name.last_name
-    find("input[name='name']").set name
-
-    click_primary_action_of_modal
-
-    assert_modal_not_visible
-    expect(@current_user.groups.find_by_name(name)).to be
-
+      create_group(name)
+      assert_error_alert
+    end
   end
 
   scenario "Requiring name during group creation", browser: :firefox do
@@ -117,6 +123,12 @@ feature "Workgroups" do
   def create_new_group_with_context_primary_action
     find(".ui-body-title-actions .primary-button").click
     assert_modal_visible
+  end
+
+  def create_group(name)
+    create_new_group_with_context_primary_action
+    find("input[name='name']").set name
+    click_primary_action_of_modal
   end
 
   def edit_one_group

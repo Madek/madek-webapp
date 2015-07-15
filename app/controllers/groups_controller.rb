@@ -36,9 +36,17 @@ class GroupsController < ApplicationController
   end
   
   def create(name = params[:name] || raise("Name has to be present."))
-    group = current_user.groups.create(:name => name)
     respond_to do |format|
       format.json {
+
+        if Group.find_by(:name => name).present?
+          err = "Eine Gruppe mit diesem Namen existiert bereits!"
+          render(json: {:error => err}, :status => :bad_request) \
+            and return
+        end
+
+        group = current_user.groups.create!(:name => name)
+
         if group.persisted?
           render json: view_context.json_for(group)
         else

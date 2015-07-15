@@ -20,14 +20,18 @@ class GroupsController.Create
     e.preventDefault()
     group = new App.Group
       name: @form.find("[name='name']").val()
-    if group.validate()
-      @el.remove()
-      group.create => document.location.reload true
-    else
-      App.DialogErrors.set @form, group.errors
 
+    unless group.validate()
+      return App.DialogErrors.set @form, group.errors
+
+    group.create (response)=>
+      if (err = response.error)?
+        App.DialogErrors.set(@form, [{text: err}])
+      else
+        do document.location.reload
+    
   render: ->
     @el = App.render "groups/create"
-    
+
 window.App.GroupsController = {} unless window.App.GroupsController
 window.App.GroupsController.Create = GroupsController.Create
