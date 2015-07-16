@@ -24,7 +24,7 @@ Madek::Application.routes.draw do
 
   resources :licenses, only: :index
 
-  resources :keyword_terms, only: :index
+  resources :keywords, only: :index
 
   resources :meta_data
 
@@ -81,7 +81,7 @@ Madek::Application.routes.draw do
     resources :zencoder_jobs, only: :show
     resources :filter_sets, only: [:index, :show]
     resources :vocabularies do
-      resources :keyword_terms
+      resources :keywords
     end
     resources :meta_keys
     resources :meta_datums, only: :index

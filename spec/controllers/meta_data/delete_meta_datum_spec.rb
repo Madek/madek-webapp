@@ -72,7 +72,7 @@ describe MetaDataController do
     it 'MetaDatum::Keywords' do
       meta_key = FactoryGirl.create(:meta_key_keywords)
       create_vocabulary_permissions(meta_key.vocabulary)
-      original_ids = KeywordTerm.all.sample(2).map(&:id)
+      original_ids = Keyword.all.sample(2).map(&:id)
       meta_datum = \
         MetaDatum::Keywords.create!(media_entry_id: @media_entry.id,
                                     meta_key_id: meta_key.id,

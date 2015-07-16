@@ -1,4 +1,4 @@
-class KeywordTermsController < ApplicationController
+class KeywordsController < ApplicationController
   include Concerns::JSONSearch
 
   def index

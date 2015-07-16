@@ -1,0 +1,6 @@
+%tr
+  %td= keyword.id
+  %td= link_to keyword.meta_key.id, admin_meta_key_path(keyword.meta_key)
+  %td= keyword
+  %td.active.col-xs-2
+    = render partial: 'action_buttons', locals: { keyword: keyword, size: 'btn-sm' }

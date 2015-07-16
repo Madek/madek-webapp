@@ -45,8 +45,8 @@ module Presenters
           Presenters::Groups::GroupIndex.new(value)
         when 'License'
           Presenters::Licenses::LicenseIndex.new(value)
-        when 'KeywordTerm'
-          Presenters::KeywordTerms::KeywordTermIndex.new(value)
+        when 'Keyword'
+          Presenters::Keywords::KeywordIndex.new(value)
         else # all other values are "primitive/literal/unspecified":
           value
         end

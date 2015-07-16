@@ -1,6 +1,6 @@
 class Admin::MetaKeysController < AdminController
   def index
-    @meta_keys = MetaKey.with_keyword_terms_count
+    @meta_keys = MetaKey.with_keywords_count
                         .page(params[:page])
                         .per(16)
 

@@ -1,5 +1,5 @@
-= form_for [:admin, @vocabulary, @keyword_term], as: :keyword_term, html: { class: 'form-horizontal', role: 'form' } do |f|
-  - if @keyword_term.persisted?
+= form_for [:admin, @vocabulary, @keyword], as: :keyword, html: { class: 'form-horizontal', role: 'form' } do |f|
+  - if @keyword.persisted?
     .form-group
       .col-xs-1
         = f.label :id, 'ID', class: 'control-label'
@@ -20,4 +20,4 @@
       = button_tag type: 'submit', class: 'btn btn-success' do
         %span.glyphicon.glyphicon-ok
         Save
-      = link_to 'Go back', admin_vocabulary_keyword_terms_path(@vocabulary), class: 'btn btn-link'
+      = link_to 'Go back', admin_vocabulary_keywords_path(@vocabulary), class: 'btn btn-link'

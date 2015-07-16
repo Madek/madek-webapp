@@ -7,8 +7,8 @@
       .panel-body
         .btn-group
           = render partial: 'action_buttons', locals: { vocabulary: @vocabulary, size: nil }
-          = link_to "Keyword Terms: #{@vocabulary.keyword_terms.count}",
-              admin_vocabulary_keyword_terms_path(@vocabulary),
+          = link_to "Keyword: #{@vocabulary.keywords.count}",
+              admin_vocabulary_keywords_path(@vocabulary),
               class: 'btn btn-default'
 
 .row
@@ -40,9 +40,9 @@
             %td= meta_key.meta_datum_object_type
             %td.active.col-xs-1
               - if meta_key.can_have_keywords?
-                = link_to admin_vocabulary_keyword_terms_path(@vocabulary, search_term: meta_key.id),
+                = link_to admin_vocabulary_keywords_path(@vocabulary, search_term: meta_key.id),
                   class: 'btn btn-default' do
                   %i.glyphicon.glyphicon-eye-open
-                  Show keyword terms (#{meta_key.keyword_terms_count})
+                  Show keywords (#{meta_key.keywords_count})
 
     = paginate @meta_keys

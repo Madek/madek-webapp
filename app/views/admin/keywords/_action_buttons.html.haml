@@ -1,0 +1,9 @@
+.btn-group
+  = link_to edit_admin_vocabulary_keyword_path(@vocabulary, keyword), class: "btn btn-info #{size}" do
+    %i.glyphicon.glyphicon-edit
+    Edit
+  = link_to admin_vocabulary_keyword_path(@vocabulary, keyword), method: :delete, data: {   |
+    confirm: 'The keyword will be deleted. Do you want to proceed?' }, |
+    class: "btn btn-danger #{size}" do
+    %i.glyphicon.glyphicon-trash
+    Delete

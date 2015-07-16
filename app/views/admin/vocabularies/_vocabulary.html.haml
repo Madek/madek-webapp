@@ -10,5 +10,5 @@
       = link_to "MetaKeys: #{vocabulary.meta_keys_count}",
           admin_meta_keys_path(vocabulary_id: vocabulary.id),
           class: 'btn btn-default btn-sm'
-      = link_to "Keyword Terms: #{vocabulary.keyword_terms.count}", admin_vocabulary_keyword_terms_path(vocabulary),
+      = link_to "Keyword: #{vocabulary.keywords.count}", admin_vocabulary_keywords_path(vocabulary),
           class: 'btn btn-default btn-sm'

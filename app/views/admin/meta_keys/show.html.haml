@@ -22,7 +22,7 @@
 - if @meta_key.can_have_keywords?
 
   .page-header
-    %h2 Keyword Terms
+    %h2 Keywords
 
   .row
     .col-xs-12
@@ -30,9 +30,9 @@
         %thead
           %tr
             %th ID
-            %th Term
+            %th Keyword
         %tbody
-          - @meta_key.keyword_terms.find_each do |keyword_term|
+          - @meta_key.keywords.find_each do |keyword|
             %tr
-              %td= keyword_term.id
-              %td= keyword_term
+              %td= keyword.id
+              %td= keyword

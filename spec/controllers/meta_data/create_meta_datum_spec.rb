@@ -88,8 +88,8 @@ describe MetaDataController do
     it 'MetaDatum::Keywords' do
       meta_key = FactoryGirl.create(:meta_key_keywords)
       create_vocabulary_permissions(meta_key.vocabulary)
-      2.times { FactoryGirl.create :keyword_term }
-      ids = KeywordTerm.take(2).map(&:id)
+      2.times { FactoryGirl.create :keyword }
+      ids = Keyword.take(2).map(&:id)
       post :create,
            { media_entry_id: @media_entry.id,
              _key: meta_key.id,
@@ -99,7 +99,7 @@ describe MetaDataController do
       assert_response :created
       md = @media_entry.meta_data.find_by_meta_key_id(meta_key.id)
       expect(md).to be
-      expect(Set.new md.keywords.map(&:keyword_term).map(&:id))
+      expect(Set.new md.keywords.map(&:id))
         .to be == Set.new(ids)
     end
 
@@ -167,8 +167,8 @@ describe MetaDataController do
       meta_datum = FactoryGirl.create(:meta_datum_keywords,
                                       meta_key: meta_key,
                                       media_entry: @media_entry)
-      meta_datum.keyword_terms << FactoryGirl.create(:keyword_term)
-      ids = meta_datum.keyword_terms.map(&:id)
+      meta_datum.keywords << FactoryGirl.create(:keyword)
+      ids = meta_datum.keywords.map(&:id)
 
       expect do
         post :create,

@@ -1,6 +1,6 @@
 module Presenters
-  module KeywordTerms
-    class KeywordTermIndex < Presenters::Shared::AppResource
+  module Keywords
+    class KeywordIndex < Presenters::Shared::AppResource
       delegate_to_app_resource :term
 
       def url
