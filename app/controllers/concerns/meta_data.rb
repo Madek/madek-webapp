@@ -2,16 +2,16 @@ module Concerns
   module MetaData
     extend ActiveSupport::Concern
 
-    def meta_key_id_param(params = params)
-      params.require(:_key)
+    def meta_key_id_param(parameters = params)
+      parameters.require(:_key)
     end
 
-    def type_param(params = params)
-      params.require(:_value).require(:type)
+    def type_param(parameters = params)
+      parameters.require(:_value).require(:type)
     end
 
-    def value_param(params = params)
-      params.require(:_value).fetch(:content)
+    def value_param(parameters = params)
+      parameters.require(:_value).fetch(:content)
     end
 
     def raise_if_all_blanks_or_return_unchanged(array)
