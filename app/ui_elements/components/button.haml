@@ -1,6 +1,7 @@
 :ruby
   text ||= nil
   type ||= nil
+  method ||= nil
   html_tag = link ? 'a' : 'button'
   button_class = \
     case
@@ -13,14 +14,24 @@
   classes.push(button_class) if button_class
   classes.push('active') if defined?(active) && active == true
 
-  props = {
+  properties = {
     class: classes,
-    type: type
-    # data: { hook: defined?(hook) ? hook : nil }
-  }
-  props = props.merge(link) if link
+    type: type,
+    method: method
+  }.merge(props)
+
+  properties = properties.merge(link) if link
+
+  def build_node_by_type(html_tag, properties, &block)
+    # uses either rails helper or plain haml
+    if properties[:method] && properties[:href]
+      button_to(properties[:href], properties, &block)
+    else
+      capture_haml { haml_tag(html_tag, properties, &block) }
+    end
+  end
 
 
-- haml_tag(html_tag, props) do
+= build_node_by_type(html_tag, properties) do
   = text
   = block_content if defined?(block_content)
