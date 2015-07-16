@@ -16,6 +16,10 @@ def click_on_text(text)
   find('a, button', text: text).click
 end
 
+def click_on_tab(text)
+  find('.app-body .ui-tabs').find('a', text: text).click
+end
+
 def find_input_with_name(name)
   find("textarea,input[name='#{name}']")
 end

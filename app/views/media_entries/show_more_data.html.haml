@@ -1,0 +1,43 @@
+- unless @get.published?
+  - flash[:warning] = 'Entry is not published yet!'
+  = render('media_entries/_show/unpublished_header')
+
+:ruby
+  tag_mods = ['small','ellipsed']
+  entry_show = {}
+  entry_show[:header] = render('media_entries/_show/resource_header')
+
+- entry_show[:tabs] = render('media_entries/_show/tab_nav')
+
+- entry_show[:overview] = capture_haml do
+  .col1of3
+    .ui-container.prm
+      %h3.title-l.separated.mbm
+        = "More Data"
+      :ruby
+        more_meta_data_list = [
+          ['responsible', deco('person-tag-list',
+                            person: @get.more_data.responsible,
+                            mods: tag_mods)],
+          ['importer', deco('person-tag-list',
+                        person: @get.more_data.importer,
+                        mods: tag_mods)],
+          ['import_date', @get.more_data.import_date],
+          ['activity_log',
+           combo('ordered-list', mods: 'inline',
+                  list: Hash[@get.more_data.activity_log].map do |time, person|
+                    "#{person.name} / #{time}"
+                  end)]
+        ]
+      = combo('metadata-box', mods: 'ui-summary-table', list: more_meta_data_list)
+
+  .col2of3
+    .ui-container.plm
+
+      %h3.title-l.separated.mbm
+        = "File Information"
+      = combo('metadata-box',
+          mods: 'ui-summary-table', list: @get.more_data.file_information)
+
+
+= deco('resource_show', entry_show)

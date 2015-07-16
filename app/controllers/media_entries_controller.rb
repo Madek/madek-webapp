@@ -3,8 +3,20 @@ class MediaEntriesController < ApplicationController
   include Modules::FileStorage
   include Modules::MetaDataStorage
 
+  # list of all 'show' action sub-tabs
+  SHOW_TABS = {
+    relations: 'Relations',
+    more_data: 'More Data'
+  }
+
   def show
     @get = get_authorized_presenter(MediaEntry.unscoped.find(params[:id]))
+    @tabs = SHOW_TABS
+    handle_tabs
+    # render "tab_#{tab.to_s}" if tab
+  end
+
+  def more_data
   end
 
   def preview
@@ -57,6 +69,17 @@ class MediaEntriesController < ApplicationController
   ###############################################################
 
   private
+
+  def handle_tabs
+    # if tab given: show if known, otherwise redirect to normal show
+    if (tab_name = params[:tab]).present?
+      if @tabs.keys.include?(tab_name.to_sym)
+        render("show_#{tab_name}") and return
+      else
+        redirect_to(media_entry_path(params[:id])) and return
+      end
+    end
+  end
 
   def store_file_and_create_previews!(file, media_file)
     store_file!(file.tempfile.path, media_file.store_location)

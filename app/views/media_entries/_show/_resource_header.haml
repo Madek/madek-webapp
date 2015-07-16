@@ -1,0 +1,10 @@
+:ruby
+  action_menu = [] # TODO: edit actions etc
+
+  header = {
+    icon: component('icon.media-entry'),
+    text: @get.title,
+    actions: action_menu
+  }
+
+= component('page-header', header)

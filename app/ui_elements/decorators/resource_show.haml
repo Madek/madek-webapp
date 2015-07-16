@@ -1,6 +1,7 @@
 :ruby
   overview ||= nil
   header ||= nil
+  tabs ||= nil
   more_info ||= nil
   throw 'ui: invalid data' unless overview && header
 
@@ -10,7 +11,8 @@
 
 .app-body-ui-container
   = header
-  
+  = tabs
+
   -# complete box (under the title):
   .ui-container.tab-content.bordered.rounded-right.rounded-bottom.mbh
 

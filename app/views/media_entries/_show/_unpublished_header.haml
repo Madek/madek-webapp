@@ -4,13 +4,16 @@
     .title-l
       = "TODO: Set Selection"
 
+    .separator.mvm
+
     .title-l
       = "TODO: Permissions Summary"
 
-    .ui-separator.mbl
+    .separator.mvm
 
     .ui-actions
+
       = component('button.primary',
-                link: publish_media_entry_path,
-                method: :post,
-                text: 'Publish!')
+        link: publish_media_entry_path,
+        method: :post,
+        text: 'Publish!')

@@ -1,29 +1,24 @@
-:ruby
-  tag_mods = ['small','ellipsed']
-
-  entry_show = {}
-
-  action_menu = [] # TODO: edit actions etc
-
 - unless @get.published?
   - content_for(:app_alerts) do
     = component('alert', level: 'warning', text: 'Entry is not published yet!')
-  = render('unpublished_header')
+  = render('media_entries/_show/unpublished_header')
 
 :ruby
-  entry_show[:header] = \
-    component('page-header',
-      icon: component('icon.media-entry'),
-      text: @get.title,
-      actions: action_menu
-    )
+  tag_mods = ['small','ellipsed']
+
+  entry_show = {
+    header: render('media_entries/_show/resource_header'),
+    tabs: render('media_entries/_show/tab_nav')
+  }
 
   entry_show[:overview] = deco('resource_show_overview',
     mods: 'ui-media-overview',
-    # TODO: element?
+
     preview_large: component('picture', mods: ['media-set'],
                 text: @get.title,
                 href: @get.image_url),
+    # TODO: core_vocab_deco
+    # = deco('vocabulary_meta_data_table', data: meta_data.by_vocabulary[summary_vocab])
     content: combo('metadata-box',
                 mods: 'ui-summary-table.ui-set-summary.compact',
                 # TODO: build this list in a presenter?
@@ -44,46 +39,5 @@
     -# Demo: Render all the available Vocabularies as rows
     - if (@get.meta_data.vocabularies_with_meta_data).any?
       = deco('meta_data_by_vocabulary', meta_data: @get.meta_data)
-
-    .ui-separator.mbl
-
-    %h3.title-l.separated.mbm
-      = "Relations"
-    - unless @get.relations.any?
-      = "No relations found."
-    - else
-      %h4.title-m.mbm= "Parents"
-      = deco('polybox', media_resources: @get.relations.parent_media_resources)
-      %h4.title-m.mbm= "Siblings"
-      = deco('polybox', media_resources: @get.relations.sibling_media_resources)
-
-    .ui-separator.mbl
-
-    %h3.title-l.separated.mbm
-      = "More Data"
-    :ruby
-      more_meta_data_list = [
-        ['responsible', deco('person-tag-list',
-                          person: @get.more_data.responsible,
-                          mods: tag_mods)],
-        ['importer', deco('person-tag-list',
-                      person: @get.more_data.importer,
-                      mods: tag_mods)],
-        ['import_date', @get.more_data.import_date],
-        ['activity_log',
-         combo('ordered-list', mods: 'inline',
-                list: Hash[@get.more_data.activity_log].map do |time, person|
-                  "#{person.name} / #{time}"
-                end)]
-      ]
-    = combo('metadata-box', mods: 'ui-summary-table', list: more_meta_data_list)
-
-    .ui-separator.mbl
-
-    %h3.title-l.separated.mbm
-      = "File Information"
-    = combo('metadata-box',
-        mods: 'ui-summary-table', list: @get.more_data.file_information)
-
 
 = deco('resource_show', entry_show)

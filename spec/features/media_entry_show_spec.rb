@@ -8,34 +8,26 @@ feature 'MediaEntry#show' do
     sign_in_as @user.login
   end
 
-  # TODO: MediaEntry#show integration test
+  # TODO: factories???
   the_entry = '/entries/e157bedd-c2ba-41d8-8ece-82d73066a11e'
 
   it 'is rendered' do
     visit the_entry
-    #  - title
-    expect(page).to have_content 'Title Ausstellung Photo 1'
-    # - relations
-    #     - parents
-    expect(page).to have_content 'Ausstellungen'
-    #     - siblings
-    expect(page).to have_content 'Ausstellung Gallerie Limatquai '
-    # - More Data
-    expect(page).to have_content 'import_date 20.04.2012'
-    # - File Information
-    expect(page).to have_content 'Filename berlin_wall_01.jpg'
   end
 
   it 'shows correct data' do
     visit the_entry
     #  - title
     expect(page).to have_content 'Title Ausstellung Photo 1'
-    # - relations
-    #     - parents
+
+    click_on_tab 'Relations'
+    # - parents
     expect(page).to have_content 'Ausstellungen'
-    #     - siblings
+    # - siblings
     expect(page).to have_content 'Ausstellung Gallerie Limatquai '
-    # - More Data
+
+    click_on_tab 'More Data'
+    # - Activity Log
     expect(page).to have_content 'import_date 20.04.2012'
     # - File Information
     expect(page).to have_content 'Filename berlin_wall_01.jpg'

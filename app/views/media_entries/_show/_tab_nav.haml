@@ -1,0 +1,14 @@
+:ruby
+  tabs = [ # main tab:
+    ['Entry', media_entry_path(params[:id])]
+  ]
+  # add other tabs:
+  tabs = tabs.concat(@tabs.map do |id, name|
+    [name, show_tab_media_entry_path(params[:id], tab: id)]
+  end).to_h
+
+%ul.ui-tabs.large
+  - tabs.each do |text, link|
+    %li.ui-tabs-item{class: link_active?(link, true) ? 'active' : 'nil'}
+      %a{href: link}
+        = text
