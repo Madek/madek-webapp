@@ -60,6 +60,11 @@ module Presenters
         )
       end
 
+      def used_keywords
+        @app_resource.used_keywords.map \
+          { |k| Presenters::Keywords::KeywordIndex.new(k) }
+      end
+
       private
 
       def wrap_in_presenters_pojo(resources)

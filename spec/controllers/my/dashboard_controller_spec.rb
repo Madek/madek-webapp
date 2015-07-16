@@ -77,7 +77,7 @@ describe My::DashboardController do
     expect(get.is_a?(Presenter)).to be true
     expect(get.api.sort)
       .to eq [:content, :latest_imports, :favorites,
-              :entrusted_content, :groups, :uuid].sort
+              :entrusted_content, :groups, :used_keywords, :uuid].sort
 
     # "Meine Inhalte"
     my_content = get.content
