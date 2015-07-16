@@ -1,8 +1,11 @@
-# global requires. needed for bootstrap, easier for plugins.
+# global jquery. needed for plugins.
 window.jQuery = window.$ = require('jquery')
+
+# jquery plugins:
+require('jquery-ujs')
 require('bootstrap')
-# `$#typeahead` (provides autocompletion)
-require('@eins78/typeahead.js/dist/typeahead.jquery.js')
+require('@eins78/typeahead.js/dist/typeahead.jquery.js') # (autocompletion)
+# NOTE: ^ this is temporary to land an important but not yet merged bug fix
 
 # local requires
 each = require('lodash/collection/each')
