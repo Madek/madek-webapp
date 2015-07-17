@@ -54,7 +54,7 @@ module Presenters
         end.to_h
 
         Pojo.new(
-          empty?: !(groups[:internal].any? and groups[:external].any?),
+          empty?: !(groups[:internal].any? or groups[:external].any?),
           internal: groups[:internal],
           external: groups[:external]
         )
