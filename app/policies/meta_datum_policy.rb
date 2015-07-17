@@ -9,6 +9,10 @@ class MetaDatumPolicy < ApplicationPolicy
     end
   end
 
+  def new? # just the generic form, `create?` is the important check!
+    logged_in?
+  end
+
   def mutate?
     logged_in? \
       and media_resource.editable_by_user?(user) \
