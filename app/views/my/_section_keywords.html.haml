@@ -5,4 +5,8 @@
 
 .ui-container.pbl
   = combo('resources-header', title: 'My used Keywords')
-  = combo('tag-cloud.label', mods: 'compact', list: keywords)
+
+  - if keywords.empty?
+    = "(No Keywords.)"
+  - else
+    = combo('tag-cloud.label', mods: 'compact', list: keywords)

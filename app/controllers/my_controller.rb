@@ -55,7 +55,14 @@ class MyController < ApplicationController
 
   before_action do
     authorize :dashboard, :logged_in?
-    # just for the sidebar nav, also needed in controllers that inherit from us:
+    # needed for the sidebar nav, also in controllers that inherit from us:
+    init_for_view
+  end
+
+  private
+
+  def init_for_view
+    # TODO: limit one (needed only for the sidebar nav)
     @get = \
       Presenters::Users::UserDashboard.new \
         current_user,
@@ -65,18 +72,20 @@ class MyController < ApplicationController
     @sections = prepare_sections_with_presenter(@get)
   end
 
-  private
-
   # we need this everywhere to build the sidebar
   def prepare_sections_with_presenter(presenter)
-    sections = Hash[SECTIONS.map do |id, section|
+    Hash[SECTIONS.map do |id, section|
       [id, prepare_section(id, SECTIONS, presenter)]
     end]
-    # we currently skip "emtpy" sections everywhere (dashboard and sidebar nav)
-    # move this to partials if needed:
-    sections.reject do |i, s| # ignore section if its an empty object or presenter
-      true if s[:resources].try(:empty?)
-    end
+
+    # put empty sections last, and set 'is_empty' key true
+    sections = SECTIONS.map do |id, section|
+      [id, prepare_section(id, SECTIONS, presenter)]
+    end.group_by { |sec| (sec[1][:resources].try(:empty?) ? true : false) }
+
+    sections[false].concat(sections[true].map do |s|
+      [s[0], s[1].merge(is_empty?: true)]
+    end).to_h
   end
 
   def prepare_section(id, sections, presenter)
