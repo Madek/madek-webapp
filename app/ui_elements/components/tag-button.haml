@@ -1,11 +1,13 @@
 :ruby
-  return nil unless button # TODO: remove/fail, use list.compact in callers
+  # return nil unless button # TODO: remove/fail, use list.compact in callers
+
+  text ||= nil
+  title ||= nil
+  count ||= nil
 
   button =
-    case # Allow String or Hash with String
-    when button.is_a?(String)                 then { text: button }
-    when button.try(:[], :text).is_a?(String) then button
-    else throw 'ui: invalid data!'
+    unless text.is_a?(String) || block_content.present?
+      throw 'ui: invalid data!'
     end
 
   icon_type =
@@ -25,12 +27,12 @@
 
   props = {
     class: ['ui-tag-button'].push(classes),
-    title: button[:title]
+    title: title
   }
 
-  if button[:href].present?
+  if link
     html_tag_type = 'a'
-    props[:href] = button[:href]
+    props = props.merge(link)
   else
     props[:class].push('disabled')
   end
@@ -39,9 +41,9 @@
   - if icon_type
     = component("icon.#{icon_type}#{icon_size}", 'ui-tag-icon')
 
-  = button[:text]
-  = button[:block_content]
+  = text
+  = block_content
 
-  - if button[:count].present?
+  - if count.present?
     %span.ui-tag-counter
-      = button[:count]
+      = count

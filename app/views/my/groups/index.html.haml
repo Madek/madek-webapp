@@ -25,8 +25,7 @@
     }.map do |id, group|
       group[:list] = group[:list].map do |group|
         [group.uuid, {
-          name: component('tag-button.group',
-              button: { text: group.name, href: group.url }
+          name: component('tag-button.group', text: group.name, href: group.url
           ),
           resources: {
             count: group.entrusted_media_resources_count,

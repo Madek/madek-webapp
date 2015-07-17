@@ -6,9 +6,10 @@
 -
 - tags_from_list = capture_haml do
   - list.each do |item|
+    - item = if item.is_a?(String) then { text: item } else item end
     - mods = classes.map {|c| c.gsub(/tag-cloud-/, 'tag-button-') }
     %li.ui-tag-cloud-item
-      = component('tag-button', button: item, mods: mods)
+      = component('tag-button', item.merge(mods: mods))
 
 %ul.ui-tag-cloud{class: classes}
   = tags_from_list
