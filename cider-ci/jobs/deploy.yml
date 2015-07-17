@@ -12,12 +12,8 @@ jobs:
       job: code-checks
       states: [passed]
 
-    run-on:
-    - type: branch
-      include-match: ^madek-v3$
-
     context:
-      _cider-ci_include: .cider-ci/shared/deploy-context.yml
+      _cider-ci_include: cider-ci/shared/deploy-context.yml
       tasks:
         deploy:
           name: Deploy
@@ -37,7 +33,7 @@ jobs:
       states: [passed]
 
     context:
-      _cider-ci_include: .cider-ci/shared/deploy-context.yml
+      _cider-ci_include: cider-ci/shared/deploy-context.yml
       tasks:
         deploy:
           name: Deploy

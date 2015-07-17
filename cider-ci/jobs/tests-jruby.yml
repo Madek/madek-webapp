@@ -1,13 +1,11 @@
 jobs:
 
-  tests-mri:
+  tests-jruby:
 
-    name: Tests MRI-2.1
+    name: Tests JRuby-9000
 
-    description: |
-      Run all specs under MRI 2.1.
-
-    priority: 1
+    description: >
+      Run all specs under JRuby 9000.
 
     run-on:
     - type: branch
@@ -15,7 +13,7 @@ jobs:
 
     context:
       _cider-ci_include:
-        - .cider-ci/shared/tests-context.yml
+        - cider-ci/shared/tests-context.yml
 
       task-defaults:
         environment-variables:
@@ -24,6 +22,4 @@ jobs:
         scripts:
           test:
             environment-variables:
-              RBENV_VERSION: 2.1
-
-
+              RBENV_VERSION: jruby-9000
