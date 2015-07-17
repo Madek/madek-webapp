@@ -1,0 +1,8 @@
+:ruby
+  keywords = get.used_keywords.map do |keyword|
+    { text: keyword.term, link: keyword.url }
+  end
+
+.ui-container.pbl
+  = combo('resources-header', title: 'My used Keywords')
+  = combo('tag-cloud.label', mods: 'compact', list: keywords)

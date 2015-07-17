@@ -5,11 +5,11 @@
     external: "Abteilungsgruppen"
   }.map do |type, label|
     groups = get.groups.send(type).map {|get| { text: get.name, href: get.url } }
-    # skip empties:
-    [type, { label: label, list: groups }] if groups.present?
+    [type, { label: label, list: groups }]
   end.to_h
 
 .ui-container.pbl
   - group_types.each do |type, groups|
+    - next unless groups[:list].present?  # skip empties
     = combo('form-group', mods: 'columned phn', label: { text: groups[:label] }) do
       = combo('tag-cloud.group', mods: 'compact', list: groups[:list])

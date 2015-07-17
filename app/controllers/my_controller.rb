@@ -21,6 +21,11 @@ class MyController < ApplicationController
       icon: 'icon-privacy-private',
       partial: :media_resources
     },
+    used_keywords: {
+      title: 'My keywords',
+      icon: 'icon-tag',
+      partial: :keywords
+    },
     entrusted_content: {
       title: 'My entrusted content',
       icon: 'icon-privacy-group',
@@ -74,7 +79,7 @@ class MyController < ApplicationController
     section[:id] = id
     section[:resources] = \
       case section[:partial]
-      when :media_resources, :groups
+      when :media_resources, :groups, :keywords
         presenter.send(id)
       end
     section
