@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe My::DashboardController do
 
-  before :example do
+  before :context do
     @user = FactoryGirl.create :user
     @limit_for_dashboard = 6
     @limit_for_app_resources = 12
@@ -68,70 +68,82 @@ describe My::DashboardController do
       .each { |fs| fs.favor_by @user }
   end
 
-  it 'dashboard' do
+  before :example do
     get :dashboard, { page: 1 }, user_id: @user.id
+    @get = assigns(:get)
+  end
+
+  it 'renders correctly' do
     assert_template :dashboard
     assert_response :success
+  end
 
-    get = assigns(:get)
-    expect(get.is_a?(Presenter)).to be true
-    expect(get.api.sort)
+  it 'has correct presenter' do
+    expect(@get.is_a?(Presenter)).to be true
+    expect(@get.api.sort)
       .to eq [:content, :latest_imports, :favorites,
               :entrusted_content, :groups, :used_keywords, :uuid].sort
+  end
 
-    # "Meine Inhalte"
-    my_content = get.content
-    expect(my_content.media_entries.resources.length)
-      .to be == @limit_for_dashboard
-    expect(my_content.media_entries.resources.first.is_a?(Presenter)).to be true
-    expect(presented_entity my_content.media_entries.resources.first)
-      .to eq @user.media_entries.reorder('created_at DESC').first
+  describe 'sections' do
 
-    expect(my_content.collections.resources.length)
-      .to be == @limit_for_dashboard
-    expect(my_content.collections.resources.first.is_a?(Presenter)).to be true
-    expect(presented_entity my_content.collections.resources.first)
-      .to eq @user.collections.reorder('created_at DESC').first
+    it 'Meine Inhalte' do
+      my_content = @get.content
+      expect(my_content.media_entries.resources.length)
+        .to be == @limit_for_dashboard
+      expect(my_content.media_entries.resources.first.is_a?(Presenter)).to be true
+      expect(presented_entity my_content.media_entries.resources.first)
+        .to eq @user.media_entries.reorder('created_at DESC').first
 
-    expect(my_content.filter_sets.resources.length)
-      .to be == @limit_for_dashboard
-    expect(my_content.filter_sets.resources.first.is_a?(Presenter)).to be true
-    expect(presented_entity my_content.filter_sets.resources.first)
-      .to eq @user.filter_sets.reorder('created_at DESC').first
+      expect(my_content.collections.resources.length)
+        .to be == @limit_for_dashboard
+      expect(my_content.collections.resources.first.is_a?(Presenter)).to be true
+      expect(presented_entity my_content.collections.resources.first)
+        .to eq @user.collections.reorder('created_at DESC').first
 
-    # "Meine letzten Importe"
-    imports = get.latest_imports.media_entries
-    expect(imports.resources.length)
-      .to be == @limit_for_dashboard
-    expect(imports.resources.first.is_a?(Presenter)).to be true
-    expect(presented_entity imports.resources.first)
-      .to eq @user.created_media_entries.reorder('created_at DESC').first
+      expect(my_content.filter_sets.resources.length)
+        .to be == @limit_for_dashboard
+      expect(my_content.filter_sets.resources.first.is_a?(Presenter)).to be true
+      expect(presented_entity my_content.filter_sets.resources.first)
+        .to eq @user.filter_sets.reorder('created_at DESC').first
+    end
 
-    # "Mir anvertraute Inhalte"
-    entrusted = get.entrusted_content
-    expect(entrusted.media_entries.resources.length)
-      .to be == @limit_for_dashboard
-    expect(entrusted.media_entries.resources.first.is_a?(Presenter)).to be true
-    expect(presented_entity entrusted.media_entries.resources.first)
-      .to eq MediaEntry.entrusted_to_user(@user).reorder('created_at DESC').first
+    it 'Meine letzten Importe' do
+      imports = @get.latest_imports.media_entries
+      expect(imports.resources.length)
+        .to be == @limit_for_dashboard
+      expect(imports.resources.first.is_a?(Presenter)).to be true
+      expect(presented_entity imports.resources.first)
+        .to eq @user.created_media_entries.reorder('created_at DESC').first
+    end
 
-    expect(entrusted.collections.resources.length)
-      .to be == @limit_for_dashboard
-    expect(entrusted.collections.resources.first.is_a?(Presenter)).to be true
-    expect(presented_entity entrusted.collections.resources.first)
-      .to eq Collection.entrusted_to_user(@user).reorder('created_at DESC').first
+    it 'Mir anvertraute Inhalte' do
+      entrusted = @get.entrusted_content
+      expect(entrusted.media_entries.resources.length)
+        .to be == @limit_for_dashboard
+      expect(entrusted.media_entries.resources.first.is_a?(Presenter)).to be true
+      expect(presented_entity entrusted.media_entries.resources.first)
+        .to eq MediaEntry.entrusted_to_user(@user).reorder('created_at DESC').first
 
-    expect(entrusted.filter_sets.resources.length)
-      .to be == @limit_for_dashboard
-    expect(entrusted.filter_sets.resources.first.is_a?(Presenter)).to be true
-    expect(presented_entity entrusted.filter_sets.resources.first)
-      .to eq FilterSet.entrusted_to_user(@user).reorder('created_at DESC').first
+      expect(entrusted.collections.resources.length)
+        .to be == @limit_for_dashboard
+      expect(entrusted.collections.resources.first.is_a?(Presenter)).to be true
+      expect(presented_entity entrusted.collections.resources.first)
+        .to eq Collection.entrusted_to_user(@user).reorder('created_at DESC').first
 
-    # "Meine Gruppen"
-    groups = get.groups
-    expect((groups[:internal] + groups[:external])
-            .count)
-            .to be == @limit_for_dashboard
+      expect(entrusted.filter_sets.resources.length)
+        .to be == @limit_for_dashboard
+      expect(entrusted.filter_sets.resources.first.is_a?(Presenter)).to be true
+      expect(presented_entity entrusted.filter_sets.resources.first)
+        .to eq FilterSet.entrusted_to_user(@user).reorder('created_at DESC').first
+    end
+
+    it 'Meine Gruppen' do
+      groups = @get.groups
+      expect((groups[:internal] + groups[:external])
+              .count)
+              .to be == @limit_for_dashboard
+    end
   end
 
 end
