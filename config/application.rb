@@ -3,13 +3,18 @@ require File.expand_path('../boot', __FILE__)
 $:.push File.expand_path('../../engines/datalayer/lib', __FILE__)
 
 # Dependencies:
-require 'rails/all'
-# Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env)
+begin
+  require 'rails/all'
+  # Require the gems listed in Gemfile, including any gems
+  # you've limited to :test, :development, or :production.
+  Bundler.require(:default, Rails.env)
 
-# Check npm (javascript) dependencies (behaves like `bundler`)
-exit(1) unless system('./bin/check_npm_deps')
+  # Check npm (javascript) dependencies (behaves like `bundler`)
+  raise unless system('./bin/check_npm_deps')
+rescue => e
+  puts 'missing dependencies! Invoke ./dev/bundle to install them!'
+  exit(1)
+end
 
 module Madek
   class Application < Rails::Application
