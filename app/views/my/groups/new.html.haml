@@ -1,0 +1,9 @@
+- content_for(:page_content) do
+  = form_for :group, url: my_groups_path do |g_form|
+
+    = g_form.label :name, class: 'title-s'
+    = g_form.text_field :name
+
+    %hr.separator.mini.mvs
+
+    = g_form.submit :submit

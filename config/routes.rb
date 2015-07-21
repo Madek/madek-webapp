@@ -34,7 +34,7 @@ Madek::Application.routes.draw do
   namespace :my do
     root to: 'dashboard#dashboard', as: 'dashboard'
     # scope some resources here. order is important, they override 'plain' sections
-    resources :groups, only: [:index, :show]
+    resources :groups
     # non-resourceful sections are just plain views:
     get ':section', to: 'dashboard#dashboard_section', as: 'dashboard_section'
   end
