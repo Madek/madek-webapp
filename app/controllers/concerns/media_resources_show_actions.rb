@@ -15,10 +15,18 @@ module Concerns
       private
 
       def authorize_and_respond_with_respective_presenter
+        @get = get_authorized_presenter
+        respond_with @get
+      end
+
+      def get_authorized_presenter
+        determine_presenter.new(get_authorized_resource, current_user)
+      end
+
+      def get_authorized_resource
         resource = model_klass.find(params[:id])
         authorize resource
-        @get = determine_presenter.new(resource, current_user)
-        respond_with @get
+        resource
       end
 
       def determine_presenter
