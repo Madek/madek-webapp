@@ -3,13 +3,14 @@ module Modules
     extend ActiveSupport::Concern
     include Concerns::MetaData
 
-    def extract_and_store_metadata!(media_file)
+    def extract_and_store_metadata!(media_entry)
       # this includes 'real' meta data as well as 'meta_data' for the media file
       # and media file attributes like width and height.
+
+      media_file = media_entry.media_file
       extractor = MetadataExtractor.new(media_file.store_location)
       extract_and_store_metadata_for_media_file!(extractor, media_file)
-      extract_and_store_metadata_for_media_entry!(extractor,
-                                                  media_file.media_entry)
+      extract_and_store_metadata_for_media_entry!(extractor, media_entry)
     end
 
     def extract_and_store_metadata_for_media_file!(extractor, media_file)

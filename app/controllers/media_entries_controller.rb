@@ -28,7 +28,7 @@ class MediaEntriesController < ApplicationController
     ActiveRecord::Base.transaction do
       media_entry.save!
       store_file_and_create_previews!(file, media_entry.media_file)
-      extract_and_store_metadata!(media_entry.media_file)
+      extract_and_store_metadata!(media_entry)
     end
 
     respond_with media_entry
