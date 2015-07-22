@@ -1,5 +1,5 @@
 :ruby
-  fail 'ui: no content!' unless list.present?
+  fail 'ui: no content!' unless (list.present? or block_content.present?)
 
   list = list.map do |alert|
     case

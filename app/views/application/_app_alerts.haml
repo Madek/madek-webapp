@@ -9,7 +9,7 @@
   end
 
 
-- if alerts.present?
+- if alerts.present? or content_for?(:app_alerts)
   = combo('alerts', props: { id: 'app-alerts' }, list: alerts) do
     -# alerts from child views:
     = content_for(:app_alerts)

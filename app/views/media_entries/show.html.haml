@@ -6,7 +6,8 @@
   action_menu = [] # TODO: edit actions etc
 
 - unless @get.published?
-  - flash[:warning] = 'Entry is not published yet!'
+  - content_for(:app_alerts) do
+    = component('alert', level: 'warning', text: 'Entry is not published yet!')
   = render('unpublished_header')
 
 :ruby
