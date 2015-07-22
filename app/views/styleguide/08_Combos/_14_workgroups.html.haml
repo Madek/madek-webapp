@@ -12,7 +12,10 @@
             count: 2,
             link: '###media_resources?permissions%5Bgroup%5D%5Bids%5D%5B%5D=4'
           },
-          actions: [:delete, :edit]
+          actions: [
+            component('button', link: '#del') { component('icon.trash', 'dark') },
+            component('button', link: '#upd') { component('icon.pen', 'dark') }
+          ]
         },
         '3' => {
           name: 'ZHdK',
@@ -20,11 +23,15 @@
             count: 3,
             link: '###media_resources?permissions%5Bgroup%5D%5Bids%5D%5B%5D=3'
           },
-          actions: [:delete, :edit]
+          actions: [
+            component('button', link: '#del') { component('icon.trash', 'dark') },
+            component('button', link: '#upd') { component('icon.pen', 'dark') }
+          ]
         }
       }
     }
   }
+
 
 = render_partial('element', element) do
   = render_partial('example') do
