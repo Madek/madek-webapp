@@ -1,5 +1,6 @@
 :ruby
   text ||= nil
+  icon ||= nil
   type ||= nil
   method ||= nil
   html_tag = link ? 'a' : 'button'
@@ -33,5 +34,7 @@
 
 
 = build_node_by_type(html_tag, properties) do
+  - if icon.present?
+    = component("icon.#{icon.to_s}")
   = text
   = block_content if defined?(block_content)
