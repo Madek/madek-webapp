@@ -475,6 +475,3 @@ DEPENDENCIES
   uuidtools
   zencoder (~> 2.4)
   zencoder-fetcher
-
-BUNDLED WITH
-   1.10.5

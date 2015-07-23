@@ -28,77 +28,65 @@ describe MetaDataController do
     it 'MetaDatum::People' do
       meta_key = FactoryGirl.create(:meta_key_people)
       create_vocabulary_permissions(meta_key.vocabulary)
-      original_ids = Person.all.sample(2).map(&:id)
-      meta_datum = \
-        MetaDatum::People.create!(media_entry_id: @media_entry.id,
-                                  meta_key_id: meta_key.id,
-                                  value: original_ids)
+      meta_datum = create(:meta_datum_people,
+                          meta_key: meta_key,
+                          media_entry: @media_entry)
       delete_and_assert_success(meta_datum)
     end
 
     it 'MetaDatum::Users' do
       meta_key = FactoryGirl.create(:meta_key_users)
       create_vocabulary_permissions(meta_key.vocabulary)
-      original_ids = User.all.sample(2).map(&:id)
-      meta_datum = \
-        MetaDatum::Users.create!(media_entry_id: @media_entry.id,
-                                 meta_key_id: meta_key.id,
-                                 value: original_ids)
+      meta_datum = create(:meta_datum_users,
+                          meta_key: meta_key,
+                          media_entry: @media_entry)
       delete_and_assert_success(meta_datum)
     end
 
     it 'MetaDatum::Groups' do
       meta_key = FactoryGirl.create(:meta_key_groups)
       create_vocabulary_permissions(meta_key.vocabulary)
-      original_ids = Group.all.sample(2).map(&:id)
-      meta_datum = \
-        MetaDatum::Groups.create!(media_entry_id: @media_entry.id,
-                                  meta_key_id: meta_key.id,
-                                  value: original_ids)
+      meta_datum = create(:meta_datum_groups,
+                          meta_key: meta_key,
+                          media_entry: @media_entry)
       delete_and_assert_success(meta_datum)
     end
 
     it 'MetaDatum::Licenses' do
       meta_key = FactoryGirl.create(:meta_key_licenses)
       create_vocabulary_permissions(meta_key.vocabulary)
-      original_ids = License.all.sample(2).map(&:id)
-      meta_datum = \
-        MetaDatum::Licenses.create!(media_entry_id: @media_entry.id,
-                                    meta_key_id: meta_key.id,
-                                    value: original_ids)
+      meta_datum = create(:meta_datum_licenses,
+                          meta_key: meta_key,
+                          media_entry: @media_entry)
       delete_and_assert_success(meta_datum)
     end
 
     it 'MetaDatum::Keywords' do
       meta_key = FactoryGirl.create(:meta_key_keywords)
       create_vocabulary_permissions(meta_key.vocabulary)
-      original_ids = Keyword.all.sample(2).map(&:id)
-      meta_datum = \
-        MetaDatum::Keywords.create!(media_entry_id: @media_entry.id,
-                                    meta_key_id: meta_key.id,
-                                    value: original_ids)
+      meta_datum = create(:meta_datum_keywords,
+                          meta_key: meta_key,
+                          media_entry: @media_entry)
       delete_and_assert_success(meta_datum)
     end
 
     it 'MetaDatum::Text' do
       meta_key = FactoryGirl.create(:meta_key_text)
       create_vocabulary_permissions(meta_key.vocabulary)
-      original_text = Faker::Lorem.word
-      meta_datum = \
-        MetaDatum::Text.create!(media_entry_id: @media_entry.id,
-                                meta_key_id: meta_key.id,
-                                value: original_text)
+      meta_datum = create(:meta_datum_text,
+                          meta_key: meta_key,
+                          string: Faker::Lorem.word,
+                          media_entry: @media_entry)
       delete_and_assert_success(meta_datum)
     end
 
     it 'MetaDatum::TextDate' do
       meta_key = FactoryGirl.create(:meta_key_text_date)
       create_vocabulary_permissions(meta_key.vocabulary)
-      original_text_date = Faker::Lorem.word
-      meta_datum = \
-        MetaDatum::TextDate.create!(media_entry_id: @media_entry.id,
-                                    meta_key_id: meta_key.id,
-                                    value: original_text_date)
+      meta_datum = create(:meta_datum_text,
+                          meta_key: meta_key,
+                          string: Date.today.to_s,
+                          media_entry: @media_entry)
       delete_and_assert_success(meta_datum)
     end
   end

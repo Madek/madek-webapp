@@ -13,7 +13,7 @@ class MetaDataController < ApplicationController
 
   def create
     meta_datum_klass = constantize_type_param(type_param)
-    meta_datum = meta_datum_klass.create!(create_params)
+    meta_datum = meta_datum_klass.create_with_user!(current_user, create_params)
     authorize meta_datum
     @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
     render :show, status: :created
@@ -28,7 +28,7 @@ class MetaDataController < ApplicationController
   def update
     meta_datum = MetaDatum.find(id_param)
     authorize meta_datum
-    meta_datum.update!(update_params)
+    meta_datum.set_value!(value_param, current_user)
     @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
     render :show, status: :ok
   end
@@ -65,16 +65,13 @@ class MetaDataController < ApplicationController
     params[:filter_set_id]
   end
 
-  def update_params
-    { value: value_param }
-  end
-
   def create_params
     { media_entry_id: media_entry_id_param,
       collection_id: collection_id_param,
       filter_set_id: filter_set_id_param,
       meta_key_id: meta_key_id_param,
       type: type_param,
-      value: raise_if_all_blanks_or_return_unchanged(value_param) }
+      value: raise_if_all_blanks_or_return_unchanged(value_param),
+      created_by: current_user }
   end
 end

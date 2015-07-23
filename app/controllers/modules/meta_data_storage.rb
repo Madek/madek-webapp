@@ -35,6 +35,7 @@ module Modules
         MetaKey.find(meta_key_id).meta_datum_object_type.constantize
       meta_datum_klass.create!(media_entry_id: media_entry.id,
                                meta_key_id: meta_key_id,
+                               created_by: current_user,
                                value: value)
     end
   end

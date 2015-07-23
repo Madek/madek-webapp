@@ -165,9 +165,9 @@ describe MetaDataController do
       meta_key = FactoryGirl.create(:meta_key_keywords)
       create_vocabulary_permissions(meta_key.vocabulary)
       meta_datum = FactoryGirl.create(:meta_datum_keywords,
+                                      created_by: @user,
                                       meta_key: meta_key,
                                       media_entry: @media_entry)
-      meta_datum.keywords << FactoryGirl.create(:keyword)
       ids = meta_datum.keywords.map(&:id)
 
       expect do

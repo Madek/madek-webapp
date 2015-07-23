@@ -22,11 +22,9 @@ describe MetaDataController do
     it 'example of one meta datum type' do
       meta_key = FactoryGirl.create(:meta_key_people)
       create_vocabulary_permissions(meta_key.vocabulary)
-      original_ids = Person.all.sample(2).map(&:id)
-      meta_datum = \
-        MetaDatum::People.create!(media_entry_id: @media_entry.id,
-                                  meta_key_id: meta_key.id,
-                                  value: original_ids)
+      meta_datum = create(:meta_datum_people,
+                          meta_key: meta_key,
+                          media_entry: @media_entry)
 
       new_ids = Person.all.sample(2).map(&:id)
       patch :update,
@@ -45,11 +43,9 @@ describe MetaDataController do
       it 'empty value array' do
         meta_key = FactoryGirl.create(:meta_key_people)
         create_vocabulary_permissions(meta_key.vocabulary)
-        original_ids = Person.all.sample(2).map(&:id)
-        meta_datum = \
-          MetaDatum::People.create!(media_entry_id: @media_entry.id,
-                                    meta_key_id: meta_key.id,
-                                    value: original_ids)
+        meta_datum = create(:meta_datum_people,
+                            meta_key: meta_key,
+                            media_entry: @media_entry)
         post :update,
              { id: meta_datum.id,
                media_entry_id: @media_entry.id,
@@ -65,11 +61,9 @@ describe MetaDataController do
       it 'value array with empty values' do
         meta_key = FactoryGirl.create(:meta_key_people)
         create_vocabulary_permissions(meta_key.vocabulary)
-        original_ids = Person.all.sample(2).map(&:id)
-        meta_datum = \
-          MetaDatum::People.create!(media_entry_id: @media_entry.id,
-                                    meta_key_id: meta_key.id,
-                                    value: original_ids)
+        meta_datum = create(:meta_datum_people,
+                            meta_key: meta_key,
+                            media_entry: @media_entry)
         post :update,
              { id: meta_datum.id,
                media_entry_id: @media_entry.id,
