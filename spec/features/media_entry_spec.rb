@@ -2,13 +2,13 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
-feature 'MediaEntry#create' do
+feature 'MediaEntry' do
   background do
     @user = User.find_by(login: 'normin')
     sign_in_as @user.login
   end
 
-  scenario 'upload and publish' do
+  scenario '#create: upload and publish' do
     # go to dashboard and import button
     visit my_dashboard_path
     within('.ui-body-title-actions') do
@@ -37,6 +37,25 @@ feature 'MediaEntry#create' do
     # it was published
     alert = find('#app-alerts .success')
     expect(alert).to have_content 'Entry was published!'
+
+  end
+
+  scenario '#delete', browser: :firefox do
+    visit media_entry_path \
+      create :media_entry_with_image_media_file,
+             creator: @user, responsible_user: @user
+
+    # visit media_entry_path(media_entry)
+
+    # main actions has a delete button with a confirmation:
+    within '.ui-body-title-actions' do
+      confirmation = find('.icon-trash').click
+      expect(confirmation).to eq 'Are you sure you want to delete this?'
+      accept_confirm
+    end
+
+    # redirects to user dashboard:
+    expect(current_path).to eq my_dashboard_path
 
   end
 

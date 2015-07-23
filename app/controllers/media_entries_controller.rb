@@ -66,6 +66,22 @@ class MediaEntriesController < ApplicationController
                 flash: { success: 'Entry was published!' }
   end
 
+  def destroy
+    media_entry = MediaEntry.find(params[:id])
+    authorize media_entry
+    begin
+      ActiveRecord::Base.transaction do
+        # TODO: remove this when cascade delete works:
+        media_entry.meta_data.each &:destroy!
+        media_entry.destroy!
+      end
+    rescue Exception => e
+      redirect_to my_dashboard_path, flash: { error: 'Error deleting! ' + e.to_s }
+    end
+
+    redirect_to my_dashboard_path, flash: { success: 'Deleted!' }
+  end
+
   ###############################################################
 
   private

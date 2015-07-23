@@ -11,8 +11,24 @@ describe MediaEntriesController do
     @user = FactoryGirl.create :user
   end
 
-  it 'create' do
-    upload_file_create_and_media_entry
+  it_performs 'authorization'
+
+  it 'create (by uploading media_file)' do
+    unless MetaKey.where(id: 'madek_core:title').exists?
+      FactoryGirl.create(:meta_key_text, id: 'madek_core:title')
+    end
+    image_path = Rails.root.join('spec', 'data', 'images', 'grumpy_cat.jpg')
+    IoInterface.find_or_create_by(id: 'default')
+    IoMapping.create(io_interface_id: 'default',
+                     meta_key_id: 'madek_core:title',
+                     key_map: 'XMP-dc:Title')
+
+    post_params = {
+      media_entry: { media_file: fixture_file_upload(image_path, 'image/jpg') }
+    }
+
+    post :create, post_params, user_id: @user.id
+
     expect(response.redirect?).to be true
     expect(@user.unpublished_media_entries.count).to be 1
     media_entry = @user.unpublished_media_entries.first
@@ -21,7 +37,7 @@ describe MediaEntriesController do
     media_file = media_entry.media_file
     expect(media_file).to be
     extractor = MetadataExtractor.new(media_file.store_location)
-    expect(media_file.meta_data).to be == extractor.to_hash
+    expect(media_file.meta_data).to eq extractor.to_hash
     expect(media_file.width).to be == extractor.to_hash[:image_width]
     expect(media_file.height).to be == extractor.to_hash[:image_height]
 
@@ -43,8 +59,12 @@ describe MediaEntriesController do
   end
 
   it 'publish' do
-    upload_file_create_and_media_entry
-    media_entry = @user.unpublished_media_entries.first
+    media_entry = \
+      create :media_entry_with_image_media_file,
+             creator: @user, responsible_user: @user, is_published: false
+
+    @user.unpublished_media_entries.first
+    expect(@user.unpublished_media_entries.first.id).to eq media_entry.id
     expect(media_entry.is_published).to be false
 
     post :publish, { id: media_entry.id }, user_id: @user.id
@@ -53,28 +73,20 @@ describe MediaEntriesController do
 
     media_entry.reload
     expect(media_entry.is_published).to be true
+    expect(@user.published_media_entries.first.id).to eq media_entry.id
     expect(@user.published_media_entries.count).to be 1
     expect(@user.unpublished_media_entries.count).to be 0
   end
 
-  it_performs 'authorization'
+  it 'delete' do
+    media_entry = create :media_entry_with_image_media_file,
+                         creator: @user, responsible_user: @user
 
-  private
+    expect { delete :destroy, { id: media_entry.id }, user_id: @user.id }
+      .to change { MediaEntry.count }.by(-1)
 
-  def upload_file_create_and_media_entry
-    unless MetaKey.where(id: 'madek_core:title').exists?
-      FactoryGirl.create(:meta_key_text, id: 'madek_core:title')
-    end
-    image_path = Rails.root.join('spec', 'data', 'images', 'grumpy_cat.jpg')
-    IoInterface.find_or_create_by(id: 'default')
-    IoMapping.create(io_interface_id: 'default',
-                     meta_key_id: 'madek_core:title',
-                     key_map: 'XMP-dc:Title')
+    expect(response).to redirect_to my_dashboard_path
 
-    post_params = {
-      media_entry: { media_file: fixture_file_upload(image_path, 'image/jpg') }
-    }
-
-    post :create, post_params, user_id: @user.id
   end
+
 end

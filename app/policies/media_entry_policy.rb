@@ -4,4 +4,8 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
     super or (!record.is_published and record.creator == user)
   end
 
+  def destroy?
+    record.editable_by_user?(user)
+  end
+
 end

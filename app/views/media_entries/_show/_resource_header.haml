@@ -1,10 +1,12 @@
-:ruby
-  action_menu = [] # TODO: edit actions etc
+- action_buttons = capture_haml do
+  = component('button',
+    link: media_entry_path,
+    method: :delete,
+    props: { data: { confirm: 'Are you sure you want to delete this?' } }) do
+    = component('icon.trash')
 
-  header = {
+
+= component('page-header',
     icon: component('icon.media-entry'),
     text: @get.title,
-    actions: action_menu
-  }
-
-= component('page-header', header)
+    actions: [action_buttons])
