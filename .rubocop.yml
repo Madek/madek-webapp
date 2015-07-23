@@ -5,6 +5,7 @@ AllCops:
     - 'db/**/*'
     - 'engines/**/*'
     - 'tmp/**/*'
+    - 'node_modules/**/*'
   RunRailsCops: true
 
 Lint/AmbiguousOperator:
