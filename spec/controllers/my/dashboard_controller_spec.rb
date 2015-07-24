@@ -142,6 +142,20 @@ describe My::DashboardController do
         .to eq @user.published_media_entries.reorder('created_at DESC').first
     end
 
+    it 'Meine Schlagworte' do
+      # TODO: move to model and/or integration test
+
+      # make a keyword and use it in a meta_datum
+      a_keyword = FactoryGirl.create :keyword, creator: @user
+      create(:meta_datum_keyword, created_by: @user, keyword: a_keyword)
+
+      # load a new presenter
+      @get = Presenters::Users::UserDashboard.new(@user)
+
+      # now it should be a 'used' keyword of myself:
+      expect(@get.used_keywords.map(&:uuid)).to include(a_keyword.id)
+    end
+
     it 'Mir anvertraute Inhalte' do
       entrusted = @get.entrusted_content
       expect(entrusted.media_entries.resources.length)
