@@ -18,7 +18,8 @@ feature 'MediaEntry' do
 
     # select file and submit
     within('.app-body') do
-      image_path = Rails.root.join('spec', 'data', 'images', 'grumpy_cat.jpg')
+      image_path = Madek::Constants::DATALAYER_ROOT_DIR \
+        .join('spec', 'data', 'images', 'grumpy_cat.jpg')
       attach_file('media_entry_media_file', File.absolute_path(image_path))
       submit_form
     end

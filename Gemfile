@@ -27,8 +27,8 @@ gem 'puma'
 
 
 # ZHDK-INTEGRATION
-# gem "madek_zhdk_integration", path: "../zhdk_integration"
-gem 'madek_zhdk_integration', git: 'https://github.com/madek/madek-zhdk-integration.git', :ref => '945e477f50c4bb5b21c3d7f00bff0d9a2fd58e39'
+# gem "madek_zhdk_integration", path: "/Users/thomas/Programming/MADEK/zhdk_integration"
+gem 'madek_zhdk_integration', git: 'https://github.com/madek/madek-zhdk-integration.git', ref: 'bc5dc2ba0220dd4c91eb565a5c74ce6cd79450e7'
 gem 'textacular', git: 'https://github.com/DrTom/textacular.git'
 
 # FRONTEND
