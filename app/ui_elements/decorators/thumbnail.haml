@@ -1,0 +1,8 @@
+-# make thumbnails by type of IndexPresenter
+
+:ruby
+  get ||= nil
+  fail 'No Presenter!' unless get.is_a?(Presenter)
+  type = get.class.name.demodulize.underscore # e.g. 'media_entry_index'
+
+= deco("thumbnails/#{type}", get: get)

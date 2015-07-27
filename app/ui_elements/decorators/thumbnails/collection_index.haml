@@ -1,0 +1,17 @@
+:ruby
+  get ||= nil
+  fail 'No Presenter!' unless get.is_a?(Presenter)
+
+  thumb = {
+    mods: ['media-set'],
+    text: get.title,
+    href: get.url,
+    picture: get.image_url,
+    meta: {
+      title: get.title#,
+      # subtitle: 'TODO'
+    },
+    badge_top_left: component('privacy-icon', status: get.privacy_status)
+  }
+
+= component('thumbnail', thumb)

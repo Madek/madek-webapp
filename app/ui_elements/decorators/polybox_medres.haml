@@ -24,63 +24,9 @@
   view_modes = [:grid, :tiles]
   classes.push :grid unless view_modes.any? {|mode| classes.include? mode }
 
-  # make thumbnails by type of IndexPresenter
+  # make thumbnails
   media_resources = pres.resources.map do |get|
-      case
-      when get.is_a?(Presenters::MediaEntries::MediaEntryIndex)
-        deco('polythumb',
-          title: get.title,
-          thumb: component('thumbnail',
-            mods: ['media-entry'], # TODO : type of entry ('video')
-            text: get.title,
-            picture: get.image_url,
-            href: get.url,
-            # yes this is *inside* the thumb… workaround hacky CSS :/
-            meta: {
-              title: get.title,
-              subtitle: get.authors
-            },
-            badge_top_left: component('privacy-icon', status: get.privacy_status)
-          )
-        )
-
-      when get.is_a?(Presenters::Collections::CollectionIndex)
-        deco('polythumb',
-          title: get.title,
-          thumb: component('thumbnail',
-            mods: ['media-set'],
-            text: get.title,
-            href: get.url,
-            picture: get.image_url,
-            meta: {
-              title: get.title#,
-              # subtitle: 'TODO'
-            },
-            badge_top_left: component('privacy-icon', status: get.privacy_status)
-          )
-        )
-
-      when get.is_a?(Presenters::FilterSets::FilterSetIndex)
-        deco('polythumb',
-          title: get.title,
-          thumb: component('thumbnail',
-            mods: ['filter-set'],
-            text: get.title,
-            href: get.url,
-            picture: get.image_url,
-            meta: {
-              title: get.title#,
-              # subtitle: 'TODO'
-            },
-            badge_top_left: component('privacy-icon', status: get.privacy_status),
-            badge_top_right: component('icon.filter')
-          )
-        )
-
-      else
-        fail('unknown type of MediaResource!')
-      end
-
+    deco('polythumb') { deco('thumbnail', get: get) }
   end
 
   # # - build an appropriate filter_bar

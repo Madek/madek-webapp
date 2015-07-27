@@ -1,8 +1,8 @@
 :ruby
-  return unless thumb
+  fail 'UI: No Content!' unless block_content.present?
 
 -# small thumbnail for any resource that has a picture
 %li.ui-resource
   .ui-resource-body
     .ui-resource-thumbnail
-      = thumb
+      = block_content
