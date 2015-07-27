@@ -30,12 +30,12 @@ module UiHelper
   end
 
   # 4. Decorators:
-  def deco(name, config = {})
+  def deco(name, config = {}, &_block)
     locals = build_locals_from_element(name, config)
+    locals[:block_content] = capture { yield } if block_given?
     name = name_without_mods(name)
-    template_path = "decorators/#{name}"
 
-    render template: template_path, locals: locals
+    render template: "decorators/#{name}", locals: locals
   end
 
   # 5. Layouts: views/layout
