@@ -17,7 +17,8 @@ describe MediaEntriesController do
     unless MetaKey.where(id: 'madek_core:title').exists?
       FactoryGirl.create(:meta_key_text, id: 'madek_core:title')
     end
-    image_path = Rails.root.join('spec', 'data', 'images', 'grumpy_cat.jpg')
+    image_path = Madek::Constants::DATALAYER_ROOT_DIR \
+      .join('spec', 'data', 'images', 'grumpy_cat.jpg')
     IoInterface.find_or_create_by(id: 'default')
     IoMapping.create(io_interface_id: 'default',
                      meta_key_id: 'madek_core:title',
