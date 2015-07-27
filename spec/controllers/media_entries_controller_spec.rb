@@ -36,20 +36,22 @@ describe MediaEntriesController do
     # media file #################################################################
     media_file = media_entry.media_file
     expect(media_file).to be
-    extractor = MetadataExtractor.new(media_file.store_location)
+    extractor = MetadataExtractor.new(media_file.original_store_location)
     expect(media_file.meta_data).to eq extractor.to_hash
     expect(media_file.width).to be == extractor.to_hash[:image_width]
     expect(media_file.height).to be == extractor.to_hash[:image_height]
 
     # file and previews ##########################################################
-    folder_path = \
-      "#{Rails.root}/db/media_files/test/attachments/#{media_file.guid.first}/"
-    expect(File.exist? "#{folder_path}#{media_file.guid}").to be true
+    original_dir = Madek::Constants::FILE_STORAGE_DIR.join(media_file.guid.first)
+    expect(File.exist? original_dir.join(media_file.guid)).to be true
 
+    thumbnails_dir = Madek::Constants::THUMBNAIL_STORAGE_DIR \
+      .join(media_file.guid.first)
     THUMBNAILS.keys.each do |thumb_size|
       next if thumb_size == :maximum
-      expect(File.exist? "#{folder_path}#{media_file.guid}_#{thumb_size}.jpg")
-        .to be true
+      expect(File.exist? \
+               thumbnails_dir.join("#{media_file.guid}_#{thumb_size}.jpg")) \
+      .to be true
     end
     expect(media_file.previews.size).to be == THUMBNAILS.size
 

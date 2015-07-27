@@ -98,7 +98,7 @@ class MediaEntriesController < ApplicationController
   end
 
   def store_file_and_create_previews!(file, media_file)
-    store_file!(file.tempfile.path, media_file.store_location)
+    store_file!(file.tempfile.path, media_file.original_store_location)
     media_file.create_previews! if media_file.needs_previews?
   end
 

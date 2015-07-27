@@ -8,7 +8,7 @@ module Modules
       # and media file attributes like width and height.
 
       media_file = media_entry.media_file
-      extractor = MetadataExtractor.new(media_file.store_location)
+      extractor = MetadataExtractor.new(media_file.original_store_location)
       extract_and_store_metadata_for_media_file!(extractor, media_file)
       extract_and_store_metadata_for_media_entry!(extractor, media_entry)
     end

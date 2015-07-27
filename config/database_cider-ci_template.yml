@@ -1,12 +1,13 @@
 default: &default
   adapter: postgresql
-  encoding: utf8
-  username: some_user
-  password: some_password
+  host: localhost
   port: 5432
   pool: 5
+  encoding: unicode
+  username: WILL_BE_REPLACED
+  password: WILL_BE_REPLACED
 
-test: 
+test:
   <<: *default
-  database: madek_test
+  database: madek-v3_test
 
