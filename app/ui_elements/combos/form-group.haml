@@ -1,10 +1,14 @@
 :ruby
   layout_mods = ['rowed', 'columned']
 
-  label ||= label.is_a?(Hash) ? label : {}
-  if (comment = label[:comment]).present?
-    comment = { text: comment } unless comment.is_a?(Hash)
-  end
+  label ||= case
+            when label.is_a?(Hash) then label
+            when label.is_a?(String) then { text: label }
+            else nil
+            end
+
+  comment = label[:comment] if label
+  comment = { text: label[:comment] } if label.try(:[], :comment).is_a?(String)
 
   unless block_content.present?
     fail 'ui: missing content!'
@@ -19,15 +23,15 @@
 - haml_tag(tag_type, {class: ['ui-form-group'].concat(classes)}) do
 
   - if label.present?
-    .form-label{ for: label[:for] }
+    .form-label{ for: label[:for], class: label[:mods] }
       = label[:text]
 
-      - if (hint = label[:hint])
+      - if (hint = label[:hint]).present?
         %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{rel: 'tooltip',
           title: hint}
           %i.icon-question
 
-      - if comment
+      - if comment && comment[:text].present?
         %small{class: comment[:mods]}= comment[:text]
 
   .form-item
