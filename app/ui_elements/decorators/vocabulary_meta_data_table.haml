@@ -19,5 +19,6 @@
           %td.ui-summary-label{data: { meta_key: key.id}}
             = link_to key.label, url, class: 'weak'
           %td.ui-summary-content
-            -# decorate value by type (ex.: /decorators/meta_datum/text.haml)
-            = deco(key.type.underscore, values: values)
+            -# decorate value by type (ex.: /decorators/meta_datum_value/text.haml)
+            - decorator = key.type.demodulize.underscore
+            = deco("meta_datum_value/#{decorator}", values: values)
