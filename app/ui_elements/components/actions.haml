@@ -1,0 +1,8 @@
+:ruby
+  actions ||= nil
+  fail 'UI: No Content!' unless actions.is_a?(Array) or block_content.presence
+
+.ui-actions{class: classes}
+  - actions.present? && actions.each do |item|
+    = item
+  = block_content
