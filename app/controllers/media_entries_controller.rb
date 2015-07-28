@@ -20,7 +20,7 @@ class MediaEntriesController < ApplicationController
   end
 
   def preview
-    media_entry = MediaEntry.find(params[:id])
+    media_entry = MediaEntry.unscoped.find(params[:id])
     size = params[:size] || 'small'
 
     begin
