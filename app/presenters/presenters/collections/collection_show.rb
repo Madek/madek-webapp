@@ -10,8 +10,9 @@ module Presenters
       end
 
       def preview_thumb_url
-        ActionController::Base.helpers.image_path \
-          ::UI_GENERIC_THUMBNAIL[:collection]
+        prepend_url_context_fucking_rails \
+          ActionController::Base.helpers.image_path \
+            ::UI_GENERIC_THUMBNAIL[:collection]
       end
 
       def highlights_thumbs

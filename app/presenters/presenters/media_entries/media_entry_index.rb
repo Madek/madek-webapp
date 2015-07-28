@@ -5,7 +5,7 @@ module Presenters
       include Presenters::MediaEntries::Modules::MediaEntryCommon
 
       def url
-        media_entry_path @app_resource
+        prepend_url_context_fucking_rails media_entry_path @app_resource
       end
 
       def image_url

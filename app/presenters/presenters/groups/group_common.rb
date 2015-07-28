@@ -7,7 +7,7 @@ module Presenters
                                :institutional_group_name
 
       def url
-        my_group_path(@app_resource)
+        prepend_url_context_fucking_rails my_group_path(@app_resource)
       end
 
     end

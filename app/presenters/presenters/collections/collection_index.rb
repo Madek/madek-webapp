@@ -4,7 +4,7 @@ module Presenters
       include Presenters::Collections::Modules::CollectionCommon
 
       def url
-        collection_path @app_resource
+        prepend_url_context_fucking_rails collection_path @app_resource
       end
 
       def image_url
@@ -21,8 +21,9 @@ module Presenters
 
       # TODO: shared CollectionPresenter?
       def generic_thumbnail_url
-        ActionController::Base.helpers.image_path \
-          ::UI_GENERIC_THUMBNAIL[:collection]
+        prepend_url_context_fucking_rails \
+          ActionController::Base.helpers.image_path \
+            ::UI_GENERIC_THUMBNAIL[:collection]
       end
 
       def choose_media_entry_for_preview

@@ -35,7 +35,7 @@ module Presenters
               # url = ActionController::Base.helpers.image_path \
               #     ::UI_GENERIC_THUMBNAIL[:incomplete]
             end
-            result
+            prepend_url_context_fucking_rails result
           end
 
         end

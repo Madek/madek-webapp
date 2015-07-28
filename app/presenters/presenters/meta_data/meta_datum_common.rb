@@ -20,7 +20,7 @@ module Presenters
       attr_reader :meta_key, :values, :literal_values
 
       def url
-        meta_datum_path(@app_resource)
+        prepend_url_context_fucking_rails meta_datum_path(@app_resource)
       end
 
       private

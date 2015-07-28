@@ -69,4 +69,13 @@ class Presenter
   def to_s # in case it ends up undecorated in a view, .to_s is called!
     inspect
   end
+
+  private
+
+  def prepend_url_context_fucking_rails(url = '')
+    # FIX FOR https://github.com/rails/rails/pull/17724
+    context = Rails.application.routes.relative_url_root
+    context.present? ? context + url : url
+  end
+
 end
