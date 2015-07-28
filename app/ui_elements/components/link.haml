@@ -1,7 +1,11 @@
 :ruby
-  return unless block_content
+  text ||= nil
+  title ||= nil
+  link_content = text.presence || block_content.presence
+  fail 'UI: No Content!' unless link_content
+
   link_or_span = link ? 'a' : 'span'
-  props = (link || {}).merge(class: classes)
+  props = (link || {}).merge(class: classes, title: title)
 
 - haml_tag(link_or_span, props) do
-  = block_content
+  = link_content

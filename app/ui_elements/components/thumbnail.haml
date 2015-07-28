@@ -1,5 +1,5 @@
 :ruby
-  text ||= nil
+  title ||= nil
   # actual image shown inside thumb
   picture = {
     mods: 'ui-thumbnail-image',
@@ -21,7 +21,7 @@
     .ui-thumbnail-filterset-flag
       = badge_top_right
 
-  = component('link', link: link, text: text, mods: 'ui-thumbnail-image-wrapper') do
+  = component('link', link: link, title: title, mods: 'ui-thumbnail-image-wrapper') do
     .ui-thumbnail-image-holder
       .ui-thumbnail-table-image-holder
         .ui-thumbnail-cell-image-holder
