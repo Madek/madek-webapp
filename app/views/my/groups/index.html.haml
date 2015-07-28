@@ -44,10 +44,8 @@
                         link: my_group_path(group.uuid),
                         icon: :trash,
                         method: :delete,
-                        props: {
-                          data: {
-                            confirm: 'Are you sure you want to delete this group?'
-                          }
+                        data: {
+                          confirm: 'Are you sure you want to delete this group?'
                         }),
               component('button.edit-workgroup',
                         text: 'Edit',
