@@ -83,9 +83,10 @@ class MyController < ApplicationController
       [id, prepare_section(id, SECTIONS, presenter)]
     end.group_by { |sec| (sec[1][:resources].try(:empty?) ? true : false) }
 
-    sections[false].concat(sections[true].map do |s|
-      [s[0], s[1].merge(is_empty?: true)]
-    end).to_h
+    (sections[false].presence || {})
+      .concat((sections[true].presence || []).map do |s|
+        [s[0], s[1].merge(is_empty?: true)]
+      end).to_h
   end
 
   def prepare_section(id, sections, presenter)
