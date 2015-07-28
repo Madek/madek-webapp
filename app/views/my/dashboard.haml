@@ -17,6 +17,8 @@
   - dashboard_content = capture_haml do
     -# each section: build a title and render the partial
     - @sections.each do |section_id, section|
+      -# empty section *are* skipped on the dashboard index
+      - next if section[:is_empty?]
       = combo('resources-header', title: section[:title],
                 link: { text: 'show all',
                         href: my_dashboard_section_path(section[:id])})
