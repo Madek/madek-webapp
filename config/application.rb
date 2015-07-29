@@ -174,6 +174,22 @@ require 'madek/constants'
 
 FILE_UTIL_PATH = '/usr/bin/file -b --mime-type'
 
+# TMP: Displayed Vocabularies, "most important" MetaKeys. TODO: put in DB
+UI_META_CONFIG = {
+  displayed_vocabularies: [
+    :media_content, # "Werk" - meaning the WorkOfArt encoded in MediaFile
+    :media_object,  # "Medium" - meaning the MediaFile as a WorkOfArt
+    :copyright,     # to be cleaned up…
+    :zhdk_bereich
+  ],
+  summary_meta_keys: [
+    'media_content:title',
+    'media_content:description',
+    'media_content:author',
+    'media_content:keywords'
+  ]
+}
+
 # UI constants
 UI_GENERIC_THUMBNAIL = {
   # relative to `app/assets/images`

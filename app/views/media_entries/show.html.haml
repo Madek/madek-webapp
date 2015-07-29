@@ -36,8 +36,9 @@
   -# TMP: always show this sections! (till we have js, thus tabs)
   .ui-container.midtone.rounded-bottom.pal.well
 
-    -# Demo: Render all the available Vocabularies as rows
+    - shown_vocabs = UI_META_CONFIG[:displayed_vocabularies]
     - if (@get.meta_data.vocabularies_with_meta_data).any?
-      = deco('meta_data_by_vocabulary', meta_data: @get.meta_data)
+      = deco('meta_data_by_vocabulary', meta_data: @get.meta_data,
+                                        vocab_ids: shown_vocabs)
 
 = deco('resource_show', entry_show)

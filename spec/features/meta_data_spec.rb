@@ -11,7 +11,11 @@ feature 'MetaData NOJS', browser: :firefox do
   end
 
   scenario 'update MetaDatum::Text' do
-    meta_datum = FactoryGirl.create :meta_datum_text, media_entry: @media_entry
+
+    meta_key = FactoryGirl.create :meta_key_text, id: 'media_content:test'
+    meta_datum = FactoryGirl.create :meta_datum_text,
+                                    meta_key: meta_key,
+                                    media_entry: @media_entry
     new_text = Faker::Lorem.words.join(' ')
 
     visit media_entry_path(@media_entry)
@@ -23,7 +27,6 @@ feature 'MetaData NOJS', browser: :firefox do
 
     expect(find('.app-body'))
       .to have_content new_text
-
   end
 
 end

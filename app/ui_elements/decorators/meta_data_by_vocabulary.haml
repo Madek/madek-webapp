@@ -1,18 +1,14 @@
 :ruby
+  meta_data ||= nil
+  vocab_ids ||= nil
   unless meta_data.is_a?(Presenters::MetaData::MetaDataPresenter)
     fail 'ui: not a MetaDataPresenter!'
   end
-
-  # TODO: app config, partial arguments
-  summary_vocab = 'madek_core'
-  configured_vocabs = ['media_content', 'copyright', 'zhdk'] # people???
-  # TODO: (after move) show up to 4 vocabularies in this part of the layout
-  # ^^^^ configured_vocabs = configured_vocabs.first(4)
+  fail 'ui: missing vocabularies to show!' unless vocab_ids.try(:first).present?
 
 .meta-data-summary.mbl
   -# build the vocabulary boxes with meta_data lists, 4 per row
-  - available_vocabs = meta_data.vocabularies_with_meta_data - [summary_vocab.to_sym]
-  - vocab_rows = available_vocabs.in_groups_of(4)
+  - vocab_rows = vocab_ids.in_groups_of(4)
   - vocab_rows.each do |configured_vocabs|
     .ui-container.media-entry-metadata
       - configured_vocabs.each do |vocab_id|
