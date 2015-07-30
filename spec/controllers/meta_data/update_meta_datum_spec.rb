@@ -19,28 +19,139 @@ describe MetaDataController do
                          edit_metadata: true)
   end
 
-  context 'success' do
-    it 'example of one meta datum type' do
+  context 'update OK' do
+    it 'replace MetaDatum::Text' do
+      meta_key = FactoryGirl.create(:meta_key_text)
+      create_vocabulary_permissions(meta_key.vocabulary)
+      meta_datum = create(:meta_datum_text,
+                          meta_key: meta_key,
+                          media_entry: @media_entry)
+
+      new_text = Faker::Lorem.sentence
+
+      patch :update,
+            { id: meta_datum.id,
+              media_entry_id: @media_entry.id,
+              _key: meta_key.id,
+              _value: { type: 'MetaDatum::Text', content: new_text } },
+            user_id: @user.id
+
+      assert_response :ok
+      expect(meta_datum.reload.string).to eq new_text
+    end
+
+    it 'replace MetaDatum::TextDate' do
+      meta_key = FactoryGirl.create(:meta_key_text_date)
+      create_vocabulary_permissions(meta_key.vocabulary)
+      meta_datum = create(:meta_datum_text_date,
+                          meta_key: meta_key,
+                          media_entry: @media_entry)
+
+      new_text_date = Faker::Lorem.words.join(' ')
+
+      patch :update,
+            { id: meta_datum.id,
+              media_entry_id: @media_entry.id,
+              _key: meta_key.id,
+              _value: { type: 'MetaDatum::TextDate', content: new_text_date } },
+            user_id: @user.id
+
+      assert_response :ok
+      expect(meta_datum.reload.string).to eq new_text_date
+    end
+
+    it 'add MetaDatum::People' do
       meta_key = FactoryGirl.create(:meta_key_people)
       create_vocabulary_permissions(meta_key.vocabulary)
       meta_datum = create(:meta_datum_people,
                           meta_key: meta_key,
                           media_entry: @media_entry)
 
-      new_ids = Person.all.sample(2).map(&:id)
+      new_people_ids = \
+        meta_datum.people.map(&:id) + [FactoryGirl.create(:person).id]
+
       patch :update,
             { id: meta_datum.id,
               media_entry_id: @media_entry.id,
               _key: meta_key.id,
-              _value: { type: 'MetaDatum::People', content: new_ids } },
+              _value: { type: 'MetaDatum::People',
+                        content: new_people_ids } },
             user_id: @user.id
 
       assert_response :ok
-      expect(Set.new meta_datum.reload.people.map(&:id))
-        .to be == Set.new(new_ids)
+      expect(meta_datum.reload.people.map(&:id))
+        .to match_array new_people_ids
     end
 
-    context 'update leads to delete of meta_datum' do
+    it 'replace MetaDatum::People' do
+      meta_key = FactoryGirl.create(:meta_key_people)
+      create_vocabulary_permissions(meta_key.vocabulary)
+      meta_datum = create(:meta_datum_people,
+                          meta_key: meta_key,
+                          media_entry: @media_entry)
+
+      new_people_ids = [FactoryGirl.create(:person).id]
+
+      patch :update,
+            { id: meta_datum.id,
+              media_entry_id: @media_entry.id,
+              _key: meta_key.id,
+              _value: { type: 'MetaDatum::People',
+                        content: new_people_ids } },
+            user_id: @user.id
+
+      assert_response :ok
+
+      expect(meta_datum.reload.people.map(&:id))
+        .to match_array new_people_ids
+    end
+
+    it 'add MetaDatum::Keywords' do
+      meta_key = FactoryGirl.create(:meta_key_keywords)
+      create_vocabulary_permissions(meta_key.vocabulary)
+      meta_datum = create(:meta_datum_keywords,
+                          meta_key: meta_key,
+                          media_entry: @media_entry)
+
+      new_keyword_ids = \
+        meta_datum.keywords.map(&:id) + [FactoryGirl.create(:keyword).id]
+
+      patch :update,
+            { id: meta_datum.id,
+              media_entry_id: @media_entry.id,
+              _key: meta_key.id,
+              _value: { type: 'MetaDatum::Keywords',
+                        content: new_keyword_ids } },
+            user_id: @user.id
+
+      assert_response :ok
+      expect(meta_datum.reload.keywords.map(&:id))
+        .to match_array new_keyword_ids
+    end
+
+    it 'replace MetaDatum::Keywords' do
+      meta_key = FactoryGirl.create(:meta_key_keywords)
+      create_vocabulary_permissions(meta_key.vocabulary)
+      meta_datum = create(:meta_datum_keywords,
+                          meta_key: meta_key,
+                          media_entry: @media_entry)
+
+      new_keyword_ids = [FactoryGirl.create(:keyword).id]
+
+      patch :update,
+            { id: meta_datum.id,
+              media_entry_id: @media_entry.id,
+              _key: meta_key.id,
+              _value: { type: 'MetaDatum::Keywords',
+                        content: new_keyword_ids } },
+            user_id: @user.id
+
+      assert_response :ok
+      expect(meta_datum.reload.keywords.map(&:id))
+        .to match_array new_keyword_ids
+    end
+
+    context 'empty update deletes meta_datum' do
       it 'empty value array' do
         meta_key = FactoryGirl.create(:meta_key_people)
         create_vocabulary_permissions(meta_key.vocabulary)

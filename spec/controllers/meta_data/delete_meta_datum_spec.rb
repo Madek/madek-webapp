@@ -12,7 +12,8 @@ end
 def delete_and_assert_success(meta_datum)
   delete :destroy, { id: meta_datum.id }, user_id: @user.id
   assert_response :ok
-  expect { MetaDatum.find(meta_datum.id) }.to raise_error
+  expect { MetaDatum.find(meta_datum.id) }
+    .to raise_error(ActiveRecord::RecordNotFound)
 end
 
 describe MetaDataController do
@@ -25,7 +26,7 @@ describe MetaDataController do
                          edit_metadata: true)
   end
 
-  context 'success' do
+  context 'delete success' do
     it 'MetaDatum::People' do
       meta_key = FactoryGirl.create(:meta_key_people)
       create_vocabulary_permissions(meta_key.vocabulary)

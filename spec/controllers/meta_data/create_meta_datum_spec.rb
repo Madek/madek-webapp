@@ -19,7 +19,7 @@ describe MetaDataController do
                          edit_metadata: true)
   end
 
-  context 'success' do
+  context 'create success' do
     it 'MetaDatum::People' do
       meta_key = FactoryGirl.create(:meta_key_people)
       create_vocabulary_permissions(meta_key.vocabulary)
