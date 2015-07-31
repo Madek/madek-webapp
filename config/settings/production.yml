@@ -1,5 +1,0 @@
-dropbox:
-  root_dir: /home/rails/madek-import/dropboxes 
-  server: madek-server.zhdk.ch
-  user: <%= ENV['MADEK_DROPBOX_USER'] %> 
-  password: <%= ENV['MADEK_DROPBOX_PASSWORD'] %>

@@ -172,12 +172,6 @@ require 'madek/constants'
 
 # TODO remove resp. namespace all these global things
 
-# Directory config
-DOWNLOAD_STORAGE_DIR  = Madek::Constants::DOWNLOAD_STORAGE_DIR
-FILE_STORAGE_DIR      = Madek::Constants::FILE_STORAGE_DIR
-THUMBNAIL_STORAGE_DIR = Madek::Constants::THUMBNAIL_STORAGE_DIR
-ZIP_STORAGE_DIR       = Madek::Constants::ZIP_STORAGE_DIR
-
 FILE_UTIL_PATH = '/usr/bin/file -b --mime-type'
 
 # UI constants
