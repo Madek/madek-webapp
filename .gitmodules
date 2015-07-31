@@ -1,6 +1,3 @@
-[submodule "deploy/ansible"]
-	path = deploy/ansible
-	url = https://github.com/Madek/madek-ansible.git
 [submodule "datalayer"]
 	path = engines/datalayer
 	url = https://github.com/Madek/madek-datalayer.git
