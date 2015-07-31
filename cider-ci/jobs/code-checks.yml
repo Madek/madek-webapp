@@ -2,10 +2,12 @@ jobs:
 
   code-checks:
 
-    name: Code Checks
+    name: Code-Checks
 
     description: |
       Run static checks and metrics: complexity, duplicaiont, code format.
+
+    priority: 3
 
     run-on:
     - type: branch

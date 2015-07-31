@@ -1,11 +1,13 @@
 jobs:
 
-  tests-jruby:
+  tests_mri:
 
-    name: Tests JRuby-9000
+    name: Tests MRI-2.1
 
-    description: >
-      Run all specs under JRuby 9000.
+    description: |
+      Run all specs under MRI 2.1.
+
+    priority: 1
 
     run-on:
     - type: branch
@@ -22,4 +24,6 @@ jobs:
         scripts:
           test:
             environment-variables:
-              RBENV_VERSION: jruby-9000
+              RBENV_VERSION: 2.1
+
+

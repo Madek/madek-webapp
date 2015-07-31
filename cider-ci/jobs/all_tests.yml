@@ -6,6 +6,10 @@ jobs:
       and it will pass if and only if all dependencies have passed.
     depends-on:
     - type: job
+      job: all_tests
+      submodule: ['engines/datalayer']
+      states: [passed]
+    - type: job
       job: tests_jruby
       states: [passed]
     - type: job
@@ -23,10 +27,4 @@ jobs:
           scripts:
             body: echo 'Yay, all dependencies have passed!'
 
-_cider-ci_include:
-  - cider-ci/jobs/all_tests.yml
-  - cider-ci/jobs/code-checks.yml
-  - cider-ci/jobs/coverage.yml
-  - cider-ci/jobs/meta.yml
-  - cider-ci/jobs/tests_jruby.yml
-  - cider-ci/jobs/tests_mri.yml
+

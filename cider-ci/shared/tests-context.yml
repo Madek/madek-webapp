@@ -69,7 +69,7 @@ task-defaults:
         File.open('config/database.yml','w') { |file| file.write config.to_yaml }
 
     bundle-mri:
-      exclusive-executor-resource: bundler_2.2
+      exclusive-executor-resource: bundler
       body: bundle
 
     bundle-jruby:
