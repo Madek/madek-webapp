@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'spec_helper_no_tx'
 
 def create_vocabulary_permissions(vocab)
   vocab.user_permissions << \
@@ -83,7 +84,7 @@ describe MetaDataController do
     it 'MetaDatum::TextDate' do
       meta_key = FactoryGirl.create(:meta_key_text_date)
       create_vocabulary_permissions(meta_key.vocabulary)
-      meta_datum = create(:meta_datum_text,
+      meta_datum = create(:meta_datum_text_date,
                           meta_key: meta_key,
                           string: Date.today.to_s,
                           media_entry: @media_entry)

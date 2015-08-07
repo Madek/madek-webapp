@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'spec_helper_no_tx'
 
 def create_vocabulary_permissions(vocab)
   vocab.user_permissions << \

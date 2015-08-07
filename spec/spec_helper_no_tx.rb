@@ -23,6 +23,10 @@ RSpec.configure do |config|
     clean_db
   end
 
+  config.after(:each) do
+    clean_db
+  end
+
   config.after(:suite) do
     clean_db
   end

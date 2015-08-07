@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'spec_helper_no_tx'
 
 def create_vocabulary_permissions(vocab)
   vocab.user_permissions << \
@@ -54,8 +55,8 @@ describe MetaDataController do
              user_id: @user.id
 
         assert_response :ok
-        md = @media_entry.meta_data.where(meta_key_id: meta_key.id)
-        expect(md.count).to be == 1
+        md = @media_entry.meta_data.find_by(meta_key_id: meta_key.id)
+        expect(md).not_to be
       end
 
       it 'value array with empty values' do
@@ -72,8 +73,8 @@ describe MetaDataController do
              user_id: @user.id
 
         assert_response :ok
-        md = @media_entry.meta_data.where(meta_key_id: meta_key.id)
-        expect(md.count).to be == 1
+        md = @media_entry.meta_data.find_by(meta_key_id: meta_key.id)
+        expect(md).not_to be
       end
     end
   end
