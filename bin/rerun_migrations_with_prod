@@ -1,9 +1,0 @@
-#!/bin/sh
-
-rsync -LPh \
-  root@prod.madek.zhdk.ch:/home/madek/madek_app/db/media_files/production/backups/latest-data.pgbin \
-  db/backups/prod.zhdk-data.pgbin
-
-bundle exec rake db:pg:terminate_connections db:drop db:create db:migrate VERSION=100 \
-&& bundle exec rake db:pg:truncate_tables db:pg:data:restore FILE="db/backups/prod.zhdk-data.pgbin" \
-&& bundle exec rake db:migrate
