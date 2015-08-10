@@ -14,8 +14,9 @@ class Presenter
   end
 
   def dump
-    Hash[
-      api.map do |api_method|
+    Hash[api
+      .select { |m| method(m).arity == 0 } # only dump methods without args
+      .map do |api_method|
         result = \
           begin
             send(api_method)

@@ -9,6 +9,10 @@ module Presenters
         @app_resource.id
       end
 
+      def policy(user)
+        Pundit.policy!(user, @app_resource)
+      end
+
       # TODO: don't "export" this method, only fail when called
       # def url
       #   throw NotImplementedError, 'missing #url for ' + @app_resource.class.name

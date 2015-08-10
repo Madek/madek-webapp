@@ -1,9 +1,8 @@
 module Presenters
   module Users
-    class UserDashboard < Presenters::Shared::AppResource
+    class UserDashboard < Presenter
       def initialize(user, order: nil, page: 1, per_page: nil)
         @user = user
-        super(user)
         @order = order
         @page = page
         @per_page = per_page
@@ -11,7 +10,7 @@ module Presenters
 
       def unpublished
         wrap_in_presenters_pojo([
-          @app_resource.unpublished_media_entries,
+          @user.unpublished_media_entries,
           nil,
           nil
         ])
@@ -19,15 +18,15 @@ module Presenters
 
       def content
         wrap_in_presenters_pojo([
-          @app_resource.published_media_entries,
-          @app_resource.collections,
-          @app_resource.filter_sets
+          @user.published_media_entries,
+          @user.collections,
+          @user.filter_sets
         ])
       end
 
       def latest_imports
         wrap_in_presenters_pojo([
-          @app_resource.published_media_entries,
+          @user.published_media_entries,
           nil,
           nil
         ])
@@ -35,26 +34,26 @@ module Presenters
 
       def favorites
         wrap_in_presenters_pojo([
-          @app_resource.favorite_media_entries,
-          @app_resource.favorite_collections,
-          @app_resource.favorite_filter_sets
+          @user.favorite_media_entries,
+          @user.favorite_collections,
+          @user.favorite_filter_sets
         ])
       end
 
       def entrusted_content
         wrap_in_presenters_pojo([
-          MediaEntry.entrusted_to_user(@app_resource),
-          Collection.entrusted_to_user(@app_resource),
-          FilterSet.entrusted_to_user(@app_resource)
+          MediaEntry.entrusted_to_user(@user),
+          Collection.entrusted_to_user(@user),
+          FilterSet.entrusted_to_user(@user)
         ])
       end
 
       def groups
         groups = {
-          internal: @app_resource.groups
+          internal: @user.groups
             .where(type: :Group)
             .page(@page).per(@per_page),
-          external: @app_resource.groups
+          external: @user.groups
             .where(type: :InstitutionalGroup)
             .page(@page).per(@per_page)
         }.map do |key, groups|
@@ -69,14 +68,14 @@ module Presenters
       end
 
       def used_keywords
-        @app_resource.used_keywords.map \
+        @user.used_keywords.map \
           { |k| Presenters::Keywords::KeywordIndex.new(k) }
       end
 
       private
 
       def wrap_in_presenters_pojo(resources)
-        user = @app_resource
+        user = @user
 
         media_entries, collections, filter_sets = [
           [resources.first, Presenters::MediaEntries::MediaEntries],
