@@ -9,11 +9,6 @@ require 'rspec/rails'
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
-FactoryGirl.definition_file_paths = [
-  Rails.root.join('engines', 'datalayer', 'spec', 'factories')
-]
-FactoryGirl.find_definitions
-
 def truncate_tables
   PgTasks.truncate_tables
 end
