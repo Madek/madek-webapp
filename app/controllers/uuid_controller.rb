@@ -6,7 +6,7 @@ class UuidController < ApplicationController
 
   def redirect_to_canonical_url
     current_url = url_for
-    path = url_for(find_resource_by_uuid(params[:uuid]))
+    path = url_for(UuidHelper.find_resource_by_uuid(params[:uuid]))
     if (path && path != current_url) # we check this to prevent a redirect-loop
       redirect_to(path, status: 302)
     else

@@ -6,7 +6,7 @@ module UuidHelper
     Person
   ]
 
-  def find_resource_by_uuid(resource_uuid)
+  def self.find_resource_by_uuid(resource_uuid)
     SUPPORTED_REDIRECTION_CLASSES
       .map { |klass| begin klass.send(:find, resource_uuid) rescue nil end }
       .reject(&:nil?)
