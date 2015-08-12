@@ -7,9 +7,11 @@ for N in $(seq 5); do printf '.' && sleep 1; done; echo ""
 set -ex # be verbose and fail on any error
 
 for ENV in test development; do
+  cp ./config/database.yml ./engines/datalayer/config/database.yml
+  cd ./engines/datalayer
   RAILS_ENV=$ENV bundle exec rake db:pg:terminate_connections
-  RAILS_ENV=$ENV bundle exec rake db:drop db:create db:migrate
   RAILS_ENV=$ENV ./bin/rerun_personas_migrations
+  cd -
 done
 
 echo ""
