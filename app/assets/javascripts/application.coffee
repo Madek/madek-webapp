@@ -10,13 +10,15 @@ require('@eins78/typeahead.js/dist/typeahead.jquery.js') # (autocompletion)
 # local requires
 each = require('lodash/collection/each')
 
+
 # TODO: remove this when first real js test is set up
 # test coffescript
-kafi = require('./test-module-cs')
+kafi = require('./test-module-cs.coffee')
 # console.log "Coffescript says: #{kafi}"
 # test js
 hello = require('./test-module-js')
 # hello('jQuery version ' + $().jquery)
+
 
 # init UJS #############################################################
 
@@ -26,7 +28,8 @@ hello = require('./test-module-js')
 # our library:
 ujs = [
   require('./ujs/hashviz.coffee'),
-  require('./ujs/autocomplete.js'),
+  require('./ujs/autocomplete'),
+  require('./ujs/react.coffee')
 ]
 
 # initialize them all when DOM is ready:

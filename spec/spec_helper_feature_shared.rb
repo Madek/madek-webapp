@@ -44,5 +44,8 @@ def sign_in_as(login, password = 'password')
 end
 
 def submit_form
-  find("form *[type='submit']", match: :first).click
+  # also works `within('form')`
+  submit = first("form *[type='submit'], *[type='submit']")
+  expect(submit).to be
+  submit.click
 end

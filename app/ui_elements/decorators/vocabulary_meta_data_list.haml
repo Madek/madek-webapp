@@ -10,19 +10,27 @@
   %h3.separated.mbm.title-l= vocabulary.label
   -# TODO: vocabulary description, privacy_status
 
-  %dl.media-data
+  -# TMP: for POC
+  -# %dl.media-data
+  .tmp
     - meta_data.each do |meta_datum|
 
       - key = meta_datum.meta_key
       - url = meta_datum.url
       - is_editable = meta_datum.policy(current_user).edit?
 
-      %dt.media-data-title{data: { meta_key: key.id}}<>
-        = component('link', link: url, mods: 'weak') do
-          = component('icon.pen') if is_editable
-          = key.label
+      -# TMP for edit POC. text only!
+      - is_editable = false unless (key.type == 'MetaDatum::Text')
+      - react_editor = is_editable && { react_class: 'MetaDatumEdit',
+                         meta_datum: { editable: is_editable, url: url } }
+      %dl.media-data.mbs{data: react_editor}
 
-      %dd.media-data-content
-        -# decorate value by type (ex.: /decorators/meta_datum_value/text.haml)
-        - decorator = key.type.demodulize.underscore
-        = deco("meta_datum_values/#{decorator}", values: meta_datum.values)
+        %dt.media-data-title<>
+          = component('link', link: url, mods: 'weak') do
+            = component('icon.pen') if is_editable
+            = key.label
+
+        %dd.media-data-content
+          -# decorate value by type (ex.: /decorators/meta_datum_values/text.haml)
+          - decorator = key.type.demodulize.underscore
+          = deco("meta_datum_values/#{decorator}", values: meta_datum.values)

@@ -1,34 +1,34 @@
-:ruby
-  tabbed_sections = {
-      id: 'test',
-      mods: 'foo-bar-tab-blubb',
-      list: {
-        home:  {
-          active: true,
-          nav: {
-            text: 'Home'
-          },
-          content: "home content!"
-        },
-        profile:  {
-          nav: {
-            text: 'Profile'
-          },
-          content: "your profile!"
-        },
-        messages:  {
-          nav: {
-            text: 'Messages'
-          },
-          content: "some messages!"
-        },
-        settings:  {
-          nav: {
-            text: 'Settings'
-          },
-          content: "and the settings!"
-        }
-      }
-    }
 
-= combo('tabbed-sections', tabbed_sections)
+
+.ui-container.media-entry-metadata
+  .col1of4
+    .prm.ui-metadata-box
+      %h3.separated.mbm.title-l= 'Werk'
+      %dl.media-data
+        .tmp
+          %dt.media-data-title{data: 'meta-datum-editable'}<>
+            %a.weak{href: '/meta_data/818751b5-6634-46ba-bd56-8a7ee27bfe56'}
+              %i.icon-pen
+              = 'Land'
+          %dd.media-data-content
+            %ul.inline
+              %li= 'Nigeria'
+
+
+.separator.mvl
+
+.ui-container.media-entry-metadata
+  .col1of4
+    .prm.ui-metadata-box
+      %h3.separated.mbm.title-l= 'Werk'
+      %dl.media-data
+        .tmp{data: { react_class: 'meta-datum-edit', meta_datum: { editable: true, url: '/meta_data/818751b5-6634-46ba-bd56-8a7ee27bfe56' } }}
+
+          %dt.media-data-title<>
+            %a.weak{href: '/meta_data/0ce445c4-f6cb-4e96-bcd0-194d8ad1d9e8'}
+              %i.icon-pen
+              = 'Land PLAINTEXT'
+
+          %dd.media-data-content
+            %ul.inline
+              %li= 'Nigeria PLAINTEXT'

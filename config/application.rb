@@ -129,7 +129,8 @@ module Madek
 
     # Command line options used when running browserify
     config.browserify_rails.commandline_options = [
-        '-t coffeeify --extension=".js.coffee"',
+        '-t coffee-reactify',
+        '-t reactify',
         '--ignore "crypto"',
       ]
 
