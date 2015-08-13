@@ -1,7 +1,7 @@
 module Presenters
   module MetaData
 
-    # TODO: maybe cleanup once the API is 'stable'
+    # TODO: cleanup to use MetaDatumPresenter!
 
     class MetaDataPresenter < Presenters::Shared::AppResource
       def initialize(app_resource, user)
@@ -42,7 +42,7 @@ module Presenters
           .joins(:vocabulary)
           .where(vocabularies: \
                   { id: Vocabulary.viewable_by_user_or_public(@user) })
-          .map { |md| Presenters::MetaData::MetaDatumCommon.new(md) }
+          .map { |md| Presenters::MetaData::MetaDatumCommon.new(md, @user) }
           .map { |md_p| build_key_values_tuple(md_p) }
           .group_by { |tuple| tuple._key.vocabulary_id }
 
@@ -58,6 +58,7 @@ module Presenters
 
       def build_key_values_tuple(md_presenter)
         Pojo.new(Hash[
+          '_md', md_presenter, # TMP! needs cleanup…
           '_url', md_presenter.url,
           '_key', md_presenter.meta_key,
           '_values', md_presenter.values

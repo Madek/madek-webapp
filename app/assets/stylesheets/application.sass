@@ -193,3 +193,20 @@
 
 form.button_to
   display: inline
+
+// meta data edit icon
+.ui-summary-label
+  a, a.weak
+    // postion nicely but hide
+    [class^="icon-"], [class^="fa-"]
+      position: absolute
+      font-size: $font-m
+      width: 13px
+      margin-left: -15px
+      line-height: 1.6
+      display: none
+    // show on hover (and highlight link)
+    &:hover
+      @extend .link
+      [class^="icon-"], [class^="fa-"]
+        display: initial

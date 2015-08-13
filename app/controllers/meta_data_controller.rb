@@ -1,10 +1,11 @@
 class MetaDataController < ApplicationController
   include Concerns::MetaData
+  include UuidHelper
 
   def show
     meta_datum = MetaDatum.find(params[:id])
     authorize meta_datum
-    @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
+    @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum, current_user)
   end
 
   def new
@@ -15,36 +16,33 @@ class MetaDataController < ApplicationController
     meta_datum_klass = constantize_type_param(type_param)
     meta_datum = meta_datum_klass.create_with_user!(current_user, create_params)
     authorize meta_datum
-    @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
+    @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum, current_user)
     render :show, status: :created
   end
 
   def edit
     meta_datum = MetaDatum.find(id_param)
     authorize meta_datum
-    @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
+    @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum, current_user)
   end
 
   def update
     meta_datum = MetaDatum.find(id_param)
     authorize meta_datum
     meta_datum.set_value!(value_param, current_user)
-    @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum)
-    render :show, status: :ok
+    redirect_to meta_datum_path, status: 303, notice: 'Meta datum saved'
   end
 
   def destroy
     meta_datum = MetaDatum.find(id_param)
     authorize meta_datum
     meta_datum.destroy!
-    # TODO: enable simple text and remove template rendering
-    # render text: 'Meta datum destroyed successfully', status: :ok
-    render template: 'meta_data/destroy',
-           status: :ok,
-           locals: { text: 'Meta datum destroyed successfully',
-                     media_entry_id: meta_datum.media_entry_id,
-                     collection_id: meta_datum.collection_id,
-                     filter_set_id: meta_datum.filter_set_id }
+
+    subject_id = meta_datum.media_entry_id or \
+    meta_datum.collection_id or meta_datum.filter_set_id
+
+    redirect_to url_for(UuidHelper.find_resource_by_uuid(subject_id)),
+                status: 303, notice: 'Meta datum destroyed successfully'
   end
 
   private

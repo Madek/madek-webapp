@@ -3,11 +3,12 @@ module Presenters
     class MetaKeyCommon < Presenters::Shared::AppResource
       delegate_to_app_resource(:id,
                                :description,
+                               :hint,
                                :vocabulary_id,
                                :position)
 
       def label
-        @app_resource.label or @app_resource.id
+        @app_resource.label or @app_resource.id.split(':').last.humanize
       end
 
       def type

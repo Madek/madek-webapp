@@ -1,8 +1,9 @@
 module Presenters
   module MetaData
     class MetaDatumCommon < Presenters::Shared::AppResource
-      def initialize(app_resource)
+      def initialize(app_resource, user)
         super(app_resource)
+        @user = user
         @meta_key = \
           Presenters::MetaKeys::MetaKeyCommon.new(@app_resource.meta_key)
         @values = \
@@ -21,6 +22,14 @@ module Presenters
 
       def url
         prepend_url_context_fucking_rails meta_datum_path(@app_resource)
+      end
+
+      def subject_media_resource
+        resource = @app_resource.media_entry or
+                    @app_resource.collection or
+                    @app_resource.filter_set
+        presenter = "Presenters::MediaEntries::#{resource.class.name}Index"
+        presenter.constantize.new(resource, @user)
       end
 
       private

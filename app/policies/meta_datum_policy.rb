@@ -20,6 +20,7 @@ class MetaDatumPolicy < ApplicationPolicy
   end
 
   alias_method :create?, :mutate?
+  alias_method :edit?, :mutate?
   alias_method :update?, :mutate?
   alias_method :destroy?, :mutate?
 

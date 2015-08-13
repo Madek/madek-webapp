@@ -36,7 +36,7 @@ describe MetaDataController do
               _value: { type: 'MetaDatum::Text', content: new_text } },
             user_id: @user.id
 
-      assert_response :ok
+      assert_response 303
       expect(meta_datum.reload.string).to eq new_text
     end
 
@@ -56,7 +56,7 @@ describe MetaDataController do
               _value: { type: 'MetaDatum::TextDate', content: new_text_date } },
             user_id: @user.id
 
-      assert_response :ok
+      assert_response 303
       expect(meta_datum.reload.string).to eq new_text_date
     end
 
@@ -78,7 +78,7 @@ describe MetaDataController do
                         content: new_people_ids } },
             user_id: @user.id
 
-      assert_response :ok
+      assert_response 303
       expect(meta_datum.reload.people.map(&:id))
         .to match_array new_people_ids
     end
@@ -100,7 +100,7 @@ describe MetaDataController do
                         content: new_people_ids } },
             user_id: @user.id
 
-      assert_response :ok
+      assert_response 303
 
       expect(meta_datum.reload.people.map(&:id))
         .to match_array new_people_ids
@@ -124,7 +124,7 @@ describe MetaDataController do
                         content: new_keyword_ids } },
             user_id: @user.id
 
-      assert_response :ok
+      assert_response 303
       expect(meta_datum.reload.keywords.map(&:id))
         .to match_array new_keyword_ids
     end
@@ -146,7 +146,7 @@ describe MetaDataController do
                         content: new_keyword_ids } },
             user_id: @user.id
 
-      assert_response :ok
+      assert_response 303
       expect(meta_datum.reload.keywords.map(&:id))
         .to match_array new_keyword_ids
     end
@@ -165,7 +165,7 @@ describe MetaDataController do
                _value: { type: 'MetaDatum::People', content: [] } },
              user_id: @user.id
 
-        assert_response :ok
+        assert_response 303
         md = @media_entry.meta_data.find_by(meta_key_id: meta_key.id)
         expect(md).not_to be
       end
@@ -183,7 +183,7 @@ describe MetaDataController do
                _value: { type: 'MetaDatum::People', content: ['', ''] } },
              user_id: @user.id
 
-        assert_response :ok
+        assert_response 303
         md = @media_entry.meta_data.find_by(meta_key_id: meta_key.id)
         expect(md).not_to be
       end
