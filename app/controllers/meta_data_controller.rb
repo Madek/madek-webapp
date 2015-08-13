@@ -6,6 +6,7 @@ class MetaDataController < ApplicationController
     meta_datum = MetaDatum.find(params[:id])
     authorize meta_datum
     @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum, current_user)
+    respond_with @get
   end
 
   def new
@@ -29,9 +30,22 @@ class MetaDataController < ApplicationController
   def update
     meta_datum = MetaDatum.find(id_param)
     authorize meta_datum
-    meta_datum.set_value! value_param_for_update(meta_datum.type),
-                          current_user
-    redirect_to meta_datum_path, status: 303, notice: 'Meta datum saved'
+
+    # TODO: cleanup form values, same params for forms and ajax
+    values = \
+      if request.content_type == 'application/json'
+        params.require(:values)
+      else
+        value_param_for_update(meta_datum.type)
+      end
+
+    meta_datum.set_value!(values, current_user)
+
+    if request.content_type == 'application/json'
+      head 204
+    else
+      redirect_to meta_datum_path, status: 303, notice: 'Meta datum saved'
+    end
   end
 
   def destroy
