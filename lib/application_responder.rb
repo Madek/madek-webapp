@@ -10,4 +10,5 @@ class ApplicationResponder < ActionController::Responder
 
   # custom responders
   include Responders::YamlResponder
+  include Responders::JsonResponder
 end
