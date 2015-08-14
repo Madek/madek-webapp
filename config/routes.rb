@@ -10,7 +10,7 @@ Madek::Application.routes.draw do
   end
 
   resources :media_entries,
-    path: 'entries', 
+    path: 'entries',
     concerns: :permissions do
     member do
       get ':tab', action: :show, as: :show_tab
@@ -19,7 +19,14 @@ Madek::Application.routes.draw do
     end
   end
 
-  resources :collections, only: [:index, :show], concerns: :permissions
+  resources :collections, only: [:index, :show], concerns: :permissions do
+    member do
+      get 'highlights/edit', action: :edit_highlights
+      get 'cover/edit', action: :edit_cover
+      put :update_cover
+      put :update_highlights
+    end
+  end
   resources :filter_sets, only: [:index, :show], concerns: :permissions
 
   resources :people, only: [:index, :show]

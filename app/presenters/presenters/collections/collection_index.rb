@@ -38,7 +38,7 @@ module Presenters
 
       def cover_or_first_media_entry(collection)
         return unless collection and collection.media_entries
-        collection.media_entries.cover or collection.media_entries.first
+        collection.cover or collection.media_entries.first
       end
 
       # TEMP HIDDEN TILL WE CLEAR UP THIS TOPIC:
@@ -81,7 +81,7 @@ module Presenters
       #
       # def cover_or_first_media_entry(collection)
       #   return unless (collection and collection.media_entries)
-      #   collection.media_entries.cover or collection.media_entries.first
+      #   collection.cover or collection.media_entries.first
       # end
 
     end

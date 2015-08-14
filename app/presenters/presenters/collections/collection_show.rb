@@ -15,11 +15,10 @@ module Presenters
             ::UI_GENERIC_THUMBNAIL[:collection]
       end
 
-      def highlights_thumbs
-        @app_resource \
-          .media_entries
-          .highlights
-          .map { |me| Presenters::MediaEntries::MediaEntryIndex.new(me, @user) }
+      def highlighted_media_resources
+        Presenters::Collections::ChildMediaResources.new \
+          @user,
+          @app_resource.highlighted_media_resources
       end
     end
   end
