@@ -25,8 +25,8 @@ hello = require('./test-module-js')
 
 # our library:
 ujs = [
-  require('./lib/ujs/hashviz.coffee'),
-  require('./lib/ujs/autocomplete.js')
+  require('./ujs/hashviz.coffee'),
+  require('./ujs/autocomplete.js'),
 ]
 
 # initialize them all when DOM is ready:

@@ -3,7 +3,7 @@
 # text from first <el data-hashviz-target="foo"> as input for the hash
 
 $ = require('jquery')
-hashVizSVG = require('../hashviz-svg.coffee')
+hashVizSVG = require('../lib/hashviz-svg.coffee')
 
 module.exports = hashvizUjs=()->
   # for all enabled containers:
