@@ -1,0 +1,28 @@
+:ruby
+  data ||= nil
+  unless data && data.vocabulary && data.meta_data
+    fail 'ui: missing data!'
+  end
+  vocabulary = data.vocabulary
+  meta_data = data.meta_data
+
+.ui-metadata-box{class: classes, data: {vocabulary: {uuid: vocabulary.uuid}}}
+  %h3.separated.mbm.title-l= vocabulary.label
+  -# TODO: vocabulary description, privacy_status
+
+  %dl.media-data
+    - meta_data.each do |meta_datum|
+
+      - key = meta_datum.meta_key
+      - url = meta_datum.url
+      - is_editable = meta_datum.policy(current_user).edit?
+
+      %dt.media-data-title{data: { meta_key: key.id}}<>
+        = component('link', link: url, mods: 'weak') do
+          = component('icon.pen') if is_editable
+          = key.label
+
+      %dd.media-data-content
+        -# decorate value by type (ex.: /decorators/meta_datum_value/text.haml)
+        - decorator = key.type.demodulize.underscore
+        = deco("meta_datum_values/#{decorator}", values: meta_datum.values)

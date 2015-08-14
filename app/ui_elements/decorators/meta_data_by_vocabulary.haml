@@ -14,6 +14,6 @@
       - configured_vocabs.each do |vocab_id|
         - if (vocab_id && data = meta_data.by_vocabulary[vocab_id])
           .col1of4
-            = deco('vocabulary_meta_data_table', mods: 'prm', data: data)
+            = deco('vocabulary_meta_data_list', mods: 'prm', data: data)
     - unless vocab_rows.last == configured_vocabs
       %hr.separator.mini.mbl

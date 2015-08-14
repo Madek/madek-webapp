@@ -194,8 +194,12 @@
 form.button_to
   display: inline
 
+.ui-metadata-box
+  .media-data-title
+    @extend .title-xs-alt
+
 // meta data edit icon
-.ui-summary-label
+.ui-summary-label, .media-data-title
   a, a.weak
     // postion nicely but hide
     [class^="icon-"], [class^="fa-"]
