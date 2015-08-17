@@ -1,10 +1,10 @@
 :ruby
   data ||= nil
-  unless data && data._vocabulary && data._meta_data
+  unless data && data.vocabulary && data.meta_data
     fail 'ui: missing data!'
   end
-  vocabulary = data._vocabulary
-  meta_data = data._meta_data
+  vocabulary = data.vocabulary
+  meta_data = data.meta_data
 
 .ui-metadata-box{class: classes}
   %h3.separated.mbm.title-l= vocabulary.label
@@ -12,10 +12,9 @@
   %table.ui-metadata-table.borderless
     %tbody
       - meta_data.each do |meta_datum|
-        - key = meta_datum._key
-        - values = meta_datum._values
-        - url = meta_datum._url
-        - is_editable = meta_datum._md.policy(current_user).edit? # TMP: hackish!
+        - key = meta_datum.meta_key
+        - url = meta_datum.url
+        - is_editable = meta_datum.policy(current_user).edit?
         %tr
           %td.ui-summary-label{data: { meta_key: key.id}}<>
             = component('link', link: url, mods: 'weak') do
@@ -24,4 +23,4 @@
           %td.ui-summary-content
             -# decorate value by type (ex.: /decorators/meta_datum_value/text.haml)
             - decorator = key.type.demodulize.underscore
-            = deco("meta_datum_value/#{decorator}", values: values)
+            = deco("meta_datum_values/#{decorator}", values: meta_datum.values)

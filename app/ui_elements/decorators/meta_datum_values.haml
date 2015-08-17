@@ -3,4 +3,4 @@
   fail 'No Presenter!' unless get.is_a?(Presenter)
   type = get.type.demodulize.underscore # e.g. 'text_date'
 
-= deco("meta_datum_value/#{type}", values: get.values)
+= deco("meta_datum_values/#{type}", values: get.values)
