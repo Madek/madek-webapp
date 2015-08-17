@@ -9,6 +9,10 @@ module Presenters
         @app_resource.id
       end
 
+      def _type # not used in ruby land, underscored to not clash with prop names
+        @app_resource.class.name
+      end
+
       def policy(user)
         Pundit.policy!(user, @app_resource)
       end
