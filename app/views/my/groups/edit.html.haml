@@ -7,3 +7,12 @@
     %hr.separator.mini.mvs
 
     = g_form.submit :submit
+
+  %hr.separator.mini.mvs
+
+  = deco('workgroup_members_table', data: @get.members)
+
+  = form_for :member, method: :post, url: add_member_my_group_path(@get.uuid) do |m_form|
+    = m_form.label :login, class: 'title-s'
+    = m_form.text_field :login
+    = m_form.submit 'Add member'

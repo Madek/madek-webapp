@@ -44,5 +44,5 @@ def sign_in_as(login, password = 'password')
 end
 
 def submit_form
-  find("form *[type='submit']").click
+  find("form *[type='submit']", match: :first).click
 end
