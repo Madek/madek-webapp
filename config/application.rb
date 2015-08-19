@@ -129,18 +129,15 @@ module Madek
 
     # Command line options used when running browserify
     config.browserify_rails.commandline_options = [
-      '-t browserify-shim', '--fast'
-    ]
+        '-t coffeeify --extension=".js.coffee"',
+        '--ignore "crypto"',
+      ]
 
     # Should the node_modules directory be evaluated for changes on page load
     #
     # The default is `false`
     config.browserify_rails.evaluate_node_modules = true
 
-
-    # browserify coffeescript support
-    config.browserify_rails
-      .commandline_options = '-t coffeeify --extension=".js.coffee"'
 
     # Please add any files you need precompiled here, otherwise it breaks production.
     # JS Note: only application.js and admin.js are needed here as entry points

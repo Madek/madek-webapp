@@ -30,8 +30,7 @@
     "tape": "^4.0.0"
   },
   "scripts": {
-    "test": "cd app/assets/javascripts/test && istanbul cover tape *.js",
-    "browserify": "browserify"
+    "test": "cd app/assets/javascripts/test && istanbul cover tape *.js"
   },
   "author": "Max Albrecht <max.albrecht@zhdk.ch>",
   "repository": "https://github.com/Madek/madek-webapp.git",
