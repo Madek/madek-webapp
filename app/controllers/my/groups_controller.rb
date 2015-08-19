@@ -2,7 +2,10 @@ class My::GroupsController < MyController
   include Concerns::JSONSearch
 
   def index
-    get_and_respond_with_json
+    respond_to do |f|
+      f.json { get_and_respond_with_json }
+      f.html # default
+    end
   end
 
   def show
