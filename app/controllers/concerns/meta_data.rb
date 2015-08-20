@@ -14,11 +14,21 @@ module Concerns
       parameters.require(:_value).fetch(:content)
     end
 
+    def value_param_for_update(type)
+      if ['MetaDatum::Text', 'MetaDatum::TextDate'].include? type
+        raise_if_all_blanks_or_return_unchanged value_param
+      else
+        value_param
+      end
+    end
+
     def raise_if_all_blanks_or_return_unchanged(array)
       array
         .tap do |vals|
-          raise ActionController::ParameterMissing, 'All values are blank!' \
-            if vals.all?(&:blank?)
+          if vals.all?(&:blank?) \
+            or vals.all? { |v| v.match Madek::Constants::WHITESPACE_REGEXP }
+            raise ActionController::ParameterMissing, 'All values are blank!'
+          end
         end
     end
 

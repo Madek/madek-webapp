@@ -29,7 +29,8 @@ class MetaDataController < ApplicationController
   def update
     meta_datum = MetaDatum.find(id_param)
     authorize meta_datum
-    meta_datum.set_value!(value_param, current_user)
+    meta_datum.set_value! value_param_for_update(meta_datum.type),
+                          current_user
     redirect_to meta_datum_path, status: 303, notice: 'Meta datum saved'
   end
 

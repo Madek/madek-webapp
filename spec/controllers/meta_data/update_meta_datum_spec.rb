@@ -33,7 +33,7 @@ describe MetaDataController do
             { id: meta_datum.id,
               media_entry_id: @media_entry.id,
               _key: meta_key.id,
-              _value: { type: 'MetaDatum::Text', content: new_text } },
+              _value: { type: 'MetaDatum::Text', content: [new_text] } },
             user_id: @user.id
 
       assert_response 303
@@ -53,7 +53,7 @@ describe MetaDataController do
             { id: meta_datum.id,
               media_entry_id: @media_entry.id,
               _key: meta_key.id,
-              _value: { type: 'MetaDatum::TextDate', content: new_text_date } },
+              _value: { type: 'MetaDatum::TextDate', content: [new_text_date] } },
             user_id: @user.id
 
       assert_response 303

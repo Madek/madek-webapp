@@ -20,6 +20,7 @@
     "underscore.string": "^3.0.3"
   },
   "devDependencies": {
+    "big-list-of-naughty-strings": "https://github.com/minimaxir/big-list-of-naughty-strings/tarball/master",
     "browserify": "~> 6.3",
     "browserify-incremental": "^1.4.0",
     "browserify-shim": "^3.8.1",
