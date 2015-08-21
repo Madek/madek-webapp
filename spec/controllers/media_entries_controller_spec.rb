@@ -92,4 +92,16 @@ describe MediaEntriesController do
 
   end
 
+  it 'delete unpublished' do
+    media_entry = create :media_entry_with_image_media_file,
+                         creator: @user, responsible_user: @user,
+                         is_published: false
+
+    expect { delete :destroy, { id: media_entry.id }, user_id: @user.id }
+      .to change { MediaEntry.unscoped.count }.by(-1)
+
+    expect(response).to redirect_to my_dashboard_path
+
+  end
+
 end

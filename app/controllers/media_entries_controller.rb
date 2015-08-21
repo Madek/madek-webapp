@@ -67,7 +67,7 @@ class MediaEntriesController < ApplicationController
   end
 
   def destroy
-    media_entry = MediaEntry.find(params[:id])
+    media_entry = MediaEntry.unscoped.find(params[:id])
     authorize media_entry
     begin
       ActiveRecord::Base.transaction do
