@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   self.responder = ApplicationResponder
   respond_to :html, :json, :yaml # TODO: is this safe for all controllers?
 
+  include Concerns::ControllerHelpers
   include Concerns::MadekSession
   include Errors
   include Pundit

@@ -6,6 +6,8 @@ module Presenters
           def group_name
             @app_resource.group.name
           end
+
+          delegate :group_id, to: :@app_resource
         end
       end
     end

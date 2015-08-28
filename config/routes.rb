@@ -5,29 +5,40 @@ Madek::Application.routes.draw do
 
   root to: 'application#root'
 
-  concern :permissions do
-    get '/permissions', action: :permissions_show, as: 'permissions', on: :member
-  end
+  # NOTE: does not work anymore :-(
+  # for now this route must be defined explicitely
+  # concern :permissions do
+  #   get '/permissions', action: :permissions_show, as: 'permissions', on: :member
+  # end
 
-  resources :media_entries,
-    path: 'entries',
-    concerns: :permissions do
+  resources :media_entries, path: 'entries' do
     member do
+      get 'permissions', action: :permissions_show, as: 'permissions'
+      get 'permissions/edit', action: :permissions_edit, as: 'edit_permissions'
+      put 'permissions', action: :permissions_update
       get ':tab', action: :show, as: :show_tab
       post :publish
       get 'preview/:size', action: :preview, as: :preview
     end
   end
 
-  resources :collections, only: [:index, :show], concerns: :permissions do
+  resources :collections, only: [:index, :show] do
     member do
+      get 'permissions', action: :permissions_show, as: 'permissions'
+      get 'permissions/edit', action: :permissions_edit, as: 'edit_permissions'
+      put 'permissions', action: :permissions_update
       get 'highlights/edit', action: :edit_highlights
       get 'cover/edit', action: :edit_cover
       put :update_cover
       put :update_highlights
     end
   end
-  resources :filter_sets, only: [:index, :show], concerns: :permissions
+  resources :filter_sets, only: [:index, :show] do
+    member do
+      get 'permissions', action: :permissions_show, as: 'permissions'
+      get 'permissions/edit', action: :permissions_edit, as: 'edit_permissions'
+    end
+  end
 
   resources :people, only: [:index, :show]
   resources :users, only: :index

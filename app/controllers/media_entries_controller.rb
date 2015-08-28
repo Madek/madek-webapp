@@ -1,6 +1,8 @@
 class MediaEntriesController < ApplicationController
-  include Concerns::MediaResourcesShowActions
+  include Concerns::MediaResources::PermissionsActions
+  include Concerns::MediaResources::ShowAction
   include Modules::FileStorage
+  include Modules::MediaEntries::PermissionsUpdate
   include Modules::MetaDataStorage
 
   # list of all 'show' action sub-tabs

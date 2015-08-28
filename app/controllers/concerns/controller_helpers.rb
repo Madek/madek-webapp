@@ -1,18 +1,14 @@
 module Concerns
-  module MediaResourcesShowActions
+  module ControllerHelpers
     extend ActiveSupport::Concern
-
-    def show
-      authorize_and_respond_with_respective_presenter
-    end
-
-    def permissions_show
-      authorize_and_respond_with_respective_presenter
-    end
 
     included do
 
       private
+
+      def model_klass
+        controller_name.classify.constantize
+      end
 
       def authorize_and_respond_with_respective_presenter
         @get = get_authorized_presenter
@@ -34,10 +30,6 @@ module Concerns
         "::Presenters::#{model_klass.name.pluralize}" \
         "::#{model_klass}#{presenter_klass_name}" \
           .constantize
-      end
-
-      def model_klass
-        controller_name.classify.constantize
       end
     end
   end

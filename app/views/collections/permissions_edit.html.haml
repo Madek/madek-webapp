@@ -1,0 +1,102 @@
+= form_tag permissions_collection_path(@get.uuid), method: :put do
+  .row
+    %h3.title-l.col1of2
+      Responsible user
+    .col1of2= @get.responsible.name
+  .row
+    %h3.title-l.col1of2
+      Your permissions
+    .col1of2= @get.current_user_permission_types
+
+  %hr
+  .row
+    %h3.title-l.col1of2
+      Permissions
+
+  .row.separated
+    %h3.title-m.col3of6
+      Users
+    .col1of6.title-s
+      get_metadata_and_previews
+    .col1of6.title-s
+      edit_metadata_and_relations
+    .col1of6.title-s
+      edit_permissions
+  .mts
+    - @get.user_permissions.each do |p|
+      .row
+        %input{name: 'collection[user_permissions][][user_id]', value: p.user_id, hidden: true}
+        .col3of6.title-s= p.person_name.name
+        .col1of6.title-s
+          = check_box_tag 'collection[user_permissions][][get_metadata_and_previews]', 'true', p.get_metadata_and_previews
+        .col1of6.title-s
+          = check_box_tag 'collection[user_permissions][][edit_metadata_and_relations]', 'true', p.edit_metadata_and_relations
+        .col1of6.title-s
+          = check_box_tag 'collection[user_permissions][][edit_permisssions]', 'true', p.edit_permissions
+    .row
+      .col3of6.title-s
+        %input{name: 'collection[user_permissions][][user_id]'}
+      .col1of6.title-s
+        = check_box_tag 'collection[user_permissions][][get_metadata_and_previews]', 'true', false
+      .col1of6.title-s
+        = check_box_tag 'collection[user_permissions][][get_metadata_and_relations]', 'true', false
+      .col1of6.title-s
+        = check_box_tag 'collection[user_permissions][][edit_permisssions]', 'true', false
+
+  %br
+  .row.separated
+    %h3.title-m
+      Groups
+  .mts
+    - @get.group_permissions.each do |p|
+      .row
+        %input{name: 'collection[group_permissions][][group_id]', value: p.group_id, hidden: true}
+        .col3of6.title-s= p.group_name
+        .col1of6.title-s
+          = check_box_tag 'collection[group_permissions][][get_metadata_and_previews]', 'true', p.get_metadata_and_previews
+        .col1of6.title-s
+          = check_box_tag 'collection[group_permissions][][edit_metadata_and_relations]', 'true', p.edit_metadata_and_relations
+        .col1of6= "--"
+    .row
+      .col3of6.title-s
+        %input{name: 'collection[group_permissions][][group_id]'}
+      .col1of6.title-s
+        = check_box_tag 'collection[group_permissions][][get_metadata_and_previews]', 'true', false
+      .col1of6.title-s
+        = check_box_tag 'collection[group_permissions][][edit_metadata_and_relations]', 'true', false
+      .col1of6= "--"
+
+  %br
+  .row.separated
+    %h3.title-m
+      API clients
+  .mts
+    - @get.api_client_permissions.each do |p|
+      .row
+        %input{name: 'collection[api_client_permissions][][api_client_id]', value: p.api_client_id, hidden: true}
+        .col3of6.title-s= p.api_client_login
+        .col1of6.title-s
+          = check_box_tag 'collection[api_client_permissions][][get_metadata_and_previews]', 'true', p.get_metadata_and_previews
+        .col1of6.title-s
+          = check_box_tag 'collection[api_client_permissions][][edit_metadata_and_relations]', 'true', p.edit_metadata_and_relations
+        .col1of6= "--"
+    .row
+      .col3of6.title-s
+        %input{name: 'collection[api_client_permissions][][api_client_id]'}
+      .col1of6.title-s
+        = check_box_tag 'collection[api_client_permissions][][get_metadata_and_previews]', 'true', false
+      .col1of6.title-s
+        = check_box_tag 'collection[api_client_permissions][][edit_metadata_and_relations]', 'true', false
+      .col1of6= "--"
+
+  %br
+  .row.separated
+    %h3.col3of6.title-m
+      Public
+    .col1of6.title-s
+      = check_box_tag 'collection[get_metadata_and_previews]', 'true', @get.public_permission.get_metadata_and_previews
+    .col1of6.title-s= "--"
+    .col1of6.title-s= "--"
+
+  %br
+  = submit_tag 'submit', class: 'primary-button'

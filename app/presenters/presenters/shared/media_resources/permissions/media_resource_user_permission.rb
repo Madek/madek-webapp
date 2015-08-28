@@ -12,6 +12,7 @@ module Presenters
           end
 
           delegate :edit_permissions, to: :@app_resource
+          delegate :user_id, to: :@app_resource
         end
       end
     end

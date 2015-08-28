@@ -12,6 +12,14 @@ module Shared
       def permissions_show?
         show?
       end
+
+      def permissions_edit?
+        logged_in? and user.can_edit_permissions_for?(record)
+      end
+
+      def permissions_update?
+        permissions_edit?
+      end
     end
   end
 end

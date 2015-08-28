@@ -1,3 +1,4 @@
 class FilterSetsController < ApplicationController
-  include Concerns::MediaResourcesShowActions
+  include Concerns::MediaResources::PermissionsActions
+  include Concerns::MediaResources::ShowAction
 end
