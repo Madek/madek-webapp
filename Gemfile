@@ -14,8 +14,8 @@ gem 'configuration_management_backdoor', '>= 1.0.0', '< 2.0'
 gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
 gem 'jdbc-postgres', platform: :jruby
 gem 'pg', platform: :mri
-gem 'pg_tasks', '>= 1.3.1', '< 2.0.0'
-#gem "pg_tasks", path: "/Users/thomas/Programming/ROR/pg_tasks"
+gem 'pg_tasks', '>= 1.3.3', '< 2.0.0'
+# gem "pg_tasks", path: "/Users/thomas/Programming/ROR/pg_tasks"
 
 # API
 gem 'responders'
