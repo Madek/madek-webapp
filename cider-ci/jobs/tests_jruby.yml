@@ -11,6 +11,12 @@ jobs:
     - type: branch
       include-match: ^.*madek-v3.*$
 
+    depends-on:
+    - type: job
+      job: tests_jruby
+      submodule: ['engines/datalayer']
+      states: [passed]
+
     context:
       _cider-ci_include:
         - cider-ci/shared/tests-context.yml
