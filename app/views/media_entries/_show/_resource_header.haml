@@ -1,4 +1,7 @@
 - action_buttons = capture_haml do
+  = component('button.primary',
+    link: permissions_media_entry_path(@get.uuid),
+    text: 'Permissions')
   = component('button',
     link: media_entry_path,
     method: :delete,
