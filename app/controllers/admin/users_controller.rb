@@ -1,5 +1,5 @@
 class Admin::UsersController < AdminController
-  include Concerns::MadekSession
+  include Concerns::MadekCookieSession
 
   before_action :find_user, except: [
     :index, :new, :new_with_person, :create, :remove_user_from_group

@@ -1,5 +1,5 @@
 class SessionsController < ActionController::Base
-  include Concerns::MadekSession
+  include Concerns::MadekCookieSession
 
   def sign_in
     @user = User.find_by(login: params[:login].try(&:downcase))

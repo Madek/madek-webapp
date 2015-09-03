@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   respond_to :html, :json, :yaml # TODO: is this safe for all controllers?
 
   include Concerns::ControllerHelpers
-  include Concerns::MadekSession
+  include Concerns::MadekCookieSession
   include Errors
   include Pundit
 
