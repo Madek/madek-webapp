@@ -3,8 +3,7 @@ module Concerns
     extend ActiveSupport::Concern
     include ::MadekOpenSession
 
-    # TODO: move this to datalayer/constants
-    COOKIE_NAME = 'madek_services-session'
+    COOKIE_NAME = Madek::Constants::MADEK_SESSION_COOKIE_NAME
 
     def set_madek_session(user, remember = false)
       cookies[COOKIE_NAME] = {
