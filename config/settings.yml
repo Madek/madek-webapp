@@ -1,6 +1,7 @@
 madek_master_secret: 'secret'
 
 madek_session_cookie_name: 'madek-session'
+madek_session_validity_duration: 7 days
 
 use_x_sendfile: false
 zhdk_integration: false

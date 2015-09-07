@@ -104,10 +104,14 @@ task-defaults:
         && ruby -v \
         && bundle exec rspec $CIDER_CI_TASK_FILE
       start-when:
-      - script: start-vnc
-      - script: create-database
-      - script: npm
-      - script: bundle-jruby
+        start-vnc:
+          script: start-vnc
+        create-database:
+          script: create-database
+        npm:
+          script: npm
+        bundle-jruby:
+          script: bundle-jruby
 
     delete-database:
       body:  bundle exec rake db:pg:terminate_connections db:drop
@@ -153,6 +157,18 @@ subcontexts:
     "spec/features/custom_root-url_spec.rb":
       environment-variables:
         RAILS_RELATIVE_URL_ROOT: /my-test
+
+    "spec/features/session/expiration_spec.rb":
+      environment-variables:
+        RAILS_RELATIVE_URL_ROOT: /my-test
+      scripts:
+        configure_session_validity_duration:
+          body: |
+            echo 'madek_session_validity_duration: 10 Seconds' >> config/settings.local.yml
+        test:
+          start-when:
+            configure_session_validity_duration:
+              script: configure_session_validity_duration
 
   _cider-ci_generate-tasks:
     include-match: spec/features.*_spec.rb

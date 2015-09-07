@@ -48,6 +48,7 @@ gem 'sass-rails'
 
 # The rest
 gem 'bcrypt-ruby'
+gem 'chronic_duration'
 gem 'cider_ci-open_session', '>= 1.0.0', '< 2.0.0'
 gem 'dalli'
 gem 'execjs'
