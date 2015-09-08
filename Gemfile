@@ -63,6 +63,7 @@ gem 'pundit'
 gem 'rails_autolink', '~> 1.0'
 gem 'rails_config', git: 'https://github.com/DrTom/rails_config.git', ref: 'master'
 gem 'rubyzip'
+gem 'strong_password'
 gem 'therubyracer', platform: :mri
 gem 'therubyrhino', platform: :jruby
 gem 'uglifier'
