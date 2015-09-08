@@ -2,11 +2,10 @@
   tag_mods = ['small','ellipsed']
   collection_show = {}
 
-  action_buttons = capture_haml do
+  action_buttons = \
     component('button.primary',
               link: permissions_collection_path(@get.uuid),
               text: 'Permissions')
-  end
 
   collection_show[:header] = \
     component('page-header',
