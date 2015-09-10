@@ -22,21 +22,21 @@ module Modules
 
     def extract_and_store_metadata_for_media_entry!(extractor, media_entry)
       hash_for_media_entry = extractor.hash_for_media_entry
+
       hash_for_media_entry.each do |key_map, value|
         meta_key_id = IoMapping.find_by_key_map(key_map).try(:meta_key_id)
-        if meta_key_id
-          create_meta_datum!(media_entry, meta_key_id, value)
-        end
-      end
-    end
+        next unless meta_key_id
 
-    def create_meta_datum!(media_entry, meta_key_id, value)
-      meta_datum_klass = \
-        MetaKey.find(meta_key_id).meta_datum_object_type.constantize
-      meta_datum_klass.create!(media_entry_id: media_entry.id,
-                               meta_key_id: meta_key_id,
-                               created_by: current_user,
-                               value: value)
+        meta_datum_klass = \
+          MetaKey.find(meta_key_id).meta_datum_object_type.constantize
+        next \
+          unless [MetaDatum::Text, MetaDatum::TextDate].include?(meta_datum_klass)
+
+        meta_datum_klass.create!(media_entry_id: media_entry.id,
+                                 meta_key_id: meta_key_id,
+                                 created_by: current_user,
+                                 value: value)
+      end
     end
   end
 end
