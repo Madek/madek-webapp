@@ -1,4 +1,5 @@
 :ruby
+  action ||= props[:action].presence || nil
   body ||= body.presence || block_content.presence || nil
   head ||= head.presence
   footer ||= footer.presence
@@ -8,7 +9,7 @@
   end
 
 
-%form{props}
+- form_content = capture_haml do
   - if head
     .form-head
       = head
@@ -19,3 +20,12 @@
   - if footer
     .form-footer
       = footer
+
+-# wrap using form helper if 'action' was supplied
+
+- if action
+  = form_tag(action, props) do
+    = form_content
+- else
+  %div{props}
+    = form_content
