@@ -4,10 +4,11 @@
   end
 
   form = {
+    props: { action: meta_datum_path, method: 'patch' },
     head: '', # TODO: alerts
     footer: component('actions', actions: [
       link_to('Cancel', @get.url, class: 'weak'),
-      component('button.primary', mods: 'large', text: 'Save')
+      component('button.primary', mods: 'large', text: 'Save', type: :submit)
     ])
   }
 
@@ -29,25 +30,24 @@
     .app-body-content.ui-container.table-cell.table-substance
       %hr.separator.light
 
-      = form_tag(meta_datum_path, method: "patch") do
-        = combo('form', form) do
+      = combo('form', form) do
 
-          - label = { text: @get.meta_key.label,
-                      comment: @get.meta_key.hint,
-                      hint: @get.meta_key.description }
+        - label = { text: @get.meta_key.label,
+                    comment: @get.meta_key.hint,
+                    hint: @get.meta_key.description }
 
-          -# TODO: really check check if multiple allowed!
-          - multiple_allowed = (@get.type != 'MetaDatum::Text')
-          
-          = combo('form-group', mods: 'columned', label: label) do
-            -# one field for every current value:
-            - @get.literal_values.each do |text_value|
-              = text_field_tag("_value[content][]", text_value,
-                                class: :block, placeholder: placeholder_text)
-            -# one field to add a value
-            - if multiple_allowed
-              = text_field_tag("_value[content][]", nil,
-                                class: :block, placeholder: placeholder_text)
+        -# TODO: really check check if multiple allowed!
+        - multiple_allowed = (@get.type != 'MetaDatum::Text')
+
+        = combo('form-group', mods: 'columned', label: label) do
+          -# one field for every current value:
+          - @get.literal_values.each do |text_value|
+            = text_field_tag("_value[content][]", text_value,
+                              class: :block, placeholder: placeholder_text)
+          -# one field to add a value
+          - if multiple_allowed
+            = text_field_tag("_value[content][]", nil,
+                              class: :block, placeholder: placeholder_text)
 
 
 = render template: 'layouts/app_resource'
