@@ -2,6 +2,8 @@ module Presenters
   module Shared
     module MediaResources
       class MediaResourceShow < Presenters::Shared::AppResource
+        include Presenters::Shared::MediaResources::Modules::PrivacyStatus
+
         def initialize(app_resource, user)
           super(app_resource)
           @user = user
