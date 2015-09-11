@@ -1,5 +1,7 @@
 :ruby
-  throw 'ui: no privacy status!' unless defined?(status) and status
+  status = defined?(get) && get.privacy_status
+  throw 'ui: no privacy status!' unless status.present?
+
   icon_map = {
     public: 'open',
     shared: 'group',
