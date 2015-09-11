@@ -1,14 +1,20 @@
 :ruby
-  tabs = [ # main tab:
-    ['Entry', media_entry_path(params[:id])]
-  ]
-  # add other tabs:
-  tabs = tabs.concat(@tabs.map do |id, name|
-    [name, show_tab_media_entry_path(params[:id], tab: id)]
-  end).to_h
+
+  tabs = @tabs.map do |id, tab|
+    path = id ? send("#{id}_media_entry_path") : media_entry_path
+    tab[:icon] = case tab[:icon]
+                when :privacy_status_icon
+                   deco('privacy-status-icon', get: @get)
+                 else
+                   tab[:icon]
+                 end
+    [path, tab]
+  end.to_h
+
 
 %ul.ui-tabs.large
-  - tabs.each do |text, link|
-    %li.ui-tabs-item{class: link_active?(link, true) ? 'active' : 'nil'}
-      %a{href: link}
-        = text
+  - tabs.each do |path, tab|
+    %li.ui-tabs-item{class: link_active?(path, true) ? 'active' : 'nil'}
+      %a{href: path}
+        = tab[:icon]
+        = tab[:title]

@@ -11,7 +11,6 @@ module Presenters
         end
 
         included do
-          attr_reader :relations
 
           def title
             super.presence or "(Upload from #{@app_resource.created_at.iso8601})"

@@ -4,16 +4,22 @@ module Presenters
 
       include Presenters::MediaEntries::Modules::MediaEntryCommon
 
-      # TODO: move meta_data to MediaResourceShow ?
-      attr_reader :more_data, :meta_data
+      def relations
+        Presenters::Shared::MediaResources::MediaResourceRelations.new \
+          @app_resource, @user
+      end
 
-      def initialize(app_resource, user)
-        super(app_resource, user)
-        @relations = \
-          Presenters::MediaEntries::MediaEntryRelations.new(@app_resource, @user)
-        @more_data = Presenters::MediaEntries::MoreData.new(@app_resource)
-        @meta_data = \
-          Presenters::MetaData::MetaDataPresenter.new(@app_resource, @user)
+      # TODO: move meta_data to MediaResourceShow ?
+      def meta_data
+        Presenters::MetaData::MetaDataPresenter.new(@app_resource, @user)
+      end
+
+      def more_data
+        Presenters::MediaEntries::MediaEntryMoreData.new(@app_resource)
+      end
+
+      def permissions
+        Presenters::MediaEntries::MediaEntryPermissions.new(@app_resource, @user)
       end
 
       def copyright_notice

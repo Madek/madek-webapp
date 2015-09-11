@@ -1,7 +1,7 @@
 module Presenters
   module MediaEntries
     class MediaEntryPermissionsEdit < \
-      Presenters::MediaEntries::MediaEntryPermissionsShow
+      Presenters::MediaEntries::MediaEntryShow
     end
   end
 end

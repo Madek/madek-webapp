@@ -1,116 +1,121 @@
-= form_tag permissions_media_entry_path(@get.uuid), method: :put do
-  .row
-    %h3.title-l.col1of2
-      Responsible user
-    .col1of2= @get.responsible.name
-  .row
-    %h3.title-l.col1of2
-      Your permissions
-    .col1of2= @get.current_user_permission_types
+- get = @get.permissions
 
-  %hr
-  .row
-    %h3.title-l.col1of2
-      Permissions
-
-  .row.separated
-    %h3.title-m.col2of6
-      Users
-    .col1of6.title-s
-      get_metadata_and_previews
-    .col1of6.title-s
-      get_full_size
-    .col1of6.title-s
-      edit_metadata
-    .col1of6.title-s
-      edit_permissions
-  .mts
-    - @get.user_permissions.each do |p|
-      .row
-        %input{name: 'media_entry[user_permissions][][user_id]', value: p.user_id, hidden: true}
-        .col2of6.title-s= p.person_name.name
-        .col1of6.title-s
-          = check_box_tag 'media_entry[user_permissions][][get_metadata_and_previews]', 'true', p.get_metadata_and_previews
-        .col1of6.title-s
-          = check_box_tag 'media_entry[user_permissions][][get_full_size]', 'true', p.get_full_size
-        .col1of6.title-s
-          = check_box_tag 'media_entry[user_permissions][][edit_metadata]', 'true', p.edit_metadata
-        .col1of6.title-s
-          = check_box_tag 'media_entry[user_permissions][][edit_permissions]', 'true', p.edit_permissions
+- content_for(:overview) do
+  = form_tag permissions_media_entry_path(get.uuid), method: :put do
     .row
-      .col2of6.title-s
-        %input{name: 'media_entry[user_permissions][][user_id]'}
-      .col1of6.title-s
-        = check_box_tag 'media_entry[user_permissions][][get_metadata_and_previews]', 'true', false
-      .col1of6.title-s
-        = check_box_tag 'media_entry[user_permissions][][get_full_size]', 'true', false
-      .col1of6.title-s
-        = check_box_tag 'media_entry[user_permissions][][edit_metadata]', 'true', false
-      .col1of6.title-s
-        = check_box_tag 'media_entry[user_permissions][][edit_permissions]', 'true', false
-
-  %br
-  .row.separated
-    %h3.title-m
-      Groups
-  .mts
-    - @get.group_permissions.each do |p|
-      .row
-        %input{name: 'media_entry[group_permissions][][group_id]', value: p.group_id, hidden: true}
-        .col2of6.title-s= p.group_name
-        .col1of6.title-s
-          = check_box_tag 'media_entry[group_permissions][][get_metadata_and_previews]', 'true', p.get_metadata_and_previews
-        .col1of6.title-s
-          = check_box_tag 'media_entry[group_permissions][][get_full_size]', 'true', p.get_full_size
-        .col1of6.title-s
-          = check_box_tag 'media_entry[group_permissions][][edit_metadata]', 'true', p.edit_metadata
-        .col1of6.title-s= "--"
+      %h3.title-l.col1of2
+        Responsible user
+      .col1of2= get.responsible.name
     .row
-      .col2of6.title-s
-        %input{name: 'media_entry[group_permissions][][group_id]'}
-      .col1of6.title-s
-        = check_box_tag 'media_entry[group_permissions][][get_metadata_and_previews]', 'true', false
-      .col1of6.title-s
-        = check_box_tag 'media_entry[group_permissions][][get_full_size]', 'true', false
-      .col1of6.title-s
-        = check_box_tag 'media_entry[group_permissions][][edit_metadata]', 'true', false
-      .col1of6.title-s= "--"
+      %h3.title-l.col1of2
+        Your permissions
+      .col1of2= get.current_user_permission_types
 
-  %br
-  .row.separated
-    %h3.title-m
-      API Clients
-  .mts
-    - @get.api_client_permissions.each do |p|
-      .row
-        %input{name: 'media_entry[api_client_permissions][][api_client_id]', value: p.api_client_id, hidden: true}
-        .col2of6.title-s= p.api_client_login
-        .col1of6.title-s
-          = check_box_tag 'media_entry[api_client_permissions][][get_metadata_and_previews]', 'true', p.get_metadata_and_previews
-        .col1of6.title-s
-          = check_box_tag 'media_entry[api_client_permissions][][get_full_size]', 'true', p.get_full_size
-        .col1of6.title-s= "--"
-        .col1of6.title-s= "--"
+    %hr
     .row
-      .col2of6.title-s
-        %input{name: 'media_entry[api_client_permissions][][api_client_id]'}
-      .col1of6.title-s
-        = check_box_tag 'media_entry[api_client_permissions][][get_metadata_and_previews]', 'true', false
-      .col1of6.title-s
-        = check_box_tag 'media_entry[api_client_permissions][][get_full_size]', 'true', false
-      .col1of6.title-s= "--"
-      .col1of6.title-s= "--"
+      %h3.title-l.col1of2
+        Permissions
 
-  %br
-  .row.separated
-    %h3.col2of6.title-m
-      Public
-    .col1of6.title-s
-      = check_box_tag 'media_entry[get_metadata_and_previews]', 'true', @get.public_permission.get_metadata_and_previews
-    .col1of6.title-s
-      = check_box_tag 'media_entry[get_full_size]', 'true', @get.public_permission.get_full_size
-    .col1of6.title-s= "--"
-    .col1of6.title-s= "--"
+    .row.separated
+      %h3.title-m.col2of6
+        Users
+      .col1of6.title-s
+        get_metadata_and_previews
+      .col1of6.title-s
+        get_full_size
+      .col1of6.title-s
+        edit_metadata
+      .col1of6.title-s
+        edit_permissions
+    .mts
+      - get.user_permissions.each do |p|
+        .row
+          %input{name: 'media_entry[user_permissions][][user_id]', value: p.user_id, hidden: true}
+          .col2of6.title-s= p.person_name.name
+          .col1of6.title-s
+            = check_box_tag 'media_entry[user_permissions][][get_metadata_and_previews]', 'true', p.get_metadata_and_previews
+          .col1of6.title-s
+            = check_box_tag 'media_entry[user_permissions][][get_full_size]', 'true', p.get_full_size
+          .col1of6.title-s
+            = check_box_tag 'media_entry[user_permissions][][edit_metadata]', 'true', p.edit_metadata
+          .col1of6.title-s
+            = check_box_tag 'media_entry[user_permissions][][edit_permissions]', 'true', p.edit_permissions
+      .row
+        .col2of6.title-s
+          %input{name: 'media_entry[user_permissions][][user_id]'}
+        .col1of6.title-s
+          = check_box_tag 'media_entry[user_permissions][][get_metadata_and_previews]', 'true', false
+        .col1of6.title-s
+          = check_box_tag 'media_entry[user_permissions][][get_full_size]', 'true', false
+        .col1of6.title-s
+          = check_box_tag 'media_entry[user_permissions][][edit_metadata]', 'true', false
+        .col1of6.title-s
+          = check_box_tag 'media_entry[user_permissions][][edit_permissions]', 'true', false
 
-  %br
-  = submit_tag 'submit', class: 'primary-button'
+    %br
+    .row.separated
+      %h3.title-m
+        Groups
+    .mts
+      - get.group_permissions.each do |p|
+        .row
+          %input{name: 'media_entry[group_permissions][][group_id]', value: p.group_id, hidden: true}
+          .col2of6.title-s= p.group_name
+          .col1of6.title-s
+            = check_box_tag 'media_entry[group_permissions][][get_metadata_and_previews]', 'true', p.get_metadata_and_previews
+          .col1of6.title-s
+            = check_box_tag 'media_entry[group_permissions][][get_full_size]', 'true', p.get_full_size
+          .col1of6.title-s
+            = check_box_tag 'media_entry[group_permissions][][edit_metadata]', 'true', p.edit_metadata
+          .col1of6.title-s= "—"
+      .row
+        .col2of6.title-s
+          %input{name: 'media_entry[group_permissions][][group_id]'}
+        .col1of6.title-s
+          = check_box_tag 'media_entry[group_permissions][][get_metadata_and_previews]', 'true', false
+        .col1of6.title-s
+          = check_box_tag 'media_entry[group_permissions][][get_full_size]', 'true', false
+        .col1of6.title-s
+          = check_box_tag 'media_entry[group_permissions][][edit_metadata]', 'true', false
+        .col1of6.title-s= "—"
+
+    %br
+    .row.separated
+      %h3.title-m
+        API Clients
+    .mts
+      - get.api_client_permissions.each do |p|
+        .row
+          %input{name: 'media_entry[api_client_permissions][][api_client_id]', value: p.api_client_id, hidden: true}
+          .col2of6.title-s= p.api_client_login
+          .col1of6.title-s
+            = check_box_tag 'media_entry[api_client_permissions][][get_metadata_and_previews]', 'true', p.get_metadata_and_previews
+          .col1of6.title-s
+            = check_box_tag 'media_entry[api_client_permissions][][get_full_size]', 'true', p.get_full_size
+          .col1of6.title-s= "—"
+          .col1of6.title-s= "—"
+      .row
+        .col2of6.title-s
+          %input{name: 'media_entry[api_client_permissions][][api_client_id]'}
+        .col1of6.title-s
+          = check_box_tag 'media_entry[api_client_permissions][][get_metadata_and_previews]', 'true', false
+        .col1of6.title-s
+          = check_box_tag 'media_entry[api_client_permissions][][get_full_size]', 'true', false
+        .col1of6.title-s= "—"
+        .col1of6.title-s= "—"
+
+    %br
+    .row.separated
+      %h3.col2of6.title-m
+        Public
+      .col1of6.title-s
+        = check_box_tag 'media_entry[get_metadata_and_previews]', 'true', get.public_permission.get_metadata_and_previews
+      .col1of6.title-s
+        = check_box_tag 'media_entry[get_full_size]', 'true', get.public_permission.get_full_size
+      .col1of6.title-s= "—"
+      .col1of6.title-s= "—"
+
+    %br
+    = submit_tag 'submit', class: 'primary-button'
+
+= render template: 'media_entries/_show/_base'

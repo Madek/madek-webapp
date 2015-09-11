@@ -1,7 +1,7 @@
 require 'spec_helper'
 require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
 
-describe Presenters::MediaEntries::MediaEntryPermissionsShow do
+describe Presenters::MediaEntries::MediaEntryPermissions do
   it_can_be 'dumped' do
     user = FactoryGirl.create(:user)
     media_entry = FactoryGirl.create(:media_entry,

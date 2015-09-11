@@ -1,6 +1,6 @@
 module Presenters
   module MediaEntries
-    class MediaEntryPermissionsShow < \
+    class MediaEntryPermissions < \
       Presenters::Shared::MediaResources::MediaResourcePermissionsShow
 
       TYPES_MAP = \

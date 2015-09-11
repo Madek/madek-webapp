@@ -3,14 +3,6 @@ module Concerns
     module PermissionsActions
       extend ActiveSupport::Concern
 
-      def permissions_show
-        authorize_and_respond_with_respective_presenter
-      end
-
-      def permissions_edit
-        authorize_and_respond_with_respective_presenter
-      end
-
       def permissions_update
         resource = model_klass.unscoped.find(params[:id])
         authorize resource

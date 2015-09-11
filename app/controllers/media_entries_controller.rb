@@ -7,18 +7,26 @@ class MediaEntriesController < ApplicationController
 
   # list of all 'show' action sub-tabs
   SHOW_TABS = {
-    relations: 'Relations',
-    more_data: 'More Data'
+    nil => { title: 'Entry' },
+    relations: { title: 'Relations' },
+    more_data: { title: 'More Data' },
+    permissions: { title: 'Permissions', icon: :privacy_status_icon }
   }
 
   def show
-    @get = get_authorized_presenter(MediaEntry.unscoped.find(params[:id]))
     @tabs = SHOW_TABS
-    handle_tabs
-    # render "tab_#{tab.to_s}" if tab
+    @get = Presenters::MediaEntries::MediaEntryShow.new \
+      get_authorized_resource(MediaEntry.unscoped.find(params[:id])), current_user
   end
 
-  def more_data
+  # tabs that work like 'show':
+  alias_method :relations, :show
+  alias_method :more_data, :show
+  alias_method :permissions, :show
+
+  def permissions_edit
+    @tabs = SHOW_TABS
+    @get = get_authorized_presenter(MediaEntry.unscoped.find(params[:id]))
   end
 
   def preview
@@ -87,17 +95,6 @@ class MediaEntriesController < ApplicationController
   ###############################################################
 
   private
-
-  def handle_tabs
-    # if tab given: show if known, otherwise redirect to normal show
-    if (tab_name = params[:tab]).present?
-      if @tabs.keys.include?(tab_name.to_sym)
-        render("show_#{tab_name}") and return
-      else
-        redirect_to(media_entry_path(params[:id])) and return
-      end
-    end
-  end
 
   def store_file_and_create_previews!(file, media_file)
     store_file!(file.tempfile.path, media_file.original_store_location)

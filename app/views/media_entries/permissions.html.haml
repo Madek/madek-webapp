@@ -1,0 +1,74 @@
+- get = @get.permissions
+
+- content_for(:overview) do
+  .row
+    %h3.title-l.col1of2
+      Responsible user
+    .col1of2= get.responsible.name
+  .row
+    %h3.title-l.col1of2
+      Your permissions
+    .col1of2= get.current_user_permission_types
+
+  %hr
+  .row
+    %h3.title-l.col1of2
+      Permissions
+
+  .row.separated
+    %h3.title-m.col2of6
+      Users
+    .col1of6.title-s
+      get_metadata_and_previews
+    .col1of6.title-s
+      get_full_size
+    .col1of6.title-s
+      edit_metadata
+    .col1of6.title-s
+      edit_permissions
+  .mts
+    - get.user_permissions.each do |p|
+      .row
+        .col2of6.title-s= p.person_name.name
+        .col1of6.title-s= p.get_metadata_and_previews
+        .col1of6.title-s= p.get_full_size
+        .col1of6.title-s= p.edit_metadata
+        .col1of6.title-s= p.edit_permissions
+  %br
+  .row.separated
+    %h3.title-m
+      Groups
+  .mts
+    - get.group_permissions.each do |p|
+      .row
+        .col2of6.title-s= p.group_name
+        .col1of6.title-s= p.get_metadata_and_previews
+        .col1of6.title-s= p.get_full_size
+        .col1of6.title-s= p.edit_metadata
+        .col1of6= "—"
+
+  %br
+  .row.separated
+    %h3.title-m
+      API clients
+  .mts
+    - get.api_client_permissions.each do |p|
+      .row
+        .col2of6.title-s= p.api_client_login
+        .col1of6.title-s= p.get_metadata_and_previews
+        .col1of6.title-s= p.get_full_size
+        .col1of6= "—"
+        .col1of6= "—"
+  %br
+  .row.separated
+    %h3.col2of6.title-m
+      Public
+    .col1of6.title-s= get.public_permission.get_metadata_and_previews
+    .col1of6.title-s= get.public_permission.get_full_size
+    .col1of6.title-s= "—"
+    .col1of6.title-s= "—"
+
+  %br
+  = link_to :edit, edit_permissions_media_entry_path(get.uuid), class: 'primary-button'
+
+= render template: 'media_entries/_show/_base'

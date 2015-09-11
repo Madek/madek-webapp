@@ -13,10 +13,13 @@ Madek::Application.routes.draw do
 
   resources :media_entries, path: 'entries' do
     member do
-      get 'permissions', action: :permissions_show, as: 'permissions'
+      get 'relations'
+      get 'more_data'
+      get 'permissions'
+      
       get 'permissions/edit', action: :permissions_edit, as: 'edit_permissions'
       put 'permissions', action: :permissions_update
-      get ':tab', action: :show, as: :show_tab
+
       post :publish
       get 'preview/:size', action: :preview, as: :preview
     end

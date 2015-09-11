@@ -6,24 +6,24 @@ require Rails.root.join 'spec',
                         'media_resources',
                         'relations_setup'
 
-describe Presenters::MediaEntries::MediaEntryRelations do
+describe Presenters::MediaEntries::MediaEntryShow do
   include_context 'relations'
 
   context 'dumps' do
     it_can_be 'dumped' do
-      let(:presenter) { described_class.new(@media_entry_1, @user) }
+      let(:presenter) { described_class.new(@media_entry_1, @user).relations }
     end
     it_can_be 'dumped' do
-      let(:presenter) { described_class.new(@media_entry_2, @user) }
+      let(:presenter) { described_class.new(@media_entry_2, @user).relations }
     end
     it_can_be 'dumped' do
-      let(:presenter) { described_class.new(@media_entry_3, @user) }
+      let(:presenter) { described_class.new(@media_entry_3, @user).relations }
     end
     it_can_be 'dumped' do
-      let(:presenter) { described_class.new(@media_entry_4, @user) }
+      let(:presenter) { described_class.new(@media_entry_4, @user).relations }
     end
     it_can_be 'dumped' do
-      let(:presenter) { described_class.new(@media_entry_5, @user) }
+      let(:presenter) { described_class.new(@media_entry_5, @user).relations }
     end
   end
 
@@ -42,7 +42,7 @@ describe Presenters::MediaEntries::MediaEntryRelations do
     end
 
     it 'context media_entry_1' do
-      @p = described_class.new(@media_entry_1, @user)
+      @p = described_class.new(@media_entry_1, @user).relations
 
       ########### PARENTS #######################################
       expect(@p.parent_media_resources.collections.total_count)
@@ -65,7 +65,7 @@ describe Presenters::MediaEntries::MediaEntryRelations do
     end
 
     it 'context media_entry_3' do
-      @p = described_class.new(@media_entry_3, @user)
+      @p = described_class.new(@media_entry_3, @user).relations
 
       ########### PARENTS #######################################
       expect(@p.parent_media_resources.collections.total_count)
@@ -79,7 +79,7 @@ describe Presenters::MediaEntries::MediaEntryRelations do
     end
 
     it 'context media_entry_4' do
-      @p = described_class.new(@media_entry_4, @user)
+      @p = described_class.new(@media_entry_4, @user).relations
 
       ########### PARENTS #######################################
       expect(@p.parent_media_resources.collections.total_count)
@@ -93,7 +93,7 @@ describe Presenters::MediaEntries::MediaEntryRelations do
     end
 
     it 'context media_entry_5' do
-      @p = described_class.new(@media_entry_5, @user)
+      @p = described_class.new(@media_entry_5, @user).relations
 
       ########### PARENTS #######################################
       expect(@p.parent_media_resources.collections)
