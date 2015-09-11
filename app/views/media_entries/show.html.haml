@@ -1,28 +1,18 @@
-- unless @get.published?
-  - content_for(:app_alerts) do
-    = component('alert', level: 'warning', text: 'Entry is not published yet!')
-  = render('media_entries/_show/unpublished_header')
-
 :ruby
   tag_mods = ['small','ellipsed']
 
-  entry_show = {
-    header: render('media_entries/_show/resource_header'),
-    tabs: render('media_entries/_show/tab_nav')
-  }
-
-  entry_show[:overview] = deco('resource_show_overview',
+  content_for(:overview) do deco('resource_show_overview',
     mods: 'ui-media-overview',
 
     preview_large: component('picture', mods: ['media-set'],
                 text: @get.title,
                 href: @get.image_url),
+
     # TODO: core_vocab_deco
     # = deco('vocabulary_meta_data_table', data: meta_data.by_vocabulary[summary_vocab])
+
     content: combo('metadata-box',
                 mods: 'ui-summary-table.ui-set-summary.compact',
-                # TODO: build this list in a presenter?
-                # @get.metadata => [ [key, value], [key, value] ]
                 list: [['Title', @get.title, 'title-l'],
                        ['Description', @get.description],
                        ['Copyright Notice', @get.copyright_notice],
@@ -31,8 +21,9 @@
                           mods: tag_mods,
                           list: @get.keywords)] : nil
                       ]))
+  end
 
-- entry_show[:more_info] = capture_haml do
+- content_for(:more_info) do
   -# TMP: always show this sections! (till we have js, thus tabs)
   .ui-container.midtone.rounded-bottom.pal.well
 
@@ -41,4 +32,4 @@
       = deco('meta_data_by_vocabulary', meta_data: @get.meta_data,
                                         vocab_ids: shown_vocabs)
 
-= deco('resource_show', entry_show)
+= render template: 'media_entries/_show/_base'

@@ -1,4 +1,7 @@
-.ui-container.bright.bordered-bottom.mbm{style: 'margin: -20px -20px 0;' }
+- content_for(:app_alerts) do
+  = component('alert', level: 'warning', text: 'Entry is not published yet!')
+
+.ui-container.bright.bordered-bottom.mbm
 
   .ui-container.pal
     .title-l

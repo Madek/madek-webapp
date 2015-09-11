@@ -1,7 +1,8 @@
 :ruby
-  overview = content_for(:overview)
+  top_notice = content_for(:top_notice)
   header = content_for(:header)
   tabs = content_for(:tabs)
+  overview = content_for(:overview)
   more_info = content_for(:more_info)
 
   throw 'ui: invalid data' unless overview && header
@@ -11,7 +12,13 @@
 
 
 .app-body-ui-container
+
+  - if top_notice.present?
+    %div{style: 'margin: -20px -20px 0' }
+      = top_notice
+
   = header
+
   = tabs
 
   -# complete box (under the title):

@@ -1,0 +1,10 @@
+:ruby
+  unless @get.published?
+    content_for(:top_notice) { render('media_entries/_show/unpublished_header') }
+  end
+
+  content_for(:header) { render('media_entries/_show/resource_header') }
+
+  content_for(:tabs) { render('media_entries/_show/tab_nav') }
+
+= render template: 'layouts/app_resource'

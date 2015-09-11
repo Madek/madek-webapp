@@ -1,15 +1,5 @@
-- unless @get.published?
-  - flash[:warning] = 'Entry is not published yet!'
-  = render('media_entries/_show/unpublished_header')
-
-:ruby
-  tag_mods = ['small','ellipsed']
-  entry_show = {}
-  entry_show[:header] = render('media_entries/_show/resource_header')
-
-- entry_show[:tabs] = render('media_entries/_show/tab_nav')
-
-- entry_show[:overview] = capture_haml do
+- tag_mods = ['small','ellipsed']
+- content_for(:overview) do
   .col1of3
     .ui-container.prm
       %h3.title-l.separated.mbm
@@ -40,4 +30,4 @@
           mods: 'ui-summary-table', list: @get.more_data.file_information)
 
 
-= deco('resource_show', entry_show)
+= render template: 'media_entries/_show/_base'
