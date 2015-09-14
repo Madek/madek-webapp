@@ -32,8 +32,9 @@ describe MetaDataController do
       patch :update,
             { id: meta_datum.id,
               media_entry_id: @media_entry.id,
-              _key: meta_key.id,
-              _value: { type: 'MetaDatum::Text', content: [new_text] } },
+              meta_key: meta_key.id,
+              type: 'MetaDatum::Text',
+              values: [new_text] },
             user_id: @user.id
 
       assert_response 303
@@ -52,8 +53,9 @@ describe MetaDataController do
       patch :update,
             { id: meta_datum.id,
               media_entry_id: @media_entry.id,
-              _key: meta_key.id,
-              _value: { type: 'MetaDatum::TextDate', content: [new_text_date] } },
+              meta_key: meta_key.id,
+              type: 'MetaDatum::TextDate',
+              values: [new_text_date] },
             user_id: @user.id
 
       assert_response 303
@@ -73,9 +75,8 @@ describe MetaDataController do
       patch :update,
             { id: meta_datum.id,
               media_entry_id: @media_entry.id,
-              _key: meta_key.id,
-              _value: { type: 'MetaDatum::People',
-                        content: new_people_ids } },
+              meta_key: meta_key.id,
+              type: 'MetaDatum::People', values: new_people_ids },
             user_id: @user.id
 
       assert_response 303
@@ -95,9 +96,8 @@ describe MetaDataController do
       patch :update,
             { id: meta_datum.id,
               media_entry_id: @media_entry.id,
-              _key: meta_key.id,
-              _value: { type: 'MetaDatum::People',
-                        content: new_people_ids } },
+              meta_key: meta_key.id,
+              type: 'MetaDatum::People', values: new_people_ids },
             user_id: @user.id
 
       assert_response 303
@@ -119,9 +119,8 @@ describe MetaDataController do
       patch :update,
             { id: meta_datum.id,
               media_entry_id: @media_entry.id,
-              _key: meta_key.id,
-              _value: { type: 'MetaDatum::Keywords',
-                        content: new_keyword_ids } },
+              meta_key: meta_key.id,
+              type: 'MetaDatum::Keywords', values: new_keyword_ids },
             user_id: @user.id
 
       assert_response 303
@@ -141,9 +140,8 @@ describe MetaDataController do
       patch :update,
             { id: meta_datum.id,
               media_entry_id: @media_entry.id,
-              _key: meta_key.id,
-              _value: { type: 'MetaDatum::Keywords',
-                        content: new_keyword_ids } },
+              meta_key: meta_key.id,
+              type: 'MetaDatum::Keywords', values: new_keyword_ids },
             user_id: @user.id
 
       assert_response 303
@@ -161,8 +159,9 @@ describe MetaDataController do
         post :update,
              { id: meta_datum.id,
                media_entry_id: @media_entry.id,
-               _key: meta_key.id,
-               _value: { type: 'MetaDatum::People', content: [] } },
+               meta_key: meta_key.id,
+               type: 'MetaDatum::People',
+               values: [] },
              user_id: @user.id
 
         assert_response 303
@@ -179,8 +178,9 @@ describe MetaDataController do
         post :update,
              { id: meta_datum.id,
                media_entry_id: @media_entry.id,
-               _key: meta_key.id,
-               _value: { type: 'MetaDatum::People', content: ['', ''] } },
+               meta_key: meta_key.id,
+               type: 'MetaDatum::People',
+               values: ['', ''] },
              user_id: @user.id
 
         assert_response 303

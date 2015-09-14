@@ -3,15 +3,15 @@ module Concerns
     extend ActiveSupport::Concern
 
     def meta_key_id_param(parameters = params)
-      parameters.require(:_key)
+      parameters.require(:meta_key)
     end
 
     def type_param(parameters = params)
-      parameters.require(:_value).require(:type)
+      parameters.require(:type)
     end
 
     def value_param(parameters = params)
-      parameters.require(:_value).fetch(:content)
+      parameters.fetch(:values)
     end
 
     def value_param_for_update(type)

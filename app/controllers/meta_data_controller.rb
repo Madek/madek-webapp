@@ -31,15 +31,7 @@ class MetaDataController < ApplicationController
     meta_datum = MetaDatum.find(id_param)
     authorize meta_datum
 
-    # TODO: cleanup form values, same params for forms and ajax
-    values = \
-      if request.content_type == 'application/json'
-        params.require(:values)
-      else
-        value_param_for_update(meta_datum.type)
-      end
-
-    meta_datum.set_value!(values, current_user)
+    meta_datum.set_value!(value_param_for_update(meta_datum.type), current_user)
 
     if request.content_type == 'application/json'
       head 204

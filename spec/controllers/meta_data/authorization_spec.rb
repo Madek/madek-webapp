@@ -28,8 +28,9 @@ describe MetaDataController do
     expect do
       post :create,
            { media_entry_id: media_entry.id,
-             _key: meta_key.id,
-             _value: { type: 'MetaDatum::Text', content: ['text'] } },
+             meta_key: meta_key.id,
+             type: 'MetaDatum::Text',
+             values: ['text'] },
            user_id: user.id
     end.to raise_error Errors::ForbiddenError
   end

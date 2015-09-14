@@ -26,8 +26,9 @@ describe MetaDataController do
       ids = Person.take(2).map(&:id)
       post :create,
            { media_entry_id: @media_entry.id,
-             _key: meta_key.id,
-             _value: { type: 'MetaDatum::People', content: ids } },
+             meta_key: meta_key.id,
+             type: 'MetaDatum::People',
+             values: ids },
            user_id: @user.id
 
       assert_response :created
@@ -43,8 +44,9 @@ describe MetaDataController do
       ids = Group.take(2).map(&:id)
       post :create,
            { media_entry_id: @media_entry.id,
-             _key: meta_key.id,
-             _value: { type: 'MetaDatum::Groups', content: ids } },
+             meta_key: meta_key.id,
+             type: 'MetaDatum::Groups',
+             values: ids },
            user_id: @user.id
 
       assert_response :created
@@ -59,8 +61,9 @@ describe MetaDataController do
       ids = User.take(2).map(&:id)
       post :create,
            { media_entry_id: @media_entry.id,
-             _key: meta_key.id,
-             _value: { type: 'MetaDatum::Users', content: ids } },
+             meta_key: meta_key.id,
+             type: 'MetaDatum::Users',
+             values: ids },
            user_id: @user.id
 
       assert_response :created
@@ -76,8 +79,9 @@ describe MetaDataController do
       ids = License.take(2).map(&:id)
       post :create,
            { media_entry_id: @media_entry.id,
-             _key: meta_key.id,
-             _value: { type: 'MetaDatum::Licenses', content: ids } },
+             meta_key: meta_key.id,
+             type: 'MetaDatum::Licenses',
+             values: ids },
            user_id: @user.id
 
       assert_response :created
@@ -93,8 +97,9 @@ describe MetaDataController do
       ids = Keyword.take(2).map(&:id)
       post :create,
            { media_entry_id: @media_entry.id,
-             _key: meta_key.id,
-             _value: { type: 'MetaDatum::Keywords', content: ids } },
+             meta_key: meta_key.id,
+             type: 'MetaDatum::Keywords',
+             values: ids },
            user_id: @user.id
 
       assert_response :created
@@ -110,8 +115,9 @@ describe MetaDataController do
       text = Faker::Lorem.word
       post :create,
            { media_entry_id: @media_entry.id,
-             _key: meta_key.id,
-             _value: { type: 'MetaDatum::Text', content: [text] } },
+             meta_key: meta_key.id,
+             type: 'MetaDatum::Text',
+             values: [text] },
            user_id: @user.id
 
       assert_response :created
@@ -126,8 +132,9 @@ describe MetaDataController do
       text = Faker::Lorem.word
       post :create,
            { media_entry_id: @media_entry.id,
-             _key: meta_key.id,
-             _value: { type: 'MetaDatum::TextDate', content: [text] } },
+             meta_key: meta_key.id,
+             type: 'MetaDatum::TextDate',
+             values: [text] },
            user_id: @user.id
 
       assert_response :created
@@ -148,8 +155,9 @@ describe MetaDataController do
                              edit_metadata_and_relations: true)
         post :create,
              { collection_id: collection.id,
-               _key: meta_key.id,
-               _value: { type: 'MetaDatum::Text', content: [text] } },
+               meta_key: meta_key.id,
+               type: 'MetaDatum::Text',
+               values: [text] },
              user_id: @user.id
 
         assert_response :created
@@ -174,8 +182,9 @@ describe MetaDataController do
       expect do
         post :create,
              { media_entry_id: @media_entry.id,
-               _key: meta_key.id,
-               _value: { type: 'MetaDatum::Keywords', content: ids } },
+               meta_key: meta_key.id,
+               type: 'MetaDatum::Keywords',
+               values: ids },
              user_id: @user.id
       end.to raise_error ActiveRecord::RecordNotUnique
 
@@ -199,8 +208,9 @@ describe MetaDataController do
       expect do
         post :create,
              { media_entry_id: @media_entry.id,
-               _key: meta_key.id,
-               _value: { type: 'MetaDatum::People', content: [] } },
+               meta_key: meta_key.id,
+               type: 'MetaDatum::People',
+               values: [] },
              user_id: @user.id
       end.to raise_error ActionController::ParameterMissing
 
@@ -215,8 +225,9 @@ describe MetaDataController do
       expect do
         post :create,
              { media_entry_id: @media_entry.id,
-               _key: meta_key.id,
-               _value: { type: 'MetaDatum::People', content: ['', ''] } },
+               meta_key: meta_key.id,
+               type: 'MetaDatum::People',
+               values: ['', ''] },
              user_id: @user.id
       end.to raise_error ActionController::ParameterMissing
 

@@ -26,7 +26,7 @@ feature 'naughty strings 4' do
     strings[151..200].each do |s|
       visit meta_datum_path(@meta_datum)
       click_on 'Edit'
-      fill_in '_value_content_', with: s
+      fill_in 'values_', with: s
       click_on 'Save'
 
       puts s

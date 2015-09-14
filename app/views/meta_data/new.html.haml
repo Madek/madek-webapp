@@ -1,19 +1,19 @@
 = form_tag(meta_data_path) do
   %div
     = label_tag(:q, " KEY ", class: 'title-s')
-    = text_field_tag("_key")
+    = text_field_tag("meta_key")
 
   %hr.separator.mini.mvs
 
   %div
     = label_tag(:q, " TYPE ", class: 'title-s')
-    = text_field_tag("_value[type]")
+    = text_field_tag("type")
 
   %hr.separator.mini.mvs
 
   - 3.times do
     = label_tag(:q, " VALUE ", class: 'title-s')
-    = text_field_tag("_value[content][]")
+    = text_field_tag("values[]")
 
   %hr.separator.mini.mvs
   %div

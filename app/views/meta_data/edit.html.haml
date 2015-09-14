@@ -42,11 +42,11 @@
         = combo('form-group', mods: 'columned', label: label) do
           -# one field for every current value:
           - @get.literal_values.each do |text_value|
-            = text_field_tag("_value[content][]", text_value,
+            = text_field_tag("values[]", text_value,
                               class: :block, placeholder: placeholder_text)
           -# one field to add a value
           - if multiple_allowed
-            = text_field_tag("_value[content][]", nil,
+            = text_field_tag("values[]", nil,
                               class: :block, placeholder: placeholder_text)
 
 
