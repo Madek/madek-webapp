@@ -1,20 +1,19 @@
 :ruby
-
   tabs = @tabs.map do |id, tab|
     path = id ? send("#{id}_media_entry_path") : media_entry_path
-    tab[:icon] = case tab[:icon]
-                when :privacy_status_icon
-                   deco('privacy-status-icon', get: @get)
-                 else
-                   tab[:icon]
-                 end
-    [path, tab]
+
+    icon = case tab[:icon_type]
+           when :privacy_status_icon
+             deco('privacy-status-icon', get: @get)
+           end
+
+    [path, tab.merge(icon: icon)]
   end.to_h
 
 
 %ul.ui-tabs.large
   - tabs.each do |path, tab|
-    %li.ui-tabs-item{class: link_active?(path, true) ? 'active' : 'nil'}
+    %li.ui-tabs-item{class: link_active?(path, true) ? 'active' : nil}
       %a{href: path}
         = tab[:icon]
         = tab[:title]

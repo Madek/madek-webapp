@@ -10,7 +10,7 @@ class MediaEntriesController < ApplicationController
     nil => { title: 'Entry' },
     relations: { title: 'Relations' },
     more_data: { title: 'More Data' },
-    permissions: { title: 'Permissions', icon: :privacy_status_icon }
+    permissions: { title: 'Permissions', icon_type: :privacy_status_icon }
   }
 
   def show
