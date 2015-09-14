@@ -29,7 +29,7 @@
     "underscore.string": "^3.0.3"
   },
   "devDependencies": {
-    "big-list-of-naughty-strings": "https://github.com/minimaxir/big-list-of-naughty-strings/tarball/master",
+    "big-list-of-naughty-strings": "minimaxir/big-list-of-naughty-strings",
     "istanbul": "^0.3.5",
     "tape": "^4.0.0"
   },
