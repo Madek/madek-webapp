@@ -15,7 +15,7 @@ class Presenter
 
   def dump
     Hash[api
-      .select { |m| method(m).arity == 0 } # only dump methods without args
+      .reject { |m| method(m).arity > 0 } # only dump methods without needed args
       .map do |api_method|
         result = \
           begin
