@@ -43,6 +43,7 @@ gem 'haml-lint', '~> 0.10.0'
 gem 'haml-rails'
 gem 'haml_assets'
 gem 'kramdown'
+gem 'react-rails', '~> 1.0'
 gem 'sass'
 gem 'sass-rails'
 

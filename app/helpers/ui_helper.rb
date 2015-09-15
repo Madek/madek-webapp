@@ -42,6 +42,12 @@ module UiHelper
 
   # # misc UI helpers
 
+  # React Components (proxy to view helper from `react_rails` gem w/ config)
+  def react(name, props, opts = {})
+    defaults = { prerender: true }
+    react_component("UI.#{name}", props, defaults.merge(opts))
+  end
+
   # generic partial-with-block helper
   def render_partial(name, locals = {}, &block)
     render layout: name, locals: locals, &block if block_given?

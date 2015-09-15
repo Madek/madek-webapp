@@ -5,12 +5,13 @@ isFunction = require('lodash/lang/isFunction')
 MetaDatum = require('../models/meta-datum.coffee')
 MetaDataEdit = require('../react/meta-datum-edit.cjsx')
 
+# TODO: init by (ampersand-)model, not by (react-)component (they have vendor ujs)
 module.exports = reactUjs=()->
-  $('[data-react-class]').each ->
+  $('[data-react-elm]').each ->
     element = this
     data = $(element).data()
-    console.log data, data['react-class']
-    if isFunction(init = initByClass[data.reactClass])
+
+    if isFunction(init = initByClass[data.reactElm])
       init(data, (enhanced)-> React.render(enhanced, element))
 
 initByClass =

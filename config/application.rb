@@ -121,27 +121,34 @@ module Madek
     # By default only files in /app and /node_modules are browserified,
     # vendor stuff is normally not made for browserification and may stop
     # working.
-    config.browserify_rails.paths << %r{vendor/assets/javascripts/module.js}
+    # config.browserify_rails.paths << %r{vendor/assets/javascripts/module.js}
 
     # Environments, in which to generate source maps
-    # The default is `["development"]`.
-    config.browserify_rails.source_map_environments << 'production'
+    # The default is none
+    config.browserify_rails.source_map_environments << 'development'
 
     # Command line options used when running browserify
-    config.browserify_rails.commandline_options = [
-        '-t coffee-reactify',
-        '-t reactify',
-        '--ignore "crypto"',
-      ]
+    # NOTE: all browserify config itself is in `package.json`
+    # config.browserify_rails.commandline_options = []
 
     # Should the node_modules directory be evaluated for changes on page load
     #
     # The default is `false`
     config.browserify_rails.evaluate_node_modules = true
 
+    # react-rails config:
+    # Settings for the pool of renderers:
+    # config.react.server_renderer_pool_size  ||= 1  # ExecJS doesn't allow more than one on MRI
+    # config.react.server_renderer_timeout    ||= 20 # seconds
+    # config.react.server_renderer = React::ServerRendering::SprocketsRenderer
+    config.react.server_renderer_options = {
+      files: ['react-server-side.js'], # files to load for prerendering
+      replay_console: false,                # if true, console.* will be replayed client-side
+    }
 
     # Please add any files you need precompiled here, otherwise it breaks production.
     # JS Note: only application.js and admin.js are needed here as entry points
+    #          react-server-side.js must also be bundled (but not included in web)
     config.assets.precompile += %w(
       *.png
       api_docs.css
@@ -153,6 +160,7 @@ module Madek
       application.js
       i18n/locale/*
       pdf-viewer.css
+      react-server-side.js
       styleguide.css
       video.css
       visualization.css
