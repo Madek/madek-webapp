@@ -46,7 +46,8 @@ feature 'MediaEntry#show' do
     expect(page).to have_content 'Responsible user Normin Normalo'
     expect(page).to have_content \
       'Your permissions
-      [:data_and_preview, :fullsize, :edit_data, :edit_permissions]'
+      [:get_metadata_and_previews, :get_full_size, ' \
+      ':edit_metadata, :edit_permissions]'
   end
 
 end

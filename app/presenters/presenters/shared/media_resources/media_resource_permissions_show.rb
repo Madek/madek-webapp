@@ -4,39 +4,14 @@ module Presenters
       class MediaResourcePermissionsShow < Presenters::Shared::AppResource
         include Presenters::Shared::MediaResources::Modules::Responsible
 
-        GENERIC_PERMISSION_TYPES = [:data_and_preview,
-                                    :edit_data,
-                                    :fullsize,
-                                    :edit_permissions]
-
-        SHARED_TYPES_MAP = { get_metadata_and_previews: :data_and_preview,
-                             edit_permissions: :edit_permissions }
-
         def initialize(app_resource, user)
           super(app_resource)
           @user = user
         end
 
-        def generic_permission_types
-          self.class::GENERIC_PERMISSION_TYPES
-        end
-
         def current_user_permission_types
-          @app_resource
-            .permission_types_for_user(@user)
-            .map { |type| self.class::TYPES_MAP[type] }
+          @app_resource.permission_types_for_user(@user)
         end
-
-        def self.setup(app_resource_class, types_map)
-          define_permissions_api(app_resource_class)
-
-          validate_types_map \
-            types_map,
-            "Permissions::Modules::#{app_resource_class}::PERMISSION_TYPES"
-              .constantize
-        end
-
-        ################## PRIVATE CLASS METHODS #########################
 
         def self.define_permissions_api(app_resource_class)
           partial_const_path = \
@@ -55,6 +30,8 @@ module Presenters
           end
         end
 
+        ################## PRIVATE CLASS METHODS #########################
+
         def self.permissions_helper(perm_type, partial_const_path)
           define_method(perm_type.pluralize) do
             p_class = "#{partial_const_path}#{perm_type.camelize}".constantize
@@ -64,25 +41,8 @@ module Presenters
           end
         end
 
-        def self.generic_types_valid?(types)
-          types.all? { |type| GENERIC_PERMISSION_TYPES.include?(type) }
-        end
-
-        def self.validate_types_map(types_map, specific_types)
-          raise 'Invalid permission type' \
-            unless specific_types_valid?(types_map.keys, specific_types) \
-              or generic_types_valid?(types_map.values)
-        end
-
-        def self.specific_types_valid?(types, specific_types)
-          types.all? { |type| specific_types.include?(type) }
-        end
-
         private_class_method :define_permissions_api,
-                             :permissions_helper,
-                             :generic_types_valid?,
-                             :specific_types_valid?,
-                             :validate_types_map
+                             :permissions_helper
       end
     end
   end

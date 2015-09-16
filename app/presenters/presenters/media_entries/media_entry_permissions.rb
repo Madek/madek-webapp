@@ -3,11 +3,11 @@ module Presenters
     class MediaEntryPermissions < \
       Presenters::Shared::MediaResources::MediaResourcePermissionsShow
 
-      TYPES_MAP = \
-        { edit_metadata: :edit_data,
-          get_full_size: :fullsize }.merge(SHARED_TYPES_MAP)
+      def permission_types
+        ::Permissions::Modules::MediaEntry::PERMISSION_TYPES
+      end
 
-      setup MediaEntry, TYPES_MAP
+      define_permissions_api MediaEntry
     end
   end
 end
