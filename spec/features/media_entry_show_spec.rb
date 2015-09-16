@@ -43,11 +43,12 @@ feature 'MediaEntry#show' do
     expect(permissions_tab.find('.icon-privacy-open')).to be
 
     click_on_tab 'Permissions'
-    expect(page).to have_content 'Responsible user Normin Normalo'
+    expect(page).to have_content 'Sie, Normin Normalo, haben'
     expect(page).to have_content \
-      'Your permissions
-      [:get_metadata_and_previews, :get_full_size, ' \
-      ':edit_metadata, :edit_permissions]'
+      ['Betrachten',
+       'Original exportieren & in PDF blättern',
+       'Metadaten editieren & Inhalte zu Set hinzufügen',
+       'Zugriffsberechtigungen ändern'].join('')
   end
 
 end

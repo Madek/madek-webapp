@@ -1,3 +1,4 @@
+// collect top-level components needed for ujs and/or server-side render:
 module.exports = UI = {
-  // MetaDatumEdit: require('./meta-datum-edit.cjsx')
+  RightsManagement: require('./rights-management.cjsx')
 }
