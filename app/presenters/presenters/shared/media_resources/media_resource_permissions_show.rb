@@ -2,6 +2,7 @@ module Presenters
   module Shared
     module MediaResources
       class MediaResourcePermissionsShow < Presenters::Shared::AppResource
+        include Presenters::Shared::Modules::CurrentUser
         include Presenters::Shared::MediaResources::Modules::Responsible
 
         def initialize(app_resource, user)
