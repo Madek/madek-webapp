@@ -9,8 +9,12 @@ module Presenters
           @user = user
         end
 
-        def current_user_permission_types
+        def current_user_permissions
           @app_resource.permission_types_for_user(@user)
+        end
+
+        def can_edit
+          current_user_permissions.include?(:edit_permissions)
         end
 
         def self.define_permissions_api(app_resource_class)
