@@ -78,14 +78,12 @@ module UiHelper
     locals[:block_content] = capture { yield } if block_given?
     template_path = "#{type}s/#{name}"
 
-    read_from_cache_or_render template_path: template_path,
-                              locals: locals
+    read_from_cache_or_render template_path: template_path, locals: locals
   end
 
-  def read_from_cache_or_render(template_locals)
-    Rails.cache.fetch template_locals.hash do
-      render template: template_locals[:template_path],
-             locals: template_locals[:locals]
+  def read_from_cache_or_render(locals)
+    Rails.cache.fetch locals.hash do
+      render template: locals[:template_path], locals: locals[:locals]
     end
   end
 
@@ -98,12 +96,7 @@ module UiHelper
       interactive: config.try(:to_h).try(:[], :interactive).presence || false,
       block_content: nil
     }
-
-    if config.is_a? Hash
-      config.except([:mods]).merge(locals)
-    else
-      locals
-    end
+    config.is_a?(Hash) ? config.except([:mods]).merge(locals) : locals
   end
 
   def classes_from_element(config = {})
@@ -123,12 +116,9 @@ module UiHelper
     mods = name.split('.')
     element = mods.shift(1).first
     return unless mods
-    classes = supported_elements.map do |supported|
-      if element == supported
-        mods.map { |mod| "#{element}-#{mod}" }
-      end
-    end
-    classes.flatten.compact
+    supported_elements.map do |supported|
+      mods.map { |mod| "#{element}-#{mod}" } if element == supported
+    end.flatten.compact
   end
 
   def build_list(list = nil)
