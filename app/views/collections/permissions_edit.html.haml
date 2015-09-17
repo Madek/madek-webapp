@@ -25,7 +25,9 @@
   .mts
     - @get.user_permissions.each do |p|
       .row
-        %input{name: 'collection[user_permissions][][user_id]', value: p.user_id, hidden: true}
+        -# because of how the Params parser works, an array can not start with a hash:
+        %input{name: 'media_entry[user_permissions][][params_fix]', value: 'ignore_this', hidden: true}
+        %input{name: 'collection[user_permissions][][subject][uuid]', value: p.user_id, hidden: true}
         .col3of6.title-s= p.person_name.name
         .col1of6.title-s
           = check_box_tag 'collection[user_permissions][][get_metadata_and_previews]', 'true', p.get_metadata_and_previews
@@ -34,8 +36,10 @@
         .col1of6.title-s
           = check_box_tag 'collection[user_permissions][][edit_permisssions]', 'true', p.edit_permissions
     .row
+        -# because of how the Params parser works, an array can not start with a hash:
+        %input{name: 'media_entry[user_permissions][][params_fix]', value: 'ignore_this', hidden: true}
       .col3of6.title-s
-        %input{name: 'collection[user_permissions][][user_id]'}
+        %input{name: 'collection[user_permissions][][subject][uuid]'}
       .col1of6.title-s
         = check_box_tag 'collection[user_permissions][][get_metadata_and_previews]', 'true', false
       .col1of6.title-s
@@ -50,7 +54,9 @@
   .mts
     - @get.group_permissions.each do |p|
       .row
-        %input{name: 'collection[group_permissions][][group_id]', value: p.group_id, hidden: true}
+        -# because of how the Params parser works, an array can not start with a hash:
+        %input{name: 'media_entry[group_permissions][][params_fix]', value: 'ignore_this', hidden: true}
+        %input{name: 'collection[group_permissions][][subject][uuid]', value: p.group_id, hidden: true}
         .col3of6.title-s= p.group_name
         .col1of6.title-s
           = check_box_tag 'collection[group_permissions][][get_metadata_and_previews]', 'true', p.get_metadata_and_previews
@@ -58,8 +64,10 @@
           = check_box_tag 'collection[group_permissions][][edit_metadata_and_relations]', 'true', p.edit_metadata_and_relations
         .col1of6= "--"
     .row
+      -# because of how the Params parser works, an array can not start with a hash:
+      %input{name: 'media_entry[group_permissions][][params_fix]', value: 'ignore_this', hidden: true}
       .col3of6.title-s
-        %input{name: 'collection[group_permissions][][group_id]'}
+        %input{name: 'collection[group_permissions][][subject][uuid]'}
       .col1of6.title-s
         = check_box_tag 'collection[group_permissions][][get_metadata_and_previews]', 'true', false
       .col1of6.title-s
@@ -73,7 +81,9 @@
   .mts
     - @get.api_client_permissions.each do |p|
       .row
-        %input{name: 'collection[api_client_permissions][][api_client_id]', value: p.api_client_id, hidden: true}
+        -# because of how the Params parser works, an array can not start with a hash:
+        %input{name: 'media_entry[api_client_permissions][][params_fix]', value: 'ignore_this', hidden: true}
+        %input{name: 'collection[api_client_permissions][][subject][uuid]', value: p.api_client_id, hidden: true}
         .col3of6.title-s= p.api_client_login
         .col1of6.title-s
           = check_box_tag 'collection[api_client_permissions][][get_metadata_and_previews]', 'true', p.get_metadata_and_previews
@@ -81,8 +91,10 @@
           = check_box_tag 'collection[api_client_permissions][][edit_metadata_and_relations]', 'true', p.edit_metadata_and_relations
         .col1of6= "--"
     .row
+      -# because of how the Params parser works, an array can not start with a hash:
+      %input{name: 'media_entry[api_client_permissions][][params_fix]', value: 'ignore_this', hidden: true}
       .col3of6.title-s
-        %input{name: 'collection[api_client_permissions][][api_client_id]'}
+        %input{name: 'collection[api_client_permissions][][subject][uuid]'}
       .col1of6.title-s
         = check_box_tag 'collection[api_client_permissions][][get_metadata_and_previews]', 'true', false
       .col1of6.title-s

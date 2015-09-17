@@ -36,7 +36,9 @@ module Modules
         end
 
         def public_permissions_params
-          media_entry_params.permit(:get_metadata_and_previews, :get_full_size)
+          media_entry_params
+            .require(:public_permission)
+            .permit(:get_metadata_and_previews, :get_full_size)
         end
       end
     end

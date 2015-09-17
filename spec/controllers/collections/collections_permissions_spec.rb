@@ -31,29 +31,29 @@ describe CollectionsController do
       { id: collection.id,
         collection:
           { user_permissions:
-              [{ user_id: up1.user_id,
+              [{ subject: { uuid: up1.user_id },
                  get_metadata_and_previews: \
                     (not up1.get_metadata_and_previews) },
-               { user_id: up2.user_id },
-               { user_id: (user = create(:user)).id,
+               { subject: { uuid: up2.user_id } },
+               { subject: { uuid: (user = create(:user)).id },
                  get_metadata_and_previews: true }],
             group_permissions:
-              [{ group_id: gp1.group_id,
+              [{ subject: { uuid: gp1.group_id },
                  get_metadata_and_previews: \
                     (not gp1.get_metadata_and_previews) },
-               { group_id: gp2.group_id },
-               { group_id: (group = create(:group)).id,
+               { subject: { uuid: gp2.group_id } },
+               { subject: { uuid: (group = create(:group)).id },
                  get_metadata_and_previews: true }],
             api_client_permissions:
-              [{ api_client_id: apc1.api_client_id,
+              [{ subject: { uuid: apc1.api_client_id },
                  get_metadata_and_previews: \
                     (not apc1.get_metadata_and_previews) },
-               { api_client_id: apc2.api_client_id },
-               { api_client_id: (api_client = create(:api_client)).id,
+               { subject: { uuid: apc2.api_client_id } },
+               { subject: { uuid: (api_client = create(:api_client)).id },
                  get_metadata_and_previews: true }],
-            get_metadata_and_previews: \
-              (not collection.get_metadata_and_previews)
-          }
+            public_permission: {
+              get_metadata_and_previews: \
+                (not collection.get_metadata_and_previews) } }
       }
 
     put :permissions_update,
@@ -131,9 +131,10 @@ describe CollectionsController do
 
     update_params = \
       { id: collection.id,
-        collection:
-         { get_metadata_and_previews: true,
-           get_full_size: true } }
+        collection: {
+          public_permission: {
+            get_metadata_and_previews: true,
+            get_full_size: true } } }
 
     put :permissions_update, update_params, user_id: @user.id
 

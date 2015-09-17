@@ -30,8 +30,10 @@
     .mts
       - get.user_permissions.each do |p|
         .row
-          %input{name: 'media_entry[user_permissions][][user_id]', value: p.user_id, hidden: true}
-          .col2of6.title-s= p.person_name.name
+          -# because of how the Params parser works, an array can not start with a hash:
+          %input{name: 'media_entry[user_permissions][][params_fix]', value: 'ignore_this', hidden: true}
+          %input{name: 'media_entry[user_permissions][][subject][uuid]', value: p.subject.uuid, hidden: true}
+          .col2of6.title-s= p.subject.name
           .col1of6.title-s
             = check_box_tag 'media_entry[user_permissions][][get_metadata_and_previews]', 'true', p.get_metadata_and_previews
           .col1of6.title-s
@@ -41,8 +43,10 @@
           .col1of6.title-s
             = check_box_tag 'media_entry[user_permissions][][edit_permissions]', 'true', p.edit_permissions
       .row
+        -# because of how the Params parser works, an array can not start with a hash:
+        %input{name: 'media_entry[user_permissions][][params_fix]', value: 'ignore_this', hidden: true}
         .col2of6.title-s
-          %input{name: 'media_entry[user_permissions][][user_id]'}
+          %input{name: 'media_entry[user_permissions][][subject][uuid]'}
         .col1of6.title-s
           = check_box_tag 'media_entry[user_permissions][][get_metadata_and_previews]', 'true', false
         .col1of6.title-s
@@ -59,8 +63,10 @@
     .mts
       - get.group_permissions.each do |p|
         .row
-          %input{name: 'media_entry[group_permissions][][group_id]', value: p.group_id, hidden: true}
-          .col2of6.title-s= p.group_name
+          -# because of how the Params parser works, an array can not start with a hash:
+          %input{name: 'media_entry[group_permissions][][params_fix]', value: 'ignore_this', hidden: true}
+          %input{name: 'media_entry[group_permissions][][subject][uuid]', value: p.subject.uuid, hidden: true}
+          .col2of6.title-s= p.subject.name
           .col1of6.title-s
             = check_box_tag 'media_entry[group_permissions][][get_metadata_and_previews]', 'true', p.get_metadata_and_previews
           .col1of6.title-s
@@ -69,8 +75,10 @@
             = check_box_tag 'media_entry[group_permissions][][edit_metadata]', 'true', p.edit_metadata
           .col1of6.title-s= "—"
       .row
+        -# because of how the Params parser works, an array can not start with a hash:
+        %input{name: 'media_entry[group_permissions][][params_fix]', value: 'ignore_this', hidden: true}
         .col2of6.title-s
-          %input{name: 'media_entry[group_permissions][][group_id]'}
+          %input{name: 'media_entry[group_permissions][][subject][uuid]'}
         .col1of6.title-s
           = check_box_tag 'media_entry[group_permissions][][get_metadata_and_previews]', 'true', false
         .col1of6.title-s
@@ -85,9 +93,11 @@
         API Clients
     .mts
       - get.api_client_permissions.each do |p|
+        -# because of how the Params parser works, an array can not start with a hash:
+        %input{name: 'media_entry[api_client_permissions][][params_fix]', value: 'ignore_this', hidden: true}
         .row
-          %input{name: 'media_entry[api_client_permissions][][api_client_id]', value: p.api_client_id, hidden: true}
-          .col2of6.title-s= p.api_client_login
+          %input{name: 'media_entry[api_client_permissions][][subject][uuid]', value: p.subject.uuid, hidden: true}
+          .col2of6.title-s= p.subject.login
           .col1of6.title-s
             = check_box_tag 'media_entry[api_client_permissions][][get_metadata_and_previews]', 'true', p.get_metadata_and_previews
           .col1of6.title-s
@@ -95,8 +105,10 @@
           .col1of6.title-s= "—"
           .col1of6.title-s= "—"
       .row
+        -# because of how the Params parser works, an array can not start with a hash:
+        %input{name: 'media_entry[api_client_permissions][][params_fix]', value: 'ignore_this', hidden: true}
         .col2of6.title-s
-          %input{name: 'media_entry[api_client_permissions][][api_client_id]'}
+          %input{name: 'media_entry[api_client_permissions][][subject][uuid]'}
         .col1of6.title-s
           = check_box_tag 'media_entry[api_client_permissions][][get_metadata_and_previews]', 'true', false
         .col1of6.title-s
@@ -109,9 +121,9 @@
       %h3.col2of6.title-m
         Public
       .col1of6.title-s
-        = check_box_tag 'media_entry[get_metadata_and_previews]', 'true', get.public_permission.get_metadata_and_previews
+        = check_box_tag 'media_entry[public_permission][get_metadata_and_previews]', 'true', get.public_permission.get_metadata_and_previews
       .col1of6.title-s
-        = check_box_tag 'media_entry[get_full_size]', 'true', get.public_permission.get_full_size
+        = check_box_tag 'media_entry[public_permission][get_full_size]', 'true', get.public_permission.get_full_size
       .col1of6.title-s= "—"
       .col1of6.title-s= "—"
 

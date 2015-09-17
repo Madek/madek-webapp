@@ -3,13 +3,17 @@ module Presenters
     module MediaResources
       module Permissions
         class MediaResourceApiClientPermission < MediaResourceCommonPermission
-          def api_client_id
-            @app_resource.api_client.id
+
+          def subject # TODO: ApiClientIndexPresenter
+            a = @app_resource.api_client
+            Pojo.new(
+              uuid: a.id,
+              login: a.login,
+              description: a.description,
+              _type: 'ApiClientIndex'
+            )
           end
 
-          def api_client_login
-            @app_resource.api_client.login
-          end
         end
       end
     end

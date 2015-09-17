@@ -24,7 +24,18 @@ module Concerns
 
         private
 
-        def filter_relevant_permissions(type, perm_array)
+        def transform_permissions(type, perm_array)
+          perm_array
+            .map do |p|
+              if p.key?('subject')
+                uuid = p.delete('subject')['uuid']
+                p.merge Hash["#{type}_id", uuid]
+              end
+            end
+            .compact
+        end
+
+        def filter_permissions(type, perm_array)
           perm_array
             .select do |p|
               p.key?("#{type}_id") \
@@ -33,7 +44,7 @@ module Concerns
             end
         end
 
-        def raise_if_not_an_array(perm_array)
+        def raise_if_not_an_array!(perm_array)
           perm_array.tap do |v|
             unless v.is_a? Array
               raise Errors::InvalidParameterValue,
@@ -42,16 +53,17 @@ module Concerns
           end
         end
 
-        def check_and_filter(type, perm_array)
-          filter_relevant_permissions(type,
-                                      raise_if_not_an_array(perm_array))
+        def check_and_filter_and_transform(type, perm_array)
+          raise_if_not_an_array!(perm_array)
+          filter_permissions(type,
+                             transform_permissions(type, perm_array))
         end
 
         def associated_entity_permissions_helper(type, *perms)
-          check_and_filter \
+          check_and_filter_and_transform \
             type,
             send("#{model_klass.model_name.singular}_params")
-              .permit(Hash["#{type}_permissions", ["#{type}_id", *perms]])
+              .permit(Hash["#{type}_permissions", [{ subject: [:uuid] }, *perms]])
               .fetch("#{type}_permissions", [])
         end
 

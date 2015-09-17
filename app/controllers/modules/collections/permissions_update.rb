@@ -32,7 +32,9 @@ module Modules
         end
 
         def public_permissions_params
-          collection_params.permit(:get_metadata_and_previews)
+          collection_params
+            .require(:public_permission)
+            .permit(:get_metadata_and_previews)
         end
       end
     end

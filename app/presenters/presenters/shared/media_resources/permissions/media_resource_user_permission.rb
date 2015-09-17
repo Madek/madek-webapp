@@ -7,12 +7,11 @@ module Presenters
             @app_resource = app_resource
           end
 
-          def person_name
-            ::Presenters::People::PersonIndex.new(@app_resource.user.person)
+          def subject
+            Presenters::Users::UserIndex.new(@app_resource.user)
           end
 
           delegate :edit_permissions, to: :@app_resource
-          delegate :user_id, to: :@app_resource
         end
       end
     end

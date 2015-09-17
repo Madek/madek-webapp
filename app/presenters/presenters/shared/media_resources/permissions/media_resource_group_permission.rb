@@ -3,11 +3,11 @@ module Presenters
     module MediaResources
       module Permissions
         class MediaResourceGroupPermission < MediaResourceCommonPermission
-          def group_name
-            @app_resource.group.name
+
+          def subject
+            Presenters::Groups::GroupIndex.new(@app_resource.group)
           end
 
-          delegate :group_id, to: :@app_resource
         end
       end
     end

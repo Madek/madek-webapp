@@ -10,6 +10,11 @@ module Presenters
           @user = user
         end
 
+        def url
+          send "permissions_#{@app_resource.class.model_name.singular}_path",
+               id: @app_resource.id
+        end
+
         def current_user_permissions
           @app_resource.permission_types_for_user(@user)
         end
