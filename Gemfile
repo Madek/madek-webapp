@@ -81,11 +81,13 @@ gem 'capybara', '~> 2.4', group: [:test]
 gem 'factory_girl', group: [:test, :development, :personas]
 gem 'faker', group: [:test, :development, :personas]
 gem 'meta_request', group: [:development]
+gem 'flamegraph', group: [:development], platform: :mri # for mini-profiler
 gem 'poltergeist', group: [:test, :development, :personas]
 gem 'pry', group: [:test, :development]
 gem 'pry-nav', group: [:test, :development]
 gem 'pry-rails', group: [:development]
 gem 'quiet_assets', group: [:development]
+gem 'rack-mini-profiler', group: [:development] # TODO: staging?
 gem 'rest-client', group: [:test, :development, :personas]
 gem 'rspec-rails', '~> 3.1', group: [:test, :development]
 gem 'rubocop', '= 0.29.1', require: false
