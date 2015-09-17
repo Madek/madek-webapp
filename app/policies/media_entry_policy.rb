@@ -13,4 +13,7 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
       (!record.is_published and record.creator == user)
   end
 
+  def meta_data_update?
+    record.editable_by_user?(user)
+  end
 end

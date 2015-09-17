@@ -2,6 +2,7 @@ class MediaEntriesController < ApplicationController
   include Concerns::MediaResources::PermissionsActions
   include Concerns::MediaResources::ShowAction
   include Modules::FileStorage
+  include Modules::MediaEntries::MetaDataUpdate
   include Modules::MediaEntries::PermissionsUpdate
   include Modules::MetaDataStorage
 
@@ -113,6 +114,10 @@ class MediaEntriesController < ApplicationController
 
   def media_entry_params
     params.require(:media_entry)
+  end
+
+  def meta_data_params
+    media_entry_params.require(:meta_data)
   end
 
   def file
