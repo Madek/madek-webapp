@@ -4,5 +4,10 @@ set -x
 # Keep track of all the things to install/update here
 
 git submodule update --init --recursive
-bundle install
+bundle install &
 npm install
+
+cd engines/datalayer
+bundle install
+
+cd -
