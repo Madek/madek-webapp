@@ -80,12 +80,7 @@ task-defaults:
 
 
     npm:
-      exclusive-executor-resource: npm-modules
-      body: |
-        #!/usr/bin/env bash
-        mkdir -p "/tmp/MADEK_node_modules_${CIDER_CI_TREE_ID}/node_modules"
-        ln -s "/tmp/MADEK_node_modules_${CIDER_CI_TREE_ID}/node_modules" "node_modules" \
-        && npm install
+      body: npm install
 
     create-database:
       body: bundle exec rake db:reset
