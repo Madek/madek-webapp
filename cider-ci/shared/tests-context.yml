@@ -136,6 +136,9 @@ subcontexts:
   task-defaults:
     priority: 2
 
+  script-defaults:
+    timeout: 300
+
   tasks:
 
     "spec/features/styleguide_spec.rb":
