@@ -2,4 +2,7 @@ AppResource = require('./shared/app-resource.coffee')
 
 module.exports = AppResource.extend
   props:
-    label: 'string'
+    login: ['string']
+    description: ['string']
+
+# TODO: derived name

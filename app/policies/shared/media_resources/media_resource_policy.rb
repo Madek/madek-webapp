@@ -9,9 +9,11 @@ module Shared
         end
       end
 
-      def permissions_show?
-        show?
-      end
+      # TODO: policy for seeing the permissions?
+      # TMP: just like the entry itself:
+      alias_method :permissions?, :show?
+      # or: like in v2(?), only who can edit the permissions can see them
+      # alias_method :permissions?, :permissions_edit?
 
       def permissions_edit?
         logged_in? and user.can_edit_permissions_for?(record)

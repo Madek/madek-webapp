@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
+# NOTE: this uses rack-test "browser" to make sure it can be viewed without js
+
 feature 'MediaEntry#show' do
   background do
     @user = User.find_by(login: 'normin')

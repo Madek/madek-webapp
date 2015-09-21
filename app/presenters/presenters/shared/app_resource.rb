@@ -10,7 +10,7 @@ module Presenters
       end
 
       def _type # not used in ruby land, underscored to not clash with prop names
-        @app_resource.class.name
+        self.class.name.demodulize
       end
 
       def policy(user)

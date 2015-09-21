@@ -1,8 +1,3 @@
-# react-rails setup: needs globals, no way around it for now.
-# = require react_ujs
-window.React = require('react')
-window.UI = require('./react')
-
 # global jquery. needed for jquery plugins.
 window.jQuery = window.$ = require('jquery')
 

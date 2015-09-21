@@ -16,7 +16,11 @@ module Presenters
         end
 
         def current_user_permissions
-          @app_resource.permission_types_for_user(@user)
+          if @user # not public_user
+            @app_resource.permission_types_for_user(@user)
+          else
+            []
+          end
         end
 
         def can_edit

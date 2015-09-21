@@ -3,7 +3,7 @@ module Presenters
     module Modules
       module CurrentUser
         def current_user
-          ::Presenters::People::PersonIndex.new(@user.person)
+          ::Presenters::People::PersonIndex.new(@user.person) if @user
         end
       end
     end

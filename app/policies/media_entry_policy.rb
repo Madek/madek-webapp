@@ -6,7 +6,6 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
 
   alias_method :more_data?, :show?
   alias_method :relations?, :show?
-  alias_method :permissions?, :show?
 
   def destroy?
     record.editable_by_user?(user) or \

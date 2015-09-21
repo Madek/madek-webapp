@@ -145,6 +145,9 @@ module Madek
       files: ['react-server-side.js'], # files to load for prerendering
       replay_console: false,                # if true, console.* will be replayed client-side
     }
+    # since we use non-standard `.cjsx` files, we need to explicitly watch them
+    config.watchable_files.concat(Dir["#{Rails.root}/app/assets/javascripts/**/*.cjsx*"])
+    config.react.variant = :production
 
     # Please add any files you need precompiled here, otherwise it breaks production.
     # JS Note: only application.js and admin.js are needed here as entry points

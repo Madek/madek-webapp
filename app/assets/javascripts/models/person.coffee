@@ -2,4 +2,4 @@ AppResource = require('./shared/app-resource.coffee')
 
 module.exports = AppResource.extend
   props:
-    label: 'string'
+    name: ['string']

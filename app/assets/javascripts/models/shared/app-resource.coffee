@@ -1,6 +1,6 @@
 Model = require('ampersand-model')
 defaults = require('lodash/object/defaults')
-getRailsCSRFToken = require('../lib/rails-csrf-token.coffee')
+getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 
 # Base class for Restful Application Resources
 module.exports = Model.extend

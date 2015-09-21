@@ -14,10 +14,13 @@ module Concerns
           update_public_permissions! resource
         end
 
-        path_helper_name = \
-          "edit_permissions_#{model_klass.model_name.singular}_path"
-
-        redirect_to send(path_helper_name, resource)
+        # TODO: responder(?)
+        if request.accept == 'application/json'
+          render json: { message: 'Success!' }
+        else
+          path_helper = "edit_permissions_#{model_klass.model_name.singular}_path"
+          redirect_to send(path_helper, resource)
+        end
       end
 
       included do
