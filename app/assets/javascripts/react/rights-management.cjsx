@@ -1,34 +1,7 @@
 React = require('react')
 f = require('../lib/fun.coffee')
+t = require('../lib/string-translation.coffee')
 ampersandReactMixin = require('ampersand-react-mixin')
-
-# TMP: function to use text markers in a compatible syntax and collect text here:
-t = i18n = (marker)->
-  translations = {
-    # component-specific:
-    permissions_table_title: 'Berechtigungen'
-    permissions_table_edit_btn: 'Bearbeiten'
-    permissions_table_save_btn: 'Speichern'
-    permissions_table_cancel_btn: 'Abbrechen'
-    permissions_table_remove_subject_btn: 'Berechtigung entfernen'
-    permissions_overview_yours_title: 'Ihre Berechtigungen'
-    permissions_overview_yours_msg_start: 'Sie, '
-    permissions_overview_yours_msg_end: ', haben gegenwärtig als Person oder als Mitglied einer Gruppe folgende Berechtigungen'
-    # general:
-    responsible_user_title: 'Verantwortliche Person'
-    responsible_user_msg: 'Die verantwortliche Person hat alle Berechtigungen zu den ausgewählten Inhalten und kann diese auch löschen.'
-    permission_subject_title_users: 'Personen'
-    permission_subject_title_groups: 'Gruppen'
-    permission_subject_title_apiapps: 'API-Applikationen'
-    permission_subject_title_public: 'Öffentlichkeit'
-    permission_subject_name_public: 'Internet'
-    permission_name_get_metadata_and_previews: 'Betrachten'
-    permission_name_get_full_size: 'Original exportieren & in PDF blättern'
-    permission_name_edit_metadata: 'Metadaten editieren & Inhalte zu Set hinzufügen'
-    permission_name_edit_permissions: 'Zugriffsberechtigungen ändern'
-    permission_overridden_by_public: '(überschrieben durch die Öffentlichen Berechtigungen)'
-  }
-  f(translations[marker]).presence() or "⟨#{marker}⟩"
 
 
 UserIndex = React.createClass
@@ -166,11 +139,11 @@ PermissionsOverview = React.createClass
       <div className='col1of2'>
         <div className='ui-info-box'>
           <h2 className='title-l ui-info-box-title'>
-            {t('responsible_user_title')}
+            {t('permissions_responsible_user_title')}
           </h2>
 
           <p className='ui-info-box-intro prm'>
-            {t('responsible_user_msg')}
+            {t('permissions_responsible_user_msg')}
           </p>
 
           <ul className='inline'>

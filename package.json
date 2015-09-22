@@ -27,7 +27,8 @@
     "react": "^0.13.3",
     "reactify": "^1.1.1",
     "rusha": "^0.8.2",
-    "underscore.string": "^3.0.3"
+    "underscore.string": "^3.0.3",
+    "yamlify": "^0.1.2"
   },
   "devDependencies": {
     "big-list-of-naughty-strings": "1.0.0",
@@ -41,7 +42,8 @@
   "browserify": {
     "transform": [
       "coffee-reactify",
-      "reactify"
+      "reactify",
+      "yamlify"
     ],
     "ignore": [
       "crypto"
