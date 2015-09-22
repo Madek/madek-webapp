@@ -144,7 +144,7 @@ describe MediaEntriesController do
     end.to raise_error Errors::InvalidParameterValue
   end
 
-  it 'deletes old permissions if no new provided' do
+  it 'deletes permissions if no new provided for subject' do
     media_entry = FactoryGirl.create(:media_entry,
                                      responsible_user: @user)
     media_entry.user_permissions << \
@@ -171,4 +171,38 @@ describe MediaEntriesController do
     expect(media_entry.group_permissions.count).to be == 0
     expect(media_entry.api_client_permissions.count).to be == 0
   end
+
+  pending 'deletes permissions if only false for subject' do
+    media_entry = FactoryGirl.create(:media_entry,
+                                     responsible_user: @user)
+    media_entry.user_permissions << \
+      up = FactoryGirl.create(:media_entry_user_permission,
+                              user: create(:user))
+    media_entry.group_permissions << \
+      FactoryGirl.create(:media_entry_group_permission,
+                         group: create(:group))
+    media_entry.api_client_permissions << \
+      FactoryGirl.create(:media_entry_api_client_permission,
+                         api_client: create(:api_client))
+
+    update_params = \
+      { id: media_entry.id,
+        media_entry: {
+          user_permissions: [{
+            subject: { uuid: up.user.id },
+            get_metadata_and_previews: false,
+            get_full_size: false
+          }],
+          public_permission: {
+            get_metadata_and_previews: true,
+            get_full_size: true } } }
+
+    put :permissions_update, update_params, user_id: @user.id
+
+    media_entry.reload
+    expect(media_entry.user_permissions.count).to be == 0
+    expect(media_entry.group_permissions.count).to be == 0
+    expect(media_entry.api_client_permissions.count).to be == 0
+  end
+
 end
