@@ -13,8 +13,10 @@
   padding: 5px 0
   z-index: 1000
   width: 100% !important
+
   li
     list-style: none outside none
+
   a.ui-state-focus, a.ui-state-hover, a:hover
     background-color: #0081C2
     background-image: linear-gradient(to bottom, #0088cc, #0077b3)
@@ -22,6 +24,7 @@
     color: #FFFFFF
     outline: 0 none
     text-decoration: none
+
   a
     clear: both
     color: #333333
@@ -33,6 +36,7 @@
     overflow: hidden
     text-overflow: ellipsis
     white-space: nowrap
+
   &.narrow
     width: 300px !important
   &.wide
@@ -40,3 +44,13 @@
 
 .ui-helper-hidden-accessible
   display: none
+
+// for typeahead.js UI
+.ui-autocomplete
+  &.ui-menu
+    margin-top: -10px
+  .ui-menu-item
+    @extend a
+  .ui-menu-item.ui-autocomplete-cursor,
+  .ui-menu-item:hover
+    @extend a.ui-state-focus
