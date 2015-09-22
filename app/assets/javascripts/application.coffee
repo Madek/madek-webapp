@@ -4,9 +4,6 @@ window.jQuery = window.$ = require('jquery')
 # jquery plugins:
 require('jquery-ujs')
 require('bootstrap')
-require('@eins78/typeahead.js/dist/typeahead.jquery.js') # (autocompletion)
-# NOTE: ^ this is temporary to land an important but not yet merged bug fix
-
 
 # local requires
 each = require('lodash/collection/each')
@@ -28,7 +25,6 @@ hello = require('./test-module-js')
 # our library:
 ujs = [
   require('./ujs/hashviz.coffee'),
-  require('./ujs/autocomplete'),
   require('./ujs/react.coffee')
 ]
 
