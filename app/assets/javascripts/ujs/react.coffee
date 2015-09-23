@@ -23,21 +23,18 @@ initByClass =
         callback(React.createElement(MetaDataEdit, metaDatum: md))
 
   RightsManagement: (data, callback)->
-    history = require('../lib/history.coffee')
+    router = require('../lib/router.coffee')
     Permissions = require('../models/media-entry/permissions.coffee')
     RightsManagement = require('../react/rights-management.cjsx')
 
     if ({permissions} = data.reactProps)
       model = new Permissions(permissions)
-      window.perm = model # TMP: dev
-
+      edit_link = f.url.resolve(model.url, 'permissions/edit')
       callback React.createElement RightsManagement,
         permissions: model
-        callbacks:
-          onStartEditing: ()->
-            history.goTo f.url.resolve(model.url, 'permissions/edit')
-          onStopEditing: ()->
-            history.goTo model.url
+        editUrl: edit_link
+        router: router
+
 
 module.exports = reactUjs=()->
   $('[data-react-class]').each ()->

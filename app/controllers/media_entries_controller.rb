@@ -24,11 +24,7 @@ class MediaEntriesController < ApplicationController
   alias_method :relations, :show
   alias_method :more_data, :show
   alias_method :permissions, :show
-
-  def permissions_edit
-    @tabs = SHOW_TABS
-    @get = get_authorized_presenter(MediaEntry.unscoped.find(params[:id]))
-  end
+  alias_method :permissions_edit, :show
 
   def preview
     media_entry = MediaEntry.unscoped.find(params[:id])

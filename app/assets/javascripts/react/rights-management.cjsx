@@ -3,6 +3,7 @@ f = require('../lib/fun.coffee')
 t = require('../lib/string-translation.coffee')
 ampersandReactMixin = require('ampersand-react-mixin')
 
+AutoComplete = null # only required client-side!
 
 UserIndex = React.createClass
   render: ()->
@@ -25,15 +26,28 @@ module.exports = React.createClass
 
   getInitialState: ()-> {editing: false}
 
+  # this will only ever run on the client:
+  componentDidMount: ()->
+    # only needed in interactive mode, fails if even required on server (jQuery)!
+    AutoComplete = require('./lib/autocomplete.cjsx')
+
+    # set state according to url from router
+    @props.router.listen (location)=> # runs once initially when router is started
+      @setState
+        editing: f.isEqual(location.pathname, @props.editUrl)
+
+    # start the router
+    @props.router.start()
+
   startEditing: (event)->
-    event.preventDefault()
-    @setState(editing: true)
-    @props.callbacks.onStartEditing?()
+    event?.preventDefault()
+    @props.router.goTo(event.target.href)
 
   cancelEditing: (event)->
-    event.preventDefault()
-    @setState(editing: false)
-    @props.callbacks.onStopEditing?()
+    # TODO: handle abort inline (without refresh) und reset state
+    # event?.preventDefault()
+    # @props.router.goTo(event.target.href)
+    # @setState(editing: false, permissions: …)
 
   submitForm: (event)->
     event.preventDefault()
@@ -42,7 +56,6 @@ module.exports = React.createClass
       success: (model, res)=>
         # TODO: ui-alert res?.message
         @setState(saving: false, editing: false)
-        @props.callbacks.onStopEditing?()
       error: (model, err)=>
         @setState(saving: false, editing: true)
         alert('Error! ' + ((try JSON.stringify(err,0,2)) or ''))
@@ -120,7 +133,7 @@ module.exports = React.createClass
               when editing
                 <div className='ui-actions'>
                   <a className='link weak'
-                    href='.'
+                    href={get.url}
                     onClick={@cancelEditing}>
                     {t('permissions_table_cancel_btn')}
                   </a>
@@ -178,6 +191,10 @@ PermissionsOverview = React.createClass
 PermissionsBySubjectType = React.createClass
   displayName: 'PermissionsBySubjectType'
   mixins: [ampersandReactMixin]
+
+  onAddSubject: (subject)->
+    @props.permissionsList.add(subject: subject)
+
   render: ()->
     {type, title, icon, permissionsList, SubjectDeco, subjectName,
     permissionTypes, overriddenBy, editing, showTitles} = @props
@@ -203,12 +220,12 @@ PermissionsBySubjectType = React.createClass
           </tbody>
         </table>
 
-        {if editing and permissionsList.isCollection # TODO: add a subject:
+        {if editing and permissionsList.isCollection
           <div className='ui-add-subject ptx row'>
             <div className='col1of3'>
-              <input autoComplete='off' className='small block ui-autocomplete-input'
-                name='user' placeholder='Name der Person'
-                type='text'/>
+              {if type?
+                <AutoComplete resourceType={type} onSelected={@onAddSubject}/>
+              }
             </div>
           </div>
         }
