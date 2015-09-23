@@ -4,10 +4,12 @@ getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 
 # Base class for Restful Application Resources
 module.exports = Model.extend
+  type: 'AppResourceBase'
   idAttribute: 'url'
   typeAttribute: '_type' # see presenters/shared/app_resource.rb
   props:
     url: 'string'
+    uuid: 'string'
 
   ajaxConfig:
     headers:

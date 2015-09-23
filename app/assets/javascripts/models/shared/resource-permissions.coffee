@@ -2,6 +2,7 @@ AppResource = require('./app-resource.coffee')
 
 # Base ResourcePermissions Model:
 module.exports = AppResource.extend
+  type: 'ResourcePermissions'
   props:
     permission_types: ['array']
     responsible: ['object']

@@ -2,6 +2,7 @@ AppResource = require('./shared/app-resource.coffee')
 MetaKey = require('./meta-key.coffee')
 
 module.exports = AppResource.extend
+  type: 'MetaDatum'
   urlRoot: '/meta_data'
   props:
     values:
