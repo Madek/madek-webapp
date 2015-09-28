@@ -9,14 +9,14 @@
     {
       id: member.uuid,
       login: member.login,
-      actions: (@get.institutional? || member.uuid == current_user.id) ? [] : [
-        component('button',
-                  link: remove_member_my_group_path(@get.uuid, member_id: member.uuid),
-                  icon: :trash,
-                  method: :delete,
-                  data: {
-                    confirm: 'Are you sure you want to remove this member from the group?'
-                  })
+      actions: @get.institutional? ? [] : [
+        component('check_box',
+                  name: props[:member_field_name],
+                  value: member.login,
+                  checked: true,
+                  disabled: (member.uuid == current_user.id),
+                  keep_value: true
+                 )
       ]
     }
   }
@@ -24,6 +24,10 @@
 %h3 Members
 
 %table.ui-workgroup-members.bordered.block
+  %thead
+    %tr
+      %td Login
+      %td Member?
   %tbody
     - list.each do |member|
       %tr{"data-id" => member[:id]}

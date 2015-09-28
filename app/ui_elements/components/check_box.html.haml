@@ -1,0 +1,15 @@
+:ruby
+  name ||= nil
+  value ||= nil
+  checked ||= true
+  disabled ||= false
+  keep_value ||= false
+
+  properties = {
+    disabled: disabled
+  }
+
+= check_box_tag name, value, checked, properties
+
+- if keep_value && properties[:disabled]
+  = hidden_field_tag name, value

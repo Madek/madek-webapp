@@ -18,14 +18,11 @@ class GroupPolicy < ApplicationPolicy
       and group_member?
   end
 
-  def manage_members?
+  def update_and_manage_members?
     logged_in? \
       and group_member? \
       and internal_group?
   end
-
-  alias_method :add_member?, :manage_members?
-  alias_method :remove_member?, :manage_members?
 
   private
 

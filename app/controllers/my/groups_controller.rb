@@ -31,8 +31,11 @@ class My::GroupsController < MyController
 
   def update
     group = current_user.groups.find(params[:id])
-    authorize group
-    group.update!(group_params)
+    authorize group, :update_and_manage_members?
+    ActiveRecord::Base.transaction do
+      group.update!(group_params)
+      update_members!(group)
+    end
 
     respond_with group, location: -> { my_groups_url }
   end
@@ -45,26 +48,6 @@ class My::GroupsController < MyController
     respond_with group, location: -> { my_groups_url }
   end
 
-  def add_member
-    group = current_user.groups.find(params[:id])
-    authorize group, :add_member?
-    user = User.find_by(login: params[:member][:login])
-
-    group.users << user if user
-
-    respond_with group, location: -> { edit_my_group_path(group) }
-  end
-
-  def remove_member
-    group = current_user.groups.find(params[:id])
-    user = User.find(params[:member_id])
-    authorize group, :remove_member?
-
-    group.users.destroy(user)
-
-    respond_with group, location: -> { edit_my_group_path(group) }
-  end
-
   private
 
   def find_group_and_authorize
@@ -75,6 +58,17 @@ class My::GroupsController < MyController
 
   def group_params
     params.require(:group).permit(:name)
+  end
+
+  def member_params
+    params.require(:group).permit(user: [login: []])
+  end
+
+  def update_members!(group)
+    group.users = []
+    member_params[:user][:login].each do |login|
+      group.users << User.find_by!(login: login) if login.present?
+    end
   end
 
 end

@@ -53,20 +53,30 @@ describe My::GroupsController do
     end
   end
 
-  describe '#add_member' do
+  describe 'adding a member' do
+    let(:new_member) { create(:user) }
+    let(:member_params) do
+      {
+        group: {
+          user: {
+            login: [user.login, new_member.login]
+          }
+        }
+      }
+    end
+
     context 'when group is an internal group' do
       it 'adds a member to the group' do
-        new_user = create(:user)
         group.users << user
 
         expect do
-          post :add_member,
-               { id: group.id, member: { login: new_user.login } },
-               user_id: user.id
+          put :update,
+              { id: group.id }.merge(member_params),
+              user_id: user.id
         end.to change { group.users.count }.by(1)
 
         expect(response).to have_http_status(302)
-        expect(response).to redirect_to(edit_my_group_path(group))
+        expect(response).to redirect_to(my_groups_path)
       end
     end
 
@@ -74,44 +84,52 @@ describe My::GroupsController do
       it 'denies access' do
         external_group = create :group, type: :InstitutionalGroup
         external_group.users << user
-        new_user = create(:user)
 
         expect do
-          post :add_member,
-               { id: external_group.id, member: { login: new_user.login } },
-               user_id: user.id
+          put :update,
+              { id: external_group.id }.merge(member_params),
+              user_id: user.id
         end.to raise_error(Errors::ForbiddenError)
       end
     end
   end
 
-  describe '#remove_member' do
+  describe 'removing the member' do
+    let(:member_to_remove) { create(:user) }
+    let(:member_params) do
+      {
+        group: {
+          user: {
+            login: [user.login]
+          }
+        }
+      }
+    end
+
     context 'when group is an internal group' do
       it 'removes a member from the group' do
-        new_user = create(:user)
-        group.users << [user, new_user]
+        group.users << [user, member_to_remove]
 
         expect do
-          delete :remove_member,
-                 { id: group.id, member_id: new_user.id },
-                 user_id: user.id
+          put :update,
+              { id: group.id }.merge(member_params),
+              user_id: user.id
         end.to change { group.users.count }.by(-1)
 
         expect(response).to have_http_status(302)
-        expect(response).to redirect_to(edit_my_group_path(group))
+        expect(response).to redirect_to(my_groups_path)
       end
     end
 
     context 'when group is an external group' do
       it 'denies access' do
         external_group = create :group, type: :InstitutionalGroup
-        new_user = create(:user)
-        external_group.users << [user, new_user]
+        external_group.users << [user, member_to_remove]
 
         expect do
-          delete :remove_member,
-                 { id: external_group.id, member_id: new_user.id },
-                 user_id: user.id
+          put :update,
+              { id: external_group.id }.merge(member_params),
+              user_id: user.id
         end.to raise_error(Errors::ForbiddenError)
       end
     end

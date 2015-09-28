@@ -4,6 +4,7 @@ require 'spec_helper_feature_shared'
 
 feature 'My Groups' do
   let(:user) { User.find_by(login: 'normin') }
+  let(:new_member) { create(:user) }
   let(:group) { create(:group) }
   background do
     sign_in_as user.login
@@ -82,5 +83,59 @@ feature 'My Groups' do
     within '.ui-body-title' do
       expect(page).to have_content group.name
     end
+  end
+
+  scenario 'Adding a member' do
+    visit my_groups_path
+
+    within "[data-id='#{group.id}']" do
+      click_link 'Edit'
+    end
+
+    fill_in member_field_name, with: new_member.login
+    submit_form
+
+    expect(current_path).to eq my_groups_path
+
+    within "[data-id='#{group.id}']" do
+      click_link 'Edit'
+    end
+
+    within '.ui-workgroup-members' do
+      expect(page).to have_content new_member.login
+    end
+  end
+
+  scenario 'Removing the member' do
+    group.users << new_member
+
+    visit my_groups_path
+
+    within "[data-id='#{group.id}']" do
+      click_link 'Edit'
+    end
+
+    within '.ui-workgroup-members' do
+      expect(page).to have_content new_member.login
+    end
+
+    within "tr[data-id='#{new_member.id}']" do
+      uncheck member_field_name
+    end
+    submit_form
+
+    expect(current_path).to eq my_groups_path
+
+    within "[data-id='#{group.id}']" do
+      click_link 'Edit'
+    end
+
+    within '.ui-workgroup-members' do
+      expect(page).not_to have_content new_member.login
+    end
+  end
+
+  def member_field_name
+    'group[user][login][]'
   end
 end

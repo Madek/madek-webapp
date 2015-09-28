@@ -1,18 +1,21 @@
+:ruby
+  member_field_name = 'group[user][login][]'
+
 - content_for(:page_content) do
-  = form_for :group, method: :patch, url: @get.url do |g_form|
+  = form_for :group, method: :put, url: @get.url do |g_form|
 
     = g_form.label :name, class: 'title-s'
     = g_form.text_field :name, value: @get.name
 
     %hr.separator.mini.mvs
 
-    = g_form.submit :submit
+    = deco('workgroup_members_table', data: @get.members, props: { member_field_name: member_field_name })
 
-  %hr.separator.mini.mvs
+    %hr.separator.mini.mvs
 
-  = deco('workgroup_members_table', data: @get.members)
+    = label_tag member_field_name, 'New member login', class: 'title-s'
+    = text_field_tag member_field_name
 
-  = form_for :member, method: :post, url: add_member_my_group_path(@get.uuid) do |m_form|
-    = m_form.label :login, class: 'title-s'
-    = m_form.text_field :login
-    = m_form.submit 'Add member'
+    %hr.separator.mini.mvs
+
+    = g_form.submit 'Update group'
