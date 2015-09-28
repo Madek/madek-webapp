@@ -20,7 +20,7 @@ feature 'naughty strings 2', browser: :firefox do
         File.read \
           "#{Rails.root}/node_modules/big-list-of-naughty-strings/blns.json"
 
-    strings[51..100].each do |s|
+    strings[41..80].each do |s|
       visit meta_datum_path(@meta_datum)
       click_on 'Edit'
       fill_in 'values_', with: s

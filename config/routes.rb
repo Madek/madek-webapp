@@ -46,6 +46,7 @@ Madek::Application.routes.draw do
 
   resources :people, only: [:index, :show]
   resources :users, only: :index
+  resources :api_clients, only: :index
 
   resources :licenses, only: :index
 

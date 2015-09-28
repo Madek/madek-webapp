@@ -1,6 +1,7 @@
 module Concerns
   module JSONSearch
     extend ActiveSupport::Concern
+    include Concerns::Monads::FilterChain
 
     def get_and_respond_with_json
       ar_model = controller_name.classify.constantize
@@ -9,17 +10,18 @@ module Concerns
                   "#{controller_name.singularize.camelize}Index" \
         .constantize
 
-      ar_collection = search_or_return_unchanged(ar_model.all)
+      ar_collection = \
+        FilterChain.new(ar_model.all, self)
+          .do(:filter_by_search_term, params[:search_term])
+          .return
+          .limit(params[:limit] || 100)
+
       get = ar_collection.map { |kt| presenter.new(kt).dump }
       respond_with get
     end
 
-    def search_or_return_unchanged(ar_collection)
-      if params[:search_term]
-        ar_collection.filter_by(params[:search_term])
-      else
-        ar_collection
-      end
+    def filter_by_search_term(ar_collection, search_term)
+      ar_collection.filter_by(search_term)
     end
   end
 end

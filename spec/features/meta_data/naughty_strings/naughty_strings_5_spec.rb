@@ -2,7 +2,13 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
-feature 'naughty strings 3', browser: :firefox do
+def read_and_parse_strings
+  JSON.parse \
+    File.read \
+      "#{Rails.root}/node_modules/big-list-of-naughty-strings/blns.json"
+end
+
+feature 'naughty strings 4' do
   background do
     @user = User.find_by(login: 'normin')
     sign_in_as @user.login
@@ -14,13 +20,10 @@ feature 'naughty strings 3', browser: :firefox do
                                      media_entry: @media_entry
   end
 
-  scenario 'naughty strings 3' do
-    strings = \
-      JSON.parse \
-        File.read \
-          "#{Rails.root}/node_modules/big-list-of-naughty-strings/blns.json"
+  scenario 'naughty strings 4', browser: :firefox do
+    strings = read_and_parse_strings
 
-    strings[81..120].each do |s|
+    strings[161..200].each do |s|
       visit meta_datum_path(@meta_datum)
       click_on 'Edit'
       fill_in 'values_', with: s
@@ -34,4 +37,10 @@ feature 'naughty strings 3', browser: :firefox do
       end
     end
   end
+
+  # TODO: fails on CI
+  # scenario 'check if all strings tested' do
+  #   strings = read_and_parse_strings
+  #   expect(strings.length).to be <= 200
+  # end
 end

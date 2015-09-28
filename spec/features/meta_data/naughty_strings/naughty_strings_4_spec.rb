@@ -23,7 +23,7 @@ feature 'naughty strings 4' do
   scenario 'naughty strings 4', browser: :firefox do
     strings = read_and_parse_strings
 
-    strings[151..200].each do |s|
+    strings[121..160].each do |s|
       visit meta_datum_path(@meta_datum)
       click_on 'Edit'
       fill_in 'values_', with: s
