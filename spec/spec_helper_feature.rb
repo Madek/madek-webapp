@@ -17,30 +17,22 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = true
   config.order = 'random'
 
-  Capybara.register_driver :selenium_chrome do |app|
-    Capybara::Selenium::Driver.new(app, browser: :chrome)
-  end
-
-  Capybara.register_driver :poltergeist_debug do |app|
-    Capybara::Poltergeist::Driver.new(app, inspector: true)
-  end
-
-  Capybara.current_driver = :selenium
-
   if ENV['FIREFOX_ESR_PATH'].present?
     Selenium::WebDriver::Firefox.path = ENV['FIREFOX_ESR_PATH']
   end
 
+  Capybara.register_driver :selenium_ff do |app|
+    profile = Selenium::WebDriver::Firefox::Profile.new
+    client = Selenium::WebDriver::Remote::Http::Default.new
+    client.timeout = 180 # instead of the default 60
+    Capybara::Selenium::Driver.new \
+      app, browser: :firefox, profile: profile, http_client: client
+  end
+
   def set_browser(example)
     case example.metadata[:browser]
-    when :chrome
-      Capybara.current_driver = :selenium_chrome
-    when :headless, :jsbrowser
-      Capybara.current_driver = :poltergeist
-    when :rack_test
-      Capybara.current_driver = :rack_test
     when :firefox
-      Capybara.current_driver = :selenium
+      Capybara.current_driver = :selenium_ff
     else
       Capybara.current_driver = :rack_test
     end
@@ -64,7 +56,7 @@ RSpec.configure do |config|
     Dir.mkdir screenshot_dir rescue nil
     path = screenshot_dir.join(name)
     case Capybara.current_driver
-    when :selenium, :selenium_chrome
+    when :selenium_ff, :selenium_chrome
       page.driver.browser.save_screenshot(path) rescue nil
     when :poltergeist
       page.driver.render(path, full: true) rescue nil
