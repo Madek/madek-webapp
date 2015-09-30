@@ -56,6 +56,7 @@ module.exports = React.createClass
       success: (model, res)=>
         # TODO: ui-alert res?.message
         @setState(saving: false, editing: false)
+        @props.router.goTo(model.url)
       error: (model, err)=>
         @setState(saving: false, editing: true)
         alert('Error! ' + ((try JSON.stringify(err,0,2)) or ''))
