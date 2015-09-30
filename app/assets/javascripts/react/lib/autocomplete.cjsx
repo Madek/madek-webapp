@@ -6,7 +6,7 @@ searchResources = require('../../lib/search.coffee')
 
 initTypeahead = (domNode, resourceType, callback)->
   unless (dataSource = searchResources(resourceType))
-    return console.error("Unknown resourceType '#{resourceType}'!")
+    return console.error("No search backend for '#{resourceType}'!")
 
   # init typeahead.js plugin via jQuery
   $input = $jQuery(domNode)
@@ -22,13 +22,8 @@ initTypeahead = (domNode, resourceType, callback)->
       cursor: 'ui-autocomplete-cursor',
       suggestion: 'ui-menu-item'
     }
-  }, # data source config:
-  {
-    name: 'fromApi',
-    source: dataSource,
-    key: 'name',
-    displayKey: 'name'
-  }) # add events
+  },
+  dataSource) # add events:
     .on 'typeahead:select typeahead:autocomplete', (event, item)=>
       event.preventDefault() # browser/jquery event, NOT a react event!
       $input.typeahead('val', '') # reset input field

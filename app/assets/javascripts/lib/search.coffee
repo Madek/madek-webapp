@@ -1,14 +1,13 @@
 Bloodhound = require('@eins78/typeahead.js/dist/bloodhound.js').noConflict()
 
-config = # JSON API Endpoints:
+resourcesConfig = # JSON API Endpoints:
   Person: { url: '/people' }
   User: { url: '/users' }
   Group: { url: '/my/groups' }
-  ApiClient: { url: '/api-clients' }
+  ApiClient: { url: '/api_clients', key: 'login' }
 
 # TODO: memoize?
 BloodhoundFactory = (config)->
-  return unless config?
   new Bloodhound
     datumTokenizer: Bloodhound.tokenizers.whitespace
     queryTokenizer: Bloodhound.tokenizers.whitespace
@@ -17,4 +16,10 @@ BloodhoundFactory = (config)->
       wildcard: '%QUERY'
 
 module.exports = (resourceType = null)->
-  BloodhoundFactory(config[resourceType]) if config[resourceType]?
+  if (config = resourcesConfig[resourceType])?
+    {
+      name: "#{resourceType}Search",
+      key: config.key or 'name',
+      displayKey: config.displayKey or config.key or 'name',
+      source: BloodhoundFactory(config)
+    }

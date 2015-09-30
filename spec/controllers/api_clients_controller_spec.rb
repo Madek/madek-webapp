@@ -1,26 +1,27 @@
 require 'spec_helper'
 
-describe PeopleController do
+describe ApiClientsController do
   let(:user) { FactoryGirl.create :user }
 
   context 'responds to search with json' do
     it 'filtering by params[:search_term]' do
-      2.times { FactoryGirl.create :person }
-      person = Person.first
+      2.times { FactoryGirl.create :api_client }
+
+      api_client = ApiClient.first
 
       get :index,
-          { search_term: person.first_name, format: :json },
+          { search_term: api_client.login, format: :json },
           user_id: user.id
 
       assert_response :success
       expect(response.content_type).to be == 'application/json'
       result = JSON.parse(response.body)
       expect(result.size).to be == 1
-      expect(result.first['name']).to match /#{person.first_name}/
+      expect(result.first['login']).to match /#{api_client.login}/
     end
 
     it 'limiting with params[:limit]' do
-      2.times { FactoryGirl.create :person }
+      2.times { FactoryGirl.create :api_client }
 
       get :index, { limit: 1, format: :json }, user_id: user.id
 
@@ -31,7 +32,7 @@ describe PeopleController do
     end
 
     it 'with default limit of 100' do
-      101.times { FactoryGirl.create :person }
+      101.times { FactoryGirl.create :api_client }
 
       get :index, { format: :json }, user_id: user.id
 
