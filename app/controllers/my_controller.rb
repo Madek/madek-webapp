@@ -7,42 +7,42 @@ class MyController < ApplicationController
 
   SECTIONS = {
     unpublished: {
-      title: 'Unpublished Entries',
+      title: I18n.t(:sitemap_my_unpublished),
       icon: 'icon-privacy-private',
       partial: :media_resources
     },
     content: {
-      title: 'My content',
+      title: I18n.t(:sitemap_my_content),
       icon: 'icon-privacy-private',
       partial: :media_resources
     },
     latest_imports: {
-      title: 'My latest imports',
+      title: I18n.t(:sitemap_my_latest_imports),
       icon: 'icon-privacy-private',
       partial: :media_resources
     },
     favorites: {
-      title: 'My favorites',
+      title: I18n.t(:sitemap_my_favorites),
       icon: 'icon-privacy-private',
       partial: :media_resources
     },
     used_keywords: {
-      title: 'My keywords',
+      title: I18n.t(:sitemap_my_used_keywords),
       icon: 'icon-tag',
       partial: :keywords
     },
     entrusted_content: {
-      title: 'My entrusted content',
+      title: I18n.t(:sitemap_my_entrusted_content),
       icon: 'icon-privacy-group',
       partial: :media_resources
     },
     groups: {
-      title: 'My Groups',
+      title: I18n.t(:sitemap_my_groups),
       icon: 'icon-privacy-group',
       partial: :groups
     },
     filter_demo: {
-      title: 'Filter demo',
+      title: I18n.t(:sitemap_my_filter_demo),
       icon: 'icon-api',
       partial: :filter_demo
     }

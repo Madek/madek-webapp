@@ -20,7 +20,7 @@
       mods: ['primary', 'large'],
       list: {
         my: {
-          text: 'My Archive',
+          text: t(:sitemap_my_archive),
           href: my_dashboard_path,
           active: link_active?(my_dashboard_path)
         },
@@ -38,7 +38,7 @@
         # }
 
         admin: !current_user.try(:admin) ? nil : {
-          text: 'Admin',
+          text: t(:sitemap_admin),
           icon: 'icon-bang',
           href: admin_root_path
         },

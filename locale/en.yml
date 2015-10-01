@@ -1,0 +1,63 @@
+en:
+  # # Rails
+  activerecord:
+    errors:
+      messages:
+        record_invalid: "Validation failed: %{errors}"
+        taken: "has already been taken"
+  flash:
+    actions:
+      create:
+        success: '%{resource_name} was successfully created.'
+        error: '%{resource_name} could not be created.'
+      update:
+        success: '%{resource_name} was successfully updated.'
+        error: '%{resource_name} could not be updated.'
+      destroy:
+        success: '%{resource_name} was successfully destroyed.'
+        error: '%{resource_name} could not be destroyed.'
+
+  # # General Madek
+  sitemap_admin: "Admin"
+  sitemap_my_archive: "My Archive"
+  sitemap_my_unpublished: "Unpublished"
+  sitemap_my_content: "My content"
+  sitemap_my_latest_imports: "My latest imports"
+  sitemap_my_favorites: "My favorites"
+  sitemap_my_used_keywords: "My keywords"
+  sitemap_my_entrusted_content: "My entrusted content"
+  sitemap_my_groups: "My Groups"
+  sitemap_my_filter_demo: "Filter demo"
+
+  user_menu_login_btn: "Log in"
+  user_menu_logout_btn: "Log out"
+
+  login_box_rememberme: "remember me"
+  login_box_login_btn: "Log In"
+  login_box_external: "ZHdK Login"
+  login_box_internal: "External"
+
+  # ## Permissions
+  permission_subject_title_users: "Users"
+  permission_subject_title_groups: "Groups"
+  permission_subject_title_apiapps: "API Clients"
+  permission_subject_title_public: "Public"
+  permission_subject_name_public: "Internet"
+  permission_name_get_metadata_and_previews: "View"
+  permission_name_get_full_size: "Edit original & Browse PDFs"
+  permission_name_edit_metadata: "Edit metadata & Add content to Set"
+  permission_name_edit_permissions: "Edit permissions"
+  permission_overridden_by_public: "(overridden by public permissions)"
+
+  # # Components
+  # ## Component: RightsManagement
+  permissions_responsible_user_title: "Responsible User"
+  permissions_responsible_user_msg: "The responsible User has all permissions for the selected content and can also delete it"
+  permissions_table_title: "Permissions"
+  permissions_table_edit_btn: "Edit"
+  permissions_table_save_btn: "Save"
+  permissions_table_cancel_btn: "Cancel"
+  permissions_table_remove_subject_btn: "remove permissions"
+  permissions_overview_yours_title: "Your Permissions"
+  permissions_overview_yours_msg_start: "You, "
+  permissions_overview_yours_msg_end: ", currently have the following permissions (either directly or as a member of a group):"

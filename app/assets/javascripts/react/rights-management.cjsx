@@ -1,6 +1,6 @@
 React = require('react')
 f = require('../lib/fun.coffee')
-t = require('../lib/string-translation.coffee')
+t = require('../lib/string-translation.coffee')('de') # TODO: select correct locale!
 ampersandReactMixin = require('ampersand-react-mixin')
 
 AutoComplete = null # only required client-side!

@@ -38,7 +38,8 @@ feature 'My Groups' do
     fill_in 'Name', with: 'NEW_GROUP'
     submit_form
 
-    expect(page).to have_content('Validation failed: Name has already been taken')
+    expect(page).to \
+      have_content('Überprüfung fehlgeschlagen: Name ist bereits vergeben')
   end
 
   scenario 'Editing a group' do

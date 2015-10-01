@@ -89,11 +89,12 @@ module Madek
     config.time_zone = 'Bern'
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
+    config.i18n.load_path += Dir[Rails.root.join('locale', '*.yml').to_s]
+    # TODO: select locale at runtime and set to `:en` here:
+    config.i18n.default_locale = :de
 
     # get rid of annoying warning; have a look at this again when dealing with i18n
-    config.i18n.enforce_available_locales = false
+    # config.i18n.enforce_available_locales = false
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = 'utf-8'
@@ -122,6 +123,9 @@ module Madek
     # vendor stuff is normally not made for browserification and may stop
     # working.
     # config.browserify_rails.paths << %r{vendor/assets/javascripts/module.js}
+
+    # we `require` locale yaml files with browserify, so explicitly watch them:
+    config.watchable_files.concat(Dir["#{Rails.root}/locale/**/*.yml"])
 
     # Environments, in which to generate source maps
     # The default is none

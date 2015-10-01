@@ -11,12 +11,12 @@
 
   = combo('form-group', mods: 'rowed.compact.by-left') do
     = check_box_tag(:remember_me, 'remember me', true)
-    = label(:remember, :me, 'remember me')
+    = label_tag(:remember_me, t(:login_box_rememberme))
 
   = combo('form-group', mods: 'rowed.compact') do
     = component('button.primary', mods: ['large', 'block'],
         type: 'submit') do
-      = "Anmelden"
+      = t(:login_box_login_btn)
 
 - unless settings.zhdk_integration # show simple auth form:
   .pitch-login
@@ -32,7 +32,7 @@
         mehr Inhalte zugreifen.
       = component('button.primary', mods: ['large', 'block'],
         href: zhdk_login_form_path) do
-        = "Anmelden"
+        = t(:login_box_login_btn)
 
   :ruby
     login_box = combo('tabbed-sections', {
@@ -42,11 +42,11 @@
       list: {
         external_login: {
           active: true,
-          nav: { text: 'ZHdK-Login', align: 'left' },
+          nav: { text: t(:login_box_external), align: 'left' },
           content: zhdk_login_form,
         },
         internal_login: {
-          nav: { text: 'Externe', align: 'right' },
+          nav: { text: t(:login_box_internal), align: 'right' },
           content: internal_login,
           }
         }

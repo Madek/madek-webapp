@@ -175,7 +175,7 @@ feature 'Admin Users' do
     click_button 'Apply'
     click_link 'Switch to...'
     visit root_path
-    expect(page).to have_content 'Log Out'
+    expect(page).to have_content I18n.t(:user_menu_logout_btn)
     visit '/admin'
     expect(current_path).to eq admin_root_path
     expect(page).not_to have_content 'Forbidden'
@@ -189,7 +189,7 @@ feature 'Admin Users' do
     click_button 'Apply'
     click_link 'Switch to...'
     visit root_path
-    expect(page).to have_content 'Log Out'
+    expect(page).to have_content I18n.t(:user_menu_logout_btn)
     visit '/admin'
     expect(current_path).to eq admin_root_path
     expect(page).to have_content 'Admin access denied'
