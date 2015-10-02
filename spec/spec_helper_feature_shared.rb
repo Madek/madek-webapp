@@ -49,3 +49,12 @@ def submit_form
   expect(submit).to be
   submit.click
 end
+
+def js_integration_test(name, data)
+  visit '/styleguide/Scratchpad?'
+  evaluate_script("runTest('#{name}', #{data.to_json})")
+  # this is added async, so capybara waits until the test is finished:
+  result = page.find('#TestBedResult')
+  result = JSON.parse(result.text)
+  expect(result['error']).not_to be
+end
