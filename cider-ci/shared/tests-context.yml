@@ -48,7 +48,7 @@ task-defaults:
   ports:
     XVNC_PORT:
       inet_address: "localhost"
-      min: 5900
+      min: 5000
       max: 5999
 
   scripts:
