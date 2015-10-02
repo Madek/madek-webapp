@@ -28,8 +28,13 @@ jobs:
           scripts:
             main:
               body: "./dev/test/check-if-branch-current.sh"
-        git_submodules:
+        git_submodules_current:
           name: "git submodules trees all contain latest commit from origin/HEAD"
           scripts:
             main:
               body: "./dev/test/check-if-submodules-current.sh"
+        git_submodules_merged:
+          name: "git submodules are all merged to their origin/HEAD"
+          scripts:
+            main:
+              body: "./dev/test/check-if-submodules-merged.sh"
