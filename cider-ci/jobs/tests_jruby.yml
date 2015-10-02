@@ -7,6 +7,8 @@ jobs:
     description: >
       Run all specs under JRuby 9000.
 
+    priority: 0
+
     run-on:
     - type: branch
       include-match: ^.*madek-v3.*$
@@ -27,5 +29,8 @@ jobs:
 
         scripts:
           test:
+            environment-variables:
+              RBENV_VERSION: jruby-9000
+          npm:
             environment-variables:
               RBENV_VERSION: jruby-9000

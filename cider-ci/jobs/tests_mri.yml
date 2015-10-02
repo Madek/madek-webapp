@@ -27,9 +27,4 @@ jobs:
         environment-variables:
           RBENV_VERSION: 2.1
 
-        scripts:
-          test:
-            environment-variables:
-              RBENV_VERSION: 2.1
-
 

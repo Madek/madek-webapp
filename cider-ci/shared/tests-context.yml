@@ -70,17 +70,17 @@ task-defaults:
 
     bundle-mri:
       exclusive-executor-resource: bundler
-      body: bundle
+      body: bin/bundle_with_cachestamp.sh
 
     bundle-jruby:
       environment-variables:
         RBENV_VERSION: jruby-9000
-      exclusive-executor-resource: bundler_jruby-9000
-      body: bundle
-
+      exclusive-executor-resource: bundler
+      body: bin/bundle_with_cachestamp.sh
 
     npm:
-      body: npm install
+      exclusive-executor-resource: npm-modules
+      body: bin/install_npm_modules_with_caching.sh
 
     create-database:
       body: bundle exec rake db:reset
@@ -172,7 +172,8 @@ subcontexts:
     include-match: spec/features.*_spec.rb
 
 
-# Just one task, use for prototyping and debuging `.cider-ci.yml`
+# Just one task, used for prototyping and debuging the Cider-CI
+# project config `cider-ci.yml`
 #
 #  tasks:
 #    spec/features/my_dashboard_spec.rb:
