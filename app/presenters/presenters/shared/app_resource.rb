@@ -9,8 +9,8 @@ module Presenters
         @app_resource.id
       end
 
-      def _type # not used in ruby land, underscored to not clash with prop names
-        self.class.name.demodulize
+      def type
+        @app_resource.class.name or super
       end
 
       def policy(user)

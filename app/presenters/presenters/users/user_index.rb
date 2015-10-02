@@ -1,7 +1,7 @@
 module Presenters
   module Users
     class UserIndex < Presenters::Shared::AppResource
-      delegate_to_app_resource :login, :email
+      delegate_to_app_resource :login
 
       def name
         @app_resource.person.to_s

@@ -4,3 +4,4 @@ module.exports = AppResource.extend
   type: 'MetaKey'
   props:
     label: 'string'
+    value_type: 'string'

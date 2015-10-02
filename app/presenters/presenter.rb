@@ -71,6 +71,10 @@ class Presenter
     inspect
   end
 
+  def type # not used in ruby land! (js models only)
+    self.class.name.demodulize
+  end
+
   private
 
   def prepend_url_context_fucking_rails(url = '')

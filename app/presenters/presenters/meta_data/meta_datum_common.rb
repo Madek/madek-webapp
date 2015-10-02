@@ -47,7 +47,7 @@ module Presenters
         when 'Person'
           Presenters::People::PersonIndex.new(value)
         when 'User'
-          Presenters::People::PersonIndex.new(value.person)
+          Presenters::Users::UserIndex.new(value)
         when 'Group'
           Presenters::Groups::GroupIndex.new(value)
         when 'InstitutionalGroup'

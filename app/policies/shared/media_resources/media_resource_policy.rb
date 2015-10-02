@@ -9,6 +9,10 @@ module Shared
         end
       end
 
+      def update?
+        logged_in? and record.editable_by_user?(user)
+      end
+
       # TODO: policy for seeing the permissions?
       # TMP: just like the entry itself:
       alias_method :permissions?, :show?

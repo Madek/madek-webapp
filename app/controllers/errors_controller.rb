@@ -6,54 +6,47 @@
 # - If an exception happens from here on, a plain text fallback is used!
 # - Very good overview: <http://blog.siami.fr/diving-in-rails-exceptions-handling>
 
-# TODO: cleanup `responder` handling
 class ErrorsController < ApplicationController
 
   skip_before_action :authenticate_user!
 
   def show
     exception = env['action_dispatch.exception']
-    @get = Presenters::Errors::ErrorShow.new(exception)
-
-    # Select template (show server errors as plain page, client error in app):
-    type, layout = \
-    if (@get.status_code < 500) then ['client_error', 'application']
-    else
-      # NOTE: it is important to use the base layout for server errors,
-      # because when something is broken we don't want to hit the db, etc.
-      ['server_error', '_base']
-    end
-
-    # NOTE: it's very important to set the `status` here because default is 200…
-    respond_with(@get) do |format|
-      format.html { render(type, layout: layout, status: @get.status_code) }
-      format.json \
-        { render(plain: wrap_error(@get.dump).to_json, status: @get.status_code) }
-      format.json \
-        { render(plain: wrap_error(@get.dump).to_yaml, status: @get.status_code) }
-    end
+    err = Presenters::Errors::ErrorShow.new(exception)
+    # Select type (show server errors as plain page, client error in app):
+    type = (err.status_code < 500) ? 'client_error' : 'server_error'
+    respond_with_error(err, type)
   end
 
   def proxy_error
     # Only shown on localhost, rendered once per deploy as a static page for proxy.
-    @get = Pojo.new(
+    err = Pojo.new(
       status_code: 502,
       message: 'Bad Gateway',
       details: ['Application down!']
     )
-    respond_with(@get) do |format|
-      format.html \
-        { render('server_error', layout: '_base', status: @get.status_code) }
-      format.json \
-        { render(plain: wrap_error(@get).to_json, status: @get.status_code) }
-      format.yaml \
-        { render(plain: wrap_error(@get).to_yaml, status: @get.status_code) }
-    end
+    respond_with_error(err, 'server_error')
   end
 
   private
 
-  def wrap_error(obj)
-    Hash(error: obj.to_h)
+  def respond_with_error(err, type)
+    # NOTE: it is important to use the base layout for server errors,
+    # because when something is broken we don't want to hit the db, etc.
+    layout = (type == 'server_error') ? '_base' : 'application'
+    respond_to do |f|
+      f.html do
+        @get = err
+        render(type, layout: layout, status: err.status_code)
+      end
+      f.json { render(json: wrap_error(err), status: err.status_code) }
+      f.yaml { render(plain: wrap_error(err).to_yaml, status: err.status_code) }
+    end
+  end
+
+  def wrap_error(err)
+    err = err.dump if err.dump
+    excluded = :details if err[:status_code] < 500
+    Hash(error: err.except(excluded).to_h).as_json
   end
 end

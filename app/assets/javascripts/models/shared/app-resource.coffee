@@ -6,7 +6,7 @@ getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 module.exports = Model.extend
   type: 'AppResourceBase'
   idAttribute: 'url'
-  typeAttribute: '_type' # see presenters/shared/app_resource.rb
+  typeAttribute: 'type' # see presenter{.rb,s/shared/app_resource.rb}
   props:
     url: 'string'
     uuid: 'string'
@@ -18,3 +18,6 @@ module.exports = Model.extend
 
   save: (config)->
     Model::save.call @, {}, defaults({}, config, wait: true)
+
+  # shortcut, like presenter:
+  dump: () -> Model::serialize.call(@, arguments)

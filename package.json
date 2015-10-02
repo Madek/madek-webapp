@@ -31,12 +31,9 @@
     "yamlify": "0.1.2"
   },
   "devDependencies": {
-    "big-list-of-naughty-strings": "1.0.0",
-    "istanbul": "0.3.21",
-    "tape": "4.2.1"
+    "big-list-of-naughty-strings": "1.0.0"
   },
   "scripts": {
-    "test": "cd app/assets/javascripts/test && istanbul cover tape *.js",
     "browserify": "browserify"
   },
   "browserify": {

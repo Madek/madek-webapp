@@ -15,6 +15,10 @@ module Presenters
         @app_resource.meta_datum_object_type
       end
 
+      def value_type
+        type
+      end
+
       def vocabulary
         Presenters::Vocabularies::VocabularyCommon.new(@app_resource.vocabulary)
       end

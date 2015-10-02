@@ -7,12 +7,11 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
   alias_method :more_data?, :show?
   alias_method :relations?, :show?
 
+  alias_method :meta_data_update?, :update?
+
   def destroy?
     record.editable_by_user?(user) or \
       (!record.is_published and record.creator == user)
   end
 
-  def meta_data_update?
-    record.editable_by_user?(user)
-  end
 end

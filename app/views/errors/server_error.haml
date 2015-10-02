@@ -1,5 +1,4 @@
 :ruby
-  # TODO: fetch generic text for status code and show message only in body
   status_code = @get.try(:status_code).presence || 500
   message = @get.try(:message).presence || 'Internal Server Error'
 
@@ -36,7 +35,7 @@
 
       .ui-modal-footer
         .ui-actions
-          .title-xs= Time.now.getutc.to_s
+          .title-xs= Time.now.getutc.to_s if @get.is_a?(Presenter)
           .span.hidden= '  (╯°□°）╯︵ ┻━┻'
 
     .modal-backdrop.fade.in

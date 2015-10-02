@@ -154,20 +154,17 @@ module Madek
     config.react.variant = :production
 
     # Please add any files you need precompiled here, otherwise it breaks production.
-    # JS Note: only application.js and admin.js are needed here as entry points
-    #          react-server-side.js must also be bundled (but not included in web)
+    # JS Note: all top-level files are bundles, rest are modules
     config.assets.precompile += %w(
+      javascripts/*.*
       *.png
       api_docs.css
       api_docs.js
       admin.css
-      admin.js
       application.css
       application-contrasted.css
-      application.js
       i18n/locale/*
       pdf-viewer.css
-      react-server-side.js
       styleguide.css
       video.css
       visualization.css

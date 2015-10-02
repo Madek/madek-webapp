@@ -11,7 +11,9 @@ module.exports = AppResource.extend
     can_edit: ['boolean']
 
   initialize: ()->
-    # child collections don't propate events by default, wire it up on creation:
+    AppResource::initialize.apply(@, arguments) # "super"
+
+    # child collections don't propagate events by default, wire it up on creation:
     # NOTE: these are defined in classes that inherit from us
     [@user_permissions, @group_permissions, @api_client_permissions]
       .map (child)=>

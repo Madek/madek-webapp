@@ -18,6 +18,7 @@ class MediaEntriesController < ApplicationController
     @tabs = SHOW_TABS
     @get = Presenters::MediaEntries::MediaEntryShow.new \
       get_authorized_resource(MediaEntry.unscoped.find(params[:id])), current_user
+    respond_with @get
   end
 
   # tabs that work like 'show':

@@ -1,13 +1,14 @@
 class StyleguideController < ActionController::Base
   layout 'styleguide'
 
-  # TODO: why is this needed here? It is already in config/application.rb
-  # but that has no effect in this controller? o_O
+  # NOTE: needed because we don't inherit from `ApplicationController`
   append_view_path(Rails.root.join('app', 'ui_elements'))
 
   include LivingStyleguide # builds tree from static files (table of contents)
 
-  before_action :set_sections
+  before_action do
+    @sections = build_styleguide_tree # from LivingStyleguide module
+  end
 
   def index
   end
@@ -24,11 +25,6 @@ class StyleguideController < ActionController::Base
 
   private
 
-  def set_sections
-    @sections = build_styleguide_tree # from LivingStyleguide module
-  end
-
-  # helpers:
   def find_section_by_param(sections, param)
     sections.find { |s| s[:name] == params[param] }
   end

@@ -33,6 +33,8 @@ RSpec.configure do |config|
     case example.metadata[:browser]
     when :firefox
       Capybara.current_driver = :selenium_ff
+    when :phantomjs
+      Capybara.current_driver = :poltergeist
     else
       Capybara.current_driver = :rack_test
     end
