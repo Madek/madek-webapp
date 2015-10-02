@@ -45,21 +45,20 @@ class MediaEntriesController < ApplicationController
   end
 
   def create
+    media_entry = MediaEntry.new(
+      media_file: MediaFile.new(media_file_attributes),
+      responsible_user: current_user,
+      creator: current_user,
+      is_published: false
+    )
+
     ActiveRecord::Base.transaction do
-      media_entry = MediaEntry.new(
-        media_file: MediaFile.new(media_file_attributes),
-        responsible_user: current_user,
-        creator: current_user,
-        is_published: false
-      )
       media_entry.save!
       store_file_and_create_previews!(file, media_entry.media_file)
-      extract_and_store_metadata!(media_entry)
-
-      respond_with media_entry
     end
 
-    # TODO: `rescue` here? what happens if the transaction fails?
+    extract_and_store_metadata(media_entry)
+    respond_with media_entry
   end
 
   def publish
@@ -119,5 +118,4 @@ class MediaEntriesController < ApplicationController
   def file
     media_entry_params.require(:media_file)
   end
-
 end
