@@ -15,7 +15,7 @@ describe 'Session with 10 expiration' do
     end
 
     it 'the session has expired 12 secs after sign-in' do
-      visit current_path
+      visit '/'
       expect(page).to have_content I18n.t(:sitemap_my_content)
       expect(page).not_to have_content 'Error 401'
       expect(sleep 12).to be >= 10
