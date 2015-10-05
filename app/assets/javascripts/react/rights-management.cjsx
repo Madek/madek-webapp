@@ -3,7 +3,7 @@ f = require('../lib/fun.coffee')
 t = require('../lib/string-translation.coffee')('de') # TODO: select correct locale!
 ampersandReactMixin = require('ampersand-react-mixin')
 
-AutoComplete = null # only required client-side!
+AutoComplete = 'div' # only required client-side!
 
 UserIndex = React.createClass
   render: ()->
@@ -28,7 +28,6 @@ module.exports = React.createClass
 
   # this will only ever run on the client:
   componentDidMount: ()->
-    # only needed in interactive mode, fails if even required on server (jQuery)!
     AutoComplete = require('./lib/autocomplete.cjsx')
 
     # set state according to url from router

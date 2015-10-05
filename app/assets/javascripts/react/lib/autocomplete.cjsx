@@ -1,3 +1,17 @@
+###
+
+# AutoComplete
+
+Component that wraps the jQuery.typeahead and provides search functionality
+for Resources that we have a search backend for.
+
+Example:
+callback = (data)-> alert(data.uuid)
+<AutoComplete name='foo[person]' resourceType='People' onSelect={callback}/>
+
+FIXME: fails if even required on server (jQuery)!
+###
+
 React = require('react')
 PropTypes = React.PropTypes
 jQuery = require('jquery')
@@ -28,6 +42,7 @@ initTypeahead = (domNode, resourceType, callback)->
     .on 'keypress', (event)->
       # dont trigger submit on ENTER key:
       if event.keyCode is 13 then event.preventDefault()
+      return null # otherwise we will get stupid warning
 
     .on 'typeahead:select typeahead:autocomplete', (event, item)->
       event.preventDefault()
@@ -54,6 +69,9 @@ module.exports = React.createClass
 
   render: ()->
     {name, value, placeholder, className} = @props
+
+    # not a real FORM input field, so change the name:
+    name = 'autocomplete_for_' + name
 
     <input ref="InputField"
       className={className + ' typeahead'}

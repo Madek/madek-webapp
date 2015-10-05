@@ -18,7 +18,7 @@ initByClass =
     md = new MetaDatum(url: data.metaDatumUrl)
     md.fetch
       error: (model, response, options)->
-        console.error("Could not fetch MetaDatum <#{url}>", response)
+        console.error("Could not fetch MetaDatum <#{model.url}>", response)
       success: (model, response, options)->
         callback(React.createElement(MetaDataEdit, metaDatum: md))
 

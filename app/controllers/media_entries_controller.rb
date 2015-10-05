@@ -16,8 +16,7 @@ class MediaEntriesController < ApplicationController
 
   def show
     @tabs = SHOW_TABS
-    @get = Presenters::MediaEntries::MediaEntryShow.new \
-      get_authorized_resource(MediaEntry.unscoped.find(params[:id])), current_user
+    @get = Presenters::MediaEntries::MediaEntryShow.new find_resource, current_user
     respond_with @get
   end
 
@@ -92,6 +91,10 @@ class MediaEntriesController < ApplicationController
   ###############################################################
 
   private
+
+  def find_resource
+    get_authorized_resource(MediaEntry.unscoped.find(params[:id]))
+  end
 
   def store_file_and_create_previews!(file, media_file)
     store_file!(file.tempfile.path, media_file.original_store_location)

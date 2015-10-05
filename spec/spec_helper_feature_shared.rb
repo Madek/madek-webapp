@@ -59,9 +59,15 @@ end
 
 def js_integration_test(name, data)
   visit '/styleguide/Scratchpad?'
-  evaluate_script("runTest('#{name}', #{data.to_json})")
-  # this is added async, so capybara waits until the test is finished:
-  result = page.find('#TestBedResult')
-  result = JSON.parse(result.text)
-  expect(result['error']).not_to be
+  script = "runTest('#{name}', #{data.to_json})"
+  puts "\nExecuting JavaScript: \n#{script}\n"
+  evaluate_script(script)
+  begin # this is added async, so capybara waits until the test is finished:
+    result_node = page.find('#TestBedResult')
+  rescue
+    throw 'JavaScript timed out!'
+  end
+  result = JSON.parse(result_node.text)
+  puts('JavaScript Error: ' + result['error']) if result['error'].present?
+  result
 end
