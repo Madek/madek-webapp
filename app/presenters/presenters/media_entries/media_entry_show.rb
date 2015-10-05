@@ -3,6 +3,7 @@ module Presenters
     class MediaEntryShow < Presenters::Shared::MediaResources::MediaResourceShow
 
       include Presenters::MediaEntries::Modules::MediaEntryCommon
+      include Presenters::MediaEntries::Modules::MediaEntryMetaData
 
       def relations
         Presenters::Shared::MediaResources::MediaResourceRelations.new \

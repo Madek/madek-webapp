@@ -20,6 +20,10 @@ module Presenters
             @app_resource.is_published
           end
 
+          def url
+            prepend_url_context_fucking_rails media_entry_path(@app_resource)
+          end
+
           private
 
           def image_url_helper(size)
