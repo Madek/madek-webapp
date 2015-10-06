@@ -10,4 +10,4 @@ set -ex
 git submodule update --init --recursive
 
 git submodule foreach --recursive \
-  'git rev-list --children origin/HEAD | grep -q "^$(git rev-parse HEAD)$"'
+  'git rev-list origin/HEAD | grep -q "^$(git rev-parse HEAD)$"'
