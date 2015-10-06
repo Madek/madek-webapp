@@ -31,10 +31,14 @@
     "yamlify": "0.1.2"
   },
   "devDependencies": {
-    "big-list-of-naughty-strings": "1.0.0"
+    "big-list-of-naughty-strings": "1.0.0",
+    "coffee-react-transform": "3.3.0",
+    "coffeelint": "1.12.1"
   },
   "scripts": {
-    "browserify": "browserify"
+    "browserify": "browserify",
+    "coffeelint": "coffeelint",
+    "lint": "npm run -s coffeelint -- app/assets/javascripts/**/*.{coffee,cjsx}"
   },
   "browserify": {
     "transform": [

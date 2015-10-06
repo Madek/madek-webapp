@@ -1,0 +1,10 @@
+{
+    "coffeelint": {
+        "transforms": [ "coffee-react-transform" ]
+    },
+    "max_line_length": {
+      "value": 160,
+      "level": "error",
+      "limitComments": true
+    }
+}

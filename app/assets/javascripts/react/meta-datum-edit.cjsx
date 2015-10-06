@@ -54,10 +54,10 @@ module.exports = React.createClass
 
       <dd className='media-data-content'>
         {if editing
-           <ValuesEdit metaDatum={metaDatum}
-              onCancelClick={@onCancelClick}
-              onDeleteClick={@onDeleteClick}
-              onSubmit={@onSubmit}/>
+          <ValuesEdit metaDatum={metaDatum}
+            onCancelClick={@onCancelClick}
+            onDeleteClick={@onDeleteClick}
+            onSubmit={@onSubmit}/>
          else
            <ValuesShow metaDatum={metaDatum} persisted={!updating}/>
         }
