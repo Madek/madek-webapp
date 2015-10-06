@@ -137,7 +137,7 @@ subcontexts:
     priority: 2
 
   script-defaults:
-    timeout: 300
+    timeout: 600
 
   tasks:
 
