@@ -24,7 +24,7 @@
     "moment": "2.10.6",
     "pdfjs-dist": "1.1.527",
     "po2json": "0.4.1",
-    "react": "0.13.3",
+    "react": "0.14.0",
     "reactify": "1.1.1",
     "rusha": "0.8.3",
     "underscore.string": "3.2.2",
