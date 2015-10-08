@@ -1,7 +1,7 @@
 :ruby
   meta_data ||= nil
   vocab_ids ||= nil
-  unless meta_data.is_a?(Presenters::MetaData::MetaDataPresenter)
+  unless meta_data.is_a?(Presenters::MetaData::MetaDataShow)
     fail 'ui: not a MetaDataPresenter!'
   end
   fail 'ui: missing vocabularies to show!' unless vocab_ids.try(:first).present?

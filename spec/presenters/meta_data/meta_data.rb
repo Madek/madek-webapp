@@ -1,7 +1,7 @@
 require 'spec_helper'
 require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
 
-describe Presenters::MetaData::MetaDataPresenter do
+describe Presenters::MetaData::MetaDataShow do
   it_can_be 'dumped' do
     media_entry = MediaEntry.first
     let(:presenter) do

@@ -11,7 +11,7 @@ module Presenters
 
       # TODO: move meta_data to MediaResourceShow ?
       def meta_data
-        Presenters::MetaData::MetaDataPresenter.new(@app_resource, @user)
+        Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
       end
 
       def more_data

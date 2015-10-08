@@ -21,6 +21,7 @@ module Presenters
       attr_reader :meta_key, :values, :literal_values
 
       def url
+        return unless @app_resource.id # new things dont have an URL!
         prepend_url_context_fucking_rails meta_datum_path(@app_resource)
       end
 
