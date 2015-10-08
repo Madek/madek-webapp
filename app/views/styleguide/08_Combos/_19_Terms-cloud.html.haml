@@ -10,11 +10,11 @@
 = render_partial('element', element) do
 
   = render_partial('example') do
-  
+
     .ui-metadata-box.prl.mbm
       .h3.title-s-alt.light.mbx
         Farbe
-        %span.title-xs-alt.mlx (categorical)
+        %small.title-xs-alt.mlx (categorical)
       %ul.ui-tag-cloud.small.ellipsed.compact
         %li.ui-tag-cloud-item
           %a.ui-tag-button.meta-term{:title => "Oker"}
@@ -36,7 +36,7 @@
     .ui-metadata-box.prl.mbm
       .h3.title-s-alt.light.mbx
         Days
-        %span.title-xs-alt.mlx (alphabetical)
+        %small.title-xs-alt.mlx (alphabetical)
       %ul.ui-tag-cloud.small.ellipsed.compact
         %li.ui-tag-cloud-item
           %a.ui-tag-button.meta-term{:title => "Monday"}
