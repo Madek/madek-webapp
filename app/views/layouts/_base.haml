@@ -1,3 +1,7 @@
+:ruby
+  # HACK: set this param to disable all JS
+  nojs = (params[:nojs] == '1')
+
 !!!
 -# NOTE: class 'has-js' is set dynamically with — suprise! — JavaScript.
 %html{lang: 'de-CH'}
@@ -12,8 +16,9 @@
         = 'Madek'
 
     -# init ujs as early as possible (just sets a class so correct styles are used):
-    :javascript
-      document.getElementsByTagName('html')[0].classList.add('has-js')
+    - unless nojs
+      :javascript
+        document.getElementsByTagName('html')[0].classList.add('has-js')
 
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = content_for(:style_head)
@@ -27,14 +32,15 @@
     = content_for(:head)
   %body
     = content_for(:body)
-    -# js: app lib/dependencies. can't use async/defer (would require sep. DOM ops)
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
-    -# - now all the per-template scripts, which
-        MUST be self-contained and not depending on load order:
-    = content_for(:scripts) if content_for?(:scripts)
-    -# finally, some dev tools (attached to window for console)
-    - if Rails.env == 'development'
-      = javascript_include_tag 'developer-tools'
+    - unless nojs
+      -# js: app lib/dependencies. can't use async/defer (would require sep. DOM ops)
+      = javascript_include_tag 'application', 'data-turbolinks-track' => true
+      -# - now all the per-template scripts, which
+          MUST be self-contained and not depending on load order:
+      = content_for(:scripts) if content_for?(:scripts)
+      -# finally, some dev tools (attached to window for console)
+      - if Rails.env == 'development'
+        = javascript_include_tag 'developer-tools'
 
   -# Implicit *yield*, don't put one here or it double-renders!
   -# Also, when in doubt use `content_for(:body)` in views.

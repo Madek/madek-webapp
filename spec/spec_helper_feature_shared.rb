@@ -50,6 +50,13 @@ def submit_form
   submit.click
 end
 
+def reload_without_js
+  u = URI.parse(current_path)
+  u.query = URI.encode_www_form \
+    URI.decode_www_form(u.query || '').concat([['nojs', '1']])
+  visit(u.to_s)
+end
+
 def js_integration_test(name, data)
   visit '/styleguide/Scratchpad?'
   evaluate_script("runTest('#{name}', #{data.to_json})")
