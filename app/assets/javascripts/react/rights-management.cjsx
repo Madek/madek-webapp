@@ -59,7 +59,7 @@ module.exports = React.createClass
         @props.router.goTo(model.url)
       error: (model, err)=>
         @setState(saving: false, editing: true)
-        alert('Error! ' + ((try JSON.stringify(err,0,2)) or ''))
+        alert('Error! ' + ((try JSON.stringify(err?.body || err , 0, 2)) or ''))
         console.error(err)
 
 
@@ -79,7 +79,7 @@ module.exports = React.createClass
 
       <div className='ui-rights-management'>
         {# User permissions #}
-        <PermissionsBySubjectType type={'User'}
+        <PermissionsBySubjectType type={'Users'}
           showTitles={true}
           title={t('permission_subject_title_users')}
           icon='privacy-private-alt'
@@ -90,7 +90,7 @@ module.exports = React.createClass
           editing={editing}/>
 
         {# Groups permissions #}
-        <PermissionsBySubjectType type={'Group'}
+        <PermissionsBySubjectType type={'Groups'}
           SubjectDeco={GroupIndex}
           title={t('permission_subject_title_groups')}
           icon='privacy-group-alt'
@@ -101,7 +101,7 @@ module.exports = React.createClass
 
         {# ApiApp permissions — hidden on show if empty; always visible on edit #}
         {if (editing or get.api_client_permissions.length > 0)
-          <PermissionsBySubjectType type={'ApiClient'}
+          <PermissionsBySubjectType type={'ApiClients'}
             title={t('permission_subject_title_apiapps')}
             icon='api'
             SubjectDeco={ApiClientIndex}
@@ -225,7 +225,7 @@ PermissionsBySubjectType = React.createClass
           <div className='ui-add-subject ptx row'>
             <div className='col1of3'>
               {if type?
-                <AutoComplete resourceType={type} onSelected={@onAddSubject}/>
+                <AutoComplete resourceType={type} onSelect={@onAddSubject}/>
               }
             </div>
           </div>

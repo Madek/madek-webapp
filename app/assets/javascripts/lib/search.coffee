@@ -1,10 +1,11 @@
 Bloodhound = require('@eins78/typeahead.js/dist/bloodhound.js').noConflict()
 
 resourcesConfig = # JSON API Endpoints:
-  Person: { url: '/people' }
-  User: { url: '/users' }
-  Group: { url: '/my/groups' }
-  ApiClient: { url: '/api_clients', key: 'login' }
+  Users: { url: '/users' }
+  Groups: { url: '/my/groups' }
+  ApiClients: { url: '/api_clients', key: 'login' }
+  People: { url: '/people' }
+  Keywords: { url: '/keywords', key: 'term' }
 
 # TODO: memoize?
 BloodhoundFactory = (config)->

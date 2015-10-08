@@ -1,5 +1,6 @@
 React = require('react')
-$jQuery = require('jquery')
+PropTypes = React.PropTypes
+jQuery = require('jquery')
 require('@eins78/typeahead.js/dist/typeahead.jquery.js')
 
 searchResources = require('../../lib/search.coffee')
@@ -9,12 +10,12 @@ initTypeahead = (domNode, resourceType, callback)->
     return console.error("No search backend for '#{resourceType}'!")
 
   # init typeahead.js plugin via jQuery
-  $input = $jQuery(domNode)
+  $input = jQuery(domNode)
   $input.typeahead({
     hint: false,
     highlight: true,
     minLength: 1,
-    classNames: {
+    classNames: { # madek style:
       wrapper: 'ui-autocomplete-holder'
       input: 'ui-typeahead-input',
       hint: 'ui-autocomplete-hint',
@@ -23,31 +24,40 @@ initTypeahead = (domNode, resourceType, callback)->
       suggestion: 'ui-menu-item'
     }
   },
-  dataSource) # add events:
-    .on 'typeahead:select typeahead:autocomplete', (event, item)=>
-      event.preventDefault() # browser/jquery event, NOT a react event!
-      $input.typeahead('val', '') # reset input field
-      callback(item)
+  dataSource) # add events (browser/jquery events, NOT from react!):
+    .on 'keypress', (event)->
+      # dont trigger submit on ENTER key:
+      if event.keyCode is 13 then event.preventDefault()
 
+    .on 'typeahead:select typeahead:autocomplete', (event, item)->
+      event.preventDefault()
+      $input.typeahead('val', '') # reset input field text
+      callback(item)
 
 module.exports = React.createClass
   displayName: 'AutoComplete'
+  propTypes:
+    name: PropTypes.string.isRequired
+    resourceType: PropTypes.string.isRequired
+    onSelect: PropTypes.func.isRequired
+    value: PropTypes.string
+    placeholder: PropTypes.string
+    className: PropTypes.string
+    autoFocus: PropTypes.bool
 
-  onSelected: (item)->
-    @props.onSelected?(item)
+  componentDidMount: ({resourceType, autoFocus, onSelect} = @props)->
+    initTypeahead(React.findDOMNode(@refs.InputField), resourceType, onSelect)
+    if autoFocus then @focus()
 
-  componentDidMount: ()->
-    domNode = React.findDOMNode(@refs.InputField)
-    if @props.autoFocus then domNode(@refs.InputField).focus()
-    if (resourceType = @props.resourceType)
-      initTypeahead(domNode, resourceType, @onSelected)
+  focus: ()->
+    jQuery(React.findDOMNode(@refs.InputField)).focus()
 
   render: ()->
-    {name, placeholder} = @props
+    {name, value, placeholder, className} = @props
 
-    <input
-      className="typeahead"
+    <input ref="InputField"
+      className={className + ' typeahead'}
       type="text"
+      defaultValue={value or ''}
       placeholder={placeholder || 'search…'}
-      ref="InputField"
       name={name} />
