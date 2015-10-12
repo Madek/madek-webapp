@@ -3,9 +3,8 @@ class Admin::KeywordsController < AdminController
     @vocabulary = Vocabulary.find(params[:vocabulary_id])
     @keywords = @vocabulary.keywords.page(params[:page]).per(16)
 
-    if (search_term = params[:search_term]).present?
-      @keywords = @keywords.filter_by(search_term)
-    end
+    @keywords = @keywords.filter_by(params[:search_term],
+                                    params[:meta_key_id])
   end
 
   def edit

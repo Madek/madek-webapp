@@ -40,7 +40,7 @@
             %td= meta_key.meta_datum_object_type
             %td.active.col-xs-1
               - if meta_key.can_have_keywords?
-                = link_to admin_vocabulary_keywords_path(@vocabulary, search_term: meta_key.id),
+                = link_to admin_vocabulary_keywords_path(@vocabulary, meta_key_id: meta_key.id),
                   class: 'btn btn-default' do
                   %i.glyphicon.glyphicon-eye-open
                   Show keywords (#{meta_key.keywords_count})

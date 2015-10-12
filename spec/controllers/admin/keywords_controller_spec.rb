@@ -49,7 +49,7 @@ describe Admin::KeywordsController do
             :index,
             {
               vocabulary_id: vocabulary.id,
-              search_term: keyword.meta_key.id[0, 3]
+              meta_key_id: keyword.meta_key_id
             },
             user_id: admin_user.id
           )

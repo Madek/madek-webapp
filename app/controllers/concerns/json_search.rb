@@ -12,7 +12,7 @@ module Concerns
 
       ar_collection = \
         FilterChain.new(ar_model.all, self)
-          .do(:filter_by_search_term, params[:search_term])
+          .do(:filter_by_search_params, *search_params)
           .return
           .limit(params[:limit] || 100)
 
@@ -20,8 +20,14 @@ module Concerns
       respond_with get
     end
 
-    def filter_by_search_term(ar_collection, search_term)
+    # to be overriden in controllers if required
+    def filter_by_search_params(ar_collection, search_term)
       ar_collection.filter_by(search_term)
+    end
+
+    # to be overriden in controllers if required
+    def search_params
+      [params[:search_term]]
     end
   end
 end

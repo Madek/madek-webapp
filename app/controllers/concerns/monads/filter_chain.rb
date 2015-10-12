@@ -12,11 +12,11 @@ module Concerns
       #   .return
       #
       FilterChain = Struct.new(:resources, :controller) do
-        def do(method_name, param)
-          new_resources = if param
+        def do(method_name, *args)
+          new_resources = unless args.compact.empty?
                             controller.send(method_name,
                                             resources,
-                                            param)
+                                            *args)
                           else
                             resources
                           end
