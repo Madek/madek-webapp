@@ -1,0 +1,28 @@
+bundle-mri:
+  exclusive-executor-resource: bundler
+  body: bin/bundle_with_cachestamp.sh
+
+bundle-jruby:
+  environment-variables:
+    RBENV_VERSION: jruby-9000
+  exclusive-executor-resource: bundler
+  body: bin/bundle_with_cachestamp.sh
+
+npm:
+  exclusive-executor-resource: npm-modules
+  body: bin/install_npm_modules_with_caching.sh
+
+test:
+  body: |
+    set -eux
+    bundle exec rspec $CIDER_CI_TASK_FILE
+  start-when:
+    start-xvnc:
+      script: start-xvnc
+    create-database:
+      script: create-database
+    npm:
+      script: npm
+    bundle-jruby:
+      script: bundle-jruby
+

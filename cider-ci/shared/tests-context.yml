@@ -1,5 +1,10 @@
 name: Madek Tests
 
+script-defaults:
+  environment-variables_process-templates: true
+  timeout: 300
+
+
 task-defaults:
   eager-trials: 1
   max-auto-trials: 3
@@ -7,6 +12,7 @@ task-defaults:
   environment-variables:
     RAILS_ENV: test
     LANG: "en_US.UTF-8"
+    DISPLAY: ":{{XVNC_PORT}}"
 
   git-options:
     submodules:
@@ -48,79 +54,15 @@ task-defaults:
   ports:
     XVNC_PORT:
       inet_address: "localhost"
-      min: 5000
+      min: 5900
       max: 5999
 
   scripts:
 
-    configure-database:
-      body: |
-        #!/usr/bin/env ruby
-        require 'yaml'
-        config = \
-          { 'test' =>
-            { 'adapter' => 'postgresql',
-              'encoding' => 'unicode',
-              'host' => 'localhost',
-              'pool' => 3,
-              'username' => ENV['PGUSER'],
-              'password' =>  ENV['PGPASSWORD'],
-              'database' => "madek_v3_test_#{ENV['CIDER_CI_TRIAL_ID']}"}}
-        File.open('config/database.yml','w') { |file| file.write config.to_yaml }
-
-    bundle-mri:
-      exclusive-executor-resource: bundler
-      body: bin/bundle_with_cachestamp.sh
-
-    bundle-jruby:
-      environment-variables:
-        RBENV_VERSION: jruby-9000
-      exclusive-executor-resource: bundler
-      body: bin/bundle_with_cachestamp.sh
-
-    npm:
-      exclusive-executor-resource: npm-modules
-      body: bin/install_npm_modules_with_caching.sh
-
-    create-database:
-      body: bundle exec rake db:reset
-      start-when:
-      - script: npm
-      - script: bundle-mri
-      - script: configure-database
-
-    start-vnc:
-      body: tightvncserver ":$XVNC_PORT"  -geometry 1024x768 -rfbport "$XVNC_PORT"  -interface '127.0.0.1'
-
-    test:
-      body: |
-        export DISPLAY=":$XVNC_PORT" \
-        && rm -rf coverage \
-        && ruby -v \
-        && bundle exec rspec $CIDER_CI_TASK_FILE
-      start-when:
-        start-vnc:
-          script: start-vnc
-        create-database:
-          script: create-database
-        npm:
-          script: npm
-        bundle-jruby:
-          script: bundle-jruby
-
-    delete-database:
-      body:  bundle exec rake db:pg:terminate_connections db:drop
-      ignore-state: true
-      start-when:
-      - script: test
-        states: [aborted, passed, failed, skipped]
-
-    stop-vnc:
-      body: tightvncserver -kill ":$XVNC_PORT" -clean
-      ignore-state: true
-      start-when:
-      - script: test
-        states: [aborted, passed, failed, skipped]
+    _cider-ci_include:
+      - cider-ci/shared/scripts/manage-database.yml
+      - cider-ci/shared/scripts/manage-xvnc.yml
+      - cider-ci/shared/scripts/test.yml
 
 
 subcontexts:
