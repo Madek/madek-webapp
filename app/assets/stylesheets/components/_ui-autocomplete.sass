@@ -49,8 +49,17 @@
 .ui-autocomplete
   &.ui-menu
     margin-top: -10px
+    max-width: initial
+    .multi-select-input-holder &
+      margin-top: 0
   .ui-menu-item
     @extend a
   .ui-menu-item.ui-autocomplete-cursor,
   .ui-menu-item:hover
     @extend a.ui-state-focus
+
+// overwrite typeahead inline styles :/
+.multi-select-input-holder
+  .ui-autocomplete-holder
+    position: initial !important
+    display: initial !important
