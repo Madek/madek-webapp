@@ -13,9 +13,10 @@ module Presenters
       def by_vocabulary
         presenterify(@meta_data || fetch_relevant_meta_data)
           .group_by { |md| md.meta_key.vocabulary.uuid.to_sym }
-          .map do |voc_id, dat|
-            vocabulary = dat.first.meta_key.vocabulary
-            [voc_id, Pojo.new(vocabulary: vocabulary, meta_data: dat)]
+          .map do |voc_id, meta_data|
+            meta_data = meta_data.sort_by { |md| md.meta_key.position }
+            vocabulary = meta_data.first.meta_key.vocabulary
+            [voc_id, Pojo.new(vocabulary: vocabulary, meta_data: meta_data)]
           end.to_h
       end
 
