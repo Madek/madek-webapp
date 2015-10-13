@@ -22,6 +22,10 @@ module Presenters
         by_vocabulary.to_h.keys # => [:madek_core, :zhdk, …]
       end
 
+      # def list TMP disable (performance of dump)
+      #   presenterify list_meta_data
+      # end
+
       private
 
       # This method fetches the relevant meta_data, to be overriden per action:

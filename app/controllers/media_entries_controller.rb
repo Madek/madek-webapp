@@ -44,6 +44,11 @@ class MediaEntriesController < ApplicationController
   def new
   end
 
+  def edit_meta_data
+    @get = Presenters::MediaEntries::MediaEntryEdit.new find_resource, current_user
+    respond_with @get
+  end
+
   def create
     media_entry = MediaEntry.new(
       media_file: MediaFile.new(media_file_attributes),

@@ -1,0 +1,10 @@
+- content_for(:header) do
+  = component('page-header',
+      icon: component('icon.pen'),
+      text: 'Metadaten editieren: ' + @get.title,
+      actions: nil)
+
+- content_for(:overview) do
+  = react('FormResourceMetaData', get: @get.dump)
+
+= render template: 'layouts/app_resource'

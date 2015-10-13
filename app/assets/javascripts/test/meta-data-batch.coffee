@@ -1,0 +1,17 @@
+f = require('../lib/fun.coffee')
+MediaEntry = require('../models/media-entry.coffee')
+
+module.exports = (data, callback)->
+  entry = new MediaEntry({url: data.entry})
+
+  entry.fetch
+    success: () ->
+      datum = f.find entry.meta_data.list.models,
+        meta_key: { uuid: data.meta_key_id}
+
+      datum.set('literal_values', data.values)
+
+      entry.meta_data.save
+        error: (model, res, opts)-> callback(JSON.stringify(res,0,2))
+
+        success: (model, res, opts)-> callback()

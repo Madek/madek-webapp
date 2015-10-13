@@ -13,6 +13,7 @@ Madek::Application.routes.draw do
 
   resources :media_entries, path: 'entries' do
     member do
+      get 'meta_data/edit', action: :edit_meta_data, as: 'edit_meta_data'
       put 'meta_data', action: :meta_data_update
       get 'more_data'
 

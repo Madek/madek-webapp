@@ -1,10 +1,14 @@
 :ruby
   action_buttons = [
     component('button',
-      link: media_entry_path,
-      icon: :trash,
-      method: :delete,
-      data: { confirm: 'Are you sure you want to delete this?' })
+      link: edit_meta_data_media_entry_path,
+      icon: :pen),
+  component('button',
+    link: media_entry_path,
+    icon: :trash,
+    method: :delete,
+    data: { confirm: 'Are you sure you want to delete this?' })
+
   ]
 
 = component('page-header',

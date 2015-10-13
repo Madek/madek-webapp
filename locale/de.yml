@@ -20,6 +20,9 @@ de:
       destroy:
         success: '%{resource_name} wurde gelöscht.'
         error: '%{resource_name} konnte nicht gelöscht werden.'
+      meta_data_update:
+        success: 'Metadaten von %{resource_name} wurden gespeichert.'
+        error: 'Metadaten von %{resource_name} konnten nicht gespeichert werden.'
 
   # # General Madek
   sitemap_admin: "Admin"

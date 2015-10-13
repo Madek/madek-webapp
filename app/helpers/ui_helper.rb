@@ -45,6 +45,7 @@ module UiHelper
   # React Components (proxy to view helper from `react_rails` gem w/ config)
   def react(name, props, opts = {})
     defaults = { prerender: true }
+    props = props.merge(token: form_authenticity_token)
     react_component("UI.#{name}", props, defaults.merge(opts))
   end
 

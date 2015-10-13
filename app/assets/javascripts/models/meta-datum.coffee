@@ -11,6 +11,9 @@ module.exports = AppResource.extend
     literal_values:
       type: 'array'
       required: true
+    vocabulary_id:
+      type: 'string'
+      required: true
 
   children:
     meta_key: MetaKey

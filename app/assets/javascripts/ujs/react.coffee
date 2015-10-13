@@ -35,6 +35,10 @@ initByClass =
         editUrl: edit_link
         router: router
 
+  FormResourceMetaData: (data, callback)->
+    FormResourceMetaData = require('../react/form-resource-meta-data.cjsx')
+    callback React.createElement FormResourceMetaData, data.reactProps
+
 
 module.exports = reactUjs=()->
   $('[data-react-class]').each ()->
