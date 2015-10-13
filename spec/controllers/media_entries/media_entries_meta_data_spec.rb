@@ -13,82 +13,99 @@ describe MediaEntriesController do
                user: @user,
                edit_metadata: true)
       @vocab = create(:vocabulary)
+      @keyword = create(:keyword)
+      @new_keyword = create(:keyword)
+      @meta_key_keywords = create(:meta_key_keywords,
+                                  id: "#{@vocab.id}:mk_keywords").id
+      @meta_key_text = create(:meta_key_text,
+                              id: "#{@vocab.id}:mk_text").id
       @media_entry.meta_data << \
         create(:meta_datum_text,
-               meta_key_id: create(:meta_key_text,
-                                   id: "#{@vocab.id}:mk_text").id,
-               string: 'original_value')
-      @media_entry.meta_data << \
-        create(:meta_datum_keywords,
-               meta_key_id: create(:meta_key_keywords,
-                                   id: "#{@vocab.id}:mk_keywords").id,
-               keywords: [(@keyword = create(:keyword))])
-
-      @new_keyword = create(:keyword)
+               meta_key_id: @meta_key_text, string: 'original_value')
     end
 
-    it 'success' do
-      xhr :put,
-          :meta_data_update,
-          { id: @media_entry.id,
-            media_entry: {
-              meta_data: { "#{@vocab.id}:mk_text" => ['test title'],
-                           "#{@vocab.id}:mk_keywords" => [@new_keyword.id] }
-            },
-            format: :json
-          },
-          user_id: @user.id
+    it 'create & update success' do
+      # there is no MetaDatum for this MetaKey yet, create it on the fly:
+      put_meta_data(@meta_key_keywords => [@new_keyword.id],
+                    @meta_key_text => ['test title'])
 
       expect(response).to be_successful
       body = JSON.parse(response.body)
       expect(body['meta_data']).not_to be_empty
       @media_entry.reload
-      expect(
-        @media_entry
-          .meta_data
-          .find_by_meta_key_id("#{@vocab.id}:mk_text")
-          .value
-      ).to be == 'test title'
-      expect(
-        @media_entry
-          .meta_data
-          .find_by_meta_key_id("#{@vocab.id}:mk_keywords")
-          .value
-      ).to be == [@new_keyword]
+      expect(md_text(@media_entry)).to be == 'test title'
+      expect(md_keywords(@media_entry)).to be == [@new_keyword]
     end
 
-    it 'error' do
+    it 'update success' do
+      # add a MetaDatumKeyword
+      add_meta_datum_keywords
+      # change that MetaDatumKeyword to a new Keyword:
+      put_meta_data(
+        "#{@vocab.id}:mk_text" => ['another test title'],
+        @meta_key_keywords => [@new_keyword.id]
+      )
+
+      expect(response).to be_successful
+      body = JSON.parse(response.body)
+      expect(body['meta_data']).not_to be_empty
+      @media_entry.reload
+      expect(md_text(@media_entry)).to be == 'another test title'
+      expect(md_keywords(@media_entry)).to be == [@new_keyword]
+    end
+
+    it 'update error' do
       unknown_keyword_id = UUIDTools::UUID.random_create.to_s
 
-      xhr :put,
-          :meta_data_update,
-          { id: @media_entry.id,
-            media_entry: {
-              meta_data: { "#{@vocab.id}:mk_text" => ['test title'],
-                           "#{@vocab.id}:mk_keywords" => [unknown_keyword_id],
-                           'unknown_key' => ['bla'] }
-            },
-            format: :json
-          },
-          user_id: @user.id
+      add_meta_datum_keywords
+      put_meta_data(
+        "#{@vocab.id}:mk_text" => ['test title'],
+        @meta_key_keywords => [unknown_keyword_id],
+        'unknown_key' => ['bla']
+      )
 
       expect(response.status).to be == 400
       body = JSON.parse(response.body)
       expect(body['errors'].size).to be == 2
+
       @media_entry.reload
+      expect(md_text(@media_entry)).to be == 'original_value'
       expect(
         @media_entry
           .meta_data
-          .find_by_meta_key_id("#{@vocab.id}:mk_text")
-          .value
-      ).to be == 'original_value'
-      expect(
-        @media_entry
-          .meta_data
-          .find_by_meta_key_id("#{@vocab.id}:mk_keywords")
+          .find_by_meta_key_id(@meta_key_keywords)
           .value
       ).to be == [@keyword]
       expect(@media_entry.meta_data.find_by_meta_key_id('unknown_key')).not_to be
     end
   end
+end
+
+def md_text(media_entry)
+  media_entry.meta_data
+    .find_by_meta_key_id(@meta_key_text)
+    .value
+end
+
+def md_keywords(media_entry)
+  media_entry.meta_data
+    .find_by_meta_key_id(@meta_key_keywords)
+    .value
+end
+
+def add_meta_datum_keywords
+  @media_entry.meta_data << \
+    create(:meta_datum_keywords,
+           meta_key_id: @meta_key_keywords,
+           keywords: [@keyword])
+end
+
+def put_meta_data(data)
+  xhr :put,
+      :meta_data_update,
+      { id: @media_entry.id,
+        media_entry: { meta_data: data },
+        format: :json
+      },
+      user_id: @user.id
 end

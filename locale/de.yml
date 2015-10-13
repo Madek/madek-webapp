@@ -1,10 +1,14 @@
 de:
   # # Rails
   activerecord:
+    attributes:
+      meta_datum/keywords:
+        created_by: 'Ersteller'
     errors:
       messages:
         record_invalid: 'Überprüfung fehlgeschlagen: %{errors}'
         taken: "ist bereits vergeben"
+        blank: "ist leer"
   flash:
     actions:
       create:

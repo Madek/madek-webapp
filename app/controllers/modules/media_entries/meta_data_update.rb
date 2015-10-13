@@ -7,7 +7,7 @@ module Modules
         media_entry = MediaEntry.find(params[:id])
         authorize media_entry
 
-        errors = update_all_meta_data_transaction!(media_entry.meta_data,
+        errors = update_all_meta_data_transaction!(media_entry,
                                                    meta_data_params)
         respond_to do |f|
           f.json do
@@ -22,7 +22,7 @@ module Modules
         end
       end
 
-      def update_all_meta_data_transaction!(meta_data, meta_data_params)
+      def update_all_meta_data_transaction!(media_entry, meta_data_params)
         errors = {}
 
         ActiveRecord::Base.transaction do
@@ -30,8 +30,7 @@ module Modules
             meta_key_id = key_value.first
             value = key_value.second
             begin
-              meta_datum = meta_data.find_by_meta_key_id!(meta_key_id)
-              meta_datum.set_value!(value, current_user)
+              update_or_create_meta_datum!(media_entry, meta_key_id, value)
             rescue => e
               errors[meta_key_id] = [e.message]
             end
@@ -40,6 +39,19 @@ module Modules
         end
 
         errors
+      end
+
+      def update_or_create_meta_datum!(media_entry, meta_key_id, value)
+        if meta_datum = media_entry.meta_data.find_by(meta_key_id: meta_key_id)
+          meta_datum.set_value!(value, current_user)
+        else
+          meta_datum_klass = \
+            MetaKey.find(meta_key_id).meta_datum_object_type.constantize
+          meta_datum_klass.create_with_user!(current_user,
+                                             media_entry_id: media_entry.id,
+                                             meta_key_id: meta_key_id,
+                                             value: value)
+        end
       end
     end
   end
