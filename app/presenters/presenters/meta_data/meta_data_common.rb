@@ -13,11 +13,9 @@ module Presenters
       def by_vocabulary
         presenterify(@meta_data || fetch_relevant_meta_data)
           .group_by { |md| md.meta_key.vocabulary.uuid.to_sym }
-          .map do |voc_id, meta_data|
-            meta_data = meta_data.sort_by { |md| md.meta_key.position }
-            vocabulary = meta_data.first.meta_key.vocabulary
-            [voc_id, Pojo.new(vocabulary: vocabulary, meta_data: meta_data)]
-          end.to_h
+          .map(&method(:wrap_vocabulary_meta_data))
+          .sort_by(&method(:vocabularies_index))
+          .to_h
       end
 
       def vocabularies_with_meta_data
@@ -33,8 +31,25 @@ module Presenters
 
       def relevant_vocabularies
         Vocabulary
-          .where(id: UI_META_CONFIG[:displayed_vocabularies])
+          .where(id: selected_vocabularies)
           .viewable_by_user_or_public(@user)
+      end
+
+      def selected_vocabularies
+        UI_META_CONFIG[:displayed_vocabularies].map(&:to_sym)
+      end
+
+      # keep order same as configured:
+      def vocabularies_index(voc_and_meta_data)
+        vocabulary_id = voc_and_meta_data.first
+        selected_vocabularies.index(vocabulary_id.to_sym)
+      end
+
+      def wrap_vocabulary_meta_data(voc_and_meta_data)
+        voc_id, meta_data = voc_and_meta_data
+        meta_data = meta_data.sort_by { |md| md.meta_key.position }
+        vocabulary = meta_data.first.meta_key.vocabulary
+        [voc_id, Pojo.new(vocabulary: vocabulary, meta_data: meta_data)]
       end
 
       def presenterify(meta_data)
