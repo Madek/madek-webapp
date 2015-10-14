@@ -6,21 +6,21 @@
 0caa505f9bedab7d94a543987ee3add29b2c3ab8 ?tmp/styleguide-ref/Buttons & Links/tertiary_buttons.png
 51eec6fa0297335dc67805d71a59df760682eac9 ?tmp/styleguide-ref/Combos/1_media_overview.png
 041eaca229d089919ac72cc1f8b27dd2870bf122 ?tmp/styleguide-ref/Combos/clipboard.png
-4d2aea5a0214762df40714d952292970565fd157 ?tmp/styleguide-ref/Combos/collage.png
+cd53933c63e46acf0ddaf745ecaf80bc9d64813e ?tmp/styleguide-ref/Combos/collage.png
 97c17426b1b7629fe9739c5016d4c91b6594fbf1 ?tmp/styleguide-ref/Combos/confirmation_dialog.png
-0a5ef2686ed5ed55b3f889e6deedd42d5f0eeabe ?tmp/styleguide-ref/Combos/featured_entries.png
+d09d8c03831769955ce2274708854d14951a1b73 ?tmp/styleguide-ref/Combos/featured_entries.png
 39bd3b537884daa5a3eb22c427b990e4c44aaf5f ?tmp/styleguide-ref/Combos/filterbar.png
 f11638ea5e12ec0491a5039c7c0beec7ec46c9e8 ?tmp/styleguide-ref/Combos/footer.png
 55aacea5cec99146b9e3cc95c69772bbb6bc2d3d ?tmp/styleguide-ref/Combos/header.png
 805b2c8d120fa204ded0fefeb5b63cab80518547 ?tmp/styleguide-ref/Combos/home_claim.png
-ce97e7ef4307a7f7f0fabb3a4e0f29f350660813 ?tmp/styleguide-ref/Combos/resources_grid.png
-04b10f289ccef40fe9ddb5ee60f47bb9d418ff88 ?tmp/styleguide-ref/Combos/resources_list.png
-d8503b0194ca0851b8cc651bb3c8688ed9dd22ce ?tmp/styleguide-ref/Combos/resources_miniature.png
-4077b8249aef4ecee657d7d79f29a2a55a191cff ?tmp/styleguide-ref/Combos/resources_table.png
-e1283c8ebbf53672c67f3fc64ea732db4e276d55 ?tmp/styleguide-ref/Combos/resources_tiles.png
+d37c73f0461612cf2a0aa580be61c29529e0e48f ?tmp/styleguide-ref/Combos/resources_grid.png
+7e2c7986db152dbd1c7fd266738474f82498644a ?tmp/styleguide-ref/Combos/resources_list.png
+70ab6919c60305efacc83231a4f21604213a596e ?tmp/styleguide-ref/Combos/resources_miniature.png
+2cb7d3ef10cd08b5ac5d6cc4b22277f1a0178dd7 ?tmp/styleguide-ref/Combos/resources_table.png
+08fbe4a5bd00dc4c233e7e4a0476caa6d8f8878a ?tmp/styleguide-ref/Combos/resources_tiles.png
 2cdad1802db698e8089dace42a8ec1401bac565e ?tmp/styleguide-ref/Combos/rights_management.png
 bc6eb429d9fe75ba5be79d29ca94ed7ab5baac26 ?tmp/styleguide-ref/Combos/search_form.png
-a2a4f9bc7041f2584dd83c397a76bb8603de5df3 ?tmp/styleguide-ref/Combos/set_overview.png
+7b615ab85ad067524d83a6a481a998427f8972e6 ?tmp/styleguide-ref/Combos/set_overview.png
 5b39cbef114db6f75cef54e78a8f8c16797b3fd2 ?tmp/styleguide-ref/Combos/side_filter.png
 fb95e243f05c6ab0997662cad0b1addd01b1a3fa ?tmp/styleguide-ref/Combos/summary_table.png
 1e084749b0569880459448f32ff4634af5df2535 ?tmp/styleguide-ref/Combos/terms_cloud.png
@@ -43,11 +43,11 @@ bbc93b0c7e9c9664ab083f21e33e345af4b11b8b ?tmp/styleguide-ref/Components/side_nav
 27d305c74880e7ff74854a96f500a2a316942d93 ?tmp/styleguide-ref/Components/stepline.png
 0220fc496024320bb6da0e066e6ba3395ad11494 ?tmp/styleguide-ref/Components/tabs.png
 88ffe59d4e1ea75ae4332b0fd4df0db05f89765f ?tmp/styleguide-ref/Components/tag_cloud.png
-b59013a7c50ff7c9040586b24326cbd844d1b261 ?tmp/styleguide-ref/Components/thumb.png
+81abe4812c02fd69d04844278437e04fc451f0a2 ?tmp/styleguide-ref/Components/thumb.png
 00c7b19a2d9eaa3f02485be6ee5bcd1db4f18742 ?tmp/styleguide-ref/Components/thumb_actions.png
-3f7cb8fc1839dead2b4bc7fdb776057eb40ad9bb ?tmp/styleguide-ref/Components/thumb_catalog.png
+4fd5bce159c62f7fb32287f13fc0a452729f0394 ?tmp/styleguide-ref/Components/thumb_catalog.png
 03f92caf6abdcf4ecc6cd0ebc3f0018e4bc256fe ?tmp/styleguide-ref/Components/thumb_micro.png
-c02749d8aca20528541781da3969dbe39063eac0 ?tmp/styleguide-ref/Components/tiles.png
+8dcb77581b08e5084bf176a9e943b3b0525b5e22 ?tmp/styleguide-ref/Components/tiles.png
 5395266bfa6f95061460f3e639b6336e3fb80327 ?tmp/styleguide-ref/Components/tooltip.png
 a7606e38f0b53af1be6c8390456b72932fef02e0 ?tmp/styleguide-ref/Forms/form_columned.png
 783518ff5b205be09bfc74feb65143234235923a ?tmp/styleguide-ref/Forms/form_group.png
@@ -62,16 +62,16 @@ ec91d24a62c3dcd75c7e82c8d10ce1354a4710c4 ?tmp/styleguide-ref/Icons/icon_other.pn
 3b35225054754650102dd912fa0b5ac667004d41 ?tmp/styleguide-ref/Icons/icon_privacy.png
 5f261df2963f722775e380cbe46ea3d14a62fd38 ?tmp/styleguide-ref/Icons/icon_special.png
 ce35a33840b07b5bcdfbf81e88aa9f26e607ca47 ?tmp/styleguide-ref/Icons/icon_vis.png
-6d4d0842772c5a10e86bcabafe54c98d410bc6d2 ?tmp/styleguide-ref/Icons/info_building_iconfont.png
+7cbc9b21bc48c9dd3563aae23da844b0f0d1896e ?tmp/styleguide-ref/Icons/info_building_iconfont.png
 7ca617a238cda1571e80c7981d93b06bdbe14f6f ?tmp/styleguide-ref/Layout/clearfix.png
 f1add12b4a11220b42ab2ce287ccbacea096ef09 ?tmp/styleguide-ref/Layout/grid.png
 c03e535041350105e349ef20c0f5edb6ce1b5bd4 ?tmp/styleguide-ref/Layout/separation.png
 b85b74765002739c64cf032734eaa34e3021b4fd ?tmp/styleguide-ref/Layout/separator.png
 2cc3d99544212cd85d3944b585bb6ddb5490ef43 ?tmp/styleguide-ref/Layout/spacing.png
-eb73cb28df34912877091a8fe140a293ac297f58 ?tmp/styleguide-ref/Past Spec/context_page.png
+5641fac1d2a62f75791360d89aa472c81aadce1f ?tmp/styleguide-ref/Past Spec/context_page.png
 8c00c2ff86cd1893d86cd7a4e44e9394b3834b0b ?tmp/styleguide-ref/Past Spec/filterbar_revamp.png
 e901cf55447f51483df309d928cb9338511d739e ?tmp/styleguide-ref/Past Spec/set_vocabulary.png
-f3b8b4e68b8c0bf66e826f31aae000d2ef748650 ?tmp/styleguide-ref/Typography/ol.png
+2e14361ae48375fe70fde076e4533db653d7f9cf ?tmp/styleguide-ref/Typography/ol.png
 b3664a99eb8760d0ea392dc6339e44b4559d3381 ?tmp/styleguide-ref/Typography/paragraphs.png
 5df02ee25c0b6c27104769e26fa56ec9f6a63062 ?tmp/styleguide-ref/Typography/tables.png
 c7ac74e7ab8c401930c04000a0732617c4a5124d ?tmp/styleguide-ref/Typography/titles.png
