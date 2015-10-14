@@ -10,10 +10,10 @@ jobs:
       submodule: ['engines/datalayer']
       states: [passed]
     - type: job
-      job: tests_jruby
+      job: unit-tests
       states: [passed]
     - type: job
-      job: tests_mri
+      job: feature-tests
       states: [passed]
     - type: job
       job: code-checks

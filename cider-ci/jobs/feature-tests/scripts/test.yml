@@ -1,0 +1,11 @@
+test:
+  environment-variables:
+    RBENV_VERSION: jruby-9000
+  body: |
+    set -eux
+    bundle exec rspec $CIDER_CI_TASK_FILE
+  start-when:
+    - script: create-database
+    - script: npm
+    - script: start-xvnc
+    - script: bundle-jruby

@@ -17,7 +17,7 @@ create-database:
   body: bundle exec rake db:reset
   start-when:
   - script: npm
-  - script: bundle-mri
+  - script: bundle
   - script: configure-database
 
 delete-database:

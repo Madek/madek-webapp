@@ -1,0 +1,9 @@
+test:
+  body: |
+    set -eux
+    bundle exec rspec $CIDER_CI_TASK_FILE
+  start-when:
+    create-database:
+      script: create-database
+    npm:
+      script: npm

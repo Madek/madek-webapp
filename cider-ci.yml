@@ -3,6 +3,6 @@ jobs:
 _cider-ci_include:
   - cider-ci/jobs/code-checks.yml
   - cider-ci/jobs/meta.yml
-  - cider-ci/jobs/tests_mri.yml
-  - cider-ci/jobs/tests_jruby.yml
+  - cider-ci/jobs/unit-tests.yml
+  - cider-ci/jobs/feature-tests.yml
   - cider-ci/jobs/all_tests.yml
