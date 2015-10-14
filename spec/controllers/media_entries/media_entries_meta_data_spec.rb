@@ -19,6 +19,12 @@ describe MediaEntriesController do
                                   id: "#{@vocab.id}:mk_keywords").id
       @meta_key_text = create(:meta_key_text,
                               id: "#{@vocab.id}:mk_text").id
+      @unused_meta_key_text = create(:meta_key_text,
+                                     id: "#{@vocab.id}:unused_text").id
+      @unused_meta_key_people = create(:meta_key_people,
+                                       id: "#{@vocab.id}:unused_people").id
+      @unused_meta_key_keywords = create(:meta_key_keywords,
+                                         id: "#{@vocab.id}:unused_keywords").id
       @media_entry.meta_data << \
         create(:meta_datum_text,
                meta_key_id: @meta_key_text, string: 'original_value')
@@ -26,8 +32,13 @@ describe MediaEntriesController do
 
     it 'create & update success' do
       # there is no MetaDatum for this MetaKey yet, create it on the fly:
-      put_meta_data(@meta_key_keywords => [@new_keyword.id],
-                    @meta_key_text => ['test title'])
+      put_meta_data(
+        @meta_key_keywords => [@new_keyword.id],
+        @meta_key_text => ['test title'],
+        # also send along some blank data like the client
+        @unused_meta_key_text => [],
+        @unused_meta_key_people => [],
+        @unused_meta_key_keywords => [])
 
       expect(response).to be_successful
       body = JSON.parse(response.body)
@@ -40,10 +51,14 @@ describe MediaEntriesController do
     it 'update success' do
       # add a MetaDatumKeyword
       add_meta_datum_keywords
-      # change that MetaDatumKeyword to a new Keyword:
+      # change that MetaDatumKeyword to a new Keyword
       put_meta_data(
         "#{@vocab.id}:mk_text" => ['another test title'],
-        @meta_key_keywords => [@new_keyword.id]
+        @meta_key_keywords => [@new_keyword.id],
+        # also send along some blank data like the client:
+        @unused_meta_key_text => [],
+        @unused_meta_key_people => [],
+        @unused_meta_key_keywords => []
       )
 
       expect(response).to be_successful
