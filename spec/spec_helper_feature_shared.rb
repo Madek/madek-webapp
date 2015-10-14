@@ -68,6 +68,6 @@ def js_integration_test(name, data)
     throw 'JavaScript timed out!'
   end
   result = JSON.parse(result_node.text)
-  puts('JavaScript Error: ' + result['error']) if result['error'].present?
+  fail('JavaScript Error: ' + result['error']) if result['error']
   result
 end

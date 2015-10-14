@@ -5,16 +5,29 @@ window.$ = require('jquery')
 # map of tests by name here
 # a test is an async function to be called with {data} and callback(err, res)
 window.tests =
-  # metaDataBatch: require('./test/meta-data-batch.coffee')
+  MediaEntryMetaData: require('./spec/media-entry-meta-data-update_spec.coffee')
 
 window.runTest = (name, data = {})->
-  unless typeof (test = tests[name]) is 'function'
-    return console.error "No test named #{name}!"
 
-  test data, (err, res)->
-    $('<div id="TestBedResult">')
-      .addClass(if err? then 'error' else 'ok')
-      .text(JSON.stringify(if err? then {error: err} else (res or {})))
-      .appendTo('body')
+  window.onerror = (err)-> handleResult(err)
+
+  try
+    unless typeof (test = tests[name]) is 'function'
+      throw new Error "No test named #{name}!"
+    test(data, handleResult)
+
+  catch error
+    handleResult(error)
 
   return null
+
+
+handleResult = (err, res)->
+  errorMessage = {error: err.toString()} if err?
+
+  $('<div id="TestBedResult">')
+    .text(JSON.stringify(if errorMessage? then errorMessage else (res or {})))
+    .appendTo('body')
+
+  # re-throw any error (for dev console/stacktrace):
+  throw err if err?

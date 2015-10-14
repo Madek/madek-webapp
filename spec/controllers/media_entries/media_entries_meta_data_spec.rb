@@ -31,12 +31,14 @@ describe MediaEntriesController do
     end
 
     it 'create & update success' do
+      pending '<https://www.pivotaltracker.com/story/show/105669614>'
+
       # there is no MetaDatum for this MetaKey yet, create it on the fly:
       put_meta_data(
         @meta_key_keywords => [@new_keyword.id],
         @meta_key_text => ['test title'],
         # also send along some blank data like the client
-        @unused_meta_key_text => [],
+        @unused_meta_key_text => ['', ' '],
         @unused_meta_key_people => [],
         @unused_meta_key_keywords => [])
 
@@ -49,6 +51,8 @@ describe MediaEntriesController do
     end
 
     it 'update success' do
+      pending '<https://www.pivotaltracker.com/story/show/105669614>'
+
       # add a MetaDatumKeyword
       add_meta_datum_keywords
       # change that MetaDatumKeyword to a new Keyword
@@ -56,7 +60,7 @@ describe MediaEntriesController do
         "#{@vocab.id}:mk_text" => ['another test title'],
         @meta_key_keywords => [@new_keyword.id],
         # also send along some blank data like the client:
-        @unused_meta_key_text => [],
+        @unused_meta_key_text => [''],
         @unused_meta_key_people => [],
         @unused_meta_key_keywords => []
       )
@@ -70,6 +74,8 @@ describe MediaEntriesController do
     end
 
     it 'update error' do
+      pending '<https://www.pivotaltracker.com/story/show/105669614>'
+
       unknown_keyword_id = UUIDTools::UUID.random_create.to_s
 
       add_meta_datum_keywords

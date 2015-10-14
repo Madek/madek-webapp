@@ -4,31 +4,43 @@ module Modules
       extend ActiveSupport::Concern
 
       def meta_data_update
-        media_entry = MediaEntry.find(params[:id])
-        authorize media_entry
+        authorize (media_entry = MediaEntry.find(params[:id]))
+        errors = update_all_meta_data_transaction!(media_entry, meta_data_params)
 
-        errors = update_all_meta_data_transaction!(media_entry,
-                                                   meta_data_params)
-        respond_to do |f|
-          f.json do
-            if errors.empty?
+        if errors.empty?
+          # FIXME: handle this distinction in Responders:
+          respond_to do |f|
+            f.json { render json: { ok: true } }
+            f.html do
               respond_with \
-                Presenters::MediaEntries::MediaEntryShow.new(media_entry.reload,
-                                                             current_user)
-            else
-              render json: { errors: errors }, status: :bad_request
+                media_entry, location: -> { media_entry_path(media_entry) }
             end
           end
+        else
+          render json: { errors: errors }, status: :bad_request
         end
       end
 
       def update_all_meta_data_transaction!(media_entry, meta_data_params)
-        errors = {}
+        # These 4 cases are handled by the datalayer:
+        # 1. MD exists, value is present: update MD
+        # 2. MD exists, value is empty: delete MD
+        # 3. MD does not exist, value is present: create MD
+        # 4. MD does not exist, value is empty: ignore/skip
+        # (MD="A MetaDatum for this MetaKey on this MediaResource")
 
+        errors = {}
         ActiveRecord::Base.transaction do
           meta_data_params.each do |key_value|
             meta_key_id = key_value.first
             value = key_value.second
+            exisiting_meta_datum = media_entry.meta_data
+                                              .find_by(meta_key: meta_key_id)
+
+            # handle case 4:
+            # FIXME: handle this in the db (constraint/trigger auto-delete…)
+            next unless exisiting_meta_datum.present? and value.present?
+
             begin
               update_or_create_meta_datum!(media_entry, meta_key_id, value)
             rescue => e
@@ -37,7 +49,6 @@ module Modules
           end
           raise ActiveRecord::Rollback unless errors.empty?
         end
-
         errors
       end
 
