@@ -18,7 +18,7 @@ jobs:
 
     context:
 
-      name: Unit Tests
+      name: Feature Tests
 
       script-defaults:
         environment-variables_process-templates: true
@@ -35,7 +35,7 @@ jobs:
             max: 5999
 
         environment-variables:
-          RBENV_VERSION: 2.1
+          RBENV_VERSION: 2.2
           RAILS_ENV: test
           LANG: "en_US.UTF-8"
           DISPLAY: ":{{XVNC_PORT}}"
@@ -46,6 +46,9 @@ jobs:
             timeout: 60
 
         trial-attachments:
+          screenshots:
+            glob: tmp/capybara/*.png
+            content-type: image/png
           logs:
             glob: 'log/*.log'
             content-type: text/plain

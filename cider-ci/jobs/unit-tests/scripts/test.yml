@@ -1,6 +1,8 @@
 test:
   body: |
     set -eux
+    export USED_RUBY_VERSION=`ruby -v | cut -d ' ' -f 2`
+    [[ "$USED_RUBY_VERSION" =~ '2.2.' ]]
     bundle exec rspec $CIDER_CI_TASK_FILE
   start-when:
     create-database:
