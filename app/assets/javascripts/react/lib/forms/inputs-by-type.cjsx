@@ -12,9 +12,10 @@ module.exports =
     render: ()->
       <InputResources {...@props} resourceType='People'/>
 
-  # Keywords: React.createClass
-  #   propTypes:
-  #     metaKey: MadekPropTypes.metaKey.isRequired
-  #   displayName: 'InputKeywords'
-  #   render: ()->
-  #     <MultiSelectInput {...@props} resourceType='Keywords'/>
+  Keywords: React.createClass
+    propTypes:
+      metaKey: MadekPropTypes.metaKey.isRequired
+    displayName: 'InputKeywords'
+    render: ({metaKey} = @props)->
+      params = {meta_key_id: metaKey.uuid}
+      <InputResources {...@props} resourceType='Keywords' searchParams={params}/>

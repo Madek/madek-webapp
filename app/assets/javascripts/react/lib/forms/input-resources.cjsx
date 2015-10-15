@@ -1,10 +1,11 @@
 React = require('react')
 f = require('../../../lib/fun.coffee')
+decorateResource = require('../decorate-resource-names.coffee')
 InputFieldText = require('../forms/input-field-text.cjsx')
 AutoComplete = 'div' # only required client-side, but falls back to div…
 
 module.exports = React.createClass
-  displayName: 'InputPeople'
+  displayName: 'InputResources'
   propTypes:
     name: React.PropTypes.string.isRequired
     resourceType: React.PropTypes.string.isRequired
@@ -32,7 +33,7 @@ module.exports = React.createClass
       @setState(adding: false)
       setTimeout(@refs.ListAdder.focus, 1)
 
-  render: ({name, resourceType, values, active, multiple} = @props, state = @state)->
+  render: ({name, resourceType, searchParams, values, active, multiple} = @props, state = @state)->
     {onItemAdd, onItemRemove} = @
     values = state.values or values
 
@@ -42,7 +43,7 @@ module.exports = React.createClass
           {values.map (item)->
             remover = f.curry(onItemRemove)(item)
             <li className='multi-select-tag' key={item.uuid}>
-              {item.name}
+              {decorateResource(item)}
               <a className='multi-select-tag-remove' onClick={remover}>
                 <i className='icon-close'/>
               </a>
@@ -54,8 +55,9 @@ module.exports = React.createClass
                 <AutoComplete className='multi-select-input'
                   name={name}
                   resourceType={resourceType}
-                  ref='ListAdder'
-                  onSelect={onItemAdd}/>
+                  searchParams={searchParams}
+                  onSelect={onItemAdd}
+                  ref='ListAdder'/>
               <a className='multi-select-input-toggle icon-arrow-down'/>
             </li>
           }

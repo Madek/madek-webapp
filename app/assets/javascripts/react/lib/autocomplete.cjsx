@@ -19,9 +19,9 @@ require('@eins78/typeahead.js/dist/typeahead.jquery.js')
 
 searchResources = require('../../lib/search.coffee')
 
-initTypeahead = (domNode, resourceType, callback)->
-  unless (dataSource = searchResources(resourceType))
-    return console.error("No search backend for '#{resourceType}'!")
+initTypeahead = (domNode, resourceType, params, callback)->
+  unless (dataSource = searchResources(resourceType, params))
+    throw new Error "No search backend for '#{resourceType}'!"
 
   # init typeahead.js plugin via jQuery
   $input = jQuery(domNode)
@@ -59,9 +59,11 @@ module.exports = React.createClass
     placeholder: PropTypes.string
     className: PropTypes.string
     autoFocus: PropTypes.bool
+    searchParams: PropTypes.object
 
-  componentDidMount: ({resourceType, autoFocus, onSelect} = @props)->
-    initTypeahead(React.findDOMNode(@refs.InputField), resourceType, onSelect)
+  componentDidMount: ({resourceType, searchParams, autoFocus, onSelect} = @props)->
+    initTypeahead(
+      React.findDOMNode(@refs.InputField), resourceType, searchParams, onSelect)
     if autoFocus then @focus()
 
   focus: ()->

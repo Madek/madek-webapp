@@ -38,6 +38,7 @@ module.exports = React.createClass
 
     <InputForType
       name={name}
+      metaKey={get.meta_key}
       active={state.active}
       multiple={multiple}
       values={values}/>
