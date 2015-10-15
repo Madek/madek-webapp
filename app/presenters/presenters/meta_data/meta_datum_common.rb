@@ -4,11 +4,9 @@ module Presenters
       def initialize(app_resource, user)
         super(app_resource)
         @user = user
-        @meta_key = \
-          Presenters::MetaKeys::MetaKeyCommon.new(@app_resource.meta_key)
-        @values = \
-          wrap_in_array(@app_resource.value)
-            .map { |v| indexify_if_necessary(v) }
+        @meta_key = Presenters::MetaKeys::MetaKeyCommon.new(@app_resource.meta_key)
+        @values = wrap_in_array(@app_resource.value)
+                    .map { |v| indexify_if_necessary(v) }
         @literal_values = values.map { |v| v.is_a?(Presenter) ? v.uuid : v }
       end
 

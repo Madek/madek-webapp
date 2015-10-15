@@ -1,19 +1,17 @@
 :ruby
   meta_data ||= nil
-  vocab_ids ||= nil
   unless meta_data.is_a?(Presenters::MetaData::MetaDataShow)
     fail 'ui: not a MetaDataPresenter!'
   end
-  fail 'ui: missing vocabularies to show!' unless vocab_ids.try(:first).present?
 
 .meta-data-summary.mbl
   -# build the vocabulary boxes with meta_data lists, 4 per row
-  - vocab_rows = vocab_ids.in_groups_of(4)
-  - vocab_rows.each do |configured_vocabs|
+  - colums = meta_data.by_vocabulary.keys.in_groups_of(4)
+  - colums.each do |row|
     .ui-container.media-entry-metadata
-      - configured_vocabs.each do |vocab_id|
+      - row.each do |vocab_id|
         - if (vocab_id && data = meta_data.by_vocabulary[vocab_id])
           .col1of4
             = deco('vocabulary_meta_data_list', mods: 'prm', data: data)
-    - unless vocab_rows.last == configured_vocabs
+    - unless colums.last == row
       %hr.separator.mini.mbl

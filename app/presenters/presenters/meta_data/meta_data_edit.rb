@@ -8,7 +8,7 @@ module Presenters
       private
 
       def fetch_relevant_meta_data
-        @meta_data = MetaKey
+        MetaKey
           .where(is_enabled_for_media_entries: true)
           .joins(:vocabulary)
           .where(vocabularies: { id: relevant_vocabularies })
@@ -21,7 +21,6 @@ module Presenters
               md_klass.new(meta_key: key, media_entry: @app_resource)
             end
           end
-        @meta_data
       end
 
     end

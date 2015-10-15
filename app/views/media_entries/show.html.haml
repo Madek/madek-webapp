@@ -24,12 +24,8 @@
   end
 
 - content_for(:more_info) do
-  -# TMP: always show this sections! (till we have js, thus tabs)
   .ui-container.midtone.rounded-bottom.pal.well
-
-    - shown_vocabs = UI_META_CONFIG[:displayed_vocabularies]
-    - if (@get.meta_data.vocabularies_with_meta_data).any?
-      = deco('meta_data_by_vocabulary', meta_data: @get.meta_data,
-                                        vocab_ids: shown_vocabs)
+    - if (@get.meta_data.by_vocabulary.to_h.keys).any?
+      = deco('meta_data_by_vocabulary', meta_data: @get.meta_data)
 
 = render template: 'media_entries/_show/_base'

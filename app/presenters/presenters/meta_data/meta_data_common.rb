@@ -7,24 +7,15 @@ module Presenters
       def initialize(app_resource, user)
         @user = user
         super(app_resource)
-        @meta_data = nil
       end
 
       def by_vocabulary
-        presenterify(@meta_data || fetch_relevant_meta_data)
+        presenterify(fetch_relevant_meta_data)
           .group_by { |md| md.meta_key.vocabulary.uuid.to_sym }
           .map(&method(:wrap_vocabulary_meta_data))
           .sort_by(&method(:vocabularies_index))
           .to_h
       end
-
-      def vocabularies_with_meta_data
-        by_vocabulary.to_h.keys # => [:madek_core, :zhdk, …]
-      end
-
-      # def list TMP disable (performance of dump)
-      #   presenterify list_meta_data
-      # end
 
       private
 
