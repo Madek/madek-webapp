@@ -13,6 +13,7 @@ FIXME: fails if even required on server (jQuery)!
 ###
 
 React = require('react')
+ReactDOM = require('react-dom')
 PropTypes = React.PropTypes
 jQuery = require('jquery')
 require('@eins78/typeahead.js/dist/typeahead.jquery.js')
@@ -63,11 +64,11 @@ module.exports = React.createClass
 
   componentDidMount: ({resourceType, searchParams, autoFocus, onSelect} = @props)->
     initTypeahead(
-      React.findDOMNode(@refs.InputField), resourceType, searchParams, onSelect)
+      ReactDOM.findDOMNode(@refs.InputField), resourceType, searchParams, onSelect)
     if autoFocus then @focus()
 
   focus: ()->
-    jQuery(React.findDOMNode(@refs.InputField)).focus()
+    jQuery(ReactDOM.findDOMNode(@refs.InputField)).focus()
 
   render: ()->
     {name, value, placeholder, className} = @props

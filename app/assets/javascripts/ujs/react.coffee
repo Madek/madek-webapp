@@ -2,6 +2,7 @@ $ = require('jquery')
 React = require('react')
 f = require('active-lodash')
 url = require('url')
+ReactDOM = require('react-dom')
 
 # UJS for Models with React Views
 #
@@ -49,4 +50,4 @@ module.exports = reactUjs=()->
     element = this
     data = $(element).data()
     if f.isFunction(init = initByClass[f.last(data.reactClass.split('UI.'))])
-      init(data, (enhanced)-> React.render(enhanced, element))
+      init(data, (enhanced)-> ReactDOM.render(enhanced, element))
