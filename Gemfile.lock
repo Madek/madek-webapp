@@ -193,9 +193,6 @@ GEM
       haml (>= 4.0.6, < 5.0)
       html2haml (>= 1.0.1)
       railties (>= 4.0.1)
-    haml_assets (0.2.2)
-      haml
-      tilt
     hike (1.2.3)
     html2haml (2.0.0)
       erubis (~> 2.7.0)
@@ -451,10 +448,8 @@ DEPENDENCIES
   flamegraph
   font-awesome-sass
   git
-  haml
   haml-lint (~> 0.10.0)
   haml-rails
-  haml_assets
   jdbc-postgres
   jruby-openssl
   json
