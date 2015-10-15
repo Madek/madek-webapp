@@ -21,11 +21,6 @@ module Presenters
         filter = { meta_data: [
           { key: 'any', value: self.uuid, type: 'MetaDatum::People' }] }
 
-        if (user_of_person = @app_resource.try(:user)).present?
-          filter[:meta_data].push(
-            key: 'any', value: user_of_person.id, type: 'MetaDatum::Users')
-        end
-
         Pojo.new(
           media_entries: \
             Presenters::MediaEntries::MediaEntries

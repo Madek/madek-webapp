@@ -11,19 +11,15 @@ describe Presenters::People::PersonShow do
 
     person = FactoryGirl.create(:person)
     user = FactoryGirl.create(:user, person: person)
-    entry_via_user = FactoryGirl.create(:media_entry)
     entry_via_person = FactoryGirl.create(:media_entry)
 
-    [entry_via_user, entry_via_person].each do |entry|
+    [entry_via_person].each do |entry|
       FactoryGirl.create(:media_entry_user_permission,
                          user: user,
                          media_entry: entry,
                          get_metadata_and_previews: true)
     end
 
-    FactoryGirl.create(:meta_datum_users,
-                       media_entry: entry_via_user,
-                       users: [user])
     FactoryGirl.create(:meta_datum_people,
                        media_entry: entry_via_person,
                        people: [person])
@@ -32,7 +28,7 @@ describe Presenters::People::PersonShow do
 
     expect(get.related_media_resources_via_meta_data.media_entries.resources
       .map(&:uuid))
-      .to match_array [entry_via_user.id, entry_via_person.id]
+      .to match_array [entry_via_person.id]
 
   end
 
