@@ -4,6 +4,8 @@ Permissions = require('./media-entry/permissions.coffee')
 Person = require('./person.coffee')
 # MediaResources = require('./shared/media-resources.coffee')
 ResourceMetaData = require('./shared/resource-meta-data.coffee')
+MetaData = require('./meta-data.coffee')
+
 
 module.exports = AppResource.extend
   type: 'MediaEntry'
@@ -32,7 +34,8 @@ module.exports = AppResource.extend
   children:
     permissions: Permissions
     responsible: Person
-    meta_data: ResourceMetaData
+    # meta_data: ResourceMetaData
 
-  # collections:
-  #   relations: MediaResources
+  collections:
+    meta_data: MetaData
+    # relations: MediaResources

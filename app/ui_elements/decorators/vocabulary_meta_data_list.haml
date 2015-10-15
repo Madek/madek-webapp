@@ -22,7 +22,7 @@
       -# TMP for edit POC. text only!
       - is_editable = false unless (key.type == 'MetaDatum::Text')
       - react_editor = is_editable && { react_class: 'MetaDatumEdit',
-                         meta_datum: { editable: is_editable, url: url } }
+                                        meta_datum: { url: url, type: key.type } }
       %dl.media-data.mbs{data: react_editor}
 
         %dt.media-data-title<>

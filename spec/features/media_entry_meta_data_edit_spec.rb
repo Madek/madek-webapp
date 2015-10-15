@@ -38,8 +38,6 @@ feature 'MediaEntry MetaData' do
   end
 
   scenario 'wip JS model', browser: :firefox do
-    pending 'models not used atm'
-
     config = {
       entry: media_entry_path(@entry),
       meta_key_id: 'media_content:title',

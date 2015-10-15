@@ -15,7 +15,10 @@ initByClass =
     MetaDatum = require('../models/meta-datum.coffee')
     MetaDataEdit = require('../react/meta-datum-edit.cjsx')
 
-    md = new MetaDatum(url: data.metaDatumUrl)
+    unless (MetaDatumClass = MetaDatum[f.last(data.metaDatumType.split('::'))])?
+      throw new Error 'invalid MetaDatum subclass!'
+      
+    md = new MetaDatumClass(url: data.metaDatumUrl)
     md.fetch
       error: (model, response, options)->
         console.error("Could not fetch MetaDatum <#{model.url}>", response)

@@ -1,9 +1,9 @@
 Model = require('ampersand-model')
 defaults = require('lodash/object/defaults')
-getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
+RailsResource = require('./rails-resource-mixin.coffee')
 
 # Base class for Restful Application Resources
-module.exports = Model.extend
+module.exports = Model.extend RailsResource,
   type: 'AppResourceBase'
   idAttribute: 'url'
   typeAttribute: 'type' # see presenter{.rb,s/shared/app_resource.rb}
@@ -11,13 +11,8 @@ module.exports = Model.extend
     url: 'string'
     uuid: 'string'
 
-  ajaxConfig:
-    headers:
-      'Accept': 'application/json'
-      'X-CSRF-Token': getRailsCSRFToken()
-
   save: (config)->
     Model::save.call @, {}, defaults({}, config, wait: true)
 
   # shortcut, like presenter:
-  dump: () -> Model::serialize.call(@, arguments)
+  dump: ()-> Model::serialize.call(@, arguments)
