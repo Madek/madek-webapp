@@ -22,6 +22,27 @@ module Modules
       end
 
       def update_all_meta_data_transaction!(media_entry, meta_data_params)
+        errors = {}
+
+        ActiveRecord::Base.transaction do
+          meta_data_params.each do |key_value|
+            meta_key_id = key_value.first
+            value = key_value.second
+
+            begin
+              handle_meta_datum!(media_entry, meta_key_id, value)
+            rescue => e
+              errors[meta_key_id] = [e.message]
+            end
+
+            raise ActiveRecord::Rollback unless errors.empty?
+          end
+        end
+
+        errors
+      end
+
+      def handle_meta_datum!(media_entry, meta_key_id, value)
         # These 4 cases are handled by the datalayer:
         # 1. MD exists, value is present: update MD
         # 2. MD exists, value is empty: delete MD
@@ -29,30 +50,6 @@ module Modules
         # 4. MD does not exist, value is empty: ignore/skip
         # (MD="A MetaDatum for this MetaKey on this MediaResource")
 
-        errors = {}
-        ActiveRecord::Base.transaction do
-          meta_data_params.each do |key_value|
-            meta_key_id = key_value.first
-            value = key_value.second
-            exisiting_meta_datum = media_entry.meta_data
-                                              .find_by(meta_key: meta_key_id)
-
-            # handle case 4:
-            # FIXME: handle this in the db (constraint/trigger auto-delete…)
-            next unless exisiting_meta_datum.present? and value.present?
-
-            begin
-              update_or_create_meta_datum!(media_entry, meta_key_id, value)
-            rescue => e
-              errors[meta_key_id] = [e.message]
-            end
-          end
-          raise ActiveRecord::Rollback unless errors.empty?
-        end
-        errors
-      end
-
-      def update_or_create_meta_datum!(media_entry, meta_key_id, value)
         if meta_datum = media_entry.meta_data.find_by(meta_key_id: meta_key_id)
           meta_datum.set_value!(value, current_user)
         else

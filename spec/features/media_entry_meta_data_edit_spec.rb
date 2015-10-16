@@ -22,7 +22,10 @@ feature 'MediaEntry MetaData' do
 
     # 2. MD exists, value is empty: delete MD
     @mkey_description = MetaKey.find('media_content:description')
-    FactoryGirl.create(:meta_datum_text, meta_key: @mkey_description, string: 'X')
+    FactoryGirl.create(:meta_datum_text,
+                       meta_key: @mkey_description,
+                       string: 'X',
+                       media_entry: @entry)
 
     # 3. MD does not exist, value is present: create MD
     @mkey_creators = MetaKey.find('media_object:creator')
@@ -51,7 +54,7 @@ feature 'MediaEntry MetaData' do
 
   scenario 'simple edit NOJS', browser: :firefox do
 
-    pending 'controller fix'
+    # pending 'controller fix'
 
     visit media_entry_path(@entry)
 
@@ -90,10 +93,8 @@ feature 'MediaEntry MetaData' do
     expect(datum(@mkey_title).string).to eq @new_title
     expect(datum(@mkey_authors).try(:people)).to include(@the_coauthor)
     expect(datum(@mkey_description)).to eq nil
-    expect(1).to eq 2
     expect(datum(@mkey_creators).try(:people)).to eq([@the_creator])
     expect(datum(@mkey_date)).to eq nil
-    expect(number_of_lights).to eq 4
   end
 
 end
