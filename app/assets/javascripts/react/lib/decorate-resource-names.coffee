@@ -1,4 +1,4 @@
-f = require('../../lib/fun.coffee')
+f = require('active-lodash')
 
 decorators =
   Person: (o)-> o.name

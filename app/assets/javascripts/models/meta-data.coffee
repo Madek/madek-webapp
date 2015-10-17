@@ -1,4 +1,4 @@
-f = require('../lib/fun.coffee')
+f = require('active-lodash')
 AppCollection = require('./shared/app-collection.coffee')
 MetaDatum = require('./meta-datum.coffee')
 

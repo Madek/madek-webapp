@@ -6,7 +6,7 @@ require('jquery-ujs')
 require('bootstrap')
 
 # local requires
-each = require('lodash/collection/each')
+each = require('active-lodash').each
 
 # init UJS #############################################################
 

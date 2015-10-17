@@ -1,6 +1,7 @@
 $ = require('jquery')
 React = require('react')
-f = require('../lib/fun.coffee')
+f = require('active-lodash')
+url = require('url')
 
 # UJS for Models with React Views
 #
@@ -17,7 +18,7 @@ initByClass =
 
     unless (MetaDatumClass = MetaDatum[f.last(data.metaDatumType.split('::'))])?
       throw new Error 'invalid MetaDatum subclass!'
-      
+
     md = new MetaDatumClass(url: data.metaDatumUrl)
     md.fetch
       error: (model, response, options)->
@@ -32,7 +33,7 @@ initByClass =
 
     if ({permissions} = data.reactProps)
       model = new Permissions(permissions)
-      edit_link = f.url.resolve(model.url, 'permissions/edit')
+      edit_link = url.resolve(model.url, 'permissions/edit')
       callback React.createElement RightsManagement,
         permissions: model
         editUrl: edit_link

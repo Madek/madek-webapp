@@ -3,7 +3,7 @@
 WAIT=30
 BRANCH='madek-v3'
 
-f = require('lodash')
+f = require('active-lodash')
 
 curl= (method, url, callback)->
   require('request')[method] url, (err, res, status)->

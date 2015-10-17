@@ -1,5 +1,5 @@
 React = require('react')
-f = require('../../../lib/fun.coffee')
+f = require('active-lodash')
 decorateResource = require('../decorate-resource-names.coffee')
 InputFieldText = require('../forms/input-field-text.cjsx')
 AutoComplete = 'div' # only required client-side, but falls back to div…

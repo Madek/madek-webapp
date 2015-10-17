@@ -1,4 +1,4 @@
-f = require('../lib/fun.coffee')
+f = require('active-lodash')
 MediaEntry = require('../models/media-entry.coffee')
 
 module.exports = (data, callback)->

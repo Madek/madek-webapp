@@ -1,5 +1,5 @@
 React = require('react')
-f = require('../../lib/fun.coffee')
+f = require('active-lodash')
 MadekPropTypes = require('./madek-prop-types.coffee')
 
 InputsByType = require('./forms/inputs-by-type.cjsx')

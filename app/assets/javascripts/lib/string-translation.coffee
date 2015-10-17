@@ -1,5 +1,5 @@
 path = require('path')
-f = require('./fun.coffee')
+f = require('active-lodash')
 
 translations = f.merge(
   require('../../../../locale/en.yml'),

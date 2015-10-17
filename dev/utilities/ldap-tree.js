@@ -1,63 +1,63 @@
-var f= require('lodash');
+var f = require('active-lodash')
 
-module.exports = function ldapTree(data) {
-  res= data
+module.exports = function ldapTree (data) {
+  var res = data
     .filter(function (item) { // blacklisting
-      return blackList(item.institutional_group_name);
+      return blackList(item.institutional_group_name)
     })
     .filter(function (item) { // remove falsy values
-      return !!item;
+      return !!item
     })
-    .reduce(function(prev, item, index) {
-      
-      function buildTree(itm) {
+    .reduce(function (prev, item, index) {
+
+      function buildTree (itm) {
         var str= itm.institutional_group_name.split('.')[0] // minus '.foo'
-                    .split('_');
-        return treeFromList(str, itm);
+                    .split('_')
+        return treeFromList(str, itm)
       }
-      
-      var tree;
-      
+
+      var tree
+
       // prepare tree for the first item
       if (index===1) {
-        tree= buildTree(prev);
+        tree= buildTree(prev)
       } else {
-        tree= prev;
+        tree= prev
       }
-      
+
       // make branch for current item
-      var branch= buildTree(item);
-      
+      var branch= buildTree(item)
+
       // merge branch into tree
-      return f.merge(tree, branch);
-    });
-    
-    return res;
-    
-};
+      return f.merge(tree, branch)
+    })
+
+    return res
+
+}
 
 // TODO: port code from frontend to module and require here (and there)
 function blackList(string) {
-  var ldap_name = string;
-  var shouldKeep = false;
-  
+  var ldap_name = string
+  var shouldKeep = false
+
   var ldapFilterConfig = {
     blackList: [/^Verteilerliste.*/, /^mittelbau.*/, /^personal.*/, /^studierende.*/, /^dozierende.*/],
     whiteList: [/.*\.alle$/]
-  };
+  }
 
   ldapFilterConfig.whiteList.forEach(function(white) {
     if (ldap_name.match(white)) {
-      shouldKeep = true;
+      shouldKeep = true
       ldapFilterConfig.blackList.forEach(function(black) {
         if (ldap_name.match(black)) {
-          shouldKeep = false;
+          shouldKeep = false
         }
-      });
+      })
     }
-  });
-  
-  return shouldKeep;
+  })
+
+  return shouldKeep
 }
 
 
@@ -65,18 +65,18 @@ function blackList(string) {
 // ex.: list='FOO_BAR_BAZ', leaf='foo' => {FOO:BAR:BAZ:'foo'}
 function treeFromList(list, leaf) {
   // leaf= value of most inner key, default is empty object
-  var result = leaf || {};
-    
+  var result = leaf || {}
+
   if (list.length > 0) {
-    var o= {};
-    var key= list.pop(1);
-    o[key] = result;
-    return treeFromList(list, o);
+    var o= {}
+    var key= list.pop(1)
+    o[key] = result
+    return treeFromList(list, o)
   } else {
-    return result;
+    return result
   }
 }
 
 function noop(item) {
-  return item;
+  return item
 }

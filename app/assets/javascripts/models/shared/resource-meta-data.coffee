@@ -1,6 +1,6 @@
 AppResource = require('./app-resource.coffee')
 MetaData = require('../meta-data.coffee')
-f = require('../../lib/fun.coffee')
+f = require('active-lodash')
 MetaDatum = require('../meta-datum.coffee')
 
 module.exports = AppResource.extend

@@ -1,5 +1,5 @@
 React = require('react')
-f = require('../lib/fun.coffee')
+f = require('active-lodash')
 RailsForm = require('./lib/forms/rails-form.cjsx')
 MetaKeyFormLabel = require('./lib/forms/form-label.cjsx')
 InputMetaDatum = require('./lib/input-meta-datum.cjsx')

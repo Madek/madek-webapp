@@ -1,5 +1,5 @@
 url = require('url')
-f = require('./fun.coffee')
+f = require('active-lodash')
 Bloodhound = require('@eins78/typeahead.js/dist/bloodhound.js').noConflict()
 
 resourcesConfig = # JSON API Endpoints:

@@ -1,1 +1,1 @@
-window.f = require('./lib/fun.coffee')
+window.f = require('active-lodash')

@@ -1,5 +1,5 @@
 React = require('react')
-f = require('../../../lib/fun.coffee')
+f = require('active-lodash')
 InputFieldText = require('../forms/input-field-text.cjsx')
 
 module.exports = React.createClass

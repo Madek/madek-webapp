@@ -1,5 +1,5 @@
 Model = require('ampersand-model')
-defaults = require('lodash/object/defaults')
+defaults = require('active-lodash').defaults
 RailsResource = require('./rails-resource-mixin.coffee')
 
 # Base class for Restful Application Resources
