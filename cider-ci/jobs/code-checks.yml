@@ -77,20 +77,17 @@ jobs:
           task-defaults:
             traits:
               nodejs: true
-            scripts:
-              npm_install:
-                body: 'npm install'
-              test:
-                start-when:
-                  - script: npm_install
+            # en lieu of 'npm install':
+            git-options:
+              submodules:
+                clone: True
+                timeout: 60
 
           tasks:
             lint_coffeescript:
               name: Lint/Stylecheck with Coffeelint
               scripts:
                 test:
-                  start-when:
-                    - script: npm_install
                   body: |
                     #!/bin/bash
                     set -e

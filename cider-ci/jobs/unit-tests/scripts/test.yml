@@ -7,5 +7,3 @@ test:
   start-when:
     create-database:
       script: create-database
-    npm:
-      script: npm

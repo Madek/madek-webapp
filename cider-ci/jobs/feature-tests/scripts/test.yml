@@ -8,8 +8,6 @@ test:
   start-when: # this must a map, not array, so it can be extended
     create-database:
       script: create-database
-    npm:
-      script: npm
     start-vnc:
       script: start-xvnc
     bundle-jruby:

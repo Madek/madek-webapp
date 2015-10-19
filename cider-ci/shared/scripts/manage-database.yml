@@ -16,7 +16,6 @@ configure-database:
 create-database:
   body: bundle exec rake db:reset
   start-when:
-  - script: npm
   - script: bundle
   - script: configure-database
 
