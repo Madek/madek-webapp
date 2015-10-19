@@ -8,15 +8,10 @@ bundle-jruby:
   exclusive-executor-resource: bundler
   body: bin/bundle_with_cachestamp.sh
 
-npm:
-  exclusive-executor-resource: npm-modules
-  body: bin/install_npm_modules_with_caching.sh
-
 precompile-assets:
   exclusive-executor-resource: precompile-assets
   body: |
     set -eux
     bin/precompile-assets-with-caching.sh
   start-when:
-  - script: npm
   - script: bundle

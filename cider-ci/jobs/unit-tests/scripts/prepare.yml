@@ -2,10 +2,6 @@ bundle:
   exclusive-executor-resource: bundler
   body: bin/bundle_with_cachestamp.sh
 
-npm:
-  exclusive-executor-resource: npm-modules
-  body: bin/install_npm_modules_with_caching.sh
-
 test:
   body: |
     set -eux
@@ -13,5 +9,3 @@ test:
   start-when:
     create-database:
       script: create-database
-    npm:
-      script: npm
