@@ -8,7 +8,7 @@
 
   # This is a presenter-spezific decorator for MediaResources!
   pres = media_resources # shortcut
-  unless pres and pres.is_a?(Presenters::Shared::MediaResources::MediaResources)
+  unless pres and pres.is_a?(Presenters::MediaResources::MediaResources)
     throw 'ui! need a MediaResourcesIndex Presenter!'
   end
 

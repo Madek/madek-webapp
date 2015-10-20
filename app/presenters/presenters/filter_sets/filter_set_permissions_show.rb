@@ -1,7 +1,7 @@
 module Presenters
   module FilterSets
     class FilterSetPermissionsShow < \
-      Presenters::Shared::MediaResources::MediaResourcePermissionsShow
+      Presenters::Shared::MediaResource::MediaResourcePermissionsShow
 
       def permission_types
         ::Permissions::Modules::FilterSet::PERMISSION_TYPES

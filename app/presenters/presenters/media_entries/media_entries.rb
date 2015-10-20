@@ -1,6 +1,6 @@
 module Presenters
   module MediaEntries
-    class MediaEntries < Presenters::Shared::MediaResources::MediaResources
+    class MediaEntries < Presenters::MediaResources::MediaResources
 
       private
 

@@ -1,7 +1,7 @@
 module Presenters
   module MediaEntries
     class MediaEntryPermissions < \
-      Presenters::Shared::MediaResources::MediaResourcePermissionsShow
+      Presenters::Shared::MediaResource::MediaResourcePermissionsShow
 
       def permission_types
         ::Permissions::Modules::MediaEntry::PERMISSION_TYPES

@@ -1,6 +1,6 @@
 module Presenters
   module FilterSets
-    class FilterSets < Presenters::Shared::MediaResources::MediaResources
+    class FilterSets < Presenters::MediaResources::MediaResources
 
       private
 

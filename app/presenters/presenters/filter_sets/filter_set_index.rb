@@ -1,6 +1,6 @@
 module Presenters
   module FilterSets
-    class FilterSetIndex < Presenters::Shared::MediaResources::MediaResourceIndex
+    class FilterSetIndex < Presenters::Shared::MediaResource::MediaResourceIndex
 
       include Presenters::FilterSets::Modules::FilterSetCommon
 

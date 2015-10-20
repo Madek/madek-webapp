@@ -1,6 +1,6 @@
 module Presenters
   module Collections
-    class ChildMediaResources < Presenters::Shared::MediaResources::MediaResources
+    class ChildMediaResources < Presenters::MediaResources::MediaResources
 
       private
 

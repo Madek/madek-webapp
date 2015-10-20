@@ -1,13 +1,13 @@
 module Presenters
   module Shared
-    module MediaResources
-      class MediaResourceIndex < Presenters::Shared::AppResource
-        include Presenters::Shared::MediaResources::Modules::PrivacyStatus
+    module MediaResource
+      class MediaResourceEdit < Presenters::Shared::AppResource
 
         def initialize(app_resource, user)
           super(app_resource)
           @user = user
         end
+
       end
     end
   end

@@ -1,6 +1,6 @@
 module Presenters
   module Shared
-    module MediaResources
+    module MediaResource
       class MediaResourceRelations < Presenters::Shared::AppResource
         def initialize(app_resource, user)
           super(app_resource)

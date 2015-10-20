@@ -2,7 +2,7 @@ module Presenters
   module FilterSets
     module Permissions
       class FilterSetPublicPermission < \
-        Presenters::Shared::MediaResources::Permissions::\
+        Presenters::Shared::MediaResource::Permissions::\
           MediaResourcePublicPermission
       end
     end

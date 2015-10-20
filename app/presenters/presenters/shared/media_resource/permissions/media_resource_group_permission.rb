@@ -1,6 +1,6 @@
 module Presenters
   module Shared
-    module MediaResources
+    module MediaResource
       module Permissions
         class MediaResourceGroupPermission < MediaResourceCommonPermission
 

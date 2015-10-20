@@ -3,7 +3,7 @@ module Presenters
     module Modules
       module CollectionCommon
         extend ActiveSupport::Concern
-        include Presenters::Shared::MediaResources::Modules::MediaResourceCommon
+        include Presenters::Shared::MediaResource::Modules::MediaResourceCommon
 
         included do
           attr_reader :relations

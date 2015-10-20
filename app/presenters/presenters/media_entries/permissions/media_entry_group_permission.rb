@@ -2,7 +2,7 @@ module Presenters
   module MediaEntries
     module Permissions
       class MediaEntryGroupPermission < \
-        Presenters::Shared::MediaResources::Permissions::\
+        Presenters::Shared::MediaResource::Permissions::\
           MediaResourceGroupPermission
 
         include Presenters::\

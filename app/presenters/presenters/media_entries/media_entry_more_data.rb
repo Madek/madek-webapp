@@ -1,7 +1,7 @@
 module Presenters
   module MediaEntries
     class MediaEntryMoreData < Presenters::Shared::AppResource
-      include Presenters::Shared::MediaResources::Modules::Responsible
+      include Presenters::Shared::MediaResource::Modules::Responsible
 
       def initialize(app_resource)
         super(app_resource)

@@ -2,7 +2,7 @@ module Presenters
   module FilterSets
     module Permissions
       class FilterSetUserPermission < \
-        Presenters::Shared::MediaResources::Permissions::\
+        Presenters::Shared::MediaResource::Permissions::\
           MediaResourceUserPermission
 
         delegate_to_app_resource :edit_metadata_and_filter

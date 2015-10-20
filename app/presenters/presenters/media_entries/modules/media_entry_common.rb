@@ -3,7 +3,7 @@ module Presenters
     module Modules
       module MediaEntryCommon
         extend ActiveSupport::Concern
-        include Presenters::Shared::MediaResources::Modules::MediaResourceCommon
+        include Presenters::Shared::MediaResource::Modules::MediaResourceCommon
 
         def initialize(app_resource, user)
           @app_resource = app_resource

@@ -1,6 +1,6 @@
 module Presenters
   module Shared
-    module MediaResources
+    module MediaResource
       module Modules
         module URLHelpers
           extend ActiveSupport::Concern

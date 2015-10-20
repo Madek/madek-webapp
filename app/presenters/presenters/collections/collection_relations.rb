@@ -1,7 +1,7 @@
 module Presenters
   module Collections
     class CollectionRelations < \
-      Presenters::Shared::MediaResources::MediaResourceRelations
+      Presenters::Shared::MediaResource::MediaResourceRelations
 
       def any?
         super or

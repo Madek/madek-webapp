@@ -1,6 +1,6 @@
 module Presenters
   module MediaEntries
-    class MediaEntryIndex < Presenters::Shared::MediaResources::MediaResourceIndex
+    class MediaEntryIndex < Presenters::Shared::MediaResource::MediaResourceIndex
 
       include Presenters::MediaEntries::Modules::MediaEntryCommon
 

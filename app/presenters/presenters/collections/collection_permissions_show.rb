@@ -1,7 +1,7 @@
 module Presenters
   module Collections
     class CollectionPermissionsShow < \
-      Presenters::Shared::MediaResources::MediaResourcePermissionsShow
+      Presenters::Shared::MediaResource::MediaResourcePermissionsShow
 
       def permission_types
         ::Permissions::Modules::Collection::PERMISSION_TYPES

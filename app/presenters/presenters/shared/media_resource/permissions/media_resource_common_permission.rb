@@ -1,6 +1,6 @@
 module Presenters
   module Shared
-    module MediaResources
+    module MediaResource
       module Permissions
         class MediaResourceCommonPermission < Presenters::Shared::AppResource
           delegate :get_metadata_and_previews, to: :@app_resource

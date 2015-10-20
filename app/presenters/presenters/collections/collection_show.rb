@@ -1,6 +1,6 @@
 module Presenters
   module Collections
-    class CollectionShow < Presenters::Shared::MediaResources::MediaResourceShow
+    class CollectionShow < Presenters::Shared::MediaResource::MediaResourceShow
       include Presenters::Collections::Modules::CollectionCommon
 
       def initialize(app_resource, user)

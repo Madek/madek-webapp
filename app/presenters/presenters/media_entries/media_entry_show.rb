@@ -1,12 +1,12 @@
 module Presenters
   module MediaEntries
-    class MediaEntryShow < Presenters::Shared::MediaResources::MediaResourceShow
+    class MediaEntryShow < Presenters::Shared::MediaResource::MediaResourceShow
 
       include Presenters::MediaEntries::Modules::MediaEntryCommon
       include Presenters::MediaEntries::Modules::MediaEntryMetaData
 
       def relations
-        Presenters::Shared::MediaResources::MediaResourceRelations.new \
+        Presenters::Shared::MediaResource::MediaResourceRelations.new \
           @app_resource, @user
       end
 
