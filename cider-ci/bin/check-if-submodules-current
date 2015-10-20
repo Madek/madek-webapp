@@ -1,5 +1,5 @@
-#!/bin/sh
-set -ex
+#!/usr/bin/env bash
+set -exu
 
 # like `check-if-branch-current`, but for all the submodules, recursive.
 

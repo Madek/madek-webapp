@@ -43,13 +43,13 @@ jobs:
           tasks:
 
             code_complexity:
-              name: Code complexity with flog
+              name: 'Ruby: Code complexity with flog'
               scripts:
                 test:
                   body: bundle exec cider-ci_flog app/
 
             code_similarity:
-              name: Code similarity with flay
+              name: 'Ruby: Code similarity with flay'
               scripts:
                 test:
                   body: bundle exec cider-ci_flay app/
@@ -66,7 +66,7 @@ jobs:
                     find app/views/* -type d -not -path 'app/views/styleguide' -not -path 'app/views/styleguide/**' -exec sh -c 'bundle exec haml-lint {}' \;
 
             lint_ruby:
-              name: Lint/Stylecheck with Rubocop
+              name: 'Ruby: Lint/Stylecheck with Rubocop'
               scripts:
                 test:
                   body: bundle exec rubocop
@@ -85,7 +85,7 @@ jobs:
 
           tasks:
             lint_coffeescript:
-              name: Lint/Stylecheck with Coffeelint
+              name: 'JS: Lint/Stylecheck with Coffeelint'
               scripts:
                 test:
                   body: |
@@ -94,3 +94,16 @@ jobs:
                     for F in app/assets/javascripts/**/*.{coffee,cjsx}; do
                       npm run -s coffeelint -- $F
                     done
+
+        git:
+          description: 'Git sanity checks (fixed state)'
+          task-defaults:
+            max-auto-trials: 1
+            traits:
+              git: true
+          tasks:
+            linear_history:
+              name: 'Git: Linear History'
+              scripts:
+                test:
+                  body: cider-ci/bin/check-if-linear-history

@@ -1,5 +1,5 @@
-#!/bin/sh
-set -ex
+#!/usr/bin/env bash
+set -exu
 
 # TODO: move this out of 'meta' tests (it's stable as long as origin doesn't change)
 
