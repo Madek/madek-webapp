@@ -53,8 +53,7 @@ feature 'MediaEntry' do
       FactoryGirl.create(:meta_key,
                          id: 'upload:licenses',
                          meta_datum_object_type: 'MetaDatum::Licenses')
-      FactoryGirl.create(:license,
-                         url: 'http://creativecommons.org/licenses/by-nd/2.5/ch/')
+      FactoryGirl.create(:license)
       IoMapping.create(io_interface_id: 'default',
                        meta_key_id: 'upload:licenses',
                        key_map: 'XMP-xmpRights:WebStatement')
