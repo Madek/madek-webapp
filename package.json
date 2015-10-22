@@ -6,8 +6,8 @@
   "dependencies": {
     "@eins78/typeahead.js": "0.11.2-pre.1",
     "active-lodash": "1.2.0",
-    "ampersand-model": "5.0.3",
-    "ampersand-react-mixin": "0.1.4",
+    "ampersand-model": "6.0.2",
+    "ampersand-react-mixin": "1.0.1",
     "ampersand-rest-collection": "5.0.0",
     "any_sha1": "0.1.1",
     "bootstrap": "3.3.5",
@@ -20,9 +20,9 @@
     "history": "1.12.5",
     "hogan.js": "3.0.2",
     "jquery": "2.1.4",
-    "jquery-ujs": "1.0.4",
+    "jquery-ujs": "1.1.0-1",
     "moment": "2.10.6",
-    "pdfjs-dist": "1.1.535",
+    "pdfjs-dist": "1.1.542",
     "po2json": "0.4.1",
     "react": "0.14.0",
     "react-dom": "0.14.0",
@@ -34,7 +34,7 @@
   "devDependencies": {
     "big-list-of-naughty-strings": "1.0.0",
     "coffee-react-transform": "3.3.0",
-    "coffeelint": "1.12.1"
+    "coffeelint": "1.13.0"
   },
   "scripts": {
     "browserify": "browserify",
