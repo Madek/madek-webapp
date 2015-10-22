@@ -63,6 +63,8 @@ class MediaEntriesController < ApplicationController
     end
 
     extract_and_store_metadata(media_entry)
+    add_to_collection(media_entry, collection_id_param)
+
     respond_with media_entry
   end
 
@@ -101,6 +103,17 @@ class MediaEntriesController < ApplicationController
     get_authorized_resource(MediaEntry.unscoped.find(params[:id]))
   end
 
+  def add_to_collection(media_entry, collection_id)
+    unless collection_id.blank?
+      if collection = Collection.find_by_id(collection_id)
+        collection.media_entries << media_entry
+      else
+        # TODO: localize!
+        flash[:warning] = 'The collection does not exist!'
+      end
+    end
+  end
+
   def store_file_and_create_previews!(file, media_file)
     store_file!(file.tempfile.path, media_file.original_store_location)
     media_file.create_previews! if media_file.needs_previews?
@@ -122,6 +135,10 @@ class MediaEntriesController < ApplicationController
 
   def meta_data_params
     media_entry_params.require(:meta_data)
+  end
+
+  def collection_id_param
+    media_entry_params.fetch(:collection_id)
   end
 
   def file

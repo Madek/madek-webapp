@@ -16,6 +16,10 @@
           = combo('form-group', mods: 'rowed.by-center', label: { text: 'File'}) do
             = f.file_field :media_file
 
+          = combo('form-group', mods: 'columned.by-center',
+            label: { text: 'Set'}) do
+            = f.text_field :collection_id, value: params[:collection_id]
+
         .ui-actions
           %a.link.weak{href: my_dashboard_path}
             = "Back"
