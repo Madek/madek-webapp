@@ -42,7 +42,9 @@ feature 'Admin Vocabulary Group Permissions' do
   scenario 'Editing a permission' do
     visit admin_vocabularies_path(search_term: group_permission.vocabulary.id)
 
-    click_link 'Group Permissions'
+    within find('table tbody tr', text: group_permission.vocabulary.id) do
+      click_link 'Group Permissions'
+    end
     within find('table tbody tr', text: group_permission.group.name) do
       click_link 'Edit'
     end
