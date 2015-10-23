@@ -3,7 +3,7 @@ MediaEntry = require('../models/media-entry.coffee')
 
 module.exports = (data, callback)->
   entry = new MediaEntry({url: data.entry})
-  
+
   entry.fetch
     parse: true
     success: () ->
@@ -15,4 +15,4 @@ module.exports = (data, callback)->
       entry.meta_data.save
         error: (model, res, opts)-> callback(JSON.stringify(res, 0, 2))
 
-        success: (model, res, opts)-> callback()
+        success: (model, msg, res)-> callback(null, res)

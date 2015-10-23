@@ -138,7 +138,7 @@ class MediaEntriesController < ApplicationController
   end
 
   def collection_id_param
-    media_entry_params.fetch(:collection_id)
+    media_entry_params.fetch(:collection_id) { nil } # optional param, default nil
   end
 
   def file

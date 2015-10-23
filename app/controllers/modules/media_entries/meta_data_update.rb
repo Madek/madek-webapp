@@ -8,14 +8,9 @@ module Modules
         errors = update_all_meta_data_transaction!(media_entry, meta_data_params)
 
         if errors.empty?
-          # FIXME: handle this distinction in Responders:
-          respond_to do |f|
-            f.json { render json: { ok: true } }
-            f.html do
-              respond_with \
-                media_entry, location: -> { media_entry_path(media_entry) }
-            end
-          end
+          @get = Presenters::MediaEntries::MediaEntryIndex.new \
+            media_entry.reload, current_user
+          respond_with @get, location: -> { media_entry_path(media_entry) }
         else
           render json: { errors: errors }, status: :bad_request
         end

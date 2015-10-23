@@ -47,7 +47,11 @@ feature 'MediaEntry MetaData' do
       values: [@new_title]
     }
 
-    js_integration_test 'MediaEntryMetaData', config
+    response = js_integration_test 'MediaEntryMetaData', config
+
+    # expect a presenter:
+    expect(response['body']['uuid']).to eq @entry.id
+    expect(response['body']['type']).to eq 'MediaEntry'
 
     expect(datum(config[:meta_key_id]).string).to eq @new_title
   end

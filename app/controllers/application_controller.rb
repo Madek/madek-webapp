@@ -1,11 +1,9 @@
 require 'application_responder'
 
 class ApplicationController < ActionController::Base
-  self.responder = ApplicationResponder
-  respond_to :html, :json, :yaml # TODO: is this safe for all controllers?
-
   include Concerns::ControllerHelpers
   include Concerns::MadekCookieSession
+  include Concerns::RespondersSetup
   include Errors
   include Pundit
 
