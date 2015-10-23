@@ -84,7 +84,7 @@ gem 'pry', group: [:test, :development]
 gem 'pry-nav', group: [:test, :development]
 gem 'pry-rails', group: [:development]
 gem 'quiet_assets', group: [:development]
-gem 'rack-mini-profiler', group: [:development] # TODO: staging?
+gem 'rack-mini-profiler', group: [:development, :production]
 gem 'rest-client', group: [:test, :development, :personas]
 gem 'rspec-rails', '~> 3.1', group: [:test, :development]
 gem 'rubocop', '= 0.29.1', require: false

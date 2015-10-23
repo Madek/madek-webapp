@@ -19,6 +19,13 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
+  # enable the mini profiler for admins in production
+  before_action do
+    if defined?(Rack::MiniProfiler) && current_user.try(:admin)
+      Rack::MiniProfiler.authorize_request
+    end
+  end
+
   def root
     redirect_to(my_dashboard_path) if authenticated?
   end
