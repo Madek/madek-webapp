@@ -21,13 +21,13 @@
     }
   }
 
-%h3 Members
+%h3= t(:workgroup_members_table_title)
 
 %table.ui-workgroup-members.bordered.block
   %thead
     %tr
-      %td Login
-      %td Member?
+      %td= t(:workgroup_members_table_login)
+      %td= t(:workgroup_members_table_is_member)
   %tbody
     - list.each do |member|
       %tr{"data-id" => member[:id]}

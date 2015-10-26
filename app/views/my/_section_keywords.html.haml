@@ -7,6 +7,6 @@
   = combo('resources-header', title: 'My used Keywords')
 
   - if keywords.empty?
-    = "(No Keywords.)"
+    = t(:no_keywords_fallback)
   - else
     = combo('tag-cloud.label', mods: 'compact', list: keywords)

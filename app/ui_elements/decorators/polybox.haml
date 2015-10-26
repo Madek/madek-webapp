@@ -2,8 +2,7 @@
   # NOTE: only 1 is allowed per view/page!
   # If that need ever to be changed, pagination needs to be addressed.
 
-  # TODO: i18n
-  default_fallback = "(No content.)"
+  default_fallback = t(:no_content_fallback)
   elm_anchor = 'resources-page'
 
   # This is a presenter-spezific decorator for any MediaResource:
@@ -103,7 +102,7 @@
     - if pagination && show_pagination_nav && pagination.total_pages > 1
       .no-js
         %span.ui-resources-page-counter.ui-pager
-          = "Page #{pagination.current_page} of #{pagination.total_pages}"
+          = "t(:pagination_prefix) #{pagination.current_page} #{t(:pagination_of)} #{pagination.total_pages}"
 
     -# a unit for each type of resource
     - resource_types.each do |type, resources_list|

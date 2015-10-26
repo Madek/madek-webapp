@@ -1,14 +1,14 @@
 -# template for the main dashboard (#index-ish)
 - content_for(:title_head) do
-  = "Dashboard - Madek"
+  = t(:dashboard_title_head)
 
 - content_for(:page_header) do
   = component('page-header',
               icon: component('icon.home'),
-              text: 'My Archive',
+              text: t(:sitemap_my_archive),
               actions: [component('button.primary',
                                   link: new_media_entry_path,
-                                  text: 'Create media entry')])
+                                  text: t(:dashboard_create_media_entry_btn))])
 
 -# - content_for(:page_sidebar) do
 -#   = render partial: 'sidebar'
@@ -20,7 +20,7 @@
       -# empty section *are* skipped on the dashboard index
       - next if section[:is_empty?]
       = combo('resources-header', title: section[:title],
-                link: { text: 'show all',
+                link: { text: t(:dashboard_show_all),
                         href: my_dashboard_section_path(section[:id])})
       = render partial: "my/section_#{section[:partial]}",
                locals: { get: @get, section: section, show_pagination_nav: false }
@@ -29,4 +29,4 @@
     - if dashboard_content
       = dashboard_content
     - else
-      = "Welcome to Madek!"
+      = t(:dashboard_welcome_msg)

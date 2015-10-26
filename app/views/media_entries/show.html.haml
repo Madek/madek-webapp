@@ -13,11 +13,11 @@
 
     content: combo('metadata-box',
                 mods: 'ui-summary-table.ui-set-summary.compact',
-                list: [['Title', @get.title, 'title-l'],
-                       ['Description', @get.description],
-                       ['Copyright Notice', @get.copyright_notice],
-                       ['Date', @get.portrayed_object_date],
-                       @get.keywords.any? ? ['Keywords', combo('tag-cloud.label',
+                list: [[t(:resource_meta_data_title), @get.title, 'title-l'],
+                       [t(:resource_meta_data_description), @get.description],
+                       [t(:resource_meta_data_copyright_notice), @get.copyright_notice],
+                       [t(:resource_meta_data_date), @get.portrayed_object_date],
+                       @get.keywords.any? ? [t(:resource_meta_data_keywords), combo('tag-cloud.label',
                           mods: tag_mods,
                           list: @get.keywords)] : nil
                       ]))

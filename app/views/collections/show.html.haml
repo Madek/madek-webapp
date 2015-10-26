@@ -5,7 +5,7 @@
   action_buttons = \
     component('button.primary',
               link: permissions_collection_path(@get.uuid),
-              text: 'Permissions')
+              text: t(:collection_permissions_btn))
 
   collection_show[:header] = \
     component('page-header',
@@ -26,11 +26,11 @@
           mods: 'ui-summary-table.ui-set-summary.compact',
           # TODO: build this list in a presenter?
           # @get.metadata => [ [key, value], [key, value] ]
-          list: [['Title', @get.title, 'title-l'],
-                 ['Description', @get.description],
-                 ['Keywords', combo('tag-cloud.label', list: @get.keywords,
+          list: [[t(:resource_meta_data_title), @get.title, 'title-l'],
+                 [t(:resource_meta_data_description), @get.description],
+                 [t(:resource_meta_data_keywords), combo('tag-cloud.label', list: @get.keywords,
                                                        mods: tag_mods)],
-                 ['Responsible',
+                 [t(:resource_meta_data_responsible),
                   deco('person-tag-list', person: @get.responsible,
                                           mods: tag_mods)]
                 ])
@@ -39,13 +39,13 @@
 - collection_show[:more_info] = capture_haml do
   .ui-container.midtone.rounded-bottom.pal.well
     %h3.title-l.separated.mbm
-      = "Relations"
+      = t(:relations_title)
     - unless @get.relations.any?
-      = "No relations found."
+      = t(:no_relations_title)
     - else
-      %h4.title-m.mbm= "Parents"
+      %h4.title-m.mbm= t(:relations_parents_title)
       = deco('polybox', media_resources: @get.relations.parent_media_resources)
-      %h4.title-m.mbm= "Siblings"
+      %h4.title-m.mbm= t(:relations_siblings_title)
       = deco('polybox', media_resources: @get.relations.sibling_media_resources)
 
     .ui-separator.mbl
@@ -54,7 +54,7 @@
   #ui-resources-list-container.ui-container.midtone.rounded-bottom
     .ui-container.inverted.ui-toolbar.pvx
       .ui-toolbar-header.pls
-        MediaResources in Collection:
+        = t(:collection_media_resources_title)
     .ui-resources-holder.pam
       .ui-container.table.auto
         .ui-container.table-cell.table-substance

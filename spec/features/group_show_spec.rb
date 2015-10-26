@@ -20,7 +20,7 @@ feature 'Group#show' do
     #  - title
     expect(page).to have_content 'ZHdK'
     # - summary
-    expect(page).to have_content 'name ZHdK'
+    expect(page).to have_content "#{I18n.t(:group_meta_data_name)} ZHdK"
   end
 
 end

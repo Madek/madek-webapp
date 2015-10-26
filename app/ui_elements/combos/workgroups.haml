@@ -11,8 +11,8 @@
 
         %td.ui-workgroup-items
           - if (res = group[:resources]).present?
-            = component('link', :link => res[:link], :title => "Inhalte dieser Gruppe anzeigen") do
-              = "#{res[:count]} Inhalte"
+            = component('link', :link => res[:link], :title => t(:workgroup_link_to_contents_title)) do
+              = "#{res[:count]} #{t(:workgroup_link_to_contents_text)}"
 
         - if (actions = group[:actions]).present?
           %td.ui-workgroup-actions

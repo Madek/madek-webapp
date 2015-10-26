@@ -71,21 +71,21 @@
 = form_tag("filter_demo", method: "get") do
 
   %h3.title-l
-    Filter Demo
+    = t(:filter_demo_title)
 
   %blockquote.mvm
-    = "Examples"
+    = t(:filter_demo_examples)
     %ul
       - examples_urls.each do |ex|
         %li
           %a{href: ex[1]}= ex[0]
   %hr.separator.mini.mvm
 
-  %p.title-s= "FILTER (media_entries, collections, filter_sets)"
+  %p.title-s= "#{t(:filter_demo_filter_prefix)} (media_entries, collections, filter_sets)"
   %br
 
   %h4.title-m
-    Filter by MediaResource type
+    = t(:filter_demo_filter_by_media_resource_title)
 
   = label_tag 'Include:'
 
@@ -104,9 +104,9 @@
   %hr.separator.mini.mvm
 
   %h4.title-m
-    Filter by (associated) MediaFile
+    = t(:filter_demo_filter_by_media_file_title)
   %p
-    Possible filter keys:
+    = t(:filter_demo_possible_filter_keys)
     %ul
       %li
         'media_type' -> 'image'/'video'/etc.
@@ -117,18 +117,18 @@
   - 5.times.map do |index|
     - given_key = media_file_filters[index] && media_file_filters[index][:key] || nil
     - given_value = media_file_filters[index] && media_file_filters[index][:value] || nil
-    = label_tag(:q, " KEY ", class: 'title-s')
+    = label_tag(:q, " #{t(:meta_data_meta_key_label)} ", class: 'title-s')
     = text_field_tag("media_file_key#{index}", given_key)
-    = label_tag(:q, " VALUE ", class: 'title-s')
+    = label_tag(:q, " #{t(:meta_data_value_label)} ", class: 'title-s')
     = text_field_tag("media_file_value#{index}", given_value)
     %hr.separator.mini.mvs
 
   %h4.title-m
-    Filter by Permission Status
+    = t(:filter_demo_filter_by_permission_status_title)
   -# - possible_filter_keys = [:public, :responsible_user,
                             :entrusted_to_user, :entrusted_to_group]
   %p
-    Possible filter keys:
+    = t(:filter_demo_possible_filter_keys)
     %ul
       %li
         'public'-> true/false
@@ -143,28 +143,28 @@
   - 5.times.map do |index|
     - given_key = permissions_filters[index] && permissions_filters[index][:key] || nil
     - given_value = permissions_filters[index] && permissions_filters[index][:value] || nil
-    = label_tag(:q, " KEY ", class: 'title-s')
+    = label_tag(:q, " #{t(:meta_data_meta_key_label)} ", class: 'title-s')
     -# = select("permissions_filter", index, possible_filter_keys)
     = text_field_tag("permission_key#{index}", given_key)
-    = label_tag(:q, " VALUE ", class: 'title-s')
+    = label_tag(:q, " #{t(:meta_data_value_label)} ", class: 'title-s')
     = text_field_tag("permission_value#{index}", given_value)
     %hr.separator.mini.mvs
 
   %h4.title-m
-    Filter by MetaData
+    = t(:filter_demo_filter_by_meta_data_title)
   %p
-    Possible filter possibilities:
+    = t(:filter_demo_possible_possibilities)
     %ul
       %li
-        KEY and VALUE are obligatory.
+        = t(:filter_demo_1st_possibility)
       %li
-        One can specify 'any' or 'none' as VALUE, but KEY has to be specific.
+        = t(:filter_demo_2nd_possibility)
       %li
-        One can also specify 'any' as KEY, but VALUE has to be specific and one has to also specify the TYPE, e.g. 'MetaDatum::People'.
+        = t(:filter_demo_3rd_possibility)
 
-  = label_tag(:q, "Number of MetaData Filters (chained with AND)")
+  = label_tag(:q, t(:filter_demo_number_of_meta_data_filters_label))
   = text_field_tag(:num, number_of_mdata_filters_in_ui, type: 'number')
-  = submit_tag("add filter", class: 'button small')
+  = submit_tag(t(:filter_demo_add_filter_btn), class: 'button small')
   %hr.separator.mini.mvm
 
   -# form row for each meta_data_filter:
@@ -172,25 +172,25 @@
     - given_key = mdata_filters[index] && mdata_filters[index][:key] || nil
     - given_value = mdata_filters[index] && mdata_filters[index][:value] || nil
     - given_type = mdata_filters[index] && mdata_filters[index][:type] || nil
-    = label_tag(:q, " KEY ", class: 'title-s')
+    = label_tag(:q, " #{t(:meta_data_meta_key_label)} ", class: 'title-s')
     = text_field_tag("meta_key#{index}", given_key)
-    = label_tag(:q, " VALUE ", class: 'title-s')
+    = label_tag(:q, " #{t(:meta_data_value_label)} ", class: 'title-s')
     = text_field_tag("meta_value#{index}", given_value)
-    = label_tag(:q, " TYPE ", class: 'title-s')
+    = label_tag(:q, " #{t(:meta_data_type_label)} ", class: 'title-s')
     = text_field_tag("meta_type#{index}", given_type)
     %hr.separator.mini.mvs
 
-  = submit_tag("Evaluate!", class: 'primary-button')
+  = submit_tag(t(:filter_demo_meta_data_filter_submit_btn), class: 'primary-button')
 
 %hr.separator.mvm
 
-%h4.title-l= "Result"
+%h4.title-l= t(:filter_demo_result_title)
 
 -# the list of entries:
 - case
 - when mdata_filters.blank?
-  %p.title-s= "Enter one or two filters (key/value) and click the button"
+  %p.title-s= t(:filter_demo_empty_entries_list_title)
 - else
   = deco('polybox', mods: ['paginated', 'ptm'],
          media_resources: the_presenter,
-         fallback: "The result of the Filter is empty!")
+         fallback: t(:filter_demo_entries_list_fallback))

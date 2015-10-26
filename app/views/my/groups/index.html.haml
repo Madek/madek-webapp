@@ -9,24 +9,24 @@
               text: @sections[:groups][:title],
               actions: [
                 component('button.primary', link: new_my_group_path,
-                                            text: 'Neue Arbeitsgruppe')
+                                            text: t(:group_new_group_btn))
               ])
   end
 
 - content_for(:page_content) do
   .ui-resources-holder.pal
     - if @get.groups.empty?
-      = "(No groups.)"
+      = t(:no_groups_fallback)
       - next
 
     :ruby
       my_groups = {
         my_internal_groups: {
-          title: 'Arbeitsgruppen',
+          title: t(:internal_groups),
           list: @get.groups.internal
         },
         my_external_groups: {
-          title: 'Abteilungsgruppen',
+          title: t(:external_groups),
           list: @get.groups.external
         }
       }.map do |group_type, group|
@@ -45,10 +45,10 @@
                         icon: :trash,
                         method: :delete,
                         data: {
-                          confirm: 'Are you sure you want to delete this group?'
+                          confirm: t(:group_delete_confirm_msg)
                         }),
               component('button.edit-workgroup',
-                        text: 'Edit',
+                        text: t(:group_edit_btn),
                         icon: :pen,
                         link: edit_my_group_path(group.uuid))
             ]

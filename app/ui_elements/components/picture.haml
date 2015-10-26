@@ -2,7 +2,7 @@
   text ||= nil
   props = {
     src: href,
-    alt: text ? "Picture: #{text}" : '(Picture)', # TODO: i18n
+    alt: text ? "#{t(:picture_alt_prefix)} #{text}" : t(:picture_alt_fallback),
     class: classes
   }
   return unless props[:src]

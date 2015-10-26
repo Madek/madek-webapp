@@ -1,12 +1,12 @@
 - content_for(:overview) do
   %h3.title-l.separated.mbm
-    = "Relations"
+    = t(:relations_title)
   - unless @get.relations.any?
-    = "No relations found."
+    = t(:no_relations_title)
   - else
-    %h4.title-m.mbm= "Parents"
+    %h4.title-m.mbm= t(:relations_parents_title)
     = deco('polybox', media_resources: @get.relations.parent_media_resources)
-    %h4.title-m.mbm= "Siblings"
+    %h4.title-m.mbm= t(:relations_siblings_title)
     = deco('polybox', media_resources: @get.relations.sibling_media_resources)
 
 = render template: 'media_entries/_show/_base'

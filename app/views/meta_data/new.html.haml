@@ -1,18 +1,18 @@
 = form_tag(meta_data_path) do
   %div
-    = label_tag(:q, " KEY ", class: 'title-s')
+    = label_tag(:q, " #{t(:meta_data_meta_key_label)} ", class: 'title-s')
     = text_field_tag("meta_key")
 
   %hr.separator.mini.mvs
 
   %div
-    = label_tag(:q, " TYPE ", class: 'title-s')
+    = label_tag(:q, " #{t(:meta_data_type_label)} ", class: 'title-s')
     = text_field_tag("type")
 
   %hr.separator.mini.mvs
 
   - 3.times do
-    = label_tag(:q, " VALUE ", class: 'title-s')
+    = label_tag(:q, " #{t(:meta_data_value_label)} ", class: 'title-s')
     = text_field_tag("values[]")
 
   %hr.separator.mini.mvs
@@ -31,4 +31,4 @@
     = text_field_tag("filter_set_id")
 
   %hr.separator.mini.mvs
-  = submit_tag("Submit")
+  = submit_tag t(:meta_data_form_submit_btn)

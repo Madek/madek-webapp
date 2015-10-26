@@ -7,8 +7,8 @@
     props: { action: meta_datum_path, method: 'patch' },
     head: '', # TODO: alerts
     footer: component('actions', actions: [
-      link_to('Cancel', @get.url, class: 'weak'),
-      component('button.primary', mods: 'large', text: 'Save', type: :submit)
+      link_to(t(:meta_data_form_cancel_link), @get.url, class: 'weak'),
+      component('button.primary', mods: 'large', text: t(:meta_data_form_save_btn), type: :submit)
     ])
   }
 

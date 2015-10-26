@@ -1,7 +1,7 @@
 - content_for(:header) do
   = component('page-header',
       icon: component('icon.pen'),
-      text: 'Metadaten editieren: ' + @get.title,
+      text: t(:media_entry_meta_data_header_prefix) + @get.title,
       actions: nil)
 
 - content_for(:overview) do

@@ -1,7 +1,7 @@
 .app-body-ui-container
   = component('page-header',
       icon: component('icon.upload'),
-      text: 'Medien importieren ',
+      text: t(:media_entry_media_import_header),
       actions: nil)
 
   -# complete box (under the title):
@@ -22,15 +22,15 @@
 
         .ui-actions
           %a.link.weak{href: my_dashboard_path}
-            = "Back"
+            = t(:media_entry_back_btn)
           = component('button.primary', type: :submit) do
-            = "Upload"
+            = t(:media_entry_upload_btn)
 
     -# bottom part of the box:
     .row.ui-container.midtone.pvm.phl.rounded-bottom
       .row
         .col1of2
           %h3.title-m.prm
-            %strong= "Hinweise"
+            %strong= t(:media_entry_notices_title)
           %p.prm.ptx
             = "TODO"

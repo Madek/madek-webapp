@@ -16,6 +16,11 @@ en:
       destroy:
         success: '%{resource_name} was successfully destroyed.'
         error: '%{resource_name} could not be destroyed.'
+  helpers:
+    submit:
+      group:
+        update: "Update group"
+        create: "Create group"
 
   # # General Madek
   sitemap_admin: "Admin"
@@ -61,3 +66,111 @@ en:
   permissions_overview_yours_title: "Your Permissions"
   permissions_overview_yours_msg_start: "You, "
   permissions_overview_yours_msg_end: ", currently have the following permissions (either directly or as a member of a group):"
+  # ## Component: Button
+  btn_delete_confirm_msq: "Are you sure you want to delete this?"
+  btn_publish_confirm_msg: "Are you sure you want to publish this?"
+  btn_delete_text: "Delete!"
+  btn_publish_text: "Publish!"
+  # ## Compontent: Picture
+  picture_alt_prefix: "Picture:"
+  picture_alt_fallback: "(Picture)"
+
+  # # Pagination
+  pagination_prefix: "Page"
+  pagination_of: "of"
+
+  # # Relations
+  relations_title: "Relations"
+  no_relations_title: "No relations found."
+  relations_parents_title: "Parents"
+  relations_siblings_title: "Siblings"
+
+  # # Collections
+  collection_media_resources_title: "MediaResources in Collection:"
+  collection_permissions_btn: "Permissions"
+  collection_edit_cover_submit_btn: "Submit"
+  collection_edit_highlights_btn: "Submit"
+  collection_edit_permissions_btn: "Submit"
+
+  # # Fallbacks
+  no_content_fallback: "(No content.)"
+  no_groups_fallback: "(No groups.)"
+  no_keywords_fallback: "(No Keywords.)"
+
+  # # Groups
+  group_new_group_btn: "New Work Group"
+  group_edit_btn: "Edit"
+  group_delete_confirm_msg: "Are you sure you want to delete this group?"
+  external_groups: "Department Groups"
+  internal_groups: "Work Groups"
+  workgroup_link_to_contents_title: "View contents of this group"
+  workgroup_link_to_contents_text: "Contents"
+  workgroup_members_table_title: "Members"
+  workgroup_members_table_login: "Login"
+  workgroup_members_table_is_member: "Member?"
+
+  # # Dashboard
+  dashboard_title_head: "Dashboard - Madek"
+  dashboard_show_all: "show all"
+  dashboard_create_media_entry_btn: "Create media entry"
+  dashboard_welcome_msg: "Welcome to Madek!"
+
+  # # Resource
+  resource_meta_data_title: "Title"
+  resource_meta_data_description: "Description"
+  resource_meta_data_keywords: "Keywords"
+  resource_meta_data_responsible: "Responsible"
+  resource_meta_data_copyright_notice: "Copyright Notice"
+  resource_meta_data_date: "Date"
+
+  # # MediaEntry
+  media_entry_not_published_warning_msg: "Entry is not published yet!"
+  media_entry_meta_data_header_prefix: "Editing Metadata:"
+  media_entry_more_data_title: "More data"
+  media_entry_file_information_title: "File Information"
+  media_entry_media_import_header: "Media import"
+  media_entry_back_btn: "Back"
+  media_entry_upload_btn: "Upload"
+  media_entry_notices_title: "Notices"
+
+  # # MetaData
+  meta_data_form_save_btn: "Save"
+  meta_data_form_cancel_link: "Cancel"
+  meta_data_form_submit_btn: "Submit"
+  meta_data_meta_key_label: "KEY"
+  meta_data_type_label: "TYPE"
+  meta_data_value_label: "VALUE"
+  meta_data_action_edit_btn: "Edit"
+  meta_data_action_delete_btn: "Delete"
+  meta_data_delete_confirm_msg: "Are you sure you want to delete this MetaDatum?"
+  meta_data_header_text: "MetaDatum"
+
+  # # People
+  people_toolbar_header: "MediaResources related via MetaData:"
+
+  # # Group
+  group_edit_form_new_member_login: "New member login"
+  group_toolbar_header_entrusted_resources: "Entrusted MediaResources:"
+  group_meta_data_name: "Name"
+  group_meta_data_institutional_group_name: "Institutional group name"
+
+  # # Section
+  # ## Filter Demo
+  filter_demo_title: "Filter Demo"
+  filter_demo_examples: "Examples"
+  filter_demo_filter_prefix: "FILTER"
+  filter_demo_filter_by_media_resource_title: "Filter by MediaResource type"
+  filter_demo_filter_by_media_file_title: "Filter by (associated) MediaFile"
+  filter_demo_possible_filter_keys: "Possible filter keys:"
+  filter_demo_filter_by_permission_status_title: "Filter by Permission Status"
+  filter_demo_filter_by_meta_data_title: "Filter by MetaData"
+  filter_demo_possible_possibilities: "Possible filter possibilities:"
+  filter_demo_1st_possibility: "KEY and VALUE are obligatory."
+  filter_demo_2nd_possibility: "One can specify 'any' or 'none' as VALUE, but KEY has to be specific."
+  filter_demo_3rd_possibility: "One can also specify 'any' as KEY, but VALUE has to be specific and one has to also specify the TYPE, e.g. 'MetaDatum::People'."
+  filter_demo_number_of_meta_data_filters_label: "Number of MetaData Filters (chained with AND)"
+  filter_demo_add_filter_btn: "add filter"
+  filter_demo_meta_data_filter_submit_btn: "Evaluate!"
+  filter_demo_result_title: "Result"
+  filter_demo_empty_entries_list_title: "Enter one or two filters (key/value) and click the button"
+  filter_demo_entries_list_fallback: "The result of the Filter is empty!"

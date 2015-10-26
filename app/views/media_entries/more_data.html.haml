@@ -3,7 +3,7 @@
   .col1of3
     .ui-container.prm
       %h3.title-l.separated.mbm
-        = "More Data"
+        = t(:media_entry_more_data_title)
       :ruby
         more_meta_data_list = [
           ['responsible', deco('person-tag-list',
@@ -25,7 +25,7 @@
     .ui-container.plm
 
       %h3.title-l.separated.mbm
-        = "File Information"
+        = t(:media_entry_file_information_title)
       = combo('metadata-box',
           mods: 'ui-summary-table', list: @get.more_data.file_information)
 

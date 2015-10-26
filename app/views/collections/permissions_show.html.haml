@@ -1,20 +1,20 @@
 .row
   %h3.title-l.col1of2
-    Responsible user
+    = t(:permissions_responsible_user_title)
   .col1of2= @get.responsible.name
 .row
   %h3.title-l.col1of2
-    Your permissions
+    = t(:permissions_overview_yours_title)
   .col1of2= @get.current_user_permission_types
 
 %hr
 .row
   %h3.title-l.col1of2
-    Permissions
+    = t(:permissions_table_title)
 
 .row.separated
   %h3.title-m.col3of6
-    Users
+    = t(:permission_subject_title_users)
   .col1of6.title-s
     get_metadata_and_previews
   .col1of6.title-s
@@ -31,7 +31,7 @@
 %br
 .row.separated
   %h3.title-m
-    Groups
+    = t(:permission_subject_title_groups)
 .mts
   - @get.group_permissions.each do |p|
     .row
@@ -43,7 +43,7 @@
 %br
 .row.separated
   %h3.title-m
-    API clients
+    = t(:permission_subject_title_apiapps)
 .mts
   - @get.api_client_permissions.each do |p|
     .row
@@ -54,7 +54,7 @@
 %br
 .row.separated
   %h3.col3of6.title-m
-    Public
+    = t(:permission_subject_title_public)
   .col1of6.title-s= @get.public_permission.get_metadata_and_previews
   .col1of6.title-s= "--"
   .col1of6.title-s= "--"

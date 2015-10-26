@@ -4,15 +4,15 @@
 
 - content_for(:page_content) do
   :ruby
-      overview = deco('resource_show_overview',
-                  content: combo('metadata-box',
-                              mods: 'ui-summary-table.ui-set-summary.compact',
-                              list: [['name', @get.name],
-                                     ['institutional_group_name',
-                                      @get.institutional_group_name]
-                                    ]
-                            )
-      )
+    overview = deco('resource_show_overview',
+                content: combo('metadata-box',
+                            mods: 'ui-summary-table.ui-set-summary.compact',
+                            list: [[t(:group_meta_data_name), @get.name],
+                                   [t(:group_meta_data_institutional_group_name),
+                                    @get.institutional_group_name]
+                                  ]
+                          )
+    )
 
   -# TODO: components…
 
@@ -29,7 +29,7 @@
       #ui-resources-list-container.ui-container.midtone.rounded-bottom
         .ui-container.inverted.ui-toolbar.pvx
           .ui-toolbar-header.pls
-            Entrusted MediaResources:
+            = t(:group_toolbar_header_entrusted_resources)
         .ui-resources-holder.pal
           .ui-container.table.auto
             .ui-container.table-cell.table-substance
