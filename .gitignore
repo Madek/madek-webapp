@@ -7,6 +7,7 @@
 .git
 .idea/
 .jhw-cache
+.mux.yml
 .project
 .rbenv-version
 .ruby-gemset
@@ -14,12 +15,12 @@
 .rvmrc
 .sass-cache/
 .yardoc
-_docs_html
 /db/data.pgbin
 /db/structure_and_data.pgbin
 /result.json
 Gemfile.local
 Gemfile.local.lock
+_docs_html
 app/assets/stylesheets/config/local/
 config/*.conf
 config/*.conf_with_pipe
