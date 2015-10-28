@@ -1,3 +1,5 @@
+require 'active_support/core_ext/numeric/bytes'
+
 Madek::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
@@ -29,7 +31,7 @@ Madek::Application.configure do
   # config.logger = SyslogLogger.new
 
   # Use a different cache store in production
-  config.cache_store = :dalli_store
+  config.cache_store = :memory_store, {size: (Settings.webapp_cache_size_megabytes.presence || 128).megabytes}
 
   # Disable Rails's static asset server
   # In production, Apache or nginx will already do this
