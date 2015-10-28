@@ -8,7 +8,7 @@ source 'http://rubygems.org'
 gem 'rails', '~> 4.2'
 
 # Engines
-gem 'configuration_management_backdoor', '>= 1.0.0', '< 2.0'
+gem 'configuration_management_backdoor', '= 2.0.0.pre.1'
 
 # DATABASE
 gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
