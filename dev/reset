@@ -1,10 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "This does a complete reset/setup of the local dev and test environments"
 printf "Waiting 5 seconds";
 for N in $(seq 5); do printf '.' && sleep 1; done; echo ""
+################################################################################
+set -exu # be verbose and fail on any error
 
-set -ex # be verbose and fail on any error
+rm -rf "$(dirname "$0")/../tmp" &
 
 for ENV in test development; do
   cp ./config/database.yml ./engines/datalayer/config/database.yml
@@ -14,6 +16,8 @@ for ENV in test development; do
   RAILS_ENV=$ENV ./bin/rerun_personas_migrations
   cd -
 done
+
+
 
 echo ""
 echo "Now run a clean test!"
