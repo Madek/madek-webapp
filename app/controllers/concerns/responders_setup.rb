@@ -10,7 +10,13 @@ module Concerns
         respond_to do |f|
           f.json { respond_with_default(resource, **options) }
           f.yaml { respond_with_default(resource, **options) }
-          f.html { respond_with_default(resource, location: location, **options) }
+          f.html do
+            # "unwrap" resource from presenter for responders:
+            if resource.is_a?(Presenters::Shared::AppResource)
+              resource = resource.instance_variable_get('@app_resource')
+            end
+            respond_with_default(resource, location: location, **options)
+          end
         end
       end
       alias_method :respond_with_default, :respond_with

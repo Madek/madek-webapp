@@ -8,7 +8,7 @@ feature 'MediaEntry' do
     sign_in_as @user.login
   end
 
-  context '#create' do
+  context '#create (NOJS)' do
     scenario 'upload and publish' do
       # go to dashboard and import button
       visit my_dashboard_path
@@ -24,6 +24,8 @@ feature 'MediaEntry' do
         attach_file('media_entry_media_file', File.absolute_path(image_path))
         submit_form
       end
+
+      expect(page.status_code).to eq 200
 
       # unpublished entry was created
       within('#app') do
@@ -42,7 +44,7 @@ feature 'MediaEntry' do
 
     end
 
-    scenario 'meta_data extraction', browser: :firefox do
+    scenario 'meta_data extraction' do
       unless MetaKey.where(id: 'madek_core:title').exists?
         FactoryGirl.create(:meta_key_text, id: 'madek_core:title')
       end
