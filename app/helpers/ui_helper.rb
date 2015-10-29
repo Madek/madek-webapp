@@ -46,7 +46,9 @@ module UiHelper
   def react(name, props, opts = {})
     defaults = { prerender: true }
     props = props.merge(token: form_authenticity_token)
-    react_component("UI.#{name}", props, defaults.merge(opts))
+    Rails.cache.fetch({ name: name, props: props }.hash) do
+      react_component("UI.#{name}", props, defaults.merge(opts))
+    end
   end
 
   # generic partial-with-block helper
