@@ -56,7 +56,9 @@ describe 'Styleguide' do
         FileUtils.mkdir_p(element_dir) unless Dir.exists? element_dir
 
         visit styleguide_element_path(section, element[:name])
-        move_mouse_over(first 'body a') # for consistent hovering
+        # for consistent hovering:
+        first_link = first('body a')
+        move_mouse_over(first_link) if first_link
         take_screenshot(element_dir, "#{element[:name]}.png")
       end
 

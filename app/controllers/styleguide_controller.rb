@@ -1,8 +1,13 @@
 class StyleguideController < ActionController::Base
+  include Concerns::MadekCookieSession
   layout 'styleguide'
 
   # NOTE: needed because we don't inherit from `ApplicationController`
+  def current_user
+    validate_services_session_cookie_and_get_user
+  end
   append_view_path(Rails.root.join('app', 'ui_elements'))
+  helper_method :current_user
 
   include LivingStyleguide # builds tree from static files (table of contents)
 
