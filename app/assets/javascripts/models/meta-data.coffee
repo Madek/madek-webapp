@@ -17,7 +17,7 @@ module.exports = AppCollection.extend
 
   parse: (data)->
     meta_data = data.by_vocabulary
-    f.flatten f.map f.keys(meta_data), (key)->
+    f.filter f.flatten f.map f.keys(meta_data), (key)->
       meta_data[key].meta_data
 
   save: (opts)->

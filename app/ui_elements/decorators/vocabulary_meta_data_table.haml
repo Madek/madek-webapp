@@ -1,5 +1,6 @@
 :ruby
   data ||= nil
+  data = data.to_a.first.second
   unless data && data.vocabulary && data.meta_data
     fail 'ui: missing data!'
   end

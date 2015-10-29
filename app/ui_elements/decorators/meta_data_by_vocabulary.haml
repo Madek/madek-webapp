@@ -1,17 +1,18 @@
 :ruby
   meta_data ||= nil
-  unless meta_data.is_a?(Presenters::MetaData::MetaDataShow)
-    fail 'ui: not a MetaDataPresenter!'
-  end
+  show_fallback ||= nil
+  # unless meta_data.is_a?(Presenters::MetaData::MetaDataShow)
+  #   fail 'ui: not a MetaDataPresenter!'
+  # end
 
 .meta-data-summary.mbl
   -# build the vocabulary boxes with meta_data lists, 4 per row
-  - colums = meta_data.by_vocabulary.keys.in_groups_of(4)
+  - colums = meta_data.keys.in_groups_of(4)
   - colums.each do |row|
     .ui-container.media-entry-metadata
       - row.each do |vocab_id|
-        - if (vocab_id && data = meta_data.by_vocabulary[vocab_id])
+        - if (vocab_id && data = meta_data[vocab_id])
           .col1of4
-            = deco('vocabulary_meta_data_list', mods: 'prm', data: data)
+            = deco('vocabulary_meta_data_list', mods: 'prm', data: data, show_fallback: show_fallback)
     - unless colums.last == row
       %hr.separator.mini.mbl

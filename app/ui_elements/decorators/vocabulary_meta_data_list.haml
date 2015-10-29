@@ -1,36 +1,46 @@
 :ruby
-  data ||= nil
-  unless data && data.vocabulary && data.meta_data
-    fail 'ui: missing data!'
-  end
+  data ||= {}
+  show_title = true unless defined?(show_title) and (show_title == false)
+  show_fallback = true unless defined?(show_fallback) and (show_fallback == false)
   vocabulary = data.vocabulary
   meta_data = data.meta_data
 
+  fallback_msg = \
+    t(:resource_meta_data_fallback_start) +
+    vocabulary.label +
+    t(:resource_meta_data_fallback_end)
+
 .ui-metadata-box{class: classes, data: {vocabulary: {uuid: vocabulary.uuid}}}
-  %h3.separated.mbm.title-l= vocabulary.label
-  -# TODO: vocabulary description, privacy_status
+  - if show_title
+    %h3.separated.mbm.title-l= vocabulary.label
+    -# TODO: vocabulary description, privacy_status
 
-  -# TMP: for POC
-  -# %dl.media-data
-  .tmp
-    - meta_data.each do |meta_datum|
+  - unless meta_data.present? # show fallback
+    - if show_fallback
+      = fallback_msg
 
-      - key = meta_datum.meta_key
-      - url = meta_datum.url
-      - is_editable = meta_datum.policy(current_user).edit?
+  - else # show meta data
+    -# TMP: for POC
+    -# %dl.media-data
+    .tmp
+      - meta_data.each do |meta_datum|
 
-      -# TMP for edit POC. text only!
-      - is_editable = false unless (key.type == 'MetaDatum::Text')
-      - react_editor = is_editable && { react_class: 'MetaDatumEdit',
-                                        meta_datum: { url: url, type: key.type } }
-      %dl.media-data.mbs{data: react_editor}
+        - key = meta_datum.meta_key
+        - url = meta_datum.url
+        - is_editable = meta_datum.policy(current_user).edit?
 
-        %dt.media-data-title<>
-          = component('link', link: url, mods: 'weak') do
-            = component('icon.pen') if is_editable
-            = key.label
+        -# TMP for edit POC. text only!
+        - is_editable = false unless (key.type == 'MetaDatum::Text')
+        - react_editor = is_editable && { react_class: 'MetaDatumEdit',
+                                          meta_datum: { url: url, type: key.type } }
+        %dl.media-data.mbs{data: react_editor}
 
-        %dd.media-data-content
-          -# decorate value by type (ex.: /decorators/meta_datum_values/text.haml)
-          - decorator = key.type.demodulize.underscore
-          = deco("meta_datum_values/#{decorator}", values: meta_datum.values)
+          %dt.media-data-title<>
+            = component('link', link: url, mods: 'weak') do
+              = component('icon.pen') if is_editable
+              = key.label
+
+          %dd.media-data-content
+            -# decorate value by type (ex.: /decorators/meta_datum_values/text.haml)
+            - decorator = key.type.demodulize.underscore
+            = deco("meta_datum_values/#{decorator}", values: meta_datum.values)

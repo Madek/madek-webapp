@@ -1,31 +1,27 @@
 :ruby
+  # first is the summary vocab, rest from configured list:
+  summary_vocab = @get.meta_data.by_vocabulary.first(1).to_h
+  list_vocabs = @get.meta_data.by_vocabulary.drop(1).to_h
+  list_vocabs_any = list_vocabs.map(&:second).map(&:meta_data).any?
+
   tag_mods = ['small','ellipsed']
 
-  content_for(:overview) do deco('resource_show_overview',
+  content_for(:overview) do deco 'resource_show_overview',
     mods: 'ui-media-overview',
 
     preview_large: component('picture', mods: ['media-set'],
                 text: @get.title,
                 href: @get.image_url),
 
-    # TODO: core_vocab_deco
-    # = deco('vocabulary_meta_data_table', data: meta_data.by_vocabulary[summary_vocab])
-
-    content: combo('metadata-box',
-                mods: 'ui-summary-table.ui-set-summary.compact',
-                list: [[t(:resource_meta_data_title), @get.title, 'title-l'],
-                       [t(:resource_meta_data_description), @get.description],
-                       [t(:resource_meta_data_copyright_notice), @get.copyright_notice],
-                       [t(:resource_meta_data_date), @get.portrayed_object_date],
-                       @get.keywords.any? ? [t(:resource_meta_data_keywords), combo('tag-cloud.label',
-                          mods: tag_mods,
-                          list: @get.keywords)] : nil
-                      ]))
+    content: deco('vocabulary_meta_data_list',
+              mods: 'ui-media-overview-metadata',
+              show_title: false,
+              data: summary_vocab.to_a.first.second)
   end
 
-- content_for(:more_info) do
-  .ui-container.midtone.rounded-bottom.pal.well
-    - if (@get.meta_data.by_vocabulary.to_h.keys).any?
-      = deco('meta_data_by_vocabulary', meta_data: @get.meta_data)
+- if list_vocabs_any
+  - content_for(:more_info) do
+    .ui-container.midtone.rounded-bottom.pal.well
+      = deco('meta_data_by_vocabulary', meta_data: list_vocabs)
 
 = render template: 'media_entries/_show/_base'

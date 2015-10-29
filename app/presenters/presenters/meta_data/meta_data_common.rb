@@ -10,10 +10,13 @@ module Presenters
       end
 
       def by_vocabulary
-        presenterify(fetch_relevant_meta_data)
-          .group_by { |md| md.meta_key.vocabulary.uuid.to_sym }
-          .map(&method(:wrap_vocabulary_meta_data))
-          .sort_by(&method(:vocabularies_index))
+        # make sure all selected keys are present even if no meta data:
+        keys = selected_vocabularies.map { |key| [key, nil] }.to_h
+        list = keys.merge(presenterify(fetch_relevant_meta_data)
+                .group_by { |md| md.meta_key.vocabulary.uuid.to_sym })
+
+        list.map(&method(:wrap_vocabulary_meta_data))
+          .sort_by(&method(:index_vocab_like_selected))
           .to_h
       end
 
@@ -31,19 +34,22 @@ module Presenters
       end
 
       def selected_vocabularies
-        UI_META_CONFIG[:displayed_vocabularies].map(&:to_sym)
+        ([UI_META_CONFIG[:summary_vocabulary]] +
+          UI_META_CONFIG[:displayed_vocabularies]
+        ).map(&:to_sym)
       end
 
       # keep order same as configured:
-      def vocabularies_index(voc_and_meta_data)
+      def index_vocab_like_selected(voc_and_meta_data)
         vocabulary_id = voc_and_meta_data.first
         selected_vocabularies.index(vocabulary_id.to_sym)
       end
 
       def wrap_vocabulary_meta_data(voc_and_meta_data)
         voc_id, meta_data = voc_and_meta_data
-        meta_data = meta_data.sort_by { |md| md.meta_key.position }
-        vocabulary = meta_data.first.meta_key.vocabulary
+        meta_data = meta_data.sort_by { |md| md.meta_key.position } if meta_data
+        vocabulary = Presenters::Vocabularies::VocabularyCommon.new \
+          Vocabulary.find(voc_id)
         [voc_id, Pojo.new(vocabulary: vocabulary, meta_data: meta_data)]
       end
 

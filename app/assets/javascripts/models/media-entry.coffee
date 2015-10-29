@@ -37,7 +37,6 @@ module.exports = AppResource.extend
   children:
     permissions: Permissions
     responsible: Person
-    # meta_data: ResourceMetaData
 
   collections:
     meta_data: MetaData
