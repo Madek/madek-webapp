@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {
     "@eins78/typeahead.js": "0.11.2-pre.1",
-    "active-lodash": "http://registry.npmjs.org/active-lodash/-/active-lodash-1.2.1.tgz",
+    "active-lodash": "1.2.2",
     "ampersand-model": "6.0.2",
     "ampersand-react-mixin": "github:eins78/ampersand-react-mixin#1e7b0c4",
     "ampersand-rest-collection": "5.0.0",

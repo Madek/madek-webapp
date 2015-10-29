@@ -129,7 +129,7 @@ de:
 
   # # MediaEntry
   media_entry_not_published_warning_msg: "Entry is not published yet!"
-  media_entry_meta_data_header_prefix: "Metadaten editieren:"
+  media_entry_meta_data_header_prefix: "Metadaten editieren: "
   media_entry_more_data_title: "More data"
   media_entry_file_information_title: "File Information"
   media_entry_media_import_header: "Medien importieren"

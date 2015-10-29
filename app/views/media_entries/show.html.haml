@@ -2,6 +2,7 @@
   # first is the summary vocab, rest from configured list:
   summary_vocab = @get.meta_data.by_vocabulary.first(1).to_h
   list_vocabs = @get.meta_data.by_vocabulary.drop(1).to_h
+                  .reject {|k,v| v.meta_data.nil?} # skips empty
   list_vocabs_any = list_vocabs.map(&:second).map(&:meta_data).any?
 
   tag_mods = ['small','ellipsed']

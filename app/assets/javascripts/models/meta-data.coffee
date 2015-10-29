@@ -15,10 +15,8 @@ module.exports = AppCollection.extend
     f.any f.filter f.map f.keys(MetaDatum), (subType)->
       model instanceof MetaDatum[subType]
 
-  parse: (data)->
-    meta_data = data.by_vocabulary
-    f.filter f.flatten f.map f.keys(meta_data), (key)->
-      meta_data[key].meta_data
+  parse: (meta_data)->
+    f(meta_data.by_vocabulary).map('meta_data').flatten().filter().run()
 
   save: (opts)->
     # set options, format data, call to 'super':
@@ -26,7 +24,4 @@ module.exports = AppCollection.extend
       url: @parent.url + '/meta_data'
       json:
         media_entry:
-          meta_data: f.zipObject f.filter @map (md)->
-            # TMP: no MetaDatum::Users (it's broken)!
-            return if md.meta_key.value_type is 'MetaDatum::Users'
-            [md.meta_key.uuid, md.literal_values]
+          meta_data: f.object @map (md)-> [md.meta_key.uuid, md.literal_values]
