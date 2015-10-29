@@ -14,5 +14,9 @@ module.exports = Model.extend RailsResource,
   save: (config)->
     Model::save.call @, {}, defaults({}, config, wait: true)
 
+  # update props of type object, triggers 'change'
+  merge: (prop, data)->
+    @set(prop, f.merge(@get(prop), data))
+
   # shortcut, like presenter:
   dump: ()-> Model::serialize.call(@, arguments)

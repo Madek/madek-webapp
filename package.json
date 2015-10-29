@@ -5,30 +5,37 @@
   "private": true,
   "dependencies": {
     "@eins78/typeahead.js": "0.11.2-pre.1",
-    "active-lodash": "1.2.0",
+    "active-lodash": "http://registry.npmjs.org/active-lodash/-/active-lodash-1.2.1.tgz",
     "ampersand-model": "6.0.2",
-    "ampersand-react-mixin": "1.0.1",
+    "ampersand-react-mixin": "github:eins78/ampersand-react-mixin#1e7b0c4",
     "ampersand-rest-collection": "5.0.0",
     "any_sha1": "0.1.1",
+    "async": "1.5.0",
     "bootstrap": "3.3.5",
     "browserify": "11.2.0",
     "browserify-incremental": "3.0.1",
+    "bulk-require": "0.2.1",
+    "bulkify": "1.1.1",
     "check-dependencies": "0.11.0",
     "coffee-reactify": "4.0.0",
     "coffee-script": "1.10.0",
+    "global": "4.3.0",
     "hashblot": "0.4.5",
     "history": "1.12.5",
     "hogan.js": "3.0.2",
     "jquery": "2.1.4",
     "jquery-ujs": "1.1.0-1",
+    "lodash.merge": "^3.3.2",
     "moment": "2.10.6",
     "pdfjs-dist": "1.1.542",
     "po2json": "0.4.1",
     "react": "0.14.0",
     "react-dom": "0.14.0",
+    "react-file-drop": "0.1.6",
     "reactify": "1.1.1",
     "rusha": "0.8.3",
     "underscore.string": "3.2.2",
+    "xhr": "2.1.0",
     "yamlify": "0.1.2"
   },
   "devDependencies": {
@@ -39,13 +46,14 @@
   "scripts": {
     "browserify": "browserify",
     "coffeelint": "coffeelint",
-    "lint": "npm run -s coffeelint -- app/assets/javascripts/**/*.{coffee,cjsx}"
+    "lint": "npm run -s coffeelint -- app/assets/javascripts/{*.coffee,**/*.{coffee,cjsx}}"
   },
   "browserify": {
     "transform": [
       "coffee-reactify",
       "reactify",
-      "yamlify"
+      "yamlify",
+      "bulkify"
     ],
     "ignore": [
       "crypto"

@@ -4,7 +4,7 @@ module Modules
       extend ActiveSupport::Concern
 
       def meta_data_update
-        authorize (media_entry = MediaEntry.find(params[:id]))
+        authorize (media_entry = MediaEntry.unscoped.find(params[:id]))
         errors = update_all_meta_data_transaction!(media_entry, meta_data_params)
 
         if errors.empty?

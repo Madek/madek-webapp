@@ -65,7 +65,8 @@ class MediaEntriesController < ApplicationController
     extract_and_store_metadata(media_entry)
     add_to_collection(media_entry, collection_id_param)
 
-    respond_with media_entry
+    respond_with Presenters::MediaEntries::MediaEntryIndex.new \
+      media_entry.reload, current_user
   end
 
   def publish

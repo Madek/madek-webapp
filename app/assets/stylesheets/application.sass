@@ -214,3 +214,12 @@ form.button_to
       @extend .link
       [class^="icon-"], [class^="fa-"]
         display: initial
+
+// fix alt text on images
+img, img.ui-thumbnail-image
+  line-height: initial
+
+#ui-uploader
+  #ui-resources-preview
+    height: 300px
+    overflow: auto

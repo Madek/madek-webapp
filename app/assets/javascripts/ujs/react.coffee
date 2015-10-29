@@ -1,8 +1,9 @@
 $ = require('jquery')
 React = require('react')
+ReactDOM = require('react-dom')
 f = require('active-lodash')
 url = require('url')
-ReactDOM = require('react-dom')
+UI = require('../react/ui-components/index.coffee')
 
 # UJS for Models with React Views
 #
@@ -44,10 +45,24 @@ initByClass =
     FormResourceMetaData = require('../react/form-resource-meta-data.cjsx')
     callback React.createElement FormResourceMetaData, data.reactProps
 
+  Uploader: (data, callback)->
+    MediaEntries = require('../models/media-entries.coffee')
+    Uploader = require('../react/uploader.cjsx')
+    callback React.createElement(Uploader, appCollection: (new MediaEntries()))
+
 
 module.exports = reactUjs=()->
   $('[data-react-class]').each ()->
     element = this
     data = $(element).data()
-    if f.isFunction(init = initByClass[f.last(data.reactClass.split('UI.'))])
-      init(data, (enhanced)-> ReactDOM.render(enhanced, element))
+    componentClass = f.last(data.reactClass.split('UI.'))
+    # use custom initializer, or…
+    init = initByClass[componentClass]
+    # simple ujs for any static components:
+    if not init
+      init = (data, callback)->
+        if (comp = UI[componentClass])?
+          callback(React.createElement(comp, data.reactProps))
+
+    if f.isFunction(init)
+      return init(data, (enhanced)-> ReactDOM.render(enhanced, element))

@@ -1,11 +1,11 @@
 :ruby
   layout_mods = ['rowed', 'columned']
 
-  label ||= case
-            when label.is_a?(Hash) then label
-            when label.is_a?(String) then { text: label }
-            else nil
-            end
+  label = case
+          when label.is_a?(Hash) then label
+          when label.is_a?(String) then { text: label }
+          else nil
+          end
 
   comment = label[:comment] if label
   comment = { text: label[:comment] } if label.try(:[], :comment).is_a?(String)

@@ -74,8 +74,8 @@ de:
   btn_delete_text: "Delete!"
   btn_publish_text: "Publish!"
   # ## Compontent: Picture
-  picture_alt_prefix: "Picture"
-  picture_alt_fallback: "(Picture)"
+  picture_alt_prefix: "Bild: "
+  picture_alt_fallback: "(Unbekannt)"
 
   # # Pagination
   pagination_prefix: "Page"
@@ -131,6 +131,9 @@ de:
   media_entry_more_data_title: "More data"
   media_entry_file_information_title: "File Information"
   media_entry_media_import_header: "Medien importieren"
+  media_entry_media_import_title: "Bilder, Videos, Audio-Dateien oder Dokumente bereitstellen:"
+  media_entry_media_import_inside: "Dateien auswählen oder Drag&Drop"
+  media_entry_media_import_inside_nojs: 'Dateien auswählen'
   media_entry_back_btn: "Back"
   media_entry_upload_btn: "Upload"
   media_entry_notices_title: "Hinweise"
@@ -176,4 +179,3 @@ de:
   filter_demo_result_title: "Result"
   filter_demo_empty_entries_list_title: "Enter one or two filters (key/value) and click the button"
   filter_demo_entries_list_fallback: "The result of the Filter is empty!"
-

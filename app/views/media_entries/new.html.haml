@@ -4,27 +4,36 @@
       text: t(:media_entry_media_import_header),
       actions: nil)
 
+  -# TODO: better prog. enhance
+
   -# complete box (under the title):
   .ui-container.tab-content.bordered.rounded-right.rounded-bottom.mbh
 
     -# top part of the box:
     .ui-container.bright.pal{class: 'rounded-bottom'}
 
-      = form_for :media_entry, url: media_entries_path do |f|
+      %h3.title-l= t(:media_entry_media_import_title)
 
-        .ui-container.clearfix.mvl.bordered.midtone.rounded.media-import-content
-          = combo('form-group', mods: 'rowed.by-center', label: { text: 'File'}) do
-            = f.file_field :media_file
+      .js-only
+        = react('Uploader')
+
+      .no-js
+        = form_for :media_entry, url: media_entries_path do |f|
+          .ui-container.clearfix.mvl.bordered.midtone.rounded.media-import-content
 
           = combo('form-group', mods: 'columned.by-center',
             label: { text: 'Set'}) do
             = f.text_field :collection_id, value: params[:collection_id]
 
-        .ui-actions
-          %a.link.weak{href: my_dashboard_path}
-            = t(:media_entry_back_btn)
-          = component('button.primary', type: :submit) do
-            = t(:media_entry_upload_btn)
+          = combo('form-group', mods: 'rowed.by-center',
+            label: { text: t(:media_entry_media_import_inside_nojs)}) do
+            = f.file_field :media_file
+
+          .ui-actions
+            %a.link.weak{href: my_dashboard_path}
+              = t(:media_entry_back_btn)
+            = component('button.primary', type: :submit) do
+              = t(:media_entry_upload_btn)
 
     -# bottom part of the box:
     .row.ui-container.midtone.pvm.phl.rounded-bottom

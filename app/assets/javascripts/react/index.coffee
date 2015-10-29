@@ -2,5 +2,9 @@
 UI =
   RightsManagement: require('./rights-management.cjsx')
   FormResourceMetaData: require('./form-resource-meta-data.cjsx')
+  Uploader: require('./uploader.cjsx')
+
+  UI: require('./ui-components/index.coffee')
+  Deco: require('./decorators/index.coffee')
 
 module.exports = UI
