@@ -44,6 +44,9 @@
     "coffeelint": "1.13.0"
   },
   "scripts": {
+    "devtools": "npm run -s build-devtools && coffee --nodejs \"-r ./tmp/devtools.js\"",
+    "devtools-js": "npm run -s build-devtools && node -r ./tmp/devtools.js",
+    "build-devtools": "npm run -s browserify -- app/assets/javascripts/developer-tools.coffee > tmp/devtools.js",
     "browserify": "browserify",
     "coffeelint": "coffeelint",
     "lint": "npm run -s coffeelint -- app/assets/javascripts/{*.coffee,**/*.{coffee,cjsx}}"

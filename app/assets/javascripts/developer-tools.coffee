@@ -1,6 +1,9 @@
-window.$ = require('jquery')
-window.f = require('active-lodash')
-window.React = require('React')
-window.ReactDOM = require('react-dom')
+global = require('global')
 
-window.UI = require('./react/index.coffee')
+global.$ = require('jquery')
+global.f = require('active-lodash')
+global.React = require('react')
+global.ReactDOM = require('react-dom')
+
+global.UI = require('./react/index.coffee')
+global.Models = require('./models/index.coffee')

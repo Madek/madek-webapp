@@ -40,19 +40,20 @@ feature 'MediaEntry MetaData' do
     sign_in_as @user.login
   end
 
-  scenario 'wip JS model', browser: :firefox do
+  scenario 'JS: model integration', browser: :firefox do
     config = {
       entry: media_entry_path(@entry),
       meta_key_id: 'media_content:title',
       values: [@new_title]
     }
 
+    # changes the configured key to value and saves to server:
+    # response is the serialized model
     response = js_integration_test 'MediaEntryMetaData', config
-
-    # expect a presenter:
     expect(response['body']['uuid']).to eq @entry.id
     expect(response['body']['type']).to eq 'MediaEntry'
 
+    # expect the change to reflected in db
     expect(datum(config[:meta_key_id]).string).to eq @new_title
   end
 
@@ -99,7 +100,7 @@ feature 'MediaEntry MetaData' do
 end
 
 def datum(meta_key)
-  @entry.meta_data.find_by(meta_key: meta_key)
+  @entry.reload.meta_data.find_by(meta_key: meta_key)
 end
 
 def find_vocabulary_form(name)
