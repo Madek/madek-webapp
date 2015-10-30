@@ -56,10 +56,7 @@ feature 'MediaEntry MetaData' do
     expect(datum(config[:meta_key_id]).string).to eq @new_title
   end
 
-  scenario 'simple edit NOJS', browser: :firefox do
-
-    # pending 'controller fix'
-
+  scenario 'simple edit NOJS', browser: :firefox_nojs do
     visit media_entry_path(@entry)
 
     find('.ui-body-title-actions')
@@ -67,8 +64,6 @@ feature 'MediaEntry MetaData' do
       .click
 
     expect(current_path).to eq edit_meta_data_media_entry_path(@entry)
-
-    reload_without_js
 
     within('form[name="resource_meta_data"]') do
       # 1A. (change title)

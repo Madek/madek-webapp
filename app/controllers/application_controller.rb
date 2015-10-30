@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   rescue_from Errors::UnauthorizedError, with: :error_according_to_login_state
 
   # Give views access to these methods:
-  helper_method :current_user, :settings
+  helper_method :current_user, :settings, :use_js
 
   # UI Elements
   append_view_path(Rails.root.join('app', 'ui_elements'))
@@ -38,6 +38,11 @@ class ApplicationController < ActionController::Base
 
   def current_user
     validate_services_session_cookie_and_get_user
+  end
+
+  # NOTE: js can be disabled per request for testing
+  def use_js
+    !((params[:nojs] == '1') || (/NOJSPLZ/.match request.env['HTTP_USER_AGENT']))
   end
 
   private

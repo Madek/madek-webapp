@@ -1,7 +1,3 @@
-:ruby
-  # HACK: set this param to disable all JS
-  nojs = (params[:nojs] == '1')
-
 !!!
 -# NOTE: class 'has-js' is set dynamically with — suprise! — JavaScript.
 %html{lang: 'de-CH'}
@@ -16,7 +12,7 @@
         = 'Madek'
 
     -# init ujs as early as possible (just sets a class so correct styles are used):
-    - unless nojs
+    - if use_js
       :javascript
         document.getElementsByTagName('html')[0].classList.add('has-js')
 
@@ -32,7 +28,7 @@
     = content_for(:head)
   %body
     = content_for(:body)
-    - unless nojs
+    - if use_js
       -# js: app lib/dependencies. can't use async/defer (would require sep. DOM ops)
       = javascript_include_tag 'application', 'data-turbolinks-track' => true
       -# - now all the per-template scripts, which

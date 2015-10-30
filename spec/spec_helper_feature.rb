@@ -4,6 +4,8 @@ require 'rspec/rails'
 
 require 'capybara/poltergeist'
 
+DEFAULT_BROWSER_TIMEOUT = 180 # instead of the default 60
+
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
@@ -22,17 +24,20 @@ RSpec.configure do |config|
   end
 
   Capybara.register_driver :selenium_ff do |app|
-    profile = Selenium::WebDriver::Firefox::Profile.new
-    client = Selenium::WebDriver::Remote::Http::Default.new
-    client.timeout = 180 # instead of the default 60
-    Capybara::Selenium::Driver.new \
-      app, browser: :firefox, profile: profile, http_client: client
+    create_firefox_driver(app, DEFAULT_BROWSER_TIMEOUT)
+  end
+
+  Capybara.register_driver :selenium_ff_nojs do |app|
+    create_firefox_driver(app, DEFAULT_BROWSER_TIMEOUT,
+                          'general.useragent.override' => 'Firefox NOJSPLZ')
   end
 
   def set_browser(example)
     case example.metadata[:browser]
     when :firefox
       Capybara.current_driver = :selenium_ff
+    when :firefox_nojs
+      Capybara.current_driver = :selenium_ff_nojs
     when :phantomjs
       Capybara.current_driver = :poltergeist
     else
@@ -77,6 +82,15 @@ RSpec.configure do |config|
   #   end
   # end
 
+end
+
+def create_firefox_driver(app, timeout, profileConfig = {})
+  profile = Selenium::WebDriver::Firefox::Profile.new
+  profileConfig.each { |k, v| profile[k] = v }
+  client = Selenium::WebDriver::Remote::Http::Default.new
+  client.timeout = timeout
+  Capybara::Selenium::Driver.new \
+    app, browser: :firefox, profile: profile, http_client: client
 end
 
 require 'spec_helper_feature_shared'
