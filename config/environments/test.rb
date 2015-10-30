@@ -16,17 +16,9 @@ Madek::Application.configure do
   config.serve_static_files = true
   config.static_cache_control = 'public, max-age=3600'
 
-  if ENV['CIDER_CI_TRIAL_ID'].blank?
-    config.assets.compile = false
-    config.assets.digest = true
-  end
-
-  # config.log_level = :debug
-
   # force usage of custom errors in tests:
   config.show_execptions = true
   config.consider_all_requests_local = false
-
 
   config.action_controller.perform_caching = true
 
