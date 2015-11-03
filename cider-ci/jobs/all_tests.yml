@@ -1,14 +1,10 @@
 jobs:
-  all_tests:
+  all-tests:
     name: All Tests
     descriptions: |
       This job depends on all other tests and checks
       and it will pass if and only if all dependencies have passed.
     depends-on:
-    - type: job
-      job: all_tests
-      submodule: ['engines/datalayer']
-      states: [passed]
     - type: job
       job: unit-tests
       states: [passed]

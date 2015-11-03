@@ -5,7 +5,7 @@ jobs:
     name: Code-Checks
 
     description: |
-      Run static checks and metrics: complexity, duplicaiont, code format.
+      Run static checks and metrics: complexity, duplication, and format.
 
     priority: 3
 

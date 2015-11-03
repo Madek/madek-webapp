@@ -12,13 +12,18 @@ jobs:
 
     depends-on:
     - type: job
-      job: all_tests
+      job: tests
       submodule: ['engines/datalayer']
       states: [passed]
 
     context:
 
       name: Unit Tests
+
+      description: |
+        This job contains tests involing the ruby runtime
+        and possibly the database.
+
 
       script-defaults:
         environment-variables_process-templates: true

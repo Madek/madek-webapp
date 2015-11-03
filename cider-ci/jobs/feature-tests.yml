@@ -4,6 +4,11 @@ jobs:
 
     name: Feature Tests
 
+    description: |
+      This job contains tests involing the whole stack
+      of the webapp including front end rendering and
+      delivery to a real webbrowser.
+
     priority: 1
 
     run-on:
@@ -12,7 +17,7 @@ jobs:
 
     depends-on:
     - type: job
-      job: all_tests
+      job: tests
       submodule: ['engines/datalayer']
       states: [passed]
 
