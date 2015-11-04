@@ -72,19 +72,25 @@ describe Admin::VocabulariesController do
   describe '#update' do
     let(:vocabulary) { create :vocabulary }
 
-    it "updates the vocabulary's label and description" do
+    it 'updates the vocabulary' do
       params = {
         id: vocabulary.id,
         vocabulary: {
           label: 'updated label',
-          description: 'updated description'
+          description: 'updated description',
+          enabled_for_public_view: false,
+          enabled_for_public_use: false
         }
       }
 
       put :update, params, user_id: admin_user.id
 
-      expect(vocabulary.reload.label).to eq 'updated label'
-      expect(vocabulary.reload.description).to eq 'updated description'
+      vocabulary.reload
+
+      expect(vocabulary.label).to eq 'updated label'
+      expect(vocabulary.description).to eq 'updated description'
+      expect(vocabulary.enabled_for_public_view).to be false
+      expect(vocabulary.enabled_for_public_use).to be false
       expect(flash[:success]).to eq flash_message(:update, :success)
     end
 

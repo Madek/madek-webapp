@@ -48,6 +48,9 @@ class Admin::VocabulariesController < AdminController
   end
 
   def update_vocabulary_params
-    params.require(:vocabulary).permit(:label, :description)
+    params.require(:vocabulary).permit(:label,
+                                       :description,
+                                       :enabled_for_public_view,
+                                       :enabled_for_public_use)
   end
 end
