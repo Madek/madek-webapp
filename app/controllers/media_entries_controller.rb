@@ -1,6 +1,7 @@
 class MediaEntriesController < ApplicationController
   include Concerns::MediaResources::PermissionsActions
   include Concerns::MediaResources::ShowAction
+  include Concerns::ResourceListParams
   include Modules::FileStorage
   include Modules::MediaEntries::MetaDataUpdate
   include Modules::MediaEntries::PermissionsUpdate
@@ -14,10 +15,13 @@ class MediaEntriesController < ApplicationController
     permissions: { title: 'Permissions', icon_type: :privacy_status_icon }
   }
 
+  def index
+    represent(MediaEntry.all, Presenters::MediaEntries::MediaEntries)
+  end
+
   def show
     @tabs = SHOW_TABS
-    @get = Presenters::MediaEntries::MediaEntryShow.new find_resource, current_user
-    respond_with @get
+    represent(find_resource, Presenters::MediaEntries::MediaEntryShow)
   end
 
   # tabs that work like 'show':
@@ -45,8 +49,7 @@ class MediaEntriesController < ApplicationController
   end
 
   def edit_meta_data
-    @get = Presenters::MediaEntries::MediaEntryEdit.new find_resource, current_user
-    respond_with @get
+    represent(find_resource, Presenters::MediaEntries::MediaEntryEdit)
   end
 
   def create
@@ -65,8 +68,7 @@ class MediaEntriesController < ApplicationController
     extract_and_store_metadata(media_entry)
     add_to_collection(media_entry, collection_id_param)
 
-    respond_with Presenters::MediaEntries::MediaEntryIndex.new \
-      media_entry.reload, current_user
+    represent(media_entry.reload, Presenters::MediaEntries::MediaEntryIndex)
   end
 
   def publish
@@ -99,6 +101,12 @@ class MediaEntriesController < ApplicationController
   ###############################################################
 
   private
+
+  def represent(resource, presenter)
+    respond_with(
+      @get = presenter.new(
+        resource, current_user, list_conf: resource_list_params))
+  end
 
   def find_resource
     get_authorized_resource(MediaEntry.unscoped.find(params[:id]))

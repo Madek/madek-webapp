@@ -11,7 +11,8 @@ class My::DashboardController < MyController
     unless SECTIONS[section_name]
       raise ActionController::RoutingError.new(404), 'No such dashboard section!'
     end
-    get = Presenters::Users::UserDashboard.new(current_user, page: params[:page])
+    get = Presenters::Users::UserDashboard.new(
+      current_user, list_conf: resource_list_params)
     render 'dashboard_section',
            locals: {
              section: @sections[section_name],

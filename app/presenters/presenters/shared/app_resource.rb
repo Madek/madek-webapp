@@ -2,6 +2,7 @@ module Presenters
   module Shared
     class AppResource < Presenter
       def initialize(app_resource)
+        fail 'TypeError!' unless app_resource.is_a?(ActiveRecord::Base)
         @app_resource = app_resource
       end
 
@@ -16,11 +17,6 @@ module Presenters
       def policy(user)
         Pundit.policy!(user, @app_resource)
       end
-
-      # TODO: don't "export" this method, only fail when called
-      # def url
-      #   throw NotImplementedError, 'missing #url for ' + @app_resource.class.name
-      # end
 
       def self.delegate_to_app_resource(*args)
         delegate_to :@app_resource, *args

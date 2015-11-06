@@ -7,7 +7,7 @@ module Presenters
 
       def relations
         Presenters::Shared::MediaResource::MediaResourceRelations.new \
-          @app_resource, @user
+          @app_resource, @user, list_conf: @list_conf
       end
 
       # TODO: move meta_data to MediaResourceShow ?

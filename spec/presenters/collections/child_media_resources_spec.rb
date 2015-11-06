@@ -11,7 +11,8 @@ describe Presenters::Collections::ChildMediaResources do
 
   it_can_be 'dumped' do
     let(:presenter) do
-      described_class.new(FactoryGirl.create(:user), MediaResource.limit(36))
+      described_class.new(
+        MediaResource.limit(36), FactoryGirl.create(:user), list_conf: {})
     end
   end
 
@@ -46,13 +47,14 @@ describe Presenters::Collections::ChildMediaResources do
                            responsible_user: FactoryGirl.create(:user),
                            get_metadata_and_previews: false)
 
-      p = described_class.new(user,
-                              MediaResource.where(id: [media_entry_1.id,
+      p = described_class.new(MediaResource.where(id: [media_entry_1.id,
                                                        media_entry_2.id,
                                                        collection_1.id,
                                                        collection_2.id,
                                                        filter_set_1.id,
-                                                       filter_set_2.id]))
+                                                       filter_set_2.id]),
+                              user,
+                              list_conf: {})
 
       expect(select_media_entries(p.resources).length).to be == 1
       expect(select_media_entries(p.resources).map(&:uuid))
@@ -108,13 +110,14 @@ describe Presenters::Collections::ChildMediaResources do
                          user: user,
                          get_metadata_and_previews: true)
 
-      p = described_class.new(user,
-                              MediaResource.where(id: [media_entry_1.id,
+      p = described_class.new(MediaResource.where(id: [media_entry_1.id,
                                                        media_entry_2.id,
                                                        collection_1.id,
                                                        collection_2.id,
                                                        filter_set_1.id,
-                                                       filter_set_2.id]))
+                                                       filter_set_2.id]),
+                              user,
+                              list_conf: {})
 
       expect(select_media_entries(p.resources).length).to be == 1
       expect(select_media_entries(p.resources).map(&:uuid))
@@ -173,13 +176,14 @@ describe Presenters::Collections::ChildMediaResources do
                          user: user,
                          get_metadata_and_previews: true)
 
-      p = described_class.new(user,
-                              MediaResource.where(id: [media_entry_1.id,
+      p = described_class.new(MediaResource.where(id: [media_entry_1.id,
                                                        media_entry_2.id,
                                                        collection_1.id,
                                                        collection_2.id,
                                                        filter_set_1.id,
-                                                       filter_set_2.id]))
+                                                       filter_set_2.id]),
+                              user,
+                              list_conf: {})
 
       expect(select_media_entries(p.resources).length).to be == 1
       expect(select_media_entries(p.resources).map(&:uuid))
@@ -221,13 +225,14 @@ describe Presenters::Collections::ChildMediaResources do
                            responsible_user: FactoryGirl.create(:user),
                            get_metadata_and_previews: false)
 
-      p = described_class.new(user,
-                              MediaResource.where(id: [media_entry_1.id,
+      p = described_class.new(MediaResource.where(id: [media_entry_1.id,
                                                        media_entry_2.id,
                                                        collection_1.id,
                                                        collection_2.id,
                                                        filter_set_1.id,
-                                                       filter_set_2.id]))
+                                                       filter_set_2.id]),
+                              user,
+                              list_conf: {})
 
       expect(select_media_entries(p.resources).length).to be == 1
       expect(select_media_entries(p.resources).map(&:uuid))

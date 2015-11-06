@@ -1,8 +1,10 @@
 :ruby
-  mods = ['active']
+  mods = []
+  interactive = true if params[:action] != 'dashboard'
   mods << 'unpaginated' if (local_assigns[:show_pagination_nav] == false)
   fallback = section[:is_empty?] ? true : false
 
 = deco('polybox', mods: mods,
-    media_resources: section[:resources],
+    interactive: interactive,
+    media_resources: @get.send(section[:id]),
     fallback: fallback)

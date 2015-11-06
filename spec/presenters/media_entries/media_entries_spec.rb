@@ -4,12 +4,14 @@ require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
 describe Presenters::MediaEntries::MediaEntries do
   it_can_be 'dumped' do
     let(:presenter) do
-      described_class.new(FactoryGirl.create(:user), MediaEntry.unscoped)
+      described_class.new(
+        MediaEntry.unscoped, FactoryGirl.create(:user), list_conf: {})
     end
   end
 
   it 'page 1 per default' do
-    p = described_class.new(FactoryGirl.create(:user), MediaEntry.unscoped)
+    p = described_class.new(
+      MediaEntry.unscoped, FactoryGirl.create(:user), list_conf: {})
     expect(p.resources.count).to be <= 12
   end
 
@@ -26,11 +28,11 @@ describe Presenters::MediaEntries::MediaEntries do
                            responsible_user: FactoryGirl.create(:user),
                            get_metadata_and_previews: false)
 
-      p = described_class.new(user,
-                              MediaEntry.where(id: [media_entry_1.id,
-                                                    media_entry_2.id]))
+      p = described_class.new(
+        MediaEntry.where(id: [media_entry_1.id, media_entry_2.id]),
+        user, list_conf: {})
 
-      expect(p.total_count).to be == 1
+      expect(p.resources.count).to be == 1
       expect(p.resources.map(&:uuid)).to include media_entry_1.id
     end
 
@@ -51,11 +53,11 @@ describe Presenters::MediaEntries::MediaEntries do
                          user: user,
                          get_metadata_and_previews: true)
 
-      p = described_class.new(user,
-                              MediaEntry.where(id: [media_entry_1.id,
-                                                    media_entry_2.id]))
+      p = described_class.new(
+        MediaEntry.where(id: [media_entry_1.id, media_entry_2.id]),
+        user, list_conf: {})
 
-      expect(p.total_count).to be == 1
+      expect(p.resources.count).to be == 1
       expect(p.resources.map(&:uuid)).to include media_entry_1.id
     end
 
@@ -79,11 +81,12 @@ describe Presenters::MediaEntries::MediaEntries do
                          user: user,
                          get_metadata_and_previews: true)
 
-      p = described_class.new(user,
-                              MediaEntry.where(id: [media_entry_1.id,
-                                                    media_entry_2.id]))
+      p = described_class.new(
+        MediaEntry.where(id: [media_entry_1.id, media_entry_2.id]),
+        user,
+        list_conf: {})
 
-      expect(p.total_count).to be == 1
+      expect(p.resources.count).to be == 1
       expect(p.resources.map(&:uuid)).to include media_entry_1.id
     end
 
@@ -99,11 +102,12 @@ describe Presenters::MediaEntries::MediaEntries do
                            responsible_user: FactoryGirl.create(:user),
                            get_metadata_and_previews: false)
 
-      p = described_class.new(user,
-                              MediaEntry.where(id: [media_entry_1.id,
-                                                    media_entry_2.id]))
+      p = described_class.new(
+        MediaEntry.where(id: [media_entry_1.id, media_entry_2.id]),
+        user,
+        list_conf: {})
 
-      expect(p.total_count).to be == 1
+      expect(p.resources.count).to be == 1
       expect(p.resources.map(&:uuid)).to include media_entry_1.id
     end
   end

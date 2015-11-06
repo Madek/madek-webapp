@@ -1,8 +1,9 @@
 class StyleguideController < ApplicationController
-  include Concerns::MadekCookieSession
   layout 'styleguide'
 
   include LivingStyleguide # builds tree from static files (table of contents)
+  include Concerns::ResourceListParams
+  helper_method :resource_list_params
 
   before_action do
     @sections = build_styleguide_tree # from LivingStyleguide module
@@ -12,6 +13,7 @@ class StyleguideController < ApplicationController
   end
 
   def show
+    @resource_list_params = resource_list_params
     @section = find_section_by_param(@sections, :section)
   end
 

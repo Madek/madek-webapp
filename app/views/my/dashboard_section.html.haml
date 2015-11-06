@@ -5,6 +5,5 @@
               icon: component('icon', section[:icon]), text: section[:title])
 
 - content_for(:page_content) do
-  .ui-container.pal
-    -                                                         # proxy locals:
-    = render partial: "section_#{section[:partial]}", locals: local_assigns
+  -                                                         # proxy locals:
+  = render partial: "section_#{section[:partial]}", locals: local_assigns

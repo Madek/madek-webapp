@@ -1,4 +1,5 @@
 class My::GroupsController < MyController
+  include Concerns::ResourceListParams
   include Concerns::JSONSearch
 
   def index
@@ -9,9 +10,7 @@ class My::GroupsController < MyController
   end
 
   def show
-    @get =
-      Presenters::Groups::GroupShow.new(find_group_and_authorize, current_user)
-    respond_with @get
+    represent(find_group_and_authorize, Presenters::Groups::GroupShow)
   end
 
   def new
@@ -24,9 +23,7 @@ class My::GroupsController < MyController
   end
 
   def edit
-    @get =
-      Presenters::Groups::GroupEdit.new(find_group_and_authorize, current_user)
-    respond_with @get
+    represent(find_group_and_authorize, Presenters::Groups::GroupEdit)
   end
 
   def update
@@ -49,6 +46,12 @@ class My::GroupsController < MyController
   end
 
   private
+
+  def represent(resource, presenter)
+    respond_with(
+      @get = presenter.new(
+        resource, current_user, list_conf: resource_list_params))
+  end
 
   def find_group_and_authorize
     group = Group.find(params[:id])

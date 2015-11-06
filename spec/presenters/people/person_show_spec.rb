@@ -5,9 +5,8 @@ describe Presenters::People::PersonShow do
   it '#related_media_resources_via_meta_data' do
 
     # - create User with Person
-    # - one entry uses the Person in MetaDatum
-    # - another entry uses the User in MetaDatum
-    # - then both should be "related via meta data"
+    # - an Entry uses the Person in MetaDatum
+    # - then Entry should be "related via meta data" to User
 
     person = FactoryGirl.create(:person)
     user = FactoryGirl.create(:user, person: person)
@@ -24,9 +23,9 @@ describe Presenters::People::PersonShow do
                        media_entry: entry_via_person,
                        people: [person])
 
-    get = described_class.new(person, user)
+    get = described_class.new(person, user, list_conf: {})
 
-    expect(get.related_media_resources_via_meta_data.media_entries.resources
+    expect(get.related_media_resources_via_meta_data.resources
       .map(&:uuid))
       .to match_array [entry_via_person.id]
 
@@ -35,8 +34,7 @@ describe Presenters::People::PersonShow do
   it_can_be 'dumped' do
     user = FactoryGirl.create(:user)
     let(:presenter) do
-      described_class.new(user.person,
-                          User.all.sample)
+      described_class.new(user.person, User.all.sample, list_conf: {})
     end
   end
 end

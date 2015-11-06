@@ -11,19 +11,34 @@ describe Presenters::MediaEntries::MediaEntryShow do
 
   context 'dumps' do
     it_can_be 'dumped' do
-      let(:presenter) { described_class.new(@media_entry_1, @user).relations }
+      let(:presenter) do
+        described_class.new(
+          @media_entry_1, @user, list_conf: {}).relations
+      end
     end
     it_can_be 'dumped' do
-      let(:presenter) { described_class.new(@media_entry_2, @user).relations }
+      let(:presenter) do
+        described_class.new(
+          @media_entry_2, @user, list_conf: {}).relations
+      end
     end
     it_can_be 'dumped' do
-      let(:presenter) { described_class.new(@media_entry_3, @user).relations }
+      let(:presenter) do
+        described_class.new(
+          @media_entry_3, @user, list_conf: {}).relations
+      end
     end
     it_can_be 'dumped' do
-      let(:presenter) { described_class.new(@media_entry_4, @user).relations }
+      let(:presenter) do
+        described_class.new(
+          @media_entry_4, @user, list_conf: {}).relations
+      end
     end
     it_can_be 'dumped' do
-      let(:presenter) { described_class.new(@media_entry_5, @user).relations }
+      let(:presenter) do
+        described_class.new(
+          @media_entry_5, @user, list_conf: {}).relations
+      end
     end
   end
 
@@ -35,72 +50,74 @@ describe Presenters::MediaEntries::MediaEntryShow do
 
       ########### SIBLINGS ######################################
       # NOTE: for now we are ignoring siblings other then collections
-      expect(@p.sibling_media_resources.media_entries)
-        .to be_empty
-      expect(@p.sibling_media_resources.filter_sets)
-        .to be_empty
+      if (siblings = @p.sibling_media_resources.resources).present?
+        expect(siblings.map(&:class).uniq)
+          .to eq [Presenters::Collections::CollectionIndex]
+      end
     end
 
     it 'context media_entry_1' do
-      @p = described_class.new(@media_entry_1, @user).relations
+      # binding.pry
+
+      @p = described_class.new(@media_entry_1, @user, list_conf: {}).relations
 
       ########### PARENTS #######################################
-      expect(@p.parent_media_resources.collections.total_count)
+      expect(@p.parent_media_resources.resources.count)
         .to be 3
-      expect(@p.parent_media_resources.collections.resources.map(&:uuid))
+      expect(@p.parent_media_resources.resources.map(&:uuid))
         .to include @collection_A.id
-      expect(@p.parent_media_resources.collections.resources.map(&:uuid))
+      expect(@p.parent_media_resources.resources.map(&:uuid))
         .to include @collection_B.id
-      expect(@p.parent_media_resources.collections.resources.map(&:uuid))
+      expect(@p.parent_media_resources.resources.map(&:uuid))
         .to include @collection_C.id
 
       ########### SIBLINGS ######################################
       # NOTE: for now we are ignoring siblings other then collections
-      expect(@p.sibling_media_resources.collections.total_count)
+      expect(@p.sibling_media_resources.resources.count)
         .to be 2
-      expect(@p.parent_media_resources.collections.resources.map(&:uuid))
+      expect(@p.parent_media_resources.resources.map(&:uuid))
         .to include @collection_B.id
-      expect(@p.parent_media_resources.collections.resources.map(&:uuid))
+      expect(@p.parent_media_resources.resources.map(&:uuid))
         .to include @collection_C.id
     end
 
     it 'context media_entry_3' do
-      @p = described_class.new(@media_entry_3, @user).relations
+      @p = described_class.new(@media_entry_3, @user, list_conf: {}).relations
 
       ########### PARENTS #######################################
-      expect(@p.parent_media_resources.collections.total_count)
+      expect(@p.parent_media_resources.resources.count)
         .to be 1
-      expect(@p.parent_media_resources.collections.resources.map(&:uuid))
+      expect(@p.parent_media_resources.resources.map(&:uuid))
         .to include @collection_B.id
 
       ########### SIBLINGS ######################################
-      expect(@p.sibling_media_resources.collections)
+      expect(@p.sibling_media_resources.resources)
         .to be_empty
     end
 
     it 'context media_entry_4' do
-      @p = described_class.new(@media_entry_4, @user).relations
+      @p = described_class.new(@media_entry_4, @user, list_conf: {}).relations
 
       ########### PARENTS #######################################
-      expect(@p.parent_media_resources.collections.total_count)
+      expect(@p.parent_media_resources.resources.count)
         .to be 1
-      expect(@p.parent_media_resources.collections.resources.map(&:uuid))
+      expect(@p.parent_media_resources.resources.map(&:uuid))
         .to include @collection_C.id
 
       ########### SIBLINGS ######################################
-      expect(@p.sibling_media_resources.collections)
+      expect(@p.sibling_media_resources.resources)
         .to be_empty
     end
 
     it 'context media_entry_5' do
-      @p = described_class.new(@media_entry_5, @user).relations
+      @p = described_class.new(@media_entry_5, @user, list_conf: {}).relations
 
       ########### PARENTS #######################################
-      expect(@p.parent_media_resources.collections)
+      expect(@p.parent_media_resources.resources)
         .to be_empty
 
       ########### SIBLINGS ######################################
-      expect(@p.sibling_media_resources.collections)
+      expect(@p.sibling_media_resources.resources)
         .to be_empty
     end
   end

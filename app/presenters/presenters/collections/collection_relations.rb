@@ -10,7 +10,7 @@ module Presenters
 
       def child_media_resources
         Presenters::Collections::ChildMediaResources
-          .new(@user, @app_resource.child_media_resources)
+          .new(@app_resource.child_media_resources, @user, list_conf: @list_conf)
       end
     end
   end

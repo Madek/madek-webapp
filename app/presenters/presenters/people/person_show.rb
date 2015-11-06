@@ -1,9 +1,10 @@
 module Presenters
   module People
     class PersonShow < PersonCommon
-      def initialize(app_resource, user)
+      def initialize(app_resource, user, list_conf: nil)
         super(app_resource)
         @user = user
+        @list_conf = list_conf
       end
 
       # TODO: show person.searchable? (it's supposed to be internal…)
@@ -18,20 +19,15 @@ module Presenters
       end
 
       def related_media_resources_via_meta_data
-        filter = { meta_data: [
+        # The base filter for this view.
+        # CAN NOT be mutateded by the UI (always applied first)
+        base_filter = { meta_data: [
           { key: 'any', value: self.uuid, type: 'MetaDatum::People' }] }
 
-        Pojo.new(
-          media_entries: \
-            Presenters::MediaEntries::MediaEntries
-              .new(@user, MediaEntry.all, filter: filter),
-          collections: \
-            Presenters::Collections::Collections
-              .new(@user, Collection.all, filter: filter),
-          filter_sets: \
-            Presenters::FilterSets::FilterSets
-              .new(@user, FilterSet.all, filter: filter)
-        )
+        # TODO: MultiMediaResourceBox
+        resources = MediaEntry.filter(base_filter)
+        Presenters::MediaEntries::MediaEntries.new(
+          resources, @user, list_conf: @list_conf)
       end
     end
   end

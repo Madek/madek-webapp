@@ -58,7 +58,7 @@
     .ui-resources-holder.pam
       .ui-container.table.auto
         .ui-container.table-cell.table-substance
-          = deco('polybox_medres', mods: ['active'],
-                  media_resources: @get.relations.child_media_resources)
+          = deco('polybox', interactive: true,
+              media_resources: @get.relations.child_media_resources)
 
 = deco('resource_show', collection_show)

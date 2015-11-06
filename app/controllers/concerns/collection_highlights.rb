@@ -1,16 +1,17 @@
 module Concerns
   module CollectionHighlights
     extend ActiveSupport::Concern
+    include Concerns::ResourceListParams
 
     included do
       def edit_highlights
         @collection = Collection.find(params[:id])
         authorize @collection
-        @get = \
-          Presenters::Collections::ChildMediaResources.new \
+        respond_with(
+          @get = Presenters::Collections::ChildMediaResources.new(
             current_user,
-            @collection.child_media_resources
-        respond_with @get
+            @collection.child_media_resources,
+            list_conf: resource_list_params))
       end
 
       def update_highlights

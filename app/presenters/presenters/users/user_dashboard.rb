@@ -1,64 +1,63 @@
 module Presenters
   module Users
     class UserDashboard < Presenter
-      def initialize(user, order: nil, page: 1, per_page: nil)
+      def initialize(user, list_conf: nil)
+        fail 'TypeError!' unless user.is_a?(User)
         @user = user
-        @order = order
-        @page = page
-        @per_page = per_page
+        @config = ({ order: nil, page: 1, per_page: 1 }).merge(list_conf)
       end
 
-      def unpublished
-        wrap_in_presenters_pojo([
-          @user.unpublished_media_entries,
-          nil,
-          nil
-        ])
+      def unpublished_entries
+        presenterify(@user.unpublished_media_entries)
       end
 
-      def content
-        wrap_in_presenters_pojo([
-          @user.published_media_entries,
-          @user.collections,
-          @user.filter_sets
-        ])
+      def content_media_entries
+        presenterify(@user.published_media_entries)
+      end
+
+      def content_collections
+        presenterify(@user.collections)
+      end
+
+      def content_filter_sets
+        presenterify(@user.filter_sets)
       end
 
       def latest_imports
-        wrap_in_presenters_pojo([
-          @user.published_media_entries,
-          nil,
-          nil
-        ])
+        presenterify(@user.published_media_entries)
       end
 
-      def favorites
-        wrap_in_presenters_pojo([
-          @user.favorite_media_entries,
-          @user.favorite_collections,
-          @user.favorite_filter_sets
-        ])
+      def favorite_media_entries
+        presenterify(@user.favorite_media_entries)
       end
 
-      def entrusted_content
-        wrap_in_presenters_pojo([
-          MediaEntry.entrusted_to_user(@user),
-          Collection.entrusted_to_user(@user),
-          FilterSet.entrusted_to_user(@user)
-        ])
+      def favorite_collections
+        presenterify(@user.favorite_collections)
+      end
+
+      def favorite_filter_sets
+        presenterify(@user.favorite_filter_sets)
+      end
+
+      def entrusted_media_entries
+        presenterify(MediaEntry.entrusted_to_user(@user))
+      end
+
+      def entrusted_collections
+        presenterify(Collection.entrusted_to_user(@user))
+      end
+
+      def entrusted_filter_sets
+        presenterify(FilterSet.entrusted_to_user(@user))
       end
 
       def groups
         groups = {
-          internal: @user.groups
-            .where(type: :Group)
-            .page(@page).per(@per_page),
-          external: @user.groups
-            .where(type: :InstitutionalGroup)
-            .page(@page).per(@per_page)
-        }.map do |key, groups|
-          [key, groups.map { |group| Presenters::Groups::GroupIndex.new(group) }]
-        end.to_h
+          internal: select_groups(@user, :Group, @config),
+          external: select_groups(@user, :InstitutionalGroup, @config)
+        }.transform_values do |groups|
+          groups.map { |group| Presenters::Groups::GroupIndex.new(group, @user) }
+        end
 
         Pojo.new(
           empty?: !(groups[:internal].any? or groups[:external].any?),
@@ -74,28 +73,16 @@ module Presenters
 
       private
 
-      def wrap_in_presenters_pojo(resources)
-        user = @user
-
-        media_entries, collections, filter_sets = [
-          [resources.first, Presenters::MediaEntries::MediaEntries],
-          [resources.second, Presenters::Collections::Collections],
-          [resources.third, Presenters::FilterSets::FilterSets]
-        ].map do |collection, presenter|
-          collection.presence && presenter.new(
-            user, collection,
-            order: @order, page: @page, per_page: @per_page
-          )
-        end
-
-        Pojo.new(
-          media_entries: media_entries,
-          collections: collections,
-          filter_sets: filter_sets,
-          empty?: !([media_entries, collections, filter_sets]
-                      .map { |c| c.try(:any?) }.reduce { |a, e| a or e })
-        )
+      def presenterify(resources)
+        return if resources.nil?
+        Presenters::MediaResources::MediaResources.new(
+          resources, @user, list_conf: @config)
       end
+
+      def select_groups(user, type, config)
+        user.groups.where(type: type).page(config[:page]).per(config[:per_page])
+      end
+
     end
   end
 end
