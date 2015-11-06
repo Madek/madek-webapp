@@ -1,5 +1,5 @@
 :ruby
-  props = { permissions: @get.permissions.dump }
+  props = { get: @get.permissions }
   content_for(:overview) { react('RightsManagement', props) }
 
 = render template: 'media_entries/_show/_base'

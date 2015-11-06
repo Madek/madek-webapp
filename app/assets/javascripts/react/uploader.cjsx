@@ -64,7 +64,7 @@ module.exports = React.createClass
           id='ui-resources-preview'>
           <MediaResourcesBox
             className='ui-uploader-uploads'
-            list={props.appCollection}/>
+            get={resources: props.appCollection}/>
         </div>
       }
     </div>

@@ -35,18 +35,19 @@ module.exports = React.createClass
     resource: React.PropTypes.shape
       type: React.PropTypes.oneOf(['MediaEntry', 'Collection', 'FilterSet'])
 
-  render: ({resource} = @props, state = @state)->
+  render: ({get} = @props, state = @state)->
     # map the type name:
-    type = resource.type.replace(/Collection/, 'MediaSet')
+    type = get.type.replace(/Collection/, 'MediaSet')
     props =
       type: f.kebabCase(type)
-      src: resource.image_url or state.localPreview or '.'
-      href: resource.url
-      alt: resource.title
-      privacy: resource.privacy_status
+      src: get.image_url or state.localPreview or '.'
+      href: get.url
+      alt: get.title
       meta:
-        title: resource.title or resource.uploadStatus
-      badgeLeft: if resource.type is 'FilterSet'
+        title: get.title or get.uploadStatus
+      badgeLeft:
+        <Icon i={"privacy-#{get.privacy_status}"} title={get.privacy_status}/>
+      badgeRight: if get.type is 'FilterSet'
         <Icon i='filter' title='This is a Filterset'/>
 
     <Thumbnail {...props}/>

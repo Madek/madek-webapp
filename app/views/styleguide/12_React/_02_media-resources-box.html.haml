@@ -5,37 +5,23 @@
     name: 'WIP: Deco.MediaResourcesBox',
     cssSelector: 'none',
     cssFile: 'none',
-    section: '12.1'
+    section: '12.1',
+    mods: {
+      'default' => 'Default',
+      'interactive' => 'To be interacted with (filter, sort, paginate)'
+    },
+    example_locals: {
+      get: Presenters::MediaEntries::MediaEntries.new(
+        MediaEntry.all.limit(36),
+        current_user,
+        list_conf: @resource_list_params)
+    },
+    examples: [
+      {},
+      { interactive: true } ]
   }
 
--# Minimal isomorphic rails+presenter+react demo:
-
-:ruby
-  # Fake some data:
-  user = FactoryGirl.create(:user)
-  # entries = Array.new(36).map do
-  #  # TODO: :media_entry_with_title (broken)
-  #  FactoryGirl.create(:media_entry_with_image_media_file, creator: user, responsible_user: user)
-  # end
-  entries = MediaEntry.all.shuffle.take(36)
-  entries = entries.map do |entry| # presenterify:
-    Presenters::MediaEntries::MediaEntryIndex.new(entry, user)
-  end
-
-= render_partial('element', element) do
-  = render_partial('example') do
-
-    -# Dump & Decorate data (server-side).
-    -# Also sends the raw data along as 'data-' props.
-    = react('Deco.MediaResourcesBox', list: entries.map(&:dump))
-
-:coffee
-  # Find in DOM, read props from data, re-"render".
-  # This will do nothing if server and client have the same result
-  # and otherwise log an error.
-  elm = $('[data-react-class="UI.Deco.MediaResourcesBox"]')
-  ReactDOM.render(
-    # like this JSX:
-    # <UI.Deco.MediaResourcesBox {...elm.data().reactProps}/>
-    React.createElement(UI.Deco.MediaResourcesBox, elm.data().reactProps)
-  , elm[0])
+= render_partial('element', element) do |element|
+  - element[:examples].each do |example|
+    = render_partial('example') do
+      = react('Deco.MediaResourcesBox', element[:example_locals].merge(example))

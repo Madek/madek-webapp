@@ -1,9 +1,9 @@
 React = require('react')
 f = require('active-lodash')
-parseMods = require('../lib/parse-mods.coffee')
 Icon = require('./Icon.cjsx')
 Link = require('./Link.cjsx')
 Picture = require('./Picture.cjsx')
+parseMods = require('../lib/parse-mods.coffee').fromProps
 
 module.exports = React.createClass
   displayName: 'UiThumbnail'
@@ -17,7 +17,7 @@ module.exports = React.createClass
       title: React.PropTypes.string.isRequired
       subtitle: React.PropTypes.string
 
-  render: ({type, src, alt, href, privacy, meta, badgeRight, badgeLeft} = @props)->
+  render: ({type, src, alt, href, badgeRight, badgeLeft, meta} = @props)->
     classes = "ui-thumbnail #{type} #{parseMods(@props)}"
 
     badgeLeft = if badgeLeft

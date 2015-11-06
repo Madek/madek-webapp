@@ -5,37 +5,18 @@
     name: 'Deco.ResourceThumbnail',
     cssSelector: 'none',
     cssFile: 'none',
-    section: '12.1'
+    section: '12.1',
+    mods: {},
+    examples: [
+    { get: Presenters::MediaEntries::MediaEntryIndex.new(
+        MediaEntry.first, current_user) },
+    { get: Presenters::Collections::CollectionIndex.new(
+        Collection.first, current_user) },
+    { get: Presenters::FilterSets::FilterSetIndex.new(
+        FilterSet.first, current_user) } ]
   }
 
-:ruby
-  @entry = MediaEntry.all.shuffle.take(1).map do |entry| # presenterify:
-    Presenters::MediaEntries::MediaEntryIndex.new(entry, current_user)
-  end.map(&:dump).first
-
-  @set = Collection.all.shuffle.take(1).map do |entry| # presenterify:
-    Presenters::Collections::CollectionIndex.new(entry, current_user)
-  end.map(&:dump).first
-
-  @fset = FilterSet.all.shuffle.take(1).map do |entry| # presenterify:
-    Presenters::FilterSets::FilterSetIndex.new(entry, current_user)
-  end.map(&:dump).first
-
 = render_partial('element', element) do
-  = render_partial('example') do
-    = react('Deco.ResourceThumbnail', resource: @entry)
-  = render_partial('example') do
-    = react('Deco.ResourceThumbnail', resource: @set)
-  = render_partial('example') do
-    = react('Deco.ResourceThumbnail', resource: @fset)
-
-:coffee
-  # Find in DOM, read props from data, re-"render".
-  # This will do nothing if server and client have the same result
-  # and otherwise log an error.
-  elm = $('[data-react-class="UI.Deco.ResourceThumbnail"]')
-  ReactDOM.render(
-    # like this JSX:
-    # <UI.Deco.MediaResourcesBox {...elm.data().reactProps}/>
-    React.createElement(UI.Deco.ResourceThumbnail, elm.data().reactProps)
-  , elm[0])
+  - element[:examples].each do |props|
+    = render_partial('example') do
+      = react('Deco.ResourceThumbnail', props)

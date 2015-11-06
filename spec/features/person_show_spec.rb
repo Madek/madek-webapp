@@ -23,8 +23,7 @@ feature 'Person#show' do
     expect(page).to have_content 'first_name Normin'
     expect(page).to have_content 'last_name Normalo'
     # - related_via_meta_data_media_resources
-    pending('related_via_meta_data_media_resources')
-    expect(page.find('.polybox')).to be
+    expect(page.find('[data-react-class="UI.Deco.MediaResourcesBox"]')).to be
 
   end
 

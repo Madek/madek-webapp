@@ -28,9 +28,7 @@
     .ui-resources-holder.pam
       .ui-container.table.auto
         .ui-container.table-cell.table-substance
-          = deco('polybox', mods: ['active'],
-                  fallback: true,
-                  media_resources: @get.related_media_resources_via_meta_data)
-
+          = deco('polybox', interactive: true,
+              media_resources: @get.related_media_resources_via_meta_data)
 
 = deco('resource_show', person_show)

@@ -5,6 +5,6 @@
       actions: nil)
 
 - content_for(:overview) do
-  = react('FormResourceMetaData', get: @get.dump)
+  = react('FormResourceMetaData', get: @get)
 
 = render template: 'layouts/app_resource'

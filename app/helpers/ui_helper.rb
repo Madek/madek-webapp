@@ -45,9 +45,19 @@ module UiHelper
   # React Components (proxy to view helper from `react_rails` gem w/ config)
   def react(name, props = {}, opts = {})
     defaults = { prerender: true }
-    props = props.merge(token: form_authenticity_token)
+    opts = defaults.merge(opts)
+    if props[:get]
+      fail '`get` is not a Presenter!' unless props[:get].is_a?(Presenter)
+      presenter = props[:get]
+    end
+    # NOTE: all of the queries happen here:
+    props = props.merge(get: presenter.dump) if presenter
+
+    # FIXME: this means we never really cache:
+    props = props.merge(authToken: form_authenticity_token) if opts[:prerender]
+
     Rails.cache.fetch({ name: name, props: props }.hash) do
-      react_component("UI.#{name}", props, defaults.merge(opts))
+      react_component("UI.#{name}", props, opts)
     end
   end
 

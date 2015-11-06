@@ -51,7 +51,7 @@ module.exports = React.createClass
   submitForm: (event)->
     event.preventDefault()
     @setState(saving: true)
-    @props.permissions.save
+    @props.get.save
       success: (model, res)=>
         # TODO: ui-alert res?.message
         @setState(saving: false, editing: false)
@@ -62,9 +62,8 @@ module.exports = React.createClass
         console.error(err)
 
 
-  render: ()->
+  render: ({get} = @props)->
     {submitForm, cancelEditing} = @
-    get = @props.permissions
     {editing, saving} = @state
     editable = get.can_edit
 

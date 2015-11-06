@@ -26,12 +26,10 @@
 
     -# bottom part of the box:
     .ui-container.rounded-bottom
-      #ui-resources-list-container.ui-container.midtone.rounded-bottom
-        .ui-container.inverted.ui-toolbar.pvx
-          .ui-toolbar-header.pls
-            = t(:group_toolbar_header_entrusted_resources)
-        .ui-resources-holder.pal
-          .ui-container.table.auto
-            .ui-container.table-cell.table-substance
-              = deco('polybox', mods: ['active'], fallback: true,
-                      media_resources: @get.entrusted_media_resources)
+      -# TODO: props.title = t(:group_toolbar_header_entrusted_resources)
+      = deco('polybox', interactive: true, fallback: true,
+              media_resources: @get.entrusted_media_resources.media_entries)
+      = deco('polybox', interactive: true, fallback: true,
+              media_resources: @get.entrusted_media_resources.collections)
+      = deco('polybox', interactive: true, fallback: true,
+              media_resources: @get.entrusted_media_resources.filter_sets)

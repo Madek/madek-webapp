@@ -4,6 +4,7 @@ ReactDOM = require('react-dom')
 f = require('active-lodash')
 url = require('url')
 UI = require('../react/ui-components/index.coffee')
+Deco = require('../react/decorators/index.coffee')
 
 # UJS for Models with React Views
 #
@@ -33,11 +34,11 @@ initByClass =
     Permissions = require('../models/media-entry/permissions.coffee')
     RightsManagement = require('../react/rights-management.cjsx')
 
-    if ({permissions} = data.reactProps)
-      model = new Permissions(permissions)
-      edit_link = url.resolve(model.url, 'permissions/edit')
+    if ({get} = data.reactProps)
+      get = new Permissions(get)
+      edit_link = url.resolve(get.url, 'permissions/edit')
       callback React.createElement RightsManagement,
-        permissions: model
+        get: get
         editUrl: edit_link
         router: router
 
@@ -49,6 +50,13 @@ initByClass =
     MediaEntries = require('../models/media-entries.coffee')
     Uploader = require('../react/uploader.cjsx')
     callback React.createElement(Uploader, appCollection: (new MediaEntries()))
+
+  'Deco.ResourceThumbnail': (data, callback)->
+    callback(React.createElement(Deco.ResourceThumbnail, data.reactProps))
+
+  'Deco.MediaResourcesBox': (data, callback)->
+    callback(React.createElement(Deco.MediaResourcesBox, data.reactProps))
+
 
 
 module.exports = reactUjs=()->

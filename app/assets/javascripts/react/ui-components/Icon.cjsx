@@ -1,5 +1,5 @@
 React = require('react')
-parseMods = require('../lib/parse-mods.coffee')
+parseMods = require('../lib/parse-mods.coffee').fromProps
 
 module.exports = React.createClass
   displayName: 'Icon'

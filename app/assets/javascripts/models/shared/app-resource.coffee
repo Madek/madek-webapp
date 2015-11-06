@@ -1,5 +1,6 @@
 Model = require('ampersand-model')
 defaults = require('active-lodash').defaults
+merge = require('active-lodash').merge
 RailsResource = require('./rails-resource-mixin.coffee')
 
 # Base class for Restful Application Resources
@@ -16,7 +17,7 @@ module.exports = Model.extend RailsResource,
 
   # update props of type object, triggers 'change'
   merge: (prop, data)->
-    @set(prop, f.merge(@get(prop), data))
+    @set(prop, merge(@get(prop), data))
 
   # shortcut, like presenter:
   dump: ()-> Model::serialize.call(@, arguments)

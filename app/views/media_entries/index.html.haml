@@ -1,3 +1,2 @@
 .ui-container.mam.pam
-  %pre.ui-container.bright.phm.title-m
-    = JSON.pretty_generate (@media_entries.as_json(root: true))
+  = react('Deco.MediaResourcesBox', get: @get, interactive: true)
