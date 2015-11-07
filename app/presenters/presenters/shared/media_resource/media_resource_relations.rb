@@ -14,12 +14,12 @@ module Presenters
         end
 
         def parent_media_resources
-          Presenters::MediaResources::MediaResources.new(
+          Presenters::Shared::MediaResource::MediaResources.new(
             @app_resource.parent_collections, @user, list_conf: @list_conf)
         end
 
         def sibling_media_resources
-          Presenters::MediaResources::MediaResources.new(
+          Presenters::Shared::MediaResource::MediaResources.new(
             @app_resource
               .sibling_collections
               .where.not(collections: { id: @app_resource.id }),

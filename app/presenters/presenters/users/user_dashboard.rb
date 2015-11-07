@@ -77,7 +77,7 @@ module Presenters
 
       def presenterify(resources)
         return if resources.nil?
-        Presenters::MediaResources::MediaResources.new(
+        Presenters::Shared::MediaResource::MediaResources.new(
           resources, @user, list_conf: @config)
       end
 
