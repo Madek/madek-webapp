@@ -24,19 +24,24 @@
           href: my_dashboard_path,
           active: link_active?(my_dashboard_path)
         },
-        entries: {
-          text: t(:sitemap_entries), href: '/entries'
-        },
-        collections: {
-          text: t(:sitemap_collections), href: '/collections'
-        },
-        filter_sets: {
-          text: t(:sitemap_filter_sets), href: '/filter_sets'
+        explore: {
+          text: t(:sitemap_explore),
+          href: explore_path,
+          active: (link_active?(explore_path) or
+            link_active?(media_entries_path) or
+            link_active?(collections_path) or
+            link_active?(filter_sets_path))
         },
 
         # TMP: disabled
-        # explore: {
-        #   text: t(:sitemap_explore), href: '/entries'
+        # entries: {
+        #   text: t(:sitemap_media_entries), href: media_entries_path
+        # },
+        # collections: {
+        #   text: t(:sitemap_collections), href: collections_path
+        # },
+        # filter_sets: {
+        #   text: t(:sitemap_filter_sets), href: filter_sets_path
         # },
         # search: {
         #   icon: 'icon-lens.bright',

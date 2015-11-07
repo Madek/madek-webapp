@@ -122,7 +122,7 @@ en:
 
   # # Dashboard
   dashboard_title_head: "Dashboard - Madek"
-  dashboard_show_all: "show all"
+  resources_header_show_all: "show all"
   dashboard_create_media_entry_btn: "Create media entry"
   dashboard_welcome_msg: "Welcome to Madek!"
 

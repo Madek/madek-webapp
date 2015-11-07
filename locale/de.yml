@@ -27,7 +27,7 @@ de:
   # # General Madek
   sitemap_admin: "Admin"
   sitemap_api: "API"
-  sitemap_entries: "Einträge"
+  sitemap_media_entries: "Einträge"
   sitemap_collections: "Sets"
   sitemap_filter_sets: "FilterSets"
   sitemap_explore: "Erkunden"
@@ -124,7 +124,7 @@ de:
 
   # # Dashboard
   dashboard_title_head: "Dashboard - Madek"
-  dashboard_show_all: "show all"
+  resources_header_show_all: "show all"
   dashboard_create_media_entry_btn: "Create media entry"
   dashboard_welcome_msg: "Welcome to Madek!"
 

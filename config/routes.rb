@@ -58,6 +58,8 @@ Madek::Application.routes.draw do
   # Static App routes ##########################################################
   get '/id/:uuid', to: 'uuid#redirect_to_canonical_url'
 
+  get :explore, controller: :explore
+
   namespace :my do
     root to: 'dashboard#dashboard', as: 'dashboard'
     # scope some resources here. order is important, they override 'plain' sections
