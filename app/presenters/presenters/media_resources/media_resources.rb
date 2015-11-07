@@ -5,7 +5,6 @@ module Presenters
     #       *not* the (shared) base class MediaResource!
 
     class MediaResources < Presenter
-      include Presenters::Shared::Concerns::PaginationInfo
 
       attr_reader :resources, :config
 
