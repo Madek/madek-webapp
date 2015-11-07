@@ -24,10 +24,19 @@
           href: my_dashboard_path,
           active: link_active?(my_dashboard_path)
         },
+        entries: {
+          text: t(:sitemap_entries), href: '/entries'
+        },
+        collections: {
+          text: t(:sitemap_collections), href: '/collections'
+        },
+        filter_sets: {
+          text: t(:sitemap_filter_sets), href: '/filter_sets'
+        },
 
         # TMP: disabled
         # explore: {
-        #   text: 'Erkunden', href: '#/explore'
+        #   text: t(:sitemap_explore), href: '/entries'
         # },
         # search: {
         #   icon: 'icon-lens.bright',
@@ -44,7 +53,7 @@
         },
 
         api: {
-          text: "API",
+          text: t(:sitemap_api),
           icon: 'icon-api',
           href: "/api/browser/index.html#/api"
         },
