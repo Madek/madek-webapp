@@ -191,7 +191,8 @@ UI_META_CONFIG = {
     :media_content, # "Werk" - meaning the WorkOfArt encoded in MediaFile
     :media_object,  # "Medium" - meaning the MediaFile as a WorkOfArt
     :copyright,     # to be cleaned up…
-    :zhdk_bereich
+    :zhdk_bereich,
+    :doesnt_exist
   ]
 }
 

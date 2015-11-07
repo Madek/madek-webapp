@@ -11,7 +11,7 @@ module Presenters
         MetaKey
           .where(is_enabled_for_media_entries: true)
           .joins(:vocabulary)
-          .where(vocabularies: { id: relevant_vocabularies })
+          .where(vocabularies: { id: relevant_vocabularies.map(&:id) })
           .map do |key|
             existing_datum = @app_resource.meta_data.where(meta_key: key).first
             if existing_datum.present?

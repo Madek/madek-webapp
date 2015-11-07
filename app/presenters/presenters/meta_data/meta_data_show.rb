@@ -9,7 +9,7 @@ module Presenters
         @app_resource
           .meta_data
           .joins(:vocabulary)
-          .where(vocabularies: { id: relevant_vocabularies })
+          .where(vocabularies: { id: relevant_vocabularies.map(&:id) })
       end
 
     end

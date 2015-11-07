@@ -10,14 +10,11 @@ module Presenters
       end
 
       def by_vocabulary
-        # make sure all selected keys are present even if no meta data:
-        keys = selected_vocabularies.map { |key| [key, nil] }.to_h
-        list = keys.merge(presenterify(fetch_relevant_meta_data)
-                .group_by { |md| md.meta_key.vocabulary.uuid.to_sym })
-
-        list.map(&method(:wrap_vocabulary_meta_data))
-          .sort_by(&method(:index_vocab_like_selected))
-          .to_h
+        fetch_relevant_meta_data
+          .group_by(&:vocabulary) # for making sure all selected keys are present:
+          .reverse_merge(selected_vocabularies.map { |v| [v, nil] }.to_h)
+          .map(&method(:presenterify_vocabulary_and_meta_data))
+          .sort_by(&method(:index_like_selected_vocabs)).to_h
       end
 
       private
@@ -35,26 +32,27 @@ module Presenters
 
       def selected_vocabularies
         ([UI_META_CONFIG[:summary_vocabulary]] +
-          UI_META_CONFIG[:displayed_vocabularies]
-        ).map(&:to_sym)
+          UI_META_CONFIG[:displayed_vocabularies])
+          .map(&:to_sym).map { |id| Vocabulary.find_by(id: id) }.compact
       end
 
-      # keep order same as configured:
-      def index_vocab_like_selected(voc_and_meta_data)
-        vocabulary_id = voc_and_meta_data.first
-        selected_vocabularies.index(vocabulary_id.to_sym)
+      def index_like_selected_vocabs(bundle)
+        selected_vocabularies.map(&:id).map(&:to_sym).index(bundle[0])
       end
 
-      def wrap_vocabulary_meta_data(voc_and_meta_data)
-        voc_id, meta_data = voc_and_meta_data
-        meta_data = meta_data.sort_by { |md| md.meta_key.position } if meta_data
-        vocabulary = Presenters::Vocabularies::VocabularyCommon.new \
-          Vocabulary.find(voc_id)
-        [voc_id, Pojo.new(vocabulary: vocabulary, meta_data: meta_data)]
-      end
+      def presenterify_vocabulary_and_meta_data(bundle)
+        vocabulary, meta_data = bundle
+        meta_data = \
+          if meta_data.nil? then []
+          else meta_data
+            .sort_by { |md| md.meta_key.position }
+            .map { |md| Presenters::MetaData::MetaDatumCommon.new(md, @user) }
+          end
 
-      def presenterify(meta_data)
-        meta_data.map { |md| Presenters::MetaData::MetaDatumCommon.new(md, @user) }
+        [vocabulary.id.to_sym, Pojo.new(
+          vocabulary: Presenters::Vocabularies::VocabularyCommon.new(vocabulary),
+          meta_data: meta_data)
+        ]
       end
 
     end
