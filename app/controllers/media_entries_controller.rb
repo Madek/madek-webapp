@@ -1,6 +1,6 @@
 class MediaEntriesController < ApplicationController
+  include Concerns::MediaResources::CrudActions
   include Concerns::MediaResources::PermissionsActions
-  include Concerns::MediaResources::ShowAction
   include Concerns::ResourceListParams
   include Modules::FileStorage
   include Modules::MediaEntries::MetaDataUpdate
@@ -15,11 +15,8 @@ class MediaEntriesController < ApplicationController
     permissions: { title: 'Permissions', icon_type: :privacy_status_icon }
   }
 
-  def index
-    represent(MediaEntry.all, Presenters::MediaEntries::MediaEntries)
-  end
-
   def show
+    # TODO: handle in MediaResources::CrudActions
     @tabs = SHOW_TABS
     represent(find_resource, Presenters::MediaEntries::MediaEntryShow)
   end

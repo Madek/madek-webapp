@@ -1,6 +1,6 @@
 class CollectionsController < ApplicationController
   include Concerns::MediaResources::PermissionsActions
-  include Concerns::MediaResources::ShowAction
+  include Concerns::MediaResources::CrudActions
   include Concerns::CollectionHighlights
   include Modules::Collections::PermissionsUpdate
 

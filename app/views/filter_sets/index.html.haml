@@ -1,3 +1,2 @@
 .ui-container.mam.pam
-  %pre.ui-container.bright.phm.title-m
-    = JSON.pretty_generate @filter_sets.map &:attributes
+  = react('Deco.MediaResourcesBox', get: @get, interactive: true)

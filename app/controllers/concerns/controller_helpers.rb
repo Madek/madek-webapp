@@ -6,10 +6,17 @@ module Concerns
 
       private
 
-      def get_authorized_resource(resource = nil)
-        resource ||= model_klass.find(params[:id])
+      def get_authorized_resource(resource = resource_by_action)
         authorize resource
         resource
+      end
+
+      def resource_by_action(action = action_name)
+        (action == 'index') ? model_klass.all : model_klass.find(params[:id])
+      end
+
+      def model_klass
+        controller_name.classify.constantize
       end
 
     end

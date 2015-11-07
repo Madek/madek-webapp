@@ -1,6 +1,11 @@
 module Shared
   module MediaResources
     class MediaResourcePolicy < ApplicationPolicy
+
+      def index?
+        record.viewable_by_user_or_public(user)
+      end
+
       def show?
         if logged_in?
           record.viewable_by_user?(user)
