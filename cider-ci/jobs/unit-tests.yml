@@ -26,8 +26,8 @@ jobs:
 
 
       script-defaults:
-        environment-variables_process-templates: true
-        timeout: 300
+        template-environment-variables: true
+        timeout: 3 Minutes
 
       task-defaults:
         eager-trials: 1

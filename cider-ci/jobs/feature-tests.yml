@@ -26,7 +26,7 @@ jobs:
       name: Feature Tests
 
       script-defaults:
-        environment-variables_process-templates: true
+        template-environment-variables: true
         timeout: 600
 
       task-defaults:
