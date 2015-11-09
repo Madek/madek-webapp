@@ -10,8 +10,6 @@ describe 'JS Devtools' do
 
   it 'accepts script via pipe; has nested Model definitions in scope' do
 
-    pending 'needs nodejs v4 in CI'
-
     script = <<-COFFEESCRIPT
       (new Models.MetaDatum.Text()) instanceof Models.MetaDatum.Text
     COFFEESCRIPT
