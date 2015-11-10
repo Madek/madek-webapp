@@ -4,8 +4,6 @@
   end
 
 .ui-container.pbl
-  = combo('resources-header', title: 'My used Keywords')
-
   - if keywords.empty?
     = t(:no_keywords_fallback)
   - else
