@@ -86,7 +86,7 @@ module Presenters
 
         resources
           .viewable_by_user_or_public(@user)
-          .filter(config[:filter])
+          .filter_by(config[:filter])
           .reorder(config[:order])
           .page(config[:page])
           .per(config[:per_page])

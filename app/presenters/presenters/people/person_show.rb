@@ -25,7 +25,7 @@ module Presenters
           { key: 'any', value: self.uuid, type: 'MetaDatum::People' }] }
 
         # TODO: MultiMediaResourceBox
-        resources = MediaEntry.filter(base_filter)
+        resources = MediaEntry.filter_by(base_filter)
         Presenters::MediaEntries::MediaEntries.new(
           resources, @user, list_conf: @list_conf)
       end
