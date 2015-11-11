@@ -64,8 +64,8 @@ module Features
               field_set.find("input[type='text']").set(@meta_data[i][:value])
             end
 
-          when 'meta_datum_people' 
-            # remove all existing 
+          when 'meta_datum_people'
+            # remove all existing
             field_set.all(".multi-select li a.multi-select-tag-remove").each{|a| a.click}
             @people ||= Person.all
             random_person =  @people[rand @people.size]
@@ -73,12 +73,12 @@ module Features
               value: random_person.to_s,
               meta_key: meta_key,
               type: type)
-            field_set.find("input.form-autocomplete-person").set(random_person.to_s)
-            page.execute_script %Q{ $("input.form-autocomplete-person").trigger("change") }
+
+            autocomplete(field_set.find("input.form-autocomplete-person"), random_person.to_s)
             expect(field_set).to have_selector("a",text: random_person.to_s)
             field_set.find("a",text: random_person.to_s, match: :first).click
 
-          when 'meta_datum_date' 
+          when 'meta_datum_date'
             @meta_data[i] = HashWithIndifferentAccess.new(
               value: Time.at(rand Time.now.tv_nsec).iso8601,
               meta_key: meta_key,
@@ -94,8 +94,8 @@ module Features
               value: random_kw,
               meta_key: meta_key,
               type: type)
-            field_set.find("input", visible: true).set(random_kw)
-            page.execute_script %Q{ $("input.ui-autocomplete-input").trigger("change") }
+
+            autocomplete(field_set.find("input", visible: true), random_kw)
             expect(field_set).to have_selector("a",text: random_kw)
             field_set.find("a", text: random_kw, match: :first).click
 
@@ -110,9 +110,9 @@ module Features
               targets[rand targets.size].click
               expect(field_set).to have_selector("ul.multi-select-holder li.meta-term")
               @meta_data[i] = HashWithIndifferentAccess.new(
-                value: field_set.first("ul.multi-select-holder li.meta-term").text, 
+                value: field_set.first("ul.multi-select-holder li.meta-term").text,
                 type: type,
-                meta_key: meta_key) 
+                meta_key: meta_key)
             else
               checkboxes = field_set.all("input[type='checkbox']", visible: true)
               checkboxes.each{|c| c.set false}
@@ -120,27 +120,27 @@ module Features
               @meta_data[i] = HashWithIndifferentAccess.new(
                 value: field_set.all("input[type='checkbox']", visible: true).select(&:checked?).first.find(:xpath,".//..").text,
                 meta_key: meta_key,
-                type: type) 
+                type: type)
             end
 
-          when 'meta_datum_institutional_groups' 
+          when 'meta_datum_institutional_groups'
             field_set.all(".multi-select li a.multi-select-tag-remove").each{|a| a.click}
             field_set.find("input",visible: true).click
             directly_chooseable= field_set.all("ul.ui-autocomplete li:not(.has-navigator) a",visible: true)
             directly_chooseable[rand directly_chooseable.size].click
             @meta_data[i] = HashWithIndifferentAccess.new(
-              value: field_set.first("ul.multi-select-holder li.meta-term").text, 
+              value: field_set.first("ul.multi-select-holder li.meta-term").text,
               type: type,
-              meta_key: meta_key) 
+              meta_key: meta_key)
           else
-            rais "Implement this case" 
+            rais "Implement this case"
           end
 
           Rails.logger.info ["setting metadata filed value", field_set[:'data-meta-key'], @meta_data[i] ]
         end
 
 
-        def every_meta_data_value_is_visible_on_the_page 
+        def every_meta_data_value_is_visible_on_the_page
           @meta_data_by_context.each do |context_id,meta_data|
             meta_data.each do |md|
               value= md[:value]
@@ -158,7 +158,7 @@ module Features
           group_name.match(/^(.*)\(/).captures.first
         end
 
-        def each_meta_data_value_in_each_context_is_equal_to_the_one_set_previously 
+        def each_meta_data_value_in_each_context_is_equal_to_the_one_set_previously
           all("ul.contexts > li").each do |context|
             context.find("a").click()
             @meta_data = @meta_data_by_context[context[:'data-context-id']]
@@ -185,9 +185,9 @@ module Features
               else
                 expect(@meta_data[i][:value]).to eq field_set.find("input[type='text']").value
               end
-            when 'meta_datum_people' 
+            when 'meta_datum_people'
               expect(field_set.first("ul.multi-select-holder li.meta-term").text).to eq  @meta_data[i][:value]
-            when 'meta_datum_date' 
+            when 'meta_datum_date'
               expect(field_set.find("input", visible: true).value).to eq @meta_data[i][:value]
             when 'meta_datum_keywords'
               #expect(field_set.first("ul.multi-select-holder li.meta-term").text).to eq  @meta_data[i][:value]
@@ -198,7 +198,7 @@ module Features
               else
                 expect(field_set.all("input[type='checkbox']", visible: true).select(&:checked?).first.find(:xpath,".//..").text).to eq @meta_data[i][:value]
               end
-            when 'meta_datum_institutional_groups' 
+            when 'meta_datum_institutional_groups'
               expect( stable_part_of_meta_datum_institutional_group(field_set.first("ul.multi-select-holder li.meta-term").text)).to \
                 eq stable_part_of_meta_datum_institutional_group(@meta_data[i][:value])
             else
@@ -206,6 +206,11 @@ module Features
             end
           end
         end
+      end
+
+      def autocomplete(node, text)
+        node.click
+        node.native.send_keys(text)
       end
 
     end

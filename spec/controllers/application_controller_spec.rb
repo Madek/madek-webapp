@@ -5,7 +5,11 @@ describe ApplicationController do
   include ::Controllers::Shared
 
   before :each do
-    AppSettings.create id: 0
+    begin
+      AppSettings.create id: 0
+    rescue
+      # ignore
+    end
   end
 
   describe "as guest user" do

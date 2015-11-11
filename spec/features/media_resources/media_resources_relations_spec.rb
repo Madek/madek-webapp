@@ -16,16 +16,15 @@ feature 'MediaResource' do
     visit relations_path
 
     # I can see containers for Parent-, Sibling- and Child-MediaSets
-    parents = find('#set-relations-parents.ui-resources-holder')
-    siblings = find('#set-relations-siblings.ui-resources-holder')
-    related = [parents, siblings]
+    parents = '#set-relations-parents.ui-resources-holder'
+    siblings = '#set-relations-siblings.ui-resources-holder'
 
     # The counters should be correct
-    expect(parents.find('.ui-counter').text).to eq "(1)"
-    expect(siblings.find('.ui-counter').text).to eq "(3)"
+    expect(find(parents).find('.ui-counter').text).to eq "(1)"
+    expect(find(siblings).find('.ui-counter').text).to eq "(3)"
 
     # All 3 sections have working sub views
-    all_subviews_working(related)
+    all_subviews_working([parents, siblings])
 
   end
 
@@ -48,33 +47,38 @@ feature 'MediaResource' do
     visit relations_path
 
     # I can see containers for Parent-, Sibling- and Child-MediaSets
-    parents = find('#set-relations-parents.ui-resources-holder')
-    siblings = find('#set-relations-siblings.ui-resources-holder')
-    children = find('#set-relations-children.ui-resources-holder')
-    related = [parents, siblings, children]
+    parents = '#set-relations-parents.ui-resources-holder'
+    siblings = '#set-relations-siblings.ui-resources-holder'
+    children = '#set-relations-children.ui-resources-holder'
 
     # The counters should be correct
-    expect(parents.find('.ui-counter').text).to eq "(4)"
-    expect(siblings.find('.ui-counter').text).to eq "(1)"
-    expect(children.find('.ui-counter').text).to eq "(3)"
+    expect(find(parents).find('.ui-counter').text).to eq "(4)"
+    expect(find(siblings).find('.ui-counter').text).to eq "(1)"
+    expect(find(children).find('.ui-counter').text).to eq "(3)"
 
     # All 3 sections have working sub views
-    all_subviews_working(related)
+
+    all_subviews_working([parents, siblings, children])
 
   end
 
   def all_subviews_working(sections)
-    sections.each do |section|
+    sections.each do |section_id|
       # - should have a 'Show All' link in header
-      show_all_link = section.find('.ui-resources-header a')
-      expect(show_all_link.text).to eq "Alle anzeigen"
+
+      show_all_link = find(section_id)
+        .find(".ui-resources-header a", text: "Alle anzeigen")
 
       # - which can be visited
+      unhover
+      hide_clipboard
       show_all_link.click
 
       # - sub-view has link back to main view
-      back_link = find('.ui-resources-header a')
-      expect(back_link.text).to eq "Alle Zusammenhänge anzeigen"
+      back_link = find(
+        '.ui-resources-header a', text: "Alle Zusammenhänge anzeigen")
+      unhover
+      hide_clipboard
       back_link.click
     end
   end

@@ -139,3 +139,11 @@ def submit_form(id: nil)
   el = (id ? find("form##{id}") : page)
   el.find("[type='submit']").click
 end
+
+def unhover
+  find('.app-body-title').click
+end
+
+def hide_clipboard
+  page.execute_script("$('.ui-clipboard').css('display','none')")
+end

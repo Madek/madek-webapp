@@ -60,11 +60,12 @@ feature "Meta Data - Instititutional Groups" do
     field= find('fieldset[data-type="meta_datum_institutional_groups"]')
     input= field.find('input')
     # and I type 'Departement Design' in the multiselect inside.
-    input.set('Departement Design'); sleep 1
-    
+    input.set('Departement Design')
+    sleep 2
     # Then I select the first result and save.
-    line= field.find('ul.ui-autocomplete').all('li').first
-    line.click
+    field.find('ul.ui-autocomplete').all('li').first.click
+    # first click is ignored, wtf?
+    field.find('ul.ui-autocomplete').all('li').first.click
     submit_form
     
     # Back on the MediaEntry page, I find the metadata heading 'Bereich ZHdK'
