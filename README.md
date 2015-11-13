@@ -12,11 +12,13 @@ Ansible-Setup Project](https://github.com/zhdk/madek-ansible-setup).
 
 ## Documentation
 
-Browse the [doc](./doc) folder for documentation.
+[Read The Docs](https://madek.readthedocs.org/)
+or see the [doc sources](https://github.com/Madek/madek-documentation/tree/master/source).
 
 The [Database: Entities and Relations][] diagram is notable.
 
-  [Database: Entities and Relations]: http://rawgit.com/madek/madek-documentation/master/source/architecture/database/entities_and_relations.svg
+[Database: Entities and Relations]: <https://madek.readthedocs.org/en/latest/architecture/database/entities_and_relations.svg>
+[doc sources]: <https://github.com/Madek/madek-documentation/tree/master/source>
 
 ## State
 
@@ -57,4 +59,3 @@ Madek is Free Software under the GNU General Public License (GPL) v3, see the in
 
 Visit our main website at http://www.zhdk.ch and the IT center
 at http://itz.zhdk.ch
-
