@@ -10,7 +10,7 @@ module Presenters
 
       def image_url(_size = :small)
         ActionController::Base.helpers.image_path \
-          ::UI_GENERIC_THUMBNAIL[:filter_set]
+          Madek::Constants::UI_GENERIC_THUMBNAIL[:filter_set]
         # TODO: implement
         #   - get a list of all entries matching the filter
         #   - select the first one that has an image, use that image

@@ -38,7 +38,7 @@ module Presenters
               result = preview_media_entry_path(@app_resource, size)
               # else
               # url = ActionController::Base.helpers.image_path \
-              #     ::UI_GENERIC_THUMBNAIL[:incomplete]
+              #   Madek::Constants::UI_GENERIC_THUMBNAIL[:incomplete]
             end
             prepend_url_context_fucking_rails result
           end

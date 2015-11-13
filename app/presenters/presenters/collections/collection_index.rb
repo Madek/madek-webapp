@@ -23,7 +23,7 @@ module Presenters
       def generic_thumbnail_url
         prepend_url_context_fucking_rails \
           ActionController::Base.helpers.image_path \
-            ::UI_GENERIC_THUMBNAIL[:collection]
+            Madek::Constants::UI_GENERIC_THUMBNAIL[:collection]
       end
 
       def choose_media_entry_for_preview

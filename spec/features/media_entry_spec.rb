@@ -100,13 +100,13 @@ feature 'MediaEntry' do
 
       thumbnails_dir = Madek::Constants::THUMBNAIL_STORAGE_DIR \
         .join(media_file.guid.first)
-      THUMBNAILS.keys.each do |thumb_size|
+      Madek::Constants::THUMBNAILS.keys.each do |thumb_size|
         next if thumb_size == :maximum
         expect(File.exist? \
                  thumbnails_dir.join("#{media_file.guid}_#{thumb_size}.jpg")) \
         .to be true
       end
-      expect(media_file.previews.size).to be == THUMBNAILS.size
+      expect(media_file.previews.size).to be == Madek::Constants::THUMBNAILS.size
 
       # meta data for media entry ##############################################
       ['madek_core:title', 'upload:licenses', 'media_object:creator']
