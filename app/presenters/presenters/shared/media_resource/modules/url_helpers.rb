@@ -11,13 +11,13 @@ module Presenters
 
             def generic_thumbnail_url
               ActionController::Base.helpers.image_path \
-                Madek::Constants::UI_GENERIC_THUMBNAIL[:unknown]
+                Madek::Constants::Webapp::UI_GENERIC_THUMBNAIL[:unknown]
             end
 
             # TODO: review
             def incomplete_thumbnail_url
               ActionController::Base.helpers.image_path \
-                Madek::Constants::UI_GENERIC_THUMBNAIL[:incomplete]
+                Madek::Constants::Webapp::UI_GENERIC_THUMBNAIL[:incomplete]
             end
           end
 

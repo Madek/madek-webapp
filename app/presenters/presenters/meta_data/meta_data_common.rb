@@ -31,8 +31,8 @@ module Presenters
       end
 
       def selected_vocabularies
-        ([Madek::Constants::UI_META_CONFIG[:summary_vocabulary]] +
-          Madek::Constants::UI_META_CONFIG[:displayed_vocabularies])
+        ([Madek::Constants::Webapp::UI_META_CONFIG[:summary_vocabulary]] +
+          Madek::Constants::Webapp::UI_META_CONFIG[:displayed_vocabularies])
           .map(&:to_sym).map { |id| Vocabulary.find_by(id: id) }.compact
       end
 

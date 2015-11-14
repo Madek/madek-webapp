@@ -14,11 +14,11 @@ RSpec.shared_examples 'image_url' do |response_type|
     when 'with generic image'
       expect(presenter.image_url).to be == \
         ActionController::Base.helpers.image_path(
-          Madek::Constants::UI_GENERIC_THUMBNAIL[:unknown])
+          Madek::Constants::Webapp::UI_GENERIC_THUMBNAIL[:unknown])
     when 'with collection image'
       expect(presenter.image_url).to be == \
         ActionController::Base.helpers
-          .image_path(Madek::Constants::UI_GENERIC_THUMBNAIL[:collection])
+          .image_path(Madek::Constants::Webapp::UI_GENERIC_THUMBNAIL[:collection])
     end
   end
 end

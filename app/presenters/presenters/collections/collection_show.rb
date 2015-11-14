@@ -14,7 +14,7 @@ module Presenters
       def preview_thumb_url
         prepend_url_context_fucking_rails \
           ActionController::Base.helpers.image_path \
-            Madek::Constants::UI_GENERIC_THUMBNAIL[:collection]
+            Madek::Constants::Webapp::UI_GENERIC_THUMBNAIL[:collection]
       end
 
       def highlighted_media_resources

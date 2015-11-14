@@ -53,9 +53,6 @@ module Madek
     config.paths["config/initializers"] <<  \
       Rails.root.join('engines', 'datalayer', 'initializers')
 
-    config.paths['config/initializers'] \
-      << Rails.root.join('initializers')
-
     config.autoload_paths += [
       Rails.root.join('engines', 'datalayer', 'lib'),
       Rails.root.join('engines', 'datalayer', 'app', 'models'),
@@ -173,3 +170,7 @@ module Madek
     )
   end
 end
+
+# has to be done here, otherwise one gets 'unitialized constant' errors
+# when hot loading code changes
+require 'madek/constants'
