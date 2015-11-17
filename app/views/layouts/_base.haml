@@ -34,9 +34,6 @@
       -# - now all the per-template scripts, which
           MUST be self-contained and not depending on load order:
       = content_for(:scripts) if content_for?(:scripts)
-      -# finally, some dev tools (attached to window for console)
-      - if Rails.env == 'development'
-        = javascript_include_tag 'developer-tools'
 
   -# Implicit *yield*, don't put one here or it double-renders!
   -# Also, when in doubt use `content_for(:body)` in views.

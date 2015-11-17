@@ -1,5 +1,3 @@
-= javascript_include_tag 'developer-tools'
-
 :ruby
   element = {
     name: 'WIP: Deco.MediaResourcesBox',
@@ -14,7 +12,7 @@
       get: Presenters::MediaEntries::MediaEntries.new(
         MediaEntry.all.limit(36),
         current_user,
-        list_conf: @resource_list_params)
+        list_conf: resource_list_params)
     },
     examples: [
       {},
