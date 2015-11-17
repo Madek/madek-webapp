@@ -8,7 +8,7 @@ module Modules
         errors = update_all_meta_data_transaction!(media_entry, meta_data_params)
 
         if errors.empty?
-          @get = Presenters::MediaEntries::MediaEntryIndex.new \
+          @get = Presenters::MediaEntries::MediaEntryShow.new \
             media_entry.reload, current_user
           respond_with @get, location: -> { media_entry_path(media_entry) }
         else
@@ -30,8 +30,8 @@ module Modules
               errors[meta_key_id] = [e.message]
             end
 
-            raise ActiveRecord::Rollback unless errors.empty?
           end
+          raise ActiveRecord::Rollback unless errors.empty?
         end
 
         errors
