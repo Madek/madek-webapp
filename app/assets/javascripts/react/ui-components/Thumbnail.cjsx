@@ -1,9 +1,10 @@
 React = require('react')
 f = require('active-lodash')
+parseMods = require('../lib/parse-mods.coffee').fromProps
 Icon = require('./Icon.cjsx')
 Link = require('./Link.cjsx')
 Picture = require('./Picture.cjsx')
-parseMods = require('../lib/parse-mods.coffee').fromProps
+
 
 module.exports = React.createClass
   displayName: 'UiThumbnail'
@@ -48,10 +49,6 @@ module.exports = React.createClass
             <div className='ui-thumbnail-cell-image-holder'>
               <div className='ui-thumbnail-inner-image-holder'>
                 <Picture mods='ui-thumbnail-image' src={src} alt={alt}/>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Link>
+              </div></div></div></div></Link>
       {meta}
     </div>

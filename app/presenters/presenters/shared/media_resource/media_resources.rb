@@ -16,8 +16,7 @@ module Presenters
             order: nil,
             page: 1,      # nil always means 'first page'
             per_page: 12  # default for this presenter
-          }).merge(list_conf.deep_symbolize_keys)
-            .merge(filter: parse_json_filters(list_conf['filter']))
+          }).merge(list_conf)
 
           @selected_resources = select(@given_resources, @config)
           @resources = presenterify(@selected_resources)
@@ -38,21 +37,25 @@ module Presenters
         end
 
         def pagination
-          return unless (@config && @config[:for_url])
+          return unless @config.fetch(:for_url, {}).present?
 
-          cur_path = @config[:for_url][:path]
-          cur_query = @config[:for_url][:query]
-          cur_conf = @config.except(:for_url)
+          path = @config[:for_url][:path]
+          query = @config[:for_url][:query]
+          prev_page = @config[:page].to_i - 1
+          next_page = @config[:page].to_i + 1
 
-          prev_conf = offset_pagination(cur_conf, -1)
-          next_conf = offset_pagination(cur_conf, 1)
-
-          prev_link = if (cur_conf[:page].to_i > 1)
-                        link_with_new_params(cur_path, cur_query, list: prev_conf)
+          prev_link = if (prev_page > 0)
+                        set_params_for_url(path, query, list: { page: prev_page })
                       end
 
-          next_link = if (select(@given_resources, next_conf).first.present?)
-                        link_with_new_params(cur_path, cur_query, list: next_conf)
+          # binding.pry
+
+          # NOTE: **extra query** here to figure out if there is a 'next' page:
+          next_page_conf = @config.deep_merge(page: next_page)
+          has_next_page = select(@given_resources, next_page_conf).first.present?
+
+          next_link = if (has_next_page)
+                        set_params_for_url(path, query, list: { page: next_page })
                       end
 
           { prev: prev_link, next: next_link }
@@ -61,19 +64,11 @@ module Presenters
         private
 
         def offset_pagination(conf, offset)
-          ({}).merge(conf).merge(page: conf[:page].to_i + offset)
+          { per_page: conf[:per_page], page: conf[:page].to_i + offset }
         end
 
-        def link_with_new_params(path, old, new)
-          path + '?' + ({}).merge(old).merge(new).to_query
-        end
-
-        def parse_json_filters(string)
-          begin
-            JSON.parse(string).deep_symbolize_keys
-          rescue
-            {}
-          end
+        def set_params_for_url(path, old_params, new_params)
+          path + '?' + old_params.deep_merge(new_params).to_query
         end
 
         def select(resources, config)
@@ -83,7 +78,7 @@ module Presenters
 
           resources
             .viewable_by_user_or_public(@user)
-            .filter_by(config[:filter])
+            .filter_by(config[:filter] || {})
             .reorder(config[:order])
             .page(config[:page])
             .per(config[:per_page])
