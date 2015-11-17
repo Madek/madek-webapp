@@ -41,18 +41,17 @@ module Modules
       meta_datum_klass = \
         MetaKey.find(meta_key_id).meta_datum_object_type.constantize
 
-      if [MetaDatum::Text, MetaDatum::TextDate].include?(meta_datum_klass)
-        meta_datum_klass.create!(media_entry_id: media_entry.id,
-                                 meta_key_id: meta_key_id,
-                                 created_by: current_user,
-                                 value: value)
-      else
-        meta_datum_klass.create_with_user!(current_user,
-                                           media_entry_id: media_entry.id,
-                                           meta_key_id: meta_key_id,
-                                           created_by: current_user,
-                                           value: extract_related_uuids(value))
-      end
+      meta_datum_klass.create_with_user! \
+        current_user,
+        media_entry_id: media_entry.id,
+        meta_key_id: meta_key_id,
+        created_by: current_user,
+        value: \
+          (if [MetaDatum::Text, MetaDatum::TextDate].include?(meta_datum_klass)
+             value
+           else
+             extract_related_uuids(value)
+           end)
     end
 
     def extract_related_uuids(value)
