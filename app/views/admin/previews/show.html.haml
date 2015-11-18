@@ -1,3 +1,6 @@
+:ruby
+  raw_file_path = admin_preview_raw_file_path(@preview)
+
 .page-header
   %h1 Preview: #{@preview.id}
 
@@ -15,7 +18,15 @@
 %h2 Raw File
 
 .thumbnail
-  %img{src: admin_preview_raw_file_path(@preview)}
+  - case @preview.content_type
+  - when /image/
+    %img{src: raw_file_path}
+  - when /audio/
+    %audio{controls: true}
+      %source{src: raw_file_path}
+  - when /video/
+    %video{controls: true}
+      %source{src: raw_file_path}
 
 %pre.text-center= @preview.filename
 

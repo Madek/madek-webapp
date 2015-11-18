@@ -29,7 +29,8 @@ module Madek
         [ConfigurationManagementBackdoorController,
          ErrorsController,
          MadekZhdkIntegration::AuthenticationController,
-         StyleguideController]
+         StyleguideController,
+         ZencoderJobsController]
 
       # From v2, unused but kept here for reference:
       # # Config files here.

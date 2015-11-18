@@ -21,12 +21,11 @@ class MediaEntriesController < ApplicationController
     # TODO: handle in MediaResources::CrudActions
     @tabs = SHOW_TABS
     media_entry = get_authorized_resource
-    @get = \
-      Presenters::MediaEntries::MediaEntryShow.new \
-        media_entry,
-        current_user,
-        user_scopes_for_media_resource(media_entry),
-        list_conf: resource_list_params
+    @get = Presenters::MediaEntries::MediaEntryShow.new(
+      media_entry,
+      current_user,
+      user_scopes_for_media_resource(media_entry),
+      list_conf: resource_list_params)
     respond_with @get
   end
 
@@ -84,8 +83,7 @@ class MediaEntriesController < ApplicationController
   def publish
     media_entry = MediaEntry.unscoped.where(is_published: false).find(id_param)
     authorize media_entry
-    ActiveRecord::Base.transaction do
-      # TODO: validation etc
+    ActiveRecord::Base.transaction do # TODO: validation etc
       media_entry.is_published = true
       media_entry.save!
     end
@@ -122,8 +120,7 @@ class MediaEntriesController < ApplicationController
       if collection = Collection.find_by_id(collection_id)
         collection.media_entries << media_entry
       else
-        # TODO: localize!
-        flash[:warning] = 'The collection does not exist!'
+        flash[:warning] = 'The collection does not exist!' # TODO: i18n!
       end
     end
   end
@@ -131,16 +128,15 @@ class MediaEntriesController < ApplicationController
   def store_file_and_create_previews!(file, media_file)
     store_file!(file.tempfile.path, media_file.original_store_location)
     media_file.create_previews! if media_file.needs_previews?
+    process_with_zencoder(media_file) if media_file.audio_video?
   end
 
   def media_file_attributes
-    {
-      uploader: current_user,
+    { uploader: current_user,
       content_type: file.content_type,
       filename: file.original_filename,
       extension: extension(file.original_filename),
-      size: file.size
-    }
+      size: file.size }
   end
 
   def media_entry_params
@@ -157,5 +153,9 @@ class MediaEntriesController < ApplicationController
 
   def file
     media_entry_params.require(:media_file)
+  end
+
+  def process_with_zencoder(media_file)
+    ZencoderRequester.new(media_file).process
   end
 end

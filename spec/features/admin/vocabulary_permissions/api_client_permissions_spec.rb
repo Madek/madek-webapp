@@ -43,7 +43,9 @@ feature 'Admin Vocabulary API Client Permissions' do
   scenario 'Editing a permission' do
     visit admin_vocabularies_path(search_term: api_client_permission.vocabulary.id)
 
-    within find('table tbody tr', text: api_client_permission.vocabulary.id) do
+    within find('table tbody tr',
+                text: api_client_permission.vocabulary.id,
+                match: :first) do
       click_link 'API Client Permissions'
     end
     within find('table tbody tr', text: api_client_permission.api_client.login) do

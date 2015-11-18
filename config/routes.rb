@@ -45,6 +45,8 @@ Madek::Application.routes.draw do
     end
   end
 
+  resources :media_files, only: :show
+
   resources :people, only: [:index, :show]
   resources :users, only: :index
   resources :api_clients, only: :index
@@ -70,6 +72,8 @@ Madek::Application.routes.draw do
 
   post '/session/sign_in', to: 'sessions#sign_in', as: 'sign_in'
   post '/session/sign_out', to: 'sessions#sign_out', as: 'sign_out'
+
+  post '/zencoder_jobs/:id/notification' => 'zencoder_jobs#notification', as: :zencoder_job_notification
 
   # Admin routes ###############################################################
   namespace :admin do

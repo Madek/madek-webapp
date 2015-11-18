@@ -1,6 +1,0 @@
-# remove env VARS with defaults after production server is migrated
-zencoder: 
-  enabled?: <%= ENV['ZENCODER_API_KEY'].present? %> 
-  test_mode?: False
-  api_key: <%= ENV['ZENCODER_API_KEY'] %>
-  ftp_base_url: <%= ENV['ZENCODER_FTP_BASE_URL'] %>

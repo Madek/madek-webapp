@@ -7,9 +7,9 @@ module Modules
       check_location! location
       FileUtils.mv(origin, location)
       # ensure read/write permissions for user (so deletion works),
-      # read permissions for the group (for sendfile serving by another user)
-      # no permissions for anyone else:
-      FileUtils.chmod('u=rw,g=r,o=', location)
+      # read permissions for others (for sendfile serving by another user
+      # of for zencoder)
+      FileUtils.chmod('u=rw,g=,o=r', location)
     end
 
     def check_origin!(path)
