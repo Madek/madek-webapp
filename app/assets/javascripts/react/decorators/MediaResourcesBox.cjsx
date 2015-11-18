@@ -13,6 +13,13 @@ router = null # client-side only
 
 # TOOD: i18n
 
+# only handle *local* link events (not opening in new tab, etc):
+handleLinkIfLocal = (event, callback)->
+  localLinks = require('local-links')
+  if (internalLink = localLinks.pathname(event))
+    event.preventDefault()
+    callback(internalLink) if not localLinks.isActive(event)
+
 # "const": allowed layout modes + config
 LAYOUT_MODES = [
   # {mode: 'tiles', title: 'Kachel-Ansicht', icon: 'vis-pins'},
@@ -72,9 +79,13 @@ module.exports = React.createClass
 
   # client-side link handlers:
   # - for state changes that don't need new data (like visual changes):
-  handleLocalLink: (href, event)->
-    event.preventDefault()
-    router.goTo(href)
+  handleChangeInternally: (event)->
+    handleLinkIfLocal(event, router.goTo)
+
+  # - for state changes that update the resources (like filter):
+  handleRequestInternally: (event)->
+    handleLinkIfLocal event, (link)->
+
 
   render: ({get, mods, interactive, initial} = @props)->
     get = f.defaultsDeep \      # combine config in order:
@@ -106,7 +117,7 @@ module.exports = React.createClass
         f.merge itm,
           mods: active: layout is itm.mode
           href: href
-          onClick: f.curry(@handleLocalLink)(href)
+          onClick: @handleChangeInternally
       <UiToolBar layouts={layouts}/>
 
     BoxFilterBar = if interactive then do ({config} = get)=>
@@ -120,7 +131,7 @@ module.exports = React.createClass
             name: 'Filtern'
             mods: 'active' if config.show_filter
             href: filterToggleLink
-            onClick: f.curry(@handleLocalLink)(filterToggleLink)
+            onClick: @handleChangeInternally
           reset: if f.present(config.filter)
             name: 'Filter zurücksetzen'
             href: resetFilterLink
@@ -141,17 +152,17 @@ module.exports = React.createClass
           url={config.for_url} query={relevantQuery}/>
       </div>
 
-    paginationNav = if interactive then do ({config, pagination} = get)->
-      # NOTE: dont overwrite pagination link with current page:
-      prevLink = if pagination.prev
-        setUrlParams(config.for_url, relevantQuery, list: pagination.prev)
-      nextLink = if pagination.next
-        setUrlParams(config.for_url, relevantQuery, list: pagination.next)
+    paginationNav = if interactive then do ({config, pagination} = get)=>
+      navLinks =
+        current:
+          href: setUrlParams(get.config.for_url, relevantQuery)
+          onClick: @handleChangeInternally
+        prev: if pagination.prev
+          href: setUrlParams(config.for_url, relevantQuery, list: pagination.prev)
+        next: if pagination.next
+          href: setUrlParams(config.for_url, relevantQuery, list: pagination.next)
       <ActionsBar>
-        <UiPaginationNav
-          url={setUrlParams(get.config.for_url, relevantQuery)}
-          prev={prevLink}
-          next={nextLink}/>
+        <UiPaginationNav {...navLinks}/>
       </ActionsBar>
 
     # component:
@@ -214,11 +225,11 @@ UiToolBar = ({layouts} = @props)->
     </div>
   </div>
 
-UiPaginationNav = ({url, next, prev} = @props)->
+UiPaginationNav = ({current, next, prev} = @props)->
   <ButtonGroup mods='mbm'>
-    <Button mods='mhn' href={prev} disabled={not prev}>« Previous page</Button>
-    <Button mods='mhn' href={url}>This Page</Button>
-    <Button mods='mhn' href={next} disabled={not next}>Next page »</Button>
+    <Button {...prev} mods='mhn' disabled={not prev}>« Previous page</Button>
+    <Button {...current} mods='mhn'>This Page</Button>
+    <Button {...next} mods='mhn' disabled={not next}>Next page »</Button>
   </ButtonGroup>
 
 # TODO: also show a reset filter link if active filter
