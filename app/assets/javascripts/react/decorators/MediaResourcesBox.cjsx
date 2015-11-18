@@ -40,8 +40,8 @@ viewConfigProps = React.PropTypes.shape
   layout: React.PropTypes.oneOf(['tiles', 'miniature', 'grid', 'list'])
   show_filter: React.PropTypes.bool
   pagination: React.PropTypes.shape
-    prev: React.PropTypes.string # link
-    next: React.PropTypes.string # link
+    prev: React.PropTypes.shape(page: React.PropTypes.number.isRequired)
+    next: React.PropTypes.shape(page: React.PropTypes.number.isRequired)
   for_url: React.PropTypes.shape
     path: React.PropTypes.string.isRequired
     query: React.PropTypes.object
@@ -141,15 +141,17 @@ module.exports = React.createClass
           url={config.for_url} query={relevantQuery}/>
       </div>
 
-    paginationNav = if interactive and ({next, prev} = get.pagination)
+    paginationNav = if interactive then do ({config, pagination} = get)->
       # NOTE: dont overwrite pagination link with current page:
-      relevantPaginationQuery = f.merge(f.omit(relevantQuery, 'list'),
-        list: f.omit(relevantQuery.list, 'page'))
+      prevLink = if pagination.prev
+        setUrlParams(config.for_url, relevantQuery, list: pagination.prev)
+      nextLink = if pagination.next
+        setUrlParams(config.for_url, relevantQuery, list: pagination.next)
       <ActionsBar>
         <UiPaginationNav
           url={setUrlParams(get.config.for_url, relevantQuery)}
-          prev={if prev then setUrlParams(prev, relevantPaginationQuery)}
-          next={if next then setUrlParams(next, relevantPaginationQuery)}/>
+          prev={prevLink}
+          next={nextLink}/>
       </ActionsBar>
 
     # component:

@@ -4,74 +4,64 @@ module Presenters
       # NOTE: This is a list of anything that inherits from MediaResources,
       #       *not* the (shared) base class MediaResource!
       class MediaResources < Presenter
-        attr_reader :resources, :config
+        attr_reader :resources, :pagination, :config
+
+        DEFAULT_CONFIG = { page: 1, per_page: 12, order: 'created_at DESC' }
 
         # NOTE: for pagination conf, see </config/initializers/kaminari_config.rb>
         def initialize(resources, user, list_conf: nil)
           fail 'missing config!' unless list_conf
-
           @user = user
-          @given_resources = resources
-          @config = ({
-            order: nil,
-            page: 1,      # nil always means 'first page'
-            per_page: 12  # default for this presenter
-          }).merge(list_conf)
 
-          @selected_resources = select(@given_resources, @config)
-          @resources = presenterify(@selected_resources)
+          @config = DEFAULT_CONFIG.merge(list_conf) # combine with given config…
+            .instance_eval do |conf| # coerce types…
+              conf.merge(page: conf[:page].to_i, per_page: conf[:per_page].to_i)
+            end
+
+          init_resources_and_pagination(resources, @config)
         end
 
         # TODO: implement count up to 1000
         # def total_count
         #   @selected_resources.total_count
         # end
-        #
 
         def any?
-          @selected_resources.first.present?
+          @resources.first.present?
         end
 
         def empty?
           not any?
         end
 
-        def pagination
-          return unless @config.fetch(:for_url, {}).present?
-
-          path = @config[:for_url][:path]
-          query = @config[:for_url][:query]
-          prev_page = @config[:page].to_i - 1
-          next_page = @config[:page].to_i + 1
-
-          prev_link = if (prev_page > 0)
-                        set_params_for_url(path, query, list: { page: prev_page })
-                      end
-
-          # binding.pry
-
-          # NOTE: **extra query** here to figure out if there is a 'next' page:
-          next_page_conf = @config.deep_merge(page: next_page)
-          has_next_page = select(@given_resources, next_page_conf).first.present?
-
-          next_link = if (has_next_page)
-                        set_params_for_url(path, query, list: { page: next_page })
-                      end
-
-          { prev: prev_link, next: next_link }
-        end
-
         private
 
-        def offset_pagination(conf, offset)
-          { per_page: conf[:per_page], page: conf[:page].to_i + offset }
+        # NOTE: optimized pagination, no extra queries!
+        def init_resources_and_pagination(resources, config)
+          # apply pagination, but select 1 "extra",
+          resources_and_next = select(
+            resources,
+            config,
+            limit: (config[:per_page] + 1),
+            offset: (config[:page] - 1) * config[:per_page])
+          # if there is an "extra", it means there is a next page
+          has_next_page = resources_and_next[config[:per_page]].present?
+          # determine presenter from relation model (before it's coerced .to_a)
+          presenter = presenter_by_class(resources_and_next.model)
+          # presenterify without the "extra"
+          @resources = presenterify(
+            resources_and_next.slice(0, config[:per_page]), presenter)
+          @pagination = build_pagination(config, has_next_page)
         end
 
-        def set_params_for_url(path, old_params, new_params)
-          path + '?' + old_params.deep_merge(new_params).to_query
+        def build_pagination(config, has_next_page)
+          { # each key is nil or contains the params needed to build link to page
+            prev: ((config[:page] > 1) ? { page: (config[:page] - 1) } : nil),
+            next: (has_next_page ? { page: (config[:page] + 1) } : nil)
+          }
         end
 
-        def select(resources, config)
+        def select(resources, config, pagination)
           unless active_record_collection?(resources)
             fail 'TypeError! not an AR Collection/Relation!'
           end
@@ -80,15 +70,13 @@ module Presenters
             .viewable_by_user_or_public(@user)
             .filter_by(config[:filter] || {})
             .reorder(config[:order])
-            .page(config[:page])
-            .per(config[:per_page])
+            .limit(pagination[:limit])
+            .offset(pagination[:offset])
         end
 
-        def presenterify(resources)
-          # for "normal" relations we can get the type for whole list,
-          # but for 'MediaResources' we need to check every member
-          determined_presenter = presenter_by_class(resources.model)
+        def presenterify(resources, determined_presenter = nil)
           resources.map do |resource|
+            # if no presenter given, need to check class of every member!
             presenter = determined_presenter || presenter_by_class(resource.class)
             presenter.new(resource, @user)
           end
