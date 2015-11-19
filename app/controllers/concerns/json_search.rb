@@ -16,6 +16,8 @@ module Concerns
           .return
           .limit(params[:limit] || 100)
 
+      authorize ar_collection
+
       get = ar_collection.map { |kt| presenter.new(kt).dump }
       respond_with get
     end

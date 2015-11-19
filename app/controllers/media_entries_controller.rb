@@ -43,6 +43,7 @@ class MediaEntriesController < ApplicationController
   end
 
   def new
+    authorize MediaEntry
   end
 
   def edit_meta_data
@@ -57,6 +58,8 @@ class MediaEntriesController < ApplicationController
       is_published: false
     )
 
+    authorize media_entry
+
     ActiveRecord::Base.transaction do
       media_entry.save!
       store_file_and_create_previews!(file, media_entry.media_file)
@@ -70,6 +73,7 @@ class MediaEntriesController < ApplicationController
 
   def publish
     media_entry = MediaEntry.unscoped.where(is_published: false).find(params[:id])
+    authorize media_entry
     ActiveRecord::Base.transaction do
       # TODO: validation etc
       media_entry.is_published = true

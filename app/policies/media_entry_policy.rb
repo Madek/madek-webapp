@@ -10,6 +10,10 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
     super or allow_for_creator_if_unpublished(record, user)
   end
 
+  def publish?
+    allow_for_creator_if_unpublished(record, user)
+  end
+
   def destroy?
     super or allow_for_creator_if_unpublished(record, user)
   end

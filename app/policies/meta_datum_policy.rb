@@ -1,4 +1,4 @@
-class MetaDatumPolicy < ApplicationPolicy
+class MetaDatumPolicy < DefaultPolicy
   def show?
     if logged_in?
       media_resource.viewable_by_user?(user) \

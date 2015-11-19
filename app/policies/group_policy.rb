@@ -1,4 +1,9 @@
-class GroupPolicy < ApplicationPolicy
+class GroupPolicy < DefaultPolicy
+  def index?
+    # TODO: specify what groups is current user allowed to see?
+    true
+  end
+
   def new?
     logged_in?
   end

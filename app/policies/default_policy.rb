@@ -1,5 +1,5 @@
 # scaffolded by Pundit gem
-class ApplicationPolicy
+class DefaultPolicy
   attr_reader :user, :record
 
   def initialize(user, record)

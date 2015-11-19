@@ -1,4 +1,4 @@
-class AdminPolicy < ApplicationPolicy
+class AdminPolicy < DefaultPolicy
   def initialize(user, admin)
     @user = user
     @admin = admin

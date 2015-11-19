@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
   include Errors
   include Pundit
 
+  after_action :verify_authorized
+
   # this Pundit error is generic and means basically 'access denied'
   rescue_from Pundit::NotAuthorizedError, with: :error_according_to_login_state
   rescue_from Errors::UnauthorizedError, with: :error_according_to_login_state
@@ -27,6 +29,7 @@ class ApplicationController < ActionController::Base
   end
 
   def root
+    skip_authorization # as we are doing our own auth here
     redirect_to(my_dashboard_path) if authenticated?
   end
 

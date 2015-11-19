@@ -7,8 +7,12 @@ class PeopleController < ApplicationController
   end
 
   def show
-    respond_with(@get = (Presenters::People::PersonShow.new(
-      Person.find(params[:id]), current_user, list_conf: resource_list_params)))
+    person = Person.find(params[:id])
+    authorize person
+    @get = Presenters::People::PersonShow.new(person,
+                                              current_user,
+                                              list_conf: resource_list_params)
+    respond_with @get
   end
 
 end

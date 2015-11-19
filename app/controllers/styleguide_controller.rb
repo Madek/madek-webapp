@@ -9,6 +9,8 @@ class StyleguideController < ApplicationController
     @sections = build_styleguide_tree # from LivingStyleguide module
   end
 
+  skip_after_action :verify_authorized
+
   def index
   end
 
