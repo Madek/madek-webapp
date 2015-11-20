@@ -33,6 +33,7 @@ class MediaEntriesController < ApplicationController
 
     begin
       preview = media_entry.media_file.preview(size)
+      authorize preview
       send_file preview.file_path,
                 type: preview.content_type,
                 disposition: 'inline'
