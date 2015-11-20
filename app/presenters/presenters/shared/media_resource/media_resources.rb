@@ -67,7 +67,7 @@ module Presenters
           end
 
           resources
-            .viewable_by_user_or_public(@user)
+            .viewable_by_user_or_public(@user) # TODO: remove
             .filter_by(config[:filter] || {})
             .reorder(config[:order])
             .limit(pagination[:limit])

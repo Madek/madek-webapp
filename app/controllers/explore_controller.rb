@@ -1,15 +1,21 @@
 class ExploreController < ApplicationController
   include Concerns::MediaResources::CrudActions
 
-  def explore
+  def index
     respond_with(
       @get = Pojo.new(
         media_entries: presenterify(
-          MediaEntry.all, Presenters::MediaEntries::MediaEntries),
+          select(MediaEntry), Presenters::MediaEntries::MediaEntries),
         collections: presenterify(
-          Collection.all, Presenters::Collections::Collections),
+          select(Collection), Presenters::Collections::Collections),
         filter_sets: presenterify(
-          FilterSet.all, Presenters::FilterSets::FilterSets)))
+          select(FilterSet), Presenters::FilterSets::FilterSets)))
+  end
+
+  def select(relation)
+    resources = relation.viewable_by_user_or_public(current_user)
+    authorize(resources)
+    resources
   end
 
 end

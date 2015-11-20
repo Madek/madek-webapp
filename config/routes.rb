@@ -58,7 +58,7 @@ Madek::Application.routes.draw do
   # Static App routes ##########################################################
   get '/id/:uuid', to: 'uuid#redirect_to_canonical_url'
 
-  get :explore, controller: :explore
+  get :explore, controller: :explore, action: :index
 
   namespace :my do
     root to: 'dashboard#dashboard', as: 'dashboard'
