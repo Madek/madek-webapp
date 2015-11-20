@@ -9,16 +9,16 @@ pg: &default
 
 development:
   <<: *default
-  database: madek-v3_development
+  database: madek_development
 
 test:
   <<: *default
-  database: madek-v3_test
+  database: madek_test
 
 personas:
   <<: *default
-  database: madek-v3_personas
+  database: madek_personas
 
 production:
   <<: *default
-  database: madek-v3_production
+  database: madek_production

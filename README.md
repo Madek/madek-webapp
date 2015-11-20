@@ -22,13 +22,13 @@ The [Database: Entities and Relations][] diagram is notable.
 
 ## State
 
-### `madek-v3` branch
+### `master` branch
 
 
 [![semver: 3.0.0-alpha.0](https://img.shields.io/badge/semver-3.0.0--alpha.0-orange.svg)](http://semver.org)
 
-<a href="http://ci3.zhdk.ch/cider-ci/ui/public/Madek%20Webapp/madek-v3/Tests%20MRI-2.1,Tests%20JRuby-9000,Code%20Checks,Deploy%20to%20test/summary.html">
-  <img src="http://ci3.zhdk.ch/cider-ci/ui/public/Madek%20Webapp/madek-v3/Tests%20MRI-2.1,Tests%20JRuby-9000,Code%20Checks,Code%20Checks,Deploy%20to%20test/summary.svg?respond_width_200&orientation=vertical">
+<a href="http://ci3.zhdk.ch/cider-ci/ui/public/Madek%20Webapp/master/Tests%20MRI-2.1,Tests%20JRuby-9000,Code%20Checks,Deploy%20to%20test/summary.html">
+  <img src="http://ci3.zhdk.ch/cider-ci/ui/public/Madek%20Webapp/master/Tests%20MRI-2.1,Tests%20JRuby-9000,Code%20Checks,Code%20Checks,Deploy%20to%20test/summary.svg?respond_width_200&orientation=vertical">
   </img>
 </a>
 

@@ -10,7 +10,7 @@ jobs:
 
     run-on:
     - type: branch
-      include-match: ^.*madek-v3.*$
+      include-match: ^.*master.*$
 
     context:
       task-defaults:

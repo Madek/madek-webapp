@@ -9,5 +9,4 @@ default: &default
 
 test:
   <<: *default
-  database: madek-v3_test
-
+  database: madek_test
