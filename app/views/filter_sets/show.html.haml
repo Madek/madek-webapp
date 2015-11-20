@@ -1,3 +1,5 @@
 .ui-container.mam.pam
-  %pre.ui-container.bright.phm.title-m
-    = JSON.pretty_generate @get.as_json(root: true)
+  %pre= JSON.pretty_generate @get.saved_filter
+  = deco('polybox', interactive: true, media_resources: @get.media_entries)
+  = deco('polybox', interactive: true, media_resources: @get.collections)
+  = deco('polybox', interactive: true, media_resources: @get.filter_sets)

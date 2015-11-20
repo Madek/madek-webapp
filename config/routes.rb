@@ -38,7 +38,7 @@ Madek::Application.routes.draw do
       put :update_highlights
     end
   end
-  resources :filter_sets, only: [:index, :show] do
+  resources :filter_sets, only: [:index, :show, :create] do
     member do
       get 'permissions', action: :permissions_show, as: 'permissions'
       get 'permissions/edit', action: :permissions_edit, as: 'edit_permissions'
