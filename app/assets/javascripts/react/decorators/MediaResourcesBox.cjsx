@@ -11,6 +11,9 @@ RailsForm = require('../lib/forms/rails-form.cjsx')
 ResourceThumbnail = require('./ResourceThumbnail.cjsx')
 router = null # client-side only
 
+xhr = require('xhr')
+getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
+
 # TOOD: i18n
 
 # only handle *local* link events (not opening in new tab, etc):
@@ -86,8 +89,22 @@ module.exports = React.createClass
   handleRequestInternally: (event)->
     handleLinkIfLocal event, (link)->
 
+  # - custom actions:
+  createFilterSetFromConfig: (config, event)->
+    event.preventDefault()
+    if f.present(name = window.prompt('Name?'))
+      xhr
+        method: 'POST', url: '/filter_sets'
+        headers: 'X-CSRF-Token': getRailsCSRFToken()
+        json: filter_set: f.merge(config, title: name)
+        , (err, res)->
+          url = f.get(res, ['body', 'url'])
+          if (err or not url)
+            return alert(JSON.stringify(err or 'Error', 0, 2))
+          window.location = url
 
-  render: ({get, mods, interactive, initial} = @props)->
+
+  render: ({get, mods, initial, interactive, saveable} = @props)->
     get = f.defaultsDeep \      # combine config in order:
       {config: @state.config},  # - client-side state
       get,                      # - presenter & config (from params)
@@ -118,7 +135,12 @@ module.exports = React.createClass
           mods: active: layout is itm.mode
           href: href
           onClick: @handleChangeInternally
-      <UiToolBar layouts={layouts}/>
+      actions =
+        save: if saveable and @state.active # HACK, no fallback
+          children: 'Save!'
+          onClick: f.curry(@createFilterSetFromConfig)(get.config)
+
+      <UiToolBar actions={actions} layouts={layouts}/>
 
     BoxFilterBar = if interactive then do ({config} = get)=>
       filterToggleLink = setUrlParams(config.for_url, relevantQuery,
@@ -205,7 +227,7 @@ UiSideFilter = ({filter} = @props)->
     </RailsForm>
   </div>
 
-UiToolBar = ({layouts} = @props)->
+UiToolBar = ({layouts, actions} = @props)->
   <div className='ui-container inverted ui-toolbar pvx'>
     {### TODO: type + counts?
       <h2 className='ui-toolbar-header pls'>
@@ -222,6 +244,10 @@ UiToolBar = ({layouts} = @props)->
           </Button>
         }
       </ButtonGroup>
+      {# Action Buttons: }
+      {if f.any(actions) then <ButtonGroup mods='tertiary small right mls'>
+        {f.map actions, (btn, id)-> <Button {...btn} key={id}/>}
+      </ButtonGroup>}
     </div>
   </div>
 
