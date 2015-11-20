@@ -6,6 +6,10 @@ module Modules
       check_origin! origin
       check_location! location
       FileUtils.mv(origin, location)
+      # ensure read/write permissions for user (so deletion works),
+      # read permissions for the group (for sendfile serving by another user)
+      # no permissions for anyone else:
+      FileUtils.chmod('u=rw,g=r,o=', location)
     end
 
     def check_origin!(path)
