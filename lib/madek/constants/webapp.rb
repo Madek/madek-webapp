@@ -25,6 +25,12 @@ module Madek
         unknown: 'thumbnails/document_unknown.png'
       }
 
+      VERIFY_AUTH_SKIP_CONTROLLERS = \
+        [ConfigurationManagementBackdoorController,
+         ErrorsController,
+         MadekZhdkIntegration::AuthenticationController,
+         StyleguideController]
+
       # From v2, unused but kept here for reference:
       # # Config files here.
       # METADATA_CONFIG_DIR = "#{Rails.root}/config/definitions/metadata"
