@@ -11,11 +11,6 @@
 # Favor clearness, and simplicity instead of dryness!
 #
 
-def click_on_text(text)
-  wait_until { all('a, button', text: text, visible: true).size > 0 }
-  find('a, button', text: text).click
-end
-
 def click_on_tab(text)
   find('.app-body .ui-tabs').find('a', text: text).click
 end

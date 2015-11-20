@@ -7,12 +7,17 @@ module Concerns
       private
 
       def get_authorized_resource(resource = resource_by_action)
-        authorize resource
+        authorize resource, "#{action_name}?".to_sym
         resource
       end
 
       def resource_by_action(action = action_name)
-        (action == 'index') ? model_klass.all : model_klass.find(params[:id])
+        # TODO: implement this distinction with "pundit scopes"
+        if (action == 'index')
+          model_klass.viewable_by_user_or_public(current_user)
+        else
+          model_klass.find_by(id: params[:id])
+        end
       end
 
       def model_klass
