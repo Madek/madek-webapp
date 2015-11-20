@@ -7,8 +7,6 @@ class ApplicationController < ActionController::Base
   include Errors
   include Pundit
 
-  after_action :verify_authorized
-
   # this Pundit error is generic and means basically 'access denied'
   rescue_from Pundit::NotAuthorizedError, with: :error_according_to_login_state
   rescue_from Errors::UnauthorizedError, with: :error_according_to_login_state
@@ -61,4 +59,14 @@ class ApplicationController < ActionController::Base
       raise Errors::UnauthorizedError, 'Please log in!'
     end
   end
+
+  # AFTER ACTION HANDLING ############################################
+
+  def verify_authorized_with_special_cases_exclusion
+    unless self.class == ConfigurationManagementBackdoorController
+      verify_authorized_without_special_cases_exclusion
+    end
+  end
+  alias_method_chain :verify_authorized, :special_cases_exclusion
+  after_action :verify_authorized
 end
