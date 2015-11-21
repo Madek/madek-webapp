@@ -286,6 +286,9 @@ _tmp_filter_examples = {
   "Title: 'diplom'": {
     "meta_data": [{ "key": "madek_core:title", "match": "diplom" }]
   },
+  "Uses Meta-Key 'Gattung'": {
+    "meta_data": [ { "key": "media_content:type" } ]
+  },
   "Permissions: public": {
     "permissions": [{ "key": "public", "value": true }]
   },
