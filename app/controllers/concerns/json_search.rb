@@ -10,13 +10,13 @@ module Concerns
                   "#{controller_name.singularize.camelize}Index" \
         .constantize
 
+      scoped_ar_collection = policy_scope(ar_model.all)
+
       ar_collection = \
-        FilterChain.new(ar_model.all, self)
+        FilterChain.new(scoped_ar_collection, self)
           .do(:filter_by_search_params, *search_params)
           .return
           .limit(params[:limit] || 100)
-
-      authorize ar_collection
 
       get = ar_collection.map { |kt| presenter.new(kt).dump }
       respond_with get

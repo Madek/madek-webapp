@@ -21,10 +21,6 @@ class FilterSetsController < ApplicationController
 
   private
 
-  def represent(resource, presenter, *args)
-    respond_with(@get = presenter.new(resource, current_user, *args))
-  end
-
   def filter_set_params
     params.require(:filter_set)
   end

@@ -47,12 +47,6 @@ class My::GroupsController < MyController
 
   private
 
-  def represent(resource, presenter)
-    respond_with(
-      @get = presenter.new(
-        resource, current_user, list_conf: resource_list_params))
-  end
-
   def find_group_and_authorize
     group = Group.find(params[:id])
     authorize group

@@ -1,9 +1,10 @@
 module Shared
   module MediaResources
     class MediaResourcePolicy < DefaultPolicy
-
-      def index?
-        record.all? { |mr| mr.viewable_by_user?(user) }
+      class Scope < Scope
+        def resolve
+          scope.viewable_by_user_or_public
+        end
       end
 
       def new?

@@ -1,10 +1,7 @@
 class KeywordPolicy < DefaultPolicy
-  def index?
-    record.all? do |keyword|
-      keyword
-        .meta_key
-        .vocabulary
-        .viewable_by_user?(user)
+  class Scope < Scope
+    def resolve
+      scope.viewable_by_user_or_public
     end
   end
 end

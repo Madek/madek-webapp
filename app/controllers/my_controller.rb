@@ -78,6 +78,7 @@ class MyController < ApplicationController
     authorize :dashboard, :logged_in?
     # needed for the sidebar nav, also in controllers that inherit from us:
     init_for_view
+    skip_policy_scope
   end
 
   private

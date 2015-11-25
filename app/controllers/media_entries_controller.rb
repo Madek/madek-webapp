@@ -104,12 +104,6 @@ class MediaEntriesController < ApplicationController
 
   private
 
-  def represent(resource, presenter)
-    respond_with(
-      @get = presenter.new(
-        resource, current_user, list_conf: resource_list_params))
-  end
-
   def find_resource
     get_authorized_resource(MediaEntry.unscoped.find(params[:id]))
   end

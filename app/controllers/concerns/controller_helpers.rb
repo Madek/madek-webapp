@@ -1,29 +1,37 @@
 module Concerns
   module ControllerHelpers
     extend ActiveSupport::Concern
+    include Concerns::ResourceListParams
 
-    included do
+    def get_authorized_resource(resource = nil)
+      resource ||= model_klass.find_by(id: params[:id])
+      authorize resource, "#{action_name}?".to_sym
+      resource
+    end
 
-      private
+    def model_klass
+      controller_name.classify.constantize
+    end
 
-      def get_authorized_resource(resource = resource_by_action)
-        authorize resource, "#{action_name}?".to_sym
-        resource
-      end
+    def represent(resource = get_authorized_resource,
+                  presenter = nil)
+      @get = presenterify(resource, presenter)
+      respond_with @get
+    end
 
-      def resource_by_action(action = action_name)
-        # TODO: implement this distinction with "pundit scopes"
-        if (action == 'index')
-          model_klass.viewable_by_user_or_public(current_user)
-        else
-          model_klass.find_by(id: params[:id])
-        end
-      end
+    def presenterify(resource, presenter = nil)
+      presenter ||= presenter_by_class(action_name)
+      presenter.new(resource, current_user, list_conf: resource_list_params)
+    end
 
-      def model_klass
-        controller_name.classify.constantize
-      end
-
+    def presenter_by_class(action)
+      base_klass = model_klass.name.pluralize
+      klass = if (action == 'index')
+                base_klass
+              else
+                base_klass.singularize + action.camelize
+              end
+      "::Presenters::#{base_klass}::#{klass}".constantize
     end
   end
 end

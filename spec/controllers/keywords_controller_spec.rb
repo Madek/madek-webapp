@@ -6,8 +6,10 @@ describe KeywordsController do
 
   context 'responds to search with json' do
     it 'filtering by params[:search_term]' do
-      2.times { FactoryGirl.create :keyword, meta_key: meta_key }
-      keyword = Keyword.first
+      keywords = (1..2).map { FactoryGirl.create :keyword, meta_key: meta_key }
+      keyword = keywords.sample
+      keyword.meta_key.vocabulary.user_permissions << \
+        create(:vocabulary_user_permission, user: user)
 
       get :index,
           { search_term: keyword.term,
