@@ -1,6 +1,9 @@
 class MyController < ApplicationController
   include Concerns::ResourceListParams
+  include Concerns::UserScopes::Dashboard
   layout 'my'
+
+  after_action :verify_policy_scoped
 
   # NOTE: conventions for sections:
   # - if it has resources: UserDashboardPresenter has a method with name of section
@@ -78,7 +81,6 @@ class MyController < ApplicationController
     authorize :dashboard, :logged_in?
     # needed for the sidebar nav, also in controllers that inherit from us:
     init_for_view
-    skip_policy_scope
   end
 
   private
@@ -91,7 +93,9 @@ class MyController < ApplicationController
                   end
 
     @get = Presenters::Users::UserDashboard.new(
-      current_user, list_conf: { order: 'created_at DESC' }.merge(list_config))
+      current_user,
+      user_scopes_for_dashboard(current_user),
+      list_conf: { order: 'created_at DESC' }.merge(list_config))
 
     # NOTE: uses as separate presenter, for counting regardless of
     # any possible user-given (filter, …)-config!
@@ -99,20 +103,37 @@ class MyController < ApplicationController
     @sections = order_sections_according_to_counts(
       SECTIONS,
       Presenters::Users::UserDashboard.new(
-        current_user, list_conf: { page: 1, per_page: 1 }))
+        current_user,
+        user_scopes_for_dashboard(current_user),
+        list_conf: { page: 1, per_page: 1 }))
   end
 
   def order_sections_according_to_counts(sections, presenter)
-    # put empty sections last, and set 'is_empty' key true
-    sections = SECTIONS.map do |id, section|
-      [id, prepare_section_with_count(id, sections, presenter)]
-    end.group_by { |sec| (sec[1][:presenter].try(:empty?) ? true : false) }
+    sections = \
+      put_empty_sections_last_and_set_is_empty_key_true(SECTIONS, presenter)
+
     sections = (sections[false].presence || [])
-      .concat((sections[true].presence || []).map do |s|
-        [s[0], s[1].merge(is_empty?: true)]
-      end).to_h
+      .concat(
+        (sections[true].presence || [])
+          .map { |s| [s[0], s[1].merge(is_empty?: true)] })
+      .to_h
+
+    remove_the_presenter_so_it_is_not_accidently_used_in_view(sections)
+  end
+
+  def put_empty_sections_last_and_set_is_empty_key_true(sections, presenter)
+    # put empty sections last, and set 'is_empty' key true
+    sections.map do |id, section|
+      [id, prepare_section_with_count(id, sections, presenter)]
+    end
+      .group_by { |sec| (sec[1][:presenter].try(:empty?) ? true : false) }
+  end
+
+  def remove_the_presenter_so_it_is_not_accidently_used_in_view(sections)
     # remove the presenter so it is not accidently used in view (with wrong config)
-    sections.map { |id, section| [id, section.except(:presenter)] }.to_h
+    sections
+      .map { |id, section| [id, section.except(:presenter)] }
+      .to_h
   end
 
   def prepare_section_with_count(id, sections, presenter)
@@ -125,5 +146,4 @@ class MyController < ApplicationController
       end
     section
   end
-
 end

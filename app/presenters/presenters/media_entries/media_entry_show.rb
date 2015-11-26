@@ -5,9 +5,15 @@ module Presenters
       include Presenters::MediaEntries::Modules::MediaEntryCommon
       include Presenters::MediaEntries::Modules::MediaEntryMetaData
 
+      def initialize(app_resource, user, user_scopes, list_conf: nil)
+        super(app_resource, user)
+        @user_scopes = user_scopes
+        @list_conf = list_conf
+      end
+
       def relations
         Presenters::Shared::MediaResource::MediaResourceRelations.new \
-          @app_resource, @user, list_conf: @list_conf
+          @app_resource, @user, @user_scopes, list_conf: @list_conf
       end
 
       # TODO: move meta_data to MediaResourceShow ?

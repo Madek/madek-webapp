@@ -13,8 +13,10 @@ class My::DashboardController < MyController
       raise ActionController::RoutingError.new(404), 'No such dashboard section!'
     end
 
-    get = Presenters::Users::UserDashboard.new(current_user,
-                                               list_conf: resource_list_params)
+    get = Presenters::Users::UserDashboard.new(
+      current_user,
+      user_scopes_for_dashboard(current_user),
+      list_conf: resource_list_params)
 
     render 'dashboard_section',
            locals: {

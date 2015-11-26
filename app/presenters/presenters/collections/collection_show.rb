@@ -3,12 +3,19 @@ module Presenters
     class CollectionShow < Presenters::Shared::MediaResource::MediaResourceShow
       include Presenters::Collections::Modules::CollectionCommon
 
-      def initialize(app_resource, user, list_conf: nil)
+      def initialize(app_resource,
+                     user,
+                     user_scopes,
+                     list_conf: nil)
         super(app_resource, user)
+        @user_scopes = user_scopes
         @list_conf = list_conf
         @relations = \
           Presenters::Collections::CollectionRelations.new(
-            @app_resource, @user, list_conf: @list_conf)
+            @app_resource,
+            @user,
+            @user_scopes,
+            list_conf: @list_conf)
       end
 
       def preview_thumb_url
@@ -19,7 +26,7 @@ module Presenters
 
       def highlighted_media_resources
         Presenters::Collections::ChildMediaResources.new \
-          @app_resource.highlighted_media_resources,
+          @user_scopes[:highlighted_media_entries],
           @user,
           list_conf: @list_conf
       end

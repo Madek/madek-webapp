@@ -4,13 +4,16 @@ module Modules
       extend ActiveSupport::Concern
 
       def meta_data_update
-        authorize (media_entry = MediaEntry.unscoped.find(params[:id]))
-        errors = update_all_meta_data_transaction!(media_entry, meta_data_params)
+        authorize (@media_entry = MediaEntry.unscoped.find(params[:id]))
+        errors = update_all_meta_data_transaction!(@media_entry, meta_data_params)
 
         if errors.empty?
-          @get = Presenters::MediaEntries::MediaEntryShow.new \
-            media_entry.reload, current_user
-          respond_with @get, location: -> { media_entry_path(media_entry) }
+          @get = Presenters::MediaEntries::MediaEntryShow.new(
+            @media_entry.reload,
+            current_user,
+            user_scopes_for_media_resource(@media_entry),
+            list_conf: resource_list_params)
+          respond_with @get, location: -> { media_entry_path(@media_entry) }
         else
           render json: { errors: errors }, status: :bad_request
         end

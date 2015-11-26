@@ -84,6 +84,10 @@ describe My::DashboardController do
       .each { |c| c.favor_by @user }
     @user.filter_sets.sample(@limit_for_app_resources + 1)
       .each { |fs| fs.favor_by @user }
+
+    # make a keyword and use it in a meta_datum
+    @a_keyword = FactoryGirl.create :keyword, creator: @user
+    create(:meta_datum_keyword, created_by: @user, keyword: @a_keyword)
   end
 
   before :example do
@@ -152,16 +156,7 @@ describe My::DashboardController do
 
     it 'Meine Schlagworte' do
       # TODO: move to model and/or integration test
-
-      # make a keyword and use it in a meta_datum
-      a_keyword = FactoryGirl.create :keyword, creator: @user
-      create(:meta_datum_keyword, created_by: @user, keyword: a_keyword)
-
-      # load a new presenter
-      @get = Presenters::Users::UserDashboard.new(@user, list_conf: {})
-
-      # now it should be a 'used' keyword of myself:
-      expect(@get.used_keywords.map(&:uuid)).to include(a_keyword.id)
+      expect(@get.used_keywords.map(&:uuid)).to include(@a_keyword.id)
     end
 
     it 'Mir anvertraute Inhalte' do

@@ -3,7 +3,7 @@ module Shared
     class MediaResourcePolicy < DefaultPolicy
       class Scope < Scope
         def resolve
-          scope.viewable_by_user_or_public
+          scope.viewable_by_user_or_public(user)
         end
       end
 

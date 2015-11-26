@@ -2,6 +2,7 @@ class MediaEntriesController < ApplicationController
   include Concerns::MediaResources::CrudActions
   include Concerns::MediaResources::PermissionsActions
   include Concerns::ResourceListParams
+  include Concerns::UserScopes::MediaResources
   include Modules::FileStorage
   include Modules::MediaEntries::MetaDataUpdate
   include Modules::MediaEntries::PermissionsUpdate
@@ -18,7 +19,14 @@ class MediaEntriesController < ApplicationController
   def show
     # TODO: handle in MediaResources::CrudActions
     @tabs = SHOW_TABS
-    represent(find_resource, Presenters::MediaEntries::MediaEntryShow)
+    media_entry = get_authorized_resource
+    @get = \
+      Presenters::MediaEntries::MediaEntryShow.new \
+        media_entry,
+        current_user,
+        user_scopes_for_media_resource(media_entry),
+        list_conf: resource_list_params
+    respond_with @get
   end
 
   # tabs that work like 'show':
@@ -90,7 +98,7 @@ class MediaEntriesController < ApplicationController
     begin
       ActiveRecord::Base.transaction do
         # TODO: remove this when cascade delete works:
-        media_entry.meta_data.each &:destroy!
+        media_entry.meta_data.each(&:destroy!)
         media_entry.destroy!
       end
     rescue Exception => e

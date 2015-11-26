@@ -9,8 +9,10 @@ module Presenters
       end
 
       def child_media_resources
-        Presenters::Collections::ChildMediaResources
-          .new(@app_resource.child_media_resources, @user, list_conf: @list_conf)
+        Presenters::Collections::ChildMediaResources.new(
+          @user_scopes[:child_media_resources],
+          @user,
+          list_conf: @list_conf)
       end
     end
   end

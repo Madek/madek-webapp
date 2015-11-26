@@ -9,35 +9,57 @@ require Rails.root.join 'spec',
 describe Presenters::MediaEntries::MediaEntryShow do
   include_context 'relations'
 
+  def user_scopes_for_media_entry(media_entry)
+    { parent_collections: \
+        media_entry.parent_collections.viewable_by_user_or_public(@user),
+      sibling_collections: \
+        media_entry.sibling_collections.viewable_by_user_or_public(@user) }
+  end
+
   context 'dumps' do
     it_can_be 'dumped' do
       let(:presenter) do
         described_class.new(
-          @media_entry_1, @user, list_conf: {}).relations
+          @media_entry_1,
+          @user,
+          user_scopes_for_media_entry(@media_entry_1),
+          list_conf: {}).relations
       end
     end
     it_can_be 'dumped' do
       let(:presenter) do
         described_class.new(
-          @media_entry_2, @user, list_conf: {}).relations
+          @media_entry_2,
+          @user,
+          user_scopes_for_media_entry(@media_entry_2),
+          list_conf: {}).relations
       end
     end
     it_can_be 'dumped' do
       let(:presenter) do
         described_class.new(
-          @media_entry_3, @user, list_conf: {}).relations
+          @media_entry_3,
+          @user,
+          user_scopes_for_media_entry(@media_entry_3),
+          list_conf: {}).relations
       end
     end
     it_can_be 'dumped' do
       let(:presenter) do
         described_class.new(
-          @media_entry_4, @user, list_conf: {}).relations
+          @media_entry_4,
+          @user,
+          user_scopes_for_media_entry(@media_entry_4),
+          list_conf: {}).relations
       end
     end
     it_can_be 'dumped' do
       let(:presenter) do
         described_class.new(
-          @media_entry_5, @user, list_conf: {}).relations
+          @media_entry_5,
+          @user,
+          user_scopes_for_media_entry(@media_entry_5),
+          list_conf: {}).relations
       end
     end
   end
@@ -57,9 +79,10 @@ describe Presenters::MediaEntries::MediaEntryShow do
     end
 
     it 'context media_entry_1' do
-      # binding.pry
-
-      @p = described_class.new(@media_entry_1, @user, list_conf: {}).relations
+      @p = described_class.new(@media_entry_1,
+                               @user,
+                               user_scopes_for_media_entry(@media_entry_1),
+                               list_conf: {}).relations
 
       ########### PARENTS #######################################
       expect(@p.parent_media_resources.resources.count)
@@ -82,7 +105,10 @@ describe Presenters::MediaEntries::MediaEntryShow do
     end
 
     it 'context media_entry_3' do
-      @p = described_class.new(@media_entry_3, @user, list_conf: {}).relations
+      @p = described_class.new(@media_entry_3,
+                               @user,
+                               user_scopes_for_media_entry(@media_entry_3),
+                               list_conf: {}).relations
 
       ########### PARENTS #######################################
       expect(@p.parent_media_resources.resources.count)
@@ -96,7 +122,10 @@ describe Presenters::MediaEntries::MediaEntryShow do
     end
 
     it 'context media_entry_4' do
-      @p = described_class.new(@media_entry_4, @user, list_conf: {}).relations
+      @p = described_class.new(@media_entry_4,
+                               @user,
+                               user_scopes_for_media_entry(@media_entry_4),
+                               list_conf: {}).relations
 
       ########### PARENTS #######################################
       expect(@p.parent_media_resources.resources.count)
@@ -110,7 +139,10 @@ describe Presenters::MediaEntries::MediaEntryShow do
     end
 
     it 'context media_entry_5' do
-      @p = described_class.new(@media_entry_5, @user, list_conf: {}).relations
+      @p = described_class.new(@media_entry_5,
+                               @user,
+                               user_scopes_for_media_entry(@media_entry_5),
+                               list_conf: {}).relations
 
       ########### PARENTS #######################################
       expect(@p.parent_media_resources.resources)
