@@ -14,13 +14,14 @@ module Presenters
         @app_resource.class.name or super
       end
 
+      def self.delegate_to_app_resource(*args)
+        delegate_to :@app_resource, *args
+      end
+
       def policy(user)
         Pundit.policy!(user, @app_resource)
       end
 
-      def self.delegate_to_app_resource(*args)
-        delegate_to :@app_resource, *args
-      end
     end
   end
 end

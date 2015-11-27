@@ -22,7 +22,7 @@ describe KeywordsController do
       result = JSON.parse(response.body)
 
       expect(result.size).to be == 1
-      expect(result.first['term']).to match /#{keyword.term}/
+      expect(result.first['label']).to match /#{keyword.term}/
     end
 
     it 'limiting with params[:limit]' do

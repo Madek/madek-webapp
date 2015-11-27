@@ -1,4 +1,3 @@
-
 module UiHelper
   # UI Element helpers
   #

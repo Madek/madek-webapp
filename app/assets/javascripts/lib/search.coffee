@@ -7,7 +7,7 @@ resourcesConfig = # JSON API Endpoints:
   Groups: { url: '/my/groups' }
   ApiClients: { url: '/api_clients', key: 'login' }
   People: { url: '/people' }
-  Keywords: { url: '/keywords', key: 'term', params: ['meta_key_id'] }
+  Keywords: { url: '/keywords', key: 'label', params: ['meta_key_id'] }
 
 module.exports = (resourceType, parameters = null)->
   unless (baseConfig = resourcesConfig[resourceType])?

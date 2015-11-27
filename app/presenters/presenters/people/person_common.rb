@@ -4,6 +4,11 @@ module Presenters
       def name
         @app_resource.to_s
       end
+
+      def label
+        name
+      end
+
     end
   end
 end

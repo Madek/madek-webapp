@@ -8,17 +8,16 @@ module Presenters
 
         DEFAULT_CONFIG = { page: 1, per_page: 12, order: 'created_at DESC' }
 
-        # NOTE: for pagination conf, see </config/initializers/kaminari_config.rb>
-        def initialize(resources, user, list_conf: nil)
+        def initialize(scope, user, list_conf: nil)
           fail 'missing config!' unless list_conf
           @user = user
-
+          @scope = scope
           @config = DEFAULT_CONFIG.merge(list_conf) # combine with given config…
             .instance_eval do |conf| # coerce types…
               conf.merge(page: conf[:page].to_i, per_page: conf[:per_page].to_i)
             end
 
-          init_resources_and_pagination(resources, @config)
+          init_resources_and_pagination(@scope, @config)
         end
 
         # TODO: implement count up to 1000

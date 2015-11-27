@@ -12,6 +12,10 @@ module Presenters
         @list_conf = list_conf
       end
 
+      def label
+        name
+      end
+
       def url
         prepend_url_context_fucking_rails my_group_path(@app_resource)
       end

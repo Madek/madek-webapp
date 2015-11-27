@@ -7,6 +7,10 @@ module Presenters
         @app_resource.person.to_s
       end
 
+      def label
+        name
+      end
+
     end
   end
 end
