@@ -9,18 +9,6 @@ resourcesConfig = # JSON API Endpoints:
   People: { url: '/people' }
   Keywords: { url: '/keywords', key: 'term', params: ['meta_key_id'] }
 
-# TODO: memoize?
-BloodhoundFactory = (config, parameters = null)->
-  new Bloodhound
-    datumTokenizer: Bloodhound.tokenizers.whitespace
-    queryTokenizer: Bloodhound.tokenizers.whitespace
-    remote:
-      wildcard: '__QUERY__'
-      url: url.format
-        pathname: config.url
-        query: f.assign({search_term: '__QUERY__'}, parameters)
-
-
 module.exports = (resourceType, parameters = null)->
   unless (baseConfig = resourcesConfig[resourceType])?
     throw new Error "Search: Unknown resourceType: #{resourceType}!"
@@ -34,3 +22,19 @@ module.exports = (resourceType, parameters = null)->
     displayKey: baseConfig.displayKey or baseConfig.key or 'name',
     source: BloodhoundFactory(baseConfig, parameters)
   }
+
+# helpers
+
+tokenizer = (string)-> # trims leading and trailing whitespace
+  Bloodhound.tokenizers.whitespace(f.trim(string))
+
+# TODO: memoize?
+BloodhoundFactory = (config, parameters = null)->
+  new Bloodhound
+    datumTokenizer: tokenizer
+    queryTokenizer: tokenizer
+    remote:
+      wildcard: '__QUERY__'
+      url: url.format
+        pathname: config.url
+        query: f.assign({search_term: '__QUERY__'}, parameters)
