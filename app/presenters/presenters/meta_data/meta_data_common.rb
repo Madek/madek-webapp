@@ -1,9 +1,8 @@
 module Presenters
   module MetaData
-
-    # TODO: real config instead of UI_META_CONFIG[:displayed_vocabularies]
-
     class MetaDataCommon < Presenters::Shared::AppResource
+      include Presenters::Shared::Modules::VocabularyConfig
+
       def initialize(app_resource, user)
         @user = user
         super(app_resource)
@@ -12,7 +11,7 @@ module Presenters
       def by_vocabulary
         fetch_relevant_meta_data
           .group_by(&:vocabulary) # for making sure all selected keys are present:
-          .reverse_merge(selected_vocabularies.map { |v| [v, nil] }.to_h)
+          .reverse_merge(selected_vocabularies(@user).map { |v| [v, nil] }.to_h)
           .map(&method(:presenterify_vocabulary_and_meta_data))
           .sort_by(&method(:index_like_selected_vocabs)).to_h
       end
@@ -26,18 +25,11 @@ module Presenters
 
       def relevant_vocabularies
         Vocabulary
-          .where(id: selected_vocabularies)
-          .viewable_by_user_or_public(@user)
-      end
-
-      def selected_vocabularies
-        ([Madek::Constants::Webapp::UI_META_CONFIG[:summary_vocabulary]] +
-          Madek::Constants::Webapp::UI_META_CONFIG[:displayed_vocabularies])
-          .map(&:to_sym).map { |id| Vocabulary.find_by(id: id) }.compact
+          .where(id: selected_vocabularies(@user))
       end
 
       def index_like_selected_vocabs(bundle)
-        selected_vocabularies.map(&:id).map(&:to_sym).index(bundle[0])
+        selected_vocabularies(@user).map(&:id).map(&:to_sym).index(bundle[0])
       end
 
       def presenterify_vocabulary_and_meta_data(bundle)
