@@ -1,5 +1,6 @@
 class Presenter
 
+  include Presenters::Modules::DumpHelpers
   include Rails.application.routes.url_helpers
 
   def api
@@ -13,50 +14,25 @@ class Presenter
       .reject { |m| m == :inspect }
   end
 
-  def dump
-    Hash[api
-      .reject { |m| method(m).arity > 0 } # only dump methods without needed args
-      .map do |api_method|
-        result = \
-          begin
-            send(api_method)
-          rescue => e
-            "ERROR: #{e.message}"
-          end
+  def dump(h_spec = {})
+    h_spec.empty? ? full_dump : Presenter.deep_map(h_spec, self)
+  end
 
-        [api_method, Presenter.dump_recur(result)]
-      end
+  def full_dump
+    Hash[
+      api
+        .reject { |m| method(m).arity > 0 } # only dump methods without args
+        .map do |api_method|
+          result = \
+            begin
+              send(api_method)
+            rescue => e
+              "ERROR: #{e.message}"
+            end
+
+          [api_method, Presenter.dump_recur(result)]
+        end
     ]
-  end
-
-  def self.dump_recur(obj)
-    deal_with_obj_type(obj) \
-      or deal_with_obj_class(obj) \
-      or obj
-  end
-
-  def self.deal_with_obj_type(obj)
-    if obj.is_a?(Presenter)
-      obj.dump
-    elsif obj.is_a?(Array)
-      obj.map { |elt| dump_recur(elt) }
-    elsif (obj.is_a?(Pojo) or obj.is_a?(Hash))
-      obj.to_h
-         .map { |k, v| [k, dump_recur(v)] }
-         .to_h
-    end
-  end
-
-  def self.deal_with_obj_class(obj)
-    if obj.class.name.match(/ActiveRecord/)
-      "!!!ACTIVE_RECORD!!! <##{obj.class}>"
-    elsif obj.class.superclass.name.match(/ActiveRecord/)
-      "!!!ACTIVE_RECORD!!! #{obj}"
-    end
-  end
-
-  def self.delegate_to(inst_var, *args)
-    args.each { |m| delegate m, to: inst_var }
   end
 
   def inspect
