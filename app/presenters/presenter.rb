@@ -26,8 +26,8 @@ class Presenter
           result = \
             begin
               send(api_method)
-            rescue => e
-              "ERROR: #{e.message}"
+            rescue => err
+              { type: :Error, error: err.inspect, location: err.backtrace.first }
             end
 
           [api_method, Presenter.dump_recur(result)]

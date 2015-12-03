@@ -27,7 +27,9 @@ RSpec.shared_examples 'dumped' do
     expect(
       all_values(dump)
         .select { |v| v.is_a? String }
-        .all? { |v| not v.match(/(active.*record|error)/i) }
+        .any? do |v|
+          (v.match(/(active.*record)/i)) || (v.try(:fetch, :type, nil) != :Error)
+        end
     )
       .to be true
   end
