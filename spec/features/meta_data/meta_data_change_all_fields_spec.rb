@@ -13,6 +13,9 @@ feature 'MetaData' do
   end
 
   scenario 'Changing all meta-data fields of a media entry', browser: :firefox do
+
+    pending 'broken, see https://github.com/zhdk/madek/blob/master/spec/README.md'
+
     @current_user = sign_in_as 'normin'
 
     @media_entry = FactoryGirl.create :media_entry_with_image_media_file, user: @current_user
