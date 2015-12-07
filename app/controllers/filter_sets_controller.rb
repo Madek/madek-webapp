@@ -1,5 +1,6 @@
 class FilterSetsController < ApplicationController
   include Concerns::MediaResources::CrudActions
+  include Concerns::MediaResources::CustomUrlsForController
   include Concerns::MediaResources::PermissionsActions
 
   def create

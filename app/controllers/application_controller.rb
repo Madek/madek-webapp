@@ -60,4 +60,8 @@ class ApplicationController < ActionController::Base
       raise Errors::UnauthorizedError, 'Please log in!'
     end
   end
+
+  def id_param
+    params.require(:id)
+  end
 end

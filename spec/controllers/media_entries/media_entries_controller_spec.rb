@@ -4,6 +4,11 @@ require Rails.root.join 'spec',
                         'shared',
                         'media_resources',
                         'authorization.rb'
+require Rails.root.join 'spec',
+                        'controllers',
+                        'shared',
+                        'media_resources',
+                        'custom_url_redirects.rb'
 
 describe MediaEntriesController do
 
@@ -55,4 +60,6 @@ describe MediaEntriesController do
     expect(response).to redirect_to my_dashboard_path
 
   end
+
+  it_handles_properly 'redirection'
 end

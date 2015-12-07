@@ -1,6 +1,7 @@
 class CollectionsController < ApplicationController
   include Concerns::MediaResources::PermissionsActions
   include Concerns::MediaResources::CrudActions
+  include Concerns::MediaResources::CustomUrlsForController
   include Concerns::UserScopes::MediaResources
   include Concerns::CollectionHighlights
   include Modules::Collections::PermissionsUpdate
@@ -20,7 +21,7 @@ class CollectionsController < ApplicationController
   end
 
   def update_cover
-    collection = Collection.find(params[:id])
+    collection = Collection.find(id_param)
     authorize collection
     collection.cover = MediaEntry.find(params[:cover])
     redirect_to collection_path(collection)

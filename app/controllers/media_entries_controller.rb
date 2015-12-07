@@ -1,5 +1,6 @@
 class MediaEntriesController < ApplicationController
   include Concerns::MediaResources::CrudActions
+  include Concerns::MediaResources::CustomUrlsForController
   include Concerns::MediaResources::PermissionsActions
   include Concerns::ResourceListParams
   include Concerns::UserScopes::MediaResources
@@ -36,7 +37,7 @@ class MediaEntriesController < ApplicationController
   alias_method :permissions_edit, :show
 
   def preview
-    media_entry = MediaEntry.unscoped.find(params[:id])
+    media_entry = MediaEntry.unscoped.find(id_param)
     size = params[:size] || 'small'
 
     begin
@@ -46,7 +47,7 @@ class MediaEntriesController < ApplicationController
                 type: preview.content_type,
                 disposition: 'inline'
     rescue
-      Rails.logger.warn "Preview not found! Entry##{params[:id]}"
+      Rails.logger.warn "Preview not found! Entry##{id_param}"
       render nothing: true, status: 404
     end
   end
@@ -81,7 +82,7 @@ class MediaEntriesController < ApplicationController
   end
 
   def publish
-    media_entry = MediaEntry.unscoped.where(is_published: false).find(params[:id])
+    media_entry = MediaEntry.unscoped.where(is_published: false).find(id_param)
     authorize media_entry
     ActiveRecord::Base.transaction do
       # TODO: validation etc
@@ -93,7 +94,7 @@ class MediaEntriesController < ApplicationController
   end
 
   def destroy
-    media_entry = MediaEntry.unscoped.find(params[:id])
+    media_entry = MediaEntry.unscoped.find(id_param)
     authorize media_entry
     begin
       ActiveRecord::Base.transaction do
@@ -113,7 +114,7 @@ class MediaEntriesController < ApplicationController
   private
 
   def find_resource
-    get_authorized_resource(MediaEntry.unscoped.find(params[:id]))
+    get_authorized_resource(MediaEntry.unscoped.find(id_param))
   end
 
   def add_to_collection(media_entry, collection_id)
