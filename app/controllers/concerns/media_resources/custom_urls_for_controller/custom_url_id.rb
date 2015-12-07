@@ -43,16 +43,26 @@ module Concerns
           end
         end
 
+        def after_query_params
+          @after_query_params ||= request.fullpath.split('?').second
+        end
+
         def media_resource_id
-          @media_resource_id ||= request.fullpath.split('/').third
+          before_query_params = request.fullpath.split('?').first
+          @media_resource_id ||= before_query_params.split('/').third
           not EXCLUDE_IDS.include?(@media_resource_id) \
             and @media_resource_id
         end
 
         def fullpath_with_media_resource_id(id)
-          fp_parts = request.fullpath.split('/')
-          fp_parts[2] = id
-          fp_parts.join('/')
+          fp_parts_before_query_params = request.fullpath.split('/')
+          fp_parts_before_query_params[2] = id
+          fp_parts_before_query_params = fp_parts_before_query_params.join('/')
+          if @after_query_params
+            fp_parts_before_query_params + '?' + @after_query_params
+          else
+            fp_parts_before_query_params
+          end
         end
 
         def check_and_redirect_with_custom_url
