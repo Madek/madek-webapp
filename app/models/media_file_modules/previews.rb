@@ -13,7 +13,17 @@ module MediaFileModules
       if type
         _previews = _previews.where(:content_type => type)
       end
-      _previews.first
+
+      # If thumbnail for video is requested and there is more than one available:
+      if (_previews.length > 1 \
+        && _previews.first.media_file.media_type == 'video' \
+        && type == 'image/jpeg')
+        # take one from around 30% of the list
+        position = (_previews.length.to_f/10*3).to_i
+        _previews[position]
+      else # otherwise return first preview:
+        _previews.first
+      end
     end
 
     def previews_creatable? 
