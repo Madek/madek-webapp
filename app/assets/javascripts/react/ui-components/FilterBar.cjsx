@@ -20,14 +20,12 @@ module.exports = React.createClass
   render: ({filter, toggles, select} = @props)->
     classes = "ui-filterbar separated ui-container #{parseMods(@props)}"
 
+    filterReset = filter.reset
+
     filterToggle = if filter.toggle
       <Button {...filter.toggle}>
         <Icon i='filter' mods='small'/> {filter.toggle.name}
       </Button>
-
-    filterReset = if filter.reset
-      <Link mods='mlx weak' {...filter.reset}>
-        <Icon i='undo'/> {filter.reset.name}</Link>
 
     toggleButtons = if toggles
       <ButtonGroup>

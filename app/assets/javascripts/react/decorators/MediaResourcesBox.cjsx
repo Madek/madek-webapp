@@ -1,20 +1,20 @@
 React = require('react')
 f = require('active-lodash')
-classList = require('classnames')
+classList = require('classnames/dedupe')
 qs = require('qs')
 ampersandReactMixin = require('ampersand-react-mixin')
 setUrlParams = require('../../lib/set-params-for-url.coffee')
 resourceListParams = require('../../shared/resource_list_params.coffee')
 RailsForm = require('../lib/forms/rails-form.cjsx')
-{ Button, ButtonGroup, Icon, Link, ActionsBar, FilterBar
-} = require('../ui-components/index.coffee')
 ResourceThumbnail = require('./ResourceThumbnail.cjsx')
+{ Button, ButtonGroup, Icon, Link, ActionsBar, FilterBar, SideFilter
+} = require('../ui-components/index.coffee')
 router = null # client-side only
 
 xhr = require('xhr')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 
-# TOOD: i18n
+# TODO: i18n
 
 # only handle *local* link events (not opening in new tab, etc):
 handleLinkIfLocal = (event, callback)->
@@ -49,6 +49,8 @@ viewConfigProps = React.PropTypes.shape
   filter: filterConfigProps
   layout: React.PropTypes.oneOf(['tiles', 'miniature', 'grid', 'list'])
   show_filter: React.PropTypes.bool
+  dynamic_filters: React.PropTypes.shape
+    meta_data: React.PropTypes.array.isRequired # arrayOf VocabularyAsFilter
   pagination: React.PropTypes.shape
     prev: React.PropTypes.shape(page: React.PropTypes.number.isRequired)
     next: React.PropTypes.shape(page: React.PropTypes.number.isRequired)
@@ -71,7 +73,7 @@ module.exports = React.createClass
   componentDidMount: ()->
     router = require('../../lib/router.coffee')
 
-    @setState(active: true, selected: [])
+    @setState(active: yes, showDynFilters: yes)
 
     # listen to history and set state from params:
     router.listen (location)=>
@@ -87,9 +89,18 @@ module.exports = React.createClass
 
   # - for state changes that update the resources (like filter):
   handleRequestInternally: (event)->
-    handleLinkIfLocal event, (link)->
+    handleLinkIfLocal(event, alert)
 
   # - custom actions:
+  handleDynamicFilterToggle: (bool, event)->
+    event.preventDefault()
+    @setState(showDynFilters: bool)
+
+  handleAccordion: (config, event)->
+    console.log 'handleAccordion', config, f.get(event, ['target', 'value'])
+    event.preventDefault()
+    @setState(dynamicFilters: config)
+
   createFilterSetFromConfig: (config, event)->
     event.preventDefault()
     if f.present(name = window.prompt('Name?'))
@@ -111,15 +122,20 @@ module.exports = React.createClass
       {config: initial},        # - per-view initial default config
       config:                   # - default config
         layout: 'grid'
-        show_filter: true
+        dyn_filter: {}
 
-    relevantQuery = f.merge \
+    currentQuery = f.merge(
       {list: f.merge f.omit(get.config, 'for_url')},
-      {list: filter: JSON.stringify(get.config.filter)}
+      {
+        list: filter: JSON.stringify(get.config.filter),
+        dyn_filter: JSON.stringify(get.config.dyn_filter)
+      })
 
-    boxClasses = classList 'ui-container', mods,
+    boxClasses = classList({ # defaults first, mods last so they can override
+      'ui-container': yes
       'midtone': interactive
       'bordered': interactive
+    }, mods)
 
     listHolderClasses = classList 'ui-resources-holder',
       pam: interactive
@@ -128,9 +144,18 @@ module.exports = React.createClass
       active: interactive
       vertical: get.config.layout is 'tiles'
 
+    resetFilterHref =
+      setUrlParams(get.config.for_url, currentQuery, list:
+        page: 1, filter: {}, dyn_filter: {})
+
+    resetFilterLink = if resetFilterHref
+      if f.present(get.config.filter) or f.present(get.config.dyn_filter)
+        <Link mods='mlx weak' href={resetFilterHref}>
+          <Icon i='undo'/> {'Filter zurücksetzen'}</Link>
+
     BoxToolBar = if interactive then do ({for_url, layout} = get.config)=>
       layouts = LAYOUT_MODES.map (itm)=>
-        href = setUrlParams(for_url, relevantQuery, list: layout: itm.mode)
+        href = setUrlParams(for_url, currentQuery, list: layout: itm.mode)
         f.merge itm,
           mods: active: layout is itm.mode
           href: href
@@ -142,21 +167,18 @@ module.exports = React.createClass
 
       <UiToolBar actions={actions} layouts={layouts}/>
 
-    BoxFilterBar = if interactive then do ({config} = get)=>
-      filterToggleLink = setUrlParams(config.for_url, relevantQuery,
+    BoxFilterBar = if interactive then do ({config} = get)->
+      filterToggleLink = setUrlParams(config.for_url, currentQuery,
         list: show_filter: (not config.show_filter))
-      resetFilterLink = setUrlParams(
-        config.for_url, relevantQuery, list: filter: '{}')
       props =
         filter:
           toggle:
             name: 'Filtern'
             mods: 'active' if config.show_filter
             href: filterToggleLink
-            onClick: @handleChangeInternally
-          reset: if f.present(config.filter)
-            name: 'Filter zurücksetzen'
-            href: resetFilterLink
+            # onClick: @handleChangeInternally
+          reset: resetFilterLink if not config.show_filter
+
         # toggles: [
         #   {name: 'Medieneinträge'},
         #   {name: 'Sets'} ]
@@ -167,22 +189,50 @@ module.exports = React.createClass
         #   onClick: @handleSelectionToggle
       <FilterBar {...props}/>
 
-    Sidebar = if interactive and get.config.show_filter then do ({config} = get)->
-      <div className='filter-panel ui-side-filter'>
-        <UiSideFilter {...config}/>
-        <TmpFilterExamples examples={_tmp_filter_examples}
-          url={config.for_url} query={relevantQuery}/>
-      </div>
+    Sidebar = if interactive and get.config.show_filter
+      do ({config, dynamic_filters} = get, {active, showDynFilters} = @state)=>
+
+        dynToggleBtn = if active
+          <Button
+            title={if showDynFilters then 'off' else 'on'}
+            mods={'active' if showDynFilters}
+            onClick={f.curry(@handleDynamicFilterToggle)(!showDynFilters)}>
+            <Icon i='eye'/></Button>
+        else
+          <Button><Icon i='eye'/></Button> # TODO: params:
+
+        <div className='filter-panel ui-side-filter'>
+          <ButtonGroup  mod='tertiary' mods='small by-right mbs ui-side-filter-toolbar'>
+            {dynToggleBtn}
+            <Button title='Open all' href={null}><Icon i='arrow-up'/></Button>
+            <Button title='Reset All Filters'
+              href={resetFilterHref if resetFilterLink}>
+              <Icon i='undo'/></Button>
+          </ButtonGroup>
+
+          {if not showDynFilters
+            <div>
+              <SideFilterFallback {...config}/>
+              <FilterExamples examples={filter_examples}
+                url={config.for_url} query={currentQuery}/>
+            </div>
+          else
+            <SideFilter dynamic={dynamic_filters} current={config.filter}
+              accordion={config.dyn_filter or {}} onChange={@handleAccordion}
+              resetHref={resetFilterHref}
+              url={config.for_url} query={currentQuery}/>
+          }
+        </div>
 
     paginationNav = if interactive then do ({config, pagination} = get)=>
       navLinks =
         current:
-          href: setUrlParams(get.config.for_url, relevantQuery)
+          href: setUrlParams(get.config.for_url, currentQuery)
           onClick: @handleChangeInternally
         prev: if pagination.prev
-          href: setUrlParams(config.for_url, relevantQuery, list: pagination.prev)
+          href: setUrlParams(config.for_url, currentQuery, list: pagination.prev)
         next: if pagination.next
-          href: setUrlParams(config.for_url, relevantQuery, list: pagination.next)
+          href: setUrlParams(config.for_url, currentQuery, list: pagination.next)
       <ActionsBar>
         <UiPaginationNav {...navLinks}/>
       </ActionsBar>
@@ -199,7 +249,12 @@ module.exports = React.createClass
           {# main list:}
           <div className='ui-container table-cell table-substance'>
             {if not f.present(get.resources)
-              <FallBackMsg>{'Keine Inhalte verfügbar'}</FallBackMsg>
+              <FallBackMsg>
+                {'Keine Inhalte verfügbar'}
+                {if resetFilterLink
+                  <br/>}
+                {resetFilterLink}
+              </FallBackMsg>
             else
               <ul className={listClasses}>
                 {get.resources.map (item)->
@@ -217,7 +272,7 @@ module.exports = React.createClass
 
 # Partials and UI-Components only used here:
 
-UiSideFilter = ({filter} = @props)->
+SideFilterFallback = ({filter} = @props)->
   <div className='ui-side-filter-search filter-search'>
     <RailsForm name='list' method='get' mods='prm'>
       <textarea name='list[filter]' rows='25'
@@ -265,9 +320,9 @@ FallBackMsg = ({children} = @props)->
   </div>
 
 
-TmpFilterExamples = ({url, query, examples} = @props)->
+FilterExamples = ({url, query, examples} = @props)->
   <div>
-    <h4>[TMP] examples:</h4>
+    <h4>Examples:</h4>
     <ul>
       {f.map examples, (example, name)->
         params = {list: {page: 1, filter: JSON.stringify(example, 0, 2)}}
@@ -278,8 +333,8 @@ TmpFilterExamples = ({url, query, examples} = @props)->
     </ul>
   </div>
 
-# TMP
-_tmp_filter_examples = {
+
+filter_examples = {
   "Search: 'still'": {
     "search": "still"
   },
