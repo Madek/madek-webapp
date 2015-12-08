@@ -1,22 +1,22 @@
-.ui-container.mam.pam
+.ui-container
   = combo('resources-header',
       title: t(:sitemap_media_entries),
       link: { text: t(:resources_header_show_all),
               href: media_entries_path})
-  = react('Deco.MediaResourcesBox', get: @get.media_entries, interactive: true)
+  = react('Deco.MediaResourcesBox', get: @get.media_entries, interactive: false)
 
-  %hr.separator.mhm
+  %hr.separator.mini.mbl
 
   = combo('resources-header',
       title: t(:sitemap_collections),
       link: { text: t(:resources_header_show_all),
               href: collections_path})
-  = react('Deco.MediaResourcesBox', get: @get.collections, interactive: true)
+  = react('Deco.MediaResourcesBox', get: @get.collections, interactive: false)
 
-  %hr.separator.mhm
+  %hr.separator.mini.mbl
 
   = combo('resources-header',
       title: t(:sitemap_filter_sets),
       link: { text: t(:resources_header_show_all),
               href: filter_sets_path})
-  = react('Deco.MediaResourcesBox', get: @get.filter_sets, interactive: true)
+  = react('Deco.MediaResourcesBox', get: @get.filter_sets, interactive: false)

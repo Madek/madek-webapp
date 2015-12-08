@@ -5,8 +5,10 @@
     = t(:no_relations_title)
   - else
     %h4.title-m.mbm= t(:relations_parents_title)
-    = deco('polybox', media_resources: @get.relations.parent_media_resources)
+    = react('Deco.MediaResourcesBox',
+      get: @get.relations.parent_media_resources, interactive: false)
     %h4.title-m.mbm= t(:relations_siblings_title)
-    = deco('polybox', media_resources: @get.relations.sibling_media_resources)
+    = react('Deco.MediaResourcesBox',
+      get: @get.relations.sibling_media_resources, interactive: false)
 
 = render template: 'media_entries/_show/_base'

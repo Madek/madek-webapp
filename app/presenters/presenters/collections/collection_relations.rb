@@ -3,11 +3,6 @@ module Presenters
     class CollectionRelations < \
       Presenters::Shared::MediaResource::MediaResourceRelations
 
-      def any?
-        super or
-          self.child_media_resources.resources.any?
-      end
-
       def child_media_resources
         Presenters::Collections::ChildMediaResources.new(
           @user_scopes[:child_media_resources],

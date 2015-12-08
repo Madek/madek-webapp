@@ -1,10 +1,13 @@
 :ruby
   mods = []
-  interactive = true if params[:action] != 'dashboard'
+  interactive = (true if params[:action] != 'dashboard')
+  mods << ['rounded-right', { bordered: false }] if (params[:action] != 'dashboard')
   mods << 'unpaginated' if (local_assigns[:show_pagination_nav] == false)
   fallback = section[:is_empty?] ? true : false
 
-= deco('polybox', mods: mods,
+= react('Deco.MediaResourcesBox',
+    get: @get.send(section[:id]),
+    mods: mods,
     interactive: interactive,
-    media_resources: @get.send(section[:id]),
-    fallback: fallback)
+    fallback: fallback,
+    initial: { show_filter: false })

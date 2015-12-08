@@ -122,7 +122,10 @@ module.exports = React.createClass
       {config: initial},        # - per-view initial default config
       config:                   # - default config
         layout: 'grid'
+        show_filter: true
         dyn_filter: {}
+
+    console.log 'get', get, initial
 
     currentQuery = f.merge(
       {list: f.merge f.omit(get.config, 'for_url')},
@@ -136,6 +139,16 @@ module.exports = React.createClass
       'midtone': interactive
       'bordered': interactive
     }, mods)
+
+    toolbarClasses = switch
+      when f.includes(boxClasses, 'rounded-right')
+        'rounded-top-right'
+      when f.includes(boxClasses, 'rounded-left')
+        'rounded-top-left'
+      when f.includes(boxClasses, 'rounded-bottom')
+        null
+      when f.includes(boxClasses, 'rounded') # also for 'rounded-top'…
+        'rounded-top'
 
     listHolderClasses = classList 'ui-resources-holder',
       pam: interactive
@@ -165,7 +178,7 @@ module.exports = React.createClass
           children: 'Save!'
           onClick: f.curry(@createFilterSetFromConfig)(get.config)
 
-      <UiToolBar actions={actions} layouts={layouts}/>
+      <UiToolBar mods={toolbarClasses} actions={actions} layouts={layouts}/>
 
     BoxFilterBar = if interactive then do ({config} = get)->
       filterToggleLink = setUrlParams(config.for_url, currentQuery,
@@ -282,8 +295,9 @@ SideFilterFallback = ({filter} = @props)->
     </RailsForm>
   </div>
 
-UiToolBar = ({layouts, actions} = @props)->
-  <div className='ui-container inverted ui-toolbar pvx'>
+UiToolBar = ({mods, layouts, actions} = @props)->
+  classes = classList('ui-container inverted ui-toolbar pvx', mods)
+  <div className={classes}>
     {### TODO: type + counts?
       <h2 className='ui-toolbar-header pls'>
         {'X Resources'}

@@ -27,9 +27,24 @@
     -# bottom part of the box:
     .ui-container.rounded-bottom
       -# TODO: props.title = t(:group_toolbar_header_entrusted_resources)
-      = deco('polybox', interactive: true, fallback: true,
-              media_resources: @get.entrusted_media_resources.media_entries)
-      = deco('polybox', interactive: true, fallback: true,
-              media_resources: @get.entrusted_media_resources.collections)
-      = deco('polybox', interactive: true, fallback: true,
-              media_resources: @get.entrusted_media_resources.filter_sets)
+      - if @get.entrusted_media_resources.media_entries.any?
+        = react('Deco.MediaResourcesBox',
+          get: @get.entrusted_media_resources.media_entries,
+          interactive: true,
+          fallback: true,
+          initial: { show_filter: true },
+          mods: { bordered: false })
+      - if @get.entrusted_media_resources.collections.any?
+        = react('Deco.MediaResourcesBox',
+          get: @get.entrusted_media_resources.collections,
+          interactive: true,
+          fallback: true,
+          initial: { show_filter: true },
+          mods: { bordered: false })
+      - if @get.entrusted_media_resources.filter_sets.any?
+        = react('Deco.MediaResourcesBox',
+          get: @get.entrusted_media_resources.filter_sets,
+          interactive: true,
+          fallback: true,
+          initial: { show_filter: true },
+          mods: [{ bordered: false }, 'rounded-bottom'])

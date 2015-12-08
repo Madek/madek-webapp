@@ -20,15 +20,10 @@
     )
 
 - person_show[:more_info] = capture_haml do
-  -# TODO: component
-  #ui-resources-list-container.ui-container.midtone.rounded-bottom
-    .ui-container.inverted.ui-toolbar.pvx
-      .ui-toolbar-header.pls
-        = t(:people_toolbar_header)
-    .ui-resources-holder.pam
-      .ui-container.table.auto
-        .ui-container.table-cell.table-substance
-          = deco('polybox', interactive: true,
-              media_resources: @get.related_media_resources_via_meta_data)
+  -# TODO: t(:people_toolbar_header)
+  -# #ui-resources-list-container.ui-container.midtone.rounded-bottom
+  = react('Deco.MediaResourcesBox',
+    get: @get.related_media_resources_via_meta_data, interactive: true,
+    mods: [{bordered: false}, 'rounded-bottom'])
 
 = deco('resource_show', person_show)

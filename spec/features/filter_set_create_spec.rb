@@ -5,6 +5,9 @@ require 'spec_helper_feature_shared'
 feature 'FilterSet#create' do
 
   it 'can be created from a MediaEntry#index', browser: :firefox do
+
+    pending 'NOT IMPLEMENTED'
+
     @user = User.find_by(login: 'normin')
     the_filter = '{"meta_data":[{"key":"madek_core:title","match":"diplom"}]}'
     the_title = Faker::Lorem.words(3).join(' ')

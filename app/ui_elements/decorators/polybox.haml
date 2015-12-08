@@ -1,8 +1,0 @@
-:ruby
-  props = local_assigns
-  presenter = props.delete(:media_resources)
-  props = {}.merge(
-      local_assigns.except(:media_resources))
-    .merge(get: presenter)
-
-= react('Deco.MediaResourcesBox', props)

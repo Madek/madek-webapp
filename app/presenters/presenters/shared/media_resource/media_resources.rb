@@ -6,8 +6,7 @@ module Presenters
       class MediaResources < Presenter
         attr_reader :resources, :pagination, :config
 
-        DEFAULT_CONFIG = {
-          show_filter: true, page: 1, per_page: 12, order: 'created_at DESC' }
+        DEFAULT_CONFIG = { page: 1, per_page: 12, order: 'created_at DESC' }
 
         def initialize(scope, user, list_conf: nil)
           fail 'missing config!' unless list_conf

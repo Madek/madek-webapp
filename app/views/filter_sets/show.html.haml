@@ -1,5 +1,24 @@
-.ui-container.mam.pam
-  %pre= JSON.pretty_generate @get.saved_filter
-  = deco('polybox', interactive: true, media_resources: @get.media_entries)
-  = deco('polybox', interactive: true, media_resources: @get.collections)
-  = deco('polybox', interactive: true, media_resources: @get.filter_sets)
+:ruby
+  content_for(:header) do
+    component('page-header',
+        icon: component('icon.filter-set'),
+        text: @get.title)
+  end
+
+  content_for(:overview) do
+    type = t(:sitemap_media_entries) # TODO: from model/presenter
+    combo('metadata-box',
+      mods: 'ui-summary-table.ui-set-summary.compact',
+      list: [[t(:resource_meta_data_title), @get.title, 'title-l'],
+             [t(:resource_meta_data_resource_type), type],
+             [t(:resource_meta_data_saved_filter), JSON.pretty_generate(@get.saved_filter)]
+            ])
+
+  end
+
+  content_for(:more_info) do
+    react('Deco.MediaResourcesBox',
+      get: @get.resources, interactive: true, initial: { show_filter: false })
+  end
+
+= render template: 'layouts/app_resource'

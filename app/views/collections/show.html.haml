@@ -37,28 +37,27 @@
     )
 
 - collection_show[:more_info] = capture_haml do
-  .ui-container.midtone.rounded-bottom.pal.well
-    %h3.title-l.separated.mbm
-      = t(:relations_title)
-    - unless @get.relations.any?
-      = t(:no_relations_title)
-    - else
+  - if @get.relations.any?
+    .ui-container.midtone.rounded-bottom.pal.well
+      %h3.title-l.separated.mbm
+        = t(:relations_title)
+
       %h4.title-m.mbm= t(:relations_parents_title)
-      = deco('polybox', media_resources: @get.relations.parent_media_resources)
+      = react('Deco.MediaResourcesBox',
+        get: @get.relations.parent_media_resources)
+
       %h4.title-m.mbm= t(:relations_siblings_title)
-      = deco('polybox', media_resources: @get.relations.sibling_media_resources)
+      = react('Deco.MediaResourcesBox',
+        get: @get.relations.sibling_media_resources)
+
 
     .ui-separator.mbl
 
-  -# TODO: component
-  #ui-resources-list-container.ui-container.midtone.rounded-bottom
-    .ui-container.inverted.ui-toolbar.pvx
-      .ui-toolbar-header.pls
-        = t(:collection_media_resources_title)
-    .ui-resources-holder.pam
-      .ui-container.table.auto
-        .ui-container.table-cell.table-substance
-          = deco('polybox', interactive: true,
-              media_resources: @get.relations.child_media_resources)
+  -# TODO: t(:collection_media_resources_title)
+  = react('Deco.MediaResourcesBox',
+    get: @get.relations.child_media_resources,
+    interactive: true,
+    initial: { show_filter: false },
+    mods: [{bordered: false}, 'rounded-bottom'])
 
 = deco('resource_show', collection_show)

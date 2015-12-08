@@ -133,6 +133,8 @@ en:
   resource_meta_data_responsible: "Responsible"
   resource_meta_data_copyright_notice: "Copyright Notice"
   resource_meta_data_date: "Date"
+  resource_meta_data_saved_filter: "Saved Filter"
+  resource_meta_data_resource_type: "Resource Type"
 
   # # MediaEntry
   media_entry_not_published_warning_msg: "Entry is not published yet!"

@@ -1,2 +1,5 @@
-.ui-container.mam.pam
-  = react('Deco.MediaResourcesBox', get: @get, interactive: true, saveable: true)
+= component('page-header',
+    icon: component('icon.media-entry'),
+    text: 'Einträge')
+
+= react('Deco.MediaResourcesBox', get: @get, interactive: true, saveable: true)

@@ -129,12 +129,14 @@ de:
   dashboard_welcome_msg: "Welcome to Madek!"
 
   # # Resource
-  resource_meta_data_title: "Title"
+  resource_meta_data_title: "Titel"
   resource_meta_data_description: "Description"
   resource_meta_data_keywords: "Keywords"
   resource_meta_data_responsible: "Responsible"
   resource_meta_data_copyright_notice: "Copyright Notice"
   resource_meta_data_date: "Date"
+  resource_meta_data_saved_filter: "Gespeicherter Filter"
+  resource_meta_data_resource_type: "Typ"
   resource_meta_data_fallback_start: "(Keine Metadaten für Vokabular '"
   resource_meta_data_fallback_end: "')"
 
