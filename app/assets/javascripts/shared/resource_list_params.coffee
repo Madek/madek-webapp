@@ -7,7 +7,7 @@ module.exports = resourceListParams = (location)->
   query = qs.parse(location.search.slice(1))
   base = 'list'
   allowed = ['layout', 'filter', 'search', 'show_filter', 'page', 'per_page']
-  coerced_types = { bools: ['show_filter'], jsons: ['filter'] }
+  coerced_types = { bools: ['show_filter'], jsons: ['filter', 'dyn_filter'] }
   f.chain(query)
     .get(base).pick(allowed)
     .map(f.curry(coerceTypes)(coerced_types)).object()

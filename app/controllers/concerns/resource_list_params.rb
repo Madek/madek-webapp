@@ -12,8 +12,9 @@ module Concerns
       def resource_list_params(parameters = params)
         # TODO: only permit supported layout modes…
         base = :list
-        allowed = [:layout, :filter, :search, :show_filter, :page, :per_page]
-        coerced_types = { bools: [:show_filter], jsons: [:filter] }
+        allowed = [
+          :layout, :filter, :search, :show_filter, :dyn_filter, :page, :per_page]
+        coerced_types = { bools: [:show_filter], jsons: [:filter, :dyn_filter] }
         parameters
           .permit(base => allowed).fetch(base, {}).deep_symbolize_keys
           .map { |key, val| _coerce_types(coerced_types, key, val) }.to_h

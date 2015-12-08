@@ -6,7 +6,8 @@ module Presenters
       class MediaResources < Presenter
         attr_reader :resources, :pagination, :config
 
-        DEFAULT_CONFIG = { page: 1, per_page: 12, order: 'created_at DESC' }
+        DEFAULT_CONFIG = {
+          show_filter: true, page: 1, per_page: 12, order: 'created_at DESC' }
 
         def initialize(scope, user, list_conf: nil)
           fail 'missing config!' unless list_conf
@@ -31,6 +32,13 @@ module Presenters
 
         def empty?
           not any?
+        end
+
+        def dynamic_filters
+          # NOTE: scope is pre-filtered, but not paginated!
+          scope = @config[:filter] ? @scope.filter_by(@config[:filter]) : @scope
+          tree = @config[:dyn_filter]
+          Presenters::Shared::DynamicFilters.new(@user, scope, tree)
         end
 
         private
