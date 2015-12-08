@@ -49,7 +49,11 @@ module Concerns
 
         def media_resource_id
           before_query_params = request.fullpath.split('?').first
-          @media_resource_id ||= before_query_params.split('/').third
+          resource_and_format = before_query_params.split('/').third
+          return unless resource_and_format
+          @media_resource_id, @format = \
+            before_query_params.split('/').third.split('.')
+
           not EXCLUDE_IDS.include?(@media_resource_id) \
             and @media_resource_id
         end
@@ -59,7 +63,12 @@ module Concerns
           fp_parts_before_query_params[2] = id
           fp_parts_before_query_params = fp_parts_before_query_params.join('/')
           if @after_query_params
-            fp_parts_before_query_params + '?' + @after_query_params
+            url = if @format
+                    fp_parts_before_query_params + '.' + @format
+                  else
+                    fp_parts_before_query_params
+                  end
+            url + '?' + @after_query_params
           else
             fp_parts_before_query_params
           end
