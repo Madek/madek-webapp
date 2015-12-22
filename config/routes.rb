@@ -63,6 +63,8 @@ Madek::Application.routes.draw do
   get :explore, controller: :explore, action: :index
 
   namespace :my do
+    get 'session-token', to: '/my#session_token'
+
     root to: 'dashboard#dashboard', as: 'dashboard'
     # scope some resources here. order is important, they override 'plain' sections
     resources :groups
