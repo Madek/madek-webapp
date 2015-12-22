@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eux
 
-DIGEST=`git ls-tree HEAD -- app/assets Gemfile.lock package.json | openssl dgst -sha1 | cut -d ' ' -f 2`
+DIGEST=`git ls-tree HEAD -- /config app/assets Gemfile.lock package.json | openssl dgst -sha1 | cut -d ' ' -f 2`
 
 ASSETS_CACHE_DIR="/tmp/assets_${DIGEST}"
 if [ -d "$ASSETS_CACHE_DIR" ]; then
@@ -11,3 +11,18 @@ else
   mv public/assets "${ASSETS_CACHE_DIR}"
 fi
 ln -s "$ASSETS_CACHE_DIR" public/assets
+
+
+#!/usr/bin/env bash
+set -eux
+
+DIGEST=`git ls-tree HEAD -- cider-ci config app/assets Gemfile.lock | openssl dgst -sha1 | cut -d ' ' -f 2`
+
+ASSETS_CACHE_DIR="/tmp/assets_${DIGEST}"
+if [ -d "$ASSETS_CACHE_DIR" ]; then
+  echo "assets cache exists, just copying ..."
+else
+  bundle exec rake assets:precompile
+  mv public/assets "${ASSETS_CACHE_DIR}"
+fi
+cp -r "$ASSETS_CACHE_DIR" public/assets

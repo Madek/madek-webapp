@@ -155,7 +155,7 @@ module Madek
     # Please add any files you need precompiled here, otherwise it breaks production.
     # JS Note: all top-level files are bundles, rest are modules
     config.assets.precompile += %w(
-      javascripts/*.*
+      integration-testbed.js
       *.png
       api_docs.css
       api_docs.js

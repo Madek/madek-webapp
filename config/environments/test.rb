@@ -1,8 +1,6 @@
 Madek::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
-  # With this cache store, all fetch and read operations will result in a miss.
-  config.cache_store = :null_store
 
   config.eager_load = false
 
@@ -15,12 +13,27 @@ Madek::Application.configure do
   # Configure static asset server for tests with Cache-Control for performance
   config.serve_static_files = true
   config.static_cache_control = 'public, max-age=3600'
+  config.action_controller.perform_caching
+
+
+  # Use a different cache store in test
+  config.cache_store = :memory_store
+
+
 
   # force usage of custom errors in tests:
   config.show_execptions = true
   config.consider_all_requests_local = false
 
-  config.action_controller.perform_caching = true
+
+  config.assets.digest = true
+  if ENV['CIDER_CI_TRIAL_ID'].present?
+    config.assets.compile = false
+  else
+    config.assets.compile = true
+  end
+
+
 
   # Disable request forgery protection in test environment
   config.action_controller.allow_forgery_protection    = false
