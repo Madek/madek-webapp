@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eux
 
-DIGEST=`git ls-tree HEAD -- cider-ci/bin/precompile-assets-with-caching.sh* config app/assets Gemfile.lock package.json | openssl dgst -sha1 | cut -d ' ' -f 2`
+DIGEST=`git ls-tree HEAD -- cider-ci/bin/precompile-assets-with-caching.sh config app/assets Gemfile.lock package.json | openssl dgst -sha1 | cut -d ' ' -f 2`
 
 ASSETS_CACHE_DIR="/tmp/assets_${DIGEST}"
 if [ -d "$ASSETS_CACHE_DIR" ]; then
