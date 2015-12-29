@@ -30,6 +30,11 @@ jobs:
         timeout: 600
 
       task-defaults:
+
+        _cider-ci_include:
+          - cider-ci/shared/attachments.yml
+          - cider-ci/shared/environment-variables.yml
+
         eager-trials: 1
         max-auto-trials: 2
 
@@ -39,33 +44,10 @@ jobs:
             min: 5900
             max: 5999
 
-        environment-variables:
-          RBENV_VERSION: 2.2
-          RAILS_ENV: test
-          LANG: "en_US.UTF-8"
-          DISPLAY: ":{{XVNC_PORT}}"
-
         git-options:
           submodules:
             clone: True
             timeout: 60
-
-        trial-attachments:
-          screenshots:
-            glob: tmp/capybara/*.png
-            content-type: image/png
-          logs:
-            glob: 'log/*.log'
-            content-type: text/plain
-          # styleguide_artefacts:
-          #   glob: 'tmp/styleguide-ref.tar.gz'
-          #   content-type: application/x-compressed
-          # styleguide_hashes_new:
-          #   glob: 'tmp/styleguide-shasums.txt'
-          #   content-type: text/plain
-          json_ld_dump:
-            glob: 'tmp/ld_dump.json'
-            content-type: application/json
 
         traits:
           firefox-esr: true
