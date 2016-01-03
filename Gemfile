@@ -89,12 +89,9 @@ gem 'rspec-rails', '~> 3.1', group: [:test, :development]
 gem 'rubocop', '= 0.29.1', require: false
 gem 'ruby-prof', group: [:development], platform: :mri
 gem 'selenium-webdriver', group: [:test]
-gem 'simplecov', '>= 0.10',  require: false, group: ['test']
-#gem 'simplecov-html', require: false, group: ['test'], git: 'https://github.com/eins78/simplecov-html.git', ref: '3fac7b20bbe3967d1f9d55c3166f348d620a2005'
-                      # path: '/Users/ma/CODE/simplecov-html'
 gem 'zencoder-fetcher', group: [:development]
 
-gem 'cider_ci-support', '= 2.0.0.pre.beta.2', group: [:development, :test]
+gem 'cider_ci-support', '~> 3.0.0', group: [:development, :test]
 # gem 'cider_ci-support', path: '/Users/thomas/Programming/CIDER-CI/ruby_support'
 
 # gem 'cider_ci-rspec_support', '>= 1.0.4', '< 2.0.0', group: [:development, :test]
