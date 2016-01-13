@@ -44,11 +44,11 @@ module Concerns
         end
 
         def after_query_params
-          @after_query_params ||= request.fullpath.split('?').second
+          @after_query_params ||= request_fullpath.split('?').second
         end
 
         def media_resource_id
-          before_query_params = request.fullpath.split('?').first
+          before_query_params = request_fullpath.split('?').first
           resource_and_format = before_query_params.split('/').third
           return unless resource_and_format
           @media_resource_id, @format = \
@@ -59,7 +59,7 @@ module Concerns
         end
 
         def fullpath_with_media_resource_id(id)
-          fp_parts_before_query_params = request.fullpath.split('/')
+          fp_parts_before_query_params = request_fullpath.split('/')
           fp_parts_before_query_params[2] = id
           fp_parts_before_query_params = fp_parts_before_query_params.join('/')
           if @after_query_params
@@ -102,6 +102,17 @@ module Concerns
         included do
           before_action :check_and_redirect_with_custom_url
         end
+
+        private
+
+        def request_fullpath
+          if (root = Madek::Application.config.action_controller.relative_url_root)
+            request.fullpath.slice(root)
+          else
+            request.fullpath
+          end
+        end
+
       end
     end
   end
