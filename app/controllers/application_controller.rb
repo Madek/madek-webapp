@@ -1,4 +1,5 @@
 require 'application_responder'
+require 'inshape'
 
 class ApplicationController < ActionController::Base
   include Concerns::ControllerHelpers
@@ -30,6 +31,13 @@ class ApplicationController < ActionController::Base
   def root
     skip_authorization # as we are doing our own auth here
     redirect_to(my_dashboard_path) if authenticated?
+  end
+
+  def status
+    skip_authorization
+    memory_status = InShape::Memory.status
+    render json: { memory: memory_status.content }, \
+           status: memory_status.is_ok ? 200 : 499
   end
 
   def settings

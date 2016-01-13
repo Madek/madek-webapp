@@ -5,6 +5,8 @@ Madek::Application.routes.draw do
 
   root to: 'application#root'
 
+  get :status, controller: :application, action: :status
+
   # NOTE: does not work anymore :-(
   # for now this route must be defined explicitely
   # concern :permissions do

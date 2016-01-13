@@ -259,7 +259,7 @@ describe Admin::GroupsController do
       dep.save(validate: false)
       dep
     end
-    let!(:group)       { create :group }
+    let!(:group) { create :group }
 
     it 'merges two institutional groups' do
       post(

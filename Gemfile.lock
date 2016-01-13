@@ -195,6 +195,8 @@ GEM
       json (~> 1.8)
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
+    inshape (1.0.0)
+      actionview (>= 4.0, < 5.0)
     jdbc-postgres (9.4.1200)
     jruby-openssl (0.9.10-java)
     json (1.8.3)
@@ -428,6 +430,7 @@ DEPENDENCIES
   git
   haml-lint (~> 0.10.0)
   haml-rails
+  inshape (>= 1.0, < 2.0)
   jdbc-postgres
   jruby-openssl
   json
