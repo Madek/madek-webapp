@@ -51,7 +51,7 @@ gem 'chronic_duration'
 gem 'cider_ci-open_session', '>= 1.0.0', '< 2.0.0'
 gem 'execjs'
 gem 'exiftool_vendored'
-gem 'inshape', '>= 1.0', '< 2.0'
+gem 'inshape', '>= 1.0.1', '< 2.0'
 gem 'git'
 gem 'jruby-openssl', platform: :jruby
 gem 'json'
