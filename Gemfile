@@ -5,7 +5,7 @@ source 'http://rubygems.org'
 #####################################################################
 
 # RAILS
-gem 'rails', '~> 4.2'
+gem 'rails', '>= 4.2', '< 5'
 
 # Engines
 gem 'configuration_management_backdoor', '= 2.0.0.pre.1'
