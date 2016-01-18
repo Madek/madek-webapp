@@ -106,7 +106,8 @@ module Concerns
         private
 
         def request_fullpath
-          if (root = Madek::Application.config.action_controller.relative_url_root)
+          root = Madek::Application.config.action_controller.relative_url_root
+          if root.present?
             request.fullpath.slice(root)
           else
             request.fullpath
