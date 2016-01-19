@@ -48,6 +48,14 @@ class Presenter
     inspect
   end
 
+  def to_h # ruby convention/compatibilty
+    full_dump
+  end
+
+  def as_json # Rails/ActiveRecord convention/compatibilty
+    full_dump
+  end
+
   def type # not used in ruby land! (js models only)
     self.class.name.demodulize
   end
