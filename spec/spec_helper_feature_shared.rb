@@ -27,7 +27,7 @@ def move_mouse_over(element)
 end
 
 def sign_in_as(login, password = 'password')
-  visit '/admin' # save time by not redirecting to /my
+  visit root_path
   # if ldap login is ON, first switch to correct form tab
   if db_user_tab = first('a#tab-internal_login')
     db_user_tab.click

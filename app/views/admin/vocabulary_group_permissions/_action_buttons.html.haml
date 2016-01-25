@@ -1,9 +1,0 @@
-.btn-group
-  = link_to edit_admin_vocabulary_vocabulary_group_permission_path(@vocabulary, group_permission), class: "btn btn-info #{size}" do
-    %i.glyphicon.glyphicon-edit
-    Edit
-  = link_to admin_vocabulary_vocabulary_group_permission_path(@vocabulary, group_permission), method: :delete, data: {   |
-    confirm: 'The Vocabulary Group Permission will be deleted. Do you want to proceed?' }, |
-    class: "btn btn-danger #{size}" do
-    %i.glyphicon.glyphicon-trash
-    Delete

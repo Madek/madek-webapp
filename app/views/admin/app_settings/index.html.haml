@@ -1,8 +1,0 @@
-.page-header
-  %h1
-    %i.glyphicon.glyphicon-cog
-    Settings
-
-- @settings_groups.each do |title, settings|
-  = render partial: 'setting_group', locals: { setting_group: title,
-    settings: settings }

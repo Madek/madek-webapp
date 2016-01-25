@@ -54,7 +54,7 @@
         admin: !current_user.try(:admin) ? nil : {
           text: t(:sitemap_admin),
           icon: 'icon-bang',
-          href: admin_root_path
+          href: '/admin'
         },
 
         api: {

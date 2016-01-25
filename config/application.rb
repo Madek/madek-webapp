@@ -159,7 +159,6 @@ module Madek
       *.png
       api_docs.css
       api_docs.js
-      admin.css
       application.css
       application-contrasted.css
       i18n/locale/*
