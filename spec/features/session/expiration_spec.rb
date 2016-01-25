@@ -8,14 +8,11 @@ describe 'Session with 10 expiration' do
   end
 
   describe 'sign-in' do
+    let(:user) { create(:user) }
+    before { sign_in_as user.login, user.password }
 
-    before :each do
-      @user = User.find_by(login: 'normin')
-      sign_in_as @user.login
-    end
-
-    it 'the session has expired 12 secs after sign-in' do
-      visit '/'
+    it 'the session has expired 12 secs after sign-in', browser: :firefox do
+      visit '/my'
       expect(page).to have_content I18n.t(:sitemap_my_groups)
       expect(page).not_to have_content 'Error 401'
       expect(sleep 12).to be >= 10
