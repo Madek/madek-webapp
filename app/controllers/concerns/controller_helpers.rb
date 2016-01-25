@@ -4,7 +4,7 @@ module Concerns
     include Concerns::ResourceListParams
 
     def get_authorized_resource(resource = nil)
-      resource ||= model_klass.unscoped.find_by(id: id_param)
+      resource ||= model_klass.unscoped.find_by!(id: id_param)
       authorize resource, "#{action_name}?".to_sym
       resource
     end
