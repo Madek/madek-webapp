@@ -9,7 +9,7 @@ process.on('uncaughtException', function () {
 
 require("check-dependencies")(function(res){
   if (!res || !res.depsWereOk) {
-    console.log(res.error.join("\n"))
+    console.log("\nERROR\n" + res.error.join("\n") + "\n")
     process.exit(1)
   }
 })
