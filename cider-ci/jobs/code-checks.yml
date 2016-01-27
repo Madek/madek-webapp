@@ -16,6 +16,10 @@ jobs:
     context:
 
       task-defaults:
+        git-options:
+          submodules:
+            clone: true
+            timeout: 60
         eager-trials: 1
         max-auto-trials: 2
         traits:
