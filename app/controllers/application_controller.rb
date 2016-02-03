@@ -19,7 +19,8 @@ class ApplicationController < ActionController::Base
   # UI Elements
   append_view_path(Rails.root.join('app', 'ui_elements'))
 
-  protect_from_forgery
+  # CRSF protection with explicit Error raising, otherwise it looks like "no user"
+  protect_from_forgery with: :exception
 
   # enable the mini profiler for admins in production
   before_action do

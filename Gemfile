@@ -5,7 +5,7 @@ eval_gemfile 'engines/datalayer/Gemfile'
 #####################################################################
 
 # Engines
-gem 'configuration_management_backdoor', '= 2.0.0.pre.1'
+gem 'configuration_management_backdoor', '= 3.0.0'
 
 # API
 gem 'responders'
