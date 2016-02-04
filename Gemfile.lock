@@ -135,8 +135,6 @@ GEM
       compass (~> 1.0.0)
       sass-rails (< 5.1)
       sprockets (< 2.13)
-    concurrent-ruby (1.0.0)
-    concurrent-ruby (1.0.0-java)
     configuration_management_backdoor (3.0.0)
       rails (>= 4.0.0, < 5.0)
     connection_pool (2.2.0)
