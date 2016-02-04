@@ -141,6 +141,10 @@ de:
   resource_meta_data_fallback_end: "')"
 
   # # MediaEntry
+  media_entry_tab_main: "Medieneintrag"
+  media_entry_tab_relations: "Zusammenhänge"
+  media_entry_tab_more_data: "Weitere Daten"
+  media_entry_tab_permissions: "Berechtigungen"
   media_entry_not_published_warning_msg: "Entry is not published yet!"
   media_entry_meta_data_header_prefix: "Metadaten editieren: "
   media_entry_more_data_title: "More data"

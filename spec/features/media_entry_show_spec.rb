@@ -24,7 +24,7 @@ feature 'MediaEntry#show' do
   end
 
   it "tab: 'Relations'" do
-    click_on_tab 'Relations'
+    click_on_tab I18n.t(:media_entry_tab_relations)
     # - parents
     expect(page).to have_content 'Ausstellungen'
     # - siblings
@@ -32,7 +32,7 @@ feature 'MediaEntry#show' do
   end
 
   it "tab: 'More Data'" do
-    click_on_tab 'More Data'
+    click_on_tab I18n.t(:media_entry_tab_more_data)
     # - Activity Log
     expect(page).to have_content 'import_date 20.04.2012'
     # - File Information
@@ -41,10 +41,11 @@ feature 'MediaEntry#show' do
 
   it "tab: 'Permissions'" do
     # - privacy_status icon:
-    permissions_tab = find('li.ui-tabs-item', text: 'Permissions')
+    permissions_tab = find(
+      'li.ui-tabs-item', text: I18n.t(:media_entry_tab_permissions))
     expect(permissions_tab.find('.icon-privacy-open')).to be
 
-    click_on_tab 'Permissions'
+    click_on_tab I18n.t(:media_entry_tab_permissions)
     expect(page).to have_content 'Sie, Normin Normalo, haben'
     expect(page).to have_content \
       ['Betrachten',

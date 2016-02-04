@@ -3,6 +3,10 @@ module Modules
     module MetaDataUpdate
       extend ActiveSupport::Concern
 
+      def edit_meta_data
+        represent(find_resource, Presenters::MediaEntries::MediaEntryEdit)
+      end
+
       def meta_data_update
         authorize (@media_entry = MediaEntry.unscoped.find(params[:id]))
         errors = update_all_meta_data_transaction!(@media_entry, meta_data_params)

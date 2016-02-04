@@ -5,10 +5,23 @@ module Presenters
       include Presenters::MediaEntries::Modules::MediaEntryCommon
       include Presenters::MediaEntries::Modules::MediaEntryMetaData
 
+      SHOW_TABS =
+
       def initialize(app_resource, user, user_scopes, list_conf: nil)
         super(app_resource, user)
         @user_scopes = user_scopes
         @list_conf = list_conf
+      end
+
+      def tabs # list of all 'show' action sub-tabs
+        {
+          nil => { title: I18n.t(:media_entry_tab_main) },
+          relations: { title: I18n.t(:media_entry_tab_relations) },
+          more_data: { title: I18n.t(:media_entry_tab_more_data) },
+          permissions: {
+            title: I18n.t(:media_entry_tab_permissions),
+            icon_type: :privacy_status_icon }
+        }
       end
 
       def relations

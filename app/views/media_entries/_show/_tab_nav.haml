@@ -1,5 +1,5 @@
 :ruby
-  tabs = @tabs.map do |id, tab|
+  tabs = @get.tabs.map do |id, tab|
     path = id ? send("#{id}_media_entry_path") : media_entry_path
 
     icon = case tab[:icon_type]
