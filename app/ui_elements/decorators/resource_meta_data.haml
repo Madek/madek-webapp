@@ -1,0 +1,17 @@
+:ruby
+  # build the vocabulary boxes with meta_data lists, 4 per row
+  colums = if meta_data.is_a?(Array)
+    meta_data
+  else
+    meta_data.values
+  end.in_groups_of(4, false)
+
+
+.meta-data-summary.mbl
+  - colums.each do |row|
+    .ui-container.media-entry-metadata
+      - row.each do |list|
+        .col1of4
+          = deco('meta_data_list', mods: 'prm', data: list)
+    - unless colums.last == row
+      %hr.separator.mini.mbl

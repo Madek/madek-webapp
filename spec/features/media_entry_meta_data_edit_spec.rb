@@ -12,16 +12,16 @@ feature 'MediaEntry MetaData' do
     # (MD="A MetaDatum for this MetaKey on this MediaResource")
 
     # 1. a. MD::Text exists, value is present: update MD
-    @mkey_title = MetaKey.find('media_content:title')
+    @mkey_title = MetaKey.find('madek_core:title')
     @new_title = Faker::Lorem.word
 
     # 1. b. MD::People exists, value is present: update MD
-    @mkey_authors = MetaKey.find('media_content:author')
+    @mkey_authors = MetaKey.find('madek_core:authors')
     expect(datum(@mkey_authors).people.length).to eq 1
     @the_coauthor = FactoryGirl.create(:person)
 
     # 2. MD exists, value is empty: delete MD
-    @mkey_description = MetaKey.find('media_content:description')
+    @mkey_description = MetaKey.find('madek_core:description')
     FactoryGirl.create(:meta_datum_text,
                        meta_key: @mkey_description,
                        string: 'X',
@@ -33,7 +33,7 @@ feature 'MediaEntry MetaData' do
     @the_creator = FactoryGirl.create(:person)
 
     # 4. MD does not exist, value is empty: ignore/skip
-    @mkey_date = MetaKey.find('media_content:portrayed_object_dates')
+    @mkey_date = MetaKey.find('madek_core:portrayed_object_date')
     datum(@mkey_date).delete if datum(@mkey_date)
 
     @entry.reload
@@ -43,7 +43,7 @@ feature 'MediaEntry MetaData' do
   scenario 'JS: model integration', browser: :firefox do
     config = {
       entry: media_entry_path(@entry),
-      meta_key_id: 'media_content:title',
+      meta_key_id: 'madek_core:title',
       values: [@new_title]
     }
 
@@ -109,5 +109,5 @@ end
 
 def find_meta_key_form(meta_key)
   find_vocabulary_form(meta_key.vocabulary.label)
-    .find('.form-label *', text: meta_key.label).find(:xpath, '../..')
+    .find('.form-label *:first-child', text: meta_key.label).find(:xpath, '../..')
 end

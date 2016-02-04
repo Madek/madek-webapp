@@ -20,7 +20,7 @@ module Presenters
         end
 
         # create a method for every vocabulary:
-        vocabularies = selected_vocabularies(user)
+        vocabularies = visible_vocabularies(user)
         vocabularies.each_index do |index|
           vocabulary = vocabularies[index]
           name = vocabulary.id.to_sym

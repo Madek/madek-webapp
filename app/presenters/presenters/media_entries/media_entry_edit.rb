@@ -3,7 +3,10 @@ module Presenters
     class MediaEntryEdit < Presenters::Shared::MediaResource::MediaResourceEdit
 
       include Presenters::MediaEntries::Modules::MediaEntryCommon
-      include Presenters::MediaEntries::Modules::MediaEntryMetaData
+
+      def meta_data
+        Presenters::MetaData::MetaDataEdit.new(@app_resource, @user)
+      end
 
     end
   end

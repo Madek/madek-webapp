@@ -1,26 +1,38 @@
 module Presenters
   module Shared
     module Modules
+
       module VocabularyConfig
+
+        # TODO: db config instead of constants
+        HARDCODED_CONTEXT_LIST = [
+          # summary context/"Das Wichtigste":
+          'core', # NOT 'madek_core' vocab!!!
+          # 4 extra contexts:
+          #    ZHdK     |       Werk     |    Personen   |   Rechte
+          'zhdk_bereich', 'media_content', 'media_object', 'copyright'
+        ]
+
         extend ActiveSupport::Concern
         included do
 
           def initialize(**args)
             super(**args)
-            @memo = nil
           end
 
           private
 
-          # TODO: db config instead of constants
-          def selected_vocabularies(user)
-            @memo ||= (
-              [Madek::Constants::Webapp::UI_META_CONFIG[:summary_vocabulary]] +
-              Madek::Constants::Webapp::UI_META_CONFIG[:displayed_vocabularies])
-              .map(&:to_sym)
-              .map do |vocab|
-                Vocabulary.viewable_by_user_or_public(user).find_by(id: vocab)
-              end.compact
+          def visible_vocabularies(user)
+            @visible_vocabularies ||= Vocabulary
+              .viewable_by_user_or_public(user)
+              .all
+              .sort_by
+          end
+
+          def selected_contexts(_user)
+            @selected_contexts ||= Context
+              .where(id: HARDCODED_CONTEXT_LIST)
+              .sort_by { |c| HARDCODED_CONTEXT_LIST.index(c.id) }
           end
 
         end

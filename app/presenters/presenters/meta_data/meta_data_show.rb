@@ -1,7 +1,7 @@
 module Presenters
   module MetaData
 
-    class MetaDataShow < Presenters::MetaData::MetaDataCommon
+    class MetaDataShow < Presenters::MetaData::ResourceMetaData
 
       private
 

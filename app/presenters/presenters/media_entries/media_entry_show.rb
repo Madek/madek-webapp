@@ -3,7 +3,6 @@ module Presenters
     class MediaEntryShow < Presenters::Shared::MediaResource::MediaResourceShow
 
       include Presenters::MediaEntries::Modules::MediaEntryCommon
-      include Presenters::MediaEntries::Modules::MediaEntryMetaData
 
       SHOW_TABS =
 
@@ -29,7 +28,7 @@ module Presenters
           @app_resource, @user, @user_scopes, list_conf: @list_conf
       end
 
-      # TODO: move meta_data to MediaResourceShow ?
+      # TODO: move meta_data to MediaResourceShow
       def meta_data
         Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
       end

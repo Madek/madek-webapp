@@ -19,8 +19,7 @@ module Presenters
             obj.to_h
               .map { |k, v| [k, dump_recur(v)] }
               .to_h
-              .compact
-          end
+          end.presence.try(:compact)
         end
 
         def deal_with_obj_class(obj)

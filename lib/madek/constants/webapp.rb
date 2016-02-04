@@ -3,19 +3,6 @@ module Madek
     module Webapp
       FILE_UTIL_PATH = '/usr/bin/file -b --mime-type'
 
-      # TMP: Displayed Vocabularies, "most important" MetaKeys. TODO: put in DB
-      UI_META_CONFIG = {
-        summary_vocabulary: :madek_core, # WIP: the built-in core vocabulary
-        title_meta_key: 'madek_core:title',
-        displayed_vocabularies: [
-          :media_content, # "Werk" - meaning the WorkOfArt encoded in MediaFile
-          :media_object,  # "Medium" - meaning the MediaFile as a WorkOfArt
-          :copyright,     # to be cleaned up…
-          :zhdk_bereich,
-          :doesnt_exist
-        ]
-      }
-
       # UI constants
       UI_GENERIC_THUMBNAIL = {
         # relative to `app/assets/images`

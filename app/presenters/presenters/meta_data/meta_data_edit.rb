@@ -1,15 +1,17 @@
 module Presenters
   module MetaData
 
-    # TODO: all Resource types
+    class MetaDataEdit < Presenters::MetaData::ResourceMetaData
 
-    class MetaDataEdit < Presenters::MetaData::MetaDataCommon
+      def by_context
+        nil
+      end
 
       private
 
       def fetch_relevant_meta_data
         MetaKey
-          .where(is_enabled_for_media_entries: true)
+          .where(is_enabled_for_media_entries: true) # TODO: all Resource types
           .joins(:vocabulary)
           .where(vocabularies: { id: relevant_vocabularies.map(&:id) })
           .map do |key|

@@ -8,14 +8,18 @@ feature 'MetaData' do
     sign_in_as @user.login
     @media_entry = FactoryGirl.create :media_entry_with_image_media_file,
                                       creator: @user, responsible_user: @user
-    meta_key = FactoryGirl.create :meta_key_text, id: 'media_content:test'
+
+    # this key always exists; in personas it is used in 'summary context'
+    meta_key = MetaKey.find 'madek_core:title'
+    @summmary_box = '.ui-resource-overview .ui-metadata-box'
+
     @meta_datum = FactoryGirl.create :meta_datum_text,
                                      meta_key: meta_key,
                                      media_entry: @media_entry
 
   end
 
-  context 'update MetaDatum::Text NOJS' do
+  context 'update MetaDatum::Text NOJS', browser: :firefox_nojs do
 
     scenario 'single update' do
       new_text = Faker::Lorem.words.join(' ')
@@ -41,12 +45,16 @@ feature 'MetaData' do
 
       visit media_entry_path(@media_entry)
 
-      within("[data-meta-datum-url=\"#{meta_datum_path(@meta_datum)}\"]") do
-        find('a').click
-        find('input').set(new_text)
-        submit_form
-        # wait for xhr to finish:
-        find('[data-meta-datum-persisted]', text: new_text)
+      within(@summmary_box) do
+
+        within("[data-meta-datum-url=\"#{meta_datum_path(@meta_datum)}\"]") do
+          find('a').click
+          find('input').set(new_text)
+          submit_form
+          # wait for xhr to finish:
+          find('[data-meta-datum-persisted]', text: new_text)
+        end
+
       end
 
       expect(@meta_datum.reload.string).to eq new_text

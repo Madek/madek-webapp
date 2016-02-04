@@ -2,35 +2,40 @@
   data ||= {}
   show_title = true unless defined?(show_title) and (show_title == false)
   show_fallback = true unless defined?(show_fallback) and (show_fallback == false)
-  vocabulary = data.vocabulary
   meta_data = data.meta_data
+  # NOTE: takes either context or vocabulary…
+  context = data.context || data.vocabulary
 
-  fallback_msg = \
-    t(:resource_meta_data_fallback_start) +
-    vocabulary.label +
-    t(:resource_meta_data_fallback_end)
+  fallback_msg = t(:resource_meta_data_fallback)
 
-.ui-metadata-box{class: classes, data: {vocabulary: {uuid: vocabulary.uuid}}}
+.ui-metadata-box{class: classes}
   - if show_title
-    %h3.separated.mbm.title-l= vocabulary.label
+    %h3.separated.mbm.title-l= context.label
     -# TODO: vocabulary description, privacy_status
 
   - unless meta_data.present? # show fallback
     - if show_fallback
-      = fallback_msg
+      %dt.media-data-title.title-xs-alt= fallback_msg
 
   - else # show meta data
     -# TMP: for POC
     -# %dl.media-data
     .tmp
-      - meta_data.each do |meta_datum|
+      - meta_data.each do |dat|
 
-        - key = meta_datum.meta_key
+        -# NOTE: either context or vocabulary…
+        - if dat.is_a?(Presenter)
+          - meta_datum = dat
+          - key = meta_datum.meta_key
+        - else
+          - meta_datum = dat.meta_datum
+          - key = dat.context_key
+
         - url = meta_datum.url
         - is_editable = meta_datum.policy(current_user).edit?
 
         -# TMP for edit POC. text only!
-        - type = key.value_type
+        - type = key.try(:value_type) || key.meta_key.value_type
         - is_editable = false unless (type == 'MetaDatum::Text')
         - react_editor = is_editable && { react_class: 'MetaDatumEdit',
                                           meta_datum: { url: url, type: type } }
@@ -43,5 +48,5 @@
 
           %dd.media-data-content
             -# decorate value by type (ex.: /decorators/meta_datum_values/text.haml)
-            - decorator = key.value_type.demodulize.underscore
+            - decorator = type.demodulize.underscore
             = deco("meta_datum_values/#{decorator}", values: meta_datum.values)

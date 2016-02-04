@@ -1,9 +1,7 @@
 :ruby
-  # first is the summary vocab, rest from configured list:
-  summary_vocab = @get.meta_data.by_vocabulary.first(1).to_h
-  list_vocabs = @get.meta_data.by_vocabulary.drop(1).to_h
-                  .reject {|k,v| v.meta_data.nil?} # skips empty
-  list_vocabs_any = list_vocabs.map(&:second).map(&:meta_data).any?
+  # first is the summary context, rest from configured list:
+  meta_data = @get.meta_data.by_context
+  summary_context, list_contexts = [meta_data.first, meta_data.drop(1)]
 
   tag_mods = ['small','ellipsed']
 
@@ -14,15 +12,15 @@
                 text: @get.title,
                 href: @get.image_url),
 
-    content: deco('vocabulary_meta_data_list',
+    content: deco('meta_data_list',
               mods: 'ui-media-overview-metadata',
               show_title: false,
-              data: summary_vocab.to_a.first.second)
+              data: summary_context)
   end
 
-- if list_vocabs_any
+- if list_contexts.any?
   - content_for(:more_info) do
     .ui-container.midtone.rounded-bottom.pal.well
-      = deco('meta_data_by_vocabulary', meta_data: list_vocabs)
+      = deco('resource_meta_data', meta_data: list_contexts)
 
 = render template: 'media_entries/_show/_base'
