@@ -23,14 +23,6 @@ module Presenters
         prepend_url_context_fucking_rails meta_datum_path(@app_resource)
       end
 
-      def subject_media_resource
-        resource = @app_resource.media_entry or
-                    @app_resource.collection or
-                    @app_resource.filter_set
-        presenter = "Presenters::MediaEntries::#{resource.class.name}Index"
-        presenter.constantize.new(resource, @user)
-      end
-
       private
 
       def wrap_in_array(value)

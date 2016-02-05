@@ -5,7 +5,7 @@ class MetaDataController < ApplicationController
   def show
     meta_datum = MetaDatum.find(params[:id])
     authorize meta_datum
-    @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum, current_user)
+    @get = Presenters::MetaData::MetaDatumShow.new(meta_datum, current_user)
     respond_with @get
   end
 
@@ -17,14 +17,14 @@ class MetaDataController < ApplicationController
     meta_datum_klass = constantize_type_param(type_param)
     meta_datum = meta_datum_klass.create_with_user!(current_user, create_params)
     authorize meta_datum
-    @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum, current_user)
+    @get = Presenters::MetaData::MetaDatumShow.new(meta_datum, current_user)
     render :show, status: :created
   end
 
   def edit
     meta_datum = MetaDatum.find(id_param)
     authorize meta_datum
-    @get = Presenters::MetaData::MetaDatumCommon.new(meta_datum, current_user)
+    @get = Presenters::MetaData::MetaDatumShow.new(meta_datum, current_user)
   end
 
   def update
