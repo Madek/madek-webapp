@@ -17,7 +17,7 @@ gem 'puma'
 
 # ZHDK-INTEGRATION
 # gem "madek_zhdk_integration", path: "/Users/thomas/Programming/MADEK/zhdk_integration"
-gem 'madek_zhdk_integration', git: 'https://github.com/madek/madek-zhdk-integration.git', ref: '08d45400baa15ffe94c5bca4fadfd95b5ccea8f1'
+gem 'madek_zhdk_integration', git: 'https://github.com/madek/madek-zhdk-integration.git', ref: '97a961746d357c844b2e2cf53221d337645c660d'
 
 # FRONTEND
 gem 'bootstrap-sass'
