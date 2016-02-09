@@ -59,6 +59,8 @@ Madek::Application.routes.draw do
 
   resources :meta_data
 
+  resources :meta_keys, only: :index
+
   # Static App routes ##########################################################
   get '/id/:uuid', to: 'uuid#redirect_to_canonical_url'
 
