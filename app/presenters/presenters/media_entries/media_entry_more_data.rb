@@ -16,12 +16,13 @@ module Presenters
       end
 
       def importer
-        ::Presenters::People::PersonIndex.new \
-          @app_resource.media_file.uploader.person
+        return unless (uploader = @app_resource.media_file.uploader)
+        Presenters::People::PersonIndex.new(uploader.person)
       end
 
       def import_date
-        @app_resource.media_file.created_at.strftime('%d.%m.%Y')
+        return unless (media_file = @app_resource.media_file)
+        media_file.created_at.strftime('%d.%m.%Y')
       end
 
       def activity_log

@@ -8,44 +8,44 @@ module Presenters
       include Presenters::Shared::Modules::VocabularyConfig
 
       def initialize(user, scope, tree)
+        @user = user
         @scope = scope
         @tree = tree || {}
-        @resource_type = scope.model or fail 'TypeError!'
-
-        # create methods for filters that depend on type:
-        if @resource_type == MediaEntry
-          self.class.send(:define_method, :media_files) do
-            media_files_filters(@scope, children_for(@tree, :media_files))
-          end
-        end
-
-        # create a method for every vocabulary:
-        vocabularies = visible_vocabularies(user)
-        vocabularies.each_index do |index|
-          vocabulary = vocabularies[index]
-          name = vocabulary.id.to_sym
-          position = 100 + index # assumes there will be less than 100 app-filters
-          children = children_for(@tree, name)
-          self.class.send(:define_method, name) do
-            vocabulary_filter(vocabulary, scope, children, position)
-          end
-        end
+        @resource_type = scope.model or fail 'TypeError! (Expected AR Scope)'
       end
 
-      def permissions(scope = @scope, tree = @tree)
-        children = children_for(tree, :permissions)
-        permissions_filter(scope, children)
+      def all
+        [
+          media_files(@scope, @tree),
+          permissions(@scope, @tree),
+          # meta_data(@scope, @tree)
+        ].flatten.compact
       end
 
       private
 
+      # "top-level" sections (just for readabilty):
+
+      def media_files(scope, tree)
+        if @resource_type == MediaEntry
+          media_files_filters(scope, get_key(tree, :media_files))
+        end
+      end
+
+      def permissions(scope, tree)
+        children = get_key(tree, :permissions)
+        permissions_filter(scope, children)
+      end
+
+      # helpers
+
       def media_files_filters(scope, children)
         # FIXME: should filter for document type! (part before slash)
         media_files = scope.map(&:media_file) if children.present?
-        file_types = if children_for(children, :content_type)
+        file_types = if get_key(children, :content_type)
                        items_from_strings(media_files.map(&:content_type).uniq)
                      end
-        extensions = if children_for(children, :extension)
+        extensions = if get_key(children, :extension)
                        items_from_strings(media_files.map(&:extension).uniq)
                      end
         { label: 'Datei',
@@ -60,13 +60,6 @@ module Presenters
               children: extensions }] }
       end
 
-      def vocabulary_filter(vocabulary, scope, children, position)
-        is_used = true # TODO: only select used Vocabularies
-        return unless is_used
-        Presenters::Vocabularies::VocabularyAsFilter.new(
-          vocabulary, scope, children, position)
-      end
-
       def permissions_filter(scope, children)
         { label: 'Berechtigung',
           uuid: 'permissions',
@@ -79,7 +72,7 @@ module Presenters
       end
 
       def permissions_filter_responsible_users(scope, children)
-        users = if children_for(children, :responsible_user)
+        users = if get_key(children, :responsible_user)
                   scope.map(&:responsible_user)
                     .uniq
                     .map { |u| Presenters::Users::UserIndex.new(u) }
@@ -90,7 +83,7 @@ module Presenters
       end
 
       def permissions_filter_entrusted_to_user(scope, children)
-        users = if children_for(children, :entrusted_to_user)
+        users = if get_key(children, :entrusted_to_user)
                   permission_subjects(scope, :user, :get_metadata_and_previews)
                 end
         { label: 'Sichtbar für Person',
@@ -100,7 +93,7 @@ module Presenters
       end
 
       def permissions_filter_entrusted_to_group(scope, children)
-        groups = if children_for(children, :entrusted_to_group)
+        groups = if get_key(children, :entrusted_to_group)
                    permission_subjects(scope, :group, :get_metadata_and_previews)
                  end
         { label: 'Sichtbar für Gruppe',
@@ -111,7 +104,7 @@ module Presenters
 
       def permissions_filter_public(_scope, children)
         # FIXME: use scope, children; do usage count…
-        bools = if children_for(children, :public)
+        bools = if get_key(children, :public)
                   [
                     { label: 'Öffentlich', uuid: true },
                     { label: 'Nicht öffentlich', uuid: false }]
@@ -138,7 +131,7 @@ module Presenters
         list.map { |str| { uuid: str } }
       end
 
-      def children_for(children, key)
+      def get_key(children, key)
         children.try(:fetch, key, false)
       end
     end

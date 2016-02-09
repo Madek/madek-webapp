@@ -30,8 +30,8 @@ module Presenters
 
           def image_url_helper(size)
             result = generic_thumbnail_url # fallback from "superclass"
-
             media_file = @app_resource.media_file
+            return result unless media_file
             if result and media_file.representable_as_image?
               # TODO: for all ResourceThumbs…
               # if media_file.the_preview_was_created_and_should_exist_in_storage

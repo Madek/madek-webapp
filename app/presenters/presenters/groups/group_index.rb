@@ -3,7 +3,7 @@ module Presenters
     class GroupIndex < GroupCommon
 
       def entrusted_media_resources_count
-        fail 'no count without `user`!' unless @user
+        return unless @user
         MediaEntry.entrusted_to_group(@app_resource).count +
           Collection.entrusted_to_group(@app_resource).count +
             FilterSet.entrusted_to_group(@app_resource).count

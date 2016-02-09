@@ -33,9 +33,7 @@ module Presenters
         Pojo.new(
           context: Presenters::Contexts::ContextCommon.new(context),
           meta_data: context.context_keys.map do |c_key|
-            is_viewable = Vocabulary.viewable_by_user_or_public(@user)
-              .find(c_key.meta_key.vocabulary.id).present?
-            next unless is_viewable
+            next unless c_key.meta_key.vocabulary.viewable_by_user?(@user)
             md = @app_resource.meta_data.find_by(meta_key: c_key.meta_key)
             next unless md
             Pojo.new(

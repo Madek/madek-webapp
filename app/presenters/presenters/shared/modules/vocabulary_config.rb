@@ -3,22 +3,12 @@ module Presenters
     module Modules
 
       module VocabularyConfig
+        extend ActiveSupport::Concern
 
         # TODO: db config instead of constants
-        HARDCODED_CONTEXT_LIST = [
-          # summary context/"Das Wichtigste":
-          'core', # NOT 'madek_core' vocab!!!
-          # 4 extra contexts:
-          #    ZHdK     |       Werk     |    Personen   |   Rechte
-          'zhdk_bereich', 'media_content', 'media_object', 'copyright'
-        ]
+        HARDCODED_CONTEXT_LIST = Madek::Constants::Webapp::UI_CONTEXT_LIST
 
-        extend ActiveSupport::Concern
         included do
-
-          def initialize(**args)
-            super(**args)
-          end
 
           private
 
