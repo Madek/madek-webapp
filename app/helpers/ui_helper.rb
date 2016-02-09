@@ -33,8 +33,7 @@ module UiHelper
     locals = build_locals_from_element(name, config)
     locals[:block_content] = capture { yield } if block_given?
     name = name_without_mods(name)
-
-    render template: "decorators/#{name}", locals: locals
+    render(template: "decorators/#{name}", locals: locals)
   end
 
   # 5. Layouts: views/layout
@@ -89,14 +88,7 @@ module UiHelper
     locals[:list] = build_list(locals[:list])
     locals[:block_content] = capture { yield } if block_given?
     template_path = "#{type}s/#{name}"
-
-    read_from_cache_or_render template_path: template_path, locals: locals
-  end
-
-  def read_from_cache_or_render(locals)
-    Rails.cache.fetch locals.hash do
-      render template: locals[:template_path], locals: locals[:locals]
-    end
+    render template: template_path, locals: locals
   end
 
   def build_locals_from_element(name, config)
