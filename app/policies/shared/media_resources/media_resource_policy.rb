@@ -28,7 +28,7 @@ module Shared
       end
 
       def destroy?
-        logged_in? and record.editable_by_user?(user)
+        logged_in? and record.responsible_user == user
       end
 
       # TODO: policy for seeing the permissions?
