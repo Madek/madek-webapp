@@ -37,6 +37,7 @@
     "reactify": "1.1.1",
     "rusha": "0.8.3",
     "underscore.string": "^3.2.3",
+    "uuid-validate": "0.0.2",
     "xhr": "^2.2.0",
     "yamlify": "0.1.2"
   },
