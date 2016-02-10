@@ -14,6 +14,14 @@ module Presenters
         @app_resource.class.name or super
       end
 
+      def created_at
+        @app_resource.try(:created_at)
+      end
+
+      def updated_at
+        @app_resource.try(:updated_at)
+      end
+
       def self.delegate_to_app_resource(*args)
         delegate_to :@app_resource, *args
       end
