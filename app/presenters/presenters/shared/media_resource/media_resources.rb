@@ -37,7 +37,7 @@ module Presenters
           # NOTE: scope is pre-filtered, but not paginated!
           scope = @config[:filter] ? @scope.filter_by(@config[:filter]) : @scope
           tree = @config[:dyn_filter]
-          Presenters::Shared::DynamicFilters.new(@user, scope, tree)
+          Presenters::Shared::DynamicFilters.new(@user, scope, tree).list
         end
 
         private

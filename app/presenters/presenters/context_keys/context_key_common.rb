@@ -21,7 +21,7 @@ module Presenters
       end
 
       def label
-        @app_resource.label or @meta_key.label
+        @app_resource.label or @meta_key.label or @meta_key.uuid
       end
 
       def hint

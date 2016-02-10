@@ -96,10 +96,13 @@ module.exports = React.createClass
     event.preventDefault()
     @setState(showDynFilters: bool)
 
-  handleAccordion: (config, event)->
-    console.log 'handleAccordion', config, f.get(event, ['target', 'value'])
-    event.preventDefault()
-    @setState(dynamicFilters: config)
+  handleAccordion: (event)->
+    # @handleChangeInternally(event)
+    # console.log 'handleAccordion', arguments
+    # # handleLinkIfLocal(event, …)
+    # console.log 'handleAccordion', config, f.get(event, ['target', 'value'])
+    # event.preventDefault()
+    # @setState(dynamicFilters: config)
 
   createFilterSetFromConfig: (config, event)->
     event.preventDefault()
@@ -125,7 +128,7 @@ module.exports = React.createClass
         show_filter: true
         dyn_filter: {}
 
-    console.log 'get', get, initial
+    # console.log 'MediaResourcesBox: get, initial', get, initial
 
     currentQuery = f.merge(
       {list: f.merge f.omit(get.config, 'for_url')},

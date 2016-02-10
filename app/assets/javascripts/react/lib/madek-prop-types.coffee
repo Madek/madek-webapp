@@ -84,4 +84,6 @@ M.resourceFilter = PropTypes.shape
         key: PropTypes.oneOf(['public']).isRequired
         value: PropTypes.oneOf([true, false]).isRequired)]))
 
+# DynamicFilters
+
 module.exports = MadekPropTypes

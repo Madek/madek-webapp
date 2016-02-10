@@ -30,10 +30,7 @@ module Madek
     # config.autoload_paths += %W(#{config.root}/extras)
 
     config.autoload_paths += [
-      Rails.root.join('app', 'api'),
       Rails.root.join('app', 'lib'),
-      Rails.root.join('app', 'models', 'concerns'),
-      Rails.root.join('app', 'modules'),
       Rails.root.join('app', 'views'),
       Rails.root.join('lib')
     ]
@@ -48,6 +45,7 @@ module Madek
       Rails.root.join('engines', 'datalayer', 'lib'),
       Rails.root.join('engines', 'datalayer', 'app', 'models'),
       Rails.root.join('engines', 'datalayer', 'app', 'lib'),
+      Rails.root.join('engines', 'datalayer', 'app', 'queries'),
     ]
 
     # this should be in environments/test ; but that doesn't work (???)

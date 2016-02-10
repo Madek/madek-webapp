@@ -9,6 +9,7 @@ css = require('classnames')
 parseMods = require('../lib/parse-mods.coffee').fromProps
 setUrlParams = require('../../lib/set-params-for-url.coffee')
 # UiPropTypes = require('./propTypes.coffee')
+MadekPropTypes = require('../lib/madek-prop-types.coffee')
 
 Button = require('./Button.cjsx')
 ButtonGroup = require('./ButtonGroup.cjsx')
@@ -17,6 +18,11 @@ Link = require('./Link.cjsx')
 
 module.exports = React.createClass
   displayName: 'SideFilter'
+  propTypes:
+    dynamic: React.PropTypes.array.isRequired
+    accordion: React.PropTypes.objectOf(React.PropTypes.object).isRequired
+    current: MadekPropTypes.resourceFilter
+    onChange: React.PropTypes.func
 
   toggleSection: (section, bool)->
     @buildLinkFromAccordion f.assign(@props.accordion,
@@ -45,7 +51,6 @@ module.exports = React.createClass
 
   buildLinkFromAccordion: (config)->
     params = {list: dyn_filter: JSON.stringify(config)}
-    # console.log 'buildLinkFromAccordion', params
     setUrlParams(@props.url, @props.query, params)
 
   render: ({dynamic, current, accordion} = @props)->
@@ -56,29 +61,35 @@ module.exports = React.createClass
     # (set 'selected' status, sort by counts, etc)
     filters = uiStateFromConfigAndFilters(dynamic, current)
 
+    onClick = null # TMP (event)=>
+      # if f.isFunction(@props.onChange)
+      #   @props.onChange(event) else undefined
+
     <ul className={baseClass}>
       {f.map filters, (filter, baseKey)=>
         # type of filter (like 'permissions' or 'meta_data')
         filterType = filter.filterType
-        isOpen = f.get(accordion, filter.uuid)
-        href = @toggleSection(filter.uuid, not isOpen)
+        # always open when configured, or if user openened it
+        isOpen = true # TMP f.get(@state, filter.uuid) or f.get(accordion, filter.uuid)
+        href = null # TMP @toggleSection(filter.uuid, not isOpen)
 
         <li className={itemClass} key={filter.uuid}>
-          <a className={css('ui-accordion-toggle', 'strong', open: isOpen)} href={href}>
+          <a className={css('ui-accordion-toggle', 'strong', open: isOpen)}
+            href={href} onClick={onClick}>
             {filter.label} <i className='ui-side-filter-lvl1-marker'/>
           </a>
 
           <ul className={css('ui-accordion-body', 'ui-side-filter-lvl2', open: isOpen)}>
             {if isOpen then f.map filter.children, (child)=>
-              isOpen = f.get(accordion, [filter.uuid, child.uuid])
-              href = @toggleSubsection(filter.uuid, child.uuid, not isOpen)
+              isOpen = true # TMP f.get(accordion, [filter.uuid, child.uuid])
+              href = null # TMP @toggleSubsection(filter.uuid, child.uuid, not isOpen)
 
               togglerClass = css('ui-accordion-toggle', 'weak', open: isOpen)
               toggleMarkerClass = css('ui-side-filter-lvl2-marker')
               togglebodyClass = css('ui-accordion-body', 'ui-side-filter-lvl3',
                 open: isOpen)
               toggler = (
-                <a className={togglerClass} href={href}>
+                <a className={togglerClass} href={href} onClick={onClick}>
                   <span className={toggleMarkerClass}/>
                     {child.label}</a>)
               keyClass = 'ui-side-filter-lvl2-item'
@@ -100,7 +111,8 @@ module.exports = React.createClass
                 return if not btn
                  # css fix because we are using a link:
                 style = {display: 'inline-block', position: 'absolute', padding: 0}
-                <Link style={style} className={keyBtnClass} href={btn.href} title={btn.title}>
+                <Link style={style} className={keyBtnClass} title={btn.title}
+                  href={btn.href} onClick={onClick}>
                   <Icon i={btn.icon} className={btn.iclass}/>
                 </Link>
 
@@ -110,13 +122,14 @@ module.exports = React.createClass
                 <ul className={togglebodyClass}>
                   {if isOpen then f.map child.children, (item)=>
                     linker = if item.selected then @removeFilterFromUrl else @addFilterToUrl
-                    <FilterItem {...item} href={linker(filterType, child, item)} key={item.uuid}/>
-
+                    <FilterItem {...item} key={item.uuid}
+                       href={linker(filterType, child, item)} onClick={onClick}/>
                   }
                 </ul></li>}</ul></li>}</ul>
 
 FilterItem = ({label, uuid, selected, href, count} = @props)->
-  label = f.presence(label or uuid) or '(empty)'
+  label = f.presence(label or uuid) or (
+    console.error('empty FilterItem label!') and '(empty)')
   <li className={css('ui-side-filter-lvl3-item', active: selected)}>
     <Link mod='weak' href={href}>
       {label} <span className='ui-lvl3-item-count'>{count}</span>
@@ -131,9 +144,10 @@ cleanupAndSortDynFilters = (dynamicFilters)->
       filterType = filter.filter_type or filter.uuid
       keys = buildKeys(filter.children)
       # return if not f.present(keys)
-      f.assign(filter, children: keys, filterType: filterType, filter_type: undefined))
+      f.assign(filter,
+        children: keys, filterType: filterType, filter_type: undefined))
     .compact()
-    .sortByOrder('position', 'asc')
+    # .sortByOrder('position', 'asc')
     .presence().value()
 
 buildKeys = (keys)->
@@ -147,11 +161,11 @@ buildKeys = (keys)->
 
 buildItems = (items)->
   f.chain(items)
-    .reject((item)->
-      # NOTE: count implemented for everything, only filter if it is a number:
-      return false if not f.isNumber(f.get(item, 'count'))
-      item.count < 1)
-    .sortByOrder('count', 'desc')
+    # .reject((item)->
+    #   # NOTE: count implemented for everything, only filter if it is a number:
+    #   return false if not f.isNumber(f.get(item, 'count'))
+    #   item.count < 1)
+    # .sortByOrder('count', 'desc')
     .compact().presence().value()
 
 uiStateFromConfigAndFilters = (dynamicFilters, current)->
@@ -163,13 +177,9 @@ uiStateFromConfigAndFilters = (dynamicFilters, current)->
   f.each current, (filters, baseKey)-> f.each filters, (filter)->
 
     # get config for key (2nd level) mentioned in filter:
-    window.f = f
-    window.state = state
     key = f.chain(state).where(filterType: baseKey)
       .map('children').flatten()
       .find(uuid: filter.key)
-
-    console.log 'selected', baseKey, key.value(), filter, state
 
     switch
       # - ignore if key not found in the config (bc of cleanup)

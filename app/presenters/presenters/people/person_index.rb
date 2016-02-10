@@ -1,9 +1,13 @@
 module Presenters
   module People
     class PersonIndex < PersonCommon
-      def url
-        prepend_url_context_fucking_rails person_path(@app_resource)
+
+      def initialize(app_resource, count = nil)
+        super(app_resource)
+        @usage_count = count
       end
+
+      attr_reader :usage_count
 
     end
   end
