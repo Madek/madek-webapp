@@ -51,10 +51,8 @@ module UiHelper
     # NOTE: all of the queries happen here:
     props = props.merge(get: presenter.dump) if presenter
 
-    # FIXME: this means we never really cache:
-    props = props.merge(authToken: form_authenticity_token) if opts[:prerender]
-
     Rails.cache.fetch({ name: name, props: props }.hash) do
+      props = props.merge(authToken: form_authenticity_token) if opts[:prerender]
       react_component("UI.#{name}", props, opts)
     end
   end
