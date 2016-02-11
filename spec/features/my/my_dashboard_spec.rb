@@ -2,20 +2,19 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
-feature 'My Dashboard' do
+feature 'Page: My Dashboard (only logged in user)' do
   background do
     @user = User.find_by(login: 'normin')
     sign_in_as @user.login
   end
 
-  # TODO: dashboard integration test
+  pending 'integration test'
 
   it 'is rendered' do
     visit '/my/'
   end
 
-  describe 'My Dashboard Sections' do
-
+  describe 'Dashboard Sections' do
     [
       :content,
       :latest_imports,
@@ -23,7 +22,7 @@ feature 'My Dashboard' do
       :entrusted_content,
       :groups
     ].each do |section|
-      it "renders section #{section}" do
+      it "nested page '#{section.to_s.humanize}' is rendered" do
         visit "/my/#{section}"
       end
     end

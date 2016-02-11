@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
-feature 'MediaEntry' do
+feature 'Resource: MediaEntry' do
   background do
     @user = User.find_by(login: 'normin')
     @entry = FactoryGirl.create(:media_entry_with_image_media_file,

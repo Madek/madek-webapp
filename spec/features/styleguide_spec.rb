@@ -13,69 +13,73 @@ end
 
 # END CONFIG
 
-describe 'Styleguide' do
+feature 'Page: Styleguide' do
 
-  it 'is rendered without error (index, all-in-one and sections)',
-     browser: :firefox do
+  describe 'ensure visual output of CSS matches designers specification' do
 
-    paths = [
-      '/',           # index
-      '/Layout',     # a section
-      '?expand=true' # all-in-one
-    ]
-    paths.each do |path|
-      url = styleguide_path + path
-      puts url
-      visit url
+    it 'is rendered (index, all-in-one and sections)',
+       browser: :firefox do
+
+      paths = [
+        '/',           # index
+        '/Layout',     # a section
+        '?expand=true' # all-in-one
+      ]
+      paths.each do |path|
+        url = styleguide_path + path
+        puts url
+        visit url
+      end
     end
-  end
 
-  it 'Elements screenshots match the reference', browser: :firefox do
-    if screenshots_enabled_in_environment?
-      # preparation…
-      puts 'styleguide screenshots are enabled, cleaning tmp dir'
-      filenname = 'styleguide-shasums.txt'
-      reference_hashes = Rails.root.join('dev', 'test', filenname)
-      new_hashes = Rails.root.join('tmp', filenname)
-      screenshot_dir = Rails.root.join('tmp', 'styleguide-ref')
-      FileUtils.rm_r(screenshot_dir, secure: true) if Dir.exists? screenshot_dir
+    specify 'All Elements match the reference screenshots', browser: :firefox do
+      if screenshots_enabled_in_environment?
+        # preparation…
+        puts 'styleguide screenshots are enabled, cleaning tmp dir'
+        filenname = 'styleguide-shasums.txt'
+        reference_hashes = Rails.root.join('dev', 'test', filenname)
+        new_hashes = Rails.root.join('tmp', filenname)
+        screenshot_dir = Rails.root.join('tmp', 'styleguide-ref')
+        FileUtils.rm_r(screenshot_dir, secure: true) if Dir.exists? screenshot_dir
 
-      styleguide_elements = build_styleguide_tree
-      .select { |section| !section[:elements].nil? }
-      .flat_map do |section|
-        section[:elements].map do |element|
-          element[:section_name] = section[:name]
-          element[:section_path] = section[:path]
-          element
+        styleguide_elements = build_styleguide_tree
+        .select { |section| !section[:elements].nil? }
+        .flat_map do |section|
+          section[:elements].map do |element|
+            element[:section_name] = section[:name]
+            element[:section_path] = section[:path]
+            element
+          end
         end
+
+        styleguide_elements.map do |element|
+          section = element[:section_name]
+          element_dir = screenshot_dir.join(section)
+          FileUtils.mkdir_p(element_dir) unless Dir.exists? element_dir
+
+          visit styleguide_element_path(section, element[:name])
+          # for consistent hovering:
+          first_link = first('body a')
+          move_mouse_over(first_link) if first_link
+          take_screenshot(element_dir, "#{element[:name]}.png")
+        end
+
+        # ACTUAL TEST: compare hashes to references
+        check = system "shasum --portable -c #{reference_hashes}"
+
+        # IF IT FAILED:
+        unless check
+          puts 'Attaching artefacts…'
+          # generate NEW reference hashes
+          system "shasum --portable tmp/styleguide-ref/**/* > #{new_hashes}"
+          # attach tar.gz of screenshots if regenerating (reference)
+          system 'cd tmp && tar -cvzf styleguide-ref.tar.gz styleguide-ref/'
+        end
+
+        # expect actual test to pass
+        expect(check).to eq true
+
       end
-
-      styleguide_elements.map do |element|
-        section = element[:section_name]
-        element_dir = screenshot_dir.join(section)
-        FileUtils.mkdir_p(element_dir) unless Dir.exists? element_dir
-
-        visit styleguide_element_path(section, element[:name])
-        # for consistent hovering:
-        first_link = first('body a')
-        move_mouse_over(first_link) if first_link
-        take_screenshot(element_dir, "#{element[:name]}.png")
-      end
-
-      # ACTUAL TEST: compare hashes to references
-      check = system "shasum --portable -c #{reference_hashes}"
-
-      # IF IT FAILED:
-      unless check
-        puts 'Attaching artefacts…'
-        # generate NEW reference hashes
-        system "shasum --portable tmp/styleguide-ref/**/* > #{new_hashes}"
-        # attach tar.gz of screenshots if regenerating (reference)
-        system 'cd tmp && tar -cvzf styleguide-ref.tar.gz styleguide-ref/'
-      end
-
-      # expect actual test to pass
-      expect(check).to eq true
 
     end
 

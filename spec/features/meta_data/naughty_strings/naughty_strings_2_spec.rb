@@ -6,6 +6,6 @@ require Rails.root.join 'spec',
                         'shared',
                         'naughty_strings.rb'
 
-feature 'naughty strings' do
-  it_handles_properly 'naughty strings', 41..80
+feature 'Resource: MetaDatum' do
+  it_handles_properly '"naughty strings"', 41..80
 end

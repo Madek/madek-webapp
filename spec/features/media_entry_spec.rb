@@ -2,14 +2,15 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
-feature 'MediaEntry' do
+feature 'Resource: MediaEntry' do
   background do
     @user = FactoryGirl.create(:user, password: 'password')
     sign_in_as @user.login
   end
 
-  context '#create (NOJS)' do
-    scenario 'upload and publish' do
+  describe 'Action: create' do
+
+    scenario 'upload and publish an image with javascript disabled' do
       # go to dashboard and import button
       visit my_dashboard_path
       within('.ui-body-title-actions') do
@@ -33,7 +34,8 @@ feature 'MediaEntry' do
         expect(alert).to have_content 'Entry is not published yet!'
       end
 
-      # TODO: (when validation) add some needed meta data
+      # NOTE: will break here when there is required MetaData,
+      # must add them here
 
       # publish it
       click_on 'Publish!'
@@ -44,7 +46,8 @@ feature 'MediaEntry' do
 
     end
 
-    scenario 'meta_data extraction' do
+    scenario 'File metadata is extracted and mapped via IoMappings to MetaData' do
+
       unless MetaKey.where(id: 'madek_core:title').exists?
         FactoryGirl.create(:meta_key_text, id: 'madek_core:title')
       end
@@ -117,22 +120,25 @@ feature 'MediaEntry' do
     end
   end
 
-  scenario '#delete', browser: :firefox do
-    visit media_entry_path \
-      create :media_entry_with_image_media_file,
-             creator: @user, responsible_user: @user
+  describe 'Action: delete' do
 
-    # visit media_entry_path(media_entry)
+    scenario 'via delete button on detail view ' \
+             '(with confirmation)', browser: :firefox do
 
-    # main actions has a delete button with a confirmation:
-    within '.ui-body-title-actions' do
-      confirmation = find('.icon-trash').click
-      expect(confirmation).to eq 'Are you sure you want to delete this?'
-      accept_confirm
+      visit media_entry_path \
+        create :media_entry_with_image_media_file,
+               creator: @user, responsible_user: @user
+
+      # main actions has a delete button with a confirmation:
+      within '.ui-body-title-actions' do
+        confirmation = find('.icon-trash').click
+        expect(confirmation).to eq 'Are you sure you want to delete this?'
+        accept_confirm
+      end
+
+      # redirects to user dashboard:
+      expect(current_path).to eq my_dashboard_path
     end
-
-    # redirects to user dashboard:
-    expect(current_path).to eq my_dashboard_path
 
   end
 end

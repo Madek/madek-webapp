@@ -2,16 +2,22 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
-feature 'Collection#index' do
+feature 'Resource: Collection' do
 
-  it 'is rendered for public' do
-    visit collections_path
-  end
+  describe 'Action: index' do
 
-  it 'is rendered for normin' do
-    @user = User.find_by(login: 'normin')
-    sign_in_as @user.login
-    visit collections_path
+    it 'is rendered for public' do
+      visit collections_path
+    end
+
+    pending 'shared_test_filterbar'
+
+    it 'is rendered for a logged in user' do
+      @user = User.find_by(login: 'normin')
+      sign_in_as @user.login
+      visit collections_path
+    end
+
   end
 
 end

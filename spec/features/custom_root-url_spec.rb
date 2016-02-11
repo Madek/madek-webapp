@@ -2,9 +2,9 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
-feature 'Running Madek under a Custom Root-URL' do
+feature 'Feature: Server under a Custom Root-URL (e.g. "example.com/mymadek/")' do
 
-  it 'works' do
+  it 'shows correct homepage' do
 
     unless Rails.application.config.relative_url_root.present?
       raise 'SET the RAILS_RELATIVE_URL_ROOT to e.g. "/my-madek-test" ' \

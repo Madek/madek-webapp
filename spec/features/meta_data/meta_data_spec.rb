@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
-feature 'MetaData' do
+feature 'Resource: MetaDatum' do
   background do
     @user = User.find_by(login: 'normin')
     sign_in_as @user.login
@@ -19,7 +19,11 @@ feature 'MetaData' do
 
   end
 
-  context 'update MetaDatum::Text NOJS', browser: :firefox_nojs do
+  describe 'Action: Update' do
+
+  context \
+    'update MetaDatum::Text from it\'s detail view with Javascript disabled',
+    browser: :firefox_nojs do
 
     scenario 'single update' do
       new_text = Faker::Lorem.words.join(' ')
@@ -38,7 +42,8 @@ feature 'MetaData' do
     end
   end
 
-  context 'inline edit MetaDatum::Text HASJS', browser: :firefox do
+  context \
+    'inline edit MetaDatum::Text from MediaEntry detail view', browser: :firefox do
 
     scenario 'single update' do
       new_text = Faker::Lorem.words.join(' ')
@@ -59,5 +64,6 @@ feature 'MetaData' do
 
       expect(@meta_datum.reload.string).to eq new_text
     end
+  end
   end
 end

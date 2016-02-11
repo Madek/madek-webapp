@@ -2,11 +2,17 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
+description = <<-DOC
+Test well-known "problem-causing" strings as value for MetaDatumText,
+from UI (form input) to DB to UI (view).
+See <https://github.com/minimaxir/big-list-of-naughty-strings>
+DOC
+
 RSpec.configure do |c|
   c.alias_it_should_behave_like_to :it_handles_properly, 'handles properly'
 end
 
-RSpec.shared_examples 'naughty strings' do |range|
+RSpec.shared_examples '"naughty strings"' do |range|
   background do
     @user = User.find_by(login: 'normin')
     sign_in_as @user.login
@@ -18,7 +24,9 @@ RSpec.shared_examples 'naughty strings' do |range|
                                      media_entry: @media_entry
   end
 
-  scenario "range: #{range}" do
+  describe description do
+
+  scenario "(items: #{range})" do
     strings = \
       JSON.parse \
         File.read \
@@ -37,5 +45,6 @@ RSpec.shared_examples 'naughty strings' do |range|
         expect(page.text).to match /Error 4\d\d/
       end
     end
+  end
   end
 end
