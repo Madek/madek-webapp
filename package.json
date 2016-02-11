@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "big-list-of-naughty-strings": "1.0.0",
+    "cheerio": "^0.20.0",
     "coffee-react-transform": "3.3.0",
     "coffeelint": "^1.14.2"
   },
