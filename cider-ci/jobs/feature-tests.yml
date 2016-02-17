@@ -106,5 +106,24 @@ jobs:
                 configure_session_validity_duration:
                   script: configure_session_validity_duration
 
+
+        # TMP: spec rendering (could be extra job but needs same setup as tests!)
+        render_specs:
+          name: 'Rspec: HTML summary'
+          trial-attachments:
+            spec_doc_trial:
+              content-type: text/html
+              include-match: spec_doc\/.*\.html$
+          tree-attachments:
+            spec_doc:
+              content-type: text/html
+              include-match: spec_doc\/.*\.html$
+          scripts:
+            test:
+              body: |
+                mkdir spec_doc
+                ./cider-ci/bin/render-specs.js spec/features > spec_doc/spec-features.html
+
+
       _cider-ci_generate-tasks:
         include-match: spec/features.*_spec.rb
