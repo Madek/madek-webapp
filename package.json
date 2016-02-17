@@ -11,6 +11,7 @@
     "ampersand-rest-collection": "5.0.0",
     "any_sha1": "0.1.1",
     "async": "^1.5.2",
+    "babyparse": "^0.4.3",
     "bootstrap": "^3.3.6",
     "browserify": "^11.2.0",
     "browserify-incremental": "3.0.1",
