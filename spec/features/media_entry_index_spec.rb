@@ -18,4 +18,45 @@ feature 'Resource: MediaEntry' do
 
   end
 
+  describe 'Action: favor' do
+
+    it 'favorite button on thumbnail (JS)', browser: :firefox do
+
+      @user = User.find_by(login: 'normin')
+      sign_in_as @user.login
+
+      visit media_entries_path
+
+      @entry_id = URI(all('.ui-thumbnail-image-wrapper')[0][:href]).path[9..-1]
+      @entry = MediaEntry.find @entry_id
+
+      expect(@entry.favored?(@user)).to eq false
+
+      link = '/entries/' + @entry_id
+
+      clickable = find_button(link)
+      clickable.click
+      clickable = find_button(link)
+
+      expect(clickable['data-pending']).to eq 'false'
+
+      expect(@entry.favored?(@user)).to eq true
+
+    end
+
+  end
+
+  private
+
+  def find_button(link)
+    thumbnail_href = find(:xpath, "//a[@href='" + link + "']")
+    parent = thumbnail_href.find(:xpath, './..')
+    parent.hover
+    actions = parent.find('.ui-thumbnail-actions')
+    actions.hover
+    favorite = actions.find('.ui-thumbnail-action-favorite')
+    favorite.hover
+    favorite
+  end
+
 end

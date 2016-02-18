@@ -16,11 +16,7 @@ module Shared
       end
 
       def show?
-        if logged_in?
-          record.viewable_by_user?(user)
-        else
-          record.viewable_by_public?
-        end
+        visible?
       end
 
       def update?
@@ -29,6 +25,14 @@ module Shared
 
       def destroy?
         logged_in? and record.responsible_user == user
+      end
+
+      def favor?
+        logged_in? and visible?
+      end
+
+      def disfavor?
+        logged_in? and visible?
       end
 
       # TODO: policy for seeing the permissions?
@@ -44,6 +48,17 @@ module Shared
       def permissions_update?
         permissions_edit?
       end
+
+      private
+
+      def visible?
+        if logged_in?
+          record.viewable_by_user?(user)
+        else
+          record.viewable_by_public?
+        end
+      end
+
     end
   end
 end

@@ -12,11 +12,12 @@
     display: inline-block
     list-style: none
     margin: 0 2px
-    a
+    a, button
       color: $mono-mid
       text-decoration: none !important
       &:hover
         color: $mono-dark
+
 
 .ui-thumbnail-action-checkbox.active
   .icon-checkbox
@@ -28,6 +29,8 @@
   &:hover
     text-decoration: none
     // i
+  cursor: pointer // for non-js button
+  background-color: transparent // for non-js button
 
 .ui-thumbnail-action
   color: $mono-heavy

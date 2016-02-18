@@ -4,6 +4,7 @@ class MediaEntriesController < ApplicationController
   include Concerns::MediaResources::PermissionsActions
   include Concerns::ResourceListParams
   include Concerns::UserScopes::MediaResources
+  include Concerns::ControllerFavoritable
   include Modules::FileStorage
   include Modules::MediaEntries::Upload
   include Modules::MediaEntries::MetaDataUpdate

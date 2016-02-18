@@ -11,8 +11,9 @@ describe 'Action: show (for logged in user)' do
     @user = User.find_by(login: 'normin')
     sign_in_as @user.login
 
-    @the_entry = '/entries/e157bedd-c2ba-41d8-8ece-82d73066a11e'
-    visit @the_entry
+    @entry_id = 'e157bedd-c2ba-41d8-8ece-82d73066a11e'
+    @entry = MediaEntry.find @entry_id
+    visit media_entry_path(@entry)
   end
 
   it 'is rendered' do
@@ -54,6 +55,14 @@ describe 'Action: show (for logged in user)' do
        'Original exportieren & in PDF blättern',
        'Metadaten editieren & Inhalte zu Set hinzufügen',
        'Zugriffsberechtigungen ändern'].join('')
+  end
+
+  it 'Favorite button is working when logged in.' do
+    favorite_check_logged_in(@user, @entry)
+  end
+
+  it 'Favorite button is not visible for media entry whenn not logged in.' do
+    favorite_check_logged_out(@user, @entry)
   end
 
 end

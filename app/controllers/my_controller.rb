@@ -53,12 +53,12 @@ class MyController < ApplicationController
       partial: :media_resources
     },
     favorite_media_entries: {
-      title: I18n.t(:sitemap_my_favorite_collections),
+      title: I18n.t(:sitemap_my_favorite_media_entries),
       icon: 'icon-privacy-private',
       partial: :media_resources
     },
     favorite_collections: {
-      title: I18n.t(:sitemap_my_favorite_media_entries),
+      title: I18n.t(:sitemap_my_favorite_collections),
       icon: 'icon-privacy-private',
       partial: :media_resources
     },

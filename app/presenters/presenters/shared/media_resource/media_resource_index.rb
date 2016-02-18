@@ -9,6 +9,15 @@ module Presenters
           @user = user
           @list_conf = list_conf
         end
+
+        def favored
+          @app_resource.favored?(@user)
+        end
+
+        def favorite_policy
+          policy(@user).favor?
+        end
+
       end
     end
   end

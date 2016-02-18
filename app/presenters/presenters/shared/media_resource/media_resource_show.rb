@@ -17,6 +17,11 @@ module Presenters
         def keywords
           @app_resource.keywords.map(&:to_s)
         end
+
+        def favored
+          @app_resource.favored?(@user)
+        end
+
       end
     end
   end

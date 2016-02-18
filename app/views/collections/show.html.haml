@@ -2,16 +2,35 @@
   tag_mods = ['small','ellipsed']
   collection_show = {}
 
-  action_buttons = \
+  permission_button =
     component('button.primary',
               link: permissions_collection_path(@get.uuid),
               text: t(:collection_permissions_btn))
+
+  action_buttons =[permission_button]
+
+  favor_button = (@get.policy(current_user).disfavor? and @get.favored) ?
+    component('button',
+      link: disfavor_collection_path,
+      method: :patch,
+      icon: :favorite)
+    : nil
+
+  disfavor_button = (@get.policy(current_user).favor? and !@get.favored) ?
+    component('button',
+      link: favor_collection_path,
+      method: :patch,
+      icon: :nofavorite)
+    : nil
+
+  favor_button ? action_buttons << favor_button : nil
+  disfavor_button ? action_buttons << disfavor_button : nil
 
   collection_show[:header] = \
     component('page-header',
       icon: component('icon.set'),
       text: @get.title,
-      actions: [action_buttons] # TODO: actions
+      actions: action_buttons
     )
 
   collection_show[:overview] = \

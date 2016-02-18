@@ -171,3 +171,9 @@ en:
   group_toolbar_header_entrusted_resources: "Entrusted MediaResources:"
   group_meta_data_name: "Name"
   group_meta_data_institutional_group_name: "Institutional group name"
+
+  # # Favorites
+  media_entry_was_favored: "Media Entry was favored!"
+  media_entry_was_disfavored: "Media Entry was disfavored!"
+  collection_was_favored: "Collection was favored!"
+  collection_was_disfavored: "Collection was disfavored!"

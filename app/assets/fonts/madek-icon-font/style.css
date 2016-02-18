@@ -231,3 +231,9 @@
 .icon-library:before {
 	content: "\e63f";
 }
+.icon-nofavorite:before {
+	content: "\2606";
+}
+.icon-favorite:before {
+	content: "\2605";
+}

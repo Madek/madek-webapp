@@ -118,7 +118,8 @@ module.exports = React.createClass
           window.location = url
 
 
-  render: ({get, mods, initial, interactive, saveable} = @props)->
+  render: ({get, mods, initial, interactive, saveable, authToken} = @props)->
+
     get = f.defaultsDeep \      # combine config in order:
       {config: @state.config},  # - client-side state
       get,                      # - presenter & config (from params)
@@ -275,7 +276,7 @@ module.exports = React.createClass
               <ul className={listClasses}>
                 {get.resources.map (item)->
                   key = item.uuid or item.cid
-                  <ResourceThumbnail elm='li' get={item} key={key}/>}
+                  <ResourceThumbnail elm='li' get={item} key={key} authToken={authToken} />}
               </ul>
             }
             {paginationNav}

@@ -19,6 +19,8 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = true
   config.order = 'random'
 
+  config.include FavoriteHelper
+
   if ENV['FIREFOX_ESR_PATH'].present?
     Selenium::WebDriver::Firefox.path = ENV['FIREFOX_ESR_PATH']
   end

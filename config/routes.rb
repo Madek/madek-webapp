@@ -19,6 +19,9 @@ Madek::Application.routes.draw do
       put 'meta_data', action: :meta_data_update
       get 'more_data'
 
+      patch 'favor', to: 'media_entries#favor'
+      patch 'disfavor', to: 'media_entries#disfavor'
+
       get 'permissions'
       put 'permissions', action: :permissions_update
       get 'permissions/edit', action: :permissions_edit, as: 'edit_permissions'
@@ -38,6 +41,9 @@ Madek::Application.routes.draw do
       get 'cover/edit', action: :edit_cover
       put :update_cover
       put :update_highlights
+      patch 'favor', to: 'collections#favor'
+      patch 'disfavor', to: 'collections#disfavor'
+
     end
   end
   resources :filter_sets, only: [:index, :show, :create] do

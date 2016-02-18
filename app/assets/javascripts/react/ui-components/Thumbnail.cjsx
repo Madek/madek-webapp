@@ -18,7 +18,8 @@ module.exports = React.createClass
       title: React.PropTypes.string.isRequired
       subtitle: React.PropTypes.string
 
-  render: ({type, src, alt, href, badgeRight, badgeLeft, meta} = @props)->
+  render: ({type, src, alt, href, badgeRight, badgeLeft, actionsLeft, actionsRight, meta} = @props)->
+
     classes = "ui-thumbnail #{type} #{parseMods(@props)}"
 
     badgeLeft = if badgeLeft
@@ -40,6 +41,15 @@ module.exports = React.createClass
       </div>
 
 
+    actions = <div className='ui-thumbnail-actions'>
+      <ul className='left by-left'>
+        {actionsLeft}
+      </ul>
+      <ul className='right by-right'>
+        {actionsRight}
+      </ul>
+    </div>
+
     <div className={classes}>
       {badgeLeft}
       {badgeRight}
@@ -49,6 +59,11 @@ module.exports = React.createClass
             <div className='ui-thumbnail-cell-image-holder'>
               <div className='ui-thumbnail-inner-image-holder'>
                 <Picture mods='ui-thumbnail-image' src={src} alt={alt}/>
-              </div></div></div></div></Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Link>
       {meta}
+      {actions}
     </div>

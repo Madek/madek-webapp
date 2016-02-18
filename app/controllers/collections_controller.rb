@@ -4,6 +4,7 @@ class CollectionsController < ApplicationController
   include Concerns::MediaResources::CustomUrlsForController
   include Concerns::UserScopes::MediaResources
   include Concerns::CollectionHighlights
+  include Concerns::ControllerFavoritable
   include Modules::Collections::PermissionsUpdate
 
   alias_method :edit_cover, :edit_highlights
@@ -30,4 +31,11 @@ class CollectionsController < ApplicationController
   def collection_params
     params.require(:collection)
   end
+
+  private
+
+  def find_resource
+    get_authorized_resource(Collection.unscoped.find(id_param))
+  end
+
 end
