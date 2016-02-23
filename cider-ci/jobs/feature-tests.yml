@@ -110,10 +110,6 @@ jobs:
         # TMP: spec rendering (could be extra job but needs same setup as tests!)
         render_specs:
           name: 'Rspec: HTML summary'
-          trial-attachments:
-            spec_doc_trial:
-              content-type: text/html
-              include-match: spec_doc\/.*\.html$
           tree-attachments:
             spec_doc:
               content-type: text/html
