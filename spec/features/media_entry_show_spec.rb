@@ -5,64 +5,79 @@ require 'spec_helper_feature_shared'
 # NOTE: this uses rack-test "browser" to make sure it can be viewed without js
 
 feature 'Resource: MediaEntry' do
-describe 'Action: show (for logged in user)' do
-
+describe 'Action: show' do
   background do
-    @user = User.find_by(login: 'normin')
-    sign_in_as @user.login
-
-    @entry_id = 'e157bedd-c2ba-41d8-8ece-82d73066a11e'
-    @entry = MediaEntry.find @entry_id
-    visit media_entry_path(@entry)
+    # TODO: factory
+    @entry = MediaEntry.find 'e157bedd-c2ba-41d8-8ece-82d73066a11e'
   end
 
-  it 'is rendered' do
-    expect(page.status_code).to eq 200
+  context '(for logged in user)' do
+
+    it 'is rendered and shows title' do
+      visit media_entry_path(@entry)
+      expect(page.status_code).to eq 200
+      expect(page).to have_content 'Title Ausstellung Photo 1'
+    end
+
   end
 
-  scenario "Tab: 'Entry'. Shows Title" do
-    #  - title
-    expect(page).to have_content 'Title Ausstellung Photo 1'
-  end
+  context '(for logged in user)' do
 
-  scenario "Tab: 'Relations'. Shows a parent and a sibling." do
-    click_on_tab I18n.t(:media_entry_tab_relations)
-    # - parents
-    expect(page).to have_content 'Ausstellungen'
-    # - siblings
-    expect(page).to have_content 'Ausstellung Gallerie Limatquai '
-  end
+    background do
+      @user = User.find_by(login: 'normin')
+      sign_in_as @user.login
+      visit media_entry_path(@entry)
+    end
 
-  scenario "Tab: 'More Data'. Shows import date and File Information" do
-    click_on_tab I18n.t(:media_entry_tab_more_data)
-    # - Activity Log
-    expect(page).to have_content 'import_date 20.04.2012'
-    # - File Information
-    expect(page).to have_content 'Filename berlin_wall_01.jpg'
-  end
+    it 'is rendered' do
+      expect(page.status_code).to eq 200
+    end
 
-  scenario "Tab: 'Permissions'. \
-  Has 'privacy status' icon; shows permission summary for logged in user." do
-    # - privacy_status icon:
-    permissions_tab = find(
-      'li.ui-tabs-item', text: I18n.t(:media_entry_tab_permissions))
-    expect(permissions_tab.find('.icon-privacy-open')).to be
+    scenario "Tab: 'Entry'. Shows Title" do
+      #  - title
+      expect(page).to have_content 'Title Ausstellung Photo 1'
+    end
 
-    click_on_tab I18n.t(:media_entry_tab_permissions)
-    expect(page).to have_content 'Sie, Normin Normalo, haben'
-    expect(page).to have_content \
-      ['Betrachten',
-       'Original exportieren & in PDF blättern',
-       'Metadaten editieren & Inhalte zu Set hinzufügen',
-       'Zugriffsberechtigungen ändern'].join('')
-  end
+    scenario "Tab: 'Relations'. Shows a parent and a sibling." do
+      click_on_tab I18n.t(:media_entry_tab_relations)
+      # - parents
+      expect(page).to have_content 'Ausstellungen'
+      # - siblings
+      expect(page).to have_content 'Ausstellung Gallerie Limatquai '
+    end
 
-  it 'Favorite button is working when logged in.' do
-    favorite_check_logged_in(@user, @entry)
-  end
+    scenario "Tab: 'More Data'. Shows import date and File Information" do
+      click_on_tab I18n.t(:media_entry_tab_more_data)
+      # - Activity Log
+      expect(page).to have_content 'import_date 20.04.2012'
+      # - File Information
+      expect(page).to have_content 'Filename berlin_wall_01.jpg'
+    end
 
-  it 'Favorite button is not visible for media entry whenn not logged in.' do
-    favorite_check_logged_out(@user, @entry)
+    scenario "Tab: 'Permissions'. \
+    Has 'privacy status' icon; shows permission summary for logged in user." do
+      # - privacy_status icon:
+      permissions_tab = find(
+        'li.ui-tabs-item', text: I18n.t(:media_entry_tab_permissions))
+      expect(permissions_tab.find('.icon-privacy-open')).to be
+
+      click_on_tab I18n.t(:media_entry_tab_permissions)
+      expect(page).to have_content 'Sie, Normin Normalo, haben'
+      expect(page).to have_content \
+        ['Betrachten',
+         'Original exportieren & in PDF blättern',
+         'Metadaten editieren & Inhalte zu Set hinzufügen',
+         'Zugriffsberechtigungen ändern'].join('')
+    end
+
+    it 'Favorite button is working when logged in.' do
+      favorite_check_logged_in(@user, @entry)
+    end
+
+    it 'Favorite button is not visible for media entry whenn not logged in.' do
+      favorite_check_logged_out(@user, @entry)
+    end
+
   end
 
 end
