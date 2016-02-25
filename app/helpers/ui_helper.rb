@@ -50,11 +50,7 @@ module UiHelper
     end
     # NOTE: all of the queries happen here:
     props = props.merge(get: presenter.dump) if presenter
-
-    Rails.cache.fetch({ name: name, props: props }.hash) do
-      props = props.merge(authToken: form_authenticity_token) if opts[:prerender]
-      react_component("UI.#{name}", props, opts)
-    end
+    react_component("UI.#{name}", props, opts)
   end
 
   # generic partial-with-block helper
