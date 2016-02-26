@@ -16,27 +16,10 @@ jobs:
       submodule: ['engines/datalayer']
       states: [passed]
 
-    context:
-
-      name: Unit Tests
-
-      description: |
-        This job contains tests involing the ruby runtime
-        and possibly the database.
-
-
-      script-defaults:
-        template-environment-variables: true
-        timeout: 3 Minutes
-
+    context: # shared for all subcontexts
       task-defaults:
-
-        _cider-ci_include:
-          - cider-ci/shared/attachments.yml
-          - cider-ci/shared/environment-variables.yml
-
         eager-trials: 1
-        max-auto-trials: 2
+        max-auto-trials: 3
 
         git-options:
           submodules:
@@ -44,20 +27,51 @@ jobs:
             timeout: 60
 
         traits:
-          imagemagick: true
           linux: true
           nodejs: true
-          postgresql: true
-          rbenv: true
-          ruby: true
 
-        scripts:
+      script-defaults:
+        timeout: 3 Minutes
+        template-environment-variables: true
 
-          _cider-ci_include:
-            - cider-ci/jobs/unit-tests/scripts/prepare.yml
-            - cider-ci/shared/scripts/manage-database.yml
-            - cider-ci/jobs/unit-tests/scripts/test.yml
+      subcontexts:
 
-      _cider-ci_generate-tasks:
-        include-match: spec/.*_spec.rb
-        exclude-match: spec/features.*_spec.rb
+        js:
+          name: JavaScript Unit Tests
+          description: |
+            This job contains tests involving the nodejs/npm runtime.
+
+          _cider-ci_generate-tasks:
+            include-match: app/assets/javascripts/react/.*/__tests__/.*\.(c?jsx?)
+          task-defaults:
+            scripts:
+              test: {body: npm run jest -- --verbose --noHighlight --no-cache $CIDER_CI_TASK_FILE}
+
+        ruby:
+          name: Ruby Unit Tests
+
+          description: |
+            This job contains tests involing the ruby runtime
+            and possibly the database.
+
+          task-defaults:
+
+            _cider-ci_include:
+              - cider-ci/shared/attachments.yml
+              - cider-ci/shared/environment-variables.yml
+
+            traits:
+              rbenv: true
+              ruby: true
+              postgresql: true
+              imagemagick: true
+
+            scripts:
+              _cider-ci_include:
+                - cider-ci/jobs/unit-tests/scripts/ruby_prepare.yml
+                - cider-ci/shared/scripts/manage-database.yml
+                - cider-ci/jobs/unit-tests/scripts/ruby_test.yml
+
+          _cider-ci_generate-tasks:
+            include-match: spec/.*_spec.rb
+            exclude-match: spec/features.*_spec.rb
