@@ -3,6 +3,18 @@
   "description": "madek javascript toolchain",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "test": "npm run -s lint && npm run -s test:jest",
+    "test:jest": "jest",
+    "lint": "bash -c 'npm run -s coffeelint -- --quiet app/assets/javascripts/{*.coffee,**/*.{coffee,cjsx}} && npm run -s standardlint -- {.,**}/*.js'",
+    "devtools": "npm run -s build-devtools && coffee --nodejs \"-r ./tmp/devtools.js\"",
+    "devtools-js": "npm run -s build-devtools && node -r ./tmp/devtools.js",
+    "build-devtools": "npm run -s browserify -- app/assets/javascripts/developer-tools.coffee > tmp/devtools.js",
+    "coffeelint": "coffeelint",
+    "standardlint": "standard",
+    "jest": "jest",
+    "browserify": "browserify"
+  },
   "dependencies": {
     "@eins78/typeahead.js": "0.11.2-pre.1",
     "active-lodash": "1.2.2",
@@ -54,18 +66,6 @@
     "coffeelint": "^1.14.2",
     "jest-cli": "*",
     "react-addons-test-utils": "~0.14.0"
-  },
-  "scripts": {
-    "test": "npm run -s lint && npm run -s test:jest",
-    "test:jest": "jest",
-    "lint": "bash -c 'npm run -s coffeelint -- app/assets/javascripts/{*.coffee,**/*.{coffee,cjsx}} && npm run -s standardlint -- {.,**}/*.js'",
-    "devtools": "npm run -s build-devtools && coffee --nodejs \"-r ./tmp/devtools.js\"",
-    "devtools-js": "npm run -s build-devtools && node -r ./tmp/devtools.js",
-    "build-devtools": "npm run -s browserify -- app/assets/javascripts/developer-tools.coffee > tmp/devtools.js",
-    "coffeelint": "coffeelint",
-    "standardlint": "standard",
-    "jest": "jest",
-    "browserify": "browserify"
   },
   "browserify": {
     "transform": [
