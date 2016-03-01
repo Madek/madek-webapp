@@ -99,6 +99,13 @@ module.exports = React.createClass
     @setState(showDynFilters: bool)
 
   handleAccordion: (event)->
+    parameters = list:
+      page: 1 # make sure that the new result starts on page 1
+      filter: JSON.stringify(event.current)
+      accordion: JSON.stringify(event.accordion)
+    newUrl = setUrlParams(@props.for_url, parameters)
+    window.location = newUrl
+
     # @handleChangeInternally(event)
     # console.log 'handleAccordion', arguments
     # # handleLinkIfLocal(event, …)
@@ -162,15 +169,15 @@ module.exports = React.createClass
       {list: f.merge f.omit(config, 'for_url')},
       {
         list: filter: JSON.stringify(config.filter),
-        dyn_filter: JSON.stringify(config.dyn_filter)
+        accordion: JSON.stringify(config.accordion)
       })
 
     resetFilterHref =
       setUrlParams(config.for_url, currentQuery, list:
-        page: 1, filter: {}, dyn_filter: {})
+        page: 1, filter: {}, accordion: {})
 
     resetFilterLink = if resetFilterHref
-      if f.present(config.filter) or f.present(config.dyn_filter)
+      if f.present(config.filter) or f.present(config.accordion)
         <Link mods='mlx weak' href={resetFilterHref}>
           <Icon i='undo'/> {'Filter zurücksetzen'}</Link>
 
@@ -248,8 +255,7 @@ module.exports = React.createClass
             </div>
           else
             <SideFilter dynamic={dynamic_filters} current={config.filter}
-              accordion={config.dyn_filter or {}} onChange={@handleAccordion}
-              resetHref={resetFilterHref}
+              accordion={config.accordion or {}} onChange={@handleAccordion}
               url={config.for_url} query={currentQuery}/>
           }
         </div>

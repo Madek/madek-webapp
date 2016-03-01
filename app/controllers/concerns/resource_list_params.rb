@@ -13,8 +13,11 @@ module Concerns
         # TODO: only permit supported layout modes…
         base = :list
         allowed = [
-          :layout, :filter, :search, :show_filter, :dyn_filter, :page, :per_page]
-        coerced_types = { bools: [:show_filter], jsons: [:filter, :dyn_filter] }
+          :layout, :filter, :search, :show_filter, :accordion,
+          :page, :per_page]
+        coerced_types = {
+          bools: [:show_filter],
+          jsons: [:filter, :accordion] }
         parameters
           .permit(base => allowed).fetch(base, {}).deep_symbolize_keys
           .map { |key, val| _coerce_types(coerced_types, key, val) }.to_h

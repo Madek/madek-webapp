@@ -11,6 +11,10 @@ module.exports = React.createClass
     else
       'span'
 
-    <Elm {...@props} href={href}>
+    if @props.className
+      className = @props.className + ' link'
+    else
+      className = 'link'
+    <Elm {...@props} href={href} className={className}>
       {children}
     </Elm>

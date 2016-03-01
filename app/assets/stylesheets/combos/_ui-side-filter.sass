@@ -40,7 +40,8 @@
 .ui-side-filter-list
   position: relative
 
-.ui-side-filter-list a
+.ui-side-filter-list a,
+.ui-side-filter-list .link
   +border-radius($border-radius-m)
   display: block
   line-height: 1.5
@@ -74,7 +75,8 @@
   &:first-child
     padding-top: 0
 
-.ui-side-filter-lvl2-item > a
+.ui-side-filter-lvl2-item > a,
+.ui-side-filter-lvl2-item > .link
   font-size: $font-s
   font-weight: 600
   padding-left: $space-m
@@ -97,7 +99,8 @@
     padding: $space-x
     text-align: center
 
-.ui-side-filter-lvl3-item > a
+.ui-side-filter-lvl3-item > a,
+.ui-side-filter-lvl3-item > .link
   font-size: $font-xs
   font-weight: 600
   padding-right: 30px
@@ -146,7 +149,8 @@
   &:before
     content: "\e603"
 
-.ui-side-filter-lvl3-item.active > a
+.ui-side-filter-lvl3-item.active > a,
+.ui-side-filter-lvl3-item.active > .link
   +box-shadow(inset 0 1px 2px $darken)
   background: $darken-subtle
   .ui-lvl3-item-count

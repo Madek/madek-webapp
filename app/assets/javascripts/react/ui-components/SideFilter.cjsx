@@ -1,14 +1,11 @@
 # decorates: DynamicFilters
 # fallback: no # only used interactive (client-side)
-# ---
-# TODO: accordion nav (needs async requests for dynamic filters)
 
 React = require('react')
 f = require('active-lodash')
 css = require('classnames')
 parseMods = require('../lib/parse-mods.coffee').fromProps
 setUrlParams = require('../../lib/set-params-for-url.coffee')
-# UiPropTypes = require('./propTypes.coffee')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
 
 Button = require('./Button.cjsx')
@@ -21,215 +18,314 @@ module.exports = React.createClass
   propTypes:
     dynamic: React.PropTypes.array.isRequired
     accordion: React.PropTypes.objectOf(React.PropTypes.object).isRequired
-    current: MadekPropTypes.resourceFilter
+    current: MadekPropTypes.resourceFilter.isRequired
     onChange: React.PropTypes.func
 
-  toggleSection: (section, bool)->
-    @buildLinkFromAccordion f.assign(@props.accordion,
-      f.set({}, section, (if bool then {} else undefined)))
 
-  toggleSubsection: (section, subsection, bool)->
-    current = f.get(@props.accordion, section) or {}
-    @buildLinkFromAccordion(f.assign(@props.accordion,
-      f.set({}, section, f.assign(current,
-        f.set({}, subsection, (if bool then {} else undefined))))))
+  getAccordionSection: (sectionUuid) ->
+    accordion = @state.accordion
+    if not accordion.sections
+      accordion.sections = {}
 
-  addFilterToUrl: (key, parent, item)->
-    current = f.presence(f.get @props.current, key) or []
-    filter = addMetaDataItemToFilter(current, parent, item)
-    @buildLinkFromFilter(key, filter)
+    section = accordion.sections[sectionUuid]
+    if not section
+      section = {
+        isOpen: false,
+        subSections: {}
+      }
+      accordion.sections[sectionUuid] = section
+    section
 
-  removeFilterFromUrl: (key, parent, item)->
-    current = f.presence(f.get @props.current, key) or []
-    filter = removeMetaDataItemFromFilter(current, parent, item)
-    @buildLinkFromFilter(key, filter)
+  getAccordionSubSection: (sectionUuid, subSectionUuid) ->
+    section = @getAccordionSection(sectionUuid)
+    subSection = section.subSections[subSectionUuid]
+    if not subSection
+      subSection = {
+        isOpen: false
+      }
+      section.subSections[subSectionUuid] = subSection
+    subSection
 
-  buildLinkFromFilter: (key, filter)->
-    filter = f.assign(@props.current, f.set({}, key, filter))
-    params = {list: {page: 1, filter: JSON.stringify(filter)}}
-    setUrlParams(@props.url, @props.query, params)
+  toggleSection: (sectionUuid) ->
+    section = @getAccordionSection(sectionUuid)
+    section.isOpen = not section.isOpen
+    @setState(accordion: @state.accordion)
 
-  buildLinkFromAccordion: (config)->
-    params = {list: dyn_filter: JSON.stringify(config)}
-    setUrlParams(@props.url, @props.query, params)
+  toggleSubSection: (sectionUuid, subSectionUuid)->
+    subSection = @getAccordionSubSection(sectionUuid, subSectionUuid)
+    subSection.isOpen = not subSection.isOpen
+    @setState(accordion: @state.accordion)
+
+  getInitialState: () ->
+    javascript: false
+    accordion: @props.accordion or {}
+
+  componentDidMount: () ->
+    @setState(javascript: true)
 
   render: ({dynamic, current, accordion} = @props)->
+
+    # Clone the current filters, so as we can manipulate them
+    # to give the result back to the parent component.
+    current = f.clone(current)
+
     baseClass = "ui-side-filter-list #{parseMods(@props)}"
+
+    filters = initializeFilterTreeFromProps(dynamic, current)
+
+    <ul className={baseClass}>
+      {f.map filters, (filter) =>
+        @renderSection(current, filter)
+      }
+    </ul>
+
+  renderSection: (current, filter) ->
+
     itemClass = 'ui-side-filter-lvl1-item ui-side-filter-item'
 
     # TMP: ignore invalid dynamicFilters
     if !(f.isArray(dynamic) and f.present(f.isArray(dynamic)))
       return null
 
-    # combine dynamic filter config and current filter state into ui config:
-    # (set 'selected' status, sort by counts, etc)
-    filters = uiStateFromConfigAndFilters(dynamic, current)
+    filterType = filter.filterType
+    uuid = filter.uuid
+    isOpen = @getAccordionSection(uuid).isOpen
+    href = null
 
-    onClick = null # TMP (event)=>
-      # if f.isFunction(@props.onChange)
-      #   @props.onChange(event) else undefined
+    toggleOnClick = () => @toggleSection(filter.uuid)
 
-    <ul className={baseClass}>
-      {f.map filters, (filter, baseKey)=>
-        # type of filter (like 'permissions' or 'meta_data')
-        filterType = filter.filterType
-        # always open when configured, or if user openened it
-        isOpen = true # TMP f.get(@state, filter.uuid) or f.get(accordion, filter.uuid)
-        href = null # TMP @toggleSection(filter.uuid, not isOpen)
+    <li className={itemClass} key={filter.uuid}>
+      <a className={css('ui-accordion-toggle', 'strong', open: isOpen)}
+        href={href} onClick={toggleOnClick}>
+        {filter.label} <i className='ui-side-filter-lvl1-marker'/>
+      </a>
 
-        <li className={itemClass} key={filter.uuid}>
-          <a className={css('ui-accordion-toggle', 'strong', open: isOpen)}
-            href={href} onClick={onClick}>
-            {filter.label} <i className='ui-side-filter-lvl1-marker'/>
-          </a>
+      <ul className={css('ui-accordion-body', 'ui-side-filter-lvl2', open: isOpen)}>
+        {if isOpen then f.map filter.children, (child) =>
+          @renderSubSection(current, filterType, filter, child)
+        }
+      </ul>
+    </li>
 
-          <ul className={css('ui-accordion-body', 'ui-side-filter-lvl2', open: isOpen)}>
-            {if isOpen then f.map filter.children, (child)=>
-              isOpen = true # TMP f.get(accordion, [filter.uuid, child.uuid])
-              href = null # TMP @toggleSubsection(filter.uuid, child.uuid, not isOpen)
+  renderSubSection: (current, filterType, parent, child) ->
 
-              togglerClass = css('ui-accordion-toggle', 'weak', open: isOpen)
-              toggleMarkerClass = css('ui-side-filter-lvl2-marker')
-              togglebodyClass = css('ui-accordion-body', 'ui-side-filter-lvl3',
-                open: isOpen)
-              toggler = (
-                <a className={togglerClass} href={href} onClick={onClick}>
-                  <span className={toggleMarkerClass}/>
-                    {child.label}</a>)
-              keyClass = 'ui-side-filter-lvl2-item'
-              keyBtnClass = 'ui-any-value'
-              # make a 'select all/none' toggle
-              keySelect = do (key = filterType, isOpen = isOpen, {selected} = child)=>
-                btn = switch
-                  # 'remove all' if any selected:
-                  when f.any(child.children, 'selected')
-                    icon: 'close'
-                    title: 'Alle entfernen'
-                    href: @removeFilterFromUrl(key, child)
-                  # or 'toggle filter any for key' button for multi-selects
-                  when child.multi
-                    icon: 'checkbox'
-                    iclass: 'active' if selected
-                    title: 'Jegliche Werte'
-                    href: @addFilterToUrl(key, child)
-                return if not btn
-                 # css fix because we are using a link:
-                style = {display: 'inline-block', position: 'absolute', padding: 0}
-                <Link style={style} className={keyBtnClass} title={btn.title}
-                  href={btn.href} onClick={onClick}>
-                  <Icon i={btn.icon} className={btn.iclass}/>
-                </Link>
+    isOpen = @getAccordionSubSection(parent.uuid, child.uuid).isOpen
 
-              <li className={keyClass} key={child.uuid}>
-                {toggler}
-                {keySelect}
-                <ul className={togglebodyClass}>
-                  {if isOpen then f.map child.children, (item)=>
-                    linker = if item.selected then @removeFilterFromUrl else @addFilterToUrl
-                    <FilterItem {...item} key={item.uuid}
-                       href={linker(filterType, child, item)} onClick={onClick}/>
-                  }
-                </ul></li>}</ul></li>}</ul>
+    keyClass = 'ui-side-filter-lvl2-item'
+    togglebodyClass = css('ui-accordion-body', 'ui-side-filter-lvl3', open: isOpen)
+    <li className={keyClass} key={child.uuid}>
+      {@createToggleSubSection(parent, child, isOpen)}
+      {@createMultiSelectBox(child, current, filterType)}
+      <ul className={togglebodyClass}>
+        {if isOpen then f.map child.children, (item)=>
+          @renderItem(current, child, item, filterType)
+        }
+      </ul>
+    </li>
 
-FilterItem = ({label, uuid, selected, href, count} = @props)->
+  renderItem: (current, parent, item, filterType) ->
+
+    onChange = @props.onChange
+    addRemoveClick = () =>
+
+      if item.selected then @removeItemFilter(onChange, current, parent, item, filterType) else @addItemFilter(onChange, current, parent, item, filterType)
+
+    <FilterItem {...item} key={item.uuid} onClick={addRemoveClick}/>
+
+  createToggleSubSection: (parent, child, isOpen) ->
+
+    href = null
+
+    toggleOnClick = (
+      () -> @toggleSubSection(parent.uuid, child.uuid)
+    ).bind(this)
+
+    togglerClass = css('ui-accordion-toggle', 'weak', open: isOpen)
+    toggleMarkerClass = css('ui-side-filter-lvl2-marker')
+
+    <a className={togglerClass} href={href} onClick={toggleOnClick}>
+      <span className={toggleMarkerClass}/>
+      {child.label}
+    </a>
+
+  createMultiSelectBox: (child, current, filterType) ->
+
+    showRemoveAll = f.any(child.children, 'selected')
+    showSelectAll = child.multi and not showRemoveAll
+    style = {display: 'inline-block', position: 'absolute', padding: 0}
+    keyBtnClass = 'ui-any-value'
+
+    multiSelectBox = undefined
+    if showRemoveAll
+      title = 'Alle entfernen'
+      onChange = @props.onChange
+      removeClick = () =>
+        @removeSubSectionFilter(onChange, current, child, filterType)
+      icon = 'close'
+      multiSelectBox = <Link style={style} className={keyBtnClass} title={title} onClick={removeClick}>
+        <Icon i={icon}/>
+      </Link>
+
+    if showSelectAll
+      title = 'Jegliche Werte'
+      icon = 'checkbox'
+      iclass = 'active' if child.selected
+      onChange = @props.onChange
+      addClick = () =>
+        if child.selected
+          @removeSubSectionFilter(onChange, current, child, filterType)
+        else
+          @addSubSectionFilter(onChange, current, child, filterType)
+      multiSelectBox = <Link style={style} className={keyBtnClass} title={title} onClick={addClick}>
+        <Icon i={icon} className={iclass}/>
+      </Link>
+
+    return multiSelectBox
+
+  addItemFilter: (onChange, current, parent, item, filterType) ->
+
+    currentPerType = current[filterType] or []
+    # When we add a child filter, the parent filter is no longer needed.
+    currentPerType = f.reject(
+      currentPerType,
+
+      # Remove the filter, if it is in the section and consists only of
+      # key, but has no value or match.
+      # If multi is false, then we remove all from this section.
+      (filter) ->
+        preventDuplicate = filter.key is parent.uuid and filter.value is item.uuid
+        removeSectionFilter = filter.key is parent.uuid and (not f.present(f.pick(filter, 'value', 'match')) or not parent.multi)
+        preventDuplicate or removeSectionFilter
+
+    # Add the Item filter.
+    ).concat({ key: parent.uuid, value: item.uuid })
+
+    current[filterType] = currentPerType
+    onChange({
+      action: 'added item'
+      item: item
+      current: current
+      accordion: @state.accordion
+    }) if onChange
+
+  addSubSectionFilter: (onChange, current, parent, filterType) ->
+
+    currentPerType = current[filterType] or []
+    # Remove all Item filters in this section.
+    currentPerType = f.reject(
+      currentPerType,
+
+      # Note: We here also remove an existing section filter actually.
+      (filter) -> filter.key is parent.uuid
+
+    # Add the Item filter.
+    ).concat({ key: parent.uuid })
+
+    current[filterType] = currentPerType
+    onChange({
+      action: 'added key'
+      current: current
+      accordion: @state.accordion
+    }) if onChange
+
+  removeItemFilter: (onChange, current, parent, item, filterType) ->
+
+    currentPerType = current[filterType] or []
+    # Remove the item filter.
+    currentPerType = f.reject(currentPerType, (filter) -> filter.value is item.uuid)
+    current[filterType] = currentPerType
+    onChange({
+      action: 'removed item'
+      item: item
+      current: current
+      accordion: @state.accordion
+    }) if onChange
+
+  removeSubSectionFilter: (onChange, current, parent, filterType) ->
+
+    currentPerType = current[filterType] or []
+    # Remove the section filter.
+    currentPerType = f.reject(currentPerType, (filter) -> filter.key is parent.uuid)
+    current[filterType] = currentPerType
+    onChange({
+      action: 'removed key'
+      current: current
+      accordion: @state.accordion
+    }) if onChange
+
+FilterItem = ({label, uuid, selected, href, count, onClick} = @props) ->
   label = f.presence(label or uuid) or (
     console.error('empty FilterItem label!') and '(empty)')
   <li className={css('ui-side-filter-lvl3-item', active: selected)}>
-    <Link mod='weak' href={href}>
+    <Link mod='weak' onClick={onClick}>
       {label} <span className='ui-lvl3-item-count'>{count}</span>
     </Link>
   </li>
 
-#  helpers
-cleanupAndSortDynFilters = (dynamicFilters)->
-  f.chain(dynamicFilters)
-    .map((filter)->
-      # type of filter (like 'permissions' or 'meta_data')
-      filterType = filter.filter_type or filter.uuid
-      keys = buildKeys(filter.children)
-      # return if not f.present(keys)
-      f.assign(filter,
-        children: keys, filterType: filterType, filter_type: undefined))
-    .compact()
-    # .sortByOrder('position', 'asc')
-    .presence().value()
+initializeFilterTreeFromProps = (dynamicFilters, current) ->
+  tree = initializeSections(dynamicFilters)
+  tree = forCurrentFiltersSelectItemsInTree(tree, current)
 
-buildKeys = (keys)->
-  f.chain(keys)
-    .map((key)->
-      items = buildItems(key.children)
-      #                                #TMP: dont remove if People…
-      # return if not f.present(items) #and key.value_type isnt 'MetaDatum::People'
-      f.assign(key, children: items))
-    .compact().presence().value()
+forCurrentFiltersSelectItemsInTree = (tree, current) ->
 
-buildItems = (items)->
-  f.chain(items)
-    # .reject((item)->
-    #   # NOTE: count implemented for everything, only filter if it is a number:
-    #   return false if not f.isNumber(f.get(item, 'count'))
-    #   item.count < 1)
-    # .sortByOrder('count', 'desc')
-    .compact().presence().value()
+  selectItemForFilter = (item, filter) ->
+    item.selected = true if item.uuid == filter.value
 
-uiStateFromConfigAndFilters = (dynamicFilters, current)->
-  # create state: cleanup + sort 3rd level keys by count (if present)
-  state = cleanupAndSortDynFilters(dynamicFilters)
+  selectInSubSection = (subSection, filter) ->
+    for i, item of subSection.children
+      subSection.selected = true if subSection.uuid == filter.key
+      selectItemForFilter(item, filter)
 
-  # adds 'selected' status of dynamic filters
-  # according to current list filter.
-  f.each current, (filters, baseKey)-> f.each filters, (filter)->
+  selectInSection = (section, filter) ->
+    for i, subSection of section.children
+      selectInSubSection(subSection, filter) if subSection.uuid == filter.key
 
-    # get config for key (2nd level) mentioned in filter:
-    key = f.chain(state).where(filterType: baseKey)
-      .map('children').flatten()
-      .find(uuid: filter.key)
+  selectInTreePerFilter = (filterType, filter) ->
+    for i, section of tree
+      selectInSection(section, filter) if section.filterType == filterType
 
-    switch
-      # - ignore if key not found in the config (bc of cleanup)
-      when not key.present().value() then return
-      # - filter has key without value -> filters for key -> set key as selected
-      when not f.present(f.pick(filter, 'value', 'match'))
-        key.set('selected', true).run()
-      # - filter has key and specific value -> filters for value -> set value as selected
-      when (id = f.get(filter, 'value'))
-        key.get('children')
-          .find(uuid: id)
-          .set('selected', true).run()
-      # - filter has key and match -> fail
-      when (id = f.get(filter, 'match'))
-        console.error('NOT IMPLEMENTED!', filter)
+  for filterType, filtersPerType of current
+    for i, filter of filtersPerType
+      selectInTreePerFilter(filterType, filter)
 
-  return state
+  return tree
 
-addMetaDataItemToFilter = (current, parent, item)->
-  switch
-    # a key is added without term:
-    when parent.uuid and not item
-      # remove the filter-by-term and add 1 filter-by-key
-      f.reject(current, (filter)-> filter.key is parent.uuid)
-        .concat({ key: parent.uuid })
-    # a key is added with a term:
-    when parent.uuid and item and (typeof item.uuid != 'undefined')
-      # # remove any filter-by-key and add 1 filter-by-term
-      f.reject(current, (
-        (fil)->
-          fil.key is parent.uuid and not f.present(f.pick(fil, 'value', 'match'))))
-        .concat({ key: parent.uuid, value: item.uuid })
-    else
-      current
+initializeSections = (dynamicFilters) ->
+  tree = []
+  for i, filter of dynamicFilters
+    section = {
+      filterType: filter.filter_type or filter.uuid
+      children: initializeSubSections(filter.children)
+      label: filter.label
+      uuid: filter.uuid
+    }
+    tree.push(section)
+  return tree
 
-removeMetaDataItemFromFilter = (current, parent, item)->
-  return if not current and not parent
-  # if the result of the following is an empty list, remove nothing.
-  f.presence switch
-    # a key is removed:
-    when parent.uuid and not item
-      # remove any filter-by-key
-      f.reject(current, (filter)-> filter.key is parent.uuid)
-    # a term is removed:
-    when parent.uuid and item and item.uuid
-      # remove the filter-by-term
-      f.reject(current, (filter)-> filter.value is item.uuid)
-    else
-      current
+initializeSubSections = (filters) ->
+  subSections = []
+  for i, filter of filters
+    subSection = {
+      children: initializeItems(filter.children)
+      label: filter.label
+      uuid: filter.uuid
+      # The default value of multi is true. This means, we only
+      # check if the presenter has set the value to false explicitely.
+      # If the presenter does not set the value at all, it is undefined,
+      # and therefore it is set to true here.
+      multi: true unless filter.multi is false
+    }
+    subSections.push(subSection)
+  return subSections
+
+initializeItems = (filters) ->
+  items = []
+  for i, filter of filters
+    item = {
+      label: filter.label
+      uuid: filter.uuid
+      count: filter.count
+      selected: false
+    }
+    items.push(item)
+  return items

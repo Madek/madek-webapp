@@ -6,8 +6,10 @@ qs = require('qs')
 module.exports = resourceListParams = (location)->
   query = qs.parse(location.search.slice(1))
   base = 'list'
-  allowed = ['layout', 'filter', 'search', 'show_filter', 'page', 'per_page']
-  coerced_types = { bools: ['show_filter'], jsons: ['filter', 'dyn_filter'] }
+  allowed = [
+    'layout', 'filter', 'search', 'show_filter', 'accordion',
+    'page', 'per_page']
+  coerced_types = { bools: ['show_filter'], jsons: ['filter', 'accordion'] }
   f.chain(query)
     .get(base).pick(allowed)
     .map(f.curry(coerceTypes)(coerced_types)).object()
