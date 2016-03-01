@@ -87,15 +87,10 @@ jobs:
 
           tasks:
             lint_coffeescript:
-              name: 'JS: Lint/Stylecheck with Coffeelint'
+              name: 'JS: Lint/Stylecheck with `standard` and Coffeelint'
               scripts:
                 test:
-                  body: |
-                    #!/bin/bash
-                    set -e
-                    for F in app/assets/javascripts/**/*.{coffee,cjsx}; do
-                      npm run -s coffeelint -- $F
-                    done
+                  body: npm run lint
 
         git:
           description: 'Git sanity checks (fixed state)'

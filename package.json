@@ -1,5 +1,5 @@
 {
-  "name": "madek_js",
+  "name": "madek-webapp-ui",
   "description": "madek javascript toolchain",
   "version": "1.0.0",
   "private": true,
@@ -37,24 +37,35 @@
     "react-file-drop": "^0.1.8",
     "reactify": "1.1.1",
     "rusha": "0.8.3",
+    "standard": "^6.0.7",
     "underscore.string": "^3.3.4",
     "uuid-validate": "0.0.2",
     "xhr": "^2.2.0",
     "yamlify": "0.1.2"
   },
   "devDependencies": {
+    "babel-jest": "*",
+    "babel-preset-es2015": "*",
+    "babel-preset-react": "*",
     "big-list-of-naughty-strings": "1.0.0",
     "cheerio": "^0.20.0",
+    "coffee-react": "^4.1.0",
     "coffee-react-transform": "3.3.0",
-    "coffeelint": "^1.14.2"
+    "coffeelint": "^1.14.2",
+    "jest-cli": "*",
+    "react-addons-test-utils": "~0.14.0"
   },
   "scripts": {
+    "test": "npm run -s lint && npm run -s test:jest",
+    "test:jest": "jest",
+    "lint": "bash -c 'npm run -s coffeelint -- app/assets/javascripts/{*.coffee,**/*.{coffee,cjsx}} && npm run -s standardlint -- {.,**}/*.js'",
     "devtools": "npm run -s build-devtools && coffee --nodejs \"-r ./tmp/devtools.js\"",
     "devtools-js": "npm run -s build-devtools && node -r ./tmp/devtools.js",
     "build-devtools": "npm run -s browserify -- app/assets/javascripts/developer-tools.coffee > tmp/devtools.js",
-    "browserify": "browserify",
     "coffeelint": "coffeelint",
-    "lint": "npm run -s coffeelint -- app/assets/javascripts/{*.coffee,**/*.{coffee,cjsx}}"
+    "standardlint": "standard",
+    "jest": "jest",
+    "browserify": "browserify"
   },
   "browserify": {
     "transform": [
@@ -65,6 +76,31 @@
     ],
     "ignore": [
       "crypto"
+    ]
+  },
+  "babel": {
+    "presets": ["es2015", "react"]
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/jest-script-preprocessor",
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/.",
+      "<rootDir>/node_modules/react",
+      "<rootDir>/node_modules/react-dom",
+      "<rootDir>/node_modules/react-addons-test-utils",
+      "<rootDir>/node_modules/fbjs"
+    ],
+    "testFileExtensions": [
+      "coffee",
+      "cjsx",
+      "js",
+      "jsx"
+    ],
+    "moduleFileExtensions": [
+      "coffee",
+      "cjsx",
+      "js",
+      "jsx"
     ]
   },
   "author": "Max Albrecht <max.albrecht@zhdk.ch>",
