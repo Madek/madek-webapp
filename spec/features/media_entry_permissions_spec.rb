@@ -11,36 +11,18 @@ feature 'Resource: MediaEntry' do
     sign_in_as @user.login
   end
 
-  scenario 'edit permissions JS', browser: :firefox do
+  scenario 'edit permissions', browser: :firefox do
 
-    test_perm = 'get_metadata_and_previews'
-    other_perm = 'get_full_size'
+    open_permission_editable
 
-    visit permissions_media_entry_path(@entry)
-    form = find('[name="ui-rights-management"]')
+    test_perm = permission_types[0]
+    other_perm = permission_types[1]
 
-    people = subject_row(form, 'Personen')
-    groups = subject_row(form, 'Gruppen')
+    add_subject_with_permission(@node_people, 'Norbert', test_perm)
+    add_subject_with_permission(@node_groups, 'Diplomarbeitsg', test_perm)
+    add_subject_with_permission(@node_apiapps, 'fancy', test_perm)
 
-    expect(subject_items(people).length).to be 0
-    expect(subject_items(groups).length).to be 0
-    # this is hidden on show when empty:
-    expect(subject_row(form, 'API-Applikationen')).to be nil
-
-    form.click_on('Bearbeiten')
-
-    # router works:
-    expect(current_path).to eq edit_permissions_media_entry_path(@entry)
-
-    # now its visible:
-    apiapps = subject_row(form, 'API-Applikationen')
-    expect(subject_items(apiapps).length).to be 0
-
-    add_subject_with_permission(people, 'Norbert', test_perm)
-    add_subject_with_permission(groups, 'Diplomarbeitsg', test_perm)
-    add_subject_with_permission(apiapps, 'fancy', test_perm)
-
-    form.click_on('Speichern')
+    @node_form.click_on('Speichern')
     @entry.reload
 
     expect(current_path).to eq permissions_media_entry_path(@entry)
@@ -59,9 +41,64 @@ feature 'Resource: MediaEntry' do
 
   end
 
+  scenario 'weaker permissions are set by higher ones', browser: :firefox do
+
+    open_permission_editable
+
+    perm_1 = permission_types[0]
+    perm_2 = permission_types[1]
+    perm_3 = permission_types[2]
+    perm_4 = permission_types[3]
+
+    add_subject_with_permission(@node_people, 'Norbert', perm_3)
+
+    @node_form.click_on('Speichern')
+    @entry.reload
+
+    expect(current_path).to eq permissions_media_entry_path(@entry)
+
+    expect(@entry.user_permissions.length).to eq 1
+    expect(@entry.user_permissions.first[perm_1]).to be true
+    expect(@entry.user_permissions.first[perm_2]).to be true
+    expect(@entry.user_permissions.first[perm_3]).to be true
+    expect(@entry.user_permissions.first[perm_4]).to be false
+
+  end
+
 end
 
 private
+
+def open_permission_editable
+  visit permissions_media_entry_path(@entry)
+  @node_form = find('[name="ui-rights-management"]')
+
+  @node_people = subject_row(@node_form, 'Personen')
+  @node_groups = subject_row(@node_form, 'Gruppen')
+
+  expect(subject_items(@node_people).length).to be 0
+  expect(subject_items(@node_groups).length).to be 0
+  # this is hidden on show when empty:
+  expect(subject_row(@node_form, 'API-Applikationen')).to be nil
+
+  @node_form.click_on('Bearbeiten')
+
+  # router works:
+  expect(current_path).to eq edit_permissions_media_entry_path(@entry)
+
+  # now its visible:
+  @node_apiapps = subject_row(@node_form, 'API-Applikationen')
+  expect(subject_items(@node_apiapps).length).to be 0
+end
+
+def permission_types
+  %w(
+    get_metadata_and_previews
+    get_full_size
+    edit_metadata
+    edit_permissions
+  )
+end
 
 def subject_row(form, title)
   header = form.first('table thead span', text: title)

@@ -223,7 +223,7 @@ PermissionsBySubjectType = React.createClass
           <div className='ui-add-subject ptx row'>
             <div className='col1of3'>
               {if type?
-                <AutoComplete resourceType={type} onSelect={@onAddSubject}/>
+                <AutoComplete name={"add_#{type}"} resourceType={type} onSelect={@onAddSubject}/>
               }
             </div>
           </div>
@@ -250,9 +250,33 @@ PermissionsSubjectHeader = React.createClass
 PermissionsSubject = React.createClass
   mixins: [ampersandReactMixin]
 
+
+  adjustCheckboxesDependingOnStrength: (name, stronger) ->
+    beforeCurrent = true
+    for i, permissionType of @props.permissionTypes
+      isEnabled = f.isBoolean(@props.permissions[permissionType])
+      isCurrent = permissionType is name
+      beforeCurrent = false if isCurrent
+      if not isCurrent and isEnabled
+        if beforeCurrent and stronger
+          @props.permissions[permissionType] = true
+        if not beforeCurrent and not stronger
+          @props.permissions[permissionType] = false
+
+  setWeakerUnchecked: (name) ->
+    @adjustCheckboxesDependingOnStrength(name, true)
+
+  setStrongerChecked: (name) ->
+    @adjustCheckboxesDependingOnStrength(name, false)
+
+
   onPermissionChange: (name, event)->
     value = event.target.checked
     @props.permissions[name] = value
+    if value is true
+      @setWeakerUnchecked(name)
+    else
+      @setStrongerChecked(name)
 
   onSubjectRemove: (_event)-> @props.permissions.destroy()
 
