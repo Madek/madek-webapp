@@ -1,11 +1,11 @@
 class MetaDatumPolicy < DefaultPolicy
   def show?
+    # visibility of MD is dependent on record *and* vocabulary!
+    return false unless Pundit.policy!(user, record.media_entry).show?
     if logged_in?
-      media_resource.viewable_by_user?(user) \
-        and vocabulary.viewable_by_user?(user)
+      vocabulary.viewable_by_user?(user)
     else
-      media_resource.viewable_by_public? \
-        and vocabulary.viewable_by_public?
+      vocabulary.viewable_by_user_or_public?(user)
     end
   end
 
