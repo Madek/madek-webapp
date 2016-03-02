@@ -20,14 +20,15 @@ module Presenters
 
       def related_media_resources_via_meta_data
         # The base filter for this view.
-        # CAN NOT be mutateded by the UI (always applied first)
+        # CAN NOT be modified by the UI (always applied first)
         base_filter = { meta_data: [
           { key: 'any', value: self.uuid, type: 'MetaDatum::People' }] }
 
         # TODO: MultiMediaResourceBox
+        # FIXME: Filtering disabled, it's broken
         resources = MediaEntry.filter_by(base_filter)
         Presenters::MediaEntries::MediaEntries.new(
-          resources, @user, list_conf: @list_conf)
+          resources, @user, can_filter: false, list_conf: @list_conf)
       end
     end
   end

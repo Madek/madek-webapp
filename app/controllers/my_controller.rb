@@ -139,7 +139,6 @@ class MyController < ApplicationController
   end
 
   def put_empty_sections_last_and_set_is_empty_key_true(sections, presenter)
-    # put empty sections last, and set 'is_empty' key true
     sections.map do |id, section|
       [id, prepare_section_with_count(id, sections, presenter)]
     end
@@ -147,7 +146,6 @@ class MyController < ApplicationController
   end
 
   def remove_the_presenter_so_it_is_not_accidently_used_in_view(sections)
-    # remove the presenter so it is not accidently used in view (with wrong config)
     sections
       .map { |id, section| [id, section.except(:presenter)] }
       .to_h

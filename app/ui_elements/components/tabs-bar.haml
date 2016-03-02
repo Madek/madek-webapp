@@ -3,6 +3,7 @@
     fail('View: No tabs given!')
   end
   id ||= nil
+  interactive = local_assigns.try(:to_h).try(:[], :interactive).presence || false
 
   navprops = {}
 

@@ -57,6 +57,10 @@ module.exports = React.createClass
     baseClass = "ui-side-filter-list #{parseMods(@props)}"
     itemClass = 'ui-side-filter-lvl1-item ui-side-filter-item'
 
+    # TMP: ignore invalid dynamicFilters
+    if !(f.isArray(dynamic) and f.present(f.isArray(dynamic)))
+      return null
+
     # combine dynamic filter config and current filter state into ui config:
     # (set 'selected' status, sort by counts, etc)
     filters = uiStateFromConfigAndFilters(dynamic, current)

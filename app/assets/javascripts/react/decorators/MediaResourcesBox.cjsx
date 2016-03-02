@@ -46,11 +46,9 @@ filterConfigProps = React.PropTypes.shape
     value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool])
 
 viewConfigProps = React.PropTypes.shape
+  show_filter: React.PropTypes.bool # shows SideFilter (when interactive)
   filter: filterConfigProps
   layout: React.PropTypes.oneOf(['tiles', 'miniature', 'grid', 'list'])
-  show_filter: React.PropTypes.bool
-  dynamic_filters: React.PropTypes.shape
-    meta_data: React.PropTypes.array.isRequired # arrayOf VocabularyAsFilter
   pagination: React.PropTypes.shape
     prev: React.PropTypes.shape(page: React.PropTypes.number.isRequired)
     next: React.PropTypes.shape(page: React.PropTypes.number.isRequired)
@@ -62,10 +60,14 @@ module.exports = React.createClass
   displayName: 'MediaResourcesBox'
   mixins: [ampersandReactMixin]
   propTypes:
-    interactive: React.PropTypes.bool # toggles simple list or full box
     initial: viewConfigProps
+    interactive: React.PropTypes.bool # toggles simple list or full box
+    can_filter: React.PropTypes.bool # if true, get.resources can be filtered
     get: React.PropTypes.shape
       config: viewConfigProps
+      dynamic_filters: React.PropTypes.shape
+        meta_data: React.PropTypes.array.isRequired # arrayOf VocabularyAsFilter
+      resources: React.PropTypes.array
 
   # kick of client-side mode:
   getInitialState: ()-> {active: false, config: {}}
@@ -126,17 +128,12 @@ module.exports = React.createClass
       {config: initial},        # - per-view initial default config
       config:                   # - default config
         layout: 'grid'
-        show_filter: true
+        show_filter: false
         dyn_filter: {}
 
     # console.log 'MediaResourcesBox: get, initial', get, initial
 
-    currentQuery = f.merge(
-      {list: f.merge f.omit(get.config, 'for_url')},
-      {
-        list: filter: JSON.stringify(get.config.filter),
-        dyn_filter: JSON.stringify(get.config.dyn_filter)
-      })
+    config = get.config
 
     boxClasses = classList({ # defaults first, mods last so they can override
       'ui-container': yes
@@ -157,20 +154,27 @@ module.exports = React.createClass
     listHolderClasses = classList 'ui-resources-holder',
       pam: interactive
 
-    listClasses = classList 'ui-resources', get.config.layout,
+    listClasses = classList 'ui-resources', config.layout,
       active: interactive
-      vertical: get.config.layout is 'tiles'
+      vertical: config.layout is 'tiles'
+
+    currentQuery = f.merge(
+      {list: f.merge f.omit(config, 'for_url')},
+      {
+        list: filter: JSON.stringify(config.filter),
+        dyn_filter: JSON.stringify(config.dyn_filter)
+      })
 
     resetFilterHref =
-      setUrlParams(get.config.for_url, currentQuery, list:
+      setUrlParams(config.for_url, currentQuery, list:
         page: 1, filter: {}, dyn_filter: {})
 
     resetFilterLink = if resetFilterHref
-      if f.present(get.config.filter) or f.present(get.config.dyn_filter)
+      if f.present(config.filter) or f.present(config.dyn_filter)
         <Link mods='mlx weak' href={resetFilterHref}>
           <Icon i='undo'/> {'Filter zurücksetzen'}</Link>
 
-    BoxToolBar = if interactive then do ({for_url, layout} = get.config)=>
+    BoxToolBar = if interactive then do ({for_url, layout} = config)=>
       layouts = LAYOUT_MODES.map (itm)=>
         href = setUrlParams(for_url, currentQuery, list: layout: itm.mode)
         f.merge itm,
@@ -178,13 +182,17 @@ module.exports = React.createClass
           href: href
           onClick: @handleChangeInternally
       actions =
-        save: if saveable and @state.active # HACK, no fallback
+        save: if saveable and @state.active # FIXME: <- HACK, no fallback
           children: 'Save!'
-          onClick: f.curry(@createFilterSetFromConfig)(get.config)
+          onClick: f.curry(@createFilterSetFromConfig)(config)
 
       <UiToolBar mods={toolbarClasses} actions={actions} layouts={layouts}/>
 
-    BoxFilterBar = if interactive then do ({config} = get)->
+    BoxFilterBar = if interactive and config.can_filter then do ->
+      # TMP: ignore invalid dynamicFilters
+      if !(f.isArray(get.dynamic_filters) and f.present(f.isArray(get.dynamic_filters)))
+        return null
+
       filterToggleLink = setUrlParams(config.for_url, currentQuery,
         list: show_filter: (not config.show_filter))
       props =
@@ -196,6 +204,7 @@ module.exports = React.createClass
             # onClick: @handleChangeInternally
           reset: resetFilterLink if not config.show_filter
 
+        # TODO: multi resource switcher
         # toggles: [
         #   {name: 'Medieneinträge'},
         #   {name: 'Sets'} ]
@@ -204,10 +213,14 @@ module.exports = React.createClass
         #   inactive: 'Alle auswählen'
         #   isActive: f.any?(get.config.selected)
         #   onClick: @handleSelectionToggle
+
       <FilterBar {...props}/>
 
-    Sidebar = if interactive and get.config.show_filter
+    Sidebar = if interactive and config.show_filter
       do ({config, dynamic_filters} = get, {active, showDynFilters} = @state)=>
+        # TMP: ignore invalid dynamicFilters
+        if !(f.isArray(dynamic_filters) and f.present(f.isArray(dynamic_filters)))
+          return null
 
         dynToggleBtn = if active
           <Button
@@ -216,7 +229,7 @@ module.exports = React.createClass
             onClick={f.curry(@handleDynamicFilterToggle)(!showDynFilters)}>
             <Icon i='eye'/></Button>
         else
-          <Button><Icon i='eye'/></Button> # TODO: params:
+          <Button><Icon i='eye'/></Button>
 
         <div className='filter-panel ui-side-filter'>
           <ButtonGroup  mod='tertiary' mods='small by-right mbs ui-side-filter-toolbar'>
@@ -244,7 +257,7 @@ module.exports = React.createClass
     paginationNav = if interactive then do ({config, pagination} = get)=>
       navLinks =
         current:
-          href: setUrlParams(get.config.for_url, currentQuery)
+          href: setUrlParams(config.for_url, currentQuery)
           onClick: @handleChangeInternally
         prev: if pagination.prev
           href: setUrlParams(config.for_url, currentQuery, list: pagination.prev)

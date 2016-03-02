@@ -4,26 +4,33 @@ module Presenters
       # NOTE: This is a list of anything that inherits from MediaResources,
       #       *not* the (shared) base class MediaResource!
       class MediaResources < Presenter
-        attr_reader :resources, :pagination, :config
+        attr_reader :resources, :pagination
 
-        DEFAULT_CONFIG = { page: 1, per_page: 12, order: 'created_at DESC' }
+        DEFAULT_CONFIG = {
+          page: 1, per_page: 12, order: 'created_at DESC', # pagination
+          interactive: nil,  # if false, it's just a simple list – set on init!
+          can_filter: true,
+          show_filter: false # if interactive, also show filter?
+        }
 
-        def initialize(scope, user, list_conf: nil)
+        def initialize(scope, user, can_filter: true, list_conf: nil)
           fail 'missing config!' unless list_conf
           @user = user
           @scope = scope
-          @config = DEFAULT_CONFIG.merge(list_conf) # combine with given config…
-            .instance_eval do |conf| # coerce types…
-              conf.merge(page: conf[:page].to_i, per_page: conf[:per_page].to_i)
-            end
-
-          init_resources_and_pagination(@scope, @config)
+          # can the given scope be filtered? (`#filter_by`)
+          @can_filter = can_filter
+          @conf = build_config(list_conf)
+          init_resources_and_pagination(@scope, @conf)
         end
 
         # TODO: implement count up to 1000
         # def total_count
         #   @selected_resources.total_count
         # end
+
+        def config
+          @conf.to_h
+        end
 
         def any?
           @resources.first.present?
@@ -34,13 +41,34 @@ module Presenters
         end
 
         def dynamic_filters
+          return if !@conf[:interactive] or !@conf[:show_filter]
           # NOTE: scope is pre-filtered, but not paginated!
-          scope = @config[:filter] ? @scope.filter_by(@config[:filter]) : @scope
-          tree = @config[:dyn_filter]
+          scope = @conf[:filter] ? @scope.filter_by(@conf[:filter]) : @scope
+          tree = @conf[:dyn_filter]
           Presenters::Shared::DynamicFilters.new(@user, scope, tree).list
         end
 
         private
+
+        def build_config(list_conf)
+          conf = DEFAULT_CONFIG.merge(list_conf) # combine with given config…
+            .instance_eval do |conf| # coerce types…
+              conf.merge(page: conf[:page].to_i, per_page: conf[:per_page].to_i)
+            end
+          # enable interaction if user logged in and not explictly turned of
+          if !@user.nil? && (conf[:interactive] != false)
+            conf[:interactive] = true
+          end
+          # force showing of filterbar if a filter is currently active
+          if conf[:interactive] and conf[:filter].present?
+            conf[:show_filter] = true
+          end
+          # validation:
+          if conf[:show_filter] and (!@can_filter or !conf[:interactive])
+            raise Errors::InvalidParameterValue, "'show_filter' not possible!"
+          end
+          conf
+        end
 
         # NOTE: optimized pagination, no extra queries!
         def init_resources_and_pagination(resources, config)

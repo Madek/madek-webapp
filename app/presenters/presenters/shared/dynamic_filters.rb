@@ -14,6 +14,10 @@ module Presenters
         @scope = scope
         @tree = tree || {}
         @resource_type = scope.model or fail 'TypeError! (Expected AR Scope)'
+        # TMP:
+        unless @resource_type == MediaEntry
+          fail 'TypeError! (Expected Entry scope)'
+        end
       end
 
       def list

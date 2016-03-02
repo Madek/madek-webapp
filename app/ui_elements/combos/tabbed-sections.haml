@@ -1,6 +1,7 @@
 :ruby
   return unless list
   component_id = defined?(id) ? id : local_assigns.to_h.hash.to_s.underscore
+  interactive = local_assigns.try(:[], :interactive).presence || false
 
   tabs_bar_list = []
   content_panes_list = []

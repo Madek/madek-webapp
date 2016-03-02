@@ -91,7 +91,6 @@ module UiHelper
                 .flatten.compact,
       link: link_from_item(config),
       props: props_from_element(config),
-      interactive: config.try(:to_h).try(:[], :interactive).presence || false,
       block_content: nil
     }
     config.is_a?(Hash) ? config.except([:mods]).merge(locals) : locals

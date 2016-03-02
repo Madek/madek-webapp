@@ -4,7 +4,7 @@ module Presenters
 
       include Presenters::FilterSets::Modules::FilterSetCommon
 
-      # TODO: select correct resource_type!!!
+      # TODO: MultiMediaResourceBox. Currently only Entries.
       def resources
         Presenters::MediaEntries::MediaEntries.new(
           MediaEntry.filter_by(**saved_filter), @user, list_conf: @list_conf)

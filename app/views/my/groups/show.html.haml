@@ -39,12 +39,10 @@
           get: @get.entrusted_media_resources.collections,
           interactive: true,
           fallback: true,
-          initial: { show_filter: true },
           mods: { bordered: false })
       - if @get.entrusted_media_resources.filter_sets.any?
         = react('Deco.MediaResourcesBox',
           get: @get.entrusted_media_resources.filter_sets,
           interactive: true,
           fallback: true,
-          initial: { show_filter: true },
           mods: [{ bordered: false }, 'rounded-bottom'])
