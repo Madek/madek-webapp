@@ -17,15 +17,15 @@ module Presenters
       attr_reader :meta_key
 
       def description
-        @app_resource.description or @meta_key.description
+        @app_resource.description.presence or @meta_key.description
       end
 
       def label
-        @app_resource.label or @meta_key.label or @meta_key.uuid
+        @app_resource.label.presence or @meta_key.label.presence or @meta_key.uuid
       end
 
       def hint
-        @app_resource.hint or @meta_key.hint
+        @app_resource.hint.presence or @meta_key.hint
       end
 
     end
