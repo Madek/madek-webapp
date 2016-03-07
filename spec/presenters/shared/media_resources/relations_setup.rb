@@ -27,15 +27,15 @@ RSpec.shared_context 'relations' do
                                        responsible_user: @user)
     # rubocop:enable Style/VariableName
 
-    @media_entry_1 = FactoryGirl.create(:media_entry,
+    @media_entry_1 = FactoryGirl.create(:media_entry_with_image_media_file,
                                         responsible_user: @user)
-    @media_entry_2 = FactoryGirl.create(:media_entry,
+    @media_entry_2 = FactoryGirl.create(:media_entry_with_image_media_file,
                                         responsible_user: @user)
-    @media_entry_3 = FactoryGirl.create(:media_entry,
+    @media_entry_3 = FactoryGirl.create(:media_entry_with_image_media_file,
                                         responsible_user: @user)
-    @media_entry_4 = FactoryGirl.create(:media_entry,
+    @media_entry_4 = FactoryGirl.create(:media_entry_with_image_media_file,
                                         responsible_user: @user)
-    @media_entry_5 = FactoryGirl.create(:media_entry,
+    @media_entry_5 = FactoryGirl.create(:media_entry_with_image_media_file,
                                         responsible_user: @user)
 
     @collection_A.collections << @collection_B

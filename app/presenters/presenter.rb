@@ -28,7 +28,9 @@ class Presenter
             begin
               send(api_method)
             rescue => err
-              { type: :Error, error: err.inspect, location: err.backtrace.first }
+              # NOTE: "inline" errors disabled, must be integrated with responders
+              # { type: :Error, error: err.inspect, location: err.backtrace.first }
+              fail err # just re-throw the error to behave normally in all envs
             end
 
           [api_method, Presenter.dump_recur(result)]

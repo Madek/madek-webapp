@@ -16,7 +16,8 @@ module Presenters
         end
 
         def saved_filter
-          @app_resource.definition.deep_symbolize_keys
+          return unless (definition = @app_resource.try(:definition))
+          definition.deep_symbolize_keys
         end
       end
     end

@@ -7,7 +7,7 @@ describe MediaEntriesController do
 
   context 'multiple meta_data update' do
     before :example do
-      @media_entry = create(:media_entry)
+      @media_entry = create(:media_entry_with_image_media_file)
       @media_entry.user_permissions << \
         create(:media_entry_user_permission,
                user: @user,
