@@ -64,6 +64,9 @@ module.exports = React.createClass
     @setState(javascript: true)
 
   render: ({dynamic, current, accordion} = @props)->
+    # TMP: ignore invalid dynamicFilters
+    if !(f.isArray(dynamic) and f.present(f.isArray(dynamic)))
+      return null
 
     # Clone the current filters, so as we can manipulate them
     # to give the result back to the parent component.
@@ -82,10 +85,6 @@ module.exports = React.createClass
   renderSection: (current, filter) ->
 
     itemClass = 'ui-side-filter-lvl1-item ui-side-filter-item'
-
-    # TMP: ignore invalid dynamicFilters
-    if !(f.isArray(dynamic) and f.present(f.isArray(dynamic)))
-      return null
 
     filterType = filter.filterType
     uuid = filter.uuid

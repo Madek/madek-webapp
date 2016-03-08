@@ -3,13 +3,16 @@ module Presenters
     module MediaResource
       # NOTE: This is a list of anything that inherits from MediaResources,
       #       *not* the (shared) base class MediaResource!
+
+      # - everything in @conf are *shared* params (part of the URL)
+      # - `can_filter`: in here it signifies if the scope *can* be filtered at all,
+      #   in the view it determines if filtering is *allowed*.
       class MediaResources < Presenter
-        attr_reader :resources, :pagination
+        attr_reader :resources, :pagination, :can_filter
 
         DEFAULT_CONFIG = {
           page: 1, per_page: 12, order: 'created_at DESC', # pagination
           interactive: nil,  # if false, it's just a simple list – set on init!
-          can_filter: true,
           show_filter: false # if interactive, also show filter?
         }
 
@@ -18,7 +21,7 @@ module Presenters
           @user = user
           @scope = scope
           # can the given scope be filtered? (`#filter_by`)
-          @can_filter = can_filter
+          @can_filter = can_filter ? true : false
           @conf = build_config(list_conf)
           init_resources_and_pagination(@scope, @conf)
         end

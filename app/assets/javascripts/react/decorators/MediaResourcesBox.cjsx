@@ -14,6 +14,13 @@ router = null # client-side only
 xhr = require('xhr')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 
+# Props/Config overview:
+# - props.interactive = should the UI offer any interaction
+# - state.active = is component in client-side mode
+# - props.get.can_filter = is it possible to filter the resources
+# - props.get.filter = the currently active filter
+# - props.get.config.show_filter = if the filterBar should be shown
+
 # TODO: i18n
 
 # only handle *local* link events (not opening in new tab, etc):
@@ -61,13 +68,12 @@ module.exports = React.createClass
   mixins: [ampersandReactMixin]
   propTypes:
     initial: viewConfigProps
-    interactive: React.PropTypes.bool # toggles simple list or full box
-    can_filter: React.PropTypes.bool # if true, get.resources can be filtered
+    interactive: React.PropTypes.bool.isRequired # toggles simple list or full box
     get: React.PropTypes.shape
-      config: viewConfigProps
-      dynamic_filters: React.PropTypes.shape
-        meta_data: React.PropTypes.array.isRequired # arrayOf VocabularyAsFilter
-      resources: React.PropTypes.array
+      resources: React.PropTypes.array.isRequired
+      can_filter: React.PropTypes.bool.isRequired # if true, get.resources can be filtered
+      config: viewConfigProps # <- config that is part of the URL!
+      dynamic_filters: React.PropTypes.array.isRequired
 
   # kick of client-side mode:
   getInitialState: ()-> {active: false, config: {}}
@@ -195,13 +201,13 @@ module.exports = React.createClass
 
       <UiToolBar mods={toolbarClasses} actions={actions} layouts={layouts}/>
 
-    BoxFilterBar = if interactive and config.can_filter then do ->
-      # TMP: ignore invalid dynamicFilters
-      if !(f.isArray(get.dynamic_filters) and f.present(f.isArray(get.dynamic_filters)))
-        return null
+    BoxFilterBar = do ->
+      # NOTE: don't show the bar at all if no 'filter' button!
+      return null if (!interactive or !get.can_filter)
 
       filterToggleLink = setUrlParams(config.for_url, currentQuery,
         list: show_filter: (not config.show_filter))
+
       props =
         filter:
           toggle:
@@ -223,42 +229,41 @@ module.exports = React.createClass
 
       <FilterBar {...props}/>
 
-    Sidebar = if interactive and config.show_filter
-      do ({config, dynamic_filters} = get, {active, showDynFilters} = @state)=>
-        # TMP: ignore invalid dynamicFilters
-        if !(f.isArray(dynamic_filters) and f.present(f.isArray(dynamic_filters)))
-          return null
+    Sidebar = do ({config, dynamic_filters} = get, {active, showDynFilters} = @state)=>
+      # TMP: ignore invalid dynamicFilters
+      if !(f.isArray(dynamic_filters) and f.present(f.isArray(dynamic_filters)))
+        return null
 
-        dynToggleBtn = if active
-          <Button
-            title={if showDynFilters then 'off' else 'on'}
-            mods={'active' if showDynFilters}
-            onClick={f.curry(@handleDynamicFilterToggle)(!showDynFilters)}>
-            <Icon i='eye'/></Button>
-        else
-          <Button><Icon i='eye'/></Button>
+      dynToggleBtn = if active
+        <Button
+          title={if showDynFilters then 'off' else 'on'}
+          mods={'active' if showDynFilters}
+          onClick={f.curry(@handleDynamicFilterToggle)(!showDynFilters)}>
+          <Icon i='eye'/></Button>
+      else
+        <Button><Icon i='eye'/></Button>
 
-        <div className='filter-panel ui-side-filter'>
-          <ButtonGroup  mod='tertiary' mods='small by-right mbs ui-side-filter-toolbar'>
-            {dynToggleBtn}
-            <Button title='Open all' href={null}><Icon i='arrow-up'/></Button>
-            <Button title='Reset All Filters'
-              href={resetFilterHref if resetFilterLink}>
-              <Icon i='undo'/></Button>
-          </ButtonGroup>
+      <div className='filter-panel ui-side-filter'>
+        <ButtonGroup  mod='tertiary' mods='small by-right mbs ui-side-filter-toolbar'>
+          {dynToggleBtn}
+          <Button title='Open all' href={null}><Icon i='arrow-up'/></Button>
+          <Button title='Reset All Filters'
+            href={resetFilterHref if resetFilterLink}>
+            <Icon i='undo'/></Button>
+        </ButtonGroup>
 
-          {if not showDynFilters
-            <div>
-              <SideFilterFallback {...config}/>
-              <FilterExamples examples={filter_examples}
-                url={config.for_url} query={currentQuery}/>
-            </div>
-          else
-            <SideFilter dynamic={dynamic_filters} current={config.filter}
-              accordion={config.accordion or {}} onChange={@handleAccordion}
+        {if not showDynFilters
+          <div>
+            <SideFilterFallback {...config}/>
+            <FilterExamples examples={filter_examples}
               url={config.for_url} query={currentQuery}/>
-          }
-        </div>
+          </div>
+        else
+          <SideFilter dynamic={dynamic_filters} current={config.filter or {}}
+            accordion={config.accordion or {}} onChange={@handleAccordion}
+            url={config.for_url} query={currentQuery}/>
+        }
+      </div>
 
     paginationNav = if interactive then do ({config, pagination} = get)=>
       navLinks =
