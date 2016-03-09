@@ -13,7 +13,7 @@ module Presenters
         DEFAULT_CONFIG = {
           page: 1, per_page: 12, order: 'created_at DESC', # pagination
           interactive: nil,  # if false, it's just a simple list – set on init!
-          show_filter: false # if interactive, also show filter?
+          show_filter: false # show filtering sidebar? (loads DynFilters!)
         }
 
         def initialize(scope, user, can_filter: true, list_conf: nil)
@@ -61,10 +61,6 @@ module Presenters
           # enable interaction if user logged in and not explictly turned of
           if !@user.nil? && (conf[:interactive] != false)
             conf[:interactive] = true
-          end
-          # force showing of filterbar if a filter is currently active
-          if conf[:interactive] and conf[:filter].present?
-            conf[:show_filter] = true
           end
           # validation:
           if conf[:show_filter] and (!@can_filter or !conf[:interactive])

@@ -8,8 +8,6 @@ parseMods = require('../lib/parse-mods.coffee').fromProps
 setUrlParams = require('../../lib/set-params-for-url.coffee')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
 
-Button = require('./Button.cjsx')
-ButtonGroup = require('./ButtonGroup.cjsx')
 Icon = require('./Icon.cjsx')
 Link = require('./Link.cjsx')
 
@@ -20,7 +18,6 @@ module.exports = React.createClass
     accordion: React.PropTypes.objectOf(React.PropTypes.object).isRequired
     current: MadekPropTypes.resourceFilter.isRequired
     onChange: React.PropTypes.func
-
 
   getAccordionSection: (sectionUuid) ->
     accordion = @state.accordion
@@ -40,9 +37,7 @@ module.exports = React.createClass
     section = @getAccordionSection(sectionUuid)
     subSection = section.subSections[subSectionUuid]
     if not subSection
-      subSection = {
-        isOpen: false
-      }
+      subSection = { isOpen: false }
       section.subSections[subSectionUuid] = subSection
     subSection
 

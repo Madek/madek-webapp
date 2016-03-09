@@ -17,6 +17,7 @@ feature 'Side Filter' do
       login
       visit media_entries_path
 
+      open_filterbar
       expect(page).to have_content(@title_0)
       expect(page).to have_content(@title_1)
 
@@ -52,7 +53,6 @@ feature 'Side Filter' do
     end
 
     def find_item_element(name, open)
-      open_filterbar
       root_ul = find('ul.ui-side-filter-list')
       section_li = root_ul.first('li.ui-side-filter-lvl1-item')
       section_a = section_li.first('a')

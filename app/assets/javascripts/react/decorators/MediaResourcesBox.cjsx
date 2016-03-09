@@ -53,7 +53,7 @@ filterConfigProps = React.PropTypes.shape
     value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool])
 
 viewConfigProps = React.PropTypes.shape
-  show_filter: React.PropTypes.bool # shows SideFilter (when interactive)
+  show_filter: React.PropTypes.bool
   filter: filterConfigProps
   layout: React.PropTypes.oneOf(['tiles', 'miniature', 'grid', 'list'])
   pagination: React.PropTypes.shape
@@ -70,8 +70,8 @@ module.exports = React.createClass
     initial: viewConfigProps
     interactive: React.PropTypes.bool.isRequired # toggles simple list or full box
     get: React.PropTypes.shape
-      resources: React.PropTypes.array.isRequired
-      can_filter: React.PropTypes.bool.isRequired # if true, get.resources can be filtered
+      resources: React.PropTypes.array
+      can_filter: React.PropTypes.bool # if true, get.resources can be filtered
       config: viewConfigProps # <- config that is part of the URL!
       dynamic_filters: React.PropTypes.array.isRequired
 
@@ -100,24 +100,20 @@ module.exports = React.createClass
     handleLinkIfLocal(event, alert)
 
   # - custom actions:
-  handleDynamicFilterToggle: (bool, event)->
-    event.preventDefault()
-    @setState(showDynFilters: bool)
+  # TMP: disabled
+  # handleDynamicFilterToggle: (bool, event)->
+  #   event.preventDefault()
+  #   @setState(showDynFilters: bool)
 
   handleAccordion: (event)->
-    parameters = list:
-      page: 1 # make sure that the new result starts on page 1
-      filter: JSON.stringify(event.current)
-      accordion: JSON.stringify(event.accordion)
-    newUrl = setUrlParams(@props.for_url, parameters)
-    window.location = newUrl
-
-    # @handleChangeInternally(event)
-    # console.log 'handleAccordion', arguments
-    # # handleLinkIfLocal(event, …)
-    # console.log 'handleAccordion', config, f.get(event, ['target', 'value'])
-    # event.preventDefault()
-    # @setState(dynamicFilters: config)
+    currentParams = {list: f.omit(@state.config, 'for_url')}
+    newParams =
+      list:
+        page: 1 # make sure that the new result starts on page 1
+        filter: JSON.stringify(event.current)
+        accordion: JSON.stringify(event.accordion)
+    newUrl = setUrlParams(@props.for_url, currentParams, newParams)
+    window.location = newUrl # SYNC!
 
   createFilterSetFromConfig: (config, event)->
     event.preventDefault()
@@ -135,6 +131,7 @@ module.exports = React.createClass
 
   render: ({get, mods, initial, interactive, saveable, authToken} = @props)->
 
+    # TODO: refactor this + currentQuery into @getInitialState + @getCurrentQuery
     get = f.defaultsDeep \      # combine config in order:
       {config: @state.config},  # - client-side state
       get,                      # - presenter & config (from params)
@@ -142,17 +139,17 @@ module.exports = React.createClass
       config:                   # - default config
         layout: 'grid'
         show_filter: false
-        dyn_filter: {}
 
     # console.log 'MediaResourcesBox: get, initial', get, initial
 
     config = get.config
 
+    baseClass = 'ui-polybox'
     boxClasses = classList({ # defaults first, mods last so they can override
       'ui-container': yes
       'midtone': interactive
       'bordered': interactive
-    }, mods)
+    }, mods, baseClass) # but baseClass can't be overridden!
 
     toolbarClasses = switch
       when f.includes(boxClasses, 'rounded-right')
@@ -215,7 +212,7 @@ module.exports = React.createClass
             mods: 'active' if config.show_filter
             href: filterToggleLink
             # onClick: @handleChangeInternally
-          reset: resetFilterLink if not config.show_filter
+          reset: resetFilterLink if f.present(config.filter)
 
         # TODO: multi resource switcher
         # toggles: [
@@ -229,39 +226,52 @@ module.exports = React.createClass
 
       <FilterBar {...props}/>
 
-    Sidebar = do ({config, dynamic_filters} = get, {active, showDynFilters} = @state)=>
+    Sidebar = do ({config, dynamic_filters} = get, {active} = @state)=>
+      return null if not config.show_filter
+
       # TMP: ignore invalid dynamicFilters
       if !(f.isArray(dynamic_filters) and f.present(f.isArray(dynamic_filters)))
         return null
 
-      dynToggleBtn = if active
-        <Button
-          title={if showDynFilters then 'off' else 'on'}
-          mods={'active' if showDynFilters}
-          onClick={f.curry(@handleDynamicFilterToggle)(!showDynFilters)}>
-          <Icon i='eye'/></Button>
-      else
-        <Button><Icon i='eye'/></Button>
+      # TMP disabled
+      # dynToggleBtn = if active
+      #   <Button
+      #     title={if showDynFilters then 'off' else 'on'}
+      #     mods={'active' if showDynFilters}
+      #     onClick={f.curry(@handleDynamicFilterToggle)(!showDynFilters)}>
+      #     <Icon i='eye'/></Button>
+      # else
+      #   <Button><Icon i='eye'/></Button>
+      #
+      # <div className='filter-panel ui-side-filter'>
+      #   <ButtonGroup  mod='tertiary' mods='small by-right mbs ui-side-filter-toolbar'>
+      #     {dynToggleBtn}
+      #     <Button title='Open all' href={null}><Icon i='arrow-up'/></Button>
+      #     <Button title='Reset All Filters'
+      #       href={resetFilterHref if resetFilterLink}>
+      #       <Icon i='undo'/></Button>
+      #   </ButtonGroup>
 
       <div className='filter-panel ui-side-filter'>
-        <ButtonGroup  mod='tertiary' mods='small by-right mbs ui-side-filter-toolbar'>
-          {dynToggleBtn}
-          <Button title='Open all' href={null}><Icon i='arrow-up'/></Button>
-          <Button title='Reset All Filters'
-            href={resetFilterHref if resetFilterLink}>
-            <Icon i='undo'/></Button>
-        </ButtonGroup>
-
-        {if not showDynFilters
-          <div>
+        {if not active
+          <div className='no-js'>
             <SideFilterFallback {...config}/>
             <FilterExamples examples={filter_examples}
               url={config.for_url} query={currentQuery}/>
           </div>
+          <div className='js-only'>
+            <div className='ui-slide-filter-item'>
+              <div className='title-xs by-center'>
+                Filter werden geladen</div>
+                <div className='ui-preloader small'></div>
+            </div>
+          </div>
         else
-          <SideFilter dynamic={dynamic_filters} current={config.filter or {}}
-            accordion={config.accordion or {}} onChange={@handleAccordion}
-            url={config.for_url} query={currentQuery}/>
+          <div className='js-only'>
+            <SideFilter dynamic={dynamic_filters} current={config.filter or {}}
+              accordion={config.accordion or {}} onChange={@handleAccordion}
+              url={config.for_url} query={currentQuery}/>
+          </div>
         }
       </div>
 
