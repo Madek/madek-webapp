@@ -12,8 +12,7 @@ module Modules
           media_file: MediaFile.new(media_file_attributes),
           responsible_user: current_user,
           creator: current_user,
-          is_published: false
-        )
+          is_published: false)
 
         authorize media_entry
 
@@ -22,8 +21,13 @@ module Modules
           store_file_and_create_previews!(file, media_entry.media_file)
         end
 
-        extract_and_store_metadata(media_entry)
-        add_to_collection(media_entry, collection_id_param)
+        # optional steps, errors are ignored but logged:
+        begin
+          extract_and_store_metadata(media_entry)
+          add_to_collection(media_entry, collection_id_param)
+        rescue => e
+          Rails.logger.warn "Upload Soft-Error: #{e.inspect}, #{e.backtrace}"
+        end
 
         represent(media_entry.reload, Presenters::MediaEntries::MediaEntryIndex)
       end
