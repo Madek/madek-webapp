@@ -1,22 +1,31 @@
 class ZencoderJobsController < ApplicationController
+
+  # Disable CSRF protection because this is only called by an external service
+  # We do sanity checking in action itself and only accept answers we expect.
+  protect_from_forgery with: :null_session
+
   def notification
+    # find Job, fail 404 if unknown
     @zencoder_job = ZencoderJob.find(params[:id])
 
-    details = Zencoder::Job.details(params[:job][:id]).body
+    begin
+      # get job details from helper gem
+      details = Zencoder::Job.details(params[:job][:id]).body
 
-    if @zencoder_job.state == 'submitted'
-      @zencoder_job.update_attributes(
-        notification: details
-      )
-      import_thumbnails(details)
-      import_previews(details)
-      @zencoder_job.update_attributes(state: 'finished')
+      if @zencoder_job.state == 'submitted'
+        @zencoder_job.update_attributes(
+          notification: details
+        )
+        import_thumbnails(details)
+        import_previews(details)
+        @zencoder_job.update_attributes(state: 'finished')
+      end
+
+    rescue => e
+      @zencoder_job.update_attributes(state: 'failed', error: e.to_s)
+    ensure
+      render nothing: true
     end
-
-  rescue => e
-    @zencoder_job.update_attributes(state: 'failed', error: e.to_s)
-  ensure
-    render nothing: true
   end
 
   private
