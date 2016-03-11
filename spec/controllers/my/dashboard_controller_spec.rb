@@ -22,19 +22,23 @@ describe My::DashboardController do
     # Regular Content
     fake_many.times do
       FactoryGirl.create :media_entry,
-                         responsible_user: @user, creator: @user
+                         responsible_user: @user
     end
     fake_many.times do
       FactoryGirl.create :collection,
-                         responsible_user: @user, creator: @user
+                         responsible_user: @user
     end
     fake_many.times do
       FactoryGirl.create :filter_set,
-                         responsible_user: @user, creator: @user
+                         responsible_user: @user
     end
 
-    fake_many.times \
-      { FactoryGirl.create :media_entry, creator: @user, responsible_user: @user }
+    # Imported Content
+    fake_many.times do
+      FactoryGirl.create(:media_entry,
+                         creator: @user,
+                         get_metadata_and_previews: true)
+    end
 
     arg_hash = { get_metadata_and_previews: true }
     4.times do
@@ -78,11 +82,11 @@ describe My::DashboardController do
                        filter_set: FactoryGirl.create(:filter_set))
     end
 
-    @user.media_entries.sample(@limit_for_app_resources + 1)
+    @user.responsible_media_entries.sample(@limit_for_app_resources + 1)
       .each { |me| me.favor_by @user }
-    @user.collections.sample(@limit_for_app_resources + 1)
+    @user.responsible_collections.sample(@limit_for_app_resources + 1)
       .each { |c| c.favor_by @user }
-    @user.filter_sets.sample(@limit_for_app_resources + 1)
+    @user.responsible_filter_sets.sample(@limit_for_app_resources + 1)
       .each { |fs| fs.favor_by @user }
 
     # make a keyword and use it in a meta_datum
@@ -131,19 +135,19 @@ describe My::DashboardController do
         .to be == @limit_for_dashboard
       expect(my.content_media_entries.resources.first.is_a?(Presenter)).to be true
       expect(presented_entity my.content_media_entries.resources.first)
-        .to eq @user.media_entries.reorder('created_at DESC').first
+        .to eq @user.responsible_media_entries.reorder('created_at DESC').first
 
       expect(my.content_collections.resources.length)
         .to be == @limit_for_dashboard
       expect(my.content_collections.resources.first.is_a?(Presenter)).to be true
       expect(presented_entity my.content_collections.resources.first)
-        .to eq @user.collections.reorder('created_at DESC').first
+        .to eq @user.responsible_collections.reorder('created_at DESC').first
 
       expect(my.content_filter_sets.resources.length)
         .to be == @limit_for_dashboard
       expect(my.content_filter_sets.resources.first.is_a?(Presenter)).to be true
       expect(presented_entity my.content_filter_sets.resources.first)
-        .to eq @user.filter_sets.reorder('created_at DESC').first
+        .to eq @user.responsible_filter_sets.reorder('created_at DESC').first
     end
 
     it 'Meine letzten Importe' do
@@ -151,7 +155,7 @@ describe My::DashboardController do
       expect(imports.resources.length).to be == @limit_for_dashboard
       expect(imports.resources.first.is_a?(Presenter)).to be true
       expect(presented_entity imports.resources.first)
-        .to eq @user.published_media_entries.reorder('created_at DESC').first
+        .to eq @user.created_media_entries.reorder('created_at DESC').first
     end
 
     it 'Meine Schlagworte' do

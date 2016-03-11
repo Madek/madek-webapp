@@ -33,8 +33,8 @@ describe MediaEntriesController do
 
     media_entry.reload
     expect(media_entry.is_published).to be true
-    expect(@user.published_media_entries.first.id).to eq media_entry.id
-    expect(@user.published_media_entries.count).to be 1
+    expect(@user.created_media_entries.first.id).to eq media_entry.id
+    expect(@user.created_media_entries.count).to be 1
     expect(@user.unpublished_media_entries.count).to be 0
   end
 

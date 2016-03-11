@@ -9,13 +9,13 @@ module Concerns
           unpublished_media_entries: \
             user.unpublished_media_entries,
           content_media_entries: \
-            user.published_media_entries,
+            user.responsible_media_entries,
           content_collections: \
-            user.collections,
+            user.responsible_collections,
           content_filter_sets: \
-            user.filter_sets,
+            user.responsible_filter_sets,
           latest_imports: \
-            user.published_media_entries,
+            user.created_media_entries,
           favorite_media_entries: \
             user.favorite_media_entries,
           favorite_collections: \
