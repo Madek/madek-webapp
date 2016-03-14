@@ -116,6 +116,7 @@ de:
   group_delete_confirm_msg: "Are you sure you want to delete this group?"
   external_groups: "Abteilungsgruppen"
   internal_groups: "Arbeitsgruppen"
+  authentication_groups: "Systemgruppen"
   workgroup_link_to_contents_title: "Inhalte dieser Gruppe anzeigen"
   workgroup_link_to_contents_text: "Inhalte"
   workgroup_members_table_title: "Members"

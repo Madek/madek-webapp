@@ -54,12 +54,9 @@ module Presenters
 
       def groups
         groups = {
-          internal: select_groups(@user_scopes[:user_groups],
-                                  :Group,
-                                  @config),
-          external: select_groups(@user_scopes[:user_groups],
-                                  :InstitutionalGroup,
-                                  @config)
+          internal: select_groups(:Group),
+          external: select_groups(:InstitutionalGroup),
+          authentication: select_groups(:AuthenticationGroup)
         }.transform_values do |groups|
           groups.map { |group| Presenters::Groups::GroupIndex.new(group, @user) }
         end
@@ -67,6 +64,7 @@ module Presenters
         Pojo.new(
           empty?: !(groups[:internal].any? or groups[:external].any?),
           internal: groups[:internal],
+          authentication: groups[:authentication],
           external: groups[:external]
         )
       end
@@ -86,8 +84,9 @@ module Presenters
           resources, @user, list_conf: @config)
       end
 
-      def select_groups(user_groups, type, config)
-        user_groups.where(type: type).page(config[:page]).per(config[:per_page])
+      def select_groups(type)
+        @user_scopes[:user_groups]
+          .where(type: type).page(@config[:page]).per(@config[:per_page])
       end
 
     end

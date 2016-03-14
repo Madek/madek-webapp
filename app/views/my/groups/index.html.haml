@@ -25,6 +25,10 @@
           title: t(:internal_groups),
           list: @get.groups.internal
         },
+        my_authentication_groups: {
+          title: t(:authentication_groups),
+          list: @get.groups.authentication
+        },
         my_external_groups: {
           title: t(:external_groups),
           list: @get.groups.external
@@ -59,5 +63,6 @@
 
     - my_groups.each do |id, group|
       - if (group[:list].presence)
-        = combo('resources-header', title: group[:title])
-        = combo('workgroups', list: group[:list])
+        .ui-container.pbl
+          = combo('resources-header', title: group[:title])
+          = combo('workgroups', list: group[:list])

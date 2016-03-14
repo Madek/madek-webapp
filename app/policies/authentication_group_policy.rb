@@ -1,0 +1,2 @@
+class AuthenticationGroupPolicy < GroupPolicy
+end
