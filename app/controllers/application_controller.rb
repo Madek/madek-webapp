@@ -70,7 +70,4 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def id_param
-    params.require(:id)
-  end
 end
