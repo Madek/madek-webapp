@@ -25,20 +25,22 @@ class MediaEntriesController < ApplicationController
   [:relations, :more_data, :permissions, :permissions_edit]
     .each { |action| alias_method action, :show }
 
+  # TODO: move to controller
   def preview
     media_entry = MediaEntry.unscoped.find(id_param)
     size = params[:size] || 'small'
 
-    begin
+    begin # catch Rails 404 because it does not honor content-type:
       preview = media_entry.media_file.preview(size)
-      authorize preview
-      send_file preview.file_path,
-                type: preview.content_type,
-                disposition: 'inline'
     rescue
       Rails.logger.warn "Preview not found! Entry##{id_param}"
       render nothing: true, status: 404
     end
+
+    authorize preview
+    send_file preview.file_path,
+              type: preview.content_type,
+              disposition: 'inline'
   end
 
   def destroy
