@@ -3,25 +3,15 @@ class GroupPolicy < DefaultPolicy
     logged_in?
   end
 
-  def edit?
-    logged_in? \
-      and group_member?
+  def edit? # only internal groups can be edited at all
+    logged_in? and group_member? and internal_group?
   end
 
-  def destroy?
-    logged_in? \
-      and record.users == [user]
-  end
+  alias_method :update?, :edit?
+  alias_method :update_and_manage_members?, :edit?
 
-  def update?
-    logged_in? \
-      and group_member?
-  end
-
-  def update_and_manage_members?
-    logged_in? \
-      and group_member? \
-      and internal_group?
+  def destroy? # Groups can only be deleted by last remaining member
+    logged_in? and record.users == [user]
   end
 
   private
@@ -34,9 +24,4 @@ class GroupPolicy < DefaultPolicy
     record.users.exists?(id: user.id)
   end
 
-  def media_resource
-    record.media_entry or
-      record.collection or
-      record.filter_set
-  end
 end
