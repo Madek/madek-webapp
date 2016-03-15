@@ -4,8 +4,6 @@ module Presenters
 
       include Presenters::MediaEntries::Modules::MediaEntryCommon
 
-      SHOW_TABS =
-
       def initialize(app_resource, user, user_scopes, list_conf: nil)
         super(app_resource, user)
         @user_scopes = user_scopes
@@ -20,7 +18,9 @@ module Presenters
           permissions: {
             title: I18n.t(:media_entry_tab_permissions),
             icon_type: :privacy_status_icon }
-        }
+        }.select do |action, tab|
+          action ? policy(@user).send("#{action}?".to_sym) : true
+        end
       end
 
       def relations

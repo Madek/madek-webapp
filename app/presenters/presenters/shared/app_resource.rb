@@ -27,6 +27,7 @@ module Presenters
       end
 
       def policy(user)
+        raise TypeError, 'Not a User!' unless (user.nil? or user.is_a?(User))
         Pundit.policy!(user, @app_resource)
       end
 
