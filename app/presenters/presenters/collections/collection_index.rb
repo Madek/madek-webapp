@@ -7,7 +7,7 @@ module Presenters
         prepend_url_context_fucking_rails collection_path @app_resource
       end
 
-      def image_url
+      def image_url # TODO: use module/helper
         media_entry = choose_media_entry_for_preview
 
         preview = if media_entry and media_entry.media_file.representable_as_image?
@@ -71,7 +71,7 @@ module Presenters
       #
       #   if representative_entry \
       #     and representative_entry.media_file.representable_as_image?
-      #       preview_media_entry_path(media_entry, :small)
+      #       preview_path(media_entry.media_file.preview(:small))
       #   else
       #     generic_thumbnail_url
       #   end

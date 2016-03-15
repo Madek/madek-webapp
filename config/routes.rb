@@ -27,7 +27,6 @@ Madek::Application.routes.draw do
       get 'permissions/edit', action: :permissions_edit, as: 'edit_permissions'
 
       post :publish
-      get 'preview/:size', action: :preview, as: :preview
       get 'relations'
     end
   end
@@ -54,6 +53,7 @@ Madek::Application.routes.draw do
   end
 
   resources :media_files, only: :show
+  resources :previews, only: :show
 
   resources :people, only: [:index, :show]
   resources :users, only: :index

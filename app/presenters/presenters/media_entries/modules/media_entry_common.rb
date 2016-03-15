@@ -34,10 +34,12 @@ module Presenters
             result = generic_thumbnail_url # fallback from "superclass"
             media_file = @app_resource.media_file
             return result unless media_file
-            if result and media_file.representable_as_image?
+
+            if media_file.representable_as_image?
               # TODO: for all ResourceThumbs…
               # if media_file.the_preview_was_created_and_should_exist_in_storage
-              result = preview_media_entry_path(@app_resource, size)
+              preview = media_file.preview(size)
+              result = preview_path(preview) if preview.present?
               # else
               # url = ActionController::Base.helpers.image_path \
               #   Madek::Constants::Webapp::UI_GENERIC_THUMBNAIL[:incomplete]
