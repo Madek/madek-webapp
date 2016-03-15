@@ -35,19 +35,15 @@ module Shared
         logged_in? and visible?
       end
 
-      # TODO: policy for seeing the permissions?
-      # TMP: just like the entry itself:
-      alias_method :permissions?, :show?
-      # or: like in v2(?), only who can edit the permissions can see them
-      # alias_method :permissions?, :permissions_edit?
+      # only logged in users can see the permissions (if they also see the Res.)
+      def permissions?
+        logged_in? and visible?
+      end
 
       def permissions_edit?
         logged_in? and user.can_edit_permissions_for?(record)
       end
-
-      def permissions_update?
-        permissions_edit?
-      end
+      alias_method :permissions_update?, :permissions?
 
       private
 

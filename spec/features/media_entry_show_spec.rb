@@ -11,12 +11,17 @@ describe 'Action: show' do
     @entry = MediaEntry.find 'e157bedd-c2ba-41d8-8ece-82d73066a11e'
   end
 
-  context '(for logged in user)' do
+  context '(for public/no user logged in)' do
 
     it 'is rendered and shows title' do
       visit media_entry_path(@entry)
       expect(page.status_code).to eq 200
       expect(page).to have_content 'Title Ausstellung Photo 1'
+    end
+
+    scenario "Tab: 'Permissions'. Not shown for public." do
+      visit media_entry_path(@entry)
+      expect(page).not_to have_content I18n.t(:media_entry_tab_permissions)
     end
 
   end

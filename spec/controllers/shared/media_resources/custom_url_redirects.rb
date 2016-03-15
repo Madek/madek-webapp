@@ -73,21 +73,21 @@ RSpec.shared_examples 'redirection' do
     end
   end
 
-  context 'with subroute' do
+  context 'with subroute ./more_data' do
 
     context 'if requested with UUID' do
       it 'returns 302 if primary custom url exists' do
         @custom_url = create(:custom_url,
                              Hash[:is_primary, true,
                                   model_name.singular, @resource])
-        get :permissions, id: @resource.id
+        get :more_data, id: @resource.id
         redirect_path = \
-          "#{request.base_url}/#{plural}/#{@custom_url.id}/permissions"
+          "#{request.base_url}/#{plural}/#{@custom_url.id}/more_data"
         expect(response).to redirect_to redirect_path
       end
 
       it 'returns 200 if custom url does not exist' do
-        get :permissions, id: @resource.id
+        get :more_data, id: @resource.id
         expect(response.status).to be == 200
       end
 
@@ -95,7 +95,7 @@ RSpec.shared_examples 'redirection' do
         @custom_url = create(:custom_url,
                              Hash[:is_primary, false,
                                   model_name.singular, @resource])
-        get :permissions, id: @resource.id
+        get :more_data, id: @resource.id
         expect(response.status).to be == 200
       end
     end
@@ -105,9 +105,9 @@ RSpec.shared_examples 'redirection' do
         @custom_url = create(:custom_url,
                              Hash[:is_primary, false,
                                   model_name.singular, @resource])
-        get :permissions, id: @custom_url.id
+        get :more_data, id: @custom_url.id
         redirect_path = \
-          "#{request.base_url}/#{plural}/#{@resource.id}/permissions"
+          "#{request.base_url}/#{plural}/#{@resource.id}/more_data"
         expect(response).to redirect_to redirect_path
       end
 
@@ -115,12 +115,12 @@ RSpec.shared_examples 'redirection' do
         @custom_url = create(:custom_url,
                              Hash[:is_primary, true,
                                   model_name.singular, @resource])
-        get :permissions, id: @custom_url.id
+        get :more_data, id: @custom_url.id
         expect(response.status).to be == 200
       end
 
       it 'returns 404 if custom url does not exist' do
-        expect { get :permissions, id: 'blah' }
+        expect { get :more_data, id: 'blah' }
           .to raise_error(ActiveRecord::RecordNotFound)
       end
     end
