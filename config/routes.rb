@@ -31,7 +31,7 @@ Madek::Application.routes.draw do
     end
   end
 
-  resources :collections, only: [:index, :show] do
+  resources :collections, path: 'sets', only: [:index, :show] do
     member do
       get 'permissions', action: :permissions_show, as: 'permissions'
       get 'permissions/edit', action: :permissions_edit, as: 'edit_permissions'
