@@ -32,7 +32,10 @@ describe Presenters::Collections::CollectionIndex do
   context 'image url' do
     it_responds_to 'image_url', 'with preview image' do
       collection = FactoryGirl.create(:collection)
-      media_entry = FactoryGirl.create(:media_entry_with_image_media_file)
+      user = collection.responsible_user
+      media_entry = FactoryGirl.create(
+        :media_entry_with_image_media_file,
+        creator: user, responsible_user: user)
       collection.media_entries << media_entry
 
       let(:resource) { collection }
@@ -41,7 +44,10 @@ describe Presenters::Collections::CollectionIndex do
 
     it_responds_to 'image_url', 'with collection image' do
       collection = FactoryGirl.create(:collection)
-      media_entry = FactoryGirl.create(:media_entry_with_audio_media_file)
+      user = collection.responsible_user
+      media_entry = FactoryGirl.create(
+        :media_entry_with_audio_media_file,
+        creator: user, responsible_user: user)
       collection.media_entries << media_entry
 
       let(:resource) { collection }
