@@ -25,7 +25,7 @@ en:
   # # General Madek
   sitemap_admin: "Admin"
   sitemap_api: "API"
-  sitemap_entries: "Entries"
+  sitemap_media_entries: "Entries"
   sitemap_collections: "Sets"
   sitemap_filter_sets: "FilterSets"
   sitemap_explore: "Explore"
