@@ -102,6 +102,7 @@ en:
   collection_edit_cover_submit_btn: "Submit"
   collection_edit_highlights_btn: "Submit"
   collection_edit_permissions_btn: "Submit"
+  collection_new_header: "Create Collection"
 
   # # Fallbacks
   no_content_fallback: "(No content.)"
@@ -125,6 +126,7 @@ en:
   dashboard_title_head: "Dashboard - Madek"
   resources_header_show_all: "show all"
   dashboard_create_media_entry_btn: "Create media entry"
+  dashboard_create_collection_btn: "Create set"
   dashboard_welcome_msg: "Welcome to Madek!"
 
   # # Resource

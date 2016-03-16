@@ -9,8 +9,8 @@ module Concerns
         authorize @collection
         respond_with(
           @get = Presenters::Collections::ChildMediaResources.new(
-            current_user,
             @collection.child_media_resources,
+            current_user,
             list_conf: resource_list_params))
       end
 

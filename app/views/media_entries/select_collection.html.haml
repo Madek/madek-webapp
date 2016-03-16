@@ -1,4 +1,8 @@
 :ruby
+
+  modal = @get
+  @get = @get.media_entry_presenter
+
   # first is the summary context, rest from configured list:
   meta_data = @get.meta_data.by_context
   summary_context, list_contexts = [meta_data.first, meta_data.drop(1)]
@@ -24,8 +28,7 @@
       = deco('resource_meta_data', meta_data: list_contexts)
 
 
-- if @get.modal_presenter
-  - content_for(:modal) { react('SelectCollection', { get: @get.modal_presenter }) }
+    - content_for(:modal) { react('SelectCollection', { get: modal }) }
 
 
 = render template: 'media_entries/_show/_base'

@@ -4,10 +4,14 @@ module Presenters
 
       include Presenters::MediaEntries::Modules::MediaEntryCommon
 
-      def initialize(app_resource, user, user_scopes, list_conf: nil)
+      SHOW_TABS =
+
+      def initialize(app_resource, user, user_scopes,
+        list_conf: nil, modal_presenter: nil)
         super(app_resource, user)
         @user_scopes = user_scopes
         @list_conf = list_conf
+        @modal_presenter = modal_presenter
       end
 
       def tabs # list of all 'show' action sub-tabs
@@ -40,6 +44,8 @@ module Presenters
       def permissions
         Presenters::MediaEntries::MediaEntryPermissions.new(@app_resource, @user)
       end
+
+      attr_reader :modal_presenter
 
       def copyright_notice
         @app_resource

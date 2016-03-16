@@ -8,7 +8,7 @@ module.exports = React.createClass
     href: React.PropTypes.string
     type: React.PropTypes.string
     className: React.PropTypes.string
-    style: React.PropTypes.string
+    style: React.PropTypes.object
     onClick: React.PropTypes.func
     mod: React.PropTypes.oneOf(['primary', 'tertiary'])
     disabled: React.PropTypes.bool

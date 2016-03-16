@@ -114,7 +114,8 @@ describe My::DashboardController do
         :favorite_media_entries, :favorite_collections, :favorite_filter_sets,
         :entrusted_media_entries, :entrusted_collections, :entrusted_filter_sets,
         :groups,
-        :used_keywords].sort
+        :used_keywords,
+        :modal_presenter, :modal_presenter=].sort
   end
 
   describe 'sections' do

@@ -6,7 +6,10 @@ module Presenters
         @user = user
         @config = ({ order: nil, page: 1, per_page: 1 }).merge(list_conf)
         @user_scopes = user_scopes
+        @modal_presenter = nil
       end
+
+      attr_accessor :modal_presenter
 
       def unpublished_entries
         presenterify @user_scopes[:unpublished_media_entries]

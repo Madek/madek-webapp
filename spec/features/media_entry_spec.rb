@@ -14,7 +14,8 @@ feature 'Resource: MediaEntry' do
       # go to dashboard and import button
       visit my_dashboard_path
       within('.ui-body-title-actions') do
-        find('.button-primary').click
+        find('a', text: I18n.t('dashboard_create_media_entry_btn')).click
+        # find('.button-primary').click
       end
       expect(current_path).to eq '/entries/new'
 
@@ -69,7 +70,8 @@ feature 'Resource: MediaEntry' do
       # go to dashboard and import button
       visit my_dashboard_path
       within('.ui-body-title-actions') do
-        find('.button-primary').click
+        find('a', text: I18n.t('dashboard_create_media_entry_btn')).click
+        # find('.button-primary').click
       end
       expect(current_path).to eq '/entries/new'
 

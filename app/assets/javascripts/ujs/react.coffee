@@ -42,6 +42,14 @@ initByClass =
         editUrl: edit_link
         router: router
 
+  CreateCollection: (data, callback) ->
+    CreateCollection = require('../react/create-collection.cjsx')
+    callback(React.createElement(CreateCollection, data.reactProps))
+
+  SelectCollection: (data, callback) ->
+    SelectCollection = require('../react/select-collection.cjsx')
+    callback(React.createElement(SelectCollection, data.reactProps))
+
   FormResourceMetaData: (data, callback)->
     FormResourceMetaData = require('../react/form-resource-meta-data.cjsx')
     callback React.createElement FormResourceMetaData, data.reactProps

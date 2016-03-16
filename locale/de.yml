@@ -104,6 +104,14 @@ de:
   collection_edit_cover_submit_btn: "Submit"
   collection_edit_highlights_btn: "Submit"
   collection_edit_permissions_btn: "Submit"
+  collection_new_header: "Create Collection"
+  collection_new_dialog_title: "Set erstellen"
+  collection_new_label_title: "Titel"
+  collection_new_create_set: "Set erstellen"
+  collection_new_cancel: "Abbrechen"
+  collection_new_flash_title_needed: "Titel ist ein Pflichtfeld"
+  collection_new_flash_successful: "Set wurde kreiert!"
+
 
   # # Fallbacks
   no_content_fallback: "(No content.)"
@@ -127,7 +135,9 @@ de:
   dashboard_title_head: "Dashboard - Madek"
   resources_header_show_all: "show all"
   dashboard_create_media_entry_btn: "Create media entry"
+  dashboard_create_collection_btn: "Create set"
   dashboard_welcome_msg: "Welcome to Madek!"
+  dashboard_create_collection: "Set erstellen"
 
   # # Resource
   resource_meta_data_title: "Titel"
@@ -156,6 +166,17 @@ de:
   media_entry_back_btn: "Back"
   media_entry_upload_btn: "Upload"
   media_entry_notices_title: "Hinweise"
+  media_entry_select_collection_title: "Zu Set hinzufügen/entfernen"
+  media_entry_select_collection_search: "Suchen"
+  media_entry_select_collection_search_placeholder: "Suche"
+  media_entry_select_collection_clear: "Clear"
+  media_entry_select_collection_hint_search: "Suchen Sie Sets und markieren Sie diejenigen, in denen der Medieneintrag enthalten sein soll."
+  media_entry_select_collection_hint_more: "Es wurden noch weitere Sets gefunden. Bitte verfeinern Sie Ihre Suche."
+  media_entry_select_collection_non_found: "Zu dieser Suche wurde kein Set gefunden."
+  media_entry_select_collection_non_assigned: "Inhalt ist noch keinem Set zugewiesen."
+  media_entry_select_collection_save: "Speichern"
+  media_entry_select_collection_cancel: "Abbrechen"
+  media_entry_select_collection_flash_result: "Removed entry from %{removed_count} sets. Added entry to %{added_count} sets."
 
   # # MetaData
   meta_data_form_save_btn: "Save"

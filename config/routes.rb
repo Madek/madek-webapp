@@ -26,13 +26,16 @@ Madek::Application.routes.draw do
       put 'permissions', action: :permissions_update
       get 'permissions/edit', action: :permissions_edit, as: 'edit_permissions'
 
+      get 'select_collection', action: :select_collection, as: 'select_collection'
+      patch 'add_to_collection', to: 'media_entries#add_to_collection'
+
       post :publish
       get 'preview/:size', action: :preview, as: :preview
       get 'relations'
     end
   end
 
-  resources :collections, only: [:index, :show] do
+  resources :collections, only: [:index, :show, :new, :create] do
     member do
       get 'permissions', action: :permissions_show, as: 'permissions'
       get 'permissions/edit', action: :permissions_edit, as: 'edit_permissions'
@@ -74,6 +77,9 @@ Madek::Application.routes.draw do
 
   namespace :my do
     get 'session-token', to: '/my#session_token'
+
+    get 'new_collection', action: 'new_collection', as: 'new_collection'
+    post 'create_collection', action: 'create_collection', as: 'create_collection'
 
     root to: 'dashboard#dashboard', as: 'dashboard'
     # scope some resources here. order is important, they override 'plain' sections

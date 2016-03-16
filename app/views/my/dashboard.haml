@@ -4,11 +4,16 @@
 
 - content_for(:page_header) do
   = component('page-header',
-              icon: component('icon.home'),
-              text: t(:sitemap_my_archive),
-              actions: [component('button.primary',
-                                  link: new_media_entry_path,
-                                  text: t(:dashboard_create_media_entry_btn))])
+      icon: component('icon.home'),
+      text: t(:sitemap_my_archive),
+      actions: [component('button.primary',
+                  link: new_media_entry_path,
+                  text: t(:dashboard_create_media_entry_btn)),
+                component('button.primary',
+                  icon: :plus,
+                  link: my_new_collection_path,
+                  text: t(:dashboard_create_collection_btn))])
+
 
 -# - content_for(:page_sidebar) do
 -#   = render partial: 'sidebar'
@@ -30,3 +35,7 @@
       = dashboard_content
     - else
       = t(:dashboard_welcome_msg)
+
+
+- if @get.modal_presenter
+  - content_for(:modal) { react('CreateCollection', { get: @get.modal_presenter }) }
