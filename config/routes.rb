@@ -53,7 +53,7 @@ Madek::Application.routes.draw do
   end
 
   resources :media_files, only: :show
-  resources :previews, only: :show
+  resources :previews, path: 'media', only: :show
 
   resources :people, only: [:index, :show]
   resources :users, only: :index

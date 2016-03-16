@@ -3,18 +3,13 @@ module Presenters
     class MediaEntryIndex < Presenters::Shared::MediaResource::MediaResourceIndex
 
       include Presenters::MediaEntries::Modules::MediaEntryCommon
-
-      def url
-        prepend_url_context_fucking_rails media_entry_path @app_resource
-      end
+      include Presenters::MediaEntries::Modules::MediaEntryPreviews
 
       def image_url
-        image_url_helper(:small)
+        img = preview_helper(type: :image, size: :medium)
+        img.present? ? img.url : generic_thumbnail_url
       end
 
-      def authors
-        @app_resource.meta_data.find_by(meta_key_id: 'author').to_s
-      end
     end
   end
 end

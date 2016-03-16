@@ -9,6 +9,7 @@ module Presenters
 
             private
 
+            # TODO: document-specific pics! could also be done in CSS…
             def generic_thumbnail_url
               ActionController::Base.helpers.image_path \
                 Madek::Constants::Webapp::UI_GENERIC_THUMBNAIL[:unknown]

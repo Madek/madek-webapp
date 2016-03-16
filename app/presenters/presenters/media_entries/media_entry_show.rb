@@ -3,6 +3,7 @@ module Presenters
     class MediaEntryShow < Presenters::Shared::MediaResource::MediaResourceShow
 
       include Presenters::MediaEntries::Modules::MediaEntryCommon
+      include Presenters::MediaEntries::Modules::MediaEntryPreviews
 
       def initialize(app_resource, user, user_scopes, list_conf: nil)
         super(app_resource, user)
@@ -56,8 +57,18 @@ module Presenters
       end
 
       def image_url
-        image_url_helper(:large)
+        img = preview_helper(type: :image, size: :large)
+        img.present? ? img.url : generic_thumbnail_url
       end
+
+      def audio_previews
+        preview_helper(type: :audio, size: :large)
+      end
+
+      def video_previews
+        preview_helper(type: :video, size: :large)
+      end
+
     end
   end
 end

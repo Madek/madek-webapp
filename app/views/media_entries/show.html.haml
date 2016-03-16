@@ -8,7 +8,7 @@
   content_for(:overview) do deco 'resource_show_overview',
     mods: 'ui-media-overview',
 
-    preview_large: component('picture', mods: ['media-set'],
+    preview_large: component('picture', mods: ['ui-media-overview-preview-item'],
                 text: @get.title,
                 href: @get.image_url),
 

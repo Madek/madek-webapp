@@ -18,6 +18,10 @@ module Presenters
             super.presence or "(Upload from #{@app_resource.created_at.iso8601})"
           end
 
+          def authors
+            @app_resource.meta_data.find_by(meta_key_id: 'author').to_s
+          end
+
           def published?
             # NOTE: using #try because MediaEntry instantiated via
             # `vw_media_resources` view does not have such attribute currently
@@ -26,25 +30,6 @@ module Presenters
 
           def url
             prepend_url_context_fucking_rails media_entry_path(@app_resource)
-          end
-
-          private
-
-          def image_url_helper(size)
-            result = generic_thumbnail_url # fallback from "superclass"
-            media_file = @app_resource.media_file
-            return result unless media_file
-
-            if media_file.representable_as_image?
-              # TODO: for all ResourceThumbs…
-              # if media_file.the_preview_was_created_and_should_exist_in_storage
-              preview = media_file.preview(size)
-              result = preview_path(preview) if preview.present?
-              # else
-              # url = ActionController::Base.helpers.image_path \
-              #   Madek::Constants::Webapp::UI_GENERIC_THUMBNAIL[:incomplete]
-            end
-            prepend_url_context_fucking_rails result
           end
 
         end

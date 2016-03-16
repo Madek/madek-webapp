@@ -10,7 +10,7 @@ RSpec.shared_examples 'image_url' do |response_type|
     when 'with preview image'
       expect(presenter.image_url).to be == \
         Rails.application.routes.url_helpers
-          .preview_path(media_entry.media_file.preview(:small))
+          .preview_path(media_entry.media_file.preview(:medium))
     when 'with generic image'
       expect(presenter.image_url).to be == \
         ActionController::Base.helpers.image_path(

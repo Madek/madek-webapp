@@ -18,10 +18,8 @@ module Presenters
             list_conf: @list_conf)
       end
 
-      def preview_thumb_url
-        prepend_url_context_fucking_rails \
-          ActionController::Base.helpers.image_path \
-            Madek::Constants::Webapp::UI_GENERIC_THUMBNAIL[:collection]
+      def image_url
+        previews_helper(size: :large)
       end
 
       def highlighted_media_resources
