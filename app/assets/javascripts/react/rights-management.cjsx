@@ -313,7 +313,8 @@ PermissionsSubject = React.createClass
           <label className='ui-rights-check-label'>
             {switch
               when not isEnabled
-                <i className='icon-close mid' title={title}/>
+                # leave the field empty if permission is not possible:
+                null
               when isOverridden
                 <i className='icon-privacy-open' title={title}/>
               when editing
