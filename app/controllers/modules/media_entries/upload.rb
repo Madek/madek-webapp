@@ -69,8 +69,8 @@ module Modules
 
       def store_file_and_create_previews!(file, media_file)
         store_file!(file.tempfile.path, media_file.original_store_location)
-        media_file.create_previews! if media_file.needs_previews?
-        process_with_zencoder(media_file) if media_file.audio_video?
+        media_file.create_previews! if media_file.previews_internal?
+        process_with_zencoder(media_file) if media_file.previews_zencoder?
       end
 
     end
