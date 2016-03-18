@@ -7,11 +7,8 @@
 
   content_for(:overview) do deco 'resource_show_overview',
     mods: 'ui-media-overview',
-
-    preview_large: component('picture', mods: ['ui-media-overview-preview-item'],
-                text: @get.title,
-                href: @get.image_url),
-
+    preview_large: react('Deco.MediaEntryPreview',
+                    get: @get, mods: 'ui-media-overview-preview-item'),
     content: deco('meta_data_list',
               mods: 'ui-media-overview-metadata',
               show_title: false,
