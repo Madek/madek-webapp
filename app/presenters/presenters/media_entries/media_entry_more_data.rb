@@ -11,6 +11,10 @@ module Presenters
       def file_information
         @media_file
           .meta_data
+          .transform_values do |val| # Filter out binary data (breaks UI)
+            begin; val.to_json; rescue; next '(Binary or unknown data)'; end
+            val
+          end
           .to_a
           .unshift ['Filename', filename]
       end

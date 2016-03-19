@@ -92,10 +92,15 @@ feature 'Resource: MediaEntry' do
       # media file #############################################################
       media_file = media_entry.media_file
       expect(media_file).to be
-      extractor = MetadataExtractor.new(media_file.original_store_location)
-      expect(media_file.meta_data).to eq extractor.to_hash
-      expect(media_file.width).to be == extractor.to_hash[:image_width]
-      expect(media_file.height).to be == extractor.to_hash[:image_height]
+      extractor = MetadataExtractor
+        .new(media_file.original_store_location).to_hash.transform_values do |val|
+          begin; val.to_json; rescue; next '(Binary or unknown data)'; end
+          val
+        end
+
+      expect(media_file.meta_data).to eq extractor
+      expect(media_file.width).to be == extractor[:image_width]
+      expect(media_file.height).to be == extractor[:image_height]
 
       # file and previews ######################################################
       original_dir = Madek::Constants::FILE_STORAGE_DIR.join(media_file.guid.first)
