@@ -9,6 +9,7 @@ module Presenters
           fail 'TypeError!' unless app_resource.is_a?(Collection)
           @app_resource = app_resource
           @user = user
+          @recursed_collections_for_cover = []
         end
 
         included do
@@ -27,54 +28,63 @@ module Presenters
           end
 
           def previews_helper(size:)
-            media_entry = choose_media_entry_for_preview
-
-            preview = if media_entry \
-                      and media_entry.media_file.representable_as_image?
-                        media_entry.media_file.preview(size)
-                      end
-
-            if preview.present?
-              preview_path(preview)
+            cover_media_entry = _choose_media_entry_for_preview
+            if cover_media_entry # TODO: preview presenter
+              preview = cover_media_entry.media_file.preview(size)
+              preview_path(preview) if preview.present?
             else
               generic_thumbnail_url
             end
           end
 
-          def choose_media_entry_for_preview
-            # TODO: this needs more cleverness.
-            # possibly the 'recursive children' query could help…
-            # we actually want to build a list of candidates and then select
-            # the first one from the list which is representable as an image.
-            # Right now, if the first entry is an image but the second is a pic,
-            # we still show the generic thumbnail.
-            c = @app_resource # the collection in question
-            child_entries = c.media_entries.viewable_by_user_or_public(@user)
-            child_collections = c.collections.viewable_by_user_or_public(@user)
+          def _choose_media_entry_for_preview(collection = @app_resource)
+            cover = _cover_or_first_media_entry(collection)
+            return cover if cover.present?
+            # or try recursive search through children
+            _cover_from_child_collections(collection)
+          end
 
-            if child_entries.exists?
-              return cover_or_first_media_entry(@app_resource)
-            end
+          def _cover_from_child_collections(collection)
+            return if @recursed_collections_for_cover.include?(collection)
+            @recursed_collections_for_cover << collection
+            # NOTE: two loops because we try all cheaper queries first
+            child_collections = collection
+              .collections.viewable_by_user_or_public(@user)
+              .reorder(created_at: :desc)
 
             if child_collections.exists?
-              collection_with_preview_media_entry = child_collections.find do |c|
-                cover_or_first_media_entry(c)
+              # get cover from first level of collection
+              child_collections.each do |c|
+                cover = _cover_or_first_media_entry(c)
+                return cover if cover.present?
               end
-              cover_or_first_media_entry(collection_with_preview_media_entry)
+              # recurse if not found on this level (and not already searched)
+              child_collections.each do |c|
+                cover = _cover_from_child_collections(c)
+                return cover if cover.present?
+              end
+              nil # return nil if nothing found anywhere
             end
           end
 
-          def cover_or_first_media_entry(collection)
+          def _cover_or_first_media_entry(collection)
             return unless collection.present?
 
-            # return the cover if there is one (and it is viewable!)
+            # return the configured cover if there is one (and it is viewable!)
             if collection.cover.present?
-              return MediaEntry
-                .where(id: collection.cover.id).viewable_by_user_or_public.first
+              cover = MediaEntry.viewable_by_user_or_public(@user)
+                .find_by(id: collection.cover.id)
+              return cover if cover.present?
             end
-            child_entries = collection.media_entries
+
+            # otherwise return the first image-like entry
+            collection.media_entries
               .viewable_by_user_or_public(@user)
-            child_entries.first
+              .reorder(created_at: :desc)
+              .each do |e|
+                  return e if e.media_file.representable_as_image?
+              end
+            nil # return nil if nothing found
           end
         end
 
