@@ -57,9 +57,6 @@ initByClass =
   'Deco.MediaResourcesBox': (data, callback)->
     callback(React.createElement(Deco.MediaResourcesBox, data.reactProps))
 
-  'UI.MediaPlayer': (data, callback)->
-    callback(React.createElement(UI.MediaPlayer, data.reactProps))
-
 
 module.exports = reactUjs=()->
   $('[data-react-class]').each ()->
