@@ -27,6 +27,16 @@
   favor_button ? action_buttons << favor_button : nil
   disfavor_button ? action_buttons << disfavor_button : nil
 
+  (@get.policy(current_user).add_remove_collection?) ?
+    action_buttons << component('button',
+      link: select_collection_media_entry_path,
+      method: :get,
+      icon: :move)
+    : nil
+
+
+
+
 = component('page-header',
     icon: component('icon.media-entry'),
     text: @get.title,

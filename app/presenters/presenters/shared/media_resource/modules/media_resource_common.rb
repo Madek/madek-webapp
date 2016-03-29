@@ -11,6 +11,10 @@ module Presenters
             @app_resource.title
           end
 
+          def created_at_pretty
+            @app_resource.created_at.strftime('%d.%m.%Y')
+          end
+
           def favored
             @user.present? and @app_resource.favored?(@user)
           end
@@ -19,7 +23,6 @@ module Presenters
           def favorite_policy
             policy(@user).favor?
           end
-
         end
       end
     end

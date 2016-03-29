@@ -5,7 +5,8 @@ module Presenters
       include Presenters::MediaEntries::Modules::MediaEntryCommon
       include Presenters::MediaEntries::Modules::MediaEntryPreviews
 
-      def initialize(app_resource, user, user_scopes, list_conf: nil)
+      def initialize(app_resource, user, user_scopes,
+        list_conf: nil)
         super(app_resource, user)
         @user_scopes = user_scopes
         @list_conf = list_conf

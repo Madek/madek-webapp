@@ -1,6 +1,7 @@
 class MyController < ApplicationController
   include Concerns::ResourceListParams
   include Concerns::UserScopes::Dashboard
+  include Concerns::NewCollectionModal
   layout 'my'
 
   after_action :verify_policy_scoped
@@ -142,13 +143,11 @@ class MyController < ApplicationController
     sections.map do |id, section|
       [id, prepare_section_with_count(id, sections, presenter)]
     end
-      .group_by { |sec| (sec[1][:presenter].try(:empty?) ? true : false) }
+    .group_by { |sec| (sec[1][:presenter].try(:empty?) ? true : false) }
   end
 
   def remove_the_presenter_so_it_is_not_accidently_used_in_view(sections)
-    sections
-      .map { |id, section| [id, section.except(:presenter)] }
-      .to_h
+    sections.map { |id, section| [id, section.except(:presenter)] }.to_h
   end
 
   def prepare_section_with_count(id, sections, presenter)
@@ -161,4 +160,5 @@ class MyController < ApplicationController
       end
     section
   end
+
 end

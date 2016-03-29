@@ -7,8 +7,6 @@ class CollectionsController < ApplicationController
   include Concerns::ControllerFavoritable
   include Modules::Collections::PermissionsUpdate
 
-  alias_method :edit_cover, :edit_highlights
-
   # this overwrites the concern method
   def show
     collection = get_authorized_resource
@@ -21,11 +19,44 @@ class CollectionsController < ApplicationController
     respond_with @get
   end
 
+  def edit_cover
+    collection = Collection.find(params[:id])
+    authorize collection
+
+    @get = Presenters::Collections::CollectionEditCover.new(
+      current_user,
+      collection,
+      user_scopes_for_collection(collection),
+      resource_list_params)
+
+    respond_with(@get, template: 'collections/edit_cover')
+  end
+
   def update_cover
     collection = Collection.find(id_param)
     authorize collection
-    collection.cover = MediaEntry.find(params[:cover])
+    media_entry_uuid = params[:cover]
+    if media_entry_uuid
+      collection.cover = MediaEntry.find(media_entry_uuid)
+      collection.save!
+    end
     redirect_to collection_path(collection)
+  end
+
+  def create
+    authorize Collection
+    title = params[:collection_title]
+
+    if title.present?
+      collection = store_collection(title)
+      redirect_to(
+        collection_path(collection),
+        flash: { success: I18n.t(:collection_new_flash_successful) })
+    else
+      redirect_to(
+        :back,
+        flash: { error: I18n.t(:collection_new_flash_title_needed) })
+    end
   end
 
   def collection_params
@@ -38,4 +69,17 @@ class CollectionsController < ApplicationController
     get_authorized_resource(Collection.unscoped.find(id_param))
   end
 
+  def store_collection(title)
+    collection = Collection.create!(
+      get_metadata_and_previews: true,
+      responsible_user: current_user,
+      creator: current_user)
+    meta_key = MetaKey.find_by(id: 'madek_core:title')
+    MetaDatum::Text.create!(
+      collection: collection,
+      string: title,
+      meta_key: meta_key,
+      created_by: current_user)
+    collection
+  end
 end

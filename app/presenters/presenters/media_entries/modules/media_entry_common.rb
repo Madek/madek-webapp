@@ -18,10 +18,6 @@ module Presenters
             super.presence or "(Upload from #{@app_resource.created_at.iso8601})"
           end
 
-          def authors
-            @app_resource.meta_data.find_by(meta_key_id: 'author').to_s
-          end
-
           def published?
             # NOTE: using #try because MediaEntry instantiated via
             # `vw_media_resources` view does not have such attribute currently

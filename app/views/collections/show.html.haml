@@ -18,6 +18,14 @@
 
   action_buttons =[favor_button, disfavor_button].compact
 
+
+  (@get.policy(current_user).edit_cover?) ?
+    action_buttons << component('button',
+      link: cover_edit_collection_path,
+      method: :get,
+      icon: :cover)
+    : nil
+
   collection_show[:header] = \
     component('page-header',
       icon: component('icon.set'),

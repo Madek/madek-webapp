@@ -12,6 +12,15 @@ module Presenters
           @recursed_collections_for_cover = []
         end
 
+        def title
+          @app_resource.title.presence or '<Collection has no title>'
+        end
+
+        def owner_pretty
+          person = @app_resource.creator.person
+          person.last_name + ', ' + person.first_name
+        end
+
         included do
           attr_reader :relations
 

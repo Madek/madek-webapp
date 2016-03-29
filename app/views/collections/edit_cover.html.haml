@@ -1,18 +1,5 @@
-= form_tag update_cover_collection_path(@collection), method: :put do
+:ruby
 
-  - @get.resources.each do |res|
+- content_for(:modal) { react('EditCollectionCover', { get: @get }) }
 
-    - app_res = res.instance_variable_get(:@app_resource)
-
-    = res.uuid
-
-    %span{style: 'margin-left:20px'}= app_res.class.name
-
-    %span{style: 'margin-left:20px'}
-      = radio_button_tag :cover, app_res.id, app_res == @collection.cover
-
-    %br
-
-  %hr
-
-  = submit_tag t(:collection_edit_cover_submit_btn)
+= render template: 'collections/show'
