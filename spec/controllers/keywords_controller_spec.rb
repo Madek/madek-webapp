@@ -3,6 +3,9 @@ require 'spec_helper'
 describe KeywordsController do
   let(:user) { FactoryGirl.create :user }
   let(:meta_key) { FactoryGirl.create :meta_key_keywords }
+  let(:meta_datum_keywords) do
+    FactoryGirl.create(:meta_datum_keywords, meta_key: meta_key)
+  end
 
   context 'responds to search with json' do
     it 'filtering by params[:search_term]' do
@@ -23,6 +26,40 @@ describe KeywordsController do
 
       expect(result.size).to be == 1
       expect(result.first['label']).to match /#{keyword.term}/
+    end
+
+    it 'order by last used DESC' do
+      meta_key.vocabulary.user_permissions << \
+        create(:vocabulary_user_permission, user: user)
+
+      mdk1 = FactoryGirl.create(:meta_datum_keyword,
+                                meta_datum: meta_datum_keywords,
+                                created_by: user,
+                                created_at: Date.today)
+      mdk2 = FactoryGirl.create(:meta_datum_keyword,
+                                meta_datum: meta_datum_keywords,
+                                created_by: user,
+                                created_at: Date.yesterday)
+      mdk3 = FactoryGirl.create(:meta_datum_keyword,
+                                meta_datum: meta_datum_keywords,
+                                created_by: user,
+                                created_at: Date.today - 1.week)
+
+      (1..2).map { FactoryGirl.create :meta_datum_keyword }
+
+      get :index,
+          { used_by_id: user.id,
+            meta_key_id: meta_key.id,
+            format: :json },
+          user_id: user.id
+
+      assert_response :success
+      expect(response.content_type).to be == 'application/json'
+      result = JSON.parse(response.body)
+
+      expect(result.size).to be == 3
+      expect(result.map { |h| h['uuid'] })
+        .to be == [mdk1, mdk2, mdk3].map(&:keyword).map(&:id)
     end
 
     it 'limiting with params[:limit]' do

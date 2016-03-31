@@ -89,9 +89,22 @@ describe My::DashboardController do
     @user.responsible_filter_sets.sample(@limit_for_app_resources + 1)
       .each { |fs| fs.favor_by @user }
 
-    # make a keyword and use it in a meta_datum
-    @a_keyword = FactoryGirl.create :keyword, creator: @user
-    create(:meta_datum_keyword, created_by: @user, keyword: @a_keyword)
+    # make keywords and use them in a meta_datum
+    @keyword_1 = FactoryGirl.create :keyword, creator: @user
+    @keyword_2 = FactoryGirl.create :keyword, creator: @user
+    @keyword_3 = FactoryGirl.create :keyword, creator: @user
+    create(:meta_datum_keyword,
+           created_by: @user,
+           created_at: Date.today,
+           keyword: @keyword_1)
+    create(:meta_datum_keyword,
+           created_at: Date.yesterday,
+           created_by: @user,
+           keyword: @keyword_2)
+    create(:meta_datum_keyword,
+           created_at: Date.today - 1.week,
+           created_by: @user,
+           keyword: @keyword_3)
   end
 
   before :example do
@@ -160,7 +173,8 @@ describe My::DashboardController do
 
     it 'Meine Schlagworte' do
       # TODO: move to model and/or integration test
-      expect(@get.used_keywords.map(&:uuid)).to include(@a_keyword.id)
+      expect(@get.used_keywords.map(&:uuid))
+        .to be == [@keyword_1, @keyword_2, @keyword_3].map(&:id)
     end
 
     it 'Mir anvertraute Inhalte' do

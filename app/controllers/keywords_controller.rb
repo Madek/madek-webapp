@@ -7,8 +7,8 @@ class KeywordsController < ApplicationController
 
   private
 
-  def filter_by_search_params(ar_collection, search_term, meta_key_id)
-    ar_collection.filter_by(search_term, meta_key_id)
+  def filter_by_search_params(ar_collection, meta_key_id, search_term, used_by_id)
+    ar_collection.filter_by(meta_key_id, search_term, used_by_id)
   end
 
   def meta_key_id_param
@@ -16,6 +16,6 @@ class KeywordsController < ApplicationController
   end
 
   def search_params
-    [params[:search_term], meta_key_id_param]
+    [meta_key_id_param, params[:search_term], params[:used_by_id]]
   end
 end
