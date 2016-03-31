@@ -18,4 +18,8 @@ class CollectionPolicy < Shared::MediaResources::MediaResourcePolicy
   def update_cover?
     edit?
   end
+
+  def ask_delete?
+    edit?
+  end
 end

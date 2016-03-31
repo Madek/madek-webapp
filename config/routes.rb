@@ -34,7 +34,7 @@ Madek::Application.routes.draw do
     end
   end
 
-  resources :collections, path: 'sets', only: [:index, :show, :create] do
+  resources :collections, path: 'sets', only: [:index, :show, :create, :destroy] do
     member do
       get 'permissions', action: :permissions_show, as: 'permissions'
       get 'permissions/edit', action: :permissions_edit, as: 'edit_permissions'
@@ -45,6 +45,7 @@ Madek::Application.routes.draw do
       put :update_highlights
       patch 'favor', to: 'collections#favor'
       patch 'disfavor', to: 'collections#disfavor'
+      get 'ask_delete', action: :ask_delete, as: 'ask_delete'
 
     end
   end

@@ -151,10 +151,6 @@ feature 'MediaEntry: Select Collection' do
     prepare_collections
   end
 
-  def reload_collection(collection)
-    Collection.find(collection.id)
-  end
-
   def login
     prepare_data
     sign_in_as @login, @password

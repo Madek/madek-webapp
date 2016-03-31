@@ -19,17 +19,25 @@ class CollectionsController < ApplicationController
     respond_with @get
   end
 
-  def edit_cover
+  def destroy
     collection = Collection.find(params[:id])
     authorize collection
+    collection.destroy!
+    redirect_to(
+      collections_path,
+      flash: { success: I18n.t(:collection_delete_success) })
+  end
 
-    @get = Presenters::Collections::CollectionEditCover.new(
-      current_user,
-      collection,
-      user_scopes_for_collection(collection),
-      resource_list_params)
+  def ask_delete
+    initialize_presenter(
+      'Presenters::Collections::CollectionAskDelete',
+      'collections/ask_delete')
+  end
 
-    respond_with(@get, template: 'collections/edit_cover')
+  def edit_cover
+    initialize_presenter(
+      'Presenters::Collections::CollectionEditCover',
+      'collections/edit_cover')
   end
 
   def update_cover
@@ -64,6 +72,19 @@ class CollectionsController < ApplicationController
   end
 
   private
+
+  def initialize_presenter(name, template)
+    collection = Collection.find(params[:id])
+    authorize collection
+
+    @get = name.constantize.new(
+      current_user,
+      collection,
+      user_scopes_for_collection(collection),
+      resource_list_params)
+
+    respond_with(@get, template: template)
+  end
 
   def find_resource
     get_authorized_resource(Collection.unscoped.find(id_param))

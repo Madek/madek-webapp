@@ -46,6 +46,10 @@ initByClass =
     CreateCollection = require('../react/create-collection.cjsx')
     callback(React.createElement(CreateCollection, data.reactProps))
 
+  AskDeleteCollection: (data, callback) ->
+    AskDeleteCollection = require('../react/ask-delete-collection.cjsx')
+    callback(React.createElement(AskDeleteCollection, data.reactProps))
+
   EditCollectionCover: (data, callback) ->
     EditCollectionCover = require('../react/edit-collection-cover.cjsx')
     callback(React.createElement(EditCollectionCover, data.reactProps))

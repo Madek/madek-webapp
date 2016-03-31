@@ -119,6 +119,12 @@ en:
   collection_edit_cover_h_date: "Datierung"
   collection_edit_cover_h_keywords: "Schlagworte"
   collection_edit_cover_h_responsible: "Rechteinhaber"
+  collection_ask_delete_title: "Set löschen"
+  collection_ask_delete_ok: "Löschen"
+  collection_ask_delete_cancel: "Abbrechen"
+  collection_ask_delete_question_pre: "Sind Sie sicher, dass Sie folgendes Set löschen möchten: "
+  collection_ask_delete_question_post: "?"
+  collection_delete_success: "Set wurde gelöscht!"
 
   # # Fallbacks
   no_content_fallback: "(No content.)"

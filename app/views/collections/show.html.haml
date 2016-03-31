@@ -26,6 +26,13 @@
       icon: :cover)
     : nil
 
+  (@get.policy(current_user).ask_delete?) ?
+    action_buttons << component('button',
+      link: ask_delete_collection_path,
+      method: :get,
+      icon: :trash)
+    : nil
+
   collection_show[:header] = \
     component('page-header',
       icon: component('icon.set'),
