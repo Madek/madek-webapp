@@ -21,7 +21,6 @@
 Gemfile.local
 Gemfile.local.lock
 _docs_html
-app/assets/stylesheets/config/local/
 config/*.conf
 config/*.conf_with_pipe
 config/LDAP.yml
@@ -53,7 +52,6 @@ doc/api/yard
 log/*.log
 log/searchd.development.pid
 log/searchd.test.pid
-public/assets/
 public/previews/
 rerun*.txt
 tags

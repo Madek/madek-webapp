@@ -12,5 +12,3 @@ test:
       script: start-xvnc
     bundle-jruby:
       script: bundle-jruby
-    precompile-assets:
-      script: precompile-assets

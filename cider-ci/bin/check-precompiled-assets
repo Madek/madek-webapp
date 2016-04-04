@@ -1,0 +1,85 @@
+#!/usr/bin/env node
+'use strict'
+
+const USAGE = `
+  USAGE: ./check-precompiled-assets <path/to/static/assets> <path/to/compare>
+`
+
+const fs = require('fs')
+const path = require('path')
+const assert = require('assert')
+
+// config
+const IGNORED_PATHS = ['.DS_Store', '.git', 'README.md']
+const args = { assetsPath: process.argv[2], comparePath: process.argv[3] }
+if (!args.assetsPath || !args.comparePath) {
+  console.error(USAGE)
+  process.exit(1)
+}
+
+// helpers
+function getNewestManifest (assetsFiles) {
+  return assetsFiles
+    .filter((i) => /manifest-[^.]*.js/.test(i))
+    .sort((i) => fs.statSync(path.join(ASSETS_PATH, i)).mtime)[0]
+}
+
+function checkAssetFilesRecursive (item, basePath, checkerFn) {
+  const itemPath = path.join(basePath, item)
+  const stats = fs.statSync(itemPath)
+  if (stats.isFile()) {
+    checkerFn(itemPath)
+  } else if (stats.isDirectory()) { // recurse into dirs
+    fs.readdirSync(itemPath)
+      .forEach((i) => checkAssetFilesRecursive(i, itemPath, checkerFn))
+  }
+}
+
+process.on('uncaughtException', (err) => {
+  console.log(err)
+  process.exit(1)
+})
+
+// MAIN
+const ASSETS_PATH = path.join(process.cwd(), args.assetsPath)
+const ASSETS_FILES = fs.readdirSync(ASSETS_PATH)
+const MANIFEST_PATH = getNewestManifest(ASSETS_FILES)
+const MANIFEST = require(path.join(ASSETS_PATH, MANIFEST_PATH))
+const MANIFEST_LIST = Object.keys(MANIFEST.assets)
+
+assert(MANIFEST, 'manifest is not empty')
+assert((MANIFEST_LIST.length > 0), 'manifest.assets list is not empty')
+console.log('check manifest ✔︎')
+
+MANIFEST_LIST.forEach((name) => {
+  const file = path.join(ASSETS_PATH, MANIFEST.assets[name])
+  assert.doesNotThrow(() => fs.statSync(file), Error, `asset '${name}' exists`)
+  assert.ok(fs.statSync(file).isFile(), `asset '${name}' is a file`)
+})
+console.log('check files from manifest against repo ✔︎')
+
+ASSETS_FILES
+  .filter((i) => IGNORED_PATHS.concat(MANIFEST_PATH).indexOf(i) < 0)
+  .forEach((i) => checkAssetFilesRecursive(i, ASSETS_PATH, function (file) {
+    // NOTE: for gziped files, check that the counterpart exists!
+    const filePath = file.replace(/\.gz$/, '')
+    const fileEntry = MANIFEST.files[path.relative(ASSETS_PATH, filePath)]
+    assert.ok(fileEntry, `file '${file}' is in manifest`)
+  }))
+console.log('check files from repo against manifest ✔︎')
+
+if (args.comparePath) {
+  const COMPARE_PATH = path.join(process.cwd(), args.comparePath)
+  const COMPARE_FILES = fs.readdirSync(COMPARE_PATH)
+  const COMP_MANIFEST_PATH = getNewestManifest(COMPARE_FILES)
+  COMPARE_FILES
+    .filter((i) => IGNORED_PATHS.concat(COMP_MANIFEST_PATH).indexOf(i) < 0)
+    .forEach((i) => checkAssetFilesRecursive(i, COMPARE_PATH, function (file) {
+      const filePath = path.resolve(ASSETS_PATH, path.relative(COMPARE_PATH, file))
+      assert.doesNotThrow(() => fs.statSync(filePath), Error,
+        `asset '${filePath}' exists in repo`)
+      assert.ok(fs.statSync(file).isFile(),
+        `asset '${filePath}' is a file in repo`)
+    }))
+  console.log('check asset files from repo against compare path ✔︎')
+}

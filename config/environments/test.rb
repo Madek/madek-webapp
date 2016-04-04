@@ -19,24 +19,21 @@ Madek::Application.configure do
   # Use a different cache store in test
   config.cache_store = :memory_store
 
-
-
   # force usage of custom errors in tests:
   config.show_execptions = true
   config.consider_all_requests_local = false
 
-
-  config.assets.digest = true
+  # For testing in CI, use precompiled assets;
+  # it's faster and there is a dedicated test to verify static assets.
   if ENV['CIDER_CI_TRIAL_ID'].present?
     config.assets.compile = false
+    config.assets.digest = true
   else
     config.assets.compile = true
   end
 
-
-
   # Disable request forgery protection in test environment
-  config.action_controller.allow_forgery_protection    = false
+  config.action_controller.allow_forgery_protection = false
 
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the

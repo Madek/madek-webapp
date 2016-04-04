@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -exu
+
+# TODO: https://devcenter.heroku.com/articles/rails-4-asset-pipeline#dependencies-improperly-used
+
+# ENV
+export RAILS_ENV=production
+export RAILS_LOG_LEVEL=debug
+
+# precompilation: js, css, fonts, images
+bundle exec rake assets:precompile
+# cleanup obsoletes
+bundle exec rake assets:clean[0]

@@ -75,3 +75,14 @@ jobs:
           _cider-ci_generate-tasks:
             include-match: spec/.*_spec.rb
             exclude-match: spec/features.*_spec.rb
+
+          tasks:
+            assets_manifest:
+              name: 'Assets are precompiled and checked in'
+              traits: { nodejs: true }
+              scripts:
+                test:
+                  body: |
+                    mv public/assets tmp/static_assets
+                    cider-ci/bin/precompile-assets
+                    cider-ci/bin/check-precompiled-assets tmp/static_assets public/assets

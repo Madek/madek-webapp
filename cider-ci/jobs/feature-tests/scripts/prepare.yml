@@ -7,11 +7,3 @@ bundle-jruby:
     RBENV_VERSION: jruby-9000
   exclusive-executor-resource: bundler
   body: bin/bundle_with_cachestamp.sh
-
-precompile-assets:
-  exclusive-executor-resource: precompile-assets
-  body: |
-    set -eux
-    cider-ci/bin/precompile-assets-with-caching.sh
-  start-when:
-  - script: bundle

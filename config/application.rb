@@ -103,9 +103,6 @@ module Madek
 
     # Enable the asset pipeline
     config.assets.enabled = true
-    config.assets.version = '1.0.0'
-
-    config.assets.initialize_on_precompile = false
 
     # Paths, that should be browserified. We browserify everything, that
     # matches (===) one of the paths. So you will most likely put lambdas
@@ -133,6 +130,7 @@ module Madek
     config.browserify_rails.evaluate_node_modules = true
 
     # react-rails config:
+    config.react.variant = :production
     # Settings for the pool of renderers:
     # config.react.server_renderer_pool_size  ||= 1  # ExecJS doesn't allow more than one on MRI
     # config.react.server_renderer_timeout    ||= 20 # seconds
@@ -143,22 +141,18 @@ module Madek
     }
     # since we use non-standard `.cjsx` files, we need to explicitly watch them
     config.watchable_files.concat(Dir["#{Rails.root}/app/assets/javascripts/**/*.cjsx*"])
-    config.react.variant = :production
 
-    # Please add any files you need precompiled here, otherwise it breaks production.
-    # JS Note: all top-level files are bundles, rest are modules
-    config.assets.precompile += %w(
+    # List of all assets that need precompilation
+    # NOTE: override (don't extend) the Rails default (which matches all `(c)jsx`)!
+    config.assets.precompile = %w(
+      application.js
       integration-testbed.js
-      *.png
-      api_docs.css
-      api_docs.js
       application.css
       application-contrasted.css
-      i18n/locale/*
-      pdf-viewer.css
-      styleguide.css
-      video.css
-      visualization.css
+      fonts/*
+      backgrounds/*
+      thumbnails/*
+      styleguide/*
     )
   end
 end
