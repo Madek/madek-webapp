@@ -20,6 +20,7 @@ RSpec.configure do |config|
   config.order = 'random'
 
   config.include FavoriteHelper
+  config.include SelectCollectionHelper
 
   if ENV['FIREFOX_ESR_PATH'].present?
     Selenium::WebDriver::Firefox.path = ENV['FIREFOX_ESR_PATH']

@@ -22,4 +22,12 @@ class CollectionPolicy < Shared::MediaResources::MediaResourcePolicy
   def ask_delete?
     edit?
   end
+
+  def add_remove_collection?
+    edit?
+  end
+
+  alias_method :add_remove_collection?, :update?
+  alias_method :select_collection?, :update?
+
 end

@@ -36,38 +36,31 @@ feature 'MediaEntry: Select Collection' do
   private # expected methods from select_collection_helper_spec.rb
 
   def expected_flash_message(removed, added)
-    ('Removed entry from ' + removed.to_s + ' sets.')
-      .concat(' Added entry to ' + added.to_s + ' sets.')
+    ('Removed set from ' + removed.to_s + ' sets.')
+      .concat(' Added set to ' + added.to_s + ' sets.')
   end
 
   def prepare_resource
-    @resource = FactoryGirl.create(
-      :media_entry,
+    @resource = Collection.create!(
+      get_metadata_and_previews: true,
       responsible_user: @user,
       creator: @user)
-
-    @media_file = FactoryGirl.create(
-      :media_file_for_image,
-      media_entry: @resource)
-
-    FactoryGirl.create(
-      :meta_datum_text,
-      created_by: @user,
+    MetaDatum::Text.create!(
+      collection: @resource,
+      string: 'Mein Set',
       meta_key: meta_key_title,
-      media_entry: @resource,
-      value: 'Medien Eintrag 1')
+      created_by: @user)
   end
 
   def resource_path
-    media_entry_path(@resource)
+    collection_path(@resource)
   end
 
   def child_resources(collection)
-    collection.media_entries
+    collection.collections
   end
 
   def select_collection_path
-     select_collection_media_entry_path(@resource)
+     select_collection_collection_path(@resource)
   end
-
 end

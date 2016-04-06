@@ -33,6 +33,13 @@
       icon: :trash)
     : nil
 
+  (@get.policy(current_user).add_remove_collection?) ?
+    action_buttons << component('button',
+      link: select_collection_collection_path,
+      method: :get,
+      icon: :move)
+    : nil
+
   collection_show[:header] = \
     component('page-header',
       icon: component('icon.set'),

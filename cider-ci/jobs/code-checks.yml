@@ -56,7 +56,7 @@ jobs:
               name: 'Ruby: Code similarity with flay'
               scripts:
                 test:
-                  body: bundle exec cider-ci_flay app/
+                  body: bundle exec cider-ci_flay -m 26 app/
 
 
             lint_haml:

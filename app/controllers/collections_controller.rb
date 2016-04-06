@@ -5,6 +5,7 @@ class CollectionsController < ApplicationController
   include Concerns::UserScopes::MediaResources
   include Concerns::CollectionHighlights
   include Concerns::ControllerFavoritable
+  include Concerns::CollectionCollectionSelection
   include Modules::Collections::PermissionsUpdate
 
   # this overwrites the concern method

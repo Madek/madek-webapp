@@ -1,30 +1,29 @@
 module Concerns
-  module MediaEntryCollectionSelection
+  module CollectionCollectionSelection
     include Concerns::CollectionSelection
 
     def presenter_canonical_name
-      'Presenters::MediaEntries::MediaEntrySelectCollection'
+      'Presenters::Collections::CollectionSelectCollection'
     end
 
     def template_path
-      'media_entries/select_collection'
+      'collections/select_collection'
     end
 
     def child_resources(collection)
-      collection.media_entries
+      collection.collections
     end
 
     def success_message_key
-      'media_entry_select_collection_flash_result'
+      'collection_select_collection_flash_result'
     end
 
     def redirect_to_resource_path(resource)
-      media_entry_path(resource)
+      collection_path(resource)
     end
 
     def user_scopes_for_resource(resource)
-      user_scopes_for_media_resource(resource)
+      user_scopes_for_collection(resource)
     end
-
   end
 end

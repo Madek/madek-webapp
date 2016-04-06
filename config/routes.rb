@@ -47,6 +47,9 @@ Madek::Application.routes.draw do
       patch 'disfavor', to: 'collections#disfavor'
       get 'ask_delete', action: :ask_delete, as: 'ask_delete'
 
+      get 'select_collection', action: :select_collection, as: 'select_collection'
+      patch 'add_remove_collection', to: 'collections#add_remove_collection'
+
     end
   end
   resources :filter_sets, only: [:index, :show, :create] do
