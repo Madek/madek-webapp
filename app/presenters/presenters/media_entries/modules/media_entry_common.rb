@@ -10,6 +10,7 @@ module Presenters
           @app_resource = app_resource
           @user = user
           @list_conf = list_conf
+          @previews = Presenters::Shared::ResourcePreviews.new(@app_resource)
         end
 
         included do

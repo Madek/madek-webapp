@@ -36,14 +36,13 @@ module Presenters
                 Madek::Constants::Webapp::UI_GENERIC_THUMBNAIL[:collection]
           end
 
-          def previews_helper(size:)
+          def get_image_preview(size:)
             cover_media_entry = _choose_media_entry_for_preview
-            if cover_media_entry # TODO: preview presenter
-              preview = cover_media_entry.media_file.preview(size)
-              preview_path(preview) if preview.present?
-            else
-              generic_thumbnail_url
-            end
+            preview = if cover_media_entry
+                        Presenters::Shared::ResourcePreviews.new(cover_media_entry)
+                          .image(size: size)
+                      end
+            preview.present? ? preview.url : generic_thumbnail_url
           end
 
           def _choose_media_entry_for_preview(collection = @app_resource)

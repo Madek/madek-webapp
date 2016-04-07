@@ -19,7 +19,7 @@ module Presenters
       end
 
       def image_url
-        previews_helper(size: :large)
+        get_image_preview(size: :medium) # only shown as thumb!
       end
 
       def highlighted_media_resources

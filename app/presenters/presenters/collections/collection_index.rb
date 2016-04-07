@@ -11,7 +11,7 @@ module Presenters
       end
 
       def image_url
-        previews_helper(size: :medium)
+        get_image_preview(size: :medium)
       end
 
       private
