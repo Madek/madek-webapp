@@ -8,6 +8,8 @@ module Presenters
       # - `can_filter`: in here it signifies if the scope *can* be filtered at all,
       #   in the view it determines if filtering is *allowed*.
       class MediaResources < Presenter
+        include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
+
         attr_reader :resources, :pagination, :can_filter
 
         DEFAULT_CONFIG = {
@@ -110,18 +112,7 @@ module Presenters
           resources.map do |resource|
             # if no presenter given, need to check class of every member!
             presenter = determined_presenter || presenter_by_class(resource.class)
-            presenter.new(resource, @user)
-          end
-        end
-
-        def presenter_by_class(klass)
-          case klass.name
-          when 'MediaEntry' then Presenters::MediaEntries::MediaEntryIndex
-          when 'Collection' then Presenters::Collections::CollectionIndex
-          when 'FilterSet' then Presenters::FilterSets::FilterSetIndex
-          when 'MediaResource' then nil
-          else
-            raise 'Unknown resource type!'
+            presenter.new(resource, @user, show_relations: true)
           end
         end
 

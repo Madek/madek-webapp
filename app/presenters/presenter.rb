@@ -30,7 +30,9 @@ class Presenter
             rescue => err
               # NOTE: "inline" errors disabled, must be integrated with responders
               # { type: :Error, error: err.inspect, location: err.backtrace.first }
-              fail err # just re-throw the error to behave normally in all envs
+
+              # just re-throw the error to behave normally in all envs
+              fail err, 'error dumping method ' + api_method.to_s
             end
 
           [api_method, Presenter.dump_recur(result)]

@@ -18,9 +18,35 @@ module.exports = React.createClass
       title: React.PropTypes.string.isRequired
       subtitle: React.PropTypes.string
 
-  render: ({type, src, alt, href, badgeRight, badgeLeft, actionsLeft, actionsRight, meta} = @props)->
+
+  render: ({type, src, alt, href, badgeRight, badgeLeft, actionsLeft, actionsRight, showRelations, parentsCount, childrenCount, parentRelations, childRelations, meta} = @props) ->
 
     classes = "ui-thumbnail #{type} #{parseMods(@props)}"
+
+    parentsCountText = parentsCount + ' Sets'
+    childrenCountText = childrenCount + ' Inhalte'
+
+    parentsElement = null
+    if @props.showRelations
+      parentsElement =
+        <div className="ui-thumbnail-level-up-items">
+          <h3 className="ui-thumbnail-level-notes">Übergeordnete Sets</h3>
+          <ul className="ui-thumbnail-level-items">
+            {parentRelations}
+          </ul>
+          <span className="ui-thumbnail-level-notes">{parentsCountText}</span>
+        </div>
+
+    childrenElement = null
+    if @props.showRelations
+      childrenElement =
+        <div className="ui-thumbnail-level-down-items">
+          <h3 className="ui-thumbnail-level-notes">Set enthält</h3>
+          <ul className="ui-thumbnail-level-items">
+            {childRelations}
+          </ul>
+          <span className="ui-thumbnail-level-notes">{childrenCountText}</span>
+        </div>
 
     badgeLeft = if badgeLeft
       <div className='ui-thumbnail-privacy'>
@@ -51,6 +77,7 @@ module.exports = React.createClass
     </div>
 
     <div className={classes}>
+      {parentsElement}
       {badgeLeft}
       {badgeRight}
       <Link className='ui-thumbnail-image-wrapper' href={href} title={alt}>
@@ -66,4 +93,5 @@ module.exports = React.createClass
       </Link>
       {meta}
       {actions}
+      {childrenElement}
     </div>

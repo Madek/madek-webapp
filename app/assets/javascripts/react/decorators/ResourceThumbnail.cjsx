@@ -43,7 +43,7 @@ module.exports = React.createClass
   favorOnClick: () ->
     @setState(starActive: not @state.starActive)
     action = if @state.starActive then 'disfavor' else 'favor'
-    @favorAjax(action);
+    @favorAjax(action)
 
   favorAjax: (action) ->
     @setState(pendingFavorite: true)
@@ -67,7 +67,17 @@ module.exports = React.createClass
     resource: React.PropTypes.shape
       type: React.PropTypes.oneOf(['MediaEntry', 'Collection', 'FilterSet'])
 
-
+  renderItem: (item) ->
+    clazz = "ui-thumbnail-level-item media_set set odd"
+    if item.type == 'MediaEntry'
+      clazz = "ui-thumbnail-level-item media_entry image odd"
+    <li className={clazz}>
+      <a className="ui-level-image-wrapper" href={item.url}>
+        <div className="ui-thumbnail-level-image-holder">
+          <img className="ui-thumbnail-level-image" src={item.image_url}></img>
+        </div>
+      </a>
+    </li>
 
   render: ({get, elm, authToken} = @props, state = @state)->
     # map the type name:
@@ -88,11 +98,41 @@ module.exports = React.createClass
     favoriteOnClick = @favorOnClick if not @state.pendingFavorite
 
     actionsLeft = []
+    actionsRight = []
+
+    parents = @props.get.parent_relations
+    children = @props.get.child_relations
+
+    parentsCount = 0
+    childrenCount = 0
+
+    if parents
+      parentsCount = parents.resources.length
+    if children
+      childrenCount = children.resources.length
+
+    parentRelations = []
+    childRelations = []
+    if parentsCount > 0
+      parentRelations = parents.resources.map (item)->
+        <li className="ui-thumbnail-level-item media_set set odd">
+          <a className="ui-level-image-wrapper" href={item.url}>
+            <div className="ui-thumbnail-level-image-holder">
+              <img className="ui-thumbnail-level-image" src={item.image_url}></img>
+            </div>
+          </a>
+        </li>
+
+    if childrenCount > 0
+      childRelations = children.resources.map (item) =>
+        @renderItem(item)
 
     if get.favorite_policy
 
-      favorButton = if true #@state.javascript or true
-          <Button className='ui-thumbnail-action-favorite' onClick={favoriteOnClick} data-pending={@state.pendingFavorite}>
+      favorButton =
+        if @state.javascript
+          <Button className='ui-thumbnail-action-favorite' onClick={favoriteOnClick}
+            data-pending={@state.pendingFavorite}>
             {favoriteItem}
           </Button>
         else
@@ -104,14 +144,12 @@ module.exports = React.createClass
           </RailsForm>
 
       actionsLeft.push(
-                <li key='favorite' className='ui-thumbnail-action'>
-                  {favorButton}
-                </li>
-              )
-
+        <li key='favorite' className='ui-thumbnail-action'>
+          {favorButton}
+        </li>)
 
     Element = elm or 'div'
-    props =
+    thumbProps =
       type: f.kebabCase(type)
       src: get.image_url or state.localPreview or '.'
       href: get.url
@@ -123,10 +161,15 @@ module.exports = React.createClass
       badgeRight: if get.type is 'FilterSet'
         <Icon i='filter' title='This is a Filterset'/>
       actionsLeft: actionsLeft
-      actionsRight: []
+      actionsRight: actionsRight
+      showRelations: get.show_relations
+      parentsCount: parentsCount
+      childrenCount: childrenCount
+      parentRelations: parentRelations
+      childRelations: childRelations
 
     <Element className='ui-resource'>
       <div className='ui-resource-body'>
-        <Thumbnail {...props}/>
+        <Thumbnail {...thumbProps}/>
       </div>
     </Element>

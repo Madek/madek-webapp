@@ -5,6 +5,12 @@ module Presenters
       include Presenters::MediaEntries::Modules::MediaEntryCommon
       include Presenters::MediaEntries::Modules::MediaEntryPreviews
 
+      def initialize(app_resource, user, list_conf: {}, show_relations: false)
+        super(app_resource, user, list_conf: list_conf)
+        @show_relations = show_relations
+        initialize_relations
+      end
+
       def image_url
         img = preview_helper(type: :image, size: :medium)
         img.present? ? img.url : generic_thumbnail_url
@@ -25,6 +31,17 @@ module Presenters
           meta_key_id: 'madek_core:subtitle')
         meta_data.length > 0 ? meta_data[0].string : ''
       end
+
+      private
+
+      def parent_relation_resources
+        @app_resource.parent_collections
+      end
+
+      def child_relation_resources
+        nil
+      end
+
     end
   end
 end

@@ -4,6 +4,11 @@ module Presenters
 
       include Presenters::FilterSets::Modules::FilterSetCommon
 
+      def initialize(app_resource, user, list_conf: nil, show_relations: false)
+        super(app_resource, user, list_conf: list_conf)
+        @show_relations = show_relations
+      end
+
       def url
         prepend_url_context_fucking_rails filter_set_path @app_resource
       end
@@ -16,7 +21,7 @@ module Presenters
         #   - select the first one that has an image, use that image
       end
 
-      # TODO: relations
+      # --- TODO: relations
       def parent_collections
         nil
       end
@@ -24,6 +29,16 @@ module Presenters
       def sibling_collections
         nil
       end
+      # --- TODO: relations
+
+      def parent_relation_resources
+        nil
+      end
+
+      def child_relation_resources
+        nil
+      end
+
     end
   end
 end
