@@ -25,7 +25,7 @@ module Concerns
         validate_not_expired! session_object
         user
       rescue Exception => e
-        Rails.logger.warn e
+        Rails.logger.debug e
         cookies.delete COOKIE_NAME
         nil
       end
@@ -33,7 +33,7 @@ module Concerns
 
     def session_cookie
       cookies[COOKIE_NAME] || \
-        raise(StandardError, 'Service cookie not found.')
+        raise(StandardError, 'MadekCookieSession: Service cookie not found.')
     end
 
   end
