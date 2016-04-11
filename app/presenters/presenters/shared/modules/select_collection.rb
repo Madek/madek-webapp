@@ -53,8 +53,8 @@ module Presenters
         def search_collections(user)
           result = Collection.editable_by_user(user)
             .joins(:meta_data)
-            .where(meta_data: { type: 'MetaDatum::Text' })
-            .where('string ILIKE :term', term: "%#{@search_term}%")
+            .where(meta_data: { meta_key_id: 'madek_core:title' })
+            .where('meta_data.string ILIKE :term', term: "%#{@search_term}%")
             .where(
               'collection_id <> :app_resource_id',
               app_resource_id: @app_resource.id)
