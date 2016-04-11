@@ -32,7 +32,8 @@ class Presenter
               # { type: :Error, error: err.inspect, location: err.backtrace.first }
 
               # just re-throw the error to behave normally in all envs
-              fail err, 'error dumping method ' + api_method.to_s
+              # NOTE: doing anything else looses the stracktrace (ruby limitation)
+              fail err
             end
 
           [api_method, Presenter.dump_recur(result)]
