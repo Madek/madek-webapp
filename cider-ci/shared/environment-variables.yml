@@ -1,5 +1,4 @@
 environment-variables:
-  RBENV_VERSION: 2.2
   RAILS_ENV: test
   LANG: "en_US.UTF-8"
   DISPLAY: ":{{XVNC_PORT}}"

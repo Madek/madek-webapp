@@ -1,1 +1,1 @@
-../engines/datalayer/db/structure.sql
+../datalayer/db/structure.sql

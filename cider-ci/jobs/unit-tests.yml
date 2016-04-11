@@ -13,7 +13,7 @@ jobs:
     depends-on:
     - type: job
       job: tests
-      submodule: ['engines/datalayer']
+      submodule: ['datalayer']
       states: [passed]
 
     context: # shared for all subcontexts
@@ -56,13 +56,16 @@ jobs:
 
           task-defaults:
 
+            environment-variables:
+              RBENV_VERSION: 2.2.4
+
             _cider-ci_include:
               - cider-ci/shared/attachments.yml
               - cider-ci/shared/environment-variables.yml
 
             traits:
+              Cislave5: true
               rbenv: true
-              ruby: true
               postgresql: true
               imagemagick: true
 

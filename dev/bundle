@@ -7,7 +7,7 @@ git submodule update --init --recursive
 bundle install
 npm install
 
-cd engines/datalayer
+cd datalayer
 bundle install
 
 cd -

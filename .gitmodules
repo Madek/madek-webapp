@@ -1,9 +1,9 @@
-[submodule "datalayer"]
-	path = engines/datalayer
-	url = https://github.com/Madek/madek-datalayer.git
 [submodule "node_modules"]
 	path = node_modules
 	url = https://github.com/Madek/madek-webapp-node-modules.git
 [submodule "public/assets"]
 	path = public/assets
 	url = https://github.com/Madek/madek_webapp_assets.git
+[submodule "datalayer"]
+	path = datalayer
+	url = https://github.com/Madek/madek-datalayer.git

@@ -1,19 +1,4 @@
 GIT
-  remote: https://github.com/DrTom/rails_config.git
-  revision: 1c277ea9ef06dcd3c5a258805ecadab7884e6a16
-  ref: master
-  specs:
-    rails_config (0.5.0.beta1)
-      activesupport (>= 3.0)
-
-GIT
-  remote: https://github.com/DrTom/textacular.git
-  revision: 778fd0952f949f64eba3ff03e6b97b247dc54d40
-  specs:
-    textacular (3.2.1)
-      activerecord (>= 3.0, < 5.0)
-
-GIT
   remote: https://github.com/madek/madek-zhdk-integration.git
   revision: af9b90793c5dcb48aa55cdfb611bc28ecfb82016
   ref: af9b90793c5dcb48aa55cdfb611bc28ecfb82016
@@ -142,6 +127,8 @@ GEM
     diff-lcs (1.2.5)
     domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
+    drtom-textacular (4.0.0.alpha.20160302)
+      activerecord (>= 3.0, <= 5.0)
     erubis (2.7.0)
     execjs (2.6.0)
     exiftool (0.7.0)
@@ -422,6 +409,7 @@ DEPENDENCIES
   coffee-rails
   compass-rails (~> 2.0)
   configuration_management_backdoor (= 3.0.0)
+  drtom-textacular (= 4.0.0.alpha.20160302)
   execjs
   exiftool_vendored
   factory_girl
@@ -452,7 +440,6 @@ DEPENDENCIES
   rack-mini-profiler
   rails (>= 4.2.5, < 5)
   rails_autolink (~> 1.0)
-  rails_config!
   react-rails (~> 1.4.0)
   responders
   rest-client
@@ -464,7 +451,6 @@ DEPENDENCIES
   sass-rails
   selenium-webdriver
   strong_password
-  textacular!
   therubyracer
   therubyrhino
   uglifier

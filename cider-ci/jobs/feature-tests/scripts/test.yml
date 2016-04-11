@@ -1,6 +1,4 @@
 test:
-  environment-variables:
-    RBENV_VERSION: jruby-9000
   body: |
     set -eux
     ruby -v
@@ -10,5 +8,5 @@ test:
       script: create-database
     start-vnc:
       script: start-xvnc
-    bundle-jruby:
-      script: bundle-jruby
+    bundle:
+      script: bundle

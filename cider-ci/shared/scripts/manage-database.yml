@@ -1,4 +1,33 @@
+setup-ruby:
+  exclusive-executor-resource: rbenv
+  timeout: 20 Minutes
+  body: |
+    #!/usr/bin/env bash
+    set -eux
+
+    function remove_possibly_broken_ruby {
+      rm -rf ${HOME}/.rbenv/versions/${RBENV_VERSION}
+    }
+    trap remove_possibly_broken_ruby ERR SIGINT SIGTERM
+
+    if [ ! -d ${HOME}/.rbenv/versions/${RBENV_VERSION} ]; then
+      curl --silent https://raw.githubusercontent.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
+      rbenv install ${RBENV_VERSION}
+      gem install bundler
+      rm -f ~/.rbenv/shims/.rbenv-shim
+      rbenv rehash
+    fi
+
+bundle:
+  exclusive-executor-resource: bundler
+  timeout: 20 Minutes
+  start-when:
+  - script: setup-ruby
+  body: bin/bundle_with_cachestamp.sh
+
 configure-database:
+  start-when:
+  - script: setup-ruby
   body: |
     #!/usr/bin/env ruby
     require 'yaml'

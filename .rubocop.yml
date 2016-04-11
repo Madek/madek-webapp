@@ -3,7 +3,7 @@ AllCops:
     - 'Gemfile'
     - 'config/**/*'
     - 'db/**/*'
-    - 'engines/**/*'
+    - 'datalayer/**/*'
     - 'tmp/**/*'
     - 'node_modules/**/*'
   RunRailsCops: true

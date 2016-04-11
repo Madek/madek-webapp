@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 require File.expand_path('../boot', __FILE__)
-$:.push File.expand_path('../../engines/datalayer/lib', __FILE__)
+$:.push File.expand_path('../../datalayer/lib', __FILE__)
 
 require 'rails/all'
 # Require the gems listed in Gemfile, including any gems
@@ -37,16 +37,16 @@ module Madek
     ]
 
     config.paths["db/migrate"] << \
-      Rails.root.join('engines', 'datalayer', 'db', 'migrate')
+      Rails.root.join('datalayer', 'db', 'migrate')
 
     config.paths["config/initializers"] <<  \
-      Rails.root.join('engines', 'datalayer', 'initializers')
+      Rails.root.join('datalayer', 'initializers')
 
     config.autoload_paths += [
-      Rails.root.join('engines', 'datalayer', 'lib'),
-      Rails.root.join('engines', 'datalayer', 'app', 'models'),
-      Rails.root.join('engines', 'datalayer', 'app', 'lib'),
-      Rails.root.join('engines', 'datalayer', 'app', 'queries'),
+      Rails.root.join('datalayer', 'lib'),
+      Rails.root.join('datalayer', 'app', 'models'),
+      Rails.root.join('datalayer', 'app', 'lib'),
+      Rails.root.join('datalayer', 'app', 'queries'),
     ]
 
     # this should be in environments/test ; but that doesn't work (???)

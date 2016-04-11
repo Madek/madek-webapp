@@ -1,9 +1,0 @@
-bundle:
-  exclusive-executor-resource: bundler
-  body: bin/bundle_with_cachestamp.sh
-
-bundle-jruby:
-  environment-variables:
-    RBENV_VERSION: jruby-9000
-  exclusive-executor-resource: bundler
-  body: bin/bundle_with_cachestamp.sh

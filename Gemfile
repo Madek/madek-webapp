@@ -1,4 +1,4 @@
-eval_gemfile 'engines/datalayer/Gemfile'
+eval_gemfile 'datalayer/Gemfile'
 
 ####################################################################
 # required in production PRODUCTION
