@@ -36,8 +36,10 @@ module.exports = React.createClass
 
     # immediately trigger upload!
     # TODO: toggle to turn it of and start upload manually?
-    # TODO: shorten
-    f.each added, (model)-> UploadQueue.push(model)
+    f.each added, (model)->
+      UploadQueue.push(
+        model, (err, res)->
+          console.error(err) if err)
 
   render: ({props, state} = @)->
     name = 'media_entry'
@@ -64,6 +66,8 @@ module.exports = React.createClass
           id='ui-resources-preview'>
           <MediaResourcesBox
             className='ui-uploader-uploads'
+            authToken={props.authToken}
+            interactive={false}
             get={resources: props.appCollection}/>
         </div>
       }

@@ -1,4 +1,3 @@
-path = require('path')
 f = require('active-lodash')
 
 translations = f.merge(

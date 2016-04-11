@@ -2,6 +2,7 @@ url = require('url')
 f = require('active-lodash')
 Bloodhound = require('@eins78/typeahead.js/dist/bloodhound.js').noConflict()
 
+# FIXME: ignores RAILS_RELATIVE_URL_ROOT
 resourcesConfig = # JSON API Endpoints:
   Users: { url: '/users' }
   Groups: { url: '/my/groups' }

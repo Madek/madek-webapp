@@ -1,3 +1,10 @@
+###
+Proof of Concept: Inline Edit
+- only implemented for MetaDatumText to keep it simple (no ui components, just "HTML")
+- integrated with UI with conventional UJS
+  (target elements with data properties; enhance on document load)
+###
+
 React = require('react')
 ampersandReactMixin = ('ampersand-react-mixin')
 
@@ -13,7 +20,6 @@ module.exports = React.createClass
 
   onCancelClick: (_event)-> @setState(editing: false)
 
-  # TMP: first value only (MetaDatumText)
   onSubmit: (value)->
     metaDatum = @props.metaDatum
 
@@ -26,14 +32,13 @@ module.exports = React.createClass
 
     metaDatum.save
       success: (model, response, options)=>
-        # console.log 'success', response.body, options, model, model.serialize()
         @setState(updating: false)
 
       error: (model, response, options)=>
         # roll back the state (thus also the UI)
         model.set(previous)
         @setState(updating: false)
-        # TMP: just 'alert' the error
+        # HACK: just 'alert' the error
         alert 'Error!\n\n' + response.body
 
   render: ()->
@@ -41,7 +46,7 @@ module.exports = React.createClass
     editing = @state.editing
     updating = @state.updating
 
-    # TMP: build 1 dl per datum…
+    # HACK: build 1 dl per datum…
     <dl className='media-data mbs'>
 
       <dt className='media-data-title' data='meta-datum-editable'>
@@ -77,7 +82,7 @@ ValuesShow = React.createClass
 
 ValuesEdit = React.createClass
   getInitialState: ()->
-    # TMP: only edit first value (MetaDatumText only)
+    # HACK: only edit first value (MetaDatumText only)
     { initalValue: @props.metaDatum.serialize().values[0] }
 
   onValueChange: (event)->

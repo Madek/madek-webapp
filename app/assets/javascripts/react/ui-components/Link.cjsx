@@ -1,4 +1,6 @@
 React = require('react')
+cx = require('classnames')
+parseMods = require('../lib/parse-mods.coffee').fromProps
 
 module.exports = React.createClass
   displayName: 'Link'
@@ -6,15 +8,9 @@ module.exports = React.createClass
     href: React.PropTypes.string
 
   render: ({href, children} = @props)->
-    Elm = if href
-      'a'
-    else
-      'span'
+    Elm = if href then 'a' else 'span'
+    className = cx('link', @props.className, parseMods(@props))
 
-    if @props.className
-      className = @props.className + ' link'
-    else
-      className = 'link'
     <Elm {...@props} href={href} className={className}>
       {children}
     </Elm>

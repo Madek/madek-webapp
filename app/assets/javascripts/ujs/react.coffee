@@ -3,8 +3,7 @@ React = require('react')
 ReactDOM = require('react-dom')
 f = require('active-lodash')
 url = require('url')
-UI = require('../react/ui-components/index.coffee')
-Deco = require('../react/decorators/index.coffee')
+UI = require('../react/index.coffee')
 
 # UJS for Models with React Views
 #
@@ -42,22 +41,6 @@ initByClass =
         editUrl: edit_link
         router: router
 
-  CreateCollection: (data, callback) ->
-    CreateCollection = require('../react/create-collection.cjsx')
-    callback(React.createElement(CreateCollection, data.reactProps))
-
-  AskDeleteCollection: (data, callback) ->
-    AskDeleteCollection = require('../react/ask-delete-collection.cjsx')
-    callback(React.createElement(AskDeleteCollection, data.reactProps))
-
-  EditCollectionCover: (data, callback) ->
-    EditCollectionCover = require('../react/edit-collection-cover.cjsx')
-    callback(React.createElement(EditCollectionCover, data.reactProps))
-
-  SelectCollection: (data, callback) ->
-    SelectCollection = require('../react/select-collection.cjsx')
-    callback(React.createElement(SelectCollection, data.reactProps))
-
   FormResourceMetaData: (data, callback)->
     FormResourceMetaData = require('../react/form-resource-meta-data.cjsx')
     callback React.createElement FormResourceMetaData, data.reactProps
@@ -65,13 +48,8 @@ initByClass =
   Uploader: (data, callback)->
     MediaEntries = require('../models/media-entries.coffee')
     Uploader = require('../react/uploader.cjsx')
-    callback React.createElement(Uploader, appCollection: (new MediaEntries()))
-
-  'Deco.ResourceThumbnail': (data, callback)->
-    callback(React.createElement(Deco.ResourceThumbnail, data.reactProps))
-
-  'Deco.MediaResourcesBox': (data, callback)->
-    callback(React.createElement(Deco.MediaResourcesBox, data.reactProps))
+    props = f.set(data.reactProps, 'appCollection', (new MediaEntries()))
+    callback(React.createElement(Uploader, props))
 
 
 module.exports = reactUjs=()->
@@ -81,11 +59,11 @@ module.exports = reactUjs=()->
     componentClass = f.last(data.reactClass.split('UI.'))
     # use custom initializer, or…
     init = initByClass[componentClass]
-    # simple ujs for any static components:
-    if not init
-      init = (data, callback)->
-        if (comp = UI[componentClass])?
-          callback(React.createElement(comp, data.reactProps))
+    # auto-init (for any components that simply render from props):
+    init ||= (data, callback)->
+      component = f.get(UI, componentClass)
+      throw new Error "No such component: `#{componentClass}`!" unless component
+      callback(React.createElement(component, data.reactProps))
 
     if f.isFunction(init)
       return init(data, (enhanced)-> ReactDOM.render(enhanced, element))

@@ -7,12 +7,12 @@ MadekPropTypes = require('./lib/madek-prop-types.coffee')
 
 module.exports = React.createClass
   displayName: 'FormResourceMetaData'
-  render: ({get, token} = @props)->
+  render: ({get, authToken} = @props)->
     name = 'media_entry[meta_data]' # TMP
     meta_data = get.meta_data.by_vocabulary
 
     <RailsForm name='resource_meta_data' action={get.url + '/meta_data'}
-      method='put' token={token}>
+      method='put' authToken={authToken}>
 
       <div className='form-body'>
         {f.keys(meta_data).map (voc_id)->

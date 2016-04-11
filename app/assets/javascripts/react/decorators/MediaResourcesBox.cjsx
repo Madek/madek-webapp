@@ -69,11 +69,12 @@ module.exports = React.createClass
   propTypes:
     initial: viewConfigProps
     interactive: React.PropTypes.bool.isRequired # toggles simple list or full box
+    authToken: React.PropTypes.string.isRequired
     get: React.PropTypes.shape
-      resources: React.PropTypes.array
+      # resources: React.PropTypes.array # TODO: array of ampersandCollection
       can_filter: React.PropTypes.bool # if true, get.resources can be filtered
       config: viewConfigProps # <- config that is part of the URL!
-      dynamic_filters: React.PropTypes.array.isRequired
+      dynamic_filters: React.PropTypes.array
 
   # kick of client-side mode:
   getInitialState: ()-> {active: false, config: {}}

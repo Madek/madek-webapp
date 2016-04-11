@@ -1,11 +1,9 @@
 React = require('react')
 f = require('active-lodash')
-getToken = require('../../../lib/rails-csrf-token.coffee')
 parseMods = require('../../lib/parse-mods.coffee').fromProps
 
 module.exports = React.createClass
   displayName: 'RailsForm'
-  componentDidMount: ()-> @setState(authToken: getToken())
   propTypes:
     name: React.PropTypes.string.isRequired
     action: React.PropTypes.string
@@ -19,9 +17,9 @@ module.exports = React.createClass
     # fake the method if browsers don't support it:
     emulateHTTP = not f.includes(['get', 'post'], method)
     # add CRSF token for non-GET methods.
-    # token can given by prop (server) or fetched from DOM (browser):
-    authToken = @state?.authToken || authToken
     needsAuthToken = method isnt 'get'
+    if needsAuthToken && !f.present(authToken)
+      throw new Error 'No `authToken` given!'
 
     <form {...@props}
       name={name} method={formMethod} action={action} className={parseMods(@props)}

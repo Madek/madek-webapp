@@ -5,5 +5,9 @@ global.f = require('active-lodash')
 global.React = require('react')
 global.ReactDOM = require('react-dom')
 
-global.UI = require('./react/index.coffee')
-global.Models = require('./models/index.coffee')
+global.App =
+  UI: require('./react/index.coffee')
+  Models: require('./models/index.coffee')
+
+global.UI = App.UI
+global.Models = App.Models

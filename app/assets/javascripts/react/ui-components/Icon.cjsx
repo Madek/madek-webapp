@@ -1,3 +1,5 @@
+# A single icon (from styleguide) by name
+
 React = require('react')
 parseMods = require('../lib/parse-mods.coffee').fromProps
 

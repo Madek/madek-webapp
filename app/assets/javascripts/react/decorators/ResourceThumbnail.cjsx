@@ -9,21 +9,6 @@ getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 RailsForm = require('../lib/forms/rails-form.cjsx')
 Button = require('../ui-components/Button.cjsx')
 
-
-getUrlFromBrowserFileQueue = async.queue(urlFromBrowserFile, 1)
-
-# async! will cause re-render with the new img, but only once per file:
-localPreviewImage = (resource, callback)->
-  # TODO: generic fallback images
-  type = f.get(resource, 'uploading.file.type')
-  switch
-    when /image\//.test(type)
-      getUrlFromBrowserFileQueue.push f.get(resource, 'uploading.file'), (url)->
-        return callback({}) if not url
-        callback(localPreview: url)
-    else
-      callback({})
-
 module.exports = React.createClass
   displayName: 'ResourceThumbnail'
   mixins: [ampersandReactMixin]
@@ -173,3 +158,18 @@ module.exports = React.createClass
         <Thumbnail {...thumbProps}/>
       </div>
     </Element>
+
+# helpers
+
+# async! will cause re-render with the new img, but only once per file:
+getUrlFromBrowserFileQueue = async.queue(urlFromBrowserFile, 1)
+localPreviewImage = (resource, callback)->
+  # TODO: generic fallback images
+  type = f.get(resource, 'uploading.file.type')
+  switch
+    when /image\//.test(type)
+      getUrlFromBrowserFileQueue.push f.get(resource, 'uploading.file'), (url)->
+        return callback({}) if not url
+        callback(localPreview: url)
+    else
+      callback({})

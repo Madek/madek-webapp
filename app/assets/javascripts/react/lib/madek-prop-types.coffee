@@ -5,7 +5,7 @@ validateUUID = require('uuid-validate')
 # Define all PropTypes that directly relate to Models/Presenters here.
 # NOTE: Never set the top-level as `isRequired`, that is up to the Component!
 
-# Constants
+# # Constants
 NAMESPACE_MATCH = '[a-z0-9\-_]+'
 VOCABULARY_REGEX = RegExp("^#{NAMESPACE_MATCH}$")
 MKEY_REGEX = RegExp("^#{NAMESPACE_MATCH}:#{NAMESPACE_MATCH}$")
@@ -16,7 +16,7 @@ META_DATUM_TYPES = [
   ]
 
 # Set up base object, so that each single definition is standalone
-# and can be included/nested once defined:
+# and can be included/nested once defined. Shortcut just for readabilty here.
 MadekPropTypes = M = {}
 
 # Basics
