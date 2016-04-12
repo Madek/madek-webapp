@@ -56,6 +56,8 @@ jobs:
 
           task-defaults:
 
+            dispatch-storm-delay-duration: 0 Seconds
+
             environment-variables:
               RBENV_VERSION: 2.2.4
 
@@ -64,7 +66,6 @@ jobs:
               - cider-ci/shared/environment-variables.yml
 
             traits:
-              Cislave5: true
               rbenv: true
               postgresql: true
               imagemagick: true

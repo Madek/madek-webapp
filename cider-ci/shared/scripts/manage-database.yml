@@ -11,10 +11,11 @@ setup-ruby:
     trap remove_possibly_broken_ruby ERR SIGINT SIGTERM
 
     if [ ! -d ${HOME}/.rbenv/versions/${RBENV_VERSION} ]; then
+      rm -rf ~/.rbenv/plugins/*
+      rm -f ~/.rbenv/shims/.rbenv-shim
       curl --silent https://raw.githubusercontent.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
       rbenv install ${RBENV_VERSION}
       gem install bundler
-      rm -f ~/.rbenv/shims/.rbenv-shim
       rbenv rehash
     fi
 

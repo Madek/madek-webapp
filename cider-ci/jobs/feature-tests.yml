@@ -25,6 +25,8 @@ jobs:
 
       name: Feature Tests
 
+      dispatch-storm-delay-duration: 1 Seconds
+
       script-defaults:
         template-environment-variables: true
         timeout: 600
@@ -39,7 +41,7 @@ jobs:
           - cider-ci/shared/environment-variables.yml
 
         eager-trials: 1
-        max-auto-trials: 1
+        max-auto-trials: 3
 
         ports:
           XVNC_PORT:
@@ -53,7 +55,6 @@ jobs:
             timeout: 60
 
         traits:
-          Cislave5: true
           firefox-esr: true
           imagemagick: true
           linux: true
