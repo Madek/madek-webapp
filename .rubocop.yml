@@ -6,6 +6,7 @@ AllCops:
     - 'datalayer/**/*'
     - 'tmp/**/*'
     - 'node_modules/**/*'
+    - 'zhdk-integration/**/*'
   RunRailsCops: true
 
 Lint/AmbiguousOperator:
