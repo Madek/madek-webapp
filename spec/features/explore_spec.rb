@@ -8,6 +8,7 @@ feature 'Page: Explore' do
 
     it 'is rendered for public' do
       visit explore_path
+      expect(page.status_code).to eq 200
     end
 
     it 'is rendered for a logged in user' do

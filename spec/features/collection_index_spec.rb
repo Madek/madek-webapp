@@ -8,6 +8,7 @@ feature 'Resource: Collection' do
 
     it 'is rendered for public' do
       visit collections_path
+      expect(page.status_code).to eq 200
     end
 
     pending 'shared_test_filterbar'
@@ -16,6 +17,7 @@ feature 'Resource: Collection' do
       @user = User.find_by(login: 'normin')
       sign_in_as @user.login
       visit collections_path
+      expect(page.status_code).to eq 200
     end
 
   end

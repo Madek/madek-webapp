@@ -12,6 +12,7 @@ feature 'Page: My Dashboard (only logged in user)' do
 
   it 'is rendered' do
     visit '/my/'
+    expect(page.status_code).to eq 200
   end
 
   describe 'Dashboard Sections' do

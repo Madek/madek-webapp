@@ -17,6 +17,7 @@ feature 'Resource: Person' do
 
       it 'is rendered' do
         visit normins_page
+        expect(page.status_code).to eq 200
       end
 
       it 'shows title, summary, related MediaEntries' do
