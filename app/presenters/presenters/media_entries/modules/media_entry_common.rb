@@ -4,6 +4,7 @@ module Presenters
       module MediaEntryCommon
         extend ActiveSupport::Concern
         include Presenters::Shared::MediaResource::Modules::MediaResourceCommon
+        include Presenters::Shared::Modules::Favoritable
 
         def initialize(app_resource, user, list_conf: {})
           fail 'TypeError!' unless app_resource.is_a?(MediaEntry)

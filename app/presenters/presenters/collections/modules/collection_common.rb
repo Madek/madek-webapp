@@ -4,6 +4,7 @@ module Presenters
       module CollectionCommon
         extend ActiveSupport::Concern
         include Presenters::Shared::MediaResource::Modules::MediaResourceCommon
+        include Presenters::Shared::Modules::Favoritable
 
         def initialize(app_resource, user)
           fail 'TypeError!' unless app_resource.is_a?(Collection)
