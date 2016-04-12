@@ -3,19 +3,12 @@ set -exu
 
 # needed rails config 😑
 # first, backup old config
-mkdir -p tmp/config.bak
-cp -R config/ tmp/config.bak/
+cp config/database.yml config/database.yml.bak
 # build config
 sed -i -e 's/^test\:/production:/' config/database.yml
-echo "production: {secret_key_base: '$(openssl rand -base64 64 | head -c 64)'}" \
-  >> config/secrets.yml
-echo "madek_master_secret: '$(openssl rand -base64 64 | head -c 64)'" \
-  >> config/settings.local.yml
 
 # do it
 bin/precompile-assets
 
 # restore old config
-rm -rf tmp/config.built
-mv config tmp/config.built
-mv tmp/config.bak config
+mv config/database.yml.bak config/database.yml
