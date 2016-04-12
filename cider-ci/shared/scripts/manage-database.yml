@@ -37,7 +37,7 @@ configure-database:
         { 'adapter' => 'postgresql',
           'encoding' => 'unicode',
           'host' => 'localhost',
-          'pool' => 3,
+          'pool' => 10,
           'username' => ENV['PGUSER'],
           'password' =>  ENV['PGPASSWORD'],
           'database' => "madek_v3_test_#{ENV['CIDER_CI_TRIAL_ID']}"}}
