@@ -41,10 +41,6 @@ initByClass =
         editUrl: edit_link
         router: router
 
-  FormResourceMetaData: (data, callback)->
-    FormResourceMetaData = require('../react/form-resource-meta-data.cjsx')
-    callback React.createElement FormResourceMetaData, data.reactProps
-
   Uploader: (data, callback)->
     MediaEntries = require('../models/media-entries.coffee')
     Uploader = require('../react/uploader.cjsx')

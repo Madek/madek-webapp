@@ -22,6 +22,9 @@ module.exports = AppResource.extend
       type: 'boolean'
       default: false
       required: true
+    favored:
+      type: 'boolean'
+      default: false
     copyright_notice: ['string']
     portrayed_object_date: ['string']
     image_url:
@@ -59,6 +62,16 @@ module.exports = AppResource.extend
             'Processing…'
 
   # instance methods:
+  setFavoredStatus: (action, callback)->
+    if !f.include(['favor', 'disfavor'], action)
+      throw new Error('ArgumentError!')
+    @set('favored', (if (action is 'favor') then true else false))
+    runRequest(
+      {method: 'PATCH', url: @url + '/' + action},
+      (err, res, data)=>
+        @set('favored', data.isFavored)
+        callback(err, res, data))
+
   upload: (callback)->
     unless (@uploading.file instanceof BrowserFile)
       throw new Error 'Model: MediaEntry: #upload called but no file!'
@@ -68,15 +81,11 @@ module.exports = AppResource.extend
 
     @merge('uploading', started: (new Date()).getTime())
 
-    # TODO: use ampersand-sync
-    req = xhr
+    req = runRequest {
       method: 'POST'
       url: '/entries/'
       body: formData
-      headers:
-        'Accept': 'application/json'
-        'X-CSRF-Token': getRailsCSRFToken()
-      ,
+      },
       (err, res)=>
         # update self with server response:
         unless err or not res
@@ -92,3 +101,16 @@ module.exports = AppResource.extend
         unless f.all([loaded, total], f.isNumber)
           return console.error('Math error!')
         @merge('uploading', progress: (loaded/total*100))
+
+# ajax helper
+runRequest = (req, callback)->
+  return xhr({
+    method: req.method
+    url: req.url
+    body: req.body
+    headers: {
+      'Accept': 'application/json'
+      'X-CSRF-Token': getRailsCSRFToken()}},
+    (err, res, body)->
+      data = (try JSON.parse(body)) or body
+      callback(err, res, data))

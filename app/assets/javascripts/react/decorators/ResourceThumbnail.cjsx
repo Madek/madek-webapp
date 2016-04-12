@@ -4,53 +4,40 @@ f = require('active-lodash')
 ampersandReactMixin = require('ampersand-react-mixin')
 urlFromBrowserFile = require('../../lib/url-from-browser-file.coffee')
 {Icon, Thumbnail} = require('../ui-components/index.coffee')
-xhr = require('xhr')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
+Models = require('../../models/index.coffee')
 RailsForm = require('../lib/forms/rails-form.cjsx')
 Button = require('../ui-components/Button.cjsx')
 
 module.exports = React.createClass
   displayName: 'ResourceThumbnail'
   mixins: [ampersandReactMixin]
+  propTypes:
+    authToken: React.PropTypes.string
+    get: React.PropTypes.shape
+      type: React.PropTypes.oneOf(['MediaEntry', 'Collection', 'FilterSet'])
+    # TODO: consilidate with `get` (when used in uploader)
+    resource: React.PropTypes.shape
+      type: React.PropTypes.oneOf(['MediaEntry'])
+
   getInitialState: ()-> {
-    active: true
-    starActive: @props.get.favored
-    javascript: false
+    active: false
     pendingFavorite: false
-    favoriteVisible: @props.get.favorite_policy
   }
   componentDidMount: ()->
     localPreviewImage(@props.resource, @setState.bind(@))
-    @setState(javascript: true)
+    model = new Models[@props.get.type](@props.get)
+    @setState(active: true, model: model)
+
   componentWillReceiveProps: (nextProps)->
     return if (@props.uploading?.file is nextProps.uploading?.file)
     localPreviewImage(nextProps.resource, @setState.bind(@))
-  favorOnClick: () ->
-    @setState(starActive: not @state.starActive)
-    action = if @state.starActive then 'disfavor' else 'favor'
-    @favorAjax(action)
 
-  favorAjax: (action) ->
+  _favorOnClick: () ->
     @setState(pendingFavorite: true)
-    url = @props.get.url + '/' + action
-    req = xhr
-      method: 'PATCH'
-      url: url
-      body: ''
-      headers:
-        'Accept': 'application/json'
-        'X-CSRF-Token': getRailsCSRFToken()
-      ,
-      (err, res)=>
-        result = (try JSON.parse(res.body))
-        @setState(starActive: result.isFavored)
-        @setState(pendingFavorite: false)
-
-
-  propTypes:
-    authToken: React.PropTypes.string
-    resource: React.PropTypes.shape
-      type: React.PropTypes.oneOf(['MediaEntry', 'Collection', 'FilterSet'])
+    action = if @state.model.favored then 'disfavor' else 'favor'
+    @state.model.setFavoredStatus action, (err, res)=>
+      @setState(pendingFavorite: false)
 
   renderItem: (item) ->
     clazz = "ui-thumbnail-level-item media_set set odd"
@@ -65,6 +52,9 @@ module.exports = React.createClass
     </li>
 
   render: ({get, elm, authToken} = @props, state = @state)->
+    # get = @state.model or @props.get
+    model = @state.model or @props.get
+
     # map the type name:
     type = get.type.replace(/Collection/, 'MediaSet')
     # map the privacy icon:
@@ -73,14 +63,13 @@ module.exports = React.createClass
     iconMapping = {'public': 'open', 'private': 'private', 'shared': 'group'}
     privacyIcon = "privacy-#{iconMapping[get.privacy_status]}"
 
+    # fav
+    favoriteAction = if model.favored then 'disfavor' else 'favor'
+    favoriteUrl = model.url + '/' + favoriteAction
 
-    favoriteAction = if get.favored then 'disfavor' else 'favor'
-    favoriteUrl = get.url + '/' + favoriteAction
-
-
-    starClass = if @state.starActive then 'icon-star' else 'icon-star-empty'
+    starClass = if model.favored then 'icon-star' else 'icon-star-empty'
     favoriteItem = <i className={starClass}></i>
-    favoriteOnClick = @favorOnClick if not @state.pendingFavorite
+    favoriteOnClick = @_favorOnClick if not @state.pendingFavorite
 
     actionsLeft = []
     actionsRight = []
@@ -113,9 +102,8 @@ module.exports = React.createClass
         @renderItem(item)
 
     if get.favorite_policy
-
       favorButton =
-        if @state.javascript
+        if @state.active
           <Button className='ui-thumbnail-action-favorite' onClick={favoriteOnClick}
             data-pending={@state.pendingFavorite}>
             {favoriteItem}
