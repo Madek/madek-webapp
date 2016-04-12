@@ -7,3 +7,6 @@
 [submodule "datalayer"]
 	path = datalayer
 	url = https://github.com/Madek/madek-datalayer.git
+[submodule "zhdk-integration"]
+	path = zhdk-integration
+	url = https://github.com/Madek/madek-zhdk-integration.git

@@ -12,12 +12,9 @@ gem 'responders'
 
 # Webserver
 gem 'puma'
-# gem 'thin', platform: :mri, group: [:development, :personas]
-
 
 # ZHDK-INTEGRATION
-# gem "madek_zhdk_integration", path: "../zhdk_integration"
-gem 'madek_zhdk_integration', git: 'https://github.com/madek/madek-zhdk-integration.git', ref: 'af9b90793c5dcb48aa55cdfb611bc28ecfb82016'
+gem "madek_zhdk_integration", path: "zhdk-integration"
 
 # FRONTEND
 gem 'bootstrap-sass'
@@ -70,5 +67,4 @@ gem 'selenium-webdriver', group: [:test]
 gem 'zencoder-fetcher', group: [:development]
 
 # TEMPORARILY DISABLED
-# gem 'rack-mini-profiler', group: [:development]
 #

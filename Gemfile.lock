@@ -1,7 +1,5 @@
-GIT
-  remote: https://github.com/madek/madek-zhdk-integration.git
-  revision: af9b90793c5dcb48aa55cdfb611bc28ecfb82016
-  ref: af9b90793c5dcb48aa55cdfb611bc28ecfb82016
+PATH
+  remote: zhdk-integration
   specs:
     madek_zhdk_integration (1.0.0)
       rails (~> 4.2)
