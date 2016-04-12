@@ -31,10 +31,12 @@ module Presenters
           @child_relations = nil
           if @show_relations
             if parent_relation_resources
-              @parent_relations = create_presenter(parent_relation_resources)
+              @parent_relations = create_presenter(
+                parent_relation_resources.viewable_by_user_or_public(@user))
             end
             if child_relation_resources
-              @child_relations = create_presenter(child_relation_resources)
+              @child_relations = create_presenter(
+                child_relation_resources.viewable_by_user_or_public(@user))
             end
           end
         end
