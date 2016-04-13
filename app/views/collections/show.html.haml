@@ -40,6 +40,15 @@
       icon: :move)
     : nil
 
+  (@get.policy(current_user).edit_highlights?) ?
+    action_buttons << component('button',
+      link: highlights_edit_collection_path,
+      method: :get,
+      icon: :highlight)
+    : nil
+
+
+
   collection_show[:header] = \
     component('page-header',
       icon: component('icon.set'),

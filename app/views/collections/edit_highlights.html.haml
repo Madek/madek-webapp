@@ -1,19 +1,5 @@
-= form_tag update_highlights_collection_path(@collection), method: :put do
+:ruby
 
-  - @get.resources.each do |res|
+- content_for(:modal) { react('CollectionResourceSelection', { get: @get, type: 'checkbox' }) }
 
-    - app_res = res.instance_variable_get(:@app_resource)
-
-    = text_field_tag :id, res.uuid, name: 'highlights[][id]'
-
-    %span{style: 'margin-left:20px'}
-      = text_field_tag :type, app_res.class.name, name: 'highlights[][type]'
-
-    %span{style: 'margin-left:20px'}
-      = check_box_tag :highlighted, 'true', (:checked if app_res.highlighted_for?(@collection)), name: 'highlights[][highlighted]'
-
-    %br
-
-  %hr
-
-  = submit_tag t(:collection_edit_highlights_btn)
+= render template: 'collections/show'

@@ -4,15 +4,6 @@ module Concerns
     include Concerns::ResourceListParams
 
     included do
-      def edit_highlights
-        @collection = Collection.find(params[:id])
-        authorize @collection
-        respond_with(
-          @get = Presenters::Collections::ChildMediaResources.new(
-            @collection.child_media_resources,
-            current_user,
-            list_conf: resource_list_params))
-      end
 
       def update_highlights
         collection = Collection.find(params[:id])
@@ -37,14 +28,14 @@ module Concerns
 
       private
 
-      def update_highlight(highlight, arc_klass, assoc_column_name)
+      def update_highlight(hash, arc_klass, assoc_column_name)
         arc_klass
-          .find_by!(Hash[assoc_column_name, highlight[:id]])
-          .update_attribute(:highlight, highlight[:highlighted])
+          .find_by!(Hash[assoc_column_name, hash[:id]])
+          .update_attribute(:highlight, hash[:selected])
       end
 
       def highlights_params
-        params.require(:highlights)
+        params.require(:resource_selections)
       end
 
       def media_entry_highlights

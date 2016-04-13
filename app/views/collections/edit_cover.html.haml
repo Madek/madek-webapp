@@ -1,5 +1,5 @@
 :ruby
 
-- content_for(:modal) { react('EditCollectionCover', { get: @get }) }
+- content_for(:modal) { react('CollectionResourceSelection', { get: @get, type: 'radio' }) }
 
 = render template: 'collections/show'

@@ -23,7 +23,7 @@ describe CollectionsController do
 
     put :update_cover,
         { id: @coll.id,
-          cover: me.id },
+          selected_resource: me.id },
         user_id: @user.id
 
     expect(response).to be_redirect
@@ -54,21 +54,28 @@ describe CollectionsController do
 
       put :update_highlights,
           { id: @coll.id,
-            highlights: [{ id: me.id,
-                           type: 'MediaEntry',
-                           highlighted: true },
-                         { id: me_h.id,
-                           type: 'MediaEntry',
-                           highlighted: true },
-                         { id: me_h_2.id,
-                           type: 'MediaEntry',
-                           highlighted: false },
-                         { id: child_coll.id,
-                           type: 'Collection',
-                           highlighted: true },
-                         { id: fs.id,
-                           type: 'FilterSet',
-                           highlighted: true }] },
+            resource_selections: [
+              {
+                id: me.id,
+                type: 'MediaEntry',
+                selected: true
+              }, {
+                id: me_h.id,
+                type: 'MediaEntry',
+                selected: true
+              }, {
+                id: me_h_2.id,
+                type: 'MediaEntry',
+                selected: false
+              }, {
+                id: child_coll.id,
+                type: 'Collection',
+                selected: true
+              }, {
+                id: fs.id,
+                type: 'FilterSet',
+                selected: true
+              }] },
           user_id: @user.id
 
       # highlighted resources after:
@@ -93,12 +100,16 @@ describe CollectionsController do
       expect do
         put :update_highlights,
             { id: @coll.id,
-              highlights: [{ id: me_h.id,
-                             type: 'MediaEntry',
-                             highlighted: false },
-                           { id: me.id,
-                             type: 'MediaEntry',
-                             highlighted: true }] },
+              resource_selections: [
+                {
+                  id: me_h.id,
+                  type: 'MediaEntry',
+                  selected: false
+                }, {
+                  id: me.id,
+                  type: 'MediaEntry',
+                  selected: true
+                }] },
             user_id: @user.id
       end.to raise_error ActiveRecord::RecordNotFound
 

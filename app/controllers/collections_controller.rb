@@ -41,10 +41,16 @@ class CollectionsController < ApplicationController
       'collections/edit_cover')
   end
 
+  def edit_highlights
+    initialize_presenter(
+      'Presenters::Collections::CollectionEditHighlights',
+      'collections/edit_highlights')
+  end
+
   def update_cover
     collection = Collection.find(id_param)
     authorize collection
-    media_entry_uuid = params[:cover]
+    media_entry_uuid = params[:selected_resource]
     if media_entry_uuid
       collection.cover = MediaEntry.find(media_entry_uuid)
       collection.save!

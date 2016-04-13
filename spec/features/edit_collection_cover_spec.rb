@@ -50,7 +50,7 @@ feature 'Collection: Edit Cover' do
   end
 
   def get_radio(row)
-    row.find('input[name="cover"]')
+    row.find('input[name="selected_resource"]')
   end
 
   def select_row(row)
