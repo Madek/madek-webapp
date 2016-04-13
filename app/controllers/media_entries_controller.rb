@@ -37,6 +37,7 @@ class MediaEntriesController < ApplicationController
       end
     rescue Exception => e
       redirect_to my_dashboard_path, flash: { error: 'Error deleting! ' + e.to_s }
+      return
     end
 
     redirect_to my_dashboard_path, flash: { success: 'Deleted!' }
