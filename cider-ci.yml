@@ -1,7 +1,6 @@
-jobs:
-
 _cider-ci_include:
   - cider-ci/jobs/code-checks.yml
   - cider-ci/jobs/unit-tests.yml
   - cider-ci/jobs/feature-tests.yml
+  - cider-ci/jobs/meta-checks.yml
   - cider-ci/jobs/all_tests.yml
