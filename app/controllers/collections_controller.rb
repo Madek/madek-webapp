@@ -8,6 +8,14 @@ class CollectionsController < ApplicationController
   include Concerns::CollectionCollectionSelection
   include Modules::Collections::PermissionsUpdate
 
+  def index
+    respond_with(@get = Presenters::Collections::Collections.new(
+      policy_scope(Collection),
+      current_user,
+      can_filter: false,
+      list_conf: resource_list_params))
+  end
+
   # this overwrites the concern method
   def show
     collection = get_authorized_resource
