@@ -7,6 +7,8 @@ module Presenters
         attr_reader :child_relations
         attr_reader :parent_relations
         attr_reader :show_relations
+        attr_reader :child_count
+        attr_reader :parent_count
 
         def initialize(app_resource, user, list_conf: nil, show_relations: false)
           super(app_resource)
@@ -29,14 +31,20 @@ module Presenters
         def initialize_relations
           @parent_relations = nil
           @child_relations = nil
+          @parent_count = 0
+          @child_count = 0
           if @show_relations
             if parent_relation_resources
-              @parent_relations = create_presenter(
-                parent_relation_resources.viewable_by_user_or_public(@user))
+              parent_viewable = parent_relation_resources
+                .viewable_by_user_or_public(@user)
+              @parent_count = parent_viewable.count
+              @parent_relations = create_presenter(parent_viewable.limit(2))
             end
             if child_relation_resources
-              @child_relations = create_presenter(
-                child_relation_resources.viewable_by_user_or_public(@user))
+              child_viewable = child_relation_resources
+                .viewable_by_user_or_public(@user)
+              @child_count = child_viewable.count
+              @child_relations = create_presenter(child_viewable.limit(2))
             end
           end
         end

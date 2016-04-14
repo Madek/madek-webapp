@@ -77,13 +77,8 @@ module.exports = React.createClass
     parents = @props.get.parent_relations
     children = @props.get.child_relations
 
-    parentsCount = 0
-    childrenCount = 0
-
-    if parents
-      parentsCount = parents.resources.length
-    if children
-      childrenCount = children.resources.length
+    parentsCount = @props.get.parent_count
+    childrenCount = @props.get.child_count
 
     parentRelations = []
     childRelations = []
