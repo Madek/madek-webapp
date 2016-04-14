@@ -19,7 +19,7 @@ module Presenters
       end
 
       def url
-        prepend_url_context_fucking_rails preview_path(@app_resource)
+        prepend_url_context preview_path(@app_resource)
       end
 
     end

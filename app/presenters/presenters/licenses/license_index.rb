@@ -6,7 +6,7 @@ module Presenters
 
       def url
        # TODO: license_path
-       prepend_url_context_fucking_rails "/ns/license/#{@app_resource.id}"
+       prepend_url_context "/ns/license/#{@app_resource.id}"
       end
 
       def external_url

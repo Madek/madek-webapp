@@ -20,7 +20,7 @@ module Presenters
 
       def url
         return unless @app_resource.id # new things dont have an URL!
-        prepend_url_context_fucking_rails meta_datum_path(@app_resource)
+        prepend_url_context meta_datum_path(@app_resource)
       end
 
       private

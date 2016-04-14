@@ -26,13 +26,13 @@ module Presenters
           attr_reader :relations
 
           def url
-            prepend_url_context_fucking_rails collection_path @app_resource
+            prepend_url_context collection_path @app_resource
           end
 
           private
 
           def generic_thumbnail_url
-            prepend_url_context_fucking_rails \
+            prepend_url_context \
               ActionController::Base.helpers.image_path \
                 Madek::Constants::Webapp::UI_GENERIC_THUMBNAIL[:collection]
           end

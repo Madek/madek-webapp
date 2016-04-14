@@ -75,8 +75,8 @@ class Presenter
     self.api.map { |k| [k, {}] }.to_h
   end
 
-  def prepend_url_context_fucking_rails(url = '')
-    # FIX FOR https://github.com/rails/rails/pull/17724
+  def prepend_url_context(url = '')
+    # FIXME: RAILS BUG https://github.com/rails/rails/pull/17724
     context = Rails.application.routes.relative_url_root
     context.present? ? context + url : url
   end

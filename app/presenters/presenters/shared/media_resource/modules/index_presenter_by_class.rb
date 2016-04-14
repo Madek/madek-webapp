@@ -5,6 +5,8 @@ module Presenters
         module IndexPresenterByClass
           extend ActiveSupport::Concern
 
+          private
+
           def presenter_by_class(klass)
             case klass.name
             when 'MediaEntry' then Presenters::MediaEntries::MediaEntryIndex

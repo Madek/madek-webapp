@@ -27,7 +27,7 @@ module Presenters
           end
 
           def url
-            prepend_url_context_fucking_rails media_entry_path(@app_resource)
+            prepend_url_context media_entry_path(@app_resource)
           end
 
         end

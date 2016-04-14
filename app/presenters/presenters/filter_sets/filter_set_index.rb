@@ -10,7 +10,7 @@ module Presenters
       end
 
       def url
-        prepend_url_context_fucking_rails filter_set_path @app_resource
+        prepend_url_context filter_set_path @app_resource
       end
 
       def image_url(_size = :small)

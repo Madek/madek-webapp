@@ -17,7 +17,7 @@ module Presenters
       end
 
       def url
-        prepend_url_context_fucking_rails my_group_path(@app_resource)
+        prepend_url_context my_group_path(@app_resource)
       end
 
     end

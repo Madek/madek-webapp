@@ -10,7 +10,7 @@ module Presenters
       end
 
       def url
-        prepend_url_context_fucking_rails person_path(@app_resource)
+        prepend_url_context person_path(@app_resource)
       end
 
     end
