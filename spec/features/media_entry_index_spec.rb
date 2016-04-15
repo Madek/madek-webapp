@@ -48,6 +48,43 @@ feature 'Resource: MediaEntry' do
 
   end
 
+  describe 'Client: Resource selection' do
+
+    it 'resources selection for batch-edit (JS)', browser: :firefox do
+      @user = sign_in_as 'normin'
+      visit media_entries_path
+      box = page.find('.ui-polybox')
+      thumbs = box.all('.ui-resource')
+      thumbs_to_select = [thumbs.first, thumbs.last]
+      entry_ids = thumbs_to_select.map { |t| t.find('a')['href'].split('/').last }
+
+      # click selector on each thumbnail
+      thumbs_to_select.each do |thumb|
+        thumb.hover
+        actions = thumb.find('.ui-thumbnail-actions')
+        actions.hover
+        checkbox = thumb.find('.ui-thumbnail-action-checkbox')
+        checkbox.hover
+        checkbox.click
+      end
+
+      # the thumbs should now have selected state in UI
+      thumbs_to_select.each do |thumb|
+        expect(thumb['class']).to include 'ui-selected'
+      end
+
+      # click the 'batch edit' button
+      box.find('.ui-toolbar')
+        .find('.button i[title="Auswahl bearbeiten"]')
+        .click
+
+      # confirm we are in the right place:
+      url = URI.parse(current_url)
+      expect(url.path + '?' + url.query)
+        .to eq batch_edit_meta_data_media_entries_path(id: entry_ids)
+    end
+  end
+
   private
 
   def find_button(link)

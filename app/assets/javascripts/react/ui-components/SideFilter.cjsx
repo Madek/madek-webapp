@@ -4,7 +4,7 @@
 React = require('react')
 f = require('active-lodash')
 css = require('classnames')
-parseMods = require('../lib/parse-mods.coffee').fromProps
+ui = require('../lib/ui.coffee')
 setUrlParams = require('../../lib/set-params-for-url.coffee')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
 
@@ -67,7 +67,7 @@ module.exports = React.createClass
     # to give the result back to the parent component.
     current = f.clone(current)
 
-    baseClass = "ui-side-filter-list #{parseMods(@props)}"
+    baseClass = ui.cx(ui.parseMods(@props), 'ui-side-filter-list')
 
     filters = initializeFilterTreeFromProps(dynamic, current)
 

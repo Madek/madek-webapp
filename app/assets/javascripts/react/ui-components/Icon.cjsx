@@ -1,7 +1,7 @@
 # A single icon (from styleguide) by name
 
 React = require('react')
-parseMods = require('../lib/parse-mods.coffee').fromProps
+ui = require('../lib/ui.coffee')
 
 module.exports = React.createClass
   displayName: 'Icon'
@@ -9,4 +9,4 @@ module.exports = React.createClass
     i: React.PropTypes.string.isRequired
 
   render: ({i} = @props)->
-    <i {...@props} className={"icon-#{i} #{parseMods(@props)}"}/>
+    <i {...@props} className={ui.cx("icon-#{i}", ui.parseMods(@props))}/>

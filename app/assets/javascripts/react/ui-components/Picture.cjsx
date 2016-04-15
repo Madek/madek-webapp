@@ -1,7 +1,6 @@
 React = require('react')
 f = require('active-lodash')
-parseMods = require('../lib/parse-mods.coffee').fromProps
-cx = require('classnames')
+ui = require('../lib/ui.coffee')
 t = require('../../lib/string-translation.coffee')('de')
 
 module.exports = React.createClass
@@ -12,7 +11,7 @@ module.exports = React.createClass
     alt: React.PropTypes.string
 
   render: ({src, title, alt} = @props)->
-    classes = cx(parseMods(@props))
+    classes = ui.cx(ui.parseMods(@props), 'ui_picture')
     titleTxt = title or alt or t('picture_alt_fallback')
     altTxt = "#{t('picture_alt_prefix')} #{titleTxt}"
 

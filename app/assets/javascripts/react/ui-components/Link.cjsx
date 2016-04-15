@@ -1,16 +1,16 @@
 React = require('react')
-cx = require('classnames')
-parseMods = require('../lib/parse-mods.coffee').fromProps
+ui = require('../lib/ui.coffee')
 
 module.exports = React.createClass
   displayName: 'Link'
   propTypes:
     href: React.PropTypes.string
 
-  render: ({href, children} = @props)->
-    Elm = if href then 'a' else 'span'
-    className = cx('link', @props.className, parseMods(@props))
+  render: ({href, onClick, children} = @props)->
+    isLink = if href or onClick then true
+    NodeType = if isLink then 'a' else 'span'
+    className = ui.cx('link': isLink, ui.parseMods(@props), 'ui-link')
 
-    <Elm {...@props} href={href} className={className}>
+    <NodeType className={className} {...@props}>
       {children}
-    </Elm>
+    </NodeType>

@@ -1,6 +1,5 @@
 React = require('react')
-classList = require('classnames')
-parseMods = require('../lib/parse-mods.coffee').fromProps
+ui = require('../lib/ui.coffee')
 
 module.exports = React.createClass
   displayName: 'Button'
@@ -18,7 +17,7 @@ module.exports = React.createClass
     baseClass = if className then className else if mod then "#{mod}-button" else 'button'
     disabled = true if not (href or onClick or type) # force disabled if no target
 
-    classes = classList baseClass, parseMods(@props), disabled: disabled
+    classes = ui.cx({disabled: disabled}, ui.parseMods(@props), baseClass)
     Elm = switch # NOTE: try avoiding 'button' because styling…
       when (href or onClick) then 'a'
       when type then 'button'

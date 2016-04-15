@@ -21,3 +21,6 @@ ujs = [
 
 # initialize them all when DOM is ready:
 $(document).ready -> each ujs, (init)-> do init
+
+# DEV:
+# require('./developer-tools.coffee')

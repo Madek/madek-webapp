@@ -1,6 +1,7 @@
 React = require('react')
+PropTypes = React.PropTypes
 f = require('active-lodash')
-parseMods = require('../lib/parse-mods.coffee').fromProps
+ui = require('../lib/ui.coffee')
 Icon = require('./Icon.cjsx')
 Link = require('./Link.cjsx')
 Picture = require('./Picture.cjsx')
@@ -15,6 +16,7 @@ module.exports = React.createClass
   propTypes:
     type: React.PropTypes.oneOf(['media-entry', 'filter-set', 'media-set']).isRequired
     src: React.PropTypes.string.isRequired
+    mods: PropTypes.arrayOf(PropTypes.oneOf(['video']))
     alt: React.PropTypes.string
     href: React.PropTypes.string
     privacy: React.PropTypes.string
@@ -27,12 +29,12 @@ module.exports = React.createClass
     flyoutBottom: flyoutProps
 
   render: () ->
-    { type, src, alt, href,
+    { type, src, alt, href, onClick, meta,
       meta, badgeRight, badgeLeft, actionsLeft, actionsRight,
       flyoutTop, flyoutBottom
     } = @props
 
-    classes = "ui-thumbnail #{type} #{parseMods(@props)}"
+    classes = ui.cx(type, ui.parseMods(@props), 'ui-thumbnail')
 
     flyoutTop = if f.present(flyout = @props.flyoutTop)
       <div className='ui-thumbnail-level-up-items'>
@@ -84,7 +86,7 @@ module.exports = React.createClass
       {flyoutTop}
       {badgeLeft}
       {badgeRight}
-      <Link className='ui-thumbnail-image-wrapper' href={href} title={alt}>
+      <Link className='ui-thumbnail-image-wrapper' {...@props} title={alt}>
         <div className='ui-thumbnail-image-holder'>
           <div className='ui-thumbnail-table-image-holder'>
             <div className='ui-thumbnail-cell-image-holder'>

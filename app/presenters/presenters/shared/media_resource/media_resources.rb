@@ -12,7 +12,7 @@ module Presenters
       #   its' defaults are below:
 
       DEFAULT_LIST_CONFIG = {
-        page: 1, per_page: 12, order: 'created_at DESC', # pagination
+        page: 1, per_page: 24, order: 'created_at DESC', # pagination
         show_filter: false # show filtering sidebar? (loads DynFilters!)
       }
 
@@ -22,12 +22,8 @@ module Presenters
         attr_reader :resources, :pagination, :with_actions, :can_filter
 
         def initialize(
-            scope,
-            user,
-            can_filter: true,
-            list_conf: nil,
-            with_actions: true,
-            with_relations: false)
+            scope, user, list_conf: nil,
+            can_filter: true, with_actions: true, with_relations: false)
           fail 'missing config!' unless list_conf
           @user = user
           @scope = scope
@@ -39,11 +35,6 @@ module Presenters
           @with_relations = with_relations
           init_resources_and_pagination(@scope, @conf)
         end
-
-        # TODO: implement count up to 1000
-        # def total_count
-        #   @selected_resources.total_count
-        # end
 
         def config
           @conf.to_h
@@ -89,13 +80,21 @@ module Presenters
           # presenterify without the "extra"
           @resources = presenterify(
             resources_and_next.slice(0, config[:per_page]), presenter)
-          @pagination = build_pagination(config, has_next_page)
+          # TODO: nest in hash
+          # @pagination = {
+          #   count: …
+          #   nav: build_pagination(config, has_next_page)
+          # }
+          @pagination = build_pagination(resources, config, has_next_page)
         end
 
-        def build_pagination(config, has_next_page)
+        def build_pagination(resources, config, has_next_page)
           { # each key is nil or contains the params needed to build link to page
             prev: ((config[:page] > 1) ? { page: (config[:page] - 1) } : nil),
-            next: (has_next_page ? { page: (config[:page] + 1) } : nil)
+            next: (has_next_page ? { page: (config[:page] + 1) } : nil),
+            # HACK: add counts. lets see how slow it is
+            total_count: resources.count,
+            total_pages: (resources.count.to_f / config[:per_page]).ceil
           }
         end
 

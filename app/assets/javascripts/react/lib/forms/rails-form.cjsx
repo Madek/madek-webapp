@@ -2,7 +2,7 @@
 
 React = require('react')
 f = require('active-lodash')
-parseMods = require('../../lib/parse-mods.coffee').fromProps
+ui = require('../../lib/ui.coffee')
 
 module.exports = React.createClass
   displayName: 'RestForm'
@@ -27,7 +27,8 @@ module.exports = React.createClass
       throw new Error('No `authToken` given!')
 
     <form {...@props}
-      name={name} method={formMethod} action={action} className={parseMods(@props)}
+      name={name} method={formMethod} action={action}
+      className={ui.cx(ui.parseMods(@props))}
       acceptCharset='UTF-8'>
 
       <input name='utf8' type='hidden' value='✓'/>

@@ -1,19 +1,23 @@
 React = require('react')
 async = require('async')
 f = require('active-lodash')
+cx = require('classnames')
 ampersandReactMixin = require('ampersand-react-mixin')
-urlFromBrowserFile = require('../../lib/url-from-browser-file.coffee')
-{Icon, Thumbnail} = require('../ui-components/index.coffee')
+{Link, Icon, Thumbnail} = require('../ui-components/index.coffee')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 Models = require('../../models/index.coffee')
 RailsForm = require('../lib/forms/rails-form.cjsx')
 Button = require('../ui-components/Button.cjsx')
 
+CURSOR_SELECT_STYLE = {cursor: 'cell'}
+
 module.exports = React.createClass
   displayName: 'ResourceThumbnail'
   mixins: [ampersandReactMixin]
   propTypes:
-    authToken: React.PropTypes.string
+    authToken: React.PropTypes.string.isRequired
+    onSelect: React.PropTypes.func
+    onClick: React.PropTypes.func
     get: React.PropTypes.shape
       type: React.PropTypes.oneOf(['MediaEntry', 'Collection', 'FilterSet'])
     # TODO: consilidate with `get` (when used in uploader)
@@ -21,20 +25,15 @@ module.exports = React.createClass
       type: React.PropTypes.oneOf(['MediaEntry'])
 
   getInitialState: ()-> {
-    active: false
+    active: @props.isClient or false
     pendingFavorite: false
   }
   componentDidMount: ()->
-    localPreviewImage(@props.resource, @setState.bind(@))
     if (modelByType = Models[@props.get.type])
       model = new modelByType(@props.get)
     else
       console.error('WARNING: No model found for resource!', @props.get)
     @setState(active: true, model: model)
-
-  componentWillReceiveProps: (nextProps)->
-    return if (@props.uploading?.file is nextProps.uploading?.file)
-    localPreviewImage(nextProps.resource, @setState.bind(@))
 
   _favorOnClick: () ->
     @setState(pendingFavorite: true)
@@ -42,7 +41,7 @@ module.exports = React.createClass
     @state.model.setFavoredStatus action, (err, res)=>
       @setState(pendingFavorite: false)
 
-  render: ({get, elm, authToken} = @props, state = @state)->
+  render: ({get, elm, onClick, isSelected, authToken} = @props, state = @state)->
     model = @state.model or @props.get
 
     # map the type name:
@@ -53,22 +52,36 @@ module.exports = React.createClass
     iconMapping = {'public': 'open', 'private': 'private', 'shared': 'group'}
     privacyIcon = "privacy-#{iconMapping[get.privacy_status]}"
 
-    # hover - fav
+    # hover - actions
+    actionsLeft = []
+    actionsRight = []
+
+    # hover - action - select
+    onSelect = @props.onSelect
+    if onSelect then do ()->
+      selector = (
+        <Link onClick={onSelect}
+          style={CURSOR_SELECT_STYLE}
+          className='ui-thumbnail-action-checkbox'
+          title={if isSelected then 'Auswahl entfernen' else 'auswählen'}>
+          <Icon i='checkbox' mods={if isSelected then 'active'}/>
+        </Link>)
+      actionsLeft.push(
+        <li className='ui-thumbnail-action' key='selector'>
+          <span className='js-only'>{selector}</span></li>)
+
+    # hover - action - fav
     favoriteAction = if model.favored then 'disfavor' else 'favor'
     favoriteUrl = model.url + '/' + favoriteAction
-
     starClass = if model.favored then 'icon-star' else 'icon-star-empty'
     favoriteItem = <i className={starClass}></i>
     favoriteOnClick = @_favorOnClick if not @state.pendingFavorite
 
-    # hover - actions
-    actionsLeft = []
-    actionsRight = []
     if get.favorite_policy
       favorButton =
-        if @state.active
+        if state.active
           <Button className='ui-thumbnail-action-favorite' onClick={favoriteOnClick}
-            data-pending={@state.pendingFavorite}>
+            data-pending={state.pendingFavorite}>
             {favoriteItem}
           </Button>
         else
@@ -80,9 +93,7 @@ module.exports = React.createClass
           </RailsForm>
 
       actionsLeft.push(
-        <li key='favorite' className='ui-thumbnail-action'>
-          {favorButton}
-        </li>)
+        <li key='favorite' className='ui-thumbnail-action'>{favorButton}</li>)
 
     # hover - flyout - relations - thumbnail list:
     parentRelations = get.parent_relations
@@ -119,6 +130,7 @@ module.exports = React.createClass
             </a>
           </li>
 
+
     Element = elm or 'div'
     thumbProps =
       type: f.kebabCase(type)
@@ -126,6 +138,10 @@ module.exports = React.createClass
       src: get.image_url or state.localPreview or '.'
       href: get.url
       alt: get.title
+      # click handlers:
+      onClick: onClick
+      style: (CURSOR_SELECT_STYLE if onClick && (onClick == @props.onSelect))
+      # extra elements (nested for layout):
       meta:
         title: get.title or get.uploadStatus
       badgeLeft:
@@ -143,23 +159,8 @@ module.exports = React.createClass
         children: childThumbs
         caption: childrenCount + ' Inhalte'
 
-    <Element className='ui-resource'>
+    <Element className={cx('ui-resource', 'ui-selected': isSelected)}>
       <div className='ui-resource-body'>
         <Thumbnail {...thumbProps}/>
       </div>
     </Element>
-
-# helpers
-
-# async! will cause re-render with the new img, but only once per file:
-getUrlFromBrowserFileQueue = async.queue(urlFromBrowserFile, 1)
-localPreviewImage = (resource, callback)->
-  # TODO: generic fallback images
-  type = f.get(resource, 'uploading.file.type')
-  switch
-    when /image\//.test(type)
-      getUrlFromBrowserFileQueue.push f.get(resource, 'uploading.file'), (url)->
-        return callback({}) if not url
-        callback(localPreview: url)
-    else
-      callback({})
