@@ -14,8 +14,7 @@ class Presenter
       .reject { |m| m == :inspect }
   end
 
-  def dump
-    sparse_spec = sparse # do a "sparse dump" if there a spec on "self.sparse"
+  def dump(sparse_spec: nil)
     sparse_spec.present? ? Presenter.deep_map(sparse_spec, self) : full_dump
   end
 
@@ -66,14 +65,6 @@ class Presenter
   end
 
   private
-
-  def sparse # this returns a "include-all" sparse config hash, to be overwritten
-    nil
-  end
-
-  def sparse_preset # this returns a "include-all" sparse config hash
-    self.api.map { |k| [k, {}] }.to_h
-  end
 
   def prepend_url_context(url = '')
     # FIXME: RAILS BUG https://github.com/rails/rails/pull/17724
