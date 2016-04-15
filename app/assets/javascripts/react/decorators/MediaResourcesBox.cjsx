@@ -101,20 +101,29 @@ module.exports = React.createClass
     handleLinkIfLocal(event, alert)
 
   # - custom actions:
-  # TMP: disabled
-  # handleDynamicFilterToggle: (bool, event)->
-  #   event.preventDefault()
-  #   @setState(showDynFilters: bool)
+  _onFilterChange: (event, newParams)->
+    event.preventDefault() if event && f.isFunction(event.preventDefault)
+    currentParams = {list: f.omit(@state.config, 'for_url')}
+    params = f.merge(newParams,
+      {list: {page: 1}}) # make sure that the new result starts on page 1
+    window.location = setUrlParams(@props.for_url, currentParams, params) # SYNC!
+
+  _onFilterToggle: (event)->
+    # NOTE: if dynfilters are loaded, just open/close sidebar in client
+    if f.present(f.get(@props, ['get', 'dynamic_filters']))
+      event.preventDefault()
+      @handleChangeInternally(event)
+    return undefined
+
+  _onSearch: (event)->
+    @_onFilterChange(event,
+      {list: {filter: JSON.stringify({search: @refs.filterSearch.value})}})
 
   handleAccordion: (event)->
-    currentParams = {list: f.omit(@state.config, 'for_url')}
-    newParams =
-      list:
-        page: 1 # make sure that the new result starts on page 1
+    @_onFilterChange(event,
+      {list: {
         filter: JSON.stringify(event.current)
-        accordion: JSON.stringify(event.accordion)
-    newUrl = setUrlParams(@props.for_url, currentParams, newParams)
-    window.location = newUrl # SYNC!
+        accordion: JSON.stringify(event.accordion)}})
 
   createFilterSetFromConfig: (config, event)->
     event.preventDefault()
@@ -199,7 +208,7 @@ module.exports = React.createClass
 
       <UiToolBar mods={toolbarClasses} actions={actions} layouts={layouts}/>
 
-    BoxFilterBar = do ->
+    BoxFilterBar = do =>
       # NOTE: don't show the bar at all if no 'filter' button!
       return null if (!interactive or !get.can_filter)
 
@@ -212,7 +221,7 @@ module.exports = React.createClass
             name: 'Filtern'
             mods: 'active' if config.show_filter
             href: filterToggleLink
-            # onClick: @handleChangeInternally
+            onClick: @_onFilterToggle
           reset: resetFilterLink if f.present(config.filter)
 
         # TODO: multi resource switcher
@@ -261,14 +270,19 @@ module.exports = React.createClass
               url={config.for_url} query={currentQuery}/>
           </div>
           <div className='js-only'>
-            <div className='ui-slide-filter-item'>
-              <div className='title-xs by-center'>
-                Filter werden geladen</div>
-                <div className='ui-preloader small'></div>
-            </div>
+            {FilterPreloader}
           </div>
         else
           <div className='js-only'>
+            <div className='ui-side-filter-search filter-search'>
+              <form name='filter_search_form' onSubmit={@_onSearch}>
+                <input type='submit' className='unstyled'
+                  value='Eingrenzen mit Suchwort'/>
+                <input type='text' className='ui-filter-search-input block'
+                  ref='filterSearch'
+                  defaultValue={f.get(config, ['filter', 'search'])}/>
+              </form>
+            </div>
             <SideFilter dynamic={dynamic_filters} current={config.filter or {}}
               accordion={config.accordion or {}} onChange={@handleAccordion}
               url={config.for_url} query={currentQuery}/>
@@ -372,6 +386,12 @@ FallBackMsg = ({children} = @props)->
     <div className='title-l by-center'>{children}</div>
   </div>
 
+FilterPreloader = (
+  <div className='ui-slide-filter-item'>
+    <div className='title-xs by-center'>
+      Filter werden geladen</div>
+      <div className='ui-preloader small'></div>
+  </div>)
 
 FilterExamples = ({url, query, examples} = @props)->
   <div>

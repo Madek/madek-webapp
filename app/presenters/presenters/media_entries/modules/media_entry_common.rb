@@ -22,6 +22,10 @@ module Presenters
             super.presence or "(Upload from #{@app_resource.created_at.iso8601})"
           end
 
+          def media_type
+            @app_resource.try(:media_file).try(:media_type)
+          end
+
           def published?
             # NOTE: using #try because MediaEntry instantiated via
             # `vw_media_resources` view does not have such attribute currently

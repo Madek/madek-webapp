@@ -7,7 +7,7 @@ module.exports = resourceListParams = (location)->
   query = qs.parse(location.search.slice(1))
   base = 'list'
   allowed = [
-    'layout', 'filter', 'search', 'show_filter', 'accordion',
+    'layout', 'filter', 'show_filter', 'accordion',
     'page', 'per_page']
   coerced_types = { bools: ['show_filter'], jsons: ['filter', 'accordion'] }
   f.chain(query)

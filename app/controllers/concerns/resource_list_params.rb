@@ -13,7 +13,7 @@ module Concerns
         # TODO: only permit supported layout modes…
         base = :list
         allowed = [
-          :layout, :filter, :search, :show_filter, :accordion,
+          :layout, :filter, :show_filter, :accordion,
           :page, :per_page]
         coerced_types = {
           bools: [:show_filter],

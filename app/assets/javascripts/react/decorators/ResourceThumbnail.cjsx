@@ -119,6 +119,7 @@ module.exports = React.createClass
     Element = elm or 'div'
     thumbProps =
       type: f.kebabCase(type)
+      mods: ['video'] if get.media_type is 'video'
       src: get.image_url or state.localPreview or '.'
       href: get.url
       alt: get.title
