@@ -40,7 +40,7 @@ module Presenters
               if value.class == Hash or value.class == Array
                 [key, apply(key, value, obj)]
               else
-                [key, value] if obj[key] == value
+                raise 'Sparse dump: only Hash or Array as value permitted!'
               end
             end.compact
           ]
@@ -56,12 +56,14 @@ module Presenters
           end
         end
 
-        def apply_array_value(value, obj)
-          obj_dump = dump_recur(obj)
-          if value.empty?
-            obj_dump
+        def apply_array_value(array_v, array_of_obj)
+          if array_v.empty?
+            dump_recur(obj)
+          elsif array_v.length == 1
+            spec = array_v.first
+            array_of_obj.map { |obj| deep_map(spec, obj) }
           else
-            select_values_from_array(value, obj_dump)
+            raise 'Sparse dump: array has more than 1 element!'
           end
         end
 
@@ -71,19 +73,6 @@ module Presenters
           else
             deep_map(value, obj)
           end
-        end
-
-        def select_values_from_array(values, array)
-          values.map do |v_spec|
-            matched_elt = nil
-            array.find do |elt|
-              realized_elt = deep_map(v_spec, elt)
-              if v_spec.keys.all? { |k| realized_elt.key?(k) }
-                matched_elt = realized_elt
-              end
-            end
-            matched_elt
-          end.compact
         end
 
         def realize_object(key, obj)
