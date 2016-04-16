@@ -18,10 +18,6 @@ module Presenters
             list_conf: @list_conf)
       end
 
-      def image_url
-        get_image_preview(size: :medium) # only shown as thumb!
-      end
-
       def highlighted_media_resources
         Presenters::Collections::ChildMediaResources.new \
           @user_scopes[:highlighted_media_entries],

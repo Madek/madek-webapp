@@ -29,6 +29,10 @@ module Presenters
             prepend_url_context collection_path @app_resource
           end
 
+          def image_url
+            get_image_preview(size: :medium) # NOTE: only shown as thumb!
+          end
+
           private
 
           def generic_thumbnail_url
@@ -40,8 +44,9 @@ module Presenters
           def get_image_preview(size:)
             cover_media_entry = _choose_media_entry_for_preview
             preview = if cover_media_entry
-                        Presenters::Shared::ResourcePreviews.new(cover_media_entry)
-                          .image(size: size)
+                        Presenters::MediaFiles::MediaFile.new(
+                          cover_media_entry, @user).previews
+                          .try(:fetch, :images, nil).try(:fetch, size, nil)
                       end
             preview.present? ? preview.url : generic_thumbnail_url
           end

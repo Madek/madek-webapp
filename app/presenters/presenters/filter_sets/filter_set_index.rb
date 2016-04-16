@@ -13,7 +13,7 @@ module Presenters
         prepend_url_context filter_set_path @app_resource
       end
 
-      def image_url(_size = :small)
+      def image_url
         ActionController::Base.helpers.image_path \
           Madek::Constants::Webapp::UI_GENERIC_THUMBNAIL[:filter_set]
         # TODO: implement

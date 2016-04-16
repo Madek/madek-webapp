@@ -10,10 +10,6 @@ module Presenters
         initialize_relations
       end
 
-      def image_url
-        get_image_preview(size: :medium)
-      end
-
       private
 
       def parent_relation_resources

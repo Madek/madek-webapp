@@ -68,7 +68,9 @@ feature 'Side Filter' do
     end
 
     def open_filterbar(inside = page)
-      inside.within('.ui-filterbar') { find('.button', text: 'Filtern').click }
+      wait_until do
+        inside.within('.ui-filterbar') { find('.button', text: 'Filtern').click }
+      end
     end
 
     def prepare_data

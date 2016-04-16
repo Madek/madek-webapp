@@ -4,8 +4,7 @@ module Presenters
 
       include Presenters::MediaEntries::Modules::MediaEntryCommon
 
-      def initialize(app_resource, user, user_scopes,
-        list_conf: nil)
+      def initialize(app_resource, user, user_scopes, list_conf: nil)
         super(app_resource, user)
         @user_scopes = user_scopes
         @list_conf = list_conf
@@ -57,16 +56,9 @@ module Presenters
       end
 
       def image_url
-        img = @previews.image(size: :large)
-        img.present? ? img.url : generic_thumbnail_url
-      end
-
-      def audio_previews
-        @previews.audios
-      end
-
-      def video_previews
-        @previews.videos
+        size = :large
+        img = @media_file.previews.try(:fetch, :images, nil).try(:fetch, size, nil)
+        img.presence ? img.url : generic_thumbnail_url
       end
 
     end

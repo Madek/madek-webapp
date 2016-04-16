@@ -6,12 +6,13 @@ module Presenters
         @app_resource = app_resource
       end
 
-      def uuid
-        @app_resource.id
-      end
-
+      # extend presenter base method:
       def type
         @app_resource.class.name or super
+      end
+
+      def uuid
+        @app_resource.try(:id)
       end
 
       def created_at

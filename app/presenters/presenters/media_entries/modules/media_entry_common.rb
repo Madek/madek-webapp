@@ -11,10 +11,12 @@ module Presenters
           @app_resource = app_resource
           @user = user
           @list_conf = list_conf
-          @previews = Presenters::Shared::ResourcePreviews.new(@app_resource)
+          @media_file = Presenters::MediaFiles::MediaFile.new(@app_resource, @user)
         end
 
         included do
+
+          attr_reader :media_file
 
           def title
             super.presence or "(Upload from #{@app_resource.created_at.iso8601})"

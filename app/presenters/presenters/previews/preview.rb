@@ -2,16 +2,14 @@ module Presenters
   module Previews
     class Preview < Presenters::Shared::AppResource
 
+      # NOTE: some attributes only relate to images ([:thumbnail, :height, :width])
       delegate_to_app_resource(:media_type,
-                               :content_type)
+                               :content_type,
+                               :height,
+                               :width)
 
-      def initialize(app_resource)
-        super(app_resource)
-
-        # some attributes only relate to images
-        if app_resource.media_type == :image
-          delegate_to_app_resource(:thumbnail, :height, :width)
-        end
+      def size_class
+        @app_resource.thumbnail
       end
 
       def extension
