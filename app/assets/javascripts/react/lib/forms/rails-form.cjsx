@@ -1,9 +1,11 @@
+# Rails-style general-purpose form
+
 React = require('react')
 f = require('active-lodash')
 parseMods = require('../../lib/parse-mods.coffee').fromProps
 
 module.exports = React.createClass
-  displayName: 'RailsForm'
+  displayName: 'RestForm'
   propTypes:
     name: React.PropTypes.string.isRequired
     action: React.PropTypes.string
@@ -12,14 +14,17 @@ module.exports = React.createClass
     authToken: React.PropTypes.string
 
   render: ({name, action, method, authToken, children} = @props)->
-    railsMethod = (method || 'post').toLowerCase()
-    formMethod = if (railsMethod is 'get') then 'get' else 'post'
-    # fake the method if browsers don't support it:
-    emulateHTTP = not f.includes(['get', 'post'], method)
-    # add CRSF token for non-GET methods.
-    needsAuthToken = method isnt 'get'
+    # Rails conventions:
+    # - default method='post'
+    restMethod = (method || 'post').toLowerCase()
+    # - emulate the method if browsers don't support it:
+    emulateHTTP = not f.includes(['get', 'post'], restMethod)
+    formMethod = if (restMethod is 'get') then 'get' else 'post'
+    # - add CRSF token for non-GET methods
+    needsAuthToken = !(restMethod == 'get')
+    authTokenParam = 'authenticity_token'
     if needsAuthToken && !f.present(authToken)
-      throw new Error 'No `authToken` given!'
+      throw new Error('No `authToken` given!')
 
     <form {...@props}
       name={name} method={formMethod} action={action} className={parseMods(@props)}
@@ -28,10 +33,10 @@ module.exports = React.createClass
       <input name='utf8' type='hidden' value='✓'/>
 
       {if emulateHTTP
-        <input name='_method' type='hidden' value={railsMethod}/>}
+        <input name='_method' type='hidden' value={restMethod}/>}
 
       {if needsAuthToken
-        <input name='authenticity_token' type='hidden' value={authToken} />}
+        <input name={authTokenParam} type='hidden' value={authToken} />}
 
       {children}
     </form>
