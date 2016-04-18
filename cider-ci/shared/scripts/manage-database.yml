@@ -32,15 +32,15 @@ configure-database:
   body: |
     #!/usr/bin/env ruby
     require 'yaml'
-    config = \
-      { 'test' =>
-        { 'adapter' => 'postgresql',
-          'encoding' => 'unicode',
-          'host' => 'localhost',
-          'pool' => 10,
-          'username' => ENV['PGUSER'],
-          'password' =>  ENV['PGPASSWORD'],
-          'database' => "madek_v3_test_#{ENV['CIDER_CI_TRIAL_ID']}"}}
+    db_config = {
+      'adapter' => 'postgresql',
+      'encoding' => 'unicode',
+      'host' => 'localhost',
+      'pool' => 10,
+      'username' => ENV['PGUSER'],
+      'password' =>  ENV['PGPASSWORD'],
+      'database' => "madek_v3_test_#{ENV['CIDER_CI_TRIAL_ID']}"}
+    config = { 'test' => db_config, 'production' => db_config}
     File.open('config/database.yml','w') { |file| file.write config.to_yaml }
 
 create-database:

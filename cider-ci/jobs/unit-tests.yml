@@ -1,6 +1,8 @@
 jobs:
 
   unit-tests:
+    _cider-ci_include:
+      - cider-ci/jobs/unit-tests/unit-tests-base.yml
 
     name: Unit Tests
 
@@ -16,70 +18,12 @@ jobs:
       submodule: ['datalayer']
       states: [passed]
 
-    context: # shared for all subcontexts
+    context:
       task-defaults:
-        eager-trials: 1
         max-auto-trials: 3
 
-        git-options:
-          submodules:
-            clone: True
-            timeout: 60
-
-        traits:
-          linux: true
-          nodejs: true
-
-      script-defaults:
-        timeout: 3 Minutes
-        template-environment-variables: true
-
       subcontexts:
-
-        js:
-          name: JavaScript Unit Tests
-          description: |
-            This job contains tests involving the nodejs/npm runtime.
-
-          _cider-ci_generate-tasks:
-            include-match: app/assets/javascripts/react/.*/__tests__/.*\.(c?jsx?)
-          task-defaults:
-            scripts:
-              test: {body: npm run jest -- --verbose --noHighlight --no-cache $CIDER_CI_TASK_FILE}
-
         ruby:
-          name: Ruby Unit Tests
-
-          description: |
-            This job contains tests involing the ruby runtime
-            and possibly the database.
-
-          task-defaults:
-
-            dispatch-storm-delay-duration: 0 Seconds
-
-            environment-variables:
-              RBENV_VERSION: 2.2.4
-
-            _cider-ci_include:
-              - cider-ci/shared/attachments.yml
-              - cider-ci/shared/environment-variables.yml
-
-            traits:
-              rbenv: true
-              postgresql: true
-              imagemagick: true
-
-            scripts:
-              _cider-ci_include:
-                - cider-ci/jobs/unit-tests/scripts/ruby_prepare.yml
-                - cider-ci/shared/scripts/manage-database.yml
-                - cider-ci/jobs/unit-tests/scripts/ruby_test.yml
-
-          _cider-ci_generate-tasks:
-            include-match: spec/.*_spec.rb
-            exclude-match: spec/features.*_spec.rb
-
           tasks:
             assets_manifest:
               name: 'Assets are precompiled and checked in'
@@ -88,5 +32,5 @@ jobs:
                 test:
                   body: |
                     mv public/assets tmp/static_assets
-                    cider-ci/bin/precompile-assets
+                    bin/precompile-assets
                     cider-ci/bin/check-precompiled-assets tmp/static_assets public/assets

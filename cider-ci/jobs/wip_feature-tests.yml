@@ -1,0 +1,26 @@
+jobs:
+
+ wip_feature-tests:
+    _cider-ci_include:
+      - cider-ci/jobs/feature-tests/feature-tests-base.yml
+
+    name: '⟨WIP⟩ Feature Tests'
+    description: 'Run Feature Tests in "WIP" mode (i.e. compile assets on the fly)'
+    priority: -1337
+
+    run-on:
+    - type: branch
+      include-match: ^[a-z]*_wip_.*$
+
+    context:
+
+      dispatch-storm-delay-duration: 3 Seconds
+
+      task-defaults:
+        max-auto-trials: 2
+
+        scripts:
+          _cider-ci_include: [cider-ci/shared/scripts/wip_precompile-assets.yml]
+          test:
+            start-when:
+              precompile-assets: {script: precompile-assets}

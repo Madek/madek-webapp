@@ -1,0 +1,91 @@
+# Feature Tests
+
+context:
+
+  name: Feature Tests
+
+  dispatch-storm-delay-duration: 1 Seconds
+
+  script-defaults:
+    template-environment-variables: true
+    timeout: 600
+
+  task-defaults:
+
+    environment-variables:
+      RBENV_VERSION: jruby-9.0.5.0
+
+    _cider-ci_include:
+      - cider-ci/shared/attachments.yml
+      - cider-ci/shared/environment-variables.yml
+
+    eager-trials: 1
+    max-auto-trials: 3
+
+    ports:
+      XVNC_PORT:
+        inet_address: "localhost"
+        min: 5900
+        max: 5999
+
+    git-options:
+      submodules:
+        clone: True
+        timeout: 60
+
+    traits:
+      firefox-esr: true
+      imagemagick: true
+      linux: true
+      nodejs: true
+      postgresql: true
+      rbenv: true
+      tightvnc: true
+
+
+    scripts:
+
+      _cider-ci_include:
+        - cider-ci/shared/scripts/manage-database.yml
+        - cider-ci/shared/scripts/manage-xvnc.yml
+        - cider-ci/jobs/feature-tests/scripts/test.yml
+
+  #     # Just one task, used for prototyping and debuging the Cider-CI
+  #     # project config `cider-ci.yml`
+  # tasks:
+  #   spec/features/my_dashboard_spec.rb:
+  #    environment-variables:
+  #      CIDER_CI_TASK_FILE: spec/features/my_dashboard_spec.rb
+
+  tasks:
+    "spec/features/styleguide_spec.rb":
+      scripts:
+        test:
+          body: echo "disabled till it's faster and/or do we work on CSS."
+
+    "json_ld_integration":
+      name: 'JSON-LD Dump & Integration'
+      environment-variables:
+        RAILS_DUMP_LIMIT: 1000
+      scripts:
+        test:
+          body: "bundle exec rails runner ./bin/lodz_dump.rb > ./tmp/ld_dump.json"
+
+    "spec/features/custom_root-url_spec.rb":
+      environment-variables:
+        RAILS_RELATIVE_URL_ROOT: /my-test
+
+    "spec/features/session/expiration_spec.rb":
+      environment-variables:
+        RAILS_RELATIVE_URL_ROOT: /my-test
+      scripts:
+        configure_session_validity_duration:
+          body: |
+            echo 'madek_session_validity_duration: 10 Seconds' >> config/settings.local.yml
+        test:
+          start-when:
+            configure_session_validity_duration:
+              script: configure_session_validity_duration
+
+  _cider-ci_generate-tasks:
+    include-match: spec/features.*_spec.rb

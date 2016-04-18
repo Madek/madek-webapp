@@ -1,0 +1,30 @@
+jobs:
+  wip_unit-tests:
+    _cider-ci_include:
+      - cider-ci/jobs/unit-tests/unit-tests-base.yml
+
+    name: '⟨WIP⟩ Unit Tests'
+    description: 'Run Unit Tests in "WIP" mode (i.e. compile assets on the fly)'
+    priority: -1337
+
+    run-on:
+    - type: branch
+      include-match: ^[a-z]*_wip_.*$
+
+    context:
+      task-defaults:
+        max-auto-trials: 2
+
+      subcontexts:
+
+        # ruby: # ruby unit test dont need assets…
+
+        js:
+          task-defaults:
+            scripts:
+            _cider-ci_include:
+              - cider-ci/shared/scripts/manage-database.yml
+              - cider-ci/shared/scripts/wip_precompile-assets.yml
+            test:
+              start-when:
+                precompile-assets: {script: precompile-assets}

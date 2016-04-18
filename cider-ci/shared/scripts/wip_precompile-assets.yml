@@ -1,0 +1,6 @@
+# NOTE: **NOT** used in 'normal' test runs (static assets are used there!)
+precompile-assets:
+  exclusive-executor-resource: Madek_webapp_precompile-assets
+  body: cider-ci/bin/precompile-assets-with-caching.sh
+  start-when:
+    - script: create-database

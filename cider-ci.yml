@@ -4,3 +4,6 @@ _cider-ci_include:
   - cider-ci/jobs/feature-tests.yml
   - cider-ci/jobs/meta-checks.yml
   - cider-ci/jobs/all_tests.yml
+  # WIP:
+  - cider-ci/jobs/wip_unit-tests.yml
+  - cider-ci/jobs/wip_feature-tests.yml
