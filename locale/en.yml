@@ -189,6 +189,7 @@ en:
   resource_select_collection_cancel: "Abbrechen"
   media_entry_select_collection_flash_result: "Removed entry from %{removed_count} sets. Added entry to %{added_count} sets."
   collection_select_collection_flash_result: "Removed set from %{removed_count} sets. Added set to %{added_count} sets."
+  batch_meta_data_edit: "Metadaten für %{media_entry_count} Einträge gleichzeitig editieren"
 
   # # MetaData
   meta_data_form_save_btn: "Save"
@@ -201,6 +202,13 @@ en:
   meta_data_action_delete_btn: "Delete"
   meta_data_delete_confirm_msg: "Are you sure you want to delete this MetaDatum?"
   meta_data_header_text: "MetaDatum"
+  meta_data_batch_hint_no_data: "Noch keine Metadaten vorhanden"
+  meta_data_batch_hint_differences: "Unterschiedliche Metadaten vorhanden"
+  meta_data_batch_hint_differences_override: "Achtung: Bestehende Werte werden durch Änderungen überschrieben! Wenn keine Änderungen vorgenommen werden, bleiben die verschiedenen Werte erhalten."
+  meta_data_batch_hint_equal_data: "Gleiche Metadaten vorhanden"
+  meta_data_batch_hint_value: "Wert und Text"
+  meta_data_batch_success: "Metadaten wurden erfolgreich aktualisiert."
+  meta_data_batch_failure: "Metadaten konnten nicht aktualisiert werden."
 
   # # People
   people_toolbar_header: "MediaResources related via MetaData:"

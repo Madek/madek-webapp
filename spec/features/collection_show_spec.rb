@@ -1,6 +1,8 @@
 require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
+require_relative 'shared/favorite_helper_spec'
+include FavoriteHelper
 
 feature 'Resource: Collections' do
   background do

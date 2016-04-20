@@ -6,6 +6,7 @@ UI =
   SelectCollection: require('./select-collection.cjsx')
   CollectionResourceSelection: require('./collection-resource-selection.cjsx')
   FormResourceMetaData: require('./form-resource-meta-data.cjsx')
+  BatchFormResourceMetaData: require('./batch-form-resource-meta-data.cjsx')
   Uploader: require('./uploader.cjsx')
 
   UI: require('./ui-components/index.coffee')

@@ -4,7 +4,6 @@ module Modules
     module MetaDataUpdate
       extend ActiveSupport::Concern
 
-      # TMP
       def batch_edit_meta_data
         entries_ids = params.require(:id)
         entries = MediaEntry.unscoped.where(id: entries_ids)
@@ -13,10 +12,8 @@ module Modules
         skip_authorization
         entries = entries.editable_by_user(current_user)
 
-        # HACK: just return an array of presenters…
-        @get = entries.map do |e|
-          Presenters::MediaEntries::MediaEntryEdit.new(e, current_user)
-        end
+        @get = Presenters::MediaEntries::MediaEntryBatchEdit.new(
+          entries, current_user)
       end
 
       def batch_meta_data_update
@@ -29,33 +26,46 @@ module Modules
           raise Errors::ForbiddenError unless e.editable_by_user?(current_user)
         end
 
-        errors = {}
+        errors = batch_update_transaction!(entries, meta_data_params)
+
         if errors.empty?
-          render plain: 'OK :)'
+          redirect_to(
+            my_dashboard_path,
+            flash: { success: I18n.t('meta_data_batch_success') })
         else
-          render \
-            plain: JSON.pretty_generate(errors: errors), status: :bad_request
+          redirect_to(
+            my_dashboard_path,
+            flash: { error: I18n.t('meta_data_batch_failure') })
         end
       end
 
-      def batch_update_all_meta_data_transaction!(entries, meta_data_params)
-        errors = {}
-        ActiveRecord::Base.transaction do
-          entries.each do |media_entry|
-            meta_data_params.each do |key_value|
-              meta_key_id, value = key_value
-              begin
-                handle_meta_datum!(media_entry, meta_key_id, value)
-              rescue => e
-                errors[meta_key_id] = [e.message]
-              end
+      def batch_update_inside_transaction!(entries, meta_data_params, errors)
+        entries.each do |media_entry|
+          meta_data_params.each do |meta_key_id, value|
+            data_entered = false
+            value[:values].each { |val| data_entered if val.strip != '' }
+            all_equal = value[:difference][:all_equal] == 'true'
+            all_empty = value[:difference][:all_empty] == 'true'
+
+            next unless all_equal or all_empty or (not all_equal and data_entered)
+
+            begin
+              handle_meta_datum!(media_entry, meta_key_id, value[:values])
+            rescue => exception
+              errors[meta_key_id] = [exception.message]
             end
           end
+        end
+      end
+
+      def batch_update_transaction!(entries, meta_data_params)
+        errors = {}
+        ActiveRecord::Base.transaction do
+          batch_update_inside_transaction!(entries, meta_data_params, errors)
           raise ActiveRecord::Rollback unless errors.empty?
         end
         errors
       end
-      # /TMP
 
       def edit_meta_data
         represent(find_resource, Presenters::MediaEntries::MediaEntryEdit)
@@ -81,10 +91,7 @@ module Modules
         errors = {}
 
         ActiveRecord::Base.transaction do
-          meta_data_params.each do |key_value|
-            meta_key_id = key_value.first
-            value = key_value.second
-
+          meta_data_params.each do |meta_key_id, value|
             begin
               handle_meta_datum!(media_entry, meta_key_id, value)
             rescue => e
