@@ -60,13 +60,26 @@ RSpec.configure do |config|
     end
   end
 
+  def wait_until(wait_time = 60, &block)
+    begin
+      Timeout.timeout(wait_time) do
+        until value = block.call
+          sleep(1)
+        end
+        value
+      end
+    rescue Timeout::Error => _e
+      fail Timeout::Error.new(block.source), 'It timed out!'
+    end
+  end
+
   def take_screenshot(screenshot_dir = nil, name = nil)
     screenshot_dir ||= Rails.root.join('tmp', 'capybara')
     name ||= "screenshot_#{Time.zone.now.iso8601.gsub(/:/, '-')}.png"
     Dir.mkdir screenshot_dir rescue nil
     path = screenshot_dir.join(name)
     case Capybara.current_driver
-    when :selenium_ff, :selenium_chrome
+    when :selenium_ff, :selenium_ff_nojs, :selenium_chrome
       page.driver.browser.save_screenshot(path) rescue nil
     when :poltergeist
       page.driver.render(path, full: true) rescue nil
