@@ -16,7 +16,7 @@ module.exports = React.createClass({
       image_url: PropTypes.string.isRequired,
       media_file: PropTypes.shape({
         previews: PropTypes.object
-        original_file_url: PropTypes.string
+        # original_file_url: PropTypes.string
       }).isRequired
     }).isRequired,
     mods: PropTypes.any
@@ -27,8 +27,13 @@ module.exports = React.createClass({
     {previews} = @props.get.media_file
 
     classes = cx(this.props.mods)
+
+    # get the largest image and use it as 'full size link'
+    # NOTE: we want this link even if the file is the same,
+    # for consistency and bc it's easier for users…
     href = f.chain(previews.images).sortBy('width').last().get('url').run()
 
+    # just the picure element (might be wrapped)
     picture = <Picture className={classes} src={image_url} title={title}/>
 
     switch

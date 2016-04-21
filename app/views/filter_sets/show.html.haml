@@ -18,7 +18,7 @@
 
   content_for(:more_info) do
     react('Deco.MediaResourcesBox',
-      get: @get.resources, interactive: true, initial: { show_filter: false })
+      get: @get.resources, withBox: true, initial: { show_filter: false })
   end
 
 = render template: 'layouts/app_resource'

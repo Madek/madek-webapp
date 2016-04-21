@@ -22,6 +22,7 @@ module Presenters
         Presenters::Collections::ChildMediaResources.new \
           @user_scopes[:highlighted_media_entries],
           @user,
+          with_relations: @user.present?,
           list_conf: @list_conf
       end
     end

@@ -30,19 +30,19 @@
       - if @get.entrusted_media_resources.media_entries.any?
         = react('Deco.MediaResourcesBox',
           get: @get.entrusted_media_resources.media_entries,
-          interactive: true,
+          withBox: true,
           fallback: true,
           initial: { show_filter: true },
           mods: { bordered: false })
       - if @get.entrusted_media_resources.collections.any?
         = react('Deco.MediaResourcesBox',
           get: @get.entrusted_media_resources.collections,
-          interactive: true,
+          withBox: true,
           fallback: true,
           mods: { bordered: false })
       - if @get.entrusted_media_resources.filter_sets.any?
         = react('Deco.MediaResourcesBox',
           get: @get.entrusted_media_resources.filter_sets,
-          interactive: true,
+          withBox: true,
           fallback: true,
           mods: [{ bordered: false }, 'rounded-bottom'])

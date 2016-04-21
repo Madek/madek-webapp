@@ -3,11 +3,11 @@ module Presenters
     class CollectionIndex < Presenters::Shared::MediaResource::MediaResourceIndex
       include Presenters::Collections::Modules::CollectionCommon
 
-      def initialize(app_resource, user, list_conf: nil, show_relations: false)
+      def initialize(app_resource, user, list_conf: nil, with_relations: false)
         super(app_resource, user)
-        @show_relations = show_relations
         @list_conf = list_conf
-        initialize_relations
+        @with_relations = with_relations
+        initialize_relations if with_relations
       end
 
       private

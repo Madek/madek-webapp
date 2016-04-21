@@ -1,16 +1,15 @@
 f = require('active-lodash')
+BrowserFile = require('global/window').File
 AppResource = require('./shared/app-resource.coffee')
 Permissions = require('./media-entry/permissions.coffee')
 Person = require('./person.coffee')
 # MediaResources = require('./shared/media-resources.coffee')
 ResourceMetaData = require('./shared/resource-meta-data.coffee')
 MetaData = require('./meta-data.coffee')
-BrowserFile = require('global/window').File
+Favoritable = require('./concerns/resource-favoritable.coffee')
 
-xhr = require('xhr')
-getRailsCSRFToken = require('../lib/rails-csrf-token.coffee')
-
-module.exports = AppResource.extend
+module.exports = AppResource.extend(
+  Favoritable, {
   type: 'MediaEntry'
   urlRoot: '/entries'
   props:
@@ -22,9 +21,6 @@ module.exports = AppResource.extend
       type: 'boolean'
       default: false
       required: true
-    favored:
-      type: 'boolean'
-      default: false
     copyright_notice: ['string']
     portrayed_object_date: ['string']
     image_url:
@@ -61,17 +57,6 @@ module.exports = AppResource.extend
           else
             'Processing…'
 
-  # instance methods:
-  setFavoredStatus: (action, callback)->
-    if !f.include(['favor', 'disfavor'], action)
-      throw new Error('ArgumentError!')
-    @set('favored', (if (action is 'favor') then true else false))
-    runRequest(
-      {method: 'PATCH', url: @url + '/' + action},
-      (err, res, data)=>
-        @set('favored', data.isFavored)
-        callback(err, res, data))
-
   upload: (callback)->
     unless (@uploading.file instanceof BrowserFile)
       throw new Error 'Model: MediaEntry: #upload called but no file!'
@@ -81,7 +66,7 @@ module.exports = AppResource.extend
 
     @merge('uploading', started: (new Date()).getTime())
 
-    req = runRequest {
+    req = @_runRequest {
       method: 'POST'
       url: '/entries/'
       body: formData
@@ -101,16 +86,4 @@ module.exports = AppResource.extend
         unless f.all([loaded, total], f.isNumber)
           return console.error('Math error!')
         @merge('uploading', progress: (loaded/total*100))
-
-# ajax helper
-runRequest = (req, callback)->
-  return xhr({
-    method: req.method
-    url: req.url
-    body: req.body
-    headers: {
-      'Accept': 'application/json'
-      'X-CSRF-Token': getRailsCSRFToken()}},
-    (err, res, body)->
-      data = (try JSON.parse(body)) or body
-      callback(err, res, data))
+})

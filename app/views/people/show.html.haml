@@ -23,7 +23,7 @@
   -# TODO: t(:people_toolbar_header)
   -# #ui-resources-list-container.ui-container.midtone.rounded-bottom
   = react('Deco.MediaResourcesBox',
-    get: @get.related_media_resources_via_meta_data, interactive: true,
+    get: @get.related_media_resources_via_meta_data, withBox: true,
     mods: [{bordered: false}, 'rounded-bottom'])
 
 = deco('resource_show', person_show)

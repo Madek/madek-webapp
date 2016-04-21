@@ -105,9 +105,9 @@ class MyController < ApplicationController
 
   def init_for_view
     list_config = if (params[:action] == 'dashboard')
-                    { per_page: 6, page: 1, interactive: false }
+                    { per_page: 6, page: 1 }
                   else
-                    { per_page: 12, interactive: true }.merge(resource_list_params)
+                    { per_page: 12 }.merge(resource_list_params)
                   end
 
     @get = Presenters::Users::UserDashboard.new(
@@ -123,6 +123,7 @@ class MyController < ApplicationController
       Presenters::Users::UserDashboard.new(
         current_user,
         user_scopes_for_dashboard(current_user),
+        with_relations: false,
         list_conf: { page: 1, per_page: 1 }))
   end
 

@@ -5,6 +5,10 @@ Icon = require('./Icon.cjsx')
 Link = require('./Link.cjsx')
 Picture = require('./Picture.cjsx')
 
+flyoutProps = React.PropTypes.shape({
+  title: React.PropTypes.string.isRequired,
+  caption: React.PropTypes.string.isRequired,
+  children: React.PropTypes.node.isRequired })
 
 module.exports = React.createClass
   displayName: 'UiThumbnail'
@@ -17,36 +21,36 @@ module.exports = React.createClass
     meta: React.PropTypes.shape
       title: React.PropTypes.string.isRequired
       subtitle: React.PropTypes.string
+    actionsLeft: React.PropTypes.arrayOf(React.PropTypes.node)
+    actionsRight: React.PropTypes.arrayOf(React.PropTypes.node)
+    flyoutTop: flyoutProps
+    flyoutBottom: flyoutProps
 
-
-  render: ({type, src, alt, href, badgeRight, badgeLeft, actionsLeft, actionsRight, showRelations, parentsCount, childrenCount, parentRelations, childRelations, meta} = @props) ->
+  render: () ->
+    { type, src, alt, href,
+      meta, badgeRight, badgeLeft, actionsLeft, actionsRight,
+      flyoutTop, flyoutBottom
+    } = @props
 
     classes = "ui-thumbnail #{type} #{parseMods(@props)}"
 
-    parentsCountText = parentsCount + ' Sets'
-    childrenCountText = childrenCount + ' Inhalte'
+    flyoutTop = if f.present(flyout = @props.flyoutTop)
+      <div className='ui-thumbnail-level-up-items'>
+        <h3 className='ui-thumbnail-level-notes'>{flyout.title}</h3>
+        <ul className='ui-thumbnail-level-items'>
+          {flyout.children}
+        </ul>
+        <span className='ui-thumbnail-level-notes'>{flyout.caption}</span>
+      </div>
 
-    parentsElement = null
-    if @props.showRelations
-      parentsElement =
-        <div className="ui-thumbnail-level-up-items">
-          <h3 className="ui-thumbnail-level-notes">Übergeordnete Sets</h3>
-          <ul className="ui-thumbnail-level-items">
-            {parentRelations}
-          </ul>
-          <span className="ui-thumbnail-level-notes">{parentsCountText}</span>
-        </div>
-
-    childrenElement = null
-    if @props.showRelations
-      childrenElement =
-        <div className="ui-thumbnail-level-down-items">
-          <h3 className="ui-thumbnail-level-notes">Set enthält</h3>
-          <ul className="ui-thumbnail-level-items">
-            {childRelations}
-          </ul>
-          <span className="ui-thumbnail-level-notes">{childrenCountText}</span>
-        </div>
+    flyoutBottom = if f.present(flyout = @props.flyoutBottom)
+      <div className='ui-thumbnail-level-down-items'>
+        <h3 className='ui-thumbnail-level-notes'>{flyout.title}</h3>
+        <ul className='ui-thumbnail-level-items'>
+          {flyout.children}
+        </ul>
+        <span className='ui-thumbnail-level-notes'>{flyout.caption}</span>
+      </div>
 
     badgeLeft = if badgeLeft
       <div className='ui-thumbnail-privacy'>
@@ -77,7 +81,7 @@ module.exports = React.createClass
     </div>
 
     <div className={classes}>
-      {parentsElement}
+      {flyoutTop}
       {badgeLeft}
       {badgeRight}
       <Link className='ui-thumbnail-image-wrapper' href={href} title={alt}>
@@ -93,5 +97,5 @@ module.exports = React.createClass
       </Link>
       {meta}
       {actions}
-      {childrenElement}
+      {flyoutBottom}
     </div>

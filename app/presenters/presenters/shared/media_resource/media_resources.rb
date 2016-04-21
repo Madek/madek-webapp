@@ -7,24 +7,36 @@ module Presenters
       # - everything in @conf are *shared* params (part of the URL)
       # - `can_filter`: in here it signifies if the scope *can* be filtered at all,
       #   in the view it determines if filtering is *allowed*.
+      # - `with_relations`: should relations be loaded (used in flyout)
+      # - list_conf: the 'listing config' (shared with client via params)
+      #   its' defaults are below:
+
+      DEFAULT_LIST_CONFIG = {
+        page: 1, per_page: 12, order: 'created_at DESC', # pagination
+        show_filter: false # show filtering sidebar? (loads DynFilters!)
+      }
+
       class MediaResources < Presenter
         include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
 
-        attr_reader :resources, :pagination, :can_filter
+        attr_reader :resources, :pagination, :with_actions, :can_filter
 
-        DEFAULT_CONFIG = {
-          page: 1, per_page: 12, order: 'created_at DESC', # pagination
-          interactive: nil,  # if false, it's just a simple list – set on init!
-          show_filter: false # show filtering sidebar? (loads DynFilters!)
-        }
-
-        def initialize(scope, user, can_filter: true, list_conf: nil)
+        def initialize(
+            scope,
+            user,
+            can_filter: true,
+            list_conf: nil,
+            with_actions: true,
+            with_relations: false)
           fail 'missing config!' unless list_conf
           @user = user
           @scope = scope
+          # enable interaction if user logged in and not explictly turned of
+          @with_actions = true if (with_actions != false) && @user.present?
           # can the given scope be filtered? (`#filter_by`)
           @can_filter = can_filter ? true : false
           @conf = build_config(list_conf)
+          @with_relations = with_relations
           init_resources_and_pagination(@scope, @conf)
         end
 
@@ -46,7 +58,7 @@ module Presenters
         end
 
         def dynamic_filters
-          return if !@conf[:interactive] or !@conf[:show_filter]
+          return unless @conf[:show_filter]
           # NOTE: scope is pre-filtered, but not paginated!
           scope = @conf[:filter] ? @scope.filter_by(@conf[:filter]) : @scope
           tree = @conf[:dyn_filter]
@@ -56,19 +68,10 @@ module Presenters
         private
 
         def build_config(list_conf)
-          conf = DEFAULT_CONFIG.merge(list_conf) # combine with given config…
+          DEFAULT_LIST_CONFIG.merge(list_conf) # combine with given config…
             .instance_eval do |conf| # coerce types…
               conf.merge(page: conf[:page].to_i, per_page: conf[:per_page].to_i)
             end
-          # enable interaction if user logged in and not explictly turned of
-          if !@user.nil? && (conf[:interactive] != false)
-            conf[:interactive] = true
-          end
-          # validation:
-          if conf[:show_filter] and (!@can_filter or !conf[:interactive])
-            raise Errors::InvalidParameterValue, "'show_filter' not possible!"
-          end
-          conf
         end
 
         # NOTE: optimized pagination, no extra queries!
@@ -112,7 +115,7 @@ module Presenters
           resources.map do |resource|
             # if no presenter given, need to check class of every member!
             presenter = determined_presenter || presenter_by_class(resource.class)
-            presenter.new(resource, @user, show_relations: true)
+            presenter.new(resource, @user, with_relations: @with_relations)
           end
         end
 

@@ -6,9 +6,9 @@
   - else
     %h4.title-m.mbm= t(:relations_parents_title)
     = react('Deco.MediaResourcesBox',
-      get: @get.relations.parent_media_resources, interactive: false)
+      get: @get.relations.parent_media_resources, withBox: false)
     %h4.title-m.mbm= t(:relations_siblings_title)
     = react('Deco.MediaResourcesBox',
-      get: @get.relations.sibling_media_resources, interactive: false)
+      get: @get.relations.sibling_media_resources, withBox: false)
 
 = render template: 'media_entries/_show/_base'

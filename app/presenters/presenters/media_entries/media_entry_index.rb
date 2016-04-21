@@ -4,10 +4,10 @@ module Presenters
 
       include Presenters::MediaEntries::Modules::MediaEntryCommon
 
-      def initialize(app_resource, user, list_conf: {}, show_relations: false)
+      def initialize(app_resource, user, list_conf: {}, with_relations: false)
         super(app_resource, user, list_conf: list_conf)
-        @show_relations = show_relations
-        initialize_relations
+        @with_relations = with_relations
+        initialize_relations if with_relations
       end
 
       def image_url

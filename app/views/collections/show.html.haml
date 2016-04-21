@@ -86,11 +86,13 @@
 
       %h4.title-m.mbm= t(:relations_parents_title)
       = react('Deco.MediaResourcesBox',
-        get: @get.relations.parent_media_resources)
+          withBox: false,
+          get: @get.relations.parent_media_resources)
 
       %h4.title-m.mbm= t(:relations_siblings_title)
       = react('Deco.MediaResourcesBox',
-        get: @get.relations.sibling_media_resources)
+          withBox: false,
+          get: @get.relations.sibling_media_resources)
 
 
     .ui-separator.mbl
@@ -98,7 +100,7 @@
   -# TODO: t(:collection_media_resources_title)
   = react('Deco.MediaResourcesBox',
     get: @get.relations.child_media_resources,
-    interactive: true,
+    withBox: true,
     initial: { show_filter: false },
     mods: [{bordered: false}, 'rounded-bottom'])
 

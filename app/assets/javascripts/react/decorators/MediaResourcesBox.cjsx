@@ -15,7 +15,8 @@ xhr = require('xhr')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 
 # Props/Config overview:
-# - props.interactive = should the UI offer any interaction
+# - props.get.with_actions = should the UI offer any interaction
+# - props.withBox = should the grid be wrapped in a Box… [TMP!]
 # - state.active = is component in client-side mode
 # - props.get.can_filter = is it possible to filter the resources
 # - props.get.filter = the currently active filter
@@ -68,10 +69,11 @@ module.exports = React.createClass
   mixins: [ampersandReactMixin]
   propTypes:
     initial: viewConfigProps
-    interactive: React.PropTypes.bool.isRequired # toggles simple list or full box
+    withBox: React.PropTypes.bool # toggles simple grid or full box
     authToken: React.PropTypes.string.isRequired
     get: React.PropTypes.shape
       # resources: React.PropTypes.array # TODO: array of ampersandCollection
+      with_actions: React.PropTypes.bool # toggles actions, hover, flyout
       can_filter: React.PropTypes.bool # if true, get.resources can be filtered
       config: viewConfigProps # <- config that is part of the URL!
       dynamic_filters: React.PropTypes.array
@@ -139,7 +141,8 @@ module.exports = React.createClass
           window.location = url
 
 
-  render: ({get, mods, initial, interactive, saveable, authToken} = @props)->
+  render: ()->
+    {get, mods, initial, withBox, saveable, authToken} = @props
 
     # TODO: refactor this + currentQuery into @getInitialState + @getCurrentQuery
     get = f.defaultsDeep \      # combine config in order:
@@ -150,15 +153,14 @@ module.exports = React.createClass
         layout: 'grid'
         show_filter: false
 
-    # console.log 'MediaResourcesBox: get, initial', get, initial
-
     config = get.config
+    withActions = get.with_actions
 
     baseClass = 'ui-polybox'
     boxClasses = classList({ # defaults first, mods last so they can override
       'ui-container': yes
-      'midtone': interactive
-      'bordered': interactive
+      'midtone': withBox
+      'bordered': withBox
     }, mods, baseClass) # but baseClass can't be overridden!
 
     toolbarClasses = switch
@@ -172,11 +174,12 @@ module.exports = React.createClass
         'rounded-top'
 
     listHolderClasses = classList 'ui-resources-holder',
-      pam: interactive
+      pam: withBox
 
-    listClasses = classList 'ui-resources', config.layout,
-      active: interactive
-      vertical: config.layout is 'tiles'
+    listClasses = classList(config.layout, {
+      'vertical': config.layout is 'tiles'
+      'active': withActions
+    }, 'ui-resources')
 
     currentQuery = f.merge(
       {list: f.merge f.omit(config, 'for_url')},
@@ -194,14 +197,14 @@ module.exports = React.createClass
         <Link mods='mlx weak' href={resetFilterHref}>
           <Icon i='undo'/> {'Filter zurücksetzen'}</Link>
 
-    BoxToolBar = if interactive then do ({for_url, layout} = config)=>
+    BoxToolBar = if withBox then do ({for_url, layout} = config)=>
       layouts = LAYOUT_MODES.map (itm)=>
         href = setUrlParams(for_url, currentQuery, list: layout: itm.mode)
         f.merge itm,
           mods: active: layout is itm.mode
           href: href
           onClick: @handleChangeInternally
-      actions =
+      actions = if withActions
         save: if saveable and @state.active # FIXME: <- HACK, no fallback
           children: 'Save!'
           onClick: f.curry(@createFilterSetFromConfig)(config)
@@ -210,7 +213,7 @@ module.exports = React.createClass
 
     BoxFilterBar = do =>
       # NOTE: don't show the bar at all if no 'filter' button!
-      return null if (!interactive or !get.can_filter)
+      return null if (!withBox or !get.can_filter)
 
       filterToggleLink = setUrlParams(config.for_url, currentQuery,
         list: show_filter: (not config.show_filter))
@@ -290,7 +293,7 @@ module.exports = React.createClass
         }
       </div>
 
-    paginationNav = if interactive then do ({config, pagination} = get)=>
+    paginationNav = if withBox then do ({config, pagination} = get)=>
       navLinks =
         current:
           href: setUrlParams(config.for_url, currentQuery)

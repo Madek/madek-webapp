@@ -26,7 +26,10 @@ module.exports = React.createClass
   }
   componentDidMount: ()->
     localPreviewImage(@props.resource, @setState.bind(@))
-    model = new Models[@props.get.type](@props.get)
+    if (modelByType = Models[@props.get.type])
+      model = new modelByType(@props.get)
+    else
+      console.error('WARNING: No model found for resource!', @props.get)
     @setState(active: true, model: model)
 
   componentWillReceiveProps: (nextProps)->
@@ -39,20 +42,7 @@ module.exports = React.createClass
     @state.model.setFavoredStatus action, (err, res)=>
       @setState(pendingFavorite: false)
 
-  renderItem: (item) ->
-    clazz = "ui-thumbnail-level-item media_set set odd"
-    if item.type == 'MediaEntry'
-      clazz = "ui-thumbnail-level-item media_entry image odd"
-    <li className={clazz}>
-      <a className="ui-level-image-wrapper" href={item.url}>
-        <div className="ui-thumbnail-level-image-holder">
-          <img className="ui-thumbnail-level-image" src={item.image_url}></img>
-        </div>
-      </a>
-    </li>
-
   render: ({get, elm, authToken} = @props, state = @state)->
-    # get = @state.model or @props.get
     model = @state.model or @props.get
 
     # map the type name:
@@ -63,7 +53,7 @@ module.exports = React.createClass
     iconMapping = {'public': 'open', 'private': 'private', 'shared': 'group'}
     privacyIcon = "privacy-#{iconMapping[get.privacy_status]}"
 
-    # fav
+    # hover - fav
     favoriteAction = if model.favored then 'disfavor' else 'favor'
     favoriteUrl = model.url + '/' + favoriteAction
 
@@ -71,31 +61,9 @@ module.exports = React.createClass
     favoriteItem = <i className={starClass}></i>
     favoriteOnClick = @_favorOnClick if not @state.pendingFavorite
 
+    # hover - actions
     actionsLeft = []
     actionsRight = []
-
-    parents = @props.get.parent_relations
-    children = @props.get.child_relations
-
-    parentsCount = @props.get.parent_count
-    childrenCount = @props.get.child_count
-
-    parentRelations = []
-    childRelations = []
-    if parentsCount > 0
-      parentRelations = parents.resources.map (item)->
-        <li className="ui-thumbnail-level-item media_set set odd">
-          <a className="ui-level-image-wrapper" href={item.url}>
-            <div className="ui-thumbnail-level-image-holder">
-              <img className="ui-thumbnail-level-image" src={item.image_url}></img>
-            </div>
-          </a>
-        </li>
-
-    if childrenCount > 0
-      childRelations = children.resources.map (item) =>
-        @renderItem(item)
-
     if get.favorite_policy
       favorButton =
         if @state.active
@@ -116,6 +84,41 @@ module.exports = React.createClass
           {favorButton}
         </li>)
 
+    # hover - flyout - relations - thumbnail list:
+    parentRelations = get.parent_relations
+    childRelations = get.child_relations
+
+    if parentRelations
+      parentsCount = parentRelations.count
+      parentsCountText = parentsCount + ' Sets'
+
+      if parentsCount > 0
+        parentThumbs = f.get(get, ['parent_relations', 'resources']).map (item) ->
+          <li className='ui-thumbnail-level-item media_set set odd'>
+            <a className='ui-level-image-wrapper' href={item.url}>
+              <div className='ui-thumbnail-level-image-holder'>
+                <img className='ui-thumbnail-level-image' src={item.image_url}/>
+              </div>
+            </a>
+          </li>
+
+    if childRelations
+      childrenCount = childRelations.count
+      childrenCountText = childrenCount + ' Inhalte'
+
+      if childrenCount > 0
+        childThumbs = f.get(get, ['child_relations', 'resources']).map (item) ->
+          classes = 'ui-thumbnail-level-item media_set set odd'
+          if item.type == 'MediaEntry'
+            classes = 'ui-thumbnail-level-item media_entry image odd'
+          <li className={classes}>
+            <a className='ui-level-image-wrapper' href={item.url}>
+              <div className='ui-thumbnail-level-image-holder'>
+                <img className='ui-thumbnail-level-image' src={item.image_url}/>
+              </div>
+            </a>
+          </li>
+
     Element = elm or 'div'
     thumbProps =
       type: f.kebabCase(type)
@@ -131,11 +134,14 @@ module.exports = React.createClass
         <Icon i='filter' title='This is a Filterset'/>
       actionsLeft: actionsLeft
       actionsRight: actionsRight
-      showRelations: get.show_relations
-      parentsCount: parentsCount
-      childrenCount: childrenCount
-      parentRelations: parentRelations
-      childRelations: childRelations
+      flyoutTop: if parentRelations
+        title: 'Übergeordnete Sets'
+        children: parentThumbs
+        caption: parentsCount + ' Sets'
+      flyoutBottom: if childRelations
+        title: 'Set enthält'
+        children: childThumbs
+        caption: childrenCount + ' Inhalte'
 
     <Element className='ui-resource'>
       <div className='ui-resource-body'>
