@@ -7,7 +7,7 @@ setUrlParams = require('../../lib/set-params-for-url.coffee')
 resourceListParams = require('../../shared/resource_list_params.coffee')
 RailsForm = require('../lib/forms/rails-form.cjsx')
 ResourceThumbnail = require('./ResourceThumbnail.cjsx')
-{ Button, ButtonGroup, Icon, Link, ActionsBar, FilterBar, SideFilter
+{ Button, ButtonGroup, Icon, Link, Preloader, ActionsBar, FilterBar, SideFilter
 } = require('../ui-components/index.coffee')
 MediaEntriesCollection = require('../../models/media-entries.coffee')
 router = null # client-side only
@@ -462,7 +462,7 @@ FilterPreloader = (
   <div className='ui-slide-filter-item'>
     <div className='title-xs by-center'>
       Filter werden geladen</div>
-      <div className='ui-preloader small'></div>
+      <Preloader mods='small'/>
   </div>)
 
 FilterExamples = ({url, query, examples} = @props)->

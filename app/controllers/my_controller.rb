@@ -13,8 +13,7 @@ class MyController < ApplicationController
       duration = if params[:duration].present?
                    ChronicDuration.parse(params[:duration]) \
                      || raise('Parser error!')
-                 else
-                   60 * 60 * 24
+                 else 60 * 60 * 24
                  end
       unless duration <= 60 * 60 * 24
         raise 'Duration may not be longer than 24 hours!'
@@ -118,7 +117,7 @@ class MyController < ApplicationController
     # NOTE: uses as separate presenter, for counting regardless of
     # any possible user-given (filter, …)-config!
     # TODO: port this logic to dashboard presenter, build table of contents there
-    @sections = order_sections_according_to_counts(
+    @sections = set_async_below_fold order_sections_according_to_counts(
       SECTIONS,
       Presenters::Users::UserDashboard.new(
         current_user,
@@ -162,4 +161,12 @@ class MyController < ApplicationController
     section
   end
 
+end
+
+# HACK: set async render if section is "below the fold"
+def set_async_below_fold(sections)
+  conf_prerender_sections_nr = 2
+  sections.map.with_index do |a, i|
+    [a[0], a[1].merge(render_async?: ((i + 1) > conf_prerender_sections_nr))]
+  end.to_h
 end

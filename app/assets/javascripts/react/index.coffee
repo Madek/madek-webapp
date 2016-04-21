@@ -12,4 +12,6 @@ UI =
   UI: require('./ui-components/index.coffee')
   Deco: require('./decorators/index.coffee')
 
+  AsyncDashboardSection: require('./lib/AsyncDashboardSection.cjsx')
+
 module.exports = UI
