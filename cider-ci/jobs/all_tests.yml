@@ -17,6 +17,7 @@ jobs:
     run-on:
     - type: branch
       include-match: ^.+$
+      exclude-match: ^.*no-ci.*$
     context:
       tasks:
         all:
