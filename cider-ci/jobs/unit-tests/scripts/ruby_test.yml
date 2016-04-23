@@ -1,8 +1,8 @@
 test:
   body: |
+    #!/usr/bin/env bash
     set -eux
-    export USED_RUBY_VERSION=`ruby -v | cut -d ' ' -f 2`
-    [[ "$USED_RUBY_VERSION" =~ '2.2.' ]]
+    export PATH=$(pwd)/vendor/jruby/bin/:$(ruby -e "puts ENV['PATH'].split(':').reject{|s| s.match(/\.rbenv/)}.join(':')")
     bundle exec rspec $CIDER_CI_TASK_FILE
   start-when:
     create-database:

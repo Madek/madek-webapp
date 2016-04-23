@@ -12,15 +12,13 @@ context:
 
   task-defaults:
 
-    environment-variables:
-      RBENV_VERSION: jruby-9.0.5.0
-
     _cider-ci_include:
       - cider-ci/shared/attachments.yml
       - cider-ci/shared/environment-variables.yml
 
     eager-trials: 1
     max-auto-trials: 3
+    priority: 1
 
     ports:
       XVNC_PORT:
@@ -69,7 +67,11 @@ context:
         RAILS_DUMP_LIMIT: 1000
       scripts:
         test:
-          body: "bundle exec rails runner ./bin/lodz_dump.rb > ./tmp/ld_dump.json"
+          body:
+            #!/usr/bin/env bash
+            set -eux
+            export PATH=$(pwd)/vendor/jruby/bin/:$(ruby -e "puts ENV['PATH'].split(':').reject{|s| s.match(/\.rbenv/)}.join(':')")
+            jruby --dev -S bundle exec rails runner ./bin/lodz_dump.rb > ./tmp/ld_dump.json
 
     "spec/features/custom_root-url_spec.rb":
       environment-variables:

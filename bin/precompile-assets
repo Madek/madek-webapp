@@ -8,7 +8,9 @@ export RAILS_ENV=production
 export RAILS_LOG_LEVEL=debug
 export DISABLE_SECRETS_STRENGTH_CHECK=true
 
+export PATH=$(pwd)/vendor/jruby/bin/:$(ruby -e "puts ENV['PATH'].split(':').reject{|s| s.match(/\.rbenv/)}.join(':')")
+
 # precompilation: js, css, fonts, images
-bundle exec rake assets:precompile
+jruby --dev -S bundle exec rake assets:precompile
 # cleanup obsoletes
-bundle exec rake assets:clean[0]
+jruby --dev -S bundle exec rake assets:clean[0]

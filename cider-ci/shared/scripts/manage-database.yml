@@ -1,36 +1,6 @@
-setup-ruby:
-  exclusive-executor-resource: rbenv
-  timeout: 20 Minutes
-  body: |
-    #!/usr/bin/env bash
-    set -eux
-
-    function remove_possibly_broken_ruby {
-      rm -rf ${HOME}/.rbenv/versions/${RBENV_VERSION}
-    }
-    trap remove_possibly_broken_ruby ERR SIGINT SIGTERM
-
-    if [ ! -d ${HOME}/.rbenv/versions/${RBENV_VERSION} ]; then
-      rm -rf ~/.rbenv/plugins/*
-      rm -f ~/.rbenv/shims/.rbenv-shim
-      curl --silent https://raw.githubusercontent.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
-      rbenv install ${RBENV_VERSION}
-      gem install bundler
-      rbenv rehash
-    fi
-
-bundle:
-  exclusive-executor-resource: bundler
-  timeout: 20 Minutes
-  start-when:
-  - script: setup-ruby
-  body: bin/bundle_with_cachestamp.sh
-
 configure-database:
-  start-when:
-  - script: setup-ruby
   body: |
-    #!/usr/bin/env ruby
+    #!/usr/bin/ruby
     require 'yaml'
     db_config = {
       'adapter' => 'postgresql',
@@ -44,13 +14,20 @@ configure-database:
     File.open('config/database.yml','w') { |file| file.write config.to_yaml }
 
 create-database:
-  body: bundle exec rake db:reset
+  body: |
+    #!/usr/bin/env bash
+    set -eux
+    export PATH=$(pwd)/vendor/jruby/bin/:$(ruby -e "puts ENV['PATH'].split(':').reject{|s| s.match(/\.rbenv/)}.join(':')")
+    jruby --dev -S bundle exec rake db:reset
   start-when:
-  - script: bundle
   - script: configure-database
 
 delete-database:
-  body:  bundle exec rake db:pg:terminate_connections db:drop
+  body:
+    #!/usr/bin/env bash
+    set -eux
+    export PATH=$(pwd)/vendor/jruby/bin/:$(ruby -e "puts ENV['PATH'].split(':').reject{|s| s.match(/\.rbenv/)}.join(':')")
+    jruby --dev -S bundle exec rake db:drop
   ignore-abort: true
   ignore-state: true
   start-when:

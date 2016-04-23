@@ -36,14 +36,6 @@ jobs:
             environment-variables:
               RAILS_ENV: test
               LANG: "en_US.UTF-8"
-              RBENV_VERSION: 2.2
-            scripts:
-              bundle-mri:
-                exclusive-executor-resource: bundler_2.2
-                body: bundle
-              test:
-                start-when:
-                  - script: bundle-mri
 
           tasks:
 
@@ -51,19 +43,51 @@ jobs:
               name: 'Ruby: Code complexity with flog'
               scripts:
                 test:
-                  body: bundle exec cider-ci_flog app/
+                  body: |
+                    #!/usr/bin/env bash
+                    set -eux
+                    export PATH=$(pwd)/vendor/jruby/bin/:$(ruby -e "puts ENV['PATH'].split(':').reject{|s| s.match(/\.rbenv/)}.join(':')")
+                    jruby --dev -S bundle exec cider-ci_flog app/
 
             code_similarity:
               name: 'Ruby: Code similarity with flay'
               scripts:
                 test:
-                  body: bundle exec cider-ci_flay -m 26 app/
+                  body: |
+                    #!/usr/bin/env bash
+                    set -eux
+                    export PATH=$(pwd)/vendor/jruby/bin/:$(ruby -e "puts ENV['PATH'].split(':').reject{|s| s.match(/\.rbenv/)}.join(':')")
+                    jruby --dev -S bundle exec cider-ci_flay -m 26 app/
 
             lint_ruby:
               name: 'Ruby: Lint/Stylecheck with Rubocop'
               scripts:
                 test:
-                  body: bundle exec rubocop
+                  environment-variables:
+                    RBENV_VERSION: 2.2.4
+                  timeout: 20 Minutes
+                  body: |
+                    #!/usr/bin/env bash
+                    set -eux
+
+                    rm .bundle/config
+
+                    function remove_possibly_broken_ruby {
+                      rm -rf ${HOME}/.rbenv/versions/${RBENV_VERSION}
+                    }
+                    trap remove_possibly_broken_ruby ERR SIGINT SIGTERM
+
+                    if [ ! -d ${HOME}/.rbenv/versions/${RBENV_VERSION} ]; then
+                      rm -rf ~/.rbenv/plugins/*
+                      curl --silent https://raw.githubusercontent.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
+                      rbenv install ${RBENV_VERSION}
+                      gem install bundler
+                      rbenv rehash
+                      bundle
+                    fi
+
+                    bundle exec rubocop
+
 
         javascript:
           task-defaults:
