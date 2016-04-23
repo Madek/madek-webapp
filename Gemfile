@@ -1,4 +1,4 @@
-eval_gemfile 'datalayer/Gemfile'
+eval_gemfile Pathname(File.dirname(File.absolute_path(__FILE__))).join('datalayer', 'Gemfile')
 
 ####################################################################
 # required in production PRODUCTION
