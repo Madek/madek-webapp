@@ -40,7 +40,8 @@ feature 'Resource: Collection' do
   end
 
   def open_dialog
-    find('.ui-body-title-actions').find('.icon-trash').find(:xpath, './..').click
+    title = I18n.t(:resource_action_destroy, raise: false)
+    find('.ui-body-title-actions').find('.button[title="' + title + '"]').click
     expect(current_path).to eq ask_delete_collection_path(@collection)
     within('.modal') do
       expect(page).to have_content 'Set löschen'

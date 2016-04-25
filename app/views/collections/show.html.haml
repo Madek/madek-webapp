@@ -5,6 +5,7 @@
   favor_button = (@get.policy(current_user).disfavor? and @get.favored) ?
     component('button',
       link: disfavor_collection_path,
+      title: t(:resource_action_disfavor, raise: false),
       method: :patch,
       icon: :favorite)
     : nil
@@ -12,16 +13,17 @@
   disfavor_button = (@get.policy(current_user).favor? and !@get.favored) ?
     component('button',
       link: favor_collection_path,
+      title: t(:resource_action_favor, raise: false),
       method: :patch,
       icon: :nofavorite)
     : nil
 
-  action_buttons =[favor_button, disfavor_button].compact
-
+  action_buttons = [favor_button, disfavor_button].compact
 
   (@get.policy(current_user).edit_cover?) ?
     action_buttons << component('button',
       link: cover_edit_collection_path,
+      title: t(:resource_action_edit_cover, raise: false),
       method: :get,
       icon: :cover)
     : nil
@@ -29,6 +31,7 @@
   (@get.policy(current_user).ask_delete?) ?
     action_buttons << component('button',
       link: ask_delete_collection_path,
+      title: t(:resource_action_destroy, raise: false),
       method: :get,
       icon: :trash)
     : nil
@@ -36,6 +39,7 @@
   (@get.policy(current_user).add_remove_collection?) ?
     action_buttons << component('button',
       link: select_collection_collection_path,
+      title: t(:resource_action_select_collection, raise: false),
       method: :get,
       icon: :move)
     : nil
@@ -43,6 +47,7 @@
   (@get.policy(current_user).edit_highlights?) ?
     action_buttons << component('button',
       link: highlights_edit_collection_path,
+      title: t(:resource_action_edit_highlights, raise: false),
       method: :get,
       icon: :highlight)
     : nil

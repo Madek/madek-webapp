@@ -51,10 +51,10 @@ feature 'Resource: MediaEntry' do
   private
 
   def find_button(link)
-    thumbnail_href = find(:xpath, "//a[@href='" + link + "']")
-    parent = thumbnail_href.find(:xpath, './..')
-    parent.hover
-    actions = parent.find('.ui-thumbnail-actions')
+    thumbnail = find(:xpath, "//a[@href='" + link + "']") # <- just the link
+                  .find(:xpath, './..[contains(@class, "ui-thumbnail")]')
+    thumbnail.hover
+    actions = thumbnail.find('.ui-thumbnail-actions')
     actions.hover
     favorite = actions.find('.ui-thumbnail-action-favorite')
     favorite.hover

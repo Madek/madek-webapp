@@ -2,10 +2,10 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
-feature 'MediaResource: Flyout' do
+feature 'Collection: Index' do
 
-  describe 'Action: show' do
-    scenario 'Modal dialog is shown', browser: :firefox do
+  describe 'Client: Flyouts' do
+    scenario 'Flyouts shows parent- and child-relation', browser: :firefox do
       login
       open_collections
 
@@ -26,21 +26,19 @@ feature 'MediaResource: Flyout' do
 
   def parent_or_child_area(thumbnail, parent_or_child)
     thumbnail.hover
-    up_down = if parent_or_child == :parent
-                'up'
-              elsif parent_or_child == :child
-                'down'
-              else
-                raise 'wrong argument'
+    up_down = case parent_or_child
+              when :parent then 'up'
+              when :child then 'down'
+              else raise 'wrong argument'
               end
-    area = thumbnail.find('div.ui-thumbnail-level-' + up_down + '-items')
+    area = thumbnail.find('.ui-thumbnail-level-' + up_down + '-items')
     area.hover
     area
   end
 
   def check_parent_or_child_link_count(thumbnail, count, parent_or_child)
     area = parent_or_child_area(thumbnail, parent_or_child)
-    count_text = area.find('span.ui-thumbnail-level-notes').text
+    count_text = area.all('.ui-thumbnail-level-notes')[1].text
     text =
       if parent_or_child == :parent
         'Sets'
@@ -89,8 +87,8 @@ feature 'MediaResource: Flyout' do
   end
 
   def find_thumbnail_by_title(title)
-    find('ul.ui-resources').all('li.ui-resource').each do |resource|
-      meta_titles = resource.all('h3.ui-thumbnail-meta-title', text: title)
+    find('.ui-resources').all('.ui-resource').each do |resource|
+      meta_titles = resource.all('.ui-thumbnail-meta-title', text: title)
       if meta_titles.length > 0
         return resource
       end

@@ -53,18 +53,17 @@ feature 'Side Filter' do
     end
 
     def find_item_element(name, open)
-      root_ul = find('ul.ui-side-filter-list')
-      section_li = root_ul.first('li.ui-side-filter-lvl1-item')
-      section_a = section_li.first('a')
+      root_ul = find('.ui-side-filter-list')
+      section_li = root_ul.first('.ui-side-filter-lvl1-item')
+      section_a = section_li.first('.ui-accordion-toggle')
       section_a.click if open
-      section_ul = section_li.first('ul')
-      sub_section_li = section_ul.first('li.ui-side-filter-lvl2-item')
-      sub_section_a = sub_section_li.first('a')
+      section_ul = section_li.first('.ui-side-filter-lvl2')
+      sub_section_li = section_ul.first('.ui-side-filter-lvl2-item')
+      sub_section_a = sub_section_li.first('.ui-accordion-toggle')
       sub_section_a.click if open
-      subsection_ul = sub_section_li.first('ul')
-      xpath = './/li[contains(@class,"ui-side-filter-lvl3-item")]'
-      xpath = xpath + '/span/span[contains(.,"' + name + '")]'
-      subsection_ul.first(:xpath, xpath).first(:xpath, '..')
+      sub_section_li.find('.ui-side-filter-lvl3')
+        .find('.ui-side-filter-lvl3-item', text: name)
+        .first('.link, .ui_link')
     end
 
     def open_filterbar(inside = page)
@@ -74,7 +73,6 @@ feature 'Side Filter' do
     end
 
     def prepare_data
-      # FactoryGirl.create(:app_settings)
       @user = FactoryGirl.create(:user, login: @login, password: @password)
 
       meta_key_keywords = MetaKey.find_by(id: 'madek_core:keywords')

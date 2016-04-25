@@ -2,9 +2,12 @@
   action_buttons = [
     !@get.policy(current_user).update? ? nil : component('button',
       link: edit_meta_data_media_entry_path,
+      title: t(:resource_action_edit, raise: false),
       icon: :pen),
+
     !@get.policy(current_user).destroy? ? nil : component('button',
       link: media_entry_path,
+      title: t(:resource_action_destroy, raise: false),
       icon: :trash,
       method: :delete,
       data: { confirm: t(:btn_delete_confirm_msq) })
@@ -30,6 +33,7 @@
   (@get.policy(current_user).add_remove_collection?) ?
     action_buttons << component('button',
       link: select_collection_media_entry_path,
+      title: t(:resource_action_select_collection, raise: false),
       method: :get,
       icon: :move)
     : nil

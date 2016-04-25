@@ -2,6 +2,7 @@
   text ||= nil
   icon ||= nil
   type ||= nil
+  title ||= nil
   data ||= nil
   method ||= nil
   html_tag = link ? 'a' : 'button'
@@ -19,6 +20,7 @@
   properties = {
     class: classes,
     type: type,
+    title: title,
     data: data,
     method: method
   }.merge(props)

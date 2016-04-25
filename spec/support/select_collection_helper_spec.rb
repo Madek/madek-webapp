@@ -178,7 +178,8 @@ module SelectCollectionHelper
   end
 
   def click_select_collections
-    find('i.icon-move').find(:xpath, './..').click
+    title = I18n.t(:resource_action_select_collection, raise: false)
+    find('.ui-body-title-actions').find('.button[title="' + title + '"]').click
   end
 
   def check_on_dialog
