@@ -20,17 +20,6 @@ context: # shared for all subcontexts
 
   subcontexts:
 
-    js:
-      name: JavaScript Unit Tests
-      description: |
-        This job contains tests involving the nodejs/npm runtime.
-
-      _cider-ci_generate-tasks:
-        include-match: app/assets/javascripts/react/.*/__tests__/.*\.(c?jsx?)
-      task-defaults:
-        scripts:
-          test: {body: npm run jest -- --verbose --noHighlight --no-cache $CIDER_CI_TASK_FILE}
-
     ruby:
       name: Ruby Unit Tests
 

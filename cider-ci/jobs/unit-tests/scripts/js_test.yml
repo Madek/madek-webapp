@@ -1,8 +1,0 @@
-test:
-  body: |
-    set -eux
-    npm run jest \
-      --verbose --noHighlight \
-      --no-cache \
-      --testRunner '<rootDir>/node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js' \
-      $CIDER_CI_TASK_FILE
