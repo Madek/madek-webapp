@@ -1,7 +1,61 @@
+# rubocop:disable all
 module Modules
   module MediaEntries
     module MetaDataUpdate
       extend ActiveSupport::Concern
+
+      # TMP
+      def batch_edit_meta_data
+        entries_ids = params.require(:id)
+        entries = MediaEntry.unscoped.where(id: entries_ids)
+
+        # HACK: disable pundit and do everything manually
+        skip_authorization
+        entries = entries.editable_by_user(current_user)
+
+        # HACK: just return an array of presenters…
+        @get = entries.map do |e|
+          Presenters::MediaEntries::MediaEntryEdit.new(e, current_user)
+        end
+      end
+
+      def batch_meta_data_update
+        entries_ids = params.require(:batch_resource_meta_data).require(:id)
+        entries = MediaEntry.unscoped.where(id: entries_ids)
+
+        # HACK: disable pundit and do everything manually
+        skip_authorization
+        entries.each do |e|
+          raise Errors::ForbiddenError unless e.editable_by_user?(current_user)
+        end
+
+        errors = {}
+        if errors.empty?
+          render plain: 'OK :)'
+        else
+          render \
+            plain: JSON.pretty_generate(errors: errors), status: :bad_request
+        end
+      end
+
+      def batch_update_all_meta_data_transaction!(entries, meta_data_params)
+        errors = {}
+        ActiveRecord::Base.transaction do
+          entries.each do |media_entry|
+            meta_data_params.each do |key_value|
+              meta_key_id, value = key_value
+              begin
+                handle_meta_datum!(media_entry, meta_key_id, value)
+              rescue => e
+                errors[meta_key_id] = [e.message]
+              end
+            end
+          end
+          raise ActiveRecord::Rollback unless errors.empty?
+        end
+        errors
+      end
+      # /TMP
 
       def edit_meta_data
         represent(find_resource, Presenters::MediaEntries::MediaEntryEdit)
@@ -66,3 +120,4 @@ module Modules
     end
   end
 end
+# rubocop:enable all

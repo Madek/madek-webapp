@@ -32,6 +32,14 @@ Madek::Application.routes.draw do
       post :publish
       get 'relations'
     end
+
+    # TMP
+    collection do
+      get 'batch_meta_data_edit', action: :batch_edit_meta_data, as: 'batch_edit_meta_data'
+      put 'batch_meta_data', action: :batch_meta_data_update
+    end
+    # /TMP
+
   end
 
   resources :collections, path: 'sets', only: [:index, :show, :create, :destroy] do

@@ -159,7 +159,7 @@ Style/UnlessElse:
 # Cop supports --auto-correct.
 # Configuration parameters: WordRegex.
 Style/WordArray:
-  MinSize: 2
+  MinSize: 5
 
 # Configuration parameters: Include.
 Rails/HasAndBelongsToMany:
