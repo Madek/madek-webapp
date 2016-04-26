@@ -42,7 +42,7 @@ module UiHelper
 
   # React Components (proxy to view helper from `react_rails` gem w/ config)
   def react(name, props = {}, opts = {})
-    defaults = { prerender: true }
+    defaults = { prerender: !params.permit(:___norender).present? }
     opts = defaults.merge(opts)
     if props[:get]
       fail '`get` is not a Presenter!' unless props[:get].is_a?(Presenter)
