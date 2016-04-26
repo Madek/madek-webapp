@@ -17,11 +17,9 @@ jobs:
     run-on:
     - type: branch
       include-match: ^.+$
-      exclude-match: ^.*no-ci.*$
+      exclude-match: ^(.*no-ci.*)|([a-z]*_wip_.*)$
     context:
       tasks:
         all:
           scripts:
             body: echo 'Yay, all dependencies have passed!'
-
-

@@ -11,8 +11,7 @@ jobs:
     run-on:
     - type: branch
       include-match: ^.+$
-      exclude-match: ^.*no-ci.*$
-
+      exclude-match: ^(.*no-ci.*)|([a-z]*_wip_.*)$
 
     depends-on:
     - type: job
@@ -32,6 +31,7 @@ jobs:
               traits: { nodejs: true }
               scripts:
                 test:
+                  timeout: 6 Minutes
                   body: |
                     mv public/assets tmp/static_assets
                     bin/precompile-assets
