@@ -147,6 +147,7 @@ module Madek
     config.assets.precompile = %w(
       application.js
       integration-testbed.js
+      react-server-side.js
       application.css
       application-contrasted.css
       fonts/*
