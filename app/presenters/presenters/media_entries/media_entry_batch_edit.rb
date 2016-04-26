@@ -2,11 +2,18 @@ module Presenters
   module MediaEntries
     class MediaEntryBatchEdit < Presenter
 
-      attr_reader :batch_entries
+      def initialize(media_entries, user)
+        @entries = media_entries
+        @user = user
+      end
 
-      def initialize(media_entries, current_user)
-        @batch_entries = media_entries.map do |entry|
-          Presenters::MediaEntries::MediaEntryEdit.new(entry, current_user)
+      def resources
+        Presenters::Shared::MediaResource::IndexResources.new(@user, @entries)
+      end
+
+      def batch_entries
+        @entries.map do |entry|
+          Presenters::MediaEntries::MediaEntryEdit.new(entry, @user)
         end
       end
 
