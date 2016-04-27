@@ -2,3 +2,5 @@ environment-variables:
   RAILS_ENV: test
   LANG: "en_US.UTF-8"
   DISPLAY: ":{{XVNC_PORT}}"
+  DATABASE_NAME: madek_webapp-test_{{CIDER_CI_TRIAL_ID}}
+

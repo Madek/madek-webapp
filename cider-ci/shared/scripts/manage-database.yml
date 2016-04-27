@@ -9,7 +9,7 @@ configure-database:
       'pool' => 10,
       'username' => ENV['PGUSER'],
       'password' =>  ENV['PGPASSWORD'],
-      'database' => "madek_v3_test_#{ENV['CIDER_CI_TRIAL_ID']}"}
+      'database' => ENV['DATABASE_NAME']}
     config = { 'test' => db_config, 'production' => db_config}
     File.open('config/database.yml','w') { |file| file.write config.to_yaml }
 
@@ -17,19 +17,20 @@ create-database:
   body: |
     #!/usr/bin/env bash
     set -eux
-    export PATH=$(pwd)/vendor/jruby/bin/:$(ruby -e "puts ENV['PATH'].split(':').reject{|s| s.match(/\.rbenv/)}.join(':')")
-    jruby --dev -S bundle exec rake db:reset
+    cd datalayer
+    createdb "${DATABASE_NAME}"
+    psql -d "${DATABASE_NAME}" -f db/structure.sql
   start-when:
   - script: configure-database
 
+
 delete-database:
-  body:
-    #!/usr/bin/env bash
+  body: |
     set -eux
-    export PATH=$(pwd)/vendor/jruby/bin/:$(ruby -e "puts ENV['PATH'].split(':').reject{|s| s.match(/\.rbenv/)}.join(':')")
-    jruby --dev -S bundle exec rake db:drop
-  ignore-abort: true
+    cd webapp
+    dropdb "${DATABASE_NAME}"
   ignore-state: true
+  ignore-abort: true
   start-when:
   - script: test
     states: [aborted, passed, failed, skipped]

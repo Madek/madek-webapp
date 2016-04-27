@@ -29,7 +29,7 @@ context: # shared for all subcontexts
 
       task-defaults:
 
-        dispatch-storm-delay-duration: 0 Seconds
+        dispatch-storm-delay-duration: 4 Seconds
 
         _cider-ci_include:
           - cider-ci/shared/attachments.yml

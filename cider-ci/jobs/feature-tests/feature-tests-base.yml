@@ -4,7 +4,7 @@ context:
 
   name: Feature Tests
 
-  dispatch-storm-delay-duration: 1 Seconds
+  dispatch-storm-delay-duration: 8 Seconds
 
   script-defaults:
     template-environment-variables: true
@@ -23,7 +23,7 @@ context:
     ports:
       XVNC_PORT:
         inet_address: "localhost"
-        min: 5900
+        min: 5000
         max: 5999
 
     git-options:

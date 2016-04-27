@@ -14,7 +14,7 @@ jobs:
 
     context:
 
-      dispatch-storm-delay-duration: 3 Seconds
+      dispatch-storm-delay-duration: 8 Seconds
 
       task-defaults:
         max-auto-trials: 2
