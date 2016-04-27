@@ -27,9 +27,7 @@ create-database:
 delete-database:
   body: |
     set -eux
-    cd webapp
     dropdb "${DATABASE_NAME}"
-  ignore-state: true
   ignore-abort: true
   start-when:
   - script: test
