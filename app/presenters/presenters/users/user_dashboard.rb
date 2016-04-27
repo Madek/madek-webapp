@@ -75,7 +75,7 @@ module Presenters
         # TODO: fix the need to use local per_page for keywords dashboard section
         per_page = (@config[:per_page] == 1 ? 200 : @config[:per_page])
         @user_scopes[:used_keywords].page(@config[:page]).per(per_page).map \
-          { |k| Presenters::Keywords::KeywordIndex.new(k) }
+          { |k| Presenters::Keywords::KeywordIndexWithUsageCount.new(k) }
       end
 
       private
