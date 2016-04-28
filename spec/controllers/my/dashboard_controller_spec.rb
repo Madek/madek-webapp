@@ -174,7 +174,7 @@ describe My::DashboardController do
     it 'Meine Schlagworte' do
       # TODO: move to model and/or integration test
       expect(@get.used_keywords.map(&:uuid))
-        .to be == [@keyword_1, @keyword_2, @keyword_3].map(&:id)
+        .to match_array [@keyword_1, @keyword_2, @keyword_3].map(&:id)
     end
 
     it 'Mir anvertraute Inhalte' do
