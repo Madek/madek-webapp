@@ -57,3 +57,4 @@ rerun*.txt
 tags
 tmp/
 vendor/bundle/
+/locale/

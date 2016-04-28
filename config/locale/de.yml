@@ -1,0 +1,25 @@
+de:
+  # # Rails
+  activerecord:
+    attributes:
+      meta_datum/keywords:
+        created_by: 'Ersteller'
+    errors:
+      messages:
+        record_invalid: 'Überprüfung fehlgeschlagen: %{errors}'
+        taken: "ist bereits vergeben"
+        blank: "ist leer"
+  flash:
+    actions:
+      create:
+        success: '%{resource_name} wurde erstellt.'
+        error: '%{resource_name} konnte nicht erstellt werden.'
+      update:
+        success: '%{resource_name} wurde gespeichert.'
+        error: '%{resource_name} konnte nicht gespeichert werden.'
+      destroy:
+        success: '%{resource_name} wurde gelöscht.'
+        error: '%{resource_name} konnte nicht gelöscht werden.'
+      meta_data_update:
+        success: 'Metadaten von %{resource_name} wurden gespeichert.'
+        error: 'Metadaten von %{resource_name} konnten nicht gespeichert werden.'

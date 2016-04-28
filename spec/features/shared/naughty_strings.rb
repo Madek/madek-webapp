@@ -34,9 +34,9 @@ RSpec.shared_examples '"naughty strings"' do |range|
 
     strings[range].each do |s|
       visit meta_datum_path(@meta_datum)
-      click_on 'Edit'
+      click_on I18n.t(:meta_data_action_edit_btn)
       fill_in 'values_', with: s
-      click_on 'Save'
+      click_on I18n.t(:meta_data_form_save_btn)
 
       puts s
       unless Madek::Constants::SPECIAL_WHITESPACE_CHARS.include? s

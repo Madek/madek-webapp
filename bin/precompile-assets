@@ -14,3 +14,6 @@ export PATH=$(pwd)/vendor/jruby/bin/:$(ruby -e "puts ENV['PATH'].split(':').reje
 jruby --dev -S bundle exec rake assets:precompile
 # cleanup obsoletes
 jruby --dev -S bundle exec rake assets:clean[0]
+
+# build locale files
+bin/translation-csv-to-locale-yamls

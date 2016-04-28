@@ -25,14 +25,11 @@
     "async": "^1.5.2",
     "babyparse": "^0.4.3",
     "bootstrap": "^3.3.6",
-    "browserify": "^11.2.0",
-    "browserify-incremental": "3.0.1",
     "bulk-require": "0.2.1",
-    "bulkify": "1.1.1",
     "check-dependencies": "0.11.0",
     "classnames": "^2.2.3",
-    "coffee-reactify": "4.0.0",
     "coffee-script": "1.10.0",
+    "fs-extra": "^0.30.0",
     "global": "4.3.0",
     "hashblot": "0.4.5",
     "history": "^2.0.0",
@@ -47,13 +44,10 @@
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-file-drop": "^0.1.8",
-    "reactify": "1.1.1",
     "rusha": "0.8.3",
-    "standard": "^6.0.7",
     "underscore.string": "^3.3.4",
     "uuid-validate": "0.0.2",
-    "xhr": "^2.2.0",
-    "yamlify": "0.1.2"
+    "xhr": "^2.2.0"
   },
   "devDependencies": {
     "babel-jest": "*",
@@ -65,14 +59,21 @@
     "coffee-react-transform": "3.3.0",
     "coffeelint": "^1.14.2",
     "jest-cli": "*",
-    "react-addons-test-utils": "~0.14.0"
+    "react-addons-test-utils": "~0.14.0",
+    "brfs": "^1.4.3",
+    "browserify": "^11.2.0",
+    "browserify-incremental": "3.0.1",
+    "bulkify": "1.1.1",
+    "reactify": "1.1.1",
+    "standard": "^6.0.7",
+    "coffee-reactify": "4.0.0"
   },
   "browserify": {
     "transform": [
       "coffee-reactify",
       "reactify",
-      "yamlify",
-      "bulkify"
+      "bulkify",
+      "brfs"
     ],
     "ignore": [
       "crypto"

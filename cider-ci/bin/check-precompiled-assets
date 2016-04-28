@@ -10,7 +10,7 @@ const path = require('path')
 const assert = require('assert')
 
 // config
-const IGNORED_PATHS = ['.DS_Store', '.git', 'README.md']
+const IGNORED_PATHS = ['.DS_Store', '.git', 'README.md', '_rails_locales']
 const args = { assetsPath: process.argv[2], comparePath: process.argv[3] }
 if (!args.assetsPath || !args.comparePath) {
   console.error(USAGE)
@@ -41,23 +41,26 @@ process.on('uncaughtException', (err) => {
 })
 
 // MAIN
-const ASSETS_PATH = path.join(process.cwd(), args.assetsPath)
+const ASSETS_PATH = path.resolve(process.cwd(), args.assetsPath)
 const ASSETS_FILES = fs.readdirSync(ASSETS_PATH)
 const MANIFEST_PATH = getNewestManifest(ASSETS_FILES)
 const MANIFEST = require(path.join(ASSETS_PATH, MANIFEST_PATH))
 const MANIFEST_LIST = Object.keys(MANIFEST.assets)
 
+process.stdout.write('check manifest')
 assert(MANIFEST, 'manifest is not empty')
 assert((MANIFEST_LIST.length > 0), 'manifest.assets list is not empty')
-console.log('check manifest ✔︎')
+console.log(' ✔︎')
 
+process.stdout.write('check files from manifest against repo')
 MANIFEST_LIST.forEach((name) => {
   const file = path.join(ASSETS_PATH, MANIFEST.assets[name])
   assert.doesNotThrow(() => fs.statSync(file), Error, `asset '${name}' exists`)
   assert.ok(fs.statSync(file).isFile(), `asset '${name}' is a file`)
 })
-console.log('check files from manifest against repo ✔︎')
+console.log(' ✔︎')
 
+process.stdout.write('check files from repo against manifest')
 ASSETS_FILES
   .filter((i) => IGNORED_PATHS.concat(MANIFEST_PATH).indexOf(i) < 0)
   .forEach((i) => checkAssetFilesRecursive(i, ASSETS_PATH, function (file) {
@@ -66,20 +69,33 @@ ASSETS_FILES
     const fileEntry = MANIFEST.files[path.relative(ASSETS_PATH, filePath)]
     assert.ok(fileEntry, `file '${file}' is in manifest`)
   }))
-console.log('check files from repo against manifest ✔︎')
+console.log(' ✔︎')
 
-if (args.comparePath) {
-  const COMPARE_PATH = path.join(process.cwd(), args.comparePath)
-  const COMPARE_FILES = fs.readdirSync(COMPARE_PATH)
-  const COMP_MANIFEST_PATH = getNewestManifest(COMPARE_FILES)
-  COMPARE_FILES
-    .filter((i) => IGNORED_PATHS.concat(COMP_MANIFEST_PATH).indexOf(i) < 0)
-    .forEach((i) => checkAssetFilesRecursive(i, COMPARE_PATH, function (file) {
-      const filePath = path.resolve(ASSETS_PATH, path.relative(COMPARE_PATH, file))
-      assert.doesNotThrow(() => fs.statSync(filePath), Error,
-        `asset '${filePath}' exists in repo`)
-      assert.ok(fs.statSync(file).isFile(),
-        `asset '${filePath}' is a file in repo`)
-    }))
-  console.log('check asset files from repo against compare path ✔︎')
-}
+process.stdout.write('check asset files from repo against compare path')
+const COMPARE_PATH = path.resolve(process.cwd(), args.comparePath)
+const COMPARE_FILES = fs.readdirSync(COMPARE_PATH)
+const COMP_MANIFEST_PATH = getNewestManifest(COMPARE_FILES)
+COMPARE_FILES
+  .filter((i) => IGNORED_PATHS.concat(COMP_MANIFEST_PATH).indexOf(i) < 0)
+  .forEach((i) => checkAssetFilesRecursive(i, COMPARE_PATH, function (file) {
+    const filePath = path.resolve(ASSETS_PATH, path.relative(COMPARE_PATH, file))
+    assert.doesNotThrow(() => fs.statSync(filePath), Error,
+      `asset '${filePath}' exists in repo`)
+    assert.ok(fs.statSync(file).isFile(),
+      `asset '${filePath}' is a file in repo`)
+  }))
+console.log(' ✔︎')
+
+process.stdout.write('check Rails locales from repo against compare path')
+const I18N_PATH = path.join(ASSETS_PATH, '_rails_locales')
+const I18N_COMPARE_PATH = path.resolve(
+    process.cwd(), path.join(args.comparePath, '_rails_locales'))
+fs.readdirSync(I18N_COMPARE_PATH)
+  .forEach((i) => checkAssetFilesRecursive(i, I18N_COMPARE_PATH, function (file) {
+    const filePath = path.resolve(I18N_PATH, path.relative(I18N_COMPARE_PATH, file))
+    assert.doesNotThrow(() => fs.statSync(filePath), Error,
+      `asset '${filePath}' exists in repo`)
+    assert.ok(fs.statSync(file).isFile(),
+      `asset '${filePath}' is a file in repo`)
+  }))
+console.log(' ✔︎')

@@ -62,8 +62,13 @@ module Madek
     # to develop/debug error pages, set this to false in dev env as well:
     config.consider_all_requests_local = false
 
-    config.i18n.enforce_available_locales = false
-    config.i18n.available_locales = [:de, :en]
+    # load translations from assets (they are precompiled for Rails from CSV table)
+    config.i18n.load_path += Dir[
+      Rails.root.join('public/assets/_rails_locales', '*.yml').to_s]
+    # TODO: select locale selection
+    config.i18n.default_locale = :de
+    # config.i18n.available_locales = [:de, :en]
+    # config.i18n.enforce_available_locales = true
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -76,14 +81,6 @@ module Madek
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
     config.time_zone = ENV['RAILS_TIME_ZONE'].presence || 'UTC'
-
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    config.i18n.load_path += Dir[Rails.root.join('locale', '*.yml').to_s]
-    # TODO: select locale at runtime and set to `:en` here:
-    config.i18n.default_locale = :de
-
-    # get rid of annoying warning; have a look at this again when dealing with i18n
-    # config.i18n.enforce_available_locales = false
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = 'utf-8'
@@ -112,9 +109,6 @@ module Madek
     # vendor stuff is normally not made for browserification and may stop
     # working.
     # config.browserify_rails.paths << %r{vendor/assets/javascripts/module.js}
-
-    # we `require` locale yaml files with browserify, so explicitly watch them:
-    config.watchable_files.concat(Dir["#{Rails.root}/locale/**/*.yml"])
 
     # Environments, in which to generate source maps
     # The default is none

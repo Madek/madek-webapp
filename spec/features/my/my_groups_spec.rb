@@ -69,7 +69,7 @@ feature 'Resource: Group; in User Dashboard ("My Groups")' do
       visit my_groups_path
 
       within "[data-id='#{group.id}']" do
-        click_link 'Edit'
+        click_link I18n.t(:group_edit_btn)
       end
 
       fill_in 'Name', with: 'NEW NAME'
@@ -85,7 +85,7 @@ feature 'Resource: Group; in User Dashboard ("My Groups")' do
       visit my_groups_path
 
       within "[data-id='#{group.id}']" do
-        click_link 'Edit'
+        click_link I18n.t(:group_edit_btn)
       end
 
       fill_in member_field_name, with: new_member.login
@@ -94,7 +94,7 @@ feature 'Resource: Group; in User Dashboard ("My Groups")' do
       expect(current_path).to eq my_groups_path
 
       within "[data-id='#{group.id}']" do
-        click_link 'Edit'
+        click_link I18n.t(:group_edit_btn)
       end
 
       within '.ui-workgroup-members' do
@@ -108,7 +108,7 @@ feature 'Resource: Group; in User Dashboard ("My Groups")' do
       visit my_groups_path
 
       within "[data-id='#{group.id}']" do
-        click_link 'Edit'
+        click_link I18n.t(:group_edit_btn)
       end
 
       within '.ui-workgroup-members' do
@@ -123,7 +123,7 @@ feature 'Resource: Group; in User Dashboard ("My Groups")' do
       expect(current_path).to eq my_groups_path
 
       within "[data-id='#{group.id}']" do
-        click_link 'Edit'
+        click_link I18n.t(:group_edit_btn)
       end
 
       within '.ui-workgroup-members' do

@@ -22,7 +22,7 @@ feature 'Resource: MediaEntry' do
     add_subject_with_permission(@node_groups, 'Diplomarbeitsg', test_perm)
     add_subject_with_permission(@node_apiapps, 'fancy', test_perm)
 
-    @node_form.click_on('Speichern')
+    @node_form.click_on(I18n.t(:permissions_table_save_btn))
     @entry.reload
 
     expect(current_path).to eq permissions_media_entry_path(@entry)
@@ -52,7 +52,7 @@ feature 'Resource: MediaEntry' do
 
     add_subject_with_permission(@node_people, 'Norbert', perm_3)
 
-    @node_form.click_on('Speichern')
+    @node_form.click_on(I18n.t(:permissions_table_save_btn))
     @entry.reload
 
     expect(current_path).to eq permissions_media_entry_path(@entry)
@@ -73,21 +73,23 @@ def open_permission_editable
   visit permissions_media_entry_path(@entry)
   @node_form = find('[name="ui-rights-management"]')
 
-  @node_people = subject_row(@node_form, 'Personen')
-  @node_groups = subject_row(@node_form, 'Gruppen')
+  @node_people = subject_row(@node_form, I18n.t(:permission_subject_title_users))
+  @node_groups = subject_row(@node_form, I18n.t(:permission_subject_title_groups))
 
   expect(subject_items(@node_people).length).to be 0
   expect(subject_items(@node_groups).length).to be 0
   # this is hidden on show when empty:
-  expect(subject_row(@node_form, 'API-Applikationen')).to be nil
+  expect(subject_row(@node_form, I18n.t(:permission_subject_title_apiapps)))
+    .to be nil
 
-  @node_form.click_on('Bearbeiten')
+  @node_form.click_on(I18n.t(:permissions_table_edit_btn))
 
   # router works:
   expect(current_path).to eq edit_permissions_media_entry_path(@entry)
 
   # now its visible:
-  @node_apiapps = subject_row(@node_form, 'API-Applikationen')
+  @node_apiapps = subject_row(
+    @node_form, I18n.t(:permission_subject_title_apiapps))
   expect(subject_items(@node_apiapps).length).to be 0
 end
 

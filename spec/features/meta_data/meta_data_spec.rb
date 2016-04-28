@@ -31,7 +31,7 @@ feature 'Resource: MetaDatum' do
       visit media_entry_path(@media_entry)
       click_on @meta_datum.meta_key.id.split(':').last.humanize
 
-      click_on 'Edit'
+      click_on I18n.t(:meta_data_action_edit_btn)
 
       within("form[action='#{meta_datum_path(@meta_datum)}']") do
         find('input[type="text"]').set(new_text)

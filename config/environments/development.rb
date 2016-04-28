@@ -1,3 +1,6 @@
+# build the translation files right before starting up in dev:
+`bin/translation-csv-to-locale-yamls`
+
 Madek::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 

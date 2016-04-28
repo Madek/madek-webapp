@@ -22,6 +22,9 @@ class ApplicationController < ActionController::Base
   # CRSF protection with explicit Error raising, otherwise it looks like "no user"
   protect_from_forgery with: :exception
 
+  # set language
+  I18n.locale = :de
+
   # enable the mini profiler for admins in production
   before_action do
     if defined?(Rack::MiniProfiler) && current_user.try(:admin)

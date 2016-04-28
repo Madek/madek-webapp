@@ -5,7 +5,7 @@ MetaKeyFormLabel = require('./lib/forms/form-label.cjsx')
 InputMetaDatum = require('./lib/input-meta-datum.cjsx')
 MadekPropTypes = require('./lib/madek-prop-types.coffee')
 Classnames = require('classnames')
-t = require('../lib/string-translation.coffee')('de')
+t = require('../lib/string-translation')('de')
 
 module.exports = React.createClass
   displayName: 'BatchFormResourceMetaData'

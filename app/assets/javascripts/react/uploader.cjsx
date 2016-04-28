@@ -3,7 +3,7 @@ ReactDOM = require('react-dom')
 ampersandReactMixin = require('ampersand-react-mixin')
 f = require('active-lodash')
 async = require('async')
-t = require('../lib/string-translation.coffee')('de')
+t = require('../lib/string-translation')('de')
 FileDropBox = require('./lib/file-dropbox.cjsx')
 MediaResourcesBox = require('./decorators/MediaResourcesBox.cjsx')
 

@@ -31,14 +31,15 @@ feature 'Resource: MediaEntry' do
       # unpublished entry was created
       within('#app') do
         alert = find('.ui-alert.warning')
-        expect(alert).to have_content 'Entry is not published yet!'
+        expect(alert)
+          .to have_content I18n.t(:media_entry_not_published_warning_msg)
       end
 
       # NOTE: will break here when there is required MetaData,
       # must add them here
 
       # publish it
-      click_on 'Publish!'
+      click_on I18n.t(:btn_publish_text)
 
       # it was published
       alert = find('#app-alerts .success')
@@ -84,7 +85,8 @@ feature 'Resource: MediaEntry' do
       # unpublished entry was created
       within('#app') do
         alert = find('.ui-alert.warning')
-        expect(alert).to have_content 'Entry is not published yet!'
+        expect(alert)
+          .to have_content I18n.t(:media_entry_not_published_warning_msg)
       end
 
       media_entry = @user.unpublished_media_entries.first
@@ -137,7 +139,7 @@ feature 'Resource: MediaEntry' do
       # main actions has a delete button with a confirmation:
       within '.ui-body-title-actions' do
         confirmation = find('.icon-trash').click
-        expect(confirmation).to eq 'Are you sure you want to delete this?'
+        expect(confirmation).to eq I18n.t(:btn_delete_confirm_msq)
         accept_confirm
       end
 

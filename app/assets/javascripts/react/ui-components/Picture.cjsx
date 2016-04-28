@@ -1,7 +1,7 @@
 React = require('react')
 f = require('active-lodash')
 ui = require('../lib/ui.coffee')
-t = require('../../lib/string-translation.coffee')('de')
+t = require('../../lib/string-translation')('de')
 
 module.exports = React.createClass
   displayName: 'Picture'

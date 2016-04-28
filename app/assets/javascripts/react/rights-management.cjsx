@@ -1,6 +1,6 @@
 React = require('react')
 f = require('active-lodash')
-t = require('../lib/string-translation.coffee')('de') # TODO: select correct locale!
+t = require('../lib/string-translation')('de') # TODO: select correct locale!
 ampersandReactMixin = require('ampersand-react-mixin')
 
 AutoComplete = 'div' # only required client-side!
