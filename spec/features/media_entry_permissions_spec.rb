@@ -1,6 +1,9 @@
 require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
+require_relative 'shared/ui_helpers_spec'
+
+include UIHelpers
 
 feature 'Resource: MediaEntry' do
   background do
@@ -116,16 +119,4 @@ def add_subject_with_permission(node, name, permission_name)
   node.find('tbody tr', text: name)
     .find("[name='#{permission_name}']")
     .click
-end
-
-def autocomplete_and_choose_first(node, text)
-  unless Capybara.javascript_driver == :selenium
-    throw 'Autocomplete is only supported in Selenium!'
-  end
-  ac = node.find('.ui-autocomplete-holder')
-  input = ac.find('input')
-  input.click
-  input.native.send_keys(text)
-  menu = ac.find('.ui-autocomplete.ui-menu')
-  menu.first('.ui-menu-item').click
 end

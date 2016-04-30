@@ -52,8 +52,6 @@ class DefaultPolicy
     end
   end
 
-  private
-
   def logged_in?
     not user.nil?
   end
