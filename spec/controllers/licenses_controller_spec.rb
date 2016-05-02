@@ -2,11 +2,30 @@ require 'spec_helper'
 
 describe LicensesController do
   let(:user) { FactoryGirl.create :user }
+  let(:licenses) { 5.times.map { FactoryGirl.create :license } }
+
+  context 'Resource: Licenses' do
+    example \
+      'Action: show – redirects to filtered index' do
+      license = licenses.last
+
+      get :show, { id: license.id }, user_id: user.id
+
+      expect(response).to redirect_to('http://test.host/entries?' + {
+        list: {
+          filter: JSON.generate(
+            meta_data: [{
+              key: 'any',
+              value: license.id,
+              type: 'MetaDatum::Licenses' }]),
+          show_filter: true }
+      }.to_query)
+    end
+  end
 
   context 'Resource: Licenses – responds to search with json' do
     it 'filtering with params[:search_term] by label' do
-      5.times { FactoryGirl.create :license }
-      license = License.last
+      license = licenses.last
 
       get :index,
           { search_term: license.label, format: :json },

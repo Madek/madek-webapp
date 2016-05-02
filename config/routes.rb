@@ -70,17 +70,29 @@ Madek::Application.routes.draw do
   resources :media_files, path: :files, only: :show
   resources :previews, path: 'media', only: :show
 
-  resources :people, only: [:index, :show]
-  resources :users, only: :index
-  resources :api_clients, only: :index
-
-  resources :licenses, only: :index
-
-  resources :keywords, only: :index
-
+  # MetaData & Meta-Resources:
   resources :meta_data
 
+
+  # TODO: finish this
+  # # Canonical Paths for Vocabularies and their related MetaKeys.
+  # # For MetaKeys and their related Keywords they are needed for RDF and friends:
+  # # both attributes (MKs) and specified values (Ks) are referenced as IRIs,
+  # # and as a web application it is most appropriate to use a (working) URL.
+  # get 'vocabulary', to: 'vocabularies#index', as: 'vocabularies'
+  # get 'vocabulary/:vocabulary_id', to: 'vocabularies#show', as: 'vocabulary', constraints: { id: /[^:]/ }
+  # get 'vocabulary/:meta_key_id', to: 'vocabularies#show_meta_key', as: 'vocabulary_meta_key'
+  get 'vocabulary/:meta_key_id/:term', to: 'keywords#show', as: 'vocabulary_meta_key_term'
+
+  # TODO: also "scope" this inside /vocabulary ↑ (but don't break CRUD & search)
   resources :meta_keys, only: :index
+  resources :keywords, only: :index
+  resources :licenses, only: [:index, :show]
+  resources :people, only: [:index, :show]
+
+  # Clients/Logins:
+  resources :users, only: :index
+  resources :api_clients, only: :index
 
   # Static App routes ##########################################################
   get '/id/:uuid', to: 'uuid#redirect_to_canonical_url'

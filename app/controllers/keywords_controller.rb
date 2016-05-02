@@ -5,6 +5,16 @@ class KeywordsController < ApplicationController
     get_and_respond_with_json
   end
 
+  def show
+    term = params.require(:term)
+    keyword = get_authorized_resource(Keyword.find_by!(term: term))
+    redirect_to_filtered_index(
+      meta_data: [{
+        key: keyword.meta_key_id,
+        value: keyword.id,
+        type: 'MetaDatum::Keywords' }])
+  end
+
   private
 
   def filter_by_search_params(ar_collection, meta_key_id, search_term, used_by_id)

@@ -7,6 +7,12 @@ module Concerns
       params.require(:id)
     end
 
+    def redirect_to_filtered_index(filter)
+      redirect_to(
+        media_entries_path(
+          list: { show_filter: true, filter: JSON.generate(filter) }))
+    end
+
     def get_authorized_resource(resource = nil)
       resource ||= model_klass.unscoped.find_by!(id: id_param)
       authorize resource, "#{action_name}?".to_sym

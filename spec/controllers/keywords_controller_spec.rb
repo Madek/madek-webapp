@@ -7,6 +7,25 @@ describe KeywordsController do
     FactoryGirl.create(:meta_datum_keywords, meta_key: meta_key)
   end
 
+  context 'Resource: Keywords' do
+    example \
+      'Action: show *by `meta_key` and `term`* – redirects to filtered index' do
+      keyword = FactoryGirl.create :keyword, meta_key: meta_key
+
+      get :show, { term: keyword.term, meta_key_id: meta_key }, user_id: user.id
+
+      expect(response).to redirect_to('http://test.host/entries?' + {
+        list: {
+          filter: JSON.generate(
+            meta_data: [{
+              key: meta_key.id,
+              value: keyword.id,
+              type: 'MetaDatum::Keywords' }]),
+          show_filter: true }
+      }.to_query)
+    end
+  end
+
   context 'responds to search with json' do
     it 'filtering by params[:search_term]' do
       keywords = (1..2).map { FactoryGirl.create :keyword, meta_key: meta_key }

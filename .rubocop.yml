@@ -183,6 +183,10 @@ Rails/ReadWriteAttribute:
 Rails/Validation:
   Enabled: false
 
+Performance/TimesMap:
+  Exclude:
+    - 'spec/**/*'
+
 # NEW CONFIG SINCE VERSION > 0.29.1
 
 Style/MultilineMethodCallIndentation:

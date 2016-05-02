@@ -3,8 +3,21 @@ require 'spec_helper'
 describe PeopleController do
   let(:user) { FactoryGirl.create :user }
 
-  context 'responds to search with json' do
-    it 'filtering by params[:search_term]' do
+  context 'Resource: People' do
+    example 'Action: show – redirects to filtered index' do
+      person = FactoryGirl.create :person
+      get :show, { id: person.id }, user_id: user.id
+      expect(response).to redirect_to(
+        'http://test.host/entries?list%5Bfilter%5D=' \
+        + '%7B%22meta_data%22%3A%5B%7B%22key%22%3A%22any%22%2C%22value%22%3A%22' \
+        + person.id \
+        + '%22%2C%22type%22%3A%22MetaDatum%3A%3APeople%22%7D%5D%7D' \
+        + '&list%5Bshow_filter%5D=true')
+    end
+  end
+
+  context 'Resource: People - responds to search with json' do
+    it 'filtering with params[:search_term] by first name' do
       2.times { FactoryGirl.create :person }
       person = Person.first
 

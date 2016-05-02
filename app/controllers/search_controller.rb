@@ -9,10 +9,8 @@ class SearchController < ApplicationController
   # search result - redirects to filtered index
   def result
     skip_authorization
-    string = params.require(:search)
-    redirect_to(
-      media_entries_path(
-        list: { show_filter: true, filter: JSON.generate(search: string) }))
+    string_string = params.require(:search)
+    redirect_to_filtered_index(search: string_string)
   end
 
 end
