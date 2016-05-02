@@ -13,20 +13,20 @@ UI = require('../react/index.coffee')
 # callback which can be called with a React Element replacing the targeted node.
 
 initByClass =
-  # TMP: for every single md. will get list from entry later
-  MetaDatumEdit: (data, callback)->
-    MetaDatum = require('../models/meta-datum.coffee')
-    MetaDataEdit = require('../react/meta-datum-edit.cjsx')
-
-    unless (MetaDatumClass = MetaDatum[f.last(data.metaDatumType.split('::'))])?
-      throw new Error 'invalid MetaDatum subclass!'
-
-    md = new MetaDatumClass(url: data.metaDatumUrl)
-    md.fetch
-      error: (model, response, options)->
-        console.error("Could not fetch MetaDatum <#{model.url}>", response)
-      success: (model, response, options)->
-        callback(React.createElement(MetaDataEdit, metaDatum: md))
+  # # TMP: for every single md. will get list from entry later
+  # MetaDatumEdit: (data, callback)->
+  #   MetaDatum = require('../models/meta-datum.coffee')
+  #   MetaDataEdit = require('../react/meta-datum-edit.cjsx')
+  #
+  #   unless (MetaDatumClass = MetaDatum[f.last(data.metaDatumType.split('::'))])?
+  #     throw new Error 'invalid MetaDatum subclass!'
+  #
+  #   md = new MetaDatumClass(url: data.metaDatumUrl)
+  #   md.fetch
+  #     error: (model, response, options)->
+  #       console.error("Could not fetch MetaDatum <#{model.url}>", response)
+  #     success: (model, response, options)->
+  #       callback(React.createElement(MetaDataEdit, metaDatum: md))
 
   RightsManagement: (data, callback)->
     router = require('../lib/router.coffee')

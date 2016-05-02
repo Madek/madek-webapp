@@ -17,9 +17,9 @@
       %dt.media-data-title.title-xs-alt= fallback_msg
 
   - else # show meta data
-    -# TMP: for POC
-    -# %dl.media-data
-    .tmp
+    -# -# TMP: for POC
+    -# .tmp
+    %dl.media-data
       - meta_data.each do |dat|
 
         -# NOTE: either context or vocabulary…
@@ -33,19 +33,23 @@
         - url = meta_datum.url
         - is_editable = meta_datum.policy(current_user).edit?
 
-        -# TMP for edit POC. text only!
         - type = key.try(:value_type) || key.meta_key.value_type
-        - is_editable = false unless (type == 'MetaDatum::Text')
-        - react_editor = is_editable && { react_class: 'MetaDatumEdit',
-                                          meta_datum: { url: url, type: type } }
-        %dl.media-data.mbs{data: react_editor}
+        -# -# TMP for edit POC. text only!
+        -# - is_editable = false unless (type == 'MetaDatum::Text')
+        -# - react_editor = is_editable && { react_class: 'MetaDatumEdit',
+        -#                                   meta_datum: { url: url, type: type } }
+        -# %dl.media-data.mbs{data: react_editor}
+        -#
+        -#   %dt.media-data-title<>
+        -#     = component('link', link: url, mods: 'weak') do
+        -#       = component('icon.pen') if is_editable
+        -#       = key.label
 
-          %dt.media-data-title<>
-            = component('link', link: url, mods: 'weak') do
-              = component('icon.pen') if is_editable
-              = key.label
+        %dt.media-data-title<>
+          = component('link', link: url, mods: 'weak') do
+            = key.label
 
-          %dd.media-data-content
-            -# decorate value by type (ex.: /decorators/meta_datum_values/text.haml)
-            - decorator = type.demodulize.underscore
-            = deco("meta_datum_values/#{decorator}", values: meta_datum.values)
+        %dd.media-data-content
+          -# decorate value by type (ex.: /decorators/meta_datum_values/text.haml)
+          - decorator = type.demodulize.underscore
+          = deco("meta_datum_values/#{decorator}", values: meta_datum.values)

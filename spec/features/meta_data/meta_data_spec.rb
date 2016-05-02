@@ -42,7 +42,7 @@ feature 'Resource: MetaDatum' do
     end
   end
 
-  context \
+  pending \
     'inline edit MetaDatum::Text from MediaEntry detail view', browser: :firefox do
 
     scenario 'single update' do
