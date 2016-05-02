@@ -28,19 +28,6 @@ initByClass =
   #     success: (model, response, options)->
   #       callback(React.createElement(MetaDataEdit, metaDatum: md))
 
-  RightsManagement: (data, callback)->
-    router = require('../lib/router.coffee')
-    Permissions = require('../models/media-entry/permissions.coffee')
-    RightsManagement = require('../react/rights-management.cjsx')
-
-    if ({get} = data.reactProps)
-      get = new Permissions(get)
-      edit_link = url.resolve(get.url, 'permissions/edit')
-      callback React.createElement RightsManagement,
-        get: get
-        editUrl: edit_link
-        router: router
-
   Uploader: (data, callback)->
     MediaEntries = require('../models/media-entries.coffee')
     Uploader = require('../react/uploader.cjsx')

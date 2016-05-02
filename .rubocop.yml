@@ -58,6 +58,9 @@ Metrics/LineLength:
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
   Max: 20
+  Exclude:
+    # NOTE: presenters are long by design, they contain lots of data structures
+    - 'app/presenters/presenters/**/*'
 
 Metrics/ParameterLists:
   Max: 12

@@ -1,6 +1,7 @@
 React = require('react')
 f = require('active-lodash')
 t = require('../lib/string-translation')('de') # TODO: select correct locale!
+url = require('url')
 ampersandReactMixin = require('ampersand-react-mixin')
 
 AutoComplete = 'div' # only required client-side!
@@ -22,25 +23,39 @@ ApiClientIndex = React.createClass
 # NOTE: used for static (server-side) rendering (state.editing = false)
 module.exports = React.createClass
   displayName: 'RightsManagement'
-  mixins: [ampersandReactMixin]
 
   getInitialState: ()-> {editing: false}
 
   # this will only ever run on the client:
   componentDidMount: ()->
     AutoComplete = require('./lib/autocomplete.cjsx')
+    router = require('../lib/router.coffee')
+
+    if @props.get.type == 'Collection'
+      PermissionsModel = require('../models/collection/permissions.coffee')
+    else
+      PermissionsModel = require('../models/media-entry/permissions.coffee')
+
+    model = new PermissionsModel(@props.get)
+    editUrl = url.resolve(@props.get.url, 'permissions/edit')
+
+    # set up auto-update for model:
+    f.each ['add', 'remove', 'reset', 'change'], (eventName)=>
+      model.on(eventName, ()=> @forceUpdate() if @isMounted())
 
     # set state according to url from router
-    @props.router.listen (location)=> # runs once initially when router is started
+    router.listen (location)=> # runs once initially when router is started
       @setState
-        editing: f.isEqual(location.pathname, @props.editUrl)
+        editing: f.isEqual(location.pathname, editUrl)
+
+    @setState({model: model, router: router})
 
     # start the router
-    @props.router.start()
+    router.start()
 
   startEditing: (event)->
     event?.preventDefault()
-    @props.router.goTo(event.target.href)
+    @state.router.goTo(event.target.href)
 
   cancelEditing: (event)->
     # TODO: handle abort inline (without refresh) und reset state
@@ -51,11 +66,11 @@ module.exports = React.createClass
   submitForm: (event)->
     event.preventDefault()
     @setState(saving: true)
-    @props.get.save
+    @state.model.save
       success: (model, res)=>
         # TODO: ui-alert res?.message
         @setState(saving: false, editing: false)
-        @props.router.goTo(model.url)
+        @state.router.goTo(model.url)
       error: (model, err)=>
         @setState(saving: false, editing: true)
         alert('Error! ' + ((try JSON.stringify(err?.body || err , 0, 2)) or ''))
@@ -65,6 +80,7 @@ module.exports = React.createClass
   render: ({get} = @props)->
     {submitForm, cancelEditing} = @
     {editing, saving} = @state
+    get = @state.model or get
     editable = get.can_edit
 
     <form name='ui-rights-management' onSubmit={submitForm}>

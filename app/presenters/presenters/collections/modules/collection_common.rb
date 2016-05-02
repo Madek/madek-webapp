@@ -6,7 +6,7 @@ module Presenters
         include Presenters::Shared::MediaResource::Modules::MediaResourceCommon
         include Presenters::Shared::Modules::Favoritable
 
-        def initialize(app_resource, user)
+        def initialize(app_resource, user, list_conf: {})
           fail 'TypeError!' unless app_resource.is_a?(Collection)
           @app_resource = app_resource
           @user = user

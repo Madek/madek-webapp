@@ -25,6 +25,84 @@ module Presenters
           with_relations: @user.present?,
           list_conf: @list_conf
       end
+
+      def meta_data
+        Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
+      end
+
+      def permissions
+        Presenters::Collections::CollectionPermissionsShow.new(
+          @app_resource, @user)
+      end
+
+      def buttons
+        [
+          { method: 'get',
+            icon: 'pen',
+            title: I18n.t(:resource_action_edit, raise: false),
+            action: edit_meta_data_collection_path(@app_resource)
+          },
+          { method: 'patch',
+            icon: favored ? 'favorite' : 'nofavorite',
+            title: I18n.t(
+              "resource_action_#{favored ? 'disfavor' : 'favor'}", raise: false),
+            action: self.send(
+              "#{favored ? 'disfavor' : 'favor'}_collection_path", @app_resource)
+          },
+          { method: 'get',
+            icon: 'cover',
+            title: I18n.t(:resource_action_edit_cover, raise: false),
+            action: cover_edit_collection_path(@app_resource)
+          },
+          { method: 'get',
+            icon: 'trash',
+            title: I18n.t(:resource_action_destroy, raise: false),
+            action: ask_delete_collection_path(@app_resource)
+          },
+          { method: 'get',
+            icon: 'move',
+            title: I18n.t(:resource_action_select_collection, raise: false),
+            action: select_collection_collection_path(@app_resource)
+          },
+          { method: 'get',
+            icon: 'highlight',
+            title: I18n.t(:resource_action_edit_highlights, raise: false),
+            action: highlights_edit_collection_path(@app_resource)
+          }
+        ]
+      end
+
+      def tabs
+        [
+          {
+            active: false,
+            action: nil,
+            icon_type: nil,
+            label: I18n.t(:collection_tab_main),
+            href: collection_path(@app_resource) },
+          {
+            active: false,
+            action: 'relations',
+            icon_type: nil,
+            label: I18n.t(:media_entry_tab_relations),
+            href: relations_collection_path(@app_resource) },
+          {
+            active: false,
+            action: 'more_data',
+            icon_type: nil,
+            label: I18n.t(:media_entry_tab_more_data),
+            href: more_data_collection_path(@app_resource) },
+          {
+            active: false,
+            action: 'permissions',
+            icon_type: :privacy_status_icon,
+            label: I18n.t(:media_entry_tab_permissions),
+            href: permissions_collection_path(@app_resource) }
+        ].select do |tab|
+          tab[:action] ? policy(@user).send("#{tab[:action]}?") : true
+        end
+      end
+
     end
   end
 end

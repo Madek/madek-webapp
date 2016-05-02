@@ -20,7 +20,11 @@ module Presenters
               existing_datum
             else # prepare a new, blank instance to "fill out":
               md_klass = key.meta_datum_object_type.constantize
-              md_klass.new(meta_key: key, media_entry: @app_resource)
+              if @app_resource.class.name == 'Collection'
+                md_klass.new(meta_key: key, collection: @app_resource)
+              else
+                md_klass.new(meta_key: key, media_entry: @app_resource)
+              end
             end
           end
       end

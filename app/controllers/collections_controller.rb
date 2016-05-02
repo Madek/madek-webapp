@@ -7,6 +7,7 @@ class CollectionsController < ApplicationController
   include Concerns::ControllerFavoritable
   include Concerns::CollectionCollectionSelection
   include Modules::Collections::PermissionsUpdate
+  include Modules::Collections::MetaDataUpdate
 
   def index
     respond_with(@get = Presenters::Collections::Collections.new(
@@ -15,6 +16,26 @@ class CollectionsController < ApplicationController
       can_filter: false,
       list_conf: resource_list_params))
   end
+
+  def relations
+    show
+  end
+
+  def more_data
+    show
+  end
+
+  def permissions_show
+    show
+  end
+
+  def permissions_edit
+    show
+  end
+
+  # # tabs that work like 'show':
+  # [:relations, :more_data, :permissions_show, :permissions_edit]
+  #   .each { |action| alias_method action, :show }
 
   # this overwrites the concern method
   def show
@@ -84,6 +105,10 @@ class CollectionsController < ApplicationController
 
   def collection_params
     params.require(:collection)
+  end
+
+  def meta_data_params
+    collection_params.require(:meta_data)
   end
 
   private

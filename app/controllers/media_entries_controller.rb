@@ -15,11 +15,12 @@ class MediaEntriesController < ApplicationController
   def show
     # TODO: handle in MediaResources::CrudActions
     media_entry = get_authorized_resource
-    respond_with(@get = Presenters::MediaEntries::MediaEntryShow.new(
+    @get = Presenters::MediaEntries::MediaEntryShow.new(
       media_entry,
       current_user,
       user_scopes_for_media_resource(media_entry),
-      list_conf: resource_list_params))
+      list_conf: resource_list_params)
+    respond_with(@get)
   end
 
   # tabs that work like 'show':
