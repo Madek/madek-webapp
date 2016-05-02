@@ -12,6 +12,11 @@ module.exports =
     render: ()->
       <InputResources {...@props} resourceType='People'/>
 
+  Licenses: React.createClass
+    displayName: 'InputLicenses'
+    render: ()->
+      <InputResources {...@props} resourceType='Licenses'/>
+
   Keywords: React.createClass
     propTypes:
       metaKey: MadekPropTypes.metaKey.isRequired
