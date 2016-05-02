@@ -12,14 +12,6 @@ module Madek
         unknown: 'thumbnails/document_unknown.png'
       }
 
-      UI_CONTEXT_LIST = [
-        # summary context/"Das Wichtigste":
-        'core', # NOT 'madek_core' vocab!!!
-        # 4 extra contexts:
-        #    ZHdK     |       Werk     |    Personen   |   Rechte
-        'zhdk_bereich', 'media_content', 'media_object', 'copyright'
-      ]
-
       VERIFY_AUTH_SKIP_CONTROLLERS = \
         [ConfigurationManagementBackdoorController,
          ErrorsController,

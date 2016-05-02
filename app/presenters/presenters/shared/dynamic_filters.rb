@@ -46,11 +46,14 @@ module Presenters
       # end
 
       def meta_data(scope, _tree)
-        ui_context_list = Madek::Constants::Webapp::UI_CONTEXT_LIST
+        # TODO: ui_context_list = contexts_for_dynamic_filters (when in Admin UI)
+        ui_context_list = contexts_for_show # from VocabularyConfig
+        return unless ui_context_list.present?
+        ui_context_list_ids = ui_context_list.map(&:id)
         values = FilterBarQuery.get_metadata_unsafe(scope, ui_context_list)
         values
           .group_by { |v| v['context_id'] }
-          .sort_by { |bundle| ui_context_list.index(bundle[0]) }
+          .sort_by { |bundle| ui_context_list_ids.index(bundle[0]) }
           .map.with_index do |bundle, index|
             context_id, values = bundle
             # Sort them last in list (assumes there are less than 100 app-filters):

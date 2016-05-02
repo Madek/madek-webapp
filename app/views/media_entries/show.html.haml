@@ -1,7 +1,7 @@
 :ruby
   # first is the summary context, rest from configured list:
   meta_data = @get.meta_data.by_context
-  summary_context, list_contexts = [meta_data.first, meta_data.drop(1)]
+  context_for_show_summary, more_contexts = [meta_data.first, meta_data.drop(1)]
 
   tag_mods = ['small','ellipsed']
 
@@ -12,12 +12,12 @@
     content: deco('meta_data_list',
               mods: 'ui-media-overview-metadata',
               show_title: false,
-              data: summary_context)
+              data: context_for_show_summary)
   end
 
-- if list_contexts.any?
+- if more_contexts.any?
   - content_for(:more_info) do
     .ui-container.midtone.rounded-bottom.pal.well
-      = deco('resource_meta_data', meta_data: list_contexts)
+      = deco('resource_meta_data', meta_data: more_contexts)
 
 = render template: 'media_entries/_show/_base'

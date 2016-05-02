@@ -10,7 +10,7 @@ module Presenters
 
       # "by Contexts": as configured for display (could be *incomplete*)
       def by_context
-        selected_contexts(@user).map do |context|
+        contexts_for_show.map do |context|
           build_meta_data_context(context)
         end
       end

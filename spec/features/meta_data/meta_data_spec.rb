@@ -42,10 +42,10 @@ feature 'Resource: MetaDatum' do
     end
   end
 
-  pending \
+  context \
     'inline edit MetaDatum::Text from MediaEntry detail view', browser: :firefox do
 
-    scenario 'single update' do
+    pending 'single update' do
       new_text = Faker::Lorem.words.join(' ')
 
       visit media_entry_path(@media_entry)
