@@ -85,20 +85,21 @@ module Presenters
           #   count: …
           #   nav: build_pagination(config, has_next_page)
           # }
-          @pagination = build_pagination(resources, config, has_next_page)
+          # HACK: add counts. lets see how slow it is
+          count = resources.filter_by(config[:filter] || {}).count
+          @pagination = build_pagination(config, has_next_page, count)
         end
 
-        def build_pagination(resources, config, has_next_page)
+        def build_pagination(config, has_next_page, count)
           { # each key is nil or contains the params needed to build link to page
             prev: ((config[:page] > 1) ? { page: (config[:page] - 1) } : nil),
             next: (has_next_page ? { page: (config[:page] + 1) } : nil),
-            # HACK: add counts. lets see how slow it is
-            total_count: resources.count,
-            total_pages: (resources.count.to_f / config[:per_page]).ceil
+            total_count: count,
+            total_pages: (count.to_f / config[:per_page]).ceil
           }
         end
 
-        def select(resources, config, pagination)
+        def select(resources, config, _pagination)
           unless active_record_collection?(resources)
             fail 'TypeError! not an AR Collection/Relation!'
           end
@@ -106,8 +107,6 @@ module Presenters
           resources
             .filter_by(config[:filter] || {})
             .reorder(config[:order])
-            .limit(pagination[:limit])
-            .offset(pagination[:offset])
         end
 
         def presenterify(resources, determined_presenter = nil)

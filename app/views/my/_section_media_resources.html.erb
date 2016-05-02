@@ -1,14 +1,15 @@
 <%=
 
 mods = []
+is_main = (true if params[:action] == 'dashboard')
 # HACK: toggle box via prop…
-with_box = (true if params[:action] != 'dashboard')
-mods << ['rounded-right', { bordered: false }] if (params[:action] != 'dashboard')
+with_box = (true if !is_main)
+mods << ['rounded-right', { bordered: false }] if !is_main
 mods << 'unpaginated' if (local_assigns[:show_pagination_nav] == false)
 fallback = section[:is_empty?] ? true : false
 
-# HACK: do async render if set
-render_async = section[:render_async?] or false
+# HACK: do async render if set AND if on main dashboard
+render_async = (is_main && section[:render_async?]) or false
 
 if !render_async
   react('Deco.MediaResourcesBox',
