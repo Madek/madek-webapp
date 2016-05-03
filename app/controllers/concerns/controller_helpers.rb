@@ -29,9 +29,10 @@ module Concerns
       respond_with @get
     end
 
-    def presenterify(resource, presenter = nil)
+    def presenterify(resource, presenter = nil, **args)
       presenter ||= presenter_by_class(action_name)
-      presenter.new(resource, current_user, list_conf: resource_list_params)
+      presenter.new(
+        resource, current_user, list_conf: resource_list_params, **args)
     end
 
     def presenter_by_class(action)
