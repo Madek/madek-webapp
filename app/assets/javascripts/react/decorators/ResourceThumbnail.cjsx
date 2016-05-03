@@ -141,7 +141,7 @@ module.exports = React.createClass
 
       if parentsCount > 0
         parentThumbs = f.get(get, ['parent_relations', 'resources']).map (item) ->
-          <li className='ui-thumbnail-level-item media_set set odd'>
+          <li className='ui-thumbnail-level-item media_set set odd' key={item.uuid}>
             <a className='ui-level-image-wrapper' href={item.url}>
               <div className='ui-thumbnail-level-image-holder'>
                 <img className='ui-thumbnail-level-image' src={item.image_url}/>
@@ -158,7 +158,7 @@ module.exports = React.createClass
           classes = 'ui-thumbnail-level-item media_set set odd'
           if item.type == 'MediaEntry'
             classes = 'ui-thumbnail-level-item media_entry image odd'
-          <li className={classes}>
+          <li className={classes} key={item.uuid}>
             <a className='ui-level-image-wrapper' href={item.url}>
               <div className='ui-thumbnail-level-image-holder'>
                 <img className='ui-thumbnail-level-image' src={item.image_url}/>
