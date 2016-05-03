@@ -128,6 +128,30 @@ describe MetaDataController do
         .to match_array new_keyword_ids
     end
 
+    pending 'add NEW MetaDatum::Keywords' do
+      meta_key = FactoryGirl.create(:meta_key_keywords)
+      create_vocabulary_permissions(meta_key.vocabulary)
+      meta_datum = create(:meta_datum_keywords,
+                          meta_key: meta_key,
+                          media_entry: @media_entry)
+
+      new_keyword_data = { term: 'On the fly' }
+
+      patch :update,
+            { id: meta_datum.id,
+              media_entry_id: @media_entry.id,
+              meta_key: meta_key.id,
+              type: 'MetaDatum::Keywords',
+              values: [new_keyword_data] },
+            user_id: @user.id
+
+      assert_response 303
+      newly_created_keyword = Keyword.find_by(term: new_keyword_data[:term])
+      expect(newly_created_keyword).to exist_in_db
+      expect(meta_datum.reload.keywords.map(&:id))
+        .to match_array [newly_created_keyword.id]
+    end
+
     it 'replace MetaDatum::Keywords' do
       meta_key = FactoryGirl.create(:meta_key_keywords)
       create_vocabulary_permissions(meta_key.vocabulary)
