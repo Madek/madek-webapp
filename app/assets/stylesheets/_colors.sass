@@ -23,31 +23,31 @@ $yellow             : #e5b100 !default
 
 /* Create Instance Colour Variables
  *-----------------------------------------
-=colour-palette
-  @if $scheme-green
-    @debug "$scheme-green is #{$scheme-green}"
-    $main-color         : $green !default
-  @if $scheme-red
-    @debug "$scheme-red is #{$scheme-red}"
-    $main-color         : $red !default
-  @if $scheme-blue
-    @debug "$scheme-blue is #{$scheme-blue}"
-    $main-color         : $blue !default
-  @if $scheme-mono
-    @debug "$scheme-mono is #{$scheme-mono}"
-    $mono-dark          : #595959 !default
-    $mono-strong        : #666666 !default
-    $main-color         : #171717 !default
-
-  @if $custom-color
-    $main-color         : $custom-color !default
-
-  // TMP: adjust main color so v3 looks distinct while refactoring
-  $main-color: hsla(174, 59%, 39%, 1) !default
-  // END TMP
-
-  $main-color-dark      : darken($main-color, 10%) !default
-  $main-color-light     : lighten($main-color, 10%) !default
+// =colour-palette
+//   @if $scheme-green
+//     @debug "$scheme-green is #{$scheme-green}"
+//     $main-color         : $green !default
+//   @if $scheme-red
+//     @debug "$scheme-red is #{$scheme-red}"
+//     $main-color         : $red !default
+//   @if $scheme-blue
+//     @debug "$scheme-blue is #{$scheme-blue}"
+//     $main-color         : $blue !default
+//   @if $scheme-mono
+//     @debug "$scheme-mono is #{$scheme-mono}"
+//     $mono-dark          : #595959 !default
+//     $mono-strong        : #666666 !default
+//     $main-color         : #171717 !default
+//
+//   @if $custom-color
+//     $main-color         : $custom-color !default
+//
+//   // // TMP: fix it to GREEN
+//   // $main-color: $green
+//   // // END TMP
+//   //
+//   $main-color-dark      : darken($main-color, 10%) !default
+//   $main-color-light     : lighten($main-color, 10%) !default
 
 /* Transparency Values
  *-----------------------------------------
