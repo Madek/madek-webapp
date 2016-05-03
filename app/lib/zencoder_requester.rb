@@ -73,11 +73,11 @@ class ZencoderRequester
 
   def video_output_settings
     Settings.zencoder_video_output_formats_defaults.map do |output|
-      output = output.to_hash
-      if output[:thumbnails]
-        output[:thumbnails] = video_thumbnails_settings
+      config = output.to_h.deep_symbolize_keys
+      if config[:thumbnails]
+        config[:thumbnails] = video_thumbnails_settings
       end
-      output.merge(filename: "#{@media_file.id}.#{output[:format]}")
+      config.merge(filename: "#{@media_file.id}.#{output.fetch(:format)}")
     end
   end
 
@@ -90,9 +90,8 @@ class ZencoderRequester
   end
 
   def video_thumbnails_settings
-    Settings.zencoder_video_thumbnails_defaults.to_hash.merge(
-      prefix: @media_file.id
-    )
+    conf = Settings.zencoder_video_thumbnails_defaults.to_h.deep_symbolize_keys
+    (conf.presence or {}).merge(prefix: @media_file.id)
   end
 
   def notification_url
