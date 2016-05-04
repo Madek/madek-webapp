@@ -22,7 +22,7 @@ feature 'Dashboard: New Collection' do
   def open_new_set
     visit '/my'
     check_on_dashboard
-    find('a', text: 'Create set', visible: false).click
+    find('a', text: I18n.t(:dashboard_create_collection_btn), visible: false).click
     check_on_dialog
   end
 

@@ -38,8 +38,9 @@ feature 'MediaEntry: Select Collection' do
   private # expected methods from select_collection_helper_spec.rb
 
   def expected_flash_message(removed, added)
-    ('Removed entry from ' + removed.to_s + ' sets.')
-      .concat(' Added entry to ' + added.to_s + ' sets.')
+    I18n.t(
+      :media_entry_select_collection_flash_result,
+      removed_count: removed, added_count: added)
   end
 
   def prepare_resource
