@@ -42,7 +42,8 @@ describe MediaEntriesController do
 
       expect(response).to be_successful
       body = JSON.parse(response.body)
-      expect(body['meta_data']).not_to be_empty
+      expect(body['forward_url']).to eq media_entry_path(@media_entry)
+
       @media_entry.reload
       expect(md_text(@media_entry)).to be == 'test title'
       expect(md_keywords(@media_entry)).to be == [@new_keyword]
@@ -63,7 +64,8 @@ describe MediaEntriesController do
 
       expect(response).to be_successful
       body = JSON.parse(response.body)
-      expect(body['meta_data']).not_to be_empty
+      expect(body['forward_url']).to eq media_entry_path(@media_entry)
+
       @media_entry.reload
       expect(md_text(@media_entry)).to be == 'another test title'
       expect(md_keywords(@media_entry)).to be == [@new_keyword]

@@ -1,8 +1,10 @@
 # Rails-style general-purpose form
 
 React = require('react')
+ReactDOM = require('react-dom')
 f = require('active-lodash')
 ui = require('../../lib/ui.coffee')
+$ = require('jquery') # TODO: serializeForm = http://npm.im/form-serialize
 
 module.exports = React.createClass
   displayName: 'RestForm'
@@ -13,8 +15,14 @@ module.exports = React.createClass
       'get', 'GET', 'post', 'POST', 'put', 'PUT',
       'patch', 'PATCH', 'delete', 'DELETE'])
     authToken: React.PropTypes.string
+    onSubmit: React.PropTypes.func
 
-  render: ({name, action, method, authToken, children} = @props)->
+  # public component method
+  serialize: () ->
+    form = ReactDOM.findDOMNode(@refs.form)
+    return $(form).serialize()
+
+  render: ({name, action, method, authToken, onSubmit, children} = @props) ->
     # Rails conventions:
     # - default method='post'
     restMethod = (method || 'post').toLowerCase()
@@ -27,7 +35,7 @@ module.exports = React.createClass
     if needsAuthToken && !f.present(authToken)
       throw new Error('No `authToken` given!')
 
-    <form {...@props}
+    <form {...@props} ref='form' onSubmit={onSubmit}
       name={name} method={formMethod} action={action}
       className={ui.cx(ui.parseMods(@props))}
       acceptCharset='UTF-8'>

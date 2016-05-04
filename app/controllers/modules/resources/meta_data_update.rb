@@ -11,16 +11,36 @@ module Modules
 
       def meta_data_update
         resource = get_authorized_resource
-
         errors = update_all_meta_data_transaction!(resource, meta_data_params)
-
         if errors.empty?
-          respond_with(resource, location: \
-            -> { self.send("#{controller_name.singularize}_path", resource) })
+          respond_success(resource)
         else
-          render json: { errors: errors }, status: :bad_request
+          respond_with_errors(errors)
         end
       end
+
+      private
+
+      def respond_success(resource)
+        flash[:success] = I18n.t('flash.actions.meta_data_update.success')
+        fwd_url = self.send("#{controller_name.singularize}_path", resource)
+        respond_to do |format|
+          format.json { render(json: { forward_url: fwd_url }) }
+          format.html { redirect_to(fwd_url) }
+        end
+      end
+
+      def respond_with_errors(errors)
+        respond_to do |format|
+          format.json { render(json: { errors: errors }, status: :bad_request) }
+          format.html do
+            msg = t(:resource_meta_data_has_validation_errors) + "\n" +
+              errors.values.join("\n")
+            raise Errors::InvalidParameterValue, msg
+          end
+        end
+      end
+
     end
   end
 end

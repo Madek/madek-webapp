@@ -64,10 +64,9 @@ describe 'Concern: MetaData' do
       }
 
       # changes the configured key to value and saves to server:
-      # response is the serialized model
+      # response is a forward url or errors
       response = js_integration_test 'MediaEntryMetaData', config
-      expect(response['body']['uuid']).to eq @entry.id
-      expect(response['body']['type']).to eq 'MediaEntry'
+      expect(response['body']['forward_url']).to eq media_entry_path(@entry)
 
       # expect the change to reflected in db
       expect(datum(config[:meta_key_id]).string).to eq @new_title

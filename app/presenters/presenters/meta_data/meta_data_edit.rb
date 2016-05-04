@@ -10,8 +10,9 @@ module Presenters
       private
 
       def fetch_relevant_meta_data
+        parent_resource_type = @app_resource.class.name.underscore
         MetaKey
-          .where(is_enabled_for_media_entries: true) # TODO: all Resource types
+          .where("is_enabled_for_#{parent_resource_type.pluralize}" => true)
           .joins(:vocabulary)
           .where(vocabularies: { id: relevant_vocabularies.map(&:id) })
           .map do |key|
@@ -20,11 +21,7 @@ module Presenters
               existing_datum
             else # prepare a new, blank instance to "fill out":
               md_klass = key.meta_datum_object_type.constantize
-              if @app_resource.class.name == 'Collection'
-                md_klass.new(meta_key: key, collection: @app_resource)
-              else
-                md_klass.new(meta_key: key, media_entry: @app_resource)
-              end
+              md_klass.new(meta_key: key, parent_resource_type => @app_resource)
             end
           end
       end
