@@ -1,4 +1,5 @@
 React = require('react')
+PropTypes = React.PropTypes
 f = require('active-lodash')
 t = require('../lib/string-translation.js')('de')
 RailsForm = require('./lib/forms/rails-form.cjsx')
@@ -7,10 +8,19 @@ InputMetaDatum = require('./lib/input-meta-datum.cjsx')
 MadekPropTypes = require('./lib/madek-prop-types.coffee')
 xhr = require('xhr')
 getRailsCSRFToken = require('../lib/rails-csrf-token.coffee')
-classnames = require('classnames')
+cx = require('classnames')
 
 module.exports = React.createClass
   displayName: 'FormResourceMetaData'
+  propTypes: {
+    get: PropTypes.shape({
+      meta_data: PropTypes.shape({
+        by_vocabulary: PropTypes.objectOf(
+          PropTypes.shape({
+            # TODO: MadekPropTypes resources:
+            vocabulary: PropTypes.object.isRequired
+            meta_data: PropTypes.object.isRequired }))})}
+    ).isRequired}
 
   getInitialState: () ->
     editing: false
@@ -53,10 +63,10 @@ module.exports = React.createClass
           window.location = forward_url
     )
 
-  render: ({get, authToken} = @props) ->
+  render: ({get, authToken} = @props, {errors} = @state) ->
     name = "#{f.snakeCase(get.type)}[meta_data]"
 
-    meta_data = get.meta_data.by_vocabulary
+    meta_data = f.sortBy(get.meta_data.by_vocabulary, 'vocabulary.position')
 
     <RailsForm ref='form' onSubmit={@_onSubmit}
       name='resource_meta_data' action={get.url + '/meta_data'}
@@ -71,11 +81,12 @@ module.exports = React.createClass
         </div>
       }
 
-
       <div className='form-body'>
-        {f.keys(meta_data).map (voc_id) =>
-          <VocabularyFormItem errors={@state.errors} get={meta_data[voc_id]} name={name} key={voc_id}/>
-        }
+        {meta_data.map (vocabulary) ->
+          <VocabularyFormItem
+            errors={errors}
+            get={vocabulary} name={name}
+            key={vocabulary.uuid}/>}
       </div>
 
       <div className='form-footer'>
@@ -93,7 +104,10 @@ VocabularyFormItem = React.createClass
     <div className='mbl'>
       <VocabularyHeader vocabulary={get.vocabulary}/>
       {get.meta_data.map (datum) ->
-        <MetaDatumFormItem error={errors[datum.meta_key.uuid]} get={datum} name={name} key={datum.meta_key.uuid}/>
+        <MetaDatumFormItem
+          get={datum} name={name}
+          error={errors[datum.meta_key.uuid]}
+          key={datum.meta_key.uuid}/>
       }
     </div>
 
@@ -111,12 +125,12 @@ VocabularyHeader = React.createClass
 MetaDatumFormItem = React.createClass
   displayName: 'MetaDatumFormItem'
   propTypes:
-    name: React.PropTypes.string.isRequired
+    name: PropTypes.string.isRequired
     get: MadekPropTypes.metaDatum
 
   render: ({get, name, error} = @props)->
     name += "[#{get.meta_key.uuid}][]"
-    <fieldset className={classnames('ui-form-group', 'columned', {'error': error})}>
+    <fieldset className={cx('ui-form-group', 'columned', {'error': error})}>
       {if error
         <div className="ui-alerts" style={marginBottom: '10px'}>
           <div className="error ui-alert">
