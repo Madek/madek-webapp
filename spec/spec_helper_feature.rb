@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
@@ -33,16 +34,13 @@ RSpec.configure do |config|
   end
 
   def set_browser(example)
-    case example.metadata[:browser]
-    when :firefox
-      Capybara.current_driver = :selenium_ff
-    when :firefox_nojs
-      Capybara.current_driver = :selenium_ff_nojs
-    when :phantomjs
-      Capybara.current_driver = :poltergeist
-    else
-      Capybara.current_driver = :rack_test
-    end
+    Capybara.current_driver = \
+      case example.metadata[:browser]
+      when :firefox then :selenium_ff
+      when :firefox_nojs then :selenium_ff_nojs
+      when :phantomjs then :poltergeist
+      else :rack_test
+      end
   end
 
   config.before(:each) do |example|
@@ -60,7 +58,7 @@ RSpec.configure do |config|
   def wait_until(wait_time = 60, &block)
     begin
       Timeout.timeout(wait_time) do
-        until value = block.call
+        until value = yield
           sleep(1)
         end
         value
@@ -72,7 +70,7 @@ RSpec.configure do |config|
 
   def take_screenshot(screenshot_dir = nil, name = nil)
     screenshot_dir ||= Rails.root.join('tmp', 'capybara')
-    name ||= "screenshot_#{Time.zone.now.iso8601.gsub(/:/, '-')}.png"
+    name ||= "screenshot_#{Time.zone.now.iso8601.tr(':', '-')}.png"
     Dir.mkdir screenshot_dir rescue nil
     path = screenshot_dir.join(name)
     case Capybara.current_driver

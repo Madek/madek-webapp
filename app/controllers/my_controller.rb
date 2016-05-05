@@ -18,7 +18,7 @@ class MyController < ApplicationController
       unless duration <= 60 * 60 * 24
         raise 'Duration may not be longer than 24 hours!'
       end
-      render text: build_session_value(current_user, max_duration_secs: (duration))
+      render text: build_session_value(current_user, max_duration_secs: duration)
     end
   end
 

@@ -28,7 +28,7 @@ RSpec.shared_examples 'dumped' do
       all_values(dump)
         .select { |v| v.is_a? String }
         .any? do |v|
-          (v.match(/(active.*record)/i)) || (v.try(:fetch, :type, nil) != :Error)
+          v.match(/(active.*record)/i) || (v.try(:fetch, :type, nil) != :Error)
         end
     )
       .to be true

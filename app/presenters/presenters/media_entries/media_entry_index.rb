@@ -29,7 +29,7 @@ module Presenters
       def subtitle
         meta_data = @app_resource.meta_data.where(
           meta_key_id: 'madek_core:subtitle')
-        meta_data.length > 0 ? meta_data[0].string : ''
+        !meta_data.empty? ? meta_data[0].string : ''
       end
 
       private

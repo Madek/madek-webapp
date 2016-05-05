@@ -89,7 +89,7 @@ feature 'Collection: Index' do
   def find_thumbnail_by_title(title)
     find('.ui-resources').all('.ui-resource').each do |resource|
       meta_titles = resource.all('.ui-thumbnail-meta-title', text: title)
-      if meta_titles.length > 0
+      unless meta_titles.empty?
         return resource
       end
     end

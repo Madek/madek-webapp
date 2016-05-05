@@ -49,7 +49,7 @@ class ZencoderRequester
       notifications: [notification_url]
     }
 
-    params.merge!(test: Settings.zencoder_test_mode)
+    params[:test] = Settings.zencoder_test_mode
     params.merge!(output_settings)
   end
 

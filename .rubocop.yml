@@ -1,14 +1,20 @@
+Rails:
+  Enabled: true
+
 AllCops:
+  TargetRubyVersion: 2.3
   Exclude:
     - 'Gemfile'
     - 'config/**/*'
     - 'db/**/*'
     - 'datalayer/**/*'
+    - 'script/**/*'
+    - 'bin/**/*'
+    - 'dev/**/*'
     - 'tmp/**/*'
     - 'node_modules/**/*'
     - 'zhdk-integration/**/*'
     - 'vendor/**/*'
-  RunRailsCops: true
 
 Lint/AmbiguousOperator:
   Enabled: false
@@ -176,3 +182,44 @@ Rails/ReadWriteAttribute:
 # Configuration parameters: Include.
 Rails/Validation:
   Enabled: false
+
+# NEW CONFIG SINCE VERSION > 0.29.1
+
+Style/MultilineMethodCallIndentation:
+  Enabled: false
+
+Style/IndentAssignment:
+  Enabled: false
+
+Style/NestedParenthesizedCalls:
+  Exclude:
+    - 'spec/**/*'
+
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+
+Metrics/ModuleLength:
+  Max: 200
+  CountComments: false
+
+# NOTE: this is a bad joke
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# TODO: these seem rather important, check them out:
+
+Rails/Date:
+  Enabled: false
+
+# Offense count: 11
+# Cop supports --auto-correct.
+Style/MutableConstant:
+  Exclude:
+    - 'app/controllers/concerns/media_resources/custom_urls_for_controller/custom_url_id.rb'
+    - 'app/controllers/my_controller.rb'
+    - 'app/helpers/uuid_helper.rb'
+    - 'app/lib/living_styleguide.rb'
+    - 'app/presenters/presenters/shared/media_resource/media_resources.rb'
+    - 'lib/madek/constants/webapp.rb'
+    - 'lib/metadata_extractor.rb'
+    - 'spec/features/app/json_responder_spec.rb'

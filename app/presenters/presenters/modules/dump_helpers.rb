@@ -23,9 +23,9 @@ module Presenters
         end
 
         def deal_with_obj_class(obj)
-          if obj.class.name.match(/ActiveRecord/)
+          if obj.class.name =~ /ActiveRecord/
             "!!!ACTIVE_RECORD!!! <##{obj.class}>"
-          elsif obj.class.superclass.name.match(/ActiveRecord/)
+          elsif obj.class.superclass.name =~ /ActiveRecord/
             "!!!ACTIVE_RECORD!!! #{obj}"
           end
         end

@@ -64,7 +64,7 @@ feature 'Resource: MediaEntries' do
 
   def check_form_values(form_item, expected_values)
     multi_selects = form_item.all('.multi-select')
-    if multi_selects.length > 0
+    if !multi_selects.empty?
       expect(multi_selects.length).to be(1)
       tags = multi_selects[0].all('.multi-select-tag')
 
@@ -78,7 +78,7 @@ feature 'Resource: MediaEntries' do
     else
       input = form_item.find('input')
 
-      if expected_values.length == 0
+      if expected_values.empty?
         expect(input[:value]).to eq('')
       elsif expected_values.length == 1
         expect(input[:value]).to eq(expected_values[0])

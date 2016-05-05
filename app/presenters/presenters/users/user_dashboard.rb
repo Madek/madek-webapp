@@ -4,7 +4,7 @@ module Presenters
       def initialize(user, user_scopes = {}, list_conf: nil, with_relations: true)
         fail 'TypeError!' unless user.is_a?(User)
         @user = user
-        @config = ({ order: nil, page: 1, per_page: 1 }).merge(list_conf)
+        @config = { order: nil, page: 1, per_page: 1 }.merge(list_conf)
         # FIXME: remove this config when Dashboard is built in Presenter…
         @with_relations = with_relations
         @user_scopes = user_scopes

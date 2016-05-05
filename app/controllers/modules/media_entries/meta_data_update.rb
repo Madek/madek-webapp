@@ -1,4 +1,3 @@
-# rubocop:disable all
 module Modules
   module MediaEntries
     module MetaDataUpdate
@@ -165,4 +164,3 @@ module Modules
     end
   end
 end
-# rubocop:enable all

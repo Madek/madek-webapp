@@ -6,7 +6,7 @@ feature 'Side Filter' do
 
   describe 'Show' do
 
-    it 'open accordion and select filter', browser: :firefox  do
+    it 'open accordion and select filter', browser: :firefox do
 
       @login = 'user'
       @password = '1234'

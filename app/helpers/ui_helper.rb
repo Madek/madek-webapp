@@ -89,7 +89,7 @@ module UiHelper
 
   def build_locals_from_element(name, config)
     locals = {
-      classes: (classes_from_element(config).push(mods_from_name(name)))
+      classes: classes_from_element(config).push(mods_from_name(name))
                 .flatten.compact,
       link: link_from_item(config),
       props: props_from_element(config),
@@ -126,7 +126,7 @@ module UiHelper
       list.compact
     when list.is_a?(Hash) # only transform Hashes
       list = list.compact
-      Hash[list.map { |id, itm| [id, build_locals_from_element("#{id}", itm)] }]
+      Hash[list.map { |id, itm| [id, build_locals_from_element(id.to_s, itm)] }]
     else
       list
     end
