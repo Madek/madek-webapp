@@ -79,8 +79,7 @@ feature 'Resource: MediaEntry' do
         .click
 
       # confirm we are in the right place:
-      url = URI.parse(current_url)
-      expect(url.path + '?' + url.query)
+      expect(current_path_with_query)
         .to eq batch_edit_meta_data_media_entries_path(id: entry_ids)
     end
   end

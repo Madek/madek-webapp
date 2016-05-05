@@ -19,6 +19,11 @@ def find_input_with_name(name)
   find("textarea,input[name='#{name}']")
 end
 
+def current_path_with_query
+  url = URI.parse(current_url)
+  url.path + '?' + url.query
+end
+
 # firefox only! - needs browser driver to support it
 def move_mouse_over(element)
   page.driver.browser.action.move_to(element.native).perform
