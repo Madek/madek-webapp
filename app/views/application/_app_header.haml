@@ -7,7 +7,7 @@
       name: settings.brand_text,
       logo: settings.brand_logo_url.empty? ? nil : {
         src: settings.brand_logo_url,
-        # logo is just the visual representation of the
+        # a11y: logo is just the visual representation of the
         # (already present) 'name', so it can be ignored:
         alt: ''
       },
@@ -33,38 +33,14 @@
             link_active?(filter_sets_path))
         },
 
-        # TMP: disabled
-        # entries: {
-        #   text: t(:sitemap_media_entries), href: media_entries_path
-        # },
-        # collections: {
-        #   text: t(:sitemap_collections), href: collections_path
-        # },
-        # filter_sets: {
-        #   text: t(:sitemap_filter_sets), href: filter_sets_path
-        # },
-        # search: {
-        #   icon: 'icon-lens.bright',
-        #   text: 'Suchen', href: '#/search'
-        # },
-        # help: {
-        #   icon: 'icon-nav-help', href: '#/help'
-        # }
-
-        admin: !current_user.try(:admin) ? nil : {
-          text: t(:sitemap_admin),
-          icon: 'icon-bang',
-          href: '/admin'
+        search: {
+          text: t(:sitemap_search), icon: 'icon-lens.bright',
+          href: search_path,
+          active: link_active?(search_path)
         },
 
-        api: {
-          text: t(:sitemap_api),
-          icon: 'icon-api',
-          href: "/api/browser/index.html#/api"
-        },
+        help: { text: t(:sitemap_help), href: settings.support_url }
 
-
-        help: { icon: 'icon-nav-help', href: settings.support_url }
       }
     ),
 

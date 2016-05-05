@@ -87,6 +87,10 @@ Madek::Application.routes.draw do
 
   get :explore, controller: :explore, action: :index
 
+  resource :search , controller: :search, only: [:show] do
+    get :result
+  end
+
   namespace :my do
     get 'session-token', to: '/my#session_token'
 

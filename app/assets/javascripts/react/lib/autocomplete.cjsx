@@ -74,7 +74,7 @@ module.exports = React.createClass
     {name, value, placeholder, className} = @props
 
     # not a real FORM input field, so change the name:
-    name = 'autocomplete_for_' + name
+    name = '___autocomplete_for_' + name
 
     <input ref="InputField"
       className={className + ' typeahead'}

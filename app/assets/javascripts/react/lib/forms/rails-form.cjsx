@@ -9,8 +9,9 @@ module.exports = React.createClass
   propTypes:
     name: React.PropTypes.string.isRequired
     action: React.PropTypes.string
-    method: React.PropTypes.oneOf(
-      ['get', 'GET', 'post', 'POST', 'patch', 'PATCH', 'delete', 'DELETE'])
+    method: React.PropTypes.oneOf([
+      'get', 'GET', 'post', 'POST', 'put', 'PUT',
+      'patch', 'PATCH', 'delete', 'DELETE'])
     authToken: React.PropTypes.string
 
   render: ({name, action, method, authToken, children} = @props)->

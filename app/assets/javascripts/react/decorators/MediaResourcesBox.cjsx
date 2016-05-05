@@ -123,7 +123,7 @@ module.exports = React.createClass
     # NOTE: if dynfilters are loaded, just open/close sidebar in client
     if f.present(f.get(@props, ['get', 'dynamic_filters']))
       event.preventDefault()
-      @handleChangeInternally(event)
+      @_handleChangeInternally(event)
     return undefined
 
   _onSearch: (event)->

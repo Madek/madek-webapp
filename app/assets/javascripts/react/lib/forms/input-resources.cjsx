@@ -2,7 +2,7 @@ React = require('react')
 f = require('active-lodash')
 decorateResource = require('../decorate-resource-names.coffee')
 InputFieldText = require('../forms/input-field-text.cjsx')
-AutoComplete = 'div' # only required client-side, but falls back to div…
+AutoComplete = null # only required client-side!
 
 module.exports = React.createClass
   displayName: 'InputResources'
@@ -13,15 +13,16 @@ module.exports = React.createClass
     active: React.PropTypes.bool.isRequired
     multiple: React.PropTypes.bool.isRequired
 
-  getInitialState: ()-> {active: false}
+  getInitialState: ()-> {isClient: false}
 
   componentDidMount: ({values} = @props)->
     AutoComplete = require('../autocomplete.cjsx')
-    @setState # keep internal state of entered values
-      values: values
+    @setState
+      isClient: true
+      values: values # keep internal state of entered values
 
   onItemAdd: (item)->
-    unless f(@state.values).pluck('uuid').includes(item.uuid) # no duplicates!
+    unless f(@state.values).map('uuid').includes(item.uuid) # no duplicates!
       @setState(values: @state.values.concat(item), adding: true)
     # TODO: highlight the existing entry visually…
 
@@ -33,9 +34,13 @@ module.exports = React.createClass
       @setState(adding: false)
       setTimeout(@refs.ListAdder.focus, 1)
 
-  render: ({name, resourceType, searchParams, values, active, multiple} = @props, state = @state)->
+  render: ({name, resourceType, searchParams, values, multiple} = @props, state = @state)->
     {onItemAdd, onItemRemove} = @
     values = state.values or values
+
+    # NOTE: this is only supposed to be used client side,
+    # but we need to wait until AutoComplete is loaded
+    return null unless AutoComplete
 
     <div className='form-item'>
       <div className='multi-select'>

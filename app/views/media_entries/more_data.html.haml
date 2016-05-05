@@ -12,12 +12,7 @@
           ['importer', deco('person-tag-list',
                         person: @get.more_data.importer,
                         mods: tag_mods)],
-          ['import_date', @get.more_data.import_date],
-          ['activity_log',
-           combo('ordered-list', mods: 'inline',
-                  list: Hash[@get.more_data.activity_log].map do |time, person|
-                    "#{person.name} / #{time}"
-                  end)]
+          ['import_date', @get.more_data.import_date]
         ]
       = combo('metadata-box', mods: 'ui-summary-table', list: more_meta_data_list)
 
