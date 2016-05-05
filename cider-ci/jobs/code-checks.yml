@@ -61,32 +61,21 @@ jobs:
 
             lint_ruby:
               name: 'Ruby: Lint/Stylecheck with Rubocop'
+              #
+              # TMP: rubocop from jruby does not work and rbenv+bundler is broken
+              #
+              # this relies on the following ad-hoc trait:
+              #     ssh root@some-executor
+              #     gem install rubocop --version=0.39.0 --no-ri --no-rdoc \
+              #     && echo '- system_gem_rubocop_v0.39.0' >> /var/local/cider-ci/executor/config/traits.yml
+              traits:
+                - system_gem_rubocop_v0.39.0
+              #
               scripts:
                 test:
                   environment-variables:
-                    RBENV_VERSION: 2.2.4
-                  timeout: 20 Minutes
-                  body: |
-                    #!/usr/bin/env bash
-                    set -eux
-
-                    rm .bundle/config
-
-                    function remove_possibly_broken_ruby {
-                      rm -rf ${HOME}/.rbenv/versions/${RBENV_VERSION}
-                    }
-                    trap remove_possibly_broken_ruby ERR SIGINT SIGTERM
-
-                    if [ ! -d ${HOME}/.rbenv/versions/${RBENV_VERSION} ]; then
-                      rm -rf ~/.rbenv/plugins/*
-                      curl --silent https://raw.githubusercontent.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
-                      rbenv install ${RBENV_VERSION}
-                      gem install bundler
-                      rbenv rehash
-                      bundle
-                    fi
-
-                    bundle exec rubocop
+                    RBENV_VERSION: ''
+                  body: /usr/local/bin/rubocop
 
 
         javascript:
