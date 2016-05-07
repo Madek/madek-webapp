@@ -40,6 +40,9 @@ context: # shared for all subcontexts
           postgresql: true
           imagemagick: true
 
+        environment-variables:
+          RBENV_VERSION: '2.2.4'
+
         scripts:
           _cider-ci_include:
             - cider-ci/shared/scripts/manage-database.yml

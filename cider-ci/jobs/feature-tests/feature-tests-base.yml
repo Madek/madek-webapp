@@ -40,6 +40,9 @@ context:
       rbenv: true
       tightvnc: true
 
+    environment-variables:
+      RBENV_VERSION: '2.2.4'
+
 
     scripts:
 
