@@ -1,6 +1,7 @@
 module Presenters
   module Collections
-    class CollectionEdit < Presenters::Shared::MediaResource::MediaResourceEdit
+    class CollectionEditMetaData \
+      < Presenters::Shared::MediaResource::MediaResourceEdit
 
       include Presenters::Collections::Modules::CollectionCommon
 

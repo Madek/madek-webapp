@@ -13,7 +13,7 @@ module Presenters
 
       def batch_entries
         @entries.map do |entry|
-          Presenters::MediaEntries::MediaEntryEdit.new(entry, @user)
+          Presenters::MediaEntries::MediaEntryEditMetaData.new(entry, @user)
         end
       end
 

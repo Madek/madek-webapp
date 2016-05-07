@@ -3,25 +3,9 @@ module Modules
     module MetaDataUpdate
       extend ActiveSupport::Concern
 
-      def edit_meta_data
-        represent(find_resource, Presenters::Collections::CollectionEdit)
-      end
+      include Modules::Resources::MetaDataUpdate
 
-      def meta_data_update
-        authorize (@collection = Collection.unscoped.find(params[:id]))
-        errors = update_all_meta_data_transaction!(@collection, meta_data_params)
-
-        if errors.empty?
-          @get = Presenters::Collections::CollectionShow.new(
-            @collection.reload,
-            current_user,
-            user_scopes_for_media_resource(@collection),
-            list_conf: resource_list_params)
-          respond_with @get, location: -> { collection_path(@collection) }
-        else
-          render json: { errors: errors }, status: :bad_request
-        end
-      end
+      private
 
       def update_all_meta_data_transaction!(collection, meta_data_params)
         errors = {}

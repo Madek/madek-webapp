@@ -3,6 +3,8 @@ module Modules
     module MetaDataUpdate
       extend ActiveSupport::Concern
 
+      include Modules::Resources::MetaDataUpdate
+
       def batch_edit_meta_data
         authorize MediaEntry, :logged_in?
 
@@ -32,10 +34,6 @@ module Modules
         else
           render json: { errors: errors }, status: :bad_request
         end
-      end
-
-      def edit_meta_data
-        represent(find_resource, Presenters::MediaEntries::MediaEntryEdit)
       end
 
       def meta_data_update

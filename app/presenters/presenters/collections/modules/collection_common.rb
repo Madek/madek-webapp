@@ -11,6 +11,7 @@ module Presenters
           @app_resource = app_resource
           @user = user
           @recursed_collections_for_cover = []
+          @_unused_list_conf = list_conf
         end
 
         def title
