@@ -1,3 +1,9 @@
+#= depend_on 'translations.csv'
+#= depend_on_asset 'translations.csv'
+# NOTE: ↑ needed so that sprocket knows to recompile js if translations changed,
+#         and to make the csv part of the asset manifest.
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
 # global jquery. needed for jquery plugins.
 window.jQuery = window.$ = require('jquery')
 

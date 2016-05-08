@@ -70,6 +70,10 @@ module Madek
     # config.i18n.available_locales = [:de, :en]
     # config.i18n.enforce_available_locales = true
 
+    # translations are part of the assets (JS), so watch them for changes:
+    config.watchable_files
+      .concat(Dir["#{Rails.root}/config/locale/*"])
+
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
@@ -149,6 +153,9 @@ module Madek
       thumbnails/*
       styleguide/*
     )
+    # ../config/locale/*.csv
+    Rails.application.config.assets.paths.concat(Dir["#{Rails.root}/config/locale"])
+    config.assets.precompile.concat(Dir["#{Rails.root}/config/locale/*.csv"])
   end
 end
 

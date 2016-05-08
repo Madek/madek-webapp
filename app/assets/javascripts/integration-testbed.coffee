@@ -1,5 +1,9 @@
-# NOTE: To be included in the 'draft' page of the styleguide.
-#   Attaches to window so it can be reached from webdriver and console.
+#= depend_on 'translations.csv'
+#= depend_on_asset 'translations.csv'
+# NOTE: ↑ needed so that sprocket knows to recompile js if translations changed,
+#         and to make the csv part of the asset manifest.
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
 window.$ = require('jquery')
 
 # map of tests by name here
