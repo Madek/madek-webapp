@@ -71,10 +71,10 @@ describe 'Action: show' do
       click_on_tab I18n.t(:media_entry_tab_permissions)
       expect(page).to have_content 'Sie, Normin Normalo, haben'
       expect(page).to have_content \
-        ['Betrachten',
-         'Original exportieren & in PDF blättern',
-         'Metadaten editieren & Inhalte zu Set hinzufügen',
-         'Zugriffsberechtigungen ändern'].join('')
+        [I18n.t(:permission_name_get_metadata_and_previews),
+         I18n.t(:permission_name_get_full_size),
+         I18n.t(:permission_name_edit_metadata),
+         I18n.t(:permission_name_edit_permissions)].join('')
     end
 
     it 'Favorite button is working when logged in.' do
