@@ -35,7 +35,7 @@ module Modules
       def publish
         media_entry = MediaEntry.unscoped.where(is_published: false).find(id_param)
         authorize media_entry
-        ActiveRecord::Base.transaction do # TODO: validation etc
+        ActiveRecord::Base.transaction do
           media_entry.is_published = true
           media_entry.save!
         end
