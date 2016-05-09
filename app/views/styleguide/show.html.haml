@@ -6,26 +6,3 @@
 
 - content_for :toc do
   = render 'toc', sections: @sections
-
-
-- content_for :scripts do
-  :javascript
-    console.log('Inline Javascript works');
-    // TMP disabled
-    // $(document).ready(function () {
-    //   // initially hide all code examples - TODO: css
-    //   $('section.sg-example').find('.sg-html').hide();
-    //   // show them on click on corresponding button
-    //   $('section.sg-example').each(function() {
-    //     var $section = $(this);
-    //     $section
-    //       .find('[data-hook="sg-view-code"]')
-    //       .on('click', function() {
-    //         $section.find('.sg-html').slideToggle();
-    //       });
-    //   });
-    // });
-
-  :coffeescript
-    # make sure it works, if this threw an error the test would fail:
-    console.log 'Inline Coffeescript works. The DOM is now ready.'

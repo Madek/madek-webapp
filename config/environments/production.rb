@@ -67,10 +67,4 @@ Madek::Application.configure do
   config.active_support.deprecation = :notify
 
   config.action_mailer.perform_deliveries = true
-
-  # Frontend
-  config.react.variant = :production
-  config.react.server_renderer_pool_size = 10
-  config.browserify_rails.evaluate_node_modules = false # don't watch them
-  # TODO: browserify: minify/NODE_ENV=production…
 end

@@ -33,7 +33,7 @@
       - if Rails.env == 'development'
         = javascript_include_tag 'dev-bundle'
       - else
-        = javascript_include_tag 'application'
+        = javascript_include_tag 'bundle'
       -# - now all the per-template scripts, which
           MUST be self-contained and not depending on load order:
       = content_for(:scripts) if content_for?(:scripts)

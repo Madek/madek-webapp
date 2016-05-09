@@ -10,7 +10,8 @@ const path = require('path')
 const assert = require('assert')
 
 // config
-const IGNORED_PATHS = ['.DS_Store', '.git', 'README.md', '_rails_locales']
+const IGNORED_PATHS = [
+  '_rails_locales', 'bundles', 'README.md', '.DS_Store', '.git']
 const args = { assetsPath: process.argv[2], comparePath: process.argv[3] }
 if (!args.assetsPath || !args.comparePath) {
   console.error(USAGE)

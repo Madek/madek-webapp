@@ -105,30 +105,11 @@ module Madek
     # Enable the asset pipeline
     config.assets.enabled = true
 
-    # Paths, that should be browserified. We browserify everything, that
-    # matches (===) one of the paths. So you will most likely put lambdas
-    # regexes in here.
-    #
-    # By default only files in /app and /node_modules are browserified,
-    # vendor stuff is normally not made for browserification and may stop
-    # working.
-    # config.browserify_rails.paths << %r{vendor/assets/javascripts/module.js}
-
-    # Environments, in which to generate source maps
-    # The default is none
-    config.browserify_rails.source_map_environments << 'development'
-
-    # Command line options used when running browserify
-    # NOTE: all browserify config itself is in `package.json`
-    # config.browserify_rails.commandline_options = []
-
-    # Should the node_modules directory be evaluated for changes on page load
-    #
-    # The default is `false`
-    config.browserify_rails.evaluate_node_modules = true
+    # NOTE: sprockets is not used for bundling JS, hand it the prebundled files:
+    Rails.application.config.assets.paths.concat(
+      Dir["#{Rails.root}/public/assets/bundles"])
 
     # react-rails config:
-    config.react.variant = :production
     # Settings for the pool of renderers:
     # config.react.server_renderer_pool_size  ||= 1  # ExecJS doesn't allow more than one on MRI
     # config.react.server_renderer_timeout    ||= 20 # seconds
@@ -136,7 +117,7 @@ module Madek
     pre_render_js_env = if Rails.env == 'development'
       'dev-bundle-react-server-side.js'
     else
-      'react-server-side.js'
+      'bundle-react-server-side.js'
     end
     config.react.server_renderer_options = {
       files: [pre_render_js_env], # files to load for prerendering
@@ -146,9 +127,9 @@ module Madek
     # List of all assets that need precompilation
     # NOTE: override (don't extend) the Rails default (which matches lots of garbage)!
     config.assets.precompile = %w(
-      application.js
-      integration-testbed.js
-      react-server-side.js
+      bundle.js
+      bundle-react-server-side.js
+      bundle-integration-testbed.js
       application.css
       application-contrasted.css
     )

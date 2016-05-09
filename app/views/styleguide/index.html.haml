@@ -31,21 +31,3 @@
 
   - content_for :toc do
     = render 'toc', sections: @sections
-
-
-- content_for :scripts do
-  :javascript
-    // TMP diabled
-    // $(document).ready(function () {
-    //   // initially hide all code examples - TODO: css
-    //   $('section.sg-example').find('.sg-html').hide();
-    //   // show them on click on corresponding button
-    //   $('section.sg-example').each(function() {
-    //     var $section = $(this);
-    //     $section
-    //       .find('[data-hook="sg-view-code"]')
-    //       .on('click', function() {
-    //         $section.find('.sg-html').slideToggle();
-    //       });
-    //   });
-    // });

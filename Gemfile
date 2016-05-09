@@ -18,9 +18,6 @@ gem "madek_zhdk_integration", path: "zhdk-integration"
 
 # FRONTEND
 gem 'bootstrap-sass'
-gem 'browserify-rails', '= 1.0.1'
-#gem 'browserify-rails', path: "/Users/thomas/Programming/ROR/browserify-rails"
-gem 'coffee-rails'
 gem 'compass-rails', '~> 2.0'
 gem 'font-awesome-sass'
 gem 'haml-rails'
