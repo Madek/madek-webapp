@@ -42,11 +42,11 @@ class MyController < ApplicationController
       icon: 'icon-privacy-private',
       partial: :media_resources
     },
-    content_filter_sets: {
-      title: I18n.t(:sitemap_my_content_filter_sets),
-      icon: 'icon-privacy-private',
-      partial: :media_resources
-    },
+    # content_filter_sets: {
+    #   title: I18n.t(:sitemap_my_content_filter_sets),
+    #   icon: 'icon-privacy-private',
+    #   partial: :media_resources
+    # },
     latest_imports: {
       title: I18n.t(:sitemap_my_latest_imports),
       icon: 'icon-privacy-private',
@@ -62,11 +62,11 @@ class MyController < ApplicationController
       icon: 'icon-privacy-private',
       partial: :media_resources
     },
-    favorite_filter_sets: {
-      title: I18n.t(:sitemap_my_favorite_filter_sets),
-      icon: 'icon-privacy-private',
-      partial: :media_resources
-    },
+    # favorite_filter_sets: {
+    #   title: I18n.t(:sitemap_my_favorite_filter_sets),
+    #   icon: 'icon-privacy-private',
+    #   partial: :media_resources
+    # },
     used_keywords: {
       title: I18n.t(:sitemap_my_used_keywords),
       icon: 'icon-tag',
@@ -82,11 +82,11 @@ class MyController < ApplicationController
       icon: 'icon-privacy-group',
       partial: :media_resources
     },
-    entrusted_filter_sets: {
-      title: I18n.t(:sitemap_my_entrusted_filter_sets),
-      icon: 'icon-privacy-group',
-      partial: :media_resources
-    },
+    # entrusted_filter_sets: {
+    #   title: I18n.t(:sitemap_my_entrusted_filter_sets),
+    #   icon: 'icon-privacy-group',
+    #   partial: :media_resources
+    # },
     groups: {
       title: I18n.t(:sitemap_my_groups),
       icon: 'icon-privacy-group',
