@@ -58,3 +58,4 @@ tags
 tmp/
 vendor/bundle/
 /locale/
+app/assets/javascripts/*bundle*

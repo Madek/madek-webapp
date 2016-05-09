@@ -16,7 +16,7 @@
       :javascript
         document.getElementsByTagName('html')[0].classList.add('has-js')
 
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag 'application', media: 'all'
     = content_for(:style_head)
 
     -# TODO: favicon(s)
@@ -30,7 +30,10 @@
     = content_for(:body)
     - if use_js
       -# js: app lib/dependencies. can't use async/defer (would require sep. DOM ops)
-      = javascript_include_tag 'application', 'data-turbolinks-track' => true
+      - if Rails.env == 'development'
+        = javascript_include_tag 'dev-bundle'
+      - else
+        = javascript_include_tag 'application'
       -# - now all the per-template scripts, which
           MUST be self-contained and not depending on load order:
       = content_for(:scripts) if content_for?(:scripts)

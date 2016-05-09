@@ -133,12 +133,15 @@ module Madek
     # config.react.server_renderer_pool_size  ||= 1  # ExecJS doesn't allow more than one on MRI
     # config.react.server_renderer_timeout    ||= 20 # seconds
     # config.react.server_renderer = React::ServerRendering::SprocketsRenderer
+    pre_render_js_env = if Rails.env == 'development'
+      'dev-bundle-react-server-side.js'
+    else
+      'react-server-side.js'
+    end
     config.react.server_renderer_options = {
-      files: ['react-server-side.js'], # files to load for prerendering
-      replay_console: false,                # if true, console.* will be replayed client-side
+      files: [pre_render_js_env], # files to load for prerendering
+      replay_console: false,      # if true, console.* will be replayed client-side
     }
-    # since we use non-standard `.cjsx` files, we need to explicitly watch them
-    config.watchable_files.concat(Dir["#{Rails.root}/app/assets/javascripts/**/*.cjsx*"])
 
     # List of all assets that need precompilation
     # NOTE: override (don't extend) the Rails default (which matches lots of garbage)!
