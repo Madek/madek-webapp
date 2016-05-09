@@ -1,13 +1,18 @@
 module Presenters
   module Users
     class UserDashboard < Presenter
-      def initialize(user, user_scopes = {}, list_conf: nil, with_relations: true)
+      def initialize(
+            user, user_scopes = {},
+            list_conf: nil,
+            with_count: true, with_relations: true
+      )
         fail 'TypeError!' unless user.is_a?(User)
         @user = user
         @config = { order: nil, page: 1, per_page: 1 }.merge(list_conf)
+        @user_scopes = user_scopes
         # FIXME: remove this config when Dashboard is built in Presenter…
         @with_relations = with_relations
-        @user_scopes = user_scopes
+        @with_count = with_count
       end
 
       def unpublished_entries
@@ -83,7 +88,11 @@ module Presenters
       def presenterify(resources)
         return if resources.nil?
         Presenters::Shared::MediaResource::MediaResources.new(
-          resources, @user, list_conf: @config, with_relations: @with_relations)
+          resources,
+          @user,
+          list_conf: @config,
+          with_count: @with_count,
+          with_relations: @with_relations)
       end
 
       def select_groups(type)

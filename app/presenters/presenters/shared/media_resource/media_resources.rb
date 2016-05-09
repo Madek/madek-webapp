@@ -23,7 +23,8 @@ module Presenters
 
         def initialize(
             scope, user, list_conf: nil,
-            can_filter: true, with_actions: true, with_relations: false)
+            can_filter: true, with_actions: true,
+            with_count: true, with_relations: false)
           fail 'missing config!' unless list_conf
           @user = user
           @scope = scope
@@ -33,6 +34,7 @@ module Presenters
           @can_filter = can_filter ? true : false
           @conf = build_config(list_conf)
           @with_relations = with_relations
+          @with_count = with_count
           init_resources_and_pagination(@scope, @conf)
         end
 
@@ -67,43 +69,32 @@ module Presenters
 
         # NOTE: optimized pagination, no extra queries!
         def init_resources_and_pagination(resources, config)
-          # apply pagination, but select 1 "extra",
-          resources_and_next = select(
-            resources,
-            config,
-            limit: (config[:per_page] + 1),
-            offset: (config[:page] - 1) * config[:per_page])
-          # if there is an "extra", it means there is a next page
-          has_next_page = resources_and_next[config[:per_page]].present?
-          # determine presenter from relation model (before it's coerced .to_a)
-          presenter = presenter_by_class(resources_and_next.model)
-          # presenterify without the "extra"
+          # determine presenter from relation/scope model
+          presenter = presenter_by_class(resources.model)
+
+          # apply pagination and select resources
+          # NOTE: total_count could be expensive, so it's optional!
+          selected_resources = select_resources(resources, config)
+          total_count = selected_resources.count if @with_count
+
+          # apply pagination, but select "1 extra" (for building cheap pagination)
+          resources_page_and_next = selected_resources
+            .limit(config[:per_page] + 1)
+            .offset((config[:page] - 1) * config[:per_page])
+
+          # presenterify without the "1 extra"
           @resources = presenterify(
-            resources_and_next.slice(0, config[:per_page]), presenter)
-          # TODO: nest in hash
-          # @pagination = {
-          #   count: …
-          #   nav: build_pagination(config, has_next_page)
-          # }
-          # HACK: add counts. lets see how slow it is
-          count = resources.filter_by(config[:filter] || {}).count
-          @pagination = build_pagination(config, has_next_page, count)
+            resources_page_and_next.slice(0, config[:per_page]), presenter)
+
+          # if there is "1 extra", there is a next page:
+          has_next_page = resources_page_and_next[config[:per_page]].present?
+          @pagination = build_pagination(config, has_next_page, total_count)
         end
 
-        def build_pagination(config, has_next_page, count)
-          { # each key is nil or contains the params needed to build link to page
-            prev: ((config[:page] > 1) ? { page: (config[:page] - 1) } : nil),
-            next: (has_next_page ? { page: (config[:page] + 1) } : nil),
-            total_count: count,
-            total_pages: (count.to_f / config[:per_page]).ceil
-          }
-        end
-
-        def select(resources, config, _pagination)
+        def select_resources(resources, config)
           unless active_record_collection?(resources)
             fail 'TypeError! not an AR Collection/Relation!'
           end
-
           resources
             .filter_by(config[:filter] || {})
             .reorder(config[:order])
@@ -115,6 +106,15 @@ module Presenters
             presenter = determined_presenter || presenter_by_class(resource.class)
             presenter.new(resource, @user, with_relations: @with_relations)
           end
+        end
+
+        def build_pagination(config, has_next_page, count)
+          { # each key is nil or contains the params needed to build link to page
+            prev: ((config[:page] > 1) ? { page: (config[:page] - 1) } : nil),
+            next: (has_next_page ? { page: (config[:page] + 1) } : nil),
+            total_count: count, # is optional, may be nil
+            total_pages: (count.to_f / config[:per_page]).ceil
+          }
         end
 
         def active_record_collection?(obj)

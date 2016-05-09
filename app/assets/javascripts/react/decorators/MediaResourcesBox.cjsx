@@ -237,6 +237,7 @@ module.exports = React.createClass
 
     BoxToolBar = if withBox then do ()=>
       {filter, layout, for_url} = config
+      totalCount = f.get(get, 'pagination.total_count')
       isClient = @state.isClient
       selection = f.presence(@state.selectedResources) or false
 
@@ -266,7 +267,7 @@ module.exports = React.createClass
             @_onBatchEdit
 
       <UiToolBar
-        heading="#{get.pagination.total_count} #{'Inhalte'}"
+        heading={("#{totalCount} #{'Inhalte'}" if totalCount)}
         mods={toolbarClasses}
         actions={actions} layouts={layouts}/>
 
