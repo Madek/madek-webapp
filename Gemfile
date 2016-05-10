@@ -25,7 +25,7 @@ gem 'compass-rails', '~> 2.0'
 gem 'font-awesome-sass'
 gem 'haml-rails'
 gem 'kramdown'
-gem 'react-rails', '~> 1.4.0'
+gem 'react-rails', '~> 1.7.1'
 gem 'sass'
 gem 'sass-rails'
 

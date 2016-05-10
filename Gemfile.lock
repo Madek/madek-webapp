@@ -52,7 +52,7 @@ GEM
     autoprefixer-rails (6.3.1)
       execjs
       json
-    babel-source (5.8.27)
+    babel-source (5.8.35)
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
       execjs (~> 2.0)
@@ -275,7 +275,7 @@ GEM
     rb-fsevent (0.9.5)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
-    react-rails (1.4.1)
+    react-rails (1.7.1)
       babel-transpiler (>= 0.7.0)
       coffee-script-source (~> 1.8)
       connection_pool
@@ -431,7 +431,7 @@ DEPENDENCIES
   rack-mini-profiler
   rails (>= 4.2.5, < 5)
   rails_autolink (~> 1.0)
-  react-rails (~> 1.4.0)
+  react-rails (~> 1.7.1)
   responders
   rest-client
   rspec-rails (~> 3.1)
@@ -450,4 +450,4 @@ DEPENDENCIES
   zencoder-fetcher
 
 BUNDLED WITH
-   1.11.2
+   1.12.2
