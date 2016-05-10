@@ -141,19 +141,25 @@ module Madek
     config.watchable_files.concat(Dir["#{Rails.root}/app/assets/javascripts/**/*.cjsx*"])
 
     # List of all assets that need precompilation
-    # NOTE: override (don't extend) the Rails default (which matches all `(c)jsx`)!
+    # NOTE: override (don't extend) the Rails default (which matches lots of garbage)!
     config.assets.precompile = %w(
       application.js
       integration-testbed.js
       react-server-side.js
       application.css
       application-contrasted.css
-      fonts/*
-      backgrounds/*
-      thumbnails/*
-      styleguide/*
     )
-    # ../config/locale/*.csv
+
+    # NOTE: Rails does not support *matchers* anymore, do it manually
+    precompile_assets_dirs = %w(
+      fonts/
+      images/
+    )
+    config.assets.precompile << Proc.new do |filename, path|
+      precompile_assets_dirs.any? {|dir| path =~ Regexp.new("app/assets/#{dir}") }
+    end
+
+    # .handle config/locale/*.csv
     Rails.application.config.assets.paths.concat(Dir["#{Rails.root}/config/locale"])
     config.assets.precompile.concat(Dir["#{Rails.root}/config/locale/*.csv"])
   end
