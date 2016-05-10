@@ -166,7 +166,7 @@ end
 
 # HACK: set async render if section is "below the fold"
 def set_async_below_fold(sections)
-  conf_prerender_sections_nr = 2
+  conf_prerender_sections_nr = 1 # just the drafts, if there are some.
   sections.map.with_index do |a, i|
     [a[0], a[1].merge(render_async?: ((i + 1) > conf_prerender_sections_nr))]
   end.to_h
