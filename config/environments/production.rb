@@ -49,6 +49,10 @@ Madek::Application.configure do
   # Enable serving of images, stylesheets, and javascripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
 
+  # Use multi-threaded React renderer in production (jruby!)
+  config.react.server_renderer_pool_size = 12
+  config.react.server_renderer_timeout   = 10 # seconds
+
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
 
