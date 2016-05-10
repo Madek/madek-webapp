@@ -12,7 +12,7 @@ module Presenters
       #   its' defaults are below:
 
       DEFAULT_LIST_CONFIG = {
-        page: 1, per_page: 24, order: 'created_at DESC', # pagination
+        page: 1, per_page: 12, order: 'created_at DESC', # pagination
         show_filter: false # show filtering sidebar? (loads DynFilters!)
       }
 
