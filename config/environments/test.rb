@@ -1,3 +1,7 @@
+# run js bundler in background and watch mode (will be killed with ruby app)
+puts '=> bulding JS'
+`npm run -s build`
+
 Madek::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
