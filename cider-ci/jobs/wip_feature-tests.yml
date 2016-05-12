@@ -18,6 +18,8 @@ jobs:
 
       task-defaults:
         max-auto-trials: 2
+        environment-variables:
+          MADEK_NO_STATIC_ASSETS: true
 
         scripts:
           _cider-ci_include: [cider-ci/shared/scripts/wip_precompile-assets.yml]

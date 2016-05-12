@@ -1,6 +1,13 @@
-# run js bundler in background and watch mode (will be killed with ruby app)
-puts '=> bulding JS'
-`npm run -s build`
+USE_STATIC_ASSETS = (
+  # For testing in CI, use precompiled assets;
+  # it's faster and there is a dedicated test to verify static assets.
+  # We *do* have an option to not precompile in CI tho ("wip" branches)
+  ENV['CIDER_CI_TRIAL_ID'].present? and !ENV['MADEK_NO_STATIC_ASSETS'].present?)
+
+unless USE_STATIC_ASSETS
+  puts '=> bundling JS'
+  `npm run build`
+end
 
 Madek::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
@@ -27,9 +34,7 @@ Madek::Application.configure do
   config.show_execptions = true
   config.consider_all_requests_local = false
 
-  # For testing in CI, use precompiled assets;
-  # it's faster and there is a dedicated test to verify static assets.
-  if ENV['CIDER_CI_TRIAL_ID'].present?
+  if USE_STATIC_ASSETS
     config.assets.compile = false
     config.assets.digest = true
   else
