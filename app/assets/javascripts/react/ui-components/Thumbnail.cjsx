@@ -82,11 +82,14 @@ module.exports = React.createClass
       </ul>
     </div>
 
+    # TODO: We probably only need 'href' and 'onClick'.
+    linkProps = f.omit(@props, 'className')
+
     <div className={classes}>
       {flyoutTop}
       {badgeLeft}
       {badgeRight}
-      <Link className='ui-thumbnail-image-wrapper' {...@props} title={alt}>
+      <Link className='ui-thumbnail-image-wrapper' {...linkProps} title={alt}>
         <div className='ui-thumbnail-image-holder'>
           <div className='ui-thumbnail-table-image-holder'>
             <div className='ui-thumbnail-cell-image-holder'>

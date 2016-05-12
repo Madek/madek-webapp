@@ -136,6 +136,7 @@ meta_data_action_edit_btn,Bearbeiten,Edit,
 meta_data_action_delete_btn,Löschen,Delete,
 meta_data_delete_confirm_msg,"Sind Sie sicher, dass Sie diese Werte löschen wollen?",Are you sure you want to delete these values?,
 meta_data_header_text,Werte,Values,
+meta_data_batch_items_selected,Einträge selektiert,entries selected
 people_toolbar_header,Ähnliche Inhalte,Related Resources,
 group_edit_form_new_member_login,Login des neuen Mitglieds dieser Gruppe,New group member login,
 group_toolbar_header_entrusted_resources,Mir anvertraute Medieneinträge,Entrusted Media Entries,
