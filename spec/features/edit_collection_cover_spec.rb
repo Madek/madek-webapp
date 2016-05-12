@@ -1,12 +1,15 @@
 require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
+require_relative 'shared/basic_data_helper_spec'
+include BasicDataHelper
 
 feature 'Collection: Edit Cover' do
 
   describe 'Action: new' do
 
     scenario 'Modal dialog is shown', browser: :firefox do
+      prepare_data
       login
       open_dialog
       rows = get_table_rows
@@ -21,6 +24,7 @@ feature 'Collection: Edit Cover' do
     end
 
     scenario 'Select and save a cover', browser: :firefox do
+      prepare_data
       login
       open_dialog
       rows = get_table_rows
@@ -38,9 +42,7 @@ feature 'Collection: Edit Cover' do
       expect(rows.length).to eq(2)
       check_row(rows[0], @media_entry2, false)
       check_row(rows[1], @media_entry1, true)
-
     end
-
   end
 
   private
@@ -82,50 +84,14 @@ feature 'Collection: Edit Cover' do
     expect(page).to have_content 'Abbrechen'
   end
 
-  def login
-    prepare_data
-    sign_in_as @login, @password
-  end
-
   def prepare_data
-    @login = 'user'
-    @password = '1234'
+    prepare_user
 
-    @user = FactoryGirl.create(:user, login: @login, password: @password)
-    @media_entry1 = create_media_entry
-    @media_entry2 = create_media_entry
-    @collection = create_collection
+    @media_entry1 = create_media_entry('')
+    @media_entry2 = create_media_entry('')
+    @collection = create_collection('')
     @collection.media_entries << @media_entry1
     @collection.media_entries << @media_entry2
-  end
-
-  def create_media_entry
-    media_entry = FactoryGirl.create(
-      :media_entry,
-      responsible_user: @user,
-      creator: @user)
-    FactoryGirl.create(
-      :media_file_for_image,
-      media_entry: media_entry)
-    media_entry
-  end
-
-  def create_collection
-    title = 'Collection'
-    collection = Collection.create!(
-      get_metadata_and_previews: true,
-      responsible_user: @user,
-      creator: @user)
-    MetaDatum::Text.create!(
-      collection: collection,
-      string: title,
-      meta_key: meta_key_title,
-      created_by: @user)
-    collection
-  end
-
-  def meta_key_title
-    MetaKey.find_by(id: 'madek_core:title')
   end
 
 end

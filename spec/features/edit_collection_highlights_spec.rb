@@ -1,12 +1,15 @@
 require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
+require_relative 'shared/basic_data_helper_spec'
+include BasicDataHelper
 
 feature 'Collection: Edit Highlights' do
 
   describe 'Action: new' do
 
     scenario 'Modal dialog is shown', browser: :firefox do
+      prepare_data
       login
       open_dialog
       rows = get_table_rows(5)
@@ -23,6 +26,7 @@ feature 'Collection: Edit Highlights' do
     end
 
     scenario 'Select and save highlights', browser: :firefox do
+      prepare_data
       login
       open_dialog
       rows = get_table_rows(5)
@@ -136,16 +140,9 @@ feature 'Collection: Edit Highlights' do
     expect(page).to have_content 'Abbrechen'
   end
 
-  def login
-    prepare_data
-    sign_in_as @login, @password
-  end
-
   def prepare_data
-    @login = 'user'
-    @password = '1234'
+    prepare_user
 
-    @user = FactoryGirl.create(:user, login: @login, password: @password)
     @media_entry1 = create_media_entry('MediaEntry1')
     @media_entry2 = create_media_entry('MediaEntry2')
     @media_entry3 = create_media_entry('MediaEntry3')
@@ -157,52 +154,6 @@ feature 'Collection: Edit Highlights' do
     @collection.media_entries << @media_entry3
     @collection.collections << @collection1
     @collection.filter_sets << @filter_set1
-  end
-
-  def create_media_entry(title)
-    media_entry = FactoryGirl.create(
-      :media_entry,
-      responsible_user: @user,
-      creator: @user)
-    FactoryGirl.create(
-      :media_file_for_image,
-      media_entry: media_entry)
-    MetaDatum::Text.create!(
-      media_entry: media_entry,
-      string: title,
-      meta_key: meta_key_title,
-      created_by: @user)
-    media_entry
-  end
-
-  def create_collection(title)
-    collection = Collection.create!(
-      get_metadata_and_previews: true,
-      responsible_user: @user,
-      creator: @user)
-    MetaDatum::Text.create!(
-      collection: collection,
-      string: title,
-      meta_key: meta_key_title,
-      created_by: @user)
-    collection
-  end
-
-  def create_filter_set(title)
-    filter_set = FactoryGirl.create(
-      :filter_set,
-      responsible_user: @user,
-      creator: @user)
-    MetaDatum::Text.create!(
-      filter_set: filter_set,
-      string: title,
-      meta_key: meta_key_title,
-      created_by: @user)
-    filter_set
-  end
-
-  def meta_key_title
-    MetaKey.find_by(id: 'madek_core:title')
   end
 
 end

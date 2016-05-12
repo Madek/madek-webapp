@@ -1,23 +1,25 @@
 require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
+require_relative 'basic_data_helper_spec'
+include BasicDataHelper
 
 module SelectCollectionHelper
 
   def scenario_modal_dialog_is_shown
-    login
+    prepare_and_login
     open_dialog
   end
 
   def scenario_modal_dialog_cancel
-    login
+    prepare_and_login
     open_dialog
     cancel
     expect(current_path).to eq resource_path
   end
 
   def scenario_initial_sets_are_equal_to_parent_collections
-    login
+    prepare_and_login
     open_dialog
     check_set('Collection 1', true, true)
     check_set('Collection 2', false, false)
@@ -26,7 +28,7 @@ module SelectCollectionHelper
   end
 
   def scenario_search_for_collections
-    login
+    prepare_and_login
     open_dialog
     search_collection('C')
     check_on_dialog
@@ -37,7 +39,7 @@ module SelectCollectionHelper
   end
 
   def scenario_save_no_checkboxes_visible
-    login
+    prepare_and_login
     open_dialog
     search_collection('<NOT AVAILABLE>')
     check_on_dialog
@@ -80,7 +82,7 @@ module SelectCollectionHelper
   end
 
   def scenario_add_and_remove_a_collection
-    login
+    prepare_and_login
     open_dialog
 
     search_collection('C')
@@ -102,10 +104,6 @@ module SelectCollectionHelper
     check_on_dialog
 
     verify_shown_collections
-  end
-
-  def meta_key_title
-    MetaKey.find_by(id: 'madek_core:title')
   end
 
   def prepare_collection(title, is_responsible, is_allowed)
@@ -144,21 +142,19 @@ module SelectCollectionHelper
   end
 
   def prepare_data
-    @login = 'user'
-    @password = '1234'
-
-    @user = FactoryGirl.create(:user, login: @login, password: @password)
-
+    prepare_user
     @other = FactoryGirl.create(:user, login: 'login', password: 'password')
-
     prepare_resource
-
     prepare_collections
   end
 
-  def login
+  def prepare_resource
+    raise 'not implemented'
+  end
+
+  def prepare_and_login
     prepare_data
-    sign_in_as @login, @password
+    login
   end
 
   def open_media_entry

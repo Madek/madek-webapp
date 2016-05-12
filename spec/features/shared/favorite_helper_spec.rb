@@ -16,11 +16,7 @@ module FavoriteHelper
     expect(resource.favored?(user)).to eq false
   end
 
-  def favorite_check_logged_out(user, resource)
-    expect(resource.favored?(user)).to eq false
-    logout_button = find('.ui-header-user').find('.icon-power-off')
-      .find(:xpath, './/..')
-    logout_button.click
+  def favorite_check_logged_out
     expect(page).not_to have_selector('.icon-nofavorite')
     expect(page).not_to have_selector('.icon-favorite')
   end

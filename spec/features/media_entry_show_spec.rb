@@ -81,10 +81,11 @@ describe 'Action: show' do
       favorite_check_logged_in(@user, @entry)
     end
 
-    it 'Favorite button is not visible for media entry whenn not logged in.' do
-      favorite_check_logged_out(@user, @entry)
-    end
+  end
 
+  it 'Favorite button is not visible for media entry whenn not logged in.' do
+    visit media_entry_path(@entry)
+    favorite_check_logged_out
   end
 
 end

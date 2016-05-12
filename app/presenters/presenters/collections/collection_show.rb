@@ -36,40 +36,73 @@ module Presenters
       end
 
       def buttons
-        [
-          { method: 'get',
-            icon: 'pen',
-            title: I18n.t(:resource_action_edit, raise: false),
-            action: edit_meta_data_collection_path(@app_resource)
-          },
-          { method: 'patch',
-            icon: favored ? 'favorite' : 'nofavorite',
-            title: I18n.t(
-              "resource_action_#{favored ? 'disfavor' : 'favor'}", raise: false),
-            action: self.send(
-              "#{favored ? 'disfavor' : 'favor'}_collection_path", @app_resource)
-          },
-          { method: 'get',
-            icon: 'cover',
-            title: I18n.t(:resource_action_edit_cover, raise: false),
-            action: cover_edit_collection_path(@app_resource)
-          },
-          { method: 'get',
-            icon: 'trash',
-            title: I18n.t(:resource_action_destroy, raise: false),
-            action: ask_delete_collection_path(@app_resource)
-          },
-          { method: 'get',
-            icon: 'move',
-            title: I18n.t(:resource_action_select_collection, raise: false),
-            action: select_collection_collection_path(@app_resource)
-          },
-          { method: 'get',
-            icon: 'highlight',
-            title: I18n.t(:resource_action_edit_highlights, raise: false),
-            action: highlights_edit_collection_path(@app_resource)
-          }
+        buttons = [
+          edit_button,
+          favor_button,
+          cover_button,
+          destroy_button,
+          select_collection_button,
+          highlight_button
         ]
+        buttons.select do |tab|
+          tab[:allowed] == true
+        end
+      end
+
+      def edit_button
+        { method: 'get',
+          icon: 'pen',
+          title: I18n.t(:resource_action_edit, raise: false),
+          action: edit_meta_data_collection_path(@app_resource),
+          allowed: policy(@user).meta_data_update?
+        }
+      end
+
+      def favor_button
+        { method: 'patch',
+          icon: favored ? 'favorite' : 'nofavorite',
+          title: I18n.t(
+            "resource_action_#{favored ? 'disfavor' : 'favor'}", raise: false),
+          action: self.send(
+            "#{favored ? 'disfavor' : 'favor'}_collection_path", @app_resource),
+          allowed: favored ? policy(@user).disfavor? : policy(@user).favor?
+        }
+      end
+
+      def cover_button
+        { method: 'get',
+          icon: 'cover',
+          title: I18n.t(:resource_action_edit_cover, raise: false),
+          action: cover_edit_collection_path(@app_resource),
+          allowed: policy(@user).update_cover?
+        }
+      end
+
+      def destroy_button
+        { method: 'get',
+          icon: 'trash',
+          title: I18n.t(:resource_action_destroy, raise: false),
+          action: ask_delete_collection_path(@app_resource),
+          allowed: policy(@user).destroy?
+        }
+      end
+
+      def select_collection_button
+        { method: 'get',
+          icon: 'move',
+          title: I18n.t(:resource_action_select_collection, raise: false),
+          action: select_collection_collection_path(@app_resource),
+          allowed: policy(@user).add_remove_collection?
+        }
+      end
+
+      def highlight_button
+        { method: 'get',
+          icon: 'highlight',
+          title: I18n.t(:resource_action_edit_highlights, raise: false),
+          action: highlights_edit_collection_path(@app_resource),
+          allowed: policy(@user).update_highlights?
+        }
       end
 
       def tabs
