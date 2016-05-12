@@ -19,7 +19,7 @@ module.exports = React.createClass
           PropTypes.shape({
             # TODO: MadekPropTypes resources:
             vocabulary: PropTypes.object.isRequired
-            meta_data: PropTypes.object.isRequired }))})}
+            meta_data: PropTypes.array.isRequired }))})}
     ).isRequired}
 
   getInitialState: () ->
@@ -101,9 +101,10 @@ module.exports = React.createClass
 VocabularyFormItem = React.createClass
   displayName: 'VocabularyFormItem'
   render: ({get, name, errors} = @props)->
+    meta_data = f.sortBy(get.meta_data, 'meta_key.position')
     <div className='mbl'>
       <VocabularyHeader vocabulary={get.vocabulary}/>
-      {get.meta_data.map (datum) ->
+      {meta_data.map (datum) ->
         <MetaDatumFormItem
           get={datum} name={name}
           error={errors[datum.meta_key.uuid]}
