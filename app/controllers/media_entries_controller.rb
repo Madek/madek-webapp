@@ -30,18 +30,24 @@ class MediaEntriesController < ApplicationController
   def destroy
     media_entry = MediaEntry.unscoped.find(id_param)
     authorize media_entry
-    begin
-      ActiveRecord::Base.transaction do
-        # TODO: remove this when cascade delete works:
-        media_entry.meta_data.each(&:destroy!)
-        media_entry.destroy!
-      end
-    rescue Exception => e
-      redirect_to my_dashboard_path, flash: { error: 'Error deleting! ' + e.to_s }
-      return
+
+    ActiveRecord::Base.transaction do
+      # TODO: Remove this when cascade delete works:
+      media_entry.meta_data.each(&:destroy!)
+      media_entry.destroy!
     end
 
-    redirect_to my_dashboard_path, flash: { success: 'Deleted!' }
+    respond_to do |format|
+      format.json do
+        flash[:success] = I18n.t(:media_entry_delete_success)
+        render(json: {})
+      end
+      format.html do
+        redirect_to(
+          my_dashboard_path,
+          flash: { success: I18n.t(:media_entry_delete_success) })
+      end
+    end
   end
 
   ###############################################################

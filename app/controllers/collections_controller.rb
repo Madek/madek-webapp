@@ -53,9 +53,18 @@ class CollectionsController < ApplicationController
     collection = Collection.find(params[:id])
     authorize collection
     collection.destroy!
-    redirect_to(
-      collections_path,
-      flash: { success: I18n.t(:collection_delete_success) })
+
+    respond_to do |format|
+      format.json do
+        flash[:success] = I18n.t(:collection_delete_success)
+        render(json: {})
+      end
+      format.html do
+        redirect_to(
+          collections_path,
+          flash: { success: I18n.t(:collection_delete_success) })
+      end
+    end
   end
 
   def ask_delete

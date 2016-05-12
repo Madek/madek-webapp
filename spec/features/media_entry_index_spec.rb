@@ -36,11 +36,11 @@ feature 'Resource: MediaEntry' do
 
       link = '/entries/' + @entry_id
 
-      clickable = find_button(link)
+      clickable = find_button(link, false)
       clickable.click
-      clickable = find_button(link)
+      pending = find_button(link, true).find(:xpath, './..')
 
-      expect(clickable['data-pending']).to eq 'false'
+      expect(pending['data-pending']).to eq 'false'
 
       expect(@entry.favored?(@user)).to eq true
 
@@ -86,13 +86,14 @@ feature 'Resource: MediaEntry' do
 
   private
 
-  def find_button(link)
+  def find_button(link, favored)
     thumbnail = find(:xpath, "//a[@href='" + link + "']") # <- just the link
                   .find(:xpath, './..[contains(@class, "ui-thumbnail")]')
     thumbnail.hover
     actions = thumbnail.find('.ui-thumbnail-actions')
     actions.hover
-    favorite = actions.find('.ui-thumbnail-action-favorite')
+    favorite = actions.find(
+      favored ? '.icon-star' : '.icon-star-empty')
     favorite.hover
     favorite
   end

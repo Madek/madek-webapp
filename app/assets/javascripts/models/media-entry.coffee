@@ -7,9 +7,12 @@ Person = require('./person.coffee')
 ResourceMetaData = require('./shared/resource-meta-data.coffee')
 MetaData = require('./meta-data.coffee')
 Favoritable = require('./concerns/resource-favoritable.coffee')
+Deletable = require('./concerns/resource-deletable.coffee')
 
 module.exports = AppResource.extend(
-  Favoritable, {
+  Favoritable,
+  Deletable,
+  {
   type: 'MediaEntry'
   urlRoot: '/entries'
   props:

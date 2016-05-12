@@ -33,15 +33,15 @@ module.exports = React.createClass
           <p className="pam by-center">
             {t('collection_ask_delete_question_pre')}
             <strong>{get.title}</strong>
-            {t('collection_ask_delete_question_post')}
+            {t('resource_ask_delete_question_post')}
           </p>
         </div>
 
         <div className="ui-modal-footer">
           <div className="ui-actions">
             <a href={get.cancel_url} aria-hidden="true" className="link weak"
-              data-dismiss="modal">{t('collection_ask_delete_cancel')}</a>
-            <Button className="primary-button" type='submit'>{t('collection_ask_delete_ok')}</Button>
+              data-dismiss="modal">{t('resource_ask_delete_cancel')}</a>
+            <Button className="primary-button" type='submit'>{t('resource_ask_delete_ok')}</Button>
           </div>
         </div>
 

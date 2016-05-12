@@ -382,6 +382,7 @@ module.exports = React.createClass
 
                     if withBox
                       selection = @state.selectedResources
+                      # selection defined means selection is enabled
                       if @state.isClient && selection
                         isSelected = @state.selectedResources.has(item)
                         onSelect = f.curry(@_onSelectResource)(item)

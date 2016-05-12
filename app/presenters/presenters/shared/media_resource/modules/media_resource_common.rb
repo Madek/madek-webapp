@@ -15,6 +15,14 @@ module Presenters
             @app_resource.created_at.strftime('%d.%m.%Y')
           end
 
+          def destroyable
+            false
+          end
+
+          def editable
+            false
+          end
+
         end
       end
     end

@@ -23,6 +23,14 @@ module Presenters
           person.last_name + ', ' + person.first_name
         end
 
+        def destroyable
+          policy(@user).destroy?
+        end
+
+        def editable
+          policy(@user).meta_data_update?
+        end
+
         included do
           attr_reader :relations
 

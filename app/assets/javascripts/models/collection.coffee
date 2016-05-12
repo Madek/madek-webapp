@@ -6,10 +6,13 @@ Person = require('./person.coffee')
 ResourceMetaData = require('./shared/resource-meta-data.coffee')
 MetaData = require('./meta-data.coffee')
 Favoritable = require('./concerns/resource-favoritable.coffee')
+Deletable = require('./concerns/resource-deletable.coffee')
 
 # TODO: extract more concerns from MediaEntry
 module.exports = AppResource.extend(
-  Favoritable, {
+  Favoritable,
+  Deletable,
+  {
   type: 'Collection'
   urlRoot: '/sets'
   props:

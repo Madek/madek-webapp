@@ -14,6 +14,14 @@ module Presenters
           @media_file = Presenters::MediaFiles::MediaFile.new(@app_resource, @user)
         end
 
+        def destroyable
+          policy(@user).destroy?
+        end
+
+        def editable
+          policy(@user).meta_data_update?
+        end
+
         included do
 
           attr_reader :media_file

@@ -3,11 +3,12 @@ async = require('async')
 f = require('active-lodash')
 cx = require('classnames')
 ampersandReactMixin = require('ampersand-react-mixin')
-{Link, Icon, Thumbnail} = require('../ui-components/index.coffee')
+{Link, Icon, Thumbnail, AskModal} = require('../ui-components/index.coffee')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 Models = require('../../models/index.coffee')
 RailsForm = require('../lib/forms/rails-form.cjsx')
 Button = require('../ui-components/Button.cjsx')
+t = require('../../lib/string-translation')('de')
 
 CURSOR_SELECT_STYLE = {cursor: 'cell'}
 
@@ -27,6 +28,7 @@ module.exports = React.createClass
   getInitialState: ()-> {
     active: @props.isClient or false
     pendingFavorite: false
+    deleteModal: false
   }
   componentDidMount: ()->
     if (modelByType = Models[@props.get.type])
@@ -40,6 +42,20 @@ module.exports = React.createClass
     action = if @state.model.favored then 'disfavor' else 'favor'
     @state.model.setFavoredStatus action, (err, res)=>
       @setState(pendingFavorite: false)
+
+  _showModal: () ->
+    @setState(deleteModal: true)
+
+  _onModalOk: () ->
+    @setState(deleteModal: false)
+    @state.model.delete(
+      (err, res) ->
+        location.reload()
+    )
+
+  _onModalCancel: () ->
+    @setState(deleteModal: false)
+
 
   render: ({get, elm, onClick, isSelected, authToken} = @props, state = @state)->
     model = @state.model or @props.get
@@ -71,13 +87,12 @@ module.exports = React.createClass
           <span className='js-only'>{selector}</span></li>)
 
     # hover - action - fav
-    favoriteAction = if model.favored then 'disfavor' else 'favor'
-    favoriteUrl = model.url + '/' + favoriteAction
-    starClass = if model.favored then 'icon-star' else 'icon-star-empty'
-    favoriteItem = <i className={starClass}></i>
-    favoriteOnClick = @_favorOnClick if not @state.pendingFavorite
-
     if get.favorite_policy
+      favoriteAction = if model.favored then 'disfavor' else 'favor'
+      favoriteUrl = model.url + '/' + favoriteAction
+      starClass = if model.favored then 'icon-star' else 'icon-star-empty'
+      favoriteItem = <i className={starClass}></i>
+      favoriteOnClick = @_favorOnClick if not @state.pendingFavorite
       favorButton =
         if state.active
           <Button className='ui-thumbnail-action-favorite' onClick={favoriteOnClick}
@@ -94,6 +109,27 @@ module.exports = React.createClass
 
       actionsLeft.push(
         <li key='favorite' className='ui-thumbnail-action'>{favorButton}</li>)
+
+
+    if get.editable
+      actionsRight.push(
+        <li key='edit' className='ui-thumbnail-action'>
+          <Button className='ui-thumbnail-action-favorite' href={get.url + '/meta_data/edit'}>
+            <i className='icon-pen'></i>
+          </Button>
+        </li>
+      )
+
+    if get.destroyable
+      actionsRight.push(
+        <li key='destroy' className='ui-thumbnail-action'>
+          <Button className='ui-thumbnail-action-favorite' onClick={@_showModal}>
+            <i className='icon-trash'></i>
+          </Button>
+        </li>
+      )
+
+
 
     # hover - flyout - relations - thumbnail list:
     parentRelations = get.parent_relations
@@ -162,5 +198,21 @@ module.exports = React.createClass
     <Element className={cx('ui-resource', 'ui-selected': isSelected)}>
       <div className='ui-resource-body'>
         <Thumbnail {...thumbProps}/>
+        {
+          if @state.deleteModal == true
+            type = switch get.type
+              when 'Collection'
+                'collection'
+              when 'MediaEntry'
+                'media_entry'
+            <AskModal title={t(type + '_ask_delete_title')}
+              onCancel={@_onModalCancel} onOk={@_onModalOk}>
+              {t(type + '_ask_delete_question_pre')}
+              <strong>{model.title}</strong>
+              {t('resource_ask_delete_question_post')}
+            </AskModal>
+          else
+            null
+        }
       </div>
     </Element>
