@@ -19,7 +19,7 @@ module Presenters
       class MediaResources < Presenter
         include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
 
-        attr_reader :resources, :pagination, :with_actions, :can_filter
+        attr_reader :resources, :pagination, :with_actions, :can_filter, :type
 
         def initialize(
             scope, user, list_conf: nil,
@@ -28,10 +28,12 @@ module Presenters
           fail 'missing config!' unless list_conf
           @user = user
           @scope = scope
+          @type = scope.model.name.pluralize
           # enable interaction if user logged in and not explictly turned of
           @with_actions = true if (with_actions != false) && @user.present?
           # can the given scope be filtered? (`#filter_by`)
-          @can_filter = can_filter ? true : false
+          # TODO: remove the type check when implemented for all Resources
+          @can_filter = (can_filter ? true : false) if @type == 'MediaEntries'
           @conf = build_config(list_conf)
           @with_relations = with_relations
           @with_count = with_count

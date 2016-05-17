@@ -9,7 +9,7 @@ Picture = require('./Picture.cjsx')
 flyoutProps = React.PropTypes.shape({
   title: React.PropTypes.string.isRequired,
   caption: React.PropTypes.string.isRequired,
-  children: React.PropTypes.node.isRequired })
+  children: React.PropTypes.node })
 
 module.exports = React.createClass
   displayName: 'UiThumbnail'

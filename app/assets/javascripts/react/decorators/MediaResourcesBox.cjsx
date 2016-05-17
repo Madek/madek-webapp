@@ -73,6 +73,8 @@ module.exports = React.createClass
     authToken: React.PropTypes.string.isRequired
     get: React.PropTypes.shape
       # resources: React.PropTypes.array # TODO: array of ampersandCollection
+      type: React.PropTypes.oneOf([
+        'MediaEntries', 'Collections', 'FilterSets', 'MediaResources'])
       with_actions: React.PropTypes.bool # toggles actions, hover, flyout
       can_filter: React.PropTypes.bool # if true, get.resources can be filtered
       config: viewConfigProps # <- config that is part of the URL!
@@ -93,10 +95,11 @@ module.exports = React.createClass
     router.start()
 
     # selection status is managed in ampersand-collection
-    selection = new MediaEntriesCollection()
-    # set up auto-update for it:
-    f.each ['add', 'remove', 'reset', 'change'], (eventName)=>
-      selection.on(eventName, ()=> @forceUpdate() if @isMounted())
+    if @props.get.type is 'MediaEntries'
+      selection = new MediaEntriesCollection()
+      # set up auto-update for it:
+      f.each ['add', 'remove', 'reset', 'change'], (eventName)=>
+        selection.on(eventName, ()=> @forceUpdate() if @isMounted())
     @setState(isClient: true, selectedResources: selection)
 
   componentWillUnmount: ()->
@@ -239,7 +242,8 @@ module.exports = React.createClass
       {filter, layout, for_url} = config
       totalCount = f.get(get, 'pagination.total_count')
       isClient = @state.isClient
-      selection = f.presence(@state.selectedResources) or false
+      if get.type is 'MediaEntries'
+        selection = f.presence(@state.selectedResources) or false
 
       layouts = LAYOUT_MODES.map (itm)=>
         href = setUrlParams(for_url, currentQuery, list: layout: itm.mode)
@@ -261,7 +265,7 @@ module.exports = React.createClass
         #   onClick: if isClient && selection && !selection.isEmpty()
         #     ()-> alert('NOT IMPLEMENTED: add to collection!')
 
-        batch_edit:
+        batch_edit: if get.type is 'MediaEntries'
           children: <Icon i='pen' mods='small' title='Auswahl bearbeiten'/>
           onClick: if isClient && selection && !selection.isEmpty()
             @_onBatchEdit
@@ -287,7 +291,7 @@ module.exports = React.createClass
             href: filterToggleLink
             onClick: @_onFilterToggle
           reset: resetFilterLink if f.present(config.filter)
-        select:
+        select: if selection
           active: 'Alle abwählen',
           inactive: 'Alle auswählen'
           isActive: selection && !(selection.isEmpty())
@@ -442,9 +446,8 @@ UiToolBar = ({heading, actions, layouts, mods} = @props)->
         }
       </ButtonGroup>
       {# Action Buttons: }
-      {if actions
-        <ButtonGroup mods='small right mls'
-          list={actions}/>}
+      {if f.any(actions)
+        <ButtonGroup mods='small right mls' list={actions}/>}
     </div>
   </div>
 
