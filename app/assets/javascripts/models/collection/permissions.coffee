@@ -21,9 +21,8 @@ CollectionUserPermissions = Collection.extend
     props:
       get_metadata_and_previews: ['boolean', no, off]
       get_full_size: ['boolean', no, off]
-      edit_metadata: ['boolean', no, off]
-      edit_permissions: ['boolean', no, off]
       edit_metadata_and_relations: ['boolean', no, off]
+      edit_permissions: ['boolean', no, off]
 
 CollectionGroupPermissions = Collection.extend
   type: 'CollectionGroupPermissions'
@@ -34,7 +33,7 @@ CollectionGroupPermissions = Collection.extend
     props:
       get_metadata_and_previews: ['boolean', no, off]
       get_full_size: ['boolean', no, off]
-      edit_metadata: ['boolean', no, off]
+      edit_metadata_and_relations: ['boolean', no, off]
 
 CollectionApiClientPermissions = Collection.extend
   type: 'CollectionApiClientPermissions'
