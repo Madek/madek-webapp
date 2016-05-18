@@ -2,6 +2,9 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
+require_relative 'shared/meta_data_helper_spec'
+include MetaDataHelper
+
 doc = <<-DOC
 Action: Updating
 
@@ -137,13 +140,4 @@ end
 
 def datum(meta_key)
   @entry.reload.meta_data.find_by(meta_key: meta_key)
-end
-
-def find_vocabulary_form(name)
-  find('h3', text: name).find(:xpath, '../..')
-end
-
-def find_meta_key_form(meta_key)
-  find_vocabulary_form(meta_key.vocabulary.label)
-    .find('.form-label *:first-child', text: meta_key.label).find(:xpath, '../..')
 end

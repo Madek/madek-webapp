@@ -106,8 +106,8 @@ def permission_types
 end
 
 def subject_row(form, title)
-  header = form.first('table thead span', text: title)
-  header.find(:xpath, '../../../../..') if header
+  header = form.first('table thead', text: title)
+  header.find(:xpath, '../../..') if header
 end
 
 def subject_items(node)

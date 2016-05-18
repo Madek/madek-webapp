@@ -61,9 +61,13 @@ feature 'Resource: Collections' do
       prepare_and_open_collection
       click_on_tab I18n.t(:media_entry_tab_permissions)
       find('.primary-button', text: 'Bearbeiten').click
-      autocomplete_and_choose_first(person_section, @user.login)
+
+      person_row = subject_row(find_form, I18n.t(:permission_subject_title_users))
+      autocomplete_and_choose_first(person_row, @user.login)
       find('.primary-button', text: 'Speichern').click
-      expect(person_section).to have_content(
+
+      person_row = subject_row(find_form, I18n.t(:permission_subject_title_users))
+      expect(person_row).to have_content(
         @user.person.first_name + ' ' + @user.person.last_name)
     end
 
@@ -75,16 +79,21 @@ feature 'Resource: Collections' do
     end
   end
 
-  def person_section
-    xpath = './/div[contains(@class, "ui-rights-management-users")]'
-    xpath += '[.//span[contains(.,"Personen")]]'
-    find(:xpath, xpath)
-  end
-
   describe 'Action: favor (when logged in)' do
     it 'works via Toolbar-Button on "show" View' do
       prepare_and_open_collection
       favorite_check_logged_in(@user, @collection)
     end
   end
+end
+
+#
+
+def find_form
+  page.find('form[name="ui-rights-management"]')
+end
+
+def subject_row(form, title)
+  header = form.first('table thead', text: title)
+  header.find(:xpath, '../../..') if header
 end

@@ -47,8 +47,7 @@ module MetaDataHelper
 
   def find_meta_key_form(meta_key)
     find_vocabulary_form(meta_key.vocabulary.label)
-      .find('.form-label *:first-child', text: meta_key.label)
-      .find(:xpath, '../..')
+      .find('.form-label', text: meta_key.label).find(:xpath, '..')
   end
 
 end

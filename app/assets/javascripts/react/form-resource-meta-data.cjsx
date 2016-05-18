@@ -82,11 +82,11 @@ module.exports = React.createClass
       }
 
       <div className='form-body'>
-        {meta_data.map (vocabulary) ->
+        {meta_data.map (bundle) ->
           <VocabularyFormItem
             errors={errors}
-            get={vocabulary} name={name}
-            key={vocabulary.uuid}/>}
+            get={bundle} name={name}
+            key={bundle.vocabulary.uuid}/>}
       </div>
 
       <div className='form-footer'>
