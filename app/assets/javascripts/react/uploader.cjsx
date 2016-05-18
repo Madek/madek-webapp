@@ -39,7 +39,7 @@ module.exports = React.createClass
     f.each added, (model)->
       UploadQueue.push(
         model, (err, res)->
-          console.error(err) if err)
+          console.error('Uploader failed!', model, err) if err)
 
   render: ({props, state} = @)->
     name = 'media_entry'

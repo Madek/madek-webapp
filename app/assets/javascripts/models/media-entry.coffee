@@ -53,6 +53,8 @@ module.exports = AppResource.extend(
       fn: ()->
         switch
           when not @uploading then return
+          when @uploading.error
+            'Error!'
           when not @uploading.progress
             'Waiting…'
           when @uploading.progress < 100
@@ -75,11 +77,14 @@ module.exports = AppResource.extend(
       body: formData
       },
       (err, res)=>
-        # update self with server response:
-        unless err or not res
+        # handle error
+        if err or not res
+          @set('uploading', {error: (err or true)})
+        else # or update self with server response:
           attrs = (try JSON.parse(res.body))
           @set(attrs) if attrs
           @unset('uploading')
+
         # pass through to callback if given:
         callback(err, res) if f.isFunction(callback)
 

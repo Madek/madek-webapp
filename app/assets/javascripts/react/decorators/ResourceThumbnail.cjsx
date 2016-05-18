@@ -31,10 +31,13 @@ module.exports = React.createClass
     deleteModal: false
   }
   componentDidMount: ()->
-    if (modelByType = Models[@props.get.type])
-      model = new modelByType(@props.get)
-    else
-      console.error('WARNING: No model found for resource!', @props.get)
+    # instantiate model from data if not already…
+    get = @props.get
+    unless (get.isState or get.isCollection)
+      if (modelByType = Models[get.type])
+        model = new modelByType(get)
+      else
+        console.error('WARNING: No model found for resource!', get)
     @setState(active: true, model: model)
 
   _favorOnClick: () ->
