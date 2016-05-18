@@ -12,15 +12,13 @@
     "build:app": "browserify app/assets/javascripts/application.coffee -v -o public/assets/bundles/bundle.js",
     "build:server": "browserify app/assets/javascripts/react-server-side.js -v -o public/assets/bundles/bundle-react-server-side.js",
     "build:integration": "browserify app/assets/javascripts/integration-testbed.coffee -v -o public/assets/bundles/bundle-integration-testbed.js",
-    "test": "npm run -s lint && npm run -s test:jest",
-    "test:jest": "jest",
+    "test": "npm run -s lint",
     "lint": "bash -c 'npm run -s coffeelint -- --quiet app/assets/javascripts/{*.coffee,**/*.{coffee,cjsx}} && npm run -s standardlint -- {.,**}/*.js'",
     "devtools": "npm run -s build-devtools && coffee --nodejs \"-r ./tmp/devtools.js\"",
     "devtools-js": "npm run -s build-devtools && node -r ./tmp/devtools.js",
     "build-devtools": "npm run -s browserify -- app/assets/javascripts/developer-tools.coffee > tmp/devtools.js",
     "coffeelint": "coffeelint",
     "standardlint": "standard",
-    "jest": "jest",
     "browserify": "browserify"
   },
   "dependencies": {
@@ -58,9 +56,6 @@
     "xhr": "^2.2.0"
   },
   "devDependencies": {
-    "babel-jest": "*",
-    "babel-preset-es2015": "*",
-    "babel-preset-react": "*",
     "big-list-of-naughty-strings": "1.0.0",
     "brfs": "^1.4.3",
     "browserify": "^11.2.0",
@@ -71,8 +66,6 @@
     "coffee-react-transform": "3.3.0",
     "coffee-reactify": "4.0.0",
     "coffeelint": "^1.14.2",
-    "jest-cli": "*",
-    "react-addons-test-utils": "~0.14.0",
     "reactify": "1.1.1",
     "standard": "^6.0.7",
     "watchify": "^3.7.0"
@@ -89,28 +82,9 @@
     ]
   },
   "babel": {
-    "presets": ["es2015", "react"]
-  },
-  "jest": {
-    "scriptPreprocessor": "<rootDir>/jest-script-preprocessor",
-    "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/.",
-      "<rootDir>/node_modules/react",
-      "<rootDir>/node_modules/react-dom",
-      "<rootDir>/node_modules/react-addons-test-utils",
-      "<rootDir>/node_modules/fbjs"
-    ],
-    "testFileExtensions": [
-      "coffee",
-      "cjsx",
-      "js",
-      "jsx"
-    ],
-    "moduleFileExtensions": [
-      "coffee",
-      "cjsx",
-      "js",
-      "jsx"
+    "presets": [
+      "es2015",
+      "react"
     ]
   },
   "author": "Max Albrecht <max.albrecht@zhdk.ch>",
