@@ -7,8 +7,13 @@
 
 ## Zencoder Integration
 
+do the following for:
+- a video file
+- an audio file
+
+steps:
 - use any test server with upload capabilty
-- on `/entries/new`, upload either audio or video
+- on `/entries/new`, upload file
 - publish the Entry
 - on `/admin/media_entries`, find the Entry
     - Go to it's MediaFile, check that there is 1 ZencoderJob with status 'finished'
