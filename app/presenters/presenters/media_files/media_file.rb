@@ -69,7 +69,7 @@ module Presenters
       end
 
       def get_audio_previews
-        audio_previews = @media_file.previews.where(media_type: :audio)
+        audio_previews = @media_file.previews
         # get the latest audio for each format
         ['ogg'].map do |format|
           audio = audio_previews.where(content_type: "audio/#{format}")
@@ -79,7 +79,7 @@ module Presenters
       end
 
       def get_video_previews
-        video_previews = @media_file.previews.where(media_type: :video)
+        video_previews = @media_file.previews
         # get the largest available video for each format
         ['webm', 'mp4'].map do |format|
           video = video_previews.where(content_type: "video/#{format}")
