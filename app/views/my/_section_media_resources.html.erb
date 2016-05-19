@@ -1,7 +1,7 @@
 <%=
 
 mods = []
-is_main = (true if params[:action] == 'dashboard')
+is_main = (true if params[:action] != 'dashboard_section')
 # HACK: toggle box via prop…
 with_box = (true if !is_main)
 mods << ['rounded-right', { bordered: false }] if !is_main
