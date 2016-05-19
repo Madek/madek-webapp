@@ -5,7 +5,7 @@
       actions: nil)
 
 - content_for(:overview) do
-  = react('BatchResourcesBox', get: @get)
-  = react('BatchFormResourceMetaData', get: @get)
+  = react('Deco.ResourcesBatchBox', get: @get)
+  = react('Deco.BatchResourceMetaDataForm', get: @get)
 
 = render template: 'layouts/app_resource'

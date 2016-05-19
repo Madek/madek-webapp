@@ -1,5 +1,4 @@
-:ruby
-
-- content_for(:modal) { react('AskDeleteCollection', { get: @get }) }
+- content_for(:modal) do
+  = react('Views.Collection.AskDelete', { get: @get })
 
 = render template: 'collections/show'

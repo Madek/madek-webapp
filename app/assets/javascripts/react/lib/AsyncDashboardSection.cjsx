@@ -6,10 +6,7 @@ ReactDOM = require('react-dom')
 f = require('active-lodash')
 xhr = require('xhr')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
-UILibrary = {
-  UI: require('../ui-components/index.coffee'),
-  Deco: require('../decorators/index.coffee')
-} # only used to get components by name
+UILibrary = require('../index.coffee') # only used to get components by name
 
 Preloader = require('../ui-components/Preloader.cjsx')
 

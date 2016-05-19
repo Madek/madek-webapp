@@ -1,11 +1,10 @@
 React = require('react')
 f = require('active-lodash')
-t = require('../lib/string-translation.js')('de')
-BatchFormResourceMetaData = require('./batch-form-resource-meta-data.cjsx')
-Thumbnail = require('./ui-components/Thumbnail.cjsx')
+t = require('../../lib/string-translation.js')('de')
+Thumbnail = require('../ui-components/Thumbnail.cjsx')
 
 module.exports = React.createClass
-  displayName: 'BatchResourcesBox'
+  displayName: 'ResourcesBatchBox'
 
   render: ({get, authToken} = @props) ->
     <div className="bordered ui-container midtone rounded-right rounded-bottom mbm">

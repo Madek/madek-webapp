@@ -1,17 +1,17 @@
 React = require('react')
 PropTypes = React.PropTypes
 f = require('active-lodash')
-t = require('../lib/string-translation.js')('de')
-RailsForm = require('./lib/forms/rails-form.cjsx')
-MetaKeyFormLabel = require('./lib/forms/form-label.cjsx')
-InputMetaDatum = require('./lib/input-meta-datum.cjsx')
-MadekPropTypes = require('./lib/madek-prop-types.coffee')
 xhr = require('xhr')
-getRailsCSRFToken = require('../lib/rails-csrf-token.coffee')
 cx = require('classnames')
+t = require('../../lib/string-translation.js')('de')
+RailsForm = require('../lib/forms/rails-form.cjsx')
+getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
+MetaKeyFormLabel = require('../lib/forms/form-label.cjsx')
+InputMetaDatum = require('../lib/input-meta-datum.cjsx')
+MadekPropTypes = require('../lib/madek-prop-types.coffee')
 
 module.exports = React.createClass
-  displayName: 'FormResourceMetaData'
+  displayName: 'ResourceMetaDataForm'
   propTypes: {
     get: PropTypes.shape({
       meta_data: PropTypes.shape({

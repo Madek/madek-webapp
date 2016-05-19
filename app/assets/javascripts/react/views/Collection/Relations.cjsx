@@ -1,10 +1,9 @@
 React = require('react')
 ReactDOM = require('react-dom')
 f = require('active-lodash')
-t = require('../../lib/string-translation.js')('de')
-RailsForm = require('../lib/forms/rails-form.cjsx')
-MediaResourcesBox = require('../decorators/MediaResourcesBox.cjsx')
-RightsManagement = require('../rights-management.cjsx')
+t = require('../../../lib/string-translation.js')('de')
+RailsForm = require('../../lib/forms/rails-form.cjsx')
+MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 
 classnames = require('classnames')
 

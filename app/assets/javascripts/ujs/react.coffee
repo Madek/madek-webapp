@@ -5,7 +5,7 @@ f = require('active-lodash')
 url = require('url')
 UI = require('../react/index.coffee')
 
-# UJS for Models with React Views
+# UJS for React Views (and Decorators)
 #
 # Each Key in Map below defines a (self-contained) init function for a Component.
 # Targets are DOM nodes with <data-react-class='ExampleComponent'>.
@@ -28,9 +28,9 @@ initByClass =
   #     success: (model, response, options)->
   #       callback(React.createElement(MetaDataEdit, metaDatum: md))
 
-  Uploader: (data, callback)->
+  'Views.MediaEntry.Uploader': (data, callback)->
     MediaEntries = require('../models/media-entries.coffee')
-    Uploader = require('../react/uploader.cjsx')
+    Uploader = require('../react/views/MediaEntry/Uploader.cjsx')
     props = f.set(data.reactProps, 'appCollection', (new MediaEntries()))
     callback(React.createElement(Uploader, props))
 

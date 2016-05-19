@@ -1,14 +1,14 @@
 React = require('react')
 f = require('active-lodash')
-RailsForm = require('./lib/forms/rails-form.cjsx')
-MetaKeyFormLabel = require('./lib/forms/form-label.cjsx')
-InputMetaDatum = require('./lib/input-meta-datum.cjsx')
-MadekPropTypes = require('./lib/madek-prop-types.coffee')
-Classnames = require('classnames')
-t = require('../lib/string-translation')('de')
+cx = require('classnames')
+t = require('../../lib/string-translation')('de')
+RailsForm = require('../lib/forms/rails-form.cjsx')
+MetaKeyFormLabel = require('../lib/forms/form-label.cjsx')
+InputMetaDatum = require('../lib/input-meta-datum.cjsx')
+MadekPropTypes = require('../lib/madek-prop-types.coffee')
 
 module.exports = React.createClass
-  displayName: 'BatchFormResourceMetaData'
+  displayName: 'BatchResourceMetaDataForm'
 
   render: ({get, authToken} = @props) ->
     name = 'media_entry[meta_data]'
@@ -115,7 +115,7 @@ MetaDatumFormItem = React.createClass
     if not difference.all_equal
       copy.values = []
     new_name = name + "[#{datum.meta_key.uuid}][values][]"
-    classes = Classnames('ui-form-group', 'columned', { 'highlight': not difference.all_equal})
+    classes = cx('ui-form-group', 'columned', { 'highlight': not difference.all_equal})
     <fieldset className={classes}>
       <input name={name + "[#{datum.meta_key.uuid}][difference][all_equal]"} value={difference.all_equal} type="hidden"></input>
       <input name={name + "[#{datum.meta_key.uuid}][difference][all_empty]"} value={difference.all_empty} type="hidden"></input>

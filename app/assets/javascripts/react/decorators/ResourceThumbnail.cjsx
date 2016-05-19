@@ -3,12 +3,12 @@ async = require('async')
 f = require('active-lodash')
 cx = require('classnames')
 ampersandReactMixin = require('ampersand-react-mixin')
-{Link, Icon, Thumbnail, AskModal} = require('../ui-components/index.coffee')
+t = require('../../lib/string-translation')('de')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 Models = require('../../models/index.coffee')
 RailsForm = require('../lib/forms/rails-form.cjsx')
-Button = require('../ui-components/Button.cjsx')
-t = require('../../lib/string-translation')('de')
+{ Link, Icon, Thumbnail, Button, AskModal
+} = require('../ui-components/index.coffee')
 
 CURSOR_SELECT_STYLE = {cursor: 'cell'}
 

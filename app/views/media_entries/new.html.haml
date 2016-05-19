@@ -15,7 +15,7 @@
       %h3.title-l= t(:media_entry_media_import_title)
 
       .js-only
-        = react('Uploader')
+        = react('Views.MediaEntry.Uploader')
 
       .no-js
         = form_for :media_entry, url: media_entries_path do |f|

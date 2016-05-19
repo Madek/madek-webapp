@@ -1,20 +1,21 @@
 # collect top-level components needed for ujs and/or server-side render:
+
+requireBulk = require('bulk-require') # require file/directory trees
+
 UI =
-  RightsManagement: require('./rights-management.cjsx')
-  CreateCollection: require('./create-collection.cjsx')
-  AskDeleteCollection: require('./ask-delete-collection.cjsx')
-  SelectCollection: require('./select-collection.cjsx')
-  CollectionShow: require('./collection-show.cjsx')
-  MediaEntryExport: require('./media-entry-export.cjsx')
-  CollectionResourceSelection: require('./collection-resource-selection.cjsx')
-  FormResourceMetaData: require('./form-resource-meta-data.cjsx')
-  BatchFormResourceMetaData: require('./batch-form-resource-meta-data.cjsx')
-  BatchResourcesBox: require('./batch-resources-box.cjsx')
-  Uploader: require('./uploader.cjsx')
-
+  # "UI library" (aka styleguide)
+  # NOTE: 'requireBulk' is in the index file so that other components can use it
   UI: require('./ui-components/index.coffee')
-  Deco: require('./decorators/index.coffee')
 
+  # Decorators: components that directly receive (sub-)presenters
+  # NOTE: only needed for remaining HAML views…
+  Deco: requireBulk(__dirname, [ './decorators/*.cjsx' ]).decorators
+  # Views: Everything else that is rendered top-level (`react` helper)
+  # NOTE: also because of HAML views there are sub-folders for "partials and actions".
+  #       Will be structured more closely to the actual routes where they are used.
+  Views: requireBulk(__dirname, [ './views/*.cjsx',  './views/**/*.cjsx']).views
+
+  # extra stuff
   AsyncDashboardSection: require('./lib/AsyncDashboardSection.cjsx')
 
 module.exports = UI

@@ -1,6 +1,6 @@
 React = require('react')
 f = require('active-lodash')
-t = require('../lib/string-translation')('de') # TODO: select correct locale!
+t = require('../../lib/string-translation')('de') # TODO: select correct locale!
 url = require('url')
 ampersandReactMixin = require('ampersand-react-mixin')
 
@@ -28,13 +28,13 @@ module.exports = React.createClass
 
   # this will only ever run on the client:
   componentDidMount: ()->
-    AutoComplete = require('./lib/autocomplete.cjsx')
-    router = require('../lib/router.coffee')
+    AutoComplete = require('../lib/autocomplete.cjsx')
+    router = require('../../lib/router.coffee')
 
     if @props.get.type == 'Collection'
-      PermissionsModel = require('../models/collection/permissions.coffee')
+      PermissionsModel = require('../../models/collection/permissions.coffee')
     else
-      PermissionsModel = require('../models/media-entry/permissions.coffee')
+      PermissionsModel = require('../../models/media-entry/permissions.coffee')
 
     model = new PermissionsModel(@props.get)
     editUrl = url.resolve(@props.get.url, 'permissions/edit')

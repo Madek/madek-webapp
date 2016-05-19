@@ -3,9 +3,9 @@ ReactDOM = require('react-dom')
 ampersandReactMixin = require('ampersand-react-mixin')
 f = require('active-lodash')
 async = require('async')
-t = require('../lib/string-translation')('de')
-FileDropBox = require('./lib/file-dropbox.cjsx')
-MediaResourcesBox = require('./decorators/MediaResourcesBox.cjsx')
+t = require('../../../lib/string-translation')('de')
+FileDropBox = require('../../lib/file-dropbox.cjsx')
+MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 
 UPLOAD_CONCURRENCY = 4
 
@@ -21,7 +21,7 @@ module.exports = React.createClass
 
   getInitialState: ()-> {active: false}
   componentDidMount: ()->
-    unless @props.appCollection.isCollection
+    unless f.get(@props, 'appCollection.isCollection')
       throw new Error 'No AppCollection given!'
     @setState(active: true)
 

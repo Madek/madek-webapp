@@ -1,5 +1,4 @@
-:ruby
-
-- content_for(:modal) { react('CollectionResourceSelection', { get: @get, type: 'radio' }) }
+- content_for(:modal) do
+  = react('Views.Collection.ResourceSelection', { get: @get, type: 'radio' })
 
 = render template: 'collections/show'

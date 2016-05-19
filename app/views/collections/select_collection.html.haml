@@ -1,5 +1,4 @@
-:ruby
-
-- content_for(:modal) { react('SelectCollection', { get: @get }) }
+- content_for(:modal) do
+  = react('Views.Collection.SelectCollection', { get: @get })
 
 = render template: 'collections/show'

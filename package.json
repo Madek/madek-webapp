@@ -13,7 +13,7 @@
     "build:server": "browserify app/assets/javascripts/react-server-side.js -v -o public/assets/bundles/bundle-react-server-side.js",
     "build:integration": "browserify app/assets/javascripts/integration-testbed.coffee -v -o public/assets/bundles/bundle-integration-testbed.js",
     "test": "npm run -s lint",
-    "lint": "bash -c 'npm run -s coffeelint -- --quiet app/assets/javascripts/{*.coffee,**/*.{coffee,cjsx}} && npm run -s standardlint -- {.,**}/*.js'",
+    "lint": "bash -c 'npm run -s coffeelint -- --quiet app/assets/javascripts/**/*.coffee app/assets/javascripts/react/**/*.cjsx && npm run -s standardlint -- {.,**}/*.js'",
     "devtools": "npm run -s build-devtools && coffee --nodejs \"-r ./tmp/devtools.js\"",
     "devtools-js": "npm run -s build-devtools && node -r ./tmp/devtools.js",
     "build-devtools": "npm run -s browserify -- app/assets/javascripts/developer-tools.coffee > tmp/devtools.js",
