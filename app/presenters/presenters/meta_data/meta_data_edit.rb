@@ -26,6 +26,10 @@ module Presenters
           end
       end
 
+      def presenterify_vocabulary_and_meta_data(bundle, _presenter = nil)
+        super(bundle, Presenters::MetaData::MetaDatumEdit)
+      end
+
     end
   end
 end

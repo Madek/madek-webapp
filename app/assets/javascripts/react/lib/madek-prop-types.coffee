@@ -33,9 +33,14 @@ M.metaKey = PropTypes.shape
   label: PropTypes.string.isRequired
   description: PropTypes.string
   hint: PropTypes.string
+  is_extensible: PropTypes.bool # only for type keywords!
 
 M.metaDatum =  PropTypes.shape
   meta_key: M.metaKey
+M.keyword = PropTypes.shape
+  label: PropTypes.string.isRequired
+  type: PropTypes.oneOf(['Keyword'])
+
 
 # ResourceFilters
 # NOTE: extracted only for readabilty

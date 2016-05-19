@@ -39,6 +39,9 @@ feature 'Batch update media entries' do
   end
 
   it 'successfully updates meta_data for all entries', browser: :firefox do
+    # NOTE: create more than 16 Keywords total to trigger the autocomplete!
+    20.times { FactoryGirl.create(:keyword, meta_key: meta_key_keywords) }
+
     user = FactoryGirl.create :user
 
     me1 = FactoryGirl.create :media_entry_with_image_media_file, :fat

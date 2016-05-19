@@ -15,21 +15,22 @@ FIXME: fails if even required on server (jQuery)!
 React = require('react')
 ReactDOM = require('react-dom')
 PropTypes = React.PropTypes
+f = require('active-lodash')
 jQuery = require('jquery')
 require('@eins78/typeahead.js/dist/typeahead.jquery.js')
 
 searchResources = require('../../lib/search.coffee')
 
-initTypeahead = (domNode, resourceType, params, callback)->
-  unless (dataSource = searchResources(resourceType, params))
+initTypeahead = (domNode, resourceType, params, conf, callback)->
+  console.log 'conf', conf
+  localData = conf.dataSource
+  unless (searchBackend = searchResources(resourceType, params, localData))
     throw new Error "No search backend for '#{resourceType}'!"
 
-  # init typeahead.js plugin via jQuery
-  $input = jQuery(domNode)
-  $input.typeahead({
+  typeaheadConfig = {
     hint: false,
     highlight: true,
-    minLength: 1,
+    minLength: conf.minLength,
     classNames: { # madek style:
       wrapper: 'ui-autocomplete-holder'
       input: 'ui-typeahead-input',
@@ -38,17 +39,22 @@ initTypeahead = (domNode, resourceType, params, callback)->
       cursor: 'ui-autocomplete-cursor',
       suggestion: 'ui-menu-item'
     }
-  },
-  dataSource) # add events (browser/jquery events, NOT from react!):
-    .on 'keypress', (event)->
-      # dont trigger submit on ENTER key:
-      if event.keyCode is 13 then event.preventDefault()
-      return null # otherwise we will get stupid warning
+  }
 
-    .on 'typeahead:select typeahead:autocomplete', (event, item)->
-      event.preventDefault()
-      $input.typeahead('val', '') # reset input field text
-      callback(item)
+  # init typeahead.js plugin via jQuery
+  $input = jQuery(domNode)
+  typeahead = $input.typeahead(typeaheadConfig, searchBackend)
+
+  # add events (browser/jquery events, NOT from react!):
+  typeahead.on 'keypress', (event)->
+    # dont trigger submit on ENTER key:
+    if event.keyCode is 13 then event.preventDefault()
+    return null # otherwise we will get stupid warning
+
+  typeahead.on 'typeahead:select typeahead:autocomplete', (event, item)->
+    event.preventDefault()
+    $input.typeahead('val', '') # reset input field text
+    callback(item)
 
 module.exports = React.createClass
   displayName: 'AutoComplete'
@@ -61,10 +67,16 @@ module.exports = React.createClass
     className: PropTypes.string
     autoFocus: PropTypes.bool
     searchParams: PropTypes.object
+    config: PropTypes.shape
+      minLength: PropTypes.number
 
-  componentDidMount: ({resourceType, searchParams, autoFocus, onSelect} = @props)->
+  componentDidMount: ({resourceType, searchParams, autoFocus, config, onSelect} = @props)->
+    conf = f.defaults config,
+      minLength: 1
+
     initTypeahead(
-      ReactDOM.findDOMNode(@refs.InputField), resourceType, searchParams, onSelect)
+      ReactDOM.findDOMNode(@refs.InputField),
+      resourceType, searchParams, conf, onSelect)
     if autoFocus then @focus()
 
   focus: ()->
@@ -73,12 +85,12 @@ module.exports = React.createClass
   render: ()->
     {name, value, placeholder, className} = @props
 
-    # not a real FORM input field, so change the name:
-    name = '___autocomplete_for_' + name
+    # NOTE: not a serializable <input> field, so 'name' attribute must be empty!
+    #       (but we add it as a data prop for debugging/testing)
 
     <input ref="InputField"
-      className={className + ' typeahead'}
       type="text"
+      className={className + ' typeahead'}
       defaultValue={value or ''}
       placeholder={placeholder || 'search…'}
-      name={name} />
+      data-autocomplete-for={name} />

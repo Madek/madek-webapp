@@ -10,10 +10,10 @@ module.exports = React.createClass
     name: React.PropTypes.string.isRequired
     get: MadekPropTypes.metaDatum.isRequired
 
-  getInitialState: ()-> {active: false}
+  getInitialState: ()-> {isClient: false}
   componentDidMount: ({get} = @props)->
     @setState
-      active: true # internal marker to check for client side
+      isClient: true # internal marker to check for client side
       values: get.values # keep track of entered values
 
   onChange: (values)->
@@ -25,20 +25,20 @@ module.exports = React.createClass
     # TODO: really check check if multiple allowed!
     multiple = not (f.includes(['Text', 'TextDate'], resourceType))
 
-    # NOTE: in active mode, we operate with the objects (`values`),
+    # NOTE: in isClient mode, we operate with the objects (`values`),
     # otherwise everything is just strings (`literal_values`)!
     values = state.values or get.literal_values
 
     # enhance input if we are on client and there is a component,
     # otherwise use static text input:
-    InputForType = if (state.active and InputsByType[resourceType])
+    InputForType = if (state.isClient and InputsByType[resourceType])
       InputsByType[resourceType]
     else
       InputsByType.Text
 
     <InputForType
+      get={get}
       name={name}
-      metaKey={get.meta_key}
-      active={state.active}
+      active={state.isClient}
       multiple={multiple}
       values={values}/>

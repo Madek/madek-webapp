@@ -52,13 +52,14 @@ module Presenters
         visible_vocabularies(@user)
       end
 
-      def presenterify_vocabulary_and_meta_data(bundle)
+      def presenterify_vocabulary_and_meta_data(bundle, presenter = nil)
         vocabulary, meta_data = bundle
+        presenter ||= Presenters::MetaData::MetaDatumCommon
         meta_data = \
           if meta_data.nil? then []
           else meta_data
             .sort_by { |md| md.meta_key.position }
-            .map { |md| Presenters::MetaData::MetaDatumCommon.new(md, @user) }
+            .map { |md| presenter.new(md, @user) }
           end
 
         [vocabulary.id.to_sym, Pojo.new(

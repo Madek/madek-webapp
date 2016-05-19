@@ -131,7 +131,7 @@ MetaDatumFormItem = React.createClass
 
   render: ({get, name, error} = @props)->
     name += "[#{get.meta_key.uuid}][]"
-    <fieldset className={cx('ui-form-group', 'columned', {'error': error})}>
+    <fieldset className={cx('ui-form-group columned prh', {'error': error})}>
       {if error
         <div className="ui-alerts" style={marginBottom: '10px'}>
           <div className="error ui-alert">

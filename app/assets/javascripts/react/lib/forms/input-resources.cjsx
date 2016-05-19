@@ -12,6 +12,8 @@ module.exports = React.createClass
     values: React.PropTypes.array.isRequired
     active: React.PropTypes.bool.isRequired
     multiple: React.PropTypes.bool.isRequired
+    autocompleteConfig: React.PropTypes.shape
+      minLength: React.PropTypes.number
 
   getInitialState: ()-> {isClient: false}
 
@@ -22,8 +24,9 @@ module.exports = React.createClass
       values: values # keep internal state of entered values
 
   onItemAdd: (item)->
+    @setState(adding: true)
     unless f(@state.values).map('uuid').includes(item.uuid) # no duplicates!
-      @setState(values: @state.values.concat(item), adding: true)
+      @setState(values: @state.values.concat(item))
     # TODO: highlight the existing entry visually…
 
   onItemRemove: (item, _event)->
@@ -34,7 +37,7 @@ module.exports = React.createClass
       @setState(adding: false)
       setTimeout(@refs.ListAdder.focus, 1)
 
-  render: ({name, resourceType, searchParams, values, multiple} = @props, state = @state)->
+  render: ({name, resourceType, searchParams, values, multiple, autocompleteConfig} = @props, state = @state)->
     {onItemAdd, onItemRemove} = @
     values = state.values or values
 
@@ -62,6 +65,7 @@ module.exports = React.createClass
                   resourceType={resourceType}
                   searchParams={searchParams}
                   onSelect={onItemAdd}
+                  config={autocompleteConfig}
                   ref='ListAdder'/>
               <a className='multi-select-input-toggle icon-arrow-down'/>
             </li>

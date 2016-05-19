@@ -6,13 +6,27 @@ module Presenters
                                :vocabulary_id,
                                :position)
 
+      def initialize(app_resource)
+        super(app_resource)
+
+        # props for special types
+
+        if @app_resource.can_have_keywords?
+
+          define_singleton_method :is_extensible do
+            # FIXME: wtf is up with the db defaults? NULL is TRUE o_O
+            (@app_resource.is_extensible_list != false) ? true : false
+          end
+
+          define_singleton_method :alphabetical_order do
+            @app_resource.keywords_alphabetical_order
+          end
+        end
+      end
+
       def label
         @app_resource.label or @app_resource.id.split(':').last.humanize
       end
-
-      # def type
-      #   @app_resource.meta_datum_object_type
-      # end
 
       def value_type
         @app_resource.meta_datum_object_type
