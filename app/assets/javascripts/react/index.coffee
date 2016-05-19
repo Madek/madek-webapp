@@ -5,6 +5,7 @@ UI =
   AskDeleteCollection: require('./ask-delete-collection.cjsx')
   SelectCollection: require('./select-collection.cjsx')
   CollectionShow: require('./collection-show.cjsx')
+  MediaEntryExport: require('./media-entry-export.cjsx')
   CollectionResourceSelection: require('./collection-resource-selection.cjsx')
   FormResourceMetaData: require('./form-resource-meta-data.cjsx')
   BatchFormResourceMetaData: require('./batch-form-resource-meta-data.cjsx')

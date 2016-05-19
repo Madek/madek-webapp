@@ -23,6 +23,10 @@ class MediaEntriesController < ApplicationController
     respond_with(@get)
   end
 
+  def export
+    show
+  end
+
   # tabs that work like 'show':
   [:relations, :more_data, :permissions, :permissions_edit]
     .each { |action| alias_method action, :show }

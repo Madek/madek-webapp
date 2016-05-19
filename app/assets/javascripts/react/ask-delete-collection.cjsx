@@ -23,13 +23,14 @@ module.exports = React.createClass
         <div className='ui-modal-head'>
           <a href={get.cancel_url} aria-hidden='true'
             className='ui-modal-close' data-dismiss='modal'
-            title='Close' type='button'>
+            title='Close' type='button'
+            style={{position: 'static', float: 'right', paddingTop: '5px'}}>
             <i className='icon-close'></i>
           </a>
           <h3 className='title-l'>{t('collection_ask_delete_title')}</h3>
         </div>
 
-        <div className='ui-modal-body'>
+        <div className='ui-modal-body' style={{maxHeight: 'none'}}>
           <p className="pam by-center">
             {t('collection_ask_delete_question_pre')}
             <strong>{get.title}</strong>

@@ -31,6 +31,8 @@ Madek::Application.routes.draw do
 
       post :publish
       get 'relations'
+
+      get 'export'
     end
 
     # TMP

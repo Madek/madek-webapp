@@ -38,6 +38,14 @@
       icon: :move)
     : nil
 
+  (@get.policy(current_user).export?) ?
+    action_buttons << component('button',
+      link: export_media_entry_path,
+      title: t(:todo, raise: false),
+      method: :get,
+      icon: :dload)
+    : nil
+
 
 
 

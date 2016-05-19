@@ -28,13 +28,14 @@ module.exports = React.createClass
         <div className='ui-modal-head'>
           <a href={get.cancel_url} aria-hidden='true'
             className='ui-modal-close' data-dismiss='modal'
-            title='Close' type='button'>
+            title='Close' type='button'
+            style={{position: 'static', float: 'right', paddingTop: '5px'}}>
             <i className='icon-close'></i>
           </a>
           <h3 className='title-l'>{t('collection_new_dialog_title')}</h3>
         </div>
 
-        <div className='ui-modal-body'>
+        <div className='ui-modal-body' style={{maxHeight: 'none'}}>
           {alerts}
           <div className="form-body">
             <div className="ui-form-group rowed compact">

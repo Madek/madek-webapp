@@ -28,6 +28,7 @@ module BasicDataHelper
   def create_media_entry(title)
     media_entry = FactoryGirl.create(
       :media_entry,
+      get_metadata_and_previews: true,
       responsible_user: @user,
       creator: @user)
     FactoryGirl.create(

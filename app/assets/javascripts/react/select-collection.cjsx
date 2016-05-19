@@ -27,7 +27,8 @@ module.exports = React.createClass
       <div className='ui-modal-head'>
           <a href={get.resource_url} aria-hidden='true'
             className='ui-modal-close' data-dismiss='modal'
-            title='Close' type='button'>
+            title='Close' type='button'
+            style={{position: 'static', float: 'right', paddingTop: '5px'}}>
             <i className='icon-close'></i>
           </a>
         <h3 className='title-l'>{t('resource_select_collection_title')}</h3>
@@ -53,7 +54,7 @@ module.exports = React.createClass
       <RailsForm name='select_collections' action={get.add_remove_collection_url}
               method='patch' authToken={authToken} className='dummy' className='save-arcs'>
 
-        <div className='ui-modal-body'>
+        <div className='ui-modal-body' style={{maxHeight: 'none'}}>
           {if get.collection_rows.length isnt 0
             <ol className='ui-set-list pbs'>
               {f.map get.collection_rows, (row) ->
