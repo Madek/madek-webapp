@@ -4,11 +4,16 @@ class Presenter
   include Rails.application.routes.url_helpers
 
   def api
-    self
+    self_singleton_methods = self.singleton_methods
+    self_class_methods = self
       .class
       .ancestors
       .select { |a| a.to_s.match(/^Presenters/) }
       .map { |a| a.instance_methods(false) }
+
+    presenter_api_methods = (self_singleton_methods + self_class_methods)
+
+    presenter_api_methods
       .flatten
       .uniq
       .reject { |m| m == :inspect }
