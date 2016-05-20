@@ -16,7 +16,7 @@ feature 'Resource: MediaEntry' do
       within('.ui-body-title-actions') do
         find('a', text: I18n.t('dashboard_create_media_entry_btn')).click
       end
-      expect(current_path).to eq '/entries/new'
+      expect(current_path).to eq new_media_entry_path
 
       # select file and submit
       within('.app-body') do
@@ -72,7 +72,7 @@ feature 'Resource: MediaEntry' do
       within('.ui-body-title-actions') do
         find('a', text: I18n.t('dashboard_create_media_entry_btn')).click
       end
-      expect(current_path).to eq '/entries/new'
+      expect(current_path).to eq new_media_entry_path
 
       # select file and submit
       within('.app-body') do

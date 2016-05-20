@@ -13,7 +13,8 @@ Madek::Application.routes.draw do
   #   get '/permissions', action: :permissions_show, as: 'permissions', on: :member
   # end
 
-  resources :media_entries, path: 'entries' do
+  resources :media_entries, path: 'entries', except: [:new] do
+    # NOTE: 'new' action is under '/my/upload'!
     member do
       get 'meta_data/edit', action: :edit_meta_data, as: 'edit_meta_data'
       put 'meta_data', action: :meta_data_update
@@ -44,7 +45,7 @@ Madek::Application.routes.draw do
 
   end
 
-  resources :collections, path: 'sets', only: [:index, :show, :create, :destroy, :relations] do
+  resources :collections, path: 'sets', only: [:index, :show, :create, :destroy] do
     member do
       get 'permissions', action: :permissions_show, as: 'permissions'
       get 'permissions/edit', action: :permissions_edit, as: 'edit_permissions'
@@ -110,6 +111,9 @@ Madek::Application.routes.draw do
   resource :search , controller: :search, only: [:show] do
     get :result
   end
+
+  # NOTE: uploader is REST-ish, but use custom a nicer URL for users
+  get 'my/upload', controller: :media_entries, action: :new, as: :new_media_entry
 
   namespace :my do
     get 'session-token', to: '/my#session_token'
