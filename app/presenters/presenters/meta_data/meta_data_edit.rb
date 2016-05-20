@@ -3,9 +3,9 @@ module Presenters
 
     class MetaDataEdit < Presenters::MetaData::ResourceMetaData
 
-      def by_context
-        nil
-      end
+      # def by_context
+      #   nil
+      # end
 
       private
 

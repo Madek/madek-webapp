@@ -9,6 +9,10 @@ module Presenters
 
       delegate_to_app_resource(
         :position,
+        :is_required,
+        :length_min,
+        :length_max,
+        :input_type,
         :meta_key_id)
 
       # for simple display purposes, we provide the 3 "shadowed" props,
