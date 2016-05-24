@@ -12,6 +12,7 @@ module.exports = React.createClass
     values: React.PropTypes.array.isRequired
     active: React.PropTypes.bool.isRequired
     multiple: React.PropTypes.bool.isRequired
+    extensible: React.PropTypes.bool # only for keywords
     autocompleteConfig: React.PropTypes.shape
       minLength: React.PropTypes.number
 
@@ -19,26 +20,38 @@ module.exports = React.createClass
 
   componentDidMount: ({values} = @props)->
     AutoComplete = require('../autocomplete.cjsx')
+    # TODO: make selection a collection to keep track of persistent vs on the fly values
     @setState
       isClient: true
       values: values # keep internal state of entered values
 
-  onItemAdd: (item)->
+  _onItemAdd: (item)->
     @setState(adding: true)
-    unless f(@state.values).map('uuid').includes(item.uuid) # no duplicates!
-      @setState(values: @state.values.concat(item))
-    # TODO: highlight the existing entry visually…
+    # TODO: use collection…
+    is_duplicate = if f.present(item.uuid)
+      f(@state.values).map('uuid').includes(item.uuid)
+    else
+      f(@state.values).map('term').includes(item.term) # HACK!
 
-  onItemRemove: (item, _event)->
+    unless is_duplicate
+      @setState(values: @state.values.concat(item))
+    # TODO: highlight the existing (in old value) and on the fly items visually…
+
+  _onNewItem: (value)->
+    @_onItemAdd({ type: 'Keyword', label: "* #{value} * ", term: value }) # HACK
+
+  _onItemRemove: (item, _event)->
     @setState(values: f.reject(@state.values, item))
 
   componentDidUpdate: ()->
     if @state.adding
       @setState(adding: false)
-      setTimeout(@refs.ListAdder.focus, 1)
+      setTimeout(@refs.ListAdder.focus, 1) # show the adder again
 
-  render: ({name, resourceType, searchParams, values, multiple, autocompleteConfig} = @props, state = @state)->
-    {onItemAdd, onItemRemove} = @
+  render: ()->
+    {_onItemAdd, _onItemRemove, _onNewItem} = @
+    {name, resourceType, searchParams, values, multiple, extensible, autocompleteConfig} = @props
+    state = @state
     values = state.values or values
 
     # NOTE: this is only supposed to be used client side,
@@ -49,8 +62,8 @@ module.exports = React.createClass
       <div className='multi-select'>
         <ul className='multi-select-holder'>
           {values.map (item)->
-            remover = f.curry(onItemRemove)(item)
-            <li className='multi-select-tag' key={item.uuid}>
+            remover = f.curry(_onItemRemove)(item)
+            <li className='multi-select-tag' key={item.uuid or item.getId?() or JSON.stringify(item)}>
               {decorateResource(item)}
               <a className='multi-select-tag-remove' onClick={remover}>
                 <i className='icon-close'/>
@@ -58,23 +71,44 @@ module.exports = React.createClass
             </li>
           }
 
-          {if multiple or f.empty(values) # add a value:
+          {# add a value: }
+          {if multiple or f.empty(values)
+
+            # allow adding new keywords:
+            if extensible and (resourceType is 'Keywords')
+              addNewValue = _onNewItem
+
             <li className='multi-select-input-holder'>
                 <AutoComplete className='multi-select-input'
                   name={name}
                   resourceType={resourceType}
                   searchParams={searchParams}
-                  onSelect={onItemAdd}
+                  onSelect={_onItemAdd}
                   config={autocompleteConfig}
+                  onAddValue={addNewValue}
                   ref='ListAdder'/>
               <a className='multi-select-input-toggle icon-arrow-down'/>
             </li>
           }
         </ul>
       </div>
+
       {# For form submit/serialization: always render values as hidden inputs, }
       {# in case of no values add an empty one. }
-      {f.map (f(values).pluck('uuid').presence() or ['']), (val)->
-        <InputFieldText type='hidden' name={name} value={val} key={val||'empty'}/>
+      {f.map (f(values).presence() or ['']), (item)->
+        # persisted resources have and only need a uuid (as string)
+        # new resources are sent as on object (with all the attributes)
+        if item.uuid
+          fieldName = name
+          val = item.uuid
+        else if item.type is 'Keyword' # HACK: only keywords…
+          fieldName = name + '[term]'
+          val = item.term
+        else
+          fieldName = name
+          val = item.val
+
+        <InputFieldText
+          type='hidden' name={fieldName} value={val} key={val||'empty'}/>
       }
     </div>

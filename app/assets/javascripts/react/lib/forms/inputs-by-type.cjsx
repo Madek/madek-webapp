@@ -48,6 +48,7 @@ module.exports =
         <InputResources {...@props}
           resourceType='Keywords'
           searchParams={params}
+          extensible={meta_key.is_extensible}
           autocompleteConfig={autocompleteConfig}/>
 
       else # is fixed_selection — checkboxes:

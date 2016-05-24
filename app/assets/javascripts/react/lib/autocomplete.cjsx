@@ -21,8 +21,7 @@ require('@eins78/typeahead.js/dist/typeahead.jquery.js')
 
 searchResources = require('../../lib/search.coffee')
 
-initTypeahead = (domNode, resourceType, params, conf, callback)->
-  console.log 'conf', conf
+initTypeahead = (domNode, resourceType, params, conf, onSelect, onAdd)->
   localData = conf.dataSource
   unless (searchBackend = searchResources(resourceType, params, localData))
     throw new Error "No search backend for '#{resourceType}'!"
@@ -47,14 +46,19 @@ initTypeahead = (domNode, resourceType, params, conf, callback)->
 
   # add events (browser/jquery events, NOT from react!):
   typeahead.on 'keypress', (event)->
-    # dont trigger submit on ENTER key:
-    if event.keyCode is 13 then event.preventDefault()
+    if event.keyCode is 13 # on ENTER key
+      event.preventDefault() # NEVER trigger submit
+      # but do (optional) callback IF any value
+      if (value = f.presence($input.typeahead('val')))
+        if f.isFunction(onAdd)
+          onAdd(value)
+          $input.typeahead('val', '') # reset input field text
     return null # otherwise we will get stupid warning
 
   typeahead.on 'typeahead:select typeahead:autocomplete', (event, item)->
     event.preventDefault()
     $input.typeahead('val', '') # reset input field text
-    callback(item)
+    onSelect(item)
 
 module.exports = React.createClass
   displayName: 'AutoComplete'
@@ -62,6 +66,7 @@ module.exports = React.createClass
     name: PropTypes.string.isRequired
     resourceType: PropTypes.string.isRequired
     onSelect: PropTypes.func.isRequired
+    onAddValue: PropTypes.func
     value: PropTypes.string
     placeholder: PropTypes.string
     className: PropTypes.string
@@ -70,13 +75,12 @@ module.exports = React.createClass
     config: PropTypes.shape
       minLength: PropTypes.number
 
-  componentDidMount: ({resourceType, searchParams, autoFocus, config, onSelect} = @props)->
+  componentDidMount: ()->
+    {resourceType, searchParams, autoFocus, config, onSelect, onAddValue} = @props
     conf = f.defaults config,
       minLength: 1
-
-    initTypeahead(
-      ReactDOM.findDOMNode(@refs.InputField),
-      resourceType, searchParams, conf, onSelect)
+    inputDOM = ReactDOM.findDOMNode(@refs.InputField)
+    initTypeahead(inputDOM, resourceType, searchParams, conf, onSelect, onAddValue)
     if autoFocus then @focus()
 
   focus: ()->

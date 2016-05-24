@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
-require_relative 'shared/favorite_helper_spec'
+require_relative '../shared/favorite_helper_spec'
 include FavoriteHelper
 
 # NOTE: this uses rack-test "browser" to make sure it can be viewed without js

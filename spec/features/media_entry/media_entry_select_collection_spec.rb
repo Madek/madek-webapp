@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
-require_relative 'shared/select_collection_helper_spec'
+require_relative '../shared/select_collection_helper_spec'
 include SelectCollectionHelper
 
 feature 'MediaEntry: Select Collection' do

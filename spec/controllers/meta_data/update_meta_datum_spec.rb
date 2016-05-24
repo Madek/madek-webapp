@@ -128,7 +128,7 @@ describe MetaDataController do
         .to match_array new_keyword_ids
     end
 
-    pending 'add NEW MetaDatum::Keywords' do
+    it 'add NEW MetaDatum::Keywords' do
       meta_key = FactoryGirl.create(:meta_key_keywords)
       create_vocabulary_permissions(meta_key.vocabulary)
       meta_datum = create(:meta_datum_keywords,
@@ -147,7 +147,7 @@ describe MetaDataController do
 
       assert_response 303
       newly_created_keyword = Keyword.find_by(term: new_keyword_data[:term])
-      expect(newly_created_keyword).to exist_in_db
+      expect(newly_created_keyword.persisted?).to be true
       expect(meta_datum.reload.keywords.map(&:id))
         .to match_array [newly_created_keyword.id]
     end
