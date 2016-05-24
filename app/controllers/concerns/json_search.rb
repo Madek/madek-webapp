@@ -23,8 +23,8 @@ module Concerns
     end
 
     # to be overriden in controllers if required
-    def filter_by_search_params(ar_collection, search_term)
-      ar_collection.filter_by(search_term)
+    def filter_by_search_params(ar_collection, *search_params)
+      ar_collection.filter_by(*search_params)
     end
 
     # to be overriden in controllers if required
