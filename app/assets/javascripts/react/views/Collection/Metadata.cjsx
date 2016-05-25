@@ -4,7 +4,6 @@ f = require('active-lodash')
 t = require('../../../lib/string-translation.js')('de')
 RailsForm = require('../../lib/forms/rails-form.cjsx')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
-
 classnames = require('classnames')
 
 module.exports = React.createClass

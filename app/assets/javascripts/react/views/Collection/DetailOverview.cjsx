@@ -3,26 +3,19 @@ ReactDOM = require('react-dom')
 f = require('active-lodash')
 t = require('../../../lib/string-translation.js')('de')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
+TabContent = require('../TabContent.cjsx')
 
 classnames = require('classnames')
 
 module.exports = React.createClass
-  displayName: 'CollectionDetail'
+  displayName: 'CollectionDetailOverview'
 
   render: ({authToken, get} = @props) ->
-    <div className="ui-container tab-content bordered rounded-right rounded-bottom mbh">
-      <Overview get={get} />
-      <Additional get={get} authToken={authToken} />
-    </div>
-
-
-
-Additional = React.createClass
-  displayName: 'Additional'
-  render: ({get, authToken} = @props) ->
-    <div className="ui-container rounded-bottom">
-      <MediaResourcesBox withBox={true} get={get.relations.child_media_resources} authToken={authToken}
-        initial={ { show_filter: false } } mods={ [ {bordered: false}, 'rounded-bottom' ] }/>
+    <div className="bright pal rounded-top-right ui-container">
+      <div className="ui-resource-overview ui-set-overview">
+        <Preview title={get.title} alt='(Unbekannt)' src={get.image_url} />
+        <Metadata get={get} />
+      </div>
     </div>
 
 Keyword = React.createClass
@@ -35,16 +28,6 @@ Keyword = React.createClass
       </a>
     </li>
 
-
-Overview = React.createClass
-  displayName: 'Overview'
-  render: ({get} = @props) ->
-    <div className="bright pal rounded-top-right ui-container">
-      <div className="ui-resource-overview ui-set-overview">
-        <Preview title={get.title} alt='(Unbekannt)' src={get.image_url} />
-        <Metadata get={get} />
-      </div>
-    </div>
 
 Preview = React.createClass
   displayName: 'Preview'

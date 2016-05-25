@@ -1,10 +1,1 @@
-- content_for(:header) do
-  = component('page-header',
-      icon: component('icon.pen'),
-      text: t(:media_entry_meta_data_header_prefix) + @get.title,
-      actions: nil)
-
-- content_for(:overview) do
-  = react('Deco.ResourceMetaDataForm', get: @get)
-
-= render template: 'layouts/app_resource'
+= react('Deco.ResourceMetaDataPage', get: @get)

@@ -5,85 +5,57 @@ t = require('../../lib/string-translation.js')('de')
 RailsForm = require('../lib/forms/rails-form.cjsx')
 MediaResourcesBox = require('../decorators/MediaResourcesBox.cjsx')
 RightsManagement = require('../decorators/ResourcePermissions.cjsx')
-CollectionDetail = require('./Collection/Detail.cjsx')
 CollectionRelations = require('./Collection/Relations.cjsx')
 CollectionMetadata = require('./Collection/Metadata.cjsx')
-
+PageContentHeader = require('./PageContentHeader.cjsx')
+Tabs = require('./Tabs.cjsx')
+Tab = require('./Tab.cjsx')
+HeaderButton = require('./HeaderButton.cjsx')
+PageContent = require('./PageContent.cjsx')
 classnames = require('classnames')
+TabContent = require('./TabContent.cjsx')
+CollectionDetailOverview = require('./Collection/DetailOverview.cjsx')
+CollectionDetailAdditional = require('./Collection/DetailAdditional.cjsx')
+
 
 module.exports = React.createClass
-  displayName: 'Base'
+  displayName: 'CollectionShow'
 
   render: ({authToken, get, activeTab} = @props) ->
-    <div className="app-body-ui-container">
-      <div className="ui-body-title">
-        <div className="ui-body-title-label">
-          <h1 className="title-xl">
-            <i className="icon-set"/> {get.title}
-          </h1>
-        </div>
-        <div className="ui-body-title-actions">
-          {f.map get.buttons, (button) ->
-            <ResourceButton key={button.action}
-              icon={button.icon} title={button.title} name={button.action}
-              href={button.action} method={button.method} authToken={authToken}/>
-          }
-        </div>
-      </div>
+    <PageContent>
+      <PageContentHeader icon='set' title={get.title}>
+        {f.map get.buttons, (button) ->
+          <HeaderButton key={button.action}
+            icon={button.icon} title={button.title} name={button.action}
+            href={button.action} method={button.method} authToken={authToken}/>
+        }
+      </PageContentHeader>
 
-      <ul className="ui-tabs large">
+      <Tabs>
         {f.map get.tabs, (tab, index) ->
-          <Tab get={get} key={tab.href} iconType={tab.icon_type} href={tab.href}
+          <Tab privacyStatus={get.privacy_status} key={tab.href} iconType={tab.icon_type} href={tab.href}
             label={tab.label} active={index == activeTab} />
         }
-      </ul>
+      </Tabs>
 
-      {if activeTab == 0
-        <CollectionDetail get={get} authToken={authToken} />
-      }
-      {if activeTab == 1
-        <CollectionRelations get={get} authToken={authToken} />
-      }
-      {if activeTab == 2
-        <CollectionMetadata get={get} authToken={authToken} />
-      }
-      {if activeTab == 3
-        <div className="bright pal rounded-bottom rounded-top-right ui-container">
-          <RightsManagement get={get.permissions} />
-        </div>
-      }
-    </div>
-
-Tab = React.createClass
-  displayName: 'Tab'
-  render: ({get, label, href, iconType, active} = @props) ->
-    classes = classnames({ active: active}, 'ui-tabs-item')
-    icon = if iconType == 'privacy_status_icon'
-      if get.privacy_status
-        icon_map = {
-          public: 'open',
-          shared: 'group',
-          private: 'private'
+      <TabContent>
+        {if activeTab == 0
+          [
+            <CollectionDetailOverview get={get} authToken={authToken} />
+            ,
+            <CollectionDetailAdditional get={get} authToken={authToken} />
+          ]
         }
-        <i className={'icon-privacy-' + icon_map[get.privacy_status]}/>
-
-    <li className={classes}>
-      <a href={href}>
-        {if icon
-          <span>{icon} {label}</span>
-        else
-          label
+        {if activeTab == 1
+          <CollectionRelations get={get} authToken={authToken} />
         }
-      </a>
-    </li>
-
-ResourceButton = React.createClass
-  displayName: 'ResourceButton'
-  render: ({authToken, href, method, icon, title, name} = @props) ->
-    method = 'post' if not method
-    icon = 'icon-' + icon
-    <RailsForm className='button_to' name='' method={method} action={href} authToken={authToken}>
-      <button className="button" type="submit" title={title}>
-        <i className={icon}></i>
-      </button>
-    </RailsForm>
+        {if activeTab == 2
+          <CollectionMetadata get={get} authToken={authToken} />
+        }
+        {if activeTab == 3
+          <div className="bright pal rounded-bottom rounded-top-right ui-container">
+            <RightsManagement get={get.permissions} />
+          </div>
+        }
+      </TabContent>
+    </PageContent>

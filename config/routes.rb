@@ -17,6 +17,7 @@ Madek::Application.routes.draw do
     # NOTE: 'new' action is under '/my/upload'!
     member do
       get 'meta_data/edit', action: :edit_meta_data, as: 'edit_meta_data'
+      get 'meta_data/edit_context(/:context_id)', action: :edit_context_meta_data, as: 'edit_context_meta_data'
       put 'meta_data', action: :meta_data_update
       get 'more_data'
 
@@ -59,6 +60,7 @@ Madek::Application.routes.draw do
       get 'ask_delete', action: :ask_delete, as: 'ask_delete'
 
       get 'meta_data/edit', action: :edit_meta_data, as: 'edit_meta_data'
+      get 'meta_data/edit_context(/:context_id)', action: :edit_context_meta_data, as: 'edit_context_meta_data'
       put 'meta_data', action: :meta_data_update
 
       get 'more_data'

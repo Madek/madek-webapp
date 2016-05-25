@@ -9,6 +9,15 @@ module Modules
         represent(find_resource)
       end
 
+      def edit_context_meta_data
+        resource = find_resource
+        base_klass = model_klass.name.pluralize
+        klass = base_klass.singularize + action_name.camelize
+        presenter = "::Presenters::#{base_klass}::#{klass}".constantize
+        @get = presenter.new(resource, @user, params[:context_id])
+        respond_with @get
+      end
+
       def meta_data_update
         resource = get_authorized_resource
         errors = update_all_meta_data_transaction!(resource, meta_data_params)

@@ -1,7 +1,7 @@
 :ruby
   action_buttons = [
     !@get.policy(current_user).update? ? nil : component('button',
-      link: edit_meta_data_media_entry_path,
+      link: edit_context_meta_data_media_entry_path,
       title: t(:resource_action_edit, raise: false),
       icon: :pen),
 

@@ -53,7 +53,7 @@ module Presenters
         { method: 'get',
           icon: 'pen',
           title: I18n.t(:resource_action_edit, raise: false),
-          action: edit_meta_data_collection_path(@app_resource),
+          action: edit_context_meta_data_collection_path(@app_resource),
           allowed: policy(@user).meta_data_update?
         }
       end

@@ -4,6 +4,7 @@ f = require('active-lodash')
 t = require('../../../lib/string-translation.js')('de')
 RailsForm = require('../../lib/forms/rails-form.cjsx')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
+TabContent = require('../TabContent.cjsx')
 
 classnames = require('classnames')
 

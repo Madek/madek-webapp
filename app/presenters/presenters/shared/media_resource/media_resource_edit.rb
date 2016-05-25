@@ -8,6 +8,9 @@ module Presenters
           @user = user
         end
 
+        def meta_data
+          Presenters::MetaData::MetaDataEdit.new(@app_resource, @user)
+        end
       end
     end
   end
