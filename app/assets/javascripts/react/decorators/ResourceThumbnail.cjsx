@@ -117,7 +117,7 @@ module.exports = React.createClass
     if get.editable
       actionsRight.push(
         <li key='edit' className='ui-thumbnail-action'>
-          <Button className='ui-thumbnail-action-favorite' href={get.url + '/meta_data/edit'}>
+          <Button className='ui-thumbnail-action-favorite' href={get.url + '/meta_data/edit_context'}>
             <i className='icon-pen'></i>
           </Button>
         </li>
