@@ -48,7 +48,7 @@ jobs:
                     #!/usr/bin/env bash
                     set -eux
                     export PATH=$(pwd)/vendor/jruby/bin/:$(ruby -e "puts ENV['PATH'].split(':').reject{|s| s.match(/\.rbenv/)}.join(':')")
-                    jruby --dev -S bundle exec cider-ci_flog app/
+                    jruby --dev -S bundle exec cider-ci_flog -m app/
 
             code_similarity:
               name: 'Ruby: Code similarity with flay'
