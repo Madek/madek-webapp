@@ -50,7 +50,6 @@ module.exports = React.createClass
     @setState(deleteModal: true)
 
   _onModalOk: () ->
-    @setState(deleteModal: false)
     @state.model.delete(
       (err, res) ->
         location.reload()
@@ -209,10 +208,14 @@ module.exports = React.createClass
               when 'MediaEntry'
                 'media_entry'
             <AskModal title={t(type + '_ask_delete_title')}
-              onCancel={@_onModalCancel} onOk={@_onModalOk}>
-              {t(type + '_ask_delete_question_pre')}
-              <strong>{model.title}</strong>
-              {t('resource_ask_delete_question_post')}
+              onCancel={@_onModalCancel} onOk={@_onModalOk}
+              okText={t('resource_ask_delete_ok')}
+              cancelText={t('resource_ask_delete_cancel')}>
+              <p className="pam by-center">
+                {t(type + '_ask_delete_question_pre')}
+                <strong>{model.title}</strong>
+                {t('resource_ask_delete_question_post')}
+              </p>
             </AskModal>
           else
             null

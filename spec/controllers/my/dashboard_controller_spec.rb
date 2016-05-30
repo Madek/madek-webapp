@@ -124,6 +124,7 @@ describe My::DashboardController do
         :unpublished_entries,
         :content_media_entries, :content_collections, :content_filter_sets,
         :latest_imports,
+        :new_collection_url, :new_media_entry_url,
         :favorite_media_entries, :favorite_collections, :favorite_filter_sets,
         :entrusted_media_entries, :entrusted_collections, :entrusted_filter_sets,
         :groups,

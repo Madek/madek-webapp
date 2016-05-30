@@ -1,5 +1,6 @@
 React = require('react')
 ReactDOM = require('react-dom')
+Preloader = require('./Preloader.cjsx')
 
 module.exports = React.createClass
   displayName: 'Modal'
@@ -74,11 +75,16 @@ module.exports = React.createClass
 
     <div style={wrapperStyle}>
       <div className="modal-backdrop" stye={backdropStyle}></div>
-      <div style={fixedStyle}>
-        <div style={staticStyle}>
-          <div className='modal' style={modalStyle}>
-            {@props.children}
+      {
+        if @props.loading
+          <Preloader />
+        else
+          <div style={fixedStyle}>
+            <div style={staticStyle}>
+              <div className='modal' style={modalStyle}>
+                {@props.children}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+      }
     </div>

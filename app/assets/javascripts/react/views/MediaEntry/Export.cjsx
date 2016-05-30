@@ -4,7 +4,6 @@ ampersandReactMixin = require('ampersand-react-mixin')
 f = require('active-lodash')
 t = require('../../../lib/string-translation')('de')
 InputFieldText = require('../../lib/forms/input-field-text.cjsx')
-Button = require('../../ui-components/Button.cjsx')
 Modal = require('../../ui-components/Modal.cjsx')
 
 module.exports = React.createClass

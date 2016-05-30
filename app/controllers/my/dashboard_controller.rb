@@ -2,7 +2,10 @@ class My::DashboardController < MyController
 
   # "index" action
   def dashboard
-    respond_with @get
+    respond_to do |format|
+      format.html { render locals: { lget: @get } }
+      format.json { respond_with @get }
+    end
   end
 
   # "show" actions
@@ -21,7 +24,7 @@ class My::DashboardController < MyController
     render 'dashboard_section',
            locals: {
              section: @sections[section_name],
-             get: get
+             lget: get
            }
   end
 end

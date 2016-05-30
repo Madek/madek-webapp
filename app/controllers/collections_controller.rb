@@ -8,6 +8,7 @@ class CollectionsController < ApplicationController
   include Concerns::CollectionCollectionSelection
   include Modules::Collections::PermissionsUpdate
   include Modules::Collections::MetaDataUpdate
+  include Modules::Collections::Create
 
   def index
     respond_with(@get = Presenters::Collections::Collections.new(
@@ -94,22 +95,6 @@ class CollectionsController < ApplicationController
       collection.save!
     end
     redirect_to collection_path(collection)
-  end
-
-  def create
-    authorize Collection
-    title = params[:collection_title]
-
-    if title.present?
-      collection = store_collection(title)
-      redirect_to(
-        collection_path(collection),
-        flash: { success: I18n.t(:collection_new_flash_successful) })
-    else
-      redirect_to(
-        :back,
-        flash: { error: I18n.t(:collection_new_flash_title_needed) })
-    end
   end
 
   def collection_params

@@ -15,6 +15,14 @@ module Presenters
         @with_count = with_count
       end
 
+      def new_media_entry_url
+        new_media_entry_path
+      end
+
+      def new_collection_url
+        my_new_collection_path
+      end
+
       def unpublished_entries
         presenterify @user_scopes[:unpublished_media_entries]
       end

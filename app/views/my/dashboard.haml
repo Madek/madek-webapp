@@ -3,16 +3,7 @@
   = t(:dashboard_title_head)
 
 - content_for(:page_header) do
-  = component('page-header',
-      icon: component('icon.home'),
-      text: t(:sitemap_my_archive),
-      actions: [component('button.primary',
-                  link: new_media_entry_path,
-                  text: t(:dashboard_create_media_entry_btn)),
-                component('button.primary',
-                  icon: :plus,
-                  link: my_new_collection_path,
-                  text: t(:dashboard_create_collection_btn))])
+  = react('Views.DashboardHeader', { get: lget })
 
 
 -# - content_for(:page_sidebar) do
@@ -28,7 +19,7 @@
                 link: { text: t(:resources_header_show_all),
                         href: my_dashboard_section_path(section[:id])})
       = render partial: "my/section_#{section[:partial]}",
-               locals: { get: @get, section: section, show_pagination_nav: false }
+               locals: { lget: lget, section: section, show_pagination_nav: false }
 
   .ui-container.pal
     - if dashboard_content

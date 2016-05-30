@@ -5,7 +5,7 @@ f = require('active-lodash')
 t = require('../../../lib/string-translation')('de')
 RailsForm = require('../../lib/forms/rails-form.cjsx')
 InputFieldText = require('../../lib/forms/input-field-text.cjsx')
-Button = require('../../ui-components/Button.cjsx')
+FormButton = require('../../ui-components/FormButton.cjsx')
 Modal = require('../../ui-components/Modal.cjsx')
 
 module.exports = React.createClass
@@ -113,7 +113,7 @@ module.exports = React.createClass
               className='link weak' data-dismiss='modal'>
               {get.i18n.cancel}
             </a>
-            <button className='primary-button' type='submit'>{get.i18n.save}</button>
+            <FormButton text={get.i18n.save} />
           </div>
         </div>
 

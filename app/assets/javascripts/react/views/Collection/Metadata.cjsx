@@ -69,7 +69,6 @@ MetaDatum = React.createClass
           <dd className="media-data-content" data-reactid=".0.1">
             {
               isBubble = metaDatum.type in [ 'MetaDatum::Keywords', 'MetaDatum::People' ]
-              console.log('is bubble for ' + metaDatum.type + ' = ' + isBubble)
               if isBubble
                 <Bubbles metaDatum={metaDatum} />
               else
