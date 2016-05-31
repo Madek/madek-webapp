@@ -77,13 +77,13 @@ feature 'Dashboard: New Collection' do
       login
       open_new_set
       within '.modal' do
-        enter_set_title('Test Create Set')
+        enter_set_title('Test Create Set 3x')
         ok
       end
-      collection = Collection.by_title('Test Create Set')[0]
+      expect(page).to have_content 'Test Create Set 3x'
+      collection = Collection.by_title('Test Create Set 3x')[0]
       expect(collection.responsible_user_id).to eq(@user.id)
       expect(current_path).to eq collection_path(collection)
-      expect(page).to have_content 'Test Create Set'
     end
 
   end
