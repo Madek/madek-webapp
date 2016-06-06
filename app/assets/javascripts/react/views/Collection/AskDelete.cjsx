@@ -27,12 +27,12 @@ module.exports = React.createClass
             style={{position: 'static', float: 'right', paddingTop: '5px'}}>
             <i className='icon-close'></i>
           </a>
-          <h3 className='title-l'>{t('collection_ask_delete_title')}</h3>
+          <h3 className='title-l'>{t(get.type_underscore + '_ask_delete_title')}</h3>
         </div>
 
         <div className='ui-modal-body' style={{maxHeight: 'none'}}>
           <p className="pam by-center">
-            {t('collection_ask_delete_question_pre')}
+            {t(get.type_underscore + '_ask_delete_question_pre')}
             <strong>{get.title}</strong>
             {t('resource_ask_delete_question_post')}
           </p>

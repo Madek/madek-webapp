@@ -4,11 +4,19 @@ RailsForm = require('../lib/forms/rails-form.cjsx')
 
 module.exports = React.createClass
   displayName: 'HeaderButton'
-  render: ({authToken, href, method, icon, title, name} = @props) ->
+
+  _onClick: (event) ->
+    event.preventDefault()
+    if @props.onAction
+      @props.onAction(@props.asyncAction)
+    return false
+
+  render: ({get, authToken, href, method, icon, title, name} = @props) ->
     method = 'post' if not method
     icon = 'icon-' + icon
+    onClick = if @props.onAction and @props.asyncAction then @_onClick else null
     <RailsForm className='button_to' name='' method={method} action={href} authToken={authToken}>
-      <button className="button" type="submit" title={title}>
+      <button className="button" type="submit" title={title} onClick={onClick}>
         <i className={icon}></i>
       </button>
     </RailsForm>

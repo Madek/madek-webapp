@@ -5,4 +5,4 @@ module.exports = React.createClass
   displayName: 'Preloader'
 
   render: ({mods} = @props)->
-    <div className={ui.cx(ui.parseMods(@props), 'ui-preloader')}/>
+    <div {...@props} className={ui.cx(ui.parseMods(@props), 'ui-preloader')}/>

@@ -7,6 +7,7 @@ t = require('../../../lib/string-translation')('de')
 RailsForm = require('../../lib/forms/rails-form.cjsx')
 InputFieldText = require('../../lib/forms/input-field-text.cjsx')
 FormButton = require('../../ui-components/FormButton.cjsx')
+ToggableLink = require('../../ui-components/ToggableLink.cjsx')
 Modal = require('../../ui-components/Modal.cjsx')
 xhr = require('xhr')
 formXhr = require('../../../lib/form-xhr.coffee')
@@ -17,7 +18,7 @@ module.exports = React.createClass
   displayName: 'CreateCollection'
 
   getInitialState: () -> {
-    active: false
+    mounted: false
     loading: false
     saving: false
     errors: null
@@ -25,10 +26,9 @@ module.exports = React.createClass
   }
 
   componentDidMount: () ->
-    if not @props.async
-      return
+    @setState({mounted: true})
 
-    @setState(loading: true)
+    @setState({loading: true})
 
     loadXhr(
       {
@@ -44,42 +44,43 @@ module.exports = React.createClass
     )
 
   _onCancel: (event) ->
+    # if @props.onClose
+    event.preventDefault()
     if @props.onClose
-      event.preventDefault()
       @props.onClose()
-      return false
-    else
-      return true
+    return false
+    # else
+    #   return true
 
   _onOk: (event) ->
-    if @props.onClose
-      event.preventDefault()
-      @setState({saving: true, error: null})
+    #if @props.onClose
+    event.preventDefault()
+    @setState({saving: true, error: null})
 
-      formXhr(
-        {
-          method: 'POST'
-          url: '/sets'
-          form: @refs.form
-        },
-        (result, json) =>
+    formXhr(
+      {
+        method: 'POST'
+        url: '/sets'
+        form: @refs.form
+      },
+      (result, json) =>
+
+        if result == 'failure'
           @setState(saving: false)
-
-          if result == 'failure'
-            if json.headers.length > 0
-              @setState({error: json.headers[0]})
-            else if json.fields.title_mandatory
-              @setState({error: json.fields.title_mandatory})
-            else
-              @setState({error: 'Unknown error.'})
+          if json.headers.length > 0
+            @setState({error: json.headers[0]})
+          else if json.fields.title_mandatory
+            @setState({error: json.fields.title_mandatory})
           else
-            forward_url = json['forward_url']
-            window.location = forward_url
-      )
+            @setState({error: 'Unknown error.'})
+        else
+          forward_url = json['forward_url']
+          window.location = forward_url
+    )
 
-      return false
-    else
-      return true
+    return false
+    # else
+    #   return true
 
 
 
@@ -88,12 +89,12 @@ module.exports = React.createClass
     get = @state.get if @state.get
 
 
-    alerts = if @state.error
+    alerts = if error
       <div className="ui-alerts" key='alerts'>
-        <p className="ui-alert error">{@state.error}</p>
+        <p className="ui-alert error">{error}</p>
       </div>
 
-    if @state.loading
+    if @state.loading or (@props.async and not @state.mounted)
       <Modal loading={true}>
 
       </Modal>
@@ -105,13 +106,13 @@ module.exports = React.createClass
               method='post' authToken={authToken}>
 
           <div className='ui-modal-head'>
-            <a href={get.cancel_url} aria-hidden='true'
+            <ToggableLink active={not @state.saving or not @state.mounted} href={get.cancel_url} aria-hidden='true'
               className='ui-modal-close' data-dismiss='modal'
               title='Close' type='button'
               style={{position: 'static', float: 'right', paddingTop: '5px'}}
               onClick={@_onCancel}>
               <i className='icon-close'></i>
-            </a>
+            </ToggableLink>
             <h3 className='title-l'>{t('collection_new_dialog_title')}</h3>
           </div>
 
@@ -137,8 +138,8 @@ module.exports = React.createClass
 
           <div className="ui-modal-footer">
             <div className="ui-actions">
-              <a href={get.cancel_url} aria-hidden="true" className="link weak"
-                data-dismiss="modal" onClick={@_onCancel}>{t('collection_new_cancel')}</a>
+              <ToggableLink active={not @state.saving or not @state.mounted} href={get.cancel_url} aria-hidden="true" className="link weak"
+                data-dismiss="modal" onClick={@_onCancel}>{t('collection_new_cancel')}</ToggableLink>
               <FormButton onClick={@_onOk} disabled={@state.saving} text={t('collection_new_create_set')} />
             </div>
           </div>

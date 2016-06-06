@@ -138,9 +138,11 @@ feature 'Resource: MediaEntry' do
 
       # main actions has a delete button with a confirmation:
       within '.ui-body-title-actions' do
-        confirmation = find('.icon-trash').click
-        expect(confirmation).to eq I18n.t(:btn_delete_confirm_msq)
-        accept_confirm
+        find('.icon-trash').click
+      end
+
+      within '.modal' do
+        find('button', text: I18n.t(:resource_ask_delete_ok)).click
       end
 
       # redirects to user dashboard:

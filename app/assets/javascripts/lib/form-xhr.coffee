@@ -2,11 +2,17 @@ xhr = require('xhr')
 getRailsCSRFToken = require('./rails-csrf-token.coffee')
 
 module.exports = (config, callback) ->
+  url = config.url
+  body = config.form.serialize()
+  if config.method == 'GET'
+    url = url + '?' + body
+    body = ''
+
   xhr(
     {
       method: config.method
-      url: config.url
-      body: config.form.serialize()
+      url: url
+      body: body
       headers: {
         'Accept': 'application/json'
         'Content-type': 'application/x-www-form-urlencoded'

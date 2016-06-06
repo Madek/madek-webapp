@@ -54,6 +54,27 @@ class MediaEntriesController < ApplicationController
     end
   end
 
+  def ask_delete
+    initialize_presenter(
+      'Presenters::MediaEntries::MediaEntryAskDelete',
+      'media_entries/ask_delete')
+  end
+
+  def initialize_presenter(name, template)
+    # TODO: Merge with the same method in collections_controller
+
+    media_entry = MediaEntry.unscoped.find(params[:id])
+    authorize media_entry
+
+    @get = name.constantize.new(
+      current_user,
+      media_entry,
+      user_scopes_for_resource(media_entry),
+      resource_list_params)
+
+    respond_with(@get, template: template)
+  end
+
   ###############################################################
 
   private

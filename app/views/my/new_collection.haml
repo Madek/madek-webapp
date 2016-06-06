@@ -1,3 +1,1 @@
-- content_for(:modal) { react('Views.My.CreateCollection', { async: false, get: @get.hash[:new_collection] }) }
-
-= render template: 'my/dashboard', locals: { lget: @get.hash[:user_dashboard] }
+= render template: 'my/dashboard', locals: { hashget: @get, lget: @get.hash[:user_dashboard], atget: @get.hash[:user_dashboard], showModal: true }

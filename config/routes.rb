@@ -24,6 +24,8 @@ Madek::Application.routes.draw do
       patch 'favor', to: 'media_entries#favor'
       patch 'disfavor', to: 'media_entries#disfavor'
 
+      get 'ask_delete', action: :ask_delete, as: 'ask_delete'
+
       get 'permissions'
       put 'permissions', action: :permissions_update
       get 'permissions/edit', action: :permissions_edit, as: 'edit_permissions'

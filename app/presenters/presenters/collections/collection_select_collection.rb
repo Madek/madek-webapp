@@ -1,6 +1,8 @@
 module Presenters
   module Collections
-    class CollectionSelectCollection < Presenters::Collections::CollectionShow
+    class CollectionSelectCollection < \
+      Presenters::Shared::MediaResource::MediaResourceShow
+
       include Presenters::Shared::Modules::SelectCollection
 
       def add_remove_collection_url

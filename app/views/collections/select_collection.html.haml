@@ -1,4 +1,1 @@
-- content_for(:modal) do
-  = react('Views.Collection.SelectCollection', { get: @get })
-
-= render template: 'collections/show'
+= react('Views.CollectionShow', { activeTab: 0, get: @get, showModal: true })

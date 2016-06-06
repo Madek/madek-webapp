@@ -62,7 +62,7 @@ class CollectionsController < ApplicationController
       end
       format.html do
         redirect_to(
-          collections_path,
+          my_dashboard_path,
           flash: { success: I18n.t(:collection_delete_success) })
       end
     end

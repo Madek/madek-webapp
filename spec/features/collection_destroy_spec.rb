@@ -35,7 +35,7 @@ feature 'Resource: Collection' do
 
   def delete
     find('.modal').find('.ui-actions').find('button', text: 'Löschen').click
-    expect(current_path).to eq collections_path
+    expect(current_path).to eq my_dashboard_path
     expect(Collection.exists?(@collection.id)).to eq(false)
   end
 

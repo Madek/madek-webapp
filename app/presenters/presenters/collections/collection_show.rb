@@ -10,6 +10,7 @@ module Presenters
         super(app_resource, user)
         @user_scopes = user_scopes
         @list_conf = list_conf
+        @collection_selection = {}
         @relations = \
           Presenters::Collections::CollectionRelations.new(
             @app_resource,
@@ -50,7 +51,9 @@ module Presenters
       end
 
       def edit_button
-        { method: 'get',
+        {
+          async_action: nil,
+          method: 'get',
           icon: 'pen',
           title: I18n.t(:resource_action_edit, raise: false),
           action: edit_context_meta_data_collection_path(@app_resource),
@@ -59,7 +62,9 @@ module Presenters
       end
 
       def favor_button
-        { method: 'patch',
+        {
+          async_action: nil,
+          method: 'patch',
           icon: favored ? 'favorite' : 'nofavorite',
           title: I18n.t(
             "resource_action_#{favored ? 'disfavor' : 'favor'}", raise: false),
@@ -70,7 +75,9 @@ module Presenters
       end
 
       def cover_button
-        { method: 'get',
+        {
+          async_action: nil,
+          method: 'get',
           icon: 'cover',
           title: I18n.t(:resource_action_edit_cover, raise: false),
           action: cover_edit_collection_path(@app_resource),
@@ -79,7 +86,9 @@ module Presenters
       end
 
       def destroy_button
-        { method: 'get',
+        {
+          async_action: nil,
+          method: 'get',
           icon: 'trash',
           title: I18n.t(:resource_action_destroy, raise: false),
           action: ask_delete_collection_path(@app_resource),
@@ -88,7 +97,9 @@ module Presenters
       end
 
       def select_collection_button
-        { method: 'get',
+        {
+          async_action: 'select_collection',
+          method: 'get',
           icon: 'move',
           title: I18n.t(:resource_action_select_collection, raise: false),
           action: select_collection_collection_path(@app_resource),
@@ -97,7 +108,9 @@ module Presenters
       end
 
       def highlight_button
-        { method: 'get',
+        {
+          async_action: nil,
+          method: 'get',
           icon: 'highlight',
           title: I18n.t(:resource_action_edit_highlights, raise: false),
           action: highlights_edit_collection_path(@app_resource),

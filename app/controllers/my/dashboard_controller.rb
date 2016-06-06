@@ -3,7 +3,18 @@ class My::DashboardController < MyController
   # "index" action
   def dashboard
     respond_to do |format|
-      format.html { render locals: { lget: @get } }
+      format.html do
+        render(
+          locals: {
+            hashget: Presenters::HashPresenter.new(
+              Pojo.new(user_dashboard: @get, new_collection: {})
+            ),
+            lget: @get,
+            atget: @get,
+            showModal: false
+          }
+        )
+      end
       format.json { respond_with @get }
     end
   end
@@ -24,7 +35,8 @@ class My::DashboardController < MyController
     render 'dashboard_section',
            locals: {
              section: @sections[section_name],
-             lget: get
+             lget: get,
+             atget: @get
            }
   end
 end

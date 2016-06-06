@@ -3,22 +3,21 @@ module Concerns
     extend ActiveSupport::Concern
 
     def new_collection
-      @get = HashPresenter.new(
+      error = flash[:error]
+      @get = Presenters::HashPresenter.new(
         Pojo.new(
           user_dashboard: user_dashboard_presenter,
-          new_collection: new_collection_presenter
+          new_collection: new_collection_presenter(error)
         )
       )
+      flash.clear
       respond_with @get, template: 'my/new_collection'
     end
 
     private
 
-    def new_collection_presenter
-      get = Presenters::Collections::CollectionNew.new
-      get.error = flash[:error]
-      flash.discard
-      get
+    def new_collection_presenter(error)
+      Presenters::Collections::CollectionNew.new(error)
     end
 
     def user_dashboard_presenter

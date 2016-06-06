@@ -3,17 +3,20 @@ module Presenters
     module Modules
       module SelectCollection
 
+        include Presenters::Shared::Modules::CurrentUser
+
         attr_reader :search_term
         attr_reader :collection_rows
         attr_reader :reduced_set
 
-        def initialize(user, media_entry, user_scopes, search_term, list_conf: nil)
-          super(media_entry, user, user_scopes, list_conf: list_conf)
+        def initialize(user, media_entry, search_term, list_conf: nil)
+          super(media_entry, user, list_conf: list_conf)
 
           @search_term = search_term
           @reduced_set = false
           @length = 30
 
+          # Here do binding.pry.
           collections = if search_term.presence
                           search_collections(user)
                         else

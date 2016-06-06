@@ -16,20 +16,24 @@ classnames = require('classnames')
 TabContent = require('./TabContent.cjsx')
 CollectionDetailOverview = require('./Collection/DetailOverview.cjsx')
 CollectionDetailAdditional = require('./Collection/DetailAdditional.cjsx')
+MediaEntryHeader = require('./MediaEntryHeader.cjsx')
 
 
 module.exports = React.createClass
   displayName: 'CollectionShow'
 
+  getInitialState: () -> {
+    mounted: false
+  }
+
+
+  componentDidMount: () ->
+    @setState(mounted: true)
+
   render: ({authToken, get, activeTab} = @props) ->
     <PageContent>
-      <PageContentHeader icon='set' title={get.title}>
-        {f.map get.buttons, (button) ->
-          <HeaderButton key={button.action}
-            icon={button.icon} title={button.title} name={button.action}
-            href={button.action} method={button.method} authToken={authToken}/>
-        }
-      </PageContentHeader>
+      <MediaEntryHeader authToken={authToken} get={get} showModal={@props.showModal}
+        async={@state.mounted} modalAction={'select_collection'}/>
 
       <Tabs>
         {f.map get.tabs, (tab, index) ->

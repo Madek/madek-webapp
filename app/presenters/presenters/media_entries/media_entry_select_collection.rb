@@ -1,6 +1,8 @@
 module Presenters
   module MediaEntries
-    class MediaEntrySelectCollection < Presenters::MediaEntries::MediaEntryShow
+    class MediaEntrySelectCollection < \
+      Presenters::Shared::MediaResource::MediaResourceShow
+
       include Presenters::Shared::Modules::SelectCollection
 
       def add_remove_collection_url

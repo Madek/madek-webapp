@@ -1,0 +1,4 @@
+- content_for(:modal) do
+  = react('Views.Collection.AskDelete', { get: @get })
+
+= render template: 'media_entries/show'
