@@ -61,25 +61,6 @@ jobs:
                     jruby --dev -S bundle exec cider-ci_flay -m 78 app/
               # FIXME: set to 26 again after cleanup             ↑  <https://www.pivotaltracker.com/story/show/119127755>
 
-            lint_ruby:
-              name: 'Ruby: Lint/Stylecheck with Rubocop'
-              #
-              # TMP: rubocop from jruby does not work and rbenv+bundler is broken
-              #
-              # this relies on the following ad-hoc trait:
-              #     ssh root@some-executor
-              #     gem install rubocop --version=0.39.0 --no-ri --no-rdoc \
-              #     && echo '- system_gem_rubocop_v0.39.0' >> /var/local/cider-ci/executor/config/traits.yml
-              traits:
-                - system_gem_rubocop_v0.39.0
-              #
-              scripts:
-                test:
-                  environment-variables:
-                    RBENV_VERSION: ''
-                  body: /usr/local/bin/rubocop
-
-
         javascript:
           task-defaults:
             traits:
