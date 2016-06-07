@@ -10,7 +10,7 @@ module Concerns
 
       def index
         resources = policy_scope(model_klass)
-        @get = presenterify(resources, nil, with_relations: current_user.present?)
+        @get = presenterify(resources, nil)
         respond_with @get
       end
     end

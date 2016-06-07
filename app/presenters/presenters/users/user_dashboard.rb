@@ -4,14 +4,13 @@ module Presenters
       def initialize(
             user, user_scopes = {},
             list_conf: nil,
-            with_count: true, with_relations: true
+            with_count: true
       )
         fail 'TypeError!' unless user.is_a?(User)
         @user = user
         @config = { order: nil, page: 1, per_page: 1 }.merge(list_conf)
         @user_scopes = user_scopes
         # FIXME: remove this config when Dashboard is built in Presenter…
-        @with_relations = with_relations
         @with_count = with_count
       end
 
@@ -99,8 +98,7 @@ module Presenters
           resources,
           @user,
           list_conf: @config,
-          with_count: @with_count,
-          with_relations: @with_relations)
+          with_count: @with_count)
       end
 
       def select_groups(type)

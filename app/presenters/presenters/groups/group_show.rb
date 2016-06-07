@@ -13,8 +13,8 @@ module Presenters
       private
 
       def presentify(resources)
-        Presenters::Shared::MediaResource::MediaResources.new(
-          resources, @user, with_relations: @user.present?, list_conf: @list_conf)
+        Presenters::Shared::MediaResource::MediaResources
+          .new(resources, @user, list_conf: @list_conf)
       end
     end
   end

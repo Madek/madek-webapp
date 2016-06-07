@@ -17,6 +17,7 @@ getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 
 # Props/Config overview:
 # - props.get.with_actions = should the UI offer any interaction
+# - props.fetchRelations = should relations be fetched (async, only grid layout)
 # - props.withBox = should the grid be wrapped in a Box… [TMP!]
 # - state.isClient = is component in client-side mode
 # - props.get.can_filter = is it possible to filter the resources
@@ -70,6 +71,7 @@ module.exports = React.createClass
   propTypes:
     initial: viewConfigProps
     withBox: React.PropTypes.bool # toggles simple grid or full box
+    fetchRelations: React.PropTypes.bool
     authToken: React.PropTypes.string.isRequired
     get: React.PropTypes.shape
       # resources: React.PropTypes.array # TODO: array of ampersandCollection
@@ -181,7 +183,7 @@ module.exports = React.createClass
 
 
   render: ()->
-    {get, mods, initial, withBox, saveable, authToken} = @props
+    {get, mods, initial, withBox, fetchRelations, saveable, authToken} = @props
 
     # TODO: refactor this + currentQuery into @getInitialState + @getCurrentQuery
     get = f.defaultsDeep \      # combine config in order:
@@ -195,6 +197,11 @@ module.exports = React.createClass
     config = get.config
     withActions = get.with_actions
     saveable = saveable or false
+    # fetching relations enabled by default if layout is grid + withActions + isClient
+    fetchRelations = if f.present(fetchRelations)
+      fetchRelations
+    else
+      @state.isClient and withActions and (config.layout is 'grid')
 
     baseClass = 'ui-polybox'
     boxClasses = classList({ # defaults first, mods last so they can override
@@ -395,8 +402,9 @@ module.exports = React.createClass
                           (if !selection.isEmpty() then onSelect)
 
                     # TODO: get={model}
-                    <ResourceThumbnail elm='div' isClient={@state.isClient}
+                    <ResourceThumbnail elm='div'
                       get={item}
+                      isClient={@state.isClient} fetchRelations={fetchRelations}
                       isSelected={isSelected} onSelect={onSelect} onClick={onClick}
                       authToken={authToken} key={key}/>}
                   </ul>

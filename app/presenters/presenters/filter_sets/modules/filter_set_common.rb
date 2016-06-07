@@ -11,10 +11,6 @@ module Presenters
           @list_conf = list_conf
         end
 
-        included do
-          # TODO: attr_reader :relations
-        end
-
         def saved_filter
           return unless (definition = @app_resource.try(:definition))
           definition.deep_symbolize_keys

@@ -7,7 +7,7 @@ t = require('../../lib/string-translation')('de')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 Models = require('../../models/index.coffee')
 RailsForm = require('../lib/forms/rails-form.cjsx')
-{ Link, Icon, Thumbnail, Button, AskModal
+{ Link, Icon, Thumbnail, Button, Preloader, AskModal
 } = require('../ui-components/index.coffee')
 
 CURSOR_SELECT_STYLE = {cursor: 'cell'}
@@ -19,6 +19,7 @@ module.exports = React.createClass
     authToken: React.PropTypes.string.isRequired
     onSelect: React.PropTypes.func
     onClick: React.PropTypes.func
+    fetchRelations: React.PropTypes.bool
     get: React.PropTypes.shape
       type: React.PropTypes.oneOf(['MediaEntry', 'Collection', 'FilterSet'])
     # TODO: consilidate with `get` (when used in uploader)
@@ -26,10 +27,11 @@ module.exports = React.createClass
       type: React.PropTypes.oneOf(['MediaEntry'])
 
   getInitialState: ()-> {
-    active: @props.isClient or false
+    isClient: @props.isClient or false
     pendingFavorite: false
     deleteModal: false
   }
+
   componentDidMount: ()->
     # instantiate model from data if not already…
     get = @props.get
@@ -38,7 +40,27 @@ module.exports = React.createClass
         model = new modelByType(get)
       else
         console.error('WARNING: No model found for resource!', get)
-    @setState(active: true, model: model)
+    @setState(isClient: true, model: model)
+
+  _fetchRelations: ()-> # for hover/flyouts
+    model = @state.model
+    return console.error('No model found in state!') unless model
+    return console.error('Not implemented for model!') unless model.fetchRelations
+    return if @state.fetchingRelations
+
+    typesToFetch = ['parent']
+    typesToFetch.push('child') if (model.type is 'Collection')
+
+    # NOTE: setting state.fetchingRelations also forces view update!
+    @setState(fetchingRelations: typesToFetch)
+    async.each(typesToFetch, ((typeToFetch, next)=>
+      model.fetchRelations typeToFetch, (err, res)=>
+        @setState(fetchingRelations: f.without(@state.fetchingRelations, typeToFetch))
+        next(err, res)),
+      (err)=> @setState(fetchingRelations: false))
+
+  _onHover: ()->
+    @_fetchRelations() if @props.fetchRelations
 
   _favorOnClick: () ->
     @setState(pendingFavorite: true)
@@ -50,16 +72,13 @@ module.exports = React.createClass
     @setState(deleteModal: true)
 
   _onModalOk: () ->
-    @state.model.delete(
-      (err, res) ->
-        location.reload()
-    )
+    @state.model.delete (err, res)->
+      location.reload()
 
   _onModalCancel: () ->
     @setState(deleteModal: false)
 
-
-  render: ({get, elm, onClick, isSelected, authToken} = @props, state = @state)->
+  render: ({get, elm, onClick, isSelected, fetchRelations, authToken} = @props, state = @state)->
     model = @state.model or @props.get
 
     # map the type name:
@@ -96,7 +115,7 @@ module.exports = React.createClass
       favoriteItem = <i className={starClass}></i>
       favoriteOnClick = @_favorOnClick if not @state.pendingFavorite
       favorButton =
-        if state.active
+        if state.isClient
           <Button className='ui-thumbnail-action-favorite' onClick={favoriteOnClick}
             data-pending={state.pendingFavorite}>
             {favoriteItem}
@@ -131,42 +150,41 @@ module.exports = React.createClass
         </li>
       )
 
-
-
     # hover - flyout - relations - thumbnail list:
-    parentRelations = get.parent_relations
-    childRelations = get.child_relations
+    if fetchRelations
+      parentRelations = f.get(model, 'parent_media_resources')
+      childRelations = f.get(model, 'child_media_resources')
 
-    if parentRelations
-      parentsCount = parentRelations.count
-      parentsCountText = parentsCount + ' Sets'
+      if parentRelations
+        parentsCount = parentRelations.pagination.total_count
+        parentsCountText = parentsCount + ' Sets'
 
-      if parentsCount > 0
-        parentThumbs = f.get(get, ['parent_relations', 'resources']).map (item) ->
-          <li className='ui-thumbnail-level-item media_set set odd' key={item.uuid}>
-            <a className='ui-level-image-wrapper' href={item.url}>
-              <div className='ui-thumbnail-level-image-holder'>
-                <img className='ui-thumbnail-level-image' src={item.image_url}/>
-              </div>
-            </a>
-          </li>
+        if parentsCount > 0
+          parentThumbs = f.get(parentRelations, 'resources').map (item) ->
+            <li className='ui-thumbnail-level-item media_set set odd' key={item.uuid}>
+              <a className='ui-level-image-wrapper' href={item.url}>
+                <div className='ui-thumbnail-level-image-holder'>
+                  <img className='ui-thumbnail-level-image' src={item.image_url}/>
+                </div>
+              </a>
+            </li>
 
-    if childRelations
-      childrenCount = childRelations.count
-      childrenCountText = childrenCount + ' Inhalte'
+      if childRelations
+        childrenCount = childRelations.pagination.total_count
+        childrenCountText = childrenCount + ' Inhalte'
 
-      if childrenCount > 0
-        childThumbs = f.get(get, ['child_relations', 'resources']).map (item) ->
-          classes = 'ui-thumbnail-level-item media_set set odd'
-          if item.type == 'MediaEntry'
-            classes = 'ui-thumbnail-level-item media_entry image odd'
-          <li className={classes} key={item.uuid}>
-            <a className='ui-level-image-wrapper' href={item.url}>
-              <div className='ui-thumbnail-level-image-holder'>
-                <img className='ui-thumbnail-level-image' src={item.image_url}/>
-              </div>
-            </a>
-          </li>
+        if childrenCount > 0
+          childThumbs = f.get(childRelations, 'resources').map (item) ->
+            classes = 'ui-thumbnail-level-item media_set set odd'
+            if item.type == 'MediaEntry'
+              classes = 'ui-thumbnail-level-item media_entry image odd'
+            <li className={classes} key={item.uuid}>
+              <a className='ui-level-image-wrapper' href={item.url}>
+                <div className='ui-thumbnail-level-image-holder'>
+                  <img className='ui-thumbnail-level-image' src={item.image_url}/>
+                </div>
+              </a>
+            </li>
 
 
     Element = elm or 'div'
@@ -188,16 +206,21 @@ module.exports = React.createClass
         <Icon i='filter' title='This is a Filterset'/>
       actionsLeft: actionsLeft
       actionsRight: actionsRight
-      flyoutTop: if parentRelations
-        title: 'Übergeordnete Sets'
-        children: parentThumbs
-        caption: parentsCount + ' Sets'
-      flyoutBottom: if childRelations
-        title: 'Set enthält'
-        children: childThumbs
-        caption: childrenCount + ' Inhalte'
 
-    <Element className={cx('ui-resource', 'ui-selected': isSelected)}>
+      flyoutTop: if fetchRelations and (f.include ['MediaEntry', 'Collection'], model.type)
+        title: 'Übergeordnete Sets'
+        children: if parentRelations then parentThumbs else <Preloader mods='small'/>
+        caption: if parentRelations then parentsCount + ' Sets' else ''
+
+      flyoutBottom: if fetchRelations and model.type is 'Collection'
+        title: 'Set enthält'
+        children: if childRelations then childThumbs else <Preloader mods='small'/>
+        caption: if childRelations then childrenCount + ' Inhalte' else ''
+
+    <Element
+      className={cx('ui-resource', 'ui-selected': isSelected)}
+      onMouseOver={@_onHover}>
+
       <div className='ui-resource-body'>
         <Thumbnail {...thumbProps}/>
         {

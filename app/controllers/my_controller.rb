@@ -122,7 +122,6 @@ class MyController < ApplicationController
       Presenters::Users::UserDashboard.new(
         current_user,
         user_scopes_for_dashboard(current_user),
-        with_relations: false,
         with_count: false,
         list_conf: { page: 1, per_page: 1 }))
   end

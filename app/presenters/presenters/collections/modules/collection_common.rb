@@ -32,8 +32,6 @@ module Presenters
         end
 
         included do
-          attr_reader :relations
-
           def url
             prepend_url_context collection_path @app_resource
           end

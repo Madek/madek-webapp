@@ -7,7 +7,6 @@ module Presenters
       # - everything in @conf are *shared* params (part of the URL)
       # - `can_filter`: in here it signifies if the scope *can* be filtered at all,
       #   in the view it determines if filtering is *allowed*.
-      # - `with_relations`: should relations be loaded (used in flyout)
       # - list_conf: the 'listing config' (shared with client via params)
       #   its' defaults are below:
 
@@ -24,7 +23,7 @@ module Presenters
         def initialize(
             scope, user, list_conf: nil,
             can_filter: true, with_actions: true,
-            with_count: true, with_relations: false)
+            with_count: true)
           fail 'missing config!' unless list_conf
           @user = user
           @scope = scope
@@ -35,7 +34,6 @@ module Presenters
           # TODO: remove the type check when implemented for all Resources
           @can_filter = (can_filter ? true : false) if @type == 'MediaEntries'
           @conf = build_config(list_conf)
-          @with_relations = with_relations
           @with_count = with_count
           init_resources_and_pagination(@scope, @conf)
         end
@@ -106,7 +104,7 @@ module Presenters
           resources.map do |resource|
             # if no presenter given, need to check class of every member!
             presenter = determined_presenter || presenter_by_class(resource.class)
-            presenter.new(resource, @user, with_relations: @with_relations)
+            presenter.new(resource, @user)
           end
         end
 

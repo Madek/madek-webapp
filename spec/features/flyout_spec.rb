@@ -7,6 +7,9 @@ feature 'Collection: Index' do
   describe 'Client: Flyouts' do
     scenario 'Flyouts shows parent- and child-relation', browser: :firefox do
       login
+      # need to put the mouse on top of page so it not hovers to early…
+      page.first('#app header').hover
+
       open_collections
 
       thumbnail1 = find_thumbnail_by_title('Collection 1')
@@ -24,21 +27,33 @@ feature 'Collection: Index' do
 
   private
 
-  def parent_or_child_area(thumbnail, parent_or_child)
-    thumbnail.hover
+  def get_flyout_from_thumbnail(thumbnail, parent_or_child)
     up_down = case parent_or_child
               when :parent then 'up'
               when :child then 'down'
               else raise 'wrong argument'
               end
-    area = thumbnail.find('.ui-thumbnail-level-' + up_down + '-items')
+
+    area = thumbnail
+      .find('.ui-thumbnail-level-' + up_down + '-items', visible: false)
+
+    # there *migth* be a (hidden) preloader
+    if (area.all('.ui-preloader', visible: false)[0])
+      # hovering starts async loading of content, wait until the preloader is gone
+      thumbnail.hover
+      expect(area).not_to have_css('.ui-preloader', visible: false)
+    end
+
+    # now hover over flyout itself for good measure, and then return the element
     area.hover
+    expect(area.visible?).to eq true
     area
   end
 
   def check_parent_or_child_link_count(thumbnail, count, parent_or_child)
-    area = parent_or_child_area(thumbnail, parent_or_child)
+    area = get_flyout_from_thumbnail(thumbnail, parent_or_child)
     count_text = area.all('.ui-thumbnail-level-notes')[1].text
+
     text =
       if parent_or_child == :parent
         'Sets'
@@ -67,7 +82,7 @@ feature 'Collection: Index' do
   end
 
   def check_parent_or_child_contains_link(thumbnail, resource, parent_or_child)
-    area = parent_or_child_area(thumbnail, parent_or_child)
+    area = get_flyout_from_thumbnail(thumbnail, parent_or_child)
     class_name = resource.class.name
     expected_link =
       if class_name == 'Collection'

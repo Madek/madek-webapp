@@ -11,19 +11,20 @@ module Presenters
         @user_scopes = user_scopes
         @list_conf = list_conf
         @collection_selection = {}
-        @relations = \
-          Presenters::Collections::CollectionRelations.new(
-            @app_resource,
-            @user,
-            @user_scopes,
-            list_conf: @list_conf)
+      end
+
+      def relations
+        Presenters::Collections::CollectionRelations.new(
+          @app_resource,
+          @user,
+          @user_scopes,
+          list_conf: @list_conf)
       end
 
       def highlighted_media_resources
         Presenters::Collections::ChildMediaResources.new \
           @user_scopes[:highlighted_media_entries],
           @user,
-          with_relations: @user.present?,
           list_conf: @list_conf
       end
 

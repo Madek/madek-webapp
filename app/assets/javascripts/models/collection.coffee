@@ -5,11 +5,13 @@ Person = require('./person.coffee')
 # MediaResources = require('./shared/media-resources.coffee')
 ResourceMetaData = require('./shared/resource-meta-data.coffee')
 MetaData = require('./meta-data.coffee')
+ResourceWithRelations = require('./concerns/resource-with-relations.coffee')
 Favoritable = require('./concerns/resource-favoritable.coffee')
 Deletable = require('./concerns/resource-deletable.coffee')
 
 # TODO: extract more concerns from MediaEntry
 module.exports = AppResource.extend(
+  ResourceWithRelations,
   Favoritable,
   Deletable,
   {
@@ -31,6 +33,7 @@ module.exports = AppResource.extend(
       default: 'private'
     keywords: ['array']
     more_data: ['object']
+    child_media_resources: ['object'] # NOTE: see ResourceWithRelations
 
   children:
     permissions: Permissions
@@ -38,5 +41,4 @@ module.exports = AppResource.extend(
 
   collections:
     meta_data: MetaData
-    # relations: MediaResources
 })

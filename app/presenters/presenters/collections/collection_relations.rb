@@ -9,7 +9,6 @@ module Presenters
           @user_scopes[:child_media_resources],
           @user,
           can_filter: false,
-          with_relations: @user.present?,
           list_conf: @list_conf)
       end
 
