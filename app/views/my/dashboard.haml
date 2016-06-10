@@ -3,7 +3,10 @@
   = t(:dashboard_title_head)
 
 - content_for(:page_header) do
-  = react('Views.DashboardHeader', { get: hashget, showModal: showModal })
+  - if @feature_toggle_debug_dashboard
+    = 'TODO: fix DashboardHeader'
+  - else
+    = react('Views.DashboardHeader', { get: hashget, showModal: showModal })
 
 
 -# - content_for(:page_sidebar) do

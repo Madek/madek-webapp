@@ -6,6 +6,11 @@ class MyController < ApplicationController
 
   after_action :verify_policy_scoped
 
+  # TMP
+  before_action do
+    @feature_toggle_debug_dashboard = params.permit(:debug_dashboard).present?
+  end
+
   def session_token
     unless current_user
       raise '403'
@@ -165,6 +170,8 @@ end
 
 # HACK: set async render if section is "below the fold"
 def set_async_below_fold(sections)
+  return sections if @feature_toggle_debug_dashboard
+
   conf_prerender_sections_nr = 1 # just the drafts, if there are some.
   sections.map.with_index do |a, i|
     [a[0], a[1].merge(render_async?: ((i + 1) > conf_prerender_sections_nr))]
