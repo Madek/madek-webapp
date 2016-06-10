@@ -9,7 +9,7 @@ Madek::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
   # With this cache store, all fetch and read operations will result in a miss.
-  config.cache_store = ENV['RAILS_CACHE'].present? ?  :null_store : :memory_store
+  config.cache_store = ENV['RAILS_CACHE'].present? ? :memory_store : :null_store
   config.action_controller.perform_caching = ENV['RAILS_CACHE'].present? ? true : false
 
   config.eager_load = false
