@@ -9,23 +9,28 @@ getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 MetaKeyFormLabel = require('../lib/forms/form-label.cjsx')
 InputMetaDatum = require('../lib/input-meta-datum.cjsx')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
+MetaDatumFormItem = require('./MetaDatumFormItemPerContext.cjsx')
 
 module.exports = React.createClass
   displayName: 'ResourceMetaDataFormPerContext'
 
   getInitialState: () ->
+    mounted: false
     editing: false
     errors: {}
     saving: false
 
-  _onSubmit: (event) ->
-    event.preventDefault()
+  componentDidMount: () ->
+    @setState({mounted: true})
+
+  submit: (actionType) ->
+
     @setState(saving: true)
     serialized = @refs.form.serialize()
     xhr(
       {
         method: 'PUT'
-        url: @props.get.url + '/meta_data'
+        url: @props.get.url + '/meta_data?actionType=' + actionType
         body: serialized
         headers: {
           'Accept': 'application/json'
@@ -34,13 +39,13 @@ module.exports = React.createClass
         }
       },
       (err, res, body) =>
-        @setState(saving: false)
         try
           data = JSON.parse(body)
         catch error
           console.error('Cannot parse body of answer for meta data update', error)
 
         if res.statusCode == 400
+          @setState({saving: false})
           errors = f.presence(f.get(data, 'errors')) or {}
           if not f.present(errors)
             console.error('Cannot get errors from meta data update')
@@ -54,14 +59,20 @@ module.exports = React.createClass
           window.location = forward_url
     )
 
+  _onClick: (event) ->
+    event.preventDefault()
+    @submit(event.target.value)
+    return false
+
   render: ({get, authToken, context} = @props, {errors} = @state) ->
     name = "#{f.snakeCase(get.type)}[meta_data]"
 
-    meta_data = context.meta_data
+    meta_data = get.meta_data
 
-    #meta_data = f.sortBy(get.meta_data.by_vocabulary, 'vocabulary.position')
+    disableSave = (@state.saving or not @props.hasAnyChanges or (@props.validityForAll != 'valid' and @props.get.published)) and @state.mounted == true
+    disablePublish = (@state.saving or @props.validityForAll != 'valid')
 
-    <RailsForm ref='form' onSubmit={@_onSubmit}
+    <RailsForm ref='form'
       name='resource_meta_data' action={get.url + '/meta_data'}
       method='put' authToken={authToken}>
 
@@ -76,39 +87,57 @@ module.exports = React.createClass
 
       <div className='form-body'>
         {
-          f.map meta_data, (datum) ->
+
+          f.map get.meta_data.meta_key_ids_by_context_id[context.uuid], (meta_key_id) =>
+            datum = get.meta_data.meta_datum_by_meta_key_id[meta_key_id]
             <MetaDatumFormItem
-              get={datum} name={name}
-              error={errors[datum.meta_key.uuid]}
-              key={datum.meta_key.uuid}/>
+              hidden={false}
+              onChange={@props.onChange}
+              allMetaData={get.meta_data}
+              name={name}
+              get={datum}
+              metaKeyId={meta_key_id}
+              model={@props.models[meta_key_id]}
+              requiredMetaKeyIds={get.meta_data.mandatory_by_meta_key_id}
+              error={errors[meta_key_id]}
+              key={meta_key_id}/>
+
+
+        }
+        {
+
+          hidden_meta_key_ids = f.select (f.keys get.meta_data.meta_key_by_meta_key_id), (meta_key_id) ->
+            not (f.includes get.meta_data.meta_key_ids_by_context_id[context.uuid], meta_key_id)
+
+          f.map hidden_meta_key_ids, (meta_key_id) =>
+            datum = get.meta_data.meta_datum_by_meta_key_id[meta_key_id]
+            if datum
+              <MetaDatumFormItem
+                hidden={true}
+                onChange={@props.onChange}
+                allMetaData={get.meta_data}
+                name={name}
+                get={datum}
+                metaKeyId={meta_key_id}
+                model={@props.models[meta_key_id]}
+                requiredMetaKeyIds={get.meta_data.mandatory_by_meta_key_id}
+                error={errors[meta_key_id]}
+                key={meta_key_id}/>
+
+
         }
       </div>
 
       <div className='form-footer'>
         <div className='ui-actions'>
           <a className='weak' href={get.url}>Cancel</a>
-          <button className='primary-button large'
-            type='submit' disabled={@state.saving}>Save</button>
+          <button className='primary-button large' name='actionType' value='save'
+            type='submit' onClick={@_onClick} disabled={disableSave}>Save</button>
+          {
+            if not @props.get.published and @state.mounted == true
+              <button className='primary-button large' name='actionType' value='publish'
+                type='submit' onClick={@_onClick} disabled={disablePublish}>Publish</button>
+          }
         </div>
       </div>
     </RailsForm>
-
-MetaDatumFormItem = React.createClass
-  displayName: 'MetaDatumFormItem'
-  propTypes:
-    name: PropTypes.string.isRequired
-    get: MadekPropTypes.metaDatum
-
-  render: ({get, name, error} = @props)->
-    name += "[#{get.meta_key.uuid}][]"
-    <fieldset className={cx('ui-form-group columned prh', {'error': error})}>
-      {if error
-        <div className="ui-alerts" style={marginBottom: '10px'}>
-          <div className="error ui-alert">
-            {error}
-          </div>
-        </div>
-      }
-      <MetaKeyFormLabel name={name} metaKey={get.meta_key}/>
-      <InputMetaDatum name={name} get={get}/>
-    </fieldset>

@@ -1,7 +1,7 @@
 React = require('react')
 f = require('active-lodash')
 MadekPropTypes = require('../madek-prop-types.coffee')
-Text = require('./input-text.cjsx')
+Text = require('./input-text-async.cjsx')
 InputResources = require('./input-resources.cjsx')
 
 module.exports =
@@ -18,6 +18,11 @@ module.exports =
     render: ()->
       <InputResources {...@props} resourceType='Licenses'/>
 
+  Groups: React.createClass
+    displayName: 'InputGroups'
+    render: ()->
+      <InputResources {...@props} resourceType='Groups'/>
+
   Keywords: React.createClass
     displayName: 'InputKeywords'
     propTypes:
@@ -28,6 +33,20 @@ module.exports =
         fixed_selection: React.PropTypes.bool.isRequired
         keywords: React.PropTypes.arrayOf(MadekPropTypes.keyword)
       ).isRequired
+
+    _onChange: (event) ->
+      if @props.onChange
+        uuid = event.target.value
+        checked = event.target.checked
+
+        # In any case remove the element first.
+        values = f.filter @props.values, (value) ->
+          value.uuid != uuid
+        # Then add it again if needed.
+        if checked
+          values.push({uuid: uuid})
+
+        @props.onChange(values)
 
     render: ({name, values, get} = @props)->
       {meta_key, keywords, fixed_selection} = get
@@ -56,15 +75,24 @@ module.exports =
           {#hidden field needed for broken Rails form serialization}
           <input type='hidden' name={name} value=''/>
 
-          {keywords.map (kw)->
+          {keywords.map (kw) =>
             # determine initial checked status according to current values:
             isInitiallySelected = f.any(values, { uuid: kw.uuid })
 
             <label className='col2of6' key={kw.uuid}>
-              <input type='checkbox'
-                name={name}
-                defaultChecked={isInitiallySelected}
-                value={kw.uuid}/>
+              {
+                if @props.onChange
+                  <input type='checkbox'
+                    onChange={@_onChange}
+                    name={name}
+                    checked={isInitiallySelected}
+                    value={kw.uuid}/>
+                else
+                  <input type='checkbox'
+                    name={name}
+                    defaultChecked={isInitiallySelected}
+                    value={kw.uuid}/>
+              }
                 {kw.label}
             </label>
           }

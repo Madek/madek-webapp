@@ -3,6 +3,7 @@ f = require('active-lodash')
 MadekPropTypes = require('./madek-prop-types.coffee')
 
 InputsByType = require('./forms/inputs-by-type.cjsx')
+InputText = require('./forms/input-text.cjsx')
 
 module.exports = React.createClass
   displayName: 'InputMetaDatum'
@@ -13,30 +14,25 @@ module.exports = React.createClass
   getInitialState: ()-> {isClient: false}
   componentDidMount: ({get} = @props)->
     @setState
-      isClient: true # internal marker to check for client side
-      values: get.values # keep track of entered values
-
-  onChange: (values)->
-    @setState(values: values)
+      isClient: true
 
   render: ({get, name} = @props, state = @state)->
     resourceType = f.last(get.type.split('::'))
 
-    # TODO: really check check if multiple allowed!
     multiple = not (f.includes(['Text', 'TextDate'], resourceType))
 
-    # NOTE: in isClient mode, we operate with the objects (`values`),
-    # otherwise everything is just strings (`literal_values`)!
-    values = state.values or get.literal_values
-
-    # enhance input if we are on client and there is a component,
-    # otherwise use static text input:
-    InputForType = if (state.isClient and InputsByType[resourceType])
-      InputsByType[resourceType]
+    if state.isClient
+      InputForType = InputsByType[resourceType]
+      values = f.map get.values, (value) ->
+        value
     else
-      InputsByType.Text
+      InputForType = InputText
+      values = f.map get.literal_values, (value) ->
+        value
+
 
     <InputForType
+      onChange={@props.onChange}
       get={get}
       name={name}
       active={state.isClient}

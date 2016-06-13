@@ -37,11 +37,17 @@ module.exports = React.createClass
       @setState(values: @state.values.concat(item))
     # TODO: highlight the existing (in old value) and on the fly items visually…
 
+    if @props.onChange
+      @props.onChange(@state.values)
+
   _onNewItem: (value)->
     @_onItemAdd({ type: 'Keyword', label: "* #{value} * ", term: value }) # HACK
 
   _onItemRemove: (item, _event)->
     @setState(values: f.reject(@state.values, item))
+
+    if @props.onChange
+      @props.onChange(@state.values)
 
   componentDidUpdate: ()->
     if @state.adding

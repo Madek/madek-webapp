@@ -55,7 +55,8 @@ feature 'Resource: MediaEntry' do
         prepare_manipulate_and_check(
           {
             full: true,
-            context: nil
+            context: nil,
+            async: true
           },
           lambda do
             prepare_data
@@ -89,7 +90,8 @@ feature 'Resource: MediaEntry' do
         prepare_manipulate_and_check(
           {
             full: false,
-            context: 'media_content'
+            context: 'media_content',
+            async: false
           },
           lambda do
             prepare_data

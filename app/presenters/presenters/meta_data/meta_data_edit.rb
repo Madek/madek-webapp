@@ -3,39 +3,97 @@ module Presenters
 
     class MetaDataEdit < Presenters::MetaData::ResourceMetaData
 
-      def by_context_edit
-        contexts = contexts_for_show.map do |context|
-          build_meta_data_context_edit(context)
+      def meta_datum_by_meta_key_id
+        Hash[
+          fetch_relevant_meta_data.map do |meta_datum|
+            [
+              meta_datum.meta_key_id,
+              Presenters::MetaData::MetaDatumEdit.new(meta_datum, @user)
+            ]
+          end
+        ]
+      end
+
+      def mandatory_by_meta_key_id
+        result = ContextKey.where(
+          context: AppSetting.first.contexts_for_validation,
+          is_required: true)
+        Hash[
+          result.map do |context_key|
+            [
+              context_key.meta_key_id,
+              {
+                meta_key_id: context_key.meta_key_id,
+                context_id: context_key.context_id
+              }
+            ]
+          end
+        ]
+      end
+
+      def context_ids
+        contexts_for_show.map &:id
+      end
+
+      def contexts_by_context_id
+        Hash[
+          contexts_for_show.map do |context|
+            [context.id, Presenters::Contexts::ContextCommon.new(context)]
+          end
+        ]
+      end
+
+      def meta_key_by_meta_key_id
+        Hash[
+          relevant_meta_keys.map do |key|
+            [key.id, Presenters::MetaKeys::MetaKeyCommon.new(key)]
+          end
+        ]
+      end
+
+      def meta_key_ids_by_context_id
+        Hash[
+          contexts_for_show.map do |context|
+            [
+              context.id,
+              context.context_keys.map do |c_key|
+                next unless context_key_usable(c_key)
+                c_key.meta_key_id
+              end
+            ]
+          end
+        ]
+      end
+
+      def relevant_meta_keys
+        parent_resource_type = @app_resource.class.name.underscore
+        MetaKey
+          .where("is_enabled_for_#{parent_resource_type.pluralize}" => true)
+          .joins(:vocabulary)
+          .where(vocabularies: { id: relevant_vocabularies.map(&:id) })
+      end
+
+      def existing_meta_data_by_meta_key_id
+        datums = relevant_meta_keys.map do |key|
+          @app_resource.meta_data.where(meta_key_id: key.id).first
         end
-        contexts.select do |context|
-          !context.meta_data.empty?
+
+        datums = datums.select do |hash|
+          hash
         end
+
+        Hash[
+          datums.map do |meta_datum|
+            next unless meta_datum.id
+            [
+              meta_datum.meta_key_id,
+              Presenters::MetaData::MetaDatumCommon.new(meta_datum, @user)
+            ]
+          end
+        ]
       end
 
       private
-
-      def build_meta_data_context_edit(context)
-        Pojo.new(
-          context: Presenters::Contexts::ContextCommon.new(context),
-          meta_data: context.context_keys.map do |c_key|
-            next unless context_key_usable(c_key)
-            md = @app_resource.meta_data.find_by(meta_key: c_key.meta_key)
-            unless md.present?
-              md = create_empty_meta_datum_for_edit(c_key)
-            end
-            Presenters::MetaData::MetaDatumEdit.new(md, @user)
-          end
-          .compact)
-      end
-
-      def create_empty_meta_datum_for_edit(context_key)
-        parent_resource_type = @app_resource.class.name.underscore
-        key = context_key.meta_key
-        md_klass = key.meta_datum_object_type.constantize
-        md_klass.new(
-          meta_key: key,
-          parent_resource_type => @app_resource)
-      end
 
       def context_key_usable(context_key)
         parent_resource_type = @app_resource.class.name.underscore

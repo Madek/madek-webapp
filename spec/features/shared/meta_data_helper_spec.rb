@@ -117,7 +117,7 @@ module MetaDataHelper
     visit resource_path
     click_action_button('pen')
     expect(current_path).to eq edit_context_path
-    open_full_or_context(config, edit_context_path)
+    open_full_or_context(config, edit_context_path, config[:async])
 
     within('form[name="resource_meta_data"]') do
       manipulate.call
@@ -130,7 +130,7 @@ module MetaDataHelper
     check.call
   end
 
-  def open_full_or_context(config, edit_context_path)
+  def open_full_or_context(config, edit_context_path, async)
     underscored = @resource.class.name.underscore
     edit_path = send ('edit_meta_data_' + underscored + '_path'), @resource
     if config[:full]
@@ -140,7 +140,11 @@ module MetaDataHelper
       label = Context.find(config[:context]).label
       xpath = './/.[@class="ui-tabs-item"][.//.[contains(.,"' + label + '")]]'
       find(:xpath, xpath).find('a').click
-      expect(current_path).to eq(edit_context_path + '/' + config[:context])
+      if async
+        expect(current_path).to eq(edit_context_path)
+      else
+        expect(current_path).to eq(edit_context_path + '/' + config[:context])
+      end
     end
   end
 end
