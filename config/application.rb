@@ -100,7 +100,7 @@ module Madek
 
     config.log_tags = [->(req) { Time.now.strftime('%T') }, :port, :remote_ip]
 
-    # Assets
+    # Assets & React
 
     # Enable the asset pipeline
     config.assets.enabled = true
@@ -123,6 +123,14 @@ module Madek
       files: [pre_render_js_env], # files to load for prerendering
       replay_console: false,      # if true, console.* will be replayed client-side
     }
+    config.after_initialize do
+      # inject (per-instance) app config into react renderer:
+      class React::ServerRendering::SprocketsRenderer
+        def before_render(_component_name, _props, _prerender_options)
+          FrontendAppConfig.to_js
+        end
+      end
+    end
 
     # List of all assets that need precompilation
     # NOTE: override (don't extend) the Rails default (which matches lots of garbage)!

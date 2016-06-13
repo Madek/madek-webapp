@@ -11,10 +11,12 @@
         - Rails.logger.warn('View did not give content_for(:title_head)!')
         = 'Madek'
 
-    -# init ujs as early as possible (just sets a class so correct styles are used):
+    -# 1. init ujs as early as possible (sets class so correct styles are used)
+    -# 2. add 'dynamic' config (that can't be bundled)
     - if use_js
       :javascript
         document.getElementsByTagName('html')[0].classList.add('has-js')
+        #{FrontendAppConfig.to_js}
 
     = stylesheet_link_tag 'application', media: 'all'
     = content_for(:style_head)
@@ -26,6 +28,7 @@
 
     -# optional extra tags for head:
     = content_for(:head)
+
   %body
     = content_for(:body)
     - if use_js
