@@ -33,21 +33,24 @@ module.exports = React.createClass
     else
       f(@state.values).map('term').includes(item.term) # HACK!
 
+    newValues = @state.values.concat(item)
+
     unless is_duplicate
-      @setState(values: @state.values.concat(item))
+      @setState(values: newValues)
     # TODO: highlight the existing (in old value) and on the fly items visually…
 
     if @props.onChange
-      @props.onChange(@state.values)
+      @props.onChange(newValues)
 
   _onNewItem: (value)->
     @_onItemAdd({ type: 'Keyword', label: "* #{value} * ", term: value }) # HACK
 
   _onItemRemove: (item, _event)->
-    @setState(values: f.reject(@state.values, item))
+    newValues = f.reject(@state.values, item)
+    @setState(values: newValues)
 
     if @props.onChange
-      @props.onChange(@state.values)
+      @props.onChange(newValues)
 
   componentDidUpdate: ()->
     if @state.adding

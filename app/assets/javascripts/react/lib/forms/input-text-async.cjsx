@@ -16,22 +16,14 @@ module.exports = React.createClass
   }
 
   componentWillMount: () ->
-    @_ensureValues(@props.values)
+    @setState({values: @props.values})
 
-  _ensureValues: (values) ->
-    values = f.map values, (value) ->
-      value
-    if f.last(values) != ''
-      if @props.multiple or f.isEmpty(values)
-        values.push('')
-    @setState({values: values})
-
-  _onChange: (n, event) ->
-    @state.values[n] = event.target.value
-    @_ensureValues(@state.values)
+  _onChange: (event) ->
+    newValues = [event.target.value]
+    @setState({values: newValues})
 
     if @props.onChange
-      @props.onChange(@state.values)
+      @props.onChange(newValues)
 
   render: ({get, name, values, active, multiple} = @props) ->
 
@@ -40,9 +32,11 @@ module.exports = React.createClass
     <div className='form-item'>
       <div className='form-item-values'>
         {
-          @state.values.map (textValue, n) =>
-            lc = if onChange then onChange.bind(@, n) else null
-            <InputFieldText onChange={lc} name={name} value={textValue} key={get.meta_key_id + '_' + n}/>
+          if @state.values.length == 0
+            value = ''
+          else
+            value = @state.values[0]
+          <InputFieldText onChange={@_onChange} name={name} value={value} key={get.meta_key_id}/>
         }
       </div>
 
