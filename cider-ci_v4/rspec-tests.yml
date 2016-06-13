@@ -1,0 +1,109 @@
+jobs:
+  rspec-tests:
+
+    name: RSpec Tests
+
+    run_when:
+      the branch does not match no-ci or _wip_:
+        type: branch
+        include_match: ^.+$
+        exclude_match: ^(.*no-ci.*)|([a-z]*_wip_.*)$
+
+    context:
+
+      generate_tasks:
+        include_match: spec/.*_spec.rb
+
+      tasks:
+
+        # manually prioritize slow tests higher
+
+        spec/features/batch_edit/form_values_and_appearance_spec.rb: {priority: 1}
+        spec/features/collection_destroy_spec.rb: {priority: 1}
+        spec/features/collection_meta_data_edit_spec.rb: {priority: 1}
+        spec/features/collection_select_collection_spec.rb: {priority: 2}
+        spec/features/collection_show_spec.rb: {priority: 2}
+        spec/features/dashboard_new_collection_spec.rb: {priority: 2}
+        spec/features/edit_collection_cover_spec.rb: {priority: 1}
+        spec/features/edit_collection_highlights_spec.rb: {priority: 1}
+        spec/features/flyout_actions_spec.rb: {priority: 2}
+        spec/features/media_entry/media_entry_index_spec.rb: {priority: 1}
+        spec/features/media_entry/media_entry_meta_data_edit_spec.rb: {priority: 2}
+        spec/features/media_entry/media_entry_permissions_spec.rb: {priority: 1}
+        spec/features/media_entry/media_entry_select_collection_spec.rb: {priority: 2}
+        spec/features/media_entry_export_spec.rb: {priority: 2}
+        spec/features/meta_data/meta_data_spec.rb: {priority: 1}
+        spec/features/search_spec.rb: {priority: 2}
+
+
+        spec/features/styleguide_spec.rb:
+          priority: 2
+          scripts:
+            test:
+              body: echo "disabled till it's faster and/or do we work on CSS."
+
+        # some tests need special treatment or custom configuration
+
+        spec/features/custom_root-url_spec.rb:
+          environment_variables:
+            RAILS_RELATIVE_URL_ROOT: /my-test
+
+        spec/features/session/expiration_spec.rb:
+          environment_variables:
+            RAILS_RELATIVE_URL_ROOT: /my-test
+          scripts:
+            configure_session_validity_duration:
+              body: |
+                echo 'madek_session_validity_duration: 10 Seconds' >> config/settings.local.yml
+            test:
+              start_when:
+                validity duration has been configured:
+                  script_key: configure_session_validity_duration
+
+
+      script_defaults:
+        template_environment_variables: true
+
+      task_defaults:
+        include:
+          - path: cider-ci_v4/task_components/database.yml
+            submodule: [datalayer]
+          - path: cider-ci_v4/task_components/bundle.yml
+            submodule: [datalayer]
+
+        scripts:
+          test:
+            timeout: 15 Minutes
+            body: |
+              #!/usr/bin/env bash
+              set -eux
+              export PATH=~/.rubies/$RUBY/bin:$PATH
+              mkdir -p log
+              xvfb-run -a -e log/xvfb.log \
+                bundle exec rspec $CIDER_CI_TASK_FILE
+
+        dispatch_storm_delay_duration: 1 seconds
+
+        environment_variables:
+          RAILS_ENV: test
+          LANG: "en_US.UTF-8"
+          DATABASE: madek_webapp_{{CIDER_CI_TRIAL_ID}}
+
+        git_options:
+          submodules:
+            include_match: ^.*$
+
+        trial_attachments:
+          screenshots:
+            include_match: 'tmp\/.+\.png$'
+            content_type: image/png
+          logs:
+            include_match: 'logs?\/.+\.log$'
+            exclude_match: 'vendor\/'
+            content_type: text/plain
+          config:
+            include_match: 'config\/.+\.ya?ml$'
+            exclude_match: 'vendor\/'
+            content_type: text/yaml
+
+

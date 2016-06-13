@@ -1,0 +1,2 @@
+include:
+  - cider-ci_v4/rspec-tests.yml
