@@ -6,6 +6,8 @@ module Presenters
 
       THUMBNAIL_SIZES = Madek::Constants::THUMBNAILS
 
+      delegate_to_app_resource :content_type
+
       def initialize(entry, user)
         raise 'invalid resource!' unless entry.is_a?(MediaEntry)
         return unless entry.media_file.present?

@@ -5,6 +5,7 @@ Permissions = require('./media-entry/permissions.coffee')
 Person = require('./person.coffee')
 # MediaResources = require('./shared/media-resources.coffee')
 ResourceMetaData = require('./shared/resource-meta-data.coffee')
+getMediaType = require('./shared/get-media-type.js')
 MetaData = require('./meta-data.coffee')
 ResourceWithRelations = require('./concerns/resource-with-relations.coffee')
 Favoritable = require('./concerns/resource-favoritable.coffee')
@@ -37,6 +38,7 @@ module.exports = AppResource.extend(
       default: 'private'
     keywords: ['array']
     more_data: ['object']
+    media_file: ['object'] # TODO: type: MediaFile
 
   children:
     permissions: Permissions
@@ -49,6 +51,15 @@ module.exports = AppResource.extend(
     uploading: 'object'
 
   derived:
+
+    # mediaType either from (media_file) presenter or uploading file:
+    mediaType:
+      deps: ['media_file', 'uploading']
+      fn: ()->
+        contentType = f.presence(f.get(@media_file, 'content_type')) \
+          or f.presence(f.get(@uploading, 'file.type'))
+        getMediaType(contentType)
+
     uploadStatus:
       deps: ['uploading']
       fn: ()->
