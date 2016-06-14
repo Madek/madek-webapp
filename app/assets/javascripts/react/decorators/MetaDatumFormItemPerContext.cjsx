@@ -42,7 +42,9 @@ module.exports = React.createClass
     if @props.hidden
       style = {display: 'none'}
 
-    <fieldset style={style} className={cx('ui-form-group columned prh', {'error': error})}>
+    validErr = @props.published and @props.requiredMetaKeyIds[@props.metaKeyId] and not @_validModel(@props.model)
+
+    <fieldset style={style} className={cx('ui-form-group columned prh', {'error': error or validErr})}>
       {if error
         <div className="ui-alerts" style={marginBottom: '10px'}>
           <div className="error ui-alert">
@@ -51,24 +53,25 @@ module.exports = React.createClass
         </div>
       }
       {
-        signStyle = {
-          color: '#d9534f',
-          display: 'table',
-          marginLeft: '-25px',
-          float: 'left',
-          paddingTop: '7px',
-          paddingBottom: '10px'
-        }
-        if @props.requiredMetaKeyIds[@props.metaKeyId] and not @_validModel(@props.model)
-          signStyle.color = '#d9534f'
-          <i className='icon-bang' style={signStyle} />
-        else if @props.requiredMetaKeyIds[@props.metaKeyId]
-          signStyle.color = '#5cb85c'
-          <i className='icon-checkmark' style={signStyle} />
-        else
-          <div style={{display: 'table', marginLeft: '-20px', float: 'left', paddingTop: '5px', paddingBottom: '10px'}}></div>
+        # signStyle = {
+        #   color: '#d9534f',
+        #   display: 'table',
+        #   marginLeft: '-25px',
+        #   float: 'left',
+        #   paddingTop: '7px',
+        #   paddingBottom: '10px'
+        # }
+        # if @props.requiredMetaKeyIds[@props.metaKeyId] and not @_validModel(@props.model)
+        #   signStyle.color = '#d9534f'
+        #   <i className='icon-bang' style={signStyle} />
+        # else if @props.requiredMetaKeyIds[@props.metaKeyId]
+        #   signStyle.color = '#5cb85c'
+        #   <i className='icon-checkmark' style={signStyle} />
+        # else
+        #   <div style={{display: 'table', marginLeft: '-20px', float: 'left', paddingTop: '5px', paddingBottom: '10px'}}></div>
+        null
       }
-      <MetaKeyFormLabel name={name} metaKey={meta_key}/>
+      <MetaKeyFormLabel name={name} metaKey={meta_key} mandatory={@props.requiredMetaKeyIds[@props.metaKeyId]}/>
       <InputMetaDatum onChange={@_onChange} name={name} get={newget}/>
 
     </fieldset>

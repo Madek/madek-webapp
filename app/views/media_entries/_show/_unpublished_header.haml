@@ -1,19 +1,21 @@
-- content_for(:app_alerts) do
-  = component('alert', level: 'warning', text: t(:media_entry_not_published_warning_msg))
+- if not flash.to_hash.present?
+  - content_for(:app_alerts) do
+    = component('alert', level: 'warning', text: t(:media_entry_not_published_warning_msg))
 
-.ui-container.bright.bordered-bottom.mbm
 
-  .ui-container.pam
-
-    .ui-actions
-      = component('button.tertiary',
-        link: media_entry_path,
-        method: :delete,
-        data: { confirm: t(:btn_delete_confirm_msq) },
-        text: t(:btn_delete_text))
-
-      = component('button.primary',
-        link: publish_media_entry_path,
-        method: :post,
-        data: { confirm: t(:btn_publish_confirm_msg) },
-        text: t(:btn_publish_text))
+/.ui-container.bright.bordered-bottom.mbm
+/
+/  .ui-container.pam
+/
+/    .ui-actions
+/      = component('button.tertiary',
+/        link: media_entry_path,
+/        method: :delete,
+/        data: { confirm: t(:btn_delete_confirm_msq) },
+/        text: t(:btn_delete_text))
+/
+/      = component('button.primary',
+/        link: publish_media_entry_path,
+/        method: :post,
+/        data: { confirm: t(:btn_publish_confirm_msg) },
+/        text: t(:btn_publish_text))

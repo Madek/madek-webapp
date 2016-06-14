@@ -25,12 +25,20 @@ module.exports = React.createClass
 
   submit: (actionType) ->
 
+    automaticPublish = @props.validityForAll == 'valid' and @state.mounted == true and not @props.get.published
+    if automaticPublish
+      actionType = 'publish'
+    else
+      actionType = 'save'
+
+    url = @props.get.url + '/meta_data?actionType=' + actionType
+
     @setState(saving: true)
     serialized = @refs.form.serialize()
     xhr(
       {
         method: 'PUT'
-        url: @props.get.url + '/meta_data?actionType=' + actionType
+        url: url
         body: serialized
         headers: {
           'Accept': 'application/json'
@@ -71,6 +79,10 @@ module.exports = React.createClass
 
     disableSave = (@state.saving or not @props.hasAnyChanges or (@props.validityForAll != 'valid' and @props.get.published)) and @state.mounted == true
     disablePublish = (@state.saving or @props.validityForAll != 'valid')
+    showPublish = not @props.get.published and @state.mounted == true
+
+    showPublish = false
+
 
     <RailsForm ref='form'
       name='resource_meta_data' action={get.url + '/meta_data'}
@@ -91,6 +103,7 @@ module.exports = React.createClass
           f.map get.meta_data.meta_key_ids_by_context_id[context.uuid], (meta_key_id) =>
             datum = get.meta_data.meta_datum_by_meta_key_id[meta_key_id]
             <MetaDatumFormItem
+              published={get.published}
               hidden={false}
               onChange={@props.onChange}
               allMetaData={get.meta_data}
@@ -113,6 +126,7 @@ module.exports = React.createClass
             datum = get.meta_data.meta_datum_by_meta_key_id[meta_key_id]
             if datum
               <MetaDatumFormItem
+                published={get.published}
                 hidden={true}
                 onChange={@props.onChange}
                 allMetaData={get.meta_data}
@@ -134,7 +148,7 @@ module.exports = React.createClass
           <button className='primary-button large' name='actionType' value='save'
             type='submit' onClick={@_onClick} disabled={disableSave}>Save</button>
           {
-            if not @props.get.published and @state.mounted == true
+            if showPublish
               <button className='primary-button large' name='actionType' value='publish'
                 type='submit' onClick={@_onClick} disabled={disablePublish}>Publish</button>
           }

@@ -8,8 +8,13 @@ module.exports = React.createClass
     metaKey: MadekPropTypes.metaKey
 
   render: ({metaKey} = @props)->
+
+    label = metaKey.label
+    if @props.mandatory
+      label = label + ' *'
+
     <label className='form-label'>
-      {metaKey.label}
+      {label}
       {if (description = metaKey.description)
         <span className='ui-form-ui-ttip-toggle ui-ttip-toggle' rel='tooltip'
           title={description}>

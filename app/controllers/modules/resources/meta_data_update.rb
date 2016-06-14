@@ -23,14 +23,17 @@ module Modules
         errors = update_all_meta_data_transaction!(resource, meta_data_params)
 
         if errors.empty?
+
+          published_before = published_state(resource)
           if params[:actionType] == 'publish'
             ActiveRecord::Base.transaction do
               resource.is_published = true
               resource.save!
             end
           end
+          published_after = published_state(resource)
 
-          respond_success(resource)
+          determine_respond_success(resource, published_before, published_after)
         else
           respond_with_errors(errors)
         end
@@ -38,8 +41,33 @@ module Modules
 
       private
 
-      def respond_success(resource)
-        flash[:success] = I18n.t('flash.actions.meta_data_update.success')
+      def published_state(resource)
+        resource.class != MediaEntry or resource.is_published
+      end
+
+      def determine_respond_success(resource, published_before, published_after)
+        if published_after
+          if published_before
+            respond_success(
+              resource,
+              :success,
+              'meta_data_edit_' + resource.class.name.underscore + '_saved')
+          else
+            respond_success(
+              resource,
+              :success,
+              'meta_data_edit_media_entry_published')
+          end
+        else
+          respond_success(
+            resource,
+            :warning,
+            'meta_data_edit_media_entry_saved_missing')
+        end
+      end
+
+      def respond_success(resource, type, text_key)
+        flash[type] = I18n.t(text_key)
         fwd_url = self.send("#{controller_name.singularize}_path", resource)
         respond_to do |format|
           format.json { render(json: { forward_url: fwd_url }) }

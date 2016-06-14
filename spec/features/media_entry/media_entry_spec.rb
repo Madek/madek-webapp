@@ -28,22 +28,22 @@ feature 'Resource: MediaEntry' do
 
       expect(page.status_code).to eq 200
 
-      # unpublished entry was created
-      within('#app') do
-        alert = find('.ui-alert.warning')
-        expect(alert)
-          .to have_content I18n.t(:media_entry_not_published_warning_msg)
-      end
-
-      # NOTE: will break here when there is required MetaData,
-      # must add them here
-
-      # publish it
-      click_on I18n.t(:btn_publish_text)
-
-      # it was published
-      alert = find('#app-alerts .success')
-      expect(alert).to have_content 'Entry was published!'
+      # # unpublished entry was created
+      # within('#app') do
+      #   alert = find('.ui-alert.warning')
+      #   expect(alert)
+      #     .to have_content I18n.t(:media_entry_not_published_warning_msg)
+      # end
+      #
+      # # NOTE: will break here when there is required MetaData,
+      # # must add them here
+      #
+      # # publish it
+      # click_on I18n.t(:btn_publish_text)
+      #
+      # # it was published
+      # alert = find('#app-alerts .success')
+      # expect(alert).to have_content 'Entry was published!'
 
     end
 
@@ -82,12 +82,12 @@ feature 'Resource: MediaEntry' do
         submit_form
       end
 
-      # unpublished entry was created
-      within('#app') do
-        alert = find('.ui-alert.warning')
-        expect(alert)
-          .to have_content I18n.t(:media_entry_not_published_warning_msg)
-      end
+      # # unpublished entry was created
+      # within('#app') do
+      #   alert = find('.ui-alert.warning')
+      #   expect(alert)
+      #     .to have_content I18n.t(:media_entry_not_published_warning_msg)
+      # end
 
       media_entry = @user.unpublished_media_entries.first
 
