@@ -1,8 +1,6 @@
 require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
-require_relative 'ui_helpers_spec'
-include UIHelpers
 
 module MetaDataHelper
 
@@ -80,6 +78,7 @@ module MetaDataHelper
 
   def update_context_bubble(key, value)
     meta_key = MetaKey.find(key)
+
     autocomplete_and_choose_first(
       find_context_meta_key_form(meta_key),
       value.term)

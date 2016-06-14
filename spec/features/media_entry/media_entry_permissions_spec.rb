@@ -1,9 +1,6 @@
 require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
-require_relative '../shared/ui_helpers_spec'
-
-include UIHelpers
 
 feature 'Resource: MediaEntry' do
   background do

@@ -1,5 +1,10 @@
 # Manual Testing
 
+## Autocomplete (mouse interaction)
+
+- find any Autocompleter (Keywords in MetaDataEdit, Anything in Permissions, …)
+- verify that mouse interaction works: clicking on a result selects it
+
 ## Async dashboard
 
 - only the first 3 section of the dashboard are loaded initally

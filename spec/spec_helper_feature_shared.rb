@@ -31,6 +31,25 @@ def move_mouse_over(element)
   # element.hover
 end
 
+def autocomplete_and_choose_first(node, text)
+  unless Capybara.javascript_driver == :selenium
+    throw 'Autocomplete is only supported in Selenium!'
+  end
+  # NOTE: mouse interaction does not work/is brittle and is manually tested!
+
+  ac = node.find('.ui-autocomplete-holder')
+  input = ac.find('input')
+  input.hover
+  input.click
+  puts 'send_keys'
+  input.native.send_keys(text)
+  # wait until results are loaded and menu is open:
+  wait_until { ac.find('.ui-autocomplete.ui-menu.tt-open') }
+  # select first entry with keyboard navigation
+  input.native.send_keys(:arrow_down)
+  input.native.send_keys(:enter)
+end
+
 def sign_in_as(login, password = 'password')
   visit '/my'
   # if ldap login is ON, first switch to correct form tab
