@@ -72,6 +72,8 @@ module.exports = React.createClass
     initial: viewConfigProps
     withBox: React.PropTypes.bool # toggles simple grid or full box
     fetchRelations: React.PropTypes.bool
+    fallback: React.PropTypes.oneOf([React.PropTypes.bool, React.PropTypes.node])
+    heading: React.PropTypes.node
     authToken: React.PropTypes.string.isRequired
     get: React.PropTypes.shape
       # resources: React.PropTypes.array # TODO: array of ampersandCollection
@@ -81,6 +83,9 @@ module.exports = React.createClass
       can_filter: React.PropTypes.bool # if true, get.resources can be filtered
       config: viewConfigProps # <- config that is part of the URL!
       dynamic_filters: React.PropTypes.array
+
+  getDefaultProps: ()->
+    fallback: true
 
   mixins: [ampersandReactMixin]
   getObservedItems: ()-> # ampersandReactMixin!
@@ -181,9 +186,18 @@ module.exports = React.createClass
             return alert(JSON.stringify(err or 'Error', 0, 2))
           window.location = url
 
+  # public methods:
+
+  setLayout: (layoutMode)-> # NOTE: this is a hack and goes around the router :/
+    unless f.includes(f.map(LAYOUT_MODES, 'mode'), layoutMode)
+      throw new Error "Invalid Layout!"
+    @setState(config: f.merge(@state.config, {layout: layoutMode}))
 
   render: ()->
-    {get, mods, initial, withBox, fetchRelations, saveable, authToken} = @props
+    {
+      get, mods, initial, withBox, fallback, heading,
+      fetchRelations, saveable, authToken, children
+    } = @props
 
     # TODO: refactor this + currentQuery into @getInitialState + @getCurrentQuery
     get = f.defaultsDeep \      # combine config in order:
@@ -278,7 +292,7 @@ module.exports = React.createClass
             @_onBatchEdit
 
       <UiToolBar
-        heading={("#{totalCount} #{'Inhalte'}" if totalCount)}
+        heading={heading or ("#{totalCount} #{'Inhalte'}" if totalCount)}
         mods={toolbarClasses}
         actions={actions} layouts={layouts}/>
 
@@ -347,18 +361,19 @@ module.exports = React.createClass
         }
       </div>
 
-    paginationNav = if withBox then do ({config, pagination} = get)=>
-      navLinks =
-        current:
-          href: currentUrl
-          onClick: @_handleChangeInternally
-        prev: if pagination.prev
-          href: setUrlParams(config.for_url, currentQuery, list: pagination.prev)
-        next: if pagination.next
-          href: setUrlParams(config.for_url, currentQuery, list: pagination.next)
-      <ActionsBar>
-        <UiPaginationNav {...navLinks}/>
-      </ActionsBar>
+    paginationNav = if withBox and f.present(get.pagination)
+      do ({config, pagination} = get)=>
+        navLinks =
+          current:
+            href: currentUrl
+            onClick: @_handleChangeInternally
+          prev: if pagination.prev
+            href: setUrlParams(config.for_url, currentQuery, list: pagination.prev)
+          next: if pagination.next
+            href: setUrlParams(config.for_url, currentQuery, list: pagination.next)
+        <ActionsBar>
+          <UiPaginationNav {...navLinks}/>
+        </ActionsBar>
 
     # component:
     <div className={boxClasses}>
@@ -371,21 +386,27 @@ module.exports = React.createClass
 
           {# main list:}
           <div className='ui-container table-cell table-substance'>
-            {if not f.present(get.resources)
-              <FallBackMsg>
-                {'Keine Inhalte verfügbar'}
-                {if resetFilterLink
-                  <br/>}
-                {resetFilterLink}
-              </FallBackMsg>
+            {children}
+            {if not f.present(get.resources) or get.resources.length == 0 then do ()->
+              return null if !fallback
+              if !f.isBoolean(fallback)
+                fallback # we are given a fallback message, use it
+              else       # otherwise, build default fallback message:
+                <FallBackMsg>
+                  {'Keine Inhalte verfügbar'}
+                  {if resetFilterLink
+                    <br/>}
+                  {resetFilterLink}
+                </FallBackMsg>
             else
               <ul className={listClasses}>
                 <li className='ui-resources-page'>
-                  {if withBox and get.pagination.total_pages > 1
-                    <PageCounter
-                      href={currentUrl}
-                      page={get.config.page}
-                      total={get.pagination.total_pages}/>}
+                  {if withBox and f.present(get.pagination)
+                    if (get.pagination.total_pages > 1)
+                      <PageCounter
+                        href={currentUrl}
+                        page={get.config.page}
+                        total={get.pagination.total_pages}/>}
 
                   <ul className='ui-resources-page-items'>
                   {get.resources.map (item)=>

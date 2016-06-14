@@ -18,6 +18,7 @@ module.exports = AppResource.extend(
   {
   type: 'MediaEntry'
   urlRoot: '/entries'
+  extraProperties: 'allow'
   props:
     title:
       type: 'string'
@@ -31,7 +32,7 @@ module.exports = AppResource.extend(
     portrayed_object_date: ['string']
     image_url:
       type: 'string'
-      required: true
+      required: false
     privacy_status:
       type: 'string'
       required: true
@@ -63,8 +64,9 @@ module.exports = AppResource.extend(
     uploadStatus:
       deps: ['uploading']
       fn: ()->
-        switch
-          when not @uploading then return
+        if not @uploading then return
+        filename = f.get(this, 'uploading.file.name')
+        state = switch
           when @uploading.error
             'Error!'
           when not @uploading.progress
@@ -73,6 +75,7 @@ module.exports = AppResource.extend(
             "Uploading… #{@uploading.progress.toFixed(2)}%"
           else
             'Processing…'
+        return [filename, state]
 
   upload: (callback)->
     unless (@uploading.file instanceof BrowserFile)
@@ -85,20 +88,21 @@ module.exports = AppResource.extend(
 
     req = @_runRequest {
       method: 'POST'
-      url: '/entries/'
+      url: APP_CONFIG.relativeUrlRoot + '/entries/'
       body: formData
       },
       (err, res)=>
         # handle error
-        if err or not res
-          @set('uploading', {error: (err or true)})
+        if err or not res or res.statusCode >= 400
+          error = (err or res.body or true)
+          @set('uploading', f.merge(@uploading, {error: error}))
         else # or update self with server response:
           attrs = (try JSON.parse(res.body))
           @set(attrs) if attrs
           @unset('uploading')
 
         # pass through to callback if given:
-        callback(err, res) if f.isFunction(callback)
+        callback(error || null, res) if f.isFunction(callback)
 
     # listen to progress if supported by XHR:
     if req.upload

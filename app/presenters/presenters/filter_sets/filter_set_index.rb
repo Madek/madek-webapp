@@ -9,6 +9,7 @@ module Presenters
       end
 
       def image_url
+        # TODO: replace this with simple UI-Icon
         ActionController::Base.helpers.image_path \
           Madek::Constants::Webapp::UI_GENERIC_THUMBNAIL[:filter_set]
         # TODO: implement

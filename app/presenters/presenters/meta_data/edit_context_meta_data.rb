@@ -3,14 +3,15 @@ module Presenters
     class EditContextMetaData \
         < Presenters::Shared::MediaResource::MediaResourceEdit
 
-      include Presenters::Shared::MediaResource::Modules::URLHelpers
       include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
 
-      attr_reader :context_id
+      attr_reader :context_id, :resource_index
 
       def initialize(app_resource, user, context_id)
         super(app_resource, user)
         @context_id = context_id
+        @resource_index = presenter_by_class(@app_resource.class)
+          .new(@app_resource, @user)
       end
 
       def url
@@ -27,26 +28,14 @@ module Presenters
         end
       end
 
-      def resource_index
-        presenter_by_class(@app_resource.class).new(@app_resource, @user)
-      end
-
+      # TODO: do this in View:
       def image_url
-
-        if @app_resource.class == MediaEntry
-          media_file = Presenters::MediaFiles::MediaFile.new(@app_resource, @user)
-          size = :large
-          img = media_file.previews.try(:fetch, :images, nil).try(:fetch, size, nil)
-          img.presence ? img.url : generic_thumbnail_url
-        else
-          nil
-        end
+        @resource_index.image_url
       end
 
-
+      # TODO: do this in View:
       def title
-        @app_resource.title.presence or
-          "(Upload from #{@app_resource.created_at.iso8601})"
+        @resource_index.title.presence
       end
 
       private

@@ -11,14 +11,8 @@ RSpec.shared_examples 'image_url' do |response_type|
       expect(presenter.image_url).to be == \
         Rails.application.routes.url_helpers
           .preview_path(media_entry.media_file.preview(:medium))
-    when 'with generic image'
-      expect(presenter.image_url).to be == \
-        ActionController::Base.helpers.image_path(
-          Madek::Constants::Webapp::UI_GENERIC_THUMBNAIL[:unknown])
-    when 'with collection image'
-      expect(presenter.image_url).to be == \
-        ActionController::Base.helpers
-          .image_path(Madek::Constants::Webapp::UI_GENERIC_THUMBNAIL[:collection])
+    when 'with no image'
+      expect(presenter.image_url).to be == nil
     end
   end
 end

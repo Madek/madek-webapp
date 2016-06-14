@@ -8,17 +8,18 @@ module Presenters
 
       delegate_to_app_resource :content_type
 
-      def initialize(entry, user)
-        raise 'invalid resource!' unless entry.is_a?(MediaEntry)
-        return unless entry.media_file.present?
-        super(entry.media_file)
-        @media_file = @app_resource
+      # NOTE: initialized with Entry! otherwise we would have to query the DB!
+      def initialize(media_entry_with_media_file, user)
+        unless media_entry_with_media_file.is_a?(::MediaEntry) \
+          and media_entry_with_media_file.try(:media_file).is_a?(::MediaFile)
+          raise 'invalid resource!'
+        end
+        super(media_entry_with_media_file.media_file)
         @user = user
       end
 
       # NOTE: always returns PreviewPresenters, for non-images an Array of them
       def previews
-        return unless @media_file.present?
         @previews ||= {
           images: THUMBNAIL_SIZES.keys.map do |size|
             [size, get_image_by(size: size)]
@@ -29,8 +30,8 @@ module Presenters
       end
 
       def original_file_url
-        return unless @media_file and Pundit.policy(@user, @media_file).show?
-        media_file_path(@media_file)
+        return unless Pundit.policy(@user, @app_resource).show?
+        media_file_path(@app_resource)
       end
 
       def url
@@ -39,9 +40,9 @@ module Presenters
 
       def get_image_by(size:)
         # HACK: only return *large* previews from video (for consistent frames)
-        size = :large if (@media_file.media_type == 'video')
+        size = :large if (@app_resource.media_type == 'video')
         # NOTE: optimize/memo
-        @image_previews ||= @media_file.previews.where(media_type: :image)
+        @image_previews ||= @app_resource.previews.where(media_type: :image)
         get_image_preview(@image_previews, size)
       end
 
@@ -71,7 +72,7 @@ module Presenters
       end
 
       def get_audio_previews
-        audio_previews = @media_file.previews
+        audio_previews = @app_resource.previews
         # get the latest audio for each format
         ['ogg'].map do |format|
           audio = audio_previews.where(content_type: "audio/#{format}")
@@ -81,7 +82,7 @@ module Presenters
       end
 
       def get_video_previews
-        video_previews = @media_file.previews
+        video_previews = @app_resource.previews
         # get the largest available video for each format
         ['webm', 'mp4'].map do |format|
           video = video_previews.where(content_type: "video/#{format}")
@@ -92,7 +93,7 @@ module Presenters
 
       def get_first_or_30_percent(previews)
         # If thumbnail is from video and there is more than one available:
-        is_from_video = @media_file.media_type == 'video'
+        is_from_video = @app_resource.media_type == 'video'
         if (previews.length > 1 and is_from_video)
           # get frames, ensure timing order (*_0000.jpg, …)
           frames = previews.group_by(&:height).first.second.sort_by(&:filename)

@@ -5,6 +5,7 @@ module Modules
 
       def new
         authorize MediaEntry
+        @get = Presenters::MediaEntries::MediaEntryNew.new
       end
 
       def create

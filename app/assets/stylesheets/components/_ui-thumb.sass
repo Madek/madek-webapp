@@ -249,3 +249,29 @@
 @if $projection
   .ui-thumbnail.video .ui-thumbnail-image-wrapper
     background: $white image-url("backgrounds/thumb-video-backg-projct.png") 0 0px no-repeat
+
+
+// v3 Additions:
+.ui-thumbnail
+
+  .ui-thumbnail-image
+    // don't show 'alt' text at all (just for a11y)
+    color: transparent
+    // TODO: grey background to show loading and errors (when all pictures have sizes!)
+    // background-color: $mono-weak
+
+
+  // support media type icons (instead of <img>)
+  .ui_media-type-icon
+    color: $mono-mid
+    font-size: 52px
+    position: absolute
+    width: 100%
+    top: 22%
+    left: 0px
+    text-align: center
+
+.ui-thumbnail.media-set,
+.ui-thumbnail.filter-set
+  .ui_media-type-icon
+    position: inherit

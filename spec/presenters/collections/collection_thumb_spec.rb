@@ -42,7 +42,7 @@ describe Presenters::Collections::CollectionIndex do
       let(:media_entry) { media_entry }
     end
 
-    it_responds_to 'image_url', 'with collection image' do
+    it_responds_to 'image_url', 'with no image' do
       collection = FactoryGirl.create(:collection)
       user = collection.responsible_user
       media_entry = FactoryGirl.create(

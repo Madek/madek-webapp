@@ -34,7 +34,7 @@ describe Presenters::MediaEntries::MediaEntryIndex do
       let(:media_entry) { media_entry }
     end
 
-    it_responds_to 'image_url', 'with generic image' do
+    it_responds_to 'image_url', 'with no image' do
       media_entry = FactoryGirl.create(:media_entry_with_audio_media_file)
       let(:resource) { media_entry }
       let(:media_entry) { media_entry }

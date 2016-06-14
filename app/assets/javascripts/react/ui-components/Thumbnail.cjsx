@@ -15,7 +15,8 @@ module.exports = React.createClass
   displayName: 'UiThumbnail'
   propTypes:
     type: React.PropTypes.oneOf(['media-entry', 'filter-set', 'media-set']).isRequired
-    src: React.PropTypes.string.isRequired
+    src: React.PropTypes.string
+    iconCenter: React.PropTypes.node
     mods: PropTypes.arrayOf(PropTypes.oneOf(['video']))
     alt: React.PropTypes.string
     href: React.PropTypes.string
@@ -29,12 +30,19 @@ module.exports = React.createClass
     flyoutBottom: flyoutProps
 
   render: () ->
-    { type, src, alt, href, onClick, meta,
-      meta, badgeRight, badgeLeft, actionsLeft, actionsRight,
+    { type, src, alt, href, onClick,
+      meta, iconCenter, badgeRight, badgeLeft, actionsLeft, actionsRight,
       flyoutTop, flyoutBottom
     } = @props
 
     classes = ui.cx(type, ui.parseMods(@props), 'ui-thumbnail')
+
+    innerImage = if src
+      <Picture mods='ui-thumbnail-image' src={src} alt={alt}/>
+    else if iconCenter
+      iconCenter
+    else
+      throw new Error "Thumbnail: neither 'src' nor 'iconCenter' given!"
 
     flyoutTop = if f.present(flyout = @props.flyoutTop)
       <div className='ui-thumbnail-level-up-items'>
@@ -94,7 +102,7 @@ module.exports = React.createClass
           <div className='ui-thumbnail-table-image-holder'>
             <div className='ui-thumbnail-cell-image-holder'>
               <div className='ui-thumbnail-inner-image-holder'>
-                <Picture mods='ui-thumbnail-image' src={src} alt={alt}/>
+                {innerImage}
               </div>
             </div>
           </div>

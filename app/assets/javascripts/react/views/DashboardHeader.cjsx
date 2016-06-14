@@ -38,7 +38,7 @@ module.exports = React.createClass
     <div style={{margin: '0px', padding: '0px'}}>
       <PageContentHeader icon='home' title={t('sitemap_my_archive')}>
         <HeaderPrimaryButton
-          icon={null} text={t('dashboard_create_media_entry_btn')}
+          icon={'upload'} text={t('dashboard_create_media_entry_btn')}
           href={get.new_media_entry_url} />
         <HeaderPrimaryButton
           icon={'plus'} text={t('dashboard_create_collection_btn')}

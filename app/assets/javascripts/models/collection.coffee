@@ -26,7 +26,7 @@ module.exports = AppResource.extend(
     portrayed_object_date: ['string']
     image_url:
       type: 'string'
-      required: true
+      required: false
     privacy_status:
       type: 'string'
       required: true

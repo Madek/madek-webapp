@@ -4,7 +4,7 @@
       text: t(:media_entry_media_import_header),
       actions: nil)
 
-  -# TODO: better prog. enhance
+  -# TODO: better prog. enhance/reactify this view
 
   -# complete box (under the title):
   .ui-container.tab-content.bordered.rounded-right.rounded-bottom.mbh
@@ -15,7 +15,7 @@
       %h3.title-l= t(:media_entry_media_import_title)
 
       .js-only
-        = react('Views.MediaEntry.Uploader')
+        = react('Views.My.Uploader', get: @get)
 
       .no-js
         = form_for :media_entry, url: media_entries_path do |f|
@@ -37,9 +37,7 @@
 
     -# bottom part of the box:
     .row.ui-container.midtone.pvm.phl.rounded-bottom
-      .row
-        .col1of2
-          %h3.title-m.prm
-            %strong= t(:media_entry_notices_title)
-          %p.prm.ptx
-            = "TODO"
+      %h3.title-m.prm
+        %strong= t(:media_entry_media_import_notes_title)
+      %p.prm.ptx
+        = t(:media_entry_media_import_notes_msg)

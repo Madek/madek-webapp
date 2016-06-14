@@ -59,7 +59,7 @@ module Presenters
       def image_url
         size = :large
         img = @media_file.previews.try(:fetch, :images, nil).try(:fetch, size, nil)
-        img.presence ? img.url : generic_thumbnail_url
+        img.url if img.present?
       end
 
       def buttons

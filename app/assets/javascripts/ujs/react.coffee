@@ -28,9 +28,9 @@ initByClass =
   #     success: (model, response, options)->
   #       callback(React.createElement(MetaDataEdit, metaDatum: md))
 
-  'Views.MediaEntry.Uploader': (data, callback)->
+  'Views.My.Uploader': (data, callback)->
     MediaEntries = require('../models/media-entries.coffee')
-    Uploader = require('../react/views/MediaEntry/Uploader.cjsx')
+    Uploader = require('../react/views/My/Uploader.cjsx')
     props = f.set(data.reactProps, 'appCollection', (new MediaEntries()))
     callback(React.createElement(Uploader, props))
 

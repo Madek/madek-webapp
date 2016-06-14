@@ -11,7 +11,10 @@ module Presenters
           @app_resource = app_resource
           @user = user
           @list_conf = list_conf
-          @media_file = Presenters::MediaFiles::MediaFile.new(@app_resource, @user)
+          @media_file = \
+            if @app_resource.try(:media_file).present?
+              Presenters::MediaFiles::MediaFile.new(@app_resource, @user)
+            end
         end
 
         def destroyable
@@ -27,7 +30,10 @@ module Presenters
           attr_reader :media_file
 
           def title
-            super.presence or "(Upload from #{@app_resource.created_at.iso8601})"
+            # either from MetaDatum; or fake it from file or creation data:
+            super.presence \
+              or @app_resource.try(:media_file).try(:filename) \
+              or "(Upload from #{@app_resource.created_at.iso8601})"
           end
 
           def media_type

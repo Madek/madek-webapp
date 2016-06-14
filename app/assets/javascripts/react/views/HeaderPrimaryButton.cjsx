@@ -8,7 +8,7 @@ module.exports = React.createClass
     <a className="button-primary primary-button" href={href} onClick={onClick}>
       {
         if icon
-          <i className={'icon-' + icon}></i>
+          <span><i className={'icon-' + icon}></i> </span>
       }
       {text}
     </a>

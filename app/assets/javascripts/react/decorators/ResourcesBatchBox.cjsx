@@ -1,7 +1,7 @@
 React = require('react')
 f = require('active-lodash')
 t = require('../../lib/string-translation.js')('de')
-Thumbnail = require('../ui-components/Thumbnail.cjsx')
+ResourceThumbnail = require('../decorators/ResourceThumbnail.cjsx')
 
 module.exports = React.createClass
   displayName: 'ResourcesBatchBox'
@@ -18,25 +18,13 @@ module.exports = React.createClass
           <div className="ui-resources-holder pal">
             <ul className="grid ui-resources">
               {f.map get.resources.resources, (resource) ->
-                <ThumbnailWrapper key={resource.uuid} title={resource.title} authors={resource.authors_pretty}
-                  hrefUrl={resource.url} imageUrl={resource.image_url} />
+                <ResourceThumbnail elm={'li'}
+                  key={resource.uuid}
+                  get={resource}
+                  authToken={authToken}/>
               }
             </ul>
           </div>
         </div>
       </div>
     </div>
-
-
-ThumbnailWrapper = React.createClass
-  displayName: 'ThumbnailWrapper'
-  render: ({title, authors, imageUrl, hrefUrl} = @props) ->
-    <li className="ui-resource not-loaded-contexts">
-      <div className="ui-resource-body">
-        <div className="ui-resource-thumbnail">
-          <Thumbnail className="ui-thumbnail media-entry image"
-            src={imageUrl} href={hrefUrl}
-            meta={{ title: title, subtitle: authors}} />
-        </div>
-      </div>
-    </li>

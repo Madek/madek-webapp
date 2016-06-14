@@ -42,20 +42,14 @@ module Presenters
 
           private
 
-          def generic_thumbnail_url
-            prepend_url_context \
-              ActionController::Base.helpers.image_path \
-                Madek::Constants::Webapp::UI_GENERIC_THUMBNAIL[:collection]
-          end
-
           def get_image_preview(size:)
             cover_media_entry = _choose_media_entry_for_preview
-            preview = if cover_media_entry
+            preview = if cover_media_entry.try(:media_file).present?
                         Presenters::MediaFiles::MediaFile.new(
-                          cover_media_entry, @user).previews
-                          .try(:fetch, :images, nil).try(:fetch, size, nil)
+                          cover_media_entry, @user
+                        ).previews.try(:fetch, :images, nil).try(:fetch, size, nil)
                       end
-            preview.present? ? preview.url : generic_thumbnail_url
+            preview.url if preview.present?
           end
 
           def _choose_media_entry_for_preview(collection = @app_resource)
@@ -99,11 +93,12 @@ module Presenters
             end
 
             # otherwise return the first image-like entry
-            collection.media_entries
+            collection
+              .media_entries
               .viewable_by_user_or_public(@user)
               .reorder(created_at: :desc)
-              .each do |e|
-                  return e if e.media_file.representable_as_image?
+              .each do |entry|
+                  return entry if entry.media_file.representable_as_image?
               end
             nil # return nil if nothing found
           end

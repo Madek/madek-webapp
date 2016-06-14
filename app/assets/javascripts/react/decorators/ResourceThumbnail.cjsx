@@ -20,6 +20,7 @@ module.exports = React.createClass
     onSelect: React.PropTypes.func
     onClick: React.PropTypes.func
     fetchRelations: React.PropTypes.bool
+    elm: React.PropTypes.string # type of html node of outer wrapper
     get: React.PropTypes.shape
       type: React.PropTypes.oneOf(['MediaEntry', 'Collection', 'FilterSet'])
     # TODO: consilidate with `get` (when used in uploader)
@@ -32,7 +33,7 @@ module.exports = React.createClass
     deleteModal: false
   }
 
-  componentDidMount: ()->
+  componentWillMount: ()->
     # instantiate model from data if not already…
     get = @props.get
     unless (get.isState or get.isCollection)
@@ -40,7 +41,10 @@ module.exports = React.createClass
         model = new modelByType(get)
       else
         console.error('WARNING: No model found for resource!', get)
-    @setState(isClient: true, model: model)
+    @setState(model: model)
+
+  componentDidMount: ()->
+    @setState(isClient: true)
 
   _fetchRelations: ()-> # for hover/flyouts
     model = @state.model
@@ -83,11 +87,47 @@ module.exports = React.createClass
 
     # map the type name:
     type = get.type.replace(/Collection/, 'MediaSet')
+
     # map the privacy icon:
     # see <http://madek.readthedocs.org/en/latest/entities/#privacy-status>
     # vs <http://test.madek.zhdk.ch/styleguide/Icons#6.2>
-    iconMapping = {'public': 'open', 'private': 'private', 'shared': 'group'}
-    privacyIcon = "privacy-#{iconMapping[get.privacy_status]}"
+    privacyIcon = do (status = get.privacy_status)->
+      iconMapping = {'public': 'open', 'private': 'private', 'shared': 'group'}
+      iconName = "privacy-#{iconMapping[status]}"
+      <Icon i={iconName} title={get.privacy_status}/>
+
+    statusIcon = if model.type isnt 'MediaEntry'
+      privacyIcon
+    else # for MediaEntries:
+      switch
+        when model.isNew()
+          <i className={'fa fa-cloud-upload'}/>
+        when not model['published?']
+          <i className={'fa fa-cloud'}/>
+        else
+          privacyIcon
+
+    # media type icon, used instead of image preview if there isn't any
+    mediaTypeIcon = do ()->
+      mediaTypeIconMapping = (mediaType)->
+        map =
+          'image':    'fa fa-file-image-o'
+          'audio':    'fa fa-file-audio-o'
+          'video':    'fa fa-file-video-o'
+          'document': 'fa fa-file-o' # TODO: 'text' and 'pdf' when mapping exists…
+          'other':    'fa fa-file-o' # TODO: 'archive' when 'compressed' exists…
+        map[mediaType] or map['other']
+
+      switch
+        when model.type is 'MediaEntry'
+          mediaTypeIcon = mediaTypeIconMapping(model.mediaType)
+          <i className={cx('ui_media-type-icon', mediaTypeIcon)}/>
+        when model.type is 'Collection'
+          <Icon i='set' mods='ui_media-type-icon'/>
+        when model.type is 'FilterSet'
+          <Icon i='set' mods='ui_media-type-icon'/>
+        else
+          <Icon i='bang' mods='ui_media-type-icon'/>
 
     # hover - actions
     actionsLeft = []
@@ -190,18 +230,22 @@ module.exports = React.createClass
     Element = elm or 'div'
     thumbProps =
       type: f.kebabCase(type)
-      mods: ['video'] if get.media_type is 'video'
-      src: get.image_url or state.localPreview or '.'
+      mods: ['video'] if model.mediaType is 'video'
+      src: get.image_url
       href: get.url
       alt: get.title
+      iconCenter: mediaTypeIcon
       # click handlers:
       onClick: onClick
       style: (CURSOR_SELECT_STYLE if onClick && (onClick == @props.onSelect))
       # extra elements (nested for layout):
-      meta:
-        title: get.title or get.uploadStatus
-      badgeLeft:
-        <Icon i={privacyIcon} title={get.privacy_status}/>
+      meta: if get.uploadStatus
+        title: get.uploadStatus[0]
+        subtitle: get.uploadStatus[1]
+      else
+        title: get.title
+        subtitle: get.authors_pretty
+      badgeLeft: statusIcon
       badgeRight: if get.type is 'FilterSet'
         <Icon i='filter' title='This is a Filterset'/>
       actionsLeft: actionsLeft

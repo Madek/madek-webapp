@@ -5,6 +5,7 @@ module.exports = React.createClass
   displayName: 'FileDropBox'
   propTypes:
     onFilesDrop: React.PropTypes.func.isRequired
+    onFilesDrag: React.PropTypes.func
 
   getInitialState: ()-> {dragging: false}
   componentDidMount: ()->
@@ -16,14 +17,10 @@ module.exports = React.createClass
     @props.onFilesDrop(event, files)
 
   render: ({props, state} = @)->
-    containerClass = 'ui-container clearfix mvl bordered rounded '
-    containerClass += (if state.dragging then 'inverted' else 'midtone')
-
-    <FileDrop id='ui-uploader'
-              className={containerClass}
-              onDrop={@onFilesDrop}
-              onDragOver={@onDragOver}
-              onDragLeave={@onDragLeave}
-              targetAlwaysVisible={true}>
+    <FileDrop
+      onDrop={@onFilesDrop}
+      onDragOver={@onDragOver}
+      onDragLeave={@onDragLeave}
+      targetAlwaysVisible={true}>
       {@props.children}
     </FileDrop>

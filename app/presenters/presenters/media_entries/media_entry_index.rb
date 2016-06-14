@@ -6,8 +6,10 @@ module Presenters
 
       def image_url
         size = :medium
-        img = @media_file.previews.try(:fetch, :images, nil).try(:fetch, size, nil)
-        img.presence ? img.url : generic_thumbnail_url
+        img = @media_file.try(:previews)
+          .try(:fetch, :images, nil)
+          .try(:fetch, size, nil)
+        img.url if img.present?
       end
 
       def keywords_pretty
