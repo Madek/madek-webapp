@@ -4,6 +4,7 @@ module Presenters
 
       def initialize(app_resource)
         super(app_resource)
+        @usage_count = 0
       end
 
     end

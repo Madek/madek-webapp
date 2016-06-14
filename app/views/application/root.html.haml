@@ -3,9 +3,7 @@
     claim: {
       title: settings.welcome_title,
       text: settings.try(:welcome_text).presence
-    },
-    login: render(partial: 'login_box')
+    }
   }
 
-.ui-container.pal
-  = combo('home-claim', home_claim)
+= react('Views.explore.ExploreLoginPage', get: @get)

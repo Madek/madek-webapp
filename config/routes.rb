@@ -111,6 +111,14 @@ Madek::Application.routes.draw do
   get '/id/:uuid', to: 'uuid#redirect_to_canonical_url'
 
   get :explore, controller: :explore, action: :index
+  get 'explore/catalog', controller: :explore, action: :catalog
+  get 'explore/catalog/:category', controller: :explore, action: :catalog_category
+  get 'explore/featured_set', controller: :explore, action: :featured_set
+  get 'explore/keywords', controller: :explore, action: :keywords
+  get 'explore/keywords/:keyword_id/previews/:preview_size',
+      controller: :previews,
+      action: :show_for_keyword,
+      as: :preview_for_keyword
 
   resource :search , controller: :search, only: [:show] do
     get :result

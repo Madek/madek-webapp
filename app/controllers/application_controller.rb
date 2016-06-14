@@ -34,7 +34,12 @@ class ApplicationController < ActionController::Base
 
   def root
     skip_authorization # as we are doing our own auth here
-    redirect_to(my_dashboard_path) if authenticated?
+    if authenticated?
+      redirect_to(my_dashboard_path)
+    else
+      @get = Presenters::Explore::ExploreLoginPage.new(current_user, settings)
+      respond_with @get
+    end
   end
 
   def status

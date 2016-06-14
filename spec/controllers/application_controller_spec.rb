@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe ApplicationController do
 
+  before(:each) do
+    AppSetting.first || create(:app_settings)
+  end
+
   it 'root' do
     get :root
     assert_template :root

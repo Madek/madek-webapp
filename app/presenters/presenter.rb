@@ -17,6 +17,11 @@ class Presenter
       .flatten
       .uniq
       .reject { |m| m == :inspect }
+      .push(:_presenter)
+  end
+
+  def _presenter
+    self.class.name
   end
 
   def dump(sparse_spec: nil)
