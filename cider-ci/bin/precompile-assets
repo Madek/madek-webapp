@@ -9,6 +9,8 @@ export RAILS_LOG_LEVEL=debug
 export RAILS_RELATIVE_URL_ROOT='' # OMG this somehow affects sprockets asset hashes
 export DISABLE_SECRETS_STRENGTH_CHECK=true
 
+export PATH=$(pwd)/vendor/jruby/bin/:$(ruby -e "puts ENV['PATH'].split(':').reject{|s| s.match(/\.rbenv/)}.join(':')")
+
 # build locale files
 bin/translation-csv-to-locale-yamls
 
@@ -16,7 +18,7 @@ bin/translation-csv-to-locale-yamls
 npm run -s build
 
 # precompilation: js, css, fonts, images
-bundle exec rake assets:precompile
+jruby --dev -S bundle exec rake assets:precompile
 
 # cleanup obsoletes
-bundle exec rake assets:clean[0]
+jruby --dev -S bundle exec rake assets:clean[0]

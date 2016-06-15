@@ -1,0 +1,23 @@
+include: cider-ci_v4/job_components/ruby-setup.yml
+
+task_defaults:
+  include:
+    - submodule: [datalayer]
+      path: cider-ci_v4/task_components/database.yml
+
+  max_trials: 3
+  dispatch_storm_delay_duration: 1 seconds
+
+  environment_variables:
+    DATABASE: madek_webapp_{{CIDER_CI_TRIAL_ID}}
+
+  trial_attachments:
+    screenshots:
+      include_match: '^tmp\/.+\.png$'
+      content_type: image/png
+    logs:
+      include_match: '^logs?\/.+\.log$'
+      content_type: text/plain
+    config:
+      include_match: '^config\/.+\.ya?ml$'
+      content_type: text/yaml

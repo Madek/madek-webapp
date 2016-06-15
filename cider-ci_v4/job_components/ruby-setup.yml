@@ -1,0 +1,15 @@
+script_defaults:
+  template_environment_variables: true
+
+task_defaults:
+  include:
+    - submodule: [datalayer]
+      path: cider-ci_v4/task_components/bundle.yml
+
+  git_options:
+    submodules:
+      include_match: ^.*$
+
+  environment_variables:
+    RAILS_ENV: test
+    LANG: "en_US.UTF-8"

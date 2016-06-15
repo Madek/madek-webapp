@@ -60,33 +60,3 @@ jobs:
                     export PATH=$(pwd)/vendor/jruby/bin/:$(ruby -e "puts ENV['PATH'].split(':').reject{|s| s.match(/\.rbenv/)}.join(':')")
                     jruby --dev -S bundle exec cider-ci_flay -m 78 app/
               # FIXME: set to 26 again after cleanup             ↑  <https://www.pivotaltracker.com/story/show/119127755>
-
-        javascript:
-          task-defaults:
-            traits:
-              nodejs: true
-            # en lieu of 'npm install':
-            git-options:
-              submodules:
-                clone: True
-                timeout: 60
-
-          tasks:
-            lint_coffeescript:
-              name: 'JS: Lint/Stylecheck with `standard` and Coffeelint'
-              scripts:
-                test:
-                  body: npm run lint
-
-        git:
-          description: 'Git sanity checks (fixed state)'
-          task-defaults:
-            max-auto-trials: 1
-            traits:
-              git: true
-          tasks:
-            linear_history:
-              name: 'Git: Linear History'
-              scripts:
-                test:
-                  body: cider-ci/bin/check-if-linear-history

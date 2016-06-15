@@ -1,0 +1,28 @@
+# Meta Checks
+
+task_defaults:
+  max_trials: 1
+  traits:
+    Linux: yes
+    git: yes
+
+tasks:
+
+  git_branch_current:
+    name: "git tree contains latest commit from origin/master"
+    scripts:
+      main:
+        body: "cider-ci/bin/check-if-branch-current"
+
+  git_submodules_current:
+    name: "git submodules trees all contain latest commit from origin/master"
+    scripts:
+      main:
+        body: "cider-ci/bin/check-if-submodules-current"
+
+  # TODO: automate submodule integration and check here if linear merge possible
+  git_submodules_merged:
+    name: "git submodules are all merged to origin/master"
+    scripts:
+      main:
+        body: "cider-ci/bin/check-if-submodules-merged"

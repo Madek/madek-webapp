@@ -11,7 +11,7 @@ ASSETS_CACHE_DIR="/tmp/assets_${DIGEST}"
 if [ -d "$ASSETS_CACHE_DIR" ]; then
   echo "assets cache exists, just linking... ${ASSETS_CACHE_DIR}"
 else
-  ./precompile-assets
+  bin/precompile-assets
   mv public/assets "${ASSETS_CACHE_DIR}"
 fi
 ln -s "$ASSETS_CACHE_DIR" public/assets
