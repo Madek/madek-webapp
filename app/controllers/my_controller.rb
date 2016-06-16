@@ -117,6 +117,7 @@ class MyController < ApplicationController
     @get = Presenters::Users::UserDashboard.new(
       current_user,
       user_scopes_for_dashboard(current_user),
+      Presenters::Users::DashboardHeader.new(nil),
       list_conf: { order: 'created_at DESC' }.merge(list_config))
 
     # NOTE: uses as separate presenter, for counting regardless of
@@ -127,6 +128,7 @@ class MyController < ApplicationController
       Presenters::Users::UserDashboard.new(
         current_user,
         user_scopes_for_dashboard(current_user),
+        nil,
         with_count: false,
         list_conf: { page: 1, per_page: 1 }))
   end

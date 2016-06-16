@@ -3,6 +3,7 @@ module Presenters
     class UserDashboard < Presenter
       def initialize(
             user, user_scopes = {},
+            dashboard_header,
             list_conf: nil,
             with_count: true
       )
@@ -10,16 +11,13 @@ module Presenters
         @user = user
         @config = { order: nil, page: 1, per_page: 1 }.merge(list_conf)
         @user_scopes = user_scopes
+        @dashboard_header = dashboard_header
         # FIXME: remove this config when Dashboard is built in Presenter…
         @with_count = with_count
       end
 
-      def new_media_entry_url
-        new_media_entry_path
-      end
-
-      def new_collection_url
-        my_new_collection_path
+      def dashboard_header
+        @dashboard_header
       end
 
       def unpublished_entries

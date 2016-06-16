@@ -25,35 +25,35 @@ module.exports = React.createClass
     get: null
   }
 
+  componentWillMount: () ->
+    @setState({get: @props.get})
+
   componentDidMount: () ->
     @setState({mounted: true})
 
-    @setState({loading: true})
+    if not @state.get
+      @setState({loading: true})
 
-    loadXhr(
-      {
-        method: 'GET'
-        url: '/my/new_collection?___sparse={"hash":{"new_collection":{}}}'
-      },
-      (result, json) =>
-        if result == 'success'
-          @setState(loading: false, get: json.hash.new_collection)
-        else
-          console.error('Cannot load dialog: ' + JSON.stringify(json))
-          @setState({loading: false})
-    )
+      loadXhr(
+        {
+          method: 'GET'
+          url: '/my/new_collection?___sparse={"dashboard_header":{"new_collection":{}}}'
+        },
+        (result, json) =>
+          if result == 'success'
+            @setState(loading: false, get: json.dashboard_header.new_collection)
+          else
+            console.error('Cannot load dialog: ' + JSON.stringify(json))
+            @setState({loading: false})
+      )
 
   _onCancel: (event) ->
-    # if @props.onClose
     event.preventDefault()
     if @props.onClose
       @props.onClose()
     return false
-    # else
-    #   return true
 
   _onOk: (event) ->
-    #if @props.onClose
     event.preventDefault()
     @setState({saving: true, error: null})
 
@@ -79,13 +79,14 @@ module.exports = React.createClass
     )
 
     return false
-    # else
-    #   return true
-
 
 
   render: ({authToken, get, onClose} = @props) ->
-    error = @state.error or get.error
+
+    if not @state.get
+      return <Modal loading={true}/>
+
+    error = @state.error or @state.get.error
     get = @state.get if @state.get
 
 
@@ -138,7 +139,8 @@ module.exports = React.createClass
 
           <div className="ui-modal-footer">
             <div className="ui-actions">
-              <ToggableLink active={not @state.saving or not @state.mounted} href={get.cancel_url} aria-hidden="true" className="link weak"
+              <ToggableLink active={not @state.saving or not @state.mounted} href={get.cancel_url}
+                aria-hidden="true" className="link weak"
                 data-dismiss="modal" onClick={@_onCancel}>{t('collection_new_cancel')}</ToggableLink>
               <FormButton onClick={@_onOk} disabled={@state.saving} text={t('collection_new_create_set')} />
             </div>

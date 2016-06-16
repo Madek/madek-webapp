@@ -6,7 +6,7 @@
   - if @feature_toggle_debug_dashboard
     = 'TODO: fix DashboardHeader'
   - else
-    = react('Views.DashboardHeader', { get: hashget, showModal: showModal })
+    = react('Views.DashboardHeader', { get: @get.dashboard_header })
 
 
 -# - content_for(:page_sidebar) do
@@ -22,7 +22,7 @@
                 link: { text: t(:resources_header_show_all),
                         href: my_dashboard_section_path(section[:id])})
       = render partial: "my/section_#{section[:partial]}",
-               locals: { atget: atget, lget: lget, section: section, show_pagination_nav: false }
+               locals: { get: @get, section: section, show_pagination_nav: false }
 
   .ui-container.pal
     - if dashboard_content

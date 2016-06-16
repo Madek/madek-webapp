@@ -13,7 +13,7 @@ render_async = (is_main && section[:render_async?]) or false
 
 if !render_async
   react('Deco.MediaResourcesBox',
-      get: atget.send(section[:id]),
+      get: @get.send(section[:id]),
       mods: mods,
       withBox: with_box,
       fallback: fallback,

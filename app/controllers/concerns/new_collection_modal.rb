@@ -4,27 +4,17 @@ module Concerns
 
     def new_collection
       error = flash[:error]
-      @get = Presenters::HashPresenter.new(
-        Pojo.new(
-          user_dashboard: user_dashboard_presenter,
-          new_collection: new_collection_presenter(error)
-        )
-      )
-      flash.clear
-      respond_with @get, template: 'my/new_collection'
-    end
 
-    private
-
-    def new_collection_presenter(error)
-      Presenters::Collections::CollectionNew.new(error)
-    end
-
-    def user_dashboard_presenter
-      Presenters::Users::UserDashboard.new(
+      @get = Presenters::Users::UserDashboard.new(
         current_user,
         user_scopes_for_dashboard(current_user),
+        Presenters::Users::DashboardHeader.new(
+          Presenters::Collections::CollectionNew.new(error)
+        ),
         list_conf: resource_list_params)
+
+      flash.clear
+      respond_with @get, template: 'my/new_collection'
     end
 
   end
