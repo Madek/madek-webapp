@@ -14,9 +14,10 @@ class PreviewsController < ApplicationController
         type: preview.content_type,
         disposition: 'inline')
       rescue ActionController::MissingFile => e
-        # TODO remove this hack
-        logger.warn "Preview #{preview.file_path} not found"
-        send_data ""
+        # don't spam the log with stacktraces of "file not found"!
+        logger.error "Preview missing! - #{e.message}"
+        # it's not a 404 if we find the Preview but not the file!!!
+        head 500 # respond with empty server error.
       end
     end
   end
