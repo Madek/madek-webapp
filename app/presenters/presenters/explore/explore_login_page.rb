@@ -8,10 +8,10 @@ module Presenters
       end
 
       def teaser_entries
-        Presenters::MediaEntries::MediaEntries.new \
-          Collection.find(@settings.teaser_set_id).media_entries,
-          @user,
-          list_conf: {}
+        teaser = Collection.find_by(id: @settings.teaser_set_id)
+        return unless teaser
+        Presenters::MediaEntries::MediaEntries.new(
+          teaser.media_entries, @user, list_conf: {})
       end
 
     end

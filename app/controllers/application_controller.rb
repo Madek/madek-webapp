@@ -9,6 +9,10 @@ class ApplicationController < ActionController::Base
   include Pundit
   include Modules::VerifyAuthorized
 
+  before_action do
+    @feature_toggle_new_explore = params.permit(:_feat_new_explore).present?
+  end
+
   # this Pundit error is generic and means basically 'access denied'
   rescue_from Pundit::NotAuthorizedError, with: :error_according_to_login_state
   rescue_from Errors::UnauthorizedError, with: :error_according_to_login_state
@@ -37,8 +41,13 @@ class ApplicationController < ActionController::Base
     if authenticated?
       redirect_to(my_dashboard_path)
     else
-      @get = Presenters::Explore::ExploreLoginPage.new(current_user, settings)
-      respond_with @get
+
+      if @feature_toggle_new_explore
+        @get = Presenters::Explore::ExploreLoginPage.new(current_user, settings)
+        respond_with @get
+      else
+        # render default
+      end
     end
   end
 

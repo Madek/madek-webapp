@@ -14,7 +14,7 @@ module Presenters
       end
 
       def url
-        "/explore/catalog/#{@meta_key.id}"
+        prepend_url_context "/explore/catalog/#{@meta_key.id}"
       end
 
       def image_url
@@ -28,7 +28,8 @@ module Presenters
           .media_file
           .preview(:medium)
 
-        "/media/#{preview.id}"
+        return unless preview
+        prepend_url_context preview_path(preview.id)
       end
     end
   end

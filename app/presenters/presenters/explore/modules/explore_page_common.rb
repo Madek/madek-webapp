@@ -73,17 +73,20 @@ module Presenters
             MetaKey
             .find_by(id: 'madek_core:keywords')
             .keywords
+            .with_usage_count
             .limit(@limit_keywords)
+
+          return unless keywords.present?
 
           {
             title: 'Häufige Schlagworte',
             url: '/explore/keywords',
+
             list: keywords.map do |keyword|
               {
-                url: '/explore/catalog/madek_core:keywords',
-                keyword: Presenters::Keywords::KeywordIndex.new(keyword),
-                # Daselbe wie usage_count im keyword_index?
-                count: MetaDatum.where(meta_key: keyword).count
+                url: prepend_url_context('/explore/catalog/madek_core:keywords'),
+                keyword: \
+                  Presenters::Keywords::KeywordIndexWithUsageCount.new(keyword)
               }
             end
           }

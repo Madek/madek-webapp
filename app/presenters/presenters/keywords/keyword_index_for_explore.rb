@@ -8,7 +8,7 @@ module Presenters
       end
 
       def image_url
-        preview_for_keyword_path(@app_resource, :medium)
+        prepend_url_context preview_for_keyword_path(@app_resource, :medium)
       end
 
     end

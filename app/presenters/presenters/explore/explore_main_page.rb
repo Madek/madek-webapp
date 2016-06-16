@@ -27,8 +27,11 @@ module Presenters
       end
 
       def teaser_entries
-        entries = Collection.find(@settings.teaser_set_id).media_entries
-        authorized_entries = MediaEntryPolicy::Scope.new(@user, entries).resolve
+        teaser = Collection.find_by(id: @settings.teaser_set_id)
+        return unless teaser
+
+        authorized_entries = MediaEntryPolicy::Scope.new(
+          @user, teaser.media_entries).resolve
 
         Presenters::MediaEntries::MediaEntries.new(authorized_entries,
                                                    @user,
