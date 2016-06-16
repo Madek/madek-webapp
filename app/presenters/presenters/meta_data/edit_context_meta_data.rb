@@ -3,6 +3,9 @@ module Presenters
     class EditContextMetaData \
         < Presenters::Shared::MediaResource::MediaResourceEdit
 
+      include Presenters::Shared::MediaResource::Modules::URLHelpers
+      include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
+
       attr_reader :context_id
 
       def initialize(app_resource, user, context_id)
@@ -23,6 +26,23 @@ module Presenters
           true
         end
       end
+
+      def resource_index
+        presenter_by_class(@app_resource.class).new(@app_resource, @user)
+      end
+
+      def image_url
+
+        if @app_resource.class == MediaEntry
+          media_file = Presenters::MediaFiles::MediaFile.new(@app_resource, @user)
+          size = :large
+          img = media_file.previews.try(:fetch, :images, nil).try(:fetch, size, nil)
+          img.presence ? img.url : generic_thumbnail_url
+        else
+          nil
+        end
+      end
+
 
       def title
         @app_resource.title.presence or
