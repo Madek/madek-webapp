@@ -1,5 +1,6 @@
 f = require('active-lodash')
 BrowserFile = require('global/window').File
+app = require('ampersand-app')
 AppResource = require('./shared/app-resource.coffee')
 Permissions = require('./media-entry/permissions.coffee')
 Person = require('./person.coffee')
@@ -88,7 +89,7 @@ module.exports = AppResource.extend(
 
     req = @_runRequest {
       method: 'POST'
-      url: APP_CONFIG.relativeUrlRoot + '/entries/'
+      url: app.config.relativeUrlRoot + '/entries/'
       body: formData
       },
       (err, res)=>

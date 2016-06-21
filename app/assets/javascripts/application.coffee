@@ -13,6 +13,17 @@ require('bootstrap')
 
 # local requires
 each = require('active-lodash').each
+present = require('active-lodash').present
+
+
+# setup APP ############################################################
+# "global" singleton (returns same object no matter where it's required)
+app = require('ampersand-app')
+# validate and set the "global" config - see frontend_app_config.rb
+throw new Error 'No `APP_CONFIG`!' unless present(APP_CONFIG)
+app.extend({
+  config: require('global').APP_CONFIG
+})
 
 # init UJS #############################################################
 
