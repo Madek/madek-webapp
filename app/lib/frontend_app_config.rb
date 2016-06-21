@@ -9,7 +9,7 @@ class FrontendAppConfig
 
   def self.app_config
     @app_config_memo ||= {
-      relativeUrlRoot: Rails.application.routes.relative_url_root,
+      relativeUrlRoot: Rails.application.config.action_controller.relative_url_root,
       assetsPath: Rails.application.config.assets.prefix
     }
   end

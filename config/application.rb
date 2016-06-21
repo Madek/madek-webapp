@@ -18,8 +18,8 @@ module Madek
     # -- all .rb files in that directory are automatically loaded.
     #
 
-    config.action_controller.relative_url_root = \
-      ENV['RAILS_RELATIVE_URL_ROOT'].presence or ''
+    config.action_controller.relative_url_root = (
+      ENV['RAILS_RELATIVE_URL_ROOT'].presence or '')
 
     config.active_record.timestamped_migrations = false
     config.active_record.record_timestamps = false
