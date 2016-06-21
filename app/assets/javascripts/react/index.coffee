@@ -2,7 +2,8 @@
 
 requireBulk = require('bulk-require') # require file/directory trees
 
-UI =
+module.exports =
+
   # "UI library" (aka styleguide)
   # NOTE: 'requireBulk' is in the index file so that other components can use it
   UI: require('./ui-components/index.coffee')
@@ -10,6 +11,7 @@ UI =
   # Decorators: components that directly receive (sub-)presenters
   # NOTE: only needed for remaining HAML views…
   Deco: requireBulk(__dirname, [ './decorators/*.cjsx' ]).decorators
+
   # Views: Everything else that is rendered top-level (`react` helper)
   # NOTE: also because of HAML views there are sub-folders for "partials and actions".
   #       Will be structured more closely to the actual routes where they are used.
@@ -22,5 +24,3 @@ UI =
 
   # extra stuff
   AsyncDashboardSection: require('./lib/AsyncDashboardSection.cjsx')
-
-module.exports = UI

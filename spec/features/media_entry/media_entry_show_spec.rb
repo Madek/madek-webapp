@@ -18,7 +18,7 @@ describe 'Action: show' do
     it 'is rendered and shows title' do
       visit media_entry_path(@entry)
       expect(page.status_code).to eq 200
-      expect(page).to have_content 'Title Ausstellung Photo 1'
+      expect(page.find('.ui-body-title')).to have_content 'Ausstellung Photo 1'
     end
 
     scenario "Tab: 'Permissions'. Not shown for public." do
@@ -42,7 +42,7 @@ describe 'Action: show' do
 
     scenario "Tab: 'Entry'. Shows Title" do
       #  - title
-      expect(page).to have_content 'Title Ausstellung Photo 1'
+      expect(page.find('.ui-body-title')).to have_content 'Ausstellung Photo 1'
     end
 
     scenario "Tab: 'Relations'. Shows a parent and a sibling." do

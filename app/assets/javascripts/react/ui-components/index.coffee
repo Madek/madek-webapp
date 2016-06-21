@@ -1,2 +1,6 @@
 requireBulk = require('bulk-require')
-module.exports = requireBulk(__dirname, [ '*.cjsx' ])
+
+UILibrary = requireBulk(__dirname, [ '*.cjsx' ])
+UILibrary.propTypes = require('./propTypes.coffee')
+
+module.exports = UILibrary

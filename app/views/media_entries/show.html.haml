@@ -1,23 +1,5 @@
-:ruby
-  # first is the summary context, rest from configured list:
-  meta_data = @get.meta_data.by_context
-  context_for_show_summary, more_contexts = [meta_data.first, meta_data.drop(1)]
+- content_for(:title_head) { 'Madek | ' + @get.title }
+- content_for(:main) do
+  = react('Views.MediaEntryShow', get: @get)
 
-  tag_mods = ['small','ellipsed']
-
-  content_for(:overview) do deco 'resource_show_overview',
-    mods: 'ui-media-overview',
-    preview_large: react('Deco.MediaEntryPreview',
-                    get: @get, mods: 'ui-media-overview-preview-item'),
-    content: deco('meta_data_list',
-              mods: 'ui-media-overview-metadata',
-              show_title: false,
-              data: context_for_show_summary)
-  end
-
-- if more_contexts.any?
-  - content_for(:more_info) do
-    .ui-container.midtone.rounded-bottom.pal.well
-      = deco('resource_meta_data', meta_data: more_contexts)
-
-= render template: 'media_entries/_show/_base'
+= render template: 'media_entries/_show/_base_tmp_react'

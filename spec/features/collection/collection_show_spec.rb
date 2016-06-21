@@ -30,9 +30,10 @@ feature 'Resource: Collections' do
 
     scenario 'Tab: Main' do
       prepare_and_open_collection
-      expect(page).to have_content @collection.title
-      name = @user.person.first_name + ' ' + @user.person.last_name
-      expect(page).to have_content name
+      # page title:
+      expect(page.find('.ui-body-title')).to have_content @collection.title
+      # meta data:
+      expect(page).to have_content "Titel#{@collection.title}"
     end
 
     scenario 'Tab: Relations' do

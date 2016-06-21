@@ -11,12 +11,14 @@ feature 'Resource: MetaDatum' do
 
     # this key always exists; in personas it is used in 'summary context'
     meta_key = MetaKey.find 'madek_core:title'
+    @meta_datum = FactoryGirl.create(
+      :meta_datum_text,
+      meta_key: meta_key,
+      media_entry: @media_entry)
+    @context_key = Context
+      .find(AppSettings.first.context_for_show_summary)
+      .context_keys.where(meta_key_id: meta_key.id).first
     @summmary_box = '.ui-resource-overview .ui-metadata-box'
-
-    @meta_datum = FactoryGirl.create :meta_datum_text,
-                                     meta_key: meta_key,
-                                     media_entry: @media_entry
-
   end
 
   describe 'Action: Update' do
@@ -29,7 +31,8 @@ feature 'Resource: MetaDatum' do
       new_text = Faker::Lorem.words.join(' ')
 
       visit media_entry_path(@media_entry)
-      click_on @meta_datum.meta_key.id.split(':').last.humanize
+
+      click_on @context_key.label
 
       click_on I18n.t(:meta_data_action_edit_btn)
 

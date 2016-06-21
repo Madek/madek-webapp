@@ -28,21 +28,82 @@ M.metaKeyId = (props, propName, _componentName)->
   if not MKEY_REGEX.test(props[propName])
     return new Error('Malformed metaKeyId!')
 
-# Resources
+# Resources/Entities
+M.user = PropTypes.object # TODO
+
+M.vocabulary = PropTypes.shape
+  uuid: M.uuid.isRequired
+  label: PropTypes.string.isRequired
+  description: PropTypes.string
+  hint: PropTypes.string
+
+M.context = PropTypes.shape
+  uuid: M.uuid.isRequired
+  label: PropTypes.string
+  description: PropTypes.string
+  hint: PropTypes.string
+
 M.metaKey = PropTypes.shape
+  uuid: M.metaKeyId.isRequired
   label: PropTypes.string.isRequired
   description: PropTypes.string
   hint: PropTypes.string
   is_extensible: PropTypes.bool # only for type keywords!
+  # TODO: position: PropTypes.number.isRequired
+  # TMP:
+  value_type: PropTypes.oneOf(META_DATUM_TYPES).isRequired
 
-M.metaDatum =  PropTypes.shape
+M.contextKey = PropTypes.shape
+  uuid: M.uuid.isRequired
+  position: PropTypes.number.isRequired
+  label: PropTypes.string
+  description: PropTypes.string
+  hint: PropTypes.string
   meta_key: M.metaKey
 M.keyword = PropTypes.shape
   label: PropTypes.string.isRequired
   type: PropTypes.oneOf(['Keyword'])
 
+# Concern: MetaData
+M.metaDatum = PropTypes.shape
+  uuid: M.uuid.isRequired
+  meta_key_id: M.metaKeyId.isRequired
+  type: PropTypes.oneOf(META_DATUM_TYPES).isRequired
 
-# ResourceFilters
+M.metaData = PropTypes.arrayOf(M.metaDatum)
+
+# M.metaDatumShow = PropTypes.shape
+#   meta_key: M.metaKey
+#   type: PropTypes.oneOf(META_DATUM_TYPES).isRequired
+#   subject_media_resource: PropTypes.object.isRequired # type Resource…
+
+M.metaDatumByContext = PropTypes.shape
+  context_key: M.contextKey.isRequired
+  meta_datum: M.metaDatum
+
+
+M.metaDataByVocabulary = PropTypes.shape
+  vocabulary: M.vocabulary.isRequired
+  meta_data: M.metaData
+
+M.metaDataByContext = PropTypes.shape
+  context: M.context.isRequired
+  meta_data: PropTypes.arrayOf(M.metaDatumByContext)
+
+M.metaDataByAny = PropTypes.oneOfType([
+  M.metaDataByVocabulary,
+  M.metaDataByContext
+])
+
+M.metaDataListing = PropTypes.arrayOf(M.metaDataByAny)
+
+M.resourceMetaData = PropTypes.shape({
+  by_context: PropTypes.arrayOf(M.metaDataByContext)
+  by_vocabulary: PropTypes.arrayOf(M.metaDataByVocabulary)
+})
+
+
+# Concern: ResourceFilters
 # NOTE: extracted only for readabilty
 # comments refer to <http://madek.readthedocs.org/en/latest/filters/>
 ResourceFiltersMetaData = f.values
@@ -88,7 +149,5 @@ M.resourceFilter = PropTypes.shape
       PropTypes.shape(
         key: PropTypes.oneOf(['public']).isRequired
         value: PropTypes.oneOf([true, false]).isRequired)]))
-
-# DynamicFilters
 
 module.exports = MadekPropTypes

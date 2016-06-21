@@ -1,0 +1,32 @@
+-# = from template: 'layouts/app_resource'
+
+:ruby
+  unless @get.published?
+    content_for(:top_notice) { render('media_entries/_show/unpublished_header') }
+  end
+
+  unless content_for?(:header)
+    content_for(:header) { render('media_entries/_show/resource_header') }
+  end
+
+  unless content_for(:tabs)
+    content_for(:tabs) { render('media_entries/_show/tab_nav') }
+  end
+
+  top_notice = content_for(:top_notice)
+  header = content_for(:header)
+  tabs = content_for(:tabs)
+  main = content_for(:main)
+
+.app-body-ui-container
+
+  - if top_notice.present?
+    = top_notice
+
+  = header
+
+  = tabs
+
+  = main
+
+= render template: 'layouts/_base'

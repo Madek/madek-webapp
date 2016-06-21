@@ -21,7 +21,6 @@ module Presenters
           .group_by(&:vocabulary)
           .sort_by { |v, d| v.id }
           .map(&method(:presenterify_vocabulary_and_meta_data))
-          .to_h
       end
 
       private
@@ -62,10 +61,9 @@ module Presenters
             .map { |md| presenter.new(md, @user) }
           end
 
-        [vocabulary.id.to_sym, Pojo.new(
+        Pojo.new(
           vocabulary: Presenters::Vocabularies::VocabularyCommon.new(vocabulary),
           meta_data: meta_data)
-        ]
       end
 
     end

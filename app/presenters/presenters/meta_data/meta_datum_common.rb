@@ -4,7 +4,6 @@ module Presenters
       def initialize(app_resource, user)
         super(app_resource)
         @user = user
-        @meta_key = Presenters::MetaKeys::MetaKeyCommon.new(@app_resource.meta_key)
         @values = wrap_in_array(@app_resource.value)
                     .map { |v| indexify_if_necessary(v) }
         @literal_values = values.map { |v| v.is_a?(Presenter) ? v.uuid : v }
@@ -16,7 +15,11 @@ module Presenters
                                :collection_id,
                                :filter_set_id)
 
-      attr_reader :meta_key, :values, :literal_values
+      attr_reader :values, :literal_values
+
+      def meta_key
+        Presenters::MetaKeys::MetaKeyCommon.new(@app_resource.meta_key)
+      end
 
       def url
         prepend_url_context meta_datum_path(@app_resource)

@@ -26,15 +26,17 @@ module.exports = React.createClass
 
       <div className='app-body-content table-cell ui-container table-substance ui-container'>
         <div className='form-body'>
-          {f.keys(vocabularies).map (voc_id)->
-            <VocabularyFormItem batch_entries={get.batch_entries}
-              vocabulary_data={vocabularies[voc_id]} name={name} key={voc_id}/>
+          {vocabularies.map ({vocabulary, meta_data})->
+            <VocabularyFormItem key={vocabulary.uuid}
+              name={name}
+              batch_entries={get.batch_entries}
+              vocabulary={vocabulary}
+              metaData={meta_data}/>
           }
         </div>
       </div>
 
       <BatchHintBox />
-
 
       <div className="ui-actions phl pbl mtl">
         <a className="link weak" href={get.url}>{' ' + t('meta_data_form_cancel') + ' '}</a>
@@ -46,12 +48,12 @@ module.exports = React.createClass
 
 VocabularyFormItem = React.createClass
   displayName: 'VocabularyFormItem'
-  render: ({vocabulary_data, name, batch_entries} = @props) ->
+  render: ({vocabulary, metaData, name, batch_entries} = @props) ->
     <div className='mbl'>
-      <VocabularyHeader vocabulary={vocabulary_data.vocabulary} batch_entries={batch_entries}/>
-      {vocabulary_data.meta_data.map (datum)->
+      <VocabularyHeader vocabulary={vocabulary} batch_entries={batch_entries}/>
+      {metaData.map (datum)->
         <MetaDatumFormItem datum={datum} name={name} key={datum.meta_key.uuid}
-          batch_entries={batch_entries} vocabulary={vocabulary_data.vocabulary} />
+          batch_entries={batch_entries} vocabulary={vocabulary} />
       }
     </div>
 
@@ -154,7 +156,7 @@ find_other_datum_in_voc = (reference_meta_key_id, other_vocabulary) ->
       other = datum
   return other
 
-compare_datum_between_entries = (refernce_vocabulary, reference_datum, all_entries) ->
+compare_datum_between_entries = (reference_vocabulary, reference_datum, all_entries) ->
 
   all_empty = true
   all_equal = true
@@ -167,9 +169,11 @@ compare_datum_between_entries = (refernce_vocabulary, reference_datum, all_entri
 
     other = find_other_datum_in_voc(
       reference_datum.meta_key_id,
-      entry.meta_data.by_vocabulary[refernce_vocabulary.uuid])
+      f.find(
+        entry.meta_data.by_vocabulary,
+        {vocabulary: {uuid: reference_vocabulary.uuid}}))
 
-    # "other" may never be null.
+    throw new Error('No Vocab to compare!') unless f.present(other)
 
     diff_d_res = compare_datums(reference_datum, other)
     if not diff_d_res.both_empty
