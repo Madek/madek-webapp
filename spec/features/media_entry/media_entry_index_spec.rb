@@ -80,7 +80,7 @@ feature 'Resource: MediaEntry' do
 
       # confirm we are in the right place:
       expect(current_path_with_query)
-        .to eq batch_edit_meta_data_media_entries_path(id: entry_ids)
+        .to eq batch_edit_context_meta_data_media_entries_path(id: entry_ids)
     end
   end
 

@@ -159,6 +159,8 @@ meta_data_edit_media_entry_saved,Eintrag wurde gespeichert.,Entry was saved.
 meta_data_edit_media_entry_published,Eintrag wurde gespeichert und publiziert.,Entry was saved and published.
 meta_data_edit_media_entry_saved_missing,Eintrag wurde gespeichert aber es wurden nicht alle Pflichtfelder ausgefüllt.,Entry was saved but there are missing mandatory fields.
 meta_data_edit_collection_saved,Set wurde gespeichert.,Collection was saved.
+meta_data_batch_title_pre,Metadaten für ,Metadaten für ,
+meta_data_batch_title_post, Einträge gleichzeitig editieren, Einträge gleichzeitig editieren,
 people_toolbar_header,Ähnliche Inhalte,Related Resources,
 group_edit_form_new_member_login,Login des neuen Mitglieds dieser Gruppe,New group member login,
 group_toolbar_header_entrusted_resources,Mir anvertraute Medieneinträge,Entrusted Media Entries,

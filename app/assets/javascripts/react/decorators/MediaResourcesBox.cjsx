@@ -166,7 +166,7 @@ module.exports = React.createClass
     event.preventDefault()
     selection = @state.selectedResources
     selected = f.map(selection.serialize(), 'uuid')
-    newUrl = setUrlParams('/entries/batch_meta_data_edit', {id: selected})
+    newUrl = setUrlParams('/entries/batch_edit_context_meta_data', {id: selected})
     window.location = newUrl # SYNC!
 
   _onCreateFilterSet: (config, event)->

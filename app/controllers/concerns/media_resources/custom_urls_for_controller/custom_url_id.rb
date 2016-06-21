@@ -4,7 +4,12 @@ module Concerns
       module CustomUrlId
         extend ActiveSupport::Concern
 
-        EXCLUDE_IDS = ['upload', 'batch_meta_data_edit', 'batch_meta_data']
+        EXCLUDE_IDS = [
+          'upload',
+          'batch_meta_data_edit',
+          'batch_edit_context_meta_data',
+          'batch_meta_data'
+        ]
 
         def singular_model_name_id
           @singular_model_name_id ||= \

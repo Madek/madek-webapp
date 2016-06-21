@@ -23,22 +23,31 @@ module.exports = React.createClass
   componentDidMount: () ->
     @setState({mounted: true})
 
-  submit: (actionType) ->
-
+  _actionUrl: () ->
     automaticPublish = @props.validityForAll == 'valid' and @state.mounted == true and not @props.get.published
     if automaticPublish
       actionType = 'publish'
     else
       actionType = 'save'
 
-    url = @props.get.url + '/meta_data?actionType=' + actionType
+
+    url = @props.get.url + '/meta_data'
+
+    if @props.batch
+      actionType = 'save'
+      url = @props.get.submit_url
+
+    url = url + '?actionType=' + actionType
+
+
+  submit: (actionType) ->
 
     @setState(saving: true)
     serialized = @refs.form.serialize()
     xhr(
       {
         method: 'PUT'
-        url: url
+        url: @_actionUrl()
         body: serialized
         headers: {
           'Accept': 'application/json'
@@ -73,7 +82,10 @@ module.exports = React.createClass
     return false
 
   render: ({get, authToken, context} = @props, {errors} = @state) ->
+
     name = "#{f.snakeCase(get.type)}[meta_data]"
+    if @props.batch
+      name = "media_entry[meta_data]"
 
     meta_data = get.meta_data
 
@@ -83,9 +95,20 @@ module.exports = React.createClass
 
     showPublish = false
 
+    published = get.published
+    if @props.batch
+      published = false
+      f.each get.batch_entries, (entry) ->
+        published = true if entry.published
+
+
+    cancelUrl = get.url
+    if @props.batch
+      cancelUrl = '/my'
+
 
     <RailsForm ref='form'
-      name='resource_meta_data' action={get.url + '/meta_data'}
+      name='resource_meta_data' action={@_actionUrl()}
       method='put' authToken={authToken}>
 
 
@@ -98,20 +121,29 @@ module.exports = React.createClass
       }
 
       <div className='form-body'>
+
+        {
+          f.map get.batch_entries, (entry) ->
+            <input key={entry.uuid} type='hidden' name='batch_resource_meta_data[id][]' value={entry.uuid} />
+        }
+
         {
 
-          f.map get.meta_data.meta_key_ids_by_context_id[context.uuid], (meta_key_id) =>
+          f.map get.meta_meta_data.meta_key_ids_by_context_id[context.uuid], (meta_key_id) =>
             datum = get.meta_data.meta_datum_by_meta_key_id[meta_key_id]
+
             <MetaDatumFormItem
-              published={get.published}
+              batch={@props.batch}
+              published={published}
+              batchConflict={@props.batchDiff[meta_key_id]}
               hidden={false}
               onChange={@props.onChange}
-              allMetaData={get.meta_data}
+              allMetaMetaData={get.meta_meta_data}
               name={name}
               get={datum}
               metaKeyId={meta_key_id}
               model={@props.models[meta_key_id]}
-              requiredMetaKeyIds={get.meta_data.mandatory_by_meta_key_id}
+              requiredMetaKeyIds={get.meta_meta_data.mandatory_by_meta_key_id}
               error={errors[meta_key_id]}
               key={meta_key_id}/>
 
@@ -119,22 +151,23 @@ module.exports = React.createClass
         }
         {
 
-          hidden_meta_key_ids = f.select (f.keys get.meta_data.meta_key_by_meta_key_id), (meta_key_id) ->
-            not (f.includes get.meta_data.meta_key_ids_by_context_id[context.uuid], meta_key_id)
+          hidden_meta_key_ids = f.select (f.keys get.meta_meta_data.meta_key_by_meta_key_id), (meta_key_id) ->
+            not (f.includes get.meta_meta_data.meta_key_ids_by_context_id[context.uuid], meta_key_id)
 
           f.map hidden_meta_key_ids, (meta_key_id) =>
             datum = get.meta_data.meta_datum_by_meta_key_id[meta_key_id]
             if datum
               <MetaDatumFormItem
-                published={get.published}
+                batch={@props.batch}
+                published={published}
                 hidden={true}
                 onChange={@props.onChange}
-                allMetaData={get.meta_data}
+                allMetaMetaData={get.meta_meta_data}
                 name={name}
                 get={datum}
                 metaKeyId={meta_key_id}
                 model={@props.models[meta_key_id]}
-                requiredMetaKeyIds={get.meta_data.mandatory_by_meta_key_id}
+                requiredMetaKeyIds={get.meta_meta_data.mandatory_by_meta_key_id}
                 error={errors[meta_key_id]}
                 key={meta_key_id}/>
 
@@ -144,7 +177,7 @@ module.exports = React.createClass
 
       <div className='form-footer'>
         <div className='ui-actions'>
-          <a className='weak' href={get.url}>Cancel</a>
+          <a className='weak' href={cancelUrl}>Cancel</a>
           <button className='primary-button large' name='actionType' value='save'
             type='submit' onClick={@_onClick} disabled={disableSave}>Save</button>
           {

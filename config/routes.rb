@@ -42,6 +42,7 @@ Madek::Application.routes.draw do
     # TMP
     collection do
       get 'batch_meta_data_edit', action: :batch_edit_meta_data, as: 'batch_edit_meta_data'
+      get 'batch_edit_context_meta_data', action: :batch_edit_context_meta_data, as: 'batch_edit_context_meta_data'
       put 'batch_meta_data', action: :batch_meta_data_update
     end
     # /TMP

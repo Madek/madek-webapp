@@ -11,6 +11,15 @@ module Presenters
         def meta_data
           Presenters::MetaData::MetaDataEdit.new(@app_resource, @user)
         end
+
+        def published
+          if @app_resource.class == MediaEntry
+            @app_resource.is_published
+          else
+            true
+          end
+        end
+
       end
     end
   end

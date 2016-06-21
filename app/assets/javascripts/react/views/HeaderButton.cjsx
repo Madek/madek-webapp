@@ -19,4 +19,5 @@ module.exports = React.createClass
       <button className="button" type="submit" title={title} onClick={onClick}>
         <i className={icon}></i>
       </button>
+      {@props.children}
     </RailsForm>

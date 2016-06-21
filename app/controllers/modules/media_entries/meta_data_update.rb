@@ -5,6 +5,21 @@ module Modules
 
       include Modules::Resources::MetaDataUpdate
 
+      def batch_edit_context_meta_data
+        authorize MediaEntry, :logged_in?
+
+        entries_ids = params.require(:id)
+        entries = MediaEntry.unscoped.where(id: entries_ids)
+
+        authorize_entries_for_batch_edit! entries
+
+        @get = Presenters::MediaEntries::BatchEditContextMetaData.new(
+          entries,
+          current_user,
+          nil
+        )
+      end
+
       def batch_edit_meta_data
         authorize MediaEntry, :logged_in?
 
@@ -13,8 +28,10 @@ module Modules
 
         authorize_entries_for_batch_edit! entries
 
-        @get = Presenters::MediaEntries::MediaEntryBatchEdit.new(entries,
-                                                                 current_user)
+        @get = Presenters::MediaEntries::MediaEntryBatchEdit.new(
+          entries,
+          current_user
+        )
       end
 
       def batch_meta_data_update
@@ -28,17 +45,22 @@ module Modules
         errors = batch_update_transaction!(entries, meta_data_params)
 
         if errors.empty?
-          redirect_to(
-            my_dashboard_path,
-            flash: { success: I18n.t('meta_data_batch_success') })
+          batch_respond_success('success', 'meta_data_batch_success')
         else
           render json: { errors: errors }, status: :bad_request
         end
       end
 
-      # helpers ###################################################################
-
       private
+
+      def batch_respond_success(type, text_key)
+        flash[type] = I18n.t(text_key)
+        fwd_url = my_dashboard_path
+        respond_to do |format|
+          format.json { render(json: { forward_url: fwd_url }) }
+          format.html { redirect_to(fwd_url) }
+        end
+      end
 
       def update_all_meta_data_transaction!(media_entry, meta_data_params)
         errors = {}

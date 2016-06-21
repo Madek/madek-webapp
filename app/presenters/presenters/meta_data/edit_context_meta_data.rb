@@ -20,12 +20,8 @@ module Presenters
         prepend_url_context path
       end
 
-      def published
-        if publishable
-          @app_resource.is_published
-        else
-          true
-        end
+      def meta_meta_data
+        Presenters::MetaData::MetaMetaDataEdit.new(@user, @app_resource.class)
       end
 
       # TODO: do this in View:
@@ -36,12 +32,6 @@ module Presenters
       # TODO: do this in View:
       def title
         @resource_index.title.presence
-      end
-
-      private
-
-      def publishable
-        @app_resource.class == MediaEntry
       end
 
     end

@@ -12,7 +12,7 @@ MadekPropTypes = require('../lib/madek-prop-types.coffee')
 
 module.exports = React.createClass
 
-  displayName: 'MetaDatumFormItem'
+  displayName: 'MetaDatumFormItemPerContext'
   propTypes:
     name: PropTypes.string.isRequired
 
@@ -29,10 +29,14 @@ module.exports = React.createClass
       else
         false
 
-  render: ({name, error} = @props)->
-    name += "[#{@props.metaKeyId}][]"
+  render: ({name, error} = @props) ->
 
-    meta_key = @props.allMetaData.meta_key_by_meta_key_id[@props.metaKeyId]
+    if @props.batch
+      name += "[#{@props.metaKeyId}][values][]"
+    else
+      name += "[#{@props.metaKeyId}][]"
+
+    meta_key = @props.allMetaMetaData.meta_key_by_meta_key_id[@props.metaKeyId]
 
     newget = f.mapValues @props.get, (value) ->
       value
@@ -44,7 +48,13 @@ module.exports = React.createClass
 
     validErr = @props.published and @props.requiredMetaKeyIds[@props.metaKeyId] and not @_validModel(@props.model)
 
-    <fieldset style={style} className={cx('ui-form-group columned prh', {'error': error or validErr})}>
+    batchConflict = false
+    if @props.batchConflict
+      batchConflict = not @props.batchConflict.all_equal
+
+    className = cx('ui-form-group columned prh', {'error': (error or validErr) and not batchConflict}, {'highlight': batchConflict})
+
+    <fieldset style={style} className={className}>
       {if error
         <div className="ui-alerts" style={marginBottom: '10px'}>
           <div className="error ui-alert">
