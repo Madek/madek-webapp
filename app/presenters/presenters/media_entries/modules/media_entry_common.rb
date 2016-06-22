@@ -41,9 +41,13 @@ module Presenters
           end
 
           def published?
-            # NOTE: using #try because MediaEntry instantiated via
-            # `vw_media_resources` view does not have such attribute currently
-            @app_resource.try(:is_published)
+            # FIXME: because MediaEntry might be instantiated via
+            # `vw_media_resources` view we might need to re-init…
+            if @app_resource.respond_to?(:is_published)
+              @app_resource.is_published
+            else
+              ::MediaEntry.find(@app_resource.id).is_published
+            end
           end
 
           def url
