@@ -170,8 +170,10 @@ module.exports = React.createClass
     event.preventDefault()
     selection = @state.selectedResources
     selected = f.map(selection.serialize(), 'uuid')
-    newUrl = setUrlParams('/entries/batch_edit_context_meta_data', {id: selected})
-    window.location = newUrl # SYNC!
+    currentUrl = setUrlParams(
+      @props.get.config.for_url, {list: f.omit(@state.config, 'for_url')})
+    batchEditUrl = setUrlParams('/entries/batch_edit_context_meta_data', {id: selected, return_to: currentUrl})
+    window.location = batchEditUrl # SYNC!
 
   _batchAddToSetIds: () ->
     selection = @state.selectedResources

@@ -89,10 +89,8 @@ feature 'Resource: MediaEntries' do
   end
 
   def open_edit(*media_entries)
-    ids = {
-      id: media_entries.map(&:id)
-    }
-    url = batch_edit_meta_data_media_entries_path + '?' + ids.to_query
+    parameters = { id: media_entries.map(&:id), return_to: '/my' }
+    url = batch_edit_meta_data_media_entries_path + '?' + parameters.to_query
     visit url
   end
 

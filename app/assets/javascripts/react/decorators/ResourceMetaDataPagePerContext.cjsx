@@ -1,21 +1,25 @@
 React = require('react')
 f = require('active-lodash')
 t = require('../../lib/string-translation.js')('de')
+setUrlParams = require('../../lib/set-params-for-url.coffee')
+
+Button = require('../ui-components/Button.cjsx')
+Icon = require('../ui-components/Icon.cjsx')
+Thumbnail = require('../ui-components/Thumbnail.cjsx')
 ResourceMetaDataFormPerContext = require('./ResourceMetaDataFormPerContext.cjsx')
+BatchHintBox = require('./BatchHintBox.cjsx')
+ResourceThumbnail = require('./ResourceThumbnail.cjsx')
+ResourcesBatchBox = require('./ResourcesBatchBox.cjsx')
 PageContent = require('../views/PageContent.cjsx')
 PageContentHeader = require('../views/PageContentHeader.cjsx')
 TabContent = require('../views/TabContent.cjsx')
 Tabs = require('../views/Tabs.cjsx')
 Tab = require('../views/Tab.cjsx')
-HeaderButton = require('../views/HeaderButton.cjsx')
-ResourceThumbnail = require('./ResourceThumbnail.cjsx')
-Thumbnail = require('../ui-components/Thumbnail.cjsx')
+
 batchDiff = require('../../lib/batch-diff.coffee')
-BatchHintBox = require('./BatchHintBox.cjsx')
-ResourcesBatchBox = require('./ResourcesBatchBox.cjsx')
 
 module.exports = React.createClass
-  displayName: 'ResourceMetaDataPage'
+  displayName: 'ResourceMetaDataPagePerContext'
 
   _onTabClick: (context_id, event) ->
     event.preventDefault()
@@ -141,25 +145,21 @@ module.exports = React.createClass
     else
       title = t('media_entry_meta_data_header_prefix') + get.title
 
-    fullPagePath = get.url + '/meta_data/edit'
-    if @props.batch
-      fullPagePath = '/entries/batch_meta_data_edit'
+    editByVocabTitle = t('media_entry_meta_data_edit_by_vocab_btn')
+    editByVocabUrl = unless @props.batch
+      get.url + '/meta_data/edit'
+    else
+      setUrlParams('/entries/batch_meta_data_edit',
+        id: f.map(get.batch_entries, 'uuid'),
+        return_to: get.return_to)
 
     <PageContent>
       <PageContentHeader icon='pen' title={title}>
-        <HeaderButton
-          icon={'arrow-down'} title={'TODO'} name={'TODO'}
-          href={fullPagePath} method={'get'} authToken={authToken}>
-          {
-            f.map get.batch_entries, (entry) ->
-              <input type='hidden' name='id[]' value={entry.uuid} />
-          }
-        </HeaderButton>
+        <Button title={editByVocabTitle} href={editByVocabUrl}>
+          <Icon i={'arrow-down'}/>
+        </Button>
       </PageContentHeader>
-      {
-        if @props.batch
-          <ResourcesBatchBox get={get} authToken={authToken} />
-      }
+
       <Tabs>
         {f.map get.meta_meta_data.context_ids, (context_id) =>
           context = get.meta_meta_data.contexts_by_context_id[context_id]

@@ -18,6 +18,8 @@ module.exports = React.createClass
     <RailsForm name='batch_resource_meta_data' action={get.submit_url}
       method='put' authToken={authToken}>
 
+      <input type='hidden' name='return_to' value={@props.get.return_to} />
+
       {f.map get.batch_entries, (batch_entry) ->
         <input name="batch_resource_meta_data[id][]" key={batch_entry.uuid} value={batch_entry.uuid} type="hidden"></input>
       }

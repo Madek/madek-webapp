@@ -4,6 +4,7 @@ f = require('active-lodash')
 xhr = require('xhr')
 cx = require('classnames')
 t = require('../../lib/string-translation.js')('de')
+setUrlParams = require('../../lib/set-params-for-url.coffee')
 RailsForm = require('../lib/forms/rails-form.cjsx')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 MetaKeyFormLabel = require('../lib/forms/form-label.cjsx')
@@ -37,6 +38,10 @@ module.exports = React.createClass
       url = @props.get.submit_url
 
     url = url + '?actionType=' + actionType
+
+    # Note: Return to must be a hidden field to for the server-side case.
+    # Url parameters are ignored in the <form action=... field.
+    url = setUrlParams(url, {return_to: @props.get.return_to})
 
 
   submit: (actionType) ->
@@ -101,15 +106,13 @@ module.exports = React.createClass
       f.each get.batch_entries, (entry) ->
         published = true if entry.published
 
-
-    cancelUrl = get.url
-    if @props.batch
-      cancelUrl = '/my'
-
+    cancelUrl = @props.get.return_to
 
     <RailsForm ref='form'
       name='resource_meta_data' action={@_actionUrl()}
       method='put' authToken={authToken}>
+
+      <input type='hidden' name='return_to' value={@props.get.return_to} />
 
 
       {if @state.errors and f.keys(@state.errors).length > 0

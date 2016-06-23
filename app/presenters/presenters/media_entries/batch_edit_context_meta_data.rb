@@ -2,12 +2,13 @@ module Presenters
   module MediaEntries
     class BatchEditContextMetaData < Presenter
 
-      attr_reader :context_id
+      attr_reader :context_id, :return_to
 
-      def initialize(media_entries, user, context_id)
+      def initialize(media_entries, user, context_id: nil, return_to:)
         @entries = media_entries
         @user = user
         @context_id = context_id
+        @return_to = return_to
       end
 
       def resources

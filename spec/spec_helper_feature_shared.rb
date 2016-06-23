@@ -19,9 +19,9 @@ def find_input_with_name(name)
   find("textarea,input[name='#{name}']")
 end
 
-def current_path_with_query
-  url = URI.parse(current_url)
-  url.path + '?' + url.query
+def current_path_with_query(full_url = current_url)
+  url = URI.parse(full_url)
+  url.path + (url.query.present? ? ('?' + url.query) : '')
 end
 
 # firefox only! - needs browser driver to support it

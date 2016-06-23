@@ -2,6 +2,10 @@ React = require('react')
 f = require('active-lodash')
 cx = require('classnames')
 t = require('../../lib/string-translation')('de')
+setUrlParams = require('../../lib/set-params-for-url.coffee')
+
+Button = require('../ui-components/Button.cjsx')
+Icon = require('../ui-components/Icon.cjsx')
 RailsForm = require('../lib/forms/rails-form.cjsx')
 MetaKeyFormLabel = require('../lib/forms/form-label.cjsx')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
@@ -17,19 +21,18 @@ module.exports = React.createClass
   displayName: 'BatchResourceMetaDataPage'
 
   render: ({get, authToken} = @props) ->
-    title = t('meta_data_batch_title_pre') + get.batch_entries.length + t('meta_data_batch_title_post')
-    pagePath = '/entries/batch_edit_context_meta_data'
+    pageTitle = t('meta_data_batch_title_pre') + get.batch_entries.length + t('meta_data_batch_title_post')
+
+    editByContextTitle = t('media_entry_meta_data_edit_by_context_btn')
+    editByContextUrl = setUrlParams('/entries/batch_edit_context_meta_data',
+      id: f.map(get.batch_entries, 'uuid')
+      return_to: get.return_to)
 
     <PageContent>
-      <PageContentHeader icon='pen' title={title}>
-        <HeaderButton
-          icon={'arrow-up'} title={'TODO'} name={'TODO'}
-          href={pagePath} method={'get'} authToken={authToken}>
-          {
-            f.map get.batch_entries, (entry) ->
-              <input type='hidden' name='id[]' value={entry.uuid} />
-          }
-        </HeaderButton>
+      <PageContentHeader icon='pen' title={pageTitle}>
+        <Button title={editByContextTitle} href={editByContextUrl}>
+          <Icon i={'arrow-up'}/>
+        </Button>
       </PageContentHeader>
 
       <ResourcesBatchBox get={get} authToken={authToken} />

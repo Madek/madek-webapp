@@ -7,45 +7,38 @@ module Modules
 
       def batch_edit_context_meta_data
         authorize MediaEntry, :logged_in?
-
-        entries_ids = params.require(:id)
-        entries = MediaEntry.unscoped.where(id: entries_ids)
-
+        entries = MediaEntry.unscoped.where(id: entries_ids_param)
         authorize_entries_for_batch_edit! entries
 
         @get = Presenters::MediaEntries::BatchEditContextMetaData.new(
           entries,
           current_user,
-          nil
-        )
+          return_to: return_to_param)
       end
 
       def batch_edit_meta_data
         authorize MediaEntry, :logged_in?
-
-        entries_ids = params.require(:id)
-        entries = MediaEntry.unscoped.where(id: entries_ids)
-
+        entries = MediaEntry.unscoped.where(id: entries_ids_param)
         authorize_entries_for_batch_edit! entries
 
         @get = Presenters::MediaEntries::MediaEntryBatchEdit.new(
           entries,
-          current_user
-        )
+          current_user,
+          return_to: return_to_param)
       end
 
       def batch_meta_data_update
         authorize MediaEntry, :logged_in?
+        return_to = return_to_param
+        entries_ids = entries_ids_param(params.require(:batch_resource_meta_data))
 
-        entries_ids = params.require(:batch_resource_meta_data).require(:id)
         entries = MediaEntry.unscoped.where(id: entries_ids)
-
         authorize_entries_for_batch_edit! entries
 
         errors = batch_update_transaction!(entries, meta_data_params)
 
         if errors.empty?
-          batch_respond_success('success', 'meta_data_batch_success')
+          batch_respond_success('success', 'meta_data_batch_success', return_to)
         else
           render json: { errors: errors }, status: :bad_request
         end
@@ -53,12 +46,19 @@ module Modules
 
       private
 
-      def batch_respond_success(type, text_key)
+      def entries_ids_param(parameters = params)
+        parameters.require(:id)
+      end
+
+      def return_to_param(parameters = params)
+        parameters.require(:return_to)
+      end
+
+      def batch_respond_success(type, text_key, return_to)
         flash[type] = I18n.t(text_key)
-        fwd_url = my_dashboard_path
         respond_to do |format|
-          format.json { render(json: { forward_url: fwd_url }) }
-          format.html { redirect_to(fwd_url) }
+          format.json { render(json: { forward_url: return_to }) }
+          format.html { redirect_to(return_to) }
         end
       end
 

@@ -100,7 +100,8 @@ feature 'Batch update media entries' do
 
     sign_in_as user.login, user.password
 
-    visit batch_edit_meta_data_media_entries_path(id: [me1, me2])
+    visit(
+      batch_edit_meta_data_media_entries_path(id: [me1, me2], return_to: '/my'))
 
     ###############################################################################
 

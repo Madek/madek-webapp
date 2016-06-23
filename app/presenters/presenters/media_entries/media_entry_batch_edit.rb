@@ -2,10 +2,13 @@ module Presenters
   module MediaEntries
     class MediaEntryBatchEdit < Presenter
 
-      def initialize(media_entries, user)
+      def initialize(media_entries, user, return_to:)
         @entries = media_entries
         @user = user
+        @return_to = return_to
       end
+
+      attr_reader :return_to
 
       def resources
         Presenters::Shared::MediaResource::IndexResources.new(@user, @entries)

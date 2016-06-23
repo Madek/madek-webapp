@@ -52,7 +52,10 @@ feature 'Resource: MediaEntry' do
 
     it 'resources selection for batch-edit (JS)', browser: :firefox do
       @user = sign_in_as 'normin'
-      visit media_entries_path
+
+      # go to 'my imports'
+      visit my_dashboard_section_path(:latest_imports)
+
       box = page.find('.ui-polybox')
       thumbs = box.all('.ui-resource')
       thumbs_to_select = [thumbs.first, thumbs.last]
@@ -73,14 +76,19 @@ feature 'Resource: MediaEntry' do
         expect(thumb['class']).to include 'ui-selected'
       end
 
+      # get canonical current_url from pagination UI (for checking `return_to`)
+      return_url = current_path_with_query(
+        find('.ui-resources-page .ui-pager:nth-child(1)')[:href])
+
       # click the 'batch edit' button
       box.find('.ui-toolbar')
         .find('.button i[title="Auswahl bearbeiten"]')
         .click
 
-      # confirm we are in the right place:
-      expect(current_path_with_query)
-        .to eq batch_edit_context_meta_data_media_entries_path(id: entry_ids)
+      # confirm we are in the right place, including return_to param
+      expect(current_path_with_query).to eq(
+        batch_edit_context_meta_data_media_entries_path(
+          id: entry_ids, return_to: return_url))
     end
   end
 
