@@ -26,8 +26,8 @@ module Presenters
       def catalog_categories_overview
         {
           title: @catalog_category_title,
-          list:  keywords_for_meta_key_and_public_entries(@meta_key).map do |keyword|
-            Presenters::Keywords::KeywordIndexForExplore.new(keyword, @user)
+          list:  keywords_for_meta_key_and_public_entries(@meta_key).map do |kw|
+            Presenters::Keywords::KeywordIndexForExplore.new(kw, @user)
           end
         }
       end

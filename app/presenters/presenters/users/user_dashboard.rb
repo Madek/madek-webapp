@@ -2,7 +2,7 @@ module Presenters
   module Users
     class UserDashboard < Presenter
       def initialize(
-            user, user_scopes = {},
+            user, user_scopes,
             dashboard_header,
             list_conf: nil,
             with_count: true
@@ -16,9 +16,7 @@ module Presenters
         @with_count = with_count
       end
 
-      def dashboard_header
-        @dashboard_header
-      end
+      attr_reader :dashboard_header
 
       def unpublished_entries
         presenterify @user_scopes[:unpublished_media_entries]

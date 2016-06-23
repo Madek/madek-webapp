@@ -40,14 +40,9 @@ class ApplicationController < ActionController::Base
     skip_authorization # as we are doing our own auth here
     if authenticated?
       redirect_to(my_dashboard_path)
-    else
-
-      if @feature_toggle_new_explore
-        @get = Presenters::Explore::ExploreLoginPage.new(current_user, settings)
-        respond_with @get
-      else
-        # render default
-      end
+    elsif @feature_toggle_new_explore
+      @get = Presenters::Explore::ExploreLoginPage.new(current_user, settings)
+      respond_with @get
     end
   end
 
