@@ -14,8 +14,7 @@ module Presenters
         if @app_resource.can_have_keywords?
 
           define_singleton_method :is_extensible do
-            # FIXME: wtf is up with the db defaults? NULL is TRUE o_O
-            (@app_resource.is_extensible_list != false) ? true : false
+            @app_resource.is_extensible_list? ? true : false # coerce to bool
           end
 
           define_singleton_method :alphabetical_order do
