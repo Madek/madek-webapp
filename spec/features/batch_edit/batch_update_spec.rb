@@ -125,7 +125,9 @@ feature 'Batch update media entries' do
       end
 
       # case 5: delete all values
-      find('fieldset', text: meta_key_people.label)
+      field = find('fieldset', text: meta_key_people.label)
+      field.find('label').click # force-close all autocompletes
+      field
         .all('.multi-select-tag-remove')
         .each(&:click)
 
