@@ -12,7 +12,7 @@ module Presenters
         :is_required,
         :length_min,
         :length_max,
-        :input_type,
+        :text_element,
         :meta_key_id)
 
       # for simple display purposes, we provide the 3 "shadowed" props,
