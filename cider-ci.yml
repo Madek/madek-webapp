@@ -71,30 +71,30 @@ jobs:
       meta-checks:    {job_key: meta-checks,    type: job, states: [passed]}
       good to merge of the datalayer: {job_key: good-to-merge, type: job, submodule: [datalayer], states: [passed]}
 
-  # TODO: make this work
-  # wip-rspec-tests:
-  #   name: "⟨WIP⟩ RSpec Tests"
-  #   description: |
-  #     Run RSpec Tests in "Work-in-Progress" mode (i.e. compile assets on the fly)
-  #   priority: -1337
-  #   run_when:
-  #     the branch matches _wip_:
-  #       type: branch
-  #       include_match: ^[a-z]*_wip_.*$
-  #   context:
-  #     include: cider-ci/rspec-tests.yml
-  #     task_defaults:
-  #       max_trials: 2
-  #       environment_variables:
-  #         MADEK_NO_STATIC_ASSETS: ✔︎
-  #       scripts:
-  #         precompile-assets:
-  #           body: |
-  #             export PATH=~/.rubies/$RUBY/bin:$PATH
-  #             cider-ci/bin/precompile-assets-with-caching.sh
-  #           start_when:
-  #             database has been configured: {script_key: configure-database}
-  #
-  #         test:
-  #           start_when:
-  #             assets are precompiled: {script_key: precompile-assets }
+  wip-rspec-tests:
+    name: "⟨WIP⟩ RSpec Tests"
+    description: |
+      Run RSpec Tests in "Work-in-Progress" mode (i.e. compile assets on the fly)
+    priority: -1337
+    run_when:
+      the branch matches _wip_:
+        type: branch
+        include_match: ^[a-z]*_wip_.*$
+    context:
+      include: cider-ci/rspec-tests.yml
+      task_defaults:
+        max_trials: 2
+        environment_variables:
+          MADEK_WIP_BRANCH: ✔︎ # we set this because from inside a task the branch is not known
+        scripts:
+          precompile-assets:
+            exclusive_executor_resource: 'Madek-webapp-precompile-assets'
+            body: |
+              export PATH=~/.rubies/$RUBY/bin:$PATH
+              cider-ci/bin/precompile-assets-with-caching.sh
+            start_when:
+              database has been configured: {script_key: configure-database}
+
+          test:
+            start_when:
+              assets are precompiled: {script_key: precompile-assets }

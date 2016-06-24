@@ -1,12 +1,23 @@
+IS_CI = ENV['CIDER_CI_TRIAL_ID'].present?
 USE_STATIC_ASSETS = (
-  # For testing in CI, use precompiled assets;
-  # it's faster and there is a dedicated test to verify static assets.
-  # We *do* have an option to not precompile in CI tho ("wip" branches)
-  ENV['CIDER_CI_TRIAL_ID'].present? and !ENV['MADEK_NO_STATIC_ASSETS'].present?)
+  # Defaults to true!
+  # For testing, use precompiled assets;
+  # it's faster and there is a dedicated test in CI to verify static assets.
+  # We *do* have an option to just-in-time-precompile on "wip" branches
+  # – locally we can check the branch, in CI we check an ENV var
+  if IS_CI
+    !ENV['MADEK_WIP_BRANCH'].present?
+  else
+    !`git rev-parse --abbrev-ref HEAD`.match(/^[a-z]*_wip_.*$/)
+  end)
 
 unless USE_STATIC_ASSETS
-  puts '=> bundling JS'
-  `npm run build`
+  if IS_CI
+    puts '=> using assets precompiled in CI'
+  else
+    puts '=> bundling JS'
+    `npm run build`
+  end
 end
 
 Madek::Application.configure do
@@ -34,7 +45,7 @@ Madek::Application.configure do
   config.show_execptions = true
   config.consider_all_requests_local = false
 
-  if USE_STATIC_ASSETS
+  if USE_STATIC_ASSETS || IS_CI # precompiled in CI is same as 'static'!
     config.assets.compile = false
     config.assets.digest = true
   else
