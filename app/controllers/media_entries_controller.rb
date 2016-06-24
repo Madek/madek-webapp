@@ -12,6 +12,9 @@ class MediaEntriesController < ApplicationController
   include Modules::MediaEntries::PermissionsUpdate
   include Modules::MetaDataStorage
 
+  # used in Concerns::ResourceListParams
+  ALLOWED_FILTER_PARAMS = [:search, :meta_data, :media_files, :permissions].freeze
+
   def show
     # TODO: handle in MediaResources::CrudActions
     media_entry = get_authorized_resource

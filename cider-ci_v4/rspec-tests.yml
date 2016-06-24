@@ -26,13 +26,13 @@ tasks:
   # manually prioritize slow tests higher
 
   spec/features/batch_edit/form_values_and_appearance_spec.rb: {priority: 1}
-  spec/features/collection_destroy_spec.rb: {priority: 1}
-  spec/features/collection_meta_data_edit_spec.rb: {priority: 1}
-  spec/features/collection_select_collection_spec.rb: {priority: 2}
-  spec/features/collection_show_spec.rb: {priority: 2}
+  spec/features/collection/collection_destroy_spec.rb: {priority: 1}
+  spec/features/collection/collection_meta_data_edit_spec.rb: {priority: 1}
+  spec/features/collection/collection_select_collection_spec.rb: {priority: 2}
+  spec/features/collection/collection_show_spec.rb: {priority: 2}
   spec/features/dashboard_new_collection_spec.rb: {priority: 2}
-  spec/features/edit_collection_cover_spec.rb: {priority: 1}
-  spec/features/edit_collection_highlights_spec.rb: {priority: 1}
+  spec/features/collection/edit_collection_cover_spec.rb: {priority: 1}
+  spec/features/collection/edit_collection_highlights_spec.rb: {priority: 1}
   spec/features/flyout_actions_spec.rb: {priority: 2}
   spec/features/media_entry/media_entry_index_spec.rb: {priority: 1}
   spec/features/media_entry/media_entry_permissions_spec.rb: {priority: 1}

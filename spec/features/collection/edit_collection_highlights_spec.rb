@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
-require_relative 'shared/basic_data_helper_spec'
+require_relative '../shared/basic_data_helper_spec'
 include BasicDataHelper
 
 feature 'Collection: Edit Highlights' do

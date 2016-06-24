@@ -3,6 +3,8 @@ class FilterSetsController < ApplicationController
   include Concerns::MediaResources::CustomUrlsForController
   include Concerns::MediaResources::PermissionsActions
 
+  ALLOWED_FILTER_PARAMS = [:search].freeze
+
   def create
     filter, title = create_filter_set_params.values_at(:filter, :title)
 

@@ -1,8 +1,8 @@
 require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
-require_relative 'shared/favorite_helper_spec'
-require_relative 'shared/basic_data_helper_spec'
+require_relative '../shared/favorite_helper_spec'
+require_relative '../shared/basic_data_helper_spec'
 include FavoriteHelper
 include BasicDataHelper
 

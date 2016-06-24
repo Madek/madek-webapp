@@ -12,19 +12,38 @@ module Concerns
       def resource_list_params(parameters = params)
         # TODO: only permit supported layout modes…
         base = :list
-        allowed = [
-          :layout, :filter, :show_filter, :accordion,
-          :page, :per_page]
-        coerced_types = {
-          bools: [:show_filter],
-          jsons: [:filter, :accordion] }
+        allowed = [:layout,
+                   :filter,
+                   :show_filter,
+                   :accordion,
+                   :page,
+                   :per_page]
+        coerced_types = { bools: [:show_filter],
+                          jsons: [:filter, :accordion] }
+
         parameters
-          .permit(base => allowed).fetch(base, {}).deep_symbolize_keys
-          .map { |key, val| _coerce_types(coerced_types, key, val) }.to_h
+          .permit(base => allowed)
+          .fetch(base, {})
+          .deep_symbolize_keys
+          .map { |key, val| _coerce_types(coerced_types, key, val) }
+          .tap { |parameters| check_allowed_filter_params! parameters }
+          .to_h
           .merge( # context of current request (for building new links):
             for_url: {
               path: url_for(only_path: true),
               query: request.query_parameters.deep_symbolize_keys })
+      end
+
+      def check_allowed_filter_params!(parameters)
+        filter_params = parameters.assoc(:filter).try(:second).try(:keys)
+        # allowed filter params are defined as a constant in
+        # the respective controller
+        if filter_params
+          not_allowed = filter_params - self.class::ALLOWED_FILTER_PARAMS
+          unless not_allowed.empty?
+            raise ActionController::UnpermittedParameters, not_allowed
+          end
+        end
       end
 
       # NOTE: there is no "private in private", so helper methods are underscored

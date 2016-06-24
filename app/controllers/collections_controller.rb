@@ -10,6 +10,8 @@ class CollectionsController < ApplicationController
   include Modules::Collections::MetaDataUpdate
   include Modules::Collections::Create
 
+  ALLOWED_FILTER_PARAMS = [:search].freeze
+
   def index
     respond_with(@get = Presenters::Collections::Collections.new(
       policy_scope(Collection),
