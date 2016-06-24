@@ -88,7 +88,7 @@ module Presenters
             # return the configured cover if there is one (and it is viewable!)
             if collection.cover.present?
               cover = MediaEntry.viewable_by_user_or_public(@user)
-                .find_by(id: collection.cover.id)
+                .find_by_id(collection.cover.id)
               return cover if cover.present?
             end
 

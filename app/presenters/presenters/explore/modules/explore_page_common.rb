@@ -52,7 +52,7 @@ module Presenters
 
         def featured_set_overview # list of Collections
           return unless (feat = @settings.featured_set_id.presence)
-          return unless (set = Collection.find_by(id: feat))
+          return unless (set = Collection.find_by_id(feat))
 
           authorized_resources = \
             ::Shared::MediaResources::MediaResourcePolicy::Scope.new(

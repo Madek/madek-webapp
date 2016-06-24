@@ -12,7 +12,7 @@ module Presenters
 
         def url
           send "permissions_#{@app_resource.class.model_name.singular}_path",
-               id: @app_resource.id
+               id: @app_resource
         end
 
         def current_user_permissions

@@ -4,8 +4,7 @@ module Concerns
       extend ActiveSupport::Concern
 
       def permissions_update
-        resource = model_klass.unscoped.find(params[:id])
-        authorize resource
+        resource = get_authorized_resource
 
         ActiveRecord::Base.transaction do
           update_user_permissions! resource
