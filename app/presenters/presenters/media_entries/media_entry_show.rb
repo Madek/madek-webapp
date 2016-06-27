@@ -126,7 +126,7 @@ module Presenters
           async_action: nil,
           method: 'get',
           icon: 'dload',
-          title: I18n.t(:todo, raise: false),
+          title: I18n.t(:resource_action_export, raise: false),
           action: export_media_entry_path(@app_resource),
           allowed: policy(@user).export?
         }
