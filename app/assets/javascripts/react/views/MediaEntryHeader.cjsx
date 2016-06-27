@@ -4,6 +4,7 @@ HeaderButton = require('./HeaderButton.cjsx')
 PageContentHeader = require('./PageContentHeader.cjsx')
 f = require('active-lodash')
 SelectCollection = require('./Collection/SelectCollection.cjsx')
+AsyncModal = require('./Collection/AsyncModal.cjsx')
 
 module.exports = React.createClass
   displayName: 'MediaEntryHeader'
@@ -25,6 +26,13 @@ module.exports = React.createClass
   _onClick: (asyncAction) ->
     @setState(showModal: true, modalAction: asyncAction)
 
+  _contentForGet: (get) ->
+    <SelectCollection
+      get={get} async={@props.async} authToken={@props.authToken} onClose={@_onClose} />
+
+  _extractGet: (json) ->
+    json.collection_selection
+
   render: ({authToken, get} = @props) ->
     # TODO: Outer div should be removed based on the styleguide.
     # This will be possible, as soon as the modal dialog can be added in
@@ -41,11 +49,9 @@ module.exports = React.createClass
       {
         if @state.showModal
           if @state.modalAction == 'select_collection'
-            search_term = 'sdfsfsd'
-            if get.collection_selection
-              search_term = get.collection_selection.search_term
-            <SelectCollection boot={{url: get.url, search_term: search_term}}
-              get={get.collection_selection} async={@props.async} authToken={authToken} onClose={@_onClose} />
+            getUrl = get.url + '/select_collection?___sparse={"collection_selection":{}}'
+            <AsyncModal get={get.collection_selection} getUrl={getUrl}
+              contentForGet={@_contentForGet} extractGet={@_extractGet} />
           else
             console.error('Unknown modal action: ' + @state.modalAction)
       }

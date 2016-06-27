@@ -15,6 +15,9 @@ router = null # client-side only
 xhr = require('xhr')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 
+BatchAddToSetModal = require('./BatchAddToSetModal.cjsx')
+
+
 # Props/Config overview:
 # - props.get.with_actions = should the UI offer any interaction
 # - props.fetchRelations = should relations be fetched (async, only grid layout)
@@ -92,7 +95,8 @@ module.exports = React.createClass
     [f.get(@props, ['get', 'resources'])]
 
   # kick of client-side mode:
-  getInitialState: ()-> {isClient: false, config: {}}
+  getInitialState: ()-> {isClient: false, config: {}, batchAddToSet: false}
+
   componentDidMount: ()->
     router = require('../../lib/router.coffee')
     # listen to history and set state from params:
@@ -168,6 +172,19 @@ module.exports = React.createClass
     selected = f.map(selection.serialize(), 'uuid')
     newUrl = setUrlParams('/entries/batch_edit_context_meta_data', {id: selected})
     window.location = newUrl # SYNC!
+
+  _batchAddToSetIds: () ->
+    selection = @state.selectedResources
+    selected = f.map(selection.serialize(), 'uuid')
+
+
+  _onBatchAddToSet: (event)->
+    event.preventDefault()
+    @setState(batchAddToSet: true)
+    return false
+
+  _onCloseModal: () ->
+    @setState(batchAddToSet: false)
 
   _onCreateFilterSet: (config, event)->
     event.preventDefault()
@@ -280,11 +297,10 @@ module.exports = React.createClass
           onClick: if isClient && f.present(filter)
             f.curry(@_onCreateFilterSet)(config)
 
-        # TODO: add to collection
-        # add:
-        #   children: <Icon i='move' mods='small' title='Zu Set hinzufügen'/>
-        #   onClick: if isClient && selection && !selection.isEmpty()
-        #     ()-> alert('NOT IMPLEMENTED: add to collection!')
+        add_to_set: if get.type is 'MediaEntries'
+          children: <Icon i='move' mods='small' title='Zu Set hinzufügen'/>
+          onClick: if isClient && selection && !selection.isEmpty()
+            @_onBatchAddToSet
 
         batch_edit: if get.type is 'MediaEntries'
           children: <Icon i='pen' mods='small' title='Auswahl bearbeiten'/>
@@ -438,6 +454,12 @@ module.exports = React.createClass
 
         </div>
       </div>
+
+      {
+        if @state.batchAddToSet
+          <BatchAddToSetModal mediaEntryIds={@_batchAddToSetIds()} authToken={@props.authToken}
+            get={null} onClose={@_onCloseModal} returnTo={@state.config.for_url.path}/>
+      }
 
     </div>
 

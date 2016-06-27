@@ -8,7 +8,7 @@ module Presenters
         super(app_resource, user)
         @user_scopes = user_scopes
         @list_conf = list_conf
-        @collection_selection = {}
+        @collection_selection = nil
       end
 
       def tabs # list of all 'show' action sub-tabs

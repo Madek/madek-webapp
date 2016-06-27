@@ -38,4 +38,5 @@ class CollectionPolicy < Shared::MediaResources::MediaResourcePolicy
   alias_method :add_remove_collection?, :update?
   alias_method :select_collection?, :update?
 
+  alias_method :batch_add_to_set?, :update?
 end

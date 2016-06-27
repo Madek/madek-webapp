@@ -49,6 +49,9 @@ Madek::Application.routes.draw do
 
   end
 
+  get 'batch_select_add_to_set', controller: :batch, action: :batch_select_add_to_set, as: 'batch_select_add_to_set'
+  put 'batch_add_to_set', controller: :batch, action: :batch_add_to_set, as: 'batch_add_to_set'
+
   resources :collections, path: 'sets', only: [:index, :show, :create, :destroy] do
     member do
       get 'permissions', action: :permissions_show, as: 'permissions'

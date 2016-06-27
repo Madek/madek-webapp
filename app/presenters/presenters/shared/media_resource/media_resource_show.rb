@@ -10,7 +10,7 @@ module Presenters
           super(app_resource)
           @user = user
           @list_conf = list_conf
-          @collection_selection = {}
+          @collection_selection = nil
         end
 
         def description
