@@ -9,10 +9,6 @@ class ApplicationController < ActionController::Base
   include Pundit
   include Modules::VerifyAuthorized
 
-  before_action do
-    @feature_toggle_new_explore = params.permit(:_feat_new_explore).present?
-  end
-
   # this Pundit error is generic and means basically 'access denied'
   rescue_from Pundit::NotAuthorizedError, with: :error_according_to_login_state
   rescue_from Errors::UnauthorizedError, with: :error_according_to_login_state
@@ -29,11 +25,18 @@ class ApplicationController < ActionController::Base
   # set language
   I18n.locale = :de
 
-  # enable the mini profiler for admins in production
   before_action do
+    # enable the mini profiler for admins in production
     if defined?(Rack::MiniProfiler) && current_user.try(:admin)
       Rack::MiniProfiler.authorize_request
     end
+
+    # Feature toggles
+    @feature_toggle_new_explore = params.permit(:_feat_new_explore).present?
+
+    # TMP: data for application layout.
+    #      it's already a presenter, but we can't `include` it everyhwere yet
+    @app_layout_data = Presenters::AppView::LayoutData.new(user: current_user)
   end
 
   def root

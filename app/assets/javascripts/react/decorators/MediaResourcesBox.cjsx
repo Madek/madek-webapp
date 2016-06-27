@@ -75,7 +75,7 @@ module.exports = React.createClass
     initial: viewConfigProps
     withBox: React.PropTypes.bool # toggles simple grid or full box
     fetchRelations: React.PropTypes.bool
-    fallback: React.PropTypes.oneOf([React.PropTypes.bool, React.PropTypes.node])
+    fallback: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.node])
     heading: React.PropTypes.node
     authToken: React.PropTypes.string.isRequired
     get: React.PropTypes.shape
@@ -176,7 +176,6 @@ module.exports = React.createClass
   _batchAddToSetIds: () ->
     selection = @state.selectedResources
     selected = f.map(selection.serialize(), 'uuid')
-
 
   _onBatchAddToSet: (event)->
     event.preventDefault()

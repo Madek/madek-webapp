@@ -16,7 +16,7 @@ class SessionsController < ActionController::Base
   def sign_out
     destroy_madek_session
     reset_session
-    redirect_to root_path, notice: 'Sie haben sich abgemeldet.'
+    redirect_to root_path, notice: I18n.t(:app_notice_logged_out)
   end
 
   private

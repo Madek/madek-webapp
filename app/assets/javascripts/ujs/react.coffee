@@ -39,7 +39,7 @@ module.exports = reactUjs=()->
   $('[data-react-class]').each ()->
     element = this
     data = $(element).data()
-    componentClass = f.last(data.reactClass.split('UI.'))
+    componentClass = (data.reactClass || '').replace(/^UI./, '')
     # use custom initializer, or…
     init = initByClass[componentClass]
     # auto-init (for any components that simply render from props):

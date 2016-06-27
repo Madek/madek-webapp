@@ -78,7 +78,8 @@
 
 // Link style
 
-.ui-drop-item a
+.ui-drop-item a,
+.ui-drop-item button
   +single-text-shadow(none)
   padding: $space-x $space-s
   color: $mono-dark
@@ -95,8 +96,10 @@
     background: $darken-less
     color: $mono-dark
 
-.ui-drop-item:first-child a
+.ui-drop-item:first-child a,
+.ui-drop-item:first-child button
   +border-top-radius($border-radius-m)
 
-.ui-drop-item:last-child a
+.ui-drop-item:last-child a,
+.ui-drop-item:last-child button
   +border-bottom-radius($border-radius-m)

@@ -15,6 +15,11 @@ UI =
   #       Will be structured more closely to the actual routes where they are used.
   Views: requireBulk(__dirname, [ './views/*.cjsx',  './views/**/*.cjsx']).views
 
+  # App/Layout things that are only temporarly used from HAML:
+  App:
+    UserMenu: require('../react/views/_layouts/UserMenu.cjsx')
+
+
   # extra stuff
   AsyncDashboardSection: require('./lib/AsyncDashboardSection.cjsx')
 
