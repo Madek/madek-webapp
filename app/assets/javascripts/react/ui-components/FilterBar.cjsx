@@ -7,7 +7,6 @@ UiPropTypes = require('./propTypes.coffee')
 
 Button = require('./Button.cjsx')
 ButtonGroup = require('./ButtonGroup.cjsx')
-DropdownButton = require('./DropdownButton.cjsx')
 Icon = require('./Icon.cjsx')
 Link = require('./Link.cjsx')
 
@@ -60,10 +59,6 @@ SelectionToggle = ({select} = @props)->
   selectClass = cx('weak', parseMods(select), 'ui-filterbar-select')
   checkboxMods = cx({'active': select.isActive, 'mid': select.isDirty})
 
-  # TMP static test
-  DropdownMenu = require('./DropdownMenu.cjsx')
-  dropdownMenu = <DropdownMenu/> if select.isActive
-
   <div>
     <label className={selectClass} {...select}>
       <span className='js-only'>
@@ -71,8 +66,4 @@ SelectionToggle = ({select} = @props)->
         <Icon i='checkbox' mods={checkboxMods}/>
       </span>
     </label>
-    {# <DropdownButton}
-    {#   mods='stick-right mlm'}
-    {#   button={children: 'Auswahl'}}
-    {#   dropdownMenu={dropdownMenu}/>}
   </div>
