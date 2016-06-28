@@ -1,9 +1,9 @@
-include: cider-ci_v4/job_components/ruby-setup.yml
+include: cider-ci/job_components/ruby-setup.yml
 
 task_defaults:
   include:
     - submodule: [datalayer]
-      path: cider-ci_v4/task_components/database.yml
+      path: cider-ci/task_components/database.yml
 
   max_trials: 3
   dispatch_storm_delay_duration: 1 seconds

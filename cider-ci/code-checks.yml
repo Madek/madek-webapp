@@ -2,28 +2,9 @@
 
 contexts:
 
-  "Git sanity checks (fixed state)":
-    task_defaults:
-      max_trials: 1
-      traits:
-        git: yes
-
-    tasks:
-
-      git-log-debug:
-        name: 'Git: Log (for debug)'
-        scripts: {test: {body: "git log -n5"}}
-
-      linear-history:
-        name: 'Git: Linear History'
-        scripts:
-          test:
-            body: cider-ci/bin/check-if-linear-history
-
-
   "Ruby Lint":
 
-    include: cider-ci_v4/job_components/ruby-setup.yml
+    include: cider-ci/job_components/ruby-setup.yml
     tasks:
 
       code-complexity-flog:

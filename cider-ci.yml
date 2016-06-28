@@ -1,9 +1,99 @@
-_cider-ci_include:
-  - cider-ci/jobs/code-checks.yml
-  - cider-ci/jobs/unit-tests.yml
-  - cider-ci/jobs/feature-tests.yml
-  - cider-ci/jobs/meta-checks.yml
-  - cider-ci/jobs/all_tests.yml
-  # WIP:
-  - cider-ci/jobs/wip_unit-tests.yml
-  - cider-ci/jobs/wip_feature-tests.yml
+jobs:
+
+  rspec-tests:
+    name: "RSpec Tests"
+    run_when: &DEFAULT_TRIGGERS
+      the branch does not match no-ci or _wip_:
+        type: branch
+        include_match: &default_branch_match    ^.+$
+        exclude_match: &default_branch_exclude  ^(.*no-ci.*)|([a-z]*_wip_.*)$
+    context:
+      include: cider-ci/rspec-tests.yml
+
+  code-checks:
+    name: "Code Checks"
+    description: |
+      Run static checks and metrics: complexity, duplication, and format.
+    priority: 3
+    run_when: *DEFAULT_TRIGGERS
+    context:
+      include: cider-ci/code-checks.yml
+
+  delivery-tests:
+    name: "Delivery Tests"
+    run_when: *DEFAULT_TRIGGERS
+    context:
+      include: cider-ci/delivery-tests.yml
+
+  meta-checks:
+    name: Meta
+    description: |
+      Tasks that rely on external (out-of-repository) state.
+      Their state is not as fixed as in the other Jobs, so it might change over time.
+    priority: 3 # "I don't always run this, but when I do, it should be fast"
+    run_when: *DEFAULT_TRIGGERS
+    context:
+      include:
+        - path: cider-ci/contexts/meta-checks.yml
+          submodule: [datalayer]
+      task_defaults:
+        environment_variables:
+          GIT_LINEAR_HISTORY_CHECK_START_SHA: cc569ffc2e7b2504e548649f4b0739dfeaad8f89
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+  all-tests:
+    name: "All tests"
+    description: |
+      This job depends on all unit jobs that need to pass.
+      It is depended upon by the super-project!
+    priority: 999 # "empty" job = high priority
+    context:
+      task: "echo '✔︎ All dependencies have passed' ; exit 0"
+    run_when: *DEFAULT_TRIGGERS
+    depends_on:
+      rspec-tests:    {job_key: rspec-tests,    type: job, states: [passed]}
+      delivery-tests: {job_key: delivery-tests, type: job, states: [passed]}
+      all-tests of the datalayer: {job_key: all-tests, type: job, submodule: [datalayer], states: [passed]}
+
+  good-to-merge:
+    name: "Good To Merge"
+    description: |
+      This job depends on all jobs that need to pass for "Delivery".
+      It is depended upon by GitHub's branch protection (for `master`)!
+    priority: 999 # "empty" job = high priority
+    context:
+      task: "echo '✔︎ All dependencies have passed' ; exit 0"
+    run_when: *DEFAULT_TRIGGERS
+    depends_on:
+      all-tests:      {job_key: all-tests,    type: job, states: [passed]}
+      meta-checks:    {job_key: meta-checks,    type: job, states: [passed]}
+      good to merge of the datalayer: {job_key: good-to-merge, type: job, submodule: [datalayer], states: [passed]}
+
+  # TODO: make this work
+  # wip-rspec-tests:
+  #   name: "⟨WIP⟩ RSpec Tests"
+  #   description: |
+  #     Run RSpec Tests in "Work-in-Progress" mode (i.e. compile assets on the fly)
+  #   priority: -1337
+  #   run_when:
+  #     the branch matches _wip_:
+  #       type: branch
+  #       include_match: ^[a-z]*_wip_.*$
+  #   context:
+  #     include: cider-ci/rspec-tests.yml
+  #     task_defaults:
+  #       max_trials: 2
+  #       environment_variables:
+  #         MADEK_NO_STATIC_ASSETS: ✔︎
+  #       scripts:
+  #         precompile-assets:
+  #           body: |
+  #             export PATH=~/.rubies/$RUBY/bin:$PATH
+  #             cider-ci/bin/precompile-assets-with-caching.sh
+  #           start_when:
+  #             database has been configured: {script_key: configure-database}
+  #
+  #         test:
+  #           start_when:
+  #             assets are precompiled: {script_key: precompile-assets }
