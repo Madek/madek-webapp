@@ -105,9 +105,7 @@ feature 'Resource: MediaEntry' do
     neither_shown = (not has_previews and not original_accessible)
     expect_content(neither_shown, I18n.t(:media_entry_export_no_content))
 
-    expect_content(
-      (not neither_shown),
-      I18n.t(:media_entry_export_original))
+    check_original_title_available(neither_shown == false)
 
     expect_content(original_accessible, I18n.t(:media_entry_export_original_hint))
     expect_content(
@@ -115,6 +113,18 @@ feature 'Resource: MediaEntry' do
       I18n.t(:media_entry_export_has_no_original))
 
     expect_content(has_previews, I18n.t(:media_entry_export_subtitle_images))
+  end
+
+  def check_original_title_available(bool)
+    if bool
+      expect(page).to have_selector(
+        'h2',
+        text: I18n.t(:media_entry_export_original))
+    else
+      expect(page).not_to have_selector(
+        'h2',
+        text: I18n.t(:media_entry_export_original))
+    end
   end
 
   def scenario_show(do_login)
