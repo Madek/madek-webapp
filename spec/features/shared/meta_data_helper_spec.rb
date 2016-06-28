@@ -27,6 +27,17 @@ module MetaDataHelper
     end
   end
 
+  def create_or_find_group(name)
+    group = Group.find_by(name: name)
+    if group
+      group
+    else
+      FactoryGirl.create(
+        :group,
+        name: name)
+    end
+  end
+
   def add_authors_datum(resource, people)
     FactoryGirl.create(
       :meta_datum_people,
@@ -50,13 +61,6 @@ module MetaDataHelper
       .set(value)
   end
 
-  def update_context_text_field(key, value)
-    meta_key = MetaKey.find(key)
-    find_context_meta_key_form(meta_key)
-      .find('input')
-      .set(value)
-  end
-
   def update_bubble_no_js(key, value)
     meta_key = MetaKey.find(key)
     find_meta_key_form(meta_key)
@@ -64,24 +68,9 @@ module MetaDataHelper
       .set(value.id)
   end
 
-  def update_context_bubble_no_js(key, value)
-    meta_key = MetaKey.find(key)
-    find_context_meta_key_form(meta_key)
-      .find('.form-item-add input')
-      .set(value.id)
-  end
-
   def update_bubble(key, value)
     meta_key = MetaKey.find(key)
     autocomplete_and_choose_first(find_meta_key_form(meta_key), value.term)
-  end
-
-  def update_context_bubble(key, value)
-    meta_key = MetaKey.find(key)
-
-    autocomplete_and_choose_first(
-      find_context_meta_key_form(meta_key),
-      value.term)
   end
 
   def find_datum(resource, meta_key)
@@ -97,26 +86,11 @@ module MetaDataHelper
       .find('.form-label', text: meta_key.label).find(:xpath, '..')
   end
 
-  def find_context_meta_key_form(meta_key)
-    xpath = './/fieldset[.//.[@class="form-label"]'
-    xpath += '[contains(.,"' + meta_key.label + '")]]'
-    find(:xpath, xpath)
-  end
-
   def prepare_manipulate_and_check(config, prepare, manipulate, check)
     prepare.call
 
-    underscored = @resource.class.name.underscore
-
-    resource_path = send (underscored + '_path'), @resource
-    edit_context_path = send(
-      ('edit_context_meta_data_' + underscored + '_path'), @resource)
-
-    login
-    visit resource_path
-    click_action_button('pen')
-    expect(current_path).to eq edit_context_path
-    open_full_or_context(config, edit_context_path, config[:async])
+    login_and_edit
+    open_full_or_context(config, config[:async])
 
     within('form[name="resource_meta_data"]') do
       manipulate.call
@@ -129,21 +103,40 @@ module MetaDataHelper
     check.call
   end
 
-  def open_full_or_context(config, edit_context_path, async)
+  def resource_path
+    underscored = @resource.class.name.underscore
+    send (underscored + '_path'), @resource
+  end
+
+  def check_context_url(context_id)
+    expect(current_path).to eq(edit_context_path(context_id))
+  end
+
+  def check_selected_tab(context_id)
+    label_context_id =
+      if context_id
+        context_id
+      else
+        'core'
+      end
+    expected_label = Context.find(label_context_id).label
+    within('.app-body') do
+      find('li.active.ui-tabs-item').find('a', text: expected_label)
+    end
+    check_context_url(context_id)
+  end
+
+  def login_and_edit
+    login
+    visit resource_path
+    click_action_button('pen')
+    expect(current_path).to eq edit_context_path(nil)
+  end
+
+  def open_full
     underscored = @resource.class.name.underscore
     edit_path = send ('edit_meta_data_' + underscored + '_path'), @resource
-    if config[:full]
-      click_action_button('arrow-down')
-      expect(current_path).to eq edit_path
-    else
-      label = Context.find(config[:context]).label
-      xpath = './/.[@class="ui-tabs-item"][.//.[contains(.,"' + label + '")]]'
-      find(:xpath, xpath).find('a').click
-      if async
-        expect(current_path).to eq(edit_context_path)
-      else
-        expect(current_path).to eq(edit_context_path + '/' + config[:context])
-      end
-    end
+    click_action_button('arrow-down')
+    expect(current_path).to eq edit_path
   end
 end

@@ -8,6 +8,9 @@ include BasicDataHelper
 require_relative '../shared/meta_data_helper_spec'
 include MetaDataHelper
 
+require_relative '../shared/context_meta_data_helper_spec'
+include ContextMetaDataHelper
+
 feature 'Resource: Collection' do
   describe 'Concern: MetaData' do
 

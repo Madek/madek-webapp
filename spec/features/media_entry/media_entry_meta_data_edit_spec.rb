@@ -8,6 +8,9 @@ include MetaDataHelper
 require_relative '../shared/basic_data_helper_spec'
 include BasicDataHelper
 
+require_relative '../shared/context_meta_data_helper_spec'
+include ContextMetaDataHelper
+
 doc = <<-DOC
 Action: Updating
 

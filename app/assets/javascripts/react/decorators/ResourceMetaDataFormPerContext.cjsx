@@ -89,7 +89,8 @@ module.exports = React.createClass
 
     meta_data = get.meta_data
 
-    disableSave = (@state.saving or not @props.hasAnyChanges or (@props.validityForAll != 'valid' and @props.get.published)) and @state.mounted == true
+    disableSave = (@state.saving or not @props.hasAnyChanges or (@props.validityForAll == 'invalid' and @props.get.published)) and @state.mounted == true
+
     disablePublish = (@state.saving or @props.validityForAll != 'valid')
     showPublish = not @props.get.published and @state.mounted == true
 
