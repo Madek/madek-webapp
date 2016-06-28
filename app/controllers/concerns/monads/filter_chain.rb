@@ -14,12 +14,10 @@ module Concerns
       FilterChain = Struct.new(:resources, :controller) do
         def do(method_name, *args)
           new_resources = unless args.compact.empty?
-                            controller.send(method_name,
-                                            resources,
-                                            *args)
-                          else
-                            resources
-                          end
+            controller.send(method_name, resources, *args)
+          else
+            resources
+          end
           FilterChain.new(new_resources, controller)
         end
         alias_method :return, :resources

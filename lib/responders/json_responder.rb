@@ -3,10 +3,10 @@ module Responders
     def to_json
       # NOTE: supports "sparse" request via JSON (to optimize async calls)
       obj = if resource.is_a?(Presenter)
-              resource.dump(sparse_spec: sparse_request_spec_from_param)
-            else
-              resource
-            end
+        resource.dump(sparse_spec: sparse_request_spec_from_param)
+      else
+        resource
+      end
       render json: obj
     end
 

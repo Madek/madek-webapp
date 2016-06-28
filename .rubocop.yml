@@ -16,6 +16,9 @@ AllCops:
     - 'zhdk-integration/**/*'
     - 'vendor/**/*'
 
+Lint/EndAlignment:
+  AlignWith: variable
+  
 Lint/AmbiguousOperator:
   Enabled: false
 

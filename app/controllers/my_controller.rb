@@ -16,10 +16,10 @@ class MyController < ApplicationController
       raise '403'
     else
       duration = if params[:duration].present?
-                   ChronicDuration.parse(params[:duration]) \
-                     || raise('Parser error!')
-                 else 60 * 60 * 24
-                 end
+        ChronicDuration.parse(params[:duration]) || raise('Parser error!')
+      else
+        60 * 60 * 24
+      end
       unless duration <= 60 * 60 * 24
         raise 'Duration may not be longer than 24 hours!'
       end
@@ -109,10 +109,10 @@ class MyController < ApplicationController
 
   def init_for_view
     list_config = if (params[:action] == 'dashboard')
-                    { per_page: 6, page: 1 }
-                  else
-                    { per_page: 12 }.merge(resource_list_params)
-                  end
+      { per_page: 6, page: 1 }
+    else
+      { per_page: 12 }.merge(resource_list_params)
+    end
 
     @get = Presenters::Users::UserDashboard.new(
       current_user,

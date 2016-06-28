@@ -18,10 +18,10 @@ module Presenters
 
           # Here do binding.pry.
           collections = if search_term.presence
-                          search_collections(user)
-                        else
-                          marked_collections(media_entry)
-                        end
+            search_collections(user)
+          else
+            marked_collections(media_entry)
+          end
 
           @collection_rows = collections.map do |collection|
             contains_media_entry = media_entry

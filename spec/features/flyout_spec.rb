@@ -32,7 +32,7 @@ feature 'Collection: Index' do
               when :parent then 'up'
               when :child then 'down'
               else raise 'wrong argument'
-              end
+    end
 
     area = thumbnail
       .find('.ui-thumbnail-level-' + up_down + '-items', visible: false)

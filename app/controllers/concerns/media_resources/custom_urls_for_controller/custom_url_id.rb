@@ -71,9 +71,9 @@ module Concerns
           if @after_query_params
             url = if @format
                     fp_parts_before_query_params + '.' + @format
-                  else
-                    fp_parts_before_query_params
-                  end
+            else
+              fp_parts_before_query_params
+            end
             url + '?' + @after_query_params
           else
             fp_parts_before_query_params

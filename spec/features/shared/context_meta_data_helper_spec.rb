@@ -57,10 +57,10 @@ module ContextMetaDataHelper
     meta_key = MetaKey.find(key)
 
     val = if meta_key.meta_datum_object_type == 'MetaDatum::Groups'
-            value.name
-          else
-            value.term
-          end
+      value.name
+    else
+      value.term
+    end
     autocomplete_and_choose_first(
       find_context_meta_key_form(meta_key),
       val)

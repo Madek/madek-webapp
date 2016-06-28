@@ -38,10 +38,10 @@ module Concerns
     def presenter_by_class(action)
       base_klass = model_klass.name.pluralize
       klass = if (action == 'index')
-                base_klass
-              else
-                base_klass.singularize + action.camelize
-              end
+        base_klass
+      else
+        base_klass.singularize + action.camelize
+      end
       "::Presenters::#{base_klass}::#{klass}".constantize
     end
   end
