@@ -92,8 +92,8 @@ module.exports = React.createClass
                   <input
                     type='file' multiple
                     style={{'display': 'none'}}
-                    name={name + '[media_file][]'
-                    onChange={@onFilesSelect}}/>
+                    name={name + '[media_file][]'}
+                    onChange={@onFilesSelect}/>
                 </label>
 
               </h3>
