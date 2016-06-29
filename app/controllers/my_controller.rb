@@ -151,6 +151,7 @@ class MyController < ApplicationController
       current_user,
       user_scopes_for_dashboard(current_user),
       Presenters::Users::DashboardHeader.new(nil),
+      with_count: (params[:action] != 'dashboard'),
       list_conf: { order: 'created_at DESC' }.merge(list_config))
   end
 
