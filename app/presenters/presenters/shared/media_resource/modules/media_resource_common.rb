@@ -14,6 +14,12 @@ module Presenters
             @app_resource.created_at.strftime('%d.%m.%Y')
           end
 
+          def authors_pretty
+            authors = @app_resource.meta_data.find_by(
+              meta_key_id: 'madek_core:authors')
+            authors ? authors.value.map(&:to_s).join(', ') : ''
+          end
+
           def destroyable
             false
           end

@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
   def settings
     Pojo.new(
       Settings.to_h # from static files
-      .merge(AppSettings.first.attributes)) # from DB
+      .merge(AppSettings.first.try(:attributes).to_h)) # from DB
   end
 
   def current_user

@@ -16,12 +16,6 @@ module Presenters
         @app_resource.keywords.map(&:to_s).join(', ')
       end
 
-      def authors_pretty
-        authors = @app_resource.meta_data.find_by(
-          meta_key_id: 'madek_core:authors')
-        authors ? authors.value.map(&:to_s).join(', ') : ''
-      end
-
       def subtitle
         meta_data = @app_resource.meta_data.where(
           meta_key_id: 'madek_core:subtitle')

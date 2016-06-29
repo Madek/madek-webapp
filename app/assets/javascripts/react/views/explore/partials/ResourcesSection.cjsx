@@ -3,7 +3,7 @@ f = require('active-lodash')
 Keyword = require('../../../ui-components/Keyword.cjsx')
 CatalogThumbnail = require('./CatalogThumbnail.cjsx')
 WorthThumbnail = require('./WorthThumbnail.cjsx')
-
+ResourceThumbnail = require('../../../decorators/ResourceThumbnail.cjsx')
 
 module.exports = React.createClass
   displayName: 'ResourcesSection'
@@ -27,8 +27,7 @@ module.exports = React.createClass
                 description={resource.description} imageUrl={resource.image_url} hrefUrl={resource.url} />
           else if section.type == 'thumbnail'
             f.map section.data.list.resources, (resource, n) ->
-              <WorthThumbnail key={'key_' + n} author={resource.owner_pretty} label={resource.title}
-                imageUrl={resource.image_url} hrefUrl={resource.url} />
+              <ResourceThumbnail key={'key_' + n} elm='div' get={resource} />
           else if section.type == 'keyword'
             f.map section.data.list, (resource, n) ->
               <Keyword key={'key_' + n} label={resource.keyword.label}

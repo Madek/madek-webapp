@@ -18,11 +18,6 @@ module Presenters
           @app_resource.title.presence or '<Collection has no title>'
         end
 
-        def owner_pretty
-          person = @app_resource.creator.person
-          person.last_name + ', ' + person.first_name
-        end
-
         def destroyable
           policy(@user).destroy?
         end

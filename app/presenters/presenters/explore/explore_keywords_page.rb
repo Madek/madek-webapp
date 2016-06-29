@@ -1,7 +1,9 @@
 module Presenters
   module Explore
     class ExploreKeywordsPage < Presenter
-      include Presenters::Explore::Modules::ExplorePageCommon
+      include Presenters::Explore::Modules::MemoizedHelpers
+      include Presenters::Explore::Modules::ExploreNavigation
+      include Presenters::Explore::Modules::ExploreKeywordsSection
 
       def initialize(user, settings)
         @user = user
@@ -12,9 +14,7 @@ module Presenters
       end
 
       def sections
-        [
-          { type: 'keyword', data: keywords, show_all_link: false }
-        ]
+        [keywords_section].compact
       end
 
     end

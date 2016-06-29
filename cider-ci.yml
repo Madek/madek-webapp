@@ -54,6 +54,7 @@ jobs:
     depends_on:
       rspec-tests:    {job_key: rspec-tests,    type: job, states: [passed]}
       delivery-tests: {job_key: delivery-tests, type: job, states: [passed]}
+      code-checks: {job_key: code-checks, type: job, states: [passed]}
       all-tests of the datalayer: {job_key: all-tests, type: job, submodule: [datalayer], states: [passed]}
 
   good-to-merge:

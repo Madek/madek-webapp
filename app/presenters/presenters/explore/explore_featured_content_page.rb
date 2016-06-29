@@ -1,7 +1,9 @@
 module Presenters
   module Explore
     class ExploreFeaturedContentPage < Presenter
-      include Presenters::Explore::Modules::ExplorePageCommon
+      include Presenters::Explore::Modules::MemoizedHelpers
+      include Presenters::Explore::Modules::ExploreNavigation
+      include Presenters::Explore::Modules::ExploreFeaturedContentSection
 
       def initialize(user, settings)
         @user = user
@@ -13,9 +15,7 @@ module Presenters
       end
 
       def sections
-        [
-          { type: 'thumbnail', data: featured_set_overview, show_all_link: false }
-        ]
+        [featured_set_section].compact
       end
 
     end

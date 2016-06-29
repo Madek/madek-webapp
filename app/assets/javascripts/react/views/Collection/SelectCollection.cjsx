@@ -169,7 +169,7 @@ module.exports = React.createClass
                       name={('selected_collections[' + collection.uuid + '][]')}
                       value='true' defaultChecked={checked}></input>
                     <span className='title'>{collection.title}</span>
-                    <span className='owner'>{collection.owner_pretty}</span>
+                    <span className='owner'>{collection.authors_pretty}</span>
                     <span className='created-at'>{collection.created_at_pretty}</span>
                   </label>
                 </li>

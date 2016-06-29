@@ -1,7 +1,12 @@
 module Presenters
   module Explore
     class ExploreMainPage < Presenter
-      include Presenters::Explore::Modules::ExplorePageCommon
+      include Presenters::Explore::Modules::MemoizedHelpers
+
+      include Presenters::Explore::Modules::ExploreNavigation
+      include Presenters::Explore::Modules::ExploreCatalogSection
+      include Presenters::Explore::Modules::ExploreFeaturedContentSection
+      include Presenters::Explore::Modules::ExploreKeywordsSection
 
       def initialize(user, settings)
         @user = user
@@ -13,22 +18,14 @@ module Presenters
       end
 
       def sections
-        [
-          { type: 'catalog',
-            data: catalog_overview,
-            show_all_link: true },
-          { type: 'thumbnail',
-            data: featured_set_overview,
-            show_all_link: true },
-          { type: 'keyword',
-            data: keywords,
-            show_all_link: true }
-        ]
+        [catalog_section,
+         featured_set_section,
+         keywords_section].compact
       end
 
       def teaser_entries
         teaser = Collection.find_by_id(@settings.teaser_set_id)
-        return unless teaser
+        return [] unless teaser
 
         authorized_entries = MediaEntryPolicy::Scope.new(
           @user, teaser.media_entries).resolve
