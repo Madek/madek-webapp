@@ -106,7 +106,13 @@ module.exports = React.createClass
       f.each get.batch_entries, (entry) ->
         published = true if entry.published
 
-    cancelUrl = @props.get.return_to
+    cancelUrl =
+      if @props.batch
+        if not get.return_to
+          throw new Error('No return_to given for batch edit (ResourceMetaDataFormPerContext).')
+        get.return_to
+      else
+        get.url
 
     <RailsForm ref='form'
       name='resource_meta_data' action={@_actionUrl()}
