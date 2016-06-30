@@ -160,6 +160,10 @@ module.exports = React.createClass
         </Button>
       </PageContentHeader>
 
+      {if @props.batch
+        <ResourcesBatchBox get={get} authToken={authToken} />
+      }
+
       <Tabs>
         {f.map get.meta_meta_data.context_ids, (context_id) =>
           context = get.meta_meta_data.contexts_by_context_id[context_id]
