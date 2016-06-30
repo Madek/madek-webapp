@@ -163,6 +163,15 @@ module.exports = React.createClass
       <Tabs>
         {f.map get.meta_meta_data.context_ids, (context_id) =>
           context = get.meta_meta_data.contexts_by_context_id[context_id]
+          tabUrl =
+            if @props.batch
+              setUrlParams('/entries/batch_edit_context_meta_data/' + context.uuid,
+                id: f.map(get.batch_entries, 'uuid'),
+                return_to: get.return_to)
+            else
+              setUrlParams(get.url + '/meta_data/edit_context/' + context.uuid,
+                return_to: get.return_to)
+
           if not f.isEmpty(get.meta_meta_data.meta_key_ids_by_context_id[context_id])
             <Tab
               hasChanges={@_changesPerContext(context_id)}
@@ -171,7 +180,7 @@ module.exports = React.createClass
               key={context.uuid}
               iconType={null}
               onClick={@_onTabClick.bind(@, context.uuid)}
-              href={get.url + '/meta_data/edit_context/' + context.uuid}
+              href={tabUrl}
               label={context.label}
               active={context.uuid == currentContextId} />
         }

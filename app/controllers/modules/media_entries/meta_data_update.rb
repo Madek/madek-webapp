@@ -13,6 +13,7 @@ module Modules
         @get = Presenters::MediaEntries::BatchEditContextMetaData.new(
           entries,
           current_user,
+          context_id: params[:context_id],
           return_to: return_to_param)
       end
 
