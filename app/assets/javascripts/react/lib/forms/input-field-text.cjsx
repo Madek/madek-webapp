@@ -9,12 +9,18 @@ module.exports = React.createClass
     placeholder: React.PropTypes.string
     className: React.PropTypes.string
 
-  render: ({name, type, value, placeholder, className} = @props) ->
+  render: ({name, type, value, placeholder, className, contextKey} = @props) ->
+
+    Element =
+      if contextKey and contextKey.text_element and contextKey.text_element == 'textarea'
+        'textarea'
+      else
+        'input'
 
     if @props.onChange
-      <input type={type or 'text'} className={className + ' block'}
+      <Element type={type or 'text'} className={className + ' block'}
         name={name} value={value or ''} placeholder={placeholder}
         onChange={@props.onChange} />
     else
-      <input type={type or 'text'} className={className + ' block'}
+      <Element type={type or 'text'} className={className + ' block'}
         name={name} defaultValue={value or ''} placeholder={placeholder} />

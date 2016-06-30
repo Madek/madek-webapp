@@ -1,7 +1,6 @@
 React = require('react')
 f = require('active-lodash')
 t = require('../../lib/string-translation.js')('de')
-ResourceMetaDataFormPerContext = require('./ResourceMetaDataFormPerContext.cjsx')
 PageContent = require('../views/PageContent.cjsx')
 PageContentHeader = require('../views/PageContentHeader.cjsx')
 TabContent = require('../views/TabContent.cjsx')

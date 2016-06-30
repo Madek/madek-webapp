@@ -20,12 +20,15 @@ module Presenters
 
           # TODO: split this up (need UI changes)
           def contexts_for_show
-            @app_settings ||= AppSettings.first.presence # memo
+            @contexts_for_show ||=
+              _get_contexts_by_ids([
+                app_settings.try(:context_for_show_summary),
+                app_settings.try(:contexts_for_show_extra)
+              ].flatten.compact)
+          end
 
-            _get_contexts_by_ids([
-              @app_settings.try(:context_for_show_summary),
-              @app_settings.try(:contexts_for_show_extra)
-            ].flatten.compact)
+          def app_settings
+            @app_settings ||= AppSettings.first.presence # memo
           end
 
           [
@@ -34,8 +37,7 @@ module Presenters
             :contexts_for_dynamic_filters
           ].each do |setting_name|
             define_method setting_name do
-              @app_settings ||= AppSettings.first.presence # memo
-              _get_contexts_by_ids(@app_settings.try(setting_name))
+              _get_contexts_by_ids(app_settings.try(setting_name))
             end
           end
 
