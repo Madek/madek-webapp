@@ -21,7 +21,7 @@ module Presenters
       private
 
       def catalog_categories_section
-        unless keywords_for_meta_key_and_public_entries.blank?
+        unless keywords_for_meta_key_and_public_entries(@meta_key).blank?
           { type: 'catalog_category',
             data: catalog_categories_overview,
             show_all_link: false }

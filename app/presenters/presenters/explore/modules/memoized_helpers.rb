@@ -23,7 +23,7 @@ module Presenters
               unless (feat = @settings.featured_set_id.presence)
                 return
               end
-              unless (set = Collection.find_by(id: feat))
+              unless (set = Collection.find_by_id(feat))
                 return
               end
 
