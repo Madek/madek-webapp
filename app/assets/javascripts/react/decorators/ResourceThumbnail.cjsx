@@ -261,7 +261,7 @@ module.exports = React.createClass
         children: if childRelations then childThumbs else <Preloader mods='small'/>
         caption: if childRelations then childrenCount + ' Inhalte' else ''
 
-    <Element
+    <Element {...@props}
       className={cx('ui-resource', 'ui-selected': isSelected)}
       onMouseOver={@_onHover}>
 

@@ -21,13 +21,15 @@ module.exports = React.createClass
     toggle: PropTypes.node.isRequired
     toggleProps: PropTypes.object
     children: PropTypes.node.isRequired
+    startOpen: PropTypes.bool
 
-  getInitialState: ()-> {isClient: false, isOpen: false}
+  getInitialState: ()-> {isClient: false, isOpen: @props.startOpen}
   componentDidMount: ()-> @setState(isClient: true)
   _onMenuOpen: ()-> @setState(isOpen: true)
   _onMenuClose: ()-> @setState(isOpen: false)
 
   getDefaultProps: ()->
+    startOpen: false,
     fallbackStyles: ()-> (
       <style type="text/css">{'''
         .ui-dropdown .ui-drop-toggle { padding-bottom: 7px }
