@@ -8,7 +8,15 @@ module Presenters
 
         def initialize(app_resource, user, list_conf: {})
           fail 'TypeError!' unless app_resource.is_a?(MediaEntry)
-          @app_resource = app_resource
+
+          # FIXME: because MediaEntry *might* be instantiated via
+          # `vw_media_resources` view we *might* need to re-init…
+          @app_resource = if app_resource.respond_to?(:is_published)
+            app_resource
+          else
+            ::MediaEntry.find(app_resource.id)
+          end
+
           @user = user
           @list_conf = list_conf
           @media_file = \
@@ -41,13 +49,7 @@ module Presenters
           end
 
           def published?
-            # FIXME: because MediaEntry might be instantiated via
-            # `vw_media_resources` view we might need to re-init…
-            if @app_resource.respond_to?(:is_published)
-              @app_resource.is_published
-            else
-              ::MediaEntry.find(@app_resource.id).is_published
-            end
+            @app_resource.is_published
           end
 
           def url
