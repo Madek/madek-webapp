@@ -59,7 +59,9 @@ feature 'Resource: MediaEntry' do
       box = page.find('.ui-polybox')
       thumbs = box.all('.ui-resource')
       thumbs_to_select = [thumbs.first, thumbs.last]
-      entry_ids = thumbs_to_select.map { |t| t.find('a')['href'].split('/').last }
+      # invalids are not sent to batch edit (in personas, last thumb is invalid)
+      entries_to_edit = [thumbs.first]
+      ids_to_edit = entries_to_edit.map { |t| t.find('a')['href'].split('/').last }
 
       # click selector on each thumbnail
       thumbs_to_select.each do |thumb|
@@ -81,14 +83,20 @@ feature 'Resource: MediaEntry' do
         find('.ui-resources-page .ui-pager:nth-child(1)')[:href])
 
       # click the 'batch edit' button
-      box.find('.ui-toolbar')
-        .find('.button i[title="Auswahl bearbeiten"]')
-        .click
+      within('.ui-filterbar') do
+        menu_text = I18n.t('resources_box_batch_actions_menu_title', raise: false)
+        action_text = I18n.t('resources_box_batch_actions_edit')
+        dropdown_menu_and_get(menu_text, action_text)
+          .click
+      end
+
+      # TODO: hover and confirm invalids are dimmed
 
       # confirm we are in the right place, including return_to param
+      # also, one of the ids was removed because it
       expect(current_path_with_query).to eq(
         batch_edit_context_meta_data_media_entries_path(
-          id: entry_ids, return_to: return_url))
+          id: ids_to_edit, return_to: return_url))
     end
   end
 

@@ -138,8 +138,10 @@ feature 'batch edit' do
   end
 
   def select_set_button
-    within('.app-body-content') do
-      find('.ui-toolbar-controls').find('.icon-move')
+    menu_text = I18n.t('resources_box_batch_actions_menu_title', raise: false)
+    action_text = I18n.t('resources_box_batch_actions_addtoset')
+    within('.ui-filterbar') do
+      dropdown_menu_and_get(menu_text, action_text)
     end
   end
 

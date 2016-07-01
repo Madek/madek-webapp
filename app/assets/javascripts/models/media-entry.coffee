@@ -62,6 +62,11 @@ module.exports = AppResource.extend(
           or f.presence(f.get(@uploading, 'file.type'))
         getMediaType(contentType)
 
+    # NOTE: we don't allow batch-editing of "currently invalid" entries
+    isBatchEditable:
+      deps: ['editable', 'invalid_meta_data']
+      fn: ()-> @editable and !@invalid_meta_data
+
     uploadStatus:
       deps: ['uploading']
       fn: ()->

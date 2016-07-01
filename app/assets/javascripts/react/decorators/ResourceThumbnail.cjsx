@@ -41,7 +41,7 @@ module.exports = React.createClass
         model = new modelByType(get)
       else
         console.error('WARNING: No model found for resource!', get)
-    @setState(model: model)
+    @setState(model: model or get)
 
   componentDidMount: ()->
     @setState(isClient: true)

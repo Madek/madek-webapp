@@ -33,6 +33,13 @@ module Presenters
           policy(@user).meta_data_update?
         end
 
+        def invalid_meta_data
+          # NOTE: this is needed to determine if batch editing is allowed
+          # In general, we can check for drafts if publishing is possible;
+          # and for non-drafts if the validation changed since publishing!
+          true unless @app_resource.valid?
+        end
+
         included do
 
           attr_reader :media_file

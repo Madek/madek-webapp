@@ -4,12 +4,12 @@
 React = require('react')
 f = require('active-lodash')
 css = require('classnames')
-ui = require('../lib/ui.coffee')
-setUrlParams = require('../../lib/set-params-for-url.coffee')
-MadekPropTypes = require('../lib/madek-prop-types.coffee')
+ui = require('../../lib/ui.coffee')
+setUrlParams = require('../../../lib/set-params-for-url.coffee')
+MadekPropTypes = require('../../lib/madek-prop-types.coffee')
 
-Icon = require('./Icon.cjsx')
-Link = require('./Link.cjsx')
+Icon = require('../Icon.cjsx')
+Link = require('../Link.cjsx')
 
 module.exports = React.createClass
   displayName: 'SideFilter'

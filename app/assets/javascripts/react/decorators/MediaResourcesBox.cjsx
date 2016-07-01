@@ -1,20 +1,25 @@
 React = require('react')
 f = require('active-lodash')
-classList = require('classnames/dedupe')
-qs = require('qs')
 ampersandReactMixin = require('ampersand-react-mixin')
+ui = require('../lib/ui.coffee')
+{parseMods, cx} = ui
+t = ui.t('de')
 setUrlParams = require('../../lib/set-params-for-url.coffee')
 resourceListParams = require('../../shared/resource_list_params.coffee')
 RailsForm = require('../lib/forms/rails-form.cjsx')
-ResourceThumbnail = require('./ResourceThumbnail.cjsx')
-{ Button, ButtonGroup, Icon, Link, Preloader, ActionsBar, FilterBar, SideFilter
-} = require('../ui-components/index.coffee')
-MediaEntriesCollection = require('../../models/media-entries.coffee')
-router = null # client-side only
 
+ResourceThumbnail = require('./ResourceThumbnail.cjsx')
+{ Button, ButtonGroup, Icon, Link, Preloader, Dropdown, ActionsBar
+} = require('../ui-components/index.coffee')
+SideFilter = require('../ui-components/ResourcesBox/SideFilter.cjsx')
+BoxToolBar = require('../ui-components/ResourcesBox/BoxToolBar.cjsx')
+
+# interactive stuff, should be moved to controller
+router = null # client-side only
+qs = require('qs')
+MediaEntriesCollection = require('../../models/media-entries.coffee')
 xhr = require('xhr')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
-
 BatchAddToSetModal = require('./BatchAddToSetModal.cjsx')
 
 
@@ -97,6 +102,16 @@ module.exports = React.createClass
   # kick of client-side mode:
   getInitialState: ()-> {isClient: false, config: {}, batchAddToSet: false}
 
+  componentWillMount: ()->
+    # FIXME: only implemented for MediaEntries!
+    # init resources as collection:
+    if @props.get.type is 'MediaEntries'
+      resources = if @props.get.resources.isCollection
+        @props.get.resources
+      else
+        (new MediaEntriesCollection(@props.get.resources))
+    @setState(resources: resources)
+
   componentDidMount: ()->
     router = require('../../lib/router.coffee')
     # listen to history and set state from params:
@@ -162,14 +177,17 @@ module.exports = React.createClass
     event.preventDefault()
     selection = @state.selectedResources
     if selection.isEmpty()
-      selection.set(@props.get.resources)
+      selection.set(@state.resources.models)
     else
       selection.reset()
 
+  _onHiglightEditable: (bool, event)->
+    if(!@state.selectedResources || @state.selectedResources.isEmpty()) then return
+    @setState(higlightBatchEditable: bool)
+
   _onBatchEdit: (event)->
     event.preventDefault()
-    selection = @state.selectedResources
-    selected = f.map(selection.serialize(), 'uuid')
+    selected = f.map(@state.selectedResources.getBatchEditableItems(), 'uuid')
     currentUrl = setUrlParams(
       @props.get.config.for_url, {list: f.omit(@state.config, 'for_url')})
     batchEditUrl = setUrlParams('/entries/batch_edit_context_meta_data', {id: selected, return_to: currentUrl})
@@ -226,6 +244,9 @@ module.exports = React.createClass
         layout: 'grid'
         show_filter: false
 
+    # FIXME: always get from state!
+    resources = @state.resources || get.resources
+
     config = get.config
     withActions = get.with_actions
     saveable = saveable or false
@@ -236,7 +257,7 @@ module.exports = React.createClass
       @state.isClient and withActions and (config.layout is 'grid')
 
     baseClass = 'ui-polybox'
-    boxClasses = classList({ # defaults first, mods last so they can override
+    boxClasses = cx({ # defaults first, mods last so they can override
       'ui-container': yes
       'midtone': withBox
       'bordered': withBox
@@ -252,10 +273,10 @@ module.exports = React.createClass
       when f.includes(boxClasses, 'rounded') # also for 'rounded-top'…
         'rounded-top'
 
-    listHolderClasses = classList 'ui-resources-holder',
+    listHolderClasses = cx 'ui-resources-holder',
       pam: withBox
 
-    listClasses = classList(config.layout, {
+    listClasses = cx(config.layout, {
       'vertical': config.layout is 'tiles'
       'active': withActions
     }, 'ui-resources')
@@ -277,7 +298,7 @@ module.exports = React.createClass
         <Link mods='mlx weak' href={resetFilterHref}>
           <Icon i='undo'/> {'Filter zurücksetzen'}</Link>
 
-    BoxToolBar = if withBox then do ()=>
+    boxTitleBar = () =>
       {filter, layout, for_url} = config
       totalCount = f.get(get, 'pagination.total_count')
       isClient = @state.isClient
@@ -291,59 +312,130 @@ module.exports = React.createClass
           href: href
           onClick: @_handleChangeInternally
 
-      actions = if withActions
-        # jsOnly: true # TODO: <- implement fallback
-        save: if saveable
-          children: <Icon i='filter' mods='small' title='Als FilterSet speichern'/>
-          onClick: if isClient && f.present(filter)
-            f.curry(@_onCreateFilterSet)(config)
-
-        add_to_set: if get.type is 'MediaEntries'
-          children: <Icon i='move' mods='small' title='Zu Set hinzufügen'/>
-          onClick: if isClient && selection && !selection.isEmpty()
-            @_onBatchAddToSet
-
-        batch_edit: if get.type is 'MediaEntries'
-          children: <Icon i='pen' mods='small' title='Auswahl bearbeiten'/>
-          onClick: if isClient && selection && !selection.isEmpty()
-            @_onBatchEdit
-
-      <UiToolBar
-        heading={heading or ("#{totalCount} #{'Inhalte'}" if totalCount)}
+      <BoxTitleBar
+        heading={heading or ("#{totalCount} #{t('resources_box_title_count_post')}" if totalCount)}
         mods={toolbarClasses}
-        actions={actions} layouts={layouts}/>
+        layouts={layouts}/>
 
-    BoxFilterBar = do =>
-      # NOTE: don't show the bar at all if no 'filter' button!
-      return null if (!withBox or !get.can_filter)
+    boxToolBar = () =>
+      # NOTE: don't show the bar if not in a box!
+      return false if !withBox
 
+      isClient = @state.isClient
       selection = f.presence(@state.selectedResources) or false
+      batchEditables = selection.getBatchEditableItems() if selection
       filterToggleLink = setUrlParams(config.for_url, currentQuery,
         list: show_filter: (not config.show_filter))
 
-      props =
-        filter:
-          toggle:
-            name: 'Filtern'
-            mods: 'active' if config.show_filter
-            href: filterToggleLink
-            onClick: @_onFilterToggle
-          reset: resetFilterLink if f.present(config.filter)
-        select: if selection
+      # batch actions. presence of action key shows it in menu,
+      #                presence of 'click' function means it is enabled.
+      actions = if withActions
+        addToSet: if selection && get.type is 'MediaEntries'
+          click: (if !selection.isEmpty() then @_onBatchAddToSet)
+
+        edit: if selection && get.type is 'MediaEntries'
+          click: (if f.present(batchEditables) then @_onBatchEdit)
+          hover: f.curry(@_onHiglightEditable)(true)
+          unhover: f.curry(@_onHiglightEditable)(false)
+
+        save: if isClient and saveable
+          click: (if f.present(config.filter) then f.curry(@_onCreateFilterSet)(config))
+
+        # TODO: batch delete
+        # delete: ->
+        #   click: alert('not implemented!')
+
+      actionsDropdown = if f.any(f.values(actions))
+        <Dropdown mods='stick-right mlm'
+          toggle={'Aktionen'} toggleProps={{className: 'button'}}>
+
+          <ul className="dropdown-menu ui-drop-menu" role="menu" >
+
+            {if actions.addToSet
+              <li className="ui-drop-item">
+                <Link onClick={actions.addToSet.click}>
+                  <Icon i="move" mods="ui-drop-icon"
+                  /> <span className="ui-count">
+                    {selection.length}
+                  </span> {t('resources_box_batch_actions_addtoset')}</Link>
+              </li>}
+
+            {if actions.edit
+              <li className="ui-drop-item">
+                <Link onClick={actions.edit.click} onMouseEnter={actions.edit.hover} onMouseLeave={actions.edit.unhover}>
+                  <Icon i="pen" mods="ui-drop-icon"
+                  /> <span className="ui-count">
+                    {batchEditables.length}
+                  </span> {t('resources_box_batch_actions_edit')}
+                </Link>
+              </li>}
+
+            {if actions.delete
+              <li className="separator"/>}
+            {if actions.delete
+              <li className="ui-drop-item">
+                <Link onClick={actions.delete.click}>
+                  <Icon i="trash" mods="ui-drop-icon"/> {t('resources_box_batch_actions_delete')}</Link>
+              </li>}
+
+            {if actions.save
+              <li className="separator"/>}
+            {if actions.save
+              <li className="ui-drop-item">
+                <Link onClick={actions.save.click}>
+                  <Icon i="filter" mods="ui-drop-icon"/> {t('resources_box_batch_actions_save')}</Link>
+              </li>}
+
+          </ul>
+        </Dropdown>
+
+      selectToggle = if selection
+        selector =
           active: 'Alle abwählen',
           inactive: 'Alle auswählen'
           isActive: selection && !(selection.isEmpty())
-          isDirty: selection && !(selection.length == get.resources.length)
-          onClick: @_onSelectionAllToggle
+          isDirty: selection && resources && !(selection.length == resources.length)
+          onClick: (if selection then @_onSelectionAllToggle)
 
-        # TODO: multi resource switcher
-        # toggles: [
-        #   {name: 'Medieneinträge'},
-        #   {name: 'Sets'} ]
+        labelText = if selector.isActive then selector.active else selector.inactive
+        selectClass = 'ui-filterbar-select weak'
+        checkboxMods = cx({'active': selector.isActive, 'mid': selector.isDirty})
+        selectorStyle = {top: '2px'} # style fix!
 
-      <FilterBar {...props}/>
+        <label className={selectClass} {...selector} style={selectorStyle}>
+          <span className='js-only'>
+            <span>{labelText} </span>
+            <Icon i='checkbox' mods={checkboxMods}/>
+          </span>
+        </label>
 
-    Sidebar = do ({config, dynamic_filters} = get, {isClient} = @state)=>
+
+      filterBarProps =
+        left: if get.can_filter then do =>
+          name = 'Filtern'
+          <div>
+            <Button name={name} mods={'active': config.show_filter}
+              href={filterToggleLink} onClick={@_onFilterToggle}>
+              <Icon i='filter' mods='small'/> {name}
+            </Button>
+            {if f.present(config.filter) then resetFilterLink}
+          </div>
+
+        right: if selectToggle || actionsDropdown
+          <div>{selectToggle}{actionsDropdown}</div>
+
+        # # TODO: multi resource switcher (from parent view, but sketched here!)
+        # middle: if true then do =>
+        #   switcher = [ {name: 'Medieneinträge'}, {name: 'Sets'} ]
+        #   <ButtonGroup>
+        #     {switcher.map (btn)->
+        #       <Button {...btn} key={btn.name}
+        #         mods={if btn.isActive then 'active'}>{btn.name}</Button>}
+        #   </ButtonGroup>
+
+      <BoxToolBar {...filterBarProps}/>
+
+    sidebar = do ({config, dynamic_filters} = get, {isClient} = @state)=>
       return null if not config.show_filter
 
       # TMP: ignore invalid dynamicFilters
@@ -394,17 +486,17 @@ module.exports = React.createClass
 
     # component:
     <div className={boxClasses}>
-      {BoxToolBar}
-      {BoxFilterBar}
+      {if withBox then boxTitleBar()}
+      {if withBox then boxToolBar()}
 
       <div className={listHolderClasses}>
         <div className='ui-container table auto'>
-          {Sidebar}
+          {sidebar}
 
           {# main list:}
           <div className='ui-container table-cell table-substance'>
             {children}
-            {if not f.present(get.resources) or get.resources.length == 0 then do ()->
+            {if not f.present(resources) or resources.length == 0 then do ()->
               return null if !fallback
               if !f.isBoolean(fallback)
                 fallback # we are given a fallback message, use it
@@ -426,7 +518,7 @@ module.exports = React.createClass
                         total={get.pagination.total_pages}/>}
 
                   <ul className='ui-resources-page-items'>
-                  {get.resources.map (item)=>
+                  {resources.map (item)=>
                     key = item.uuid or item.cid
 
                     if withBox
@@ -438,9 +530,14 @@ module.exports = React.createClass
                         # if in selection mode, intercept clicks as 'select toggle'
                         onClick = if config.layout == 'miniature'
                           (if !selection.isEmpty() then onSelect)
+                        # when hightlighting editables, we just dim everything else:
+                        style = if @state.higlightBatchEditable
+                          if (!item.isBatchEditable)
+                            {opacity: 0.35}
 
                     # TODO: get={model}
                     <ResourceThumbnail elm='div'
+                      style={style}
                       get={item}
                       isClient={@state.isClient} fetchRelations={fetchRelations}
                       isSelected={isSelected} onSelect={onSelect} onClick={onClick}
@@ -483,15 +580,15 @@ SideFilterFallback = ({filter} = @props)->
     </RailsForm>
   </div>
 
-UiToolBar = ({heading, actions, layouts, mods} = @props)->
-  classes = classList('ui-container inverted ui-toolbar pvx', mods)
+BoxTitleBar = ({heading, actions, layouts, mods} = @props)->
+  classes = cx('ui-container inverted ui-toolbar pvx', mods)
   <div className={classes}>
     <h2 className='ui-toolbar-header pls'>{heading}</h2>
     <div className='ui-toolbar-controls by-right'>
       {# Layout Switcher: }
       <ButtonGroup mods='tertiary small right mls'>
         {layouts.map (btn)->
-          mods = classList 'small', 'ui-toolbar-vis-button', btn.mods
+          mods = cx 'small', 'ui-toolbar-vis-button', btn.mods
           <Button {...btn} mods={mods} key={btn.mode}>
             <Icon i={btn.icon} title={btn.title}/>
           </Button>

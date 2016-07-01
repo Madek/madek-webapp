@@ -12,6 +12,7 @@ PropTypes = React.PropTypes
 ui = require('../lib/ui.coffee')
 
 Icon = require('./Icon.cjsx')
+Link = require('./Link.cjsx')
 
 MODS = ['stick-right'] # TODO: check and validate supported mods
 
@@ -20,7 +21,8 @@ module.exports = React.createClass
   propTypes:
     toggle: PropTypes.node.isRequired
     toggleProps: PropTypes.object
-    children: PropTypes.node.isRequired
+    children: PropTypes.node
+    disabled:  PropTypes.bool
     startOpen: PropTypes.bool
 
   getInitialState: ()-> {isClient: false, isOpen: @props.startOpen}
@@ -29,7 +31,8 @@ module.exports = React.createClass
   _onMenuClose: ()-> @setState(isOpen: false)
 
   getDefaultProps: ()->
-    startOpen: false,
+    disabled: false
+    startOpen: false
     fallbackStyles: ()-> (
       <style type="text/css">{'''
         .ui-dropdown .ui-drop-toggle { padding-bottom: 7px }
@@ -37,6 +40,8 @@ module.exports = React.createClass
     '''}</style>)
 
   render: ({props, state} = this)->
+    # force disabled if no sub-menu:
+    isDisabled = if !props.children then true else props.disabled
 
     wrapperClasses = ui.cx(
       ui.parseMods(@props),
@@ -47,11 +52,12 @@ module.exports = React.createClass
 
       {if !state.isClient then props.fallbackStyles()}
 
-      <a className="dropdown-toggle ui-drop-toggle"
+      <Link className="dropdown-toggle ui-drop-toggle"
+        disabled={isDisabled}
         onClick={if @state.isOpen then @_onMenuClose else @_onMenuOpen}
         {...props.toggleProps}>
         {props.toggle} <Icon i="arrow-down stand-alone small"></Icon>
-      </a>
+      </Link>
 
       {# NOTE: old style set from js plugin: style="top: 100%; bottom: auto;"}
       {props.children}

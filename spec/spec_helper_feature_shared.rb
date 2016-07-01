@@ -50,6 +50,17 @@ def autocomplete_and_choose_first(node, text)
   input.native.send_keys(:enter)
 end
 
+def dropdown_menu_and_get(toggle_text, menu_item_text)
+  within('.ui-dropdown') do
+    opened_menu = all('.ui-drop-menu', visible: true)[0]
+    unless opened_menu
+      find('.button', text: toggle_text).click # opens menu
+    end
+    opened_menu = find('.ui-drop-menu', visible: true)
+    opened_menu.find('a', text: menu_item_text)
+  end
+end
+
 def sign_in_as(login, password = 'password')
   visit '/my'
   # if ldap login is ON, first switch to correct form tab
