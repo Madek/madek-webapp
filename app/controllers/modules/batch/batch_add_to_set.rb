@@ -12,8 +12,7 @@ module Modules
 
         media_entry_ids = params.require(:media_entry_id)
         media_entries = MediaEntry.unscoped.where(id: media_entry_ids)
-
-        authorize_media_entries_for_batch_edit!(current_user, media_entries)
+        authorize_media_entries_for_view!(current_user, media_entries)
 
         search_term = params[:clear] ? '' : params[:search_term]
 
@@ -39,8 +38,7 @@ module Modules
 
         media_entry_ids = params.require(:media_entry_id)
         media_entries = MediaEntry.unscoped.where(id: media_entry_ids)
-
-        authorize_media_entries_for_batch_edit!(current_user, media_entries)
+        authorize_media_entries_for_view!(current_user, media_entries)
 
         existing = collection.media_entries
         no_duplicates = media_entries.reject do |media_entry|
