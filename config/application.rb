@@ -140,6 +140,7 @@ module Madek
       bundle-integration-testbed.js
       application.css
       application-contrasted.css
+      styleguide.css
     )
 
     # NOTE: Rails does not support *matchers* anymore, do it manually
