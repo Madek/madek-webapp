@@ -7,6 +7,12 @@ module Shared
         end
       end
 
+      class EditableScope < Scope
+        def resolve
+          scope.editable_by_user(user)
+        end
+      end
+
       def new?
         logged_in?
       end

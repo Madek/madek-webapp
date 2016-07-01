@@ -35,12 +35,6 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
   alias_method :add_remove_collection?, :update?
   alias_method :select_collection?, :update?
 
-  class BatchEditScope < Scope
-    def resolve
-      scope.editable_by_user(user)
-    end
-  end
-
   private
 
   def allow_for_creator_if_unpublished(record, user)

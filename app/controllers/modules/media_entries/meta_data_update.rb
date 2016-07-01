@@ -160,7 +160,7 @@ module Modules
 
       def authorize_entries_for_batch_edit!(entries)
         authorized_entries = \
-          MediaEntryPolicy::BatchEditScope.new(current_user, entries).resolve
+          MediaEntryPolicy::EditableScope.new(current_user, entries).resolve
         if entries.count != authorized_entries.count
           raise Errors::ForbiddenError, 'Not allowed to edit all resources!'
         end
