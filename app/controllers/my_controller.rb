@@ -1,3 +1,5 @@
+# NOTE: will be refactored wholesome anyway, so disable this cop here
+# rubocop:disable Metrics/ClassLength
 class MyController < ApplicationController
   include Concerns::ResourceListParams
   include Concerns::UserScopes::Dashboard
@@ -35,17 +37,20 @@ class MyController < ApplicationController
     unpublished_entries: {
       title: I18n.t(:sitemap_my_unpublished),
       icon: 'icon-privacy-private',
-      partial: :media_resources
+      partial: :media_resources,
+      allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
     },
     content_media_entries: {
       title: I18n.t(:sitemap_my_content_media_entries),
       icon: 'icon-privacy-private',
-      partial: :media_resources
+      partial: :media_resources,
+      allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
     },
     content_collections: {
       title: I18n.t(:sitemap_my_content_collections),
       icon: 'icon-privacy-private',
-      partial: :media_resources
+      partial: :media_resources,
+      allowed_filter_params: CollectionsController::ALLOWED_FILTER_PARAMS
     },
     # content_filter_sets: {
     #   title: I18n.t(:sitemap_my_content_filter_sets),
@@ -55,17 +60,20 @@ class MyController < ApplicationController
     latest_imports: {
       title: I18n.t(:sitemap_my_latest_imports),
       icon: 'icon-privacy-private',
-      partial: :media_resources
+      partial: :media_resources,
+      allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
     },
     favorite_media_entries: {
       title: I18n.t(:sitemap_my_favorite_media_entries),
       icon: 'icon-privacy-private',
-      partial: :media_resources
+      partial: :media_resources,
+      allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
     },
     favorite_collections: {
       title: I18n.t(:sitemap_my_favorite_collections),
       icon: 'icon-privacy-private',
-      partial: :media_resources
+      partial: :media_resources,
+      allowed_filter_params: CollectionsController::ALLOWED_FILTER_PARAMS
     },
     # favorite_filter_sets: {
     #   title: I18n.t(:sitemap_my_favorite_filter_sets),
@@ -80,12 +88,14 @@ class MyController < ApplicationController
     entrusted_media_entries: {
       title: I18n.t(:sitemap_my_entrusted_media_entries),
       icon: 'icon-privacy-group',
-      partial: :media_resources
+      partial: :media_resources,
+      allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
     },
     entrusted_collections: {
       title: I18n.t(:sitemap_my_entrusted_collections),
       icon: 'icon-privacy-group',
-      partial: :media_resources
+      partial: :media_resources,
+      allowed_filter_params: CollectionsController::ALLOWED_FILTER_PARAMS
     },
     # entrusted_filter_sets: {
     #   title: I18n.t(:sitemap_my_entrusted_filter_sets),
@@ -107,30 +117,41 @@ class MyController < ApplicationController
 
   private
 
-  def init_for_view
-    list_config = if (params[:action] == 'dashboard')
+  def current_section
+    @current_section ||= \
+      begin
+        section_name = params[:section].try(:to_sym)
+        @sections[section_name]
+      end
+  end
+
+  def list_config
+    if (params[:action] == 'dashboard')
       { per_page: 6, page: 1 }
     else
-      { per_page: 12 }.merge(resource_list_params)
+      { per_page: 12 }.merge \
+        resource_list_params(params, current_section.try(:[],
+                                                         :allowed_filter_params))
     end
+  end
+
+  def init_for_view
+    # NOTE: uses as separate presenter, for counting regardless of
+    # any possible user-given (filter, …)-config!
+    # TODO: port this logic to dashboard presenter, build table of contents there
+    @sections = set_async_below_fold order_sections_according_to_counts(
+      SECTIONS,
+      Presenters::Users::UserDashboard.new(current_user,
+                                           user_scopes_for_dashboard(current_user),
+                                           nil,
+                                           with_count: false,
+                                           list_conf: { page: 1, per_page: 1 }))
 
     @get = Presenters::Users::UserDashboard.new(
       current_user,
       user_scopes_for_dashboard(current_user),
       Presenters::Users::DashboardHeader.new(nil),
       list_conf: { order: 'created_at DESC' }.merge(list_config))
-
-    # NOTE: uses as separate presenter, for counting regardless of
-    # any possible user-given (filter, …)-config!
-    # TODO: port this logic to dashboard presenter, build table of contents there
-    @sections = set_async_below_fold order_sections_according_to_counts(
-      SECTIONS,
-      Presenters::Users::UserDashboard.new(
-        current_user,
-        user_scopes_for_dashboard(current_user),
-        nil,
-        with_count: false,
-        list_conf: { page: 1, per_page: 1 }))
   end
 
   def order_sections_according_to_counts(sections, presenter)
@@ -179,3 +200,4 @@ def set_async_below_fold(sections)
     [a[0], a[1].merge(render_async?: ((i + 1) > conf_prerender_sections_nr))]
   end.to_h
 end
+# rubocop:enable Metrics/ClassLength

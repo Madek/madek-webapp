@@ -9,15 +9,12 @@ module Concerns
 
       private
 
-      def resource_list_params(parameters = params)
+      def resource_list_params(parameters = params,
+                               allowed_filter_params = nil)
         # TODO: only permit supported layout modes…
         base = :list
-        allowed = [:layout,
-                   :filter,
-                   :show_filter,
-                   :accordion,
-                   :page,
-                   :per_page]
+        allowed = [:layout, :filter, :show_filter, :accordion,
+                   :page, :per_page]
         coerced_types = { bools: [:show_filter],
                           jsons: [:filter, :accordion] }
 
@@ -26,7 +23,9 @@ module Concerns
           .fetch(base, {})
           .deep_symbolize_keys
           .map { |key, val| _coerce_types(coerced_types, key, val) }
-          .tap { |parameters| check_allowed_filter_params! parameters }
+          .tap do |parameters|
+            check_allowed_filter_params! parameters, allowed_filter_params
+          end
           .to_h
           .merge( # context of current request (for building new links):
             for_url: {
@@ -34,14 +33,17 @@ module Concerns
               query: request.query_parameters.deep_symbolize_keys })
       end
 
-      def check_allowed_filter_params!(parameters)
+      def check_allowed_filter_params!(parameters, allowed_filter_params)
         filter_params = parameters.assoc(:filter).try(:second).try(:keys)
         # allowed filter params are defined as a constant in
         # the respective controller
         if filter_params
-          not_allowed = filter_params - self.class::ALLOWED_FILTER_PARAMS
-          unless not_allowed.empty?
-            raise ActionController::UnpermittedParameters, not_allowed
+          # if no allowed_filter_params were given, then check in the respective
+          # controller for the constant ALLOWED_FILTER_PARAMS
+          allowed_filter_params ||= self.class::ALLOWED_FILTER_PARAMS
+          not_allowed_given = filter_params - allowed_filter_params
+          unless not_allowed_given.empty?
+            raise ActionController::UnpermittedParameters, not_allowed_given
           end
         end
       end

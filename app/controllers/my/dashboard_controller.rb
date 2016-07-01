@@ -10,9 +10,7 @@ class My::DashboardController < MyController
 
   # "show" actions
   def dashboard_section
-    section_name = params[:section].to_sym
-
-    unless SECTIONS[section_name]
+    unless current_section
       raise ActionController::RoutingError.new(404), 'No such dashboard section!'
     end
 
@@ -20,11 +18,13 @@ class My::DashboardController < MyController
       current_user,
       user_scopes_for_dashboard(current_user),
       Presenters::Users::DashboardHeader.new(nil),
-      list_conf: resource_list_params)
+      list_conf: \
+        resource_list_params(params,
+                             current_section[:allowed_filter_params]))
 
     render 'dashboard_section',
            locals: {
-             section: @sections[section_name],
+             section: current_section,
              get: get
            }
   end
