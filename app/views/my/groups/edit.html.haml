@@ -1,21 +1,34 @@
 :ruby
+  content_for(:page_header) do
+    component('page-header',
+              icon: component('icon.privacy-group'),
+              text: (t(:group_edit_form_title_pre, raise: false) + @get.name),
+              actions: [
+                component('button.primary', link: new_my_group_path,
+                                            text: t(:group_new_group_btn))
+              ])
+  end
+
   member_field_name = 'group[user][login][]'
 
+
 - content_for(:page_content) do
-  = form_for :group, method: :put, url: @get.url do |g_form|
+  .ui-container.mam.pam.bright.bordered.rounded-bottom.rounded-right
 
-    = g_form.label :name, class: 'title-s'
-    = g_form.text_field :name, value: @get.name
+    = form_for :group, method: :put, url: @get.url do |g_form|
+      .form-body
+        .ui-form-group.rowed
+          = g_form.label :name, class: 'form-label'
+          = g_form.text_field :name, value: @get.name, class: 'form-item'
 
-    %hr.separator.mini.mvs
+        .ui-form-group.rowed
+          = deco('workgroup_members_table', data: @get.members, props: { member_field_name: member_field_name })
 
-    = deco('workgroup_members_table', data: @get.members, props: { member_field_name: member_field_name })
+        .ui-form-group.rowed
+          = label_tag member_field_name, class: 'form-label' do
+            = t(:group_edit_form_new_member_login_label)
+            %small= t(:group_edit_form_new_member_login_hint)
+          = text_field_tag member_field_name, '', class: 'form-item'
 
-    %hr.separator.mini.mvs
-
-    = label_tag member_field_name, t(:group_edit_form_new_member_login), class: 'title-s'
-    = text_field_tag member_field_name
-
-    %hr.separator.mini.mvs
-
-    = g_form.submit
+      .form-footer
+        = g_form.submit t(:group_edit_form_save_btn, raise: false), class: 'primary-button'

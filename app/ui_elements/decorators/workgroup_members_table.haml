@@ -9,21 +9,22 @@
     {
       id: member.uuid,
       login: member.login,
+      name: member.name,
       actions: @get.institutional? ? [] : [
         component('check_box',
                   name: props[:member_field_name],
                   value: member.login,
                   checked: true,
-                  disabled: (member.uuid == current_user.id),
+                  disabled: (data.length == 1), # don't last member to leave
                   keep_value: true
                  )
       ]
     }
   }
 
-%h3= t(:workgroup_members_table_title)
+%h3.title-m.strong= t(:workgroup_members_table_title)
 
-%table.ui-workgroup-members.bordered.block
+%table.ui-workgroup-members.bordered.block{style: 'max-width: 40em'}
   %thead
     %tr
       %td= t(:workgroup_members_table_login)
@@ -33,9 +34,10 @@
       %tr{"data-id" => member[:id]}
 
         %td.ui-member-login
-          = member[:login]
+          = member[:name]
+          %small.title-xs-alt= member[:login]
 
         - if (actions = member[:actions]).present?
-          %td.ui-workgroup-member-actions
+          %td.ui-workgroup-member-actions{style: 'width: 6em'}
             - actions.each do |action|
               = action
