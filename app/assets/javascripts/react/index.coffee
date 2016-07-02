@@ -13,7 +13,7 @@ UI =
   # Views: Everything else that is rendered top-level (`react` helper)
   # NOTE: also because of HAML views there are sub-folders for "partials and actions".
   #       Will be structured more closely to the actual routes where they are used.
-  Views: requireBulk(__dirname, [ './views/*.cjsx',  './views/**/*.cjsx']).views
+  Views: requireBulk(__dirname, [ './views/*.{c,}jsx',  './views/**/*.{c,}jsx']).views
 
   # App/Layout things that are only temporarly used from HAML:
   App:

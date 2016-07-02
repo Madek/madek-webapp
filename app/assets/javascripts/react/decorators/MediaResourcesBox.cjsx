@@ -82,6 +82,7 @@ module.exports = React.createClass
     fetchRelations: React.PropTypes.bool
     fallback: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.node])
     heading: React.PropTypes.node
+    toolBarMiddle: React.PropTypes.node
     authToken: React.PropTypes.string.isRequired
     get: React.PropTypes.shape
       # resources: React.PropTypes.array # TODO: array of ampersandCollection
@@ -424,23 +425,12 @@ module.exports = React.createClass
         right: if selectToggle || actionsDropdown
           <div>{selectToggle}{actionsDropdown}</div>
 
-        # # TODO: multi resource switcher (from parent view, but sketched here!)
-        # middle: if true then do =>
-        #   switcher = [ {name: 'Medieneinträge'}, {name: 'Sets'} ]
-        #   <ButtonGroup>
-        #     {switcher.map (btn)->
-        #       <Button {...btn} key={btn.name}
-        #         mods={if btn.isActive then 'active'}>{btn.name}</Button>}
-        #   </ButtonGroup>
+        middle: @props.toolBarMiddle
 
       <BoxToolBar {...filterBarProps}/>
 
     sidebar = do ({config, dynamic_filters} = get, {isClient} = @state)=>
       return null if not config.show_filter
-
-      # TMP: ignore invalid dynamicFilters
-      if !(f.isArray(dynamic_filters) and f.present(f.isArray(dynamic_filters)))
-        return null
 
       <div className='filter-panel ui-side-filter'>
         {if not isClient
@@ -463,9 +453,11 @@ module.exports = React.createClass
                   defaultValue={f.get(config, ['filter', 'search'])}/>
               </form>
             </div>
-            <SideFilter dynamic={dynamic_filters} current={config.filter or {}}
-              accordion={config.accordion or {}} onChange={@_onAccordion}
-              url={config.for_url} query={currentQuery}/>
+            {if (f.isArray(dynamic_filters) and f.present(f.isArray(dynamic_filters)))
+              <SideFilter dynamic={dynamic_filters} current={config.filter or {}}
+                accordion={config.accordion or {}} onChange={@_onAccordion}
+                url={config.for_url} query={currentQuery}/>
+            }
           </div>
         }
       </div>

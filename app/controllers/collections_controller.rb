@@ -16,7 +16,7 @@ class CollectionsController < ApplicationController
     respond_with(@get = Presenters::Collections::Collections.new(
       policy_scope(Collection),
       current_user,
-      can_filter: false,
+      can_filter: true,
       list_conf: resource_list_params))
   end
 

@@ -32,7 +32,9 @@ module Presenters
           @with_actions = true if (with_actions != false) && @user.present?
           # can the given scope be filtered? (`#filter_by`)
           # TODO: remove the type check when implemented for all Resources
-          @can_filter = (can_filter ? true : false) if @type == 'MediaEntries'
+          @can_filter = if ['MediaEntries', 'Collections'].include?(@type)
+            (can_filter ? true : false)
+          end
           @conf = build_config(list_conf)
           @with_count = with_count
           init_resources_and_pagination(@scope, @conf)
@@ -51,7 +53,7 @@ module Presenters
         end
 
         def dynamic_filters
-          return unless @conf[:show_filter]
+          return unless @conf[:show_filter] and @type == 'MediaEntries'
           # NOTE: scope is pre-filtered, but not paginated!
           scope = @conf[:filter] ? @scope.filter_by(@conf[:filter]) : @scope
           tree = @conf[:dyn_filter]

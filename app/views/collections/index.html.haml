@@ -2,4 +2,4 @@
     icon: component('icon.media-entry'),
     text: t(:sitemap_collections))
 
-= react('Deco.MediaResourcesBox', get: @get, withBox: true, saveable: true)
+= react('Views.Collection.Index', get: @get, for_url: request.original_fullpath)
