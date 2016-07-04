@@ -174,7 +174,7 @@ module SelectCollectionHelper
   end
 
   def click_select_collections
-    title = I18n.t(:resource_action_select_collection, raise: false)
+    title = I18n.t(:resource_action_manage_collections, raise: false)
     find('.ui-body-title-actions').find('.button[title="' + title + '"]').click
   end
 

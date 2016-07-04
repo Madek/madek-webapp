@@ -92,7 +92,7 @@ module Presenters
           async_action: 'select_collection',
           method: 'get',
           icon: 'move',
-          title: I18n.t(:resource_action_select_collection, raise: false),
+          title: I18n.t(:resource_action_manage_collections, raise: false),
           action: select_collection_media_entry_path(@app_resource),
           allowed: policy(@user).add_remove_collection?
         }
