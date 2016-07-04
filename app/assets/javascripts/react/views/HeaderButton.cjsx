@@ -13,7 +13,7 @@ module.exports = React.createClass
       @props.onAction(@props.asyncAction)
     return false
 
-  render: ({get, authToken, href, method, icon, title, name} = @props) ->
+  render: ({authToken, href, method, icon, title, name} = @props) ->
     method = 'post' if not method
     icon = 'icon-' + icon
     onClick = if @props.onAction and @props.asyncAction then @_onClick else null

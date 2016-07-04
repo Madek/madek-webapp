@@ -6,22 +6,13 @@ module Concerns
     def select_collection
       resource = get_authorized_resource
 
-      # Here do binding.pry.
       search_term = params[:clear] ? '' : params[:search_term]
 
-      collection_selection = presenter_canonical_name.constantize.new(
-        current_user,
-        resource,
-        search_term,
-        list_conf: resource_list_params)
-
-      resource_show = show_presenter_by_resource(resource)
-      resource_show.collection_selection = collection_selection
-      @get = resource_show
+      @get = show_presenter_by_resource(resource, search_term)
       respond_with(@get, template: template_path)
     end
 
-    def show_presenter_by_resource(resource)
+    def show_presenter_by_resource(resource, search_term)
       if resource.class == MediaEntry
         show_class = Presenters::MediaEntries::MediaEntryShow
         scopes = user_scopes_for_media_resource(resource)
@@ -34,7 +25,9 @@ module Concerns
         resource,
         current_user,
         scopes,
-        list_conf: resource_list_params)
+        list_conf: resource_list_params,
+        show_collection_selection: true,
+        search_term: search_term)
     end
 
     def add_remove_collection

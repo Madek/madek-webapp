@@ -16,7 +16,6 @@ module Presenters
           @reduced_set = false
           @length = 30
 
-          # Here do binding.pry.
           collections = if search_term.presence
             search_collections(user)
           else

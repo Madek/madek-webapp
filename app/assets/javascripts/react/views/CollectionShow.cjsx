@@ -31,7 +31,7 @@ module.exports = React.createClass
 
   render: ({authToken, get, activeTab} = @props) ->
     <PageContent>
-      <MediaEntryHeader authToken={authToken} get={get} showModal={@props.showModal}
+      <MediaEntryHeader authToken={authToken} get={get.header} showModal={@props.showModal}
         async={@state.mounted} modalAction={'select_collection'}/>
 
       <Tabs>

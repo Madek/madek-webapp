@@ -68,7 +68,7 @@ module.exports = React.createClass
       },
       (result, json) =>
         if result == 'success'
-          @setState({get: json.collection_selection, searching: false})
+          @setState({get: json.header.collection_selection, searching: false})
     )
 
 

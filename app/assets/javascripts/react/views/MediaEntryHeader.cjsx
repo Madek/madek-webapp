@@ -31,7 +31,7 @@ module.exports = React.createClass
       get={get} async={@props.async} authToken={@props.authToken} onClose={@_onClose} />
 
   _extractGet: (json) ->
-    json.collection_selection
+    json.header.collection_selection
 
   render: ({authToken, get} = @props) ->
     # TODO: Outer div should be removed based on the styleguide.
@@ -41,7 +41,7 @@ module.exports = React.createClass
 
       <PageContentHeader icon='set' title={get.title}>
         {f.map get.buttons, (button) =>
-          <HeaderButton get={get} key={button.action} onAction={@_onClick} asyncAction={button.async_action}
+          <HeaderButton key={button.action} onAction={@_onClick} asyncAction={button.async_action}
             icon={button.icon} title={button.title} name={button.action}
             href={button.action} method={button.method} authToken={authToken}/>
         }
@@ -49,7 +49,9 @@ module.exports = React.createClass
       {
         if @state.showModal
           if @state.modalAction == 'select_collection'
-            getUrl = get.url + '/select_collection?___sparse={"collection_selection":{}}'
+            console.log('GET URL = ' + get.url)
+            getUrl = get.url + '/select_collection?___sparse={"header":{"collection_selection":{}}}'
+            console.log('GET . COLLECTION_SELECTION = ' + get.collection_selection)
             <AsyncModal get={get.collection_selection} getUrl={getUrl}
               contentForGet={@_contentForGet} extractGet={@_extractGet} />
           else
