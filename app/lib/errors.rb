@@ -12,18 +12,12 @@ module Errors
     # If a value for a request parameter has is invalid
   end
 
-  class CatalogCategoryNotFoundError < StandardError
-    # If a catalog category is trying to be accessed, which is not
-    # configured in app_settings
-  end
-
   # map custom errors to HTTP status codes:
   def self.rescue_responses
     {
       'Errors::InvalidParameterValue' => :bad_request, # 400
       'Errors::UnauthorizedError' => :unauthorized, # 401
-      'Errors::ForbiddenError' => :forbidden, # 403
-      'Errors::CatalogCategoryNotFoundError' => :not_found # 404
+      'Errors::ForbiddenError' => :forbidden # 403
     }
   end
 

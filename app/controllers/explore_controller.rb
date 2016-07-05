@@ -31,7 +31,7 @@ class ExploreController < ApplicationController
 
   def catalog_category
     unless AppSettings.first.catalog_context_keys.include? category_param
-      raise CatalogCategoryNotFoundError,
+      raise ActionController::RoutingError.new(404),
             'Catalog category could not be found.'
     end
 
