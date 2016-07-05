@@ -154,10 +154,42 @@ module.exports = React.createClass
     f.each @state.models, (model, meta_key_id) =>
       if context_id and (f.includes @props.get.meta_meta_data.meta_key_ids_by_context_id[context_id], meta_key_id) or not context_id
         unless model.multiple == false and model.originalValues.length == 0 and model.values.length == 1 and model.values[0].trim() == ''
-          if not f.isEqual(model.values, model.originalValues)
+
+          # Note: New keywords have no uuid yet. Fortunately new keywords always mean that the length is different.
+          if not @_equalUnordered(model.values, model.originalValues, model.multiple)
             hasChanges = true
 
     hasChanges
+
+
+  _equalUnordered: (arr1, arr2, checkUuid) ->
+
+    if arr1.length != arr2.length
+      return false
+
+    equal = true
+    f.each(arr1, (value1) ->
+
+      found = false
+      f.each(arr2, (value2) ->
+        if checkUuid == true
+          if(value1.uuid == value2.uuid)
+            found = true
+        else
+          if value1 == value2
+            found = true
+
+      )
+
+      if found == false
+        equal = false
+    )
+
+    return equal
+
+
+
+
 
   _changesForAll: () ->
     @_changesPerContext(null)

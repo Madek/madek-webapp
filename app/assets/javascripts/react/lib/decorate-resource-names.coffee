@@ -8,6 +8,6 @@ decorators =
 
 module.exports = (o)->
   unless f.isObject(o) and f.isFunction(decorate = decorators[o.type])
-    throw new Error('Decorator: Unknown Resource! ' + o.type)
+    throw new Error('Decorator: Unknown Resource! Type: ' + o.type + ' Object: ' + JSON.stringify(o))
 
   decorate(o)
