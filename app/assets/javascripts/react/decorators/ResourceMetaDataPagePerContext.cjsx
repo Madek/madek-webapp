@@ -6,7 +6,6 @@ setUrlParams = require('../../lib/set-params-for-url.coffee')
 Button = require('../ui-components/Button.cjsx')
 Icon = require('../ui-components/Icon.cjsx')
 Thumbnail = require('../ui-components/Thumbnail.cjsx')
-ResourceMetaDataFormPerContext = require('./ResourceMetaDataFormPerContext.cjsx')
 BatchHintBox = require('./BatchHintBox.cjsx')
 ResourceThumbnail = require('./ResourceThumbnail.cjsx')
 ResourcesBatchBox = require('./ResourcesBatchBox.cjsx')
@@ -17,6 +16,20 @@ Tabs = require('../views/Tabs.cjsx')
 Tab = require('../views/Tab.cjsx')
 
 batchDiff = require('../../lib/batch-diff.coffee')
+
+React = require('react')
+PropTypes = React.PropTypes
+f = require('active-lodash')
+xhr = require('xhr')
+cx = require('classnames')
+t = require('../../lib/string-translation.js')('de')
+setUrlParams = require('../../lib/set-params-for-url.coffee')
+RailsForm = require('../lib/forms/rails-form.cjsx')
+getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
+MetaKeyFormLabel = require('../lib/forms/form-label.cjsx')
+MadekPropTypes = require('../lib/madek-prop-types.coffee')
+MetaDatumFormItem = require('./MetaDatumFormItemPerContext.cjsx')
+
 
 module.exports = React.createClass
   displayName: 'ResourceMetaDataPagePerContext'
@@ -31,7 +44,32 @@ module.exports = React.createClass
     currentContextId: null
     models: {}
     batchDiff: {}
+    editing: false
+    errors: {}
+    saving: false
   }
+
+  _actionUrl: () ->
+    automaticPublish = @_validityForAll() == 'valid' and @state.mounted == true and not @props.get.published
+    if automaticPublish
+      actionType = 'publish'
+    else
+      actionType = 'save'
+
+
+    url = @props.get.url + '/meta_data'
+
+    if @props.batch
+      actionType = 'save'
+      url = @props.get.submit_url
+
+    url = url + '?actionType=' + actionType
+
+    # Note: Return to must be a hidden field to for the server-side case.
+    # Url parameters are ignored in the <form action=... field.
+    url = setUrlParams(url, {return_to: @props.get.return_to})
+
+
 
   _modelForMetaKey: (meta_key) ->
     {
@@ -40,6 +78,10 @@ module.exports = React.createClass
       values: []
       originalValues: []
     }
+
+  componentDidMount: () ->
+    @setState({mounted: true})
+
 
   componentWillMount: () ->
 
@@ -128,6 +170,52 @@ module.exports = React.createClass
     models[meta_key_id].values = values
     @setState({models: models})
 
+
+
+  submit: (actionType) ->
+
+    @setState(saving: true)
+    serialized = @refs.form.serialize()
+    xhr(
+      {
+        method: 'PUT'
+        url: @_actionUrl()
+        body: serialized
+        headers: {
+          'Accept': 'application/json'
+          'Content-type': 'application/x-www-form-urlencoded'
+          'X-CSRF-Token': getRailsCSRFToken()
+        }
+      },
+      (err, res, body) =>
+        try
+          data = JSON.parse(body)
+        catch error
+          console.error('Cannot parse body of answer for meta data update', error)
+
+        if res.statusCode == 400
+          @setState({saving: false})
+          errors = f.presence(f.get(data, 'errors')) or {}
+          if not f.present(errors)
+            console.error('Cannot get errors from meta data update')
+          else
+            window.scrollTo(0, 0)
+          @setState(errors: errors)
+        else
+          forward_url = data['forward_url']
+          if not forward_url
+            console.error('Cannot get forward url of answer of meta data update')
+          window.location = forward_url
+    )
+
+  _onClick: (event) ->
+    event.preventDefault()
+    @submit(event.target.value)
+    return false
+
+
+
+
   render: ({get, authToken} = @props) ->
 
     currentContextId = @state.currentContextId
@@ -152,6 +240,38 @@ module.exports = React.createClass
       setUrlParams('/entries/batch_meta_data_edit',
         id: f.map(get.batch_entries, 'uuid'),
         return_to: get.return_to)
+
+
+
+    name = "#{f.snakeCase(get.type)}[meta_data]"
+    if @props.batch
+      name = "media_entry[meta_data]"
+
+    meta_data = get.meta_data
+
+    disableSave = (@state.saving or not @_changesForAll() or (@_validityForAll() == 'invalid' and @props.get.published)) and @state.mounted == true
+
+    disablePublish = (@state.saving or @_validityForAll() != 'valid')
+    showPublish = not @props.get.published and @state.mounted == true
+
+    showPublish = false
+
+    published = get.published
+    if @props.batch
+      published = false
+      f.each get.batch_entries, (entry) ->
+        published = true if entry.published
+
+    cancelUrl =
+      if @props.batch
+        if not get.return_to
+          throw new Error('No return_to given for batch edit (ResourceMetaDataPagePerContext).')
+        get.return_to
+      else
+        get.url
+
+
+
 
     <PageContent>
       <PageContentHeader icon='pen' title={title}>
@@ -190,8 +310,15 @@ module.exports = React.createClass
         }
       </Tabs>
       <TabContent>
-        <div className="bright pal rounded-bottom rounded-top-right ui-container">
-          <div className='ui-container table'>
+
+        <RailsForm ref='form'
+          name='resource_meta_data' action={@_actionUrl()}
+          method='put' authToken={authToken}>
+
+          <input type='hidden' name='return_to' value={@props.get.return_to} />
+
+
+          <div className="ui-container phl ptl">
 
             {
               unless @props.batch
@@ -238,10 +365,79 @@ module.exports = React.createClass
             }
 
             <div className="app-body-content table-cell ui-container table-substance ui-container">
-              <div className="active">
-                <ResourceMetaDataFormPerContext batch={@props.batch} batchDiff={@state.batchDiff}
-                  hasAnyChanges={@_changesForAll()} validityForAll={@_validityForAll()}
-                  onChange={@_onChangeForm} get={get} models={@state.models} authToken={authToken} context={currentContext} />
+              <div className={if true then 'active' else 'active tab-pane'}>
+
+
+
+
+
+
+
+                {if @state.errors and f.keys(@state.errors).length > 0
+                  <div className="ui-alerts" style={marginBottom: '10px'}>
+                    <div className="error ui-alert">
+                      {t('resource_meta_data_has_validation_errors')}
+                    </div>
+                  </div>
+                }
+
+                <div className='form-body'>
+
+                  {
+                    f.map get.batch_entries, (entry) ->
+                      <input key={entry.uuid} type='hidden' name='batch_resource_meta_data[id][]' value={entry.uuid} />
+                  }
+
+                  {
+
+                    f.map get.meta_meta_data.meta_key_ids_by_context_id[currentContext.uuid], (meta_key_id) =>
+                      datum = get.meta_data.meta_datum_by_meta_key_id[meta_key_id]
+
+                      <MetaDatumFormItem
+                        batch={@props.batch}
+                        published={published}
+                        batchConflict={@state.batchDiff[meta_key_id]}
+                        hidden={false}
+                        onChange={@_onChangeForm}
+                        allMetaMetaData={get.meta_meta_data}
+                        name={name}
+                        get={datum}
+                        metaKeyId={meta_key_id}
+                        model={@state.models[meta_key_id]}
+                        requiredMetaKeyIds={get.meta_meta_data.mandatory_by_meta_key_id}
+                        error={@state.errors[meta_key_id]}
+                        key={meta_key_id}/>
+
+
+                  }
+                  {
+
+                    hidden_meta_key_ids = f.select (f.keys get.meta_meta_data.meta_key_by_meta_key_id), (meta_key_id) ->
+                      not (f.includes get.meta_meta_data.meta_key_ids_by_context_id[currentContext.uuid], meta_key_id)
+
+                    f.map hidden_meta_key_ids, (meta_key_id) =>
+                      datum = get.meta_data.meta_datum_by_meta_key_id[meta_key_id]
+                      if datum
+                        <MetaDatumFormItem
+                          batch={@props.batch}
+                          published={published}
+                          hidden={true}
+                          onChange={@_onChangeForm}
+                          allMetaMetaData={get.meta_meta_data}
+                          name={name}
+                          get={datum}
+                          metaKeyId={meta_key_id}
+                          model={@state.models[meta_key_id]}
+                          requiredMetaKeyIds={get.meta_meta_data.mandatory_by_meta_key_id}
+                          error={@state.errors[meta_key_id]}
+                          key={meta_key_id}/>
+
+
+                  }
+                </div>
+
+
+
               </div>
             </div>
 
@@ -252,6 +448,21 @@ module.exports = React.createClass
 
             }
           </div>
-        </div>
+
+
+          <div className="ui-actions phl pbl mtl">
+            <a className="link weak" href={get.url}>{' ' + t('meta_data_form_cancel') + ' '}</a>
+            <button className="primary-button large" type="submit"
+              name='actionType' value='save'
+              onClick={@_onClick} disabled={disableSave}>{' ' + t('meta_data_form_save') + ' '}</button>
+            {
+              if showPublish
+                <button className='primary-button large' name='actionType' value='publish'
+                  type='submit' onClick={@_onClick} disabled={disablePublish}> {t('meta_data_form_publish')} </button>
+            }
+          </div>
+
+
+        </RailsForm>
       </TabContent>
     </PageContent>

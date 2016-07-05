@@ -173,7 +173,7 @@ def direct_open_context(context, async, switch_to)
 end
 
 def save_button
-  find('button', text: 'Save')
+  find('button', text: I18n.t(:meta_data_form_save))
 end
 
 def prepare_data

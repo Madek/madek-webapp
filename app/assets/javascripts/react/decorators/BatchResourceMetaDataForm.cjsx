@@ -35,12 +35,10 @@ module.exports = React.createClass
 
       <BatchHintBox />
 
-      <div className='form-footer'>
-        <div className='ui-actions'>
-          <a className='weak' href={get.url}>Cancel</a>
-          <button className='primary-button large'
-            type='submit'>Save</button>
-        </div>
+
+      <div className="ui-actions phl pbl mtl">
+        <a className="link weak" href={get.url}>{' ' + t('meta_data_form_cancel') + ' '}</a>
+        <button className="primary-button large" type="submit">{' ' + t('meta_data_form_save') + ' '}</button>
       </div>
 
     </RailsForm>

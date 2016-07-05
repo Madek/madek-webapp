@@ -89,13 +89,12 @@ module.exports = React.createClass
             key={bundle.vocabulary.uuid}/>}
       </div>
 
-      <div className='form-footer'>
-        <div className='ui-actions'>
-          <a className='weak' href={get.url}>Cancel</a>
-          <button className='primary-button large'
-            type='submit' disabled={@state.saving}>Save</button>
-        </div>
+      <div className="ui-actions phl pbl mtl">
+        <a className="link weak" href={get.url}>{' ' + t('meta_data_form_cancel') + ' '}</a>
+        <button className="primary-button large" type="submit"
+          disabled={@state.saving}>{' ' + t('meta_data_form_save') + ' '}</button>
       </div>
+
     </RailsForm>
 
 VocabularyFormItem = React.createClass
