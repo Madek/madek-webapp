@@ -18,11 +18,12 @@
     - @sections.each do |section_id, section|
       -# empty section *are* skipped on the dashboard index
       - next if section[:is_empty?]
-      = combo('resources-header', title: section[:title],
-                link: { text: t(:resources_header_show_all),
-                        href: my_dashboard_section_path(section[:id])})
-      = render partial: "my/section_#{section[:partial]}",
-               locals: { get: @get, section: section, show_pagination_nav: false }
+      %div{id: section_id}
+        = combo('resources-header', title: section[:title],
+                  link: { text: t(:resources_header_show_all),
+                          href: my_dashboard_section_path(section[:id])})
+        = render partial: "my/section_#{section[:partial]}",
+                 locals: { get: @get, section: section, show_pagination_nav: false }
 
   .ui-container.pal
     - if dashboard_content

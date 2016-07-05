@@ -1,10 +1,10 @@
 :ruby
   keywords = get.used_keywords.map do |keyword|
-    { text: keyword.label, link: keyword.url }
+    { text: keyword.label, link: keyword.url, count: keyword.usage_count }
   end
 
-.ui-container.pbl
+.ui-container.pal
   - if keywords.empty?
     = t(:no_keywords_fallback)
   - else
-    = combo('tag-cloud.label', mods: 'compact', list: keywords)
+    = combo('tag-cloud.label', list: keywords)
