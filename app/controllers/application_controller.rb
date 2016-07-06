@@ -9,6 +9,11 @@ class ApplicationController < ActionController::Base
   include Pundit
   include Modules::VerifyAuthorized
 
+  # use pundit to make sure all actions are authorized
+  after_action :verify_authorized, except: :index
+  # check if logged in user has accepted the most recent usage terms
+  before_action :verify_usage_terms_accepted!
+
   # this Pundit error is generic and means basically 'access denied'
   rescue_from Pundit::NotAuthorizedError, with: :error_according_to_login_state
   rescue_from Errors::UnauthorizedError, with: :error_according_to_login_state

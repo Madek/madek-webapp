@@ -8,13 +8,18 @@
 
 class ErrorsController < ApplicationController
 
+  # skips the checks that raise errors that are handled here (or it loops!)
   skip_before_action :authenticate_user!
+  skip_before_action :verify_usage_terms_accepted!
 
   def show
     exception = env['action_dispatch.exception']
-    err = Presenters::Errors::ErrorShow.new(exception)
+    for_url = request.original_fullpath
+    err = Presenters::Errors::ErrorShow.new(exception, for_url: for_url)
     # Select type (show server errors as plain page, client error in app):
     type = (err.status_code < 500) ? 'client_error' : 'server_error'
+    # keep flash around for next request
+    flash.keep
     respond_with_error(err, type)
   end
 
@@ -34,10 +39,12 @@ class ErrorsController < ApplicationController
     # NOTE: it is important to use the base layout for server errors,
     # because when something is broken we don't want to hit the db, etc.
     layout = (type == 'server_error') ? '_base' : 'application'
+    template = get_template(type, err.status_code)
+
     respond_to do |f|
       f.html do
         @get = err
-        render(type, layout: layout, status: err.status_code)
+        render(template, layout: layout, status: err.status_code)
       end
       f.json { render(json: wrap_error(err), status: err.status_code) }
       f.yaml { render(plain: wrap_error(err).to_yaml, status: err.status_code) }
@@ -48,5 +55,15 @@ class ErrorsController < ApplicationController
     err = err.dump if err.dump
     excluded = :details if err[:status_code] < 500
     Hash(error: err.except(excluded).to_h).as_json
+  end
+
+  def get_template(error_type, status_code)
+    # use a partial named like the status code if it exists, or "default by type"
+    template_by_status = "errors/_by_status/#{status_code}"
+    if lookup_context.find_all(template_by_status).first.present?
+      template_by_status
+    else
+      error_type
+    end
   end
 end

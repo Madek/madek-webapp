@@ -108,6 +108,10 @@ Madek::Application.routes.draw do
   resources :people, only: [:index, :show]
 
   # Clients/Logins:
+  resource :user, only: [] do
+    post :accepted_usage_terms
+  end
+
   resources :users, only: :index
   resources :api_clients, only: :index
 

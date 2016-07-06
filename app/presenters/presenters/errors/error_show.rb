@@ -1,23 +1,39 @@
 module Presenters
   module Errors
     class ErrorShow < Presenter
-      attr_reader :status_code, :message, :details
 
-      def initialize(exception)
-        error_class = exception.class.name
+      def initialize(exception, for_url:)
+        @exception = exception
+        @error_class = exception.class.name
+        @for_url = for_url
+      end
 
-        # get status code and corresponding message from Rails
-        # (these fall back to 500/'Internal Server Error' if nothing is specified):
-        @status_code = ActionDispatch::ExceptionWrapper
-                        .new(Rails.env, exception).status_code
-        @message = ActionDispatch::ExceptionWrapper
-                    .rescue_responses[error_class].to_s.titleize
+      attr_reader :for_url
 
-        # get some details about the exception, with cleaned up backtrace paths:
-        @details = ["#{error_class}:\n#{exception.try(:message)}",
-                    exception.try(:cause),
-                    exception.try(:backtrace).try(:first, 3)]
-        @details = clean_up_trace(details.flatten.uniq)
+      # get status code and corresponding message from Rails
+      # (these fall back to 500/'Internal Server Error' if nothing is specified):
+      def status_code
+        ActionDispatch::ExceptionWrapper.new(Rails.env, @exception).status_code
+      end
+
+      def message
+        ActionDispatch::ExceptionWrapper
+          .rescue_responses[@error_class].to_s.titleize
+      end
+
+      # get some details about the exception, with cleaned up backtrace paths:
+      def details
+        details = [
+          "#{@error_class}:\n#{@exception.try(:message)}",
+          @exception.try(:cause),
+          @exception.try(:backtrace).try(:first, 3)]
+        clean_up_trace(details.flatten.uniq)
+      end
+
+      # optional data attached to error class (can be a Presenter)
+
+      def data
+        @exception.class.data if @exception.class.respond_to?(:data)
       end
 
       private

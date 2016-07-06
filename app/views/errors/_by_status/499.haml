@@ -1,0 +1,25 @@
+- fail unless @get.try(:data).try(:type) == 'UsageTerms'
+- usage_term = @get.data
+
+- content_for(:app_body) do
+  .modal.hide.fade.ui-modal.wide.crucial.in{"aria-hidden" => "false", :role => "dialog", :style => "display: block;", :tabindex => "-1", :data => {"backdrop" => "static", "keyboard" => "false"}}
+    %form{:action => usage_term.actions[:accept][:url], :method => usage_term.actions[:accept][:method]}
+      = token_tag
+      %input{type: :hidden, name: 'usage_term_id', value: usage_term.uuid}
+      %input{type: :hidden, name: 'return_to', value: @get.for_url}
+      .ui-modal-head
+        %h3.title-l= usage_term.title
+        %h4.title-s= usage_term.version
+      .ui-modal-toolbar.top
+        .ui-alert.warning= usage_term.intro
+      .ui-modal-body
+        != usage_term.body
+        .pbm
+      .ui-modal-footer
+        .ui-actions
+          -# %a.link.weak{:href => 'usage_terms_reject_user_path(current_user)'}
+          -#   = t(:usage_terms_reject_btn)
+          %button.primary-button{:type => "submit"}
+            = t(:usage_terms_accept_btn)
+
+  .modal-backdrop.fade.in

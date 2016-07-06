@@ -37,7 +37,7 @@ module Presenters
             groups: my_dashboard_section_path(:groups)
           },
           admin: admin_menu,
-          sign_out_action: { url: '/session/sign_out', method: 'POST' }
+          sign_out_action: { url: sign_out_path, method: 'POST' }
         }
       end
 
