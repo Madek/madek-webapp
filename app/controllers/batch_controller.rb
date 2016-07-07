@@ -5,5 +5,6 @@ class BatchController < ApplicationController
   include Concerns::UserScopes::MediaResources
 
   include Modules::Batch::BatchAddToSet
+  include Modules::Batch::BatchRemoveFromSet
 
 end

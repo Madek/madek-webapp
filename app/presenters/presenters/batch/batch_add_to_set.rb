@@ -6,10 +6,9 @@ module Presenters
       attr_accessor :search_term
       attr_accessor :return_to
 
-      def initialize(user, media_entry_ids, resources, search_term, return_to)
+      def initialize(user, media_entry_ids, search_term, return_to)
         @user = user
         @media_entry_ids = media_entry_ids
-        @resources = resources
         @search_results = []
         @search_term = search_term
         @return_to = return_to

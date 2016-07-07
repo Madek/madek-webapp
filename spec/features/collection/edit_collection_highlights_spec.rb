@@ -12,7 +12,8 @@ feature 'Collection: Edit Highlights' do
       prepare_data
       login
       open_dialog
-      rows = get_table_rows(5)
+      # rows = get_table_rows(5)
+      rows = get_table_rows(4)
 
       # The order is defined in:
       # Presenters::Shared::MediaResource::MediaResources
@@ -21,7 +22,7 @@ feature 'Collection: Edit Highlights' do
       check_row(rows, @media_entry2, false)
       check_row(rows, @media_entry3, false)
       check_row(rows, @collection1, false)
-      check_row(rows, @filter_set1, false)
+      # check_row(rows, @filter_set1, false)
       expect(@collection.highlighted_media_entries.length).to eq(0)
     end
 
@@ -29,35 +30,37 @@ feature 'Collection: Edit Highlights' do
       prepare_data
       login
       open_dialog
-      rows = get_table_rows(5)
+      # rows = get_table_rows(5)
+      rows = get_table_rows(4)
       check_row(rows, @media_entry1, false)
       check_row(rows, @media_entry2, false)
       check_row(rows, @media_entry3, false)
       check_row(rows, @collection1, false)
-      check_row(rows, @filter_set1, false)
+      # check_row(rows, @filter_set1, false)
       expect(@collection.highlighted_media_entries.length).to eq(0)
 
       click_row(rows, @media_entry2)
       click_row(rows, @collection1)
-      click_row(rows, @filter_set1)
+      # click_row(rows, @filter_set1)
 
       click_save
       @collection = Collection.find(@collection.id)
       check_media_entries([@media_entry2])
       check_collections([@collection1])
-      check_filter_sets([@filter_set1])
+      # check_filter_sets([@filter_set1])
 
       open_dialog
-      rows = get_table_rows(5)
+      # rows = get_table_rows(5)
+      rows = get_table_rows(4)
       check_row(rows, @media_entry1, false)
       check_row(rows, @media_entry2, true)
       check_row(rows, @media_entry3, false)
       check_row(rows, @collection1, true)
-      check_row(rows, @filter_set1, true)
+      # check_row(rows, @filter_set1, true)
 
       click_row(rows, @media_entry2)
       click_row(rows, @collection1)
-      click_row(rows, @filter_set1)
+      # click_row(rows, @filter_set1)
 
       click_save
       @collection = Collection.find(@collection.id)
@@ -147,13 +150,13 @@ feature 'Collection: Edit Highlights' do
     @media_entry2 = create_media_entry('MediaEntry2')
     @media_entry3 = create_media_entry('MediaEntry3')
     @collection1 = create_collection('Collection1')
-    @filter_set1 = create_filter_set('FilterSet1')
+    # @filter_set1 = create_filter_set('FilterSet1')
     @collection = create_collection('Collection')
     @collection.media_entries << @media_entry1
     @collection.media_entries << @media_entry2
     @collection.media_entries << @media_entry3
     @collection.collections << @collection1
-    @collection.filter_sets << @filter_set1
+    # @collection.filter_sets << @filter_set1
   end
 
 end

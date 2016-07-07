@@ -6,7 +6,7 @@ RailsResource = require('./rails-resource-mixin.coffee')
 
 # Base class for Restful Application Resources
 module.exports = Model.extend RailsResource,
-  type: 'AppResourceBase'
+  type: 'AppResource'
   idAttribute: 'url'
   typeAttribute: 'type' # see presenter{.rb,s/shared/app_resource.rb}
   props:

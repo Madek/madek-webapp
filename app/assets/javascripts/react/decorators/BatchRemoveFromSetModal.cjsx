@@ -12,13 +12,13 @@ batchDiff = require('../../lib/batch-diff.coffee')
 BatchHintBox = require('./BatchHintBox.cjsx')
 ResourcesBatchBox = require('./ResourcesBatchBox.cjsx')
 
-BatchAddToSet = require('./BatchAddToSet.cjsx')
+BatchRemoveFromSet = require('./BatchRemoveFromSet.cjsx')
 AsyncModal = require('../views/Collection/AsyncModal.cjsx')
 setUrlParams = require('../../lib/set-params-for-url.coffee')
 
 
 module.exports = React.createClass
-  displayName: 'BatchAddToSetModal'
+  displayName: 'BatchRemoveFromSetModal'
 
   getInitialState: () -> {
     mounted: false
@@ -27,16 +27,16 @@ module.exports = React.createClass
   componentWillMount: () ->
 
   _contentForGet: (get) ->
-    <BatchAddToSet returnTo={@props.returnTo}
+    <BatchRemoveFromSet returnTo={@props.returnTo}
       get={get} async={true} authToken={@props.authToken} onClose={@props.onClose} />
 
   _extractGet: (json) ->
     json
 
   render: ({authToken, get} = @props) ->
-    getUrl = setUrlParams('/batch_select_add_to_set', {
-      search_term: '',
-      media_entry_id: @props.mediaEntryIds
+    getUrl = setUrlParams('/batch_ask_remove_from_set', {
+      parent_collection_id: @props.collectionUuid
+      resource_id: @props.resourceIds
       return_to: @props.returnTo
     })
     <AsyncModal get={get} getUrl={getUrl}

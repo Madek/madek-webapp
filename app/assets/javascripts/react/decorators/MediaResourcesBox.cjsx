@@ -21,6 +21,9 @@ MediaEntriesCollection = require('../../models/media-entries.coffee')
 xhr = require('xhr')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 BatchAddToSetModal = require('./BatchAddToSetModal.cjsx')
+BatchRemoveFromSetModal = require('./BatchRemoveFromSetModal.cjsx')
+
+CollectionChildren = require('../../models/collection-children.coffee')
 
 
 # Props/Config overview:
@@ -101,12 +104,21 @@ module.exports = React.createClass
     [f.get(@props, ['get', 'resources'])]
 
   # kick of client-side mode:
-  getInitialState: ()-> {isClient: false, config: {}, batchAddToSet: false}
+  getInitialState: ()-> {
+    isClient: false,
+    config: {},
+    batchAddToSet: false,
+    batchRemoveFromSet: false
+  }
 
   componentWillMount: ()->
     # FIXME: only implemented for MediaEntries!
     # init resources as collection:
-    if @props.get.type is 'MediaEntries'
+
+    if @props.get.type is 'MediaResources'
+      resources = (new CollectionChildren(@props.get.resources))
+
+    else if @props.get.type is 'MediaEntries'
       resources = if @props.get.resources.isCollection
         @props.get.resources
       else
@@ -121,12 +133,18 @@ module.exports = React.createClass
     # start the router (also immediatly calls listener(s) once if already attached!)
     router.start()
 
+
     # selection status is managed in ampersand-collection
-    if @props.get.type is 'MediaEntries'
+    if @props.get.type is 'MediaResources'
+      selection = new CollectionChildren()
+    else if @props.get.type is 'MediaEntries'
       selection = new MediaEntriesCollection()
+
+    if selection
       # set up auto-update for it:
       f.each ['add', 'remove', 'reset', 'change'], (eventName)=>
         selection.on(eventName, ()=> @forceUpdate() if @isMounted())
+
     @setState(isClient: true, selectedResources: selection)
 
   componentWillUnmount: ()->
@@ -186,12 +204,15 @@ module.exports = React.createClass
     if(!@state.selectedResources || @state.selectedResources.isEmpty()) then return
     @setState(higlightBatchEditable: bool)
 
+  _currentUrl: () ->
+    setUrlParams(
+      @props.get.config.for_url, {list: f.omit(@state.config, 'for_url')})
+
+
   _onBatchEdit: (event)->
     event.preventDefault()
     selected = f.map(@state.selectedResources.getBatchEditableItems(), 'uuid')
-    currentUrl = setUrlParams(
-      @props.get.config.for_url, {list: f.omit(@state.config, 'for_url')})
-    batchEditUrl = setUrlParams('/entries/batch_edit_context_meta_data', {id: selected, return_to: currentUrl})
+    batchEditUrl = setUrlParams('/entries/batch_edit_context_meta_data', {id: selected, return_to: @_currentUrl()})
     window.location = batchEditUrl # SYNC!
 
   _batchAddToSetIds: () ->
@@ -203,8 +224,22 @@ module.exports = React.createClass
     @setState(batchAddToSet: true)
     return false
 
+  _batchRemoveFromSetIds: () ->
+    f.map(@state.selectedResources.serialize(), (resource) ->
+      {
+        uuid: resource.uuid
+        type: resource.type
+      }
+    )
+
+  _onBatchRemoveFromSet: (event)->
+    event.preventDefault()
+    @setState(batchRemoveFromSet: true)
+    return false
+
   _onCloseModal: () ->
     @setState(batchAddToSet: false)
+    @setState(batchRemoveFromSet: false)
 
   _onCreateFilterSet: (config, event)->
     event.preventDefault()
@@ -303,8 +338,6 @@ module.exports = React.createClass
       {filter, layout, for_url} = config
       totalCount = f.get(get, 'pagination.total_count')
       isClient = @state.isClient
-      if get.type is 'MediaEntries'
-        selection = f.presence(@state.selectedResources) or false
 
       layouts = LAYOUT_MODES.map (itm)=>
         href = setUrlParams(for_url, currentQuery, list: layout: itm.mode)
@@ -342,6 +375,9 @@ module.exports = React.createClass
         save: if isClient and saveable
           click: (if f.present(config.filter) then f.curry(@_onCreateFilterSet)(config))
 
+        removeFromSet: if selection && f.present(@props.collectionUuid) && (get.type is 'MediaEntries' || get.type is 'MediaResources')
+          click: (if f.present(selection) then @_onBatchRemoveFromSet)
+
         # TODO: batch delete
         # delete: ->
         #   click: alert('not implemented!')
@@ -360,6 +396,16 @@ module.exports = React.createClass
                     {selection.length}
                   </span> {t('resources_box_batch_actions_addtoset')}</Link>
               </li>}
+
+            {if actions.removeFromSet
+              <li className="ui-drop-item">
+                <Link onClick={actions.removeFromSet.click}>
+                  <Icon i="close" mods="ui-drop-icon"
+                  /> <span className="ui-count">
+                    {selection.length}
+                  </span> {t('resources_box_batch_actions_removefromset')}</Link>
+              </li>
+            }
 
             {if actions.edit
               <li className="ui-drop-item">
@@ -548,6 +594,12 @@ module.exports = React.createClass
       {
         if @state.batchAddToSet
           <BatchAddToSetModal mediaEntryIds={@_batchAddToSetIds()} authToken={@props.authToken}
+            get={null} onClose={@_onCloseModal} returnTo={@state.config.for_url.path}/>
+      }
+      {
+        if @state.batchRemoveFromSet
+          <BatchRemoveFromSetModal collectionUuid={@props.collectionUuid}
+            resourceIds={@_batchRemoveFromSetIds()} authToken={@props.authToken}
             get={null} onClose={@_onCloseModal} returnTo={@state.config.for_url.path}/>
       }
 

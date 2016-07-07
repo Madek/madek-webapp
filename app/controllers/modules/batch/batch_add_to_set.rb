@@ -19,7 +19,6 @@ module Modules
         @get = Presenters::Batch::BatchAddToSet.new(
           current_user,
           media_entry_ids,
-          media_entries,
           search_term,
           return_to
         )
@@ -40,12 +39,11 @@ module Modules
         media_entries = MediaEntry.unscoped.where(id: media_entry_ids)
         authorize_media_entries_for_view!(current_user, media_entries)
 
-        existing = collection.media_entries
-        no_duplicates = media_entries.reject do |media_entry|
-          existing.include? media_entry
-        end
-
         ActiveRecord::Base.transaction do
+          existing = collection.media_entries
+          no_duplicates = media_entries.reject do |media_entry|
+            existing.include? media_entry
+          end
           collection.media_entries << no_duplicates
         end
 

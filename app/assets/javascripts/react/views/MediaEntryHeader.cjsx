@@ -49,9 +49,7 @@ module.exports = React.createClass
       {
         if @state.showModal
           if @state.modalAction == 'select_collection'
-            console.log('GET URL = ' + get.url)
             getUrl = get.url + '/select_collection?___sparse={"header":{"collection_selection":{}}}'
-            console.log('GET . COLLECTION_SELECTION = ' + get.collection_selection)
             <AsyncModal get={get.collection_selection} getUrl={getUrl}
               contentForGet={@_contentForGet} extractGet={@_extractGet} />
           else
