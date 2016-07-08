@@ -90,9 +90,29 @@ describe My::DashboardController do
       .each { |fs| fs.favor_by @user }
 
     # make keywords and use them in a meta_datum
-    @keyword_1 = FactoryGirl.create :keyword, creator: @user
-    @keyword_2 = FactoryGirl.create :keyword, creator: @user
-    @keyword_3 = FactoryGirl.create :keyword, creator: @user
+    unless MetaKey.find_by_id('madek_core:keywords')
+      with_disabled_triggers do
+        FactoryGirl.create(:meta_key,
+                           id: 'madek_core:keywords',
+                           meta_datum_object_type: 'MetaDatum::Keywords')
+      end
+    end
+    @keyword_1 = FactoryGirl.create(:keyword,
+                                    meta_key_id: 'madek_core:keywords',
+                                    creator: @user)
+    @keyword_2 = FactoryGirl.create(:keyword,
+                                    meta_key_id: 'madek_core:keywords',
+                                    creator: @user)
+    @keyword_3 = FactoryGirl.create(:keyword,
+                                    meta_key_id: 'madek_core:keywords',
+                                    creator: @user)
+
+    unless MetaKey.find_by_id('test:keywords')
+      FactoryGirl.create(:meta_key_keywords)
+    end
+
+    FactoryGirl.create(:keyword, meta_key_id: 'test:keywords', creator: @user)
+
     create(:meta_datum_keyword,
            created_by: @user,
            created_at: Date.today,
@@ -101,6 +121,10 @@ describe My::DashboardController do
            created_at: Date.yesterday,
            created_by: @user,
            keyword: @keyword_2)
+    create(:meta_datum_keyword,
+           created_at: Date.today - 1.week,
+           created_by: @user,
+           keyword: @keyword_3)
     create(:meta_datum_keyword,
            created_at: Date.today - 1.week,
            created_by: @user,

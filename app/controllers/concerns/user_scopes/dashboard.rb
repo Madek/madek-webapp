@@ -31,7 +31,7 @@ module Concerns
           user_groups: \
             user.groups,
           used_keywords: \
-            user.used_keywords
+            user.used_keywords.where(meta_keys: { id: 'madek_core:keywords' })
       end
       # rubocop:enable Metrics/MethodLength
 
