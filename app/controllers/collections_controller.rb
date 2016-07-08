@@ -71,19 +71,26 @@ class CollectionsController < ApplicationController
   end
 
   def ask_delete
-    initialize_presenter(
+    authorize_and_respond_with_presenter_and_template(
       'Presenters::Collections::CollectionAskDelete',
       'collections/ask_delete')
   end
 
+  def cover
+    collection = Collection.find(id_param)
+    authorize collection
+    path = CollectionThumbUrl.new(collection, current_user).get(size: size_param)
+    redirect_to path
+  end
+
   def edit_cover
-    initialize_presenter(
+    authorize_and_respond_with_presenter_and_template(
       'Presenters::Collections::CollectionEditCover',
       'collections/edit_cover')
   end
 
   def edit_highlights
-    initialize_presenter(
+    authorize_and_respond_with_presenter_and_template(
       'Presenters::Collections::CollectionEditHighlights',
       'collections/edit_highlights')
   end
@@ -109,7 +116,7 @@ class CollectionsController < ApplicationController
 
   private
 
-  def initialize_presenter(name, template)
+  def authorize_and_respond_with_presenter_and_template(name, template)
     collection = Collection.find(params[:id])
     authorize collection
 
@@ -138,5 +145,9 @@ class CollectionsController < ApplicationController
       meta_key: meta_key,
       created_by: current_user)
     collection
+  end
+
+  def size_param
+    params.require(:size).to_sym
   end
 end

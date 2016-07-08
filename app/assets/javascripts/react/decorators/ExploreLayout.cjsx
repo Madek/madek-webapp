@@ -49,13 +49,13 @@ module.exports = React.createClass
 
 CollageLoggedIn = React.createClass
   displayName: 'CollageLoggedIn'
-  render: ({resources} = @props)->
+  render: ({authToken, resources} = @props)->
     <div className="ui-collage ui-container rounded-top-right" id="teaser-set">
       {f.map f.chunk(f.slice(resources, 0, 10), 5), (chunk, row) ->
         <div key={'row_' + row} className="ui-collage-row">
           {f.map chunk, (resource) ->
             <PrettyThumbs key={resource.uuid} label={resource.title} author={resource.authors_pretty}
-              imageUrl={resource.image_url} hrefUrl={resource.url} />
+              imageUrl={resource.image_url} hrefUrl={resource.url} authToken={authToken} />
           }
         </div>
       }

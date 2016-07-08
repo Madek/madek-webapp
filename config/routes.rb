@@ -60,6 +60,7 @@ Madek::Application.routes.draw do
       get 'permissions/edit', action: :permissions_edit, as: 'edit_permissions'
       put 'permissions', action: :permissions_update
       get 'highlights/edit', action: :edit_highlights
+      get 'cover', action: :cover, as: :cover
       get 'cover/edit', action: :edit_cover
       put :update_cover
       put :update_highlights

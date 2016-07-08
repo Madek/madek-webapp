@@ -3,6 +3,8 @@ module Presenters
     module Modules
       module ExploreKeywordsSection
 
+        private
+
         def keywords_section
           unless keywords.blank?
             { type: 'keyword',
@@ -11,14 +13,12 @@ module Presenters
           end
         end
 
-        private
-
         def keywords_overview
           {
             title: 'Häufige Schlagworte',
             url: '/explore/keywords',
 
-            list: keywords.map do |keyword|
+            list: keywords.with_usage_count.map do |keyword|
               {
                 url: prepend_url_context('/explore/catalog/madek_core:keywords'),
                 keyword: \

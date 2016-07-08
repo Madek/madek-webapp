@@ -30,6 +30,7 @@ class CollectionPolicy < Shared::MediaResources::MediaResourcePolicy
   alias_method :relations?, :show?
   alias_method :more_data?, :show?
   alias_method :permissions_show?, :show?
+  alias_method :cover?, :show?
 
   alias_method :edit_meta_data?, :update?
   alias_method :edit_context_meta_data?, :update?

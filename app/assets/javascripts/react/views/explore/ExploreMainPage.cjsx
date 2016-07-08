@@ -18,11 +18,11 @@ module.exports = React.createClass
 
       f.map get.sections, (section, m) ->
         <ResourcesSection key={'section_' + m} label={section.data.title}
-          hrefUrl={section.data.url} showAllLink={section.show_all_link} section={section} />
+          hrefUrl={section.data.url} showAllLink={section.show_all_link} section={section} authToken={authToken} />
 
 
     menu =
-      <ExploreMenu>
+      <ExploreMenu authToken={authToken} >
         {f.map get.nav, (section) ->
           <ExploreMenuSection key={section.url} label={section.title} hrefUrl={section.url} active={section.active}>
             {f.map section.children, (entry) ->
@@ -33,4 +33,4 @@ module.exports = React.createClass
       </ExploreMenu>
 
     <ExploreLayout {...@props} pageTitle={get.page_title} menu={menu} sections={resourcesSections}
-      collageResources={get.teaser_entries?.resources} />
+      collageResources={get.teaser_entries} authToken={authToken} />

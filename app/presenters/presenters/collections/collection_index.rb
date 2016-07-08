@@ -3,9 +3,10 @@ module Presenters
     class CollectionIndex < Presenters::Shared::MediaResource::MediaResourceIndex
       include Presenters::Collections::Modules::CollectionCommon
 
-      def initialize(app_resource, user, list_conf: nil)
+      def initialize(app_resource, user, list_conf: nil, async_cover: false)
         super(app_resource, user)
         @list_conf = list_conf
+        @async_cover = async_cover
       end
 
       private

@@ -3,6 +3,8 @@ module Presenters
     module Modules
       module ExploreFeaturedContentSection
 
+        private
+
         def featured_set_section
           unless featured_set_content.blank?
             { type: 'thumbnail',
@@ -11,15 +13,15 @@ module Presenters
           end
         end
 
-        private
-
         def featured_set_overview # list of Collections
           {
             title: @featured_set_title,
             url: '/explore/featured_set',
             list: Presenters::Shared::MediaResource::IndexResources.new(
               @user,
-              featured_set_content.limit(@limit_featured_set))
+              featured_set_content,
+              async_cover: true
+            )
           }
         end
       end

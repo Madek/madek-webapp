@@ -3,13 +3,13 @@ module Presenters
     module Modules
       module ExploreCatalogSection
 
+        private
+
         def catalog_section
           unless catalog_context_keys.blank?
             { type: 'catalog', data: catalog_overview, show_all_link: true }
           end
         end
-
-        private
 
         def catalog_overview
           {

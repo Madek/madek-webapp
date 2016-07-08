@@ -14,7 +14,7 @@ module Presenters
           @catalog_context_keys ||= ContextKey.where(
             context_id: 'upload',
             meta_key_id: @settings.catalog_context_keys
-          )
+          ).limit(@limit_catalog_context_keys)
         end
 
         def featured_set_content
@@ -30,6 +30,7 @@ module Presenters
               ::Shared::MediaResources::MediaResourcePolicy::Scope.new(
                 @user, set.child_media_resources)
               .resolve
+              .limit(@limit_featured_set)
             end
         end
 
@@ -38,7 +39,6 @@ module Presenters
             MetaKey
             .find_by(id: 'madek_core:keywords')
             .try(:keywords)
-            .try(:with_usage_count)
             .try(:limit, @limit_keywords)
         end
 

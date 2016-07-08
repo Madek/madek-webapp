@@ -7,7 +7,7 @@ ResourceThumbnail = require('../../../decorators/ResourceThumbnail.cjsx')
 
 module.exports = React.createClass
   displayName: 'ResourcesSection'
-  render: ({label, hrefUrl, showAllLink, section} = @props)->
+  render: ({label, hrefUrl, showAllLink, section, authToken} = @props)->
     <div className="ui-resources-holder pal" id="catalog">
       <div className="ui-resources-header">
         <h2 className="title-l ui-resource-title">
@@ -27,7 +27,7 @@ module.exports = React.createClass
                 description={resource.description} imageUrl={resource.image_url} hrefUrl={resource.url} />
           else if section.type == 'thumbnail'
             f.map section.data.list.resources, (resource, n) ->
-              <ResourceThumbnail key={'key_' + n} elm='div' get={resource} />
+              <ResourceThumbnail key={'key_' + n} elm='div' get={resource} authToken={authToken} />
           else if section.type == 'keyword'
             f.map section.data.list, (resource, n) ->
               <Keyword key={'key_' + n} label={resource.keyword.label}
