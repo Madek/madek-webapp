@@ -58,6 +58,23 @@ module.exports = React.createClass
   componentDidMount: () ->
     @setState(javascript: true)
 
+
+
+  componentWillMount: () ->
+    f.each(@props.current.meta_data, (meta_datum) =>
+      f.each(@props.dynamic, (section) =>
+        f.each(section.children, (subSection) =>
+          f.each(subSection.children, (filter) =>
+            if filter.uuid == meta_datum.value
+              @getAccordionSection(section.uuid).isOpen = true
+              @getAccordionSubSection(section.uuid, subSection.uuid).isOpen = true
+          )
+        )
+      )
+    )
+    @setState(accordion: @state.accordion)
+
+
   render: ({dynamic, current, accordion} = @props)->
     # TMP: ignore invalid dynamicFilters
     if !(f.isArray(dynamic) and f.present(f.isArray(dynamic)))
