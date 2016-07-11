@@ -4,6 +4,7 @@ module Modules
       extend ActiveSupport::Concern
 
       include Modules::Resources::MetaDataUpdate
+      include Modules::Batch::BatchAutoPublish
 
       def batch_edit_context_meta_data
         authorize MediaEntry, :logged_in?
@@ -39,7 +40,11 @@ module Modules
         errors = batch_update_transaction!(entries, meta_data_params)
 
         if errors.empty?
-          batch_respond_success('success', 'meta_data_batch_success', return_to)
+
+          stats = batch_publish_transaction!(entries.reload)
+
+          flash_message = flash_message_by_stats(stats)
+          batch_respond_success('success', flash_message, return_to)
         else
           render json: { errors: errors }, status: :bad_request
         end
@@ -55,8 +60,8 @@ module Modules
         parameters.require(:return_to)
       end
 
-      def batch_respond_success(type, text_key, return_to)
-        flash[type] = I18n.t(text_key)
+      def batch_respond_success(type, flash_message, return_to)
+        flash[type] = flash_message.html_safe
         respond_to do |format|
           format.json { render(json: { forward_url: return_to }) }
           format.html { redirect_to(return_to) }
