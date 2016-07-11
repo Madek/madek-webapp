@@ -3,6 +3,8 @@ module Modules
     module MetaDataUpdate
       extend ActiveSupport::Concern
 
+      include Modules::Batch::BatchAutoPublish
+
       # TODO: extract more from {MediaEntries,Collections}MetaDataUpdate
 
       def edit_meta_data
@@ -23,14 +25,16 @@ module Modules
         errors = update_all_meta_data_transaction!(resource, meta_data_params)
 
         if errors.empty?
-
           published_before = published_state(resource)
-          if params[:actionType] == 'publish'
-            ActiveRecord::Base.transaction do
-              resource.is_published = true
-              resource.save!
-            end
+          if resource.class == MediaEntry
+            execute_publish([resource])
           end
+          # if params[:actionType] == 'publish'
+          #   ActiveRecord::Base.transaction do
+          #     resource.is_published = true
+          #     resource.save!
+          #   end
+          # end
           published_after = published_state(resource)
 
           determine_respond_success(resource, published_before, published_after)

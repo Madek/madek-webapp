@@ -114,19 +114,27 @@ def save_second_time(async)
 
   expect(current_path).to eq(media_entry_path(@resource))
 
-  if async
-    expect(page).to have_content(
-      I18n.t(:meta_data_edit_media_entry_published))
-  else
-    expect(page).to have_content(
-      I18n.t(:meta_data_edit_media_entry_saved_missing))
-  end
+  # if async
+  #   expect(page).to have_content(
+  #     I18n.t(:meta_data_edit_media_entry_published))
+  # else
+  #   expect(page).to have_content(
+  #     I18n.t(:meta_data_edit_media_entry_saved_missing))
+  # end
+  expect(page).to have_content(
+    I18n.t(:meta_data_edit_media_entry_published))
 
+  # if async
+  #   expect(@resource.reload.is_published).to eq(true)
+  #   expect(@resource.reload.meta_data.length).to eq(5)
+  # else
+  #   expect(@resource.reload.is_published).to eq(false)
+  #   expect(@resource.reload.meta_data.length).to eq(2)
+  # end
+  expect(@resource.reload.is_published).to eq(true)
   if async
-    expect(@resource.reload.is_published).to eq(true)
     expect(@resource.reload.meta_data.length).to eq(5)
   else
-    expect(@resource.reload.is_published).to eq(false)
     expect(@resource.reload.meta_data.length).to eq(2)
   end
 end
@@ -152,13 +160,15 @@ def save_third_time(async)
 
   expect(current_path).to eq(media_entry_path(@resource))
 
-  if async
-    expect(page).to have_content(
-      I18n.t(:meta_data_edit_media_entry_saved))
-  else
-    expect(page).to have_content(
-      I18n.t(:meta_data_edit_media_entry_saved_missing))
-  end
+  # if async
+  #   expect(page).to have_content(
+  #     I18n.t(:meta_data_edit_media_entry_saved))
+  # else
+  #   expect(page).to have_content(
+  #     I18n.t(:meta_data_edit_media_entry_saved_missing))
+  # end
+  expect(page).to have_content(
+    I18n.t(:meta_data_edit_media_entry_saved))
 end
 
 def direct_open_context(context, async, switch_to)
