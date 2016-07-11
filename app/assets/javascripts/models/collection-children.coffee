@@ -22,6 +22,9 @@ CollectionChildren = AppCollection.extend
   getBatchEditableItems: () ->
     @filter (item) -> item.isBatchEditable
 
+  getBatchPermissionEditableItems: ()->
+    @filter (item)-> item.permissions_editable
+
 
 CollectionChildren.Paginated = PaginatedCollection(
   CollectionChildren, jsonPath: 'relations.child_media_resources.resources')

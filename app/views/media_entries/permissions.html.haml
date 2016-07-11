@@ -1,5 +1,5 @@
 :ruby
   props = { get: @get.permissions }
-  content_for(:overview) { react('Deco.ResourcePermissions', props) }
+  content_for(:overview) { react('Views.MediaEntry.MediaEntryPermissions', props) }
 
 = render template: 'media_entries/_show/_base'

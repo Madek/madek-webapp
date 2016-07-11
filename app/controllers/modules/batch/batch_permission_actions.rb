@@ -25,7 +25,7 @@ module Modules
                                 :edit_metadata_and_relations],
                         api_client: [:get_metadata_and_previews,
                                      :edit_metadata_and_relations],
-                        public: [:get_metadata_and_previews] } }
+                        public: [:get_metadata_and_previews] } }.freeze
 
       def batch_edit_entry_permissions
         batch_edit_resource_permissions(MediaEntry.unscoped)
@@ -139,28 +139,26 @@ module Modules
         user_permissions.each do |p_data|
           sanitized_attributes = \
             sanitize_attributes p_data, resource.class, :user
-          unless sanitized_attributes.empty?
-            p = \
-              resource
-              .user_permissions
-              .find_or_create_by! user_id: p_data[:subject]
-            p.update_attributes! sanitized_attributes
-          end
+          next if sanitized_attributes.empty?
+          p = \
+            resource
+            .user_permissions
+            .find_or_create_by! user_id: p_data[:subject]
+          p.update_attributes! sanitized_attributes
         end
       end
 
       def create_or_update_group_permissions_for_resource!(resource,
-                                                          group_permissions)
+                                                           group_permissions)
         group_permissions.each do |p_data|
           sanitized_attributes = \
             sanitize_attributes p_data, resource.class, :group
-          unless sanitized_attributes.empty?
-            p = \
-              resource
-              .group_permissions
-              .find_or_create_by! group_id: p_data[:subject]
-            p.update_attributes! sanitized_attributes
-          end
+          next if sanitized_attributes.empty?
+          p = \
+            resource
+            .group_permissions
+            .find_or_create_by! group_id: p_data[:subject]
+          p.update_attributes! sanitized_attributes
         end
       end
 
@@ -170,13 +168,12 @@ module Modules
         api_client_permissions.each do |p_data|
           sanitized_attributes = \
             sanitize_attributes p_data, resource.class, :api_client
-          unless sanitized_attributes.empty?
-            p = \
-              resource
-              .api_client_permissions
-              .find_or_create_by! api_client_id: p_data[:subject]
-            p.update_attributes! sanitized_attributes
-          end
+          next if sanitized_attributes.empty?
+          p = \
+            resource
+            .api_client_permissions
+            .find_or_create_by! api_client_id: p_data[:subject]
+          p.update_attributes! sanitized_attributes
         end
       end
 

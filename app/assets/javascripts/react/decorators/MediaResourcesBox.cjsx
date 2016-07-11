@@ -239,6 +239,10 @@ module.exports = React.createClass
     if(!@state.selectedResources || @state.selectedResources.isEmpty()) then return
     @setState(higlightBatchEditable: bool)
 
+  _onHiglightPermissionsEditable: (bool, event)->
+    if(!@state.selectedResources || @state.selectedResources.isEmpty()) then return
+    @setState(higlightBatchPermissionsEditable: bool)
+
   _currentUrl: () ->
     setUrlParams(@props.get.config.for_url)
 
@@ -246,6 +250,12 @@ module.exports = React.createClass
     event.preventDefault()
     selected = f.map(@state.selectedResources.getBatchEditableItems(), 'uuid')
     batchEditUrl = setUrlParams('/entries/batch_edit_context_meta_data', {id: selected, return_to: @_currentUrl()})
+    window.location = batchEditUrl # SYNC!
+
+  _onBatchPermissionsEdit: (event)->
+    event.preventDefault()
+    selected = f.map(@state.selectedResources.getBatchPermissionEditableItems(), 'uuid')
+    batchEditUrl = setUrlParams('/entries/batch_edit_permissions', {id: selected, return_to: @_currentUrl()})
     window.location = batchEditUrl # SYNC!
 
   _batchAddToSetIds: () ->
@@ -393,8 +403,6 @@ module.exports = React.createClass
         mods={toolbarClasses}
         layouts={layouts}/>
 
-
-
     boxToolBar = () =>
       # NOTE: don't show the bar if not in a box!
       return false if !withBox
@@ -402,6 +410,7 @@ module.exports = React.createClass
       isClient = @state.isClient
       selection = f.presence(@state.selectedResources) or false
       batchEditables = selection.getBatchEditableItems() if selection
+      batchPermissionEditables = selection.getBatchPermissionEditableItems() if selection
       filterToggleLink = setUrlParams(config.for_url, currentQuery,
         list: show_filter: (not config.show_filter))
 
@@ -415,6 +424,11 @@ module.exports = React.createClass
           click: (if f.present(batchEditables) then @_onBatchEdit)
           hover: f.curry(@_onHiglightEditable)(true)
           unhover: f.curry(@_onHiglightEditable)(false)
+
+        managePermissions: if selection && (get.type is 'MediaEntries' || get.type is 'Collections')
+          click: (if f.present(batchPermissionEditables) then @_onBatchPermissionsEdit)
+          hover: f.curry(@_onHiglightPermissionsEditable)(true)
+          unhover: f.curry(@_onHiglightPermissionsEditable)(false)
 
         save: if isClient and saveable
           click: (if f.present(config.filter) then f.curry(@_onCreateFilterSet)(config))
@@ -458,6 +472,16 @@ module.exports = React.createClass
                   /> <span className="ui-count">
                     {batchEditables.length}
                   </span> {t('resources_box_batch_actions_edit')}
+                </Link>
+              </li>}
+
+            {if actions.managePermissions
+              <li className="ui-drop-item">
+                <Link onClick={actions.managePermissions.click}>
+                  <Icon i="lock" mods="ui-drop-icon"
+                  /> <span className="ui-count">
+                    {batchEditables.length}
+                  </span> {t('resources_box_batch_actions_managepermissions')}
                 </Link>
               </li>}
 
@@ -639,8 +663,8 @@ module.exports = React.createClass
                             onClick = if config.layout == 'miniature'
                               (if !selection.isEmpty() then onSelect)
                             # when hightlighting editables, we just dim everything else:
-                            style = if @state.higlightBatchEditable
-                              if (!item.isBatchEditable)
+                            style = if @state.higlightBatchEditable and (!item.isBatchEditable) \
+                              or @state.higlightPermissionsBatchEditable and (!item.isBatchPermissionsEditable)
                                 {opacity: 0.35}
 
                         # TODO: get={model}

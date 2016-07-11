@@ -10,7 +10,6 @@ ResourceThumbnail = require('./ResourceThumbnail.cjsx')
 Thumbnail = require('../ui-components/Thumbnail.cjsx')
 batchDiff = require('../../lib/batch-diff.coffee')
 BatchHintBox = require('./BatchHintBox.cjsx')
-ResourcesBatchBox = require('./ResourcesBatchBox.cjsx')
 
 BatchRemoveFromSet = require('./BatchRemoveFromSet.cjsx')
 AsyncModal = require('../views/Collection/AsyncModal.cjsx')

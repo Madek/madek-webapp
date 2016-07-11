@@ -27,6 +27,10 @@ module Presenters
           policy(@user).meta_data_update?
         end
 
+        def permissions_editable
+          policy(@user).permissions_edit?
+        end
+
         included do
           def url
             prepend_url_context collection_path @app_resource

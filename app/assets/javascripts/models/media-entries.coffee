@@ -10,6 +10,9 @@ MediaEntries = AppCollection.extend
   getBatchEditableItems: ()->
     @filter (item)-> item.isBatchEditable
 
+  getBatchPermissionEditableItems: ()->
+    res = @filter (item)-> item.permissions_editable
+
 MediaEntries.Paginated = PaginatedCollection(MediaEntries, jsonPath: 'resources')
 
 module.exports = MediaEntries

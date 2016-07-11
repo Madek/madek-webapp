@@ -322,7 +322,7 @@ module.exports = React.createClass
       </PageContentHeader>
 
       {if @props.batch
-        <ResourcesBatchBox get={get} authToken={authToken} />
+        <ResourcesBatchBox resources={get.resources.resources} authToken={authToken} />
       }
 
       <Tabs>

@@ -5,13 +5,14 @@ User = require('../user.coffee')
 Group = require('../group.coffee')
 ApiClient = require('../api-client.coffee')
 
-# Child Collections/Models (defined here because they are not needed anywhere else)
+# NOTE: 'trilean' type for usage in batch - can be true, false or mixed
 
+# Child Collections/Models (defined here because they are not needed anywhere else)
 MediaEntryPublicPermission = AppResource.extend
   type: 'MediaEntryPublicPermission'
   props:
-    get_metadata_and_previews: ['boolean']
-    get_full_size: ['boolean']
+    get_metadata_and_previews: ['trilean']
+    get_full_size: ['trilean']
 
 MediaEntryUserPermissions = Collection.extend
   model: AppResource.extend
@@ -19,10 +20,10 @@ MediaEntryUserPermissions = Collection.extend
     children:
       subject: User
     props:
-      get_metadata_and_previews: ['boolean', no, off]
-      get_full_size: ['boolean', no, off]
-      edit_metadata: ['boolean', no, off]
-      edit_permissions: ['boolean', no, off]
+      get_metadata_and_previews: ['trilean', no, off]
+      get_full_size: ['trilean', no, off]
+      edit_metadata: ['trilean', no, off]
+      edit_permissions: ['trilean', no, off]
 
 MediaEntryGroupPermissions = Collection.extend
   type: 'MediaEntryGroupPermissions'
@@ -31,9 +32,9 @@ MediaEntryGroupPermissions = Collection.extend
     children:
       subject: Group
     props:
-      get_metadata_and_previews: ['boolean', no, off]
-      get_full_size: ['boolean', no, off]
-      edit_metadata: ['boolean', no, off]
+      get_metadata_and_previews: ['trilean', no, off]
+      get_full_size: ['trilean', no, off]
+      edit_metadata: ['trilean', no, off]
 
 MediaEntryApiClientPermissions = Collection.extend
   type: 'MediaEntryApiClientPermissions'
@@ -42,9 +43,8 @@ MediaEntryApiClientPermissions = Collection.extend
     children:
       subject: ApiClient
     props:
-      get_metadata_and_previews: ['boolean', no, off]
-      get_full_size: ['boolean', no, off]
-
+      get_metadata_and_previews: ['trilean', no, off]
+      get_full_size: ['trilean', no, off]
 
 module.exports = ResourcePermissions.extend
   type: 'MediaEntryPermissions'
@@ -57,6 +57,6 @@ module.exports = ResourcePermissions.extend
     group_permissions: MediaEntryGroupPermissions
     api_client_permissions: MediaEntryApiClientPermissions
 
-  # custom serialize to match what rails expects
+  # custom serialize to match what rails expects — used on this.save()
   serialize: (data)->
     {media_entry: (AppResource::serialize.call @, data)}

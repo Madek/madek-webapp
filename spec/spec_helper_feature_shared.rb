@@ -38,7 +38,7 @@ def autocomplete_and_choose_first(node, text)
   # NOTE: mouse interaction does not work/is brittle and is manually tested!
 
   ac = node.find('.ui-autocomplete-holder')
-  input = ac.find('input')
+  input = node.find('.ui-autocomplete-holder input') # needs full selector!
   input.hover
   input.click
   puts 'send_keys'

@@ -36,6 +36,10 @@ module Presenters
           policy(@user).meta_data_update?
         end
 
+        def permissions_editable
+          policy(@user).permissions_edit?
+        end
+
         def invalid_meta_data
           # NOTE: this is needed to determine if batch editing is allowed
           # In general, we can check for drafts if publishing is possible;

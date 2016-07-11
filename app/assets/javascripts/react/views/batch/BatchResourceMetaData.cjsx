@@ -1,20 +1,16 @@
 React = require('react')
 f = require('active-lodash')
 cx = require('classnames')
-t = require('../../lib/string-translation')('de')
-setUrlParams = require('../../lib/set-params-for-url.coffee')
+setUrlParams = require('../../../lib/set-params-for-url.coffee')
+t = require('../../../lib/string-translation')('de')
 
-Button = require('../ui-components/Button.cjsx')
-Icon = require('../ui-components/Icon.cjsx')
-RailsForm = require('../lib/forms/rails-form.cjsx')
-MadekPropTypes = require('../lib/madek-prop-types.coffee')
-BatchHintBox = require('./BatchHintBox.cjsx')
-BatchResourceMetaDataForm = require('./BatchResourceMetaDataForm.cjsx')
-TabContent = require('../views/TabContent.cjsx')
-HeaderButton = require('../views/HeaderButton.cjsx')
-PageContent = require('../views/PageContent.cjsx')
-ResourcesBatchBox = require('./ResourcesBatchBox.cjsx')
-PageContentHeader = require('../views/PageContentHeader.cjsx')
+Button = require('../../ui-components/Button.cjsx')
+Icon = require('../../ui-components/Icon.cjsx')
+BatchResourceMetaDataForm = require('../../decorators/BatchResourceMetaDataForm.cjsx')
+ResourcesBatchBox = require('../../decorators/ResourcesBatchBox.cjsx')
+TabContent = require('../../views/TabContent.cjsx')
+PageContent = require('../../views/PageContent.cjsx')
+PageContentHeader = require('../../views/PageContentHeader.cjsx')
 
 module.exports = React.createClass
   displayName: 'BatchResourceMetaDataPage'
@@ -34,7 +30,7 @@ module.exports = React.createClass
         </Button>
       </PageContentHeader>
 
-      <ResourcesBatchBox get={get} authToken={authToken} />
+      <ResourcesBatchBox resources={get.resources.resources} authToken={authToken} />
 
       <TabContent>
         <div className="bright pal rounded-bottom rounded-top-right ui-container">

@@ -1,98 +1,33 @@
+# Permissions Form for single or batch resources
+
 React = require('react')
 f = require('active-lodash')
 t = require('../../lib/string-translation')('de') # TODO: select correct locale!
-url = require('url')
 ampersandReactMixin = require('ampersand-react-mixin')
 
 AutoComplete = 'div' # only required client-side!
 
-UserIndex = React.createClass
-  render: ()->
-    # TODO: current_user: <i className='current-user-icon icon-privacy-private'></i>#
-    <span>{@props.get.name}</span>
-
-GroupIndex = React.createClass
-  render: ()->
-    # TODO: group icon?
-    <span>{@props.get.name}</span>
-
-ApiClientIndex = React.createClass
-  render: ()-> <span>{@props.get.login}</span>
-
-
 # NOTE: used for static (server-side) rendering (state.editing = false)
 module.exports = React.createClass
-  displayName: 'RightsManagement'
+  displayName: 'ResourcePermissionsForm'
+  mixins: [ampersandReactMixin]
 
-  getInitialState: ()-> {editing: false}
+  getDefaultProps: ()->
+    children: null
+    onSubmit: ()-> # noop
 
   # this will only ever run on the client:
   componentDidMount: ()->
+    # init autocompletes, then force re-render:
     AutoComplete = require('../lib/autocomplete.cjsx')
-    router = require('../../lib/router.coffee')
+    @forceUpdate() if @isMounted
 
-    if @props.get.type == 'Collection'
-      PermissionsModel = require('../../models/collection/permissions.coffee')
-    else
-      PermissionsModel = require('../../models/media-entry/permissions.coffee')
-
-    model = new PermissionsModel(@props.get)
-    editUrl = url.resolve(@props.get.url, 'permissions/edit')
-
-    # set up auto-update for model:
-    f.each ['add', 'remove', 'reset', 'change'], (eventName)=>
-      model.on(eventName, ()=> @forceUpdate() if @isMounted())
-
-    # set state according to url from router
-    @stopRouter = router.listen (location)=> # runs once initially when router is started
-      @setState
-        editing: f.isEqual(location.pathname, editUrl)
-
-    @setState({model: model, router: router})
-
-    # start the router
-    router.start()
-
-  componentWillUnMount: ()->
-    if @stopRouter then @stopRouter()
-
-  startEditing: (event)->
-    event?.preventDefault()
-    @state.router.goTo(event.target.href)
-
-  cancelEditing: (event)->
-    # TODO: handle abort inline (without refresh) und reset state
-    # event?.preventDefault()
-    # @props.router.goTo(event.target.href)
-    # @setState(editing: false, permissions: …)
-
-  submitForm: (event)->
-    event.preventDefault()
-    @setState(saving: true)
-    @state.model.save
-      success: (model, res)=>
-        # TODO: ui-alert res?.message
-        @setState(saving: false, editing: false)
-        @state.router.goTo(model.url)
-      error: (model, err)=>
-        @setState(saving: false, editing: true)
-        alert('Error! ' + ((try JSON.stringify(err?.body || err , 0, 2)) or ''))
-        console.error(err)
-
-
-  render: ({get} = @props)->
-    {submitForm, cancelEditing} = @
-    {editing, saving} = @state
-    get = @state.model or get
+  render: ({get, children, editing, saving, onEdit, onSubmit, onCancel} = @props)->
     editable = get.can_edit
 
-    <form name='ui-rights-management' onSubmit={submitForm}>
+    <form name='ui-rights-management' onSubmit={onSubmit}>
 
-      <PermissionsOverview get={get}/>
-
-      <hr className='separator light mvl'/>
-
-      <h3 className='title-l mbs'>{t('permissions_table_title')}</h3>
+      {children}
 
       <div className='ui-rights-management'>
         {# User permissions #}
@@ -145,66 +80,24 @@ module.exports = React.createClass
               when editable and not editing
                 <div className='ui-actions'>
                   <a href='permissions/edit'
-                    onClick={@startEditing}
+                    onClick={onEdit}
                     className='primary-button large'>
                     {t('permissions_table_edit_btn')}</a></div>
-              when editing
+              when editing and (onCancel or onSubmit)
                 <div className='ui-actions'>
-                  <a className='link weak'
-                    href={get.url}
-                    onClick={@cancelEditing}>
-                    {t('permissions_table_cancel_btn')}
-                  </a>
-                  <button className='primary-button large' disabled={saving}>
-                    {t('permissions_table_save_btn')}</button></div>
+                  {if onCancel
+                    <a className='link weak'
+                      href={get.url}
+                      onClick={onCancel}>
+                      {t('permissions_table_cancel_btn')}
+                    </a>}
+                  {if onSubmit
+                    <button className='primary-button large' disabled={saving}>
+                      {t('permissions_table_save_btn')}</button>}
+                </div>
             }
           </div></div>
     </form>
-
-PermissionsOverview = React.createClass
-  mixins: [ampersandReactMixin]
-  render: ()->
-    {get} = @props
-
-    <div className='row'>
-      <div className='col1of2'>
-        <div className='ui-info-box'>
-          <h2 className='title-l ui-info-box-title'>
-            {t('permissions_responsible_user_title')}
-          </h2>
-
-          <p className='ui-info-box-intro prm'>
-            {t('permissions_responsible_user_msg')}
-          </p>
-
-          <ul className='inline'>
-            <li className='person-tag'>
-              {get.responsible.name}
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      {if get.current_user
-        <div className='col1of2'>
-          <h2 className='title-l ui-info-box-title'>
-            {t('permissions_overview_yours_title')}
-          </h2>
-
-          <p className='ui-info-box-intro'>
-            {t('permissions_overview_yours_msg_start')}
-            {get.current_user.name}
-            {t('permissions_overview_yours_msg_end')}
-          </p>
-
-          <ul className='inline'>
-            {get.current_user_permissions.map (p)->
-              <li key={p}>{t("permission_name_#{p}")}</li>
-            }
-          </ul>
-        </div>
-      }
-    </div>
 
 PermissionsBySubjectType = React.createClass
   displayName: 'PermissionsBySubjectType'
@@ -269,7 +162,6 @@ PermissionsSubjectHeader = React.createClass
 PermissionsSubject = React.createClass
   mixins: [ampersandReactMixin]
 
-
   adjustCheckboxesDependingOnStrength: (name, stronger) ->
     beforeCurrent = true
     for i, permissionType of @props.permissionTypes
@@ -319,9 +211,9 @@ PermissionsSubject = React.createClass
       </td>
 
       {permissionTypes.map (name)->
-        isEnabled = f.isBoolean(permissions[name])
-        isOn = permissions[name]
-        isOverridden = overriddenBy[name] if overriddenBy?
+        isEnabled = f.present(permissions[name])
+        curState = permissions[name] # true/false/mixed
+        isOverridden = if overriddenBy then (overriddenBy[name] == true) else false
         title = t("permission_name_#{name}")
         if isOverridden
           title += ' ' + t('permission_overridden_by_public')
@@ -337,12 +229,12 @@ PermissionsSubject = React.createClass
               when isOverridden
                 <i className='icon-privacy-open' title={title}/>
               when editing
-                <input type='checkbox' checked={isOn}
+                <TristateCheckbox checked={curState}
                   onChange={f.curry(onPermissionChange)(name)}
                   name={name} title={title}/>
-              when isOn
+              when curState is true
                 <i className='icon-checkmark' title={title}/>
-              when not isOn
+              when curState is false
                 <i className='icon-close' title={title}/>
             }
           </label>
@@ -350,8 +242,37 @@ PermissionsSubject = React.createClass
       }
     </tr>
 
+UserIndex = React.createClass
+  render: ()->
+    # TODO: current_user: <i className='current-user-icon icon-privacy-private'></i>#
+    <span>{@props.get.name}</span>
+
+GroupIndex = React.createClass
+  render: ()->
+    # TODO: group icon?
+    <span>{@props.get.name}</span>
+
+ApiClientIndex = React.createClass
+  render: ()-> <span>{@props.get.login}</span>
+
 RemoveButton = React.createClass
   render: ()->
     <a onClick={f(@props.onClick).presence()}
       className='button small ui-rights-remove icon-close small'
       title={t('permissions_table_remove_subject_btn')} />
+
+TristateCheckbox = React.createClass
+  propTypes: {checked: React.PropTypes.oneOf([true, false, 'mixed'])}
+  getDefaultProps: ()->
+    onChange: ()-> # noop
+  # NOTE: 'indeterminate' is a node attribute (not a prop!), need to set on mount!
+  render: (props = this.props)->
+    restProps = f.omit(props, ['checked'])
+    isMixed = !f.isBoolean(props.checked)
+    <input type='checkbox'
+      {...restProps}
+      checked={if isMixed then false else props.checked}
+      ref={((inputNode)->
+        if inputNode # <- only if it's mounted…
+          if isMixed then inputNode.indeterminate = true)}
+    />
