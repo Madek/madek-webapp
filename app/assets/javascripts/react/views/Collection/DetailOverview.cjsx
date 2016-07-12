@@ -60,7 +60,7 @@ Metadata = React.createClass
           </tr>
           <tr>
             <td className="ui-summary-label">{t('resource_meta_data_description')}</td>
-            <td className="title-l ui-summary-content">{get.description}</td>
+            <td className="ui-summary-content">{get.description}</td>
           </tr>
           <tr>
             <td className="ui-summary-label">{t('resource_meta_data_keywords')}</td>
