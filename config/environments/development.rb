@@ -1,10 +1,3 @@
-# build the translation files right before starting up in dev:
-`bin/translation-csv-to-locale-yamls`
-
-# run js bundler in background and watch mode (will be killed with ruby app)
-puts '=> Starting JS bundler/watcher'
-spawn('npm run -s watch')
-
 Madek::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
