@@ -15,6 +15,7 @@ classnames = require('classnames')
 TabContent = require('./TabContent.cjsx')
 CollectionDetailOverview = require('./Collection/DetailOverview.cjsx')
 CollectionDetailAdditional = require('./Collection/DetailAdditional.cjsx')
+HighlightedContents = require('./Collection/HighlightedContents.cjsx')
 MediaEntryHeader = require('./MediaEntryHeader.cjsx')
 
 
@@ -45,6 +46,8 @@ module.exports = React.createClass
         {if activeTab == 0
           [
             <CollectionDetailOverview get={get} authToken={authToken} />
+            ,
+            <HighlightedContents get={get} authToken={authToken} />
             ,
             <CollectionDetailAdditional get={get} authToken={authToken} />
           ]

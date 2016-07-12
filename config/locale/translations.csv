@@ -50,6 +50,7 @@ collection_select_collection_flash_result,Set aus %{removed_count} Set(s) entfer
 collection_tab_main,Set,Set,
 collection_was_disfavored,Das Set wurde von den Favoriten entfernt.,Set was removed from favorites.,
 collection_was_favored,Das Set wurde zu den Favoriten hinzugefügt.,Set was added to favorites.,
+collection_highlighted_contents,Hervorgehobene Inhalte,Highlighted Contents,
 dashboard_create_collection_btn,Set erstellen,Create Set,
 dashboard_create_collection,Set erstellen,Create set,
 dashboard_create_media_entry_btn,Medien importieren,Upload Media,

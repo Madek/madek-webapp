@@ -11,6 +11,7 @@ feature 'Collection: Edit Highlights' do
     scenario 'Modal dialog is shown', browser: :firefox do
       prepare_data
       login
+      open_collection
       open_dialog
       # rows = get_table_rows(5)
       rows = get_table_rows(4)
@@ -29,6 +30,10 @@ feature 'Collection: Edit Highlights' do
     scenario 'Select and save highlights', browser: :firefox do
       prepare_data
       login
+      open_collection
+
+      check_show_highlights(false, [])
+
       open_dialog
       # rows = get_table_rows(5)
       rows = get_table_rows(4)
@@ -44,6 +49,9 @@ feature 'Collection: Edit Highlights' do
       # click_row(rows, @filter_set1)
 
       click_save
+
+      check_show_highlights(true, [@media_entry2, @collection1])
+
       @collection = Collection.find(@collection.id)
       check_media_entries([@media_entry2])
       check_collections([@collection1])
@@ -52,6 +60,7 @@ feature 'Collection: Edit Highlights' do
       open_dialog
       # rows = get_table_rows(5)
       rows = get_table_rows(4)
+
       check_row(rows, @media_entry1, false)
       check_row(rows, @media_entry2, true)
       check_row(rows, @media_entry3, false)
@@ -68,11 +77,36 @@ feature 'Collection: Edit Highlights' do
       check_collections([])
       check_filter_sets([])
 
+      open_collection
+
     end
 
   end
 
   private
+
+  def check_show_highlights(show, resources)
+    titles = all(
+      '.ui-toolbar-header',
+      text: I18n.t(:collection_highlighted_contents))
+
+    if show
+      expect(titles.length).to eq(1)
+
+      box = find('.ui-featured-entries')
+      images = box.all('.ui-tile__image')
+      expect(images.length).to eq(resources.length)
+
+      within(box) do
+        resources.each do |resource|
+          expect(page).to have_content(resource.title)
+        end
+      end
+
+    else
+      expect(titles.length).to eq(0)
+    end
+  end
 
   def check_shared(collection_relation, resources)
     expect(collection_relation.length).to eq(resources.length)
@@ -126,8 +160,11 @@ feature 'Collection: Edit Highlights' do
     expect(check_input[:checked]).to eq(expected)
   end
 
-  def open_dialog
+  def open_collection
     visit collection_path(@collection)
+  end
+
+  def open_dialog
     find('i.icon-highlight').find(:xpath, './..').click
     check_on_dialog
   end
