@@ -77,8 +77,8 @@ module.exports = React.createClass
 
         <li className="separator"/>
 
-        {myContentItems.map (item)->
-          <li className="ui-drop-item">
+        {myContentItems.map (item, index)->
+          <li key={'key_' + index} className="ui-drop-item">
             <a href={item.url}>
               <Icon i={item.icon} mods="mid ui-drop-icon"/>
               {' ' + item.title}</a>

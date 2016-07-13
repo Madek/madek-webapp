@@ -72,6 +72,7 @@ module Presenters
         def marked_collections(media_entry)
           media_entry.parent_collections
             .joins(:meta_data)
+            .where(meta_data: { meta_key_id: 'madek_core:title' })
             .reorder('meta_data.string ASC')
         end
 

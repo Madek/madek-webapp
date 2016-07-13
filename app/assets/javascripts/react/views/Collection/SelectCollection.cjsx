@@ -35,6 +35,7 @@ module.exports = React.createClass
     # @setState({searchTerm: @props.boot.search_term})
     @setState(searchTerm: @props.get.search_term, get: @props.get)
 
+    @sendTimeoutRef = null
 
   componentDidMount: () ->
     @setState(mounted: true)
@@ -51,25 +52,35 @@ module.exports = React.createClass
     return false
 
   _onChange: (event) ->
-    @setState({searchTerm: event.target.value})
 
-    # if @props.onClose
+    @setState({searchTerm: event.target.value})
     @setState({searching: true})
 
-    # TODO: Kill all before!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    if @lastRequest
-      @lastRequest.abort()
+    if @sendTimeoutRef != null
+      return
 
-    @lastRequest = formXhr(
-      {
-        method: 'GET'
-        url: @props.get.select_collection_url
-        form: @refs.form
-      },
-      (result, json) =>
-        if result == 'success'
-          @setState({get: json.header.collection_selection, searching: false})
+    @sendTimeoutRef = setTimeout(
+      () =>
+
+        @sendTimeoutRef = null
+
+        if @lastRequest
+          @lastRequest.abort()
+
+        @lastRequest = formXhr(
+          {
+            method: 'GET'
+            url: @props.get.select_collection_url
+            form: @refs.form
+          },
+          (result, json) =>
+            if result == 'success'
+              @setState({get: json.header.collection_selection, searching: false})
+        )
+      ,
+      500
     )
+
 
 
 
@@ -142,9 +153,9 @@ module.exports = React.createClass
                   <input type='hidden'
                     name={('new_collections[new_' + index + '][name]')}
                     value={row}></input>
-                  <input className='ui-set-list-input' type='checkbox'
+                  <ControlledCheckbox className='ui-set-list-input'
                     name={('new_collections[new_' + index + '][checked]')}
-                    value='true' defaultChecked={true}></input>
+                    value='true' checked={true} />
                   <span className='title'>{row}</span>
                   <span className='owner'>{get.current_user.label}</span>
                   <span className='created-at'>{'New'}</span>
@@ -165,9 +176,9 @@ module.exports = React.createClass
                     <input type='hidden'
                       name={('selected_collections[' + collection.uuid + '][]')}
                       value='false'></input>
-                    <input className='ui-set-list-input' type='checkbox'
+                    <ControlledCheckbox className='ui-set-list-input'
                       name={('selected_collections[' + collection.uuid + '][]')}
-                      value='true' defaultChecked={checked}></input>
+                      value='true' checked={checked} />
                     <span className='title'>{collection.title}</span>
                     <span className='owner'>{collection.authors_pretty}</span>
                     <span className='created-at'>{collection.created_at_pretty}</span>
@@ -201,3 +212,23 @@ module.exports = React.createClass
       content={_content}
       method='patch'
       showSave={true} />
+
+
+ControlledCheckbox = React.createClass
+  displayName: 'ControlledCheckbox'
+
+  getInitialState: () -> {
+    checked: false
+  }
+
+  componentWillMount: () ->
+    @setState(checked: @props.checked)
+
+  _onChange: (event) ->
+    @setState(checked: event.target.checked)
+
+  render: ({children} = @props) ->
+    <input className={@props.className} type='checkbox'
+      name={@props.name}
+      value={@props.value} checked={@state.checked}
+      onChange={@_onChange}></input>
