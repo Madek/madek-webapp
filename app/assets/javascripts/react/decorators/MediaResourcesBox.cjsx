@@ -376,7 +376,7 @@ module.exports = React.createClass
           click: (if f.present(config.filter) then f.curry(@_onCreateFilterSet)(config))
 
         removeFromSet: if selection && f.present(@props.collectionUuid) && (get.type is 'MediaEntries' || get.type is 'MediaResources')
-          click: (if f.present(selection) then @_onBatchRemoveFromSet)
+          click: (if !selection.isEmpty() then @_onBatchRemoveFromSet)
 
         # TODO: batch delete
         # delete: ->
