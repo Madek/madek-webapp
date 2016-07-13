@@ -41,10 +41,12 @@ module Modules
 
         ActiveRecord::Base.transaction do
           existing = collection.media_entries
-          no_duplicates = media_entries.reject do |media_entry|
-            existing.include? media_entry
+            .rewhere(is_published: [true, false]).reload
+          media_entries.each do |media_entry|
+            unless existing.include? media_entry
+              collection.media_entries << media_entry
+            end
           end
-          collection.media_entries << no_duplicates
         end
 
         redirect_to(return_to)
