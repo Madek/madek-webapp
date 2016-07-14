@@ -36,7 +36,12 @@ module.exports = React.createClass
     UploadQueue.saturated = ()=> @setState(waiting: true) if @isMounted()
 
   onFilesDrop: (_event, files)-> @addFiles(files)
-  onFilesSelect: (event)-> @addFiles(f.get(event, 'target.files'))
+  onFilesSelect: (event)->
+    @addFiles(f.get(event, 'target.files'))
+
+    # Ensure the eventue is fired again if selecting the same file again.
+    # http://stackoverflow.com/questions/12030686/html-input-file-selection-event-not-firing-upon-selecting-the-same-file
+    event.target.value = null
 
   addFiles: (files)->
     return unless f.present(files)
