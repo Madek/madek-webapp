@@ -48,7 +48,8 @@ def goto_initial_context_edit(context, async, switch_to)
 
   expect(@resource.is_published).to eq(false)
 
-  expect(save_button.disabled?).to eq(async)
+  # expect(save_button.disabled?).to eq(async)
+  expect(save_button.disabled?).to eq(false)
 end
 
 def edit_some_data(async)
@@ -142,7 +143,8 @@ end
 def save_third_time(async)
   click_action_button('pen')
 
-  expect(save_button.disabled?).to eq(true) if async
+  # expect(save_button.disabled?).to eq(true) if async
+  expect(save_button.disabled?).to eq(false)
 
   update_context_text_field('madek_core:subtitle', 'Test')
 
