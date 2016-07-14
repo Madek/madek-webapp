@@ -16,5 +16,5 @@ module.exports = React.createClass
     MediaTag = type
     <MediaTag controls preload='auto' poster={poster}>
       {f.map sources, (vid)->
-        <source src={vid.url} type={vid.content_type} key={vid.src}/>}
+        <source src={vid.url} type={vid.content_type} key={vid.content_type + vid.url}/>}
     </MediaTag>
