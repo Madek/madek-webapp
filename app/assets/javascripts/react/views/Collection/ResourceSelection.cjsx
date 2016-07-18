@@ -92,7 +92,7 @@ module.exports = React.createClass
                       <td data-name='author' title=''>
                         <span className='ui-resources-table-cell-content'>{resource.authors_pretty}</span>
                       </td>
-                      <td data-name='portrayed object dates' title='null'>{resource.created_at_pretty}</td>
+                      <td data-name='portrayed object dates' title='null'>{resource.portrayed_object_date_pretty}</td>
                       <td data-name='keywords' title=''>
                         <span className='ui-resources-table-cell-content'>{resource.keywords_pretty}</span>
                       </td>

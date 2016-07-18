@@ -14,6 +14,16 @@ module Presenters
             @app_resource.created_at.strftime('%d.%m.%Y')
           end
 
+          def portrayed_object_date_pretty
+            date = @app_resource.meta_data.find_by(
+              meta_key_id: 'madek_core:portrayed_object_date')
+            if date
+              return date.string
+            else
+              return ''
+            end
+          end
+
           def authors_pretty
             authors = @app_resource.meta_data.find_by(
               meta_key_id: 'madek_core:authors')
