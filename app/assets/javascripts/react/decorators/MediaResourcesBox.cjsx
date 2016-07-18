@@ -216,8 +216,8 @@ module.exports = React.createClass
     window.location = batchEditUrl # SYNC!
 
   _batchAddToSetIds: () ->
-    selection = @state.selectedResources
-    selected = f.map(selection.serialize(), 'uuid')
+    @state.selectedResources.map (model) ->
+      model.uuid
 
   _onBatchAddToSet: (event)->
     event.preventDefault()
@@ -225,12 +225,11 @@ module.exports = React.createClass
     return false
 
   _batchRemoveFromSetIds: () ->
-    f.map(@state.selectedResources.serialize(), (resource) ->
+    @state.selectedResources.map (model) ->
       {
-        uuid: resource.uuid
-        type: resource.type
+        uuid: model.uuid
+        type: model.getType()
       }
-    )
 
   _onBatchRemoveFromSet: (event)->
     event.preventDefault()

@@ -161,13 +161,9 @@ feature 'batch edit' do
   def check_initial_hint
     within('.ui-modal-body') do
       expect(page).to have_content(
-        I18n.t(:batch_remove_from_collection_hint_pre) + 'ParentCollection' +
-        I18n.t(:batch_remove_from_collection_hint_post))
-      expect(page).to have_content(
-        '2' + I18n.t(:batch_remove_from_collection_media_entries))
-      expect(page).to have_content(
-        '2' + I18n.t(:batch_remove_from_collection_collections))
-
+        I18n.t(:batch_remove_from_collection_question_part_1) +
+          '2' + I18n.t(:batch_remove_from_collection_question_part_2) +
+          '2' + I18n.t(:batch_remove_from_collection_question_part_3))
     end
   end
 
