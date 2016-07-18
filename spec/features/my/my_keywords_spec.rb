@@ -17,6 +17,9 @@ feature 'Resource: Keyword; in User Dashboard ("My Keywords")',
     keyword_1_usage_count = 20
     keyword_1_usage_count.times do
       FactoryGirl.create(:meta_datum_keyword,
+                         meta_datum: \
+                           FactoryGirl.create(:meta_datum_keywords,
+                                              meta_key_id: 'madek_core:keywords'),
                          keyword: keyword_1,
                          created_by: user)
     end
@@ -26,6 +29,9 @@ feature 'Resource: Keyword; in User Dashboard ("My Keywords")',
     keyword_2_usage_count = 19
     keyword_2_usage_count.times do
       FactoryGirl.create(:meta_datum_keyword,
+                         meta_datum: \
+                           FactoryGirl.create(:meta_datum_keywords,
+                                              meta_key_id: 'madek_core:keywords'),
                          keyword: keyword_2,
                          created_by: user)
     end
@@ -35,6 +41,9 @@ feature 'Resource: Keyword; in User Dashboard ("My Keywords")',
     keyword_3_usage_count = 18
     keyword_3_usage_count.times do
       FactoryGirl.create(:meta_datum_keyword,
+                         meta_datum: \
+                           FactoryGirl.create(:meta_datum_keywords,
+                                              meta_key_id: 'madek_core:keywords'),
                          keyword: keyword_3,
                          created_by: user)
     end

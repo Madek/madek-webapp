@@ -89,12 +89,14 @@ describe My::DashboardController do
     @user.responsible_filter_sets.sample(@limit_for_app_resources + 1)
       .each { |fs| fs.favor_by @user }
 
+    ##############################################################################
     # make keywords and use them in a meta_datum
-    unless MetaKey.find_by_id('madek_core:keywords')
+    unless @meta_key_core_keywords = MetaKey.find_by_id('madek_core:keywords')
       with_disabled_triggers do
-        FactoryGirl.create(:meta_key,
-                           id: 'madek_core:keywords',
-                           meta_datum_object_type: 'MetaDatum::Keywords')
+        @meta_key_core_keywords = \
+          FactoryGirl.create(:meta_key,
+                             id: 'madek_core:keywords',
+                             meta_datum_object_type: 'MetaDatum::Keywords')
       end
     end
     @keyword_1 = FactoryGirl.create(:keyword,
@@ -107,28 +109,65 @@ describe My::DashboardController do
                                     meta_key_id: 'madek_core:keywords',
                                     creator: @user)
 
-    unless MetaKey.find_by_id('test:keywords')
-      FactoryGirl.create(:meta_key_keywords)
+    unless @meta_key_other_keywords = MetaKey.find_by_id('test:keywords')
+      @meta_key_other_keywords = FactoryGirl.create(:meta_key_keywords)
     end
 
-    FactoryGirl.create(:keyword, meta_key_id: 'test:keywords', creator: @user)
-
+    # create a meta_datum type keywords for a meta_key other than
+    # 'madek_core:keywords' and use a keyword there
+    # (this should be excluded in the result then)
+    keyword_other_meta_key = \
+      FactoryGirl.create(:keyword,
+                         meta_key: @meta_key_other_keywords,
+                         creator: @user)
     create(:meta_datum_keyword,
+           meta_datum: create(:meta_datum_keywords,
+                              meta_key: @meta_key_other_keywords),
+           created_by: @user,
+           created_at: Date.today,
+           keyword: keyword_other_meta_key)
+
+    # create a meta_datum type keywords for a unpublished media entries
+    # and use a keyword there (this should be excluded in the result then)
+    keyword_xxx = \
+      FactoryGirl.create(:keyword,
+                         meta_key: @meta_key_core_keywords,
+                         creator: @user)
+    create(:meta_datum_keyword,
+           meta_datum: create(:meta_datum_keywords,
+                              meta_key: @meta_key_core_keywords,
+                              media_entry: create(:media_entry,
+                                                  is_published: false)),
+           created_by: @user,
+           created_at: Date.today,
+           keyword: keyword_xxx)
+
+    # create all other meta_data which should be included in the result
+    create(:meta_datum_keyword,
+           meta_datum: create(:meta_datum_keywords,
+                              meta_key: @meta_key_core_keywords),
            created_by: @user,
            created_at: Date.today,
            keyword: @keyword_1)
     create(:meta_datum_keyword,
+           meta_datum: create(:meta_datum_keywords,
+                              meta_key: @meta_key_core_keywords),
            created_at: Date.yesterday,
            created_by: @user,
            keyword: @keyword_2)
     create(:meta_datum_keyword,
+           meta_datum: create(:meta_datum_keywords,
+                              meta_key: @meta_key_core_keywords),
            created_at: Date.today - 1.week,
            created_by: @user,
            keyword: @keyword_3)
     create(:meta_datum_keyword,
+           meta_datum: create(:meta_datum_keywords,
+                              meta_key: @meta_key_core_keywords),
            created_at: Date.today - 1.week,
            created_by: @user,
            keyword: @keyword_3)
+    ##############################################################################
   end
 
   before :example do
