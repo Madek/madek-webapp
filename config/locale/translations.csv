@@ -6,10 +6,9 @@ batch_add_to_collection_hint,Nach Sets suchen zu denen Sie die Einträge hinzuf�
 batch_add_to_collection_post, Einträge zu Set hinzufügen, entries to set,
 batch_add_to_collection_pre, , Add ,
 batch_remove_from_collection_title,Einträge/Sets aus Set entfernen,Remove entries/sets from sets,
-batch_remove_from_collection_hint_pre,Möchten Sie die folgenden Einträge/Sets aus dem Set ,Do you want to remove the following entries/sets from the set,
-batch_remove_from_collection_hint_post, entfernen?,?,
-batch_remove_from_collection_media_entries, Eintrag(äge), Entry(ies),
-batch_remove_from_collection_collections, Set(s), Set(s),
+batch_remove_from_collection_question_part_1,Möchten Sie die ausgewählten ,Möchten Sie die ausgewählten ,
+batch_remove_from_collection_question_part_2, Medieneinträge und , Medieneinträge und ,
+batch_remove_from_collection_question_part_3, Sets aus dem Set entfernen?, Sets aus dem Set entfernen?,
 batch_remove_from_collection_remove,Entfernen,Remove,
 batch_remove_from_collection_cancel,Abbrechen,Cancel,
 batch_meta_data_edit,Metadaten für %{media_entry_count} Einträge gleichzeitig editieren,Edit metadata for %{media_entry_count} entries at once.,TODO_cleanup_interpolation

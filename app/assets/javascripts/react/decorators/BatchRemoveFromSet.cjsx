@@ -74,13 +74,12 @@ module.exports = React.createClass
 
       <div className='ui-modal-body' style={{maxHeight: 'none'}}>
         <p className="pam by-center">
-          {t('batch_remove_from_collection_hint_pre')}
-          <strong>{get.parent_collection_title}</strong>
-          {t('batch_remove_from_collection_hint_post')}
+          {t('batch_remove_from_collection_question_part_1')}
+          <strong>{get.media_entries_count}</strong>
+          {t('batch_remove_from_collection_question_part_2')}
+          <strong>{get.collections_count}</strong>
+          {t('batch_remove_from_collection_question_part_3')}
         </p>
-        <strong style={{marginLeft: '100px'}}>{get.media_entries_count + t('batch_remove_from_collection_media_entries')}</strong>
-        <br/>
-        <strong style={{marginLeft: '100px'}}>{get.collections_count + t('batch_remove_from_collection_collections')}</strong>
       </div>
 
       <div className="ui-modal-footer">
