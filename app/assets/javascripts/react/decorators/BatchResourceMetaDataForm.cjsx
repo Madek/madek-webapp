@@ -82,7 +82,7 @@ MetaDatumFormItem = React.createClass
     <fieldset className={classes}>
       <input name={name + "[#{datum.meta_key.uuid}][difference][all_equal]"} value={difference.all_equal} type="hidden"></input>
       <input name={name + "[#{datum.meta_key.uuid}][difference][all_empty]"} value={difference.all_empty} type="hidden"></input>
-      <MetaKeyFormLabel name={new_name} metaKey={datum.meta_key}/>
+      <MetaKeyFormLabel name={new_name} metaKey={datum.meta_key} contextKey={null} />
       <InputMetaDatum name={new_name} get={copy}/>
     </fieldset>
 

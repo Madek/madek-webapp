@@ -26,7 +26,6 @@ t = require('../../lib/string-translation.js')('de')
 setUrlParams = require('../../lib/set-params-for-url.coffee')
 RailsForm = require('../lib/forms/rails-form.cjsx')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
-MetaKeyFormLabel = require('../lib/forms/form-label.cjsx')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
 MetaDatumFormItem = require('./MetaDatumFormItemPerContext.cjsx')
 

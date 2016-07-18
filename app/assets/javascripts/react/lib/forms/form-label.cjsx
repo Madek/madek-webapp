@@ -7,9 +7,12 @@ module.exports = React.createClass
     name: React.PropTypes.string.isRequired
     metaKey: MadekPropTypes.metaKey
 
-  render: ({metaKey} = @props)->
+  render: ({metaKey, contextKey} = @props)->
 
     label = metaKey.label
+    if contextKey and contextKey.label
+      label = contextKey.label
+
     if @props.mandatory
       label = label + ' *'
 

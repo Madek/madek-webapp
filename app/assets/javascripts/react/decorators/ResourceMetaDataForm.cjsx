@@ -138,6 +138,6 @@ MetaDatumFormItem = React.createClass
           </div>
         </div>
       }
-      <MetaKeyFormLabel name={name} metaKey={get.meta_key}/>
+      <MetaKeyFormLabel name={name} metaKey={get.meta_key} contextKey={null} />
       <InputMetaDatum name={name} get={get}/>
     </fieldset>
