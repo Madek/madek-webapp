@@ -86,7 +86,7 @@ module.exports = React.createClass
 
     currentContextId = @props.get.context_id
     if currentContextId == null
-      currentContextId = @props.get.meta_meta_data.context_ids[0]
+      currentContextId = @props.get.meta_meta_data.meta_data_edit_context_ids[0]
 
     @setState({currentContextId: currentContextId})
 
@@ -317,7 +317,7 @@ module.exports = React.createClass
       }
 
       <Tabs>
-        {f.map get.meta_meta_data.context_ids, (context_id) =>
+        {f.map get.meta_meta_data.meta_data_edit_context_ids, (context_id) =>
           context = get.meta_meta_data.contexts_by_context_id[context_id]
           tabUrl =
             if @props.batch

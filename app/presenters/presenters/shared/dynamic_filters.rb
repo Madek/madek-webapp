@@ -47,7 +47,7 @@ module Presenters
 
       def meta_data(scope, _tree)
         # TODO: ui_context_list = contexts_for_dynamic_filters (when in Admin UI)
-        ui_context_list = contexts_for_show # from VocabularyConfig
+        ui_context_list = _contexts_for_dynamic_filters # from VocabularyConfig
         return unless ui_context_list.present?
         ui_context_list_ids = ui_context_list.map(&:id)
         values = FilterBarQuery.get_metadata_unsafe(scope, ui_context_list)

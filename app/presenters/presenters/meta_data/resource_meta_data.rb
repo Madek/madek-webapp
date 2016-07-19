@@ -8,22 +8,28 @@ module Presenters
         super(app_resource)
       end
 
-      # "by Contexts": as configured for display (could be *incomplete*)
-      def by_context
-        contexts_for_show.map do |context|
-          build_meta_data_context(context)
-        end
+      def summary_context
+        @summary_context ||=
+          _summary_context.map do |context|
+            build_meta_data_context(context)
+          end.first
       end
 
-      # *All* metadata, grouped by Vocabulary
-      def by_vocabulary
-        fetch_relevant_meta_data
+      def contexts_for_show_extra
+        @contexts_for_show_extra ||=
+          _contexts_for_show_extra.map do |context|
+            build_meta_data_context(context)
+          end
+      end
+
+      private
+
+      def _by_vocabulary(meta_data)
+        meta_data
           .group_by(&:vocabulary)
           .sort_by { |v, d| v.id }
           .map(&method(:presenterify_vocabulary_and_meta_data))
       end
-
-      private
 
       def build_meta_data_context(context)
         # NOTE: cant just `JOIN` them all together like in `by_vocabulary`,
@@ -40,15 +46,6 @@ module Presenters
               meta_datum: Presenters::MetaData::MetaDatumCommon.new(md, @user))
           end
           .compact)
-      end
-
-      # This method fetches the relevant meta_data, to be overriden per action:
-      def fetch_relevant_meta_data
-        fail '#fetch_relevant_meta_data missing from Presenter: ' + self.class.name
-      end
-
-      def relevant_vocabularies
-        visible_vocabularies(@user)
       end
 
       def presenterify_vocabulary_and_meta_data(bundle, presenter = nil)

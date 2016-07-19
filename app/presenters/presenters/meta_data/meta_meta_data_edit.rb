@@ -39,15 +39,14 @@ module Presenters
         end
       end
 
-      def context_ids
-        @context_ids ||=
-          contexts_for_show.map &:id
+      def meta_data_edit_context_ids
+        _meta_data_edit_contexts.map &:id
       end
 
       def context_keys_by_meta_key_id
         @context_keys_by_meta_key_id ||=
           begin
-            result = contexts_for_show.map do |context|
+            result = _meta_data_edit_contexts.map do |context|
               Hash[
                 context.context_keys.map do |context_key|
                   [
@@ -64,7 +63,7 @@ module Presenters
       def contexts_by_context_id
         @contexts_by_context_id ||=
           Hash[
-            contexts_for_show.map do |context|
+            _meta_data_edit_contexts.map do |context|
               [context.id, Presenters::Contexts::ContextCommon.new(context)]
             end
           ]
@@ -82,7 +81,7 @@ module Presenters
       def meta_key_ids_by_context_id
         @meta_key_ids_by_context_id ||=
           Hash[
-            contexts_for_show.map do |context|
+            _meta_data_edit_contexts.map do |context|
               [
                 context.id,
                 context.context_keys.map do |c_key|
@@ -111,20 +110,8 @@ module Presenters
             MetaKey
               .where("is_enabled_for_#{parent_resource_type.pluralize}" => true)
               .joins(:vocabulary)
-              .where(vocabularies: { id: relevant_vocabularies.map(&:id) })
+              .where(vocabularies: { id: usable_vocabularies_for_user.map(&:id) })
           end
-      end
-
-      def relevant_vocabularies
-        @relevant_vocabularies ||=
-          usable_vocabularies(@user)
-      end
-
-      def usable_vocabularies(user)
-        @usable_vocabularies ||= Vocabulary
-        .usable_by_user(user)
-        .all
-        .sort_by
       end
     end
   end

@@ -98,7 +98,6 @@ M.metaDataByAny = PropTypes.oneOfType([
 M.metaDataListing = PropTypes.arrayOf(M.metaDataByAny)
 
 M.resourceMetaData = PropTypes.shape({
-  by_context: PropTypes.arrayOf(M.metaDataByContext)
   by_vocabulary: PropTypes.arrayOf(M.metaDataByVocabulary)
 })
 

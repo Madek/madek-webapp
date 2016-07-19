@@ -3,10 +3,15 @@ module Presenters
 
     class MetaDataEdit < Presenters::MetaData::ResourceMetaData
 
+      def by_vocabulary
+        @by_vocabulary ||=
+          _by_vocabulary(fetch_usable_meta_data)
+      end
+
       def meta_datum_by_meta_key_id
         @meta_datum_by_meta_key_id ||=
           Hash[
-            fetch_relevant_meta_data.map do |meta_datum|
+            fetch_usable_meta_data.map do |meta_datum|
               [
                 meta_datum.meta_key_id,
                 Presenters::MetaData::MetaDatumEdit.new(meta_datum, @user)
@@ -18,7 +23,7 @@ module Presenters
       def existing_meta_data_by_meta_key_id
         @existing_meta_data_by_meta_key_id ||=
           begin
-            datums = relevant_meta_keys.map do |key|
+            datums = usable_meta_keys.map do |key|
               @app_resource.meta_data.where(meta_key_id: key.id).first
             end
 
@@ -40,25 +45,25 @@ module Presenters
 
       private
 
-      def relevant_meta_keys
-        @relevant_meta_keys ||=
+      def usable_meta_keys
+        @usable_meta_keys ||=
           begin
             parent_resource_type = @app_resource.class.name.underscore
             MetaKey
               .where("is_enabled_for_#{parent_resource_type.pluralize}" => true)
               .joins(:vocabulary)
-              .where(vocabularies: { id: relevant_vocabularies.map(&:id) })
+              .where(vocabularies: { id: usable_vocabularies_for_user.map(&:id) })
           end
       end
 
-      def fetch_relevant_meta_data
-        @fetch_relevant_meta_data ||=
+      def fetch_usable_meta_data
+        @fetch_usable_meta_data ||=
           begin
             parent_resource_type = @app_resource.class.name.underscore
             MetaKey
               .where("is_enabled_for_#{parent_resource_type.pluralize}" => true)
               .joins(:vocabulary)
-              .where(vocabularies: { id: relevant_vocabularies.map(&:id) })
+              .where(vocabularies: { id: usable_vocabularies_for_user.map(&:id) })
               .map do |key|
                 existing_datum = @app_resource.meta_data.where(meta_key: key).first
                 if existing_datum.present?
@@ -75,10 +80,6 @@ module Presenters
 
       def presenterify_vocabulary_and_meta_data(bundle, _presenter = nil)
         super(bundle, Presenters::MetaData::MetaDatumEdit)
-      end
-
-      def relevant_vocabularies
-        usable_vocabularies(@user)
       end
 
     end
