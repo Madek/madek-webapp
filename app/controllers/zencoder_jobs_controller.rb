@@ -104,13 +104,21 @@ class ZencoderJobsController < ApplicationController
 
   def download_file(url, target_file)
     uri = URI.parse(url)
-    source_path = [uri.path, uri.query].join('?')
+    http_opts = { use_ssl: (uri.scheme == 'https') }
+    download_request = Net::HTTP::Get.new(uri)
 
-    Net::HTTP.start(uri.host) do |http|
-      response = http.get(source_path)
-      open(target_file, 'wb') do |file|
-        file.write(response.body)
+    begin
+      Net::HTTP.start(uri.host, uri.port, http_opts) do |connection|
+        connection.request(download_request) do |response|
+          File.open(target_file, 'wb') do |file_stream|
+            response.read_body do |download_chunk|
+              file_stream.write(download_chunk)
+            end
+          end
+        end
       end
+    rescue => e
+      Rails.logger.error "ZENCODER IMPORT ERR: #{e.inspect}, #{e.backtrace}"
     end
   end
 
