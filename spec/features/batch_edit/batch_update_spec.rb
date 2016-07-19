@@ -26,6 +26,8 @@ feature 'Batch update media entries' do
   end
   let(:meta_key_keywords) do
     FactoryGirl.create(:meta_key_keywords,
+                       is_extensible: true,
+                       is_extensible_list: true,
                        vocabulary: vocabulary,
                        id: "#{vocabulary.id}:#{Faker::Lorem.characters(10)}")
   end
@@ -118,12 +120,16 @@ feature 'Batch update media entries' do
 
       # case 4
       @new_value_for_meta_key_keywords = \
-        [FactoryGirl.create(:keyword, meta_key: meta_key_keywords)].map(&:term)
+        [FactoryGirl.create(:keyword, meta_key: meta_key_keywords).term]
       @new_value_for_meta_key_keywords.each do |val|
         autocomplete_and_choose_first \
           find('fieldset', text: meta_key_keywords.label),
           val
       end
+      input = find('fieldset', text: meta_key_keywords.label).find('input')
+      input.set('ontheflykeyword')
+      input.native.send_keys(:enter)
+      @new_value_for_meta_key_keywords << 'ontheflykeyword'
 
       # case 5: delete all values
       field = find('fieldset', text: meta_key_people.label)
