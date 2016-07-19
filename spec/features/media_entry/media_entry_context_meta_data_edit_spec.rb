@@ -29,6 +29,37 @@ feature 'Resource: MediaEntry' do
     it 'open media_content context (js)', browser: :firefox do
       direct_open_context('media_content', true, 'zhdk_bereich')
     end
+
+    it 'does not display meta datum if no usable permission existing',
+       browser: :firefox do
+      prepare_user
+      media_entry = FactoryGirl.create(:media_entry_with_image_media_file, :fat,
+                                       responsible_user: @user)
+      vocabulary = FactoryGirl.create(:vocabulary,
+                                      id: Faker::Lorem.characters(8),
+                                      enabled_for_public_view: true,
+                                      enabled_for_public_use: false)
+      meta_key = \
+        FactoryGirl.create(:meta_key_text,
+                           id: "#{vocabulary.id}:#{Faker::Lorem.characters(8)}",
+                           vocabulary: vocabulary)
+      FactoryGirl.create(:context_key,
+                         label: (@ck_label = Faker::Lorem.characters(8)),
+                         meta_key: meta_key,
+                         context_id: 'core')
+
+      login
+      visit edit_context_meta_data_media_entry_path(media_entry, 'core')
+      expect(page).not_to have_content @ck_label
+
+      vocabulary.update_attributes(enabled_for_public_use: true)
+      visit edit_context_meta_data_media_entry_path(media_entry, 'core')
+      expect(page).to have_content @ck_label
+      find('fieldset', text: @ck_label).find('input')
+        .set (@value = Faker::Lorem.characters(8))
+      find('button.primary-button').click
+      expect(find('.media-data', text: @ck_label)).to have_content @value
+    end
   end
 end
 

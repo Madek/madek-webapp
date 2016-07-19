@@ -16,6 +16,13 @@ module Presenters
               .sort_by
           end
 
+          def usable_vocabularies(user)
+            @usable_vocabularies ||= Vocabulary
+              .usable_by_user(user)
+              .all
+              .sort_by
+          end
+
           # NOTE: visibility of MetaKeys-by-Vocabulary is handled in presenters
 
           # TODO: split this up (need UI changes)

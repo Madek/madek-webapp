@@ -14,6 +14,10 @@ module Presenters
           .where(vocabularies: { id: relevant_vocabularies.map(&:id) })
       end
 
+      def relevant_vocabularies
+        visible_vocabularies(@user)
+      end
+
     end
   end
 end

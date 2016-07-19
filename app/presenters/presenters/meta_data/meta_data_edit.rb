@@ -77,6 +77,10 @@ module Presenters
         super(bundle, Presenters::MetaData::MetaDatumEdit)
       end
 
+      def relevant_vocabularies
+        usable_vocabularies(@user)
+      end
+
     end
   end
 end

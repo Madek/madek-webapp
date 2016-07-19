@@ -98,7 +98,7 @@ module Presenters
 
       def context_key_usable(context_key)
         parent_resource_type = @resource_class.name.underscore
-        viewable = context_key.meta_key.vocabulary.viewable_by_user?(@user)
+        viewable = context_key.meta_key.vocabulary.usable_by_user?(@user)
         enabled = context_key.meta_key.send(
           "is_enabled_for_#{parent_resource_type.pluralize}")
         viewable and enabled
@@ -117,9 +117,15 @@ module Presenters
 
       def relevant_vocabularies
         @relevant_vocabularies ||=
-          visible_vocabularies(@user)
+          usable_vocabularies(@user)
       end
 
+      def usable_vocabularies(user)
+        @usable_vocabularies ||= Vocabulary
+        .usable_by_user(user)
+        .all
+        .sort_by
+      end
     end
   end
 end
