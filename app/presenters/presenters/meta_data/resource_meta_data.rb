@@ -8,16 +8,23 @@ module Presenters
         super(app_resource)
       end
 
-      def summary_context
-        @summary_context ||=
-          _summary_context.map do |context|
+      def entry_summary_context
+        @entry_summary_context ||=
+          _entry_summary_context.map do |context|
             build_meta_data_context(context)
           end.first
       end
 
-      def contexts_for_show_extra
-        @contexts_for_show_extra ||=
-          _contexts_for_show_extra.map do |context|
+      def collection_summary_context
+        @collection_summary_context ||=
+          _collection_summary_context.map do |context|
+            build_meta_data_context(context)
+          end.first
+      end
+
+      def contexts_for_entry_extra
+        @contexts_for_entry_extra ||=
+          _contexts_for_entry_extra.map do |context|
             build_meta_data_context(context)
           end
       end

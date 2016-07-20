@@ -29,8 +29,8 @@ module.exports = React.createClass
 
   render: ({get} = @props)->
     # first is the summary vocab, rest from configured list:
-    summaryContext = get.meta_data.summary_context
-    listContexts = get.meta_data.contexts_for_show_extra
+    summaryContext = get.meta_data.entry_summary_context
+    listContexts = get.meta_data.contexts_for_entry_extra
     # [summaryContext, listContexts] = [f.first(metaData, 1), f.drop(metaData, 1)]
 
     # overview has summary on the left and preview on the right

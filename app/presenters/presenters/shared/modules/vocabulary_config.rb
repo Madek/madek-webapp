@@ -25,21 +25,24 @@ module Presenters
                 .sort_by
           end
 
-          def _summary_context
-            @_summary_context ||=
-              _get_app_settings_contexts([:context_for_show_summary])
+          def _entry_summary_context
+            @_entry_summary_context ||=
+              _get_app_settings_contexts([:context_for_entry_summary])
           end
 
-          def _contexts_for_show_extra
-            @_contexts_for_show_extra ||=
-              _get_app_settings_contexts([:contexts_for_show_extra])
+          def _collection_summary_context
+            @_collection_summary_context ||=
+              _get_app_settings_contexts([:context_for_collection_summary])
+          end
+
+          def _contexts_for_entry_extra
+            @_contexts_for_entry_extra ||=
+              _get_app_settings_contexts([:contexts_for_entry_extra])
           end
 
           def _meta_data_edit_contexts
             @_meta_data_edit_contexts ||=
-              _get_app_settings_contexts(
-                [:context_for_show_summary, :contexts_for_show_extra]
-              )
+              _get_app_settings_contexts([:contexts_for_resource_edit])
           end
 
           def _contexts_for_dynamic_filters

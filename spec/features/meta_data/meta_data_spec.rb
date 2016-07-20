@@ -16,7 +16,7 @@ feature 'Resource: MetaDatum' do
       meta_key: meta_key,
       media_entry: @media_entry)
     @context_key = Context
-      .find(AppSettings.first.context_for_show_summary)
+      .find(AppSettings.first.context_for_entry_summary)
       .context_keys.where(meta_key_id: meta_key.id).first
     @summmary_box = '.ui-resource-overview .ui-metadata-box'
   end

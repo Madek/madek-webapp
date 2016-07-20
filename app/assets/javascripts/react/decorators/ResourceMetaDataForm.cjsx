@@ -15,7 +15,7 @@ module.exports = React.createClass
   propTypes: {
     get: PropTypes.shape({
       meta_data: PropTypes.shape({
-        by_vocabulary: PropTypes.objectOf(
+        by_vocabulary: PropTypes.arrayOf(
           PropTypes.shape({
             # TODO: MadekPropTypes resources:
             vocabulary: PropTypes.object.isRequired
