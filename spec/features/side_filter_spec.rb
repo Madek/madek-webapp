@@ -54,7 +54,7 @@ feature 'Side Filter' do
 
     def find_item_element(name, open)
       root_ul = find('.ui-side-filter-list')
-      section_li = root_ul.first('.ui-side-filter-lvl1-item')
+      section_li = root_ul.all('.ui-side-filter-lvl1-item')[1]
       section_a = section_li.first('.ui-accordion-toggle')
       section_a.click if open
       section_ul = section_li.first('.ui-side-filter-lvl2')

@@ -23,7 +23,7 @@ module Presenters
       def list
         [
           # TMP disabled:
-          # media_files(@scope, @tree),
+          media_files(@scope, @tree),
           # permissions(@scope, @tree),
           meta_data(@scope, @tree)
         ].flatten.compact
@@ -33,13 +33,12 @@ module Presenters
 
       # "top-level" sections (just for readabilty):
 
-      # TMP disabled
-      # def media_files(scope, tree)
-      #   if @resource_type == MediaEntry
-      #     media_files_filters(scope, get_key(tree, :media_files))
-      #   end
-      # end
-      #
+      def media_files(scope, tree)
+        if @resource_type == MediaEntry
+          media_files_filters(scope, get_key(tree, :media_files))
+        end
+      end
+
       # def permissions(scope, tree)
       #   children = get_key(tree, :permissions)
       #   permissions_filter(scope, children)
@@ -66,26 +65,21 @@ module Presenters
       # helpers
 
       # TMP disabled
-      # def media_files_filters(scope, children)
-      #   # FIXME: should filter for document type! (part before slash)
-      #   media_files = scope.map(&:media_file) if children.present?
-      #   file_types = if get_key(children, :content_type)
-      #                  items_from_strings(media_files.map(&:content_type).uniq)
-      #                end
-      #   extensions = if get_key(children, :extension)
-      #                  items_from_strings(media_files.map(&:extension).uniq)
-      #                end
-      #   { label: 'Datei',
-      #     uuid: 'media_files',
-      #     position: 1,
-      #     children: [
-      #       { label: 'Medientyp',
-      #         uuid: 'content_type',
-      #         children: file_types },
-      #       { label: 'Dokumenttyp',
-      #         uuid: 'extension',
-      #         children: extensions }] }
-      # end
+      def media_files_filters(scope, _children)
+        media_types = FilterBarQuery.get_media_types_unsafe(scope)
+        extensions = FilterBarQuery.get_extensions_unsafe(scope)
+
+        { label: 'Datei',
+          filter_type: 'media_files',
+          position: 1,
+          children: [
+            { label: 'Medientyp',
+              uuid: 'media_type',
+              children: media_types },
+            { label: 'Dokumenttyp',
+              uuid: 'extension',
+              children: extensions }] }
+      end
 
       # TMP disabled
       # def permissions_filter(scope, children)
@@ -159,9 +153,9 @@ module Presenters
       #   list.map { |str| { uuid: str } }
       # end
       #
-      # def get_key(children, key)
-      #   children.try(:fetch, key, false)
-      # end
+      def get_key(children, key)
+        children.try(:fetch, key, false)
+      end
     end
   end
 end
