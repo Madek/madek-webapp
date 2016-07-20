@@ -13,6 +13,12 @@ module Shared
         end
       end
 
+      class ManageableScope < Scope # edit permissions
+        def resolve
+          scope.manageable_by_user(user)
+        end
+      end
+
       def new?
         logged_in?
       end

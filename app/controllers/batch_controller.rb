@@ -6,5 +6,5 @@ class BatchController < ApplicationController
 
   include Modules::Batch::BatchAddToSet
   include Modules::Batch::BatchRemoveFromSet
-
+  include Modules::Batch::BatchPermissionActions
 end

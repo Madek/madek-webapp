@@ -4,26 +4,35 @@ module Modules
       extend ActiveSupport::Concern
 
       def authorize_media_entries_for_view!(user, media_entries)
-        authorized_media_entries = \
-          MediaEntryPolicy::Scope.new(user, media_entries).resolve
-        if media_entries.count != authorized_media_entries.count
-          raise Errors::ForbiddenError, 'Not allowed to view all resources!'
-        end
+        authorize_batch_scope(
+          'view all resources',
+          user, media_entries, MediaEntryPolicy::Scope)
       end
 
       def authorize_collections_for_view!(user, collections)
-        authorized_collections = \
-          CollectionPolicy::Scope.new(user, collections).resolve
-        if collections.count != authorized_collections.count
-          raise Errors::ForbiddenError, 'Not allowed to view all resources!'
-        end
+        authorize_batch_scope(
+          'view all resources',
+          user, collections, CollectionPolicy::Scope)
       end
 
       def authorize_media_entries_for_batch_edit!(user, media_entries)
-        authorized_media_entries = \
-          MediaEntryPolicy::EditableScope.new(user, media_entries).resolve
-        if media_entries.count != authorized_media_entries.count
-          raise Errors::ForbiddenError, 'Not allowed to edit all resources!'
+        authorize_batch_scope(
+          'edit all resources',
+          user, media_entries, MediaEntryPolicy::EditableScope)
+      end
+
+      def authorize_resources_for_permissions_batch_edit!(user, resources)
+        authorize_batch_scope(
+          'edit permissions of all resources', user, resources,
+          Shared::MediaResources::MediaResourcePolicy::ManageableScope)
+      end
+
+      private
+
+      def authorize_batch_scope(action_name, user, resources, scope)
+        authorized_resources = scope.new(user, resources).resolve
+        if resources.count != authorized_resources.count
+          raise Errors::ForbiddenError, "Not allowed to #{action_name}!"
         end
       end
 

@@ -10,6 +10,8 @@ module Concerns
           batch_edit_context_meta_data
           batch_meta_data
           batch_select_add_to_set
+          batch_edit_permissions
+          batch_update_permissions
         )
 
         def singular_model_name_id
