@@ -19,7 +19,11 @@ module.exports = React.createClass
     overview =
       content: <MetaDataList list={summary_context}
                 type='table' showTitle={false} showFallback={false}/>
-      preview: <Preview title={get.title} alt='(Unbekannt)' src={get.image_url} />
+      preview: (
+        <div className='ui-media-overview-preview'>
+          <Preview title={get.title} alt='(Unbekannt)' src={get.image_url} />
+        </div>
+      )
 
     <div className="bright  pal rounded-top-right ui-container">
       <ResourceShowOverview {...overview}/>

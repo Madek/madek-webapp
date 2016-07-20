@@ -103,6 +103,8 @@ media_entry_media_import_title,"Bilder, Videos, Audio-Dateien oder Dokumente ber
 media_entry_conversion_status_initialized,The video is converting. Please try later.,The video is converting. Please try later.,
 media_entry_conversion_status_submitted,The video is converting. Please try later.,The video is converting. Please try later.,
 media_entry_conversion_status_failed,The video conversion failed. Please contact support.,The video conversion failed. Please contact support.,
+media_entry_conversion_hint,"Diese Datei wird gerade für eine Vorschau konvertiert. Sobald dies abgeschlossen ist, finden Sie hier eine abspielbare Version.","Diese Datei wird gerade für eine Vorschau konvertiert. Sobald dies abgeschlossen ist, finden Sie hier eine abspielbare Version.",
+media_entry_conversion_reload,"Laden Sie diese Seite neu, um den aktuellsten Stand zu erfahren.","Laden Sie diese Seite neu, um den aktuellsten Stand zu erfahren.",
 media_entry_meta_data_header_prefix,Medieneintrag editieren: ,Edit Media Entry:,
 media_entry_more_data_title,Verantwortlichkeit und Aktivität,Responsibility,
 media_entry_not_published_warning_msg,Dieser Medieneintrag ist noch nicht gesichert!,Media entry is not saved yet!,

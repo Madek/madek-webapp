@@ -22,5 +22,6 @@ module.exports = React.createClass
 
       {# and on the right: the large preview (e.g. for Entry)}
       {if previewLg
-        <div className='ui-media-overview-preview'>{previewLg}</div>}
+        previewLg
+      }
     </div>
