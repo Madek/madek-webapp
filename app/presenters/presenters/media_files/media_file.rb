@@ -46,6 +46,15 @@ module Presenters
         get_image_preview(@image_previews, size)
       end
 
+      def conversion_status
+        if @app_resource.previews_zencoder? == 0
+          latest = @app_resource.zencoder_jobs.order(created_at: :DESC).first
+          if latest
+            return latest.state
+          end
+        end
+      end
+
       private
 
       def get_image_preview(previews, size)

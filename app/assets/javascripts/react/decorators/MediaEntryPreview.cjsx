@@ -1,6 +1,7 @@
 React = require('react')
 PropTypes = React.PropTypes
 f = require('active-lodash')
+t = require('../../lib/string-translation.js')('de')
 cx = require('classnames')
 
 Link = require('../ui-components/Link.cjsx')
@@ -36,31 +37,41 @@ module.exports = React.createClass({
     # just the picure element (might be wrapped)
     picture = <Picture className={classes} src={image_url} title={title}/>
 
-    switch
-      # video player
-      when previews.videos
-        <MediaPlayer type='video' className={classes}
-          sources={previews.videos} poster={image_url}/>
 
-      # audio player
-      when previews.audios
-        <div className='ui-container mvm'>
-          <MediaPlayer type='audio' className={classes}
-            sources={previews.audios} poster={image_url}/></div>
+    get = @props.get
+    not_ready = get.media_type == 'video' && get.media_file && get.media_file.conversion_status && get.media_file.conversion_status != 'finished'
 
-      # picture with link and 'zoom' icon on hover
-      when href
-        hasZoom = !(href == image_url)
-        <div className={cx({'ui-has-magnifier': hasZoom})}>
-          <a href={href}>
-            {picture}
-          </a>
-          {if hasZoom
-            <a href={href} target='_blank' className='ui-magnifier'>
-              <Icon i='magnifier' mods='bright'/>
-            </a>}
-        </div>
+    if not_ready
 
-      else
-        picture
+      <div className='ui-alert warning'>{t('media_entry_conversion_status_' + get.media_file.conversion_status)}</div>
+
+    else
+
+      switch
+        # video player
+        when previews.videos
+          <MediaPlayer type='video' className={classes}
+            sources={previews.videos} poster={image_url}/>
+
+        # audio player
+        when previews.audios
+          <div className='ui-container mvm'>
+            <MediaPlayer type='audio' className={classes}
+              sources={previews.audios} poster={image_url}/></div>
+
+        # picture with link and 'zoom' icon on hover
+        when href
+          hasZoom = !(href == image_url)
+          <div className={cx({'ui-has-magnifier': hasZoom})}>
+            <a href={href}>
+              {picture}
+            </a>
+            {if hasZoom
+              <a href={href} target='_blank' className='ui-magnifier'>
+                <Icon i='magnifier' mods='bright'/>
+              </a>}
+          </div>
+
+        else
+          picture
 })
