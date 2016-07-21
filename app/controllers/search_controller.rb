@@ -9,7 +9,7 @@ class SearchController < ApplicationController
   # search result - redirects to filtered index
   def result
     skip_authorization
-    string_string = params.require(:search)
+    string_string = params.permit(:search).fetch(:search, '')
     redirect_to_filtered_index(search: string_string)
   end
 

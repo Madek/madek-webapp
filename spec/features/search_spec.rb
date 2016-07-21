@@ -23,12 +23,21 @@ feature 'Page: Search' do
            browser: :firefox do
 
     it 'for public' do
-      search_for_text_and_check_results_pages('kunst')
+     search_for_text_and_check_results_pages('kunst')
+    end
+
+    it 'empty search (for public)' do
+     search_for_text_and_check_results_pages('')
     end
 
     it 'for a logged in user' do
       sign_in_as 'normin'
       search_for_text_and_check_results_pages('design')
+    end
+
+    it 'empty search (for a logged in user)' do
+      sign_in_as 'normin'
+      search_for_text_and_check_results_pages('')
     end
 
   end
