@@ -15,7 +15,8 @@ module.exports = React.createClass
 
       {# left side: the small preview (e.g. Sets)}
       {if preview
-        <div className='ui-set-preview'>{preview}</div>}
+        preview
+      }
 
       {# top box, main content (e.g. list of data about the resource)}
       {content}

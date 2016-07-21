@@ -6,8 +6,10 @@ classnames = require('classnames')
 
 MetaDataList = require('../../decorators/MetaDataList.cjsx')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
-ResourceShowOverview = require('../../templates//ResourceShowOverview.cjsx')
+ResourceShowOverview = require('../../templates/ResourceShowOverview.cjsx')
 TabContent = require('../TabContent.cjsx')
+
+SimpleResourceThumbnail = require('../../decorators/SimpleResourceThumbnail.cjsx')
 
 module.exports = React.createClass
   displayName: 'CollectionDetailOverview'
@@ -20,28 +22,12 @@ module.exports = React.createClass
       content: <MetaDataList list={summary_context}
                 type='table' showTitle={false} showFallback={false}/>
       preview: (
-        <div className='ui-media-overview-preview'>
-          <Preview title={get.title} alt='(Unbekannt)' src={get.image_url} />
+        <div className='ui-set-preview'>
+          <SimpleResourceThumbnail type={get.type} title={get.title}
+            authors_pretty={get.authors_pretty} image_url={get.image_url} />
         </div>
       )
 
     <div className="bright  pal rounded-top-right ui-container">
       <ResourceShowOverview {...overview}/>
-    </div>
-
-Preview = React.createClass
-  displayName: 'Preview'
-  render: ({title, alt, src} = @props) ->
-    <div className="media-set ui-thumbnail">
-      <span className="ui-thumbnail-image-wrapper" title={title}>
-        <div className="ui-thumbnail-image-holder">
-          <div className="ui-thumbnail-table-image-holder">
-            <div className="ui-thumbnail-cell-image-holder">
-              <div className="ui-thumbnail-inner-image-holder">
-                <img alt={alt} className="ui-thumbnail-image" src={src}></img>
-              </div>
-            </div>
-          </div>
-        </div>
-      </span>
     </div>

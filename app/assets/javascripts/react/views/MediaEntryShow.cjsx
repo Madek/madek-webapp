@@ -8,7 +8,7 @@ MadekPropTypes = require('../lib/madek-prop-types.coffee')
 MetaDataList = require('../decorators/MetaDataList.cjsx')
 MediaEntryPreview = require('../decorators/MediaEntryPreview.cjsx')
 MetaDataByListing = require('../decorators/MetaDataByListing.cjsx')
-ResourceShowOverview = require('../templates//ResourceShowOverview.cjsx')
+ResourceShowOverview = require('../templates/ResourceShowOverview.cjsx')
 
 module.exports = React.createClass
   displayName: 'Views.MediaEntryShow'
