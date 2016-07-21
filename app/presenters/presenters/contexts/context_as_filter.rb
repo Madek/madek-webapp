@@ -24,10 +24,12 @@ module Presenters
             {
               type: :MetaKey,
               uuid: context_key.meta_key_id,
+              position: context_key.position,
               label: context_key.label || context_key.id,
               children: values.map { |v| v.slice('uuid', 'count', 'label') }
             }
           end
+          .sort { |x, y| x[:position] <=> y[:position] }
       end
 
     end
