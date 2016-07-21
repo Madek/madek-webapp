@@ -9,22 +9,27 @@ set = require('active-lodash').set
 
 parseQuery = qs.parse
 formatQuery = (obj)->
-  qs.stringify(obj, { arrayFormat: 'brackets'}) # NOTE: do it like rails
+  qs.stringify(obj, {
+    skipNulls: true,
+    arrayFormat: 'brackets' # NOTE: do it like rails
+  })
 
 # setUrlParams('/foo?foo=1&bar[baz]=2', {bar: {baz: 3}}, …)
 # setUrlParams({path: '/foo', query: {foo: 1, bar: {baz: 2}}, {bar: {baz: 3}}, …)
 # >>> '/foo?foo=1&bar[baz]=3'
 module.exports = setUrlParams = (currentUrl = '', params...)->
+  console.log 'url', params, reduce(params, (a, b)-> merge(a, b))
   url = urlFromStringOrObject(currentUrl)
-  formatUrl
-    pathname: url.pathname
-    search: formatQuery(merge(url.query, reduce(params, (a, b)-> merge(a, b))))
+  formatUrl({
+    pathname: url.pathname,
+    search: formatQuery(
+      merge(parseQuery(url.query), reduce(params, (a, b)-> merge(a, b))))})
 
 urlFromStringOrObject = (url)->
   switch
     when (isObject(url) and (isString(url.path) or isString(url.pathname)))
-      {pathname: url.path or url.pathname, query: url.query}
+      {pathname: (url.path or url.pathname), query: url.query}
     when isString(url)
-      do (url = parseUrl(url))-> set(url, 'query', parseQuery(url.query) )
+      do (url = parseUrl(url))-> set(url, 'query', url.query)
     else
       throw new Error 'Invalid URL!'
