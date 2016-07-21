@@ -217,7 +217,10 @@ module.exports = React.createClass
 
   _batchAddToSetIds: () ->
     @state.selectedResources.map (model) ->
-      model.uuid
+      {
+        uuid: model.uuid
+        type: model.getType()
+      }
 
   _onBatchAddToSet: (event)->
     event.preventDefault()
@@ -350,6 +353,8 @@ module.exports = React.createClass
         mods={toolbarClasses}
         layouts={layouts}/>
 
+
+
     boxToolBar = () =>
       # NOTE: don't show the bar if not in a box!
       return false if !withBox
@@ -363,10 +368,10 @@ module.exports = React.createClass
       # batch actions. presence of action key shows it in menu,
       #                presence of 'click' function means it is enabled.
       actions = if withActions
-        addToSet: if selection && get.type is 'MediaEntries'
+        addToSet: if selection && (get.type is 'MediaEntries' || get.type is 'MediaResources')
           click: (if !selection.isEmpty() then @_onBatchAddToSet)
 
-        edit: if selection && get.type is 'MediaEntries'
+        edit: if selection && (get.type is 'MediaEntries' || get.type is 'MediaResources')
           click: (if f.present(batchEditables) then @_onBatchEdit)
           hover: f.curry(@_onHiglightEditable)(true)
           unhover: f.curry(@_onHiglightEditable)(false)
@@ -592,7 +597,7 @@ module.exports = React.createClass
 
       {
         if @state.batchAddToSet
-          <BatchAddToSetModal mediaEntryIds={@_batchAddToSetIds()} authToken={@props.authToken}
+          <BatchAddToSetModal resourceIds={@_batchAddToSetIds()} authToken={@props.authToken}
             get={null} onClose={@_onCloseModal} returnTo={@state.config.for_url.path}/>
       }
       {

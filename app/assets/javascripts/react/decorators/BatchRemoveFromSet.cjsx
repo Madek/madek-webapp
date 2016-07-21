@@ -37,8 +37,7 @@ module.exports = React.createClass
     setUrlParams(
       @props.get.batch_remove_from_set_url,
       {
-        media_entry_id: @props.get.media_entry_ids
-        collection_id: @props.get.collection_ids
+        resource_id: @props.get.resource_ids
         return_to: @props.get.return_to
         parent_collection_id: @props.get.parent_collection_id
       }

@@ -2,16 +2,16 @@ module Presenters
   module Batch
     class BatchAddToSet < Presenter
 
-      attr_accessor :media_entry_ids
+      attr_accessor :resource_ids
       attr_accessor :search_term
       attr_accessor :return_to
 
-      def initialize(user, media_entry_ids, search_term, return_to)
-        @user = user
-        @media_entry_ids = media_entry_ids
+      def initialize(initial_values)
+        @user = initial_values[:user]
+        @resource_ids = initial_values[:resource_ids]
         @search_results = []
-        @search_term = search_term
-        @return_to = return_to
+        @search_term = initial_values[:search_term]
+        @return_to = initial_values[:return_to]
       end
 
       def search_results
@@ -28,7 +28,7 @@ module Presenters
       end
 
       def batch_count
-        @media_entry_ids.length
+        @resource_ids.length
       end
 
       def batch_select_add_to_set_url

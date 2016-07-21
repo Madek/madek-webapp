@@ -65,7 +65,7 @@ module.exports = React.createClass
     setUrlParams(
       @props.get.batch_select_add_to_set_url,
       {
-        media_entry_id: @props.get.media_entry_ids
+        resource_id: @props.get.resource_ids
         search_term: @state.searchTerm
         return_to: @state.get.return_to
       }
@@ -93,8 +93,14 @@ module.exports = React.createClass
             name='search_term' value={@state.searchTerm}
             onChange={@_onChange}/>
           {
-            f.map @props.get.media_entry_ids, (media_entry_id) ->
-              <input key={'hidden_' + media_entry_id} type='hidden' name='media_entry_id[]' value={media_entry_id} />
+            f.map @props.get.resource_ids, (resource_id) ->
+              [
+                <input key={'resource_id_' + resource_id.uuid} type='hidden'
+                  name='resource_id[][uuid]' value={resource_id.uuid} />
+                ,
+                <input key={'resource_id_' + resource_id.type} type='hidden'
+                  name='resource_id[][type]' value={resource_id.type} />
+              ]
           }
           {
             if not @state.mounted
@@ -117,8 +123,14 @@ module.exports = React.createClass
           <div className='ui-resources-table'>
             <input type='hidden' name='return_to' value={@state.get.return_to} />
             {
-              f.map @props.get.media_entry_ids, (media_entry_id) ->
-                <input key={'hidden_' + media_entry_id} type='hidden' name='media_entry_id[]' value={media_entry_id} />
+              f.map @props.get.resource_ids, (resource_id) ->
+                [
+                  <input key={'resource_id_' + resource_id.uuid} type='hidden'
+                    name='resource_id[][uuid]' value={resource_id.uuid} />
+                  ,
+                  <input key={'resource_id_' + resource_id.type} type='hidden'
+                    name='resource_id[][type]' value={resource_id.type} />
+                ]
             }
             <table className='block'>
               <tbody>
@@ -133,7 +145,7 @@ module.exports = React.createClass
                       </td>
                       <td data-name='title' title=''>
                         <Button style={{float: 'right'}} className="primary-button"
-                          type='submit' value={collection.uuid} name={'collection_id'}>
+                          type='submit' value={collection.uuid} name={'parent_collection_id'}>
                           Zu diesem hinzufügen
                         </Button>
                       </td>

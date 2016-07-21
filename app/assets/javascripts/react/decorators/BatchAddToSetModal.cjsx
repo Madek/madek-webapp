@@ -36,7 +36,7 @@ module.exports = React.createClass
   render: ({authToken, get} = @props) ->
     getUrl = setUrlParams('/batch_select_add_to_set', {
       search_term: '',
-      media_entry_id: @props.mediaEntryIds
+      resource_id: @props.resourceIds
       return_to: @props.returnTo
     })
     <AsyncModal get={get} getUrl={getUrl}

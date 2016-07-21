@@ -123,7 +123,16 @@ feature 'batch edit' do
 
   def initial_url
     batch_select_add_to_set_path(
-      media_entry_id: [@media_entry1.id, @media_entry2.id],
+      resource_id: [
+        {
+          uuid: @media_entry1.id,
+          type: 'MediaEntry'
+        },
+        {
+          uuid: @media_entry2.id,
+          type: 'MediaEntry'
+        }
+      ],
       return_to: @return_to_path)
   end
 

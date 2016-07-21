@@ -2,34 +2,31 @@ module Presenters
   module Batch
     class BatchRemoveFromSet < Presenter
 
-      def initialize(
-        user,
-        parent_collection_id,
-        media_entry_ids,
-        collection_ids,
-        return_to)
-        @user = user
-        @parent_collection_id = parent_collection_id
-        @media_entry_ids = media_entry_ids
-        @collection_ids = collection_ids
-        @return_to = return_to
+      def initialize(initial_values)
+        @user = initial_values[:user]
+        @parent_collection_id = initial_values[:parent_collection_id]
+        @resource_ids = initial_values[:resource_ids]
+        @return_to = initial_values[:return_to]
       end
 
-      attr_accessor :media_entry_ids
-      attr_accessor :collection_ids
+      attr_accessor :resource_ids
       attr_accessor :return_to
       attr_accessor :parent_collection_id
 
       def batch_count
-        media_entries_count + collections_count
+        @resource_ids.length
       end
 
       def media_entries_count
-        @media_entry_ids.length
+        @resource_ids.select do |resource_id|
+          resource_id[:type] == 'MediaEntry'
+        end.length
       end
 
       def collections_count
-        @collection_ids.length
+        @resource_ids.select do |resource_id|
+          resource_id[:type] == 'Collection'
+        end.length
       end
 
       def parent_collection_title
