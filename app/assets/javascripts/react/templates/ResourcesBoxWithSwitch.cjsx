@@ -2,11 +2,15 @@ React = require('react')
 f = require('active-lodash')
 ui = require('../lib/ui.coffee')
 t = ui.t('de')
+parseUrl = require('url').parse
+parseQuery = require('qs').parse
 setUrlParams = require('../../lib/set-params-for-url.coffee')
 
 Button = require('../ui-components/Button.cjsx')
 ButtonGroup = require('../ui-components/ButtonGroup.cjsx')
 ResourcesBox = require('../decorators/MediaResourcesBox.cjsx')
+# client-side only
+router = null
 
 TYPES = ['entries', 'sets'] # see `typeBbtns`, types are defined there
 
@@ -20,6 +24,21 @@ module.exports = React.createClass
     for_url: React.PropTypes.string.isRequired
     # all other props are just passed through to ResourcesBox:
     get: React.PropTypes.object.isRequired
+
+  componentDidMount: ()->
+    router = require('../../lib/router.coffee')
+
+    # listen to history and set state from params:
+    router.listen (location)=>
+      console.log location
+      @setState(url: location)
+    # TMP: start the router (also immediatly calls listener(s) once if already attached!)
+    router.start()
+    @setState({router: router})
+
+  componentWillUnmount: ()->
+    if @state.router then @state.router.stop()
+
 
   render: (props = @props)->
     {currentType, otherTypes} = props.switches
@@ -49,7 +68,19 @@ module.exports = React.createClass
 
 urlByType = (currentUrl, currentType, type)->
   if currentType is type then return currentUrl
-  # HACK: build link to 'sets', but remove filter (not implemented!)
-  params = if type is 'sets' then {filter: null}
+  params = parseQuery(parseUrl(currentUrl).query)
+  # NOTE: resetting all other 'list' params (pagination etc)
+  resetlistParams = { list: { page: 1, filter: null } }
+  parseQuery(parseUrl(currentUrl).query)
+  # HACK: build link to 'sets', but remove filter (only 'search' is implemented!)
+  searchTerm = (try JSON.parse(params.list.filter).search)
+  listParams = if type is 'sets'
+    { list: {
+      accordion: null,
+      filter: JSON.stringify({search: searchTerm}) } }
+
   # TODO: relative_url_root
-  setUrlParams(currentUrl.replace("/#{currentType}", "/#{type}"), params)
+  setUrlParams(
+    currentUrl.replace("/#{currentType}", "/#{type}"),
+    resetlistParams,
+    listParams)

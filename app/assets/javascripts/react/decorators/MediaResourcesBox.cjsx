@@ -126,13 +126,17 @@ module.exports = React.createClass
     @setState(resources: resources)
 
   componentDidMount: ()->
-    router = require('../../lib/router.coffee')
+    router = if @props.router # NOTE: not a default prop so we know if we have to start()
+      @props.router
+    else
+      require('../../lib/router.coffee')
+
     # listen to history and set state from params:
     router.listen (location)=>
       @setState(config: f.merge(@state.config, resourceListParams(location)))
-    # start the router (also immediatly calls listener(s) once if already attached!)
-    router.start()
-
+    # TMP: start the router if we set it up here:
+    # (also immediatly calls listener(s) once if already attached!)
+    router.start() unless @props.router
 
     # selection status is managed in ampersand-collection
     if @props.get.type is 'MediaResources'
@@ -145,9 +149,10 @@ module.exports = React.createClass
       f.each ['add', 'remove', 'reset', 'change'], (eventName)=>
         selection.on(eventName, ()=> @forceUpdate() if @isMounted())
 
-    @setState(isClient: true, selectedResources: selection)
+    @setState(isClient: true, router: router, selectedResources: selection)
 
   componentWillUnmount: ()->
+    if @state.router then @state.router.stop()
     if @state.selectedResources then @state.selectedResources.off()
 
   # client-side link handlers:
