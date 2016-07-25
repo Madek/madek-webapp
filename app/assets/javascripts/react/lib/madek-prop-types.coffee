@@ -135,7 +135,7 @@ M.resourceFilter = PropTypes.shape
   meta_data: PropTypes.arrayOf(PropTypes.oneOfType(ResourceFiltersMetaData))
   media_files: PropTypes.arrayOf(
     PropTypes.shape(
-      key: PropTypes.string.isRequired
+      key: PropTypes.oneOf(['media_type', 'extension', 'content_type']).isRequired
       value: PropTypes.string.isRequired))
   permissions: PropTypes.arrayOf(
     PropTypes.oneOfType([

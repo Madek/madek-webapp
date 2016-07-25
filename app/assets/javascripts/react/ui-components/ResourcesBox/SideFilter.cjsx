@@ -19,6 +19,14 @@ module.exports = React.createClass
     current: MadekPropTypes.resourceFilter.isRequired
     onChange: React.PropTypes.func
 
+
+  # Note: We list in the menu the sections based on the meta data contexts.
+  # But furthermore, we also for example list the media types as a section
+  # with an artifical uuid "file". We must make sure, that we have not clash
+  # for example, when a context has the id "file". Thats why section uuids must
+  # be concatenated with the filter_type.
+  # E.g. meta_data:copyright or media_files:file
+
   getAccordionSection: (sectionUuid) ->
     accordion = @state.accordion
     if not accordion.sections
@@ -100,12 +108,12 @@ module.exports = React.createClass
 
     filterType = filter.filterType
     uuid = filter.uuid
-    isOpen = @getAccordionSection(uuid).isOpen
+    isOpen = @getAccordionSection(filterType + '/' + uuid).isOpen
     href = null
 
-    toggleOnClick = () => @toggleSection(filter.uuid)
+    toggleOnClick = () => @toggleSection(filterType + '/' + filter.uuid)
 
-    <li className={itemClass} key={filter.uuid}>
+    <li className={itemClass} key={filterType + '/' + filter.uuid}>
       <a className={css('ui-accordion-toggle', 'strong', open: isOpen)}
         href={href} onClick={toggleOnClick}>
         {filter.label} <i className='ui-side-filter-lvl1-marker'/>
@@ -120,12 +128,12 @@ module.exports = React.createClass
 
   renderSubSection: (current, filterType, parent, child) ->
 
-    isOpen = @getAccordionSubSection(parent.uuid, child.uuid).isOpen
+    isOpen = @getAccordionSubSection(filterType + '/' + parent.uuid, child.uuid).isOpen
 
     keyClass = 'ui-side-filter-lvl2-item'
     togglebodyClass = css('ui-accordion-body', 'ui-side-filter-lvl3', open: isOpen)
     <li className={keyClass} key={child.uuid}>
-      {@createToggleSubSection(parent, child, isOpen)}
+      {@createToggleSubSection(filterType, parent, child, isOpen)}
       {@createMultiSelectBox(child, current, filterType)}
       <ul className={togglebodyClass}>
         {if isOpen then f.map child.children, (item)=>
@@ -143,12 +151,12 @@ module.exports = React.createClass
 
     <FilterItem {...item} key={item.uuid} onClick={addRemoveClick}/>
 
-  createToggleSubSection: (parent, child, isOpen) ->
+  createToggleSubSection: (filterType, parent, child, isOpen) ->
 
     href = null
 
     toggleOnClick = (
-      () -> @toggleSubSection(parent.uuid, child.uuid)
+      () -> @toggleSubSection(filterType + '/' + parent.uuid, child.uuid)
     ).bind(this)
 
     togglerClass = css('ui-accordion-toggle', 'weak', open: isOpen)

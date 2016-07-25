@@ -71,14 +71,17 @@ module Presenters
 
         { label: 'Datei',
           filter_type: 'media_files',
+          uuid: 'file',
           position: 1,
           children: [
             { label: 'Medientyp',
               uuid: 'media_type',
-              children: media_types },
+              children: media_types,
+              multi: false },
             { label: 'Dokumenttyp',
               uuid: 'extension',
-              children: extensions }] }
+              children: extensions,
+              multi: false }] }
       end
 
       # TMP disabled
