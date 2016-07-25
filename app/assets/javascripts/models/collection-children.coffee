@@ -2,8 +2,10 @@ AppCollection = require('./shared/app-collection.coffee')
 AppResource = require('./shared/app-resource.coffee')
 Collection = require('./collection.coffee')
 MediaEntry = require('./media-entry.coffee')
+PaginatedCollection = require('./shared/paginated-collection-factory.coffee')
 
-module.exports = AppCollection.extend
+
+CollectionChildren = AppCollection.extend
   type: 'CollectionChildren'
 
   model: (attributes, options) ->
@@ -19,3 +21,9 @@ module.exports = AppCollection.extend
 
   getBatchEditableItems: () ->
     @filter (item) -> item.isBatchEditable
+
+
+CollectionChildren.Paginated = PaginatedCollection(
+  CollectionChildren, jsonPath: 'relations.child_media_resources.resources')
+
+module.exports = CollectionChildren

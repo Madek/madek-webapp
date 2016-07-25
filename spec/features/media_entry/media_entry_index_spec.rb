@@ -79,8 +79,7 @@ feature 'Resource: MediaEntry' do
       end
 
       # get canonical current_url from pagination UI (for checking `return_to`)
-      return_url = current_path_with_query(
-        find('.ui-resources-page .ui-pager:nth-child(1)')[:href])
+      return_url = current_path_with_query
 
       # click the 'batch edit' button
       within('.ui-filterbar') do

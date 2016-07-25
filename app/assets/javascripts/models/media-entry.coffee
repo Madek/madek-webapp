@@ -19,6 +19,7 @@ module.exports = AppResource.extend(
   {
   type: 'MediaEntry'
   urlRoot: '/entries'
+  # NOTE: this allows some session-like props on presenters for simplicity:
   extraProperties: 'allow'
   props:
     title:

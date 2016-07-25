@@ -6,24 +6,28 @@ ui = require('../lib/ui.coffee')
 t = ui.t('de')
 setUrlParams = require('../../lib/set-params-for-url.coffee')
 resourceListParams = require('../../shared/resource_list_params.coffee')
-RailsForm = require('../lib/forms/rails-form.cjsx')
 
+Waypoint = require('react-waypoint')
+RailsForm = require('../lib/forms/rails-form.cjsx')
 ResourceThumbnail = require('./ResourceThumbnail.cjsx')
 { Button, ButtonGroup, Icon, Link, Preloader, Dropdown, ActionsBar
 } = require('../ui-components/index.coffee')
 SideFilter = require('../ui-components/ResourcesBox/SideFilter.cjsx')
 BoxToolBar = require('../ui-components/ResourcesBox/BoxToolBar.cjsx')
 
+# models
+MediaEntries = require('../../models/media-entries.coffee')
+Collections = require('../../models/collections.coffee')
+CollectionChildren = require('../../models/collection-children.coffee')
+
 # interactive stuff, should be moved to controller
 router = null # client-side only
 qs = require('qs')
-MediaEntriesCollection = require('../../models/media-entries.coffee')
 xhr = require('xhr')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 BatchAddToSetModal = require('./BatchAddToSetModal.cjsx')
 BatchRemoveFromSetModal = require('./BatchRemoveFromSetModal.cjsx')
 
-CollectionChildren = require('../../models/collection-children.coffee')
 
 
 # Props/Config overview:
@@ -99,10 +103,6 @@ module.exports = React.createClass
   getDefaultProps: ()->
     fallback: true
 
-  mixins: [ampersandReactMixin]
-  getObservedItems: ()-> # ampersandReactMixin!
-    [f.get(@props, ['get', 'resources'])]
-
   # kick of client-side mode:
   getInitialState: ()-> {
     isClient: false,
@@ -112,17 +112,23 @@ module.exports = React.createClass
   }
 
   componentWillMount: ()->
-    # FIXME: only implemented for MediaEntries!
-    # init resources as collection:
+    # init resources as collection
+    isPaginated = @props.withBox && f.present(f.get(@props, 'get.pagination.total_count'))
 
-    if @props.get.type is 'MediaResources'
-      resources = (new CollectionChildren(@props.get.resources))
+    collectionClass = switch @props.get.type
+      when 'MediaResources' then CollectionChildren
+      when 'MediaEntries' then MediaEntries
+      when 'Collections' then Collections
 
-    else if @props.get.type is 'MediaEntries'
-      resources = if @props.get.resources.isCollection
-        @props.get.resources
+    resources = if f.get(@props, 'get.resources.isCollection')
+      @props.get.resources # if already initialized just use that
+    else if collectionClass
+      if isPaginated
+        if !collectionClass.Paginated then throw new Error('Collection has no Pagination!')
+        (new collectionClass.Paginated(@props.get))
       else
-        (new MediaEntriesCollection(@props.get.resources))
+        (new collectionClass(@props.get.resources))
+
     @setState(resources: resources)
 
   componentDidMount: ()->
@@ -142,16 +148,20 @@ module.exports = React.createClass
     if @props.get.type is 'MediaResources'
       selection = new CollectionChildren()
     else if @props.get.type is 'MediaEntries'
-      selection = new MediaEntriesCollection()
+      selection = new MediaEntries()
 
-    if selection
-      # set up auto-update for it:
+    # set up auto-update for models/collections:
+    f.each [@state.resources, selection], (m)=>
       f.each ['add', 'remove', 'reset', 'change'], (eventName)=>
-        selection.on(eventName, ()=> @forceUpdate() if @isMounted())
+        if m && f.isFunction(m.on)
+          m.on(eventName, ()=> @forceUpdate())
 
+    if @state.resources
+      @fetchNextPage = f.throttle(((c)=> @state.resources.fetchNext(c)), 1000)
     @setState(isClient: true, router: router, selectedResources: selection)
 
   componentWillUnmount: ()->
+    if @fetchNextPage then @fetchNextPage.cancel()
     if @state.router then @state.router.stop()
     if @state.selectedResources then @state.selectedResources.off()
 
@@ -165,6 +175,13 @@ module.exports = React.createClass
   #   handleLinkIfLocal(event, alert)
 
   # - custom actions:
+  _onFetchNextPage: (event)->
+    return if @state.loadingNextPage
+    @setState(loadingNextPage: true)
+    @fetchNextPage (err, newUrl)=>
+      if err then console.error(err)
+      @setState(loadingNextPage: false)
+
   _onFilterChange: (event, newParams)->
     event.preventDefault() if event && f.isFunction(event.preventDefault)
     params = currentParams = {list: f.omit(@state.config, 'for_url')}
@@ -221,9 +238,7 @@ module.exports = React.createClass
     @setState(higlightBatchEditable: bool)
 
   _currentUrl: () ->
-    setUrlParams(
-      @props.get.config.for_url, {list: f.omit(@state.config, 'for_url')})
-
+    setUrlParams(@props.get.config.for_url)
 
   _onBatchEdit: (event)->
     event.preventDefault()
@@ -535,8 +550,28 @@ module.exports = React.createClass
         }
       </div>
 
-    paginationNav = if withBox and f.present(get.pagination)
-      do ({config, pagination} = get)=>
+    paginationNav = (resources, staticPagination) =>
+      pagination = f.get(f.last(resources.pages), 'pagination') || staticPagination
+      return if !withBox or !f.present(pagination)
+      return if pagination.totalPages <= pagination.page
+      # autoscroll:
+      if @state.isClient
+        isLoading = @state.loadingNextPage
+        <div className='ui-actions'>
+          {if !@isLoading
+            # NOTE: offset means trigger when next page is still way *down*!
+            # NOTE: set "random" key to force evaluation on every rerender
+            <Waypoint onEnter={@_onFetchNextPage} bottomOffset='-90%' key={(new Date()).getTime()}/>}
+          <Button onClick={@_onFetchNextPage}>
+            {if !isLoading
+              t('pagination_nav_loadnext')
+            else
+              t('pagination_nav_nextloading')}
+          </Button>
+        </div>
+
+      # static fallback:
+      else do ({config, pagination} = get)=>
         navLinks =
           current:
             href: currentUrl
@@ -545,9 +580,12 @@ module.exports = React.createClass
             href: setUrlParams(config.for_url, currentQuery, list: pagination.prev)
           next: if pagination.next
             href: setUrlParams(config.for_url, currentQuery, list: pagination.next)
-        <ActionsBar>
-          <UiPaginationNav {...navLinks}/>
-        </ActionsBar>
+
+        <div className='no-js'>
+          <ActionsBar>
+            <PaginationNavFallback {...navLinks}/>
+          </ActionsBar>
+        </div>
 
     # component:
     <div className={boxClasses}>
@@ -574,45 +612,48 @@ module.exports = React.createClass
                 </FallBackMsg>
             else
               <ul className={listClasses}>
-                <li className='ui-resources-page'>
-                  {if withBox and f.present(get.pagination)
-                    if (get.pagination.total_pages > 1)
-                      <PageCounter
-                        href={currentUrl}
-                        page={get.config.page}
-                        total={get.pagination.total_pages}/>}
 
-                  <ul className='ui-resources-page-items'>
-                  {resources.map (item)=>
-                    key = item.uuid or item.cid
+                {(resources.pages || [{resources}]).map (page, i)=>
+                  <li className='ui-resources-page' key={i}>
 
-                    if withBox
-                      selection = @state.selectedResources
-                      # selection defined means selection is enabled
-                      if @state.isClient && selection
-                        isSelected = @state.selectedResources.has(item)
-                        onSelect = f.curry(@_onSelectResource)(item)
-                        # if in selection mode, intercept clicks as 'select toggle'
-                        onClick = if config.layout == 'miniature'
-                          (if !selection.isEmpty() then onSelect)
-                        # when hightlighting editables, we just dim everything else:
-                        style = if @state.higlightBatchEditable
-                          if (!item.isBatchEditable)
-                            {opacity: 0.35}
+                    {if withBox and (pagination = f.presence(page.pagination))
+                      if (pagination.totalPages > 1)
+                        <PageCounter
+                          href={page.url}
+                          page={pagination.page}
+                          total={(pagination.totalPages)}/>}
 
-                    # TODO: get={model}
-                    <ResourceThumbnail elm='div'
-                      style={style}
-                      get={item}
-                      isClient={@state.isClient} fetchRelations={fetchRelations}
-                      isSelected={isSelected} onSelect={onSelect} onClick={onClick}
-                      authToken={authToken} key={key}/>}
-                  </ul>
+                    <ul className='ui-resources-page-items'>
+                      {page.resources.map (item)=>
+                        key = item.uuid or item.cid
 
-                </li>
+                        if withBox
+                          selection = @state.selectedResources
+                          # selection defined means selection is enabled
+                          if @state.isClient && selection
+                            isSelected = @state.selectedResources.has(item)
+                            onSelect = f.curry(@_onSelectResource)(item)
+                            # if in selection mode, intercept clicks as 'select toggle'
+                            onClick = if config.layout == 'miniature'
+                              (if !selection.isEmpty() then onSelect)
+                            # when hightlighting editables, we just dim everything else:
+                            style = if @state.higlightBatchEditable
+                              if (!item.isBatchEditable)
+                                {opacity: 0.35}
+
+                        # TODO: get={model}
+                        <ResourceThumbnail elm='div'
+                          style={style}
+                          get={item}
+                          isClient={@state.isClient} fetchRelations={fetchRelations}
+                          isSelected={isSelected} onSelect={onSelect} onClick={onClick}
+                          authToken={authToken} key={key}/>}
+                      </ul>
+
+                </li>}
               </ul>
             }
-            {paginationNav}
+            {paginationNav(resources, get.pagination)}
           </div>
 
         </div>
@@ -671,11 +712,11 @@ BoxTitleBar = ({heading, actions, layouts, mods} = @props)->
     </div>
   </div>
 
-UiPaginationNav = ({current, next, prev} = @props)->
+PaginationNavFallback = ({current, next, prev} = @props)->
   <ButtonGroup mods='mbm'>
-    <Button {...prev} mods='mhn' disabled={not prev}>« Previous page</Button>
-    <Button {...current} mods='mhn'>This Page</Button>
-    <Button {...next} mods='mhn' disabled={not next}>Next page »</Button>
+    <Button {...prev} mods='mhn' disabled={not prev}>{t('pagination_nav_prevpage')}</Button>
+    <Button {...current} mods='mhn'>{t('pagination_nav_thispage')}</Button>
+    <Button {...next} mods='mhn' disabled={not next}>{t('pagination_nav_prevpage')}</Button>
   </ButtonGroup>
 
 FallBackMsg = ({children} = @props)->

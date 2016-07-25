@@ -17,7 +17,7 @@ module Presenters
       end
 
       def relations
-        Presenters::Collections::CollectionRelations.new(
+        @relations ||= Presenters::Collections::CollectionRelations.new(
           @app_resource,
           @user,
           @user_scopes,

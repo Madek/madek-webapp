@@ -17,6 +17,8 @@ module.exports = AppResource.extend(
   {
   type: 'Collection'
   urlRoot: '/sets'
+  # NOTE: this allows some session-like props on presenters for simplicity:
+  extraProperties: 'allow'
   props:
     title:
       type: 'string'

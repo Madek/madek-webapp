@@ -17,7 +17,6 @@ module.exports = React.createClass
   render: ({authToken, get} = @props) ->
     # NOTE: there is only 1 context (summary) allowed/possible for Sets!
     summary_context = get.meta_data.collection_summary_context
-    console.log 'summary_context', summary_context
 
     overview =
       content: <MetaDataList list={summary_context}
