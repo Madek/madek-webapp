@@ -1,5 +1,6 @@
 React = require('react')
 f = require('active-lodash')
+t = require('../../lib/string-translation.js')('de')
 
 module.exports = React.createClass
   displayName: 'MediaPlayer'
@@ -12,9 +13,28 @@ module.exports = React.createClass
       }).isRequired).isRequired
     poster: React.PropTypes.string
 
+  getInitialState: () -> {
+    showHint: false
+  }
+
+  _ref: (ref) ->
+    maybes = f.filter @props.sources, (source) ->
+      ref.canPlayType(source) != ''
+
+    if f.isEmpty(maybes) or true
+      @setState({showHint: true})
+
   render: ({type, sources, poster} = @props)->
     MediaTag = type
-    <MediaTag controls preload='auto' poster={poster}>
-      {f.map sources, (vid)->
-        <source src={vid.url} type={vid.content_type} key={vid.content_type + vid.url}/>}
-    </MediaTag>
+    <div style={{margin: '0px', padding: '0px'}}>
+      <MediaTag controls ref={@_ref}>
+        {f.map sources, (vid)->
+          <source src={vid.url} type={vid.content_type} key={vid.content_type + vid.url}/>}
+        <source src='audiofile.oggx' type='audio/ogg' />
+      </MediaTag>
+      <p style={{marginTop: '40px'}}>
+        {t('media_entry_file_format_not_supported_1')}
+        <a href={@props.originalUrl}>{t('media_entry_file_format_not_supported_2')}</a>
+        {t('media_entry_file_format_not_supported_3')}
+      </p>
+    </div>

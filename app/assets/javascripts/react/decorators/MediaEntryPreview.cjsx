@@ -37,9 +37,14 @@ module.exports = React.createClass({
     # just the picure element (might be wrapped)
     picture = <Picture className={classes} src={image_url} title={title}/>
 
+    originalUrl = ''
+    if @props.get.media_file && @props.get.media_file.original_file_url
+      originalUrl = @props.get.media_file.original_file_url
+
 
     get = @props.get
-    not_ready = get.media_type == 'video' && get.media_file && get.media_file.conversion_status && get.media_file.conversion_status != 'finished'
+    not_ready = (get.media_type == 'video' || get.media_type == 'audio') && get.media_file &&
+      get.media_file.conversion_status && get.media_file.conversion_status != 'finished'
 
     if not_ready
 
@@ -61,13 +66,23 @@ module.exports = React.createClass({
             # video player
             when previews.videos
               <MediaPlayer type='video' className={classes}
-                sources={previews.videos} poster={image_url}/>
+                sources={previews.videos} poster={image_url}
+                originalUrl={originalUrl} />
 
             # audio player
             when previews.audios
               <div className='ui-container mvm'>
                 <MediaPlayer type='audio' className={classes}
-                  sources={previews.audios} poster={image_url}/></div>
+                  sources={previews.audios} poster={image_url}
+                  originalUrl={originalUrl} />
+              </div>
+
+            when @props.get.media_type == 'document'
+              <div className={cx({'ui-has-magnifier': hasZoom})}>
+                <a href={originalUrl}>
+                  {picture}
+                </a>
+              </div>
 
             # picture with link and 'zoom' icon on hover
             when href
