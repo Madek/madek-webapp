@@ -37,9 +37,12 @@ module.exports = React.createClass
     # TODO: Outer div should be removed based on the styleguide.
     # This will be possible, as soon as the modal dialog can be added in
     # a higher tree level.
+
+    icon = if get.type == 'Collection' then 'set' else 'media-entry'
+
     <div style={{margin: '0px', padding: '0px'}}>
 
-      <PageContentHeader icon='set' title={get.title}>
+      <PageContentHeader icon={icon} title={get.title}>
         {f.map get.buttons, (button) =>
           <HeaderButton key={button.action} onAction={@_onClick} asyncAction={button.async_action}
             icon={button.icon} title={button.title} name={button.action}
