@@ -7,14 +7,16 @@ module Presenters
         @user = user
       end
 
-      delegate_to_app_resource :label
+      def label
+        @app_resource.label || @meta_key.label
+      end
 
       def usage_count
         MetaDatum.where(meta_key: @meta_key).count
       end
 
       def url
-        prepend_url_context "/explore/catalog/#{@meta_key.id}"
+        prepend_url_context "/explore/catalog/#{@app_resource.id}"
       end
 
       def image_url

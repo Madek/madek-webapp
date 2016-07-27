@@ -4,14 +4,18 @@ module Presenters
       include Presenters::Explore::Modules::MemoizedHelpers
       include Presenters::Explore::Modules::ExploreNavigation
 
-      def initialize(user, settings, meta_key_id)
+      def initialize(user, settings, context_key_id)
         @user = user
         @settings = settings
         # @active_section_id = 'catalog'
-        @meta_key = MetaKey.find(meta_key_id)
-        @context_key = @meta_key.context_keys.find_by(context_id: 'upload')
+        @context_key = ContextKey.find(context_key_id)
+        @meta_key = @context_key.meta_key
         @catalog_category_title = @context_key.description
-        @page_title_parts = [settings.catalog_title, @context_key.label]
+        @page_title_parts =
+          [
+            settings.catalog_title,
+            @context_key.label || @meta_key.label
+          ]
       end
 
       def sections

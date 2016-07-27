@@ -12,8 +12,7 @@ module Presenters
         def catalog_context_keys
           # NOTE: limit (of catalog_keys) would be 3, for full page ???
           @catalog_context_keys ||= ContextKey.where(
-            context_id: 'upload',
-            meta_key_id: @settings.catalog_context_keys
+            id: @settings.catalog_context_keys
           ).limit(@limit_catalog_context_keys)
         end
 

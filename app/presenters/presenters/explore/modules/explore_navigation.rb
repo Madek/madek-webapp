@@ -51,20 +51,19 @@ module Presenters
 
         def nav_catalog_children
           context_keys = @settings.catalog_context_keys || []
-          context_keys.map do |meta_key_id|
+          context_keys.map do |context_key_id|
+            context_key = find_context_key(context_key_id)
             {
-              title: find_context_key(meta_key_id).label,
-              url: "/explore/catalog/#{meta_key_id}",
-              active: (@meta_key.try(:id) == meta_key_id ? true : false)
+              title: context_key.label || context_key.meta_key.label,
+              url: "/explore/catalog/#{context_key.id}",
+              active:
+                (@context_key.try(:id) == context_key.id ? true : false)
             }
           end
         end
 
-        def find_context_key(meta_key_id)
-          ContextKey.find_by(
-            context_id: 'upload',
-            meta_key_id: meta_key_id
-          )
+        def find_context_key(id)
+          ContextKey.find_by(id: id)
         end
 
       end
