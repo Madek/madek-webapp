@@ -15,7 +15,7 @@ MetaDatumValues = require('./MetaDatumValues.cjsx')
 module.exports = React.createClass
   displayName: 'Deco.MetaDataList'
   propTypes:
-    list: MadekPropTypes.metaDataByAny.isRequired
+    list: MadekPropTypes.metaDataByAny
     tagMods: React.PropTypes.any # TODO: mods
     type: React.PropTypes.oneOf(['list', 'table'])
     showTitle: React.PropTypes.bool
@@ -28,20 +28,23 @@ module.exports = React.createClass
 
   render: ({list, tagMods, type, showTitle, showFallback} = @props)->
     wrapperClass = classList(parseMods(@props), 'ui-metadata-box')
-    metaData = list.meta_data
 
-    listing = list.context or list.vocabulary
-    listingType = listing.type
-    throw new Error 'Invalid Data!' if not f.include(['Context', 'Vocabulary'], listingType)
+    metaData = f.get(list, 'meta_data')
+    listing = f.get(list, 'context') or f.get(list, 'vocabulary')
+    listingType = f.get(listing, 'type')
+    throw new Error 'Invalid Data!' if (listingType && !f.include(['Context', 'Vocabulary'], listingType))
 
     throw new Error 'No title!' if showTitle and not f.present(listing.label)
-    title = listing.label
+    title = f.get(listing, 'label')
 
     # check for empty list:
-    isEmpty = if listingType is 'Vocabulary'
-      not f.some metaData, f.present
-    else
-      not f.some metaData, (i)-> f.present(i.meta_datum)
+    isEmpty = switch
+      when !f.present(listing)
+        true
+      when listingType is 'Vocabulary'
+        not f.some metaData, f.present
+      else
+        not f.some metaData, (i)-> f.present(i.meta_datum)
 
     # fallback message if needed and wanted:
     fallbackMsg = if (isEmpty and showFallback)
