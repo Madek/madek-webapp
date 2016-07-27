@@ -63,6 +63,18 @@ module.exports = React.createClass({
       <div className='ui-media-overview-preview'>
         {
           switch
+
+            # PDF
+            when @props.get.media_type == 'document'
+              <div className='ui-has-magnifier'>
+                <a href={originalUrl}>
+                  {picture}
+                </a>
+                <a href={originalUrl} className='ui-magnifier'>
+                  <Icon i='magnifier' mods='bright'/>
+                </a>
+              </div>
+
             # video player
             when previews.videos
               <MediaPlayer type='video' className={classes}
@@ -75,13 +87,6 @@ module.exports = React.createClass({
                 <MediaPlayer type='audio' className={classes}
                   sources={previews.audios} poster={image_url}
                   originalUrl={originalUrl} />
-              </div>
-
-            when @props.get.media_type == 'document'
-              <div className={cx({'ui-has-magnifier': hasZoom})}>
-                <a href={originalUrl}>
-                  {picture}
-                </a>
               </div>
 
             # picture with link and 'zoom' icon on hover
