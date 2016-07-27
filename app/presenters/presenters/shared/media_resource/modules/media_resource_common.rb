@@ -7,7 +7,7 @@ module Presenters
           include Presenters::Shared::MediaResource::Modules::Responsible
 
           def title
-            @app_resource.title
+            _resource_title(@app_resource)
           end
 
           def created_at_pretty

@@ -7,10 +7,12 @@ module Presenters
           if @app_resource.try(:media_file).present?
             Presenters::MediaFiles::MediaFile.new(@app_resource, @user)
           end
+        @p_media_entry =
+          Presenters::MediaEntries::PresMediaEntry.new(@app_resource)
       end
 
       def title
-        @app_resource.title
+        @p_media_entry.title
       end
 
       def authors_pretty

@@ -14,6 +14,7 @@ module Presenters
         @user = user
         @show_collection_selection = show_collection_selection
         @search_term = search_term
+        @p_collection = Presenters::Collections::PresCollection.new(@app_resource)
       end
 
       def collection_selection
@@ -31,7 +32,7 @@ module Presenters
       end
 
       def title
-        @app_resource.title
+        @p_collection.title
       end
 
       def url

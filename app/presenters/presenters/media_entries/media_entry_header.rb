@@ -14,6 +14,8 @@ module Presenters
         @user = user
         @show_collection_selection = show_collection_selection
         @search_term = search_term
+        @p_media_entry =
+          Presenters::MediaEntries::PresMediaEntry.new(@app_resource)
       end
 
       def collection_selection
@@ -32,7 +34,7 @@ module Presenters
       end
 
       def title
-        @app_resource.title
+        @p_media_entry.title
       end
 
       def url
