@@ -10,7 +10,7 @@ module Concerns
         expires: remember ? 20.years.from_now : nil,
         value: build_session_value(user)
       }
-      @user.update_attributes! last_signed_in_at: Time.zone.now
+      user.update_attributes! last_signed_in_at: Time.zone.now
     end
 
     def destroy_madek_session
