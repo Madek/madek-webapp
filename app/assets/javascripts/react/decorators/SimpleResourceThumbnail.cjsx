@@ -10,5 +10,6 @@ module.exports = React.createClass
       title: title,
       authors_pretty: authors_pretty,
       image_url: image_url
+      disableLink: true
     }
     <ResourceThumbnail authToken={null} get={get} />

@@ -93,21 +93,32 @@ module.exports = React.createClass
     # TODO: We probably only need 'href' and 'onClick'.
     linkProps = f.omit(@props, 'className')
 
+
+    innerPart =
+      <div className='ui-thumbnail-image-holder'>
+        <div className='ui-thumbnail-table-image-holder'>
+          <div className='ui-thumbnail-cell-image-holder'>
+            <div className='ui-thumbnail-inner-image-holder'>
+              {innerImage}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
     <div className={classes}>
       {flyoutTop}
       {badgeLeft}
       {badgeRight}
-      <Link className='ui-thumbnail-image-wrapper' {...linkProps} title={alt}>
-        <div className='ui-thumbnail-image-holder'>
-          <div className='ui-thumbnail-table-image-holder'>
-            <div className='ui-thumbnail-cell-image-holder'>
-              <div className='ui-thumbnail-inner-image-holder'>
-                {innerImage}
-              </div>
-            </div>
-          </div>
-        </div>
-      </Link>
+
+      {
+        if @props.disableLink
+          <div className='ui-thumbnail-image-wrapper'>{innerPart}</div>
+        else
+          <Link className='ui-thumbnail-image-wrapper' {...linkProps} title={alt}>
+            {innerPart}
+          </Link>
+      }
       {meta}
       {actions}
       {flyoutBottom}
