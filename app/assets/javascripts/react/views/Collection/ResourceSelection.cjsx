@@ -35,74 +35,91 @@ module.exports = React.createClass
         <div className='ui-modal-body' style={{maxHeight: 'none'}}>
           <div className='ui-resources-table'>
             <div className='ui-resources-table'>
-              <table className='block'>
-                <thead>
-                  <tr>
-                    <td className='ui-resources-table-selection'>{get.i18n.h_selection}</td>
-                    <td title='Titel'>
-                      <span className='ui-resources-table-cell-content'>{get.i18n.h_title}</span>
-                    </td>
-                    <td title='Untertitel'>
-                      <span className='ui-resources-table-cell-content'>{get.i18n.h_subtitle}</span>
-                    </td>
-                    <td title='Autor/in'>
-                      <span className='ui-resources-table-cell-content'>{get.i18n.h_author}</span>
-                    </td>
-                    <td title='Datierung'>
-                      <span className='ui-resources-table-cell-content'>{get.i18n.h_date}</span>
-                    </td>
-                    <td title='Schlagworte'>
-                      <span className='ui-resources-table-cell-content'>{get.i18n.h_keywords}</span>
-                    </td>
-                    <td title='Rechteinhaber'>
-                      <span className='ui-resources-table-cell-content'>{get.i18n.h_responsible}</span>
-                    </td>
-                  </tr>
-                </thead>
-                <tbody>
-                  {f.map get.child_presenters.resources, (resource) ->
 
-                    checked = get.uuid_to_checked_hash[resource.uuid]
+              {
 
-                    <tr key={resource.uuid}>
-                      <td className='ui-resources-table-selection'>
+                if f.isEmpty get.child_presenters.resources
 
-                        {if type == 'checkbox'
-                          <label>
-                            <input type='hidden' name={('resource_selections[][id]')} value={resource.uuid}></input>
-                            <input type='hidden' name={('resource_selections[][type]')} value={resource.type}></input>
-                            <input className='ui-set-list-input' type='checkbox'
-                              name={('resource_selections[][selected]')} value='true' defaultChecked={checked}></input>
-                            <img className='ui-thumbnail micro' src={resource.image_url}></img>
-                          </label>
-                        else if type == 'radio'
-                          <label>
-                            <input defaultChecked={checked} name='selected_resource' type='radio' value={resource.uuid}></input>
-                            <img className='ui-thumbnail micro' src={resource.image_url}></img>
-                          </label>
-                        else null}
+                  <h3 className="by-center title-m">{t('collection_edit_highlights_empty')}</h3>
 
-                      </td>
-                      <td data-name='title' title=''>
-                        <span className='ui-resources-table-cell-content'>{resource.title}</span>
-                      </td>
-                      <td data-name='subtitle' title=''>
-                        <span className='ui-resources-table-cell-content'>{resource.subtitle}</span>
-                      </td>
-                      <td data-name='author' title=''>
-                        <span className='ui-resources-table-cell-content'>{resource.authors_pretty}</span>
-                      </td>
-                      <td data-name='portrayed object dates' title='null'>{resource.portrayed_object_date_pretty}</td>
-                      <td data-name='keywords' title=''>
-                        <span className='ui-resources-table-cell-content'>{resource.keywords_pretty}</span>
-                      </td>
-                      <td data-name='copyright notice' title=''>
-                        <span className='ui-resources-table-cell-content'>{resource.responsible.name}</span>
-                      </td>
-                    </tr>
-                  }
-                </tbody>
-              </table>
+                else
+
+                  <table className='block'>
+                    <thead>
+                      <tr>
+                        <td className='ui-resources-table-selection'>{get.i18n.h_selection}</td>
+                        <td title='Titel'>
+                          <span className='ui-resources-table-cell-content'>{get.i18n.h_title}</span>
+                        </td>
+                        <td title='Untertitel'>
+                          <span className='ui-resources-table-cell-content'>{get.i18n.h_subtitle}</span>
+                        </td>
+                        <td title='Autor/in'>
+                          <span className='ui-resources-table-cell-content'>{get.i18n.h_author}</span>
+                        </td>
+                        <td title='Datierung'>
+                          <span className='ui-resources-table-cell-content'>{get.i18n.h_date}</span>
+                        </td>
+                        <td title='Schlagworte'>
+                          <span className='ui-resources-table-cell-content'>{get.i18n.h_keywords}</span>
+                        </td>
+                        <td title='Rechteinhaber'>
+                          <span className='ui-resources-table-cell-content'>{get.i18n.h_responsible}</span>
+                        </td>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      {
+
+                        f.map get.child_presenters.resources, (resource) ->
+
+                          checked = get.uuid_to_checked_hash[resource.uuid]
+
+                          <tr key={resource.uuid}>
+                            <td className='ui-resources-table-selection'>
+
+                              {if type == 'checkbox'
+                                <label>
+                                  <input type='hidden' name={('resource_selections[][id]')} value={resource.uuid}></input>
+                                  <input type='hidden' name={('resource_selections[][type]')} value={resource.type}></input>
+                                  <input className='ui-set-list-input' type='checkbox'
+                                    name={('resource_selections[][selected]')} value='true' defaultChecked={checked}></input>
+                                  <img className='ui-thumbnail micro' src={resource.image_url}></img>
+                                </label>
+                              else if type == 'radio'
+                                <label>
+                                  <input defaultChecked={checked} name='selected_resource'
+                                    type='radio' value={resource.uuid}></input>
+                                  <img className='ui-thumbnail micro' src={resource.image_url}></img>
+                                </label>
+                              else null}
+
+                            </td>
+                            <td data-name='title' title=''>
+                              <span className='ui-resources-table-cell-content'>{resource.title}</span>
+                            </td>
+                            <td data-name='subtitle' title=''>
+                              <span className='ui-resources-table-cell-content'>{resource.subtitle}</span>
+                            </td>
+                            <td data-name='author' title=''>
+                              <span className='ui-resources-table-cell-content'>{resource.authors_pretty}</span>
+                            </td>
+                            <td data-name='portrayed object dates' title='null'>{resource.portrayed_object_date_pretty}</td>
+                            <td data-name='keywords' title=''>
+                              <span className='ui-resources-table-cell-content'>{resource.keywords_pretty}</span>
+                            </td>
+                            <td data-name='copyright notice' title=''>
+                              <span className='ui-resources-table-cell-content'>{resource.responsible.name}</span>
+                            </td>
+                          </tr>
+                      }
+                    </tbody>
+                  </table>
+
+              }
+
+
             </div>
           </div>
         </div>
@@ -113,7 +130,10 @@ module.exports = React.createClass
               className='link weak' data-dismiss='modal'>
               {get.i18n.cancel}
             </a>
-            <FormButton text={get.i18n.save} />
+            {
+              if not f.isEmpty get.child_presenters.resources
+                <FormButton text={get.i18n.save} />
+            }
           </div>
         </div>
 
