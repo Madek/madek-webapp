@@ -2,10 +2,7 @@ class My::DashboardController < MyController
 
   # "index" action
   def dashboard
-    respond_to do |format|
-      format.html { respond_with @get }
-      format.json { respond_with @get }
-    end
+    respond_with @get
   end
 
   # "show" actions
@@ -14,18 +11,24 @@ class My::DashboardController < MyController
       raise ActionController::RoutingError.new(404), 'No such dashboard section!'
     end
 
-    get = Presenters::Users::UserDashboard.new(
-      current_user,
-      user_scopes_for_dashboard(current_user),
-      Presenters::Users::DashboardHeader.new(nil),
-      list_conf: \
-        resource_list_params(params,
-                             current_section[:allowed_filter_params]))
+    respond_with_subsection(
+      Presenters::Users::UserDashboard.new(
+        current_user,
+        user_scopes_for_dashboard(current_user),
+        Presenters::Users::DashboardHeader.new(nil),
+        list_conf: resource_list_params(
+          params, current_section[:allowed_filter_params])))
+  end
+end
 
-    render 'dashboard_section',
-           locals: {
-             section: current_section,
-             get: get
-           }
+def respond_with_subsection(get)
+  respond_to do |format|
+    format.json do
+      # NOTE: only dump current section, as requested:
+      respond_with get.send(current_section[:id])
+    end
+    format.html do
+      render('dashboard_section', locals: { section: current_section, get: get })
+    end
   end
 end
