@@ -69,19 +69,31 @@ module Presenters
         media_types = FilterBarQuery.get_media_types_unsafe(scope)
         extensions = FilterBarQuery.get_extensions_unsafe(scope)
 
+        if media_types.empty? and extensions.empty?
+          return nil
+        end
+
+        children = []
+        unless media_types.empty?
+          children <<
+            { label: 'Medientyp',
+              uuid: 'media_type',
+              children: media_types,
+              multi: false }
+        end
+        unless extensions.empty?
+          children <<
+            { label: 'Dokumenttyp',
+              uuid: 'extension',
+              children: extensions,
+              multi: false }
+        end
+
         { label: 'Datei',
           filter_type: 'media_files',
           uuid: 'file',
           position: 1,
-          children: [
-            { label: 'Medientyp',
-              uuid: 'media_type',
-              children: media_types,
-              multi: false },
-            { label: 'Dokumenttyp',
-              uuid: 'extension',
-              children: extensions,
-              multi: false }] }
+          children: children }
       end
 
       # TMP disabled

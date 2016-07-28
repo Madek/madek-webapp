@@ -43,6 +43,8 @@ module.exports = React.createClass
 
   getAccordionSubSection: (sectionUuid, subSectionUuid) ->
     section = @getAccordionSection(sectionUuid)
+    if not section.subSections
+      section.subSections = {}
     subSection = section.subSections[subSectionUuid]
     if not subSection
       subSection = { isOpen: false }
@@ -74,8 +76,8 @@ module.exports = React.createClass
         f.each(section.children, (subSection) =>
           f.each(subSection.children, (filter) =>
             if filter.uuid == meta_datum.value
-              @getAccordionSection(section.uuid).isOpen = true
-              @getAccordionSubSection(section.uuid, subSection.uuid).isOpen = true
+              @getAccordionSection(section.filter_type + '-' + section.uuid).isOpen = true
+              @getAccordionSubSection(section.filter_type + '-' + section.uuid, subSection.uuid).isOpen = true
           )
         )
       )
@@ -108,12 +110,12 @@ module.exports = React.createClass
 
     filterType = filter.filterType
     uuid = filter.uuid
-    isOpen = @getAccordionSection(filterType + '/' + uuid).isOpen
+    isOpen = @getAccordionSection(filterType + '-' + uuid).isOpen
     href = null
 
-    toggleOnClick = () => @toggleSection(filterType + '/' + filter.uuid)
+    toggleOnClick = () => @toggleSection(filterType + '-' + filter.uuid)
 
-    <li className={itemClass} key={filterType + '/' + filter.uuid}>
+    <li className={itemClass} key={filterType + '-' + filter.uuid}>
       <a className={css('ui-accordion-toggle', 'strong', open: isOpen)}
         href={href} onClick={toggleOnClick}>
         {filter.label} <i className='ui-side-filter-lvl1-marker'/>
@@ -128,7 +130,7 @@ module.exports = React.createClass
 
   renderSubSection: (current, filterType, parent, child) ->
 
-    isOpen = @getAccordionSubSection(filterType + '/' + parent.uuid, child.uuid).isOpen
+    isOpen = @getAccordionSubSection(filterType + '-' + parent.uuid, child.uuid).isOpen
 
     keyClass = 'ui-side-filter-lvl2-item'
     togglebodyClass = css('ui-accordion-body', 'ui-side-filter-lvl3', open: isOpen)
@@ -136,8 +138,10 @@ module.exports = React.createClass
       {@createToggleSubSection(filterType, parent, child, isOpen)}
       {@createMultiSelectBox(child, current, filterType)}
       <ul className={togglebodyClass}>
-        {if isOpen then f.map child.children, (item)=>
-          @renderItem(current, child, item, filterType)
+        {
+          if isOpen then f.map(f.sortBy(child.children, (child) -> child.label), (item)=>
+            @renderItem(current, child, item, filterType)
+          )
         }
       </ul>
     </li>
@@ -156,7 +160,7 @@ module.exports = React.createClass
     href = null
 
     toggleOnClick = (
-      () -> @toggleSubSection(filterType + '/' + parent.uuid, child.uuid)
+      () -> @toggleSubSection(filterType + '-' + parent.uuid, child.uuid)
     ).bind(this)
 
     togglerClass = css('ui-accordion-toggle', 'weak', open: isOpen)

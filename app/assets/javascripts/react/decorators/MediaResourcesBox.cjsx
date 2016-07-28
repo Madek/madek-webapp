@@ -167,10 +167,15 @@ module.exports = React.createClass
   # - custom actions:
   _onFilterChange: (event, newParams)->
     event.preventDefault() if event && f.isFunction(event.preventDefault)
-    currentParams = {list: f.omit(@state.config, 'for_url')}
-    params = f.merge(newParams,
+    params = currentParams = {list: f.omit(@state.config, 'for_url')}
+
+    params = f.merge(params,
       {list: {page: 1}}) # make sure that the new result starts on page 1
-    window.location = setUrlParams(@props.for_url, currentParams, params) # SYNC!
+
+    params.list.accordion = JSON.stringify(newParams.list.accordion)
+    params.list.filter = JSON.stringify(newParams.list.filter)
+    newLocation = setUrlParams(@props.for_url, params)
+    window.location = newLocation # SYNC!
 
   _onFilterToggle: (event)->
     # NOTE: if dynfilters are loaded, just open/close sidebar in client
@@ -181,13 +186,19 @@ module.exports = React.createClass
 
   _onSearch: (event)->
     @_onFilterChange(event,
-      {list: {filter: JSON.stringify({search: @refs.filterSearch.value})}})
+      {
+        list: {
+          filter: {search: @refs.filterSearch.value}
+          accordion: {}
+        }
+      }
+    )
 
   _onAccordion: (event)->
     @_onFilterChange(event,
       {list: {
-        filter: JSON.stringify(event.current)
-        accordion: JSON.stringify(event.accordion)}})
+        filter: event.current
+        accordion: event.accordion}})
 
   _onSelectResource: (resource, event)-> # toggles selection item
     event.preventDefault()
@@ -327,14 +338,21 @@ module.exports = React.createClass
     currentQuery = f.merge(
       {list: f.merge f.omit(config, 'for_url')},
       {
-        list: filter: JSON.stringify(config.filter),
-        accordion: JSON.stringify(config.accordion)
+        list: filter: config.filter,
+        accordion: config.accordion
       })
     currentUrl = setUrlParams(config.for_url, currentQuery)
 
     resetFilterHref =
-      setUrlParams(config.for_url, currentQuery, list:
-        page: 1, filter: {}, accordion: {})
+      setUrlParams(config.for_url,
+        f.merge(currentQuery, {
+          list: {
+            page: 1
+            filter: JSON.stringify({})
+            accordion: JSON.stringify({})
+          }
+        })
+      )
 
     resetFilterLink = if resetFilterHref
       if f.present(config.filter) or f.present(config.accordion)
