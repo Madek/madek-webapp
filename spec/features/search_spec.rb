@@ -101,6 +101,9 @@ def expect_redirect_to_filtered_entries_index(string)
 end
 
 def go_to_sets
+  # Hover on title to make sure no flyout covers the button.
+  find('.title-xl').hover
+
   find('.ui-filterbar .by-center .button-group')
     .find('.button', text: I18n.t(:sitemap_collections))
     .click

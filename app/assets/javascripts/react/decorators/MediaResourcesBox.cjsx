@@ -463,7 +463,7 @@ module.exports = React.createClass
           </ul>
         </Dropdown>
 
-      selectToggle = if selection
+      selectToggle = if selection && withActions
         selector =
           active: 'Alle abwählen',
           inactive: 'Alle auswählen'
