@@ -1,9 +1,6 @@
 # RSpec Tests
 
-include: cider-ci/job_components/rails-setup.yml
-
-script_defaults:
-  template_environment_variables: true
+include: cider-ci/context-components/rails-setup.yml
 
 task_defaults:
   scripts:

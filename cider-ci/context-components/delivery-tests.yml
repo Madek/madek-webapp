@@ -2,7 +2,7 @@
 
 contexts:
   rails:
-    include: cider-ci/job_components/rails-setup.yml
+    include: cider-ci/context-components/rails-setup.yml
     tasks:
       assets_manifest:
         name: 'Assets are precompiled and checked in'

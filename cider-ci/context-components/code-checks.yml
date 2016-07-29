@@ -4,7 +4,8 @@ contexts:
 
   "Ruby Lint":
 
-    include: cider-ci/job_components/ruby-setup.yml
+    include: cider-ci/context-components/ruby-setup.yml
+
     tasks:
 
       code-complexity-flog:

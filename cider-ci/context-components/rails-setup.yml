@@ -1,4 +1,4 @@
-include: cider-ci/job_components/ruby-setup.yml
+include: cider-ci/context-components/ruby-setup.yml
 
 task_defaults:
   include:

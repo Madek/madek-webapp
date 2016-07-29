@@ -8,7 +8,7 @@ jobs:
         include_match: &default_branch_match    ^.+$
         exclude_match: &default_branch_exclude  ^(.*no-ci.*)|([a-z]*_wip_.*)$
     context:
-      include: cider-ci/rspec-tests.yml
+      include: cider-ci/context-components/rspec-tests.yml
 
   code-checks:
     name: "Code Checks"
@@ -17,13 +17,13 @@ jobs:
     priority: 3
     run_when: *DEFAULT_TRIGGERS
     context:
-      include: cider-ci/code-checks.yml
+      include: cider-ci/context-components/code-checks.yml
 
   delivery-tests:
     name: "Delivery Tests"
     run_when: *DEFAULT_TRIGGERS
     context:
-      include: cider-ci/delivery-tests.yml
+      include: cider-ci/context-components/delivery-tests.yml
 
   meta-checks:
     name: Meta
@@ -81,7 +81,7 @@ jobs:
         type: branch
         include_match: ^[a-z]*_wip_.*$
     context:
-      include: cider-ci/rspec-tests.yml
+      include: cider-ci/context-components/rspec-tests.yml
       task_defaults:
         max_trials: 2
         environment_variables:

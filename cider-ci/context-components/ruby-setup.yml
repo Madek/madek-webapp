@@ -1,6 +1,3 @@
-script_defaults:
-  template_environment_variables: true
-
 task_defaults:
   include:
     - submodule: [datalayer]
