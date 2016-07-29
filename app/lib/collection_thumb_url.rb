@@ -65,7 +65,7 @@ class CollectionThumbUrl
     .viewable_by_user_or_public(@user)
     .reorder(created_at: :desc)
     .each do |entry|
-      return entry if entry.media_file.representable_as_image?
+      return entry if entry.try(:media_file).try(:representable_as_image?)
     end
     nil # return nil if nothing found
   end
