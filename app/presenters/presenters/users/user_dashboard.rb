@@ -9,7 +9,7 @@ module Presenters
       )
         fail 'TypeError!' unless user.is_a?(User)
         @user = user
-        @config = { order: nil, page: 1, per_page: 1 }.merge(list_conf)
+        @config = { page: 1 }.merge(list_conf)
         @user_scopes = user_scopes
         @dashboard_header = dashboard_header
         # FIXME: remove this config when Dashboard is built in Presenter…
