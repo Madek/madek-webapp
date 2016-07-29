@@ -9,9 +9,7 @@ feature 'pre_cache_user_data' do
     user = User.find_by_login('adam')
     expect(user).to be
 
-    expect do
-      Madek::UserPrecaching.pre_cache_user_data user
-    end.not_to raise_error
+    expect(Madek::UserPrecaching.pre_cache_user_data user).to be
 
   end
 
