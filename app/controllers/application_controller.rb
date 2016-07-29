@@ -90,4 +90,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  Madek::UserPrecaching.start_pre_caching_loop
+
 end

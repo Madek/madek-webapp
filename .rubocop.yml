@@ -18,7 +18,7 @@ AllCops:
 
 Lint/EndAlignment:
   AlignWith: variable
-  
+
 Lint/AmbiguousOperator:
   Enabled: false
 
@@ -207,6 +207,10 @@ Style/NestedParenthesizedCalls:
 
 Style/Alias:
   EnforcedStyle: prefer_alias_method
+
+Style/GlobalVars:
+  Exclude:
+    - 'lib/madek/user_precaching.rb'
 
 Metrics/ModuleLength:
   Max: 200
