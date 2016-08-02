@@ -135,7 +135,6 @@ class CollectionsController < ApplicationController
 
   def store_collection(title)
     collection = Collection.create!(
-      get_metadata_and_previews: true,
       responsible_user: current_user,
       creator: current_user)
     meta_key = MetaKey.find_by(id: 'madek_core:title')
