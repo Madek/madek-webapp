@@ -162,8 +162,12 @@ feature 'Side Filter' do
     end
 
     def open_filterbar(inside = page)
+      # Hover on title to make sure no flyout covers the button.
+      find('.title-xl').hover
       wait_until do
-        inside.within('.ui-filterbar') { find('.button', text: 'Filtern').click }
+        inside.within('.ui-filterbar') do
+          find('.button', text: 'Filtern').click
+        end
       end
     end
 

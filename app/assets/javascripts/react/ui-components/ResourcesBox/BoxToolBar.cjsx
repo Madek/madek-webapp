@@ -26,11 +26,11 @@ module.exports = React.createClass
     middleColClass = cx 'by-center',
       'col6of6': (!left && !right),
       'col4of6': (!left && right),
-      'col2of6': (left && right)
+      'col2of6': (left && right) || (left && !right)
 
     lastColClass = cx 'by-right',
       'col6of6': (!left && !middle),
-      'col4of6': (!left || !middle) && (left || middle),
+      'col4of6': (left && !middle) || (!left && middle),
       'col2of6': (left && middle)
 
     <div {...restProps} className={classes}>
