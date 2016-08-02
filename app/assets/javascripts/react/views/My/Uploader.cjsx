@@ -4,10 +4,10 @@ ampersandReactMixin = require('ampersand-react-mixin')
 f = require('active-lodash')
 async = require('async')
 t = require('../../../lib/string-translation')('de')
-FileDropBox = require('../../lib/file-dropbox.cjsx')
 {ActionsBar, Button} = require('../../ui-components/index.coffee')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 
+FileDrop = <div/> # client-side only
 UPLOAD_CONCURRENCY = 4
 
 # api see <https://www.npmjs.com/package/async#queue>
@@ -27,6 +27,7 @@ module.exports = React.createClass
     isClient: false
 
   componentDidMount: ()->
+    FileDrop = require('react-file-drop')
     unless f.get(@props, 'appCollection.isCollection')
       throw new Error 'No AppCollection given!'
     @setState(isClient: true, uploading: false, uploads: UploadQueue)
@@ -35,11 +36,12 @@ module.exports = React.createClass
     UploadQueue.drain = ()=> @setState(uploading: false) if @isMounted()
     UploadQueue.saturated = ()=> @setState(waiting: true) if @isMounted()
 
-  onFilesDrop: (_event, files)-> @addFiles(files)
+  onFilesDrop: (files, event)->
+    @addFiles(files)
   onFilesSelect: (event)->
     @addFiles(f.get(event, 'target.files'))
 
-    # Ensure the eventue is fired again if selecting the same file again.
+    # Ensure the event is fired again if selecting the same file again.
     # http://stackoverflow.com/questions/12030686/html-input-file-selection-event-not-firing-upon-selecting-the-same-file
     event.target.value = null
 
@@ -74,8 +76,7 @@ module.exports = React.createClass
     spacerDiv = <div style={height: '250px'}/>
 
     <div id='ui-uploader'>
-      <FileDropBox onFilesDrop={@onFilesDrop}>
-
+      <FileDrop onDrop={@onFilesDrop} targetAlwaysVisible={true}>
         <MediaResourcesBox
           ref='polybox'
           className='ui-uploader-uploads'
@@ -100,12 +101,10 @@ module.exports = React.createClass
                     name={name + '[media_file][]'}
                     onChange={@onFilesSelect}/>
                 </label>
-
               </h3>
             </div>
         </MediaResourcesBox>
-
-      </FileDropBox>
+      </FileDrop>
 
       <ActionsBar>
         <Button
