@@ -225,13 +225,13 @@ module.exports = React.createClass
           console.error('Cannot parse body of answer for meta data update', error)
 
         if res.statusCode == 400
-          @setState({saving: false})
+          @setState({saving: false}) if @isMounted()
           errors = f.presence(f.get(data, 'errors')) or {}
           if not f.present(errors)
             console.error('Cannot get errors from meta data update')
           else
             window.scrollTo(0, 0)
-          @setState(errors: errors)
+          @setState(errors: errors) if @isMounted()
         else
           forward_url = data['forward_url']
           if not forward_url

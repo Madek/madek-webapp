@@ -58,7 +58,7 @@ module.exports = React.createClass
       },
       (result, json) =>
         if result == 'success'
-          @setState({get: json, searching: false})
+          @setState({get: json, searching: false}) if @isMounted()
     )
 
   _requestUrl: () ->

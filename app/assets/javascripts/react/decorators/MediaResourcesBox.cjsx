@@ -111,6 +111,11 @@ module.exports = React.createClass
     batchRemoveFromSet: false
   }
 
+  doOnUnmount: [] # to be filled with functions to be called on unmount
+  componentWillUnmount: ()->
+    f.each(f.compact(@doOnUnmount), (fn)->
+      if f.isFunction(fn) then fn() else console.error("Not a Function!", fn))
+
   componentWillMount: ()->
     # init resources as collection
     isPaginated = @props.withBox && f.present(f.get(@props, 'get.pagination.total_count'))
@@ -138,10 +143,11 @@ module.exports = React.createClass
       require('../../lib/router.coffee')
 
     # listen to history and set state from params:
-    router.listen (location)=>
+    unlistenFn = router.listen (location)=>
       @setState(config: f.merge(@state.config, resourceListParams(location)))
     # TMP: start the router if we set it up here:
     # (also immediatly calls listener(s) once if already attached!)
+    @doOnUnmount.push(unlistenFn)
     router.start() unless @props.router
 
     # selection status is managed in ampersand-collection
@@ -150,20 +156,16 @@ module.exports = React.createClass
     else if @props.get.type is 'MediaEntries'
       selection = new MediaEntries()
 
-    # set up auto-update for models/collections:
-    f.each [@state.resources, selection], (m)=>
+    if selection
+      # set up auto-update for it:
       f.each ['add', 'remove', 'reset', 'change'], (eventName)=>
-        if m && f.isFunction(m.on)
-          m.on(eventName, ()=> @forceUpdate())
+        selection.on(eventName, ()=> @forceUpdate() if @isMounted())
+      @doOnUnmount.push(selection.off)
 
     if @state.resources
       @fetchNextPage = f.throttle(((c)=> @state.resources.fetchNext(c)), 1000)
+      @doOnUnmount.push(@fetchNextPage.cancel())
     @setState(isClient: true, router: router, selectedResources: selection)
-
-  componentWillUnmount: ()->
-    if @fetchNextPage then @fetchNextPage.cancel()
-    if @state.router then @state.router.stop()
-    if @state.selectedResources then @state.selectedResources.off()
 
   # client-side link handlers:
   # - for state changes that don't need new data (like visual changes):
@@ -180,7 +182,7 @@ module.exports = React.createClass
     @setState(loadingNextPage: true)
     @fetchNextPage (err, newUrl)=>
       if err then console.error(err)
-      @setState(loadingNextPage: false)
+      @setState(loadingNextPage: false) if @isMounted()
 
   _onFilterChange: (event, newParams)->
     event.preventDefault() if event && f.isFunction(event.preventDefault)

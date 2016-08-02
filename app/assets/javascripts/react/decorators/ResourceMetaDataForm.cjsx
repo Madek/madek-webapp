@@ -43,7 +43,7 @@ module.exports = React.createClass
         }
       },
       (err, res, body) =>
-        @setState(saving: false)
+        @setState(saving: false) if @isMounted()
         try
           data = JSON.parse(body)
         catch error
@@ -55,7 +55,7 @@ module.exports = React.createClass
             console.error('Cannot get errors from meta data update')
           else
             window.scrollTo(0, 0)
-          @setState(errors: errors)
+          @setState(errors: errors) if @isMounted()
         else
           forward_url = data['forward_url']
           if not forward_url

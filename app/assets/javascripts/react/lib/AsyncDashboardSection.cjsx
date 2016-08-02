@@ -27,6 +27,7 @@ module.exports = React.createClass
   componentDidMount: ()->
     @setState(isClient: true, fetching: true)
     @_getPropsAsync((err, props)=>
+      return if !@isMounted()
       @setState(fetching: false)
       if err
         console.error('Error while fetching data!\n\n', err)
@@ -35,7 +36,7 @@ module.exports = React.createClass
         @setState(fetchedProps: props))
 
   _getPropsAsync: (callback)->
-    xhr({url: @props.url, json: true}, (err, res, data)=>
+    @_runningRequest = xhr({url: @props.url, json: true}, (err, res, data)=>
       if err or res.statusCode >= 400
         return callback(err or data)
       # this mirros what the react ui_helper does in Rails:
@@ -43,6 +44,9 @@ module.exports = React.createClass
       props.get = if @props.json_path then f.get(data, @props.json_path) else data
       props.authToken = getRailsCSRFToken()
       callback(null, props))
+
+  componentWillUnmount: ()->
+    if @_runningRequest then @_runningRequest.abort()
 
   render: ()->
     unless (UIComponent = f.get(UILibrary, @props.component))

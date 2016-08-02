@@ -59,9 +59,10 @@ module.exports = React.createClass
     @setState(fetchingRelations: typesToFetch)
     async.each(typesToFetch, ((typeToFetch, next)=>
       model.fetchRelations typeToFetch, (err, res)=>
-        @setState(fetchingRelations: f.without(@state.fetchingRelations, typeToFetch))
+        if @isMounted() then @setState(
+          fetchingRelations: f.without(@state.fetchingRelations, typeToFetch))
         next(err, res)),
-      (err)=> @setState(fetchingRelations: false))
+      (err)=> @setState(fetchingRelations: false) if @isMounted())
 
   _onHover: ()->
     @_fetchRelations() if @props.fetchRelations
@@ -70,7 +71,7 @@ module.exports = React.createClass
     @setState(pendingFavorite: true)
     action = if @state.model.favored then 'disfavor' else 'favor'
     @state.model.setFavoredStatus action, (err, res)=>
-      @setState(pendingFavorite: false)
+      @setState(pendingFavorite: false) if @isMounted()
 
   _showModal: () ->
     @setState(deleteModal: true)

@@ -26,7 +26,7 @@ module.exports = React.createClass
       values: values # keep internal state of entered values
 
   _onItemAdd: (item)->
-    @setState(adding: true)
+    @_adding = true
     # TODO: use collection…
     is_duplicate = if f.present(item.uuid)
       f(@state.values).map('uuid').includes(item.uuid)
@@ -53,8 +53,8 @@ module.exports = React.createClass
       @props.onChange(newValues)
 
   componentDidUpdate: ()->
-    if @state.adding
-      @setState(adding: false)
+    if @_adding
+      @_adding = false
       setTimeout(@refs.ListAdder.focus, 1) # show the adder again
 
   render: ()->

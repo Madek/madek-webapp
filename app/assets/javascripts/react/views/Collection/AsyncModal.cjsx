@@ -39,9 +39,7 @@ module.exports = React.createClass
 
 
   componentDidMount: () ->
-    @setState({ready: true, mounted: true})
-
-    @setState(loading: true)
+    @setState({ready: true, mounted: true, loading: true})
 
     loadXhr(
       {
@@ -49,6 +47,7 @@ module.exports = React.createClass
         url: @props.getUrl
       },
       (result, json) =>
+        return unless @isMounted()
         if result == 'success'
           get = @props.extractGet(json)
           @setState(loading: false, get: get, children: @props.contentForGet(get))

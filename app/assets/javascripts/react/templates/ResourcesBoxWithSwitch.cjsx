@@ -29,14 +29,12 @@ module.exports = React.createClass
     router = require('../../lib/router.coffee')
 
     # listen to history and set state from params:
-    router.listen (location)=> @setState(url: location)
+    @stopRouter = router.listen (location)=> @setState(url: location)
     # TMP: start the router (also immediatly calls listener(s) once if already attached!)
     router.start()
-    @setState({router: router})
 
   componentWillUnmount: ()->
-    if @state.router then @state.router.stop()
-
+    if @stopRouter then @stopRouter()
 
   render: (props = @props)->
     {currentType, otherTypes} = props.switches

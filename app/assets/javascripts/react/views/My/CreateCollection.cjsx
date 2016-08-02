@@ -40,6 +40,7 @@ module.exports = React.createClass
           url: '/my/new_collection?___sparse={"dashboard_header":{"new_collection":{}}}'
         },
         (result, json) =>
+          return unless @isMounted()
           if result == 'success'
             @setState(loading: false, get: json.dashboard_header.new_collection)
           else
@@ -64,7 +65,7 @@ module.exports = React.createClass
         form: @refs.form
       },
       (result, json) =>
-
+        return unless @isMounted()
         if result == 'failure'
           @setState(saving: false)
           if json.headers.length > 0

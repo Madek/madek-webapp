@@ -44,7 +44,7 @@ module.exports = React.createClass
       model.on(eventName, ()=> @forceUpdate() if @isMounted())
 
     # set state according to url from router
-    router.listen (location)=> # runs once initially when router is started
+    @stopRouter = router.listen (location)=> # runs once initially when router is started
       @setState
         editing: f.isEqual(location.pathname, editUrl)
 
@@ -52,6 +52,9 @@ module.exports = React.createClass
 
     # start the router
     router.start()
+
+  componentWillUnMount: ()->
+    if @stopRouter then @stopRouter()
 
   startEditing: (event)->
     event?.preventDefault()

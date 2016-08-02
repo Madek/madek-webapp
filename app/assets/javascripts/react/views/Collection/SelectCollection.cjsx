@@ -74,6 +74,7 @@ module.exports = React.createClass
             form: @refs.form
           },
           (result, json) =>
+            return unless @isMounted()
             if result == 'success'
               @setState({get: json.header.collection_selection, searching: false})
         )
