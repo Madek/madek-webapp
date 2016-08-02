@@ -64,7 +64,7 @@ module.exports = React.createClass
     ]
 
     <Dropdown mods='stick-right'
-      toggle={props.user_name}>
+      label={props.user_name}>
 
       <ul className="dropdown-menu ui-drop-menu" role="menu">
 

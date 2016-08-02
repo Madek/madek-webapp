@@ -425,8 +425,8 @@ module.exports = React.createClass
         #   click: alert('not implemented!')
 
       actionsDropdown = if f.any(f.values(actions))
-        <Dropdown mods='stick-right mlm'
-          toggle={'Aktionen'} toggleProps={{className: 'button'}}>
+        <Dropdown mods='stick-right mlm' buttonClass='button'
+          label={'Aktionen'}>
 
           <ul className="dropdown-menu ui-drop-menu" role="menu" >
 

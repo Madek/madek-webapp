@@ -14,7 +14,7 @@ ui = require('../lib/ui.coffee')
 Icon = require('./Icon.cjsx')
 Link = require('./Link.cjsx')
 
-MODS = ['stick-right'] # TODO: check and validate supported mods
+# MODS = ['stick-right'] # TODO: check and validate supported mods
 
 module.exports = React.createClass
   displayName: 'UI.Dropdown'
@@ -23,21 +23,18 @@ module.exports = React.createClass
     toggleProps: PropTypes.object
     children: PropTypes.node
     disabled:  PropTypes.bool
-    startOpen: PropTypes.bool
 
-  getInitialState: ()-> {isClient: false, isOpen: @props.startOpen}
+  getInitialState: ()-> {isClient: false}
   componentDidMount: ()-> @setState(isClient: true)
-  _onMenuOpen: ()-> @setState(isOpen: true)
-  _onMenuClose: ()-> @setState(isOpen: false)
 
   getDefaultProps: ()->
     disabled: false
-    startOpen: false
-    fallbackStyles: ()-> (
-      <style type="text/css">{'''
-        .ui-dropdown .ui-drop-toggle { padding-bottom: 7px }
-        .dropdown:hover .dropdown-menu { display: block }
-    '''}</style>)
+
+  fallbackStyles: ()-> (
+    <style type="text/css">{'''
+      .ui-dropdown .ui-drop-toggle { padding-bottom: 7px }
+      .dropdown:hover .dropdown-menu { display: block }
+  '''}</style>)
 
   render: ({props, state} = this)->
     # force disabled if no sub-menu:
@@ -45,18 +42,21 @@ module.exports = React.createClass
 
     wrapperClasses = ui.cx(
       ui.parseMods(@props),
-      {'open': @state.isOpen}
       'ui-dropdown dropdown') # TODO: fix styles, only ui-dropdown as base class
+
+    buttonClass = 'dropdown-toggle ui-drop-toggle'
+    if(@props.buttonClass)
+      buttonClass += ' ' + @props.buttonClass
 
     <div className={wrapperClasses}>
 
-      {if !state.isClient then props.fallbackStyles()}
+      {if !state.isClient then @fallbackStyles()}
 
-      <Link className="dropdown-toggle ui-drop-toggle"
+      <Link
         disabled={isDisabled}
-        onClick={if @state.isOpen then @_onMenuClose else @_onMenuOpen}
-        {...props.toggleProps}>
-        {props.toggle} <Icon i="arrow-down stand-alone small"></Icon>
+        className={buttonClass}
+        data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+        {props.label} <Icon i="arrow-down stand-alone small"></Icon>
       </Link>
 
       {# NOTE: old style set from js plugin: style="top: 100%; bottom: auto;"}
