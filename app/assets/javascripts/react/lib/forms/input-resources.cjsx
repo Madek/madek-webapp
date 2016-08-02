@@ -43,7 +43,7 @@ module.exports = React.createClass
       @props.onChange(newValues)
 
   _onNewItem: (value)->
-    @_onItemAdd({ type: 'Keyword', label: "* #{value} * ", term: value }) # HACK
+    @_onItemAdd({ type: 'Keyword', label: value, isNew: true, term: value }) # HACK
 
   _onItemRemove: (item, _event)->
     newValues = f.reject(@state.values, item)
@@ -72,7 +72,8 @@ module.exports = React.createClass
         <ul className='multi-select-holder'>
           {values.map (item)->
             remover = f.curry(_onItemRemove)(item)
-            <li className='multi-select-tag' key={item.uuid or item.getId?() or JSON.stringify(item)}>
+            style = if item.isNew then {fontStyle: 'italic'} else {}
+            <li className='multi-select-tag' style={style} key={item.uuid or item.getId?() or JSON.stringify(item)}>
               {decorateResource(item)}
               <a className='multi-select-tag-remove' onClick={remover}>
                 <i className='icon-close'/>
