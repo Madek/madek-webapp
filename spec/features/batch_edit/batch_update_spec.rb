@@ -26,7 +26,6 @@ feature 'Batch update media entries' do
   end
   let(:meta_key_keywords) do
     FactoryGirl.create(:meta_key_keywords,
-                       is_extensible: true,
                        is_extensible_list: true,
                        vocabulary: vocabulary,
                        id: "#{vocabulary.id}:#{Faker::Lorem.characters(10)}")
