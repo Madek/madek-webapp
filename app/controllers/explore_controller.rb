@@ -5,24 +5,9 @@ class ExploreController < ApplicationController
   end
 
   def index
-    if @feature_toggle_new_explore
-
-      @get = Presenters::Explore::ExploreMainPage.new(current_user, settings)
-      respond_with @get
-
-    else
-
-      # simple lists, no interaction, no params
-      list_conf = { interactive: false }
-      @get = Pojo.new(
-        media_entries: Presenters::MediaEntries::MediaEntries.new(
-          policy_scope(MediaEntry.all), current_user, list_conf: list_conf),
-        collections: Presenters::Collections::Collections.new(
-          policy_scope(Collection.all), current_user, list_conf: list_conf))
-    end
+    @get = Presenters::Explore::ExploreMainPage.new(current_user, settings)
+    respond_with @get
   end
-
-  # NOTE: following only relevant for @feature_toggle_new_explore
 
   def catalog
     @get = Presenters::Explore::ExploreCatalogPage.new(current_user, settings)

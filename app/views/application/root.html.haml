@@ -1,31 +1,9 @@
 :ruby
-  if @feature_toggle_new_explore
-
-    home_claim = {
-      claim: {
-        title: settings.welcome_title,
-        text: settings.try(:welcome_text).presence
-      }
+  home_claim = {
+    claim: {
+      title: settings.welcome_title,
+      text: settings.try(:welcome_text).presence
     }
+  }
 
-  else
-
-    home_claim = {
-      claim: {
-        title: settings.welcome_title,
-        text: settings.try(:welcome_text).presence
-      },
-      login: render(partial: 'login_box')
-    }
-
-  end
-
-
-- if @feature_toggle_new_explore
-
-  = react('Views.explore.ExploreLoginPage', get: @get)
-
-- else
-
-  .ui-container.pal
-    = combo('home-claim', home_claim)
+= react('Views.explore.ExploreLoginPage', get: @get)
