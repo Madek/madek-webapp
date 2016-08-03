@@ -25,11 +25,15 @@ module.exports = React.createClass
   displayName: 'BatchAddToSet'
 
   getInitialState: () -> {
-    mounted: false,
-    searchTerm: '',
-    results: [],
+    mounted: false
+    searchTerm: ''
     searching: false
+    newSets: []
+    results: []
   }
+
+  lastRequest: null
+  sendTimeoutRef: null
 
   componentWillMount: () ->
     @setState(get: @props.get, searchTerm: @props.get.search_term)
@@ -40,25 +44,31 @@ module.exports = React.createClass
 
   _onChange: (event) ->
     @setState({searchTerm: event.target.value})
-
-    # if @props.onClose
     @setState({searching: true})
 
-    # TODO: Kill all before!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    if @lastRequest
-      @lastRequest.abort()
+    if @sendTimeoutRef != null
+      return
 
-    url = @_requestUrl()
+    @sendTimeoutRef = setTimeout(
+      () =>
 
-    @lastRequest = formXhr(
-      {
-        method: 'GET'
-        url: url
-        form: @refs.form
-      },
-      (result, json) =>
-        if result == 'success'
-          @setState({get: json, searching: false}) if @isMounted()
+        @sendTimeoutRef = null
+
+        if @lastRequest
+          @lastRequest.abort()
+
+        @lastRequest = formXhr(
+          {
+            method: 'GET'
+            url: @_requestUrl()
+            form: @refs.form
+          },
+          (result, json) =>
+            if result == 'success'
+              @setState({get: json, searching: false}) if @isMounted()
+        )
+      ,
+      500
     )
 
   _requestUrl: () ->
@@ -72,6 +82,19 @@ module.exports = React.createClass
     )
 
 
+  _onClickNew: (event) ->
+    event.preventDefault()
+
+    if @state.searchTerm
+      trimmed = @state.searchTerm.trim()
+      if trimmed.length > 0
+        @state.newSets.push(trimmed)
+        @setState({newSets: @state.newSets})
+
+    return false
+
+
+
   render: ({authToken} = @props) ->
 
     get = @state.get
@@ -80,6 +103,10 @@ module.exports = React.createClass
       marginTop: '5px'
       marginRight: '5px'
     }
+
+    hasNew = @state.newSets.length > 0
+    hasResultEntries = get.search_results.length > 0 # get.collection_rows.length isnt 0
+
 
     _search =
       <div className='ui-search'>
@@ -111,57 +138,84 @@ module.exports = React.createClass
                 <Button key={'clear_button'} style={buttonMargins} className='button' type='submit' name='clear'>
                   {t('resource_select_collection_clear')}</Button>
               ]
+            else
+              <button onClick={@_onClickNew} className="button ui-search-button">Neues Set erstellen</button>
           }
         </RailsForm>
       </div>
 
-    _content =
-      if @state.searching
-        <Preloader />
-      else if get.search_results.length > 0
-        <div className='ui-resources-table'>
-          <div className='ui-resources-table'>
-            <input type='hidden' name='return_to' value={@state.get.return_to} />
-            {
-              f.map @props.get.resource_ids, (resource_id) ->
-                [
-                  <input key={'resource_id_' + resource_id.uuid} type='hidden'
-                    name='resource_id[][uuid]' value={resource_id.uuid} />
-                  ,
-                  <input key={'resource_id_' + resource_id.type} type='hidden'
-                    name='resource_id[][type]' value={resource_id.type} />
-                ]
-            }
-            <table className='block'>
-              <tbody>
-                {
-                  f.map get.search_results, (collection, index) ->
-                    <tr key={'result_' + index}>
-                      <td data-name='title' title=''>
-                        <img className='ui-thumbnail micro' src={collection.image_url}></img>
-                      </td>
-                      <td data-name='title' title=''>
-                        <span className='ui-resources-table-cell-content'>{collection.title}</span>
-                      </td>
-                      <td data-name='title' title=''>
-                        <Button style={{float: 'right'}} className="primary-button"
-                          type='submit' value={collection.uuid} name={'parent_collection_id'}>
-                          Zu diesem hinzufügen
-                        </Button>
-                      </td>
-                    </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        </div>
-      else if f.presence(get.search_term)
+
+    _content = [ ]
+
+    if @state.searching and not (hasNew or hasResultEntries)
+      _content.push(
+        <Preloader key='content1' />
+      )
+
+
+    if hasNew or hasResultEntries
+      _content.push(
+        <ol key='content2' className='ui-set-list pbs'>
+          <input type='hidden' name='return_to' value={@state.get.return_to} />
+          {
+            f.map @props.get.resource_ids, (resource_id) ->
+              [
+                <input key={'resource_id_' + resource_id.uuid} type='hidden'
+                  name='resource_id[][uuid]' value={resource_id.uuid} />
+                ,
+                <input key={'resource_id_' + resource_id.type} type='hidden'
+                  name='resource_id[][type]' value={resource_id.type} />
+              ]
+          }
+
+
+          {
+            if hasNew
+              f.map @state.newSets, (row, index) ->
+                <li style={{paddingLeft: '60px', paddingRight: '200px'}}
+                  key={'new_' + index} className='ui-set-list-item'>
+                  <img style={{margin: '0px', position: 'absolute', left: '10px', top: '10px'}}
+                    className='ui-thumbnail micro' src={null}></img>
+                  <span className='title'>{row}</span>
+                  <span className='owner'>{'New'}</span>
+                  <Button style={{position: 'absolute', right: '0px', top: '10px'}} className="primary-button"
+                    type='submit' value={row} name={'parent_collection_id[new]'}>
+                    Neues Set erstellen und Einträge hinzufügen
+                  </Button>
+                </li>
+          }
+
+          {
+            if @state.searching
+              <Preloader style={{marginTop: '20px'}}/>
+            else if hasResultEntries
+              f.map get.search_results, (collection, index) ->
+                <li style={{paddingLeft: '60px', paddingRight: '200px'}}
+                  key={collection.uuid} className='ui-set-list-item'>
+                  <img style={{margin: '0px', position: 'absolute', left: '10px', top: '10px'}}
+                    className='ui-thumbnail micro' src={collection.image_url}></img>
+                  <span className='title'>{collection.title}</span>
+                  <span className='owner'>{collection.responsible.name}</span>
+                  <span className='created-at'>{collection.created_at_pretty}</span>
+                  <Button style={{position: 'absolute', right: '0px', top: '10px'}} className="primary-button"
+                    type='submit' value={collection.uuid} name={'parent_collection_id[existing]'}>
+                    Zu diesem hinzufügen
+                  </Button>
+                </li>
+          }
+        </ol>
+      )
+
+
+    if not hasResultEntries and f.presence(get.search_term) and not @state.searching
+      _content.push(
         <h3 key='content3' className="by-center title-m">{t('resource_select_collection_non_found')}</h3>
-      else
-        <h3 key='content3' className="by-center title-m">{t('batch_add_to_collection_hint')}</h3>
+      )
 
-
-
+    if not hasResultEntries and not f.presence(get.search_term) and not @state.searching
+      _content.push(
+        <h3 key='content4' className="by-center title-m">{t('batch_add_to_collection_hint')}</h3>
+      )
 
     <SelectCollectionDialog
       onCancel={@props.onClose}

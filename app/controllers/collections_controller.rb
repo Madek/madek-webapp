@@ -9,6 +9,7 @@ class CollectionsController < ApplicationController
   include Modules::Collections::PermissionsUpdate
   include Modules::Collections::MetaDataUpdate
   include Modules::Collections::Create
+  include Modules::Collections::Store
 
   ALLOWED_FILTER_PARAMS = [:search].freeze
 
@@ -131,19 +132,6 @@ class CollectionsController < ApplicationController
 
   def find_resource
     get_authorized_resource(Collection.unscoped.find(id_param))
-  end
-
-  def store_collection(title)
-    collection = Collection.create!(
-      responsible_user: current_user,
-      creator: current_user)
-    meta_key = MetaKey.find_by(id: 'madek_core:title')
-    MetaDatum::Text.create!(
-      collection: collection,
-      string: title,
-      meta_key: meta_key,
-      created_by: current_user)
-    collection
   end
 
   def size_param

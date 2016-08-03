@@ -204,19 +204,24 @@ feature 'batch edit' do
     end
   end
 
-  def check_search_result(expected_search_string, expected_result, async)
+  def check_search_result(expected_search_string, expected_results, async)
     check_search_result_page(async)
     expect(search_input.value).to eq(expected_search_string)
 
     if expected_search_string.empty?
       check_initial_hint
     else
-      check_hint_non_found(expected_result.empty?)
+      check_hint_non_found(expected_results.empty?)
     end
 
-    unless expected_result.empty?
-      rows = find('.ui-modal-body').find('table').all('tr')
-      expect(rows.size).to eq(expected_result.length)
+    unless expected_results.empty?
+
+      expected_results.each do |expected_result|
+        find('.ui-modal-body').find('ol').find(
+          'span', text: expected_result.title)
+      end
+      rows = find('.ui-modal-body').find('ol').all('li')
+      expect(rows.size).to eq(expected_results.length)
     end
   end
 

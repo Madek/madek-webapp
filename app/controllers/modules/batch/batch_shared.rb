@@ -25,10 +25,9 @@ module Modules
         }
       end
 
-      def action_values(params)
+      def action_values(params, parent_collection_id)
         authorize MediaEntry, :logged_in?
 
-        parent_collection_id = params.require(:parent_collection_id)
         parent_collection = Collection.find(parent_collection_id)
         authorize parent_collection
 

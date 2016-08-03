@@ -19,7 +19,9 @@ module Modules
       def batch_remove_from_set
         return_to = params.require(:return_to)
 
-        action_values = action_values(params)
+        action_values = action_values(
+          params,
+          params.require(:parent_collection_id))
 
         remove_transaction(
           action_values[:parent_collection],

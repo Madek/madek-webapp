@@ -22,37 +22,23 @@ module.exports = React.createClass
 
   getInitialState: () -> {
     mounted: false
-    errors: null
-    searching: false
     searchTerm: ''
+    searching: false
     newSets: []
     get: null
+    errors: null
   }
 
   lastRequest: null
+  sendTimeoutRef: null
 
   componentWillMount: () ->
-    # @setState({searchTerm: @props.boot.search_term})
-    @setState(searchTerm: @props.get.search_term, get: @props.get)
-
-    @sendTimeoutRef = null
+    @setState(get: @props.get, searchTerm: @props.get.search_term)
 
   componentDidMount: () ->
     @setState(mounted: true)
 
-  _onClickNew: (event) ->
-    event.preventDefault()
-
-    if @state.searchTerm
-      trimmed = @state.searchTerm.trim()
-      if trimmed.length > 0
-        @state.newSets.push(trimmed)
-        @setState({newSets: @state.newSets})
-
-    return false
-
   _onChange: (event) ->
-
     @setState({searchTerm: event.target.value})
     @setState({searching: true})
 
@@ -70,7 +56,7 @@ module.exports = React.createClass
         @lastRequest = formXhr(
           {
             method: 'GET'
-            url: @props.get.select_collection_url
+            url: @_requestUrl()
             form: @refs.form
           },
           (result, json) =>
@@ -81,6 +67,21 @@ module.exports = React.createClass
       ,
       500
     )
+
+  _requestUrl: () ->
+    @props.get.select_collection_url
+
+
+  _onClickNew: (event) ->
+    event.preventDefault()
+
+    if @state.searchTerm
+      trimmed = @state.searchTerm.trim()
+      if trimmed.length > 0
+        @state.newSets.push(trimmed)
+        @setState({newSets: @state.newSets})
+
+    return false
 
 
 
@@ -101,8 +102,8 @@ module.exports = React.createClass
       marginRight: '5px'
     }
 
-    showNew = @state.newSets.length > 0
-    showEntries = get.collection_rows.length isnt 0
+    hasNew = @state.newSets.length > 0
+    hasResultEntries = get.collection_rows.length isnt 0
 
 
     _search =
@@ -134,41 +135,42 @@ module.exports = React.createClass
 
     _content = [ ]
 
-    if @state.searching and not (showNew or showEntries)
+    if @state.searching and not (hasNew or hasResultEntries)
       _content.push(
         <Preloader key='content1' />
       )
 
 
-    if showNew or showEntries
+    if hasNew or hasResultEntries
       _content.push(
         <ol key='content2' className='ui-set-list pbs'>
 
-          {if showNew
-            f.map @state.newSets, (row, index) ->
-              <li key={'new_' + index} className='ui-set-list-item'>
-                <label>
-                  <input type='hidden'
-                    name={('new_collections[new_' + index + '][checked]')}
-                    value='false'></input>
-                  <input type='hidden'
-                    name={('new_collections[new_' + index + '][name]')}
-                    value={row}></input>
-                  <ControlledCheckbox className='ui-set-list-input'
-                    name={('new_collections[new_' + index + '][checked]')}
-                    value='true' checked={true} />
-                  <span className='title'>{row}</span>
-                  <span className='owner'>{get.current_user.label}</span>
-                  <span className='created-at'>{'New'}</span>
-                </label>
-              </li>
+          {
+            if hasNew
+              f.map @state.newSets, (row, index) ->
+                <li key={'new_' + index} className='ui-set-list-item'>
+                  <label>
+                    <input type='hidden'
+                      name={('new_collections[new_' + index + '][checked]')}
+                      value='false'></input>
+                    <input type='hidden'
+                      name={('new_collections[new_' + index + '][name]')}
+                      value={row}></input>
+                    <ControlledCheckbox className='ui-set-list-input'
+                      name={('new_collections[new_' + index + '][checked]')}
+                      value='true' checked={true} />
+                    <span className='title'>{row}</span>
+                    <span className='owner'>{get.current_user.label}</span>
+                    <span className='created-at'>{'New'}</span>
+                  </label>
+                </li>
           }
 
           {
 
             if @state.searching
               <Preloader style={{marginTop: '20px'}}/>
-            else if showEntries
+            else if hasResultEntries
               f.map get.collection_rows, (row) ->
                 collection = row.collection
                 checked = row.contains_media_entry
@@ -193,12 +195,12 @@ module.exports = React.createClass
       )
 
 
-    if get.collection_rows.length is 0 and f.presence(get.search_term) and not @state.searching
+    if not hasResultEntries and f.presence(get.search_term) and not @state.searching
       _content.push(
         <h3 key='content3' className="by-center title-m">{t('resource_select_collection_non_found')}</h3>
       )
 
-    if get.collection_rows.length is 0 and not f.presence(get.search_term) and not @state.searching
+    if not hasResultEntries and not f.presence(get.search_term) and not @state.searching
       _content.push(
         <h3 key='content4' className="by-center title-m">{t('resource_select_collection_non_assigned')}</h3>
       )
