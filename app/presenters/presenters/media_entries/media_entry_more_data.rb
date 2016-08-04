@@ -9,6 +9,7 @@ module Presenters
       end
 
       def file_information
+        return unless @media_file
         @media_file
           .meta_data
           .transform_values do |val| # Filter out binary data (breaks UI)
@@ -25,8 +26,8 @@ module Presenters
       end
 
       def import_date
-        return unless (media_file = @app_resource.media_file)
-        media_file.created_at.strftime('%d.%m.%Y')
+        return unless @media_file
+        @media_file.created_at.strftime('%d.%m.%Y')
       end
 
       def activity_log
@@ -46,7 +47,7 @@ module Presenters
       end
 
       def filename
-        @media_file.filename
+        @media_file.filename if @media_file
       end
     end
   end
