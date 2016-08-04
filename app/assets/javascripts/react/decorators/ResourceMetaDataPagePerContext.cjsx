@@ -128,12 +128,21 @@ module.exports = React.createClass
       else
         false
 
+  _meta_key_ids_by_context_id: (context_id) ->
+    res = f.map(
+      @props.get.meta_meta_data.context_key_ids_by_context_id[context_id],
+      (context_key_id) =>
+        @props.get.meta_meta_data.meta_key_id_by_context_key_id[context_key_id]
+    )
+    res
+
+
   _validityForContext: (context_id) ->
     hasMandatory = false
     hasInvalid = false
     f.each @props.get.meta_meta_data.mandatory_by_meta_key_id, (mandatory) =>
 
-      if context_id and (f.includes @props.get.meta_meta_data.meta_key_ids_by_context_id[context_id], mandatory.meta_key_id) or not context_id
+      if context_id and (f.includes(@_meta_key_ids_by_context_id(context_id), mandatory.meta_key_id)) or not context_id
         hasMandatory = true
         model = @state.models[mandatory.meta_key_id]
         # Note: The model can be unknown, because you can get more mandatory
@@ -151,7 +160,7 @@ module.exports = React.createClass
   _changesPerContext: (context_id) ->
     hasChanges = false
     f.each @state.models, (model, meta_key_id) =>
-      if context_id and (f.includes @props.get.meta_meta_data.meta_key_ids_by_context_id[context_id], meta_key_id) or not context_id
+      if context_id and (f.includes(@_meta_key_ids_by_context_id(context_id), meta_key_id)) or not context_id
         unless model.multiple == false and model.originalValues.length == 0 and model.values.length == 1 and model.values[0].trim() == ''
 
           # Note: New keywords have no uuid yet. Fortunately new keywords always mean that the length is different.
@@ -328,7 +337,7 @@ module.exports = React.createClass
               setUrlParams(get.url + '/meta_data/edit_context/' + context.uuid,
                 return_to: get.return_to)
 
-          if not f.isEmpty(get.meta_meta_data.meta_key_ids_by_context_id[context_id])
+          if not f.isEmpty(get.meta_meta_data.context_key_ids_by_context_id[context_id])
             <Tab
               hasChanges={@_changesPerContext(context_id)}
               validity={@_validityForContext(context_id)}
@@ -422,7 +431,8 @@ module.exports = React.createClass
 
                   {
 
-                    f.map get.meta_meta_data.meta_key_ids_by_context_id[currentContext.uuid], (meta_key_id) =>
+                    f.map get.meta_meta_data.context_key_ids_by_context_id[currentContext.uuid], (context_key_id) =>
+                      meta_key_id = get.meta_meta_data.meta_key_id_by_context_key_id[context_key_id]
                       datum = get.meta_data.meta_datum_by_meta_key_id[meta_key_id]
 
                       <MetaDatumFormItem
@@ -434,6 +444,7 @@ module.exports = React.createClass
                         allMetaMetaData={get.meta_meta_data}
                         name={name}
                         get={datum}
+                        contextKey={get.meta_meta_data.context_key_by_context_key_id[context_key_id]}
                         metaKeyId={meta_key_id}
                         model={@state.models[meta_key_id]}
                         requiredMetaKeyIds={get.meta_meta_data.mandatory_by_meta_key_id}
@@ -444,8 +455,15 @@ module.exports = React.createClass
                   }
                   {
 
-                    hidden_meta_key_ids = f.select (f.keys get.meta_meta_data.meta_key_by_meta_key_id), (meta_key_id) ->
-                      not (f.includes get.meta_meta_data.meta_key_ids_by_context_id[currentContext.uuid], meta_key_id)
+                    meta_key_ids_in_current_context =
+                      f.map get.meta_meta_data.context_key_ids_by_context_id[currentContext.uuid], (context_key_id) ->
+                        meta_key_id = get.meta_meta_data.meta_key_id_by_context_key_id[context_key_id]
+
+                    all_meta_key_ids = f.keys(get.meta_meta_data.meta_key_by_meta_key_id)
+
+                    hidden_meta_key_ids = f.select(all_meta_key_ids, (meta_key_id) ->
+                      not (f.includes meta_key_ids_in_current_context, meta_key_id)
+                    )
 
                     f.map hidden_meta_key_ids, (meta_key_id) =>
                       datum = get.meta_data.meta_datum_by_meta_key_id[meta_key_id]
@@ -458,6 +476,7 @@ module.exports = React.createClass
                           allMetaMetaData={get.meta_meta_data}
                           name={name}
                           get={datum}
+                          contextKey={null}
                           metaKeyId={meta_key_id}
                           model={@state.models[meta_key_id]}
                           requiredMetaKeyIds={get.meta_meta_data.mandatory_by_meta_key_id}

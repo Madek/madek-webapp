@@ -37,5 +37,4 @@ module.exports = React.createClass
       name={name}
       active={state.isClient}
       multiple={multiple}
-      values={values}
-      contextKey={@props.contextKey} />
+      values={values} />

@@ -56,9 +56,15 @@ feature 'Resource: Collection' do
           prepare_data
         end,
         lambda do
-          update_context_text_field('madek_core:title', 'New Title')
-          update_context_text_field('madek_core:description', '')
-          update_context_bubble('madek_core:keywords', @keyword)
+          update_context_text_field(
+            'media_content',
+            'madek_core:title',
+            'New Title')
+          update_context_text_field(
+            'media_content',
+            'madek_core:description',
+            '')
+          update_context_bubble('media_content', 'madek_core:keywords', @keyword)
         end,
         lambda do
           expect(find_datum(@resource, 'madek_core:title').string)

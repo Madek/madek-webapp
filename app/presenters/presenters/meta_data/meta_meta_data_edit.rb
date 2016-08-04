@@ -43,23 +43,6 @@ module Presenters
         _meta_data_edit_contexts.map &:id
       end
 
-      def context_keys_by_meta_key_id
-        @context_keys_by_meta_key_id ||=
-          begin
-            result = _meta_data_edit_contexts.map do |context|
-              Hash[
-                context.context_keys.map do |context_key|
-                  [
-                    context_key.meta_key_id,
-                    Presenters::ContextKeys::ContextKeyCommon.new(context_key)
-                  ]
-                end
-              ]
-            end
-            result.reduce({}, :merge)
-          end
-      end
-
       def contexts_by_context_id
         @contexts_by_context_id ||=
           Hash[
@@ -78,15 +61,40 @@ module Presenters
           ]
       end
 
-      def meta_key_ids_by_context_id
-        @meta_key_ids_by_context_id ||=
+      def meta_key_id_by_context_key_id
+        @meta_key_id_by_context_key_id ||=
+          Hash[
+            _meta_data_edit_contexts.flat_map do |context|
+              context.context_keys.map do |context_key|
+                [context_key.id, context_key.meta_key_id]
+              end
+            end
+          ]
+      end
+
+      def context_key_by_context_key_id
+        @context_key_by_context_key_id ||=
+          Hash[
+            _meta_data_edit_contexts.flat_map do |context|
+              context.context_keys.map do |context_key|
+                [
+                  context_key.id,
+                  Presenters::ContextKeys::ContextKeyCommon.new(context_key)
+                ]
+              end
+            end
+          ]
+      end
+
+      def context_key_ids_by_context_id
+        @context_key_ids_by_context_id ||=
           Hash[
             _meta_data_edit_contexts.map do |context|
               [
                 context.id,
-                context.context_keys.map do |c_key|
-                  next unless context_key_usable(c_key)
-                  c_key.meta_key_id
+                context.context_keys.map do |context_key|
+                  next unless context_key_usable(context_key)
+                  context_key.id
                 end
               ]
             end

@@ -38,8 +38,6 @@ module.exports = React.createClass
 
     meta_key = @props.allMetaMetaData.meta_key_by_meta_key_id[@props.metaKeyId]
 
-    context_key = @props.allMetaMetaData.context_keys_by_meta_key_id[@props.metaKeyId]
-
     newget = f.mapValues @props.get, (value) ->
       value
     newget.values = @props.model.values
@@ -83,8 +81,8 @@ module.exports = React.createClass
         #   <div style={{display: 'table', marginLeft: '-20px', float: 'left', paddingTop: '5px', paddingBottom: '10px'}}></div>
         null
       }
-      <MetaKeyFormLabel name={name} metaKey={meta_key} contextKey={context_key}
+      <MetaKeyFormLabel name={name} metaKey={meta_key} contextKey={@props.contextKey}
         mandatory={@props.requiredMetaKeyIds[@props.metaKeyId]}/>
-      <InputMetaDatum onChange={@_onChange} name={name} get={newget} contextKey={context_key}/>
+      <InputMetaDatum onChange={@_onChange} name={name} get={newget} />
 
     </fieldset>

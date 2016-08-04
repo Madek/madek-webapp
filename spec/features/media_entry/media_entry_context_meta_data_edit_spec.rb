@@ -84,13 +84,19 @@ def goto_initial_context_edit(context, async, switch_to)
 end
 
 def edit_some_data(async)
-  update_context_text_field(@key_prj_title, @project_title)
+  update_context_text_field('zhdk_bereich', @key_prj_title, @project_title)
   if async
-    update_context_checkbox(@key_prj_type, @project_type_forschung)
-    update_context_bubble(@key_group, @bachelor_design)
+    update_context_checkbox(
+      'zhdk_bereich',
+      @key_prj_type,
+      @project_type_forschung)
+    update_context_bubble('zhdk_bereich', @key_group, @bachelor_design)
   else
-    update_context_bubble_no_js(@key_prj_type, @project_type_forschung)
-    update_context_bubble_no_js(@key_group, @bachelor_design)
+    update_context_bubble_no_js(
+      'zhdk_bereich',
+      @key_prj_type,
+      @project_type_forschung)
+    update_context_bubble_no_js('zhdk_bereich', @key_group, @bachelor_design)
   end
 
   expect(save_button.disabled?).to eq(false)
@@ -100,23 +106,28 @@ def goto_core_and_back(async, switch_to)
   open_context('core', async)
 
   expect(save_button.disabled?).to eq(false)
-
-  update_context_text_field('madek_core:title', @core_title)
+  update_context_text_field('core', 'madek_core:title', @core_title)
 
   open_context(switch_to, async)
 end
 
 def check_data_still_there(async)
   if async
-    expect(read_context_text_field(@key_prj_title)).to eq(@project_title)
+    expect(
+      read_context_text_field(
+        'zhdk_bereich',
+        @key_prj_title
+      )
+    ).to eq(@project_title)
     expect(
       read_context_checkbox(
+        'zhdk_bereich',
         @key_prj_type,
         @project_type_forschung)).to eq(true)
   else
-    expect(read_context_text_field(@key_prj_title)).to eq('')
-    expect(read_context_bubble_no_js(@key_prj_type)).to eq('')
-    expect(read_context_bubble_no_js(@key_group)).to eq('')
+    expect(read_context_text_field('zhdk_bereich', @key_prj_title)).to eq('')
+    expect(read_context_bubble_no_js('zhdk_bereich', @key_prj_type)).to eq('')
+    expect(read_context_bubble_no_js('zhdk_bereich', @key_group)).to eq('')
   end
 
   expect(save_button.disabled?).to eq(false)
@@ -140,7 +151,7 @@ end
 def save_second_time(async)
   click_action_button('pen')
 
-  update_context_text_field('madek_core:copyright_notice', @copyright)
+  update_context_text_field('core', 'madek_core:copyright_notice', @copyright)
 
   save_button.click
 
@@ -177,15 +188,15 @@ def save_third_time(async)
   # expect(save_button.disabled?).to eq(true) if async
   expect(save_button.disabled?).to eq(false)
 
-  update_context_text_field('madek_core:subtitle', 'Test')
+  update_context_text_field('core', 'madek_core:subtitle', 'Test')
 
   expect(save_button.disabled?).to eq(false)
 
-  clear_context_text_field('madek_core:title')
+  clear_context_text_field('core', 'madek_core:title')
 
   expect(save_button.disabled?).to eq(true) if async
 
-  update_context_text_field('madek_core:title', 'New Title')
+  update_context_text_field('core', 'madek_core:title', 'New Title')
 
   expect(save_button.disabled?).to eq(false) if async
 

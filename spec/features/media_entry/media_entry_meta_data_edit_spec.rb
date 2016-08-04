@@ -100,9 +100,18 @@ feature 'Resource: MediaEntry' do
             prepare_data
           end,
           lambda do
-            update_context_text_field('madek_core:title', 'New Title')
-            update_context_bubble_no_js('madek_core:authors', @co_author)
-            update_context_text_field('madek_core:description', '')
+            update_context_text_field(
+              'media_content',
+              'madek_core:title',
+              'New Title')
+            update_context_bubble_no_js(
+              'media_content',
+              'madek_core:authors',
+              @co_author)
+            update_context_text_field(
+              'media_content',
+              'madek_core:description',
+              '')
           end,
           lambda do
             expect(find_datum(@resource, 'madek_core:title').string)

@@ -10,7 +10,7 @@ module.exports = React.createClass
   render: ({metaKey, contextKey} = @props)->
 
     label = metaKey.label
-    if contextKey and contextKey.label
+    if contextKey && contextKey.label
       label = contextKey.label
 
     if @props.mandatory
