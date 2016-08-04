@@ -53,15 +53,17 @@ module Modules
           existing = parent_collection.media_entries
             .rewhere(is_published: [true, false]).reload
           media_entries.each do |media_entry|
-            unless existing.include? media_entry
-              parent_collection.media_entries << media_entry
-            end
+            # Do not add if already in the collection.
+            next if existing.include? media_entry
+            parent_collection.media_entries << media_entry
           end
           existing = parent_collection.collections.reload
           collections.each do |collection|
-            unless existing.include? collection
-              parent_collection.collections << collection
-            end
+            # Do not add if already in the collection.
+            next if existing.include? collection
+            # Do not add to itself.
+            next if parent_collection.id == collection.id
+            parent_collection.collections << collection
           end
         end
       end
