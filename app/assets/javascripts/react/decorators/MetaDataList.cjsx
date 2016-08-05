@@ -6,7 +6,6 @@ classList = require('classnames/dedupe')
 parseMods = require('../lib/ui.coffee').parseMods
 t = require('../../lib/string-translation')('de')
 
-Link = require('../ui-components/Link.cjsx')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
 MetaDatumValues = require('./MetaDatumValues.cjsx')
 
@@ -58,7 +57,7 @@ module.exports = React.createClass
       else
         [dat.meta_datum, dat.context_key]
       return {
-        key: <Link mods='weak' href={datum.url} title={key.uuid} key={key.uuid}>{key.label}</Link>
+        key: key.label
         value: <MetaDatumValues metaDatum={datum} tagMods={tagMods}/>
       }
 

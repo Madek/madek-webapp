@@ -23,7 +23,7 @@ feature 'Resource: MetaDatum' do
 
   describe 'Action: Update' do
 
-  context \
+  pending \
     'update MetaDatum::Text from it\'s detail view with Javascript disabled',
     browser: :firefox_nojs do
 
