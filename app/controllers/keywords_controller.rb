@@ -7,7 +7,8 @@ class KeywordsController < ApplicationController
 
   def show
     term = params.require(:term)
-    keyword = get_authorized_resource(Keyword.find_by!(term: term))
+    keyword = get_authorized_resource(
+      Keyword.find_by!(term: term, meta_key_id: meta_key_id_param))
     redirect_to_filtered_index(
       meta_data: [{
         key: keyword.meta_key_id,
