@@ -41,7 +41,7 @@ class ZencoderRequester
   end
 
   def request_params
-    input_param = host_name +
+    input_param = base_url +
       url_helpers.media_file_path(@media_file,
                                   access_hash: @media_file.access_hash)
     params = {
@@ -95,11 +95,11 @@ class ZencoderRequester
   end
 
   def notification_url
-    host_name + url_helpers.zencoder_job_notification_path(@zencoder_job)
+    base_url + url_helpers.zencoder_job_notification_path(@zencoder_job)
   end
 
-  def host_name
-    'http://' + (Settings.madek_host_name || ENV['HOST_NAME'])
+  def base_url
+    Settings.madek_external_base_url
   end
 
   def url_helpers

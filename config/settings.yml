@@ -1,5 +1,9 @@
 madek_master_secret: 'secret'
 
+# use just the setup for the webbap here, this will be overridden if we are in
+# the context of the whole environment and further in the deployed app
+madek_external_base_url: 'http://localhost:3101'
+
 madek_session_cookie_name: 'madek-session'
 madek_session_validity_duration: 7 days
 
