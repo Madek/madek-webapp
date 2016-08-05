@@ -1,3 +1,11 @@
+- version = if MADEK_VERSION
+  - capture_haml do
+    %span.version{title: MADEK_VERSION[:time] || nil}
+      = MADEK_VERSION[:version]
+    - if MADEK_VERSION[:name]
+      %a{href: MADEK_VERSION[:info_url], title: MADEK_VERSION[:description] || nil}
+        = MADEK_VERSION[:name]
+
 :ruby
   footer = {
     copy: {
@@ -7,9 +15,10 @@
       },
       text: settings.brand_text
     },
-    version: deco('semver', prefix: 'v', semver: MADEK_SEMVER),
+    version: version,
     menu: settings.sitemap
   }
+
 
 - content_for(:body) do
 
