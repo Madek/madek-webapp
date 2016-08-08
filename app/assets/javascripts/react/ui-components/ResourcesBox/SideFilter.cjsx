@@ -139,7 +139,7 @@ module.exports = React.createClass
       {@createMultiSelectBox(child, current, filterType)}
       <ul className={togglebodyClass}>
         {
-          if isOpen then f.map(f.sortBy(child.children, (child) -> child.label), (item)=>
+          if isOpen then f.map(child.children, (item)=>
             @renderItem(current, child, item, filterType)
           )
         }
