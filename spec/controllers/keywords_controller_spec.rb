@@ -24,6 +24,25 @@ describe KeywordsController do
           show_filter: true }
       }.to_query)
     end
+
+    it 'action show responds with 403 if user not authorized' do
+      vocab = FactoryGirl.create(:vocabulary,
+                                 id: Faker::Lorem.characters(8),
+                                 enabled_for_public_view: false)
+      meta_key_keywords = \
+        FactoryGirl.create(:meta_key_keywords,
+                           id: "#{vocab.id}:#{Faker::Lorem.characters(8)}")
+      meta_datum_keywords = \
+        FactoryGirl.create(:meta_datum_keywords,
+                           meta_key: meta_key_keywords)
+      keyword = meta_datum_keywords.keywords.first
+
+      expect do
+        get :show,
+            { term: keyword.term, meta_key_id: meta_key_keywords },
+            user_id: user.id
+      end.to raise_error Errors::ForbiddenError
+    end
   end
 
   context 'responds to search with json' do

@@ -55,7 +55,8 @@ module Presenters
         def dynamic_filters
           return unless @conf[:show_filter] and @type == 'MediaEntries'
           # NOTE: scope is pre-filtered, but not paginated!
-          scope = @conf[:filter] ? @scope.filter_by(@conf[:filter]) : @scope
+          scope = \
+            @conf[:filter] ? @scope.filter_by(@user, @conf[:filter]) : @scope
           tree = @conf[:dyn_filter]
           Presenters::Shared::DynamicFilters.new(@user, scope, tree).list
         end
@@ -98,7 +99,7 @@ module Presenters
             fail 'TypeError! not an AR Collection/Relation!'
           end
           resources
-            .filter_by(config[:filter] || {})
+            .filter_by(@user, config[:filter] || {})
             .reorder(config[:order])
         end
 
