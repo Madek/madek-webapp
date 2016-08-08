@@ -83,6 +83,6 @@ module.exports = React.createClass
       }
       <MetaKeyFormLabel name={name} metaKey={meta_key} contextKey={@props.contextKey}
         mandatory={@props.requiredMetaKeyIds[@props.metaKeyId]}/>
-      <InputMetaDatum onChange={@_onChange} name={name} get={newget} />
+      <InputMetaDatum onChange={@_onChange} name={name} get={newget} contextKey={@props.contextKey} />
 
     </fieldset>
