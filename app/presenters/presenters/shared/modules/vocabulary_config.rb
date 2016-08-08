@@ -40,9 +40,14 @@ module Presenters
               _get_app_settings_contexts([:contexts_for_entry_extra])
           end
 
-          def _meta_data_edit_contexts
+          def _contexts_for_entry_edit
             @_meta_data_edit_contexts ||=
-              _get_app_settings_contexts([:contexts_for_resource_edit])
+              _get_app_settings_contexts([:contexts_for_entry_edit])
+          end
+
+          def _contexts_for_collection_edit
+            @_meta_data_edit_contexts ||=
+              _get_app_settings_contexts([:contexts_for_collection_edit])
           end
 
           def _contexts_for_dynamic_filters

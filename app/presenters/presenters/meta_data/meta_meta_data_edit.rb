@@ -39,14 +39,23 @@ module Presenters
         end
       end
 
+      def configured_contexts
+        # see VocabularyConfig
+        case @resource_class.name
+        when 'MediaEntry' then _contexts_for_entry_edit
+        when 'Collection' then _contexts_for_collection_edit
+        else fail 'Invalid resource_class!'
+        end
+      end
+
       def meta_data_edit_context_ids
-        _meta_data_edit_contexts.map &:id
+        configured_contexts.map &:id
       end
 
       def contexts_by_context_id
         @contexts_by_context_id ||=
           Hash[
-            _meta_data_edit_contexts.map do |context|
+            configured_contexts.map do |context|
               [context.id, Presenters::Contexts::ContextCommon.new(context)]
             end
           ]
@@ -64,7 +73,7 @@ module Presenters
       def meta_key_id_by_context_key_id
         @meta_key_id_by_context_key_id ||=
           Hash[
-            _meta_data_edit_contexts.flat_map do |context|
+            configured_contexts.flat_map do |context|
               context.context_keys.map do |context_key|
                 [context_key.id, context_key.meta_key_id]
               end
@@ -75,7 +84,7 @@ module Presenters
       def context_key_by_context_key_id
         @context_key_by_context_key_id ||=
           Hash[
-            _meta_data_edit_contexts.flat_map do |context|
+            configured_contexts.flat_map do |context|
               context.context_keys.map do |context_key|
                 [
                   context_key.id,
@@ -89,7 +98,7 @@ module Presenters
       def context_key_ids_by_context_id
         @context_key_ids_by_context_id ||=
           Hash[
-            _meta_data_edit_contexts.map do |context|
+            configured_contexts.map do |context|
               [
                 context.id,
                 context.context_keys.map do |context_key|
