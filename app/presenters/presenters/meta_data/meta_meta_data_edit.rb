@@ -101,7 +101,7 @@ module Presenters
             configured_contexts.map do |context|
               [
                 context.id,
-                context.context_keys.map do |context_key|
+                context.context_keys.sort_by(&:position).map do |context_key|
                   next unless context_key_usable(context_key)
                   context_key.id
                 end

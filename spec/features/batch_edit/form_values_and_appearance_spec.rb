@@ -48,7 +48,8 @@ feature 'Resource: MediaEntries' do
     xpath_voc += '[.//h3[.//.[contains(.,"' + vocabulary + '")]]]'
     voc_div = find('.form-body').find(:xpath, xpath_voc)
 
-    xpath_datum = './/fieldset[.//label[.//.[contains(.,"' + datum + '")]]]'
+    xpath_datum = './/fieldset[.//.[contains(@class, "form-label")]'
+    xpath_datum += '[.//.[contains(.,"' + datum + '")]]]'
     dat_div = voc_div.find(:xpath, xpath_datum)
 
     xpath_form_item = './/div[@class="form-item"]'

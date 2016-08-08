@@ -431,26 +431,27 @@ module.exports = React.createClass
 
                   {
 
-                    f.map get.meta_meta_data.context_key_ids_by_context_id[currentContext.uuid], (context_key_id) =>
-                      meta_key_id = get.meta_meta_data.meta_key_id_by_context_key_id[context_key_id]
-                      datum = get.meta_data.meta_datum_by_meta_key_id[meta_key_id]
+                    f.map(
+                      get.meta_meta_data.context_key_ids_by_context_id[currentContext.uuid], (context_key_id) =>
+                        meta_key_id = get.meta_meta_data.meta_key_id_by_context_key_id[context_key_id]
+                        datum = get.meta_data.meta_datum_by_meta_key_id[meta_key_id]
 
-                      <MetaDatumFormItem
-                        batch={@props.batch}
-                        published={published}
-                        batchConflict={@state.batchDiff[meta_key_id]}
-                        hidden={false}
-                        onChange={@_onChangeForm}
-                        allMetaMetaData={get.meta_meta_data}
-                        name={name}
-                        get={datum}
-                        contextKey={get.meta_meta_data.context_key_by_context_key_id[context_key_id]}
-                        metaKeyId={meta_key_id}
-                        model={@state.models[meta_key_id]}
-                        requiredMetaKeyIds={get.meta_meta_data.mandatory_by_meta_key_id}
-                        error={@state.errors[meta_key_id]}
-                        key={meta_key_id}/>
-
+                        <MetaDatumFormItem
+                          batch={@props.batch}
+                          published={published}
+                          batchConflict={@state.batchDiff[meta_key_id]}
+                          hidden={false}
+                          onChange={@_onChangeForm}
+                          allMetaMetaData={get.meta_meta_data}
+                          name={name}
+                          get={datum}
+                          contextKey={get.meta_meta_data.context_key_by_context_key_id[context_key_id]}
+                          metaKeyId={meta_key_id}
+                          model={@state.models[meta_key_id]}
+                          requiredMetaKeyIds={get.meta_meta_data.mandatory_by_meta_key_id}
+                          error={@state.errors[meta_key_id]}
+                          key={meta_key_id}/>
+                    )
 
                   }
                   {

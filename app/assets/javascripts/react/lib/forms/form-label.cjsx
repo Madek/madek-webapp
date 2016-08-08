@@ -10,19 +10,28 @@ module.exports = React.createClass
   render: ({metaKey, contextKey} = @props)->
 
     label = metaKey.label
-    if contextKey && contextKey.label
-      label = contextKey.label
+    hint = metaKey.hint
+    description = metaKey.description
+
+    if contextKey
+      if contextKey.label
+        label = contextKey.label
+      if contextKey.hint
+        hint = contextKey.hint
+      if contextKey.description
+        description = contextKey.description
+
 
     if @props.mandatory
       label = label + ' *'
 
-    <label className='form-label'>
+    <div className='form-label'>
       {label}
-      {if (description = metaKey.description)
-        <span className='ui-form-ui-ttip-toggle ui-ttip-toggle' rel='tooltip'
+      {if description
+        <span className='ui-form-ui-ttip-toggle ui-ttip-toggle'
           title={description}>
           <i className='icon-question'/>
         </span>
       }
-      <small>{metaKey.hint}</small>
-    </label>
+      <small>{hint}</small>
+    </div>
