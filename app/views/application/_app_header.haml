@@ -27,16 +27,16 @@
         explore: {
           text: t(:sitemap_explore),
           href: explore_path,
-          active: (link_active?(explore_path) or
-            link_active?(media_entries_path) or
-            link_active?(collections_path) or
-            link_active?(filter_sets_path))
+          active: link_active?(explore_path)
         },
 
         search: {
           text: t(:sitemap_search), icon: 'icon-lens.bright',
           href: search_path,
-          active: link_active?(search_path)
+          active: (link_active?(search_path) or
+            link_active?(media_entries_path, deep: true) or
+            link_active?(collections_path, deep: true) or
+            link_active?(filter_sets_path, deep: true))
         },
 
         help: { text: t(:sitemap_help), href: settings.support_url }
