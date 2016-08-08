@@ -27,7 +27,7 @@ a.weak
     color: $mono-dark
     text-decoration: none
 
-a.disabled, a[disabled]
+a.disabled, a[disabled], .disabled a, [disabled] a
   color: $mono-mid !important
 
 a:active
@@ -105,15 +105,15 @@ a:active
   line-height: $line-height-xl
   min-height: 37px
 
-.button.disabled, .button[disabled],
-.button.disabled:hover, .button[disabled]:hover,
-  +background-image(linear-gradient(darken($mono-bright, 10%), darken($mono-weak, 10%)))
-  +single-text-shadow(false, 1px, 0, false, $lighten)
-  border-color: darken($mono-light, 5%)
-  color: $mono-mid
-  cursor: default
-  &:active
-    +box-shadow(none)
+.button.disabled, .button[disabled], [disabled] .button, .disabled .button
+  &, &:hover
+    +background-image(linear-gradient(darken($mono-bright, 10%), darken($mono-weak, 10%)))
+    +single-text-shadow(false, 1px, 0, false, $lighten)
+    border-color: darken($mono-light, 5%)
+    color: $mono-mid
+    cursor: default
+    &:active
+      +box-shadow(none)
 
 /* Icons within buttons
  *-----------------------------------------
@@ -124,7 +124,7 @@ a:active
 
 .button:active i,
 .button.active i,
-.button.disabled i
+.button.disabled i, .button[disabled] i, [disabled] .button i, .disabled .button i
   opacity: 0.5
 
 .button i.small

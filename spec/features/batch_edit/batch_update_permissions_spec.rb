@@ -19,7 +19,7 @@ feature 'Batch update media entries permissions', browser: :firefox do
     within(box) do
       within('.ui-filterbar') do
         find('.ui-filterbar-select').find('.icon-checkbox').click
-        click_on 'Aktionen'
+        find('.dropdown-toggle, .ui-drop-toggle', text: 'Aktionen').click
         find('.dropdown-menu a', text: 'Berechtigungen editieren').click
       end
     end

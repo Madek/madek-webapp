@@ -6,6 +6,7 @@ ui = require('../../lib/ui.coffee')
 t = ui.t('de')
 Icon = require('../../ui-components/Icon.cjsx')
 Dropdown = require('../../ui-components/Dropdown.cjsx')
+MenuItem = Dropdown.MenuItem
 RailsForm = require('../../lib/forms/rails-form.cjsx')
 
 module.exports = React.createClass
@@ -64,66 +65,63 @@ module.exports = React.createClass
     ]
 
     <Dropdown mods='stick-right'
-      label={props.user_name}>
+      toggle={props.user_name}>
 
-      <ul className="dropdown-menu ui-drop-menu" role="menu">
+      <Dropdown.Menu className='ui-drop-menu'>
 
-        <li className="ui-drop-item">
-          <a className="strong" href="/my/upload">
-            <Icon i="upload" mods="ui-drop-icon"/>
-            {' ' + t('user_menu_upload')}
-          </a>
-        </li>
+        <MenuItem href='/my/upload' className='strong ui-drop-item'>
+          <Icon i='upload' mods='ui-drop-icon'/>
+          {' ' + t('user_menu_upload')}
+        </MenuItem>
 
-        <li className="separator"/>
+        <MenuItem className='separator'/>
 
         {myContentItems.map (item, index)->
-          <li key={'key_' + index} className="ui-drop-item">
-            <a href={item.url}>
-              <Icon i={item.icon} mods="mid ui-drop-icon"/>
-              {' ' + item.title}</a>
-          </li>
+          <MenuItem  href={item.url} key={'key_' + index} className='ui-drop-item'>
+            <Icon i={item.icon} mods='mid ui-drop-icon'/>
+            {' ' + item.title}
+          </MenuItem>
         }
 
-        <li className="separator"/>
+        <MenuItem className='separator'/>
 
-        {# <li className="ui-drop-item">}
-        {#   <a data-method="PUT"}
-        {#     href="/users/ebd3a542-2854-4596-b90d-fee281f7c3c3/contrast_mode?contrast_mode=true">}
-        {#     <Icon i="contrast ui-drop-icon mid"/> Kontrast-Modus einschalten</a>}
+        {# <li className='ui-drop-item'>}
+        {#   <a data-method='PUT'}
+        {#     href='/users/ebd3a542-2854-4596-b90d-fee281f7c3c3/contrast_mode?contrast_mode=true'>}
+        {#     <Icon i='contrast ui-drop-icon mid'/> Kontrast-Modus einschalten</a>}
         {# </li>}
 
-        {# <li className="separator"/>}
+        {# <li className='separator'/>}
 
         {if f.present(props.admin)
-          <li className="ui-drop-item">
-            <a href={props.admin.url}>
-              <Icon i="cog ui-drop-icon mid"/>
-              {' ' + t('user_menu_admin_ui')}</a>
-          </li>
+          <MenuItem href={props.admin.url} className='ui-drop-item'>
+            <Icon i='cog ui-drop-icon mid'/>
+            {' ' + t('user_menu_admin_ui')}
+          </MenuItem>
 
-          {# <li className="ui-drop-item">}
-          {#   <a className="" data-method="POST"}
-          {#     href="/app_admin/enter_uberadmin" id="switch-to-uberadmin">}
-          {#     <Icon i="admin ui-drop-icon mid"/>}
+          {# <li className='ui-drop-item'>}
+          {#   <a className='' data-method='POST'}
+          {#     href='/app_admin/enter_uberadmin' id='switch-to-uberadmin'>}
+          {#     <Icon i='admin ui-drop-icon mid'/>}
           {#     {' ' + 'In Admin-Modus wechseln'}</a>}}
           {# </li>}
         }
 
-        <li className="separator"/>
+        <MenuItem className='separator'/>
 
-        <li className="ui-drop-item">
-          {# FIXME: style fixes…}
+        <li className='ui-drop-item'>
+          {# NOTE: needed style fixes for putting form in menu}
           {styleFix = {width: '100%', textAlign: 'left', paddingLeft: '7px'}
-          <RailsForm name='sign-out'
+          <RailsForm
+            name='sign-out'
             action={props.sign_out_action.url}
             method={props.sign_out_action.method}
             authToken={props.authToken}>
-            <button className="strong" style={styleFix}>
-              <Icon i="power-off" mods="ui-drop-icon" />
+            <button className='strong' style={styleFix}>
+              <Icon i='power-off' mods='ui-drop-icon' />
               {' ' + t('user_menu_logout_btn')}</button>
           </RailsForm>}
         </li>
-      </ul>
+      </Dropdown.Menu>
 
     </Dropdown>

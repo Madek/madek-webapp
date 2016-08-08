@@ -23,7 +23,8 @@ feature 'App: UserMenu' do
     example 'links' do
       sign_in_as('normin')
       open_user_menu
-      links = user_menu_drop_menu.all('a').map { |i| URI.parse(i[:href]).path }
+      links = user_menu_drop_menu.all('a')
+        .map { |i| URI.parse(i[:href]).path.presence }.compact
       expect(links).to eq [
         '/my/upload',
         '/my/unpublished_entries',

@@ -12,6 +12,7 @@ RailsForm = require('../lib/forms/rails-form.cjsx')
 ResourceThumbnail = require('./ResourceThumbnail.cjsx')
 { Button, ButtonGroup, Icon, Link, Preloader, Dropdown, ActionsBar
 } = require('../ui-components/index.coffee')
+MenuItem = Dropdown.MenuItem
 SideFilter = require('../ui-components/ResourcesBox/SideFilter.cjsx')
 BoxToolBar = require('../ui-components/ResourcesBox/BoxToolBar.cjsx')
 
@@ -441,67 +442,61 @@ module.exports = React.createClass
         #   click: alert('not implemented!')
 
       actionsDropdown = if f.any(f.values(actions))
-        <Dropdown mods='stick-right mlm' buttonClass='button'
-          label={'Aktionen'}>
+        <Dropdown mods='stick-right mlm'
+          toggle={'Aktionen'} toggleProps={{className: 'button'}}>
 
-          <ul className="dropdown-menu ui-drop-menu" role="menu" >
+          <Dropdown.Menu className='ui-drop-menu'>
 
             {if actions.addToSet
-              <li className="ui-drop-item">
-                <Link onClick={actions.addToSet.click}>
-                  <Icon i="move" mods="ui-drop-icon"
-                  /> <span className="ui-count">
-                    {selection.length}
-                  </span> {t('resources_box_batch_actions_addtoset')}</Link>
-              </li>}
+              <MenuItem onClick={actions.addToSet.click}>
+                <Icon i="move" mods="ui-drop-icon"
+                /> <span className="ui-count">
+                  {selection.length}
+                </span> {t('resources_box_batch_actions_addtoset')}
+              </MenuItem>}
 
             {if actions.removeFromSet
-              <li className="ui-drop-item">
-                <Link onClick={actions.removeFromSet.click}>
-                  <Icon i="close" mods="ui-drop-icon"
-                  /> <span className="ui-count">
-                    {selection.length}
-                  </span> {t('resources_box_batch_actions_removefromset')}</Link>
-              </li>
+              <MenuItem onClick={actions.removeFromSet.click}>
+                <Icon i="close" mods="ui-drop-icon"
+                /> <span className="ui-count">
+                  {selection.length}
+                </span> {t('resources_box_batch_actions_removefromset')}
+              </MenuItem>
             }
 
             {if actions.edit
-              <li className="ui-drop-item">
-                <Link onClick={actions.edit.click} onMouseEnter={actions.edit.hover} onMouseLeave={actions.edit.unhover}>
-                  <Icon i="pen" mods="ui-drop-icon"
-                  /> <span className="ui-count">
-                    {batchEditables.length}
-                  </span> {t('resources_box_batch_actions_edit')}
-                </Link>
-              </li>}
+              <MenuItem
+                onClick={actions.edit.click} onMouseEnter={actions.edit.hover} onMouseLeave={actions.edit.unhover}>
+                <Icon i="pen" mods="ui-drop-icon"
+                /> <span className="ui-count">
+                  {batchEditables.length}
+                </span> {t('resources_box_batch_actions_edit')}
+              </MenuItem>}
 
             {if actions.managePermissions
-              <li className="ui-drop-item">
-                <Link onClick={actions.managePermissions.click}>
-                  <Icon i="lock" mods="ui-drop-icon"
-                  /> <span className="ui-count">
-                    {batchEditables.length}
-                  </span> {t('resources_box_batch_actions_managepermissions')}
-                </Link>
-              </li>}
+              <MenuItem onClick={actions.managePermissions.click}>
+                <Icon i="lock" mods="ui-drop-icon"
+                /> <span className="ui-count">
+                  {batchEditables.length}
+                </span> {t('resources_box_batch_actions_managepermissions')}
+              </MenuItem>}
 
             {if actions.delete
-              <li className="separator"/>}
+              <MenuItem className="separator"/>}
             {if actions.delete
-              <li className="ui-drop-item">
-                <Link onClick={actions.delete.click}>
-                  <Icon i="trash" mods="ui-drop-icon"/> {t('resources_box_batch_actions_delete')}</Link>
-              </li>}
+              <MenuItem onClick={actions.delete.click}>
+                <Icon i="trash" mods="ui-drop-icon"
+                  /> {t('resources_box_batch_actions_delete')}
+              </MenuItem>}
 
             {if actions.save
-              <li className="separator"/>}
+              <MenuItem className="separator"/>}
             {if actions.save
-              <li className="ui-drop-item">
-                <Link onClick={actions.save.click}>
-                  <Icon i="filter" mods="ui-drop-icon"/> {t('resources_box_batch_actions_save')}</Link>
-              </li>}
+              <MenuItem onClick={actions.save.click}>
+                <Icon i="filter" mods="ui-drop-icon"/> {t('resources_box_batch_actions_save')}
+              </MenuItem>}
 
-          </ul>
+          </Dropdown.Menu>
         </Dropdown>
 
       selectToggle = if selection && withActions

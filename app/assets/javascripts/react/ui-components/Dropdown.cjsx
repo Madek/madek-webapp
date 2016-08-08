@@ -9,56 +9,61 @@
 
 React = require('react')
 PropTypes = React.PropTypes
+f = require('active-lodash')
 ui = require('../lib/ui.coffee')
 
 Icon = require('./Icon.cjsx')
 Link = require('./Link.cjsx')
 
-# MODS = ['stick-right'] # TODO: check and validate supported mods
+Dropdown = require('react-bootstrap/lib/Dropdown')
+MenuItem = require('react-bootstrap/lib/MenuItem')
 
-module.exports = React.createClass
+MODS = ['stick-right'] # TODO: check and validate supported mods
+
+UIDropdown = React.createClass
   displayName: 'UI.Dropdown'
   propTypes:
-    toggle: PropTypes.node.isRequired
+    toggle: PropTypes.string.isRequired
     toggleProps: PropTypes.object
     children: PropTypes.node
     disabled:  PropTypes.bool
+    startOpen: PropTypes.bool
 
-  getInitialState: ()-> {isClient: false}
+  getInitialState: ()-> { isClient: false }
   componentDidMount: ()-> @setState(isClient: true)
 
-  getDefaultProps: ()->
-    disabled: false
-
   fallbackStyles: ()-> (
-    <style type="text/css">{'''
-      .ui-dropdown .ui-drop-toggle { padding-bottom: 7px }
+    <style type='text/css'>{'''
+      .ui-dropdown .dropdown-toggle { padding-bottom: 7px }
       .dropdown:hover .dropdown-menu { display: block }
   '''}</style>)
 
   render: ({props, state} = this)->
-    # force disabled if no sub-menu:
-    isDisabled = if !props.children then true else props.disabled
+    unless props.children.props.bsRole == 'menu'
+      throw new Error('Missing or invalid Menu!')
 
-    wrapperClasses = ui.cx(
-      ui.parseMods(@props),
-      'ui-dropdown dropdown') # TODO: fix styles, only ui-dropdown as base class
+    id = props.id || "#{this.props.toggle}_menu"
 
-    buttonClass = 'dropdown-toggle ui-drop-toggle'
-    if(@props.buttonClass)
-      buttonClass += ' ' + @props.buttonClass
-
-    <div className={wrapperClasses}>
+    <Dropdown id={id} className={ui.cx(props.mods, 'ui-dropdown dropdown')}>
 
       {if !state.isClient then @fallbackStyles()}
 
-      <Link
-        disabled={isDisabled}
-        className={buttonClass}
-        data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-        {props.label} <Icon i="arrow-down stand-alone small"></Icon>
-      </Link>
+      <Dropdown.Toggle
+        componentClass={Link}
+        bsClass='dropdown-toggle ui-drop-toggle'
+        {...props.toggleProps}>
+        {props.toggle}
+        <Icon i='arrow-down stand-alone small'/>
+      </Dropdown.Toggle>
 
-      {# NOTE: old style set from js plugin: style="top: 100%; bottom: auto;"}
       {props.children}
-    </div>
+
+    </Dropdown>
+
+UIDropdown.Menu = Dropdown.Menu
+UIDropdown.MenuItem = (props = @props)->
+  hasLink = f.present(props.href) || f.present(props.onClick)
+  isDisabled = if f.present(props.disabled) then props.disabled else !hasLink
+  <MenuItem componentClass={Link} className="ui-drop-item" disabled={isDisabled}
+    {...props}/>
+module.exports = UIDropdown
