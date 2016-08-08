@@ -1,5 +1,7 @@
 React = require('react')
 MadekPropTypes = require('../madek-prop-types.coffee')
+Icon = require('../../ui-components/Icon.cjsx')
+Tooltipped = require('../../ui-components/Tooltipped.cjsx')
 
 module.exports = React.createClass
   displayName: 'MetaKeyFormLabel'
@@ -28,10 +30,12 @@ module.exports = React.createClass
     <div className='form-label'>
       {label}
       {if description
-        <span className='ui-form-ui-ttip-toggle ui-ttip-toggle'
-          title={description}>
-          <i className='icon-question'/>
-        </span>
+        ttId = (metaKey || contextKey).uuid + '_tooltip' # for a11y
+        <Tooltipped text={description} id={ttId}>
+          <span className='ui-form-ui-ttip-toggle ui-ttip-toggle'>
+            <Icon i='question'/>
+          </span>
+        </Tooltipped>
       }
       <small>{hint}</small>
     </div>
