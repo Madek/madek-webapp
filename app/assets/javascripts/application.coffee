@@ -7,10 +7,6 @@
 # global jquery. needed for jquery plugins.
 window.jQuery = window.$ = require('jquery')
 
-# jquery plugins:
-require('jquery-ujs')
-require('bootstrap')
-
 # local requires
 each = require('active-lodash').each
 present = require('active-lodash').present
