@@ -285,3 +285,5 @@ workgroup_link_to_contents_title,Inhalte dieser Arbeitsgruppe anzeigen,View cont
 workgroup_members_table_is_member,Mitglied?,Member?,
 workgroup_members_table_login,Login,Login,
 workgroup_members_table_title,Mitglieder,Members,
+meta_data_input_new_person_add,Person einfügen,Add Person,
+meta_data_input_new_bunch_add,Gruppe einfügen,Add Group,
