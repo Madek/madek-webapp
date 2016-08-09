@@ -45,7 +45,7 @@
     ),
 
     # user/login section, right
-    user: render(current_user ? 'user_menu' : 'login_menu')
+    user: (params[:action] != 'root') ? render(current_user ? 'user_menu' : 'login_menu') : nil
   }
 
 = combo('header', header)

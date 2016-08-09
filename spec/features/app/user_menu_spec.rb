@@ -6,11 +6,6 @@ feature 'App: UserMenu' do
 
   describe 'depending on logged-in status' do
 
-    example 'shows log-in button when logged out' do
-      visit root_path
-      expect(user_menu).to have_content I18n.t(:user_menu_login_btn)
-    end
-
     example 'shows user menu with name when logged in' do
       sign_in_as('normin')
       expect(user_menu_toggle).to have_content 'Normin Normalo'
