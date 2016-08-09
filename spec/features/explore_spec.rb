@@ -35,4 +35,23 @@ feature 'Page: Explore' do
 
   end
 
+  describe 'Explore content on login page' do
+
+    it 'contains latest entries sorted by created_at DESC' do
+      visit root_path
+      expect(page.status_code).to eq 200
+      within '.ui-resources-holder', text: I18n.t(:home_page_new_contents) do
+        expect(
+          all("a[type='media-entry']").map { |el| el['href'].split('/').last }
+        ).to be == \
+          MediaEntry
+          .viewable_by_public
+          .reorder(created_at: :desc)
+          .limit(12)
+          .map(&:id)
+      end
+    end
+
+  end
+
 end

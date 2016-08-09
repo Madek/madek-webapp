@@ -48,7 +48,7 @@ module Presenters
         @latest_media_entries ||= \
           MediaEntry
           .viewable_by_public
-          .order('media_entries.created_at DESC')
+          .reorder(created_at: :desc)
           .limit(@limit_latest_entries)
       end
 
