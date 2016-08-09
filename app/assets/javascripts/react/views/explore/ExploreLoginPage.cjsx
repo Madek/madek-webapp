@@ -29,7 +29,7 @@ module.exports = React.createClass
           </div>
         }
 
-        <LoginDialog />
+        <LoginDialog authToken={authToken}/>
 
       </div>
 
