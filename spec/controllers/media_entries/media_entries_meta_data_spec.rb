@@ -49,6 +49,33 @@ describe MediaEntriesController do
       expect(md_keywords(@media_entry)).to be == [@new_keyword]
     end
 
+    it 'create person on the fly' do
+      person = create(:person)
+      onthefly_person_hash = { first_name: Faker::Name.first_name,
+                               last_name: Faker::Name.last_name,
+                               pseudonym: Faker::Lorem.word }
+      onthefly_bunch_hash = { first_name: Faker::Team.name,
+                              is_bunch: true }
+
+      put_meta_data \
+        @unused_meta_key_people => [person.id,
+                                    onthefly_person_hash,
+                                    onthefly_bunch_hash]
+
+      expect(response).to be_successful
+      body = JSON.parse(response.body)
+      expect(body['forward_url']).to eq media_entry_path(@media_entry)
+
+      @media_entry.reload
+      onthefly_person = Person.find_by(onthefly_person_hash)
+      onthefly_bunch = Person.find_by(onthefly_bunch_hash)
+      expect(
+        @media_entry.meta_data
+        .find_by_meta_key_id(@unused_meta_key_people)
+        .value
+      ).to match_array [person, onthefly_person, onthefly_bunch]
+    end
+
     it 'update success' do
       # add a MetaDatumKeyword
       add_meta_datum_keywords
