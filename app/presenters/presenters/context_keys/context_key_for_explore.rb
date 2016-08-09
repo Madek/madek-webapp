@@ -20,13 +20,18 @@ module Presenters
       end
 
       def image_url
-        preview = \
+        media_entry = \
           MediaEntry
           .viewable_by_user_or_public(@user)
           .joins(:meta_data)
           .where(meta_data: { meta_key: @meta_key })
           .reorder('media_entries.created_at DESC')
           .first
+
+        return unless media_entry
+
+        preview = \
+          media_entry
           .media_file
           .preview(:medium)
 
