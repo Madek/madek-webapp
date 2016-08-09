@@ -52,13 +52,16 @@ module Presenters
         def nav_catalog_children
           context_keys = @settings.catalog_context_keys || []
           context_keys.map do |context_key_id|
-            context_key = find_context_key(context_key_id)
-            {
-              title: context_key.label || context_key.meta_key.label,
-              url: "/explore/catalog/#{context_key.id}",
-              active:
-                (@context_key.try(:id) == context_key.id ? true : false)
-            }
+            if context_key = find_context_key(context_key_id)
+              {
+                title: context_key.label || context_key.meta_key.label,
+                url: "/explore/catalog/#{context_key.id}",
+                active:
+                  (@context_key.try(:id) == context_key.id ? true : false)
+              }
+            else
+              next
+            end
           end
         end
 
