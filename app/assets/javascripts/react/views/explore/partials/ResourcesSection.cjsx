@@ -19,21 +19,31 @@ module.exports = React.createClass
           }
         </h2>
       </div>
-      <ul className="grid ui-resources">
         {
           if section.type == 'catalog' or section.type == 'catalog_category'
-            f.map section.data.list, (resource, n) ->
-              <CatalogThumbnail key={'key_' + n} usageCount={resource.usage_count} label={resource.label}
-                description={resource.description} imageUrl={resource.image_url} hrefUrl={resource.url} />
+            <ul className="grid ui-resources">
+            {
+              f.map section.data.list, (resource, n) ->
+                <CatalogThumbnail key={'key_' + n} usageCount={resource.usage_count} label={resource.label}
+                  description={resource.description} imageUrl={resource.image_url} hrefUrl={resource.url} />
+            }
+            </ul>
           else if section.type == 'thumbnail'
-            f.map section.data.list.resources, (resource, n) ->
-              <ResourceThumbnail key={'key_' + n} elm='div' get={resource} authToken={authToken} />
+            <ul className="grid ui-resources">
+            {
+              f.map section.data.list.resources, (resource, n) ->
+                <ResourceThumbnail key={'key_' + n} elm='div' get={resource} authToken={authToken} />
+            }
+            </ul>
           else if section.type == 'keyword'
-            f.map section.data.list, (resource, n) ->
-              <Keyword key={'key_' + n} label={resource.keyword.label}
-                hrefUrl={resource.keyword.url} count={resource.keyword.usage_count} />
+            <ul className="ui-tag-cloud">
+            {
+              f.map section.data.list, (resource, n) ->
+                <Keyword key={'key_' + n} label={resource.keyword.label}
+                  hrefUrl={resource.keyword.url} count={resource.keyword.usage_count} />
+            }
+            </ul>
           else
-            []
+            <ul className="grid ui-resources" />
         }
-      </ul>
     </div>
