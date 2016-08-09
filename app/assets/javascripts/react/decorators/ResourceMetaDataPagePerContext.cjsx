@@ -46,6 +46,7 @@ module.exports = React.createClass
     editing: false
     errors: {}
     saving: false
+    systemError: false
   }
 
   _actionUrl: () ->
@@ -214,7 +215,7 @@ module.exports = React.createClass
 
   submit: (actionType) ->
 
-    @setState(saving: true)
+    @setState(saving: true, systemError: false)
     serialized = @refs.form.serialize()
     xhr(
       {
@@ -228,24 +229,34 @@ module.exports = React.createClass
         }
       },
       (err, res, body) =>
+
+        if err
+          window.scrollTo(0, 0)
+          @setState(saving: false, systemError: 'Connection error. Please try again.') if @isMounted()
+          return
+
         try
           data = JSON.parse(body)
         catch error
-          console.error('Cannot parse body of answer for meta data update', error)
+          window.scrollTo(0, 0)
+          @setState(saving: false, systemError: 'System error. Cannot parse server answer. Please try again.') if @isMounted()
+          return
 
         if res.statusCode == 400
-          @setState({saving: false}) if @isMounted()
           errors = f.presence(f.get(data, 'errors')) or {}
           if not f.present(errors)
-            console.error('Cannot get errors from meta data update')
+            window.scrollTo(0, 0)
+            @setState(saving: false, systemError: 'System error. Cannot read server errors. Please try again.') if @isMounted()
           else
             window.scrollTo(0, 0)
-          @setState(errors: errors) if @isMounted()
+            @setState(saving: false) if @isMounted()
         else
           forward_url = data['forward_url']
           if not forward_url
-            console.error('Cannot get forward url of answer of meta data update')
-          window.location = forward_url
+            window.scrollTo(0, 0)
+            @setState(saving: false, systemError: 'Cannot read forward url. Please try again.') if @isMounted()
+          else
+            window.location = forward_url
     )
 
   _onClick: (event) ->
@@ -408,11 +419,13 @@ module.exports = React.createClass
             <div className="app-body-content table-cell ui-container table-substance ui-container">
               <div className={if true then 'active' else 'active tab-pane'}>
 
-
-
-
-
-
+                {if @state.systemError
+                  <div className="ui-alerts" style={marginBottom: '10px'}>
+                    <div className="error ui-alert">
+                      {@state.systemError}
+                    </div>
+                  </div>
+                }
 
                 {if @state.errors and f.keys(@state.errors).length > 0
                   <div className="ui-alerts" style={marginBottom: '10px'}>
