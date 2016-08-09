@@ -11,7 +11,7 @@ module Presenters
 
           authorized_entries = \
             MediaEntryPolicy::Scope.new(@user, teaser.media_entries).resolve
-          .limit(12)
+          .limit(20)
 
           authorized_entries.map { |entry| entry_presenter.new(entry) }
         end
