@@ -2,6 +2,8 @@ module Presenters
   module MediaEntries
     class BatchEditContextMetaData < Presenter
 
+      include Presenters::Shared::Modules::VocabularyConfig
+
       attr_reader :context_id, :return_to
 
       def initialize(media_entries, user, context_id: nil, return_to:)
@@ -16,9 +18,24 @@ module Presenters
       end
 
       def batch_entries
-        @entries.map do |entry|
-          Presenters::Shared::MediaResource::MediaResourceEdit.new(entry, @user)
-        end
+        @batch_entries ||=
+          begin
+            usable_meta_keys_map = {
+              'MediaEntry' => usable_meta_keys(
+                'MediaEntry',
+                usable_vocabularies_for_user),
+              'Collection' => usable_meta_keys(
+                'Collection',
+                usable_vocabularies_for_user)
+            }
+
+            @entries.map do |entry|
+              Presenters::Shared::MediaResource::BatchMediaResourceEdit.new(
+                entry,
+                @user,
+                usable_meta_keys_map)
+            end
+          end
       end
 
       def meta_data
@@ -31,6 +48,15 @@ module Presenters
 
       def submit_url
         batch_meta_data_media_entries_path
+      end
+
+      private
+
+      def usable_meta_keys(class_name, usable_vocabularies_for_user)
+        MetaKey
+          .where("is_enabled_for_#{class_name.underscore.pluralize}" => true)
+          .joins(:vocabulary)
+          .where(vocabularies: { id: usable_vocabularies_for_user.map(&:id) })
       end
 
     end
