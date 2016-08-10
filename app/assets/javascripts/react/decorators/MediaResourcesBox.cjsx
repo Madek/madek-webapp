@@ -426,7 +426,7 @@ module.exports = React.createClass
           hover: f.curry(@_onHiglightEditable)(true)
           unhover: f.curry(@_onHiglightEditable)(false)
 
-        managePermissions: if selection && (get.type is 'MediaEntries' || get.type is 'Collections')
+        managePermissions: if selection && (get.type is 'MediaEntries' || get.type is 'MediaResources')
           click: (if f.present(batchPermissionEditables) then @_onBatchPermissionsEdit)
           hover: f.curry(@_onHiglightPermissionsEditable)(true)
           unhover: f.curry(@_onHiglightPermissionsEditable)(false)

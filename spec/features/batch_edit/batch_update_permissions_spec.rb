@@ -6,6 +6,21 @@ require_relative '../../features/shared/batch_permissions_helper'
 include BatchPermissionsHelper
 
 feature 'Batch update media entries permissions', browser: :firefox do
+  it 'offers action for CollectionChildren' do
+    setup_batch_permissions_test_data # from BatchPermissionsHelper
+    @collection = FactoryGirl.create(
+      :collection, responsible_user: @logged_in_user)
+    @collection.media_entries << [@entry_1, @entry_2]
+    sign_in_as @logged_in_user.login
+
+    visit collection_path(@collection)
+    select_all_in_box_and_start_batch_edit
+    # edit form opens:
+    expect(current_path_with_query)
+      .to eq batch_edit_permissions_media_entries_path(
+        id: [@entry_2.id, @entry_1.id], return_to: collection_path(@collection))
+  end
+
   it 'successfully updates permissions for all entries' do
     ################################ DATA ########################################
     setup_batch_permissions_test_data # from BatchPermissionsHelper
@@ -15,14 +30,7 @@ feature 'Batch update media entries permissions', browser: :firefox do
 
     # select and choose action
     visit my_content_page
-    box = page.find('.ui-polybox')
-    within(box) do
-      within('.ui-filterbar') do
-        find('.ui-filterbar-select').find('.icon-checkbox').click
-        find('.dropdown-toggle, .ui-drop-toggle', text: 'Aktionen').click
-        find('.dropdown-menu a', text: 'Berechtigungen editieren').click
-      end
-    end
+    select_all_in_box_and_start_batch_edit
 
     # edit form opens:
     expect(current_path_with_query)
@@ -84,6 +92,16 @@ feature 'Batch update media entries permissions', browser: :firefox do
     expect(current_path_with_query).to eq my_content_page
 
     check_batch_permissions_results # from BatchPermissionsHelper
+  end
+end
+
+def select_all_in_box_and_start_batch_edit
+  within(page.find('.ui-polybox')) do
+    within('.ui-filterbar') do
+      find('.ui-filterbar-select').find('.icon-checkbox').click
+      find('.dropdown-toggle, .ui-drop-toggle', text: 'Aktionen').click
+      find('.dropdown-menu a', text: 'Berechtigungen editieren').click
+    end
   end
 end
 
