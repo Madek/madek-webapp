@@ -574,7 +574,7 @@ module.exports = React.createClass
     paginationNav = (resources, staticPagination) =>
       pagination = f.get(f.last(resources.pages), 'pagination') || staticPagination
       return if !withBox or !f.present(pagination)
-      return if pagination.totalPages <= pagination.page
+      return if !(pagination.totalPages > pagination.page)
       # autoscroll:
       if @state.isClient
         isLoading = @state.loadingNextPage
