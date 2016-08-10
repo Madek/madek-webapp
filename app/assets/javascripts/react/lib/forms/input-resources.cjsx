@@ -7,7 +7,7 @@ Tabs = require('react-bootstrap/lib/Tabs')
 Tab = require('react-bootstrap/lib/Tab')
 Nav = require('react-bootstrap/lib/Nav')
 NavItem = require('react-bootstrap/lib/NavItem')
-{Icon} = require('../../ui-components/index.coffee')
+{Icon, Tooltipped} = require('../../ui-components/index.coffee')
 InputFieldText = require('../forms/input-field-text.cjsx')
 AutoComplete = null # only required client-side!
 
@@ -124,10 +124,10 @@ module.exports = React.createClass
       </div>
 
       {# For form submit/serialization: always render values as hidden inputs, }
-      {# in case of no values add an empty one. }
+      {# in case of no values add an empty one (to distinguish removed values). }
       {f.map (f(values).presence() or ['']), (item)->
         # persisted resources have and only need a uuid (as string)
-        data = if item.uuid
+        keyValuePairs = if item.uuid
           [[name, item.uuid]]
 
         # new resources are sent as on object (with all the attributes)
@@ -143,10 +143,15 @@ module.exports = React.createClass
         else
           [[name, item.val]]
 
-        f.map data, (item)->
-          [fieldName, value] = item
-          <input key={value || "#{name}_#{fieldName}_empty"}
-            type='hidden' name={fieldName} defaultValue={value} />
+        [ # protect hashes against form parsing bug:
+          if keyValuePairs.length > 1
+            <input type='hidden' key='_hashmarker'
+              name={"#{name}[_hash]"} defaultValue={'_start'} />
+          ,
+          f.map keyValuePairs, (item)->
+            [fieldName, value] = item
+            <input type='hidden' key={value || "#{name}_#{fieldName}_empty"}
+              name={fieldName} defaultValue={value} />]
       }
     </div>
 
@@ -159,13 +164,8 @@ NewPersonWidget = React.createClass
     id: React.PropTypes.string.isRequired
     onAddValue: React.PropTypes.func.isRequired
 
-  # NOTE: no models needed here yet
-  _emptyPerson: ()-> {
-    first_name: '',
-    last_name: '',
-    pseudonym: '',
-    is_bunch: false
-  }
+  # NOTE: no models needed here yet:
+  _emptyPerson: ()-> { type: 'Person', is_bunch: false }
 
   getInitialState: ()-> {
     isOpen: false,
@@ -178,16 +178,17 @@ NewPersonWidget = React.createClass
     # TODO: move to next input field?
 
   _onTabChange: (eventKey)->
-    @setState(
-      newPerson: f.extend(@state.newPerson, {is_bunch: (eventKey is 'group')}))
+    console.log 'tab', eventKey
+    @setState({ newPerson: { is_bunch: (eventKey is 'group') } })
 
   _onUpdateField: (key, event)->
     @setState(
       newPerson: f.extend(@state.newPerson, f.set({}, key, event.target.value)))
 
   _inputField: (key)->
-    <input className='block' name={key} type='text'
-      value={@state.newPerson[key]} onChange={f.curry(@_onUpdateField)(key)}/>
+    <input type='text' className='block'
+      name={key} value={@state.newPerson[key] || ''}
+      onChange={f.curry(@_onUpdateField)(key)}/>
 
   _onSubmit: (event)->
     # NEVER trigger (parent form!) submit on button click
@@ -198,9 +199,12 @@ NewPersonWidget = React.createClass
   render: ({id} = @props)->
     paneClass = 'ui-container pam bordered rounded-right rounded-bottom'
     <div onKeyPress={@_onKeyPress}>
-      <a className='button small form-widget-toggle' onClick={@_toggleOpen}>
-        <Icon i='privacy-private' mods='small'/>
-      </a>
+      <Tooltipped text={t('meta_data_input_new_person_toggle')} id={"#{id}_new_person_toggle"}>
+        <a title={t('meta_data_input_new_person_toggle')} className='button small form-widget-toggle'
+          onClick={@_toggleOpen}>
+          <Icon i='privacy-private' mods='small'/>
+        </a>
+      </Tooltipped>
       {if @state.isOpen
         <Tab.Container id={id} className='form-widget'
           defaultActiveKey='person' animation={false} onSelect={@_onTabChange}
@@ -219,16 +223,16 @@ NewPersonWidget = React.createClass
 
               <Tab.Pane eventKey='person' className={paneClass}>
                 <div className='ui-form-group rowed pbx ptx'>
-                  <label className='form-label'>Nachname</label>
+                  <label className='form-label'>Vorname</label>
                   <div className='form-item'>
-                    {@_inputField('last_name')}
+                    {@_inputField('first_name')}
                   </div>
                 </div>
 
                 <div className='ui-form-group rowed pbx ptx'>
-                  <label className='form-label'>Vorname</label>
+                  <label className='form-label'>Nachname</label>
                   <div className='form-item'>
-                    {@_inputField('first_name')}
+                    {@_inputField('last_name')}
                   </div>
                 </div>
 

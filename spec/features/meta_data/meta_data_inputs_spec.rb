@@ -19,6 +19,10 @@ feature 'Resource: MetaDatum', browser: :firefox do
       AppSettings.first.update_attributes!(
         contexts_for_entry_edit: [@context_key.context_id],
         context_for_entry_summary: @context_key.context_id)
+      FactoryGirl.create(
+        :meta_datum_people,
+        meta_key: @meta_key,
+        media_entry: @media_entry)
     end
 
     example 'add new Person' do
@@ -26,20 +30,7 @@ feature 'Resource: MetaDatum', browser: :firefox do
 
       within('form') do
         within('.ui-form-group', text: @context_key.label) do
-          find('.form-widget-toggle').click
-          person_form = find(
-            "#media_entry_meta_data_#{@meta_key.id}_new_person-pane-person"
-              .tr(':', '_'))
-          within(person_form) do
-            fill_in 'first_name', with: 'Street'
-            fill_in 'last_name', with: 'Artist'
-            fill_in 'pseudonym', with: 'Banksy'
-            click_on I18n.t(:meta_data_input_new_person_add)
-          end
-
-          within('.multi-select-holder') do
-            expect(find('.multi-select-tag', text: 'Street Artist (Banksy)')).to be
-          end
+          add_new_person_to_field
         end
         submit_form
       end
@@ -56,19 +47,7 @@ feature 'Resource: MetaDatum', browser: :firefox do
 
       within('form') do
         within('.ui-form-group', text: @context_key.label) do
-          find('.form-widget-toggle').click
-          base_id = "#media_entry_meta_data_#{@meta_key.id}".tr(':', '_')
-          bunch_toggle = find("#{base_id}_new_person-tab-group")
-          bunch_toggle.click
-          bunch_form = find("#{base_id}_new_person-pane-group")
-          within(bunch_form) do
-            fill_in 'first_name', with: 'Saalschutz'
-            click_on I18n.t(:meta_data_input_new_bunch_add)
-          end
-
-          within('.multi-select-holder') do
-            expect(find('.multi-select-tag', text: 'Saalschutz')).to be
-          end
+          add_new_bunch_to_field
         end
         submit_form
       end
@@ -80,6 +59,60 @@ feature 'Resource: MetaDatum', browser: :firefox do
       end
     end
 
+    example 'add new Person and Person-Group (is_bunch)' do
+      visit edit_context_meta_data_media_entry_path(@media_entry)
+
+      within('form') do
+        within('.ui-form-group', text: @context_key.label) do
+          add_new_person_to_field
+          add_new_bunch_to_field
+        end
+        submit_form
+      end
+
+      wait_until { current_path == media_entry_path(@media_entry) }
+      within('.ui-media-overview-metadata') do
+        expect(find('.media-data-title', text: @context_key.label)).to be
+        expect(find('.media-data-content', text: 'Street Artist (Banksy)')).to be
+        expect(find('.media-data-content', text: 'Saalschutz')).to be
+      end
+    end
+
   end
 
+end
+
+private
+
+def add_new_person_to_field
+  find('.form-widget-toggle').click
+  person_form = find(
+    "#media_entry_meta_data_#{@meta_key.id}_new_person-pane-person"
+      .tr(':', '_'))
+  within(person_form) do
+    fill_in 'first_name', with: 'Street'
+    fill_in 'last_name', with: 'Artist'
+    fill_in 'pseudonym', with: 'Banksy'
+    click_on I18n.t(:meta_data_input_new_person_add)
+  end
+
+  within('.multi-select-holder') do
+    expect(find('.multi-select-tag', text: 'Street Artist (Banksy)')).to be
+  end
+end
+
+def add_new_bunch_to_field
+  find('.form-widget-toggle').click
+  base_id = "#media_entry_meta_data_#{@meta_key.id}".tr(':', '_')
+  bunch_toggle = find("#{base_id}_new_person-tab-group")
+  bunch_toggle.click
+  bunch_form = find("#{base_id}_new_person-pane-group")
+  within(bunch_form) do
+    fill_in 'first_name', with: 'Saalschutz'
+    click_on I18n.t(:meta_data_input_new_bunch_add)
+  end
+
+  within('.multi-select-holder') do
+    expect(find('.multi-select-tag', text: 'Saalschutz')).to be
+  end
 end

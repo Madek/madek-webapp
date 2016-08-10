@@ -15,10 +15,11 @@ module.exports = (o)->
 
 # TODO: move to Person model
 buildPersonName = (o)->
+  fullName = if f.any([o.first_name, o.last_name], f.present)
+    f.trim("#{o.first_name || ''} #{o.last_name || ''}")
+
   switch
-    when f.any([o.first_name, o.last_name], f.present) and f.present(o.pseudonym)
-      "#{o.first_name} #{o.last_name} (#{o.pseudonym})"
-    when f.any([o.first_name, o.last_name], f.present)
-      f.trim("#{o.first_name} #{o.last_name}")
-    else
-      o.pseudonym
+    when fullName and f.present(o.pseudonym) then "#{fullName} (#{o.pseudonym})"
+    when fullName then fullName
+    when o.pseudonym then o.pseudonym
+    else throw new Error('Invalid Name!')
