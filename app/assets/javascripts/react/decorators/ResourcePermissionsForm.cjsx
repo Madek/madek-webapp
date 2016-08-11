@@ -49,7 +49,8 @@ module.exports = React.createClass
           permissionsList={get.group_permissions}
           permissionTypes={get.permission_types}
           overriddenBy={get.public_permission}
-          editing={editing}/>
+          editing={editing}
+          searchParams={{scope: 'permissions'}} />
 
         {# ApiApp permissions — hidden on show if empty; always visible on edit #}
         {if (editing or get.api_client_permissions.length > 0)
@@ -108,7 +109,7 @@ PermissionsBySubjectType = React.createClass
 
   render: ()->
     {type, title, icon, permissionsList, SubjectDeco, subjectName,
-    permissionTypes, overriddenBy, editing, showTitles} = @props
+    permissionTypes, overriddenBy, editing, showTitles, searchParams} = @props
     showTitles ||= false
 
     <div className='ui-rights-management-users'>
@@ -135,7 +136,8 @@ PermissionsBySubjectType = React.createClass
           <div className='ui-add-subject ptx row'>
             <div className='col1of3'>
               {if type?
-                <AutoComplete name={"add_#{type}"} resourceType={type} onSelect={@onAddSubject}/>
+                <AutoComplete name={"add_#{type}"} resourceType={type}
+                  onSelect={@onAddSubject} searchParams={searchParams} />
               }
             </div>
           </div>

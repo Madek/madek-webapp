@@ -11,6 +11,63 @@ feature 'Resource: MetaDatum', browser: :firefox do
 
   end
 
+  context 'MetaDatumGroups' do
+    background do
+      @vocabulary = FactoryGirl.create(:vocabulary)
+      @group = FactoryGirl.create(:group)
+
+      InstitutionalGroup.class_eval do
+        def readonly?
+          false
+        end
+      end
+
+      @inst_group = FactoryGirl.create(:institutional_group)
+
+      InstitutionalGroup.class_eval do
+        def readonly?
+          true
+        end
+      end
+
+      @meta_key = FactoryGirl.create(:meta_key_groups)
+      @context_key = FactoryGirl.create(:context_key, meta_key: @meta_key)
+      AppSettings.first.update_attributes!(
+        contexts_for_entry_edit: [@context_key.context_id],
+        context_for_entry_summary: @context_key.context_id)
+      FactoryGirl.create(
+        :meta_datum_groups,
+        meta_key: @meta_key,
+        media_entry: @media_entry)
+    end
+
+    example 'add group' do
+      visit edit_context_meta_data_media_entry_path(@media_entry)
+
+      group_label = @group.name
+      inst_group_label =
+        @inst_group.name + ' (' + @inst_group.institutional_group_name + ')'
+
+      within('form') do
+        form_group = find('.ui-form-group', text: @context_key.label)
+        autocomplete_and_choose_first(form_group, @group.name)
+        autocomplete_and_choose_first(form_group, @inst_group.name)
+        group_tag = find('.multi-select-tag', text: @group.name)
+        inst_group_tag = find('.multi-select-tag', text: @inst_group.name)
+        expect(group_tag.text).to eq(group_label)
+        expect(inst_group_tag.text).to eq(inst_group_label)
+        submit_form
+      end
+
+      wait_until { current_path == media_entry_path(@media_entry) }
+      within('.ui-media-overview-metadata') do
+        expect(find('.media-data-content', text: group_label)).to be
+        expect(find('.media-data-content', text: inst_group_label)).to be
+      end
+    end
+
+  end
+
   context 'MetaDatumPeople' do
     background do
       @vocabulary = FactoryGirl.create(:vocabulary)

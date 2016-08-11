@@ -21,7 +21,7 @@ module.exports =
   Groups: React.createClass
     displayName: 'InputGroups'
     render: ()->
-      <InputResources {...@props} resourceType='Groups'/>
+      <InputResources {...@props} resourceType='Groups' searchParams={{scope: 'metadata'}}/>
 
   Keywords: React.createClass
     displayName: 'InputKeywords'

@@ -67,3 +67,13 @@ tasks:
         start_when:
           validity duration has been configured:
             script_key: configure_session_validity_duration
+
+  spec/controllers/my/zhdk_groups_controller_spec.rb:
+    scripts:
+      configure_zhdk_integration:
+        body: |
+          echo 'zhdk_integration: true' >> config/settings.local.yml
+      test:
+        start_when:
+          zhdk integration has been configured:
+            script_key: configure_zhdk_integration

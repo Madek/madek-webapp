@@ -16,10 +16,17 @@ module Presenters
         name
       end
 
+      def detailed_name
+        if institutional_group_name and not institutional_group_name.empty?
+          "#{name} (#{institutional_group_name})"
+        else
+          name
+        end
+      end
+
       def url
         prepend_url_context my_group_path(@app_resource)
       end
-
     end
   end
 end

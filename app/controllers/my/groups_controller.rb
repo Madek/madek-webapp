@@ -9,6 +9,11 @@ class My::GroupsController < MyController
     end
   end
 
+  # Used by get_and_respond_with_json in json_search.rb
+  def search_params
+    [params[:search_term], nil, params[:scope]]
+  end
+
   def show
     represent(find_group_and_authorize, Presenters::Groups::GroupShow)
   end

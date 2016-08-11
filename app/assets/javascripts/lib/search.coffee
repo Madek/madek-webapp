@@ -5,7 +5,7 @@ Bloodhound = require('@eins78/typeahead.js/dist/bloodhound.js').noConflict()
 # FIXME: ignores RAILS_RELATIVE_URL_ROOT
 resourcesConfig = # JSON API Endpoints:
   Users: { url: '/users' }
-  Groups: { url: '/my/groups' }
+  Groups: { url: '/my/groups', key: 'detailed_name', params: ['scope'] }
   ApiClients: { url: '/api_clients', key: 'login' }
   People: { url: '/people' }
   Licenses: { url: '/licenses', key: 'label'  }
