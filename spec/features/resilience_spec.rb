@@ -6,8 +6,7 @@ feature 'Resilience' do
   it 'pages never return 500 for empty DB' do
     truncate_tables
 
-    [root_path,
-     explore_path,
+    [explore_path,
      explore_catalog_path,
      explore_featured_set_path,
      explore_keywords_path,
@@ -17,5 +16,8 @@ feature 'Resilience' do
       visit path
       expect(page.status_code).to be < 500
     end
+
+    visit root_path
+    expect(page.status_code).to be == 200
   end
 end

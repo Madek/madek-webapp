@@ -35,6 +35,7 @@ class PreviewsController < ApplicationController
              'ON meta_data.id = meta_data_keywords.meta_datum_id')
       .where(meta_data_keywords: { keyword_id: keyword_id_param })
       .where(media_files: { media_type: 'image' })
+      .reorder('media_entries.created_at DESC')
       .first
 
     if media_entry_with_media_file

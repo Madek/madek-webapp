@@ -54,7 +54,7 @@ module Presenters
           context_keys.map do |context_key_id|
             if context_key = find_context_key(context_key_id)
               {
-                title: context_key.label || context_key.meta_key.label,
+                title: context_key.label.presence || context_key.meta_key.label,
                 url: "/explore/catalog/#{context_key.id}",
                 active:
                   (@context_key.try(:id) == context_key.id ? true : false)

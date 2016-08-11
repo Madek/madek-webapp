@@ -11,9 +11,13 @@ module Presenters
 
         def catalog_context_keys
           # NOTE: limit (of catalog_keys) would be 3, for full page ???
-          @catalog_context_keys ||= ContextKey.where(
-            id: @settings.catalog_context_keys
-          ).limit(@limit_catalog_context_keys)
+          @catalog_context_keys ||= \
+            @settings
+            .catalog_context_keys
+            .try(:take, @limit_catalog_context_keys || 100)
+            .try(:map, & proc { |ck_id| ContextKey.find_by_id(ck_id) })
+            .to_a
+            .compact
         end
 
         def featured_set_content

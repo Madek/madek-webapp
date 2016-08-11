@@ -30,6 +30,32 @@ feature 'Page: Explore' do
       find('.ui-header-user', text: I18n.t(:user_menu_login_btn))
     end
 
+    it 'proper order of context_keys in catalog and navigation' do
+      app_setting = AppSetting.first
+      app_setting.catalog_context_keys = \
+        ContextKey
+        .joins(:meta_key)
+        .joins('INNER JOIN keywords ON keywords.meta_key_id = meta_keys.id')
+        .where(meta_keys: { meta_datum_object_type: 'MetaDatum::Keywords' })
+        .uniq
+        .take(3)
+        .map(&:id)
+      app_setting.save!
+
+      labels = app_setting.catalog_context_keys.map do |ck_id|
+        ck = ContextKey.find(ck_id)
+        ck.label.presence || ck.meta_key.label
+      end
+
+      visit explore_path
+      within '.ui-side-navigation-item', text: 'Catalog' do
+        expect(all('.ui-side-navigation-lvl2 a').map(&:text)).to be == labels
+      end
+      within '.ui-resources-holder', text: 'Catalog' do
+        expect(all('.ui-thumbnail-meta-title').map(&:text)).to be == labels
+      end
+    end
+
     pending 'shows simple lists of Entries, Collections and FilterSets' \
       'with links to their indexes'
 
