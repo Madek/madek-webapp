@@ -17,9 +17,7 @@ gem 'puma'
 gem "madek_zhdk_integration", path: "zhdk-integration"
 
 # FRONTEND
-gem 'bootstrap-sass'
 gem 'compass-rails', '~> 2.0'
-gem 'font-awesome-sass'
 gem 'haml-rails'
 gem 'kramdown'
 gem 'react-rails', '~> 1.7.1'

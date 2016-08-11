@@ -1,0 +1,45 @@
+// custom icon font from own assets
+@import "../fonts/madek-icon-font/style";
+
+// font awesome icon font
+@font-face {
+  font-family: 'FontAwesome';
+  src: url(asset-path('fontawesome-webfont.eot?#iefix')) format('embedded-opentype'),
+    url(asset-path('fontawesome-webfont.woff2')) format('woff2'),
+    url(asset-path('fontawesome-webfont.woff')) format('woff'),
+    url(asset-path('fontawesome-webfont.ttf')) format('truetype'),
+    url(asset-path('fontawesome-webfont.svg#fontawesomeregular')) format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@import "../../../node_modules/font-awesome/scss/variables";
+@import "../../../node_modules/font-awesome/scss/mixins";
+@import "../../../node_modules/font-awesome/scss/core";
+@import "../../../node_modules/font-awesome/scss/icons";
+@import "../../../node_modules/font-awesome/scss/screen-reader";
+
+
+// Main font: Open Sans
+@font-face {
+  font-family: 'Open Sans';
+  font-weight: 400;
+  src: url(asset-path('TypoPRO-OpenSans-Regular.eot?#iefix')) format('embedded-opentype'),
+       url(asset-path('TypoPRO-OpenSans-Regular.woff')) format('woff'),
+       url(asset-path('TypoPRO-OpenSans-Regular.ttf'))  format('truetype');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-weight: 600;
+  src: url(asset-path('TypoPRO-OpenSans-Semibold.eot?#iefix')) format('embedded-opentype'),
+       url(asset-path('TypoPRO-OpenSans-Semibold.woff')) format('woff'),
+       url(asset-path('TypoPRO-OpenSans-Semibold.ttf'))  format('truetype');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-weight: 700;
+  src: url(asset-path('TypoPRO-OpenSans-Bold.eot?#iefix')) format('embedded-opentype'),
+       url(asset-path('TypoPRO-OpenSans-Bold.woff')) format('woff'),
+       url(asset-path('TypoPRO-OpenSans-Bold.ttf'))  format('truetype');
+}

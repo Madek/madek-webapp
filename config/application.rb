@@ -152,7 +152,15 @@ module Madek
       precompile_assets_dirs.any? {|dir| path =~ Regexp.new("app/assets/#{dir}") }
     end
 
-    # .handle config/locale/*.csv
+    # handle fonts from npm
+    Rails.application.config.assets.paths.concat(Dir[
+      "#{Rails.root}/node_modules/@eins78/typopro-open-sans/dist",
+      "#{Rails.root}/node_modules/font-awesome/fonts"])
+    config.assets.precompile.concat(Dir[
+      "#{Rails.root}/node_modules/@eins78/typopro-open-sans/dist/*",
+      "#{Rails.root}/node_modules/font-awesome/fonts/*"])
+
+    # handle config/locale/*.csv
     Rails.application.config.assets.paths.concat(Dir["#{Rails.root}/config/locale"])
     config.assets.precompile.concat(Dir["#{Rails.root}/config/locale/*.csv"])
   end

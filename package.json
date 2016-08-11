@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@eins78/typeahead.js": "0.11.2-pre.1",
+    "@eins78/typopro-open-sans": "0.0.0",
     "active-lodash": "1.2.2",
     "ampersand-app": "^2.0.0",
     "ampersand-model": "6.0.2",
@@ -35,6 +36,7 @@
     "check-dependencies": "0.11.0",
     "classnames": "^2.2.3",
     "coffee-script": "1.10.0",
+    "font-awesome": "^4.6.3",
     "fs-extra": "^0.30.0",
     "global": "4.3.0",
     "hashblot": "0.4.5",
