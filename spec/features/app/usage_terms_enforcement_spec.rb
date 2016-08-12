@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
-feature 'App: UserMenu' do
+feature 'App: UsageTerms', browser: :firefox do
 
   # If a user has not accepted the latest usage terms and is logged in,
   # every action result in an Error prompting to accept those terms.
@@ -17,7 +17,7 @@ feature 'App: UserMenu' do
       sign_in_as(user.login, user.password)
       modal = usage_terms_modal
       expect_correct_modal_content(modal)
-      within(modal) { submit_form }
+      within(modal) { find('button[type="submit"]').click }
 
       # expect that the normal login flow goes on, with redirect and flash:
       expect(current_path).to eq my_dashboard_path
