@@ -10,7 +10,7 @@ module Presenters
             { type: 'catalog',
               id: 'catalog',
               data: catalog_overview,
-              show_all_link: true }
+              show_all_link: @show_all_link }
           end
         end
 

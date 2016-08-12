@@ -15,6 +15,7 @@ module Presenters
         @limit_latest_entries = 12
         @catalog_title = settings.catalog_title
         @featured_set_title = settings.featured_set_title
+        @show_all_link = true
       end
 
       def teaser_entries

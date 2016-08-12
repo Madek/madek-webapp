@@ -59,6 +59,77 @@ feature 'Page: Explore' do
     pending 'shows simple lists of Entries, Collections and FilterSets' \
       'with links to their indexes'
 
+    specify 'Catalog section contains "show all" link' do
+      visit explore_path
+
+      within(
+        '.ui-resources-holder .ui-resources-header',
+        text: 'Catalog'
+      ) do
+        expect(page).to have_link 'Alle anzeigen'
+      end
+    end
+
+    specify 'Featured Set section contains "show all" link' do
+      visit explore_path
+
+      within(
+        '.ui-resources-holder .ui-resources-header',
+        text: 'Featured Content'
+      ) do
+        expect(page).to have_link 'Alle anzeigen'
+      end
+    end
+
+    specify 'Keywords section contains "show all" link' do
+      visit explore_path
+
+      within(
+        '.ui-resources-holder .ui-resources-header',
+        text: 'Häufige Schlagworte'
+      ) do
+        expect(page).to have_link 'Alle anzeigen'
+      end
+    end
+  end
+
+  describe 'Action: catalog' do
+    specify 'Catalog section does not contain "show all" link' do
+      visit explore_catalog_path
+
+      within(
+        '.ui-resources-holder .ui-resources-header',
+        text: 'Browse the catalog'
+      ) do
+        expect(page).not_to have_link 'Alle anzeigen'
+      end
+    end
+  end
+
+  describe 'Action: featured_set' do
+    specify 'Featured Set section does not contain "show all" link' do
+      visit explore_featured_set_path
+
+      within(
+        '.ui-resources-holder .ui-resources-header',
+        text: 'Highlights from this Archive'
+      ) do
+        expect(page).not_to have_link 'Alle anzeigen'
+      end
+    end
+  end
+
+  describe 'Action: keywords' do
+    specify 'Keywords section does not contain "show all" link' do
+      visit explore_keywords_path
+
+      within(
+        '.ui-resources-holder .ui-resources-header',
+        text: 'Häufige Schlagworte'
+      ) do
+        expect(page).not_to have_link 'Alle anzeigen'
+      end
+    end
   end
 
   describe 'Explore content on login page' do
@@ -75,6 +146,36 @@ feature 'Page: Explore' do
           .reorder(created_at: :desc)
           .limit(12)
           .map(&:id)
+      end
+    end
+
+    specify 'Catalog section contains "show all" link' do
+      visit root_path
+
+      within(
+        '.ui-resources-holder .ui-resources-header',
+        text: 'Catalog'
+      ) do
+        expect(page).to have_link 'Alle anzeigen'
+      end
+    end
+
+    specify 'Featured Set section contains "show all" link' do
+      visit root_path
+
+      within(
+        '.ui-resources-holder .ui-resources-header',
+        text: 'Featured Content'
+      ) do
+        expect(page).to have_link 'Alle anzeigen'
+      end
+    end
+
+    specify 'Latest Media Entries section does not contain "show all" link' do
+      visit root_path
+
+      within('.ui-resources-holder .ui-resources-header', text: 'Neue Inhalte') do
+        expect(page).not_to have_link 'Alle anzeigen'
       end
     end
 

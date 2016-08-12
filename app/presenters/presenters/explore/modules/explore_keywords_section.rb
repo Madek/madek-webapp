@@ -10,7 +10,7 @@ module Presenters
             { type: 'keyword',
               id: 'keywords',
               data: keywords_overview,
-              show_all_link: true }
+              show_all_link: @show_all_link }
           end
         end
 

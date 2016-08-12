@@ -10,7 +10,7 @@ module Presenters
             { type: 'thumbnail',
               id: 'featured-content',
               data: featured_set_overview,
-              show_all_link: true }
+              show_all_link: @show_all_link }
           end
         end
 
