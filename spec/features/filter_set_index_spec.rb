@@ -6,12 +6,12 @@ feature 'Resource: FilterSet' do
 
   describe 'Action: index' do
 
-    it 'is rendered for public' do
+    it 'is rendered for public', browser: false do
       visit filter_sets_path
       expect(page.status_code).to eq 200
     end
 
-    it 'is rendered for a logged in user' do
+    it 'is rendered for a logged in user', browser: false do
       @user = User.find_by(login: 'normin')
       sign_in_as @user.login
       visit filter_sets_path

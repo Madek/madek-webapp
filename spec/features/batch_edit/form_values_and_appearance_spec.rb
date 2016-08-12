@@ -8,7 +8,7 @@ feature 'Resource: MediaEntries' do
 
   describe 'Batch Meta Data Edit' do
 
-    it 'Show Edit', browser: :firefox do
+    it 'Show Edit' do
 
       prepare_data
 
@@ -26,7 +26,7 @@ feature 'Resource: MediaEntries' do
       check_section('Madek Core', 'Schlagworte', false, 'Keyword1', 'Keyword2')
     end
 
-    it 'Compare keywords', browser: :firefox do
+    it 'Compare keywords' do
 
       prepare_data
 

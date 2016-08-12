@@ -16,7 +16,7 @@ describe 'Expiration of Session after configured timeout' do
       sign_in_as user.login, user.password
     end
 
-    specify 'the user is logged out after 12 seconds', browser: :firefox do
+    specify 'the user is logged out after 12 seconds' do
       visit '/my'
       expect(page).to have_content I18n.t(:sitemap_my_groups)
       expect(page).not_to have_content 'Error 401'

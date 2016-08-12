@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
-feature 'App: Infinite Scroll for ResourceLists', browser: :firefox do
+feature 'App: Infinite Scroll for ResourceLists' do
 
   example 'entries index - as public' do
     open_view_and_check_loading_on_scroll(media_entries_path)

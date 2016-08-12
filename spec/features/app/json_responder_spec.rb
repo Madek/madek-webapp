@@ -4,7 +4,7 @@ require 'spec_helper_feature_shared'
 
 feature 'App: Responders' do
 
-  describe 'JSON Responder' do
+  describe 'JSON Responder', browser: false do
 
     REQUEST_ARGS = {
       format: :json,

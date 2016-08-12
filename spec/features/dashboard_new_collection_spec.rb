@@ -40,12 +40,12 @@ feature 'Dashboard: New Collection' do
 
   describe 'Action: new' do
 
-    scenario 'Modal dialog is shown', browser: :firefox do
+    scenario 'Modal dialog is shown' do
       login
       open_new_set
     end
 
-    scenario 'Modal dialog cancel', browser: :firefox do
+    scenario 'Modal dialog cancel' do
       login
       open_new_set
       within '.modal' do
@@ -55,7 +55,7 @@ feature 'Dashboard: New Collection' do
       check_on_dashboard
     end
 
-    scenario 'Modal dialog title error', browser: :firefox do
+    scenario 'Modal dialog title error' do
       login
       open_new_set
       within '.modal' do
@@ -73,7 +73,7 @@ feature 'Dashboard: New Collection' do
 
   describe 'Action: create' do
 
-    scenario 'Modal dialog ok', browser: :firefox do
+    scenario 'Modal dialog ok' do
       login
       open_new_set
       within '.modal' do

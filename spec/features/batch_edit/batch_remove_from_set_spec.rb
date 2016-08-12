@@ -44,7 +44,7 @@ feature 'batch edit' do
       expect(@parent_collection.reload.collections.length).to eq(0)
     end
 
-    it 'cancel button (js)', browser: :firefox do
+    it 'cancel button (js)' do
       prepare_data
       login
 
@@ -68,7 +68,7 @@ feature 'batch edit' do
     end
   end
 
-  it 'remove button (js)', browser: :firefox do
+  it 'remove button (js)' do
     prepare_data
     login
 

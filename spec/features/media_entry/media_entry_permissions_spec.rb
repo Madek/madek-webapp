@@ -11,7 +11,7 @@ feature 'Resource: MediaEntry' do
     sign_in_as @user.login
   end
 
-  scenario 'edit permissions', browser: :firefox do
+  scenario 'edit permissions' do
 
     open_permission_editable
 
@@ -41,7 +41,7 @@ feature 'Resource: MediaEntry' do
 
   end
 
-  scenario 'weaker permissions are set by higher ones', browser: :firefox do
+  scenario 'weaker permissions are set by higher ones' do
 
     open_permission_editable
 

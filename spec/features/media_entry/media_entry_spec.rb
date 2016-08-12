@@ -10,7 +10,8 @@ feature 'Resource: MediaEntry' do
 
   describe 'Action: create' do
 
-    scenario 'upload and publish an image with javascript disabled' do
+    scenario 'upload and publish an image with javascript disabled',
+             browser: :firefox_nojs do
       # go to dashboard and import button
       visit my_dashboard_path
       within('.ui-body-title-actions') do
@@ -26,7 +27,9 @@ feature 'Resource: MediaEntry' do
         submit_form
       end
 
-      expect(page.status_code).to eq 200
+      expect(page).to have_content 'Media entry wurde erstellt.'
+
+      # FIXME: re-activate this:
 
       # # unpublished entry was created
       # within('#app') do
@@ -47,7 +50,8 @@ feature 'Resource: MediaEntry' do
 
     end
 
-    scenario 'File metadata is extracted and mapped via IoMappings to MetaData' do
+    scenario 'File metadata is extracted and mapped via IoMappings to MetaData',
+             browser: false do # FIXME: run in browser
 
       unless MetaKey.where(id: 'madek_core:title').exists?
         FactoryGirl.create(:meta_key_text, id: 'madek_core:title')
@@ -129,8 +133,7 @@ feature 'Resource: MediaEntry' do
 
   describe 'Action: delete' do
 
-    scenario 'via delete button on detail view ' \
-             '(with confirmation)', browser: :firefox do
+    scenario 'via delete button on detail view (with confirmation)' do
 
       visit media_entry_path \
         create :media_entry_with_image_media_file,

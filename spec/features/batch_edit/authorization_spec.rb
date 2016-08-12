@@ -4,7 +4,7 @@ require 'spec_helper_feature_shared'
 
 feature 'Batch edit media entries' do
   describe 'authorize entries' do
-    it 'returns 403 in case of any unauthorized entry', browser: :firefox do
+    it 'returns 403 in case of any unauthorized entry' do
       user = FactoryGirl.create :user
 
       me1 = FactoryGirl.create :media_entry

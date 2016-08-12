@@ -5,7 +5,7 @@ require 'spec_helper_feature_shared'
 feature 'Collection: Index' do
 
   describe 'Client: Flyouts' do
-    scenario 'Flyouts shows parent- and child-relation', browser: :firefox do
+    scenario 'Flyouts shows parent- and child-relation' do
       login
       # need to put the mouse on top of page so it not hovers to early…
       page.first('#app header').hover

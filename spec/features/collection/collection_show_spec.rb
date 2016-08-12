@@ -23,7 +23,7 @@ feature 'Resource: Collections' do
   end
 
   describe 'Action: show' do
-    it 'is rendered' do
+    it 'is rendered', browser: false do
       prepare_and_open_collection
       expect(page.status_code).to eq 200
     end
@@ -33,7 +33,7 @@ feature 'Resource: Collections' do
       # page title:
       expect(page.find('.ui-body-title')).to have_content @collection.title
       # meta data:
-      expect(page).to have_content "Titel#{@collection.title}"
+      expect(page).to have_content "Titel #{@collection.title}"
     end
 
     scenario 'Tab: Relations' do
@@ -56,7 +56,7 @@ feature 'Resource: Collections' do
       expect(find('.meta-data-summary')).to have_content @collection.title
     end
 
-    scenario 'Tab: Permissions', browser: :firefox do
+    scenario 'Tab: Permissions' do
       prepare_and_open_collection
       click_on_tab I18n.t(:media_entry_tab_permissions)
       find('.primary-button', text: 'Bearbeiten').click

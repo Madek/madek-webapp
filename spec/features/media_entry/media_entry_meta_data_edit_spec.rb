@@ -31,7 +31,7 @@ feature 'Resource: MediaEntry' do
 
     describe doc do
 
-      scenario 'update via Javascript Models (unit test)', browser: :firefox do
+      scenario 'update via Javascript Models (unit test)' do
 
         prepare_data
         login

@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
-feature 'Resource: MetaDatum', browser: :firefox do
+feature 'Resource: MetaDatum' do
   background do
     @user = User.find_by(login: 'normin')
     sign_in_as @user.login

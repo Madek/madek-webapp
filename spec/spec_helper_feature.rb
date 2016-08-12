@@ -34,12 +34,14 @@ RSpec.configure do |config|
   end
 
   def set_browser(example)
+    # default is firefox! rack_test is `browser: false`
     Capybara.current_driver = \
       case example.metadata[:browser]
-      when :firefox then :selenium_ff
+      when nil, :firefox then :selenium_ff
+      when false then :rack_test
       when :firefox_nojs then :selenium_ff_nojs
       when :phantomjs then :poltergeist
-      else :rack_test
+      else fail 'unknown browser!'
       end
   end
 

@@ -4,7 +4,7 @@ require 'spec_helper_feature_shared'
 
 feature 'Page: Search' do
 
-  describe 'shows search form' do
+  describe 'shows search form', browser: false do
 
     example 'for public' do
       visit search_path
@@ -19,8 +19,7 @@ feature 'Page: Search' do
 
   end
 
-  describe 'search results shows entries and links to collections (and back)',
-           browser: :firefox do
+  describe 'search results shows entries and links to collections (and back)' do
 
     it 'for public' do
      search_for_text_and_check_results_pages('kunst')

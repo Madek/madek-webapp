@@ -22,11 +22,11 @@ feature 'Resource: MediaEntry' do
       direct_open_context('media_content', false, 'zhdk_bereich')
     end
 
-    it 'open default context (js)', browser: :firefox do
+    it 'open default context (js)' do
       direct_open_context(nil, true, 'zhdk_bereich')
     end
 
-    it 'open media_content context (js)', browser: :firefox do
+    it 'open media_content context (js)' do
       direct_open_context('media_content', true, 'zhdk_bereich')
     end
 

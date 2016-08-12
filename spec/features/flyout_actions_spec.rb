@@ -9,19 +9,19 @@ include MetaDataHelper
 feature 'Resource: Collection/MediaEntry' do
   describe 'Flyout Actions' do
 
-    it 'Edit meta data from flyout for media entry.', browser: :firefox do
+    it 'Edit meta data from flyout for media entry.' do
       scenario_edit_meta_data(MediaEntry)
     end
 
-    it 'Edit meta data from flyout for collection.', browser: :firefox do
+    it 'Edit meta data from flyout for collection.' do
       scenario_edit_meta_data(Collection)
     end
 
-    it 'Delete media entry from flyout.', browser: :firefox do
+    it 'Delete media entry from flyout.' do
       scenario_delete(MediaEntry)
     end
 
-    it 'Delete collection from flyout.', browser: :firefox do
+    it 'Delete collection from flyout.' do
       scenario_delete(Collection)
     end
 

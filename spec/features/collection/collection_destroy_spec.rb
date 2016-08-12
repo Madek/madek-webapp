@@ -6,18 +6,18 @@ feature 'Resource: Collection' do
 
   describe 'Action: destroy' do
 
-    scenario 'view', browser: :firefox do
+    scenario 'view' do
       login
       open_dialog
     end
 
-    scenario 'cancel', browser: :firefox do
+    scenario 'cancel' do
       login
       open_dialog
       cancel
     end
 
-    scenario 'accept', browser: :firefox do
+    scenario 'accept' do
       login
       open_dialog
       delete

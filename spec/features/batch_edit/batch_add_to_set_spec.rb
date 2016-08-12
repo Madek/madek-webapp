@@ -52,7 +52,7 @@ feature 'batch edit' do
       check_search_result('', [], false)
     end
 
-    it 'cancel button (js)', browser: :firefox do
+    it 'cancel button (js)' do
       prepare_data
       login
 
@@ -75,7 +75,7 @@ feature 'batch edit' do
     end
   end
 
-  it 'search (js)', browser: :firefox do
+  it 'search (js)' do
     prepare_data
     login
 

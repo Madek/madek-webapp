@@ -15,7 +15,7 @@ describe 'Action: show' do
 
   context '(for public/no user logged in)' do
 
-    it 'is rendered and shows title' do
+    it 'is rendered and shows title', browser: false do
       visit media_entry_path(@entry)
       expect(page.status_code).to eq 200
       expect(page.find('.ui-body-title')).to have_content 'Ausstellung Photo 1'
@@ -36,7 +36,7 @@ describe 'Action: show' do
       visit media_entry_path(@entry)
     end
 
-    it 'is rendered' do
+    it 'is rendered', browser: false do
       expect(page.status_code).to eq 200
     end
 

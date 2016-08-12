@@ -8,7 +8,7 @@ feature 'Collection: Edit Highlights' do
 
   describe 'Action: new' do
 
-    scenario 'Modal dialog is shown', browser: :firefox do
+    scenario 'Modal dialog is shown' do
       prepare_data
       login
       open_collection
@@ -27,7 +27,7 @@ feature 'Collection: Edit Highlights' do
       expect(@collection.highlighted_media_entries.length).to eq(0)
     end
 
-    scenario 'Select and save highlights', browser: :firefox do
+    scenario 'Select and save highlights' do
       prepare_data
       login
       open_collection

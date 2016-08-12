@@ -8,7 +8,7 @@ feature 'Collection: Edit Cover' do
 
   describe 'Action: new' do
 
-    scenario 'Modal dialog is shown', browser: :firefox do
+    scenario 'Modal dialog is shown' do
       prepare_data
       login
       open_dialog
@@ -23,7 +23,7 @@ feature 'Collection: Edit Cover' do
       expect(@collection.cover).to eq(nil)
     end
 
-    scenario 'Select and save a cover', browser: :firefox do
+    scenario 'Select and save a cover' do
       prepare_data
       login
       open_dialog

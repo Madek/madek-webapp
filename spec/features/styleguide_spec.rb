@@ -32,7 +32,7 @@ feature 'Page: Styleguide' do
       end
     end
 
-    specify 'All Elements match the reference screenshots', browser: :firefox do
+    specify 'All Elements match the reference screenshots' do
       if screenshots_enabled_in_environment?
         # preparation…
         puts 'styleguide screenshots are enabled, cleaning tmp dir'

@@ -10,24 +10,32 @@ feature 'Page: My Dashboard (only logged in user)' do
 
   pending 'integration test'
 
-  it 'is rendered' do
+  it 'is rendered', browser: false do
     visit '/my/'
     expect(page.status_code).to eq 200
   end
 
   describe 'Dashboard Sections' do
     [
-      :content,
+      :content_media_entries,
+      :content_collections,
       :latest_imports,
-      :favorites,
-      :entrusted_content,
+      :favorite_media_entries,
+      :favorite_collections,
+      :entrusted_media_entries,
+      :entrusted_collections,
       :groups
     ].each do |section|
-      it "nested page '#{section.to_s.humanize}' is rendered" do
+      it "nested page '#{section.to_s.humanize}' is rendered", browser: false do
         visit "/my/#{section}"
+        expect(page.status_code).to eq 200
       end
     end
 
-  end
+    it 'non-existing sections give 404 error', browser: false do
+      visit '/my/does_not_exist'
+      expect(page.status_code).to eq 404
+    end
 
+  end
 end

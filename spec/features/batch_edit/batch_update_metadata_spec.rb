@@ -36,7 +36,7 @@ feature 'Batch update media entries' do
                        id: "#{vocabulary.id}:#{Faker::Lorem.characters(10)}")
   end
 
-  it 'successfully updates meta_data for all entries', browser: :firefox do
+  it 'successfully updates meta_data for all entries' do
     # NOTE: create more than 16 Keywords total to trigger the autocomplete!
     20.times { FactoryGirl.create(:keyword, meta_key: meta_key_keywords) }
 

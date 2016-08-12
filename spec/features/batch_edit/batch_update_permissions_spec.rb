@@ -5,7 +5,7 @@ require 'spec_helper_feature_shared'
 require_relative '../../features/shared/batch_permissions_helper'
 include BatchPermissionsHelper
 
-feature 'Batch update media entries permissions', browser: :firefox do
+feature 'Batch update media entries permissions' do
   it 'offers action for CollectionChildren' do
     setup_batch_permissions_test_data # from BatchPermissionsHelper
     @collection = FactoryGirl.create(

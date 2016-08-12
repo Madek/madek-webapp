@@ -53,7 +53,7 @@ feature 'App: UserMenu' do
 
   describe 'usability' do
 
-    example 'JS: opens on click', browser: :firefox do
+    example 'JS: opens on click' do
       sign_in_as('normin')
       open_user_menu
       expect(user_menu_drop_menu).to be_visible

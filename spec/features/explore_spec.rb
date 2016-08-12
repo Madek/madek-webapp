@@ -7,7 +7,7 @@ feature 'Page: Explore' do
   # NOTE: re-enable/fix after explore feature is complete
   describe 'Action: index' do
 
-    it 'is rendered for public' do
+    it 'is rendered for public', browser: false do
       visit explore_path
       expect(page.status_code).to eq 200
     end
@@ -18,14 +18,14 @@ feature 'Page: Explore' do
       visit explore_path
     end
 
-    it 'no header login button for root page', browser: :firefox do
+    it 'no header login button for root page' do
       visit root_path
       expect(page).to have_no_css(
         '.ui-header-user',
         text: I18n.t(:user_menu_login_btn))
     end
 
-    it 'header login button for explore page', browser: :firefox do
+    it 'header login button for explore page' do
       visit explore_path
       find('.ui-header-user', text: I18n.t(:user_menu_login_btn))
     end
@@ -63,7 +63,7 @@ feature 'Page: Explore' do
 
   describe 'Explore content on login page' do
 
-    it 'contains latest entries sorted by created_at DESC' do
+    it 'contains latest entries sorted by created_at DESC', browser: false do
       visit root_path
       expect(page.status_code).to eq 200
       within '.ui-resources-holder', text: I18n.t(:home_page_new_contents) do

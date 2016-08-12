@@ -14,7 +14,7 @@ include ContextMetaDataHelper
 feature 'Resource: Collection' do
   describe 'Concern: MetaData' do
 
-    it 'edit full form with-js', browser: :firefox do
+    it 'edit full form with-js' do
 
       prepare_manipulate_and_check(
         {
@@ -44,7 +44,7 @@ feature 'Resource: Collection' do
 
     end
 
-    it 'edit context form with-js', browser: :firefox do
+    it 'edit context form with-js' do
 
       prepare_manipulate_and_check(
         {

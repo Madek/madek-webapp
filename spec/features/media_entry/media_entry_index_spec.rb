@@ -4,7 +4,7 @@ require 'spec_helper_feature_shared'
 
 feature 'Resource: MediaEntry' do
 
-  describe 'Action: index' do
+  describe 'Action: index', browser: false do
 
     it 'is rendered for public' do
       visit media_entries_path
@@ -22,7 +22,7 @@ feature 'Resource: MediaEntry' do
 
   describe 'Action: favor' do
 
-    it 'favorite button on thumbnail (JS)', browser: :firefox do
+    it 'favorite button on thumbnail (JS)' do
 
       @user = User.find_by(login: 'normin')
       sign_in_as @user.login
@@ -50,7 +50,7 @@ feature 'Resource: MediaEntry' do
 
   describe 'Client: Resource selection' do
 
-    it 'resources selection for batch-edit (JS)', browser: :firefox do
+    it 'resources selection for batch-edit (JS)' do
       @user = sign_in_as 'normin'
 
       # go to 'my imports'

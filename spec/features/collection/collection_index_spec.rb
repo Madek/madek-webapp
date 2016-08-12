@@ -4,7 +4,7 @@ require 'spec_helper_feature_shared'
 
 feature 'Resource: Collection' do
 
-  describe 'Action: index' do
+  describe 'Action: index', browser: false do
 
     it 'is rendered for public' do
       visit collections_path

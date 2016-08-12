@@ -46,7 +46,7 @@ feature 'Resource: MetaDatum' do
   end
 
   context \
-    'inline edit MetaDatum::Text from MediaEntry detail view', browser: :firefox do
+    'inline edit MetaDatum::Text from MediaEntry detail view' do
 
     pending 'single update' do
       new_text = Faker::Lorem.words.join(' ')

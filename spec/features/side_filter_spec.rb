@@ -18,7 +18,7 @@ feature 'Side Filter' do
       visit media_entries_path
     end
 
-    it 'open accordion and select filter', browser: :firefox do
+    it 'open accordion and select filter' do
       open_filterbar
 
       expect(page).to have_content(@title_0)
@@ -108,7 +108,7 @@ feature 'Side Filter' do
       expect(page).to have_content(@title_2)
     end
 
-    it 'check correct position sorting of 2nd level', browser: :firefox do
+    it 'check correct position sorting of 2nd level' do
       open_filterbar
 
       context_key_authors = ContextKey.find_by_meta_key_id(@meta_key_authors.id)

@@ -3,7 +3,7 @@ require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
 feature 'Resilience' do
-  it 'pages never return 500 for empty DB' do
+  it 'pages never return 500 for empty DB', browser: false do
     truncate_tables
 
     [explore_path,
