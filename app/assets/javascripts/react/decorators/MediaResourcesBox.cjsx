@@ -313,7 +313,7 @@ module.exports = React.createClass
 
   render: ()->
     {
-      get, mods, initial, withBox, fallback, heading,
+      get, mods, initial, withBox, fallback, heading, listMods
       fetchRelations, saveable, authToken, children
     } = @props
 
@@ -361,7 +361,7 @@ module.exports = React.createClass
     listClasses = cx(config.layout, {
       'vertical': config.layout is 'tiles'
       'active': withActions
-    }, 'ui-resources')
+    }, listMods, 'ui-resources')
 
     currentQuery = f.merge(
       {list: f.merge f.omit(config, 'for_url')},

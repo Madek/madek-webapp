@@ -81,6 +81,7 @@ module.exports = React.createClass
           ref='polybox'
           className='ui-uploader-uploads'
           mods='rounded mvl'
+          listMods={['show_permissions', {active: !state.uploading}]}
           authToken={props.authToken}
           fetchRelations={false}
           withBox={true}
