@@ -125,7 +125,6 @@ GEM
       i18n (~> 0.5)
     ffi (1.9.14)
     ffi (1.9.14-java)
-    flamegraph (0.9.5)
     flay (2.6.1)
       ruby_parser (~> 3.0)
       sexp_processor (~> 4.0)
@@ -383,7 +382,6 @@ DEPENDENCIES
   exiftool_vendored
   factory_girl
   faker
-  flamegraph
   git
   haml-rails
   inshape (>= 1.0.1, < 2.0)
