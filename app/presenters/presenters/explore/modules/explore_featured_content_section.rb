@@ -8,6 +8,7 @@ module Presenters
         def featured_set_section
           unless featured_set_content.blank?
             { type: 'thumbnail',
+              id: 'featured-content',
               data: featured_set_overview,
               show_all_link: true }
           end

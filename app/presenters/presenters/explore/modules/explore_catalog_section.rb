@@ -7,7 +7,10 @@ module Presenters
 
         def catalog_section
           unless catalog_context_keys.blank?
-            { type: 'catalog', data: catalog_overview, show_all_link: true }
+            { type: 'catalog',
+              id: 'catalog',
+              data: catalog_overview,
+              show_all_link: true }
           end
         end
 

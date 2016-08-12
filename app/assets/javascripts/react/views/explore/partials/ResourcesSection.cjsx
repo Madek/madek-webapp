@@ -7,8 +7,8 @@ ResourceThumbnail = require('../../../decorators/ResourceThumbnail.cjsx')
 
 module.exports = React.createClass
   displayName: 'ResourcesSection'
-  render: ({label, hrefUrl, showAllLink, section, authToken} = @props)->
-    <div className="ui-resources-holder pal" id="catalog">
+  render: ({label, hrefUrl, showAllLink, section, id, authToken} = @props)->
+    <div className="ui-resources-holder pal" id={id}>
       <div className="ui-resources-header">
         <h2 className="title-l ui-resource-title">
           {label}

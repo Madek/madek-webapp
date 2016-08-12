@@ -8,6 +8,7 @@ module Presenters
         def keywords_section
           unless keywords.blank?
             { type: 'keyword',
+              id: 'keywords',
               data: keywords_overview,
               show_all_link: true }
           end

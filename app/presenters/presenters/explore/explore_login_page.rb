@@ -33,6 +33,7 @@ module Presenters
       def latest_media_entries_section
         if latest_media_entries.exists?
           { type: 'thumbnail',
+            id: 'latest-media-entries',
             data: \
               { title: I18n.t(:home_page_new_contents),
                 url: media_entries_path(list_conf: { order: 'created_at DESC' }),

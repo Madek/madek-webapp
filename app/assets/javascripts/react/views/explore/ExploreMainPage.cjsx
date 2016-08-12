@@ -17,7 +17,7 @@ module.exports = React.createClass
     resourcesSections =
 
       f.map get.sections, (section, m) ->
-        <ResourcesSection key={'section_' + m} label={section.data.title}
+        <ResourcesSection key={'section_' + m} label={section.data.title} id={section.id}
           hrefUrl={section.data.url} showAllLink={section.show_all_link} section={section} authToken={authToken} />
 
 
