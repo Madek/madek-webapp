@@ -28,10 +28,11 @@ module BatchPermissionsHelper
     # entry, also CASE 12+13
     @entry_1 = FactoryGirl.create(:media_entry,
                                   responsible_user: @logged_in_user,
-                                  get_full_size: false,
+                                  get_full_size: true,
                                   get_metadata_and_previews: true)
     @entry_2 = FactoryGirl.create(:media_entry,
                                   responsible_user: @logged_in_user,
+                                  get_full_size: false,
                                   get_metadata_and_previews: false)
 
     # CASE 1
@@ -332,10 +333,10 @@ module BatchPermissionsHelper
 
     # CASE 12
     expect(@entry_1.reload.get_metadata_and_previews).to be == true
-    expect(@entry_2.reload.get_metadata_and_previews).to be == false
+    expect(@entry_2.reload.get_metadata_and_previews).to be == true
 
     # CASE 13
     expect(@entry_1.reload.get_full_size).to be == true
-    expect(@entry_2.reload.get_full_size).to be == true
+    expect(@entry_2.reload.get_full_size).to be == false
   end
 end

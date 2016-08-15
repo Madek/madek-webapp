@@ -77,7 +77,7 @@ feature 'Batch update media entries permissions' do
 
       remove_subject(@case_11_user)
       remove_subject(@case_11_group)
-      set_permission('Internet', 'get_full_size', true)
+      set_permission('Internet', 'get_metadata_and_previews', true)
 
       # SAVE
       find('.primary-button').click

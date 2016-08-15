@@ -47,7 +47,7 @@ describe BatchController do
                 get_full_size: true }
             ],
             public_permission: {
-              get_full_size: true
+              get_metadata_and_previews: true
             }
           }
         }
