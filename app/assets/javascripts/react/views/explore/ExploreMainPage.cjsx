@@ -12,13 +12,14 @@ module.exports = React.createClass
 
   getInitialState: () -> { active: false }
 
-  render: ({authToken, get} = @props) ->
+  render: ({authToken, get, showThumbDesc} = @props) ->
 
     resourcesSections =
 
       f.map get.sections, (section, m) ->
         <ResourcesSection key={'section_' + m} label={section.data.title} id={section.id}
-          hrefUrl={section.data.url} showAllLink={section.show_all_link} section={section} authToken={authToken} />
+          hrefUrl={section.data.url} showAllLink={section.show_all_link} section={section}
+          authToken={authToken} showThumbDesc={showThumbDesc} />
 
 
     menu =

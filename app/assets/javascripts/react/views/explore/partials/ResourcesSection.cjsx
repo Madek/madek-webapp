@@ -23,9 +23,10 @@ module.exports = React.createClass
           if section.type == 'catalog' or section.type == 'catalog_category'
             <ul className="grid ui-resources">
             {
-              f.map section.data.list, (resource, n) ->
+              f.map section.data.list, (resource, n) =>
                 <CatalogThumbnail key={'key_' + n} usageCount={resource.usage_count} label={resource.label}
-                  description={resource.description} imageUrl={resource.image_url} hrefUrl={resource.url} />
+                  description={resource.description} imageUrl={resource.image_url} hrefUrl={resource.url}
+                  showThumbDesc={@props.showThumbDesc} />
             }
             </ul>
           else if section.type == 'thumbnail'

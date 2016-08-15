@@ -18,7 +18,7 @@ module.exports = React.createClass
           <div className="ui-body-title-label">
             <h1 className="title-xl">
               <i className="icon-catalog"></i>
-              {pageTitle}
+              {' ' + pageTitle}
             </h1>
           </div>
         </div>

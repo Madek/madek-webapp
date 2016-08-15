@@ -21,7 +21,10 @@ module.exports = React.createClass
         </a>
         <div className="ui-thumbnail-meta">
           <h3 className="ui-thumbnail-meta-title">{label}</h3>
-          <p className="ui-thumbnail-meta-subtitle">{description}</p>
+          {
+            if @props.showThumbDesc
+              <p className="ui-thumbnail-meta-subtitle">{description}</p>
+          }
           <span className="ui-thumbnail-meta-extension">{usageCount}</span>
         </div>
       </div>
