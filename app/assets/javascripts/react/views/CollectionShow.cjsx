@@ -42,26 +42,26 @@ module.exports = React.createClass
         }
       </Tabs>
 
-      <TabContent>
         {if activeTab == 0
-          [
+          <TabContent>
             <CollectionDetailOverview get={get} authToken={authToken} />
-            ,
             <HighlightedContents get={get} authToken={authToken} />
-            ,
             <CollectionDetailAdditional get={get} authToken={authToken} />
-          ]
+          </TabContent>
         }
         {if activeTab == 1
           <CollectionRelations get={get} authToken={authToken} />
         }
         {if activeTab == 2
-          <CollectionMetadata get={get} authToken={authToken} />
+          <TabContent>
+            <CollectionMetadata get={get} authToken={authToken} />
+          </TabContent>
         }
         {if activeTab == 3
-          <div className="bright pal rounded-bottom rounded-top-right ui-container">
-            <RightsManagement get={get.permissions} />
-          </div>
+          <TabContent>
+            <div className="bright pal rounded-bottom rounded-top-right ui-container">
+              <RightsManagement get={get.permissions} />
+            </div>
+          </TabContent>
         }
-      </TabContent>
     </PageContent>

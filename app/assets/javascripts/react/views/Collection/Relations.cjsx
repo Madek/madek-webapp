@@ -5,6 +5,7 @@ t = require('../../../lib/string-translation.js')('de')
 RailsForm = require('../../lib/forms/rails-form.cjsx')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 TabContent = require('../TabContent.cjsx')
+ResourceThumbnail = require('../../decorators/ResourceThumbnail.cjsx')
 
 classnames = require('classnames')
 
@@ -12,12 +13,108 @@ module.exports = React.createClass
   displayName: 'CollectionRelations'
 
   render: ({authToken, get} = @props) ->
-    <div className="bright pal rounded-bottom rounded-top-right ui-container">
-      <h3 className="title-l separated mbm">
-        {t('relations_title')}
-      </h3>
-      <h4 className="title-m mbm">{t('relations_parents_title')}</h4>
-      <MediaResourcesBox withBox={false} get={get.relations.parent_media_resources} authToken={authToken} />
-      <h4 className="title-m mbm">{t('relations_siblings_title')}</h4>
-      <MediaResourcesBox withBox={false} get={get.relations.sibling_media_resources} authToken={authToken} />
+
+
+    <div className="ui-container tab-content bordered rounded-right rounded-bottom mbh">
+      <div className="ui-container bright rounded-right rounded-bottom pal">
+        <div className="row">
+          <div className="col6of6">
+            <h2 className="title-m">
+              {t('collection_relations_hint_text')}
+            </h2>
+          </div>
+        </div>
+      </div>
+      <div className="ui-container midtone-darker bordered-bottom bordered-top relationships-wrapper">
+        <div className="ui-resources-holder" id="set-relations-parents">
+          <div className="ui-resources-header mbn">
+            <h2 className="title-l ui-resource-title mtl mll">
+              {t('collection_relations_parent_sets')}
+              <span className="ui-counter">{'(' + f.size(get.relations.parent_media_resources.resources) + ')'}</span>
+              {
+                if false
+                  <a className="strong" href="?type=parents">
+                    Alle anzeigen
+                  </a>
+              }
+            </h2>
+          </div>
+          <ul className="grid horizontal ui-resources">
+            {
+              if f.isEmpty(get.relations.parent_media_resources.resources)
+                <div className="ui-container ptm pbh">
+                  <div className="title-m by-center">{t('collection_relations_no_parent_sets')}</div>
+                </div>
+            }
+            {
+              f.map(get.relations.parent_media_resources.resources, (resource) ->
+                <ResourceThumbnail key={resource.uuid} authToken={authToken} elm={'li'} get={resource} />
+              )
+            }
+          </ul>
+        </div>
+      </div>
+      <div className="bright pointing-bottom relationships-this-wrapper relationships-wrapper ui-container">
+        <div className="bordered-right bright pointing-right relationships-this ui-container">
+          <div className="pointing-top">
+            <div className="ui-resources-holder" id="set-relations-self">
+              <div className="ui-resources-header mbn">
+                <h2 className="title-l ui-resource-title mtl mll">
+                  {t('collection_relations_current_set')}
+                </h2>
+              </div>
+              <ul className="grid horizontal ui-resources">
+                <ResourceThumbnail authToken={authToken} elm={'li'} get={get.collection_index} />
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className="midtone relationships-siblings ui-container">
+          <div className="ui-resources-holder" id="set-relations-siblings">
+            <div className="ui-resources-header mbn">
+              <h2 className="title-l ui-resource-title mtl mll">
+                {t('collection_relations_sibling_sets')}
+                <span className="ui-counter">{'(' + f.size(get.relations.sibling_media_resources.resources) + ')'}</span>
+              </h2>
+            </div>
+            <ul className="grid horizontal ui-resources">
+              {
+                if f.isEmpty(get.relations.sibling_media_resources.resources)
+                  <div className="ui-container ptm pbh">
+                    <div className="title-m by-center">{t('collection_relations_no_sibling_sets')}</div>
+                  </div>
+              }
+              {
+                f.map(get.relations.sibling_media_resources.resources, (resource) ->
+                  <ResourceThumbnail key={resource.uuid} authToken={authToken} elm={'li'} get={resource} />
+                )
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div className="ui-container midtone-darker relationships-wrapper bordered-top">
+        <div className="ui-resources-holder" id="set-relations-children">
+          <div className="ui-resources-header mbn">
+            <h2 className="title-l ui-resource-title mtl mll">
+              {t('collection_relations_child_sets')}
+              <span className="ui-counter">{'(' + f.size(get.relations.child_media_resources.resources) + ')'}</span>
+            </h2>
+          </div>
+          <ul className="grid horizontal ui-resources">
+            {
+              if f.isEmpty(get.relations.child_media_resources.resources)
+                <div className="ui-container ptm pbh">
+                  <div className="title-m by-center">{t('collection_relations_no_child_sets')}</div>
+                </div>
+            }
+            {
+              f.map(get.relations.child_media_resources.resources, (resource) ->
+                <ResourceThumbnail key={resource.uuid} authToken={authToken} elm={'li'} get={resource} />
+              )
+            }
+          </ul>
+
+        </div>
+      </div>
     </div>

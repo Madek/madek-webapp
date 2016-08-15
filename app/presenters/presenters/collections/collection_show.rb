@@ -34,6 +34,10 @@ module Presenters
         )
       end
 
+      def collection_index
+        Presenters::Collections::CollectionIndex.new(@app_resource, @user)
+      end
+
       def meta_data
         Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
       end
