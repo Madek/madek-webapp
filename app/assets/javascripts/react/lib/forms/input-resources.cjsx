@@ -178,7 +178,6 @@ NewPersonWidget = React.createClass
     # TODO: move to next input field?
 
   _onTabChange: (eventKey)->
-    console.log 'tab', eventKey
     @setState({ newPerson: { is_bunch: (eventKey is 'group') } })
 
   _onUpdateField: (key, event)->

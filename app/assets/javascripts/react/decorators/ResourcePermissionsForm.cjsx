@@ -167,7 +167,7 @@ PermissionsSubject = React.createClass
   adjustCheckboxesDependingOnStrength: (name, stronger) ->
     beforeCurrent = true
     for i, permissionType of @props.permissionTypes
-      isEnabled = f.isBoolean(@props.permissions[permissionType])
+      isEnabled = f.present(@props.permissions[permissionType])
       isCurrent = permissionType is name
       beforeCurrent = false if isCurrent
       if not isCurrent and isEnabled
@@ -267,14 +267,23 @@ TristateCheckbox = React.createClass
   propTypes: {checked: React.PropTypes.oneOf([true, false, 'mixed'])}
   getDefaultProps: ()->
     onChange: ()-> # noop
-  # NOTE: 'indeterminate' is a node attribute (not a prop!), need to set on mount!
+
+  # NOTE: 'indeterminate' is a node attribute (not a prop!),
+  # need to set on mount and every re-render!!
+  _setIndeterminate: ()->
+    isMixed = !f.isBoolean(this.props.checked)
+    if this._inputNode # <- only if it's mounted…
+      this._inputNode.indeterminate = isMixed
+  _inputNode: null
+  componentDidUpdate: ()-> this._setIndeterminate()
+
   render: (props = this.props)->
     restProps = f.omit(props, ['checked'])
     isMixed = !f.isBoolean(props.checked)
     <input type='checkbox'
       {...restProps}
       checked={if isMixed then false else props.checked}
-      ref={((inputNode)->
-        if inputNode # <- only if it's mounted…
-          if isMixed then inputNode.indeterminate = true)}
+      ref={((inputNode)=>
+        this._inputNode = inputNode
+        this._setIndeterminate())}
     />

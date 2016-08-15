@@ -64,15 +64,18 @@ feature 'Batch update media entries permissions' do
       set_permission(@case_9_api_client, 'get_full_size', false)
 
       add_subject(@case_10_user)
-      set_permission(@case_10_user, 'get_metadata_and_previews', true)
+      # NOTE: the following is enforced by UI, by not setting it we test this
+      # set_permission(@case_10_user, 'get_metadata_and_previews', true)
       set_permission(@case_10_user, 'get_full_size', true)
 
       add_subject(@case_10_group)
-      set_permission(@case_10_group, 'get_metadata_and_previews', true)
+      # NOTE: the following is enforced by UI, by not setting it we test this
+      # set_permission(@case_10_group, 'get_metadata_and_previews', true)
       set_permission(@case_10_group, 'get_full_size', true)
 
       add_subject(@case_10_api_client)
-      set_permission(@case_10_api_client, 'get_metadata_and_previews', true)
+      # NOTE: the following is enforced by UI, by not setting it we test this
+      # set_permission(@case_10_api_client, 'get_metadata_and_previews', true)
       set_permission(@case_10_api_client, 'get_full_size', true)
 
       remove_subject(@case_11_user)
@@ -106,9 +109,9 @@ def select_all_in_box_and_start_batch_edit
 end
 
 def set_permission(subject, permission, state)
-  expect([true, false]).to include state # state = true/false
-  # NOTE: always click first to clear "indeterminate", or capybara fails to set it
+  expect([true, false]).to include state
   input = get_checkbox(subject, permission)
+  # NOTE: always click first to clear "in determinate", or capybara fails to set it
   input.click
   input.set(state)
 end

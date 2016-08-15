@@ -65,7 +65,6 @@ module.exports = React.createClass
     window.location = @props.get.actions.cancel.url # SYNC!
 
   render: (props = this.props)->
-    console.log props
     batchResources = props.get.batch_resources.resources
     pageTitle = t('permissions_batch_title_pre') + batchResources.length + t('permissions_batch_title_post')
 
