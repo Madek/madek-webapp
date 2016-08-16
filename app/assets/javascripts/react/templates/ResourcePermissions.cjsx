@@ -31,6 +31,10 @@ module.exports = React.createClass
 
     @setState({model: model})
 
+  # functions to be called on unmount (cleanup):
+  _toBeCalledOnUnmount: []
+  componentWillUnMount: ()-> f.each(_toBeCalledOnUnmount, (fn)-> fn())
+
   # this will only ever run on the client:
   componentDidMount: ()->
     AutoComplete = require('../lib/autocomplete.cjsx')
@@ -38,22 +42,24 @@ module.exports = React.createClass
 
     editUrl = url.resolve(@props.get.url, 'permissions/edit')
 
+    # setup router:
+
     # set state according to url from router
-    @stopRouter = router.listen (location)=> # runs once initially when router is started
-      @setState
-        editing: f.isEqual(location.pathname, editUrl)
+    stopListen = router.listen((location)=> # runs once initially when router is started!
+      @setState({editing: f.isEqual(location.pathname, editUrl)}))
+    @_toBeCalledOnUnmount.push(stopListen)
 
-    @setState({router: router})
+    stopConfirming = router.confirmNavigation(
+      check: ()=> @state.editing || @state.saving)
+    @_toBeCalledOnUnmount.push(stopConfirming)
 
-    # start the router
+    # "attach" and start the router
+    @_router = router # internal ref, NOT in state!
     router.start()
-
-  componentWillUnMount: ()->
-    if @stopRouter then @stopRouter()
 
   _onStartEdit: (event)->
     event?.preventDefault()
-    @state.router.goTo(event.target.href)
+    @_router.goTo(event.target.href)
 
   _onCancelEdit: (event)->
     # TODO: handle abort inline (without refresh) und reset state
@@ -68,7 +74,7 @@ module.exports = React.createClass
       success: (model, res)=>
         # TODO: ui-alert res?.message
         @setState(saving: false, editing: false)
-        @state.router.goTo(model.url)
+        @_router.goTo(model.url)
       error: (model, err)=>
         @setState(saving: false, editing: true)
         alert('Error! ' + ((try JSON.stringify(err?.body || err , 0, 2)) or ''))

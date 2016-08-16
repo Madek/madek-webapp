@@ -32,7 +32,7 @@ tasks:
   spec/features/collection/edit_collection_highlights_spec.rb: {priority: 1}
   spec/features/flyout_actions_spec.rb: {priority: 2}
   spec/features/media_entry/media_entry_index_spec.rb: {priority: 1}
-  spec/features/media_entry/media_entry_permissions_spec.rb: {priority: 1}
+  spec/features/media_entry/permissions/media_entry_permissions_spec.rb: {priority: 1}
   spec/features/media_entry/media_entry_select_collection_spec.rb: {priority: 2}
   spec/features/media_entry/media_entry_export_spec.rb: {priority: 2}
   spec/features/meta_data/meta_data_spec.rb: {priority: 1}

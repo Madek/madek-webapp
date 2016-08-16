@@ -1,5 +1,6 @@
 key,de,en,comment
 ,,,
+app_confirm_form_leave_msg,"Diese Seite bittet Sie zu bestätigen, dass Sie die Seite verlassen möchten – Daten, die Sie eingegeben haben, werden unter Umständen nicht gespeichert.","Please confirm that you want to leave this page – entered data might not be saved!","NOTE: German version copied from Firefox default message"
 app_notice_logged_out,Sie haben sich abgemeldet.,You have logged out.,
 app_warning_jsonly,"Diese Funktion erfordert JavaScript, aber es ist nicht aktiviert!","This feature needs Javascript, but it's not activated!",
 authentication_groups,Systemgruppen,System Groups,
