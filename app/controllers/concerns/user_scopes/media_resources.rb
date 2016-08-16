@@ -17,7 +17,11 @@ module Concerns
           child_media_resources: \
             Shared::MediaResources::MediaResourcePolicy::Scope.new(
               current_user,
-              collection.child_media_resources).resolve
+              collection.child_media_resources).resolve,
+          child_collections: \
+            CollectionPolicy::Scope.new(
+              current_user,
+              collection.collections).resolve
       end
     end
   end

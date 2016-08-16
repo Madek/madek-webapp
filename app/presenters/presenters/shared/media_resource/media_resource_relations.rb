@@ -10,18 +10,18 @@ module Presenters
         end
 
         def any?
-          parent_media_resources.resources.any? or
-            sibling_media_resources.any?
+          parent_collections.resources.any? or
+            sibling_collections.any?
         end
 
-        def parent_media_resources
+        def parent_collections
           Presenters::Shared::MediaResource::MediaResources.new(
             @user_scopes[:parent_collections],
             @user,
             list_conf: @list_conf)
         end
 
-        def sibling_media_resources
+        def sibling_collections
           # TODO: exclusion of self from siblings should be done
           # in the model?!
           Presenters::Shared::MediaResource::MediaResources.new(

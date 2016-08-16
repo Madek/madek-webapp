@@ -7,8 +7,8 @@ buildParams = require('qs').stringify
 
 module.exports =
   props:
-    parent_media_resources: ['object']
-    sibling_media_resources: ['object']
+    parent_collections: ['object']
+    sibling_collections: ['object']
     # NOTE: Collections also have:
     # child_media_resources: ['object']
 
@@ -16,7 +16,12 @@ module.exports =
   fetchRelations: (type, callback)->
     validTypes = ['parent', 'sibling', 'child']
     throw new Error('Invalid Relations type!') unless f.include(validTypes, type)
-    relType = type + '_media_resources'
+    relTypes = {
+      parent: 'parent_collections'
+      sibling: 'sibling_collections'
+      child: 'child_media_resources'
+    }
+    relType = relTypes[type]
 
     return if f.present(@get(relType)) # only fetch if missing
 

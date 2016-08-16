@@ -193,7 +193,7 @@ module.exports = React.createClass
 
     # hover - flyout - relations - thumbnail list:
     if fetchRelations
-      parentRelations = f.get(model, 'parent_media_resources')
+      parentRelations = f.get(model, 'parent_collections')
       childRelations = f.get(model, 'child_media_resources')
 
       if parentRelations

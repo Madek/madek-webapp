@@ -12,6 +12,14 @@ module Presenters
           list_conf: @list_conf)
       end
 
+      def child_collections
+        Presenters::Collections::ChildMediaResources.new(
+          @user_scopes[:child_collections],
+          @user,
+          can_filter: false,
+          list_conf: @list_conf)
+      end
+
     end
   end
 end

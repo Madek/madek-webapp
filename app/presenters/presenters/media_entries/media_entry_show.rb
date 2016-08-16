@@ -20,21 +20,22 @@ module Presenters
       end
 
       def tabs # list of all 'show' action sub-tabs
-        {
-          nil => { title: I18n.t(:media_entry_tab_main) },
-          relations: { title: I18n.t(:media_entry_tab_relations) },
-          more_data: { title: I18n.t(:media_entry_tab_more_data) },
-          permissions: {
-            title: I18n.t(:media_entry_tab_permissions),
-            icon_type: :privacy_status_icon }
-        }.select do |action, tab|
-          action ? policy(@user).send("#{action}?".to_sym) : true
+        tabs_config.select do |tab|
+          tab[:action] ? policy(@user).send("#{tab[:action]}?".to_sym) : true
+        end.reject do |tab|
+          tab[:id] == 'relations' \
+            && relations.parent_collections.empty? \
+            && relations.sibling_collections.empty?
         end
       end
 
       def relations
         Presenters::Shared::MediaResource::MediaResourceRelations.new \
           @app_resource, @user, @user_scopes, list_conf: @list_conf
+      end
+
+      def resource_index
+        Presenters::MediaEntries::MediaEntryIndex.new(@app_resource, @user)
       end
 
       # TODO: move meta_data to MediaResourceShow
@@ -78,6 +79,33 @@ module Presenters
         img.url if img.present?
       end
 
+      private
+
+      def tabs_config
+        [
+          {
+            id: 'main',
+            action: nil,
+            title: I18n.t(:media_entry_tab_main)
+          },
+          {
+            id: 'relations',
+            action: 'relations',
+            title: I18n.t(:media_entry_tab_relations)
+          },
+          {
+            id: 'more_data',
+            action: 'more_data',
+            title: I18n.t(:media_entry_tab_more_data)
+          },
+          {
+            id: 'permissions',
+            action: 'permissions',
+            title: I18n.t(:media_entry_tab_permissions),
+            icon_type: :privacy_status_icon
+          }
+        ]
+      end
     end
   end
 end

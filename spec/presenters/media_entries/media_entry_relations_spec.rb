@@ -72,7 +72,7 @@ describe Presenters::MediaEntries::MediaEntryShow do
 
       ########### SIBLINGS ######################################
       # NOTE: for now we are ignoring siblings other then collections
-      if (siblings = @p.sibling_media_resources.resources).present?
+      if (siblings = @p.sibling_collections.resources).present?
         expect(siblings.map(&:class).uniq)
           .to eq [Presenters::Collections::CollectionIndex]
       end
@@ -85,22 +85,22 @@ describe Presenters::MediaEntries::MediaEntryShow do
                                list_conf: {}).relations
 
       ########### PARENTS #######################################
-      expect(@p.parent_media_resources.resources.count)
+      expect(@p.parent_collections.resources.count)
         .to be 3
-      expect(@p.parent_media_resources.resources.map(&:uuid))
+      expect(@p.parent_collections.resources.map(&:uuid))
         .to include @collection_A.id
-      expect(@p.parent_media_resources.resources.map(&:uuid))
+      expect(@p.parent_collections.resources.map(&:uuid))
         .to include @collection_B.id
-      expect(@p.parent_media_resources.resources.map(&:uuid))
+      expect(@p.parent_collections.resources.map(&:uuid))
         .to include @collection_C.id
 
       ########### SIBLINGS ######################################
       # NOTE: for now we are ignoring siblings other then collections
-      expect(@p.sibling_media_resources.resources.count)
+      expect(@p.sibling_collections.resources.count)
         .to be 2
-      expect(@p.parent_media_resources.resources.map(&:uuid))
+      expect(@p.parent_collections.resources.map(&:uuid))
         .to include @collection_B.id
-      expect(@p.parent_media_resources.resources.map(&:uuid))
+      expect(@p.parent_collections.resources.map(&:uuid))
         .to include @collection_C.id
     end
 
@@ -111,13 +111,13 @@ describe Presenters::MediaEntries::MediaEntryShow do
                                list_conf: {}).relations
 
       ########### PARENTS #######################################
-      expect(@p.parent_media_resources.resources.count)
+      expect(@p.parent_collections.resources.count)
         .to be 1
-      expect(@p.parent_media_resources.resources.map(&:uuid))
+      expect(@p.parent_collections.resources.map(&:uuid))
         .to include @collection_B.id
 
       ########### SIBLINGS ######################################
-      expect(@p.sibling_media_resources.resources)
+      expect(@p.sibling_collections.resources)
         .to be_empty
     end
 
@@ -128,13 +128,13 @@ describe Presenters::MediaEntries::MediaEntryShow do
                                list_conf: {}).relations
 
       ########### PARENTS #######################################
-      expect(@p.parent_media_resources.resources.count)
+      expect(@p.parent_collections.resources.count)
         .to be 1
-      expect(@p.parent_media_resources.resources.map(&:uuid))
+      expect(@p.parent_collections.resources.map(&:uuid))
         .to include @collection_C.id
 
       ########### SIBLINGS ######################################
-      expect(@p.sibling_media_resources.resources)
+      expect(@p.sibling_collections.resources)
         .to be_empty
     end
 
@@ -145,11 +145,11 @@ describe Presenters::MediaEntries::MediaEntryShow do
                                list_conf: {}).relations
 
       ########### PARENTS #######################################
-      expect(@p.parent_media_resources.resources)
+      expect(@p.parent_collections.resources)
         .to be_empty
 
       ########### SIBLINGS ######################################
-      expect(@p.sibling_media_resources.resources)
+      expect(@p.sibling_collections.resources)
         .to be_empty
     end
   end

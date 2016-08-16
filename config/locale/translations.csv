@@ -54,6 +54,7 @@ collection_was_disfavored,Das Set wurde von den Favoriten entfernt.,Set was remo
 collection_was_favored,Das Set wurde zu den Favoriten hinzugefügt.,Set was added to favorites.,
 collection_relations_hint_text,"Das ausgewählte Set ist mit anderen Sets verknüpft. Diese Zusammenhänge wurden aktiv festgelegt als übergeordnet, benachbart oder untergeordnet. Sie sehen hier sowohl eigene Sets, als auch solche, die andere Nutzer/innen mit Ihnen teilen.","Das ausgewählte Set ist mit anderen Sets verknüpft. Diese Zusammenhänge wurden aktiv festgelegt als übergeordnet, benachbart oder untergeordnet. Sie sehen hier sowohl eigene Sets, als auch solche, die andere Nutzer/innen mit Ihnen teilen.",
 collection_relations_current_set,Aktuelles Set,Current set,
+collection_relations_current_media_entry,Aktueller Eintrag,Current entry,
 collection_relations_parent_sets,Übergeordnete Sets,Parent sets,
 collection_relations_no_parent_sets,Keine übergeordneten Sets,No parent sets,
 collection_relations_sibling_sets,Benachbarte Sets,Sibling sets,

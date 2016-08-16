@@ -34,7 +34,7 @@ module Presenters
         )
       end
 
-      def collection_index
+      def resource_index
         Presenters::Collections::CollectionIndex.new(@app_resource, @user)
       end
 
@@ -56,6 +56,19 @@ module Presenters
       end
 
       def tabs
+        tabs_config.select do |tab|
+          tab[:action] ? policy(@user).send("#{tab[:action]}?") : true
+        end.reject do |tab|
+          tab[:id] == 'relations' \
+            && relations.child_collections.empty? \
+            && relations.parent_collections.empty? \
+            && relations.sibling_collections.empty?
+        end
+      end
+
+      private
+
+      def tabs_config
         [
           {
             active: false,
@@ -81,11 +94,8 @@ module Presenters
             icon_type: :privacy_status_icon,
             label: I18n.t(:media_entry_tab_permissions),
             href: permissions_collection_path(@app_resource) }
-        ].select do |tab|
-          tab[:action] ? policy(@user).send("#{tab[:action]}?") : true
-        end
+        ]
       end
-
     end
   end
 end

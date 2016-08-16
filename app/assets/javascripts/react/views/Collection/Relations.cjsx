@@ -30,7 +30,7 @@ module.exports = React.createClass
           <div className="ui-resources-header mbn">
             <h2 className="title-l ui-resource-title mtl mll">
               {t('collection_relations_parent_sets')}
-              <span className="ui-counter">{'(' + f.size(get.relations.parent_media_resources.resources) + ')'}</span>
+              <span className="ui-counter">{'(' + f.size(get.relations.parent_collections.resources) + ')'}</span>
               {
                 if false
                   <a className="strong" href="?type=parents">
@@ -41,30 +41,35 @@ module.exports = React.createClass
           </div>
           <ul className="grid horizontal ui-resources">
             {
-              if f.isEmpty(get.relations.parent_media_resources.resources)
+              if f.isEmpty(get.relations.parent_collections.resources)
                 <div className="ui-container ptm pbh">
                   <div className="title-m by-center">{t('collection_relations_no_parent_sets')}</div>
                 </div>
             }
             {
-              f.map(get.relations.parent_media_resources.resources, (resource) ->
+              f.map(get.relations.parent_collections.resources, (resource) ->
                 <ResourceThumbnail key={resource.uuid} authToken={authToken} elm={'li'} get={resource} />
               )
             }
           </ul>
         </div>
       </div>
-      <div className="bright pointing-bottom relationships-this-wrapper relationships-wrapper ui-container">
+      <div className={classnames("bright relationships-this-wrapper relationships-wrapper ui-container", {'pointing-bottom': (get.type == 'Collection')})}>
         <div className="bordered-right bright pointing-right relationships-this ui-container">
           <div className="pointing-top">
             <div className="ui-resources-holder" id="set-relations-self">
               <div className="ui-resources-header mbn">
                 <h2 className="title-l ui-resource-title mtl mll">
-                  {t('collection_relations_current_set')}
+                  {
+                    if get.type == 'Collection'
+                      t('collection_relations_current_set')
+                    else
+                      t('collection_relations_current_media_entry')
+                  }
                 </h2>
               </div>
               <ul className="grid horizontal ui-resources">
-                <ResourceThumbnail authToken={authToken} elm={'li'} get={get.collection_index} />
+                <ResourceThumbnail authToken={authToken} elm={'li'} get={get.resource_index} />
               </ul>
             </div>
           </div>
@@ -74,18 +79,18 @@ module.exports = React.createClass
             <div className="ui-resources-header mbn">
               <h2 className="title-l ui-resource-title mtl mll">
                 {t('collection_relations_sibling_sets')}
-                <span className="ui-counter">{'(' + f.size(get.relations.sibling_media_resources.resources) + ')'}</span>
+                <span className="ui-counter">{'(' + f.size(get.relations.sibling_collections.resources) + ')'}</span>
               </h2>
             </div>
             <ul className="grid horizontal ui-resources">
               {
-                if f.isEmpty(get.relations.sibling_media_resources.resources)
+                if f.isEmpty(get.relations.sibling_collections.resources)
                   <div className="ui-container ptm pbh">
                     <div className="title-m by-center">{t('collection_relations_no_sibling_sets')}</div>
                   </div>
               }
               {
-                f.map(get.relations.sibling_media_resources.resources, (resource) ->
+                f.map(get.relations.sibling_collections.resources, (resource) ->
                   <ResourceThumbnail key={resource.uuid} authToken={authToken} elm={'li'} get={resource} />
                 )
               }
@@ -93,28 +98,32 @@ module.exports = React.createClass
           </div>
         </div>
       </div>
-      <div className="ui-container midtone-darker relationships-wrapper bordered-top">
-        <div className="ui-resources-holder" id="set-relations-children">
-          <div className="ui-resources-header mbn">
-            <h2 className="title-l ui-resource-title mtl mll">
-              {t('collection_relations_child_sets')}
-              <span className="ui-counter">{'(' + f.size(get.relations.child_media_resources.resources) + ')'}</span>
-            </h2>
-          </div>
-          <ul className="grid horizontal ui-resources">
-            {
-              if f.isEmpty(get.relations.child_media_resources.resources)
-                <div className="ui-container ptm pbh">
-                  <div className="title-m by-center">{t('collection_relations_no_child_sets')}</div>
-                </div>
-            }
-            {
-              f.map(get.relations.child_media_resources.resources, (resource) ->
-                <ResourceThumbnail key={resource.uuid} authToken={authToken} elm={'li'} get={resource} />
-              )
-            }
-          </ul>
 
-        </div>
-      </div>
+      {
+        if get.type == 'Collection'
+          <div className="ui-container midtone-darker relationships-wrapper bordered-top">
+            <div className="ui-resources-holder" id="set-relations-children">
+              <div className="ui-resources-header mbn">
+                <h2 className="title-l ui-resource-title mtl mll">
+                  {t('collection_relations_child_sets')}
+                  <span className="ui-counter">{'(' + f.size(get.relations.child_collections.resources) + ')'}</span>
+                </h2>
+              </div>
+              <ul className="grid horizontal ui-resources">
+                {
+                  if f.isEmpty(get.relations.child_collections.resources)
+                    <div className="ui-container ptm pbh">
+                      <div className="title-m by-center">{t('collection_relations_no_child_sets')}</div>
+                    </div>
+                }
+                {
+                  f.map(get.relations.child_collections.resources, (resource) ->
+                    <ResourceThumbnail key={resource.uuid} authToken={authToken} elm={'li'} get={resource} />
+                  )
+                }
+              </ul>
+
+            </div>
+          </div>
+      }
     </div>

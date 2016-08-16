@@ -1,14 +1,5 @@
-- content_for(:overview) do
-  %h3.title-l.separated.mbm
-    = t(:relations_title)
-  - unless @get.relations.any?
-    = t(:no_relations_title)
-  - else
-    %h4.title-m.mbm= t(:relations_parents_title)
-    = react('Deco.MediaResourcesBox',
-      get: @get.relations.parent_media_resources, withBox: false)
-    %h4.title-m.mbm= t(:relations_siblings_title)
-    = react('Deco.MediaResourcesBox',
-      get: @get.relations.sibling_media_resources, withBox: false)
+- content_for(:title_head) { 'Madek | ' + @get.title }
+- content_for(:main) do
+  = react('Views.Collection.Relations', get: @get)
 
-= render template: 'media_entries/_show/_base'
+= render template: 'media_entries/_show/_base_tmp_react'
