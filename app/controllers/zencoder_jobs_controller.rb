@@ -58,9 +58,10 @@ class ZencoderJobsController < ApplicationController
 
   def import_video_thumbnail(thumbnail)
     url = thumbnail['url']
+    suffix = URI(url).path.split('_').last
     thumb_size = thumbnail['width']
     content_type = 'image/' + format_mapping(thumbnail)
-    target_file = "#{media_file.thumbnail_store_location}_#{thumb_size}.jpg"
+    target_file = "#{media_file.thumbnail_store_location}_#{suffix}"
 
     download_file(url, target_file)
     media_file.previews.create!(
