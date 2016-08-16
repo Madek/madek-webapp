@@ -9,3 +9,5 @@ madek_session_validity_duration: 7 days
 
 use_x_sendfile: false
 zhdk_integration: false
+
+mini_profiler_enabled: true

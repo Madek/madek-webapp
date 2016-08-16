@@ -32,8 +32,10 @@ class ApplicationController < ActionController::Base
 
   before_action do
     # enable the mini profiler for admins in production
-    if defined?(Rack::MiniProfiler) && current_user.try(:admin)
-      Rack::MiniProfiler.authorize_request
+    if Settings.mini_profiler_enabled
+      if defined?(Rack::MiniProfiler) && current_user.try(:admin)
+        Rack::MiniProfiler.authorize_request
+      end
     end
 
     # TMP: data for application layout.
