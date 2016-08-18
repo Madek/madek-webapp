@@ -4,12 +4,11 @@
   %head
     %meta{charset: 'utf-8'}
     %title
+      - configured_title = settings.site_title
       - if content_for?(:title_head)
-        = strip_tags(content_for(:title_head))
+        = "#{configured_title} | #{strip_tags(content_for(:title_head))}"
       - else
-        -# TODO: raise this
-        - Rails.logger.warn('View did not give content_for(:title_head)!')
-        = 'Madek'
+        = configured_title
 
     -# 1. init ujs as early as possible (sets class so correct styles are used)
     -# 2. add 'dynamic' config (that can't be bundled)

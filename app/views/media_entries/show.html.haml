@@ -1,4 +1,4 @@
-- content_for(:title_head) { 'Madek | ' + @get.title }
+- content_for(:title_head) { @get.title }
 - content_for(:main) do
   = react('Views.MediaEntryShow', get: @get)
 
