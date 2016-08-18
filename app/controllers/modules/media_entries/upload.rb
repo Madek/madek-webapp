@@ -24,6 +24,7 @@ module Modules
 
         # optional steps, errors are ignored but logged:
         begin
+          hack_add_default_license(media_entry)
           extract_and_store_metadata(media_entry)
           add_to_collection(media_entry, collection_id_param)
         rescue => e
@@ -72,6 +73,17 @@ module Modules
         store_file!(file.tempfile.path, media_file.original_store_location)
         media_file.create_previews! if media_file.previews_internal?
         process_with_zencoder(media_file) if media_file.previews_zencoder?
+      end
+
+      def hack_add_default_license(media_entry)
+        # TEMPORARY FIX so that data is set like in v2 till it is cleaned up
+
+        meta_key = MetaKey.find_by(id: 'copyright:license') \
+          || MetaKey.where(meta_datum_object_type: 'MetaDatum::Licenses').first
+        return unless meta_key.present?
+
+        license = License.where(is_default: true).first
+        create_meta_datum!(media_entry, meta_key.id, license.id)
       end
 
     end
