@@ -78,12 +78,17 @@ module Modules
       def hack_add_default_license(media_entry)
         # TEMPORARY FIX so that data is set like in v2 till it is cleaned up
 
-        meta_key = MetaKey.find_by(id: 'copyright:license') \
+        meta_key_license = MetaKey.find_by(id: 'copyright:license') \
           || MetaKey.where(meta_datum_object_type: 'MetaDatum::Licenses').first
-        return unless meta_key.present?
+        return unless meta_key_license.present?
+        meta_key_usage = MetaKey.find_by(id: 'copyright:copyright_usage')
 
         license = License.where(is_default: true).first
-        create_meta_datum!(media_entry, meta_key.id, license.id)
+
+        create_meta_datum!(media_entry, meta_key_license.id, license.id)
+        if meta_key_usage
+          create_meta_datum!(media_entry, meta_key_usage.id, license.usage)
+        end
       end
 
     end
