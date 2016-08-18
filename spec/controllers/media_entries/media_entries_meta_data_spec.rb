@@ -7,6 +7,10 @@ describe MediaEntriesController do
 
   context 'multiple meta_data update' do
     before :example do
+      @app_setting = AppSetting.first || create(:app_setting)
+      @app_setting.contexts_for_validation = ['upload']
+      @context = create(:context, id: 'upload')
+
       @media_entry = create(:media_entry_with_image_media_file)
       @media_entry.user_permissions << \
         create(:media_entry_user_permission,
@@ -21,10 +25,22 @@ describe MediaEntriesController do
                               id: "#{@vocab.id}:mk_text").id
       @unused_meta_key_text = create(:meta_key_text,
                                      id: "#{@vocab.id}:unused_text").id
+      create(:context_key,
+             meta_key_id: @unused_meta_key_text,
+             context: @context,
+             is_required: true)
       @unused_meta_key_people = create(:meta_key_people,
                                        id: "#{@vocab.id}:unused_people").id
+      create(:context_key,
+             meta_key_id: @unused_meta_key_people,
+             context: @context,
+             is_required: true)
       @unused_meta_key_keywords = create(:meta_key_keywords,
                                          id: "#{@vocab.id}:unused_keywords").id
+      create(:context_key,
+             meta_key_id: @unused_meta_key_keywords,
+             context: @context,
+             is_required: true)
       @media_entry.meta_data << \
         create(:meta_datum_text,
                meta_key_id: @meta_key_text, string: 'original_value')
