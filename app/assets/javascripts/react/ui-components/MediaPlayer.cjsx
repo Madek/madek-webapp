@@ -27,7 +27,7 @@ module.exports = React.createClass
   render: ({type, sources, poster} = @props)->
     MediaTag = type
     <div style={{margin: '0px', padding: '0px'}}>
-      <MediaTag controls ref={@_ref}>
+      <MediaTag controls poster={poster} ref={@_ref}>
         {f.map sources, (vid)->
           <source src={vid.url} type={vid.content_type} key={vid.content_type + vid.url}/>}
       </MediaTag>
