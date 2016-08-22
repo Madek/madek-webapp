@@ -7,14 +7,18 @@ module Presenters
                      user,
                      user_scopes,
                      list_conf: nil,
+                     active_tab: 'show',
                      show_collection_selection: false,
                      search_term: '')
         super(app_resource, user)
         @user_scopes = user_scopes
         @list_conf = list_conf
+        @active_tab = active_tab
         @show_collection_selection = show_collection_selection
         @search_term = search_term
       end
+
+      attr_reader :active_tab
 
       def relations
         @relations ||= Presenters::Collections::CollectionRelations.new(
@@ -71,30 +75,19 @@ module Presenters
       def tabs_config
         [
           {
-            id: 'main',
-            active: false,
-            action: nil,
-            icon_type: nil,
+            id: 'show',
             label: I18n.t(:collection_tab_main),
             href: collection_path(@app_resource) },
           {
             id: 'relations',
-            active: false,
-            action: 'relations',
-            icon_type: nil,
             label: I18n.t(:media_entry_tab_relations),
             href: relations_collection_path(@app_resource) },
           {
             id: 'more_data',
-            active: false,
-            action: 'more_data',
-            icon_type: nil,
             label: I18n.t(:media_entry_tab_more_data),
             href: more_data_collection_path(@app_resource) },
           {
             id: 'permissions',
-            active: false,
-            action: 'permissions',
             icon_type: :privacy_status_icon,
             label: I18n.t(:media_entry_tab_permissions),
             href: permissions_collection_path(@app_resource) }

@@ -22,46 +22,44 @@ MediaEntryHeader = require('./MediaEntryHeader.cjsx')
 module.exports = React.createClass
   displayName: 'CollectionShow'
 
-  getInitialState: () -> {
-    mounted: false
-  }
+  getInitialState: () -> { mounted: false }
+  componentDidMount: () -> @setState(mounted: true)
 
-
-  componentDidMount: () ->
-    @setState(mounted: true)
-
-  render: ({authToken, get, activeTab} = @props) ->
+  render: ({authToken, get} = @props) ->
     <PageContent>
       <MediaEntryHeader authToken={authToken} get={get.header} showModal={@props.showModal}
         async={@state.mounted} modalAction={'select_collection'}/>
 
       <Tabs>
-        {f.map get.tabs, (tab, index) ->
-          <Tab privacyStatus={get.privacy_status} key={tab.href} iconType={tab.icon_type} href={tab.href}
-            label={tab.label} active={index == activeTab} />
+        {f.map get.tabs, (tab) ->
+          <Tab href={tab.href} key={tab.href}
+            iconType={tab.icon_type} privacyStatus={get.privacy_status}
+            label={tab.label} active={tab.id == get.active_tab} />
         }
       </Tabs>
+        {switch get.active_tab
 
-        {if activeTab == 0
-          <TabContent>
-            <CollectionDetailOverview get={get} authToken={authToken} />
-            <HighlightedContents get={get} authToken={authToken} />
-            <CollectionDetailAdditional get={get} authToken={authToken} />
-          </TabContent>
-        }
-        {if activeTab == 1
-          <CollectionRelations get={get} authToken={authToken} />
-        }
-        {if activeTab == 2
-          <TabContent>
-            <CollectionMetadata get={get} authToken={authToken} />
-          </TabContent>
-        }
-        {if activeTab == 3
-          <TabContent>
-            <div className="bright pal rounded-bottom rounded-top-right ui-container">
-              <RightsManagement get={get.permissions} />
-            </div>
-          </TabContent>
-        }
+          when 'relations'
+            <CollectionRelations get={get} authToken={authToken} />
+
+          when 'more_data'
+            <TabContent>
+              <CollectionMetadata get={get} authToken={authToken} />
+            </TabContent>
+
+          when 'permissions'
+            <TabContent>
+              <div className="bright pal rounded-bottom rounded-top-right ui-container">
+                <RightsManagement get={get.permissions} />
+              </div>
+            </TabContent>
+
+          # main tab:
+          else
+            <TabContent>
+              <CollectionDetailOverview get={get} authToken={authToken} />
+              <HighlightedContents get={get} authToken={authToken} />
+              <CollectionDetailAdditional get={get} authToken={authToken} />
+            </TabContent>
+          }
     </PageContent>

@@ -21,26 +21,6 @@ class CollectionsController < ApplicationController
       list_conf: resource_list_params))
   end
 
-  def relations
-    show
-  end
-
-  def more_data
-    show
-  end
-
-  def permissions_show
-    show
-  end
-
-  def permissions_edit
-    show
-  end
-
-  # # tabs that work like 'show':
-  # [:relations, :more_data, :permissions_show, :permissions_edit]
-  #   .each { |action| alias_method action, :show }
-
   # this overwrites the concern method
   def show
     collection = get_authorized_resource
@@ -49,9 +29,14 @@ class CollectionsController < ApplicationController
         collection,
         current_user,
         user_scopes_for_collection(collection),
+        active_tab: action_name,
         list_conf: resource_list_params
     respond_with @get
   end
+
+  # actions/tabs that work like 'show':
+  [:relations, :more_data, :permissions, :permissions_edit]
+    .each { |action| alias_method action, :show }
 
   def destroy
     collection = Collection.find(params[:id])
