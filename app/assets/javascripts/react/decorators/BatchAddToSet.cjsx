@@ -31,6 +31,7 @@ module.exports = React.createClass
     results: []
   }
 
+  # TODO Potential problem (class variables).
   lastRequest: null
   sendTimeoutRef: null
 

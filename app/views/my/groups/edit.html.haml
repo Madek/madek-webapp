@@ -14,21 +14,4 @@
 
 - content_for(:page_content) do
   .ui-container.mam.pam.bright.bordered.rounded-bottom.rounded-right
-
-    = form_for :group, method: :put, url: @get.url do |g_form|
-      .form-body
-        .ui-form-group.rowed
-          = g_form.label :name, class: 'form-label'
-          = g_form.text_field :name, value: @get.name, class: 'form-item'
-
-        .ui-form-group.rowed
-          = deco('workgroup_members_table', data: @get.members, props: { member_field_name: member_field_name })
-
-        .ui-form-group.rowed
-          = label_tag member_field_name, class: 'form-label' do
-            = t(:group_edit_form_new_member_login_label)
-            %small= t(:group_edit_form_new_member_login_hint)
-          = text_field_tag member_field_name, '', class: 'form-item'
-
-      .form-footer
-        = g_form.submit t(:group_edit_form_save_btn, raise: false), class: 'primary-button'
+    = react('Views.GroupSearch', { get: @get })

@@ -3,11 +3,12 @@ ReactDOM = require('react-dom')
 t = require('../../lib/string-translation')('de')
 FormButton = require('./FormButton.cjsx')
 Modal = require('./Modal.cjsx')
+Preloader = require('./Preloader.cjsx')
 
 module.exports = React.createClass
   displayName: 'AskModal'
 
-  render: ({title, onOk, onCancel, okText, cancelText} = @props) ->
+  render: ({title, error, onOk, onCancel, okText, cancelText, loading} = @props) ->
 
     <Modal widthInPixel='400'>
 
@@ -22,7 +23,22 @@ module.exports = React.createClass
       </div>
 
       <div className='ui-modal-body' style={{maxHeight: 'none'}}>
-        {@props.children}
+        {
+          if loading
+            <Preloader />
+        }
+        {
+          if error and not loading
+            <div className="ui-alerts">
+              <div className="error ui-alert">
+                {error}
+              </div>
+            </div>
+        }
+        {
+          if not loading
+            @props.children
+        }
       </div>
 
       <div className="ui-modal-footer">

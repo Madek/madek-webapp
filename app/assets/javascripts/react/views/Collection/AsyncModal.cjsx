@@ -30,6 +30,7 @@ module.exports = React.createClass
     children: null
   }
 
+  # TODO Potential problem (class variables).
   lastRequest: null
 
   componentWillMount: () ->

@@ -58,8 +58,9 @@ describe My::GroupsController do
     let(:member_params) do
       {
         group: {
-          user: {
-            login: [user.login, new_member.login]
+          users: {
+            user.id => 'true',
+            new_member.id => 'true'
           }
         }
       }
@@ -99,8 +100,8 @@ describe My::GroupsController do
     let(:member_params) do
       {
         group: {
-          user: {
-            login: [user.login]
+          users: {
+            user.id => 'true'
           }
         }
       }

@@ -2,43 +2,34 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
-feature 'Resource: Group; in User Dashboard ("My Groups")' do
+require_relative '../shared/basic_data_helper_spec'
+include BasicDataHelper
 
-  let(:user) { User.find_by(login: 'normin') }
-  let(:new_member) { create(:user) }
-  let(:group) { create(:group) }
-  background do
-    sign_in_as user.login
-    group.users << user
-  end
+feature 'Resource: Group; in User Dashboard ("My Groups")' do
 
   describe 'Action: show' do
     scenario 'Showing a group, has correct name' do
-      visit my_groups_path
-
-      within "[data-id='#{group.id}']" do
-        click_link group.name
-      end
-
-      expect(current_path).to eq my_group_path(group)
+      prepare_data
+      login
+      visit_groups
+      click_group_name
+      check_group_path
 
       within '.ui-body-title' do
-        expect(page).to have_content group.name
+        expect(page).to have_content @group.name
       end
     end
   end
 
   describe 'Action: create' do
-
     scenario 'Creating a new group by name' do
-      visit my_groups_path
+      prepare_data
+      login
+      visit_groups
+      click_new_group
+      check_new_group_path
 
-      click_on 'Neue Arbeitsgruppe'
-
-      expect(current_path).to eq new_my_group_path
-
-      fill_in 'Name', with: 'NEW_GROUP'
-      submit_form
+      fill_in_and_submit_new_group 'NEW_GROUP'
 
       within '.ui-workgroups' do
         expect(page).to have_content 'NEW_GROUP'
@@ -46,16 +37,16 @@ feature 'Resource: Group; in User Dashboard ("My Groups")' do
     end
 
     scenario 'Creating a group with existing name fails with error message' do
+      prepare_data
+      login
+
       create :group, name: 'NEW_GROUP'
 
-      visit my_groups_path
+      visit_groups
+      click_new_group
+      check_new_group_path
 
-      click_on 'Neue Arbeitsgruppe'
-
-      expect(current_path).to eq new_my_group_path
-
-      fill_in 'Name', with: 'NEW_GROUP'
-      submit_form
+      fill_in_and_submit_new_group 'NEW_GROUP'
 
       expect(page).to \
         have_content('Überprüfung fehlgeschlagen: Name ist bereits vergeben')
@@ -64,97 +55,149 @@ feature 'Resource: Group; in User Dashboard ("My Groups")' do
   end
 
   describe 'Action: update' do
-
     scenario 'Setting a new name' do
-      visit my_groups_path
+      prepare_data
+      login
+      visit_groups
 
-      within "[data-id='#{group.id}']" do
-        click_link I18n.t(:group_edit_btn)
-      end
+      click_edit_button
 
-      fill_in 'Name', with: 'NEW NAME'
+      set_name_in_form('NEW NAME')
       submit_form
 
       within '.ui-workgroups' do
-        expect(page).not_to have_content group.name
+        expect(page).not_to have_content @group.name
         expect(page).to have_content 'NEW NAME'
       end
     end
 
     scenario 'Adding a member' do
+      prepare_data
+      login
       visit my_groups_path
+      click_edit_button
 
-      within "[data-id='#{group.id}']" do
-        click_link I18n.t(:group_edit_btn)
-      end
-
-      fill_in member_field_name, with: new_member.login
+      add_user_in_form(@new_member)
       submit_form
 
-      expect(current_path).to eq my_groups_path
+      check_groups_path
 
-      within "[data-id='#{group.id}']" do
-        click_link I18n.t(:group_edit_btn)
-      end
+      click_edit_button
 
-      within '.ui-workgroup-members' do
-        expect(page).to have_content new_member.login
+      within '.ui-rights-group' do
+        expect(page).to have_content @new_member.login
       end
     end
 
     scenario 'Removing a member' do
-      group.users << new_member
+      prepare_data
+      login
 
-      visit my_groups_path
+      @group.users << @new_member
 
-      within "[data-id='#{group.id}']" do
-        click_link I18n.t(:group_edit_btn)
+      visit_groups
+
+      click_edit_button
+
+      within '.ui-rights-group' do
+        expect(page).to have_content @new_member.login
       end
 
-      within '.ui-workgroup-members' do
-        expect(page).to have_content new_member.login
-      end
-
-      within "tr[data-id='#{new_member.id}']" do
-        uncheck member_field_name
-      end
+      remove_user_in_form(@new_member)
       submit_form
 
-      expect(current_path).to eq my_groups_path
+      check_groups_path
 
-      within "[data-id='#{group.id}']" do
-        click_link I18n.t(:group_edit_btn)
-      end
+      click_edit_button
 
-      within '.ui-workgroup-members' do
-        expect(page).not_to have_content new_member.login
+      within '.ui-rights-group' do
+        expect(page).not_to have_content @new_member.login
       end
     end
 
   end
 
   describe 'Action: delete' do
-
     scenario 'Deleting a group, with confirmation' do
-      visit my_groups_path
+      prepare_data
+      login
 
-      within "[data-id='#{group.id}'] .ui-workgroup-actions" do
+      visit_groups
+
+      within "[data-id='#{@group.id}'] .ui-workgroup-actions" do
         find('button[data-confirm]').click
       end
 
-      expect(current_path).to eq my_groups_path
+      check_groups_path
 
-      within '.ui-workgroups' do
-        expect(page).not_to have_content group.name
-      end
+      expect(page).not_to have_content @group.name
     end
 
     pending 'Deleting a group fails if user is not last remaining member'
-
   end
+end
 
+private
+
+def prepare_data
+  prepare_user
+  @new_member = create(:user)
+  @group = create(:group)
+  @group.users << @user
 end
 
 def member_field_name
   'group[user][login][]'
+end
+
+def check_group_path
+  expect(current_path).to eq my_group_path(@group)
+end
+
+def check_groups_path
+  expect(current_path).to eq my_groups_path
+end
+
+def check_new_group_path
+  expect(current_path).to eq new_my_group_path
+end
+
+def visit_groups
+  visit my_groups_path
+end
+
+def click_group_name
+  within "[data-id='#{@group.id}']" do
+    click_link @group.name
+  end
+end
+
+def click_new_group
+  click_on 'Neue Arbeitsgruppe'
+end
+
+def click_edit_button
+  within "[data-id='#{@group.id}']" do
+    click_link I18n.t(:group_edit_btn)
+  end
+end
+
+def fill_in_and_submit_new_group(group_name)
+  fill_in 'Name', with: group_name
+  submit_form
+end
+
+def set_name_in_form(name)
+  find('form')
+    .find('.ui-form-group', text: 'Name')
+    .find('input.form-item')
+    .set(name)
+end
+
+def add_user_in_form(user)
+  autocomplete_and_choose_first(find('.ui-add-subject'), user.login)
+end
+
+def remove_user_in_form(user)
+  find('tr', text: user.login).find('.ui-rights-remove').click
 end

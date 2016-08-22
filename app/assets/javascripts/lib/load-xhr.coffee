@@ -9,6 +9,7 @@ module.exports = (config, callback) ->
       headers: {
         'Accept': 'application/json'
         'Content-type': 'application/x-www-form-urlencoded'
+        'X-CSRF-Token': getRailsCSRFToken()
       }
     },
     (err, res, body) ->
@@ -18,10 +19,17 @@ module.exports = (config, callback) ->
         fields: {}
       }
       if err
-        console.error('Connection problem.', error)
+        console.error('Connection problem.', err)
         errors.headers.push('Connection problem.')
         callback('failure', errors)
         return
+
+      if res.statusCode > 400
+        console.error('System error.', res.statusCode)
+        errors.headers.push('System error: ' + res.statusCode)
+        callback('failure', errors)
+        return
+
 
       try
         data = JSON.parse(body)

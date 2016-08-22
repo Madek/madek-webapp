@@ -36,7 +36,6 @@ def autocomplete_and_choose_first(node, text)
     throw 'Autocomplete is only supported in Selenium!'
   end
   # NOTE: mouse interaction does not work/is brittle and is manually tested!
-
   ac = node.find('.ui-autocomplete-holder')
   input = node.find('.ui-autocomplete-holder input') # needs full selector!
   input.hover

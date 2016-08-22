@@ -47,7 +47,17 @@ class My::GroupsController < MyController
     authorize group
     group.destroy!
 
-    respond_with group, location: -> { my_groups_url }
+    respond_to do |format|
+      format.json do
+        flash[:success] = I18n.t(:group_was_deleted)
+        render(json: {})
+      end
+      format.html do
+        redirect_to(
+          my_groups_path,
+          flash: { success: I18n.t(:group_was_deleted) })
+      end
+    end
   end
 
   private
@@ -63,13 +73,15 @@ class My::GroupsController < MyController
   end
 
   def member_params
-    params.require(:group).permit(user: [login: []])
+    params.require(:group)[:users]
   end
 
   def update_members!(group)
     group.users = []
-    member_params[:user][:login].each do |login|
-      group.users << User.find_by!(login: login) if login.present?
+    member_params.each do |user_id, selected|
+      if selected == 'true'
+        group.users << User.find(user_id) if user_id.present?
+      end
     end
   end
 
