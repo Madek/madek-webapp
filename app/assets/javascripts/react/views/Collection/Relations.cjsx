@@ -48,7 +48,8 @@ module.exports = React.createClass
             }
             {
               f.map(get.relations.parent_collections.resources, (resource) ->
-                <ResourceThumbnail key={resource.uuid} authToken={authToken} elm={'li'} get={resource} />
+                <ResourceThumbnail key={resource.uuid} authToken={authToken} elm={'li'} get={resource}
+                  style={{verticalAlign: 'top'}} />
               )
             }
           </ul>
@@ -69,7 +70,8 @@ module.exports = React.createClass
                 </h2>
               </div>
               <ul className="grid horizontal ui-resources">
-                <ResourceThumbnail authToken={authToken} elm={'li'} get={get.resource_index} />
+                <ResourceThumbnail authToken={authToken} elm={'li'} get={get.resource_index}
+                  style={{verticalAlign: 'top'}} />
               </ul>
             </div>
           </div>
@@ -91,7 +93,8 @@ module.exports = React.createClass
               }
               {
                 f.map(get.relations.sibling_collections.resources, (resource) ->
-                  <ResourceThumbnail key={resource.uuid} authToken={authToken} elm={'li'} get={resource} />
+                  <ResourceThumbnail key={resource.uuid} authToken={authToken} elm={'li'} get={resource}
+                    style={{verticalAlign: 'top'}} />
                 )
               }
             </ul>
