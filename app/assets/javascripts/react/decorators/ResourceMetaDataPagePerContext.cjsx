@@ -282,7 +282,10 @@ module.exports = React.createClass
     if @props.batch
       title = t('meta_data_batch_title_pre') + get.batch_entries.length + t('meta_data_batch_title_post')
     else
-      title = t('media_entry_meta_data_header_prefix') + get.title
+      if get.type == 'Collection'
+        title = t('collection_meta_data_header_prefix') + get.title
+      else
+        title = t('media_entry_meta_data_header_prefix') + get.title
 
     editByVocabTitle = t('media_entry_meta_data_edit_by_vocab_btn')
     editByVocabUrl = unless @props.batch

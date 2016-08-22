@@ -124,6 +124,7 @@ media_entry_media_import_notes_msg,"Bilder (TIFF, JPEG, PNG) sowie Audio- und Vi
 media_entry_media_import_notes_title,Hinweise,Hints,
 media_entry_media_import_title,"Bilder, Videos, Audio-Dateien oder Dokumente bereitstellen.","Add pictures, videos, audio file, or other documents.",
 media_entry_meta_data_header_prefix,Medieneintrag editieren: ,Edit Media Entry:,
+collection_meta_data_header_prefix,Set editieren: ,Edit Set:,
 media_entry_more_data_title,Verantwortlichkeit und Aktivität,Responsibility,
 media_entry_not_published_warning_msg,Diesem Medieneintrag fehlen noch Pflichtangaben!,Media entry still needs mandatory data!,
 media_entry_select_collection_flash_result,Der Medieneintrag wurde aus %{removed_count} Set(s) entfernt und zu %{added_count} Set(s) hinzugefügt.,Removed media entry from %{removed_count} set(s). Added media entry to %{added_count} set(s).,TODO_cleanup_interpolation
