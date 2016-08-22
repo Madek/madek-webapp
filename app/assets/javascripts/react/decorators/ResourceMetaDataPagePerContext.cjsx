@@ -265,9 +265,17 @@ module.exports = React.createClass
     return false
 
 
-
-
   render: ({get, authToken} = @props) ->
+
+    if get.meta_meta_data.meta_data_edit_context_ids.length == 0
+      # First make sure that you do not get a system error page when you have no context configured.
+      return (
+        <div className="ui-alerts">
+          <div className="ui-alert warning">
+            There are no contexts defined. Please configure them in the admin tool.
+          </div>
+        </div>
+      )
 
     currentContextId = @state.currentContextId
 

@@ -39,15 +39,6 @@ module Presenters
         end
       end
 
-      def configured_contexts
-        # see VocabularyConfig
-        case @resource_class.name
-        when 'MediaEntry' then _contexts_for_entry_edit
-        when 'Collection' then _contexts_for_collection_edit
-        else fail 'Invalid resource_class!'
-        end
-      end
-
       def meta_data_edit_context_ids
         configured_contexts.map &:id
       end
@@ -129,6 +120,15 @@ module Presenters
               .joins(:vocabulary)
               .where(vocabularies: { id: usable_vocabularies_for_user.map(&:id) })
           end
+      end
+
+      def configured_contexts
+        # see VocabularyConfig
+        case @resource_class.name
+        when 'MediaEntry' then _contexts_for_entry_edit
+        when 'Collection' then _contexts_for_collection_edit
+        else fail 'Invalid resource_class!'
+        end
       end
     end
   end
