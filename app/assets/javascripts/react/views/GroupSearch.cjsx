@@ -182,11 +182,15 @@ module.exports = React.createClass
           }
         </div>
 
-        <div className="ui-form-group rowed">
-          {t('group_edit_at_least_one_member_pre')}
-          <a onClick={@_onDelete}>{t('group_edit_at_least_one_member_delete')}</a>
-          {t('group_edit_at_least_one_member_post')}
-        </div>
+        {
+          if false
+            # Delete link with confirm modal. Not used anymore, but I am sure it will come back one day.
+            <div className="ui-form-group rowed">
+              {t('group_edit_at_least_one_member_pre')}
+              <a onClick={@_onDelete}>{t('group_edit_at_least_one_member_delete')}</a>
+              {t('group_edit_at_least_one_member_post')}
+            </div>
+        }
 
         {
           if !f.includes(@state.data.userIdList, get.current_user_id)
