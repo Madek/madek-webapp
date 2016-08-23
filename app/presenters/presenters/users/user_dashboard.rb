@@ -5,7 +5,8 @@ module Presenters
             user, user_scopes,
             dashboard_header,
             list_conf: nil,
-            with_count: true
+            with_count: true,
+            action: nil
       )
         fail 'TypeError!' unless user.is_a?(User)
         @user = user
@@ -14,6 +15,7 @@ module Presenters
         @dashboard_header = dashboard_header
         # FIXME: remove this config when Dashboard is built in Presenter…
         @with_count = with_count
+        @action = action
       end
 
       attr_reader :dashboard_header
@@ -80,9 +82,9 @@ module Presenters
       end
 
       def used_keywords
-        # TODO: fix the need to use local per_page for keywords dashboard section
-        per_page = (@config[:per_page] == 1 ? 200 : @config[:per_page])
-        @user_scopes[:used_keywords].page(@config[:page]).per(per_page).map \
+        is_section_view = (@action && @action == 'dashboard_section')
+        per_page = (is_section_view ? 200 : 24)
+        @user_scopes[:used_keywords].page(1).per(per_page).map \
           { |k| Presenters::Keywords::KeywordIndexWithUsageCount.new(k) }
       end
 

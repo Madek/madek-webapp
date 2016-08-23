@@ -145,14 +145,20 @@ class MyController < ApplicationController
                                            user_scopes_for_dashboard(current_user),
                                            nil,
                                            with_count: false,
-                                           list_conf: { page: 1, per_page: 1 }))
+                                           list_conf: { page: 1, per_page: 1 },
+                                           action: params[:action]))
 
-    @get = Presenters::Users::UserDashboard.new(
+    @get = get_for_init_for_view
+  end
+
+  def get_for_init_for_view
+    Presenters::Users::UserDashboard.new(
       current_user,
       user_scopes_for_dashboard(current_user),
       Presenters::Users::DashboardHeader.new(nil),
       with_count: (params[:action] != 'dashboard'),
-      list_conf: { order: 'created_at DESC' }.merge(list_config))
+      list_conf: { order: 'created_at DESC' }.merge(list_config),
+      action: params[:action])
   end
 
   def order_sections_according_to_counts(sections, presenter)

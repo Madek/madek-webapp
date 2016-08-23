@@ -17,7 +17,11 @@ class My::DashboardController < MyController
         user_scopes_for_dashboard(current_user),
         Presenters::Users::DashboardHeader.new(nil),
         list_conf: resource_list_params(
-          params, current_section[:allowed_filter_params])))
+          params, current_section[:allowed_filter_params]
+        ),
+        action: params[:action]
+      )
+    )
   end
 end
 

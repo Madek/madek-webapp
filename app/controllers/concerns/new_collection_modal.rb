@@ -11,7 +11,8 @@ module Concerns
         Presenters::Users::DashboardHeader.new(
           Presenters::Collections::CollectionNew.new(error)
         ),
-        list_conf: resource_list_params)
+        list_conf: resource_list_params,
+        action: params[:action])
 
       flash.clear
       respond_with @get, template: 'my/new_collection'
