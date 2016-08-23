@@ -29,7 +29,6 @@ class CollectionsController < ApplicationController
         collection,
         current_user,
         user_scopes_for_collection(collection),
-        active_tab: action_name,
         list_conf: resource_list_params
     respond_with @get
   end

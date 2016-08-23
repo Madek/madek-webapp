@@ -50,8 +50,9 @@ module UiHelper
     end
     # NOTE: all of the queries happen here:
     props = props.merge(get: presenter.dump) if presenter
-    # inject auth token for all "top-level" components (aka Views)
-    props = props.merge(authToken: form_authenticity_token)
+    # inject route + auth token for all "top-level" components (aka Views)
+    props = props.merge(
+      authToken: form_authenticity_token, for_url: request.original_fullpath)
     react_component("UI.#{name}", props, opts)
   end
 

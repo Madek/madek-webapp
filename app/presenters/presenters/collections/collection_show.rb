@@ -7,18 +7,14 @@ module Presenters
                      user,
                      user_scopes,
                      list_conf: nil,
-                     active_tab: 'show',
                      show_collection_selection: false,
                      search_term: '')
         super(app_resource, user)
         @user_scopes = user_scopes
         @list_conf = list_conf
-        @active_tab = active_tab
         @show_collection_selection = show_collection_selection
         @search_term = search_term
       end
-
-      attr_reader :active_tab
 
       def relations
         @relations ||= Presenters::Collections::CollectionRelations.new(
@@ -61,7 +57,7 @@ module Presenters
 
       def tabs
         tabs_config.select do |tab|
-          tab[:action] ? policy(@user).send("#{tab[:action]}?") : true
+          policy(@user).send("#{tab[:id]}?")
         end.reject do |tab|
           tab[:id] == 'relations' \
             && relations.child_collections.empty? \
@@ -73,6 +69,7 @@ module Presenters
       private
 
       def tabs_config
+        # NOTE: tab id = action name = route pathname
         [
           {
             id: 'show',

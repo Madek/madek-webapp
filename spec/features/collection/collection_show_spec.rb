@@ -36,18 +36,28 @@ feature 'Resource: Collections' do
       expect(page).to have_content "Titel #{@collection.title}"
     end
 
-    scenario 'Tab: Relations' do
-      prepare_data
-      @parent = create_collection('Parent Collection')
-      @sibling = create_collection('Sibling Collection')
-      @collection.parent_collections << @parent
-      @sibling.parent_collections << @parent
-      open_collection
-      click_on_tab I18n.t(:media_entry_tab_relations)
-      expect(page).to have_content I18n.t(:relations_parents_title)
-      expect(page).to have_content I18n.t(:relations_siblings_title)
-      expect(page).to have_content @parent.title
-      expect(page).to have_content @sibling.title
+    context 'Tab: Relations' do
+      example 'is not show when there are no relations' do
+        prepare_data
+        open_collection
+        tabs = find('.app-body .ui-tabs.large')
+        expect(tabs).to have_content I18n.t(:media_entry_tab_more_data)
+        expect(tabs).to_not have_content I18n.t(:media_entry_tab_relations)
+      end
+
+      example 'is show when there are relations' do
+        prepare_data
+        @parent = create_collection('Parent Collection')
+        @sibling = create_collection('Sibling Collection')
+        @collection.parent_collections << @parent
+        @sibling.parent_collections << @parent
+        open_collection
+        click_on_tab I18n.t(:media_entry_tab_relations)
+        expect(page).to have_content I18n.t(:relations_parents_title)
+        expect(page).to have_content I18n.t(:relations_siblings_title)
+        expect(page).to have_content @parent.title
+        expect(page).to have_content @sibling.title
+      end
     end
 
     scenario 'Tab: All Data' do
@@ -56,18 +66,28 @@ feature 'Resource: Collections' do
       expect(find('.meta-data-summary')).to have_content @collection.title
     end
 
-    scenario 'Tab: Permissions' do
-      prepare_and_open_collection
-      click_on_tab I18n.t(:media_entry_tab_permissions)
-      find('.primary-button', text: 'Bearbeiten').click
+    context 'Tab: Permissions' do
+      example 'shows permissions' do
+        prepare_and_open_collection
+        click_on_tab I18n.t(:media_entry_tab_permissions)
+        find('.primary-button', text: 'Bearbeiten').click
 
-      person_row = subject_row(find_form, I18n.t(:permission_subject_title_users))
-      autocomplete_and_choose_first(person_row, @user.login)
-      find('.primary-button', text: 'Speichern').click
+        person_row = subject_row find_form, I18n.t(:permission_subject_title_users)
+        autocomplete_and_choose_first(person_row, @user.login)
+        find('.primary-button', text: 'Speichern').click
 
-      person_row = subject_row(find_form, I18n.t(:permission_subject_title_users))
-      expect(person_row).to have_content(
-        @user.person.first_name + ' ' + @user.person.last_name)
+        person_row = subject_row find_form, I18n.t(:permission_subject_title_users)
+        expect(person_row).to have_content(
+          @user.person.first_name + ' ' + @user.person.last_name)
+      end
+
+      example 'is not shown when not logged in' do
+        prepare_data
+        visit collection_path(@collection)
+        tabs = find('.app-body .ui-tabs.large')
+        expect(tabs).to have_content I18n.t(:media_entry_tab_more_data)
+        expect(tabs).to_not have_content I18n.t(:media_entry_tab_permissions)
+      end
     end
 
     it 'Favorite-Button not visible in Toolbar when not logged in' do
