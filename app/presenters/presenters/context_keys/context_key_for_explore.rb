@@ -19,6 +19,10 @@ module Presenters
         prepend_url_context "/explore/catalog/#{@app_resource.id}"
       end
 
+      def description
+        @app_resource.description
+      end
+
       def image_url
         keyword = \
           Keyword

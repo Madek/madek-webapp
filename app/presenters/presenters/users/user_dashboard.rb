@@ -19,6 +19,7 @@ module Presenters
       end
 
       attr_reader :dashboard_header
+      attr_reader :action
 
       def unpublished_entries
         presenterify @user_scopes[:unpublished_media_entries]
@@ -99,9 +100,28 @@ module Presenters
           with_count: @with_count)
       end
 
-      def select_groups(type)
+      def unpaged_groups(type)
         @user_scopes[:user_groups]
-          .where(type: type).page(@config[:page]).per(@config[:per_page])
+          .where(type: type)
+          .order(
+            (type == :InstitutionalGroup) ? :institutional_group_name : :name
+          )
+      end
+
+      def select_groups(type)
+        is_section_view = (@action && @action == 'dashboard_section')
+        if is_section_view
+          unpaged_groups(type)
+        else
+          unpaged_groups(type)
+            .page(@config[:page])
+            .per(@config[:per_page])
+        end
+        # @user_scopes[:user_groups]
+        #   .where(type: type)
+        #   .order(
+        #     (type == :InstitutionalGroup) ? :institutional_group_name : :name
+        #   )
       end
 
     end

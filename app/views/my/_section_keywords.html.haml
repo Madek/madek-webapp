@@ -3,8 +3,11 @@
     { text: keyword.label, link: keyword.url, count: keyword.usage_count }
   end
 
-.ui-container.pbh{ :style => "padding-top: 15px;" }
-  - if keywords.empty?
-    = t(:no_keywords_fallback)
-  - else
-    = combo('tag-cloud.label', list: keywords)
+- keywords_content = if keywords.empty? then t(:no_keywords_fallback) else combo('tag-cloud.label', list: keywords) end
+
+- if get.action == 'dashboard_section'
+  .ui-container.pal
+    = keywords_content
+- else
+  .ui-container.pbh{ :style => "padding-top: 15px;" }
+    = keywords_content

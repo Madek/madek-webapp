@@ -16,7 +16,8 @@ module.exports = React.createClass
     sectionsElements =
       f.map get.sections, (section, m) ->
         <ResourcesSection key={'section_' + m} label={section.data.title} id={section.id}
-          hrefUrl={section.data.url} showAllLink={section.show_all_link} section={section} />
+          hrefUrl={section.data.url} showAllLink={section.show_all_link} section={section}
+          showThumbDesc={true} />
 
     <div>
       <div className="ui-collage crooked ui-container overlaid" id="teaser-set">

@@ -193,6 +193,7 @@ describe My::DashboardController do
         :entrusted_media_entries, :entrusted_collections, :entrusted_filter_sets,
         :groups,
         :used_keywords,
+        :action,
         :_presenter].sort
   end
 
