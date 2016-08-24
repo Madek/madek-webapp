@@ -4,8 +4,8 @@
     internal: t(:internal_groups),
     external: t(:external_groups)
   }.map do |type, label|
-    groups = get.groups.send(type).map {|get| { text: 'abc', href: get.url } }
-    [type, { label: 'abc', list: groups }]
+    groups = get.groups.send(type).map {|get| { text: get.name, href: get.url } }
+    [type, { label: label, list: groups }]
   end.to_h
 
 .ui-container.pbl
