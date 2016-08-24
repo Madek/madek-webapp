@@ -51,7 +51,7 @@ module Presenters
           .where(media_entries: \
                    { id: MediaEntry.viewable_by_user_or_public(@user) })
           .where(meta_data: { meta_key: meta_key })
-          .limit(10)
+          .limit(24)
       end
     end
   end
