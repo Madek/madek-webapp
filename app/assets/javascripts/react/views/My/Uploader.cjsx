@@ -72,6 +72,8 @@ module.exports = React.createClass
       resources: props.appCollection,
       with_actions: true
 
+    show_hover = false # at the moment we never show any actions heres
+
     # spacer div so that the empty box has same height as with first thumbnails
     spacerDiv = <div style={height: '250px'}/>
 
@@ -81,7 +83,7 @@ module.exports = React.createClass
           ref='polybox'
           className='ui-uploader-uploads'
           mods='rounded mvl'
-          listMods={['show_permissions', {active: !state.uploading}]}
+          listMods={['show_permissions', {active: show_hover}]}
           authToken={props.authToken}
           fetchRelations={false}
           withBox={true}
