@@ -5,9 +5,9 @@ setUrlParams = require('../../lib/set-params-for-url.coffee')
 
 Button = require('../ui-components/Button.cjsx')
 Icon = require('../ui-components/Icon.cjsx')
-Thumbnail = require('../ui-components/Thumbnail.cjsx')
+ResourceIcon = require('../ui-components/ResourceIcon.cjsx')
+Picture = require('../ui-components/Picture.cjsx')
 BatchHintBox = require('./BatchHintBox.cjsx')
-ResourceThumbnail = require('./ResourceThumbnail.cjsx')
 ResourcesBatchBox = require('./ResourcesBatchBox.cjsx')
 PageContent = require('../views/PageContent.cjsx')
 PageContentHeader = require('../views/PageContentHeader.cjsx')
@@ -387,6 +387,15 @@ module.exports = React.createClass
               unless @props.batch
 
 
+                src = get.resource_index.image_url
+                alt = ''
+                image = if src
+                  <Picture mods='ui-thumbnail-image' src={src} alt={alt} />
+                else
+                  <ResourceIcon mediaType={get.resource_index.media_type} thumbnail={true} type={get.type} />
+
+
+
                 <div className="app-body-sidebar table-cell ui-container table-side">
                   <ul className="ui-resources grid">
                     <li className="ui-resource mrl">
@@ -402,7 +411,7 @@ module.exports = React.createClass
                               <div className="ui-thumbnail-table-image-holder">
                                 <div className="ui-thumbnail-cell-image-holder">
                                   <div className="ui-thumbnail-inner-image-holder">
-                                    <img className="ui-thumbnail-image" src={get.resource_index.image_url}></img>
+                                    {image}
                                   </div>
                                 </div>
                               </div>

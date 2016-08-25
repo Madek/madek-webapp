@@ -7,6 +7,7 @@ cx = require('classnames')
 Link = require('../ui-components/Link.cjsx')
 Icon = require('../ui-components/Icon.cjsx')
 Picture = require('../ui-components/Picture.cjsx')
+ResourceIcon = require('../ui-components/ResourceIcon.cjsx')
 MediaPlayer = require('../ui-components/MediaPlayer.cjsx')
 
 module.exports = React.createClass({
@@ -14,7 +15,7 @@ module.exports = React.createClass({
   propTypes: {
     get: PropTypes.shape({
       title: PropTypes.string.isRequired,
-      image_url: PropTypes.string.isRequired,
+      # image_url: PropTypes.string.isRequired,
       media_file: PropTypes.shape({
         previews: PropTypes.object
         # original_file_url: PropTypes.string
@@ -24,7 +25,8 @@ module.exports = React.createClass({
     },
 
   render: ()->
-    {image_url, title} = @props.get
+
+    {image_url, title, media_type, type} = @props.get
     {previews} = @props.get.media_file
 
     classes = cx(this.props.mods)
@@ -34,8 +36,12 @@ module.exports = React.createClass({
     # for consistency and bc it's easier for users…
     href = f.chain(previews.images).sortBy('width').last().get('url').run()
 
+
     # just the picure element (might be wrapped)
-    picture = <Picture className={classes} src={image_url} title={title}/>
+    picture = if image_url
+      <Picture className={classes} title={title} src={image_url} />
+    else
+      <ResourceIcon mediaType={media_type} thumbnail={false} type={type} />
 
     originalUrl = ''
     if @props.get.media_file && @props.get.media_file.original_file_url

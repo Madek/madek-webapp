@@ -4,7 +4,8 @@ f = require('active-lodash')
 ui = require('../lib/ui.coffee')
 Icon = require('./Icon.cjsx')
 Link = require('./Link.cjsx')
-Picture = require('./Picture.cjsx')
+Picture = require('../ui-components/Picture.cjsx')
+ResourceIcon = require('../ui-components/ResourceIcon.cjsx')
 
 flyoutProps = React.PropTypes.shape({
   title: React.PropTypes.string.isRequired,
@@ -14,9 +15,9 @@ flyoutProps = React.PropTypes.shape({
 module.exports = React.createClass
   displayName: 'UiThumbnail'
   propTypes:
-    type: React.PropTypes.oneOf(['media-entry', 'filter-set', 'media-set']).isRequired
+    type: React.PropTypes.oneOf(['MediaEntry', 'FilterSet', 'Collection']).isRequired
     src: React.PropTypes.string
-    iconCenter: React.PropTypes.node
+    mediaType: React.PropTypes.string
     mods: PropTypes.arrayOf(PropTypes.oneOf(['video']))
     alt: React.PropTypes.string
     href: React.PropTypes.string
@@ -32,17 +33,16 @@ module.exports = React.createClass
   render: () ->
     { type, src, alt, href, onClick,
       meta, iconCenter, badgeRight, badgeLeft, actionsLeft, actionsRight,
-      flyoutTop, flyoutBottom
+      flyoutTop, flyoutBottom,
+      mediaType
     } = @props
 
-    classes = ui.cx(type, ui.parseMods(@props), 'ui-thumbnail')
+    classes = ui.cx(f.kebabCase(type.replace(/Collection/, 'MediaSet')), ui.parseMods(@props), 'ui-thumbnail')
 
     innerImage = if src
-      <Picture mods='ui-thumbnail-image' src={src} alt={alt}/>
-    else if iconCenter
-      iconCenter
+      <Picture mods='ui-thumbnail-image' src={src} alt={alt} />
     else
-      throw new Error "Thumbnail: neither 'src' nor 'iconCenter' given!"
+      <ResourceIcon mediaType={mediaType} thumbnail={true} type={type} />
 
     flyoutTop = if f.present(flyout = @props.flyoutTop)
       <div className='ui-thumbnail-level-up-items'>
@@ -115,7 +115,7 @@ module.exports = React.createClass
         if @props.disableLink
           <div className='ui-thumbnail-image-wrapper'>{innerPart}</div>
         else
-          <Link className='ui-thumbnail-image-wrapper' {...linkProps} title={alt}>
+          <Link className='ui-thumbnail-image-wrapper' href={@props.href} onClick={@props.onClick} title={alt}>
             {innerPart}
           </Link>
       }

@@ -16,7 +16,7 @@ module.exports = React.createClass
     get: React.PropTypes.shape(
       title: React.PropTypes.string.isRequired
       url: React.PropTypes.string.isRequired
-      image_url: React.PropTypes.string.isRequired
+      # image_url: React.PropTypes.string.isRequired
       meta_data: MadekPropTypes.resourceMetaData.isRequired
       responsible: MadekPropTypes.user.isRequired
       # TODO: actually, those are tabs:

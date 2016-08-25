@@ -139,7 +139,9 @@ feature 'Page: Explore' do
       expect(page.status_code).to eq 200
       within '.ui-resources-holder', text: I18n.t(:home_page_new_contents) do
         expect(
-          all("a[type='media-entry']").map { |el| el['href'].split('/').last }
+          all('.media-entry').map do |element|
+            element.find('a')['href'].split('/').last
+          end
         ).to be == \
           MediaEntry
           .viewable_by_public

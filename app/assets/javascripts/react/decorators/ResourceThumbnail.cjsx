@@ -87,7 +87,7 @@ module.exports = React.createClass
     model = @state.model or @props.get
 
     # map the type name:
-    type = get.type.replace(/Collection/, 'MediaSet')
+    # type = get.type.replace(/Collection/, 'MediaSet')
 
     # map the privacy icon:
     # see <http://madek.readthedocs.org/en/latest/entities/#privacy-status>
@@ -107,28 +107,6 @@ module.exports = React.createClass
           <i className={'fa fa-cloud'}/>
         else
           privacyIcon
-
-    # media type icon, used instead of image preview if there isn't any
-    mediaTypeIcon = do ()->
-      mediaTypeIconMapping = (mediaType)->
-        map =
-          'image':    'fa fa-file-image-o'
-          'audio':    'fa fa-file-audio-o'
-          'video':    'fa fa-file-video-o'
-          'document': 'fa fa-file-o' # TODO: 'text' and 'pdf' when mapping exists…
-          'other':    'fa fa-file-o' # TODO: 'archive' when 'compressed' exists…
-        map[mediaType] or map['other']
-
-      switch
-        when model.type is 'MediaEntry'
-          mediaTypeIcon = mediaTypeIconMapping(model.mediaType)
-          <i className={cx('ui_media-type-icon', mediaTypeIcon)}/>
-        when model.type is 'Collection'
-          <Icon i='set' mods='ui_media-type-icon'/>
-        when model.type is 'FilterSet'
-          <Icon i='set' mods='ui_media-type-icon'/>
-        else
-          <Icon i='bang' mods='ui_media-type-icon'/>
 
     # hover - actions
     actionsLeft = []
@@ -230,12 +208,12 @@ module.exports = React.createClass
 
     Element = elm or 'div'
     thumbProps =
-      type: f.kebabCase(type)
+      type: get.type
       mods: ['video'] if model.mediaType is 'video'
       src: get.image_url
       href: get.url
       alt: get.title
-      iconCenter: mediaTypeIcon
+      mediaType: model.mediaType
       # click handlers:
       onClick: onClick
       style: (CURSOR_SELECT_STYLE if onClick && (onClick == @props.onSelect))
