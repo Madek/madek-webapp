@@ -37,7 +37,7 @@ module Presenters
         end
 
         def permissions_editable
-          policy(@user).permissions_edit?
+          policy(@user).permissions_edit? && @app_resource.is_published
         end
 
         def invalid_meta_data

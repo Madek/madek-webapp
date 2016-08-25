@@ -92,6 +92,7 @@ module.exports = React.createClass
     heading: React.PropTypes.node
     toolBarMiddle: React.PropTypes.node
     authToken: React.PropTypes.string.isRequired
+    disablePermissionsEdit: React.PropTypes.bool
     get: React.PropTypes.shape
       # resources: React.PropTypes.array # TODO: array of ampersandCollection
       type: React.PropTypes.oneOf([
@@ -426,7 +427,7 @@ module.exports = React.createClass
           hover: f.curry(@_onHiglightEditable)(true)
           unhover: f.curry(@_onHiglightEditable)(false)
 
-        managePermissions: if selection && (get.type is 'MediaEntries' || get.type is 'MediaResources')
+        managePermissions: if !@props.disablePermissionsEdit && selection && (get.type is 'MediaEntries' || get.type is 'MediaResources')
           click: (if f.present(batchPermissionEditables) then @_onBatchPermissionsEdit)
           hover: f.curry(@_onHiglightPermissionsEditable)(true)
           unhover: f.curry(@_onHiglightPermissionsEditable)(false)
