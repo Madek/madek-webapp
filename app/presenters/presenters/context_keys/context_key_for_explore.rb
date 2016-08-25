@@ -12,7 +12,11 @@ module Presenters
       end
 
       def usage_count
-        MetaDatum.where(meta_key: @meta_key).count
+        MetaDatum
+          .where(media_entry_id: \
+            MediaEntry.viewable_by_user_or_public(@user).reorder(nil))
+          .where(meta_key: @meta_key)
+          .count
       end
 
       def url

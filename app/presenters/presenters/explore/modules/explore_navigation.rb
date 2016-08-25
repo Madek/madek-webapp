@@ -16,7 +16,7 @@ module Presenters
         private
 
         def nav_catalog
-          unless catalog_context_keys.blank?
+          unless non_empty_catalog_context_keys_presenters.blank?
             {
               title: @settings.catalog_title,
               id: 'catalog',

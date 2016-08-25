@@ -20,6 +20,13 @@ module Presenters
             .compact
         end
 
+        def non_empty_catalog_context_keys_presenters
+          @non_empty_catalog_context_keys_presenters ||= \
+            catalog_context_keys.map do |c_key|
+              Presenters::ContextKeys::ContextKeyForExplore.new(c_key, @user)
+            end.select { |p| p.usage_count > 0 }
+        end
+
         def featured_set_content
           @featured_set_content ||= \
             begin

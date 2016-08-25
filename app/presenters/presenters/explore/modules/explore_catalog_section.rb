@@ -6,7 +6,7 @@ module Presenters
         private
 
         def catalog_section
-          unless catalog_context_keys.blank?
+          unless non_empty_catalog_context_keys_presenters.blank?
             { type: 'catalog',
               id: 'catalog',
               data: catalog_overview,
@@ -18,9 +18,7 @@ module Presenters
           {
             title: @catalog_title,
             url: '/explore/catalog/',
-            list: catalog_context_keys.map do |c_key|
-              Presenters::ContextKeys::ContextKeyForExplore.new(c_key, @user)
-            end
+            list: non_empty_catalog_context_keys_presenters
           }
         end
       end
