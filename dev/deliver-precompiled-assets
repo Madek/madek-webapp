@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -exu
+
+# sanity check: correct repo?
+{
+ git config remote.origin.url | grep 'github.com' | grep -q 'Madek/madek-webapp'
+} || { echo 'ERROR! wrong repo, go to webapp!' && exit 1 ;}
+
+# get info from current commit:
+MSG="$(git log -n1 --format='%s')"
+BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+
+# sanity check: is on a branch?
+{ test "$BRANCH" == "master" || test "$BRANCH" == "HEAD"
+} && { echo 'ERROR! must be on a branch!' && exit 1 ;}
+
+# clean state for assets:
+git submodule init public/assets
+cd public/assets
+git fetch
+git reset --hard origin/master
+
+cd -
+./bin/precompile-assets
+
+# commit & push assets:
+cd public/assets
+git add --all
+git commit -m "${MSG}"
+git push -f origin "+HEAD:${BRANCH}"
+
+# ammend assets ref to last commit:
+cd -
+git add public/assets
+git commit --amend --no-edit
