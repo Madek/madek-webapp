@@ -131,9 +131,13 @@ Madek::Application.routes.draw do
   get 'explore/featured_set', controller: :explore, action: :featured_set, as: :explore_featured_set
   get 'explore/keywords', controller: :explore, action: :keywords, as: :explore_keywords
   get 'explore/keywords/:keyword_id/previews/:preview_size',
-      controller: :previews,
-      action: :show_for_keyword,
+      controller: :explore,
+      action: :catalog_key_item_thumb,
       as: :preview_for_keyword
+  get 'explore/catalog/:category/thumb/:preview_size',
+      controller: :explore,
+      action: :catalog_key_thumb,
+      as: :preview_paths_for_keywords
 
   resource :search , controller: :search, only: [:show] do
     get :result

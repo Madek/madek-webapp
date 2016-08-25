@@ -1,10 +1,12 @@
 module Presenters
   module ContextKeys
     class ContextKeyForExplore < Presenters::Shared::AppResource
-      def initialize(app_resource, user)
+
+      def initialize(app_resource, user, limit)
         super(app_resource)
         @meta_key = @app_resource.meta_key
         @user = user
+        @limit = limit
       end
 
       def label
@@ -28,23 +30,11 @@ module Presenters
       end
 
       def image_url
-        keyword = \
-          Keyword
-          .joins('INNER JOIN meta_data_keywords ' \
-                 'ON keywords.id = meta_data_keywords.keyword_id')
-          .joins('INNER JOIN meta_data ' \
-                 'ON meta_data.id = meta_data_keywords.meta_datum_id')
-          .joins('INNER JOIN media_entries ' \
-                 'ON media_entries.id = meta_data.media_entry_id')
-          .where(media_entries: \
-            { id: MediaEntry.viewable_by_user_or_public(@user).reorder(nil) })
-          .where(meta_data: { meta_key: @meta_key })
-          .reorder('media_entries.created_at DESC')
-          .first
-
-        if keyword
-          prepend_url_context preview_for_keyword_path(keyword.id, :medium)
-        end
+        prepend_url_context \
+          preview_paths_for_keywords_path \
+            category: @app_resource.id,
+            preview_size: :medium,
+            limit: @limit
       end
     end
   end

@@ -9,6 +9,10 @@ module Presenters
         # memoized helpers used in navigation module as well as the
         # respective section modules.
 
+        def catalog_category_limit
+          24
+        end
+
         def catalog_context_keys
           # NOTE: limit (of catalog_keys) would be 3, for full page ???
           @catalog_context_keys ||= \
@@ -23,7 +27,8 @@ module Presenters
         def non_empty_catalog_context_keys_presenters
           @non_empty_catalog_context_keys_presenters ||= \
             catalog_context_keys.map do |c_key|
-              Presenters::ContextKeys::ContextKeyForExplore.new(c_key, @user)
+              Presenters::ContextKeys::ContextKeyForExplore.new(
+                c_key, @user, catalog_category_limit)
             end.select { |p| p.usage_count > 0 }
         end
 
