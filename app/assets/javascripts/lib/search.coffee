@@ -22,7 +22,8 @@ module.exports = (resourceType, parameters = null)->
     name: "#{resourceType}Search",
     key: baseConfig.key or 'name',
     displayKey: baseConfig.displayKey or baseConfig.key or 'name',
-    source: BloodhoundFactory(baseConfig, parameters)
+    source: BloodhoundFactory(baseConfig, parameters),
+    limit: 100
   }
 
 # helpers
