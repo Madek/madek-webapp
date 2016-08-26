@@ -39,7 +39,9 @@ module Madek
       end
 
       def start_pre_caching_loop
-        if RUBY_PLATFORM == 'java' && Rails.env == 'production'
+        if RUBY_PLATFORM == 'java' \
+          && Rails.env == 'production' \
+          && defined?(Rails::Server)
 
           unless $precaching_initialized
             $precaching_initialized = true
