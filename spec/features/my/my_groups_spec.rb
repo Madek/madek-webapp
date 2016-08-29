@@ -85,7 +85,7 @@ feature 'Resource: Group; in User Dashboard ("My Groups")' do
       click_edit_button
 
       within '.ui-rights-group' do
-        expect(page).to have_content @new_member.login
+        expect(page).to have_content member_name
       end
     end
 
@@ -100,7 +100,7 @@ feature 'Resource: Group; in User Dashboard ("My Groups")' do
       click_edit_button
 
       within '.ui-rights-group' do
-        expect(page).to have_content @new_member.login
+        expect(page).to have_content member_name
       end
 
       remove_user_in_form(@new_member)
@@ -111,7 +111,7 @@ feature 'Resource: Group; in User Dashboard ("My Groups")' do
       click_edit_button
 
       within '.ui-rights-group' do
-        expect(page).not_to have_content @new_member.login
+        expect(page).not_to have_content member_name
       end
     end
 
@@ -138,6 +138,14 @@ feature 'Resource: Group; in User Dashboard ("My Groups")' do
 end
 
 private
+
+def member_name
+  person_name(@new_member)
+end
+
+def person_name(user)
+  user.person.first_name + ' ' + user.person.last_name
+end
 
 def prepare_data
   prepare_user
@@ -199,5 +207,5 @@ def add_user_in_form(user)
 end
 
 def remove_user_in_form(user)
-  find('tr', text: user.login).find('.ui-rights-remove').click
+  find('tr', text: person_name(user)).find('.ui-rights-remove').click
 end

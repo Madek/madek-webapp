@@ -15,9 +15,9 @@
       .form-body
         .ui-form-group.rowed
           = g_form.label :name, class: 'title-s', class: 'form-label'
-          = g_form.text_field :name, class: 'form-item'
+          = g_form.text_field :name, class: 'form-item', style: 'width: 100%'
 
-      .form-footer
+      .form-footer{ style: 'padding: 0px 10px' }
         = g_form.submit t(:group_edit_form_save_btn, raise: false), class: 'primary-button'
 
 

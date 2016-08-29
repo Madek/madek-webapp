@@ -113,7 +113,7 @@ module.exports = React.createClass
 
         <div className="ui-form-group rowed">
           <label className="form-label" htmlFor="group_name">{t('group_edit_name')}</label>
-          <input type={'text'} className='form-item'
+          <input type={'text'} className='form-item' style={{width: '100%'}}
             name={'group[name]'} defaultValue={get.name} placeholder={''} />
         </div>
 
@@ -148,9 +148,6 @@ module.exports = React.createClass
                 }
                 <td className='ui-rights-user-title' style={{borderColor: '#f3f3f3'}}>
                   {t('group_edit_person')}
-                </td>
-                <td className='ui-rights-user-title' style={{borderColor: '#f3f3f3'}}>
-                  {t('group_edit_username')}
                 </td>
               </tr>
             </thead>
@@ -234,11 +231,6 @@ MemberRow = React.createClass
           enabledClasses={'button small ui-rights-remove icon-close small'} />
         <span className='text'>
           {user.name}
-        </span>
-      </td>
-      <td className='ui-rights-user' style={{borderColor: '#f3f3f3'}}>
-        <span className='text'>
-          {user.login}
         </span>
       </td>
     </tr>
