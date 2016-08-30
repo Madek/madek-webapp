@@ -114,8 +114,8 @@ module Presenters
           unpaged_groups(type)
         else
           unpaged_groups(type)
-            .page(@config[:page])
-            .per(@config[:per_page])
+            .page(1)
+            .per(20)
         end
       end
 

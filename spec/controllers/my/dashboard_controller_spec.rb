@@ -267,9 +267,7 @@ describe My::DashboardController do
 
     it 'Meine Gruppen' do
       groups = @get.groups
-      expect(groups[:internal].count).to be == @limit_for_dashboard
-      # FIXME: not tested bc of missing factory (above)
-      # expect(groups[:external].count).to be == @limit_for_dashboard
+      expect(groups[:internal].count).to be == 20
     end
   end
 
