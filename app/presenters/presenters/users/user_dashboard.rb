@@ -109,7 +109,7 @@ module Presenters
       end
 
       def select_groups(type)
-        is_section_view = (@action && @action == 'dashboard_section')
+        is_section_view = (@action && @action == 'index')
         if is_section_view
           unpaged_groups(type)
         else
@@ -117,11 +117,6 @@ module Presenters
             .page(@config[:page])
             .per(@config[:per_page])
         end
-        # @user_scopes[:user_groups]
-        #   .where(type: type)
-        #   .order(
-        #     (type == :InstitutionalGroup) ? :institutional_group_name : :name
-        #   )
       end
 
     end
