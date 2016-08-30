@@ -172,4 +172,31 @@ Madek::Application.routes.draw do
   # Error page to be rendered as static page for the proxy
   get '/proxy_error', to: 'errors#proxy_error', :constraints => {:ip => /127.0.0.1/}
 
+  ####################################################################################
+  # LEGACY REDIRECTIONS! We need to keep them around indefinitely… ###################
+  ####################################################################################
+  # v2:
+  get '/media_resources/:uuid', to: 'uuid#redirect_to_canonical_url'
+
+  # pre-v2
+  get '/media_entries/:id' => redirect("/entries/%{id}")
+  get '/media_entries/:id/context_group/:name' => redirect("/entries/%{id}/vocabulary")
+  get '/media_entries/:id/image' => redirect("/entries/%{id}/image")
+  get '/media_entries/:id/map' => redirect("/entries/%{id}/map")
+  get '/media_entries/:id/document' => redirect("/entries/%{id}/document")
+  get '/media_entries/:id/more_data' => redirect("/entries/%{id}/more_data")
+  get '/media_entries/:id/parents' => redirect("/entries/%{id}/parents")
+
+  get '/media_sets/:id' => redirect("/sets/%{id}")
+  get '/media_sets/:id/media_entries/:entry_id' => redirect("/sets/%{id}/entries/%{entry_id}")
+  get '/media_sets/:id/category' => redirect("/sets/%{id}/category")
+  get '/media_sets/:id/parents' => redirect("/sets/%{id}/parents")
+
+  get '/entries/:id/parents' => redirect("/entries/%{id}/relations")
+  get '/sets/:id/parents' => redirect("/sets/%{id}/relations")
+
+  get '/contexts/:id' => redirect("/vocabulary/%{id}")
+  get '/contexts/:id/entries' => redirect("/vocabulary/%{id}/entries")
+  get '/media_entries/:id/context_group/:name' => redirect("/entries/%{id}/vocabulary")
+  ####################################################################################
 end
