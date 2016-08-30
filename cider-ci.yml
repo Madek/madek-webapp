@@ -46,6 +46,8 @@ jobs:
           }}}
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# META JOBS (only depend on other jobs)                                           #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
   all-tests:
     name: "All tests"
@@ -75,6 +77,33 @@ jobs:
       all-tests:      {job_key: all-tests,    type: job, states: [passed]}
       meta-checks:    {job_key: meta-checks,    type: job, states: [passed]}
       good to merge of the datalayer: {job_key: good-to-merge, type: job, submodule: [datalayer], states: [passed]}
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# OTHER JOBS (not striclty needed for development process/delivery)
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+  render-specs:
+    name: "Docs: Render Specs"
+    description: |
+      Render Overview from rspec feature specs
+    priority: 1
+    run_when: *DEFAULT_TRIGGERS
+    context:
+      include: cider-ci/context-components/rails-setup.yml
+      tasks:
+        main:
+          tree_attachments:
+            feature-specs:
+              content_type: text/html
+              include_match: "^tmp/feature_specs.html$"
+          scripts:
+            test:
+              body: |
+                #!/usr/bin/env bash
+                set -eux
+                export PATH=~/.rubies/$RUBY/bin:$PATH
+                cider-ci/bin/render-specs spec/features > tmp/feature_specs.html
+
 
   wip-rspec-tests:
     name: "⟨WIP⟩ RSpec Tests"
