@@ -11,6 +11,7 @@ class ErrorsController < ApplicationController
   # skips the checks that raise errors that are handled here (or it loops!)
   skip_before_action :authenticate_user!
   skip_before_action :verify_usage_terms_accepted!
+  skip_before_action :verify_authenticity_token
 
   def show
     exception = env['action_dispatch.exception']
@@ -53,8 +54,7 @@ class ErrorsController < ApplicationController
 
   def wrap_error(err)
     err = err.dump if err.dump
-    excluded = :details if err[:status_code] < 500
-    Hash(error: err.except(excluded).to_h).as_json
+    Hash(error: err.to_h).as_json
   end
 
   def get_template(error_type, status_code)

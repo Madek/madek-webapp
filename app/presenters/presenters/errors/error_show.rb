@@ -13,7 +13,8 @@ module Presenters
       # get status code and corresponding message from Rails
       # (these fall back to 500/'Internal Server Error' if nothing is specified):
       def status_code
-        ActionDispatch::ExceptionWrapper.new(Rails.env, @exception).status_code
+        @status_code ||= \
+          ActionDispatch::ExceptionWrapper.new(Rails.env, @exception).status_code
       end
 
       def message
@@ -23,10 +24,13 @@ module Presenters
 
       # get some details about the exception, with cleaned up backtrace paths:
       def details
-        details = [
-          "#{@error_class}:\n#{@exception.try(:message)}",
-          @exception.try(:cause),
-          @exception.try(:backtrace).try(:first, 3)]
+        details = ["#{@error_class}:\n#{@exception.try(:message)}"]
+        # for server errors, also get backtrace
+        if status_code >= 500
+          details.push(
+            @exception.try(:cause),
+            @exception.try(:backtrace).try(:first, 3))
+        end
         clean_up_trace(details.flatten.uniq)
       end
 

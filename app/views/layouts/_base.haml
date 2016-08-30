@@ -1,14 +1,17 @@
+:ruby
+  #NOTE: careful with access to `settings` comes from DB and can fail hard
+  site_title = begin; settings.site_title; rescue; end
+  site_title ||= 'Madek' # fallback
 !!!
 -# NOTE: class 'has-js' is set dynamically with — suprise! — JavaScript.
 %html{lang: 'de-CH'}
   %head
     %meta{charset: 'utf-8'}
     %title
-      - configured_title = settings.site_title
       - if content_for?(:title_head)
-        = "#{configured_title} | #{strip_tags(content_for(:title_head))}"
+        = "#{site_title} | #{strip_tags(content_for(:title_head))}"
       - else
-        = configured_title
+        = site_title
 
     -# 1. init ujs as early as possible (sets class so correct styles are used)
     -# 2. add 'dynamic' config (that can't be bundled)
