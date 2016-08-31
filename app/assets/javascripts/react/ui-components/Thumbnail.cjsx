@@ -13,7 +13,7 @@ flyoutProps = React.PropTypes.shape({
   children: React.PropTypes.node })
 
 module.exports = React.createClass
-  displayName: 'UiThumbnail'
+  displayName: 'Thumbnail'
   propTypes:
     type: React.PropTypes.oneOf(['MediaEntry', 'FilterSet', 'Collection']).isRequired
     src: React.PropTypes.string
@@ -34,10 +34,15 @@ module.exports = React.createClass
     { type, src, alt, href, onClick,
       meta, iconCenter, badgeRight, badgeLeft, actionsLeft, actionsRight,
       flyoutTop, flyoutBottom,
-      mediaType
+      mediaType,
+      mods, className
     } = @props
 
-    classes = ui.cx(f.kebabCase(type.replace(/Collection/, 'MediaSet')), ui.parseMods(@props), 'ui-thumbnail')
+    classes = ui.cx(
+      f.kebabCase(type.replace(/Collection/, 'MediaSet')),
+      [mods, className],
+      'ui-thumbnail'
+    )
 
     innerImage = if src
       <Picture mods='ui-thumbnail-image' src={src} alt={alt} />
@@ -72,7 +77,7 @@ module.exports = React.createClass
         {badgeRight}
       </div>
 
-    meta = if meta
+    metaElement = if meta
       <div className='ui-thumbnail-meta'>
         <h3 className='ui-thumbnail-meta-title'>
           {meta.title}</h3>
@@ -89,9 +94,6 @@ module.exports = React.createClass
         {actionsRight}
       </ul>
     </div>
-
-    # TODO: We probably only need 'href' and 'onClick'.
-    linkProps = f.omit(@props, 'className')
 
 
     innerPart =
@@ -115,11 +117,12 @@ module.exports = React.createClass
         if @props.disableLink
           <div className='ui-thumbnail-image-wrapper'>{innerPart}</div>
         else
-          <Link className='ui-thumbnail-image-wrapper' href={@props.href} onClick={@props.onClick} title={alt}>
+          <Link className='ui-thumbnail-image-wrapper' style={@props.linkStyle}
+            href={@props.href} onClick={@props.onClick} title={alt}>
             {innerPart}
           </Link>
       }
-      {meta}
+      {metaElement}
       {actions}
       {flyoutBottom}
     </div>

@@ -536,7 +536,8 @@ module.exports = React.createClass
 
 
           <div className="ui-actions phl pbl mtl">
-            <a className="link weak" href={get.url}>{' ' + t('meta_data_form_cancel') + ' '}</a>
+            <a className="link weak"
+              href={if get.return_to then get.return_to else get.url}>{' ' + t('meta_data_form_cancel') + ' '}</a>
             <button className="primary-button large" type="submit"
               name='actionType' value='save'
               onClick={@_onClick} disabled={disableSave}>{' ' + t('meta_data_form_save') + ' '}</button>

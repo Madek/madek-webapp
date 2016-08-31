@@ -9,6 +9,10 @@ Models = require('../../models/index.coffee')
 RailsForm = require('../lib/forms/rails-form.cjsx')
 { Link, Icon, Thumbnail, Button, Preloader, AskModal
 } = require('../ui-components/index.coffee')
+ResourceThumbnailRenderer = require('./ResourceThumbnailRenderer.cjsx')
+PinThumbnail = require('./PinThumbnail.cjsx')
+ResourceIcon = require('../ui-components/ResourceIcon.cjsx')
+Picture = require('../ui-components/Picture.cjsx')
 
 CURSOR_SELECT_STYLE = {cursor: 'cell'}
 
@@ -86,90 +90,7 @@ module.exports = React.createClass
   render: ({get, elm, onClick, isSelected, fetchRelations, authToken} = @props, state = @state)->
     model = @state.model or @props.get
 
-    # map the type name:
-    # type = get.type.replace(/Collection/, 'MediaSet')
 
-    # map the privacy icon:
-    # see <http://madek.readthedocs.org/en/latest/entities/#privacy-status>
-    # vs <http://test.madek.zhdk.ch/styleguide/Icons#6.2>
-    privacyIcon = do (status = get.privacy_status)->
-      iconMapping = {'public': 'open', 'private': 'private', 'shared': 'group'}
-      iconName = "privacy-#{iconMapping[status]}"
-      <Icon i={iconName} title={get.privacy_status}/>
-
-    statusIcon = if model.type isnt 'MediaEntry'
-      privacyIcon
-    else # for MediaEntries:
-      switch
-        when model.isNew()
-          <i className={'fa fa-cloud-upload'}/>
-        when not model['published?']
-          <i className={'fa fa-cloud'}/>
-        else
-          privacyIcon
-
-    # hover - actions
-    actionsLeft = []
-    actionsRight = []
-
-    # hover - action - select
-    onSelect = @props.onSelect
-    if onSelect then do ()->
-      selector = (
-        <Link onClick={onSelect}
-          style={CURSOR_SELECT_STYLE}
-          className='ui-thumbnail-action-checkbox'
-          title={if isSelected then 'Auswahl entfernen' else 'auswählen'}>
-          <Icon i='checkbox' mods={if isSelected then 'active'}/>
-        </Link>)
-      actionsLeft.push(
-        <li className='ui-thumbnail-action' key='selector'>
-          <span className='js-only'>{selector}</span></li>)
-
-    # hover - action - fav
-    if get.favorite_policy
-      favoriteAction = if model.favored then 'disfavor' else 'favor'
-      favoriteUrl = model.url + '/' + favoriteAction
-      starClass = if model.favored then 'icon-star' else 'icon-star-empty'
-      favoriteItem = <i className={starClass}></i>
-      favoriteOnClick = @_favorOnClick if not @state.pendingFavorite
-      favorButton =
-        if state.isClient
-          <Button className='ui-thumbnail-action-favorite' onClick={favoriteOnClick}
-            data-pending={state.pendingFavorite}>
-            {favoriteItem}
-          </Button>
-        else
-          <RailsForm name='resource_meta_data' action={favoriteUrl}
-            method='patch' authToken={authToken}>
-            <button className='ui-thumbnail-action-favorite' type='submit'>
-              {favoriteItem}
-            </button>
-          </RailsForm>
-
-      actionsLeft.push(
-        <li key='favorite' className='ui-thumbnail-action'>{favorButton}</li>)
-
-
-    if get.editable
-      actionsRight.push(
-        <li key='edit' className='ui-thumbnail-action'>
-          <Button className='ui-thumbnail-action-favorite' href={get.url + '/meta_data/edit_context'}>
-            <i className='icon-pen'></i>
-          </Button>
-        </li>
-      )
-
-    if get.destroyable
-      actionsRight.push(
-        <li key='destroy' className='ui-thumbnail-action'>
-          <Button className='ui-thumbnail-action-favorite' onClick={@_showModal}>
-            <i className='icon-trash'></i>
-          </Button>
-        </li>
-      )
-
-    # hover - flyout - relations - thumbnail list:
     if fetchRelations
       parentRelations = f.get(model, 'parent_collections')
       childRelations = f.get(model, 'child_media_resources')
@@ -183,7 +104,8 @@ module.exports = React.createClass
             <li className='ui-thumbnail-level-item media_set set odd' key={item.uuid}>
               <a className='ui-level-image-wrapper' href={item.url}>
                 <div className='ui-thumbnail-level-image-holder'>
-                  <img className='ui-thumbnail-level-image' src={item.image_url}/>
+                  <FlyoutImage resourceType={item.type} title={item.title}
+                    imageUrl={item.image_url} mediaType={item.media_type} />
                 </div>
               </a>
             </li>
@@ -200,73 +122,100 @@ module.exports = React.createClass
             <li className={classes} key={item.uuid}>
               <a className='ui-level-image-wrapper' href={item.url}>
                 <div className='ui-thumbnail-level-image-holder'>
-                  <img className='ui-thumbnail-level-image' src={item.image_url}/>
+                  <FlyoutImage resourceType={item.type} title={item.title}
+                    imageUrl={item.image_url} mediaType={item.media_type} />
                 </div>
               </a>
             </li>
 
+    relationsProps = {
+      onHover: @_onHover
+      parent: if fetchRelations
+        ready: (true if parentRelations)
+        count: (parentsCount if parentRelations)
+        thumbs: (parentThumbs if parentThumbs)
+      child: if fetchRelations
+        ready: (true if childRelations)
+        count: (childrenCount if childRelations)
+        thumbs: (childThumbs if childThumbs)
+    }
 
-    Element = elm or 'div'
-    thumbProps =
-      type: get.type
-      mods: ['video'] if model.mediaType is 'video'
-      src: get.image_url
-      href: get.url
-      alt: get.title
-      mediaType: model.mediaType
-      # click handlers:
-      onClick: onClick
-      style: (CURSOR_SELECT_STYLE if onClick && (onClick == @props.onSelect))
-      # extra elements (nested for layout):
-      meta: if get.uploadStatus
-        title: get.uploadStatus[0]
-        subtitle: get.uploadStatus[1]
-      else
-        title: get.title
-        subtitle: get.authors_pretty
-      badgeLeft: statusIcon
-      badgeRight: if get.type is 'FilterSet'
-        <Icon i='filter' title='This is a Filterset'/>
-      actionsLeft: actionsLeft
-      actionsRight: actionsRight
+    favoriteProps = {
+      pendingFavorite: @state.pendingFavorite
+      favorOnClick: @_favorOnClick
+      modelFavored: model.favored
+      modelUrl: model.url
+      stateIsClient: state.isClient
+      authToken: authToken
+      favoritePolicy: get.favorite_policy
+    }
 
-      flyoutTop: if fetchRelations and (f.include ['MediaEntry', 'Collection'], model.type)
-        title: 'Übergeordnete Sets'
-        children: if parentRelations then parentThumbs else <Preloader mods='small'/>
-        caption: if parentRelations then parentsCount + ' Sets' else ''
+    deleteProps = {
+      stateDeleteModal: @state.deleteModal
+      onModalCancel: @_onModalCancel
+      onModalOk: @_onModalOk
+      modalTitle: model.title
+      showModal: @_showModal
+    }
 
-      flyoutBottom: if fetchRelations and model.type is 'Collection'
-        title: 'Set enthält'
-        children: if childRelations then childThumbs else <Preloader mods='small'/>
-        caption: if childRelations then childrenCount + ' Inhalte' else ''
+    statusProps = {
+      modelType: model.type
+      modelIsNew: (model.isNew() if model.type is 'MediaEntry')
+      modelPublished: (model['published?'] if model.type is 'MediaEntry')
+      privacyStatus: get.privacy_status
+    }
 
-      disableLink: @props.get.disableLink
+    selectProps = {
+      onSelect: @props.onSelect
+      selectStyle: CURSOR_SELECT_STYLE
+      isSelected: @props.isSelected
+    }
 
-    <Element {...@props}
-      className={cx('ui-resource', 'ui-selected': isSelected)}
-      onMouseOver={@_onHover}>
+    textProps = if get.uploadStatus
+      title: get.uploadStatus[0]
+      subtitle: get.uploadStatus[1]
+    else
+      title: get.title
+      subtitle: get.authors_pretty
 
-      <div className='ui-resource-body'>
-        <Thumbnail {...thumbProps}/>
-        {
-          if @state.deleteModal == true
-            type = switch get.type
-              when 'Collection'
-                'collection'
-              when 'MediaEntry'
-                'media_entry'
-            <AskModal title={t(type + '_ask_delete_title')}
-              onCancel={@_onModalCancel} onOk={@_onModalOk}
-              okText={t('resource_ask_delete_ok')}
-              cancelText={t('resource_ask_delete_cancel')}>
-              <p className="pam by-center">
-                {t(type + '_ask_delete_question_pre')}
-                <strong>{model.title}</strong>
-                {t('resource_ask_delete_question_post')}
-              </p>
-            </AskModal>
-          else
-            null
-        }
-      </div>
-    </Element>
+    if @props.pinThumb
+      <PinThumbnail
+        resourceType={model.type}
+        imageUrl={get.image_url}
+        mediaType={model.mediaType}
+        title={textProps.title}
+        subtitle={textProps.subtitle}
+        mediaUrl={get.url}
+        selectProps={selectProps}
+        favoriteProps={favoriteProps}
+        editable={get.editable}
+        deleteProps={deleteProps}
+        statusProps={statusProps}
+        />
+    else
+      <ResourceThumbnailRenderer
+        resourceType={model.type}
+        mediaType={model.mediaType}
+        elm={elm}
+        get={get}
+        pictureOnClick={onClick}
+        relationsProps={relationsProps}
+        favoriteProps={favoriteProps}
+        deleteProps={deleteProps}
+        statusProps={statusProps}
+        selectProps={selectProps}
+        textProps={textProps}
+        />
+
+
+
+
+FlyoutImage = React.createClass
+  displayName: 'FlyoutImage'
+
+  render: ({imageUrl, title, mediaType, resourceType} = @props)->
+    if imageUrl
+      <Picture mods='ui-thumbnail-level-image' src={imageUrl} alt={title} />
+    else
+      <ResourceIcon mediaType={mediaType} flyout={true}
+        type={resourceType} overrideClasses='ui-thumbnail-level-image' />

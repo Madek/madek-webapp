@@ -13,5 +13,6 @@ module.exports = React.createClass
     <div className="ui-container rounded-bottom">
       <MediaResourcesBox collectionUuid={get.uuid} withBox={true}
         get={get.relations.child_media_resources} authToken={authToken}
-        initial={ { show_filter: true } } mods={ [ {bordered: false}, 'rounded-bottom' ] }/>
+        initial={ { show_filter: true } } mods={ [ {bordered: false}, 'rounded-bottom' ] }
+        allowPinThumbs={true} />
     </div>

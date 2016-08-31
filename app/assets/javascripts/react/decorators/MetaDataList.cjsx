@@ -104,7 +104,7 @@ MetaDataTable = ({listingData, fallbackMsg} = props)->
         <tr><td className={keyClass}>{fallbackMsg}</td></tr>
       else
         f.map listingData, (item)->
-          <tr>
+          <tr key={item.key}>
             <td className={keyClass}>{item.key}</td>
             <td className={valClass}>{item.value}</td>
           </tr>

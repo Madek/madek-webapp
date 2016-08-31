@@ -49,14 +49,6 @@ handleLinkIfLocal = (event, callback)->
     event.preventDefault()
     callback(internalLink) if not localLinks.isActive(event)
 
-# "const": allowed layout modes + config
-LAYOUT_MODES = [
-  # {mode: 'tiles', title: 'Kachel-Ansicht', icon: 'vis-pins'},
-  {mode: 'miniature', title: 'Miniatur-Ansicht', icon: 'vis-miniature'},
-  {mode: 'grid', title: 'Raster-Ansicht', icon: 'vis-grid'},
-  # {mode: 'list', title: 'Listen-Ansicht', icon: 'vis-list'}
-]
-
 filterConfigProps = React.PropTypes.shape
   search: React.PropTypes.string
   meta_data: React.PropTypes.arrayOf React.PropTypes.shape
@@ -93,6 +85,7 @@ module.exports = React.createClass
     toolBarMiddle: React.PropTypes.node
     authToken: React.PropTypes.string.isRequired
     disablePermissionsEdit: React.PropTypes.bool
+    allowPinThumbs: React.PropTypes.bool
     get: React.PropTypes.shape
       # resources: React.PropTypes.array # TODO: array of ampersandCollection
       type: React.PropTypes.oneOf([
@@ -112,6 +105,18 @@ module.exports = React.createClass
     batchAddToSet: false,
     batchRemoveFromSet: false
   }
+
+  _allowedLayoutModes: () ->
+    [
+      {mode: 'miniature', title: 'Miniatur-Ansicht', icon: 'vis-miniature'},
+      {mode: 'grid', title: 'Raster-Ansicht', icon: 'vis-grid'},
+      # {mode: 'list', title: 'Listen-Ansicht', icon: 'vis-list'}
+    ].concat(
+      if @props.allowPinThumbs then [
+        {mode: 'tiles', title: 'Kachel-Ansicht', icon: 'vis-pins'}
+      ] else []
+    )
+
 
   doOnUnmount: [] # to be filled with functions to be called on unmount
   componentWillUnmount: ()->
@@ -307,8 +312,8 @@ module.exports = React.createClass
 
   # public methods:
 
-  setLayout: (layoutMode)-> # NOTE: this is a hack and goes around the router :/
-    unless f.includes(f.map(LAYOUT_MODES, 'mode'), layoutMode)
+  setLayout: (layoutMode)=> # NOTE: this is a hack and goes around the router :/
+    unless f.includes(f.map(@_allowedLayoutModes(), 'mode'), layoutMode)
       throw new Error "Invalid Layout!"
     @setState(config: f.merge(@state.config, {layout: layoutMode}))
 
@@ -393,10 +398,10 @@ module.exports = React.createClass
       totalCount = f.get(get, 'pagination.total_count')
       isClient = @state.isClient
 
-      layouts = LAYOUT_MODES.map (itm)=>
-        href = setUrlParams(for_url, currentQuery, list: layout: itm.mode)
-        f.merge itm,
-          mods: {'active': layout is itm.mode}
+      layouts = @_allowedLayoutModes().map (layoutMode) =>
+        href = setUrlParams(for_url, currentQuery, list: layout: layoutMode.mode)
+        f.merge layoutMode,
+          mods: {'active': layoutMode.mode == layout}
           href: href
           onClick: @_handleChangeInternally
 
@@ -646,31 +651,35 @@ module.exports = React.createClass
                           total={(pagination.totalPages)}/>}
 
                     <ul className='ui-resources-page-items'>
-                      {page.resources.map (item)=>
-                        key = item.uuid or item.cid
+                      {
+                        page.resources.map (item)=>
+                          key = item.uuid or item.cid
 
-                        if withBox
-                          selection = @state.selectedResources
-                          # selection defined means selection is enabled
-                          if @state.isClient && selection
-                            isSelected = @state.selectedResources.has(item)
-                            onSelect = f.curry(@_onSelectResource)(item)
-                            # if in selection mode, intercept clicks as 'select toggle'
-                            onClick = if config.layout == 'miniature'
-                              (if !selection.isEmpty() then onSelect)
-                            # when hightlighting editables, we just dim everything else:
-                            style = if @state.higlightBatchEditable and (!item.isBatchEditable) \
-                              or @state.higlightPermissionsBatchEditable and (!item.isBatchPermissionsEditable)
-                                {opacity: 0.35}
+                          if withBox
+                            selection = @state.selectedResources
+                            # selection defined means selection is enabled
+                            if @state.isClient && selection
+                              isSelected = @state.selectedResources.has(item)
+                              onSelect = f.curry(@_onSelectResource)(item)
+                              # if in selection mode, intercept clicks as 'select toggle'
+                              onClick = if config.layout == 'miniature'
+                                (if !selection.isEmpty() then onSelect)
+                              # when hightlighting editables, we just dim everything else:
+                              style = if @state.higlightBatchEditable and (!item.isBatchEditable) \
+                                or @state.higlightPermissionsBatchEditable and (!item.isBatchPermissionsEditable)
+                                  {opacity: 0.35}
 
-                        # TODO: get={model}
-                        <ResourceThumbnail elm='div'
-                          style={style}
-                          get={item}
-                          isClient={@state.isClient} fetchRelations={fetchRelations}
-                          isSelected={isSelected} onSelect={onSelect} onClick={onClick}
-                          authToken={authToken} key={key}/>}
-                      </ul>
+                          # TODO: get={model}
+                          <ResourceThumbnail elm='div'
+                            style={style}
+                            get={item}
+                            isClient={@state.isClient} fetchRelations={fetchRelations}
+                            isSelected={isSelected} onSelect={onSelect} onClick={onClick}
+                            authToken={authToken} key={key}
+                            pinThumb={config.layout is 'tiles'} />
+                      }
+
+                    </ul>
 
                 </li>}
               </ul>
@@ -721,10 +730,13 @@ BoxTitleBar = ({heading, actions, layouts, mods} = @props)->
     <div className='ui-toolbar-controls by-right'>
       {# Layout Switcher: }
       <ButtonGroup mods='tertiary small right mls'>
-        {layouts.map (btn)->
-          mods = cx 'small', 'ui-toolbar-vis-button', btn.mods
-          <Button {...btn} mods={mods} key={btn.mode}>
-            <Icon i={btn.icon} title={btn.title}/>
+        {layouts.map (layout)->
+          mods = cx 'small', 'ui-toolbar-vis-button', layout.mods
+          <Button
+            mode={layout.mode} title={layout.title} icon={layout.icon}
+            href={layout.href} onClick={layout.onClick}
+            mods={mods} key={layout.mode}>
+            <Icon i={layout.icon} title={layout.title}/>
           </Button>
         }
       </ButtonGroup>
