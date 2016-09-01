@@ -86,11 +86,6 @@ class ExploreController < ApplicationController
   private
 
   def newest_media_entry_with_image_file_for_keyword_and_user(keyword_id, user)
-    # FIXME: no need to use `representable_as_image`, just preview's media type
-    # but somehow doesnt work (models, assoc?)
-    # .joins(:preview)
-    # .where(previews: { media_type: 'image' })
-
     MediaEntry
     .viewable_by_user_or_public(user)
     .joins(:media_file)

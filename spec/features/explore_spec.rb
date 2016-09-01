@@ -73,6 +73,100 @@ feature 'Page: Explore' do
       end
     end
 
+    describe 'dealing with entries of different media_types' do
+      before :example do
+        @meta_key = \
+          MetaKey.find_by_id('test:keywords') || create(:meta_key_keywords)
+        @context_key = create(:context_key, meta_key: @meta_key)
+        @keyword = create(:keyword, meta_key: @meta_key)
+        app_setting = AppSetting.first
+        app_setting.update_attributes!(catalog_context_keys: [@context_key.id],
+                                       catalog_title: 'Catalog Title')
+
+        media_entry_with_image = create(:media_entry_with_image_media_file,
+                                        get_metadata_and_previews: true)
+        media_entry_with_image.meta_data << \
+          create(:meta_datum_keywords,
+                 meta_key: @context_key.meta_key,
+                 keywords: [@keyword])
+
+        media_entry_with_video = create(:media_entry_with_video_media_file,
+                                        get_metadata_and_previews: true)
+        media_entry_with_video.media_file.previews << \
+          create(:preview, media_type: 'video')
+        media_entry_with_video.meta_data << \
+          create(:meta_datum_keywords,
+                 meta_key: @context_key.meta_key,
+                 keywords: [@keyword])
+
+        media_entry_with_audio = create(:media_entry_with_audio_media_file,
+                                        get_metadata_and_previews: true)
+        media_entry_with_audio.media_file.previews << \
+          create(:preview, media_type: 'audio')
+        media_entry_with_audio.meta_data << \
+          create(:meta_datum_keywords,
+                 meta_key: @context_key.meta_key,
+                 keywords: [@keyword])
+
+        media_entry_with_document = create(:media_entry_with_document_media_file,
+                                           get_metadata_and_previews: true)
+        media_entry_with_document.media_file.previews << \
+          create(:preview, media_type: 'image')
+        media_entry_with_document.meta_data << \
+          create(:meta_datum_keywords,
+                 meta_key: @context_key.meta_key,
+                 keywords: [@keyword])
+
+        media_entry_with_other = create(:media_entry_with_other_media_file,
+                                        get_metadata_and_previews: true)
+        media_entry_with_other.meta_data << \
+          create(:meta_datum_keywords,
+                 meta_key: @context_key.meta_key,
+                 keywords: [@keyword])
+
+        # newest media_entry
+        @media_entry_with_image = create(:media_entry_with_image_media_file,
+                                         get_metadata_and_previews: true)
+        @media_entry_with_image.meta_data << \
+          create(:meta_datum_keywords,
+                 meta_key: @context_key.meta_key,
+                 keywords: [@keyword])
+      end
+
+      context 'for catalog context keys (1st level)' do
+        it 'it counts entries having all different media_types' do
+          visit explore_path
+          label = @context_key.label || @context_key.meta_key.label
+          within('.media-catalog', text: label) do
+            expect(find('.ui-thumbnail-meta-extension').text).to be == '6'
+          end
+        end
+
+        it 'shows the proper thumbnail (preview \'image\') for the newest entry' do
+          visit catalog_key_thumb_path(@context_key, :medium, limit: 24)
+          preview = \
+            @media_entry_with_image.media_file.previews.find_by(thumbnail: :medium)
+          expect(current_path).to be == preview_path(preview)
+        end
+      end
+
+      context 'for catalog context key entries (2nd level)' do
+        it 'it counts entries having all different media_types' do
+          visit explore_catalog_category_path(@context_key)
+          within('.media-catalog', text: @keyword.term) do
+            expect(find('.ui-thumbnail-meta-extension').text).to be == '6'
+          end
+        end
+
+        it 'shows the proper thumbnail (preview \'image\') for the newest entry' do
+          visit catalog_key_item_thumb_path(@keyword, :medium)
+          preview = \
+            @media_entry_with_image.media_file.previews.find_by(thumbnail: :medium)
+          expect(current_path).to be == preview_path(preview)
+        end
+      end
+    end
+
     pending 'shows simple lists of Entries, Collections and FilterSets' \
       'with links to their indexes'
 

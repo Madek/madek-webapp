@@ -31,7 +31,7 @@ module Presenters
 
       def image_url
         prepend_url_context \
-          preview_paths_for_keywords_path \
+          catalog_key_thumb_path \
             category: @app_resource.id,
             preview_size: :medium,
             limit: @limit

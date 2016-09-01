@@ -43,10 +43,17 @@ module Presenters
 
       def keywords_for_meta_key_and_visible_entries(meta_key)
         Keyword.with_usage_count
-          .for_meta_key_and_used_in_visible_entries_with_previews \
-            meta_key,
-            @user,
-            catalog_category_limit
+          .where(meta_key: meta_key)
+          .joins('INNER JOIN meta_data ' \
+                 'ON meta_data.id = meta_data_keywords.meta_datum_id')
+          .where(
+            meta_data: {
+              media_entry_id: MediaEntry
+                              .viewable_by_user_or_public(@user)
+                              .joins(:media_file)
+            }
+          )
+          .limit(catalog_category_limit)
       end
     end
   end

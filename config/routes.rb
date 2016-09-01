@@ -133,11 +133,11 @@ Madek::Application.routes.draw do
   get 'explore/keywords/:keyword_id/previews/:preview_size',
       controller: :explore,
       action: :catalog_key_item_thumb,
-      as: :preview_for_keyword
+      as: :catalog_key_item_thumb
   get 'explore/catalog/:category/thumb/:preview_size',
       controller: :explore,
       action: :catalog_key_thumb,
-      as: :preview_paths_for_keywords
+      as: :catalog_key_thumb
 
   resource :search , controller: :search, only: [:show] do
     get :result
