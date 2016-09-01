@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -eu
+
+MISNAMED_SPECS="$(find spec/*/** -name '*.rb' -not -name '*_spec.rb' -not -name '*_shared.rb' -not -path '*/shared/*')"
+
+test -z "$MISNAMED_SPECS" && {
+    echo 'OK'
+  } || {
+    echo "MISNAMED SPECS!"
+    echo "either rename them as *_spec.rb or *_shared.rb put them in a */shared folder"
+    echo ""
+    echo "$MISNAMED_SPECS"
+    exit 1
+  }

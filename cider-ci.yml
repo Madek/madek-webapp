@@ -39,6 +39,11 @@ jobs:
       task_defaults:
         environment_variables:
           GIT_LINEAR_HISTORY_CHECK_START_SHA: cc569ffc2e7b2504e548649f4b0739dfeaad8f89
+      tasks:
+        Check misnamed specs:
+          scripts: {test: {body: {
+            read_and_replace_with: cider-ci/bin/check-misnamed-specs
+          }}}
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
