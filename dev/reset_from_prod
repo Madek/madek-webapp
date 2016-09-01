@@ -1,0 +1,12 @@
+#!/bin/sh
+set -ex
+
+CURRENT_DATE="$(date '+%Y-%m-%d')"
+DUMPFILE="db/backups/prod.zhdk-data_${CURRENT_DATE}.pgbin"
+mkdir -p "$(dirname "$DUMPFILE")"
+
+rsync -LPh root@prod.madek.zhdk.ch:/opt/madekdata/backups/latest-data.pgbin "$DUMPFILE"
+
+bundle exec rake db:pg:terminate_connections db:drop || true # ignore error if not exists yet
+bundle exec rake db:create db:migrate db:pg:truncate_tables
+time bundle exec rake db:pg:data:restore FILE="$DUMPFILE"
