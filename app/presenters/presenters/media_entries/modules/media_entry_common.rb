@@ -6,7 +6,7 @@ module Presenters
         include Presenters::Shared::MediaResource::Modules::MediaResourceCommon
         include Presenters::Shared::Modules::Favoritable
 
-        def initialize(app_resource, user, list_conf: {})
+        def initialize(app_resource, user, list_conf: {}, load_meta_data: false)
           fail 'TypeError!' unless app_resource.is_a?(MediaEntry)
 
           # FIXME: because MediaEntry *might* be instantiated via
@@ -26,6 +26,8 @@ module Presenters
 
           @p_media_entry =
             Presenters::MediaEntries::PresMediaEntry.new(@app_resource)
+
+          @load_meta_data = load_meta_data
         end
 
         def destroyable

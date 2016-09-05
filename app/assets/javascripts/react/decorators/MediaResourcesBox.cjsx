@@ -86,6 +86,7 @@ module.exports = React.createClass
     authToken: React.PropTypes.string.isRequired
     disablePermissionsEdit: React.PropTypes.bool
     allowPinThumbs: React.PropTypes.bool
+    allowListMode: React.PropTypes.bool
     get: React.PropTypes.shape
       # resources: React.PropTypes.array # TODO: array of ampersandCollection
       type: React.PropTypes.oneOf([
@@ -110,10 +111,13 @@ module.exports = React.createClass
     [
       {mode: 'miniature', title: 'Miniatur-Ansicht', icon: 'vis-miniature'},
       {mode: 'grid', title: 'Raster-Ansicht', icon: 'vis-grid'},
-      # {mode: 'list', title: 'Listen-Ansicht', icon: 'vis-list'}
     ].concat(
       if @props.allowPinThumbs then [
         {mode: 'tiles', title: 'Kachel-Ansicht', icon: 'vis-pins'}
+      ] else []
+    ).concat(
+      if @props.allowListMode then [
+        {mode: 'list', title: 'Listen-Ansicht', icon: 'vis-list'}
       ] else []
     )
 
@@ -364,10 +368,14 @@ module.exports = React.createClass
     listHolderClasses = cx 'ui-resources-holder',
       pam: withBox
 
-    listClasses = cx(config.layout, {
-      'vertical': config.layout is 'tiles'
-      'active': withActions
-    }, listMods, 'ui-resources')
+    listClasses = cx(
+      config.layout, # base class like "list"
+      {
+        'vertical': config.layout is 'tiles'
+        'active': withActions
+      },
+      listMods,
+      'ui-resources')
 
     currentQuery = f.merge(
       {list: f.merge f.omit(config, 'for_url')},
@@ -676,7 +684,8 @@ module.exports = React.createClass
                             isClient={@state.isClient} fetchRelations={fetchRelations}
                             isSelected={isSelected} onSelect={onSelect} onClick={onClick}
                             authToken={authToken} key={key}
-                            pinThumb={config.layout is 'tiles'} />
+                            pinThumb={config.layout == 'tiles'}
+                            listThumb={config.layout == 'list'} />
                       }
 
                     </ul>

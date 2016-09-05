@@ -23,7 +23,7 @@ module Presenters
         def initialize(
             scope, user, list_conf: nil,
             can_filter: true, with_actions: true,
-            with_count: true)
+            with_count: true, load_meta_data: false)
           fail 'missing config!' unless list_conf
           @user = user
           @scope = scope
@@ -37,6 +37,7 @@ module Presenters
           end
           @conf = build_config(list_conf)
           @with_count = with_count
+          @load_meta_data = load_meta_data
           init_resources_and_pagination(@scope, @conf)
         end
 
@@ -107,7 +108,7 @@ module Presenters
           resources.map do |resource|
             # if no presenter given, need to check class of every member!
             presenter = determined_presenter || presenter_by_class(resource.class)
-            presenter.new(resource, @user)
+            presenter.new(resource, @user, load_meta_data: @load_meta_data)
           end
         end
 

@@ -25,9 +25,7 @@ module.exports = React.createClass
     showTitle: true
     showFallback: true
 
-  render: ({list, tagMods, type, showTitle, showFallback} = @props)->
-    wrapperClass = classList(parseMods(@props), 'ui-metadata-box')
-
+  _listingDataWithFallback: (list, type, showTitle, showFallback) ->
     metaData = f.get(list, 'meta_data')
     listing = f.get(list, 'context') or f.get(list, 'vocabulary')
     listingType = f.get(listing, 'type')
@@ -58,24 +56,41 @@ module.exports = React.createClass
         [dat.meta_datum, dat.context_key]
       return {
         key: key.label
-        value: <MetaDatumValues metaDatum={datum} tagMods={tagMods}/>
+        value: datum
       }
 
-    <div className={wrapperClass}>
-      {if showTitle
-        {# TODO: vocabulary description, privacy_status}
-        <h3 className='title-l separated mbm'>{title}</h3>
-      }
-      {if type is 'list'
-        <MetaDataDefinitionList
-          listingData={listingData} fallbackMsg={fallbackMsg}/>
-      else
-        <MetaDataTable
-          listingData={listingData} fallbackMsg={fallbackMsg}/>
-      }
-    </div>
+    {
+      title: title
+      listingData: listingData
+      fallbackMsg: fallbackMsg
+    }
 
-MetaDataDefinitionList = ({listingData, fallbackMsg} = props)->
+  render: ({list, tagMods, type, showTitle, showFallback, renderer} = @props)->
+
+    {title, listingData, fallbackMsg} = @_listingDataWithFallback(
+      list, type, showTitle, showFallback)
+
+    if renderer
+      renderer(listingData, fallbackMsg, tagMods)
+    else
+
+      wrapperClass = classList(parseMods(@props), 'ui-metadata-box')
+
+      <div className={wrapperClass}>
+        {if showTitle
+          {# TODO: vocabulary description, privacy_status}
+          <h3 className='title-l separated mbm'>{title}</h3>
+        }
+        {if type is 'list'
+          <MetaDataDefinitionList
+            listingData={listingData} fallbackMsg={fallbackMsg} tagMods={tagMods} />
+        else
+          <MetaDataTable
+            listingData={listingData} fallbackMsg={fallbackMsg} tagMods={tagMods} />
+        }
+      </div>
+
+MetaDataDefinitionList = ({listingData, fallbackMsg, tagMods} = props) ->
   listClasses = 'media-data'
   keyClass = 'media-data-title title-xs-alt'
   valClass = 'media-data-content'
@@ -84,16 +99,18 @@ MetaDataDefinitionList = ({listingData, fallbackMsg} = props)->
     {if fallbackMsg
       <dt className={keyClass}>{fallbackMsg}</dt>
     else
-      f.map listingData, (item)->
+      f.map listingData, (item) ->
         # NOTE: weird array + keys because of <http://facebook.github.io/react/tips/maximum-number-of-jsx-root-nodes.html>
         [
           (<dt key='dt' className={keyClass}>{item.key}</dt>),
-          (<dd key='dd' className={valClass}>{item.value}</dd>)
+          (<dd key='dd' className={valClass}>
+            <MetaDatumValues metaDatum={item.value} tagMods={tagMods}/>
+          </dd>)
         ]
     }
   </dl>
 
-MetaDataTable = ({listingData, fallbackMsg} = props)->
+MetaDataTable = ({listingData, fallbackMsg, tagMods} = props) ->
   listClasses = 'borderless'
   keyClass = 'ui-summary-label'
   valClass = 'ui-summary-content'
@@ -103,10 +120,12 @@ MetaDataTable = ({listingData, fallbackMsg} = props)->
       {if fallbackMsg
         <tr><td className={keyClass}>{fallbackMsg}</td></tr>
       else
-        f.map listingData, (item)->
+        f.map listingData, (item) ->
           <tr key={item.key}>
             <td className={keyClass}>{item.key}</td>
-            <td className={valClass}>{item.value}</td>
+            <td className={valClass}>
+              <MetaDatumValues metaDatum={item.value} tagMods={tagMods}/>
+            </td>
           </tr>
       }
       </tbody>

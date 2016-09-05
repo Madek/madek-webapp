@@ -14,5 +14,5 @@ module.exports = React.createClass
       <MediaResourcesBox collectionUuid={get.uuid} withBox={true}
         get={get.relations.child_media_resources} authToken={authToken}
         initial={ { show_filter: true } } mods={ [ {bordered: false}, 'rounded-bottom' ] }
-        allowPinThumbs={true} />
+        allowPinThumbs={true} allowListMode={true} />
     </div>

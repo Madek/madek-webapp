@@ -29,6 +29,13 @@ module Presenters
           end
       end
 
+      def contexts_for_list_details
+        @contexts_for_list_details ||=
+          _contexts_for_list_details.map do |context|
+            build_meta_data_context(context)
+          end
+      end
+
       private
 
       def _by_vocabulary(meta_data)

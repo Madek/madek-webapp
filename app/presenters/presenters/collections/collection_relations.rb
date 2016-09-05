@@ -9,7 +9,8 @@ module Presenters
           @user_scopes[:child_media_resources],
           @user,
           can_filter: false,
-          list_conf: @list_conf)
+          list_conf: @list_conf,
+          load_meta_data: true)
       end
 
       def child_collections
@@ -17,7 +18,8 @@ module Presenters
           @user_scopes[:child_collections],
           @user,
           can_filter: false,
-          list_conf: @list_conf)
+          list_conf: @list_conf,
+          load_meta_data: true)
       end
 
     end

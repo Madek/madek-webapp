@@ -55,6 +55,11 @@ module Presenters
               _get_app_settings_contexts([:contexts_for_dynamic_filters])
           end
 
+          def _contexts_for_list_details
+            @_contexts_for_list_details ||=
+              _get_app_settings_contexts([:contexts_for_list_details])
+          end
+
           # NOTE: visibility of MetaKeys-by-Vocabulary is handled in presenters
 
           def app_settings

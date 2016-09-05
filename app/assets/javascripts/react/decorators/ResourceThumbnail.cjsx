@@ -11,6 +11,7 @@ RailsForm = require('../lib/forms/rails-form.cjsx')
 } = require('../ui-components/index.coffee')
 ResourceThumbnailRenderer = require('./ResourceThumbnailRenderer.cjsx')
 PinThumbnail = require('./PinThumbnail.cjsx')
+ListThumbnail = require('./ListThumbnail.cjsx')
 ResourceIcon = require('../ui-components/ResourceIcon.cjsx')
 Picture = require('../ui-components/Picture.cjsx')
 
@@ -191,6 +192,16 @@ module.exports = React.createClass
         editable={get.editable}
         deleteProps={deleteProps}
         statusProps={statusProps}
+        />
+    else if @props.listThumb
+      <ListThumbnail
+        resourceType={model.type}
+        imageUrl={get.image_url}
+        mediaType={model.mediaType}
+        title={textProps.title}
+        subtitle={textProps.subtitle}
+        mediaUrl={get.url}
+        metaData={get.index_meta_data}
         />
     else
       <ResourceThumbnailRenderer
