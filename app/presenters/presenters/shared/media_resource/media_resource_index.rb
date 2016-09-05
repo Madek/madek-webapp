@@ -12,14 +12,15 @@ module Presenters
         end
 
         def index_meta_data
-          # if not @load_meta_data
-          #   return 'no meta data'
-          # else
-          #   return 'meta data available'
-          # end
           return unless @load_meta_data
           Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
         end
+
+        # def large_image
+        #   binding.pry
+        #   return unless @load_meta_data
+        #   media_file.previews[images.large.url || image_url
+        # end
 
         private
 

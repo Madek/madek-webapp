@@ -182,7 +182,7 @@ module.exports = React.createClass
     if @props.pinThumb
       <PinThumbnail
         resourceType={model.type}
-        imageUrl={get.image_url}
+        imageUrl={f.get(get, 'media_file.previews.images.large.url', get.image_url)}
         mediaType={model.mediaType}
         title={textProps.title}
         subtitle={textProps.subtitle}

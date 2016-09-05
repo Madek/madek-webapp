@@ -86,7 +86,6 @@ module.exports = React.createClass
     toolBarMiddle: React.PropTypes.node
     authToken: React.PropTypes.string.isRequired
     disablePermissionsEdit: React.PropTypes.bool
-    allowPinThumbs: React.PropTypes.bool
     allowListMode: React.PropTypes.bool
     get: React.PropTypes.shape
       # resources: React.PropTypes.array # TODO: array of ampersandCollection
@@ -113,11 +112,8 @@ module.exports = React.createClass
     [
       {mode: 'miniature', title: 'Miniatur-Ansicht', icon: 'vis-miniature'},
       {mode: 'grid', title: 'Raster-Ansicht', icon: 'vis-grid'},
+      {mode: 'tiles', title: 'Kachel-Ansicht', icon: 'vis-pins'}
     ].concat(
-      if @props.allowPinThumbs then [
-        {mode: 'tiles', title: 'Kachel-Ansicht', icon: 'vis-pins'}
-      ] else []
-    ).concat(
       if @props.allowListMode then [
         {mode: 'list', title: 'Listen-Ansicht', icon: 'vis-list'}
       ] else []

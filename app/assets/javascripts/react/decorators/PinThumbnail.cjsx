@@ -30,15 +30,6 @@ module.exports = React.createClass
     actionsLeft = []
     actionsRight = []
 
-    if selectProps and selectProps.onSelect
-      selectAction =
-        <a onClick={selectProps.onSelect} className='ui-tile__action-link'
-          title={if selectProps.isSelected then 'Auswahl entfernen' else 'auswählen'}>
-          <i className={c('icon-checkbox', 'active': selectProps.isSelected)}></i>
-        </a>
-      actionsLeft.push(selectAction)
-
-
     if favoriteProps && favoriteProps.favoritePolicy
       favorButton =
         <FavoriteButton modelFavored={favoriteProps.modelFavored}
@@ -47,6 +38,13 @@ module.exports = React.createClass
             authToken={favoriteProps.authToken} buttonClass='ui-tile__action-link'/>
       actionsLeft.push(favorButton)
 
+    if selectProps and selectProps.onSelect
+      selectAction =
+        <a onClick={selectProps.onSelect} className='ui-tile__action-link'
+          title={if selectProps.isSelected then 'Auswahl entfernen' else 'auswählen'}>
+          <i className={c('icon-checkbox', 'active': selectProps.isSelected)}></i>
+        </a>
+      actionsLeft.push(selectAction)
 
     if editable
       actionsRight.push(
@@ -83,6 +81,10 @@ module.exports = React.createClass
       }
       <div className={c('ui-tile', {'ui-tile--set': isCollection})}>
         <div className='ui-tile__head'>
+          {if favoriteProps
+            <i className={if favoriteProps.modelFavored then 'icon-star' else 'icon-star-empty'}
+              style={{position: 'absolute', padding: '7px'}}/>
+          }
           <ul className='ui-tile__actions left by-left'>
             {
               f.map(
