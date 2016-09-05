@@ -11,8 +11,9 @@ module.exports = React.createClass
   displayName: 'CollectionDetailAdditional'
   render: ({get, authToken} = @props) ->
     <div className="ui-container rounded-bottom">
-      <MediaResourcesBox collectionUuid={get.uuid} withBox={true}
+      <MediaResourcesBox withBox={true}
         get={get.relations.child_media_resources} authToken={authToken}
         initial={ { show_filter: true } } mods={ [ {bordered: false}, 'rounded-bottom' ] }
-        allowPinThumbs={true} allowListMode={true} />
+        allowPinThumbs={true} allowListMode={true}
+        collectionData={{uuid: get.uuid, layout: get.layout, editable: get.editable}} />
     </div>

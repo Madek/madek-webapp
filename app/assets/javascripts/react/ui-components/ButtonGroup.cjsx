@@ -16,16 +16,18 @@ module.exports = React.createClass
     classes = ui.cx(ui.parseMods(@props), 'button-group')
 
     # build <Button/>s from given list of props
-    buttons = f(list)
-      .map((v,k)-> f.assign(v, key: k) if f.present(v))
-      .sortBy('position')
-      .map((i)-> f.omit(i, 'position'))
-      .select((i)-> f(i).omit('key').present())
-      .map((btn)-> <Button {...btn}/>)
-      .presence()
+    # buttons = f(list)
+    #   .map((v,k)-> f.assign(v, key: k) if f.present(v))
+    #   .sortBy('position')
+    #   .map((i)-> f.omit(i, 'position'))
+    #   .select((i)-> f(i).omit('key').present())
+    #   .map((btn)-> <Button {...btn}/>)
+    #   .presence()
+    #
+    # return unless content = buttons or children
 
-    return unless content = buttons or children
+    return unless children
 
-    <div {...@props} className={classes}>
-      {content}
+    <div className={classes}>
+      {children}
     </div>

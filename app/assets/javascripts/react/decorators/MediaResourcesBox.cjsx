@@ -29,6 +29,7 @@ getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 BatchAddToSetModal = require('./BatchAddToSetModal.cjsx')
 BatchRemoveFromSetModal = require('./BatchRemoveFromSetModal.cjsx')
 
+simpleXhr = require('../../lib/simple-xhr.coffee')
 
 
 # Props/Config overview:
@@ -104,7 +105,8 @@ module.exports = React.createClass
     isClient: false,
     config: {},
     batchAddToSet: false,
-    batchRemoveFromSet: false
+    batchRemoveFromSet: false,
+    savedLayout: @props.collectionData.layout if @props.collectionData
   }
 
   _allowedLayoutModes: () ->
@@ -333,7 +335,7 @@ module.exports = React.createClass
       get,                      # - presenter & config (from params)
       {config: initial},        # - per-view initial default config
       config:                   # - default config
-        layout: 'grid'
+        layout: @state.savedLayout || 'grid'
         show_filter: false
 
     # FIXME: always get from state!
@@ -413,10 +415,47 @@ module.exports = React.createClass
           href: href
           onClick: @_handleChangeInternally
 
+      layoutOnClick = (event) =>
+        event.preventDefault()
+        simpleXhr(
+          {
+            method: 'PATCH',
+            url: '/sets/' + @props.collectionData.uuid,
+            body: 'collection[layout]=' + layout
+          },
+          (error) =>
+            if error
+              alert(error)
+            else
+              @setState(savedLayout: layout)
+        )
+        return false
+
+      actions =
+        if @props.collectionData && @props.collectionData.editable
+          (() =>
+            layoutChanged = @state.savedLayout != layout
+            [
+              <div id="ui-save-display-settings" key="collection_layout">
+                <a disabled={'disabled' if !layoutChanged} className={cx('tertiary-button small', {disabled: !layoutChanged})}
+                  title="Sortierung und Darstellung der Inhalte dieses Sets festlegen"
+                  onClick={layoutOnClick if layoutChanged}>
+                  <i className="icon-fixed-width icon-eye bright"></i>
+                  <span className="text">
+                    {if layoutChanged then t('collection_layout_save') else t('collection_layout_saved')}
+                  </span>
+                </a>
+              </div>
+            ]
+
+          )()
+        else []
+
       <BoxTitleBar
         heading={heading or ("#{totalCount} #{t('resources_box_title_count_post')}" if totalCount)}
         mods={toolbarClasses}
-        layouts={layouts}/>
+        layouts={layouts}
+        actions={actions} />
 
     boxToolBar = () =>
       # NOTE: don't show the bar if not in a box!
@@ -448,7 +487,7 @@ module.exports = React.createClass
         save: if isClient and saveable
           click: (if f.present(config.filter) then f.curry(@_onCreateFilterSet)(config))
 
-        removeFromSet: if selection && f.present(@props.collectionUuid) && (get.type is 'MediaEntries' || get.type is 'MediaResources')
+        removeFromSet: if selection && f.present(@props.collectionData) && (get.type is 'MediaEntries' || get.type is 'MediaResources')
           click: (if !selection.isEmpty() then @_onBatchRemoveFromSet)
 
         # TODO: batch delete
@@ -706,7 +745,7 @@ module.exports = React.createClass
       }
       {
         if @state.batchRemoveFromSet
-          <BatchRemoveFromSetModal collectionUuid={@props.collectionUuid}
+          <BatchRemoveFromSetModal collectionUuid={@props.collectionData.uuid}
             resourceIds={@_batchRemoveFromSetIds()} authToken={@props.authToken}
             get={null} onClose={@_onCloseModal} returnTo={@state.config.for_url.path}/>
       }
@@ -737,6 +776,12 @@ BoxTitleBar = ({heading, actions, layouts, mods} = @props)->
   <div className={classes}>
     <h2 className='ui-toolbar-header pls'>{heading}</h2>
     <div className='ui-toolbar-controls by-right'>
+      {# Action Buttons: }
+      {if f.any(actions)
+        <ButtonGroup mods='small right mls'>
+          {actions}
+        </ButtonGroup>
+      }
       {# Layout Switcher: }
       <ButtonGroup mods='tertiary small right mls'>
         {layouts.map (layout)->
@@ -749,9 +794,6 @@ BoxTitleBar = ({heading, actions, layouts, mods} = @props)->
           </Button>
         }
       </ButtonGroup>
-      {# Action Buttons: }
-      {if f.any(actions)
-        <ButtonGroup mods='small right mls' list={actions}/>}
     </div>
   </div>
 

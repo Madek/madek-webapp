@@ -16,6 +16,8 @@ module Presenters
         @search_term = search_term
       end
 
+      delegate_to_app_resource :layout
+
       def relations
         @relations ||= Presenters::Collections::CollectionRelations.new(
           @app_resource,
