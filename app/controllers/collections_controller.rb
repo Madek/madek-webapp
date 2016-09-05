@@ -33,6 +33,15 @@ class CollectionsController < ApplicationController
     respond_with @get
   end
 
+  def update
+    collection = Collection.find(id_param)
+    authorize collection
+    collection.update_attributes! update_params
+    respond_to do |format|
+      format.json { head :no_content }
+    end
+  end
+
   # actions/tabs that work like 'show':
   [:relations, :more_data, :permissions, :permissions_edit]
     .each { |action| alias_method action, :show }
@@ -120,5 +129,9 @@ class CollectionsController < ApplicationController
 
   def size_param
     params.require(:size).to_sym
+  end
+
+  def update_params
+    collection_params.permit(:layout)
   end
 end

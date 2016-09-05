@@ -57,7 +57,7 @@ Madek::Application.routes.draw do
   get 'batch_ask_remove_from_set', controller: :batch, action: :batch_ask_remove_from_set, as: 'batch_ask_remove_from_set'
   patch 'batch_remove_from_set', controller: :batch, action: :batch_remove_from_set, as: 'batch_remove_from_set'
 
-  resources :collections, path: 'sets', only: [:index, :show, :create, :destroy] do
+  resources :collections, path: 'sets', only: [:index, :show, :create, :update, :destroy] do
     member do
       get 'permissions'
       get 'permissions/edit', action: :permissions_edit, as: 'edit_permissions'
