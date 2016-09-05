@@ -17,10 +17,15 @@ module.exports = React.createClass
       else
         'input'
 
+    style =
+      textIndent: '0em'
+      paddingLeft: '8px'
+
     if @props.onChange
       <Element type={type or 'text'} className={className + ' block'}
         name={name} value={value or ''} placeholder={placeholder}
-        onChange={@props.onChange} />
+        onChange={@props.onChange} style={style} />
     else
       <Element type={type or 'text'} className={className + ' block'}
-        name={name} defaultValue={value or ''} placeholder={placeholder} />
+        name={name} defaultValue={value or ''} placeholder={placeholder}
+        style={style} />
