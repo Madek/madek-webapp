@@ -66,6 +66,55 @@ describe KeywordsController do
       expect(result.first['label']).to match /#{keyword.term}/
     end
 
+    it 'sorts the keywords according to match relevance' do
+      # the match relevance is determined according to following criteria:
+      # 1. case sensitive full match
+      # 2. case insensitive full match
+      # 3. term beginning with string
+      # 4. position of string inside of term
+      # 5. in case of same position then alphabetic
+
+      truncate_tables
+      vocab = FactoryGirl.create(:vocabulary,
+                                 id: Faker::Lorem.characters(5),
+                                 enabled_for_public_view: true)
+      meta_key = \
+        FactoryGirl.create(:meta_key,
+                           id: "#{vocab.id}:#{Faker::Lorem.characters(8)}")
+      labels = %w(Pinsir
+                  Pidgeot
+                  Rapidash
+                  Pidgey
+                  Weepinbell
+                  Caterpie
+                  Pikachu
+                  Vulpix
+                  Pi
+                  pi
+                  Pidgeotto)
+      labels.map do |label|
+        FactoryGirl.create(:keyword, meta_key: meta_key, term: label)
+      end
+      sorted_labels = %w(pi
+                         Pi
+                         Pidgeot
+                         Pidgeotto
+                         Pidgey
+                         Pikachu
+                         Pinsir
+                         Rapidash
+                         Vulpix
+                         Weepinbell
+                         Caterpie)
+      get :index,
+          search_term: 'pi',
+          meta_key_id: meta_key.id,
+          format: :json
+
+      result = JSON.parse(response.body)
+      expect(result.map { |k| k['label'] }).to be == sorted_labels
+    end
+
     it 'order by last used DESC' do
       meta_key.vocabulary.user_permissions << \
         create(:vocabulary_user_permission, user: user)

@@ -1,8 +1,11 @@
 class KeywordsController < ApplicationController
   include Concerns::JSONSearch
+  include Modules::Keywords::SortByMatchRelevance
 
   def index
-    get_and_respond_with_json
+    get = prepare_array_of_presenter_dumps
+    get = sort_by_match_relevance(get) if params[:search_term]
+    respond_with get
   end
 
   def show
