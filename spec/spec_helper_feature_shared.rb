@@ -72,6 +72,12 @@ def sign_in_as(login, password = 'password')
   User.find_by(login: login)
 end
 
+def logout
+  find('.ui-header-user').find('.dropdown-toggle').click
+  find('.ui-header-user').find('.dropdown-menu')
+    .find('.ui-drop-item', text: I18n.t(:user_menu_logout_btn)).click
+end
+
 def submit_form
   # also works `within('form')`
   submit = first("form *[type='submit'], *[type='submit']")

@@ -27,9 +27,8 @@ module Presenters
       end
 
       def highlighted_media_resources
-        resources = @app_resource.child_media_resources.select do |resource|
-          resource.highlighted_for?(@app_resource)
-        end
+        resources = @user_scopes[:highlighted_media_entries].concat(
+          @user_scopes[:highlighted_collections])
         Presenters::Shared::MediaResource::IndexResources.new(
           @user,
           resources

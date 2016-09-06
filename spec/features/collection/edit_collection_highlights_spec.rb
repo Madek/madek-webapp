@@ -78,9 +78,44 @@ feature 'Collection: Edit Highlights' do
       check_filter_sets([])
 
       open_collection
-
     end
 
+    scenario 'private media entry in public collection' do
+      prepare_user
+      @media_entry = create_media_entry('MediaEntry')
+      @collection = create_collection('Collection')
+      @collection.media_entries << @media_entry
+      login
+      open_collection
+
+      check_show_highlights(false, [])
+      open_dialog
+      rows = get_table_rows(1)
+      click_row(rows, @media_entry)
+      check_row(rows, @media_entry, true)
+
+      click_save
+      @collection = Collection.find(@collection.id)
+      check_show_highlights(true, [@media_entry])
+      check_media_entries([@media_entry])
+      check_collections([])
+      check_filter_sets([])
+
+      @media_entry.get_metadata_and_previews = false
+      @media_entry.save
+
+      @media_entry.reload
+      @collection.reload
+
+      logout
+
+      open_collection
+
+      check_show_highlights(false, [])
+      check_media_entries([@media_entry])
+      check_collections([])
+      check_filter_sets([])
+    end
   end
 
   private

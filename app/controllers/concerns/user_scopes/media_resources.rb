@@ -14,6 +14,8 @@ module Concerns
         user_scopes_for_media_resource(collection).merge \
           highlighted_media_entries: \
             policy_scope(collection.highlighted_media_entries),
+          highlighted_collections: \
+            policy_scope(collection.highlighted_collections),
           child_media_resources: \
             Shared::MediaResources::MediaResourcePolicy::Scope.new(
               current_user,
