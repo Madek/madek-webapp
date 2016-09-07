@@ -8,12 +8,14 @@ module Presenters
                      user_scopes,
                      list_conf: nil,
                      show_collection_selection: false,
-                     search_term: '')
+                     search_term: '',
+                     load_meta_data: false)
         super(app_resource, user)
         @user_scopes = user_scopes
         @list_conf = list_conf
         @show_collection_selection = show_collection_selection
         @search_term = search_term
+        @load_meta_data = load_meta_data
       end
 
       delegate_to_app_resource :layout
@@ -23,7 +25,8 @@ module Presenters
           @app_resource,
           @user,
           @user_scopes,
-          list_conf: @list_conf)
+          list_conf: @list_conf,
+          load_meta_data: @load_meta_data)
       end
 
       def highlighted_media_resources

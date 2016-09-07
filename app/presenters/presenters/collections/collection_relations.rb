@@ -10,7 +10,7 @@ module Presenters
           @user,
           can_filter: false,
           list_conf: @list_conf,
-          load_meta_data: true)
+          load_meta_data: @load_meta_data)
       end
 
       def child_collections
@@ -19,7 +19,7 @@ module Presenters
           @user,
           can_filter: false,
           list_conf: @list_conf,
-          load_meta_data: true)
+          load_meta_data: @load_meta_data)
       end
 
     end

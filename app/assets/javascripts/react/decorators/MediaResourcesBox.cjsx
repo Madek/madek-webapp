@@ -409,9 +409,9 @@ module.exports = React.createClass
         f.merge layoutMode,
           mods: {'active': layoutMode.mode == layout}
           href: href
-          onClick: @_handleChangeInternally
+          onClick: @_handleChangeInternally if layoutMode.mode != 'list'
 
-      layoutOnClick = (event) =>
+      layoutSave = (event) =>
         event.preventDefault()
         simpleXhr(
           {
@@ -431,14 +431,15 @@ module.exports = React.createClass
         if @props.collectionData && @props.collectionData.editable
           (() =>
             layoutChanged = @state.savedLayout != layout
+            text = if layoutChanged then t('collection_layout_save') else t('collection_layout_saved')
             [
               <div id="ui-save-display-settings" key="collection_layout">
                 <a disabled={'disabled' if !layoutChanged} className={cx('tertiary-button small', {disabled: !layoutChanged})}
-                  title="Sortierung und Darstellung der Inhalte dieses Sets festlegen"
-                  onClick={layoutOnClick if layoutChanged}>
+                  title={text}
+                  onClick={layoutSave if layoutChanged}>
                   <i className="icon-fixed-width icon-eye bright"></i>
                   <span className="text">
-                    {if layoutChanged then t('collection_layout_save') else t('collection_layout_saved')}
+                    {text}
                   </span>
                 </a>
               </div>

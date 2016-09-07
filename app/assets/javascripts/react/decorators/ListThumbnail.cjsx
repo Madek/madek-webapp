@@ -43,51 +43,23 @@ module.exports = React.createClass
 
   render: ({resourceType, imageUrl, mediaType, title, subtitle, mediaUrl, metaData} = @props) ->
 
-    # summary_context = get.meta_data.collection_summary_context
-    #
-    # overview =
-    #   content: <MetaDataList list={summary_context}
-    #             type='table' showTitle={false} showFallback={true}/>
-
     listsWithClasses = []
-    # if metaData
-    #   if resourceType == 'Collection'
-    #     listsWithClasses.push({
-    #       className: 'ui-resource-meta'
-    #       list: metaData.collection_summary_context
-    #     })
-    #   if resourceType == 'MediaEntry'
-    #     listsWithClasses.push({
-    #       className: 'ui-resource-meta'
-    #       list:  metaData.entry_summary_context
-    #     })
-    #     if metaData.contexts_for_entry_extra.length > 0
-    #       listsWithClasses.push({
-    #         className: 'ui-resource-description'
-    #         list: metaData.contexts_for_entry_extra[0]
-    #       })
-    #     if metaData.contexts_for_entry_extra.length > 1
-    #       listsWithClasses.push({
-    #         className: 'ui-resource-extension'
-    #         list: metaData.contexts_for_entry_extra[1]
-    #       })
-
-
-    if metaData.contexts_for_list_details.length > 0
-      listsWithClasses.push({
-        className: 'ui-resource-meta'
-        list: metaData.contexts_for_list_details[0]
-      })
-    if metaData.contexts_for_list_details.length > 1
-      listsWithClasses.push({
-        className: 'ui-resource-description'
-        list: metaData.contexts_for_list_details[1]
-      })
-    if metaData.contexts_for_list_details.length > 2
-      listsWithClasses.push({
-        className: 'ui-resource-extension'
-        list: metaData.contexts_for_list_details[2]
-      })
+    if metaData
+      if metaData.contexts_for_list_details.length > 0
+        listsWithClasses.push({
+          className: 'ui-resource-meta'
+          list: metaData.contexts_for_list_details[0]
+        })
+      if metaData.contexts_for_list_details.length > 1
+        listsWithClasses.push({
+          className: 'ui-resource-description'
+          list: metaData.contexts_for_list_details[1]
+        })
+      if metaData.contexts_for_list_details.length > 2
+        listsWithClasses.push({
+          className: 'ui-resource-extension'
+          list: metaData.contexts_for_list_details[2]
+        })
 
     innerImage = if imageUrl
       <Picture mods='ui-thumbnail-image' src={imageUrl} alt={title} />

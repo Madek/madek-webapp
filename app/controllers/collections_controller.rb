@@ -29,7 +29,12 @@ class CollectionsController < ApplicationController
         collection,
         current_user,
         user_scopes_for_collection(collection),
-        list_conf: resource_list_params
+        list_conf: resource_list_params,
+        load_meta_data: resource_list_params
+          .try(:[], :for_url)
+          .try(:[], :query)
+          .try(:[], :list)
+          .try(:[], :layout) == 'list'
     respond_with @get
   end
 

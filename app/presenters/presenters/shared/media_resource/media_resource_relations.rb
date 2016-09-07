@@ -2,11 +2,17 @@ module Presenters
   module Shared
     module MediaResource
       class MediaResourceRelations < Presenters::Shared::AppResource
-        def initialize(app_resource, user, user_scopes, list_conf: nil)
+        def initialize(
+          app_resource,
+          user,
+          user_scopes,
+          list_conf: nil,
+          load_meta_data: false)
           super(app_resource)
           @user = user
           @user_scopes = user_scopes
           @list_conf = list_conf
+          @load_meta_data = load_meta_data
         end
 
         def any?
