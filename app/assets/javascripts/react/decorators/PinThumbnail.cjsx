@@ -70,6 +70,10 @@ module.exports = React.createClass
       badgeRight = <i className='ui-tile__flag ui-tile__flag--typ icon-filter'></i>
 
 
+    starShadow = '1px 0px 1px rgba(255, 255, 255, 0.5)'
+    starShadow += ', 0px 1px 1px rgba(255, 255, 255, 0.5)'
+    starShadow += ', -1px 0px 1px rgba(255, 255, 255, 0.5)'
+    starShadow += ', 0px -1px 1px rgba(255, 255, 255, 0.5)'
 
     <li className={c('ui-resource', 'ui-selected': (selectProps and selectProps.isSelected))}>
       {
@@ -81,9 +85,9 @@ module.exports = React.createClass
       }
       <div className={c('ui-tile', {'ui-tile--set': isCollection})}>
         <div className='ui-tile__head'>
-          {if favoriteProps
-            <i className={if favoriteProps.modelFavored then 'icon-star' else 'icon-star-empty'}
-              style={{position: 'absolute', padding: '7px'}}/>
+          {
+            if favoriteProps && favoriteProps.favoritePolicy && favoriteProps.modelFavored
+              <i className='icon-star' style={{position: 'absolute', padding: '7px', textShadow: starShadow}}/>
           }
           <ul className='ui-tile__actions left by-left'>
             {

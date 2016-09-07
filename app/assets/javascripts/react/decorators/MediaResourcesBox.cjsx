@@ -119,30 +119,28 @@ module.exports = React.createClass
       ] else []
     )
 
-
   doOnUnmount: [] # to be filled with functions to be called on unmount
   componentWillUnmount: ()->
     f.each(f.compact(@doOnUnmount), (fn)->
       if f.isFunction(fn) then fn() else console.error("Not a Function!", fn))
 
-  componentWillMount: ()->
-    # init resources as collection
-    isPaginated = @props.withBox && f.present(f.get(@props, 'get.pagination.total_count'))
-
+  _createResourcesModel: () ->
     collectionClass = switch @props.get.type
       when 'MediaResources' then CollectionChildren
       when 'MediaEntries' then MediaEntries
       when 'Collections' then Collections
-
-    resources = if f.get(@props, 'get.resources.isCollection')
-      @props.get.resources # if already initialized just use that
-    else if collectionClass
-      if isPaginated
+    if collectionClass
+      if @props.withBox && f.present(f.get(@props, 'get.pagination.total_count'))
         if !collectionClass.Paginated then throw new Error('Collection has no Pagination!')
         (new collectionClass.Paginated(@props.get))
       else
         (new collectionClass(@props.get.resources))
 
+  componentWillMount: ()->
+    resources = if f.get(@props, 'get.resources.isCollection')
+      @props.get.resources # if already initialized just use that
+    else
+      @_createResourcesModel()
     @setState(resources: resources)
 
   componentDidMount: ()->
