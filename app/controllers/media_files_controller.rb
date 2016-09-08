@@ -2,6 +2,8 @@ class MediaFilesController < ApplicationController
   # NOTE: This is *also* used by ZENCODER integration, be careful!
   #       Extracted methods are just for clarity.
 
+  include Concerns::ServeFiles
+
   def show
     if access_hash_param?
       download_by_access_hash
@@ -15,22 +17,18 @@ class MediaFilesController < ApplicationController
   def download_by_user_permissions
     media_file = MediaFile.find_by!(id: id_param)
     authorize(media_file)
-    serve_file(media_file)
+    serve_file(
+      media_file.original_store_location,
+      content_type: media_file.content_type)
   end
 
   def download_by_access_hash
     skip_authorization # do custom auth because there is no logged in user
     access_hash_param = params.require(:access_hash)
     media_file = MediaFile.find_by!(id: id_param, access_hash: access_hash_param)
-    serve_file(media_file)
-  end
-
-  def serve_file(media_file)
-    send_file(
+    serve_file(
       media_file.original_store_location,
-      filename: media_file.filename,
-      type: media_file.content_type
-    )
+      content_type: media_file.content_type)
   end
 
   def id_param

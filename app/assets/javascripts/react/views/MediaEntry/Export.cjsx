@@ -2,9 +2,14 @@ React = require('react')
 ReactDOM = require('react-dom')
 ampersandReactMixin = require('ampersand-react-mixin')
 f = require('active-lodash')
+parseUrl = require('url').parse
 t = require('../../../lib/string-translation')('de')
 InputFieldText = require('../../lib/forms/input-field-text.cjsx')
 Modal = require('../../ui-components/Modal.cjsx')
+
+forceDownload = (url) ->
+  if (parseUrl(url).query) then throw new Error('URL should not have params!')
+  url + '?download'
 
 module.exports = React.createClass
   displayName: 'MediaEntryExport'
@@ -24,8 +29,8 @@ module.exports = React.createClass
     <Modal widthInPixel='800'>
 
       <div className='ui-modal-head'>
-        <a href={get.url} aria-hidden='true'
-          className='ui-modal-close' data-dismiss='modal'
+        <a href={get.url}
+          className='ui-modal-close'
           title='Close' type='button'
           style={{position: 'static', float: 'right', paddingTop: '5px'}}>
           <i className='icon-close'></i>
@@ -60,8 +65,9 @@ module.exports = React.createClass
                     </div>
                     ,
                     <div className="col1of2 by-right">
-                      <a href={get.media_file.original_file_url} aria-hidden='true'
-                        className='primary-button' data-dismiss='modal'>
+                      <a href={forceDownload(get.media_file.original_file_url)}
+                        target='_blank'
+                        className='primary-button'>
                         {t('media_entry_export_download')}
                       </a>
                     </div>
@@ -106,8 +112,8 @@ module.exports = React.createClass
                           }
                           <td>{image.extension}</td>
                           <td>
-                            <a href={image.url} aria-hidden='true' target='_blank'
-                              className='primary-button' style={{float: 'right'}} data-dismiss='modal'>
+                            <a href={forceDownload(image.url)} target='_blank'
+                              className='primary-button' style={{float: 'right'}}>
                               <i className="icon-dload"></i>
                             </a>
                           </td>
@@ -124,8 +130,8 @@ module.exports = React.createClass
 
       <div className='ui-modal-footer'>
         <div className='ui-actions'>
-          <a href={get.url} aria-hidden='true'
-            className='primary-button' data-dismiss='modal'>
+          <a href={get.url}
+            className='primary-button'>
             {t('media_entry_export_close')}
           </a>
         </div>

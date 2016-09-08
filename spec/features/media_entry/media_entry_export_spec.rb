@@ -13,10 +13,6 @@ feature 'Resource: MediaEntry' do
       fail 'not implemented'
     end
 
-    pending 'Check if download works as expected in existing tests' do
-      fail 'not implemented'
-    end
-
     it 'Shown when logged in', browser: :firefox_nojs do
       scenario_show true
     end
@@ -62,21 +58,37 @@ feature 'Resource: MediaEntry' do
     it 'Download original image logged in', browser: :firefox_nojs do
       prepare_user
       prepare_image
+
+      initial_downloads = get_my_downloads
+      wanted_file = @media_entry.media_file.original_store_location
+
       login
       open_export
       find('.primary-button', text: I18n.t(:media_entry_export_download)).click
+
+      downloaded_file = get_new_download_file(initial_downloads)
+
+      # content should be the same:
+      expect(Digest::SHA256.hexdigest(File.read(downloaded_file)))
+        .to eq(Digest::SHA256.hexdigest(File.read(wanted_file)))
     end
 
-    it 'Downlaod preview image not logged in', browser: :firefox_nojs do
+    it 'Download preview image not logged in', browser: :firefox_nojs do
       prepare_user
       prepare_image
+
+      initial_downloads = get_my_downloads
+      wanted_file = @media_entry.media_file.previews.where(thumbnail: :maximum)
+                      .first.file_path
+
       open_export
       find('.modal').all('.icon-dload')[0].click
-      new_window = page.driver.browser.window_handles.last
-      page.within_window new_window do
-        presenter = Presenters::MediaFiles::MediaFile.new(@media_entry, @user)
-        expect(current_path).to eq(presenter.previews[:images][:maximum].url)
-      end
+
+      downloaded_file = get_new_download_file(initial_downloads)
+
+      # content should be the same:
+      expect(Digest::SHA256.hexdigest(File.read(downloaded_file)))
+        .to eq(Digest::SHA256.hexdigest(File.read(wanted_file)))
     end
   end
 
@@ -164,6 +176,20 @@ feature 'Resource: MediaEntry' do
       get_metadata_and_previews: true,
       responsible_user: @user,
       creator: @user)
+  end
+
+  def get_my_downloads
+    Dir.entries(BROWSER_DONWLOAD_DIR)
+  end
+
+  def get_new_download_file(initial_contents)
+    # wait until there is 1 more non-partial download in users dir:
+    wait_until do
+      files = get_my_downloads.reject { |f| /.part$/.match f }
+      next unless file = (files - initial_contents)[0]
+      downloaded_file = BROWSER_DONWLOAD_DIR.join(file)
+      downloaded_file if File.size(downloaded_file) > 0
+    end
   end
 
 end

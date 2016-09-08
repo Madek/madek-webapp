@@ -6,6 +6,8 @@ require 'rspec/rails'
 require 'capybara/poltergeist'
 
 DEFAULT_BROWSER_TIMEOUT = 180 # instead of the default 60
+BROWSER_DONWLOAD_DIR = Rails.root.join('tmp', 'test_driver_browser_downloads')
+`rm -rf #{BROWSER_DONWLOAD_DIR} && mkdir -p #{BROWSER_DONWLOAD_DIR}`
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
@@ -97,9 +99,16 @@ RSpec.configure do |config|
 
 end
 
-def create_firefox_driver(app, timeout, profileConfig = {})
+def create_firefox_driver(app, timeout, extra_profile_config = {})
+  dont_ask_on_downloads_config = { #
+    'browser.helperApps.neverAsk.saveToDisk' => 'image/jpeg,application/pdf',
+    'browser.download.manager.showWhenStarting' => false,
+    'browser.download.folderList' => 2, # custom location
+    'browser.download.dir' => BROWSER_DONWLOAD_DIR.to_s
+  }
+  profile_config = dont_ask_on_downloads_config.merge(extra_profile_config)
   profile = Selenium::WebDriver::Firefox::Profile.new
-  profileConfig.each { |k, v| profile[k] = v }
+  profile_config.each { |k, v| profile[k] = v }
   client = Selenium::WebDriver::Remote::Http::Default.new
   client.timeout = timeout
   Capybara::Selenium::Driver.new \
