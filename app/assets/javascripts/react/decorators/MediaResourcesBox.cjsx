@@ -116,13 +116,14 @@ module.exports = React.createClass
 
   _allowedLayoutModes: () ->
     [
-      {mode: 'miniature', title: 'Miniatur-Ansicht', icon: 'vis-miniature'},
-      {mode: 'grid', title: 'Raster-Ansicht', icon: 'vis-grid'},
       {mode: 'tiles', title: 'Kachel-Ansicht', icon: 'vis-pins'}
+      {mode: 'grid', title: 'Raster-Ansicht', icon: 'vis-grid'}
     ].concat(
       if @props.allowListMode then [
         {mode: 'list', title: 'Listen-Ansicht', icon: 'vis-list'}
       ] else []
+    ).concat(
+      {mode: 'miniature', title: 'Miniatur-Ansicht', icon: 'vis-miniature'}
     )
 
   doOnUnmount: [] # to be filled with functions to be called on unmount
@@ -452,22 +453,21 @@ module.exports = React.createClass
         )
         return false
 
-      actions =
+      centerActions =
         if @props.collectionData && @props.collectionData.editable
           (() =>
             layoutChanged = @state.savedLayout != layout
             text = if layoutChanged then t('collection_layout_save') else t('collection_layout_saved')
             [
-              <div id="ui-save-display-settings" key="collection_layout">
-                <a disabled={'disabled' if !layoutChanged} className={cx('tertiary-button small', {disabled: !layoutChanged})}
-                  title={text}
-                  onClick={layoutSave if layoutChanged}>
-                  <i className="icon-fixed-width icon-eye bright"></i>
-                  <span className="text">
-                    {text}
-                  </span>
-                </a>
-              </div>
+              <a key="collection_layout" disabled={'disabled' if !layoutChanged}
+                className={cx('small ui-toolbar-vis-button button', {active: !layoutChanged})}
+                title={text}
+                onClick={layoutSave if layoutChanged}>
+                <i className="icon-fixed-width icon-eye bright"></i>
+                <span className="text">
+                  {' ' + text}
+                </span>
+              </a>
             ]
 
           )()
@@ -477,7 +477,7 @@ module.exports = React.createClass
         heading={heading or ("#{totalCount} #{t('resources_box_title_count_post')}" if totalCount)}
         mods={toolbarClasses}
         layouts={layouts}
-        actions={actions} />
+        centerActions={centerActions} />
 
     boxToolBar = () =>
       # NOTE: don't show the bar if not in a box!
@@ -808,17 +808,19 @@ SideFilterFallback = ({filter} = @props)->
     </RailsForm>
   </div>
 
-BoxTitleBar = ({heading, actions, layouts, mods} = @props)->
+BoxTitleBar = ({heading, centerActions, layouts, mods} = @props)->
   classes = cx('ui-container inverted ui-toolbar pvx', mods)
   <div className={classes}>
-    <h2 className='ui-toolbar-header pls'>{heading}</h2>
-    <div className='ui-toolbar-controls by-right'>
+    <h2 className='ui-toolbar-header pls col2of6'>{heading}</h2>
+    <div className='col2of6' style={{textAlign: 'center'}}>
       {# Action Buttons: }
-      {if f.any(actions)
-        <ButtonGroup mods='small right mls'>
-          {actions}
+      {if f.any(centerActions)
+        <ButtonGroup mods='tertiary small center mls'>
+          {centerActions}
         </ButtonGroup>
       }
+    </div>
+    <div className='ui-toolbar-controls by-right col2of6'>
       {# Layout Switcher: }
       <ButtonGroup mods='tertiary small right mls'>
         {layouts.map (layout)->

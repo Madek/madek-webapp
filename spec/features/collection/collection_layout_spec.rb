@@ -82,22 +82,22 @@ feature 'determine collection layout ' do
   end
 
   def click_buttton
-    find('.ui-toolbar-controls').find(
+    find('.ui-toolbar').find(
       'a', text: I18n.t(:collection_layout_save)).click
   end
 
   def check_button(expected)
     if expected == :invisible
-      expect(find('.ui-toolbar-controls')).to have_no_content(
+      expect(find('.ui-toolbar')).to have_no_content(
         I18n.t(:collection_layout_save))
-      expect(find('.ui-toolbar-controls')).to have_no_content(
+      expect(find('.ui-toolbar')).to have_no_content(
         I18n.t(:collection_layout_saved))
     elsif expected == :active
-      button = find('.ui-toolbar-controls').find(
+      button = find('.ui-toolbar').find(
         'a', text: I18n.t(:collection_layout_save))
       expect(button[:disabled]).to eq(nil)
     elsif expected == :disabled
-      button = find('.ui-toolbar-controls').find(
+      button = find('.ui-toolbar').find(
         'a', text: I18n.t(:collection_layout_saved))
       expect(button[:disabled]).to eq('true')
     else
