@@ -4,6 +4,7 @@ module Modules
       extend ActiveSupport::Concern
 
       include Modules::Batch::BatchAutoPublish
+      include Concerns::MediaResources::LogIntoEditSessions
 
       # TODO: extract more from {MediaEntries,Collections}MetaDataUpdate
 
@@ -29,14 +30,8 @@ module Modules
           if resource.class == MediaEntry
             execute_publish([resource])
           end
-          # if params[:actionType] == 'publish'
-          #   ActiveRecord::Base.transaction do
-          #     resource.is_published = true
-          #     resource.save!
-          #   end
-          # end
+          log_into_edit_sessions! resource
           published_after = published_state(resource)
-
           determine_respond_success(resource, published_before, published_after)
         else
           respond_with_errors(errors)

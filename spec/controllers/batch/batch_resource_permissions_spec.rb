@@ -65,5 +65,36 @@ describe BatchController do
 
       check_batch_permissions_results # from BatchPermissionsHelper
     end
+
+    it 'logs into edit_sessions for all entries' do
+      ################################ DATA #######################################
+      setup_batch_permissions_test_data # from BatchPermissionsHelper
+      #############################################################################
+
+      update_data = \
+        {
+          resource_ids: [@entry_1.id, @entry_2.id],
+          permissions: {
+            public_permission: {
+              get_metadata_and_previews: true
+            }
+          }
+        }
+
+      entry_1_before_count = @entry_1.edit_sessions.count
+      entry_2_before_count = @entry_2.edit_sessions.count
+
+      put :batch_update_entry_permissions,
+          update_data.merge(format: :json, return_to: '/my'),
+          user_id: @logged_in_user.id
+
+      expect(response.status).to be == 200
+
+      entry_1_after_count = @entry_1.reload.edit_sessions.count
+      entry_2_after_count = @entry_2.reload.edit_sessions.count
+
+      expect(entry_1_after_count - entry_1_before_count).to be == 1
+      expect(entry_2_after_count - entry_2_before_count).to be == 1
+    end
   end
 end

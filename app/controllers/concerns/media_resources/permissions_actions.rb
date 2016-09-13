@@ -3,6 +3,7 @@ module Concerns
     module PermissionsActions
       extend ActiveSupport::Concern
       include Modules::Resources::PermissionsHelpers
+      include Concerns::MediaResources::LogIntoEditSessions
 
       def permissions_update
         resource = get_authorized_resource
@@ -12,6 +13,8 @@ module Concerns
           update_group_permissions! resource
           update_api_client_permissions! resource
           update_public_permissions! resource
+
+          log_into_edit_sessions! resource
         end
 
         # TODO: responder(?)

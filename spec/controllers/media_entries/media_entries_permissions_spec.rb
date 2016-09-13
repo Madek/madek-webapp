@@ -205,4 +205,18 @@ describe MediaEntriesController do
     expect(media_entry.api_client_permissions.count).to be == 0
   end
 
+  it 'creates log entry in edit_sessions' do
+    media_entry = FactoryGirl.create(:media_entry,
+                                     get_metadata_and_previews: false,
+                                     responsible_user: @user)
+    update_params = \
+      { id: media_entry.id,
+        media_entry: {
+          public_permission: { get_metadata_and_previews: true }
+        }
+      }
+
+    expect { put :permissions_update, update_params, user_id: @user.id }
+      .to change { media_entry.reload.edit_sessions.count }.by 1
+  end
 end

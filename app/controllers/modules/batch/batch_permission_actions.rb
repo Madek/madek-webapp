@@ -5,6 +5,7 @@ module Modules
 
       include Modules::Resources::PermissionsHelpers
       include Modules::Batch::BatchAuthorization
+      include Modules::Batch::BatchLogIntoEditSessions
 
       SANITIZATION_SPEC = \
         { MediaEntry: { user: [:get_metadata_and_previews,
@@ -71,6 +72,7 @@ module Modules
 
         batch_update_permissions_transaction!(resources,
                                               params.require(:permissions))
+        batch_log_into_edit_sessions! resources
         respond_to do |format|
           format.json do
             flash[:success] = I18n.t(:permissions_batch_success)

@@ -5,6 +5,7 @@ module Modules
 
       include Modules::Resources::MetaDataUpdate
       include Modules::Batch::BatchAutoPublish
+      include Modules::Batch::BatchLogIntoEditSessions
 
       def batch_edit_context_meta_data
         authorize MediaEntry, :logged_in?
@@ -42,6 +43,8 @@ module Modules
         if errors.empty?
 
           stats = batch_publish_transaction!(entries.reload)
+
+          batch_log_into_edit_sessions! entries
 
           flash_message = flash_message_by_stats(stats)
           batch_respond_success('success', flash_message, return_to)

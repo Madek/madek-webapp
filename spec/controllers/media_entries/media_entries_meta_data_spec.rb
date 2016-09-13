@@ -65,6 +65,11 @@ describe MediaEntriesController do
       expect(md_keywords(@media_entry)).to be == [@new_keyword]
     end
 
+    it 'creates log entry in edit_sessions' do
+      expect { put_meta_data(@meta_key_text => ['test title']) }
+        .to change { @media_entry.reload.edit_sessions.count }.by 1
+    end
+
     it 'create person on the fly' do
       person = create(:person)
       onthefly_person_hash = { first_name: Faker::Name.first_name,
