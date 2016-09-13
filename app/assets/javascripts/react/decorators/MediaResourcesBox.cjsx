@@ -31,6 +31,10 @@ BatchRemoveFromSetModal = require('./BatchRemoveFromSetModal.cjsx')
 
 simpleXhr = require('../../lib/simple-xhr.coffee')
 
+LoadXhr = require('../../lib/load-xhr.coffee')
+Preloader = require('../ui-components/Preloader.cjsx')
+
+
 
 # Props/Config overview:
 # - props.get.with_actions = should the UI offer any interaction
@@ -106,6 +110,8 @@ module.exports = React.createClass
     batchAddToSet: false,
     batchRemoveFromSet: false,
     savedLayout: @props.collectionData.layout if @props.collectionData
+    listMetadata: {}
+    loadingListMetadataResource: null
   }
 
   _allowedLayoutModes: () ->
@@ -135,6 +141,27 @@ module.exports = React.createClass
         (new collectionClass.Paginated(@props.get))
       else
         (new collectionClass(@props.get.resources))
+
+
+  _tryLoadListMetadata: (resourceType, resourceUuid) ->
+    if not @state.loadingListMetadataResource
+      @setState({loadingListMetadataResource: resourceUuid})
+      LoadXhr({
+        method: 'GET',
+        url:
+          if resourceType == 'Collection'
+            '/sets/' + resourceUuid + '.json?___sparse={"meta_data":{}}'
+          else if resourceType == 'MediaEntry'
+            '/entries/' + resourceUuid + '.json?___sparse={"meta_data":{}}'
+          else
+            console.error('Unknown resource type for loading meta data: ' + resourceType)
+
+      },
+      (result, json) =>
+        @state.listMetadata[resourceUuid] = json.meta_data
+        @setState({loadingListMetadataResource: null})
+      )
+
 
   componentWillMount: ()->
     resources = if f.get(@props, 'get.resources.isCollection')
@@ -407,7 +434,7 @@ module.exports = React.createClass
         f.merge layoutMode,
           mods: {'active': layoutMode.mode == layout}
           href: href
-          onClick: @_handleChangeInternally if layoutMode.mode != 'list'
+          onClick: @_handleChangeInternally # if layoutMode.mode != 'list'
 
       layoutSave = (event) =>
         event.preventDefault()
@@ -711,6 +738,19 @@ module.exports = React.createClass
                                 or @state.higlightPermissionsBatchEditable and (!item.isBatchPermissionsEditable)
                                   {opacity: 0.35}
 
+                          listMetadata = null
+                          if @state.isClient
+                            listMetadata = @state.listMetadata[item.uuid]
+                            unless listMetadata
+                              setTimeout(
+                                () =>
+                                  # debugger
+                                  @_tryLoadListMetadata(item.type, item.uuid)
+                                ,
+                                10
+                              )
+
+
                           # TODO: get={model}
                           <ResourceThumbnail elm='div'
                             style={style}
@@ -719,7 +759,9 @@ module.exports = React.createClass
                             isSelected={isSelected} onSelect={onSelect} onClick={onClick}
                             authToken={authToken} key={key}
                             pinThumb={config.layout == 'tiles'}
-                            listThumb={config.layout == 'list'} />
+                            listThumb={config.layout == 'list'}
+                            indexMetaData={listMetadata}
+                            loadingMetadata={@state.loadingListMetadataResource == item.uuid}/>
                       }
 
                     </ul>

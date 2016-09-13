@@ -24,17 +24,19 @@ class CollectionsController < ApplicationController
   # this overwrites the concern method
   def show
     collection = get_authorized_resource
+    # NOTE: for sync call load_meta_data should be
+    # load_meta_data: resource_list_params
+    #   .try(:[], :for_url)
+    #   .try(:[], :query)
+    #   .try(:[], :list)
+    #   .try(:[], :layout) == 'list'
     @get = \
       Presenters::Collections::CollectionShow.new \
         collection,
         current_user,
         user_scopes_for_collection(collection),
         list_conf: resource_list_params,
-        load_meta_data: resource_list_params
-          .try(:[], :for_url)
-          .try(:[], :query)
-          .try(:[], :list)
-          .try(:[], :layout) == 'list'
+        load_meta_data: false
     respond_with @get
   end
 

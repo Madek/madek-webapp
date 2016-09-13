@@ -15,6 +15,8 @@ StatusIcon = require('./thumbnail/StatusIcon.cjsx')
 ListThumbnail = require('./ListThumbnail.cjsx')
 MetaDataList = require('./MetaDataList.cjsx')
 MetaDatumValues = require('./MetaDatumValues.cjsx')
+LoadXhr = require('../../lib/load-xhr.coffee')
+Preloader = require('../ui-components/Preloader.cjsx')
 
 module.exports = React.createClass
   displayName: 'ListThumbnail'
@@ -88,12 +90,15 @@ module.exports = React.createClass
         </div>
         {
           if true
-            f.map(listsWithClasses, (item, index) =>
-              <div className={item.className} key={'list_' + index}>
-                <MetaDataList showTitle={false} mods='ui-resource-meta' listMods='block' type='table'
-                  list={item.list} renderer={@_listRenderer}/>
-              </div>
-            )
+            if @props.loadingMetadata
+              <Preloader />
+            else
+              f.map(listsWithClasses, (item, index) =>
+                <div className={item.className} key={'list_' + index}>
+                  <MetaDataList showTitle={false} mods='ui-resource-meta' listMods='block' type='table'
+                    list={item.list} renderer={@_listRenderer}/>
+                </div>
+              )
           else
             <Meta />
             <Description />

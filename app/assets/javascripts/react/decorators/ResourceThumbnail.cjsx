@@ -201,7 +201,8 @@ module.exports = React.createClass
         title={textProps.title}
         subtitle={textProps.subtitle}
         mediaUrl={get.url}
-        metaData={get.index_meta_data}
+        metaData={@props.indexMetaData}
+        loadingMetadata={@props.loadingMetadata}
         />
     else
       <ResourceThumbnailRenderer
