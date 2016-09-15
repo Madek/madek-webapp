@@ -101,7 +101,7 @@ module Presenters
           end
           resources
             .filter_by(@user, config[:filter] || {})
-            .reorder(config[:order])
+            .custom_order_by(config[:order])
         end
 
         def presenterify(resources, determined_presenter = nil)
