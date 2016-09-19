@@ -810,8 +810,9 @@ SideFilterFallback = ({filter} = @props)->
 
 BoxTitleBar = ({heading, centerActions, layouts, mods} = @props)->
   classes = cx('ui-container inverted ui-toolbar pvx', mods)
+  style = {minHeight: '1px'} # Make sure col2of6 fills its space (min height ensures that following float left are blocked)
   <div className={classes}>
-    <h2 className='ui-toolbar-header pls col2of6'>{heading}</h2>
+    <h2 className='ui-toolbar-header pls col2of6' style={style}>{heading}</h2>
     <div className='col2of6' style={{textAlign: 'center'}}>
       {# Action Buttons: }
       {if f.any(centerActions)

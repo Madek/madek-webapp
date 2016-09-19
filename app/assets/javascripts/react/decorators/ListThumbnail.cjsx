@@ -69,6 +69,8 @@ module.exports = React.createClass
       <ResourceIcon mediaType={mediaType} thumbnail={true} tiles={false}
         type={resourceType} overrideClasses='ui-thumbnail-image' />
 
+    thumbnailClass = f.kebabCase(resourceType.replace(/Collection/, 'MediaSet'))
+
     <li className="ui-resource">
       <div className="ui-resource-head">
         <ResourceActions />
@@ -76,7 +78,7 @@ module.exports = React.createClass
       </div>
       <div className="ui-resource-body">
         <div className="ui-resource-thumbnail">
-          <div className="ui-thumbnail media-set">
+          <div className={c('ui-thumbnail', thumbnailClass)}>
             <LevelUp />
             <div className="ui-thumbnail-privacy">
               <i className="icon-privacy-group"></i>
