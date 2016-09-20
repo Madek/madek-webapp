@@ -29,7 +29,11 @@ app.extend({
 # our library:
 ujs = [
   require('./ujs/hashviz.coffee'),
-  require('./ujs/react.coffee')
+  require('./ujs/react.coffee'),
+  (-> # TMP: support data-confirm attributes (legacy)
+    Array.prototype.slice.call(document.querySelectorAll('[data-confirm]')).map(
+      (node)-> node.onclick = -> confirm(node.dataset.confirm || 'Sind sie sicher?'))
+  )
 ]
 
 # initialize them all when DOM is ready:

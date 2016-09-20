@@ -128,6 +128,8 @@ feature 'Resource: Group; in User Dashboard ("My Groups")' do
         find('button[data-confirm]').click
       end
 
+      accept_confirm I18n.t(:group_delete_confirm_msg)
+
       check_groups_path
 
       expect(page).not_to have_content @group.name
