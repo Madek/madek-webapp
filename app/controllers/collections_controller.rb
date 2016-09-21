@@ -6,12 +6,19 @@ class CollectionsController < ApplicationController
   include Concerns::CollectionHighlights
   include Concerns::ControllerFavoritable
   include Concerns::CollectionCollectionSelection
+  include Concerns::MediaResources::CustomOrderBy
   include Modules::Collections::PermissionsUpdate
   include Modules::Collections::MetaDataUpdate
   include Modules::Collections::Create
   include Modules::Collections::Store
 
   ALLOWED_FILTER_PARAMS = [:search].freeze
+
+  ALLOWED_SORTING = [
+    'created_at ASC',
+    'created_at DESC',
+    'title ASC',
+    'title DESC'].freeze
 
   def index
     respond_with(@get = Presenters::Collections::Collections.new(
@@ -30,12 +37,15 @@ class CollectionsController < ApplicationController
     #   .try(:[], :query)
     #   .try(:[], :list)
     #   .try(:[], :layout) == 'list'
+
+    list_conf = determine_list_conf(collection)
+
     @get = \
       Presenters::Collections::CollectionShow.new \
         collection,
         current_user,
         user_scopes_for_collection(collection),
-        list_conf: resource_list_params,
+        list_conf: list_conf,
         load_meta_data: false
     respond_with @get
   end
@@ -117,6 +127,19 @@ class CollectionsController < ApplicationController
 
   private
 
+  def determine_list_conf(collection)
+    list_conf = resource_list_params
+    unless list_conf[:order]
+      list_conf[:order] =
+        if ALLOWED_SORTING.include? collection.sorting
+          collection.sorting
+        else
+          'created_at DESC'
+        end
+    end
+    list_conf
+  end
+
   def authorize_and_respond_with_presenter_and_template(name, template)
     collection = Collection.find(params[:id])
     authorize collection
@@ -139,6 +162,6 @@ class CollectionsController < ApplicationController
   end
 
   def update_params
-    collection_params.permit(:layout)
+    collection_params.permit(:layout, :sorting)
   end
 end

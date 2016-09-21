@@ -34,6 +34,8 @@ simpleXhr = require('../../lib/simple-xhr.coffee')
 LoadXhr = require('../../lib/load-xhr.coffee')
 Preloader = require('../ui-components/Preloader.cjsx')
 
+SortDropdown = require('./resourcesbox/SortDropdown.cjsx')
+
 
 
 # Props/Config overview:
@@ -106,12 +108,15 @@ module.exports = React.createClass
   # kick of client-side mode:
   getInitialState: ()-> {
     isClient: false,
-    config: {},
     batchAddToSet: false,
     batchRemoveFromSet: false,
     savedLayout: @props.collectionData.layout if @props.collectionData
+    savedOrder: @props.collectionData.order if @props.collectionData
     listMetadata: {}
     loadingListMetadataResource: null
+    loadingNextPage: false
+    modelReloading: false
+
   }
 
   _allowedLayoutModes: () ->
@@ -131,17 +136,17 @@ module.exports = React.createClass
     f.each(f.compact(@doOnUnmount), (fn)->
       if f.isFunction(fn) then fn() else console.error("Not a Function!", fn))
 
-  _createResourcesModel: () ->
-    collectionClass = switch @props.get.type
+  _createResourcesModel: (get, withBox) ->
+    collectionClass = switch get.type
       when 'MediaResources' then CollectionChildren
       when 'MediaEntries' then MediaEntries
       when 'Collections' then Collections
     if collectionClass
-      if @props.withBox && f.present(f.get(@props, 'get.pagination.total_count'))
+      if withBox && f.present(f.get(get, 'pagination.total_count'))
         if !collectionClass.Paginated then throw new Error('Collection has no Pagination!')
-        (new collectionClass.Paginated(@props.get))
+        (new collectionClass.Paginated(get))
       else
-        (new collectionClass(@props.get.resources))
+        (new collectionClass(get.resources))
 
 
   _tryLoadListMetadata: (resourceType, resourceUuid) ->
@@ -168,7 +173,7 @@ module.exports = React.createClass
     resources = if f.get(@props, 'get.resources.isCollection')
       @props.get.resources # if already initialized just use that
     else
-      @_createResourcesModel()
+      @_createResourcesModel(@props.get, @props.withBox)
     @setState(resources: resources)
 
   componentDidMount: ()->
@@ -204,8 +209,12 @@ module.exports = React.createClass
 
   # client-side link handlers:
   # - for state changes that don't need new data (like visual changes):
-  _handleChangeInternally: (event)->
-    handleLinkIfLocal(event, router.goTo)
+  _handleChangeInternally: (event) ->
+    handleLinkIfLocal(
+      event,
+      (href) ->
+        router.goTo(href)
+    )
 
   # # - for state changes that update the resources (like filter):
   # _handleRequestInternally: (event)->
@@ -358,6 +367,7 @@ module.exports = React.createClass
       {config: initial},        # - per-view initial default config
       config:                   # - default config
         layout: @state.savedLayout || 'grid'
+        order: @state.savedOrder || 'created_at DESC'
         show_filter: false
 
     # FIXME: always get from state!
@@ -426,7 +436,7 @@ module.exports = React.createClass
           <Icon i='undo'/> {'Filter zurücksetzen'}</Link>
 
     boxTitleBar = () =>
-      {filter, layout, for_url} = config
+      {filter, layout, for_url, order} = config
       totalCount = f.get(get, 'pagination.total_count')
       isClient = @state.isClient
 
@@ -437,26 +447,63 @@ module.exports = React.createClass
           href: href
           onClick: @_handleChangeInternally # if layoutMode.mode != 'list'
 
+      onSortItemClick = (event, itemKey) =>
+        @_handleChangeInternally(event)
+        @state.resources.clear()
+        if @props.loadChildMediaResources
+          @setState(modelReloading: true)
+          @props.loadChildMediaResources(itemKey, (child_media_resources) =>
+            resources = @_createResourcesModel(child_media_resources, @props.withBox)
+            @state.selectedResources.reset()
+            @setState(resources: resources, modelReloading: false)
+          )
+
+      dropdownItems = [
+        {
+          label: t('collection_sorting_created_at_asc')
+          key: 'created_at ASC'
+          href: setUrlParams(for_url, currentQuery, list: order: 'created_at ASC')
+        },
+        {
+          label: t('collection_sorting_created_at_desc')
+          key: 'created_at DESC'
+          href: setUrlParams(for_url, currentQuery, list: order: 'created_at DESC')
+        },
+        {
+          label: t('collection_sorting_title_asc')
+          key: 'title ASC'
+          href: setUrlParams(for_url, currentQuery, list: order: 'title ASC')
+        },
+        {
+          label: t('collection_sorting_title_desc')
+          key: 'title DESC'
+          href: setUrlParams(for_url, currentQuery, list: order: 'title DESC')
+        }
+      ]
+
+
+
+
       layoutSave = (event) =>
         event.preventDefault()
         simpleXhr(
           {
             method: 'PATCH',
             url: '/sets/' + @props.collectionData.uuid,
-            body: 'collection[layout]=' + layout
+            body: 'collection[layout]=' + layout + '\&collection[sorting]=' + order
           },
           (error) =>
             if error
               alert(error)
             else
-              @setState(savedLayout: layout)
+              @setState(savedLayout: layout, savedOrder: order)
         )
         return false
 
       centerActions =
         if @props.collectionData && @props.collectionData.editable
           (() =>
-            layoutChanged = @state.savedLayout != layout
+            layoutChanged = @state.savedLayout != layout || @state.savedOrder != order
             text = if layoutChanged then t('collection_layout_save') else t('collection_layout_saved')
             [
               <a key="collection_layout" disabled={'disabled' if !layoutChanged}
@@ -477,7 +524,10 @@ module.exports = React.createClass
         heading={heading or ("#{totalCount} #{t('resources_box_title_count_post')}" if totalCount)}
         mods={toolbarClasses}
         layouts={layouts}
-        centerActions={centerActions} />
+        centerActions={centerActions}
+        onSortItemClick={onSortItemClick}
+        dropdownItems={dropdownItems}
+        selectedSort={order} />
 
     boxToolBar = () =>
       # NOTE: don't show the bar if not in a box!
@@ -695,7 +745,9 @@ module.exports = React.createClass
           {# main list:}
           <div className='ui-container table-cell table-substance'>
             {children}
-            {if not f.present(resources) or resources.length == 0 then do ()->
+            {if @state.modelReloading
+              <Preloader />
+            else if not f.present(resources) or resources.length == 0 then do ()->
               return null if !fallback
               if !f.isBoolean(fallback)
                 fallback # we are given a fallback message, use it
@@ -708,7 +760,6 @@ module.exports = React.createClass
                 </FallBackMsg>
             else
               <ul className={listClasses}>
-
                 {(resources.pages || [{resources}]).map (page, i)=>
                   <li className='ui-resources-page' key={i}>
 
@@ -739,12 +790,11 @@ module.exports = React.createClass
                                   {opacity: 0.35}
 
                           listMetadata = null
-                          if @state.isClient
+                          if @state.isClient && config.layout == 'list'
                             listMetadata = @state.listMetadata[item.uuid]
                             unless listMetadata
                               setTimeout(
                                 () =>
-                                  # debugger
                                   @_tryLoadListMetadata(item.type, item.uuid)
                                 ,
                                 10
@@ -808,7 +858,10 @@ SideFilterFallback = ({filter} = @props)->
     </RailsForm>
   </div>
 
-BoxTitleBar = ({heading, centerActions, layouts, mods} = @props)->
+BoxTitleBar = ({heading, centerActions, layouts, mods, onSortItemClick, dropdownItems, selectedSort} = @props)->
+
+  style = {minHeight: '1px'} # Make sure col2of6 fills its space (min height ensures that following float left are blocked)
+
   classes = cx('ui-container inverted ui-toolbar pvx', mods)
   style = {minHeight: '1px'} # Make sure col2of6 fills its space (min height ensures that following float left are blocked)
   <div className={classes}>
@@ -821,7 +874,7 @@ BoxTitleBar = ({heading, centerActions, layouts, mods} = @props)->
         </ButtonGroup>
       }
     </div>
-    <div className='ui-toolbar-controls by-right col2of6'>
+    <div className='ui-toolbar-controls by-right'> {# removed col2of6 because of minimum width}
       {# Layout Switcher: }
       <ButtonGroup mods='tertiary small right mls'>
         {layouts.map (layout)->
@@ -834,6 +887,8 @@ BoxTitleBar = ({heading, centerActions, layouts, mods} = @props)->
           </Button>
         }
       </ButtonGroup>
+      <SortDropdown items={dropdownItems} selectedKey={selectedSort}
+        onItemClick={onSortItemClick} />
     </div>
   </div>
 
@@ -868,7 +923,6 @@ FilterExamples = ({url, query, examples} = @props)->
       }
     </ul>
   </div>
-
 
 filter_examples = {
   "Search: 'still'": {

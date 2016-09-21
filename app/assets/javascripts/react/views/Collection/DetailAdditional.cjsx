@@ -4,16 +4,46 @@ f = require('active-lodash')
 t = require('../../../lib/string-translation.js')('de')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 TabContent = require('../TabContent.cjsx')
+LoadXhr = require('../../../lib/load-xhr.coffee')
+setUrlParams = require('../../../lib/set-params-for-url.coffee')
+
 
 classnames = require('classnames')
 
 module.exports = React.createClass
   displayName: 'CollectionDetailAdditional'
+
+  _loadChildMediaResources: (itemKey, callback) ->
+
+    get = @props.get
+
+    sparseParam = {___sparse: {relations: {child_media_resources: {}}}}
+    listParam = list: {order: itemKey}
+
+    urlBase =
+      if get.type == 'Collection'
+        '/sets'
+      else if get.type == 'MediaEntry'
+        '/entries'
+      else
+        throw new Error('Unknown resource type for loading meta data: ' + get.type)
+
+    url = setUrlParams(urlBase + '/' + get.uuid + '.json', sparseParam, listParam)
+
+    LoadXhr({
+      method: 'GET',
+      url: url
+    },
+    (result, json) ->
+      callback(json.relations.child_media_resources)
+    )
+
   render: ({get, authToken} = @props) ->
     <div className="ui-container rounded-bottom">
       <MediaResourcesBox withBox={true}
         get={get.relations.child_media_resources} authToken={authToken}
         initial={ { show_filter: true } } mods={ [ {bordered: false}, 'rounded-bottom' ] }
         allowListMode={true}
-        collectionData={{uuid: get.uuid, layout: get.layout, editable: get.editable}} />
+        collectionData={{uuid: get.uuid, layout: get.layout, editable: get.editable, order: get.sorting}}
+        loadChildMediaResources={@_loadChildMediaResources} />
     </div>

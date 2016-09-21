@@ -18,7 +18,7 @@ module.exports = (config, callback) ->
       error = null
       if err
         console.error('Connection problem.', err)
-        error = 'Connection problem.'
+        error = 'Connection problem. ' + err
         callback(error)
         return
 

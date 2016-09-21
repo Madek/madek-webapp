@@ -8,7 +8,7 @@ module.exports = resourceListParams = (location)->
   base = 'list'
   allowed = [
     'layout', 'filter', 'show_filter', 'accordion',
-    'page', 'per_page']
+    'page', 'per_page', 'order']
   coerced_types = { bools: ['show_filter'], jsons: ['filter', 'accordion'] }
   f.chain(query)
     .get(base).pick(allowed)

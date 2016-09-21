@@ -59,6 +59,10 @@ module Presenters
           search_term: @search_term)
       end
 
+      def sorting
+        @app_resource.sorting
+      end
+
       def tabs
         tabs_config.select do |tab|
           policy(@user).send("#{tab[:id]}?")
