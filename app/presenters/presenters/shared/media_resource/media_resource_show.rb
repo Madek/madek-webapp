@@ -25,6 +25,11 @@ module Presenters
           @app_resource.class.name.underscore
         end
 
+        def edit_sessions
+          @app_resource.edit_sessions.limit(5).map do |edit_session|
+            Presenters::Shared::MediaResource::EditSession.new(edit_session)
+          end
+        end
       end
     end
   end

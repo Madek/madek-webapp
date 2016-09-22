@@ -16,6 +16,23 @@
         ]
       = combo('metadata-box', mods: 'ui-summary-table', list: more_meta_data_list)
 
+    .ui-container.prm
+      %h3.title-l.separated.mvm.mtl= t(:resource_last_changes)
+      :ruby
+        last_changes_list = @get.edit_sessions.map do |edit_session|
+          [
+            edit_session.change_date,
+            deco('person-tag-list',
+              person: edit_session.user,
+              mods: tag_mods)
+          ]
+        end
+      - if last_changes_list.any?
+        = combo('metadata-box', mods: 'ui-summary-table', list: last_changes_list)
+      - else
+        = t(:resource_last_changes_empty)
+
+
   .col2of3
     .ui-container.plm
       %h3.title-l.separated.mbm= t(:media_entry_all_metadata_title)
