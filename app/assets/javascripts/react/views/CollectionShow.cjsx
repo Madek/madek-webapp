@@ -70,38 +70,41 @@ module.exports = React.createClass
           when 'more_data'
             <TabContent>
               <div className="bright pal rounded-bottom rounded-top-right ui-container">
-                <div className='col1of3'>
-                  <div className='ui-container prm'>
-                    <h3 className='title-l separated mbm'>{t('resource_last_changes')}</h3>
-                    {
-                      if f.isEmpty(get.edit_sessions)
-                        <div>{t('resource_last_changes_empty')}</div>
-                      else
-                        <div className="ui-metadata-box">
-                          <table className="borderless">
-                            <tbody>
-                              {
-                                f.map(get.edit_sessions, (edit_session) ->
-                                  return if not edit_session.user
-                                  list = [{
-                                    href: edit_session.user.url
-                                    children: resourceName(edit_session.user)
-                                    key:  edit_session.user.uuid
-                                  }]
-                                  <tr>
-                                    <td className="ui-summary-label">{edit_session.change_date}</td>
-                                    <td className="ui-summary-content">
-                                      <TagCloud mod='person' mods='small' list={list}></TagCloud>
-                                    </td>
-                                  </tr>
-                                )
-                              }
-                            </tbody>
-                          </table>
-                        </div>
-                    }
-                  </div>
-                </div>
+                {
+                  if get.logged_in
+                    <div className='col1of3'>
+                      <div className='ui-container prm'>
+                        <h3 className='title-l separated mbm'>{t('resource_last_changes')}</h3>
+                        {
+                          if f.isEmpty(get.edit_sessions)
+                            <div>{t('resource_last_changes_empty')}</div>
+                          else
+                            <div className="ui-metadata-box">
+                              <table className="borderless">
+                                <tbody>
+                                  {
+                                    f.map(get.edit_sessions, (edit_session) ->
+                                      return if not edit_session.user
+                                      list = [{
+                                        href: edit_session.user.url
+                                        children: resourceName(edit_session.user)
+                                        key:  edit_session.user.uuid
+                                      }]
+                                      <tr>
+                                        <td className="ui-summary-label">{edit_session.change_date}</td>
+                                        <td className="ui-summary-content">
+                                          <TagCloud mod='person' mods='small' list={list}></TagCloud>
+                                        </td>
+                                      </tr>
+                                    )
+                                  }
+                                </tbody>
+                              </table>
+                            </div>
+                        }
+                      </div>
+                    </div>
+                }
                 <div className='col2of3'>
                   <div className="ui-container plm">
                     <MetaDataByListing list={get.meta_data.by_vocabulary} />

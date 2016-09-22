@@ -38,6 +38,10 @@ module Presenters
         )
       end
 
+      def logged_in
+        true if @user
+      end
+
       def resource_index
         Presenters::Collections::CollectionIndex.new(@app_resource, @user)
       end

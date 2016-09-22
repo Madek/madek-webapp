@@ -23,6 +23,11 @@ feature 'display last changes' do
     check_title
     check_entry
     check_count(1)
+
+    make_public_collection
+    logout
+    visit_collection_more_data
+    check_not_shown
   end
 
   scenario 'media entry' do
@@ -40,6 +45,11 @@ feature 'display last changes' do
     check_title
     check_entry
     check_count(1)
+
+    make_public_media_entry
+    logout
+    visit_media_entry_more_data
+    check_not_shown
   end
 
   scenario 'maximum 5' do
@@ -101,8 +111,24 @@ def check_entry
     .find('.ui-summary-content', text: @user.person.to_s)
 end
 
+def check_not_shown
+  expect(page).to have_no_css('.title-l', text: I18n.t(:resource_last_changes))
+end
+
 def check_empty
   find('.tab-content', text: I18n.t(:resource_last_changes_empty))
+end
+
+def make_public_collection
+  @collection.get_metadata_and_previews = true
+  @collection.save
+  @collection.reload
+end
+
+def make_public_media_entry
+  @media_entry.get_metadata_and_previews = true
+  @media_entry.save
+  @media_entry.reload
 end
 
 def prepare_collection
