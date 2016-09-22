@@ -19,11 +19,11 @@
       id: 'example_tabs',
       mods: ['primary', 'large'],
       list: {
-        my: {
+        my: (!current_user ? nil : {
           text: t(:sitemap_my_archive),
           href: my_dashboard_path,
           active: link_active?(my_dashboard_path)
-        },
+        }),
         explore: {
           text: t(:sitemap_explore),
           href: explore_path,
