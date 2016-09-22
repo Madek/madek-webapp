@@ -41,6 +41,7 @@ feature 'collection sorting' do
     select_sorting(:collection_sorting_created_at_desc)
     expect_save_button(true)
     click_save_button
+    wait_leaving_page_until_response
 
     visit_collection
     check_dropdown(:collection_sorting_created_at_desc)
@@ -125,6 +126,10 @@ feature 'collection sorting' do
     check_dropdown(:collection_sorting_created_at_desc)
     check_children(:created_at_desc)
   end
+end
+
+def wait_leaving_page_until_response
+  expect_save_button(false)
 end
 
 def select_sorting(sorting_text_key)
