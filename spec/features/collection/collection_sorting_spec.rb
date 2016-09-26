@@ -91,8 +91,6 @@ feature 'collection sorting' do
     check_children_explicitly(expected_created_at_asc.reverse)
     select_sorting(:collection_sorting_title_asc)
     check_children_explicitly(expected_title_asc)
-    select_sorting(:collection_sorting_title_desc)
-    check_children_explicitly(expected_title_asc.reverse)
   end
 
   scenario 'check enabled button' do
