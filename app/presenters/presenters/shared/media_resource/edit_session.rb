@@ -13,7 +13,7 @@ module Presenters
 
         def change_date
           if @edit_session.created_at
-            @edit_session.created_at.strftime('%d.%m.%Y')
+            @edit_session.created_at.strftime('%d.%m.%Y, %H:%M')
           end
         end
 
