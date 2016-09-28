@@ -12,21 +12,15 @@ module.exports = React.createClass
 
   getInitialState: () -> { active: false }
 
-  render: ({authToken} = @props) ->
+  render: ({welcomeMessage, authToken} = @props) ->
 
     <div className='ui-home-claim ui-container'>
       <div className='col2of3'>
         <div className='pitch-claim'>
           <h1 className='title-xxl'>
-            {t('login_box_title')}
+            {welcomeMessage.title}
           </h1>
-          <div className='ptm'>
-            <p>
-              <strong>{t('login_box_cite')}</strong>
-              <br />
-              {t('login_box_author')}
-            </p>
-          </div>
+          <div className='ptm' dangerouslySetInnerHTML={welcomeMessage.text} />
         </div>
       </div>
       <div className='col1of3'>

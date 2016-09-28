@@ -1,6 +1,7 @@
 module Presenters
   module Explore
     class ExploreLoginPage < Presenter
+      include ApplicationHelper
       include Presenters::Explore::Modules::MemoizedHelpers
 
       include Presenters::Explore::Modules::ExploreTeaserEntries
@@ -16,6 +17,13 @@ module Presenters
         @catalog_title = settings.catalog_title
         @featured_set_title = settings.featured_set_title
         @show_all_link = true
+      end
+
+      def welcome_message
+        {
+          title: @settings[:welcome_title],
+          text: { __html: markdown(@settings[:welcome_text] || '') }
+        }
       end
 
       def teaser_entries
