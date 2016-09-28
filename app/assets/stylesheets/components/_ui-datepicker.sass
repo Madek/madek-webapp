@@ -1,11 +1,30 @@
+// base styles from component
+@import "../../../node_modules/react-day-picker/lib/style"
+
 .ui-datepicker
-  background: white
-  +border-radius($border-radius-s)
-  +box-shadow(0 1px 3px $darken-more)
-  +micro-clearfix
-  .ui-datepicker-unselectable, .ui-state-disabled
-    .ui-state-default
-      opacity: 0.5
-      &:hover
-        background: none
-        color: gray
+  z-index: 1000
+
+  .DayPicker
+    width: 200px
+    background: $white
+    +border-radius($border-radius-s)
+    +box-shadow(0 1px 3px $darken-more)
+
+  .DayPicker-Caption
+    height: 1.34em
+    line-height: 1em
+
+  .DayPicker-Day--selected
+    color: $white
+    background-color: $main-color-dark
+
+  .DayPicker-Day--today
+    color: $main-color-dark
+    font-weight: 600
+
+  .DayPicker--interactionDisabled .DayPicker-Day,
+  .DayPicker-Day--disabled, .DayPicker-Day--outside
+    opacity: 0.5
+    &:hover
+      background: none
+      color: gray

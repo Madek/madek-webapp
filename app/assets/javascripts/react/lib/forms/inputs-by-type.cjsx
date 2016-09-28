@@ -3,10 +3,11 @@ f = require('active-lodash')
 MadekPropTypes = require('../madek-prop-types.coffee')
 Text = require('./input-text-async.cjsx')
 InputResources = require('./input-resources.cjsx')
+InputTextDate = require('./InputTextDate.js').default
 
 module.exports =
   Text: Text
-  TextDate: Text
+  TextDate: InputTextDate
 
   People: React.createClass
     displayName: 'InputPeople'

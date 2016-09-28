@@ -24,6 +24,10 @@ def current_path_with_query(full_url = current_url)
   url.path + (url.query.present? ? ('?' + url.query) : '')
 end
 
+def find_exact_text(locator, text:)
+  page.find(locator, text: Regexp.new("^#{text}$"))
+end
+
 # firefox only! - needs browser driver to support it
 def move_mouse_over(element)
   page.driver.browser.action.move_to(element.native).perform
