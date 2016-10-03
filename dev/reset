@@ -6,6 +6,8 @@ for N in $(seq 5); do printf '.' && sleep 1; done; echo ""
 ################################################################################
 set -exu # be verbose and fail on any error
 
+git submodule update --init
+
 rm -rf "$(dirname "$0")/../tmp" &
 
 for ENV in test development; do
