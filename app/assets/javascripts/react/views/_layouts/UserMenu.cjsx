@@ -93,7 +93,7 @@ module.exports = React.createClass
 
         {# <li className='separator'/>}
 
-        {if f.present(props.admin)
+        {f.present(props.admin) &&
           <MenuItem href={props.admin.url} className='ui-drop-item'>
             <Icon i='cog ui-drop-icon mid'/>
             {' ' + t('user_menu_admin_ui')}
@@ -107,7 +107,7 @@ module.exports = React.createClass
           {# </li>}
         }
 
-        <MenuItem className='separator'/>
+        {f.present(props.admin) && <MenuItem className='separator'/>}
 
         <li className='ui-drop-item'>
           {# NOTE: needed style fixes for putting form in menu}
