@@ -36,15 +36,6 @@ describe MetaDataController do
       delete_and_assert_success(meta_datum)
     end
 
-    it 'MetaDatum::Groups' do
-      meta_key = FactoryGirl.create(:meta_key_groups)
-      create_vocabulary_permissions(meta_key.vocabulary)
-      meta_datum = create(:meta_datum_groups,
-                          meta_key: meta_key,
-                          media_entry: @media_entry)
-      delete_and_assert_success(meta_datum)
-    end
-
     it 'MetaDatum::Licenses' do
       meta_key = FactoryGirl.create(:meta_key_licenses)
       create_vocabulary_permissions(meta_key.vocabulary)

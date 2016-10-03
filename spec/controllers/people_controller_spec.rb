@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe PeopleController do
   let(:user) { FactoryGirl.create :user }
+  let(:meta_key_people) do
+    FactoryGirl.create(:meta_key_people,
+                       allowed_people_subtypes: ['Person'])
+  end
 
   context 'Resource: People' do
     example 'Action: show – redirects to filtered index' do
@@ -22,7 +26,9 @@ describe PeopleController do
       person = Person.first
 
       get :index,
-          { search_term: person.first_name, format: :json },
+          { meta_key_id: meta_key_people.id,
+            search_term: person.first_name,
+            format: :json },
           user_id: user.id
 
       assert_response :success
@@ -35,7 +41,11 @@ describe PeopleController do
     it 'limiting with params[:limit]' do
       2.times { FactoryGirl.create :person }
 
-      get :index, { limit: 1, format: :json }, user_id: user.id
+      get :index,
+          { meta_key_id: meta_key_people.id,
+            limit: 1,
+            format: :json },
+          user_id: user.id
 
       assert_response :success
       expect(response.content_type).to be == 'application/json'
@@ -46,7 +56,10 @@ describe PeopleController do
     it 'with default limit of 100' do
       101.times { FactoryGirl.create :person }
 
-      get :index, { format: :json }, user_id: user.id
+      get :index,
+          { meta_key_id: meta_key_people.id,
+            format: :json },
+          user_id: user.id
 
       assert_response :success
       expect(response.content_type).to be == 'application/json'

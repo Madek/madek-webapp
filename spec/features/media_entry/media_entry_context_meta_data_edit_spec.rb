@@ -90,7 +90,10 @@ def edit_some_data(async)
       'zhdk_bereich',
       @key_prj_type,
       @project_type_forschung)
-    update_context_bubble('zhdk_bereich', @key_group, @bachelor_design)
+    autocomplete_and_choose_first(
+      find_context_meta_key_form_by_id('zhdk_bereich',
+                                       @key_group),
+      @bachelor_design.name)
   else
     update_context_bubble_no_js(
       'zhdk_bereich',

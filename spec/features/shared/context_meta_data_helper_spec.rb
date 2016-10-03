@@ -46,19 +46,6 @@ module ContextMetaDataHelper
       .checked?
   end
 
-  def update_context_bubble(context_id, meta_key_id, value)
-    meta_key = MetaKey.find(meta_key_id)
-
-    val = if meta_key.meta_datum_object_type == 'MetaDatum::Groups'
-      value.name
-    else
-      value.term
-    end
-    autocomplete_and_choose_first(
-      find_context_meta_key_form_by_id(context_id, meta_key_id),
-      val)
-  end
-
   def get_label(context_id, meta_key_id)
     context_keys = ContextKey.where(
       meta_key_id: meta_key_id,

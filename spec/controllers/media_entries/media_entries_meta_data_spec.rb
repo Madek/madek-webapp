@@ -9,7 +9,7 @@ describe MediaEntriesController do
     before :example do
       @app_setting = AppSetting.first || create(:app_setting)
       @app_setting.contexts_for_validation = ['upload']
-      @context = create(:context, id: 'upload')
+      @context = Context.find_by_id('upload') || create(:context, id: 'upload')
 
       @media_entry = create(:media_entry_with_image_media_file)
       @media_entry.user_permissions << \
@@ -74,9 +74,10 @@ describe MediaEntriesController do
       person = create(:person)
       onthefly_person_hash = { first_name: Faker::Name.first_name,
                                last_name: Faker::Name.last_name,
-                               pseudonym: Faker::Lorem.word }
+                               pseudonym: Faker::Lorem.word,
+                               subtype: 'Person' }
       onthefly_bunch_hash = { first_name: Faker::Team.name,
-                              is_bunch: true }
+                              subtype: 'PeopleGroup' }
 
       put_meta_data \
         @unused_meta_key_people => [person.id,

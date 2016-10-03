@@ -11,4 +11,14 @@ class PeopleController < ApplicationController
       meta_data: [{ key: 'any', value: person.id, type: 'MetaDatum::People' }])
   end
 
+  private
+
+  def meta_key_id_param
+    params.require(:meta_key_id)
+  end
+
+  def search_params
+    [meta_key_id_param, params[:search_term]]
+  end
+
 end

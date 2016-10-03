@@ -37,24 +37,6 @@ describe MetaDataController do
       expect(Set.new md.people.map(&:id)).to be == Set.new(ids)
     end
 
-    it 'MetaDatum::Groups' do
-      meta_key = FactoryGirl.create(:meta_key_groups)
-      create_vocabulary_permissions(meta_key.vocabulary)
-      2.times { FactoryGirl.create :group }
-      ids = Group.take(2).map(&:id)
-      post :create,
-           { media_entry_id: @media_entry.id,
-             meta_key: meta_key.id,
-             type: 'MetaDatum::Groups',
-             values: ids },
-           user_id: @user.id
-
-      assert_response :created
-      md = @media_entry.meta_data.find_by_meta_key_id(meta_key.id)
-      expect(md).to be
-      expect(Set.new md.groups.map(&:id)).to be == Set.new(ids)
-    end
-
     it 'MetaDatum::Licenses' do
       meta_key = FactoryGirl.create(:meta_key_licenses)
       create_vocabulary_permissions(meta_key.vocabulary)

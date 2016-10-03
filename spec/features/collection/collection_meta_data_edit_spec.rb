@@ -64,7 +64,10 @@ feature 'Resource: Collection' do
             'media_content',
             'madek_core:description',
             '')
-          update_context_bubble('media_content', 'madek_core:keywords', @keyword)
+          autocomplete_and_choose_first(
+            find_context_meta_key_form_by_id('media_content',
+                                             'madek_core:keywords'),
+            @keyword.term)
         end,
         lambda do
           expect(find_datum(@resource, 'madek_core:title').string)
