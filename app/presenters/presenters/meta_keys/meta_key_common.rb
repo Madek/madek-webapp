@@ -4,6 +4,7 @@ module Presenters
       delegate_to_app_resource(:description,
                                :hint,
                                :vocabulary_id,
+                               :allowed_people_subtypes,
                                :position)
 
       def initialize(app_resource)

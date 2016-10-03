@@ -10,18 +10,18 @@ module.exports =
 
   People: React.createClass
     displayName: 'InputPeople'
-    render: ()->
-      <InputResources {...@props} resourceType='People'/>
+    render: ({get} = @props)->
+      {meta_key} = get
+      <InputResources {...@props}
+        resourceType='People'
+        searchParams={{meta_key_id: meta_key.uuid}}
+        allowedTypes={meta_key.allowed_people_subtypes}
+      />
 
   Licenses: React.createClass
     displayName: 'InputLicenses'
     render: ()->
       <InputResources {...@props} resourceType='Licenses'/>
-
-  Groups: React.createClass
-    displayName: 'InputGroups'
-    render: ()->
-      <InputResources {...@props} resourceType='Groups' searchParams={{scope: 'metadata'}}/>
 
   Keywords: React.createClass
     displayName: 'InputKeywords'

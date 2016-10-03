@@ -19,7 +19,8 @@ module.exports = React.createClass
     values: React.PropTypes.array.isRequired
     active: React.PropTypes.bool.isRequired
     multiple: React.PropTypes.bool.isRequired
-    extensible: React.PropTypes.bool # only for keywords
+    extensible: React.PropTypes.bool # only for Keywords
+    allowedTypes: React.PropTypes.array # only for People
     autocompleteConfig: React.PropTypes.shape
       minLength: React.PropTypes.number
 
@@ -73,7 +74,8 @@ module.exports = React.createClass
 
   render: ()->
     {_onItemAdd, _onItemRemove, _onNewKeyword, _onNewPerson} = @
-    {name, resourceType, searchParams, values, multiple, extensible, autocompleteConfig} = @props
+    { name, resourceType, values, multiple, extensible, allowedTypes
+      searchParams, autocompleteConfig } = @props
     state = @state
     values = state.values or values
 
@@ -98,7 +100,7 @@ module.exports = React.createClass
           {# add a value: }
           {if multiple or f.empty(values)
 
-            # allow adding new keywords:
+            # allow adding *new* keywords:
             if extensible and (resourceType is 'Keywords')
               addNewValue = _onNewKeyword
 
@@ -115,9 +117,12 @@ module.exports = React.createClass
                 <a className='multi-select-input-toggle icon-arrow-down'/>
               </li>
 
+              {# add a *new* Person.Person or Person.PeopleGroup}
               {if (resourceType is 'People')
                 <NewPersonWidget id={"#{f.snakeCase(name)}_new_person"}
+                  allowedTypes={allowedTypes}
                   onAddValue={_onNewPerson}/>}
+
             </div>
           }
         </ul>
@@ -158,14 +163,19 @@ module.exports = React.createClass
 
 # NOTE: only used client-side!
 # NOTE: "form-like" inside <form>, careful!
+PEOPLE_SUBTYPES = ['Person', 'PeopleGroup', 'PeopleInstitutionalGroup']
+SUPPORTED_PEOPLE_SUBTYPES = ['Person', 'PeopleGroup']
 NewPersonWidget = React.createClass
   displayName: 'NewPersonWidget'
   propTypes:
     id: React.PropTypes.string.isRequired
     onAddValue: React.PropTypes.func.isRequired
+    allowedTypes: React.PropTypes.arrayOf(
+      React.PropTypes.oneOf(PEOPLE_SUBTYPES).isRequired
+    ).isRequired
 
   # NOTE: no models needed here yet:
-  _emptyPerson: ()-> { type: 'Person', is_bunch: false }
+  _emptyPerson: ()-> { type: 'Person', subtype: PEOPLE_SUBTYPES[0]}
 
   getInitialState: ()-> {
     isOpen: false,
@@ -178,7 +188,7 @@ NewPersonWidget = React.createClass
     # TODO: move to next input field?
 
   _onTabChange: (eventKey)->
-    @setState({ newPerson: { is_bunch: (eventKey is 'group') } })
+    @setState({ newPerson: { subtype: eventKey } })
 
   _onUpdateField: (key, event)->
     @setState(
@@ -195,7 +205,10 @@ NewPersonWidget = React.createClass
     @props.onAddValue(@state.newPerson)
     @setState(isOpen: false, newPerson: @_emptyPerson())
 
-  render: ({id} = @props)->
+  render: ({id, allowedTypes} = @props)->
+    supportsAnyAllowedType = f.any(allowedTypes, (t) -> SUPPORTED_PEOPLE_SUBTYPES.includes(t))
+    if (!supportsAnyAllowedType) then return false
+
     paneClass = 'ui-container pam bordered rounded-right rounded-bottom'
     <div onKeyPress={@_onKeyPress}>
       <Tooltipped text={t('meta_data_input_new_person_toggle')} id={"#{id}_new_person_toggle"}>
@@ -206,63 +219,67 @@ NewPersonWidget = React.createClass
       </Tooltipped>
       {if @state.isOpen
         <Tab.Container id={id} className='form-widget'
-          defaultActiveKey='person' animation={false} onSelect={@_onTabChange}
+          defaultActiveKey='Person' animation={false} onSelect={@_onTabChange}
           >
           <div>
             <Nav className='ui-tabs ui-container' >
-              <NavItem eventKey='person' className='ui-tabs-item mll pls'>
+              <NavItem eventKey='Person' className='ui-tabs-item mll pls'>
                 Person
               </NavItem>
-              <NavItem eventKey='group'  className='ui-tabs-item'>
+              <NavItem eventKey='PeopleGroup'  className='ui-tabs-item'>
                 Group
               </NavItem>
             </Nav>
 
             <Tab.Content animation={false} className='ui-tab-content mbs'>
 
-              <Tab.Pane eventKey='person' className={paneClass}>
-                <div className='ui-form-group rowed pbx ptx'>
-                  <label className='form-label'>Vorname</label>
-                  <div className='form-item'>
-                    {@_inputField('first_name')}
-                  </div>
-                </div>
+              {allowedTypes.map((type) => (
+                if (type == 'Person') then return (
+                  <Tab.Pane eventKey={type} className={paneClass}>
+                    <div className='ui-form-group rowed pbx ptx'>
+                      <label className='form-label'>Vorname</label>
+                      <div className='form-item'>
+                        {@_inputField('first_name')}
+                      </div>
+                    </div>
 
-                <div className='ui-form-group rowed pbx ptx'>
-                  <label className='form-label'>Nachname</label>
-                  <div className='form-item'>
-                    {@_inputField('last_name')}
-                  </div>
-                </div>
+                    <div className='ui-form-group rowed pbx ptx'>
+                      <label className='form-label'>Nachname</label>
+                      <div className='form-item'>
+                        {@_inputField('last_name')}
+                      </div>
+                    </div>
 
-                <div className='ui-form-group rowed pbx ptx'>
-                  <label className='form-label'>Pseudonym</label>
-                  <div className='form-item'>
-                    {@_inputField('pseudonym')}
-                  </div>
-                </div>
+                    <div className='ui-form-group rowed pbx ptx'>
+                      <label className='form-label'>Pseudonym</label>
+                      <div className='form-item'>
+                        {@_inputField('pseudonym')}
+                      </div>
+                    </div>
 
-                <div className='ui-form-group rowed ptm limited-width-s'>
-                  <button className='add-person button block' onClick={@_onSubmit}>
-                    {t('meta_data_input_new_person_add')}
-                  </button>
-                </div>
-              </Tab.Pane>
+                    <div className='ui-form-group rowed ptm limited-width-s'>
+                      <button className='add-person button block' onClick={@_onSubmit}>
+                        {t('meta_data_input_new_person_add')}
+                      </button>
+                    </div>
+                  </Tab.Pane>)
 
-              <Tab.Pane eventKey='group' className={paneClass}>
-                <div className='ui-form-group rowed pbx ptx'>
-                  <label className='form-label'>Name</label>
-                  <div className='form-item'>
-                    {@_inputField('first_name')}
-                  </div>
-                </div>
+                if type == 'PeopleGroup' then return (
+                  <Tab.Pane eventKey={type} className={paneClass}>
+                    <div className='ui-form-group rowed pbx ptx'>
+                      <label className='form-label'>Name</label>
+                      <div className='form-item'>
+                        {@_inputField('first_name')}
+                      </div>
+                    </div>
 
-                <div className='ui-form-group rowed ptm limited-width-s'>
-                  <button className='add-group button block' onClick={@_onSubmit}>
-                    {t('meta_data_input_new_bunch_add')}
-                  </button>
-                </div>
-              </Tab.Pane>
+                    <div className='ui-form-group rowed ptm limited-width-s'>
+                      <button className='add-group button block' onClick={@_onSubmit}>
+                        {t('meta_data_input_new_group_add')}
+                      </button>
+                    </div>
+                  </Tab.Pane>)
+              ))}
 
             </Tab.Content>
 
