@@ -54,6 +54,9 @@ module.exports = React.createClass
 
     className = cx('ui-form-group columned prh', {'error': (error or validErr) and not batchConflict}, {'highlight': batchConflict})
 
+    # FIXE: wtf? contextKey can be null?
+    inputID = f.get(@props, 'contextKey.uuid') || @props.metaKeyId
+
     <fieldset style={style} className={className}>
       {if error
         <div className="ui-alerts" style={marginBottom: '10px'}>
@@ -83,6 +86,6 @@ module.exports = React.createClass
       }
       <MetaKeyFormLabel name={name} metaKey={meta_key} contextKey={@props.contextKey}
         mandatory={@props.requiredMetaKeyIds[@props.metaKeyId]}/>
-      <InputMetaDatum onChange={@_onChange} name={name} get={newget} contextKey={@props.contextKey} />
+      <InputMetaDatum id={inputID} onChange={@_onChange} name={name} get={newget} />
 
     </fieldset>

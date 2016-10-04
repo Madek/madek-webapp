@@ -8,6 +8,7 @@ InputText = require('./forms/input-text.cjsx')
 module.exports = React.createClass
   displayName: 'InputMetaDatum'
   propTypes:
+    id: React.PropTypes.string.isRequired
     name: React.PropTypes.string.isRequired
     get: MadekPropTypes.metaDatum.isRequired
 
@@ -16,7 +17,7 @@ module.exports = React.createClass
     @setState
       isClient: true
 
-  render: ({get, name} = @props, state = @state)->
+  render: ({get, id, name} = @props, state = @state)->
     resourceType = f.last(get.type.split('::'))
 
     multiple = not (f.includes(['Text', 'TextDate'], resourceType))
@@ -34,6 +35,7 @@ module.exports = React.createClass
     <InputForType
       onChange={@props.onChange}
       get={get}
+      id={id}
       name={name}
       active={state.isClient}
       multiple={multiple}
