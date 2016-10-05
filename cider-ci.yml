@@ -92,10 +92,11 @@ jobs:
       include: cider-ci/context-components/rails-setup.yml
       tasks:
         main:
+          traits: { Ruby: on, nodejs 4: on }
           tree_attachments:
             feature-specs:
               content_type: text/html
-              include_match: "^tmp/feature_specs.html$"
+              include_match: "^tmp/feature.*.(html|json)$"
           scripts:
             test:
               body: |
@@ -103,6 +104,8 @@ jobs:
                 set -eux
                 export PATH=~/.rubies/$RUBY/bin:$PATH
                 cider-ci/bin/render-specs spec/features > tmp/feature_specs.html
+                # NOTE: new version below, but old version stays till its ready
+                node_modules/.bin/rspec-to-docs spec/features > ./tmp/features.html
 
 
   wip-rspec-tests:

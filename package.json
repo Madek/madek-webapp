@@ -62,6 +62,7 @@
     "xhr": "^2.2.0"
   },
   "devDependencies": {
+    "@eins78/rspec-render-docs": "^1.0.0-alpha.3",
     "babel-preset-react-app": "^0.2.1",
     "babelify": "^7.3.0",
     "big-list-of-naughty-strings": "1.0.0",
