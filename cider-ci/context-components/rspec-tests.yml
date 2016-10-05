@@ -3,6 +3,17 @@
 include: cider-ci/context-components/rails-setup.yml
 
 task_defaults:
+  trial_attachments:
+    screenshots:
+      include_match: '^tmp\/.+\.png$'
+      content_type: image/png
+    logs:
+      include_match: '^logs?\/.+\.log$'
+      content_type: text/plain
+    config:
+      include_match: '^config\/.+\.ya?ml$'
+      content_type: text/yaml
+
   scripts:
     test:
       timeout: 15 Minutes
