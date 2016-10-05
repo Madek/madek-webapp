@@ -122,7 +122,7 @@ feature 'Side Filter' do
       section_a.click
 
       expect(section_li.all('.ui-side-filter-lvl2-item').map(&:text))
-        .to be == [context_key_authors,
+        .to be == [@meta_key_authors,
                    context_key_keywords].sort_by(&:position).map(&:label)
     end
 

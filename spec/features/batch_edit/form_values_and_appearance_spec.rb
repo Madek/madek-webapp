@@ -21,8 +21,8 @@ feature 'Resource: MediaEntries' do
 
       open_edit(@media_entry_1, @media_entry_2)
 
-      check_section('Madek Core', 'Title', true)
-      check_section('Madek Core', 'Subtitle', false, 'SubtitleX')
+      check_section('Madek Core', 'Titel', true)
+      check_section('Madek Core', 'Untertitel', false, 'SubtitleX')
       check_section('Madek Core', 'Schlagworte', false, 'Keyword1', 'Keyword2')
     end
 
@@ -37,7 +37,7 @@ feature 'Resource: MediaEntries' do
 
       open_edit(@media_entry_1, @media_entry_2)
 
-      check_section('Madek Core', 'Title', true)
+      check_section('Madek Core', 'Titel', true)
       check_section('Madek Core', 'Schlagworte', false, 'Keyword1', 'Keyword2')
     end
 
