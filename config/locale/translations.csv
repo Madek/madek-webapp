@@ -1,10 +1,10 @@
 key,de,en,comment
 ,,,
-app_confirm_form_leave_msg,"Diese Seite bittet Sie zu bestätigen, dass Sie die Seite verlassen möchten – Daten, die Sie eingegeben haben, werden unter Umständen nicht gespeichert.","Please confirm that you want to leave this page – entered data might not be saved!","NOTE: German version copied from Firefox default message"
+app_confirm_form_leave_msg,"Diese Seite bittet Sie zu bestätigen, dass Sie die Seite verlassen möchten – Daten, die Sie eingegeben haben, werden unter Umständen nicht gespeichert.",Please confirm that you want to leave this page – entered data might not be saved!,NOTE: German version copied from Firefox default message
 app_notice_logged_out,Sie haben sich abgemeldet.,You have logged out.,
 app_warning_jsonly,"Diese Funktion erfordert JavaScript, aber es ist nicht aktiviert!","This feature needs Javascript, but it's not activated!",
 authentication_groups,Systemgruppen,System Groups,
-batch_add_to_collection_hint,Nach Sets suchen, zu denen Sie die Medieneinträge hinzufügen möchten.,Seach for sets to add media entries.,
+batch_add_to_collection_hint,Nach Sets suchen, zu denen Sie die Medieneinträge hinzufügen möchten.,Seach for sets to add media entries.
 batch_add_to_collection_post, Medieneinträge zu Set hinzufügen, media entries to set,
 batch_add_to_collection_pre, , Add ,
 batch_meta_data_edit,Metadaten für %{media_entry_count} Medieneinträge gleichzeitig editieren,Edit metadata for %{media_entry_count} media entries at once.,TODO_cleanup_interpolation
@@ -205,8 +205,8 @@ no_keywords_fallback,Keine Schlagworte vorhanden.,No keywords available.,
 no_relations_title,Es wurden keine Zusammenhänge gefunden.,No relations found.,
 pagination_nav_loadnext,Mehr laden,Load more,
 pagination_nav_nextloading,Lädt…,Loading…,
-pagination_nav_nextpage,"Vor »","Next page »",
-pagination_nav_prevpage,"« Zurück","« Previous page",
+pagination_nav_nextpage,Vor »,Next page »,
+pagination_nav_prevpage,« Zurück,« Previous page,
 pagination_nav_thispage,Hier,This page,
 pagination_of,von,of,
 pagination_prefix,Seite,Page,
