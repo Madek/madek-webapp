@@ -97,15 +97,15 @@ Madek::Application.routes.draw do
   # MetaData & Meta-Resources:
   resources :meta_data
 
-
-  # TODO: finish this
   # # Canonical Paths for Vocabularies and their related MetaKeys.
   # # For MetaKeys and their related Keywords they are needed for RDF and friends:
   # # both attributes (MKs) and specified values (Ks) are referenced as IRIs,
   # # and as a web application it is most appropriate to use a (working) URL.
-  # get 'vocabulary', to: 'vocabularies#index', as: 'vocabularies'
-  # get 'vocabulary/:vocabulary_id', to: 'vocabularies#show', as: 'vocabulary', constraints: { id: /[^:]/ }
-  # get 'vocabulary/:meta_key_id', to: 'vocabularies#show_meta_key', as: 'vocabulary_meta_key'
+  get 'vocabulary', to: 'vocabularies#index', as: 'vocabularies'
+  # redirect /vocabulary/{meta_key} for consistency with keywords
+  get 'vocabulary/:meta_key_id', constraints: { meta_key_id: /.*:[^:\/]*/ },
+    to: redirect{ |p| v, m = p[:meta_key_id].split(':'); "/vocabulary/#{v}##{m}" }
+  get 'vocabulary/:vocabulary_id', to: 'vocabularies#show', as: 'vocabulary'
   get 'vocabulary/:meta_key_id/:term', to: 'keywords#show', as: 'vocabulary_meta_key_term'
 
   # TODO: also "scope" this inside /vocabulary ↑ (but don't break CRUD & search)

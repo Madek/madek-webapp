@@ -1,17 +1,10 @@
 React = require('react')
-ReactDOM = require('react-dom')
+
+# TODO: remove this wrapper and only use UI component
+PageHeader = require('../ui-components/PageHeader.js')
 
 module.exports = React.createClass
   displayName: 'PageContentHeader'
 
-  render: ({icon} = @props) ->
-    <div className="ui-body-title">
-      <div className="ui-body-title-label">
-        <h1 className="title-xl">
-          <i className={'icon-' + icon}/> {@props.title}
-        </h1>
-      </div>
-      <div className="ui-body-title-actions">
-        {@props.children}
-      </div>
-    </div>
+  render: ({icon, title, children} = @props) ->
+    <PageHeader icon={icon} title={title} actions={children}/>

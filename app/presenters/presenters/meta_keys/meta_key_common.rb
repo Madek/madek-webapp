@@ -32,6 +32,12 @@ module Presenters
         @app_resource.meta_datum_object_type
       end
 
+      def scope
+        [['media_entries', 'Entries'], ['collections', 'Sets']] # [[class, name]]
+          .select { |type| @app_resource.send("is_enabled_for_#{type[0]}") }
+          .map(&:second)
+      end
+
     end
   end
 end

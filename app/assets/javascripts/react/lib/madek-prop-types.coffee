@@ -14,6 +14,8 @@ META_DATUM_TYPES = [
     'MetaDatum::People',
     'MetaDatum::Keywords', 'MetaDatum::Licenses'
   ]
+PEOPLE_SUBTYPES = ['Person', 'PeopleGroup', 'PeopleInstitutionalGroup']
+
 
 # Set up base object, so that each single definition is standalone
 # and can be included/nested once defined. Shortcut just for readabilty here.
@@ -43,15 +45,24 @@ M.context = PropTypes.shape
   description: PropTypes.string
   hint: PropTypes.string
 
-M.metaKey = PropTypes.shape
+metaKey =
   uuid: M.metaKeyId.isRequired
   label: PropTypes.string.isRequired
   description: PropTypes.string
   hint: PropTypes.string
-  is_extensible: PropTypes.bool # only for type keywords!
+  is_extensible: PropTypes.bool # only for type Keywords!
+  allowed_people_subtypes: PropTypes.arrayOf( # only for type People!
+    PropTypes.oneOf(PEOPLE_SUBTYPES))
+
   # TODO: position: PropTypes.number.isRequired
   # TMP:
   value_type: PropTypes.oneOf(META_DATUM_TYPES).isRequired
+
+M.metaKey = PropTypes.shape(metaKey)
+
+M.VocabularyMetaKey = PropTypes.shape(f.merge(metaKey, {
+  scope: PropTypes.arrayOf(PropTypes.oneOf(['Entries', 'Sets'])).isRequired
+}))
 
 M.contextKey = PropTypes.shape
   uuid: M.uuid.isRequired
@@ -60,6 +71,7 @@ M.contextKey = PropTypes.shape
   description: PropTypes.string
   hint: PropTypes.string
   meta_key: M.metaKey
+
 M.keyword = PropTypes.shape
   label: PropTypes.string.isRequired
   type: PropTypes.oneOf(['Keyword'])
@@ -148,5 +160,9 @@ M.resourceFilter = PropTypes.shape
       PropTypes.shape(
         key: PropTypes.oneOf(['public']).isRequired
         value: PropTypes.oneOf([true, false]).isRequired)]))
+
+# export constants
+M.META_DATUM_TYPES = META_DATUM_TYPES
+M.PEOPLE_SUBTYPES = PEOPLE_SUBTYPES
 
 module.exports = MadekPropTypes

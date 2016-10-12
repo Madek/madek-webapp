@@ -7,6 +7,7 @@ Tabs = require('react-bootstrap/lib/Tabs')
 Tab = require('react-bootstrap/lib/Tab')
 Nav = require('react-bootstrap/lib/Nav')
 NavItem = require('react-bootstrap/lib/NavItem')
+MadekPropTypes = require('../../lib/madek-prop-types.coffee')
 {Icon, Tooltipped} = require('../../ui-components/index.coffee')
 InputFieldText = require('../forms/input-field-text.cjsx')
 AutoComplete = null # only required client-side!
@@ -163,7 +164,7 @@ module.exports = React.createClass
 
 # NOTE: only used client-side!
 # NOTE: "form-like" inside <form>, careful!
-PEOPLE_SUBTYPES = ['Person', 'PeopleGroup', 'PeopleInstitutionalGroup']
+PEOPLE_SUBTYPES = MadekPropTypes.PEOPLE_SUBTYPES
 SUPPORTED_PEOPLE_SUBTYPES = ['Person', 'PeopleGroup']
 NewPersonWidget = React.createClass
   displayName: 'NewPersonWidget'
