@@ -15,8 +15,9 @@ BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 } && { echo 'ERROR! must be on a branch!' && exit 1 ;}
 
 # clean state for assets:
-git submodule init public/assets
+git submodule update --init public/assets
 cd public/assets
+git checkout -B "$BRANCH"
 git fetch
 git reset --hard origin/master
 
