@@ -39,7 +39,7 @@ RSpec.configure do |config|
     # default is firefox! rack_test is `browser: false`
     Capybara.current_driver = \
       case example.metadata[:browser]
-      when nil, :firefox then :selenium_ff
+      when nil, true, :firefox then :selenium_ff
       when false then :rack_test
       when :firefox_nojs then :selenium_ff_nojs
       when :phantomjs then :poltergeist
@@ -56,6 +56,53 @@ RSpec.configure do |config|
   config.after(:each) do |example|
     unless example.exception.nil?
       take_screenshot
+    end
+  end
+
+  # fail example if there were any (unexpected) JS errors
+  config.after(:each) do |example|
+    # examples can EXPECT ERRORS, e.g. for testing if this setup still works
+    expected_errors = example.metadata[:expect_js_errors] || []
+
+    # list of always allowed/expected JS errors:
+    whitelist = [
+      'mutating the [[Prototype]] of an object', # from browserify-buffer. it's ok.
+      # NOTE: doesn't break anything, will fix itself when there is only 1 root
+      'facebook.github.io/react/docs/error-decoder.html?invariant=32&args[]=2'
+    ]
+
+    if page.driver.to_s =~ /Selenium/
+      errors = wait_until(10) do # need to wait for window.onLoad event…
+        begin
+          page.execute_script('return window.JSErrorCollector_errors.pump()')
+        rescue
+          false
+        end
+      end
+
+      actual_errors = errors.reject do |e|
+        next true if e['sourceName'].empty? # only care about our own scripts
+        whitelist.map { |w| e['errorMessage'].match Regexp.escape(w) }.compact.any?
+      end
+
+      unexpected_errors = actual_errors.reject do |e|
+        expected_errors
+          .map { |w| e['errorMessage'].match Regexp.escape(w) }.compact.any?
+      end
+
+      if unexpected_errors.any?
+        fail 'UNEXPECTED JS ERRORS! ⚡️  ' + JSON.pretty_generate(actual_errors)
+      end
+
+      if expected_errors.any?
+        if expected_errors.length != (actual_errors - unexpected_errors).length
+          fail "\
+            MISSING EXPECTED JS ERRORS! \n\
+            (This likely means the error-detecting setup is broken!)\n\n\
+            Expected: ".strip_heredoc + JSON.pretty_generate(expected_errors) +
+            "\nActual: " + JSON.pretty_generate(actual_errors)
+        end
+      end
     end
   end
 
@@ -107,8 +154,14 @@ def create_firefox_driver(app, timeout, extra_profile_config = {})
     'browser.download.dir' => BROWSER_DONWLOAD_DIR.to_s
   }
   profile_config = dont_ask_on_downloads_config.merge(extra_profile_config)
+
   profile = Selenium::WebDriver::Firefox::Profile.new
   profile_config.each { |k, v| profile[k] = v }
+
+  # we need a firefox extension to collect javascript errors
+  # see https://github.com/mguillem/JSErrorCollector
+  profile.add_extension File.join(Rails.root, 'spec/_support/JSErrorCollector.xpi')
+
   client = Selenium::WebDriver::Remote::Http::Default.new
   client.timeout = timeout
   Capybara::Selenium::Driver.new \
