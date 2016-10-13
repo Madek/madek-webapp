@@ -1,0 +1,38 @@
+# Delivery Tests
+
+contexts:
+  'Assets':
+    include: cider-ci/context-components/rails-setup.yml
+    tasks:
+      assets_manifest:
+        name: 'Assets are precompiled and checked in'
+        traits: { npm: yes }
+        scripts:
+          test:
+            timeout: 10 Minutes
+            body: |
+              set -exu
+              export PATH=~/.rubies/$RUBY/bin:$PATH
+              mv public/assets tmp/static_assets
+              bin/precompile-assets
+              cider-ci/bin/check-precompiled-assets tmp/static_assets public/assets
+
+  'Docs/Specs':
+    include: cider-ci/context-components/rails-setup.yml
+    tasks:
+      main:
+        name: 'Docs: Render Overview from rspec feature specs'
+        traits: { Ruby: on, nodejs 4: on }
+        tree_attachments:
+          feature-specs:
+            content_type: text/html
+            include_match: "^tmp/feature.*.(html|json)$"
+        scripts:
+          test:
+            body: |
+              #!/usr/bin/env bash
+              set -eux
+              export PATH=~/.rubies/$RUBY/bin:$PATH
+              cider-ci/bin/render-specs spec/features > tmp/feature_specs.html
+              # NOTE: new version below, but old version stays till its ready
+              node_modules/.bin/rspec-to-docs spec/features > ./tmp/features.html

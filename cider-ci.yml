@@ -20,10 +20,10 @@ jobs:
       include: cider-ci/context-components/code-checks.yml
 
   delivery-tests:
-    name: "Delivery Tests"
+    name: "Delivery"
     run_when: *DEFAULT_TRIGGERS
     context:
-      include: cider-ci/context-components/delivery-tests.yml
+      include: cider-ci/context-components/delivery.yml
 
   meta-checks:
     name: Meta
@@ -81,32 +81,6 @@ jobs:
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # OTHER JOBS (not striclty needed for development process/delivery)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-  render-specs:
-    name: "Docs: Render Specs"
-    description: |
-      Render Overview from rspec feature specs
-    priority: 1
-    run_when: *DEFAULT_TRIGGERS
-    context:
-      include: cider-ci/context-components/rails-setup.yml
-      tasks:
-        main:
-          traits: { Ruby: on, nodejs 4: on }
-          tree_attachments:
-            feature-specs:
-              content_type: text/html
-              include_match: "^tmp/feature.*.(html|json)$"
-          scripts:
-            test:
-              body: |
-                #!/usr/bin/env bash
-                set -eux
-                export PATH=~/.rubies/$RUBY/bin:$PATH
-                cider-ci/bin/render-specs spec/features > tmp/feature_specs.html
-                # NOTE: new version below, but old version stays till its ready
-                node_modules/.bin/rspec-to-docs spec/features > ./tmp/features.html
-
 
   wip-rspec-tests:
     name: "⟨WIP⟩ RSpec Tests"
