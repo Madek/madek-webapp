@@ -1,4 +1,5 @@
 React = require('react')
+f = require('active-lodash')
 ui = require('../lib/ui.coffee')
 
 module.exports = React.createClass
@@ -14,6 +15,7 @@ module.exports = React.createClass
     children: React.PropTypes.node.isRequired
 
   render: ({href, onClick, type, mod, disabled, children, className} = @props)->
+    restProps = f.omit(@props, ['mod'])
     baseClass = if className then className else if mod then "#{mod}-button" else 'button'
     disabled = true if not (href or onClick or type) # force disabled if no target
 
@@ -23,6 +25,6 @@ module.exports = React.createClass
       when type then 'button'
       else 'span'
 
-    <Elm {...@props} className={classes}>
+    <Elm {...restProps} className={classes}>
       {children}
     </Elm>

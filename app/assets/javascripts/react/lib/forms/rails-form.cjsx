@@ -23,6 +23,9 @@ module.exports = React.createClass
     return $(form).serialize()
 
   render: ({name, action, method, authToken, onSubmit, children} = @props) ->
+    ownProps = ['name', 'action', 'method', 'authToken', 'onSubmit', 'children']
+    restProps = f.omit(@props, ownProps)
+
     # Rails conventions:
     # - default method='post'
     restMethod = (method || 'post').toLowerCase()
@@ -35,7 +38,7 @@ module.exports = React.createClass
     if needsAuthToken && !f.present(authToken)
       throw new Error('No `authToken` given!')
 
-    <form {...@props} ref='form' onSubmit={onSubmit}
+    <form {...restProps} ref='form' onSubmit={onSubmit}
       name={name} method={formMethod} action={action}
       className={ui.cx(ui.parseMods(@props))}
       acceptCharset='UTF-8'>

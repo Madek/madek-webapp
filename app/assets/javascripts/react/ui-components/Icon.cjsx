@@ -16,10 +16,11 @@ module.exports = React.createClass
     i: React.PropTypes.string.isRequired
 
   render: ({i} = @props)->
+    restProps = f.omit(@props, ['i', 'mods'])
     iconClass = if f.includes(FONT_AWESOME_ICONS, i)
       "fa fa-#{i}"
     else
       "icon-#{i}"
     classes = ui.cx(ui.parseMods(@props), iconClass)
 
-    <i {...@props} className={classes}/>
+    <i {...restProps} className={classes}/>
