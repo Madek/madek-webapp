@@ -4,9 +4,7 @@ f = require('active-lodash')
 cx = require('classnames')
 ampersandReactMixin = require('ampersand-react-mixin')
 t = require('../../lib/string-translation')('de')
-getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 Models = require('../../models/index.coffee')
-RailsForm = require('../lib/forms/rails-form.cjsx')
 { Link, Icon, Thumbnail, Button, Preloader, AskModal
 } = require('../ui-components/index.coffee')
 ResourceThumbnailRenderer = require('./ResourceThumbnailRenderer.cjsx')
@@ -45,6 +43,7 @@ module.exports = React.createClass
       if (modelByType = Models[get.type])
         model = new modelByType(get)
       else
+        # FIXME: throw this
         console.error('WARNING: No model found for resource!', get)
     @setState(model: model or get)
 

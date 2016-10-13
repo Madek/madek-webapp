@@ -1,6 +1,5 @@
 React = require('react')
 ReactDOM = require('react-dom')
-getRailsCSRFToken = require('../../../lib/rails-csrf-token.coffee')
 ampersandReactMixin = require('ampersand-react-mixin')
 f = require('active-lodash')
 t = require('../../../lib/string-translation')('de')

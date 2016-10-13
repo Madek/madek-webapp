@@ -4,7 +4,7 @@ require 'spec_helper_feature_shared'
 
 feature 'pre_cache_user_data' do
 
-  it 'does not raise ' do
+  it 'does not raise', browser: false do
 
     user = User.find_by_login('adam')
     expect(user).to be

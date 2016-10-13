@@ -12,4 +12,5 @@ module.exports = React.createClass
       image_url: image_url
       disableLink: true
     }
-    <ResourceThumbnail authToken={null} get={get} />
+    # NOTE: no token needed
+    <ResourceThumbnail authToken={''} get={get} />

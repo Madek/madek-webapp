@@ -1,5 +1,4 @@
 React = require('react')
-ReactDOM = require('react-dom')
 f = require('active-lodash')
 t = require('../../../lib/string-translation.js')('de')
 Tab = require('react-bootstrap/lib/Tab')

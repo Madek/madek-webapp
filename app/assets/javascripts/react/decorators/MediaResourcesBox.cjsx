@@ -632,7 +632,7 @@ module.exports = React.createClass
         checkboxMods = cx({'active': selector.isActive, 'mid': selector.isDirty})
         selectorStyle = {top: '2px'} # style fix!
 
-        <label className={selectClass} {...selector} style={selectorStyle}>
+        <label className={selectClass} style={selectorStyle} onClick={selector.onClick} >
           <span className='js-only'>
             <span>{labelText} </span>
             <Icon i='checkbox' mods={checkboxMods}/>

@@ -15,7 +15,7 @@ module.exports = React.createClass
     children: React.PropTypes.node.isRequired
 
   render: ({href, onClick, type, mod, disabled, children, className} = @props)->
-    restProps = f.omit(@props, ['mod'])
+    restProps = f.omit(@props, ['mod', 'mods'])
     baseClass = if className then className else if mod then "#{mod}-button" else 'button'
     disabled = true if not (href or onClick or type) # force disabled if no target
 

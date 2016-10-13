@@ -6,6 +6,13 @@ f = require('active-lodash')
 ui = require('../../lib/ui.coffee')
 $ = require('jquery') # TODO: serializeForm = http://npm.im/form-serialize
 
+checkForAuthToken = ({method, authToken}) ->
+  restMethod = (method || 'post').toLowerCase()
+  needsAuthToken = !(restMethod == 'get')
+  if !needsAuthToken then return false
+  if !f.present(authToken) then return new Error('No `authToken` given!')
+  return authToken
+
 module.exports = React.createClass
   displayName: 'RestForm'
   propTypes:
@@ -14,8 +21,10 @@ module.exports = React.createClass
     method: React.PropTypes.oneOf([
       'get', 'GET', 'post', 'POST', 'put', 'PUT',
       'patch', 'PATCH', 'delete', 'DELETE'])
-    authToken: React.PropTypes.string
     onSubmit: React.PropTypes.func
+    authToken: (props, propName, componentName) ->
+      check = checkForAuthToken(props)
+      return if typeof check is 'Error' then check else null
 
   # public component method
   serialize: () ->
@@ -33,10 +42,10 @@ module.exports = React.createClass
     emulateHTTP = not f.includes(['get', 'post'], restMethod)
     formMethod = if (restMethod is 'get') then 'get' else 'post'
     # - add CRSF token for non-GET methods
-    needsAuthToken = !(restMethod == 'get')
     authTokenParam = 'authenticity_token'
-    if needsAuthToken && !f.present(authToken)
-      throw new Error('No `authToken` given!')
+    maybeAuthToken = checkForAuthToken({method, authToken})
+    # throw to catch erorrs server-side (PropTypes is only for dev)
+    if typeof maybeAuthToken is 'Error' then throw maybeAuthToken
 
     <form {...restProps} ref='form' onSubmit={onSubmit}
       name={name} method={formMethod} action={action}
@@ -48,8 +57,8 @@ module.exports = React.createClass
       {if emulateHTTP
         <input name='_method' type='hidden' value={restMethod}/>}
 
-      {if needsAuthToken
-        <input name={authTokenParam} type='hidden' value={authToken} />}
+      {if maybeAuthToken
+        <input name={authTokenParam} type='hidden' value={maybeAuthToken} />}
 
       {children}
     </form>

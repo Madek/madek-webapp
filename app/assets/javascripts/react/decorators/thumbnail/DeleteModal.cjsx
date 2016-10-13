@@ -3,7 +3,6 @@ f = require('active-lodash')
 classList = require('classnames/dedupe')
 parseMods = require('../../lib/ui.coffee').parseMods
 t = require('../../../lib/string-translation')('de')
-RailsForm = require('../../lib/forms/rails-form.cjsx')
 Button = require('../../ui-components/Button.cjsx')
 AskModal = require('../../ui-components/AskModal.cjsx')
 

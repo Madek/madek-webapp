@@ -1,5 +1,4 @@
 React = require('react')
-ReactDOM = require('react-dom')
 ampersandReactMixin = require('ampersand-react-mixin')
 f = require('active-lodash')
 t = require('../../../lib/string-translation')('de')

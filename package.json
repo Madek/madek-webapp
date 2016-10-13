@@ -51,7 +51,7 @@
     "po2json": "0.4.1",
     "qs": "^6.1.0",
     "react": "^15.3.2",
-    "react-bootstrap": "^0.30.2",
+    "react-bootstrap": "^0.30.5",
     "react-day-picker": "^2.4.1",
     "react-dom": "^15.3.2",
     "react-file-drop": "^0.1.8",

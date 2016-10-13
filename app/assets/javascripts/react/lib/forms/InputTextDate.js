@@ -170,4 +170,8 @@ InputTextDate.propTypes = {
   onChange: PropTypes.func.isRequired
 }
 
+InputTextDate.defaultProps = {
+  onChange: () => {}
+}
+
 export default InputTextDate
