@@ -9,9 +9,9 @@ module Presenters
         attr_reader :collection_rows
         attr_reader :reduced_set
 
-        def initialize(user, media_entry, search_term, list_conf: nil)
-          super(media_entry, user, list_conf: list_conf)
-
+        def initialize(user, media_entry, search_term)
+          super(media_entry)
+          @user = user
           @search_term = search_term
           @reduced_set = false
           @length = 30

@@ -1,7 +1,10 @@
 module Presenters
   module Collections
-    class CollectionShow < Presenters::Shared::MediaResource::MediaResourceShow
+    class CollectionShow < Presenters::Shared::AppResource
+
       include Presenters::Collections::Modules::CollectionCommon
+      include Presenters::Shared::MediaResource::Modules::PrivacyStatus
+      include Presenters::Shared::MediaResource::Modules::EditSessions
 
       def initialize(app_resource,
                      user,

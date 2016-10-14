@@ -1,8 +1,8 @@
 module Presenters
   module MediaEntries
-    class MediaEntrySelectCollection < \
-      Presenters::Shared::MediaResource::MediaResourceShow
+    class MediaEntrySelectCollection < Presenters::Shared::AppResource
 
+      include Presenters::Shared::MediaResource::Modules::PrivacyStatus
       include Presenters::Shared::Modules::SelectCollection
 
       def add_remove_collection_url

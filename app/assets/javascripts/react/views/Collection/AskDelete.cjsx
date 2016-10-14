@@ -1,3 +1,5 @@
+# FIXME: move/rename, it's used for MediaEntry as well!
+
 React = require('react')
 ampersandReactMixin = require('ampersand-react-mixin')
 f = require('active-lodash')
@@ -13,6 +15,7 @@ module.exports = React.createClass
   getInitialState: () -> { active: false }
 
   render: ({authToken, get} = @props) ->
+    type = f.snakeCase(get.type)
 
     <Modal widthInPixel='400'>
 
@@ -26,12 +29,12 @@ module.exports = React.createClass
             style={{position: 'static', float: 'right', paddingTop: '5px'}}>
             <i className='icon-close'></i>
           </a>
-          <h3 className='title-l'>{t(get.type_underscore + '_ask_delete_title')}</h3>
+          <h3 className='title-l'>{t(type + '_ask_delete_title')}</h3>
         </div>
 
         <div className='ui-modal-body' style={{maxHeight: 'none'}}>
           <p className="pam by-center">
-            {t(get.type_underscore + '_ask_delete_question_pre')}
+            {t(type + '_ask_delete_question_pre')}
             <strong>{get.title}</strong>
             {t('resource_ask_delete_question_post')}
           </p>

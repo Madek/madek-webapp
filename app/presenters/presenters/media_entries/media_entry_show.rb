@@ -1,8 +1,10 @@
 module Presenters
   module MediaEntries
-    class MediaEntryShow < Presenters::Shared::MediaResource::MediaResourceShow
+    class MediaEntryShow < Presenters::Shared::AppResource
 
       include Presenters::MediaEntries::Modules::MediaEntryCommon
+      include Presenters::Shared::MediaResource::Modules::PrivacyStatus
+      include Presenters::Shared::MediaResource::Modules::EditSessions
 
       def initialize(
         app_resource,
@@ -38,7 +40,6 @@ module Presenters
         Presenters::MediaEntries::MediaEntryIndex.new(@app_resource, @user)
       end
 
-      # TODO: move meta_data to MediaResourceShow
       def meta_data
         Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
       end

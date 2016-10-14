@@ -10,11 +10,8 @@ module.exports = React.createClass
   displayName: 'DeleteModal'
 
   render: ({resourceType, onModalOk, onModalCancel, modalTitle} = @props) ->
-    type = switch resourceType
-      when 'Collection'
-        'collection'
-      when 'MediaEntry'
-        'media_entry'
+    type = f.snakeCase(resourceType)
+
     <AskModal title={t(type + '_ask_delete_title')}
       onCancel={onModalCancel} onOk={onModalOk}
       okText={t('resource_ask_delete_ok')}
