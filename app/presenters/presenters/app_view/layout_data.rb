@@ -5,18 +5,73 @@ module Presenters
       # TODO: AppView/Layout Presenter.
       #       most views are resourceful, so they have #resource
       #       *could* be initialized from responder `AppView.new(resource: @get)`
+      #
       # def initialize(resource:)
       #   fail 'TypeError!' unless resource.is_a?(Presenters::AppResource)
       #   @resource = resource
       # end
       # attr_accessor :resource
 
-      def initialize(user:)
-        fail 'TypeError!' unless (user.nil? or user.is_a?(User))
+      # NOTE: for now just collect all the needed data for layout
+
+      def initialize(user:, settings:, url:, auth_token:)
+        fail 'TypeError!' unless (user.nil? || user.is_a?(User))
         @user = user
+        @settings = settings
+        @url = url
+        @auth_token = auth_token
       end
 
-      # TMP: just collect all the needed data for layout…
+      attr_accessor :url
+      attr_accessor :auth_token # for CSRF protection
+
+      def config
+        @settings.to_h
+          .slice(:site_title, :brand_text, :brand_logo_url, :sitemap)
+          .merge(root_path: root_path)
+      end
+
+      def sitemap
+        @settings.sitemap
+      end
+
+      def version
+        MADEK_VERSION
+      end
+
+      # TMP: duplicated from application/_app_header.haml!
+      def header(user = @user, settings = @settings)
+        my_menu = user && {
+          text: I18n.t(:sitemap_my_archive),
+          href: my_dashboard_path,
+          active: link_active?(my_dashboard_path)
+        }
+        search_paths = [media_entries_path, collections_path, filter_sets_path]
+        search_active = link_active?(search_path) ||
+          search_paths.any? { |p| link_active?(p, deep: true) }
+
+        {
+          show_user_menu: !link_active?(root_path),
+          menu: {
+            my: my_menu,
+            explore: {
+              text: I18n.t(:sitemap_explore),
+              href: explore_path,
+              active: link_active?(explore_path)
+            },
+
+            search: {
+              text: I18n.t(:sitemap_search),
+              icon: 'lens',
+              href: search_path,
+              active: search_active
+            },
+
+            help: { text: I18n.t(:sitemap_help), href: settings.support_url }
+          }.to_a
+        }
+      end
+
       def user_menu
         return unless @user.present?
 
@@ -39,6 +94,21 @@ module Presenters
           admin: admin_menu,
           sign_out_action: { url: sign_out_path, method: 'POST' }
         }
+      end
+
+      def login_link
+        '/#login_form'
+      end
+
+      private
+
+      def link_active?(link, deep: false)
+        path = URI.parse(url).path
+        if deep || link == '/' # NOTE: root path can only be checked 'deep'!
+          path == link
+        else
+          path.starts_with?(link)
+        end
       end
 
     end

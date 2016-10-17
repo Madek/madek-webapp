@@ -237,3 +237,10 @@ body[data-r="media_entries"][data-a="embedded"]
   height: 100%
   width: 100%
   min-width: initial
+
+// React Root fixes
+
+// when wrapping ".app", height must be set for the layout (footer) to work
+[data-react-class="UI.Root"]
+  &, & [data-reactroot]
+    height: 100%

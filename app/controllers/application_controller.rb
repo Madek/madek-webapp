@@ -40,7 +40,12 @@ class ApplicationController < ActionController::Base
 
     # TMP: data for application layout.
     #      it's already a presenter, but we can't `include` it everyhwere yet
-    @app_layout_data = Presenters::AppView::LayoutData.new(user: current_user)
+    #      as long as it's used that way, we `dump` it here for PERF
+    @app_layout_data = Presenters::AppView::LayoutData
+      .new(
+        settings: settings, user: current_user,
+        auth_token: form_authenticity_token, url: request.original_fullpath)
+      .dump
   end
 
   def root
@@ -86,6 +91,36 @@ class ApplicationController < ActionController::Base
       raise Errors::ForbiddenError, 'Acces Denied!'
     else
       raise Errors::UnauthorizedError, 'Please log in!'
+    end
+  end
+
+  # NOTE: like `UiHelper#react`, but only for top-level views.
+  #       - all the views that just call react should be migrated to use this
+  #       - atm it is still wrapped in the application layout (header & footer)
+  #       - can only port this when all HAML views are ported as well (duplication)
+  def render_react_view(props = {})
+    if props[:get]
+      fail '`get` is not a Presenter!' unless props[:get].is_a?(Presenter)
+      presenter = props[:get]
+    end
+    # NOTE: all of the queries happen here:
+    props = props.merge(get: presenter.dump) if presenter
+
+    root_props = {
+      view: { props: props },
+      app: @app_layout_data,
+      prerender: !params.permit(:___norender).present?
+    }
+
+    render(component: 'UI.Root', props: root_props, layout: '_base')
+  end
+
+  # shortcut for migrating views rendered via `respond_with(@get)` in controllers
+  def respond_with_react(presenter)
+    respond_with(presenter) do |format|
+      format.html do
+        render_react_view(get: presenter)
+      end
     end
   end
 

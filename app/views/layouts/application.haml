@@ -1,24 +1,28 @@
-- version = if MADEK_VERSION
-  - capture_haml do
-    %span.version{title: MADEK_VERSION[:time] || nil}
-      = MADEK_VERSION[:version]
-    - if MADEK_VERSION[:name]
-      %a{href: MADEK_VERSION[:info_url], title: MADEK_VERSION[:description] || nil}
-        = MADEK_VERSION[:name]
+-# NOTE: work in progress - this is ported to react
+-# last steps: alert, modals
 
 :ruby
-  footer = {
-    copy: {
-      logo: {
-        href: 'http://madek.zhdk.ch',
-        content: component('icon.madek', 'ui-footer-logo')
-      },
-      text: settings.brand_text
-    },
-    version: version,
-    menu: settings.sitemap
-  }
+  app = @app_layout_data
+  config = app[:config]
 
+  headerProps = app[:header]
+    .merge(
+      brand: {
+        name: config[:site_title],
+        logo: config[:brand_logo_url],
+        provider: config[:brand_text],
+        href: config[:root_path]
+      },
+      userMenu: app[:user_menu],
+      loginLink: app[:login_link],
+      authToken: app[:auth_token]
+    )
+
+  footerProps = {
+    menu: app[:sitemap],
+    provider: config[:brand_text],
+    version: app[:version]
+  }
 
 - content_for(:body) do
 
@@ -27,7 +31,7 @@
 
   #app.app{data: { view: request[:controller], action: request[:action] }}
 
-    = render('application/app_header')
+    = react('App.AppHeader', headerProps)
 
     - if not content_for?(:modal)
       = render('application/app_alerts')
@@ -39,6 +43,7 @@
         = yield
 
     .app-footer-push
-  = combo('footer', footer)
+
+  = react('App.AppFooter', footerProps)
 
 = render template: 'layouts/_base'
