@@ -32,7 +32,12 @@
     = content_for(:head)
 
   %body{data: {r: controller_name, a: action_name}}
-    = content_for(:body)
+    -# main body from ruby block or named content block
+    - if content_for?(:body)
+      = content_for(:body)
+    - elsif block_given?
+      = yield
+
     - if use_js
       -# js: app lib/dependencies. can't use async/defer (would require sep. DOM ops)
       - if Rails.env == 'development'
@@ -42,6 +47,3 @@
       -# - now all the per-template scripts, which
           MUST be self-contained and not depending on load order:
       = content_for(:scripts) if content_for?(:scripts)
-
-  -# Implicit *yield*, don't put one here or it double-renders!
-  -# Also, when in doubt use `content_for(:body)` in views.
