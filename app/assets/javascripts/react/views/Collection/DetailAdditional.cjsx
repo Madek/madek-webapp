@@ -17,7 +17,7 @@ module.exports = React.createClass
 
     get = @props.get
 
-    sparseParam = {___sparse: {relations: {child_media_resources: {}}}}
+    sparseParam = {___sparse: { child_media_resources: {} }}
     listParam = list: {order: itemKey}
 
     urlBase =
@@ -35,13 +35,13 @@ module.exports = React.createClass
       url: url
     },
     (result, json) ->
-      callback(json.relations.child_media_resources)
+      callback(json.child_media_resources)
     )
 
   render: ({get, authToken} = @props) ->
     <div className="ui-container rounded-bottom">
       <MediaResourcesBox withBox={true}
-        get={get.relations.child_media_resources} authToken={authToken}
+        get={get.child_media_resources} authToken={authToken}
         initial={ { show_filter: true } } mods={ [ {bordered: false}, 'rounded-bottom' ] }
         allowListMode={true}
         collectionData={{uuid: get.uuid, layout: get.layout, editable: get.editable, order: get.sorting}}

@@ -27,6 +27,6 @@ CollectionChildren = AppCollection.extend
 
 
 CollectionChildren.Paginated = PaginatedCollection(
-  CollectionChildren, jsonPath: 'relations.child_media_resources.resources')
+  CollectionChildren, jsonPath: 'child_media_resources.resources')
 
 module.exports = CollectionChildren

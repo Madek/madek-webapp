@@ -22,16 +22,6 @@ module Presenters
         !meta_data.empty? ? meta_data[0].string : ''
       end
 
-      private
-
-      def parent_relation_resources
-        @app_resource.parent_collections
-      end
-
-      def child_relation_resources
-        nil
-      end
-
     end
   end
 end

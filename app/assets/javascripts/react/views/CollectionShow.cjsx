@@ -107,7 +107,7 @@ module.exports = React.createClass
                 }
                 <div className='col2of3'>
                   <div className="ui-container plm">
-                    <MetaDataByListing list={get.meta_data.by_vocabulary} />
+                    <MetaDataByListing list={get.all_meta_data} />
                   </div>
                 </div>
               </div>

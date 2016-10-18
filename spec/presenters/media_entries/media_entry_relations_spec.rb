@@ -23,6 +23,7 @@ describe Presenters::MediaEntries::MediaEntryShow do
           @media_entry_1,
           @user,
           user_scopes_for_media_entry(@media_entry_1),
+          action: 'relations',
           list_conf: {}).relations
       end
     end
@@ -32,6 +33,7 @@ describe Presenters::MediaEntries::MediaEntryShow do
           @media_entry_2,
           @user,
           user_scopes_for_media_entry(@media_entry_2),
+          action: 'relations',
           list_conf: {}).relations
       end
     end
@@ -41,6 +43,7 @@ describe Presenters::MediaEntries::MediaEntryShow do
           @media_entry_3,
           @user,
           user_scopes_for_media_entry(@media_entry_3),
+          action: 'relations',
           list_conf: {}).relations
       end
     end
@@ -50,6 +53,7 @@ describe Presenters::MediaEntries::MediaEntryShow do
           @media_entry_4,
           @user,
           user_scopes_for_media_entry(@media_entry_4),
+          action: 'relations',
           list_conf: {}).relations
       end
     end
@@ -59,6 +63,7 @@ describe Presenters::MediaEntries::MediaEntryShow do
           @media_entry_5,
           @user,
           user_scopes_for_media_entry(@media_entry_5),
+          action: 'relations',
           list_conf: {}).relations
       end
     end
@@ -82,6 +87,7 @@ describe Presenters::MediaEntries::MediaEntryShow do
       @p = described_class.new(@media_entry_1,
                                @user,
                                user_scopes_for_media_entry(@media_entry_1),
+                               action: 'relations',
                                list_conf: {}).relations
 
       ########### PARENTS #######################################
@@ -108,6 +114,7 @@ describe Presenters::MediaEntries::MediaEntryShow do
       @p = described_class.new(@media_entry_3,
                                @user,
                                user_scopes_for_media_entry(@media_entry_3),
+                               action: 'relations',
                                list_conf: {}).relations
 
       ########### PARENTS #######################################
@@ -125,6 +132,7 @@ describe Presenters::MediaEntries::MediaEntryShow do
       @p = described_class.new(@media_entry_4,
                                @user,
                                user_scopes_for_media_entry(@media_entry_4),
+                               action: 'relations',
                                list_conf: {}).relations
 
       ########### PARENTS #######################################
@@ -142,6 +150,7 @@ describe Presenters::MediaEntries::MediaEntryShow do
       @p = described_class.new(@media_entry_5,
                                @user,
                                user_scopes_for_media_entry(@media_entry_5),
+                               action: 'relations',
                                list_conf: {}).relations
 
       ########### PARENTS #######################################

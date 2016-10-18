@@ -46,10 +46,15 @@ class CollectionsController < ApplicationController
         collection,
         current_user,
         user_scopes_for_collection(collection),
+        action: action_name,
         list_conf: list_conf,
         load_meta_data: false
     respond_with @get
   end
+
+  # actions/tabs that work like 'show':
+  [:relations, :more_data, :permissions, :permissions_edit]
+    .each { |action| alias_method action, :show }
 
   def update
     collection = Collection.find(id_param)
@@ -59,10 +64,6 @@ class CollectionsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
-  # actions/tabs that work like 'show':
-  [:relations, :more_data, :permissions, :permissions_edit]
-    .each { |action| alias_method action, :show }
 
   def destroy
     collection = Collection.find(params[:id])

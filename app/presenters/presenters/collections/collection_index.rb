@@ -15,16 +15,6 @@ module Presenters
         @load_meta_data = load_meta_data
       end
 
-      private
-
-      def parent_relation_resources
-        @app_resource.parent_collections
-      end
-
-      def child_relation_resources
-        @app_resource.child_media_resources
-      end
-
     end
   end
 end

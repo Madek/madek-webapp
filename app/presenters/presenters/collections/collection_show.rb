@@ -9,6 +9,7 @@ module Presenters
       def initialize(app_resource,
                      user,
                      user_scopes,
+                     action: 'show',
                      list_conf: nil,
                      show_collection_selection: false,
                      search_term: '',
@@ -19,20 +20,33 @@ module Presenters
         @show_collection_selection = show_collection_selection
         @search_term = search_term
         @load_meta_data = load_meta_data
+        # NOTE: this is just a hack to help separating the methods by action/tab
+        #       modal actions are all still on top of 'show'
+        @active_tab = action
       end
 
+      # <mainTab>
       delegate_to_app_resource :layout
 
-      def relations
-        @relations ||= Presenters::Collections::CollectionRelations.new(
-          @app_resource,
+      def summary_meta_data
+        return unless @active_tab == 'show'
+        Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
+          .collection_summary_context
+      end
+
+      def child_media_resources
+        return unless @active_tab == 'show'
+        # NOTE: filtering is not implemented (needs spec)
+        Presenters::Collections::ChildMediaResources.new(
+          @user_scopes[:child_media_resources],
           @user,
-          @user_scopes,
+          can_filter: false,
           list_conf: @list_conf,
           load_meta_data: @load_meta_data)
       end
 
       def highlighted_media_resources
+        return unless @active_tab == 'show'
         resources = @user_scopes[:highlighted_media_entries].concat(
           @user_scopes[:highlighted_collections])
         Presenters::Shared::MediaResource::IndexResources.new(
@@ -41,22 +55,37 @@ module Presenters
         )
       end
 
-      def logged_in
-        true if @user
+      def sorting
+        return unless @active_tab == 'show'
+        @app_resource.sorting
       end
+      # </mainTab>
 
-      def resource_index
-        Presenters::Collections::CollectionIndex.new(@app_resource, @user)
-      end
-
-      def meta_data
-        Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
+      # <otherTabs>
+      def relations
+        return unless @active_tab == 'relations'
+        _relations
       end
 
       def permissions
+        return unless ['permissions', 'permissions_edit'].include?(@active_tab)
         Presenters::Collections::CollectionPermissionsShow.new(
           @app_resource, @user)
       end
+
+      def all_meta_data
+        return unless @active_tab == 'more_data'
+        Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
+          .by_vocabulary
+      end
+
+      def edit_sessions
+        return unless @active_tab == 'more_data'
+        super
+      end
+      # </otherTabs>
+
+      # shared:
 
       def header
         Presenters::Collections::CollectionHeader.new(
@@ -66,8 +95,12 @@ module Presenters
           search_term: @search_term)
       end
 
-      def sorting
-        @app_resource.sorting
+      def resource_index
+        Presenters::Collections::CollectionIndex.new(@app_resource, @user)
+      end
+
+      def logged_in
+        true if @user
       end
 
       def tabs
@@ -75,13 +108,23 @@ module Presenters
           policy(@user).send("#{tab[:id]}?")
         end.reject do |tab|
           tab[:id] == 'relations' \
-            && relations.child_collections.empty? \
-            && relations.parent_collections.empty? \
-            && relations.sibling_collections.empty?
+            && _relations.child_collections.empty? \
+            && _relations.parent_collections.empty? \
+            && _relations.sibling_collections.empty?
         end
       end
 
       private
+
+      # NOTE: used by tab helper, because tab should not be shown if no relations
+      def _relations
+        @_relations ||= Presenters::Collections::CollectionRelations.new(
+          @app_resource,
+          @user,
+          @user_scopes,
+          list_conf: @list_conf,
+          load_meta_data: @load_meta_data)
+      end
 
       def tabs_config
         # NOTE: tab id = action name = route pathname

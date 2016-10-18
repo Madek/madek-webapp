@@ -16,30 +16,32 @@ module.exports =
   fetchRelations: (type, callback)->
     validTypes = ['parent', 'sibling', 'child']
     throw new Error('Invalid Relations type!') unless f.include(validTypes, type)
-    relTypes = {
-      parent: 'parent_collections'
-      sibling: 'sibling_collections'
-      child: 'child_media_resources'
+    # NOTE: format: ['subpath_of_action', 'jsonPath.inside.presenter']
+    #       last part of jsonpath is the key inside here…
+    supportedRelations = {
+      parent: ['relations', 'relations.parent_collections']
+      sibling: ['relations', 'relations.sibling_collections']
+      child: ['', 'child_media_resources']
     }
-    relType = relTypes[type]
+    [subPath, jsonPath] = supportedRelations[type]
+    modelAttr = f.last(jsonPath.split('.'))
 
-    return if f.present(@get(relType)) # only fetch if missing
+    return if f.present(@get(jsonPath)) # only fetch if missing
 
-    # TODO: configure pagination/limits
-    sparseSpec = '{"relations":{"' + relType + '":{}}}'
+    sparseSpec = JSON.stringify(f.set({}, jsonPath, {}))
 
-    relationsUrl = buildUrl(f.merge(parseUrl(@url),
+    relationsUrl = buildUrl(f.merge(parseUrl( @url + '/' + subPath),
       {search: buildParams(list: { page: 1, per_page: 2 }, ___sparse: sparseSpec)}))
 
     @_runRequest {
       url: relationsUrl
       json: true
-    }, (err, res, data)=>
+    }, (err, res, json)=>
       if (err or res.statusCode >= 400)
-        console.error('Error fetching relations!', err or data)
-        return callback(err or data) if f.isFunction(callback)
+        console.error('Error fetching relations!', err or json)
+        return callback(err or json) if f.isFunction(callback)
 
       # update self with server response:
-      data = f.get(data, ['relations', relType])
-      @set(relType, data) if f.present(data)
+      data = f.get(json, jsonPath)
+      @set(modelAttr, data) if f.present(data)
       callback(err, data) if f.isFunction(callback)

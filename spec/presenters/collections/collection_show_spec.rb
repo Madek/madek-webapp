@@ -11,12 +11,21 @@ require Rails.root.join 'spec',
                         'media_resources',
                         'select_media_resources'
 
-describe Presenters::Collections::CollectionRelations do
+# NOTE: this only contains tests regarding the child_media_resources
+#       (extracted from relations)
+
+describe Presenters::Collections::CollectionShow do
   include_context 'relations'
   include_context 'select media resources'
 
   def user_scopes_for_collection(collection)
-    { parent_collections: \
+    { highlighted_media_entries: \
+        collection.highlighted_media_entries.viewable_by_user_or_public(@user),
+      highlighted_collections: \
+          collection.highlighted_collections.viewable_by_user_or_public(@user),
+      child_media_resources: \
+        collection.child_media_resources.viewable_by_user_or_public(@user),
+      parent_collections: \
         collection.parent_collections.viewable_by_user_or_public(@user),
       sibling_collections: \
         collection.sibling_collections.viewable_by_user_or_public(@user),
@@ -60,13 +69,6 @@ describe Presenters::Collections::CollectionRelations do
   end
 
   context 'relations' do
-    after :example do
-      # make sure that siblings ALWAYS contain only collections:
-      if (siblings = @p.sibling_collections.resources).present?
-        expect(siblings.map(&:class).uniq)
-          .to eq [Presenters::Collections::CollectionIndex]
-      end
-    end
 
     it 'context collection_A' do
       @p = described_class.new(@collection_A,
@@ -74,11 +76,20 @@ describe Presenters::Collections::CollectionRelations do
                                user_scopes_for_collection(@collection_A),
                                list_conf: {})
 
-      ########### PARENTS #######################################
-      expect(@p.parent_collections.resources)
-        .to be_empty
-      ########### SIBLINGS ######################################
-      expect(@p.sibling_collections.resources)
+      ########### CHILDREN ######################################
+      expect(select_collections(@p.child_media_resources.resources).length)
+        .to be 2
+      expect(select_collections(@p.child_media_resources.resources).map(&:uuid))
+        .to include @collection_B.id
+      expect(select_collections(@p.child_media_resources.resources).map(&:uuid))
+        .to include @collection_C.id
+
+      expect(select_media_entries(@p.child_media_resources.resources).length)
+        .to be 1
+      expect(select_media_entries(@p.child_media_resources.resources).map(&:uuid))
+        .to include @media_entry_1.id
+
+      expect(select_filter_sets(@p.child_media_resources.resources))
         .to be_empty
     end
 
@@ -88,17 +99,21 @@ describe Presenters::Collections::CollectionRelations do
                                user_scopes_for_collection(@collection_B),
                                list_conf: {})
 
-      ########### PARENTS #######################################
-      expect(@p.parent_collections.resources.count)
-        .to be 1
-      expect(@p.parent_collections.resources.map(&:uuid))
-        .to include @collection_A.id
+      ########### CHILDREN ######################################
+      expect(select_collections(@p.child_media_resources.resources).length)
+        .to be 0
 
-      ########### SIBLINGS ######################################
-      expect(@p.sibling_collections.resources.count)
-        .to be 1
-      expect(@p.sibling_collections.resources.map(&:uuid))
-        .to include @collection_C.id
+      expect(select_media_entries(@p.child_media_resources.resources).length)
+        .to be 3
+      expect(select_media_entries(@p.child_media_resources.resources).map(&:uuid))
+        .to include @media_entry_1.id
+      expect(select_media_entries(@p.child_media_resources.resources).map(&:uuid))
+        .to include @media_entry_2.id
+      expect(select_media_entries(@p.child_media_resources.resources).map(&:uuid))
+        .to include @media_entry_3.id
+
+      expect(select_filter_sets(@p.child_media_resources.resources))
+        .to be_empty
     end
 
     it 'context collection_C' do
@@ -107,17 +122,21 @@ describe Presenters::Collections::CollectionRelations do
                                user_scopes_for_collection(@collection_C),
                                list_conf: {})
 
-      ########### PARENTS #######################################
-      expect(@p.parent_collections.resources.count)
-        .to be 1
-      expect(@p.parent_collections.resources.map(&:uuid))
-        .to include @collection_A.id
+      ########### CHILDREN ######################################
+      expect(select_collections(@p.child_media_resources.resources))
+        .to be_empty
 
-      ########### SIBLINGS ######################################
-      expect(@p.sibling_collections.resources.count)
-        .to be 1
-      expect(@p.sibling_collections.resources.map(&:uuid))
-        .to include @collection_B.id
+      expect(select_media_entries(@p.child_media_resources.resources).length)
+        .to be 3
+      expect(select_media_entries(@p.child_media_resources.resources).map(&:uuid))
+        .to include @media_entry_1.id
+      expect(select_media_entries(@p.child_media_resources.resources).map(&:uuid))
+        .to include @media_entry_2.id
+      expect(select_media_entries(@p.child_media_resources.resources).map(&:uuid))
+        .to include @media_entry_4.id
+
+      expect(select_filter_sets(@p.child_media_resources.resources))
+        .to be_empty
     end
 
     it 'context collection_D' do
@@ -126,12 +145,12 @@ describe Presenters::Collections::CollectionRelations do
                                user_scopes_for_collection(@collection_D),
                                list_conf: {})
 
-      ########### PARENTS #######################################
-      expect(@p.parent_collections.resources)
+      ########### CHILDREN ######################################
+      expect(select_media_entries(@p.child_media_resources.resources))
         .to be_empty
-
-      ########### SIBLINGS ######################################
-      expect(@p.sibling_collections.resources)
+      expect(select_collections(@p.child_media_resources.resources))
+        .to be_empty
+      expect(select_filter_sets(@p.child_media_resources.resources))
         .to be_empty
     end
   end

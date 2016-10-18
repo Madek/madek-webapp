@@ -10,6 +10,7 @@ module Presenters
         app_resource,
         user,
         user_scopes,
+        action: 'show',
         list_conf: nil,
         show_collection_selection: false,
         search_term: '')
@@ -19,6 +20,9 @@ module Presenters
         @list_conf = list_conf
         @show_collection_selection = show_collection_selection
         @search_term = search_term
+        # NOTE: this is just a hack to help separating the methods by action/tab
+        #       modal actions are all still on top of 'show'
+        @active_tab = action
       end
 
       def tabs # list of all 'show' action sub-tabs
@@ -26,12 +30,13 @@ module Presenters
           tab[:action] ? policy(@user).send("#{tab[:action]}?".to_sym) : true
         end.reject do |tab|
           tab[:id] == 'relations' \
-            && relations.parent_collections.empty? \
-            && relations.sibling_collections.empty?
+            && _relations.parent_collections.empty? \
+            && _relations.sibling_collections.empty?
         end
       end
 
       def relations
+        return unless @active_tab == 'relations'
         Presenters::Shared::MediaResource::MediaResourceRelations.new \
           @app_resource, @user, @user_scopes, list_conf: @list_conf
       end
@@ -41,14 +46,22 @@ module Presenters
       end
 
       def meta_data
+        return unless ['show', 'export', 'more_data'].include?(@active_tab)
         Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
       end
 
       def more_data
+        return unless @active_tab == 'more_data'
         Presenters::MediaEntries::MediaEntryMoreData.new(@app_resource)
       end
 
+      def edit_sessions
+        return unless @active_tab == 'more_data'
+        super
+      end
+
       def permissions
+        return unless @active_tab == 'permissions'
         Presenters::MediaEntries::MediaEntryPermissions.new(@app_resource, @user)
       end
 
@@ -60,20 +73,6 @@ module Presenters
           search_term: @search_term)
       end
 
-      def copyright_notice
-        @app_resource
-          .meta_data
-          .find_by(meta_key_id: 'madek_core:copyright_notice')
-          .try(:value)
-      end
-
-      def portrayed_object_date
-        @app_resource
-          .meta_data
-          .find_by(meta_key_id: 'madek_core:portrayed_object_date')
-          .try(:value)
-      end
-
       def image_url
         size = :large
         img = @media_file.previews.try(:fetch, :images, nil).try(:fetch, size, nil)
@@ -81,6 +80,12 @@ module Presenters
       end
 
       private
+
+      # NOTE: used by tab helper, because tab should not be shown if no relations
+      def _relations
+        @_relations ||= Presenters::Shared::MediaResource::MediaResourceRelations
+          .new(@app_resource, @user, @user_scopes, list_conf: @list_conf)
+      end
 
       def tabs_config
         [

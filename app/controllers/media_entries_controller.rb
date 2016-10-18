@@ -22,17 +22,19 @@ class MediaEntriesController < ApplicationController
       media_entry,
       current_user,
       user_scopes_for_media_resource(media_entry),
+      action: action_name,
       list_conf: resource_list_params)
     respond_with(@get)
-  end
-
-  def export
-    show
   end
 
   # tabs that work like 'show':
   [:relations, :more_data, :permissions, :permissions_edit]
     .each { |action| alias_method action, :show }
+
+  # NOTE: modal "on top of" #show
+  def export
+    show
+  end
 
   def destroy
     media_entry = MediaEntry.unscoped.find(id_param)
