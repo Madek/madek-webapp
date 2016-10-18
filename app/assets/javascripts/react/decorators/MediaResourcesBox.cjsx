@@ -520,6 +520,7 @@ module.exports = React.createClass
         mods={toolbarClasses}
         layouts={layouts}
         centerActions={centerActions}
+        showSort={true if @props.loadChildMediaResources}
         onSortItemClick={onSortItemClick}
         dropdownItems={dropdownItems}
         selectedSort={order} />
@@ -853,7 +854,7 @@ SideFilterFallback = ({filter} = @props)->
     </RailsForm>
   </div>
 
-BoxTitleBar = ({heading, centerActions, layouts, mods, onSortItemClick, dropdownItems, selectedSort} = @props)->
+BoxTitleBar = ({heading, centerActions, layouts, mods, showSort, onSortItemClick, dropdownItems, selectedSort} = @props)->
 
   style = {minHeight: '1px'} # Make sure col2of6 fills its space (min height ensures that following float left are blocked)
 
@@ -882,8 +883,11 @@ BoxTitleBar = ({heading, centerActions, layouts, mods, onSortItemClick, dropdown
           </Button>
         }
       </ButtonGroup>
-      <SortDropdown items={dropdownItems} selectedKey={selectedSort}
-        onItemClick={onSortItemClick} />
+      {
+        if showSort
+          <SortDropdown items={dropdownItems} selectedKey={selectedSort}
+            onItemClick={onSortItemClick} />
+      }
     </div>
   </div>
 
