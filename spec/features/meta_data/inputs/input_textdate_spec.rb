@@ -124,6 +124,7 @@ feature 'Resource: MetaDatum' do
 
       example 'text ("Freie Eingabe")' do
         given_an_exisiting_meta_datum_text_date('Some time ago')
+        visit media_entry_path(@media_entry)
         expect_meta_datum_on_detail_view('Some time ago')
 
         edit_in_meta_data_form_and_save do
@@ -204,6 +205,7 @@ feature 'Resource: MetaDatum' do
 
     example 'remove exisiting data - text ("Freie Eingabe")' do
       given_an_exisiting_meta_datum_text_date('Some time ago')
+      visit media_entry_path(@media_entry)
       expect_meta_datum_on_detail_view('Some time ago')
 
       edit_in_meta_data_form_and_save do
@@ -279,10 +281,7 @@ def form_group(context_key = @context_key)
 end
 
 def expect_meta_datum_on_detail_view(string, shown: true, key: @context_key)
-  unless current_path == media_entry_path(@media_entry)
-    visit media_entry_path(@media_entry)
-    wait_until { current_path == media_entry_path(@media_entry) }
-  end
+  wait_until { current_path == media_entry_path(@media_entry) }
   within('.ui-media-overview-metadata') do
     expect(page.has_css?('.media-data-title', text: key.label))
       .to be shown
