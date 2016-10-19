@@ -473,6 +473,11 @@ module.exports = React.createClass
           label: t('collection_sorting_title_asc')
           key: 'title ASC'
           href: setUrlParams(for_url, currentQuery, list: order: 'title ASC')
+        },
+        {
+          label: t('collection_sorting_last_change')
+          key: 'last_change'
+          href: setUrlParams(for_url, currentQuery, list: order: 'last_change')
         }
       ]
 

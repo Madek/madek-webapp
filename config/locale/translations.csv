@@ -66,6 +66,7 @@ collection_sorting_created_at_asc,Sortieren nach Importierdatum aufsteigend,Sort
 collection_sorting_created_at_desc,Sortieren nach Importierdatum absteigend,Sortieren nach Importierdatum absteigend,
 collection_sorting_title_asc,Sortieren nach Titel alphabetisch,Sortieren nach Titel alphabetisch,
 collection_sorting_title_desc,Sortieren nach Titel absteigend,Sortieren nach Titel absteigend,
+collection_sorting_last_change,Sortieren nach letzter Änderung,Sortieren nach letzter Änderung,
 collection_tab_main,Set,Set,
 collection_was_disfavored,Das Set wurde von den Favoriten entfernt.,Set was removed from favorites.,
 collection_was_favored,Das Set wurde zu den Favoriten hinzugefügt.,Set was added to favorites.,

@@ -82,7 +82,8 @@ module Presenters
           total_count = selected_resources.count if @with_count
 
           # apply pagination, but select "1 extra" (for building cheap pagination)
-          resources_page_and_next = selected_resources
+          ordered_resources = selected_resources.custom_order_by(config[:order])
+          resources_page_and_next = ordered_resources
             .limit(config[:per_page] + 1)
             .offset((config[:page] - 1) * config[:per_page])
 
@@ -101,7 +102,6 @@ module Presenters
           end
           resources
             .filter_by(@user, config[:filter] || {})
-            .custom_order_by(config[:order])
         end
 
         def presenterify(resources, determined_presenter = nil)

@@ -18,7 +18,8 @@ class CollectionsController < ApplicationController
     'created_at ASC',
     'created_at DESC',
     'title ASC',
-    'title DESC'].freeze
+    'title DESC',
+    'last_change'].freeze
 
   def index
     respond_with(@get = Presenters::Collections::Collections.new(

@@ -75,11 +75,7 @@ feature 'collection sorting' do
     login
     visit_collection
 
-    expected_created_at_asc = [
-      '2 Media Entry',
-      '1 Collection',
-      '4 Media Entry',
-      '3 Collection']
+    expected_created_at_asc = @expect_by_created_at
     expected_title_asc = [
       '1 Collection',
       '2 Media Entry',
@@ -91,6 +87,74 @@ feature 'collection sorting' do
     check_children_explicitly(expected_created_at_asc.reverse)
     select_sorting(:collection_sorting_title_asc)
     check_children_explicitly(expected_title_asc)
+  end
+
+  scenario 'sort by last change' do
+
+    prepare_user
+    prepare_collection_with_mixed_children
+    save_collection_sorting('created_at ASC')
+    login
+    visit_collection
+
+    check_children(:created_at_asc)
+
+    select_sorting(:collection_sorting_last_change)
+    check_children_have_no_edit_sessions
+    # We have no edit sessions yet, it takes the created_at desc.
+    check_children(:created_at_desc)
+
+    expect_save_button(true)
+    click_save_button
+    wait_leaving_page_until_response
+
+    visit_collection
+    check_children(:created_at_desc)
+
+    add_edit_session(@media_entry_2, 2004)
+    add_edit_session(@collection_1, 2003)
+    add_edit_session(@collection_2, 2002)
+    add_edit_session(@media_entry_1, 2001)
+
+    visit_collection
+    check_children_explicitly(
+      [
+        @media_entry_2.title,
+        @collection_1.title,
+        @collection_2.title,
+        @media_entry_1.title
+      ]
+    )
+
+    add_edit_session(@collection_2, 2005)
+
+    visit_collection
+    check_children_explicitly(
+      [
+        @collection_2.title,
+        @media_entry_2.title,
+        @collection_1.title,
+        @media_entry_1.title
+      ]
+    )
+  end
+
+  def type_symbol(resource)
+    resource.class.name.underscore.to_s
+  end
+
+  def add_edit_session(resource, year)
+    edit_session = FactoryGirl.create(
+      :edit_session,
+      type_symbol(resource) => resource
+    )
+    update_timestamps_by_year(edit_session, year)
+  end
+
+  def check_children_have_no_edit_sessions
+    @parent_collection.child_media_resources.each do |child|
+      expect(child.edit_sessions.empty?).to eq(true)
+    end
   end
 
   scenario 'check enabled button' do
@@ -149,7 +213,7 @@ def check_dropdown(text_key)
 end
 
 def check_children_explicitly(expected_titles)
-  expect(titles_per_pages.flatten).to eq(expected_titles)
+  expect(titles_per_pages).to eq(expected_titles)
 end
 
 def titles_per_pages
@@ -161,21 +225,21 @@ def titles_per_pages
 
       item_element.find('.ui-thumbnail-meta-title').text
     end
-  end
+  end.flatten
 end
 
 def check_children(sorting)
   expected =
     case sorting
     when :created_at_asc
-      child_media_resources_titles
+      @expect_by_created_at
     when :created_at_desc
-      child_media_resources_titles.reverse
+      @expect_by_created_at.reverse
     else
       throw 'Sorting not specified in the test: ' + sorting.to_s
     end
 
-  expect(titles_per_pages.flatten).to eq(expected)
+  expect(titles_per_pages).to eq(expected)
 end
 
 def child_media_resources_titles
@@ -213,18 +277,24 @@ end
 
 def prepare_collection_with_three_entries
   @parent_collection = create_collection('Test Collection')
-  @media_entries = (1..3).map do |index|
+  media_entries = (1..3).map do |index|
     media_entry = create_media_entry('Media Entry ' + index.to_s)
-    update_created_at_year(media_entry, 2000 + index)
+    update_timestamps_by_year(media_entry, 2000 + index)
     media_entry
   end
-  @parent_collection.media_entries.concat(@media_entries)
+  @parent_collection.media_entries.concat(media_entries)
   @parent_collection.save
+  @expect_by_created_at = [
+    'Media Entry 1',
+    'Media Entry 2',
+    'Media Entry 3'
+  ]
   @parent_collection
 end
 
-def update_created_at_year(resource, year)
+def update_timestamps_by_year(resource, year)
   resource.created_at = Date.new(year, 1, 1)
+  resource.updated_at = Date.new(year, 1, 1)
   resource.save
   resource.reload
   resource
@@ -233,21 +303,26 @@ end
 def prepare_collection_with_mixed_children
   @parent_collection = create_collection('Test Collection')
 
-  media_entry_1 = create_media_entry('4 Media Entry')
-  update_created_at_year(media_entry_1, 2003)
-  media_entry_2 = create_media_entry('2 Media Entry')
-  update_created_at_year(media_entry_2, 2001)
+  @media_entry_1 = create_media_entry('4 Media Entry')
+  update_timestamps_by_year(@media_entry_1, 2003)
+  @media_entry_2 = create_media_entry('2 Media Entry')
+  update_timestamps_by_year(@media_entry_2, 2001)
 
-  collection_1 = create_collection('1 Collection')
-  update_created_at_year(collection_1, 2002)
+  @collection_1 = create_collection('1 Collection')
+  update_timestamps_by_year(@collection_1, 2002)
 
-  collection_2 = create_collection('3 Collection')
-  update_created_at_year(collection_2, 2004)
+  @collection_2 = create_collection('3 Collection')
+  update_timestamps_by_year(@collection_2, 2004)
 
-  @parent_collection.media_entries.concat(
-    [media_entry_1, media_entry_2])
-  @parent_collection.collections.concat(
-    [collection_1, collection_2])
+  @expect_by_created_at = [
+    '2 Media Entry',
+    '1 Collection',
+    '4 Media Entry',
+    '3 Collection'
+  ]
+
+  @parent_collection.media_entries.concat([@media_entry_1, @media_entry_2])
+  @parent_collection.collections.concat([@collection_1, @collection_2])
   @parent_collection.save
   @parent_collection
 end
