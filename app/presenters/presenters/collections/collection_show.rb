@@ -95,10 +95,6 @@ module Presenters
           search_term: @search_term)
       end
 
-      def resource_index
-        Presenters::Collections::CollectionIndex.new(@app_resource, @user)
-      end
-
       def logged_in
         true if @user
       end

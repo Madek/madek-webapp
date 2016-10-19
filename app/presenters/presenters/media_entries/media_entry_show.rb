@@ -41,10 +41,6 @@ module Presenters
           @app_resource, @user, @user_scopes, list_conf: @list_conf
       end
 
-      def resource_index
-        Presenters::MediaEntries::MediaEntryIndex.new(@app_resource, @user)
-      end
-
       def meta_data
         return unless ['show', 'export', 'more_data'].include?(@active_tab)
         Presenters::MetaData::MetaDataShow.new(@app_resource, @user)

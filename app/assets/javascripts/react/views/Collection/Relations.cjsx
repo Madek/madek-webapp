@@ -53,7 +53,11 @@ module.exports = React.createClass
           </ul>
         </div>
       </div>
-      <div className={classnames("bright relationships-this-wrapper relationships-wrapper ui-container", {'pointing-bottom': (get.type == 'Collection')})}>
+      <div
+        className={classnames(
+          "bright relationships-this-wrapper relationships-wrapper ui-container",
+          {'pointing-bottom': (get.type == 'Collection')})}
+      >
         <div className="bordered-right bright pointing-right relationships-this ui-container">
           <div className="pointing-top">
             <div className="ui-resources-holder" id="set-relations-self">
@@ -68,7 +72,7 @@ module.exports = React.createClass
                 </h2>
               </div>
               <ul className="grid horizontal ui-resources">
-                <ResourceThumbnail authToken={authToken} elm={'li'} get={get.resource_index}
+                <ResourceThumbnail authToken={authToken} elm={'li'} get={get}
                   style={{verticalAlign: 'top'}} />
               </ul>
             </div>

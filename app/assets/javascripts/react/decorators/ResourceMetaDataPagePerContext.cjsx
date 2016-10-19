@@ -284,13 +284,13 @@ module.exports = React.createClass
 
     className = null
     unless @props.batch
-      className = if get.resource_index.type == 'Collection' then 'media-set ui-thumbnail' else 'image media-entry ui-thumbnail'
+      className = if get.resource.type == 'Collection' then 'media-set ui-thumbnail' else 'image media-entry ui-thumbnail'
 
     title = null
     if @props.batch
       title = t('meta_data_batch_title_pre') + get.batch_entries.length + t('meta_data_batch_title_post')
     else
-      if get.type == 'Collection'
+      if get.resource.type == 'Collection'
         title = t('collection_meta_data_header_prefix') + get.title
       else
         title = t('media_entry_meta_data_header_prefix') + get.title
@@ -305,7 +305,7 @@ module.exports = React.createClass
 
 
 
-    name = "#{f.snakeCase(get.type)}[meta_data]"
+    name = "#{f.snakeCase(get.resource.type)}[meta_data]"
     if @props.batch
       name = "media_entry[meta_data]"
 
@@ -387,12 +387,15 @@ module.exports = React.createClass
               unless @props.batch
 
 
-                src = get.resource_index.image_url
+                src = get.resource.image_url
                 alt = ''
                 image = if src
                   <Picture mods='ui-thumbnail-image' src={src} alt={alt} />
                 else
-                  <ResourceIcon mediaType={get.resource_index.media_type} thumbnail={true} type={get.type} />
+                  <ResourceIcon
+                    thumbnail={true}
+                    mediaType={get.resource.media_type}
+                    type={get.resource.type} />
 
 
 
@@ -416,17 +419,11 @@ module.exports = React.createClass
                                 </div>
                               </div>
                             </div>
-                            {
-                              if get.image_url
-                                <a className="ui-magnifier" href={get.image_url} id="ui-image-zoom" target="_blank">
-                                  <div className="icon-magnifier bright"></div>
-                                </a>
-                            }
                           </div>
                         </div>
                         <div className="ui-thumbnail-meta">
-                          <h3 className="ui-thumbnail-meta-title">{get.resource_index.title}</h3>
-                          <h4 className="ui-thumbnail-meta-subtitle">{get.resource_index.subtitle}</h4>
+                          <h3 className="ui-thumbnail-meta-title">{get.resource.title}</h3>
+                          <h4 className="ui-thumbnail-meta-subtitle">{get.resource.subtitle}</h4>
                         </div>
 
 
@@ -537,7 +534,7 @@ module.exports = React.createClass
 
           <div className="ui-actions phl pbl mtl">
             <a className="link weak"
-              href={if get.return_to then get.return_to else get.url}>{' ' + t('meta_data_form_cancel') + ' '}</a>
+              href={get.return_to || get.resource.url}>{' ' + t('meta_data_form_cancel') + ' '}</a>
             <button className="primary-button large" type="submit"
               name='actionType' value='save'
               onClick={@_onClick} disabled={disableSave}>{' ' + t('meta_data_form_save') + ' '}</button>
