@@ -16,6 +16,7 @@ React = require('react')
 ReactDOM = require('react-dom')
 PropTypes = React.PropTypes
 f = require('active-lodash')
+cx = require('classnames')
 jQuery = require('jquery')
 require('@eins78/typeahead.js/dist/typeahead.jquery.js')
 
@@ -94,7 +95,7 @@ module.exports = React.createClass
 
     <input ref="InputField"
       type="text"
-      className={className + ' typeahead'}
+      className={cx('typeahead', className)}
       defaultValue={value or ''}
       placeholder={placeholder || 'search…'}
       data-autocomplete-for={name} />

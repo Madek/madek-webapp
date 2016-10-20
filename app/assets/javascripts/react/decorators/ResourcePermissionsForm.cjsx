@@ -133,10 +133,12 @@ PermissionsBySubjectType = React.createClass
         </table>
 
         {if editing and permissionsList.isCollection
-          <div className='ui-add-subject ptx row'>
-            <div className='col1of3'>
+          <div className='ui-add-subject ptx'>
+            <div className='col1of3' style={position: 'relative'}>
               {if type?
-                <AutoComplete name={"add_#{type}"} resourceType={type}
+                <AutoComplete
+                  className='block'
+                  name={"add_#{type}"} resourceType={type}
                   onSelect={@onAddSubject} searchParams={searchParams} />
               }
             </div>

@@ -57,7 +57,7 @@ module Presenters
       end
 
       def permissions
-        return unless @active_tab == 'permissions'
+        return unless ['permissions', 'permissions_edit'].include?(@active_tab)
         Presenters::MediaEntries::MediaEntryPermissions.new(@app_resource, @user)
       end
 
