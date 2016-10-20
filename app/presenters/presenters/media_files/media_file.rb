@@ -46,13 +46,15 @@ module Presenters
         get_image_preview(@image_previews, size)
       end
 
-      def conversion_status
-        if @app_resource.previews_zencoder? == 0
-          latest = @app_resource.zencoder_jobs.order(created_at: :DESC).first
-          if latest
-            return latest.state
-          end
+      def conversion_progress
+        if (latest = latest_zencoder_job).present? && latest.submitted?
+          latest.fetch_progress.round(1)
         end
+      end
+
+      def conversion_status
+        latest = latest_zencoder_job
+        return latest.state if latest
       end
 
       private
@@ -117,6 +119,11 @@ module Presenters
         list[(list.length.to_f / 10 * 3).to_i]
       end
 
+      def latest_zencoder_job
+        if @app_resource.previews_zencoder? == 0
+          @app_resource.zencoder_jobs.order(created_at: :DESC).first
+        end
+      end
     end
   end
 end

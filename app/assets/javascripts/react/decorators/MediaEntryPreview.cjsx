@@ -53,9 +53,16 @@ module.exports = React.createClass({
       get.media_file.conversion_status && get.media_file.conversion_status != 'finished'
 
     if not_ready
+      warningText =
+        if get.media_file.conversion_status is 'submitted'
+          [t('media_entry_conversion_progress_pre'),
+           get.media_file.conversion_progress,
+           t('media_entry_conversion_progress_post')].join('')
+        else
+          t('media_entry_conversion_status_' + get.media_file.conversion_status)
 
       <div className='ui-media-overview-preview'>
-        <div className="ui-alert warning">{t('media_entry_conversion_status_' + get.media_file.conversion_status)}</div>
+        <div className="ui-alert warning">{warningText}</div>
         <div className="p pvh mth">
           {t('media_entry_conversion_hint')}
           <br />

@@ -18,7 +18,10 @@ class ZencoderJobsController < ApplicationController
         )
         import_thumbnails(details)
         import_previews(details)
-        @zencoder_job.update_attributes(state: 'finished')
+        @zencoder_job.update_attributes(
+          state: 'finished',
+          progress: 100.0
+        )
       end
 
     rescue => e
