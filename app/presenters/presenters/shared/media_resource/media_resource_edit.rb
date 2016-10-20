@@ -1,6 +1,7 @@
 module Presenters
   module Shared
     module MediaResource
+      # FIXME: this should inherit directly from Presenter (it's not a Resource!)
       class MediaResourceEdit < Presenters::Shared::AppResource
 
         def initialize(app_resource, user)

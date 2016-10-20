@@ -291,23 +291,22 @@ module.exports = React.createClass
       title = t('meta_data_batch_title_pre') + get.batch_entries.length + t('meta_data_batch_title_post')
     else
       if get.resource.type == 'Collection'
-        title = t('collection_meta_data_header_prefix') + get.title
+        title = t('collection_meta_data_header_prefix') + get.resource.title
       else
-        title = t('media_entry_meta_data_header_prefix') + get.title
+        title = t('media_entry_meta_data_header_prefix') + get.resource.title
 
     editByVocabTitle = t('media_entry_meta_data_edit_by_vocab_btn')
     editByVocabUrl = unless @props.batch
-      get.url + '/meta_data/edit'
+      get.resource.url + '/meta_data/edit'
     else
       setUrlParams('/entries/batch_meta_data_edit',
         id: f.map(get.batch_entries, 'uuid'),
         return_to: get.return_to)
 
-
-
-    name = "#{f.snakeCase(get.resource.type)}[meta_data]"
-    if @props.batch
-      name = "media_entry[meta_data]"
+    name = if @props.batch
+      "media_entry[meta_data]"
+    else
+      "#{f.snakeCase(get.resource.type)}[meta_data]"
 
     meta_data = get.meta_data
 

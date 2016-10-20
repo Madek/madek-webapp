@@ -96,6 +96,10 @@ feature 'Resource: MediaEntry' do
       expect(current_path_with_query).to eq(
         batch_edit_context_meta_data_media_entries_path(
           id: ids_to_edit, return_to: return_url))
+
+      # TMP: smokescreen test for the batch edit page (which itself is untested!)
+      expect(find('.ui-body-title-label').text).to eq \
+        "Metadaten für #{ids_to_edit.length} Medieneinträge gleichzeitig editieren"
     end
   end
 

@@ -30,6 +30,12 @@ feature 'Resource: MediaEntry' do
       direct_open_context('media_content', true, 'zhdk_bereich')
     end
 
+    it 'has title' do
+      initialize_and_check_show
+      visit edit_context_path(nil)
+      expect(find('.ui-body-title-label')).to have_content @resource.title
+    end
+
     it 'does not display meta datum if no usable permission existing',
        browser: :firefox do
       prepare_user
