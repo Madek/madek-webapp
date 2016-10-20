@@ -20,15 +20,7 @@ module.exports = React.createClass
     sparseParam = {___sparse: { child_media_resources: {} }}
     listParam = list: {order: itemKey}
 
-    urlBase =
-      if get.type == 'Collection'
-        '/sets'
-      else if get.type == 'MediaEntry'
-        '/entries'
-      else
-        throw new Error('Unknown resource type for loading meta data: ' + get.type)
-
-    url = setUrlParams(urlBase + '/' + get.uuid + '.json', sparseParam, listParam)
+    url = setUrlParams(get.url + '.json', sparseParam, listParam)
 
     LoadXhr({
       method: 'GET',
