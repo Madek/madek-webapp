@@ -28,7 +28,7 @@ cd -
 cd public/assets
 git add --all
 git commit -m "${MSG}"
-git push -f origin "+HEAD:${BRANCH}"
+git push -f -u origin "+HEAD:${BRANCH}"
 
 # ammend assets ref to last commit:
 cd -
