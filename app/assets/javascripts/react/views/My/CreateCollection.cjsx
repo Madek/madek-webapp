@@ -75,6 +75,8 @@ module.exports = React.createClass
           else
             @setState({error: 'Unknown error.'})
         else
+          if @props.onClose
+            @props.onClose()
           forward_url = json['forward_url']
           window.location = forward_url
     )
