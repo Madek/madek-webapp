@@ -48,12 +48,6 @@ tasks:
   spec/features/media_entry/media_entry_export_spec.rb: {priority: 2}
   spec/features/meta_data/meta_data_spec.rb: {priority: 1}
   spec/features/search_spec.rb: {priority: 2}
-  # TMP: strange DB timeouts; try with 5 times with low priority
-  spec/features/media_entry/media_entry_meta_data_edit_spec.rb:
-      priority: 1
-      max_trials: 5
-
-
 
   spec/features/styleguide_spec.rb:
     priority: 2
