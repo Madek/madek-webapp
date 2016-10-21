@@ -83,8 +83,15 @@ def logout
 end
 
 def submit_form
-  # also works `within('form')`
-  submit = first("form *[type='submit'], *[type='submit']")
+  # 1. Madek UI convention:
+  #    use the "primary" button (async forms where implicit submit is off)
+  # 2. HTML convention: use the submit button if there is one
+  # 3/4. try the same, but assuming we are 'within' a form
+  submit = first("\
+    form .ui-actions .primary-button, \
+    form *[type='submit'], \
+    *.ui-actions .primary-button, \
+    *[type='submit']")
   expect(submit).to be
   submit.click
 end

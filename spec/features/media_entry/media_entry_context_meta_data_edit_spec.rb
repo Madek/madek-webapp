@@ -36,6 +36,34 @@ feature 'Resource: MediaEntry' do
       expect(find('.ui-body-title-label')).to have_content @resource.title
     end
 
+    it 'does not submit on Enter key' do
+      # input plain text and press enter, then wait for 15 seconds
+      # and check that the URL hasn't changed and the submit button isn't disabled
+      initialize_and_check_show
+      expect(
+        AppSetting.first.update_attributes!(contexts_for_validation: [])).to be
+
+      visit edit_context_path(nil)
+      form_url = current_url
+      within('.app-body form ') do
+
+        input = first('input[type="text"]')
+        input.set('Something')
+        input.native.send_keys(:enter)
+
+        # NOTE: fails fast, BUT will take minimum 15 seconds when it works :/
+        fail = false
+        begin
+          wait_until(15) do
+            fail = (current_url != form_url) && find('.primary-button')[:disabled]
+          end
+        rescue Timeout::Error
+          puts 'OK, we stayed on the edit form.'
+        end
+        expect(fail).to be false
+      end
+    end
+
     it 'does not display meta datum if no usable permission existing',
        browser: :firefox do
       prepare_user
@@ -145,7 +173,7 @@ end
 def save_first_time(async)
   expect(@resource.meta_data.length).to eq(1)
   save_button.click
-  expect(current_path).to eq(media_entry_path(@resource))
+  wait_until { current_path == media_entry_path(@resource) }
 
   expect(page).to have_content(
     I18n.t(:meta_data_edit_media_entry_saved_missing))

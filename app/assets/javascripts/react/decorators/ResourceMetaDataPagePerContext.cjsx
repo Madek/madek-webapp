@@ -259,7 +259,11 @@ module.exports = React.createClass
             window.location = forward_url
     )
 
-  _onClick: (event) ->
+  # NOTE: just to be save, block *implicit* form submits
+  # (should normally not be triggered when button[type=button] is used.)
+  _onImplicitSumbit: (event) -> event.preventDefault()
+
+  _onExplicitSubmit: (event) ->
     event.preventDefault()
     @submit(event.target.value)
     return false
@@ -309,6 +313,8 @@ module.exports = React.createClass
       "#{f.snakeCase(get.resource.type)}[meta_data]"
 
     meta_data = get.meta_data
+
+    submitButtonType = if @state.mounted then 'button' else 'submit'
 
     # disableSave = (@state.saving or not @_changesForAll() or (@_validityForAll() == 'invalid' and @props.get.published)) and @state.mounted == true
     disableSave = (@state.saving or (@_validityForAll() == 'invalid' and @props.get.published)) and @state.mounted == true
@@ -375,6 +381,7 @@ module.exports = React.createClass
 
         <RailsForm ref='form'
           name='resource_meta_data' action={@_actionUrl()}
+          onSubmit={@_onImplicitSumbit}
           method='put' authToken={authToken}>
 
           <input type='hidden' name='return_to' value={@props.get.return_to} />
@@ -534,13 +541,16 @@ module.exports = React.createClass
           <div className="ui-actions phl pbl mtl">
             <a className="link weak"
               href={get.return_to || get.resource.url}>{' ' + t('meta_data_form_cancel') + ' '}</a>
-            <button className="primary-button large" type="submit"
-              name='actionType' value='save'
-              onClick={@_onClick} disabled={disableSave}>{' ' + t('meta_data_form_save') + ' '}</button>
+            <button className="primary-button large"
+              type={submitButtonType} name='actionType' value='save'
+              onClick={@_onExplicitSubmit}
+              disabled={disableSave}>{t('meta_data_form_save')}</button>
             {
               if showPublish
-                <button className='primary-button large' name='actionType' value='publish'
-                  type='submit' onClick={@_onClick} disabled={disablePublish}> {t('meta_data_form_publish')} </button>
+                <button className='primary-button large'
+                  type={submitButtonType} name='actionType' value='publish'
+                  onClick={@_onExplicitSubmit}
+                  disabled={disablePublish}>{t('meta_data_form_publish')}</button>
             }
           </div>
 
