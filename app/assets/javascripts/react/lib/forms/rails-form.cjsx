@@ -31,8 +31,8 @@ module.exports = React.createClass
     form = ReactDOM.findDOMNode(@refs.form)
     return $(form).serialize()
 
-  render: ({name, action, method, authToken, onSubmit, children} = @props) ->
-    ownProps = ['name', 'action', 'method', 'authToken', 'onSubmit', 'children']
+  render: ({name, method, authToken, children} = @props) ->
+    ownProps = ['name', 'method', 'authToken', 'children']
     restProps = f.omit(@props, ownProps)
 
     # Rails conventions:
@@ -47,8 +47,8 @@ module.exports = React.createClass
     # throw to catch erorrs server-side (PropTypes is only for dev)
     if typeof maybeAuthToken is 'Error' then throw maybeAuthToken
 
-    <form {...restProps} ref='form' onSubmit={onSubmit}
-      name={name} method={formMethod} action={action}
+    <form {...restProps} ref='form'
+      name={name} method={formMethod}
       className={ui.cx(ui.parseMods(@props))}
       acceptCharset='UTF-8'>
 
