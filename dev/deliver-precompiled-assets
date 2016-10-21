@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 set -exu
 
+# precompiles and ammends assets for the last commit (HEAD)
+# without any arguments it does a full reset to always work
+# `--no-reset` arg can be given to no to a reset
+# (usefull when delivering more than 1 commit, only the first needs reset)
+
+# args
+DO_RESET=$(test "${1:-""}" == "--no-reset" || echo 1)
+
 # sanity check: correct repo?
 {
  git config remote.origin.url | grep 'github.com' | grep -q 'Madek/madek-webapp'
@@ -15,13 +23,15 @@ BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 } && { echo 'ERROR! must be on a branch!' && exit 1 ;}
 
 # clean state for assets:
-git submodule update --init public/assets
-cd public/assets
-git checkout -B "$BRANCH"
-git fetch
-git reset --hard origin/master
+test $DO_RESET && {
+  git submodule update --init public/assets
+  cd public/assets
+  git checkout -B "$BRANCH"
+  git fetch
+  git reset --hard origin/master
+  cd -
+}
 
-cd -
 ./bin/precompile-assets
 
 # commit & push assets:
