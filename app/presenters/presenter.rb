@@ -22,6 +22,7 @@ class Presenter
   end
 
   def _presenter
+    return if Rails.env != 'development'
     self.class.name
   end
 
