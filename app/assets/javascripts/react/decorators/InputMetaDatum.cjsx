@@ -1,9 +1,9 @@
 React = require('react')
 f = require('active-lodash')
-MadekPropTypes = require('./madek-prop-types.coffee')
+MadekPropTypes = require('../lib/madek-prop-types.coffee')
 
-InputsByType = require('./forms/inputs-by-type.cjsx')
-InputText = require('./forms/input-text.cjsx')
+InputsByType = require('../lib/forms/inputs-by-type.cjsx')
+InputText = require('../lib/forms/input-text.cjsx')
 
 module.exports = React.createClass
   displayName: 'InputMetaDatum'

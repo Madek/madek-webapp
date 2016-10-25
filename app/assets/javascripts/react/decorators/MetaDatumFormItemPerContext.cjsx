@@ -4,8 +4,8 @@ f = require('active-lodash')
 xhr = require('xhr')
 cx = require('classnames')
 t = require('../../lib/string-translation.js')('de')
+InputMetaDatum = require('../decorators/InputMetaDatum.cjsx')
 MetaKeyFormLabel = require('../lib/forms/form-label.cjsx')
-InputMetaDatum = require('../lib/input-meta-datum.cjsx')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
 
 module.exports = React.createClass
