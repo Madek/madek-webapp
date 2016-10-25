@@ -4,9 +4,6 @@ module Presenters
       def initialize(app_resource, user)
         super(app_resource)
         @user = user
-        @values = wrap_in_array(@app_resource.value)
-                    .map { |v| indexify_if_necessary(v) }
-        @literal_values = values.map { |v| v.is_a?(Presenter) ? v.uuid : v }
       end
 
       delegate_to_app_resource(:meta_key_id,
@@ -15,10 +12,17 @@ module Presenters
                                :collection_id,
                                :filter_set_id)
 
-      attr_reader :values, :literal_values
-
       def meta_key
         Presenters::MetaKeys::MetaKeyCommon.new(@app_resource.meta_key)
+      end
+
+      def values
+        @values ||= wrap_in_array(@app_resource.value)
+          .map { |v| indexify_if_necessary(v) }
+      end
+
+      def literal_values
+        @literal_values ||= values.map { |v| v.is_a?(Presenter) ? v.uuid : v }
       end
 
       def url
