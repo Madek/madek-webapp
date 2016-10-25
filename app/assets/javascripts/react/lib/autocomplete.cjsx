@@ -16,7 +16,10 @@ React = require('react')
 ReactDOM = require('react-dom')
 PropTypes = React.PropTypes
 f = require('active-lodash')
-cx = require('classnames')
+libUi = require('../lib/ui.coffee')
+cx = libUi.classnames
+t = libUi.t('de')
+
 jQuery = require('jquery')
 require('@eins78/typeahead.js/dist/typeahead.jquery.js')
 
@@ -41,9 +44,17 @@ initTypeahead = (domNode, resourceType, params, conf, onSelect, onAdd)->
     }
   }
 
+  dataSet = f.merge(searchBackend, {
+    # HTML (not React!) templates
+    templates: {
+      pending: '<div class="ui-preloader small" style="height: 1.5em"></div>',
+      notFound: '<div class="paragraph-l by-center">' + t('app_autocomplete_no_results') + '</div>',
+    }
+  })
+
   # init typeahead.js plugin via jQuery
   $input = jQuery(domNode)
-  typeahead = $input.typeahead(typeaheadConfig, searchBackend)
+  typeahead = $input.typeahead(typeaheadConfig, dataSet)
 
   # add events (browser/jquery events, NOT from react!):
   typeahead.on 'keypress', (event)->
