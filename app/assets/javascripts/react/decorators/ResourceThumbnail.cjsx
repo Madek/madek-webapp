@@ -19,7 +19,7 @@ module.exports = React.createClass
   displayName: 'ResourceThumbnail'
   mixins: [ampersandReactMixin]
   propTypes:
-    authToken: React.PropTypes.string.isRequired
+    authToken: React.PropTypes.string
     onSelect: React.PropTypes.func
     onClick: React.PropTypes.func
     fetchRelations: React.PropTypes.bool
