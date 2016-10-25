@@ -50,7 +50,6 @@ module.exports = React.createClass
     newValues = @state.values.concat(item)
     unless is_duplicate
       @setState(values: newValues)
-    # TODO: highlight the existing (in old value) and on the fly items visually…
 
     if @props.onChange
       @props.onChange(newValues)
@@ -113,6 +112,7 @@ module.exports = React.createClass
                   searchParams={searchParams}
                   onSelect={_onItemAdd}
                   config={autocompleteConfig}
+                  existingValues={() => f.map(@state.values, 'label')}
                   onAddValue={addNewValue}
                   ref='ListAdder'/>
                 <a className='multi-select-input-toggle icon-arrow-down'/>

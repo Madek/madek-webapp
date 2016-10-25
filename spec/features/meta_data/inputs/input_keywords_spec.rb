@@ -25,6 +25,21 @@ feature 'Resource: MetaDatum' do
       end
     end
 
+    example 'autocomplete styles existing values' do
+      meta_key = create_meta_key_keywords
+      100.times { FactoryGirl.create(:keyword, meta_key: meta_key) }
+      meta_datum = FactoryGirl.create(
+        :meta_datum_keywords, meta_key: meta_key, media_entry: @media_entry)
+      existing_term = meta_datum.keywords.sample.term
+
+      in_the_edit_field(meta_key.label) do
+        fill_autocomplete(existing_term)
+        expect(
+          find('.ui-autocomplete-disabled', text: existing_term)
+        ).to be
+      end
+    end
+
   end
 
   private

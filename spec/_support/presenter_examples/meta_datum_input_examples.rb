@@ -73,7 +73,7 @@ module Examples
       is_extensible_list: false
     )
     meta_key.save!
-    12.times.map { |n| (n + 65).chr }  # letters A, B, C, …, L
+    12.times.map { |n| (n + 65).chr } # letters A, B, C, …, L
         .map { |term| Keyword.find_or_create_by!(term: term, meta_key: meta_key) }
         .each(&:save!)
     value_keywords = ['A', 'E', 'I']
@@ -102,7 +102,7 @@ module Examples
       is_extensible_list: false
     )
     meta_key.save!
-    26.times.map { |n| (n + 65).chr }  # letters A, B, C, …, Z
+    26.times.map { |n| (n + 65).chr } # letters A, B, C, …, Z
         .map { |term| Keyword.find_or_create_by!(term: term, meta_key: meta_key) }
         .each(&:save!)
     value_keywords = ['A', 'E', 'I']

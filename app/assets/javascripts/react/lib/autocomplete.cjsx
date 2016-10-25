@@ -9,7 +9,7 @@ Example:
 callback = (data)-> alert(data.uuid)
 <AutoComplete name='foo[person]' resourceType='People' onSelect={callback}/>
 
-FIXME: fails if even required on server (jQuery)!
+NOTE: fails if even required on server (jQuery)!
 ###
 
 React = require('react')
@@ -23,9 +23,12 @@ t = libUi.t('de')
 jQuery = require('jquery')
 require('@eins78/typeahead.js/dist/typeahead.jquery.js')
 
+ui = require('../lib/ui.coffee')
+cx = ui.cx
+t = ui.t('de')
 searchResources = require('../../lib/search.coffee')
 
-initTypeahead = (domNode, resourceType, params, conf, onSelect, onAdd)->
+initTypeahead = (domNode, resourceType, params, conf, existingValues, onSelect, onAdd)->
   localData = conf.dataSource
   unless (searchBackend = searchResources(resourceType, params, localData))
     throw new Error "No search backend for '#{resourceType}'!"
@@ -49,6 +52,16 @@ initTypeahead = (domNode, resourceType, params, conf, onSelect, onAdd)->
     templates: {
       pending: '<div class="ui-preloader small" style="height: 1.5em"></div>',
       notFound: '<div class="paragraph-l by-center">' + t('app_autocomplete_no_results') + '</div>',
+      suggestion: (value) ->
+        line = f.get(value, searchBackend.displayKey)
+
+        # wrap/set as disabled if existing value
+        if existingValues && f.includes(existingValues(), line)
+          line = '<span class="ui-autocomplete-disabled" title="' +
+            + t('meta_data_input_keywords_existing') + '">' +
+            line + "</span>"
+
+        '<div>' + line + '</div>'
     }
   })
 
@@ -88,11 +101,11 @@ module.exports = React.createClass
       minLength: PropTypes.number
 
   componentDidMount: ()->
-    {resourceType, searchParams, autoFocus, config, onSelect, onAddValue} = @props
+    {resourceType, searchParams, autoFocus, config, existingValues, onSelect, onAddValue} = @props
     conf = f.defaults config,
       minLength: 1
     inputDOM = ReactDOM.findDOMNode(@refs.InputField)
-    initTypeahead(inputDOM, resourceType, searchParams, conf, onSelect, onAddValue)
+    initTypeahead(inputDOM, resourceType, searchParams, conf, existingValues, onSelect, onAddValue)
     if autoFocus then @focus()
 
   focus: ()->

@@ -2,7 +2,7 @@
 examples:
 - name: core_keywords_without_existing_values
   description: "Core Keywords, no value | madek_core:keywords\nextensible, keyword_count:
-    8687\n      "
+    8688\n      "
   props:
     get:
       fixed_selection: false
@@ -33,7 +33,7 @@ examples:
       _presenter: Presenters::MetaData::MetaDatumEdit
 - name: core_keywords_with_existing_values
   description: "Core Keywords, with existing value | madek_core:keywords\nextensible,
-    keyword_count: 8687\n      "
+    keyword_count: 8688\n      "
   props:
     get:
       fixed_selection: false
@@ -111,86 +111,86 @@ examples:
       - label: L
         url: "/vocabulary/example:keywords_fixed_few/L"
         type: Keyword
-        uuid: 3a3fcaa9-b22f-4571-a22d-de91de7d2d08
-        created_at: '2016-11-04T15:43:41.341Z'
-        updated_at: '2016-11-04T15:43:41.341Z'
+        uuid: 63fb843f-657e-4a44-b668-74f1f59589b3
+        created_at: '2016-11-04T19:29:20.466Z'
+        updated_at: '2016-11-04T19:29:20.466Z'
         _presenter: Presenters::Keywords::KeywordCommon
       - label: K
         url: "/vocabulary/example:keywords_fixed_few/K"
         type: Keyword
-        uuid: 5731a9cb-d0b5-44e4-a9a6-aebaf5d2281d
-        created_at: '2016-11-04T15:43:41.341Z'
-        updated_at: '2016-11-04T15:43:41.341Z'
+        uuid: 90ff66cf-a46e-4e1c-b44a-35e2c61e9ecf
+        created_at: '2016-11-04T19:29:20.466Z'
+        updated_at: '2016-11-04T19:29:20.466Z'
         _presenter: Presenters::Keywords::KeywordCommon
       - label: J
         url: "/vocabulary/example:keywords_fixed_few/J"
         type: Keyword
-        uuid: 80c6c71a-5c6b-4808-ab90-d24089b16de5
-        created_at: '2016-11-04T15:43:41.341Z'
-        updated_at: '2016-11-04T15:43:41.341Z'
+        uuid: fbb3c676-a72c-43df-81ac-9da37b516937
+        created_at: '2016-11-04T19:29:20.466Z'
+        updated_at: '2016-11-04T19:29:20.466Z'
         _presenter: Presenters::Keywords::KeywordCommon
       - label: I
         url: "/vocabulary/example:keywords_fixed_few/I"
         type: Keyword
-        uuid: 93d6f251-0c7e-4aa3-a1f8-905e96cbab84
-        created_at: '2016-11-04T15:43:41.341Z'
-        updated_at: '2016-11-04T15:43:41.341Z'
+        uuid: 526685cc-6483-4a77-9487-c02a4268a254
+        created_at: '2016-11-04T19:29:20.466Z'
+        updated_at: '2016-11-04T19:29:20.466Z'
         _presenter: Presenters::Keywords::KeywordCommon
       - label: H
         url: "/vocabulary/example:keywords_fixed_few/H"
         type: Keyword
-        uuid: 28af7ee7-cab0-4ea4-8adf-63fee331d290
-        created_at: '2016-11-04T15:43:41.341Z'
-        updated_at: '2016-11-04T15:43:41.341Z'
+        uuid: 31661c35-7a59-4600-ab94-b14006b9d5b3
+        created_at: '2016-11-04T19:29:20.466Z'
+        updated_at: '2016-11-04T19:29:20.466Z'
         _presenter: Presenters::Keywords::KeywordCommon
       - label: G
         url: "/vocabulary/example:keywords_fixed_few/G"
         type: Keyword
-        uuid: a147848f-9ffe-455c-afdf-6ad792a26317
-        created_at: '2016-11-04T15:43:41.341Z'
-        updated_at: '2016-11-04T15:43:41.341Z'
+        uuid: 010f34ff-38b6-4092-8257-4773f31f24eb
+        created_at: '2016-11-04T19:29:20.466Z'
+        updated_at: '2016-11-04T19:29:20.466Z'
         _presenter: Presenters::Keywords::KeywordCommon
       - label: F
         url: "/vocabulary/example:keywords_fixed_few/F"
         type: Keyword
-        uuid: b9599f5c-a74f-47b9-9ca4-2191a46f14cd
-        created_at: '2016-11-04T15:43:41.341Z'
-        updated_at: '2016-11-04T15:43:41.341Z'
+        uuid: ca11a122-2300-4828-8363-a3e657cc81fd
+        created_at: '2016-11-04T19:29:20.466Z'
+        updated_at: '2016-11-04T19:29:20.466Z'
         _presenter: Presenters::Keywords::KeywordCommon
       - label: E
         url: "/vocabulary/example:keywords_fixed_few/E"
         type: Keyword
-        uuid: f972e405-bcab-4edd-97ad-9269f61fe01c
-        created_at: '2016-11-04T15:43:41.341Z'
-        updated_at: '2016-11-04T15:43:41.341Z'
+        uuid: 6415479c-2fbc-4889-81d9-55cd924b0942
+        created_at: '2016-11-04T19:29:20.466Z'
+        updated_at: '2016-11-04T19:29:20.466Z'
         _presenter: Presenters::Keywords::KeywordCommon
       - label: D
         url: "/vocabulary/example:keywords_fixed_few/D"
         type: Keyword
-        uuid: 199b1a4a-7c33-45f5-b83f-8daa041c0925
-        created_at: '2016-11-04T15:43:41.341Z'
-        updated_at: '2016-11-04T15:43:41.341Z'
+        uuid: 2774ddc6-5f5e-49c3-96c4-94967cfd3cc2
+        created_at: '2016-11-04T19:29:20.466Z'
+        updated_at: '2016-11-04T19:29:20.466Z'
         _presenter: Presenters::Keywords::KeywordCommon
       - label: C
         url: "/vocabulary/example:keywords_fixed_few/C"
         type: Keyword
-        uuid: 04d492de-99fd-4204-83d6-03d799746162
-        created_at: '2016-11-04T15:43:41.341Z'
-        updated_at: '2016-11-04T15:43:41.341Z'
+        uuid: 9adf73f3-c435-4701-b34f-d7fa96201f15
+        created_at: '2016-11-04T19:29:20.466Z'
+        updated_at: '2016-11-04T19:29:20.466Z'
         _presenter: Presenters::Keywords::KeywordCommon
       - label: B
         url: "/vocabulary/example:keywords_fixed_few/B"
         type: Keyword
-        uuid: 3da25705-0293-4ede-841e-24cf5d401764
-        created_at: '2016-11-04T15:43:41.341Z'
-        updated_at: '2016-11-04T15:43:41.341Z'
+        uuid: 0030b9c4-b387-4318-a81f-9584c3061935
+        created_at: '2016-11-04T19:29:20.466Z'
+        updated_at: '2016-11-04T19:29:20.466Z'
         _presenter: Presenters::Keywords::KeywordCommon
       - label: A
         url: "/vocabulary/example:keywords_fixed_few/A"
         type: Keyword
-        uuid: 8e1083f6-27cb-4ca7-859d-874585428c1d
-        created_at: '2016-11-04T15:43:41.341Z'
-        updated_at: '2016-11-04T15:43:41.341Z'
+        uuid: cd6f7c2a-f502-43eb-b7bc-abf53b1e8949
+        created_at: '2016-11-04T19:29:20.466Z'
+        updated_at: '2016-11-04T19:29:20.466Z'
         _presenter: Presenters::Keywords::KeywordCommon
       url: 
       meta_key_id: example:keywords_fixed_few
@@ -202,28 +202,28 @@ examples:
       - label: A
         url: "/vocabulary/example:keywords_fixed_few/A"
         type: Keyword
-        uuid: 8e1083f6-27cb-4ca7-859d-874585428c1d
-        created_at: '2016-11-04T15:43:41.341Z'
-        updated_at: '2016-11-04T15:43:41.341Z'
+        uuid: cd6f7c2a-f502-43eb-b7bc-abf53b1e8949
+        created_at: '2016-11-04T19:29:20.466Z'
+        updated_at: '2016-11-04T19:29:20.466Z'
         _presenter: Presenters::Keywords::KeywordIndex
       - label: E
         url: "/vocabulary/example:keywords_fixed_few/E"
         type: Keyword
-        uuid: f972e405-bcab-4edd-97ad-9269f61fe01c
-        created_at: '2016-11-04T15:43:41.341Z'
-        updated_at: '2016-11-04T15:43:41.341Z'
+        uuid: 6415479c-2fbc-4889-81d9-55cd924b0942
+        created_at: '2016-11-04T19:29:20.466Z'
+        updated_at: '2016-11-04T19:29:20.466Z'
         _presenter: Presenters::Keywords::KeywordIndex
       - label: I
         url: "/vocabulary/example:keywords_fixed_few/I"
         type: Keyword
-        uuid: 93d6f251-0c7e-4aa3-a1f8-905e96cbab84
-        created_at: '2016-11-04T15:43:41.341Z'
-        updated_at: '2016-11-04T15:43:41.341Z'
+        uuid: 526685cc-6483-4a77-9487-c02a4268a254
+        created_at: '2016-11-04T19:29:20.466Z'
+        updated_at: '2016-11-04T19:29:20.466Z'
         _presenter: Presenters::Keywords::KeywordIndex
       literal_values:
-      - 8e1083f6-27cb-4ca7-859d-874585428c1d
-      - f972e405-bcab-4edd-97ad-9269f61fe01c
-      - 93d6f251-0c7e-4aa3-a1f8-905e96cbab84
+      - cd6f7c2a-f502-43eb-b7bc-abf53b1e8949
+      - 6415479c-2fbc-4889-81d9-55cd924b0942
+      - 526685cc-6483-4a77-9487-c02a4268a254
       meta_key:
         is_extensible: false
         alphabetical_order: true
@@ -258,28 +258,28 @@ examples:
       - label: A
         url: "/vocabulary/example:keywords_fixed_many/A"
         type: Keyword
-        uuid: b440c239-965c-4d02-aa38-bf8de8fe31ae
-        created_at: '2016-11-04T15:43:41.341Z'
-        updated_at: '2016-11-04T15:43:41.341Z'
+        uuid: 8ae40c28-7bd3-45a9-809b-e5bcacd6c7bc
+        created_at: '2016-11-04T19:29:20.466Z'
+        updated_at: '2016-11-04T19:29:20.466Z'
         _presenter: Presenters::Keywords::KeywordIndex
       - label: E
         url: "/vocabulary/example:keywords_fixed_many/E"
         type: Keyword
-        uuid: 12079ea3-786d-43cb-8ef3-b6356bf98733
-        created_at: '2016-11-04T15:43:41.341Z'
-        updated_at: '2016-11-04T15:43:41.341Z'
+        uuid: c4ee047f-3698-41df-ab5c-7949269b34c7
+        created_at: '2016-11-04T19:29:20.466Z'
+        updated_at: '2016-11-04T19:29:20.466Z'
         _presenter: Presenters::Keywords::KeywordIndex
       - label: I
         url: "/vocabulary/example:keywords_fixed_many/I"
         type: Keyword
-        uuid: 6907d681-f08b-4de8-84ca-9a05ce41df97
-        created_at: '2016-11-04T15:43:41.341Z'
-        updated_at: '2016-11-04T15:43:41.341Z'
+        uuid: 81502a13-8a3e-4be0-ba22-8e379431cea2
+        created_at: '2016-11-04T19:29:20.466Z'
+        updated_at: '2016-11-04T19:29:20.466Z'
         _presenter: Presenters::Keywords::KeywordIndex
       literal_values:
-      - b440c239-965c-4d02-aa38-bf8de8fe31ae
-      - 12079ea3-786d-43cb-8ef3-b6356bf98733
-      - 6907d681-f08b-4de8-84ca-9a05ce41df97
+      - 8ae40c28-7bd3-45a9-809b-e5bcacd6c7bc
+      - c4ee047f-3698-41df-ab5c-7949269b34c7
+      - 81502a13-8a3e-4be0-ba22-8e379431cea2
       meta_key:
         is_extensible: false
         alphabetical_order: true
