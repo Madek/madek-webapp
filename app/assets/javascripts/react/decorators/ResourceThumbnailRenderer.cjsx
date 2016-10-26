@@ -111,6 +111,7 @@ module.exports = React.createClass
       disableLink: get.disableLink
 
     <Element
+      style={@props.style}
       className={cx('ui-resource', 'ui-selected': (selectProps and selectProps.isSelected))}
       onMouseOver={relationsProps.onHover if relationsProps}>
 
