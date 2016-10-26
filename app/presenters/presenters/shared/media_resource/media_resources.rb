@@ -46,7 +46,8 @@ module Presenters
         end
 
         def any?
-          @resources.first.present?
+          # NOTE: need to ask the *unpaginated* collection!
+          @selected_resources.any?
         end
 
         def empty?
@@ -100,7 +101,7 @@ module Presenters
           unless active_record_collection?(resources)
             fail 'TypeError! not an AR Collection/Relation!'
           end
-          resources
+          @selected_resources ||= resources
             .filter_by(@user, config[:filter] || {})
         end
 
