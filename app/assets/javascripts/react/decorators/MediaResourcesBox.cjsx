@@ -149,23 +149,26 @@ module.exports = React.createClass
         (new collectionClass(get.resources))
 
 
-  _tryLoadListMetadata: (resourceType, resourceUuid) ->
+  _tryLoadListMetadata: (resource) ->
+    {type, uuid, url} = resource
     if not @state.loadingListMetadataResource
-      @setState({loadingListMetadataResource: resourceUuid})
+      @setState({loadingListMetadataResource: uuid})
       LoadXhr({
         method: 'GET',
         url:
-          if resourceType == 'Collection'
-            '/sets/' + resourceUuid + '.json?___sparse={"meta_data":{}}'
-          else if resourceType == 'MediaEntry'
-            '/entries/' + resourceUuid + '.json?___sparse={"meta_data":{}}'
+          if type == 'Collection'
+            url + '.json?___sparse={"meta_data":{}}'
+          else if type == 'MediaEntry'
+            url + '.json?___sparse={"meta_data":{}}'
           else
             console.error('Unknown resource type for loading meta data: ' + resourceType)
 
       },
       (result, json) =>
-        @state.listMetadata[resourceUuid] = json.meta_data
-        @setState({loadingListMetadataResource: null})
+        @setState({
+          loadingListMetadataResource: null,
+          listMetadata: f.assign(@state.listMetadata, f.set({}, uuid, json.meta_data))
+        })
       )
 
 
@@ -796,7 +799,7 @@ module.exports = React.createClass
                             unless listMetadata
                               setTimeout(
                                 () =>
-                                  @_tryLoadListMetadata(item.type, item.uuid)
+                                  @_tryLoadListMetadata(item)
                                 ,
                                 10
                               )

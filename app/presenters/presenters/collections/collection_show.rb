@@ -112,6 +112,13 @@ module Presenters
 
       private
 
+      # NOTE: this is only needed for fetching MetaData in Box ListView
+      #       MUST be consistent with the MediaEntry!
+      #       it is only used via sparse-request, prevent dumping with 'private'
+      def meta_data
+        Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
+      end
+
       # NOTE: used by tab helper, because tab should not be shown if no relations
       def _relations
         @_relations ||= Presenters::Collections::CollectionRelations.new(
