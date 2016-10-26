@@ -12,7 +12,6 @@ StatusIcon = require('./thumbnail/StatusIcon.cjsx')
 ListThumbnail = require('./ListThumbnail.cjsx')
 MetaDataList = require('./MetaDataList.cjsx')
 MetaDatumValues = require('./MetaDatumValues.cjsx')
-LoadXhr = require('../../lib/load-xhr.coffee')
 Preloader = require('../ui-components/Preloader.cjsx')
 
 module.exports = React.createClass

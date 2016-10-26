@@ -4,7 +4,7 @@ f = require('active-lodash')
 t = require('../../../lib/string-translation.js')('de')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 TabContent = require('../TabContent.cjsx')
-LoadXhr = require('../../../lib/load-xhr.coffee')
+appRequest = require('../../../lib/app-request.coffee')
 setUrlParams = require('../../../lib/set-params-for-url.coffee')
 
 
@@ -30,13 +30,8 @@ module.exports = React.createClass
 
     url = setUrlParams(urlBase + '/' + get.uuid + '.json', sparseParam, listParam)
 
-    LoadXhr({
-      method: 'GET',
-      url: url
-    },
-    (result, json) ->
-      callback(json.relations.child_media_resources)
-    )
+    appRequest({ url: url }, (error, result, json) ->
+      callback(json.relations.child_media_resources))
 
   render: ({get, authToken} = @props) ->
     <div className="ui-container rounded-bottom">

@@ -11,7 +11,7 @@ ToggableLink = require('../../ui-components/ToggableLink.cjsx')
 Modal = require('../../ui-components/Modal.cjsx')
 xhr = require('xhr')
 formXhr = require('../../../lib/form-xhr.coffee')
-loadXhr = require('../../../lib/load-xhr.coffee')
+appRequest = require('../../../lib/app-request.coffee')
 Preloader = require('../../ui-components/Preloader.cjsx')
 
 module.exports = React.createClass
@@ -34,18 +34,19 @@ module.exports = React.createClass
     if not @state.get
       @setState({loading: true})
 
-      loadXhr(
+      appRequest(
         {
-          method: 'GET'
-          url: '/my/new_collection?___sparse={"dashboard_header":{"new_collection":{}}}'
+          method: 'GET',
+          url: '/my/new_collection',
+          sparse: {dashboard_header: {new_collection: {}}}
         },
-        (result, json) =>
+        (error, result, json) =>
           return unless @isMounted()
-          if result == 'success'
-            @setState(loading: false, get: json.dashboard_header.new_collection)
-          else
+          if (error)
             console.error('Cannot load dialog: ' + JSON.stringify(json))
             @setState({loading: false})
+          else
+            @setState(loading: false, get: json.dashboard_header.new_collection)
       )
 
   _onCancel: (event) ->

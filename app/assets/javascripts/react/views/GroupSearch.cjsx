@@ -6,7 +6,7 @@ RailsForm = require('../lib/forms/rails-form.cjsx')
 classnames = require('classnames')
 AutoComplete = null
 AskModal = require('../ui-components/AskModal.cjsx')
-loadXhr = require('../../lib/load-xhr.coffee')
+appRequest = require('../../lib/app-request.coffee')
 
 
 module.exports = React.createClass
@@ -67,20 +67,16 @@ module.exports = React.createClass
   _onModalOk: () ->
     @state.data.failure = null
     @setState(loading: true)
-    loadXhr(
+    appRequest(
       {
         method: 'DELETE'
         url: '/my/groups/' + @props.get.uuid
-        body: {
-          authToken: @props.authToken
-        }
       },
-      (result, data) =>
-        if result == 'success'
-          window.location = '/my/groups'
+      (error, result, data) =>
+        if (error)
+          return @setState(loading: false, data: f.merge(@state.data, {failure: error}))
         else
-          @state.data.failure = data.headers[0]
-          @setState(loading: false)
+          window.location = '/my/groups'
     )
 
   _onModalCancel: () ->

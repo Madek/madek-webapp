@@ -1,5 +1,7 @@
 React = require('react')
+PropTypes = React.PropTypes
 f = require('active-lodash')
+cx = require('classnames')
 t = require('../../lib/string-translation.js')('de')
 setUrlParams = require('../../lib/set-params-for-url.coffee')
 
@@ -17,18 +19,11 @@ Tab = require('../views/Tab.cjsx')
 
 batchDiff = require('../../lib/batch-diff.coffee')
 
-React = require('react')
-PropTypes = React.PropTypes
-f = require('active-lodash')
-xhr = require('xhr')
-cx = require('classnames')
-t = require('../../lib/string-translation.js')('de')
 setUrlParams = require('../../lib/set-params-for-url.coffee')
 RailsForm = require('../lib/forms/rails-form.cjsx')
-getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
-MadekPropTypes = require('../lib/madek-prop-types.coffee')
 MetaDatumFormItem = require('./MetaDatumFormItemPerContext.cjsx')
 
+appRequest = require('../../lib/app-request.coffee')
 
 module.exports = React.createClass
   displayName: 'ResourceMetaDataPagePerContext'
@@ -82,9 +77,7 @@ module.exports = React.createClass
   componentDidMount: () ->
     @setState({mounted: true})
 
-
   componentWillMount: () ->
-
     currentContextId = @props.get.context_id
     if currentContextId == null
       currentContextId = @props.get.meta_meta_data.meta_data_edit_context_ids[0]
@@ -137,7 +130,6 @@ module.exports = React.createClass
     )
     res
 
-
   _validityForContext: (context_id) ->
     hasMandatory = false
     hasInvalid = false
@@ -170,7 +162,6 @@ module.exports = React.createClass
 
     hasChanges
 
-
   _equalUnordered: (arr1, arr2, checkUuid) ->
 
     if arr1.length != arr2.length
@@ -196,10 +187,6 @@ module.exports = React.createClass
 
     return equal
 
-
-
-
-
   _changesForAll: () ->
     @_changesPerContext(null)
 
@@ -211,52 +198,40 @@ module.exports = React.createClass
     models[meta_key_id].values = values
     @setState({models: models})
 
-
-
   submit: (actionType) ->
-
     @setState(saving: true, systemError: false)
-    serialized = @refs.form.serialize()
-    xhr(
+    appRequest(
       {
         method: 'PUT'
         url: @_actionUrl()
-        body: serialized
+        body: @refs.form.serialize()
         headers: {
-          'Accept': 'application/json'
           'Content-type': 'application/x-www-form-urlencoded'
-          'X-CSRF-Token': getRailsCSRFToken()
         }
       },
-      (err, res, body) =>
+      (err, res, data) =>
+        return unless @isMounted()
 
-        if err
+        if (err && !data)
           window.scrollTo(0, 0)
-          @setState(saving: false, systemError: 'Connection error. Please try again.') if @isMounted()
+          @setState(saving: false, systemError: 'Connection error. Please try again.')
           return
 
-        try
-          data = JSON.parse(body)
-        catch error
+        if (err && data)
           window.scrollTo(0, 0)
-          @setState(saving: false, systemError: 'System error. Cannot parse server answer. Please try again.') if @isMounted()
-          return
-
-        if res.statusCode == 400
-          errors = f.presence(f.get(data, 'errors')) or {}
+          errors = data.errors
           if not f.present(errors)
-            window.scrollTo(0, 0)
-            @setState(saving: false, systemError: 'System error. Cannot read server errors. Please try again.') if @isMounted()
+            @setState(saving: false, systemError: 'System error. Cannot read server errors. Please try again.')
           else
-            window.scrollTo(0, 0)
-            @setState(saving: false) if @isMounted()
+            @setState({saving: false, errors})
+          return
+
+        forward_url = data.forward_url
+        if !forward_url
+          window.scrollTo(0, 0)
+          @setState(saving: false, systemError: 'Cannot read forward url. Please try again.')
         else
-          forward_url = data['forward_url']
-          if not forward_url
-            window.scrollTo(0, 0)
-            @setState(saving: false, systemError: 'Cannot read forward url. Please try again.') if @isMounted()
-          else
-            window.location = forward_url
+          window.location = forward_url
     )
 
   _onClick: (event) ->

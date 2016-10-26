@@ -8,7 +8,7 @@ ToggableLink = require('../../ui-components/ToggableLink.cjsx')
 Modal = require('../../ui-components/Modal.cjsx')
 xhr = require('xhr')
 formXhr = require('../../../lib/form-xhr.coffee')
-loadXhr = require('../../../lib/load-xhr.coffee')
+appRequest = require('../../../lib/app-request.coffee')
 Preloader = require('../../ui-components/Preloader.cjsx')
 Button = require('../../ui-components/Button.cjsx')
 Icon = require('../../ui-components/Icon.cjsx')
@@ -39,20 +39,15 @@ module.exports = React.createClass
   componentDidMount: () ->
     @setState({ready: true, mounted: true, loading: true})
 
-    loadXhr(
-      {
-        method: 'GET'
-        url: @props.getUrl
-      },
-      (result, json) =>
-        return unless @isMounted()
-        if result == 'success'
-          get = @props.extractGet(json)
-          @setState(loading: false, get: get, children: @props.contentForGet(get))
+    appRequest({ url: @props.getUrl }, (error, result, json) =>
+      return unless @isMounted()
 
-        else
-          console.error('Cannot load dialog: ' + JSON.stringify(json))
-          @setState({loading: false})
+      if (error || !json)
+        console.error('Cannot load dialog: ' + res.body)
+        @setState({loading: false})
+      else
+        get = @props.extractGet(json)
+        @setState(loading: false, get: get, children: @props.contentForGet(get))
     )
 
   render: ({authToken, get, onClose} = @props) ->

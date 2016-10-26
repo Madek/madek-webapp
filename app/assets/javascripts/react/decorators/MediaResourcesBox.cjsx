@@ -25,13 +25,12 @@ CollectionChildren = require('../../models/collection-children.coffee')
 router = null # client-side only
 qs = require('qs')
 xhr = require('xhr')
+appRequest = require('../../lib/app-request.coffee')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 BatchAddToSetModal = require('./BatchAddToSetModal.cjsx')
 BatchRemoveFromSetModal = require('./BatchRemoveFromSetModal.cjsx')
 
-simpleXhr = require('../../lib/simple-xhr.coffee')
 
-LoadXhr = require('../../lib/load-xhr.coffee')
 Preloader = require('../ui-components/Preloader.cjsx')
 
 SortDropdown = require('./resourcesbox/SortDropdown.cjsx')
@@ -152,8 +151,7 @@ module.exports = React.createClass
   _tryLoadListMetadata: (resourceType, resourceUuid) ->
     if not @state.loadingListMetadataResource
       @setState({loadingListMetadataResource: resourceUuid})
-      LoadXhr({
-        method: 'GET',
+      appRequest({
         url:
           if resourceType == 'Collection'
             '/sets/' + resourceUuid + '.json?___sparse={"meta_data":{}}'
@@ -163,7 +161,7 @@ module.exports = React.createClass
             console.error('Unknown resource type for loading meta data: ' + resourceType)
 
       },
-      (result, json) =>
+      (error, result, json) =>
         @state.listMetadata[resourceUuid] = json.meta_data
         @setState({loadingListMetadataResource: null})
       )
@@ -476,16 +474,13 @@ module.exports = React.createClass
         }
       ]
 
-
-
-
       layoutSave = (event) =>
         event.preventDefault()
-        simpleXhr(
+        appRequest(
           {
             method: 'PATCH',
             url: '/sets/' + @props.collectionData.uuid,
-            body: 'collection[layout]=' + layout + '\&collection[sorting]=' + order
+            json: { collection: { layout, sorting: order } }
           },
           (error) =>
             if error
