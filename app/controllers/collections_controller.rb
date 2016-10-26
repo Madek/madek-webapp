@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class CollectionsController < ApplicationController
   include Concerns::MediaResources::PermissionsActions
   include Concerns::MediaResources::CrudActions
@@ -39,7 +40,7 @@ class CollectionsController < ApplicationController
     #   .try(:[], :list)
     #   .try(:[], :layout) == 'list'
 
-    list_conf = determine_list_conf(collection)
+    children_list_conf = determine_list_conf(collection)
 
     @get = \
       Presenters::Collections::CollectionShow.new \
@@ -47,13 +48,17 @@ class CollectionsController < ApplicationController
         current_user,
         user_scopes_for_collection(collection),
         action: action_name,
-        list_conf: list_conf,
+        type_filter: type_param,
+        list_conf: resource_list_params,
+        children_list_conf: children_list_conf,
         load_meta_data: false
     respond_with @get
   end
 
   # actions/tabs that work like 'show':
-  [:relations, :more_data, :permissions, :permissions_edit]
+  [
+    :relations, :relation_children, :relation_siblings, :relation_parents,
+    :more_data, :permissions, :permissions_edit]
     .each { |action| alias_method action, :show }
 
   def update
@@ -165,5 +170,9 @@ class CollectionsController < ApplicationController
 
   def update_params
     collection_params.permit(:layout, :sorting)
+  end
+
+  def type_param
+    params.permit(:type).fetch(:type, nil)
   end
 end

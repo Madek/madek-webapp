@@ -6,6 +6,7 @@ t = require('../../lib/string-translation.js')('de')
 
 RightsManagement = require('../templates/ResourcePermissions.cjsx')
 CollectionRelations = require('./Collection/Relations.cjsx')
+RelationResources = require('./Collection/RelationResources.cjsx')
 CollectionMetadata = require('./Collection/Metadata.cjsx')
 PageContentHeader = require('./PageContentHeader.cjsx')
 Tabs = require('./Tabs.cjsx')
@@ -26,6 +27,9 @@ tabIdByLocation = (tabs, location) ->
   # (could also compare with `f.startsWith(path, tab.href)`,
   # but that would only work if main tab is always first (and reversed list is searched)
   path = parseUrl(location).pathname.replace(/\/edit(\/)?$/, '')
+  path = path.replace(/\/parents(\/)?$/, '')
+  path = path.replace(/\/children(\/)?$/, '')
+  path = path.replace(/\/siblings(\/)?$/, '')
   tab = f.find(tabs, {href: path})
   f.get(tab, 'id')
 
@@ -65,7 +69,15 @@ module.exports = React.createClass
         {switch activeTab
 
           when 'relations'
-            <CollectionRelations get={get} authToken={authToken} />
+            switch get.action
+              when 'relations'
+                <CollectionRelations get={get} authToken={authToken} />
+              when 'relation_parents'
+                <RelationResources get={get} authToken={authToken} scope='parents' />
+              when 'relation_children'
+                <RelationResources get={get} authToken={authToken} scope='children' />
+              when 'relation_siblings'
+                <RelationResources get={get} authToken={authToken} scope='siblings' />
 
           when 'more_data'
             <TabContent>

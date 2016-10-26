@@ -191,6 +191,7 @@ module.exports = React.createClass
         editable={get.editable}
         deleteProps={deleteProps}
         statusProps={statusProps}
+        style={@props.style}
         />
     else if @props.listThumb
       <ListThumbnail
@@ -202,6 +203,7 @@ module.exports = React.createClass
         mediaUrl={get.url}
         metaData={@props.indexMetaData}
         loadingMetadata={@props.loadingMetadata}
+        style={@props.style}
         />
     else
       <ResourceThumbnailRenderer
@@ -216,6 +218,7 @@ module.exports = React.createClass
         statusProps={statusProps}
         selectProps={selectProps}
         textProps={textProps}
+        style={@props.style}
         />
 
 

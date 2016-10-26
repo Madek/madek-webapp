@@ -8,12 +8,10 @@ ResourceThumbnail = require('../../decorators/ResourceThumbnail.cjsx')
 classnames = require('classnames')
 
 module.exports = React.createClass
-  displayName: 'CollectionRelations'
+  displayName: 'MediaEntryRelations'
 
   render: ({authToken, get} = @props) ->
 
-    parentCount = get.relations.parent_collections.pagination.total_count
-    siblingCount = get.relations.sibling_collections.pagination.total_count
 
     <div className="ui-container tab-content bordered rounded-right rounded-bottom mbh">
       <div className="ui-container bright rounded-right rounded-bottom pal">
@@ -30,18 +28,18 @@ module.exports = React.createClass
           <div className="ui-resources-header mbn">
             <h2 className="title-l ui-resource-title mtl mll">
               {t('collection_relations_parent_sets')}
-              <span className="ui-counter">{'(' + parentCount + ')'}</span>
+              <span className="ui-counter">{'(' + f.size(get.relations.parent_collections.resources) + ')'}</span>
               {
-                if parentCount > 0
-                  <a className="strong" href={get.url + '/relations/parents'}>
-                    {t('collection_relations_show_all')}
+                if false
+                  <a className="strong" href="?type=parents">
+                    Alle anzeigen
                   </a>
               }
             </h2>
           </div>
           <ul className="grid horizontal ui-resources">
             {
-              if parentCount == 0
+              if f.isEmpty(get.relations.parent_collections.resources)
                 <div className="ui-container ptm pbh">
                   <div className="title-m by-center">{t('collection_relations_no_parent_sets')}</div>
                 </div>
@@ -85,18 +83,12 @@ module.exports = React.createClass
             <div className="ui-resources-header mbn">
               <h2 className="title-l ui-resource-title mtl mll">
                 {t('collection_relations_sibling_sets')}
-                <span className="ui-counter">{'(' + siblingCount + ')'}</span>
-                {
-                  if siblingCount > 0
-                    <a className="strong" href={get.url + '/relations/siblings'}>
-                      {t('collection_relations_show_all')}
-                    </a>
-                }
+                <span className="ui-counter">{'(' + f.size(get.relations.sibling_collections.resources) + ')'}</span>
               </h2>
             </div>
             <ul className="grid horizontal ui-resources">
               {
-                if siblingCount == 0
+                if f.isEmpty(get.relations.sibling_collections.resources)
                   <div className="ui-container ptm pbh">
                     <div className="title-m by-center">{t('collection_relations_no_sibling_sets')}</div>
                   </div>
@@ -114,33 +106,24 @@ module.exports = React.createClass
 
       {
         if get.type == 'Collection'
-          childCount = get.relations.child_collections.pagination.total_count
-
           <div className="ui-container midtone-darker relationships-wrapper bordered-top">
             <div className="ui-resources-holder" id="set-relations-children">
               <div className="ui-resources-header mbn">
                 <h2 className="title-l ui-resource-title mtl mll">
                   {t('collection_relations_child_sets')}
-                  <span className="ui-counter">{'(' + childCount + ')'}</span>
-                {
-                  if childCount > 0
-                    <a className="strong" href={get.url + '/relations/children'}>
-                      {t('collection_relations_show_all')}
-                    </a>
-                }
+                  <span className="ui-counter">{'(' + f.size(get.relations.child_collections.resources) + ')'}</span>
                 </h2>
               </div>
               <ul className="grid horizontal ui-resources">
                 {
-                  if childCount == 0
+                  if f.isEmpty(get.relations.child_collections.resources)
                     <div className="ui-container ptm pbh">
                       <div className="title-m by-center">{t('collection_relations_no_child_sets')}</div>
                     </div>
                 }
                 {
                   f.map(get.relations.child_collections.resources, (resource) ->
-                    <ResourceThumbnail key={resource.uuid} authToken={authToken} elm={'li'} get={resource}
-                      style={{verticalAlign: 'top'}}/>
+                    <ResourceThumbnail key={resource.uuid} authToken={authToken} elm={'li'} get={resource} />
                   )
                 }
               </ul>

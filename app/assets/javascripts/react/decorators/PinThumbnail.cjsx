@@ -74,7 +74,7 @@ module.exports = React.createClass
     starShadow += ', -1px 0px 1px rgba(255, 255, 255, 0.5)'
     starShadow += ', 0px -1px 1px rgba(255, 255, 255, 0.5)'
 
-    <li className={c('ui-resource', 'ui-selected': (selectProps and selectProps.isSelected))}>
+    <li style={@props.style} className={c('ui-resource', 'ui-selected': (selectProps and selectProps.isSelected))}>
       {
         if deleteProps && deleteProps.stateDeleteModal == true
           <DeleteModal resourceType={resourceType} onModalOk={deleteProps.onModalOk}

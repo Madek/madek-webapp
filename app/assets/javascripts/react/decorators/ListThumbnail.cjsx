@@ -68,7 +68,7 @@ module.exports = React.createClass
 
     thumbnailClass = f.kebabCase(resourceType.replace(/Collection/, 'MediaSet'))
 
-    <li className="ui-resource">
+    <li className="ui-resource" style={@props.style}>
       <div className="ui-resource-head">
         <ResourceActions />
         <h3 className="ui-resource-title">{title}</h3>
