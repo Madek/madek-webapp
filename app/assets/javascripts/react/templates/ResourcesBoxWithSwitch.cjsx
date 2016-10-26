@@ -1,3 +1,5 @@
+# Box for search result pages, allows switching the *route*!
+
 React = require('react')
 f = require('active-lodash')
 ui = require('../lib/ui.coffee')
