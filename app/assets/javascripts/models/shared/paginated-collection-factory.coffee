@@ -75,6 +75,10 @@ module.exports = (collectionClass, {jsonPath})->
       throw new Error('Callback missing!') if (!f.isFunction(callback))
       return callback(null) unless @currentPage
 
+      path = @url.path
+      if path.indexOf('/relations/children') > 0 or path.indexOf('/relations/siblings') > 0 or path.indexOf('/relations/parents') > 0
+        jsonPath = 'relation_resources.resources'
+
       nextPage = (@currentPage + 1)
       nextUrl = setUrlParams(
         @url,

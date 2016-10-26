@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 module Presenters
   module Collections
     class CollectionShow < Presenters::Shared::AppResource
@@ -11,6 +12,7 @@ module Presenters
                      user_scopes,
                      action: 'show',
                      list_conf: nil,
+                     children_list_conf: nil,
                      type_filter: nil,
                      show_collection_selection: false,
                      search_term: '',
@@ -19,16 +21,34 @@ module Presenters
         @user_scopes = user_scopes
         @type_filter = type_filter
         @list_conf = list_conf
+        # TMP!
+        @children_list_conf = children_list_conf || list_conf
         @show_collection_selection = show_collection_selection
         @search_term = search_term
         @load_meta_data = load_meta_data
         # NOTE: this is just a hack to help separating the methods by action/tab
         #       modal actions are all still on top of 'show'
-        @active_tab = action
+        @active_tab =
+          if ['relation_siblings', 'relation_children', 'relation_parents']
+              .include?(action)
+            'relations'
+          else
+            action
+          end
+        @action = action
       end
 
+      attr_reader :action
+
       # <mainTab>
-      delegate_to_app_resource :layout
+
+      def layout
+        # NOTE: only needed for main tab bc layout is for the children
+        return unless @active_tab == 'show'
+        @app_resource.layout
+      end
+
+      attr_reader :action
 
       def summary_meta_data
         return unless @active_tab == 'show'
@@ -36,8 +56,23 @@ module Presenters
           .collection_summary_context
       end
 
+      # for relations tabs
+      def relation_resources
+        return unless @active_tab == 'relations'
+
+        case @action
+        when 'relation_siblings' then _relations.sibling_collections
+        when 'relation_children' then _relations.child_collections
+        when 'relation_parents' then _relations.parent_collections
+        when 'relations' then nil
+        else
+          fail 'logic error!'
+        end
+      end
+
       def child_media_resources
         return unless @active_tab == 'show'
+
         # NOTE: filtering is not implemented (needs spec)
         mr_scope = \
           case @type_filter
@@ -52,7 +87,7 @@ module Presenters
           # NOTE: should have class of db view even if using a faster scope:
           item_type: 'MediaResources',
           can_filter: false,
-          list_conf: @list_conf,
+          list_conf: @children_list_conf,
           load_meta_data: @load_meta_data)
       end
 
@@ -75,6 +110,7 @@ module Presenters
       # <otherTabs>
       def relations
         return unless @active_tab == 'relations'
+        return unless @action == 'relations'
         _relations
       end
 

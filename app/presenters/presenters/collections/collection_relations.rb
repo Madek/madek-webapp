@@ -4,7 +4,7 @@ module Presenters
       Presenters::Shared::MediaResource::MediaResourceRelations
 
       def child_collections
-        Presenters::Collections::ChildMediaResources.new(
+        Presenters::Shared::MediaResource::MediaResources.new(
           @user_scopes[:child_collections],
           @user,
           can_filter: false,
