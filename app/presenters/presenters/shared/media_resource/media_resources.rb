@@ -21,13 +21,13 @@ module Presenters
         attr_reader :resources, :pagination, :with_actions, :can_filter, :type
 
         def initialize(
-            scope, user, list_conf: nil,
+            scope, user, list_conf: nil, item_type: nil,
             can_filter: true, with_actions: true,
             with_count: true, load_meta_data: false)
           fail 'missing config!' unless list_conf
           @user = user
           @scope = scope
-          @type = scope.model.name.pluralize
+          @type = item_type || scope.model.name.pluralize
           # enable interaction if user logged in and not explictly turned of
           @with_actions = true if (with_actions != false) && @user.present?
           # can the given scope be filtered? (`#filter_by`)

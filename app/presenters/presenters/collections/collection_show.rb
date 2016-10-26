@@ -11,11 +11,13 @@ module Presenters
                      user_scopes,
                      action: 'show',
                      list_conf: nil,
+                     type_filter: nil,
                      show_collection_selection: false,
                      search_term: '',
                      load_meta_data: false)
         super(app_resource, user)
         @user_scopes = user_scopes
+        @type_filter = type_filter
         @list_conf = list_conf
         @show_collection_selection = show_collection_selection
         @search_term = search_term
@@ -37,9 +39,18 @@ module Presenters
       def child_media_resources
         return unless @active_tab == 'show'
         # NOTE: filtering is not implemented (needs spec)
+        mr_scope = \
+          case @type_filter
+          when 'entries' then @user_scopes[:child_media_entries]
+          when 'collections' then @user_scopes[:child_collections]
+          else @user_scopes[:child_media_resources]
+          end
+
         Presenters::Collections::ChildMediaResources.new(
-          @user_scopes[:child_media_resources],
+          mr_scope,
           @user,
+          # NOTE: should have class of db view even if using a faster scope:
+          item_type: 'MediaResources',
           can_filter: false,
           list_conf: @list_conf,
           load_meta_data: @load_meta_data)
