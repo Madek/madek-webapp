@@ -22,19 +22,12 @@ module.exports = React.createClass
 
     # set grid sizes for right side
     firstColClass = 'col2of6 left'
-
-    middleColClass = cx 'by-center',
-      'col6of6': (!left && !right),
-      'col4of6': (!left && right),
-      'col2of6': (left && right) || (left && !right)
-
-    lastColClass = cx 'by-right',
-      'col6of6': (!left && !middle),
-      'col4of6': (left && !middle) || (!left && middle),
-      'col2of6': (left && middle)
+    middleColClass = 'by-center col2of6'
+    lastColClass = 'by-right col2of6'
+    setminHeight = {style: {minHeight: '1px'}} # force floating empties!
 
     <div {...restProps} className={classes}>
-      <div className={firstColClass}>{left}</div>
-      <div className={middleColClass}>{middle}</div>
-      <div className={lastColClass}>{right}</div>
+      <div {...setminHeight} className={firstColClass}>{left}</div>
+      <div {...setminHeight} className={middleColClass}>{middle}</div>
+      <div {...setminHeight} className={lastColClass}>{right}</div>
     </div>
