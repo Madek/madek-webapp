@@ -47,6 +47,7 @@ class CollectionsController < ApplicationController
         current_user,
         user_scopes_for_collection(collection),
         action: action_name,
+        type_filter: type_param,
         list_conf: list_conf,
         load_meta_data: false
     respond_with @get
@@ -165,5 +166,9 @@ class CollectionsController < ApplicationController
 
   def update_params
     collection_params.permit(:layout, :sorting)
+  end
+
+  def type_param
+    params.permit(:type).fetch(:type, nil)
   end
 end

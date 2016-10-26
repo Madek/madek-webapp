@@ -20,6 +20,10 @@ module Concerns
             Shared::MediaResources::MediaResourcePolicy::Scope.new(
               current_user,
               collection.child_media_resources).resolve,
+          child_media_entries: \
+            MediaEntryPolicy::Scope.new(
+              current_user,
+              collection.media_entries).resolve,
           child_collections: \
             CollectionPolicy::Scope.new(
               current_user,
