@@ -27,6 +27,7 @@ module.exports = setUrlParams = (currentUrl = '', params...)->
 urlFromStringOrObject = (url)->
   switch
     when (isObject(url) and (isString(url.path) or isString(url.pathname)))
+      # FIXME: should be the other way around `pathname or path`! but needs test!
       {pathname: (url.path or url.pathname), query: url.query}
     when isString(url)
       do (url = parseUrl(url))-> set(url, 'query', url.query)

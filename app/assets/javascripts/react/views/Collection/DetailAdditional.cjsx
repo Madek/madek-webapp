@@ -12,18 +12,19 @@ Button = require('../../ui-components/Button.cjsx')
 ButtonGroup = require('../../ui-components/ButtonGroup.cjsx')
 
 libUrl = require('url')
+qs = require('qs')
 
 module.exports = React.createClass
   displayName: 'CollectionDetailAdditional'
 
-  getInitialState: ()-> {}
+  getInitialState: ()-> {
+    forUrl: libUrl.format(@props.get.child_media_resources.config.for_url)
+  }
   componentDidMount: ()->
     @router =  require('../../../lib/router.coffee')
-    @setState(forUrl: @props.get.child_media_resources.config.for_url)
     @unlistenRouter = @router.listen((location) =>
-      # NOTE: `location` has strange format (search instead of query attrs)
-      forUrl = libUrl.parse(libUrl.format(location))
-      @setState(forUrl: forUrl))
+      # NOTE: `location` has strange format, stringify it!
+      @setState(forUrl: libUrl.format(location)))
     @router.start()
 
   componentWillUnmount: ()-> @unlistenRouter && @unlistenRouter()
@@ -33,7 +34,10 @@ module.exports = React.createClass
     get = @props.get
 
     sparseParam = {___sparse: { child_media_resources: {} }}
-    listParam = list: {order: itemKey}
+    listParam = {
+      type: get.child_media_resources.config.for_url.query.type
+      list: {order: itemKey}
+    }
 
     url = setUrlParams(get.url + '.json', sparseParam, listParam)
 
@@ -48,7 +52,7 @@ module.exports = React.createClass
   render: ({get, authToken} = @props) ->
     resourceTypeSwitcher = () =>
       listConfig = get.child_media_resources.config
-      currentType = listConfig.for_url.query.type
+      currentType = qs.parse(libUrl.parse(@state.forUrl).query).type
       typeBbtns = f.compact([
         {key: 'all', name: 'Alle'},
         {key: 'entries', name: t('sitemap_entries')},
@@ -57,7 +61,7 @@ module.exports = React.createClass
       return (<ButtonGroup>{typeBbtns.map (btn) =>
         isActive = currentType == btn.key || !currentType && btn.key == 'all'
         btnUrl = setUrlParams(@state.forUrl, {type: btn.key})
-        console.log 'btnUrl', btnUrl, @state.forUrl
+
         <Button {...btn}
           onClick={@_onResourceSwitch}
           href={btnUrl}
