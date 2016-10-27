@@ -22,7 +22,7 @@ module Presenters
       end
 
       def image_url
-        size = :medium
+        size = :large
         img = @media_file.try(:previews)
           .try(:fetch, :images, nil)
           .try(:fetch, size, nil)
