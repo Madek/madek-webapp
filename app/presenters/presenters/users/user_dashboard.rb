@@ -5,12 +5,14 @@ module Presenters
             user, user_scopes,
             dashboard_header,
             list_conf: nil,
+            activity_stream_conf: nil,
             with_count: true,
             action: nil
       )
         fail 'TypeError!' unless user.is_a?(User)
         @user = user
         @config = { page: 1 }.merge(list_conf)
+        @activity_stream_conf = activity_stream_conf
         @user_scopes = user_scopes
         @dashboard_header = dashboard_header
         # FIXME: remove this config when Dashboard is built in Presenter…
@@ -20,6 +22,30 @@ module Presenters
 
       attr_reader :dashboard_header
       attr_reader :action
+
+      def activity_stream
+        default_date_range = 1.day
+        conf = @activity_stream_conf
+        user = @user
+        # user = User.find_by(login: 'susanneschumacher')
+
+        if conf.nil? # no config, like when initial sync rendering:
+          start_date = DateTime.current
+          date_range = default_date_range
+        else # serve with requested parameters:
+          start_date = conf[:from]
+          date_range = conf[:range]
+        end
+
+        # NOTE: this is a slight but efficient hack, see comment in presenter
+        stream_start_date = Presenters::Users::UserActivityStream
+          .latest_activity_date(user, start_date) || start_date
+
+        stream_end_date = (stream_start_date - date_range)
+
+        Presenters::Users::UserActivityStream.new(
+          user, start_date: stream_start_date, end_date: stream_end_date)
+      end
 
       def unpublished_entries
         presenterify @user_scopes[:unpublished_media_entries]

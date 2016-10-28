@@ -184,6 +184,7 @@ describe My::DashboardController do
     expect(@get.is_a?(Presenter)).to be true
     expect(@get.api.sort)
       .to eq [
+        :activity_stream,
         :unpublished_entries,
         :content_media_entries,
         :dashboard_header,

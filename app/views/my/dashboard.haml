@@ -16,8 +16,9 @@
   - dashboard_content = capture_haml do
     -# each section: build a title and render the partial
     - @sections.each do |section_id, section|
-      -# sections that are empty or without a partial are skipped on the "index"
-      - next if section[:is_empty?] or section[:partial].nil?
+      -# sections that are empty or marked are skipped on the "index"
+      - next if section[:is_empty?] || (section[:hide_from_index] ===  true)
+
       %div{id: section_id}
         = combo('resources-header', title: section[:title],
                   link: { text: t(:resources_header_show_all),

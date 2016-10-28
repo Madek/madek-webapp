@@ -25,6 +25,7 @@ module.exports = setUrlParams = (currentUrl = '', params...)->
       merge(parseQuery(url.query), reduce(params, (a, b)-> merge(a, b))))})
 
 urlFromStringOrObject = (url)->
+  # NOTE: `path` must only be used if no `pathname` is given!
   switch
     when (isObject(url) and (isString(url.path) or isString(url.pathname)))
       url # already parsed!

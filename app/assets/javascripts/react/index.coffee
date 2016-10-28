@@ -10,7 +10,7 @@ module.exports =
 
   # Decorators: components that directly receive (sub-)presenters
   # NOTE: only needed for remaining HAML views…
-  Deco: requireBulk(__dirname, [ './decorators/*.cjsx' ]).decorators
+  Deco: requireBulk(__dirname, ['./decorators/*.{c,}js{x,}', './decorators/**/*.{c,}js{x,}']).decorators
 
   # Views: Everything else that is rendered top-level (`react` helper)
   # NOTE: also because of HAML views there are sub-folders for "partials and actions".

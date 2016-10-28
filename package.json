@@ -30,7 +30,8 @@
     "ampersand-react-mixin": "github:eins78/ampersand-react-mixin#1e7b0c4",
     "ampersand-rest-collection": "5.0.0",
     "any_sha1": "0.1.1",
-    "async": "^1.5.2",
+    "async": "^2.1.4",
+    "babel-runtime": "^6.18.0",
     "babyparse": "^0.4.3",
     "bulk-require": "0.2.1",
     "check-dependencies": "0.11.0",
@@ -50,10 +51,10 @@
     "pdfjs-dist": "^1.4.95",
     "po2json": "0.4.1",
     "qs": "^6.1.0",
-    "react": "^15.3.2",
+    "react": "^15.4.1",
     "react-bootstrap": "^0.30.5",
     "react-day-picker": "^2.4.1",
-    "react-dom": "^15.3.2",
+    "react-dom": "^15.4.1",
     "react-file-drop": "^0.1.8",
     "react-waypoint": "^3.1.0",
     "rusha": "0.8.3",
@@ -64,6 +65,7 @@
   },
   "devDependencies": {
     "@eins78/rspec-render-docs": "^1.0.0-alpha.3",
+    "babel-plugin-transform-runtime": "^6.15.0",
     "babel-preset-react-app": "^0.2.1",
     "babelify": "^7.3.0",
     "big-list-of-naughty-strings": "1.0.0",
@@ -91,6 +93,9 @@
     ]
   },
   "babel": {
+    "plugins": [
+      "transform-runtime"
+    ],
     "presets": [
       "react-app"
     ]

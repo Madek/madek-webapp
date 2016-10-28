@@ -1,0 +1,45 @@
+.ui-activity-stream
+  & > .event
+    +micro-clearfix
+    clear: both
+    margin-top: $space-l
+
+  .icon
+    color: $mono-strong
+
+  ul li
+    list-style-type: none
+
+  .event
+    position: relative
+
+    & > .label
+      position: absolute
+
+    & > .label + .content
+      margin-top: -11px
+      margin-left: 36px
+
+  .title-l, .title-l span
+    font-size: 17px
+    .summary &
+      line-height: 1.34em
+
+  .content > .date + .summary,
+    margin-top: -6px
+    margin-bottom: -6px
+
+  .summary
+    word-break: break-all
+    h2
+      @extend .title-l
+
+  .meta
+    @extend .title-s
+
+  .extra .event
+    .summary h3
+      @extend .title-s
+
+    .date
+      @extend .title-xs-alt

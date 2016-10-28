@@ -35,6 +35,13 @@ class MyController < ApplicationController
   # - no `partial` but `href` renders an entry in the sidebar only
 
   SECTIONS = {
+    activity_stream: {
+      title: 'Timeline',
+      icon: 'icon-privacy-private',
+      partial: :activity_stream,
+      hide_from_index: true,
+      is_beta: true
+    },
     unpublished_entries: {
       title: I18n.t(:sitemap_my_unpublished),
       icon: 'icon-privacy-private',
@@ -111,6 +118,7 @@ class MyController < ApplicationController
     vocabularies: {
       title: I18n.t(:sitemap_vocabularies),
       icon: 'icon-privacy-group',
+      hide_from_index: true,
       href: '/vocabulary' # NOTE: no path helper, this route is fixed
     }
 
@@ -209,7 +217,7 @@ end
 def set_async_below_fold(sections)
   return sections if @feature_toggle_debug_dashboard
 
-  conf_prerender_sections_nr = 1 # just the drafts, if there are some.
+  conf_prerender_sections_nr = 2 # just the drafts, if there are some.
   sections.map.with_index do |a, i|
     [a[0], a[1].merge(render_async?: ((i + 1) > conf_prerender_sections_nr))]
   end.to_h
