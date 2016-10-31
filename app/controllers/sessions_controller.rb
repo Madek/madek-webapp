@@ -13,6 +13,17 @@ class SessionsController < ActionController::Base
     end
   end
 
+  def shib_sign_in
+    @last_name = request.env['HTTP_SURNAME'].presence
+    @first_name = request.env['HTTP_GIVENNAME'].presence
+    @email = request.env['HTTP_MAIL'].try(&:downcase).presence
+    unless @last_name && @first_name && @email
+      deny_shibboleth_sign_in
+    else
+      perform_shibboleth_sign_in
+    end
+  end
+
   def sign_out
     destroy_madek_session
     reset_session
@@ -20,6 +31,33 @@ class SessionsController < ActionController::Base
   end
 
   private
+
+  def deny_shibboleth_sign_in
+    destroy_madek_session
+    redirect_back_or root_path, error:
+      'Shibboleth authentication data is incomplete. ' \
+      'SURNAME, GIVENNAME and EMAIL are required fields! '
+  end
+
+  def perform_shibboleth_sign_in
+    @user = User.find_or_initialize_by email: @email
+    @user.password ||= SecureRandom.base64
+    @person = shib_sign_in_person
+    @person.update_attributes! last_name: @last_name, first_name: @first_name
+    @user.update_attributes! person: @person, email: @email
+    set_madek_session @user, false
+    redirect_to my_dashboard_path, success: 'Sie haben sich angemeldet.'
+  end
+
+  def shib_sign_in_person
+    if @user.persisted?
+      @user.person
+    else
+      Person.find_or_initialize_by \
+        last_name: @last_name,
+        first_name: @first_name, subtype: 'Person'
+    end
+  end
 
   def redirect_back_or(default, flash_hash = {})
     # does a redirect and searches target in this order

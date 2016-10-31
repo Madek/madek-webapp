@@ -1,0 +1,12 @@
+%h1 Welcome
+
+%table
+  %thead
+  %tbody
+    - request.env.each do |k,v|
+      %tr
+        %td
+          %pre= k.to_s
+        %td
+          %pre= v.to_s
+

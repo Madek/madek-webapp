@@ -164,6 +164,8 @@ Madek::Application.routes.draw do
 
   post '/session/sign_in', to: 'sessions#sign_in', as: 'sign_in'
   post '/session/sign_out', to: 'sessions#sign_out', as: 'sign_out'
+  # get '/Shibboleth.sso/Session', to: 'sessions#shibboleth'
+  get '/session/shib_sign_in', to: 'sessions#shib_sign_in'
 
   post '/zencoder_jobs/:id/notification' => 'zencoder_jobs#notification', as: :zencoder_job_notification
 
