@@ -29,7 +29,7 @@ module Concerns
           .to_h
           .merge( # context of current request (for building new links):
             for_url: {
-              path: url_for(only_path: true),
+              pathname: url_for(only_path: true),
               query: request.query_parameters.deep_symbolize_keys })
       end
 
