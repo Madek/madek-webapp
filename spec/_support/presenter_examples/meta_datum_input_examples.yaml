@@ -1,0 +1,298 @@
+---
+examples:
+- name: core_keywords_without_existing_values
+  description: "Core Keywords, no value | madek_core:keywords\nextensible, keyword_count:
+    8687\n      "
+  props:
+    get:
+      fixed_selection: false
+      url: 
+      meta_key_id: madek_core:keywords
+      type: MetaDatum::Keywords
+      media_entry_id: 
+      collection_id: 
+      filter_set_id: 
+      values: []
+      literal_values: []
+      meta_key:
+        is_extensible: true
+        alphabetical_order: true
+        vocabulary_id: madek_core
+        position: 0
+        label: Schlagworte
+        value_type: MetaDatum::Keywords
+        scope:
+        - Entries
+        - Sets
+        type: MetaKey
+        uuid: madek_core:keywords
+        _presenter: Presenters::MetaKeys::MetaKeyCommon
+      uuid: 
+      created_at: 
+      updated_at: 
+      _presenter: Presenters::MetaData::MetaDatumEdit
+- name: core_keywords_with_existing_values
+  description: "Core Keywords, with existing value | madek_core:keywords\nextensible,
+    keyword_count: 8687\n      "
+  props:
+    get:
+      fixed_selection: false
+      url: 
+      meta_key_id: madek_core:keywords
+      type: MetaDatum::Keywords
+      media_entry_id: 
+      collection_id: 
+      filter_set_id: 
+      values:
+      - label: Kunst
+        url: "/vocabulary/madek_core:keywords/Kunst"
+        type: Keyword
+        uuid: 933103e2-19dd-40a5-bfbb-9161aee6176e
+        created_at: '2014-05-21T13:03:31.196Z'
+        updated_at: '2014-09-22T07:55:18.321Z'
+        _presenter: Presenters::Keywords::KeywordIndex
+      literal_values:
+      - 933103e2-19dd-40a5-bfbb-9161aee6176e
+      meta_key:
+        is_extensible: true
+        alphabetical_order: true
+        vocabulary_id: madek_core
+        position: 0
+        label: Schlagworte
+        value_type: MetaDatum::Keywords
+        scope:
+        - Entries
+        - Sets
+        type: MetaKey
+        uuid: madek_core:keywords
+        _presenter: Presenters::MetaKeys::MetaKeyCommon
+      uuid: 
+      created_at: 
+      updated_at: 
+      _presenter: Presenters::MetaData::MetaDatumEdit
+- name: keywords_fresh
+  description: "Keywords, with no keywords | example:keywords_fresh\nextensible, keyword_count:
+    0\nAutocomplete will never have any results\n      "
+  props:
+    get:
+      fixed_selection: false
+      url: 
+      meta_key_id: example:keywords_fresh
+      type: MetaDatum::Keywords
+      media_entry_id: 
+      collection_id: 
+      filter_set_id: 
+      values: []
+      literal_values: []
+      meta_key:
+        is_extensible: true
+        alphabetical_order: true
+        vocabulary_id: example
+        position: 0
+        label: Keywords fresh
+        value_type: MetaDatum::Keywords
+        scope:
+        - Entries
+        type: MetaKey
+        uuid: example:keywords_fresh
+        _presenter: Presenters::MetaKeys::MetaKeyCommon
+      uuid: 
+      created_at: 
+      updated_at: 
+      _presenter: Presenters::MetaData::MetaDatumEdit
+- name: keywords_fixed_few
+  description: "Keyword, fixed with few keywords  | example:keywords_fixed_few\nwith
+    values, non-extensible, keyword_count: 12\nCheckboxes instead of Autocomplete\n
+    \     "
+  props:
+    get:
+      fixed_selection: true
+      keywords:
+      - label: L
+        url: "/vocabulary/example:keywords_fixed_few/L"
+        type: Keyword
+        uuid: 3a3fcaa9-b22f-4571-a22d-de91de7d2d08
+        created_at: '2016-11-04T15:43:41.341Z'
+        updated_at: '2016-11-04T15:43:41.341Z'
+        _presenter: Presenters::Keywords::KeywordCommon
+      - label: K
+        url: "/vocabulary/example:keywords_fixed_few/K"
+        type: Keyword
+        uuid: 5731a9cb-d0b5-44e4-a9a6-aebaf5d2281d
+        created_at: '2016-11-04T15:43:41.341Z'
+        updated_at: '2016-11-04T15:43:41.341Z'
+        _presenter: Presenters::Keywords::KeywordCommon
+      - label: J
+        url: "/vocabulary/example:keywords_fixed_few/J"
+        type: Keyword
+        uuid: 80c6c71a-5c6b-4808-ab90-d24089b16de5
+        created_at: '2016-11-04T15:43:41.341Z'
+        updated_at: '2016-11-04T15:43:41.341Z'
+        _presenter: Presenters::Keywords::KeywordCommon
+      - label: I
+        url: "/vocabulary/example:keywords_fixed_few/I"
+        type: Keyword
+        uuid: 93d6f251-0c7e-4aa3-a1f8-905e96cbab84
+        created_at: '2016-11-04T15:43:41.341Z'
+        updated_at: '2016-11-04T15:43:41.341Z'
+        _presenter: Presenters::Keywords::KeywordCommon
+      - label: H
+        url: "/vocabulary/example:keywords_fixed_few/H"
+        type: Keyword
+        uuid: 28af7ee7-cab0-4ea4-8adf-63fee331d290
+        created_at: '2016-11-04T15:43:41.341Z'
+        updated_at: '2016-11-04T15:43:41.341Z'
+        _presenter: Presenters::Keywords::KeywordCommon
+      - label: G
+        url: "/vocabulary/example:keywords_fixed_few/G"
+        type: Keyword
+        uuid: a147848f-9ffe-455c-afdf-6ad792a26317
+        created_at: '2016-11-04T15:43:41.341Z'
+        updated_at: '2016-11-04T15:43:41.341Z'
+        _presenter: Presenters::Keywords::KeywordCommon
+      - label: F
+        url: "/vocabulary/example:keywords_fixed_few/F"
+        type: Keyword
+        uuid: b9599f5c-a74f-47b9-9ca4-2191a46f14cd
+        created_at: '2016-11-04T15:43:41.341Z'
+        updated_at: '2016-11-04T15:43:41.341Z'
+        _presenter: Presenters::Keywords::KeywordCommon
+      - label: E
+        url: "/vocabulary/example:keywords_fixed_few/E"
+        type: Keyword
+        uuid: f972e405-bcab-4edd-97ad-9269f61fe01c
+        created_at: '2016-11-04T15:43:41.341Z'
+        updated_at: '2016-11-04T15:43:41.341Z'
+        _presenter: Presenters::Keywords::KeywordCommon
+      - label: D
+        url: "/vocabulary/example:keywords_fixed_few/D"
+        type: Keyword
+        uuid: 199b1a4a-7c33-45f5-b83f-8daa041c0925
+        created_at: '2016-11-04T15:43:41.341Z'
+        updated_at: '2016-11-04T15:43:41.341Z'
+        _presenter: Presenters::Keywords::KeywordCommon
+      - label: C
+        url: "/vocabulary/example:keywords_fixed_few/C"
+        type: Keyword
+        uuid: 04d492de-99fd-4204-83d6-03d799746162
+        created_at: '2016-11-04T15:43:41.341Z'
+        updated_at: '2016-11-04T15:43:41.341Z'
+        _presenter: Presenters::Keywords::KeywordCommon
+      - label: B
+        url: "/vocabulary/example:keywords_fixed_few/B"
+        type: Keyword
+        uuid: 3da25705-0293-4ede-841e-24cf5d401764
+        created_at: '2016-11-04T15:43:41.341Z'
+        updated_at: '2016-11-04T15:43:41.341Z'
+        _presenter: Presenters::Keywords::KeywordCommon
+      - label: A
+        url: "/vocabulary/example:keywords_fixed_few/A"
+        type: Keyword
+        uuid: 8e1083f6-27cb-4ca7-859d-874585428c1d
+        created_at: '2016-11-04T15:43:41.341Z'
+        updated_at: '2016-11-04T15:43:41.341Z'
+        _presenter: Presenters::Keywords::KeywordCommon
+      url: 
+      meta_key_id: example:keywords_fixed_few
+      type: MetaDatum::Keywords
+      media_entry_id: 
+      collection_id: 
+      filter_set_id: 
+      values:
+      - label: A
+        url: "/vocabulary/example:keywords_fixed_few/A"
+        type: Keyword
+        uuid: 8e1083f6-27cb-4ca7-859d-874585428c1d
+        created_at: '2016-11-04T15:43:41.341Z'
+        updated_at: '2016-11-04T15:43:41.341Z'
+        _presenter: Presenters::Keywords::KeywordIndex
+      - label: E
+        url: "/vocabulary/example:keywords_fixed_few/E"
+        type: Keyword
+        uuid: f972e405-bcab-4edd-97ad-9269f61fe01c
+        created_at: '2016-11-04T15:43:41.341Z'
+        updated_at: '2016-11-04T15:43:41.341Z'
+        _presenter: Presenters::Keywords::KeywordIndex
+      - label: I
+        url: "/vocabulary/example:keywords_fixed_few/I"
+        type: Keyword
+        uuid: 93d6f251-0c7e-4aa3-a1f8-905e96cbab84
+        created_at: '2016-11-04T15:43:41.341Z'
+        updated_at: '2016-11-04T15:43:41.341Z'
+        _presenter: Presenters::Keywords::KeywordIndex
+      literal_values:
+      - 8e1083f6-27cb-4ca7-859d-874585428c1d
+      - f972e405-bcab-4edd-97ad-9269f61fe01c
+      - 93d6f251-0c7e-4aa3-a1f8-905e96cbab84
+      meta_key:
+        is_extensible: false
+        alphabetical_order: true
+        vocabulary_id: example
+        position: 0
+        label: Keywords fixed few
+        value_type: MetaDatum::Keywords
+        scope:
+        - Entries
+        type: MetaKey
+        uuid: example:keywords_fixed_few
+        _presenter: Presenters::MetaKeys::MetaKeyCommon
+      uuid: 
+      created_at: 
+      updated_at: 
+      _presenter: Presenters::MetaData::MetaDatumEdit
+- name: keywords_fixed_many
+  description: "Keyword, fixed with more than 16 keywords  | example:keywords_fixed_many\nwith
+    values, non-extensible, keyword_count: 26\nAutocomplete with up to 50 pre-filled
+    values, shown without typing\nNOTE: in styleguide search won't work because the
+    MetaKey doensnt' exist.\n      "
+  props:
+    get:
+      fixed_selection: false
+      url: 
+      meta_key_id: example:keywords_fixed_many
+      type: MetaDatum::Keywords
+      media_entry_id: 
+      collection_id: 
+      filter_set_id: 
+      values:
+      - label: A
+        url: "/vocabulary/example:keywords_fixed_many/A"
+        type: Keyword
+        uuid: b440c239-965c-4d02-aa38-bf8de8fe31ae
+        created_at: '2016-11-04T15:43:41.341Z'
+        updated_at: '2016-11-04T15:43:41.341Z'
+        _presenter: Presenters::Keywords::KeywordIndex
+      - label: E
+        url: "/vocabulary/example:keywords_fixed_many/E"
+        type: Keyword
+        uuid: 12079ea3-786d-43cb-8ef3-b6356bf98733
+        created_at: '2016-11-04T15:43:41.341Z'
+        updated_at: '2016-11-04T15:43:41.341Z'
+        _presenter: Presenters::Keywords::KeywordIndex
+      - label: I
+        url: "/vocabulary/example:keywords_fixed_many/I"
+        type: Keyword
+        uuid: 6907d681-f08b-4de8-84ca-9a05ce41df97
+        created_at: '2016-11-04T15:43:41.341Z'
+        updated_at: '2016-11-04T15:43:41.341Z'
+        _presenter: Presenters::Keywords::KeywordIndex
+      literal_values:
+      - b440c239-965c-4d02-aa38-bf8de8fe31ae
+      - 12079ea3-786d-43cb-8ef3-b6356bf98733
+      - 6907d681-f08b-4de8-84ca-9a05ce41df97
+      meta_key:
+        is_extensible: false
+        alphabetical_order: true
+        vocabulary_id: example
+        position: 0
+        label: Keywords fixed many
+        value_type: MetaDatum::Keywords
+        scope:
+        - Entries
+        type: MetaKey
+        uuid: example:keywords_fixed_many
+        _presenter: Presenters::MetaKeys::MetaKeyCommon
+      uuid: 
+      created_at: 
+      updated_at: 
+      _presenter: Presenters::MetaData::MetaDatumEdit

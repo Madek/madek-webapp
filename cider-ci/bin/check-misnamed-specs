@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eu
 
-MISNAMED_SPECS="$(find spec/*/** -name '*.rb' -not -name '*_spec.rb' -not -name '*_shared.rb' -not -path '*/shared/*')"
+MISNAMED_SPECS="$(find spec/*/** -name '*.rb' -not -name '*_spec.rb' -not -name '*_shared.rb' -not -path '*/shared/*' -not -path '*_support/*')"
 
 test -z "$MISNAMED_SPECS" && {
     echo 'OK'

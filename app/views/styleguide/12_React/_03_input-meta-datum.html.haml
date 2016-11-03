@@ -1,0 +1,30 @@
+:ruby
+  # HACK!
+  meta_datum_input_examples = YAML.load(File.read(Rails.root.join(
+    'spec/_support/presenter_examples/meta_datum_input_examples.yaml'))
+  ).deep_symbolize_keys[:examples]
+
+  element = {
+    name: 'Deco.InputMetaDatum',
+    cssSelector: 'component',
+    cssFile: 'decorators/InputMetaDatum.cjsx',
+    section: '12.3',
+    examples: meta_datum_input_examples
+  }
+
+
+= render_partial('element', element) do |element|
+  - element[:examples].each do |example|
+    - props = example[:props].merge(name: example[:name], id: example[:name])
+    = render_partial('example') do
+      .row
+        .col2of3
+          %div.prl
+            %pre.paragraph-l= example[:description]
+            %br
+            = react('Deco.InputMetaDatum', props) if example[:props]
+            %br
+        .col1of3
+          %div.prm
+            %pre=example.as_json.to_yaml
+    %br
