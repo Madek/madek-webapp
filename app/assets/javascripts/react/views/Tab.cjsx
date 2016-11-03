@@ -15,7 +15,7 @@ module.exports = React.createClass
         }
         <i className={'icon-privacy-' + icon_map[privacyStatus]}/>
 
-    <li className={classes}>
+    <li className={classes} data-test-id={@props.testId}>
       <a href={href} onClick={@props.onClick}>
         {
           # if @props.validity == 'invalid'

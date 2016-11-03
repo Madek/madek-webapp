@@ -1,6 +1,6 @@
 React = require('react')
 ReactDOM = require('react-dom')
-f = require('active-lodash')
+f = require('lodash')
 parseUrl = require('url').parse
 t = require('../../lib/string-translation.js')('de')
 
@@ -22,16 +22,27 @@ TagCloud = require('../ui-components/TagCloud.cjsx')
 resourceName = require('../lib/decorate-resource-names.coffee')
 
 
-tabIdByLocation = (tabs, location) ->
-  # NOTE: some tabs have subroutes (permissions/edit), ignore those:
-  # (could also compare with `f.startsWith(path, tab.href)`,
-  # but that would only work if main tab is always first (and reversed list is searched)
-  path = parseUrl(location).pathname.replace(/\/edit(\/)?$/, '')
-  path = path.replace(/\/parents(\/)?$/, '')
-  path = path.replace(/\/children(\/)?$/, '')
-  path = path.replace(/\/siblings(\/)?$/, '')
-  tab = f.find(tabs, {href: path})
-  f.get(tab, 'id')
+parseUrlState = (location) ->
+  urlParts = f.slice(parseUrl(location).pathname.split('/'), 1)
+  if urlParts.length < 3
+    { action: 'show', argument: null }
+  else
+    {
+      action: urlParts[2]
+      argument: urlParts[3] if urlParts.length > 3
+    }
+
+activeTabId = (urlState) ->
+  if urlState.action == 'context'
+    urlState.action + '/' + urlState.argument
+  else
+    urlState.action
+
+contentTestId = (id) ->
+  'set_tab_content_' + id
+
+tabTestId = (id) ->
+  'set_tab_' + id
 
 module.exports = React.createClass
   displayName: 'CollectionShow'
@@ -39,7 +50,7 @@ module.exports = React.createClass
   # NOTE: setting active by pathname because will work as is with a router
   getInitialState: () -> {
     isMounted: false
-    activeTab: tabIdByLocation(@props.get.tabs, @props.for_url)
+    urlState: parseUrlState(@props.for_url)
   }
 
   componentDidMount: () ->
@@ -47,40 +58,41 @@ module.exports = React.createClass
 
   componentWillReceiveProps: (nextProps)->
     return if nextProps.for_url is @props.for_url
-    @setState(activeTab: tabIdByLocation(@props.get.tabs, @props.for_url))
+    @setState(urlState: parseUrlState(@props.for_url))
 
-  _setActiveTab: (currentLocation) ->
-    if (tabId = tabIdByLocation(@props.get.tabs, currentLocation))
-      @setState(activeTab: tabId) unless (tabId == @state.activeTab)
+  render: ({authToken, get} = @props, {isMounted, urlState} = @state) ->
 
-  render: ({authToken, get} = @props, {isMounted, activeTab} = @state) ->
     <PageContent>
       <MediaEntryHeader authToken={authToken} get={get.header} showModal={@props.showModal}
         async={isMounted} modalAction={'select_collection'}/>
 
       <Tabs>
-        {f.map get.tabs, (tab) =>
+        {f.map get.tabs, (tab) ->
           <Tab key={tab.id}
-            href={tab.href} onClick={@_onTabClick}
+            href={tab.href} testId={tabTestId(tab.id)}
             iconType={tab.icon_type} privacyStatus={get.privacy_status}
-            label={tab.label} active={tab.id == activeTab} />
+            label={tab.label} active={tab.id == activeTabId(urlState)} />
         }
       </Tabs>
-        {switch activeTab
+        {switch urlState.action
 
           when 'relations'
             switch get.action
               when 'relations'
-                <CollectionRelations get={get} authToken={authToken} />
+                <CollectionRelations get={get} authToken={authToken}
+                  testId={contentTestId('relations')} />
               when 'relation_parents'
-                <RelationResources get={get} authToken={authToken} scope='parents' />
+                <RelationResources get={get} authToken={authToken} scope='parents'
+                  testId={contentTestId('relations_parents')} />
               when 'relation_children'
-                <RelationResources get={get} authToken={authToken} scope='children' />
+                <RelationResources get={get} authToken={authToken} scope='children'
+                  testId={contentTestId('relations_children')} />
               when 'relation_siblings'
-                <RelationResources get={get} authToken={authToken} scope='siblings' />
+                <RelationResources get={get} authToken={authToken} scope='siblings'
+                  testId={contentTestId('relations_siblings')} />
 
           when 'more_data'
-            <TabContent>
+            <TabContent testId={contentTestId('more_data')}>
               <div className="bright pal rounded-bottom rounded-top-right ui-container">
                 {
                   if get.logged_in
@@ -126,15 +138,30 @@ module.exports = React.createClass
             </TabContent>
 
           when 'permissions'
-            <TabContent>
+            <TabContent testId={contentTestId('permissions')}>
               <div className="bright pal rounded-bottom rounded-top-right ui-container">
                 <RightsManagement get={get.permissions} />
               </div>
             </TabContent>
 
+          when 'context'
+            MetaDataList = require('../decorators/MetaDataList.cjsx')
+            cx = require('classnames')
+
+            <TabContent testId={contentTestId('context_' + urlState.argument)}>
+              <div className="bright  pal rounded-top-right ui-container">
+                <div className={cx('ui-resource-overview')}>
+
+                  <MetaDataList list={get.context_meta_data}
+                    type='table' showTitle={false} showFallback={true}/>
+
+                </div>
+              </div>
+            </TabContent>
+
           # main tab:
           else
-            <TabContent>
+            <TabContent testId={contentTestId('show')}>
               <CollectionDetailOverview get={get} authToken={authToken} />
               <HighlightedContents get={get} authToken={authToken} />
               <CollectionDetailAdditional get={get} authToken={authToken} />

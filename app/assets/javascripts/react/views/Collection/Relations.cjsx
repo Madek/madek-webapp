@@ -15,7 +15,7 @@ module.exports = React.createClass
     parentCount = get.relations.parent_collections.pagination.total_count
     siblingCount = get.relations.sibling_collections.pagination.total_count
 
-    <div className="ui-container tab-content bordered rounded-right rounded-bottom mbh">
+    <div className="ui-container tab-content bordered rounded-right rounded-bottom mbh" data-test-id={@props.testId}>
       <div className="ui-container bright rounded-right rounded-bottom pal">
         <div className="row">
           <div className="col6of6">

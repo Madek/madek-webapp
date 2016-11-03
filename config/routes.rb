@@ -81,6 +81,8 @@ Madek::Application.routes.draw do
       get 'relations/siblings', action: :relation_siblings, as: 'relation_siblings'
       get 'relations/parents', action: :relation_parents, as: 'relation_parents'
 
+      get 'context(/:context_id)', action: :context, as: 'context'
+
       get 'select_collection', action: :select_collection, as: 'select_collection'
       patch 'add_remove_collection', to: 'collections#add_remove_collection'
 

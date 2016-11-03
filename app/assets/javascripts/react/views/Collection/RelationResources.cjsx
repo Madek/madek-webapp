@@ -18,7 +18,7 @@ module.exports = React.createClass
       siblings: 'collection_relations_sibling_sets'
     }
 
-    <div className="ui-container tab-content bordered rounded-right rounded-bottom mbh">
+    <div className="ui-container tab-content bordered rounded-right rounded-bottom mbh" data-test-id={@props.testId}>
       <div className="ui-container bright rounded-right rounded-bottom phl ptl">
 
         <h2 className="ui-resources-header title-l separated mbl">

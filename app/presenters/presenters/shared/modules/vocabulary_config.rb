@@ -41,12 +41,18 @@ module Presenters
           end
 
           def _contexts_for_entry_edit
-            @_meta_data_edit_contexts ||=
+            @_contexts_for_entry_edit ||=
               _get_app_settings_contexts([:contexts_for_entry_edit])
           end
 
+          def _contexts_for_collection_extra
+            # TODO: Use :contexts_for_collection_extra
+            @_contexts_for_collection_extra ||=
+              _get_app_settings_contexts([:contexts_for_collection_edit])
+          end
+
           def _contexts_for_collection_edit
-            @_meta_data_edit_contexts ||=
+            @_contexts_for_collection_edit ||=
               _get_app_settings_contexts([:contexts_for_collection_edit])
           end
 

@@ -30,6 +30,10 @@ class CollectionsController < ApplicationController
       list_conf: resource_list_params))
   end
 
+  def context
+    show
+  end
+
   # this overwrites the concern method
   def show
     collection = get_authorized_resource
@@ -51,6 +55,7 @@ class CollectionsController < ApplicationController
         type_filter: type_param,
         list_conf: resource_list_params,
         children_list_conf: children_list_conf,
+        context_id: (params[:context_id] if action_name == 'context'),
         load_meta_data: false
     respond_with @get
   end

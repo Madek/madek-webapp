@@ -6,11 +6,14 @@ module Presenters
       include Presenters::Collections::Modules::CollectionCommon
       include Presenters::Shared::MediaResource::Modules::PrivacyStatus
       include Presenters::Shared::MediaResource::Modules::EditSessions
+      include Presenters::Shared::Modules::VocabularyConfig
+      include Presenters::Shared::Modules::MetaDataPerContexts
 
       def initialize(app_resource,
                      user,
                      user_scopes,
                      action: 'show',
+                     context_id: nil,
                      list_conf: nil,
                      children_list_conf: nil,
                      type_filter: nil,
@@ -32,13 +35,17 @@ module Presenters
           if ['relation_siblings', 'relation_children', 'relation_parents']
               .include?(action)
             'relations'
+          elsif action == 'context'
+            'context_' + context_id
           else
             action
           end
         @action = action
+        @context_id = context_id
       end
 
       attr_reader :action
+      attr_reader :active_tab
 
       # <mainTab>
 
@@ -48,10 +55,8 @@ module Presenters
         @app_resource.layout
       end
 
-      attr_reader :action
-
       def summary_meta_data
-        return unless @active_tab == 'show'
+        return unless @action == 'show'
         Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
           .collection_summary_context
       end
@@ -73,6 +78,8 @@ module Presenters
       def child_media_resources
         return unless @active_tab == 'show'
 
+        # return unless @action == 'show'
+
         # NOTE: filtering is not implemented (needs spec)
         mr_scope = \
           case @type_filter
@@ -92,7 +99,7 @@ module Presenters
       end
 
       def highlighted_media_resources
-        return unless @active_tab == 'show'
+        return unless @action == 'show'
         resources = @user_scopes[:highlighted_media_entries].concat(
           @user_scopes[:highlighted_collections])
         Presenters::Shared::MediaResource::IndexResources.new(
@@ -102,7 +109,7 @@ module Presenters
       end
 
       def sorting
-        return unless @active_tab == 'show'
+        return unless @action == 'show'
         @app_resource.sorting
       end
       # </mainTab>
@@ -115,19 +122,19 @@ module Presenters
       end
 
       def permissions
-        return unless ['permissions', 'permissions_edit'].include?(@active_tab)
+        return unless ['permissions', 'permissions_edit'].include?(@action)
         Presenters::Collections::CollectionPermissionsShow.new(
           @app_resource, @user)
       end
 
       def all_meta_data
-        return unless @active_tab == 'more_data'
+        return unless @action == 'more_data'
         Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
           .by_vocabulary
       end
 
       def edit_sessions
-        return unless @active_tab == 'more_data'
+        return unless @action == 'more_data'
         super
       end
       # </otherTabs>
@@ -147,14 +154,15 @@ module Presenters
       end
 
       def tabs
-        tabs_config.select do |tab|
-          policy(@user).send("#{tab[:id]}?")
-        end.reject do |tab|
-          tab[:id] == 'relations' \
-            && _relations.child_collections.empty? \
-            && _relations.parent_collections.empty? \
-            && _relations.sibling_collections.empty?
-        end
+        reduce_tabs_by_policies(show_tab)
+          .concat(context_tabs)
+          .concat(reduce_tabs_by_policies(other_tabs))
+      end
+
+      # context
+      def context_meta_data
+        return unless @action == 'context'
+        build_meta_data_context(@app_resource, @user, Context.find(@context_id))
       end
 
       private
@@ -176,28 +184,67 @@ module Presenters
           load_meta_data: @load_meta_data)
       end
 
-      def tabs_config
-        # NOTE: tab id = action name = route pathname
+      def reduce_tabs_by_policies(tabs)
+        tabs.select do |tab|
+          policy(@user).send("#{tab[:id]}?")
+        end.reject do |tab|
+          tab[:id] == 'relations' \
+            && _relations.child_collections.empty? \
+            && _relations.parent_collections.empty? \
+            && _relations.sibling_collections.empty?
+        end
+      end
+
+      def contexts_for_tabs
+        _contexts_for_collection_extra.select do |context|
+          meta_data_for_context(@app_resource, @user, context).any?
+        end
+      end
+
+      def context_tabs
+        contexts_for_tabs.map do |c|
+          cp = Presenters::Contexts::ContextCommon.new(c)
+          next if cp.uuid == 'set_summary'
+          {
+            id: 'context/' + cp.uuid,
+            label: cp.label,
+            href: context_collection_path(@app_resource, cp.uuid)
+          }
+        end
+      end
+
+      def show_tab
         [
           {
             id: 'show',
             label: I18n.t(:collection_tab_main),
-            href: collection_path(@app_resource) },
+            href: collection_path(@app_resource)
+          }
+        ]
+      end
+
+      def other_tabs
+        # NOTE: tab id = action name = route pathname
+        [
           {
             id: 'relations',
             label: I18n.t(:media_entry_tab_relations),
-            href: relations_collection_path(@app_resource) },
+            href: relations_collection_path(@app_resource)
+          },
           {
             id: 'more_data',
             label: I18n.t(:media_entry_tab_more_data),
-            href: more_data_collection_path(@app_resource) },
+            href: more_data_collection_path(@app_resource)
+          },
           {
             id: 'permissions',
             icon_type: :privacy_status_icon,
             label: I18n.t(:media_entry_tab_permissions),
-            href: permissions_collection_path(@app_resource) }
+            href: permissions_collection_path(@app_resource)
+          }
         ]
       end
+
     end
   end
 end
