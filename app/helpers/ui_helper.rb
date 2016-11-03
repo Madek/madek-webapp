@@ -44,12 +44,11 @@ module UiHelper
   def react(name, props = {}, opts = {})
     defaults = { prerender: !params.permit(:___norender).present? }
     opts = defaults.merge(opts)
-    if props[:get]
-      fail '`get` is not a Presenter!' unless props[:get].is_a?(Presenter)
-      presenter = props[:get]
+    maybe_presenter = props[:get]
+    if maybe_presenter.is_a?(Presenter)
+      # NOTE: all of the queries happen here:
+      props = props.merge(get: maybe_presenter.dump)
     end
-    # NOTE: all of the queries happen here:
-    props = props.merge(get: presenter.dump) if presenter
     # inject route + auth token for all "top-level" components (aka Views)
     props = props.merge(
       authToken: form_authenticity_token, for_url: request.original_fullpath)
