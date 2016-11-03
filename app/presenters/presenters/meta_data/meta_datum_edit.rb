@@ -6,9 +6,9 @@ module Presenters
         super(app_resource, user)
 
         # props for special types:
-        if @app_resource.meta_key.can_have_keywords?
-          # all the keywords for this key:
-          keywords = @app_resource.meta_key.keywords
+        meta_key = @app_resource.meta_key
+        if meta_key.can_have_keywords?
+          keywords = meta_key.keywords
 
           # ui should show fixed selection (checkboxes) if less than 16 keywords
           define_singleton_method :fixed_selection do
@@ -16,12 +16,12 @@ module Presenters
             count > 0 and count <= 16
           end
 
-          # include possible values for fixed selections
-          # TODO: include possible values for non-extensible OR fixed selections
-          if self.fixed_selection # or !@meta_key.is_extensible
+          # for non-extensible keywords, include the "first" 50 keywords,
+          # used as immediate suggestions (without typing)
+          if self.fixed_selection or !meta_key.is_extensible_list
             define_singleton_method :keywords do
-              keywords.map do |kw|
-                Presenters::Keywords::KeywordCommon.new(kw)
+              keywords.reorder(:term).limit(50).map do |kw|
+                Presenters::Keywords::KeywordIndex.new(kw)
               end
             end
           end

@@ -59,11 +59,12 @@ module.exports =
         throw new Error('Input: No Keywords given for fixed selection!')
 
 
+      # show an autocomplete:
       if !fixed_selection
         params = {meta_key_id: meta_key.uuid}
-        if !meta_key.is_extensible
-          # TODO: prefill data!
-          autocompleteConfig = { minLength: 0 }
+        # prefill the autocomplete if data was given:
+        if keywords
+          autocompleteConfig = { minLength: 0, localData: keywords }
 
         <InputResources {...@props}
           resourceType='Keywords'
@@ -81,20 +82,12 @@ module.exports =
             isInitiallySelected = f.any(values, { uuid: kw.uuid })
 
             <label className='col2of6' key={kw.uuid}>
-              {
-                if @props.onChange
-                  <input type='checkbox'
-                    onChange={@_onChange}
-                    name={name}
-                    checked={isInitiallySelected}
-                    value={kw.uuid}/>
-                else
-                  <input type='checkbox'
-                    name={name}
-                    defaultChecked={isInitiallySelected}
-                    value={kw.uuid}/>
-              }
-                {kw.label}
+              <input type='checkbox'
+                onChange={if @props.onChange then @_onChange else null}
+                name={name}
+                checked={isInitiallySelected}
+                value={kw.uuid}/>
+              {kw.label}
             </label>
           }
         </div>

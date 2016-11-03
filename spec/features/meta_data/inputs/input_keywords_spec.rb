@@ -25,9 +25,38 @@ feature 'Resource: MetaDatum' do
       end
     end
 
+    example 'autocomplete prefills values' do
+      meta_key = create_meta_key_keywords(is_extensible_list: false)
+      existing_terms = 24.times
+        .map { FactoryGirl.create(:keyword, meta_key: meta_key) }
+
+      in_the_edit_field(meta_key.label) do
+        find('input')
+          .click
+        expect(
+          find('.ui-autocomplete.tt-open').all('.tt-selectable').map(&:text)
+        ).to eq existing_terms.map(&:term).sort
+      end
+    end
+
     example 'autocomplete styles existing values' do
       meta_key = create_meta_key_keywords
       100.times { FactoryGirl.create(:keyword, meta_key: meta_key) }
+      meta_datum = FactoryGirl.create(
+        :meta_datum_keywords, meta_key: meta_key, media_entry: @media_entry)
+      existing_term = meta_datum.keywords.sample.term
+
+      in_the_edit_field(meta_key.label) do
+        fill_autocomplete(existing_term)
+        expect(
+          find('.ui-autocomplete-disabled', text: existing_term)
+        ).to be
+      end
+    end
+
+    example 'autocomplete (prefilled) styles existing values' do
+      meta_key = create_meta_key_keywords(is_extensible_list: false)
+      24.times.map { FactoryGirl.create(:keyword, meta_key: meta_key) }
       meta_datum = FactoryGirl.create(
         :meta_datum_keywords, meta_key: meta_key, media_entry: @media_entry)
       existing_term = meta_datum.keywords.sample.term
@@ -45,8 +74,8 @@ feature 'Resource: MetaDatum' do
   private
 
   # create a metakey and set it as the only input field:
-  def create_meta_key_keywords
-    meta_key = FactoryGirl.create(:meta_key_keywords)
+  def create_meta_key_keywords(attrs = {})
+    meta_key = FactoryGirl.create(:meta_key_keywords, **attrs)
     context_key = FactoryGirl.create(:context_key, meta_key: meta_key, label: nil)
     AppSettings.first.update_attributes!(
       contexts_for_entry_edit: [context_key.context_id],

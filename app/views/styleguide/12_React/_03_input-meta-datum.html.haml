@@ -14,8 +14,25 @@
 
 
 = render_partial('element', element) do |element|
+
+  -# TOC
+  :css
+    ul.styleguide_toc li { list-style-position: outside }
+
+  %ul.styleguide_toc
+    - element[:examples].each do |example|
+      %li
+        %a{href: '#' + example[:name] + '_example'}= example[:name]
+        - (example[:description] || '').split("\n").each do |line|
+          %br
+          = line
+
+  %hr.ui-separator
+
   - element[:examples].each do |example|
     - props = example[:props].merge(name: example[:name], id: example[:name])
+    %a{id: example[:name] + '_example'}
+
     = render_partial('example') do
       .row
         .col2of3

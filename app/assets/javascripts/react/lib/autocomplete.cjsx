@@ -29,14 +29,14 @@ t = ui.t('de')
 searchResources = require('../../lib/search.coffee')
 
 initTypeahead = (domNode, resourceType, params, conf, existingValues, onSelect, onAdd)->
-  localData = conf.dataSource
+  {minLength, localData} = conf
   unless (searchBackend = searchResources(resourceType, params, localData))
     throw new Error "No search backend for '#{resourceType}'!"
 
   typeaheadConfig = {
     hint: false,
     highlight: true,
-    minLength: conf.minLength,
+    minLength: minLength,
     classNames: { # madek style:
       wrapper: 'ui-autocomplete-holder'
       input: 'ui-typeahead-input',

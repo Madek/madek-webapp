@@ -11,7 +11,7 @@ resourcesConfig = # JSON API Endpoints:
   Licenses: { url: '/licenses', key: 'label'  }
   Keywords: { url: '/keywords', key: 'label', params: ['meta_key_id'] }
 
-module.exports = (resourceType, parameters = null)->
+module.exports = (resourceType, parameters = null, localData)->
   unless (baseConfig = resourcesConfig[resourceType])?
     throw new Error "Search: Unknown resourceType: #{resourceType}!"
   missing = f.select(baseConfig.params, (key)-> f.isEmpty(parameters[key]))
@@ -22,7 +22,7 @@ module.exports = (resourceType, parameters = null)->
     name: "#{resourceType}Search",
     key: baseConfig.key or 'name',
     displayKey: baseConfig.displayKey or baseConfig.key or 'name',
-    source: BloodhoundFactory(baseConfig, parameters),
+    source: BloodhoundFactory(baseConfig, parameters, localData),
     limit: 100
   }
 
@@ -31,13 +31,24 @@ module.exports = (resourceType, parameters = null)->
 tokenizer = (string)-> # trims leading and trailing whitespace
   Bloodhound.tokenizers.whitespace(f.trim(string))
 
-# TODO: memoize?
-BloodhoundFactory = (config, parameters = null)->
-  new Bloodhound
-    datumTokenizer: tokenizer
-    queryTokenizer: tokenizer
+BloodhoundFactory = (config, parameters, localData)->
+  engine = new Bloodhound({
+    datumTokenizer: tokenizer,
+    queryTokenizer: tokenizer,
+    local: localData,
     remote:
       wildcard: '__QUERY__'
       url: url.format
         pathname: config.url
         query: f.assign({search_term: '__QUERY__'}, parameters)
+  })
+
+  # return *all* (possibly local) suggestions on empty query:
+  return if !localData
+    engine
+  else
+    (query, syncCallback, asyncCallback) ->
+      if query == ''
+        syncCallback(engine.all())
+      else
+        engine.search(query, syncCallback, asyncCallback)
