@@ -3,10 +3,6 @@ require 'action_controller'
 
 namespace :madek do
 
-  task import_institutional_groups: :environment do
-    InstitutionalGroupsImporter.import!
-  end
-
   desc 'Reset'
   task reset: :environment do
     Rake::Task['app:setup:make_directories'].execute(reset: 'reset')
