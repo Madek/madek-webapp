@@ -48,7 +48,7 @@ module Presenters
           def _contexts_for_collection_extra
             # TODO: Use :contexts_for_collection_extra
             @_contexts_for_collection_extra ||=
-              _get_app_settings_contexts([:contexts_for_collection_edit])
+              _get_app_settings_contexts([:contexts_for_collection_extra])
           end
 
           def _contexts_for_collection_edit

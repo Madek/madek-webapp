@@ -9,6 +9,7 @@ include BasicDataHelper
 feature 'Collection Context Tabs' do
 
   scenario 'Show no context tabs if meta data is empty' do
+    setup_contexts_for_collection_extra
     prepare_user
     login
     create_empty_collection
@@ -19,6 +20,7 @@ feature 'Collection Context Tabs' do
   end
 
   scenario 'Show context tabs if meta data available' do
+    setup_contexts_for_collection_extra
     prepare_user
     login
     create_empty_collection
@@ -58,6 +60,13 @@ feature 'Collection Context Tabs' do
 
   def check_title(expected_title)
     find('.ui-body-title').find('.title-xl', text: expected_title)
+  end
+
+  def setup_contexts_for_collection_extra
+    app_settings = AppSettings.first
+    app_settings.contexts_for_collection_extra << Context.find('core')
+    app_settings.contexts_for_collection_extra << Context.find('media_content')
+    app_settings.save
   end
 
   def visit_collection

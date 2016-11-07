@@ -9,6 +9,7 @@ include BasicDataHelper
 feature 'Collection tabs' do
 
   scenario 'Check tabs with content' do
+    setup_contexts_for_collection_extra
     prepare_user
     @collection = create_collection('Title')
     @parent = create_collection('Parent')
@@ -50,5 +51,12 @@ feature 'Collection tabs' do
     selector = '.ui-tabs-item[data-test-id*=set_tab]:not([class*=active])'
     inactive_tabs = all(selector)
     expect(inactive_tabs.length).to eq(5)
+  end
+
+  def setup_contexts_for_collection_extra
+    app_settings = AppSettings.first
+    app_settings.contexts_for_collection_extra << Context.find('core')
+    app_settings.contexts_for_collection_extra << Context.find('media_content')
+    app_settings.save
   end
 end
