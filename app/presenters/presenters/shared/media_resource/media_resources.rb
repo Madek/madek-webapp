@@ -46,8 +46,9 @@ module Presenters
         end
 
         def any?
-          # NOTE: need to ask the *unpaginated* collection!
-          @selected_resources.any?
+          # NOTE: need to ask the *unpaginated* BUT *filtered* scope!
+          # NOTE: #any? triggers a weird Arel bug, do it manually:
+          _total_count > 0
         end
 
         def empty?
@@ -79,11 +80,11 @@ module Presenters
 
           # apply pagination and select resources
           # NOTE: total_count could be expensive, so it's optional!
-          selected_resources = select_resources(resources, config)
-          total_count = selected_resources.count if @with_count
+          @selected_resources = select_resources(resources, config)
+          total_count = _total_count if @with_count
 
           # apply pagination, but select "1 extra" (for building cheap pagination)
-          ordered_resources = selected_resources.custom_order_by(config[:order])
+          ordered_resources = @selected_resources.custom_order_by(config[:order])
           resources_page_and_next = ordered_resources
             .limit(config[:per_page] + 1)
             .offset((config[:page] - 1) * config[:per_page])
@@ -101,8 +102,11 @@ module Presenters
           unless active_record_collection?(resources)
             fail 'TypeError! not an AR Collection/Relation!'
           end
-          @selected_resources ||= resources
-            .filter_by(@user, config[:filter] || {})
+          resources.filter_by(@user, config[:filter] || {})
+        end
+
+        def _total_count # PERF: memo the count, it's expensive!
+          @_total_count ||= @selected_resources.count
         end
 
         def presenterify(resources, determined_presenter = nil)

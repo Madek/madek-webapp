@@ -15,7 +15,7 @@ module.exports = resourceListParams = (location)->
     .map(f.curry(coerceTypes)(coerced_types)).object()
     .merge(
       for_url:
-        path: location.pathname
+        pathname: location.pathname
         query: query)
     .value()
 

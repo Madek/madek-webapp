@@ -75,7 +75,7 @@ module.exports = (collectionClass, {jsonPath})->
       throw new Error('Callback missing!') if (!f.isFunction(callback))
       return callback(null) unless @currentPage
 
-      path = @url.path
+      path = @url.pathname
       if path.indexOf('/relations/children') > 0 or path.indexOf('/relations/siblings') > 0 or path.indexOf('/relations/parents') > 0
         jsonPath = 'relation_resources.resources'
 

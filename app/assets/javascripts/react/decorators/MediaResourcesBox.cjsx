@@ -78,7 +78,7 @@ viewConfigProps = React.PropTypes.shape
     prev: React.PropTypes.shape(page: React.PropTypes.number.isRequired)
     next: React.PropTypes.shape(page: React.PropTypes.number.isRequired)
   for_url: React.PropTypes.shape
-    path: React.PropTypes.string.isRequired
+    pathname: React.PropTypes.string.isRequired
     query: React.PropTypes.object
 
 module.exports = React.createClass
@@ -832,13 +832,13 @@ module.exports = React.createClass
       {
         if @state.batchAddToSet
           <BatchAddToSetModal resourceIds={@_batchAddToSetIds()} authToken={@props.authToken}
-            get={null} onClose={@_onCloseModal} returnTo={@state.config.for_url.path}/>
+            get={null} onClose={@_onCloseModal} returnTo={@state.config.for_url.pathname}/>
       }
       {
         if @state.batchRemoveFromSet
           <BatchRemoveFromSetModal collectionUuid={@props.collectionData.uuid}
             resourceIds={@_batchRemoveFromSetIds()} authToken={@props.authToken}
-            get={null} onClose={@_onCloseModal} returnTo={@state.config.for_url.path}/>
+            get={null} onClose={@_onCloseModal} returnTo={@state.config.for_url.pathname}/>
       }
 
     </div>
