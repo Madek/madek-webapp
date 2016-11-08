@@ -7,81 +7,45 @@ include BatchPermissionsHelper
 
 feature 'Batch update media entries permissions' do
   it 'offers action for CollectionChildren' do
-    setup_batch_permissions_test_data # from BatchPermissionsHelper
+    # NOTE: only Entries as children are tested!
+    #        for this scenario we also don't really need the "big setup"…
+    setup_batch_permissions_test_data(MediaEntry) # from BatchPermissionsHelper
+
     @collection = FactoryGirl.create(
       :collection, responsible_user: @logged_in_user)
-    @collection.media_entries << [@entry_1, @entry_2]
+    @collection.media_entries << [@resource_1, @resource_2]
     sign_in_as @logged_in_user.login
 
     visit collection_path(@collection)
-    select_all_in_box_and_start_batch_edit
+    select_all_in_box_and_choose_from_menu(
+      'Berechtigungen von Medieneinträgen editieren')
+
     # edit form opens:
-    expect(current_path_with_query)
-      .to eq batch_edit_permissions_media_entries_path(
-        id: [@entry_2.id, @entry_1.id], return_to: collection_path(@collection))
+    expect(current_path_with_query).to eq \
+      batch_edit_permissions_media_entries_path(
+        id: [@resource_2.id, @resource_1.id],
+        return_to: collection_path(@collection))
   end
 
-  it 'successfully updates permissions for all entries' do
-    ################################ DATA ########################################
-    setup_batch_permissions_test_data # from BatchPermissionsHelper
+  it 'successfully updates permissions for all Entries' do
+    setup_batch_permissions_test_data(MediaEntry) # from BatchPermissionsHelper
 
     sign_in_as @logged_in_user.login
     my_content_page = my_dashboard_section_path(:content_media_entries)
 
     # select and choose action
     visit my_content_page
-    select_all_in_box_and_start_batch_edit
+    select_all_in_box_and_choose_from_menu(
+      'Berechtigungen von Medieneinträgen editieren')
 
     # edit form opens:
     expect(current_path_with_query)
       .to eq batch_edit_permissions_media_entries_path(
-        id: [@entry_2.id, @entry_1.id], return_to: my_content_page)
+        id: [@resource_2.id, @resource_1.id], return_to: my_content_page)
 
     within('form[name="ui-rights-management"]') do
-
-      # check UI state for all cases (8, 10, 11 not relevant)
-      expect_permission(@case_1_user, 'get_metadata_and_previews', true)
-      expect_permission(@case_2_group, 'get_full_size', false)
-      expect_permission(@case_2_api_client, 'get_full_size', false)
-      expect_permission(@case_3_user, 'edit_metadata', 'mixed')
-      expect_permission(@case_4_user, 'edit_permissions', 'mixed')
-      expect_permission(@case_5_group, 'get_metadata_and_previews', 'mixed')
-      expect_permission(@case_5_api_client, 'get_metadata_and_previews', 'mixed')
-      expect_permission(@case_6_user, 'get_metadata_and_previews', true)
-      expect_permission(@case_7_user, 'get_metadata_and_previews', false)
-      expect_permission(@case_9_group, 'get_full_size', false)
-      expect_permission(@case_9_api_client, 'get_full_size', false)
-      expect_permission('Internet', 'get_metadata_and_previews', 'mixed')
-      expect_permission('Internet', 'get_full_size', 'mixed')
-
-      # set form state for all cases (1, 2, 3, 8, 12 not relevant)
-      set_permission(@case_4_user, 'edit_permissions', true)
-      set_permission(@case_5_group, 'get_metadata_and_previews', false)
-      set_permission(@case_5_api_client, 'get_metadata_and_previews', false)
-      set_permission(@case_6_user, 'get_metadata_and_previews', false)
-      set_permission(@case_7_user, 'get_metadata_and_previews', true)
-      set_permission(@case_9_group, 'get_full_size', false)
-      set_permission(@case_9_api_client, 'get_full_size', false)
-
-      add_subject(@case_10_user)
-      # NOTE: the following is enforced by UI, by not setting it we test this
-      # set_permission(@case_10_user, 'get_metadata_and_previews', true)
-      set_permission(@case_10_user, 'get_full_size', true)
-
-      add_subject(@case_10_group)
-      # NOTE: the following is enforced by UI, by not setting it we test this
-      # set_permission(@case_10_group, 'get_metadata_and_previews', true)
-      set_permission(@case_10_group, 'get_full_size', true)
-
-      add_subject(@case_10_api_client)
-      # NOTE: the following is enforced by UI, by not setting it we test this
-      # set_permission(@case_10_api_client, 'get_metadata_and_previews', true)
-      set_permission(@case_10_api_client, 'get_full_size', true)
-
-      remove_subject(@case_11_user)
-      remove_subject(@case_11_group)
-      set_permission('Internet', 'get_metadata_and_previews', true)
-
+      check_displayed_permission_cases(MediaEntry)
+      edit_permission_form_cases(MediaEntry)
       # SAVE
       find('.primary-button').click
     end
@@ -94,18 +58,62 @@ feature 'Batch update media entries permissions' do
 
     expect(current_path_with_query).to eq my_content_page
 
-    check_batch_permissions_results # from BatchPermissionsHelper
+    check_batch_permissions_results(MediaEntry) # from BatchPermissionsHelper
+  end
+
+end
+
+def check_displayed_permission_cases(resource_class)
+  # check UI state for all cases (8, 10, 11 not relevant)
+  expect_permission(@case_1_user, 'get_metadata_and_previews', true)
+  expect_permission(@case_2_group, 'get_metadata_and_previews', false)
+  expect_permission(@case_2_api_client, 'get_metadata_and_previews', false)
+  expect_permission(@case_3_user, 'get_metadata_and_previews', 'mixed')
+  expect_permission(@case_4_user, 'edit_permissions', 'mixed')
+  expect_permission(@case_5_group, 'get_metadata_and_previews', 'mixed')
+  expect_permission(@case_5_api_client, 'get_metadata_and_previews', 'mixed')
+  expect_permission(@case_6_user, 'get_metadata_and_previews', true)
+  expect_permission(@case_7_user, 'get_metadata_and_previews', false)
+  expect_permission(@case_9_group, 'get_metadata_and_previews', false)
+  expect_permission(@case_9_api_client, 'get_metadata_and_previews', false)
+  if resource_class == MediaEntry
+    expect_permission('Internet', 'get_metadata_and_previews', 'mixed')
+    expect_permission('Internet', 'get_full_size', 'mixed')
   end
 end
 
-def select_all_in_box_and_start_batch_edit
+def edit_permission_form_cases(_resource_class)
+  # set form state for all cases (1, 2, 3, 8, 13 not relevant)
+  set_permission(@case_4_user, 'edit_permissions', true)
+  set_permission(@case_5_group, 'get_metadata_and_previews', false)
+  set_permission(@case_5_api_client, 'get_metadata_and_previews', false)
+  set_permission(@case_6_user, 'get_metadata_and_previews', false)
+  set_permission(@case_7_user, 'get_metadata_and_previews', true)
+  set_permission(@case_9_group, 'get_metadata_and_previews', false)
+  set_permission(@case_9_api_client, 'get_metadata_and_previews', false)
+
+  add_subject(@case_10_user)
+  # NOTE: the following is enforced by UI, by not setting it we test this
+  # set_permission(@case_10_user, 'get_metadata_and_previews', true)
+  set_permission(@case_10_user, 'edit_permissions', true)
+
+  add_subject(@case_10_group)
+  set_permission(@case_10_group, 'get_metadata_and_previews', true)
+
+  add_subject(@case_10_api_client)
+  set_permission(@case_10_api_client, 'get_metadata_and_previews', true)
+
+  remove_subject(@case_11_user)
+  remove_subject(@case_11_group)
+  set_permission('Internet', 'get_metadata_and_previews', true)
+end
+
+def select_all_in_box_and_choose_from_menu(text)
   within(page.find('.ui-polybox')) do
     within('.ui-filterbar') do
       find('.ui-filterbar-select').find('.icon-checkbox').click
       find('.dropdown-toggle, .ui-drop-toggle', text: 'Aktionen').click
-      find(
-        '.dropdown-menu a',
-        text: 'Berechtigungen von Medieneinträgen editieren').click
+      find('.dropdown-menu a', text: text).click
     end
   end
 end
