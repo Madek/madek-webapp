@@ -11,28 +11,23 @@ module Modules
 
         private
 
+        # TODO: for permission names use already defined constant
+        def perms
+          %i(
+            get_metadata_and_previews get_full_size edit_metadata edit_permissions
+          )
+        end
+
         def user_permissions_params
-          # TODO: for permission names use already defined constant
-          associated_entity_permissions_helper(:user,
-                                               :get_metadata_and_previews,
-                                               :get_full_size,
-                                               :edit_metadata,
-                                               :edit_permissions)
+          associated_entity_permissions_helper(:user, *perms)
         end
 
         def group_permissions_params
-          # TODO: for permission names use already defined constant
-          associated_entity_permissions_helper(:group,
-                                               :get_metadata_and_previews,
-                                               :get_full_size,
-                                               :edit_metadata)
+          associated_entity_permissions_helper(:group, *perms.first(3))
         end
 
         def api_client_permissions_params
-          # TODO: for permission names use already defined constant
-          associated_entity_permissions_helper(:api_client,
-                                               :get_metadata_and_previews,
-                                               :edit_metadata)
+          associated_entity_permissions_helper(:api_client, *perms.first(2))
         end
 
         def public_permissions_params

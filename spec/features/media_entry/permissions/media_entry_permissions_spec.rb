@@ -13,7 +13,7 @@ feature 'Resource: MediaEntry' do
 
   end
 
-  scenario 'edit permissions' do
+  scenario 'edit permissions (some perms for user, group, client)' do
     sign_in_as @user.login
     open_permission_editable
 
@@ -42,7 +42,9 @@ feature 'Resource: MediaEntry' do
     expect(@entry.api_client_permissions.first[other_perm]).to be false
   end
 
-  pending 'edit permissions as entrusted user' do
+  example(
+    'edit permissions as entrusted user (full perms for user, group, client)'
+  ) do
     @another_user = User.find_by(login: 'adam')
     create(
       :media_entry_user_permission,
