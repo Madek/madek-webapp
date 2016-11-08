@@ -61,6 +61,37 @@ feature 'Batch update media entries permissions' do
     check_batch_permissions_results(MediaEntry) # from BatchPermissionsHelper
   end
 
+  it 'successfully updates permissions for all Collections' do
+    setup_batch_permissions_test_data(Collection) # from BatchPermissionsHelper
+
+    sign_in_as @logged_in_user.login
+    my_content_page = my_dashboard_section_path(:content_collections)
+
+    # select and choose action
+    visit my_content_page
+    select_all_in_box_and_choose_from_menu('Berechtigungen von Sets editieren')
+
+    # edit form opens:
+    expect(current_path_with_query)
+      .to eq batch_edit_permissions_collections_path(
+        id: [@resource_2.id, @resource_1.id], return_to: my_content_page)
+
+    within('form[name="ui-rights-management"]') do
+      check_displayed_permission_cases(Collection)
+      edit_permission_form_cases(Collection)
+      # SAVE
+      find('.primary-button').click
+    end
+
+    # assertions
+
+    wait_until do
+      find('.ui-alert.success', text: I18n.t(:permissions_batch_success))
+    end
+
+    expect(current_path_with_query).to eq my_content_page
+    check_batch_permissions_results(Collection) # from BatchPermissionsHelper
+  end
 end
 
 def check_displayed_permission_cases(resource_class)
@@ -84,6 +115,7 @@ end
 
 def edit_permission_form_cases(_resource_class)
   # set form state for all cases (1, 2, 3, 8, 13 not relevant)
+
   set_permission(@case_4_user, 'edit_permissions', true)
   set_permission(@case_5_group, 'get_metadata_and_previews', false)
   set_permission(@case_5_api_client, 'get_metadata_and_previews', false)

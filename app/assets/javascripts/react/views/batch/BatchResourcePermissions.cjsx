@@ -8,7 +8,7 @@ ui = require('../../lib/ui.coffee')
 t = ui.t('de')
 
 BatchMediaEntryPermissions = require('../../../models/batch/batch-media-entry-permissions.coffee')
-# BatchCollectionPermissions = require('../../../models/batch/batch-collection-permissions.coffee')
+BatchCollectionPermissions = require('../../../models/batch/batch-collection-permissions.coffee')
 
 ResourcePermissionsForm = require('../../decorators/ResourcePermissionsForm.cjsx')
 Preloader = require('../../ui-components/Preloader.cjsx')
@@ -39,7 +39,7 @@ module.exports = React.createClass
     # get type from first item in resource list
     Model = switch @props.get.batch_permissions[0].type
       when 'MediaEntry' then BatchMediaEntryPermissions
-      # when 'Collection' then BatchCollectionPermissions
+      when 'Collection' then BatchCollectionPermissions
       else
         throw new Error('Invalid type!')
 

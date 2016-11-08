@@ -36,6 +36,14 @@ module Modules
         batch_update_resource_permissions(MediaEntry.unscoped)
       end
 
+      def batch_edit_collection_permissions
+        batch_edit_resource_permissions(Collection)
+      end
+
+      def batch_update_collection_permissions
+        batch_update_resource_permissions(Collection)
+      end
+
       private
 
       def batch_edit_resource_permissions(scope)

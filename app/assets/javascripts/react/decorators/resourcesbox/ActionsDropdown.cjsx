@@ -79,7 +79,7 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
             'lock',
             'resources_box_batch_actions_managepermissions')}
 
-        {if showActions.managePermissionsSets and false
+        {if showActions.managePermissionsSets
           batchPermissionSetsEditables = SelectionScope.batchPermissionResources(selection, ['Collection']) if selection
           createHoverActionItem(
             if f.present(batchPermissionSetsEditables) then f.curry(callbacks.onBatchPermissionsSetsEdit)(batchPermissionSetsEditables),

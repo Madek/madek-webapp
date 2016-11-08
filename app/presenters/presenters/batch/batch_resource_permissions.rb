@@ -28,10 +28,11 @@ module Presenters
       end
 
       def actions
+        klass = @resources.model.name.pluralize.underscore
+        url = self.send("batch_update_permissions_#{klass}_path")
         {
           save: {
-            url: prepend_url_context(
-              batch_update_permissions_media_entries_path),
+            url: prepend_url_context(url),
             method: 'PUT'
           },
           cancel: { url: @return_to }

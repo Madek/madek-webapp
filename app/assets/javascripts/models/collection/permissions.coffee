@@ -10,8 +10,8 @@ ApiClient = require('../api-client.coffee')
 CollectionPublicPermission = AppResource.extend
   type: 'CollectionPublicPermission'
   props:
-    get_metadata_and_previews: ['boolean']
-    get_full_size: ['boolean']
+    get_metadata_and_previews: ['trilean']
+    get_full_size: ['trilean']
 
 CollectionUserPermissions = Collection.extend
   model: AppResource.extend
@@ -19,10 +19,10 @@ CollectionUserPermissions = Collection.extend
     children:
       subject: User
     props:
-      get_metadata_and_previews: ['boolean', no, off]
-      get_full_size: ['boolean', no, off]
-      edit_metadata_and_relations: ['boolean', no, off]
-      edit_permissions: ['boolean', no, off]
+      get_metadata_and_previews: ['trilean', no, off]
+      get_full_size: ['trilean', no, off]
+      edit_metadata_and_relations: ['trilean', no, off]
+      edit_permissions: ['trilean', no, off]
 
 CollectionGroupPermissions = Collection.extend
   type: 'CollectionGroupPermissions'
@@ -31,9 +31,9 @@ CollectionGroupPermissions = Collection.extend
     children:
       subject: Group
     props:
-      get_metadata_and_previews: ['boolean', no, off]
-      get_full_size: ['boolean', no, off]
-      edit_metadata_and_relations: ['boolean', no, off]
+      get_metadata_and_previews: ['trilean', no, off]
+      get_full_size: ['trilean', no, off]
+      edit_metadata_and_relations: ['trilean', no, off]
 
 CollectionApiClientPermissions = Collection.extend
   type: 'CollectionApiClientPermissions'
@@ -42,8 +42,8 @@ CollectionApiClientPermissions = Collection.extend
     children:
       subject: ApiClient
     props:
-      get_metadata_and_previews: ['boolean', no, off]
-      get_full_size: ['boolean', no, off]
+      get_metadata_and_previews: ['trilean', no, off]
+      get_full_size: ['trilean', no, off]
 
 
 module.exports = ResourcePermissions.extend
