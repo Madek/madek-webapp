@@ -123,7 +123,7 @@ module Presenters
 
       def permissions
         return unless ['permissions', 'permissions_edit'].include?(@action)
-        Presenters::Collections::CollectionPermissionsShow.new(
+        Presenters::Collections::CollectionPermissions.new(
           @app_resource, @user)
       end
 

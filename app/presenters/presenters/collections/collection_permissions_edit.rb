@@ -1,7 +1,7 @@
 module Presenters
   module Collections
     class CollectionPermissionsEdit < \
-      Presenters::Collections::CollectionPermissionsShow
+      Presenters::Collections::CollectionPermissions
     end
   end
 end

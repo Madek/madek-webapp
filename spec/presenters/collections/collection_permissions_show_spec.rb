@@ -1,7 +1,7 @@
 require 'spec_helper'
 require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
 
-describe Presenters::Collections::CollectionPermissionsShow do
+describe Presenters::Collections::CollectionPermissions do
   it_can_be 'dumped' do
     user = FactoryGirl.create(:user)
     collection = FactoryGirl.create(:collection,
