@@ -5,7 +5,7 @@ f = require('active-lodash')
 t = require('../../lib/string-translation')('de') # TODO: select correct locale!
 ampersandReactMixin = require('ampersand-react-mixin')
 
-AutoComplete = 'div' # only required client-side!
+AutoComplete = null # only required client-side!
 
 # NOTE: used for static (server-side) rendering (state.editing = false)
 module.exports = React.createClass
@@ -135,7 +135,7 @@ PermissionsBySubjectType = React.createClass
         {if editing and permissionsList.isCollection
           <div className='ui-add-subject ptx'>
             <div className='col1of3' style={position: 'relative'}>
-              {if type?
+              {if type? and AutoComplete
                 <AutoComplete
                   className='block'
                   name={"add_#{type}"} resourceType={type}

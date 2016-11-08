@@ -1,9 +1,15 @@
+# View for Batch-Editing Resource Permissions
+# Differences between the supported classes (Entry, Collection)
+# are handled in the models, so there is only 1 view for all of them.
+
 React = require('react')
 f = require('active-lodash')
 ui = require('../../lib/ui.coffee')
 t = ui.t('de')
 
-MediaEntryBatchPermissions = require('../../../models/batch/batch-media-entry-permissions.coffee')
+BatchMediaEntryPermissions = require('../../../models/batch/batch-media-entry-permissions.coffee')
+# BatchCollectionPermissions = require('../../../models/batch/batch-collection-permissions.coffee')
+
 ResourcePermissionsForm = require('../../decorators/ResourcePermissionsForm.cjsx')
 Preloader = require('../../ui-components/Preloader.cjsx')
 ResourcesBatchBox = require('../../decorators/ResourcesBatchBox.cjsx')
@@ -30,7 +36,14 @@ module.exports = React.createClass
 
   # init state model in any case:
   componentWillMount: ()->
-    @setState(model: new MediaEntryBatchPermissions(@props.get))
+    # get type from first item in resource list
+    Model = switch @props.get.batch_permissions[0].type
+      when 'MediaEntry' then BatchMediaEntryPermissions
+      # when 'Collection' then BatchCollectionPermissions
+      else
+        throw new Error('Invalid type!')
+
+    @setState(model: new Model(@props.get))
 
   # NOTE: UI has no fallback, so even though this view only supports
   # 'editing' state, we only activate it on mount to prevent accidental submit
