@@ -2,7 +2,8 @@ module Presenters
   module MediaEntries
     class MediaEntryBatchEdit < Presenter
 
-      def initialize(media_entries, user, return_to:)
+      def initialize(resource_type, media_entries, user, return_to:)
+        @resource_type = resource_type
         @entries = media_entries
         @user = user
         @return_to = return_to
@@ -10,18 +11,23 @@ module Presenters
 
       attr_reader :return_to
 
+      def resource_type
+        @resource_type.name.underscore
+      end
+
       def resources
         Presenters::Shared::MediaResource::IndexResources.new(@user, @entries)
       end
 
       def batch_entries
         @entries.map do |entry|
-          Presenters::MediaEntries::MediaEntryEditMetaData.new(entry, @user)
+          Presenters::Shared::MediaResource::MediaResourceEdit.new(entry, @user)
         end
       end
 
       def submit_url
-        batch_meta_data_media_entries_path
+        self.send('batch_meta_data_' +
+          @resource_type.name.pluralize.underscore + '_path')
       end
 
     end

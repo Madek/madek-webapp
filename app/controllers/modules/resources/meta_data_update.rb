@@ -9,7 +9,9 @@ module Modules
       # TODO: extract more from {MediaEntries,Collections}MetaDataUpdate
 
       def edit_meta_data
-        represent(find_resource)
+        @get = Presenters::Shared::MediaResource::MediaResourceEdit.new(
+          find_resource, current_user)
+        respond_with @get
       end
 
       def edit_context_meta_data

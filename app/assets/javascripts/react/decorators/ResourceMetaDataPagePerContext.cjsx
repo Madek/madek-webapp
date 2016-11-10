@@ -269,7 +269,7 @@ module.exports = React.createClass
     return false
 
 
-  render: ({get, authToken} = @props) ->
+  render: ({get, authToken, batchType} = @props) ->
 
     if get.meta_meta_data.meta_data_edit_context_ids.length == 0
       # First make sure that you do not get a system error page when you have no context configured.
@@ -292,7 +292,15 @@ module.exports = React.createClass
 
     title = null
     if @props.batch
-      title = t('meta_data_batch_title_pre') + get.batch_entries.length + t('meta_data_batch_title_post')
+
+      pre_title = t('meta_data_batch_title_pre')
+      post_title =
+        if batchType == 'MediaEntry'
+          t('meta_data_batch_title_post_media_entries')
+        else
+          t('meta_data_batch_title_post_collections')
+
+      title = pre_title + get.batch_entries.length + post_title
     else
       if get.resource.type == 'Collection'
         title = t('collection_meta_data_header_prefix') + get.resource.title
@@ -303,12 +311,13 @@ module.exports = React.createClass
     editByVocabUrl = unless @props.batch
       get.resource.url + '/meta_data/edit'
     else
-      setUrlParams('/entries/batch_meta_data_edit',
+      plural = if get.resource_type == 'collection' then 'sets' else 'entries'
+      setUrlParams('/' + plural + '/batch_meta_data_edit',
         id: f.map(get.batch_entries, 'uuid'),
         return_to: get.return_to)
 
     name = if @props.batch
-      "media_entry[meta_data]"
+      get.resource_type + "[meta_data]"
     else
       "#{f.snakeCase(get.resource.type)}[meta_data]"
 
