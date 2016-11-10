@@ -1,6 +1,11 @@
 module Presenters
   module Vocabularies
-    class VocabularyShow < Presenters::Vocabularies::VocabularyIndex
+    class VocabularyShow < Presenter
+
+      def initialize(app_resource, user:)
+        @app_resource = app_resource
+        @user = user
+      end
 
       def meta_keys(vocabulary = @app_resource)
         vocabulary.meta_keys.map do |mk|
@@ -8,12 +13,9 @@ module Presenters
         end
       end
 
-      def actions
-        {
-          index: prepend_url_context(vocabularies_path)
-        }
+      def page
+        Presenters::Vocabularies::VocabularyPage.new(@app_resource)
       end
-
     end
   end
 end

@@ -12,6 +12,8 @@ import Tab from '../Tab.cjsx'
 import PageContent from '../PageContent.cjsx'
 import TabContent from '../TabContent.cjsx'
 
+import VocabularyPage from './VocabularyPage.cjsx'
+
 const ROWS = 3 // for MetaKeys
 
 const shortID = (id) => !!id && id.split(':')[1]
@@ -39,25 +41,17 @@ const metaKeyInfo = (mk) => [
 const VocabulariesShow = React.createClass({
   displayName: 'VocabularyShow',
 
-  render () {
-    const {label, url, description, enabled_for_public_view, meta_keys, actions} = this.props.get
+  render (get = this.props.get) {
+    const {meta_keys} = get
+    const {label, url, description, enabled_for_public_view} = get.page.vocabulary
 
     const metaKeys = sortBy(meta_keys, 'position')
 
-    return <PageContent>
+    return <VocabularyPage page={get.page} for_url={this.props.for_url}>
 
-      <PageHeader title={label} icon='tags' actions={
-        <a href={actions.index} className='button'>
-          <Icon i='undo' /> Alle Vokabulare</a>
-      }/>
-
-      <Tabs>
-        <Tab label={'Vokabular'} active />
-      </Tabs>
-
-      <TabContent>
         <div className='bright ui-container pal rounded'>
           <div className='mbl'>
+
             <h2 className='title-l'>
               <a href={url}>{label}</a><span> </span>
               <Icon i={`privay-${enabled_for_public_view ? 'public' : 'private'}`} />
@@ -97,21 +91,24 @@ const VocabulariesShow = React.createClass({
             )}
           </div>
         </div>
-      </TabContent>
-    </PageContent>
+      </VocabularyPage>
   }
 })
 
 VocabulariesShow.propTypes = {
   get: PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    description: PropTypes.string,
-    enabled_for_public_view: PropTypes.bool.isRequired,
-    usable: PropTypes.bool.isRequired,
+    page: PropTypes.shape({
+      vocabulary: PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        description: PropTypes.string,
+        enabled_for_public_view: PropTypes.bool.isRequired,
+        usable: PropTypes.bool.isRequired,
+      }).isRequired,
+      actions: PropTypes.shape({
+        index: PropTypes.string.isRequired
+      }).isRequired
+    }),
     meta_keys: PropTypes.arrayOf(MadekPropTypes.VocabularyMetaKey).isRequired,
-    actions: PropTypes.shape({
-      index: PropTypes.string.isRequired
-    }).isRequired
   }).isRequired
 }
 

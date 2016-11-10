@@ -324,3 +324,8 @@ workgroup_link_to_contents_title,Inhalte dieser Arbeitsgruppe anzeigen,View cont
 workgroup_members_table_is_member,Mitglied?,Member?,
 workgroup_members_table_login,Login,Login,
 workgroup_members_table_title,Mitglieder,Members,
+vocabularies_all,Alle Vokabulare,All Vocabularies,
+vocabularies_tabs_vocabulary,Vokabular,Vocabulary,
+vocabularies_tabs_keywords,Schlagwörter,Keywords,
+vocabularies_keywords_hint_1,Alle im Vokabular ,Alle im Vokabular ,
+vocabularies_keywords_hint_2, enthaltenen MetaKeys vom Typ Keyword mit den enthaltenen Schlagwörtern., enthaltenen MetaKeys vom Typ Keyword mit den enthaltenen Schlagwörtern.,
