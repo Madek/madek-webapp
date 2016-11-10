@@ -44,7 +44,7 @@ UIDropdown = React.createClass
 
     id = props.id || "#{this.props.toggle}_menu"
 
-    <Dropdown id={id} className={ui.cx(props.mods, 'ui-dropdown dropdown')}>
+    <Dropdown id={id} className={ui.cx(props.mods, 'ui-dropdown dropdown')} data-test-id={@props.testId}>
 
       {if !state.isClient then @fallbackStyles()}
 

@@ -87,6 +87,13 @@ Madek::Application.routes.draw do
       patch 'add_remove_collection', to: 'collections#add_remove_collection'
 
       get 'batch_edit_permissions', controller: :batch, action: :batch_edit_collection_permissions, as: 'batch_edit_collection_permissions'
+
+    end
+
+    collection do
+      get 'batch_meta_data_edit', action: :batch_edit_meta_data, as: 'batch_edit_meta_data'
+      get 'batch_edit_context_meta_data(/:context_id)', action: :batch_edit_context_meta_data, as: 'batch_edit_context_meta_data'
+      put 'batch_meta_data', action: :batch_meta_data_update
     end
   end
   resources :filter_sets, only: [:index, :show, :create] do

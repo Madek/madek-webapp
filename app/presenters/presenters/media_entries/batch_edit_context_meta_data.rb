@@ -6,11 +6,22 @@ module Presenters
 
       attr_reader :context_id, :return_to
 
-      def initialize(media_entries, user, context_id: nil, return_to:)
+      def initialize(
+        resource_type,
+        media_entries,
+        user,
+        context_id: nil,
+        return_to:)
+
+        @resource_type = resource_type
         @entries = media_entries
         @user = user
         @context_id = context_id
         @return_to = return_to
+      end
+
+      def resource_type
+        @resource_type.name.underscore
       end
 
       def resources
@@ -47,7 +58,8 @@ module Presenters
       end
 
       def submit_url
-        batch_meta_data_media_entries_path
+        self.send('batch_meta_data_' +
+          @resource_type.name.pluralize.underscore + '_path')
       end
 
       private

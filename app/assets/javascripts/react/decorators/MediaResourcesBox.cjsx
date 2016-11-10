@@ -5,6 +5,7 @@ ui = require('../lib/ui.coffee')
 {parseMods, cx} = ui
 t = ui.t('de')
 setUrlParams = require('../../lib/set-params-for-url.coffee')
+Selection = require('../../lib/selection.coffee')
 resourceListParams = require('../../shared/resource_list_params.coffee')
 
 Waypoint = require('react-waypoint')
@@ -35,6 +36,7 @@ LoadXhr = require('../../lib/load-xhr.coffee')
 Preloader = require('../ui-components/Preloader.cjsx')
 
 SortDropdown = require('./resourcesbox/SortDropdown.cjsx')
+ActionsDropdown = require('./resourcesbox/ActionsDropdown.cjsx')
 
 
 
@@ -193,17 +195,10 @@ module.exports = React.createClass
     @doOnUnmount.push(unlistenFn)
     router.start() unless @props.router
 
-    # selection status is managed in ampersand-collection
-    if @props.get.type is 'MediaResources'
-      selection = new CollectionChildren()
-    else if @props.get.type is 'MediaEntries'
-      selection = new MediaEntries()
 
-    if selection
-      # set up auto-update for it:
-      f.each ['add', 'remove', 'reset', 'change'], (eventName)=>
-        selection.on(eventName, ()=> @forceUpdate() if @isMounted())
-      @doOnUnmount.push(selection.off)
+    selection = Selection.createEmpty(() =>
+      @setState(selectedResources: selection) if @isMounted()
+    )
 
     if @state.resources
       @fetchNextPage = f.throttle(((c)=> @state.resources.fetchNext(c)), 1000)
@@ -268,48 +263,43 @@ module.exports = React.createClass
 
   _onSelectResource: (resource, event)-> # toggles selection item
     event.preventDefault()
-    selection = @state.selectedResources
-    if selection.has(resource)
-      selection.remove(resource)
-    else
-      selection.add(resource)
+    @state.selectedResources.toggle(resource.serialize())
+
 
   _onSelectionAllToggle: (event)-> # toggles selection
     event.preventDefault()
-    selection = @state.selectedResources
-    if selection.isEmpty()
-      selection.set(@state.resources.models)
-    else
-      selection.reset()
+    @state.selectedResources.toggleAll(@state.resources.serialize().resources)
 
-  _onHiglightEditable: (bool, event)->
-    if(!@state.selectedResources || @state.selectedResources.isEmpty()) then return
-    @setState(higlightBatchEditable: bool)
-
-  _onHiglightPermissionsEditable: (bool, event)->
-    if(!@state.selectedResources || @state.selectedResources.isEmpty()) then return
-    @setState(higlightBatchPermissionsEditable: bool)
+  _onHoverMenu: (menu_id, event) ->
+    @setState(hoverMenuId: menu_id)
 
   _currentUrl: () ->
     setUrlParams(@props.get.config.for_url)
 
-  _onBatchEdit: (event)->
+
+  _sharedOnBatch: (resources, event, path) ->
     event.preventDefault()
-    selected = f.map(@state.selectedResources.getBatchEditableItems(), 'uuid')
-    batchEditUrl = setUrlParams('/entries/batch_edit_context_meta_data', {id: selected, return_to: @_currentUrl()})
+    selected = f.map(resources, 'uuid')
+    batchEditUrl = setUrlParams(path, {id: selected, return_to: @_currentUrl()})
     window.location = batchEditUrl # SYNC!
 
-  _onBatchPermissionsEdit: (event)->
-    event.preventDefault()
-    selected = f.map(@state.selectedResources.getBatchPermissionEditableItems(), 'uuid')
-    batchEditUrl = setUrlParams('/entries/batch_edit_permissions', {id: selected, return_to: @_currentUrl()})
-    window.location = batchEditUrl # SYNC!
+  _onBatchEdit: (resources, event) ->
+    @_sharedOnBatch(resources, event, '/entries/batch_edit_context_meta_data')
+
+  _onBatchEditSets: (resources, event) ->
+    @_sharedOnBatch(resources, event, '/sets/batch_edit_context_meta_data')
+
+  _onBatchPermissionsEdit: (resources, event) ->
+    @_sharedOnBatch(resources, event, '/entries/batch_edit_permissions')
+
+  _onBatchPermissionsSetsEdit: (resources, event) ->
+    @_sharedOnBatch(resources, event, '/sets/batch_edit_permissions')
 
   _batchAddToSetIds: () ->
-    @state.selectedResources.map (model) ->
+    @state.selectedResources.selection.map (model) ->
       {
         uuid: model.uuid
-        type: model.getType()
+        type: model.type
       }
 
   _onBatchAddToSet: (event)->
@@ -318,10 +308,10 @@ module.exports = React.createClass
     return false
 
   _batchRemoveFromSetIds: () ->
-    @state.selectedResources.map (model) ->
+    @state.selectedResources.selection.map (model) ->
       {
         uuid: model.uuid
-        type: model.getType()
+        type: model.type
       }
 
   _onBatchRemoveFromSet: (event)->
@@ -457,7 +447,7 @@ module.exports = React.createClass
           @setState(modelReloading: true)
           @props.loadChildMediaResources(itemKey, (child_media_resources) =>
             resources = @_createResourcesModel(child_media_resources, @props.withBox)
-            @state.selectedResources.reset()
+            @state.selectedResources.clear()
             @setState(resources: resources, modelReloading: false)
           )
 
@@ -537,102 +527,28 @@ module.exports = React.createClass
       # NOTE: don't show the bar if not in a box!
       return false if !withBox
 
-      isClient = @state.isClient
       selection = f.presence(@state.selectedResources) or false
-      batchEditables = selection.getBatchEditableItems() if selection
-      batchPermissionEditables = selection.getBatchPermissionEditableItems() if selection
-      filterToggleLink = setUrlParams(config.for_url, currentQuery,
-        list: show_filter: (not config.show_filter))
 
-      # batch actions. presence of action key shows it in menu,
-      #                presence of 'click' function means it is enabled.
-      actions = if withActions
-        addToSet: if selection && (get.type is 'MediaEntries' || get.type is 'MediaResources')
-          click: (if !selection.isEmpty() then @_onBatchAddToSet)
+      actionsDropdown = ActionsDropdown.createActionsDropdown(
+        withActions, selection, saveable, @props.disablePermissionsEdit,
+        @state.isClient, @props.collectionData, config,
+        {
+          onBatchAddToSet: @_onBatchAddToSet
+          onBatchRemoveFromSet: @_onBatchRemoveFromSet
+          onBatchEdit: @_onBatchEdit
+          onBatchEditSets: @_onBatchEditSets
+          onBatchPermissionsEdit: @_onBatchPermissionsEdit
+          onBatchPermissionsSetsEdit: @_onBatchPermissionsSetsEdit
+          onCreateFilterSet: @_onCreateFilterSet
+          onHoverMenu: @_onHoverMenu
+        })
 
-        edit: if selection && (get.type is 'MediaEntries' || get.type is 'MediaResources')
-          click: (if f.present(batchEditables) then @_onBatchEdit)
-          hover: f.curry(@_onHiglightEditable)(true)
-          unhover: f.curry(@_onHiglightEditable)(false)
-
-        managePermissions: if !@props.disablePermissionsEdit && selection && (get.type is 'MediaEntries' || get.type is 'MediaResources')
-          click: (if f.present(batchPermissionEditables) then @_onBatchPermissionsEdit)
-          hover: f.curry(@_onHiglightPermissionsEditable)(true)
-          unhover: f.curry(@_onHiglightPermissionsEditable)(false)
-
-        save: if isClient and saveable
-          click: (if f.present(config.filter) then f.curry(@_onCreateFilterSet)(config))
-
-        removeFromSet: if selection && f.present(@props.collectionData) && (get.type is 'MediaEntries' || get.type is 'MediaResources')
-          click: (if !selection.isEmpty() then @_onBatchRemoveFromSet)
-
-        # TODO: batch delete
-        # delete: ->
-        #   click: alert('not implemented!')
-
-      actionsDropdown = if f.any(f.values(actions))
-        <Dropdown mods='stick-right mlm'
-          toggle={'Aktionen'} toggleProps={{className: 'button'}}>
-
-          <Dropdown.Menu className='ui-drop-menu'>
-
-            {if actions.addToSet
-              <MenuItem onClick={actions.addToSet.click}>
-                <Icon i="move" mods="ui-drop-icon"
-                /> <span className="ui-count">
-                  {selection.length}
-                </span> {t('resources_box_batch_actions_addtoset')}
-              </MenuItem>}
-
-            {if actions.removeFromSet
-              <MenuItem onClick={actions.removeFromSet.click}>
-                <Icon i="close" mods="ui-drop-icon"
-                /> <span className="ui-count">
-                  {selection.length}
-                </span> {t('resources_box_batch_actions_removefromset')}
-              </MenuItem>
-            }
-
-            {if actions.edit
-              <MenuItem
-                onClick={actions.edit.click} onMouseEnter={actions.edit.hover} onMouseLeave={actions.edit.unhover}>
-                <Icon i="pen" mods="ui-drop-icon"
-                /> <span className="ui-count">
-                  {batchEditables.length}
-                </span> {t('resources_box_batch_actions_edit')}
-              </MenuItem>}
-
-            {if actions.managePermissions
-              <MenuItem onClick={actions.managePermissions.click}>
-                <Icon i="lock" mods="ui-drop-icon"
-                /> <span className="ui-count">
-                  {batchEditables.length}
-                </span> {t('resources_box_batch_actions_managepermissions')}
-              </MenuItem>}
-
-            {if actions.delete
-              <MenuItem className="separator"/>}
-            {if actions.delete
-              <MenuItem onClick={actions.delete.click}>
-                <Icon i="trash" mods="ui-drop-icon"
-                  /> {t('resources_box_batch_actions_delete')}
-              </MenuItem>}
-
-            {if actions.save
-              <MenuItem className="separator"/>}
-            {if actions.save
-              <MenuItem onClick={actions.save.click}>
-                <Icon i="filter" mods="ui-drop-icon"/> {t('resources_box_batch_actions_save')}
-              </MenuItem>}
-
-          </Dropdown.Menu>
-        </Dropdown>
 
       selectToggle = if selection && withActions
         selector =
           active: 'Alle abwählen',
           inactive: 'Alle auswählen'
-          isActive: selection && !(selection.isEmpty())
+          isActive: selection && !(selection.empty())
           isDirty: selection && resources && !(selection.length == resources.length)
           onClick: (if selection then @_onSelectionAllToggle)
 
@@ -648,6 +564,9 @@ module.exports = React.createClass
           </span>
         </label>
 
+
+      filterToggleLink = setUrlParams(config.for_url, currentQuery,
+        list: show_filter: (not config.show_filter))
 
       filterBarProps =
         left: if get.can_filter then do =>
@@ -783,15 +702,16 @@ module.exports = React.createClass
                             selection = @state.selectedResources
                             # selection defined means selection is enabled
                             if @state.isClient && selection
-                              isSelected = @state.selectedResources.has(item)
+                              isSelected = @state.selectedResources.contains(item.serialize())
                               onSelect = f.curry(@_onSelectResource)(item)
                               # if in selection mode, intercept clicks as 'select toggle'
                               onClick = if config.layout == 'miniature'
-                                (if !selection.isEmpty() then onSelect)
+                                (if !selection.empty() then onSelect)
                               # when hightlighting editables, we just dim everything else:
-                              style = if @state.higlightBatchEditable and (!item.isBatchEditable) \
-                                or @state.higlightPermissionsBatchEditable and (!item.isBatchPermissionsEditable)
-                                  {opacity: 0.35}
+
+                              style = if ActionsDropdown.isResourceNotInScope(item, isSelected, @state.hoverMenuId)
+                                {opacity: 0.35}
+
 
                           listMetadata = null
                           if @state.isClient && config.layout == 'list'

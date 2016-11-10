@@ -103,7 +103,9 @@ def select_all_in_box_and_start_batch_edit
     within('.ui-filterbar') do
       find('.ui-filterbar-select').find('.icon-checkbox').click
       find('.dropdown-toggle, .ui-drop-toggle', text: 'Aktionen').click
-      find('.dropdown-menu a', text: 'Berechtigungen editieren').click
+      find(
+        '.dropdown-menu a',
+        text: 'Berechtigungen von Medieneinträgen editieren').click
     end
   end
 end
