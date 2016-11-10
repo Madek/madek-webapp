@@ -12,7 +12,7 @@ module.exports = React.createClass
   displayName: 'BatchResourceMetaDataForm'
 
   render: ({get, authToken} = @props) ->
-    name = 'media_entry[meta_data]'
+    name = get.resource_type + '[meta_data]'
     vocabularies = get.batch_entries[0].meta_data.by_vocabulary
 
     <RailsForm name='batch_resource_meta_data' action={get.submit_url}

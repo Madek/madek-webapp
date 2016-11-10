@@ -21,6 +21,15 @@ module Presenters
           end
         end
 
+        def title
+          @app_resource.title
+        end
+
+        def url
+          path_variable = @app_resource.class.name.underscore + '_path'
+          path = self.send(path_variable, @app_resource)
+          prepend_url_context path
+        end
       end
     end
   end
