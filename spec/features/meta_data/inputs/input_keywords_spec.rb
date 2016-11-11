@@ -2,6 +2,9 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
+require_relative './_shared'
+include MetaDatumInputsHelper
+
 feature 'Resource: MetaDatum' do
   background do
     @user = User.find_by(login: 'normin')
@@ -77,10 +80,7 @@ feature 'Resource: MetaDatum' do
   def create_meta_key_keywords(attrs = {})
     meta_key = FactoryGirl.create(:meta_key_keywords, **attrs)
     context_key = FactoryGirl.create(:context_key, meta_key: meta_key, label: nil)
-    AppSettings.first.update_attributes!(
-      contexts_for_entry_edit: [context_key.context_id],
-      context_for_entry_summary: context_key.context_id)
-
+    configure_as_only_input(context_key)
     meta_key
   end
 

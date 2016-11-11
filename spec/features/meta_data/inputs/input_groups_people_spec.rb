@@ -2,6 +2,9 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
+require_relative './_shared'
+include MetaDatumInputsHelper
+
 feature 'Resource: MetaDatum' do
   background do
     @user = User.find_by(login: 'normin')
@@ -16,9 +19,7 @@ feature 'Resource: MetaDatum' do
       @vocabulary = FactoryGirl.create(:vocabulary)
       @meta_key = FactoryGirl.create(:meta_key_people)
       @context_key = FactoryGirl.create(:context_key, meta_key: @meta_key)
-      AppSettings.first.update_attributes!(
-        contexts_for_entry_edit: [@context_key.context_id],
-        context_for_entry_summary: @context_key.context_id)
+      configure_as_only_input(@context_key)
       FactoryGirl.create(
         :meta_datum_people,
         meta_key: @meta_key,
@@ -26,56 +27,29 @@ feature 'Resource: MetaDatum' do
     end
 
     example 'add new Person' do
-      visit edit_context_meta_data_media_entry_path(@media_entry)
-
-      within('form') do
-        within('.ui-form-group', text: @context_key.label) do
-          add_new_person_to_field
-        end
-        submit_form
+      edit_in_meta_data_form_and_save(@context_key) do
+        add_new_person_to_field
       end
 
-      wait_until { current_path == media_entry_path(@media_entry) }
-      within('.ui-media-overview-metadata') do
-        expect(find('.media-data-title', text: @context_key.label)).to be
-        expect(find('.media-data-content', text: 'Street Artist (Banksy)')).to be
-      end
+      expect_meta_datum_on_detail_view('Street Artist (Banksy)', key: @context_key)
     end
 
     example 'add new PeopleGroup' do
-      visit edit_context_meta_data_media_entry_path(@media_entry)
-
-      within('form') do
-        within('.ui-form-group', text: @context_key.label) do
-          add_new_peoplegroup_to_field
-        end
-        submit_form
+      edit_in_meta_data_form_and_save(@context_key) do
+        add_new_peoplegroup_to_field
       end
 
-      wait_until { current_path == media_entry_path(@media_entry) }
-      within('.ui-media-overview-metadata') do
-        expect(find('.media-data-title', text: @context_key.label)).to be
-        expect(find('.media-data-content', text: 'Saalschutz')).to be
-      end
+      expect_meta_datum_on_detail_view('Saalschutz', key: @context_key)
     end
 
     example 'add new Person and PeopleGroup' do
-      visit edit_context_meta_data_media_entry_path(@media_entry)
-
-      within('form') do
-        within('.ui-form-group', text: @context_key.label) do
-          add_new_person_to_field
-          add_new_peoplegroup_to_field
-        end
-        submit_form
+      edit_in_meta_data_form_and_save(@context_key) do
+        add_new_person_to_field
+        add_new_peoplegroup_to_field
       end
 
-      wait_until { current_path == media_entry_path(@media_entry) }
-      within('.ui-media-overview-metadata') do
-        expect(find('.media-data-title', text: @context_key.label)).to be
-        expect(find('.media-data-content', text: 'Street Artist (Banksy)')).to be
-        expect(find('.media-data-content', text: 'Saalschutz')).to be
-      end
+      expect_meta_datum_on_detail_view('Street Artist (Banksy)', key: @context_key)
+      expect_meta_datum_on_detail_view('Saalschutz', key: @context_key)
     end
 
     example 'add PeopleInstitutionalGroup' do
@@ -84,27 +58,19 @@ feature 'Resource: MetaDatum' do
 
       @meta_key = FactoryGirl.create(:meta_key_people_instgroup)
       @context_key = FactoryGirl.create(:context_key, meta_key: @meta_key)
-      AppSettings.first.update_attributes!(
-        contexts_for_entry_edit: [@context_key.context_id],
-        context_for_entry_summary: @context_key.context_id)
+      configure_as_only_input(@context_key)
+
       FactoryGirl.create(
         :meta_datum_people,
         meta_key: @meta_key, media_entry: @media_entry)
 
-      visit edit_context_meta_data_media_entry_path(@media_entry)
-
-      within('form') do
-        form_group = find('.ui-form-group', text: @context_key.label)
-        autocomplete_and_choose_first(form_group, group_label)
+      edit_in_meta_data_form_and_save(@context_key) do
+        autocomplete_and_choose_first(page, group_label)
         group_tag = find('.multi-select-tag', text: group_label)
         expect(group_tag.text).to eq(group_label)
-        submit_form
       end
 
-      wait_until { current_path == media_entry_path(@media_entry) }
-      within('.ui-media-overview-metadata') do
-        expect(find('.media-data-content', text: group_label)).to be
-      end
+      expect_meta_datum_on_detail_view(group_label, key: @context_key)
     end
 
   end

@@ -2,6 +2,9 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
+require_relative './_shared'
+include MetaDatumInputsHelper
+
 feature 'Resource: MetaDatum' do
   background do
     @user = User.find_by(login: 'normin')
@@ -24,9 +27,7 @@ feature 'Resource: MetaDatum' do
       @vocabulary = FactoryGirl.create(:vocabulary)
       @meta_key = FactoryGirl.create(:meta_key_text_date)
       @context_key = FactoryGirl.create(:context_key, meta_key: @meta_key)
-      AppSettings.first.update_attributes!(
-        contexts_for_entry_edit: [@context_key.context_id],
-        context_for_entry_summary: @context_key.context_id)
+      configure_as_only_input(@context_key)
     end
 
     example 'add new date text ("Freie Eingabe")' do
@@ -228,14 +229,6 @@ def given_an_exisiting_meta_datum_text_date(string)
     string: string)
 end
 
-def edit_in_meta_data_form_and_save(context_key = @context_key, &_block)
-  visit edit_context_meta_data_media_entry_path(@media_entry)
-  within('form[name="resource_meta_data"]') do
-    within(form_group(context_key)) { yield }
-    submit_form
-  end
-end
-
 def expect_type_switcher_has_options(types, context_key = @context_key)
   expect(page).to have_select(
     type_switcher_id(context_key),
@@ -274,18 +267,4 @@ end
 
 def expect_calendar_selected_day(day)
   expect(find_exact_text('.DayPicker-Day--selected', text: day)).to be
-end
-
-def form_group(context_key = @context_key)
-  find('.ui-form-group', text: context_key.label)
-end
-
-def expect_meta_datum_on_detail_view(string, shown: true, key: @context_key)
-  wait_until { current_path == media_entry_path(@media_entry) }
-  within('.ui-media-overview-metadata') do
-    expect(page.has_css?('.media-data-title', text: key.label))
-      .to be shown
-    expect(page.has_css?('.media-data-content', text: string))
-      .to be shown
-  end
 end
