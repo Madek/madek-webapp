@@ -248,7 +248,7 @@ def expect_type_switcher_set_to(option, context_key = @context_key)
 end
 
 def type_switcher_id(context_key)
-  "#{context_key.id}.select-input-type"
+  "#{context_key.meta_key.id}.select-input-type"
 end
 
 def in_the_calendar_picker

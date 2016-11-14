@@ -35,24 +35,43 @@ feature 'Resource: MetaDatum' do
       expect_meta_datum_on_detail_view(TEST_STRING_LINE_OUT)
     end
 
+    example 'whitespace trimming' do
+      pending 'needs implementation of the trimming first'      
+    end
+
     example 'add new text (block/textarea)' do
-
-      pending 'not implemented/broken'
-
       # NOTE: this also tests the whitespace trimming:
-      TEST_STRING_BLOCK_IN = "  Hello World\nWelcome to the World of tomorrow! \n "
-                                .freeze
-      TEST_STRING_BLOCK_OUT = "Hello World\nWelcome to the World of tomorrow!"
-                                .freeze
+      TEST_STRING_BLOCK_IN =
+        "  Hello World\nWelcome to the World of tomorrow! \n ".freeze
+      TEST_STRING_BLOCK_SAVED =
+        "  Hello World\r\nWelcome to the World of tomorrow! \r\n ".freeze
+      TEST_STRING_BLOCK_OUT =
+        "  Hello World\n<br>\nWelcome to the World of tomorrow! \n<br>\n ".freeze
 
       @context_key.update_attributes!(text_element: :textarea)
+      @context_key.reload
       edit_in_meta_data_form_and_save do
         expect(input = find('textarea')).to be
         expect(input.value).to eq ''
         input.set(TEST_STRING_BLOCK_IN)
       end
 
-      expect_meta_datum_on_detail_view(TEST_STRING_BLOCK_OUT)
+      # Check that the rendered HTML contains line breaks.
+      expect(
+        find('.ui-media-overview-metadata').find('.media-data-content')
+          .find('li')[:innerHTML]
+      ). to eq(
+        TEST_STRING_BLOCK_OUT
+      )
+
+      # Check that the saved value has the right format.
+      expect(
+        @media_entry.meta_data.find_by(
+          meta_key_id: @context_key.meta_key_id).string
+      ).to eq(
+        TEST_STRING_BLOCK_SAVED
+      )
+
     end
 
   end
