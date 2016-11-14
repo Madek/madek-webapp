@@ -26,7 +26,9 @@ module Concerns
       array
         .tap do |vals|
           if vals.all?(&:blank?) \
-            or vals.all? { |v| v.match Madek::Constants::WHITESPACE_REGEXP }
+            or vals.all? do |v|
+              v.match Madek::Constants::VALUE_WITH_ONLY_WHITESPACE_REGEXP
+            end
             raise ActionController::ParameterMissing, 'All values are blank!'
           end
         end
