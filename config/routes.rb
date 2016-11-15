@@ -179,6 +179,8 @@ Madek::Application.routes.draw do
 
   post '/zencoder_jobs/:id/notification' => 'zencoder_jobs#notification', as: :zencoder_job_notification
 
+  get '/oembed', controller: 'oembed', action: 'show'
+
   # STYLEGUIDE #################################################################
   get '/styleguide', to: 'styleguide#index', as: 'styleguide'
   get '/styleguide/:section', to: 'styleguide#show', as: 'styleguide_section'

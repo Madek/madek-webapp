@@ -15,7 +15,8 @@ contexts:
             body: |
               set -eux
               export PATH=~/.rubies/$RUBY/bin:$PATH
-              bundle exec cider-ci_flog -m app/
+              bundle exec cider-ci_flog -m app/ \
+              -e app/controllers/oembed_controller.rb
 
       code-similarity:
         name: "Ruby: Code similarity with flay"
