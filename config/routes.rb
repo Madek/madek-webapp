@@ -37,6 +37,8 @@ Madek::Application.routes.draw do
       get 'relations'
 
       get 'export'
+
+      get 'embedded'
     end
 
     # TMP

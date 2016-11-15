@@ -31,7 +31,7 @@
     -# optional extra tags for head:
     = content_for(:head)
 
-  %body
+  %body{data: {r: controller_name, a: action_name}}
     = content_for(:body)
     - if use_js
       -# js: app lib/dependencies. can't use async/defer (would require sep. DOM ops)

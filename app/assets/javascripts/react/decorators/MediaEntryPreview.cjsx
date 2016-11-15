@@ -47,6 +47,11 @@ module.exports = React.createClass({
     if @props.get.media_file && @props.get.media_file.original_file_url
       originalUrl = @props.get.media_file.original_file_url
 
+    mediaPlayerConfig = {
+      className: classes
+      poster: image_url,
+      originalUrl: originalUrl,
+    }
 
     get = @props.get
     not_ready = (get.media_type == 'video' || get.media_type == 'audio') && get.media_file &&
@@ -90,16 +95,18 @@ module.exports = React.createClass({
 
             # video player
             when previews.videos
-              <MediaPlayer type='video' className={classes}
-                sources={previews.videos} poster={image_url}
-                originalUrl={originalUrl} />
+              <MediaPlayer type='video'
+                {...mediaPlayerConfig}
+                sources={previews.videos}
+              />
 
             # audio player
             when previews.audios
               <div className='ui-container mvm'>
-                <MediaPlayer type='audio' className={classes}
-                  sources={previews.audios} poster={image_url}
-                  originalUrl={originalUrl} />
+                <MediaPlayer type='audio'
+                  {...mediaPlayerConfig}
+                  sources={previews.audios}
+                />
               </div>
 
             # picture with link and 'zoom' icon on hover

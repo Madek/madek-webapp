@@ -1,0 +1,129 @@
+/*
+  Player Skin Designer for Video.js
+  http://videojs.com
+
+  see https://codepen.io/eins78/pen/MbjPmO
+*/
+
+@import '../../../node_modules/video.js/dist/video-js';
+
+.no-js .video-js .vjs-big-play-button { display: none }
+
+$brand-color: $main-color;
+$contrast-ratio: 12%; // for darker darks
+$brand-color: lighten($brand-color, 8%); // lighter lights
+$controls-opacity: 0.67;
+
+// The color of icons, text, and the big play button border.
+$primary-foreground-color: #f1f1f1; // #fff default
+
+// can still be seen on all-black video frames, which are common.
+$primary-background-color: darken(#666666, $contrast-ratio);  // #2B333F default
+
+.video-js {
+  /* The base font size controls the size of everything, not just text.
+     All dimensions use em-based sizes so that the scale along with the font size.
+     Try increasing it to 15px and see what happens. */
+  font-size: 11px;
+
+  /* The main font color changes the ICON COLORS as well as the text */
+  color: $primary-foreground-color;
+
+  font-family: "Open Sans", sans-serif;
+}
+
+// sizing
+$control-bar-height:  3em;
+.video-js .vjs-control-bar {
+  height: $control-bar-height;
+}
+
+.vjs-default-skin .vjs-big-play-button {
+  font-size: 6em;
+
+  //  circular button
+  $big-play-width: 1.67em;
+  $big-play-height: $big-play-width;
+  border-radius: $big-play-width;
+
+
+  line-height: $big-play-height;
+  height: $big-play-height;
+  width: $big-play-width;
+
+  // same width as slider lines:
+  border: 0.05em solid $primary-foreground-color;
+  background-color: transparentize($primary-foreground-color, 0.67);
+
+  color:  $brand-color;
+  border-color: $brand-color;
+
+  /* Align center */
+  left: 50%;
+  top: 50%;
+  margin-left: -($big-play-width / 2);
+  // margin-top: -($big-play-width / 2);
+  margin-top: -1em;
+}
+
+.vjs-default-skin:hover .vjs-big-play-button {
+  // // green on black
+  // color:  $primary-foreground-color;
+  // border-color:  $primary-foreground-color;
+  // background: transparent;
+
+  // like primary btn
+  color:  white;
+  border-color: $brand-color;
+  background-color: $brand-color;
+  background-image: (linear-gradient(lighten($brand-color, 5%), darken($brand-color, 3%)));
+}
+
+/* The default color of control backgrounds is mostly black but with a little
+   bit of blue so it can still be seen on all-black video frames, which are common. */
+.video-js .vjs-control-bar,
+// .video-js .vjs-big-play-button,
+.video-js .vjs-menu-button .vjs-menu-content {
+  /* IE8 - has no alpha support */
+  background-color: $primary-background-color;
+  /* Opacity: 1.0 = 100%, 0.0 = 0% */
+  background-color: rgba($primary-background-color, $controls-opacity);
+  background-image:  linear-gradient(transparentize(darken(#666, $contrast-ratio), $controls-opacity), transparentize(darken(#4c4c4c, $contrast-ratio), $controls-opacity));
+}
+
+
+// Make a slightly lighter version of the main background
+// for the slider background.
+$slider-bg-color: lighten($primary-background-color, 33.34%);
+
+/* Slider - used for Volume bar and Progress bar */
+.video-js .vjs-slider {
+  background-color: $slider-bg-color;
+  background-color: rgba($slider-bg-color, 0.5);
+}
+
+/* The slider bar color is used for the progress bar and the volume bar
+   (the first two can be removed after a fix that's coming) */
+.video-js .vjs-volume-level,
+.video-js .vjs-play-progress,
+.video-js .vjs-slider-bar {
+  background: $primary-foreground-color;
+}
+
+/* The main progress bar also has a bar that shows how much has been loaded. */
+.video-js .vjs-load-progress {
+  /* For IE8 we'll lighten the color */
+  background: ligthen($slider-bg-color, 25%);
+  /* Otherwise we'll rely on stacked opacities */
+  background: rgba($slider-bg-color, 0.5);
+  // background: #83a92c;
+}
+
+/* The load progress bar also has internal divs that represent
+   smaller disconnected loaded time ranges */
+.video-js .vjs-load-progress div {
+  /* For IE8 we'll lighten the color */
+  background: ligthen($slider-bg-color, 50%);
+  /* Otherwise we'll rely on stacked opacities */
+  background: rgba($slider-bg-color, 0.75);
+}

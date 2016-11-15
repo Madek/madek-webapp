@@ -59,6 +59,7 @@
     "rusha": "0.8.3",
     "underscore.string": "^3.3.4",
     "uuid-validate": "0.0.2",
+    "video.js": "^5.12.6",
     "xhr": "^2.2.0"
   },
   "devDependencies": {

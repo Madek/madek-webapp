@@ -15,6 +15,8 @@ class MediaEntriesController < ApplicationController
   # used in Concerns::ResourceListParams
   ALLOWED_FILTER_PARAMS = [:search, :meta_data, :media_files, :permissions].freeze
 
+  layout false, only: [:embedded] # LOL Rails
+
   def show
     # TODO: handle in MediaResources::CrudActions
     media_entry = get_authorized_resource
@@ -34,6 +36,19 @@ class MediaEntriesController < ApplicationController
   # NOTE: modal "on top of" #show
   def export
     show
+  end
+
+  def embedded
+    # custom auth, only public entries supported!
+    skip_authorization
+    media_entry = MediaEntry.find(id_param)
+    raise Errors::ForbiddenError unless media_entry.get_metadata_and_previews
+
+    conf = params.permit(:maxwidth, :maxheight)
+    @get = Presenters::MediaEntries::MediaEntryEmbedded.new(media_entry, conf)
+
+    # allow this to be displaye inside an <iframe>
+    response.headers.delete('X-Frame-Options')
   end
 
   def destroy
