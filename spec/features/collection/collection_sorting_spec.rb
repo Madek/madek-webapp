@@ -294,7 +294,9 @@ end
 
 def update_timestamps_by_year(resource, year)
   resource.created_at = Date.new(year, 1, 1)
-  resource.updated_at = Date.new(year, 1, 1)
+  if resource.has_attribute? :updated_at
+    resource.updated_at = Date.new(year, 1, 1)
+  end
   resource.save
   resource.reload
   resource
