@@ -6,7 +6,7 @@ module Presenters
 
       def image_url
         size = :medium
-        img = @media_file.try(:previews)
+        img = self.media_file.try(:previews)
           .try(:fetch, :images, nil)
           .try(:fetch, size, nil)
         img.url if img.present?

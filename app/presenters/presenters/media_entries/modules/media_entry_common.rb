@@ -16,14 +16,10 @@ module Presenters
           else
             ::MediaEntry.find(app_resource.id)
           end
-
           @user = user
           @list_conf = list_conf
-          @media_file = \
-            if @app_resource.try(:media_file).present?
-              Presenters::MediaFiles::MediaFile.new(@app_resource, @user)
-            end
 
+          # FIXME: remove this, e.g use helper method directly in here
           @p_media_entry =
             Presenters::MediaEntries::PresMediaEntry.new(@app_resource)
 
@@ -51,8 +47,6 @@ module Presenters
 
         included do
 
-          attr_reader :media_file
-
           def title
             @p_media_entry.title
           end
@@ -67,6 +61,12 @@ module Presenters
 
           def url
             prepend_url_context media_entry_path(@app_resource)
+          end
+
+          def media_file
+            return unless @app_resource.try(:media_file).present?
+            @media_file ||= \
+              Presenters::MediaFiles::MediaFile.new(@app_resource, @user)
           end
 
         end
