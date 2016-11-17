@@ -9,7 +9,7 @@ class Presenter
     self_class_methods = self
       .class
       .ancestors
-      .select { |a| a.to_s.match(/^Presenters/) }
+      .take_while { |a| a.name.match(/^Presenters/) if a.name }
       .map { |a| a.instance_methods(false) }
 
     presenter_api_methods = (self_singleton_methods + self_class_methods)
