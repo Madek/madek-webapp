@@ -20,7 +20,7 @@ module Presenters
           # used as immediate suggestions (without typing)
           if self.fixed_selection or !meta_key.is_extensible_list
             define_singleton_method :keywords do
-              keywords.reorder(:term).limit(50).map do |kw|
+              keywords.limit(50).map do |kw|
                 Presenters::Keywords::KeywordIndex.new(kw)
               end
             end

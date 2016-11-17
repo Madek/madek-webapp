@@ -177,8 +177,10 @@ feature 'Side Filter' do
       @meta_key_keywords = MetaKey.find_by(id: 'madek_core:keywords')
       @meta_key_authors = MetaKey.find_by(id: 'madek_core:authors')
 
-      @keyword_0 = @meta_key_keywords.keywords[0]
-      @keyword_1 = @meta_key_keywords.keywords[1]
+      @keyword_0 = @meta_key_keywords.keywords.find_by_term('Durchgang')
+      expect(@keyword_0).to be
+      @keyword_1 = @meta_key_keywords.keywords.find_by_term('Kontrast vorne')
+      expect(@keyword_1).to be
 
       @meta_key_title = MetaKey.find_by(id: 'madek_core:title')
 
