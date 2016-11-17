@@ -1,0 +1,20 @@
+:ruby
+  # only for videos
+  return unless @get.media_type == 'video'
+
+  # NOTE: according to the spec, relative links would be enough,
+  # but the wordpress clients nly understand absolute URLs (incl. scheme and host)
+  full_url = URI.parse(request.base_url)
+    .merge(oembed_path(url: @get.url))
+    .tap {|u| u.scheme = 'https'}.to_s
+
+  props = {
+    rel: 'alternate',
+    type: 'application/json+oembed',
+    title: "#{@get.title} oEmbed Profile",
+    href: full_url
+  }
+
+-# inject into <head>!
+- content_for(:head) do
+  = tag('link', props)
