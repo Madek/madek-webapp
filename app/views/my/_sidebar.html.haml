@@ -6,7 +6,7 @@
 
     -# each section: make a menu entry and set it active it is.
     - sections.each do |section_id, section|
-      - link = my_dashboard_section_path(section_id)
+      - link = section[:href].presence || my_dashboard_section_path(section_id)
 
       %li.ui-side-navigation-item{class: link_active?(link) ? 'active' : nil}
 

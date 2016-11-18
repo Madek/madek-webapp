@@ -32,6 +32,7 @@ class MyController < ApplicationController
   # NOTE: conventions for sections:
   # - if it has resources: UserDashboardPresenter has a method with name of section
   # - `partial: :foobar` → `section_partial_foobar.haml`, used for index and show
+  # - no `partial` but `href` renders an entry in the sidebar only
 
   SECTIONS = {
     unpublished_entries: {
@@ -106,7 +107,13 @@ class MyController < ApplicationController
       title: I18n.t(:sitemap_my_groups),
       icon: 'icon-privacy-group',
       partial: :groups
+    },
+    vocabularies: {
+      title: I18n.t(:sitemap_vocabularies),
+      icon: 'icon-privacy-group',
+      href: '/vocabulary' # NOTE: no path helper, this route is fixed
     }
+
   }
 
   before_action do
