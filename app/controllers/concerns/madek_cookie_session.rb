@@ -7,7 +7,7 @@ module Concerns
 
     def set_madek_session(user, remember = false)
       cookies[COOKIE_NAME] = {
-        expires: remember ? 20.years.from_now : nil,
+        expires: remember ? 2.weeks.from_now : nil,
         value: build_session_value(user)
       }
       user.update_attributes! last_signed_in_at: Time.zone.now

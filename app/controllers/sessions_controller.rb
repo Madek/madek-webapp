@@ -45,7 +45,7 @@ class SessionsController < ActionController::Base
     @person = shib_sign_in_person
     @person.update_attributes! last_name: @last_name, first_name: @first_name
     @user.update_attributes! person: @person, email: @email
-    set_madek_session @user, false
+    set_madek_session @user, true
     redirect_to my_dashboard_path, success: 'Sie haben sich angemeldet.'
   end
 
