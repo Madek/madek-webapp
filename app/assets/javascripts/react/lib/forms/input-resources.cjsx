@@ -213,12 +213,12 @@ NewPersonWidget = React.createClass
 
     paneClass = 'ui-container pam bordered rounded-right rounded-bottom'
     <div onKeyPress={@_onKeyPress}>
-      <Tooltipped text={t('meta_data_input_new_person_toggle')} id={"#{id}_new_person_toggle"}>
-        <a title={t('meta_data_input_new_person_toggle')} className='button small form-widget-toggle'
-          onClick={@_toggleOpen}>
-          <Icon i='privacy-private' mods='small'/>
-        </a>
-      </Tooltipped>
+      <a className='button small form-widget-toggle'
+        onClick={@_toggleOpen}>
+        <Icon i='privacy-private' mods='small'/>
+        {# only show the text when widget is closed:}
+        {' ' + t('meta_data_input_new_person_toggle') unless @state.isOpen}
+      </a>
       {if @state.isOpen
         <Tab.Container id={id} className='form-widget'
           defaultActiveKey='Person' animation={false} onSelect={@_onTabChange}

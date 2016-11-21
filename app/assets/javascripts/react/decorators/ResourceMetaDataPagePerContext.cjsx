@@ -507,7 +507,7 @@ module.exports = React.createClass
       else
         title = t('media_entry_meta_data_header_prefix') + get.resource.title
 
-    editByVocabTitle = t('media_entry_meta_data_edit_by_vocab_btn')
+    editByVocabTxt = t('media_entry_meta_data_edit_by_vocab_btn')
     editByVocabUrl = unless @props.batch
       get.resource.url + '/meta_data/edit'
     else
@@ -551,8 +551,8 @@ module.exports = React.createClass
 
     <PageContent>
       <PageContentHeader icon='pen' title={title}>
-        <Button title={editByVocabTitle} href={editByVocabUrl}>
-          <Icon i={'arrow-down'}/>
+        <Button href={editByVocabUrl}>
+          <Icon i={'arrow-down'}/> {editByVocabTxt}
         </Button>
       </PageContentHeader>
 
