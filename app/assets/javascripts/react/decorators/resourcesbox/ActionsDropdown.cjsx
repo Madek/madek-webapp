@@ -18,6 +18,8 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
     removeFromSet: true if selection && f.present(collectionData)
   }
 
+  return unless f.any(f.values(showActions))
+
   createHoverActionItem = (onClick, hoverId, count, icon, textKey) ->
     <MenuItem onClick={onClick}
       onMouseEnter={f.curry(callbacks.onHoverMenu)(hoverId)} onMouseLeave={f.curry(callbacks.onHoverMenu)(null)}>

@@ -195,10 +195,10 @@ module.exports = React.createClass
     @doOnUnmount.push(unlistenFn)
     router.start() unless @props.router
 
-
-    selection = Selection.createEmpty(() =>
-      @setState(selectedResources: selection) if @isMounted()
-    )
+    if @props.get.type is 'MediaResources' or @props.get.type is 'MediaEntries'
+      selection = Selection.createEmpty(() =>
+        @setState(selectedResources: selection) if @isMounted()
+      )
 
     if @state.resources
       @fetchNextPage = f.throttle(((c)=> @state.resources.fetchNext(c)), 1000)
@@ -549,7 +549,7 @@ module.exports = React.createClass
           active: 'Alle abwählen',
           inactive: 'Alle auswählen'
           isActive: selection && !(selection.empty())
-          isDirty: selection && resources && !(selection.length == resources.length)
+          isDirty: selection && resources && !(selection.length() == resources.length)
           onClick: (if selection then @_onSelectionAllToggle)
 
         labelText = if selector.isActive then selector.active else selector.inactive
