@@ -11,3 +11,9 @@ use_x_sendfile: false
 zhdk_integration: false
 
 mini_profiler_enabled: true
+
+# this is only relevant for zhdk instances, it is defined here for local development"
+ui_bundle_context_keys:
+- { group: 'media_content:portrayed_object_location', prefix: 'media_content:portrayed_object_' }
+- { group: 'media_object:creator', prefix: 'media_object:creator_'}
+- { group: 'madek_core:copyright_notice', prefix: 'madek_core:copyright_'}

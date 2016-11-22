@@ -11,7 +11,8 @@ class FrontendAppConfig
     @app_config_memo ||= {
       relativeUrlRoot: \
         Rails.application.config.action_controller.relative_url_root,
-      assetsPath: Rails.application.config.assets.prefix
+      assetsPath: Rails.application.config.assets.prefix,
+      bundle_context_keys: Settings.ui_bundle_context_keys
     }
   end
 
