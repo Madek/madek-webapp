@@ -90,4 +90,5 @@ module.exports =
               {kw.label}
             </label>
           }
+          {@props.subForms}
         </div>

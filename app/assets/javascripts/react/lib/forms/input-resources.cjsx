@@ -159,6 +159,7 @@ module.exports = React.createClass
             <input type='hidden' key={value || "#{name}_#{fieldName}_empty"}
               name={fieldName} defaultValue={value} />]
       }
+      {@props.subForms}
     </div>
 
 

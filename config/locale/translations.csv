@@ -209,6 +209,7 @@ meta_data_input_keywords_existing,Schlagwort ist bereits vergeben!,Keyword alrea
 meta_data_meta_key_label,Schlüssel,Key,
 meta_data_type_label,Typ,Type,
 meta_data_value_label,Wert,Value,
+meta_data_edit_more_data,Weitere Angaben,More Data,
 no_content_fallback,Keine Inhalte vorhanden.,No content available.,
 no_groups_fallback,Keine Arbeitsgruppen vorhanden.,No groups available.,
 no_keywords_fallback,Keine Schlagworte vorhanden.,No keywords available.,

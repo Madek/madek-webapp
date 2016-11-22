@@ -27,4 +27,5 @@ module.exports = React.createClass
           <InputFieldText name={name}/>
         </div>
       }
+      {@props.subForms}
     </div>

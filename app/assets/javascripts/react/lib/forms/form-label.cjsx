@@ -6,7 +6,6 @@ Tooltipped = require('../../ui-components/Tooltipped.cjsx')
 module.exports = React.createClass
   displayName: 'MetaKeyFormLabel'
   propTypes:
-    name: React.PropTypes.string.isRequired
     metaKey: MadekPropTypes.metaKey
 
   render: ({metaKey, contextKey} = @props)->

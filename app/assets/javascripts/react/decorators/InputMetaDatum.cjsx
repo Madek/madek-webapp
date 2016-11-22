@@ -40,4 +40,5 @@ module.exports = React.createClass
       active={state.isClient}
       multiple={multiple}
       values={values}
-      contextKey={@props.contextKey} />
+      contextKey={@props.contextKey}
+      subForms={@props.subForms}/>

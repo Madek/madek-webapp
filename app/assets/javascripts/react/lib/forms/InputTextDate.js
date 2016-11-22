@@ -157,6 +157,7 @@ class InputTextDate extends Component {
           default: throw new Error('Invalid input type!')
         } })()}
       </div>
+      {this.props.subForms}
     </div>
   }
 }

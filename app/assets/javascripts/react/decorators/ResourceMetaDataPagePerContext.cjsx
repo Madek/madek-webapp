@@ -27,7 +27,10 @@ setUrlParams = require('../../lib/set-params-for-url.coffee')
 RailsForm = require('../lib/forms/rails-form.cjsx')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
-MetaDatumFormItem = require('./MetaDatumFormItemPerContext.cjsx')
+
+InputMetaDatum = require('./InputMetaDatum.cjsx')
+MetaKeyFormLabel = require('../lib/forms/form-label.cjsx')
+
 
 
 module.exports = React.createClass
@@ -47,6 +50,7 @@ module.exports = React.createClass
     errors: {}
     saving: false
     systemError: false
+    bundleState: {}
   }
 
   _actionUrl: () ->
@@ -137,19 +141,28 @@ module.exports = React.createClass
     )
     res
 
+  _validityForAll: () ->
+    mandatory_meta_key_ids = f.keys @props.get.meta_meta_data.mandatory_by_meta_key_id
+    @_validityForMandatoryMetaKeyIds(mandatory_meta_key_ids)
 
-  _validityForContext: (context_id) ->
+  _validityForMetaKeyIds: (meta_key_ids) ->
+    mandatory_meta_key_ids = f.keys(@props.get.meta_meta_data.mandatory_by_meta_key_id)
+    reduced_mandatories = f.filter(meta_key_ids, (meta_key_id) ->
+      f.include(mandatory_meta_key_ids, meta_key_id))
+    @_validityForMandatoryMetaKeyIds(reduced_mandatories)
+
+
+  _validityForMandatoryMetaKeyIds: (mandatory_meta_key_ids) ->
     hasMandatory = false
     hasInvalid = false
-    f.each @props.get.meta_meta_data.mandatory_by_meta_key_id, (mandatory) =>
+    f.each mandatory_meta_key_ids, (meta_key_id) =>
 
-      if context_id and (f.includes(@_meta_key_ids_by_context_id(context_id), mandatory.meta_key_id)) or not context_id
-        hasMandatory = true
-        model = @state.models[mandatory.meta_key_id]
-        # Note: The model can be unknown, because you can get more mandatory
-        # fields than keys (some are not visible for the user).
-        if model and not @_validModel(model)
-          hasInvalid = true
+      hasMandatory = true
+      model = @state.models[meta_key_id]
+      # Note: The model can be unknown, because you can get more mandatory
+      # fields than keys (some are not visible for the user).
+      if model and not @_validModel(model)
+        hasInvalid = true
 
     if not hasMandatory
       'not_mandatory'
@@ -157,6 +170,10 @@ module.exports = React.createClass
       'invalid'
     else
       'valid'
+
+  _validityForContext: (context_id) ->
+    meta_key_ids = @_meta_key_ids_by_context_id(context_id)
+    @_validityForMetaKeyIds(meta_key_ids)
 
   _changesPerContext: (context_id) ->
     hasChanges = false
@@ -203,8 +220,6 @@ module.exports = React.createClass
   _changesForAll: () ->
     @_changesPerContext(null)
 
-  _validityForAll: () ->
-    @_validityForContext(null)
 
   _onChangeForm: (meta_key_id, values) ->
     models = @state.models
@@ -268,6 +283,191 @@ module.exports = React.createClass
     @submit(event.target.value)
     return false
 
+
+  # NOTE: Temporary solution for "bundling" of keys. comes from instance config.
+  _prefixesForBundle: () -> APP_CONFIG.bundle_context_keys || []
+
+  _find_exact_in_bundle: (meta_key_id) ->
+    f.find @_prefixesForBundle(), (prefix) ->
+      meta_key_id == prefix.group
+
+
+  _diff_keys: (a, b) ->
+
+    contains_key = (arr, key_id) ->
+      f.find arr, (ai) ->
+        ai.uuid == key_id
+
+    f.reject a, (ai) ->
+      contains_key(b, ai.uuid)
+
+
+  _reject_followups: (keys_to_check, bundle_key) ->
+
+    first_not_matching = f.findIndex keys_to_check, (key) ->
+      not f.startsWith(key.meta_key_id, bundle_key.prefix)
+
+    return [] if first_not_matching < 0
+
+    f.slice keys_to_check, first_not_matching
+
+
+  _group_keys: ({keys_to_check, inter_result}) ->
+
+    console.log('_group_keys:   keys_to_check = ' + keys_to_check + '   inter_result = ' + inter_result)
+
+    if f.isEmpty(keys_to_check)
+      inter_result
+    else
+
+      bundle_key = @_find_exact_in_bundle(f.first(keys_to_check).meta_key_id)
+
+      rec_keys_to_check =
+        if bundle_key
+          @_reject_followups(f.slice(keys_to_check, 1), bundle_key)
+        else
+          f.slice(keys_to_check, 1)
+
+      rec_inter_result =
+        if bundle_key
+          {
+            type: 'block'
+            bundle: bundle_key.group
+            mainKey: f.first(@_diff_keys(keys_to_check, rec_keys_to_check))
+            content: f.slice(@_diff_keys(keys_to_check, rec_keys_to_check), 1)
+          }
+        else
+          {
+            type: 'single'
+            content: f.first(keys_to_check)
+          }
+
+
+      @_group_keys(
+        {
+          keys_to_check: rec_keys_to_check,
+          inter_result: inter_result.concat([rec_inter_result])
+        }
+      )
+
+  _context_keys: (context_id) ->
+    meta_meta_data = @props.get.meta_meta_data
+    f.map meta_meta_data.context_key_ids_by_context_id[context_id], (context_key_id) ->
+      meta_meta_data.context_key_by_context_key_id[context_key_id]
+
+
+  _toggleBundle: (bundleId) ->
+    current = @state.bundleState[bundleId]
+    next = not current
+    @setState(bundleState: f.set(@state.bundleState, bundleId, next))
+
+
+  _batchConflict: (meta_key_id) ->
+
+    batchConflict = @state.batchDiff[meta_key_id]
+    if batchConflict
+      not batchConflict.all_equal
+    else
+      false
+
+  _renderValue: (meta_key_id, hidden, onChange, datum, name, subForms, contextKey) ->
+
+    if @props.batch
+      name += "[#{meta_key_id}][values][]"
+    else
+      name += "[#{meta_key_id}][]"
+
+    model = @state.models[meta_key_id]
+
+    newget = f.mapValues datum, (value) ->
+      value
+    newget.values = model.values
+
+    <InputMetaDatum id={meta_key_id}
+      name={name} get={newget} onChange={onChange}
+      subForms={subForms}
+      contextKey={contextKey}
+    />
+
+  _renderLabel: (meta_meta_data, context_key_id) ->
+
+    contextKey = meta_meta_data.context_key_by_context_key_id[context_key_id]
+
+    meta_key_id = contextKey.meta_key_id
+    mandatory = meta_meta_data.mandatory_by_meta_key_id[meta_key_id]
+
+    <MetaKeyFormLabel metaKey={meta_meta_data.meta_key_by_meta_key_id[meta_key_id]}
+      contextKey={contextKey}
+      mandatory={mandatory} />
+
+
+  _renderItem: (meta_data, meta_meta_data, published, name, context_key_id, subForms, rowed) ->
+
+    contextKey = meta_meta_data.context_key_by_context_key_id[context_key_id]
+    meta_key_id = contextKey.meta_key_id
+    datum = meta_data.meta_datum_by_meta_key_id[meta_key_id]
+    batchConflict = @_batchConflict(meta_key_id)
+    model = @state.models[meta_key_id]
+    mandatory = meta_meta_data.mandatory_by_meta_key_id[meta_key_id]
+    error = @state.errors[meta_key_id]
+    validErr = published and mandatory and not @_validModel(model)
+    className = cx('ui-form-group prh', {'columned': not rowed}, {'rowed': rowed},
+      {'error': (error or validErr) and not batchConflict}, {'highlight': batchConflict})
+
+    <fieldset className={className} key={meta_key_id}>
+      {if error
+        <div className="ui-alerts" style={marginBottom: '10px'}>
+          <div className="error ui-alert">
+            {error}
+          </div>
+        </div>
+      }
+      {@_renderLabel(meta_meta_data, context_key_id)}
+      {@_renderValue(meta_key_id, false, ((values) => @_onChangeForm(meta_key_id, values)), datum, name, subForms, contextKey)}
+    </fieldset>
+
+
+  _renderItemOrGroup: (context_id, bundled_context_keys, meta_data, meta_meta_data, published, name) ->
+
+    f.flatten f.map(
+      bundled_context_keys,
+      (bundle) =>
+        if bundle.type == 'single' or (bundle.type == 'block' and f.size(bundle.content) == 0)
+          context_key_id = if bundle.type == 'single' then bundle.content.uuid else bundle.mainKey.uuid
+          @_renderItem(meta_data, meta_meta_data, published, name, context_key_id, null, false)
+        else
+          context_key_id = bundle.mainKey.uuid
+
+          isInvalid = @_validityForMetaKeyIds(f.map(bundle.content, 'meta_key_id')) == 'invalid'
+
+          style = {
+            display: (if (@state.bundleState[bundle.bundle] or isInvalid) then 'block' else 'none')
+            marginTop: '10px'
+            marginBottom: '20px'
+          }
+
+          subForms = [
+            <a key='sub-form-link' className={cx('button small form-item-extension-toggle mtm',
+              {'active': isInvalid })}
+              onClick={((() => @_toggleBundle(bundle.bundle)) if not isInvalid)}>
+              <i className="icon-plus-small"></i>   {t('meta_data_edit_more_data')}
+            </a>
+            ,
+            <div key='sub-form-values' style={style}
+              className="ui-container pam ui-container bordered rounded form-item-extension hidden"
+              key={'block_' + bundle.bundle}>
+              {
+                f.map(
+                  bundle.content,
+                  (entry) =>
+                    @_renderItem(meta_data, meta_meta_data, published, name, entry.uuid, null, true)
+                )
+              }
+            </div>
+          ]
+
+          @_renderItem(meta_data, meta_meta_data, published, name, context_key_id, subForms, false)
+    )
 
   render: ({get, authToken, batchType} = @props) ->
 
@@ -347,8 +547,7 @@ module.exports = React.createClass
       else
         get.url
 
-
-
+    bundled_context_keys = @_group_keys({ keys_to_check: @_context_keys(currentContextId), inter_result: [] })
 
     <PageContent>
       <PageContentHeader icon='pen' title={title}>
@@ -475,30 +674,10 @@ module.exports = React.createClass
                   }
 
                   {
-
-                    f.map(
-                      get.meta_meta_data.context_key_ids_by_context_id[currentContext.uuid], (context_key_id) =>
-                        meta_key_id = get.meta_meta_data.meta_key_id_by_context_key_id[context_key_id]
-                        datum = get.meta_data.meta_datum_by_meta_key_id[meta_key_id]
-
-                        <MetaDatumFormItem
-                          batch={@props.batch}
-                          published={published}
-                          batchConflict={@state.batchDiff[meta_key_id]}
-                          hidden={false}
-                          onChange={@_onChangeForm}
-                          allMetaMetaData={get.meta_meta_data}
-                          name={name}
-                          get={datum}
-                          contextKey={get.meta_meta_data.context_key_by_context_key_id[context_key_id]}
-                          metaKeyId={meta_key_id}
-                          model={@state.models[meta_key_id]}
-                          requiredMetaKeyIds={get.meta_meta_data.mandatory_by_meta_key_id}
-                          error={@state.errors[meta_key_id]}
-                          key={meta_key_id}/>
-                    )
-
+                    @_renderItemOrGroup(currentContextId, bundled_context_keys, get.meta_data, get.meta_meta_data, published, name)
                   }
+
+
                   {
 
                     meta_key_ids_in_current_context =
@@ -514,21 +693,10 @@ module.exports = React.createClass
                     f.map hidden_meta_key_ids, (meta_key_id) =>
                       datum = get.meta_data.meta_datum_by_meta_key_id[meta_key_id]
                       if datum
-                        <MetaDatumFormItem
-                          batch={@props.batch}
-                          published={published}
-                          hidden={true}
-                          onChange={@_onChangeForm}
-                          allMetaMetaData={get.meta_meta_data}
-                          name={name}
-                          get={datum}
-                          contextKey={null}
-                          metaKeyId={meta_key_id}
-                          model={@state.models[meta_key_id]}
-                          requiredMetaKeyIds={get.meta_meta_data.mandatory_by_meta_key_id}
-                          error={@state.errors[meta_key_id]}
-                          key={meta_key_id}/>
 
+                        <div style={{display: 'none'}} key={meta_key_id} >
+                          {@_renderValue(meta_key_id, true, (() -> ), datum, name, null)}
+                        </div>
 
                   }
                 </div>
