@@ -38,7 +38,7 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
 
         {if showActions.addToSet
           createHoverActionItem(
-            if !selection.empty() then callbacks.onBatchAddToSet,
+            if !selection.empty() then f.curry(callbacks.onBatchAddToSet)(selection.selection),
             'add_to_set',
             selection.length(),
             'move',
@@ -46,7 +46,7 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
 
         {if showActions.removeFromSet
           createHoverActionItem(
-            if !selection.empty() then callbacks.onBatchRemoveFromSet,
+            if !selection.empty() then f.curry(callbacks.onBatchRemoveFromSet)(selection.selection),
             'remove_from_set',
             selection.length(),
             'close',
@@ -128,13 +128,11 @@ highlightingRules = (item, isSelected) ->
     {
       hoverMenuId: 'add_to_set'
       rule: () ->
-        (!SelectionScope.batchPermissionResource(item.serialize()) or
-          (item.type != 'MediaEntry' and item.type != 'Collection') or not isSelected)
+        ((item.type != 'MediaEntry' and item.type != 'Collection') or not isSelected)
     }
     {
       hoverMenuId: 'remove_from_set'
-      rule: () -> (!SelectionScope.batchPermissionResource(item.serialize()) or
-        (item.type != 'MediaEntry' and item.type != 'Collection') or not isSelected)
+      rule: () -> ((item.type != 'MediaEntry' and item.type != 'Collection') or not isSelected)
     }
   ]
 

@@ -302,7 +302,7 @@ module.exports = React.createClass
         type: model.type
       }
 
-  _onBatchAddToSet: (event)->
+  _onBatchAddToSet: (resources, event)->
     event.preventDefault()
     @setState(batchAddToSet: true)
     return false
@@ -314,7 +314,7 @@ module.exports = React.createClass
         type: model.type
       }
 
-  _onBatchRemoveFromSet: (event)->
+  _onBatchRemoveFromSet: (resources, event)->
     event.preventDefault()
     @setState(batchRemoveFromSet: true)
     return false
