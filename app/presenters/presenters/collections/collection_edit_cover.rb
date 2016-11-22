@@ -7,11 +7,17 @@ module Presenters
       def initialize(user, collection, user_scopes, resource_list_params)
         super(collection, user, user_scopes, list_conf: resource_list_params)
 
-        @child_presenters =
-          Presenters::Collections::ChildMediaResources.new(
-            @app_resource.media_entries,
-            user,
-            list_conf: resource_list_params)
+        child_presenters = @app_resource
+          .child_media_resources
+          .custom_order_by('created_at DESC')
+          .map do |child|
+
+          index_presenter(child.type).new(child, @user)
+        end
+
+        @child_presenters = {
+          resources: child_presenters
+        }
       end
 
       def i18n
@@ -35,6 +41,12 @@ module Presenters
         collection_path(@app_resource)
       end
 
+      private
+
+      def index_presenter(type)
+        name = 'Presenters::' + type.pluralize + '::' + type + 'Index'
+        name.constantize
+      end
     end
   end
 end
