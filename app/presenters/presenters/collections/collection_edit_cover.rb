@@ -7,11 +7,9 @@ module Presenters
       def initialize(user, collection, user_scopes, resource_list_params)
         super(collection, user, user_scopes, list_conf: resource_list_params)
 
-        child_presenters = @app_resource
-          .child_media_resources
+        child_presenters = scoped_child_resources
           .custom_order_by('created_at DESC')
           .map do |child|
-
           index_presenter(child.type).new(child, @user)
         end
 
@@ -42,6 +40,12 @@ module Presenters
       end
 
       private
+
+      def scoped_child_resources
+        ::Shared::MediaResources::MediaResourcePolicy::Scope.new(
+          @user,
+          @app_resource.child_media_resources).resolve
+      end
 
       def index_presenter(type)
         name = 'Presenters::' + type.pluralize + '::' + type + 'Index'

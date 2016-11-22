@@ -12,7 +12,7 @@ feature 'Collection: Edit Highlights' do
       prepare_data
       login
       open_collection
-      open_dialog
+      open_dialog(true)
       # rows = get_table_rows(5)
       rows = get_table_rows(4)
 
@@ -34,7 +34,7 @@ feature 'Collection: Edit Highlights' do
 
       check_show_highlights(false, [])
 
-      open_dialog
+      open_dialog(true)
       # rows = get_table_rows(5)
       rows = get_table_rows(4)
       check_row(rows, @media_entry1, false)
@@ -57,7 +57,7 @@ feature 'Collection: Edit Highlights' do
       check_collections([@collection1])
       # check_filter_sets([@filter_set1])
 
-      open_dialog
+      open_dialog(true)
       # rows = get_table_rows(5)
       rows = get_table_rows(4)
 
@@ -89,7 +89,7 @@ feature 'Collection: Edit Highlights' do
       open_collection
 
       check_show_highlights(false, [])
-      open_dialog
+      open_dialog(true)
       rows = get_table_rows(1)
       click_row(rows, @media_entry)
       check_row(rows, @media_entry, true)
@@ -115,6 +115,24 @@ feature 'Collection: Edit Highlights' do
       check_media_entries([@media_entry])
       check_collections([])
       check_filter_sets([])
+    end
+
+    scenario 'do not show not viewable entries in edit dialog' do
+
+      prepare_user
+      @media_entry = create_media_entry('MediaEntry')
+      @collection = create_collection('Collection')
+      @collection.media_entries << @media_entry
+
+      @media_entry.get_metadata_and_previews = false
+      @media_entry.responsible_user = FactoryGirl.create(:user)
+      @media_entry.save
+      @media_entry.reload
+      @collection.reload
+
+      login
+      open_collection
+      open_dialog(false)
     end
   end
 
@@ -199,20 +217,26 @@ feature 'Collection: Edit Highlights' do
     visit collection_path(@collection)
   end
 
-  def open_dialog
+  def open_dialog(has_content)
     find('i.icon-highlight').find(:xpath, './..').click
-    check_on_dialog
+    check_on_dialog(has_content)
   end
 
   def click_save
     find('.modal').find('button', text: 'Auswahl speichern').click
   end
 
-  def check_on_dialog
+  def check_on_dialog(has_content)
     expect(current_path).to eq highlights_edit_collection_path(@collection)
     expect(page).to have_content 'Inhalte hervorheben'
-    expect(page).to have_content 'Auswahl speichern'
+    expect(page).to have_content 'Auswahl speichern' if has_content
     expect(page).to have_content 'Abbrechen'
+
+    if has_content
+      expect(page).to have_selector('.modal table tbody tr')
+    else
+      expect(page).to have_no_selector('.modal table tbody tr')
+    end
   end
 
   def prepare_data
