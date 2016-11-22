@@ -1,9 +1,33 @@
 .ui-resource.ui-selected
+  // thumb normal (grid) + miniature
   .ui-thumbnail-image-wrapper
-    border-color: $blue !important
-    @include box-shadow(0 0 8px $blue !important)
+    border-color: $blue
+    @include box-shadow(0 0 8px $blue)
 
-.ui-resource.ui-selected
   .ui-tile__thumbnail
-    border-color: $blue !important
-    @include box-shadow(0 0 8px $blue !important)
+    border-color: $blue
+    border-width: 1px
+    border-style: solid
+    @include box-shadow(0 0 8px $blue)
+
+  // override from _ui_thumb.sass
+  .ui-thumbnail.media-set,
+  .ui-thumbnail.filter-set
+    .ui-thumbnail-image-wrapper
+      border-color: $blue
+      +box-shadow(0 1px 2px 0px $darken, $space-x $space-x 0px 0px $white, $space-x $space-x 2px 0px $darken-strong, 0 0 8px transparentize($blue, 0.3), ($space-x+1) ($space-x+1) 8px transparentize($blue, 0.3))
+
+  .ui-tile--set
+    .ui-tile__thumbnail
+      border-color: $blue
+      border-width: 1px
+      border-style: solid
+      +box-shadow(0 1px 2px 0px $darken, $space-x $space-x 0px 0px $white, $space-x $space-x 2px 0px $darken-strong, 0 0 8px transparentize($blue, 0.3), ($space-x+1) ($space-x+1) 8px transparentize($blue, 0.3))
+
+.ui-resources.miniature
+  .ui-resource.ui-selected
+    .media-set.ui-thumbnail,
+    .filter-set.ui-thumbnail
+      .ui-thumbnail-image-wrapper
+        border-color: $blue
+        +box-shadow(0 1px 2px 0px $darken, $space-x $space-x 0px 0px $white, $space-x $space-x 2px 0px $darken-strong, 0 0 8px transparentize($blue, 0.3), ($space-x+1) ($space-x+1) 8px transparentize($blue, 0.3))

@@ -14,6 +14,7 @@ MetaDataList = require('./MetaDataList.cjsx')
 MetaDatumValues = require('./MetaDatumValues.cjsx')
 LoadXhr = require('../../lib/load-xhr.coffee')
 Preloader = require('../ui-components/Preloader.cjsx')
+Thumbnail = require('../ui-components/Thumbnail.cjsx')
 
 module.exports = React.createClass
   displayName: 'ListThumbnail'
@@ -40,7 +41,7 @@ module.exports = React.createClass
     </table>
 
 
-  render: ({resourceType, imageUrl, mediaType, title, subtitle, mediaUrl, metaData} = @props) ->
+  render: ({resourceType, imageUrl, mediaType, title, subtitle, mediaUrl, metaData, selectProps} = @props) ->
 
     listsWithClasses = []
     if metaData
@@ -68,40 +69,32 @@ module.exports = React.createClass
 
     thumbnailClass = f.kebabCase(resourceType.replace(/Collection/, 'MediaSet'))
 
-    <li className="ui-resource" style={@props.style}>
+    classes = {'ui-resource': true, 'ui-selected': true if (selectProps and selectProps.isSelected)}
+
+    <li className={c(classes)} style={@props.style}>
       <div className="ui-resource-head">
-        <ResourceActions />
         <h3 className="ui-resource-title">{title}</h3>
       </div>
       <div className="ui-resource-body">
         <div className="ui-resource-thumbnail">
           <div className={c('ui-thumbnail', thumbnailClass)}>
-            <LevelUp />
             <div className="ui-thumbnail-privacy">
               <i className="icon-privacy-group"></i>
             </div>
             <Image innerImage={innerImage} mediaUrl={mediaUrl} />
             <Titles />
-            <ThumbnailActions />
-            <Dropdown />
-            <LevelDown />
           </div>
         </div>
         {
-          if true
-            if @props.loadingMetadata
-              <Preloader />
-            else
-              f.map(listsWithClasses, (item, index) =>
-                <div className={item.className} key={'list_' + index}>
-                  <MetaDataList showTitle={false} mods='ui-resource-meta' listMods='block' type='table'
-                    list={item.list} renderer={@_listRenderer}/>
-                </div>
-              )
+          if @props.loadingMetadata
+            <Preloader />
           else
-            <Meta />
-            <Description />
-            <Extension />
+            f.map(listsWithClasses, (item, index) =>
+              <div className={item.className} key={'list_' + index}>
+                <MetaDataList showTitle={false} mods='ui-resource-meta' listMods='block' type='table'
+                  list={item.list} renderer={@_listRenderer}/>
+              </div>
+            )
         }
 
       </div>
@@ -111,31 +104,17 @@ module.exports = React.createClass
 Image = React.createClass
   displayName: 'Image'
   render: ({old, innerImage, mediaUrl} = @props) ->
-    if old
-      <a className="ui-thumbnail-image-wrapper">
-        <div className="ui-thumbnail-image-holder">
-          <div className="ui-thumbnail-table-image-holder">
-            <div className="ui-thumbnail-cell-image-holder">
-              <div className="ui-thumbnail-inner-image-holder">
-                <img alt="Media-entry-6" className="ui-thumbnail-image"
-                  src="/dev-assets/styleguide/media-entry-6.jpeg" />
-              </div>
+    <a className="ui-thumbnail-image-wrapper" href={mediaUrl}>
+      <div className="ui-thumbnail-image-holder">
+        <div className="ui-thumbnail-table-image-holder">
+          <div className="ui-thumbnail-cell-image-holder">
+            <div className="ui-thumbnail-inner-image-holder">
+              {innerImage}
             </div>
           </div>
         </div>
-      </a>
-    else
-      <a className="ui-thumbnail-image-wrapper" href={mediaUrl}>
-        <div className="ui-thumbnail-image-holder">
-          <div className="ui-thumbnail-table-image-holder">
-            <div className="ui-thumbnail-cell-image-holder">
-              <div className="ui-thumbnail-inner-image-holder">
-                {innerImage}
-              </div>
-            </div>
-          </div>
-        </div>
-      </a>
+      </div>
+    </a>
 
 
 Titles = React.createClass
@@ -144,259 +123,4 @@ Titles = React.createClass
     <div className="ui-thumbnail-meta">
       <h3 className="ui-thumbnail-meta-title">Name that can easily go onto 2 lines</h3>
       <h4 className="ui-thumbnail-meta-subtitle">Author that can easily go onto 2 lines as well</h4>
-    </div>
-
-
-ThumbnailActions = React.createClass
-  displayName: 'ThumbnailActions'
-  render: () ->
-    <div className="ui-thumbnail-actions">
-      <ul className="left by-left">
-        <li className="ui-thumbnail-action">
-          <a className="ui-thumbnail-action-checkbox active" data-clipboard-toggle=""
-            title="Zur Zwischenablage hinzufügen/entfernen">
-            <i className="icon-checkbox"></i>
-          </a>
-        </li>
-        <li className="ui-thumbnail-action">
-          <a className="active ui-thumbnail-action-favorite" data-favor-toggle=""
-            title="Zur Favoriten hinzufügen/entfernen">
-            <i className="icon-star-empty"></i>
-          </a>
-        </li>
-      </ul>
-      <ul className="right by-right">
-        <li className="ui-thumbnail-action">
-          <a className="ui-thumbnail-action-browse" href="#" title="Stöbern">
-            <i className="icon-eye"></i>
-          </a>
-        </li>
-        <li className="ui-thumbnail-action">
-          <a className="ui-thumbnail-action-edit" href="#" title="Metadaten editieren">
-            <i className="icon-pen"></i>
-          </a>
-        </li>
-        <li className="ui-thumbnail-action">
-          <a className="ui-thumbnail-action-delete" data-delete-action="" title="Löschen">
-            <i className="icon-trash"></i>
-          </a>
-        </li>
-      </ul>
-    </div>
-
-ResourceActions = React.createClass
-  displayName: 'ResourceActions'
-  render: () ->
-    <ul className="ui-resource-actions">
-      <li className="ui-resource-action">
-        <a className="ui-thumbnail-action-checkbox" data-clipboard-toggle="" title="Zur Zwischenablage hinzufügen/entfernen">
-          <i className="icon-checkbox"></i>
-        </a>
-      </li>
-      <li className="ui-resource-action">
-        <a className="ui-thumbnail-action-favorite" data-favor-toggle="" title="Zur Favoriten hinzufügen/entfernen">
-          <i className="icon-star-empty"></i>
-        </a>
-      </li>
-    </ul>
-
-LevelUp = React.createClass
-  displayName: 'LevelUp'
-  render: () ->
-    <div className="ui-thumbnail-level-up-items">
-      <h3 className="ui-thumbnail-level-notes">Set enthalt</h3>
-      <ul className="ui-thumbnail-level-items">
-        <li className="ui-thumbnail-level-item odd">
-          <a className="ui-level-image-wrapper" href="#" title="Set name">
-            <div className="ui-thumbnail-level-image-holder">
-              <img alt="Media-entry-6" className="ui-thumbnail-level-image"
-                src="/dev-assets/styleguide/media-entry-6.jpeg" />
-            </div>
-          </a>
-        </li>
-        <li className="ui-thumbnail-level-item even">
-          <a className="ui-level-image-wrapper" href="#" title="Set name">
-            <div className="ui-thumbnail-level-image-holder">
-              <img alt="Media-entry-6" className="ui-thumbnail-level-image"
-                src="/dev-assets/styleguide/media-entry-6.jpeg" />
-            </div>
-          </a>
-        </li>
-      </ul>
-      <span className="ui-thumbnail-level-notes">5 Inhalte</span>
-    </div>
-
-Dropdown = React.createClass
-  displayName: 'Dropdown'
-  render: () ->
-    <div className="ui-thumbnail-dropdown">
-      <div className="dropdown ui-dropdown">
-        <a className="dropdown-toggle ui-drop-toggle button block" data-toggle="dropdown" href="#">Aktionen</a>
-        <ul aria-labelledby="dLabel" className="dropdown-menu ui-drop-menu" role="menu">
-          <li className="ui-drop-item">
-            <a href="#">Item 1</a>
-          </li>
-          <li className="ui-drop-item">
-            <a href="#">Item 2</a>
-          </li>
-          <li className="separator"></li>
-          <li className="ui-drop-item">
-            <a href="#">Item 3</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-LevelDown = React.createClass
-  displayName: 'LevelDown'
-  render: () ->
-    <div className="ui-thumbnail-level-down-items">
-      <h3 className="ui-thumbnail-level-notes">Set enthalt</h3>
-      <ul className="ui-thumbnail-level-items">
-        <li className="ui-thumbnail-level-item odd">
-          <a className="ui-level-image-wrapper" href="#" title="Set name">
-            <div className="ui-thumbnail-level-image-holder">
-              <img alt="Media-entry-6" className="ui-thumbnail-level-image" src="/dev-assets/styleguide/media-entry-6.jpeg" />
-            </div>
-          </a>
-        </li>
-        <li className="ui-thumbnail-level-item even">
-          <a className="ui-level-image-wrapper" href="#" title="Set name">
-            <div className="ui-thumbnail-level-image-holder">
-              <img alt="Media-entry-6" className="ui-thumbnail-level-image" src="/dev-assets/styleguide/media-entry-6.jpeg" />
-            </div>
-          </a>
-        </li>
-      </ul>
-      <span className="ui-thumbnail-level-notes">5 Inhalte</span>
-    </div>
-
-Meta = React.createClass
-  displayName: 'Meta'
-  render: () ->
-    <div className="ui-resource-meta">
-      <table className="borderless block">
-        <tbody>
-          <tr>
-            <td className="ui-resource-meta-label">Autor/in</td>
-            <td className="ui-resource-meta-content">
-              <a href="#">Federico C.</a>
-            </td>
-          </tr>
-          <tr>
-            <td className="ui-resource-meta-label">Datierung</td>
-            <td className="ui-resource-meta-content">1470/1500</td>
-          </tr>
-          <tr>
-            <td className="ui-resource-meta-label">Schlagworte</td>
-            <td className="ui-resource-meta-content">
-              <ul className="ui-tag-cloud small">
-                <li className="ui-tag-cloud-item">
-                  <a className="ui-tag-button" href="#">Tag 1</a>
-                </li>
-                <li className="ui-tag-cloud-item">
-                  <a className="ui-tag-button" href="#">Tag 2</a>
-                </li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <td className="ui-resource-meta-label">Eigentumer/in</td>
-            <td className="ui-resource-meta-content">
-              <a href="#">Federico C.</a>
-            </td>
-          </tr>
-          <tr>
-            <td className="ui-resource-meta-label">Rechte</td>
-            <td className="ui-resource-meta-content">unbekannt</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-
-Description = React.createClass
-  displayName: 'Description'
-  render: () ->
-    <div className="ui-resource-description">
-      <table className="borderless block">
-        <tbody>
-          <tr>
-            <td className="ui-resource-meta-label">Autor/in</td>
-            <td className="ui-resource-meta-content">
-              <a href="#">Federico C.</a>
-            </td>
-          </tr>
-          <tr>
-            <td className="ui-resource-meta-label">Datierung</td>
-            <td className="ui-resource-meta-content">1470/1500</td>
-          </tr>
-          <tr>
-            <td className="ui-resource-meta-label">Schlagworte</td>
-            <td className="ui-resource-meta-content">
-              <ul className="ui-tag-cloud small">
-                <li className="ui-tag-cloud-item">
-                  <a className="ui-tag-button" href="#">Tag 1</a>
-                </li>
-                <li className="ui-tag-cloud-item">
-                  <a className="ui-tag-button" href="#">Tag 2</a>
-                </li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <td className="ui-resource-meta-label">Eigentumer/in</td>
-            <td className="ui-resource-meta-content">
-              <a href="#">Federico C.</a>
-            </td>
-          </tr>
-          <tr>
-            <td className="ui-resource-meta-label">Rechte</td>
-            <td className="ui-resource-meta-content">unbekannt</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-Extension = React.createClass
-  displayName: 'Extension'
-  render: () ->
-    <div className="ui-resource-extension">
-      <table className="borderless block">
-        <tbody>
-          <tr>
-            <td className="ui-resource-meta-label">Autor/in</td>
-            <td className="ui-resource-meta-content">
-              <a href="#">Federico C.</a>
-            </td>
-          </tr>
-          <tr>
-            <td className="ui-resource-meta-label">Datierung</td>
-            <td className="ui-resource-meta-content">1470/1500</td>
-          </tr>
-          <tr>
-            <td className="ui-resource-meta-label">Schlagworte</td>
-            <td className="ui-resource-meta-content">
-              <ul className="ui-tag-cloud small">
-                <li className="ui-tag-cloud-item">
-                  <a className="ui-tag-button" href="#">Tag 1</a>
-                </li>
-                <li className="ui-tag-cloud-item">
-                  <a className="ui-tag-button" href="#">Tag 2</a>
-                </li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <td className="ui-resource-meta-label">Eigentumer/in</td>
-            <td className="ui-resource-meta-content">
-              <a href="#">Federico C.</a>
-            </td>
-          </tr>
-          <tr>
-            <td className="ui-resource-meta-label">Rechte</td>
-            <td className="ui-resource-meta-content">unbekannt</td>
-          </tr>
-        </tbody>
-      </table>
     </div>
