@@ -204,6 +204,7 @@ module.exports = React.createClass
         metaData={@props.indexMetaData}
         loadingMetadata={@props.loadingMetadata}
         style={@props.style}
+        selectProps={selectProps}
         />
     else
       <ResourceThumbnailRenderer
