@@ -7,7 +7,6 @@ class CollectionsController < ApplicationController
   include Concerns::CollectionHighlights
   include Concerns::ControllerFavoritable
   include Concerns::CollectionCollectionSelection
-  include Concerns::MediaResources::CustomOrderBy
   include Modules::Collections::PermissionsUpdate
   include Modules::Collections::MetaDataUpdate
   include Modules::Collections::Create

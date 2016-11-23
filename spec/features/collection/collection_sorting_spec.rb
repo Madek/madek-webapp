@@ -99,22 +99,16 @@ feature 'collection sorting' do
 
     check_children(:created_at_asc)
 
-    select_sorting(:collection_sorting_last_change)
-    check_children_have_no_edit_sessions
-    # We have no edit sessions yet, it takes the created_at desc.
-    check_children(:created_at_desc)
+    set_last_change(@media_entry_2, 2004)
+    set_last_change(@collection_1, 2003)
+    set_last_change(@collection_2, 2002)
+    set_last_change(@media_entry_1, 2001)
 
+    visit_collection
+    select_sorting(:collection_sorting_last_change)
     expect_save_button(true)
     click_save_button
     wait_leaving_page_until_response
-
-    visit_collection
-    check_children(:created_at_desc)
-
-    add_edit_session(@media_entry_2, 2004)
-    add_edit_session(@collection_1, 2003)
-    add_edit_session(@collection_2, 2002)
-    add_edit_session(@media_entry_1, 2001)
 
     visit_collection
     check_children_explicitly(
@@ -126,7 +120,7 @@ feature 'collection sorting' do
       ]
     )
 
-    add_edit_session(@collection_2, 2005)
+    set_last_change(@collection_2, 2005)
 
     visit_collection
     check_children_explicitly(
@@ -143,12 +137,10 @@ feature 'collection sorting' do
     resource.class.name.underscore.to_s
   end
 
-  def add_edit_session(resource, year)
-    edit_session = FactoryGirl.create(
-      :edit_session,
-      type_symbol(resource) => resource
-    )
-    update_timestamps_by_year(edit_session, year)
+  def set_last_change(resource, year)
+    resource.meta_data_updated_at = Date.new(year, 1, 1)
+    resource.save
+    resource.reload
   end
 
   def check_children_have_no_edit_sessions
