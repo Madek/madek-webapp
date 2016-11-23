@@ -50,7 +50,7 @@ feature 'Resource: MetaDatum' do
       TEST_STRING_BLOCK_OUT =
         "  Hello World\n<br>\nWelcome to the World of tomorrow! \n<br>\n ".freeze
 
-      @context_key.update_attributes!(text_element: :textarea)
+      @context_key.meta_key.update_attributes!(text_type: :block)
       @context_key.reload
       edit_in_meta_data_form_and_save do
         expect(input = find('textarea')).to be

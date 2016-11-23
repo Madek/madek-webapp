@@ -4,22 +4,25 @@ require 'spec_helper_feature_shared'
 
 module ContextMetaDataHelper
 
-  def update_context_text_field(context_id, meta_key_id, value)
+  def find_context_text_field(context_id, meta_key_id)
     find_context_meta_key_form_by_id(context_id, meta_key_id)
-      .find('input')
+      .find('input, textarea')
+  end
+
+  def update_context_text_field(context_id, meta_key_id, value)
+    find_context_text_field(context_id, meta_key_id)
       .set(value)
   end
 
   def clear_context_text_field(context_id, meta_key_id)
-    input = find_context_meta_key_form_by_id(context_id, meta_key_id)
-      .find('input')
+    input = find_context_text_field(context_id, meta_key_id)
     input.click
     input.native.send_keys(:backspace) until input.value.empty?
   end
 
   def read_context_text_field(context_id, meta_key_id)
-    find_context_meta_key_form_by_id(context_id, meta_key_id)
-      .find('input').value
+    find_context_text_field(context_id, meta_key_id)
+      .value
   end
 
   def update_context_bubble_no_js(context_id, meta_key_id, value)

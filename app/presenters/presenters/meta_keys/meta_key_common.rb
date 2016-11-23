@@ -13,13 +13,18 @@ module Presenters
         # props for special types
 
         if @app_resource.can_have_keywords?
-
           define_singleton_method :is_extensible do
             @app_resource.is_extensible_list? ? true : false # coerce to bool
           end
 
           define_singleton_method :alphabetical_order do
             @app_resource.keywords_alphabetical_order
+          end
+        end
+
+        if @app_resource.meta_datum_object_type == 'MetaDatum::Text'
+          define_singleton_method :text_type do
+            @app_resource.text_type # is 'line' or 'block'
           end
         end
       end

@@ -12,7 +12,7 @@ module.exports = React.createClass
   render: ({name, type, value, placeholder, className, contextKey} = @props) ->
 
     Element =
-      if contextKey and contextKey.text_element and contextKey.text_element == 'textarea'
+      if contextKey and contextKey.text_type and contextKey.text_type == 'block'
         'textarea'
       else
         'input'

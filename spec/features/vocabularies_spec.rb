@@ -31,11 +31,6 @@ feature 'Resource: Vocabularies' do
 
       visit vocabulary_path(core_vocab)
       expect_listed_meta_keys [
-        { title: 'Beschreibung',
-          table: [
-            ['ID', 'madek_core:description'],
-            ['type', 'Text'],
-            ['scope', 'Entries, Sets']] },
         { title: 'Untertitel',
           table: [
             ['ID', 'madek_core:subtitle'],
@@ -66,7 +61,12 @@ feature 'Resource: Vocabularies' do
             ['ID', 'madek_core:authors'],
             ['type', 'People (Person, PeopleGroup)'],
             ['scope', 'Entries, Sets']]
-         }
+        },
+        { title: 'Beschreibung',
+          table: [
+            ['ID', 'madek_core:description'],
+            ['type', 'Text'],
+            ['scope', 'Entries, Sets']] }
       ]
     end
 
