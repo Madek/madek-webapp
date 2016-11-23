@@ -24,7 +24,7 @@ module.exports = React.createClass
 
   _renderKeyword: (keyword) ->
     <li className='ui-tag-cloud-item' key={'keyword_' + keyword.uuid}>
-      <a className='ui-tag-button' title={keyword.label}>
+      <a className='ui-tag-button' title={keyword.label} href={keyword.url}>
         {keyword.label}
       </a>
     </li>
