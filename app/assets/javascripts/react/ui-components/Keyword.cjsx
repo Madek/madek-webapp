@@ -2,10 +2,11 @@ React = require('react')
 
 module.exports = React.createClass
   displayName: 'Keyword'
-  render: ({label, count, hrefUrl} = @props)->
+  render: ({label, count, hrefUrl, hideIcon} = @props)->
+    icon = <i className="icon-tag-mini ui-tag-icon"></i> unless hideIcon
     <li className="ui-tag-cloud-item">
       <a className="ui-tag-button" href={hrefUrl} title="Fotografie">
-        <i className="icon-tag-mini ui-tag-icon"></i>
+        {icon}
         {label}
         <small className="ui-tag-counter">{count}</small>
       </a>

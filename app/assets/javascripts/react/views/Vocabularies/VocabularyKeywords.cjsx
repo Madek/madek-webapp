@@ -5,6 +5,7 @@ t = require('../../../lib/string-translation.js')('de')
 Icon = require('../../ui-components/Icon.cjsx')
 PageContent = require('../PageContent.cjsx')
 PageHeader = require('../../ui-components/PageHeader.js')
+ResourceKeyword = require('../../decorators/ResourceKeyword.cjsx')
 Tabs = require('../Tabs.cjsx')
 Tab = require('../Tab.cjsx')
 TabContent = require('../TabContent.cjsx')
@@ -23,11 +24,7 @@ module.exports = React.createClass
   displayName: 'VocabularyKeywords'
 
   _renderKeyword: (keyword) ->
-    <li className='ui-tag-cloud-item' key={'keyword_' + keyword.uuid}>
-      <a className='ui-tag-button' title={keyword.label}>
-        {keyword.label}
-      </a>
-    </li>
+    <ResourceKeyword key={'keyword_' + keyword.uuid} keyword={keyword} hideIcon={true} />
 
   _renderMetakey: (meta_key) ->
     <div className='ui-metadata-box prl mbm' key={'meta_key_' + meta_key.meta_key.uuid}>
