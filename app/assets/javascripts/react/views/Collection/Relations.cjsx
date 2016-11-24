@@ -121,7 +121,7 @@ module.exports = React.createClass
                   <span className="ui-counter">{'(' + childCount + ')'}</span>
                 {
                   if childCount > 0
-                    <a className="strong" href={get.url + '/relations/children'}>
+                    <a className="strong" href={get.url + '?type=collections'}>
                       {t('collection_relations_show_all')}
                     </a>
                 }
