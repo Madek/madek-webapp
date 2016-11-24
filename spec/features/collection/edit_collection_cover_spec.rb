@@ -46,7 +46,6 @@ feature 'Collection: Edit Cover' do
   end
 
   scenario 'do not show not viewable entries in edit dialog' do
-
     prepare_user
     @media_entry = create_media_entry('MediaEntry')
     @collection = create_collection('Collection')
@@ -58,6 +57,14 @@ feature 'Collection: Edit Cover' do
     @media_entry.reload
     @collection.reload
 
+    login
+    open_dialog(false)
+  end
+
+  scenario 'do not show child collections in dialog' do
+    prepare_user
+    @collection = create_collection('Parent Collection')
+    @collection.collections << create_collection('Child Collection')
     login
     open_dialog(false)
   end

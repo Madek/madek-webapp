@@ -10,7 +10,7 @@ module Presenters
         child_presenters = scoped_child_resources
           .custom_order_by('created_at DESC')
           .map do |child|
-          index_presenter(child.type).new(child, @user)
+          index_presenter('MediaEntry').new(child, @user)
         end
 
         @child_presenters = {
@@ -44,7 +44,7 @@ module Presenters
       def scoped_child_resources
         ::Shared::MediaResources::MediaResourcePolicy::Scope.new(
           @user,
-          @app_resource.child_media_resources).resolve
+          @app_resource.media_entries).resolve
       end
 
       def index_presenter(type)
