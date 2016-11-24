@@ -8,9 +8,11 @@ ResourceThumbnail = require('../../decorators/ResourceThumbnail.cjsx')
 classnames = require('classnames')
 
 module.exports = React.createClass
-  displayName: 'CollectionRelations'
+  displayName: 'views/Collection/Relations'
 
   render: ({authToken, get} = @props) ->
+
+    typeKebab = f.kebabCase(get.type).replace('-', '_')
 
     parentCount = get.relations.parent_collections.pagination.total_count
     siblingCount = get.relations.sibling_collections.pagination.total_count
@@ -20,7 +22,7 @@ module.exports = React.createClass
         <div className="row">
           <div className="col6of6">
             <h2 className="title-m">
-              {t('collection_relations_hint_text')}
+              {t(typeKebab + '_relations_hint_text')}
             </h2>
           </div>
         </div>
@@ -65,12 +67,7 @@ module.exports = React.createClass
             <div className="ui-resources-holder" id="set-relations-self">
               <div className="ui-resources-header mbn">
                 <h2 className="title-l ui-resource-title mtl mll">
-                  {
-                    if get.type == 'Collection'
-                      t('collection_relations_current_set')
-                    else
-                      t('collection_relations_current_media_entry')
-                  }
+                  {t(typeKebab + '_relations_current')}
                 </h2>
               </div>
               <ul className="grid horizontal ui-resources">
