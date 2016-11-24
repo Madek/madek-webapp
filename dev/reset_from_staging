@@ -1,0 +1,20 @@
+#!/bin/bash
+set -ex
+
+# get a current dump from staging and restores it to the DB
+# usefull for getting current prod data when migrations changed during an iteration
+
+# TODO: instead of using the date as a "unique key", get the datalayer git ref.
+
+CURRENT_DATE="$(date '+%Y-%m-%d')"
+DUMPFILE="db/backups/staging.zhdk-data_${CURRENT_DATE}.pgbin"
+
+if [[ ! -e "$DUMPFILE" ]]; then
+  ansible-playbook -i ../deploy/inventories/zhdk/hosts_staging ../deploy/play_dump-and-fetch-data.yml
+  mkdir -p "$(dirname "$DUMPFILE")"
+  mv ../deploy/tmp/staging/tmp/madek_structure_and_data.pgbin "$DUMPFILE"
+fi
+
+bundle exec rake db:pg:terminate_connections db:drop || true # ignore error if not exists yet
+bundle exec rake db:create
+time bundle exec rake db:pg:structure_and_data:restore FILE="$DUMPFILE"
