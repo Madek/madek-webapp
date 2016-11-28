@@ -35,6 +35,9 @@ Madek::Application.routes.draw do
 
       post :publish
       get 'relations'
+      get 'relations/children', action: :relation_children, as: 'relation_children'
+      get 'relations/siblings', action: :relation_siblings, as: 'relation_siblings'
+      get 'relations/parents', action: :relation_parents, as: 'relation_parents'
 
       get 'export'
 

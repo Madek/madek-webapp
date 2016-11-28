@@ -22,7 +22,14 @@ module Presenters
         @search_term = search_term
         # NOTE: this is just a hack to help separating the methods by action/tab
         #       modal actions are all still on top of 'show'
-        @active_tab = action
+        @active_tab =
+          if ['relation_siblings', 'relation_children', 'relation_parents']
+              .include?(action)
+            'relations'
+          else
+            action
+          end
+        @action = action
       end
 
       def tabs # list of all 'show' action sub-tabs
@@ -35,10 +42,23 @@ module Presenters
         end
       end
 
+      def relation_resources
+        return unless @active_tab == 'relations'
+
+        case @action
+        when 'relation_siblings' then _relations.sibling_collections
+        when 'relation_children' then _relations.child_collections
+        when 'relation_parents' then _relations.parent_collections
+        when 'relations' then nil
+        else
+          fail 'logic error!'
+        end
+      end
+
       def relations
         return unless @active_tab == 'relations'
-        Presenters::Shared::MediaResource::MediaResourceRelations.new \
-          @app_resource, @user, @user_scopes, list_conf: @list_conf
+        return unless @action == 'relations'
+        _relations
       end
 
       def meta_data
