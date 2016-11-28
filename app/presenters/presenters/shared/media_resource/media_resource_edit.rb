@@ -4,6 +4,8 @@ module Presenters
       # FIXME: this should inherit directly from Presenter (it's not a Resource!)
       class MediaResourceEdit < Presenters::Shared::AppResource
 
+        include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
+
         def initialize(app_resource, user)
           super(app_resource)
           @user = user
@@ -21,14 +23,8 @@ module Presenters
           end
         end
 
-        def title
-          @app_resource.title
-        end
-
-        def url
-          path_variable = @app_resource.class.name.underscore + '_path'
-          path = self.send(path_variable, @app_resource)
-          prepend_url_context path
+        def resource
+          presenter_by_class(@app_resource.class).new(@app_resource, @user)
         end
       end
     end

@@ -13,11 +13,11 @@ module.exports = React.createClass
   displayName: 'ResourceMetaDataPage'
 
   render: ({get, authToken} = @props) ->
-    editByContextUrl = setUrlParams((get.url + '/meta_data/edit_context'), return_to: get.return_to)
+    editByContextUrl = setUrlParams((get.resource.url + '/meta_data/edit_context'), return_to: get.return_to)
     editByContextTitle = t('media_entry_meta_data_edit_by_context_btn')
 
     <PageContent>
-      <PageContentHeader icon='pen' title={t('media_entry_meta_data_header_prefix') + get.title}>
+      <PageContentHeader icon='pen' title={t('media_entry_meta_data_header_prefix') + get.resource.title}>
         <Button title={editByContextTitle} href={editByContextUrl}>
           <Icon i={'arrow-up'}/>
         </Button>

@@ -34,7 +34,7 @@ module.exports = React.createClass
     xhr(
       {
         method: 'PUT'
-        url: @props.get.url + '/meta_data'
+        url: @props.get.resource.url + '/meta_data'
         body: serialized
         headers: {
           'Accept': 'application/json'
@@ -69,7 +69,7 @@ module.exports = React.createClass
     meta_data = f.sortBy(get.meta_data.by_vocabulary, 'vocabulary.position')
 
     <RailsForm ref='form' onSubmit={@_onSubmit}
-      name='resource_meta_data' action={get.url + '/meta_data'}
+      name='resource_meta_data' action={get.resource.url + '/meta_data'}
       method='put' authToken={authToken}>
 
 
@@ -90,7 +90,7 @@ module.exports = React.createClass
       </div>
 
       <div className="ui-actions phl pbl mtl">
-        <a className="link weak" href={get.url}>{' ' + t('meta_data_form_cancel') + ' '}</a>
+        <a className="link weak" href={get.resource.url}>{' ' + t('meta_data_form_cancel') + ' '}</a>
         <button className="primary-button large" type="submit"
           disabled={@state.saving}>{' ' + t('meta_data_form_save') + ' '}</button>
       </div>
