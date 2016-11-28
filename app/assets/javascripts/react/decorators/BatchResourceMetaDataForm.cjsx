@@ -39,7 +39,7 @@ module.exports = React.createClass
       <BatchHintBox />
 
       <div className="ui-actions phl pbl mtl">
-        <a className="link weak" href={get.url}>{' ' + t('meta_data_form_cancel') + ' '}</a>
+        <a className="link weak" href={get.return_to}>{' ' + t('meta_data_form_cancel') + ' '}</a>
         <button className="primary-button large" type="submit">{' ' + t('meta_data_form_save') + ' '}</button>
       </div>
 

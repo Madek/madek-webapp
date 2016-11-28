@@ -314,8 +314,6 @@ module.exports = React.createClass
 
   _group_keys: ({keys_to_check, inter_result}) ->
 
-    console.log('_group_keys:   keys_to_check = ' + keys_to_check + '   inter_result = ' + inter_result)
-
     if f.isEmpty(keys_to_check)
       inter_result
     else
