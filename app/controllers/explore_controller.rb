@@ -6,12 +6,12 @@ class ExploreController < ApplicationController
 
   def index
     @get = Presenters::Explore::ExploreMainPage.new(current_user, settings)
-    respond_with @get
+    respond_with_react @get
   end
 
   def catalog
     @get = Presenters::Explore::ExploreCatalogPage.new(current_user, settings)
-    respond_with @get
+    respond_with_react @get
   end
 
   def catalog_category
@@ -23,18 +23,18 @@ class ExploreController < ApplicationController
     @get = Presenters::Explore::ExploreCatalogCategoryPage.new(current_user,
                                                                settings,
                                                                category_param)
-    respond_with @get
+    respond_with_react @get
   end
 
   def featured_set
     @get = Presenters::Explore::ExploreFeaturedContentPage.new(current_user,
                                                                settings)
-    respond_with @get
+    respond_with_react @get
   end
 
   def keywords
     @get = Presenters::Explore::ExploreKeywordsPage.new(current_user, settings)
-    respond_with @get
+    respond_with_react @get
   end
 
   # lazy-loading thumbnails: search and *redirect to* media files

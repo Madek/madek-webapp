@@ -2,7 +2,7 @@ React = require('react')
 ReactDOM = require('react-dom')
 f = require('active-lodash')
 t = require('../../lib/string-translation.js')('de')
-PrettyThumbs = require('../views/explore/partials/PrettyThumbs.cjsx')
+PrettyThumbs = require('../views/Explore/partials/PrettyThumbs.cjsx')
 
 module.exports = React.createClass
   displayName: 'ExploreLayout'

@@ -13,12 +13,19 @@ import { Router, match, RouterContext, browserHistory, applyRouterMiddleware } f
 import AppLayout from './views/App/AppLayout'
 
 // all the Views:
+import ExplorePage from './views/Explore/ExploreMainPage.cjsx'
 
 // Routing Table (maps routes/paths to Views/ViewComponents)
 const routes = [{
   path: '/',
   component: AppLayout,
-  childRoutes: []
+  childRoutes: [
+    { path: 'explore', component: ExplorePage },
+    { path: 'explore/catalog', component: ExplorePage },
+    { path: 'explore/catalog/:sectionId', component: ExplorePage },
+    { path: 'explore/featured_set', component: ExplorePage },
+    { path: 'explore/keywords', component: ExplorePage }
+  ]
 }]
 
 // server-side: renders static HTML + injects the props as data
