@@ -8,39 +8,7 @@
 import React from 'react'
 import { Router, match, RouterContext, browserHistory, applyRouterMiddleware } from 'react-router'
 
-// main app layout (i.e. everything in <body>),
-// it's still wrapped in Rails `_base` layout for <head> etc)
-import AppLayout from './views/App/AppLayout'
-
-// all the Views:
-import ExplorePage from './views/Explore/ExploreMainPage.cjsx'
-import VocabulariesIndex from './views/Vocabularies/VocabulariesIndex'
-import VocabularyPage from './views/Vocabularies/VocabularyPage.cjsx'
-import VocabularyShow from './views/Vocabularies/VocabularyShow'
-import VocabularyKeywords from './views/Vocabularies/VocabularyKeywords.cjsx'
-
-// Routing Table (maps routes/paths to Views/ViewComponents)
-const routes = [{
-  path: '/',
-  component: AppLayout,
-  childRoutes: [
-    { path: 'explore', component: ExplorePage },
-    { path: 'explore/catalog', component: ExplorePage },
-    { path: 'explore/catalog/:sectionId', component: ExplorePage },
-    { path: 'explore/featured_set', component: ExplorePage },
-    { path: 'explore/keywords', component: ExplorePage }
-    ,
-    { path: 'vocabulary', component: VocabulariesIndex },
-
-    { path: 'vocabulary/:vocabularyId',
-      component: VocabularyPage,
-      indexRoute: { component: VocabularyShow },
-      childRoutes: [
-        { path: 'keywords', component: VocabularyKeywords }
-      ]
-    }
-  ]
-}]
+import routes from './routes'
 
 // server-side: renders static HTML + injects the props as data
 const ServerRoot = (props) => {
