@@ -37,13 +37,13 @@ KeywordItem = ({uuid, label, url}) ->
 module.exports = React.createClass
   displayName: 'VocabularyKeywords'
 
-  render: ({get} = @props) ->
+  render: ({get, app} = @props) ->
     metaKeys = get.meta_keys_with_keywords
     numCols = Math.max(MIN_COLS, Math.min(MAX_COLS, metaKeys.length))
     metaKeyColumns = f.chunk(metaKeys, numCols)
     hint = t('vocabularies_keywords_hint_1') + get.page.vocabulary.label + t('vocabularies_keywords_hint_2')
 
-    <VocabularyPage page={get.page} for_url={@props.for_url}>
+    <VocabularyPage page={get.page} for_url={app.url}>
       <div className='bright ui-container pal rounded'>
         <h2 className='title-m mbl'>{hint}</h2>
         <div className='mbl'>

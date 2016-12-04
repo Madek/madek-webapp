@@ -36,7 +36,7 @@ const metaKeyInfo = (mk) => [
 const VocabulariesShow = React.createClass({
   displayName: 'VocabularyShow',
 
-  render (get = this.props.get) {
+  render ({get, app} = this.props) {
     const {meta_keys} = get
     const {label, url, description, enabled_for_public_view} = get.page.vocabulary
 
@@ -44,7 +44,7 @@ const VocabulariesShow = React.createClass({
     const numCols = Math.max(MIN_COLS, Math.min(MAX_COLS, metaKeys.length))
     const metaKeyCols = chunk(metaKeys, numCols)
 
-    return <VocabularyPage page={get.page} for_url={this.props.for_url}>
+    return <VocabularyPage page={get.page} for_url={app.url}>
 
       <div className='bright ui-container pal rounded'>
         <div className='mbl'>

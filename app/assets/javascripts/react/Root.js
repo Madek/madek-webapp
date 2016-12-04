@@ -14,6 +14,9 @@ import AppLayout from './views/App/AppLayout'
 
 // all the Views:
 import ExplorePage from './views/Explore/ExploreMainPage.cjsx'
+import VocabulariesIndex from './views/Vocabularies/VocabulariesIndex'
+import VocabularyShow from './views/Vocabularies/VocabularyShow'
+import VocabularyKeywords from './views/Vocabularies/VocabularyKeywords.cjsx'
 
 // Routing Table (maps routes/paths to Views/ViewComponents)
 const routes = [{
@@ -25,6 +28,10 @@ const routes = [{
     { path: 'explore/catalog/:sectionId', component: ExplorePage },
     { path: 'explore/featured_set', component: ExplorePage },
     { path: 'explore/keywords', component: ExplorePage }
+    ,
+    { path: 'vocabulary', component: VocabulariesIndex },
+    { path: 'vocabulary/:vocabularyId', component: VocabularyShow },
+    { path: 'vocabulary/:vocabularyId/keywords', component: VocabularyKeywords }
   ]
 }]
 
