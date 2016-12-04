@@ -38,7 +38,7 @@ jobs:
           submodule: [datalayer]
       task_defaults:
         environment_variables:
-          GIT_LINEAR_HISTORY_CHECK_START_SHA: cc569ffc2e7b2504e548649f4b0739dfeaad8f89
+          GIT_LINEAR_HISTORY_CHECK_START_SHA: 3eef3fe03c77970a301e641812e11a0d80a8d188
       tasks:
         Check misnamed specs:
           scripts: {test: {body: {
