@@ -15,6 +15,7 @@ import AppLayout from './views/App/AppLayout'
 // all the Views:
 import ExplorePage from './views/Explore/ExploreMainPage.cjsx'
 import VocabulariesIndex from './views/Vocabularies/VocabulariesIndex'
+import VocabularyPage from './views/Vocabularies/VocabularyPage.cjsx'
 import VocabularyShow from './views/Vocabularies/VocabularyShow'
 import VocabularyKeywords from './views/Vocabularies/VocabularyKeywords.cjsx'
 
@@ -30,8 +31,14 @@ const routes = [{
     { path: 'explore/keywords', component: ExplorePage }
     ,
     { path: 'vocabulary', component: VocabulariesIndex },
-    { path: 'vocabulary/:vocabularyId', component: VocabularyShow },
-    { path: 'vocabulary/:vocabularyId/keywords', component: VocabularyKeywords }
+
+    { path: 'vocabulary/:vocabularyId',
+      component: VocabularyPage,
+      indexRoute: { component: VocabularyShow },
+      childRoutes: [
+        { path: 'keywords', component: VocabularyKeywords }
+      ]
+    }
   ]
 }]
 
