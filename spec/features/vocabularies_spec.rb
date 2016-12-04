@@ -82,7 +82,7 @@ feature 'Resource: Vocabularies' do
   def expect_listed_vocabularies(expected_list)
     # get list, check length, order, contents
     within('.app-body') do
-      displayed_list = all('.row .col1of3 .prm.mbl')
+      displayed_list = all('.row .col1of3 div')
       expect(displayed_list.length).to be expected_list.length
       expected_list.each.with_index do |expected, index|
         expect(displayed_list[index].find('.title-l').text).to eq expected[:title]
@@ -94,7 +94,7 @@ feature 'Resource: Vocabularies' do
   def expect_listed_meta_keys(expected_list)
     # get list, check length, order, contents
     within('.app-body') do
-      displayed_list = all('.row .col1of3 .prm.mbl')
+      displayed_list = all('.row .col1of3 div')
       expect(displayed_list.length).to be expected_list.length
       expected_list.each.with_index do |expected, index|
         expect(displayed_list[index].find('.title-m').text).to eq expected[:title]

@@ -10,7 +10,6 @@ Tab = require('../Tab.cjsx')
 TabContent = require('../TabContent.cjsx')
 parseUrl = require('url').parse
 
-
 parseUrlState = (location) ->
   parseUrl(location).pathname
 
@@ -30,22 +29,10 @@ tabsConfig = (actions) ->
 module.exports = React.createClass
   displayName: 'VocabularyPage'
 
-  getInitialState: () -> {
-    isMounted: false
-    path: parseUrlState(@props.for_url)
-  }
-
-  componentDidMount: () ->
-    @setState(isMounted: true)
-
-  componentWillReceiveProps: (nextProps) ->
-    return if nextProps.for_url is @props.for_url
-    @setState(path: parseUrlState(@props.for_url))
-
-  render: ({page} = @props) ->
-
+  render: ({page, for_url} = @props) ->
     {label} = page.vocabulary
     actions = page.actions
+    currentPath = parseUrlState(for_url)
 
     headerActions =
       <a href={actions.index} className='button'>
@@ -60,7 +47,7 @@ module.exports = React.createClass
           f.map tabsConfig(actions), (tab) =>
             <Tab label={tab.label}
               href={tab.path} key={'tab_' + tab.path}
-              active={tab.path == @state.path} />
+              active={tab.path == currentPath} />
         }
       </Tabs>
 
