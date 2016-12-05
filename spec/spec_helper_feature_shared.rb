@@ -64,8 +64,21 @@ def dropdown_menu_and_get(toggle_text, menu_item_text)
   end
 end
 
-def sign_in_as(login, password = 'password')
-  visit '/my'
+def sign_in_as(login, password = nil)
+  # allow user instance
+  if login.is_a?(User)
+    user = login
+    login = user.login
+  end
+
+  # for factory-created users, get their password; otherwise use static fallback
+  unless password.present?
+    password = user.try(:password) || 'password'
+  end
+
+  # if there isn't already a login form, try going to dashboard to force it:
+  visit '/my' unless page.has_selector?('form#login_form')
+
   # if ldap login is ON, first switch to correct form tab
   if db_user_tab = first('a#tab-internal_login')
     db_user_tab.click
