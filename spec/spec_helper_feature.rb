@@ -72,7 +72,7 @@ RSpec.configure do |config|
     ]
 
     if page.driver.to_s =~ /Selenium/
-      errors = wait_until(10) do # need to wait for window.onLoad event…
+      errors = wait_until(30) do # need to wait for window.onLoad event…
         begin
           page.execute_script('return window.JSErrorCollector_errors.pump()')
         rescue
