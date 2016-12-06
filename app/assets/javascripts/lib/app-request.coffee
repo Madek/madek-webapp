@@ -13,6 +13,7 @@
 # TODO: support config.success and config.errors as callback alternative?
 
 xhr = require('xhr')
+asyncRetry = require('async/retry')
 parseHeaders = require('parse-headers')
 f = require('active-lodash')
 setParamsForUrl = require('./set-params-for-url.coffee')
@@ -28,6 +29,8 @@ module.exports = (config, callback) ->
   if (!f.isObject(config)) then throw new TypeError('No config!')
   if (!f.isString(config.url) || f.isEmpty(config.url)) then throw new TypeError('No URL!')
   if (!f.isFunction(callback)) then throw new TypeError('No callback!')
+  if (config.retries && !f.isNumber(config.retries)) then throw new TypeError('Not a number!')
+  if (config.delay && !f.isNumber(config.delay)) then throw new TypeError('Not a number!')
 
   # JSON by default
   jsonDefaultHeader = { 'Accept': 'application/json' }
@@ -45,12 +48,12 @@ module.exports = (config, callback) ->
 
   # build config & run
   requestConfig = f.merge(
-    f.omit(config, ['headers']),
+    f.omit(config, ['headers', 'sparse', 'retries']),
     { headers: mergeHeaders([config.headers, jsonDefaultHeader, csrfHeader]) },
     sparsedUrl
   )
 
-  return xhr(requestConfig, (err, res, body) ->
+  request = (callback)-> xhr(requestConfig, (err, res, body) ->
     # handle HTTP errors
     if (!err && res.statusCode >= 400)
       msg = "Error #{res.statusCode}!"
@@ -64,5 +67,19 @@ module.exports = (config, callback) ->
       catch JSONerror
         err = new Error('JSON Error: ' + JSONerror.message)
 
-    callback(err, res, body)
+    callback(err, {res, body})
   )
+
+  # NOTE: passing around only 1 res for async, extract for the outside caller:
+  # this is the place where "opts.success/error"-style callbacks could be supported
+  finalCallback = (err, {res, body}) -> callback(err, res, body)
+
+  # optionally support retries. caveat: if used raw xhr request is NOT returned…
+  if (config.retries > 1)
+    return asyncRetry(
+      {times: config.retries, interval: config.delay || 200},
+      (retryCallback) => request(retryCallback),
+      finalCallback # called after success or when retries exhausted (fail)
+    )
+  else
+    return request(finalCallback)
