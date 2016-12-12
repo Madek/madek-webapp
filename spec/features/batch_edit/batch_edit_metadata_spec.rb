@@ -36,6 +36,7 @@ feature 'Batch edit metadata' do
 
     update_context_text_field('core', 'madek_core:title', 'Shared Title')
     click_save
+    wait_until { current_path == my_dashboard_path }
 
     check_resource_title(@media_entry_1, 'Shared Title')
     check_resource_title(@media_entry_2, 'Media Entry 2')
@@ -51,6 +52,7 @@ feature 'Batch edit metadata' do
 
     update_context_text_field('core', 'madek_core:title', 'Shared Title')
     click_save
+    wait_until { current_path == my_dashboard_path }
 
     check_resource_title(@media_entry_1, 'Media Entry 1')
     check_resource_title(@media_entry_2, 'Media Entry 2')
