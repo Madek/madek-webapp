@@ -19,4 +19,4 @@ npm run -s build
 bundle exec rake assets:precompile
 
 # cleanup obsoletes
-bundle exec rake assets:clean[0]
+bundle exec rake assets:clean
