@@ -24,8 +24,8 @@ module Presenters
           images: THUMBNAIL_SIZES.keys.map do |size|
             [size, get_image_by(size: size)]
           end.to_h.compact,
-          audios: get_audio_previews,
-          videos: get_video_previews
+          audios: get_previews_by_type('audio'),
+          videos: get_previews_by_type('video')
         }.compact.presence
       end
 
@@ -82,23 +82,9 @@ module Presenters
         Presenters::Previews::Preview.new(image) if image.present?
       end
 
-      def get_audio_previews
-        audio_previews = @app_resource.previews
-        # get the latest audio for each format
-        ['ogg'].map do |format|
-          audio = audio_previews.where(content_type: "audio/#{format}")
-            .reorder(created_at: :desc).first
-          Presenters::Previews::Preview.new(audio) if audio.present?
-        end.compact.presence
-      end
-
-      def get_video_previews
-        video_previews = @app_resource.previews
-        # get the largest available video for each format
-        ['webm', 'mp4'].map do |format|
-          video = video_previews.where(content_type: "video/#{format}")
-            .reorder(height: :desc, created_at: :desc).first
-          Presenters::Previews::Preview.new(video) if video.present?
+      def get_previews_by_type(type)
+        @app_resource.previews.where(media_type: type).map do |preview|
+          Presenters::Previews::Preview.new(preview) if preview.present?
         end.compact.presence
       end
 
