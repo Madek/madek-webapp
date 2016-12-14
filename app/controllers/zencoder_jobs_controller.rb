@@ -95,7 +95,7 @@ class ZencoderJobsController < ApplicationController
 
   def import_audio_preview(output_file)
     url = output_file['url']
-    content_type = "audio/#{output_file['format']}"
+    content_type = 'audio/' + output_file['format'].split(' ').first
     extension = File.extname(URI.parse(url).path)
     target_file =
       "#{media_file.thumbnail_store_location}#{extension}"
@@ -103,7 +103,8 @@ class ZencoderJobsController < ApplicationController
     download_file(url, target_file)
     media_file.previews.create!(
       content_type: content_type,
-      filename: target_file.split('/').last
+      filename: target_file.split('/').last,
+      audio_codec: output_file['audio_codec']
     )
   end
 
