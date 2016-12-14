@@ -6,6 +6,15 @@ class VocabularyPolicy < DefaultPolicy
     end
   end
 
+  class ViewableScope < Scope
+  end
+
+  class UsableScope < Scope
+    def resolve
+      scope.usable_by_user(user)
+    end
+  end
+
   def keywords? # just a 'show' tab
     show?
   end

@@ -56,8 +56,8 @@ module Presenters
 
       def latest_media_entries
         @latest_media_entries ||= \
-          MediaEntry
-          .viewable_by_public
+          MediaEntryPolicy::ViewableScope.new(nil, MediaEntry)
+          .resolve
           .reorder(created_at: :desc)
           .limit(@limit_latest_entries)
       end

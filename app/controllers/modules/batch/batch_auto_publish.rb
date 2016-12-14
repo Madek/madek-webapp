@@ -97,9 +97,10 @@ module Modules
           is_required: true)
 
         usable_keys = validation_keys.select do |context_key|
-          viewable = context_key.meta_key.vocabulary.viewable_by_user?(@user)
+          vocab = context_key.meta_key.vocabulary
+          viewable = vocab.viewable_by_public? || vocab.viewable_by_user?(@user)
           enabled = context_key.meta_key.send('is_enabled_for_media_entries')
-          viewable and enabled
+          viewable && enabled
         end
 
         media_entries.select do |media_entry|

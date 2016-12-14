@@ -30,9 +30,9 @@ class CollectionThumbUrl
     return if @recursed_collections_for_cover.include?(collection)
     @recursed_collections_for_cover << collection
     # NOTE: two loops because we try all cheaper queries first
-    child_collections = collection
-    .collections.viewable_by_user_or_public(@user)
-    .reorder(created_at: :desc)
+    child_collections = CollectionPolicy::ViewableScope.resolve
+      .new(@user, collection.collections)
+      .reorder(created_at: :desc)
 
     if child_collections.exists?
       # get cover from first level of collection
@@ -54,19 +54,19 @@ class CollectionThumbUrl
 
     # return the configured cover if there is one (and it is viewable!)
     if collection.cover.present?
-      cover = MediaEntry.viewable_by_user_or_public(@user)
-      .find_by_id(collection.cover.id)
+      cover = MediaEntriesPolicy::ViewableScope.new(@user, MediaEntry).resolve
+        .find_by_id(collection.cover.id)
       return cover if cover.present?
     end
 
     # otherwise return the first image-like entry
-    collection
-    .media_entries
-    .viewable_by_user_or_public(@user)
-    .reorder(created_at: :desc)
-    .each do |entry|
-      return entry if entry.try(:media_file).try(:representable_as_image?)
-    end
+    MediaEntriesPolicy::ViewableScope
+      .new(@user, collection.media_entries).resolve
+      .reorder(created_at: :desc)
+      .each do |entry|
+        return entry if entry.try(:media_file).try(:representable_as_image?)
+      end
+
     nil # return nil if nothing found
   end
 end

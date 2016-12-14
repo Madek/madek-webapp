@@ -48,9 +48,9 @@ module Presenters
                  'ON meta_data.id = meta_data_keywords.meta_datum_id')
           .where(
             meta_data: {
-              media_entry_id: MediaEntry
-                              .viewable_by_user_or_public(@user)
-                              .joins(:media_file)
+              media_entry_id: MediaEntryPolicy::VisibleScope
+                                .new(@user, MediaEntry).resolve
+                                .joins(:media_file)
             }
           )
           .limit(catalog_category_limit)

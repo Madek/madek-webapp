@@ -11,17 +11,15 @@ module Presenters
 
           def visible_vocabularies_for_user
             @visible_vocabularies_for_user ||=
-              Vocabulary
-                .viewable_by_user_or_public(@user)
-                .all
+              VocabularyPolicy::ViewableScope
+                .new(@user, Vocabulary.all).resolve
                 .sort_by
           end
 
           def usable_vocabularies_for_user
             @usable_vocabularies_for_user ||=
-              Vocabulary
-                .usable_by_user(@user)
-                .all
+              VocabularyPolicy::UsableScope
+                .new(@user, Vocabulary.all).resolve
                 .sort_by
           end
 

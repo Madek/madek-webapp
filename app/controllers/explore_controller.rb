@@ -86,8 +86,7 @@ class ExploreController < ApplicationController
   private
 
   def newest_media_entry_with_image_file_for_keyword_and_user(keyword_id, user)
-    MediaEntry
-    .viewable_by_user_or_public(user)
+    MediaEntryPolicy::ViewableScope.new(user, MediaEntry).resolve
     .joins(:media_file)
     .joins('INNER JOIN previews ON previews.media_file_id = media_files.id')
     .joins(:meta_data)

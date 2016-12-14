@@ -7,6 +7,10 @@ module Shared
         end
       end
 
+      # just an alias with a more explicit name
+      class ViewableScope < Scope
+      end
+
       class EditableScope < Scope
         def resolve
           scope.editable_by_user(user)

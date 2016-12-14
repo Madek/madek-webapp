@@ -24,7 +24,7 @@ module Presenters
         end
 
         def can_edit
-          current_user_permissions.include?(:edit_permissions)
+          auth_policy(@user, @app_resource).permissions_update?
         end
 
         def self.define_permissions_api(app_resource_class)
