@@ -1,4 +1,7 @@
 class CollectionThumbUrl
+
+  include AuthorizationSetup
+
   def initialize(collection, user)
     @collection = collection
     @user = user
@@ -30,8 +33,7 @@ class CollectionThumbUrl
     return if @recursed_collections_for_cover.include?(collection)
     @recursed_collections_for_cover << collection
     # NOTE: two loops because we try all cheaper queries first
-    child_collections = CollectionPolicy::ViewableScope.resolve
-      .new(@user, collection.collections)
+    child_collections = auth_policy_scope(@user, collection.collections)
       .reorder(created_at: :desc)
 
     if child_collections.exists?
@@ -54,14 +56,13 @@ class CollectionThumbUrl
 
     # return the configured cover if there is one (and it is viewable!)
     if collection.cover.present?
-      cover = MediaEntriesPolicy::ViewableScope.new(@user, MediaEntry).resolve
+      cover = auth_policy_scope(@user, MediaEntry)
         .find_by_id(collection.cover.id)
       return cover if cover.present?
     end
 
     # otherwise return the first image-like entry
-    MediaEntriesPolicy::ViewableScope
-      .new(@user, collection.media_entries).resolve
+    auth_policy_scope(@user, collection.media_entries)
       .reorder(created_at: :desc)
       .each do |entry|
         return entry if entry.try(:media_file).try(:representable_as_image?)

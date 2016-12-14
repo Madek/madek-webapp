@@ -2,15 +2,17 @@ require 'application_responder'
 require 'inshape'
 
 class ApplicationController < ActionController::Base
+  include AuthorizationSetup
+  include Modules::VerifyAuthorized
   include Concerns::ControllerHelpers
   include Concerns::MadekCookieSession
   include Concerns::RespondersSetup
   include Errors
-  include Pundit
-  include Modules::VerifyAuthorized
 
   # use pundit to make sure all actions are authorized
   after_action :verify_authorized, except: :index
+  # TODO: after_action :verify_policy_scoped
+
   # check if logged in user has accepted the most recent usage terms
   before_action :verify_usage_terms_accepted!
 
@@ -67,7 +69,12 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    validate_services_session_cookie_and_get_user
+    user = validate_services_session_cookie_and_get_user
+    # reflect uberadmin mode in user.admin object instance var (Presenters etc)
+    if user.try(:admin?)
+      user.admin.webapp_session_uberadmin_mode = session[:uberadmin_mode]
+    end
+    user
   end
 
   # NOTE: js can be disabled per request for testing

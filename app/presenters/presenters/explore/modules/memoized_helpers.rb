@@ -2,6 +2,7 @@ module Presenters
   module Explore
     module Modules
       module MemoizedHelpers
+        include AuthorizationSetup
 
         private
 
@@ -42,9 +43,7 @@ module Presenters
                 return
               end
 
-              ::Shared::MediaResources::MediaResourcePolicy::Scope.new(
-                @user, set.child_media_resources)
-              .resolve
+              auth_policy_scope(@user, set.child_media_resources)
               .limit(@limit_featured_set)
             end
         end

@@ -4,32 +4,32 @@ class MetaDataController < ApplicationController
 
   def show
     meta_datum = MetaDatum.find(params[:id])
-    authorize meta_datum
+    auth_authorize meta_datum
     @get = Presenters::MetaData::MetaDatumShow.new(meta_datum, current_user)
     respond_with @get
   end
 
   def new
-    authorize :meta_datum
+    auth_authorize :meta_datum
   end
 
   def create
     meta_datum_klass = constantize_type_param(type_param)
     meta_datum = meta_datum_klass.create_with_user!(current_user, create_params)
-    authorize meta_datum
+    auth_authorize meta_datum
     @get = Presenters::MetaData::MetaDatumShow.new(meta_datum, current_user)
     render :show, status: :created
   end
 
   def edit
     meta_datum = MetaDatum.find(id_param)
-    authorize meta_datum
+    auth_authorize meta_datum
     @get = Presenters::MetaData::MetaDatumShow.new(meta_datum, current_user)
   end
 
   def update
     meta_datum = MetaDatum.find(id_param)
-    authorize meta_datum
+    auth_authorize meta_datum
 
     meta_datum.set_value!(value_param_for_update(meta_datum.type), current_user)
 
@@ -42,7 +42,7 @@ class MetaDataController < ApplicationController
 
   def destroy
     meta_datum = MetaDatum.find(id_param)
-    authorize meta_datum
+    auth_authorize meta_datum
     meta_datum.destroy!
 
     subject_id = meta_datum.media_entry_id or \

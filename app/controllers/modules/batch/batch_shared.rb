@@ -8,7 +8,7 @@ module Modules
       def presenter_values(params)
         return_to = params.require(:return_to)
 
-        authorize MediaEntry, :logged_in?
+        auth_authorize MediaEntry, :logged_in?
 
         resource_ids = params.require(:resource_id)
 
@@ -26,10 +26,10 @@ module Modules
       end
 
       def action_values(params, parent_collection_id)
-        authorize MediaEntry, :logged_in?
+        auth_authorize MediaEntry, :logged_in?
 
         parent_collection = Collection.find(parent_collection_id)
-        authorize parent_collection
+        auth_authorize parent_collection
 
         resource_ids = params.require(:resource_id)
 

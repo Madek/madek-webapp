@@ -31,7 +31,7 @@
           - key = dat.context_key
 
         - url = meta_datum.url
-        - is_editable = meta_datum.policy(current_user).edit?
+        - is_editable = meta_datum.policy_for(current_user).edit?
 
         - type = key.try(:value_type) || key.meta_key.value_type
         -# -# TMP for edit POC. text only!

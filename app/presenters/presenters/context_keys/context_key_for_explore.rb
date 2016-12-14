@@ -15,9 +15,7 @@ module Presenters
 
       def usage_count
         MetaDatum
-          .where(media_entry_id: \
-            MediaEntryPolicy::VisibleScope
-              .new(@user, MediaEntry.all).resolve.reorder(nil))
+          .where(media_entry_id: auth_policy_scope(@user, MediaEntry).reorder(nil))
           .where(meta_key: @meta_key)
           .count
       end

@@ -3,6 +3,7 @@ module Presenters
 
     class MetaMetaDataEdit < Presenter
 
+      include AuthorizationSetup
       include Presenters::Shared::Modules::VocabularyConfig
 
       def initialize(user, resource_class)

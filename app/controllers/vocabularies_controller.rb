@@ -3,9 +3,7 @@ class VocabulariesController < ApplicationController
   ALLOWED_FILTER_PARAMS = MediaEntriesController::ALLOWED_FILTER_PARAMS
 
   def index
-    resources = Vocabulary.all
-    authorized_resources = VocabularyPolicy::Scope
-      .new(current_user, resources).resolve
+    authorized_resources = auth_policy_scope(current_user, Vocabulary.all)
 
     respond_with(@get = Presenters::Vocabularies::VocabulariesIndex
       .new(authorized_resources, user: current_user))
@@ -13,7 +11,7 @@ class VocabulariesController < ApplicationController
 
   def show
     vocab = Vocabulary.find(params.require(:vocabulary_id))
-    authorize(vocab)
+    auth_authorize(vocab)
     respond_with(@get = \
       Presenters::Vocabularies::VocabularyShow.new(vocab, user: current_user))
   end
@@ -43,7 +41,7 @@ class VocabulariesController < ApplicationController
 
   def find_by_vocab_id_param
     vocabulary = Vocabulary.find(params.require('vocab_id'))
-    authorize(vocabulary)
+    auth_authorize(vocabulary)
     vocabulary
   end
 end

@@ -23,7 +23,7 @@ class CollectionsController < ApplicationController
 
   def index
     respond_with(@get = Presenters::Collections::Collections.new(
-      policy_scope(Collection),
+      auth_policy_scope(current_user, Collection),
       current_user,
       can_filter: true,
       list_conf: resource_list_params))
@@ -67,7 +67,7 @@ class CollectionsController < ApplicationController
 
   def update
     collection = Collection.find(id_param)
-    authorize collection
+    auth_authorize collection
     collection.update_attributes! update_params
     respond_to do |format|
       format.json { head :no_content }
@@ -76,7 +76,7 @@ class CollectionsController < ApplicationController
 
   def destroy
     collection = Collection.find(params[:id])
-    authorize collection
+    auth_authorize collection
     collection.destroy!
 
     respond_to do |format|
@@ -100,7 +100,7 @@ class CollectionsController < ApplicationController
 
   def cover
     collection = Collection.find(id_param)
-    authorize collection
+    auth_authorize collection
     path = CollectionThumbUrl.new(collection, current_user).get(size: size_param)
     redirect_to path
   end
@@ -119,7 +119,7 @@ class CollectionsController < ApplicationController
 
   def update_cover
     collection = Collection.find(id_param)
-    authorize collection
+    auth_authorize collection
     media_entry_uuid = params[:selected_resource]
     if media_entry_uuid
       collection.cover = MediaEntry.find(media_entry_uuid)
@@ -153,7 +153,7 @@ class CollectionsController < ApplicationController
 
   def authorize_and_respond_with_presenter_and_template(name, template)
     collection = Collection.find(params[:id])
-    authorize collection
+    auth_authorize collection
 
     @get = name.constantize.new(
       current_user,

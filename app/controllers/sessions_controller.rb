@@ -1,5 +1,6 @@
 class SessionsController < ActionController::Base
   include Concerns::MadekCookieSession
+  include Concerns::RedirectBackOr
 
   def sign_in
     @user = User.find_by(login: params[:login].try(&:downcase))
@@ -57,16 +58,6 @@ class SessionsController < ActionController::Base
         last_name: @last_name,
         first_name: @first_name, subtype: 'Person'
     end
-  end
-
-  def redirect_back_or(default, flash_hash = {})
-    # does a redirect and searches target in this order
-    # - the referer of the request (prefered!)
-    # - route given in argument (as fallback, therefore required)
-    # - a target manually set in the session (used as last resort for edge cases)
-    redirect_to \
-      session[:return_to] || request.referer || default, flash: flash_hash
-    session[:return_to] = nil # clear this in any case
   end
 
 end

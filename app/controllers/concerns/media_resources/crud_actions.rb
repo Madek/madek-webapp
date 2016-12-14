@@ -9,7 +9,7 @@ module Concerns
       end
 
       def index
-        resources = policy_scope(model_klass)
+        resources = auth_policy_scope(current_user, model_klass)
         @get = presenterify(resources, nil)
         respond_with @get
       end

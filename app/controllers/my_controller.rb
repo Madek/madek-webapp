@@ -125,7 +125,7 @@ class MyController < ApplicationController
   }
 
   before_action do
-    authorize :dashboard, :logged_in?
+    auth_authorize :dashboard, :logged_in?
     # needed for the sidebar nav, also in controllers that inherit from us:
     init_for_view
   end

@@ -47,8 +47,7 @@ module Modules
       private
 
       def batch_edit_resource_permissions(scope)
-        # skip_authorization # custom because batch
-        authorize User, :logged_in?
+        auth_authorize User, :logged_in?
         return_to = params.require(:return_to)
         resource_ids = params.require(:id)
         resources = scope.where(id: resource_ids)
@@ -68,7 +67,7 @@ module Modules
       end
 
       def batch_update_resource_permissions(scope)
-        authorize User, :logged_in?
+        auth_authorize User, :logged_in?
         return_to = params.require(:return_to)
         resource_ids = params.require(:resource_ids)
         resources = scope.where(id: resource_ids)

@@ -42,9 +42,7 @@ module Presenters
       private
 
       def scoped_child_resources
-        ::Shared::MediaResources::MediaResourcePolicy::Scope.new(
-          @user,
-          @app_resource.media_entries).resolve
+        auth_policy_scope(@user, @app_resource.media_entries)
       end
 
       def index_presenter(type)

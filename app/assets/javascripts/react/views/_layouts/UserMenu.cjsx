@@ -23,10 +23,10 @@ module.exports = React.createClass
     }).isRequired,
     admin: React.PropTypes.shape({ # only set if user is admin
       url: React.PropTypes.string.isRequired
-      # super_action: React.PropTypes.shape({ # NOT implemented
-      #   url: React.PropTypes.string.isRequired
-      #   method: React.PropTypes.string.isRequired
-      # })
+      admin_mode_toggle: React.PropTypes.shape({ # NOT implemented
+        url: React.PropTypes.string.isRequired
+        method: React.PropTypes.string.isRequired
+      })
     }),
     sign_out_action: React.PropTypes.shape({
       url: React.PropTypes.string.isRequired,
@@ -98,30 +98,47 @@ module.exports = React.createClass
             <Icon i='cog ui-drop-icon mid'/>
             {' ' + t('user_menu_admin_ui')}
           </MenuItem>
+        }
 
-          {# <li className='ui-drop-item'>}
-          {#   <a className='' data-method='POST'}
-          {#     href='/app_admin/enter_uberadmin' id='switch-to-uberadmin'>}
-          {#     <Icon i='admin ui-drop-icon mid'/>}
-          {#     {' ' + 'In Admin-Modus wechseln'}</a>}}
-          {# </li>}
+        {f.present(props.admin) && props.admin.admin_mode_toggle &&
+          <MenuItemButton
+            name='admin-mode-toggle'
+            icon='admin'
+            title={props.admin.admin_mode_toggle.title}
+            action={props.admin.admin_mode_toggle.url}
+            method='POST'
+            authToken={props.authToken}
+          />
         }
 
         {f.present(props.admin) && <MenuItem className='separator'/>}
 
-        <li className='ui-drop-item'>
-          {# NOTE: needed style fixes for putting form in menu}
-          {styleFix = {width: '100%', textAlign: 'left', paddingLeft: '7px'}
-          <RailsForm
-            name='sign-out'
-            action={props.sign_out_action.url}
-            method={props.sign_out_action.method}
-            authToken={props.authToken}>
-            <button className='strong' style={styleFix}>
-              <Icon i='power-off' mods='ui-drop-icon' />
-              {' ' + t('user_menu_logout_btn')}</button>
-          </RailsForm>}
-        </li>
+        <MenuItemButton
+          name='sign-out'
+          icon='power-off'
+          title={t('user_menu_logout_btn')}
+          action={props.sign_out_action.url}
+          method={props.sign_out_action.method}
+          authToken={props.authToken}
+        />
+
       </Dropdown.Menu>
 
     </Dropdown>
+
+
+MenuItemButton = ({name, action, method, icon, title, authToken})->
+  # NOTE: needed style fixes for putting form in menu
+  styleFix = {width: '100%', textAlign: 'left', paddingLeft: '7px'}
+
+  <li className='ui-drop-item'>
+    <RailsForm
+      name='sign-out'
+      action={action}
+      method={method}
+      authToken={authToken}>
+      <button className='strong' style={styleFix}>
+        <Icon i={icon} mods='ui-drop-icon' />
+        {' ' + title}</button>
+    </RailsForm>
+  </li>

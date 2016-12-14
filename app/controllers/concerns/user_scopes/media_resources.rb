@@ -3,31 +3,25 @@ module Concerns
     module MediaResources
       extend ActiveSupport::Concern
 
-      def user_scopes_for_media_resource(resource)
+      def user_scopes_for_media_resource(resource, user = current_user)
         { parent_collections: \
-            policy_scope(resource.parent_collections),
+            auth_policy_scope(user, resource.parent_collections),
           sibling_collections: \
-            policy_scope(resource.sibling_collections) }
+            auth_policy_scope(user, resource.sibling_collections) }
       end
 
-      def user_scopes_for_collection(collection)
+      def user_scopes_for_collection(collection, user = current_user)
         user_scopes_for_media_resource(collection).merge \
           highlighted_media_entries: \
-            policy_scope(collection.highlighted_media_entries),
+            auth_policy_scope(user, collection.highlighted_media_entries),
           highlighted_collections: \
-            policy_scope(collection.highlighted_collections),
+            auth_policy_scope(user, collection.highlighted_collections),
           child_media_resources: \
-            Shared::MediaResources::MediaResourcePolicy::Scope.new(
-              current_user,
-              collection.child_media_resources).resolve,
+            auth_policy_scope(user, collection.child_media_resources),
           child_media_entries: \
-            MediaEntryPolicy::Scope.new(
-              current_user,
-              collection.media_entries).resolve,
+            auth_policy_scope(user, collection.media_entries),
           child_collections: \
-            CollectionPolicy::Scope.new(
-              current_user,
-              collection.collections).resolve
+            auth_policy_scope(user, collection.collections)
       end
     end
   end

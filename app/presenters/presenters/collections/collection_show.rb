@@ -186,7 +186,7 @@ module Presenters
 
       def reduce_tabs_by_policies(tabs)
         tabs.select do |tab|
-          policy(@user).send("#{tab[:id]}?")
+          policy_for(@user).send("#{tab[:id]}?")
         end.reject do |tab|
           tab[:id] == 'relations' \
             && _relations.child_collections.empty? \

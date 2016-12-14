@@ -6,6 +6,7 @@ module Concerns
       # rubocop:disable Metrics/MethodLength
       def user_scopes_for_dashboard(user)
         @user_scopes ||= apply_policy_scope_on_hash \
+          user,
           unpublished_media_entries: \
             user.unpublished_media_entries,
           content_media_entries: \
@@ -37,8 +38,8 @@ module Concerns
       end
       # rubocop:enable Metrics/MethodLength
 
-      def apply_policy_scope_on_hash(hash)
-        Hash[hash.map { |k, v| [k, policy_scope(v)] }]
+      def apply_policy_scope_on_hash(user, hash)
+        Hash[hash.map { |k, v| [k, auth_policy_scope(user, v)] }]
       end
     end
   end

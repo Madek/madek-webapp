@@ -34,7 +34,7 @@ module Presenters
 
       def tabs # list of all 'show' action sub-tabs
         tabs_config.select do |tab|
-          tab[:action] ? policy(@user).send("#{tab[:action]}?".to_sym) : true
+          tab[:action] ? policy_for(@user).send("#{tab[:action]}?".to_sym) : true
         end.reject do |tab|
           tab[:id] == 'relations' \
             && _relations.parent_collections.empty? \

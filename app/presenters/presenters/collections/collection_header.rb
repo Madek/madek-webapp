@@ -60,7 +60,7 @@ module Presenters
           icon: 'pen',
           title: I18n.t(:resource_action_edit, raise: false),
           action: edit_context_meta_data_collection_path(@app_resource),
-          allowed: policy(@user).meta_data_update?
+          allowed: policy_for(@user).meta_data_update?
         }
       end
 
@@ -73,7 +73,7 @@ module Presenters
             "resource_action_#{favored ? 'disfavor' : 'favor'}", raise: false),
           action: self.send(
             "#{favored ? 'disfavor' : 'favor'}_collection_path", @app_resource),
-          allowed: favored ? policy(@user).disfavor? : policy(@user).favor?
+          allowed: favored ? policy_for(@user).disfavor? : policy_for(@user).favor?
         }
       end
 
@@ -84,7 +84,7 @@ module Presenters
           icon: 'cover',
           title: I18n.t(:resource_action_edit_cover, raise: false),
           action: cover_edit_collection_path(@app_resource),
-          allowed: policy(@user).update_cover?
+          allowed: policy_for(@user).update_cover?
         }
       end
 
@@ -95,7 +95,7 @@ module Presenters
           icon: 'trash',
           title: I18n.t(:resource_action_destroy, raise: false),
           action: ask_delete_collection_path(@app_resource),
-          allowed: policy(@user).destroy?
+          allowed: policy_for(@user).destroy?
         }
       end
 
@@ -106,7 +106,7 @@ module Presenters
           icon: 'move',
           title: I18n.t(:resource_action_manage_collections, raise: false),
           action: select_collection_collection_path(@app_resource),
-          allowed: policy(@user).add_remove_collection?
+          allowed: policy_for(@user).add_remove_collection?
         }
       end
 
@@ -117,7 +117,7 @@ module Presenters
           icon: 'highlight',
           title: I18n.t(:resource_action_edit_highlights, raise: false),
           action: highlights_edit_collection_path(@app_resource),
-          allowed: policy(@user).update_highlights?
+          allowed: policy_for(@user).update_highlights?
         }
       end
 

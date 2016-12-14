@@ -1,0 +1,11 @@
+body[data-uberadmin] {
+  border: 1.5em solid transparent;
+  background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 1.5em,
+      $red 1.5em,
+      $red 3em
+    ),
+    $body-background;
+}

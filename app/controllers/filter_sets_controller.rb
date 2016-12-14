@@ -17,7 +17,7 @@ class FilterSetsController < ApplicationController
         string: title,
         created_by: current_user)])
 
-    authorize(filter_set.reload)
+    auth_authorize(filter_set.reload)
 
     represent(filter_set, Presenters::FilterSets::FilterSetIndex)
   end

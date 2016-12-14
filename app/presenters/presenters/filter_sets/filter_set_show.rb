@@ -14,8 +14,7 @@ module Presenters
       # TODO: MultiMediaResourceBox. Currently only Entries.
       def resources
         Presenters::MediaEntries::MediaEntries.new(
-          MediaEntryPolicy::VisibleScope.new(@user, MediaEntry)
-            .resolve
+          auth_policy_scope(@user, MediaEntry)
             .filter_by(**saved_filter), @user, list_conf: @list_conf)
       end
 

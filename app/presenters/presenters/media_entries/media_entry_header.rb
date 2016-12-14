@@ -61,7 +61,7 @@ module Presenters
           icon: 'pen',
           title: I18n.t(:resource_action_edit, raise: false),
           action: edit_context_meta_data_media_entry_path(@app_resource),
-          allowed: policy(@user).meta_data_update?
+          allowed: policy_for(@user).meta_data_update?
         }
       end
 
@@ -72,7 +72,7 @@ module Presenters
           icon: 'trash',
           title: I18n.t(:resource_action_destroy, raise: false),
           action: ask_delete_media_entry_path(@app_resource),
-          allowed: policy(@user).destroy?
+          allowed: policy_for(@user).destroy?
         }
       end
 
@@ -85,7 +85,7 @@ module Presenters
             "resource_action_#{favored ? 'disfavor' : 'favor'}", raise: false),
           action: self.send(
             "#{favored ? 'disfavor' : 'favor'}_media_entry_path", @app_resource),
-          allowed: favored ? policy(@user).disfavor? : policy(@user).favor?
+          allowed: favored ? policy_for(@user).disfavor? : policy_for(@user).favor?
         }
       end
 
@@ -96,7 +96,7 @@ module Presenters
           icon: 'move',
           title: I18n.t(:resource_action_manage_collections, raise: false),
           action: select_collection_media_entry_path(@app_resource),
-          allowed: policy(@user).add_remove_collection?
+          allowed: policy_for(@user).add_remove_collection?
         }
       end
 
@@ -107,7 +107,7 @@ module Presenters
           icon: 'dload',
           title: I18n.t(:resource_action_export, raise: false),
           action: export_media_entry_path(@app_resource),
-          allowed: policy(@user).export?
+          allowed: policy_for(@user).export?
         }
       end
     end

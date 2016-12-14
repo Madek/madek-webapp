@@ -40,7 +40,9 @@
     -# configured extra tags for head end:
     = find_and_preserve(extra_content[:head_end].html_safe) if extra_content[:head_end].present?
 
-  %body{data: {r: controller_name, a: action_name}}
+  - uberadmin_mode = current_user.try(:admin).try(:webapp_session_uberadmin_mode)
+  %body{data: {r: controller_name, a: action_name, uberadmin: uberadmin_mode }}
+
     -# configured extra content for body start:
     = find_and_preserve(extra_content[:body_start].html_safe) if extra_content[:body_start].present?
 

@@ -1,7 +1,7 @@
 module Presenters
   module MediaEntries
     class BatchEditContextMetaData < Presenter
-
+      include AuthorizationSetup
       include Presenters::Shared::Modules::VocabularyConfig
 
       attr_reader :context_id, :return_to

@@ -7,7 +7,7 @@ module Concerns
 
       def update_highlights
         collection = Collection.find(params[:id])
-        authorize collection
+        auth_authorize collection
 
         ActiveRecord::Base.transaction do
 

@@ -16,7 +16,7 @@ class MediaFilesController < ApplicationController
 
   def download_by_user_permissions
     media_file = MediaFile.find_by!(id: id_param)
-    authorize(media_file)
+    auth_authorize(media_file)
     serve_file(
       media_file.original_store_location,
       content_type: get_content_type(media_file),

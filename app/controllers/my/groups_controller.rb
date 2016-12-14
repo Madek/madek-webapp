@@ -33,7 +33,7 @@ class My::GroupsController < MyController
 
   def update
     group = current_user.groups.find(params[:id])
-    authorize group, :update_and_manage_members?
+    auth_authorize group, :update_and_manage_members?
     ActiveRecord::Base.transaction do
       group.update!(group_params)
       update_members!(group)
@@ -44,7 +44,7 @@ class My::GroupsController < MyController
 
   def destroy
     group = current_user.groups.find(params[:id])
-    authorize group
+    auth_authorize group
     group.destroy!
 
     respond_to do |format|
@@ -64,7 +64,7 @@ class My::GroupsController < MyController
 
   def find_group_and_authorize
     group = Group.find(params[:id])
-    authorize group
+    auth_authorize group
     group
   end
 

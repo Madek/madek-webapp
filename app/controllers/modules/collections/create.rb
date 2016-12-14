@@ -4,7 +4,7 @@ module Modules
       extend ActiveSupport::Concern
 
       def create
-        authorize Collection
+        auth_authorize Collection
         title = params[:collection_title]
 
         if title.present?

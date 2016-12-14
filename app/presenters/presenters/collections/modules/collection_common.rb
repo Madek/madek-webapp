@@ -20,15 +20,15 @@ module Presenters
         end
 
         def destroyable
-          policy(@user).destroy?
+          policy_for(@user).destroy?
         end
 
         def editable
-          policy(@user).meta_data_update?
+          policy_for(@user).meta_data_update?
         end
 
         def permissions_editable
-          policy(@user).permissions_edit?
+          policy_for(@user).permissions_edit?
         end
 
         included do

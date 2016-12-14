@@ -41,12 +41,16 @@ feature 'App: UserMenu' do
       sign_in_as('adam')
       open_user_menu
       expect(user_menu_drop_menu).to have_selector('a[href="/admin"]')
+      expect(user_menu_drop_menu).to \
+        have_content(I18n.t(:user_menu_admin_mode_toogle_on))
     end
 
     example 'doesnt show admin menu if user is not admin' do
       sign_in_as('normin')
       open_user_menu
       expect(user_menu_drop_menu).to_not have_selector('a[href="/admin"]')
+      expect(user_menu_drop_menu).to_not \
+        have_content(I18n.t(:user_menu_admin_mode_toogle_on))
     end
 
   end

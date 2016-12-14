@@ -15,7 +15,7 @@ module Concerns
 
     def get_authorized_resource(resource = nil)
       resource ||= model_klass.unscoped.find(id_param)
-      authorize resource, "#{action_name}?".to_sym
+      auth_authorize resource, "#{action_name}?".to_sym
       resource
     end
 

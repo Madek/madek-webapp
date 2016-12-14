@@ -55,7 +55,7 @@ class MediaEntriesController < ApplicationController
 
   def destroy
     media_entry = MediaEntry.unscoped.find(id_param)
-    authorize media_entry
+    auth_authorize media_entry
 
     ActiveRecord::Base.transaction do
       # TODO: Remove this when cascade delete works:
@@ -86,7 +86,7 @@ class MediaEntriesController < ApplicationController
     # TODO: Merge with the same method in collections_controller
 
     media_entry = MediaEntry.unscoped.find(params[:id])
-    authorize media_entry
+    auth_authorize media_entry
 
     @get = name.constantize.new(
       current_user,

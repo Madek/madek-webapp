@@ -4,12 +4,12 @@
   end
 
   actions = component('actions', mods: 'phl pbl mtl', actions: [
-      if @get.policy(current_user).edit?
+      if @get.policy_for(current_user).edit?
         component('button.primary', mods: 'large',
                   text: t(:meta_data_action_edit_btn), icon: 'pen',
                   link: edit_meta_datum_path(@get.uuid))
       end,
-      if @get.policy(current_user).destroy?
+      if @get.policy_for(current_user).destroy?
         component('button.tertiary', mods: 'large',
                     text: t(:meta_data_action_delete_btn), icon: 'trash',
                     link: meta_datum_path(@get.uuid),

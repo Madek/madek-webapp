@@ -10,8 +10,7 @@ module Presenters
           return [] unless teaser
 
           authorized_entries = \
-            MediaEntryPolicy::Scope.new(@user, teaser.media_entries).resolve
-          .limit(20)
+            auth_policy_scope(@user, teaser.media_entries).limit(20)
 
           authorized_entries.map { |entry| entry_presenter.new(entry) }
         end

@@ -8,7 +8,7 @@ module Concerns
     end
 
     def prepare_array_of_presenter_dumps
-      ar_collection = policy_scope(model_klass.all)
+      ar_collection = auth_policy_scope(current_user, model_klass.all)
       unless search_params.blank?
         ar_collection = ar_collection.filter_by(*search_params)
       end

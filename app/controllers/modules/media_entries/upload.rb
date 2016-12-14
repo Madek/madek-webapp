@@ -4,7 +4,7 @@ module Modules
       extend ActiveSupport::Concern
 
       def new
-        authorize MediaEntry
+        auth_authorize MediaEntry
         @get = Presenters::MediaEntries::MediaEntryNew.new
       end
 
@@ -15,7 +15,7 @@ module Modules
           creator: current_user,
           is_published: false)
 
-        authorize media_entry
+        auth_authorize media_entry
 
         ActiveRecord::Base.transaction do
           media_entry.save!
@@ -36,7 +36,7 @@ module Modules
 
       def publish
         media_entry = MediaEntry.unscoped.where(is_published: false).find(id_param)
-        authorize media_entry
+        auth_authorize media_entry
         ActiveRecord::Base.transaction do
           media_entry.is_published = true
           media_entry.save!

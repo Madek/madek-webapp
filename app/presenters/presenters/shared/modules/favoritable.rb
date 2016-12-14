@@ -9,7 +9,7 @@ module Presenters
 
         # TODO: rename
         def favorite_policy
-          policy(@user).favor?
+          policy_for(@user).favor?
         end
 
       end
