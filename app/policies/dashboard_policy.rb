@@ -1,8 +1,8 @@
-class DashboardPolicy
+class DashboardPolicy < DefaultPolicy
   attr_reader :user
 
   def initialize(user, dashboard)
-    @user = user
+    super(user, dashboard)
     @dashboard = dashboard
   end
 
