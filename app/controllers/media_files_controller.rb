@@ -19,7 +19,8 @@ class MediaFilesController < ApplicationController
     authorize(media_file)
     serve_file(
       media_file.original_store_location,
-      content_type: media_file.content_type)
+      content_type: media_file.content_type,
+      filename: media_file.filename)
   end
 
   def download_by_access_hash
@@ -28,7 +29,8 @@ class MediaFilesController < ApplicationController
     media_file = MediaFile.find_by!(id: id_param, access_hash: access_hash_param)
     serve_file(
       media_file.original_store_location,
-      content_type: media_file.content_type)
+      content_type: media_file.content_type,
+      filename: media_file.filename)
   end
 
   def id_param
