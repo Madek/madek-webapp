@@ -90,6 +90,55 @@ feature 'Resource: MediaEntry' do
       expect(Digest::SHA256.hexdigest(File.read(downloaded_file)))
         .to eq(Digest::SHA256.hexdigest(File.read(wanted_file)))
     end
+
+    it 'Check filename original file', browser: :firefox_nojs do
+      prepare_user
+      prepare_image
+      login
+
+      initial_downloads = get_my_downloads
+      open_export
+
+      find('.modal').find('.primary-button', text: I18n.t(
+        'media_entry_export_download')).click
+      downloaded_file = get_new_download_file(initial_downloads)
+
+      expect(downloaded_file.basename.to_s).to eq('grumpy_cat.jpg')
+    end
+
+    it 'Check filename preview file', browser: :firefox_nojs do
+      prepare_user
+      prepare_image
+      login
+
+      initial_downloads = get_my_downloads
+      open_export
+
+      find('.modal').all('.icon-dload')[0].click
+      downloaded_file = get_new_download_file(initial_downloads)
+
+      expect(downloaded_file.basename.to_s).to eq('grumpy_cat.jpg.480x360.jpg')
+    end
+
+    it 'Check filename preview file without size', browser: :firefox_nojs do
+      prepare_user
+      prepare_image
+      @media_entry.media_file.previews.each do |preview|
+        preview.width = nil
+        preview.height = nil
+        preview.save
+        preview.reload
+      end
+      login
+
+      initial_downloads = get_my_downloads
+      open_export
+
+      find('.modal').all('.icon-dload')[0].click
+      downloaded_file = get_new_download_file(initial_downloads)
+
+      expect(downloaded_file.basename.to_s).to eq('grumpy_cat.jpg.jpg')
+    end
   end
 
   private
