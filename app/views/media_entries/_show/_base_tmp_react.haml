@@ -20,6 +20,7 @@
   tabs = content_for(:tabs)
   main = content_for(:main)
 
+
 .app-body-ui-container
 
   - if top_notice.present?
@@ -30,5 +31,3 @@
   = tabs
 
   = main
-
-= render template: 'layouts/_base'
