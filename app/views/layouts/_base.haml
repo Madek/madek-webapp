@@ -1,12 +1,18 @@
 :ruby
   #NOTE: careful with access to `settings` comes from DB and can fail hard
+  extra_content = begin; settings.webapp_html_extra_content; rescue; end || {}
   site_title = begin; settings.site_title; rescue; end
   site_title ||= 'Madek' # fallback
+
 !!!
 -# NOTE: class 'has-js' is set dynamically with — suprise! — JavaScript.
 %html{lang: 'de-CH'}
   %head
     %meta{charset: 'utf-8'}
+
+    -# configured extra tags for head start:
+    = find_and_preserve(extra_content[:head_start].html_safe) if extra_content[:head_start].present?
+
     %title
       - if content_for?(:title_head)
         = "#{site_title} | #{strip_tags(content_for(:title_head))}"
@@ -31,7 +37,13 @@
     -# optional extra tags for head:
     = content_for(:head)
 
+    -# configured extra tags for head end:
+    = find_and_preserve(extra_content[:head_end].html_safe) if extra_content[:head_end].present?
+
   %body{data: {r: controller_name, a: action_name}}
+    -# configured extra content for body start:
+    = find_and_preserve(extra_content[:body_start].html_safe) if extra_content[:body_start].present?
+
     -# main body from ruby block or named content block
     - if content_for?(:body)
       = content_for(:body)
@@ -47,3 +59,6 @@
       -# - now all the per-template scripts, which
           MUST be self-contained and not depending on load order:
       = content_for(:scripts) if content_for?(:scripts)
+
+      -# configured extra content for body end:
+      = find_and_preserve(extra_content[:body_end].html_safe) if extra_content[:body_end].present?
