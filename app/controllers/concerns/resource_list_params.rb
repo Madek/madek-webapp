@@ -18,9 +18,10 @@ module Concerns
         coerced_types = { bools: [:show_filter],
                           jsons: [:filter, :accordion] }
 
-        parameters
-          .permit(base => allowed)
-          .fetch(base, {})
+        # NOTE: can be `nil` if base is a string (like `?list=some_string`)
+        list_params = parameters.permit(base => allowed).fetch(base, {}) || {}
+
+        list_params
           .deep_symbolize_keys
           .map { |key, val| _coerce_types(coerced_types, key, val) }
           .tap do |parameters|
