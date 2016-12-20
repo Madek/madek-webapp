@@ -18,6 +18,7 @@ class ZencoderJobsController < ApplicationController
         )
         import_thumbnails(details)
         import_previews(details)
+        collect_finished_profiles(details)
         @zencoder_job.update_attributes(
           state: 'finished',
           progress: 100.0
@@ -89,7 +90,8 @@ class ZencoderJobsController < ApplicationController
       filename: target_file.split('/').last,
       height: output_file['height'],
       width: output_file['width'],
-      thumbnail: 'large'
+      thumbnail: 'large',
+      conversion_profile: output_file['label']
     )
   end
 
@@ -104,7 +106,7 @@ class ZencoderJobsController < ApplicationController
     media_file.previews.create!(
       content_type: content_type,
       filename: target_file.split('/').last,
-      audio_codec: output_file['audio_codec']
+      conversion_profile: output_file['label']
     )
   end
 
@@ -126,6 +128,14 @@ class ZencoderJobsController < ApplicationController
     rescue => e
       Rails.logger.error "ZENCODER IMPORT ERR: #{e.inspect}, #{e.backtrace}"
     end
+  end
+
+  def collect_finished_profiles(details)
+    profiles = []
+    details['job']['output_media_files'].each do |output_file|
+      profiles << output_file['label'] if finished?(output_file)
+    end
+    @zencoder_job.conversion_profiles = profiles.sort
   end
 
   def finished?(data)
