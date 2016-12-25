@@ -50,6 +50,7 @@ feature 'Resource: MediaEntry' do
     it 'Download original image not logged in', browser: :firefox_nojs do
       prepare_user
       prepare_image
+      clean_my_downloads
       open_export
       expect(page).to have_content(I18n.t(:media_entry_export_has_no_original))
       expect(page).to have_content(I18n.t(:media_entry_export_subtitle_images))
@@ -58,6 +59,7 @@ feature 'Resource: MediaEntry' do
     it 'Download original image logged in', browser: :firefox_nojs do
       prepare_user
       prepare_image
+      clean_my_downloads
 
       initial_downloads = get_my_downloads
       wanted_file = @media_entry.media_file.original_store_location
@@ -76,6 +78,7 @@ feature 'Resource: MediaEntry' do
     it 'Download preview image not logged in', browser: :firefox_nojs do
       prepare_user
       prepare_image
+      clean_my_downloads
 
       initial_downloads = get_my_downloads
       wanted_file = @media_entry.media_file.previews.where(thumbnail: :maximum)
@@ -94,6 +97,7 @@ feature 'Resource: MediaEntry' do
     it 'Check filename original file', browser: :firefox_nojs do
       prepare_user
       prepare_image
+      clean_my_downloads
       login
 
       initial_downloads = get_my_downloads
@@ -111,6 +115,7 @@ feature 'Resource: MediaEntry' do
     it 'Check filename preview file', browser: :firefox_nojs do
       prepare_user
       prepare_image
+      clean_my_downloads
       login
 
       initial_downloads = get_my_downloads
@@ -127,6 +132,8 @@ feature 'Resource: MediaEntry' do
     it 'Check filename preview file without size', browser: :firefox_nojs do
       prepare_user
       prepare_image
+      clean_my_downloads
+
       @media_entry.media_file.previews.each do |preview|
         preview.width = nil
         preview.height = nil
@@ -235,6 +242,10 @@ feature 'Resource: MediaEntry' do
 
   def get_my_downloads
     Dir.entries(BROWSER_DONWLOAD_DIR)
+  end
+
+  def clean_my_downloads
+    `rm -rf #{BROWSER_DONWLOAD_DIR}/*`
   end
 
   def get_new_download_file(initial_contents)
