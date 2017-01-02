@@ -14,21 +14,29 @@ module.exports = React.createClass
 
     titles = {
       parents: 'collection_relations_parent_sets'
-      children: 'collection_relations_child_sets'
       siblings: 'collection_relations_sibling_sets'
+      children: 'collection_relations_child_sets'
+    }
+
+    hints = {
+      parents: 'collection_relations_parents_hint'
+      siblings: 'collection_relations_siblings_hint'
+      children: 'collection_relations_children_hint'
     }
 
     <div className="ui-container tab-content bordered rounded-right rounded-bottom mbh" data-test-id={@props.testId}>
       <div className="ui-container bright rounded-right rounded-bottom phl ptl">
 
-        <h2 className="ui-resources-header title-l separated mbl">
+        <h2 className="ui-resources-header title-l separated mbm">
           {t(titles[scope])} <span className="ui-counter" style={{fontWeight: 'normal'}}>
             ({get.relation_resources.pagination.total_count})</span>
           <a className="strong" href="../relations">
             {t('collection_relations_show_all_relations')}
           </a>
         </h2>
-
+        <p className='mbm mts'>
+          {t(hints[scope])}
+        </p>
       </div>
 
       <MediaResourcesBox withBox={true}

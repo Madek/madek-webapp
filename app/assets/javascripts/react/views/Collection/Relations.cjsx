@@ -40,6 +40,9 @@ module.exports = React.createClass
                   </a>
               }
             </h2>
+            <p className='mll mts'>
+              {t('collection_relations_parents_hint')}
+            </p>
           </div>
           <ul className="grid horizontal ui-resources">
             {
@@ -90,6 +93,9 @@ module.exports = React.createClass
                     </a>
                 }
               </h2>
+              <p className='mll mts'>
+                {t('collection_relations_siblings_hint')}
+              </p>
             </div>
             <ul className="grid horizontal ui-resources">
               {
@@ -126,6 +132,9 @@ module.exports = React.createClass
                     </a>
                 }
                 </h2>
+                <p className='mll mts'>
+                  {t('collection_relations_children_hint')}
+                </p>
               </div>
               <ul className="grid horizontal ui-resources">
                 {
