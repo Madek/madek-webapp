@@ -103,7 +103,9 @@ feature 'Resource: MediaEntry' do
         'media_entry_export_download')).click
       downloaded_file = get_new_download_file(initial_downloads)
 
-      expect(downloaded_file.basename.to_s).to eq('grumpy_cat.jpg')
+      to_check = downloaded_file.basename.to_s
+      # e.g. grumpy_cat(1).jpg
+      expect(to_check =~ /^grumpy_cat.*\.jpg$/).to eq(0)
     end
 
     it 'Check filename preview file', browser: :firefox_nojs do
@@ -117,7 +119,9 @@ feature 'Resource: MediaEntry' do
       find('.modal').all('.icon-dload')[0].click
       downloaded_file = get_new_download_file(initial_downloads)
 
-      expect(downloaded_file.basename.to_s).to eq('grumpy_cat.jpg.480x360.jpg')
+      to_check = downloaded_file.basename.to_s
+      # e.g. grumpy_cat.jpg.480x360(1).jpg
+      expect(to_check =~ /^grumpy_cat\.jpg\.480x360.*\.jpg$/).to eq(0)
     end
 
     it 'Check filename preview file without size', browser: :firefox_nojs do
@@ -137,7 +141,9 @@ feature 'Resource: MediaEntry' do
       find('.modal').all('.icon-dload')[0].click
       downloaded_file = get_new_download_file(initial_downloads)
 
-      expect(downloaded_file.basename.to_s).to eq('grumpy_cat.jpg.jpg')
+      to_check = downloaded_file.basename.to_s
+      # e.g. grumpy_cat.jpg(1).jpg
+      expect(to_check =~ /^grumpy_cat\.jpg.*\.jpg$/).to eq(0)
     end
   end
 

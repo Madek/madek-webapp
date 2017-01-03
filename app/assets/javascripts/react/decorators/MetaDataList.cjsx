@@ -9,11 +9,15 @@ t = require('../../lib/string-translation')('de')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
 MetaDatumValues = require('./MetaDatumValues.cjsx')
 
+Icon = require('../ui-components/Icon.cjsx')
+
+
 # TODO: inline Edit - MetaDatumEdit = require('../meta-datum-edit.cjsx')
 
 module.exports = React.createClass
   displayName: 'Deco.MetaDataList'
   propTypes:
+    vocabUuid: React.PropTypes.string
     list: MadekPropTypes.metaDataByAny
     tagMods: React.PropTypes.any # TODO: mods
     type: React.PropTypes.oneOf(['list', 'table'])
@@ -79,7 +83,16 @@ module.exports = React.createClass
       <div className={wrapperClass}>
         {if showTitle
           {# TODO: vocabulary description, privacy_status}
-          <h3 className='title-l separated mbm'>{title}</h3>
+          <h3 className='title-l separated mbm'>
+            {title}
+            {' ' if @props.vocabUuid}
+            {
+              if @props.vocabUuid
+                <a href={'/vocabulary/' + @props.vocabUuid} style={{textDecoration: 'none'}}>
+                  <Icon i='link' style={{color: '#9a9a9a'}} />
+                </a>
+            }
+          </h3>
         }
         {if type is 'list'
           <MetaDataDefinitionList
