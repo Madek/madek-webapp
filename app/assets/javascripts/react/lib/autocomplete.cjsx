@@ -41,7 +41,7 @@ initTypeahead = (domNode, resourceType, params, conf, existingValues, onSelect, 
       wrapper: 'ui-autocomplete-holder'
       input: 'ui-typeahead-input',
       hint: 'ui-autocomplete-hint',
-      menu: 'ui-autocomplete ui-menu',
+      menu: 'ui-autocomplete ui-menu ui-autocomplete-open-width',
       cursor: 'ui-autocomplete-cursor',
       suggestion: 'ui-menu-item'
     }
