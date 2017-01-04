@@ -89,7 +89,7 @@ module.exports = React.createClass
             {
               if @props.vocabUuid
                 <a href={'/vocabulary/' + @props.vocabUuid} style={{textDecoration: 'none'}}>
-                  <Icon i='link' style={{color: '#9a9a9a'}} />
+                  <Icon i='link' />
                 </a>
             }
           </h3>

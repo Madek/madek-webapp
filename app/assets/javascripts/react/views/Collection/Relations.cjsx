@@ -18,15 +18,18 @@ module.exports = React.createClass
     siblingCount = get.relations.sibling_collections.pagination.total_count
 
     <div className="ui-container tab-content bordered rounded-right rounded-bottom mbh" data-test-id={@props.testId}>
-      <div className="ui-container bright rounded-right rounded-bottom pal">
-        <div className="row">
-          <div className="col6of6">
-            <h2 className="title-m">
-              {t(typeKebab + '_relations_hint_text')}
-            </h2>
+      {
+        if false
+          <div className="ui-container bright rounded-right rounded-bottom pal">
+            <div className="row">
+              <div className="col6of6">
+                <h2 className="title-m">
+                  {t(typeKebab + '_relations_hint_text')}
+                </h2>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+      }
       <div className="ui-container midtone-darker bordered-bottom bordered-top relationships-wrapper">
         <div className="ui-resources-holder" id="set-relations-parents">
           <div className="ui-resources-header mbn">
@@ -72,6 +75,9 @@ module.exports = React.createClass
                 <h2 className="title-l ui-resource-title mtl mll">
                   {t(typeKebab + '_relations_current')}
                 </h2>
+                <p className='mll mts'>
+                  &nbsp;
+                </p>
               </div>
               <ul className="grid horizontal ui-resources">
                 <ResourceThumbnail authToken={authToken} elm={'li'} get={get}
