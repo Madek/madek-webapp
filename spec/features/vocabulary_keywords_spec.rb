@@ -5,6 +5,9 @@ require 'spec_helper_feature_shared'
 require_relative './shared/basic_data_helper_spec'
 include BasicDataHelper
 
+require_relative './shared/vocabulary_shared'
+include VocabularyShared
+
 feature 'Vocabulary keywords' do
 
   scenario 'Check if shown' do
@@ -14,13 +17,14 @@ feature 'Vocabulary keywords' do
       %w(keyword_aa keyword_ab keyword_ac keyword_ad keyword_ae),
       %w(text_ag text_ah))
 
-    visit_madek_core_vocabulary(vocabulary)
+    visit_vocabulary_keywords(vocabulary)
 
     check_title(vocabulary.label)
     check_tabs(
       [
         { key: :vocabularies_tabs_vocabulary, active: false },
-        { key: :vocabularies_tabs_keywords, active: true }
+        { key: :vocabularies_tabs_keywords, active: true },
+        { key: :vocabularies_tabs_contents, active: false }
       ]
     )
     check_meta_keys(
@@ -33,7 +37,7 @@ feature 'Vocabulary keywords' do
     vocabulary.enabled_for_public_view = false
     vocabulary.save
 
-    visit_madek_core_vocabulary(vocabulary)
+    visit_vocabulary_keywords(vocabulary)
     expect(page).to have_content 'Error 401'
   end
 
@@ -45,7 +49,7 @@ feature 'Vocabulary keywords' do
 
     login
 
-    visit_madek_core_vocabulary(vocabulary)
+    visit_vocabulary_keywords(vocabulary)
     expect(page).to have_content 'Error 403'
   end
 
@@ -63,13 +67,14 @@ feature 'Vocabulary keywords' do
 
     login
 
-    visit_madek_core_vocabulary(vocabulary)
+    visit_vocabulary_keywords(vocabulary)
 
     check_title(vocabulary.label)
     check_tabs(
       [
         { key: :vocabularies_tabs_vocabulary, active: false },
-        { key: :vocabularies_tabs_keywords, active: true }
+        { key: :vocabularies_tabs_keywords, active: true },
+        { key: :vocabularies_tabs_contents, active: false }
       ]
     )
     check_meta_keys(
@@ -92,26 +97,7 @@ feature 'Vocabulary keywords' do
     end
   end
 
-  def check_title(title)
-    find('.ui-body-title-label', text: title)
-  end
-
-  def check_tabs(tabs)
-    within('.app-body-ui-container') do
-
-      tabs.each do |tab|
-        element = find('.ui-tabs-item', text: I18n.t(tab[:key]))
-
-        if tab[:active]
-          element.assert_matches_selector('[class*=active]')
-        else
-          element.assert_not_matches_selector('[class*=active]')
-        end
-      end
-    end
-  end
-
-  def visit_madek_core_vocabulary(vocabulary)
+  def visit_vocabulary_keywords(vocabulary)
     visit vocabulary_keywords_path(vocabulary)
   end
 

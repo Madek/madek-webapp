@@ -1,5 +1,7 @@
 class VocabulariesController < ApplicationController
 
+  ALLOWED_FILTER_PARAMS = MediaEntriesController::ALLOWED_FILTER_PARAMS
+
   def index
     resources = Vocabulary.all
     authorized_resources = VocabularyPolicy::Scope
@@ -21,6 +23,15 @@ class VocabulariesController < ApplicationController
 
     @get = Presenters::Vocabularies::VocabularyKeywords.new(
       vocabulary, user: current_user)
+
+    respond_with(@get)
+  end
+
+  def contents
+    vocabulary = find_by_vocab_id_param
+
+    @get = Presenters::Vocabularies::VocabularyContents.new(
+      vocabulary, current_user, resource_list_params)
 
     respond_with(@get)
   end

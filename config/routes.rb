@@ -128,6 +128,7 @@ Madek::Application.routes.draw do
   get 'vocabulary/:vocabulary_id', to: 'vocabularies#show', as: 'vocabulary'
   get 'vocabulary/meta_key/:meta_key_id/:term', to: 'keywords#show', as: 'vocabulary_meta_key_term'
   get 'vocabulary/:vocab_id/keywords', to: 'vocabularies#keywords', as: 'vocabulary_keywords'
+  get 'vocabulary/:vocab_id/contents', to: 'vocabularies#contents', as: 'vocabulary_contents'
 
   # TODO: also "scope" this inside /vocabulary ↑ (but don't break CRUD & search)
   resources :meta_keys, only: :index

@@ -725,6 +725,7 @@ module.exports = React.createClass
                               )
 
 
+
                           # TODO: get={model}
                           <ResourceThumbnail elm='div'
                             style={style}

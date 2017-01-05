@@ -22,6 +22,10 @@ tabsConfig = (actions) ->
     {
       path: actions.vocabulary_keywords,
       label: t('vocabularies_tabs_keywords')
+    },
+    {
+      path: actions.vocabulary_contents,
+      label: t('vocabularies_tabs_contents')
     }
   ]
 
@@ -44,7 +48,7 @@ module.exports = React.createClass
 
       <Tabs>
         {
-          f.map tabsConfig(actions), (tab) =>
+          f.map tabsConfig(actions), (tab) ->
             <Tab label={tab.label}
               href={tab.path} key={'tab_' + tab.path}
               active={tab.path == currentPath} />

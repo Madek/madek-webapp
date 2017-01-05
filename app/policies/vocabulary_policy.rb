@@ -9,4 +9,8 @@ class VocabularyPolicy < DefaultPolicy
   def keywords? # just a 'show' tab
     show?
   end
+
+  def contents?
+    show?
+  end
 end

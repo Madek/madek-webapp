@@ -16,7 +16,9 @@ module Presenters
           index: prepend_url_context(vocabularies_path),
           vocabulary: prepend_url_context(vocabulary_path(@vocabulary)),
           vocabulary_keywords: prepend_url_context(
-            vocabulary_keywords_path(@vocabulary))
+            vocabulary_keywords_path(@vocabulary)),
+          vocabulary_contents: prepend_url_context(
+            vocabulary_contents_path(@vocabulary))
         }
       end
     end

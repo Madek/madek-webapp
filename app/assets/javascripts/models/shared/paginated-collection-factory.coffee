@@ -79,6 +79,9 @@ module.exports = (collectionClass, {jsonPath})->
       if path.indexOf('/relations/children') > 0 or path.indexOf('/relations/siblings') > 0 or path.indexOf('/relations/parents') > 0
         jsonPath = 'relation_resources.resources'
 
+      if path.indexOf('/vocabulary') == 0 and path.indexOf('/contents') > 0
+        jsonPath = 'resources.resources'
+
       nextPage = (@currentPage + 1)
       nextUrl = setUrlParams(
         @url,

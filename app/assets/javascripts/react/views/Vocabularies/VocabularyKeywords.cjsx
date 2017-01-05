@@ -14,7 +14,7 @@ VocabularyPage = require('./VocabularyPage.cjsx')
 MIN_COLS = 2 # for layout
 MAX_COLS = 4
 
-MetakeyItem = ({meta_key, keywords}) =>
+MetakeyItem = ({meta_key, keywords}) ->
   <div className='ui-metadata-box prl mbm'>
     <h3 className='title-s-alt separated light mbx'>
       {meta_key.label}
