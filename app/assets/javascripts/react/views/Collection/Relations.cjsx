@@ -30,7 +30,7 @@ module.exports = React.createClass
             </div>
           </div>
       }
-      <div className="ui-container midtone-darker bordered-bottom bordered-top relationships-wrapper">
+      <div className="ui-container midtone-darker bordered-bottom bordered-top relationships-wrapper" style={{border: '0px'}}>
         <div className="ui-resources-holder" id="set-relations-parents">
           <div className="ui-resources-header mbn">
             <h2 className="title-l ui-resource-title mtl mll">
@@ -44,7 +44,7 @@ module.exports = React.createClass
               }
             </h2>
             <p className='mll mts'>
-              {t('collection_relations_parents_hint')}
+              {t(typeKebab + '_relations_parents_hint')}
             </p>
           </div>
           <ul className="grid horizontal ui-resources">
@@ -63,12 +63,16 @@ module.exports = React.createClass
           </ul>
         </div>
       </div>
+      {# Make sure the vertical line (on the right side with the arrow) is full height in the box => override height}
       <div
         className={classnames(
           "bright relationships-this-wrapper relationships-wrapper ui-container",
           {'pointing-bottom': (get.type == 'Collection')})}
+        style={{height: '360px'}}
       >
-        <div className="bordered-right bright pointing-right relationships-this ui-container">
+        {# Make sure the box is full height => override height}
+        <div className="bordered-right bright pointing-right relationships-this ui-container"
+          style={{height: '360px'}}>
           <div className="pointing-top">
             <div className="ui-resources-holder" id="set-relations-self">
               <div className="ui-resources-header mbn">
@@ -100,7 +104,7 @@ module.exports = React.createClass
                 }
               </h2>
               <p className='mll mts'>
-                {t('collection_relations_siblings_hint')}
+                {t(typeKebab + '_relations_siblings_hint')}
               </p>
             </div>
             <ul className="grid horizontal ui-resources">

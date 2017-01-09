@@ -12,6 +12,8 @@ module.exports = React.createClass
 
   render: ({authToken, get, scope} = @props) ->
 
+    typeKebab = f.kebabCase(get.type).replace('-', '_')
+
     titles = {
       parents: 'collection_relations_parent_sets'
       siblings: 'collection_relations_sibling_sets'
@@ -19,9 +21,8 @@ module.exports = React.createClass
     }
 
     hints = {
-      parents: 'collection_relations_parents_hint'
-      siblings: 'collection_relations_siblings_hint'
-      children: 'collection_relations_children_hint'
+      parents: typeKebab + '_relations_parents_hint'
+      siblings: typeKebab + '_relations_siblings_hint'
     }
 
     <div className="ui-container tab-content bordered rounded-right rounded-bottom mbh" data-test-id={@props.testId}>
