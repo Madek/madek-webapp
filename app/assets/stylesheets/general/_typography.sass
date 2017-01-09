@@ -9,6 +9,10 @@ body
   font-size: $font-m
   line-height: $line-height-m
 
+body, body *
+  // force webkit to apply consistent font rendering, choose the most readable option
+  -webkit-font-smoothing: subpixel-antialiased
+
 p,
 h1, h2, h3, h4, h5, h6
   color: $mono-dark
