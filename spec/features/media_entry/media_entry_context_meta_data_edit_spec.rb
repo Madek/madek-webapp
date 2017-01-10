@@ -30,8 +30,8 @@ feature 'Resource: MediaEntry' do
         link = find('.ui-thumbnail-image-wrapper').find('.ui-has-magnifier')
           .find('a')[:href]
 
-        expected_url = Presenters::MediaEntries::MediaEntryIndex.new(
-          @resource, nil).image_url
+        expected_url = preview_path(
+          @resource.media_file.previews.where(thumbnail: :large).first)
         expect(URI.parse(link).path).to eq(expected_url)
       end
     end

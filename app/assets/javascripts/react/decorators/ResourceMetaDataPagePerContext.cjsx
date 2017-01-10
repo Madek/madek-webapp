@@ -598,8 +598,12 @@ module.exports = React.createClass
             {
               unless @props.batch
 
-
                 src = get.resource.image_url
+
+                if get.resource.media_file && get.resource.media_file.previews
+                  previews = get.resource.media_file.previews
+                  href = f.chain(previews.images).sortBy('width').last().get('url').run()
+
                 alt = ''
                 image = if src
                   <Picture mods='ui-thumbnail-image' src={src} alt={alt} />
@@ -612,15 +616,30 @@ module.exports = React.createClass
                 <div className="app-body-sidebar table-cell ui-container table-side">
                   <ul className="ui-resources grid">
                     <li className="ui-resource mrl">
-
-
                       <div className={className}>
                         <div className="ui-thumbnail-privacy">
                           <i className="icon-privacy-private" title="Diese Inhalte sind nur für Sie zugänglich"></i>
                         </div>
                         <div className="ui-thumbnail-image-wrapper">
-                          <div className="ui-has-magnifier">
-                            <a href={src} target='_blank'>
+                          {
+                            if href
+                              <div className="ui-has-magnifier">
+                                <a href={href} target='_blank'>
+                                  <div className="ui-thumbnail-image-holder">
+                                    <div className="ui-thumbnail-table-image-holder">
+                                      <div className="ui-thumbnail-cell-image-holder">
+                                        <div className="ui-thumbnail-inner-image-holder">
+                                          {image}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </a>
+                                <a href={href} target='_blank' className='ui-magnifier' style={{textDecoration: 'none'}}>
+                                  <Icon i='magnifier' mods='bright'/>
+                                </a>
+                              </div>
+                            else
                               <div className="ui-thumbnail-image-holder">
                                 <div className="ui-thumbnail-table-image-holder">
                                   <div className="ui-thumbnail-cell-image-holder">
@@ -630,11 +649,7 @@ module.exports = React.createClass
                                   </div>
                                 </div>
                               </div>
-                            </a>
-                            <a href={src} target='_blank' className='ui-magnifier' style={{textDecoration: 'none'}}>
-                              <Icon i='magnifier' mods='bright'/>
-                            </a>
-                          </div>
+                          }
                         </div>
                         <div className="ui-thumbnail-meta">
                           <h3 className="ui-thumbnail-meta-title">{get.resource.title}</h3>
