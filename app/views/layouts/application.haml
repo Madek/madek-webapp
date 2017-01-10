@@ -1,10 +1,25 @@
+
 - version = if MADEK_VERSION
-  - capture_haml do
-    %span.version{title: MADEK_VERSION[:time] || nil}
-      = MADEK_VERSION[:version]
-    - if MADEK_VERSION[:name]
-      %a{href: MADEK_VERSION[:info_url], title: MADEK_VERSION[:description] || nil}
-        = MADEK_VERSION[:name]
+
+  - if MADEK_VERSION[:type] == 'archive'
+    - release_info = MADEK_VERSION[:release_info]
+    - deploy_info = MADEK_VERSION[:deploy_info]
+    - if release_info and deploy_info
+      - capture_haml do
+        %span.version{title: deploy_info[:time]}
+          = MADEK_VERSION[:semver]
+        - if release_info[:name]
+          %a{href: '/release'}
+            = release_info[:name]
+
+  - elsif MADEK_VERSION[:type] == 'git'
+    - capture_haml do
+      %span.version
+        = 'git'
+      %a{href: MADEK_VERSION[:git_url]}
+        = MADEK_VERSION[:git_hash]
+
+
 
 :ruby
   footer = {

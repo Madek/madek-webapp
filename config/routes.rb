@@ -190,6 +190,8 @@ Madek::Application.routes.draw do
 
   get '/oembed', controller: 'oembed', action: 'show'
 
+  get '/release', controller: 'release', action: 'show'
+
   # STYLEGUIDE #################################################################
   get '/styleguide', to: 'styleguide#index', as: 'styleguide'
   get '/styleguide/:section', to: 'styleguide#show', as: 'styleguide_section'

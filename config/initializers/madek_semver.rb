@@ -28,26 +28,32 @@ def git_hash
     end
 end
 
+def semver(release_info)
+  version = ['major', 'minor', 'patch']
+    .map { |key| release_info.fetch("version_#{key}") }
+    .join('.')
+  pre = release_info['version_pre'].presence
+  pre.nil? ? version : "v#{version}-#{pre}"
+end
+
 def version_from_archive
   return unless deploy_info.present?
-  release = releases_info.first
-  version = ['major', 'minor', 'patch']
-    .map { |key| release.fetch("version_#{key}") }
-    .join('.')
-  pre = release['version_pre'].presence
-  semver = (pre.nil? ? version : "v#{version}-#{pre}")
-  return release
-          .merge(deploy_info)
-          .merge(version: semver, git_hash: git_hash)
-          .symbolize_keys
+  release_info = releases_info.first
+  {
+    type: 'archive',
+    deploy_info: deploy_info.symbolize_keys,
+    release_info: release_info.symbolize_keys,
+    semver: semver(release_info),
+    git_hash: git_hash
+  }
 end
 
 def version_from_git
   return unless git_hash
   {
-    version: "git",
-    name: git_hash,
-    info_url: "https://github.com/Madek/madek-webapp/commit/#{git_hash}"
+    type: 'git',
+    git_hash: git_hash,
+    git_url: "https://github.com/Madek/madek-webapp/commit/#{git_hash}"
   }
 end
 
