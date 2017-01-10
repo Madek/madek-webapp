@@ -25,6 +25,15 @@ describe KeywordsController do
       }.to_query)
     end
 
+    example 'show route works with special characters in terms' do
+      terms = ['01.01.2011', 'http://example.com/foo?bar', '~~😎~~']
+      terms.each do |t|
+        FactoryGirl.create :keyword, meta_key: meta_key, term: t
+        get :show, term: t, meta_key_id: meta_key
+        expect(response.status).to be 302
+      end
+    end
+
     it 'action show responds with 403 if user not authorized' do
       vocab = FactoryGirl.create(:vocabulary,
                                  id: Faker::Lorem.characters(8),

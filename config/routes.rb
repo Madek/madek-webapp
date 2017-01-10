@@ -126,7 +126,7 @@ Madek::Application.routes.draw do
   get 'vocabulary/:meta_key_id', constraints: { meta_key_id: /.*:[^:\/]*/ },
     to: redirect{ |p| v, m = p[:meta_key_id].split(':'); "/vocabulary/#{v}##{m}" }
   get 'vocabulary/:vocabulary_id', to: 'vocabularies#show', as: 'vocabulary'
-  get 'vocabulary/meta_key/:meta_key_id/:term', to: 'keywords#show', as: 'vocabulary_meta_key_term'
+  get 'vocabulary/meta_key/:meta_key_id/*term', to: 'keywords#show', as: 'vocabulary_meta_key_term', format: false
   get 'vocabulary/:vocab_id/keywords', to: 'vocabularies#keywords', as: 'vocabulary_keywords'
   get 'vocabulary/:vocab_id/contents', to: 'vocabularies#contents', as: 'vocabulary_contents'
 
