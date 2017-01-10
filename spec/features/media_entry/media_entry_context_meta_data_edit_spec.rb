@@ -22,6 +22,20 @@ feature 'Resource: MediaEntry' do
       direct_open_context('media_content', false, 'zhdk_bereich')
     end
 
+    it 'check thumbnail link' do
+      initialize_and_check_show
+      goto_initial_context_edit('media_content', true, 'core')
+
+      within('.tab-content') do
+        link = find('.ui-thumbnail-image-wrapper').find('.ui-has-magnifier')
+          .find('a')[:href]
+
+        expected_url = Presenters::MediaEntries::MediaEntryIndex.new(
+          @resource, nil).image_url
+        expect(URI.parse(link).path).to eq(expected_url)
+      end
+    end
+
     it 'open default context (js)' do
       direct_open_context(nil, true, 'zhdk_bereich')
     end

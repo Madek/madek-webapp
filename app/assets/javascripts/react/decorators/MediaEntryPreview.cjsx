@@ -117,7 +117,7 @@ module.exports = React.createClass({
                   {picture}
                 </a>
                 {if hasZoom
-                  <a href={href} target='_blank' className='ui-magnifier'>
+                  <a href={href} target='_blank' className='ui-magnifier' style={{textDecoration: 'none'}}>
                     <Icon i='magnifier' mods='bright'/>
                   </a>}
               </div>
