@@ -18,7 +18,7 @@ module Presenters
       end
 
       def resources
-        type = @resources_type ? @resources_type : 'all'
+        type = @resources_type ? @resources_type : 'entries'
 
         meta_key_ids = @vocabulary.meta_keys.map &:id
 
@@ -27,8 +27,8 @@ module Presenters
             entries_scope(meta_key_ids)
           elsif type == 'collections'
             collections_scope(meta_key_ids)
-          elsif type == 'all'
-            all_scope(meta_key_ids)
+          # elsif type == 'all'
+          #   all_scope(meta_key_ids)
           else
             raise Errors::InvalidParameterValue, "Type is #{type}"
           end
@@ -52,20 +52,24 @@ module Presenters
         CollectionPolicy::Scope.new(@user, scope).resolve
       end
 
-      def all_scope(meta_key_ids)
-        media_entries = MediaEntry.joins(:meta_data).where(
-          meta_data: { meta_key_id: meta_key_ids })
-        collections = Collection.joins(:meta_data).where(
-          meta_data: { meta_key_id: meta_key_ids })
-
-        media_resources = MediaResource.where(
-          "vw_media_resources.id IN (#{media_entries.select(:id).to_sql}) " \
-          "OR vw_media_resources.id IN (#{collections.select(:id).to_sql}) ")
-          .distinct
-
-        Presenter::Shared::MediaResources::MediaResourcePolicy::Scope.new(
-          @user, media_resources).resolve
-      end
+      # def all_scope(meta_key_ids)
+      #   media_resources = MediaResource
+      #   .joins(
+      #     <<-SQL
+      #       INNER JOIN meta_data ON
+      #       (
+      #         meta_data.media_entry_id = vw_media_resources.id
+      #       )
+      #     SQL
+      #   )
+      #   .where(
+      #     meta_data: { meta_key_id: meta_key_ids }
+      #   )
+      #   .distinct
+      #
+      #   Presenter::Shared::MediaResources::MediaResourcePolicy::Scope.new(
+      #     @user, media_resources).resolve
+      # end
     end
   end
 end

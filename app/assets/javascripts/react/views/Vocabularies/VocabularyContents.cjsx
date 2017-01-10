@@ -40,12 +40,11 @@ module.exports = React.createClass
       listConfig = get.resources.config
       currentType = qs.parse(libUrl.parse(@state.forUrl).query).type
       typeBbtns = f.compact([
-        {key: 'all', name: 'Alle'},
         {key: 'entries', name: t('sitemap_entries')},
         {key: 'collections', name: t('sitemap_collections')}])
 
       return (<ButtonGroup>{typeBbtns.map (btn) =>
-        isActive = currentType == btn.key || !currentType && btn.key == 'all'
+        isActive = currentType == btn.key || !currentType && btn.key == 'entries'
         btnUrl = setUrlParams(@state.forUrl, {type: btn.key})
 
         <Button {...btn}
