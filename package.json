@@ -57,7 +57,6 @@
     "react-dom": "^15.4.1",
     "react-file-drop": "^0.1.8",
     "react-waypoint": "^3.1.0",
-    "react-markdown": "2.4.2",
     "rusha": "0.8.3",
     "underscore.string": "^3.3.4",
     "uuid-validate": "0.0.2",

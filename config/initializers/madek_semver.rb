@@ -16,8 +16,12 @@ def deploy_info
 end
 
 def releases_info
-  @releases_info ||= YAML.safe_load(
-    File.read('../config/releases.yml'))['releases']
+  @releases_info ||= begin YAML.safe_load(
+      File.read('../config/releases.yml'))['releases'].map do |rel|
+        rel.merge(semver: semver(rel))
+      end
+    rescue Errno::ENOENT => e # ignore file errors
+    end
 end
 
 def git_hash
@@ -38,13 +42,10 @@ end
 
 def version_from_archive
   return unless deploy_info.present?
-  release_info = releases_info.first
   {
     type: 'archive',
-    deploy_info: deploy_info.symbolize_keys,
-    release_info: release_info.symbolize_keys,
-    semver: semver(release_info),
-    git_hash: git_hash
+    deploy_info: deploy_info,
+    semver: releases_info.try(:first).try(:[], :semver)
   }
 end
 
@@ -53,8 +54,11 @@ def version_from_git
   {
     type: 'git',
     git_hash: git_hash,
-    git_url: "https://github.com/Madek/madek-webapp/commit/#{git_hash}"
+    git_url: "https://ci.zhdk.ch/cider-ci/ui/workspace?git_ref=#{git_hash}"
   }
 end
 
-MADEK_VERSION = (version_from_archive || version_from_git).freeze
+MADEK_VERSION = (version_from_archive || version_from_git)
+  .merge(releases: releases_info.presence)
+  .deep_symbolize_keys
+  .freeze

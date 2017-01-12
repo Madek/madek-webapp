@@ -2,44 +2,31 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
-require_relative './shared/basic_data_helper_spec'
-include BasicDataHelper
+# NOTE: this is only a minimal test, also see superproject integration-tests!
 
-feature 'releases info' do
+feature 'releases info (standalone/development)' do
+  let(:repo_git_hash) do
+    `git log -n1 --format='%h'`.chomp.presence or fail 'git repo not found!'
+  end
 
-  scenario 'release info link', browser: :firefox do
-
-    release_info = read_release_info
-
+  scenario 'release info link in footer' do
     visit '/'
 
-    find('.ui-footer-copy a', text: name(release_info)).click
+    info = first('.ui-footer-copy a')
+    expect(info.text).to eq "Madek git-#{repo_git_hash}"
+    expect(current_path_with_query(info[:href])).to eq release_path
+  end
 
-    expect(page).to have_selector(
-      '.ui-body-title', text: I18n.t(:release_info))
+  scenario 'release info page' do
+    visit release_path
+
+    expect(page).to have_selector('.ui-body-title', text: I18n.t(:release_info))
 
     within('.app-body-ui-container') do
-      expect(page).to have_selector('*', text: version(release_info))
-      expect(page).to have_selector('*', text: name(release_info))
+      info = first('.title-s')
+      expect(info.text).to eq "Entwicklungs-Version: #{repo_git_hash}"
+      expect(info.find('a')[:href]).to include repo_git_hash
     end
   end
 
-  private
-
-  def read_release_info
-    data = File.read('../config/releases.yml')
-    YAML.safe_load(data)['releases'][0].symbolize_keys
-  end
-
-  def version(release_info)
-    'v' +
-      release_info[:version_major].to_s +
-      '.' + release_info[:version_minor].to_s +
-      '.' + release_info[:version_patch].to_s +
-      '-' + release_info[:version_pre]
-  end
-
-  def name(release_info)
-    release_info[:name]
-  end
 end
