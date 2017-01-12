@@ -3,6 +3,8 @@
 include: cider-ci/context-components/rails-setup.yml
 
 task_defaults:
+  environment_variables:
+    TZ: 'CET' # timezone. must be non-UTC, chosen to be local time for devs
   trial_attachments:
     screenshots:
       include_match: '^tmp\/.+\.png$'
