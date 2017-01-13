@@ -217,6 +217,23 @@ feature 'Resource: MetaDatum' do
       expect_meta_datum_on_detail_view('Some time ago', shown: false)
     end
 
+    example 'edit date and switch tabs' do
+      # prepare second tab:
+      @context_key2 = FactoryGirl.create(
+        :context_key, meta_key: MetaKey.find('madek_core:title'))
+      AppSettings.first.update_attributes!(
+        contexts_for_entry_edit: [
+          @context_key.context_id, @context_key2.context_id])
+
+      edit_in_meta_data_form_and_save do |form|
+        find('input').set('2017')
+        # switching tabs should keep the input:
+        form_tabs = page.document.all('.app-body .ui-tabs.large .ui-tabs-item')
+        form_tabs.last.click
+      end
+      expect_meta_datum_on_detail_view('2017') # old value should be saved
+    end
+
   end
 end
 

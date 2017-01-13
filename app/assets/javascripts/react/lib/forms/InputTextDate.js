@@ -37,10 +37,10 @@ class InputTextDate extends Component {
     this._formatValues = this._formatValues.bind(this)
   }
 
-  _formatValues () { // stringify (internal) values for parent(s)
+  _formatValues (values = this.state.values) { // stringify (internal) values for parent(s)
     return (this.state.subType === 'duration'
-      ? formatDuration(this.state.values)
-      : this.state.values[0]) || ''
+      ? formatDuration(values)
+      : values[0]) || ''
   }
   _onInputChange (updates) {
     const cur = this.state.values
@@ -59,6 +59,18 @@ class InputTextDate extends Component {
       this.setState({values: [value]})
     } else {
       this.setState({values: parseDuration([value])})
+    }
+  }
+
+  // NOTE: because value is kept in internal state (for perf and simplicity),
+  // and it is based on
+  componentWillReceiveProps (nextProps) {
+    const curVals = this.state.values
+    const newVals = parseDuration(nextProps.values)
+    // debugger
+    // DOM: when switching the input type, focus the input field right after
+    if (curVals[0] !== newVals[0] || curVals[1] !== newVals[1]) {
+      this.setState({values: newVals})
     }
   }
 
