@@ -8,7 +8,6 @@ include MetaDatumInputsHelper
 feature 'Resource: MetaDatum' do
   background do
     @user = User.find_by(login: 'normin')
-    sign_in_as @user.login
     @media_entry = FactoryGirl.create :media_entry_with_image_media_file,
                                       creator: @user, responsible_user: @user
 
@@ -86,6 +85,7 @@ feature 'Resource: MetaDatum' do
 
   def in_the_edit_field(label, &block)
     visit edit_context_meta_data_media_entry_path(@media_entry)
+    sign_in_as @user.login
     within('form .ui-form-group', text: label, &block)
   end
 

@@ -8,7 +8,6 @@ include MetaDatumInputsHelper
 feature 'Resource: MetaDatum' do
   background do
     @user = User.find_by(login: 'normin')
-    sign_in_as @user.login
     @media_entry = FactoryGirl.create :media_entry_with_image_media_file,
                                       creator: @user, responsible_user: @user
   end
@@ -33,12 +32,6 @@ feature 'Resource: MetaDatum' do
       end
 
       expect_meta_datum_on_detail_view(TEST_STRING_LINE_OUT)
-    end
-
-    example 'whitespace trimming' do
-      pending 'needs implementation of the trimming first'
-
-      raise 'needs implementation of the trimming first'
     end
 
     example 'add new text (block/textarea)' do

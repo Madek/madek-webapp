@@ -4,26 +4,25 @@ require 'spec_helper_feature_shared'
 
 feature 'App: Infinite Scroll for ResourceLists' do
 
+  let(:user) { User.find_by!(login: 'normin') }
+
   example 'entries index - as public' do
-    open_view_and_check_loading_on_scroll(media_entries_path)
+    open_view_and_check_loading_on_scroll(media_entries_path, login: false)
   end
 
   example 'entries index - as user' do
-    sign_in_as 'normin'
-
+    sign_in_as user
     open_view_and_check_loading_on_scroll(media_entries_path)
   end
 
   example 'collections index - as public' do
     100.times { FactoryGirl.create(:collection, get_metadata_and_previews: true) }
-
-    open_view_and_check_loading_on_scroll(collections_path)
+    open_view_and_check_loading_on_scroll(collections_path, login: false)
   end
 
   example 'collections index - as user' do
-    user = sign_in_as 'normin'
     100.times { FactoryGirl.create(:collection, responsible_user: user) }
-
+    sign_in_as user
     open_view_and_check_loading_on_scroll(collections_path)
   end
 
@@ -34,11 +33,10 @@ feature 'App: Infinite Scroll for ResourceLists' do
         :media_entry_with_title, get_metadata_and_previews: true)
     end
 
-    open_view_and_check_loading_on_scroll(collection_path(col))
+    open_view_and_check_loading_on_scroll(collection_path(col), login: false)
   end
 
   example 'collection children - as user' do
-    user = sign_in_as 'normin'
     col = FactoryGirl.create(:collection, responsible_user: user)
     100.times do
       col.media_entries << FactoryGirl.create(
@@ -49,7 +47,6 @@ feature 'App: Infinite Scroll for ResourceLists' do
   end
 
   example 'user dashboard section' do
-    user = sign_in_as 'normin'
     100.times do
       FactoryGirl.create(:media_entry_with_title, responsible_user: user)
     end
@@ -62,8 +59,9 @@ end
 
 # helpers #########################################################################
 
-def open_view_and_check_loading_on_scroll(path)
+def open_view_and_check_loading_on_scroll(path, login: true)
   visit path
+  sign_in_as user if login
 
   box = find('.ui-resources')
   last_visible_page_n = page_number(last_page(box))

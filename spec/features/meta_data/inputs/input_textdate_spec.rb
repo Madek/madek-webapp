@@ -8,7 +8,6 @@ include MetaDatumInputsHelper
 feature 'Resource: MetaDatum' do
   background do
     @user = User.find_by(login: 'normin')
-    sign_in_as @user.login
     @media_entry = FactoryGirl.create :media_entry_with_image_media_file,
                                       creator: @user, responsible_user: @user
 
@@ -126,6 +125,7 @@ feature 'Resource: MetaDatum' do
       example 'text ("Freie Eingabe")' do
         given_an_exisiting_meta_datum_text_date('Some time ago')
         visit media_entry_path(@media_entry)
+        sign_in_as @user.login
         expect_meta_datum_on_detail_view('Some time ago')
 
         edit_in_meta_data_form_and_save do
@@ -207,6 +207,7 @@ feature 'Resource: MetaDatum' do
     example 'remove exisiting data - text ("Freie Eingabe")' do
       given_an_exisiting_meta_datum_text_date('Some time ago')
       visit media_entry_path(@media_entry)
+      sign_in_as @user
       expect_meta_datum_on_detail_view('Some time ago')
 
       edit_in_meta_data_form_and_save do

@@ -11,6 +11,7 @@ module MetaDatumInputsHelper
   def edit_in_meta_data_form_and_save(key = @context_key, &block)
     throw ArgumentError unless block_given?
     visit edit_context_meta_data_media_entry_path(@media_entry)
+    sign_in_as @user.login
     within('form[name="resource_meta_data"]') do
       within(form_group(key), &block)
       submit_form
@@ -21,13 +22,18 @@ module MetaDatumInputsHelper
     find('.ui-form-group', text: key.label)
   end
 
-  def expect_meta_datum_on_detail_view(string, shown: true, key: @context_key)
+  def expect_meta_datum_on_detail_view(str, shown: true, key: @context_key)
     wait_until { current_path == media_entry_path(@media_entry) }
     within('.ui-media-overview-metadata') do
-      expect(page.has_css?('.media-data-title', text: key.label))
-        .to be shown
-      expect(page.has_css?('.media-data-content', text: string))
-        .to be shown
+
+      expect(page.has_css?('.media-data-title', text: key.label)).to \
+        be(shown),
+        "expected label '#{key.label}' to #{shown ? '' : 'NOT'} be shown"
+
+      actual = all('.media-data-content').try(:first).try(:text)
+      expect(page.has_css?('.media-data-content', text: str)).to \
+        be(shown),
+        "expected: '#{str}' to #{shown ? '' : 'NOT'} be shown, got: #{actual}"
     end
   end
 

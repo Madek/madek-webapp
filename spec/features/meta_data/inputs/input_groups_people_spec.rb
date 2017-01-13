@@ -8,7 +8,6 @@ include MetaDatumInputsHelper
 feature 'Resource: MetaDatum' do
   background do
     @user = User.find_by(login: 'normin')
-    sign_in_as @user.login
     @media_entry = FactoryGirl.create :media_entry_with_image_media_file,
                                       creator: @user, responsible_user: @user
 
