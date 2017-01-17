@@ -36,6 +36,8 @@ class MediaFilesController < ApplicationController
   def get_content_type(media_file)
     if media_file.extension == 'pdf'
       'application/pdf'
+    elsif media_file.content_type.include?('html')
+      'application/octet-stream' # don't interpret as HTML!
     else
       media_file.content_type
     end
