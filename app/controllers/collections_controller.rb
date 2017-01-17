@@ -11,6 +11,7 @@ class CollectionsController < ApplicationController
   include Modules::Collections::MetaDataUpdate
   include Modules::Collections::Create
   include Modules::Collections::Store
+  include Modules::CustomUrls
 
   ALLOWED_FILTER_PARAMS = [:search].freeze
 
@@ -126,6 +127,26 @@ class CollectionsController < ApplicationController
       collection.save!
     end
     redirect_to collection_path(collection)
+  end
+
+  def custom_urls
+    collection = Collection.find(id_param)
+    shared_custom_urls(collection)
+  end
+
+  def edit_custom_urls
+    collection = Collection.find(id_param)
+    shared_edit_custom_urls(collection)
+  end
+
+  def update_custom_urls
+    collection = Collection.find(id_param)
+    shared_update_custom_urls(current_user, collection)
+  end
+
+  def set_primary_custom_url
+    collection = Collection.find(id_param)
+    shared_set_primary_custom_url(collection)
   end
 
   def collection_params

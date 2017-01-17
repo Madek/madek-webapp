@@ -39,6 +39,13 @@ module Shared
         logged_in? and record.editable_by_user?(user)
       end
 
+      def update_custom_urls?
+        logged_in? and record.manageable_by_user?(user)
+      end
+      alias_method :edit_custom_urls?, :update_custom_urls?
+      alias_method :custom_urls?, :show?
+      alias_method :set_primary_custom_url?, :update_custom_urls?
+
       def destroy?
         logged_in? and record.responsible_user == user
       end

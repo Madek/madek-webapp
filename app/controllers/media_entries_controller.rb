@@ -11,6 +11,7 @@ class MediaEntriesController < ApplicationController
   include Modules::MediaEntries::MetaDataUpdate
   include Modules::MediaEntries::PermissionsUpdate
   include Modules::MetaDataStorage
+  include Modules::CustomUrls
 
   # used in Concerns::ResourceListParams
   ALLOWED_FILTER_PARAMS = [:search, :meta_data, :media_files, :permissions].freeze
@@ -80,6 +81,26 @@ class MediaEntriesController < ApplicationController
     initialize_presenter(
       'Presenters::MediaEntries::MediaEntryAskDelete',
       'media_entries/ask_delete')
+  end
+
+  def custom_urls
+    media_entry = MediaEntry.find(id_param)
+    shared_custom_urls(media_entry)
+  end
+
+  def edit_custom_urls
+    media_entry = MediaEntry.find(id_param)
+    shared_edit_custom_urls(media_entry)
+  end
+
+  def update_custom_urls
+    media_entry = MediaEntry.find(id_param)
+    shared_update_custom_urls(current_user, media_entry)
+  end
+
+  def set_primary_custom_url
+    media_entry = MediaEntry.find(id_param)
+    shared_set_primary_custom_url(media_entry)
   end
 
   def initialize_presenter(name, template)
