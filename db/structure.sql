@@ -120,7 +120,7 @@ CREATE TABLE access_rights (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     role character varying NOT NULL,
-    CONSTRAINT check_allowed_roles CHECK (((role)::text = ANY ((ARRAY['customer'::character varying, 'group_manager'::character varying, 'lending_manager'::character varying, 'inventory_manager'::character varying, 'admin'::character varying])::text[])))
+    CONSTRAINT check_allowed_roles CHECK (((role)::text = ANY (ARRAY[('customer'::character varying)::text, ('group_manager'::character varying)::text, ('lending_manager'::character varying)::text, ('inventory_manager'::character varying)::text, ('admin'::character varying)::text])))
 );
 
 
@@ -168,11 +168,11 @@ CREATE TABLE addresses (
 CREATE TABLE attachments (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     model_id uuid,
-    is_main boolean DEFAULT false,
     content_type character varying,
     filename character varying,
     size integer,
-    item_id uuid
+    item_id uuid,
+    content text
 );
 
 
@@ -328,14 +328,12 @@ CREATE TABLE images (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     target_id uuid,
     target_type character varying,
-    is_main boolean DEFAULT false,
     content_type character varying,
     filename character varying,
     size integer,
-    height integer,
-    width integer,
     parent_id uuid,
-    thumbnail character varying
+    content text,
+    thumbnail boolean DEFAULT false
 );
 
 
@@ -591,10 +589,10 @@ CREATE TABLE procurement_accesses (
 CREATE TABLE procurement_attachments (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     request_id uuid,
-    file_file_name character varying,
-    file_content_type character varying,
-    file_file_size integer,
-    file_updated_at timestamp without time zone
+    filename character varying,
+    content_type character varying,
+    size integer,
+    content text
 );
 
 
@@ -647,16 +645,27 @@ CREATE TABLE procurement_category_inspectors (
 
 
 --
+-- Name: procurement_images; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE procurement_images (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    main_category_id uuid NOT NULL,
+    content_type character varying NOT NULL,
+    content character varying NOT NULL,
+    filename character varying NOT NULL,
+    size integer,
+    parent_id uuid
+);
+
+
+--
 -- Name: procurement_main_categories; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE procurement_main_categories (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    name character varying,
-    image_file_name character varying,
-    image_content_type character varying,
-    image_file_size integer,
-    image_updated_at timestamp without time zone
+    name character varying
 );
 
 
@@ -702,8 +711,8 @@ CREATE TABLE procurement_requests (
     inspection_comment character varying,
     created_at timestamp without time zone NOT NULL,
     inspector_priority character varying DEFAULT 'medium'::character varying NOT NULL,
-    CONSTRAINT check_allowed_priorities CHECK (((priority)::text = ANY ((ARRAY['normal'::character varying, 'high'::character varying])::text[]))),
-    CONSTRAINT check_inspector_priority CHECK (((inspector_priority)::text = ANY ((ARRAY['low'::character varying, 'medium'::character varying, 'high'::character varying, 'mandatory'::character varying])::text[])))
+    CONSTRAINT check_allowed_priorities CHECK (((priority)::text = ANY (ARRAY[('normal'::character varying)::text, ('high'::character varying)::text]))),
+    CONSTRAINT check_inspector_priority CHECK (((inspector_priority)::text = ANY (ARRAY[('low'::character varying)::text, ('medium'::character varying)::text, ('high'::character varying)::text, ('mandatory'::character varying)::text])))
 );
 
 
@@ -1146,6 +1155,14 @@ ALTER TABLE ONLY procurement_categories
 
 ALTER TABLE ONLY procurement_category_inspectors
     ADD CONSTRAINT procurement_category_inspectors_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: procurement_images procurement_images_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY procurement_images
+    ADD CONSTRAINT procurement_images_pkey PRIMARY KEY (id);
 
 
 --
@@ -1921,6 +1938,14 @@ ALTER TABLE ONLY procurement_templates
 
 
 --
+-- Name: procurement_images fk_rails_47fed491ad; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY procurement_images
+    ADD CONSTRAINT fk_rails_47fed491ad FOREIGN KEY (parent_id) REFERENCES procurement_images(id);
+
+
+--
 -- Name: reservations fk_rails_48a92fce51; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2006,6 +2031,14 @@ ALTER TABLE ONLY reservations
 
 ALTER TABLE ONLY mail_templates
     ADD CONSTRAINT fk_rails_5d00b5b086 FOREIGN KEY (inventory_pool_id) REFERENCES inventory_pools(id) ON DELETE CASCADE;
+
+
+--
+-- Name: procurement_images fk_rails_62917a6a8f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY procurement_images
+    ADD CONSTRAINT fk_rails_62917a6a8f FOREIGN KEY (main_category_id) REFERENCES procurement_main_categories(id);
 
 
 --
@@ -2374,7 +2407,21 @@ INSERT INTO schema_migrations (version) VALUES ('10');
 
 INSERT INTO schema_migrations (version) VALUES ('100');
 
+INSERT INTO schema_migrations (version) VALUES ('101');
+
+INSERT INTO schema_migrations (version) VALUES ('102');
+
+INSERT INTO schema_migrations (version) VALUES ('103');
+
+INSERT INTO schema_migrations (version) VALUES ('104');
+
+INSERT INTO schema_migrations (version) VALUES ('105');
+
 INSERT INTO schema_migrations (version) VALUES ('11');
+
+INSERT INTO schema_migrations (version) VALUES ('12');
+
+INSERT INTO schema_migrations (version) VALUES ('13');
 
 INSERT INTO schema_migrations (version) VALUES ('2');
 
