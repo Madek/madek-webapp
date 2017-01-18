@@ -5,6 +5,8 @@ import sortBy from 'lodash/sortBy'
 import PageHeader from '../../ui-components/PageHeader'
 import PageContent from '../PageContent.cjsx'
 
+import VocabTitleLink from '../../ui-components/VocabTitleLink.cjsx'
+
 const COLS = 3
 
 module.exports = React.createClass({
@@ -25,9 +27,8 @@ module.exports = React.createClass({
             {row.map(({label, description, usable, url}) =>
               <div className={`col1of${COLS}`} key={url}>
                 <div className='prm mbl'>
-                  <h2 className='title-l link separated light mbm'>
-                    <a href={url}>{label}</a>
-                  </h2>
+                  <VocabTitleLink hi='h2' text={label} href={url}
+                    className='title-l separated light mbm' />
                   <p>{description || '(Keine Beschreibung)'}</p>
                 </div>
               </div>
