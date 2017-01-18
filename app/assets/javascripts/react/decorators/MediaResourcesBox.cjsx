@@ -539,7 +539,7 @@ module.exports = React.createClass
           onBatchEditSets: @_onBatchEditSets
           onBatchPermissionsEdit: @_onBatchPermissionsEdit
           onBatchPermissionsSetsEdit: @_onBatchPermissionsSetsEdit
-          onCreateFilterSet: @_onCreateFilterSet
+          # onCreateFilterSet: @_onCreateFilterSet
           onHoverMenu: @_onHoverMenu
         })
 

@@ -88,12 +88,15 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
             'lock',
             'resources_box_batch_actions_sets_managepermissions')}
 
-        {if showActions.save
-          <MenuItem className="separator"/>}
-        {if showActions.save
-          <MenuItem onClick={(if f.present(config.filter) then f.curry(callbacks.onCreateFilterSet)(config))}>
-            <Icon i="filter" mods="ui-drop-icon"/> {t('resources_box_batch_actions_save')}
-          </MenuItem>}
+        {
+          # {if showActions.save
+          #   <MenuItem className="separator"/>}
+          # {if showActions.save
+          #   <MenuItem onClick={(if f.present(config.filter) then f.curry(callbacks.onCreateFilterSet)(config))}>
+          #     <Icon i="filter" mods="ui-drop-icon"/> {t('resources_box_batch_actions_save')}
+          #   </MenuItem>}
+          null
+        }
 
       </Dropdown.Menu>
     </Dropdown>
