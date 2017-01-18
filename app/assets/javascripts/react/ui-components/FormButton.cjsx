@@ -3,5 +3,5 @@ React = require('react')
 module.exports = React.createClass
   displayName: 'FormButton'
 
-  render: ({text} = @props)->
-    <button className="primary-button" type="submit" {...@props}>{text}</button>
+  render: ({text, onClick, disabled} = @props)->
+    <button className="primary-button" type="submit" onClick={onClick} disabled={disabled}>{text}</button>
