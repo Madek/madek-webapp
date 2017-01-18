@@ -10,7 +10,7 @@ module Presenters
         end
 
         def nav
-          [nav_catalog, nav_featured_set, nav_keywords].compact
+          [nav_catalog, nav_featured_set, nav_keywords, nav_vocabularies].compact
         end
 
         private
@@ -47,6 +47,15 @@ module Presenters
               active: @active_section_id == 'keywords'
             }
           end
+        end
+
+        def nav_vocabularies
+          {
+            title: 'Vokabulare',
+            id: 'vocabularies',
+            url: '/vocabulary',
+            active: @active_section_id == 'vocabularies'
+          }
         end
 
         def nav_catalog_children
