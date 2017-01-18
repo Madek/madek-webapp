@@ -11,6 +11,8 @@ MetaDatumValues = require('./MetaDatumValues.cjsx')
 
 Icon = require('../ui-components/Icon.cjsx')
 
+VocabTitleLink = require('../ui-components/VocabTitleLink.cjsx')
+
 
 # TODO: inline Edit - MetaDatumEdit = require('../meta-datum-edit.cjsx')
 
@@ -83,16 +85,7 @@ module.exports = React.createClass
       <div className={wrapperClass}>
         {if showTitle
           {# TODO: vocabulary description, privacy_status}
-          <h3 className='title-l separated mbm'>
-            {title}
-            {' ' if @props.vocabUuid}
-            {
-              if @props.vocabUuid
-                <a href={'/vocabulary/' + @props.vocabUuid} style={{textDecoration: 'none'}}>
-                  <Icon i='link' />
-                </a>
-            }
-          </h3>
+          <VocabTitleLink text={title} href={'/vocabulary/' + @props.vocabUuid} separated={true} />
         }
         {if type is 'list'
           <MetaDataDefinitionList

@@ -8,6 +8,9 @@ import Icon from '../../ui-components/Icon.cjsx'
 
 import VocabularyPage from './VocabularyPage.cjsx'
 
+import VocabTitleLink from '../../ui-components/VocabTitleLink.cjsx'
+
+
 const MIN_COLS = 2 // for MetaKeys list
 const MAX_COLS = 3
 
@@ -49,10 +52,7 @@ const VocabulariesShow = React.createClass({
       <div className='bright ui-container pal rounded'>
         <div className='mbl'>
 
-          <h2 className='title-l'>
-            <a href={url}>{label}</a><span> </span>
-            <Icon i={`privay-${enabled_for_public_view ? 'public' : 'private'}`} />
-          </h2>
+          <VocabTitleLink text={label} href={url} />
 
           <p className='mtm'>{description || '(Keine Beschreibung)'}</p>
 
