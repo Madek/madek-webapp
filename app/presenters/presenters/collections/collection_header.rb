@@ -46,7 +46,8 @@ module Presenters
           cover_button,
           destroy_button,
           select_collection_button,
-          highlight_button
+          highlight_button,
+          custom_urls_button
         ]
         buttons.select do |tab|
           tab[:allowed] == true
@@ -121,6 +122,16 @@ module Presenters
         }
       end
 
+      def custom_urls_button
+        {
+          async_action: nil,
+          method: 'get',
+          icon: 'vis-graph',
+          title: I18n.t(:resource_action_edit_custom_urls, raise: false),
+          action: custom_urls_collection_path(@app_resource),
+          allowed: policy_for(@user).update_custom_urls?
+        }
+      end
     end
   end
 end

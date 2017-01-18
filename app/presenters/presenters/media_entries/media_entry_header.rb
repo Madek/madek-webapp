@@ -47,7 +47,8 @@ module Presenters
           destroy_button,
           favor_button,
           select_collection_button,
-          export_button
+          export_button,
+          custom_urls_button
         ]
         buttons.select do |tab|
           tab[:allowed] == true
@@ -108,6 +109,17 @@ module Presenters
           title: I18n.t(:resource_action_export, raise: false),
           action: export_media_entry_path(@app_resource),
           allowed: policy_for(@user).export?
+        }
+      end
+
+      def custom_urls_button
+        {
+          async_action: nil,
+          method: 'get',
+          icon: 'vis-graph',
+          title: I18n.t(:resource_action_edit_custom_urls, raise: false),
+          action: custom_urls_media_entry_path(@app_resource),
+          allowed: policy_for(@user).update_custom_urls?
         }
       end
     end

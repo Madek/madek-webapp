@@ -30,6 +30,11 @@ Madek::Application.routes.draw do
       put 'permissions', action: :permissions_update
       get 'permissions/edit', action: :permissions_edit, as: 'edit_permissions'
 
+      get 'custom_urls', action: 'custom_urls', as: 'custom_urls'
+      get 'custom_urls/edit', action: 'edit_custom_urls', as: 'edit_custom_urls'
+      put 'custom_urls', action: 'update_custom_urls', as: 'update_custom_urls'
+      patch 'set_primary_custom_url/:custom_url_id', action: 'set_primary_custom_url', as: 'set_primary_custom_url'
+
       get 'select_collection', action: :select_collection, as: 'select_collection'
       patch 'add_remove_collection', to: 'media_entries#add_remove_collection'
 
@@ -73,6 +78,11 @@ Madek::Application.routes.draw do
       patch 'favor', to: 'collections#favor'
       patch 'disfavor', to: 'collections#disfavor'
       get 'ask_delete', action: :ask_delete, as: 'ask_delete'
+
+      get 'custom_urls', action: 'custom_urls', as: 'custom_urls'
+      get 'custom_urls/edit', action: 'edit_custom_urls', as: 'edit_custom_urls'
+      put 'custom_urls', action: 'update_custom_urls', as: 'update_custom_urls'
+      patch 'set_primary_custom_url/:custom_url_id', action: 'set_primary_custom_url', as: 'set_primary_custom_url'
 
       get 'meta_data/edit', action: :edit_meta_data, as: 'edit_meta_data'
       get 'meta_data/edit_context(/:context_id)', action: :edit_context_meta_data, as: 'edit_context_meta_data'

@@ -22,6 +22,10 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
     super or allow_for_creator_if_unpublished(record, user)
   end
 
+  def update_custom_urls?
+    super and record.is_published
+  end
+
   alias_method :edit?, :update?
 
   alias_method :more_data?, :show?
