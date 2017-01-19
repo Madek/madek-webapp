@@ -102,7 +102,7 @@ const decorateActivityGroup = ({group}) => {
       return [
         <i className='icon icon-plus' />,
         <span>
-          {`Du hast ${count} `}
+          {`Sie haben ${count} `}
           <ResourceLabelPlural {...object} />{' '}
           {'erstellt.'}
         </span>
@@ -112,7 +112,7 @@ const decorateActivityGroup = ({group}) => {
       return [
         <i className='icon icon-pen' />,
         <span>
-          {`Du hast ${count} `}
+          {`Sie haben ${count} `}
           <ResourceLabelPlural {...object} />{' '}
           {'bearbeitet.'}
         </span>
@@ -125,7 +125,7 @@ const decorateActivityGroup = ({group}) => {
           {sub}{' '}
           {`hat ${count} `}
           <ResourceLabelPlural {...object} />{' '}
-          {'mit dir geteilt.'}
+          {'mit ihnen geteilt.'}
         </span>
       ]
 
@@ -141,7 +141,7 @@ const decorateActivityItemByType = ({type, subject, object}) => {
       return [
         <i className='icon icon-plus' />,
         <span>
-          {'Du hast '}
+          {'Sie haben '}
           <ResourceLabel {...object}/>{' '}
           {' erstellt.'}
         </span>
@@ -151,7 +151,7 @@ const decorateActivityItemByType = ({type, subject, object}) => {
       return [
         <i className='icon icon-pen' />,
         <span>
-          {'Du hast '}
+          {'Sie haben '}
           <ResourceLabel {...object} />{' '}
           {'bearbeitet.'}
         </span>
@@ -164,7 +164,7 @@ const decorateActivityItemByType = ({type, subject, object}) => {
           {sub}{' '}
           {'hat '}
           <ResourceLabel {...object} />{' '}
-          {'mit dir geteilt.'}
+          {'mit ihnen geteilt.'}
         </span>
       ]
 

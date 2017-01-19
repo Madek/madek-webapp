@@ -36,7 +36,7 @@ class MyController < ApplicationController
 
   SECTIONS = {
     activity_stream: {
-      title: 'Timeline',
+      title: 'Aktivitäten',
       icon: 'icon-privacy-private',
       partial: :activity_stream,
       hide_from_index: true,

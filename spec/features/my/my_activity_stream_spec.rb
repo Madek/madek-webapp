@@ -5,7 +5,7 @@ require 'spec_helper_feature_shared'
 
 feature 'My: Dashboard' do
 
-  describe 'Beta: Timeline/Activity Stream' do
+  describe 'Beta: Activity Stream' do
     background do
       # prepare data!
       now = DateTime.current
@@ -76,36 +76,36 @@ feature 'My: Dashboard' do
       @expected_ui_content = [
         { icon: 'icon icon-pen',
           content: {
-            summary: 'Du hast das Set Mein Portfolio bearbeitet.' }
+            summary: 'Sie haben das Set Mein Portfolio bearbeitet.' }
         },
         { icon: 'icon icon-pen',
           content: {
-            summary: 'Du hast den Eintrag Mein Kunstwerk bearbeitet.' }
+            summary: 'Sie haben den Eintrag Mein Kunstwerk bearbeitet.' }
         },
         { icon: 'icon icon-pen',
           content:           {
-            summary: 'Du hast 2 Sets bearbeitet.',
+            summary: 'Sie haben 2 Sets bearbeitet.',
             details: @sets.first(2).reverse.map do |e|
               { text: e.title, href: collection_path(e) }
             end }
         },
         { icon: 'icon icon-plus',
           content: {
-            summary: 'Du hast 3 Sets erstellt.',
+            summary: 'Sie haben 3 Sets erstellt.',
             details: @sets.reverse.map do |e|
               { text: e.title, href: collection_path(e) }
             end }
         },
         { icon: 'icon icon-pen',
           content: {
-            summary: 'Du hast 3 Einträge bearbeitet.',
+            summary: 'Sie haben 3 Einträge bearbeitet.',
             details: @entries.reverse.map do |e|
               { text: e.title, href: media_entry_path(e) }
             end }
         },
         { icon: 'icon icon-plus',
           content: {
-            summary: "Du hast 5 Einträge erstellt.",
+            summary: "Sie haben 5 Einträge erstellt.",
             details: @uploads.reverse.map do |e|
               { text: e.title || e.media_file.filename,
                 href: media_entry_path(e) }
@@ -190,7 +190,7 @@ def _set_meta_datum(res, meta_key_id:, string:)
 end
 
 def get_activity_stream_ui_content(page)
-  page.within('[data-react-class="UI.Views.My.Timeline"]') do
+  page.within('[data-react-class="UI.Views.My.ActivityStream"]') do
     all('.ui-activity-stream > .event').map do |event|
       within(event) do
         content = first('.content') # we only want first-*level* child!
