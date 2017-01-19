@@ -31,8 +31,8 @@ MadekPropTypes = require('../lib/madek-prop-types.coffee')
 InputMetaDatum = require('./InputMetaDatum.cjsx')
 MetaKeyFormLabel = require('../lib/forms/form-label.cjsx')
 
-metadataEditValidation = require('../../lib/metadata-edit-validation.coffee')
-metadataEditGrouping = require('../../lib/metadata-edit-grouping.coffee')
+validation = require('../../lib/metadata-edit-validation.coffee')
+grouping = require('../../lib/metadata-edit-grouping.coffee')
 Renderer = require('./metadataedit/MetadataEditRenderer.cjsx')
 
 module.exports = React.createClass
@@ -56,7 +56,7 @@ module.exports = React.createClass
   }
 
   _actionUrl: () ->
-    automaticPublish = metadataEditValidation._validityForAll(
+    automaticPublish = validation._validityForAll(
       @props.get.meta_meta_data, @state.models) == 'valid' and @state.mounted == true and not @props.get.published
     if automaticPublish
       actionType = 'publish'
@@ -223,7 +223,46 @@ module.exports = React.createClass
     else
       false
 
+  _editByVocabButton: (get) ->
+    editByVocabTxt = t('media_entry_meta_data_edit_by_vocab_btn')
+    editByVocabUrl = unless @props.batch
+      get.resource.url + '/meta_data/edit'
+    else
+      plural = if get.resource_type == 'collection' then 'sets' else 'entries'
+      setUrlParams('/' + plural + '/batch_meta_data_edit',
+        id: f.map(get.batch_entries, 'uuid'),
+        return_to: get.return_to)
 
+    <Button href={editByVocabUrl}>
+      <Icon i={'arrow-down'}/> {editByVocabTxt}
+    </Button>
+
+
+  _title: (batchType, get) ->
+    title = null
+    if @props.batch
+
+      pre_title = t('meta_data_batch_title_pre')
+      post_title =
+        if batchType == 'MediaEntry'
+          t('meta_data_batch_title_post_media_entries')
+        else
+          t('meta_data_batch_title_post_collections')
+
+      title = pre_title + get.batch_entries.length + post_title
+    else
+      if get.resource.type == 'Collection'
+        title = t('collection_meta_data_header_prefix') + get.resource.title
+      else
+        title = t('media_entry_meta_data_header_prefix') + get.resource.title
+
+  _disableSave: () ->
+    # disableSave = (@state.saving or not @_changesForAll() or (@_validityForAll() == 'invalid' and @props.get.published)) and @state.mounted == true
+    disableSave = (@state.saving or (validation._validityForAll(
+      @props.get.meta_meta_data, @state.models) == 'invalid' and @props.get.published)) and @state.mounted == true
+
+  _disablePublish: () ->
+    disablePublish = (@state.saving or validation._validityForAll(@props.get.meta_meta_data, @state.models) != 'valid')
 
   render: ({get, authToken, batchType} = @props) ->
 
@@ -246,31 +285,7 @@ module.exports = React.createClass
     unless @props.batch
       className = if get.resource.type == 'Collection' then 'media-set ui-thumbnail' else 'image media-entry ui-thumbnail'
 
-    title = null
-    if @props.batch
 
-      pre_title = t('meta_data_batch_title_pre')
-      post_title =
-        if batchType == 'MediaEntry'
-          t('meta_data_batch_title_post_media_entries')
-        else
-          t('meta_data_batch_title_post_collections')
-
-      title = pre_title + get.batch_entries.length + post_title
-    else
-      if get.resource.type == 'Collection'
-        title = t('collection_meta_data_header_prefix') + get.resource.title
-      else
-        title = t('media_entry_meta_data_header_prefix') + get.resource.title
-
-    editByVocabTxt = t('media_entry_meta_data_edit_by_vocab_btn')
-    editByVocabUrl = unless @props.batch
-      get.resource.url + '/meta_data/edit'
-    else
-      plural = if get.resource_type == 'collection' then 'sets' else 'entries'
-      setUrlParams('/' + plural + '/batch_meta_data_edit',
-        id: f.map(get.batch_entries, 'uuid'),
-        return_to: get.return_to)
 
     name = if @props.batch
       get.resource_type + "[meta_data]"
@@ -281,11 +296,7 @@ module.exports = React.createClass
 
     submitButtonType = if @state.mounted then 'button' else 'submit'
 
-    # disableSave = (@state.saving or not @_changesForAll() or (@_validityForAll() == 'invalid' and @props.get.published)) and @state.mounted == true
-    disableSave = (@state.saving or (metadataEditValidation._validityForAll(
-      @props.get.meta_meta_data, @state.models) == 'invalid' and @props.get.published)) and @state.mounted == true
 
-    disablePublish = (@state.saving or metadataEditValidation._validityForAll(@props.get.meta_meta_data, @state.models) != 'valid')
     showPublish = not @props.get.published and @state.mounted == true
 
     showPublish = false
@@ -304,13 +315,11 @@ module.exports = React.createClass
       else
         get.url
 
-    bundled_context_keys = metadataEditGrouping._group_keys({ keys_to_check: @_context_keys(currentContextId), inter_result: [] })
+    bundled_context_keys = grouping._group_keys({ keys_to_check: @_context_keys(currentContextId), inter_result: [] })
 
     <PageContent>
-      <PageContentHeader icon='pen' title={title}>
-        <Button href={editByVocabUrl}>
-          <Icon i={'arrow-down'}/> {editByVocabTxt}
-        </Button>
+      <PageContentHeader icon='pen' title={@_title(batchType, get)}>
+        {@_editByVocabButton(get)}
       </PageContentHeader>
 
       {if @props.batch
@@ -331,8 +340,8 @@ module.exports = React.createClass
 
           if not f.isEmpty(get.meta_meta_data.context_key_ids_by_context_id[context_id])
             <Tab
-              hasChanges={metadataEditValidation._changesPerContext(@props.get.meta_meta_data, @state.models, context_id)}
-              validity={metadataEditValidation._validityForContext(@props.get.meta_meta_data, @state.models, context_id)}
+              hasChanges={validation._changesPerContext(@props.get.meta_meta_data, @state.models, context_id)}
+              validity={validation._validityForContext(@props.get.meta_meta_data, @state.models, context_id)}
               privacyStatus={'public'}
               key={context.uuid}
               iconType={null}
@@ -497,13 +506,13 @@ module.exports = React.createClass
             <button className="primary-button large"
               type={submitButtonType} name='actionType' value='save'
               onClick={@_onExplicitSubmit}
-              disabled={disableSave}>{t('meta_data_form_save')}</button>
+              disabled={@_disableSave()}>{t('meta_data_form_save')}</button>
             {
               if showPublish
                 <button className='primary-button large'
                   type={submitButtonType} name='actionType' value='publish'
                   onClick={@_onExplicitSubmit}
-                  disabled={disablePublish}>{t('meta_data_form_publish')}</button>
+                  disabled={@_disablePublish()}>{t('meta_data_form_publish')}</button>
             }
           </div>
 
