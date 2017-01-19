@@ -33,7 +33,7 @@ MetaKeyFormLabel = require('../lib/forms/form-label.cjsx')
 
 metadataEditValidation = require('../../lib/metadata-edit-validation.coffee')
 metadataEditGrouping = require('../../lib/metadata-edit-grouping.coffee')
-
+Renderer = require('./metadataedit/MetadataEditRenderer.cjsx')
 
 module.exports = React.createClass
   displayName: 'ResourceMetaDataPagePerContext'
@@ -56,7 +56,8 @@ module.exports = React.createClass
   }
 
   _actionUrl: () ->
-    automaticPublish = metadataEditValidation._validityForAll(@props.get.meta_meta_data, @state.models) == 'valid' and @state.mounted == true and not @props.get.published
+    automaticPublish = metadataEditValidation._validityForAll(
+      @props.get.meta_meta_data, @state.models) == 'valid' and @state.mounted == true and not @props.get.published
     if automaticPublish
       actionType = 'publish'
     else
@@ -124,16 +125,6 @@ module.exports = React.createClass
 
 
     @setState({models: models})
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -222,112 +213,17 @@ module.exports = React.createClass
     @setState(bundleState: f.set(@state.bundleState, bundleId, next))
 
 
-  _batchConflict: (meta_key_id) ->
-
+  _batchConflict: (context_key_id) ->
+    meta_meta_data = @props.get.meta_meta_data
+    contextKey = meta_meta_data.context_key_by_context_key_id[context_key_id]
+    meta_key_id = contextKey.meta_key_id
     batchConflict = @state.batchDiff[meta_key_id]
     if batchConflict
       not batchConflict.all_equal
     else
       false
 
-  _renderValue: (meta_key_id, hidden, onChange, datum, name, subForms, contextKey) ->
 
-    if @props.batch
-      name += "[#{meta_key_id}][values][]"
-    else
-      name += "[#{meta_key_id}][]"
-
-    model = @state.models[meta_key_id]
-
-    newget = f.mapValues datum, (value) ->
-      value
-    newget.values = model.values
-
-    <InputMetaDatum id={meta_key_id}
-      name={name} get={newget} onChange={onChange}
-      subForms={subForms}
-      contextKey={contextKey}
-    />
-
-  _renderLabel: (meta_meta_data, context_key_id) ->
-
-    contextKey = meta_meta_data.context_key_by_context_key_id[context_key_id]
-
-    meta_key_id = contextKey.meta_key_id
-    mandatory = meta_meta_data.mandatory_by_meta_key_id[meta_key_id]
-
-    <MetaKeyFormLabel metaKey={meta_meta_data.meta_key_by_meta_key_id[meta_key_id]}
-      contextKey={contextKey}
-      mandatory={mandatory} />
-
-
-  _renderItem: (meta_data, meta_meta_data, published, name, context_key_id, subForms, rowed) ->
-
-    contextKey = meta_meta_data.context_key_by_context_key_id[context_key_id]
-    meta_key_id = contextKey.meta_key_id
-    datum = meta_data.meta_datum_by_meta_key_id[meta_key_id]
-    batchConflict = @_batchConflict(meta_key_id)
-    model = @state.models[meta_key_id]
-    mandatory = meta_meta_data.mandatory_by_meta_key_id[meta_key_id]
-    error = @state.errors[meta_key_id]
-    validErr = published and mandatory and not metadataEditValidation._validModel(model)
-    className = cx('ui-form-group prh', {'columned': not rowed}, {'rowed': rowed},
-      {'error': (error or validErr) and not batchConflict}, {'highlight': batchConflict})
-
-    <fieldset className={className} key={meta_key_id}>
-      {if error
-        <div className="ui-alerts" style={marginBottom: '10px'}>
-          <div className="error ui-alert">
-            {error}
-          </div>
-        </div>
-      }
-      {@_renderLabel(meta_meta_data, context_key_id)}
-      {@_renderValue(meta_key_id, false, ((values) => @_onChangeForm(meta_key_id, values)), datum, name, subForms, contextKey)}
-    </fieldset>
-
-
-  _renderItemOrGroup: (context_id, bundled_context_keys, meta_data, meta_meta_data, published, name) ->
-
-    f.flatten f.map(
-      bundled_context_keys,
-      (bundle) =>
-        if bundle.type == 'single' or (bundle.type == 'block' and f.size(bundle.content) == 0)
-          context_key_id = if bundle.type == 'single' then bundle.content.uuid else bundle.mainKey.uuid
-          @_renderItem(meta_data, meta_meta_data, published, name, context_key_id, null, false)
-        else
-          context_key_id = bundle.mainKey.uuid
-
-          isInvalid = metadataEditValidation._validityForMetaKeyIds(@props.get.meta_meta_data, @state.models, f.map(bundle.content, 'meta_key_id')) == 'invalid'
-
-          style = {
-            display: (if (@state.bundleState[bundle.bundle] or isInvalid) then 'block' else 'none')
-            marginTop: '10px'
-            marginBottom: '20px'
-          }
-
-          subForms = [
-            <a key='sub-form-link' className={cx('button small form-item-extension-toggle mtm',
-              {'active': isInvalid })}
-              onClick={((() => @_toggleBundle(bundle.bundle)) if not isInvalid)}>
-              <i className="icon-plus-small"></i>   {t('meta_data_edit_more_data')}
-            </a>
-            ,
-            <div key='sub-form-values' style={style}
-              className="ui-container pam ui-container bordered rounded form-item-extension hidden"
-              key={'block_' + bundle.bundle}>
-              {
-                f.map(
-                  bundle.content,
-                  (entry) =>
-                    @_renderItem(meta_data, meta_meta_data, published, name, entry.uuid, null, true)
-                )
-              }
-            </div>
-          ]
-
-          @_renderItem(meta_data, meta_meta_data, published, name, context_key_id, subForms, false)
-    )
 
   render: ({get, authToken, batchType} = @props) ->
 
@@ -386,7 +282,8 @@ module.exports = React.createClass
     submitButtonType = if @state.mounted then 'button' else 'submit'
 
     # disableSave = (@state.saving or not @_changesForAll() or (@_validityForAll() == 'invalid' and @props.get.published)) and @state.mounted == true
-    disableSave = (@state.saving or (metadataEditValidation._validityForAll(@props.get.meta_meta_data, @state.models) == 'invalid' and @props.get.published)) and @state.mounted == true
+    disableSave = (@state.saving or (metadataEditValidation._validityForAll(
+      @props.get.meta_meta_data, @state.models) == 'invalid' and @props.get.published)) and @state.mounted == true
 
     disablePublish = (@state.saving or metadataEditValidation._validityForAll(@props.get.meta_meta_data, @state.models) != 'valid')
     showPublish = not @props.get.published and @state.mounted == true
@@ -552,7 +449,8 @@ module.exports = React.createClass
                   }
 
                   {
-                    @_renderItemOrGroup(currentContextId, bundled_context_keys, get.meta_data, get.meta_meta_data, published, name)
+                    Renderer._renderItemOrGroup(currentContextId, bundled_context_keys, get.meta_data, get.meta_meta_data, published, name,
+                      @props.batch, @state.models, @state.errors, @_batchConflict, @_onChangeForm, @state.bundleState, @_toggleBundle)
                   }
 
 
@@ -572,8 +470,8 @@ module.exports = React.createClass
                       datum = get.meta_data.meta_datum_by_meta_key_id[meta_key_id]
                       if datum
 
-                        <div style={{display: 'none'}} key={meta_key_id} >
-                          {@_renderValue(meta_key_id, true, (() -> ), datum, name, null)}
+                        <div style={{display: 'none'}} key={meta_key_id}>
+                          {Renderer._renderValue(meta_key_id, (() -> ), datum, name, null, null, @props.batch, @state.models)}
                         </div>
 
                   }
