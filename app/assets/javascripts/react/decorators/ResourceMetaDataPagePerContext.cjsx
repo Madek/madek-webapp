@@ -31,6 +31,8 @@ MadekPropTypes = require('../lib/madek-prop-types.coffee')
 InputMetaDatum = require('./InputMetaDatum.cjsx')
 MetaKeyFormLabel = require('../lib/forms/form-label.cjsx')
 
+metadataEditValidation = require('../../lib/metadata-edit-validation.coffee')
+metadataEditGrouping = require('../../lib/metadata-edit-grouping.coffee')
 
 
 module.exports = React.createClass
@@ -54,7 +56,7 @@ module.exports = React.createClass
   }
 
   _actionUrl: () ->
-    automaticPublish = @_validityForAll() == 'valid' and @state.mounted == true and not @props.get.published
+    automaticPublish = metadataEditValidation._validityForAll(@props.get.meta_meta_data, @state.models) == 'valid' and @state.mounted == true and not @props.get.published
     if automaticPublish
       actionType = 'publish'
     else
@@ -124,101 +126,17 @@ module.exports = React.createClass
     @setState({models: models})
 
 
-  _validModel: (model) ->
-    if model.multiple
-      model.values.length > 0
-    else
-      if model.values[0]
-        model.values[0].trim().length > 0
-      else
-        false
-
-  _meta_key_ids_by_context_id: (context_id) ->
-    res = f.map(
-      @props.get.meta_meta_data.context_key_ids_by_context_id[context_id],
-      (context_key_id) =>
-        @props.get.meta_meta_data.meta_key_id_by_context_key_id[context_key_id]
-    )
-    res
-
-  _validityForAll: () ->
-    mandatory_meta_key_ids = f.keys @props.get.meta_meta_data.mandatory_by_meta_key_id
-    @_validityForMandatoryMetaKeyIds(mandatory_meta_key_ids)
-
-  _validityForMetaKeyIds: (meta_key_ids) ->
-    mandatory_meta_key_ids = f.keys(@props.get.meta_meta_data.mandatory_by_meta_key_id)
-    reduced_mandatories = f.filter(meta_key_ids, (meta_key_id) ->
-      f.include(mandatory_meta_key_ids, meta_key_id))
-    @_validityForMandatoryMetaKeyIds(reduced_mandatories)
-
-
-  _validityForMandatoryMetaKeyIds: (mandatory_meta_key_ids) ->
-    hasMandatory = false
-    hasInvalid = false
-    f.each mandatory_meta_key_ids, (meta_key_id) =>
-
-      hasMandatory = true
-      model = @state.models[meta_key_id]
-      # Note: The model can be unknown, because you can get more mandatory
-      # fields than keys (some are not visible for the user).
-      if model and not @_validModel(model)
-        hasInvalid = true
-
-    if not hasMandatory
-      'not_mandatory'
-    else if hasInvalid
-      'invalid'
-    else
-      'valid'
-
-  _validityForContext: (context_id) ->
-    meta_key_ids = @_meta_key_ids_by_context_id(context_id)
-    @_validityForMetaKeyIds(meta_key_ids)
-
-  _changesPerContext: (context_id) ->
-    hasChanges = false
-    f.each @state.models, (model, meta_key_id) =>
-      if context_id and (f.includes(@_meta_key_ids_by_context_id(context_id), meta_key_id)) or not context_id
-        unless model.multiple == false and model.originalValues.length == 0 and model.values.length == 1 and model.values[0].trim() == ''
-
-          # Note: New keywords have no uuid yet. Fortunately new keywords always mean that the length is different.
-          if not @_equalUnordered(model.values, model.originalValues, model.multiple)
-            hasChanges = true
-
-    hasChanges
-
-
-  _equalUnordered: (arr1, arr2, checkUuid) ->
-
-    if arr1.length != arr2.length
-      return false
-
-    equal = true
-    f.each(arr1, (value1) ->
-
-      found = false
-      f.each(arr2, (value2) ->
-        if checkUuid == true
-          if(value1.uuid == value2.uuid)
-            found = true
-        else
-          if value1 == value2
-            found = true
-
-      )
-
-      if found == false
-        equal = false
-    )
-
-    return equal
 
 
 
 
 
-  _changesForAll: () ->
-    @_changesPerContext(null)
+
+
+
+
+
+
 
 
   _onChangeForm: (meta_key_id, values) ->
@@ -284,69 +202,13 @@ module.exports = React.createClass
     return false
 
 
-  # NOTE: Temporary solution for "bundling" of keys. comes from instance config.
-  _prefixesForBundle: () -> APP_CONFIG.bundle_context_keys || []
-
-  _find_exact_in_bundle: (meta_key_id) ->
-    f.find @_prefixesForBundle(), (prefix) ->
-      meta_key_id == prefix.group
 
 
-  _diff_keys: (a, b) ->
-
-    contains_key = (arr, key_id) ->
-      f.find arr, (ai) ->
-        ai.uuid == key_id
-
-    f.reject a, (ai) ->
-      contains_key(b, ai.uuid)
 
 
-  _reject_followups: (keys_to_check, bundle_key) ->
-
-    first_not_matching = f.findIndex keys_to_check, (key) ->
-      not f.startsWith(key.meta_key_id, bundle_key.prefix)
-
-    return [] if first_not_matching < 0
-
-    f.slice keys_to_check, first_not_matching
 
 
-  _group_keys: ({keys_to_check, inter_result}) ->
 
-    if f.isEmpty(keys_to_check)
-      inter_result
-    else
-
-      bundle_key = @_find_exact_in_bundle(f.first(keys_to_check).meta_key_id)
-
-      rec_keys_to_check =
-        if bundle_key
-          @_reject_followups(f.slice(keys_to_check, 1), bundle_key)
-        else
-          f.slice(keys_to_check, 1)
-
-      rec_inter_result =
-        if bundle_key
-          {
-            type: 'block'
-            bundle: bundle_key.group
-            mainKey: f.first(@_diff_keys(keys_to_check, rec_keys_to_check))
-            content: f.slice(@_diff_keys(keys_to_check, rec_keys_to_check), 1)
-          }
-        else
-          {
-            type: 'single'
-            content: f.first(keys_to_check)
-          }
-
-
-      @_group_keys(
-        {
-          keys_to_check: rec_keys_to_check,
-          inter_result: inter_result.concat([rec_inter_result])
-        }
-      )
 
   _context_keys: (context_id) ->
     meta_meta_data = @props.get.meta_meta_data
@@ -408,7 +270,7 @@ module.exports = React.createClass
     model = @state.models[meta_key_id]
     mandatory = meta_meta_data.mandatory_by_meta_key_id[meta_key_id]
     error = @state.errors[meta_key_id]
-    validErr = published and mandatory and not @_validModel(model)
+    validErr = published and mandatory and not metadataEditValidation._validModel(model)
     className = cx('ui-form-group prh', {'columned': not rowed}, {'rowed': rowed},
       {'error': (error or validErr) and not batchConflict}, {'highlight': batchConflict})
 
@@ -436,7 +298,7 @@ module.exports = React.createClass
         else
           context_key_id = bundle.mainKey.uuid
 
-          isInvalid = @_validityForMetaKeyIds(f.map(bundle.content, 'meta_key_id')) == 'invalid'
+          isInvalid = metadataEditValidation._validityForMetaKeyIds(@props.get.meta_meta_data, @state.models, f.map(bundle.content, 'meta_key_id')) == 'invalid'
 
           style = {
             display: (if (@state.bundleState[bundle.bundle] or isInvalid) then 'block' else 'none')
@@ -524,9 +386,9 @@ module.exports = React.createClass
     submitButtonType = if @state.mounted then 'button' else 'submit'
 
     # disableSave = (@state.saving or not @_changesForAll() or (@_validityForAll() == 'invalid' and @props.get.published)) and @state.mounted == true
-    disableSave = (@state.saving or (@_validityForAll() == 'invalid' and @props.get.published)) and @state.mounted == true
+    disableSave = (@state.saving or (metadataEditValidation._validityForAll(@props.get.meta_meta_data, @state.models) == 'invalid' and @props.get.published)) and @state.mounted == true
 
-    disablePublish = (@state.saving or @_validityForAll() != 'valid')
+    disablePublish = (@state.saving or metadataEditValidation._validityForAll(@props.get.meta_meta_data, @state.models) != 'valid')
     showPublish = not @props.get.published and @state.mounted == true
 
     showPublish = false
@@ -545,7 +407,7 @@ module.exports = React.createClass
       else
         get.url
 
-    bundled_context_keys = @_group_keys({ keys_to_check: @_context_keys(currentContextId), inter_result: [] })
+    bundled_context_keys = metadataEditGrouping._group_keys({ keys_to_check: @_context_keys(currentContextId), inter_result: [] })
 
     <PageContent>
       <PageContentHeader icon='pen' title={title}>
@@ -572,8 +434,8 @@ module.exports = React.createClass
 
           if not f.isEmpty(get.meta_meta_data.context_key_ids_by_context_id[context_id])
             <Tab
-              hasChanges={@_changesPerContext(context_id)}
-              validity={@_validityForContext(context_id)}
+              hasChanges={metadataEditValidation._changesPerContext(@props.get.meta_meta_data, @state.models, context_id)}
+              validity={metadataEditValidation._validityForContext(@props.get.meta_meta_data, @state.models, context_id)}
               privacyStatus={'public'}
               key={context.uuid}
               iconType={null}
