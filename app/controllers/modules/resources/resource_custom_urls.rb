@@ -19,10 +19,17 @@ module Modules
       def resource_edit_custom_urls(resource)
         auth_authorize(resource)
 
+        if params[:needs_confirmation]
+          confirmation = {
+            address_id: params.require(:address_id),
+            from_title: params.require(:from_title),
+            to_title: params.require(:to_title),
+            type: params.require(:type)
+          }
+        end
+
         @get = Presenters::CustomUrls::ResourceEditCustomUrls.new(
-          current_user,
-          resource
-        )
+          current_user, resource, confirmation)
 
         respond_with(@get)
       end
@@ -49,14 +56,15 @@ module Modules
         auth_authorize(resource)
 
         address_name = params[:custom_url_name]
+        confirmed = true if params[:confirmation] == 'true'
 
         return unless validate_not_empty(resource, address_name)
         return unless validate_address_format(resource, address_name)
 
-        existing_url = find_custom_url(address_name)
+        existing_url = CustomUrl.where(id: address_name).first
 
         if existing_url
-          transfer_url(user, resource, existing_url)
+          transfer_url(user, resource, existing_url, confirmed)
         else
           create_custom_url_transaction(user, resource, address_name)
         end
@@ -73,52 +81,80 @@ module Modules
       end
 
       def validate_not_empty(resource, address_name)
-        if (not address_name) || address_name.empty?
-          html_respond(resource, true, I18n.t('custom_urls_flash_empty'))
-          false
-        else
-          true
-        end
+        return true if address_name && !address_name.empty?
+        html_respond(resource, true, I18n.t('custom_urls_flash_empty'))
+        false
       end
 
       def validate_address_format(resource, address_name)
-        unless (address_name =~ /^[a-z][a-z0-9\-\_]+$/)
-          t1 = I18n.t('custom_urls_flash_wrong_format_1')
-          t2 = I18n.t('custom_urls_flash_wrong_format_2')
-          html_respond(resource, true, "#{t1}\"#{address_name}\"#{t2}")
-          false
-        else
-          true
-        end
+        return true if (address_name =~ /^[a-z][a-z0-9\-\_]+$/)
+        t1 = I18n.t('custom_urls_flash_wrong_format_1')
+        t2 = I18n.t('custom_urls_flash_wrong_format_2')
+        html_respond(resource, true, "#{t1}\"#{address_name}\"#{t2}")
+        false
       end
 
-      def find_custom_url(address_name)
-        CustomUrl.where(id: address_name).first
+      def validate_not_exists_on_itself(resource, current_resource, existing_url)
+        return true if current_resource.id != resource.id
+        type_string = resource.class.name.underscore
+        t1 = I18n.t("custom_urls_flash_exists_on_itself_#{type_string}_1")
+        t2 = I18n.t("custom_urls_flash_exists_on_itself_#{type_string}_2")
+        html_respond(resource, true, "#{t1}\"#{existing_url.id}\"#{t2}")
+        false
       end
 
-      def allow_change_custom_url(user, resource)
-        auth_policy(user, resource).update_custom_urls?
+      def validate_allowed(user, resource, current_resource, existing_url)
+        return true if auth_policy(user, current_resource).update_custom_urls?
+        type_string = current_resource.class.name.underscore
+        t1 = I18n.t("custom_urls_flash_not_allowed_#{type_string}_1")
+        t2 = I18n.t("custom_urls_flash_not_allowed_#{type_string}_2")
+        t3 = I18n.t("custom_urls_flash_not_allowed_#{type_string}_3")
+        message = "#{t1}\"#{existing_url.id}\"#{t2}\"#{existing_url.id}\"#{t3}"
+        html_respond(resource, true, message)
+        false
       end
 
-      def same_types(resource, current_resource)
-        resource.class == current_resource.class
+      def validate_same_types(resource, current_resource, existing_url)
+        return true if resource.class == current_resource.class
+        type_string = resource.class.name.underscore
+        t1 = I18n.t("custom_urls_flash_not_same_type_#{type_string}_1")
+        t2 = I18n.t("custom_urls_flash_not_same_type_#{type_string}_2")
+        html_respond(resource, true, "#{t1}\"#{existing_url.id}\"#{t2}")
+        false
       end
 
       def validate_transfer(user, resource, current_resource, existing_url)
-        if current_resource.id == resource.id ||
-          !allow_change_custom_url(user, current_resource) ||
-          !same_types(resource, current_resource)
+        return unless validate_not_exists_on_itself(
+          resource, current_resource, existing_url)
 
-          t1 = I18n.t('custom_urls_flash_exists_1')
-          t2 = I18n.t('custom_urls_flash_exists_2')
-          html_respond(resource, true, "#{t1}\"#{existing_url.id}\"#{t2}")
-          false
-        else
-          true
-        end
+        return unless validate_allowed(
+          user, resource, current_resource, existing_url)
+
+        return unless validate_same_types(
+          resource, current_resource, existing_url)
+
+        true
       end
 
-      def transfer_url(user, resource, existing_url)
+      def validate_confirmed(resource, current_resource, confirmed, existing_url)
+        return true if confirmed
+        path = send(
+          "edit_custom_urls_#{resource.class.name.underscore}_path",
+          resource)
+
+        type_string = resource.class.name.underscore
+
+        redirect_to("#{path}" \
+          '?needs_confirmation=true' \
+          "&address_id=#{existing_url.id}" \
+          "&from_title=#{current_resource.title}" \
+          "&to_title=#{resource.title}" \
+          "&type=#{type_string}")
+
+        false
+      end
+
+      def transfer_url(user, resource, existing_url, confirmed)
         current_resource = custom_url_resource(existing_url)
 
         return unless validate_transfer(
@@ -126,6 +162,9 @@ module Modules
           resource,
           current_resource,
           existing_url)
+
+        return unless validate_confirmed(
+          resource, current_resource, confirmed, existing_url)
 
         transfer_url_transaction(resource, existing_url, current_resource)
       end
@@ -138,12 +177,14 @@ module Modules
         t1 = I18n.t('custom_urls_flash_transfer_successful_1')
         t2 = I18n.t('custom_urls_flash_transfer_successful_2')
         t3 = I18n.t('custom_urls_flash_transfer_successful_3')
+        t4 = I18n.t('custom_urls_flash_transfer_successful_4')
         message = "#{t1}" \
           "\"#{existing_url.id}\"" \
           "#{t2}" \
           "\"#{current_resource.title}\"" \
           "#{t3}" \
-          "\"#{resource.title}\""
+          "\"#{resource.title}\"" \
+          "#{t4}"
         html_respond(resource, false, message)
       end
 

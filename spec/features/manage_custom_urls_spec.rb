@@ -166,6 +166,8 @@ feature 'manage custom urls' do
     visit_custom_urls(resource2)
     check_table([{ name: resource2.id, primary: true }])
     open_fill_in_and_submit_address('transfer_address_1')
+    check_transfer_confirmation('transfer_address_1', resource1, resource2)
+    click_confirmation_button
 
     check_table([{ name: resource2.id, primary: false },
                  { name: 'transfer_address_1', primary: true }])
@@ -182,6 +184,8 @@ feature 'manage custom urls' do
                  { name: 'transfer_address_1', primary: false }])
 
     open_fill_in_and_submit_address('transfer_address_2')
+    check_transfer_confirmation('transfer_address_2', resource1, resource2)
+    click_confirmation_button
     check_table([{ name: resource2.id, primary: false },
                  { name: 'transfer_address_2', primary: true },
                  { name: 'transfer_address_1', primary: false }])
@@ -255,13 +259,13 @@ feature 'manage custom urls' do
     click_create_custom_url
     fill_in_address('address2')
     click_submit_button
-    check_already_exists_flash('address2')
+    check_cross_transfer_not_allowed_flash(resource1, 'address2')
 
     visit_custom_urls(resource2)
     click_create_custom_url
     fill_in_address('address1')
     click_submit_button
-    check_already_exists_flash('address1')
+    check_cross_transfer_not_allowed_flash(resource2, 'address1')
   end
 
   def scenario_transfer_not_allowed(resource1, resource2)
@@ -279,7 +283,7 @@ feature 'manage custom urls' do
     fill_in_address('address_shared')
     click_submit_button
 
-    check_already_exists_flash('address_shared')
+    check_not_allowed_flash(resource2, 'address_shared')
   end
 
   def scenario_check_transfer(resource1, resource2)
@@ -297,6 +301,10 @@ feature 'manage custom urls' do
     click_create_custom_url
     fill_in_address('address2')
     click_submit_button
+
+    check_transfer_confirmation('address2', resource2, resource1)
+
+    click_confirmation_button
 
     check_transfer_success_flash('address2', resource2, resource1)
   end
@@ -317,7 +325,7 @@ feature 'manage custom urls' do
     click_create_custom_url
     fill_in_address('first_address_name')
     click_submit_button
-    check_already_exists_flash('first_address_name')
+    check_already_exists_on_itself_flash(resource, 'first_address_name')
   end
 
   def scenario_set_primary(resource)
@@ -340,7 +348,7 @@ feature 'manage custom urls' do
     click_action_button
     check_uuid_custom_urls_page(resource)
     check_empty_addresses(resource)
-    click_back_button
+    click_back_button(resource)
     check_uuid_resource_page(resource)
   end
 
@@ -372,6 +380,19 @@ feature 'manage custom urls' do
     find('.ui-alert', text: I18n.t('custom_urls_flash_empty'))
   end
 
+  def check_transfer_confirmation(address_name, from, to)
+    text = concat_k1_v1_k2_v2_k3_v3_k4(
+      "custom_urls_flash_transfer_confirmation_#{unsc(to)}_1",
+      address_name,
+      "custom_urls_flash_transfer_confirmation_#{unsc(to)}_2",
+      from.title,
+      "custom_urls_flash_transfer_confirmation_#{unsc(to)}_3",
+      to.title,
+      "custom_urls_flash_transfer_confirmation_#{unsc(to)}_4"
+    )
+    find('form', text: text)
+  end
+
   def check_transfer_success_flash(address_name, resource1, resource2)
     text = concat_k1_v1_k2_v2_k3_v3(
       :custom_urls_flash_transfer_successful_1,
@@ -384,11 +405,31 @@ feature 'manage custom urls' do
     find('.ui-alert', text: text)
   end
 
-  def check_already_exists_flash(address_name)
+  def check_already_exists_on_itself_flash(resource, address_name)
     text = concat_k1_v1_k2(
-      :custom_urls_flash_exists_1,
+      "custom_urls_flash_exists_on_itself_#{unsc(resource)}_1",
       address_name,
-      :custom_urls_flash_exists_2
+      "custom_urls_flash_exists_on_itself_#{unsc(resource)}_2"
+    )
+    find('.ui-alert', text: text)
+  end
+
+  def check_not_allowed_flash(resource, address_name)
+    text = concat_k1_v1_k2_v2_k3(
+      "custom_urls_flash_not_allowed_#{unsc(resource)}_1",
+      address_name,
+      "custom_urls_flash_not_allowed_#{unsc(resource)}_2",
+      address_name,
+      "custom_urls_flash_not_allowed_#{unsc(resource)}_3"
+    )
+    find('.ui-alert', text: text)
+  end
+
+  def check_cross_transfer_not_allowed_flash(resource, address_name)
+    text = concat_k1_v1_k2(
+      "custom_urls_flash_not_same_type_#{unsc(resource)}_1",
+      address_name,
+      "custom_urls_flash_not_same_type_#{unsc(resource)}_2"
     )
     find('.ui-alert', text: text)
   end
@@ -458,6 +499,12 @@ feature 'manage custom urls' do
     prepare_user
     login
     create_media_entry('Media Entry')
+  end
+
+  def click_confirmation_button
+    find('.ui-actions').find(
+      '.primary-button',
+      text: I18n.t('edit_custom_urls_transfer')).click
   end
 
   def click_submit_button
@@ -537,9 +584,15 @@ feature 'manage custom urls' do
     end
   end
 
-  def click_back_button
+  def unsc(resource)
+    resource.class.name.underscore
+  end
+
+  def click_back_button(resource)
     find('.ui-actions')
-      .find('a.button', text: I18n.t('edit_custom_urls_back')).click
+      .find(
+        'a.button',
+        text: I18n.t("edit_custom_urls_back_to_#{unsc(resource)}")).click
   end
 
   def check_disabled_action_button
@@ -557,11 +610,19 @@ feature 'manage custom urls' do
   end
 
   def concat_k1_v1_k2(k1, v1, k2)
-    "#{I18n.t(k1)}\"#{v1}\"#{I18n.t(k2)}"
+    "#{concat_k1_v1(k1, v1)}#{I18n.t(k2)}"
+  end
+
+  def concat_k1_v1_k2_v2_k3(k1, v1, k2, v2, k3)
+    "#{concat_k1_v1_k2(k1, v1, k2)}\"#{v2}\"#{I18n.t(k3)}"
   end
 
   def concat_k1_v1_k2_v2_k3_v3(k1, v1, k2, v2, k3, v3)
-    "#{I18n.t(k1)}\"#{v1}\"#{I18n.t(k2)}\"#{v2}\"#{I18n.t(k3)}\"#{v3}\""
+    "#{concat_k1_v1_k2_v2_k3(k1, v1, k2, v2, k3)}\"#{v3}\""
+  end
+
+  def concat_k1_v1_k2_v2_k3_v3_k4(k1, v1, k2, v2, k3, v3, k4)
+    "#{concat_k1_v1_k2_v2_k3_v3(k1, v1, k2, v2, k3, v3)}#{I18n.t(k4)}"
   end
 
   def check_empty_addresses(resource)

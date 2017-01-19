@@ -91,6 +91,7 @@ module.exports = React.createClass
       icon={null} text={t('custom_urls_new')}
       href={resource.url + '/custom_urls/edit'} />
 
+    backText = t('edit_custom_urls_back_to_' + f.kebabCase(@props.get.type).replace('-', '_'))
 
     <div>
       <PageHeader icon={null} title={title} actions={[headerButton]} />
@@ -144,7 +145,7 @@ module.exports = React.createClass
             </table>
 
           <div className='ui-actions phl pbl mtl'>
-            <a className='button' href={@props.get.resource.url}> {t('edit_custom_urls_back')} </a>
+            <a className='button' href={@props.get.resource.url}> {backText} </a>
           </div>
 
         </div>

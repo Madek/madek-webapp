@@ -2,9 +2,10 @@ module Presenters
   module CustomUrls
     class ResourceEditCustomUrls < Presenters::Shared::AppResource
 
-      def initialize(user, resource)
+      def initialize(user, resource, confirmation)
         super(resource)
         @user = user
+        @confirmation = confirmation
       end
 
       def resource
@@ -15,6 +16,8 @@ module Presenters
           @user
         )
       end
+
+      attr_reader :confirmation
     end
   end
 end
