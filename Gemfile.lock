@@ -221,8 +221,6 @@ GEM
     rack-contrib (1.4.0)
       git-version-bump (~> 0.15)
       rack (~> 1.4)
-    rack-mini-profiler (0.10.1)
-      rack (>= 1.2.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.7.1)
@@ -402,7 +400,6 @@ DEPENDENCIES
   puma
   pundit
   quiet_assets
-  rack-mini-profiler
   rails (>= 4.2.5, < 5)
   rails_autolink (~> 1.0)
   react-rails (~> 1.7.1)
@@ -424,4 +421,4 @@ DEPENDENCIES
   zencoder-fetcher
 
 BUNDLED WITH
-   1.13.1
+   1.13.6

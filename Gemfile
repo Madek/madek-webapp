@@ -50,14 +50,9 @@ gem 'better_errors', platform: :mri, group: [:development]
 gem 'binding_of_caller', platform: :mri, group: [:development]
 gem 'capybara', '~> 2.4', group: [:test]
 gem 'meta_request', group: [:development]
-# gem 'flamegraph', group: [:development], platform: :mri # for mini-profiler
 gem 'poltergeist', group: [:test, :development, :personas]
 gem 'quiet_assets', group: [:development]
-gem 'rack-mini-profiler', group: [:development, :production]
 gem 'rest-client', group: [:test, :development, :personas]
 gem 'ruby-prof', group: [:development], platform: :mri
 gem 'selenium-webdriver', group: [:test]
 gem 'zencoder-fetcher', group: [:development]
-
-# TEMPORARILY DISABLED
-#

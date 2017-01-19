@@ -33,13 +33,6 @@ class ApplicationController < ActionController::Base
   I18n.locale = :de
 
   before_action do
-    # enable the mini profiler for admins in production
-    if Settings.mini_profiler_enabled
-      if defined?(Rack::MiniProfiler) && current_user.try(:admin)
-        Rack::MiniProfiler.authorize_request
-      end
-    end
-
     # TMP: data for application layout.
     #      it's already a presenter, but we can't `include` it everyhwere yet
     @app_layout_data = Presenters::AppView::LayoutData.new(user: current_user)
