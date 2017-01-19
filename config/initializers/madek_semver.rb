@@ -42,10 +42,13 @@ end
 
 def version_from_archive
   return unless deploy_info.present?
+  semver = releases_info.try(:first).try(:[], :semver) || 'v0.0.0'
+  name = releases_info.try(:first).try(:[], 'name') || '???'
   {
     type: 'archive',
     deploy_info: deploy_info,
-    semver: releases_info.try(:first).try(:[], :semver)
+    semver: semver,
+    version_name: "#{semver} #{name}"
   }
 end
 
@@ -54,7 +57,8 @@ def version_from_git
   {
     type: 'git',
     git_hash: git_hash,
-    git_url: "https://ci.zhdk.ch/cider-ci/ui/workspace?git_ref=#{git_hash}"
+    git_url: "https://ci.zhdk.ch/cider-ci/ui/workspace?git_ref=#{git_hash}",
+    version_name: 'git-' + git_hash
   }
 end
 

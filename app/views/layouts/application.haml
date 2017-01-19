@@ -1,16 +1,3 @@
-- version = if MADEK_VERSION
-  - capture_haml do
-    %span.version
-      - if MADEK_VERSION[:type] == 'archive'
-        - release_info = MADEK_VERSION[:releases].first
-        - deploy_info = MADEK_VERSION[:deploy_info]
-        - if release_info and deploy_info
-          = MADEK_VERSION[:semver] + ' ' + (release_info[:name] || '???')
-
-      - elsif MADEK_VERSION[:type] == 'git'
-        = 'git-' + MADEK_VERSION[:git_hash]
-
-
 :ruby
   footer = {
     copy: {
@@ -20,7 +7,7 @@
       },
       text: settings.brand_text
     },
-    version: version,
+    version_name: MADEK_VERSION[:version_name],
     menu: settings.sitemap
   }
 
