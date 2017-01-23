@@ -36,7 +36,7 @@ feature 'App: Admin-Mode (Uberadmin/Superadmin)' do
        'Forschung ZHdK', 'Landschaftsvisualisierung', 'Performance-Artefakte',
        'Supply Lines', 'Säulenordnungen', 'Umbau Toni-Areal',
        'Lehrmittel Fotografie', 'Produktion Zett', 'ZHdK', 'Werk', 'Nutzung',
-       'Credits', 'Medium', 'Core', 'Set', 'Orphans'])
+       'Credits', 'Medium', 'Core', 'Set'])
 
     visit media_entry_path(@entry)
     expect(page).to have_content @entry.title

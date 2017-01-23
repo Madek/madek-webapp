@@ -31,40 +31,42 @@ feature 'Resource: Vocabularies' do
 
       visit vocabulary_path(core_vocab)
       expect_listed_meta_keys [
-        { title: 'Untertitel',
-          table: [
-            ['ID', 'madek_core:subtitle'],
-            ['type', 'Text'],
-            ['scope', 'Entries, Sets']] },
         { title: 'Titel',
           table: [
             ['ID', 'madek_core:title'],
             ['type', 'Text'],
-            ['scope', 'Entries, Sets']] },
-        { title: 'Schlagworte',
+            ['scope', 'Entries, Sets']]
+        },
+        { title: 'Untertitel',
           table: [
-            ['ID', 'madek_core:keywords'],
-            ['type', 'Keywords'],
-            ['scope', 'Entries, Sets']] },
-        { title: 'Datierung',
-          table: [
-            ['ID', 'madek_core:portrayed_object_date'],
-            ['type', 'TextDate'],
-            ['scope', 'Entries, Sets']] },
-        { title: 'Rechteinhaber/in',
-          table: [
-            ['ID', 'madek_core:copyright_notice'],
+            ['ID', 'madek_core:subtitle'],
             ['type', 'Text'],
-            ['scope', 'Entries, Sets']] },
+            ['scope', 'Entries, Sets']]
+        },
         { title: 'Autor/in',
           table: [
             ['ID', 'madek_core:authors'],
             ['type', 'People (Person, PeopleGroup)'],
             ['scope', 'Entries, Sets']]
         },
+        { title: 'Datierung',
+          table: [
+            ['ID', 'madek_core:portrayed_object_date'],
+            ['type', 'TextDate'],
+            ['scope', 'Entries, Sets']] },
+        { title: 'Schlagworte',
+          table: [
+            ['ID', 'madek_core:keywords'],
+            ['type', 'Keywords'],
+            ['scope', 'Entries, Sets']] },
         { title: 'Beschreibung',
           table: [
             ['ID', 'madek_core:description'],
+            ['type', 'Text'],
+            ['scope', 'Entries, Sets']] },
+        { title: 'Rechteinhaber/in',
+          table: [
+            ['ID', 'madek_core:copyright_notice'],
             ['type', 'Text'],
             ['scope', 'Entries, Sets']] }
       ]
