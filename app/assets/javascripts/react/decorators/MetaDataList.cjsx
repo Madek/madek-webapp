@@ -84,8 +84,13 @@ module.exports = React.createClass
 
       <div className={wrapperClass}>
         {if showTitle
-          {# TODO: vocabulary description, privacy_status}
-          <VocabTitleLink text={title} href={'/vocabulary/' + @props.vocabUuid} separated={true} />
+          if @props.vocabUuid
+            # TODO: vocabulary description, privacy_status
+            <VocabTitleLink text={title} href={'/vocabulary/' + @props.vocabUuid} separated={true} />
+          else
+            <h3 className='title-l separated mbm'>
+              {title}
+            </h3>
         }
         {if type is 'list'
           <MetaDataDefinitionList
