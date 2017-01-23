@@ -78,7 +78,7 @@ module.exports = React.createClass
 
 
 
-  _modelForMetaKey: (meta_key) ->
+  _createModelForMetaKey: (meta_key) ->
     {
       multiple: not (meta_key.value_type == "MetaDatum::Text" or meta_key.value_type == "MetaDatum::TextDate")
       meta_key: meta_key
@@ -86,46 +86,50 @@ module.exports = React.createClass
       originalValues: []
     }
 
-  componentDidMount: () ->
-    @setState({mounted: true})
+  _createaModelsForMetaKeys: (meta_meta_data, meta_data, diff) ->
+    models = f.mapValues meta_meta_data.meta_key_by_meta_key_id, (meta_key) =>
+      @_createModelForMetaKey(meta_key)
 
-
-  componentWillMount: () ->
-
-    currentContextId = @props.get.context_id
-    if currentContextId == null
-      currentContextId = @props.get.meta_meta_data.meta_data_edit_context_ids[0]
-
-    @setState({currentContextId: currentContextId})
-
-    models = f.mapValues @props.get.meta_meta_data.meta_key_by_meta_key_id, (meta_key) =>
-      @_modelForMetaKey(meta_key)
-
-    f.each @props.get.meta_data.existing_meta_data_by_meta_key_id, (data, meta_key_id) ->
+    f.each meta_data.existing_meta_data_by_meta_key_id, (data, meta_key_id) ->
       models[meta_key_id].values = data.values
 
     f.each models, (model) ->
       model.originalValues = f.map model.values, (value) ->
         value
 
-    if @props.batch
-
-      diff = batchDiff(
-        @props.get.meta_meta_data.meta_key_by_meta_key_id,
-        @props.get.batch_entries)
-
-      @setState({
-        batchDiff: diff
-      })
-
+    if diff
       f.each models, (model, meta_key_id) ->
         unless diff[meta_key_id].all_equal
           model.originalValues = []
           model.values = []
 
+    return models
 
+
+  _determineCurrentContextId: (context_id, meta_meta_data) ->
+    currentContextId = context_id
+    if currentContextId == null
+      currentContextId = meta_meta_data.meta_data_edit_context_ids[0]
+    return currentContextId
+
+
+
+
+  componentDidMount: () ->
+    @setState({mounted: true})
+
+
+  componentWillMount: () ->
+
+    currentContextId = @_determineCurrentContextId(@props.get.context_id, @props.get.meta_meta_data)
+    @setState({currentContextId: currentContextId})
+
+    if @props.batch
+      diff = batchDiff(@props.get.meta_meta_data.meta_key_by_meta_key_id, @props.get.batch_entries)
+      @setState({batchDiff: diff})
+
+    models = @_createaModelsForMetaKeys(@props.get.meta_meta_data, @props.get.meta_data, diff)
     @setState({models: models})
-
 
 
 
@@ -193,14 +197,6 @@ module.exports = React.createClass
     return false
 
 
-
-
-
-
-
-
-
-
   _context_keys: (context_id) ->
     meta_meta_data = @props.get.meta_meta_data
     f.map meta_meta_data.context_key_ids_by_context_id[context_id], (context_key_id) ->
@@ -255,65 +251,56 @@ module.exports = React.createClass
         title = t('collection_meta_data_header_prefix') + get.resource.title
       else
         title = t('media_entry_meta_data_header_prefix') + get.resource.title
+    return title
 
-  _disableSave: () ->
+  _disableSave: (published) ->
     # disableSave = (@state.saving or not @_changesForAll() or (@_validityForAll() == 'invalid' and @props.get.published)) and @state.mounted == true
     disableSave = (@state.saving or (validation._validityForAll(
-      @props.get.meta_meta_data, @state.models) == 'invalid' and @props.get.published)) and @state.mounted == true
+      @props.get.meta_meta_data, @state.models) == 'invalid' and published)) and @state.mounted == true
 
   _disablePublish: () ->
     disablePublish = (@state.saving or validation._validityForAll(@props.get.meta_meta_data, @state.models) != 'valid')
 
+  _showNoContextDefinedIfNeeded: () ->
+    <div className="ui-alerts">
+      <div className="ui-alert warning">
+        There are no contexts defined. Please configure them in the admin tool.
+      </div>
+    </div>
+
+
+
+  _namePrefix: (resource, batch, batch_resource_type) ->
+    if batch
+      batch_resource_type + "[meta_data]"
+    else
+      "#{f.snakeCase(resource.type)}[meta_data]"
+
+
+  _atLeastOnePublished: (single_published, batch, batch_entries) ->
+    if @props.batch
+      published = false
+      f.each batch_entries, (entry) ->
+        published = true if entry.published
+    else
+      published = single_published
+    return published
+
+
   render: ({get, authToken, batchType} = @props) ->
 
+    # First make sure that you do not get a system error page when you have no context configured.
     if get.meta_meta_data.meta_data_edit_context_ids.length == 0
-      # First make sure that you do not get a system error page when you have no context configured.
-      return (
-        <div className="ui-alerts">
-          <div className="ui-alert warning">
-            There are no contexts defined. Please configure them in the admin tool.
-          </div>
-        </div>
-      )
+      return @_showNoContextDefinedIfNeeded()
 
     currentContextId = @state.currentContextId
-
     if currentContextId
       currentContext = get.meta_meta_data.contexts_by_context_id[currentContextId]
 
-    className = null
-    unless @props.batch
-      className = if get.resource.type == 'Collection' then 'media-set ui-thumbnail' else 'image media-entry ui-thumbnail'
+    name = @_namePrefix(get.resource, @props.batch, get.resource_type)
 
+    published = @_atLeastOnePublished(get.published, @props.batch, get.batch_entries)
 
-
-    name = if @props.batch
-      get.resource_type + "[meta_data]"
-    else
-      "#{f.snakeCase(get.resource.type)}[meta_data]"
-
-    meta_data = get.meta_data
-
-    submitButtonType = if @state.mounted then 'button' else 'submit'
-
-
-    showPublish = not @props.get.published and @state.mounted == true
-
-    showPublish = false
-
-    published = get.published
-    if @props.batch
-      published = false
-      f.each get.batch_entries, (entry) ->
-        published = true if entry.published
-
-    cancelUrl =
-      if @props.batch
-        if not get.return_to
-          throw new Error('No return_to given for batch edit (ResourceMetaDataPagePerContext).')
-        get.return_to
-      else
-        get.url
 
     bundled_context_keys = grouping._group_keys({ keys_to_check: @_context_keys(currentContextId), inter_result: [] })
 
@@ -326,31 +313,11 @@ module.exports = React.createClass
         <ResourcesBatchBox resources={get.resources.resources} authToken={authToken} />
       }
 
-      <Tabs>
-        {f.map get.meta_meta_data.meta_data_edit_context_ids, (context_id) =>
-          context = get.meta_meta_data.contexts_by_context_id[context_id]
-          tabUrl =
-            if @props.batch
-              setUrlParams('/entries/batch_edit_context_meta_data/' + context.uuid,
-                id: f.map(get.batch_entries, 'uuid'),
-                return_to: get.return_to)
-            else
-              setUrlParams(get.url + '/meta_data/edit_context/' + context.uuid,
-                return_to: get.return_to)
 
-          if not f.isEmpty(get.meta_meta_data.context_key_ids_by_context_id[context_id])
-            <Tab
-              hasChanges={validation._changesPerContext(@props.get.meta_meta_data, @state.models, context_id)}
-              validity={validation._validityForContext(@props.get.meta_meta_data, @state.models, context_id)}
-              privacyStatus={'public'}
-              key={context.uuid}
-              iconType={null}
-              onClick={@_onTabClick.bind(@, context.uuid)}
-              href={tabUrl}
-              label={context.label}
-              active={context.uuid == currentContextId} />
-        }
-      </Tabs>
+      {
+        Renderer._renderTabs(@props.get.meta_meta_data, @props.batch, @props.get.batch_entries,
+          @props.get.return_to, @props.get.url, @_onTabClick, currentContextId)
+      }
       <TabContent>
 
         <RailsForm ref='form'
@@ -365,70 +332,7 @@ module.exports = React.createClass
 
             {
               unless @props.batch
-
-                src = get.resource.image_url
-
-                if get.resource.media_file && get.resource.media_file.previews
-                  previews = get.resource.media_file.previews
-                  href = f.chain(previews.images).sortBy('width').last().get('url').run()
-
-                alt = ''
-                image = if src
-                  <Picture mods='ui-thumbnail-image' src={src} alt={alt} />
-                else
-                  <ResourceIcon
-                    thumbnail={true}
-                    mediaType={get.resource.media_type}
-                    type={get.resource.type} />
-
-                <div className="app-body-sidebar table-cell ui-container table-side">
-                  <ul className="ui-resources grid">
-                    <li className="ui-resource mrl">
-                      <div className={className}>
-                        <div className="ui-thumbnail-privacy">
-                          <i className="icon-privacy-private" title="Diese Inhalte sind nur für Sie zugänglich"></i>
-                        </div>
-                        <div className="ui-thumbnail-image-wrapper">
-                          {
-                            if href
-                              <div className="ui-has-magnifier">
-                                <a href={href} target='_blank'>
-                                  <div className="ui-thumbnail-image-holder">
-                                    <div className="ui-thumbnail-table-image-holder">
-                                      <div className="ui-thumbnail-cell-image-holder">
-                                        <div className="ui-thumbnail-inner-image-holder">
-                                          {image}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </a>
-                                <a href={href} target='_blank' className='ui-magnifier' style={{textDecoration: 'none'}}>
-                                  <Icon i='magnifier' mods='bright'/>
-                                </a>
-                              </div>
-                            else
-                              <div className="ui-thumbnail-image-holder">
-                                <div className="ui-thumbnail-table-image-holder">
-                                  <div className="ui-thumbnail-cell-image-holder">
-                                    <div className="ui-thumbnail-inner-image-holder">
-                                      {image}
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                          }
-                        </div>
-                        <div className="ui-thumbnail-meta">
-                          <h3 className="ui-thumbnail-meta-title">{get.resource.title}</h3>
-                          <h4 className="ui-thumbnail-meta-subtitle">{get.resource.subtitle}</h4>
-                        </div>
-
-
-                      </div>
-                    </li>
-                  </ul>
-                </div>
+                Renderer._renderThumbnail(@props.get.resource)
             }
 
             <div className="app-body-content table-cell ui-container table-substance ui-container">
@@ -451,38 +355,18 @@ module.exports = React.createClass
                 }
 
                 <div className='form-body'>
-
                   {
                     f.map get.batch_entries, (entry) ->
                       <input key={entry.uuid} type='hidden' name='batch_resource_meta_data[id][]' value={entry.uuid} />
                   }
 
                   {
-                    Renderer._renderItemOrGroup(currentContextId, bundled_context_keys, get.meta_data, get.meta_meta_data, published, name,
+                    Renderer._renderContext(currentContextId, bundled_context_keys, get.meta_data, get.meta_meta_data, published, name,
                       @props.batch, @state.models, @state.errors, @_batchConflict, @_onChangeForm, @state.bundleState, @_toggleBundle)
                   }
 
-
                   {
-
-                    meta_key_ids_in_current_context =
-                      f.map get.meta_meta_data.context_key_ids_by_context_id[currentContext.uuid], (context_key_id) ->
-                        meta_key_id = get.meta_meta_data.meta_key_id_by_context_key_id[context_key_id]
-
-                    all_meta_key_ids = f.keys(get.meta_meta_data.meta_key_by_meta_key_id)
-
-                    hidden_meta_key_ids = f.select(all_meta_key_ids, (meta_key_id) ->
-                      not (f.includes meta_key_ids_in_current_context, meta_key_id)
-                    )
-
-                    f.map hidden_meta_key_ids, (meta_key_id) =>
-                      datum = get.meta_data.meta_datum_by_meta_key_id[meta_key_id]
-                      if datum
-
-                        <div style={{display: 'none'}} key={meta_key_id}>
-                          {Renderer._renderValue(meta_key_id, (() -> ), datum, name, null, null, @props.batch, @state.models)}
-                        </div>
-
+                    Renderer._renderHiddenKeys(@props.get.meta_meta_data, currentContext.uuid, @props.get.meta_data, @props.batch, @state.models, name)
                   }
                 </div>
 
@@ -504,16 +388,9 @@ module.exports = React.createClass
             <a className="link weak"
               href={get.return_to || get.resource.url}>{' ' + t('meta_data_form_cancel') + ' '}</a>
             <button className="primary-button large"
-              type={submitButtonType} name='actionType' value='save'
+              type={if @state.mounted then 'button' else 'submit'} name='actionType' value='save'
               onClick={@_onExplicitSubmit}
-              disabled={@_disableSave()}>{t('meta_data_form_save')}</button>
-            {
-              if showPublish
-                <button className='primary-button large'
-                  type={submitButtonType} name='actionType' value='publish'
-                  onClick={@_onExplicitSubmit}
-                  disabled={@_disablePublish()}>{t('meta_data_form_publish')}</button>
-            }
+              disabled={@_disableSave(published)}>{t('meta_data_form_save')}</button>
           </div>
 
 

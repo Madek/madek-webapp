@@ -17,17 +17,6 @@ module.exports = React.createClass
 
     <li className={classes} data-test-id={@props.testId}>
       <a href={href} onClick={@props.onClick}>
-        {
-          # if @props.validity == 'invalid'
-          #   <i className='icon-bang' style={{color: '#d9534f', paddingTop: '7px', paddingRight: '5px'}} />
-          # else if @props.validity == 'valid'
-          #   <i className='icon-checkmark' style={{color: '#5cb85c', paddingTop: '7px', paddingRight: '5px'}} />
-          null
-        }
-        {
-          if @props.hasChanges and false
-            <span style={{color: '#ff0000'}}>! </span>
-        }
         {if icon
           <span>{icon} {label}</span>
         else
