@@ -4,6 +4,8 @@ f = require('active-lodash')
 t = require('../../lib/string-translation')('de')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
 MetaDataList = require('./MetaDataList.cjsx')
+listingHelper = require('../../lib/metadata-listing-helper.coffee')
+
 
 module.exports = React.createClass
   displayName: 'Deco.MetaDataByListing'
@@ -11,9 +13,17 @@ module.exports = React.createClass
     list: MadekPropTypes.metaDataListing.isRequired
     vocabLinks: React.PropTypes.bool
 
+
   render: ({list, vocabLinks} = @props)->
+
+    onlyListsWithContent = f.filter(
+      list,
+      (contextOrVocab) ->
+        not listingHelper._isEmptyContextOrVocab(contextOrVocab)
+    )
+
     # build the boxes with meta_data lists, 4 per row, skip empty
-    colums = f.chunk(list, 4)
+    colums = f.chunk(onlyListsWithContent, 4)
 
     <div className='meta-data-summary mbl'>
 

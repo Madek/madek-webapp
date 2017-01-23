@@ -12,6 +12,7 @@ MetaDatumValues = require('./MetaDatumValues.cjsx')
 Icon = require('../ui-components/Icon.cjsx')
 
 VocabTitleLink = require('../ui-components/VocabTitleLink.cjsx')
+listingHelper = require('../../lib/metadata-listing-helper.coffee')
 
 
 # TODO: inline Edit - MetaDatumEdit = require('../meta-datum-edit.cjsx')
@@ -31,23 +32,17 @@ module.exports = React.createClass
     showTitle: true
     showFallback: true
 
+
   _listingDataWithFallback: (list, type, showTitle, showFallback) ->
     metaData = f.get(list, 'meta_data')
-    listing = f.get(list, 'context') or f.get(list, 'vocabulary')
-    listingType = f.get(listing, 'type')
-    throw new Error 'Invalid Data!' if (listingType && !f.include(['Context', 'Vocabulary'], listingType))
+
+    {listing, listingType} = listingHelper._listingFromContextOrVocab(list)
 
     throw new Error 'No title!' if showTitle and not f.present(listing.label)
     title = f.get(listing, 'label')
 
     # check for empty list:
-    isEmpty = switch
-      when !f.present(listing)
-        true
-      when listingType is 'Vocabulary'
-        not f.some metaData, f.present
-      else
-        not f.some metaData, (i)-> f.present(i.meta_datum)
+    isEmpty = listingHelper._isEmptyMetadataList(metaData, listing, listingType)
 
     # fallback message if needed and wanted:
     fallbackMsg = if (isEmpty and showFallback)
