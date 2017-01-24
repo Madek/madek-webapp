@@ -7,8 +7,6 @@ module.exports = React.createClass
   propTypes:
     name: React.PropTypes.string.isRequired
     values: React.PropTypes.array.isRequired
-    active: React.PropTypes.bool.isRequired
-    multiple: React.PropTypes.bool.isRequired
 
 
   getInitialState: () -> {
@@ -25,7 +23,7 @@ module.exports = React.createClass
     if @props.onChange
       @props.onChange(newValues)
 
-  render: ({get, name, values, active, multiple} = @props) ->
+  render: ({get, name, values} = @props) ->
 
     onChange = if @props.onChange then @_onChange else null
 

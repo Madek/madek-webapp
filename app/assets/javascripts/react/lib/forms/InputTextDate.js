@@ -179,7 +179,6 @@ InputTextDate.propTypes = {
   name: PropTypes.string.isRequired,
   values: PropTypes.arrayOf(PropTypes.string).isRequired,
   multiple: PropTypes.bool.isRequired,
-  active: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired
 }
 

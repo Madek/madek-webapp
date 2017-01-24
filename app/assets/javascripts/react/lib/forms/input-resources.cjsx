@@ -19,20 +19,18 @@ module.exports = React.createClass
     name: React.PropTypes.string.isRequired
     resourceType: React.PropTypes.string.isRequired
     values: React.PropTypes.array.isRequired
-    active: React.PropTypes.bool.isRequired
     multiple: React.PropTypes.bool.isRequired
     extensible: React.PropTypes.bool # only for Keywords
     allowedTypes: React.PropTypes.array # only for People
     autocompleteConfig: React.PropTypes.shape
       minLength: React.PropTypes.number
 
-  getInitialState: ()-> {isClient: false}
+  getInitialState: ()-> { }
 
   componentDidMount: ({values} = @props)->
     AutoComplete = require('../autocomplete.cjsx')
     # TODO: make selection a collection to keep track of persistent vs on the fly values
     @setState
-      isClient: true
       values: values # keep internal state of entered values
 
   _onItemAdd: (item)->

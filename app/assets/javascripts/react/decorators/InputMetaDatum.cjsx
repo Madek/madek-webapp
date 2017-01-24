@@ -12,25 +12,15 @@ module.exports = React.createClass
     name: React.PropTypes.string.isRequired
     get: MadekPropTypes.metaDatum.isRequired
 
-  getInitialState: ()-> {isClient: false}
-  componentDidMount: ({get} = @props)->
-    @setState
-      isClient: true
-
   render: ({get, id, name} = @props, state = @state)->
 
     resourceType = f.last(get.type.split('::'))
 
     multiple = not (f.includes(['Text', 'TextDate'], resourceType))
 
-    if state.isClient
-      InputForType = InputsByType[resourceType]
-      values = f.map get.values, (value) ->
-        value
-    else
-      InputForType = InputText
-      values = f.map get.literal_values, (value) ->
-        value
+    InputForType = InputsByType[resourceType]
+    values = f.map get.values, (value) ->
+      value
 
 
     <InputForType
@@ -38,7 +28,6 @@ module.exports = React.createClass
       get={get}
       id={id}
       name={name}
-      active={state.isClient}
       multiple={multiple}
       values={values}
       contextKey={@props.contextKey}

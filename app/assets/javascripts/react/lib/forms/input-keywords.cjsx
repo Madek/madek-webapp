@@ -1,9 +1,7 @@
 React = require('react')
 f = require('active-lodash')
 MadekPropTypes = require('../madek-prop-types.coffee')
-Text = require('./input-text-async.cjsx')
 InputResources = require('./input-resources.cjsx')
-InputTextDate = require('./InputTextDate.js').default
 
 module.exports = React.createClass
   displayName: 'InputKeywords'
