@@ -1,9 +1,13 @@
 React = require('react')
 f = require('active-lodash')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
-
-InputsByType = require('../lib/forms/inputs-by-type.cjsx')
 InputText = require('../lib/forms/input-text.cjsx')
+Text = require('../lib/forms/input-text-async.cjsx')
+InputResources = require('../lib/forms/input-resources.cjsx')
+InputTextDate = require('../lib/forms/InputTextDate.js').default
+InputKeywords = require('../lib/forms/input-keywords.cjsx')
+InputPeople = require('../lib/forms/input-people.cjsx')
+InputLicenses = require('../lib/forms/input-licenses.cjsx')
 
 module.exports = React.createClass
   displayName: 'InputMetaDatum'
@@ -12,18 +16,26 @@ module.exports = React.createClass
     name: React.PropTypes.string.isRequired
     get: MadekPropTypes.metaDatum.isRequired
 
+  _inputByTypeMap: {
+    'Text': Text
+    'TextDate': InputTextDate
+    'People': InputPeople
+    'Licenses': InputLicenses
+    'Keywords': InputKeywords
+  }
+
   render: ({get, id, name} = @props, state = @state)->
 
     resourceType = f.last(get.type.split('::'))
 
     multiple = not (f.includes(['Text', 'TextDate'], resourceType))
 
-    InputForType = InputsByType[resourceType]
+    InputElement = @_inputByTypeMap[resourceType]
+
     values = f.map get.values, (value) ->
       value
 
-
-    <InputForType
+    <InputElement
       onChange={@props.onChange}
       get={get}
       id={id}
