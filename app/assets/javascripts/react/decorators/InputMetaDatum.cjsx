@@ -18,6 +18,7 @@ module.exports = React.createClass
       isClient: true
 
   render: ({get, id, name} = @props, state = @state)->
+
     resourceType = f.last(get.type.split('::'))
 
     multiple = not (f.includes(['Text', 'TextDate'], resourceType))

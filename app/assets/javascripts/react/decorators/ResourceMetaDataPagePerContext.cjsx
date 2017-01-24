@@ -306,7 +306,7 @@ module.exports = React.createClass
 
     <PageContent>
       <PageContentHeader icon='pen' title={@_title(batchType, get)}>
-        {@_editByVocabButton(get)}
+        {#@_editByVocabButton(get)}
       </PageContentHeader>
 
       {if @props.batch

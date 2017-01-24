@@ -15,14 +15,12 @@ setUrlParams = require('../../../lib/set-params-for-url.coffee')
 
 module.exports = {
 
-  _renderValue: (meta_key_id, onChange, datum, name, subForms, contextKey, batch, models) ->
+  _renderValue: (meta_key_id, onChange, datum, name, subForms, contextKey, batch, model) ->
 
     if batch
       name += "[#{meta_key_id}][values][]"
     else
       name += "[#{meta_key_id}][]"
-
-    model = models[meta_key_id]
 
     newget = f.mapValues datum, (value) ->
       value
@@ -67,7 +65,7 @@ module.exports = {
         </div>
       }
       {@_renderLabel(meta_meta_data, context_key_id)}
-      {@_renderValue(meta_key_id, ((values) -> _onChangeForm(meta_key_id, values)), datum, name, subForms, contextKey, batch, models)}
+      {@_renderValue(meta_key_id, ((values) -> _onChangeForm(meta_key_id, values)), datum, name, subForms, contextKey, batch, model)}
     </fieldset>
 
 
@@ -84,10 +82,10 @@ module.exports = {
 
     f.map hidden_meta_key_ids, (meta_key_id) =>
       datum = meta_data.meta_datum_by_meta_key_id[meta_key_id]
+      model = models[meta_key_id]
       if datum
-
         <div style={{display: 'none'}} key={meta_key_id}>
-          {@_renderValue(meta_key_id, (() -> ), datum, name, null, null, batch, models)}
+          {@_renderValue(meta_key_id, (() -> ), datum, name, null, null, batch, model)}
         </div>
 
 
