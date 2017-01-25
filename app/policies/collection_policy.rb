@@ -37,7 +37,8 @@ class CollectionPolicy < Shared::MediaResources::MediaResourcePolicy
   alias_method :relation_siblings?, :show?
 
   alias_method :edit_meta_data?, :update?
-  alias_method :edit_context_meta_data?, :update?
+  alias_method :edit_meta_data_by_context?, :update?
+  alias_method :edit_meta_data_by_vocabularies?, :update?
   alias_method :meta_data_update?, :update?
 
   alias_method :add_remove_collection?, :update?

@@ -4,19 +4,21 @@ module Presenters
       include AuthorizationSetup
       include Presenters::Shared::Modules::VocabularyConfig
 
-      attr_reader :context_id, :return_to
+      attr_reader :context_id, :return_to, :by_vocabularies
 
       def initialize(
         resource_type,
         media_entries,
         user,
         context_id: nil,
+        by_vocabularies: false,
         return_to:)
 
         @resource_type = resource_type
         @entries = media_entries
         @user = user
         @context_id = context_id
+        @by_vocabularies = by_vocabularies
         @return_to = return_to
       end
 

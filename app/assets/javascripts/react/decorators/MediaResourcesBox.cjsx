@@ -284,10 +284,10 @@ module.exports = React.createClass
     window.location = batchEditUrl # SYNC!
 
   _onBatchEdit: (resources, event) ->
-    @_sharedOnBatch(resources, event, '/entries/batch_edit_context_meta_data')
+    @_sharedOnBatch(resources, event, '/entries/batch_edit_meta_data_by_context')
 
   _onBatchEditSets: (resources, event) ->
-    @_sharedOnBatch(resources, event, '/sets/batch_edit_context_meta_data')
+    @_sharedOnBatch(resources, event, '/sets/batch_edit_meta_data_by_context')
 
   _onBatchPermissionsEdit: (resources, event) ->
     @_sharedOnBatch(resources, event, '/entries/batch_edit_permissions')

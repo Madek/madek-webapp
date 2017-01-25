@@ -8,8 +8,12 @@ module Modules
       include Modules::SharedUpdate
       include Modules::SharedBatchUpdate
 
-      def batch_edit_context_meta_data
-        shared_batch_edit_context_meta_data(Collection)
+      def batch_edit_meta_data_by_context
+        shared_batch_edit_meta_data_by_context(Collection)
+      end
+
+      def batch_edit_meta_data_by_vocabularies
+        shared_batch_edit_meta_data_by_vocabularies(Collection)
       end
 
       def batch_meta_data_update

@@ -15,7 +15,7 @@ setUrlParams = require('../../../lib/set-params-for-url.coffee')
 
 module.exports = {
 
-  _renderValue: (meta_key_id, onChange, datum, name, subForms, contextKey, batch, model) ->
+  _renderValueByContext: (meta_key_id, onChange, datum, name, subForms, contextKey, batch, model) ->
 
     if batch
       name += "[#{meta_key_id}][values][]"
@@ -32,7 +32,11 @@ module.exports = {
       contextKey={contextKey}
     />
 
-  _renderLabel: (meta_meta_data, context_key_id) ->
+  _renderValueByVocabularies: (meta_key_id, onChange, datum, name, batch, model) ->
+    @_renderValueByContext(meta_key_id, onChange, datum, name, null, null, batch, model)
+
+
+  _renderLabelByContext: (meta_meta_data, context_key_id) ->
 
     contextKey = meta_meta_data.context_key_by_context_key_id[context_key_id]
 
@@ -44,7 +48,15 @@ module.exports = {
       mandatory={mandatory} />
 
 
-  _renderItem: (meta_data, meta_meta_data, published, name, context_key_id, subForms, rowed, batch, models, batchConflict, errors, _onChangeForm) ->
+  _renderLabelByVocabularies: (meta_meta_data, meta_key_id) ->
+
+    mandatory = meta_meta_data.mandatory_by_meta_key_id[meta_key_id]
+
+    <MetaKeyFormLabel metaKey={meta_meta_data.meta_key_by_meta_key_id[meta_key_id]}
+      contextKey={null}
+      mandatory={mandatory} />
+
+  _renderItemByContext: (meta_data, meta_meta_data, published, name, context_key_id, subForms, rowed, batch, models, batchConflict, errors, _onChangeForm) ->
 
     contextKey = meta_meta_data.context_key_by_context_key_id[context_key_id]
     meta_key_id = contextKey.meta_key_id
@@ -64,12 +76,35 @@ module.exports = {
           </div>
         </div>
       }
-      {@_renderLabel(meta_meta_data, context_key_id)}
-      {@_renderValue(meta_key_id, ((values) -> _onChangeForm(meta_key_id, values)), datum, name, subForms, contextKey, batch, model)}
+      {@_renderLabelByContext(meta_meta_data, context_key_id)}
+      {@_renderValueByContext(meta_key_id, ((values) -> _onChangeForm(meta_key_id, values)), datum, name, subForms, contextKey, batch, model)}
     </fieldset>
 
 
-  _renderHiddenKeys: (meta_meta_data, currentContextId, meta_data, batch, models, name) ->
+  _renderItemByVocabularies: (meta_data, meta_meta_data, published, name, meta_key_id, rowed, batch, models, batchConflict, errors, _onChangeForm) ->
+
+    datum = meta_data.meta_datum_by_meta_key_id[meta_key_id]
+    model = models[meta_key_id]
+    mandatory = meta_meta_data.mandatory_by_meta_key_id[meta_key_id]
+    error = errors[meta_key_id]
+    validErr = published and mandatory and not metadataEditValidation._validModel(model)
+    className = cx('ui-form-group prh', {'columned': not rowed}, {'rowed': rowed},
+      {'error': (error or validErr) and not batchConflict}, {'highlight': batchConflict})
+
+    <fieldset className={className} key={meta_key_id}>
+      {if error
+        <div className="ui-alerts" style={marginBottom: '10px'}>
+          <div className="error ui-alert">
+            {error}
+          </div>
+        </div>
+      }
+      {@_renderLabelByVocabularies(meta_meta_data, meta_key_id)}
+      {@_renderValueByVocabularies(meta_key_id, ((values) -> _onChangeForm(meta_key_id, values)), datum, name, batch, model)}
+    </fieldset>
+
+
+  _renderHiddenKeysByContext: (meta_meta_data, currentContextId, meta_data, batch, models, name) ->
     meta_key_ids_in_current_context =
       f.map meta_meta_data.context_key_ids_by_context_id[currentContextId], (context_key_id) ->
         meta_key_id = meta_meta_data.meta_key_id_by_context_key_id[context_key_id]
@@ -85,7 +120,7 @@ module.exports = {
       model = models[meta_key_id]
       if datum
         <div style={{display: 'none'}} key={meta_key_id}>
-          {@_renderValue(meta_key_id, (() -> ), datum, name, null, null, batch, model)}
+          {@_renderValueByContext(meta_key_id, (() -> ), datum, name, null, null, batch, model)}
         </div>
 
 
@@ -96,7 +131,9 @@ module.exports = {
     if bundle.type == 'single' then bundle.content.uuid else bundle.mainKey.uuid
 
 
-  _renderSubForms: (meta_meta_data, meta_data, models, bundle, bundleState, published, name, batch, _batchConflict, errors, _onChangeForm, _toggleBundle) ->
+  _renderSubForms: (meta_meta_data, meta_data, models, bundle, bundleState, published, name,
+    batch, _batchConflictByContextKey, errors, _onChangeForm, _toggleBundle) ->
+
     isInvalid = metadataEditValidation._validityForMetaKeyIds(meta_meta_data, models, f.map(bundle.content, 'meta_key_id')) == 'invalid'
 
     style = {
@@ -119,34 +156,66 @@ module.exports = {
           f.map(
             bundle.content,
             (entry) =>
-              @_renderItem(meta_data, meta_meta_data, published, name, entry.uuid, null, true,
-                batch, models, _batchConflict(entry.uuid), errors, _onChangeForm)
+              @_renderItemByContext(meta_data, meta_meta_data, published, name, entry.uuid, null, true,
+                batch, models, _batchConflictByContextKey(entry.uuid), errors, _onChangeForm)
           )
         }
       </div>
     ]
 
 
-  _renderContext: (context_id, bundled_context_keys, meta_data, meta_meta_data, published, name,
-    batch, models, errors, _batchConflict, _onChangeForm, bundleState, _toggleBundle) ->
+  _renderByContext: (context_id, bundled_context_keys, meta_data, meta_meta_data, published, name,
+    batch, models, errors, _batchConflictByContextKey, _onChangeForm, bundleState, _toggleBundle) ->
 
     f.flatten f.map(
       bundled_context_keys,
       (bundle) =>
         if @_bundleHasOnlyOneKey(bundle)
           context_key_id = @_bundleGetTheOnlyContextKeyId(bundle)
-          @_renderItem(meta_data, meta_meta_data, published, name, context_key_id, null, false,
-            batch, models, _batchConflict(context_key_id), errors, _onChangeForm)
+          @_renderItemByContext(meta_data, meta_meta_data, published, name, context_key_id, null, false,
+            batch, models, _batchConflictByContextKey(context_key_id), errors, _onChangeForm)
         else
           context_key_id = bundle.mainKey.uuid
 
           subForms = @_renderSubForms(meta_meta_data, meta_data, models, bundle, bundleState,
-            published, name, batch, _batchConflict, errors, _onChangeForm, _toggleBundle)
+            published, name, batch, _batchConflictByContextKey, errors, _onChangeForm, _toggleBundle)
 
-          @_renderItem(meta_data, meta_meta_data, published, name, context_key_id, subForms, false,
-            batch, models, _batchConflict(context_key_id), errors, _onChangeForm, _batchConflict)
+          @_renderItemByContext(meta_data, meta_meta_data, published, name, context_key_id, subForms, false,
+            batch, models, _batchConflictByContextKey(context_key_id), errors, _onChangeForm)
     )
 
+  _renderByVocabularies: (meta_data, meta_meta_data, published, name,
+    batch, models, errors, _batchConflictByMetaKey, _onChangeForm, bundleState, _toggleBundle) ->
+
+    f.flatten f.map(
+      f.sortBy(meta_data.by_vocabulary, (voc) -> if voc.vocabulary.uuid == 'madek_core' then - 1 else voc.vocabulary.position),
+      (vocabularyInfo) =>
+        vocabMetaData = f.sortBy(vocabularyInfo.meta_data, 'meta_key.position')
+        vocabularyDetails = vocabularyInfo.vocabulary
+
+
+        <div className='mbl' key={vocabularyDetails.uuid}>
+          <div className='ui-container separated pas'>
+            <h3 className='title-l'>
+              {vocabularyDetails.label + ' '}
+              <small>{"(#{vocabularyDetails.uuid})"}</small>
+            </h3>
+            <p className='paragraph-s'>{vocabularyDetails.description}</p>
+          </div>
+          {
+            f.map(
+              vocabMetaData,
+              (vocabMetaDatum) =>
+
+                meta_key_id = vocabMetaDatum.meta_key_id
+                @_renderItemByVocabularies(meta_data, meta_meta_data, published, name, meta_key_id, false,
+                  batch, models, _batchConflictByMetaKey(meta_key_id), errors, _onChangeForm)
+
+            )
+          }
+        </div>
+
+    )
 
 
   _renderThumbnail: (resource) ->
@@ -219,14 +288,14 @@ module.exports = {
 
 
 
-  _renderTabs: (meta_meta_data, batch, batch_entries, return_to, url, onTabClick, currentContextId) ->
+  _renderTabs: (meta_meta_data, batch, batch_entries, return_to, url, onTabClick, currentTab) ->
     <Tabs>
       {
         f.map meta_meta_data.meta_data_edit_context_ids, (context_id) ->
           context = meta_meta_data.contexts_by_context_id[context_id]
           tabUrl =
             if batch
-              setUrlParams('/entries/batch_edit_context_meta_data/' + context.uuid,
+              setUrlParams('/entries/batch_edit_meta_data_by_context/' + context.uuid,
                 id: f.map(batch_entries, 'uuid'),
                 return_to: return_to)
             else
@@ -234,14 +303,48 @@ module.exports = {
                 return_to: return_to)
 
           if not f.isEmpty(meta_meta_data.context_key_ids_by_context_id[context_id])
+            nextCurrentTab = {
+              byContext: context_id,
+              byVocabularies: false
+            }
+
+            active = (!currentTab.byVocabularies) && (currentTab.byContext == context.uuid)
+
             <Tab
               privacyStatus={'public'}
               key={context.uuid}
               iconType={null}
-              onClick={f.curry(onTabClick)(context.uuid)}
+              onClick={f.curry(onTabClick)(nextCurrentTab)}
               href={tabUrl}
               label={context.label}
-              active={context.uuid == currentContextId} />
+              active={active} />
+      }
+      {
+        tabUrl =
+          if batch
+            setUrlParams('/entries/batch_edit_meta_data_by_vocabularies',
+              id: f.map(batch_entries, 'uuid'),
+              return_to: return_to)
+          else
+            setUrlParams(url + '/meta_data/edit/by_vocabularies',
+              return_to: return_to)
+
+        nextCurrentTab = {
+          byContext: null,
+          byVocabularies: true
+        }
+
+        active = currentTab.byVocabularies
+
+        <Tab
+          privacyStatus={'public'}
+          key={'byVocabularies'}
+          iconType={null}
+          onClick={f.curry(onTabClick)(nextCurrentTab)}
+          href={tabUrl}
+          label={'Alle Daten'}
+          active={active} />
+
       }
     </Tabs>
 

@@ -6,7 +6,7 @@ module Modules
 
     private
 
-    def shared_batch_edit_context_meta_data(type)
+    def shared_batch_edit_meta_data_by_context(type)
       auth_authorize type, :logged_in?
       entries = type.unscoped.where(id: entries_ids_param)
       authorize_entries_for_batch_edit!(entries)
@@ -16,8 +16,24 @@ module Modules
         entries,
         current_user,
         context_id: params[:context_id],
+        by_vocabularies: false,
         return_to: return_to_param)
     end
+
+    def shared_batch_edit_meta_data_by_vocabularies(type)
+      auth_authorize type, :logged_in?
+      entries = type.unscoped.where(id: entries_ids_param)
+      authorize_entries_for_batch_edit!(entries)
+
+      @get = Presenters::MediaEntries::BatchEditContextMetaData.new(
+        type,
+        entries,
+        current_user,
+        context_id: nil,
+        by_vocabularies: true,
+        return_to: return_to_param)
+    end
+
 
     def shared_batch_meta_data_update(type)
       auth_authorize type, :logged_in?

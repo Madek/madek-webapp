@@ -6,8 +6,8 @@ module Concerns
 
         EXCLUDE_IDS = %w(
           upload
-          batch_meta_data_edit
-          batch_edit_context_meta_data
+          batch_edit_meta_data_by_context
+          batch_edit_meta_data_by_vocabularies
           batch_meta_data
           batch_select_add_to_set
           batch_edit_permissions

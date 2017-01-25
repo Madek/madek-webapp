@@ -47,7 +47,7 @@ module.exports = React.createClass
 
     if editable
       actionsRight.push(
-        <Button className='ui-tile__action-link' href={mediaUrl + '/meta_data/edit_context'}>
+        <Button className='ui-tile__action-link' href={mediaUrl + '/meta_data/edit/by_context'}>
           <i className='icon-pen'></i>
         </Button>
       )

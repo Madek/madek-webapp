@@ -5,11 +5,12 @@ module Presenters
 
       include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
 
-      attr_reader :context_id
+      attr_reader :context_id, :by_vocabularies
 
-      def initialize(app_resource, user, context_id)
+      def initialize(app_resource, user, context_id, by_vocabularies)
         super(app_resource, user)
         @context_id = context_id
+        @by_vocabularies = by_vocabularies
       end
 
       # NOTE: nest "Index" for the corresponding resource (instead of inheritance)

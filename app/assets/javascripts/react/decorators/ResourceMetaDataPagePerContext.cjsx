@@ -38,14 +38,18 @@ Renderer = require('./metadataedit/MetadataEditRenderer.cjsx')
 module.exports = React.createClass
   displayName: 'ResourceMetaDataPagePerContext'
 
-  _onTabClick: (context_id, event) ->
+  _onTabClick: (currentTab, event) ->
     event.preventDefault()
-    @setState({currentContextId: context_id})
+    @setState({currentTab: currentTab})
     return false
 
   getInitialState: () -> {
     mounted: false
-    currentContextId: null
+    currentTab: {
+      byContext: null,
+      byVocabularies: false
+    }
+    # currentContextId: null
     models: {}
     batchDiff: {}
     editing: false
@@ -106,14 +110,24 @@ module.exports = React.createClass
     return models
 
 
-  _determineCurrentContextId: (context_id, meta_meta_data) ->
-    currentContextId = context_id
-    if currentContextId == null
-      currentContextId = meta_meta_data.meta_data_edit_context_ids[0]
-    return currentContextId
+  _determineCurrentTab: (context_id, by_vocabularies, meta_meta_data) ->
 
-
-
+    if by_vocabularies
+      {
+        byContext: null,
+        byVocabularies: true
+      }
+    else
+      if context_id
+        {
+          byContext: context_id,
+          byVocabularies: false
+        }
+      else
+        {
+          byContext: meta_meta_data.meta_data_edit_context_ids[0],
+          byVocabularies: false
+        }
 
   componentDidMount: () ->
     @setState({mounted: true})
@@ -121,8 +135,8 @@ module.exports = React.createClass
 
   componentWillMount: () ->
 
-    currentContextId = @_determineCurrentContextId(@props.get.context_id, @props.get.meta_meta_data)
-    @setState({currentContextId: currentContextId})
+    currentTab = @_determineCurrentTab(@props.get.context_id, @props.get.by_vocabularies, @props.get.meta_meta_data)
+    @setState({currentTab: currentTab})
 
     if @props.batch
       diff = batchDiff(@props.get.meta_meta_data.meta_key_by_meta_key_id, @props.get.batch_entries)
@@ -209,30 +223,18 @@ module.exports = React.createClass
     @setState(bundleState: f.set(@state.bundleState, bundleId, next))
 
 
-  _batchConflict: (context_key_id) ->
+  _batchConflictByContextKey: (context_key_id) ->
     meta_meta_data = @props.get.meta_meta_data
     contextKey = meta_meta_data.context_key_by_context_key_id[context_key_id]
     meta_key_id = contextKey.meta_key_id
+    @_batchConflictByMetaKey(meta_key_id)
+
+  _batchConflictByMetaKey: (meta_key_id) ->
     batchConflict = @state.batchDiff[meta_key_id]
     if batchConflict
       not batchConflict.all_equal
     else
       false
-
-  _editByVocabButton: (get) ->
-    editByVocabTxt = t('media_entry_meta_data_edit_by_vocab_btn')
-    editByVocabUrl = unless @props.batch
-      get.resource.url + '/meta_data/edit'
-    else
-      plural = if get.resource_type == 'collection' then 'sets' else 'entries'
-      setUrlParams('/' + plural + '/batch_meta_data_edit',
-        id: f.map(get.batch_entries, 'uuid'),
-        return_to: get.return_to)
-
-    <Button href={editByVocabUrl}>
-      <Icon i={'arrow-down'}/> {editByVocabTxt}
-    </Button>
-
 
   _title: (batchType, get) ->
     title = null
@@ -293,20 +295,15 @@ module.exports = React.createClass
     if get.meta_meta_data.meta_data_edit_context_ids.length == 0
       return @_showNoContextDefinedIfNeeded()
 
-    currentContextId = @state.currentContextId
-    if currentContextId
-      currentContext = get.meta_meta_data.contexts_by_context_id[currentContextId]
+    currentTab = @state.currentTab
 
     name = @_namePrefix(get.resource, @props.batch, get.resource_type)
 
     published = @_atLeastOnePublished(get.published, @props.batch, get.batch_entries)
 
 
-    bundled_context_keys = grouping._group_keys({ keys_to_check: @_context_keys(currentContextId), inter_result: [] })
-
     <PageContent>
       <PageContentHeader icon='pen' title={@_title(batchType, get)}>
-        {#@_editByVocabButton(get)}
       </PageContentHeader>
 
       {if @props.batch
@@ -316,7 +313,7 @@ module.exports = React.createClass
 
       {
         Renderer._renderTabs(@props.get.meta_meta_data, @props.batch, @props.get.batch_entries,
-          @props.get.return_to, @props.get.url, @_onTabClick, currentContextId)
+          @props.get.return_to, @props.get.url, @_onTabClick, currentTab)
       }
       <TabContent>
 
@@ -361,12 +358,23 @@ module.exports = React.createClass
                   }
 
                   {
-                    Renderer._renderContext(currentContextId, bundled_context_keys, get.meta_data, get.meta_meta_data, published, name,
-                      @props.batch, @state.models, @state.errors, @_batchConflict, @_onChangeForm, @state.bundleState, @_toggleBundle)
+                    if !currentTab.byVocabularies
+                      currentContextId = currentTab.byContext
+                      bundled_context_keys = grouping._group_keys({ keys_to_check: @_context_keys(currentContextId), inter_result: [] })
+                      Renderer._renderByContext(currentContextId, bundled_context_keys, get.meta_data, get.meta_meta_data, published, name,
+                        @props.batch, @state.models, @state.errors, @_batchConflictByContextKey, @_onChangeForm, @state.bundleState, @_toggleBundle)
+
+                    else
+                      Renderer._renderByVocabularies(get.meta_data, get.meta_meta_data, published, name,
+                        @props.batch, @state.models, @state.errors, @_batchConflictByMetaKey, @_onChangeForm, @state.bundleState, @_toggleBundle)
                   }
 
                   {
-                    Renderer._renderHiddenKeys(@props.get.meta_meta_data, currentContext.uuid, @props.get.meta_data, @props.batch, @state.models, name)
+                    if !currentTab.byVocabularies
+                      currentContext = get.meta_meta_data.contexts_by_context_id[currentContextId]
+                      Renderer._renderHiddenKeysByContext(
+                        @props.get.meta_meta_data, currentContext.uuid, @props.get.meta_data,
+                        @props.batch, @state.models, name)
                   }
                 </div>
 

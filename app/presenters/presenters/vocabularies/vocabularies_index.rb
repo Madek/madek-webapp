@@ -11,7 +11,7 @@ module Presenters
       def resources
         @resources
           .sort_by(&:position)
-          .sort_by { |v| v.id == 'madek_core' ? 0 : 1 }
+          .sort_by { |v| v.id == 'madek_core' ? - 1 : 1 }
           .map do |r|
             Presenters::Vocabularies::VocabularyIndex.new(r, user: @user)
           end
