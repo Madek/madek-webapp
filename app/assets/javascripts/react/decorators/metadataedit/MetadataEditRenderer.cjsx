@@ -12,6 +12,7 @@ Tabs = require('../../views/Tabs.cjsx')
 Tab = require('../../views/Tab.cjsx')
 Icon = require('../../ui-components/Icon.cjsx')
 setUrlParams = require('../../../lib/set-params-for-url.coffee')
+VocabTitleLink = require('../../ui-components/VocabTitleLink.cjsx')
 
 module.exports = {
 
@@ -184,6 +185,38 @@ module.exports = {
             batch, models, _batchConflictByContextKey(context_key_id), errors, _onChangeForm)
     )
 
+  _renderVocabQuickLinks: (meta_data, meta_meta_data) ->
+
+    <div className='ui-container pas'>
+      <div style={{paddingBottom: '30px'}}>
+        {
+          vocabularies = f.sortBy(
+            meta_data.by_vocabulary,
+            (voc) -> if voc.vocabulary.uuid == 'madek_core' then - 1 else voc.vocabulary.position
+          )
+          f.flatten f.map(
+            vocabularies
+            ,
+            (vocabularyInfo, index) ->
+              vocabMetaData = f.sortBy(vocabularyInfo.meta_data, 'meta_key.position')
+              vocabularyDetails = vocabularyInfo.vocabulary
+
+              [
+                <span className='title-l' key={vocabularyDetails.uuid} style={{fontWeight: 'normal'}}>
+                  <a href={'#' + vocabularyDetails.uuid}>{vocabularyDetails.label}</a>
+                </span>
+                ,
+                if index != vocabularies.length - 1
+                  <span className='title-l' style={{paddingRight: '10px', paddingLeft: '10px', fontWeight: 'normal'}}>|</span>
+              ]
+
+          )
+        }
+      </div>
+      <div style={{clear: 'both'}} />
+    </div>
+
+
   _renderByVocabularies: (meta_data, meta_meta_data, published, name,
     batch, models, errors, _batchConflictByMetaKey, _onChangeForm, bundleState, _toggleBundle) ->
 
@@ -195,12 +228,9 @@ module.exports = {
 
 
         <div className='mbl' key={vocabularyDetails.uuid}>
-          <div className='ui-container separated pas'>
-            <h3 className='title-l'>
-              {vocabularyDetails.label + ' '}
-              <small>{"(#{vocabularyDetails.uuid})"}</small>
-            </h3>
-            <p className='paragraph-s'>{vocabularyDetails.description}</p>
+          <div className='ui-container pas'>
+            <VocabTitleLink id={vocabularyDetails.uuid} text={vocabularyDetails.label}
+              separated={true} href={'/vocabulary/' + vocabularyDetails.uuid} />
           </div>
           {
             f.map(

@@ -5,11 +5,11 @@ cs = require('classnames')
 module.exports = React.createClass
   displayName: 'VocabTitleLink'
 
-  render: ({hi, text, href, separated, className} = @props) ->
+  render: ({id, hi, text, href, separated, className} = @props) ->
     H = if hi then hi else 'h3'
     defaultClasses = cs('title-l', {separated: separated, mbm: separated})
     classes = if className then className else defaultClasses
-    <H className={classes}>
+    <H className={classes} id={id}>
       {text}
       {' ' if href}
       {

@@ -358,6 +358,11 @@ module.exports = React.createClass
                   }
 
                   {
+                    if currentTab.byVocabularies
+                      Renderer._renderVocabQuickLinks(get.meta_data, get.meta_meta_data)
+                  }
+
+                  {
                     if !currentTab.byVocabularies
                       currentContextId = currentTab.byContext
                       bundled_context_keys = grouping._group_keys({ keys_to_check: @_context_keys(currentContextId), inter_result: [] })
