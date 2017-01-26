@@ -25,6 +25,11 @@ module ContextMetaDataHelper
       .value
   end
 
+  def update_context_bubble(context_id, meta_key_id, value)
+    element = find_context_meta_key_form_by_id(context_id, meta_key_id)
+    autocomplete_and_choose_first(element, value)
+  end
+
   def update_context_bubble_no_js(context_id, meta_key_id, value)
     find_context_meta_key_form_by_id(context_id, meta_key_id)
       .find('.form-item-add input')
@@ -80,7 +85,7 @@ module ContextMetaDataHelper
 
   def edit_context_path(context)
     underscored = @resource.class.name.underscore
-    variable = 'edit_context_meta_data_' + underscored + '_path'
+    variable = 'edit_meta_data_by_context_' + underscored + '_path'
     if context
       send(variable, @resource, context)
     else
@@ -99,8 +104,7 @@ module ContextMetaDataHelper
   def open_context(context, async)
     path_before = current_path
     label = Context.find(context).label
-    xpath = './/.[@class="ui-tabs-item"][.//.[contains(.,"' + label + '")]]'
-    find(:xpath, xpath).find('a').click
+    find('.ui-tabs-item', text: label).click
     if async
       expect(current_path).to eq(path_before)
     else

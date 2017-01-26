@@ -94,7 +94,7 @@ feature 'Resource: MediaEntry' do
       # confirm we are in the right place, including return_to param
       # also, one of the ids was removed because it
       expect(current_path_with_query).to eq(
-        batch_edit_context_meta_data_media_entries_path(
+        batch_edit_meta_data_by_context_media_entries_path(
           id: ids_to_edit, return_to: return_url))
 
       # TMP: smokescreen test for the batch edit page (which itself is untested!)

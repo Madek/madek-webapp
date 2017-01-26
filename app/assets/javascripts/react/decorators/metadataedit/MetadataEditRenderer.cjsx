@@ -329,7 +329,7 @@ module.exports = {
                 id: f.map(batch_entries, 'uuid'),
                 return_to: return_to)
             else
-              setUrlParams(url + '/meta_data/edit_context/' + context.uuid,
+              setUrlParams(url + '/meta_data/edit/by_context/' + context.uuid,
                 return_to: return_to)
 
           if not f.isEmpty(meta_meta_data.context_key_ids_by_context_id[context_id])
@@ -372,7 +372,7 @@ module.exports = {
           iconType={null}
           onClick={f.curry(onTabClick)(nextCurrentTab)}
           href={tabUrl}
-          label={'Alle Daten'}
+          label={t('meta_data_form_all_data')}
           active={active} />
 
       }

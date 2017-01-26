@@ -14,14 +14,6 @@ include BasicDataHelper
 feature 'Resource: MediaEntry' do
   describe 'Concern: MetaData' do
 
-    it 'open default context (no-js)', browser: :firefox_nojs do
-      direct_open_context(nil, false, 'zhdk_bereich')
-    end
-
-    it 'open media_content context (no-js)', browser: :firefox_nojs do
-      direct_open_context('media_content', false, 'zhdk_bereich')
-    end
-
     it 'check thumbnail link' do
       initialize_and_check_show
       goto_initial_context_edit('media_content', true, 'core')
@@ -97,11 +89,11 @@ feature 'Resource: MediaEntry' do
                          context_id: 'core')
 
       login
-      visit edit_context_meta_data_media_entry_path(media_entry, 'core')
+      visit edit_meta_data_by_context_media_entry_path(media_entry, 'core')
       expect(page).not_to have_content @ck_label
 
       vocabulary.update_attributes(enabled_for_public_use: true)
-      visit edit_context_meta_data_media_entry_path(media_entry, 'core')
+      visit edit_meta_data_by_context_media_entry_path(media_entry, 'core')
       expect(page).to have_content @ck_label
       find('fieldset', text: @ck_label).find('input')
         .set (@value = Faker::Lorem.characters(8))

@@ -107,7 +107,7 @@ feature 'Meta key grouping' do
 
   def edit_path(resource, context)
     self.send(
-      "edit_context_meta_data_#{resource.class.name.underscore}_path",
+      "edit_meta_data_by_context_#{resource.class.name.underscore}_path",
       resource,
       context)
   end

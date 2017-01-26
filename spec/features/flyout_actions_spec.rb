@@ -43,7 +43,7 @@ feature 'Resource: Collection/MediaEntry' do
     thumb.find('.icon-pen').hover
     thumb.find('.icon-pen').click
     expect(current_path).to eq self.send(
-      'edit_context_meta_data_' + type.name.underscore + '_path', @resource)
+      'edit_meta_data_by_context_' + type.name.underscore + '_path', @resource)
   end
 
   def scenario_delete(type)

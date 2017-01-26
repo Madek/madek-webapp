@@ -84,7 +84,7 @@ feature 'Resource: MetaDatum' do
   end
 
   def in_the_edit_field(label, &block)
-    visit edit_context_meta_data_media_entry_path(@media_entry)
+    visit edit_meta_data_by_context_media_entry_path(@media_entry)
     sign_in_as @user.login
     within('form .ui-form-group', text: label, &block)
   end

@@ -44,7 +44,7 @@ feature 'Batch linking' do
     find('.ui-body-title', text: title.strip)
 
     expect(current_path).to eq(
-      batch_edit_context_meta_data_media_entries_path(nil))
+      batch_edit_meta_data_by_context_media_entries_path(nil))
     url_ids_match(media_entries_1_3)
   end
 
@@ -59,7 +59,7 @@ feature 'Batch linking' do
     find('.ui-body-title', text: title.strip)
 
     expect(current_path).to eq(
-      batch_edit_context_meta_data_collections_path(nil))
+      batch_edit_meta_data_by_context_collections_path(nil))
     url_ids_match(collections_1_3)
   end
 

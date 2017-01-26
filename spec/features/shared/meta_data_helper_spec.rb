@@ -70,7 +70,7 @@ module MetaDataHelper
 
   def update_bubble(key, value)
     meta_key = MetaKey.find(key)
-    autocomplete_and_choose_first(find_meta_key_form(meta_key), value.term)
+    autocomplete_and_choose_first(find_meta_key_form(meta_key), value)
   end
 
   def find_datum(resource, meta_key)
@@ -92,7 +92,7 @@ module MetaDataHelper
     login_and_edit
     open_full_or_context(config, config[:async])
 
-    within('form[name="resource_meta_data"]') do
+    within('.tab-content') do
       manipulate.call
       submit_form
     end
@@ -134,9 +134,6 @@ module MetaDataHelper
   end
 
   def open_full
-    underscored = @resource.class.name.underscore
-    edit_path = send ('edit_meta_data_' + underscored + '_path'), @resource
-    click_action_button('arrow-down')
-    expect(current_path).to eq edit_path
+    find('.ui-tabs-item', text: I18n.t(:meta_data_form_all_data)).click
   end
 end

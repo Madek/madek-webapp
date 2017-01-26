@@ -10,7 +10,7 @@ module MetaDatumInputsHelper
 
   def edit_in_meta_data_form_and_save(key = @context_key, &block)
     throw ArgumentError unless block_given?
-    visit edit_context_meta_data_media_entry_path(@media_entry)
+    visit edit_meta_data_by_context_media_entry_path(@media_entry)
     sign_in_as @user.login
     within('form[name="resource_meta_data"]') do
       within(form_group(key), &block)

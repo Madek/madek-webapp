@@ -34,7 +34,6 @@ module Modules
         return_to: return_to_param)
     end
 
-
     def shared_batch_meta_data_update(type)
       auth_authorize type, :logged_in?
       return_to = return_to_param

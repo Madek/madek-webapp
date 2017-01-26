@@ -107,7 +107,7 @@ feature 'Batch edit metadata' do
   end
 
   def batch_path(type)
-    'batch_edit_context_meta_data_' + type.name.underscore.pluralize + '_path'
+    'batch_edit_meta_data_by_context_' + type.name.underscore.pluralize + '_path'
   end
 
   def visit_batch(type, resources)
