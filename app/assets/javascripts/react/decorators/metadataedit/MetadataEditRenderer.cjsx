@@ -65,7 +65,7 @@ module.exports = {
     model = models[meta_key_id]
     mandatory = meta_meta_data.mandatory_by_meta_key_id[meta_key_id]
     error = errors[meta_key_id]
-    validErr = published and mandatory and not metadataEditValidation._validModel(model)
+    validErr = published and mandatory and (not metadataEditValidation._validModel(model)) and (not batch)
     className = cx('ui-form-group prh', {'columned': not rowed}, {'rowed': rowed},
       {'error': (error or validErr) and not batchConflict}, {'highlight': batchConflict})
 

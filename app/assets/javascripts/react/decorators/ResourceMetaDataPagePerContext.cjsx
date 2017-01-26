@@ -255,10 +255,16 @@ module.exports = React.createClass
         title = t('media_entry_meta_data_header_prefix') + get.resource.title
     return title
 
-  _disableSave: (published) ->
-    # disableSave = (@state.saving or not @_changesForAll() or (@_validityForAll() == 'invalid' and @props.get.published)) and @state.mounted == true
-    disableSave = (@state.saving or (validation._validityForAll(
-      @props.get.meta_meta_data, @state.models) == 'invalid' and published)) and @state.mounted == true
+  _disableSave: (atLeastOnePublished, batch) ->
+
+    return true if @state.saving
+
+    return false if not @state.mounted
+
+    if batch
+      return false
+    else
+      return validation._validityForAll(@props.get.meta_meta_data, @state.models) == 'invalid' and atLeastOnePublished
 
   _disablePublish: () ->
     disablePublish = (@state.saving or validation._validityForAll(@props.get.meta_meta_data, @state.models) != 'valid')
@@ -403,7 +409,7 @@ module.exports = React.createClass
             <button className="primary-button large"
               type={if @state.mounted then 'button' else 'submit'} name='actionType' value='save'
               onClick={@_onExplicitSubmit}
-              disabled={@_disableSave(published)}>{t('meta_data_form_save')}</button>
+              disabled={@_disableSave(published, @props.batch)}>{t('meta_data_form_save')}</button>
           </div>
 
 
