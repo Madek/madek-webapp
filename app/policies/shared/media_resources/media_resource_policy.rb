@@ -66,7 +66,7 @@ module Shared
       def permissions_edit?
         logged_in? and user.can_edit_permissions_for?(record)
       end
-      alias_method :permissions_update?, :permissions?
+      alias_method :permissions_update?, :permissions_edit?
 
       private
 
