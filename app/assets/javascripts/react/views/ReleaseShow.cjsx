@@ -3,6 +3,7 @@ ReactDOM = require('react-dom')
 Moment = require('moment')
 Moment.locale('de')
 isEmpty = require('lodash/isEmpty')
+trim = require('lodash/trim')
 t = require('../../lib/string-translation.js')('de')
 
 module.exports = React.createClass
@@ -37,18 +38,34 @@ module.exports = React.createClass
 DevelopmentInfo = ({git_hash, git_url}) =>
   <div className='ui-container pbm'>
     <h2 className='title-s'>
-      Entwicklungs-Version: <a href={git_url}>{git_hash}</a>
+      Lokale Git Version: <a href={git_url}>{git_hash}</a>
     </h2>
   </div>
 
-DeploymentInfo = ({tree_id, commit_id, time}) =>
+DeploymentInfo = ({tree_id, commit_id, build_time, deployed, changes_since_release}) =>
+  buildUrl = "https://ci.zhdk.ch/cider-ci/ui/workspace/trees/#{tree_id}"
+  commitUrl = "https://github.com/Madek/Madek/commits/#{commit_id}"
+
   <div className='ui-container pbm'>
     <h2 className='title-s'>
-      <span>Letztes Deployment: </span>
-      <a href={"https://ci.zhdk.ch/cider-ci/ui/workspace/trees/#{tree_id}"}>
-        {Moment(time).format('LLLL')}
-      </a>
+      {deployed && !!deployed.time &&
+        <span>Deployment: {Moment(deployed.time).format('LLLL')}, </span>
+      }
+      <span><a href={buildUrl}>Build</a>: </span>
+      {Moment(build_time).format('LLLL')}
     </h2>
+    {!deployed.is_release &&
+      <div className='mtm'>
+        <h2 className='title-s'>
+          <span>
+            <a href={commitUrl}>Entwicklungs-Version</a>{'! '}
+            Änderungen seit dem letzen Release:</span>
+        </h2>
+        <pre className='pls' style={{whiteSpace: 'pre'}}>
+          {changes_since_release}
+        </pre>
+      </div>
+    }
   </div>
 
 ReleasesInfo = ({releases, children}) =>

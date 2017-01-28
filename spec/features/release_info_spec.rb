@@ -24,7 +24,7 @@ feature 'releases info (standalone/development)' do
 
     within('.app-body-ui-container') do
       info = first('.title-s')
-      expect(info.text).to eq "Entwicklungs-Version: #{repo_git_hash}"
+      expect(info.text).to eq "Lokale Git Version: #{repo_git_hash}"
       expect(info.find('a')[:href]).to include repo_git_hash
     end
   end
