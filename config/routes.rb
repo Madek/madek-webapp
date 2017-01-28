@@ -132,13 +132,14 @@ Madek::Application.routes.draw do
   # # both attributes (MKs) and specified values (Ks) are referenced as IRIs,
   # # and as a web application it is most appropriate to use a (working) URL.
   get 'vocabulary', to: 'vocabularies#index', as: 'vocabularies'
-  # redirect /vocabulary/{meta_key} for consistency with keywords
+  # redirect /vocabulary/{meta_key} to their anchor in the vocabulary metakeys list:
   get 'vocabulary/:meta_key_id', constraints: { meta_key_id: /.*:[^:\/]*/ },
     to: redirect{ |p| v, m = p[:meta_key_id].split(':'); "/vocabulary/#{v}##{m}" }
+  get 'vocabulary/:meta_key_id/terms/*term', to: 'keywords#show', as: 'vocabulary_meta_key_term', format: false
   get 'vocabulary/:vocabulary_id', to: 'vocabularies#show', as: 'vocabulary'
-  get 'vocabulary/meta_key/:meta_key_id/*term', to: 'keywords#show', as: 'vocabulary_meta_key_term', format: false
   get 'vocabulary/:vocab_id/keywords', to: 'vocabularies#keywords', as: 'vocabulary_keywords'
   get 'vocabulary/:vocab_id/contents', to: 'vocabularies#contents', as: 'vocabulary_contents'
+  # TODO: get 'vocabulary/:meta_key_id/terms', to: 'vocabularies#keyword_term', as: 'vocabulary_keywords', format: false
 
   # TODO: also "scope" this inside /vocabulary ↑ (but don't break CRUD & search)
   resources :meta_keys, only: :index
@@ -209,7 +210,7 @@ Madek::Application.routes.draw do
   get '/styleguide/:section/:element', to: 'styleguide#element', as: 'styleguide_element'
 
   # Error page to be rendered as static page for the proxy
-  get '/proxy_error', to: 'errors#proxy_error', :constraints => {:ip => /127.0.0.1/}
+  get '/proxy_error', to: 'errors#proxy_error', :constraints => {:ip => /127\.0\.0\.1/}
 
   ####################################################################################
   # LEGACY REDIRECTIONS! We need to keep them around indefinitely… ###################
