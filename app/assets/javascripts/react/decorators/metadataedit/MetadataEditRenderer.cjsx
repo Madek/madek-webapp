@@ -17,7 +17,7 @@ grouping = require('../../../lib/metadata-edit-grouping.coffee')
 
 module.exports = {
 
-  _renderValueByContext: (meta_key_id, onChange, datum, name, subForms, contextKey, batch, model) ->
+  _renderValueByContext: (meta_key_id, onChange, datum, name, subForms, metaKey, contextKey, batch, model) ->
 
     if batch
       name += "[#{meta_key_id}][values][]"
@@ -31,11 +31,12 @@ module.exports = {
     <InputMetaDatum id={meta_key_id}
       name={name} get={newget} onChange={onChange}
       subForms={subForms}
+      metaKey={metaKey}
       contextKey={contextKey}
     />
 
-  _renderValueByVocabularies: (meta_key_id, onChange, datum, name, subForms, batch, model) ->
-    @_renderValueByContext(meta_key_id, onChange, datum, name, subForms, null, batch, model)
+  _renderValueByVocabularies: (meta_key_id, onChange, datum, name, subForms, metaKey, batch, model) ->
+    @_renderValueByContext(meta_key_id, onChange, datum, name, subForms, metaKey, null, batch, model)
 
 
   _renderLabelByContext: (meta_meta_data, context_key_id) ->
@@ -62,6 +63,7 @@ module.exports = {
 
     contextKey = meta_meta_data.context_key_by_context_key_id[context_key_id]
     meta_key_id = contextKey.meta_key_id
+    metaKey = meta_meta_data.meta_key_by_meta_key_id[meta_key_id]
     datum = meta_data.meta_datum_by_meta_key_id[meta_key_id]
     model = models[meta_key_id]
     mandatory = meta_meta_data.mandatory_by_meta_key_id[meta_key_id]
@@ -79,13 +81,14 @@ module.exports = {
         </div>
       }
       {@_renderLabelByContext(meta_meta_data, context_key_id)}
-      {@_renderValueByContext(meta_key_id, ((values) -> _onChangeForm(meta_key_id, values)), datum, name, subForms, contextKey, batch, model)}
+      {@_renderValueByContext(meta_key_id, ((values) -> _onChangeForm(meta_key_id, values)), datum, name, subForms, metaKey, contextKey, batch, model)}
     </fieldset>
 
 
   _renderItemByVocabularies: (meta_data, meta_meta_data, published, name, meta_key_id, subForms, rowed, batch, models, batchConflict, errors, _onChangeForm) ->
 
     datum = meta_data.meta_datum_by_meta_key_id[meta_key_id]
+    metaKey = meta_meta_data.meta_key_by_meta_key_id[meta_key_id]
     model = models[meta_key_id]
     mandatory = meta_meta_data.mandatory_by_meta_key_id[meta_key_id]
     error = errors[meta_key_id]
@@ -102,7 +105,7 @@ module.exports = {
         </div>
       }
       {@_renderLabelByVocabularies(meta_meta_data, meta_key_id)}
-      {@_renderValueByVocabularies(meta_key_id, ((values) -> _onChangeForm(meta_key_id, values)), datum, name, subForms, batch, model)}
+      {@_renderValueByVocabularies(meta_key_id, ((values) -> _onChangeForm(meta_key_id, values)), datum, name, subForms, metaKey, batch, model)}
     </fieldset>
 
 
@@ -122,7 +125,7 @@ module.exports = {
       model = models[meta_key_id]
       if datum
         <div style={{display: 'none'}} key={meta_key_id}>
-          {@_renderValueByContext(meta_key_id, (() -> ), datum, name, null, null, batch, model)}
+          {@_renderValueByContext(meta_key_id, (() -> ), datum, name, null, null, null, batch, model)}
         </div>
 
 

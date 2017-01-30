@@ -25,8 +25,6 @@ module.exports = React.createClass
 
   render: ({get, name, values} = @props) ->
 
-    onChange = if @props.onChange then @_onChange else null
-
     <div className='form-item'>
       <div className='form-item-values'>
         {
@@ -35,7 +33,7 @@ module.exports = React.createClass
           else
             value = @state.values[0]
           <InputFieldText onChange={@_onChange} name={name} value={value} key={get.meta_key_id}
-            contextKey={@props.contextKey}/>
+            metaKey={@props.metaKey} />
         }
       </div>
       {@props.subForms}

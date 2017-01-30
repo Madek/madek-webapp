@@ -56,8 +56,9 @@ module MetaDataHelper
 
   def update_text_field(key, value)
     meta_key = MetaKey.find(key)
+    element = meta_key.text_type == 'line' ? 'input' : 'textarea'
     find_meta_key_form(meta_key)
-      .find('input')
+      .find(element)
       .set(value)
   end
 

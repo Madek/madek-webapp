@@ -28,7 +28,6 @@ RailsForm = require('../lib/forms/rails-form.cjsx')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
 
-InputMetaDatum = require('./InputMetaDatum.cjsx')
 MetaKeyFormLabel = require('../lib/forms/form-label.cjsx')
 
 validation = require('../../lib/metadata-edit-validation.coffee')

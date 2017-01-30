@@ -9,10 +9,10 @@ module.exports = React.createClass
     placeholder: React.PropTypes.string
     className: React.PropTypes.string
 
-  render: ({name, type, value, placeholder, className, contextKey} = @props) ->
+  render: ({name, type, value, placeholder, className, metaKey} = @props) ->
 
     Element =
-      if contextKey and contextKey.text_type and contextKey.text_type == 'block'
+      if metaKey and metaKey.text_type and metaKey.text_type == 'block'
         'textarea'
       else
         'input'

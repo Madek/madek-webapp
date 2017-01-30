@@ -5,7 +5,6 @@ ampersandReactMixin = require('ampersand-react-mixin')
 f = require('active-lodash')
 t = require('../../../lib/string-translation')('de')
 RailsForm = require('../../lib/forms/rails-form.cjsx')
-InputFieldText = require('../../lib/forms/input-field-text.cjsx')
 FormButton = require('../../ui-components/FormButton.cjsx')
 Modal = require('../../ui-components/Modal.cjsx')
 

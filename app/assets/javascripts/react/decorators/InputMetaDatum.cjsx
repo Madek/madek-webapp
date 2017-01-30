@@ -1,7 +1,6 @@
 React = require('react')
 f = require('active-lodash')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
-InputText = require('../lib/forms/input-text.cjsx')
 Text = require('../lib/forms/input-text-async.cjsx')
 InputResources = require('../lib/forms/input-resources.cjsx')
 InputTextDate = require('../lib/forms/InputTextDate.js').default
@@ -35,6 +34,7 @@ module.exports = React.createClass
     values = f.map get.values, (value) ->
       value
 
+    debugger
     <InputElement
       onChange={@props.onChange}
       get={get}
@@ -42,5 +42,6 @@ module.exports = React.createClass
       name={name}
       multiple={multiple}
       values={values}
+      metaKey={@props.metaKey}
       contextKey={@props.contextKey}
       subForms={@props.subForms}/>

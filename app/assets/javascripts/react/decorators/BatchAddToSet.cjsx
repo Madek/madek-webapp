@@ -13,7 +13,6 @@ SelectCollectionDialog = require('../views/Collection/SelectCollectionDialog.cjs
 Button = require('../ui-components/Button.cjsx')
 Icon = require('../ui-components/Icon.cjsx')
 RailsForm = require('../lib/forms/rails-form.cjsx')
-InputFieldText = require('../lib/forms/input-field-text.cjsx')
 formXhr = require('../../lib/form-xhr.coffee')
 setUrlParams = require('../../lib/set-params-for-url.coffee')
 Preloader = require('../ui-components/Preloader.cjsx')

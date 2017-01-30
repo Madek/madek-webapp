@@ -2,7 +2,6 @@ React = require('react')
 ReactDOM = require('react-dom')
 PageContentHeader = require('./PageContentHeader.cjsx')
 HeaderPrimaryButton = require('./HeaderPrimaryButton.cjsx')
-InputFieldText = require('../lib/forms/input-field-text.cjsx')
 t = require('../../lib/string-translation.js')('de')
 CreateCollection = require('./My/CreateCollection.cjsx')
 

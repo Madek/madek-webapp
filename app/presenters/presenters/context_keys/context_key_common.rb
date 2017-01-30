@@ -30,12 +30,6 @@ module Presenters
       def hint
         @app_resource.hint.presence or @meta_key.hint
       end
-
-      # TMP: pass through text_type from MetaKey before cleaning up in UI
-      def text_type
-        @meta_key.try(:text_type)
-      end
-
     end
   end
 end

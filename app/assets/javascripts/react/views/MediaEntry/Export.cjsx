@@ -4,7 +4,6 @@ ampersandReactMixin = require('ampersand-react-mixin')
 f = require('active-lodash')
 parseUrl = require('url').parse
 t = require('../../../lib/string-translation')('de')
-InputFieldText = require('../../lib/forms/input-field-text.cjsx')
 Modal = require('../../ui-components/Modal.cjsx')
 
 forceDownload = (url) ->
