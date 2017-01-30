@@ -57,6 +57,8 @@ RSpec.configure do |config|
         end
       end
     end
+
+    require 'webmock/rspec' if example.metadata[:webmock].present?
   end
 
 end
