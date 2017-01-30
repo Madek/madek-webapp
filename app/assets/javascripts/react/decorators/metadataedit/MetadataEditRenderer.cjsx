@@ -13,6 +13,7 @@ Tab = require('../../views/Tab.cjsx')
 Icon = require('../../ui-components/Icon.cjsx')
 setUrlParams = require('../../../lib/set-params-for-url.coffee')
 VocabTitleLink = require('../../ui-components/VocabTitleLink.cjsx')
+grouping = require('../../../lib/metadata-edit-grouping.coffee')
 
 module.exports = {
 
@@ -33,8 +34,8 @@ module.exports = {
       contextKey={contextKey}
     />
 
-  _renderValueByVocabularies: (meta_key_id, onChange, datum, name, batch, model) ->
-    @_renderValueByContext(meta_key_id, onChange, datum, name, null, null, batch, model)
+  _renderValueByVocabularies: (meta_key_id, onChange, datum, name, subForms, batch, model) ->
+    @_renderValueByContext(meta_key_id, onChange, datum, name, subForms, null, batch, model)
 
 
   _renderLabelByContext: (meta_meta_data, context_key_id) ->
@@ -82,7 +83,7 @@ module.exports = {
     </fieldset>
 
 
-  _renderItemByVocabularies: (meta_data, meta_meta_data, published, name, meta_key_id, rowed, batch, models, batchConflict, errors, _onChangeForm) ->
+  _renderItemByVocabularies: (meta_data, meta_meta_data, published, name, meta_key_id, subForms, rowed, batch, models, batchConflict, errors, _onChangeForm) ->
 
     datum = meta_data.meta_datum_by_meta_key_id[meta_key_id]
     model = models[meta_key_id]
@@ -101,7 +102,7 @@ module.exports = {
         </div>
       }
       {@_renderLabelByVocabularies(meta_meta_data, meta_key_id)}
-      {@_renderValueByVocabularies(meta_key_id, ((values) -> _onChangeForm(meta_key_id, values)), datum, name, batch, model)}
+      {@_renderValueByVocabularies(meta_key_id, ((values) -> _onChangeForm(meta_key_id, values)), datum, name, subForms, batch, model)}
     </fieldset>
 
 
@@ -128,14 +129,11 @@ module.exports = {
   _bundleHasOnlyOneKey: (bundle) ->
     return bundle.type == 'single' or (bundle.type == 'block' and f.size(bundle.content) == 0)
 
-  _bundleGetTheOnlyContextKeyId: (bundle) ->
-    if bundle.type == 'single' then bundle.content.uuid else bundle.mainKey.uuid
+  _bundleGetTheOnlyContent: (bundle) ->
+    if bundle.type == 'single' then bundle.content else bundle.mainKey
 
 
-  _renderSubForms: (meta_meta_data, meta_data, models, bundle, bundleState, published, name,
-    batch, _batchConflictByContextKey, errors, _onChangeForm, _toggleBundle) ->
-
-    isInvalid = metadataEditValidation._validityForMetaKeyIds(meta_meta_data, models, f.map(bundle.content, 'meta_key_id')) == 'invalid'
+  _renderSubForms: (bundle, bundleState, _toggleBundle, isInvalid, children) ->
 
     style = {
       display: (if (bundleState[bundle.bundle] or isInvalid) then 'block' else 'none')
@@ -153,37 +151,100 @@ module.exports = {
       <div key='sub-form-values' style={style}
         className="ui-container pam ui-container bordered rounded form-item-extension hidden"
         key={'block_' + bundle.bundle}>
-        {
-          f.map(
-            bundle.content,
-            (entry) =>
-              @_renderItemByContext(meta_data, meta_meta_data, published, name, entry.uuid, null, true,
-                batch, models, _batchConflictByContextKey(entry.uuid), errors, _onChangeForm)
-          )
-        }
+        {children}
       </div>
     ]
 
 
-  _renderByContext: (context_id, bundled_context_keys, meta_data, meta_meta_data, published, name,
+  _context_keys: (meta_meta_data, context_id) ->
+    f.map meta_meta_data.context_key_ids_by_context_id[context_id], (context_key_id) ->
+      meta_meta_data.context_key_by_context_key_id[context_key_id]
+
+
+  _renderByContext: (context_id, meta_data, meta_meta_data, published, name,
     batch, models, errors, _batchConflictByContextKey, _onChangeForm, bundleState, _toggleBundle) ->
 
-    f.flatten f.map(
+    bundled_context_keys = grouping._group_context_keys(@_context_keys(meta_meta_data, context_id))
+
+    _renderItemByContextKeyId = (context_key_id, subForms, rowed, batchConflict) =>
+      @_renderItemByContext(meta_data, meta_meta_data, published, name, context_key_id, subForms, rowed,
+        batch, models, _batchConflictByContextKey(context_key_id), errors, _onChangeForm)
+
+
+    f.map(
       bundled_context_keys,
       (bundle) =>
         if @_bundleHasOnlyOneKey(bundle)
-          context_key_id = @_bundleGetTheOnlyContextKeyId(bundle)
-          @_renderItemByContext(meta_data, meta_meta_data, published, name, context_key_id, null, false,
-            batch, models, _batchConflictByContextKey(context_key_id), errors, _onChangeForm)
+          context_key_id = @_bundleGetTheOnlyContent(bundle).uuid
+          _renderItemByContextKeyId(context_key_id, null, false)
         else
+          subFormIsInvalid = metadataEditValidation._validityForMetaKeyIds(
+            meta_meta_data, models, f.map(bundle.content, 'meta_key_id')) == 'invalid'
+
+          children = f.map(
+            bundle.content,
+            (entry) ->
+              _renderItemByContextKeyId(entry.uuid, null, true)
+          )
+
+          subForms = @_renderSubForms(bundle, bundleState, _toggleBundle, subFormIsInvalid, children)
+
           context_key_id = bundle.mainKey.uuid
-
-          subForms = @_renderSubForms(meta_meta_data, meta_data, models, bundle, bundleState,
-            published, name, batch, _batchConflictByContextKey, errors, _onChangeForm, _toggleBundle)
-
-          @_renderItemByContext(meta_data, meta_meta_data, published, name, context_key_id, subForms, false,
-            batch, models, _batchConflictByContextKey(context_key_id), errors, _onChangeForm)
+          _renderItemByContextKeyId(context_key_id, subForms, false)
     )
+
+
+  _renderByVocabularies: (meta_data, meta_meta_data, published, name,
+    batch, models, errors, _batchConflictByMetaKey, _onChangeForm, bundleState, _toggleBundle) ->
+
+    f.map(
+      f.sortBy(meta_data.by_vocabulary, (voc) -> if voc.vocabulary.uuid == 'madek_core' then - 1 else voc.vocabulary.position),
+      (vocabularyInfo) =>
+        vocabMetaData = f.sortBy(vocabularyInfo.meta_data, 'meta_key.position')
+        vocabularyDetails = vocabularyInfo.vocabulary
+
+        bundled_meta_data = grouping._group_meta_data(vocabMetaData)
+
+        _renderItemByMetaKeyId = (meta_key_id, subForms, rowed) =>
+          @_renderItemByVocabularies(meta_data, meta_meta_data, published, name, meta_key_id, subForms, rowed,
+            batch, models, _batchConflictByMetaKey(meta_key_id), errors, _onChangeForm)
+
+
+        <div className='mbl' key={vocabularyDetails.uuid}>
+          <div className='ui-container pas'>
+            <VocabTitleLink id={vocabularyDetails.uuid} text={vocabularyDetails.label}
+              separated={true} href={'/vocabulary/' + vocabularyDetails.uuid} />
+          </div>
+          {
+            f.map(
+              bundled_meta_data,
+              (bundle) =>
+                if @_bundleHasOnlyOneKey(bundle)
+                  meta_key_id = @_bundleGetTheOnlyContent(bundle).meta_key_id
+                  _renderItemByMetaKeyId(meta_key_id, null, false)
+                else
+                  subFormIsInvalid = metadataEditValidation._validityForMetaKeyIds(
+                    meta_meta_data, models, f.map(bundle.content, 'meta_key_id')) == 'invalid'
+
+                  children = f.map(
+                    bundle.content,
+                    (entry) ->
+                      _renderItemByMetaKeyId(entry.meta_key_id, null, true)
+                  )
+
+                  subForms = @_renderSubForms(bundle, bundleState, _toggleBundle, subFormIsInvalid, children)
+
+                  meta_key_id = bundle.mainKey.meta_key_id
+                  _renderItemByMetaKeyId(meta_key_id, subForms, false)
+
+            )
+
+
+          }
+        </div>
+
+    )
+
 
   _renderVocabQuickLinks: (meta_data, meta_meta_data) ->
 
@@ -215,37 +276,6 @@ module.exports = {
       </div>
       <div style={{clear: 'both'}} />
     </div>
-
-
-  _renderByVocabularies: (meta_data, meta_meta_data, published, name,
-    batch, models, errors, _batchConflictByMetaKey, _onChangeForm, bundleState, _toggleBundle) ->
-
-    f.flatten f.map(
-      f.sortBy(meta_data.by_vocabulary, (voc) -> if voc.vocabulary.uuid == 'madek_core' then - 1 else voc.vocabulary.position),
-      (vocabularyInfo) =>
-        vocabMetaData = f.sortBy(vocabularyInfo.meta_data, 'meta_key.position')
-        vocabularyDetails = vocabularyInfo.vocabulary
-
-
-        <div className='mbl' key={vocabularyDetails.uuid}>
-          <div className='ui-container pas'>
-            <VocabTitleLink id={vocabularyDetails.uuid} text={vocabularyDetails.label}
-              separated={true} href={'/vocabulary/' + vocabularyDetails.uuid} />
-          </div>
-          {
-            f.map(
-              vocabMetaData,
-              (vocabMetaDatum) =>
-
-                meta_key_id = vocabMetaDatum.meta_key_id
-                @_renderItemByVocabularies(meta_data, meta_meta_data, published, name, meta_key_id, false,
-                  batch, models, _batchConflictByMetaKey(meta_key_id), errors, _onChangeForm)
-
-            )
-          }
-        </div>
-
-    )
 
 
   _renderThumbnail: (resource) ->

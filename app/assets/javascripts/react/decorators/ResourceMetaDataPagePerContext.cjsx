@@ -32,7 +32,6 @@ InputMetaDatum = require('./InputMetaDatum.cjsx')
 MetaKeyFormLabel = require('../lib/forms/form-label.cjsx')
 
 validation = require('../../lib/metadata-edit-validation.coffee')
-grouping = require('../../lib/metadata-edit-grouping.coffee')
 Renderer = require('./metadataedit/MetadataEditRenderer.cjsx')
 
 module.exports = React.createClass
@@ -211,12 +210,6 @@ module.exports = React.createClass
     return false
 
 
-  _context_keys: (context_id) ->
-    meta_meta_data = @props.get.meta_meta_data
-    f.map meta_meta_data.context_key_ids_by_context_id[context_id], (context_key_id) ->
-      meta_meta_data.context_key_by_context_key_id[context_key_id]
-
-
   _toggleBundle: (bundleId) ->
     current = @state.bundleState[bundleId]
     next = not current
@@ -371,8 +364,7 @@ module.exports = React.createClass
                   {
                     if !currentTab.byVocabularies
                       currentContextId = currentTab.byContext
-                      bundled_context_keys = grouping._group_keys({ keys_to_check: @_context_keys(currentContextId), inter_result: [] })
-                      Renderer._renderByContext(currentContextId, bundled_context_keys, get.meta_data, get.meta_meta_data, published, name,
+                      Renderer._renderByContext(currentContextId, get.meta_data, get.meta_meta_data, published, name,
                         @props.batch, @state.models, @state.errors, @_batchConflictByContextKey, @_onChangeForm, @state.bundleState, @_toggleBundle)
 
                     else

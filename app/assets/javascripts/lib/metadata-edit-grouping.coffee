@@ -15,10 +15,10 @@ module.exports = {
 
     contains_key = (arr, key_id) ->
       f.find arr, (ai) ->
-        ai.uuid == key_id
+        ai.data_id == key_id
 
     f.reject a, (ai) ->
-      contains_key(b, ai.uuid)
+      contains_key(b, ai.data_id)
 
 
   _reject_followups: (keys_to_check, bundle_key) ->
@@ -31,8 +31,25 @@ module.exports = {
     f.slice keys_to_check, first_not_matching
 
 
+  _group_context_keys: (context_keys) ->
+    keys = f.map(context_keys, (context_key) ->
+      {meta_key_id: context_key.meta_key_id, data_id: context_key.uuid, data: context_key}
+    )
+    @_group_keys(keys)
 
-  _group_keys: ({keys_to_check, inter_result}) ->
+  _group_meta_data: (meta_data) ->
+    keys = f.map(meta_data, (meta_datum) ->
+      {meta_key_id: meta_datum.meta_key_id, data_id: meta_datum.meta_key_id, data: meta_datum}
+    )
+    @_group_keys(keys)
+
+
+  _group_keys: (keys) ->
+    @_group_keys_rec({keys_to_check: keys, inter_result: []})
+
+
+
+  _group_keys_rec: ({keys_to_check, inter_result}) ->
 
     if f.isEmpty(keys_to_check)
       inter_result
@@ -51,17 +68,17 @@ module.exports = {
           {
             type: 'block'
             bundle: bundle_key.group
-            mainKey: f.first(@_diff_keys(keys_to_check, rec_keys_to_check))
-            content: f.slice(@_diff_keys(keys_to_check, rec_keys_to_check), 1)
+            mainKey: f.first(@_diff_keys(keys_to_check, rec_keys_to_check)).data
+            content: f.map(f.slice(@_diff_keys(keys_to_check, rec_keys_to_check), 1), (entry) -> entry.data)
           }
         else
           {
             type: 'single'
-            content: f.first(keys_to_check)
+            content: f.first(keys_to_check).data
           }
 
 
-      @_group_keys(
+      @_group_keys_rec(
         {
           keys_to_check: rec_keys_to_check,
           inter_result: inter_result.concat([rec_inter_result])
