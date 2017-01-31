@@ -7,6 +7,7 @@
 
 // this file is NOT used in the webapp! server-side rendering only!
 //
+require('./env')
 // use React from npm, not gem (also disabled in gem config)
 var React = require('react')
 var ReactDOMServer = require('react-dom/server')
