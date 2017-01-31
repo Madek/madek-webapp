@@ -19,7 +19,7 @@ class CreateAllTables < ActiveRecord::Migration
       ALTER TABLE access_rights
         ADD CONSTRAINT check_allowed_roles
         CHECK (
-          role IN ('#{AccessRight::AVAILABLE_ROLES.join("', '")}')
+          role IN ('customer', 'group_manager', 'lending_manager', 'inventory_manager', 'admin')
         );
     SQL
 
@@ -118,7 +118,7 @@ class CreateAllTables < ActiveRecord::Migration
       ALTER TABLE reservations
         ADD CONSTRAINT check_allowed_statuses
         CHECK (
-          status IN ('#{Reservation::STATUSES.join("', '")}')
+          status IN ('unsubmitted', 'submitted', 'rejected', 'approved', 'signed', 'closed')
         );
     SQL
 
