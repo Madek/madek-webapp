@@ -1,22 +1,37 @@
 import React from 'react'
 import Moment from 'moment'
 Moment.locale('de')
+import ui from '../lib/ui.coffee'
+const t = ui.t('de')
 import first from 'lodash/first'
 import last from 'lodash/last'
 import isEmpty from 'lodash/isEmpty'
 import isString from 'lodash/isString'
 import trimString from 'lodash/trim'
 
+import HeaderPrimaryButton from '../views/HeaderPrimaryButton.cjsx'
 import Preloader from '../ui-components/Preloader.cjsx'
+
+const fallbackMessage = <div className='pvh mth mbl'>
+  <div className='by-center'>
+    <p className='title-l mbm'>{'Sie haben noch keine Aktivitäten durchgeführt.'}</p>
+    <HeaderPrimaryButton
+      icon={'upload'} text={t('dashboard_create_media_entry_btn')}
+      href={'/my/upload'} />
+
+  </div>
+</div>
 
 const ActivityStream = ({events, isFetchingPast, isEndOfStream}) =>
   <div className='ui-container ptm pbl prl plm'>
     <div className='ui-activity-stream'>
-      {events.map((group, i) =>
-        !!group && (group.length > 1) && (group.length > 1)
-          ? <ActivityGroup group={group} key={i}/>
-          : <ActivityItem {...group[0]} key={i}/>
-      )}
+      {isEmpty(events)
+        ? fallbackMessage
+        : events.map((group, i) =>
+          !!group && (group.length > 1) && (group.length > 1)
+            ? <ActivityGroup group={group} key={i}/>
+            : <ActivityItem {...group[0]} key={i}/>
+        )}
       <div className='ui-container pal'>
         {!!isFetchingPast && <Preloader mods='large pal' />}
       </div>

@@ -39,8 +39,7 @@ class MyController < ApplicationController
       title: 'Aktivitäten',
       icon: 'icon-privacy-private',
       partial: :activity_stream,
-      hide_from_index: true,
-      is_beta: true
+      hide_from_index: true
     },
     unpublished_entries: {
       title: I18n.t(:sitemap_my_unpublished),
