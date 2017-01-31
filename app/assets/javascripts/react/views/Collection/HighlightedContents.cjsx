@@ -46,19 +46,25 @@ HighlightedContent = React.createClass
 
     aClass = cx('ui-tile', {'ui-tile--set': mediaResource.type == 'Collection'})
 
-    imgStyle = {
-      backgroundColor: 'rgba(1.0, 1.0, 1.0, 0.3)', #'rgba(0, 0, 0, 0.3)',
-      boxShadow: '0 0 150px #575757 inset'
-    }
+    images = f.sortBy(f.get(mediaResource, 'media_file.previews.images'), 'width')
+    image = f.find(images, (i) => i.height >= 300) || f.last(images)
+    imgProps = {}
+    if image
+      imgProps =
+        src: image.url
+        height: image.height + 'px'
+        width: image.width + 'px'
+        srcSet: f.uniq(images, 'width').map((i) -> "#{i.url} #{i.width}w").join(', ')
 
-    if not mediaResource.image_url
-      imgStyle.width = '300px'
+    imgProps.style =
+        backgroundColor: 'rgba(1.0, 1.0, 1.0, 0.3)', #'rgba(0, 0, 0, 0.3)',
+        boxShadow: '0 0 150px #575757 inset'
+        width: '300px' unless image
 
     <a className={aClass} href={mediaResource.url} style={{marginLeft: '5px'}}>
       <div className='ui-tile__body'>
         <div className='ui-tile__thumbnail'>
-          <img className='ui-tile__image' src={mediaResource.image_url}
-            style={imgStyle}></img>
+          <img className='ui-tile__image' {...imgProps} />
         </div>
       </div>
       <div className='ui-tile__foot'>
