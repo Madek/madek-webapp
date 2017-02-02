@@ -33,7 +33,7 @@ module.exports = React.createClass
 
   render: ({name, method, authToken, children} = @props) ->
     ownProps = ['name', 'method', 'authToken', 'children']
-    restProps = f.omit(@props, ownProps)
+    restProps = f.omit(@props, ownProps, 'mod', 'mods', 'className')
 
     # Rails conventions:
     # - default method='post'

@@ -1,11 +1,9 @@
 React = require('react')
 f = require('active-lodash')
+classnames = require('classnames')
 t = require('../../../lib/string-translation.js')('de')
-MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
-TabContent = require('../TabContent.cjsx')
 ResourceThumbnail = require('../../decorators/ResourceThumbnail.cjsx')
 
-classnames = require('classnames')
 
 module.exports = React.createClass
   displayName: 'views/Collection/Relations'

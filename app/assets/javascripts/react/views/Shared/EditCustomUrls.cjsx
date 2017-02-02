@@ -1,21 +1,9 @@
 React = require('react')
-ReactDOM = require('react-dom')
 f = require('active-lodash')
 t = require('../../../lib/string-translation.js')('de')
-classnames = require('classnames')
 
-MetaDataList = require('../../decorators/MetaDataList.cjsx')
-MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
-ResourceShowOverview = require('../../templates/ResourceShowOverview.cjsx')
-TabContent = require('../TabContent.cjsx')
-SimpleResourceThumbnail = require('../../decorators/SimpleResourceThumbnail.cjsx')
-Button = require('../../ui-components/Button.cjsx')
-SimpleXhr = require('../../../lib/simple-xhr.coffee')
 PageHeader = require('../../ui-components/PageHeader.js')
-
 RailsForm = require('../../lib/forms/rails-form.cjsx')
-FormButton = require('../../ui-components/FormButton.cjsx')
-
 
 module.exports = React.createClass
   displayName: 'Shared.EditCustomUrls'
@@ -26,9 +14,6 @@ module.exports = React.createClass
 
     <div>
       <PageHeader icon={null} title={t('edit_custom_urls_create_or_transfer')} actions={[]} />
-
-
-
       {
 
         if not get.confirmation

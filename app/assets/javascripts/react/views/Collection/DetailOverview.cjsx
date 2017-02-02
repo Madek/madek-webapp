@@ -5,7 +5,6 @@ t = require('../../../lib/string-translation.js')('de')
 classnames = require('classnames')
 
 MetaDataList = require('../../decorators/MetaDataList.cjsx')
-MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 ResourceShowOverview = require('../../templates/ResourceShowOverview.cjsx')
 TabContent = require('../TabContent.cjsx')
 

@@ -1,23 +1,12 @@
 React = require('react')
-ReactDOM = require('react-dom')
 f = require('active-lodash')
 t = require('../../../lib/string-translation.js')('de')
-classnames = require('classnames')
-
 Moment = require('moment')
 
-MetaDataList = require('../../decorators/MetaDataList.cjsx')
-MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
-ResourceShowOverview = require('../../templates/ResourceShowOverview.cjsx')
-TabContent = require('../TabContent.cjsx')
-SimpleResourceThumbnail = require('../../decorators/SimpleResourceThumbnail.cjsx')
 PageHeader = require('../../ui-components/PageHeader.js')
 HeaderPrimaryButton = require('../HeaderPrimaryButton.cjsx')
 Button = require('../../ui-components/Button.cjsx')
-
 RailsForm = require('../../lib/forms/rails-form.cjsx')
-FormButton = require('../../ui-components/FormButton.cjsx')
-
 
 
 module.exports = React.createClass

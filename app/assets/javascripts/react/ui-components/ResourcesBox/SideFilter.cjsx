@@ -5,7 +5,6 @@ React = require('react')
 f = require('active-lodash')
 css = require('classnames')
 ui = require('../../lib/ui.coffee')
-setUrlParams = require('../../../lib/set-params-for-url.coffee')
 MadekPropTypes = require('../../lib/madek-prop-types.coffee')
 
 Icon = require('../Icon.cjsx')
@@ -67,8 +66,6 @@ module.exports = React.createClass
 
   componentDidMount: () ->
     @setState(javascript: true)
-
-
 
   componentWillMount: () ->
     f.each(@props.current.meta_data, (meta_datum) =>
@@ -280,7 +277,7 @@ FilterItem = ({label, uuid, selected, href, count, onClick} = @props) ->
   label = f.presence(label or uuid) or (
     console.error('empty FilterItem label!') and '(empty)')
   <li className={css('ui-side-filter-lvl3-item', active: selected)}>
-    <Link mod='weak' onClick={onClick}>
+    <Link mods='weak' onClick={onClick}>
       {label} <span className='ui-lvl3-item-count'>{count}</span>
     </Link>
   </li>
