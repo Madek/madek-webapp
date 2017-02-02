@@ -5,12 +5,14 @@ f = require('active-lodash')
 ui = require('../lib/ui.coffee')
 t = ui.t('de')
 parseUrl = require('url').parse
+stringifyUrl = require('url').format
 parseQuery = require('qs').parse
-setUrlParams = require('../../lib/set-params-for-url.coffee')
 
 Button = require('../ui-components/Button.cjsx')
 ButtonGroup = require('../ui-components/ButtonGroup.cjsx')
 ResourcesBox = require('../decorators/MediaResourcesBox.cjsx')
+boxSetUrlParams = ResourcesBox.boxSetUrlParams
+
 # client-side only
 router = null
 
@@ -27,18 +29,20 @@ module.exports = React.createClass
     # all other props are just passed through to ResourcesBox:
     get: React.PropTypes.object.isRequired
 
+  getInitialState: ()-> { url: @props.for_url }
+
   componentDidMount: ()->
     router = require('../../lib/router.coffee')
 
     # listen to history and set state from params:
-    @stopRouter = router.listen (location)=> @setState(url: location)
+    @stopRouter = router.listen (location)=> @setState(url: stringifyUrl(location))
     # TMP: start the router (also immediatly calls listener(s) once if already attached!)
     router.start()
 
   componentWillUnmount: ()->
     if @stopRouter then @stopRouter()
 
-  render: (props = @props)->
+  render: (props = @props, state = @state)->
     {currentType, otherTypes} = props.switches
     types = f.flatten([currentType, otherTypes])
 
@@ -52,9 +56,8 @@ module.exports = React.createClass
         return null unless f.include(types, btn.key) # only show mentioned types
         isActive = btn.key is currentType # set active is current type
         <Button {...btn}
-                onClick={@_onResourceSwitch}
-                href={urlByType(props.for_url, currentType, btn.key)}
-                mods={if isActive then 'active'}>
+            href={urlByType(state.url, currentType, btn.key)}
+            mods={if isActive then 'active'}>
           {btn.name}
         </Button>}
       </ButtonGroup>)
@@ -64,21 +67,22 @@ module.exports = React.createClass
         toolBarMiddle={resourceTypeSwitcher()}/>
     )
 
-urlByType = (currentUrl, currentType, type)->
-  if currentType is type then return currentUrl
-  params = parseQuery(parseUrl(currentUrl).query)
-  # NOTE: resetting all other 'list' params (pagination etc)
-  resetlistParams = { list: { page: 1, filter: null } }
-  parseQuery(parseUrl(currentUrl).query)
-  # HACK: build link to 'sets', but remove filter (only 'search' is implemented!)
-  searchTerm = (try JSON.parse(params.list.filter).search)
-  listParams = if type is 'sets'
-    { list: {
-      accordion: null,
-      filter: JSON.stringify({search: searchTerm}) } }
+urlByType = (url, currentType, type)->
+  if currentType is type then return url
 
-  # TODO: relative_url_root
-  setUrlParams(
-    currentUrl.replace("/#{currentType}", "/#{type}"),
-    resetlistParams,
-    listParams)
+  currentUrl = parseUrl(url)
+  currentParams = parseQuery(currentUrl.query)
+
+  # NOTE: resetting all other 'list' params (pagination etc)
+  resetlistParams = { page: 1, accordion: null }
+
+  # HACK: build link to 'sets', but remove filter (only 'search' is implemented!)
+  searchTerm = (try JSON.parse(currentParams.list.filter).search)
+
+  listParams = f.assign(currentParams.list, resetlistParams)
+  if type is 'sets'
+    listParams = f.assign(listParams, { filter: JSON.stringify({search: searchTerm}) })
+
+  boxSetUrlParams(
+    currentUrl.pathname.replace(RegExp("\/#{currentType}$"), "\/#{type}"),
+    f.omit(currentParams, 'list'), {list: listParams})

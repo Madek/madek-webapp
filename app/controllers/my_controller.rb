@@ -141,7 +141,7 @@ class MyController < ApplicationController
 
   def list_config
     if (params[:action] == 'dashboard')
-      { per_page: 6, page: 1 }
+      resource_list_params.merge(per_page: 6, page: 1)
     else
       { per_page: 12 }.merge \
         resource_list_params(params, current_section.try(:[],

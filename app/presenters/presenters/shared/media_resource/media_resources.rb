@@ -24,7 +24,7 @@ module Presenters
             scope, user, list_conf: nil, item_type: nil,
             can_filter: true, with_actions: true,
             with_count: true, load_meta_data: false)
-          fail 'missing config!' unless list_conf
+          fail 'missing config!' unless list_conf or list_conf[:for_url].present?
           @user = user
           @scope = scope
           @type = item_type || scope.model.name.pluralize

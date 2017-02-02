@@ -1,10 +1,12 @@
 React = require('react')
 f = require('active-lodash')
+fromPairs = require('lodash/fromPairs')
 ampersandReactMixin = require('ampersand-react-mixin')
 ui = require('../lib/ui.coffee')
 {parseMods, cx} = ui
 t = ui.t('de')
 setUrlParams = require('../../lib/set-params-for-url.coffee')
+stringifyUrl = require('url').format
 Selection = require('../../lib/selection.coffee')
 resourceListParams = require('../../shared/resource_list_params.coffee')
 
@@ -38,8 +40,6 @@ Preloader = require('../ui-components/Preloader.cjsx')
 SortDropdown = require('./resourcesbox/SortDropdown.cjsx')
 ActionsDropdown = require('./resourcesbox/ActionsDropdown.cjsx')
 
-
-
 # Props/Config overview:
 # - props.get.with_actions = should the UI offer any interaction
 # - props.fetchRelations = should relations be fetched (async, only grid layout)
@@ -72,6 +72,7 @@ filterConfigProps = React.PropTypes.shape
     key: React.PropTypes.string.isRequired
     value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool])
 
+# view Config - bound to the URL (params)!
 viewConfigProps = React.PropTypes.shape
   show_filter: React.PropTypes.bool
   filter: filterConfigProps
@@ -82,6 +83,23 @@ viewConfigProps = React.PropTypes.shape
   for_url: React.PropTypes.shape
     pathname: React.PropTypes.string.isRequired
     query: React.PropTypes.object
+
+# url helper that deals with our weird parameter serialisation
+boxSetUrlParams = (url, params...) ->
+  params = params.map((param) ->
+    fromPairs(f.map(param, (val, key) ->
+      if (key == 'list')
+        return [
+          key,
+          fromPairs(f.compact(f.map(val, (v, k) ->
+            if (f.includes(['accordion', 'filter'], k))
+              return if v == null
+              return [k, if typeof v == 'object' then JSON.stringify(v) else v]
+            [k, v])))
+        ]
+      [key, val]
+    )))
+  setUrlParams(url, params...)
 
 module.exports = React.createClass
   displayName: 'MediaResourcesBox'
@@ -120,6 +138,8 @@ module.exports = React.createClass
     modelReloading: false
 
   }
+
+  _currentUrl: () -> boxSetUrlParams(@props.get.config.for_url)
 
   _allowedLayoutModes: () ->
     [
@@ -228,14 +248,9 @@ module.exports = React.createClass
 
   _onFilterChange: (event, newParams)->
     event.preventDefault() if event && f.isFunction(event.preventDefault)
-    params = currentParams = {list: f.omit(@state.config, 'for_url')}
 
-    params = f.merge(params,
-      {list: {page: 1}}) # make sure that the new result starts on page 1
-
-    params.list.accordion = JSON.stringify(newParams.list.accordion)
-    params.list.filter = JSON.stringify(newParams.list.filter)
-    newLocation = setUrlParams(@props.for_url, params)
+    # make sure that the new result starts on page 1
+    newLocation = boxSetUrlParams(@_currentUrl(), newParams, {list: {page: 1}})
     window.location = newLocation # SYNC!
 
   _onFilterToggle: (event)->
@@ -255,7 +270,7 @@ module.exports = React.createClass
       }
     )
 
-  _onAccordion: (event)->
+  _onSideFilterChange: (event)->
     @_onFilterChange(event,
       {list: {
         filter: event.current
@@ -272,10 +287,6 @@ module.exports = React.createClass
 
   _onHoverMenu: (menu_id, event) ->
     @setState(hoverMenuId: menu_id)
-
-  _currentUrl: () ->
-    setUrlParams(@props.get.config.for_url)
-
 
   _sharedOnBatch: (resources, event, path) ->
     event.preventDefault()
@@ -410,18 +421,10 @@ module.exports = React.createClass
         list: filter: config.filter,
         accordion: config.accordion
       })
-    currentUrl = setUrlParams(config.for_url, currentQuery)
+    currentUrl = boxSetUrlParams(@_currentUrl(), currentQuery)
 
     resetFilterHref =
-      setUrlParams(config.for_url,
-        f.merge(currentQuery, {
-          list: {
-            page: 1
-            filter: JSON.stringify({})
-            accordion: JSON.stringify({})
-          }
-        })
-      )
+      boxSetUrlParams(currentUrl, {list: {page: 1, filter: {}, accordion: {}}})
 
     resetFilterLink = if resetFilterHref
       if f.present(config.filter) or f.present(config.accordion)
@@ -434,7 +437,7 @@ module.exports = React.createClass
       isClient = @state.isClient
 
       layouts = @_allowedLayoutModes().map (layoutMode) =>
-        href = setUrlParams(for_url, currentQuery, list: layout: layoutMode.mode)
+        href = boxSetUrlParams(for_url, currentQuery, {list: {layout: layoutMode.mode}})
         f.merge layoutMode,
           mods: {'active': layoutMode.mode == layout}
           href: href
@@ -455,22 +458,22 @@ module.exports = React.createClass
         {
           label: t('collection_sorting_created_at_asc')
           key: 'created_at ASC'
-          href: setUrlParams(for_url, currentQuery, list: order: 'created_at ASC')
+          href: boxSetUrlParams(for_url, currentQuery, list: order: 'created_at ASC')
         },
         {
           label: t('collection_sorting_created_at_desc')
           key: 'created_at DESC'
-          href: setUrlParams(for_url, currentQuery, list: order: 'created_at DESC')
+          href: boxSetUrlParams(for_url, currentQuery, list: order: 'created_at DESC')
         },
         {
           label: t('collection_sorting_title_asc')
           key: 'title ASC'
-          href: setUrlParams(for_url, currentQuery, list: order: 'title ASC')
+          href: boxSetUrlParams(for_url, currentQuery, list: order: 'title ASC')
         },
         {
           label: t('collection_sorting_last_change')
           key: 'last_change'
-          href: setUrlParams(for_url, currentQuery, list: order: 'last_change')
+          href: boxSetUrlParams(for_url, currentQuery, list: order: 'last_change')
         }
       ]
 
@@ -565,8 +568,8 @@ module.exports = React.createClass
         </label>
 
 
-      filterToggleLink = setUrlParams(config.for_url, currentQuery,
-        list: show_filter: (not config.show_filter))
+      filterToggleLink = boxSetUrlParams(
+        currentUrl, {list: {show_filter: (not config.show_filter)}})
 
       filterBarProps =
         left: if get.can_filter then do =>
@@ -611,9 +614,11 @@ module.exports = React.createClass
               </form>
             </div>
             {if (f.isArray(dynamic_filters) and f.present(f.isArray(dynamic_filters)))
-              <SideFilter dynamic={dynamic_filters} current={config.filter or {}}
-                accordion={config.accordion or {}} onChange={@_onAccordion}
-                url={config.for_url} query={currentQuery}/>
+              <SideFilter
+                dynamic={dynamic_filters}
+                current={config.filter or {}}
+                accordion={config.accordion or {}}
+                onChange={@_onSideFilterChange}/>
             }
           </div>
         }
@@ -646,9 +651,9 @@ module.exports = React.createClass
             href: currentUrl
             onClick: @_handleChangeInternally
           prev: if pagination.prev
-            href: setUrlParams(config.for_url, currentQuery, list: pagination.prev)
+            href: boxSetUrlParams(currentUrl, list: pagination.prev)
           next: if pagination.next
-            href: setUrlParams(config.for_url, currentQuery, list: pagination.next)
+            href: boxSetUrlParams(currentUrl, list: pagination.next)
 
         <div className='no-js'>
           <ActionsBar>
@@ -764,6 +769,8 @@ module.exports = React.createClass
 
     </div>
 
+# export helper
+module.exports.boxSetUrlParams = boxSetUrlParams
 # Partials and UI-Components only used here:
 
 PageCounter = ({href, page, total} = @props)->

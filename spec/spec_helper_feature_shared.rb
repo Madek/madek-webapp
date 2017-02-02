@@ -11,6 +11,13 @@
 # Favor clearness, and simplicity instead of dryness!
 #
 
+# run a block containing an async navigation action. will wait until URL changed.
+def async_nav(wait_seconds = 15, &block)
+  previous_url = current_url
+  yield(block)
+  wait_until(wait_seconds) { previous_url != current_url }
+end
+
 def click_on_tab(text)
   find('.app-body .ui-tabs').find('a', text: text).click
 end

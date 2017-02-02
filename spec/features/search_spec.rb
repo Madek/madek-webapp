@@ -48,24 +48,23 @@ feature 'Page: Search' do
       within('.filter-panel') do
         find('a', text: 'Credits').click
         find('a', text: 'Copyright-Status').click
-        find('a', text: 'Urheberrechtlich geschützt').click
-        wait_until do
-          expect(current_path_with_query).to include 'copyright%3Alicense'
+        async_nav do
+          find('a', text: 'Urheberrechtlich geschützt').click
         end
       end
 
       # switching still works
       go_to_sets
-      wait_until do
-        entries_results_url = current_path_with_query
-        expect(entries_results_url).to eq(
-          '/sets?list%5Bfilter%5D=%7B%22search%22%3A%22design%22%7D' \
-          '&list%5Bshow_filter%5D=true&list%5Bpage%5D=1&list%5Bper_page%5D=12' \
-          '&list%5Border%5D=created_at%20DESC&list%5Blayout%5D=grid')
-      end
-      go_back_to_entries
-    end
+      expect(current_path_with_query).to eq(
+        '/sets?list%5Bfilter%5D=%7B%22search%22%3A%22design%22%7D' \
+        '&list%5Bshow_filter%5D=true&list%5Bpage%5D=1')
 
+      # layout toggle still works
+      async_nav do
+        find('.ui-polybox .ui-toolbar-controls .icon-vis-pins').click
+      end
+      expect(find('.ui-polybox .ui-resources.tiles .ui-tile.ui-tile--set')).to be
+    end
   end
 
 end
