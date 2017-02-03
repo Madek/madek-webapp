@@ -1,0 +1,23 @@
+-# docs: <https://dev.twitter.com/cards/>
+-# tldr: we just need to choose a type, other attributes will be used from OpenGraph
+
+:ruby
+  twitter_cards_site = Madek::Constants::Webapp::TWITTER_CARDS_SITE
+  return unless twitter_cards_site.present?
+
+  images = @get.media_file.try(:previews).try(:[], :images).try(:values)
+
+  twitter_card_type = if images.any?
+                        'summary_large_image'
+                      else
+                        'summary'
+                      end
+
+  tags = [
+    ['twitter:card', twitter_card_type],
+    ['twitter:site', twitter_cards_site]
+  ]
+
+- content_for(:head) do
+  - tags.map do |key, val|
+    = tag('meta', name: key, content: val) if val.present?

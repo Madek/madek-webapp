@@ -1,0 +1,48 @@
+-# <http://opengraphprotocol.org> Metadata and Media (Previews)
+
+:ruby
+  def full_url(url)
+    URI.parse(request.base_url).merge(url).tap {|u| u.scheme = 'https'}.to_s
+  end
+
+  md = @get.meta_data.try(:by_vocabulary).try(:map, &:meta_data).try(:flatten)
+    .try(:map) {|md| [md.meta_key_id, md]}.to_h
+
+  def get_md(meta_data, key)
+    meta_data[key].try(:values).try(:first)
+  end
+
+  # should be short, so we prefer the core subtitle
+  summary = get_md(md, 'madek_core:subtitle') || get_md(md, 'madek_core:description')
+
+  tags = [
+    ['og:type', 'article'],
+    ['og:locale', 'de_DE'],
+    ['og:site_name', settings.site_title],
+    ['og:url', full_url(@get.url)], # canonical url!
+    ['og:title', get_md(md, 'madek_core:title')],
+    ['og:description', summary]
+  ];
+
+  ['image', 'audio', 'video'].each do |type|
+    previews = @get.media_file.try(:previews).try(:[], type.pluralize.to_sym)
+    previews = previews.try(:values) unless previews.is_a?(Array)
+
+    # FIXME: when image sizes availabel [put smaller ones first (client: Telegram)]
+    # previews = previews.try(:reverse)
+
+    previews
+      .try(:uniq) {|p| p.url } # per configured sizes, may contain duplicates
+      .try(:each) do |p|
+        tags.push ["og:#{type}", full_url(p.url)]
+        tags.push ["og:#{type}:type", p.content_type]
+        if type == 'video' # real sizes not supported for other preview types
+          tags.push ["og:#{type}:width", p.width]
+          tags.push ["og:#{type}:height", p.height]
+        end
+      end
+    end
+
+- content_for(:head) do
+  - tags.map do |key, val|
+    = tag('meta', property: key, content: val) if val.present?

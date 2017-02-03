@@ -32,6 +32,10 @@ module Madek
       #     api_endpoint: 'https://madek.example.com/oembed'
       # }]
 
+      webapp_embeds = Settings.webapp_embeds || {}
+      ENABLE_OPENGRAPH = webapp_embeds[:enable_opengraph]
+      TWITTER_CARDS_SITE = webapp_embeds[:twitter_cards_site]
+
       VERIFY_AUTH_SKIP_CONTROLLERS = \
         [ConfigurationManagementBackdoorController,
          ErrorsController,

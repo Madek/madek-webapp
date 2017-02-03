@@ -1,4 +1,6 @@
 :ruby
+  return unless Madek::Constants::Webapp::ENABLE_OPENGRAPH
+
   # only for supported types
   return unless Madek::Constants::Webapp::EMBED_SUPPORTED_MEDIA.include?(@get.media_type)
 
