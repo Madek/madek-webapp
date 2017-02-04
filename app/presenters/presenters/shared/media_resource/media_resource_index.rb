@@ -16,12 +16,6 @@ module Presenters
           Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
         end
 
-        # def large_image
-        #   binding.pry
-        #   return unless @load_meta_data
-        #   media_file.previews[images.large.url || image_url
-        # end
-
         private
 
         def create_presenter(resources)

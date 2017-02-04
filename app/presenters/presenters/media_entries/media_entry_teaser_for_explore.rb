@@ -3,29 +3,28 @@ module Presenters
     class MediaEntryTeaserForExplore < Presenters::Shared::AppResource
       def initialize(media_entry)
         super(media_entry)
-        @media_file = \
-          if @app_resource.try(:media_file).present?
-            Presenters::MediaFiles::MediaFile.new(@app_resource, @user)
-          end
-        @p_media_entry =
-          Presenters::MediaEntries::PresMediaEntry.new(@app_resource)
       end
 
       def title
-        @p_media_entry.title
+        # PERF: try to get title from model
+        @app_resource.title \
+          || Presenters::MediaEntries::PresMediaEntry.new(@app_resource).title
       end
 
       def authors_pretty
-        authors = @app_resource.meta_data.find_by(
-          meta_key_id: 'madek_core:authors')
+        authors = @app_resource.meta_data
+          .find_by(meta_key_id: 'madek_core:authors')
         authors ? authors.value.map(&:to_s).join(', ') : ''
       end
 
       def image_url
         size = :large
-        img = @media_file.try(:previews)
-          .try(:fetch, :images, nil)
-          .try(:fetch, size, nil)
+        imgs = \
+          if @app_resource.try(:media_file).present?
+            Presenters::MediaFiles::MediaFile.new(@app_resource, @user)
+              .try(:previews).try(:fetch, :images, nil)
+          end
+        img = imgs.try(:fetch, size, nil) || imgs.try(:values).try(:first)
         img.url if img.present?
       end
 

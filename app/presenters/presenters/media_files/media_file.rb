@@ -20,13 +20,23 @@ module Presenters
 
       # NOTE: always returns PreviewPresenters, for non-images an Array of them
       def previews
-        @previews ||= {
-          images: THUMBNAIL_SIZES.keys.map do |size|
-            [size, get_image_by(size: size)]
-          end.to_h.compact,
+        @_previews ||= {
+          images: image_previews,
           audios: get_previews_by_type('audio'),
           videos: get_previews_by_type('video')
         }.compact.presence
+      end
+
+      def image_previews
+        return @image_previews if @image_previews.present?
+
+        # HACK: only return *large* previews from video (for consistent frames)
+        img_sizes = \
+          @app_resource.media_type == 'video' ? [:large] : THUMBNAIL_SIZES.keys
+
+        @image_previews ||= img_sizes.map do |size|
+          [size, get_image_by(size: size)]
+        end.to_h.compact
       end
 
       def original_file_url
@@ -39,8 +49,6 @@ module Presenters
       end
 
       def get_image_by(size:)
-        # HACK: only return *large* previews from video (for consistent frames)
-        size = :large if (@app_resource.media_type == 'video')
         # NOTE: optimize/memo
         @image_previews ||= @app_resource.previews.where(media_type: :image)
         get_image_preview(@image_previews, size)
@@ -102,7 +110,7 @@ module Presenters
       end
 
       def calc_30_percent_position(list) # NOTE: extracted bc. `flog` hates math
-        list[(list.length.to_f / 10 * 3).to_i]
+        list[(list.length.to_f / 10 * 3.0).ceil]
       end
 
       def latest_zencoder_job

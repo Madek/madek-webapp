@@ -6,9 +6,9 @@ module Presenters
 
       def image_url
         size = :medium
-        img = self.media_file.try(:previews)
+        imgs = self.media_file.try(:previews)
           .try(:fetch, :images, nil)
-          .try(:fetch, size, nil)
+        img = imgs.try(:fetch, size, nil) || imgs.try(:values).try(:first)
         img.url if img.present?
       end
 

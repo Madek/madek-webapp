@@ -12,10 +12,10 @@ class CollectionThumbUrl
     cover_media_entry = _choose_media_entry_for_preview
     preview = \
       if cover_media_entry.try(:media_file).present?
-        Presenters::MediaFiles::MediaFile.new(cover_media_entry, @user)
-        .previews
-        .try(:fetch, :images, nil)
-        .try(:fetch, size, nil)
+        images = Presenters::MediaFiles::MediaFile.new(cover_media_entry, @user)
+          .try(:image_previews)
+
+        images.try(:fetch, size, nil) || images.try(:values).try(:first)
       end
     preview.url if preview.present?
   end
