@@ -633,9 +633,9 @@ module.exports = React.createClass
         isLoading = @state.loadingNextPage
         <div className='ui-actions'>
           {if !@isLoading
-            # NOTE: offset means trigger when next page is still way *down*!
+            # NOTE: offset means trigger load when page is still *5 screens down*!
             # NOTE: set "random" key to force evaluation on every rerender
-            <Waypoint onEnter={@_onFetchNextPage} bottomOffset='-90%' key={(new Date()).getTime()}/>}
+            <Waypoint onEnter={@_onFetchNextPage} bottomOffset='-500%' key={(new Date()).getTime()}/>}
           <Button onClick={@_onFetchNextPage}>
             {if !isLoading
               t('pagination_nav_loadnext')
