@@ -6,6 +6,7 @@
 */
 
 @import '../../../node_modules/video.js/dist/video-js';
+//= depend_on_asset '../../../node_modules/video.js/dist/video-js'
 
 // default sizing:
 .video-js { width: 300px; height: 150px; }
