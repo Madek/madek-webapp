@@ -50,11 +50,9 @@ class ExploreController < ApplicationController
                                                               current_user)
 
     if media_entry
-      preview = media_entry.media_file.preview(preview_size_param)
-      redirect_to preview_path(preview)
-    else
-      fail 'Searched image for Keyword that has none, this should not happen!'
+      redirect_to_preview(media_entry, size_param) and return
     end
+    fail 'Searched image for Keyword that has none, this should not happen!'
   end
 
   # 1st level: thumbnails for keys
@@ -76,11 +74,9 @@ class ExploreController < ApplicationController
       keyword.id, current_user)
 
     if media_entry
-      preview = media_entry.media_file.preview(preview_size_param)
-      redirect_to preview_path(preview)
-    else
-      fail 'Searched image for Keyword that has none, this should not happen!'
+      redirect_to_preview(media_entry, size_param) and return
     end
+    fail 'Searched image for Keyword that has none, this should not happen!'
   end
 
   private
@@ -94,8 +90,16 @@ class ExploreController < ApplicationController
            'ON meta_data.id = meta_data_keywords.meta_datum_id')
     .where(meta_data_keywords: { keyword_id: keyword_id })
     .where(previews: { media_type: 'image' })
-    .reorder('media_entries.created_at DESC')
-    .first
+    .reorder('media_entries.meta_data_updated_at DESC')
+    .limit(24)
+    .sample
+  end
+
+  def redirect_to_preview(media_entry, size)
+    imgs = Presenters::MediaFiles::MediaFile.new(media_entry, current_user)
+      .try(:previews).try(:[], :images)
+    img = imgs.try(:fetch, size, nil) || imgs.try(:values).try(:first)
+    redirect_to(img.url)
   end
 
   def keyword_id_param
@@ -111,7 +115,7 @@ class ExploreController < ApplicationController
     end
   end
 
-  def preview_size_param
+  def size_param
     params.require(:preview_size)
   end
 

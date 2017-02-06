@@ -142,11 +142,18 @@ feature 'Page: Explore' do
           end
         end
 
-        it 'shows the proper thumbnail (preview \'image\') for the newest entry' do
-          visit catalog_key_thumb_path(@context_key, :medium, limit: 24)
-          preview = \
-            @media_entry_with_image.media_file.previews.find_by(thumbnail: :medium)
-          expect(current_path).to be == preview_path(preview)
+        it 'shows random thumbnail (preview \'image\') from the latest entries' do
+          # NOTE: check 12 results + should have more than 1 uniq results
+          thumbs = 12.times.map do
+            visit catalog_key_thumb_path(@context_key, :medium, limit: 24)
+            current_path
+          end
+
+          thumbs.each do |url|
+            me = media_entry_from_preview_path_url(url)
+            expect(me.meta_data.find_by!(meta_key: @context_key.meta_key)).to be
+          end
+          expect(thumbs.uniq.length).to be >= 2
         end
       end
 
@@ -158,11 +165,19 @@ feature 'Page: Explore' do
           end
         end
 
-        it 'shows the proper thumbnail (preview \'image\') for the newest entry' do
-          visit catalog_key_item_thumb_path(@keyword, :medium)
-          preview = \
-            @media_entry_with_image.media_file.previews.find_by(thumbnail: :medium)
-          expect(current_path).to be == preview_path(preview)
+        it 'shows random thumbnail (preview \'image\') from the latest entries' do
+          # NOTE: check 12 results + should have more than 1 uniq results
+          thumbs = 12.times.map do
+            visit catalog_key_item_thumb_path(@keyword, :medium)
+            current_path
+          end
+
+          thumbs.each do |url|
+            me = media_entry_from_preview_path_url(url)
+            expect(me.meta_data.find_by!(meta_key: @keyword.meta_key).keywords)
+              .to include @keyword
+          end
+          expect(thumbs.uniq.length).to be >= 2
         end
       end
     end
@@ -294,4 +309,9 @@ feature 'Page: Explore' do
 
   end
 
+end
+
+def media_entry_from_preview_path_url(url)
+  preview = Preview.find(Rails.application.routes.recognize_path(url)[:id])
+  MediaEntry.find_by_id(preview.media_file.media_entry_id)
 end

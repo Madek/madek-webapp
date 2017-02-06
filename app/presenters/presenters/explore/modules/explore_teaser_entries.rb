@@ -9,10 +9,9 @@ module Presenters
           teaser = Collection.find_by_id(@settings.teaser_set_id)
           return [] unless teaser
 
-          authorized_entries = \
-            auth_policy_scope(@user, teaser.media_entries).limit(20)
-
-          authorized_entries.map { |entry| entry_presenter.new(entry) }
+          auth_policy_scope(@user, teaser.media_entries)
+            .sample(20)
+            .map { |entry| entry_presenter.new(entry) }
         end
 
       end
