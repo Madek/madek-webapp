@@ -15,6 +15,11 @@ module Presenters
                id: @app_resource
         end
 
+        def resource_url
+          send "#{@app_resource.class.model_name.singular}_path",
+               id: @app_resource
+        end
+
         def current_user_permissions
           if @user # not public_user
             @app_resource.permission_types_for_user(@user)

@@ -552,7 +552,7 @@ feature 'manage custom urls' do
   def check_uuid_resource_page(resource)
     wait_until do
       expected = send("#{resource.class.name.underscore}_path", resource)
-      expect(current_path).to eq(expected)
+      current_path == expected
     end
   end
 
@@ -561,7 +561,7 @@ feature 'manage custom urls' do
       expected = send(
         "edit_custom_urls_#{resource.class.name.underscore}_path",
         resource)
-      expect(current_path).to eq(expected)
+      current_path == expected
     end
   end
 
@@ -571,7 +571,7 @@ feature 'manage custom urls' do
       expected =
         "/#{base[resource.class]}" \
         "/#{address_name}/custom_urls"
-      expect(current_path).to eq(expected)
+      current_path == expected
     end
   end
 
@@ -580,7 +580,7 @@ feature 'manage custom urls' do
       expected = send(
         "custom_urls_#{resource.class.name.underscore}_path",
         resource)
-      expect(current_path).to eq(expected)
+      current_path == expected
     end
   end
 

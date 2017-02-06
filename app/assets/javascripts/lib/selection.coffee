@@ -39,6 +39,12 @@ toExport =
         @selection = []
         callback()
 
+      first: () ->
+        if @length() < 1
+          null
+        else
+          @selection[0]
+
       length: () ->
         f.size(@selection)
 
