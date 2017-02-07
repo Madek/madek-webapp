@@ -16,12 +16,14 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
     managePermissionsSets: true if !disablePermissionsEdit && selection
     save: true if isClient and saveable
     removeFromSet: true if selection && f.present(collectionData)
+    transferResponsibility: true if !disablePermissionsEdit && selection
+    transferResponsibilitySets: true if !disablePermissionsEdit && selection
   }
 
   return unless f.any(f.values(showActions))
 
-  createHoverActionItem = (onClick, hoverId, count, icon, textKey) ->
-    <MenuItem onClick={onClick}
+  createHoverActionItem = (enableEntryByOnClick, hoverId, count, icon, textKey) ->
+    <MenuItem onClick={enableEntryByOnClick}
       onMouseEnter={f.curry(callbacks.onHoverMenu)(hoverId)} onMouseLeave={f.curry(callbacks.onHoverMenu)(null)}>
       <Icon i={icon} mods="ui-drop-icon"
       /> <span className="ui-count">
@@ -53,6 +55,7 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
             'resources_box_batch_actions_removefromset')}
 
         {if showActions.edit
+          # TODO if selection most likely not needed, should be already included in the if condition.
           batchEditables = SelectionScope.batchMetaDataResources(selection, ['MediaEntry']) if selection
           createHoverActionItem(
             if f.present(batchEditables) then f.curry(callbacks.onBatchEdit)(batchEditables),
@@ -62,6 +65,7 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
             'resources_box_batch_actions_edit')}
 
         {if showActions.editSets
+          # TODO if selection most likely not needed, should be already included in the if condition.
           batchSetEditables = SelectionScope.batchMetaDataResources(selection, ['Collection']) if selection
           createHoverActionItem(
             if f.present(batchSetEditables) then f.curry(callbacks.onBatchEditSets)(batchSetEditables),
@@ -71,6 +75,7 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
             'resources_box_batch_actions_edit_sets')}
 
         {if showActions.managePermissions
+          # TODO if selection most likely not needed, should be already included in the if condition.
           batchPermissionEditables = SelectionScope.batchPermissionResources(selection, ['MediaEntry']) if selection
           createHoverActionItem(
             if f.present(batchPermissionEditables) then f.curry(callbacks.onBatchPermissionsEdit)(batchPermissionEditables),
@@ -80,6 +85,7 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
             'resources_box_batch_actions_managepermissions')}
 
         {if showActions.managePermissionsSets
+          # TODO if selection most likely not needed, should be already included in the if condition.
           batchPermissionSetsEditables = SelectionScope.batchPermissionResources(selection, ['Collection']) if selection
           createHoverActionItem(
             if f.present(batchPermissionSetsEditables) then f.curry(callbacks.onBatchPermissionsSetsEdit)(batchPermissionSetsEditables),
@@ -87,6 +93,28 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
             batchPermissionSetsEditables.length,
             'lock',
             'resources_box_batch_actions_sets_managepermissions')}
+
+        {if showActions.transferResponsibility
+          # TODO if selection most likely not needed, should be already included in the if condition.
+          batchTransferResponsibilityEditables = SelectionScope.batchTransferResponsibilityResources(selection, ['MediaEntry']) if selection
+          createHoverActionItem(
+            if f.present(batchTransferResponsibilityEditables) then f.curry(callbacks.onBatchTransferResponsibilityEdit)(batchTransferResponsibilityEditables),
+            'media_entries_transfer_responsibility',
+            batchTransferResponsibilityEditables.length,
+            'user',
+            'resources_box_batch_actions_transfer_responsibility_entries')}
+
+        {if showActions.transferResponsibilitySets
+          # TODO if selection most likely not needed, should be already included in the if condition.
+          batchTransferResponsibilitySetsEditables = SelectionScope.batchTransferResponsibilityResources(selection, ['Collection']) if selection
+          createHoverActionItem(
+            if f.present(batchTransferResponsibilitySetsEditables) then f.curry(callbacks.onBatchTransferResponsibilitySetsEdit)(batchTransferResponsibilitySetsEditables),
+            'collections_transfer_responsibility',
+            batchTransferResponsibilitySetsEditables.length,
+            'user',
+            'resources_box_batch_actions_transfer_responsibility_sets')}
+
+
 
         {
           # {if showActions.save
@@ -136,6 +164,16 @@ highlightingRules = (item, isSelected) ->
     {
       hoverMenuId: 'remove_from_set'
       rule: () -> ((item.type != 'MediaEntry' and item.type != 'Collection') or not isSelected)
+    }
+    {
+      hoverMenuId: 'media_entries_transfer_responsibility'
+      rule: () -> (!SelectionScope.batchTransferResponsibilityResource(item.serialize()) or
+        (item.type != 'MediaEntry') or (not isSelected))
+    }
+    {
+      hoverMenuId: 'collections_transfer_responsibility'
+      rule: () -> (!SelectionScope.batchTransferResponsibilityResource(item.serialize()) or
+        (item.type != 'Collection') or (not isSelected))
     }
   ]
 

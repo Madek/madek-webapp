@@ -1,5 +1,107 @@
 module BatchSelectionHelper
 
+  def click_batch_action(key)
+    text_key = text_keys[key]
+    find('[data-test-id=resources_box_dropdown]')
+      .find('.ui-drop-item', text: I18n.t(text_key)).click
+  end
+
+  def check_given_highlights(expected_highlights)
+    some_text_keys = text_keys.select do |text_key|
+      true if expected_highlights[text_key]
+    end
+    check_highlights(some_text_keys, expected_highlights)
+  end
+
+  def check_all_highlights(expected_highlights)
+    check_highlights(text_keys, expected_highlights)
+  end
+
+  def check_highlights(some_text_keys, key_resources)
+    some_text_keys.each do |key, text_key|
+      find('[data-test-id=resources_box_dropdown]')
+        .find('.ui-drop-item', text: I18n.t(text_key)).hover
+
+      resources = key_resources[key]
+
+      highlighted_titles = resources.map(&:title)
+
+      find('.ui-polybox').find('.ui-resources-page-items')
+        .all('.ui-resource').each do |thumbnail|
+
+        title = thumbnail.find('.ui-thumbnail-meta-title').text
+
+        if highlighted_titles.include?(title)
+          thumbnail.assert_not_matches_selector('[style*=opacity]')
+        else
+          thumbnail.assert_matches_selector('[style*=opacity]')
+        end
+      end
+    end
+  end
+
+  def check_given_counts(expected_counts)
+    some_text_keys = text_keys.select do |text_key|
+      true if expected_counts[text_key]
+    end
+    check_counts(some_text_keys, expected_counts)
+  end
+
+  def check_all_counts(expected_counts)
+    check_counts(text_keys, expected_counts)
+  end
+
+  def check_counts(to_check, counts)
+    to_check.each do |key, text_key|
+      within '[data-test-id=resources_box_dropdown]' do
+        if counts.include?(key)
+          expect(
+            find('.ui-drop-item', text: I18n.t(text_key))
+          ).to have_css('.ui-count', text: counts[key])
+        else
+          expect(
+            find('.ui-drop-item', text: I18n.t(text_key)).find('.ui-count').text
+          ).to eq('')
+        end
+      end
+    end
+  end
+
+  def check_all_items_inactive
+    active_items = {}
+    text_keys.keys.each do |text_key|
+      active_items[text_key] = false
+    end
+    check_items_active(text_keys, active_items)
+  end
+
+  def check_all_items_active
+    active_items = {}
+    text_keys.keys.each do |text_key|
+      active_items[text_key] = true
+    end
+    check_items_active(text_keys, active_items)
+  end
+
+  def check_given_items_active(active_items)
+    some_text_keys = text_keys.select do |text_key|
+      true if active_items[text_key]
+    end
+    check_items_active(some_text_keys, active_items)
+  end
+
+  def check_items_active(some_keys, active_items)
+    some_keys.each do |key, text_key|
+      within '[data-test-id=resources_box_dropdown]' do
+        if active_items[key] == true
+          find('.ui-drop-item:not([class*=disabled])', text: I18n.t(text_key))
+        else
+          find('.ui-drop-item.disabled', text: I18n.t(text_key))
+        end
+      end
+    end
+  end
+
   def select_media_entries(media_entries)
     select_shared(MediaEntry, media_entries)
   end
@@ -60,47 +162,14 @@ module BatchSelectionHelper
       remove_from_set: :resources_box_batch_actions_removefromset,
       media_entries_metadata: :resources_box_batch_actions_edit,
       collections_metadata: :resources_box_batch_actions_edit_sets,
-      media_entries_permissions: :resources_box_batch_actions_managepermissions
+      media_entries_permissions:
+        :resources_box_batch_actions_managepermissions,
+      collections_permissions:
+        :resources_box_batch_actions_sets_managepermissions,
+      media_entries_transfer_responsibility:
+        :resources_box_batch_actions_transfer_responsibility_entries,
+      collections_transfer_responsibility:
+        :resources_box_batch_actions_transfer_responsibility_sets
     }
-  end
-
-  def all_resources
-    media_entries_1_2_3.concat(collections_1_2_3)
-  end
-
-  def mixed_1_3_1_3
-    media_entries_1_3.concat(collections_1_3)
-  end
-
-  def media_entries_1_2_3
-    [@media_entry_1, @media_entry_2, @media_entry_3]
-  end
-
-  def media_entries_1_3
-    [@media_entry_1, @media_entry_3]
-  end
-
-  def collections_1_2_3
-    [@collection_1, @collection_2, @collection_3]
-  end
-
-  def collections_1_3
-    [@collection_1, @collection_3]
-  end
-
-  def prepare_data
-    @parent_collection = create_collection('Parent Collection')
-    @collection_1 = create_collection('Collection 1')
-    @collection_2 = create_collection('Collection 2')
-    @collection_3 = create_collection('Collection 3')
-    @media_entry_1 = create_media_entry('Media Entry 1')
-    @media_entry_2 = create_media_entry('Media Entry 2')
-    @media_entry_3 = create_media_entry('Media Entry 3')
-    @collection_1.parent_collections << @parent_collection
-    @collection_2.parent_collections << @parent_collection
-    @collection_3.parent_collections << @parent_collection
-    @media_entry_1.parent_collections << @parent_collection
-    @media_entry_2.parent_collections << @parent_collection
-    @media_entry_3.parent_collections << @parent_collection
   end
 end

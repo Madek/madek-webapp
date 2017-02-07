@@ -19,6 +19,9 @@ MenuItem = Dropdown.MenuItem
 SideFilter = require('../ui-components/ResourcesBox/SideFilter.cjsx')
 BoxToolBar = require('../ui-components/ResourcesBox/BoxToolBar.cjsx')
 
+Modal = require('../ui-components/Modal.cjsx')
+EditTransferResponsibility = require('../views/Shared/EditTransferResponsibility.cjsx')
+
 # models
 MediaEntries = require('../../models/media-entries.coffee')
 Collections = require('../../models/collections.coffee')
@@ -136,6 +139,8 @@ module.exports = React.createClass
     loadingListMetadataResource: null
     loadingNextPage: false
     modelReloading: false
+    showBatchTransferResponsibility: false
+    batchTransferResponsibilityResources: []
 
   }
 
@@ -288,6 +293,19 @@ module.exports = React.createClass
   _onHoverMenu: (menu_id, event) ->
     @setState(hoverMenuId: menu_id)
 
+
+  _showBatchTransferResponsibility: (resources, event) ->
+    @setState(
+      showBatchTransferResponsibility: true,
+      batchTransferResponsibilityResources: resources
+    )
+
+  _hideBatchTransferResponsibility: () ->
+    @setState(
+      showBatchTransferResponsibility: false,
+      batchTransferResponsibilityResources: []
+    )
+
   _sharedOnBatch: (resources, event, path) ->
     event.preventDefault()
     selected = f.map(resources, 'uuid')
@@ -305,6 +323,12 @@ module.exports = React.createClass
 
   _onBatchPermissionsSetsEdit: (resources, event) ->
     @_sharedOnBatch(resources, event, '/sets/batch_edit_permissions')
+
+  _onBatchTransferResponsibilityEdit: (resources, event) ->
+    @_showBatchTransferResponsibility(resources, event)
+
+  _onBatchTransferResponsibilitySetsEdit: (resources, event) ->
+    @_showBatchTransferResponsibility(resources, event)
 
   _batchAddToSetIds: () ->
     @state.selectedResources.selection.map (model) ->
@@ -542,6 +566,8 @@ module.exports = React.createClass
           onBatchEditSets: @_onBatchEditSets
           onBatchPermissionsEdit: @_onBatchPermissionsEdit
           onBatchPermissionsSetsEdit: @_onBatchPermissionsSetsEdit
+          onBatchTransferResponsibilityEdit: @_onBatchTransferResponsibilityEdit
+          onBatchTransferResponsibilitySetsEdit: @_onBatchTransferResponsibilitySetsEdit
           # onCreateFilterSet: @_onCreateFilterSet
           onHoverMenu: @_onHoverMenu
         })
@@ -663,6 +689,28 @@ module.exports = React.createClass
 
     # component:
     <div className={boxClasses}>
+      {
+        if @state.showBatchTransferResponsibility
+
+          resource_ids = f.map(@state.batchTransferResponsibilityResources, 'uuid')
+
+          responsible_uuid = @state.batchTransferResponsibilityResources[0].responsible_user_uuid
+
+          batch_type = @state.selectedResources.first().type
+
+          <Modal widthInPixel={800}>
+            <EditTransferResponsibility
+              authToken={@props.authToken}
+              batch={true}
+              resourceType={batch_type}
+              singleResource={null}
+              batchResourceIds={resource_ids}
+              responsibleUuid={responsible_uuid}
+              onClose={@_hideBatchTransferResponsibility}
+              onSaved={() -> location.reload()} />
+          </Modal>
+      }
+
       {if withBox then boxTitleBar()}
       {if withBox then boxToolBar()}
 

@@ -34,7 +34,6 @@ module.exports = React.createClass
     values = f.map get.values, (value) ->
       value
 
-    debugger
     <InputElement
       onChange={@props.onChange}
       get={get}

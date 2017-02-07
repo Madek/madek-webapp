@@ -17,15 +17,6 @@ module.exports = React.createClass
 
   render: () ->
 
-    backdropStyle = {
-      zIndex: '2000'
-      position: 'absolute'
-      top: '0px'
-      bottom: '0px'
-      left: '0px'
-      right: '0px'
-    }
-
     if @state.active == true
       modalStyle = {
         position: 'static'
@@ -36,8 +27,6 @@ module.exports = React.createClass
       fixedStyle = {
         position: 'fixed'
         zIndex: '1000000'
-        width: '100%'
-        height: '100%'
         overflow: 'scroll'
         top: '0px'
         left: '0px'
@@ -78,7 +67,7 @@ module.exports = React.createClass
 
 
     <div style={wrapperStyle}>
-      <div className="modal-backdrop" stye={backdropStyle}></div>
+      <div className="modal-backdrop"></div>
       {
         if @props.loading
           <Preloader />

@@ -8,6 +8,8 @@ include BasicDataHelper
 
 require_relative '../shared/batch_selection_helper'
 include BatchSelectionHelper
+require_relative '../shared/batch_data_helper'
+include BatchDataHelper
 
 require_relative '../shared/context_meta_data_helper_spec'
 include ContextMetaDataHelper

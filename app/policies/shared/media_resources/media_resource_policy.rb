@@ -23,6 +23,12 @@ module Shared
         end
       end
 
+      class ResponsibilityTransferableScope < Scope
+        def resolve
+          scope.where(responsible_user: user)
+        end
+      end
+
       def new?
         logged_in?
       end
@@ -49,6 +55,11 @@ module Shared
       def destroy?
         logged_in? and record.responsible_user == user
       end
+
+      def update_transfer_responsibility?
+        logged_in? and record.responsible_user == user
+      end
+      alias_method :edit_transfer_responsibility?, :update_transfer_responsibility?
 
       def favor?
         logged_in? and visible?
