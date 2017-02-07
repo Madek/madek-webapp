@@ -1,3 +1,4 @@
+
 // custom icon font from own assets
 @import "../fonts/madek-icon-font/style";
 
@@ -17,7 +18,7 @@
 @import "../../../node_modules/font-awesome/scss/core";
 @import "../../../node_modules/font-awesome/scss/icons";
 @import "../../../node_modules/font-awesome/scss/screen-reader";
-
+//= depend_on_asset '../../../node_modules/font-awesome/scss/'
 
 // Main font: Open Sans
 @font-face {
