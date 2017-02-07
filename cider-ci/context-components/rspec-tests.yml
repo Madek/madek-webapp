@@ -4,7 +4,11 @@ include: cider-ci/context-components/rails-setup.yml
 
 task_defaults:
   environment_variables:
-    TZ: 'CET' # timezone. must be non-UTC, chosen to be local time for devs
+    # timezone. must be non-UTC, chosen to be local time for devs
+    TZ: 'CET'
+    # set screensize like Firefox Dev "Responsive Design Mode" small Laptop preset
+    XVFB_SCREEN_CONF: '1366x768x24'
+
   trial_attachments:
     screenshots:
       include_match: '^tmp\/.+\.png$'
@@ -25,6 +29,7 @@ task_defaults:
         export PATH=~/.rubies/$RUBY/bin:$PATH
         mkdir -p log
         xvfb-run -a -e log/xvfb.log \
+          -s "-ac -screen 0 $XVFB_SCREEN_CONF" \
           bundle exec rspec $CIDER_CI_TASK_FILE
 
 
