@@ -28,7 +28,7 @@ cx = ui.cx
 t = ui.t('de')
 searchResources = require('../../lib/search.coffee')
 
-initTypeahead = (domNode, resourceType, params, conf, existingValues, onSelect, onAdd)->
+initTypeahead = (domNode, resourceType, params, conf, existingValues, valueFilter, onSelect, onAdd, positionRelative)->
   {minLength, localData} = conf
   unless (searchBackend = searchResources(resourceType, params, localData))
     throw new Error "No search backend for '#{resourceType}'!"
@@ -41,7 +41,7 @@ initTypeahead = (domNode, resourceType, params, conf, existingValues, onSelect, 
       wrapper: 'ui-autocomplete-holder'
       input: 'ui-typeahead-input',
       hint: 'ui-autocomplete-hint',
-      menu: 'ui-autocomplete ui-menu ui-autocomplete-open-width',
+      menu: cx('ui-autocomplete ui-menu ui-autocomplete-open-width', {'ui-autocomplete-position-relative': positionRelative}),
       cursor: 'ui-autocomplete-cursor',
       suggestion: 'ui-menu-item'
     }
@@ -56,7 +56,7 @@ initTypeahead = (domNode, resourceType, params, conf, existingValues, onSelect, 
         line = f.get(value, searchBackend.displayKey)
 
         # wrap/set as disabled if existing value
-        if existingValues && f.includes(existingValues(), line)
+        if existingValues && f.includes(existingValues(), line) || valueFilter && valueFilter(value)
           line = '<span class="ui-autocomplete-disabled" title="' +
             + t('meta_data_input_keywords_existing') + '">' +
             line + "</span>"
@@ -101,11 +101,11 @@ module.exports = React.createClass
       minLength: PropTypes.number
 
   componentDidMount: ()->
-    {resourceType, searchParams, autoFocus, config, existingValues, onSelect, onAddValue} = @props
+    {resourceType, searchParams, autoFocus, config, existingValues, valueFilter, onSelect, onAddValue, positionRelative} = @props
     conf = f.defaults config,
       minLength: 1
     inputDOM = ReactDOM.findDOMNode(@refs.InputField)
-    initTypeahead(inputDOM, resourceType, searchParams, conf, existingValues, onSelect, onAddValue)
+    initTypeahead(inputDOM, resourceType, searchParams, conf, existingValues, valueFilter, onSelect, onAddValue, positionRelative)
     if autoFocus then @focus()
 
   focus: ()->

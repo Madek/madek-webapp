@@ -24,6 +24,8 @@ Madek::Application.routes.draw do
       patch 'favor', to: 'media_entries#favor'
       patch 'disfavor', to: 'media_entries#disfavor'
 
+      put 'transfer_responsibility', action: :update_transfer_responsibility, as: 'update_transfer_responsibility'
+
       get 'ask_delete', action: :ask_delete, as: 'ask_delete'
 
       get 'permissions'
@@ -54,6 +56,8 @@ Madek::Application.routes.draw do
       get 'batch_edit_meta_data_by_vocabularies', action: :batch_edit_meta_data_by_vocabularies, as: 'batch_edit_meta_data_by_vocabularies'
       put 'batch_meta_data', action: :batch_meta_data_update
 
+      put 'batch_update_transfer_responsibility', action: :batch_update_transfer_responsibility, as: 'batch_update_transfer_responsibility'
+
       get 'batch_edit_permissions', controller: :batch, action: :batch_edit_entry_permissions, as: 'batch_edit_permissions'
       put 'batch_update_permissions', controller: :batch, action: :batch_update_entry_permissions, as: 'batch_update_permissions'
     end
@@ -78,6 +82,8 @@ Madek::Application.routes.draw do
       patch 'favor', to: 'collections#favor'
       patch 'disfavor', to: 'collections#disfavor'
       get 'ask_delete', action: :ask_delete, as: 'ask_delete'
+
+      put 'transfer_responsibility', action: :update_transfer_responsibility, as: 'update_transfer_responsibility'
 
       get 'custom_urls', action: 'custom_urls', as: 'custom_urls'
       get 'custom_urls/edit', action: 'edit_custom_urls', as: 'edit_custom_urls'
@@ -108,6 +114,8 @@ Madek::Application.routes.draw do
       get 'batch_edit_meta_data_by_context(/:context_id)', action: :batch_edit_meta_data_by_context, as: 'batch_edit_meta_data_by_context'
       get 'batch_edit_meta_data_by_vocabularies(/:context_id)', action: :batch_edit_meta_data_by_vocabularies, as: 'batch_edit_meta_data_by_vocabularies'
       put 'batch_meta_data', action: :batch_meta_data_update
+
+      put 'batch_update_transfer_responsibility', action: :batch_update_transfer_responsibility, as: 'batch_update_transfer_responsibility'
 
       get 'batch_edit_permissions', controller: :batch, action: :batch_edit_collection_permissions, as: 'batch_edit_permissions'
       put 'batch_update_permissions', controller: :batch, action: :batch_update_collection_permissions, as: 'batch_update_permissions'

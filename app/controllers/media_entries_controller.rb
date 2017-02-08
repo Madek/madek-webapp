@@ -12,6 +12,8 @@ class MediaEntriesController < ApplicationController
   include Modules::MediaEntries::PermissionsUpdate
   include Modules::MetaDataStorage
   include Modules::Resources::ResourceCustomUrls
+  include Modules::Resources::ResourceTransferResponsibility
+  include Modules::Resources::BatchResourceTransferResponsibility
 
   # used in Concerns::ResourceListParams
   ALLOWED_FILTER_PARAMS = [:search, :meta_data, :media_files, :permissions].freeze
@@ -101,6 +103,14 @@ class MediaEntriesController < ApplicationController
   def set_primary_custom_url
     media_entry = MediaEntry.find(id_param)
     resource_set_primary_custom_url(media_entry)
+  end
+
+  def update_transfer_responsibility
+    resource_update_transfer_responsibility(current_user, MediaEntry, id_param)
+  end
+
+  def batch_update_transfer_responsibility
+    batch_resource_update_transfer_responsibility(current_user, MediaEntry)
   end
 
   def initialize_presenter(name, template)

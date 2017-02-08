@@ -9,11 +9,17 @@ ampersandReactMixin = require('ampersand-react-mixin')
 
 ResourcePermissionsForm = require('../decorators/ResourcePermissionsForm.cjsx')
 
+Modal = require('../ui-components/Modal.cjsx')
+EditTransferResponsibility = require('../views/Shared/EditTransferResponsibility.cjsx')
+
 # NOTE: used for static (server-side) rendering (state.editing = false)
 module.exports = React.createClass
   displayName: 'ResourcePermissions'
 
-  getInitialState: ()-> {editing: false, saving: false}
+  getInitialState: ()-> {editing: false, saving: false, transferModal: false}
+
+  _showTransferModal: (show, event) ->
+    @setState(transferModal: show)
 
   componentWillMount: ()->
     model = if @props.get.isState
@@ -84,22 +90,43 @@ module.exports = React.createClass
   render: ()->
     {model, editing, saving} = @state
 
-    <ResourcePermissionsForm
-      get={model} editing={editing} saving={saving}
-      onEdit={@_onStartEdit} onSubmit={@_onSubmitForm} onCancel={@_onCancelEdit}>
+    <div>
+      {
+        if @state.transferModal
+          <Modal widthInPixel={800}>
+            <EditTransferResponsibility
+              authToken={@props.authToken}
+              batch={false}
+              resourceType={@props.get.type}
+              singleResourceUrl={@props.get.resource_url}
+              batchResourceIds={null}
+              responsibleUuid={@props.get.responsible_user_uuid}
+              onClose={(event) => @_showTransferModal(false, event)}
+              onSaved={() -> location.reload()} />
+          </Modal>
+      }
 
-      <PermissionsOverview get={model}/>
 
-      <hr className='separator light mvl'/>
+      <ResourcePermissionsForm
+        get={model} editing={editing} saving={saving}
+        onEdit={@_onStartEdit} onSubmit={@_onSubmitForm} onCancel={@_onCancelEdit}>
 
-      <h3 className='title-l mbs'>{t('permissions_table_title')}</h3>
+        <PermissionsOverview get={model}
+          openTransferModal={(event) => @_showTransferModal(true, event)} />
 
-    </ResourcePermissionsForm>
+        <hr className='separator light mvl'/>
+
+        <h3 className='title-l mbs'>{t('permissions_table_title')}</h3>
+
+      </ResourcePermissionsForm>
+    </div>
 
 #
 
 PermissionsOverview = React.createClass
   mixins: [ampersandReactMixin]
+
+
   render: ()->
     {get} = @props
 
@@ -119,6 +146,13 @@ PermissionsOverview = React.createClass
               {get.responsible.name}
             </li>
           </ul>
+
+          {
+            if get.responsible.uuid == get.current_user.uuid
+              <ul className='inline'>
+                <a onClick={@props.openTransferModal}>{t('permissions_transfer_responsibility_link')}</a>
+              </ul>
+          }
         </div>
       </div>
 

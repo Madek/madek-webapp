@@ -31,6 +31,10 @@ module Presenters
           policy_for(@user).permissions_edit?
         end
 
+        def responsibility_transferable
+          policy_for(@user).edit_transfer_responsibility?
+        end
+
         included do
           def url
             prepend_url_context collection_path @app_resource

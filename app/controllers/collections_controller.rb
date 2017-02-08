@@ -12,6 +12,8 @@ class CollectionsController < ApplicationController
   include Modules::Collections::Create
   include Modules::Collections::Store
   include Modules::Resources::ResourceCustomUrls
+  include Modules::Resources::ResourceTransferResponsibility
+  include Modules::Resources::BatchResourceTransferResponsibility
 
   ALLOWED_FILTER_PARAMS = [:search].freeze
 
@@ -155,6 +157,14 @@ class CollectionsController < ApplicationController
 
   def meta_data_params
     collection_params.require(:meta_data)
+  end
+
+  def update_transfer_responsibility
+    resource_update_transfer_responsibility(current_user, Collection, id_param)
+  end
+
+  def batch_update_transfer_responsibility
+    batch_resource_update_transfer_responsibility(current_user, Collection)
   end
 
   private

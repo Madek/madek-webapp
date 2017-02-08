@@ -8,6 +8,8 @@ include BasicDataHelper
 
 require_relative '../shared/batch_selection_helper'
 include BatchSelectionHelper
+require_relative '../shared/batch_data_helper'
+include BatchDataHelper
 
 feature 'Batch linking' do
 
