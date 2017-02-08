@@ -11,12 +11,6 @@ module Modules
         authorize_batch_scope('view all resources', user, collections)
       end
 
-      def authorize_media_entries_for_batch_edit!(user, media_entries)
-        authorize_batch_scope(
-          'edit all resources', user, media_entries,
-          MediaEntryPolicy::EditableScope)
-      end
-
       def authorize_resources_for_permissions_batch_edit!(user, resources)
         authorize_batch_scope(
           'edit permissions of all resources', user, resources,

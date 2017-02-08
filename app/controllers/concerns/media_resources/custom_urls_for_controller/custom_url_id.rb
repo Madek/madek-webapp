@@ -12,6 +12,8 @@ module Concerns
           batch_select_add_to_set
           batch_edit_permissions
           batch_update_permissions
+          batch_edit_transfer_responsibility
+          batch_update_transfer_responsibility
         )
 
         def singular_model_name_id

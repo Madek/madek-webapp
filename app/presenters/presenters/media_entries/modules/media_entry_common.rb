@@ -38,6 +38,10 @@ module Presenters
           policy_for(@user).permissions_edit? && @app_resource.is_published
         end
 
+        def responsibility_transferable
+          policy_for(@user).edit_transfer_responsibility?
+        end
+
         def invalid_meta_data
           # NOTE: this is needed to determine if batch editing is allowed
           # In general, we can check for drafts if publishing is possible;
