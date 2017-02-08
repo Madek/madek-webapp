@@ -9,7 +9,7 @@ module Modules
     def shared_batch_edit_meta_data_by_context(type)
       auth_authorize type, :logged_in?
       entries = type.unscoped.where(id: entries_ids_param)
-      authorize_entries_for_batch_edit!(entries)
+      authorize_resources_for_batch_edit!(entries)
 
       @get = Presenters::MediaEntries::BatchEditContextMetaData.new(
         type,
@@ -23,7 +23,7 @@ module Modules
     def shared_batch_edit_meta_data_by_vocabularies(type)
       auth_authorize type, :logged_in?
       entries = type.unscoped.where(id: entries_ids_param)
-      authorize_entries_for_batch_edit!(entries)
+      authorize_resources_for_batch_edit!(entries)
 
       @get = Presenters::MediaEntries::BatchEditContextMetaData.new(
         type,
@@ -40,7 +40,7 @@ module Modules
       entries_ids = entries_ids_param(params.require(:batch_resource_meta_data))
 
       entries = type.unscoped.where(id: entries_ids)
-      authorize_entries_for_batch_edit!(entries)
+      authorize_resources_for_batch_edit!(entries)
 
       errors = batch_update_transaction!(entries, meta_data_params)
 
@@ -126,10 +126,10 @@ module Modules
       end
     end
 
-    def authorize_entries_for_batch_edit!(entries)
-      authorized_entries = auth_policy_scope(
-        current_user, entries, MediaResourcePolicy::EditableScope)
-      if entries.count != authorized_entries.count
+    def authorize_resources_for_batch_edit!(resources)
+      authorized_resources = auth_policy_scope(
+        current_user, resources, MediaResourcePolicy::EditableScope)
+      if resources.count != authorized_resources.count
         raise Errors::ForbiddenError, 'Not allowed to edit all resources!'
       end
     end
