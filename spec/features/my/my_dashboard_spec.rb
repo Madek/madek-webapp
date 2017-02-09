@@ -15,6 +15,10 @@ feature 'Page: My Dashboard (only logged in user)' do
     expect(page.status_code).to eq 200
   end
 
+  example 'uploader does not crash' do
+    visit '/my/upload'
+  end
+
   describe 'Dashboard Sections' do
     [
       :content_media_entries,

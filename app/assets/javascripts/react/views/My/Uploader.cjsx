@@ -71,6 +71,8 @@ module.exports = React.createClass
     boxGet =
       resources: props.appCollection,
       with_actions: true
+      config:
+        for_url: window.location.toString()
 
     show_hover = false # at the moment we never show any actions heres
 
