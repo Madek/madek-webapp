@@ -78,7 +78,7 @@
     "coffee-reactify": "^5.1.0",
     "coffee-script": "^1.12.3",
     "coffeelint": "^1.16.0",
-    "standard": "^6.0.7",
+    "standard": "^8.6.0",
     "watchify": "^3.7.0"
   },
   "browserify": {
