@@ -51,7 +51,7 @@
     "qs": "6.1.0",
     "react": "15.4.2",
     "react-bootstrap": "0.30.7",
-    "react-day-picker": "2.5.0",
+    "react-day-picker": "4.0.0",
     "react-dom": "15.4.2",
     "react-file-drop": "0.1.8",
     "react-waypoint": "3.1.3",

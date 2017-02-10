@@ -270,7 +270,7 @@ def type_switcher_id(context_key)
 end
 
 def in_the_calendar_picker
-  within('.DayPicker--de') { yield }
+  within('.DayPicker[lang="de"]') { yield }
 end
 
 def calendar_move_months(n, dir)
