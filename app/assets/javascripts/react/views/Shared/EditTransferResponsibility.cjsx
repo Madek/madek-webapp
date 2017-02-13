@@ -124,30 +124,51 @@ module.exports = React.createClass
             positionRelative={true} />
         </div>
 
-        <h2 className='title-m ui-info-box-title mtl separated light'>{t('transfer_responsibility_person_will_receive')}</h2>
-        <table className='ui-rights-group bordered'>
+        <h2 className='title-m ui-info-box-title mtl mbm separated light'>
+          {t('transfer_responsibility_person_will_receive_1')}
+          {@props.responsible.name}
+          {t('transfer_responsibility_person_will_receive_2')}
+        </h2>
+        <table className='ui-rights-group'>
           <tbody>
             <tr>
-              <td style={{textAlign: 'right'}}>
-                {t('transfer_responsibility_permission_view')} <input type='checkbox'
+              <td style={{textAlign: 'center', border: '0px'}}>
+                {t('permission_name_get_metadata_and_previews')}
+              </td>
+              {
+                if resourceType == 'MediaEntry'
+                  <td style={{textAlign: 'center', border: '0px'}}>
+                    {t('permission_name_get_full_size')}
+                  </td>
+              }
+              <td style={{textAlign: 'center', border: '0px'}}>
+                {if @props.resourceType == 'Collection' then t('permission_name_edit_metadata_and_relations') else t('permission_name_edit_metadata')}
+              </td>
+              <td style={{textAlign: 'center', border: '0px'}}>
+                {t('permission_name_edit_permissions')}
+              </td>
+            </tr>
+            <tr>
+              <td style={{textAlign: 'center', border: '0px'}}>
+                <input type='checkbox'
                   name={'transfer_responsibility[permissions][view]'}
                   checked={@state.permissionLevel >= 1} onChange={(event) => @_onToggleCheckbox(1, event)} />
               </td>
               {
                 if resourceType == 'MediaEntry'
-                  <td style={{textAlign: 'right'}}>
-                    {t('transfer_responsibility_permission_download')} <input type='checkbox'
+                  <td style={{textAlign: 'center', border: '0px'}}>
+                    <input type='checkbox'
                       name={'transfer_responsibility[permissions][download]'}
                       checked={@state.permissionLevel >= 2} onChange={(event) => @_onToggleCheckbox(2, event)} />
                   </td>
               }
-              <td style={{textAlign: 'right'}}>
-                {t('transfer_responsibility_permission_edit')} <input type='checkbox'
+              <td style={{textAlign: 'center', border: '0px'}}>
+                <input type='checkbox'
                   name={'transfer_responsibility[permissions][edit]'}
                   checked={@state.permissionLevel >= 3} onChange={(event) => @_onToggleCheckbox(3, event)} />
               </td>
-              <td style={{textAlign: 'right'}}>
-                {t('transfer_responsibility_permission_manage')} <input type='checkbox'
+              <td style={{textAlign: 'center', border: '0px'}}>
+                <input type='checkbox'
                   name={'transfer_responsibility[permissions][manage]'}
                   checked={@state.permissionLevel >= 4} onChange={(event) => @_onToggleCheckbox(4, event)} />
               </td>

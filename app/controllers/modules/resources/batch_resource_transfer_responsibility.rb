@@ -21,7 +21,22 @@ module Modules
           end
         end
 
-        transfer_responsibility_respond
+        batch_transfer_responsibility_respond(type, resources.count)
+      end
+
+      def batch_transfer_responsibility_respond(type, count)
+        underscore = type.name.underscore
+        t1 = I18n.t("transfer_responsibility_batch_success_#{underscore}_1")
+        t1a = I18n.t("transfer_responsibility_batch_success_#{underscore}_1a")
+        t1b = I18n.t("transfer_responsibility_batch_success_#{underscore}_1b")
+        t2 = I18n.t("transfer_responsibility_batch_success_#{underscore}_2")
+
+        respond_to do |format|
+          format.json do
+            flash[:success] = t1 + count.to_s + (count == 1 ? t1a : t1b) + t2
+            render(json: { result: 'success' })
+          end
+        end
       end
 
       def authorize_resources_for_batch_transfer_responsibility!(resources)

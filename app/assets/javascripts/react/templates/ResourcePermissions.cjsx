@@ -101,6 +101,7 @@ module.exports = React.createClass
               singleResourceUrl={@props.get.resource_url}
               batchResourceIds={null}
               responsibleUuid={@props.get.responsible_user_uuid}
+              responsible={@props.get.responsible}
               onClose={(event) => @_showTransferModal(false, event)}
               onSaved={() -> location.reload()} />
           </Modal>
@@ -149,8 +150,10 @@ PermissionsOverview = React.createClass
 
           {
             if get.responsible.uuid == get.current_user.uuid
-              <ul className='inline'>
-                <a onClick={@props.openTransferModal}>{t('permissions_transfer_responsibility_link')}</a>
+              <ul className='inline mts'>
+                <a className='primary-button' onClick={@props.openTransferModal}>
+                  {t('permissions_transfer_responsibility_link')}
+                </a>
               </ul>
           }
         </div>

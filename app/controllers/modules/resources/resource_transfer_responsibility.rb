@@ -18,7 +18,18 @@ module Modules
           update_permissions_resource(user, new_user, resource)
         end
 
-        transfer_responsibility_respond
+        transfer_responsibility_respond(resource.class)
+      end
+
+      def transfer_responsibility_respond(type)
+        underscore = type.name.underscore
+        respond_to do |format|
+          format.json do
+            flash[:success] = I18n.t(
+              "transfer_responsibility_success_#{underscore}")
+            render(json: { result: 'success' })
+          end
+        end
       end
     end
   end

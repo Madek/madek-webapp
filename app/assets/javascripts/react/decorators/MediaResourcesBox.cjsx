@@ -694,6 +694,7 @@ module.exports = React.createClass
           resource_ids = f.map(@state.batchTransferResponsibilityResources, 'uuid')
 
           responsible_uuid = @state.batchTransferResponsibilityResources[0].responsible_user_uuid
+          responsible = @state.batchTransferResponsibilityResources[0].responsible
 
           batch_type = @state.selectedResources.first().type
 
@@ -705,6 +706,7 @@ module.exports = React.createClass
               singleResource={null}
               batchResourceIds={resource_ids}
               responsibleUuid={responsible_uuid}
+              responsible={responsible}
               onClose={@_hideBatchTransferResponsibility}
               onSaved={() -> location.reload()} />
           </Modal>

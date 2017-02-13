@@ -1,6 +1,7 @@
 xhr = require('xhr')
 getRailsCSRFToken = require('./rails-csrf-token.coffee')
 t = require('./string-translation.js')('de')
+f = require('lodash')
 
 module.exports = (restForm, callback) ->
 
