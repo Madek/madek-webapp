@@ -46,7 +46,7 @@ module.exports = React.createClass
       # TODO: topNotice: '[topNotice]'
       moreInfo: if f.present(listContexts)
         <div className='ui-container midtone rounded-bottom pal well'>
-          <MetaDataByListing list={listContexts}/></div>
+          <MetaDataByListing list={listContexts} /></div>
 
 
     # TODO: use <AppResourceLayout…/>, fake the boxes for now:

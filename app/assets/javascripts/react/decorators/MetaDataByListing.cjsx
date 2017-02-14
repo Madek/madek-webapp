@@ -14,7 +14,7 @@ module.exports = React.createClass
     vocabLinks: React.PropTypes.bool
 
 
-  render: ({list, vocabLinks} = @props)->
+  render: ({list, vocabLinks, hideSeparator} = @props)->
 
     onlyListsWithContent = f.filter(
       list,
@@ -33,11 +33,17 @@ module.exports = React.createClass
             {row.map((data)->
               key = (data.context or data.vocabulary).uuid
               <div className='col1of4' key={key}>
-                <MetaDataList mods='prm' list={data} vocabUuid={(key if data.vocabulary)}/>
+                <MetaDataList mods='prl' list={data} vocabUuid={(key if data.vocabulary)}/>
               </div>)}
           </div>),
-        (if row isnt f.last(colums)
-          <hr key='sep' className='separator mini mvl'/>)]
+          (
+            if (row isnt f.last(colums))
+              if (not hideSeparator)
+                <hr key='sep' className='separator mini mvl'/>
+              else
+                <div className='mvl' />
+          )
+        ]
       }
 
     </div>

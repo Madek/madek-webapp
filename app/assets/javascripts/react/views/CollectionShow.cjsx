@@ -7,7 +7,6 @@ t = require('../../lib/string-translation.js')('de')
 RightsManagement = require('../templates/ResourcePermissions.cjsx')
 CollectionRelations = require('./Collection/Relations.cjsx')
 RelationResources = require('./Collection/RelationResources.cjsx')
-CollectionMetadata = require('./Collection/Metadata.cjsx')
 PageContentHeader = require('./PageContentHeader.cjsx')
 Tabs = require('./Tabs.cjsx')
 Tab = require('./Tab.cjsx')
@@ -165,10 +164,9 @@ module.exports = React.createClass
           when 'more_data'
             <TabContent testId={contentTestId('more_data')}>
               <div className="bright pal rounded-bottom rounded-top-right ui-container">
-                <div className='col2of3'>
-                  <div className="ui-container plm">
-                    <MetaDataByListing list={get.all_meta_data} vocabLinks />
-                  </div>
+                <div className="ui-container">
+                  <h3 className='title-l mbl'>{t('media_entry_all_metadata_title')}</h3>
+                  <MetaDataByListing list={get.all_meta_data} vocabLinks hideSeparator />
                 </div>
               </div>
             </TabContent>
