@@ -7,6 +7,8 @@ module VocabularyShared
   def check_tabs(tabs)
     within('.app-body-ui-container') do
 
+      expect(page).to have_selector('.ui-tabs-item', count: tabs.length)
+
       tabs.each do |tab|
         element = find('.ui-tabs-item', text: I18n.t(tab[:key]))
 

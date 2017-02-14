@@ -13,25 +13,27 @@ parseUrl = require('url').parse
 parseUrlState = (location) ->
   parseUrl(location).pathname
 
-tabsConfig = (actions) ->
-  [
-    {
-      path: actions.vocabulary,
-      label: t('vocabularies_tabs_vocabulary')
-    },
-    {
-      path: actions.vocabulary_keywords,
-      label: t('vocabularies_tabs_keywords')
-    },
-    {
-      path: actions.vocabulary_contents,
-      label: t('vocabularies_tabs_contents')
-    }
-  ]
-
-
 module.exports = React.createClass
   displayName: 'VocabularyPage'
+
+  _tabsConfig: (actions) ->
+    [
+      {
+        visible: true
+        path: actions.vocabulary,
+        label: t('vocabularies_tabs_vocabulary')
+      },
+      {
+        visible: @props.page.show_keywords,
+        path: actions.vocabulary_keywords,
+        label: t('vocabularies_tabs_keywords')
+      },
+      {
+        visible: true
+        path: actions.vocabulary_contents,
+        label: t('vocabularies_tabs_contents')
+      }
+    ]
 
   render: ({page, for_url} = @props) ->
     {label} = page.vocabulary
@@ -48,10 +50,12 @@ module.exports = React.createClass
 
       <Tabs>
         {
-          f.map tabsConfig(actions), (tab) ->
-            <Tab label={tab.label}
-              href={tab.path} key={'tab_' + tab.path}
-              active={tab.path == currentPath} />
+          f.map @_tabsConfig(actions), (tab) ->
+
+            if tab.visible || tab.path == currentPath
+              <Tab label={tab.label}
+                href={tab.path} key={'tab_' + tab.path}
+                active={tab.path == currentPath} />
         }
       </Tabs>
 

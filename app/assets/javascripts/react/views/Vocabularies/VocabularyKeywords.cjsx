@@ -20,11 +20,21 @@ MetakeyItem = ({meta_key, keywords}) ->
       {meta_key.label}
       <small className='title-xs-alt mlx'>(a-z)</small>
     </h3>
-    <ul className='ui-tag-cloud small ellipsed compact'>
-      {f.map keywords, (kw) ->
-        <KeywordItem {...kw} key={kw.uuid}/>
-      }
-    </ul>
+
+    {
+      if f.size(keywords) > 0 
+        <ul className='ui-tag-cloud small ellipsed compact'>
+          {f.map keywords, (kw) ->
+            <KeywordItem {...kw} key={kw.uuid}/>
+          }
+        </ul>
+      else
+        <div>
+          {t('vocabularies_no_keywords')}
+        </div>
+
+    }
+
   </div>
 
 KeywordItem = ({uuid, label, url}) ->
