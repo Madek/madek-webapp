@@ -254,7 +254,7 @@ UserIndex = React.createClass
 GroupIndex = React.createClass
   render: ()->
     # TODO: group icon?
-    <span>{@props.get.name}</span>
+    <span>{@props.get.detailed_name}</span>
 
 ApiClientIndex = React.createClass
   render: ()-> <span>{@props.get.login}</span>
