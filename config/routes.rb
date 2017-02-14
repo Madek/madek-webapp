@@ -139,11 +139,16 @@ Madek::Application.routes.draw do
   # # For MetaKeys and their related Keywords they are needed for RDF and friends:
   # # both attributes (MKs) and specified values (Ks) are referenced as IRIs,
   # # and as a web application it is most appropriate to use a (working) URL.
+  # # ORDER MATTERS!!!
   get 'vocabulary', to: 'vocabularies#index', as: 'vocabularies'
+
+  # routes for terms! careful, we want to support ANY STRING as last route part
+  get 'vocabulary/:meta_key_id/terms/*term', constraints: { meta_key_id: /.*:[^:\/]*/ },
+    to: 'keywords#show', as: 'vocabulary_meta_key_term', format: false
+
   # redirect /vocabulary/{meta_key} to their anchor in the vocabulary metakeys list:
   get 'vocabulary/:meta_key_id', constraints: { meta_key_id: /.*:[^:\/]*/ },
     to: redirect{ |p| v, m = p[:meta_key_id].split(':'); "/vocabulary/#{v}##{m}" }
-  get 'vocabulary/:meta_key_id/terms/*term', to: 'keywords#show', as: 'vocabulary_meta_key_term', format: false
   get 'vocabulary/:vocabulary_id', to: 'vocabularies#show', as: 'vocabulary'
   get 'vocabulary/:vocab_id/keywords', to: 'vocabularies#keywords', as: 'vocabulary_keywords'
   get 'vocabulary/:vocab_id/contents', to: 'vocabularies#contents', as: 'vocabulary_contents'

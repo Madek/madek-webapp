@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'spec_helper_shared'
 
 describe KeywordsController do
   let(:user) { FactoryGirl.create :user }
@@ -11,27 +12,8 @@ describe KeywordsController do
     example \
       'Action: show *by `meta_key` and `term`* – redirects to filtered index' do
       keyword = FactoryGirl.create :keyword, meta_key: meta_key
-
       get :show, { term: keyword.term, meta_key_id: meta_key }, user_id: user.id
-
-      expect(response).to redirect_to('http://test.host/entries?' + {
-        list: {
-          filter: JSON.generate(
-            meta_data: [{
-              key: meta_key.id,
-              value: keyword.id,
-              type: 'MetaDatum::Keywords' }]),
-          show_filter: true }
-      }.to_query)
-    end
-
-    example 'show route works with special characters in terms' do
-      terms = ['01.01.2011', 'http://example.com/foo?bar', '~~😎~~']
-      terms.each do |t|
-        FactoryGirl.create :keyword, meta_key: meta_key, term: t
-        get :show, term: t, meta_key_id: meta_key
-        expect(response.status).to be 302
-      end
+      expect(response).to redirect_to(filter_by_keyword_path(keyword))
     end
 
     it 'action show responds with 403 if user not authorized' do
