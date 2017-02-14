@@ -41,6 +41,10 @@ module Shared
         visible?
       end
 
+      def usage_data?
+        show? and logged_in?
+      end
+
       def update?
         logged_in? and record.editable_by_user?(user)
       end

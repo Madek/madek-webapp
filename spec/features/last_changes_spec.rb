@@ -95,28 +95,31 @@ def click_save
 end
 
 def check_title
-  find('.tab-content').find('.title-l', text: I18n.t(:resource_last_changes))
+  find('.tab-content').find(
+    '.title-l', text: I18n.t(:usage_data_last_changes_title))
 end
 
 def check_count(count)
-  entries = find('.title-l', text: I18n.t(:resource_last_changes))
+  entries = find('.title-l', text: I18n.t(:usage_data_last_changes_title))
     .find(:xpath, './..')
     .all('.ui-summary-content')
   expect(entries.length).to eq(count)
 end
 
 def check_entry
-  find('.title-l', text: I18n.t(:resource_last_changes))
+  find('.tab-content')
+    .find('.title-l', text: I18n.t(:usage_data_last_changes_title))
     .find(:xpath, './..')
     .find('.ui-summary-content', text: @user.person.to_s)
 end
 
 def check_not_shown
-  expect(page).to have_no_css('.title-l', text: I18n.t(:resource_last_changes))
+  expect(page).to have_no_css(
+    '.title-l', text: I18n.t(:usage_data_last_changes_title))
 end
 
 def check_empty
-  find('.tab-content', text: I18n.t(:resource_last_changes_empty))
+  find('.tab-content', text: I18n.t(:usage_data_last_changes_empty))
 end
 
 def make_public_collection
@@ -140,9 +143,9 @@ def prepare_media_entry
 end
 
 def visit_media_entry_more_data
-  visit more_data_media_entry_path(@media_entry)
+  visit usage_data_media_entry_path(@media_entry)
 end
 
 def visit_collection_more_data
-  visit more_data_collection_path(@collection)
+  visit usage_data_collection_path(@collection)
 end

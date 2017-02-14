@@ -128,13 +128,13 @@ module Presenters
       end
 
       def all_meta_data
-        return unless @action == 'more_data'
+        return unless ['more_data'].include?(@action)
         Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
           .by_vocabulary
       end
 
       def edit_sessions
-        return unless @action == 'more_data'
+        return unless ['usage_data'].include?(@action)
         super
       end
       # </otherTabs>
@@ -230,6 +230,11 @@ module Presenters
             id: 'relations',
             label: I18n.t(:media_entry_tab_relations),
             href: relations_collection_path(@app_resource)
+          },
+          {
+            id: 'usage_data',
+            label: I18n.t(:media_entry_tab_usage_data),
+            href: usage_data_collection_path(@app_resource)
           },
           {
             id: 'more_data',

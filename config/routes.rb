@@ -20,6 +20,7 @@ Madek::Application.routes.draw do
       get 'meta_data/edit/by_vocabularies', action: :edit_meta_data_by_vocabularies, as: 'edit_meta_data_by_vocabularies'
       put 'meta_data', action: :meta_data_update
       get 'more_data'
+      get 'usage_data'
 
       patch 'favor', to: 'media_entries#favor'
       patch 'disfavor', to: 'media_entries#disfavor'
@@ -95,6 +96,7 @@ Madek::Application.routes.draw do
       put 'meta_data', action: :meta_data_update
 
       get 'more_data'
+      get 'usage_data'
       get 'relations'
       get 'relations/children', action: :relation_children, as: 'relation_children'
       get 'relations/siblings', action: :relation_siblings, as: 'relation_siblings'

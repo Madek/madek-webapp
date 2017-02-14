@@ -65,7 +65,7 @@ class CollectionsController < ApplicationController
   # actions/tabs that work like 'show':
   [
     :relations, :relation_children, :relation_siblings, :relation_parents,
-    :more_data, :permissions, :permissions_edit]
+    :usage_data, :more_data, :permissions, :permissions_edit]
     .each { |action| alias_method action, :show }
 
   def update

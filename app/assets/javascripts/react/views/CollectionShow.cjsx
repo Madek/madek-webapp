@@ -91,17 +91,47 @@ module.exports = React.createClass
                 <RelationResources get={get} authToken={authToken} scope='siblings'
                   testId={contentTestId('relations_siblings')} />
 
-          when 'more_data'
-            <TabContent testId={contentTestId('more_data')}>
+          when 'usage_data'
+            <TabContent testId={contentTestId('usage_data')}>
               <div className="bright pal rounded-bottom rounded-top-right ui-container">
                 {
                   if get.logged_in
                     <div className='col1of3'>
                       <div className='ui-container prm'>
-                        <h3 className='title-l separated mbm'>{t('resource_last_changes')}</h3>
+                        <h3 className='title-l separated mbm'>{t('usage_data_responsibility_title')}</h3>
+                        <div className="ui-metadata-box">
+                          <table className="borderless">
+                            <tbody>
+                              <tr>
+                                <td className="ui-summary-label">{t('usage_data_responsible')}</td>
+                                <td className="ui-summary-content">
+                                  {
+                                    list = [
+                                      {
+                                        children: get.responsible.name,
+                                        href: get.responsible.url,
+                                        key: get.responsible.uuid
+                                      }
+                                    ]
+                                    <TagCloud mod='person' mods='small' list={list}></TagCloud>
+                                  }
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="ui-summary-label">{t('usage_data_created_at')}</td>
+                                <td className="ui-summary-content">
+                                  {get.created_at_pretty}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div className='ui-container prm'>
+                        <h3 className='title-l separated mbm mtl'>{t('usage_data_last_changes_title')}</h3>
                         {
                           if f.isEmpty(get.edit_sessions)
-                            <div>{t('resource_last_changes_empty')}</div>
+                            <div>{t('usage_data_last_changes_empty')}</div>
                           else
                             <div className="ui-metadata-box">
                               <table className="borderless">
@@ -129,6 +159,12 @@ module.exports = React.createClass
                       </div>
                     </div>
                 }
+              </div>
+            </TabContent>
+
+          when 'more_data'
+            <TabContent testId={contentTestId('more_data')}>
+              <div className="bright pal rounded-bottom rounded-top-right ui-container">
                 <div className='col2of3'>
                   <div className="ui-container plm">
                     <MetaDataByListing list={get.all_meta_data} vocabLinks />

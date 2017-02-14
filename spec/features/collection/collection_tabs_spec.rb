@@ -26,6 +26,8 @@ feature 'Collection tabs' do
     check_tabs('relations', 'relations_siblings')
     visit relation_parents_collection_path(@collection)
     check_tabs('relations', 'relations_parents')
+    visit usage_data_collection_path(@collection)
+    check_tabs('usage_data', 'usage_data')
     visit more_data_collection_path(@collection)
     check_tabs('more_data', 'more_data')
     visit permissions_collection_path(@collection)
@@ -47,10 +49,10 @@ feature 'Collection tabs' do
     # NOTE: Check id of content.
     find('[data-test-id="' + full_tab_content_id + '"]')
 
-    # NOTE: Make sure you have 5 of 6 inactive tabs.
+    # NOTE: Make sure you have 6 of 7 inactive tabs.
     selector = '.ui-tabs-item[data-test-id*=set_tab]:not([class*=active])'
     inactive_tabs = all(selector)
-    expect(inactive_tabs.length).to eq(5)
+    expect(inactive_tabs.length).to eq(6)
   end
 
   def setup_contexts_for_collection_extra

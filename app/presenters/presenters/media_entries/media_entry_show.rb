@@ -62,17 +62,18 @@ module Presenters
       end
 
       def meta_data
-        return unless ['show', 'export', 'more_data'].include?(@active_tab)
+        return unless ['show', 'export', 'more_data', 'usage_data']
+          .include?(@active_tab)
         Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
       end
 
       def more_data
-        return unless @active_tab == 'more_data'
+        return unless ['usage_data'].include?(@active_tab)
         Presenters::MediaEntries::MediaEntryMoreData.new(@app_resource)
       end
 
       def edit_sessions
-        return unless @active_tab == 'more_data'
+        return unless ['usage_data'].include?(@active_tab)
         super
       end
 
@@ -115,6 +116,11 @@ module Presenters
             id: 'relations',
             action: 'relations',
             title: I18n.t(:media_entry_tab_relations)
+          },
+          {
+            id: 'usage_data',
+            action: 'usage_data',
+            title: I18n.t(:media_entry_tab_usage_data)
           },
           {
             id: 'more_data',

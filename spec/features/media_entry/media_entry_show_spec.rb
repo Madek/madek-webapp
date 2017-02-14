@@ -53,12 +53,21 @@ describe 'Action: show' do
       expect(page).to have_content 'Ausstellung Gallerie Limatquai '
     end
 
-    scenario "Tab: 'More Data'. Shows import date and File Information" do
-      click_on_tab I18n.t(:media_entry_tab_more_data)
+    scenario "Tab: 'Usage Data'. Shows import date and File Information" do
+      click_on_tab I18n.t(:media_entry_tab_usage_data)
       # - Activity Log
-      expect(page).to have_content 'import_date 20.04.2012'
+      expect(page).to have_content I18n.t(:usage_data_import_at) + ' 20.04.2012'
       # - File Information
       expect(page).to have_content 'Filename berlin_wall_01.jpg'
+    end
+
+    scenario "Tab: 'More Data'. Shows meta key title" do
+      click_on_tab I18n.t(:media_entry_tab_more_data)
+
+      within('.ui-metadata-box .media-data') do
+        expect(page).to have_selector('.media-data-title', text: 'Titel')
+        expect(page).to have_selector('.media-data-content', text: @entry.title)
+      end
     end
 
     scenario "Tab: 'Permissions'. \
