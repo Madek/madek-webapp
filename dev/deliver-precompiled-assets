@@ -9,6 +9,9 @@ set -exu
 # args
 DO_RESET=$(test "${1:-""}" == "--no-reset" || echo 1)
 
+# submodules to handle
+SUBS="node_modules public/assets"
+
 # sanity check: correct repo?
 {
  git config remote.origin.url | grep 'github.com' | grep -q 'Madek/madek-webapp'
@@ -22,25 +25,32 @@ BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 { test "$BRANCH" == "master" || test "$BRANCH" == "HEAD"
 } && { echo 'ERROR! must be on a branch!' && exit 1 ;}
 
-# clean state for assets:
+# clean state for assets/modules
 test $DO_RESET && {
-  git submodule update --init public/assets
-  cd public/assets
-  git checkout -B "$BRANCH"
-  git fetch
-  git reset --hard origin/master
-  cd -
+  rm -rf public/assets/{bundles,_rails_locales}
+  for SUB in $SUBS ; do
+    git submodule init "$SUB" || true
+    cd "$SUB"
+    git reset --hard HEAD
+    git clean -fX -fd
+    git checkout -B "$BRANCH"
+    git fetch
+    git reset --hard origin/master
+    cd -
+  done
 }
 
+npm install
 ./bin/precompile-assets
 
-# commit & push assets:
-cd public/assets
-git add --all
-git commit -m "${MSG}"
-git push -f -u origin "+HEAD:${BRANCH}"
+# commit & push assets/modules
+for SUB in $SUBS; do
+  cd "$SUB"
+  git add --all
+  git commit -m "${MSG}" && git push -f -u origin "+HEAD:refs/heads/${BRANCH}" || true
+  cd -
+done
 
-# ammend assets ref to last commit:
-cd -
-git add public/assets
+# ammend assets/modules refs to last commit:
+git add $SUBS
 git commit --amend --no-edit
