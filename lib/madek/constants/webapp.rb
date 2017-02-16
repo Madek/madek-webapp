@@ -12,6 +12,8 @@ module Madek
         unknown: 'thumbnails/document_unknown.png'
       }
 
+      USER_LIST_CONFIG_KEYS = [:layout, :order, :show_filter]
+
       VERIFY_AUTH_SKIP_CONTROLLERS = \
         [ConfigurationManagementBackdoorController,
          ErrorsController,

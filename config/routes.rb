@@ -215,6 +215,7 @@ Madek::Application.routes.draw do
   post '/session/sign_in', to: 'sessions#sign_in', as: 'sign_in'
   post '/session/sign_out', to: 'sessions#sign_out', as: 'sign_out'
   post '/session/uberadmin', to: 'users#toggle_uberadmin', as: 'toggle_uberadmin'
+  patch '/session/list_config', to: 'users#set_list_config'
   # get '/Shibboleth.sso/Session', to: 'sessions#shibboleth'
   get '/session/shib_sign_in', to: 'sessions#shib_sign_in'
 
