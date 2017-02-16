@@ -72,6 +72,29 @@ feature 'transfer responsibility shared' do
     check_responsible_and_link(user1, true)
   end
 
+  scenario 'check remove existing permissions for new user' do
+    user1 = create_user
+    user2 = create_user
+    user3 = create_user
+    media_entry = create_media_entry(user1)
+    give_all_permissions(media_entry, user2)
+    give_all_permissions(media_entry, user3)
+
+    login_user(user1)
+    open_permissions(media_entry)
+    check_responsible_and_link(user1, true)
+    click_transfer_link
+
+    choose_user(user2)
+    click_submit_button
+
+    check_responsible_and_link(user2, false)
+
+    expect(media_entry.user_permissions.length).to eq(2)
+    expect(media_entry.user_permissions[0].user_id).to eq(user3.id)
+    expect(media_entry.user_permissions[1].user_id).to eq(user1.id)
+  end
+
   scenario 'check batch selection' do
     user1 = create_user
     user2 = create_user

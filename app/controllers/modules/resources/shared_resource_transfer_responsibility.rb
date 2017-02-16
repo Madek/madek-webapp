@@ -6,12 +6,19 @@ module Modules
       private
 
       def update_permissions_resource(user, new_user, resource)
+        remove_existing_permissions_for_new_user(resource, new_user)
+
         send(
           "update_permissions_#{resource.class.name.underscore}",
           user,
           resource)
+
         resource.responsible_user = new_user
         resource.save!
+      end
+
+      def remove_existing_permissions_for_new_user(resource, new_user)
+        resource.user_permissions.where(user: new_user).destroy_all
       end
 
       def update_permissions_media_entry(user, resource)
