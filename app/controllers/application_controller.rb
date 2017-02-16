@@ -62,11 +62,14 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    user = validate_services_session_cookie_and_get_user
-    # reflect uberadmin mode in user.admin object instance var (Presenters etc)
-    if user.try(:admin?)
-      user.admin.webapp_session_uberadmin_mode = session[:uberadmin_mode]
+    return @_current_user if defined?(@_current_user)
+    if (user = validate_services_session_cookie_and_get_user)
+      # reflect uberadmin mode in user.admin object instance var (Presenters etc)
+      if user.admin?
+        user.admin.webapp_session_uberadmin_mode = session[:uberadmin_mode]
+      end
     end
+    @_current_user = user
     user
   end
 
