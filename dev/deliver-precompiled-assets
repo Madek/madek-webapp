@@ -29,13 +29,12 @@ BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 test $DO_RESET && {
   rm -rf public/assets/{bundles,_rails_locales}
   for SUB in $SUBS ; do
-    git submodule init "$SUB" || true
+    git submodule init "$SUB"
     cd "$SUB"
-    git reset --hard HEAD
-    git clean -fX -fd
-    git checkout -B "$BRANCH"
     git fetch
     git reset --hard origin/master
+    git clean -fX -fd
+    git checkout -B "$BRANCH"
     cd -
   done
 }
