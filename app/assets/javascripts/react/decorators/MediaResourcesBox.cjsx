@@ -6,6 +6,7 @@ ui = require('../lib/ui.coffee')
 {parseMods, cx} = ui
 t = ui.t('de')
 setUrlParams = require('../../lib/set-params-for-url.coffee')
+parseUrl = require('url').parse
 stringifyUrl = require('url').format
 Selection = require('../../lib/selection.coffee')
 resourceListParams = require('../../shared/resource_list_params.coffee')
@@ -291,7 +292,11 @@ module.exports = React.createClass
   _onHoverMenu: (menu_id, event) ->
     @setState(hoverMenuId: menu_id)
 
-  _currentUrl: () -> boxSetUrlParams(@props.get.config.for_url)
+  _currentUrl: () ->
+    if router
+      parseUrl(window.location.toString()).path
+    else
+      boxSetUrlParams(@props.get.config.for_url)
 
   _showBatchTransferResponsibility: (resources, event) ->
     @setState(
@@ -444,7 +449,8 @@ module.exports = React.createClass
         list: filter: config.filter,
         accordion: config.accordion
       })
-    currentUrl = boxSetUrlParams(@_currentUrl(), currentQuery)
+    permaLink = boxSetUrlParams(@_currentUrl(), currentQuery)
+    currentUrl = @_currentUrl()
 
     resetFilterHref =
       boxSetUrlParams(currentUrl, {list: {page: 1, filter: {}, accordion: {}}})
@@ -460,7 +466,7 @@ module.exports = React.createClass
       isClient = @state.isClient
 
       layouts = @_allowedLayoutModes().map (layoutMode) =>
-        href = boxSetUrlParams(for_url, currentQuery, {list: {layout: layoutMode.mode}})
+        href = boxSetUrlParams(currentUrl, {list: {layout: layoutMode.mode}})
         f.merge layoutMode,
           mods: {'active': layoutMode.mode == layout}
           href: href
@@ -481,22 +487,22 @@ module.exports = React.createClass
         {
           label: t('collection_sorting_created_at_asc')
           key: 'created_at ASC'
-          href: boxSetUrlParams(for_url, currentQuery, list: order: 'created_at ASC')
+          href: boxSetUrlParams(currentUrl, list: order: 'created_at ASC')
         },
         {
           label: t('collection_sorting_created_at_desc')
           key: 'created_at DESC'
-          href: boxSetUrlParams(for_url, currentQuery, list: order: 'created_at DESC')
+          href: boxSetUrlParams(currentUrl, list: order: 'created_at DESC')
         },
         {
           label: t('collection_sorting_title_asc')
           key: 'title ASC'
-          href: boxSetUrlParams(for_url, currentQuery, list: order: 'title ASC')
+          href: boxSetUrlParams(currentUrl, list: order: 'title ASC')
         },
         {
           label: t('collection_sorting_last_change')
           key: 'last_change'
-          href: boxSetUrlParams(for_url, currentQuery, list: order: 'last_change')
+          href: boxSetUrlParams(currentUrl, list: order: 'last_change')
         }
       ]
 
@@ -673,7 +679,7 @@ module.exports = React.createClass
       else do ({config, pagination} = get)=>
         navLinks =
           current:
-            href: currentUrl
+            href: permaLink
             onClick: @_handleChangeInternally
           prev: if pagination.prev
             href: boxSetUrlParams(currentUrl, list: pagination.prev)
@@ -807,13 +813,13 @@ module.exports = React.createClass
       {
         if @state.batchAddToSet
           <BatchAddToSetModal resourceIds={@_batchAddToSetIds()} authToken={@props.authToken}
-            get={null} onClose={@_onCloseModal} returnTo={@state.config.for_url.pathname}/>
+            get={null} onClose={@_onCloseModal} returnTo={currentUrl}/>
       }
       {
         if @state.batchRemoveFromSet
           <BatchRemoveFromSetModal collectionUuid={@props.collectionData.uuid}
             resourceIds={@_batchRemoveFromSetIds()} authToken={@props.authToken}
-            get={null} onClose={@_onCloseModal} returnTo={@state.config.for_url.pathname}/>
+            get={null} onClose={@_onCloseModal} returnTo={currentUrl}/>
       }
 
     </div>
