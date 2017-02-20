@@ -2,10 +2,9 @@ module Presenters
   module Collections
     module Permissions
       class CollectionApiClientPermission < \
-        Presenters::Shared::MediaResource::Permissions::\
-          MediaResourceApiClientPermission
-
-        delegate :edit_metadata_and_relations, to: :@app_resource
+        Presenters::Shared::Resource::ResourceApiClientPermission
+        include Presenters::Shared::MediaResource::\
+          Permissions::MediaResourceCommonPermissions
       end
     end
   end
