@@ -59,7 +59,6 @@ $primary-background-color: darken(#666666, $contrast-ratio);  // #2B333F default
 
   /* The main font color changes the ICON COLORS as well as the text */
   color: $primary-foreground-color;
-  background-color: transparent; // default black background causes antialising-lines
 
   font-family: "Open Sans", sans-serif;
 }
