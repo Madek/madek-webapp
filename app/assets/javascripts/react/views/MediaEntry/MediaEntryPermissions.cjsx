@@ -8,4 +8,4 @@ module.exports = React.createClass
     get: React.PropTypes.object.isRequired # just passed through
 
   render: (props = this.props)->
-    <ResourcePermissions authToken={@props.authToken} get={props.get}/>
+    <ResourcePermissions authToken={@props.authToken} get={props.get} optionals={['ApiClients']}/>

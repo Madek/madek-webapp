@@ -22,7 +22,7 @@ module.exports = React.createClass
     AutoComplete = require('../lib/autocomplete.cjsx')
     @forceUpdate() if @isMounted
 
-  render: ({get, children, editing, saving, onEdit, onSubmit, onCancel} = @props)->
+  render: ({get, children, editing, saving, onEdit, onSubmit, onCancel, optionals} = @props)->
     editable = get.can_edit
 
     <form name='ui-rights-management' onSubmit={onSubmit}>
@@ -39,6 +39,7 @@ module.exports = React.createClass
           permissionsList={get.user_permissions}
           permissionTypes={get.permission_types}
           overriddenBy={get.public_permission}
+          optional={f.contains(optionals, 'Users')}
           editing={editing}/>
 
         {# Groups permissions #}
@@ -49,20 +50,20 @@ module.exports = React.createClass
           permissionsList={get.group_permissions}
           permissionTypes={get.permission_types}
           overriddenBy={get.public_permission}
+          optional={f.contains(optionals, 'Groups')}
           editing={editing}
           searchParams={{scope: 'permissions'}} />
 
-        {# ApiApp permissions — hidden on show if empty; always visible on edit #}
-        {if (editing or get.api_client_permissions.length > 0)
-          <PermissionsBySubjectType type={'ApiClients'}
-            title={t('permission_subject_title_apiapps')}
-            icon='api'
-            SubjectDeco={ApiClientIndex}
-            permissionsList={get.api_client_permissions}
-            permissionTypes={get.permission_types}
-            overriddenBy={get.public_permission}
-            editing={editing}/>
-        }
+        {# ApiApp permissions #}
+        <PermissionsBySubjectType type={'ApiClients'}
+          title={t('permission_subject_title_apiapps')}
+          icon='api'
+          SubjectDeco={ApiClientIndex}
+          permissionsList={get.api_client_permissions}
+          permissionTypes={get.permission_types}
+          overriddenBy={get.public_permission}
+          optional={f.contains(optionals, 'ApiClients')}
+          editing={editing}/>
 
         {# Public permissions #}
         <PermissionsBySubjectType
@@ -108,9 +109,13 @@ PermissionsBySubjectType = React.createClass
     @props.permissionsList.add(subject: subject)
 
   render: ()->
-    {type, title, icon, permissionsList, SubjectDeco, subjectName,
+    {type, title, icon, permissionsList, SubjectDeco, subjectName, optional,
     permissionTypes, overriddenBy, editing, showTitles, searchParams} = @props
     showTitles ||= false
+
+    # optional: hidden on show if empty; always visible on edit
+    if optional && !editing && (permissionsList.length < 1)
+      return null
 
     <div className='ui-rights-management-users'>
       <div className='ui-rights-body'>

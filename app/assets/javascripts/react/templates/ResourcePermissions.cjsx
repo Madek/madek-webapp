@@ -88,6 +88,7 @@ module.exports = React.createClass
 
 
   render: ()->
+    {optionals} = @props
     {model, editing, saving} = @state
 
     <div>
@@ -109,7 +110,7 @@ module.exports = React.createClass
 
 
       <ResourcePermissionsForm
-        get={model} editing={editing} saving={saving}
+        get={model} editing={editing} saving={saving} optionals={optionals}
         onEdit={@_onStartEdit} onSubmit={@_onSubmitForm} onCancel={@_onCancelEdit}>
 
         <PermissionsOverview get={model}

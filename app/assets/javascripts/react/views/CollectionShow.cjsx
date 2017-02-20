@@ -174,7 +174,7 @@ module.exports = React.createClass
           when 'permissions'
             <TabContent testId={contentTestId('permissions')}>
               <div className="bright pal rounded-bottom rounded-top-right ui-container">
-                <RightsManagement authToken={@props.authToken} get={get.permissions} />
+                <RightsManagement authToken={@props.authToken} get={get.permissions} optionals={['ApiClients']}/>
               </div>
             </TabContent>
 
