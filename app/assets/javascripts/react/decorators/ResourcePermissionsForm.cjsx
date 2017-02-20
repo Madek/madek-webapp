@@ -25,54 +25,64 @@ module.exports = React.createClass
   render: ({get, children, editing, saving, onEdit, onSubmit, onCancel, optionals} = @props)->
     editable = get.can_edit
 
+    rows = [
+      { # User permissions
+        type: 'Users'
+        title: t('permission_subject_title_users')
+        icon: 'privacy-private-alt'
+        SubjectDeco: UserIndex
+        permissionsList: get.user_permissions
+        overriddenBy: get.public_permission
+      },
+
+      { # Groups permissions
+        type: 'Groups'
+        title: t('permission_subject_title_groups')
+        icon: 'privacy-group-alt'
+        SubjectDeco: GroupIndex
+        permissionsList: get.group_permissions
+        overriddenBy: get.public_permission
+        searchParams: {scope: 'permissions'}
+      },
+
+      { # ApiApp permissions
+        type: 'ApiClients'
+        title: t('permission_subject_title_apiapps')
+        icon: 'api'
+        SubjectDeco: ApiClientIndex
+        permissionsList: get.api_client_permissions
+        overriddenBy: get.public_permission
+      }
+
+      # Public permissions
+      {
+        title: t('permission_subject_title_public')
+        subjectName: t('permission_subject_name_public')
+        icon: 'privacy-open'
+        permissionsList: [get.public_permission]
+        permissionTypes: get.permission_types
+      }
+    ]
+    rows = f.reject(rows, ({type, permissionsList})->
+      # optionals: hidden on show if empty; always visible on edit
+      !editing && type && f.contains(optionals, type) && (permissionsList.length < 1)
+    )
+
     <form name='ui-rights-management' onSubmit={onSubmit}>
 
       {children}
 
       <div className='ui-rights-management'>
-        {# User permissions #}
-        <PermissionsBySubjectType type={'Users'}
-          showTitles={true}
-          title={t('permission_subject_title_users')}
-          icon='privacy-private-alt'
-          SubjectDeco={UserIndex}
-          permissionsList={get.user_permissions}
-          permissionTypes={get.permission_types}
-          overriddenBy={get.public_permission}
-          optional={f.contains(optionals, 'Users')}
-          editing={editing}/>
 
-        {# Groups permissions #}
-        <PermissionsBySubjectType type={'Groups'}
-          SubjectDeco={GroupIndex}
-          title={t('permission_subject_title_groups')}
-          icon='privacy-group-alt'
-          permissionsList={get.group_permissions}
-          permissionTypes={get.permission_types}
-          overriddenBy={get.public_permission}
-          optional={f.contains(optionals, 'Groups')}
-          editing={editing}
-          searchParams={{scope: 'permissions'}} />
-
-        {# ApiApp permissions #}
-        <PermissionsBySubjectType type={'ApiClients'}
-          title={t('permission_subject_title_apiapps')}
-          icon='api'
-          SubjectDeco={ApiClientIndex}
-          permissionsList={get.api_client_permissions}
-          permissionTypes={get.permission_types}
-          overriddenBy={get.public_permission}
-          optional={f.contains(optionals, 'ApiClients')}
-          editing={editing}/>
-
-        {# Public permissions #}
-        <PermissionsBySubjectType
-          title={t('permission_subject_title_public')}
-          subjectName={t('permission_subject_name_public')}
-          icon='privacy-open'
-          permissionsList={[get.public_permission]}
-          permissionTypes={get.permission_types}
-          editing={editing}/>
+        {rows.map((row, i) ->
+          showTitles = (i == 0) # show titles on first table only
+          <PermissionsBySubjectType
+            {...row}
+            showTitles={showTitles}
+            editing={editing}
+            permissionTypes={get.permission_types}
+          />
+        )}
 
       </div>
 
@@ -109,13 +119,9 @@ PermissionsBySubjectType = React.createClass
     @props.permissionsList.add(subject: subject)
 
   render: ()->
-    {type, title, icon, permissionsList, SubjectDeco, subjectName, optional,
+    {type, title, icon, permissionsList, SubjectDeco, subjectName,
     permissionTypes, overriddenBy, editing, showTitles, searchParams} = @props
     showTitles ||= false
-
-    # optional: hidden on show if empty; always visible on edit
-    if optional && !editing && (permissionsList.length < 1)
-      return null
 
     <div className='ui-rights-management-users'>
       <div className='ui-rights-body'>

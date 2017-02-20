@@ -24,7 +24,8 @@ feature 'Vocabulary keywords' do
       [
         { key: :vocabularies_tabs_vocabulary, active: false },
         { key: :vocabularies_tabs_keywords, active: true },
-        { key: :vocabularies_tabs_contents, active: false }
+        { key: :vocabularies_tabs_contents, active: false },
+        { key: :vocabularies_tabs_permissions, active: false }
       ]
     )
     check_meta_keys(
@@ -74,7 +75,8 @@ feature 'Vocabulary keywords' do
       [
         { key: :vocabularies_tabs_vocabulary, active: false },
         { key: :vocabularies_tabs_keywords, active: true },
-        { key: :vocabularies_tabs_contents, active: false }
+        { key: :vocabularies_tabs_contents, active: false },
+        { key: :vocabularies_tabs_permissions, active: false }
       ]
     )
     check_meta_keys(
@@ -90,7 +92,8 @@ feature 'Vocabulary keywords' do
       [
         { key: :vocabularies_tabs_vocabulary, active: false },
         { key: :vocabularies_tabs_keywords, active: true },
-        { key: :vocabularies_tabs_contents, active: false }
+        { key: :vocabularies_tabs_contents, active: false },
+        { key: :vocabularies_tabs_permissions, active: false }
       ]
     )
   end
@@ -102,7 +105,8 @@ feature 'Vocabulary keywords' do
     check_tabs(
       [
         { key: :vocabularies_tabs_vocabulary, active: true },
-        { key: :vocabularies_tabs_contents, active: false }
+        { key: :vocabularies_tabs_contents, active: false },
+        { key: :vocabularies_tabs_permissions, active: false }
       ]
     )
   end

@@ -305,6 +305,9 @@ permission_name_edit_metadata,Metadaten editieren,Edit metadata,
 permission_name_edit_permissions,Zugriffsberechtigungen ändern,Edit permissions,
 permission_name_get_full_size,Original exportieren & in PDF blättern,Download original & browse PDF,
 permission_name_get_metadata_and_previews,Betrachten,View,
+permission_name_get_metadata_and_previews,Betrachten,View,
+permission_name_view,Betrachten,View,bezieht sich auf Vokabulare!
+permission_name_use,Anwenden,Use,bezieht sich auf Vokabulare!
 permission_overridden_by_public,(überschrieben durch die öffentlichen Berechtigungen),(overridden by public permissions),
 permission_subject_name_public,Internet,Internet,
 permission_subject_title_apiapps,API-Applikationen,API Clients,
@@ -439,6 +442,8 @@ vocabularies_keywords_hint_2, enthaltenen Schlagwörter und die dazugehörenden 
 vocabularies_no_keywords,Keine Schlagworte vorhanden.,Keine Schlagworte vorhanden.,
 vocabularies_tabs_contents,Inhalte,Contents,
 vocabularies_tabs_keywords,Schlagwörter,Keywords,
+vocabularies_tabs_permissions,Berechtigungen,Permissions,
+vocabulary_permissions_hint,"Für dieses Vokabular sind die Berechtigungen "Betrachten" und "Anwenden" vergeben. Wenn sie Mitglied einer berechtigten Arbeitsgruppe sind, können sie Personen zu dieser hinzufügen. Weitere Berechtigungen für Personen, Arbeitsgruppen, API-Applikationen oder die Öffentlichkeit werden durch den Administrator vergeben – bitte wenden sie sich an den Support.",,
 vocabularies_tabs_vocabulary,Vokabular,Vocabulary,
 workgroup_link_to_contents_text,Inhalte,Contents,
 workgroup_link_to_contents_title,Inhalte dieser Arbeitsgruppe anzeigen,View contents of this work group,

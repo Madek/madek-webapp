@@ -34,7 +34,8 @@ feature 'Vocabulary keywords' do
       [
         { key: :vocabularies_tabs_vocabulary, active: false },
         { key: :vocabularies_tabs_keywords, active: false },
-        { key: :vocabularies_tabs_contents, active: true }
+        { key: :vocabularies_tabs_contents, active: true },
+        { key: :vocabularies_tabs_permissions, active: false }
       ]
     )
     check_media_entries(['Title 1', 'Title 3'])

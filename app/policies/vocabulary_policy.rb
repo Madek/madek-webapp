@@ -15,11 +15,21 @@ class VocabularyPolicy < DefaultPolicy
     end
   end
 
-  def keywords? # just a 'show' tab
+  # 'show' page tabs:
+
+  def keywords?
     show?
   end
 
   def contents?
     show?
+  end
+
+  def permissions?
+    show? # TODO: policy???
+  end
+
+  def permissions_update?
+    false # can NOT be edited via webapp like Entries etc.
   end
 end

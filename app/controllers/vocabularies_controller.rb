@@ -27,12 +27,19 @@ class VocabulariesController < ApplicationController
 
   def contents
     vocabulary = find_by_vocab_id_param
-
     resources_type = params.permit(:type).fetch(:type, nil)
 
     @get = Presenters::Vocabularies::VocabularyContents.new(
       vocabulary, current_user, resource_list_params, resources_type
     )
+
+    respond_with(@get)
+  end
+
+  def permissions
+    vocabulary = find_by_vocab_id_param
+    @get = Presenters::Vocabularies::VocabularyPermissions.new(
+      vocabulary, current_user)
 
     respond_with(@get)
   end

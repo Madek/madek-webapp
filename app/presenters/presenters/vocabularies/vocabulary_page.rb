@@ -25,7 +25,9 @@ module Presenters
           vocabulary_keywords: prepend_url_context(
             vocabulary_keywords_path(@vocabulary)),
           vocabulary_contents: prepend_url_context(
-            vocabulary_contents_path(@vocabulary))
+            vocabulary_contents_path(@vocabulary)),
+          vocabulary_permissions: prepend_url_context(
+            vocabulary_permissions_path(@vocabulary))
         }
       end
     end
