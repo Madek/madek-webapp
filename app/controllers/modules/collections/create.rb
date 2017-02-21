@@ -3,6 +3,8 @@ module Modules
     module Create
       extend ActiveSupport::Concern
 
+      include Modules::Collections::Store
+
       def create
         auth_authorize Collection
         title = params[:collection_title]

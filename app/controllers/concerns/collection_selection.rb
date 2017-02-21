@@ -3,6 +3,8 @@ module Concerns
     extend ActiveSupport::Concern
     include Concerns::ResourceListParams
 
+    include Modules::Collections::Store
+
     def select_collection
       resource = get_authorized_resource
 

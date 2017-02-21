@@ -10,7 +10,6 @@ class CollectionsController < ApplicationController
   include Modules::Collections::PermissionsUpdate
   include Modules::Collections::MetaDataUpdate
   include Modules::Collections::Create
-  include Modules::Collections::Store
   include Modules::Resources::ResourceCustomUrls
   include Modules::Resources::ResourceTransferResponsibility
   include Modules::Resources::BatchResourceTransferResponsibility
