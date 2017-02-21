@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.1
--- Dumped by pg_dump version 9.6.1
+-- Dumped from database version 9.6.2
+-- Dumped by pg_dump version 9.6.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -120,7 +120,7 @@ CREATE TABLE access_rights (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     role character varying NOT NULL,
-    CONSTRAINT check_allowed_roles CHECK (((role)::text = ANY (ARRAY[('customer'::character varying)::text, ('group_manager'::character varying)::text, ('lending_manager'::character varying)::text, ('inventory_manager'::character varying)::text, ('admin'::character varying)::text])))
+    CONSTRAINT check_allowed_roles CHECK (((role)::text = ANY ((ARRAY['customer'::character varying, 'group_manager'::character varying, 'lending_manager'::character varying, 'inventory_manager'::character varying, 'admin'::character varying])::text[])))
 );
 
 
@@ -229,6 +229,7 @@ CREATE TABLE buildings (
 
 CREATE TABLE contracts (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    compact_id text NOT NULL,
     note text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -711,8 +712,8 @@ CREATE TABLE procurement_requests (
     inspection_comment character varying,
     created_at timestamp without time zone NOT NULL,
     inspector_priority character varying DEFAULT 'medium'::character varying NOT NULL,
-    CONSTRAINT check_allowed_priorities CHECK (((priority)::text = ANY (ARRAY[('normal'::character varying)::text, ('high'::character varying)::text]))),
-    CONSTRAINT check_inspector_priority CHECK (((inspector_priority)::text = ANY (ARRAY[('low'::character varying)::text, ('medium'::character varying)::text, ('high'::character varying)::text, ('mandatory'::character varying)::text])))
+    CONSTRAINT check_allowed_priorities CHECK (((priority)::text = ANY ((ARRAY['normal'::character varying, 'high'::character varying])::text[]))),
+    CONSTRAINT check_inspector_priority CHECK (((inspector_priority)::text = ANY ((ARRAY['low'::character varying, 'medium'::character varying, 'high'::character varying, 'mandatory'::character varying])::text[])))
 );
 
 
@@ -1357,6 +1358,13 @@ CREATE INDEX index_audits_on_created_at ON audits USING btree (created_at);
 --
 
 CREATE INDEX index_audits_on_request_uuid ON audits USING btree (request_uuid);
+
+
+--
+-- Name: index_contracts_on_compact_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_contracts_on_compact_id ON contracts USING btree (compact_id);
 
 
 --

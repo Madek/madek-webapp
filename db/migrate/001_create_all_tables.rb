@@ -135,8 +135,10 @@ class CreateAllTables < ActiveRecord::Migration
     end
 
     create_table :contracts, id: :uuid do |t|
-      t.text       :note
+      t.text :compact_id, null: false
+      t.text :note
       t.timestamps null: false
+      t.index :compact_id, unique: true
     end
 
     create_table :database_authentications, id: :uuid do |t|
