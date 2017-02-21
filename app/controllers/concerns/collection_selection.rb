@@ -101,20 +101,6 @@ module Concerns
       end
     end
 
-    def store_collection(title)
-      collection = Collection.create!(
-        get_metadata_and_previews: true,
-        responsible_user: current_user,
-        creator: current_user)
-      meta_key = MetaKey.find_by(id: 'madek_core:title')
-      MetaDatum::Text.create!(
-        collection: collection,
-        string: title,
-        meta_key: meta_key,
-        created_by: current_user)
-      collection
-    end
-
     def read_checkboxes(key_sym)
       if not params[key_sym]
         {}

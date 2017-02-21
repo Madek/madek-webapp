@@ -27,12 +27,13 @@ feature 'MediaEntry: Select Collection' do
     scenario 'Save no checkboxes visible', browser: :firefox_nojs do
       scenario_save_no_checkboxes_visible
     end
-  end
-
-  describe 'Action: create' do
 
     scenario 'Add and remove a collection', browser: :firefox_nojs do
       scenario_add_and_remove_a_collection
+    end
+
+    scenario 'Add to a newly created collection' do
+      scenario_add_to_newly_created_collection
     end
   end
 

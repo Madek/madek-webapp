@@ -1,3 +1,5 @@
+# rubocop:disable Metrics/ModuleLength
+
 require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
@@ -104,6 +106,35 @@ module SelectCollectionHelper
     check_on_dialog
 
     verify_shown_collections
+  end
+
+  def scenario_add_to_newly_created_collection
+    prepare_and_login
+    open_dialog
+    check_on_dialog
+
+    # create new set from search widget
+    within '.modal' do
+      modal_body = find('[name="select_collections"]')
+      find('[name="search_term"]').set('NEW SET')
+      wait_until { modal_body.has_content? 'kein Set gefunden' }
+      click_on 'Neues Set erstellen'
+      wait_until { modal_body.has_content? 'NEW SET' }
+    end
+    click_save
+
+    flash = find('.ui-alert.success')
+    expect(flash).to have_content 'aus 0 Set(s) entfernt'
+    expect(flash).to have_content 'u 1 Set(s) hinzu'
+
+    # check it is in relations and non-public
+    click_on 'Zusammenhänge'
+    find('.ui-resource', text: 'NEW SET').click
+    new_set = Collection
+      .find(Rails.application.routes.recognize_path(current_url)[:id])
+
+    expect(new_set.title).to eq 'NEW SET'
+    expect(new_set.get_metadata_and_previews).to be false
   end
 
   def prepare_collection(title, is_responsible, is_allowed)
