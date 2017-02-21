@@ -16,6 +16,10 @@ AllCops:
     - 'zhdk-integration/**/*'
     - 'vendor/**/*'
 
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
 Lint/EndAlignment:
   AlignWith: variable
 
@@ -196,6 +200,9 @@ Performance/TimesMap:
 # NEW CONFIG SINCE VERSION > 0.29.1
 
 Style/MultilineMethodCallIndentation:
+  Enabled: false
+
+Style/MultilineMethodCallBraceLayout:
   Enabled: false
 
 Style/IndentAssignment:
