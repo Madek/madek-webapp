@@ -20,6 +20,10 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
 
+Style/VariableNumber:
+  Exclude:
+    - 'spec/**/*'
+
 Lint/EndAlignment:
   AlignWith: variable
 

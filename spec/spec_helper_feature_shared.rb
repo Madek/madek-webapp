@@ -90,8 +90,8 @@ def sign_in_as(login, password = nil)
     password = user.try(:password) || 'password'
   end
 
-  # if there isn't already a login form, try going to dashboard to force it:
-  visit '/my' unless page.has_selector?('form#login_form')
+  # if there isn't already a login form, force it:
+  visit '/my/used_keywords' unless page.has_selector?('form#login_form')
 
   # if ldap login is ON, first switch to correct form tab
   if db_user_tab = first('a#tab-internal_login')

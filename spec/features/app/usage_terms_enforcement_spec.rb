@@ -12,15 +12,20 @@ feature 'App: UsageTerms' do
   describe 'App: enforcing acceptance of latest usage terms for logged in users' do
 
     example 'enforce after login and accept' do
+      dashboard_section = my_dashboard_section_path(:used_keywords)
+
       expect(latest_usage_terms).to be
       ensure_user_has_not_accepted_latest_terms(user)
+
+      visit dashboard_section
       sign_in_as(user.login, user.password)
+
       modal = usage_terms_modal
       expect_correct_modal_content(modal)
       within(modal) { find('button[type="submit"]').click }
 
       # expect that the normal login flow goes on, with redirect and flash:
-      expect(current_path).to eq my_dashboard_path
+      expect(current_path).to eq dashboard_section
       expect(find('.ui-alert.success'))
         .to have_content 'Sie haben sich angemeldet.'
 

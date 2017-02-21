@@ -7,5 +7,8 @@ require Rails.root.join 'spec',
                         'naughty_strings.rb'
 
 feature 'Resource: MetaDatum' do
-  it_handles_properly '"naughty strings"', 41..60
+  pending 'it_handles_properly "naughty strings", 441..460' do
+    fail '(!) "The quic\b\b\b\b\b\bk brown fo\a\a\a\a\a\a\a\a\a\a\ax... [Beeeep]'
+  end
+  # it_handles_properly '"naughty strings"', 441..460
 end

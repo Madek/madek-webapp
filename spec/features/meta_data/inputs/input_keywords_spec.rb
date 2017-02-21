@@ -29,15 +29,15 @@ feature 'Resource: MetaDatum' do
 
     example 'autocomplete prefills values' do
       meta_key = create_meta_key_keywords(is_extensible_list: false)
-      existing_terms = 24.times
-        .map { FactoryGirl.create(:keyword, meta_key: meta_key) }
+      24.times.map { FactoryGirl.create(:keyword, meta_key: meta_key) }
+      existing_terms = meta_key.keywords.map(&:term) # order from model
 
       in_the_edit_field(meta_key.label) do
         find('input')
           .click
         expect(
           find('.ui-autocomplete.tt-open').all('.tt-selectable').map(&:text)
-        ).to eq existing_terms.map(&:term).sort
+        ).to eq existing_terms
       end
     end
 

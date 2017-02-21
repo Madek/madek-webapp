@@ -45,7 +45,6 @@ tasks:
   spec/features/collection/collection_meta_data_edit_spec.rb: {priority: 1}
   spec/features/collection/collection_select_collection_spec.rb: {priority: 2}
   spec/features/collection/collection_show_spec.rb: {priority: 2}
-  spec/features/dashboard_new_collection_spec.rb: {priority: 2}
   spec/features/collection/edit_collection_cover_spec.rb: {priority: 1}
   spec/features/collection/edit_collection_highlights_spec.rb: {priority: 1}
   spec/features/flyout_actions_spec.rb: {priority: 2}
