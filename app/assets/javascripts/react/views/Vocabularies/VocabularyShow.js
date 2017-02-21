@@ -49,7 +49,7 @@ const VocabulariesShow = React.createClass({
 
     return <VocabularyPage page={get.page} for_url={this.props.for_url}>
 
-      <div className='bright ui-container pal rounded'>
+      <div className='ui-container pal'>
         <div className='mbl'>
 
           <VocabTitleLink text={label} href={url} />

@@ -20,7 +20,7 @@ module.exports = React.createClass({
 
       <PageHeader title={title} icon='tags' />
 
-      <div className='bright ui-container pal bordered rounded-bottom rounded-right'>
+      <div className='ui-container pal bright bordered rounded-bottom rounded-right'>
         {vocabularyRows.map((row, i) =>
           <div className='row' key={i}>
 

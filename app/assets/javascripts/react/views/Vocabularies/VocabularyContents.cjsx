@@ -55,7 +55,7 @@ module.exports = React.createClass
       </ButtonGroup>)
 
     <VocabularyPage page={get.page} for_url={for_url}>
-      <div className='bright pal rounded-top-right ui-container'>
+      <div className='ui-container pal'>
         <h2 className='title-m'>
           {t('vocabularies_contents_hint_1')}{'"' + get.vocabulary.label + '"'}{t('vocabularies_contents_hint_2')}
         </h2>

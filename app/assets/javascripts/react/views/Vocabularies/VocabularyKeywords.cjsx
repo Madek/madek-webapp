@@ -54,7 +54,7 @@ module.exports = React.createClass
     hint = t('vocabularies_keywords_hint_1') + '"' + get.page.vocabulary.label + '"' + t('vocabularies_keywords_hint_2')
 
     <VocabularyPage page={get.page} for_url={@props.for_url}>
-      <div className='bright ui-container pal rounded'>
+      <div className='ui-container pal'>
         <h2 className='title-m mbl'>{hint}</h2>
         <div className='mbl'>
           {f.map(metaKeyColumns, (metaKeys, i) ->
