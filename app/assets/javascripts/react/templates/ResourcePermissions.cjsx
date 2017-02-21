@@ -132,9 +132,10 @@ PermissionsOverview = React.createClass
     {get} = @props
 
     <div className='row'>
+      <h3 className='title-l mbl'>{t('permissions_responsibility_title')}</h3>
       <div className='col1of2'>
         <div className='ui-info-box'>
-          <h2 className='title-l ui-info-box-title'>
+          <h2 className='ui-rights-user-title mbs' style={{fontWeight: '700'}}>
             {t('permissions_responsible_user_title')}
           </h2>
 
@@ -151,7 +152,7 @@ PermissionsOverview = React.createClass
           {
             if get.responsible.uuid == get.current_user.uuid
               <ul className='inline mts'>
-                <a className='primary-button' onClick={@props.openTransferModal}>
+                <a className='button' onClick={@props.openTransferModal}>
                   {t('permissions_transfer_responsibility_link')}
                 </a>
               </ul>
@@ -161,7 +162,7 @@ PermissionsOverview = React.createClass
 
       {if get.current_user
         <div className='col1of2'>
-          <h2 className='title-l ui-info-box-title'>
+          <h2 className='ui-rights-user-title mbs' style={{fontWeight: '700'}}>
             {t('permissions_overview_yours_title')}
           </h2>
 
