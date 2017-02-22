@@ -32,6 +32,7 @@ module.exports = React.createClass
     children: null
     onSubmit: ()-> # noop
     decos: defaultSubjectDecos
+    optionals: ['ApiClients']
 
   # this will only ever run on the client:
   componentDidMount: ()->

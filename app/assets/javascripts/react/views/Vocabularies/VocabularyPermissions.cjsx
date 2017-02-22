@@ -13,6 +13,8 @@ module.exports = React.createClass
 
   render: ({get, for_url} = @props) ->
 
+    hints = [t('vocabulary_permissions_hint1'), t('vocabulary_permissions_hint2')]
+
     GroupIndex = ({subject})-> <span>
       <span className='text mrs'>{subject.detailed_name} </span>
       {!!subject.edit_url &&
@@ -28,16 +30,17 @@ module.exports = React.createClass
           decos={{Groups: GroupIndex}}
           optionals={['Users', 'Groups', 'ApiClients']}>
 
-          <div className='row mbm'>
-            <div className='col1of2'>
-              <div className='ui-info-box'>
-                <p className='paragraph-l'>
-                  {t('vocabulary_permissions_hint')}
-                </p>
+          <div className='row'>
+            {hints.map((msg) ->
+              <div className='col1of2'>
+                <div className='ui-info-box'>
+                  <p className='paragraph-l'>{msg}</p>
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
+          <hr className='separator light mvm' />
 
         </ResourcePermissionsForm>
 
