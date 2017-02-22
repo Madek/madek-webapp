@@ -10,10 +10,14 @@ module Presenters
       # simple list, no pagination etc
       def resources
         @resources
-          .sort_by(&:position)
-          .sort_by { |v| v.id == 'madek_core' ? - 1 : 1 }
-          .map do |r|
-            Presenters::Vocabularies::VocabularyIndex.new(r, user: @user)
+          .map do |v|
+            {
+              vocabulary: \
+                Presenters::Vocabularies::VocabularyIndex.new(v, user: @user),
+              meta_keys: v.meta_keys.map do |mk|
+                Presenters::MetaKeys::MetaKeyCommon.new(mk)
+              end
+            }
           end
       end
 

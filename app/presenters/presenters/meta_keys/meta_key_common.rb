@@ -47,6 +47,10 @@ module Presenters
           .map(&:second)
       end
 
+      def url
+        prepend_url_context(vocabulary_meta_key_path(@app_resource))
+      end
+
     end
   end
 end

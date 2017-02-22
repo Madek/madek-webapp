@@ -17,9 +17,76 @@ feature 'Resource: Vocabularies' do
       }]
     end
 
-    example 'with instance-specific Vocabularies' do
-      pending 'no test'
-      fail
+    example 'with instance-specific Vocabularies (personas)' do
+      visit vocabularies_path
+
+      # expect correct list for personas data:
+      expect(displayed_vocabulary_index).to eq [
+        { title: 'ZHdK',
+          description: nil,
+          meta_keys: [
+            'Bereich ZHdK', 'ZHdK-Projekttyp', 'Studienabschnitt',
+            'Projekttitel', 'Dozierende/Projektleitung'] },
+        { title: 'Werk',
+          description: nil,
+          meta_keys:                                                   [
+            'Gattung',
+            'Bildlegende',
+            'Bemerkung',
+            'Internet Links (URL)',
+            'Standort/Aufführungsort',
+            'Stadt',
+            'Kanton/Bundesland',
+            'Land',
+            'ISO-Ländercode',
+            'Mitwirkende / weitere Personen',
+            'Porträtierte Person/en',
+            'Partner / beteiligte Institutionen',
+            'Auftrag durch'] },
+        { title: 'Nutzung', description: nil, meta_keys: [
+          'Bearbeitet durch', 'Geändert am', 'Enthalten in', 'Enthält'] },
+        { title: 'Credits',
+          description: nil,
+          meta_keys:                                                   [
+            'Copyright-Status',
+            'Nutzungsbedingungen',
+            'URL für Copyright-Informationen',
+            'Quelle',
+            'Angeboten durch',
+            'Beschreibung durch',
+            'Beschreibung durch (vor dem Hochladen ins Medienarchiv)'] },
+        { title: 'Medium',
+          description: nil,
+          meta_keys:                                                   [
+            'Medienersteller/in',
+            'Adresse',
+            'Stadt',
+            'Kanton/Bundesland',
+            'Postleitzahl',
+            'Land',
+            'Telefonnummer',
+            'E-Mail-Adresse',
+            'Website',
+            'Berufsbezeichnung',
+            'Erstellungsdatum',
+            'Dimensionen',
+            'Material/Format'] },
+        {
+          title: 'Core', description: nil, meta_keys: [
+            'Eigentümer/in im Medienarchiv']
+        },
+        { title: 'Set', description: nil, meta_keys: ['Erstellt am'] },
+        {
+          title: 'Madek Core',
+          description: 'Das Core-Vokabular ist fester Bestandteil der Software '\
+            'Madek. Es enthält die wichtigsten Metadaten für die Verwaltung von '\
+            'Medieninhalten und ist vordefiniert und unveränderbar.',
+          meta_keys: [
+            'Titel', 'Untertitel', 'Autor/in', 'Datierung',
+            'Schlagworte', 'Beschreibung', 'Rechteinhaber/in'
+          ]
+        }
+      ]
     end
 
   end
@@ -35,20 +102,17 @@ feature 'Resource: Vocabularies' do
           table: [
             ['ID', 'madek_core:title'],
             ['type', 'Text'],
-            ['scope', 'Entries, Sets']]
-        },
+            ['scope', 'Entries, Sets']] },
         { title: 'Untertitel',
           table: [
             ['ID', 'madek_core:subtitle'],
             ['type', 'Text'],
-            ['scope', 'Entries, Sets']]
-        },
+            ['scope', 'Entries, Sets']] },
         { title: 'Autor/in',
           table: [
             ['ID', 'madek_core:authors'],
             ['type', 'People (Person, PeopleGroup)'],
-            ['scope', 'Entries, Sets']]
-        },
+            ['scope', 'Entries, Sets']] },
         { title: 'Datierung',
           table: [
             ['ID', 'madek_core:portrayed_object_date'],
@@ -108,6 +172,19 @@ feature 'Resource: Vocabularies' do
 
   def get_table_contents(table) # parse html table as array
     table.all('tbody tr').map { |row| row.all('td').map(&:text) }
+  end
+
+  def displayed_vocabulary_index
+    rows = all('.row')
+    rows.map do |row|
+      row.all('.col1of3').map do |item|
+        {
+          title: item.find('.title-l').text,
+          description: item.all('p').first.try(:text),
+          meta_keys: item.find('ul').all('li').map(&:text)
+        }
+      end
+    end.flatten
   end
 
   def clean_db

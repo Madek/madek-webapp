@@ -223,6 +223,9 @@ Metrics/ModuleLength:
   Max: 200
   CountComments: false
 
+Style/MultilineArrayBraceLayout:
+  Enabled: false
+
 # NOTE: this is a bad joke
 Style/FrozenStringLiteralComment:
   Enabled: false
