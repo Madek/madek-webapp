@@ -19,7 +19,7 @@
 .ui-tag-button
   background-color: $mono-bright
   +background-image(linear-gradient($white, $mono-bright))
-  +border-radius(50px)
+  +border-radius(12px)
   +box-shadow($lighten 0 1px 0 inset)
   +single-text-shadow(false, 1px, false, false, $lighten-more)
   border: 1px solid (lighten($mono-light, 5%))
@@ -33,7 +33,12 @@
   padding: 0 $space-s
   position: relative
   text-decoration: none
-  white-space: nowrap
+
+  // NOTE: allow wrapping even long words!
+  word-break: break-all
+  word-wrap: break-word
+  // white-space: nowrap
+
   vertical-align: top
   &:hover
     +background-image(linear-gradient(lighten($mono-bright, 3%), lighten($mono-weak, 3%)))
