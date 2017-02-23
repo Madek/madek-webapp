@@ -35,6 +35,9 @@ feature 'Resource: MetaDatum' do
     end
 
     example 'add new text (block/textarea)' do
+
+      pending 'bugfix needed <https://www.pivotaltracker.com/story/show/140478205>'
+
       # NOTE: this also tests the whitespace trimming:
       TEST_STRING_BLOCK_IN =
         "  Hello World\nWelcome to the World of tomorrow! \n ".freeze

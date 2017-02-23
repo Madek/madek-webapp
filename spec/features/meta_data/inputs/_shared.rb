@@ -3,8 +3,12 @@ module MetaDatumInputsHelper
   private
 
   def configure_as_only_input(context_key)
+    # ensure at least 2 tabs:
+    other_context = FactoryGirl.create(:context)
+    FactoryGirl.create(
+      :context_key, context: other_context, meta_key_id: 'madek_core:title')
     AppSettings.first.update_attributes!(
-      contexts_for_entry_edit: [context_key.context_id],
+      contexts_for_entry_edit: [context_key.context_id, other_context.id],
       context_for_entry_summary: context_key.context_id)
   end
 
@@ -12,8 +16,11 @@ module MetaDatumInputsHelper
     throw ArgumentError unless block_given?
     visit edit_meta_data_by_context_media_entry_path(@media_entry)
     sign_in_as @user.login
+    tabs = find('.app-body-ui-container .ui-tabs.large').all('.ui-tabs-item')
     within('form[name="resource_meta_data"]') do
       within(form_group(key), &block)
+      # change tab before saving to make sure that really works
+      tabs.last(2).first.click
       submit_form
     end
   end
