@@ -1,14 +1,9 @@
 module Presenters
   module Shared
     module Resource
-      class ResourcePermissionsShow < Presenters::Shared::AppResource
+      class ResourcePermissionsShow < Presenters::Shared::AppResourceWithUser
 
         include Presenters::Shared::Modules::CurrentUser
-
-        def initialize(app_resource, user)
-          super(app_resource)
-          @user = user
-        end
 
         def can_edit
           auth_policy(@user, @app_resource).permissions_update?
@@ -46,7 +41,7 @@ module Presenters
             p_class = "#{partial_const_path}#{perm_type.camelize}".constantize
             @app_resource
               .send(perm_type.pluralize)
-              .map { |p| p_class.new(p) }
+              .map { |p| p_class.new(p, @user) }
           end
         end
 

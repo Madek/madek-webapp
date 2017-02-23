@@ -13,12 +13,19 @@ module.exports = React.createClass
 
   render: ({get, for_url} = @props) ->
 
+    GroupIndex = ({subject})-> <span>
+      <span className='text mrs'>{subject.detailed_name} </span>
+      {!!subject.edit_url &&
+        <a className='button small' href={subject.edit_url}>{t('group_edit_btn')}</a>}
+    </span>
+
     <VocabularyPage page={get.page} for_url={for_url}>
       <div className='ui-container pal'>
 
         <ResourcePermissionsForm
           get={get.permissions}
           editing={false}
+          decos={{Groups: GroupIndex}}
           optionals={['Users', 'Groups', 'ApiClients']}>
 
           <div className='row mbm'>

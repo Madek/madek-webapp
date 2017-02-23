@@ -6,7 +6,7 @@ require_relative '../shared/vocabulary_shared'
 include VocabularyShared
 
 feature 'Resource: Vocabulary' do
-  let(:current_user) { User.find_by(login: 'normin') }
+  let(:user) { User.find_by(login: 'normin') }
 
   context 'PermissionsShow' do
 
@@ -39,12 +39,16 @@ feature 'Resource: Vocabulary' do
         :vocabulary, enabled_for_public_use: false, enabled_for_public_view: false)
 
       v.user_permissions << FactoryGirl.create(
-        :vocabulary_user_permission, user: current_user, view: true)
+        :vocabulary_user_permission, user: user, view: true)
       3.times do
         v.user_permissions << FactoryGirl.create(:vocabulary_user_permission)
       end
       7.times do
         v.group_permissions << FactoryGirl.create(:vocabulary_group_permission)
+        group = v.group_permissions.last.group
+        if (FactoryHelper.rand_bool 1 / 2.0) && !group.users.exists?(user.id)
+          group.users << user
+        end
       end
       3.times do
         v.api_client_permissions <<
@@ -55,7 +59,7 @@ feature 'Resource: Vocabulary' do
 
       # not visible for public!
       expect(page).to have_content 'Error 401'
-      sign_in_as current_user
+      sign_in_as user
 
       check_title(v.label)
       check_tabs(
@@ -74,7 +78,9 @@ feature 'Resource: Vocabulary' do
               { 'Betrachten' => p.view, 'Anwenden' => p.use } }
           end,
           'Gruppen' => v.group_permissions.map do |p|
-            { p.group.name => { 'Betrachten' => p.view, 'Anwenden' => p.use } }
+            member = p.group.users.exists?(user.id)
+            { (p.group.name + (member ? ' Bearbeiten' : '')) =>
+              { 'Betrachten' => p.view, 'Anwenden' => p.use } }
           end,
           'API-Applikationen' => v.api_client_permissions.map do |p|
             { p.api_client.login => { 'Betrachten' => p.view, 'Anwenden' => nil } }

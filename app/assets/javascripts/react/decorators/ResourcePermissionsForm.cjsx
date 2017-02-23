@@ -5,9 +5,25 @@ f = require('active-lodash')
 t = require('../../lib/string-translation')('de') # TODO: select correct locale!
 ampersandReactMixin = require('ampersand-react-mixin')
 
+# NOTE: used for static (server-side) rendering (state.editing = false)
 AutoComplete = null # only required client-side!
 
-# NOTE: used for static (server-side) rendering (state.editing = false)
+# Subject Decorators (overidable by props for custom render)
+defaultSubjectDecos = {
+  User: ({subject})->
+    # TODO: current_user: <i className='current-user-icon icon-privacy-private'></i>#
+    <span className='text'>{subject.name}</span>
+
+  Group: ({subject})->
+    # TODO: group icon?
+    <span className='text'>{subject.detailed_name}</span>
+
+  ApiClient: ({subject})->
+    <span className='text'>{subject.login}</span>
+
+  Public: ({subject})-> <span>{subject}</span>
+}
+
 module.exports = React.createClass
   displayName: 'ResourcePermissionsForm'
   mixins: [ampersandReactMixin]
@@ -15,6 +31,7 @@ module.exports = React.createClass
   getDefaultProps: ()->
     children: null
     onSubmit: ()-> # noop
+    decos: defaultSubjectDecos
 
   # this will only ever run on the client:
   componentDidMount: ()->
@@ -22,7 +39,7 @@ module.exports = React.createClass
     AutoComplete = require('../lib/autocomplete.cjsx')
     @forceUpdate() if @isMounted
 
-  render: ({get, children, editing, saving, onEdit, onSubmit, onCancel, optionals} = @props)->
+  render: ({get, children, editing, saving, onEdit, onSubmit, onCancel, optionals, decos} = @props)->
     editable = get.can_edit
 
     rows = [
@@ -30,7 +47,7 @@ module.exports = React.createClass
         type: 'Users'
         title: t('permission_subject_title_users')
         icon: 'privacy-private-alt'
-        SubjectDeco: UserIndex
+        SubjectDeco: decos.Users || defaultSubjectDecos.User
         permissionsList: get.user_permissions
         overriddenBy: get.public_permission
       },
@@ -39,7 +56,7 @@ module.exports = React.createClass
         type: 'Groups'
         title: t('permission_subject_title_groups')
         icon: 'privacy-group-alt'
-        SubjectDeco: GroupIndex
+        SubjectDeco: decos.Groups || defaultSubjectDecos.Group
         permissionsList: get.group_permissions
         overriddenBy: get.public_permission
         searchParams: {scope: 'permissions'}
@@ -49,7 +66,7 @@ module.exports = React.createClass
         type: 'ApiClients'
         title: t('permission_subject_title_apiapps')
         icon: 'api'
-        SubjectDeco: ApiClientIndex
+        SubjectDeco: decos.ApiClients || defaultSubjectDecos.ApiClient
         permissionsList: get.api_client_permissions
         overriddenBy: get.public_permission
       }
@@ -59,6 +76,7 @@ module.exports = React.createClass
         title: t('permission_subject_title_public')
         subjectName: t('permission_subject_name_public')
         icon: 'privacy-open'
+        SubjectDeco: decos.Public || defaultSubjectDecos.Public
         permissionsList: [get.public_permission]
         permissionTypes: get.permission_types
       }
@@ -216,13 +234,7 @@ PermissionsSubject = React.createClass
         {if editing and permissions.subject?
           <RemoveButton onClick={onSubjectRemove}/>
         }
-        <span className='text'>
-          {if SubjectDeco
-            <SubjectDeco get={subject}/>
-          else
-            subject
-          }
-        </span>
+        <SubjectDeco subject={subject}/>
       </td>
 
       {permissionTypes.map (name)->
@@ -256,19 +268,6 @@ PermissionsSubject = React.createClass
         </td>
       }
     </tr>
-
-UserIndex = React.createClass
-  render: ()->
-    # TODO: current_user: <i className='current-user-icon icon-privacy-private'></i>#
-    <span>{@props.get.name}</span>
-
-GroupIndex = React.createClass
-  render: ()->
-    # TODO: group icon?
-    <span>{@props.get.detailed_name}</span>
-
-ApiClientIndex = React.createClass
-  render: ()-> <span>{@props.get.login}</span>
 
 RemoveButton = React.createClass
   render: ()->

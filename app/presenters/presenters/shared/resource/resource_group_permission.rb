@@ -1,10 +1,10 @@
 module Presenters
   module Shared
     module Resource
-      class ResourceGroupPermission < Presenters::Shared::AppResource
+      class ResourceGroupPermission < Presenters::Shared::AppResourceWithUser
 
         def subject
-          Presenters::Groups::GroupIndex.new(@app_resource.group)
+          Presenters::Groups::GroupCommon.new(@app_resource.group, @user)
         end
 
       end

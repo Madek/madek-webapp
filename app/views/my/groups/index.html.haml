@@ -42,8 +42,8 @@
               count: group.entrusted_media_resources_count,
               link: group.url
             },
-            # crud only allowed for internal groups:
-            actions: (group_type != :my_internal_groups) ? nil : [
+            # NOTE: crud only allowed for internal groups
+            actions: (!group.edit_url) ? nil : [
               component('button',
                         link: my_group_path(group.uuid),
                         icon: :trash,
@@ -54,7 +54,7 @@
               component('button.edit-workgroup',
                         text: t(:group_edit_btn),
                         icon: :pen,
-                        link: edit_my_group_path(group.uuid))
+                        link: group.edit_url)
             ]
           }]
         end.to_h

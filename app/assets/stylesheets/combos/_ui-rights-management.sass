@@ -5,8 +5,13 @@
 
 // .ui-rights-management
 
-.ui-rights-management .ui-modal-body
-  overflow-y: scroll
+.ui-rights-management
+  .ui-modal-body
+    overflow-y: scroll
+
+  tr, td, tr * , td *
+    // overide incomprehensibly ugly default table styles:
+    vertical-align: middle !important
 
 .ui-rights-body
   padding-bottom: $space-m
@@ -63,11 +68,13 @@
 // User column
 
 .ui-rights-user .text
-  display: block
+  // constrain size and leave room for icon:
+  max-width: 90%
+  // truncation/ellipsis:
+  display: inline-block
   overflow: hidden
   text-overflow: ellipsis
   white-space: nowrap
-  width: 90%
 
 // Remove button
 

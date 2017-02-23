@@ -1,7 +1,7 @@
 module Presenters
   module Shared
     module Resource
-      class ResourceApiClientPermission < Presenters::Shared::AppResource
+      class ResourceApiClientPermission < Presenters::Shared::AppResourceWithUser
 
         def subject # TODO: ApiClientIndexPresenter
           a = @app_resource.api_client
