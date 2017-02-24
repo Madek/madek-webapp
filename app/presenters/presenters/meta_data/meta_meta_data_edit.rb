@@ -23,7 +23,7 @@ module Presenters
               }
             else
               result = ContextKey.where(
-                context: AppSetting.first.contexts_for_validation,
+                context: AppSetting.first.contexts_for_entry_validation,
                 is_required: true)
               Hash[
                 result.map do |context_key|

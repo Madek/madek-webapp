@@ -8,7 +8,7 @@ describe MediaEntriesController do
   context 'multiple meta_data update' do
     before :example do
       @app_setting = AppSetting.first || create(:app_setting)
-      @app_setting.contexts_for_validation = ['upload']
+      @app_setting.contexts_for_entry_validation = ['upload']
       @context = Context.find_by_id('upload') || create(:context, id: 'upload')
 
       @media_entry = create(:media_entry_with_image_media_file)

@@ -47,7 +47,8 @@ feature 'Resource: MediaEntry' do
       # and check that the URL hasn't changed and the submit button isn't disabled
       initialize_and_check_show
       expect(
-        AppSetting.first.update_attributes!(contexts_for_validation: [])).to be
+        AppSetting.first.update_attributes!(contexts_for_entry_validation: [])
+      ).to be
 
       visit edit_context_path(nil)
       form_url = current_url
@@ -289,7 +290,7 @@ def prepare_data
   @copyright = 'My Copyright'
 
   first = AppSetting.first
-  first.contexts_for_validation = ['upload']
+  first.contexts_for_entry_validation = ['upload']
   first.save!
 
   @resource.is_published = false

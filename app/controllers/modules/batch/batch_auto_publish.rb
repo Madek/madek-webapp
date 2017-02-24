@@ -93,7 +93,7 @@ module Modules
 
       def determine_entries_for_autopublish(media_entries)
         validation_keys = ContextKey.where(
-          context: AppSetting.first.contexts_for_validation,
+          context: AppSetting.first.contexts_for_entry_validation,
           is_required: true)
 
         usable_keys = validation_keys.select do |context_key|
