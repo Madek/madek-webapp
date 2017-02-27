@@ -69,7 +69,7 @@ module.exports = React.createClass
         </li>
       )
 
-    if deleteProps && get.editable
+    if deleteProps && get.destroyable
       actionsRight.push(
         <li key='destroy' className='ui-thumbnail-action'>
           <Button className='ui-thumbnail-action-favorite' onClick={deleteProps.showModal}>

@@ -189,6 +189,7 @@ module.exports = React.createClass
         selectProps={selectProps}
         favoriteProps={favoriteProps}
         editable={get.editable}
+        destroyable={get.destroyable}
         deleteProps={deleteProps}
         statusProps={statusProps}
         style={@props.style}

@@ -16,7 +16,8 @@ StatusIcon = require('./thumbnail/StatusIcon.cjsx')
 module.exports = React.createClass
   displayName: 'PinThumbnail'
 
-  render: ({resourceType, imageUrl, mediaType, title, subtitle, mediaUrl, selectProps, favoriteProps, editable, deleteProps, statusProps} = @props) ->
+  render: ({resourceType, imageUrl, mediaType, title, subtitle, mediaUrl,
+    selectProps, favoriteProps, editable, destroyable, deleteProps, statusProps} = @props) ->
 
     isCollection = resourceType == 'Collection'
 
@@ -52,7 +53,7 @@ module.exports = React.createClass
         </Button>
       )
 
-    if deleteProps && editable
+    if deleteProps && destroyable
       actionsRight.push(
         <Button className='ui-tile__action-link' onClick={deleteProps.showModal}>
           <i className='icon-trash'></i>
