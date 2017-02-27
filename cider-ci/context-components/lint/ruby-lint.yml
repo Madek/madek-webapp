@@ -12,7 +12,9 @@
             set -eux
             export PATH=~/.rubies/$RUBY/bin:$PATH
             bundle exec cider-ci_flog -m app/ \
-            -e app/controllers/oembed_controller.rb
+            -e app/controllers/oembed_controller.rb \
+            -e app/presenters/presenters/meta_data/meta_datum_edit.rb
+            # NOTE: ↑ DEPRECATE_LICENSES
 
     code-similarity:
       name: "Ruby: Code similarity with flay"
@@ -21,8 +23,7 @@
           body: |
             set -eux
             export PATH=~/.rubies/$RUBY/bin:$PATH
-            bundle exec cider-ci_flay -m 78 app/
-  # FIXME: set to 26 again after cleanup  ↑  <https://www.pivotaltracker.com/story/show/119127755>
+            bundle exec cider-ci_flay -m 45 app/
 
     lint-ruby:
       name: "Ruby: Lint/Stylecheck with Rubocop"

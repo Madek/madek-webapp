@@ -22,6 +22,17 @@ module Presenters
           end
         end
 
+        # FIXME: DEPRECATE_LICENSES act like keywords:
+        if @app_resource.meta_datum_object_type.ends_with?('Licenses')
+          define_singleton_method :is_extensible do
+            false
+          end
+
+          define_singleton_method :alphabetical_order do
+            false
+          end
+        end
+
         if @app_resource.meta_datum_object_type == 'MetaDatum::Text'
           define_singleton_method :text_type do
             @app_resource.text_type # is 'line' or 'block'

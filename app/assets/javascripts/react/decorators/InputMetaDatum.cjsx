@@ -6,7 +6,6 @@ InputResources = require('../lib/forms/input-resources.cjsx')
 InputTextDate = require('../lib/forms/InputTextDate.js').default
 InputKeywords = require('../lib/forms/input-keywords.cjsx')
 InputPeople = require('../lib/forms/input-people.cjsx')
-InputLicenses = require('../lib/forms/input-licenses.cjsx')
 
 module.exports = React.createClass
   displayName: 'InputMetaDatum'
@@ -19,8 +18,9 @@ module.exports = React.createClass
     'Text': Text
     'TextDate': InputTextDate
     'People': InputPeople
-    'Licenses': InputLicenses
     'Keywords': InputKeywords
+    # DEPRECATE_LICENSES act like/copied from keywords
+    'Licenses': InputKeywords
   }
 
   render: ({get, id, name} = @props, state = @state)->
