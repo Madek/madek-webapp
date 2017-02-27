@@ -10,7 +10,7 @@ module.exports = React.createClass
     values: React.PropTypes.array.isRequired
     get: React.PropTypes.shape(
       meta_key: MadekPropTypes.metaKey.isRequired
-      fixed_selection: React.PropTypes.bool.isRequired
+      show_checkboxes: React.PropTypes.bool.isRequired
       keywords: React.PropTypes.arrayOf(MadekPropTypes.keyword)
     ).isRequired
 
@@ -29,17 +29,14 @@ module.exports = React.createClass
       @props.onChange(values)
 
   render: ({name, values, get} = @props)->
-    {meta_key, keywords, fixed_selection} = get
+    {meta_key, keywords, show_checkboxes} = get
     # - "keywords" might be given as possible values
     # - for fixed selections show checkboxes (with possible values)
     #   otherwise the show autocompleter (prefilled with pos. values if given)
 
-    if fixed_selection and !f.present(keywords)
-      throw new Error('Input: No Keywords given for fixed selection!')
-
 
     # show an autocomplete:
-    if !fixed_selection
+    if !show_checkboxes
       params = {meta_key_id: meta_key.uuid}
       # prefill the autocomplete if data was given:
       if keywords
@@ -51,7 +48,7 @@ module.exports = React.createClass
         extensible={meta_key.is_extensible}
         autocompleteConfig={autocompleteConfig}/>
 
-    else # is fixed_selection — checkboxes:
+    else # is show_checkboxes — checkboxes:
       <div className='form-item'>
         {#hidden field needed for broken Rails form serialization}
         <input type='hidden' name={name} value=''/>
