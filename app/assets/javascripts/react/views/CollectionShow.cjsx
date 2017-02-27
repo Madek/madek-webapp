@@ -127,7 +127,7 @@ module.exports = React.createClass
                         </div>
                       </div>
                       <div className='ui-container prm'>
-                        <h3 className='title-l separated mbm mtl'>{t('usage_data_last_changes_title')}</h3>
+                        <h3 className='title-l separated mvm mtl'>{t('usage_data_last_changes_title')}</h3>
                         {
                           if f.isEmpty(get.edit_sessions)
                             <div>{t('usage_data_last_changes_empty')}</div>
@@ -155,6 +155,27 @@ module.exports = React.createClass
                               </table>
                             </div>
                         }
+                      </div>
+                      <div className='ui-container prm'>
+                        <h3 className='title-l separated mvm mtl'>{t('usage_data_relations_title')}</h3>
+                        <div className="ui-metadata-box">
+                          <table className="borderless">
+                            <tbody>
+                              <tr>
+                                <td className="ui-summary-label">{t('usage_data_relations_parents')}</td>
+                                <td className="ui-summary-content">
+                                  {get.relations.parent_collections.pagination['total_count']}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="ui-summary-label">{t('usage_data_relations_children')}</td>
+                                <td className="ui-summary-content">
+                                  {get.child_media_resources.pagination['total_count']}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                 }

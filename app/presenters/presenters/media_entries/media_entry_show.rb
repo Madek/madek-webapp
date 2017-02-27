@@ -56,8 +56,9 @@ module Presenters
       end
 
       def relations
-        return unless @active_tab == 'relations'
-        return unless @action == 'relations'
+        is_relations = ('relations' == @active_tab && @action == 'relations')
+        is_usage_data = ('usage_data' == @active_tab)
+        return unless (is_relations || is_usage_data)
         _relations
       end
 

@@ -76,7 +76,7 @@ module Presenters
       end
 
       def child_media_resources
-        return unless @active_tab == 'show'
+        return unless ['show', 'usage_data'].include?(@active_tab)
 
         # return unless @action == 'show'
 
@@ -116,8 +116,9 @@ module Presenters
 
       # <otherTabs>
       def relations
-        return unless @active_tab == 'relations'
-        return unless @action == 'relations'
+        is_relations = ('relations' == @active_tab && @action == 'relations')
+        is_usage_data = ('usage_data' == @active_tab)
+        return unless (is_relations || is_usage_data)
         _relations
       end
 

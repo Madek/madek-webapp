@@ -34,6 +34,14 @@
         - else
           = t(:usage_data_last_changes_empty)
 
+    .ui-container.prl
+      %h3.title-l.separated.mvm.mtl
+        = t(:usage_data_relations_title)
+      :ruby
+        more_meta_data_list = [
+          [t(:usage_data_relations_parents), @get.relations.parent_collections.pagination[:total_count]]
+        ]
+      = combo('metadata-box', mods: 'ui-summary-table', list: more_meta_data_list)
 
 
   .col2of3
