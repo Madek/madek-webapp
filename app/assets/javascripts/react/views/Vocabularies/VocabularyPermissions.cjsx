@@ -31,9 +31,9 @@ module.exports = React.createClass
           optionals={['Users', 'Groups', 'ApiClients']}>
 
           <div className='row'>
-            {hints.map((msg) ->
+            {hints.map((msg, i) ->
               <div className='col1of2'>
-                <div className='ui-info-box'>
+                <div className={'ui-info-box '+ ['prm','plm'][i]}>
                   <p className='paragraph-l'>{msg}</p>
                 </div>
               </div>
