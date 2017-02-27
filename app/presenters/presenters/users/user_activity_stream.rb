@@ -137,8 +137,8 @@ module Presenters
       end
 
       def activity_item(type:, object:, subject:, date:, details: nil)
-        raise ArgumentError, '`type`!' unless type.present?
-        raise ArgumentError, '`object`!' unless object.present?
+        raise ArgumentError, 'missing `type`!' unless type.present?
+        raise ArgumentError, "#{type}: missing `object`!" unless object.present?
         # allow empty subject for 'share', for v2 permissions we don't know
         unless subject.present? || type == 'share'
           raise ArgumentError, '`subject`!'
