@@ -123,9 +123,10 @@ module.exports = {
     f.map hidden_meta_key_ids, (meta_key_id) =>
       datum = meta_data.meta_datum_by_meta_key_id[meta_key_id]
       model = models[meta_key_id]
+      metaKey = meta_meta_data.meta_key_by_meta_key_id[meta_key_id]
       if datum
         <div style={{display: 'none'}} key={meta_key_id}>
-          {@_renderValueByContext(meta_key_id, (() -> ), datum, name, null, null, null, batch, model)}
+          {@_renderValueByContext(meta_key_id, (() -> ), datum, name, null, metaKey, null, batch, model)}
         </div>
 
 
